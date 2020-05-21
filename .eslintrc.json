@@ -8,6 +8,7 @@
     "browser": true
   },
   "plugins": ["svelte3"],
+  "ignorePatterns": ["node_modules/"],
   "overrides": [
     {
       "files": ["*.svelte"],
