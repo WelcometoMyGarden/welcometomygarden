@@ -3,6 +3,7 @@
   "printWidth": 100,
   "singleQuote": true,
   "trailingComma": "none",
+  "tabWidth": 2,
   "plugins": ["prettier-plugin-svelte"],
   "svelteSortOrder": "scripts-markup-styles"
 }

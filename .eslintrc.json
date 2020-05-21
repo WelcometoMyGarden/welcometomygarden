@@ -3,16 +3,16 @@
     "ecmaVersion": 2020,
     "sourceType": "module"
   },
-  "extends": ["eslint:recommended", "prettier"],
   "env": {
     "es6": true,
     "browser": true
   },
+  "extends": ["eslint:recommended", "prettier"],
   "plugins": ["svelte3", "prettier"],
   "ignorePatterns": ["node_modules/"],
   "overrides": [
     {
-      "files": ["*.svelte"],
+      "files": ["**/*.svelte"],
       "processor": "svelte3/svelte3"
     }
   ],
