@@ -1,0 +1,5 @@
+__sapper__
+package.json
+package-lock.json
+yarn.lock
+static
