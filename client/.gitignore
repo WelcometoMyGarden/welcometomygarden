@@ -1,0 +1,7 @@
+/src/node_modules/@sapper/
+/cypress/screenshots/
+/__sapper__/
+.sessions
+
+.env*
+!.env.example
