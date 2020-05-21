@@ -25,8 +25,14 @@
     ]
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "compression": "^1.7.1",
+    "dotenv": "^8.2.0",
+    "express-session": "^1.17.1",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
     "polka": "next",
+    "session-file-store": "^1.4.0",
     "sirv": "^0.4.0"
   },
   "devDependencies": {
