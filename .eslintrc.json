@@ -1,6 +1,4 @@
 {
-  "parser": "@typescript-eslint/parser",
-  "extends": ["plugin:@typescript-eslint/recommended"],
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module"
@@ -23,5 +21,7 @@
     "no-return-assign": [2, "except-parens"],
     "no-param-reassign": ["error", { "props": false }]
   },
-  "settings": {}
+  "globals": {
+    "process": true
+  }
 }

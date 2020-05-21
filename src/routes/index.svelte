@@ -1,5 +1,5 @@
-<script lang="typescript">
-  export let title: string = 'Hello TypeScript';
+<script>
+  export const title = 'Hello world';
 </script>
 
 <style>
