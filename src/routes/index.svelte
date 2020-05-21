@@ -1,5 +1,5 @@
 <script lang="typescript">
-  export let title: string = "Hello TypeScript";
+  export let title: string = 'Hello TypeScript';
 </script>
 
 <style>
@@ -50,7 +50,5 @@
 </figure>
 
 <p>
-  <strong>
-    Try editing this file (src/routes/index.svelte) to test live reloading.
-  </strong>
+  <strong>Try editing this file (src/routes/index.svelte) to test live reloading.</strong>
 </p>
