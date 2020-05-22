@@ -1,19 +1,14 @@
 <script>
-  import { goto, stores } from '@sapper/app';
   import { register } from '../api/auth';
 
-  const { session } = stores();
-
-  let username = '';
   let email = '';
   let password = '';
 
   const submit = async () => {
-    const response = await register(`auth/register`, { username, email, password });
+    const response = await register({ email, password });
 
     if (response.user) {
-      $session.user = response.user;
-      goto('/');
+      // TODO: save auth state
     }
   };
 </script>

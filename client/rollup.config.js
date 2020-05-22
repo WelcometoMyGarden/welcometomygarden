@@ -1,110 +1,71 @@
-import resolve from '@rollup/plugin-node-resolve';
-import replace from '@rollup/plugin-replace';
-import commonjs from '@rollup/plugin-commonjs';
-import babel from '@rollup/plugin-babel';
 import svelte from 'rollup-plugin-svelte';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
-import config from 'sapper/config/rollup.js';
-import pkg from './package.json';
 
-const mode = process.env.NODE_ENV;
-const dev = mode === 'development';
-const legacy = !!process.env.SAPPER_LEGACY_BUILD;
-
-const onwarn = (warning, onwarn) =>
-  (warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) ||
-  onwarn(warning);
+const production = !process.env.ROLLUP_WATCH;
 
 export default {
-  client: {
-    input: config.client.input(),
-    output: config.client.output(),
-    plugins: [
-      replace({
-        'process.browser': true,
-        'process.env.NODE_ENV': JSON.stringify(mode)
-      }),
-      svelte({
-        dev,
-        hydratable: true,
-        emitCss: true
-      }),
-      resolve({
-        browser: true,
-        dedupe: ['svelte']
-      }),
-      commonjs(),
+	input: 'src/main.js',
+	output: {
+		sourcemap: true,
+		format: 'iife',
+		name: 'app',
+		file: 'public/build/bundle.js'
+	},
+	plugins: [
+		svelte({
+			// enable run-time checks when not in production
+			dev: !production,
+			// we'll extract any component CSS out into
+			// a separate file - better for performance
+			css: css => {
+				css.write('public/build/bundle.css');
+			}
+		}),
 
-      legacy &&
-        babel({
-          extensions: ['.js', '.mjs', '.html', '.svelte'],
-          runtimeHelpers: true,
-          exclude: ['node_modules/@babel/**'],
-          presets: [
-            [
-              '@babel/preset-env',
-              {
-                targets: '> 0.25%, not dead'
-              }
-            ]
-          ],
-          plugins: [
-            '@babel/plugin-syntax-dynamic-import',
-            [
-              '@babel/plugin-transform-runtime',
-              {
-                useESModules: true
-              }
-            ]
-          ]
-        }),
+		// If you have external dependencies installed from
+		// npm, you'll most likely need these plugins. In
+		// some cases you'll need additional configuration -
+		// consult the documentation for details:
+		// https://github.com/rollup/plugins/tree/master/packages/commonjs
+		resolve({
+			browser: true,
+			dedupe: ['svelte']
+		}),
+		commonjs(),
 
-      !dev &&
-        terser({
-          module: true
-        })
-    ],
+		// In dev mode, call `npm run start` once
+		// the bundle has been generated
+		!production && serve(),
 
-    onwarn
-  },
+		// Watch the `public` directory and refresh the
+		// browser on changes when not in production
+		!production && livereload('public'),
 
-  server: {
-    input: config.server.input(),
-    output: config.server.output(),
-    plugins: [
-      replace({
-        'process.browser': false,
-        'process.env.NODE_ENV': JSON.stringify(mode)
-      }),
-      svelte({
-        generate: 'ssr',
-        dev
-      }),
-      resolve({
-        dedupe: ['svelte']
-      }),
-      commonjs()
-    ],
-    external: Object.keys(pkg.dependencies).concat(
-      require('module').builtinModules || Object.keys(process.binding('natives'))
-    ),
-
-    onwarn
-  },
-
-  serviceworker: {
-    input: config.serviceworker.input(),
-    output: config.serviceworker.output(),
-    plugins: [
-      resolve(),
-      replace({
-        'process.browser': true,
-        'process.env.NODE_ENV': JSON.stringify(mode)
-      }),
-      commonjs(),
-      !dev && terser()
-    ],
-
-    onwarn
-  }
+		// If we're building for production (npm run build
+		// instead of npm run dev), minify
+		production && terser()
+	],
+	watch: {
+		clearScreen: false
+	}
 };
+
+function serve() {
+	let started = false;
+
+	return {
+		writeBundle() {
+			if (!started) {
+				started = true;
+
+				require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
+					stdio: ['ignore', 'inherit', 'inherit'],
+					shell: true
+				});
+			}
+		}
+	};
+}

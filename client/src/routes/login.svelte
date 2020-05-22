@@ -1,8 +1,5 @@
 <script>
-  import { goto, stores } from '@sapper/app';
   import { login } from '../api/auth';
-
-  const { session } = stores();
 
   let email = '';
   let password = '';
@@ -13,8 +10,7 @@
     // TODO: Handle network errors and response errors
 
     if (response.user) {
-      $session.user = response.user;
-      goto('/');
+      // TODO: ave auth state
     }
   };
 </script>
