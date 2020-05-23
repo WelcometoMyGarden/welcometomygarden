@@ -2,9 +2,15 @@ import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
+import replace from 'rollup-plugin-replace';
+import dotenv from 'dotenv';
 import { terser } from 'rollup-plugin-terser';
 
+dotenv.config();
+
 const production = !process.env.ROLLUP_WATCH;
+const mapboxAccessToken = process.env.MAPBOX_ACCESS_TOKEN;
+const maptilerKey = process.env.MAPTILER_KEY;
 
 export default {
 	input: 'src/main.js',
@@ -23,6 +29,11 @@ export default {
 			css: css => {
 				css.write('public/build/bundle.css');
 			}
+		}),
+
+		replace({
+			mapboxAccessToken: JSON.stringify(mapboxAccessToken),
+			maptilerKey: JSON.stringify(maptilerKey)
 		}),
 
 		// If you have external dependencies installed from
