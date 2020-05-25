@@ -1,8 +1,10 @@
 :root {
   --color-white: #fff;
   --color-black: #333;
-  --fonts-copy: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  --fonts-titles: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --color-primary: #28a745;
+  --color-primary-active: #20c997;
+  --fonts-copy: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --fonts-titles: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 html {
@@ -17,6 +19,8 @@ body {
   color: var(--color-black);
   font-size: 1.6rem;
   font-family: var(--fonts-copy);
+  --height-nav: 8rem;
+  --height-nav-mobile: 6rem;
 }
 
 *,
