@@ -1,5 +1,5 @@
-__sapper__
+public
 package.json
 package-lock.json
 yarn.lock
-static
+node_modules

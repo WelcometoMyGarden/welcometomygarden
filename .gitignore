@@ -29,4 +29,8 @@ lerna-debug.log*
 .DS_Store
 node_modules
 
+/public/build/
+
+.env*
+!.env.example
 
