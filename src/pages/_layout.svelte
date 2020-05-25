@@ -1,6 +1,6 @@
 <script>
-  import Nav from '../components/Nav.svelte';
+  import Navigation from '../components/Nav/Navigation.svelte';
 </script>
 
-<Nav />
+<Navigation />
 <slot />
