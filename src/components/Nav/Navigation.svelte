@@ -3,9 +3,23 @@
   import Hamburger from './Hamburger.svelte';
   import { Button } from '../UI';
 
+  /* any transition or animation to do with sizing will trigger on page load and browser
+   resize, we don't want that */
+  let domIsAnimationReady = true;
+  let resizeTimer;
+  const preventAnimation = () => {
+    domIsAnimationReady = false;
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      domIsAnimationReady = true;
+    }, 400);
+  };
+
   let isMobileNavShown = false;
   const toggleNav = () => (isMobileNavShown = !isMobileNavShown);
 </script>
+
+<svelte:window on:resize={preventAnimation} />
 
 <header>
   <div class:shown={isMobileNavShown} on:click={toggleNav} class="overlay" />
@@ -14,7 +28,7 @@
     <h1>
       <NavLink isInDrawer={false} href="/">Welcome to my Garden!</NavLink>
     </h1>
-    <ul>
+    <ul class:transitionable={domIsAnimationReady}>
       <li>
         <NavLink href="/">Login</NavLink>
       </li>
@@ -90,7 +104,7 @@
     display: inline-block;
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 980px) {
     header {
       height: var(--height-nav-mobile);
     }
@@ -117,6 +131,10 @@
       transform: translate(100%, 0);
     }
 
+    ul.transitionable {
+      transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+    }
+
     .open ul {
       transform: scale(1, 1);
       opacity: 1;
@@ -129,17 +147,11 @@
   }
 
   @media screen and (max-width: 568px) {
-    nav {
+    h1 {
+      font-size: 1.8rem;
+    }
+    header {
       padding: 0 2rem;
-    }
-  }
-
-  @media screen and (max-width: 425px) {
-    nav {
-      justify-content: space-between;
-    }
-    nav :global(.hamburger) {
-      margin-left: 0;
     }
   }
 </style>

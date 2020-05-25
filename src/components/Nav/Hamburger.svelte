@@ -61,13 +61,10 @@
     top: 0;
   }
 
-  @media (max-width: 1024px) {
+  @media screen and (max-width: 980px) {
     button {
       display: block;
     }
-  }
-
-  @media screen and (max-width: 980px) {
     .open span:before,
     .open span:after {
       background: var(--color-black);
