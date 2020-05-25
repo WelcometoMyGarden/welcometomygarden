@@ -25,6 +25,7 @@
   },
   "globals": {
     "process": true,
+    "NODE_ENV": true,
     "MAPBOX_ACCESS_TOKEN": true,
     "MAPTILER_KEY": true
   }
