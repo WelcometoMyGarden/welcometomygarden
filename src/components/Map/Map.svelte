@@ -54,7 +54,17 @@
 
 <style>
   div {
-    width: 100%;
-    height: 500px;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  div :global(.mapboxgl-ctrl-top-left) {
+    top: calc(var(--height-nav) + 0.5rem);
+  }
+
+  @media (max-width: 980px) {
+    div :global(.mapboxgl-ctrl-top-left) {
+      top: calc(var(--height-nav-mobile) + 0.5rem);
+    }
   }
 </style>
