@@ -13,25 +13,19 @@
   });
 
   onMount(() => {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css';
+    geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl
+    });
 
-    link.onload = () => {
-      geocoder = new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl
-      });
+    map.addControl(geocoder);
 
-      map.addControl(geocoder);
-    };
-
-    document.head.appendChild(link);
-
-    return () => {
-      map.removeControl(geocoder);
-
-      link.parentNode.removeChild(link);
-    };
+    return () => map.removeControl(geocoder);
   });
 </script>
+
+<svelte:head>
+  <link
+    rel="stylesheet"
+    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css" />
+</svelte:head>
