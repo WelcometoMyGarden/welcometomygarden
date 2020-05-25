@@ -1,13 +1,12 @@
 <script>
   import { getContext } from 'svelte';
 
-  import { key } from '../mapbox.js';
+  import { key } from './mapbox.js';
 
   const { getMap } = getContext(key);
   const map = getMap();
 
   map.on('load', () => {
-
     map.addSource('garden', {
       type: 'geojson',
       data: 'garden.geojson'
@@ -24,6 +23,5 @@
         'circle-color': 'blue'
       }
     });
-
   });
 </script>

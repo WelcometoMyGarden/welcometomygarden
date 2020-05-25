@@ -1,7 +1,7 @@
 <script>
   import { onMount, setContext } from 'svelte';
 
-  import { mapboxgl, key } from '../mapbox.js';
+  import { mapboxgl, key } from './mapbox.js';
 
   // import Geocoder from './Geocoder.svelte';
   import BivouacLayer from './BivouacLayer.svelte';
@@ -44,13 +44,6 @@
   });
 </script>
 
-<style>
-  div {
-    width: 100%;
-    height: 500px;
-  }
-</style>
-
 <div bind:this={container}>
   <!-- <Geocoder /> -->
   {#if map}
@@ -58,3 +51,10 @@
     <GardenLayer />
   {/if}
 </div>
+
+<style>
+  div {
+    width: 100%;
+    height: 500px;
+  }
+</style>
