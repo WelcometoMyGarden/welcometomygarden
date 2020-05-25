@@ -19,30 +19,23 @@
   });
 
   onMount(() => {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css';
+    map = new mapboxgl.Map({
+      container,
+      style: `https://api.maptiler.com/maps/basic/style.json?key=${MAPTILER_KEY}`,
+      center: [lon, lat],
+      zoom
+    });
 
-    link.onload = () => {
-      map = new mapboxgl.Map({
-        container,
-        style: `https://api.maptiler.com/maps/basic/style.json?key=${MAPTILER_KEY}`,
-        center: [lon, lat],
-        zoom
-      });
+    map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left');
+    map.addControl(new mapboxgl.ScaleControl());
 
-      map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left');
-      map.addControl(new mapboxgl.ScaleControl());
-    };
-
-    document.head.appendChild(link);
-
-    return () => {
-      map.remove();
-      link.parentNode.removeChild(link);
-    };
+    return map.remove;
   });
 </script>
+
+<svelte:head>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css" />
+</svelte:head>
 
 <div bind:this={container}>
   <!-- <Geocoder /> -->

@@ -9,7 +9,7 @@
   map.on('load', () => {
     map.addSource('garden', {
       type: 'geojson',
-      data: 'garden.geojson'
+      data: 'data/garden.geojson'
       // cluster: true,
       // clusterMaxZoom: 14,
       // clusterRadius: 50

@@ -9,7 +9,7 @@
   map.on('load', () => {
     map.addSource('bivouac', {
       type: 'geojson',
-      data: 'bivouac.geojson'
+      data: 'data/bivouac.geojson'
       // cluster: true,
       // clusterMaxZoom: 14,
       // clusterRadius: 50
