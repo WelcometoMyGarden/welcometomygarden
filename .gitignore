@@ -30,7 +30,9 @@ lerna-debug.log*
 node_modules
 
 /public/build/
+/public/data
 
 .env*
 !.env.example
+
 
