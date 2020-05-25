@@ -26,7 +26,7 @@
     link.onload = () => {
       map = new mapboxgl.Map({
         container,
-        style: 'https://api.maptiler.com/maps/basic/style.json?key=' + maptilerKey,
+        style: `https://api.maptiler.com/maps/basic/style.json?key=${MAPTILER_KEY}`,
         center: [lon, lat],
         zoom
       });

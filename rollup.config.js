@@ -9,8 +9,6 @@ import { terser } from 'rollup-plugin-terser';
 dotenv.config();
 
 const production = !process.env.ROLLUP_WATCH;
-const mapboxAccessToken = process.env.MAPBOX_ACCESS_TOKEN;
-const maptilerKey = process.env.MAPTILER_KEY;
 
 export default {
 	input: 'src/main.js',
@@ -32,8 +30,8 @@ export default {
 		}),
 
 		replace({
-			mapboxAccessToken: JSON.stringify(mapboxAccessToken),
-			maptilerKey: JSON.stringify(maptilerKey)
+			MAPBOX_ACCESS_TOKEN: JSON.stringify(process.env.MAPBOX_ACCESS_TOKEN),
+			MAPTILER_KEY: JSON.stringify(process.env.MAPTILER_KEY)
 		}),
 
 		// If you have external dependencies installed from

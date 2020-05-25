@@ -1,7 +1,7 @@
 import mapboxgl from 'mapbox-gl';
 // import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 
-mapboxgl.accessToken = mapboxAccessToken;
+mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
 
 const key = {};
 
