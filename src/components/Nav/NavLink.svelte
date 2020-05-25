@@ -15,6 +15,7 @@
     /* this is fine since focus styles are applied for tab indexing */
     outline: 0;
     transition: color 0.3s ease;
+    position: relative;
   }
 
   a,
@@ -32,7 +33,7 @@
     height: 2px;
     left: 50%;
     position: absolute;
-    background: var(--nav-color);
+    background: var(--color-black);
     transition: width 0.3s ease 0s, left 0.3s ease 0s;
     width: 0;
   }
@@ -44,7 +45,7 @@
     left: 0;
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 980px) {
     .mobile-nav-link:after {
       display: none;
     }
