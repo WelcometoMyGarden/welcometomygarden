@@ -1,12 +1,9 @@
 <script>
-  import { login } from '../api/auth';
-
   let email = '';
   let password = '';
 
   const submit = async () => {
-    const response = await login(email, password);
-
+    const response = null;
     // TODO: Handle network errors and response errors
 
     if (response.user) {

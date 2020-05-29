@@ -3,11 +3,11 @@
   "description": "a platform allowing citizens to put their garden freely at disposal as a rudimentary campsite to travelers.",
   "version": "1.0.0",
   "scripts": {
-    "dev": "sapper dev",
+    "dev": "cross-env NODE_ENV=development sapper dev",
     "build": "sapper build --legacy && cp -R ./__sapper__/build ./functions/__sapper__",
     "prebuild": "rimraf functions/__sapper__/build && mkdirp functions/__sapper__/build",
     "export": "sapper export --legacy",
-    "start": "npm run build && firebase serve",
+    "start": "cross-env NODE_ENV=production npm run build && firebase serve",
     "predeploy": "npm run build",
     "deploy": "firebase deploy"
   },
@@ -27,7 +27,7 @@
     "@rollup/plugin-commonjs": "^12.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
     "@rollup/plugin-replace": "^2.2.0",
-    "dotenv": "^8.2.0",
+    "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",

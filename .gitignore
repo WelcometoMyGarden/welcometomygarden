@@ -38,3 +38,5 @@ static/data
 
 .firebaserc
 functions/
+
+wtmg.config.js

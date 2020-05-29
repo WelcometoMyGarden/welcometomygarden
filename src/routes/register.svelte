@@ -1,11 +1,9 @@
 <script>
-  import { register } from '../api/auth';
-
   let email = '';
   let password = '';
 
   const submit = async () => {
-    const response = await register({ email, password });
+    const response = null;
 
     if (response.user) {
       // TODO: save auth state

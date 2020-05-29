@@ -1,6 +1,6 @@
 <script>
   import { onMount, setContext } from 'svelte';
-
+  import config from '../../wtmg.config';
   import key from './mapbox-context.js';
 
   // import Geocoder from './Geocoder.svelte';
@@ -20,11 +20,11 @@
   onMount(async () => {
     const mapboxModule = await import('mapbox-gl');
     const mapboxgl = mapboxModule.default;
-    mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN;
+    mapboxgl.accessToken = config.MAPBOX_ACCESS_TOKEN;
 
     map = new mapboxgl.Map({
       container,
-      style: `https://api.maptiler.com/maps/basic/style.json?key=${process.env.MAPTILER_ACCESS_TOKEN}`,
+      style: `https://api.maptiler.com/maps/basic/style.json?key=${config.MAPTILER_ACCESS_TOKEN}`,
       center: [lon, lat],
       zoom
     });

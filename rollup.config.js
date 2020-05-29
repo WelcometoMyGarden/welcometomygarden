@@ -1,4 +1,3 @@
-import dotenv from 'dotenv';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import commonjs from '@rollup/plugin-commonjs';
@@ -7,8 +6,6 @@ import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import config from 'sapper/config/rollup.js';
 import pkg from './package.json';
-
-dotenv.config();
 
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
@@ -25,9 +22,7 @@ export default {
     plugins: [
       replace({
         'process.browser': true,
-        'process.env.NODE_ENV': JSON.stringify(mode),
-        'process.env.MAPBOX_ACCESS_TOKEN': JSON.stringify(process.env.MAPBOX_ACCESS_TOKEN),
-        'process.env.MAPTILER_ACCESS_TOKEN': JSON.stringify(process.env.MAPTILER_ACCESS_TOKEN)
+        'process.env.NODE_ENV': JSON.stringify(mode)
       }),
       svelte({
         dev,
