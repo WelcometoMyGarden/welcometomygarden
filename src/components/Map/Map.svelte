@@ -1,7 +1,7 @@
 <script>
   import { onMount, setContext } from 'svelte';
 
-  import { mapboxgl, key } from './mapbox.js';
+  import key from './mapbox-context.js';
 
   // import Geocoder from './Geocoder.svelte';
   import BivouacLayer from './BivouacLayer.svelte';
@@ -10,7 +10,6 @@
   export let lat;
   export let lon;
   export let zoom;
-
   let container;
   let map;
 
@@ -18,7 +17,11 @@
     getMap: () => map
   });
 
-  onMount(() => {
+  onMount(async () => {
+    const mapboxModule = await import('mapbox-gl');
+    const mapboxgl = mapboxModule.default;
+    mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN;
+
     map = new mapboxgl.Map({
       container,
       style: `https://api.maptiler.com/maps/basic/style.json?key=${MAPTILER_KEY}`,

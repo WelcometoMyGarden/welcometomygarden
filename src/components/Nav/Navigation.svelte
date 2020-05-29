@@ -16,7 +16,6 @@
       domIsAnimationReady = true;
     }, 400);
   };
-
   console.log(segment);
   let isMobileNavShown = false;
   const toggleNav = () => (isMobileNavShown = !isMobileNavShown);
