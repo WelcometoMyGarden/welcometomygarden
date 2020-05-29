@@ -27,7 +27,7 @@ export default {
         'process.browser': true,
         'process.env.NODE_ENV': JSON.stringify(mode),
         'process.env.MAPBOX_ACCESS_TOKEN': JSON.stringify(process.env.MAPBOX_ACCESS_TOKEN),
-        'process.env.MAPTILER_TOKEN': JSON.stringify(process.env.MAPTILER_KEY)
+        'process.env.MAPTILER_ACCESS_TOKEN': JSON.stringify(process.env.MAPTILER_ACCESS_TOKEN)
       }),
       svelte({
         dev,

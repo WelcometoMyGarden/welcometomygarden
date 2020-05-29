@@ -24,7 +24,7 @@
 
     map = new mapboxgl.Map({
       container,
-      style: `https://api.maptiler.com/maps/basic/style.json?key=${MAPTILER_KEY}`,
+      style: `https://api.maptiler.com/maps/basic/style.json?key=${process.env.MAPTILER_ACCESS_TOKEN}`,
       center: [lon, lat],
       zoom
     });
