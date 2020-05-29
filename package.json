@@ -4,10 +4,12 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "sapper dev",
-    "build": "sapper build --legacy",
+    "build": "sapper build --legacy && cp -R ./__sapper__/build ./functions/__sapper__",
+    "prebuild": "rimraf functions/__sapper__/build && mkdirp functions/__sapper__/build",
     "export": "sapper export --legacy",
-    "start": "node __sapper__/build",
-    "test": "run-p --race dev cy:run"
+    "start": "npm run build && firebase serve",
+    "predeploy": "npm run build",
+    "deploy": "firebase deploy"
   },
   "dependencies": {
     "compression": "^1.7.1",
@@ -30,12 +32,15 @@
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-svelte3": "^2.7.3",
+    "firebase": "^7.14.5",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.4",
     "mapbox-gl": "^1.10.1",
+    "mkdirp": "^1.0.4",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.5",
     "prettier-plugin-svelte": "^1.1.0",
+    "rimraf": "^3.0.2",
     "rollup": "^2.3.4",
     "rollup-plugin-svelte": "^5.0.1",
     "rollup-plugin-terser": "^5.3.0",
