@@ -16,7 +16,7 @@
       domIsAnimationReady = true;
     }, 400);
   };
-  console.log(segment);
+
   let isMobileNavShown = false;
   const toggleNav = () => (isMobileNavShown = !isMobileNavShown);
 </script>
@@ -32,7 +32,7 @@
     </h1>
     <ul class:transitionable={domIsAnimationReady}>
       <li>
-        <NavLink href="/">Login</NavLink>
+        <NavLink isActive={segment === '/login'} href="/login">Login</NavLink>
       </li>
       <li>
         <Button primary capitalize>Add your Garden</Button>
@@ -101,7 +101,6 @@
   }
 
   h1 {
-    font-weight: bold;
     margin: 0;
     display: inline-block;
   }
