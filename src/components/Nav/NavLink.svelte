@@ -1,11 +1,9 @@
 <script>
   export let href;
   export let isInDrawer = true;
-
-  import { isActive } from '@sveltech/routify';
 </script>
 
-<a {href} class:mobile-nav-link={isInDrawer} class:active={$isActive('/')}>
+<a {href} class:mobile-nav-link={isInDrawer}>
   <slot />
 </a>
 

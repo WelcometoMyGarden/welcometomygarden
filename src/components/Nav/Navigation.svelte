@@ -1,4 +1,6 @@
 <script>
+  export let segment;
+
   import NavLink from './NavLink.svelte';
   import Hamburger from './Hamburger.svelte';
   import { Button } from '../UI';
@@ -15,6 +17,7 @@
     }, 400);
   };
 
+  console.log(segment);
   let isMobileNavShown = false;
   const toggleNav = () => (isMobileNavShown = !isMobileNavShown);
 </script>

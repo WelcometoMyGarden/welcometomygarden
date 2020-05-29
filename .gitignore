@@ -29,10 +29,11 @@ lerna-debug.log*
 .DS_Store
 node_modules
 
-/public/build/
-/public/data
+/src/node_modules/@sapper/
+/cypress/screenshots/
+/__sapper__/
+
+static/data
 
 .env*
 !.env.example
-
-

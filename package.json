@@ -3,31 +3,30 @@
   "description": "a platform allowing citizens to put their garden freely at disposal as a rudimentary campsite to travelers.",
   "version": "1.0.0",
   "scripts": {
-    "dev": "run-p watch:routify watch:rollup",
-    "prebuild": "routify --single-build",
-    "build": "rollup -c",
-    "watch:rollup": "rollup -c -w",
-    "watch:routify": "routify",
-    "start": "sirv public --single"
+    "dev": "sapper dev",
+    "build": "sapper build --legacy",
+    "export": "sapper export --legacy",
+    "start": "node __sapper__/build",
+    "test": "run-p --race dev cy:run"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "src/**/*.{js,svelte,ts,tsx}": [
-      "eslint --fix"
-    ],
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --single-quote --write"
-    ]
+  "dependencies": {
+    "compression": "^1.7.1",
+    "mapbox-gl": "^1.10.1",
+    "polka": "next",
+    "sirv": "^0.4.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/runtime": "^7.0.0",
+    "@mapbox/mapbox-gl-geocoder": "^4.5.1",
+    "@rollup/plugin-babel": "^5.0.0",
     "@rollup/plugin-commonjs": "^12.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
-    "@rollup/plugin-replace": "^2.3.2",
-    "@sveltech/routify": "^1.7.11",
+    "@rollup/plugin-replace": "^2.2.0",
+    "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
@@ -38,14 +37,9 @@
     "prettier": "^2.0.5",
     "prettier-plugin-svelte": "^1.1.0",
     "rollup": "^2.3.4",
-    "rollup-plugin-livereload": "^1.0.0",
-    "rollup-plugin-svelte": "^5.0.3",
-    "rollup-plugin-terser": "^5.1.2",
+    "rollup-plugin-svelte": "^5.0.1",
+    "rollup-plugin-terser": "^5.3.0",
+    "sapper": "^0.27.0",
     "svelte": "^3.0.0"
-  },
-  "dependencies": {
-    "@mapbox/mapbox-gl-geocoder": "^4.5.1",
-    "mapbox-gl": "^1.10.1",
-    "sirv-cli": "^0.4.4"
   }
 }
