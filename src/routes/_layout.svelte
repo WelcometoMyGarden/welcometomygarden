@@ -1,18 +1,23 @@
 <script>
+  import { onMount } from 'svelte';
+
   import Nav from '../components/Nav/Navigation.svelte';
 
   export let segment;
+
+  let ready = false;
+
+  onMount(() => (ready = true));
 </script>
 
 <Nav {segment} />
 
-<main>
-  <slot />
-</main>
+{#if ready}
+  <main>
+    <slot />
+  </main>
+{/if}
 
-<style>
-  main {
-    margin: 0;
-    padding: 0;
-  }
+<style lang="scss" global>
+  @import '../vendor/global.scss';
 </style>
