@@ -24,9 +24,6 @@
     "no-param-reassign": ["error", { "props": false }]
   },
   "globals": {
-    "process": true,
-    "NODE_ENV": true,
-    "MAPBOX_ACCESS_TOKEN": true,
-    "MAPTILER_ACCESS_TOKEN": true
+    "process": true
   }
 }

@@ -1,6 +1,6 @@
 import * as fire from 'firebase/app';
-import 'firebase/auth';
 import 'firebase/firestore';
+import 'firebase/auth';
 
 import config from '../wtmg.config';
 

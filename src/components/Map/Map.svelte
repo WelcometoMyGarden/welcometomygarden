@@ -1,5 +1,6 @@
 <script>
-  import { onMount, setContext } from 'svelte';
+  import { setContext, onMount } from 'svelte';
+  import mapboxgl from 'mapbox-gl';
   import config from '../../wtmg.config';
   import key from './mapbox-context.js';
 
@@ -17,11 +18,8 @@
     getMap: () => map
   });
 
-  onMount(async () => {
-    const mapboxModule = await import('mapbox-gl');
-    const mapboxgl = mapboxModule.default;
-    mapboxgl.accessToken = config.MAPBOX_ACCESS_TOKEN;
-
+  mapboxgl.accessToken = config.MAPBOX_ACCESS_TOKEN;
+  onMount(() => {
     map = new mapboxgl.Map({
       container,
       style: `https://api.maptiler.com/maps/basic/style.json?key=${config.MAPTILER_ACCESS_TOKEN}`,
@@ -31,8 +29,6 @@
 
     map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left');
     map.addControl(new mapboxgl.ScaleControl());
-
-    return map.remove;
   });
 </script>
 

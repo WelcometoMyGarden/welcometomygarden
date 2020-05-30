@@ -3,25 +3,15 @@
   "description": "a platform allowing citizens to put their garden freely at disposal as a rudimentary campsite to travelers.",
   "version": "1.0.0",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development sapper dev",
-    "build": "sapper build --legacy && cp -R ./__sapper__/build ./functions/__sapper__",
-    "prebuild": "rimraf functions/__sapper__/build && mkdirp functions/__sapper__/build",
-    "export": "sapper export --legacy",
-    "start": "cross-env NODE_ENV=production npm run build && firebase serve",
-    "predeploy": "npm run build",
-    "deploy": "firebase deploy"
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "sirv public --single",
+    "deploy": "yarn run build && firebase deploy"
   },
   "dependencies": {
-    "compression": "^1.7.1",
-    "polka": "next",
-    "sirv": "^0.4.0"
+    "sirv-cli": "^0.4.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0",
-    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
-    "@babel/plugin-transform-runtime": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "@babel/runtime": "^7.0.0",
     "@mapbox/mapbox-gl-geocoder": "^4.5.1",
     "@rollup/plugin-babel": "^5.0.0",
     "@rollup/plugin-commonjs": "^12.0.0",
@@ -33,7 +23,7 @@
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-svelte3": "^2.7.3",
-    "firebase": "^7.14.5",
+    "firebase": "^7.14.6",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.4",
     "mapbox-gl": "^1.10.1",
@@ -45,10 +35,13 @@
     "prettier-plugin-svelte": "^1.1.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.3.4",
+    "rollup-plugin-css-only": "^2.0.0",
+    "rollup-plugin-livereload": "^1.3.0",
     "rollup-plugin-svelte": "^5.0.1",
+    "rollup-plugin-svg-import": "^1.5.1",
     "rollup-plugin-terser": "^5.3.0",
-    "sapper": "^0.27.13",
     "svelte": "^3.0.0",
-    "svelte-preprocess": "^3.7.4"
+    "svelte-preprocess": "^3.7.4",
+    "svelte-routing": "^1.4.2"
   }
 }

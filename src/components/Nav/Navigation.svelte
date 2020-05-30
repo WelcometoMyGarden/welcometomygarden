@@ -1,6 +1,4 @@
 <script>
-  export let segment;
-
   import NavLink from './NavLink.svelte';
   import Hamburger from './Hamburger.svelte';
   import { Button } from '../UI';
@@ -32,7 +30,7 @@
     </h1>
     <ul class:transitionable={domIsAnimationReady}>
       <li>
-        <NavLink isActive={segment === '/login'} href="/login">Login</NavLink>
+        <NavLink href="/login">Login</NavLink>
       </li>
       <li>
         <Button href="/add-garden" primary capitalize>Add your Garden</Button>

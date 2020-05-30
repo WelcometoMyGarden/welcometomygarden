@@ -29,14 +29,11 @@ lerna-debug.log*
 .DS_Store
 node_modules
 
-__sapper__/
-
-static/data
+public/data
+public/build
+public/bundle
 
 .env*
-!.env.example
-
 .firebaserc
-functions/
 
 wtmg.config.js
