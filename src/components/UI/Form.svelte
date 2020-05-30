@@ -1,0 +1,3 @@
+<form>
+  <slot></slot>
+</form>
