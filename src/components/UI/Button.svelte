@@ -1,12 +1,13 @@
 <script>
   export let type = null;
   export let href = null;
+  export let isPrimary;
 
   export let target = null;
 </script>
 
 {#if href}
-  <a class="button is-primary" {href} {target}>
+  <a class="button" class:is-primary={isPrimary} {href} {target}>
     <slot />
   </a>
 {:else}
