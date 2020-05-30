@@ -12,8 +12,11 @@
     "deploy": "firebase deploy"
   },
   "dependencies": {
+    "bulma": "^0.8.2",
     "compression": "^1.7.1",
+    "node-sass": "^4.14.1",
     "polka": "next",
+    "rollup-plugin-postcss": "^3.1.1",
     "sirv": "^0.4.0"
   },
   "devDependencies": {

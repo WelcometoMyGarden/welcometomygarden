@@ -9,11 +9,11 @@
 </script>
 
 {#if href}
-  <a {href} {target} class:outline class:primary class:capitalize>
+  <a class="button" {href} {target} class:outline class:primary class:capitalize>
     <slot />
   </a>
 {:else}
-  <button class:outline class:primary class:capitalize {type}>
+  <button class="button" class:outline class:primary class:capitalize {type}>
     <slot />
   </button>
 {/if}
