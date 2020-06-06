@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
-import { auth } from './firebase';
+import { auth } from '../firebase';
+import { createUser } from '../firebase/api';
 
 export const isLoggingIn = writable(false);
 export const login = (email, password) => {
@@ -10,11 +11,9 @@ export const login = (email, password) => {
 };
 
 export const isRegistering = writable(false);
-export const register = (email, password) => {
+export const register = async (email, password) => {
   isRegistering.set(true);
-  return auth.createUserWithEmailAndPassword(email, password).then(() => {
-    isRegistering.set(false);
-  });
+  await auth.createUserWithEmailAndPassword(email, password);
 };
 
 export const user = writable(null);
