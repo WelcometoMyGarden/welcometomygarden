@@ -26,13 +26,13 @@
     </label>
   {/if}
   {#if type === 'dropdown'}
-    <Dropdown {placeholder} {options} {required} />
+    <Dropdown {name} {placeholder} {options} {required} />
   {:else if type === 'toggle'}
     <Toggle {name} {required} />
   {:else if type === 'slider'}
     <Slider placeholder} {required} />
   {:else}
-    <Input {type} {placeholder} {required} />
+    <Input {name} {type} {placeholder} {required} />
   {/if}
 </div>
 

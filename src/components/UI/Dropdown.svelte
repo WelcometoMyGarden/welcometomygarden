@@ -1,9 +1,10 @@
 <script>
+  export let name;
   export let selected = '';
   export let options = [];
 </script>
 
-<select bind:value={selected}>
+<select {name} bind:value={selected}>
   {#each options as option}
     <option value={option}>{option}</option>
   {/each}
