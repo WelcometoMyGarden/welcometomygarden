@@ -1,8 +1,13 @@
 :root {
   --color-white: #fff;
   --color-black: #333;
-  --color-primary: #28a745;
-  --color-primary-active: #20c997;
+  --color-gray: #E5E5E5;
+  --color-orange: #ED7F69;
+  --color-beige-light: #F9F5EE;
+  --color-beige: #F0E7D5;
+  --color-green: #495747;
+  --color-green-light: #CFE3D4;
+  --color-copy: #495747;
   --fonts-copy: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --fonts-titles: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
