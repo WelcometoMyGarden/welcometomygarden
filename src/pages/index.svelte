@@ -9,8 +9,8 @@
       We are a network of citizens offering free camping spots in their gardens for slow travelers
     </p>
     <div class="welcome-buttons">
-      <button>Add your garden</button>
-      <button>Explore map</button>
+      <button class="button button-primary-inverse">Add your garden</button>
+      <button class="button button-primary">Explore map</button>
     </div>
 
   </section>
@@ -108,6 +108,16 @@
     text-transform: uppercase;
   }
 
+  section {
+    margin-bottom: 90px;
+  }
+
+  p {
+    font-size: 18px;
+    line-height: 26px;
+    color: var(--color-green);
+  }
+
   .heading-underline-left {
     position: relative;
   }
@@ -137,16 +147,6 @@
     margin-left: -60px;
   }
 
-  section {
-    margin-bottom: 90px;
-  }
-
-  p {
-    font-size: 18px;
-    line-height: 26px;
-    color: var(--color-green);
-  }
-
   .welcome {
     max-width: 650px;
     text-align: center;
@@ -156,6 +156,27 @@
   .welcome-buttons {
     display: flex;
     flex-direction: column;
+    align-items: center;
+  }
+
+  .button {
+    border-radius: 6px;
+    border: 2px solid var(--color-orange);
+    width: fit-content;
+    padding: 17px 26px;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .button-primary {
+    background-color: var(--color-orange);
+    color: var(--color-white);
+  }
+
+  .button-primary-inverse {
+    background-color: var(--color-white);
+    color: var(--color-orange);
   }
 
   .steps {
