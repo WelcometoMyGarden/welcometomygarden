@@ -29,10 +29,10 @@ lerna-debug.log*
 .DS_Store
 node_modules
 
-/public/build/
-/public/bundle/
-/public/data
+public/data
+public/build
+public/bundle
+
+.env*
 
 wtmg.config.js
-
-

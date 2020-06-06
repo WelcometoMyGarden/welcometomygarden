@@ -1,6 +1,13 @@
 <script>
-  import Navigation from '../components/Nav/Navigation.svelte';
+  import { user } from '../data/auth';
+  import Nav from '../components/Nav/Navigation.svelte';
+
+  $: console.log($user);
 </script>
 
-<Navigation />
+<Nav />
 <slot />
+
+<style lang="scss" global>
+  @import '../vendor/global.scss';
+</style>

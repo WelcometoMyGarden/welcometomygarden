@@ -1,0 +1,17 @@
+{
+  "extends": ["airbnb/base", "plugin:prettier/recommended"],
+  "plugins": ["prettier"],
+  "parser": "babel-eslint",
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "prettier/prettier": ["error"],
+    "comma-dangle": ["error", "never"],
+    "no-underscore-dangle": 0,
+    "no-console": "warn",
+    "no-unused-expressions": ["error", { "allowTernary": true }],
+    "no-return-assign": [2, "except-parens"],
+    "no-param-reassign": ["error", { "props": false }]
+  }
+}

@@ -1,25 +1,29 @@
 import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import livereload from 'rollup-plugin-livereload';
 import replace from '@rollup/plugin-replace';
-import dotenv from 'dotenv';
+import commonjs from '@rollup/plugin-commonjs';
+import svg from 'rollup-plugin-svg-import';
+import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
-
-dotenv.config();
+import { routify } from '@sveltech/routify';
+import autoPreprocess from 'svelte-preprocess';
 
 const production = !process.env.ROLLUP_WATCH;
-const NODE_ENV = production ? 'production' : 'development';
 
 export default {
   input: 'src/main.js',
   output: {
     sourcemap: true,
-    format: 'iife',
+    format: 'esm',
     name: 'app',
-    file: 'public/build/bundle.js'
+    dir: 'public/bundle'
   },
   plugins: [
+    routify({
+      singleBuild: production,
+      dynamicImports: true
+    }),
+    svg({ stringify: true }),
     svelte({
       // enable run-time checks when not in production
       dev: !production,
@@ -27,15 +31,9 @@ export default {
       // a separate file - better for performance
       css: (css) => {
         css.write('public/build/bundle.css');
-      }
+      },
+      preprocess: autoPreprocess()
     }),
-
-    replace({
-      NODE_ENV: JSON.stringify(NODE_ENV),
-      MAPBOX_ACCESS_TOKEN: JSON.stringify(process.env.MAPBOX_ACCESS_TOKEN),
-      MAPTILER_KEY: JSON.stringify(process.env.MAPTILER_KEY)
-    }),
-
     // If you have external dependencies installed from
     // npm, you'll most likely need these plugins. In
     // some cases you'll need additional configuration -
@@ -57,7 +55,10 @@ export default {
 
     // If we're building for production (npm run build
     // instead of npm run dev), minify
-    production && terser()
+    production && terser(),
+    replace({
+      NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+    })
   ],
   watch: {
     clearScreen: false
@@ -72,7 +73,6 @@ function serve() {
       if (!started) {
         started = true;
 
-        // eslint-disable-next-line no-undef
         require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
           stdio: ['ignore', 'inherit', 'inherit'],
           shell: true

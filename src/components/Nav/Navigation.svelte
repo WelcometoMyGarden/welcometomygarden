@@ -30,10 +30,10 @@
     </h1>
     <ul class:transitionable={domIsAnimationReady}>
       <li>
-        <NavLink href="/">Login</NavLink>
+        <NavLink href="/login">Login</NavLink>
       </li>
       <li>
-        <Button primary capitalize>Add your Garden</Button>
+        <Button href="/add-garden" primary capitalize>Add your Garden</Button>
       </li>
     </ul>
   </nav>
@@ -99,7 +99,6 @@
   }
 
   h1 {
-    font-weight: bold;
     margin: 0;
     display: inline-block;
   }
