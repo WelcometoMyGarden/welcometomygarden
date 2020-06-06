@@ -1,11 +1,11 @@
 <script>
-  export let type;
   export let name;
   export let placeholder;
   export let required;
+  export let value = '';
 </script>
 
-<input {type} {name} {placeholder} {required} />
+<input {name} {placeholder} {required} bind:value />
 
 <style>
   input {
