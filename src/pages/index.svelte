@@ -50,15 +50,28 @@
         this FAQ section thoroughly so that you know what you’re getting yourself into.
       </p>
     </div>
-    <div>
-      <ul>
-        <li>Who is Welcome to My Garden for?</li>
-        <li>How do I get to my camping spot?</li>
-        <li>How do I request a stay?</li>
-        <li>What about facilities?</li>
-        <li>Does Welcome to My Garden cost anything?</li>
-      </ul>
-    </div>
+    <ul class="faq-list">
+      <li class="faq-list-item">
+        Who is Welcome to My Garden for?
+        <span class="plus">+</span>
+      </li>
+      <li class="faq-list-item">
+        How do I get to my camping spot?
+        <span class="plus">+</span>
+      </li>
+      <li class="faq-list-item">
+        How do I request a stay?
+        <span class="plus">+</span>
+      </li>
+      <li class="faq-list-item">
+        What about facilities?
+        <span class="plus">+</span>
+      </li>
+      <li class="faq-list-item">
+        Does Welcome to My Garden cost anything?
+        <span class="plus">+</span>
+      </li>
+    </ul>
   </section>
 
   <section class="cooperation">
@@ -137,6 +150,24 @@
 
   .faq-intro p {
     color: var(--color-white);
+  }
+
+  .faq-list {
+    padding-left: 56px;
+    width: 50%;
+  }
+
+  .faq-list-item {
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--color-copy);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    padding: 30px 0;
+    display: flex;
+  }
+
+  .plus {
+    margin-left: auto;
   }
 
   .cooperation {
