@@ -104,9 +104,6 @@
   }
 
   @media (max-width: 980px) {
-    header {
-      height: var(--height-nav-mobile);
-    }
     ul {
       position: fixed;
       top: 0;
