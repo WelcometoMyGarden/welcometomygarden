@@ -33,7 +33,7 @@
         <NavLink href="/login">Login</NavLink>
       </li>
       <li>
-        <Button href="/add-garden" primary capitalize>Add your Garden</Button>
+        <Button href="/gardens/create" primary capitalize>Add your Garden</Button>
       </li>
     </ul>
   </nav>
