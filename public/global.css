@@ -1,3 +1,15 @@
+@font-face {
+  font-family: "Inknut Antiqua";
+  src: url(...);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url(...);
+  font-display: swap;
+}
+
 :root {
   --color-white: #fff;
   --color-black: #333;
@@ -8,8 +20,8 @@
   --color-green: #495747;
   --color-green-light: #CFE3D4;
   --color-copy: #495747;
-  --fonts-copy: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --fonts-titles: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --fonts-copy: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --fonts-titles: "Inknut Antiqua", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 html {
