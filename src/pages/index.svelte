@@ -44,7 +44,7 @@
 
   <section class="faq">
     <div class="faq-intro">
-      <h1>All you need to know</h1>
+      <h1 class="heading-underline">All you need to know</h1>
       <p>
         Here are the most important things you need to know about your next adventure. Please read
         this FAQ section thoroughly so that you know what you’re getting yourself into.
@@ -96,6 +96,7 @@
     font-weight: bold;
     line-height: 93px;
     font-family: var(--fonts-titles);
+    margin-bottom: 30px;
   }
 
   h2 {
@@ -105,6 +106,20 @@
     font-family: var(--fonts-copy);
     color: var(--color-green);
     text-transform: uppercase;
+  }
+
+  .heading-underline {
+    position: relative;
+  }
+
+  .heading-underline::after {
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    content: '';
+    height: 3px;
+    background: var(--color-orange);
+    width: 120px;
   }
 
   section {
@@ -146,10 +161,12 @@
     background-color: var(--color-green);
     color: var(--color-white);
     width: 50%;
+    padding: 60px 150px;
   }
 
   .faq-intro p {
     color: var(--color-white);
+    line-height: 32px;
   }
 
   .faq-list {
