@@ -1,8 +1,10 @@
 <script>
-
+  import PageContainer from '../components/UI/PageContainer.svelte';
 </script>
 
-<h1>Index</h1>
+<PageContainer>
+  <section>Index</section>
+</PageContainer>
 
 <style>
 

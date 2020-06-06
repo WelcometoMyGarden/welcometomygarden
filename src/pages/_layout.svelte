@@ -7,7 +7,3 @@
 
 <Nav />
 <slot />
-
-<style lang="scss" global>
-  @import '../vendor/global.scss';
-</style>
