@@ -30,9 +30,9 @@ lerna-debug.log*
 node_modules
 
 /public/build/
+/public/bundle/
 /public/data
 
-.env*
-!.env.example
+wtmg.config.js
 
 
