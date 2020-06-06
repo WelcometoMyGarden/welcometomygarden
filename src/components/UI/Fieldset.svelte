@@ -1,0 +1,3 @@
+<fieldset>
+  <slot />
+</fieldset>
