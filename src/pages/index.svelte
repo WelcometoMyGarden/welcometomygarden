@@ -4,7 +4,7 @@
 
 <PageContainer>
   <section class="welcome">
-    <h1>Welcome to My Garden</h1>
+    <h1 class="heading-underline-center">Welcome to My Garden</h1>
     <p>
       We are a network of citizens offering free camping spots in their gardens for slow travelers
     </p>
@@ -44,7 +44,7 @@
 
   <section class="faq">
     <div class="faq-intro">
-      <h1 class="heading-underline">All you need to know</h1>
+      <h1 class="heading-underline-left">All you need to know</h1>
       <p>
         Here are the most important things you need to know about your next adventure. Please read
         this FAQ section thoroughly so that you know what you’re getting yourself into.
@@ -76,11 +76,11 @@
 
   <section class="cooperation">
     <div class="partners">
-      <h1>Our partners</h1>
+      <h1 class="heading-underline-center">Our partners</h1>
     </div>
 
     <div class="support">
-      <h1>Support us</h1>
+      <h1 class="heading-underline-center">Support us</h1>
       <p>
         Welcome to My Garden is free to use but we have to pay a couple of bills. Make a donation to
         keep us going!
@@ -108,11 +108,11 @@
     text-transform: uppercase;
   }
 
-  .heading-underline {
+  .heading-underline-left {
     position: relative;
   }
 
-  .heading-underline::after {
+  .heading-underline-left::after {
     position: absolute;
     bottom: -4px;
     left: 0;
@@ -120,6 +120,21 @@
     height: 3px;
     background: var(--color-orange);
     width: 120px;
+  }
+
+  .heading-underline-center {
+    position: relative;
+  }
+
+  .heading-underline-center::after {
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    content: '';
+    height: 3px;
+    background: var(--color-orange);
+    width: 120px;
+    margin-left: -60px;
   }
 
   section {
@@ -192,10 +207,12 @@
   }
 
   .partners {
+    text-align: center;
     width: 50%;
   }
 
   .support {
+    text-align: center;
     background-color: var(--color-beige);
     width: 50%;
   }
