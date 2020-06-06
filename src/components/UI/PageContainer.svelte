@@ -4,6 +4,7 @@
 
 <style>
   div {
-    padding-top: var(--height-nav);
+    flex: 1;
+    padding: var(--height-nav) 5rem 5rem 5rem;
   }
 </style>
