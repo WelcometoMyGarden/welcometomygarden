@@ -1,9 +1,9 @@
-<div>
+<main>
   <slot />
-</div>
+</main>
 
 <style>
-  div {
+  main {
     padding-top: var(--height-nav);
   }
 </style>

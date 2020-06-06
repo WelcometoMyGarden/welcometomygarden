@@ -19,20 +19,18 @@
   <title>Sign up | Welcome to my Garden</title>
 </svelte:head>
 
-<PageContainer>
-  <h1 class="text-xs-center">Sign up</h1>
+<h1 class="text-xs-center">Sign up</h1>
 
-  <p>
-    <a href="/login">Have an account?</a>
-  </p>
+<p>
+  <a href="/login">Have an account?</a>
+</p>
 
-  <form on:submit|preventDefault={submit}>
-    <fieldset>
-      <input type="text" placeholder="Email" bind:value={email} />
-    </fieldset>
-    <fieldset>
-      <input type="password" placeholder="Password" bind:value={password} />
-    </fieldset>
-    <button isLoading={isRegistering}>Sign up</button>
-  </form>
-</PageContainer>
+<form on:submit|preventDefault={submit}>
+  <fieldset>
+    <input type="text" placeholder="Email" bind:value={email} />
+  </fieldset>
+  <fieldset>
+    <input type="password" placeholder="Password" bind:value={password} />
+  </fieldset>
+  <button isLoading={isRegistering}>Sign up</button>
+</form>
