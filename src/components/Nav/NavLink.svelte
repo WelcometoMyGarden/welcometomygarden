@@ -5,7 +5,12 @@
   export let isInDrawer = true;
 </script>
 
-<a href={$url(href)} class:active={$isActive(href)} class:mobile-nav-link={isInDrawer}>
+<a
+  href={$url(href)}
+  on:click
+  class:active={$isActive(href)}
+  class:mobile-nav-link={isInDrawer}
+  on:click>
   <slot />
 </a>
 

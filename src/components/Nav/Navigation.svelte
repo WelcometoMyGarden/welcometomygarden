@@ -2,6 +2,7 @@
   import NavLink from './NavLink.svelte';
   import Hamburger from './Hamburger.svelte';
   import { Button } from '../UI';
+  import { user, logout } from '../../data/auth';
 
   /* any transition or animation to do with sizing will trigger on page load and browser
    resize, we don't want that */
@@ -29,9 +30,11 @@
       <NavLink isInDrawer={false} href="/">Welcome to my Garden!</NavLink>
     </h1>
     <ul class:transitionable={domIsAnimationReady}>
-      <li>
-        <NavLink href="/login">Login</NavLink>
-      </li>
+      {#if $user}
+        <NavLink href="/" on:click={logout}>Log out</NavLink>
+      {:else}
+        <NavLink href="/login">Log in</NavLink>
+      {/if}
       <li>
         <Button href="/add-garden" primary capitalize>Add your Garden</Button>
       </li>

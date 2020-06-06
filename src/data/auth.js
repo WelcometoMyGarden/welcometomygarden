@@ -16,6 +16,8 @@ export const register = async (email, password) => {
   await auth.createUserWithEmailAndPassword(email, password);
 };
 
+export const logout = () => auth.signOut();
+
 export const user = writable(null);
 auth.onAuthStateChanged((userData) => {
   if (!userData) user.set(null);
