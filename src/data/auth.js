@@ -11,10 +11,10 @@ export const login = (email, password) => {
 };
 
 export const isRegistering = writable(false);
-export const register = async (email, password) => {
+export const register = async ({ email, password, firstName, lastName, countryCode }) => {
   isRegistering.set(true);
   await auth.createUserWithEmailAndPassword(email, password);
-  await createUser('Michiel', 'Leyman');
+  await createUser({ firstName, lastName, countryCode });
 };
 
 export const logout = () => auth.signOut();

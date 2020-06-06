@@ -7,9 +7,24 @@
   let firstName = '';
   let lastName = '';
 
+  let countryInput;
+
+  const onCountryChange = e => {
+    const { value } = e.currentTarget;
+    // countryInput.value = countryName;
+    const code = Object.keys(countries).find(key => countries[key] === value);
+    if (code) countryInput.value = code;
+  };
+
   const submit = async () => {
     try {
-      const response = await register(email, password);
+      const response = await register({
+        email,
+        password,
+        firstName,
+        lastName,
+        countryCode: countryInput.value
+      });
       console.log(response);
     } catch (err) {
       console.log(err);
@@ -24,7 +39,8 @@
 <h1 class="text-xs-center">Sign up</h1>
 
 <p>
-  <a href="/login">Have an account?</a>
+  Already have an account?
+  <a href="/login">Sign in</a>
 </p>
 
 <form on:submit|preventDefault={submit}>
@@ -41,18 +57,25 @@
   <input type="password" name="password" id="password" bind:value={password} />
 
   <label for="country">Country</label>
-  <input list="countries" id="country" />
+  <input list="countries" id="country" on:change={onCountryChange} autocomplete="off" />
   <datalist id="countries">
-    {#each Object.keys(countries) as countryCode (countryCode)}
-      <option value={countryCode}>{countries[countryCode]}</option>
+    {#each Object.keys(countries) as code}
+      <option data-value={code}>{countries[code]}</option>
     {/each}
   </datalist>
+  <input type="hidden" name="country" id="country-hidden" bind:this={countryInput} />
 
   <button type="submit" isLoading={isRegistering}>Sign up</button>
 </form>
 
+<p>
+  Already have an account?
+  <a href="/login">Sign in</a>
+</p>
+
 <style>
-  label {
+  label,
+  button {
     display: block;
   }
   input {
