@@ -44,6 +44,17 @@
         placeholder="Please provide a short description of your garden and the camping spot you can
         offer"
         required />
+      <Field
+        name="surface-area"
+        type="slider"
+        label="Surface area"
+        placeholder="What is the surface area of your camping space?" />
+      <Field
+        name="type"
+        type="dropdown"
+        label="Type"
+        options={['01', '02', '03']}
+        placeholder="What type of camping space do you offer?" />
     </Form>
   </FormStep>
   <FormStep name="facilities">
