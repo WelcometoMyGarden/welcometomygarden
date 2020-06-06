@@ -1,9 +1,11 @@
 <script>
   import { register, isRegistering } from '../data/auth';
-  import { PageContainer } from '../components/UI';
+  import { countries } from '../util';
 
   let email = '';
   let password = '';
+  let firstName = '';
+  let lastName = '';
 
   const submit = async () => {
     try {
@@ -26,11 +28,34 @@
 </p>
 
 <form on:submit|preventDefault={submit}>
-  <fieldset>
-    <input type="text" placeholder="Email" bind:value={email} />
-  </fieldset>
-  <fieldset>
-    <input type="password" placeholder="Password" bind:value={password} />
-  </fieldset>
-  <button isLoading={isRegistering}>Sign up</button>
+  <label for="first-name">First name</label>
+  <input type="text" name="first-name" id="first-name" bind:value={firstName} />
+
+  <label for="last-name">Last name</label>
+  <input type="text" name="last-name" id="last-name" bind:value={lastName} />
+
+  <label for="email">Email</label>
+  <input type="email" name="email" id="email" bind:value={email} />
+
+  <label for="password">Password</label>
+  <input type="password" name="password" id="password" bind:value={password} />
+
+  <label for="country">Country</label>
+  <input list="countries" id="country" />
+  <datalist id="countries">
+    {#each Object.keys(countries) as countryCode (countryCode)}
+      <option value={countryCode}>{countries[countryCode]}</option>
+    {/each}
+  </datalist>
+
+  <button type="submit" isLoading={isRegistering}>Sign up</button>
 </form>
+
+<style>
+  label {
+    display: block;
+  }
+  input {
+    margin-bottom: 1rem;
+  }
+</style>

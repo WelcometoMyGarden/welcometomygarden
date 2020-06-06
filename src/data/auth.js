@@ -14,6 +14,7 @@ export const isRegistering = writable(false);
 export const register = async (email, password) => {
   isRegistering.set(true);
   await auth.createUserWithEmailAndPassword(email, password);
+  await createUser('Michiel', 'Leyman');
 };
 
 export const logout = () => auth.signOut();
