@@ -52,7 +52,7 @@
     justify-content: space-between;
     flex-direction: row-reverse;
     align-items: center;
-    padding: 0 5rem;
+    padding: 0 var(--padding-side);
   }
 
   .overlay {
@@ -142,15 +142,6 @@
     li {
       margin-left: 0;
       margin-bottom: 3rem;
-    }
-  }
-
-  @media screen and (max-width: 568px) {
-    h1 {
-      font-size: 2rem;
-    }
-    header {
-      padding: 0 2rem;
     }
   }
 </style>

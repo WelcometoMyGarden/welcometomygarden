@@ -9,6 +9,9 @@
 }
 
 :root {
+  /*
+  * Colors 
+  */
   --color-white: #fff;
   --color-black: #333;
   --color-gray: #E5E5E5;
@@ -18,8 +21,23 @@
   --color-green: #495747;
   --color-green-light: #CFE3D4;
   --color-copy: #495747;
+
+  /*
+  * Typography 
+  */
   --fonts-copy: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --fonts-titles: "Inknut Antiqua", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+  /*
+  * Units
+  */
+  --padding-side: 5rem;
+}
+
+@media screen and (max-width: 568px) {
+  :root {
+    --padding-side: 2rem;
+  }
 }
 
 html {

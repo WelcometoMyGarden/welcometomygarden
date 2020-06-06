@@ -5,6 +5,6 @@
 <style>
   div {
     flex: 1;
-    padding: var(--height-nav) 5rem 5rem 5rem;
+    padding: var(--height-nav) var(--padding-side);
   }
 </style>
