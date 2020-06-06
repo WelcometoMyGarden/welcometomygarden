@@ -1,10 +1,14 @@
 <script>
   import Input from './Input.svelte';
+  import Dropdown from './Dropdown.svelte';
+  import Toggle from './Toggle.svelte';
+  import Slider from './Slider.svelte';
 
   export let label;
   export let type;
   export let placeholder;
   export let required;
+  export let options;
 </script>
 
 <div class="field">
@@ -14,7 +18,15 @@
       {#if required}*{/if}
     </label>
   {/if}
-  <Input class="input" {type} {placeholder} {required} />
+  {#if type === 'dropdown'}
+    <Dropdown {placeholder} {options} {required} />
+  {:else if type === 'toggle'}
+    <Toggle {required} />
+  {:else if type === 'slider'}
+    <Slider placeholder} {required} />
+  {:else}
+    <Input {type} {placeholder} {required} />
+  {/if}
 </div>
 
 <style>
