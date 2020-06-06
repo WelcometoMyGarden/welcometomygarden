@@ -1,13 +1,15 @@
 <script>
+  import { login, isLoggingIn } from '../data/auth';
+
   let email = '';
   let password = '';
 
   const submit = async () => {
-    const response = null;
-    // TODO: Handle network errors and response errors
-
-    if (response.user) {
-      // TODO: ave auth state
+    try {
+      await login(email, password);
+    } catch (ex) {
+      // TODO: Handle network errors and response errors
+      console.log(ex);
     }
   };
 </script>
