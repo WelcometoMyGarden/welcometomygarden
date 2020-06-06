@@ -1,5 +1,13 @@
 <script>
   import { PageContainer, FormStep, Form, Field } from '../../components/UI';
+  import {
+    BonfireIcon,
+    ElectrictiyIcon,
+    ShowerIcon,
+    TentIcon,
+    ToiletIcon,
+    WaterIcon
+  } from '../../images/facilities';
 </script>
 
 <PageContainer>
@@ -64,29 +72,29 @@
         type="toggle"
         label="Outside toilet"
         placeholder="Do you have an outside toilet that guests can use?"
+        icon={ToiletIcon}
         required />
       <Field
         name="inside-toilet-provided"
         type="toggle"
         label="Inside toilet"
         placeholder="Would you allow guests to use your inside toilet?"
+        icon={ToiletIcon}
         required />
       <Field
         name="drinkable-water-provided"
         type="toggle"
         label="Drinkable water"
         placeholder="Can guests have access to drinking water when staying with you?"
+        icon={WaterIcon}
         required />
       <Field
         name="electricity-provided"
         type="toggle"
         label="Electricity"
         placeholder="Can you offer electricity (for phones or recharge batteries of electric bikes)"
+        icon={ElectrictiyIcon}
         required />
     </Form>
   </FormStep>
 </PageContainer>
-
-<style>
-
-</style>

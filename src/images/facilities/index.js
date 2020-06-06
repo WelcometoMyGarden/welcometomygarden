@@ -1,0 +1,6 @@
+export { default as BonfireIcon } from './Bonfire.svelte'
+export { default as ElectrictiyIcon } from './Electricity.svelte'
+export { default as ShowerIcon } from './Shower.svelte'
+export { default as TentIcon } from './Tent.svelte'
+export { default as ToiletIcon } from './Toilet.svelte'
+export { default as WaterIcon } from './Water.svelte'
