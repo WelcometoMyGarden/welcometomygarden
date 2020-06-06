@@ -5,6 +5,7 @@
   import Slider from './Slider.svelte';
 
   export let label;
+  export let name;
   export let type;
   export let icon;
   export let placeholder;
@@ -27,7 +28,7 @@
   {#if type === 'dropdown'}
     <Dropdown {placeholder} {options} {required} />
   {:else if type === 'toggle'}
-    <Toggle {required} />
+    <Toggle {name} {required} />
   {:else if type === 'slider'}
     <Slider placeholder} {required} />
   {:else}
