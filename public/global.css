@@ -74,6 +74,8 @@ a:hover {
 }
 
 input,
+select,
 textarea {
   font-family: var(--fonts-copy);
+  width: 100%;
 }
