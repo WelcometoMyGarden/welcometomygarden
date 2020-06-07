@@ -1,7 +1,7 @@
 <script>
   import { goto } from '@sveltech/routify';
-  import { login } from '../../api/auth';
-  import routes from '../../routes';
+  import { login } from '@/api/auth';
+  import routes from '@/routes';
 
   let email = '';
   let password = '';

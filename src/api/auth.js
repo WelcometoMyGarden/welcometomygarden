@@ -1,7 +1,7 @@
 import { auth } from './index';
 import * as api from './functions';
 import { isInitializing, isLoggingIn, isRegistering, user } from '../stores/auth';
-import User from '../models/User';
+import User from '@/models/User';
 
 export const login = (email, password) => {
   isLoggingIn.set(true);
