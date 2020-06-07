@@ -1,9 +1,13 @@
 <script>
   import PageContainer from '../components/UI/PageContainer.svelte';
+  import Logo from '../images/logo.svg';
 </script>
 
 <PageContainer>
   <section class="welcome">
+    <div>
+      {@html Logo}
+    </div>
     <h1 class="heading-underline-center">Welcome to My Garden</h1>
     <p class="welcome-text">
       We are a network of citizens offering free camping spots in their gardens for slow travelers
