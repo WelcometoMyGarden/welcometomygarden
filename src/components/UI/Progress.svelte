@@ -27,7 +27,7 @@
     left: 0;
 
     width: 100%;
-    height: 4px;
+    height: 3px;
   }
 
   /* Fancy blur effect */
