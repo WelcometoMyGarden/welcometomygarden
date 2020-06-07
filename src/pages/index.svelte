@@ -78,11 +78,12 @@
   </section>
 
   <section class="cooperation">
-    <div class="partners">
+    <div class="cooperation-card partners">
       <h1 class="heading-underline-center">Our partners</h1>
+      <div>Logos</div>
     </div>
 
-    <div class="support">
+    <div class="cooperation-card support">
       <h1 class="heading-underline-center">Support us</h1>
       <p>
         Welcome to My Garden is free to use but we have to pay a couple of bills. Make a donation to
@@ -260,14 +261,19 @@
     display: flex;
   }
 
-  .partners {
+  .cooperation-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     text-align: center;
     width: 50%;
   }
 
+  .partners {
+  }
+
   .support {
-    text-align: center;
     background-color: var(--color-beige);
-    width: 50%;
+    padding: 116px 96px;
   }
 </style>
