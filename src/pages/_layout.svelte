@@ -9,7 +9,7 @@
 
 <Progress active={$isLoggingIn} />
 
-{#if false}
+{#if !$isLoggingIn}
   <Nav />
   <PageContainer>
     <slot />

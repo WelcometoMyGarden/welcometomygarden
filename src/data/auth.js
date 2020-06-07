@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 import { auth } from '../firebase';
 import * as api from '../firebase/api';
+import User from '../models/User';
 
 export const isLoggingIn = writable(true);
 export const login = (email, password) => {
@@ -25,7 +26,7 @@ export const user = writable(null);
 auth.onAuthStateChanged((userData) => {
   isLoggingIn.set(false);
   if (!userData) user.set(null);
-  else user.set(userData);
+  else user.set(new User(userData));
 });
 
 export const updateEmail = (email) => {
