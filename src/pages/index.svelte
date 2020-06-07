@@ -46,7 +46,7 @@
   </section>
 
   <section class="faq">
-    <div class="faq-intro">
+    <div class="card faq-intro">
       <h1 class="heading-underline-left">All you need to know</h1>
       <p>
         Here are the most important things you need to know about your next adventure. Please read
@@ -78,16 +78,17 @@
   </section>
 
   <section class="cooperation">
-    <div class="cooperation-card partners">
+    <div class="card cooperation-card partners">
       <h1 class="heading-underline-center">Our partners</h1>
       <div>Logos</div>
     </div>
 
-    <div class="cooperation-card support">
+    <div class="card cooperation-card support">
       <h1 class="heading-underline-center">Support us</h1>
       <p>
-        Welcome to My Garden is free to use but we have to pay a couple of bills. Make a donation to
-        keep us going!
+        Welcome to My Garden is free to use but we have to pay a couple of bills.
+        <a href="#">Make a donation</a>
+        to keep us going!
       </p>
     </div>
   </section>
@@ -120,6 +121,11 @@
     font-size: 18px;
     line-height: 26px;
     color: var(--color-green);
+  }
+
+  a {
+    font-weight: bold;
+    text-decoration: underline;
   }
 
   .heading-underline-left {
@@ -223,6 +229,11 @@
     margin-bottom: 6px;
   }
 
+  .card p {
+    font-size: 18px;
+    line-height: 32px;
+  }
+
   .faq {
     display: flex;
   }
@@ -259,6 +270,10 @@
 
   .cooperation {
     display: flex;
+  }
+
+  .cooperation h1 {
+    margin-bottom: 46px;
   }
 
   .cooperation-card {
