@@ -30,7 +30,7 @@
   </fieldset>
   <fieldset>
     <input type="password" placeholder="Password" bind:value={password} />
-    <a href={routes.RESET_PASSWORD}>Reset your password</a>
+    <a href={routes.REQUEST_PASSWORD_RESET}>Reset your password</a>
   </fieldset>
   <p />
   <button type="submit" disabled={!email || !password}>Sign in</button>

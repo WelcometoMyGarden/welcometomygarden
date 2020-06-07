@@ -37,7 +37,7 @@
   <title>Sign up | Welcome to my Garden</title>
 </svelte:head>
 
-<h1 class="text-xs-center">Sign up</h1>
+<h1>Sign up</h1>
 
 <form on:submit|preventDefault={submit}>
   <label for="first-name">First name</label>

@@ -1,7 +1,7 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const countries = require('./countries');
-const { sendAccountVerificationEmail } = require('./mail');
+const { sendAccountVerificationEmail, sendPasswordResetEmail } = require('./mail');
 
 exports.createUser = async (data, context) => {
   const success = (msg) => ({ message: msg, success: true });
@@ -64,6 +64,23 @@ exports.createUser = async (data, context) => {
   }
 };
 
-exports.resetPassword = async () => {};
+exports.requestPasswordReset = async (email) => {
+  if (!email) throw new functions.https.HttpsError('invalid-argument');
+
+  try {
+    const auth = admin.auth();
+    const link = await auth.generatePasswordResetLink(email, {
+      url: `${functions.config().frontend.url}/auth/confirm-password-reset`
+    });
+
+    const user = await auth.getUserByEmail(email);
+    await sendPasswordResetEmail(email, user.displayName, link);
+
+    return { message: 'Password reset request received', success: true };
+  } catch (ex) {
+    console.log(ex);
+    throw new functions.https.HttpsError('invalid-argument');
+  }
+};
 
 exports.changeEmail = async () => {};

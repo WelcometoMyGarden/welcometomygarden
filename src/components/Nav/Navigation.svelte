@@ -28,7 +28,7 @@
   <Hamburger isOpen={isMobileNavShown} on:click={toggleNav} />
   <nav class:open={isMobileNavShown}>
     <h1>
-      <NavLink isInDrawer={false} href={routes.HOME}>Welcome to my Garden!</NavLink>
+      <NavLink isInDrawer={false} href={routes.HOME}>Welcome to My Garden!</NavLink>
     </h1>
     <ul class:transitionable={domIsAnimationReady}>
       {#if $user}
