@@ -9,7 +9,8 @@
     "deploy": "yarn run build && firebase deploy"
   },
   "dependencies": {
-    "sirv-cli": "^0.4.4"
+    "sirv-cli": "^0.4.4",
+    "smoothscroll-polyfill": "^0.4.4"
   },
   "devDependencies": {
     "@mapbox/mapbox-gl-geocoder": "^4.5.1",

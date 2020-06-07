@@ -1,4 +1,5 @@
 <script>
+  import smoothscroll from 'smoothscroll-polyfill';
   import PageContainer from '../components/UI/PageContainer.svelte';
   import Logo from '../images/logo.svg';
   import WelcomeMap from '../images/welcome-map.svg';
@@ -11,6 +12,8 @@
     const stepsSection = document.getElementById('steps-section');
     stepsSection.scrollIntoView({ behavior: 'smooth' });
   }
+
+  smoothscroll.polyfill();
 </script>
 
 <PageContainer>
