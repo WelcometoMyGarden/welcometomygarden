@@ -6,6 +6,11 @@
   import Step1 from '../images/step-1.svg';
   import Step2 from '../images/step-2.svg';
   import Step3 from '../images/step-3.svg';
+
+  function handleLearnMoreClick() {
+    const stepsSection = document.getElementById('steps-section');
+    stepsSection.scrollIntoView({ behavior: 'smooth' });
+  }
 </script>
 
 <PageContainer>
@@ -29,13 +34,16 @@
   </section>
 
   <div class="learn-more">
-    <span class="learn-more-text">Learn more</span>
-    <div>
-      {@html ArrowDown}
-    </div>
+    <span class="learn-more-text" aria-hidden>Learn more</span>
+    <button class="learn-more-button" on:click={handleLearnMoreClick}>
+      <span class="screen-reader-only">Learn more</span>
+      <div>
+        {@html ArrowDown}
+      </div>
+    </button>
   </div>
 
-  <section class="steps">
+  <section id="steps-section" class="steps">
     <div class="step">
       <div class="step-logo">
         {@html Step1}
@@ -155,6 +163,18 @@
     text-decoration: underline;
   }
 
+  .screen-reader-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap; /* added line */
+    border: 0;
+  }
+
   #welcome-map {
     position: absolute;
     right: 0;
@@ -231,6 +251,12 @@
   .learn-more-text {
     font-weight: bold;
     margin-bottom: 20px;
+  }
+
+  .learn-more-button {
+    border: none;
+    cursor: pointer;
+    background: none;
   }
 
   .steps {
