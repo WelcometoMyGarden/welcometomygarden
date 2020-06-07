@@ -73,7 +73,7 @@
 
   <section class="faq">
     <div class="card faq-intro">
-      <h1 class="heading-underline-left">All you need to know</h1>
+      <h1 class="heading-underline-center">All you need to know</h1>
       <p>
         Here are the most important things you need to know about your next adventure. Please read
         this FAQ section thoroughly so that you know what you’re getting yourself into.
@@ -128,6 +128,7 @@
     line-height: 93px;
     font-family: var(--fonts-titles);
     margin-bottom: 30px;
+    color: var(--color-green);
   }
 
   h2 {
@@ -158,20 +159,6 @@
     position: absolute;
     right: 0;
     top: 0;
-  }
-
-  .heading-underline-left {
-    position: relative;
-  }
-
-  .heading-underline-left::after {
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    content: '';
-    height: 3px;
-    background: var(--color-orange);
-    width: 120px;
   }
 
   .heading-underline-center {
@@ -211,7 +198,7 @@
 
   .welcome-button {
     border-radius: 6px;
-    border: 2px solid var(--color-orange);
+    border: 2px solid var(--color-green);
     width: fit-content;
     padding: 17px 26px;
     text-transform: uppercase;
@@ -225,13 +212,13 @@
   }
 
   .button-primary {
-    background-color: var(--color-orange);
+    background-color: var(--color-green);
     color: var(--color-white);
   }
 
   .button-primary-inverse {
     background-color: var(--color-white);
-    color: var(--color-orange);
+    color: var(--color-green);
   }
 
   .learn-more {
@@ -281,11 +268,18 @@
     display: flex;
   }
 
+  .faq {
+    display: flex;
+  }
+
   .faq-intro {
     background-color: var(--color-green);
-    color: var(--color-white);
     width: 50%;
     padding: 60px 150px;
+  }
+
+  .faq-intro h1 {
+    color: var(--color-white);
   }
 
   .faq-intro p {
