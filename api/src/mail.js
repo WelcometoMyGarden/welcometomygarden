@@ -35,17 +35,3 @@ exports.sendPasswordResetEmail = (email, name, resetLink) => {
 
   return send(msg);
 };
-
-exports.sendEmailChangeConfirmation = (email, name, confirmationLink) => {
-  const msg = {
-    to: email,
-    from: 'Welcome to My Garden <support@welcometomygarden.be>',
-    templateId: 'd-9fa3c99cbc4e410ca2d51db0f5048276',
-    dynamic_template_data: {
-      firstName: name,
-      confirmationLink
-    }
-  };
-
-  return send(msg);
-};

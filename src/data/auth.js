@@ -26,3 +26,8 @@ auth.onAuthStateChanged((userData) => {
   if (!userData) user.set(null);
   else user.set(userData);
 });
+
+export const updateEmail = (email) => {
+  if (!auth.currentUser) throw new Error('You are not logged in.');
+  return auth.currentUser.updateEmail(email);
+};

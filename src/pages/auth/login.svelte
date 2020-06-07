@@ -1,5 +1,5 @@
 <script>
-  import { login, isLoggingIn } from '../../data/auth';
+  import { updateEmail, login, isLoggingIn } from '../../data/auth';
   import routes from '../../routes';
 
   let email = '';
@@ -7,7 +7,8 @@
 
   const submit = async () => {
     try {
-      await login(email, password);
+      await updateEmail('nertflerks@gmail.com');
+      // await login(email, password);
     } catch (ex) {
       // TODO: Handle network errors and response errors
       console.log(ex);
@@ -24,9 +25,6 @@
 <form on:submit|preventDefault={submit}>
   <fieldset>
     <input type="email" placeholder="Email" bind:value={email} />
-  </fieldset>
-  <fieldset>
-    <input type="password" placeholder="Password" bind:value={password} />
   </fieldset>
   <fieldset>
     <input type="password" placeholder="Password" bind:value={password} />
