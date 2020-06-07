@@ -77,7 +77,3 @@ input,
 textarea {
   font-family: var(--fonts-copy);
 }
-
-button {
-  cursor: pointer;
-}

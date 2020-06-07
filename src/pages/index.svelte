@@ -182,6 +182,7 @@
     text-transform: uppercase;
     font-size: 18px;
     font-weight: bold;
+    cursor: pointer;
   }
 
   .welcome-button:first-of-type {
@@ -252,6 +253,7 @@
 
   .faq-list {
     padding-left: 56px;
+    padding-right: 113px;
     width: 50%;
   }
 
