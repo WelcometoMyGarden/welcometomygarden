@@ -1,5 +1,5 @@
 <script>
-  import { requestPasswordReset } from '../../data/auth';
+  import { requestPasswordReset } from '../../api/auth';
 
   let email = '';
 

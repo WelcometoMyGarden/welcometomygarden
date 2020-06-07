@@ -1,9 +1,8 @@
-import { writable } from 'svelte/store';
-import { auth } from '../firebase';
-import * as api from '../firebase/api';
+import { auth } from './index';
+import * as api from './functions';
+import { isInitializing, isLoggingIn, isRegistering, user } from '../stores/auth';
 import User from '../models/User';
 
-export const isLoggingIn = writable(true);
 export const login = (email, password) => {
   isLoggingIn.set(true);
   return auth.signInWithEmailAndPassword(email, password).then(() => {
@@ -11,7 +10,6 @@ export const login = (email, password) => {
   });
 };
 
-export const isRegistering = writable(false);
 export const register = async ({ email, password, firstName, lastName, countryCode }) => {
   isRegistering.set(true);
   await auth.createUserWithEmailAndPassword(email, password);
@@ -22,14 +20,12 @@ export const logout = () => auth.signOut();
 
 export const requestPasswordReset = (email) => api.requestPasswordReset(email);
 
-export const user = writable(null);
 auth.onAuthStateChanged((userData) => {
-  isLoggingIn.set(false);
+  isInitializing.set(false);
   if (!userData) user.set(null);
   else user.set(new User(userData));
 });
 
-export const updateEmail = (email) => {
-  if (!auth.currentUser) throw new Error('You are not logged in.');
-  return auth.currentUser.updateEmail(email);
-};
+export const verifyPasswordResetCode = (code) => auth.verifyPasswordResetCode(code);
+export const applyActionCode = (code) => auth.applyActionCode(code);
+export const confirmPasswordReset = (code, password) => auth.confirmPasswordReset(code, password);

@@ -53,7 +53,6 @@ exports.createUser = async (data, context) => {
       url: `${functions.config().frontend.url}/auth/confirm-email`
     });
 
-    console.log(email, firstName, link);
     await sendAccountVerificationEmail(user.email, firstName, link);
 
     return { message: 'Your account was created successfully,', success: true };

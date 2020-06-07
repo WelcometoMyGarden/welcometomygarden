@@ -1,6 +1,6 @@
 <script>
   import { goto, params } from '@sveltech/routify';
-  import { confirmPasswordReset, login } from '../../data/auth';
+  import { confirmPasswordReset, login } from '../../api/auth';
   import routes from '../../routes';
 
   let password = '';

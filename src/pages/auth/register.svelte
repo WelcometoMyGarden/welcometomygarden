@@ -1,6 +1,7 @@
 <script>
   import { goto } from '@sveltech/routify';
-  import { register, isRegistering } from '../../data/auth';
+  import { register } from '../../api/auth';
+  import { isRegistering } from '../../stores/auth';
   import { countries } from '../../util';
   import routes from '../../routes';
 
@@ -20,7 +21,7 @@
 
   const submit = async () => {
     try {
-      const response = await register({
+      await register({
         email,
         password,
         firstName,

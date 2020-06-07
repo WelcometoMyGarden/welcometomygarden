@@ -3,7 +3,8 @@
   import Hamburger from './Hamburger.svelte';
   import routes from '../../routes';
   import { Button } from '../UI';
-  import { user, logout } from '../../data/auth';
+  import { user } from '../../stores/auth';
+  import { logout } from '../../api/auth';
 
   /* any transition or animation to do with sizing will trigger on page load and browser
    resize, we don't want that */
