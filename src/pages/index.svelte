@@ -1,6 +1,7 @@
 <script>
   import smoothscroll from 'smoothscroll-polyfill';
   import PageContainer from '../components/UI/PageContainer.svelte';
+  import FaqItem from '../components/FaqItem.svelte';
   import Logo from '../images/logo.svg';
   import WelcomeMap from '../images/welcome-map.svg';
   import ArrowDown from '../images/arrow-down.svg';
@@ -91,91 +92,46 @@
       </p>
     </div>
     <ul class="faq-list">
-      <li class="faq-list-item">
-        <input id="faq-checkbox-1" class="toggle-checkbox" type="checkbox" />
-        <label for="faq-checkbox-1" class="toggle-label">
-          Who is Welcome to My Garden for?
-          <span class="plus plus-minus">+</span>
-          <span class="minus plus-minus">-</span>
-        </label>
-        <div class="collapsible-content">
-          <div class="faq-answer">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati
-              laborum rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum
-              nam, sunt non iure minima modi blanditiis?
-            </p>
-          </div>
+      <FaqItem>
+        <h3 slot="title">Who is Welcome To My Garden for?</h3>
+        <div slot="content">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
+          rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
+          iure minima modi blanditiis?
         </div>
-      </li>
-      <li class="faq-list-item">
-        <input id="faq-checkbox-2" class="toggle-checkbox" type="checkbox" />
-        <label for="faq-checkbox-2" class="toggle-label">
-          How do I get to my camping spot?
-          <span class="plus plus-minus">+</span>
-          <span class="minus plus-minus">-</span>
-        </label>
-        <div class="collapsible-content">
-          <div class="faq-answer">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati
-              laborum rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum
-              nam, sunt non iure minima modi blanditiis?
-            </p>
-          </div>
+      </FaqItem>
+      <FaqItem>
+        <h3 slot="title">How do I get to my camping spot?</h3>
+        <div slot="content">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
+          rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
+          iure minima modi blanditiis?
         </div>
-      </li>
-      <li class="faq-list-item">
-        <input id="faq-checkbox-3" class="toggle-checkbox" type="checkbox" />
-        <label for="faq-checkbox-3" class="toggle-label">
-          How do I request a stay?
-          <span class="plus plus-minus">+</span>
-          <span class="minus plus-minus">-</span>
-        </label>
-        <div class="collapsible-content">
-          <div class="faq-answer">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati
-              laborum rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum
-              nam, sunt non iure minima modi blanditiis?
-            </p>
-          </div>
+      </FaqItem>
+      <FaqItem>
+        <h3 slot="title">How do I request a stay?</h3>
+        <div slot="content">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
+          rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
+          iure minima modi blanditiis?
         </div>
-      </li>
-      <li class="faq-list-item">
-        <input id="faq-checkbox-4" class="toggle-checkbox" type="checkbox" />
-        <label for="faq-checkbox-4" class="toggle-label">
-          What about facilities?
-          <span class="plus plus-minus">+</span>
-          <span class="minus plus-minus">-</span>
-        </label>
-        <div class="collapsible-content">
-          <div class="faq-answer">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati
-              laborum rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum
-              nam, sunt non iure minima modi blanditiis?
-            </p>
-          </div>
+      </FaqItem>
+      <FaqItem>
+        <h3 slot="title">What about facilities?</h3>
+        <div slot="content">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
+          rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
+          iure minima modi blanditiis?
         </div>
-      </li>
-      <li class="faq-list-item">
-        <input id="faq-checkbox-5" class="toggle-checkbox" type="checkbox" />
-        <label for="faq-checkbox-5" class="toggle-label">
-          Does Welcome To My Garden cost anything?
-          <span class="plus plus-minus">+</span>
-          <span class="minus plus-minus">-</span>
-        </label>
-        <div class="collapsible-content">
-          <div class="faq-answer">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati
-              laborum rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum
-              nam, sunt non iure minima modi blanditiis?
-            </p>
-          </div>
+      </FaqItem>
+      <FaqItem>
+        <h3 slot="title">Does Welcome To My Garden cost anything?</h3>
+        <div slot="content">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
+          rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
+          iure minima modi blanditiis?
         </div>
-      </li>
+      </FaqItem>
     </ul>
   </section>
 
@@ -362,10 +318,6 @@
     display: flex;
   }
 
-  .faq {
-    display: flex;
-  }
-
   .faq-intro {
     background-color: var(--color-green);
     width: 50%;
@@ -382,74 +334,12 @@
   }
 
   .faq-list {
-    padding-left: 56px;
-    padding-right: 113px;
+    padding: 0 2rem;
     width: 50%;
   }
 
-  .faq-list-item {
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--color-copy);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .toggle-checkbox {
-    display: none;
-  }
-
-  .toggle-label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding: 20px 0;
-  }
-
-  .collapsible-content {
-    max-height: 0px;
-    overflow: hidden;
-
-    transition: max-height 0.5s ease-in-out;
-  }
-
-  .toggle-checkbox:checked + .toggle-label + .collapsible-content {
-    max-height: 100vh;
-  }
-
-  .plus-minus {
-    margin-left: auto;
-    font-weight: bold;
-  }
-
-  .plus {
-    display: block;
-    font-size: 30px;
-  }
-
-  .minus {
-    display: none;
-    padding-bottom: 8px;
-    padding-right: 2px;
-    font-size: 34px;
-  }
-
-  .toggle-checkbox:checked + .toggle-label > .plus {
-    display: none;
-  }
-
-  .toggle-checkbox:checked + .toggle-label > .minus {
-    display: block;
-  }
-
-  .faq-answer {
-    padding-bottom: 30px;
-  }
-
-  .faq-answer p {
-    font-weight: normal;
+  .faq-list > :global(li:first-child button) {
+    padding-top: 0;
   }
 
   .cooperation {
