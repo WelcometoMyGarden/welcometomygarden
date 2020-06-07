@@ -1,161 +1,67 @@
 <script>
-  import NavLink from './NavLink.svelte';
-  import Hamburger from './Hamburger.svelte';
-  import routes from '../../routes';
-  import { Button } from '../UI';
-  import { user } from '../../stores/auth';
-  import { logout } from '../../api/auth';
+  import { isActive, page } from '@sveltech/routify';
+  import routes from '@/routes';
 
-  /* any transition or animation to do with sizing will trigger on page load and browser
-   resize, we don't want that */
-  let domIsAnimationReady = true;
-  let resizeTimer;
-  const preventAnimation = () => {
-    domIsAnimationReady = false;
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      domIsAnimationReady = true;
-    }, 400);
-  };
-
-  let isMobileNavShown = false;
-  const toggleNav = () => (isMobileNavShown = !isMobileNavShown);
+  console.log($page);
 </script>
 
-<svelte:window on:resize={preventAnimation} />
-
-<header>
-  <div class:shown={isMobileNavShown} on:click={toggleNav} class="overlay" />
-  <Hamburger isOpen={isMobileNavShown} on:click={toggleNav} />
-  <nav class:open={isMobileNavShown}>
+<nav>
+  <a href={routes.HOME} class="title">
     <h1>
-      <NavLink isInDrawer={false} href={routes.HOME}>Welcome to My Garden!</NavLink>
+      {#if !$isActive('./index')}Welcome to my Garden{/if}
     </h1>
-    <ul class:transitionable={domIsAnimationReady}>
-      {#if $user}
-        <NavLink href={routes.HOME} on:click={logout}>Log out</NavLink>
-      {:else}
-        <NavLink href={routes.LOGIN}>Log in</NavLink>
-      {/if}
-      <li>
-        <Button href={routes.ADD_GARDEN} primary capitalize>Add your Garden</Button>
-      </li>
-    </ul>
-  </nav>
-</header>
+  </a>
+  <ul>
+    <li>
+      <a href={routes.HOME}>Home</a>
+    </li>
+    <li />
+    <li>
+      <a href={routes.MAP}>Map</a>
+    </li>
+    <li>
+      <a href={routes.RULES}>Rules</a>
+    </li>
+    <li>
+      <a href={routes.FAQ}>FAQ</a>
+    </li>
+    <li>
+      <a href={routes.LOGIN}>Sign in</a>
+    </li>
+  </ul>
+</nav>
 
 <style>
-  header {
-    height: var(--height-nav);
-    width: 100vw;
-    background: rgba(255, 255, 255, 0.95);
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 10;
+  nav {
     display: flex;
-    justify-content: space-between;
-    flex-direction: row-reverse;
     align-items: center;
+    height: var(--height-nav);
+    justify-content: space-between;
     padding: 0 5rem;
-  }
-
-  .overlay {
-    width: 100%;
-    height: 100vh;
     position: fixed;
     top: 0;
-    bottom: 0;
-    right: 200%;
-    left: -100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    z-index: 20;
-    overflow: hidden;
-    text-align: center;
-    transition: top 0.3s, right 0.3s, bottom 0.3s, left 0.3s;
-  }
-
-  .overlay.shown {
-    right: 0;
     left: 0;
-  }
-
-  nav {
     width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    z-index: 100;
   }
 
-  ul {
-    height: 100%;
+  .title {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
-    margin: 0;
-  }
-
-  li {
-    list-style-type: none;
-    margin-left: 3rem;
-    font-size: 1.8rem;
-    position: relative;
+    background-image: url(/images/logo-emblem.svg);
+    background-repeat: no-repeat;
+    background-position: left 40%;
+    background-size: 7rem auto;
+    height: 100%;
   }
 
   h1 {
-    margin: 0;
-    display: inline-block;
+    padding-left: 9rem;
+    font-size: 2.2rem;
   }
 
-  @media (max-width: 980px) {
-    header {
-      height: var(--height-nav-mobile);
-    }
-    ul {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 30rem;
-      height: 100vh;
-      padding: 0 3rem;
-      padding-top: 8rem;
-      background: var(--color-white);
-      list-style-type: none;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: flex-start;
-      z-index: 20;
-
-      /* stop text flickering in chromium browsers */
-      -webkit-font-smoothing: antialiased;
-
-      transform-origin: 0% 0%;
-      transform: translate(100%, 0);
-    }
-
-    ul.transitionable {
-      transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
-    }
-
-    .open ul {
-      transform: scale(1, 1);
-      opacity: 1;
-    }
-
-    li {
-      margin-left: 0;
-      margin-bottom: 3rem;
-    }
-  }
-
-  @media screen and (max-width: 568px) {
-    h1 {
-      font-size: 2rem;
-    }
-    header {
-      padding: 0 2rem;
-    }
+  nav ul {
+    display: flex;
+    align-items: center;
   }
 </style>
