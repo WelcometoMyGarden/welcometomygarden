@@ -12,8 +12,11 @@
       <button class="welcome-button button-primary-inverse">Add your garden</button>
       <button class="welcome-button button-primary">Explore map</button>
     </div>
-
   </section>
+
+  <div class="learn-more">
+    <span class="learn-more-text">Learn more</span>
+  </div>
 
   <section class="steps">
     <div class="step">
@@ -186,6 +189,16 @@
   .button-primary-inverse {
     background-color: var(--color-white);
     color: var(--color-orange);
+  }
+
+  .learn-more {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 70px 0;
+  }
+
+  .learn-more-text {
+    font-weight: bold;
   }
 
   .steps {
