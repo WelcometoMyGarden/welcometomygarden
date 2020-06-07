@@ -92,7 +92,8 @@
         <input id="faq-checkbox-1" class="toggle-checkbox" type="checkbox" />
         <label for="faq-checkbox-1" class="toggle-label">
           Who is Welcome to My Garden for?
-          <span class="plus">+</span>
+          <span class="plus plus-minus">+</span>
+          <span class="minus plus-minus">-</span>
         </label>
         <div class="collapsible-content">
           <div class="faq-answer">
@@ -108,7 +109,8 @@
         <input id="faq-checkbox-2" class="toggle-checkbox" type="checkbox" />
         <label for="faq-checkbox-2" class="toggle-label">
           How do I get to my camping spot?
-          <span class="plus">+</span>
+          <span class="plus plus-minus">+</span>
+          <span class="minus plus-minus">-</span>
         </label>
         <div class="collapsible-content">
           <div class="faq-answer">
@@ -124,7 +126,8 @@
         <input id="faq-checkbox-3" class="toggle-checkbox" type="checkbox" />
         <label for="faq-checkbox-3" class="toggle-label">
           How do I request a stay?
-          <span class="plus">+</span>
+          <span class="plus plus-minus">+</span>
+          <span class="minus plus-minus">-</span>
         </label>
         <div class="collapsible-content">
           <div class="faq-answer">
@@ -140,7 +143,8 @@
         <input id="faq-checkbox-4" class="toggle-checkbox" type="checkbox" />
         <label for="faq-checkbox-4" class="toggle-label">
           What about facilities?
-          <span class="plus">+</span>
+          <span class="plus plus-minus">+</span>
+          <span class="minus plus-minus">-</span>
         </label>
         <div class="collapsible-content">
           <div class="faq-answer">
@@ -156,7 +160,8 @@
         <input id="faq-checkbox-5" class="toggle-checkbox" type="checkbox" />
         <label for="faq-checkbox-5" class="toggle-label">
           Does Welcome To My Garden cost anything?
-          <span class="plus">+</span>
+          <span class="plus plus-minus">+</span>
+          <span class="minus plus-minus">-</span>
         </label>
         <div class="collapsible-content">
           <div class="faq-answer">
@@ -404,17 +409,36 @@
     max-height: 0px;
     overflow: hidden;
 
-    transition: max-height 0.25s ease-in-out;
+    transition: max-height 0.5s ease-in-out;
   }
 
   .toggle-checkbox:checked + .toggle-label + .collapsible-content {
     max-height: 100vh;
   }
 
-  .plus {
+  .plus-minus {
     margin-left: auto;
     font-weight: bold;
+  }
+
+  .plus {
+    display: block;
     font-size: 30px;
+  }
+
+  .minus {
+    display: none;
+    padding-bottom: 8px;
+    padding-right: 2px;
+    font-size: 34px;
+  }
+
+  .toggle-checkbox:checked + .toggle-label > .plus {
+    display: none;
+  }
+
+  .toggle-checkbox:checked + .toggle-label > .minus {
+    display: block;
   }
 
   .faq-answer {
