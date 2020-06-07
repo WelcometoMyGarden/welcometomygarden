@@ -1,20 +1,26 @@
 <script>
   import PageContainer from '../components/UI/PageContainer.svelte';
   import Logo from '../images/logo.svg';
+  import WelcomeMap from '../images/welcome-map.svg';
 </script>
 
 <PageContainer>
-  <section class="welcome">
-    <div>
-      {@html Logo}
-    </div>
-    <h1 class="heading-underline-center">Welcome to My Garden</h1>
-    <p class="welcome-text">
-      We are a network of citizens offering free camping spots in their gardens for slow travelers
-    </p>
-    <div class="welcome-buttons">
-      <button class="welcome-button button-primary-inverse">Add your garden</button>
-      <button class="welcome-button button-primary">Explore map</button>
+  <section class="landing">
+    <div class="welcome">
+      <div>
+        {@html Logo}
+      </div>
+      <h1 class="heading-underline-center">Welcome to My Garden</h1>
+      <p class="welcome-text">
+        We are a network of citizens offering free camping spots in their gardens for slow travelers
+      </p>
+      <div class="welcome-buttons">
+        <button class="welcome-button button-primary-inverse">Add your garden</button>
+        <button class="welcome-button button-primary">Explore map</button>
+      </div>
+      <div id="welcome-map">
+        {@html WelcomeMap}
+      </div>
     </div>
   </section>
 
@@ -132,6 +138,12 @@
     text-decoration: underline;
   }
 
+  #welcome-map {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
   .heading-underline-left {
     position: relative;
   }
@@ -159,6 +171,9 @@
     background: var(--color-orange);
     width: 120px;
     margin-left: -60px;
+  }
+
+  .landing {
   }
 
   .welcome {
