@@ -20,24 +20,24 @@
 
   <section class="steps">
     <div class="step">
-      <h2>Step 1: Sign up to become or find a host</h2>
-      <p>
+      <h2 class="step-header">Step 1: Sign up to become or find a host</h2>
+      <p class="step-text">
         Do you want to open up your garden? Please click the Add your garden button. Are you looking
         for a camping spot? Pick your favourite garden and contact your host! Arrange a date and
         time for your stay and off you go!
       </p>
     </div>
     <div class="step">
-      <h2>Step 2: Plan your journey</h2>
-      <p>
+      <h2 class="step-header">Step 2: Plan your journey</h2>
+      <p class="step-text">
         After you’ve made arrangements with your hosts, walk or bike to your camping spot. Introduce
         yourself, pitch your tent for the night, and continue on your hiking or biking trail the
         next day. And have a great time, of course!
       </p>
     </div>
     <div class="step">
-      <h2>Step 3: Pitch your tent and have fun!</h2>
-      <p>
+      <h2 class="step-header">Step 3: Pitch your tent and have fun!</h2>
+      <p class="step-text">
         Have a quiet night all by yourself, have fun with your friends or family or hang out with
         your host - whatever both parties prefer. Say fond farewells and continue on your hike or
         ride the next day!
@@ -209,6 +209,17 @@
   .step {
     text-align: justify;
     margin-right: 68px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .step:last-of-type {
+    margin-right: 0;
+  }
+
+  .step-header {
+    margin-bottom: 6px;
   }
 
   .faq {
