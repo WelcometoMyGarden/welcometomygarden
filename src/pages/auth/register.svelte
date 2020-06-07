@@ -1,6 +1,7 @@
 <script>
-  import { register, isRegistering } from '../data/auth';
-  import { countries } from '../util';
+  import { register, isRegistering } from '../../data/auth';
+  import { countries } from '../../util';
+  import routes from '../../routes';
 
   let email = '';
   let password = '';
@@ -38,11 +39,6 @@
 
 <h1 class="text-xs-center">Sign up</h1>
 
-<p>
-  Already have an account?
-  <a href="/login">Sign in</a>
-</p>
-
 <form on:submit|preventDefault={submit}>
   <label for="first-name">First name</label>
   <input type="text" name="first-name" id="first-name" bind:value={firstName} />
@@ -70,7 +66,7 @@
 
 <p>
   Already have an account?
-  <a href="/login">Sign in</a>
+  <a href={routes.LOGIN}>Sign in</a>
 </p>
 
 <style>

@@ -1,5 +1,6 @@
 <script>
-  import { login, isLoggingIn } from '../data/auth';
+  import { login, isLoggingIn } from '../../data/auth';
+  import routes from '../../routes';
 
   let email = '';
   let password = '';
@@ -19,9 +20,6 @@
 </svelte:head>
 
 <h1>Sign In</h1>
-<p>
-  <a href="/register">Need an account?</a>
-</p>
 
 <form on:submit|preventDefault={submit}>
   <fieldset>
@@ -30,5 +28,15 @@
   <fieldset>
     <input type="password" placeholder="Password" bind:value={password} />
   </fieldset>
+  <fieldset>
+    <input type="password" placeholder="Password" bind:value={password} />
+    <a href={routes.RESET_PASSWORD}>Reset your password</a>
+  </fieldset>
+  <p />
   <button type="submit" disabled={!email || !password}>Sign in</button>
 </form>
+
+<p>
+  Need an account?
+  <a href={routes.REGISTER}>Register</a>
+</p>

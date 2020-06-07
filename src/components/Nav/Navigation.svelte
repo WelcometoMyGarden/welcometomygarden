@@ -1,6 +1,7 @@
 <script>
   import NavLink from './NavLink.svelte';
   import Hamburger from './Hamburger.svelte';
+  import routes from '../../routes';
   import { Button } from '../UI';
   import { user, logout } from '../../data/auth';
 
@@ -27,16 +28,16 @@
   <Hamburger isOpen={isMobileNavShown} on:click={toggleNav} />
   <nav class:open={isMobileNavShown}>
     <h1>
-      <NavLink isInDrawer={false} href="/">Welcome to my Garden!</NavLink>
+      <NavLink isInDrawer={false} href={routes.HOME}>Welcome to my Garden!</NavLink>
     </h1>
     <ul class:transitionable={domIsAnimationReady}>
       {#if $user}
-        <NavLink href="/" on:click={logout}>Log out</NavLink>
+        <NavLink href={routes.HOME} on:click={logout}>Log out</NavLink>
       {:else}
-        <NavLink href="/login">Log in</NavLink>
+        <NavLink href={routes.LOGIN}>Log in</NavLink>
       {/if}
       <li>
-        <Button href="/add-garden" primary capitalize>Add your Garden</Button>
+        <Button href={routes.ADD_GARDEN} primary capitalize>Add your Garden</Button>
       </li>
     </ul>
   </nav>
