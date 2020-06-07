@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { createAuthObserver } from '../api/auth';
+  import { createAuthObserver } from '@/api/auth';
   import { user, isInitializing } from '../stores/auth';
   import { PageContainer, Progress } from '../components/UI';
   import Nav from '../components/Nav/Navigation.svelte';

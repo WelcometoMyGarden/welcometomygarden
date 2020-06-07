@@ -1,7 +1,7 @@
 <script>
   import { params, goto } from '@sveltech/routify';
   import { verifyPasswordResetCode, applyActionCode } from '../../api/auth';
-  import routes from '../../routes';
+  import routes from '@/routes';
 
   const { mode, oobCode } = $params;
 

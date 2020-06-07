@@ -3,7 +3,7 @@ import 'firebase/firestore';
 import 'firebase/functions';
 import 'firebase/auth';
 
-import config from '../wtmg.config';
+import config from '@/wtmg.config';
 
 const firebaseConfig = {
   ...config.FIREBASE
