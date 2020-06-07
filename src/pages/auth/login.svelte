@@ -1,13 +1,19 @@
 <script>
+  import { goto } from '@sveltech/routify';
+  import { login } from '../../api/auth';
+  import routes from '../../routes';
+
   let email = '';
   let password = '';
 
   const submit = async () => {
-    const response = null;
-    // TODO: Handle network errors and response errors
-
-    if (response.user) {
-      // TODO: ave auth state
+    try {
+      await login(email, password);
+      // TODO: display success
+      $goto(routes.MAP);
+    } catch (ex) {
+      // TODO: Handle network errors and response errors
+      console.log(ex);
     }
   };
 </script>
@@ -17,9 +23,6 @@
 </svelte:head>
 
 <h1>Sign In</h1>
-<p>
-  <a href="/register">Need an account?</a>
-</p>
 
 <form on:submit|preventDefault={submit}>
   <fieldset>
@@ -27,6 +30,13 @@
   </fieldset>
   <fieldset>
     <input type="password" placeholder="Password" bind:value={password} />
+    <a href={routes.REQUEST_PASSWORD_RESET}>Reset your password</a>
   </fieldset>
+  <p />
   <button type="submit" disabled={!email || !password}>Sign in</button>
 </form>
+
+<p>
+  Need an account?
+  <a href={routes.REGISTER}>Register</a>
+</p>
