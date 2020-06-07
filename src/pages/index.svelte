@@ -2,6 +2,8 @@
   import smoothscroll from 'smoothscroll-polyfill';
   import PageContainer from '../components/UI/PageContainer.svelte';
   import FaqItem from '../components/FaqItem.svelte';
+  import { Button } from '../components/UI';
+
   import Logo from '../images/logo.svg';
   import WelcomeMap from '../images/welcome-map.svg';
   import ArrowDown from '../images/arrow-down.svg';
@@ -28,8 +30,8 @@
         We are a network of citizens offering free camping spots in their gardens for slow travelers
       </p>
       <div class="welcome-buttons">
-        <button class="welcome-button button-primary-inverse">Add your garden</button>
-        <button class="welcome-button button-primary">Explore map</button>
+        <Button uppercase inverse>Add your garden</Button>
+        <Button uppercase>Explore map</Button>
       </div>
       <div id="welcome-map">
         {@html WelcomeMap}
@@ -238,31 +240,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 0 auto;
   }
 
-  .welcome-button {
-    border-radius: 6px;
-    border: 2px solid var(--color-green);
-    width: fit-content;
-    padding: 17px 26px;
-    text-transform: uppercase;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  .welcome-button:first-of-type {
-    margin-bottom: 16px;
-  }
-
-  .button-primary {
-    background-color: var(--color-green);
-    color: var(--color-white);
-  }
-
-  .button-primary-inverse {
-    background-color: var(--color-white);
-    color: var(--color-green);
+  .welcome-buttons :global(button:first-of-type) {
+    margin-bottom: 1.6rem;
   }
 
   .learn-more {
