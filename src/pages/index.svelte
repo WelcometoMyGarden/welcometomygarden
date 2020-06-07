@@ -5,12 +5,12 @@
 <PageContainer>
   <section class="welcome">
     <h1 class="heading-underline-center">Welcome to My Garden</h1>
-    <p>
+    <p class="welcome-text">
       We are a network of citizens offering free camping spots in their gardens for slow travelers
     </p>
     <div class="welcome-buttons">
-      <button class="button button-primary-inverse">Add your garden</button>
-      <button class="button button-primary">Explore map</button>
+      <button class="welcome-button button-primary-inverse">Add your garden</button>
+      <button class="welcome-button button-primary">Explore map</button>
     </div>
 
   </section>
@@ -150,7 +150,12 @@
   .welcome {
     max-width: 650px;
     text-align: center;
+    padding-top: 143px;
     padding-left: 173px;
+  }
+
+  .welcome-text {
+    margin-bottom: 37px;
   }
 
   .welcome-buttons {
@@ -159,7 +164,7 @@
     align-items: center;
   }
 
-  .button {
+  .welcome-button {
     border-radius: 6px;
     border: 2px solid var(--color-orange);
     width: fit-content;
@@ -167,6 +172,10 @@
     text-transform: uppercase;
     font-size: 18px;
     font-weight: bold;
+  }
+
+  .welcome-button:first-of-type {
+    margin-bottom: 16px;
   }
 
   .button-primary {
