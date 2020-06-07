@@ -1,14 +1,19 @@
 <script>
-  // import { requestPasswordReset } from '../../data/auth';
-  import { countries } from '../../util';
+  import { goto, params } from '@sveltech/routify';
+  import { confirmPasswordReset, login } from '../../data/auth';
   import routes from '../../routes';
 
   let password = '';
 
   const submit = async () => {
     try {
-      // const response = await requestPasswordReset(password);
-      // console.log(response);
+      await confirmPasswordReset($params.oobCode, password);
+
+      // if password reset was sucessful, sign user in:
+      await login($params.email, password);
+
+      //TODO: display success
+      $goto(routes.MAP);
     } catch (err) {
       console.log(err);
     }

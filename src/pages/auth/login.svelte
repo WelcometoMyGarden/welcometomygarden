@@ -1,5 +1,6 @@
 <script>
-  import { updateEmail, login, isLoggingIn } from '../../data/auth';
+  import { goto } from '@sveltech/routify';
+  import { login } from '../../data/auth';
   import routes from '../../routes';
 
   let email = '';
@@ -7,8 +8,9 @@
 
   const submit = async () => {
     try {
-      await updateEmail('nertflerks@gmail.com');
-      // await login(email, password);
+      await login(email, password);
+      // TODO: display success
+      $goto(routes.MAP);
     } catch (ex) {
       // TODO: Handle network errors and response errors
       console.log(ex);

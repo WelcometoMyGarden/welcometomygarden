@@ -1,4 +1,5 @@
 <script>
+  import { goto } from '@sveltech/routify';
   import { register, isRegistering } from '../../data/auth';
   import { countries } from '../../util';
   import routes from '../../routes';
@@ -26,7 +27,8 @@
         lastName,
         countryCode: countryInput.value
       });
-      console.log(response);
+      // TODO: show success
+      $goto(routes.MAP);
     } catch (err) {
       console.log(err);
     }
