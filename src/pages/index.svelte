@@ -2,6 +2,10 @@
   import PageContainer from '../components/UI/PageContainer.svelte';
   import Logo from '../images/logo.svg';
   import WelcomeMap from '../images/welcome-map.svg';
+  import ArrowDown from '../images/arrow-down.svg';
+  import Step1 from '../images/step-1.svg';
+  import Step2 from '../images/step-2.svg';
+  import Step3 from '../images/step-3.svg';
 </script>
 
 <PageContainer>
@@ -26,10 +30,16 @@
 
   <div class="learn-more">
     <span class="learn-more-text">Learn more</span>
+    <div>
+      {@html ArrowDown}
+    </div>
   </div>
 
   <section class="steps">
     <div class="step">
+      <div class="step-logo">
+        {@html Step1}
+      </div>
       <h2 class="step-header">Step 1: Sign up to become or find a host</h2>
       <p class="step-text">
         Do you want to open up your garden? Please click the Add your garden button. Are you looking
@@ -38,6 +48,9 @@
       </p>
     </div>
     <div class="step">
+      <div class="step-logo">
+        {@html Step2}
+      </div>
       <h2 class="step-header">Step 2: Plan your journey</h2>
       <p class="step-text">
         After you’ve made arrangements with your hosts, walk or bike to your camping spot. Introduce
@@ -46,6 +59,9 @@
       </p>
     </div>
     <div class="step">
+      <div class="step-logo">
+        {@html Step3}
+      </div>
       <h2 class="step-header">Step 3: Pitch your tent and have fun!</h2>
       <p class="step-text">
         Have a quiet night all by yourself, have fun with your friends or family or hang out with
@@ -220,12 +236,14 @@
 
   .learn-more {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     margin: 20px 0 70px 0;
   }
 
   .learn-more-text {
     font-weight: bold;
+    margin-bottom: 20px;
   }
 
   .steps {
@@ -239,6 +257,11 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+
+  .step-logo {
+    display: flex;
+    justify-content: center;
   }
 
   .step:last-of-type {
