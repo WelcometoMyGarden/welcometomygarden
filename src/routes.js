@@ -9,5 +9,9 @@ export default {
   ACCOUNT: '/account',
   RULES: '/rules',
   FAQ: '/faq',
-  CHAT: '/conversations'
+  CHAT: '/conversations',
+  COPYRIGHT: '/copyright',
+  COOKIE_POLICY: '/cookies',
+  PRIVACY_POLICY: '/privacy-policy',
+  TERMS_OF_USE: '/terms-of-use'
 };

@@ -1,6 +1,6 @@
 <script>
-  import TopNav from './TopNav.svelte';
-  import MobileNav from './MobileNav.svelte';
+  import TopNav from './Top/TopNav.svelte';
+  import MobileNav from './Mobile/MobileNav.svelte';
 </script>
 
 <TopNav />

@@ -2,7 +2,7 @@
   export let href;
   // is this a little nasty? yes
   // until routify handles index routes a little more consistently, it's here to stay
-  export let isHome;
+  export let isHome = false;
 
   import { isActive } from '@sveltech/routify';
 </script>
@@ -43,8 +43,5 @@
   a:hover:after {
     width: 100%;
     left: 0;
-  }
-
-  @media (max-width: 980px) {
   }
 </style>
