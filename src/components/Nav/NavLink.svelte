@@ -1,10 +1,13 @@
 <script>
-  import { isActive } from '@sveltech/routify';
-
   export let href;
+  // is this a little nasty? yes
+  // until routify handles index routes a little more consistently, it's here to stay
+  export let isHome;
+
+  import { isActive } from '@sveltech/routify';
 </script>
 
-<a {href} on:click class:active={$isActive(href)} on:click>
+<a {href} on:click class:active={isHome ? $isActive('/index') : $isActive(href)} on:click>
   <slot />
 </a>
 
