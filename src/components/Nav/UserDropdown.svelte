@@ -153,10 +153,4 @@
       margin-left: 2.8rem;
     }
   }
-
-  @media screen and (max-width: 1100px) {
-    h1 {
-      display: none;
-    }
-  }
 </style>
