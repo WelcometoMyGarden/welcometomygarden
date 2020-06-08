@@ -69,7 +69,7 @@
 
 <p>
   Already have an account?
-  <a href={routes.LOGIN}>Sign in</a>
+  <a href={routes.SIGN_IN}>Sign in</a>
 </p>
 
 <style>

@@ -3,6 +3,7 @@
   import routes from '@/routes';
   import NavLink from './NavLink.svelte';
   import UserDropdown from './UserDropdown.svelte';
+  import { user } from '@/stores/auth';
 </script>
 
 <nav>
@@ -24,7 +25,12 @@
     <li>
       <NavLink href={routes.FAQ}>FAQ</NavLink>
     </li>
-    <UserDropdown />
+    {#if user}
+      <UserDropdown name={user.firstName} />
+    {:else}
+      <NavLink href={routes.SIGN_IN}>FAQ</NavLink>
+    {/if}
+
   </ul>
 </nav>
 
