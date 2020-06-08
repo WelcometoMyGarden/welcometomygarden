@@ -96,43 +96,43 @@
     <ul class="faq-list">
       <FaqItem>
         <h3 slot="title">Who is Welcome To My Garden for?</h3>
-        <div slot="content">
+        <p slot="content">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
           rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
           iure minima modi blanditiis?
-        </div>
+        </p>
       </FaqItem>
       <FaqItem>
         <h3 slot="title">How do I get to my camping spot?</h3>
-        <div slot="content">
+        <p slot="content">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
           rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
           iure minima modi blanditiis?
-        </div>
+        </p>
       </FaqItem>
       <FaqItem>
         <h3 slot="title">How do I request a stay?</h3>
-        <div slot="content">
+        <p slot="content">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
           rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
           iure minima modi blanditiis?
-        </div>
+        </p>
       </FaqItem>
       <FaqItem>
         <h3 slot="title">What about facilities?</h3>
-        <div slot="content">
+        <p slot="content">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
           rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
           iure minima modi blanditiis?
-        </div>
+        </p>
       </FaqItem>
       <FaqItem>
         <h3 slot="title">Does Welcome To My Garden cost anything?</h3>
-        <div slot="content">
+        <p slot="content">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
           rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
           iure minima modi blanditiis?
-        </div>
+        </p>
       </FaqItem>
     </ul>
   </section>

@@ -6,20 +6,20 @@
   const toggleOpen = () => (open = !open);
 </script>
 
-<li>
-  <button class="faq-item button-container" on:click={toggleOpen}>
-    <div class="faq-intro">
-      <span class="title">
+<li class="faq-list-item">
+  <button class="button-container" on:click={toggleOpen}>
+    <div class="faq-question">
+      <div class="title">
         <slot name="title" />
-      </span>
-      <span class="toggle">{open ? '-' : '+'}</span>
+      </div>
+      <span class="sign">{open ? '-' : '+'}</span>
     </div>
-    {#if open}
-      <p transition:slide={{ duration: 300 }}>
-        <slot name="content" />
-      </p>
-    {/if}
   </button>
+  {#if open}
+    <div transition:slide={{ duration: 300 }}>
+      <slot name="content" />
+    </div>
+  {/if}
 </li>
 
 <style>
@@ -30,24 +30,28 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   }
 
-  .title {
-    font-size: 2rem;
-  }
-
-  .faq-item {
+  .faq-list-item {
     display: flex;
     flex-direction: column;
     padding: 20px 0;
   }
 
-  .faq-intro {
+  .faq-question {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
   }
 
-  .toggle {
+  .title {
+    font-size: 2rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .sign {
     font-size: 3rem;
+    margin-left: auto;
+    display: block;
   }
 </style>
