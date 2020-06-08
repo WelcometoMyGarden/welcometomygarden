@@ -137,4 +137,26 @@
     border-top: 1px solid var(--color-green);
     margin-bottom: 0;
   }
+
+  @media screen and (max-width: 1200px) {
+    .user-button {
+      padding: 0 1rem;
+    }
+
+    .user-avatar {
+      width: 2.5rem;
+      height: 2.5rem;
+      font-size: 1.4rem;
+    }
+    .user {
+      height: 3.5rem;
+      margin-left: 2.8rem;
+    }
+  }
+
+  @media screen and (max-width: 1100px) {
+    h1 {
+      display: none;
+    }
+  }
 </style>

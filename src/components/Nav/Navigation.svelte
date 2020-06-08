@@ -87,4 +87,31 @@
     text-align: center;
     margin-left: 4rem;
   }
+
+  @media screen and (max-width: 1200px) {
+    nav {
+      --height-nav: 5.5rem;
+    }
+    nav > ul > li {
+      margin-left: 2.8rem;
+    }
+    h1 {
+      font-size: 2rem;
+      padding-left: 2rem;
+    }
+    .title {
+      background-position: left 50%;
+      background-size: 6rem auto;
+      padding-left: 6rem;
+    }
+  }
+
+  @media screen and (max-width: 1100px) {
+    nav {
+      padding: 0 0 0 2.8rem;
+    }
+    h1 {
+      display: none;
+    }
+  }
 </style>

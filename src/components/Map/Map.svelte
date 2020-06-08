@@ -61,7 +61,7 @@
 
   @media (max-width: 980px) {
     div :global(.mapboxgl-ctrl-top-left) {
-      top: calc(var(--height-nav-mobile) + 0.5rem);
+      top: calc(var(--height-nav) + 0.5rem);
     }
   }
 </style>
