@@ -1,32 +1,30 @@
 <script>
-  import { isActive, page } from '@sveltech/routify';
+  import { isActive } from '@sveltech/routify';
   import routes from '@/routes';
-
-  console.log($page);
+  import NavLink from './NavLink.svelte';
 </script>
 
 <nav>
   <a href={routes.HOME} class="title">
     <h1>
-      {#if !$isActive('./index')}Welcome to my Garden{/if}
+      {#if !$isActive('/index')}Welcome to my Garden{/if}
     </h1>
   </a>
   <ul>
     <li>
-      <a href={routes.HOME}>Home</a>
-    </li>
-    <li />
-    <li>
-      <a href={routes.MAP}>Map</a>
+      <NavLink href={routes.HOME}>Home</NavLink>
     </li>
     <li>
-      <a href={routes.RULES}>Rules</a>
+      <NavLink href={routes.MAP}>Map</NavLink>
     </li>
     <li>
-      <a href={routes.FAQ}>FAQ</a>
+      <NavLink href={routes.RULES}>Rules</NavLink>
     </li>
     <li>
-      <a href={routes.LOGIN}>Sign in</a>
+      <NavLink href={routes.FAQ}>FAQ</NavLink>
+    </li>
+    <li>
+      <NavLink href={routes.LOGIN}>Sign in</NavLink>
     </li>
   </ul>
 </nav>
@@ -37,7 +35,7 @@
     align-items: center;
     height: var(--height-nav);
     justify-content: space-between;
-    padding: 0 5rem;
+    padding: 0 0 0 5rem;
     position: fixed;
     top: 0;
     left: 0;
@@ -63,5 +61,18 @@
   nav ul {
     display: flex;
     align-items: center;
+    box-shadow: 0 0 3.3rem rgba(0, 0, 0, 0.1);
+    height: 100%;
+    padding-right: 8rem;
+  }
+
+  nav ul li {
+    margin-left: 8rem;
+    font-weight: 600;
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 </style>

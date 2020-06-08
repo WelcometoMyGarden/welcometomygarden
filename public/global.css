@@ -31,7 +31,7 @@ body {
   padding: 0;
   margin: 0;
   background-color: var(--color-white);
-  color: var(--color-black);
+  color: var(--color-green);
   font-size: 1.6rem;
   font-family: var(--fonts-copy);
   --height-nav: 8rem;
