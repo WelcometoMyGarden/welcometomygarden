@@ -4,11 +4,19 @@
   import routes from '@/routes';
   import NavLink from './NavLink.svelte';
   import { logout } from '@/api/auth';
+  import { clickOutside } from '@/util';
 
   import { conversationsIcon, signOutIcon, userIcon } from '@/images/icons';
 
+  let dropdown;
   let isUserDropdownOpen = false;
-  const toggleUserDropdown = () => (isUserDropdownOpen = !isUserDropdownOpen);
+  const toggleUserDropdown = () => {
+    isUserDropdownOpen = !isUserDropdownOpen;
+  };
+
+  const handleClickOutsideDropdown = () => {
+    if (isUserDropdownOpen) toggleUserDropdown();
+  };
 
   const displayName = 'Marie';
 </script>
@@ -33,15 +41,15 @@
       <NavLink href={routes.FAQ}>FAQ</NavLink>
     </li>
 
-    <li class="user">
+    <li class="user" use:clickOutside on:click-outside={handleClickOutsideDropdown}>
       <button class="button-container user-button" on:click={toggleUserDropdown}>
         <div class="user-avatar">{displayName.charAt(0).toUpperCase()}</div>
         <span>{displayName}</span>
       </button>
       {#if isUserDropdownOpen}
-        <ul transition:slide={{ duration: 300 }} class="user-dropdown">
+        <ul transition:slide={{ duration: 300 }} class="user-dropdown" bind:this={dropdown}>
           <li>
-            <a href={routes.CHAT}>
+            <a href={routes.CHAT} on:click={toggleUserDropdown}>
               <i>
                 {@html conversationsIcon}
               </i>
@@ -49,7 +57,7 @@
             </a>
           </li>
           <li>
-            <a href={routes.CHAT}>
+            <a href={routes.CHAT} on:click={toggleUserDropdown}>
               <i>
                 {@html userIcon}
               </i>
@@ -57,7 +65,12 @@
             </a>
           </li>
           <li class="separated">
-            <a href={routes.HOME} on:click={logout}>
+            <a
+              href={routes.HOME}
+              on:click={() => {
+                toggleUserDropdown();
+                logout();
+              }}>
               <i>
                 {@html signOutIcon}
               </i>
@@ -192,6 +205,8 @@
   .user-dropdown li i {
     margin-right: 1rem;
     width: 2.4rem;
+    display: flex;
+    align-items: center;
   }
 
   .user-dropdown .separated {
