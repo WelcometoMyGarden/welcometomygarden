@@ -8,20 +8,20 @@
 
 <style>
   button {
-    display: none;
-    z-index: 30;
     border: 0;
     cursor: pointer;
     background: transparent;
     outline-offset: 0.5rem;
-    outline-color: var(--color-black);
-    height: 4rem;
+    outline-color: var(--color-green);
+    height: 5rem;
     user-select: none;
-    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   span {
-    background-color: var(--color-black);
+    background-color: var(--color-green);
     display: block;
     height: 0.3rem;
     position: relative;
@@ -31,7 +31,7 @@
 
   span:before,
   span:after {
-    background: var(--color-black);
+    background: var(--color-green);
     content: '';
     display: block;
     height: 100%;
@@ -41,10 +41,10 @@
   }
 
   span:before {
-    top: 0.8rem;
+    top: 1rem;
   }
   span:after {
-    top: -0.8rem;
+    top: -1rem;
   }
 
   .open span {
@@ -61,13 +61,8 @@
     top: 0;
   }
 
-  @media screen and (max-width: 980px) {
-    button {
-      display: block;
-    }
-    .open span:before,
-    .open span:after {
-      background: var(--color-black);
-    }
+  .open span:before,
+  .open span:after {
+    background: var(--color-green);
   }
 </style>

@@ -9,7 +9,7 @@ export default {
   ACCOUNT: '/account',
   RULES: '/rules',
   FAQ: '/faq',
-  CHAT: '/conversations',
+  CHAT: '/chat',
   COPYRIGHT: '/copyright',
   COOKIE_POLICY: '/cookies',
   PRIVACY_POLICY: '/privacy-policy',

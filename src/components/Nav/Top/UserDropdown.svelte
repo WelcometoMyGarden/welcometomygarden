@@ -4,7 +4,7 @@
   import { slide } from 'svelte/transition';
   import { clickOutside } from '@/util';
   import { logout } from '@/api/auth';
-  import { conversationsIcon, signOutIcon, userIcon } from '@/images/icons';
+  import { chatIcon, signOutIcon, userIcon } from '@/images/icons';
   import routes from '@/routes';
 
   let isOpen = false;
@@ -26,9 +26,9 @@
       <li>
         <a href={routes.CHAT} on:click={toggleOpen}>
           <i>
-            {@html conversationsIcon}
+            {@html chatIcon}
           </i>
-          Conversations
+          Chat
         </a>
       </li>
       <li>

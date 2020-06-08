@@ -2,8 +2,13 @@
   import { isActive } from '@sveltech/routify';
   import routes from '@/routes';
   import { user } from '@/stores/auth';
+  import { tentIcon, mapIcon, chatIcon, signInIcon, userIcon } from '@/images/icons';
+  import Hamburger from './Hamburger.svelte';
 
   let condition = false;
+
+  let drawerIsShown = false;
+  const toggleDrawer = () => (drawerIsShown = !drawerIsShown);
 
   const linksInDrawer = [
     { route: routes.RULES, name: 'Rules' },
@@ -18,23 +23,51 @@
 <nav>
   <ul class="main">
     <li>
-      <a href={routes.HOME} class:active={$isActive('/index')}>Home</a>
+      <a href={routes.HOME} class:active={$isActive('/index')}>
+        <i>
+          {@html tentIcon}
+        </i>
+        <span>Home</span>
+      </a>
     </li>
     <li>
-      <a href={routes.MAP} class:active={$isActive(routes.MAP)}>Map</a>
+      <a href={routes.MAP} class:active={$isActive(routes.MAP)}>
+        <i>
+          {@html mapIcon}
+        </i>
+        Map
+      </a>
     </li>
     {#if condition}
       <li>
-        <a href={routes.CHAT} class:active={$isActive(routes.CHAT)}>Conversations</a>
+        <a href={routes.CHAT} class:active={$isActive(routes.CHAT)}>
+          <i class="icon-small">
+            {@html chatIcon}
+          </i>
+          Chat
+        </a>
       </li>
       <li>
-        <a href={routes.ACCOUNT} class:active={$isActive(routes.ACCOUNT)}>{$user.firstName}</a>
+        <a href={routes.ACCOUNT} class:active={$isActive(routes.ACCOUNT)}>
+          <i class="icon-small">
+            {@html userIcon}
+          </i>
+          {$user.firstName}
+        </a>
       </li>
     {:else}
       <li>
-        <a href={routes.SIGN_IN} class:active={$isActive(routes.SIGN_IN)}>Sign in</a>
+        <a href={routes.SIGN_IN} class:active={$isActive(routes.SIGN_IN)}>
+          <i>
+            {@html signInIcon}
+          </i>
+          Sign in
+        </a>
       </li>
     {/if}
+    <li class="hamburger">
+      <Hamburger on:click={toggleDrawer} isOpen={drawerIsShown} />
+    </li>
   </ul>
   <ul class="in-drawer">
     {#each linksInDrawer as { route, name } (route)}
@@ -54,9 +87,46 @@
   }
 
   nav {
-    --height-nav: 8.6rem;
     width: 100%;
-    position: aboluse;
+    --height-nav: 9rem;
+    height: var(--height-nav);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
+    background-color: var(--color-white);
+    font-size: 1.4rem;
+    z-index: 100;
+  }
+
+  .main {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100%;
+  }
+
+  .main li:not(.hamburger) {
+    height: 100%;
+  }
+
+  .main li a {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    outline: 0;
+  }
+
+  .main li i {
+    flex: 0.6;
+    display: flex;
+    align-items: center;
+  }
+
+  .icon-small {
+    transform: scale(1.2);
   }
 
   .in-drawer {
