@@ -25,12 +25,13 @@
     <li>
       <NavLink href={routes.FAQ}>FAQ</NavLink>
     </li>
-    {#if user}
-      <UserDropdown name={user.firstName} />
+    {#if $user}
+      <UserDropdown name={$user.firstName} />
     {:else}
-      <NavLink href={routes.SIGN_IN}>FAQ</NavLink>
+      <li>
+        <NavLink href={routes.SIGN_IN}>Sign in</NavLink>
+      </li>
     {/if}
-
   </ul>
 </nav>
 

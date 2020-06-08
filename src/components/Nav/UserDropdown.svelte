@@ -1,4 +1,6 @@
 <script>
+  export let name = '';
+
   import { slide } from 'svelte/transition';
   import { clickOutside } from '@/util';
   import { logout } from '@/api/auth';
@@ -12,14 +14,12 @@
   const handleClickOutsideDropdown = () => {
     if (isOpen) toggleOpen();
   };
-
-  const displayName = 'Marie';
 </script>
 
 <li class="user" use:clickOutside on:click-outside={handleClickOutsideDropdown}>
   <button class="button-container user-button" on:click={toggleOpen}>
-    <div class="user-avatar">{displayName.charAt(0).toUpperCase()}</div>
-    <span>{displayName}</span>
+    <div class="user-avatar">{name.charAt(0).toUpperCase()}</div>
+    <span>{name}</span>
   </button>
   {#if isOpen}
     <ul transition:slide={{ duration: 300 }} class="user-dropdown">
@@ -85,8 +85,8 @@
   }
 
   .user-avatar {
-    width: 2.8rem;
-    height: 2.8rem;
+    width: 3rem;
+    height: 3rem;
     display: flex;
     justify-content: center;
     align-items: center;
