@@ -24,7 +24,7 @@
 
   a:after {
     background: none repeat scroll 0 0 transparent;
-    bottom: -0.1rem;
+    bottom: 0;
     content: '';
     display: block;
     height: 2px;
