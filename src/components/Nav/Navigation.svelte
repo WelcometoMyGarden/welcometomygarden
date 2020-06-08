@@ -41,11 +41,11 @@
     align-items: center;
     height: var(--height-nav);
     justify-content: space-between;
-    padding: 0 0 0 5rem;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+    padding: 0 0 0 5rem;
     z-index: 100;
     position: relative;
   }
@@ -72,8 +72,8 @@
     align-items: center;
     box-shadow: 0 0 3.3rem rgba(0, 0, 0, 0.1);
     height: 100%;
-    padding-right: 5rem;
     background-color: var(--color-white);
+    padding-right: 5rem;
   }
 
   nav > ul > li {
@@ -91,6 +91,10 @@
   @media screen and (max-width: 1200px) {
     nav {
       --height-nav: 5.5rem;
+      padding-left: 3rem;
+    }
+    nav > ul {
+      padding-right: 3rem;
     }
     nav > ul > li {
       margin-left: 2.8rem;
@@ -108,9 +112,18 @@
 
   @media screen and (max-width: 1100px) {
     nav {
-      padding: 0 0 0 2.8rem;
+      padding-left: 1rem;
+    }
+    nav > ul {
+      padding-right: 1rem;
     }
     h1 {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    nav {
       display: none;
     }
   }

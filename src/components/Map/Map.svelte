@@ -59,9 +59,21 @@
     top: calc(var(--height-nav) + 0.5rem);
   }
 
-  @media (max-width: 980px) {
+  @media screen and (max-width: 700px) {
     div :global(.mapboxgl-ctrl-top-left) {
-      top: calc(var(--height-nav) + 0.5rem);
+      top: 3rem;
+    }
+
+    div :global(.mapboxgl-ctrl-bottom-left) {
+      top: 1rem;
+      left: 0rem;
+    }
+
+    div :global(.mapboxgl-ctrl-bottom-right) {
+      top: 0;
+      right: 0;
+      height: 2rem;
+      margin: 0;
     }
   }
 </style>
