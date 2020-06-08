@@ -19,9 +19,30 @@
   <meta name="twitter:description" content="Welcome to My Garden is a network of citizens putting their private garden freely at disposal for you to camp." />
   <meta name="twitter:image" content="https://raw.githubusercontent.com/WelcometoMyGarden/welcometomygarden/master/images/Gardens/Wei.jpg"/>
   <meta name="twitter:url" content="https://welcometomygarden.be"/>
-  <link rel="stylesheet" href="assets/css/main.css" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    .navbar {
+      z-index: 10;
+    }
+    .coming-soon {
+      width: 25rem;
+      position: absolute;
+      top: 3.52rem;
+      right: 0;
+      background: rgba(251, 230, 162, .95);
+      font-size: 14px;
+      font-weight: bold;
+      padding: 1rem;
+      z-index: 1;
+    }
+
+    @media screen and (max-width: 520px) {
+      .coming-soon {
+        width: 18rem;
+      }
+    }
+  </style>
 	<!-- Google Analytics -->
   <script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -31,7 +52,7 @@
 		ga('create', 'UA-164516036-1', 'auto');
 		ga('send', 'pageview');				
 		</script>
-	<!-- End Google Analytics -->	
+  <!-- End Google Analytics -->	
 </head>
 
 <body>
@@ -41,9 +62,6 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <span class="navbar-text">    
-          It's not allowed to travel yet. Please follow the Covid-19 measures!
-        </span>
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto">
@@ -80,6 +98,9 @@
           </ul>
         </div>
     </nav>
+    <div class="coming-soon">
+      Looking for how to contact hosts? Our new platform will be available by mid-june, stay tuned!
+    </div>
 
 <!-- About -->
 <div class="modal fade" id="about" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
