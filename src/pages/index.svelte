@@ -1,6 +1,5 @@
 <script>
   import smoothscroll from 'smoothscroll-polyfill';
-  import PageContainer from '../components/UI/PageContainer.svelte';
   import FaqItem from '../components/FaqItem.svelte';
   import { Button } from '../components/UI';
 
@@ -19,141 +18,138 @@
   smoothscroll.polyfill();
 </script>
 
-<PageContainer>
-  <section class="landing">
-    <div class="welcome">
-      <div>
-        {@html Logo}
-      </div>
-      <h1 class="heading-underline-center">Welcome to My Garden</h1>
-      <p class="welcome-text">
-        We are a network of citizens offering free camping spots in their gardens for slow travelers
-      </p>
-      <div class="welcome-buttons">
-        <Button uppercase inverse>Add your garden</Button>
-        <Button uppercase>Explore map</Button>
-      </div>
-      <div id="welcome-map">
-        {@html WelcomeMap}
-      </div>
+<section class="landing">
+  <div class="welcome">
+    <div>
+      {@html Logo}
     </div>
-  </section>
+    <h1 class="heading-underline-center">Welcome to My Garden</h1>
+    <p class="welcome-text">
+      We are a network of citizens offering free camping spots in their gardens for slow travelers
+    </p>
+    <div class="welcome-buttons">
+      <Button uppercase inverse>Add your garden</Button>
+      <Button uppercase>Explore map</Button>
+    </div>
+    <div id="welcome-map">
+      {@html WelcomeMap}
+    </div>
+  </div>
+</section>
 
-  <div class="learn-more">
-    <span class="learn-more-text" aria-hidden>Learn more</span>
-    <button class="learn-more-button" on:click={handleLearnMoreClick}>
-      <span class="screen-reader-only">Learn more</span>
-      <div>
-        {@html ArrowDown}
-      </div>
-    </button>
+<div class="learn-more">
+  <span class="learn-more-text" aria-hidden>Learn more</span>
+  <button class="learn-more-button" on:click={handleLearnMoreClick}>
+    <span class="screen-reader-only">Learn more</span>
+    <div>
+      {@html ArrowDown}
+    </div>
+  </button>
+</div>
+
+<section id="steps-section" class="steps">
+  <div class="step">
+    <div class="step-logo">
+      {@html Step1}
+    </div>
+    <h2 class="step-header">Step 1: Sign up to become or find a host</h2>
+    <p class="step-text">
+      Do you want to open up your garden? Please click the Add your garden button. Are you looking
+      for a camping spot? Pick your favourite garden and contact your host! Arrange a date and time
+      for your stay and off you go!
+    </p>
+  </div>
+  <div class="step">
+    <div class="step-logo">
+      {@html Step2}
+    </div>
+    <h2 class="step-header">Step 2: Plan your journey</h2>
+    <p class="step-text">
+      After you’ve made arrangements with your hosts, walk or bike to your camping spot. Introduce
+      yourself, pitch your tent for the night, and continue on your hiking or biking trail the next
+      day. And have a great time, of course!
+    </p>
+  </div>
+  <div class="step">
+    <div class="step-logo">
+      {@html Step3}
+    </div>
+    <h2 class="step-header">Step 3: Pitch your tent and have fun!</h2>
+    <p class="step-text">
+      Have a quiet night all by yourself, have fun with your friends or family or hang out with your
+      host - whatever both parties prefer. Say fond farewells and continue on your hike or ride the
+      next day!
+    </p>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="card faq-intro">
+    <h1 class="heading-underline-center">All you need to know</h1>
+    <p>
+      Here are the most important things you need to know about your next adventure. Please read
+      this FAQ section thoroughly so that you know what you’re getting yourself into.
+    </p>
+  </div>
+  <ul class="faq-list">
+    <FaqItem>
+      <h3 slot="title">Who is Welcome To My Garden for?</h3>
+      <p slot="content">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
+        rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
+        iure minima modi blanditiis?
+      </p>
+    </FaqItem>
+    <FaqItem>
+      <h3 slot="title">How do I get to my camping spot?</h3>
+      <p slot="content">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
+        rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
+        iure minima modi blanditiis?
+      </p>
+    </FaqItem>
+    <FaqItem>
+      <h3 slot="title">How do I request a stay?</h3>
+      <p slot="content">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
+        rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
+        iure minima modi blanditiis?
+      </p>
+    </FaqItem>
+    <FaqItem>
+      <h3 slot="title">What about facilities?</h3>
+      <p slot="content">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
+        rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
+        iure minima modi blanditiis?
+      </p>
+    </FaqItem>
+    <FaqItem>
+      <h3 slot="title">Does Welcome To My Garden cost anything?</h3>
+      <p slot="content">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
+        rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
+        iure minima modi blanditiis?
+      </p>
+    </FaqItem>
+  </ul>
+</section>
+
+<section class="cooperation">
+  <div class="card cooperation-card partners">
+    <h1 class="heading-underline-center">Our partners</h1>
+    <div>Logos</div>
   </div>
 
-  <section id="steps-section" class="steps">
-    <div class="step">
-      <div class="step-logo">
-        {@html Step1}
-      </div>
-      <h2 class="step-header">Step 1: Sign up to become or find a host</h2>
-      <p class="step-text">
-        Do you want to open up your garden? Please click the Add your garden button. Are you looking
-        for a camping spot? Pick your favourite garden and contact your host! Arrange a date and
-        time for your stay and off you go!
-      </p>
-    </div>
-    <div class="step">
-      <div class="step-logo">
-        {@html Step2}
-      </div>
-      <h2 class="step-header">Step 2: Plan your journey</h2>
-      <p class="step-text">
-        After you’ve made arrangements with your hosts, walk or bike to your camping spot. Introduce
-        yourself, pitch your tent for the night, and continue on your hiking or biking trail the
-        next day. And have a great time, of course!
-      </p>
-    </div>
-    <div class="step">
-      <div class="step-logo">
-        {@html Step3}
-      </div>
-      <h2 class="step-header">Step 3: Pitch your tent and have fun!</h2>
-      <p class="step-text">
-        Have a quiet night all by yourself, have fun with your friends or family or hang out with
-        your host - whatever both parties prefer. Say fond farewells and continue on your hike or
-        ride the next day!
-      </p>
-    </div>
-  </section>
-
-  <section class="faq">
-    <div class="card faq-intro">
-      <h1 class="heading-underline-center">All you need to know</h1>
-      <p>
-        Here are the most important things you need to know about your next adventure. Please read
-        this FAQ section thoroughly so that you know what you’re getting yourself into.
-      </p>
-    </div>
-    <ul class="faq-list">
-      <FaqItem>
-        <h3 slot="title">Who is Welcome To My Garden for?</h3>
-        <p slot="content">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
-          rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
-          iure minima modi blanditiis?
-        </p>
-      </FaqItem>
-      <FaqItem>
-        <h3 slot="title">How do I get to my camping spot?</h3>
-        <p slot="content">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
-          rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
-          iure minima modi blanditiis?
-        </p>
-      </FaqItem>
-      <FaqItem>
-        <h3 slot="title">How do I request a stay?</h3>
-        <p slot="content">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
-          rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
-          iure minima modi blanditiis?
-        </p>
-      </FaqItem>
-      <FaqItem>
-        <h3 slot="title">What about facilities?</h3>
-        <p slot="content">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
-          rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
-          iure minima modi blanditiis?
-        </p>
-      </FaqItem>
-      <FaqItem>
-        <h3 slot="title">Does Welcome To My Garden cost anything?</h3>
-        <p slot="content">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
-          rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
-          iure minima modi blanditiis?
-        </p>
-      </FaqItem>
-    </ul>
-  </section>
-
-  <section class="cooperation">
-    <div class="card cooperation-card partners">
-      <h1 class="heading-underline-center">Our partners</h1>
-      <div>Logos</div>
-    </div>
-
-    <div class="card cooperation-card support">
-      <h1 class="heading-underline-center">Support us</h1>
-      <p>
-        Welcome to My Garden is free to use but we have to pay a couple of bills.
-        <a href="#">Make a donation</a>
-        to keep us going!
-      </p>
-    </div>
-  </section>
-
-</PageContainer>
+  <div class="card cooperation-card support">
+    <h1 class="heading-underline-center">Support us</h1>
+    <p>
+      Welcome to My Garden is free to use but we have to pay a couple of bills.
+      <a href="#">Make a donation</a>
+      to keep us going!
+    </p>
+  </div>
+</section>
 
 <style>
   h1 {
