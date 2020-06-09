@@ -23,17 +23,14 @@
 </li>
 
 <style>
-  li {
+  .faq-list-item {
+    display: flex;
+    flex-direction: column;
     font-weight: 600;
     font-size: 18px;
     color: var(--color-copy);
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-  }
-
-  .faq-list-item {
-    display: flex;
-    flex-direction: column;
-    padding: 20px 0;
+    flex: 1;
   }
 
   .faq-question {
@@ -47,6 +44,7 @@
     font-size: 2rem;
     display: flex;
     justify-content: space-between;
+    padding: 20px 0;
   }
 
   .sign {

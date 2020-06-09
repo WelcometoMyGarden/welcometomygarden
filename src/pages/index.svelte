@@ -318,6 +318,8 @@
   .faq-list {
     padding: 0 2rem;
     width: 50%;
+    display: flex;
+    flex-direction: column;
   }
 
   .faq-list > :global(li:first-child button) {
