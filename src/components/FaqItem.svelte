@@ -17,7 +17,9 @@
   </button>
   {#if open}
     <div transition:slide={{ duration: 300 }}>
-      <slot name="content" />
+      <div class="content">
+        <slot name="content" />
+      </div>
     </div>
   {/if}
 </li>
@@ -26,9 +28,6 @@
   .faq-list-item {
     display: flex;
     flex-direction: column;
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--color-copy);
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
     flex: 1;
   }
@@ -45,6 +44,14 @@
     display: flex;
     justify-content: space-between;
     padding: 20px 0;
+    font-weight: 600;
+    color: var(--color-green);
+  }
+
+  .content {
+    font-size: 1.6rem;
+    padding: 20px 0;
+    font-weight: normal;
   }
 
   .sign {
