@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { createAuthObserver } from '@/api/auth';
   import { user, isInitializing } from '../stores/auth';
-  import { PageContainer, Progress } from '../components/UI';
+  import { Progress } from '../components/UI';
   import Nav from '../components/Nav/Navigation.svelte';
   import Footer from '@/components/Footer.svelte';
 
@@ -18,9 +18,9 @@
 
   {#if !$isInitializing}
     <Nav />
-    <PageContainer>
+    <main>
       <slot />
-    </PageContainer>
+    </main>
     <Footer />
   {/if}
 </div>
@@ -35,10 +35,21 @@
     padding-top: var(--height-nav);
   }
 
+  main {
+    min-height: calc(100% - var(--height-footer));
+    padding: 2rem;
+    width: 100%;
+    overflow: hidden;
+  }
+
   @media screen and (max-width: 700px) {
     .app {
       padding-top: 0;
-      padding-bottom: var(--height-nav);
+    }
+
+    main {
+      min-height: calc(100% - var(--height-nav));
+      padding-bottom: calc(var(--height-nav) + 4rem);
     }
   }
 </style>
