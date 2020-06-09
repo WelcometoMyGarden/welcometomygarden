@@ -157,7 +157,7 @@
 
 <style>
   h1 {
-    font-size: 36px;
+    font-size: 3.6rem;
     font-weight: bold;
     line-height: 93px;
     font-family: var(--fonts-titles);
@@ -166,7 +166,7 @@
   }
 
   h2 {
-    font-size: 20px;
+    font-size: 1.8rem;
     font-weight: bold;
     line-height: 28px;
     font-family: var(--fonts-copy);
@@ -179,7 +179,7 @@
   }
 
   p {
-    font-size: 18px;
+    font-size: 1.6rem;
     line-height: 26px;
     color: var(--color-green);
   }
@@ -247,6 +247,9 @@
     margin-bottom: 1.6rem;
   }
 
+  .welcome-button {
+  }
+
   .learn-more {
     display: flex;
     flex-direction: column;
@@ -292,7 +295,6 @@
   }
 
   .card p {
-    font-size: 18px;
     line-height: 32px;
   }
 

@@ -28,7 +28,7 @@
     border-radius: 0.6rem;
     border: 0.2rem solid var(--color-green);
     padding: 1.6rem 2.4rem;
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: bold;
     cursor: pointer;
     width: 25rem;
