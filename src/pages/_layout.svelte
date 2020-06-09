@@ -28,7 +28,7 @@
 <style>
   .app {
     --height-nav: 7rem;
-    --height-footer: 18rem;
+    --height-footer: 15rem;
     width: 100%;
     height: 100%;
     position: relative;
