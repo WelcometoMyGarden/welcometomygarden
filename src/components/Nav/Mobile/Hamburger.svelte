@@ -1,8 +1,9 @@
 <script>
   export let isOpen = false;
+  export let hamburger = null;
 </script>
 
-<button class="button-container" on:click class:open={isOpen}>
+<button bind:this={hamburger} class="button-container" on:click class:open={isOpen}>
   <span />
 </button>
 

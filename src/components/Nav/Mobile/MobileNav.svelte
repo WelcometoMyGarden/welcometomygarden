@@ -7,13 +7,14 @@
   import { tentIcon, mapIcon, chatIcon, signInIcon, userIcon } from '@/images/icons';
   import Hamburger from './Hamburger.svelte';
 
-  let condition = false;
-
+  let hamburger;
   let drawerIsShown = false;
   const toggleDrawer = () => (drawerIsShown = !drawerIsShown);
 
-  const handleClickOutsideDrawer = () => {
-    if (drawerIsShown) toggleDrawer();
+  const handleClickOutsideDrawer = event => {
+    const { clickEvent } = event.detail;
+    // if (node.contains(event.target)) console.log('yup');
+    if (drawerIsShown && !hamburger.contains(clickEvent.target)) toggleDrawer();
   };
 
   const linksInDrawer = [
@@ -44,7 +45,7 @@
         Map
       </a>
     </li>
-    {#if condition}
+    {#if $user}
       <li>
         <a href={routes.CHAT} class:active={$isActive(routes.CHAT)}>
           <i class="icon-small">
@@ -72,7 +73,7 @@
       </li>
     {/if}
     <li class="hamburger">
-      <Hamburger on:click={toggleDrawer} isOpen={drawerIsShown} />
+      <Hamburger bind:hamburger on:click={toggleDrawer} isOpen={drawerIsShown} />
     </li>
   </ul>
   <div class:shown={drawerIsShown} class="overlay" />
