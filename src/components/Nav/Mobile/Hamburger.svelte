@@ -2,22 +2,22 @@
   export let isOpen = false;
 </script>
 
-<button on:click class:open={isOpen}>
+<button class="button-container" on:click class:open={isOpen}>
   <span />
 </button>
 
 <style>
   button {
-    border: 0;
-    cursor: pointer;
-    background: transparent;
-    outline-offset: 0.5rem;
-    outline-color: var(--color-green);
     height: 5rem;
     user-select: none;
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  button:focus {
+    outline-offset: 1rem;
+    outline: 1px dotted var(--color-green);
   }
 
   span {
@@ -48,7 +48,7 @@
   }
 
   .open span {
-    background: transparent;
+    background: transparent !important;
   }
 
   .open span:before {

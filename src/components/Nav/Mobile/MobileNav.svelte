@@ -1,6 +1,7 @@
 <script>
   import { isActive } from '@sveltech/routify';
   import routes from '@/routes';
+  import { logout } from '@/api/auth';
   import { user } from '@/stores/auth';
   import { tentIcon, mapIcon, chatIcon, signInIcon, userIcon } from '@/images/icons';
   import Hamburger from './Hamburger.svelte';
@@ -69,13 +70,23 @@
       <Hamburger on:click={toggleDrawer} isOpen={drawerIsShown} />
     </li>
   </ul>
-  <ul class="drawer">
+  <div class:shown={drawerIsShown} on:click={toggleDrawer} class="overlay" />
+  <ul class="drawer" class:open={drawerIsShown}>
     {#each linksInDrawer as { route, name } (route)}
       <li>
-        <a href={route} class:active={$isActive(route)}>{name}</a>
+        <a href={route} on:click={toggleDrawer} class:active={$isActive(route)}>{name}</a>
       </li>
     {/each}
-    <li class="separated sign-out">Sign out</li>
+    <li class="separated sign-out">
+      <a
+        href="/"
+        on:click={() => {
+          toggleDrawer();
+          logout();
+        }}>
+        Sign out
+      </a>
+    </li>
   </ul>
 </nav>
 
@@ -96,8 +107,28 @@
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
     background-color: var(--color-white);
     font-size: 1.4rem;
-    z-index: 100;
+    z-index: 120;
     padding: 0.8rem 0;
+  }
+
+  .overlay {
+    width: 100%;
+    height: calc(100vh - var(--height-nav));
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 200%;
+    left: -100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 100;
+    overflow: hidden;
+    text-align: center;
+    transition: top 0.4s, right 0.4s, bottom 0.4s, left 0.4s;
+  }
+
+  .overlay.shown {
+    right: 0;
+    left: 0;
   }
 
   .main {
@@ -119,6 +150,8 @@
     align-items: center;
     outline: 0;
     position: relative;
+    font-weight: 600;
+    font-size: 1.4rem;
   }
 
   .main li i {
@@ -145,12 +178,44 @@
     opacity: 1;
   }
 
-  .icon-small {
-    transform: scale(1.2);
+  .drawer {
+    background-color: var(--color-white);
+    height: calc(100vh - var(--height-nav));
+    width: 25rem;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    -webkit-font-smoothing: antialiased;
+    padding: 6rem 2.5rem 0 1.5rem;
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+    transform-origin: 0% 0%;
+    transform: translate(100%, 0);
   }
 
-  .drawer {
-    display: none;
+  .drawer.open {
+    transform: scale(1, 1);
+    opacity: 1;
+  }
+
+  .drawer li {
+    margin-top: 2rem;
+  }
+
+  .drawer li.separated {
+    margin-top: 3.5rem;
+  }
+
+  .drawer a {
+    font-weight: 600;
+  }
+
+  .icon-small {
+    transform: scale(1.2);
   }
 
   .sign-out {
