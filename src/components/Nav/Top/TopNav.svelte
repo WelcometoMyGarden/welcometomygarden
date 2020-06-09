@@ -47,7 +47,6 @@
     width: 100%;
     padding: 0 0 0 5rem;
     z-index: 100;
-    position: relative;
   }
 
   .title {
@@ -55,7 +54,7 @@
     align-items: center;
     background-image: url(/images/logo-emblem.svg);
     background-repeat: no-repeat;
-    background-position: left 40%;
+    background-position: left 50%;
     background-size: 7rem auto;
     height: 100%;
   }
