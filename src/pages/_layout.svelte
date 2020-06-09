@@ -2,9 +2,9 @@
   import { onMount } from 'svelte';
   import { createAuthObserver } from '@/api/auth';
   import { user, isInitializing } from '../stores/auth';
-  import PageContainer from '@/components/UI/PageContainer.svelte';
-  import Nav from '@/components/Nav/Navigation.svelte';
-  import Progress from '@/components/UI/Progress.svelte';
+  import { Progress } from '../components/UI';
+  import Nav from '../components/Nav/Navigation.svelte';
+  import Footer from '@/components/Footer.svelte';
 
   onMount(() => {
     return createAuthObserver();
@@ -13,11 +13,43 @@
   $: console.log($user);
 </script>
 
-<Progress active={$isInitializing} />
+<div class="app">
+  <Progress active={$isInitializing} />
 
-{#if !$isInitializing}
-  <Nav />
-  <PageContainer>
-    <slot />
-  </PageContainer>
-{/if}
+  {#if !$isInitializing}
+    <Nav />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  {/if}
+</div>
+
+<style>
+  .app {
+    --height-nav: 7rem;
+    --height-footer: 15rem;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding-top: var(--height-nav);
+  }
+
+  main {
+    min-height: calc(100% - var(--height-footer));
+    padding: 2rem;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  @media screen and (max-width: 700px) {
+    .app {
+      padding-top: 0;
+    }
+
+    main {
+      min-height: calc(100% - var(--height-nav));
+      padding-bottom: calc(var(--height-nav) + 4rem);
+    }
+  }
+</style>

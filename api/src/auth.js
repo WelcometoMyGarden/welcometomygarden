@@ -4,8 +4,6 @@ const countries = require('./countries');
 const { sendAccountVerificationEmail, sendPasswordResetEmail } = require('./mail');
 
 exports.createUser = async (data, context) => {
-  const success = (msg) => ({ message: msg, success: true });
-
   const fail = (code) => {
     throw new functions.https.HttpsError(code);
   };
@@ -18,8 +16,8 @@ exports.createUser = async (data, context) => {
     if (
       typeof data.firstName !== 'string' ||
       typeof data.lastName !== 'string' ||
-      data.firstName.trim().length < 2 ||
-      data.lastName.trim().length < 2
+      data.firstName.trim().length === 0 ||
+      data.lastName.trim().length === 0
     ) {
       fail('invalid-argument');
     }
