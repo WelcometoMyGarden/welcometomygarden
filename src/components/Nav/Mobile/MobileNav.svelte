@@ -6,6 +6,7 @@
   import { clickOutside } from '@/util';
   import { tentIcon, mapIcon, chatIcon, signInIcon, userIcon } from '@/images/icons';
   import Hamburger from './Hamburger.svelte';
+  import Socials from '@/components/Socials.svelte';
 
   let hamburger;
   let drawerIsShown = false;
@@ -97,6 +98,9 @@
         Sign out
       </a>
     </li>
+    <div class="socials">
+      <Socials small />
+    </div>
   </ul>
 </nav>
 
@@ -201,7 +205,7 @@
     align-items: flex-start;
     justify-content: flex-start;
     -webkit-font-smoothing: antialiased;
-    padding: 6rem 2.5rem 0 1.5rem;
+    padding: 8rem 2.5rem 0 1.5rem;
     transition: transform 0.3s cubic-bezier(0.77, 0.2, 0.05, 1);
     transform-origin: 0% 0%;
     transform: translate(100%, 0);
@@ -251,5 +255,13 @@
 
   .sign-out {
     color: var(--color-orange);
+  }
+
+  .socials {
+    padding: 0 1.5rem;
+    width: 100%;
+    position: absolute;
+    top: 1.5rem;
+    right: 0;
   }
 </style>

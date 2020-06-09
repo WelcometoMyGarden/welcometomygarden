@@ -1,4 +1,9 @@
-<ul class="socials">
+<script>
+  export let medium = true;
+  export let small = false;
+</script>
+
+<ul class="socials" class:medium class:small>
   <li>
     <a href="https://www.facebook.com/Welcome2mygarden/" target="_blank">
       <img src="images/icons/facebook.svg" alt="Facebook" />
@@ -21,11 +26,12 @@
   </li>
 </ul>
 
-
 <style>
   .socials {
     display: flex;
     align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
   }
 
   .socials li {
@@ -33,9 +39,14 @@
     margin-right: 4rem;
   }
 
-  .socials li a {
+  .socials.medium li a {
     height: 2.5rem;
     width: 2.5rem;
+  }
+
+  .socials.small li a {
+    height: 2rem;
+    width: 2rem;
   }
 
   .socials li img {

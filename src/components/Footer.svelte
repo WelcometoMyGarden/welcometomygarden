@@ -4,7 +4,9 @@
 </script>
 
 <footer>
-  <Socials />
+  <div class="socials">
+    <Socials />
+  </div>
   <ul class="terms">
     <li>
       <a href={routes.COPYRIGHT}>Copyright</a>
