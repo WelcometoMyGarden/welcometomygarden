@@ -3,6 +3,7 @@
   import routes from '@/routes';
   import { logout } from '@/api/auth';
   import { user } from '@/stores/auth';
+  import { clickOutside } from '@/util';
   import { tentIcon, mapIcon, chatIcon, signInIcon, userIcon } from '@/images/icons';
   import Hamburger from './Hamburger.svelte';
 
@@ -10,6 +11,10 @@
 
   let drawerIsShown = false;
   const toggleDrawer = () => (drawerIsShown = !drawerIsShown);
+
+  const handleClickOutsideDrawer = () => {
+    if (drawerIsShown) toggleDrawer();
+  };
 
   const linksInDrawer = [
     { route: routes.RULES, name: 'Rules' },
@@ -70,8 +75,12 @@
       <Hamburger on:click={toggleDrawer} isOpen={drawerIsShown} />
     </li>
   </ul>
-  <div class:shown={drawerIsShown} on:click={toggleDrawer} class="overlay" />
-  <ul class="drawer" class:open={drawerIsShown}>
+  <div class:shown={drawerIsShown} class="overlay" />
+  <ul
+    class="drawer"
+    class:open={drawerIsShown}
+    use:clickOutside
+    on:click-outside={handleClickOutsideDrawer}>
     {#each linksInDrawer as { route, name } (route)}
       <li>
         <a href={route} on:click={toggleDrawer} class:active={$isActive(route)}>{name}</a>
@@ -101,7 +110,7 @@
     width: 100%;
     --height-nav: 9rem;
     height: var(--height-nav);
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
@@ -123,7 +132,7 @@
     z-index: 100;
     overflow: hidden;
     text-align: center;
-    transition: top 0.4s, right 0.4s, bottom 0.4s, left 0.4s;
+    transition: top 0.3s, right 0.3s, bottom 0.3s, left 0.3s;
   }
 
   .overlay.shown {
@@ -192,7 +201,7 @@
     justify-content: flex-start;
     -webkit-font-smoothing: antialiased;
     padding: 6rem 2.5rem 0 1.5rem;
-    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+    transition: transform 0.3s cubic-bezier(0.77, 0.2, 0.05, 1);
     transform-origin: 0% 0%;
     transform: translate(100%, 0);
   }
@@ -212,6 +221,27 @@
 
   .drawer a {
     font-weight: 600;
+    position: relative;
+  }
+
+  .drawer a:after {
+    background: none repeat scroll 0 0 transparent;
+    bottom: -0.2rem;
+    content: '';
+    display: block;
+    height: 2px;
+    left: 50%;
+    position: absolute;
+    background: var(--color-green);
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
+  }
+
+  .drawer a.active:after,
+  .drawer a:focus:after,
+  .drawer a:hover:after {
+    width: 100%;
+    left: 0;
   }
 
   .icon-small {
