@@ -112,7 +112,7 @@
 
   @media screen and (max-width: 1100px) {
     nav {
-      padding-left: 1rem;
+      padding-left: 2rem;
     }
     nav > ul {
       padding-right: 1rem;

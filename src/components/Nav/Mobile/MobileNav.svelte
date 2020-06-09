@@ -69,7 +69,7 @@
       <Hamburger on:click={toggleDrawer} isOpen={drawerIsShown} />
     </li>
   </ul>
-  <ul class="in-drawer">
+  <ul class="drawer">
     {#each linksInDrawer as { route, name } (route)}
       <li>
         <a href={route} class:active={$isActive(route)}>{name}</a>
@@ -97,6 +97,7 @@
     background-color: var(--color-white);
     font-size: 1.4rem;
     z-index: 100;
+    padding: 0.8rem 0;
   }
 
   .main {
@@ -114,22 +115,41 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     outline: 0;
+    position: relative;
   }
 
   .main li i {
-    flex: 0.6;
+    height: 75%;
     display: flex;
     align-items: center;
+    position: relative;
+  }
+
+  .main li a:after {
+    content: '';
+    position: absolute;
+    bottom: -0.4rem;
+    left: calc(50% - 0.25rem);
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: var(--color-orange);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .main li a.active:after {
+    opacity: 1;
   }
 
   .icon-small {
     transform: scale(1.2);
   }
 
-  .in-drawer {
+  .drawer {
     display: none;
   }
 
