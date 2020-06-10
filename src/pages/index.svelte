@@ -287,7 +287,6 @@
   }
 
   .step-header {
-    margin-bottom: 6px;
   }
 
   .card p {
