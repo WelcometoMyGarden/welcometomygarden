@@ -4,6 +4,7 @@
   const data = {
     title: 'Add new garden',
     subtitle: 'Share your garden with other users',
+    submitAction: 'Add garden',
     steps: [
       {
         title: 'Personal details',
@@ -49,7 +50,7 @@
             type: 'text',
             label: 'Your municipality',
             placeholder: 'Enter the name of your municipality',
-            require: true
+            required: true
           },
           {
             name: 'description',
@@ -79,7 +80,7 @@
         title: 'Facilities',
         fields: [
           {
-            name: 'outisde-toilet-provided',
+            name: 'outside-toilet-provided',
             type: 'toggle',
             label: 'Outside toilet',
             placeholder: 'Do you have an outside toilet that guests can use?',
@@ -118,9 +119,7 @@
 </script>
 
 <PageContainer>
-  <!-- <MultiStepForm {data}> -->
-  {#each data.steps as step}
-    <FormStep name={step.name} title={step.title} fields={step.fields} />
+  {#each data.steps as { name, title, fields, submitAction }}
+    <FormStep {name} {title} {fields} {submitAction} />
   {/each}
-  <!-- </MultiStepForm> -->
 </PageContainer>
