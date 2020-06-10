@@ -272,9 +272,8 @@
   .step {
     text-align: justify;
     margin-right: 68px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    display: grid;
+    grid-template-rows: 170px 1fr 2fr;
   }
 
   .step:last-of-type {
@@ -284,6 +283,7 @@
   .step-logo {
     display: flex;
     justify-content: center;
+    margin-bottom: 1rem;
   }
 
   .step-header {
