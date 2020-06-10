@@ -5,6 +5,7 @@
 
   import Logo from '../images/logo.svg';
   import WelcomeMap from '../images/welcome-map.svg';
+  // import WelcomeMap2 from '../images/welcome-map-2.png';
   import ArrowDown from '../images/arrow-down.svg';
   import Step1 from '../images/step-1.svg';
   import Step2 from '../images/step-2.svg';
@@ -32,7 +33,8 @@
       <Button uppercase>Explore map</Button>
     </div>
     <div id="welcome-map">
-      {@html WelcomeMap}
+      <!-- {@html WelcomeMap} -->
+      <img class="responsive-welcome-map-image" src="images/welcome-map-2.png" alt="" />
     </div>
   </div>
 </section>
@@ -197,12 +199,6 @@
     border: 0;
   }
 
-  #welcome-map {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-
   .heading-underline-center {
     position: relative;
   }
@@ -219,6 +215,18 @@
   }
 
   .landing {
+    display: flex;
+  }
+
+  #welcome-map {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .responsive-welcome-map-image {
+    width: 50vw;
+    height: auto;
   }
 
   .welcome {
@@ -241,9 +249,6 @@
 
   .welcome-buttons :global(button:first-of-type) {
     margin-bottom: 1.6rem;
-  }
-
-  .welcome-button {
   }
 
   .learn-more {
@@ -286,9 +291,6 @@
     margin-bottom: 1rem;
   }
 
-  .step-header {
-  }
-
   .card p {
     line-height: 32px;
   }
@@ -301,6 +303,7 @@
     background-color: var(--color-green);
     width: 50%;
     padding: 60px 150px;
+    align-self: flex-start;
   }
 
   .faq-intro h1 {
@@ -339,21 +342,38 @@
     width: 50%;
   }
 
-  .partners {
-  }
-
   .support {
     background-color: var(--color-beige);
     padding: 116px 96px;
   }
 
   @media only screen and (max-width: 1300px) {
+    h1 {
+      font-size: 2.8rem;
+    }
+
     .steps {
       padding: 0 5rem;
     }
 
     .step {
       margin-right: 4rem;
+    }
+
+    .faq-intro {
+      padding: 60px 120px;
+    }
+
+    .landing {
+      justify-content: center;
+    }
+
+    .welcome {
+      padding-left: 0;
+    }
+
+    #welcome-map {
+      display: none;
     }
   }
 
