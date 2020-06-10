@@ -114,7 +114,7 @@
       padding-left: 2rem;
     }
     nav > ul {
-      padding-right: 1rem;
+      padding-right: 2rem;
     }
     h1 {
       display: none;
