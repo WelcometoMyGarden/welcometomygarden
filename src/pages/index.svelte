@@ -281,59 +281,6 @@
     margin-right: 0;
   }
 
-  @media only screen and (max-width: 1300px) {
-    .steps {
-      padding: 0 5rem;
-    }
-
-    .step {
-      margin-right: 4rem;
-    }
-  }
-
-  @media only screen and (max-width: 1200px) {
-    .steps {
-      padding: 0 2rem;
-    }
-
-    .step {
-      margin-right: 2rem;
-    }
-  }
-
-  @media only screen and (max-width: 1000px) {
-    .steps {
-      flex-direction: column;
-      padding: 0 8rem;
-    }
-
-    .step {
-      margin-right: 0;
-    }
-
-    .step-header {
-      text-align: center;
-    }
-  }
-
-  @media only screen and (max-width: 800px) {
-    .steps {
-      padding: 0 6rem;
-    }
-  }
-
-  @media only screen and (max-width: 600px) {
-    .steps {
-      padding: 0 4rem;
-    }
-  }
-
-  @media only screen and (max-width: 500px) {
-    .steps {
-      padding: 0 2rem;
-    }
-  }
-
   .step-logo {
     display: flex;
     justify-content: center;
@@ -399,5 +346,55 @@
   .support {
     background-color: var(--color-beige);
     padding: 116px 96px;
+  }
+
+  @media only screen and (max-width: 1300px) {
+    .steps {
+      padding: 0 5rem;
+    }
+
+    .step {
+      margin-right: 4rem;
+    }
+  }
+
+  @media only screen and (max-width: 1150px) {
+    .steps {
+      flex-direction: column;
+      padding: 0 12rem;
+    }
+
+    .step {
+      margin-right: 0;
+    }
+
+    .step-header {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+  }
+
+  @media only screen and (max-width: 1000px) {
+    .steps {
+      padding: 0 8rem;
+    }
+  }
+
+  @media only screen and (max-width: 800px) {
+    .steps {
+      padding: 0 6rem;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .steps {
+      padding: 0 4rem;
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    .steps {
+      padding: 0 2rem;
+    }
   }
 </style>
