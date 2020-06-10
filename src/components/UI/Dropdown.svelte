@@ -1,10 +1,13 @@
 <script>
   export let name;
-  export let selected = '';
+  export let placeholder;
   export let options = [];
+  export let required;
+  export let value = '';
 </script>
 
-<select {name} bind:value={selected}>
+<select {name} bind:value>
+  <option value="">{placeholder}</option>
   {#each options as option}
     <option value={option}>{option}</option>
   {/each}

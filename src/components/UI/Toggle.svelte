@@ -1,10 +1,11 @@
 <script>
-  export let checked = false;
   export let name;
+  export let required;
+  export let value = false;
 </script>
 
 <div class="toggle">
-  <input id={name} {name} type="checkbox" bind:checked />
+  <input id={name} {name} type="checkbox" bind:checked={value} />
   <label for={name} />
 </div>
 

@@ -22,16 +22,19 @@
     water: WaterIcon
   };
 
-  export let label;
-  export let name;
-  export let type;
-  export let icon;
-  export let placeholder;
-  export let required;
-  export let options;
+  export let label = '';
+  export let name = '';
+  export let type = 'text';
+  export let icon = null;
+  export let placeholder = '';
+  export let required = false;
+  export let options = [];
+  let className;
+  export { className as class };
+  export let value = '';
 </script>
 
-<div class="field">
+<div class="field" class:className>
   {#if label}
     <label class="label">
       {#if icon}
@@ -44,13 +47,13 @@
     </label>
   {/if}
   {#if type === 'dropdown'}
-    <Dropdown {name} {placeholder} {options} {required} />
+    <Dropdown {name} {placeholder} {options} {required} bind:value />
   {:else if type === 'toggle'}
-    <Toggle {name} {required} />
+    <Toggle {name} {required} bind:value />
   {:else if type === 'slider'}
-    <Slider placeholder} {required} />
+    <Slider {name} {required} bind:value />
   {:else}
-    <Input {name} {type} {placeholder} {required} />
+    <Input {name} {placeholder} {required} bind:value />
   {/if}
 </div>
 
