@@ -4,6 +4,24 @@
   import Toggle from './Toggle.svelte';
   import Slider from './Slider.svelte';
 
+  import {
+    BonfireIcon,
+    ElectrictiyIcon,
+    ShowerIcon,
+    TentIcon,
+    ToiletIcon,
+    WaterIcon
+  } from '../../images/facilities';
+
+  const icons = {
+    bonfire: BonfireIcon,
+    electricity: ElectrictiyIcon,
+    shower: ShowerIcon,
+    tent: TentIcon,
+    toilet: ToiletIcon,
+    water: WaterIcon
+  };
+
   export let label;
   export let name;
   export let type;
@@ -18,7 +36,7 @@
     <label class="label">
       {#if icon}
         <div class="label-icon">
-          <svelte:component this={icon} />
+          <svelte:component this={icons[icon]} />
         </div>
       {/if}
       {label}

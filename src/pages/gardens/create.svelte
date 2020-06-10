@@ -1,100 +1,126 @@
 <script>
   import { PageContainer, FormStep, Form, Field } from '../../components/UI';
-  import {
-    BonfireIcon,
-    ElectrictiyIcon,
-    ShowerIcon,
-    TentIcon,
-    ToiletIcon,
-    WaterIcon
-  } from '../../images/facilities';
+
+  const data = {
+    title: 'Add new garden',
+    subtitle: 'Share your garden with other users',
+    steps: [
+      {
+        title: 'Personal details',
+        name: 'personal-details',
+        fields: [
+          {
+            name: 'email',
+            type: 'email',
+            label: 'Email',
+            placeholder: 'Enter your email address',
+            required: true
+          },
+          {
+            name: 'name',
+            type: 'text',
+            label: 'Your name',
+            placeholder: 'Enter your name',
+            required: true
+          },
+          {
+            name: 'street-name',
+            type: 'text',
+            label: 'Your street name',
+            placeholder: 'Enter your street name',
+            required: true
+          },
+          {
+            name: 'house-number',
+            type: 'number',
+            label: 'Your street number',
+            placeholder: 'Enter your house number',
+            required: true
+          },
+          {
+            name: 'postal-code',
+            type: 'number',
+            label: 'Your postal code',
+            placeholder: 'Enter your postal code',
+            required: true
+          },
+          {
+            name: 'municipality',
+            type: 'text',
+            label: 'Your municipality',
+            placeholder: 'Enter the name of your municipality',
+            require: true
+          },
+          {
+            name: 'description',
+            type: 'text',
+            label: 'Your campspace',
+            placeholder:
+              'Please provide a short description of your garden and the camping spot you can offer',
+            required: true
+          },
+          {
+            name: 'surface-area',
+            type: 'slider',
+            label: 'Surface area',
+            placeholder: 'What is the surface area of your camping space?'
+          },
+          {
+            name: 'type',
+            type: 'dropdown',
+            label: 'Type',
+            options: ['01', '02', '03'],
+            placeholder: 'What type of camping space do you offer?'
+          }
+        ]
+      },
+      {
+        name: 'facilities',
+        title: 'Facilities',
+        fields: [
+          {
+            name: 'outisde-toilet-provided',
+            type: 'toggle',
+            label: 'Outside toilet',
+            placeholder: 'Do you have an outside toilet that guests can use?',
+            icon: 'toilet',
+            required: true
+          },
+          {
+            name: 'inside-toilet-provided',
+            type: 'toggle',
+            label: 'Inside toilet',
+            placeholder: 'Would you allow guests to use your inside toilet?',
+            icon: 'toilet',
+            required: true
+          },
+          {
+            name: 'drinkable-water-provided',
+            type: 'toggle',
+            label: 'Drinkable water',
+            placeholder: 'Can guests have access to drinking water when staying with you?',
+            icon: 'water',
+            required: true
+          },
+          {
+            name: 'electricity-provided',
+            type: 'toggle',
+            label: 'Electricity',
+            placeholder:
+              'Can you offer electricity (for phones or recharge batteries of electric bikes)',
+            icon: 'electricity',
+            required: true
+          }
+        ]
+      }
+    ]
+  };
 </script>
 
 <PageContainer>
-  <h2>Add garden</h2>
-  <FormStep name="personal-details">
-    <Form>
-      <Field
-        name="email"
-        type="email"
-        label="Email"
-        placeholder="Enter your email address"
-        required />
-      <Field name="name" type="text" label="Your name" placeholder="Enter your name" required />
-      <Field
-        name="street-name"
-        type="text"
-        label="Your street name"
-        placeholder="Enter your street name"
-        required />
-      <Field
-        name="house-number"
-        type="number"
-        label="Your street number"
-        placeholder="Enter your house number"
-        required />
-      <Field
-        name="postal-code"
-        type="number"
-        label="Your postal code"
-        placeholder="Enter your postal code"
-        required />
-      <Field
-        name="municipality"
-        type="text"
-        label="Your municipality"
-        placeholder="Enter the name of your municipality"
-        required />
-      <Field
-        name="description"
-        type="text"
-        label="Your campspace"
-        placeholder="Please provide a short description of your garden and the camping spot you can
-        offer"
-        required />
-      <Field
-        name="surface-area"
-        type="slider"
-        label="Surface area"
-        placeholder="What is the surface area of your camping space?" />
-      <Field
-        name="type"
-        type="dropdown"
-        label="Type"
-        options={['01', '02', '03']}
-        placeholder="What type of camping space do you offer?" />
-    </Form>
-  </FormStep>
-  <FormStep name="facilities">
-    <Form>
-      <Field
-        name="outside-toilet-provided"
-        type="toggle"
-        label="Outside toilet"
-        placeholder="Do you have an outside toilet that guests can use?"
-        icon={ToiletIcon}
-        required />
-      <Field
-        name="inside-toilet-provided"
-        type="toggle"
-        label="Inside toilet"
-        placeholder="Would you allow guests to use your inside toilet?"
-        icon={ToiletIcon}
-        required />
-      <Field
-        name="drinkable-water-provided"
-        type="toggle"
-        label="Drinkable water"
-        placeholder="Can guests have access to drinking water when staying with you?"
-        icon={WaterIcon}
-        required />
-      <Field
-        name="electricity-provided"
-        type="toggle"
-        label="Electricity"
-        placeholder="Can you offer electricity (for phones or recharge batteries of electric bikes)"
-        icon={ElectrictiyIcon}
-        required />
-    </Form>
-  </FormStep>
+  <!-- <MultiStepForm {data}> -->
+  {#each data.steps as step}
+    <FormStep name={step.name} title={step.title} fields={step.fields} />
+  {/each}
+  <!-- </MultiStepForm> -->
 </PageContainer>
