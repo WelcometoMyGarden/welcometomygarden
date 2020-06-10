@@ -1,15 +1,38 @@
 <script>
+  import { onMount } from 'svelte';
   import Form from './Form.svelte';
   import Field from './Field.svelte';
+
   export let name = '';
   export let title = '';
+  export let submitAction = '';
   export let fields = [];
+
+  let form;
+  let isValid = true;
+
+  const handleSubmit = async () => {
+    // validate();
+  };
+
+  // const test = e => console.log(e, e.target.name, e.target.value);
 </script>
 
-<Form {name}>
-  <h1>{title}</h1>
+<form {name} on:submit|preventDefault={handleSubmit}>
+  <!-- on:changed={test} -->
+  <!-- on:input={test}> -->
+  {#if title}
+    <h1>{title}</h1>
+  {/if}
   {#each fields as field}
-    <Field {...field} />
+    <Field class="field" {...field} bind:value={field.value} />
   {/each}
   <slot />
-</Form>
+  <input type="submit" value={submitAction || 'Submit'} />
+</form>
+
+<style>
+  form {
+    max-width: 90rem;
+  }
+</style>
