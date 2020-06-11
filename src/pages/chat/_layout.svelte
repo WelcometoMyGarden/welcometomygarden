@@ -11,7 +11,7 @@
 
   if (!$user) $goto(routes.SIGN_IN);
 
-  const getConvoRoute = (id, name, params) =>
+  const getConvoRoute = (id, name, params = '') =>
     `${routes.CHAT}/${removeDiacritics(name)}/${id}${params}`;
 
   let newConversation;
