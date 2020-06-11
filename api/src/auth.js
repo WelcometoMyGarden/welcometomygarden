@@ -7,12 +7,18 @@ exports.createUser = async (data, context) => {
   const fail = (code) => {
     throw new functions.https.HttpsError(code);
   };
+
   if (!context.auth) {
     fail('unauthorized');
   }
 
   try {
-    if (!data.firstName || !data.lastName) throw new functions.https.HttpsError('invalid-argument');
+    const db = admin.firestore();
+
+    const existingUser = await db.collection('users').doc(context.auth.uid).get();
+    if (existingUser.exists) fail('already-exists');
+
+    if (!data.firstName || !data.lastName) fail('invalid-argument');
     if (
       typeof data.firstName !== 'string' ||
       typeof data.lastName !== 'string' ||
@@ -39,7 +45,6 @@ exports.createUser = async (data, context) => {
 
     await auth.updateUser(user.uid, { displayName: firstName });
 
-    const db = admin.firestore();
     await db.collection('users').doc(user.uid).set({
       countryCode: data.countryCode,
       firstName: data.firstName

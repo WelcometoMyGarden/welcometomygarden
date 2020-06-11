@@ -1,5 +1,5 @@
 <script>
-  export let name = '';
+  export let name;
 
   import { slide } from 'svelte/transition';
   import { clickOutside } from '@/util';

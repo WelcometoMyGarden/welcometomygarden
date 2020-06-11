@@ -3,7 +3,7 @@
   import { register } from '@/api/auth';
   import { isRegistering } from '@/stores/auth';
   import { countries } from '@/util';
-  import routes from '@routes';
+  import routes from '@/routes';
 
   let email = '';
   let password = '';

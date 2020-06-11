@@ -14,6 +14,9 @@ export const register = async ({ email, password, firstName, lastName, countryCo
   isRegistering.set(true);
   await auth.createUserWithEmailAndPassword(email, password);
   await api.createUser({ firstName, lastName, countryCode });
+  await auth.currentUser.reload();
+  user.set(new User(auth.currentUser));
+  isRegistering.set(false);
 };
 
 export const logout = () => auth.signOut();

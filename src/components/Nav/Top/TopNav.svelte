@@ -4,6 +4,8 @@
   import NavLink from './NavLink.svelte';
   import UserDropdown from './UserDropdown.svelte';
   import { user } from '@/stores/auth';
+
+  $: firstName = $user ? $user.firstName : '';
 </script>
 
 <nav>
@@ -26,7 +28,7 @@
       <NavLink href={routes.FAQ}>FAQ</NavLink>
     </li>
     {#if $user}
-      <UserDropdown name={$user.firstName} />
+      <UserDropdown name={firstName || ''} />
     {:else}
       <li>
         <NavLink href={routes.SIGN_IN}>Sign in</NavLink>
