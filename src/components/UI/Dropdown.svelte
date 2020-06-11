@@ -51,10 +51,10 @@
   }
 
   .valid {
-    border-bottom: 1px solid green;
+    border-bottom: 1px solid var(--color-success);
   }
 
   .invalid {
-    border-bottom: 1px solid red;
+    border-bottom: 1px solid var(--color-warning);
   }
 </style>
