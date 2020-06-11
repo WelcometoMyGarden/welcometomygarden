@@ -24,13 +24,13 @@
   <section class="conversations">
     <h2>All conversations</h2>
     {#each conversations as conversation (conversation.id)}
-      <div animate:flip={{ duration: 400 }}>
+      <article animate:flip={{ duration: 400 }}>
         <ConversationCard
           recipient={conversation.recipient}
           lastMessage={conversation.lastMessage}
           selected={selectedConversation.id === conversation.id}
           on:click={() => selectConversation(conversation.id)} />
-      </div>
+      </article>
     {/each}
   </section>
   <div class="messages">
@@ -52,6 +52,7 @@
     padding: 5rem 2rem;
     display: flex;
     margin: 0 auto;
+    height: 75vh;
   }
 
   .conversations {
@@ -59,13 +60,25 @@
     box-shadow: 0px 0px 33px rgba(0, 0, 0, 0.1);
     border-radius: 0.6rem;
     margin-right: 4rem;
-    height: 65vh;
+    height: 100%;
     overflow-y: auto;
   }
 
+  article {
+    width: 100%;
+  }
+
+  .messages {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: calc(100% - 42rem);
+  }
+
   @media screen and (max-width: 700px) {
-    .conversations {
-      height: 80vh;
+    .container {
+      height: 90vh;
     }
   }
 </style>

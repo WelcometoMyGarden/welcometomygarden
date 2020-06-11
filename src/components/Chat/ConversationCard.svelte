@@ -16,21 +16,15 @@
   const color = colors[Math.abs(colorIndex)];
 </script>
 
-<article>
-  <button class="button-container conversation" class:selected on:click>
-    <div class="avatar" style="--chat-color: {color}">{recipient.charAt(0).toUpperCase()}</div>
-    <div class="details">
-      <span class="name">{recipient}</span>
-      <p class="last-message">{lastMessage}</p>
-    </div>
-  </button>
-</article>
+<button class="button-container conversation" class:selected on:click>
+  <div class="avatar" style="--chat-color: {color}">{recipient.charAt(0).toUpperCase()}</div>
+  <div class="details">
+    <span class="name">{recipient}</span>
+    <p class="last-message">{lastMessage}</p>
+  </div>
+</button>
 
 <style>
-  article {
-    width: 100%;
-  }
-
   .conversation {
     padding: 2rem 2.4rem;
     display: flex;
