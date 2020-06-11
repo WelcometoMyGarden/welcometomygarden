@@ -5,18 +5,22 @@
   export let placeholder;
   export let required;
   export let value = '';
+  export let error = '';
   export let minLength, maxLength;
 
   let validity = null;
 
-  const handleBlur = e => (validity = e.target.validity.valid);
+  const handleBlur = e => {
+    validity = e.target.validity.valid;
+    error = e.target.validationMessage;
+  };
   const handleInput = e => (validity = e.target.validity.valid || null);
 </script>
 
 <div class="input">
   <div class="icon">
     {#if validity === true}
-      <CheckIcon size="16" />
+      <CheckIcon size="16" color="#f00" />
     {:else if validity === false}
       <XIcon size="16" />
     {/if}
@@ -32,6 +36,11 @@
     bind:value
     class:valid={validity === true}
     class:invalid={validity === false} />
+</div>
+<div class="error">
+  {#if error}
+    <p class="error-message">{error}</p>
+  {/if}
 </div>
 
 <style>
@@ -68,5 +77,17 @@
 
   .invalid {
     border-bottom: 1px solid red;
+  }
+
+  .error {
+    display: flex;
+    min-height: 3.2rem;
+  }
+
+  .error-message {
+    font-style: italic;
+    font-size: 1.4rem;
+    margin: auto 0;
+    color: red;
   }
 </style>
