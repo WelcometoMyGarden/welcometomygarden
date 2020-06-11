@@ -17,6 +17,18 @@
   }
 
   smoothscroll.polyfill();
+
+  let activeFaqItem = null;
+
+  function setActiveFaqItem(index) {
+    return function() {
+      if (activeFaqItem === index) {
+        activeFaqItem = null;
+      } else {
+        activeFaqItem = index;
+      }
+    };
+  }
 </script>
 
 <section class="landing">
@@ -94,7 +106,7 @@
     </p>
   </div>
   <ul class="faq-list">
-    <FaqItem>
+    <FaqItem onClick={setActiveFaqItem(1)} isOpen={activeFaqItem === 1}>
       <h3 slot="title">Who is Welcome To My Garden for?</h3>
       <p slot="content">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
@@ -102,7 +114,7 @@
         iure minima modi blanditiis?
       </p>
     </FaqItem>
-    <FaqItem>
+    <FaqItem onClick={setActiveFaqItem(2)} isOpen={activeFaqItem === 2}>
       <h3 slot="title">How do I get to my camping spot?</h3>
       <p slot="content">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
@@ -110,7 +122,7 @@
         iure minima modi blanditiis?
       </p>
     </FaqItem>
-    <FaqItem>
+    <FaqItem onClick={setActiveFaqItem(3)} isOpen={activeFaqItem === 3}>
       <h3 slot="title">How do I request a stay?</h3>
       <p slot="content">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
@@ -118,7 +130,7 @@
         iure minima modi blanditiis?
       </p>
     </FaqItem>
-    <FaqItem>
+    <FaqItem onClick={setActiveFaqItem(4)} isOpen={activeFaqItem === 4}>
       <h3 slot="title">What about facilities?</h3>
       <p slot="content">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
@@ -126,7 +138,7 @@
         iure minima modi blanditiis?
       </p>
     </FaqItem>
-    <FaqItem>
+    <FaqItem onClick={setActiveFaqItem(5)} isOpen={activeFaqItem === 5}>
       <h3 slot="title">Does Welcome To My Garden cost anything?</h3>
       <p slot="content">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum

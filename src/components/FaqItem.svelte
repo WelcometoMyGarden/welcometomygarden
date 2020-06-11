@@ -2,20 +2,20 @@
   import { slide } from 'svelte/transition';
 
   let open = false;
-
-  const toggleOpen = () => (open = !open);
+  export let isOpen;
+  export let onClick;
 </script>
 
 <li class="faq-list-item">
-  <button class="button-container" on:click={toggleOpen}>
+  <button class="button-container" on:click={onClick}>
     <div class="faq-question">
       <div class="title">
         <slot name="title" />
       </div>
-      <span class="sign">{open ? '-' : '+'}</span>
+      <span class="sign">{isOpen ? '-' : '+'}</span>
     </div>
   </button>
-  {#if open}
+  {#if isOpen}
     <div transition:slide={{ duration: 300 }}>
       <div class="content">
         <slot name="content" />
