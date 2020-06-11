@@ -11,16 +11,11 @@
   let form;
   let isValid = true;
 
-  const handleSubmit = async () => {
-    // validate();
-  };
-
-  // const test = e => console.log(e, e.target.name, e.target.value);
+  const handleSubmit = async () => {};
+  const validate = e => console.log(e, e.target.validity, e.target.value);
 </script>
 
-<form {name} on:submit|preventDefault={handleSubmit}>
-  <!-- on:changed={test} -->
-  <!-- on:input={test}> -->
+<form {name} on:submit|preventDefault={handleSubmit} on:changed={validate} on:input={validate}>
   {#if title}
     <h1>{title}</h1>
   {/if}

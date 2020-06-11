@@ -15,6 +15,8 @@
             type: 'email',
             label: 'Email',
             placeholder: 'Enter your email address',
+            minLength: 4,
+            maxLength: 150,
             required: true
           },
           {
@@ -22,6 +24,8 @@
             type: 'text',
             label: 'Your name',
             placeholder: 'Enter your name',
+            minLength: 1,
+            maxLength: 150,
             required: true
           },
           {

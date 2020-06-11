@@ -7,7 +7,7 @@
 </script>
 
 <input class="input" type="number" bind:value {min} {max} />
-<input {name} class="slider" type="range" bind:value {min} {max} />
+<input {name} class="slider" type="range" bind:value {min} {max} {required} />
 
 <style>
   .input {
