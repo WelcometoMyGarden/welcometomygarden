@@ -21,6 +21,10 @@
   --color-green: #495747;
   --color-green-light: #CFE3D4;
   --color-copy: #495747;
+  --color-warning: #EC9570;
+  --color-info: #2D69EA;
+  --color-danger: #ED7F69;
+  --color-success: #59C29D;
 
   /*
   * Typography 
