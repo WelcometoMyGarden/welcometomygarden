@@ -2,11 +2,14 @@
   import { CheckIcon, XIcon } from 'svelte-feather-icons';
 
   export let name;
+  export let type;
   export let placeholder;
   export let required;
   export let value = '';
   export let error = '';
   export let minLength, maxLength;
+  export let testPattern = null;
+  export let testTitle;
 
   let validity = null;
 
@@ -14,28 +17,34 @@
     validity = e.target.validity.valid;
     error = e.target.validationMessage;
   };
-  const handleInput = e => (validity = e.target.validity.valid || null);
+  const handleInput = e => {
+    value = e.target.value;
+    validity = e.target.validity.valid || null;
+    if (error) error = e.target.validationMessage;
+  };
 </script>
 
 <div class="input">
-  <div class="icon">
-    {#if validity === true}
-      <CheckIcon size="16" color="#f00" />
-    {:else if validity === false}
-      <XIcon size="16" />
-    {/if}
-  </div>
   <input
     {name}
+    {type}
     {placeholder}
     {required}
     minlength={minLength}
     maxlength={maxLength}
+    pattern={testPattern}
+    title={testTitle}
     on:blur={handleBlur}
     on:input={handleInput}
-    bind:value
     class:valid={validity === true}
     class:invalid={validity === false} />
+  <div class="icon">
+    {#if validity === true}
+      <CheckIcon size="16" />
+    {:else if validity === false}
+      <XIcon size="16" />
+    {/if}
+  </div>
 </div>
 <div class="error">
   {#if error}
@@ -55,6 +64,14 @@
     padding-top: 0.2rem;
   }
 
+  :global(input.valid:focus + .icon > svg) {
+    stroke: var(--color-success);
+  }
+
+  :global(input.invalid + .icon > svg) {
+    stroke: var(--color-warning);
+  }
+
   input {
     padding: 1.2rem 0;
     border: none;
@@ -67,16 +84,22 @@
     font-style: italic;
   }
 
-  input:focus {
-    border-bottom: 1px solid var(--color-green);
+  input.valid:focus {
+    border-bottom: 1px solid var(--color-success);
   }
 
-  .valid {
-    border-bottom: 1px solid green;
+  input.invalid {
+    border-bottom: 1px solid var(--color-warning);
   }
 
-  .invalid {
-    border-bottom: 1px solid red;
+  input.valid:focus,
+  input.valid:focus::placeholder {
+    color: var(--color-success);
+  }
+
+  input.invalid,
+  input.invalid::placeholder {
+    color: var(--color-warning);
   }
 
   .error {
@@ -88,6 +111,6 @@
     font-style: italic;
     font-size: 1.4rem;
     margin: auto 0;
-    color: red;
+    color: var(--color-warning);
   }
 </style>
