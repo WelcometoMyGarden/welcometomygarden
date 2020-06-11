@@ -46,6 +46,10 @@
     outline: none;
   }
 
+  input:optional {
+    font-style: italic;
+  }
+
   input:focus {
     border-bottom: 1px solid var(--color-green);
   }
