@@ -26,6 +26,7 @@
   export let name = '';
   export let type = 'text';
   export let icon = null;
+  export let info = '';
   export let placeholder = '';
   export let required = false;
   let testPattern, testTitle;
@@ -51,6 +52,11 @@
       {#if required}*{/if}
     </label>
   {/if}
+  <div class="info">
+    {#if info}
+      <p class="info-message">{info}</p>
+    {/if}
+  </div>
   {#if type === 'dropdown'}
     <Dropdown {name} {placeholder} {options} {required} bind:value />
   {:else if type === 'toggle'}
@@ -98,5 +104,15 @@
 
   .label-icon {
     margin-right: 1rem;
+  }
+
+  .info {
+    display: flex;
+    min-height: 3.2rem;
+  }
+
+  .info-message {
+    font-size: 1.4rem;
+    margin: auto 0;
   }
 </style>
