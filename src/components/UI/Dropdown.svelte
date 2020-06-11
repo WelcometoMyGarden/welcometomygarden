@@ -1,4 +1,6 @@
 <script>
+  import { CheckIcon, XIcon } from 'svelte-feather-icons';
+
   export let name;
   export let placeholder;
   export let options = [];
@@ -10,29 +12,49 @@
   const handleBlur = e => (validity = e.target.validity.valid || null);
 </script>
 
-<select
-  {name}
-  bind:value
-  {required}
-  on:blur={handleBlur}
-  class:valid={validity === true}
-  class:invalid={validity === false}>
-  <option value="">{placeholder}</option>
-  {#each options as option}
-    <option value={option}>{option}</option>
-  {/each}
-</select>
+<div class="input">
+  <div class="icon">
+    {#if validity === true}
+      <CheckIcon size="16" color="#f00" />
+    {:else if validity === false}
+      <XIcon size="16" />
+    {/if}
+  </div>
+  <select
+    {name}
+    bind:value
+    {required}
+    on:blur={handleBlur}
+    class:valid={validity === true}
+    class:invalid={validity === false}>
+    <option value="">{placeholder}</option>
+    {#each options as option}
+      <option value={option}>{option}</option>
+    {/each}
+  </select>
+</div>
 
 <style>
+  .input {
+    display: flex;
+  }
+
+  .icon {
+    position: absolute;
+    left: 1.2rem;
+    margin: 1.2rem;
+    padding-top: 0.2rem;
+  }
+
   select {
     padding: 1rem;
   }
 
   .valid {
-    border: 1px solid green;
+    border-bottom: 1px solid green;
   }
 
   .invalid {
-    border: 1px solid red;
+    border-bottom: 1px solid red;
   }
 </style>
