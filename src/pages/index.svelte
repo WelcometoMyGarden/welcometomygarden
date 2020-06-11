@@ -308,6 +308,7 @@
 
   .faq-intro h1 {
     color: var(--color-white);
+    text-align: center;
   }
 
   .faq-intro p {
@@ -340,11 +341,11 @@
     justify-content: center;
     text-align: center;
     width: 50%;
+    padding: 12rem 9.5rem;
   }
 
   .support {
     background-color: var(--color-beige-light);
-    padding: 116px 96px;
   }
 
   @media only screen and (max-width: 1300px) {
@@ -391,12 +392,6 @@
       text-align: center;
       margin-bottom: 1rem;
     }
-  }
-
-  @media only screen and (max-width: 1000px) {
-    .steps {
-      padding: 0 8rem;
-    }
 
     .faq {
       flex-direction: column;
@@ -407,19 +402,20 @@
     }
 
     .faq-intro {
-      padding: 60px 150px;
-    }
-
-    .faq-list {
-      padding: 0;
+      padding: 6rem 10rem;
     }
 
     .cooperation {
       flex-direction: column;
+      animation-iteration-count: 12rem 9.5rem;
     }
 
     .cooperation > * {
       width: 100%;
+    }
+
+    .cooperation-card {
+      padding-top: 10rem;
     }
 
     .partners {
@@ -428,6 +424,12 @@
 
     .support {
       order: 1;
+    }
+  }
+
+  @media only screen and (max-width: 1000px) {
+    .steps {
+      padding: 0 8rem;
     }
   }
 

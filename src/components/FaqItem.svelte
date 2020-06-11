@@ -43,14 +43,14 @@
     font-size: 2rem;
     display: flex;
     justify-content: space-between;
-    padding: 20px 0;
+    padding: 2rem 0;
     font-weight: 600;
     color: var(--color-green);
   }
 
   .content {
     font-size: 1.6rem;
-    padding: 20px 0;
+    padding: 2rem 0;
     font-weight: normal;
   }
 
@@ -58,5 +58,20 @@
     font-size: 3rem;
     margin-left: auto;
     display: block;
+  }
+
+  @media only screen and (max-width: 1150px) {
+    .faq-question {
+      padding: 0 7.5rem;
+    }
+
+    .title {
+      font-size: 1.6rem;
+      padding: 3.5rem 0;
+    }
+
+    .content {
+      padding: 0 7.5rem 2.5rem;
+    }
   }
 </style>
