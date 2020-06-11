@@ -11,14 +11,15 @@
 
   if (!$user) $goto(routes.SIGN_IN);
 
-  const getConvoRoute = (id, name) => `${routes.CHAT}/${removeDiacritics(name)}/${id}`;
+  const getConvoRoute = (id, name, params) =>
+    `${routes.CHAT}/${removeDiacritics(name)}/${id}${params}`;
 
   let newConversation;
   const startChattingWith = async partnerId => {
     try {
       const newPartner = await initiateChat(partnerId);
       newConversation = { recipient: newPartner.firstName, partnerId };
-      $goto(getConvoRoute(partnerId, newPartner.firstName));
+      $goto(getConvoRoute(partnerId, newPartner.firstName, '?new=true'));
     } catch (ex) {
       // TODO: display error
       $goto(routes.CHAT);

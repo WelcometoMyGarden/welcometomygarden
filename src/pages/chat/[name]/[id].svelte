@@ -1,7 +1,14 @@
 <script>
   export const id = '';
 
+  import { params } from '@sveltech/routify';
+
   let typedMessage = '';
+
+  const messages = [];
+  const chatPartner = 'Barry';
+
+  $: isNew = $params.new;
 
   const sendMessage = () => {
     console.log(typedMessage);
@@ -10,7 +17,11 @@
 </script>
 
 <div class="messages">
-  <span />
+  {#if messages.length === 0}
+    <p class="empty-state">You and {chatPartner} have no messages.</p>
+  {:else}
+    <span />
+  {/if}
 </div>
 <form on:submit|preventDefault={sendMessage}>
   <textarea
@@ -25,6 +36,14 @@
   .messages {
     flex: 0.92;
     width: 100%;
+    position: relative;
+    padding: 1rem 0;
+  }
+
+  .empty-state {
+    bottom: 1rem;
+    left: 0;
+    position: absolute;
   }
 
   form {
