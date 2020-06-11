@@ -14,9 +14,7 @@
 
   const handleSubmit = async () => {
     dispatch('submit', {
-      /*
-       * Pass only name & value from field
-       */
+      name,
       values: fields.map(field => (field = (({ name, value }) => ({ name, value }))(field)))
     });
   };
