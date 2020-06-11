@@ -1,5 +1,5 @@
 <script>
-  import { CheckCircleIcon, XIcon } from 'svelte-feather-icons';
+  import { CheckIcon, XIcon } from 'svelte-feather-icons';
 
   export let name;
   export let placeholder;
@@ -13,7 +13,14 @@
   const handleInput = e => (validity = e.target.validity.valid || null);
 </script>
 
-<div>
+<div class="input">
+  <div class="icon">
+    {#if validity === true}
+      <CheckIcon size="16" />
+    {:else if validity === false}
+      <XIcon size="16" />
+    {/if}
+  </div>
   <input
     {name}
     {placeholder}
@@ -25,17 +32,18 @@
     bind:value
     class:valid={validity === true}
     class:invalid={validity === false} />
-  {#if validity === true}
-    <CheckCircleIcon size="24" />
-  {:else if validity === false}
-    <XIcon size="24" />
-  {/if}
 </div>
 
 <style>
-  div {
+  .input {
     display: flex;
-    align-items: center;
+  }
+
+  .icon {
+    position: absolute;
+    left: 1.2rem;
+    margin: 1.2rem;
+    padding-top: 0.2rem;
   }
 
   input {
@@ -55,10 +63,10 @@
   }
 
   .valid {
-    border: 1px solid green;
+    border-bottom: 1px solid green;
   }
 
   .invalid {
-    border: 1px solid red;
+    border-bottom: 1px solid red;
   }
 </style>
