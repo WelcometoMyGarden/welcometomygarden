@@ -1,5 +1,5 @@
 <script>
-  import { PageContainer, FormStep, Form, Field } from '../../components/UI';
+  import { PageContainer, Form, Field } from '../../components/UI';
 
   const data = {
     title: 'Add new garden',
@@ -75,7 +75,8 @@
             type: 'dropdown',
             label: 'Type',
             options: ['01', '02', '03'],
-            placeholder: 'What type of camping space do you offer?'
+            placeholder: 'What type of camping space do you offer?',
+            required: true
           }
         ]
       },
@@ -120,10 +121,12 @@
       }
     ]
   };
+
+  const handleSubmit = e => console.log(e.detail.values);
 </script>
 
 <PageContainer>
   {#each data.steps as { name, title, fields, submitAction }}
-    <FormStep {name} {title} {fields} {submitAction} />
+    <Form {name} {title} {fields} {submitAction} on:submit={handleSubmit} />
   {/each}
 </PageContainer>
