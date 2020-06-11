@@ -33,6 +33,8 @@ export default {
                     label: 'Your street name',
                     info: 'Enter your street name',
                     placeholder: 'Street name',
+                    minLength: 4,
+                    maxLength: 150,
                     required: true
                 },
                 {
@@ -41,6 +43,8 @@ export default {
                     label: 'Your street number',
                     info: 'Enter your house number',
                     placeholder: 'House number',
+                    min: 1,
+                    max: 1000,
                     required: true
                 },
                 {
@@ -57,6 +61,7 @@ export default {
                     label: 'Your municipality',
                     info: 'Enter the name of your municipality',
                     placeholder: 'Municipality',
+                    pattern: "^[A-Za-zÀ-ÖØ-öø-ÿ -']+",
                     required: true
                 },
                 {
@@ -66,6 +71,8 @@ export default {
                     info:
                         'Please provide a short description of your garden and the camping spot you can offer',
                     placeholder: 'Campsite description',
+                    minLength: 80,
+                    maxLength: 250,
                     required: true
                 },
                 {
