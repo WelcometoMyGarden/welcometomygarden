@@ -30,10 +30,10 @@
   export let placeholder = '';
   export let required = false;
   let testPattern, testTitle;
-  export let minLength, maxLength;
-  export let min, max;
   export { testPattern as pattern };
   export { testTitle as title };
+  export let minLength, maxLength;
+  export let min, max;
   export let options = [];
   let className;
   export { className as class };
@@ -63,17 +63,6 @@
     <Toggle {name} {required} bind:value />
   {:else if type === 'slider'}
     <Slider {name} {required} {min} {max} bind:value />
-  {:else if type === 'number'}
-    <Input
-      {name}
-      type="number"
-      {placeholder}
-      {min}
-      {max}
-      {required}
-      {testPattern}
-      {testTitle}
-      bind:value />
   {:else}
     <Input
       {name}
@@ -82,6 +71,8 @@
       {required}
       {minLength}
       {maxLength}
+      {min}
+      {max}
       {testPattern}
       {testTitle}
       bind:value />
