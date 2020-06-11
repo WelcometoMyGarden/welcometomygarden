@@ -1,5 +1,5 @@
 <script>
-  export let id;
+  export const id = '';
 
   let typedMessage = '';
 

@@ -3,40 +3,82 @@
   import { flip } from 'svelte/animate';
   import { goto, params } from '@sveltech/routify';
   import routes from '@/routes';
-  import { conversationData } from '@/stores/chat';
+  import { initiateChat } from '@/api/chat';
+  import { conversationData, creatingNewChat } from '@/stores/chat';
   import ConversationCard from '@/components/Chat/ConversationCard.svelte';
+  import { Progress } from '@/components/UI';
   import { removeDiacritics } from '@/util';
 
   if (!$user) $goto(routes.SIGN_IN);
 
+  const getConvoRoute = (id, name) => `${routes.CHAT}/${removeDiacritics(name)}/${id}`;
+
+  let newConversation;
+  const startChattingWith = async partnerId => {
+    try {
+      const newPartner = await initiateChat(partnerId);
+      newConversation = { recipient: newPartner.firstName, partnerId };
+      $goto(getConvoRoute(partnerId, newPartner.firstName));
+    } catch (ex) {
+      // TODO: display error
+      $goto(routes.CHAT);
+    }
+  };
+
+  const sortByLastActivity = (c1, c2) => c1.lastActivity - c2.lastActivity;
+
+  $: selectedConversation = $conversationData[$params.id];
   $: conversations = Object.keys($conversationData)
     .map(id => $conversationData[id])
-    .sort((c1, c2) => c1.lastActivity - c2.lastActivity);
+    .sort(sortByLastActivity);
 
-  $: selectedConversation = $conversationData[$params.id] || $conversationData[1];
+  $: if ($params.with) startChattingWith($params.with);
+
   const selectConversation = id => {
+    if (!id) $goto(getConvoRoute(newConversation.partnerId, newConversation.recipient));
     const name = $conversationData[id].recipient.toLowerCase();
-    $goto(`${routes.CHAT}/${removeDiacritics(name)}/${id}`);
+    $goto(getConvoRoute(id, name));
   };
 </script>
 
-<div class="container">
-  <section class="conversations">
-    <h2>All conversations</h2>
-    {#each conversations as conversation (conversation.id)}
-      <article animate:flip={{ duration: 400 }}>
-        <ConversationCard
-          recipient={conversation.recipient}
-          lastMessage={conversation.lastMessage}
-          selected={selectedConversation.id === conversation.id}
-          on:click={() => selectConversation(conversation.id)} />
-      </article>
-    {/each}
-  </section>
-  <div class="messages">
-    <slot />
+<Progress active={$creatingNewChat} />
+
+{#if !$params.with}
+  <div class="container">
+    <section class="conversations">
+      <h2>All conversations</h2>
+      {#if newConversation}
+        <article>
+          <ConversationCard
+            on:click={() => selectConversation(null)}
+            recipient={newConversation.recipient}
+            lastMessage={''}
+            selected={$params.id === newConversation.partnerId} />
+        </article>
+      {/if}
+      {#if conversations.length === 0}
+        <div class="empty">
+          You don't have any messages yet. Select a host
+          <a href={routes.MAP}>on the map</a>
+          to contact them.
+        </div>
+      {:else}
+        {#each conversations as conversation (conversation.id)}
+          <article animate:flip={{ duration: 400 }}>
+            <ConversationCard
+              recipient={conversation.recipient}
+              lastMessage={conversation.lastMessage}
+              selected={selectedConversation && selectedConversation.id === conversation.id}
+              on:click={() => selectConversation(conversation.id)} />
+          </article>
+        {/each}
+      {/if}
+    </section>
+    <div class="messages">
+      <slot />
+    </div>
   </div>
-</div>
+{/if}
 
 <style>
   h2 {
@@ -55,6 +97,15 @@
     height: 75vh;
   }
 
+  .empty {
+    padding: 1rem 3rem;
+    line-height: 1.6;
+  }
+
+  .empty a {
+    text-decoration: underline;
+    color: var(--color-orange);
+  }
   .conversations {
     width: 40rem;
     box-shadow: 0px 0px 33px rgba(0, 0, 0, 0.1);

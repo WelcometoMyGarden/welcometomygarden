@@ -40,7 +40,9 @@ const data = {
 
 import { writable } from 'svelte/store';
 
-const initialized = writable(false);
+const initializing = writable(false);
 const conversationData = writable(data);
 
-export { initialized, conversationData };
+const creatingNewChat = writable(false);
+
+export { initializing, conversationData, creatingNewChat };

@@ -20,7 +20,13 @@
   <div class="avatar" style="--chat-color: {color}">{recipient.charAt(0).toUpperCase()}</div>
   <div class="details">
     <span class="name">{recipient}</span>
-    <p class="last-message">{lastMessage}</p>
+    <p class="last-message">
+      {#if lastMessage}
+        {lastMessage}
+      {:else}
+        <span class="badge">New</span>
+      {/if}
+    </p>
   </div>
 </button>
 
@@ -77,5 +83,17 @@
     text-overflow: ellipsis;
     font-size: 1.4rem;
     margin-top: 0.4rem;
+  }
+
+  .badge {
+    background-color: var(--color-green);
+    border-radius: 0.6rem;
+    display: block;
+    color: var(--color-white);
+    padding: 0.4rem 0.8rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: inline-flex;
   }
 </style>
