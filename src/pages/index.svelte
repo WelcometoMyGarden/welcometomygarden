@@ -343,7 +343,7 @@
   }
 
   .support {
-    background-color: var(--color-beige);
+    background-color: var(--color-beige-light);
     padding: 116px 96px;
   }
 
@@ -396,6 +396,38 @@
   @media only screen and (max-width: 1000px) {
     .steps {
       padding: 0 8rem;
+    }
+
+    .faq {
+      flex-direction: column;
+    }
+
+    .faq > * {
+      width: 100%;
+    }
+
+    .faq-intro {
+      padding: 60px 150px;
+    }
+
+    .faq-list {
+      padding: 0;
+    }
+
+    .cooperation {
+      flex-direction: column;
+    }
+
+    .cooperation > * {
+      width: 100%;
+    }
+
+    .partners {
+      order: 2;
+    }
+
+    .support {
+      order: 1;
     }
   }
 
