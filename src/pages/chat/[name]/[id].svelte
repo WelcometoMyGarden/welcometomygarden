@@ -59,7 +59,8 @@
     padding: 1rem;
     border: 1px solid transparent;
     border-radius: 0.6rem;
-    flex: 0.9;
+    flex: 0.92;
+    resize: vertical;
   }
 
   textarea:focus {
