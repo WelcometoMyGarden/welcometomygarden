@@ -1,7 +1,8 @@
 <script>
-  export let uid;
+  export let chatId;
 
   import { params, goto } from '@sveltech/routify';
+  import { getPublicUserProfile } from '@/api/user';
   import { observeMessagesForChat, create as createChat } from '@/api/chat';
   import { user } from '@/stores/auth';
   import { chats } from '@/stores/chat';
@@ -9,12 +10,12 @@
 
   let typedMessage = '';
 
-  const chatPartner = $params.name;
-  const isNew = $params.chatId === 'new';
+  const isNew = chatId === 'new';
 
-  const chat = Object.keys($chats).find(id => {
-    const chat = $chats[id];
-    return chat && chat.users.includes(uid);
+  let chat = null;
+  $: chat = Object.keys($chats).find(id => {
+    const c = $chats[id];
+    return c && c.users.includes($user.id);
   });
 
   $: if (chat && !chat.messages) observeMessagesForChat(chat.id);
@@ -25,9 +26,9 @@
     isSending = true;
     if (!chat) {
       try {
-        const newChatId = await createChat($user.id, uid, typedMessage);
+        const newChatId = await createChat($user.id, $params.id, typedMessage);
         typedMessage = '';
-        $goto(`${routes.CHAT}/${chatPartner}/${newChatId}`);
+        $goto(`${routes.CHAT}/${$params.name}/${newChatId}`);
       } catch (ex) {
         // TODO: show error
         console.log(ex);
@@ -47,7 +48,7 @@
 
 <div class="messages">
   {#if chat && chat.messages && chat.messages.length === 0}
-    <p class="empty-state">You and {chatPartner} have no messages.</p>
+    <p class="empty-state">You and {chat.partner.firstName} have no messages.</p>
   {:else}
     <span />
   {/if}

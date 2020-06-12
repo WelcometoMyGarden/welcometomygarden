@@ -24,7 +24,7 @@
     try {
       const newPartner = await initiateChat(partnerId);
       newConversation = { name: newPartner.firstName, partnerId };
-      $goto(getConvoRoute(newPartner.firstName, 'new'));
+      $goto(getConvoRoute(newPartner.firstName, `new?id=${partnerId}`));
     } catch (ex) {
       // TODO: display error
       $goto(routes.CHAT);
@@ -37,7 +37,7 @@
 
   const selectConversation = id => {
     if (!id) $goto(getConvoRoute(newConversation.name, 'new'));
-    const name = $chats[id].users.find(id => id !== $user.id).toLowerCase();
+    const name = $chats[id].partner.firstName.toLowerCase();
     $goto(getConvoRoute(name, id));
   };
 </script>
@@ -67,7 +67,7 @@
         {#each conversations as conversation (conversation.id)}
           <article animate:flip={{ duration: 400 }}>
             <ConversationCard
-              recipient={conversation.users.find(id => id !== $user.id)}
+              recipient={$chats[conversation.id].partner.firstName}
               lastMessage={conversation.lastMessage}
               selected={selectedConversation && selectedConversation.id === conversation.id}
               on:click={() => selectConversation(conversation.id)} />
