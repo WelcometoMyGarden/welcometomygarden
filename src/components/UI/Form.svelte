@@ -29,7 +29,6 @@
 </script>
 
 <form {name} on:submit|preventDefault={handleSubmit}>
-  <p>{JSON.stringify(fields)}</p>
   {#if title}
     <h1>{title}</h1>
   {/if}
