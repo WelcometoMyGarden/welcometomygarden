@@ -71,7 +71,7 @@ export const create = async (uid1, uid2, message) => {
     lastMessage: message.trim()
   });
   await doc.collection('messages').add({
-    message,
+    content: message,
     createdAt: Timestamp.now(),
     from: uid1
   });

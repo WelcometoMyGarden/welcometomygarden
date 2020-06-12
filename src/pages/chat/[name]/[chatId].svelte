@@ -5,15 +5,20 @@
   import { observeMessagesForChat, create as createChat } from '@/api/chat';
   import { user } from '@/stores/auth';
   import { chats } from '@/stores/chat';
+  import { Avatar } from '@/components/UI';
   import routes from '@/routes';
 
   let typedMessage = '';
 
   const isNew = chatId === 'new';
 
+  const sortBySentDate = (m1, m2) => m1.createdAt - m2.createdAt;
+
   $: chat = $chats[chatId];
 
   $: if (chat && !chat.messages) observeMessagesForChat(chat.id);
+
+  $: messages = chat && chat.messages ? chat.messages.sort(sortBySentDate).reverse() : [];
 
   let isSending = false;
   const sendMessage = async () => {
@@ -41,7 +46,16 @@
   };
 </script>
 
-<div class="messages" />
+<div class="messages">
+  {#each messages as message (message.id)}
+    <div class="message" class:by-user={message.from === $user.id}>
+      <div class="avatar">
+        <Avatar name={message.from === $user.id ? $user.firstName : chat.partner.firstName} />
+      </div>
+      <p class="message-text">{message.content}</p>
+    </div>
+  {/each}
+</div>
 <form on:submit|preventDefault={sendMessage}>
   <textarea
     placeholder="Type your message..."
@@ -57,11 +71,37 @@
     flex: 0.92;
     width: 100%;
     position: relative;
-    padding: 1rem 0;
+    padding: 0 0 4rem 0;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .avatar {
+    align-self: flex-end;
   }
 
   .message {
+    display: flex;
+    align-items: center;
+  }
+
+  .message.by-user {
+    align-self: flex-end;
+    flex-flow: row-reverse;
+  }
+
+  .message-text {
+    margin-left: 2rem;
     white-space: pre-wrap;
+    padding: 1.2rem;
+    background-color: var(--color-gray);
+    border-radius: 1rem;
+  }
+
+  .message.by-user .message-text {
+    margin-left: 0;
+    margin-right: 2rem;
+    background-color: var(--color-green-light);
   }
 
   form {
