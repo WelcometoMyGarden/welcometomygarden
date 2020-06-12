@@ -74,4 +74,14 @@
       padding: 0 7.5rem 2.5rem;
     }
   }
+
+  @media only screen and (max-width: 700px) {
+    .faq-question {
+      padding: 0 4rem;
+    }
+
+    .content {
+      padding: 0 4rem 2.5rem;
+    }
+  }
 </style>

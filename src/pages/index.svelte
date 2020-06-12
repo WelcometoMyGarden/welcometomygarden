@@ -446,8 +446,31 @@
   }
 
   @media only screen and (max-width: 800px) {
+    .welcome {
+      padding-left: 4rem;
+      padding-right: 4rem;
+    }
+
     .steps {
       padding: 0 6rem;
+    }
+
+    .faq-list {
+      padding: 0;
+    }
+  }
+
+  @media only screen and (max-width: 700px) {
+    .steps {
+      padding: 0 6rem;
+    }
+
+    .faq-intro {
+      padding: 4rem 8rem 6rem;
+    }
+
+    .faq-list {
+      padding: 0;
     }
   }
 
