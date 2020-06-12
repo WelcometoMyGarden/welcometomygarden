@@ -1,6 +1,5 @@
 <script>
   export let name;
-  export let required;
   export let value = false;
 </script>
 
@@ -11,7 +10,8 @@
 
 <style>
   .toggle {
-    position: relative;
+    flex: 1;
+    display: flex;
   }
 
   input {
@@ -19,29 +19,13 @@
   }
 
   input:checked + label {
-    background: var(--color-green-light);
-  }
-
-  input:checked + label:before {
-    left: 50%;
-    right: 0;
+    background: var(--color-success);
   }
 
   label {
     display: block;
     cursor: pointer;
     padding: 1.6rem;
-    border: 1px solid var(--color-gray);
-  }
-
-  label:before {
-    content: '';
-    padding: 1.6rem;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 50%;
-    background: var(--color-gray);
     border: 1px solid var(--color-gray);
   }
 </style>
