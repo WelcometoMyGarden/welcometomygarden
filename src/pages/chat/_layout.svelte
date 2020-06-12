@@ -4,22 +4,27 @@
   import { goto, params } from '@sveltech/routify';
   import routes from '@/routes';
   import { initiateChat } from '@/api/chat';
-  import { conversationData, creatingNewChat } from '@/stores/chat';
+  import { chats, creatingNewChat } from '@/stores/chat';
   import ConversationCard from '@/components/Chat/ConversationCard.svelte';
   import { Progress } from '@/components/UI';
   import { removeDiacritics } from '@/util';
 
   if (!$user) $goto(routes.SIGN_IN);
 
-  const getConvoRoute = (id, name, params = '') =>
-    `${routes.CHAT}/${removeDiacritics(name)}/${id}${params}`;
+  $: selectedConversation = $chats[$params.chatId];
+  $: conversations = Object.keys($chats)
+    .map(id => $chats[id])
+    .sort(sortByLastActivity);
+
+  const getConvoRoute = (name, id) =>
+    `${routes.CHAT}/${removeDiacritics(name).toLowerCase()}/${id}`;
 
   let newConversation;
   const startChattingWith = async partnerId => {
     try {
       const newPartner = await initiateChat(partnerId);
-      newConversation = { recipient: newPartner.firstName, partnerId };
-      $goto(getConvoRoute(partnerId, newPartner.firstName, '?new=true'));
+      newConversation = { name: newPartner.firstName, partnerId };
+      $goto(getConvoRoute(newPartner.firstName, 'new'));
     } catch (ex) {
       // TODO: display error
       $goto(routes.CHAT);
@@ -28,17 +33,12 @@
 
   const sortByLastActivity = (c1, c2) => c1.lastActivity - c2.lastActivity;
 
-  $: selectedConversation = $conversationData[$params.id];
-  $: conversations = Object.keys($conversationData)
-    .map(id => $conversationData[id])
-    .sort(sortByLastActivity);
-
   $: if ($params.with) startChattingWith($params.with);
 
   const selectConversation = id => {
-    if (!id) $goto(getConvoRoute(newConversation.partnerId, newConversation.recipient));
-    const name = $conversationData[id].recipient.toLowerCase();
-    $goto(getConvoRoute(id, name));
+    if (!id) $goto(getConvoRoute(newConversation.name, 'new'));
+    const name = $chats[id].users.find(id => id !== $user.id).toLowerCase();
+    $goto(getConvoRoute(name, id));
   };
 </script>
 
@@ -52,12 +52,12 @@
         <article>
           <ConversationCard
             on:click={() => selectConversation(null)}
-            recipient={newConversation.recipient}
+            recipient={newConversation.name}
             lastMessage={''}
-            selected={$params.id === newConversation.partnerId} />
+            selected={$params.chatId === 'new'} />
         </article>
       {/if}
-      {#if conversations.length === 0}
+      {#if conversations.length === 0 && !newConversation}
         <div class="empty">
           You don't have any messages yet. Select a host
           <a href={routes.MAP}>on the map</a>
@@ -67,7 +67,7 @@
         {#each conversations as conversation (conversation.id)}
           <article animate:flip={{ duration: 400 }}>
             <ConversationCard
-              recipient={conversation.recipient}
+              recipient={conversation.users.find(id => id !== $user.id)}
               lastMessage={conversation.lastMessage}
               selected={selectedConversation && selectedConversation.id === conversation.id}
               on:click={() => selectConversation(conversation.id)} />

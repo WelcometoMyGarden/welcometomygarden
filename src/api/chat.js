@@ -11,7 +11,7 @@ export const initiateChat = async (partnerUid) => {
   return partner;
 };
 
-export const createChatsListener = async () => {
+export const createChatObserver = async () => {
   const query = await db.collection('chats').where('users', 'array-contains', get(user).id);
   return query.onSnapshot(
     (querySnapshot) => {
@@ -26,7 +26,7 @@ export const createChatsListener = async () => {
   );
 };
 
-export const createMessageListener = (chatId) => {
+export const observeMessagesForChat = (chatId) => {
   db.collection('chats')
     .doc(chatId)
     .collection('messages')
@@ -44,19 +44,19 @@ export const createMessageListener = (chatId) => {
 };
 
 export const sendMessage = async (chatId, message) => {
-  await db.collection('chats').doc(chatId).update({
-    lastActivity: db.FieldValue.serverTimestamp(),
-    lastMessage: message
-  });
-  return db
+  await db
     .collection('chats')
     .doc(chatId)
     .collection('messages')
     .add({
-      message,
+      message: message.trim(),
       createdAt: db.FieldValue.serverTimestamp(),
       from: get(user).id
     });
+  await db.collection('chats').doc(chatId).update({
+    lastActivity: db.FieldValue.serverTimestamp(),
+    lastMessage: message.trim()
+  });
 };
 
 export const create = async (uid1, uid2, message) => {
@@ -64,11 +64,12 @@ export const create = async (uid1, uid2, message) => {
     users: [uid1, uid2],
     createdAt: db.FieldValue.serverTimestamp(),
     lastActivity: db.FieldValue.serverTimestamp(),
-    lastMessage: message
+    lastMessage: message.trim()
   });
-  return doc.collection('messages').add({
+  await doc.collection('messages').add({
     message,
     createdAt: db.FieldValue.serverTimestamp(),
     from: uid1
   });
+  return doc.id;
 };
