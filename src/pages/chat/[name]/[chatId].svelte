@@ -1,8 +1,10 @@
 <script>
   export let chatId;
 
+  import { onMount, beforeUpdate, afterUpdate } from 'svelte';
+  import { flip } from 'svelte/animate';
   import { params, goto } from '@sveltech/routify';
-  import { observeMessagesForChat, create as createChat } from '@/api/chat';
+  import { observeMessagesForChat, create as createChat, sendMessage } from '@/api/chat';
   import { user } from '@/stores/auth';
   import { chats } from '@/stores/chat';
   import { Avatar } from '@/components/UI';
@@ -18,10 +20,27 @@
 
   $: if (chat && !chat.messages) observeMessagesForChat(chat.id);
 
+  let messageContainer;
+  let autoscroll;
+
+  beforeUpdate(() => {
+    autoscroll =
+      messageContainer &&
+      messageContainer.offsetHeight + messageContainer.scrollTop >
+        messageContainer.scrollHeight - 20;
+  });
+
+  afterUpdate(() => {
+    if (autoscroll) messageContainer.scrollTo(0, messageContainer.scrollHeight);
+  });
+
+  let messages = null;
   $: messages = chat && chat.messages ? chat.messages.sort(sortBySentDate).reverse() : [];
 
+  $: console.log(messages);
+
   let isSending = false;
-  const sendMessage = async () => {
+  const send = async () => {
     // TODO: make sure typedMessage is below or equal to 500 characters
     isSending = true;
     if (!chat) {
@@ -46,17 +65,19 @@
   };
 </script>
 
-<div class="messages">
-  {#each messages as message (message.id)}
-    <div class="message" class:by-user={message.from === $user.id}>
-      <div class="avatar">
-        <Avatar name={message.from === $user.id ? $user.firstName : chat.partner.firstName} />
+<div class="message-wrapper" bind:this={messageContainer}>
+  <div class="messages">
+    {#each messages as message (message.id)}
+      <div class="message" class:by-user={message.from === $user.id}>
+        <div class="avatar">
+          <Avatar name={message.from === $user.id ? $user.firstName : chat.partner.firstName} />
+        </div>
+        <p class="message-text">{message.content}</p>
       </div>
-      <p class="message-text">{message.content}</p>
-    </div>
-  {/each}
+    {/each}
+  </div>
 </div>
-<form on:submit|preventDefault={sendMessage}>
+<form on:submit|preventDefault={send}>
   <textarea
     placeholder="Type your message..."
     type="text"
@@ -67,13 +88,20 @@
 </form>
 
 <style>
-  .messages {
-    flex: 0.92;
+  .message-wrapper {
+    flex: 0.9;
+    max-height: 90%;
     width: 100%;
     position: relative;
-    padding: 0 0 4rem 0;
+    overflow-y: auto;
+    margin-bottom: 3rem;
+  }
+
+  .messages {
+    padding: 0 2rem;
     display: flex;
     flex-direction: column-reverse;
+    min-height: min-content;
   }
 
   .avatar {
@@ -83,6 +111,7 @@
   .message {
     display: flex;
     align-items: center;
+    margin-top: 1rem;
   }
 
   .message.by-user {

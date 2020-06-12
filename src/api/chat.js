@@ -53,7 +53,7 @@ export const sendMessage = async (chatId, message) => {
     .doc(chatId)
     .collection('messages')
     .add({
-      message: message.trim(),
+      content: message.trim(),
       createdAt: Timestamp.now(),
       from: get(user).id
     });

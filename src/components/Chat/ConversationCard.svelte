@@ -45,6 +45,7 @@
 
   .details {
     width: 80%;
+    margin-left: 1.2rem;
   }
 
   .name {

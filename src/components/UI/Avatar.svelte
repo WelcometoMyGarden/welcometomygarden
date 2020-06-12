@@ -26,8 +26,6 @@
     color: var(--color-white);
     background-color: var(--chat-color);
     border-radius: 50%;
-    margin-right: 1rem;
     font-weight: 900;
-    margin-right: 1.2rem;
   }
 </style>
