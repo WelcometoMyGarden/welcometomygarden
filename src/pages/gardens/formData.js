@@ -7,26 +7,6 @@ export default {
             name: 'personal-details',
             fields: [
                 {
-                    name: 'email',
-                    type: 'email',
-                    label: 'Email',
-                    info: 'Enter your email address',
-                    placeholder: 'Email',
-                    minLength: 4,
-                    maxLength: 150,
-                    required: true
-                },
-                {
-                    name: 'name',
-                    type: 'text',
-                    label: 'Your name',
-                    info: 'Enter your name',
-                    placeholder: 'Name',
-                    minLength: 1,
-                    maxLength: 150,
-                    required: true
-                },
-                {
                     name: 'street-name',
                     type: 'text',
                     label: 'Your street name',
@@ -55,39 +35,23 @@ export default {
                     required: true
                 },
                 {
-                    name: 'municipality',
+                    name: 'city',
                     type: 'text',
-                    label: 'Your municipality',
-                    info: 'Enter the name of your municipality',
-                    placeholder: 'Municipality',
+                    label: 'Your city',
+                    info: 'Enter the name of your city',
+                    placeholder: 'City',
                     pattern: "^[A-Za-zÀ-ÖØ-öø-ÿ -']+",
                     required: true
                 },
                 {
                     name: 'description',
                     type: 'text',
-                    label: 'Your campspace',
+                    label: 'Describe your campspace',
                     info:
                         'Please provide a short description of your garden and the camping spot you can offer',
                     placeholder: 'Campsite description',
                     minLength: 80,
                     maxLength: 250,
-                    required: true
-                },
-                {
-                    name: 'surface-area',
-                    type: 'slider',
-                    label: 'Surface area',
-                    info: 'What is the surface area of your camping space?',
-                    placeholder: 'Surface area'
-                },
-                {
-                    name: 'type',
-                    type: 'dropdown',
-                    label: 'Type',
-                    options: ['01', '02', '03'],
-                    info: 'What type of camping space do you offer?',
-                    placeholder: 'Campsite type',
                     required: true
                 }
             ]
@@ -97,28 +61,18 @@ export default {
             title: 'Facilities',
             fields: [
                 {
-                    name: 'outside-toilet-provided',
-                    type: 'toggle',
-                    label: 'Outside toilet',
-                    info: 'Do you have an outside toilet that guests can use?',
-                    icon: 'toilet',
-                    required: true
-                },
-                {
-                    name: 'inside-toilet-provided',
-                    type: 'toggle',
-                    label: 'Inside toilet',
-                    info: 'Would you allow guests to use your inside toilet?',
-                    icon: 'toilet',
-                    required: true
-                },
-                {
                     name: 'drinkable-water-provided',
                     type: 'toggle',
                     label: 'Drinkable water',
                     info: 'Can guests have access to drinking water when staying with you?',
-                    icon: 'water',
-                    required: true
+                    icon: 'water'
+                },
+                {
+                    name: 'toilet',
+                    type: 'toggle',
+                    label: 'Toilet',
+                    info: 'Do you have a toilet that guests can use?',
+                    icon: 'toilet'
                 },
                 {
                     name: 'electricity-provided',
@@ -126,8 +80,20 @@ export default {
                     label: 'Electricity',
                     info:
                         'Can you offer electricity (for phones or recharge batteries of electric bikes)',
-                    icon: 'electricity',
-                    required: true
+                    icon: 'electricity'
+                },
+                {
+                    name: 'tent',
+                    type: 'toggle',
+                    label: 'Tent',
+                    info: 'Do you have a tent that guests can use?',
+                },
+                {
+                    name: 'amount-of-tents',
+                    type: 'slider',
+                    label: 'Amount of tents',
+                    info: 'For how many tents do you provide space?',
+                    placeholder: 'Surface area'
                 }
             ]
         }
