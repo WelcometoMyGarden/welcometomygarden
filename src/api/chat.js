@@ -38,7 +38,7 @@ export const observeMessagesForChat = (chatId) => {
       (snapshot) => {
         const changes = snapshot.docChanges();
         changes.forEach((message) => {
-          addMessage(chatId, message);
+          addMessage(chatId, { id: message.doc.id, ...message.doc.data() });
         });
       },
       (err) => {

@@ -2,7 +2,6 @@
   export let chatId;
 
   import { params, goto } from '@sveltech/routify';
-  import { getPublicUserProfile } from '@/api/user';
   import { observeMessagesForChat, create as createChat } from '@/api/chat';
   import { user } from '@/stores/auth';
   import { chats } from '@/stores/chat';
@@ -12,11 +11,7 @@
 
   const isNew = chatId === 'new';
 
-  let chat = null;
-  $: chat = Object.keys($chats).find(id => {
-    const c = $chats[id];
-    return c && c.users.includes($user.id);
-  });
+  $: chat = $chats[chatId];
 
   $: if (chat && !chat.messages) observeMessagesForChat(chat.id);
 
@@ -46,13 +41,7 @@
   };
 </script>
 
-<div class="messages">
-  {#if chat && chat.messages && chat.messages.length === 0}
-    <p class="empty-state">You and {chat.partner.firstName} have no messages.</p>
-  {:else}
-    <span />
-  {/if}
-</div>
+<div class="messages" />
 <form on:submit|preventDefault={sendMessage}>
   <textarea
     placeholder="Type your message..."
@@ -71,10 +60,8 @@
     padding: 1rem 0;
   }
 
-  .empty-state {
-    bottom: 1rem;
-    left: 0;
-    position: absolute;
+  .message {
+    white-space: pre-wrap;
   }
 
   form {

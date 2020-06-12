@@ -9,9 +9,12 @@ export const addChat = (chat) => {
 };
 export const addMessage = (chatId, message) => {
   if (!get(chats)[chatId]) return;
-  const messages = get(chats)[chatId].messages;
-  if (!messages) chats.set({ ...chats, messages: [message] });
-  else chats.set({ ...chats, messages: [...messages, message] });
+  const chat = get(chats)[chatId];
+  const messages = chat.messages ? [...chat.messages, message] : [message];
+  chats.set({
+    ...get(chats),
+    [chatId]: { ...chat, messages }
+  });
 };
 
 export const getChatsForUser = (uid) => {
