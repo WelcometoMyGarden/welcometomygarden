@@ -60,7 +60,7 @@
   {#if type === 'dropdown'}
     <Dropdown {name} {placeholder} {options} {required} bind:value />
   {:else if type === 'toggle'}
-    <Toggle {name} {required} bind:value />
+    <Toggle {name} bind:value />
   {:else if type === 'slider'}
     <Slider {name} {required} {min} {max} bind:value />
   {:else}
