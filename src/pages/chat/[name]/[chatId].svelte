@@ -9,8 +9,6 @@
   import { Avatar } from '@/components/UI';
   import routes from '@/routes';
 
-  const isNew = chatId === 'new';
-
   $: chat = $chats[chatId];
 
   $: if (chat && !$messages[chat.id]) observeMessagesForChat(chat.id);

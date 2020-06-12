@@ -20,6 +20,15 @@
     `${routes.CHAT}/${removeDiacritics(name).toLowerCase()}/${id}`;
 
   let newConversation;
+
+  $: if (
+    newConversation &&
+    selectedConversation &&
+    selectedConversation.users &&
+    selectedConversation.users.includes(newConversation.partnerId)
+  ) {
+    newConversation = null;
+  }
   const startChattingWith = async partnerId => {
     try {
       const newPartner = await initiateChat(partnerId);
