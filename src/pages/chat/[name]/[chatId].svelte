@@ -1,28 +1,24 @@
 <script>
   export let chatId;
 
-  import { onMount, beforeUpdate, afterUpdate } from 'svelte';
-  import { flip } from 'svelte/animate';
+  import { beforeUpdate, afterUpdate } from 'svelte';
   import { params, goto } from '@sveltech/routify';
   import { observeMessagesForChat, create as createChat, sendMessage } from '@/api/chat';
   import { user } from '@/stores/auth';
-  import { chats } from '@/stores/chat';
+  import { chats, messages } from '@/stores/chat';
   import { Avatar } from '@/components/UI';
   import routes from '@/routes';
 
-  let typedMessage = '';
-
   const isNew = chatId === 'new';
-
-  const sortBySentDate = (m1, m2) => m1.createdAt - m2.createdAt;
 
   $: chat = $chats[chatId];
 
-  $: if (chat && !chat.messages) observeMessagesForChat(chat.id);
+  $: if (chat && !$messages[chat.id]) observeMessagesForChat(chat.id);
 
   let messageContainer;
   let autoscroll;
 
+  // Scroll to bottom of mesage container on new message
   beforeUpdate(() => {
     autoscroll =
       messageContainer &&
@@ -34,11 +30,7 @@
     if (autoscroll) messageContainer.scrollTo(0, messageContainer.scrollHeight);
   });
 
-  let messages = null;
-  $: messages = chat && chat.messages ? chat.messages.sort(sortBySentDate).reverse() : [];
-
-  $: console.log(messages);
-
+  let typedMessage = '';
   let isSending = false;
   const send = async () => {
     // TODO: make sure typedMessage is below or equal to 500 characters
@@ -67,14 +59,16 @@
 
 <div class="message-wrapper" bind:this={messageContainer}>
   <div class="messages">
-    {#each messages as message (message.id)}
-      <div class="message" class:by-user={message.from === $user.id}>
-        <div class="avatar">
-          <Avatar name={message.from === $user.id ? $user.firstName : chat.partner.firstName} />
+    {#if chat && $messages[chat.id]}
+      {#each $messages[chatId] as message (message.id)}
+        <div class="message" class:by-user={message.from === $user.id}>
+          <div class="avatar">
+            <Avatar name={message.from === $user.id ? $user.firstName : chat.partner.firstName} />
+          </div>
+          <p class="message-text">{message.content}</p>
         </div>
-        <p class="message-text">{message.content}</p>
-      </div>
-    {/each}
+      {/each}
+    {/if}
   </div>
 </div>
 <form on:submit|preventDefault={send}>
@@ -90,7 +84,6 @@
 <style>
   .message-wrapper {
     flex: 0.9;
-    max-height: 90%;
     width: 100%;
     position: relative;
     overflow-y: auto;
@@ -101,7 +94,7 @@
     padding: 0 2rem;
     display: flex;
     flex-direction: column-reverse;
-    min-height: min-content;
+    min-height: 100%;
   }
 
   .avatar {

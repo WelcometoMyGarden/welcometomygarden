@@ -5,15 +5,25 @@ export const creatingNewChat = writable(false);
 
 export const chats = writable({});
 export const addChat = (chat) => {
-  chats.set({ ...get(chats), [chat.id]: chat });
+  chats.update((old) => ({
+    ...old,
+    [chat.id]: chat
+  }));
 };
+
+const sortBySentDate = (m1, m2) => m2.createdAt - m1.createdAt;
+
+export const messages = writable({});
 export const addMessage = (chatId, message) => {
-  if (!get(chats)[chatId]) return;
   const chat = get(chats)[chatId];
-  const messages = chat.messages ? [...chat.messages, message] : [message];
-  chats.set({
-    ...get(chats),
-    [chatId]: { ...chat, messages }
+  if (!chat) return;
+  messages.update((old) => {
+    const newMessages = { ...old };
+    if (!old[chatId]) newMessages[chatId] = [message];
+    else {
+      newMessages[chatId] = [...old[chatId], message].sort(sortBySentDate);
+    }
+    return newMessages;
   });
 };
 
