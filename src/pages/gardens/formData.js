@@ -1,8 +1,7 @@
 export default {
     title: 'Add new garden',
     subtitle: 'Share your garden with other users',
-    submitAction: 'Add garden',
-    steps: [
+    fieldsets: [
         {
             title: 'Personal details',
             name: 'personal-details',
@@ -132,5 +131,6 @@ export default {
                 }
             ]
         }
-    ]
+    ],
+    submitAction: 'Add garden'
 };

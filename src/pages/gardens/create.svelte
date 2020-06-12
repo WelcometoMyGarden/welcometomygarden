@@ -1,18 +1,22 @@
 <script>
   import data from './formData.js';
+  const { title, subtitle, fieldsets, submitAction } = data;
   import { PageContainer, Form, Field } from '../../components/UI';
 
   let garden = {};
+  let currentStep = 0;
 
-  const handleSubmit = e => (garden = { ...garden, [e.detail.name]: { ...e.detail.values } });
+  const handleSubmit = e => {
+    console.log(e.detail);
+  };
 </script>
 
 <PageContainer>
-  <p>{JSON.stringify(garden)}</p>
-  <h1>{data.title}</h1>
-  <h2>{data.subtitle}</h2>
+  <h1>{title}</h1>
+  <h2>{subtitle}</h2>
   <hr />
-  {#each data.steps as { name, title, fields, submitAction }}
-    <Form {name} {title} {fields} {submitAction} on:submit={handleSubmit} />
-  {/each}
+  <!-- {#each steps as { name, title, fields, submitAction }} -->
+  <!-- <Form {name} {title} {fields} {submitAction} on:submit={handleSubmit} /> -->
+  <!-- {/each} -->
+  <Form {fieldsets} {submitAction} on:submit={handleSubmit} />
 </PageContainer>
