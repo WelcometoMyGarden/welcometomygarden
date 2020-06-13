@@ -104,7 +104,9 @@
   </ul>
 </nav>
 
-<style>
+<style type="text/scss">
+  @import '../../../style/variables';
+
   @media screen and (min-width: 700px) {
     nav {
       display: none;
@@ -113,7 +115,7 @@
 
   nav {
     width: 100%;
-    --height-nav: 9rem;
+    --height-nav: $mobile-nav-height;
     height: var(--height-nav);
     position: fixed;
     bottom: 0;
