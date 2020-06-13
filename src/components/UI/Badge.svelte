@@ -9,17 +9,15 @@
   <slot />
 </div>
 
-<style type="text/scss">
-  @import '../../style/variables';
-
+<style>
   .badge {
     display: inline-flex;
     align-items: center;
-    background-color: $color-bg-primary;
-    border-radius: $radius-xl;
+    background-color: var(--color-green-light);
+    border-radius: var(--radius-xl);
     box-sizing: border-box;
-    padding: $spacer-xs $spacer-m;
-    margin-top: $spacer-s;
-    margin-left: $spacer-s;
+    padding: var(--spacer-xs) var(--spacer-m);
+    margin-top: var(--spacer-s);
+    margin-left: var(--spacer-s);
   }
 </style>

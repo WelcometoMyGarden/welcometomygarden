@@ -104,9 +104,7 @@
   </ul>
 </nav>
 
-<style type="text/scss">
-  @import '../../../style/variables';
-
+<style>
   @media screen and (min-width: 700px) {
     nav {
       display: none;
@@ -115,8 +113,7 @@
 
   nav {
     width: 100%;
-    --height-nav: $mobile-nav-height;
-    height: var(--height-nav);
+    height: var(--mobile-nav-height);
     position: fixed;
     bottom: 0;
     left: 0;
@@ -129,7 +126,7 @@
 
   .overlay {
     width: 100%;
-    height: calc(100vh - var(--height-nav));
+    height: calc(100vh - var(--mobile-nav-height));
     position: fixed;
     top: 0;
     bottom: 0;
@@ -196,7 +193,7 @@
 
   .drawer {
     background-color: var(--color-white);
-    height: calc(100vh - var(--height-nav));
+    height: calc(100vh - var(--mobile-nav-height));
     width: 25rem;
     position: fixed;
     top: 0;

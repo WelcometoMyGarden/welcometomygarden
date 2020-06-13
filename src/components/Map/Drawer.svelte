@@ -62,10 +62,7 @@
   </footer>
 </section>
 
-<style type="text/scss">
-  @import '../../style/variables';
-  @import '../../style/mixins';
-
+<style>
   .drawer {
     position: absolute;
     top: 50%;
@@ -76,55 +73,60 @@
     max-height: 500px;
     z-index: 1;
     transform: translate(0, -50%);
-    padding: $spacer-xl;
+    padding: var(--spacer-xl);
     box-sizing: border-box;
-    border-top-left-radius: $radius-m;
-    border-bottom-left-radius: $radius-m;
+    border-top-left-radius: var(--radius-m);
+    border-bottom-left-radius: var(--radius-m);
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+  }
 
-    @include on-small-and-down {
+  @media screen and (max-width: 568px) {
+    .drawer {
       top: auto;
       right: auto;
       bottom: 0;
       transform: none;
       width: 100%;
-      border-top-right-radius: $radius-m;
+      border-top-right-radius: var(--radius-m);
       border-bottom-left-radius: 0;
       min-height: auto;
     }
+  }
 
+  .drag-bar {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    width: 40px;
+    height: 3px;
+    background-color: var(--color-beige);
+    transform: translateX(-50%);
+  }
+
+  @media screen and (min-width: 700px) {
     .drag-bar {
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      width: 40px;
-      height: 3px;
-      background-color: $color-bg-secondary;
-      transform: translateX(-50%);
-      @include on-medium-and-up {
-        display: none;
-      }
+      display: none;
     }
+  }
 
-    .main {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
+  .main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
 
-    .footer {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .badges-container {
-      display: flex;
-      flex-wrap: wrap;
-      // Negative margin compensate the Badge components margins
-      margin-top: -$spacer-s;
-      margin-left: -$spacer-s;
-    }
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .badges-container {
+    display: flex;
+    flex-wrap: wrap;
+    /* Negative margin compensate the Badge components margins */
+    margin-top: -var(--spacer-s);
+    margin-left: -var(--spacer-s);
   }
 </style>

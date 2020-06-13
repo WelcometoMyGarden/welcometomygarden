@@ -18,11 +18,9 @@
 
 <img src={icon.src} alt={`icon-${icon.name}`} />
 
-<style type="text/scss">
-  @import '../../style/variables';
-
+<style>
   img {
-    width: $text-font-size-m;
-    height: $text-font-size-m;
+    width: var(--text-font-size-m);
+    height: var(--text-font-size-m);
   }
 </style>

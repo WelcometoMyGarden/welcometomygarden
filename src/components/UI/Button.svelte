@@ -37,9 +37,7 @@
   </button>
 {/if}
 
-<style type="text/scss">
-  @import '../../style/variables';
-
+<style>
   .capitalize {
     text-transform: uppercase;
   }
@@ -51,19 +49,19 @@
   }
 
   button.button {
-    background-color: $color-bg-dark;
-    border: 2px solid $color-bg-dark;
-    border-radius: $radius-s;
-    padding: $spacer-m $spacer-l;
+    background-color: var(--color-green);
+    border: 2px solid var(--color-green);
+    border-radius: var(--radius-s);
+    padding: var(--spacer-m) var(--spacer-l);
     color: white;
     cursor: pointer;
     box-sizing: border-box;
+  }
 
-    &:hover,
-    &:active,
-    &:focus {
-      background-color: transparent;
-      color: $color-text;
-    }
+  button.button:hover,
+  button.button:active,
+  button.button:focus {
+    background-color: transparent;
+    color: var(--color-green);
   }
 </style>

@@ -6,13 +6,11 @@
 
 <img {src} {alt} {style} />
 
-<style type="text/scss">
-  @import '../../style/variables';
-
+<style>
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: $radius-m;
+    border-radius: var(--radius-m);
   }
 </style>

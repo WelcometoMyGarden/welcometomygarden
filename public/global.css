@@ -20,6 +20,19 @@
   --color-copy: #495747;
   --fonts-copy: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --fonts-titles: "Inknut Antiqua", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --radius-xl: 40px;
+  --radius-m: 10px;
+  --radius-s: 6px;
+  --spacer-xl: 3rem;
+  --spacer-l: 2rem;
+  --spacer-m: 1rem;
+  --spacer-s: 0.8rem;
+  --spacer-xs: 0.5rem;
+  --text-font-size-l: 18px;
+  --text-font-size-m: 14px;
+  --text-line-height-l: 160%;
+  --text-line-height-m: 140%;
+  --mobile-nav-height: 9rem;
 }
 
 html, body {
@@ -91,10 +104,22 @@ textarea {
   border-radius: inherit;
 }
 
-
 .button-container:focus,
 .button-container:active,
 .button-container::-moz-focus-inner {
   outline: 0;
   border: 0;
+}
+
+/**
+ * Margin classes
+ */
+.mb-l {
+  margin-bottom: var(--spacer-l);
+}
+.mb-m {
+  margin-bottom: var(--spacer-m);
+}
+.mt-m {
+  margin-top: var(--spacer-m);
 }

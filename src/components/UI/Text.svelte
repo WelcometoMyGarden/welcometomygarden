@@ -9,7 +9,7 @@
   if (!allowedSize.includes(size)) throw new Error('Size props is invalid');
   if (!allowedWeight.includes(weight)) throw new Error('Weight props is invalid');
 
-  let classNames = `${className} ${size} ${weight}`;
+  let classNames = `text ${className} ${size} ${weight}`;
 </script>
 
 {#if is === 'p'}
@@ -26,30 +26,26 @@
   </h2>
 {/if}
 
-<style type="text/scss">
-  @import '../../style/variables';
-
-  p,
-  span,
-  h2 {
+<style>
+  .text {
     font-style: normal;
     color: inherit;
     font-weight: inherit;
+  }
 
-    &.m {
-      font-size: $text-font-size-m;
-      line-height: $text-line-height-m;
-    }
-    &.l {
-      font-size: $text-font-size-l;
-      line-height: $text-line-height-l;
-    }
+  .text.m {
+    font-size: var(--text-font-size-m);
+    line-height: var(--text-line-height-m);
+  }
+  .text.l {
+    font-size: var(--text-font-size-l);
+    line-height: var(--text-line-height-l);
+  }
 
-    &.thin {
-      font-weight: normal;
-    }
-    &.bold {
-      font-weight: bold;
-    }
+  .text.thin {
+    font-weight: normal;
+  }
+  .text.bold {
+    font-weight: bold;
   }
 </style>
