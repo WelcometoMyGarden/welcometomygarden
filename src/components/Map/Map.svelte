@@ -3,6 +3,7 @@
   import mapboxgl from 'mapbox-gl';
   import config from '../../wtmg.config';
   import key from './mapbox-context.js';
+  import { Progress } from '../UI';
 
   // import Geocoder from './Geocoder.svelte';
   import BivouacLayer from './BivouacLayer.svelte';
@@ -13,7 +14,7 @@
   export let zoom;
   let container;
   let map;
-
+  let mapIsLoading = false;
   setContext(key, {
     getMap: () => map
   });
@@ -26,6 +27,7 @@
       center: [lon, lat],
       zoom
     });
+    map.on('load', () => (mapIsLoading = false));
 
     map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left');
     map.addControl(new mapboxgl.ScaleControl());
@@ -35,6 +37,8 @@
 <svelte:head>
   <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css" />
 </svelte:head>
+
+<Progress active={mapIsLoading} />
 
 <div bind:this={container}>
   <!-- <Geocoder /> -->
@@ -49,13 +53,33 @@
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - var(--height-footer));
   }
 
   div :global(.mapboxgl-ctrl-top-left) {
     top: calc(var(--height-nav) + 0.5rem);
+  }
+
+  @media screen and (max-width: 700px) {
+    div :global(.mapboxgl-ctrl-top-left) {
+      top: 3rem;
+    }
+
+    div :global(.mapboxgl-ctrl-bottom-left) {
+      top: 1rem;
+      left: 0rem;
+    }
+
+    div :global(.mapboxgl-ctrl-bottom-right) {
+      top: 0;
+      right: 0;
+      height: 2rem;
+      margin: 0;
+    }
+
+    div {
+      height: calc(100vh - var(--height-nav));
+    }
   }
 </style>

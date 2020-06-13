@@ -1,21 +1,21 @@
 <script>
-  import { isActive, url } from '@sveltech/routify';
-
   export let href;
-  export let isInDrawer = true;
+  // is this a little nasty? yes
+  // until routify handles index routes a little more consistently, it's here to stay
+  export let isHome = false;
+
+  import { isActive } from '@sveltech/routify';
 </script>
 
-<a href={$url(href)} class:active={$isActive(href)} class:mobile-nav-link={isInDrawer}>
+<a {href} on:click class:active={isHome ? $isActive('/index') : $isActive(href)} on:click>
   <slot />
 </a>
 
 <style>
   a {
-    color: var(--color-black);
     /* this is fine since focus styles are applied for tab indexing */
     outline: 0;
     transition: color 0.3s ease;
-    position: relative;
   }
 
   a,
@@ -27,13 +27,13 @@
 
   a:after {
     background: none repeat scroll 0 0 transparent;
-    bottom: -0.4rem;
+    bottom: 0;
     content: '';
     display: block;
     height: 2px;
     left: 50%;
     position: absolute;
-    background: var(--color-black);
+    background: var(--color-green);
     transition: width 0.3s ease 0s, left 0.3s ease 0s;
     width: 0;
   }
@@ -43,17 +43,5 @@
   a:hover:after {
     width: 100%;
     left: 0;
-  }
-
-  @media (max-width: 980px) {
-    .mobile-nav-link:after {
-      display: none;
-    }
-
-    .mobile-nav-link.active,
-    .mobile-nav-link:focus,
-    .mobile-nav-link:hover {
-      color: var(--color-light-blue);
-    }
   }
 </style>

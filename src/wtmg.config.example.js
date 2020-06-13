@@ -9,5 +9,6 @@ export default {
     storageBucket: '',
     messagingSenderId: '',
     appId: ''
-  }
+  },
+  USE_API_EMULATOR: false
 };
