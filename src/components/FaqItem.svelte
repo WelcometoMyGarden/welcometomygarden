@@ -46,6 +46,7 @@
     padding: 2rem 0;
     font-weight: 600;
     color: var(--color-green);
+    margin-right: 2rem;
   }
 
   .content {
@@ -62,7 +63,7 @@
 
   @media only screen and (max-width: 1150px) {
     .faq-question {
-      padding: 0 7.5rem;
+      padding: 0 12rem;
     }
 
     .title {
@@ -71,7 +72,7 @@
     }
 
     .content {
-      padding: 0 7.5rem 2.5rem;
+      padding: 0 20rem 4rem 12rem;
     }
   }
 

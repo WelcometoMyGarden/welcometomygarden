@@ -353,7 +353,7 @@
     justify-content: center;
     text-align: center;
     width: 50%;
-    padding: 12rem 9.5rem;
+    padding: 12rem 10rem;
   }
 
   .support {
@@ -407,6 +407,7 @@
 
     .faq {
       flex-direction: column;
+      margin-bottom: 0;
     }
 
     .faq > * {
@@ -414,12 +415,15 @@
     }
 
     .faq-intro {
-      padding: 6rem 10rem;
+      padding: 6rem 12rem 8rem;
+    }
+
+    .faq-list {
+      padding: 0;
     }
 
     .cooperation {
       flex-direction: column;
-      animation-iteration-count: 12rem 9.5rem;
     }
 
     .cooperation > * {
@@ -441,7 +445,7 @@
 
   @media only screen and (max-width: 1000px) {
     .steps {
-      padding: 0 8rem;
+      padding: 0 10rem;
     }
   }
 
@@ -450,27 +454,15 @@
       padding-left: 4rem;
       padding-right: 4rem;
     }
-
-    .steps {
-      padding: 0 6rem;
-    }
-
-    .faq-list {
-      padding: 0;
-    }
   }
 
   @media only screen and (max-width: 700px) {
     .steps {
-      padding: 0 6rem;
+      padding: 0 8rem;
     }
 
     .faq-intro {
       padding: 4rem 8rem 6rem;
-    }
-
-    .faq-list {
-      padding: 0;
     }
   }
 
