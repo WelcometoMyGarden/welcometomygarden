@@ -62,7 +62,11 @@
 
       <div class="map-container">
         <Map lat="50.5" lon="4.5" zoom="6">
-          <DraggableMarker lat="50.5" lon="4.5" on:dragged={onMarkerDragged} />
+          <DraggableMarker
+            label="Drag me to your garden"
+            lat="50.5"
+            lon="4.5"
+            on:dragged={onMarkerDragged} />
         </Map>
       </div>
       <p>
