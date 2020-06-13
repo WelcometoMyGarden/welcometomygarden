@@ -1,24 +1,23 @@
 # Welcome To My Garden
 
-## Development
 
-### Pre-development
+## Prerequisites
 
-```sh
-  npm i 'install npm packages'
+- [Node](https://nodejs.org/en/download/) version >=10 installed
+- This project uses the [Yarn](https://yarnpkg.com/getting-started/install) package manager
 
-  npm i -g firebase-tools 'install firebase-tools globally'
+Create `src/wtmg.config.js` file and make sure it has the values specified in `src/wtmg.config.example.js`.
 
-  firebase login 'login to firebase, with your firebase account'
-  firebase use --add 'select wtmg-dev, you will need access'
 
-  cd functions
-  npm i 'install npm packages for the firebase functions'
-  cd ../
+## Usage
+From a terminal located at project root, install project dependencies:
+
+```bash
+yarn
 ```
 
-### Start development
+Start the project in development mode
 
-```sh
-  npm start
+```
+yarn run dev
 ```
