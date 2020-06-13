@@ -37,7 +37,6 @@
 
   main {
     min-height: calc(100% - var(--height-footer));
-    padding: 2rem;
     width: 100%;
     overflow: hidden;
   }
