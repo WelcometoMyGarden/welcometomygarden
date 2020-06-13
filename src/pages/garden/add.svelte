@@ -20,30 +20,39 @@
   <div class="section-wrapper">
     <fieldset>
       <h2>Add your garden to the map</h2>
-      <div>
-        <label for="street-name">Street</label>
-        <Input id="street-name" type="text" name="street-name" />
+      <div class="address-group">
+        <div class="street">
+          <label for="street-name">Street</label>
+          <Input id="street-name" type="text" name="street-name" />
+        </div>
+        <div>
+          <label for="house-number">House number</label>
+          <Input id="house-number" type="text" name="house-number" />
+        </div>
       </div>
-      <div>
-        <label for="house-number">House number</label>
-        <Input id="house-number" type="text" name="house-number" />
+
+      <div class="address-group">
+        <div class="province">
+          <label for="postal-code">Province or State</label>
+          <Input id="postal-code" type="text" name="postal-code" />
+        </div>
+        <div>
+          <label for="postal-code">Postal/ZIP Code</label>
+          <Input id="postal-code" type="text" name="postal-code" />
+        </div>
       </div>
-      <div>
-        <label for="postal-code">Postal code or ZIP Code</label>
-        <Input id="postal-code" type="text" name="postal-code" />
+
+      <div class="address-group city-country">
+        <div>
+          <label for="city">City</label>
+          <Input id="city" type="text" name="city" />
+        </div>
+        <div>
+          <label for="country">Country</label>
+          <Input id="country" type="text" name="country" />
+        </div>
       </div>
-      <div>
-        <label for="postal-code">Province or State</label>
-        <Input id="postal-code" type="text" name="postal-code" />
-      </div>
-      <div>
-        <label for="city">City</label>
-        <Input id="city" type="text" name="city" />
-      </div>
-      <div>
-        <label for="country">Country</label>
-        <Input id="country" type="text" name="country" />
-      </div>
+
     </fieldset>
   </div>
 
@@ -100,6 +109,22 @@
     max-width: 60rem;
     padding: 2rem;
     margin: 0 auto;
+  }
+
+  .address-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+  }
+
+  .street,
+  .province {
+    width: 80%;
+    margin-right: 2rem;
+  }
+
+  .city-country > div {
+    width: 48%;
   }
 
   .checkboxes {
