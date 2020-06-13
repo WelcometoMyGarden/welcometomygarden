@@ -30,7 +30,6 @@
     map.on('load', () => (mapIsLoading = false));
 
     map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left');
-    map.addControl(new mapboxgl.ScaleControl());
   });
 </script>
 
@@ -50,25 +49,13 @@
 
 <style>
   div {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: calc(100vh - var(--height-footer));
-  }
-
-  div :global(.mapboxgl-ctrl-top-left) {
-    top: calc(var(--height-nav) + 0.5rem);
+    width: 100%;
+    height: 100%;
   }
 
   @media screen and (max-width: 700px) {
     div :global(.mapboxgl-ctrl-top-left) {
-      top: 3rem;
-    }
-
-    div :global(.mapboxgl-ctrl-bottom-left) {
-      top: 1rem;
-      left: 0rem;
+      top: 0;
     }
 
     div :global(.mapboxgl-ctrl-bottom-right) {

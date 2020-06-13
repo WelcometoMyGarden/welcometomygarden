@@ -1,5 +1,6 @@
 <script>
   import { Input, LabeledCheckbox, Slider } from '@/components/UI';
+  import Map from '@/components/Map/Map.svelte';
   import {
     bonfireIcon,
     electricityIcon,
@@ -53,6 +54,13 @@
         </div>
       </div>
 
+      <div class="map-container">
+        <Map lat="50.5" lon="4.5" zoom="6" />
+      </div>
+      <p>
+        <strong>Note:</strong>
+        We don't store your address. It only helps you place your garden on the map!
+      </p>
     </fieldset>
   </div>
 
@@ -127,6 +135,12 @@
     width: 48%;
   }
 
+  .map-container {
+    width: 100%;
+    height: 40rem;
+    margin-bottom: 1rem;
+  }
+
   .checkboxes {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -137,7 +151,7 @@
   h2 {
     font-size: 2.2rem;
     font-weight: 900;
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
   }
 
   h3 {

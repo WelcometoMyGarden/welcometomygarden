@@ -91,6 +91,10 @@ textarea {
   font-family: var(--fonts-copy);
 }
 
+strong {
+  font-weight: bold;
+}
+
 .button-container {
   cursor: pointer;
   background-color: inherit;
