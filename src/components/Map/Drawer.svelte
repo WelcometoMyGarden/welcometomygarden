@@ -126,7 +126,7 @@
     display: flex;
     flex-wrap: wrap;
     /* Negative margin compensate the Badge components margins */
-    margin-top: -var(--spacer-s);
-    margin-left: -var(--spacer-s);
+    margin-top: calc(var(--spacer-s) * -1);
+    margin-left: calc(var(--spacer-s) * -1);
   }
 </style>
