@@ -1,6 +1,6 @@
 export default {
   HOME: '/',
-  ADD_GARDEN: '/add-garden',
+  ADD_GARDEN: '/garden/add',
   MAP: '/discover',
   SIGN_IN: '/auth/sign-in',
   REGISTER: '/auth/register',
