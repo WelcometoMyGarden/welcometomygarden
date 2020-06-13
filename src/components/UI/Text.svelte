@@ -1,17 +1,15 @@
 <script>
   export let is = 'p';
   export let size = 'm';
-  export let weight = 'thin';
+  export let weight = 'inherit';
   export let className = $$props.class || '';
-  export let color = 'green';
 
-  const allowedColor = ['green', 'white'];
   const allowedSize = ['m', 'l'];
-  const allowedWeight = ['thin', 'bold'];
+  const allowedWeight = ['inherit', 'thin', 'bold'];
   if (!allowedSize.includes(size)) throw new Error('Size props is invalid');
   if (!allowedWeight.includes(weight)) throw new Error('Weight props is invalid');
 
-  let classNames = `${className} ${size} ${weight} ${color}`;
+  let classNames = `${className} ${size} ${weight}`;
 </script>
 
 {#if is === 'p'}
@@ -35,6 +33,8 @@
   span,
   h2 {
     font-style: normal;
+    color: inherit;
+    font-weight: inherit;
 
     &.m {
       font-size: $text-font-size-m;
@@ -50,12 +50,6 @@
     }
     &.bold {
       font-weight: bold;
-    }
-    &.green {
-      color: $color-text;
-    }
-    &.white {
-      color: white;
     }
   }
 </style>
