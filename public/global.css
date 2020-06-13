@@ -63,14 +63,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1 {
   font-family: var(--fonts-titles);
-  font-weight: normal;
+}
+
+h2, h3, h4, h5, h6 {
+  font-family: var(--fonts-copy)
 }
 
 p,
@@ -91,7 +89,6 @@ input,
 select,
 textarea {
   font-family: var(--fonts-copy);
-  width: 100%;
 }
 
 .button-container {

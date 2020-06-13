@@ -6,6 +6,6 @@ export { default as showerIcon } from './shower.svg';
 export { default as signInIcon } from './sign-in.svg';
 export { default as signOutIcon } from './sign-out.svg';
 export { default as tentIcon } from './tent.svg';
-export { default as toiletIcon } from './user.svg';
+export { default as toiletIcon } from './toilet.svg';
 export { default as userIcon } from './user.svg';
 export { default as waterIcon } from './water.svg';
