@@ -1,8 +1,9 @@
 <script>
+  import { reverseGeocode } from '@/api/mapbox';
+  import routes from '@/routes';
   import { Input, LabeledCheckbox, Slider } from '@/components/UI';
   import Map from '@/components/Map/Map.svelte';
   import DraggableMarker from '@/components/Map/DraggableMarker.svelte';
-  import routes from '@/routes';
 
   import {
     bonfireIcon,
@@ -19,8 +20,19 @@
     console.log(e.detail);
   };
 
-  const onMarkerDragged = event => {
-    console.log(event.detail);
+  let fetchedAddress;
+
+  $: address = fetchedAddress || {};
+
+  $: console.log(address);
+  const onMarkerDragged = async event => {
+    const coordinates = event.detail;
+    try {
+      fetchedAddress = await reverseGeocode(coordinates);
+    } catch (ex) {
+      // TODO: show error
+      console.log(ex);
+    }
   };
 </script>
 
@@ -39,8 +51,10 @@
     <fieldset>
       <h3>Location</h3>
       <p class="section-description">
-        We don't store your address, and you don't have to fill it in. By filling in the fields we
-        can help you put the .
+        Move the marker to set the location of your garden. You can fill in the address fields to
+        move the marker closer to you.
+        <br />
+        We don't store your address information.
       </p>
       <div class="map-container">
         <Map lat="50.5" lon="4.5" zoom="6">
@@ -54,7 +68,7 @@
       <div class="address-group">
         <div class="street">
           <label for="street-name">Street</label>
-          <Input id="street-name" type="text" name="street-name" />
+          <Input id="street-name" type="text" name="street-name" value={address.street} />
         </div>
         <div>
           <label for="house-number">House number</label>
@@ -65,22 +79,22 @@
       <div class="address-group">
         <div class="province">
           <label for="postal-code">Province or State</label>
-          <Input id="postal-code" type="text" name="postal-code" />
+          <Input id="postal-code" type="text" name="postal-code" value={address.region} />
         </div>
         <div>
           <label for="postal-code">Postal/ZIP Code</label>
-          <Input id="postal-code" type="text" name="postal-code" />
+          <Input id="postal-code" type="text" name="postal-code" value={address.postalCode} />
         </div>
       </div>
 
       <div class="address-group city-country">
         <div>
           <label for="city">City</label>
-          <Input id="city" type="text" name="city" />
+          <Input id="city" type="text" name="city" value={address.city} />
         </div>
         <div>
           <label for="country">Country</label>
-          <Input id="country" type="text" name="country" />
+          <Input id="country" type="text" name="country" value={address.country} />
         </div>
       </div>
     </fieldset>
