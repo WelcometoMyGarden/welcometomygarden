@@ -5,10 +5,6 @@
   import key from './mapbox-context.js';
   import { Progress } from '../UI';
 
-  // import Geocoder from './Geocoder.svelte';
-  import BivouacLayer from './BivouacLayer.svelte';
-  import GardenLayer from './GardenLayer.svelte';
-
   export let lat;
   export let lon;
   export let zoom;
@@ -42,8 +38,7 @@
 <div bind:this={container}>
   <!-- <Geocoder /> -->
   {#if map}
-    <BivouacLayer />
-    <GardenLayer />
+    <slot />
   {/if}
 </div>
 

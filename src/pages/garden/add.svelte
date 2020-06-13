@@ -1,6 +1,8 @@
 <script>
   import { Input, LabeledCheckbox, Slider } from '@/components/UI';
   import Map from '@/components/Map/Map.svelte';
+  import DraggableMarker from '@/components/Map/DraggableMarker.svelte';
+
   import {
     bonfireIcon,
     electricityIcon,
@@ -14,6 +16,10 @@
 
   const handleSubmit = e => {
     console.log(e.detail);
+  };
+
+  const onMarkerDragged = event => {
+    console.log(event.detail);
   };
 </script>
 
@@ -55,7 +61,9 @@
       </div>
 
       <div class="map-container">
-        <Map lat="50.5" lon="4.5" zoom="6" />
+        <Map lat="50.5" lon="4.5" zoom="6">
+          <DraggableMarker lat="50.5" lon="4.5" on:dragged={onMarkerDragged} />
+        </Map>
       </div>
       <p>
         <strong>Note:</strong>
