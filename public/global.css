@@ -10,7 +10,7 @@
 
 :root {
   /*
-  * Colors 
+  * Colors
   */
   --color-white: #fff;
   --color-black: #333;
@@ -27,7 +27,7 @@
   --color-success: #59C29D;
 
   /*
-  * Typography 
+  * Typography
   */
   --fonts-copy: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --fonts-titles: "Inknut Antiqua", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -36,19 +36,6 @@
   * Units
   */
   --height-nav: 8rem;
-  --padding-side: 5rem;
-}
-
-@media screen and (max-width: 568px) {
-  :root {
-    --padding-side: 2rem;
-  }
-}
-
-@media (max-width: 980px) {
-  body {
-    --height-nav: 6rem;
-  }
 }
 
 html, body {
