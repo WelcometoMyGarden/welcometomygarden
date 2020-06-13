@@ -2,6 +2,7 @@
   import { Input, LabeledCheckbox, Slider } from '@/components/UI';
   import Map from '@/components/Map/Map.svelte';
   import DraggableMarker from '@/components/Map/DraggableMarker.svelte';
+  import routes from '@/routes';
 
   import {
     bonfireIcon,
@@ -24,9 +25,32 @@
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
-  <div class="section-wrapper">
-    <fieldset>
+  <section>
+    <div class="sub-container">
       <h2>Add your garden to the map</h2>
+      <p class="section-description">
+        By submitting this form, your garden will be added to the map. You can manage or remove it
+        at any time from
+        <a href={routes}>your profile.</a>
+      </p>
+    </div>
+  </section>
+  <section>
+    <fieldset>
+      <h3>Location</h3>
+      <p class="section-description">
+        We don't store your address, and you don't have to fill it in. By filling in the fields we
+        can help you put the .
+      </p>
+      <div class="map-container">
+        <Map lat="50.5" lon="4.5" zoom="6">
+          <DraggableMarker
+            label="Drag me to your garden"
+            lat="50.5"
+            lon="4.5"
+            on:dragged={onMarkerDragged} />
+        </Map>
+      </div>
       <div class="address-group">
         <div class="street">
           <label for="street-name">Street</label>
@@ -59,35 +83,22 @@
           <Input id="country" type="text" name="country" />
         </div>
       </div>
-
-      <div class="map-container">
-        <Map lat="50.5" lon="4.5" zoom="6">
-          <DraggableMarker
-            label="Drag me to your garden"
-            lat="50.5"
-            lon="4.5"
-            on:dragged={onMarkerDragged} />
-        </Map>
-      </div>
-      <p>
-        <strong>Note:</strong>
-        We don't store your address. It only helps you place your garden on the map!
-      </p>
     </fieldset>
-  </div>
+  </section>
 
-  <div class="section-wrapper">
+  <section>
     <fieldset>
+      <h3>Describe your camping spot</h3>
+      <p class="section-description">
+        A short description of your garden and the camping spot you can offer. This information is
+        displayed publicly, so don't include any personal details here.
+      </p>
       <div>
         <label for="description">Description</label>
         <textarea id="description" name="description" required />
-        <span class="hint">
-          A short description of your garden and the camping spot you can offer. This information is
-          displayed publicly, so don't include any personal details here.
-        </span>
       </div>
     </fieldset>
-  </div>
+  </section>
 
   <div class="section-wrapper">
     <fieldset>
@@ -119,13 +130,22 @@
     width: 100%;
   }
 
-  .section-wrapper {
+  .section-description {
+    margin: 2rem 0;
+  }
+
+  .section-description a {
+    color: var(--color-orange);
+  }
+
+  section {
     width: 100%;
     margin-bottom: 2rem;
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
   }
 
-  fieldset {
+  fieldset,
+  .sub-container {
     max-width: 60rem;
     padding: 2rem;
     margin: 0 auto;
@@ -150,7 +170,7 @@
   .map-container {
     width: 100%;
     height: 40rem;
-    margin-bottom: 1rem;
+    margin: 2rem 0;
   }
 
   .checkboxes {
@@ -163,10 +183,12 @@
   h2 {
     font-size: 2.2rem;
     font-weight: 900;
-    margin-bottom: 4rem;
+    margin-top: 4rem;
   }
 
   h3 {
-    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin: 2rem 0;
   }
 </style>

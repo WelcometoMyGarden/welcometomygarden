@@ -59,9 +59,5 @@
       height: 2rem;
       margin: 0;
     }
-
-    div {
-      height: calc(100vh - var(--height-nav));
-    }
   }
 </style>

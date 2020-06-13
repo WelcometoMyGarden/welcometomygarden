@@ -21,4 +21,10 @@
   div :global(.mapboxgl-ctrl-top-left) {
     top: calc(var(--height-nav) + 0.5rem);
   }
+
+  @media screen and (max-width: 700px) {
+    div {
+      height: calc(100vh - var(--height-nav));
+    }
+  }
 </style>
