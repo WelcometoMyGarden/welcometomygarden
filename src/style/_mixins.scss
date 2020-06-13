@@ -1,0 +1,40 @@
+/**
+ * SCSS Mixins
+ * 
+ * Mixins are use to solve more complex repetitions
+ */
+
+@import './variables';
+
+/**
+ * Media queries
+ */
+@mixin on-extra-small-and-down {
+  @media screen and (max-width: #{$breakpoint-xs}) {
+    @content;
+  }
+}
+
+@mixin on-small-and-down {
+  @media screen and (max-width: #{$breakpoint-s}) {
+    @content;
+  }
+}
+
+@mixin on-medium-and-up {
+  @media screen and (min-width: #{$breakpoint-s}) {
+    @content;
+  }
+}
+
+@mixin on-medium-and-down {
+  @media screen and (max-width: #{$breakpoint-m}) {
+    @content;
+  }
+}
+
+@mixin on-large-and-down {
+  @media screen and (max-width: #{$breakpoint-l}) {
+    @content;
+  }
+}
