@@ -8,6 +8,7 @@
   // import Geocoder from './Geocoder.svelte';
   import BivouacLayer from './BivouacLayer.svelte';
   import GardenLayer from './GardenLayer.svelte';
+  import Drawer from './Drawer.svelte';
 
   export let lat;
   export let lon;
@@ -45,6 +46,7 @@
   {#if map}
     <BivouacLayer />
     <GardenLayer />
+    <Drawer />
   {/if}
 </div>
 
