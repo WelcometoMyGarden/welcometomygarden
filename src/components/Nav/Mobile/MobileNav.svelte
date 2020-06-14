@@ -113,7 +113,8 @@
 
   nav {
     width: 100%;
-    height: var(--mobile-nav-height);
+    --height-nav: 9rem;
+    height: var(--height-nav);
     position: fixed;
     bottom: 0;
     left: 0;
@@ -126,7 +127,7 @@
 
   .overlay {
     width: 100%;
-    height: calc(100vh - var(--mobile-nav-height));
+    height: calc(100vh - var(--height-nav));
     position: fixed;
     top: 0;
     bottom: 0;
@@ -193,7 +194,7 @@
 
   .drawer {
     background-color: var(--color-white);
-    height: calc(100vh - var(--mobile-nav-height));
+    height: calc(100vh - var(--height-nav));
     width: 25rem;
     position: fixed;
     top: 0;
