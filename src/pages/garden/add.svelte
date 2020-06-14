@@ -1,7 +1,7 @@
 <script>
   import CoordinateForm from '@/components/Garden/CoordinateForm.svelte';
   import routes from '@/routes';
-  import { Input, LabeledCheckbox } from '@/components/UI';
+  import { LabeledCheckbox } from '@/components/UI';
 
   import {
     bonfireIcon,
@@ -89,7 +89,7 @@
       </div>
       <div class="capacity">
         <label for="capacity">Capacity</label>
-        <Input type="number" name="capacity" required min={1} max={20} />
+        <input type="number" name="capacity" min="1" id="capacity" max="20" required />
       </div>
       <input type="submit" class="submit" value="Add your garden" />
     </fieldset>

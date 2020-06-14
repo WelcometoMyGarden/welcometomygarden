@@ -117,3 +117,18 @@ strong {
   outline: 0;
   border: 0;
 }
+
+.input {
+  padding: 1.2rem 0;
+  border: none;
+  border-bottom: 1px solid var(--color-green);
+  transition: border 300ms ease-in-out;
+  font-size: 1.6rem;
+  outline: none;
+  width: 100%;
+  position: relative;
+}
+
+.input:focus {
+  border-bottom: 1px solid var(--color-info);
+}

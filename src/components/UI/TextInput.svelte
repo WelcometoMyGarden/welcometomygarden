@@ -8,8 +8,6 @@
   export let error = '';
   export let minLength = null;
   export let maxLength = null;
-  export let min = null;
-  export let max = null;
   export let testPattern = null;
   export let isValid = true;
 
@@ -35,11 +33,10 @@
     minlength={minLength}
     maxlength={maxLength}
     pattern={testPattern}
-    {min}
-    {max}
     on:blur
     on:input
-    class:invalid={!isValid} />
+    class:invalid={!!isValid}
+    class="input" />
   {#if !isValid}
     <div class="icon" transition:fade>
       <Icon icon={crossIcon} />
@@ -57,16 +54,7 @@
     position: relative;
     width: 100%;
   }
-  input {
-    padding: 1.2rem 0;
-    border: none;
-    border-bottom: 1px solid var(--color-green);
-    transition: border 300ms ease-in-out;
-    font-size: 1.6rem;
-    outline: none;
-    width: 100%;
-    position: relative;
-  }
+
   .icon {
     position: absolute;
     left: -2.2rem;
@@ -76,10 +64,6 @@
 
   .icon :global(svg) {
     fill: var(--color-orange);
-  }
-
-  input:focus {
-    border-bottom: 1px solid var(--color-info);
   }
 
   .error {
