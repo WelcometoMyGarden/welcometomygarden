@@ -4,8 +4,7 @@
   import { Button } from '../components/UI';
 
   import Logo from '../images/logo.svg';
-  import WelcomeMap from '../images/welcome-map.svg';
-  // import WelcomeMap2 from '../images/welcome-map-2.png';
+  import welcomeMap from '../images/welcome-map.svg';
   import ArrowDown from '../images/arrow-down.svg';
   import Step1 from '../images/step-1.svg';
   import Step2 from '../images/step-2.svg';
@@ -44,9 +43,8 @@
       <Button uppercase inverse>Add your garden</Button>
       <Button uppercase>Explore map</Button>
     </div>
-    <div id="welcome-map">
-      <!-- {@html WelcomeMap} -->
-      <img class="responsive-welcome-map-image" src="images/welcome-map-2.png" alt="" />
+    <div class="welcome-map">
+      {@html welcomeMap}
     </div>
   </div>
 </section>
@@ -233,15 +231,16 @@
     padding-left: 17rem;
   }
 
-  #welcome-map {
+  .welcome-map {
     position: absolute;
     right: 0;
     top: 0;
+    width: 35vw;
+    max-width: 54rem;
   }
 
-  .responsive-welcome-map-image {
-    width: 50vw;
-    height: auto;
+  .welcome-map > :global(svg) {
+    max-width: 100%;
   }
 
   .welcome {
@@ -384,10 +383,6 @@
     .welcome {
       padding-left: 0;
     }
-
-    #welcome-map {
-      display: none;
-    }
   }
 
   @media only screen and (max-width: 1150px) {
@@ -470,6 +465,10 @@
       margin-bottom: 2rem;
     }
 
+    .welcome-map {
+      top: -2rem;
+      width: 35vw;
+    }
     .steps {
       padding: 0 8rem;
     }
@@ -501,6 +500,10 @@
 
     .welcome-logo {
       margin-bottom: 2rem;
+    }
+
+    .welcome-map {
+      width: 40vw;
     }
 
     .steps {
