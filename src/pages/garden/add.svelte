@@ -56,8 +56,7 @@
         displayed publicly, so don't include any personal details here.
       </p>
       <div>
-        <label for="description">Description</label>
-        <textarea id="description" name="description" required />
+        <textarea aria-label="description" id="description" name="description" required />
       </div>
     </fieldset>
   </section>
@@ -104,6 +103,21 @@
     width: 100%;
     margin-bottom: 2rem;
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
+    padding: 2rem 0;
+  }
+
+  textarea {
+    width: 100%;
+    height: 14rem;
+    resize: vertical;
+    padding: 1rem;
+    border: 1px solid var(--color-gray);
+    box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
+    transition: border 300ms ease-in-out;
+  }
+
+  textarea:focus {
+    border: 1px solid var(--color-info);
   }
 
   fieldset,

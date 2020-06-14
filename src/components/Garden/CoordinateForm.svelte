@@ -113,6 +113,7 @@
     height: 40rem;
     margin: 2rem 0;
     position: relative;
+    box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
   }
 
   .map-container button {
