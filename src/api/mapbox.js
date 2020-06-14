@@ -7,7 +7,7 @@ const headers = {
 };
 
 const parseAddressPiece = (address, piece) => {
-  if (!piece.id) return;
+  if (!piece.id || !piece.text) return address;
   if (piece.id.includes('street')) address.street = piece.text;
   if (piece.id.includes('address') && !address.street) address.street = piece.text;
   if (piece.id.includes('postcode')) address.postalCode = piece.text;

@@ -2,6 +2,7 @@
   export let lat;
   export let lon;
   export let label;
+  export let filled = false;
 
   import { getContext, createEventDispatcher, onMount } from 'svelte';
   import mapboxgl from 'mapbox-gl';
@@ -46,7 +47,7 @@
   });
 </script>
 
-<div bind:this={markerElement} class="marker" />
+<div bind:this={markerElement} class="marker" class:filled />
 
 <style>
   .marker {
@@ -55,10 +56,17 @@
     background-repeat: no-repeat;
     background-position: center center;
     background-color: var(--color-white);
+    box-shadow: 0px 0px 2rem rgba(0, 0, 0, 0.1);
     width: 4rem;
     height: 4rem;
     border-radius: 50%;
     cursor: pointer;
+    transition: background-color 300ms ease;
+  }
+
+  .marker.filled {
+    background-image: url('/images/icons/tent-white.svg');
+    background-color: var(--color-green);
   }
 
   :global(.popup) {

@@ -1,4 +1,6 @@
 <script>
+  import { onMount, afterUpdate } from 'svelte';
+  import { slide } from 'svelte/transition';
   import { reverseGeocode } from '@/api/mapbox';
   import routes from '@/routes';
   import { Input, LabeledCheckbox, Slider } from '@/components/UI';
@@ -20,20 +22,45 @@
     console.log(e.detail);
   };
 
-  let fetchedAddress;
+  const address = {
+    street: '',
+    postalCode: '',
+    region: '',
+    country: '',
+    city: ''
+  };
 
-  $: address = fetchedAddress || {};
-
-  $: console.log(address);
+  let locationConfirmed = false;
+  let enteredAddress = {};
+  let isAddressConfirmShown = false;
   const onMarkerDragged = async event => {
     const coordinates = event.detail;
+    isAddressConfirmShown = true;
+    locationConfirmed = false;
     try {
-      fetchedAddress = await reverseGeocode(coordinates);
+      enteredAddress = { ...address, ...(await reverseGeocode(coordinates)) };
     } catch (ex) {
       // TODO: show error
       console.log(ex);
     }
   };
+
+  let addressForm;
+  let formHeight;
+  onMount(() => {
+    formHeight = addressForm.scrollHeight;
+    console.log(formHeight);
+  });
+  let restoreScroll;
+  const toggleLocationConfirmed = () => {
+    locationConfirmed = !locationConfirmed;
+    restoreScroll = locationConfirmed === true;
+  };
+
+  afterUpdate(() => {
+    if (restoreScroll) window.scrollTo(0, formHeight);
+    restoreScroll = false;
+  });
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
@@ -43,7 +70,7 @@
       <p class="section-description">
         By submitting this form, your garden will be added to the map. You can manage or remove it
         at any time from
-        <a href={routes}>your profile.</a>
+        <a href={routes.ACCOUNT}>your profile.</a>
       </p>
     </div>
   </section>
@@ -58,45 +85,67 @@
       </p>
       <div class="map-container">
         <Map lat="50.5" lon="4.5" zoom="6">
+          {#if isAddressConfirmShown}
+            <button on:click={toggleLocationConfirmed}>
+              {locationConfirmed ? 'Adjust pin location' : 'Confirm pin location'}
+            </button>
+          {/if}
           <DraggableMarker
             label="Drag me to your garden"
             lat="50.5"
             lon="4.5"
-            on:dragged={onMarkerDragged} />
+            on:dragged={onMarkerDragged}
+            filled={locationConfirmed} />
         </Map>
       </div>
-      <div class="address-group">
-        <div class="street">
-          <label for="street-name">Street</label>
-          <Input id="street-name" type="text" name="street-name" value={address.street} />
-        </div>
-        <div>
-          <label for="house-number">House number</label>
-          <Input id="house-number" type="text" name="house-number" />
-        </div>
-      </div>
+      {#if !locationConfirmed}
+        <div transition:slide bind:this={addressForm}>
+          <div class="address-group">
+            <div class="street">
+              <label for="street-name">Street</label>
+              <Input
+                id="street-name"
+                type="text"
+                name="street-name"
+                value={enteredAddress.street} />
+            </div>
+            <div>
+              <label for="house-number">House number</label>
+              <Input id="house-number" type="text" name="house-number" />
+            </div>
+          </div>
 
-      <div class="address-group">
-        <div class="province">
-          <label for="postal-code">Province or State</label>
-          <Input id="postal-code" type="text" name="postal-code" value={address.region} />
-        </div>
-        <div>
-          <label for="postal-code">Postal/ZIP Code</label>
-          <Input id="postal-code" type="text" name="postal-code" value={address.postalCode} />
-        </div>
-      </div>
+          <div class="address-group">
+            <div class="province">
+              <label for="postal-code">Province or State</label>
+              <Input
+                id="postal-code"
+                type="text"
+                name="postal-code"
+                value={enteredAddress.region} />
+            </div>
+            <div>
+              <label for="postal-code">Postal/ZIP Code</label>
+              <Input
+                id="postal-code"
+                type="text"
+                name="postal-code"
+                value={enteredAddress.postalCode} />
+            </div>
+          </div>
 
-      <div class="address-group city-country">
-        <div>
-          <label for="city">City</label>
-          <Input id="city" type="text" name="city" value={address.city} />
+          <div class="address-group city-country">
+            <div>
+              <label for="city">City</label>
+              <Input id="city" type="text" name="city" value={enteredAddress.city} />
+            </div>
+            <div>
+              <label for="country">Country</label>
+              <Input id="country" type="text" name="country" value={enteredAddress.country} />
+            </div>
+          </div>
         </div>
-        <div>
-          <label for="country">Country</label>
-          <Input id="country" type="text" name="country" value={address.country} />
-        </div>
-      </div>
+      {/if}
     </fieldset>
   </section>
 
@@ -185,6 +234,13 @@
     width: 100%;
     height: 40rem;
     margin: 2rem 0;
+    position: relative;
+  }
+
+  .map-container button {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.5rem;
   }
 
   .checkboxes {
