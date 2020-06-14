@@ -37,6 +37,6 @@
     width: 2rem;
     height: 1.8rem;
     display: inline-block;
-    margin: 0 0.5rem 0 1rem;
+    margin: 0 0.5rem 0 0.5rem;
   }
 </style>
