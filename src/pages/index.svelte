@@ -33,7 +33,7 @@
 
 <section class="landing">
   <div class="welcome">
-    <div>
+    <div class="welcome-logo">
       {@html Logo}
     </div>
     <h1 class="heading-underline-center">Welcome to My Garden</h1>
@@ -169,7 +169,7 @@
   h1 {
     font-size: 3.6rem;
     font-weight: bold;
-    line-height: 93px;
+    line-height: 9rem;
     font-family: var(--fonts-titles);
     margin-bottom: 30px;
     color: var(--color-green);
@@ -178,7 +178,7 @@
   h2 {
     font-size: 1.8rem;
     font-weight: bold;
-    line-height: 28px;
+    line-height: 2.8rem;
     font-family: var(--fonts-copy);
     color: var(--color-green);
     text-transform: uppercase;
@@ -190,8 +190,9 @@
 
   p {
     font-size: 1.6rem;
-    line-height: 26px;
+    line-height: 2.6rem;
     color: var(--color-green);
+    text-align: justify;
   }
 
   a {
@@ -228,6 +229,8 @@
 
   .landing {
     display: flex;
+    padding-top: 14rem;
+    padding-left: 17rem;
   }
 
   #welcome-map {
@@ -244,12 +247,11 @@
   .welcome {
     max-width: 650px;
     text-align: center;
-    padding-top: 143px;
-    padding-left: 173px;
   }
 
   .welcome-text {
     margin-bottom: 37px;
+    text-align: center;
   }
 
   .welcome-buttons {
@@ -287,7 +289,6 @@
   }
 
   .step {
-    text-align: justify;
     margin-right: 7rem;
     display: grid;
     grid-template-rows: 170px 0.8fr 2fr;
@@ -303,7 +304,7 @@
   }
 
   .card p {
-    line-height: 32px;
+    line-height: 3.2rem;
   }
 
   .faq {
@@ -324,7 +325,7 @@
 
   .faq-intro p {
     color: var(--color-white);
-    line-height: 32px;
+    line-height: 3.2rem;
   }
 
   .faq-list {
@@ -368,14 +369,16 @@
   @media only screen and (max-width: 1300px) {
     h1 {
       font-size: 2.8rem;
+      line-height: 7.5rem;
     }
 
     .faq-intro {
-      padding: 6rem 12rem;
+      padding: 6rem 10rem;
     }
 
     .landing {
       justify-content: center;
+      padding-left: 0;
     }
 
     .welcome {
@@ -441,19 +444,32 @@
   }
 
   @media only screen and (max-width: 1000px) {
+    .landing {
+      padding: 14rem 10rem 0;
+    }
+
     .steps {
       padding: 0 10rem;
     }
-  }
 
-  @media only screen and (max-width: 800px) {
-    .welcome {
-      padding-left: 4rem;
-      padding-right: 4rem;
+    .faq-intro {
+      padding: 6rem 10rem 8rem;
     }
   }
 
   @media only screen and (max-width: 700px) {
+    .learn-more {
+      display: none;
+    }
+
+    .landing {
+      padding: 10rem 8rem 2rem;
+    }
+
+    .welcome-logo {
+      margin-bottom: 2rem;
+    }
+
     .steps {
       padding: 0 8rem;
     }
@@ -461,17 +477,80 @@
     .faq-intro {
       padding: 4rem 8rem 6rem;
     }
+
+    .cooperation-card {
+      padding: 8rem 8rem 10rem;
+    }
   }
 
   @media only screen and (max-width: 600px) {
-    .steps {
-      padding: 0 4rem;
+    h1 {
+      font-size: 2.2rem;
+      line-height: 6.5rem;
     }
   }
 
   @media only screen and (max-width: 500px) {
+    p {
+      font-size: 1.4rem;
+    }
+
+    .landing {
+      padding: 10rem 4rem 2rem;
+    }
+
+    .welcome-logo {
+      margin-bottom: 2rem;
+    }
+
     .steps {
-      padding: 0 2rem;
+      padding: 0 4rem;
+    }
+
+    .faq-intro {
+      padding: 4rem 4rem 6rem;
+    }
+
+    .cooperation-card {
+      padding: 8rem 4rem 10rem;
+    }
+  }
+
+  @media only screen and (max-width: 400px) {
+    h1 {
+      font-size: 1.8rem;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+    }
+
+    .landing {
+      padding: 10rem 3rem;
+    }
+
+    .welcome-logo {
+      margin-bottom: 2rem;
+    }
+
+    .steps {
+      padding: 0 3rem;
+    }
+
+    .faq-intro {
+      padding: 4rem 3rem 6rem;
+    }
+
+    .faq-intro p {
+      line-height: 2.6rem;
+    }
+
+    .card p {
+      line-height: 2.6rem;
+    }
+
+    .cooperation-card {
+      padding: 8rem 3rem 10rem;
     }
   }
 </style>

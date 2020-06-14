@@ -46,4 +46,18 @@
   .uppercase {
     text-transform: uppercase;
   }
+
+  @media only screen and (max-width: 600px) {
+    a,
+    button {
+      font-size: 1.6rem;
+    }
+  }
+
+  @media only screen and (max-width: 400px) {
+    a,
+    button {
+      font-size: 1.4rem;
+    }
+  }
 </style>
