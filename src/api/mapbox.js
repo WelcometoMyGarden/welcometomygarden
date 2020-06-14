@@ -17,6 +17,17 @@ const parseAddressPiece = (address, piece) => {
   return address;
 };
 
+export const geocode = async (addressString) => {
+  const response = await fetch(
+    `https://api.mapbox.com/geocoding/v5/mapbox.places/${addressString}.json?limit=1&access_token=${MAPBOX_ACCESS_TOKEN}`,
+    { headers }
+  );
+  const data = await response.json();
+  const addressData = data.features[0];
+
+  return { longitude: addressData.center[0], latitude: addressData.center[1] };
+};
+
 export const reverseGeocode = async ({ latitude, longitude }) => {
   const response = await fetch(
     `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?limit=1&access_token=${MAPBOX_ACCESS_TOKEN}`,

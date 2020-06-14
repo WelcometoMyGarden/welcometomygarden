@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { reverseGeocode } from '@/api/mapbox';
+  import { reverseGeocode, geocode } from '@/api/mapbox';
   import { slide } from 'svelte/transition';
   import { TextInput } from '@/components/UI';
   import Map from '@/components/Map/Map.svelte';
@@ -8,7 +8,7 @@
 
   const dispatch = createEventDispatcher();
 
-  const address = {
+  const defaultAddressValues = {
     street: '',
     postalCode: '',
     region: '',
@@ -16,17 +16,43 @@
     city: ''
   };
 
-  let coordinates = null;
+  let coordinates = {
+    latitude: 50.5,
+    longitude: 4.5
+  };
 
+  let address = {};
+  let reverseGeocoded = false;
   let locationConfirmed = false;
-  let enteredAddress = {};
   let isAddressConfirmShown = false;
+
+  const setAddressField = async event => {
+    if (reverseGeocoded) {
+      address = { ...defaultAddressValues };
+      reverseGeocoded = false;
+    }
+    address[event.target.name] = event.target.value;
+    const addressString = Object.keys(address)
+      .map(key => address[key])
+      .filter(v => v)
+      .join(' ');
+    try {
+      coordinates = await geocode(addressString);
+      console.log(coordinates);
+    } catch (ex) {
+      // TODO: show error
+      console.log(ex);
+    }
+    dispatch('submit', locationConfirmed ? coordinates : null);
+  };
+
   const onMarkerDragged = async event => {
     coordinates = event.detail;
     isAddressConfirmShown = true;
     locationConfirmed = false;
     try {
-      enteredAddress = { ...address, ...(await reverseGeocode(coordinates)) };
+      address = { ...defaultAddressValues, ...(await reverseGeocode(coordinates)) };
+      reverseGeocoded = true;
     } catch (ex) {
       // TODO: show error
       console.log(ex);
@@ -48,8 +74,8 @@
     {/if}
     <DraggableMarker
       label="Drag me to your garden"
-      lat="50.5"
-      lon="4.5"
+      lat={coordinates.latitude}
+      lon={coordinates.longitude}
       on:dragged={onMarkerDragged}
       filled={locationConfirmed} />
   </Map>
@@ -59,37 +85,53 @@
     <div class="address-group">
       <div class="street">
         <label for="street-name">Street</label>
-        <TextInput id="street-name" type="text" name="street-name" value={enteredAddress.street} />
+        <TextInput
+          id="street-name"
+          type="text"
+          name="street"
+          on:blur={setAddressField}
+          value={address.street} />
       </div>
       <div>
         <label for="house-number">House number</label>
-        <TextInput id="house-number" type="text" name="house-number" />
+        <TextInput id="house-number" type="text" name="house-number" on:blur={setAddressField} />
       </div>
     </div>
 
     <div class="address-group">
       <div class="province">
-        <label for="postal-code">Province or State</label>
-        <TextInput id="postal-code" type="text" name="postal-code" value={enteredAddress.region} />
+        <label for="region">Province or State</label>
+        <TextInput
+          id="region"
+          type="text"
+          name="region"
+          value={address.region}
+          on:blur={setAddressField} />
       </div>
       <div>
         <label for="postal-code">Postal/ZIP Code</label>
         <TextInput
           id="postal-code"
           type="text"
-          name="postal-code"
-          value={enteredAddress.postalCode} />
+          name="postalCode"
+          value={address.postalCode}
+          on:blur={setAddressField} />
       </div>
     </div>
 
     <div class="address-group city-country">
       <div>
         <label for="city">City</label>
-        <TextInput id="city" type="text" name="city" value={enteredAddress.city} />
+        <TextInput
+          id="city"
+          type="text"
+          name="city"
+          value={address.city}
+          on:blur={setAddressField} />
       </div>
       <div>
         <label for="country">Country</label>
-        <TextInput id="country" type="text" name="country" value={enteredAddress.country} />
+        <TextInput id="country" type="text" name="country" value={address.country} />
       </div>
     </div>
   </div>

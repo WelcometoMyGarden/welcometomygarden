@@ -14,7 +14,7 @@
   const map = getMap();
 
   let markerElement;
-
+  let marker;
   onMount(() => {
     const popup = new mapboxgl.Popup({
       offset: 25,
@@ -23,7 +23,7 @@
       className: 'popup'
     }).setText(label);
 
-    const marker = new mapboxgl.Marker({
+    marker = new mapboxgl.Marker({
       draggable: true,
       element: markerElement
     })
@@ -45,6 +45,8 @@
     marker.on('dragstart', popup.remove);
     marker.on('dragend', onDragEnd);
   });
+
+  $: if (marker && lat && lon) marker.setLngLat([lon, lat]);
 </script>
 
 <div bind:this={markerElement} class="marker" class:filled />
