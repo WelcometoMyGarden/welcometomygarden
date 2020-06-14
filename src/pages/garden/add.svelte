@@ -1,7 +1,7 @@
 <script>
   import CoordinateForm from '@/components/Garden/CoordinateForm.svelte';
   import routes from '@/routes';
-  import { LabeledCheckbox, Slider } from '@/components/UI';
+  import { Input, LabeledCheckbox } from '@/components/UI';
 
   import {
     bonfireIcon,
@@ -37,7 +37,7 @@
   </section>
   <section>
     <fieldset>
-      <h3>Location</h3>
+      <h3>Location *</h3>
       <p class="section-description">
         Move the marker to set the location of your garden. You can fill in the address fields to
         move the marker closer to you.
@@ -50,23 +50,29 @@
 
   <section>
     <fieldset>
-      <h3>Describe your camping spot</h3>
+      <h3>Describe your camping spot *</h3>
       <p class="section-description">
         A short description of your garden and the camping spot you can offer. This information is
         displayed publicly, so don't include any personal details here.
       </p>
       <div>
-        <textarea aria-label="description" id="description" name="description" required />
+        <textarea
+          placeholder="Enter description..."
+          aria-label="description"
+          id="description"
+          name="description"
+          required />
       </div>
     </fieldset>
   </section>
 
-  <div class="section-wrapper">
+  <section>
     <fieldset>
       <h3>Facilities</h3>
+      <p class="section-description">What kind of facilities do travellers have access to?</p>
       <div class="checkboxes">
-        <LabeledCheckbox name="toilet" icon={toiletIcon} label="Toilet" />
         <LabeledCheckbox name="water" icon={waterIcon} label="Water" />
+        <LabeledCheckbox name="toilet" icon={toiletIcon} label="Toilet" />
         <LabeledCheckbox name="drinkable-water" icon={waterIcon} label="Drinkable water" />
         <LabeledCheckbox name="bonfire" icon={bonfireIcon} label="Bonfire" />
         <LabeledCheckbox name="electricity" icon={electricityIcon} label="Electricity" />
@@ -74,20 +80,17 @@
         <LabeledCheckbox name="tent" icon={tentIcon} label="Tent" />
       </div>
       <div class="capacity">
-        <Slider name="capacity" required min={1} max={20} />
+        <label for="capacity">Capacity</label>
+        <Input type="number" name="capacity" required min={1} max={20} />
       </div>
-      <input type="submit" value="Add your garden" />
+      <input type="submit" class="submit" value="Add your garden" />
     </fieldset>
-  </div>
+  </section>
 
 </form>
 
 <style>
   form {
-    width: 100%;
-  }
-
-  form :global(input:not([type='checkbox'])) {
     width: 100%;
   }
 
@@ -102,17 +105,17 @@
   section {
     width: 100%;
     margin-bottom: 2rem;
-    box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 1rem rgba(0, 0, 0, 0.1);
     padding: 2rem 0;
   }
 
   textarea {
     width: 100%;
-    height: 14rem;
+    height: 16rem;
     resize: vertical;
     padding: 1rem;
     border: 1px solid var(--color-gray);
-    box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 1rem rgba(0, 0, 0, 0.1);
     transition: border 300ms ease-in-out;
   }
 
@@ -132,6 +135,10 @@
     grid-template-columns: 1fr 1fr;
     grid-auto-rows: min-content;
     grid-row-gap: 1rem;
+  }
+
+  .submit {
+    margin-top: 4rem;
   }
 
   h2 {

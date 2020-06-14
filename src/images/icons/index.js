@@ -1,5 +1,7 @@
 export { default as bonfireIcon } from './bonfire.svg';
 export { default as chatIcon } from './chat.svg';
+export { default as checkIcon } from './check.svg';
+export { default as crossIcon } from './cross.svg';
 export { default as electricityIcon } from './electricity.svg';
 export { default as mapIcon } from './map.svg';
 export { default as showerIcon } from './shower.svg';
