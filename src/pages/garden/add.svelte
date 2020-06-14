@@ -14,8 +14,11 @@
 
   let garden = {
     description: '',
-    facilities: {}
+    facilities: {},
+    capacity: 1
   };
+
+  $: console.log(garden);
 
   const handleSubmit = () => {
     console.log(garden);
@@ -88,8 +91,16 @@
         {/each}
       </div>
       <div class="capacity">
-        <label for="capacity">Capacity</label>
-        <input type="number" name="capacity" min="1" id="capacity" max="20" required />
+        <label for="capacity">Capacity*</label>
+        <p>How many tents do you have space for (estimation)</p>
+        <input
+          type="number"
+          name="capacity"
+          min="1"
+          id="capacity"
+          max="20"
+          bind:value={garden.capacity}
+          required />
       </div>
       <input type="submit" class="submit" value="Add your garden" />
     </fieldset>
@@ -138,6 +149,21 @@
     margin: 0 auto;
   }
 
+  .capacity {
+    margin-top: 4rem;
+  }
+
+  .capacity p {
+    margin: 1rem 0;
+  }
+
+  .capacity input {
+    width: 10rem;
+    margin: 1rem 0;
+    display: block;
+    font-size: 1.6rem;
+  }
+
   .checkboxes {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -152,7 +178,7 @@
   h2 {
     font-size: 2.2rem;
     font-weight: 900;
-    margin-top: 4rem;
+    margin-top: 2rem;
   }
 
   h3 {
