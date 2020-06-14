@@ -2,12 +2,14 @@
   export let id = null;
   export let name;
   export let type;
-  export let placeholder;
-  export let required;
+  export let placeholder = null;
+  export let required = false;
   export let value = '';
   export let error = '';
   export let minLength = null;
   export let maxLength = null;
+  export let min = null;
+  export let max = null;
   export let testPattern = null;
   export let isValid = true;
 
@@ -33,6 +35,8 @@
     minlength={minLength}
     maxlength={maxLength}
     pattern={testPattern}
+    {min}
+    {max}
     on:blur
     on:input
     class:invalid={!isValid} />

@@ -2,13 +2,13 @@
   export let name;
   export let icon = null;
   export let label;
-  export let value;
+  export let checked;
 
   import Icon from './Icon.svelte';
 </script>
 
 <div>
-  <input id={name} type="checkbox" {name} {value} />
+  <input id={name} type="checkbox" {name} bind:checked />
   <label for={name}>
     {#if icon}
       <div class="icon">

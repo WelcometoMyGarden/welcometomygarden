@@ -12,16 +12,28 @@
     tentIcon
   } from '@/images/icons';
 
-  let garden = {};
+  let garden = {
+    description: '',
+    facilities: {}
+  };
 
-  const handleSubmit = e => {
-    console.log(e.detail);
+  const handleSubmit = () => {
+    console.log(garden);
   };
 
   const setCoordinates = event => {
     garden.location = event.detail;
   };
-  $: console.log(garden);
+
+  const facilities = [
+    { name: 'water', icon: waterIcon, label: 'Water' },
+    { name: 'toilet', icon: toiletIcon, label: 'Toilet' },
+    { name: 'drinkable-water', icon: waterIcon, label: 'Drinkable water' },
+    { name: 'bonfire', icon: bonfireIcon, label: 'Bonfire' },
+    { name: 'electricity', icon: electricityIcon, label: 'Electricity' },
+    { name: 'shower', icon: showerIcon, label: 'Shower' },
+    { name: 'tent', icon: tentIcon, label: 'Tent' }
+  ];
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
@@ -71,13 +83,9 @@
       <h3>Facilities</h3>
       <p class="section-description">What kind of facilities do travellers have access to?</p>
       <div class="checkboxes">
-        <LabeledCheckbox name="water" icon={waterIcon} label="Water" />
-        <LabeledCheckbox name="toilet" icon={toiletIcon} label="Toilet" />
-        <LabeledCheckbox name="drinkable-water" icon={waterIcon} label="Drinkable water" />
-        <LabeledCheckbox name="bonfire" icon={bonfireIcon} label="Bonfire" />
-        <LabeledCheckbox name="electricity" icon={electricityIcon} label="Electricity" />
-        <LabeledCheckbox name="shower" icon={showerIcon} label="Shower" />
-        <LabeledCheckbox name="tent" icon={tentIcon} label="Tent" />
+        {#each facilities as facility (facility.name)}
+          <LabeledCheckbox {...facility} bind:checked={garden.facilities[facility.name]} />
+        {/each}
       </div>
       <div class="capacity">
         <label for="capacity">Capacity</label>

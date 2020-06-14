@@ -1,6 +1,4 @@
 <script>
-  import { CheckIcon, XIcon } from 'svelte-feather-icons';
-
   export let name;
   export let placeholder;
   export let options = [];
@@ -13,13 +11,6 @@
 </script>
 
 <div class="input">
-  <div class="icon">
-    {#if validity === true}
-      <CheckIcon size="16" color="#f00" />
-    {:else if validity === false}
-      <XIcon size="16" />
-    {/if}
-  </div>
   <select
     {name}
     bind:value
