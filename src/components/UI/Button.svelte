@@ -55,10 +55,17 @@
     }
   }
 
-  @media only screen and (max-width: 400px) {
+  @media only screen and (max-width: 500px) {
     a,
     button {
       font-size: 1.2rem;
+    }
+  }
+
+  @media only screen and (max-width: 400px) {
+    a,
+    button {
+      font-size: 1.1rem;
     }
   }
 </style>
