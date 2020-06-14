@@ -8,9 +8,14 @@
   export let lat;
   export let lon;
   export let zoom;
+  export let recenterOnUpdate = false;
+
+  const initialLngLat = [lon, lat];
+
   let container;
   let map;
   let mapIsLoading = false;
+
   setContext(key, {
     getMap: () => map
   });
@@ -23,10 +28,25 @@
       center: [lon, lat],
       zoom
     });
-    map.on('load', () => (mapIsLoading = false));
+    map.on('load', () => {
+      mapIsLoading = false;
+    });
 
     map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left');
   });
+
+  $: if (recenterOnUpdate && map) {
+    map.flyTo({
+      center: [lon, lat],
+      zoom,
+      bearing: 0,
+
+      speed: 0.9,
+      curve: 1,
+
+      essential: true
+    });
+  }
 </script>
 
 <svelte:head>
