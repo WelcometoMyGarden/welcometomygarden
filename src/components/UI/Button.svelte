@@ -32,6 +32,7 @@
     font-weight: bold;
     cursor: pointer;
     width: 25rem;
+    font-family: var(--fonts-copy);
   }
 
   .fit {

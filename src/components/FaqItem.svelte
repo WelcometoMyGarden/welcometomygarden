@@ -60,6 +60,7 @@
     font-size: 3rem;
     margin-left: auto;
     display: block;
+    color: var(--color-green);
   }
 
   @media only screen and (max-width: 1150px) {

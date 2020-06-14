@@ -37,7 +37,9 @@
     </div>
     <h1 class="heading-underline-center">Welcome to My Garden</h1>
     <p class="welcome-text">
-      We are a network of citizens offering free camping spots in their gardens for slow travelers
+      We are a network of citizens offering free camping
+      <br />
+      spots in their gardens for slow travelers
     </p>
     <div class="welcome-buttons">
       <Button uppercase inverse>Add your garden</Button>
@@ -100,7 +102,7 @@
     <h1 class="heading-underline-center">All you need to know</h1>
     <p>
       Here are the most important things you need to know about your next adventure. Please read
-      this FAQ section thoroughly so that you know what you’re getting yourself into.
+      this FAQ section thoroughly so that you know what you’re getting&nbsp;yourself&nbsp;into.
     </p>
   </div>
   <ul class="faq-list">
@@ -293,6 +295,11 @@
     grid-template-rows: 170px 0.8fr 2fr;
   }
 
+  .step-header {
+    font-family: var(--font-copy);
+    font-weight: bold;
+  }
+
   .step:last-of-type {
     margin-right: 0;
   }
@@ -304,6 +311,7 @@
 
   .card p {
     line-height: 3.2rem;
+    text-align: center;
   }
 
   .faq {
