@@ -37,9 +37,7 @@
     </div>
     <h1 class="heading-underline-center">Welcome to My Garden</h1>
     <p class="welcome-text">
-      We are a network of citizens offering free camping
-      <br />
-      spots in their gardens for slow travelers
+      We are a network of citizens offering free camping spots in their gardens for slow travelers
     </p>
     <div class="welcome-buttons">
       <Button uppercase inverse>Add your garden</Button>
@@ -171,7 +169,7 @@
     font-weight: bold;
     line-height: 9rem;
     font-family: var(--fonts-titles);
-    margin-bottom: 30px;
+    margin-bottom: 3rem;
     color: var(--color-green);
   }
 
@@ -185,7 +183,7 @@
   }
 
   section {
-    margin-bottom: 90px;
+    margin-bottom: 9rem;
   }
 
   p {
@@ -223,8 +221,8 @@
     content: '';
     height: 3px;
     background: var(--color-orange);
-    width: 120px;
-    margin-left: -60px;
+    width: 12rem;
+    margin-left: -6rem;
   }
 
   .landing {
@@ -246,12 +244,24 @@
   }
 
   .welcome {
-    max-width: 650px;
-    text-align: center;
+    max-width: 55rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .welcome-logo {
+    width: 20vw;
+    max-width: 23.3rem;
+    min-width: 16rem;
+  }
+
+  .welcome-logo > :global(svg) {
+    max-width: 100%;
   }
 
   .welcome-text {
-    margin-bottom: 37px;
+    margin-bottom: 3.7rem;
     text-align: center;
   }
 
@@ -270,12 +280,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 20px 0 70px 0;
+    margin: 2rem 0 7rem 0;
   }
 
   .learn-more-text {
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
   }
 
   .learn-more-button {
@@ -292,7 +302,7 @@
   .step {
     margin-right: 7rem;
     display: grid;
-    grid-template-rows: 170px 0.8fr 2fr;
+    grid-template-rows: 17rem 0.8fr 2fr;
   }
 
   .step-header {
@@ -351,7 +361,7 @@
   }
 
   .cooperation h1 {
-    margin-bottom: 46px;
+    margin-bottom: 4.6rem;
   }
 
   .cooperation-card {
@@ -376,6 +386,7 @@
   @media only screen and (max-width: 1300px) {
     h1 {
       font-size: 2.8rem;
+      margin-bottom: 2.3rem;
       line-height: 7.5rem;
     }
 
@@ -390,6 +401,10 @@
 
     .welcome {
       padding-left: 0;
+    }
+
+    .welcome-logo {
+      width: 25vw;
     }
   }
 
@@ -451,6 +466,10 @@
       padding: 14rem 10rem 0;
     }
 
+    .welcome-logo {
+      width: 30vw;
+    }
+
     .steps {
       padding: 0 10rem;
     }
@@ -470,7 +489,7 @@
     }
 
     .welcome-logo {
-      margin-bottom: 2rem;
+      width: 40vw;
     }
 
     .welcome-map {
@@ -493,6 +512,7 @@
   @media only screen and (max-width: 600px) {
     h1 {
       font-size: 2.2rem;
+      margin-bottom: 2rem;
       line-height: 6.5rem;
     }
   }
@@ -506,12 +526,12 @@
       padding: 10rem 4rem 2rem;
     }
 
-    .welcome-logo {
-      margin-bottom: 2rem;
-    }
-
     .welcome-map {
       width: 40vw;
+    }
+
+    .welcome-logo {
+      width: 45vw;
     }
 
     .steps {
@@ -530,6 +550,8 @@
   @media only screen and (max-width: 400px) {
     h1 {
       font-size: 1.8rem;
+      line-height: 5.5rem;
+      margin-bottom: 1.5rem;
     }
 
     h2 {
@@ -537,11 +559,15 @@
     }
 
     .landing {
-      padding: 10rem 3rem;
+      padding: 6rem 3rem;
+    }
+
+    .welcome-text {
+      margin-bottom: 2rem;
     }
 
     .welcome-logo {
-      margin-bottom: 2rem;
+      width: 50vw;
     }
 
     .steps {

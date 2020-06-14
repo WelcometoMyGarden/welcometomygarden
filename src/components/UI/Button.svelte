@@ -48,17 +48,17 @@
     text-transform: uppercase;
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 700px) {
     a,
     button {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
     }
   }
 
   @media only screen and (max-width: 400px) {
     a,
     button {
-      font-size: 1.4rem;
+      font-size: 1.2rem;
     }
   }
 </style>
