@@ -21,6 +21,7 @@
   --fonts-copy: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --fonts-titles: "Inknut Antiqua", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --radius-xl: 40px;
+  --radius-l: 20px;
   --radius-m: 10px;
   --radius-s: 6px;
   --spacer-xl: 3rem;

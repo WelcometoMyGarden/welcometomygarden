@@ -1,4 +1,5 @@
 <script>
+  import { draggable } from '../../directives/draggable.js';
   import Text from '../UI/Text.svelte';
   import Badge from '../UI/Badge.svelte';
   import Image from '../UI/Image.svelte';
@@ -26,16 +27,41 @@
       style: 'width: 60px; height: 60px; margin-right: 5px;'
     }
   ];
-
   const badges = [
     { icon: 'tint', text: 'Drinkable water' },
     { icon: 'bolt', text: 'Electricity' },
     { icon: 'campfire', text: 'Bonfire' }
   ];
+
+  let drawerElement;
+  let drawerHeight = 60;
+  let previousOffsetCursor = null;
+
+  function dragBarCatch() {
+    previousOffsetCursor = 0;
+  }
+
+  function dragBarMove({ detail }) {
+    if (previousOffsetCursor !== null) {
+      drawerHeight = drawerHeight - previousOffsetCursor + detail.y;
+      previousOffsetCursor = detail.y;
+    }
+  }
+
+  function dragBarRelease() {
+    previousOffsetCursor = null;
+  }
 </script>
 
-<section class="drawer">
-  <div class="drag-bar" />
+<section class="drawer" bind:this={drawerElement} style={`height: ${drawerHeight}px`}>
+  <div
+    class="drag-area"
+    use:draggable
+    on:dragstart={dragBarCatch}
+    on:drag={dragBarMove}
+    on:dragend={dragBarRelease}>
+    <div class="drag-bar" />
+  </div>
   <main class="main">
     <Text class="mb-l" weight="bold" size="l">Merelbeke</Text>
     <div class="mb-l">
@@ -89,32 +115,45 @@
       bottom: 0;
       transform: none;
       width: 100%;
-      border-top-right-radius: var(--radius-m);
+      border-top-right-radius: var(--radius-l);
+      border-bottom-right-radius: var(--radius-l);
       border-bottom-left-radius: 0;
       min-height: auto;
+      overflow-y: hidden;
+    }
+  }
+
+  .drag-area {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    padding: var(--spacer-l) var(--spacer-l) var(--spacer-m) var(--spacer-l);
+    transform: translateX(-50%);
+    cursor: ns-resize;
+  }
+
+  @media screen and (min-width: 700px) {
+    .drag-area {
+      display: none;
     }
   }
 
   .drag-bar {
-    position: absolute;
-    top: 20px;
-    left: 50%;
     width: 40px;
     height: 3px;
     background-color: var(--color-beige);
-    transform: translateX(-50%);
-  }
-
-  @media screen and (min-width: 700px) {
-    .drag-bar {
-      display: none;
-    }
   }
 
   .main {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+  }
+
+  @media screen and (min-width: 700px) {
+    .main {
+      min-height: 300px;
+    }
   }
 
   .footer {
