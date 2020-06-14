@@ -288,9 +288,9 @@
 
   .step {
     text-align: justify;
-    margin-right: 68px;
+    margin-right: 7rem;
     display: grid;
-    grid-template-rows: 170px 1fr 2fr;
+    grid-template-rows: 170px 0.8fr 2fr;
   }
 
   .step:last-of-type {
@@ -300,7 +300,6 @@
   .step-logo {
     display: flex;
     justify-content: center;
-    margin-bottom: 1rem;
   }
 
   .card p {
@@ -314,7 +313,7 @@
   .faq-intro {
     background-color: var(--color-green);
     width: 50%;
-    padding: 60px 150px;
+    padding: 6rem 15rem;
     align-self: flex-start;
   }
 
@@ -360,21 +359,19 @@
     background-color: var(--color-beige-light);
   }
 
+  @media only screen and (max-width: 1500px) {
+    .faq-intro {
+      padding: 6rem 12rem;
+    }
+  }
+
   @media only screen and (max-width: 1300px) {
     h1 {
       font-size: 2.8rem;
     }
 
-    .steps {
-      padding: 0 5rem;
-    }
-
-    .step {
-      margin-right: 4rem;
-    }
-
     .faq-intro {
-      padding: 60px 120px;
+      padding: 6rem 12rem;
     }
 
     .landing {

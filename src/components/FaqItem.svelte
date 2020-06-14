@@ -40,7 +40,7 @@
   }
 
   .title {
-    font-size: 2rem;
+    font-size: 1.6rem;
     display: flex;
     justify-content: space-between;
     padding: 2rem 0;
@@ -51,8 +51,9 @@
 
   .content {
     font-size: 1.6rem;
-    padding: 2rem 0;
+    padding: 0 10rem 2rem 0;
     font-weight: normal;
+    text-align: justify;
   }
 
   .sign {
@@ -67,7 +68,6 @@
     }
 
     .title {
-      font-size: 1.6rem;
       padding: 3.5rem 0;
     }
 
