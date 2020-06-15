@@ -110,8 +110,8 @@
 
   const facilities = [
     { name: 'water', icon: waterIcon, label: 'Water' },
-    { name: 'toilet', icon: toiletIcon, label: 'Toilet' },
     { name: 'drinkable-water', icon: waterIcon, label: 'Drinkable water' },
+    { name: 'toilet', icon: toiletIcon, label: 'Toilet' },
     { name: 'bonfire', icon: bonfireIcon, label: 'Bonfire' },
     { name: 'electricity', icon: electricityIcon, label: 'Electricity' },
     { name: 'shower', icon: showerIcon, label: 'Shower' },
@@ -218,12 +218,14 @@
     </fieldset>
   </section>
   <section class="section-submit">
-    <button type="button" on:click={handleSubmit}>Add your garden</button>
-    {#if !formValid}
-      <p class="hint invalid" transition:slide>
-        Some information was not valid. Please check your submitted information for errors.
-      </p>
-    {/if}
+    <div class="sub-container">
+      <button type="button" on:click={handleSubmit}>Add your garden</button>
+      {#if !formValid}
+        <p class="hint invalid" transition:slide>
+          Some information was not valid. Please check your submitted information for errors.
+        </p>
+      {/if}
+    </div>
   </section>
 </form>
 
@@ -245,7 +247,6 @@
     width: 100%;
     margin-bottom: 2rem;
     box-shadow: 0px 0px 1rem rgba(0, 0, 0, 0.1);
-    padding: 3rem 0;
   }
 
   .section-submit {
@@ -270,7 +271,9 @@
   fieldset,
   .sub-container {
     max-width: 60rem;
+    width: 90%;
     margin: 0 auto;
+    padding: 3rem;
   }
 
   .capacity {
@@ -295,6 +298,12 @@
     grid-row-gap: 1rem;
   }
 
+  @media screen and (max-width: 600px) {
+    .checkboxes {
+      grid-template-columns: 1fr;
+    }
+  }
+
   h2 {
     font-size: 2.2rem;
     font-weight: 900;
@@ -305,6 +314,7 @@
     font-size: 1.8rem;
     font-weight: 900;
     margin-bottom: 2rem;
+    line-height: 1.6;
   }
 
   .hint {
