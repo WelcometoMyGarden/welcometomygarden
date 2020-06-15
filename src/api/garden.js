@@ -6,16 +6,19 @@ import { db, storage } from './index';
 export const addGarden = async ({ photo, ...rest }) => {
   const userId = get(user).id;
 
-  const extension = photo.name.split('.').pop();
-  const photoLocation = `gardens/${userId}/garden.${extension}`;
-  isUploading.set(true);
-  const uploadTask = storage.child(photoLocation).put(photo, { contentType: photo.type });
-  uploadTask.on('state_changed', (snapshot) => {
-    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    uploadProgress.set(progress);
-  });
-  await uploadTask;
-  isUploading.set(false);
+  let hasPhoto = !!photo;
+  if (hasPhoto) {
+    const extension = photo.name.split('.').pop();
+    const photoLocation = `gardens/${userId}/garden.${extension}`;
+    isUploading.set(true);
+    const uploadTask = storage.child(photoLocation).put(photo, { contentType: photo.type });
+    uploadTask.on('state_changed', (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      uploadProgress.set(progress);
+    });
+    await uploadTask;
+    isUploading.set(false);
+  }
 
   const facilities = Object.keys(rest.facilities).reduce((all, facility) => {
     all[facility] = rest.facilities[facility] || false;
@@ -27,6 +30,7 @@ export const addGarden = async ({ photo, ...rest }) => {
     .doc(userId)
     .set({
       ...rest,
-      facilities
+      facilities,
+      hasPhoto
     });
 };

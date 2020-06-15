@@ -115,7 +115,7 @@
 
     formValid = true;
     try {
-      await addGarden({ ...garden, photo: garden.photo.files[0] });
+      await addGarden({ ...garden, photo: garden.photo.files ? garden.photo.files[0] : null });
       // TODO show success
     } catch (ex) {
       // TODO: show errors
