@@ -68,10 +68,6 @@
       padding: 0 12rem;
     }
 
-    .title {
-      padding: 3.5rem 0;
-    }
-
     .content {
       padding: 0 20rem 4rem 12rem;
     }
