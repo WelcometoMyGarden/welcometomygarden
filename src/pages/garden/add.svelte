@@ -1,4 +1,5 @@
 <script>
+  import { slide } from 'svelte/transition';
   import CoordinateForm from '@/components/Garden/CoordinateForm.svelte';
   import routes from '@/routes';
   import { LabeledCheckbox } from '@/components/UI';
@@ -15,7 +16,11 @@
   let garden = {
     description: '',
     facilities: {},
-    capacity: 1
+    capacity: 1,
+    photo: {
+      files: null,
+      data: null
+    }
   };
 
   $: console.log(garden);
@@ -48,6 +53,17 @@
     garden.location = event.detail;
   };
 
+  const choosePhoto = () => {
+    if (!garden.photo.files) return;
+
+    const file = garden.photo.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = e => {
+      garden.photo.data = e.target.result;
+    };
+  };
+
   const facilities = [
     { name: 'water', icon: waterIcon, label: 'Water' },
     { name: 'toilet', icon: toiletIcon, label: 'Toilet' },
@@ -72,7 +88,7 @@
   </section>
   <section>
     <fieldset>
-      <h3>Location *</h3>
+      <h3>Location (required)</h3>
       <p class="section-description">
         Move the marker to set the location of your garden. You can fill in the address fields to
         move the marker closer to you.
@@ -85,7 +101,7 @@
 
   <section>
     <fieldset>
-      <h3>Describe your camping spot *</h3>
+      <h3>Describe your camping spot (required)</h3>
       <p class="section-description">
         A short description of your garden and the camping spot you can offer. This information is
         displayed publicly, so don't include any personal details here.
@@ -130,10 +146,35 @@
           bind:value={garden.capacity}
           required />
       </div>
-      <button type="button" class="submit" on:click={handleSubmit}>Add your garden</button>
     </fieldset>
   </section>
+  <section>
+    <fieldset>
+      <h3>Photo</h3>
+      <p class="section-description">
+        Show people what your garden looks like.
+        <br />
+        Make sure that the picture only shows the camp spot and doesn't include your neighbour's
+        home.
+      </p>
 
+      <input
+        type="file"
+        id="photo"
+        name="photo"
+        bind:files={garden.photo.files}
+        on:change={choosePhoto}
+        multiple={false}
+        accept="image/jpeg,image/png,image/pjpeg,image/tiff,image/webp" />
+
+      {#if garden.photo.data}
+        <div class="photo" transition:slide>
+          <img src={garden.photo.data} alt="Your garden" />
+        </div>
+      {/if}
+    </fieldset>
+
+  </section>
 </form>
 
 <style>
@@ -224,5 +265,16 @@
 
   .hint .invalid {
     color: var(--color-orange);
+  }
+
+  .photo {
+    margin: 2rem 0;
+    width: 100%;
+    height: auto;
+  }
+
+  .photo img {
+    max-width: 100%;
+    max-height: 100%;
   }
 </style>
