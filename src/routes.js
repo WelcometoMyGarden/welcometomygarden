@@ -10,8 +10,8 @@ export default {
   RULES: '/rules',
   FAQ: '/faq',
   CHAT: '/chat',
-  COPYRIGHT: '/copyright',
-  COOKIE_POLICY: '/cookies',
-  PRIVACY_POLICY: '/privacy-policy',
-  TERMS_OF_USE: '/terms-of-use'
+  COPYRIGHT: '/terms/copyright',
+  COOKIE_POLICY: '/terms/cookies',
+  PRIVACY_POLICY: '/terms/privacy-policy',
+  TERMS_OF_USE: '/terms/terms-of-use'
 };
