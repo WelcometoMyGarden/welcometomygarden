@@ -6,8 +6,8 @@ import { db, storage } from './index';
 export const addGarden = async ({ photo, ...rest }) => {
   const userId = get(user).id;
 
-  let hasPhoto = !!photo;
-  if (hasPhoto) {
+  let uploadedName = null;
+  if (photo) {
     const extension = photo.name.split('.').pop();
     const photoLocation = `gardens/${userId}/garden.${extension}`;
     isUploading.set(true);
@@ -17,6 +17,7 @@ export const addGarden = async ({ photo, ...rest }) => {
       uploadProgress.set(progress);
     });
     await uploadTask;
+    uploadedName = `garden.${extension}`;
     isUploading.set(false);
   }
 
@@ -31,6 +32,6 @@ export const addGarden = async ({ photo, ...rest }) => {
     .set({
       ...rest,
       facilities,
-      hasPhoto
+      photo: uploadedName
     });
 };
