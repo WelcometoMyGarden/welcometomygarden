@@ -59,10 +59,12 @@
       coordinateHint.valid = false;
       return false;
     }
+    coordinateHint.message = '';
     coordinateHint.valid = true;
     return true;
   };
   const setCoordinates = event => {
+    validateLocation(event.detail);
     garden.location = event.detail;
   };
 
@@ -80,6 +82,8 @@
       photoHint.valid = false;
       return false;
     }
+    photoHint.message = '';
+    photoHint.valid = true;
     return true;
   };
 
@@ -101,11 +105,13 @@
       [validateDescription(garden.description), validateLocation(garden.location)].includes(false)
     ) {
       formValid = false;
-    } else if (garden.photo.files && !validatePhoto(garden.photo.files[0])) {
-      formValid = false;
-    } else {
-      formValid = true;
+      return;
     }
+    if (garden.photo.files && !validatePhoto(garden.photo.files[0])) {
+      formValid = false;
+      return;
+    }
+    formValid = true;
   };
 
   const facilities = [
