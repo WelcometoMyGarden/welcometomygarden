@@ -95,35 +95,13 @@
   for more information, you can contact us through one of our preferred contact methods.
 </p>
 
-<div class="contact">
-  <div class="contact-item">
+<div class="items">
+  <div class="item">
     <span class="item-title">Email</span>
     <span>welcometomygardennetwork@gmail.com</span>
   </div>
-  <div class="contact-item">
+  <div class="item">
     <span class="item-title">Info</span>
     <a href="https://www.citizenlab.co/">Citizen lab</a>
   </div>
 </div>
-
-<style>
-  .contact {
-    background: var(--color-gray);
-    padding: 1.6rem;
-    margin: 1.6rem 0;
-    border-radius: 1.2rem;
-  }
-
-  .contact-item {
-    margin: 1.2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--color-copy);
-  }
-
-  .item-title {
-    font-weight: bold;
-    margin: 1.2rem 0;
-  }
-</style>
