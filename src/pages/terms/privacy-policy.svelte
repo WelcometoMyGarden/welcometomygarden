@@ -13,7 +13,7 @@
 <div class="items">
   <div class="item">
     <span class="item-title">Email</span>
-    <span>welcometomygardennetwork@gmail.com</span>
+    <span>support@welcometomygarden.org</span>
   </div>
 </div>
 <ol>
@@ -154,7 +154,7 @@
             <h4>Exercising your rights</h4>
             <p>
               You can exercise your rights by contacting Welcome to My Garden to this end by sending
-              an email to welcometomygardennetwork@gmail.com, provided you enclose a copy of your
+              an email to support@welcometomygarden.org, provided you enclose a copy of your
               identity card
             </p>
           </li>

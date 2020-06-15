@@ -22,6 +22,7 @@
     font-size: 2rem;
     line-height: 3.2rem;
     margin: 1.2rem 0;
+    font-family: var(--fonts-copy);
   }
 
   .content :global(h4) {
@@ -50,26 +51,6 @@
     margin: 2.4rem 19%;
   }
 
-  .content :global(.items) {
-    background: var(--color-gray);
-    padding: 1.6rem;
-    margin: 1.6rem 0;
-    border-radius: 1.2rem;
-  }
-
-  .content :global(.item) {
-    margin: 1.2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--color-copy);
-  }
-
-  .content :global(.item-title) {
-    font-weight: bold;
-    margin: 1.2rem 0;
-  }
-
   .content :global(.info) {
     display: flex;
     justify-content: space-between;
@@ -89,5 +70,9 @@
     font-size: 1.2rem;
     font-family: var(--fonts-copy);
     font-style: italic;
+  }
+
+  .content :global(a) {
+    color: var(--color-orange);
   }
 </style>

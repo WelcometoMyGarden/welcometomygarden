@@ -92,16 +92,6 @@
   Hopefully this page has clarified things for you. As previously mentioned, if there is anything
   that you aren&#39;t sure you need or not, it&#39;s usually safer to leave cookies enabled - just
   in case it does interact with one of the features you use on our site. If you are still looking
-  for more information, you can contact us through one of our preferred contact methods.
+  for more information, you can contact us at
+  <a href="mailto:support@welcometomygarden.org">support@welcometomygarden.org.</a>
 </p>
-
-<div class="items">
-  <div class="item">
-    <span class="item-title">Email</span>
-    <span>welcometomygardennetwork@gmail.com</span>
-  </div>
-  <div class="item">
-    <span class="item-title">Info</span>
-    <a href="https://www.citizenlab.co/">Citizen lab</a>
-  </div>
-</div>

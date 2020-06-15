@@ -26,7 +26,7 @@
 <p>
   . Because Welcome To My Garden appreciates the feedback of the users of their platform, we welcome
   any ideas to further improve the platform. You can email your suggestions to
-  welcometomygardennetwork@gmail.com.
+  support@welcometomygarden.org.
 </p>
 <div class="line-break" />
 <h3>1. ‍Who can register on the platform?</h3>
@@ -335,7 +335,7 @@
 <p>
   Welcome To My Garden cannot be held liable in any way for messages posted by users or third
   parties, which violate the rules specified above. If a user detects an infringement, please report
-  this to the following email address: welcometomygardennetwork@gmail.com
+  this to the following email address: support@welcometomygarden.org
 </p>
 <p>
   It may occur that harmful files can be downloaded via the platform, whether or not due to a user,
@@ -354,7 +354,7 @@
 </p>
 <p>
   Infringements against intellectual property rights can be reported via the following email
-  address: welcometomygardennetwork@gmail.com.
+  address: support@welcometomygarden.org.
 </p>
 <div class="line-break" />
 <h3>Property rights Welcome To My Garden</h3>
