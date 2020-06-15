@@ -49,4 +49,45 @@
     background: var(--color-orange);
     margin: 2.4rem 19%;
   }
+
+  .content :global(.items) {
+    background: var(--color-gray);
+    padding: 1.6rem;
+    margin: 1.6rem 0;
+    border-radius: 1.2rem;
+  }
+
+  .content :global(.item) {
+    margin: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-copy);
+  }
+
+  .content :global(.item-title) {
+    font-weight: bold;
+    margin: 1.2rem 0;
+  }
+
+  .content :global(.info) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-green-light);
+    padding: 1.6rem;
+    margin: 1.6rem 0;
+    border-radius: 1.2rem 1.2rem 0 0;
+  }
+
+  .content :global(.info-item) {
+    border-left: 0.2rem solid var(--color-green-light);
+    padding: 1.6rem;
+  }
+
+  .content :global(small) {
+    font-size: 1.2rem;
+    font-family: var(--fonts-copy);
+    font-style: italic;
+  }
 </style>
