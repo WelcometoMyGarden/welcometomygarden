@@ -44,9 +44,9 @@
   does not comply with the following rules or inappropriate behaviour has been reported by a host or
   guest.
 </p>
-<span class="important">Each account must comply with the following rules‍</span>
+<p class="info">Each account must comply with the following rules‍</p>
 <ol>
-  <li class="rule">
+  <li class="info-item">
     <h4>Every account is strictly personal</h4>
     <p>
       Each account must be unique and linked to a natural person. If you register for an account,
@@ -56,7 +56,7 @@
       Every user must be over 16 years old.
     </p>
   </li>
-  <li class="rule">
+  <li class="info-item">
     <h4>An account cannot be transferred to another person</h4>
     <p>
       Since each account is strictly linked to one specific person, this account cannot be
@@ -65,7 +65,7 @@
       refuse or delete this account in case of infringements.
     </p>
   </li>
-  <li class="rule">
+  <li class="info-item">
     <h4>An account cannot be used for commercial purposes</h4>
     <p>
       The Welcome To My Garden platform is intended to enable citizens to offer their gardens as
@@ -74,7 +74,7 @@
       purpose of enjoying a commercial advantage is strictly prohibited.
     </p>
   </li>
-  <li class="rule">
+  <li class="info-item">
     <h4>The account information must always remain confidential</h4>
     <p>
       It is not allowed for any other person than the actual person who created the account, to use
@@ -93,12 +93,12 @@
 </ol>
 <div class="line-break" />
 <h3>Terms of use for Hosts</h3>
-<p class="important">
+<p class="info">
   By adding your garden to the platform, you acknowledge the general rules of the platform which are
   as follows
 </p>
 <ol>
-  <li class="rule">
+  <li class="info-item">
     <h4>No income</h4>
     <p>
       Welcome To My Garden is a not-for-profit network of citizens offering free camping spots in
@@ -107,7 +107,7 @@
       host’s account permanently if it happens.
     </p>
   </li>
-  <li class="rule">
+  <li class="info-item">
     <h4>Disclaimer</h4>
     <p>
       The Welcome To My Garden platform is a citizen initiative. The volunteers behind Welcome To My
@@ -115,7 +115,7 @@
       the use of the website and/or while staying in another citizen’s garden.
     </p>
   </li>
-  <li class="rule">
+  <li class="info-item">
     <h4>No discrimination</h4>
     <p>
       Welcome To My Garden does not tolerate any kind of discrimination. Hosts are expected to act
@@ -366,6 +366,10 @@
 </p>
 <div class="line-break" />
 <h3>Changes to these Terms</h3>
+<p class="info">
+  Latest changes
+  <small>30 May 2020</small>
+</p>
 <p>
   We may make changes to these Terms from time to time. If we make changes, we will post the amended
   Terms to our Platform and update the "Last Updated" date above. We may also attempt to notify you
@@ -382,23 +386,5 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-  }
-
-  small {
-    font-size: 1.2rem;
-    font-family: var(--fonts-copy);
-    font-style: italic;
-  }
-
-  .important {
-    background: var(--color-green-light);
-    padding: 1.6rem;
-    margin: 1.6rem 0;
-    border-radius: 1.2rem 1.2rem 0 0;
-  }
-
-  .rule {
-    border-left: 0.2rem solid var(--color-green-light);
-    padding: 1.6rem;
   }
 </style>
