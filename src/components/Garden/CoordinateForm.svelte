@@ -43,7 +43,7 @@
       // TODO: show error
       console.log(ex);
     }
-    dispatch('submit', locationConfirmed ? coordinates : null);
+    dispatch('confirm', locationConfirmed ? coordinates : null);
   };
 
   const onMarkerDragged = async event => {
@@ -61,14 +61,14 @@
 
   const toggleLocationConfirmed = () => {
     locationConfirmed = !locationConfirmed;
-    dispatch('submit', locationConfirmed ? coordinates : null);
+    dispatch('confirm', locationConfirmed ? coordinates : null);
   };
 </script>
 
 <div class="map-container">
   <Map lat={coordinates.latitude} lon={coordinates.longitude} recenterOnUpdate={true} zoom="6">
     {#if isAddressConfirmShown}
-      <button on:click={toggleLocationConfirmed}>
+      <button type="button" on:click={toggleLocationConfirmed}>
         {locationConfirmed ? 'Adjust pin location' : 'Confirm pin location'}
       </button>
     {/if}

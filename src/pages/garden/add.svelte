@@ -24,6 +24,26 @@
     console.log(garden);
   };
 
+  let descriptionHint = { message: '', valid: true };
+  const updateDescription = event => {
+    const description = event.target.value;
+    const len = description.length;
+    if (len < 20) {
+      descriptionHint.valid = false;
+      const plurality = 20 - len === 1 ? 'character' : 'characters';
+      descriptionHint.message = `${20 - len} more ${plurality} required...`;
+    } else if (len > 300) {
+      descriptionHint.valid = false;
+      const plurality = len - 300 === 1 ? 'character' : 'characters';
+      descriptionHint.message = `${len - 300} ${plurality} too long`;
+    } else {
+      descriptionHint.valid = true;
+      const plurality = 300 - len === 1 ? 'character' : 'characters';
+      descriptionHint.message = `${300 - len} ${plurality} remaining`;
+    }
+    garden.description = description;
+  };
+
   const setCoordinates = event => {
     garden.location = event.detail;
   };
@@ -39,7 +59,7 @@
   ];
 </script>
 
-<form on:submit|preventDefault={handleSubmit}>
+<form>
   <section>
     <div class="sub-container">
       <h2>Add your garden to the map</h2>
@@ -59,7 +79,7 @@
         <br />
         We don't store your address information.
       </p>
-      <CoordinateForm on:submit={setCoordinates} />
+      <CoordinateForm on:confirm={setCoordinates} />
     </fieldset>
   </section>
 
@@ -69,6 +89,8 @@
       <p class="section-description">
         A short description of your garden and the camping spot you can offer. This information is
         displayed publicly, so don't include any personal details here.
+        <br />
+        Your description must be between 20 and 300 characters.
       </p>
       <div>
         <textarea
@@ -76,7 +98,13 @@
           aria-label="description"
           id="description"
           name="description"
-          required />
+          value={garden.description}
+          on:input={updateDescription} />
+        <p class="hint">
+          {#if descriptionHint.message && garden.description}
+            <span class:invalid={!descriptionHint.valid}>{descriptionHint.message}</span>
+          {/if}
+        </p>
       </div>
     </fieldset>
   </section>
@@ -102,7 +130,7 @@
           bind:value={garden.capacity}
           required />
       </div>
-      <input type="submit" class="submit" value="Add your garden" />
+      <button type="button" class="submit" on:click={handleSubmit}>Add your garden</button>
     </fieldset>
   </section>
 
@@ -185,5 +213,16 @@
     font-size: 1.8rem;
     font-weight: 900;
     margin: 2rem 0;
+  }
+
+  .hint {
+    margin: 1rem 0;
+    font-size: 1.4rem;
+    min-height: 1.8rem;
+    width: 100%;
+  }
+
+  .hint .invalid {
+    color: var(--color-orange);
   }
 </style>
