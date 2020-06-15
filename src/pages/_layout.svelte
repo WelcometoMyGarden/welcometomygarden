@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { createAuthObserver } from '@/api/auth';
   import { user, isInitializing } from '../stores/auth';
-  import { Progress } from '../components/UI';
+  import { Progress, Notifications } from '@/components/UI';
   import Nav from '../components/Nav/Navigation.svelte';
   import Footer from '@/components/Footer.svelte';
 
@@ -15,6 +15,7 @@
 
 <div class="app">
   <Progress active={$isInitializing} />
+  <Notifications />
 
   {#if !$isInitializing}
     <Nav />
