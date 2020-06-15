@@ -1,5 +1,6 @@
 <script>
   import { slide } from 'svelte/transition';
+  import { addGarden } from '@/api/garden';
   import CoordinateForm from '@/components/Garden/CoordinateForm.svelte';
   import routes from '@/routes';
   import { LabeledCheckbox } from '@/components/UI';
@@ -16,9 +17,10 @@
   let formValid = true;
   let garden = {
     description: '',
-    facilities: {},
-    capacity: 1,
     location: null,
+    facilities: {
+      capacity: 1
+    },
     photo: {
       files: null,
       data: null
@@ -99,8 +101,7 @@
     };
   };
 
-  $: console.log(garden);
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (
       [validateDescription(garden.description), validateLocation(garden.location)].includes(false)
     ) {
@@ -111,12 +112,20 @@
       formValid = false;
       return;
     }
+
     formValid = true;
+    try {
+      await addGarden({ ...garden, photo: garden.photo.files[0] });
+      // TODO show success
+    } catch (ex) {
+      // TODO: show errors
+      console.log(ex);
+    }
   };
 
   const facilities = [
     { name: 'water', icon: waterIcon, label: 'Water' },
-    { name: 'drinkable-water', icon: waterIcon, label: 'Drinkable water' },
+    { name: 'drinkableWater', icon: waterIcon, label: 'Drinkable water' },
     { name: 'toilet', icon: toiletIcon, label: 'Toilet' },
     { name: 'bonfire', icon: bonfireIcon, label: 'Bonfire' },
     { name: 'electricity', icon: electricityIcon, label: 'Electricity' },
@@ -190,7 +199,7 @@
           min="1"
           id="capacity"
           max="20"
-          bind:value={garden.capacity}
+          bind:value={garden.facilities.capacity}
           required />
       </div>
     </fieldset>
