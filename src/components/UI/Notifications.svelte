@@ -45,7 +45,7 @@
 
 <ul class="toasts">
   {#each toasts as toast (toast.id)}
-    <li class="toast {toast.intent}" out:animateOut>
+    <li class="toast {toast.intent}" out:animateOut on:click={() => removeToast(toast.id)}>
       <div class="content">{toast.msg}</div>
       <div
         class="time"
@@ -64,6 +64,7 @@
     padding: 0;
     margin: 0;
     z-index: 9999;
+    cursor: pointer;
   }
 
   @media screen and (max-width: 700px) {
