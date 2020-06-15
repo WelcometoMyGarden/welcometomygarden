@@ -10,8 +10,6 @@
   export let zoom;
   export let recenterOnUpdate = false;
 
-  const initialLngLat = [lon, lat];
-
   let container;
   let map;
   let mapIsLoading = false;
@@ -38,7 +36,6 @@
   $: if (recenterOnUpdate && map) {
     map.flyTo({
       center: [lon, lat],
-      zoom,
       bearing: 0,
 
       speed: 0.9,
