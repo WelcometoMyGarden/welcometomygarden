@@ -7,6 +7,7 @@
   import { tentIcon, mapIcon, chatIcon, signInIcon, userIcon } from '@/images/icons';
   import Hamburger from './Hamburger.svelte';
   import Socials from '@/components/Socials.svelte';
+  import { Icon } from '@/components/UI';
 
   let hamburger;
   let drawerIsShown = false;
@@ -31,43 +32,33 @@
   <ul class="main">
     <li>
       <a href={routes.HOME} class:active={$isActive('/index')}>
-        <i>
-          {@html tentIcon}
-        </i>
+        <Icon icon={tentIcon} />
         <span>Home</span>
       </a>
     </li>
     <li>
       <a href={routes.MAP} class:active={$isActive(routes.MAP)}>
-        <i>
-          {@html mapIcon}
-        </i>
+        <Icon icon={mapIcon} />
         Map
       </a>
     </li>
     {#if $user}
       <li>
         <a href={routes.CHAT} class:active={$isActive(routes.CHAT)}>
-          <i class="icon-small">
-            {@html chatIcon}
-          </i>
+          <Icon icon={chatIcon} />
           Chat
         </a>
       </li>
       <li>
         <a href={routes.ACCOUNT} class:active={$isActive(routes.ACCOUNT)}>
-          <i class="icon-small">
-            {@html userIcon}
-          </i>
+          <Icon icon={userIcon} />
           {$user.firstName}
         </a>
       </li>
     {:else}
       <li>
         <a href={routes.SIGN_IN} class:active={$isActive(routes.SIGN_IN)}>
-          <i>
-            {@html signInIcon}
-          </i>
+          <Icon icon={signInIcon} />
           Sign in
         </a>
       </li>
@@ -159,19 +150,12 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     outline: 0;
     position: relative;
     font-weight: 600;
     font-size: 1.4rem;
-  }
-
-  .main li i {
-    height: 75%;
-    display: flex;
-    align-items: center;
-    position: relative;
   }
 
   .main li a:after {
@@ -189,6 +173,11 @@
 
   .main li a.active:after {
     opacity: 1;
+  }
+
+  .main li a :global(i) {
+    width: 4.5rem;
+    height: 3.5rem;
   }
 
   .drawer {
@@ -246,10 +235,6 @@
   .drawer a:hover:after {
     width: 100%;
     left: 0;
-  }
-
-  .icon-small {
-    transform: scale(1.2);
   }
 
   .sign-out {
