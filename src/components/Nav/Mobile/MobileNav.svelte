@@ -21,7 +21,6 @@
   const linksInDrawer = [
     { route: routes.RULES, name: 'Rules' },
     { route: routes.FAQ, name: 'Frequently asked questions' },
-    { route: routes.COPYRIGHT, name: 'Copyright' },
     { route: routes.COOKIE_POLICY, name: 'Cookie policy' },
     { route: routes.PRIVACY_POLICY, name: 'Privacy policy' },
     { route: routes.TERMS_OF_USE, name: 'Terms of use' }

@@ -10,7 +10,6 @@ export default {
   RULES: '/rules',
   FAQ: '/faq',
   CHAT: '/chat',
-  COPYRIGHT: '/terms/copyright',
   COOKIE_POLICY: '/terms/cookies',
   PRIVACY_POLICY: '/terms/privacy-policy',
   TERMS_OF_USE: '/terms/terms-of-use'

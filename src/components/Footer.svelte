@@ -9,9 +9,6 @@
   </div>
   <ul class="terms">
     <li>
-      <a href={routes.COPYRIGHT}>Copyright</a>
-    </li>
-    <li>
       <a href={routes.COOKIE_POLICY}>Cookie policy</a>
     </li>
     <li>
