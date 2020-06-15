@@ -66,26 +66,46 @@
     garden.location = event.detail;
   };
 
-  $: console.log(garden);
-  const handleSubmit = () => {
-    if (
-      [validateDescription(garden.description), validateLocation(garden.location)].includes(false)
-    ) {
-      formValid = false;
-    } else {
-      formValid = true;
+  const validFileTypes = ['image/jpeg', 'image/png', 'image/tiff'];
+  let photoHint = { message: '', valid: true };
+  const validatePhoto = file => {
+    if (!validFileTypes.includes(file.type)) {
+      photoHint.message = 'Your photo must be a JPEG, PNG, or TIFF file';
+      photoHint.valid = false;
+      return false;
     }
+    // Should be no bigger than 5MB
+    if (file.size / 1024 / 1024 > 5) {
+      photoHint.message = "Your image is too large. An image's file size should be 5MB or smaller";
+      photoHint.valid = false;
+      return false;
+    }
+    return true;
   };
 
   const choosePhoto = () => {
     if (!garden.photo.files) return;
 
     const file = garden.photo.files[0];
+    if (!validatePhoto(file)) return;
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = e => {
       garden.photo.data = e.target.result;
     };
+  };
+
+  $: console.log(garden);
+  const handleSubmit = () => {
+    if (
+      [validateDescription(garden.description), validateLocation(garden.location)].includes(false)
+    ) {
+      formValid = false;
+    } else if (garden.photo.files && !validatePhoto(garden.photo.files[0])) {
+      formValid = false;
+    } else {
+      formValid = true;
+    }
   };
 
   const facilities = [
@@ -186,13 +206,15 @@
         bind:files={garden.photo.files}
         on:change={choosePhoto}
         multiple={false}
-        accept="image/jpeg,image/png,image/pjpeg,image/tiff,image/webp" />
+        accept={validFileTypes.join(',')} />
 
       {#if garden.photo.data}
         <div class="photo" transition:slide>
           <img src={garden.photo.data} alt="Your garden" />
         </div>
       {/if}
+
+      <p class="hint" class:invalid={!photoHint.valid}>{photoHint.message}</p>
     </fieldset>
   </section>
   <section class="section-submit">
@@ -216,6 +238,7 @@
 
   .section-description a {
     color: var(--color-orange);
+    text-decoration: underline;
   }
 
   section {
