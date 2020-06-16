@@ -27,6 +27,7 @@ export const createAuthObserver = () =>
     else user.set(new User(userData));
   });
 
+export const resendAccountVerification = () => api.resendAccountVerification();
 export const verifyPasswordResetCode = (code) => auth.verifyPasswordResetCode(code);
 export const applyActionCode = (code) => auth.applyActionCode(code);
 export const confirmPasswordReset = (code, password) => auth.confirmPasswordReset(code, password);
