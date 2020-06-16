@@ -29,7 +29,7 @@
     display: flex;
     flex-direction: column;
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-    flex: 1;
+    padding: 1rem 0;
   }
 
   .faq-question {

@@ -1,4 +1,5 @@
 <script>
+  import { beforeUpdate } from 'svelte';
   import smoothscroll from 'smoothscroll-polyfill';
   import FaqItem from '../components/FaqItem.svelte';
   import { Button } from '../components/UI';
@@ -28,6 +29,13 @@
       }
     };
   }
+
+  let faqIntroHeight;
+
+  beforeUpdate(() => {
+    const element = document.getElementsByClassName('faq-intro')[0];
+    faqIntroHeight = element && element.offsetHeight;
+  });
 </script>
 
 <section class="landing">
@@ -96,7 +104,9 @@
 </section>
 
 <section class="faq">
-  <div class="card faq-intro">
+  <div
+    style="--faq-intro-height: {faqIntroHeight}px"
+    class="card faq-intro {activeFaqItem ? 'faq-intro-item-opened' : ''}">
     <h1 class="heading-underline-center">All you need to know</h1>
     <p>
       Here are the most important things you need to know about your next adventure. Please read
@@ -332,7 +342,11 @@
     background-color: var(--color-green);
     width: 50%;
     padding: 6rem 15rem;
-    align-self: flex-start;
+    height: var(--faq-intro-height);
+  }
+
+  .faq-intro-item-opened {
+    height: var(--faq-intro-height);
   }
 
   .faq-intro h1 {
