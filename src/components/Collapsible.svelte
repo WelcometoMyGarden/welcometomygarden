@@ -1,42 +1,32 @@
 <script>
   import { slide } from 'svelte/transition';
-
-  let open = false;
-  export let isOpen;
-  export let onClick;
+  export let onClick = () => (open = !open);
+  export let open = false;
+  export let id = '';
 </script>
 
-<li class="faq-list-item">
-  <button class="button-container" on:click={onClick}>
-    <div class="faq-question">
-      <div class="title">
-        <slot name="title" />
-      </div>
-      <span class="sign">{isOpen ? '-' : '+'}</span>
+<button class="button-container" on:click={onClick}>
+  <div class="faq-question" {id}>
+    <div class="title">
+      <slot name="title" />
     </div>
-  </button>
-  {#if isOpen}
-    <div transition:slide={{ duration: 300 }}>
-      <div class="content">
-        <slot name="content" />
-      </div>
+    <span class="sign">{open ? '-' : '+'}</span>
+  </div>
+</button>
+{#if open}
+  <div class="panel" transition:slide={{ duration: 300 }}>
+    <div class="content">
+      <slot name="content" />
     </div>
-  {/if}
-</li>
+  </div>
+{/if}
 
 <style>
-  .faq-list-item {
-    display: flex;
-    flex-direction: column;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-    flex: 1;
-  }
-
   .faq-question {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   }
 
   .title {

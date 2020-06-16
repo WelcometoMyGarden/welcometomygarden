@@ -1,6 +1,6 @@
 <script>
   import smoothscroll from 'smoothscroll-polyfill';
-  import FaqItem from '../components/FaqItem.svelte';
+  import Collapsible from '../components/Collapsible.svelte';
   import { Button } from '../components/UI';
 
   import Logo from '../images/logo.svg';
@@ -10,24 +10,19 @@
   import Step2 from '../images/step-2.svg';
   import Step3 from '../images/step-3.svg';
 
+  smoothscroll.polyfill();
+
   function handleLearnMoreClick() {
     const stepsSection = document.getElementById('steps-section');
     stepsSection.scrollIntoView({ behavior: 'smooth' });
   }
 
-  smoothscroll.polyfill();
-
-  let activeFaqItem = null;
-
-  function setActiveFaqItem(index) {
-    return function() {
-      if (activeFaqItem === index) {
-        activeFaqItem = null;
-      } else {
-        activeFaqItem = index;
-      }
-    };
-  }
+  let currentCollapsible = null;
+  const setCurrentCollapsible = e => {
+    Number(e.target.id) === currentCollapsible
+      ? (currentCollapsible = null)
+      : (currentCollapsible = Number(e.target.id));
+  };
 </script>
 
 <section class="landing">
@@ -103,48 +98,48 @@
       this FAQ section thoroughly so that you know what you’re getting&nbsp;yourself&nbsp;into.
     </p>
   </div>
-  <ul class="faq-list">
-    <FaqItem onClick={setActiveFaqItem(1)} isOpen={activeFaqItem === 1}>
+  <div class="faq-questions">
+    <Collapsible id="0" onClick={setCurrentCollapsible} open={currentCollapsible === 0}>
       <h3 slot="title">Who is Welcome To My Garden for?</h3>
       <p slot="content">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
         rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
         iure minima modi blanditiis?
       </p>
-    </FaqItem>
-    <FaqItem onClick={setActiveFaqItem(2)} isOpen={activeFaqItem === 2}>
+    </Collapsible>
+    <Collapsible id="1" onClick={setCurrentCollapsible} open={currentCollapsible === 1}>
       <h3 slot="title">How do I get to my camping spot?</h3>
       <p slot="content">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
         rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
         iure minima modi blanditiis?
       </p>
-    </FaqItem>
-    <FaqItem onClick={setActiveFaqItem(3)} isOpen={activeFaqItem === 3}>
+    </Collapsible>
+    <Collapsible id="2" onClick={setCurrentCollapsible} open={currentCollapsible === 2}>
       <h3 slot="title">How do I request a stay?</h3>
       <p slot="content">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
         rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
         iure minima modi blanditiis?
       </p>
-    </FaqItem>
-    <FaqItem onClick={setActiveFaqItem(4)} isOpen={activeFaqItem === 4}>
+    </Collapsible>
+    <Collapsible id="3" onClick={setCurrentCollapsible} open={currentCollapsible === 3}>
       <h3 slot="title">What about facilities?</h3>
       <p slot="content">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
         rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
         iure minima modi blanditiis?
       </p>
-    </FaqItem>
-    <FaqItem onClick={setActiveFaqItem(5)} isOpen={activeFaqItem === 5}>
+    </Collapsible>
+    <Collapsible id="4" onClick={setCurrentCollapsible} open={currentCollapsible === 4}>
       <h3 slot="title">Does Welcome To My Garden cost anything?</h3>
       <p slot="content">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
         rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
         iure minima modi blanditiis?
       </p>
-    </FaqItem>
-  </ul>
+    </Collapsible>
+  </div>
 </section>
 
 <section class="cooperation">
@@ -166,7 +161,6 @@
 <style>
   h1 {
     font-size: 3.6rem;
-    font-weight: bold;
     line-height: 9rem;
     font-family: var(--fonts-titles);
     margin-bottom: 3rem;
@@ -175,7 +169,6 @@
 
   h2 {
     font-size: 1.8rem;
-    font-weight: bold;
     line-height: 2.8rem;
     font-family: var(--fonts-copy);
     color: var(--color-green);
@@ -331,7 +324,6 @@
   .faq-intro {
     background-color: var(--color-green);
     width: 50%;
-    padding: 6rem 15rem;
     align-self: flex-start;
   }
 
@@ -345,15 +337,10 @@
     line-height: 3.2rem;
   }
 
-  .faq-list {
-    padding: 0 2rem;
-    width: 50%;
+  .faq-questions {
     display: flex;
     flex-direction: column;
-  }
-
-  .faq-list > :global(li:first-child button) {
-    padding-top: 0;
+    width: 50%;
   }
 
   .cooperation {
