@@ -1,6 +1,6 @@
 export default {
   HOME: '/',
-  ADD_GARDEN: '/add-garden',
+  ADD_GARDEN: '/garden/add',
   MAP: '/discover',
   SIGN_IN: '/auth/sign-in',
   REGISTER: '/auth/register',
@@ -10,8 +10,7 @@ export default {
   RULES: '/rules',
   FAQ: '/faq',
   CHAT: '/chat',
-  COPYRIGHT: '/copyright',
-  COOKIE_POLICY: '/cookies',
-  PRIVACY_POLICY: '/privacy-policy',
-  TERMS_OF_USE: '/terms-of-use'
+  COOKIE_POLICY: '/terms/cookies',
+  PRIVACY_POLICY: '/terms/privacy-policy',
+  TERMS_OF_USE: '/terms/terms-of-use'
 };

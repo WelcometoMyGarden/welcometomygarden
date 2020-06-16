@@ -3,7 +3,7 @@
   import { createAuthObserver } from '@/api/auth';
   import { createChatObserver } from '@/api/chat';
   import { user, isInitializing } from '../stores/auth';
-  import { Progress } from '../components/UI';
+  import { Progress, Notifications } from '@/components/UI';
   import Nav from '../components/Nav/Navigation.svelte';
   import Footer from '@/components/Footer.svelte';
 
@@ -21,6 +21,7 @@
 
 <div class="app">
   <Progress active={$isInitializing} />
+  <Notifications />
 
   {#if !$isInitializing}
     <Nav />
@@ -54,7 +55,7 @@
 
     main {
       min-height: calc(100% - var(--height-nav));
-      padding-bottom: calc(var(--height-nav) + 4rem);
+      padding-bottom: calc(var(--height-nav) + 2rem);
     }
   }
 </style>

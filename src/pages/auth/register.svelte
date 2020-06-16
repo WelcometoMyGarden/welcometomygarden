@@ -2,6 +2,7 @@
   import { goto } from '@sveltech/routify';
   import { register } from '@/api/auth';
   import { isRegistering } from '@/stores/auth';
+  import notify from '@/stores/notification';
   import { countries } from '@/util';
   import routes from '@/routes';
 
@@ -28,7 +29,9 @@
         lastName,
         countryCode: countryInput.value
       });
-      // TODO: show success
+      notify.success(
+        'Your account was created successfully! Please check your email to verify your account.'
+      );
       $goto(routes.MAP);
     } catch (err) {
       console.log(err);

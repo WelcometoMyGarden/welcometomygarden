@@ -9,7 +9,7 @@ exports.createUser = async (data, context) => {
   };
 
   if (!context.auth) {
-    fail('unauthorized');
+    fail('unauthenticated');
   }
 
   try {
@@ -86,3 +86,26 @@ exports.requestPasswordReset = async (email) => {
 };
 
 exports.changeEmail = async () => {};
+
+exports.resendAccountVerification = async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated');
+  }
+
+  const auth = admin.auth();
+
+  let user;
+  try {
+    user = await auth.getUser(context.auth.uid);
+  } catch (ex) {
+    console.log(ex);
+    throw new functions.https.HttpsError('permission-denied');
+  }
+
+  if (!user || user.emailVerified) throw new functions.https.HttpsError('permission-denied');
+
+  const link = await auth.generateEmailVerificationLink(user.email, {
+    url: `${functions.config().frontend.url}/auth/confirm-email`
+  });
+  await sendAccountVerificationEmail(user.email, user.displayName, link);
+};
