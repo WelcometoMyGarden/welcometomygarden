@@ -2,6 +2,7 @@
   export let chatId;
 
   import { beforeUpdate, afterUpdate } from 'svelte';
+  import { fade } from 'svelte/transition';
   import { params, goto } from '@sveltech/routify';
   import { observeMessagesForChat, create as createChat, sendMessage } from '@/api/chat';
   import { user } from '@/stores/auth';
@@ -27,6 +28,14 @@
   afterUpdate(() => {
     if (autoscroll) messageContainer.scrollTo(0, messageContainer.scrollHeight);
   });
+
+  let hint = '';
+  $: if (typedMessage && typedMessage.length > 500) {
+    const len = typedMessage.length;
+    hint = `Your message is ${len - 500} ${len - 500 === 1 ? 'character' : 'characters'} too long`;
+  } else {
+    hint = '';
+  }
 
   const normalizeWhiteSpace = message => message.replace(/\n\s*\n\s*\n/g, '\n\n');
 
@@ -72,13 +81,18 @@
   </div>
 </div>
 <form on:submit|preventDefault={send}>
+  {#if hint}
+    <p class="hint" transition:fade>{hint}</p>
+  {/if}
   <textarea
     placeholder="Type your message..."
     type="text"
     name="message"
     bind:value={typedMessage}
     disabled={isSending} />
-  <button type="submit" disabled={isSending} aria-label="Send message">Send message &#62;</button>
+  <button type="submit" disabled={isSending || !!hint} aria-label="Send message">
+    Send message &#62;
+  </button>
 </form>
 
 <style>
@@ -87,11 +101,11 @@
     width: 100%;
     position: relative;
     overflow-y: auto;
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
   }
 
   .messages {
-    padding: 0 2rem;
+    padding: 0 2rem 0 0;
     display: flex;
     flex-direction: column-reverse;
     min-height: 100%;
@@ -132,6 +146,16 @@
     align-items: flex-end;
     justify-content: space-between;
     width: 100%;
+    position: relative;
+  }
+
+  .hint {
+    color: var(--color-danger);
+    height: 3rem;
+    font-size: 1.4rem;
+    position: absolute;
+    top: -2.5rem;
+    left: 0;
   }
 
   textarea {
