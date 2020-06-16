@@ -63,7 +63,7 @@
     right: 0;
     padding: 0;
     margin: 0;
-    z-index: 9999;
+    z-index: 200;
     cursor: pointer;
   }
 
@@ -85,11 +85,20 @@
   .toast.info {
     background: var(--color-info);
   }
+  .toast.warning {
+    background: var(--color-warning);
+  }
+  .toast.danger {
+    background: var(--color-danger);
+  }
+  .toast.success {
+    background: var(--color-success);
+  }
 
   .toast > .content {
     padding: 1rem;
     display: block;
-    font-weight: 500;
+    font-weight: bold;
   }
 
   .toast > .time {
