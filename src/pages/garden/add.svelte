@@ -1,5 +1,7 @@
 <script>
+  import { goto } from '@sveltech/routify';
   import { slide } from 'svelte/transition';
+  import notify from '@/stores/notification';
   import { addGarden } from '@/api/garden';
   import CoordinateForm from '@/components/Garden/CoordinateForm.svelte';
   import routes from '@/routes';
@@ -116,9 +118,13 @@
     formValid = true;
     try {
       await addGarden({ ...garden, photo: garden.photo.files ? garden.photo.files[0] : null });
-      // TODO show success
+      // TODO: refetch gardens and route to newly created garden
+      notify.success(
+        `Your garden was added successfully! It may take a minute for its photo to show up.`,
+        10000
+      );
+      $goto(routes.MAP);
     } catch (ex) {
-      // TODO: show errors
       console.log(ex);
     }
   };

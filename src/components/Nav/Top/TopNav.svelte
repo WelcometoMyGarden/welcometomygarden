@@ -88,8 +88,10 @@
   }
 
   @media screen and (max-width: 1200px) {
-    nav {
+    :global(body) {
       --height-nav: 5.5rem;
+    }
+    nav {
       padding-left: 3rem;
     }
     nav > ul {

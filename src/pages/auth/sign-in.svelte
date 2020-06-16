@@ -1,5 +1,7 @@
 <script>
   import { goto } from '@sveltech/routify';
+  import { user } from '@/stores/auth';
+  import notify from '@/stores/notification';
   import { login } from '@/api/auth';
   import routes from '@/routes';
 
@@ -9,7 +11,8 @@
   const submit = async () => {
     try {
       await login(email, password);
-      // TODO: display success
+
+      notify.success(`Welcome back ${$user.firstName}`);
       $goto(routes.MAP);
     } catch (ex) {
       // TODO: Handle network errors and response errors

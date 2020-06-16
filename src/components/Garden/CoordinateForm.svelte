@@ -38,9 +38,7 @@
       .join(' ');
     try {
       coordinates = await geocode(addressString);
-      console.log(coordinates);
     } catch (ex) {
-      // TODO: show error
       console.log(ex);
     }
     dispatch('confirm', locationConfirmed ? coordinates : null);
@@ -54,7 +52,6 @@
       address = { ...defaultAddressValues, ...(await reverseGeocode(coordinates)) };
       reverseGeocoded = true;
     } catch (ex) {
-      // TODO: show error
       console.log(ex);
     }
   };

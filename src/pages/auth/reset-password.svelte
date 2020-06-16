@@ -1,5 +1,6 @@
 <script>
   import { goto, params } from '@sveltech/routify';
+  import notify from '@/stores/notification';
   import { confirmPasswordReset, login } from '@/api/auth';
   import routes from '@/routes';
 
@@ -9,10 +10,10 @@
     try {
       await confirmPasswordReset($params.oobCode, password);
 
-      // if password reset was sucessful, sign user in:
+      // if password reset was successful, sign user in:
       await login($params.email, password);
 
-      //TODO: display success
+      notify.success('Your password was reset succesfully');
       $goto(routes.MAP);
     } catch (err) {
       console.log(err);

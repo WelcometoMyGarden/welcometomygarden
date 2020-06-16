@@ -22,7 +22,9 @@
   --color-green-light: #CFE3D4;
   --color-copy: #495747;
   --color-info: #2D69EA;
-  --color-danger:  #CE6854;
+  --color-warning: #ffbb33;
+  --color-danger:  #ff4444;
+  --color-success: #00C851;
 
   /*
   * Typography

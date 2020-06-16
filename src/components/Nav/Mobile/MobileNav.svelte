@@ -101,9 +101,12 @@
     }
   }
 
+  :global(body) {
+    --height-nav: 9rem;
+  }
+
   nav {
     width: 100%;
-    --height-nav: 9rem;
     height: var(--height-nav);
     position: fixed;
     bottom: 0;
