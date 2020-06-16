@@ -2,24 +2,24 @@ import { writable } from 'svelte/store';
 
 export const notification = writable();
 
-const send = (message, type = 'info', timeout) => {
-  notification.set({ type, message, timeout });
+const send = (message, type = 'info', timeout, options = {}) => {
+  notification.set({ type, message, timeout, options });
 };
 
-const danger = (msg, timeout) => {
-  send(msg, 'danger', timeout);
+const danger = (msg, timeout, opts) => {
+  send(msg, 'danger', timeout, opts);
 };
 
-const warning = (msg, timeout) => {
-  send(msg, 'warning', timeout);
+const warning = (msg, timeout, opts) => {
+  send(msg, 'warning', timeout, opts);
 };
 
-const info = (msg, timeout) => {
-  send(msg, 'info', timeout);
+const info = (msg, timeout, opts) => {
+  send(msg, 'info', timeout, opts);
 };
 
-const success = (msg, timeout) => {
-  send(msg, 'success', timeout);
+const success = (msg, timeout, opts) => {
+  send(msg, 'success', timeout, opts);
 };
 
 export default { danger, warning, info, success };

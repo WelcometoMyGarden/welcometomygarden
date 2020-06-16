@@ -3,7 +3,7 @@
   import { notification } from '@/stores/notification';
   import { onDestroy } from 'svelte';
 
-  export let timeout = 3000;
+  export let timeout = 5000;
 
   let count = 0;
   let toasts = [];
@@ -16,14 +16,15 @@
       `opacity: ${(t - 0.5) * 1}; transform-origin: top right; transform: scaleX(${(t - 0.5) * 1});`
   });
 
-  const createToast = (msg, intent, to) => {
+  const createToast = (msg, intent, to, options) => {
     toasts = [
       {
         id: count,
         msg,
         intent,
         timeout: to || timeout,
-        width: '100%'
+        width: '100%',
+        click: options.click || null
       },
       ...toasts
     ];
@@ -32,7 +33,7 @@
 
   unsubscribe = notification.subscribe(value => {
     if (!value) return;
-    createToast(value.message, value.type, value.timeout);
+    createToast(value.message, value.type, value.timeout, value.options);
     notification.set();
   });
 
@@ -45,7 +46,13 @@
 
 <ul class="toasts">
   {#each toasts as toast (toast.id)}
-    <li class="toast {toast.intent}" out:animateOut on:click={() => removeToast(toast.id)}>
+    <li
+      class="toast {toast.intent}"
+      out:animateOut
+      on:click={() => {
+        if (toast.click) toast.click();
+        removeToast(toast.id);
+      }}>
       <div class="content">{toast.msg}</div>
       <div
         class="time"
