@@ -7,7 +7,7 @@
 </script>
 
 <li class="faq-list-item">
-  <button class="button-container" on:click={onClick}>
+  <button class="button button-container" on:click={onClick}>
     <div class="faq-question">
       <div class="title">
         <slot name="title" />
@@ -29,7 +29,11 @@
     display: flex;
     flex-direction: column;
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-    padding: 1rem 0;
+    padding: 1.1rem 0;
+  }
+
+  .button {
+    flex: 0;
   }
 
   .faq-question {
@@ -51,7 +55,7 @@
 
   .content {
     font-size: 1.6rem;
-    padding: 0 10rem 2rem 0;
+    padding: 1rem 10rem 2rem 0;
     font-weight: normal;
     text-align: justify;
   }
@@ -69,7 +73,7 @@
     }
 
     .content {
-      padding: 0 20rem 4rem 12rem;
+      padding: 1rem 20rem 2rem 12rem;
     }
   }
 
@@ -79,7 +83,7 @@
     }
 
     .content {
-      padding: 0 16rem 4rem 10rem;
+      padding: 1rem 16rem 2rem 10rem;
     }
   }
 
@@ -89,7 +93,7 @@
     }
 
     .content {
-      padding: 0 12rem 2.5rem 8rem;
+      padding: 1rem 12rem 2rem 8rem;
     }
   }
 
@@ -99,7 +103,7 @@
     }
 
     .content {
-      padding: 0 6rem 2.5rem 4rem;
+      padding: 1rem 6rem 2rem 4rem;
     }
   }
 
@@ -116,7 +120,7 @@
     }
 
     .content {
-      padding: 0 3rem 2.5rem 3rem;
+      padding: 1rem 3rem 2rem 3rem;
     }
   }
 </style>
