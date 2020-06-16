@@ -65,6 +65,9 @@
     margin: 0;
     z-index: 200;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
   }
 
   @media screen and (max-width: 700px) {
@@ -75,8 +78,11 @@
 
   .toast {
     position: relative;
-    margin: 1rem;
-    min-width: 20rem;
+    margin: 0.5rem 1rem;
+    font-weight: bold;
+    font-size: 1.5rem;
+    min-width: 15rem;
+    max-width: 80vw;
     position: relative;
     animation: animate-in 350ms forwards;
     color: #fff;
@@ -125,19 +131,19 @@
   }
 
   .toast:after {
-    right: 10px;
+    right: 1rem;
     left: auto;
     transform: skew(8deg) rotate(3deg);
   }
 
   @keyframes animate-in {
     0% {
-      width: 0;
+      max-width: 0;
       opacity: 0;
       transform: scale(1.15) translateY(2rem);
     }
     100% {
-      width: 20rem;
+      max-width: 80vw;
       opacity: 1;
       transform: scale(1) translateY(0);
     }
@@ -145,7 +151,7 @@
 
   @keyframes shrink {
     0% {
-      width: 20rem;
+      width: 100%;
     }
     100% {
       width: 0;
