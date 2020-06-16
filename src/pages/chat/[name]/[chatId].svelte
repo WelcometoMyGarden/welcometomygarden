@@ -28,6 +28,8 @@
     if (autoscroll) messageContainer.scrollTo(0, messageContainer.scrollHeight);
   });
 
+  const normalizeWhiteSpace = message => message.replace(/\n\s*\n\s*\n/g, '\n\n');
+
   let typedMessage = '';
   let isSending = false;
   const send = async () => {
@@ -35,7 +37,7 @@
     isSending = true;
     if (!chat) {
       try {
-        const newChatId = await createChat($user.id, $params.id, typedMessage);
+        const newChatId = await createChat($user.id, $params.id, normalizeWhiteSpace(typedMessage));
         typedMessage = '';
         $goto(`${routes.CHAT}/${$params.name}/${newChatId}`);
       } catch (ex) {
@@ -44,7 +46,7 @@
       }
     } else {
       try {
-        await sendMessage(chat.id, typedMessage);
+        await sendMessage(chat.id, normalizeWhiteSpace(typedMessage));
         typedMessage = '';
       } catch (ex) {
         // TODO: show error
@@ -63,7 +65,7 @@
           <div class="avatar">
             <Avatar name={message.from === $user.id ? $user.firstName : chat.partner.firstName} />
           </div>
-          <p class="message-text">{message.content}</p>
+          <p class="message-text">{normalizeWhiteSpace(message.content)}</p>
         </div>
       {/each}
     {/if}
