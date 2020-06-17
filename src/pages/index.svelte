@@ -41,8 +41,8 @@
       We are a network of citizens offering free camping spots in their gardens for slow travelers
     </p>
     <div class="welcome-buttons">
-      <Button uppercase inverse>Add your garden</Button>
-      <Button uppercase>Explore map</Button>
+      <Button uppercase inverse moveUp>Add your garden</Button>
+      <Button uppercase moveUp>Explore map</Button>
     </div>
     <div class="welcome-map">
       {@html welcomeMap}
@@ -293,6 +293,11 @@
     border: none;
     cursor: pointer;
     background: none;
+    transition: 0.3s;
+  }
+
+  .learn-more-button:hover {
+    transform: translate(0, 1.2rem);
   }
 
   .steps {

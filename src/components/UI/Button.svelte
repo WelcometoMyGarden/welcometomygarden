@@ -5,14 +5,15 @@
   export let uppercase = false;
   export let fit = true;
   export let target = null;
+  export let moveUp = false;
 </script>
 
 {#if href}
-  <a class:uppercase class:fit class:inverse {href} {target}>
+  <a class:uppercase class:fit class:inverse class:moveUp {href} {target}>
     <slot />
   </a>
 {:else}
-  <button class:uppercase class:fit class:inverse {type}>
+  <button class:uppercase class:fit class:inverse class:moveUp {type}>
     <slot />
   </button>
 {/if}
@@ -46,6 +47,14 @@
 
   .uppercase {
     text-transform: uppercase;
+  }
+
+  .moveUp {
+    transition: 0.1s;
+  }
+
+  .moveUp:hover {
+    transform: translate(0, -4px);
   }
 
   @media only screen and (max-width: 700px) {
