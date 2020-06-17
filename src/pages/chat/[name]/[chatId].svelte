@@ -26,7 +26,7 @@
   });
 
   afterUpdate(() => {
-    if (autoscroll) messageContainer.scrollTo(0, messageContainer.scrollHeight);
+    if (autoscroll && messageContainer) messageContainer.scrollTo(0, messageContainer.scrollHeight);
   });
 
   let hint = '';
