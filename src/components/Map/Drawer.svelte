@@ -5,6 +5,7 @@
   import Image from '../UI/Image.svelte';
   import Button from '../UI/Button.svelte';
 
+  const DRAWER_DEFAULT_HEIGHT = 400;
   const images = [
     {
       src: 'https://picsum.photos/200/200?1',
@@ -27,15 +28,14 @@
       style: 'width: 60px; height: 60px; margin-right: 5px;'
     }
   ];
-  const badges = [
-    { icon: 'tint', text: 'Drinkable water' },
-    { icon: 'bolt', text: 'Electricity' },
-    { icon: 'campfire', text: 'Bonfire' }
-  ];
+
+  export let campsite = null;
 
   let drawerElement;
-  let drawerHeight = 60;
+  let drawerHeight = DRAWER_DEFAULT_HEIGHT;
   let previousOffsetCursor = null;
+  $: hasHiddenClass = campsite ? '' : 'hidden';
+  $: drawerClasses = `drawer ${hasHiddenClass}`;
 
   function dragBarCatch() {
     previousOffsetCursor = 0;
@@ -53,7 +53,7 @@
   }
 </script>
 
-<section class="drawer" bind:this={drawerElement} style={`height: ${drawerHeight}px`}>
+<section class={drawerClasses} bind:this={drawerElement} style={`height: ${drawerHeight}px`}>
   <div
     class="drag-area"
     use:draggable
@@ -65,18 +65,26 @@
   <main class="main">
     <Text class="mb-l" weight="bold" size="l">Merelbeke</Text>
     <div class="mb-l">
-      {#each images as image}
-        <Image src={image.src} alt={image.alt} style={image.style} />
-      {/each}
+      {#if campsite && campsite.photos.length}
+        {#each campsite.photos as photo}
+          <Image
+            src={photo}
+            alt="Random Image"
+            style="width: 60px; height: 60px; margin-right: 5px;" />
+        {/each}
+      {/if}
     </div>
-    <Text class="mb-l">
-      Quiet location, large garden, child friendly, meadow with animals, no sanitary facilities,
-      toilet by arrangement with the owner.
-    </Text>
+    <Text class="mb-l">{campsite && campsite.description}</Text>
     <div class="badges-container">
-      {#each badges as badge}
-        <Badge icon={badge.icon}>{badge.text}</Badge>
-      {/each}
+      {#if campsite && campsite.facilities.drinkableWater}
+        <Badge icon="tint">Drinkable water</Badge>
+      {/if}
+      {#if campsite && campsite.facilities.electricity}
+        <Badge icon="bolt">Electricity</Badge>
+      {/if}
+      {#if campsite && campsite.facilities.bonfire}
+        <Badge icon="campfire">Bonfire</Badge>
+      {/if}
     </div>
   </main>
   <footer class="footer mt-m">
@@ -106,6 +114,11 @@
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    transition: right 0.3s;
+  }
+
+  .drawer.hidden {
+    right: -325px;
   }
 
   @media screen and (max-width: 568px) {
@@ -120,6 +133,10 @@
       border-bottom-left-radius: 0;
       min-height: auto;
       overflow-y: hidden;
+      transition: transform 0.2s;
+    }
+    .drawer.hidden {
+      transform: translateY(1000px);
     }
   }
 
