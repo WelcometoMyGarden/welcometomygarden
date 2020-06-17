@@ -189,7 +189,7 @@ const defaultDiacriticsRemovalMap = [
   }
 ];
 
-export default (str) => {
+module.exports = (str) => {
   let stripped = str;
   for (let i = 0; i < defaultDiacriticsRemovalMap.length; i += 1) {
     stripped = stripped.replace(

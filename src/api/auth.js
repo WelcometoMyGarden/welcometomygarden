@@ -1,3 +1,4 @@
+import { get } from 'svelte/store';
 import { auth } from './index';
 import * as api from './functions';
 import { isInitializing, isLoggingIn, isRegistering, user } from '../stores/auth';
@@ -30,7 +31,10 @@ export const createAuthObserver = () =>
     else user.set(new User(userData));
   });
 
-export const resendAccountVerification = () => api.resendAccountVerification();
+export const resendAccountVerification = () => {
+  if (!get(user) || !get(user).emailVerified) return;
+  api.resendAccountVerification();
+};
 export const verifyPasswordResetCode = (code) => auth.verifyPasswordResetCode(code);
 export const applyActionCode = (code) => auth.applyActionCode(code);
 export const confirmPasswordReset = (code, password) => auth.confirmPasswordReset(code, password);
