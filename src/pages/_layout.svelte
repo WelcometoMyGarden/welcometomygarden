@@ -40,6 +40,8 @@
     padding: 2rem 0;
     width: 100%;
     overflow: hidden;
+    max-width: 155rem;
+    margin: 0 auto;
   }
 
   @media screen and (max-width: 700px) {
