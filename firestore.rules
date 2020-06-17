@@ -2,16 +2,181 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // This rule allows anyone on the internet to view, edit, and delete
-    // all data in your Firestore database. It is useful for getting
-    // started, but it is configured to expire after 30 days because it
-    // leaves your app open to attackers. At that time, all client
-    // requests to your Firestore database will be denied.
-    //
-    // Make sure to write security rules for your app before that time, or else
-    // your app will lose access to your Firestore database
+    /*
+     * Lock all routes unless explicitly allowed
+     */
+
     match /{document=**} {
-      allow read, write: if request.time < timestamp.date(2020, 6, 28);
+      allow read, write: if false;
+    }
+  
+    /*
+     * General validation functions
+     */
+     
+	  function isNonEmptyString(str) {
+      return str is string &&
+             str.size() > 0
+    }
+
+    /*
+     *  User functions
+     */
+     
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data
+    }
+    
+    function isOwner(userId) {
+      return request.auth.uid == userId
+    }
+    
+    function isVerified() {
+      return request.auth.token.email_verified;
+    }
+    
+  	function isPending() {
+    	return getUserData().pending
+    }
+    
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function validateUserRequest(user) {
+      return isNonEmptyString(user.firstName);
+    }
+    
+    function validateUserPrivateRequest(user) {
+      return isNonEmptyString(user.lastName);
+    }
+    
+    /*
+     * Public user collection
+     */
+     
+    match /users/{userId} {
+      allow create;
+      allow update: 
+        if isSignedIn() &&
+           validateUserRequest(request.resource.data) &&
+           isOwner(userId)
+    }
+    
+    /*
+     * Private user collection
+     */
+     
+    match /users-private/{userId} {
+      allow create;
+      allow read: if isOwner(userId);
+      allow update:
+        if isSignedIn() &&
+           isVerified() &&
+           validateUserPrivateRequest(request.resource.data) &&
+           isOwner(userId)
+      allow delete:
+        if isSignedIn() &&
+           isOwner(userId)
+    }
+    
+    /*
+     * Garden functions
+     */
+
+    function validateDescription(description) {
+      return description is string &&
+        		 description.size() > 20 &&
+             description.size() < 300
+    }
+     
+    function validateContactLanguages(languages) {
+      /* TODO: verify firestore enum security rule? */
+      return languages in ['Dutch', 'French', 'German', 'English']
+    }
+     
+    function validateLocation(location) {
+      /* TODO: verify (range) of "latlng" type */
+      return location is latlng
+    }
+
+  	function validateFacilities(facilities) {
+      return facilities.keys().hasAll([
+               'amountOfTents',
+               'drinkableWater',
+               'electricity',
+               'tent',
+               'toilet'
+             ]) &&
+						 facilities.amountOfTents is number &&
+						 facilities.drinkableWater is bool &&
+             facilities.electricity is bool &&
+             facilities.tent is bool &&
+             facilities.toilet is bool
+    }
+
+    function validatePhotos(photos) {
+      /* TODO: add validation */
+      return true
+    }
+
+    function validatePrivate(private) {
+      /* TODO: add validation */
+      return true
+    }
+
+  	function validateTemporary(tmp) {
+      /* TODO: add validation */
+      return true
+    }
+
+    function validateGardenRequest(garden) {
+      return garden.keys().hasAll([
+               'contactLanguages', 
+               'description', 
+               'location', 
+               'facilities', 
+               'photos', 
+               'private', 
+               'tmp'
+             ]) &&
+             validateContactLanguages(garden.contactLanguages) &&
+             validateDescription(garden.description) &&
+             validateLocation(garden.location) &&
+             validateFacilities(garden.facilities) &&
+             validatePhotos(garden.photos) &&
+             validatePrivate(garden.private) &&
+             validateTemporary(garden.tmp)
+    }
+    
+    /*
+     * Garden collection
+     */
+     
+    match /campsites/{userId} {
+      allow create:
+        if isSignedIn() &&
+           isVerified() &&
+           validateGardenRequest(request.resource.data)
+      allow update:
+        if isSignedIn() &&
+  				 validateGardenRequest(request.resource.data) &&
+           isOwner(userId)
+      allow delete:
+        if isSignedIn() &&
+           isOwner(userId)
+    }
+    
+    
+    /*
+     * Chats
+     */
+    
+    match /chats/{chatId} {
+			allow read, write;
+      match /messages/{messageId} {
+          allow read, write;
+        }
     }
   }
 }
