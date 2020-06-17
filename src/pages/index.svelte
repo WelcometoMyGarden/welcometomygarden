@@ -158,7 +158,7 @@
     <h1 class="heading-underline-center">Support us</h1>
     <p>
       Welcome to My Garden is free to use but we have to pay a couple of bills.
-      <a href="#">Make a donation</a>
+      <a href="https://opencollective.com/welcometomygarden" target="_blank">Make a donation</a>
       to keep us going!
     </p>
   </div>
