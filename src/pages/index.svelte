@@ -481,6 +481,14 @@
   }
 
   @media only screen and (max-width: 700px) {
+    h2 {
+      font-size: 1.6rem;
+    }
+
+    p {
+      font-size: 1.4rem;
+    }
+
     .learn-more {
       display: none;
     }
