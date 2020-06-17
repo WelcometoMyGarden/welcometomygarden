@@ -50,7 +50,16 @@ exports.createUser = async (data, context) => {
       firstName: data.firstName
     });
 
-    await db.collection('users-private').doc(user.uid).set({ lastName });
+    await db
+      .collection('users-private')
+      .doc(user.uid)
+      .set({
+        lastName,
+        emailPreferences: {
+          newChat: true,
+          news: true
+        }
+      });
 
     const link = await admin.auth().generateEmailVerificationLink(email, {
       url: `${functions.config().frontend.url}/auth/confirm-email`

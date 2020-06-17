@@ -1,6 +1,7 @@
 import { get } from 'svelte/store';
 import { db } from './index';
-import { user, gettingPrivateUserProfile } from '@/stores/auth';
+import { user } from '@/stores/auth';
+import { gettingPrivateUserProfile, updatingMailPreferences } from '@/stores/user';
 import User from '@/models/User';
 
 export const getPublicUserProfile = async (uid) => {
@@ -16,11 +17,14 @@ export const getPrivateUserProfile = async () => {
   updatedUser.setPrivateInformation(profile.data());
   user.set(updatedUser);
   gettingPrivateUserProfile.set(false);
+  return profile.data();
 };
 
-export const setNotificationPreferences = async (preferenceName, preference) => {
+export const updateMailPreferences = async (preferenceName, preference) => {
+  updatingMailPreferences.set(true);
   await db
     .collection('users-private')
     .doc(get(user).id)
     .update({ [`emailPreferences.${preferenceName}`]: preference });
+  updatingMailPreferences.set(false);
 };

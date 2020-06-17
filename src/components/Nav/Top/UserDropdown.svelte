@@ -32,7 +32,7 @@
         </a>
       </li>
       <li>
-        <a href={routes.CHAT} on:click={toggleOpen}>
+        <a href={routes.ACCOUNT} on:click={toggleOpen}>
           <i>
             {@html userIcon}
           </i>
