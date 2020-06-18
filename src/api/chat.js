@@ -17,13 +17,14 @@ export const createChatObserver = async () => {
     (querySnapshot) => {
       const changes = querySnapshot.docChanges();
       const amount = querySnapshot.size;
-      let counter;
-      changes.forEach(async (change) => {
+      let counter = 0;
+      changes.forEach(async (change, i) => {
         const chat = change.doc.data();
         const partnerId = chat.users.find((id) => get(user).id !== id);
         const partner = await getPublicUserProfile(partnerId);
         chat.partner = partner;
         addChat({ id: change.doc.id, ...chat });
+        counter = i;
       });
       if (counter === amount) hasInitialized.set(true);
     },
