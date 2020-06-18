@@ -22,7 +22,7 @@
 
 <style>
   .conversation {
-    padding: 2rem 2.4rem;
+    padding: 2rem 2.4rem 2rem 2rem;
     display: flex;
     align-items: center;
     background-color: var(--color-white);
@@ -44,7 +44,7 @@
   }
 
   .details {
-    width: 80%;
+    width: 75%;
     margin-left: 1.2rem;
   }
 
@@ -72,5 +72,11 @@
     font-weight: bold;
     text-transform: uppercase;
     display: inline-flex;
+  }
+
+  @media (min-width: 700px) and (max-width: 850px) {
+    .conversation {
+      padding: 1rem 1.4rem;
+    }
   }
 </style>

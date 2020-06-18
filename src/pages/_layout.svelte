@@ -55,7 +55,7 @@
 
     main {
       min-height: calc(100% - var(--height-nav));
-      padding-bottom: calc(var(--height-nav) + 2rem);
+      padding-bottom: calc(var(--height-nav));
     }
   }
 </style>

@@ -1,10 +1,10 @@
 <script>
-  import { user } from '@/stores/auth';
   import { flip } from 'svelte/animate';
-  import { goto, params } from '@sveltech/routify';
+  import { goto, params, isActive } from '@sveltech/routify';
+  import { user } from '@/stores/auth';
+  import { chats, creatingNewChat } from '@/stores/chat';
   import routes from '@/routes';
   import { initiateChat } from '@/api/chat';
-  import { chats, creatingNewChat } from '@/stores/chat';
   import ConversationCard from '@/components/Chat/ConversationCard.svelte';
   import { Progress } from '@/components/UI';
   import { removeDiacritics } from '@/util';
@@ -49,13 +49,15 @@
     const name = $chats[id].partner.firstName.toLowerCase();
     $goto(getConvoRoute(name, id));
   };
+
+  $: isOverview = $isActive('/chat/index');
 </script>
 
 <Progress active={$creatingNewChat} />
 
 {#if !$params.with}
   <div class="container">
-    <section class="conversations">
+    <section class="conversations" class:is-out-of-view={!isOverview}>
       <h2>All conversations</h2>
       {#if newConversation}
         <article>
@@ -84,7 +86,7 @@
         {/each}
       {/if}
     </section>
-    <div class="messages">
+    <div class="messages" class:is-out-of-view={isOverview}>
       <slot />
     </div>
   </div>
@@ -116,6 +118,7 @@
     text-decoration: underline;
     color: var(--color-orange);
   }
+
   .conversations {
     width: 40rem;
     box-shadow: 0px 0px 33px rgba(0, 0, 0, 0.1);
@@ -137,9 +140,41 @@
     width: calc(100% - 42rem);
   }
 
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 850px) {
     .container {
-      height: 90vh;
+      font-size: 1.4rem;
+    }
+    .conversations {
+      font-size: 1.4rem;
+      width: 30rem;
+    }
+    .messages {
+      width: calc(100% - 32rem);
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    .is-out-of-view {
+      display: none;
+    }
+    .container {
+      width: 100%;
+      height: calc(100vh - var(--height-nav));
+      padding: 0;
+    }
+
+    .conversations {
+      width: 100%;
+      border-radius: 0;
+      margin-right: 0;
+      box-shadow: 0;
+      height: 100%;
+      overflow-y: auto;
+      flex-direction: column;
+    }
+
+    .messages {
+      display: none;
     }
   }
 </style>

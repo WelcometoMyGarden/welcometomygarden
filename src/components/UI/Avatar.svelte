@@ -28,4 +28,11 @@
     border-radius: 50%;
     font-weight: 900;
   }
+
+  @media (min-width: 700px) and (max-width: 850px) {
+    .avatar {
+      width: 4rem;
+      height: 4rem;
+    }
+  }
 </style>

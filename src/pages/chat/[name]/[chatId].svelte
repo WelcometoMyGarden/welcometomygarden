@@ -119,6 +119,7 @@
     display: flex;
     align-items: center;
     margin-top: 1rem;
+    max-width: 70%;
   }
 
   .message.by-user {
@@ -179,5 +180,11 @@
     padding: 1rem;
     border-radius: 0.5rem;
     outline: 0;
+  }
+
+  @media (min-width: 700px) and (max-width: 850px) {
+    .message {
+      max-width: 80%;
+    }
   }
 </style>
