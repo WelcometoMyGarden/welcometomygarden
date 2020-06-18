@@ -1,8 +1,7 @@
 <script>
-  import { beforeUpdate } from 'svelte';
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
-  import FaqItem from '../components/FaqItem.svelte';
+  import Collapsible from '../components/Collapsible.svelte';
   import { Button } from '../components/UI';
 
   import Logo from '../images/logo.svg';
@@ -19,17 +18,38 @@
 
   smoothscroll.polyfill();
 
-  let activeFaqItem = null;
+  let activeCollapsible = null;
+  const setActiveCollapsible = id => {
+    activeCollapsible === id ? (activeCollapsible = null) : (activeCollapsible = id);
+  };
 
-  function setActiveFaqItem(index) {
-    return function() {
-      if (activeFaqItem === index) {
-        activeFaqItem = null;
-      } else {
-        activeFaqItem = index;
-      }
-    };
-  }
+  const faqItems = [
+    {
+      title: 'Who is Welcome To My Garden for?',
+      content:
+        'Welcome To My Garden has been created for hikers and cyclists who need a camping spot on their trail at the end of the day. It isn’t meant to replace fully-fledged campsites; just a safe spot for the night! Consider it an addition to Belgium’s network of bivouacking sites. Welcome to My Garden is non-commercial: no money should exchange hands. This means that as a host, you cannot ask your guests to pay for their stay.'
+    },
+    {
+      title: 'How do I get to my camping spot?',
+      content:
+        "Welcome To My Garden is for slow travellers only. Please walk or bike to your camping spot. Of course you can use public transport or your car to get to the start of your trail - as long as you don't turn up at your host's in your car!"
+    },
+    {
+      title: 'How do I request a stay?',
+      content:
+        'Except if clearly stated on the host’s profile, you should always contact the host in advance. When you request a stay, please provide some information about yourself, your arrival date and time.'
+    },
+    {
+      title: 'What about facilities?',
+      content:
+        'Basically hosts just offer a corner in their garden for you to pitch your tent on. In addition, they may offer access to drinking water, a toilet and electricity. They are not obliged to do so though: all of these are bonuses. Consider a garden as a bivouac spot; not a fully-fledged campsite.'
+    },
+    {
+      title: 'Does Welcome To My Garden cost anything?',
+      content:
+        'Using Welcome To My Garden is completely free. However, as a platform we do incur costs. If you want to make a donation that will put a big smile on our faces! We are a not-for-profit initiative, so we’re not making any money out of this.'
+    }
+  ];
 </script>
 
 <section class="landing">
@@ -79,7 +99,7 @@
     </div>
     <h2 class="step-header">Step 2: Plan your journey</h2>
     <p class="step-text">
-      After you’ve made arrangements with your hosts, walk or bike to your camping spot. Introduce
+      After you've made arrangements with your hosts, walk or bike to your camping spot. Introduce
       yourself, pitch your tent for the night, and continue on your hiking or biking trail the next
       day. And have a great time, of course!
     </p>
@@ -98,7 +118,7 @@
 </section>
 
 <section class="faq">
-  <div class="card faq-intro {activeFaqItem ? 'faq-intro-item-opened' : ''}">
+  <div class="card faq-intro {activeCollapsible ? 'faq-intro-item-opened' : ''}">
     <h1 class="heading-underline-center">All you need to know</h1>
     <p>
       Here are the most important things you need to know about your next adventure. Please read
@@ -111,46 +131,12 @@
     </p>
   </div>
   <ul class="faq-list">
-    <FaqItem onClick={setActiveFaqItem(1)} isOpen={activeFaqItem === 1}>
-      <h3 slot="title">Who is Welcome To My Garden for?</h3>
-      <p slot="content">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
-        rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
-        iure minima modi blanditiis?
-      </p>
-    </FaqItem>
-    <FaqItem onClick={setActiveFaqItem(2)} isOpen={activeFaqItem === 2}>
-      <h3 slot="title">How do I get to my camping spot?</h3>
-      <p slot="content">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
-        rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
-        iure minima modi blanditiis?
-      </p>
-    </FaqItem>
-    <FaqItem onClick={setActiveFaqItem(3)} isOpen={activeFaqItem === 3}>
-      <h3 slot="title">How do I request a stay?</h3>
-      <p slot="content">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
-        rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
-        iure minima modi blanditiis?
-      </p>
-    </FaqItem>
-    <FaqItem onClick={setActiveFaqItem(4)} isOpen={activeFaqItem === 4}>
-      <h3 slot="title">What about facilities?</h3>
-      <p slot="content">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
-        rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
-        iure minima modi blanditiis?
-      </p>
-    </FaqItem>
-    <FaqItem onClick={setActiveFaqItem(5)} isOpen={activeFaqItem === 5}>
-      <h3 slot="title">Does Welcome To My Garden cost anything?</h3>
-      <p slot="content">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
-        rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
-        iure minima modi blanditiis?
-      </p>
-    </FaqItem>
+    {#each faqItems as faqItem, i}
+      <Collapsible on:click={() => setActiveCollapsible(i)} open={activeCollapsible === i}>
+        <h3 slot="title">{faqItem.title}</h3>
+        <p slot="content">{faqItem.content}</p>
+      </Collapsible>
+    {/each}
   </ul>
 </section>
 
