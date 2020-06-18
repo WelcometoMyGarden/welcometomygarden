@@ -1,6 +1,7 @@
 <script>
   import { beforeUpdate } from 'svelte';
   import smoothscroll from 'smoothscroll-polyfill';
+  import routes from '@/routes';
   import FaqItem from '../components/FaqItem.svelte';
   import { Button } from '../components/UI';
 
@@ -102,6 +103,11 @@
     <p>
       Here are the most important things you need to know about your next adventure. Please read
       this FAQ section thoroughly so that you know what you’re getting&nbsp;yourself&nbsp;into.
+    </p>
+    <p>
+      A full list of frequently asked questions can be found
+      <!-- prettier-ignore -->
+      <a href={routes.FAQ}>here.</a>
     </p>
   </div>
   <ul class="faq-list">
