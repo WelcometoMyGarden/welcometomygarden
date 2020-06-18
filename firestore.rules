@@ -57,7 +57,7 @@ service cloud.firestore {
      
     match /users/{userId} {
       allow read;
-      allow create;
+      allow create: if false;
       allow update: 
         if isSignedIn() &&
            validateUserRequest(request.resource.data) &&
@@ -70,7 +70,7 @@ service cloud.firestore {
      
     match /users-private/{userId} {
       allow read: if isOwner(userId);
-      allow create;
+      allow create: if false;
       allow update:
         if isSignedIn() &&
            isVerified() &&
