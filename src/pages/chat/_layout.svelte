@@ -1,9 +1,10 @@
 <script>
-  import { fly, fade } from 'svelte/transition';
+  import { fly } from 'svelte/transition';
   import { flip } from 'svelte/animate';
   import { goto, params, isActive } from '@sveltech/routify';
   import { user } from '@/stores/auth';
-  import { chats, creatingNewChat } from '@/stores/chat';
+  import notify from '@/stores/notification';
+  import { chats, creatingNewChat, hasInitialized } from '@/stores/chat';
   import routes from '@/routes';
   import { initiateChat } from '@/api/chat';
   import ConversationCard from '@/components/Chat/ConversationCard.svelte';
@@ -11,6 +12,11 @@
   import { removeDiacritics } from '@/util';
 
   if (!$user) $goto(routes.SIGN_IN);
+
+  if (!user.emailVerified) {
+    notify.warning('Please verify your email before you start chatting', 10000);
+    $goto(routes.ACCOUNT);
+  }
 
   $: selectedConversation = $chats[$params.chatId];
   $: conversations = Object.keys($chats)
@@ -59,15 +65,12 @@
 </script>
 
 <svelte:window bind:outerWidth />
-<Progress active={$creatingNewChat} />
+<Progress active={!hasInitialized || $creatingNewChat} />
 
 {#if !$params.with}
   <div class="container">
     {#if !isMobile || (isMobile && isOverview)}
-      <section
-        class="conversations"
-        in:fly={{ x: -outerWidth, duration: 400 }}
-        out:fade={{ duration: 100 }}>
+      <section class="conversations" in:fly={{ x: -outerWidth, duration: 400 }}>
         <h2>All conversations</h2>
         {#if newConversation}
           <article>
@@ -78,7 +81,7 @@
               selected={$params.chatId === 'new'} />
           </article>
         {/if}
-        {#if conversations.length === 0 && !newConversation}
+        {#if $hasInitialized && conversations.length === 0 && !newConversation}
           <div class="empty">
             You don't have any messages yet. Select a host
             <a href={routes.MAP}>on the map</a>
@@ -98,7 +101,7 @@
       </section>
     {/if}
     {#if !isMobile || (isMobile && !isOverview)}
-      <div class="messages" in:fly={{ x: outerWidth, duration: 400 }} out:fade={{ duration: 100 }}>
+      <div class="messages" in:fly={{ x: outerWidth, duration: 400 }}>
         <slot />
       </div>
     {/if}

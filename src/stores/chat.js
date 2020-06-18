@@ -1,6 +1,6 @@
 import { writable, get } from 'svelte/store';
 
-export const initializing = writable(false);
+export const hasInitialized = writable(false);
 export const creatingNewChat = writable(false);
 
 export const chats = writable({});
@@ -21,7 +21,7 @@ export const addMessage = (chatId, message) => {
     const newMessages = { ...old };
     if (!old[chatId]) newMessages[chatId] = [message];
     else {
-      newMessages[chatId] = [...old[chatId], message].sort(sortBySentDate);
+      newMessages[chatId] = [...newMessages[chatId], message].sort(sortBySentDate);
     }
     return newMessages;
   });

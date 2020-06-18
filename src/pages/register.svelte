@@ -30,7 +30,8 @@
         countryCode: countryInput.value
       });
       notify.success(
-        'Your account was created successfully! Please check your email to verify your account.'
+        'Your account was created successfully! Please check your email to verify your account.',
+        10000
       );
       $goto(routes.MAP);
     } catch (err) {

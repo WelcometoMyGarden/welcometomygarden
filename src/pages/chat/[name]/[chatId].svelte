@@ -1,7 +1,7 @@
 <script>
   export let chatId;
 
-  import { beforeUpdate, afterUpdate } from 'svelte';
+  import { beforeUpdate, afterUpdate, onMount } from 'svelte';
   import { fade } from 'svelte/transition';
   import { params, goto } from '@sveltech/routify';
   import { observeMessagesForChat, create as createChat, sendMessage } from '@/api/chat';
@@ -29,6 +29,10 @@
     if (autoscroll && messageContainer) messageContainer.scrollTo(0, messageContainer.scrollHeight);
   });
 
+  onMount(() => {
+    messageContainer.scrollTo(0, messageContainer.scrollHeight);
+  });
+
   let hint = '';
   $: if (typedMessage && typedMessage.length > 500) {
     const len = typedMessage.length;
@@ -42,7 +46,6 @@
   let typedMessage = '';
   let isSending = false;
   const send = async () => {
-    // TODO: make sure typedMessage is below or equal to 500 characters
     isSending = true;
     if (!chat) {
       try {
@@ -101,9 +104,7 @@
     name="message"
     bind:value={typedMessage}
     disabled={isSending} />
-  <button type="submit" disabled={isSending || !!hint} aria-label="Send message">
-    Send message &#62;
-  </button>
+  <button type="submit" disabled={isSending || !!hint} aria-label="Send message">&#62;</button>
 </form>
 
 <style>
@@ -157,7 +158,6 @@
     flex: 0.08;
     display: flex;
     align-items: flex-end;
-    justify-content: space-between;
     width: 100%;
     position: relative;
   }
@@ -176,8 +176,11 @@
     padding: 1rem;
     border: 1px solid transparent;
     border-radius: 0.6rem;
-    flex: 0.92;
+    width: 100%;
+    height: 6rem;
+    margin-right: 2rem;
     resize: vertical;
+    transition: border 300ms ease-in-out;
   }
 
   textarea:focus {
@@ -186,12 +189,14 @@
 
   form button {
     background-color: var(--color-green);
-    font-size: 1.8rem;
+    font-size: 2.4rem;
     color: var(--color-white);
     border: 0;
     padding: 1rem;
     border-radius: 0.5rem;
     outline: 0;
+    width: 6rem;
+    height: 6rem;
   }
 
   .chat-header {
@@ -205,6 +210,25 @@
   }
 
   @media (max-width: 700px) {
+    .message-wrapper {
+      margin-bottom: 2rem;
+      padding-top: 6rem;
+    }
+
+    .message-wrapper :global(.avatar) {
+      width: 4rem;
+      height: 4rem;
+    }
+
+    .message-text {
+      margin-left: 1rem;
+      padding: 1rem;
+    }
+
+    .message.by-user .message-text {
+      margin-right: 1rem;
+    }
+
     .chat-header {
       display: flex;
       align-items: center;

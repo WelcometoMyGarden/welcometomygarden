@@ -52,7 +52,7 @@
       <li>
         <a href={routes.ACCOUNT} class:active={$isActive(routes.ACCOUNT)}>
           <Icon icon={userIcon} />
-          {$user.firstName}
+          {$user.firstName || ''}
         </a>
       </li>
     {:else}
