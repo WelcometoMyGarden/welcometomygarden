@@ -43,6 +43,7 @@
   }
 
   .title {
+    z-index: -1;
     font-size: 1.6rem;
     display: flex;
     justify-content: space-between;
