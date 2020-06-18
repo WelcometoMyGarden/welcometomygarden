@@ -1,21 +1,20 @@
 <script>
   import { slide } from 'svelte/transition';
-
-  let open = false;
-  export let isOpen;
-  export let onClick;
+  export let open = false;
+  export let onClick = () => (open = !open);
+  export let id = '';
 </script>
 
-<li class="faq-list-item">
+<li class="collapsible">
   <button class="button button-container" on:click={onClick}>
-    <div class="faq-question">
+    <div class="collapsible-item" {id}>
       <div class="title">
         <slot name="title" />
       </div>
-      <span class="sign">{isOpen ? '-' : '+'}</span>
+      <span class="sign">{open ? '-' : '+'}</span>
     </div>
   </button>
-  {#if isOpen}
+  {#if open}
     <div transition:slide={{ duration: 300 }}>
       <div class="content">
         <slot name="content" />
@@ -25,18 +24,18 @@
 </li>
 
 <style>
-  .faq-list-item {
+  .collapsible {
     display: flex;
     flex-direction: column;
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-    padding: 1.1rem 0;
+    padding: 1.2rem 2.4rem;
   }
 
   .button {
     flex: 0;
   }
 
-  .faq-question {
+  .collapsible-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -44,6 +43,7 @@
   }
 
   .title {
+    z-index: -1;
     font-size: 1.6rem;
     display: flex;
     justify-content: space-between;
@@ -68,7 +68,7 @@
   }
 
   @media only screen and (max-width: 1150px) {
-    .faq-question {
+    .collapsible-item {
       padding: 0 12rem;
     }
 
@@ -78,7 +78,7 @@
   }
 
   @media only screen and (max-width: 1000px) {
-    .faq-question {
+    .collapsible-item {
       padding: 0 10rem;
     }
 
@@ -88,7 +88,7 @@
   }
 
   @media only screen and (max-width: 700px) {
-    .faq-question {
+    .collapsible-item {
       padding: 0 8rem;
     }
 
@@ -98,7 +98,7 @@
   }
 
   @media only screen and (max-width: 600px) {
-    .faq-question {
+    .collapsible-item {
       padding: 0 4rem;
     }
 
@@ -115,7 +115,7 @@
   }
 
   @media only screen and (max-width: 400px) {
-    .faq-question {
+    .collapsible-item {
       padding: 0 3rem;
     }
 

@@ -1,7 +1,7 @@
 <script>
   import { beforeUpdate } from 'svelte';
   import smoothscroll from 'smoothscroll-polyfill';
-  import FaqItem from '../components/FaqItem.svelte';
+  import Collapsible from '../components/Collapsible.svelte';
   import { Button } from '../components/UI';
 
   import Logo from '../images/logo.svg';
@@ -18,17 +18,11 @@
 
   smoothscroll.polyfill();
 
-  let activeFaqItem = null;
-
-  function setActiveFaqItem(index) {
-    return function() {
-      if (activeFaqItem === index) {
-        activeFaqItem = null;
-      } else {
-        activeFaqItem = index;
-      }
-    };
-  }
+  let activeCollapsible = null;
+  const setActiveCollapsible = e => {
+    const id = Number(e.target.id);
+    id === activeCollapsible ? (activeCollapsible = null) : (activeCollapsible = id);
+  };
 </script>
 
 <section class="landing">
@@ -97,7 +91,7 @@
 </section>
 
 <section class="faq">
-  <div class="card faq-intro {activeFaqItem ? 'faq-intro-item-opened' : ''}">
+  <div class="card faq-intro {activeCollapsible ? 'faq-intro-item-opened' : ''}">
     <h1 class="heading-underline-center">All you need to know</h1>
     <p>
       Here are the most important things you need to know about your next adventure. Please read
@@ -105,46 +99,46 @@
     </p>
   </div>
   <ul class="faq-list">
-    <FaqItem onClick={setActiveFaqItem(1)} isOpen={activeFaqItem === 1}>
+    <Collapsible id={0} onClick={setActiveCollapsible} open={activeCollapsible === 0}>
       <h3 slot="title">Who is Welcome To My Garden for?</h3>
       <p slot="content">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
         rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
         iure minima modi blanditiis?
       </p>
-    </FaqItem>
-    <FaqItem onClick={setActiveFaqItem(2)} isOpen={activeFaqItem === 2}>
+    </Collapsible>
+    <Collapsible id={1} onClick={setActiveCollapsible} open={activeCollapsible === 1}>
       <h3 slot="title">How do I get to my camping spot?</h3>
       <p slot="content">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
         rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
         iure minima modi blanditiis?
       </p>
-    </FaqItem>
-    <FaqItem onClick={setActiveFaqItem(3)} isOpen={activeFaqItem === 3}>
+    </Collapsible>
+    <Collapsible id={2} onClick={setActiveCollapsible} open={activeCollapsible === 2}>
       <h3 slot="title">How do I request a stay?</h3>
       <p slot="content">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
         rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
         iure minima modi blanditiis?
       </p>
-    </FaqItem>
-    <FaqItem onClick={setActiveFaqItem(4)} isOpen={activeFaqItem === 4}>
+    </Collapsible>
+    <Collapsible id={3} onClick={setActiveCollapsible} open={activeCollapsible === 3}>
       <h3 slot="title">What about facilities?</h3>
       <p slot="content">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
         rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
         iure minima modi blanditiis?
       </p>
-    </FaqItem>
-    <FaqItem onClick={setActiveFaqItem(5)} isOpen={activeFaqItem === 5}>
+    </Collapsible>
+    <Collapsible id={4} onClick={setActiveCollapsible} open={activeCollapsible === 4}>
       <h3 slot="title">Does Welcome To My Garden cost anything?</h3>
       <p slot="content">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
         rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
         iure minima modi blanditiis?
       </p>
-    </FaqItem>
+    </Collapsible>
   </ul>
 </section>
 
