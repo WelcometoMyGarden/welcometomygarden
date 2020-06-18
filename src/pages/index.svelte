@@ -1,5 +1,5 @@
 <script>
-  import { beforeUpdate } from 'svelte';
+  import { _ } from 'svelte-i18n';
   import smoothscroll from 'smoothscroll-polyfill';
   import Collapsible from '../components/Collapsible.svelte';
   import { Button } from '../components/UI';
@@ -31,12 +31,10 @@
       {@html Logo}
     </div>
     <h1 class="heading-underline-center">Welcome to My Garden</h1>
-    <p class="welcome-text">
-      We are a network of citizens offering free camping spots in their gardens for slow travelers
-    </p>
+    <p class="welcome-text">{$_('index.intro.copy')}</p>
     <div class="welcome-buttons">
-      <Button uppercase inverse moveUp>Add your garden</Button>
-      <Button uppercase moveUp>Explore map</Button>
+      <Button uppercase inverse moveUp>{$_('index.intro.add-garden')}</Button>
+      <Button uppercase moveUp>{$_('index.intro.explore-map')}</Button>
     </div>
     <div class="welcome-map">
       {@html welcomeMap}
@@ -45,9 +43,9 @@
 </section>
 
 <div class="learn-more">
-  <span class="learn-more-text" aria-hidden>Learn more</span>
+  <span class="learn-more-text" aria-hidden>{$_('index.intro.learn-more')}</span>
   <button class="learn-more-button" on:click={handleLearnMoreClick}>
-    <span class="screen-reader-only">Learn more</span>
+    <span class="screen-reader-only">{$_('index.intro.learn-more')}</span>
     <div>
       {@html ArrowDown}
     </div>

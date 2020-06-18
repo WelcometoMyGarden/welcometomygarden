@@ -1,3 +1,10 @@
 {
-  "index": {}
+  "index": {
+    "intro": {
+      "copy": "We are a network of citizens offering free camping spots in their gardens for slow travelers",
+      "add-garden": "Add your garden",
+      "explore-map": "Explore map",
+      "learn-more": "Learn more"
+    }
+  }
 }

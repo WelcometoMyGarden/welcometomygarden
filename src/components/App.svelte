@@ -28,7 +28,7 @@
     nl: { codes: ['nl', 'nl-be'], dictionary: '@/locales/fr.json' },
     fr: {
       codes: ['fr', 'fr-be', 'fr-ca', 'fr-fr', 'fr-lu', 'fr-mc', 'fr-ch'],
-      dictionary: '@/locales/nl'
+      dictionary: '@/locales/nl.json'
     }
   };
 
