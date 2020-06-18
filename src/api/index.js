@@ -17,6 +17,8 @@ export const auth = firebase.auth();
 export const functions = firebase.functions();
 export const storage = firebase.storage().ref();
 
+export const Timestamp = fire.firestore.Timestamp;
+
 auth.useDeviceLanguage();
 
 if (window.location.hostname === 'localhost' && config.USE_API_EMULATOR) {

@@ -1,6 +1,7 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { createAuthObserver } from '@/api/auth';
+  import { createChatObserver } from '@/api/chat';
   import { user, isInitializing } from '../stores/auth';
   import { Progress, Notifications } from '@/components/UI';
   import Nav from '../components/Nav/Navigation.svelte';
@@ -10,7 +11,12 @@
     return createAuthObserver();
   });
 
-  $: console.log($user);
+  let unsubscribeFromChatObserver;
+  $: if ($user) unsubscribeFromChatObserver = createChatObserver();
+
+  onDestroy(() => {
+    if (unsubscribeFromChatObserver) unsubscribeFromChatObserver();
+  });
 </script>
 
 <div class="app">
@@ -49,7 +55,7 @@
 
     main {
       min-height: calc(100% - var(--height-nav));
-      padding-bottom: calc(var(--height-nav) + 2rem);
+      padding-bottom: calc(var(--height-nav));
     }
   }
 </style>

@@ -12,7 +12,7 @@
     try {
       await login(email, password);
 
-      notify.success(`Welcome back ${$user.firstName}`);
+      notify.success(`Welcome back, ${$user.firstName}!`);
       $goto(routes.MAP);
     } catch (ex) {
       // TODO: Handle network errors and response errors

@@ -56,6 +56,13 @@ body {
   font-family: var(--fonts-copy);
 }
 
+@media screen and (max-width: 700px) {
+  body, .input, textarea {
+    font-size: 1.4rem;
+  }
+
+}
+
 *,
 *:before,
 *:after {
