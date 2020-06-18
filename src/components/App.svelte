@@ -7,41 +7,32 @@
   const lang = navigator.language ? navigator.language.toLowerCase() : 'en';
 
   const langs = {
-    en: {
-      codes: [
-        'en',
-        'en-au',
-        'en-bz',
-        'en-ca',
-        'en-ie',
-        'en-jm',
-        'en-nz',
-        'en-ph',
-        'en-za',
-        'en-tt',
-        'en-gb',
-        'en-us',
-        'en-zw'
-      ],
-      dictionary: '@/locales/en.json'
-    },
-    nl: { codes: ['nl', 'nl-be'], dictionary: '@/locales/fr.json' },
-    fr: {
-      codes: ['fr', 'fr-be', 'fr-ca', 'fr-fr', 'fr-lu', 'fr-mc', 'fr-ch'],
-      dictionary: '@/locales/nl.json'
-    }
+    en: [
+      'en',
+      'en-au',
+      'en-bz',
+      'en-ca',
+      'en-ie',
+      'en-jm',
+      'en-nz',
+      'en-ph',
+      'en-za',
+      'en-tt',
+      'en-gb',
+      'en-us',
+      'en-zw'
+    ],
+    nl: ['nl', 'nl-be'],
+    fr: ['fr', 'fr-be', 'fr-ca', 'fr-fr', 'fr-lu', 'fr-mc', 'fr-ch']
   };
 
-  const languageCode = Object.keys(langs).find(code => langs[code].codes.includes(lang)) || 'en';
+  const languageCode = Object.keys(langs).find(code => langs[code].includes(lang)) || 'en';
 
   register('en', () => import('@/locales/en.json'));
   register('fr', () => import('@/locales/fr.json'));
   register('nl', () => import('@/locales/nl.json'));
 
-  init({
-    fallbackLocale: 'en',
-    initialLocale: languageCode
-  });
+  init({ fallbackLocale: 'en', initialLocale: languageCode });
 
   locale.subscribe(value => {
     if (value == null) return;
