@@ -1,4 +1,5 @@
 <script>
+  import { fly, fade } from 'svelte/transition';
   import { flip } from 'svelte/animate';
   import { goto, params, isActive } from '@sveltech/routify';
   import { user } from '@/stores/auth';
@@ -51,44 +52,56 @@
   };
 
   $: isOverview = $isActive('/chat/index');
+
+  let outerWidth;
+  let isMobile = false;
+  $: if (outerWidth <= 700) isMobile = true;
 </script>
 
+<svelte:window bind:outerWidth />
 <Progress active={$creatingNewChat} />
 
 {#if !$params.with}
   <div class="container">
-    <section class="conversations" class:is-out-of-view={!isOverview}>
-      <h2>All conversations</h2>
-      {#if newConversation}
-        <article>
-          <ConversationCard
-            on:click={() => selectConversation(null)}
-            recipient={newConversation.name}
-            lastMessage={''}
-            selected={$params.chatId === 'new'} />
-        </article>
-      {/if}
-      {#if conversations.length === 0 && !newConversation}
-        <div class="empty">
-          You don't have any messages yet. Select a host
-          <a href={routes.MAP}>on the map</a>
-          to contact them.
-        </div>
-      {:else}
-        {#each conversations as conversation (conversation.id)}
-          <article animate:flip={{ duration: 400 }}>
+    {#if !isMobile || (isMobile && isOverview)}
+      <section
+        class="conversations"
+        in:fly={{ x: -outerWidth, duration: 400 }}
+        out:fade={{ duration: 100 }}>
+        <h2>All conversations</h2>
+        {#if newConversation}
+          <article>
             <ConversationCard
-              recipient={$chats[conversation.id].partner.firstName}
-              lastMessage={conversation.lastMessage}
-              selected={selectedConversation && selectedConversation.id === conversation.id}
-              on:click={() => selectConversation(conversation.id)} />
+              on:click={() => selectConversation(null)}
+              recipient={newConversation.name}
+              lastMessage={''}
+              selected={$params.chatId === 'new'} />
           </article>
-        {/each}
-      {/if}
-    </section>
-    <div class="messages" class:is-out-of-view={isOverview}>
-      <slot />
-    </div>
+        {/if}
+        {#if conversations.length === 0 && !newConversation}
+          <div class="empty">
+            You don't have any messages yet. Select a host
+            <a href={routes.MAP}>on the map</a>
+            to contact them.
+          </div>
+        {:else}
+          {#each conversations as conversation (conversation.id)}
+            <article animate:flip={{ duration: 400 }}>
+              <ConversationCard
+                recipient={$chats[conversation.id].partner.firstName}
+                lastMessage={conversation.lastMessage}
+                selected={selectedConversation && selectedConversation.id === conversation.id}
+                on:click={() => selectConversation(conversation.id)} />
+            </article>
+          {/each}
+        {/if}
+      </section>
+    {/if}
+    {#if !isMobile || (isMobile && !isOverview)}
+      <div class="messages" in:fly={{ x: outerWidth, duration: 400 }} out:fade={{ duration: 100 }}>
+        <slot />
+      </div>
+    {/if}
   </div>
 {/if}
 
@@ -154,9 +167,6 @@
   }
 
   @media screen and (max-width: 700px) {
-    .is-out-of-view {
-      display: none;
-    }
     .container {
       width: 100%;
       height: calc(100vh - var(--height-nav));
@@ -174,7 +184,9 @@
     }
 
     .messages {
-      display: none;
+      width: 100%;
+      padding: 2rem;
+      position: relative;
     }
   }
 </style>
