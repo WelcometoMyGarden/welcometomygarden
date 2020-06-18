@@ -23,8 +23,11 @@ exports.onChatCreate = async (snap, context) => {
     .doc(chatId)
     .get();
 
-  let shouldNotify = true;
-  if (unreadDoc.exists) {
+  const recipientDoc = await db.collection('users-private').doc(recipientId).get();
+  const recipientEmailPreferences = recipientDoc.data().emailPreferences;
+
+  let shouldNotify = recipientEmailPreferences.newChat || true;
+  if (shouldNotify && unreadDoc.exists) {
     const unread = unreadDoc.data();
     const nowDate = new Date();
     // Elapsed time since last notification in milliseconds
