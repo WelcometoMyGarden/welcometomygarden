@@ -64,7 +64,18 @@
     }
     isSending = false;
   };
+
+  $: partnerName = chat && chat.partner ? chat.partner.firstName : '';
 </script>
+
+<svelte:head>
+  <title>Chat with {partnerName} | Welcome To My Garden</title>
+</svelte:head>
+
+<header class="chat-header">
+  <a class="back" href={routes.CHAT}>&#x3c;</a>
+  <h2 class="title">{partnerName}</h2>
+</header>
 
 <div class="message-wrapper" bind:this={messageContainer}>
   <div class="messages">
@@ -120,6 +131,7 @@
     align-items: center;
     margin-top: 1rem;
     max-width: 70%;
+    word-break: break-word;
   }
 
   .message.by-user {
@@ -182,9 +194,50 @@
     outline: 0;
   }
 
+  .chat-header {
+    display: none;
+  }
+
   @media (min-width: 700px) and (max-width: 850px) {
     .message {
       max-width: 80%;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .chat-header {
+      display: flex;
+      align-items: center;
+      height: 6rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: var(--color-white);
+      width: 100%;
+      z-index: 10;
+      box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-header .title {
+      width: 100%;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 900;
+      position: relative;
+    }
+
+    .back {
+      height: 4rem;
+      width: 4rem;
+      left: 2rem;
+      top: calc(50% - 2rem);
+      position: absolute;
+      font-size: 2.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      z-index: 20;
     }
   }
 </style>
