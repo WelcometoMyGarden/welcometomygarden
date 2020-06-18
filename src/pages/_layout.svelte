@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import { isLoading as isLocaleLoading } from 'svelte-i18n';
   import { createAuthObserver } from '@/api/auth';
   import { user, isInitializing } from '../stores/auth';
   import { Progress } from '../components/UI';
@@ -14,9 +15,9 @@
 </script>
 
 <div class="app">
-  <Progress active={$isInitializing} />
+  <Progress active={$isInitializing || $isLocaleLoading} />
 
-  {#if !$isInitializing}
+  {#if !$isInitializing && !$isLocaleLoading}
     <Nav />
     <main>
       <slot />
