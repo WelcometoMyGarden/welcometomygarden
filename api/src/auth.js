@@ -62,7 +62,7 @@ exports.createUser = async (data, context) => {
       });
 
     const link = await admin.auth().generateEmailVerificationLink(email, {
-      url: `${functions.config().frontend.url}/auth/confirm-email`
+      url: `${functions.config().frontend.url}/account`
     });
 
     await sendAccountVerificationEmail(user.email, firstName, link);
@@ -81,7 +81,7 @@ exports.requestPasswordReset = async (email) => {
   try {
     const auth = admin.auth();
     const link = await auth.generatePasswordResetLink(email, {
-      url: `${functions.config().frontend.url}/auth/confirm-password-reset`
+      url: `${functions.config().frontend.url}/reset-password`
     });
 
     const user = await auth.getUserByEmail(email);
@@ -114,7 +114,7 @@ exports.resendAccountVerification = async (data, context) => {
   if (!user || user.emailVerified) throw new functions.https.HttpsError('permission-denied');
 
   const link = await auth.generateEmailVerificationLink(user.email, {
-    url: `${functions.config().frontend.url}/auth/confirm-email`
+    url: `${functions.config().frontend.url}/account`
   });
   await sendAccountVerificationEmail(user.email, user.displayName, link);
 };

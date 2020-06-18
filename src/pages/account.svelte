@@ -1,7 +1,9 @@
 <script>
+  import { fade } from 'svelte/transition';
   import { goto } from '@sveltech/routify';
   import notify from '@/stores/notification';
   import { getPrivateUserProfile, updateMailPreferences } from '@/api/user';
+  import { resendAccountVerification } from '@/api/auth';
   import { user } from '@/stores/auth';
   import { gettingPrivateUserProfile, updatingMailPreferences } from '@/stores/user';
   import { Progress } from '@/components/UI';
@@ -25,11 +27,41 @@
     );
     $goto(routes.HOME);
   });
+
+  let isResendingEmail;
+  let hasResentEmail = false;
+  const doResendEmail = async () => {
+    try {
+      isResendingEmail = true;
+      await resendAccountVerification();
+      hasResentEmail = true;
+      isResendingEmail = false;
+    } catch (ex) {
+      console.log(ex);
+      notify.danger(
+        "We couldn't resend an account verification email. Please contact support@welcometomygarden.be"
+      );
+      isResendingEmail = false;
+      hasResentEmail = false;
+    }
+  };
 </script>
 
 <Progress active={$gettingPrivateUserProfile} />
 
 {#if !$gettingPrivateUserProfile}
+  {#if !$user.emailVerified}
+    <div>
+      You need to verify your email address if you want to chat or add a garden.
+      {#if !hasResentEmail}
+        <button transition:fade disabled={isResendingEmail} on:click={doResendEmail}>
+          Resend email
+        </button>
+      {:else}
+        <p>Email sent!</p>
+      {/if}
+    </div>
+  {/if}
   <div>
     Send me emails when:
     <ul class="preference-list">

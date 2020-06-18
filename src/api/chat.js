@@ -2,7 +2,7 @@ import { get } from 'svelte/store';
 import { db, Timestamp } from './index';
 import { getPublicUserProfile } from './user';
 import { user } from '../stores/auth';
-import { creatingNewChat, addChat, addMessage } from '../stores/chat';
+import { creatingNewChat, addChat, addMessage, hasInitialized } from '../stores/chat';
 
 export const initiateChat = async (partnerUid) => {
   creatingNewChat.set(true);
@@ -16,6 +16,8 @@ export const createChatObserver = async () => {
   return query.onSnapshot(
     (querySnapshot) => {
       const changes = querySnapshot.docChanges();
+      const amount = querySnapshot.size;
+      let counter;
       changes.forEach(async (change) => {
         const chat = change.doc.data();
         const partnerId = chat.users.find((id) => get(user).id !== id);
@@ -23,6 +25,7 @@ export const createChatObserver = async () => {
         chat.partner = partner;
         addChat({ id: change.doc.id, ...chat });
       });
+      if (counter === amount) hasInitialized.set(true);
     },
     (err) => {
       throw new Error(err);

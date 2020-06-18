@@ -32,9 +32,13 @@ export const createAuthObserver = () =>
   });
 
 export const resendAccountVerification = () => {
-  if (!get(user) || !get(user).emailVerified) return;
-  api.resendAccountVerification();
+  if (!get(user) || get(user).emailVerified) return;
+  return api.resendAccountVerification();
 };
 export const verifyPasswordResetCode = (code) => auth.verifyPasswordResetCode(code);
-export const applyActionCode = (code) => auth.applyActionCode(code);
+export const applyActionCode = async (code) => {
+  await auth.applyActionCode(code);
+  await auth.currentUser.reload();
+  user.set(new User(auth.currentUser));
+};
 export const confirmPasswordReset = (code, password) => auth.confirmPasswordReset(code, password);
