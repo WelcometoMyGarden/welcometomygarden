@@ -186,6 +186,7 @@
     line-height: 2.6rem;
     color: var(--color-green);
     text-align: justify;
+    margin-bottom: 2rem;
   }
 
   a {
