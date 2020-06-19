@@ -9,12 +9,38 @@
   import { TextInput, Progress } from '@/components/UI';
   import { lockIcon, emailIcon, userIcon, flagIcon } from '@/images/icons';
 
-  let email = {};
-  let password = {};
-  let firstName = {};
-  let lastName = {};
-  let country = {};
-
+  let fields = {
+    email: {
+      validate: v => {
+        if (!v) return 'Please add an email address, this is what you log in with!';
+      }
+    },
+    password: {
+      validate: v => {
+        if (!v) return 'You need to set a password so you can log in later';
+        if (v.length < 8) return 'Your password must be at least 8 characters';
+        // Primarily to prevent password length denial of service
+        if (v.length > 100) return 'Please make sure your password is at most 100 characters long';
+      }
+    },
+    firstName: {
+      validate: v => {
+        if (!v)
+          return "Please enter a first name. This is how you're shown to other users of WTMG.";
+      }
+    },
+    lastName: {
+      validate: v => {
+        if (!v) return "Please enter your last name. This won't be shared with other users.";
+      }
+    },
+    country: {
+      validate: v => {
+        if (!v)
+          return "Please enter your country. This helps us focus the map on where you're from";
+      }
+    }
+  };
   let countryCode;
   let countryInput;
 
@@ -23,20 +49,27 @@
     // countryInput.value = countryName;
     const code = Object.keys(countries).find(key => countries[key] === value);
     if (code) countryCode = code;
-    country.value = value;
-    console.log(country, countryCode);
+    fields.country.value = value;
   };
 
-  const submit = async event => {
-    console.log(country);
-    /*
+  const submit = async () => {
+    const errors = Object.keys(fields).reduce((all, field) => {
+      const error = fields[field].validate(fields[field].value);
+      fields[field].error = error || '';
+      if (error) all.push(errors);
+      return all;
+    }, []);
+
+    fields = fields;
+    if (errors.length > 0) return;
+
     try {
       await register({
-        email,
-        password,
-        firstName,
-        lastName,
-        countryCode: countryInput.value
+        email: fields.email.value,
+        password: fields.password.value,
+        firstName: fields.firstName.value,
+        lastName: fields.lastName.value,
+        countryCode
       });
       notify.success(
         'Your account was created successfully! Please check your email to verify your account.',
@@ -45,7 +78,7 @@
       $goto(routes.MAP);
     } catch (err) {
       console.log(err);
-    } */
+    }
   };
 </script>
 
@@ -67,7 +100,9 @@
         name="first-name"
         id="first-name"
         autocomplete="given-name"
-        bind:value={firstName.value} />
+        on:blur={() => (fields.firstName.error = '')}
+        error={fields.firstName.error}
+        bind:value={fields.firstName.value} />
     </div>
 
     <div>
@@ -78,7 +113,9 @@
         type="text"
         name="last-name"
         id="last-name"
-        bind:value={lastName.value} />
+        on:blur={() => (fields.lastName.error = '')}
+        error={fields.lastName.error}
+        bind:value={fields.lastName.value} />
     </div>
 
     <div>
@@ -89,7 +126,9 @@
         type="email"
         name="email"
         id="email"
-        bind:value={email.value} />
+        on:blur={() => (fields.email.error = '')}
+        error={fields.email.error}
+        bind:value={fields.email.value} />
     </div>
 
     <div>
@@ -100,7 +139,9 @@
         name="password"
         id="password"
         autocomplete="new-password"
-        bind:value={password.value} />
+        on:blur={() => (fields.password.error = '')}
+        error={fields.password.error}
+        bind:value={fields.password.value} />
     </div>
 
     <div>
@@ -110,7 +151,9 @@
         icon={flagIcon}
         list="countries"
         name="country-list"
-        value={country.value}
+        on:blur={() => (fields.country.error = '')}
+        error={fields.country.error}
+        value={fields.country.value}
         on:input={onCountryChange} />
       <datalist id="countries">
         {#each Object.keys(countries) as code}
@@ -132,7 +175,7 @@
 
   <p>
     Already have an account?
-    <a class="link" href={routes.SIGN_IN}>Sign in</a>
+    <a class="link" href={routes.SIGN_IN} disabled={$isRegistering}>Sign in</a>
   </p>
 </AuthContainer>
 

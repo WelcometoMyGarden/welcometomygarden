@@ -101,13 +101,13 @@
   }
 
   .error {
-    height: 3rem;
+    min-height: 3rem;
   }
 
   .error-message {
     font-size: 1.4rem;
     line-height: 3rem;
-    color: var(--color-orange);
+    color: var(--color-danger);
   }
 
   input:required {
