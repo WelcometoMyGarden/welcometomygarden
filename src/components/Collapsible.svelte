@@ -12,14 +12,14 @@
       </div>
       <span class="sign">{open ? '-' : '+'}</span>
     </div>
-  </button>
-  {#if open}
-    <div transition:slide={{ duration: 300 }}>
-      <div class="content">
-        <slot name="content" />
+    {#if open}
+      <div transition:slide={{ duration: 300 }}>
+        <div class="content">
+          <slot name="content" />
+        </div>
       </div>
-    </div>
-  {/if}
+    {/if}
+  </button>
 </li>
 
 <style>
@@ -28,10 +28,6 @@
     flex-direction: column;
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
     padding: 1.2rem 2.4rem;
-  }
-
-  .button {
-    flex: 0;
   }
 
   .collapsible-item {
@@ -60,66 +56,29 @@
   }
 
   .sign {
-    font-size: 3rem;
-    margin-left: auto;
-    display: block;
+    font-size: 3.2rem;
     color: var(--color-green);
-  }
-
-  @media only screen and (max-width: 1150px) {
-    .collapsible-item {
-      padding: 0 12rem;
-    }
-
-    .content {
-      padding: 1rem 20rem 2rem 12rem;
-    }
-  }
-
-  @media only screen and (max-width: 1000px) {
-    .collapsible-item {
-      padding: 0 10rem;
-    }
-
-    .content {
-      padding: 1rem 16rem 2rem 10rem;
-    }
   }
 
   @media only screen and (max-width: 700px) {
     .collapsible-item {
-      padding: 0 8rem;
+      padding: 0 8vw;
     }
 
     .content {
-      padding: 1rem 12rem 2rem 8rem;
-    }
-  }
-
-  @media only screen and (max-width: 600px) {
-    .collapsible-item {
-      padding: 0 4rem;
-    }
-
-    .content {
-      padding: 1rem 6rem 2rem 4rem;
+      padding: 1rem 8vw;
     }
   }
 
   @media only screen and (max-width: 500px) {
+    .collapsible-item,
+    .content {
+      padding: 1rem;
+    }
+
     .title {
       font-size: 1.4rem;
       line-height: 2.2rem;
-    }
-  }
-
-  @media only screen and (max-width: 400px) {
-    .collapsible-item {
-      padding: 0 3rem;
-    }
-
-    .content {
-      padding: 1rem 3rem 2rem 3rem;
     }
   }
 </style>
