@@ -1,9 +1,10 @@
 <script>
-  import { _, dictionary, locale } from 'svelte-i18n';
+  import { _ } from 'svelte-i18n';
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
   import Collapsible from '../components/Collapsible.svelte';
   import { Button } from '../components/UI';
+  import { getArrayFromLocale } from '@/util';
 
   import Logo from '../images/logo.svg';
   import welcomeMap from '../images/welcome-map.svg';
@@ -82,10 +83,10 @@
 </div>
 
 <section id="steps-section" class="steps">
-  {#each stepGraphics as step, i}
+  {#each getArrayFromLocale('index.steps') as step, i}
     <div class="step">
       <div class="step-logo">
-        {@html step}
+        {@html stepGraphics[i]}
       </div>
       <h2 class="step-header">{$_(`index.steps.${i}.title`)}</h2>
       <p class="step-text">{$_(`index.steps.${i}.content`)}</p>
