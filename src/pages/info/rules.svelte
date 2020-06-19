@@ -1,0 +1,11 @@
+<script>
+  import { _ } from 'svelte-i18n';
+  import CollapsibleGroup from '../../components/CollapsibleGroup.svelte';
+  import { getArrayFromLocale } from '@/util';
+</script>
+
+<div class="intro">
+  <h2>{$_('rules.title')}</h2>
+  <p>{$_('rules.description')}</p>
+</div>
+<CollapsibleGroup collapsibles={getArrayFromLocale('rules.rules')} />

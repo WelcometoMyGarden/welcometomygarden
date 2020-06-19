@@ -1,19 +1,9 @@
-<script>
-  import { _ } from 'svelte-i18n';
-  import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
-  import { getArrayFromLocale } from '@/util';
-</script>
-
-<div class="content">
-  <div class="intro">
-    <h2>{$_('rules.title')}</h2>
-    <p>{$_('rules.description')}</p>
-  </div>
-  <CollapsibleGroup collapsibles={getArrayFromLocale('rules.rules')} />
+<div class="info-page">
+  <slot />
 </div>
 
 <style>
-  .content {
+  .info-page {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -21,13 +11,17 @@
     margin: 0 auto;
   }
 
-  h2 {
+  :global(.info-page > .intro) {
+    margin: 3.6rem 0;
+  }
+
+  :global(.info-page > .intro > h2) {
     font-size: 2.4rem;
     margin: 2rem 0 3rem;
     position: relative;
   }
 
-  h2:after {
+  :global(.info-page > .intro > h2:after) {
     content: '';
     position: absolute;
     left: 0;
@@ -39,12 +33,12 @@
   }
 
   @media (max-width: 920px) {
-    .intro {
+    :global(.info-page > .intro) {
       padding: 0 4rem;
       text-align: center;
     }
 
-    h2:after {
+    :global(.info-page > .intro > h2:after) {
       left: calc(50% - 6rem);
     }
   }
