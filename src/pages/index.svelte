@@ -124,11 +124,7 @@
       Here are the most important things you need to know about your next adventure. Please read
       this FAQ section thoroughly so that you know what you’re getting&nbsp;yourself&nbsp;into.
     </p>
-    <p>
-      A full list of frequently asked questions can be found
-      <!-- prettier-ignore -->
-      <a href={routes.FAQ}>here.</a>
-    </p>
+    <a href={routes.FAQ}>The full list of frequently asked questions >></a>
   </div>
   <ul class="faq-list">
     {#each faqItems as faqItem, i}
@@ -333,16 +329,20 @@
     background-color: var(--color-green);
     width: 50%;
     padding: 6rem 15rem;
+    text-align: center;
   }
 
   .faq-intro h1 {
     color: var(--color-white);
-    text-align: center;
   }
 
   .faq-intro p {
     color: var(--color-white);
     line-height: 3.2rem;
+  }
+
+  .faq-intro a {
+    color: var(--color-white);
   }
 
   .faq-list {
