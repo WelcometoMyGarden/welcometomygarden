@@ -58,13 +58,14 @@
         </p>
         <p>
           Are you having trouble logging in? Contact
-          <a href="mailto:support@welcometomygarden.org">support@welcometomygarden.org</a>
+          <a class="link" href="mailto:support@welcometomygarden.org">
+            support@welcometomygarden.org
+          </a>
           and we'll help you out!
         </p>
       </div>
     {/if}
   </div>
-
 </AuthContainer>
 
 <style>
@@ -78,5 +79,8 @@
   .submit {
     text-align: center;
     margin: 1rem 0;
+  }
+  p {
+    margin: 2rem 0;
   }
 </style>
