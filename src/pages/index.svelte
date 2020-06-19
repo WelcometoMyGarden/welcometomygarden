@@ -459,9 +459,9 @@
       padding-top: 10rem;
     }
 
-    .partners {
+    /* .partners {
       order: 2;
-    }
+    } */
 
     .support {
       order: 1;
