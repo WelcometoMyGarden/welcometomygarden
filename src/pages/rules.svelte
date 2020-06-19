@@ -16,8 +16,8 @@
   <div class="rules">
     {#each getArrayFromLocale('rules.rules') as rule, i}
       <Collapsible on:click={() => setActiveCollapsible(i)} open={activeCollapsible === i}>
-        <h3 slot="title">{$_(`rules.rules.${i}.title`)}</h3>
-        <p slot="content">{$_(`rules.rules.${i}.body`)}</p>
+        <h3 slot="title">{rule.title}</h3>
+        <p slot="content">{rule.body}</p>
       </Collapsible>
     {/each}
   </div>

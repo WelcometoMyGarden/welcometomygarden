@@ -1,11 +1,10 @@
 <script>
   import { slide } from 'svelte/transition';
   export let open = false;
-  export let id = '';
 </script>
 
 <button class="button button-container" on:click>
-  <div class="collapsible-item" {id}>
+  <div class="collapsible-item">
     <div class="title">
       <slot name="title" />
     </div>
