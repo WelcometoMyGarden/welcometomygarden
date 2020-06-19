@@ -9,16 +9,13 @@
   </div>
   <ul class="terms">
     <li>
-      <a href={routes.COPYRIGHT}>Copyright</a>
+      <a href={routes.COOKIE_POLICY}>Cookie policy</a>
     </li>
     <li>
-      <a href={routes.COPYRIGHT}>Cookie policy</a>
+      <a href={routes.PRIVACY_POLICY}>Privacy policy</a>
     </li>
     <li>
-      <a href={routes.COPYRIGHT}>Privacy policy</a>
-    </li>
-    <li>
-      <a href={routes.COPYRIGHT}>Terms of use</a>
+      <a href={routes.TERMS_OF_USE}>Terms of use</a>
     </li>
   </ul>
 </footer>

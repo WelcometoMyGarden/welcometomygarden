@@ -4,6 +4,8 @@
   import NavLink from './NavLink.svelte';
   import UserDropdown from './UserDropdown.svelte';
   import { user } from '@/stores/auth';
+
+  $: firstName = $user ? $user.firstName : '';
 </script>
 
 <nav>
@@ -26,7 +28,7 @@
       <NavLink href={routes.FAQ}>FAQ</NavLink>
     </li>
     {#if $user}
-      <UserDropdown name={$user.firstName} />
+      <UserDropdown name={firstName || ''} />
     {:else}
       <li>
         <NavLink href={routes.SIGN_IN}>Sign in</NavLink>
@@ -88,8 +90,10 @@
   }
 
   @media screen and (max-width: 1200px) {
-    nav {
+    :global(body) {
       --height-nav: 5.5rem;
+    }
+    nav {
       padding-left: 3rem;
     }
     nav > ul {
@@ -114,7 +118,7 @@
       padding-left: 2rem;
     }
     nav > ul {
-      padding-right: 1rem;
+      padding-right: 2rem;
     }
     h1 {
       display: none;
