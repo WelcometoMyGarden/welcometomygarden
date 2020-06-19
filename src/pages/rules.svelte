@@ -1,38 +1,26 @@
 <script>
+  import { _, locale } from 'svelte-i18n';
   import { onMount } from 'svelte';
   import Collapsible from '../components/Collapsible.svelte';
+  import { getArrayFromLocale } from '@/util';
 
   let activeCollapsible = null;
-  const setActiveCollapsible = e => {
-    const id = Number(e.target.id);
-    id === activeCollapsible ? (activeCollapsible = null) : (activeCollapsible = id);
+  const setActiveCollapsible = id => {
+    activeCollapsible === id ? (activeCollapsible = null) : (activeCollapsible = id);
   };
 </script>
 
 <div class="content">
-  <h2>Rules</h2>
+  <h2>{$_('rules.title')}</h2>
   <div class="title-line-break" />
-  <p>
-    Here’s how Welcome to My Garden works. Make sure to read the rules before starting your
-    adventure! After all, this platform will only work well if we all play by the rules.
-  </p>
+  <p>{$_('rules.description')}</p>
   <div class="rules">
-    <Collapsible id={0} onClick={setActiveCollapsible} open={activeCollapsible === 0}>
-      <h3 slot="title">Who is Welcome To My Garden for?</h3>
-      <p slot="content">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
-        rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
-        iure minima modi blanditiis?
-      </p>
-    </Collapsible>
-    <Collapsible id={1} onClick={setActiveCollapsible} open={activeCollapsible === 1}>
-      <h3 slot="title">Who is Welcome To My Garden for?</h3>
-      <p slot="content">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
-        rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
-        iure minima modi blanditiis?
-      </p>
-    </Collapsible>
+    {#each getArrayFromLocale('rules.rules') as rule, i}
+      <Collapsible on:click={() => setActiveCollapsible(i)} open={activeCollapsible === i}>
+        <h3 slot="title">{$_(`rules.rules.${i}.title`)}</h3>
+        <p slot="content">{$_(`rules.rules.${i}.body`)}</p>
+      </Collapsible>
+    {/each}
   </div>
 </div>
 
