@@ -48,5 +48,16 @@
     display: flex;
     flex-direction: column;
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
+    margin-top: 5rem;
+  }
+
+  @media (max-width: 700px) {
+    .content {
+      text-align: center;
+    }
+
+    .rules {
+      text-align: left;
+    }
   }
 </style>
