@@ -1,6 +1,5 @@
 <script>
   import { _, locale } from 'svelte-i18n';
-  import { onMount } from 'svelte';
   import Collapsible from '../components/Collapsible.svelte';
   import { getArrayFromLocale } from '@/util';
 
@@ -29,18 +28,21 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    max-width: 60rem;
+    max-width: 90rem;
     margin: 0 auto;
   }
+
   h2 {
     font-size: 2.4rem;
     margin: 1.6rem 0;
   }
+
   .title-line-break {
     border-bottom: 0.3rem solid var(--color-orange);
     max-width: 12rem;
     margin: 0.4rem 0 2.4rem 0;
   }
+
   .rules {
     flex: 1;
     display: flex;
