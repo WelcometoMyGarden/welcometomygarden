@@ -1,5 +1,5 @@
 <script>
-  import { _ } from 'svelte-i18n';
+  import { _, dictionary, locale } from 'svelte-i18n';
   import smoothscroll from 'smoothscroll-polyfill';
   import Collapsible from '../components/Collapsible.svelte';
   import { Button } from '../components/UI';
@@ -23,6 +23,8 @@
     const id = Number(e.target.id);
     id === activeCollapsible ? (activeCollapsible = null) : (activeCollapsible = id);
   };
+
+  const stepGraphics = [Step1, Step2, Step3];
 </script>
 
 <section class="landing">
@@ -53,39 +55,15 @@
 </div>
 
 <section id="steps-section" class="steps">
-  <div class="step">
-    <div class="step-logo">
-      {@html Step1}
+  {#each stepGraphics as step, i}
+    <div class="step">
+      <div class="step-logo">
+        {@html step}
+      </div>
+      <h2 class="step-header">{$_(`index.steps.${i}.title`)}</h2>
+      <p class="step-text">{$_(`index.steps.${i}.content`)}</p>
     </div>
-    <h2 class="step-header">Step 1: Sign up to become or find a host</h2>
-    <p class="step-text">
-      Do you want to open up your garden? Please click the Add your garden button. Are you looking
-      for a camping spot? Pick your favourite garden and contact your host! Arrange a date and time
-      for your stay and off you go!
-    </p>
-  </div>
-  <div class="step">
-    <div class="step-logo">
-      {@html Step2}
-    </div>
-    <h2 class="step-header">Step 2: Plan your journey</h2>
-    <p class="step-text">
-      After you’ve made arrangements with your hosts, walk or bike to your camping spot. Introduce
-      yourself, pitch your tent for the night, and continue on your hiking or biking trail the next
-      day. And have a great time, of course!
-    </p>
-  </div>
-  <div class="step">
-    <div class="step-logo">
-      {@html Step3}
-    </div>
-    <h2 class="step-header">Step 3: Pitch your tent and have fun!</h2>
-    <p class="step-text">
-      Have a quiet night all by yourself, have fun with your friends or family or hang out with your
-      host - whatever both parties prefer. Say fond farewells and continue on your hike or ride the
-      next day!
-    </p>
-  </div>
+  {/each}
 </section>
 
 <section class="faq">

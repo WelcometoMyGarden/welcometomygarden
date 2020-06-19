@@ -5,6 +5,20 @@
       "add-garden": "Add your garden",
       "explore-map": "Explore map",
       "learn-more": "Learn more"
-    }
+    },
+    "steps": [
+      {
+        "title": "Step 1: Sign up to become or find a host",
+        "content": "Do you want to open up your garden? Please click the Add your garden button. Are you looking for a camping spot? Pick your favourite garden and contact your host! Arrange a date and time for your stay and off you go!"
+      },
+      {
+        "title": "Step 2: Plan your journey",
+        "content": "After you've made arrangements with your hosts, walk or bike to your camping spot. Introduce yourself, pitch your tent for the night, and continue on your hiking or biking trail the next day. And have a great time, of course!"
+      },
+      {
+        "title": "Step 3: Pitch your tent and have fun!",
+        "content": "Have a quiet night all by yourself, have fun with your friends or family or hang out with your host - whatever both parties prefer. Say fond farewells and continue on your hike or ride the next day!"
+      }
+    ]
   }
 }
