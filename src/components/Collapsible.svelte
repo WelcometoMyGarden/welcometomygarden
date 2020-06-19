@@ -1,12 +1,11 @@
 <script>
   import { slide } from 'svelte/transition';
   export let open = false;
-  export let onClick = () => (open = !open);
   export let id = '';
 </script>
 
 <li class="collapsible">
-  <button class="button button-container" on:click={onClick}>
+  <button class="button button-container" on:click>
     <div class="collapsible-item" {id}>
       <div class="title">
         <slot name="title" />
