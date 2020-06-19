@@ -7,8 +7,8 @@ export default (rootNode, isArrayOfObjects = true) => {
     .filter((key) => key.includes(rootNode))
     .reduce((all, key) => {
       const restOfNode = key.substring(key.indexOf(`${rootNode}.`) + rootNode.length + 1);
-      const index = restOfNode.charAt(0);
-      const property = restOfNode.substr(2);
+      const index = restOfNode.split('.')[0];
+      const property = restOfNode.substr(index.length + 1);
       const value = { [property]: dicValue(`${rootNode}.${index}.${property}`) };
       if (!all[index]) all[index] = value;
       else all[index] = { ...all[index], ...value };
