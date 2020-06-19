@@ -1,12 +1,7 @@
 <script>
-  import { _, locale } from 'svelte-i18n';
-  import Collapsible from '../components/Collapsible.svelte';
+  import { _ } from 'svelte-i18n';
+  import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
   import { getArrayFromLocale } from '@/util';
-
-  let activeCollapsible = null;
-  const setActiveCollapsible = id => {
-    activeCollapsible === id ? (activeCollapsible = null) : (activeCollapsible = id);
-  };
 </script>
 
 <div class="content">
@@ -14,14 +9,7 @@
     <h2>{$_('rules.title')}</h2>
     <p>{$_('rules.description')}</p>
   </div>
-  <div class="rules">
-    {#each getArrayFromLocale('rules.rules') as { title, body }, i}
-      <Collapsible on:click={() => setActiveCollapsible(i)} open={activeCollapsible === i}>
-        <h3 slot="title">{title}</h3>
-        <p slot="content">{body}</p>
-      </Collapsible>
-    {/each}
-  </div>
+  <CollapsibleGroup collapsibles={getArrayFromLocale('rules.rules')} />
 </div>
 
 <style>
@@ -48,14 +36,6 @@
     background-color: var(--color-orange);
     width: 12rem;
     height: 0.3rem;
-  }
-
-  .rules {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
-    margin-top: 5rem;
   }
 
   @media (max-width: 920px) {
