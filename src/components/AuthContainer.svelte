@@ -3,7 +3,7 @@
     <h2 class="title">
       <slot name="title" />
     </h2>
-    <slot />
+    <slot name="form" />
   </section>
 </div>
 

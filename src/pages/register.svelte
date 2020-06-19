@@ -5,6 +5,9 @@
   import notify from '@/stores/notification';
   import { countries } from '@/util';
   import routes from '@/routes';
+  import AuthContainer from '@/components/AuthContainer.svelte';
+  import { TextInput } from '@/components/UI';
+  import { lockIcon, emailIcon } from '@/images/icons';
 
   let email = '';
   let password = '';
@@ -41,47 +44,45 @@
 </script>
 
 <svelte:head>
-  <title>Sign up | Welcome to my Garden</title>
+  <title>Sign up | Welcome To My Garden</title>
 </svelte:head>
 
-<h1>Sign up</h1>
+<AuthContainer>
+  <span slot="title">Sign Up</span>
 
-<form on:submit|preventDefault={submit}>
-  <label for="first-name">First name</label>
-  <input type="text" name="first-name" id="first-name" bind:value={firstName} />
+  <form on:submit|preventDefault={submit}>
+    <label for="first-name">First name</label>
+    <TextInput type="text" name="first-name" id="first-name" bind:value={firstName} />
 
-  <label for="last-name">Last name</label>
-  <input type="text" name="last-name" id="last-name" bind:value={lastName} />
+    <label for="last-name">Last name</label>
+    <TextInput type="text" name="last-name" id="last-name" bind:value={lastName} />
 
-  <label for="email">Email</label>
-  <input type="email" name="email" id="email" bind:value={email} />
+    <label for="email">Email</label>
+    <TextInput type="email" name="email" id="email" bind:value={email} />
 
-  <label for="password">Password</label>
-  <input type="password" name="password" id="password" bind:value={password} />
+    <label for="password">Password</label>
+    <TextInput type="password" name="password" id="password" bind:value={password} />
 
-  <label for="country">Country</label>
-  <input list="countries" id="country" on:change={onCountryChange} autocomplete="off" />
-  <datalist id="countries">
-    {#each Object.keys(countries) as code}
-      <option data-value={code}>{countries[code]}</option>
-    {/each}
-  </datalist>
-  <input type="hidden" name="country" id="country-hidden" bind:this={countryInput} />
+    <label for="country">Country</label>
+    <TextInput list="countries" id="country" on:change={onCountryChange} autocomplete="off" />
+    <datalist id="countries">
+      {#each Object.keys(countries) as code}
+        <option data-value={code}>{countries[code]}</option>
+      {/each}
+    </datalist>
+    <input type="hidden" name="country" id="country-hidden" bind:this={countryInput} />
 
-  <button type="submit" isLoading={isRegistering}>Sign up</button>
-</form>
+    <button type="submit" isLoading={isRegistering}>Sign up</button>
+  </form>
 
-<p>
-  Already have an account?
-  <a href={routes.SIGN_IN}>Sign in</a>
-</p>
+  <p>
+    Already have an account?
+    <a href={routes.SIGN_IN}>Sign in</a>
+  </p>
+</AuthContainer>
 
 <style>
-  label,
-  button {
-    display: block;
-  }
   input {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
 </style>

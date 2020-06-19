@@ -31,7 +31,7 @@
 <AuthContainer>
   <span slot="title">Sign In</span>
 
-  <form on:submit|preventDefault={submit}>
+  <form slot="form" on:submit|preventDefault={submit}>
     <div>
       <TextInput type="email" placeholder="email" bind:value={email} icon={emailIcon} />
     </div>
