@@ -4,6 +4,7 @@
   import notify from '@/stores/notification';
   import { login } from '@/api/auth';
   import routes from '@/routes';
+  import AuthContainer from '@/components/AuthContainer.svelte';
 
   let email = '';
   let password = '';
@@ -25,21 +26,22 @@
   <title>Sign in | Welcome to my Garden</title>
 </svelte:head>
 
-<h1>Sign In</h1>
+<AuthContainer>
+  <span slot="title">Sign In</span>
 
-<form on:submit|preventDefault={submit}>
-  <fieldset>
-    <input type="email" placeholder="Email" bind:value={email} />
-  </fieldset>
-  <fieldset>
-    <input type="password" placeholder="Password" bind:value={password} />
+  <form on:submit|preventDefault={submit}>
+    <fieldset>
+      <input type="email" placeholder="Email" bind:value={email} />
+    </fieldset>
+    <fieldset>
+      <input type="password" placeholder="Password" bind:value={password} />
+    </fieldset>
     <a href={routes.REQUEST_PASSWORD_RESET}>Reset your password</a>
-  </fieldset>
-  <p />
-  <button type="submit" disabled={!email || !password}>Sign in</button>
-</form>
+    <button type="submit" disabled={!email || !password}>Sign in</button>
+  </form>
 
-<p>
-  Need an account?
-  <a href={routes.REGISTER}>Register</a>
-</p>
+  <p>
+    Need an account?
+    <a href={routes.REGISTER}>Register</a>
+  </p>
+</AuthContainer>
