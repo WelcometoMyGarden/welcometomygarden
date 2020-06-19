@@ -2,6 +2,7 @@ import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import commonjs from '@rollup/plugin-commonjs';
+import json from '@rollup/plugin-json';
 import alias from '@rollup/plugin-alias';
 import svg from 'rollup-plugin-svg-import';
 import livereload from 'rollup-plugin-livereload';
@@ -28,6 +29,7 @@ export default [
         dynamicImports: true
       }),
       svg({ stringify: true }),
+      json(),
       svelte({
         // enable run-time checks when not in production
         dev: !production,
