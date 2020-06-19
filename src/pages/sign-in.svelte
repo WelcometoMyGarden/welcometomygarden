@@ -64,7 +64,7 @@
         <p transition:fade class="hint danger">{formError}</p>
       {/if}
     </div>
-    <button class="submit" type="submit" disabled={!email || !password}>Sign in</button>
+    <button class="submit" type="submit" disabled={!email.value || !password.value}>Sign in</button>
   </form>
 
   <p>
