@@ -141,18 +141,20 @@
 </section>
 
 <section class="cooperation">
-  <div class="card cooperation-card partners">
+  <!-- <div class="card cooperation-card partners">
     <h1 class="heading-underline-center">Our partners</h1>
     <div>Logos</div>
-  </div>
+  </div> -->
 
   <div class="card cooperation-card support">
-    <h1 class="heading-underline-center">Support us</h1>
-    <p>
-      Welcome to My Garden is free to use but we have to pay a couple of bills.
-      <a href="https://opencollective.com/welcometomygarden" target="_blank">Make a donation</a>
-      to keep us going!
-    </p>
+    <div class="cooperation-content">
+      <h1 class="heading-underline-center">Support us</h1>
+      <p>
+        Welcome to My Garden is free to use but we have to pay a couple of bills.
+        <a href="https://opencollective.com/welcometomygarden" target="_blank">Make a donation</a>
+        to keep us going!
+      </p>
+    </div>
   </div>
 </section>
 
@@ -366,8 +368,14 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    width: 50%;
-    padding: 12rem 10rem;
+    /* width: 50%; */
+    padding: 12rem 10rem 14rem;
+    flex: 1;
+    align-items: center;
+  }
+
+  .cooperation-content {
+    max-width: 620px;
   }
 
   .support {
