@@ -1,8 +1,10 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
   import Collapsible from '../components/Collapsible.svelte';
   import { Button } from '../components/UI';
+  import { getArrayFromLocale } from '@/util';
 
   import Logo from '../images/logo.svg';
   import welcomeMap from '../images/welcome-map.svg';
@@ -23,6 +25,7 @@
     activeCollapsible === id ? (activeCollapsible = null) : (activeCollapsible = id);
   };
 
+  const stepGraphics = [Step1, Step2, Step3];
   const faqItems = [
     {
       title: 'Who is Welcome To My Garden for?',
@@ -58,12 +61,10 @@
       {@html Logo}
     </div>
     <h1 class="heading-underline-center">Welcome to My Garden</h1>
-    <p class="welcome-text">
-      We are a network of citizens offering free camping spots in their gardens for slow travelers
-    </p>
+    <p class="welcome-text">{$_('index.intro.copy')}</p>
     <div class="welcome-buttons">
-      <Button uppercase inverse moveUp>Add your garden</Button>
-      <Button uppercase moveUp>Explore map</Button>
+      <Button uppercase inverse moveUp>{$_('index.intro.add-garden')}</Button>
+      <Button uppercase moveUp>{$_('index.intro.explore-map')}</Button>
     </div>
     <div class="welcome-map">
       {@html welcomeMap}
@@ -72,9 +73,9 @@
 </section>
 
 <div class="learn-more">
-  <span class="learn-more-text" aria-hidden>Learn more</span>
+  <span class="learn-more-text" aria-hidden>{$_('index.intro.learn-more')}</span>
   <button class="learn-more-button" on:click={handleLearnMoreClick}>
-    <span class="screen-reader-only">Learn more</span>
+    <span class="screen-reader-only">{$_('index.intro.learn-more')}</span>
     <div>
       {@html ArrowDown}
     </div>
@@ -82,39 +83,15 @@
 </div>
 
 <section id="steps-section" class="steps">
-  <div class="step">
-    <div class="step-logo">
-      {@html Step1}
+  {#each getArrayFromLocale('index.steps') as step, i}
+    <div class="step">
+      <div class="step-logo">
+        {@html stepGraphics[i]}
+      </div>
+      <h2 class="step-header">{step.title}</h2>
+      <p class="step-text">{step.content}</p>
     </div>
-    <h2 class="step-header">Step 1: Sign up to become or find a host</h2>
-    <p class="step-text">
-      Do you want to open up your garden? Please click the Add your garden button. Are you looking
-      for a camping spot? Pick your favourite garden and contact your host! Arrange a date and time
-      for your stay and off you go!
-    </p>
-  </div>
-  <div class="step">
-    <div class="step-logo">
-      {@html Step2}
-    </div>
-    <h2 class="step-header">Step 2: Plan your journey</h2>
-    <p class="step-text">
-      After you've made arrangements with your hosts, walk or bike to your camping spot. Introduce
-      yourself, pitch your tent for the night, and continue on your hiking or biking trail the next
-      day. And have a great time, of course!
-    </p>
-  </div>
-  <div class="step">
-    <div class="step-logo">
-      {@html Step3}
-    </div>
-    <h2 class="step-header">Step 3: Pitch your tent and have fun!</h2>
-    <p class="step-text">
-      Have a quiet night all by yourself, have fun with your friends or family or hang out with your
-      host - whatever both parties prefer. Say fond farewells and continue on your hike or ride the
-      next day!
-    </p>
-  </div>
+  {/each}
 </section>
 
 <section class="faq">
