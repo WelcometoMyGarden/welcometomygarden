@@ -3,7 +3,10 @@
     <h2 class="title">
       <slot name="title" />
     </h2>
-    <slot name="form" />
+    <div class="form">
+      <slot name="form" />
+    </div>
+    <slot />
   </section>
 </div>
 
@@ -11,9 +14,9 @@
   .wrapper {
     background-color: var(--color-white);
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
-    padding-top: 7rem;
+    padding-top: 4rem;
     width: 100%;
-    height: calc(100vh - var(--height-footer) - var(--height-nav) - 10rem);
+    min-height: calc(100vh - var(--height-footer) - var(--height-nav) - 10rem);
     margin-top: 10rem;
   }
 
@@ -21,27 +24,27 @@
     max-width: 60rem;
     width: 100%;
     margin: 0 auto;
-    text-align: center;
-    padding: 0 4rem;
+    padding: 0 3rem;
   }
 
   .title {
     font-size: 1.8rem;
     text-transform: uppercase;
     font-weight: 900;
-    margin-bottom: 2rem;
+    margin-bottom: 4rem;
+    text-align: center;
   }
 
   @media (max-width: 850px) {
     .wrapper {
-      height: calc(100vh - var(--height-footer) - var(--height-nav) - 8rem);
+      min-height: calc(100vh - var(--height-footer) - var(--height-nav) - 8rem);
       margin-top: 8rem;
     }
   }
 
   @media (max-width: 700px) {
     .wrapper {
-      height: calc(100vh - var(--height-nav));
+      min-height: calc(100vh - var(--height-nav));
       margin-top: 0;
     }
   }

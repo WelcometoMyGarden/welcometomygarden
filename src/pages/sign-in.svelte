@@ -1,4 +1,5 @@
 <script>
+  import { fade } from 'svelte/transition';
   import { goto } from '@sveltech/routify';
   import { user } from '@/stores/auth';
   import notify from '@/stores/notification';
@@ -8,18 +9,24 @@
   import { TextInput } from '@/components/UI';
   import { lockIcon, emailIcon } from '@/images/icons';
 
-  let email = '';
-  let password = '';
+  let email = {};
+  let password = {};
 
+  let formError = '';
   const submit = async () => {
+    formError = '';
     try {
-      await login(email, password);
-
+      await login(email.value, password.value);
       notify.success(`Welcome back, ${$user.firstName}!`);
       $goto(routes.MAP);
     } catch (ex) {
+      if (ex.code === 'auth/user-not-found' || ex.code === 'auth/wrong-password')
+        formError = 'The provided email or password is incorrect.';
+      else {
+        formError =
+          "We couldn't log you in. If the problem persists, please contact support@welcometomygarden.org";
+      }
       // TODO: Handle network errors and response errors
-      console.log(ex);
     }
   };
 </script>
@@ -33,17 +40,55 @@
 
   <form slot="form" on:submit|preventDefault={submit}>
     <div>
-      <TextInput type="email" placeholder="email" bind:value={email} icon={emailIcon} />
+      <label for="email">Email</label>
+      <TextInput
+        icon={emailIcon}
+        autocomplete="email"
+        type="email"
+        name="email"
+        id="email"
+        bind:value={email.value} />
     </div>
     <div>
-      <TextInput type="password" placeholder="password" bind:value={password} icon={lockIcon} />
+      <label for="password">Password</label>
+      <TextInput
+        icon={lockIcon}
+        type="password"
+        name="password"
+        id="password"
+        autocomplete="new-password"
+        bind:value={password.value} />
     </div>
-    <a href={routes.REQUEST_PASSWORD_RESET}>Reset your password</a>
-    <button type="submit" disabled={!email || !password}>Sign in</button>
+    <div class="hint">
+      {#if formError}
+        <p transition:fade class="hint danger">{formError}</p>
+      {/if}
+    </div>
+    <button class="submit" type="submit" disabled={!email || !password}>Sign in</button>
   </form>
 
   <p>
-    Need an account?
-    <a href={routes.REGISTER}>Register</a>
+    Forgot your password?
+    <a href={routes.REQUEST_PASSWORD_RESET} class="link">Reset it</a>
+  </p>
+  <p>
+    Don't have an account yet?
+    <a href={routes.REGISTER} class="link">Register</a>
   </p>
 </AuthContainer>
+
+<style>
+  form > div {
+    margin-bottom: 1.2rem;
+  }
+
+  .submit {
+    text-align: center;
+    margin: 1rem 0;
+  }
+
+  .hint {
+    min-height: 3rem;
+    margin-bottom: 0;
+  }
+</style>

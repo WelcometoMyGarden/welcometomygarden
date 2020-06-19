@@ -139,3 +139,19 @@ strong {
 .input:focus {
   border-bottom: 1px solid var(--color-info);
 }
+
+a.link {
+  color: var(--color-orange);
+  text-decoration: underline;
+}
+
+a.link:visited,
+a.link:active,
+a.link:hover {
+  color: var(--color-orange);
+  text-decoration: underline;
+}
+
+.danger {
+  color: var(--color-danger);
+}

@@ -11,6 +11,8 @@
   export let testPattern = null;
   export let isValid = true;
   export let icon = null;
+  export let list = null;
+  export let autocomplete = 'on';
 
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
@@ -30,6 +32,8 @@
     {name}
     {placeholder}
     {required}
+    {autocomplete}
+    {list}
     id={id || name}
     minlength={minLength}
     maxlength={maxLength}
