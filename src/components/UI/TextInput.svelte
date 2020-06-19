@@ -1,8 +1,8 @@
 <script>
   export let id = null;
   export let name;
-  export let type;
-  export let placeholder = null;
+  export let type = 'text';
+  export let placeholder = '';
   export let required = false;
   export let value = '';
   export let error = '';
@@ -63,15 +63,19 @@
   }
 
   input.has-icon {
-    padding-left: 2rem;
+    padding-left: 3rem;
     position: relative;
   }
 
   .icon {
     width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     left: 0.2rem;
-    top: calc(50% - 1rem);
+    top: 1.1rem;
   }
 
   .validation-icon {
@@ -100,5 +104,12 @@
     font-size: 1.4rem;
     line-height: 3rem;
     color: var(--color-orange);
+  }
+
+  input:required {
+    box-shadow: none !important;
+  }
+  input:invalid {
+    box-shadow: none !important;
   }
 </style>

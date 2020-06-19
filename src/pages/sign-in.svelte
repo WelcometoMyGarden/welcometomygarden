@@ -5,6 +5,8 @@
   import { login } from '@/api/auth';
   import routes from '@/routes';
   import AuthContainer from '@/components/AuthContainer.svelte';
+  import { TextInput } from '@/components/UI';
+  import { lockIcon, emailIcon } from '@/images/icons';
 
   let email = '';
   let password = '';
@@ -30,12 +32,12 @@
   <span slot="title">Sign In</span>
 
   <form on:submit|preventDefault={submit}>
-    <fieldset>
-      <input type="email" placeholder="Email" bind:value={email} />
-    </fieldset>
-    <fieldset>
-      <input type="password" placeholder="Password" bind:value={password} />
-    </fieldset>
+    <div>
+      <TextInput type="email" placeholder="email" bind:value={email} icon={emailIcon} />
+    </div>
+    <div>
+      <TextInput type="password" placeholder="password" bind:value={password} icon={lockIcon} />
+    </div>
     <a href={routes.REQUEST_PASSWORD_RESET}>Reset your password</a>
     <button type="submit" disabled={!email || !password}>Sign in</button>
   </form>
