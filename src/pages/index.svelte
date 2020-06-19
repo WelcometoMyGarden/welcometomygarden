@@ -2,7 +2,7 @@
   import { _ } from 'svelte-i18n';
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
-  import Collapsible from '../components/Collapsible.svelte';
+  import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
   import { Button } from '../components/UI';
   import { getArrayFromLocale } from '@/util';
 
@@ -20,36 +20,31 @@
 
   smoothscroll.polyfill();
 
-  let activeCollapsible = null;
-  const setActiveCollapsible = id => {
-    activeCollapsible === id ? (activeCollapsible = null) : (activeCollapsible = id);
-  };
-
   const stepGraphics = [Step1, Step2, Step3];
   const faqItems = [
     {
       title: 'Who is Welcome To My Garden for?',
-      content:
+      body:
         'Welcome To My Garden has been created for hikers and cyclists who need a camping spot on their trail at the end of the day. It isn’t meant to replace fully-fledged campsites; just a safe spot for the night! Consider it an addition to Belgium’s network of bivouacking sites. Welcome to My Garden is non-commercial: no money should exchange hands. This means that as a host, you cannot ask your guests to pay for their stay.'
     },
     {
       title: 'How do I get to my camping spot?',
-      content:
+      body:
         "Welcome To My Garden is for slow travellers only. Please walk or bike to your camping spot. Of course you can use public transport or your car to get to the start of your trail - as long as you don't turn up at your host's in your car!"
     },
     {
       title: 'How do I request a stay?',
-      content:
+      body:
         'Except if clearly stated on the host’s profile, you should always contact the host in advance. When you request a stay, please provide some information about yourself, your arrival date and time.'
     },
     {
       title: 'What about facilities?',
-      content:
+      body:
         'Basically hosts just offer a corner in their garden for you to pitch your tent on. In addition, they may offer access to drinking water, a toilet and electricity. They are not obliged to do so though: all of these are bonuses. Consider a garden as a bivouac spot; not a fully-fledged campsite.'
     },
     {
       title: 'Does Welcome To My Garden cost anything?',
-      content:
+      body:
         'Using Welcome To My Garden is completely free. However, as a platform we do incur costs. If you want to make a donation that will put a big smile on our faces! We are a not-for-profit initiative, so we’re not making any money out of this.'
     }
   ];
@@ -83,7 +78,7 @@
 </div>
 
 <section id="steps-section" class="steps">
-  {#each getArrayFromLocale('index.steps') as {title, content}, i}
+  {#each getArrayFromLocale('index.steps') as { title, content }, i}
     <div class="step">
       <div class="step-logo">
         {@html stepGraphics[i]}
@@ -95,7 +90,7 @@
 </section>
 
 <section class="faq">
-  <div class="card faq-intro {activeCollapsible ? 'faq-intro-item-opened' : ''}">
+  <div class="card faq-intro">
     <h1 class="heading-underline-center">All you need to know</h1>
     <p>
       Here are the most important things you need to know about your next adventure. Please read
@@ -106,14 +101,7 @@
       <span aria-hidden="true">>></span>
     </a>
   </div>
-  <ul class="faq-list">
-    {#each faqItems as {title, content}, i}
-      <Collapsible on:click={() => setActiveCollapsible(i)} open={activeCollapsible === i}>
-        <h3 slot="title">{title}</h3>
-        <p slot="content">{content}</p>
-      </Collapsible>
-    {/each}
-  </ul>
+  <CollapsibleGroup collapsibles={faqItems} />
 </section>
 
 <section class="cooperation">
