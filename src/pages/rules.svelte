@@ -11,7 +11,6 @@
 
 <div class="content">
   <h2>{$_('rules.title')}</h2>
-  <div class="title-line-break" />
   <p>{$_('rules.description')}</p>
   <div class="rules">
     {#each getArrayFromLocale('rules.rules') as rule, i}
@@ -34,13 +33,19 @@
 
   h2 {
     font-size: 2.4rem;
-    margin: 1.6rem 0;
+    margin: 2rem 0;
+    position: relative;
   }
 
-  .title-line-break {
-    border-bottom: 0.3rem solid var(--color-orange);
-    max-width: 12rem;
-    margin: 0.4rem 0 2.4rem 0;
+  h2:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1rem;
+    border-radius: 1rem;
+    background-color: var(--color-orange);
+    width: 12rem;
+    height: 0.3rem;
   }
 
   .rules {
@@ -52,6 +57,9 @@
   }
 
   @media (max-width: 700px) {
+    h2:after {
+      left: calc(50% - 6rem);
+    }
     .content {
       text-align: center;
     }
