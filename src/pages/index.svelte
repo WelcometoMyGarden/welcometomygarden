@@ -124,7 +124,10 @@
       Here are the most important things you need to know about your next adventure. Please read
       this FAQ section thoroughly so that you know what you’re getting&nbsp;yourself&nbsp;into.
     </p>
-    <a href={routes.FAQ}>The full list of frequently asked questions >></a>
+    <a href={routes.FAQ}>
+      The full list of frequently asked questions
+      <span aria-hidden="true">>></span>
+    </a>
   </div>
   <ul class="faq-list">
     {#each faqItems as faqItem, i}
