@@ -1,4 +1,5 @@
 <script>
+  import { fade } from 'svelte/transition';
   import { goto } from '@sveltech/routify';
   import { register } from '@/api/auth';
   import { isRegistering } from '@/stores/auth';
@@ -52,11 +53,12 @@
     fields.country.value = value;
   };
 
+  let formError = '';
   const submit = async () => {
     const errors = Object.keys(fields).reduce((all, field) => {
       const error = fields[field].validate(fields[field].value);
       fields[field].error = error || '';
-      if (error) all.push(errors);
+      if (error) all.push(error);
       return all;
     }, []);
 
@@ -77,6 +79,12 @@
       );
       $goto(routes.MAP);
     } catch (err) {
+      isRegistering.set(false);
+      if (err.code === 'auth/email-already-in-use')
+        formError = 'This email address is already in use.';
+      else
+        formError =
+          'An unexpected error occurred. If the problem persists, please contact support@welcometomygarden.org';
       console.log(err);
     }
   };
@@ -169,13 +177,20 @@
     </div>
 
     <div class="submit">
-      <button class="submit" type="submit" isLoading={$isRegistering}>Sign up</button>
+      <div class="hint">
+        {#if formError}
+          <p transition:fade class="hint danger">{formError}</p>
+        {/if}
+      </div>
+      <button class="submit" type="submit" disabled={$isRegistering} isLoading={$isRegistering}>
+        Sign up
+      </button>
     </div>
   </form>
 
   <p>
     Already have an account?
-    <a class="link" href={routes.SIGN_IN} disabled={$isRegistering}>Sign in</a>
+    <a class="link" href={routes.SIGN_IN}>Sign in</a>
   </p>
 </AuthContainer>
 
@@ -186,5 +201,10 @@
 
   .submit {
     text-align: center;
+  }
+
+  .hint {
+    min-height: 3rem;
+    margin-bottom: 0;
   }
 </style>
