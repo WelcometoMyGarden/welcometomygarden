@@ -83,13 +83,13 @@
 </div>
 
 <section id="steps-section" class="steps">
-  {#each getArrayFromLocale('index.steps') as step, i}
+  {#each getArrayFromLocale('index.steps') as {title, content}, i}
     <div class="step">
       <div class="step-logo">
         {@html stepGraphics[i]}
       </div>
-      <h2 class="step-header">{step.title}</h2>
-      <p class="step-text">{step.content}</p>
+      <h2 class="step-header">{title}</h2>
+      <p class="step-text">{content}</p>
     </div>
   {/each}
 </section>
@@ -107,10 +107,10 @@
     </a>
   </div>
   <ul class="faq-list">
-    {#each faqItems as faqItem, i}
+    {#each faqItems as {title, content}, i}
       <Collapsible on:click={() => setActiveCollapsible(i)} open={activeCollapsible === i}>
-        <h3 slot="title">{faqItem.title}</h3>
-        <p slot="content">{faqItem.content}</p>
+        <h3 slot="title">{title}</h3>
+        <p slot="content">{content}</p>
       </Collapsible>
     {/each}
   </ul>
