@@ -10,8 +10,10 @@
 </script>
 
 <div class="content">
-  <h2>{$_('rules.title')}</h2>
-  <p>{$_('rules.description')}</p>
+  <div class="intro">
+    <h2>{$_('rules.title')}</h2>
+    <p>{$_('rules.description')}</p>
+  </div>
   <div class="rules">
     {#each getArrayFromLocale('rules.rules') as rule, i}
       <Collapsible on:click={() => setActiveCollapsible(i)} open={activeCollapsible === i}>
@@ -33,7 +35,7 @@
 
   h2 {
     font-size: 2.4rem;
-    margin: 2rem 0;
+    margin: 2rem 0 3rem;
     position: relative;
   }
 
@@ -56,16 +58,14 @@
     margin-top: 5rem;
   }
 
-  @media (max-width: 700px) {
-    h2:after {
-      left: calc(50% - 6rem);
-    }
-    .content {
+  @media (max-width: 920px) {
+    .intro {
+      padding: 0 4rem;
       text-align: center;
     }
 
-    .rules {
-      text-align: left;
+    h2:after {
+      left: calc(50% - 6rem);
     }
   }
 </style>
