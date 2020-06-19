@@ -88,8 +88,8 @@
       <div class="step-logo">
         {@html stepGraphics[i]}
       </div>
-      <h2 class="step-header">{$_(`index.steps.${i}.title`)}</h2>
-      <p class="step-text">{$_(`index.steps.${i}.content`)}</p>
+      <h2 class="step-header">{step.title}</h2>
+      <p class="step-text">{step.content}</p>
     </div>
   {/each}
 </section>
