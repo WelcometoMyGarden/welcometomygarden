@@ -1,8 +1,10 @@
 <script>
-  import { beforeUpdate } from 'svelte';
+  import { _ } from 'svelte-i18n';
   import smoothscroll from 'smoothscroll-polyfill';
+  import routes from '@/routes';
   import Collapsible from '../components/Collapsible.svelte';
   import { Button } from '../components/UI';
+  import { getArrayFromLocale } from '@/util';
 
   import Logo from '../images/logo.svg';
   import welcomeMap from '../images/welcome-map.svg';
@@ -19,10 +21,38 @@
   smoothscroll.polyfill();
 
   let activeCollapsible = null;
-  const setActiveCollapsible = e => {
-    const id = Number(e.target.id);
-    id === activeCollapsible ? (activeCollapsible = null) : (activeCollapsible = id);
+  const setActiveCollapsible = id => {
+    activeCollapsible === id ? (activeCollapsible = null) : (activeCollapsible = id);
   };
+
+  const stepGraphics = [Step1, Step2, Step3];
+  const faqItems = [
+    {
+      title: 'Who is Welcome To My Garden for?',
+      content:
+        'Welcome To My Garden has been created for hikers and cyclists who need a camping spot on their trail at the end of the day. It isn’t meant to replace fully-fledged campsites; just a safe spot for the night! Consider it an addition to Belgium’s network of bivouacking sites. Welcome to My Garden is non-commercial: no money should exchange hands. This means that as a host, you cannot ask your guests to pay for their stay.'
+    },
+    {
+      title: 'How do I get to my camping spot?',
+      content:
+        "Welcome To My Garden is for slow travellers only. Please walk or bike to your camping spot. Of course you can use public transport or your car to get to the start of your trail - as long as you don't turn up at your host's in your car!"
+    },
+    {
+      title: 'How do I request a stay?',
+      content:
+        'Except if clearly stated on the host’s profile, you should always contact the host in advance. When you request a stay, please provide some information about yourself, your arrival date and time.'
+    },
+    {
+      title: 'What about facilities?',
+      content:
+        'Basically hosts just offer a corner in their garden for you to pitch your tent on. In addition, they may offer access to drinking water, a toilet and electricity. They are not obliged to do so though: all of these are bonuses. Consider a garden as a bivouac spot; not a fully-fledged campsite.'
+    },
+    {
+      title: 'Does Welcome To My Garden cost anything?',
+      content:
+        'Using Welcome To My Garden is completely free. However, as a platform we do incur costs. If you want to make a donation that will put a big smile on our faces! We are a not-for-profit initiative, so we’re not making any money out of this.'
+    }
+  ];
 </script>
 
 <section class="landing">
@@ -31,12 +61,10 @@
       {@html Logo}
     </div>
     <h1 class="heading-underline-center">Welcome to My Garden</h1>
-    <p class="welcome-text">
-      We are a network of citizens offering free camping spots in their gardens for slow travelers
-    </p>
+    <p class="welcome-text">{$_('index.intro.copy')}</p>
     <div class="welcome-buttons">
-      <Button uppercase inverse moveUp>Add your garden</Button>
-      <Button uppercase moveUp>Explore map</Button>
+      <Button uppercase inverse moveUp>{$_('index.intro.add-garden')}</Button>
+      <Button uppercase moveUp>{$_('index.intro.explore-map')}</Button>
     </div>
     <div class="welcome-map">
       {@html welcomeMap}
@@ -45,9 +73,9 @@
 </section>
 
 <div class="learn-more">
-  <span class="learn-more-text" aria-hidden>Learn more</span>
+  <span class="learn-more-text" aria-hidden>{$_('index.intro.learn-more')}</span>
   <button class="learn-more-button" on:click={handleLearnMoreClick}>
-    <span class="screen-reader-only">Learn more</span>
+    <span class="screen-reader-only">{$_('index.intro.learn-more')}</span>
     <div>
       {@html ArrowDown}
     </div>
@@ -55,39 +83,15 @@
 </div>
 
 <section id="steps-section" class="steps">
-  <div class="step">
-    <div class="step-logo">
-      {@html Step1}
+  {#each getArrayFromLocale('index.steps') as step, i}
+    <div class="step">
+      <div class="step-logo">
+        {@html stepGraphics[i]}
+      </div>
+      <h2 class="step-header">{step.title}</h2>
+      <p class="step-text">{step.content}</p>
     </div>
-    <h2 class="step-header">Step 1: Sign up to become or find a host</h2>
-    <p class="step-text">
-      Do you want to open up your garden? Please click the Add your garden button. Are you looking
-      for a camping spot? Pick your favourite garden and contact your host! Arrange a date and time
-      for your stay and off you go!
-    </p>
-  </div>
-  <div class="step">
-    <div class="step-logo">
-      {@html Step2}
-    </div>
-    <h2 class="step-header">Step 2: Plan your journey</h2>
-    <p class="step-text">
-      After you’ve made arrangements with your hosts, walk or bike to your camping spot. Introduce
-      yourself, pitch your tent for the night, and continue on your hiking or biking trail the next
-      day. And have a great time, of course!
-    </p>
-  </div>
-  <div class="step">
-    <div class="step-logo">
-      {@html Step3}
-    </div>
-    <h2 class="step-header">Step 3: Pitch your tent and have fun!</h2>
-    <p class="step-text">
-      Have a quiet night all by yourself, have fun with your friends or family or hang out with your
-      host - whatever both parties prefer. Say fond farewells and continue on your hike or ride the
-      next day!
-    </p>
-  </div>
+  {/each}
 </section>
 
 <section class="faq">
@@ -97,64 +101,36 @@
       Here are the most important things you need to know about your next adventure. Please read
       this FAQ section thoroughly so that you know what you’re getting&nbsp;yourself&nbsp;into.
     </p>
+    <a href={routes.FAQ}>
+      The full list of frequently asked questions
+      <span aria-hidden="true">>></span>
+    </a>
   </div>
   <ul class="faq-list">
-    <Collapsible id={0} onClick={setActiveCollapsible} open={activeCollapsible === 0}>
-      <h3 slot="title">Who is Welcome To My Garden for?</h3>
-      <p slot="content">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
-        rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
-        iure minima modi blanditiis?
-      </p>
-    </Collapsible>
-    <Collapsible id={1} onClick={setActiveCollapsible} open={activeCollapsible === 1}>
-      <h3 slot="title">How do I get to my camping spot?</h3>
-      <p slot="content">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
-        rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
-        iure minima modi blanditiis?
-      </p>
-    </Collapsible>
-    <Collapsible id={2} onClick={setActiveCollapsible} open={activeCollapsible === 2}>
-      <h3 slot="title">How do I request a stay?</h3>
-      <p slot="content">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
-        rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
-        iure minima modi blanditiis?
-      </p>
-    </Collapsible>
-    <Collapsible id={3} onClick={setActiveCollapsible} open={activeCollapsible === 3}>
-      <h3 slot="title">What about facilities?</h3>
-      <p slot="content">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
-        rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
-        iure minima modi blanditiis?
-      </p>
-    </Collapsible>
-    <Collapsible id={4} onClick={setActiveCollapsible} open={activeCollapsible === 4}>
-      <h3 slot="title">Does Welcome To My Garden cost anything?</h3>
-      <p slot="content">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique eaque obcaecati laborum
-        rerum beatae culpa itaque voluptate corrupti repudiandae ea esse quas harum nam, sunt non
-        iure minima modi blanditiis?
-      </p>
-    </Collapsible>
+    {#each faqItems as faqItem, i}
+      <Collapsible on:click={() => setActiveCollapsible(i)} open={activeCollapsible === i}>
+        <h3 slot="title">{faqItem.title}</h3>
+        <p slot="content">{faqItem.content}</p>
+      </Collapsible>
+    {/each}
   </ul>
 </section>
 
 <section class="cooperation">
-  <div class="card cooperation-card partners">
+  <!-- <div class="card cooperation-card partners">
     <h1 class="heading-underline-center">Our partners</h1>
     <div>Logos</div>
-  </div>
+  </div> -->
 
   <div class="card cooperation-card support">
-    <h1 class="heading-underline-center">Support us</h1>
-    <p>
-      Welcome to My Garden is free to use but we have to pay a couple of bills.
-      <a href="https://opencollective.com/welcometomygarden" target="_blank">Make a donation</a>
-      to keep us going!
-    </p>
+    <div class="cooperation-content">
+      <h1 class="heading-underline-center">Support us</h1>
+      <p>
+        Welcome to My Garden is free to use but we have to pay a couple of bills.
+        <a href="https://opencollective.com/welcometomygarden" target="_blank">Make a donation</a>
+        to keep us going!
+      </p>
+    </div>
   </div>
 </section>
 
@@ -186,6 +162,7 @@
     line-height: 2.6rem;
     color: var(--color-green);
     text-align: justify;
+    margin-bottom: 2rem;
   }
 
   a {
@@ -332,16 +309,20 @@
     background-color: var(--color-green);
     width: 50%;
     padding: 6rem 15rem;
+    text-align: center;
   }
 
   .faq-intro h1 {
     color: var(--color-white);
-    text-align: center;
   }
 
   .faq-intro p {
     color: var(--color-white);
     line-height: 3.2rem;
+  }
+
+  .faq-intro a {
+    color: var(--color-white);
   }
 
   .faq-list {
@@ -368,8 +349,14 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    width: 50%;
-    padding: 12rem 10rem;
+    /* width: 50%; */
+    padding: 12rem 10rem 14rem;
+    flex: 1;
+    align-items: center;
+  }
+
+  .cooperation-content {
+    max-width: 620px;
   }
 
   .support {
@@ -452,9 +439,9 @@
       padding-top: 10rem;
     }
 
-    .partners {
+    /* .partners {
       order: 2;
-    }
+    } */
 
     .support {
       order: 1;
