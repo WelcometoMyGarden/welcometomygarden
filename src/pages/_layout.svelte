@@ -1,5 +1,6 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
+  import { isLoading as isLocaleLoading } from 'svelte-i18n';
   import { createAuthObserver } from '@/api/auth';
   import { createChatObserver } from '@/api/chat';
   import { user, isInitializing } from '../stores/auth';
@@ -20,10 +21,10 @@
 </script>
 
 <div class="app">
-  <Progress active={$isInitializing} />
+  <Progress active={$isInitializing || $isLocaleLoading} />
   <Notifications />
 
-  {#if !$isInitializing}
+  {#if !$isInitializing && !$isLocaleLoading}
     <Nav />
     <main>
       <slot />
@@ -46,6 +47,8 @@
     min-height: calc(100% - var(--height-footer));
     width: 100%;
     overflow: hidden;
+    max-width: 155rem;
+    margin: 0 auto;
   }
 
   @media screen and (max-width: 700px) {
