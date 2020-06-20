@@ -1,15 +1,13 @@
 <script>
   import { fade } from 'svelte/transition';
-  import { goto } from '@sveltech/routify';
   import notify from '@/stores/notification';
-  import { getPrivateUserProfile, getPublicUserProfile, updateMailPreferences } from '@/api/user';
-  import { resendAccountVerification, addUserInfo } from '@/api/auth';
+  import { updateMailPreferences } from '@/api/user';
+  import { resendAccountVerification } from '@/api/auth';
   import { user } from '@/stores/auth';
   import { updatingMailPreferences } from '@/stores/user';
-  import { Progress, Avatar, Icon } from '@/components/UI';
+  import { Avatar, Icon, Button } from '@/components/UI';
   import { flagIcon, emailIcon } from '@/images/icons';
   import { countries } from '@/util';
-  import routes from '@/routes';
 
   const onMailPreferenceChanged = async event => {
     try {
@@ -20,23 +18,6 @@
     } catch (ex) {
       console.log(ex);
     }
-  };
-
-  let ready = false;
-  const getProfileInfo = async () => {
-    try {
-      const info = await getPublicUserProfile($user.id);
-      addUserInfo(info);
-      await getPrivateUserProfile();
-    } catch (ex) {
-      console.log(ex);
-      notify.danger(
-        "We couldn't get your profile information. Please contact support@welcometomygarden.be",
-        15000
-      );
-      $goto(routes.HOME);
-    }
-    ready = true;
   };
 
   let isResendingEmail;
@@ -56,79 +37,77 @@
       hasResentEmail = false;
     }
   };
-
-  getProfileInfo();
 </script>
 
-<Progress active={!ready} />
-{#if ready}
-  <div class="wrapper">
-    <div class="avatar">
-      <Avatar large name={$user.firstName} />
-    </div>
-    <div class="content">
-      <section class="user-information">
-        <h2>{$user.firstName} {$user.lastName}</h2>
-        <div class="details">
-          <div>
-            <span class="icon">
-              <Icon icon={emailIcon} />
-            </span>
-            {$user.email}
-          </div>
-          <div>
-            <span class="icon">
-              <Icon icon={flagIcon} />
-            </span>
-            {countries[$user.countryCode]}
-          </div>
+<div class="wrapper">
+  <div class="avatar">
+    <Avatar large name={$user.firstName} />
+  </div>
+  <div class="content">
+    <section class="user-information">
+      <h2>{$user.firstName} {$user.lastName}</h2>
+      <div class="details">
+        <div>
+          <span class="icon">
+            <Icon icon={emailIcon} />
+          </span>
+          {$user.email}
+        </div>
+        <div>
+          <span class="icon">
+            <Icon icon={flagIcon} />
+          </span>
+          {countries[$user.countryCode]}
+        </div>
+      </div>
+    </section>
+    {#if !$user.emailVerified}
+      <section>
+        <h2>Verify your email</h2>
+        <div>
+          You need to verify your email address if you want to chat or add a garden.
+          {#if !hasResentEmail}
+            <button transition:fade disabled={isResendingEmail} on:click={doResendEmail}>
+              Resend email
+            </button>
+          {:else}
+            <p>Email sent!</p>
+          {/if}
         </div>
       </section>
-      {#if !$user.emailVerified}
-        <section>
-          <h2>Verify your email</h2>
-          <div>
-            You need to verify your email address if you want to chat or add a garden.
-            {#if !hasResentEmail}
-              <button transition:fade disabled={isResendingEmail} on:click={doResendEmail}>
-                Resend email
-              </button>
-            {:else}
-              <p>Email sent!</p>
-            {/if}
-          </div>
-        </section>
-      {/if}
-      <section>
-        <h2>Email preferences</h2>
-        Send me emails when:
-        <ul class="preference-list">
-          <li>
-            <input
-              disabled={$updatingMailPreferences}
-              type="checkbox"
-              id="new-chat"
-              name="newChat"
-              checked={$user.emailPreferences.newChat}
-              on:change={onMailPreferenceChanged} />
-            <label for="new-chat">I receive a new chat message</label>
-          </li>
-          <li>
-            <input
-              disabled={$updatingMailPreferences}
-              type="checkbox"
-              id="news"
-              name="news"
-              checked={$user.emailPreferences.news}
-              on:change={onMailPreferenceChanged} />
-            <label for="news">Welcome To My Garden has news to share</label>
-          </li>
-        </ul>
-      </section>
-    </div>
-  </div>
+    {/if}
+    <section>
+      <h2>Email preferences</h2>
+      Send me emails when:
+      <ul class="preference-list">
+        <li>
+          <input
+            disabled={$updatingMailPreferences}
+            type="checkbox"
+            id="new-chat"
+            name="newChat"
+            checked={$user.emailPreferences.newChat}
+            on:change={onMailPreferenceChanged} />
+          <label for="new-chat">I receive a new chat message</label>
+        </li>
+        <li>
+          <input
+            disabled={$updatingMailPreferences}
+            type="checkbox"
+            id="news"
+            name="news"
+            checked={$user.emailPreferences.news}
+            on:change={onMailPreferenceChanged} />
+          <label for="news">Welcome To My Garden has news to share</label>
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>Your garden</h2>
 
-{/if}
+    </section>
+  </div>
+</div>
 
 <style>
   .wrapper {

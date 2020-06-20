@@ -2,8 +2,10 @@
   import { onMount, onDestroy } from 'svelte';
   import { isLoading as isLocaleLoading } from 'svelte-i18n';
   import { createAuthObserver } from '@/api/auth';
+  import { getCampsiteInformation, getPublicUserProfile, getPrivateUserProfile } from '@/api/user';
   import { createChatObserver } from '@/api/chat';
   import { user, isInitializing } from '@/stores/auth';
+  import { addUserInfo } from '@/stores/user';
   import { Progress, Notifications } from '@/components/UI';
   import Nav from '../components/Nav/Navigation.svelte';
   import Footer from '@/components/Footer.svelte';
@@ -13,7 +15,16 @@
   });
 
   let unsubscribeFromChatObserver;
-  $: if ($user) unsubscribeFromChatObserver = createChatObserver();
+
+  const addUserInformation = async () => {
+    await getCampsiteInformation();
+    const info = await getPublicUserProfile($user.id);
+    addUserInfo(info);
+    await getPrivateUserProfile();
+    unsubscribeFromChatObserver = createChatObserver();
+  };
+
+  $: if ($user) addUserInformation();
 
   onDestroy(() => {
     if (unsubscribeFromChatObserver) unsubscribeFromChatObserver();

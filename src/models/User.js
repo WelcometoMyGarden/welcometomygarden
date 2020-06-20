@@ -12,6 +12,10 @@ class User {
     this.lastName = info.lastName;
     this.emailPreferences = info.emailPreferences;
   }
+
+  setGarden(garden) {
+    this.garden = garden;
+  }
 }
 
 export default User;

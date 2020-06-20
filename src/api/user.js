@@ -20,6 +20,11 @@ export const getPrivateUserProfile = async () => {
   return profile.data();
 };
 
+export const getCampsiteInformation = async () => {
+  const doc = await db.collection('campsites').doc(get(user).id).get();
+  get(user).setGarden(doc.data());
+};
+
 export const updateMailPreferences = async (preferenceName, preference) => {
   updatingMailPreferences.set(true);
   await db

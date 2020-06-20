@@ -31,10 +31,6 @@ export const createAuthObserver = () =>
     else user.set(new User(userData));
   });
 
-export const addUserInfo = (info) => {
-  user.set(new User({ ...get(user), ...info }));
-};
-
 export const resendAccountVerification = () => {
   if (!get(user) || get(user).emailVerified) return;
   return api.resendAccountVerification();
