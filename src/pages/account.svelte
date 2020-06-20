@@ -2,11 +2,13 @@
   import { fade } from 'svelte/transition';
   import { goto } from '@sveltech/routify';
   import notify from '@/stores/notification';
-  import { getPrivateUserProfile, updateMailPreferences } from '@/api/user';
-  import { resendAccountVerification } from '@/api/auth';
+  import { getPrivateUserProfile, getPublicUserProfile, updateMailPreferences } from '@/api/user';
+  import { resendAccountVerification, addUserInfo } from '@/api/auth';
   import { user } from '@/stores/auth';
-  import { gettingPrivateUserProfile, updatingMailPreferences } from '@/stores/user';
-  import { Progress, Avatar } from '@/components/UI';
+  import { updatingMailPreferences } from '@/stores/user';
+  import { Progress, Avatar, Icon } from '@/components/UI';
+  import { flagIcon, emailIcon } from '@/images/icons';
+  import { countries } from '@/util';
   import routes from '@/routes';
 
   const onMailPreferenceChanged = async event => {
@@ -20,13 +22,22 @@
     }
   };
 
-  getPrivateUserProfile().catch(() => {
-    notify.danger(
-      "We couldn't get your profile information. Please contact support@welcometomygarden.be",
-      15000
-    );
-    $goto(routes.HOME);
-  });
+  let ready = false;
+  const getProfileInfo = async () => {
+    try {
+      const info = await getPublicUserProfile($user.id);
+      addUserInfo(info);
+      await getPrivateUserProfile();
+    } catch (ex) {
+      console.log(ex);
+      notify.danger(
+        "We couldn't get your profile information. Please contact support@welcometomygarden.be",
+        15000
+      );
+      $goto(routes.HOME);
+    }
+    ready = true;
+  };
 
   let isResendingEmail;
   let hasResentEmail = false;
@@ -45,28 +56,50 @@
       hasResentEmail = false;
     }
   };
+
+  getProfileInfo();
 </script>
 
-<Progress active={$gettingPrivateUserProfile} />
-{#if !$gettingPrivateUserProfile}
+<Progress active={!ready} />
+{#if ready}
   <div class="wrapper">
     <div class="avatar">
       <Avatar large name={$user.firstName} />
     </div>
-    <section>
-      {#if !$user.emailVerified}
-        <div>
-          You need to verify your email address if you want to chat or add a garden.
-          {#if !hasResentEmail}
-            <button transition:fade disabled={isResendingEmail} on:click={doResendEmail}>
-              Resend email
-            </button>
-          {:else}
-            <p>Email sent!</p>
-          {/if}
+    <div class="content">
+      <section class="user-information">
+        <h2>{$user.firstName} {$user.lastName}</h2>
+        <div class="details">
+          <div>
+            <span class="icon">
+              <Icon icon={emailIcon} />
+            </span>
+            {$user.email}
+          </div>
+          <div>
+            <span class="icon">
+              <Icon icon={flagIcon} />
+            </span>
+            {countries[$user.countryCode]}
+          </div>
         </div>
+      </section>
+      {#if !$user.emailVerified}
+        <section>
+          <h2>Verify your email</h2>
+          <div>
+            You need to verify your email address if you want to chat or add a garden.
+            {#if !hasResentEmail}
+              <button transition:fade disabled={isResendingEmail} on:click={doResendEmail}>
+                Resend email
+              </button>
+            {:else}
+              <p>Email sent!</p>
+            {/if}
+          </div>
+        </section>
       {/if}
-      <div>
+      <section>
         <h2>Email preferences</h2>
         Send me emails when:
         <ul class="preference-list">
@@ -91,8 +124,8 @@
             <label for="news">Welcome To My Garden has news to share</label>
           </li>
         </ul>
-      </div>
-    </section>
+      </section>
+    </div>
   </div>
 
 {/if}
@@ -117,11 +150,41 @@
     z-index: 10;
   }
 
-  section {
+  .content {
     max-width: 60rem;
     width: 100%;
     margin: 0 auto;
     padding: 0 3rem;
+  }
+
+  section {
+    margin-bottom: 4rem;
+  }
+
+  .user-information {
+    text-align: center;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--color-gray);
+    margin-bottom: 2rem;
+  }
+
+  .user-information .details {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 2rem;
+  }
+
+  .user-information .details > div {
+    display: flex;
+    align-items: center;
+  }
+
+  .icon {
+    width: 2rem;
+    height: 1.5rem;
+    display: inline-block;
+    margin-right: 0.8rem;
   }
 
   .preference-list {
@@ -131,7 +194,7 @@
 
   .preference-list li {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 0.4rem;
   }
 
@@ -145,17 +208,22 @@
     font-size: 1.8rem;
   }
 
-  @media (max-width: 850px) {
+  @media (max-width: 700px) {
     .wrapper {
-      min-height: calc(100vh - var(--height-footer) - var(--height-nav) - 12rem);
-      margin-top: 8rem;
+      min-height: calc(100vh - var(--height-nav) - 12rem);
+      margin-bottom: 0;
+    }
+    .preference-list {
+      padding-left: 2rem;
     }
   }
 
-  @media (max-width: 700px) {
-    .wrapper {
-      min-height: calc(100vh - var(--height-nav));
-      margin-top: 0;
+  @media (max-width: 550px) {
+    .user-information .details {
+      flex-direction: column;
+    }
+    .user-information .details > div {
+      margin-bottom: 1rem;
     }
   }
 </style>

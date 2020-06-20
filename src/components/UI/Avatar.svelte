@@ -37,7 +37,7 @@
   }
 
   @media (min-width: 700px) and (max-width: 850px) {
-    .avatar {
+    .avatar:not(.large) {
       width: 4rem;
       height: 4rem;
     }

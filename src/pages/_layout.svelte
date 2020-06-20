@@ -3,7 +3,7 @@
   import { isLoading as isLocaleLoading } from 'svelte-i18n';
   import { createAuthObserver } from '@/api/auth';
   import { createChatObserver } from '@/api/chat';
-  import { user, isInitializing } from '../stores/auth';
+  import { user, isInitializing } from '@/stores/auth';
   import { Progress, Notifications } from '@/components/UI';
   import Nav from '../components/Nav/Navigation.svelte';
   import Footer from '@/components/Footer.svelte';

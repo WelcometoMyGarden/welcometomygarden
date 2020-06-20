@@ -25,11 +25,15 @@ export const logout = () => auth.signOut();
 export const requestPasswordReset = (email) => api.requestPasswordReset(email);
 
 export const createAuthObserver = () =>
-  auth.onAuthStateChanged((userData) => {
+  auth.onAuthStateChanged(async (userData) => {
     isInitializing.set(false);
     if (!userData) user.set(null);
     else user.set(new User(userData));
   });
+
+export const addUserInfo = (info) => {
+  user.set(new User({ ...get(user), ...info }));
+};
 
 export const resendAccountVerification = () => {
   if (!get(user) || get(user).emailVerified) return;

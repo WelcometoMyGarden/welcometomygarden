@@ -5,6 +5,7 @@ class User {
     this.firstName = user.firstName || user.displayName;
     this.email = user.email;
     this.emailVerified = user.emailVerified;
+    this.countryCode = user.countryCode;
   }
 
   setPrivateInformation(info) {
