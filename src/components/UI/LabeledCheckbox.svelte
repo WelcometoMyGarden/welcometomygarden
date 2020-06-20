@@ -2,7 +2,7 @@
   export let name;
   export let icon = null;
   export let label;
-  export let checked;
+  export let checked = false;
 
   import Icon from './Icon.svelte';
 </script>

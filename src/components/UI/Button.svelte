@@ -5,15 +5,15 @@
   export let uppercase = false;
   export let fit = true;
   export let target = null;
-  export let moveUp = false;
+  export let medium = false;
 </script>
 
 {#if href}
-  <a class="button" class:uppercase class:fit class:inverse class:moveUp {href} {target}>
+  <a class="button" class:uppercase class:fit class:medium class:inverse {href} {target}>
     <slot />
   </a>
 {:else}
-  <button class="button" class:uppercase class:fit class:inverse class:moveUp {type}>
+  <button class="button" class:uppercase class:fit class:medium class:inverse {type}>
     <slot />
   </button>
 {/if}
@@ -35,10 +35,26 @@
     min-width: 25rem;
     font-family: var(--fonts-copy);
     transition: border-color 300ms ease-in-out;
+    outline: 0;
+  }
+
+  .button:focus,
+  .button:active {
+    outline: 0;
+  }
+
+  .button::-moz-focus-inner {
+    border: 0;
+  }
+
+  .medium {
+    padding: 1.4rem 2rem;
+    font-size: 1.6rem;
   }
 
   .fit {
-    width: fit-content;
+    width: auto;
+    min-width: auto;
   }
 
   .inverse {

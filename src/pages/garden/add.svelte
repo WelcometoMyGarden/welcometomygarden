@@ -5,7 +5,7 @@
   import { addGarden } from '@/api/garden';
   import CoordinateForm from '@/components/Garden/CoordinateForm.svelte';
   import routes from '@/routes';
-  import { LabeledCheckbox } from '@/components/UI';
+  import { LabeledCheckbox, Button } from '@/components/UI';
 
   import {
     bonfireIcon,
@@ -240,7 +240,7 @@
   </section>
   <section class="section-submit">
     <div class="sub-container">
-      <button type="button" on:click={handleSubmit}>Add your garden</button>
+      <Button type="button" on:click={handleSubmit} uppercase medium fit>Add your garden</Button>
       {#if !formValid}
         <p class="hint invalid" transition:slide>
           Some information was not valid. Please check your submitted information for errors.
