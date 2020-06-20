@@ -9,19 +9,20 @@
     flex-direction: column;
     max-width: 90rem;
     margin: 0 auto;
+    padding-bottom: 2rem;
   }
 
-  :global(.info-page > .intro) {
+  .info-page > :global(.intro) {
     margin: 3.6rem 0;
   }
 
-  :global(.info-page > .intro > h2) {
+  .info-page > :global(.intro > h2) {
     font-size: 2.4rem;
     margin: 2rem 0 3rem;
     position: relative;
   }
 
-  :global(.info-page > .intro > h2:after) {
+  .info-page > :global(.intro > h2:after) {
     content: '';
     position: absolute;
     left: 0;
@@ -33,12 +34,12 @@
   }
 
   @media (max-width: 920px) {
-    :global(.info-page > .intro) {
+    .info-page > :global(.intro) {
       padding: 0 4rem;
       text-align: center;
     }
 
-    :global(.info-page > .intro > h2:after) {
+    .info-page > :global(.intro > h2:after) {
       left: calc(50% - 6rem);
     }
   }
