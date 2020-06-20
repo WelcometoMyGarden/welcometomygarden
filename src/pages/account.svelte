@@ -6,7 +6,7 @@
   import { resendAccountVerification } from '@/api/auth';
   import { user } from '@/stores/auth';
   import { gettingPrivateUserProfile, updatingMailPreferences } from '@/stores/user';
-  import { Progress } from '@/components/UI';
+  import { Progress, Avatar } from '@/components/UI';
   import routes from '@/routes';
 
   const onMailPreferenceChanged = async event => {
@@ -48,48 +48,82 @@
 </script>
 
 <Progress active={$gettingPrivateUserProfile} />
-
 {#if !$gettingPrivateUserProfile}
-  {#if !$user.emailVerified}
-    <div>
-      You need to verify your email address if you want to chat or add a garden.
-      {#if !hasResentEmail}
-        <button transition:fade disabled={isResendingEmail} on:click={doResendEmail}>
-          Resend email
-        </button>
-      {:else}
-        <p>Email sent!</p>
-      {/if}
+  <div class="wrapper">
+    <div class="avatar">
+      <Avatar large name={$user.firstName} />
     </div>
-  {/if}
-  <div>
-    Send me emails when:
-    <ul class="preference-list">
-      <li>
-        <input
-          disabled={$updatingMailPreferences}
-          type="checkbox"
-          id="new-chat"
-          name="newChat"
-          checked={$user.emailPreferences.newChat}
-          on:change={onMailPreferenceChanged} />
-        <label for="new-chat">I receive a new chat message</label>
-      </li>
-      <li>
-        <input
-          disabled={$updatingMailPreferences}
-          type="checkbox"
-          id="news"
-          name="news"
-          checked={$user.emailPreferences.news}
-          on:change={onMailPreferenceChanged} />
-        <label for="news">Welcome To My Garden has news to share</label>
-      </li>
-    </ul>
+    <section>
+      {#if !$user.emailVerified}
+        <div>
+          You need to verify your email address if you want to chat or add a garden.
+          {#if !hasResentEmail}
+            <button transition:fade disabled={isResendingEmail} on:click={doResendEmail}>
+              Resend email
+            </button>
+          {:else}
+            <p>Email sent!</p>
+          {/if}
+        </div>
+      {/if}
+      <div>
+        <h2>Email preferences</h2>
+        Send me emails when:
+        <ul class="preference-list">
+          <li>
+            <input
+              disabled={$updatingMailPreferences}
+              type="checkbox"
+              id="new-chat"
+              name="newChat"
+              checked={$user.emailPreferences.newChat}
+              on:change={onMailPreferenceChanged} />
+            <label for="new-chat">I receive a new chat message</label>
+          </li>
+          <li>
+            <input
+              disabled={$updatingMailPreferences}
+              type="checkbox"
+              id="news"
+              name="news"
+              checked={$user.emailPreferences.news}
+              on:change={onMailPreferenceChanged} />
+            <label for="news">Welcome To My Garden has news to share</label>
+          </li>
+        </ul>
+      </div>
+    </section>
   </div>
+
 {/if}
 
 <style>
+  .wrapper {
+    background-color: var(--color-white);
+    box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
+    padding-top: 8rem;
+    padding-bottom: 4rem;
+    width: 100%;
+    min-height: calc(100vh - var(--height-footer) - var(--height-nav) - 14rem);
+    margin-top: 10rem;
+    position: relative;
+    margin-bottom: 4rem;
+  }
+
+  .avatar {
+    position: absolute;
+    left: calc(50% - 5rem);
+    top: -5rem;
+    z-index: 10;
+  }
+
+  section {
+    max-width: 60rem;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+
   .preference-list {
     padding-left: 4rem;
     margin: 1rem 0;
@@ -103,5 +137,25 @@
 
   .preference-list label {
     margin-left: 1rem;
+  }
+
+  h2 {
+    margin-bottom: 2rem;
+    font-weight: 900;
+    font-size: 1.8rem;
+  }
+
+  @media (max-width: 850px) {
+    .wrapper {
+      min-height: calc(100vh - var(--height-footer) - var(--height-nav) - 12rem);
+      margin-top: 8rem;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .wrapper {
+      min-height: calc(100vh - var(--height-nav));
+      margin-top: 0;
+    }
   }
 </style>
