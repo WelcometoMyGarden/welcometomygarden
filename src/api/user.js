@@ -1,8 +1,7 @@
 import { get } from 'svelte/store';
 import { db } from './index';
 import { user } from '@/stores/auth';
-import { gettingPrivateUserProfile, updatingMailPreferences } from '@/stores/user';
-import User from '@/models/User';
+import { gettingPrivateUserProfile, updatingMailPreferences, addUserInfo } from '@/stores/user';
 
 export const getPublicUserProfile = async (uid) => {
   const profile = await db.collection('users').doc(uid).get();
@@ -10,19 +9,25 @@ export const getPublicUserProfile = async (uid) => {
   return profile.data();
 };
 
-export const getPrivateUserProfile = async () => {
+const getPrivateUserProfile = async () => {
   gettingPrivateUserProfile.set(true);
   const profile = await db.collection('users-private').doc(get(user).id).get();
-  const updatedUser = new User(get(user));
-  updatedUser.setPrivateInformation(profile.data());
-  user.set(updatedUser);
+  get(user).setPrivateInformation(profile.data());
   gettingPrivateUserProfile.set(false);
   return profile.data();
 };
 
-export const getCampsiteInformation = async () => {
+const setCampsiteInformation = async () => {
   const doc = await db.collection('campsites').doc(get(user).id).get();
-  get(user).setGarden(doc.data());
+  if (doc.exists) get(user).setGarden(doc.data());
+  else get(user).hasGarden = false;
+};
+
+export const setAllUserInfo = async () => {
+  await setCampsiteInformation();
+  const info = await getPublicUserProfile(get(user).id);
+  addUserInfo(info);
+  await getPrivateUserProfile();
 };
 
 export const updateMailPreferences = async (preferenceName, preference) => {

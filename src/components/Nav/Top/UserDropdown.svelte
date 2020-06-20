@@ -42,9 +42,9 @@
       <li class="separated">
         <a
           href={routes.HOME}
-          on:click={() => {
+          on:click={async () => {
             toggleOpen();
-            logout();
+            await logout();
           }}>
           <i>
             {@html signOutIcon}

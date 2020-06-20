@@ -16,6 +16,12 @@ class User {
   setGarden(garden) {
     this.garden = garden;
   }
+
+  addFields(fields) {
+    Object.keys(fields).forEach((prop) => {
+      this[prop] = fields[prop];
+    });
+  }
 }
 
 export default User;
