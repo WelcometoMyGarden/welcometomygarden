@@ -31,8 +31,8 @@
     <h1 class="heading-underline-center">Welcome to My Garden</h1>
     <p class="welcome-text">{$_('index.intro.copy')}</p>
     <div class="welcome-buttons">
-      <Button uppercase inverse moveUp>{$_('index.intro.add-garden')}</Button>
-      <Button uppercase moveUp>{$_('index.intro.explore-map')}</Button>
+      <Button href={routes.ADD_GARDEN} uppercase inverse>{$_('index.intro.add-garden')}</Button>
+      <Button href={routes.MAP} uppercase>{$_('index.intro.explore-map')}</Button>
     </div>
     <div class="welcome-map">
       {@html welcomeMap}
@@ -129,6 +129,10 @@
   a {
     font-weight: bold;
     text-decoration: underline;
+  }
+
+  .welcome-buttons > :global(.button) {
+    margin-bottom: 1rem;
   }
 
   .screen-reader-only {
@@ -286,17 +290,6 @@
     color: var(--color-white);
   }
 
-  .faq-list {
-    padding: 0 2rem;
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .faq-list > :global(li:first-child button) {
-    padding-top: 0;
-  }
-
   .cooperation {
     display: flex;
   }
@@ -382,10 +375,6 @@
     .faq-intro {
       padding: 6rem 12rem 8rem;
       flex: 0;
-    }
-
-    .faq-list {
-      padding: 0;
     }
 
     .cooperation {

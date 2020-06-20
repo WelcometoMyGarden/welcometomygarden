@@ -28,10 +28,11 @@
     border-radius: 0.6rem;
     border: 0.2rem solid var(--color-green);
     padding: 1.6rem 2.4rem;
+    text-align: center;
     font-size: 1.8rem;
     font-weight: bold;
     cursor: pointer;
-    width: 25rem;
+    min-width: 25rem;
     font-family: var(--fonts-copy);
     transition: border-color 300ms ease-in-out;
   }
