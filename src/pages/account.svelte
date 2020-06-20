@@ -3,6 +3,7 @@
   import notify from '@/stores/notification';
   import { updateMailPreferences } from '@/api/user';
   import { resendAccountVerification } from '@/api/auth';
+  import { changeListedStatus } from '@/api/garden';
   import { user } from '@/stores/auth';
   import { updatingMailPreferences } from '@/stores/user';
   import { Avatar, Icon, Button, LabeledCheckbox } from '@/components/UI';
@@ -21,8 +22,19 @@
     }
   };
 
-  const changeGardenListed = event => {
-    console.log(event.target.checked);
+  let updatingListedStatus = false;
+  const changeGardenListed = async event => {
+    const newStatus = event.target.checked;
+    updatingListedStatus = true;
+    try {
+      await changeListedStatus(newStatus);
+      $user.garden.listed = newStatus;
+      if (!newStatus) notify.success("Your garden won't show up on the map", 7000);
+      else notify.success('Your garden will show up on the map again', 7000);
+    } catch (ex) {
+      console.log(ex);
+    }
+    updatingListedStatus = false;
   };
 
   let isResendingEmail;
@@ -120,7 +132,12 @@
           You can unlist your garden at any time. This means it will stay saved for later - but
           won't be shown on the map until you show it again.
         </p>
-        <LabeledCheckbox name="listed" label="Shown on the map" on:input={changeGardenListed} />
+        <LabeledCheckbox
+          disabled={updatingListedStatus}
+          name="listed"
+          checked={$user.garden.listed}
+          label="Shown on the map"
+          on:input={changeGardenListed} />
       {/if}
     </section>
   </div>

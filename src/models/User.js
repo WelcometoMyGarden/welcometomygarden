@@ -8,9 +8,14 @@ class User {
     this.countryCode = user.countryCode;
   }
 
+  setAllInObject(obj) {
+    Object.keys(obj).forEach((prop) => {
+      this[prop] = obj[prop];
+    });
+  }
+
   setPrivateInformation(info) {
-    this.lastName = info.lastName;
-    this.emailPreferences = info.emailPreferences;
+    this.setAllInObject(info);
   }
 
   setGarden(garden) {
@@ -18,9 +23,7 @@ class User {
   }
 
   addFields(fields) {
-    Object.keys(fields).forEach((prop) => {
-      this[prop] = fields[prop];
-    });
+    this.setAllInObject(fields);
   }
 }
 

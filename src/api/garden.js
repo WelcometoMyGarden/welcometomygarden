@@ -4,12 +4,12 @@ import { isUploading, uploadProgress } from '@/stores/garden';
 import { db, storage } from './index';
 
 export const addGarden = async ({ photo, ...rest }) => {
-  const userId = get(user).id;
+  const currentUser = get(user);
 
   let uploadedName = null;
   if (photo) {
     const extension = photo.name.split('.').pop();
-    const photoLocation = `gardens/${userId}/garden.${extension}`;
+    const photoLocation = `gardens/${currentUser.id}/garden.${extension}`;
     isUploading.set(true);
     const uploadTask = storage.child(photoLocation).put(photo, { contentType: photo.type });
     uploadTask.on('state_changed', (snapshot) => {
@@ -29,9 +29,18 @@ export const addGarden = async ({ photo, ...rest }) => {
   const garden = {
     ...rest,
     facilities,
+    listed: true,
     photo: uploadedName
   };
 
-  await db.collection('campsites').doc(userId).set(garden);
+  await db.collection('campsites').doc(currentUser.id).set(garden);
+
   get(user).setGarden(garden);
+};
+
+export const changeListedStatus = async (shouldBeListed) => {
+  const currentUser = get(user);
+  await db.collection('campsites').doc(currentUser.id).update({
+    listed: shouldBeListed
+  });
 };
