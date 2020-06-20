@@ -5,7 +5,7 @@
   import { addGarden } from '@/api/garden';
   import CoordinateForm from '@/components/Garden/CoordinateForm.svelte';
   import routes from '@/routes';
-  import { LabeledCheckbox, Button } from '@/components/UI';
+  import { LabeledCheckbox, Button, Progress } from '@/components/UI';
 
   import {
     bonfireIcon,
@@ -103,6 +103,7 @@
     };
   };
 
+  let addingGarden = false;
   const handleSubmit = async () => {
     if (
       [validateDescription(garden.description), validateLocation(garden.location)].includes(false)
@@ -116,6 +117,7 @@
     }
 
     formValid = true;
+    addingGarden = true;
     try {
       await addGarden({ ...garden, photo: garden.photo.files ? garden.photo.files[0] : null });
       // TODO: refetch gardens and route to newly created garden
@@ -127,6 +129,7 @@
     } catch (ex) {
       console.log(ex);
     }
+    addingGarden = false;
   };
 
   const facilities = [
@@ -140,6 +143,8 @@
   ];
 </script>
 
+<Progress active={addingGarden} />
+
 <form>
   <section>
     <div class="sub-container">
@@ -147,7 +152,7 @@
       <p class="section-description">
         By submitting this form, your garden will be added to the map. You can manage or remove it
         at any time from
-        <a href={routes.ACCOUNT}>your profile.</a>
+        <a class="link" href={routes.ACCOUNT}>your profile.</a>
       </p>
     </div>
   </section>
@@ -240,7 +245,9 @@
   </section>
   <section class="section-submit">
     <div class="sub-container">
-      <Button type="button" on:click={handleSubmit} uppercase medium fit>Add your garden</Button>
+      <Button type="button" disabled={addingGarden} on:click={handleSubmit} uppercase medium>
+        Add your garden
+      </Button>
       {#if !formValid}
         <p class="hint invalid" transition:slide>
           Some information was not valid. Please check your submitted information for errors.
@@ -257,11 +264,6 @@
 
   .section-description {
     margin: 2rem 0;
-  }
-
-  .section-description a {
-    color: var(--color-orange);
-    text-decoration: underline;
   }
 
   section {
@@ -346,7 +348,7 @@
   }
 
   .hint.invalid {
-    color: var(--color-orange);
+    color: var(--color-danger);
   }
 
   .photo {

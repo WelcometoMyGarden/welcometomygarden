@@ -31,8 +31,10 @@
     <h1 class="heading-underline-center">Welcome to My Garden</h1>
     <p class="welcome-text">{$_('index.intro.copy')}</p>
     <div class="welcome-buttons">
-      <Button href={routes.ADD_GARDEN} uppercase inverse>{$_('index.intro.add-garden')}</Button>
-      <Button href={routes.MAP} uppercase>{$_('index.intro.explore-map')}</Button>
+      <Button href={routes.ADD_GARDEN} fit={false} uppercase inverse>
+        {$_('index.intro.add-garden')}
+      </Button>
+      <Button href={routes.MAP} fit={false} uppercase>{$_('index.intro.explore-map')}</Button>
     </div>
     <div class="welcome-map">
       {@html welcomeMap}
