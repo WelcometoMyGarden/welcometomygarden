@@ -26,12 +26,12 @@ export const addGarden = async ({ photo, ...rest }) => {
     return all;
   }, {});
 
-  await db
-    .collection('campsites')
-    .doc(userId)
-    .set({
-      ...rest,
-      facilities,
-      photo: uploadedName
-    });
+  const garden = {
+    ...rest,
+    facilities,
+    photo: uploadedName
+  };
+
+  await db.collection('campsites').doc(userId).set(garden);
+  get(user).setGarden(garden);
 };

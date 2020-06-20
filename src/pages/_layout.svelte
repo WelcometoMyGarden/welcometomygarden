@@ -15,14 +15,15 @@
 
   let unsubscribeFromChatObserver;
 
+  let infoIsReady = false;
   const addUserInformation = async () => {
     await setAllUserInfo();
     unsubscribeFromChatObserver = createChatObserver();
-    isInitializing.set(false);
+    infoIsReady = true;
   };
 
   $: if ($user) addUserInformation();
-  else isInitializing.set(false);
+  else if (!$isInitializing) infoIsReady = true;
 
   onDestroy(() => {
     if (unsubscribeFromChatObserver) unsubscribeFromChatObserver();
@@ -30,10 +31,10 @@
 </script>
 
 <div class="app">
-  <Progress active={$isInitializing || $isLocaleLoading} />
+  <Progress active={$isInitializing || $isLocaleLoading || !infoIsReady} />
   <Notifications />
 
-  {#if !$isInitializing && !$isLocaleLoading}
+  {#if !$isInitializing && !$isLocaleLoading && infoIsReady}
     <Nav />
     <main>
       <slot />

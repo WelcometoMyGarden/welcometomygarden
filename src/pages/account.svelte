@@ -5,9 +5,10 @@
   import { resendAccountVerification } from '@/api/auth';
   import { user } from '@/stores/auth';
   import { updatingMailPreferences } from '@/stores/user';
-  import { Avatar, Icon, Button } from '@/components/UI';
+  import { Avatar, Icon, Button, LabeledCheckbox } from '@/components/UI';
   import { flagIcon, emailIcon } from '@/images/icons';
   import { countries } from '@/util';
+  import routes from '@/routes';
 
   const onMailPreferenceChanged = async event => {
     try {
@@ -18,6 +19,10 @@
     } catch (ex) {
       console.log(ex);
     }
+  };
+
+  const changeGardenListed = event => {
+    console.log(event.target.checked);
   };
 
   let isResendingEmail;
@@ -104,7 +109,19 @@
     </section>
     <section>
       <h2>Your garden</h2>
-
+      {#if !$user.garden}
+        <p class="description">
+          You haven't added your garden to the map yet. When you add your garden, other uses will be
+          able to contact you to request a stay. You can unlist your garden at any time!
+        </p>
+        <Button uppercase medium href={routes.ADD_GARDEN}>Add your garden</Button>
+      {:else}
+        <p class="description">
+          You can unlist your garden at any time. This means it will stay saved for later - but
+          won't be shown on the map until you show it again.
+        </p>
+        <LabeledCheckbox name="listed" label="Shown on the map" on:input={changeGardenListed} />
+      {/if}
     </section>
   </div>
 </div>
@@ -204,5 +221,9 @@
     .user-information .details > div {
       margin-bottom: 1rem;
     }
+  }
+
+  .description {
+    margin-bottom: 1rem;
   }
 </style>

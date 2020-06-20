@@ -28,6 +28,8 @@
       validate: v => {
         if (!v)
           return "Please enter a first name. This is how you're shown to other users of WTMG.";
+        if (v.length > 25)
+          return 'Your first name can only be 25 characters long so we can display it properly. Feel free too abbreviate or choose a nickname!';
       }
     },
     lastName: {

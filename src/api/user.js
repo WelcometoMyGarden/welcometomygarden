@@ -20,7 +20,7 @@ const getPrivateUserProfile = async () => {
 const setCampsiteInformation = async () => {
   const doc = await db.collection('campsites').doc(get(user).id).get();
   if (doc.exists) get(user).setGarden(doc.data());
-  else get(user).hasGarden = false;
+  else get(user).setGarden(null);
 };
 
 export const setAllUserInfo = async () => {

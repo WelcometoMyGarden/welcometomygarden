@@ -2,7 +2,7 @@ import { get } from 'svelte/store';
 import { auth } from './index';
 import * as api from './functions';
 import { setAllUserInfo } from './user';
-import { isLoggingIn, isRegistering, user } from '../stores/auth';
+import { isLoggingIn, isRegistering, user, isInitializing } from '../stores/auth';
 import User from '@/models/User';
 
 const reloadUserInfo = async () => {
@@ -37,6 +37,7 @@ export const createAuthObserver = () =>
   auth.onAuthStateChanged(async (userData) => {
     if (!userData) user.set(null);
     else user.set(new User(userData));
+    isInitializing.set(false);
   });
 
 export const resendAccountVerification = () => {
