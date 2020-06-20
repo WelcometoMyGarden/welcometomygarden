@@ -9,18 +9,17 @@
 </script>
 
 {#if href}
-  <a class:uppercase class:fit class:inverse class:moveUp {href} {target}>
+  <a class="button" class:uppercase class:fit class:inverse class:moveUp {href} {target}>
     <slot />
   </a>
 {:else}
-  <button class:uppercase class:fit class:inverse class:moveUp {type}>
+  <button class="button" class:uppercase class:fit class:inverse class:moveUp {type}>
     <slot />
   </button>
 {/if}
 
 <style>
-  a,
-  button {
+  .button {
     text-decoration: none;
     display: inline-block;
     background-color: var(--color-green);
@@ -34,6 +33,7 @@
     cursor: pointer;
     width: 25rem;
     font-family: var(--fonts-copy);
+    transition: border-color 300ms ease-in-out;
   }
 
   .fit {
@@ -49,32 +49,19 @@
     text-transform: uppercase;
   }
 
-  .moveUp {
-    transition: 0.1s;
-  }
-
-  .moveUp:hover {
-    transform: translate(0, -4px);
+  .button:hover {
+    border-color: var(--color-orange);
   }
 
   @media only screen and (max-width: 700px) {
-    a,
-    button {
+    .button {
       font-size: 1.4rem;
     }
   }
 
   @media only screen and (max-width: 500px) {
-    a,
-    button {
-      font-size: 1.2rem;
-    }
-  }
-
-  @media only screen and (max-width: 400px) {
-    a,
-    button {
-      font-size: 1.1rem;
+    .button {
+      font-size: 1.3rem;
     }
   }
 </style>
