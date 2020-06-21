@@ -1,32 +1,27 @@
 <script>
   import { onMount } from 'svelte';
+  import { goto, params } from '@sveltech/routify';
   import { getAllListedGardens } from '@/api/garden';
   import { allGardens, isFetchingGardens } from '@/stores/garden';
   import Map from '@/components/Map/Map.svelte';
-  import GardenLayer from '@/components/Map/GardenLayer.svelte';
   import Drawer from '@/components/Map/Drawer.svelte';
+  import GardenLayer from '@/components/Map/GardenLayer.svelte';
+  import routes from '@/routes';
   import { Progress } from '@/components/UI';
 
-  let selectedGarden = null;
+  $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
 
-  const closeDrawer = () => {
-    selectedGarden = null;
+  const selectGarden = garden => {
+    const newSelectedId = garden.id;
+    $goto(`${routes.MAP}/garden/${newSelectedId}`);
   };
 
-  const selectGarden = e => {
-    const newSelected = { ...e.detail.properties };
-    // if garden is already open
-    console.log(
-      selectedGarden,
-      newSelected,
-      selectedGarden && selectedGarden.id === newSelected.id
-    );
-    if (selectedGarden && selectedGarden.id === newSelected.id) closeDrawer();
-    else selectedGarden = newSelected;
+  const closeDrawer = () => {
+    $goto(routes.MAP);
   };
 
   onMount(async () => {
-    if (!$allGardens) {
+    if (Object.keys($allGardens).length === 0) {
       try {
         await getAllListedGardens();
       } catch (ex) {
@@ -37,17 +32,19 @@
   });
 </script>
 
+<svelte:head>
+  <title>Explore | Welcome To My Garden</title>
+</svelte:head>
 <Progress active={$isFetchingGardens} />
-
 <div>
   <Map lat="50.5" lon="4.5" zoom="7">
     {#if !$isFetchingGardens}
       <GardenLayer
-        on:garden-click={selectGarden}
+        on:garden-click={e => selectGarden(e.detail.properties)}
         selectedGardenId={selectedGarden ? selectedGarden.id : null}
         gardens={$allGardens} />
+      <Drawer on:close={closeDrawer} garden={selectedGarden} />
     {/if}
-    <Drawer on:close={closeDrawer} garden={selectedGarden} />
   </Map>
 </div>
 

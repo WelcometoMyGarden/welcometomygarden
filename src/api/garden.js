@@ -8,7 +8,7 @@ export const getAllListedGardens = async () => {
   const snapshot = await db.collection('campsites').where('listed', '==', true).get();
   const gardens = {};
   snapshot.forEach((doc) => {
-    gardens[doc.id] = doc.data();
+    gardens[doc.id] = { id: doc.id, ...doc.data() };
   });
   allGardens.set(gardens);
   isFetchingGardens.set(false);
