@@ -81,7 +81,7 @@ exports.requestPasswordReset = async (email) => {
   try {
     const auth = admin.auth();
     const exists = await auth.getUserByEmail(email);
-    if (exists) return { message: 'Password reset request received', success: true };
+    if (!exists) return { message: 'Password reset request received', success: true };
     const link = await auth.generatePasswordResetLink(email, {
       url: `${functions.config().frontend.url}/reset-password`
     });
