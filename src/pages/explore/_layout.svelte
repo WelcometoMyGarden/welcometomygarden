@@ -10,6 +10,9 @@
   import { Progress } from '@/components/UI';
 
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
+  $: center = selectedGarden
+    ? [selectedGarden.location.longitude, selectedGarden.location.latitude]
+    : [4.5, 50.5];
 
   const selectGarden = garden => {
     const newSelectedId = garden.id;
@@ -41,7 +44,7 @@
 </svelte:head>
 <Progress active={$isFetchingGardens} />
 <div>
-  <Map lat="50.5" lon="4.5" zoom="7">
+  <Map lat={center[1]} lon={center[0]} recenterOnUpdate zoom="7">
     {#if !$isFetchingGardens}
       <GardenLayer
         on:garden-click={e => selectGarden(e.detail.properties)}
