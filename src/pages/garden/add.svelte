@@ -5,7 +5,8 @@
   import { addGarden } from '@/api/garden';
   import CoordinateForm from '@/components/Garden/CoordinateForm.svelte';
   import routes from '@/routes';
-  import { LabeledCheckbox } from '@/components/UI';
+  import { user } from '@/stores/auth';
+  import { LabeledCheckbox, Button, Progress } from '@/components/UI';
 
   import {
     bonfireIcon,
@@ -15,6 +16,8 @@
     waterIcon,
     tentIcon
   } from '@/images/icons';
+
+  let isFillable = $user && $user.emailVerified;
 
   let formValid = true;
   let garden = {
@@ -103,7 +106,9 @@
     };
   };
 
+  let addingGarden = false;
   const handleSubmit = async () => {
+    if (!isFillable) return;
     if (
       [validateDescription(garden.description), validateLocation(garden.location)].includes(false)
     ) {
@@ -116,6 +121,7 @@
     }
 
     formValid = true;
+    addingGarden = true;
     try {
       await addGarden({ ...garden, photo: garden.photo.files ? garden.photo.files[0] : null });
       // TODO: refetch gardens and route to newly created garden
@@ -127,6 +133,7 @@
     } catch (ex) {
       console.log(ex);
     }
+    addingGarden = false;
   };
 
   const facilities = [
@@ -140,18 +147,38 @@
   ];
 </script>
 
+<Progress active={addingGarden} />
+
 <form>
   <section>
     <div class="sub-container">
       <h2>Add your garden to the map</h2>
-      <p class="section-description">
-        By submitting this form, your garden will be added to the map. You can manage or remove it
-        at any time from
-        <a href={routes.ACCOUNT}>your profile.</a>
-      </p>
+      <div class="section-description">
+        {#if !$user}
+          <p class="notice">
+            You must be signed in to add your garden to the map. Either
+            <a class="link" href={routes.SIGN_IN}>sign in</a>
+            or
+            <a class="link" href={routes.REGISTER}>create an account.</a>
+          </p>
+        {:else if !$user.emailVerified}
+          <p class="notice">
+            You need to verify your email before you add your garden to the map. We sent you an
+            email when you created your account. You can resend a verification link from your
+            <a class="link" href={routes.ACCOUNT}>your profile.</a>
+          </p>
+        {:else}
+          <p>
+            By submitting this form, your garden will be added to the map. You can manage or remove
+            it at any time from
+            <a class="link" href={routes.ACCOUNT}>your profile.</a>
+          </p>
+        {/if}
+      </div>
     </div>
   </section>
-  <section>
+
+  <section class:is-not-fillable={!isFillable}>
     <fieldset>
       <h3>Location (required)</h3>
       <p class="section-description">
@@ -165,7 +192,7 @@
     </fieldset>
   </section>
 
-  <section>
+  <section class:is-not-fillable={!isFillable}>
     <fieldset>
       <h3>Describe your camping spot (required)</h3>
       <p class="section-description">
@@ -187,7 +214,7 @@
     </fieldset>
   </section>
 
-  <section>
+  <section class:is-not-fillable={!isFillable}>
     <fieldset>
       <h3>Facilities</h3>
       <p class="section-description">What kind of facilities do travellers have access to?</p>
@@ -210,7 +237,7 @@
       </div>
     </fieldset>
   </section>
-  <section>
+  <section class:is-not-fillable={!isFillable}>
     <fieldset>
       <h3>Photo</h3>
       <p class="section-description">
@@ -238,9 +265,11 @@
       <p class="hint" class:invalid={!photoHint.valid}>{photoHint.message}</p>
     </fieldset>
   </section>
-  <section class="section-submit">
+  <section class="section-submit" class:is-not-fillable={!isFillable}>
     <div class="sub-container">
-      <button type="button" on:click={handleSubmit}>Add your garden</button>
+      <Button type="button" disabled={addingGarden} on:click={handleSubmit} uppercase medium>
+        Add your garden
+      </Button>
       {#if !formValid}
         <p class="hint invalid" transition:slide>
           Some information was not valid. Please check your submitted information for errors.
@@ -259,15 +288,11 @@
     margin: 2rem 0;
   }
 
-  .section-description a {
-    color: var(--color-orange);
-    text-decoration: underline;
-  }
-
   section {
     width: 100%;
     margin-bottom: 2rem;
     box-shadow: 0px 0px 1rem rgba(0, 0, 0, 0.1);
+    position: relative;
   }
 
   .section-submit {
@@ -338,6 +363,13 @@
     line-height: 1.6;
   }
 
+  p.notice {
+    border: 2px solid var(--color-warning);
+    border-radius: 0.6rem;
+    font-size: 1.6rem;
+    padding: 1.6rem;
+  }
+
   .hint {
     margin: 1rem 0;
     font-size: 1.4rem;
@@ -346,7 +378,7 @@
   }
 
   .hint.invalid {
-    color: var(--color-orange);
+    color: var(--color-danger);
   }
 
   .photo {
@@ -358,5 +390,21 @@
   .photo img {
     max-width: 100%;
     max-height: 100%;
+  }
+
+  .is-not-fillable {
+    margin-bottom: 0;
+  }
+
+  .is-not-fillable:after {
+    display: block;
+    position: absolute;
+    content: '';
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
   }
 </style>

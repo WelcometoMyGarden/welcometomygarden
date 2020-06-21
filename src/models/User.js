@@ -5,11 +5,25 @@ class User {
     this.firstName = user.firstName || user.displayName;
     this.email = user.email;
     this.emailVerified = user.emailVerified;
+    this.countryCode = user.countryCode;
+  }
+
+  setAllInObject(obj) {
+    Object.keys(obj).forEach((prop) => {
+      this[prop] = obj[prop];
+    });
   }
 
   setPrivateInformation(info) {
-    this.lastName = info.lastName;
-    this.emailPreferences = info.emailPreferences;
+    this.setAllInObject(info);
+  }
+
+  setGarden(garden) {
+    this.garden = garden;
+  }
+
+  addFields(fields) {
+    this.setAllInObject(fields);
   }
 }
 

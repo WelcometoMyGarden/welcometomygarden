@@ -49,6 +49,8 @@
     width: 100%;
     padding: 0 0 0 5rem;
     z-index: 100;
+    background-color: var(--color-white);
+    box-shadow: 0 0 3.3rem rgba(0, 0, 0, 0.1);
   }
 
   .title {
@@ -56,13 +58,12 @@
     align-items: center;
     background-image: url(/images/logo-emblem.svg);
     background-repeat: no-repeat;
-    background-position: left 50%;
+    background-position: left 40%;
     background-size: 7rem auto;
     height: 100%;
   }
 
   h1 {
-    padding-top: 1.6rem;
     padding-left: 8.5rem;
     font-size: 2.3rem;
     font-weight: 900;
@@ -71,9 +72,7 @@
   nav > ul {
     display: flex;
     align-items: center;
-    box-shadow: 0 0 3.3rem rgba(0, 0, 0, 0.1);
     height: 100%;
-    background-color: var(--color-white);
     padding-right: 5rem;
   }
 

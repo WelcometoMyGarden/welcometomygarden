@@ -1,37 +1,86 @@
 <script>
+  import { fade } from 'svelte/transition';
+  import AuthContainer from '@/components/AuthContainer.svelte';
+  import { TextInput, Progress } from '@/components/UI';
+  import { emailIcon } from '@/images/icons';
   import { requestPasswordReset } from '@/api/auth';
 
-  let email = '';
-
+  let email = {};
+  let done = false;
+  let isSending = false;
   const submit = async () => {
+    isSending = true;
     try {
-      const response = await requestPasswordReset(email);
-      console.log(response);
+      await requestPasswordReset(email.value);
+      done = true;
+      isSending = false;
     } catch (err) {
-      console.log(err);
+      done = true;
+      isSending = false;
     }
   };
 </script>
 
 <svelte:head>
-  <title>Sign up | Welcome to my Garden</title>
+  <title>Set a new password | Welcome To My Garden</title>
 </svelte:head>
 
-<h1>Set a new password</h1>
+<Progress active={isSending} />
 
-<form on:submit|preventDefault={submit}>
-  <label for="email">Your email address</label>
-  <input type="email" name="email" id="email" bind:value={email} />
-
-  <button type="submit">Email reset instructions</button>
-</form>
+<AuthContainer>
+  <span slot="title">Set a new password</span>
+  <div slot="form">
+    {#if !done}
+      <p class="description">
+        If you submit the form below, we can send you a unique link with which you can reset your
+        password.
+      </p>
+      <form transition:fade on:submit|preventDefault={submit}>
+        <div>
+          <label for="email">Email</label>
+          <TextInput
+            icon={emailIcon}
+            autocomplete="email"
+            type="email"
+            name="email"
+            id="email"
+            bind:value={email.value} />
+        </div>
+        <button class="submit" type="submit" disabled={!email.value || isSending}>
+          Email reset instructions
+        </button>
+      </form>
+    {:else}
+      <div transition:fade>
+        <p>
+          If an account with the email {email.value} exists, an email will now be sent with
+          instructions on how to reset the password.
+        </p>
+        <p>
+          Are you having trouble logging in? Contact
+          <a class="link" href="mailto:support@welcometomygarden.org">
+            support@welcometomygarden.org
+          </a>
+          and we'll help you out!
+        </p>
+      </div>
+    {/if}
+  </div>
+</AuthContainer>
 
 <style>
-  label,
-  button {
-    display: block;
+  .description {
+    margin: 2rem 0;
   }
-  input {
-    margin-bottom: 1rem;
+  form > div {
+    margin-bottom: 1.2rem;
+  }
+
+  .submit {
+    text-align: center;
+    margin: 1rem 0;
+  }
+  p {
+    margin: 2rem 0;
   }
 </style>

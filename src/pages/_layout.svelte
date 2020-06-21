@@ -2,8 +2,9 @@
   import { onMount, onDestroy } from 'svelte';
   import { isLoading as isLocaleLoading } from 'svelte-i18n';
   import { createAuthObserver } from '@/api/auth';
+  import { setAllUserInfo } from '@/api/user';
   import { createChatObserver } from '@/api/chat';
-  import { user, isInitializing } from '../stores/auth';
+  import { user, isInitializing } from '@/stores/auth';
   import { Progress, Notifications } from '@/components/UI';
   import Nav from '../components/Nav/Navigation.svelte';
   import Footer from '@/components/Footer.svelte';
@@ -13,7 +14,16 @@
   });
 
   let unsubscribeFromChatObserver;
-  $: if ($user) unsubscribeFromChatObserver = createChatObserver();
+
+  let infoIsReady = false;
+  const addUserInformation = async () => {
+    await setAllUserInfo();
+    unsubscribeFromChatObserver = createChatObserver();
+    infoIsReady = true;
+  };
+
+  $: if ($user) addUserInformation();
+  else if (!$isInitializing) infoIsReady = true;
 
   onDestroy(() => {
     if (unsubscribeFromChatObserver) unsubscribeFromChatObserver();
@@ -21,10 +31,10 @@
 </script>
 
 <div class="app">
-  <Progress active={$isInitializing || $isLocaleLoading} />
+  <Progress active={$isInitializing || $isLocaleLoading || !infoIsReady} />
   <Notifications />
 
-  {#if !$isInitializing && !$isLocaleLoading}
+  {#if !$isInitializing && !$isLocaleLoading && infoIsReady}
     <Nav />
     <main>
       <slot />

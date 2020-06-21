@@ -81,9 +81,9 @@
     <li class="separated sign-out">
       <a
         href="/"
-        on:click={() => {
+        on:click={async () => {
           toggleDrawer();
-          logout();
+          await logout();
         }}>
         Sign out
       </a>

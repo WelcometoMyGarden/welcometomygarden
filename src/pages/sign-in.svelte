@@ -1,22 +1,32 @@
 <script>
+  import { fade } from 'svelte/transition';
   import { goto } from '@sveltech/routify';
   import { user } from '@/stores/auth';
   import notify from '@/stores/notification';
   import { login } from '@/api/auth';
   import routes from '@/routes';
+  import AuthContainer from '@/components/AuthContainer.svelte';
+  import { TextInput } from '@/components/UI';
+  import { lockIcon, emailIcon } from '@/images/icons';
 
-  let email = '';
-  let password = '';
+  let email = {};
+  let password = {};
 
+  let formError = '';
   const submit = async () => {
+    formError = '';
     try {
-      await login(email, password);
-
+      await login(email.value, password.value);
       notify.success(`Welcome back, ${$user.firstName}!`);
       $goto(routes.MAP);
     } catch (ex) {
+      if (ex.code === 'auth/user-not-found' || ex.code === 'auth/wrong-password')
+        formError = 'The provided email or password is incorrect.';
+      else {
+        formError =
+          "We couldn't log you in. If the problem persists, please contact support@welcometomygarden.org";
+      }
       // TODO: Handle network errors and response errors
-      console.log(ex);
     }
   };
 </script>
@@ -25,21 +35,60 @@
   <title>Sign in | Welcome to my Garden</title>
 </svelte:head>
 
-<h1>Sign In</h1>
+<AuthContainer>
+  <span slot="title">Sign In</span>
 
-<form on:submit|preventDefault={submit}>
-  <fieldset>
-    <input type="email" placeholder="Email" bind:value={email} />
-  </fieldset>
-  <fieldset>
-    <input type="password" placeholder="Password" bind:value={password} />
-    <a href={routes.REQUEST_PASSWORD_RESET}>Reset your password</a>
-  </fieldset>
-  <p />
-  <button type="submit" disabled={!email || !password}>Sign in</button>
-</form>
+  <form slot="form" on:submit|preventDefault={submit}>
+    <div>
+      <label for="email">Email</label>
+      <TextInput
+        icon={emailIcon}
+        autocomplete="email"
+        type="email"
+        name="email"
+        id="email"
+        bind:value={email.value} />
+    </div>
+    <div>
+      <label for="password">Password</label>
+      <TextInput
+        icon={lockIcon}
+        type="password"
+        name="password"
+        id="password"
+        autocomplete="new-password"
+        bind:value={password.value} />
+    </div>
+    <div class="hint">
+      {#if formError}
+        <p transition:fade class="hint danger">{formError}</p>
+      {/if}
+    </div>
+    <button class="submit" type="submit" disabled={!email.value || !password.value}>Sign in</button>
+  </form>
 
-<p>
-  Need an account?
-  <a href={routes.REGISTER}>Register</a>
-</p>
+  <p>
+    Forgot your password?
+    <a href={routes.REQUEST_PASSWORD_RESET} class="link">Reset it</a>
+  </p>
+  <p>
+    Don't have an account yet?
+    <a href={routes.REGISTER} class="link">Register</a>
+  </p>
+</AuthContainer>
+
+<style>
+  form > div {
+    margin-bottom: 1.2rem;
+  }
+
+  .submit {
+    text-align: center;
+    margin: 1rem 0;
+  }
+
+  .hint {
+    min-height: 3rem;
+    margin-bottom: 0;
+  }
+</style>

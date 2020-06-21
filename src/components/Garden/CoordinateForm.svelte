@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   import { reverseGeocode, geocode } from '@/api/mapbox';
   import { slide } from 'svelte/transition';
-  import { TextInput } from '@/components/UI';
+  import { TextInput, Button } from '@/components/UI';
   import Map from '@/components/Map/Map.svelte';
   import DraggableMarker from '@/components/Map/DraggableMarker.svelte';
 
@@ -65,9 +65,9 @@
 <div class="map-container">
   <Map lat={coordinates.latitude} lon={coordinates.longitude} recenterOnUpdate={true} zoom="6">
     {#if isAddressConfirmShown}
-      <button type="button" on:click={toggleLocationConfirmed}>
+      <Button type="button" small inverse={locationConfirmed} on:click={toggleLocationConfirmed}>
         {locationConfirmed ? 'Adjust pin location' : 'Confirm pin location'}
-      </button>
+      </Button>
     {/if}
     <DraggableMarker
       label="Drag me to your garden"
@@ -159,7 +159,7 @@
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
   }
 
-  .map-container button {
+  .map-container :global(.button) {
     position: absolute;
     bottom: 0.5rem;
     left: 0.5rem;
