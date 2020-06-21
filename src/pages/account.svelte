@@ -1,5 +1,6 @@
 <script>
   import { fade } from 'svelte/transition';
+  import { goto } from '@sveltech/routify';
   import notify from '@/stores/notification';
   import { updateMailPreferences } from '@/api/user';
   import { resendAccountVerification } from '@/api/auth';
@@ -10,6 +11,8 @@
   import { flagIcon, emailIcon } from '@/images/icons';
   import { countries } from '@/util';
   import routes from '@/routes';
+
+  $: if (!$user) $goto(routes.SIGN_IN);
 
   const onMailPreferenceChanged = async event => {
     try {
