@@ -34,12 +34,12 @@
   }
 
   .text.m {
-    font-size: var(--text-font-size-m);
-    line-height: var(--text-line-height-m);
+    font-size: 1.4rem;
+    line-height: 1.4;
   }
   .text.l {
-    font-size: var(--text-font-size-l);
-    line-height: var(--text-line-height-l);
+    font-size: 1.8rem;
+    line-height: 1.6;
   }
 
   .text.thin {

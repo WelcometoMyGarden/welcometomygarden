@@ -38,22 +38,6 @@
   --height-nav: 8rem;
 }
 
-/*
-  --radius-xl: 40px;
-  --radius-l: 20px;
-  --radius-m: 10px;
-  --radius-s: 6px;
-  --spacer-xl: 3rem;
-  --spacer-l: 2rem;
-  --spacer-m: 1rem;
-  --spacer-s: 0.8rem;
-  --spacer-xs: 0.5rem;
-  --text-font-size-l: 18px;
-  --text-font-size-m: 14px;
-  --text-line-height-l: 160%;
-  --text-line-height-m: 140%;
-*/
-
 html, body {
   height: 100%;
 }

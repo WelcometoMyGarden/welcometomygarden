@@ -4,6 +4,14 @@
   import Badge from '../UI/Badge.svelte';
   import Image from '../UI/Image.svelte';
   import Button from '../UI/Button.svelte';
+  import {
+    bonfireIcon,
+    waterIcon,
+    electricityIcon,
+    showerIcon,
+    tentIcon,
+    toiletIcon
+  } from '@/images/icons';
 
   const DRAWER_DEFAULT_HEIGHT = 400;
   const images = [
@@ -51,6 +59,16 @@
   function dragBarRelease() {
     previousOffsetCursor = null;
   }
+
+  const facilities = [
+    { name: 'water', icon: waterIcon, label: 'Water' },
+    { name: 'drinkableWater', icon: waterIcon, label: 'Drinkable water' },
+    { name: 'toilet', icon: toiletIcon, label: 'Toilet' },
+    { name: 'bonfire', icon: bonfireIcon, label: 'Bonfire' },
+    { name: 'electricity', icon: electricityIcon, label: 'Electricity' },
+    { name: 'shower', icon: showerIcon, label: 'Shower' },
+    { name: 'tent', icon: tentIcon, label: 'Tent' }
+  ];
 </script>
 
 <section class={drawerClasses} bind:this={drawerElement} style={`height: ${drawerHeight}px`}>
@@ -76,15 +94,11 @@
     </div>
     <Text class="mb-l">{campsite && campsite.description}</Text>
     <div class="badges-container">
-      {#if campsite && campsite.facilities.drinkableWater}
-        <Badge icon="tint">Drinkable water</Badge>
-      {/if}
-      {#if campsite && campsite.facilities.electricity}
-        <Badge icon="bolt">Electricity</Badge>
-      {/if}
-      {#if campsite && campsite.facilities.bonfire}
-        <Badge icon="campfire">Bonfire</Badge>
-      {/if}
+      {#each facilities as facility (facility.name)}
+        {#if campsite && campsite.facilities[facility.name]}
+          <Badge icon={facility.icon}>{facility.label}</Badge>
+        {/if}
+      {/each}
     </div>
   </main>
   <footer class="footer mt-m">
@@ -107,10 +121,10 @@
     max-height: 500px;
     z-index: 1;
     transform: translate(0, -50%);
-    padding: var(--spacer-xl);
+    padding: 3rem;
     box-sizing: border-box;
-    border-top-left-radius: var(--radius-m);
-    border-bottom-left-radius: var(--radius-m);
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -128,8 +142,8 @@
       bottom: 0;
       transform: none;
       width: 100%;
-      border-top-right-radius: var(--radius-l);
-      border-bottom-right-radius: var(--radius-l);
+      border-top-right-radius: 2rem;
+      border-bottom-right-radius: 2rem;
       border-bottom-left-radius: 0;
       min-height: auto;
       overflow-y: hidden;
@@ -144,7 +158,7 @@
     position: absolute;
     top: 0;
     left: 50%;
-    padding: var(--spacer-l) var(--spacer-l) var(--spacer-m) var(--spacer-l);
+    padding: 2rem 2rem 1rem 2rem;
     transform: translateX(-50%);
     cursor: ns-resize;
   }
@@ -182,7 +196,7 @@
     display: flex;
     flex-wrap: wrap;
     /* Negative margin compensate the Badge components margins */
-    margin-top: calc(var(--spacer-s) * -1);
-    margin-left: calc(var(--spacer-s) * -1);
+    margin-top: calc(0.8rem * -1);
+    margin-left: calc(0.8rem * -1);
   }
 </style>

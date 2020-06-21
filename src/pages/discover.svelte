@@ -11,12 +11,14 @@
     } else {
       campsite = {
         facilities: {
-          amountOfTents: 1,
+          bonfire: false,
+          capacity: 4,
           drinkableWater: true,
-          electricity: true,
+          electricity: false,
+          shower: false,
           tent: false,
-          toilet: false,
-          shower: false
+          toilet: true,
+          water: true
         },
         photos: [
           'https://picsum.photos/200/200?1',

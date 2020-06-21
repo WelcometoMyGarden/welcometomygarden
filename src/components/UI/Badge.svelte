@@ -1,11 +1,15 @@
 <script>
   import Icon from './Icon.svelte';
 
-  export let icon = '';
+  export let icon;
 </script>
 
 <div class="badge">
-  <Icon name={icon} />
+  {#if icon}
+    <div class="icon">
+      <Icon {icon} />
+    </div>
+  {/if}
   <slot />
 </div>
 
@@ -14,10 +18,15 @@
     display: inline-flex;
     align-items: center;
     background-color: var(--color-green-light);
-    border-radius: var(--radius-xl);
+    border-radius: 4rem;
     box-sizing: border-box;
-    padding: var(--spacer-xs) var(--spacer-m);
-    margin-top: var(--spacer-s);
-    margin-left: var(--spacer-s);
+    padding: 0.5rem 1rem;
+    margin-top: 0.8rem;
+    margin-left: 0.8rem;
+  }
+
+  .icon {
+    width: 2rem;
+    height: 1.5rem;
   }
 </style>
