@@ -35,6 +35,10 @@
       };
     }
   }
+
+  const closeDrawer = () => {
+    campsite = null;
+  };
 </script>
 
 <div>
@@ -43,7 +47,7 @@
     <div class="fixed-btn">
       <button on:click={simulateCampsiteClick}>SIMULATE CLICK ON CAMPSITE</button>
     </div>
-    <Drawer {campsite} />
+    <Drawer on:close={closeDrawer} {campsite} />
   </Map>
 </div>
 

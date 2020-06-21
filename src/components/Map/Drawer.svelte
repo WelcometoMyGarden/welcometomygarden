@@ -1,4 +1,7 @@
 <script>
+  export let campsite = null;
+
+  import { createEventDispatcher } from 'svelte';
   import { draggable } from '../../directives/draggable.js';
   import { clickOutside } from '@/util';
   import { Text, Badge, Image, Button } from '../UI';
@@ -10,6 +13,8 @@
     tentIcon,
     toiletIcon
   } from '@/images/icons';
+
+  const dispatch = createEventDispatcher();
 
   const DRAWER_DEFAULT_HEIGHT = 400;
   const images = [
@@ -35,13 +40,16 @@
     }
   ];
 
-  export let campsite = null;
-
   let drawerElement;
   let drawerHeight = DRAWER_DEFAULT_HEIGHT;
   let previousOffsetCursor = null;
   $: hasHiddenClass = campsite ? '' : 'hidden';
   $: drawerClasses = `drawer ${hasHiddenClass}`;
+
+  const handleClickOutsideDrawer = event => {
+    const { clickEvent } = event.detail;
+    if (!drawerElement.contains(clickEvent.target)) dispatch('close');
+  };
 
   function dragBarCatch() {
     previousOffsetCursor = 0;
@@ -69,7 +77,12 @@
   ];
 </script>
 
-<section class={drawerClasses} bind:this={drawerElement} style={`height: ${drawerHeight}px`}>
+<section
+  class={drawerClasses}
+  bind:this={drawerElement}
+  use:clickOutside
+  on:click-outside={handleClickOutsideDrawer}
+  style={`height: ${drawerHeight}px`}>
   <div
     class="drag-area"
     use:draggable
@@ -130,7 +143,7 @@
   }
 
   .drawer.hidden {
-    right: -325px;
+    right: -32.5rem;
   }
 
   @media screen and (max-width: 700px) {
@@ -149,7 +162,7 @@
       transition: transform 0.2s;
     }
     .drawer.hidden {
-      transform: translateY(1000px);
+      transform: translateY(100rem);
     }
   }
 
