@@ -92,7 +92,7 @@
         {/each}
       {/if}
     </div>
-    <Text class="mb-l">{campsite && campsite.description}</Text>
+    <Text class="mb-l description">{campsite && campsite.description}</Text>
     <div class="badges-container">
       {#each facilities as facility (facility.name)}
         {#if campsite && campsite.facilities[facility.name]}
@@ -106,7 +106,7 @@
       Marie speaks
       <Text is="span" weight="bold">Dutch & English</Text>
     </Text>
-    <Button capitalize={true}>Contact host</Button>
+    <Button uppercase medium>Contact host</Button>
   </footer>
 </section>
 
@@ -116,9 +116,9 @@
     top: 50%;
     right: 0;
     background-color: white;
-    width: 325px;
-    min-height: 480px;
-    max-height: 500px;
+    width: 32.5rem;
+    min-height: 48rem;
+    max-height: 50rem;
     z-index: 1;
     transform: translate(0, -50%);
     padding: 3rem;
@@ -135,7 +135,7 @@
     right: -325px;
   }
 
-  @media screen and (max-width: 568px) {
+  @media screen and (max-width: 700px) {
     .drawer {
       top: auto;
       right: auto;
@@ -143,7 +143,8 @@
       transform: none;
       width: 100%;
       border-top-right-radius: 2rem;
-      border-bottom-right-radius: 2rem;
+      border-top-left-radius: 2rem;
+      border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
       min-height: auto;
       overflow-y: hidden;
@@ -183,7 +184,7 @@
 
   @media screen and (min-width: 700px) {
     .main {
-      min-height: 300px;
+      min-height: 30rem;
     }
   }
 
@@ -198,5 +199,9 @@
     /* Negative margin compensate the Badge components margins */
     margin-top: calc(0.8rem * -1);
     margin-left: calc(0.8rem * -1);
+  }
+
+  .description {
+    max-width: 60rem;
   }
 </style>

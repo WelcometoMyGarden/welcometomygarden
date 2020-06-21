@@ -38,6 +38,16 @@
   --height-nav: 8rem;
 }
 
+.mb-l {
+  margin-bottom: 2rem;
+}
+.mb-m {
+  margin-bottom: 1rem;
+}
+.mt-m {
+  margin-top: 1rem;
+}
+
 html, body {
   height: 100%;
 }

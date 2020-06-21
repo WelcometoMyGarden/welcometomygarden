@@ -63,17 +63,4 @@
     width: 100%;
     height: 100%;
   }
-
-  @media screen and (max-width: 700px) {
-    div :global(.mapboxgl-ctrl-top-left) {
-      top: 0;
-    }
-
-    div :global(.mapboxgl-ctrl-bottom-right) {
-      top: 0;
-      right: 0;
-      height: 2rem;
-      margin: 0;
-    }
-  }
 </style>
