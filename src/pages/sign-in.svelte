@@ -84,13 +84,16 @@
     margin-bottom: 1.2rem;
   }
 
+  form {
+    margin-bottom: 2rem;
+  }
+
   .submit {
     text-align: center;
     margin: 1rem 0;
   }
 
   .hint {
-    min-height: 3rem;
     margin-bottom: 0;
   }
 </style>

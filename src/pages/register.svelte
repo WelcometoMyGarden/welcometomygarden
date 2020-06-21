@@ -207,7 +207,6 @@
   }
 
   .hint {
-    min-height: 3rem;
     margin-bottom: 0;
   }
 </style>
