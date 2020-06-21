@@ -7,38 +7,22 @@
   import Drawer from '@/components/Map/Drawer.svelte';
   import { Progress } from '@/components/UI';
 
-  let campsite = null;
+  let selectedGarden = null;
 
-  const clickGarden = e => {
-    console.log(e.detail);
-    if (campsite) {
-      campsite = null;
-    } else {
-      campsite = {
-        facilities: {
-          bonfire: false,
-          capacity: 4,
-          drinkableWater: true,
-          electricity: false,
-          shower: false,
-          tent: false,
-          toilet: true,
-          water: true
-        },
-        photos: [
-          'https://picsum.photos/200/200?1',
-          'https://picsum.photos/200/200?2',
-          'https://picsum.photos/200/200?3',
-          'https://picsum.photos/200/200?4'
-        ],
-        location: {
-          latitude: 0,
-          longitude: 0
-        },
-        description:
-          'Quiet location, large garden, child friendly, meadow with animals, no sanitary facilities, toilet by arrangement with the owner.'
-      };
-    }
+  const closeDrawer = () => {
+    selectedGarden = null;
+  };
+
+  const selectGarden = e => {
+    const newSelected = { ...e.detail.properties };
+    // if garden is already open
+    console.log(
+      selectedGarden,
+      newSelected,
+      selectedGarden && selectedGarden.id === newSelected.id
+    );
+    if (selectedGarden && selectedGarden.id === newSelected.id) closeDrawer();
+    else selectedGarden = newSelected;
   };
 
   onMount(async () => {
@@ -51,10 +35,6 @@
       }
     }
   });
-
-  const closeDrawer = () => {
-    campsite = null;
-  };
 </script>
 
 <Progress active={$isFetchingGardens} />
@@ -62,9 +42,12 @@
 <div>
   <Map lat="50.5" lon="4.5" zoom="7">
     {#if !$isFetchingGardens}
-      <GardenLayer on:garden-click={clickGarden} gardens={$allGardens} />
+      <GardenLayer
+        on:garden-click={selectGarden}
+        selectedGardenId={selectedGarden ? selectedGarden.id : null}
+        gardens={$allGardens} />
     {/if}
-    <Drawer on:close={closeDrawer} {campsite} />
+    <Drawer on:close={closeDrawer} garden={selectedGarden} />
   </Map>
 </div>
 

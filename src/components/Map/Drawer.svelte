@@ -1,5 +1,5 @@
 <script>
-  export let campsite = null;
+  export let garden = null;
 
   import { createEventDispatcher } from 'svelte';
   import { draggable } from '../../directives/draggable.js';
@@ -43,7 +43,7 @@
   let drawerElement;
   let drawerHeight = DRAWER_DEFAULT_HEIGHT;
   let previousOffsetCursor = null;
-  $: hasHiddenClass = campsite ? '' : 'hidden';
+  $: hasHiddenClass = garden ? '' : 'hidden';
   $: drawerClasses = `drawer ${hasHiddenClass}`;
 
   const handleClickOutsideDrawer = event => {
@@ -94,21 +94,19 @@
   <main class="main">
     <Text class="mb-l" weight="bold" size="l">Merelbeke</Text>
     <div class="mb-l">
-      {#if campsite && campsite.photos.length}
-        {#each campsite.photos as photo}
-          <Image
-            src={photo}
-            alt="Random Image"
-            style="width: 60px; height: 60px; margin-right: 5px;" />
-        {/each}
+      {#if garden && garden.photo}
+        <Image
+          src={garden.photo}
+          alt="Random Image"
+          style="width: 60px; height: 60px; margin-right: 5px;" />
       {/if}
     </div>
     <div class="description">
-      <Text class="mb-l">{campsite && campsite.description}</Text>
+      <Text class="mb-l">{garden && garden.description}</Text>
     </div>
     <div class="badges-container">
       {#each facilities as facility (facility.name)}
-        {#if campsite && campsite.facilities[facility.name]}
+        {#if garden && garden.facilities[facility.name]}
           <Badge icon={facility.icon}>{facility.label}</Badge>
         {/if}
       {/each}
