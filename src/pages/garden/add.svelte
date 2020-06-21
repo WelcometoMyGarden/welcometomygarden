@@ -129,7 +129,7 @@
         `Your garden was added successfully! It may take a minute for its photo to show up.`,
         10000
       );
-      $goto(routes.MAP);
+      $goto(`${routes.MAP}/garden/${$user.id}`);
     } catch (ex) {
       console.log(ex);
     }
