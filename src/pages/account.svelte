@@ -87,7 +87,11 @@
         <div>
           You need to verify your email address if you want to chat or add a garden.
           {#if !hasResentEmail}
-            <button transition:fade disabled={isResendingEmail} on:click={doResendEmail}>
+            <button
+              class="resend-verification"
+              transition:fade
+              disabled={isResendingEmail}
+              on:click={doResendEmail}>
               Resend email
             </button>
           {:else}
@@ -245,5 +249,10 @@
 
   .description {
     margin-bottom: 1rem;
+  }
+
+  .resend-verification {
+    margin-top: 1rem;
+    display: block;
   }
 </style>
