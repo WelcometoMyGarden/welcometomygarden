@@ -47,7 +47,9 @@ export const addGarden = async ({ photo, ...rest }) => {
 
   await db.collection('campsites').doc(currentUser.id).set(garden);
 
-  get(user).setGarden(garden);
+  const gardenWithId = { ...garden, id: currentUser.id };
+  get(user).setGarden(gardenWithId);
+  return gardenWithId;
 };
 
 export const changeListedStatus = async (shouldBeListed) => {

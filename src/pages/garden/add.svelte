@@ -3,6 +3,7 @@
   import { slide } from 'svelte/transition';
   import notify from '@/stores/notification';
   import { addGarden } from '@/api/garden';
+  import { addGardenLocally } from '@/stores/garden';
   import CoordinateForm from '@/components/Garden/CoordinateForm.svelte';
   import routes from '@/routes';
   import { user } from '@/stores/auth';
@@ -123,12 +124,12 @@
     formValid = true;
     addingGarden = true;
     try {
-      await addGarden({ ...garden, photo: garden.photo.files ? garden.photo.files[0] : null });
-      // TODO: refetch gardens and route to newly created garden
-      notify.success(
-        `Your garden was added successfully! It may take a minute for its photo to show up.`,
-        10000
-      );
+      const newGarden = await addGarden({
+        ...garden,
+        photo: garden.photo.files ? garden.photo.files[0] : null
+      });
+      addGardenLocally(newGarden);
+      notify.success(`Your garden was added successfully!`, 10000);
       $goto(`${routes.MAP}/garden/${$user.id}`);
     } catch (ex) {
       console.log(ex);

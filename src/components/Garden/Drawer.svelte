@@ -2,7 +2,7 @@
   export let garden = null;
 
   import { createEventDispatcher } from 'svelte';
-  import { scale } from 'svelte/transition';
+  import { scale, fade } from 'svelte/transition';
   import { getPublicUserProfile } from '@/api/user';
   import { getGardenPhotoSmall, getGardenPhotoBig } from '@/api/garden';
   import { user } from '@/stores/auth';
@@ -60,6 +60,11 @@
   let photoUrl = null;
   let biggerPhotoUrl = null;
 
+  $: if (garden) {
+    userInfo = {};
+    photoUrl = null;
+    biggerPhotoUrl = null;
+  }
   let ready = false;
   const setAllGardenInfo = async () => {
     try {
@@ -80,7 +85,7 @@
   let isShowingMagnifiedPhoto = false;
   const magnifyPhoto = async () => {
     try {
-      if (garden.photo && !biggerPhotoUrl) {
+      if (garden.photo) {
         biggerPhotoUrl = await getGardenPhotoBig(garden);
       }
     } catch (ex) {
@@ -128,13 +133,17 @@
       <Text class="mb-l" weight="bold" size="l">
         {#if ownedByLoggedInUser}Your Garden{:else}{userInfo.firstName}{/if}
       </Text>
-      {#if garden && garden.photo && photoUrl}
+      {#if garden && garden.photo}
         <button on:click={magnifyPhoto} class="mb-l button-container image-container">
-          <Image src={photoUrl} alt="Garden" />
+          {#if photoUrl}
+            <div transition:fade>
+              <Image src={photoUrl} />
+            </div>
+          {/if}
         </button>
       {/if}
       <div class="description">
-        <Text class="mb-l">{garden && garden.description}</Text>
+        <Text class="mb-l">{garden && garden.description.replace(/\n\s*\n\s*\n/g, '\n\n')}</Text>
       </div>
       <div class="badges-container">
         {#each facilities as facility (facility.name)}
@@ -255,12 +264,19 @@
 
   .description {
     max-width: 45rem;
+    white-space: pre-wrap;
   }
 
   .image-container {
     width: 6rem;
     height: 6rem;
+    background-color: var(--color-beige);
     margin-bottom: 2rem;
+  }
+
+  .image-container > div {
+    width: 100%;
+    height: 100%;
   }
 
   .image-container:hover {
@@ -282,12 +298,13 @@
 
   .magnified-photo {
     max-width: 192rem;
-    height: auto;
-    width: 80vw;
+    max-height: 60vh;
+    width: auto;
+    height: 80vh;
   }
 
   .magnified-photo img {
-    width: 100%;
-    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
   }
 </style>
