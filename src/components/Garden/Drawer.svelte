@@ -5,6 +5,7 @@
   import { scale } from 'svelte/transition';
   import { getPublicUserProfile } from '@/api/user';
   import { getGardenPhotoSmall, getGardenPhotoBig } from '@/api/garden';
+  import { user } from '@/stores/auth';
   import { draggable, clickOutside } from '@/directives';
   import { Text, Badge, Image, Button, Progress } from '../UI';
   import {
@@ -15,6 +16,7 @@
     tentIcon,
     toiletIcon
   } from '@/images/icons';
+  import routes from '@/routes';
 
   const dispatch = createEventDispatcher();
 
@@ -27,6 +29,7 @@
 
   $: hasHiddenClass = garden ? '' : 'hidden';
   $: drawerClasses = `drawer ${hasHiddenClass}`;
+  $: ownedByLoggedInUser = $user && garden && $user.id === garden.id;
 
   function dragBarCatch() {
     previousOffsetCursor = 0;
@@ -122,7 +125,9 @@
       <div class="drag-bar" />
     </div>
     <section class="main">
-      <Text class="mb-l" weight="bold" size="l">{userInfo.firstName}</Text>
+      <Text class="mb-l" weight="bold" size="l">
+        {#if ownedByLoggedInUser}Your Garden{:else}{userInfo.firstName}{/if}
+      </Text>
       {#if garden && garden.photo && photoUrl}
         <button on:click={magnifyPhoto} class="mb-l button-container image-container">
           <Image src={photoUrl} alt="Garden" />
@@ -146,7 +151,11 @@
           <Text is="span" weight="bold">Dutch & English</Text>
         </Text>
       {/if}
-      <Button uppercase medium disabled>Contact host</Button>
+      {#if ownedByLoggedInUser}
+        <Button href={routes.ACCOUNT} uppercase medium>Manage garden</Button>
+      {:else}
+        <Button uppercase medium disabled>Contact host</Button>
+      {/if}
     </footer>
   {/if}
 </section>
