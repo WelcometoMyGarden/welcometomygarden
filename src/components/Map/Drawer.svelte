@@ -1,9 +1,7 @@
 <script>
   import { draggable } from '../../directives/draggable.js';
-  import Text from '../UI/Text.svelte';
-  import Badge from '../UI/Badge.svelte';
-  import Image from '../UI/Image.svelte';
-  import Button from '../UI/Button.svelte';
+  import { clickOutside } from '@/util';
+  import { Text, Badge, Image, Button } from '../UI';
   import {
     bonfireIcon,
     waterIcon,
