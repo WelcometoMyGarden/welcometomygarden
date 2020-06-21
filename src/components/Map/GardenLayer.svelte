@@ -30,16 +30,6 @@
     };
   });
 
-  map.on('load', () => {
-    map.addSource('gardens', {
-      type: 'geojson',
-      data: {
-        type: 'FeatureCollection',
-        features
-      }
-    });
-  });
-
   onMount(() => {
     features.forEach(feature => {
       new mapboxgl.Marker(feature.properties.element)

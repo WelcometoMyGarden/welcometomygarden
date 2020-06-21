@@ -56,33 +56,32 @@
     { name: 'tent', icon: tentIcon, label: 'Tent' }
   ];
 
-  let userInfo;
-  let photoUrl;
+  let userInfo = {};
+  let photoUrl = null;
 
   let ready = false;
   const setAllGardenInfo = async () => {
     try {
       userInfo = await getPublicUserProfile(garden.id);
       if (garden.photo) photoUrl = await getGardenPhotoSmall(garden);
-      console.log(photoUrl);
     } catch (ex) {
       console.log(ex);
+      ready = true;
     }
-    ready = true;
   };
 
-  $: if (garden) userInfo = setAllGardenInfo();
+  $: if (garden) setAllGardenInfo().then(() => (ready = true));
 </script>
 
 <Progress active={!ready} />
 
-{#if ready}
-  <section
-    class={drawerClasses}
-    bind:this={drawerElement}
-    use:clickOutside
-    on:click-outside={handleClickOutsideDrawer}
-    style={`height: ${drawerHeight}px`}>
+<section
+  class={drawerClasses}
+  bind:this={drawerElement}
+  use:clickOutside
+  on:click-outside={handleClickOutsideDrawer}
+  style={`height: ${drawerHeight}px`}>
+  {#if ready}
     <div
       class="drag-area"
       use:draggable
@@ -93,11 +92,11 @@
     </div>
     <section class="main">
       <Text class="mb-l" weight="bold" size="l">{userInfo.firstName}</Text>
-      <div class="mb-l image-container">
-        {#if garden.photo && photoUrl}
+      {#if garden && garden.photo && photoUrl}
+        <div class="mb-l image-container">
           <Image src={photoUrl} alt="Garden" />
-        {/if}
-      </div>
+        </div>
+      {/if}
       <div class="description">
         <Text class="mb-l">{garden && garden.description}</Text>
       </div>
@@ -118,8 +117,8 @@
       {/if}
       <Button uppercase medium disabled>Contact host</Button>
     </footer>
-  </section>
-{/if}
+  {/if}
+</section>
 
 <style>
   .drawer {
@@ -139,7 +138,7 @@
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    transition: right 0.3s;
+    transition: right 250ms;
   }
 
   .drawer.hidden {
@@ -159,7 +158,7 @@
       border-bottom-left-radius: 0;
       min-height: auto;
       overflow-y: hidden;
-      transition: transform 300ms;
+      transition: transform 250ms;
     }
     .drawer.hidden {
       right: 0;
