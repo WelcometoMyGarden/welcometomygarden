@@ -1,7 +1,7 @@
 <script>
   import { fade } from 'svelte/transition';
   import AuthContainer from '@/components/AuthContainer.svelte';
-  import { TextInput, Progress } from '@/components/UI';
+  import { TextInput, Progress, Button } from '@/components/UI';
   import { emailIcon } from '@/images/icons';
   import { requestPasswordReset } from '@/api/auth';
 
@@ -46,9 +46,11 @@
             id="email"
             bind:value={email.value} />
         </div>
-        <button class="submit" type="submit" disabled={!email.value || isSending}>
-          Email reset instructions
-        </button>
+        <div class="submit">
+          <Button type="submit" medium disabled={!email.value || isSending}>
+            Email reset instructions
+          </Button>
+        </div>
       </form>
     {:else}
       <div transition:fade>
@@ -75,7 +77,6 @@
   form > div {
     margin-bottom: 1.2rem;
   }
-
   .submit {
     text-align: center;
     margin: 1rem 0;

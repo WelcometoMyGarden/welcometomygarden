@@ -7,7 +7,7 @@
   import { countries } from '@/util';
   import routes from '@/routes';
   import AuthContainer from '@/components/AuthContainer.svelte';
-  import { TextInput, Progress } from '@/components/UI';
+  import { TextInput, Progress, Button } from '@/components/UI';
   import { lockIcon, emailIcon, userIcon, flagIcon } from '@/images/icons';
 
   let fields = {
@@ -184,16 +184,13 @@
           <p transition:fade class="hint danger">{formError}</p>
         {/if}
       </div>
-      <button class="submit" type="submit" disabled={$isRegistering} isLoading={$isRegistering}>
-        Sign up
-      </button>
+      <Button type="submit" medium disabled={$isRegistering}>Sign up</Button>
+      <p>
+        Already have an account?
+        <a class="link" href={routes.SIGN_IN}>Sign in</a>
+      </p>
     </div>
   </form>
-
-  <p>
-    Already have an account?
-    <a class="link" href={routes.SIGN_IN}>Sign in</a>
-  </p>
 </AuthContainer>
 
 <style>
@@ -203,6 +200,10 @@
 
   .submit {
     text-align: center;
+  }
+
+  .submit > p {
+    margin-top: 1rem;
   }
 
   .hint {

@@ -6,7 +6,7 @@
   import { login } from '@/api/auth';
   import routes from '@/routes';
   import AuthContainer from '@/components/AuthContainer.svelte';
-  import { TextInput } from '@/components/UI';
+  import { TextInput, Button } from '@/components/UI';
   import { lockIcon, emailIcon } from '@/images/icons';
 
   let email = {};
@@ -64,7 +64,9 @@
         <p transition:fade class="hint danger">{formError}</p>
       {/if}
     </div>
-    <button class="submit" type="submit" disabled={!email.value || !password.value}>Sign in</button>
+    <div class="submit">
+      <Button type="submit" medium disabled={!email.value || !password.value}>Sign in</Button>
+    </div>
   </form>
 
   <p>

@@ -3,7 +3,7 @@
   import AuthContainer from '@/components/AuthContainer.svelte';
   import notify from '@/stores/notification';
   import { confirmPasswordReset, login } from '@/api/auth';
-  import { TextInput, Progress } from '@/components/UI';
+  import { TextInput, Progress, Button } from '@/components/UI';
   import { lockIcon } from '@/images/icons';
   import routes from '@/routes';
 
@@ -47,7 +47,7 @@
       autocomplete="new-password"
       bind:value={password.value} />
 
-    <button type="submit">Update password</button>
+    <Button type="submit" medium>Update password</Button>
   </form>
 </AuthContainer>
 
