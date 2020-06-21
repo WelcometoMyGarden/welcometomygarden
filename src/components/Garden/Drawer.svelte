@@ -2,8 +2,10 @@
   export let garden = null;
 
   import { createEventDispatcher } from 'svelte';
+  import { getPublicUserProfile } from '@/api/user';
+  import { getGardenPhotoSmall } from '@/api/garden';
   import { draggable, clickOutside } from '@/directives';
-  import { Text, Badge, Image, Button } from '../UI';
+  import { Text, Badge, Image, Button, Progress } from '../UI';
   import {
     bonfireIcon,
     waterIcon,
@@ -23,13 +25,6 @@
 
   $: hasHiddenClass = garden ? '' : 'hidden';
   $: drawerClasses = `drawer ${hasHiddenClass}`;
-
-  let userInfo;
-  const setAllGardenInfo = async () => {
-    const profile = null;
-  };
-
-  $: if (garden) userInfo = setAllGardenInfo();
 
   const handleClickOutsideDrawer = event => {
     const { clickEvent } = event.detail;
@@ -60,51 +55,71 @@
     { name: 'shower', icon: showerIcon, label: 'Shower' },
     { name: 'tent', icon: tentIcon, label: 'Tent' }
   ];
+
+  let userInfo;
+  let photoUrl;
+
+  let ready = false;
+  const setAllGardenInfo = async () => {
+    try {
+      userInfo = await getPublicUserProfile(garden.id);
+      if (garden.photo) photoUrl = await getGardenPhotoSmall(garden);
+      console.log(photoUrl);
+    } catch (ex) {
+      console.log(ex);
+    }
+    ready = true;
+  };
+
+  $: if (garden) userInfo = setAllGardenInfo();
 </script>
 
-<section
-  class={drawerClasses}
-  bind:this={drawerElement}
-  use:clickOutside
-  on:click-outside={handleClickOutsideDrawer}
-  style={`height: ${drawerHeight}px`}>
-  <div
-    class="drag-area"
-    use:draggable
-    on:dragstart={dragBarCatch}
-    on:drag={dragBarMove}
-    on:dragend={dragBarRelease}>
-    <div class="drag-bar" />
-  </div>
-  <main class="main">
-    <Text class="mb-l" weight="bold" size="l">Merelbeke</Text>
-    <div class="mb-l">
-      {#if garden && garden.photo}
-        <Image
-          src={garden.photo}
-          alt="Random Image"
-          style="width: 60px; height: 60px; margin-right: 5px;" />
-      {/if}
+<Progress active={!ready} />
+
+{#if ready}
+  <section
+    class={drawerClasses}
+    bind:this={drawerElement}
+    use:clickOutside
+    on:click-outside={handleClickOutsideDrawer}
+    style={`height: ${drawerHeight}px`}>
+    <div
+      class="drag-area"
+      use:draggable
+      on:dragstart={dragBarCatch}
+      on:drag={dragBarMove}
+      on:dragend={dragBarRelease}>
+      <div class="drag-bar" />
     </div>
-    <div class="description">
-      <Text class="mb-l">{garden && garden.description}</Text>
-    </div>
-    <div class="badges-container">
-      {#each facilities as facility (facility.name)}
-        {#if garden && garden.facilities[facility.name]}
-          <Badge icon={facility.icon}>{facility.label}</Badge>
+    <section class="main">
+      <Text class="mb-l" weight="bold" size="l">{userInfo.firstName}</Text>
+      <div class="mb-l image-container">
+        {#if garden.photo && photoUrl}
+          <Image src={photoUrl} alt="Garden" />
         {/if}
-      {/each}
-    </div>
-  </main>
-  <footer class="footer mt-m">
-    <Text class="mb-m">
-      Marie speaks
-      <Text is="span" weight="bold">Dutch & English</Text>
-    </Text>
-    <Button uppercase medium>Contact host</Button>
-  </footer>
-</section>
+      </div>
+      <div class="description">
+        <Text class="mb-l">{garden && garden.description}</Text>
+      </div>
+      <div class="badges-container">
+        {#each facilities as facility (facility.name)}
+          {#if garden && garden.facilities[facility.name]}
+            <Badge icon={facility.icon}>{facility.label}</Badge>
+          {/if}
+        {/each}
+      </div>
+    </section>
+    <footer class="footer mt-m">
+      {#if userInfo.languages}
+        <Text class="mb-m">
+          {userInfo.firstName} speaks
+          <Text is="span" weight="bold">Dutch & English</Text>
+        </Text>
+      {/if}
+      <Button uppercase medium disabled>Contact host</Button>
+    </footer>
+  </section>
+{/if}
 
 <style>
   .drawer {
@@ -200,5 +215,14 @@
 
   .description {
     max-width: 45rem;
+  }
+
+  .image-container {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .image-container:hover {
+    cursor: zoom-in;
   }
 </style>

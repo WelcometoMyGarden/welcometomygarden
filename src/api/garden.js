@@ -56,3 +56,9 @@ export const changeListedStatus = async (shouldBeListed) => {
     listed: shouldBeListed
   });
 };
+
+export const getGardenPhotoSmall = async (garden) => {
+  return storage
+    .child(`gardens/${garden.id}/garden_360x360.${garden.photo.split('.').pop()}`)
+    .getDownloadURL();
+};
