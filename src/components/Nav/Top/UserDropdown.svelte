@@ -1,5 +1,5 @@
 <script>
-  export let name = '';
+  export let name;
 
   import { slide } from 'svelte/transition';
   import { clickOutside } from '@/util';
@@ -32,7 +32,7 @@
         </a>
       </li>
       <li>
-        <a href={routes.CHAT} on:click={toggleOpen}>
+        <a href={routes.ACCOUNT} on:click={toggleOpen}>
           <i>
             {@html userIcon}
           </i>
@@ -42,9 +42,9 @@
       <li class="separated">
         <a
           href={routes.HOME}
-          on:click={() => {
+          on:click={async () => {
             toggleOpen();
-            logout();
+            await logout();
           }}>
           <i>
             {@html signOutIcon}

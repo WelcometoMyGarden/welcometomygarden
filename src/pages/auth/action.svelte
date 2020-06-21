@@ -1,13 +1,18 @@
 <script>
   import { params, goto } from '@sveltech/routify';
-  import { verifyPasswordResetCode, applyActionCode } from '../../api/auth';
+  import notify from '@/stores/notification';
+  import {
+    verifyPasswordResetCode,
+    applyActionCode,
+    resendAccountVerification
+  } from '../../api/auth';
   import routes from '@/routes';
 
   const { mode, oobCode } = $params;
 
   if (!mode || !oobCode) {
-    // TODO: handle error
-    //$goto(routes.HOME);
+    notify.danger('This page is not accessible without a valid action code');
+    $goto(routes.HOME);
   }
 
   const handleAction = async () => {
@@ -16,7 +21,7 @@
         const email = await verifyPasswordResetCode(oobCode);
         $goto(routes.RESET_PASSWORD, { email, oobCode });
       } catch (ex) {
-        // TODO: verification link expired, prompt to resend
+        notify.danger('This password reset link has expired. Please request a new one', 10000);
         $goto(routes.REQUEST_PASSWORD_RESET);
       }
     }
@@ -24,10 +29,12 @@
     if (mode === 'verifyEmail') {
       try {
         await applyActionCode(oobCode);
-        // TODO: display success
+        notify.success('Your email address was verified successfully!', 8000);
         $goto(routes.MAP);
       } catch (ex) {
-        // TODO: verification link expired, prompt to resend
+        notify.danger('This verification link has expired. Click to resend', 10000, {
+          click: resendAccountVerification
+        });
         $goto(routes.MAP);
       }
     }

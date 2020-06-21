@@ -3,21 +3,34 @@
 
   export let type = null;
   export let href = null;
-  export let capitalize = false;
-  export let primary = false;
-  export let loading = false;
-
+  export let inverse = false;
+  export let uppercase = false;
+  export let fit = true;
   export let target = null;
+  export let medium = false;
+  export let small = false;
+  export let disabled = false;
 
-  let className = `button ${primary && 'primary'}`;
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
+
+  let clicked;
+  const click = e => {
+    if (!disabled) return dispatch('click', e);
+    clicked = true;
+    setTimeout(() => (clicked = false), 100);
+  };
 </script>
 
 {#if href}
   <a
-    class={className}
-    class:capitalize
-    class:is-primary={primary}
-    class:is-loading={loading}
+    class="button"
+    class:uppercase
+    class:fit
+    class:small
+    class:medium
+    class:inverse
     {href}
     {target}>
     <Text is="span">
@@ -26,10 +39,15 @@
   </a>
 {:else}
   <button
-    class={className}
-    class:capitalize
-    class:is-primary={primary}
-    class:is-loading={loading}
+    class="button"
+    class:disabled
+    on:click={click}
+    class:uppercase
+    class:fit
+    class:medium
+    class:small
+    class:inverse
+    class:clicked
     {type}>
     <Text is="span" weight="bold">
       <slot />
@@ -38,30 +56,108 @@
 {/if}
 
 <style>
-  .capitalize {
+  .button {
+    text-decoration: none;
+    display: inline-block;
+    background-color: var(--color-green);
+    color: var(--color-white);
+    cursor: pointer;
+    border-radius: 0.6rem;
+    border: 0.2rem solid var(--color-green);
+    padding: 1.6rem 2.4rem;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    min-width: 25rem;
+    font-family: var(--fonts-copy);
+    transition: all 300ms ease-in-out;
+    outline: 0;
+  }
+
+  .disabled {
+    background-color: var(--color-gray);
+    border: 0.2rem solid var(--color-gray);
+    color: var(--color-green);
+    cursor: not-allowed;
+  }
+
+  .disabled.clicked {
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 100rem;
+    animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  }
+
+  .button:focus,
+  .button:active {
+    outline: 0;
+  }
+
+  .button::-moz-focus-inner {
+    border: 0;
+  }
+
+  .medium {
+    padding: 1.4rem 2rem;
+    font-size: 1.6rem;
+  }
+
+  .small {
+    padding: 1.2rem 1.8rem;
+    font-size: 1.5rem;
+  }
+
+  .fit {
+    width: auto;
+    min-width: auto;
+  }
+
+  .inverse {
+    background-color: var(--color-white);
+    color: var(--color-green);
+  }
+
+  .uppercase {
     text-transform: uppercase;
   }
 
-  a.button {
-    text-decoration: none;
-    display: inline-block;
-    cursor: pointer;
+  .button:not(.disabled):hover {
+    border-color: var(--color-orange);
   }
 
-  button.button {
-    background-color: var(--color-green);
-    border: 2px solid var(--color-green);
-    border-radius: var(--radius-s);
-    padding: var(--spacer-m) var(--spacer-l);
-    color: white;
-    cursor: pointer;
-    box-sizing: border-box;
+  @keyframes shake {
+    10%,
+    90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+      transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+      transform: translate3d(4px, 0, 0);
+    }
   }
 
-  button.button:hover,
-  button.button:active,
-  button.button:focus {
-    background-color: transparent;
-    color: var(--color-green);
+  @media only screen and (max-width: 700px) {
+    .button {
+      font-size: 1.4rem;
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    .button {
+      font-size: 1.3rem;
+    }
   }
 </style>

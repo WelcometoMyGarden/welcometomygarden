@@ -7,12 +7,18 @@ exports.createUser = async (data, context) => {
   const fail = (code) => {
     throw new functions.https.HttpsError(code);
   };
+
   if (!context.auth) {
-    fail('unauthorized');
+    fail('unauthenticated');
   }
 
   try {
-    if (!data.firstName || !data.lastName) throw new functions.https.HttpsError('invalid-argument');
+    const db = admin.firestore();
+
+    const existingUser = await db.collection('users').doc(context.auth.uid).get();
+    if (existingUser.exists) fail('already-exists');
+
+    if (!data.firstName || !data.lastName) fail('invalid-argument');
     if (
       typeof data.firstName !== 'string' ||
       typeof data.lastName !== 'string' ||
@@ -39,16 +45,24 @@ exports.createUser = async (data, context) => {
 
     await auth.updateUser(user.uid, { displayName: firstName });
 
-    const db = admin.firestore();
     await db.collection('users').doc(user.uid).set({
       countryCode: data.countryCode,
       firstName: data.firstName
     });
 
-    await db.collection('users-private').doc(user.uid).set({ lastName });
+    await db
+      .collection('users-private')
+      .doc(user.uid)
+      .set({
+        lastName,
+        emailPreferences: {
+          newChat: true,
+          news: true
+        }
+      });
 
     const link = await admin.auth().generateEmailVerificationLink(email, {
-      url: `${functions.config().frontend.url}/auth/confirm-email`
+      url: `${functions.config().frontend.url}/account`
     });
 
     await sendAccountVerificationEmail(user.email, firstName, link);
@@ -66,8 +80,10 @@ exports.requestPasswordReset = async (email) => {
 
   try {
     const auth = admin.auth();
+    const exists = await auth.getUserByEmail(email);
+    if (exists) return { message: 'Password reset request received', success: true };
     const link = await auth.generatePasswordResetLink(email, {
-      url: `${functions.config().frontend.url}/auth/confirm-password-reset`
+      url: `${functions.config().frontend.url}/reset-password`
     });
 
     const user = await auth.getUserByEmail(email);
@@ -75,9 +91,31 @@ exports.requestPasswordReset = async (email) => {
 
     return { message: 'Password reset request received', success: true };
   } catch (ex) {
-    console.log(ex);
     throw new functions.https.HttpsError('invalid-argument');
   }
 };
 
 exports.changeEmail = async () => {};
+
+exports.resendAccountVerification = async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated');
+  }
+
+  const auth = admin.auth();
+
+  let user;
+  try {
+    user = await auth.getUser(context.auth.uid);
+  } catch (ex) {
+    console.log(ex);
+    throw new functions.https.HttpsError('permission-denied');
+  }
+
+  if (!user || user.emailVerified) throw new functions.https.HttpsError('permission-denied');
+
+  const link = await auth.generateEmailVerificationLink(user.email, {
+    url: `${functions.config().frontend.url}/account`
+  });
+  await sendAccountVerificationEmail(user.email, user.displayName, link);
+};

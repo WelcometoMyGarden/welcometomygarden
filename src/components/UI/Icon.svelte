@@ -1,26 +1,23 @@
 <script>
-  export let name = '';
-
-  const icons = [
-    { name: 'tint', src: 'images/icons/ic-tint.svg' },
-    { name: 'facebook', src: 'images/icons/facebook.svg' },
-    { name: 'bolt', src: 'images/icons/ic-bolt.svg' },
-    { name: 'campfire', src: 'images/icons/ic-campfire.svg' }
-  ];
-
-  if (!name) throw new Error('Name props is required');
-  const availableIcons = icons.map(icon => icon.name);
-  if (!availableIcons.includes(name))
-    throw Error('Name props is invalid, should be one of ' + JSON.stringify(availableIcons));
-
-  const icon = icons.find(icon => icon.name === name);
+  export let icon;
 </script>
 
-<img src={icon.src} alt={`icon-${icon.name}`} />
+<i>
+  {@html icon}
+</i>
 
 <style>
-  img {
-    width: var(--text-font-size-m);
-    height: var(--text-font-size-m);
+  i {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  i > :global(svg) {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 100% !important;
   }
 </style>

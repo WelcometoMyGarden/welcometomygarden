@@ -4,6 +4,8 @@
   import NavLink from './NavLink.svelte';
   import UserDropdown from './UserDropdown.svelte';
   import { user } from '@/stores/auth';
+
+  $: firstName = $user ? $user.firstName : '';
 </script>
 
 <nav>
@@ -26,7 +28,7 @@
       <NavLink href={routes.FAQ}>FAQ</NavLink>
     </li>
     {#if $user}
-      <UserDropdown name={$user.firstName} />
+      <UserDropdown name={firstName || ''} />
     {:else}
       <li>
         <NavLink href={routes.SIGN_IN}>Sign in</NavLink>
@@ -47,6 +49,8 @@
     width: 100%;
     padding: 0 0 0 5rem;
     z-index: 100;
+    background-color: var(--color-white);
+    box-shadow: 0 0 3.3rem rgba(0, 0, 0, 0.1);
   }
 
   .title {
@@ -54,13 +58,12 @@
     align-items: center;
     background-image: url(/images/logo-emblem.svg);
     background-repeat: no-repeat;
-    background-position: left 50%;
+    background-position: left 40%;
     background-size: 7rem auto;
     height: 100%;
   }
 
   h1 {
-    padding-top: 1.6rem;
     padding-left: 8.5rem;
     font-size: 2.3rem;
     font-weight: 900;
@@ -69,9 +72,7 @@
   nav > ul {
     display: flex;
     align-items: center;
-    box-shadow: 0 0 3.3rem rgba(0, 0, 0, 0.1);
     height: 100%;
-    background-color: var(--color-white);
     padding-right: 5rem;
   }
 
@@ -88,8 +89,10 @@
   }
 
   @media screen and (max-width: 1200px) {
-    nav {
+    :global(body) {
       --height-nav: 5.5rem;
+    }
+    nav {
       padding-left: 3rem;
     }
     nav > ul {
@@ -114,7 +117,7 @@
       padding-left: 2rem;
     }
     nav > ul {
-      padding-right: 1rem;
+      padding-right: 2rem;
     }
     h1 {
       display: none;

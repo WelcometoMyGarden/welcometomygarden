@@ -4,7 +4,7 @@ const sendgrid = require('@sendgrid/mail');
 
 const API_KEY = functions.config().sendgrid.key;
 
-const send = (msg) => sendgrid.send(msg).catch((err) => console.error(err));
+const send = (msg) => sendgrid.send(msg);
 
 sendgrid.setApiKey(API_KEY);
 
@@ -30,6 +30,22 @@ exports.sendPasswordResetEmail = (email, name, resetLink) => {
     dynamic_template_data: {
       firstName: name,
       resetLink
+    }
+  };
+
+  return send(msg);
+};
+
+exports.sendMessageReceivedEmail = (email, firstName, senderName, message, messageUrl) => {
+  const msg = {
+    to: email,
+    from: 'Welcome to My Garden <support@welcometomygarden.org>',
+    templateId: 'd-9f8e900fee7d49bdabb79852de387609',
+    dynamic_template_data: {
+      firstName,
+      senderName,
+      messageUrl,
+      message
     }
   };
 

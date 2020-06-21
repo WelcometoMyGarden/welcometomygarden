@@ -9,6 +9,9 @@
 }
 
 :root {
+  /*
+  * Colors
+  */
   --color-white: #fff;
   --color-black: #333;
   --color-gray: #E5E5E5;
@@ -18,8 +21,24 @@
   --color-green: #495747;
   --color-green-light: #CFE3D4;
   --color-copy: #495747;
+  --color-info: #2D69EA;
+  --color-warning: #ffbb33;
+  --color-danger:  #ff4444;
+  --color-success: #00C851;
+
+  /*
+  * Typography
+  */
   --fonts-copy: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --fonts-titles: "Inknut Antiqua", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+  /*
+  * Units
+  */
+  --height-nav: 8rem;
+}
+
+/*
   --radius-xl: 40px;
   --radius-l: 20px;
   --radius-m: 10px;
@@ -33,7 +52,7 @@
   --text-font-size-m: 14px;
   --text-line-height-l: 160%;
   --text-line-height-m: 140%;
-}
+*/
 
 html, body {
   height: 100%;
@@ -53,6 +72,13 @@ body {
   font-family: var(--fonts-copy);
 }
 
+@media screen and (max-width: 700px) {
+  body, .input, textarea {
+    font-size: 1.4rem;
+  }
+
+}
+
 *,
 *:before,
 *:after {
@@ -60,14 +86,20 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1 {
   font-family: var(--fonts-titles);
-  font-weight: normal;
+}
+
+h2, h3, h4, h5, h6 {
+  font-family: var(--fonts-copy)
+}
+
+h3, h4, h5, h6 {
+  font-family: var(--fonts-copy);
+}
+
+h1 {
+  font-size: 2.4rem;
 }
 
 p,
@@ -85,8 +117,13 @@ a:hover {
 }
 
 input,
+select,
 textarea {
   font-family: var(--fonts-copy);
+}
+
+strong {
+  font-weight: bold;
 }
 
 .button-container {
@@ -95,6 +132,7 @@ textarea {
   border: none;
   padding: 0;
   margin: 0;
+  text-align: inherit;
   outline: 0;
   width: 100%;
   height: 100%;
@@ -111,15 +149,33 @@ textarea {
   border: 0;
 }
 
-/**
- * Margin classes
- */
-.mb-l {
-  margin-bottom: var(--spacer-l);
+.input {
+  padding: 1.2rem 0;
+  border: none;
+  border-bottom: 1px solid var(--color-green);
+  transition: border 300ms ease-in-out;
+  font-size: 1.6rem;
+  outline: none;
+  width: 100%;
+  position: relative;
 }
-.mb-m {
-  margin-bottom: var(--spacer-m);
+
+.input:focus {
+  border-bottom: 1px solid var(--color-info);
 }
-.mt-m {
-  margin-top: var(--spacer-m);
+
+a.link {
+  color: var(--color-orange);
+  text-decoration: underline;
+}
+
+a.link:visited,
+a.link:active,
+a.link:hover {
+  color: var(--color-orange);
+  text-decoration: underline;
+}
+
+.danger {
+  color: var(--color-danger);
 }

@@ -1,6 +1,7 @@
 import * as fire from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/functions';
+import 'firebase/storage';
 import 'firebase/auth';
 
 import config from '@/wtmg.config';
@@ -14,6 +15,9 @@ const firebase = fire.initializeApp(firebaseConfig);
 export const db = firebase.firestore();
 export const auth = firebase.auth();
 export const functions = firebase.functions();
+export const storage = firebase.storage().ref();
+
+export const Timestamp = fire.firestore.Timestamp;
 
 auth.useDeviceLanguage();
 

@@ -1,17 +1,16 @@
 export default {
   HOME: '/',
-  ADD_GARDEN: '/add-garden',
+  ADD_GARDEN: '/garden/add',
   MAP: '/discover',
-  SIGN_IN: '/auth/sign-in',
-  REGISTER: '/auth/register',
-  RESET_PASSWORD: '/auth/reset-password',
-  REQUEST_PASSWORD_RESET: '/auth/request-password-reset',
+  SIGN_IN: '/sign-in',
+  REGISTER: '/register',
+  RESET_PASSWORD: '/reset-password',
+  REQUEST_PASSWORD_RESET: '/request-password-reset',
   ACCOUNT: '/account',
-  RULES: '/rules',
-  FAQ: '/faq',
+  RULES: '/info/rules',
+  FAQ: '/info/faq',
   CHAT: '/chat',
-  COPYRIGHT: '/copyright',
-  COOKIE_POLICY: '/cookies',
-  PRIVACY_POLICY: '/privacy-policy',
-  TERMS_OF_USE: '/terms-of-use'
+  COOKIE_POLICY: '/terms/cookies',
+  PRIVACY_POLICY: '/terms/privacy-policy',
+  TERMS_OF_USE: '/terms/terms-of-use'
 };
