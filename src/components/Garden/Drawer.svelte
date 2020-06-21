@@ -1,7 +1,7 @@
 <script>
   export let garden = null;
 
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, onDestroy } from 'svelte';
   import { getPublicUserProfile } from '@/api/user';
   import { getGardenPhotoSmall } from '@/api/garden';
   import { draggable, clickOutside } from '@/directives';
@@ -73,7 +73,7 @@
   $: if (garden) setAllGardenInfo().then(() => (ready = true));
 </script>
 
-<Progress active={!ready} />
+<Progress active={garden && !ready} />
 
 <section
   class={drawerClasses}

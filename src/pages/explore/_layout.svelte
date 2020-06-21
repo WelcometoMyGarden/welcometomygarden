@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { goto, params } from '@sveltech/routify';
   import { getAllListedGardens } from '@/api/garden';
   import { allGardens, isFetchingGardens } from '@/stores/garden';
@@ -29,6 +29,10 @@
         isFetchingGardens.set(false);
       }
     }
+  });
+
+  onDestroy(() => {
+    isFetchingGardens.set(false);
   });
 </script>
 
