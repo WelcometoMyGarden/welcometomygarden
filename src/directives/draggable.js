@@ -1,4 +1,4 @@
-export function draggable(node) {
+export default (node) => {
   let x;
   let y;
 
@@ -74,4 +74,4 @@ export function draggable(node) {
       node.removeEventListener('touchstart', handleTouchdown);
     }
   };
-}
+};

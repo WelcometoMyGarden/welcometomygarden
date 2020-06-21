@@ -2,8 +2,7 @@
   export let garden = null;
 
   import { createEventDispatcher } from 'svelte';
-  import { draggable } from '../../directives/draggable.js';
-  import { clickOutside } from '@/util';
+  import { draggable, clickOutside } from '@/directives';
   import { Text, Badge, Image, Button } from '../UI';
   import {
     bonfireIcon,
@@ -17,34 +16,20 @@
   const dispatch = createEventDispatcher();
 
   const DRAWER_DEFAULT_HEIGHT = 400;
-  const images = [
-    {
-      src: 'https://picsum.photos/200/200?1',
-      alt: 'Random Image',
-      style: 'width: 60px; height: 60px; margin-right: 5px;'
-    },
-    {
-      src: 'https://picsum.photos/200/200?2',
-      alt: 'Random Image',
-      style: 'width: 60px; height: 60px; margin-right: 5px;'
-    },
-    {
-      src: 'https://picsum.photos/200/200?3',
-      alt: 'Random Image',
-      style: 'width: 60px; height: 60px; margin-right: 5px;'
-    },
-    {
-      src: 'https://picsum.photos/200/200?4',
-      alt: 'Random Image',
-      style: 'width: 60px; height: 60px; margin-right: 5px;'
-    }
-  ];
 
   let drawerElement;
   let drawerHeight = DRAWER_DEFAULT_HEIGHT;
   let previousOffsetCursor = null;
+
   $: hasHiddenClass = garden ? '' : 'hidden';
   $: drawerClasses = `drawer ${hasHiddenClass}`;
+
+  let userInfo;
+  const setAllGardenInfo = async () => {
+    const profile = null;
+  };
+
+  $: if (garden) userInfo = setAllGardenInfo();
 
   const handleClickOutsideDrawer = event => {
     const { clickEvent } = event.detail;

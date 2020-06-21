@@ -3,7 +3,7 @@
   import routes from '@/routes';
   import { logout } from '@/api/auth';
   import { user } from '@/stores/auth';
-  import { clickOutside } from '@/util';
+  import { clickOutside } from '@/directives';
   import { tentIcon, mapIcon, chatIcon, signInIcon, userIcon } from '@/images/icons';
   import Hamburger from './Hamburger.svelte';
   import Socials from '@/components/Socials.svelte';

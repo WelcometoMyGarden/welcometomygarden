@@ -2,7 +2,7 @@
   export let name;
 
   import { slide } from 'svelte/transition';
-  import { clickOutside } from '@/util';
+  import { clickOutside } from '@/directives';
   import { logout } from '@/api/auth';
   import { chatIcon, signOutIcon, userIcon } from '@/images/icons';
   import routes from '@/routes';
