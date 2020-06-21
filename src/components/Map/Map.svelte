@@ -5,10 +5,6 @@
   import key from './mapbox-context.js';
   import { Progress } from '../UI';
 
-  import GardenLayer from './GardenLayer.svelte';
-  import Drawer from './Drawer.svelte';
-  import Button from '../UI/Button.svelte';
-
   export let lat;
   export let lon;
   export let zoom;
@@ -16,8 +12,7 @@
 
   let container;
   let map;
-  let mapIsLoading = false;
-  let campsite = null;
+  let mapIsLoading = true;
 
   setContext(key, {
     getMap: () => map
@@ -37,35 +32,6 @@
 
     map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left');
   });
-
-  function simulateCampsiteClick() {
-    if (campsite) {
-      campsite = null;
-    } else {
-      campsite = {
-        facilities: {
-          amountOfTents: 1,
-          drinkableWater: true,
-          electricity: true,
-          tent: false,
-          toilet: false,
-          shower: false
-        },
-        photos: [
-          'https://picsum.photos/200/200?1',
-          'https://picsum.photos/200/200?2',
-          'https://picsum.photos/200/200?3',
-          'https://picsum.photos/200/200?4'
-        ],
-        location: {
-          latitude: 0,
-          longitude: 0
-        },
-        description:
-          'Quiet location, large garden, child friendly, meadow with animals, no sanitary facilities, toilet by arrangement with the owner.'
-      };
-    }
-  }
 
   $: if (recenterOnUpdate && map) {
     map.flyTo({
@@ -87,13 +53,7 @@
 <Progress active={mapIsLoading} />
 
 <div bind:this={container}>
-  <!-- TODO: Remove that when use real data -->
-  <div class="fixed-btn">
-    <button on:click={simulateCampsiteClick}>SIMULATE CLICK ON CAMPSITE</button>
-  </div>
   {#if map}
-    <GardenLayer />
-    <Drawer {campsite} />
     <slot />
   {/if}
 </div>
@@ -102,14 +62,6 @@
   div {
     width: 100%;
     height: 100%;
-  }
-
-  /* TODO: Remove that when use real data  */
-  .fixed-btn {
-    position: absolute;
-    top: 100px;
-    left: 20px;
-    z-index: 1;
   }
 
   @media screen and (max-width: 700px) {

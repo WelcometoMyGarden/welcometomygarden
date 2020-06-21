@@ -7,7 +7,7 @@
   const map = getMap();
 
   map.on('load', () => {
-    map.addSource('garden', {
+    /*map.addSource('garden', {
       type: 'geojson',
       data: 'data/garden.geojson'
       // cluster: true,
@@ -23,5 +23,6 @@
         'circle-color': 'blue'
       }
     });
+    */
   });
 </script>
