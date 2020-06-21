@@ -95,7 +95,7 @@
               Resend email
             </button>
           {:else}
-            <p>Email sent!</p>
+            <p class="resend-verification">Email sent!</p>
           {/if}
         </div>
       </section>
