@@ -103,7 +103,9 @@
         {/each}
       {/if}
     </div>
-    <Text class="mb-l description">{campsite && campsite.description}</Text>
+    <div class="description">
+      <Text class="mb-l">{campsite && campsite.description}</Text>
+    </div>
     <div class="badges-container">
       {#each facilities as facility (facility.name)}
         {#if campsite && campsite.facilities[facility.name]}
@@ -143,7 +145,7 @@
   }
 
   .drawer.hidden {
-    right: -32.5rem;
+    right: -325px;
   }
 
   @media screen and (max-width: 700px) {
@@ -159,10 +161,11 @@
       border-bottom-left-radius: 0;
       min-height: auto;
       overflow-y: hidden;
-      transition: transform 0.2s;
+      transition: transform 300ms;
     }
     .drawer.hidden {
-      transform: translateY(100rem);
+      right: 0;
+      transform: translateY(1000px);
     }
   }
 
@@ -213,6 +216,6 @@
   }
 
   .description {
-    max-width: 60rem;
+    max-width: 45rem;
   }
 </style>
