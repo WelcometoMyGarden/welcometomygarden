@@ -1,9 +1,9 @@
 <script>
-  import { isActive } from '@sveltech/routify';
+  import { isActive, goto } from '@sveltech/routify';
   import routes from '@/routes';
   import { logout } from '@/api/auth';
   import { user } from '@/stores/auth';
-  import { clickOutside } from '@/util';
+  import { clickOutside } from '@/directives';
   import { tentIcon, mapIcon, chatIcon, signInIcon, userIcon } from '@/images/icons';
   import Hamburger from './Hamburger.svelte';
   import Socials from '@/components/Socials.svelte';
@@ -81,9 +81,9 @@
     <li class="separated sign-out">
       <a
         href="/"
-        on:click={async () => {
-          toggleDrawer();
-          await logout();
+        on:click|preventDefault={() => {
+          $goto(routes.HOME);
+          logout();
         }}>
         Sign out
       </a>

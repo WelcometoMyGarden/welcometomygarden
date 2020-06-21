@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-const isUploading = writable(false);
-const uploadProgress = writable(0);
-
-export { isUploading, uploadProgress };
+export const isUploading = writable(false);
+export const uploadProgress = writable(0);
+export const isFetchingGardens = writable(true);
+export const allGardens = writable({});

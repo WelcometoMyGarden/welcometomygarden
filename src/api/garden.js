@@ -1,7 +1,19 @@
 import { get } from 'svelte/store';
 import { user } from '@/stores/auth';
-import { isUploading, uploadProgress } from '@/stores/garden';
+import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '@/stores/garden';
 import { db, storage } from './index';
+
+export const getAllListedGardens = async () => {
+  isFetchingGardens.set(true);
+  const snapshot = await db.collection('campsites').where('listed', '==', true).get();
+  const gardens = {};
+  snapshot.forEach((doc) => {
+    gardens[doc.id] = { id: doc.id, ...doc.data() };
+  });
+  allGardens.set(gardens);
+  isFetchingGardens.set(false);
+  return snapshot.docs;
+};
 
 export const addGarden = async ({ photo, ...rest }) => {
   const currentUser = get(user);
@@ -43,4 +55,10 @@ export const changeListedStatus = async (shouldBeListed) => {
   await db.collection('campsites').doc(currentUser.id).update({
     listed: shouldBeListed
   });
+};
+
+export const getGardenPhotoSmall = async (garden) => {
+  return storage
+    .child(`gardens/${garden.id}/garden_360x360.${garden.photo.split('.').pop()}`)
+    .getDownloadURL();
 };

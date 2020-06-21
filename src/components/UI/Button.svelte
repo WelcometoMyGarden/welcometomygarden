@@ -1,4 +1,6 @@
 <script>
+  import Text from './Text.svelte';
+
   export let type = null;
   export let href = null;
   export let inverse = false;
@@ -31,7 +33,9 @@
     class:inverse
     {href}
     {target}>
-    <slot />
+    <Text is="span">
+      <slot />
+    </Text>
   </a>
 {:else}
   <button
@@ -45,7 +49,9 @@
     class:inverse
     class:clicked
     {type}>
-    <slot />
+    <Text is="span" weight="bold">
+      <slot />
+    </Text>
   </button>
 {/if}
 

@@ -19,10 +19,9 @@
   const addUserInformation = async () => {
     await setAllUserInfo();
     unsubscribeFromChatObserver = createChatObserver();
-    infoIsReady = true;
   };
 
-  $: if ($user) addUserInformation();
+  $: if ($user) addUserInformation().then(() => (infoIsReady = true));
   else if (!$isInitializing) infoIsReady = true;
 
   onDestroy(() => {

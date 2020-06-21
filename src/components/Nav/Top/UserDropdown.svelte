@@ -1,8 +1,9 @@
 <script>
   export let name;
 
+  import { goto } from '@sveltech/routify';
   import { slide } from 'svelte/transition';
-  import { clickOutside } from '@/util';
+  import { clickOutside } from '@/directives';
   import { logout } from '@/api/auth';
   import { chatIcon, signOutIcon, userIcon } from '@/images/icons';
   import routes from '@/routes';
@@ -42,8 +43,9 @@
       <li class="separated">
         <a
           href={routes.HOME}
-          on:click={async () => {
+          on:click|preventDefault={async () => {
             toggleOpen();
+            $goto(routes.HOME);
             await logout();
           }}>
           <i>

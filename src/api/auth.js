@@ -11,11 +11,11 @@ const reloadUserInfo = async () => {
   await setAllUserInfo();
 };
 
-export const login = (email, password) => {
+export const login = async (email, password) => {
   isLoggingIn.set(true);
-  return auth.signInWithEmailAndPassword(email, password).then(() => {
-    isLoggingIn.set(false);
-  });
+  await auth.signInWithEmailAndPassword(email, password);
+  await reloadUserInfo();
+  isLoggingIn.set(false);
 };
 
 export const register = async ({ email, password, firstName, lastName, countryCode }) => {
@@ -26,9 +26,10 @@ export const register = async ({ email, password, firstName, lastName, countryCo
   isRegistering.set(false);
 };
 
-export const logout = async () => {
-  await auth.signOut();
-  user.set(null);
+export const logout = () => {
+  return auth.signOut().then(() => {
+    user.set(null);
+  });
 };
 
 export const requestPasswordReset = (email) => api.requestPasswordReset(email);
