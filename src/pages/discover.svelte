@@ -1,11 +1,16 @@
 <script>
+  import { onMount } from 'svelte';
+  import { getAllListedGardens } from '@/api/garden';
+  import { allGardens, isFetchingGardens } from '@/stores/garden';
   import Map from '@/components/Map/Map.svelte';
   import GardenLayer from '@/components/Map/GardenLayer.svelte';
   import Drawer from '@/components/Map/Drawer.svelte';
+  import { Progress } from '@/components/UI';
 
   let campsite = null;
 
-  function simulateCampsiteClick() {
+  const clickGarden = e => {
+    console.log(e.detail);
     if (campsite) {
       campsite = null;
     } else {
@@ -34,34 +39,36 @@
           'Quiet location, large garden, child friendly, meadow with animals, no sanitary facilities, toilet by arrangement with the owner.'
       };
     }
-  }
+  };
+
+  onMount(async () => {
+    if (!$allGardens) {
+      try {
+        await getAllListedGardens();
+      } catch (ex) {
+        console.log(ex);
+        isFetchingGardens.set(false);
+      }
+    }
+  });
 
   const closeDrawer = () => {
     campsite = null;
   };
 </script>
 
+<Progress active={$isFetchingGardens} />
+
 <div>
   <Map lat="50.5" lon="4.5" zoom="7">
-    <GardenLayer />
-    <div class="fixed-btn">
-      <button on:click={simulateCampsiteClick}>SIMULATE CLICK ON CAMPSITE</button>
-    </div>
+    {#if !$isFetchingGardens}
+      <GardenLayer on:garden-click={clickGarden} gardens={$allGardens} />
+    {/if}
     <Drawer on:close={closeDrawer} {campsite} />
   </Map>
 </div>
 
 <style>
-  /* TODO: Remove that when use real data  */
-  .fixed-btn {
-    position: absolute;
-    top: 100px;
-    left: 20px;
-    z-index: 1;
-    width: 20rem;
-    height: auto;
-  }
-
   div {
     width: 100%;
     height: calc(100vh - var(--height-footer));
