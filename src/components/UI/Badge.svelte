@@ -23,6 +23,7 @@
     padding: 0.5rem 1rem;
     margin-top: 0.8rem;
     margin-left: 0.8rem;
+    font-size: 1.4rem;
   }
 
   .icon {

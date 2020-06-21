@@ -57,8 +57,16 @@ export const changeListedStatus = async (shouldBeListed) => {
   });
 };
 
-export const getGardenPhotoSmall = async (garden) => {
+const getPhotoBySize = (size, garden) => {
   return storage
-    .child(`gardens/${garden.id}/garden_360x360.${garden.photo.split('.').pop()}`)
+    .child(`gardens/${garden.id}/garden_${size}.${garden.photo.split('.').pop()}`)
     .getDownloadURL();
+};
+
+export const getGardenPhotoSmall = async (garden) => {
+  return getPhotoBySize('360x360', garden);
+};
+
+export const getGardenPhotoBig = async (garden) => {
+  return getPhotoBySize('1920x1080', garden);
 };

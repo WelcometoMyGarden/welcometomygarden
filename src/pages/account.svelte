@@ -85,7 +85,7 @@
       <section>
         <h2>Verify your email</h2>
         <div>
-          You need to verify your email address if you want to chat or add a garden.
+          <p>You need to verify your email address if you want to chat or add a garden.</p>
           {#if !hasResentEmail}
             <button
               class="resend-verification"

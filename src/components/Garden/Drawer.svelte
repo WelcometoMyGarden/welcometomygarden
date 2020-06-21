@@ -1,9 +1,10 @@
 <script>
   export let garden = null;
 
-  import { createEventDispatcher, onDestroy } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
+  import { scale } from 'svelte/transition';
   import { getPublicUserProfile } from '@/api/user';
-  import { getGardenPhotoSmall } from '@/api/garden';
+  import { getGardenPhotoSmall, getGardenPhotoBig } from '@/api/garden';
   import { draggable, clickOutside } from '@/directives';
   import { Text, Badge, Image, Button, Progress } from '../UI';
   import {
@@ -20,16 +21,12 @@
   const DRAWER_DEFAULT_HEIGHT = 400;
 
   let drawerElement;
+  let photoWrapper;
   let drawerHeight = DRAWER_DEFAULT_HEIGHT;
   let previousOffsetCursor = null;
 
   $: hasHiddenClass = garden ? '' : 'hidden';
   $: drawerClasses = `drawer ${hasHiddenClass}`;
-
-  const handleClickOutsideDrawer = event => {
-    const { clickEvent } = event.detail;
-    if (!drawerElement.contains(clickEvent.target)) dispatch('close');
-  };
 
   function dragBarCatch() {
     previousOffsetCursor = 0;
@@ -58,6 +55,7 @@
 
   let userInfo = {};
   let photoUrl = null;
+  let biggerPhotoUrl = null;
 
   let ready = false;
   const setAllGardenInfo = async () => {
@@ -70,10 +68,43 @@
     }
   };
 
+  const handleClickOutsideDrawer = event => {
+    const { clickEvent } = event.detail;
+    if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) return;
+    else if (!drawerElement.contains(clickEvent.target)) dispatch('close');
+  };
+
+  let isShowingMagnifiedPhoto = false;
+  const magnifyPhoto = async () => {
+    try {
+      if (garden.photo && !biggerPhotoUrl) {
+        biggerPhotoUrl = await getGardenPhotoBig(garden);
+      }
+    } catch (ex) {
+      console.log(ex);
+      ready = true;
+    }
+    isShowingMagnifiedPhoto = true;
+  };
+
   $: if (garden) setAllGardenInfo().then(() => (ready = true));
 </script>
 
 <Progress active={garden && !ready} />
+
+{#if isShowingMagnifiedPhoto}
+  <div
+    class="magnified-photo-wrapper"
+    transition:scale
+    bind:this={photoWrapper}
+    on:click={() => {
+      isShowingMagnifiedPhoto = false;
+    }}>
+    <div class="magnified-photo">
+      <img alt="Garden" src={biggerPhotoUrl} on:click={() => (isShowingMagnifiedPhoto = false)} />
+    </div>
+  </div>
+{/if}
 
 <section
   class={drawerClasses}
@@ -93,9 +124,9 @@
     <section class="main">
       <Text class="mb-l" weight="bold" size="l">{userInfo.firstName}</Text>
       {#if garden && garden.photo && photoUrl}
-        <div class="mb-l image-container">
+        <button on:click={magnifyPhoto} class="mb-l button-container image-container">
           <Image src={photoUrl} alt="Garden" />
-        </div>
+        </button>
       {/if}
       <div class="description">
         <Text class="mb-l">{garden && garden.description}</Text>
@@ -123,6 +154,7 @@
 <style>
   .drawer {
     position: absolute;
+    font-family: var(--fonts-copy);
     top: 50%;
     right: 0;
     background-color: white;
@@ -219,9 +251,34 @@
   .image-container {
     width: 6rem;
     height: 6rem;
+    margin-bottom: 2rem;
   }
 
   .image-container:hover {
     cursor: zoom-in;
+  }
+
+  .magnified-photo-wrapper {
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .magnified-photo {
+    max-width: 192rem;
+    height: auto;
+    width: 80vw;
+  }
+
+  .magnified-photo img {
+    width: 100%;
+    height: 100%;
   }
 </style>
