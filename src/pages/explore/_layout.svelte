@@ -4,7 +4,7 @@
   import { getAllListedGardens } from '@/api/garden';
   import { allGardens, isFetchingGardens } from '@/stores/garden';
   import Map from '@/components/Map/Map.svelte';
-  import Drawer from '@/components/Map/Drawer.svelte';
+  import Drawer from '@/components/Garden/Drawer.svelte';
   import GardenLayer from '@/components/Map/GardenLayer.svelte';
   import routes from '@/routes';
   import { Progress } from '@/components/UI';
