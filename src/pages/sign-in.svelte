@@ -32,7 +32,7 @@
 </script>
 
 <svelte:head>
-  <title>Sign in | Welcome to my Garden</title>
+  <title>Sign in | Welcome To My Garden</title>
 </svelte:head>
 
 <AuthContainer>

@@ -201,7 +201,7 @@
       Garden has no involvement and no responsibilities or liabilities with respect to any
       communications or disputes between two users. To be very clear: Welcome To My Garden is a
       platform allowing hosts to put their garden freely at disposal, allowing users to use
-      someone’s garden to camp and a place to communicate between users. Welcome to My Garden will
+      someone’s garden to camp and a place to communicate between users. Welcome To My Garden will
       not be and cannot be held responsible for the interactions or consequences of interactions
       between users. Users release Welcome To My Garden (and its volunteers) from claims, demands
       and damages (actual and consequential) of every kind and nature, known and unknown, suspected
