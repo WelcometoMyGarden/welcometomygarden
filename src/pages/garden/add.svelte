@@ -54,6 +54,9 @@
   };
 
   const updateDescription = event => {
+    if ((event.keyCode || event.which) == 13) {
+      event.preventDefault();
+    }
     const description = event.target.value;
     validateDescription(description);
     garden.description = description;
@@ -209,7 +212,7 @@
           id="description"
           name="description"
           value={garden.description}
-          on:input={updateDescription} />
+          on:keypress={updateDescription} />
         <p class="hint" class:invalid={!descriptionHint.valid}>{descriptionHint.message}</p>
       </div>
     </fieldset>

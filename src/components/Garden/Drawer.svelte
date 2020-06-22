@@ -20,11 +20,8 @@
 
   const dispatch = createEventDispatcher();
 
-  const DRAWER_DEFAULT_HEIGHT = 400;
-
   let drawerElement;
   let photoWrapper;
-  let drawerHeight = DRAWER_DEFAULT_HEIGHT;
   let previousOffsetCursor = null;
 
   $: hasHiddenClass = garden ? '' : 'hidden';
@@ -37,7 +34,6 @@
 
   function dragBarMove({ detail }) {
     if (previousOffsetCursor !== null) {
-      drawerHeight = drawerHeight - previousOffsetCursor + detail.y;
       previousOffsetCursor = detail.y;
     }
   }
@@ -122,8 +118,7 @@
   class={drawerClasses}
   bind:this={drawerElement}
   use:clickOutside
-  on:click-outside={handleClickOutsideDrawer}
-  style={`height: ${drawerHeight}px`}>
+  on:click-outside={handleClickOutsideDrawer}>
   <div
     class="drag-area"
     use:draggable
@@ -147,7 +142,7 @@
         </button>
       {/if}
       <div class="description">
-        <Text class="mb-l">{garden && garden.description.replace(/\n\s*\n\s*\n/g, '\n\n')}</Text>
+        <Text class="mb-l">{garden && garden.description}</Text>
       </div>
       <div class="badges-container">
         {#each facilities as facility (facility.name)}
@@ -199,9 +194,9 @@
     top: 50%;
     right: 0;
     background-color: white;
-    width: 40rem;
-    min-height: 48rem;
-    max-height: 50rem;
+    width: 38rem;
+    min-height: 45rem;
+    max-height: 80%;
     z-index: 1;
     transform: translate(0, -50%);
     padding: 3rem;
@@ -212,10 +207,11 @@
     display: flex;
     flex-direction: column;
     transition: right 250ms;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
   }
 
   .drawer.hidden {
-    right: -40rem;
+    right: -38rem;
   }
 
   @media screen and (max-width: 700px) {
@@ -230,6 +226,7 @@
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
       min-height: auto;
+      max-height: 80vh;
       overflow-y: hidden;
       transition: transform 250ms;
     }
@@ -286,7 +283,7 @@
 
   .description {
     max-width: 45rem;
-    white-space: pre-wrap;
+    word-wrap: break-word;
   }
 
   .image-container {
@@ -342,7 +339,7 @@
   .skeleton-description {
     height: 2rem;
     width: 100%;
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
   }
   .skeleton-badges {
     margin-top: 1rem;
