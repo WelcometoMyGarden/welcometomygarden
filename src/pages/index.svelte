@@ -29,7 +29,7 @@
     <div class="welcome-logo">
       {@html Logo}
     </div>
-    <h1 class="heading-underline-center">Welcome to My Garden</h1>
+    <h1 class="heading-underline-center">Welcome To My Garden</h1>
     <p class="welcome-text">{$_('index.intro.copy')}</p>
     <div class="welcome-buttons">
       {#if $user && !$user.garden}
@@ -56,30 +56,27 @@
 </div>
 
 <section id="steps-section" class="steps">
-  {#each getArrayFromLocale('index.steps') as { title, content }, i}
+  {#each getArrayFromLocale('index.steps') as { title, copy }, i}
     <div class="step">
       <div class="step-logo">
         {@html stepGraphics[i]}
       </div>
       <h2 class="step-header">{title}</h2>
-      <p class="step-text">{content}</p>
+      <p class="step-text">
+        {@html $_(`index.steps.${i}.copy`, { values: { addGardenLink: routes.ADD_GARDEN } })}
+      </p>
     </div>
   {/each}
 </section>
 
 <section class="faq">
   <div class="card faq-intro">
-    <h1 class="heading-underline-center">All you need to know</h1>
+    <h1 class="heading-underline-center">{$_('index.faq.title')}</h1>
     <p>
-      Here are the most important things you need to know about your next adventure. Please read
-      this FAQ section thoroughly so that you know what you’re getting&nbsp;yourself&nbsp;into.
+      {@html $_('index.faq.copy', { values: { faqLink: routes.FAQ } })}
     </p>
-    <a href={routes.FAQ}>
-      The full list of frequently asked questions
-      <span aria-hidden="true">>></span>
-    </a>
   </div>
-  <CollapsibleGroup collapsibles={getArrayFromLocale('index.questions')} />
+  <CollapsibleGroup collapsibles={getArrayFromLocale('index.faq.questions')} />
 </section>
 
 <section class="cooperation">
@@ -90,11 +87,9 @@
 
   <div class="card cooperation-card support">
     <div class="cooperation-content">
-      <h1 class="heading-underline-center">Support us</h1>
+      <h1 class="heading-underline-center">{$_('index.support.title')}</h1>
       <p>
-        Welcome to My Garden is free to use but we have to pay a couple of bills.
-        <a href="https://opencollective.com/welcometomygarden" target="_blank">Make a donation</a>
-        to keep us going!
+        {@html $_('index.support.copy')}
       </p>
     </div>
   </div>
@@ -127,7 +122,6 @@
     font-size: 1.6rem;
     line-height: 2.6rem;
     color: var(--color-green);
-    text-align: justify;
     margin-bottom: 2rem;
   }
 
@@ -246,6 +240,13 @@
     padding: 0 10rem;
   }
 
+  .steps :global(a),
+  .cooperation-content :global(a) {
+    font-weight: bold;
+    text-decoration: underline;
+    color: var(--color-orange);
+  }
+
   .step {
     margin-right: 7rem;
     display: grid;
@@ -291,8 +292,9 @@
     line-height: 3.2rem;
   }
 
-  .faq-intro a {
+  .faq-intro :global(a) {
     color: var(--color-white);
+    text-decoration: underline;
   }
 
   .cooperation {

@@ -163,7 +163,7 @@
       {#if ownedByLoggedInUser}
         <Button href={routes.ACCOUNT} uppercase medium>Manage garden</Button>
       {:else}
-        <Button uppercase medium disabled>Contact host</Button>
+        <Button href={`${routes.CHAT}?with=${garden.id}`} uppercase medium>Contact host</Button>
       {/if}
     </footer>
   {/if}

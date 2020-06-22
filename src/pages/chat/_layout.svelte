@@ -37,14 +37,15 @@
     newConversation = null;
   }
   const startChattingWith = async partnerId => {
-    try {
-      const newPartner = await initiateChat(partnerId);
-      newConversation = { name: newPartner.firstName, partnerId };
-      $goto(getConvoRoute(newPartner.firstName, `new?id=${partnerId}`));
-    } catch (ex) {
-      // TODO: display error
-      $goto(routes.CHAT);
-    }
+    if ($chats)
+      try {
+        const newPartner = await initiateChat(partnerId);
+        newConversation = { name: newPartner.firstName, partnerId };
+        $goto(getConvoRoute(newPartner.firstName, `new?id=${partnerId}`));
+      } catch (ex) {
+        // TODO: display error
+        $goto(routes.CHAT);
+      }
   };
 
   const sortByLastActivity = (c1, c2) => c1.lastActivity - c2.lastActivity;
