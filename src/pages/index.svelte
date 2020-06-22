@@ -238,6 +238,8 @@
   .steps {
     display: flex;
     padding: 0 10rem;
+    text-align: justify;
+    justify-content: space-between;
   }
 
   .steps :global(a),
@@ -248,18 +250,15 @@
   }
 
   .step {
-    margin-right: 7rem;
     display: grid;
     grid-template-rows: 17rem 0.8fr 2fr;
+    max-width: 60rem;
+    width: 30%;
   }
 
   .step-header {
     font-family: var(--font-copy);
     font-weight: bold;
-  }
-
-  .step:last-of-type {
-    margin-right: 0;
   }
 
   .step-logo {
@@ -359,10 +358,11 @@
     .steps {
       flex-direction: column;
       padding: 0 12rem;
+      align-items: center;
     }
 
     .step {
-      margin-right: 0;
+      width: 100%;
     }
 
     .step-header {
@@ -452,6 +452,10 @@
       padding: 0 8rem;
     }
 
+    .step {
+      margin: 0 auto;
+    }
+
     .faq-intro {
       padding: 4rem 8rem 6rem;
     }
@@ -466,6 +470,11 @@
       font-size: 2.2rem;
       margin-bottom: 2rem;
       line-height: 6.5rem;
+    }
+
+    .heading-underline-center {
+      font-size: 2rem;
+      line-height: 2;
     }
   }
 
