@@ -52,8 +52,7 @@
     },
     "support": {
       "title": "Support us",
-      "copy": "Welcome to My Garden is free to use but we have to pay a couple of bills. <a href=\"https://opencollective.com/welcometomygarden\" target=\"_blank\">Make a donation</a> to keep us going!",
-      "donationLinkText": "Make a donation"
+      "copy": "Welcome to My Garden is free to use but we have to pay a couple of bills. <a href=\"https://opencollective.com/welcometomygarden\" target=\"_blank\">Make a donation</a> to keep us going!"
     }
   },
   "rules": {
@@ -157,7 +156,7 @@
       },
       {
         "title": "How does Welcome to My Garden work?",
-        "copy": "People who want to open up their garden to travellers can add their garden by filling out the form on the website (click the “Add your garden” button). People who want to stay at one of the campgrounds can then contact the garden owners to arrange their stay."
+        "copy": "People who want to open up their garden to travellers can add their garden by filling out the form on the website (click the \"Add your garden\" button). People who want to stay at one of the campgrounds can then contact the garden owners to arrange their stay."
       },
       {
         "title": "How do I get to my campground?",
