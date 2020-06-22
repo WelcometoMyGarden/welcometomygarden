@@ -16,7 +16,6 @@
 
   const handleClickOutsideDrawer = event => {
     const { clickEvent } = event.detail;
-    // if (node.contains(event.target)) console.log('yup');
     if (drawerIsShown && !hamburger.contains(clickEvent.target)) toggleDrawer();
   };
 

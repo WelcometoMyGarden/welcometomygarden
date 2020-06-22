@@ -13,7 +13,6 @@
   const submit = async () => {
     isResetting = true;
     try {
-      console.log(password);
       await confirmPasswordReset($params.oobCode, password.value);
 
       // if password reset was successful, sign user in:
