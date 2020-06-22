@@ -7,7 +7,7 @@
   import { getGardenPhotoSmall, getGardenPhotoBig } from '@/api/garden';
   import { user } from '@/stores/auth';
   import { draggable, clickOutside } from '@/directives';
-  import { Text, Badge, Image, Button, Progress } from '../UI';
+  import { Text, Badge, Image, Button } from '../UI';
   import {
     bonfireIcon,
     waterIcon,
@@ -95,10 +95,13 @@
     isShowingMagnifiedPhoto = true;
   };
 
+  let previousGarden = garden;
+  $: if (garden && garden.id !== previousGarden.id) {
+    ready = false;
+    previousGarden = garden;
+  }
   $: if (garden) setAllGardenInfo().then(() => (ready = true));
 </script>
-
-<Progress active={garden && !ready} />
 
 {#if isShowingMagnifiedPhoto}
   <div
@@ -114,21 +117,21 @@
   </div>
 {/if}
 
-<section
+<div
   class={drawerClasses}
   bind:this={drawerElement}
   use:clickOutside
   on:click-outside={handleClickOutsideDrawer}
   style={`height: ${drawerHeight}px`}>
+  <div
+    class="drag-area"
+    use:draggable
+    on:dragstart={dragBarCatch}
+    on:drag={dragBarMove}
+    on:dragend={dragBarRelease}>
+    <div class="drag-bar" />
+  </div>
   {#if ready}
-    <div
-      class="drag-area"
-      use:draggable
-      on:dragstart={dragBarCatch}
-      on:drag={dragBarMove}
-      on:dragend={dragBarRelease}>
-      <div class="drag-bar" />
-    </div>
     <section class="main">
       <Text class="mb-l" weight="bold" size="l">
         {#if ownedByLoggedInUser}Your Garden{:else}{userInfo.firstName}{/if}
@@ -166,8 +169,26 @@
         <Button href={`${routes.CHAT}?with=${garden.id}`} uppercase medium>Contact host</Button>
       {/if}
     </footer>
+  {:else}
+    <section class="main">
+      <div class="skeleton mb-l skeleton-name" />
+      <div class="skeleton skeleton-photo" />
+      <div class="description">
+        <div class="skeleton skeleton-description" />
+        <div class="skeleton skeleton-description" />
+        <div class="skeleton skeleton-description" />
+      </div>
+      <div class="badges-container skeleton-badges">
+        <Badge isSkeleton />
+        <Badge isSkeleton />
+        <Badge isSkeleton />
+        <Badge isSkeleton />
+        <Badge isSkeleton />
+      </div>
+      <div class="skeleton footer mt-ms skeleton-cta" />
+    </section>
   {/if}
-</section>
+</div>
 
 <style>
   .drawer {
@@ -248,7 +269,6 @@
       min-height: 30rem;
     }
   }
-
   .footer {
     display: flex;
     flex-direction: column;
@@ -306,5 +326,29 @@
   .magnified-photo img {
     max-width: 100%;
     max-height: 100%;
+  }
+
+  .skeleton-name {
+    width: 100%;
+    height: 3rem;
+  }
+  .skeleton-photo {
+    width: 6rem;
+    height: 6rem;
+    margin-bottom: 2rem;
+  }
+  .skeleton-description {
+    height: 2rem;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  .skeleton-badges {
+    margin-bottom: 2rem;
+  }
+  .skeleton-cta {
+    height: 5rem;
+    width: 12rem;
+    align-self: center;
+    margin-top: auto;
   }
 </style>
