@@ -26,7 +26,6 @@
 
   $: hasHiddenClass = garden ? '' : 'hidden';
   $: drawerClasses = `drawer ${hasHiddenClass}`;
-  $: ownedByLoggedInUser = $user && garden && $user.id === garden.id;
 
   function dragBarCatch() {
     previousOffsetCursor = 0;
@@ -34,6 +33,9 @@
 
   function dragBarMove({ detail }) {
     if (previousOffsetCursor !== null) {
+      drawerElement.style.height = `${drawerElement.offsetHeight -
+        previousOffsetCursor +
+        detail.y}px`;
       previousOffsetCursor = detail.y;
     }
   }
@@ -97,6 +99,7 @@
     previousGarden = garden;
   }
   $: if (garden) setAllGardenInfo().then(() => (ready = true));
+  $: ownedByLoggedInUser = $user && garden && $user.id === garden.id;
 </script>
 
 <Progress active={isGettingMagnifiedPhoto} />
