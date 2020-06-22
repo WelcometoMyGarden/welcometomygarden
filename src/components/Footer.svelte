@@ -1,6 +1,7 @@
 <script>
   import routes from '@/routes';
   import Socials from './Socials.svelte';
+  import LanguageSelector from './LanguageSelector.svelte';
 </script>
 
 <footer>
@@ -18,6 +19,7 @@
       <a href={routes.TERMS_OF_USE}>Terms of use</a>
     </li>
   </ul>
+  <LanguageSelector />
 </footer>
 
 <style>
@@ -26,14 +28,13 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
-    padding: 4rem 0;
+    padding-top: 1rem;
   }
 
   .terms {
-    margin-top: 3rem;
     display: flex;
     align-items: center;
   }

@@ -8,6 +8,7 @@
   import Hamburger from './Hamburger.svelte';
   import Socials from '@/components/Socials.svelte';
   import { Icon } from '@/components/UI';
+  import LanguageSelector from '@/components/LanguageSelector.svelte';
 
   let hamburger;
   let drawerIsShown = false;
@@ -78,6 +79,9 @@
         <a href={route} on:click={toggleDrawer} class:active={$isActive(route)}>{name}</a>
       </li>
     {/each}
+    <li>
+      <LanguageSelector />
+    </li>
     <li class="separated sign-out">
       <a
         href="/"
