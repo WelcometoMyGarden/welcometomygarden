@@ -4,7 +4,7 @@
   import { goto, params, isActive } from '@sveltech/routify';
   import { user } from '@/stores/auth';
   import notify from '@/stores/notification';
-  import { chats, creatingNewChat, hasInitialized } from '@/stores/chat';
+  import { chats, creatingNewChat, hasInitialized, getChatForUser } from '@/stores/chat';
   import routes from '@/routes';
   import { initiateChat } from '@/api/chat';
   import ConversationCard from '@/components/Chat/ConversationCard.svelte';
@@ -37,7 +37,13 @@
     newConversation = null;
   }
   const startChattingWith = async partnerId => {
-    if ($chats)
+    if ($chats) {
+      const activeChatWithUser = getChatForUser(partnerId);
+      if (activeChatWithUser) {
+        return $goto(
+          getConvoRoute($chats[activeChatWithUser].partner.firstName, activeChatWithUser)
+        );
+      }
       try {
         const newPartner = await initiateChat(partnerId);
         newConversation = { name: newPartner.firstName, partnerId };
@@ -46,6 +52,7 @@
         // TODO: display error
         $goto(routes.CHAT);
       }
+    }
   };
 
   const sortByLastActivity = (c1, c2) => c1.lastActivity - c2.lastActivity;

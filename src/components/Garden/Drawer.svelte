@@ -235,7 +235,7 @@
     }
     .drawer.hidden {
       right: 0;
-      transform: translateY(1000px);
+      transform: translateY(100rem);
     }
   }
 
