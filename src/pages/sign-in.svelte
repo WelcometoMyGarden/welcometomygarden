@@ -14,6 +14,7 @@
 
   let formError = '';
   const submit = async () => {
+    if (!email.value || !password.value) return;
     formError = '';
     try {
       await login(email.value, password.value);

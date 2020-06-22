@@ -166,9 +166,11 @@
         <Button href={routes.MANAGE_GARDEN} uppercase medium>Manage garden</Button>
       {:else if garden}
         {#if !$user}
-          You must
-          <a href={routes.SIGN_IN}>sign in</a>
-          to contact hosts
+          <p class="log-in-first">
+            You must
+            <a class="link" href={routes.SIGN_IN}>sign in</a>
+            to contact hosts
+          </p>
         {/if}
         <Button href={`${routes.CHAT}?with=${garden.id}`} disabled={!$user} uppercase medium>
           Contact host
@@ -361,5 +363,10 @@
     width: 12rem;
     align-self: center;
     margin-top: auto;
+  }
+
+  .log-in-first {
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
   }
 </style>
