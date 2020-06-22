@@ -1,5 +1,5 @@
 import { get } from 'svelte/store';
-import { _, dictionary, locale } from 'svelte-i18n';
+import { _, dictionary } from 'svelte-i18n';
 
 export default (rootNode, currentLang, isArrayOfObjects = true) => {
   const dicValue = get(_);
