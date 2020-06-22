@@ -160,9 +160,9 @@
           <Text is="span" weight="bold">Dutch & English</Text>
         </Text>
       {/if}
-      {#if ownedByLoggedInUser}
+      {#if garden && ownedByLoggedInUser}
         <Button href={routes.ACCOUNT} uppercase medium>Manage garden</Button>
-      {:else}
+      {:else if garden}
         <Button href={`${routes.CHAT}?with=${garden.id}`} uppercase medium>Contact host</Button>
       {/if}
     </footer>
