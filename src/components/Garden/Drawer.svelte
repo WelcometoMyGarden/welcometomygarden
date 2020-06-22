@@ -7,7 +7,7 @@
   import { getGardenPhotoSmall, getGardenPhotoBig } from '@/api/garden';
   import { user } from '@/stores/auth';
   import { draggable, clickOutside } from '@/directives';
-  import { Text, Badge, Image, Button } from '../UI';
+  import { Text, Badge, Image, Button, Progress } from '../UI';
   import {
     bonfireIcon,
     waterIcon,
@@ -83,16 +83,16 @@
   };
 
   let isShowingMagnifiedPhoto = false;
+  let isGettingMagnifiedPhoto = false;
   const magnifyPhoto = async () => {
+    isGettingMagnifiedPhoto = true;
     try {
-      if (garden.photo) {
-        biggerPhotoUrl = await getGardenPhotoBig(garden);
-      }
+      if (garden.photo) biggerPhotoUrl = await getGardenPhotoBig(garden);
     } catch (ex) {
       console.log(ex);
-      ready = true;
     }
     isShowingMagnifiedPhoto = true;
+    isGettingMagnifiedPhoto = false;
   };
 
   let previousGarden = garden;
@@ -103,7 +103,8 @@
   $: if (garden) setAllGardenInfo().then(() => (ready = true));
 </script>
 
-{#if isShowingMagnifiedPhoto}
+<Progress active={isGettingMagnifiedPhoto} />
+{#if isShowingMagnifiedPhoto && !isGettingMagnifiedPhoto}
   <div
     class="magnified-photo-wrapper"
     transition:scale
