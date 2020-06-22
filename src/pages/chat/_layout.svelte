@@ -18,6 +18,8 @@
     $goto(routes.ACCOUNT);
   }
 
+  const sortByLastActivity = (c1, c2) => c2.lastActivity - c1.lastActivity;
+
   $: selectedConversation = $chats[$params.chatId];
   $: conversations = Object.keys($chats)
     .map(id => $chats[id])
@@ -54,8 +56,6 @@
       }
     }
   };
-
-  const sortByLastActivity = (c1, c2) => c1.lastActivity - c2.lastActivity;
 
   $: if ($params.with) startChattingWith($params.with);
 
