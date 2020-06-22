@@ -95,7 +95,7 @@
     isGettingMagnifiedPhoto = false;
   };
 
-  let previousGarden = garden;
+  let previousGarden = {};
   $: if (garden && garden.id !== previousGarden.id) {
     ready = false;
     previousGarden = garden;
@@ -185,6 +185,7 @@
         <Badge isSkeleton />
         <Badge isSkeleton />
         <Badge isSkeleton />
+        <Badge isSkeleton />
       </div>
       <div class="skeleton footer mt-ms skeleton-cta" />
     </section>
@@ -198,7 +199,7 @@
     top: 50%;
     right: 0;
     background-color: white;
-    width: 32.5rem;
+    width: 40rem;
     min-height: 48rem;
     max-height: 50rem;
     z-index: 1;
@@ -214,7 +215,7 @@
   }
 
   .drawer.hidden {
-    right: -325px;
+    right: -40rem;
   }
 
   @media screen and (max-width: 700px) {
@@ -344,7 +345,9 @@
     margin-bottom: 1rem;
   }
   .skeleton-badges {
+    margin-top: 1rem;
     margin-bottom: 2rem;
+    padding: 0 1rem;
   }
   .skeleton-cta {
     height: 5rem;
