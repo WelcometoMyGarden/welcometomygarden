@@ -120,7 +120,7 @@
           <li>
             <h5>Right to rectification, removal and restriction of processing</h5>
             <p>
-              You are free to decide whether or not to provide your personal data to Welcome to My
+              You are free to decide whether or not to provide your personal data to Welcome To My
               Garden. In addition, you always have the right to amend, supplement or remove your
               personal data at Welcome To My Garden. You acknowledge that a refusal to provide or a
               request for the removal of personal data means that certain services can no longer be
@@ -138,7 +138,7 @@
           <li>
             <h4>Right to data portability</h4>
             <p>
-              You have the right to obtain the personal data you have provided to Welcome to My
+              You have the right to obtain the personal data you have provided to Welcome To My
               Garden in a structured, typical and machine-readable form and/or transfer it to
               different controllers.
             </p>
