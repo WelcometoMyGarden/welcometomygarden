@@ -1,5 +1,5 @@
 <script>
-  import { goto } from '@sveltech/routify';
+  import { redirect } from '@sveltech/routify';
   import { slide } from 'svelte/transition';
   import notify from '@/stores/notification';
   import { addGarden } from '@/api/garden';
@@ -17,6 +17,8 @@
     waterIcon,
     tentIcon
   } from '@/images/icons';
+
+  if ($user && $user.garden) $redirect(routes.MANAGE_GARDEN);
 
   let isFillable = $user && $user.emailVerified;
 
@@ -133,7 +135,7 @@
       });
       addGardenLocally(newGarden);
       notify.success(`Your garden was added successfully!`, 10000);
-      $goto(`${routes.MAP}/garden/${$user.id}`);
+      $redirect(`${routes.MAP}/garden/${$user.id}`);
     } catch (ex) {
       console.log(ex);
     }

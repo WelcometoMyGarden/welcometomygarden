@@ -130,7 +130,7 @@
     padding: 5rem 2rem;
     display: flex;
     margin: 0 auto;
-    height: 75vh;
+    height: 72vh;
   }
 
   .empty {

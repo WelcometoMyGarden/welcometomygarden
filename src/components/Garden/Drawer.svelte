@@ -163,9 +163,16 @@
         </Text>
       {/if}
       {#if garden && ownedByLoggedInUser}
-        <Button href={routes.ACCOUNT} uppercase medium>Manage garden</Button>
+        <Button href={routes.MANAGE_GARDEN} uppercase medium>Manage garden</Button>
       {:else if garden}
-        <Button href={`${routes.CHAT}?with=${garden.id}`} uppercase medium>Contact host</Button>
+        {#if !$user}
+          You must
+          <a href={routes.SIGN_IN}>sign in</a>
+          to contact hosts
+        {/if}
+        <Button href={`${routes.CHAT}?with=${garden.id}`} disabled={!$user} uppercase medium>
+          Contact host
+        </Button>
       {/if}
     </footer>
   {:else}
