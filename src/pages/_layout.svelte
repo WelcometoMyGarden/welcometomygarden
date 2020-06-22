@@ -17,8 +17,12 @@
 
   let infoIsReady = false;
   const addUserInformation = async () => {
-    await setAllUserInfo();
-    unsubscribeFromChatObserver = createChatObserver();
+    try {
+      await setAllUserInfo();
+    } catch (ex) {
+      console.log(ex);
+    }
+    unsubscribeFromChatObserver = await createChatObserver();
   };
 
   $: if ($user) addUserInformation().then(() => (infoIsReady = true));

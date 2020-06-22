@@ -84,8 +84,8 @@
     <li class="separated sign-out">
       <a
         href="/"
-        on:click|preventDefault={() => {
-          $goto(routes.HOME);
+        on:click={() => {
+          toggleDrawer();
           logout();
         }}>
         Sign out
