@@ -14,6 +14,9 @@
   let map;
   let mapIsLoading = true;
 
+  let initialLat = lat;
+  let initialLon = lon;
+
   setContext(key, {
     getMap: () => map
   });
@@ -33,7 +36,7 @@
     map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left');
   });
 
-  $: if (recenterOnUpdate && map) {
+  $: if (recenterOnUpdate && map && initialLat !== lat && initialLon !== lon) {
     map.flyTo({
       center: [lon, lat],
       bearing: 0,
