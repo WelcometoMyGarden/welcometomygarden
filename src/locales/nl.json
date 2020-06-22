@@ -23,7 +23,7 @@
     ],
     "faq": {
       "title": "Alles wat je moet weten",
-      "copy": "Dit zijn de belangrijkste dingen die je moet weten over je volgende avontuur. Lees deze FAQ sectie met veelgestelde vragen aandachtig, zodat je weet waar je aan begint. Meer vragen? Lees meer in onze FAQ",
+      "copy": "Dit zijn de belangrijkste dingen die je moet weten over je volgende avontuur. Lees deze FAQ sectie met veelgestelde vragen aandachtig, zodat je weet waar je aan begint. Meer vragen? <a href=\"{faqLink}\">Lees meer in onze FAQ</a>",
       "questions": [
         {
           "title": "Voor wie is Welcome To My Garden?",

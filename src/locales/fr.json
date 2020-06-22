@@ -23,7 +23,7 @@
     ],
     "faq": {
       "title": "Tout ce que vous devez savoir",
-      "copy": "Vous trouverez ci-dessous tout ce que vous devez savoir pour partir à l’aventure. Lisez attentivement la section FAQ afin de savoir exactement comment la plateforme fonctionne. Plus de questions? Consultez notre FAQ!",
+      "copy": "Vous trouverez ci-dessous tout ce que vous devez savoir pour partir à l’aventure. Lisez attentivement la section FAQ afin de savoir exactement comment la plateforme fonctionne. Plus de questions? <a href=\"{faqLink}\">Consultez notre FAQ</a>!",
       "questions": [
         {
           "title": "Pour qui est Welcome To My Garden?",
