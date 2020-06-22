@@ -303,6 +303,7 @@
     height: 6rem;
     background-color: var(--color-beige);
     margin-bottom: 2rem;
+    border-radius: 1rem;
   }
 
   .image-container > div {
