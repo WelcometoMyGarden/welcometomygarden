@@ -1,9 +1,10 @@
 import { get } from 'svelte/store';
 import { _, dictionary, locale } from 'svelte-i18n';
 
-export default (rootNode, isArrayOfObjects = true) => {
+export default (rootNode, currentLang, isArrayOfObjects = true) => {
   const dicValue = get(_);
-  return Object.keys(get(dictionary)[get(locale)])
+  const fallback = get(dictionary).en;
+  return Object.keys(fallback)
     .filter((key) => key.includes(rootNode))
     .reduce((all, key) => {
       const restOfNode = key.substring(key.indexOf(`${rootNode}.`) + rootNode.length + 1);

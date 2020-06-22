@@ -1,5 +1,5 @@
 <script>
-  import { _ } from 'svelte-i18n';
+  import { _, locale } from 'svelte-i18n';
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
@@ -22,6 +22,9 @@
   smoothscroll.polyfill();
 
   const stepGraphics = [Step1, Step2, Step3];
+
+  $: steps = getArrayFromLocale('index.steps', $locale);
+  $: faqQuestions = getArrayFromLocale('index.faq.questions', $locale);
 </script>
 
 <section class="landing">
@@ -56,7 +59,7 @@
 </div>
 
 <section id="steps-section" class="steps">
-  {#each getArrayFromLocale('index.steps') as { title, copy }, i}
+  {#each steps as { title, copy }, i}
     <div class="step">
       <div class="step-logo">
         {@html stepGraphics[i]}
@@ -76,7 +79,7 @@
       {@html $_('index.faq.copy', { values: { faqLink: routes.FAQ } })}
     </p>
   </div>
-  <CollapsibleGroup collapsibles={getArrayFromLocale('index.faq.questions')} />
+  <CollapsibleGroup collapsibles={faqQuestions} />
 </section>
 
 <section class="cooperation">
