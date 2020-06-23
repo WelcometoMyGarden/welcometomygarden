@@ -123,7 +123,7 @@
 
   .overlay {
     width: 100%;
-    height: calc(100vh - var(--height-nav));
+    height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
     position: fixed;
     top: 0;
     bottom: 0;
@@ -188,7 +188,7 @@
 
   .drawer {
     background-color: var(--color-white);
-    height: calc(100vh - var(--height-nav));
+    height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
     width: 25rem;
     position: fixed;
     top: 0;
