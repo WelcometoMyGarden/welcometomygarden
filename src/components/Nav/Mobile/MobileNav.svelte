@@ -1,5 +1,5 @@
 <script>
-  import { isActive, goto } from '@sveltech/routify';
+  import { isActive } from '@sveltech/routify';
   import routes from '@/routes';
   import { logout } from '@/api/auth';
   import { user } from '@/stores/auth';
@@ -84,9 +84,10 @@
     <li class="separated sign-out">
       <a
         href="/"
-        on:click={() => {
+        on:click|preventDefault={async () => {
           toggleDrawer();
-          logout();
+          await logout();
+          window.location = '/';
         }}>
         Sign out
       </a>

@@ -1,7 +1,6 @@
 <script>
   export let name;
 
-  import { goto } from '@sveltech/routify';
   import { slide } from 'svelte/transition';
   import { clickOutside } from '@/directives';
   import { logout } from '@/api/auth';
@@ -43,9 +42,10 @@
       <li class="separated">
         <a
           href={routes.HOME}
-          on:click={() => {
+          on:click|preventDefault={async () => {
             toggleOpen();
-            logout();
+            await logout();
+            window.location = '/';
           }}>
           <i>
             {@html signOutIcon}
