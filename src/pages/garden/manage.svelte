@@ -1,5 +1,5 @@
 <script>
-  import { redirect } from '@sveltech/routify';
+  import { goto, redirect } from '@sveltech/routify';
   import { updateGardenLocally } from '@/stores/garden';
   import { user } from '@/stores/auth';
   import notify from '@/stores/notification';
@@ -8,6 +8,10 @@
   import Form from '@/components/Garden/Form.svelte';
   import routes from '@/routes';
 
+  $: if (!$user || !$user.emailVerified) {
+    notify.warning('Please verify your email first.', 8000);
+    $redirect(routes.ACCOUNT);
+  }
   let updatingGarden = false;
 
   const submit = async e => {
@@ -18,18 +22,19 @@
         ...garden,
         photo: garden.photo && garden.photo.files ? garden.photo.files[0] : null
       });
-      updateGardenLocally(newGarden);
+      updatingGarden = false;
+      await updateGardenLocally(newGarden);
       notify.success(
         `Your garden was updated successfully!  ${
           newGarden.photo ? 'It may take a minute for its photo to show up.' : ''
         }`,
         10000
       );
-      $redirect(`${routes.MAP}/garden/${$user.id}`);
+      $goto(`${routes.MAP}/garden/${$user.id}`);
     } catch (ex) {
       console.log(ex);
+      updatingGarden = false;
     }
-    updatingGarden = false;
   };
 </script>
 

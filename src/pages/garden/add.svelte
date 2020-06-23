@@ -20,7 +20,8 @@
         ...garden,
         photo: garden.photo && garden.photo.files ? garden.photo.files[0] : null
       });
-      addGardenLocally(newGarden);
+      await addGardenLocally(newGarden);
+      addingGarden = false;
       notify.success(
         `Your garden was added successfully! ${
           newGarden.photo ? 'It may take a minute for its photo to show up.' : ''
@@ -30,8 +31,8 @@
       $redirect(`${routes.MAP}/garden/${$user.id}`);
     } catch (ex) {
       console.log(ex);
+      addingGarden = false;
     }
-    addingGarden = false;
   };
 
   const initialGarden = {
