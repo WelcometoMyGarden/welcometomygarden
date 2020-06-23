@@ -27,6 +27,10 @@
   $: faqQuestions = getArrayFromLocale('index.faq.questions', $locale);
 </script>
 
+<svelte:head>
+  <title>Home | Welcome To My Garden</title>
+</svelte:head>
+
 <section class="landing">
   <div class="welcome">
     <div class="welcome-logo">

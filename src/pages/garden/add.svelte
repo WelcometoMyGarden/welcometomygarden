@@ -48,6 +48,10 @@
   };
 </script>
 
+<svelte:head>
+  <title>Add your garden | Welcome To My Garden</title>
+</svelte:head>
+
 <Progress active={addingGarden} />
 
 <Form on:submit={submit} isSubmitting={addingGarden} garden={initialGarden} />

@@ -1,3 +1,7 @@
+<svelte:head>
+  <title>Terms of use | Welcome To My Garden</title>
+</svelte:head>
+
 <h2>
   Terms of use
   <small>Last updated : 30 May 2020</small>

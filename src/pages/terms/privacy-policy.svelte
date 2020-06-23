@@ -1,3 +1,7 @@
+<svelte:head>
+  <title>Privacy policy | Welcome To My Garden</title>
+</svelte:head>
+
 <h2>
   <div class="header">
     Privacy policy

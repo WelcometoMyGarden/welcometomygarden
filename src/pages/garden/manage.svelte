@@ -38,6 +38,10 @@
   };
 </script>
 
+<svelte:head>
+  <title>Manage garden | Welcome To My Garden</title>
+</svelte:head>
+
 <Progress active={updatingGarden} />
 
 <Form on:submit={submit} isUpdate isSubmitting={updatingGarden} garden={$user.garden} />

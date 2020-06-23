@@ -1,3 +1,7 @@
+<svelte:head>
+  <title>Cookie policy | Welcome To My Garden</title>
+</svelte:head>
+
 <h2>Cookie policy</h2>
 <h3>1. What Are Cookies</h3>
 <p>

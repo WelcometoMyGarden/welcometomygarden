@@ -6,6 +6,10 @@
   $: rules = getArrayFromLocale('rules.rules', $locale);
 </script>
 
+<svelte:head>
+  <title>Rules | Welcome To My Garden</title>
+</svelte:head>
+
 <div class="intro">
   <h2>{$_('rules.title')}</h2>
   <p>{$_('rules.description')}</p>

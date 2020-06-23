@@ -59,6 +59,10 @@
   };
 </script>
 
+<svelte:head>
+  <title>Account | Welcome To My Garden</title>
+</svelte:head>
+
 <div class="wrapper">
   <div class="avatar">
     <Avatar large name={$user.firstName} />

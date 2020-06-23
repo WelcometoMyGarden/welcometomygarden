@@ -39,9 +39,6 @@
   });
 </script>
 
-<svelte:head>
-  <title>Explore | Welcome To My Garden</title>
-</svelte:head>
 <Progress active={$isFetchingGardens} />
 <div>
   <Map lat={center[1]} lon={center[0]} recenterOnUpdate zoom="7">
