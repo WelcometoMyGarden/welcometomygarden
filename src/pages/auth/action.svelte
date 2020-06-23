@@ -21,7 +21,7 @@
         const email = await verifyPasswordResetCode(oobCode);
         $goto(routes.RESET_PASSWORD, { email, oobCode });
       } catch (ex) {
-        notify.danger('This password reset link has expired. Please request a new one', 10000);
+        notify.danger('This password reset link has expired. Please request a new one', 15000);
         $goto(routes.REQUEST_PASSWORD_RESET);
       }
     }
@@ -32,7 +32,7 @@
         notify.success('Your email address was verified successfully!', 8000);
         $goto(routes.MAP);
       } catch (ex) {
-        notify.danger('This verification link has expired. Click to resend', 10000, {
+        notify.danger('This verification link has expired. Click to resend', 15000, {
           click: resendAccountVerification
         });
         $goto(routes.MAP);

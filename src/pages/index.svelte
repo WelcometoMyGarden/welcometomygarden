@@ -35,7 +35,13 @@
     <h1 class="heading-underline-center">Welcome To My Garden</h1>
     <p class="welcome-text">{$_('index.intro.copy')}</p>
     <div class="welcome-buttons">
-      {#if $user && !$user.garden}
+      <!-- User is not logged in -->
+      {#if !$user}
+        <Button href={routes.REGISTER} fit={false} uppercase inverse>
+          {$_('index.intro.add-garden')}
+        </Button>
+        <!-- User is logged in and has no garden -->
+      {:else if $user && !$user.garden}
         <Button href={routes.ADD_GARDEN} fit={false} uppercase inverse>
           {$_('index.intro.add-garden')}
         </Button>
