@@ -1,14 +1,12 @@
 import { get } from 'svelte/store';
 import { auth } from './index';
 import * as api from './functions';
-import { setAllUserInfo } from './user';
 import { isLoggingIn, isRegistering, user, isInitializing } from '../stores/auth';
 import User from '@/models/User';
 
 const reloadUserInfo = async () => {
   await auth.currentUser.reload();
   user.set(new User(auth.currentUser));
-  await setAllUserInfo();
 };
 
 export const login = async (email, password) => {
@@ -49,6 +47,7 @@ export const resendAccountVerification = () => {
 export const verifyPasswordResetCode = (code) => auth.verifyPasswordResetCode(code);
 export const applyActionCode = async (code) => {
   await auth.applyActionCode(code);
+  await auth.currentUser.getIdToken(true);
   await reloadUserInfo();
 };
 export const confirmPasswordReset = (code, password) => auth.confirmPasswordReset(code, password);

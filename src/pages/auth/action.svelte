@@ -1,11 +1,7 @@
 <script>
   import { params, goto } from '@sveltech/routify';
   import notify from '@/stores/notification';
-  import {
-    verifyPasswordResetCode,
-    applyActionCode,
-    resendAccountVerification
-  } from '../../api/auth';
+  import { verifyPasswordResetCode, applyActionCode, resendAccountVerification } from '@/api/auth';
   import routes from '@/routes';
 
   const { mode, oobCode } = $params;
@@ -30,7 +26,7 @@
       try {
         await applyActionCode(oobCode);
         notify.success('Your email address was verified successfully!', 8000);
-        $goto(routes.MAP);
+        $goto(routes.ACCOUNT);
       } catch (ex) {
         notify.danger('This verification link has expired. Click to resend', 15000, {
           click: resendAccountVerification

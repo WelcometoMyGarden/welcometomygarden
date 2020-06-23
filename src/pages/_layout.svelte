@@ -25,8 +25,10 @@
     unsubscribeFromChatObserver = await createChatObserver();
   };
 
-  $: if ($user) addUserInformation().then(() => (infoIsReady = true));
-  else if (!$isInitializing) infoIsReady = true;
+  $: if ($user) {
+    infoIsReady = false;
+    addUserInformation().then(() => (infoIsReady = true));
+  } else if (!$isInitializing) infoIsReady = true;
 
   onDestroy(() => {
     if (unsubscribeFromChatObserver) unsubscribeFromChatObserver();
