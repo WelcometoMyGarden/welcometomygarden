@@ -37,7 +37,7 @@
           <i>
             {@html userIcon}
           </i>
-          My WTMG
+          Account
         </a>
       </li>
       <li class="separated">
