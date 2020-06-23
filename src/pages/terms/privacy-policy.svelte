@@ -1,7 +1,3 @@
-<svelte:head>
-  <title>Privacy policy | Welcome To My Garden</title>
-</svelte:head>
-
 <h2>
   <div class="header">
     Privacy policy
@@ -39,40 +35,38 @@
     </p>
   </li>
   <li>
-    <h4>What personal data do we collect?</h4>
-    <p class="info">We might collect your Personal Data from the following two sources</p>
+    <p class="info">We collect your Personal Data from the following three sources</p>
     <ol>
       <li class="info-item">
-        <h5>Personal Data that you provide during the registration process on the platform.</h5>
-        <p class="info">The personal data that we will collect from you are</p>
+        <h5>3.1 Personal Data that you provide during the registration process on the platform.</h5>
         <ul>
           <li class="info-item">Email address (mandatory)</li>
           <li class="info-item">Your first and last name (mandatory)</li>
+          <li class="info-item">Your country (mandatory)</li>
+          <li class="info-item">Your consent to these terms</li>
+        </ul>
+      </li>
+      <li class="info-item">
+        <h5>3.2 Personal Data that we collect when you visit our website.</h5>
+        <ul>
           <li class="info-item">
-            Your full address (street name, house number, postal code, municipality & country)
-            (mandatory)
+            We use cookies to automatically collect personal data about you when you use this
+            website. For more information, please consult our Cookie Policy.
+          </li>
+        </ul>
+      </li>
+      <li class="info-item">
+        <h5>3.3. Personal Data that you provide when adding your garden to your account.</h5>
+        <ul>
+          <li class="info-item">
+            Your garden's location (coordinates: the latitude and longitude) (mandatory)
           </li>
           <li class="info-item">
             Information about your garden (description, facilities, the amount of tents you can
             welcome) (mandatory)
           </li>
-          <li class="info-item">
-            Your preferred contact method and your contact details (email and/or phone number)
-            (mandatory)
-          </li>
-          <li class="info-item">
-            Information about how users can reach the campground (mandatory)
-          </li>
           <li class="info-item">Languages spoken (mandatory)</li>
           <li class="info-item">A picture of your garden (optional)</li>
-          <li class="info-item">Additional information (optional)</li>
-          <li>
-            <h5>Personal Data that we collect when you visit our website.</h5>
-            <p>
-              We use cookies to automatically collect personal data about you when you use this
-              website. For more information, please consult our Cookie Policy.
-            </p>
-          </li>
         </ul>
       </li>
       <li>
