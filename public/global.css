@@ -9,6 +9,9 @@
 }
 
 :root {
+  /*
+  * Colors
+  */
   --color-white: #fff;
   --color-black: #333;
   --color-gray: #E5E5E5;
@@ -18,8 +21,31 @@
   --color-green: #495747;
   --color-green-light: #CFE3D4;
   --color-copy: #495747;
+  --color-info: #2D69EA;
+  --color-warning: #ffbb33;
+  --color-danger:  #ff4444;
+  --color-success: #00C851;
+
+  /*
+  * Typography
+  */
   --fonts-copy: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --fonts-titles: "Inknut Antiqua", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+  /*
+  * Units
+  */
+  --height-nav: 8rem;
+}
+
+.mb-l {
+  margin-bottom: 2rem;
+}
+.mb-m {
+  margin-bottom: 1rem;
+}
+.mt-m {
+  margin-top: 1rem;
 }
 
 html, body {
@@ -40,6 +66,13 @@ body {
   font-family: var(--fonts-copy);
 }
 
+@media screen and (max-width: 700px) {
+  body, .input, textarea {
+    font-size: 1.4rem;
+  }
+
+}
+
 *,
 *:before,
 *:after {
@@ -47,14 +80,20 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1 {
   font-family: var(--fonts-titles);
-  font-weight: normal;
+}
+
+h2, h3, h4, h5, h6 {
+  font-family: var(--fonts-copy)
+}
+
+h3, h4, h5, h6 {
+  font-family: var(--fonts-copy);
+}
+
+h1 {
+  font-size: 2.4rem;
 }
 
 p,
@@ -72,8 +111,13 @@ a:hover {
 }
 
 input,
+select,
 textarea {
   font-family: var(--fonts-copy);
+}
+
+strong {
+  font-weight: bold;
 }
 
 .button-container {
@@ -82,6 +126,7 @@ textarea {
   border: none;
   padding: 0;
   margin: 0;
+  text-align: inherit;
   outline: 0;
   width: 100%;
   height: 100%;
@@ -91,10 +136,65 @@ textarea {
   border-radius: inherit;
 }
 
-
 .button-container:focus,
 .button-container:active,
 .button-container::-moz-focus-inner {
   outline: 0;
   border: 0;
+}
+
+.input {
+  padding: 1.2rem 0;
+  border: none;
+  border-bottom: 1px solid var(--color-green);
+  transition: border 300ms ease-in-out;
+  font-size: 1.6rem;
+  outline: none;
+  width: 100%;
+  position: relative;
+}
+
+.input:focus {
+  border-bottom: 1px solid var(--color-info);
+}
+
+a.link {
+  color: var(--color-orange);
+  text-decoration: underline;
+}
+
+a.link:visited,
+a.link:active,
+a.link:hover {
+  color: var(--color-orange);
+  text-decoration: underline;
+}
+
+.danger {
+  color: var(--color-danger);
+}
+
+.skeleton {
+  border-radius: 0.4rem;
+  background-color: var(--color-gray);
+  background-image: linear-gradient(
+    90deg,
+    var(--color-gray),
+    var(--color-green-light),
+    var(--color-gray)
+  );
+  background-size: 20rem 100%;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 100%;
+  animation: loading-animation 1200ms ease-in-out infinite;
+}
+
+@keyframes loading-animation {
+  0% {
+    background-position: -20rem 0;
+  }
+  100% {
+    background-position: calc(20rem + 100%) 0;
+  }
 }

@@ -1,12 +1,14 @@
 <script>
-  import { isActive } from '@sveltech/routify';
+  import { isActive, goto } from '@sveltech/routify';
   import routes from '@/routes';
   import { logout } from '@/api/auth';
   import { user } from '@/stores/auth';
-  import { clickOutside } from '@/util';
+  import { clickOutside } from '@/directives';
   import { tentIcon, mapIcon, chatIcon, signInIcon, userIcon } from '@/images/icons';
   import Hamburger from './Hamburger.svelte';
   import Socials from '@/components/Socials.svelte';
+  import { Icon } from '@/components/UI';
+  import LanguageSelector from '@/components/LanguageSelector.svelte';
 
   let hamburger;
   let drawerIsShown = false;
@@ -14,7 +16,6 @@
 
   const handleClickOutsideDrawer = event => {
     const { clickEvent } = event.detail;
-    // if (node.contains(event.target)) console.log('yup');
     if (drawerIsShown && !hamburger.contains(clickEvent.target)) toggleDrawer();
   };
 
@@ -31,43 +32,33 @@
   <ul class="main">
     <li>
       <a href={routes.HOME} class:active={$isActive('/index')}>
-        <i>
-          {@html tentIcon}
-        </i>
+        <Icon icon={tentIcon} />
         <span>Home</span>
       </a>
     </li>
     <li>
       <a href={routes.MAP} class:active={$isActive(routes.MAP)}>
-        <i>
-          {@html mapIcon}
-        </i>
+        <Icon icon={mapIcon} />
         Map
       </a>
     </li>
     {#if $user}
       <li>
         <a href={routes.CHAT} class:active={$isActive(routes.CHAT)}>
-          <i class="icon-small">
-            {@html chatIcon}
-          </i>
+          <Icon icon={chatIcon} />
           Chat
         </a>
       </li>
       <li>
         <a href={routes.ACCOUNT} class:active={$isActive(routes.ACCOUNT)}>
-          <i class="icon-small">
-            {@html userIcon}
-          </i>
-          {$user.firstName}
+          <Icon icon={userIcon} />
+          {$user.firstName || ''}
         </a>
       </li>
     {:else}
       <li>
         <a href={routes.SIGN_IN} class:active={$isActive(routes.SIGN_IN)}>
-          <i>
-            {@html signInIcon}
-          </i>
+          <Icon icon={signInIcon} />
           Sign in
         </a>
       </li>
@@ -87,6 +78,9 @@
         <a href={route} on:click={toggleDrawer} class:active={$isActive(route)}>{name}</a>
       </li>
     {/each}
+    <li>
+      <LanguageSelector />
+    </li>
     <li class="separated sign-out">
       <a
         href="/"
@@ -110,9 +104,12 @@
     }
   }
 
+  :global(body) {
+    --height-nav: 9rem;
+  }
+
   nav {
     width: 100%;
-    --height-nav: 9rem;
     height: var(--height-nav);
     position: fixed;
     bottom: 0;
@@ -126,7 +123,7 @@
 
   .overlay {
     width: 100%;
-    height: calc(100vh - var(--height-nav));
+    height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
     position: fixed;
     top: 0;
     bottom: 0;
@@ -159,19 +156,12 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     outline: 0;
     position: relative;
     font-weight: 600;
     font-size: 1.4rem;
-  }
-
-  .main li i {
-    height: 75%;
-    display: flex;
-    align-items: center;
-    position: relative;
   }
 
   .main li a:after {
@@ -191,9 +181,14 @@
     opacity: 1;
   }
 
+  .main li a :global(i) {
+    width: 4.5rem;
+    height: 3.5rem;
+  }
+
   .drawer {
     background-color: var(--color-white);
-    height: calc(100vh - var(--height-nav));
+    height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
     width: 25rem;
     position: fixed;
     top: 0;
@@ -248,16 +243,11 @@
     left: 0;
   }
 
-  .icon-small {
-    transform: scale(1.2);
-  }
-
   .sign-out {
     color: var(--color-orange);
   }
 
   .socials {
-    padding: 0 1.5rem;
     width: 100%;
     position: absolute;
     top: 1.5rem;

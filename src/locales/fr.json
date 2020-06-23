@@ -1,0 +1,58 @@
+{
+  "tagline": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour les voyageurs et voyageuses lent.e.s.",
+  "index": {
+    "intro": {
+      "copy": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme espace de bivouac gratuit pour des voyageurs et voyageuses adeptes du slow travel.",
+      "add-garden": "Ajouter son jardin",
+      "explore-map": "Explorer la carte",
+      "learn-more": "En savoir plus"
+    },
+    "steps": [
+      {
+        "title": "Étape 1: Inscrivez-vous pour devenir ou trouver un.e hôte",
+        "copy": "Souhaitez-vous accueillir dans votre jardin? <a href=\"{addGardenLink}\">Ajoutez-le sur la carte</a>. Si vous cherchez un jardin où poser votre tente, cliquez sur \"Explorer la carte\" et contactez un.e hôte. Mettez-vous d’accord sur une date et c’est parti!"
+      },
+      {
+        "title": "Étape 2: Planifiez votre voyage",
+        "copy": "Préparez votre itinéraire. Après s’être mis.e d’accord avec votre hôte, marchez ou rendez-vous à vélo jusqu’au jardin."
+      },
+      {
+        "title": "Étape 3: Plantez votre tente et profitez-en!",
+        "copy": "Passez une nuit calme, amusez-vous avec vos ami.e.s, votre famille ou discutez avec votre hôte, selon les préférences de chacun.e. Continuez votre randonnée pédestre ou cycliste le lendemain. Et surtout, amusez-vous!"
+      }
+    ],
+    "faq": {
+      "title": "Tout ce que vous devez savoir",
+      "copy": "Vous trouverez ci-dessous tout ce que vous devez savoir pour partir à l’aventure. Lisez attentivement la section FAQ afin de savoir exactement comment la plateforme fonctionne. Plus de questions? <a href=\"{faqLink}\">Consultez notre FAQ</a>!",
+      "questions": [
+        {
+          "title": "Pour qui est Welcome To My Garden?",
+          "copy": "Welcome To My Garden a été créé pour les randonneurs/randonneuses pédestres ou les cyclistes ayant besoin d’un coin d’herbe pour poser leur tente à la fin d’une longue journée. Le but n’est pas de remplacer les campings mais de simplement d’offrir un endroit en sécurité pour la nuit. Considérez le comme une addition au réseau des zones de bivouacs référencées en Belgique. Welcome To My Garden est une initiative sans but lucratif : aucun argent ne peut être échangé lors de son utilisation. En tant qu’hôte, vous ne pouvez donc pas demander aux voyageurs de payer pour la nuit."
+        },
+        {
+          "title": "Comment puis-je arriver au jardin?",
+          "copy": "Welcome To My Garden est destiné aux voyageurs et voyageuses adeptes du slow travel, c’est à dire à celles et ceux qui arriveront au jardin à pied ou en vélo. Vous pouvez bien sûr utiliser les transports en commun ou votre voiture pour arriver au début de votre randonnée - mais vous ne pouvez pas arriver chez votre hôte directement en voiture."
+        },
+        {
+          "title": "Comment contacter un.e hôte?",
+          "copy": "Sauf si indication contraire, vous devez toujours contacter votre hôte à l’avance. Lorsque vous envoyez une demande, n’oubliez pas d’inclure des informations sur vous, sur votre voyage et la date de votre arrivée."
+        },
+        {
+          "title": "Et les installations?",
+          "copy": "Les jardins mis à disposition sont des coins d’herbe pour poser votre tente. Selon le choix des propriétaires, vous pourriez également avoir accès - ou non - à de l'eau potable, aux sanitaires et à l'électricité. Ils ne sont toutefois pas obligés de le faire : c’est un bonus. Considérez les jardins comme des zones de bivouacs ; il ne s’agit en aucun cas d’espaces de camping à part entière."
+        },
+        {
+          "title": "Est-ce que Welcome To My Garden a un coût?",
+          "copy": "Utiliser Welcome To My Garden est 100% gratuit. Cependant, en tant que plateforme, nous engageons des frais. Si vous souhaitez nous soutenir, vous pouvez faire un don. Nous sommes une initiative citoyenne sans but lucratif et ne faisons donc aucun profit sur l’argent collecté. En effet, chaque somme collectée couvre des frais. Vous trouverez la liste des dépenses sur la page de dons."
+        }
+      ]
+    },
+    "partners": {
+      "title": "Nos partenaires"
+    },
+    "support": {
+      "title": "Soutenez-nous",
+      "copy": "Utiliser Welcome To My Garden est 100% gratuit cependant nous avons quelques factures. <a href=\"https://opencollective.com/welcometomygarden\" target=\"_blank\">Soutenez-nous ici</a> pour nous permettre de continuer à exister!"
+    }
+  }
+}

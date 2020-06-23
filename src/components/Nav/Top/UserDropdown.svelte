@@ -1,8 +1,9 @@
 <script>
-  export let name = '';
+  export let name;
 
+  import { goto } from '@sveltech/routify';
   import { slide } from 'svelte/transition';
-  import { clickOutside } from '@/util';
+  import { clickOutside } from '@/directives';
   import { logout } from '@/api/auth';
   import { chatIcon, signOutIcon, userIcon } from '@/images/icons';
   import routes from '@/routes';
@@ -32,7 +33,7 @@
         </a>
       </li>
       <li>
-        <a href={routes.CHAT} on:click={toggleOpen}>
+        <a href={routes.ACCOUNT} on:click={toggleOpen}>
           <i>
             {@html userIcon}
           </i>

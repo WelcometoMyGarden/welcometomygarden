@@ -6,22 +6,29 @@
 <ul class="socials" class:medium class:small>
   <li>
     <a href="https://www.facebook.com/Welcome2mygarden/" target="_blank">
-      <img src="images/icons/facebook.svg" alt="Facebook" />
+      <img src="/images/icons/facebook.svg" alt="Facebook" />
     </a>
   </li>
   <li>
     <a href="https://opencollective.com/welcometomygarden" target="_blank">
-      <img src="images/icons/open-collective.svg" alt="Open Collective" />
+      <img src="/images/icons/open-collective.svg" alt="Open Collective" />
     </a>
   </li>
   <li>
     <a href="https://github.com/welcometomygarden" target="_blank">
-      <img src="images/icons/github.svg" alt="GitHub" />
+      <img src="/images/icons/github.svg" alt="GitHub" />
+    </a>
+  </li>
+  <li>
+    <a
+      href="https://join.slack.com/t/welcometomygarden/shared_invite/zt-f31i37dj-_zFgnfe40B6EexJuB2f_~w"
+      target="_blank">
+      <img src="/images/icons/slack.svg" alt="Join our Slack channel" />
     </a>
   </li>
   <li>
     <a href="mailto:support@welcometomygarden.org" target="_blank">
-      <img src="images/icons/email.svg" alt="Mail us" />
+      <img src="/images/icons/email.svg" alt="Mail us" />
     </a>
   </li>
 </ul>
@@ -36,7 +43,6 @@
 
   .socials li {
     display: flex;
-    margin-right: 4rem;
   }
 
   .socials.medium li a {

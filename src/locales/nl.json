@@ -1,0 +1,58 @@
+{
+  "tagline": "Een netwerk zonder winstoogmerk van burgers die gratis hun tuin openstellen voor trage reizigers die een kampeerplek zoeken.",
+  "index": {
+    "intro": {
+      "copy": "Een netwerk zonder winstoogmerk van burgers die hun tuin gratis beschikbaar stellen voor trage reizigers",
+      "add-garden": "Voeg jouw tuin toe",
+      "explore-map": "Verken de map",
+      "learn-more": "Ontdek meer"
+    },
+    "steps": [
+      {
+        "title": "Stap 1: Meld je aan om een host te worden of te vinden",
+        "copy": "Wil je je tuin openstellen? <a href=\"{addGardenLink}\">Voeg deze toe aan de kaart</a>. Op zoek naar een kampeerplek? Kies je favoriete tuin en contacteer je host! Spreek een datum en tijdstip af voor jouw verblijf en je bent vertrokken! "
+      },
+      {
+        "title": "Step 2: Plan je reis",
+        "copy": "Nadat je afspraken gemaakt hebt met jouw host, stippel je de route uit naar je kampeerplek. Stel jezelf voor en zet je tent op voor de nacht."
+      },
+      {
+        "title": "Step 3: Geniet van de overnachting",
+        "copy": "Geniet van jouw verblijf. Of dat nu op je eentje is, samen met vrienden of familie, en of je nog even gezellig wil chillen met de host - het is maar wat beide partijen verkiezen. Neem hartelijk afscheid en zet je fiets- of wandeltocht verder de volgende dag!"
+      }
+    ],
+    "faq": {
+      "title": "Alles wat je moet weten",
+      "copy": "Dit zijn de belangrijkste dingen die je moet weten over je volgende avontuur. Lees deze FAQ sectie met veelgestelde vragen aandachtig, zodat je weet waar je aan begint. Meer vragen? <a href=\"{faqLink}\">Lees meer in onze FAQ</a>",
+      "questions": [
+        {
+          "title": "Voor wie is Welcome To My Garden?",
+          "copy": "Welcome To My Garden is bedoeld voor wandelaars en fietsers die aan het eind van de dag een kampeerplek op hun pad nodig hebben. Dit is geen vervanger van een volwaardige camping; gewoon een veilige plek voor de nacht! Beschouw het als een aanvulling op het Belgische netwerk van bivakzones. Welcome To My Garden is niet-commercieel: er mag geen geld worden uitgewisseld. Dit betekent dat je als host jouw gasten niet kunt vragen om hun verblijf te betalen."
+        },
+        {
+          "title": "Hoe kan ik mijn kampeerplek bereiken?",
+          "copy": "Welcome To My Garden is enkel voor de trage reiziger. Dit betekent dat je je kampeerplek enkel te voet of per fiets kan bereiken. Uiteraard mag je wel het openbaar vervoer of je auto gebruiken om naar de start van je route te gaan - zolang je maar niet met de auto toekomt bij de tuin van je host!"
+        },
+        {
+          "title": "Hoe vraag ik een verblijf aan?",
+          "copy": "Je contacteert de host altijd op voorhand, tenzij het uitdrukkelijk anders vermeld staat op het profiel van de host. Wanneer je een verblijf aanvraagt, geef dan ook wat informatie over jezelf, jouw aankomstdatum en -tijdstip."
+        },
+        {
+          "title": "Welke faciliteiten kan ik verwachten?",
+          "copy": "Hosts bieden in principe gewoon een hoekje in hun tuin aan waar jij je tent mag opzetten. Aanvullend kunnen ze je ook eventueel toegang bieden tot een toilet, elektriciteit en drinkwater. Maar, ze zijn hier niet toe verplicht; deze opties zijn een extraatje. Beschouw een tuin als een bivakplaats, niet als een volwaardige camping."
+        },
+        {
+          "title": "Moet ik bij Welcome To My Garden iets betalen?",
+          "copy": "Het gebruik van Welcome To My Garden is volledig gratis! Met het platform zelf maken we wel kosten. Het zou dus zeker een glimlach op ons gezicht toveren mocht je een donatie doen! Dit is een initiatief zonder winstoogmerk. Wij verdienen hier niks aan."
+        }
+      ]
+    },
+    "partners": {
+      "title": "Onze partners"
+    },
+    "support": {
+      "title": "Steun ons",
+      "copy": "Welcome To My Garden is gratis te gebruiken maar we hebben wel enkele rekeningen te betalen.  <a href=\"https://opencollective.com/welcometomygarden\" target=\"_blank\">Doe een donatie</a> om ons project te steunen."
+    }
+  }
+}
