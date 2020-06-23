@@ -42,6 +42,13 @@
         if (!v)
           return "Please enter your country. This helps us focus the map on where you're from";
       }
+    },
+    consent: {
+      value: false,
+      validate: v => {
+        if (!v)
+          return "You must consent to Welcome To My Garden's terms if you want to use the platform";
+      }
     }
   };
   let countryCode;
@@ -179,6 +186,21 @@
         value={countryCode}
         bind:this={countryInput} />
     </div>
+    <div class="consent">
+      <div class="checkbox">
+        <input type="checkbox" id="terms" name="terms" bind:checked={fields.consent.value} />
+        <label for="terms">
+          I agree to the
+          <a class="link" href={routes.COOKIE_POLICY} target="_blank">cookie policy,</a>
+          <a class="link" href={routes.PRIVACY_POLICY} target="_blank">privacy policy</a>
+          and
+          <a class="link" href={routes.TERMS_OF_USE} target="_blank">terms of use</a>
+        </label>
+      </div>
+      <div class="error">
+        {#if fields.consent.error}{fields.consent.error}{/if}
+      </div>
+    </div>
 
     <div class="submit">
       <div class="hint">
@@ -213,5 +235,21 @@
 
   .hint {
     margin-bottom: 0;
+  }
+
+  .error {
+    min-height: 3rem;
+    color: var(--color-danger);
+    display: block;
+    line-height: 1.4;
+  }
+
+  .checkbox {
+    display: flex;
+    align-items: center;
+  }
+
+  .checkbox label {
+    margin-left: 0.8rem;
   }
 </style>

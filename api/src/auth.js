@@ -55,6 +55,7 @@ exports.createUser = async (data, context) => {
       .doc(user.uid)
       .set({
         lastName,
+        consentedAt: admin.firestore.FieldValue.serverTimestamp(),
         emailPreferences: {
           newChat: true,
           news: true
