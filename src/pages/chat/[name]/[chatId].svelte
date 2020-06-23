@@ -46,6 +46,10 @@
   let typedMessage = '';
   let isSending = false;
   const send = async () => {
+    if (!typedMessage) {
+      hint = 'Your message cannot be empty';
+      return;
+    }
     isSending = true;
     if (!chat) {
       try {
@@ -104,7 +108,9 @@
     name="message"
     bind:value={typedMessage}
     disabled={isSending} />
-  <button type="submit" disabled={isSending || !!hint} aria-label="Send message">&#62;</button>
+  <button type="submit" disabled={isSending || !typedMessage || !!hint} aria-label="Send message">
+    &#62;
+  </button>
 </form>
 
 <style>
@@ -197,6 +203,14 @@
     outline: 0;
     width: 6rem;
     height: 6rem;
+    cursor: pointer;
+    transition: all 300ms var(--color-gray);
+  }
+
+  form button:disabled {
+    background-color: var(--color-gray);
+    color: var(--color-green);
+    cursor: not-allowed;
   }
 
   .chat-header {
