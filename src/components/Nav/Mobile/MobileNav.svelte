@@ -248,7 +248,6 @@
   }
 
   .socials {
-    padding: 0 1.5rem;
     width: 100%;
     position: absolute;
     top: 1.5rem;

@@ -51,6 +51,10 @@
     border-right: 0;
   }
 
+  .socials {
+    width: 25rem;
+  }
+
   @media screen and (max-width: 700px) {
     footer {
       display: none;
