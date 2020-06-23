@@ -238,7 +238,7 @@
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
       min-height: auto;
-      max-height: 80vh;
+      max-height: calc(var(--vh, 1vh) * 80);
       overflow-y: hidden;
       transition: transform 250ms;
     }
@@ -317,7 +317,7 @@
 
   .magnified-photo-wrapper {
     width: 100vw;
-    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     left: 0;
     top: 0;
     background-color: rgba(0, 0, 0, 0.6);
@@ -330,9 +330,9 @@
 
   .magnified-photo {
     max-width: 192rem;
-    max-height: 60vh;
+    max-height: calc(var(--vh, 1vh) * 60);
     width: auto;
-    height: 80vh;
+    height: calc(var(--vh, 1vh) * 80);
   }
 
   .magnified-photo img {

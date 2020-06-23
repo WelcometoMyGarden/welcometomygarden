@@ -130,7 +130,7 @@
     padding: 5rem 2rem;
     display: flex;
     margin: 0 auto;
-    height: 72vh;
+    height: calc(var(--vh, 1vh) * 72);
   }
 
   .empty {
@@ -180,7 +180,7 @@
   @media screen and (max-width: 700px) {
     .container {
       width: 100%;
-      height: calc(100vh - var(--height-nav));
+      height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
       padding: 0;
     }
 

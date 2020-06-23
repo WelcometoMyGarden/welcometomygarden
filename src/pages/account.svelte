@@ -160,7 +160,7 @@
     padding-top: 8rem;
     padding-bottom: 4rem;
     width: 100%;
-    min-height: calc(100vh - var(--height-footer) - var(--height-nav) - 14rem);
+    min-height: calc(calc(var(--vh, 1vh) * 100) - var(--height-footer) - var(--height-nav) - 14rem);
     margin-top: 10rem;
     position: relative;
     margin-bottom: 4rem;
@@ -233,7 +233,7 @@
 
   @media (max-width: 700px) {
     .wrapper {
-      min-height: calc(100vh - var(--height-nav) - 12rem);
+      min-height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav) - 12rem);
       margin-bottom: 0;
     }
     .preference-list {

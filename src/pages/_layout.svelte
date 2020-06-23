@@ -31,9 +31,16 @@
   onDestroy(() => {
     if (unsubscribeFromChatObserver) unsubscribeFromChatObserver();
   });
+
+  let vh = `${window.innerHeight * 0.01}px`;
+  const updateViewportHeight = () => {
+    vh = `${window.innerHeight * 0.01}px`;
+  };
 </script>
 
-<div class="app">
+<svelte:window on:resize={updateViewportHeight} />
+
+<div class="app" style="--vh:{vh}">
   <Progress active={$isInitializing || $isLocaleLoading || !infoIsReady} />
   <Notifications />
 

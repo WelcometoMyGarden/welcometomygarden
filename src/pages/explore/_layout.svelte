@@ -58,7 +58,7 @@
 <style>
   div {
     width: 100%;
-    height: calc(100vh - var(--height-footer));
+    height: calc(calc(var(--vh, 1vh) * 100) - var(--height-footer));
     position: fixed;
     top: 0;
     left: 0;
@@ -70,7 +70,7 @@
 
   @media screen and (max-width: 700px) {
     div {
-      height: calc(100vh - var(--height-nav));
+      height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
     }
     div :global(.mapboxgl-ctrl-top-left) {
       top: 0;
