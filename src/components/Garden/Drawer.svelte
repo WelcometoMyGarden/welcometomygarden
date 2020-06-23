@@ -209,7 +209,7 @@
     width: 38rem;
     min-height: 45rem;
     max-height: 80%;
-    z-index: 1;
+    z-index: 200;
     transform: translate(0, -50%);
     padding: 3rem;
     box-sizing: border-box;

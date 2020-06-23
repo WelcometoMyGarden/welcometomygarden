@@ -58,5 +58,6 @@
   :global(.marker.selected) {
     background-image: url('/images/icons/tent-white.svg');
     background-color: var(--color-green);
+    z-index: 100;
   }
 </style>
