@@ -6,9 +6,9 @@ export const isFetchingGardens = writable(true);
 export const allGardens = writable({});
 
 export const addGardenLocally = (garden) => {
-  allGardens[garden.id] = garden;
+  allGardens.update((gardens) => ({ ...gardens, [garden.id]: garden }));
 };
 
 export const updateGardenLocally = (garden) => {
-  allGardens[garden.id] = garden;
+  allGardens.update((gardens) => ({ ...gardens, [garden.id]: garden }));
 };
