@@ -25,6 +25,10 @@ class User {
   addFields(fields) {
     this.setAllInObject(fields);
   }
+
+  setEmailPreferences(name, pref) {
+    this.emailPreferences[name] = pref;
+  }
 }
 
 export default User;

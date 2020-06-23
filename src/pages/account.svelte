@@ -18,7 +18,7 @@
     try {
       const { name, checked } = event.target;
       await updateMailPreferences(name, checked);
-      $user.emailPreferences[name] = checked;
+      $user.setEmailPreferences(name, checked);
       notify.success('Your email preferences have been updated!', 3500);
     } catch (ex) {
       console.log(ex);
@@ -31,7 +31,7 @@
     updatingListedStatus = true;
     try {
       await changeListedStatus(newStatus);
-      $user.garden.listed = newStatus;
+      $user.setGarden({ ...$user.garden, listed: newStatus });
       if (!newStatus) notify.success("Your garden won't show up on the map", 7000);
       else notify.success('Your garden will show up on the map again', 7000);
     } catch (ex) {
