@@ -1,11 +1,15 @@
 <script>
   export let garden;
+  export let isSubmitting = false;
+  export let isUpdate = false;
+
   import { createEventDispatcher } from 'svelte';
   import { slide } from 'svelte/transition';
   import CoordinateForm from '@/components/Garden/CoordinateForm.svelte';
   import routes from '@/routes';
   import { user } from '@/stores/auth';
   import { LabeledCheckbox, Button } from '@/components/UI';
+  import { getGardenPhotoBig } from '@/api/garden';
   import {
     bonfireIcon,
     electricityIcon,
@@ -83,9 +87,11 @@
     return true;
   };
 
+  let existingPhoto = garden.photo;
+  garden.photo = {};
   const choosePhoto = () => {
     if (!garden.photo.files) return;
-
+    existingPhoto = null;
     const file = garden.photo.files[0];
     if (!validatePhoto(file)) return;
     const reader = new FileReader();
@@ -95,7 +101,8 @@
     };
   };
 
-  let addingGarden = false;
+  const getExistingPhoto = () => getGardenPhotoBig({ photo: existingPhoto, id: $user.id });
+
   const handleSubmit = async () => {
     if (!isFillable) return;
     if (
@@ -104,7 +111,7 @@
       formValid = false;
       return;
     }
-    if (garden.photo.files && !validatePhoto(garden.photo.files[0])) {
+    if (garden.photo && garden.photo.files && !validatePhoto(garden.photo.files[0])) {
       formValid = false;
       return;
     }
@@ -162,7 +169,7 @@
         <br />
         We don't store your address information.
       </p>
-      <CoordinateForm on:confirm={setCoordinates} />
+      <CoordinateForm initialCoordinates={garden.location} on:confirm={setCoordinates} />
       <p class="hint" class:invalid={!coordinateHint.valid}>{coordinateHint.message}</p>
     </fieldset>
   </section>
@@ -236,10 +243,16 @@
         multiple={false}
         accept={validFileTypes.join(',')} />
 
-      {#if garden.photo.data}
+      {#if garden.photo && garden.photo.data}
         <div class="photo" transition:slide>
           <img src={garden.photo.data} alt="Your garden" />
         </div>
+      {:else if existingPhoto && typeof existingPhoto == 'string'}
+        {#await getExistingPhoto() then existingPhoto}
+          <div class="photo" transition:slide>
+            <img src={existingPhoto} alt="Your garden" />
+          </div>
+        {/await}
       {/if}
 
       <p class="hint" class:invalid={!photoHint.valid}>{photoHint.message}</p>
@@ -247,8 +260,9 @@
   </section>
   <section class="section-submit" class:is-not-fillable={!isFillable}>
     <div class="sub-container">
-      <Button type="button" disabled={addingGarden} on:click={handleSubmit} uppercase medium>
-        Add your garden
+      <Button type="button" disabled={isSubmitting} on:click={handleSubmit} uppercase medium>
+        {#if isUpdate}Update{:else}Add{/if}
+        your garden
       </Button>
       {#if !formValid}
         <p class="hint invalid" transition:slide>

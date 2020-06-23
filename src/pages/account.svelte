@@ -135,7 +135,7 @@
         </p>
         <Button uppercase medium href={routes.ADD_GARDEN}>Add your garden</Button>
       {:else}
-        <p class="description">
+        <p class="mb-m">
           You can unlist your garden at any time. This means it will stay saved for later - but
           won't be shown on the map until you show it again.
         </p>
@@ -145,6 +145,9 @@
           checked={$user.garden.listed}
           label="Shown on the map"
           on:input={changeGardenListed} />
+        <div class="mt-m">
+          <Button href={routes.MANAGE_GARDEN} medium uppercase>Manage garden</Button>
+        </div>
       {/if}
     </section>
   </div>

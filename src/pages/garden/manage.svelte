@@ -1,28 +1,28 @@
 <script>
   import { redirect } from '@sveltech/routify';
-  import { addGardenLocally } from '@/stores/garden';
+  import { updateGardenLocally } from '@/stores/garden';
   import { user } from '@/stores/auth';
   import notify from '@/stores/notification';
   import { Progress } from '@/components/UI';
-  import { addGarden } from '@/api/garden';
+  import { updateGarden } from '@/api/garden';
   import Form from '@/components/Garden/Form.svelte';
   import routes from '@/routes';
 
-  if ($user && $user.garden) $redirect(routes.MANAGE_GARDEN);
+  if (!$user || !$user.garden) $redirect(routes.ACCOUNT);
 
-  let addingGarden = false;
+  let updatingGarden = false;
 
   const submit = async e => {
     const garden = e.detail;
-    addingGarden = true;
+    updatingGarden = true;
     try {
-      const newGarden = await addGarden({
+      const newGarden = await updateGarden({
         ...garden,
         photo: garden.photo && garden.photo.files ? garden.photo.files[0] : null
       });
-      addGardenLocally(newGarden);
+      updateGardenLocally(newGarden);
       notify.success(
-        `Your garden was added successfully! ${
+        `Your garden was updated successfully!  ${
           newGarden.photo ? 'It may take a minute for its photo to show up.' : ''
         }`,
         10000
@@ -31,22 +31,10 @@
     } catch (ex) {
       console.log(ex);
     }
-    addingGarden = false;
-  };
-
-  const initialGarden = {
-    description: '',
-    location: null,
-    facilities: {
-      capacity: 1
-    },
-    photo: {
-      files: null,
-      data: null
-    }
+    updatingGarden = false;
   };
 </script>
 
-<Progress active={addingGarden} />
+<Progress active={updatingGarden} />
 
-<Form on:submit={submit} isSubmitting={addingGarden} garden={initialGarden} />
+<Form on:submit={submit} isUpdate isSubmitting={updatingGarden} garden={$user.garden} />
