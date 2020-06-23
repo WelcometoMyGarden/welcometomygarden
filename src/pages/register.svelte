@@ -136,7 +136,9 @@
         type="email"
         name="email"
         id="email"
-        on:blur={() => (fields.email.error = '')}
+        on:blur={() => {
+          fields.email.error = '';
+        }}
         error={fields.email.error}
         bind:value={fields.email.value} />
     </div>
@@ -185,6 +187,9 @@
         {/if}
       </div>
       <Button type="submit" medium disabled={$isRegistering}>Sign up</Button>
+      {#if $isRegistering}
+        <p class="mt-m mb-m">Signing you up...</p>
+      {/if}
       <p>
         Already have an account?
         <a class="link" href={routes.SIGN_IN}>Sign in</a>
