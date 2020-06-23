@@ -1,5 +1,5 @@
 <script>
-  export let gardens;
+  export let allGardens;
   export let selectedGardenId;
 
   import { getContext, createEventDispatcher, onMount } from 'svelte';
@@ -11,40 +11,33 @@
 
   const dispatch = createEventDispatcher();
 
-  let features = [];
-  $: features = Object.keys(gardens).map(uid => {
-    const garden = gardens[uid];
-    return {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [garden.location.longitude, garden.location.latitude]
-      },
-      properties: {
+  let gardens = [];
+  if (allGardens)
+    gardens = Object.keys(allGardens).map(uid => {
+      const garden = allGardens[uid];
+      return {
         id: uid,
         ...garden,
+        lnglat: [garden.location.longitude, garden.location.latitude],
         icon: {
           className: 'garden-marker'
         }
-      }
-    };
-  });
+      };
+    });
 
   onMount(() => {
-    features.forEach(feature => {
-      new mapboxgl.Marker(feature.properties.element)
-        .setLngLat(feature.geometry.coordinates)
-        .addTo(map);
+    gardens.forEach(garden => {
+      new mapboxgl.Marker(garden.element).setLngLat(garden.lnglat).addTo(map);
     });
   });
 </script>
 
-{#each features as feature (feature.properties.id)}
+{#each gardens as garden (garden.id)}
   <button
     class="button-container marker"
-    on:click={() => dispatch('garden-click', feature)}
-    bind:this={feature.properties.element}
-    class:selected={selectedGardenId === feature.properties.id} />
+    on:click={() => dispatch('garden-click', garden)}
+    bind:this={garden.element}
+    class:selected={selectedGardenId === garden.id} />
 {/each}
 
 <style>

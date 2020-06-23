@@ -47,10 +47,11 @@
   <Map lat={center[1]} lon={center[0]} recenterOnUpdate zoom="7">
     {#if !$isFetchingGardens}
       <GardenLayer
-        on:garden-click={e => selectGarden(e.detail.properties)}
+        on:garden-click={e => selectGarden(e.detail)}
         selectedGardenId={selectedGarden ? selectedGarden.id : null}
-        gardens={$allGardens} />
+        allGardens={$allGardens} />
       <Drawer on:close={closeDrawer} garden={selectedGarden} />
+      <slot />
     {/if}
   </Map>
 </div>

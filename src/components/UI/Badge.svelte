@@ -2,7 +2,7 @@
   import Icon from './Icon.svelte';
 
   export let isSkeleton = false;
-  export let icon;
+  export let icon = null;
 </script>
 
 <div class="badge" class:skeleton={isSkeleton} class:is-skeleton={isSkeleton}>

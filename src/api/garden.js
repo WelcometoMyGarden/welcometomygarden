@@ -12,7 +12,7 @@ export const getAllListedGardens = async () => {
   });
   allGardens.set(gardens);
   isFetchingGardens.set(false);
-  return snapshot.docs;
+  return gardens;
 };
 
 const doUploadGardenPhoto = async (photo, currentUser) => {
