@@ -1,4 +1,6 @@
 <script>
+  export let initialCoordinates = null;
+
   import { createEventDispatcher } from 'svelte';
   import { reverseGeocode, geocode } from '@/api/mapbox';
   import { slide } from 'svelte/transition';
@@ -16,15 +18,15 @@
     city: ''
   };
 
-  let coordinates = {
+  let coordinates = initialCoordinates || {
     latitude: 50.5,
     longitude: 4.5
   };
 
   let address = {};
   let reverseGeocoded = false;
-  let locationConfirmed = false;
-  let isAddressConfirmShown = false;
+  let locationConfirmed = !!initialCoordinates;
+  let isAddressConfirmShown = !!initialCoordinates;
 
   const setAddressField = async event => {
     if (reverseGeocoded) {

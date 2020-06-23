@@ -26,10 +26,11 @@ export const register = async ({ email, password, firstName, lastName, countryCo
   isRegistering.set(false);
 };
 
-export const logout = () => {
-  return auth.signOut().then(() => {
-    user.set(null);
-  });
+export const logout = async () => {
+  isInitializing.set(true);
+  await auth.signOut();
+  user.set(null);
+  isInitializing.set(false);
 };
 
 export const requestPasswordReset = (email) => api.requestPasswordReset(email);

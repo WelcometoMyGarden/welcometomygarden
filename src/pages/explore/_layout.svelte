@@ -10,6 +10,9 @@
   import { Progress } from '@/components/UI';
 
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
+  $: center = selectedGarden
+    ? [selectedGarden.location.longitude, selectedGarden.location.latitude]
+    : [4.5, 50.5];
 
   const selectGarden = garden => {
     const newSelectedId = garden.id;
@@ -41,7 +44,7 @@
 </svelte:head>
 <Progress active={$isFetchingGardens} />
 <div>
-  <Map lat="50.5" lon="4.5" zoom="7">
+  <Map lat={center[1]} lon={center[0]} recenterOnUpdate zoom="7">
     {#if !$isFetchingGardens}
       <GardenLayer
         on:garden-click={e => selectGarden(e.detail.properties)}
@@ -55,7 +58,7 @@
 <style>
   div {
     width: 100%;
-    height: calc(100vh - var(--height-footer));
+    height: calc(calc(var(--vh, 1vh) * 100) - var(--height-footer));
     position: fixed;
     top: 0;
     left: 0;
@@ -67,7 +70,7 @@
 
   @media screen and (max-width: 700px) {
     div {
-      height: calc(100vh - var(--height-nav));
+      height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
     }
     div :global(.mapboxgl-ctrl-top-left) {
       top: 0;

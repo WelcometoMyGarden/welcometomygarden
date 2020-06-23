@@ -3,7 +3,6 @@
   import mapboxgl from 'mapbox-gl';
   import config from '../../wtmg.config';
   import key from './mapbox-context.js';
-  import { Progress } from '../UI';
 
   export let lat;
   export let lon;
@@ -12,7 +11,9 @@
 
   let container;
   let map;
-  let mapIsLoading = true;
+
+  let initialLat = lat;
+  let initialLon = lon;
 
   setContext(key, {
     getMap: () => map
@@ -26,14 +27,11 @@
       center: [lon, lat],
       zoom
     });
-    map.on('load', () => {
-      mapIsLoading = false;
-    });
 
     map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left');
   });
 
-  $: if (recenterOnUpdate && map) {
+  $: if (recenterOnUpdate && map && initialLat !== lat && initialLon !== lon) {
     map.flyTo({
       center: [lon, lat],
       bearing: 0,
@@ -49,8 +47,6 @@
 <svelte:head>
   <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css" />
 </svelte:head>
-
-<Progress active={mapIsLoading} />
 
 <div bind:this={container}>
   {#if map}

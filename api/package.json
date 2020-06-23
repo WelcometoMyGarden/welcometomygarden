@@ -16,7 +16,7 @@
   "dependencies": {
     "@sendgrid/mail": "^7.1.1",
     "firebase-admin": "^8.10.0",
-    "firebase-functions": "^3.6.1"
+    "firebase-functions": "^3.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",

@@ -43,10 +43,9 @@
       <li class="separated">
         <a
           href={routes.HOME}
-          on:click|preventDefault={async () => {
+          on:click={() => {
             toggleOpen();
-            $goto(routes.HOME);
-            await logout();
+            logout();
           }}>
           <i>
             {@html signOutIcon}

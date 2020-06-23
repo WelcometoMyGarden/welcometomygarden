@@ -1,9 +1,11 @@
 <script>
   export let garden = null;
 
-  import { createEventDispatcher, onDestroy } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
+  import { scale, fade } from 'svelte/transition';
   import { getPublicUserProfile } from '@/api/user';
-  import { getGardenPhotoSmall } from '@/api/garden';
+  import { getGardenPhotoSmall, getGardenPhotoBig } from '@/api/garden';
+  import { user } from '@/stores/auth';
   import { draggable, clickOutside } from '@/directives';
   import { Text, Badge, Image, Button, Progress } from '../UI';
   import {
@@ -14,22 +16,16 @@
     tentIcon,
     toiletIcon
   } from '@/images/icons';
+  import routes from '@/routes';
 
   const dispatch = createEventDispatcher();
 
-  const DRAWER_DEFAULT_HEIGHT = 400;
-
   let drawerElement;
-  let drawerHeight = DRAWER_DEFAULT_HEIGHT;
+  let photoWrapper;
   let previousOffsetCursor = null;
 
   $: hasHiddenClass = garden ? '' : 'hidden';
   $: drawerClasses = `drawer ${hasHiddenClass}`;
-
-  const handleClickOutsideDrawer = event => {
-    const { clickEvent } = event.detail;
-    if (!drawerElement.contains(clickEvent.target)) dispatch('close');
-  };
 
   function dragBarCatch() {
     previousOffsetCursor = 0;
@@ -37,7 +33,9 @@
 
   function dragBarMove({ detail }) {
     if (previousOffsetCursor !== null) {
-      drawerHeight = drawerHeight - previousOffsetCursor + detail.y;
+      drawerElement.style.height = `${drawerElement.offsetHeight -
+        previousOffsetCursor +
+        detail.y}px`;
       previousOffsetCursor = detail.y;
     }
   }
@@ -58,7 +56,13 @@
 
   let userInfo = {};
   let photoUrl = null;
+  let biggerPhotoUrl = null;
 
+  $: if (garden) {
+    userInfo = {};
+    photoUrl = null;
+    biggerPhotoUrl = null;
+  }
   let ready = false;
   const setAllGardenInfo = async () => {
     try {
@@ -70,32 +74,75 @@
     }
   };
 
+  const handleClickOutsideDrawer = event => {
+    const { clickEvent } = event.detail;
+    if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) return;
+    else if (!drawerElement.contains(clickEvent.target)) dispatch('close');
+  };
+
+  let isShowingMagnifiedPhoto = false;
+  let isGettingMagnifiedPhoto = false;
+  const magnifyPhoto = async () => {
+    isGettingMagnifiedPhoto = true;
+    try {
+      if (garden.photo) biggerPhotoUrl = await getGardenPhotoBig(garden);
+    } catch (ex) {
+      console.log(ex);
+    }
+    isShowingMagnifiedPhoto = true;
+    isGettingMagnifiedPhoto = false;
+  };
+
+  let previousGarden = {};
+  $: if (garden && garden.id !== previousGarden.id) {
+    ready = false;
+    previousGarden = garden;
+  }
   $: if (garden) setAllGardenInfo().then(() => (ready = true));
+  $: ownedByLoggedInUser = $user && garden && $user.id === garden.id;
 </script>
 
-<Progress active={garden && !ready} />
+<Progress active={isGettingMagnifiedPhoto} />
+{#if isShowingMagnifiedPhoto && !isGettingMagnifiedPhoto}
+  <div
+    class="magnified-photo-wrapper"
+    transition:scale
+    bind:this={photoWrapper}
+    on:click={() => {
+      isShowingMagnifiedPhoto = false;
+    }}>
+    <div class="magnified-photo">
+      <img alt="Garden" src={biggerPhotoUrl} on:click={() => (isShowingMagnifiedPhoto = false)} />
+    </div>
+  </div>
+{/if}
 
-<section
+<div
   class={drawerClasses}
   bind:this={drawerElement}
   use:clickOutside
-  on:click-outside={handleClickOutsideDrawer}
-  style={`height: ${drawerHeight}px`}>
+  on:click-outside={handleClickOutsideDrawer}>
+  <div
+    class="drag-area"
+    use:draggable
+    on:dragstart={dragBarCatch}
+    on:drag={dragBarMove}
+    on:dragend={dragBarRelease}>
+    <div class="drag-bar" />
+  </div>
   {#if ready}
-    <div
-      class="drag-area"
-      use:draggable
-      on:dragstart={dragBarCatch}
-      on:drag={dragBarMove}
-      on:dragend={dragBarRelease}>
-      <div class="drag-bar" />
-    </div>
     <section class="main">
-      <Text class="mb-l" weight="bold" size="l">{userInfo.firstName}</Text>
-      {#if garden && garden.photo && photoUrl}
-        <div class="mb-l image-container">
-          <Image src={photoUrl} alt="Garden" />
-        </div>
+      <Text class="mb-l" weight="bold" size="l">
+        {#if ownedByLoggedInUser}Your Garden{:else}{userInfo.firstName}{/if}
+      </Text>
+      {#if garden && garden.photo}
+        <button on:click={magnifyPhoto} class="mb-l button-container image-container">
+          {#if photoUrl}
+            <div transition:fade>
+              <Image src={photoUrl} />
+            </div>
+          {/if}
+        </button>
       {/if}
       <div class="description">
         <Text class="mb-l">{garden && garden.description}</Text>
@@ -115,20 +162,53 @@
           <Text is="span" weight="bold">Dutch & English</Text>
         </Text>
       {/if}
-      <Button uppercase medium disabled>Contact host</Button>
+      {#if garden && ownedByLoggedInUser}
+        <Button href={routes.MANAGE_GARDEN} uppercase medium>Manage garden</Button>
+      {:else if garden}
+        {#if !$user}
+          <p class="log-in-first">
+            You must
+            <a class="link" href={routes.SIGN_IN}>sign in</a>
+            to contact hosts
+          </p>
+        {/if}
+        <Button href={`${routes.CHAT}?with=${garden.id}`} disabled={!$user} uppercase medium>
+          Contact host
+        </Button>
+      {/if}
     </footer>
+  {:else}
+    <section class="main">
+      <div class="skeleton mb-l skeleton-name" />
+      <div class="skeleton skeleton-photo" />
+      <div class="description">
+        <div class="skeleton skeleton-description" />
+        <div class="skeleton skeleton-description" />
+        <div class="skeleton skeleton-description" />
+      </div>
+      <div class="badges-container skeleton-badges">
+        <Badge isSkeleton />
+        <Badge isSkeleton />
+        <Badge isSkeleton />
+        <Badge isSkeleton />
+        <Badge isSkeleton />
+        <Badge isSkeleton />
+      </div>
+      <div class="skeleton footer mt-ms skeleton-cta" />
+    </section>
   {/if}
-</section>
+</div>
 
 <style>
   .drawer {
     position: absolute;
+    font-family: var(--fonts-copy);
     top: 50%;
     right: 0;
     background-color: white;
-    width: 32.5rem;
-    min-height: 48rem;
-    max-height: 50rem;
+    width: 38rem;
+    min-height: 45rem;
+    max-height: 80%;
     z-index: 1;
     transform: translate(0, -50%);
     padding: 3rem;
@@ -139,10 +219,11 @@
     display: flex;
     flex-direction: column;
     transition: right 250ms;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
   }
 
   .drawer.hidden {
-    right: -325px;
+    right: -38rem;
   }
 
   @media screen and (max-width: 700px) {
@@ -157,12 +238,13 @@
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
       min-height: auto;
+      max-height: calc(var(--vh, 1vh) * 80);
       overflow-y: hidden;
       transition: transform 250ms;
     }
     .drawer.hidden {
       right: 0;
-      transform: translateY(1000px);
+      transform: translateY(100rem);
     }
   }
 
@@ -198,7 +280,6 @@
       min-height: 30rem;
     }
   }
-
   .footer {
     display: flex;
     flex-direction: column;
@@ -214,14 +295,79 @@
 
   .description {
     max-width: 45rem;
+    word-wrap: break-word;
   }
 
   .image-container {
     width: 6rem;
     height: 6rem;
+    background-color: var(--color-beige);
+    margin-bottom: 2rem;
+    border-radius: 1rem;
+  }
+
+  .image-container > div {
+    width: 100%;
+    height: 100%;
   }
 
   .image-container:hover {
     cursor: zoom-in;
+  }
+
+  .magnified-photo-wrapper {
+    width: 100vw;
+    height: calc(var(--vh, 1vh) * 100);
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .magnified-photo {
+    max-width: 192rem;
+    max-height: calc(var(--vh, 1vh) * 60);
+    width: auto;
+    height: calc(var(--vh, 1vh) * 80);
+  }
+
+  .magnified-photo img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .skeleton-name {
+    width: 100%;
+    height: 3rem;
+  }
+  .skeleton-photo {
+    width: 6rem;
+    height: 6rem;
+    margin-bottom: 2rem;
+  }
+  .skeleton-description {
+    height: 2rem;
+    width: 100%;
+    margin-bottom: 0.8rem;
+  }
+  .skeleton-badges {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+  .skeleton-cta {
+    height: 5rem;
+    width: 12rem;
+    align-self: center;
+    margin-top: auto;
+  }
+
+  .log-in-first {
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
   }
 </style>

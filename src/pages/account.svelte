@@ -85,7 +85,7 @@
       <section>
         <h2>Verify your email</h2>
         <div>
-          You need to verify your email address if you want to chat or add a garden.
+          <p>You need to verify your email address if you want to chat or add a garden.</p>
           {#if !hasResentEmail}
             <button
               class="resend-verification"
@@ -95,7 +95,7 @@
               Resend email
             </button>
           {:else}
-            <p>Email sent!</p>
+            <p class="resend-verification">Email sent!</p>
           {/if}
         </div>
       </section>
@@ -135,7 +135,7 @@
         </p>
         <Button uppercase medium href={routes.ADD_GARDEN}>Add your garden</Button>
       {:else}
-        <p class="description">
+        <p class="mb-m">
           You can unlist your garden at any time. This means it will stay saved for later - but
           won't be shown on the map until you show it again.
         </p>
@@ -145,6 +145,9 @@
           checked={$user.garden.listed}
           label="Shown on the map"
           on:input={changeGardenListed} />
+        <div class="mt-m">
+          <Button href={routes.MANAGE_GARDEN} medium uppercase>Manage garden</Button>
+        </div>
       {/if}
     </section>
   </div>
@@ -157,7 +160,7 @@
     padding-top: 8rem;
     padding-bottom: 4rem;
     width: 100%;
-    min-height: calc(100vh - var(--height-footer) - var(--height-nav) - 14rem);
+    min-height: calc(calc(var(--vh, 1vh) * 100) - var(--height-footer) - var(--height-nav) - 14rem);
     margin-top: 10rem;
     position: relative;
     margin-bottom: 4rem;
@@ -230,7 +233,7 @@
 
   @media (max-width: 700px) {
     .wrapper {
-      min-height: calc(100vh - var(--height-nav) - 12rem);
+      min-height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav) - 12rem);
       margin-bottom: 0;
     }
     .preference-list {

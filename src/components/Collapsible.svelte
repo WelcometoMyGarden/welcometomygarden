@@ -1,6 +1,9 @@
 <script>
   import { slide } from 'svelte/transition';
+  import { isBrowser } from '@/util';
   export let open = false;
+
+  const animation = isBrowser('safari') ? () => {} : slide;
 </script>
 
 <button class="button button-container" on:click>
@@ -11,7 +14,7 @@
     <span class="sign">{open ? '-' : '+'}</span>
   </div>
   {#if open}
-    <div transition:slide={{ duration: 300 }}>
+    <div transition:animation={{ duration: 300 }}>
       <div class="content">
         <slot name="content" />
       </div>

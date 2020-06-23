@@ -13,7 +13,6 @@
   const submit = async () => {
     isResetting = true;
     try {
-      console.log(password);
       await confirmPasswordReset($params.oobCode, password.value);
 
       // if password reset was successful, sign user in:
@@ -31,7 +30,7 @@
 <Progress active={isResetting} />
 
 <svelte:head>
-  <title>Set a new password | Welcome to my Garden</title>
+  <title>Set a new password | Welcome To My Garden</title>
 </svelte:head>
 
 <AuthContainer>

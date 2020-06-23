@@ -1,5 +1,5 @@
 <script>
-  import { _ } from 'svelte-i18n';
+  import { _, locale } from 'svelte-i18n';
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
@@ -22,6 +22,9 @@
   smoothscroll.polyfill();
 
   const stepGraphics = [Step1, Step2, Step3];
+
+  $: steps = getArrayFromLocale('index.steps', $locale);
+  $: faqQuestions = getArrayFromLocale('index.faq.questions', $locale);
 </script>
 
 <section class="landing">
@@ -29,10 +32,16 @@
     <div class="welcome-logo">
       {@html Logo}
     </div>
-    <h1 class="heading-underline-center">Welcome to My Garden</h1>
+    <h1 class="heading-underline-center">Welcome To My Garden</h1>
     <p class="welcome-text">{$_('index.intro.copy')}</p>
     <div class="welcome-buttons">
-      {#if $user && !$user.garden}
+      <!-- User is not logged in -->
+      {#if !$user}
+        <Button href={routes.REGISTER} fit={false} uppercase inverse>
+          {$_('index.intro.add-garden')}
+        </Button>
+        <!-- User is logged in and has no garden -->
+      {:else if $user && !$user.garden}
         <Button href={routes.ADD_GARDEN} fit={false} uppercase inverse>
           {$_('index.intro.add-garden')}
         </Button>
@@ -56,30 +65,27 @@
 </div>
 
 <section id="steps-section" class="steps">
-  {#each getArrayFromLocale('index.steps') as { title, content }, i}
+  {#each steps as { title, copy }, i}
     <div class="step">
       <div class="step-logo">
         {@html stepGraphics[i]}
       </div>
       <h2 class="step-header">{title}</h2>
-      <p class="step-text">{content}</p>
+      <p class="step-text">
+        {@html $_(`index.steps.${i}.copy`, { values: { addGardenLink: routes.ADD_GARDEN } })}
+      </p>
     </div>
   {/each}
 </section>
 
 <section class="faq">
   <div class="card faq-intro">
-    <h1 class="heading-underline-center">All you need to know</h1>
+    <h1 class="heading-underline-center">{$_('index.faq.title')}</h1>
     <p>
-      Here are the most important things you need to know about your next adventure. Please read
-      this FAQ section thoroughly so that you know what you’re getting&nbsp;yourself&nbsp;into.
+      {@html $_('index.faq.copy', { values: { faqLink: routes.FAQ } })}
     </p>
-    <a href={routes.FAQ}>
-      The full list of frequently asked questions
-      <span aria-hidden="true">>></span>
-    </a>
   </div>
-  <CollapsibleGroup collapsibles={getArrayFromLocale('index.questions')} />
+  <CollapsibleGroup collapsibles={faqQuestions} />
 </section>
 
 <section class="cooperation">
@@ -90,11 +96,9 @@
 
   <div class="card cooperation-card support">
     <div class="cooperation-content">
-      <h1 class="heading-underline-center">Support us</h1>
+      <h1 class="heading-underline-center">{$_('index.support.title')}</h1>
       <p>
-        Welcome to My Garden is free to use but we have to pay a couple of bills.
-        <a href="https://opencollective.com/welcometomygarden" target="_blank">Make a donation</a>
-        to keep us going!
+        {@html $_('index.support.copy')}
       </p>
     </div>
   </div>
@@ -127,7 +131,6 @@
     font-size: 1.6rem;
     line-height: 2.6rem;
     color: var(--color-green);
-    text-align: justify;
     margin-bottom: 2rem;
   }
 
@@ -244,21 +247,27 @@
   .steps {
     display: flex;
     padding: 0 10rem;
+    text-align: justify;
+    justify-content: space-between;
+  }
+
+  .steps :global(a),
+  .cooperation-content :global(a) {
+    font-weight: bold;
+    text-decoration: underline;
+    color: var(--color-orange);
   }
 
   .step {
-    margin-right: 7rem;
     display: grid;
     grid-template-rows: 17rem 0.8fr 2fr;
+    max-width: 60rem;
+    width: 30%;
   }
 
   .step-header {
     font-family: var(--font-copy);
     font-weight: bold;
-  }
-
-  .step:last-of-type {
-    margin-right: 0;
   }
 
   .step-logo {
@@ -291,8 +300,9 @@
     line-height: 3.2rem;
   }
 
-  .faq-intro a {
+  .faq-intro :global(a) {
     color: var(--color-white);
+    text-decoration: underline;
   }
 
   .cooperation {
@@ -357,10 +367,11 @@
     .steps {
       flex-direction: column;
       padding: 0 12rem;
+      align-items: center;
     }
 
     .step {
-      margin-right: 0;
+      width: 100%;
     }
 
     .step-header {
@@ -450,6 +461,10 @@
       padding: 0 8rem;
     }
 
+    .step {
+      margin: 0 auto;
+    }
+
     .faq-intro {
       padding: 4rem 8rem 6rem;
     }
@@ -464,6 +479,11 @@
       font-size: 2.2rem;
       margin-bottom: 2rem;
       line-height: 6.5rem;
+    }
+
+    .heading-underline-center {
+      font-size: 2rem;
+      line-height: 2;
     }
   }
 

@@ -2,9 +2,11 @@
   import { Router } from '@sveltech/routify';
   import { routes } from '@sveltech/routify/tmp/routes';
   import { register, locale, init } from 'svelte-i18n';
-  import { setCookie } from '@/util';
+  import { setCookie, getCookie } from '@/util';
 
-  const lang = navigator.language ? navigator.language.toLowerCase() : 'en';
+  let lang = getCookie('locale');
+  if (!lang && navigator.language) lang = navigator.language.toLowerCase();
+  if (!lang) lang = 'en';
 
   const langs = {
     en: [
@@ -38,9 +40,7 @@
     if (value == null) return;
 
     // if running in the client, save the language preference in a cookie
-    if (typeof window !== 'undefined') {
-      setCookie('locale', value);
-    }
+    if (typeof window !== 'undefined') setCookie('locale', value, { path: '/' });
   });
 </script>
 

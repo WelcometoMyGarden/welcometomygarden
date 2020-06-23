@@ -17,8 +17,12 @@
 
   let infoIsReady = false;
   const addUserInformation = async () => {
-    await setAllUserInfo();
-    unsubscribeFromChatObserver = createChatObserver();
+    try {
+      await setAllUserInfo();
+    } catch (ex) {
+      console.log(ex);
+    }
+    unsubscribeFromChatObserver = await createChatObserver();
   };
 
   $: if ($user) addUserInformation().then(() => (infoIsReady = true));
@@ -27,9 +31,16 @@
   onDestroy(() => {
     if (unsubscribeFromChatObserver) unsubscribeFromChatObserver();
   });
+
+  let vh = `${window.innerHeight * 0.01}px`;
+  const updateViewportHeight = () => {
+    vh = `${window.innerHeight * 0.01}px`;
+  };
 </script>
 
-<div class="app">
+<svelte:window on:resize={updateViewportHeight} />
+
+<div class="app" style="--vh:{vh}">
   <Progress active={$isInitializing || $isLocaleLoading || !infoIsReady} />
   <Notifications />
 
@@ -45,7 +56,7 @@
 <style>
   .app {
     --height-nav: 7rem;
-    --height-footer: 15rem;
+    --height-footer: 18rem;
     width: 100%;
     height: 100%;
     position: relative;

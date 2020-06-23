@@ -6,7 +6,7 @@
   <p class="subtitle">Responsible for the processing of the Data and Owner</p>
 </h2>
 <p>
-  Welcome to My Garden with Open Collective Europe ASBL as legal entity, a not-for-profit
+  Welcome To My Garden with Open Collective Europe ASBL as legal entity, a not-for-profit
   organization, incorporated and existing under the laws of Belgium, with registered office at 12
   Cantersteen 1000 Brussels, Belgium, with company number 0680.493.996.
 </p>
@@ -20,7 +20,7 @@
   <li>
     <h4>Privacy Policy</h4>
     <p>
-      This ‘Privacy Policy’ applies to the ‘Personal Data’ collected by Welcome to My Garden through
+      This ‘Privacy Policy’ applies to the ‘Personal Data’ collected by Welcome To My Garden through
       this website.
     </p>
   </li>
@@ -88,7 +88,7 @@
         </ul>
         <p>
           The personal data is only stored and processed for the period required for the purpose of
-          the processing. After that, the data will be deleted or anonymized. Welcome to My Garden
+          the processing. After that, the data will be deleted or anonymized. Welcome To My Garden
           relies on Firebase which is certified under major privacy and security standards. Firebase
           services are GDPR compliant. All information related to Firebase can be found
           <a href=" https://firebase.google.com/support/privacy ">here</a>
@@ -114,15 +114,15 @@
       <li>
         <h4>
           You have the right to view your personal data at any time, as well as the right to be
-          informed of the use that Welcome to My Garden makes of your personal data.
+          informed of the use that Welcome To My Garden makes of your personal data.
         </h4>
         <ol>
           <li>
             <h5>Right to rectification, removal and restriction of processing</h5>
             <p>
-              You are free to decide whether or not to provide your personal data to Welcome to My
+              You are free to decide whether or not to provide your personal data to Welcome To My
               Garden. In addition, you always have the right to amend, supplement or remove your
-              personal data at Welcome to My Garden. You acknowledge that a refusal to provide or a
+              personal data at Welcome To My Garden. You acknowledge that a refusal to provide or a
               request for the removal of personal data means that certain services can no longer be
               delivered. You may also request the limitation of the processing of your personal
               data.
@@ -138,7 +138,7 @@
           <li>
             <h4>Right to data portability</h4>
             <p>
-              You have the right to obtain the personal data you have provided to Welcome to My
+              You have the right to obtain the personal data you have provided to Welcome To My
               Garden in a structured, typical and machine-readable form and/or transfer it to
               different controllers.
             </p>
@@ -153,7 +153,7 @@
           <li>
             <h4>Exercising your rights</h4>
             <p>
-              You can exercise your rights by contacting Welcome to My Garden to this end by sending
+              You can exercise your rights by contacting Welcome To My Garden to this end by sending
               an email to support@welcometomygarden.org, provided you enclose a copy of your
               identity card
             </p>
@@ -162,7 +162,7 @@
             <h4>Automated decision-making and profiling</h4>
             <p>
               The processing of your personal data does not include profiling and will not be
-              subjected to automated decision-making by Welcome to My Garden.
+              subjected to automated decision-making by Welcome To My Garden.
             </p>
           </li>
           <li>
@@ -195,13 +195,13 @@
           <li>
             <h4>Security measures</h4>
             <p>
-              Welcome to My Garden has developed security measures which have been adjusted at the
+              Welcome To My Garden has developed security measures which have been adjusted at the
               technological and organisational level to prevent the destruction, loss,
               falsification, changing, prohibited access or the erroneous disclosure to third
               parties of personal data as well as any other prohibited processing of this data.
             </p>
             <p>
-              Under no circumstances can Welcome to My Garden be held liable for any direct or
+              Under no circumstances can Welcome To My Garden be held liable for any direct or
               indirect loss resulting from the incorrect or unlawful use of your personal data by a
               third party.
             </p>

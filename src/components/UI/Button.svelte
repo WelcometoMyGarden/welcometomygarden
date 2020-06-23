@@ -17,9 +17,9 @@
 
   let clicked;
   const click = e => {
-    if (!disabled) return dispatch('click', e);
     clicked = true;
     setTimeout(() => (clicked = false), 100);
+    if (!disabled) return dispatch('click', e);
   };
 </script>
 
@@ -27,11 +27,17 @@
   <a
     class="button"
     class:uppercase
+    class:disabled
     class:fit
     class:small
     class:medium
     class:inverse
+    class:clicked
     {href}
+    on:click={e => {
+      if (disabled) e.preventDefault();
+      click(e);
+    }}
     {target}>
     <Text is="span">
       <slot />

@@ -31,7 +31,7 @@
       .setPopup(popup)
       .addTo(map);
 
-    markerElement.click();
+    if (!filled) markerElement.click();
 
     const onDragEnd = () => {
       const lngLat = marker.getLngLat();

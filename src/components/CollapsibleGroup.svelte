@@ -10,10 +10,10 @@
 </script>
 
 <div>
-  {#each collapsibles as { title, body }, i}
+  {#each collapsibles as { title, copy }, i}
     <Collapsible on:click={() => setActiveCollapsible(i)} open={activeCollapsible === i}>
       <h3 slot="title">{title}</h3>
-      <p slot="content">{body}</p>
+      <p slot="content">{copy}</p>
     </Collapsible>
   {/each}
 </div>

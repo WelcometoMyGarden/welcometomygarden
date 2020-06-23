@@ -8,6 +8,7 @@
   import Hamburger from './Hamburger.svelte';
   import Socials from '@/components/Socials.svelte';
   import { Icon } from '@/components/UI';
+  import LanguageSelector from '@/components/LanguageSelector.svelte';
 
   let hamburger;
   let drawerIsShown = false;
@@ -15,7 +16,6 @@
 
   const handleClickOutsideDrawer = event => {
     const { clickEvent } = event.detail;
-    // if (node.contains(event.target)) console.log('yup');
     if (drawerIsShown && !hamburger.contains(clickEvent.target)) toggleDrawer();
   };
 
@@ -78,11 +78,14 @@
         <a href={route} on:click={toggleDrawer} class:active={$isActive(route)}>{name}</a>
       </li>
     {/each}
+    <li>
+      <LanguageSelector />
+    </li>
     <li class="separated sign-out">
       <a
         href="/"
-        on:click|preventDefault={() => {
-          $goto(routes.HOME);
+        on:click={() => {
+          toggleDrawer();
           logout();
         }}>
         Sign out
@@ -120,7 +123,7 @@
 
   .overlay {
     width: 100%;
-    height: calc(100vh - var(--height-nav));
+    height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
     position: fixed;
     top: 0;
     bottom: 0;
@@ -185,7 +188,7 @@
 
   .drawer {
     background-color: var(--color-white);
-    height: calc(100vh - var(--height-nav));
+    height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
     width: 25rem;
     position: fixed;
     top: 0;
@@ -245,7 +248,6 @@
   }
 
   .socials {
-    padding: 0 1.5rem;
     width: 100%;
     position: absolute;
     top: 1.5rem;

@@ -173,3 +173,28 @@ a.link:hover {
 .danger {
   color: var(--color-danger);
 }
+
+.skeleton {
+  border-radius: 0.4rem;
+  background-color: var(--color-gray);
+  background-image: linear-gradient(
+    90deg,
+    var(--color-gray),
+    var(--color-green-light),
+    var(--color-gray)
+  );
+  background-size: 20rem 100%;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 100%;
+  animation: loading-animation 1200ms ease-in-out infinite;
+}
+
+@keyframes loading-animation {
+  0% {
+    background-position: -20rem 0;
+  }
+  100% {
+    background-position: calc(20rem + 100%) 0;
+  }
+}

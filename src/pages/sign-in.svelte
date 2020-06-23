@@ -14,6 +14,7 @@
 
   let formError = '';
   const submit = async () => {
+    if (!email.value || !password.value) return;
     formError = '';
     try {
       await login(email.value, password.value);
@@ -32,7 +33,7 @@
 </script>
 
 <svelte:head>
-  <title>Sign in | Welcome to my Garden</title>
+  <title>Sign in | Welcome To My Garden</title>
 </svelte:head>
 
 <AuthContainer>
@@ -84,13 +85,16 @@
     margin-bottom: 1.2rem;
   }
 
+  form {
+    margin-bottom: 2rem;
+  }
+
   .submit {
     text-align: center;
     margin: 1rem 0;
   }
 
   .hint {
-    min-height: 3rem;
     margin-bottom: 0;
   }
 </style>

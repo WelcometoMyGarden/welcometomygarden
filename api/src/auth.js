@@ -33,7 +33,10 @@ exports.createUser = async (data, context) => {
 
     const normalizeName = (name) => {
       const normalized = name.trim().toLowerCase();
-      return normalized.charAt(0).toUpperCase() + normalized.slice(1);
+      // eslint-disable-next-line no-control-regex
+      return normalized.replace(/(?:^|\s|['`‘’.-])[^\x00-\x60^\x7B-\xDF](?!(\s|$))/g, (a) => {
+        return a.toUpperCase();
+      });
     };
 
     const firstName = normalizeName(data.firstName);

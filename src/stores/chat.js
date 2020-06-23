@@ -27,10 +27,10 @@ export const addMessage = (chatId, message) => {
   });
 };
 
-export const getChatsForUser = (uid) => {
+export const getChatForUser = (uid) => {
   const all = get(chats);
-  return Object.keys(chats).find((id) => {
-    const chat = all[id];
-    return chat && chat.users.includes(uid);
+  return Object.keys(all).find((chatId) => {
+    const chat = all[chatId];
+    return chat.users.includes(uid);
   });
 };
