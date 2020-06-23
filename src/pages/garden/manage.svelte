@@ -8,8 +8,6 @@
   import Form from '@/components/Garden/Form.svelte';
   import routes from '@/routes';
 
-  if (!$user || !$user.garden) $redirect(routes.ACCOUNT);
-
   let updatingGarden = false;
 
   const submit = async e => {

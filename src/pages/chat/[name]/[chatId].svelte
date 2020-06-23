@@ -51,6 +51,7 @@
       return;
     }
     isSending = true;
+    hint = '';
     if (!chat) {
       try {
         const newChatId = await createChat($user.id, $params.id, normalizeWhiteSpace(typedMessage));
@@ -108,7 +109,7 @@
     name="message"
     bind:value={typedMessage}
     disabled={isSending} />
-  <button type="submit" disabled={isSending || !typedMessage || !!hint} aria-label="Send message">
+  <button type="submit" disabled={isSending || !typedMessage || hint} aria-label="Send message">
     &#62;
   </button>
 </form>

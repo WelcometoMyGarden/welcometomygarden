@@ -8,7 +8,7 @@
   import Form from '@/components/Garden/Form.svelte';
   import routes from '@/routes';
 
-  if ($user && $user.garden) $redirect(routes.MANAGE_GARDEN);
+  if ($user.garden) $redirect(routes.MANAGE_GARDEN);
 
   let addingGarden = false;
 
