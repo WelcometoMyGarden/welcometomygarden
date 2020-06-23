@@ -47,7 +47,7 @@ exports.createUser = async (data, context) => {
 
     await db.collection('users').doc(user.uid).set({
       countryCode: data.countryCode,
-      firstName: data.firstName
+      firstName
     });
 
     await db
