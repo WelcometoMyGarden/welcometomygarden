@@ -3,7 +3,7 @@
   import { isBrowser } from '@/util';
   export let open = false;
 
-  const animation = isBrowser('safari') ? null : slide;
+  const animation = isBrowser('safari') ? () => {} : slide;
 </script>
 
 <button class="button button-container" on:click>
