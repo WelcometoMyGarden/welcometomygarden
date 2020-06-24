@@ -134,8 +134,8 @@
       <h2>Your garden</h2>
       {#if !$user.garden}
         <p class="description">
-          You haven't added your garden to the map yet. When you add your garden, other uses will be
-          able to contact you to request a stay. You can unlist your garden at any time!
+          You haven't added your garden to the map yet. When you add your garden, other users will
+          be able to contact you to request a stay. You can unlist your garden at any time!
         </p>
         <Button uppercase medium href={routes.ADD_GARDEN}>Add your garden</Button>
       {:else}
