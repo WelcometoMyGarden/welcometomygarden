@@ -54,12 +54,17 @@
   let countryCode;
   let countryInput;
 
-  const onCountryChange = e => {
-    const { value } = e.currentTarget;
-    // countryInput.value = countryName;
-    const code = Object.keys(countries).find(key => countries[key] === value);
-    if (code) countryCode = code;
-    fields.country.value = value;
+  const validateCountry = v => {
+    const value = v ? v.toLowerCase() : v;
+    const code = Object.keys(countries).find(key => countries[key].toLowerCase() === value);
+    if (!code) {
+      const error = 'Please choose a country from the list';
+      fields.country.error = error;
+      return error;
+    } else {
+      countryCode = code;
+      fields.country.error = '';
+    }
   };
 
   let formError = '';
@@ -70,6 +75,9 @@
       if (error) all.push(error);
       return all;
     }, []);
+
+    const error = validateCountry(fields.country.value);
+    if (error) errors.push(error);
 
     fields = fields;
     if (errors.length > 0) return;
@@ -170,10 +178,9 @@
         icon={flagIcon}
         list="countries"
         name="country-list"
-        on:blur={() => (fields.country.error = '')}
+        on:blur={() => validateCountry(fields.country.value)}
         error={fields.country.error}
-        value={fields.country.value}
-        on:input={onCountryChange} />
+        bind:value={fields.country.value} />
       <datalist id="countries">
         {#each Object.keys(countries) as code}
           <option data-value={code}>{countries[code]}</option>
