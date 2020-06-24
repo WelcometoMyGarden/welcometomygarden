@@ -16,6 +16,8 @@
 
   const selectGarden = garden => {
     const newSelectedId = garden.id;
+    const newGarden = $allGardens[newSelectedId];
+    center = [newGarden.location.longitude, newGarden.location.latitude];
     $goto(`${routes.MAP}/garden/${newSelectedId}`);
   };
 
