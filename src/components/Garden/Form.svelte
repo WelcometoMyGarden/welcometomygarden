@@ -101,7 +101,11 @@
     };
   };
 
-  const getExistingPhoto = () => getGardenPhotoBig({ photo: existingPhoto, id: $user.id });
+  const getExistingPhoto = () => {
+    const id = garden && garden.previousPhotoId ? garden.previousPhotoId : $user.id;
+    console.log(id);
+    return getGardenPhotoBig({ photo: existingPhoto, id });
+  };
 
   const handleSubmit = async () => {
     if (!isFillable) return;

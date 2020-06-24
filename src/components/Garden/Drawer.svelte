@@ -67,7 +67,10 @@
   const setAllGardenInfo = async () => {
     try {
       userInfo = await getPublicUserProfile(garden.id);
-      if (garden.photo) photoUrl = await getGardenPhotoSmall(garden);
+      if (garden.photo) {
+        const id = garden.previousPhotoId || garden.id;
+        photoUrl = await getGardenPhotoSmall({ ...garden, id });
+      }
     } catch (ex) {
       console.log(ex);
       ready = true;
@@ -85,7 +88,10 @@
   const magnifyPhoto = async () => {
     isGettingMagnifiedPhoto = true;
     try {
-      if (garden.photo) biggerPhotoUrl = await getGardenPhotoBig(garden);
+      if (garden.photo) {
+        const id = garden.previousPhotoId || $user.id;
+        biggerPhotoUrl = await getGardenPhotoBig({ ...garden, id });
+      }
     } catch (ex) {
       console.log(ex);
     }

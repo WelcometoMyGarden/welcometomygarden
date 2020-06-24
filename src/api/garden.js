@@ -67,7 +67,8 @@ export const updateGarden = async ({ photo, ...rest }) => {
 
   const garden = {
     ...rest,
-    facilities
+    facilities,
+    previousPhotoId: null
   };
 
   if (uploadedName || rest.photo) garden.photo = uploadedName || rest.photo;

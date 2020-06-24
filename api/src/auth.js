@@ -56,7 +56,7 @@ exports.createUser = async (data, context) => {
       await db
         .collection('campsites')
         .doc(user.uid)
-        .set({ ...existingGarden, unclaimed: false });
+        .set({ ...existingGarden, unclaimed: false, photo: null, previousPhotoId: claimantId });
       await db.collection('campsites').doc(claimantId).delete();
       await db.collection('users').doc(claimantId).delete();
       await db.collection('tmp-users').doc(claimantId).delete();
