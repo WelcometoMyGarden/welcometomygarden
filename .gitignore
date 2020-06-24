@@ -35,4 +35,5 @@ public/bundle
 
 .env*
 .firebase
-wtmg.config.js
+wtmg.config*.js
+!wtmg.config.example.js
