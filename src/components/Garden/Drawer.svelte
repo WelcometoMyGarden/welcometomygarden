@@ -154,6 +154,13 @@
           {/if}
         {/each}
       </div>
+      {#if garden && garden.facilities.capacity}
+        <p class="mt-m capacity">
+          Space for
+          <strong>{garden.facilities.capacity}</strong>
+          {garden.facilities.capacity === 1 ? 'tent' : 'tents'}
+        </p>
+      {/if}
     </section>
     <footer class="footer mt-m">
       {#if userInfo.languages}
@@ -171,8 +178,7 @@
             <a class="link" href={routes.SIGN_IN}>sign in</a>
             to contact hosts
           </p>
-        {/if}
-        {#if garden.unclaimed}
+        {:else if garden.unclaimed}
           <p class="cta-hint">
             You can contact this host as soon as they have created their account.
           </p>
@@ -373,6 +379,10 @@
     width: 12rem;
     align-self: center;
     margin-top: auto;
+  }
+
+  .capacity {
+    font-size: 1.4rem;
   }
 
   .cta-hint {
