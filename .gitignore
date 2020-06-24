@@ -37,3 +37,7 @@ public/bundle
 .firebase
 wtmg.config*.js
 !wtmg.config.example.js
+
+
+.firebaserc
+firestore.rules
