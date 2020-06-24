@@ -1,4 +1,4 @@
-import config from '@/wtmg.config';
+import { config } from '@/config';
 
 const { MAPBOX_ACCESS_TOKEN } = config;
 

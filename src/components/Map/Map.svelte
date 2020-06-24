@@ -1,7 +1,7 @@
 <script>
   import { setContext, onMount } from 'svelte';
   import mapboxgl from 'mapbox-gl';
-  import config from '../../wtmg.config';
+  import { config } from '@/config';
   import key from './mapbox-context.js';
 
   export let lat;

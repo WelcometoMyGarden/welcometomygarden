@@ -3,7 +3,8 @@
   "description": "a platform allowing citizens to put their garden freely at disposal as a rudimentary campsite to travelers.",
   "version": "1.0.0",
   "scripts": {
-    "build": "cross-env NODE_ENV=production rimraf public/bundle && rollup -c",
+    "build": "rimraf public/bundle && rollup -c",
+    "build:prod": "cross-env NODE_ENV=production && yarn run build",
     "dev": "rollup -c -w",
     "start": "sirv public --single",
     "deploy": "yarn run build && firebase deploy"

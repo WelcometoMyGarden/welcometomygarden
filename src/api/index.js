@@ -4,7 +4,7 @@ import 'firebase/functions';
 import 'firebase/storage';
 import 'firebase/auth';
 
-import config from '@/wtmg.config';
+import { config } from '@/config';
 
 const firebaseConfig = {
   ...config.FIREBASE
