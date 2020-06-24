@@ -166,13 +166,22 @@
         <Button href={routes.MANAGE_GARDEN} uppercase medium>Manage garden</Button>
       {:else if garden}
         {#if !$user}
-          <p class="log-in-first">
+          <p class="cta-hint">
             You must
             <a class="link" href={routes.SIGN_IN}>sign in</a>
             to contact hosts
           </p>
         {/if}
-        <Button href={`${routes.CHAT}?with=${garden.id}`} disabled={!$user} uppercase medium>
+        {#if garden.unclaimed}
+          <p class="cta-hint">
+            You can contact this host as soon as they have created their account.
+          </p>
+        {/if}
+        <Button
+          href={`${routes.CHAT}?with=${garden.id}`}
+          disabled={!$user || garden.unclaimed}
+          uppercase
+          medium>
           Contact host
         </Button>
       {/if}
@@ -366,7 +375,8 @@
     margin-top: auto;
   }
 
-  .log-in-first {
+  .cta-hint {
+    text-align: center;
     margin-bottom: 1rem;
     font-size: 1.4rem;
   }
