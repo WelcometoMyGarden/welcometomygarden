@@ -89,7 +89,9 @@
       {@html $_('index.faq.copy', { values: { faqLink: routes.FAQ } })}
     </p>
   </div>
-  <CollapsibleGroup collapsibles={faqQuestions} />
+  <div class="faq-questions">
+    <CollapsibleGroup collapsibles={faqQuestions} />
+  </div>
 </section>
 
 <section class="cooperation">
@@ -295,6 +297,9 @@
     text-align: center;
   }
 
+  .faq-questions {
+    width: 50%;
+  }
   .faq-intro h1 {
     color: var(--color-white);
   }
