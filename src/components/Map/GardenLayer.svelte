@@ -2,7 +2,7 @@
   export let allGardens;
   export let selectedGardenId;
 
-  import { getContext, createEventDispatcher } from 'svelte';
+  import { getContext, createEventDispatcher, onMount } from 'svelte';
   import key from './mapbox-context.js';
 
   const { getMap } = getContext(key);
@@ -10,7 +10,7 @@
 
   const dispatch = createEventDispatcher();
 
-  const doAddGeojson = () => {
+  const addGardensToMap = () => {
     const geojson = {
       type: 'FeatureCollection',
       features: Object.keys(allGardens).map(gardenId => {
@@ -70,14 +70,12 @@
 
     map.addLayer({
       id: 'unclustered-point',
-      type: 'circle',
+      type: 'symbol',
       source: 'gardens',
       filter: ['!', ['has', 'point_count']],
-      paint: {
-        'circle-color': '#11b4da',
-        'circle-radius': 4,
-        'circle-stroke-width': 1,
-        'circle-stroke-color': '#fff'
+      layout: {
+        'icon-image': 'tent',
+        'icon-size': 0.8
       }
     });
 
@@ -119,9 +117,30 @@
     });
   };
 
-  $: if (map && allGardens) {
-    map.on('load', doAddGeojson);
-  }
+  let ready = false;
+  $: if (ready && allGardens) addGardensToMap();
+  $: console.log(ready, allGardens);
+  onMount(() => {
+    map.on('load', async () => {
+      const images = [
+        { url: '/images/markers/tent-neutral.png', id: 'tent' },
+        { url: '/images/markers/tent-filled.png', id: 'tent-filled' }
+      ];
+
+      await Promise.all(
+        images.map(
+          img =>
+            new Promise((resolve, reject) => {
+              map.loadImage(img.url, (error, res) => {
+                map.addImage(img.id, res);
+                resolve();
+              });
+            })
+        )
+      );
+      ready = true;
+    });
+  });
 </script>
 
 <style>
