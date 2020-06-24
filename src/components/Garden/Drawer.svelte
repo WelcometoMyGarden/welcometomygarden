@@ -89,7 +89,7 @@
     isGettingMagnifiedPhoto = true;
     try {
       if (garden.photo) {
-        const id = garden.previousPhotoId || $user.id;
+        const id = garden.previousPhotoId || garden.id;
         biggerPhotoUrl = await getGardenPhotoBig({ ...garden, id });
       }
     } catch (ex) {
