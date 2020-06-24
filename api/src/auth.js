@@ -43,6 +43,25 @@ exports.createUser = async (data, context) => {
     const user = await auth.getUser(context.auth.uid);
     const { email } = user;
 
+    const hasClaimableGarden = await db.collection('tmp-users').where('email', '==', email).get();
+
+    let claimantId = false;
+    if (!hasClaimableGarden.empty) {
+      const snapshot = hasClaimableGarden.docs[0];
+      claimantId = snapshot.id;
+
+      const existingGardenSnap = await db.collection('campsites').doc(claimantId).get();
+      const existingGarden = existingGardenSnap.data();
+
+      await db
+        .collection('campsites')
+        .doc(user.uid)
+        .set({ ...existingGarden, unclaimed: false });
+      await db.collection('campsites').doc(claimantId).delete();
+      await db.collection('users').doc(claimantId).delete();
+      await db.collection('tmp-users').doc(claimantId).delete();
+    }
+
     await auth.updateUser(user.uid, { displayName: firstName });
 
     await db.collection('users').doc(user.uid).set({
