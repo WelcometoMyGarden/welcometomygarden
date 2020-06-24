@@ -1,0 +1,16 @@
+export { default as bonfireIcon } from './bonfire.svg';
+export { default as chatIcon } from './chat.svg';
+export { default as checkIcon } from './check.svg';
+export { default as crossIcon } from './cross.svg';
+export { default as electricityIcon } from './electricity.svg';
+export { default as emailIcon } from './email.svg';
+export { default as flagIcon } from './flag.svg';
+export { default as lockIcon } from './lock.svg';
+export { default as mapIcon } from './map.svg';
+export { default as showerIcon } from './shower.svg';
+export { default as signInIcon } from './sign-in.svg';
+export { default as signOutIcon } from './sign-out.svg';
+export { default as tentIcon } from './tent.svg';
+export { default as toiletIcon } from './toilet.svg';
+export { default as userIcon } from './user.svg';
+export { default as waterIcon } from './water.svg';

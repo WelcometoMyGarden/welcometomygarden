@@ -1,0 +1,215 @@
+{
+  "tagline": "Een netwerk zonder winstoogmerk van burgers die gratis hun tuin openstellen voor trage reizigers die een kampeerplek zoeken.",
+  "index": {
+    "intro": {
+      "copy": "Een netwerk zonder winstoogmerk van burgers die hun tuin gratis beschikbaar stellen voor trage reizigers",
+      "add-garden": "Voeg jouw tuin toe",
+      "explore-map": "Verken de map",
+      "learn-more": "Ontdek meer"
+    },
+    "steps": [
+      {
+        "title": "Stap 1: Meld je aan om een host te worden of te vinden",
+        "copy": "Wil je je tuin openstellen? <a href=\"{addGardenLink}\">Voeg deze toe aan de kaart</a>. Op zoek naar een kampeerplek? Kies je favoriete tuin en contacteer je host! Spreek een datum en tijdstip af voor jouw verblijf en je bent vertrokken! "
+      },
+      {
+        "title": "Step 2: Plan je reis",
+        "copy": "Nadat je afspraken gemaakt hebt met jouw host, stippel je de route uit naar je kampeerplek. Stel jezelf voor en zet je tent op voor de nacht."
+      },
+      {
+        "title": "Step 3: Geniet van de overnachting",
+        "copy": "Geniet van jouw verblijf. Of dat nu op je eentje is, samen met vrienden of familie, en of je nog even gezellig wil chillen met de host - het is maar wat beide partijen verkiezen. Neem hartelijk afscheid en zet je fiets- of wandeltocht verder de volgende dag!"
+      }
+    ],
+    "faq": {
+      "title": "Alles wat je moet weten",
+      "copy": "Dit zijn de belangrijkste dingen die je moet weten over je volgende avontuur. Lees deze FAQ sectie met veelgestelde vragen aandachtig, zodat je weet waar je aan begint. Meer vragen? <a href=\"{faqLink}\">Lees meer in onze FAQ</a>",
+      "questions": [
+        {
+          "title": "Voor wie is Welcome To My Garden?",
+          "copy": "Welcome To My Garden is bedoeld voor wandelaars en fietsers die aan het eind van de dag een kampeerplek op hun pad nodig hebben. Dit is geen vervanger van een volwaardige camping; gewoon een veilige plek voor de nacht! Beschouw het als een aanvulling op het Belgische netwerk van bivakzones. Welcome To My Garden is niet-commercieel: er mag geen geld worden uitgewisseld. Dit betekent dat je als host jouw gasten niet kunt vragen om hun verblijf te betalen."
+        },
+        {
+          "title": "Hoe kan ik mijn kampeerplek bereiken?",
+          "copy": "Welcome To My Garden is enkel voor de trage reiziger. Dit betekent dat je je kampeerplek enkel te voet of per fiets kan bereiken. Uiteraard mag je wel het openbaar vervoer of je auto gebruiken om naar de start van je route te gaan - zolang je maar niet met de auto toekomt bij de tuin van je host!"
+        },
+        {
+          "title": "Hoe vraag ik een verblijf aan?",
+          "copy": "Je contacteert de host altijd op voorhand, tenzij het uitdrukkelijk anders vermeld staat op het profiel van de host. Wanneer je een verblijf aanvraagt, geef dan ook wat informatie over jezelf, jouw aankomstdatum en -tijdstip."
+        },
+        {
+          "title": "Welke faciliteiten kan ik verwachten?",
+          "copy": "Hosts bieden in principe gewoon een hoekje in hun tuin aan waar jij je tent mag opzetten. Aanvullend kunnen ze je ook eventueel toegang bieden tot een toilet, elektriciteit en drinkwater. Maar, ze zijn hier niet toe verplicht; deze opties zijn een extraatje. Beschouw een tuin als een bivakplaats, niet als een volwaardige camping."
+        },
+        {
+          "title": "Moet ik bij Welcome To My Garden iets betalen?",
+          "copy": "Het gebruik van Welcome To My Garden is volledig gratis! Met het platform zelf maken we wel kosten. Het zou dus zeker een glimlach op ons gezicht toveren mocht je een donatie doen! Dit is een initiatief zonder winstoogmerk. Wij verdienen hier niks aan."
+        }
+      ]
+    },
+    "partners": {
+      "title": "Onze partners"
+    },
+    "support": {
+      "title": "Steun ons",
+      "copy": "Welcome To My Garden is gratis te gebruiken maar we hebben wel enkele rekeningen te betalen.  <a href=\"https://opencollective.com/welcometomygarden\" target=\"_blank\">Doe een donatie</a> om ons project te steunen."
+    }
+  },
+  "rules": {
+    "title": "Regels",
+    "description": "Hier vind je hoe Welcome to My Garden werkt.  Lees eerst aandachtig de regels voordat je aan je avontuur begint! Dit platform werkt immers alleen als we allemaal volgens de regels spelen.",
+    "rules": [
+      {
+        "title": "Covid-19 waarschuwing",
+        "copy": "Houd je ten allen tijde aan de maatregelen van de regering om de verspreiding van Covid-19 te stoppen. De laatste informatie voor België vind je op info-coronavirus.be."
+      },
+      {
+        "title": "Netwerk van burgers",
+        "copy": "Welcome to My Garden is een netwerk van burgers die gratis kampeerplekken in hun tuinen aanbieden aan trage reizigers. Het is een initiatief zonder winstoogmerk en er mag geen inkomen uit worden gehaald. Welcome To My Garden is niet verantwoordelijk voor verlies, schade of letsels opgelopen tijdens een verblijf."
+      },
+      {
+        "title": "Stuur vooraf een verzoek naar de tuin eigenaar",
+        "copy": "De tuineigenaars zijn mogelijk niet thuis om jou te verwelkomen. We vragen gebruikers om vooraf contact op te nemen met de tuin eigenaar om meteen de beschikbaarheid te controleren. Dit doe je door een verzoek te sturen naar het profiel van de tuin eigenaar. Nadat je de eerste verbinding tot stand hebt gebracht, kan je contactgegevens uitwisselen. Zo kan je contact houden en je host informeren over je aankomsttijd via e-mail of telefoon, afhankelijk van je hosts voorkeur. Geef bij het indienen van een verzoek wat informatie over jezelf en je verwachte aankomsttijd."
+      },
+      {
+        "title": "Geen auto",
+        "copy": "Welcome To My Garden respecteert het milieu en is alleen bedoeld voor trage reizigers. Hierdoor kun je de kampeerplekken enkel te voet, met de fiets of met het openbaar vervoer bereiken.Het is verboden om er te komen met een auto. Je mag naar het begin van je wandel- of fietspad rijden - zolang je maar niet met de auto naar de kampeerplekken komt."
+      },
+      {
+        "title": "Maximale verblijfsduur",
+        "copy": "You can stay at a camp spot for a maximum of 48 hours. Always check with the garden owner."
+      },
+      {
+        "title": "Maximaal aantal tenten",
+        "copy": "Tuin eigenaars bepalen hoeveel tenten ze elke nacht kunnen herbergen (dit is geen Dour-festival). Respecteer alsjeblieft hun keuze."
+      },
+      {
+        "title": "Voorzieningen",
+        "copy": "Voorzieningen kunnen per tuin verschillen. Sommige hosts bieden misschien toegang tot hun badkamers; anderen doen dat liever niet. Respecteer steeds hun keuzes."
+      },
+      {
+        "title": "Respect voor de natuur",
+        "copy": "Laat geen afval achter.  Dit geldt ook voor je toiletbezoek: zoek een struik of boom buiten de tuin om te plassen; grotere boodschappen pak je mee en gooi je in een vuilnisbak. Respecteer de natuur en de hosts: pas het Leave No Trace-principe toe zoals bij bivakkeren in het wild."
+      },
+      {
+        "title": "Beperk je geluid",
+        "copy": "Respecteer de privacy van de eigenaar van de kampeerplek. Zing dus niet luidkeels mee met Celine Dion en zorg niet voor geluidsoverlast. Zeker niet na 22.00 uur!"
+      },
+      {
+        "title": "Veel plezier!",
+        "copy": "Dit is een geweldige kans om andere mensen te ontmoeten en plezier te hebben! Leer een woordje Frans, Nederlands of Duits als je in een andere regio reist dan de jouwe. Wees nieuwsgierig, deel verhalen en bouw nieuwe vriendschappen op!"
+      },
+      {
+        "title": "Vertel het verder",
+        "copy": "Wil jij ook je tuin openen of ken je iemand die dat graag zou doen? Vertel over Welcome to My Garden! Je kan ook mensen uitnodigen om onze Facebook-pagina leuk te vinden."
+      }
+    ],
+    "message": "Veel kampeerplezier!"
+  },
+  "recommendations": {
+    "title": "Inspiratie voor de trage reiziger",
+    "description": "Plannen om België te voet of per fiets te ontdekken? Hieronder vind je enkele links en tools die wij warm aanbevelen.",
+    "recommendations-groups": [
+      {
+        "title": "Tools, apps & maps",
+        "recommendations": [
+          "Routeplanner voor fietsers en hikers: BRoute, Komoot , OutdoorActive",
+          "Navigatie app voor hikers en fietsers: OSMAnd",
+          "Overzicht van het volledig fietsnetwerk: OpenStreetMap"
+        ]
+      },
+      {
+        "title": "Wandelpaden info",
+        "recommendations": [
+          "Verzameling van hiking trails: RouteYou",
+          "Knooppunten network planner: Wandelknooppunt",
+          "Langeafstandspaden in Wallonië: le RAVeL",
+          "Langeafstandspaden in Vlaanderen: LF network Flanders",
+          "Langeafstands hiking trails in Vlaanderen en Wallonië: Grote Routepaden"
+        ]
+      },
+      {
+        "title": "Aanraders accommodatie",
+        "recommendations": [
+          "Hospitality netwerk voor fietsers: WarmShowers"
+         ]
+      }
+    ],
+    "message": "Geniet!",
+    "contact": "Zouden we nog andere zaken moeten toevoegen aan deze lijst? Laat het ons gerust weten via welcometomygardennetwork[at]gmail.com"
+  },
+  "faq": {
+    "title": "FAQ",
+    "description": "Veelgestelde vragen",
+    "questions": [
+      {
+        "title": "Wat is Welcome To My Garden?",
+        "copy": "Welcome To My Garden is een netwerk van burgers die hun tuinen openen om de trage reiziger een kampeerplek aan te bieden. Het is een initiatief zonder winstoogmerk dat is opgezet door een groep burgers."
+      },
+      {
+        "title": "Voor wie is Welcome to My Garden?",
+        "copy": "Welcome To My Garden is gemaakt voor wandelaars en fietsers die aan het eind van de dag een kampeerplek nodig hebben. Het is niet bedoeld om volwaardige campings te vervangen; het gaat gewoon om een veilige plek voor de nacht! Beschouw het als een aanvulling op het Belgische netwerk van bivak sites."
+      },
+      {
+        "title": "Hoe werkt Welcome to My Garden?",
+        "copy": "Mensen die hun tuin voor trage reizigers willen openen, kunnen deze toevoegen door het formulier op de website in te vullen (klik op de knop ‘Tuin toevoegen’). Kampeerders  kunnen vervolgens contact opnemen met de tuineigenaars om hun verblijf te regelen."
+      },
+      {
+        "title": "Hoe kom ik bij mijn kampeerplek?",
+        "copy": "Welcome To My Garden is opgezet om te voldoen aan de behoeften van trage reizigers: wandelaars en fietsers die aan het eind van de dag een kampeerplek nodig hebben. Het is daarom de bedoeling dat je te voet, met de fiets of met het openbaar vervoer op de kampeerplek aankomt - zeker niet met de auto. Natuurlijk kun je wel naar het begin van je route rijden - zolang je maar niet bij je host komt opdagen in je auto!"
+      },
+      {
+        "title": "Hoe garandeert Welcome To My Garden mijn privacy als host?",
+        "copy": "Al jouw persoonlijke gegevens worden beschermd door het inlogsysteem. Als je een host bent, zullen we jouw huisnummer of exacte locatie niet op de kaart weergeven. Je kan dit aan jouw gasten geven zodra je contact met hen opneemt. Je bepaalt zelf hoe je wilt dat ze contact met je opnemen: per e-mail, telefoon of allebei."
+      },
+      {
+        "title": "Welke voorzieningen vind je in de tuin?",
+        "copy": "Eigenlijk bieden hosts gewoon een hoek in hun tuin aan waar je je tent kunt opzetten. Daarnaast bieden ze mogelijk toegang tot drinkwater, een toilet en elektriciteit. Maar, ze zijn hier niet toe verplicht: dit zijn allemaal extraatjes. Beschouw een tuin als een bivakplek; niet als een volwaardige camping."
+      },
+      {
+        "title": "Is Welcome To My Garden gratis?",
+        "copy": "Welcome to My Garden gebruiken is helemaal gratis. Als platform maken we wel kosten. Als je een donatie wilt doen, zal dat een grote glimlach op ons gezicht toveren! We zijn een initiatief zonder winstoogmerk, dus we verdienen hier geen geld aan. Dit betekent dat al het geld dat je doneert, rechtstreeks naar de kosten van het project gaat. Je kan ook onze uitgaven bekijken op de donatiepagina."
+      },
+      {
+        "title": "Ik heb geen tuin. Kan ik nog steeds naar de tuinen van anderen reizen?",
+        "copy": "Ja! Je hoeft zelf geen tuin aan te bieden om er een te gebruiken. Het platform staat open voor alle trage reizigers!"
+      },
+      {
+        "title": "Hoe lang kan ik in een tuin verblijven?",
+        "copy": "Omdat deze kampeerplekken alleen voorzien in de behoeften van trage reizigers die een meerdaagse trektocht of fietstocht maken, kun je maximaal 48 uur (twee nachten) op een kampeerplek verblijven. Natuurlijk kun je daarna verder reizen naar de volgende kampeerplek! En de volgende. En de volgende… Controleer altijd bij de host hoe lang je kan blijven. Sommige hosts geven er de voorkeur aan dat je maar één nacht blijft."
+      },
+      {
+        "title": "Mag ik mijn gezin meenemen? Mijn kinderen? Mijn hond?",
+        "copy": "Je kunt het beste aan je host vragen of ze openstaan ​​voor kinderen en/of honden. Heel wat hosts hebben al op hun profiel aangegeven dat ze openstaan ​​voor gezinnen, maar zelfs als dat niet het geval is, kan je het altijd vragen!"
+      },
+      {
+        "title": "Wat als er geen toilet is?",
+        "copy": "Mogelijk biedt niet elke host toegang tot een toilet. Zoek in dit geval een plek buiten de tuin die aan je wensen voldoet. Plas achter een boom en raap je grotere boodschap op, zodat je die de volgende dag kan weggooien. Pas het Leave No Trace-principe toe zoals je  zou doen bij kamperen in het wild."
+      },
+      {
+        "title": "En als er een toilet is, hoe garanderen we dan dat Covid-19 niet wordt overgedragen?",
+        "copy": "Breng handdesinfectiemiddel en vochtige doekjes mee, zodat je je handen en alle oppervlakken die je hebt aangeraakt (zoals de toiletbril, de spoelknop, de kraan en de deurgreep) kan reinigen. Je kan ook een mondmasker dragen als je het huis van je host moet betreden voor faciliteiten. Op deze manier help je ervoor te zorgen dat Covid-19 niet wordt overgedragen, voor het geval jij of een van de andere gebruikers van de badkamer het draagt. En als je weet dat je misschien ziek bent, vertrek dan niet op reis!"
+      },
+      {
+        "title": "Waarom is Welcome To My Garden beperkt tot België?",
+        "copy": "Welcome To My Garden is opgezet door een klein team enthousiastelingen gevestigd in België.. Om praktische redenen beperken we de kampeerplaatsen op onze kaarten voorlopig tot België. We willen het vooral simpel houden, hoewel we graag zouden zien dat dit project ook naar het buitenland overwaait. Neem contact met ons op als je Welcome To My Garden in een ander land wil opzetten. De broncode van de website is gratis beschikbaar op GitHub!"
+      },
+      {
+        "title": "Waarom is de Facebookpagina alleen in het Engels?",
+        "copy": "Allereerst is er een heel praktische reden: Engels is de enige taal waarin het hele team vloeiend genoeg kan communiceren! We willen ook dat Welcome To My Garden voor iedereen openstaat, zodat mensen in andere landen het initiatief ook bij hen kunnen realiseren. Op de Facebookpagina houden we het bij Engels. Contacteer je ons liever in het Nederlands of Frans? Dat kan gerust!"
+      },
+      {
+        "title": "Hoe verschilt Welcome To My Garden van andere platforms zoals Warmshowers?",
+        "copy": "Er zijn heel wat platforms die voorzien in de behoeften van (trage) reizigers. Warmshowers is bijvoorbeeld  alleen voor fietsers, terwijl Welcome To My Garden  voor zowel wandelaars als fietsers is. Bij Welcome To My Garden  draait het ook allemaal om tenten, niet om bedden. Je zou het kunnen beschouwen als de buitenversie van Couchsurfing. Er is een commercieel initiatief genaamd Campspace in Nederland dat min of meer hetzelfde doet als Welcome To My Garden, maar je moet wel je kampeerplek betalen. Welcome To My Garden is een gratis initiatief en je hoeft jouw host niet te betalen voor je verblijf."
+      },
+      {
+        "title": "Welk type tent kan ik meenemen?",
+        "copy": "Omdat Welcome To My Garden alleen geschikt is voor wandelaars en fietsers, verwachten we dat je niets groters meeneemt dan een trekkerstent. Dit betekent dat je tent gemakkelijk in je rugzak moet passen. Als je niet zeker weet of je tent in de tuin van de host past, contacteer hen dan voordat je vertrekt."
+      },
+      {
+        "title": "Ik heb een probleem gehad met een gast of een host. Hoe meld ik dit?",
+        "copy": "Elk probleem of wangedrag moet per e-mail worden gemeld aan Welcome To My Garden (welcometomygardennetwork-at-gmail.com). In geval van wangedrag behouden we het recht om eenzijdig het account van deze persoon te verwijderen (zie Gebruiksvoorwaarden)."
+      }
+    ]
+  }
+}

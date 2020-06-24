@@ -1,0 +1,56 @@
+{
+  "hosting": {
+    "public": "public",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(js)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=259200"
+          }
+        ]
+      },
+      {
+        "source": "bundle/main.js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=3600"
+          }
+        ]
+      },
+      {
+        "source": "reset.css",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=604800"
+          }
+        ]
+      }
+    ]
+  },
+  "functions": {
+    "source": "api"
+  },
+  "emulators": {
+    "functions": {
+      "port": 5001
+    },
+    "hosting": {
+      "port": 4000
+    },
+    "ui": {
+      "enabled": true,
+      "port": 4001
+    }
+  }
+}
