@@ -100,7 +100,7 @@
         filter: ['!', ['has', 'point_count']],
         layout: {
           'icon-image': ['get', 'icon'],
-          'icon-size': 0.8
+          'icon-size': 0.4
         }
       });
 
