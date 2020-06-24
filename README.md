@@ -1,5 +1,6 @@
 # Welcome To My Garden
 
+![Open Collective backers and sponsors](https://img.shields.io/opencollective/all/welcometomygarden?label=Open%20Collective&logo=open-collective&style=for-the-badge)
 
 ## Prerequisites
 
