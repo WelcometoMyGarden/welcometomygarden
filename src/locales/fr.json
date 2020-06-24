@@ -54,5 +54,163 @@
       "title": "Soutenez-nous",
       "copy": "Utiliser Welcome To My Garden est 100% gratuit cependant nous avons quelques factures. <a href=\"https://opencollective.com/welcometomygarden\" target=\"_blank\">Soutenez-nous ici</a> pour nous permettre de continuer à exister!"
     }
+  },
+  "rules": {
+    "title": "Les règles à suivre",
+    "description": "Vous trouverez ci-dessous comment Welcome To My Garden fonctionne. Assurez-vous de lire ces règles avant de commencer votre aventure ! Après tout, la plateforme ne pourra fonctionner que si nous respectons tou.te.s les règles.",
+    "rules": [
+      {
+        "title": "Avertissement Covid-19",
+        "copy": "À tout moment, respectez les mesures prises par le gouvernement pour arrêter la propagation de Covid-19. Vous pouvez trouver les dernières informations pour la Belgique sur info-coronavirus.be."
+      },
+      {
+        "title": "Réseau de citoyen.ne.s",
+        "copy": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour de voyageurs et voyageuses adeptes du slow travel. Il s’agit d’une initiative sans but lucratif et en conséquence, aucun bénéfice, ni de la part de la plateforme ni de la part des hôtes, ne peut être fait. Welcome To My Garden ne prendra aucune responsabilité pour toute perte, dommage ou blessure encourue pendant un séjour."
+      },
+      {
+        "title": "Envoyez une demande à l’avance au propriétaire du jardin",
+        "copy": "Les propriétaires de jardins ne sont pas toujours disponibles pour vous accueillir. Contactez-les à l’avance via leur profil et vérifiez leurs disponibilités directement. Après avoir établi un premier contact, vous pourrez échanger vos coordonnées afin de rester en contact et les informer de votre heure d’arrivée, soit par email, soit par téléphone selon leur préférence. Lorsque vous envoyez une demande, n'hésitez pas à donner quelques informations sur vous et votre voyage !"
+      },
+      {
+        "title": "Pas de voiture",
+        "copy": "Welcome To My Garden respecte l’environnement et est une initiative à destination des voyageurs et voyageuses adeptes du slow travel, c’est à dire pour ceux et celles qui se déplacent à pied, à vélo ou en transport en commun. Arriver directement à un jardin en voiture est interdit. Vous pouvez bien sûr vous déplacer en voiture pour vous rendre au point de départ de votre randonnée pédestre ou cycliste."
+      },
+      {
+        "title": "Durée maximum",
+        "copy": "Vous ne pouvez rester dans les jardins pour une durée maximale de 48 heures. Néanmoins, confirmez toujours à l'avance la durée de votre séjour avec le/la propriétaire du jardin."
+      },
+      {
+        "title": "Nombre maximum de tentes",
+        "copy": "Les propriétaires de jardin définissent le nombre de tentes qu’ils/elles peuvent accueillir chaque nuit (ce n’est pas le festival de Dour !). Merci de respecter leur choix."
+      },
+      {
+        "title": "Installations",
+        "copy": "Les installations peuvent varier d’un jardin à un autre. Certains propriétaires décident de mettre leurs sanitaires à disposition; d’autres décideront de ne pas le faire. Merci de respecter leur choix."
+      },
+      {
+        "title": "Respect de la nature",
+        "copy": "Emportez avec vous tous vos déchets en respectant le principe de Leave No Trace. Ce principe inclut les besoins naturels lorsqu’il n’y a pas de toilettes disponibles : trouvez un buisson ou un arbre en dehors du jardin pour le besoin numéro 1 ; en cas de besoin numéro 2, emballez-le et jetez-le dans une poubelle le jour suivant. Respectez la nature et le jardin de vos hôtes en agissant comme lorsque vous faites un bivouac en pleine nature."
+      },
+      {
+        "title": "Respect du voisinage",
+        "copy": "Respectez l’intimité des propriétaires et le voisinage. Pas question de chanter Céline Dion à toute voix ou de faire trop de bruit - en tout cas pas après 22h !"
+      },
+      {
+        "title": "Profitez, profitez, profitez !",
+        "copy": "Ceci est une excellente opportunité de rencontrer d’autres personnes ! Apprenez quelques mots de néerlandais, d’anglais ou d’allemand si vous voyagez dans une autre région que la vôtre. Soyez curieux, partagez des histoires et faites des nouvelles amitiés !"
+      },
+      {
+        "title": "Partagez Welcome To My Garden autour de vous",
+        "copy": "Connaissez-vous quelqu’un qui pourrait ouvrir son jardin ? Partagez les informations à propos de l’initiative ! Vous pouvez également les inviter à suivre notre page Facebook."
+      }
+    ],
+    "message": "Bon bivouac !"
+  },
+  "recommendations": {
+    "title": "Inspiration pour mieux planifier un voyage slow travel",
+    "description": "Vous êtes en train de planifier un voyage à pied ou à vélo en Belgique ? Voici quelques ressources que nous recommandons chaudement ! ",
+    "recommendations-groups": [
+      {
+        "title": "Cartes et applications",
+        "recommendations": [
+          "Faire un itinéraire pour vélo ou marche à pied : BRouter, Komoot, OutdoorActive",
+          "Applications pour les itinéraires  : OSMAnd",
+          "Sur OpenStreetMap, vous trouverez les réseaux de pistes cyclables."
+           ]
+      },
+      {
+        "title": "D’autres ressources",
+        "recommendations": [
+          "Collection de chemins de randonnées :  RouteYou",
+          "Pour le réseau de Knooppunten : Wandelknooppunt",
+          "Sentiers de longue distance en Wallonie : le RAVeL",
+          "Réseau de longue distance cycliste en Flandres : LF network Flanders",
+          "Réseau de longue distance de randonnée en Flandres : Grote Routepaden"
+        ]
+      },
+      {
+        "title": "D’autres recommandations pour se loger",
+        "recommendations": [
+          "Réseau d’hospitalité pour cyclistes: WarmShowers",
+          "More detailed information about all bivouac places: Bivakzone.be"
+        ]
+      }
+    ],
+    "message": "Enjoy!",
+    "contact": "Autre chose que nous devrions ajouter à cette liste ? Faites le nous savoir via welcometomygardennetwork[at]gmail.com"
+  },
+  "faq": {
+    "title": "FAQ",
+    "description": "Questions fréquentes",
+    "questions": [
+      {
+        "title": "Welcome To My Garden, c’est quoi ?",
+        "copy": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour les voyageurs et voyageuses adeptes du slow travel. Cette initiative citoyenne sans but lucratif est composée de bénévoles amateurs et amatrices de randonnées ou de cyclotourisme."
+      },
+      {
+        "title": "Pour qui est Welcome To My Garden ?",
+        "copy": "Welcome To My Garden a été créé pour des randonneurs et cyclistes recherchant un endroit pour bivouaquer pour la nuit. L’initiative ne vise pas à remplacer des campings à part entière, simplement à offrir un endroit sécurisé pour la nuit ! Considérez-le comme une addition au réseau belge des sites de bivouac."
+      },
+      {
+        "title": "Comment fonctionne Welcome To My Garden ?",
+        "copy": "Vous pouvez ajouter directement votre jardin sur le site. Les voyageurs et voyageuses peuvent alors contacter les propriétaires directement sur le site pour organiser leur séjour."
+      },
+      {
+        "title": "Comment accéder au bivouac ?",
+        "copy": "Welcome To My Garden a été mis en place pour répondre aux besoins des voyageurs et voyageuses lent.e.s adeptes du slow travel, c’est à dire des randonneurs et cyclistes qui auraient besoin d’un endroit où poser leur tente pour la nuit. Nous vous demandons donc d’accéder au bivouac de cette manière et non pas par voiture. Vous pouvez bien sûr conduire jusqu’au début du sentier de randonnée, mais vous ne pouvez pas arriver directement chez votre hôte en voiture !"
+      },
+      {
+        "title": "Comment Welcome To My Garden garantit la confidentialité des hôtes ?",
+        "copy": "Toutes vos données personnelles sont protégées grâce au système d’identification mis en place. Si vous êtes un hôte, nous ne publierons pas le numéro de votre maison et les voyageurs ne pourront pas zoomer exactement sur votre habitation. Vous pourrez donner toutes ces informations aux voyageurs quand vous serez en contact avec eux. À vous de dire comment vous souhaitez communiquer avec eux. "
+      },
+      {
+        "title": "Quelles installations pourrez-vous trouver dans les jardins ?",
+        "copy": "Les jardins mis à disposition sont des coins d’herbe pour poser votre tente. Selon le choix des propriétaires, vous pourriez également avoir accès - ou non - à de l'eau potable, aux sanitaires et à l'électricité. Ils ne sont toutefois pas obligés de le faire : c’est un bonus. Considérez les jardins comme des zones de bivouacs ; il ne s’agit en aucun cas d’espaces de campings à part entière. "
+      },
+      {
+        "title": "Est-ce que Welcome To My Garden a un coût ?",
+        "copy": "Utiliser Welcome To My Garden est 100% gratuit. Cependant, en tant que plateforme, nous engageons des frais. Si vous souhaitez nous soutenir, vous pouvez faire un don. Nous sommes une initiative citoyenne sans but lucratif et ne faisons donc aucun profit sur l’argent collecté. En effet, chaque somme collectée couvre des frais. Vous trouverez la liste des dépenses sur la page de dons."
+      },
+      {
+        "title": "Je n’ai pas de jardin. Est-ce que je peux quand même voyager dans les jardins d’autres personnes ?",
+        "copy": "Bien sûr ! Vous n’avez pas besoin d’offrir un jardin pour pouvoir utiliser Welcome To My Garden."
+      },
+      {
+        "title": "Combien de temps puis-je rester dans un jardin ?",
+        "copy": "Étant donné que les jardins sont mis à disposition des voyageurs qui se déplacent à pied ou à vélo, vous ne pouvez y rester que pour un maximum de 48 heures (2 nuits). Vérifiez toujours avec votre hôte pour vous assurer de la durée de votre séjour."
+      },
+      {
+        "title": "Est-ce que je peux venir avec ma famille ? Mes enfants ? Et mon chien dans tout ça ?",
+        "copy": "Vérifiez toujours avec votre hôte ce qui est possible, ou non, pour lui/elle. Dans certains cas, les hôtes annoncent clairement sur leur profil être ouverts aux familles."
+      },
+      {
+        "title": "Que faire s’il n’y a pas de toilettes ?",
+        "copy": "Tous les hôtes ne vont pas forcément donner accès à leurs toilettes. Dans ce cas, trouvez une solution avant d’arriver chez l’hôte et repartez tôt le matin. La nuit, ce sera pipi nature ! Appliquez le principe de Leave No Trace, comme si vous campiez en pleine nature. "
+      },
+      {
+        "title": "Et s’il y a des toilettes, comment garantir que le Covid-19 ne soit pas transmis ?",
+        "copy": "Apportez du désinfectant et des lingettes humides afin de pouvoir vous laver les mains et nettoyer toutes les surfaces que vous aurez touchées, comme le siège des toilettes, la chasse d'eau, le robinet,... Portez également un masque si vous entrez dans la maison. De cette manière, vous contribuez à ne pas transmettre le Covid-19. Si vous avez des signes de maladie, n’allez pas camper !"
+      },
+      {
+        "title": "Pourquoi Welcome To My Garden est-il limité à la Belgique pour l’instant ?",
+        "copy": "Welcome To My Garden a été créé par une petite équipe de passionné.e.s vivant en Belgique. Pour des questions pratiques, nous limitons pour l’instant les jardins à la Belgique. Si vous souhaitez importer le concept dans votre pays, n’hésitez pas à nous contacter ! Le code de la plateforme est ouvert et disponible sur GitHub."
+      },
+      {
+        "title": "Pourquoi est-ce que votre page facebook n’est qu’en anglais ?",
+        "copy": "La première raison est toute simple : l’anglais est la seule langue commune de notre équipe de bénévoles ! Nous souhaitons aussi ouvrir Welcome To my Garden au plus grand nombre et donc permettre à des personnes ne parlant ni français ni néerlandais de l’utiliser et, qui sait, de le répliquer dans leur propre pays. Nous continuerons à poster en anglais sur facebook, mais n’hésitez pas à nous écrire en néerlandais ou français !"
+      },
+      {
+        "title": "Comment est-ce que Welcome To My Garden diffère d’autres plateformes (p.ex : Warmshower)",
+        "copy": "Il existe de nombreuses autres plateformes qui répondent aux besoins des voyageurs et voyageuses adeptes du slow travel. Warmshowers (que beaucoup de nos bénévoles utilisent !) est exclusivement réservée aux cyclistes. Welcome To My Garden est utilisable par tous les voyageurs et voyageuses à vélo, à pied ou ceux qui se déplacent en transports en commun. De plus, sur cette plateforme, vous ne trouverez que des emplacements pour camper, pas de lits. C’est un peu le Couchsurfing de la tente si vous voulez. Aux Pays-Bas, il existe une initiative commerciale appelée Campspace qui fait plus ou moins la même chose que Welcome To My Garden, mais qui est payante. Welcome To My Garden est une initiative gratuite, vous ne devrez donc pas payer votre hôte."
+      },
+      {
+        "title": "Quel type de tente puis-je apporter ?",
+        "copy": "Etant donné que Welcome To My Garden est destiné aux cyclistes et randonneurs, apportez une tente trek qui rentre facilement dans votre sac. Si vous n’êtes pas sûr que votre tente rentre dans le jardin de votre hôte, vérifiez avec lui/elle avant de partir !"
+      },
+      {
+        "title": "J’ai eu un problème avec un.e hôte, comment vous le faire savoir ?",
+        "copy": "Tout problème ou mauvais comportement de la part d’un.e hôte ou d’un.e voyageur/voyageuse doit être reporté à Welcome To My Garden par email (welcometomygardennetwork-gmail.com). En cas de comportement inadapté, nous nous réservons le droit de suspendre de manière unilatérale le compte de la personne en question (voir les conditions d’utilisations)."
+      }
+    ]
   }
 }
