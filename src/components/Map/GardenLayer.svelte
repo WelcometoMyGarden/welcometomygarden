@@ -90,9 +90,6 @@
           'text-field': '{point_count_abbreviated}',
           'text-font': ['Montserrat', 'Arial'],
           'text-size': 13
-        },
-        paint: {
-          'text-color': '#fff'
         }
       });
 
