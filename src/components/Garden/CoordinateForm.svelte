@@ -166,4 +166,11 @@
     bottom: 0.5rem;
     left: 0.5rem;
   }
+
+  @media screen and (max-width: 700px) {
+    .map-container :global(.mapboxgl-ctrl-bottom-right) {
+      top: 0;
+      right: 0;
+    }
+  }
 </style>

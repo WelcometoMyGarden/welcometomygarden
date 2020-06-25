@@ -78,8 +78,6 @@
     div :global(.mapboxgl-ctrl-bottom-right) {
       top: 0;
       right: 0;
-      height: 2rem;
-      margin: 0;
     }
   }
 </style>
