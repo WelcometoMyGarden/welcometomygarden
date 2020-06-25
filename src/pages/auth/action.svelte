@@ -1,4 +1,5 @@
 <script>
+  import { user } from '@/stores/auth';
   import { params, goto } from '@sveltech/routify';
   import notify from '@/stores/notification';
   import { verifyPasswordResetCode, applyActionCode, resendAccountVerification } from '@/api/auth';
@@ -28,10 +29,14 @@
         notify.success('Your email address was verified successfully!', 8000);
         $goto(routes.ACCOUNT);
       } catch (ex) {
-        notify.danger('This verification link has expired. Click to resend', 15000, {
-          click: resendAccountVerification
-        });
-        $goto(routes.MAP);
+        if ($user && $user.emailVerified) {
+          notify.success('Your email has already been verified. Please refresh the page.', 12000);
+        } else {
+          notify.danger('This verification link has expired. Click to resend', 15000, {
+            click: resendAccountVerification
+          });
+        }
+        $goto(routes.ACCOUNT);
       }
     }
   };

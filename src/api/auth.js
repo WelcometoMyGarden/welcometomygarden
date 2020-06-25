@@ -41,7 +41,8 @@ export const createAuthObserver = () =>
   });
 
 export const resendAccountVerification = () => {
-  if (!get(user) || get(user).emailVerified) return;
+  if (!get(user)) throw 'Please sign in first';
+  if (get(user).emailVerified) throw 'Your email is already verified. Please refresh the page.';
   return api.resendAccountVerification();
 };
 export const verifyPasswordResetCode = (code) => auth.verifyPasswordResetCode(code);

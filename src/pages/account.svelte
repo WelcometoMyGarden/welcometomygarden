@@ -50,9 +50,12 @@
       isResendingEmail = false;
     } catch (ex) {
       console.log(ex);
-      notify.danger(
-        "We couldn't resend an account verification email. Please contact support@welcometomygarden.be"
-      );
+      if (!ex.code) notify.danger(ex, 15000);
+      else
+        notify.danger(
+          "We couldn't resend an account verification email. Please contact support@welcometomygarden.be",
+          12000
+        );
       isResendingEmail = false;
       hasResentEmail = false;
     }
