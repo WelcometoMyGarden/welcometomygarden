@@ -25,10 +25,12 @@
       container,
       style: `https://api.maptiler.com/maps/basic/style.json?key=${config.MAPTILER_ACCESS_TOKEN}`,
       center: [lon, lat],
-      zoom
+      zoom,
+      attributionControl: false
     });
 
     map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left');
+    map.addControl(new mapboxgl.AttributionControl({ compact: false }));
   });
 
   $: if (recenterOnUpdate && map && initialLat !== lat && initialLon !== lon) {
