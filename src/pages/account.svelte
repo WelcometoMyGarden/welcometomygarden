@@ -142,7 +142,7 @@
             be able to contact you to request a stay. You can unlist your garden at any time!
           </p>
           <Button uppercase medium href={routes.ADD_GARDEN}>Add your garden</Button>
-        {:else}
+        {:else if $user.emailVerified && $user.garden}
           <p class="mb-m">
             You can unlist your garden at any time. This means it will stay saved for later - but
             won't be shown on the map until you show it again.
@@ -156,6 +156,8 @@
           <div class="mt-m">
             <Button href={routes.MANAGE_GARDEN} medium uppercase>Manage garden</Button>
           </div>
+        {:else if $user.garden && !user.emailVerified}
+          <p class="mb-m">Verify your email to manage your garden.</p>
         {/if}
       </section>
     </div>

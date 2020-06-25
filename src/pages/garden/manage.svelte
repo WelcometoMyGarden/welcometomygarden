@@ -8,7 +8,7 @@
   import Form from '@/components/Garden/Form.svelte';
   import routes from '@/routes';
 
-  $: if (!$user || !$user.emailVerified) {
+  if (!$user || !$user.emailVerified) {
     notify.warning('Please verify your email first.', 8000);
     $redirect(routes.ACCOUNT);
   }
