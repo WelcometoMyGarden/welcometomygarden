@@ -2,7 +2,7 @@
   import { user } from '@/stores/auth';
   import { params, goto } from '@sveltech/routify';
   import notify from '@/stores/notification';
-  import { verifyPasswordResetCode, applyActionCode, resendAccountVerification } from '@/api/auth';
+  import { verifyPasswordResetCode, applyActionCode } from '@/api/auth';
   import routes from '@/routes';
 
   const { mode, oobCode } = $params;
@@ -27,16 +27,15 @@
       try {
         await applyActionCode(oobCode);
         notify.success('Your email address was verified successfully!', 8000);
-        $goto(routes.ACCOUNT);
+        $goto(`${routes.ACCOUNT}?confirmed=true`);
       } catch (ex) {
         if ($user && $user.emailVerified) {
           notify.success('Your email has already been verified. Please refresh the page.', 12000);
+          $goto(routes.ACCOUNT);
         } else {
-          notify.danger('This verification link has expired. Click to resend', 15000, {
-            click: resendAccountVerification
-          });
+          notify.danger('This verification link has expired. Please request a new one', 15000);
+          $goto(routes.ACCOUNT);
         }
-        $goto(routes.ACCOUNT);
       }
     }
   };

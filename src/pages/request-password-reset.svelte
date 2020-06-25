@@ -40,7 +40,7 @@
           <label for="email">Email</label>
           <TextInput
             icon={emailIcon}
-            autocomplete="email"
+            autocomplete="off"
             type="email"
             name="email"
             id="email"

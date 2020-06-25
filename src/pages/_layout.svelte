@@ -1,6 +1,7 @@
 <script>
-  import { onMount, onDestroy } from 'svelte';
+  import { onDestroy } from 'svelte';
   import { isLoading as isLocaleLoading } from 'svelte-i18n';
+  import { params } from '@sveltech/routify';
   import { createAuthObserver } from '@/api/auth';
   import { setAllUserInfo } from '@/api/user';
   import { createChatObserver } from '@/api/chat';
@@ -9,13 +10,11 @@
   import Nav from '../components/Nav/Navigation.svelte';
   import Footer from '@/components/Footer.svelte';
 
-  onMount(() => {
-    return createAuthObserver();
-  });
-
+  let unsubscribeFromAuthObserver = createAuthObserver();
   let unsubscribeFromChatObserver;
 
   let infoIsReady = false;
+
   const addUserInformation = async () => {
     try {
       await setAllUserInfo();
@@ -25,12 +24,14 @@
     unsubscribeFromChatObserver = await createChatObserver();
   };
 
+  $: if ($params.confirmed) infoIsReady = false;
   $: if ($user) {
     addUserInformation().then(() => (infoIsReady = true));
   } else if (!$isInitializing) infoIsReady = true;
 
   onDestroy(() => {
     if (unsubscribeFromChatObserver) unsubscribeFromChatObserver();
+    if (unsubscribeFromAuthObserver) unsubscribeFromAuthObserver();
   });
 
   let vh = `${window.innerHeight * 0.01}px`;
