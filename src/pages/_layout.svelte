@@ -26,7 +26,6 @@
   };
 
   $: if ($user) {
-    infoIsReady = false;
     addUserInformation().then(() => (infoIsReady = true));
   } else if (!$isInitializing) infoIsReady = true;
 
