@@ -1,6 +1,6 @@
 <script>
   import { fade } from 'svelte/transition';
-  import { goto } from '@sveltech/routify';
+  import { goto, redirect } from '@sveltech/routify';
   import notify from '@/stores/notification';
   import { updateMailPreferences } from '@/api/user';
   import { resendAccountVerification } from '@/api/auth';
@@ -12,7 +12,7 @@
   import { countries } from '@/util';
   import routes from '@/routes';
 
-  $: if (!$user) $goto(routes.SIGN_IN);
+  if (!$user) $redirect(routes.SIGN_IN);
 
   const onMailPreferenceChanged = async event => {
     try {
@@ -63,99 +63,101 @@
   <title>Account | Welcome To My Garden</title>
 </svelte:head>
 
-<div class="wrapper">
-  <div class="avatar">
-    <Avatar large name={$user.firstName} />
-  </div>
-  <div class="content">
-    <section class="user-information">
-      <h2>{$user.firstName} {$user.lastName}</h2>
-      <div class="details">
-        <div>
-          <span class="icon">
-            <Icon icon={emailIcon} />
-          </span>
-          {$user.email}
-        </div>
-        <div>
-          <span class="icon">
-            <Icon icon={flagIcon} />
-          </span>
-          {countries[$user.countryCode]}
-        </div>
-      </div>
-    </section>
-    {#if !$user.emailVerified}
-      <section>
-        <h2>Verify your email</h2>
-        <div>
-          <p>You need to verify your email address if you want to chat or add a garden.</p>
-          {#if !hasResentEmail}
-            <button
-              class="resend-verification"
-              transition:fade
-              disabled={isResendingEmail}
-              on:click={doResendEmail}>
-              Resend email
-            </button>
-          {:else}
-            <p class="resend-verification">Email sent!</p>
-          {/if}
+{#if $user}
+  <div class="wrapper">
+    <div class="avatar">
+      <Avatar large name={$user.firstName} />
+    </div>
+    <div class="content">
+      <section class="user-information">
+        <h2>{$user.firstName} {$user.lastName}</h2>
+        <div class="details">
+          <div>
+            <span class="icon">
+              <Icon icon={emailIcon} />
+            </span>
+            {$user.email}
+          </div>
+          <div>
+            <span class="icon">
+              <Icon icon={flagIcon} />
+            </span>
+            {countries[$user.countryCode]}
+          </div>
         </div>
       </section>
-    {/if}
-    <section>
-      <h2>Email preferences</h2>
-      Send me emails when:
-      <ul class="preference-list">
-        <li>
-          <input
-            disabled={$updatingMailPreferences}
-            type="checkbox"
-            id="new-chat"
-            name="newChat"
-            checked={$user.emailPreferences.newChat}
-            on:change={onMailPreferenceChanged} />
-          <label for="new-chat">I receive a new chat message</label>
-        </li>
-        <li>
-          <input
-            disabled={$updatingMailPreferences}
-            type="checkbox"
-            id="news"
-            name="news"
-            checked={$user.emailPreferences.news}
-            on:change={onMailPreferenceChanged} />
-          <label for="news">Welcome To My Garden has news to share</label>
-        </li>
-      </ul>
-    </section>
-    <section>
-      <h2>Your garden</h2>
-      {#if !$user.garden}
-        <p class="description">
-          You haven't added your garden to the map yet. When you add your garden, other users will
-          be able to contact you to request a stay. You can unlist your garden at any time!
-        </p>
-        <Button uppercase medium href={routes.ADD_GARDEN}>Add your garden</Button>
-      {:else}
-        <p class="mb-m">
-          You can unlist your garden at any time. This means it will stay saved for later - but
-          won't be shown on the map until you show it again.
-        </p>
-        <LabeledCheckbox
-          disabled={updatingListedStatus}
-          name="listed"
-          checked={$user.garden.listed}
-          label="Shown on the map"
-          on:input={changeGardenListed} />
-        <div class="mt-m">
-          <Button href={routes.MANAGE_GARDEN} medium uppercase>Manage garden</Button>
-        </div>
+      {#if !$user.emailVerified}
+        <section>
+          <h2>Verify your email</h2>
+          <div>
+            <p>You need to verify your email address if you want to chat or add a garden.</p>
+            {#if !hasResentEmail}
+              <button
+                class="resend-verification"
+                transition:fade
+                disabled={isResendingEmail}
+                on:click={doResendEmail}>
+                Resend email
+              </button>
+            {:else}
+              <p class="resend-verification">Email sent!</p>
+            {/if}
+          </div>
+        </section>
       {/if}
-    </section>
+      <section>
+        <h2>Email preferences</h2>
+        Send me emails when:
+        <ul class="preference-list">
+          <li>
+            <input
+              disabled={$updatingMailPreferences}
+              type="checkbox"
+              id="new-chat"
+              name="newChat"
+              checked={$user.emailPreferences.newChat}
+              on:change={onMailPreferenceChanged} />
+            <label for="new-chat">I receive a new chat message</label>
+          </li>
+          <li>
+            <input
+              disabled={$updatingMailPreferences}
+              type="checkbox"
+              id="news"
+              name="news"
+              checked={$user.emailPreferences.news}
+              on:change={onMailPreferenceChanged} />
+            <label for="news">Welcome To My Garden has news to share</label>
+          </li>
+        </ul>
+      </section>
+      <section>
+        <h2>Your garden</h2>
+        {#if !$user.garden}
+          <p class="description">
+            You haven't added your garden to the map yet. When you add your garden, other users will
+            be able to contact you to request a stay. You can unlist your garden at any time!
+          </p>
+          <Button uppercase medium href={routes.ADD_GARDEN}>Add your garden</Button>
+        {:else}
+          <p class="mb-m">
+            You can unlist your garden at any time. This means it will stay saved for later - but
+            won't be shown on the map until you show it again.
+          </p>
+          <LabeledCheckbox
+            disabled={updatingListedStatus}
+            name="listed"
+            checked={$user.garden.listed}
+            label="Shown on the map"
+            on:input={changeGardenListed} />
+          <div class="mt-m">
+            <Button href={routes.MANAGE_GARDEN} medium uppercase>Manage garden</Button>
+          </div>
+        {/if}
+      </section>
+    </div>
   </div>
-</div>
+{/if}
 
 <style>
   .wrapper {
