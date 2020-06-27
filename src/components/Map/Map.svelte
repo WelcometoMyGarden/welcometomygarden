@@ -20,10 +20,15 @@
   });
 
   mapboxgl.accessToken = config.MAPBOX_ACCESS_TOKEN;
+  const mapStyle =
+    NODE_ENV === 'production' || NODE_ENV === 'staging'
+      ? 'https://tile.welcometomygarden.org/styles/klokantech-basic/style.json'
+      : `https://api.maptiler.com/maps/basic/style.json?key=${config.MAPTILER_ACCESS_TOKEN}`;
+
   onMount(() => {
     map = new mapboxgl.Map({
       container,
-      style: `https://api.maptiler.com/maps/basic/style.json?key=${config.MAPTILER_ACCESS_TOKEN}`,
+      style: mapStyle,
       center: [lon, lat],
       zoom,
       attributionControl: false

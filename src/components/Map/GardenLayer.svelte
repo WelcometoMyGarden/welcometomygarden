@@ -88,7 +88,7 @@
         filter: ['has', 'point_count'],
         layout: {
           'text-field': '{point_count_abbreviated}',
-          'text-font': ['Montserrat', 'Arial'],
+          'text-font': ['Klokantech Noto Sans Regular'],
           'text-size': 13
         }
       });
