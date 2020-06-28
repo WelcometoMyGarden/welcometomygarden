@@ -13,7 +13,7 @@
 
   if (!$user) $goto(routes.SIGN_IN);
 
-  if (!$user.emailVerified) {
+  if (!$user && !$user.emailVerified) {
     notify.warning('Please verify your email before you start chatting', 10000);
     $goto(routes.ACCOUNT);
   }
