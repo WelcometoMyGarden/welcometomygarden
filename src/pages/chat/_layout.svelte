@@ -12,8 +12,7 @@
   import { removeDiacritics } from '@/util';
 
   if (!$user) $goto(routes.SIGN_IN);
-
-  if (!$user.emailVerified) {
+  else if (!$user.emailVerified) {
     notify.warning('Please verify your email before you start chatting', 10000);
     $goto(routes.ACCOUNT);
   }
