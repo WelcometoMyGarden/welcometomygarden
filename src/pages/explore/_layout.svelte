@@ -6,6 +6,7 @@
   import Map from '@/components/Map/Map.svelte';
   import Drawer from '@/components/Garden/Drawer.svelte';
   import GardenLayer from '@/components/Map/GardenLayer.svelte';
+  import WaymarkedTrails from '@/components/Map/WaymarkedTrails.svelte';
   import routes from '@/routes';
   import { Progress } from '@/components/UI';
 
@@ -50,6 +51,7 @@
         selectedGardenId={selectedGarden ? selectedGarden.id : null}
         allGardens={$allGardens} />
       <Drawer on:close={closeDrawer} garden={selectedGarden} />
+      <WaymarkedTrails />
       <slot />
     {/if}
   </Map>
