@@ -8,7 +8,7 @@
   import GardenLayer from '@/components/Map/GardenLayer.svelte';
   import WaymarkedTrails from '@/components/Map/WaymarkedTrails.svelte';
   import routes from '@/routes';
-  import { Progress } from '@/components/UI';
+  import { Progress, LabeledCheckbox } from '@/components/UI';
 
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
   $: center = selectedGarden
@@ -40,10 +40,13 @@
   onDestroy(() => {
     isFetchingGardens.set(false);
   });
+
+  let showHiking = false;
+  let showCycling = false;
 </script>
 
 <Progress active={$isFetchingGardens} />
-<div>
+<div class="container">
   <Map lat={center[1]} lon={center[0]} recenterOnUpdate zoom="7">
     {#if !$isFetchingGardens}
       <GardenLayer
@@ -51,14 +54,22 @@
         selectedGardenId={selectedGarden ? selectedGarden.id : null}
         allGardens={$allGardens} />
       <Drawer on:close={closeDrawer} garden={selectedGarden} />
-      <WaymarkedTrails />
+      <WaymarkedTrails {showHiking} {showCycling} />
       <slot />
     {/if}
   </Map>
+  <div class="filters">
+    <div>
+      <LabeledCheckbox name="cycling" label="Cycling routes" bind:checked={showCycling} />
+    </div>
+    <div>
+      <LabeledCheckbox name="hiking" label="Hiking routes" bind:checked={showHiking} />
+    </div>
+  </div>
 </div>
 
 <style>
-  div {
+  .container {
     width: 100%;
     height: calc(calc(var(--vh, 1vh) * 100) - var(--height-footer));
     position: fixed;
@@ -66,18 +77,27 @@
     left: 0;
   }
 
-  div :global(.mapboxgl-ctrl-top-left) {
+  .container :global(.mapboxgl-ctrl-top-left) {
     top: calc(var(--height-nav) + 0.5rem);
   }
 
+  .filters {
+    background-color: rgba(255, 255, 255, 0.8);
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 20rem;
+    height: 5rem;
+  }
+
   @media screen and (max-width: 700px) {
-    div {
+    .container {
       height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
     }
-    div :global(.mapboxgl-ctrl-top-left) {
+    .container :global(.mapboxgl-ctrl-top-left) {
       top: 0;
     }
-    div :global(.mapboxgl-ctrl-bottom-right) {
+    .container :global(.mapboxgl-ctrl-bottom-right) {
       top: 0;
       right: 0;
     }
