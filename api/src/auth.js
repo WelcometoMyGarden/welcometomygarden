@@ -23,7 +23,9 @@ exports.createUser = async (data, context) => {
       typeof data.firstName !== 'string' ||
       typeof data.lastName !== 'string' ||
       data.firstName.trim().length === 0 ||
-      data.lastName.trim().length === 0
+      data.lastName.trim().length === 0 ||
+      data.firstName.trim().length > 25 ||
+      data.lastName.trim().length > 50
     ) {
       fail('invalid-argument');
     }
