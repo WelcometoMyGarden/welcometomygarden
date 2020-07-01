@@ -49,7 +49,9 @@ exports.onChatCreate = async (snap, context) => {
       chatId
     });
     const baseUrl = functions.config().frontend.url;
-    const messageUrl = `${baseUrl}/chat/${normalizeName(sender.displayName)}/${chatId}`;
+
+    const nameParts = sender.displayName.split(/[^A-Za-z-]/);
+    const messageUrl = `${baseUrl}/chat/${normalizeName(nameParts[0])}/${chatId}`;
 
     await sendMessageReceivedEmail(
       recipient.email,
