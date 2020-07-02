@@ -40,6 +40,7 @@
       .join(' ');
     try {
       coordinates = await geocode(addressString);
+      isAddressConfirmShown = true;
     } catch (ex) {
       console.log(ex);
     }
