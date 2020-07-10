@@ -176,5 +176,32 @@
       top: 0;
       right: 0;
     }
+
+    .vehicle-notice-wrapper {
+      top: 2rem;
+      left: calc(50% - 22.5rem);
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .vehicle-notice-wrapper {
+      width: 90%;
+      left: 5%;
+      height: 24rem;
+    }
+
+    .vehicle-notice {
+      padding: 3rem 2rem 1rem;
+    }
+
+    .image-container {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    .vehicle-notice-wrapper {
+      height: 28rem;
+    }
   }
 </style>
