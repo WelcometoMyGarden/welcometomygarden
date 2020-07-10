@@ -42,7 +42,7 @@
 </script>
 
 <Progress active={$isFetchingGardens} />
-<div>
+<div class="map-section">
   <Map lat={center[1]} lon={center[0]} recenterOnUpdate zoom="7">
     {#if !$isFetchingGardens}
       <GardenLayer
@@ -52,11 +52,24 @@
       <Drawer on:close={closeDrawer} garden={selectedGarden} />
       <slot />
     {/if}
+    <div class="vehicle-notice-wrapper">
+      <div class="vehicle-notice">
+        <div class="image-container">
+          <img src="/images/no-car.svg" alt="No vehicle allowed" />
+        </div>
+        <h3>Welcome To My Garden is for slow travellers only.</h3>
+        <p class="mt-m">
+          If you're planning to travel by motorized vehicle, please do not contact hosts via this
+          platform. Thank you for understanding!
+        </p>
+      </div>
+    </div>
   </Map>
+
 </div>
 
 <style>
-  div {
+  .map-section {
     width: 100%;
     height: calc(calc(var(--vh, 1vh) * 100) - var(--height-footer));
     position: fixed;
@@ -64,18 +77,74 @@
     left: 0;
   }
 
-  div :global(.mapboxgl-ctrl-top-left) {
+  .map-section :global(.mapboxgl-ctrl-top-left) {
     top: calc(var(--height-nav) + 0.5rem);
   }
 
+  .vehicle-notice-wrapper {
+    width: 45rem;
+    height: 30rem;
+    box-shadow: 0px 0px 21.5877px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: var(--height-footer);
+    left: 0;
+    background-color: var(--color-white);
+    border-radius: 0.6rem;
+  }
+
+  .vehicle-notice {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+    font-family: var(--fonts-copy);
+    width: 100%;
+    height: 100%;
+  }
+
+  .vehicle-notice h3 {
+    font-size: 1.8rem;
+    line-height: 1.4;
+    text-transform: uppercase;
+    position: relative;
+    font-weight: 900;
+  }
+
+  .vehicle-notice h3::after {
+    content: '';
+    width: 16rem;
+    position: absolute;
+    bottom: -1rem;
+    left: calc(50% - 8rem);
+    height: 0.4rem;
+    background: var(--color-orange-light);
+    border-radius: 0.5rem;
+  }
+
+  .vehicle-notice p {
+    font-size: 1.4rem;
+  }
+
+  .vehicle-notice .image-container {
+    width: 10rem;
+    height: 10rem;
+  }
+
+  .vehicle-notice .image-container img {
+    max-width: 100%;
+  }
+
   @media screen and (max-width: 700px) {
-    div {
+    .map-section {
       height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
     }
-    div :global(.mapboxgl-ctrl-top-left) {
+    .map-section :global(.mapboxgl-ctrl-top-left) {
       top: 0;
     }
-    div :global(.mapboxgl-ctrl-bottom-right) {
+    .map-section :global(.mapboxgl-ctrl-bottom-right) {
       top: 0;
       right: 0;
     }
