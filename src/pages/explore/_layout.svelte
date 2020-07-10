@@ -7,12 +7,16 @@
   import Drawer from '@/components/Garden/Drawer.svelte';
   import GardenLayer from '@/components/Map/GardenLayer.svelte';
   import routes from '@/routes';
-  import { Progress } from '@/components/UI';
+  import { getCookie, setCookie } from '@/util';
+  import { Progress, Icon } from '@/components/UI';
+  import { crossIcon } from '@/images/icons';
 
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
   $: center = selectedGarden
     ? [selectedGarden.location.longitude, selectedGarden.location.latitude]
     : [4.5, 50.5];
+
+  let carNoticeShown = !getCookie('car-notice-dismissed');
 
   const selectGarden = garden => {
     const newSelectedId = garden.id;
@@ -36,6 +40,14 @@
     }
   });
 
+  const closeCarNotice = () => {
+    const date = new Date();
+    // one year
+    date.setTime(date.getTime() + 365 * 86400000); //24 * 60 * 60 * 1000
+    setCookie('car-notice-dismissed', true, { expires: date.toGMTString() });
+    carNoticeShown = false;
+  };
+
   onDestroy(() => {
     isFetchingGardens.set(false);
   });
@@ -52,18 +64,24 @@
       <Drawer on:close={closeDrawer} garden={selectedGarden} />
       <slot />
     {/if}
-    <div class="vehicle-notice-wrapper">
-      <div class="vehicle-notice">
-        <div class="image-container">
-          <img src="/images/no-car.svg" alt="No vehicle allowed" />
+    {#if carNoticeShown}
+      <div class="vehicle-notice-wrapper">
+        <button on:click={closeCarNotice} aria-label="Close notice" class="button-container close">
+          <Icon icon={crossIcon} />
+        </button>
+
+        <div class="vehicle-notice">
+          <div class="image-container">
+            <img src="/images/no-car.svg" alt="No vehicle allowed" />
+          </div>
+          <h3>Welcome To My Garden is for slow travellers only.</h3>
+          <p class="mt-m">
+            If you're planning to travel by motorized vehicle, please do not contact hosts via this
+            platform. Thank you for understanding!
+          </p>
         </div>
-        <h3>Welcome To My Garden is for slow travellers only.</h3>
-        <p class="mt-m">
-          If you're planning to travel by motorized vehicle, please do not contact hosts via this
-          platform. Thank you for understanding!
-        </p>
       </div>
-    </div>
+    {/if}
   </Map>
 
 </div>
@@ -135,6 +153,16 @@
 
   .vehicle-notice .image-container img {
     max-width: 100%;
+  }
+
+  .close {
+    width: 3.6rem;
+    height: 3.6rem;
+    position: absolute;
+    right: 1.2rem;
+    top: 1.2rem;
+    cursor: pointer;
+    z-index: 10;
   }
 
   @media screen and (max-width: 700px) {
