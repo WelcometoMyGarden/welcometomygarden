@@ -53,6 +53,11 @@
     "support": {
       "title": "Steun ons",
       "copy": "Welcome To My Garden is gratis te gebruiken maar we hebben wel enkele rekeningen te betalen.  <a href=\"https://opencollective.com/welcometomygarden\" target=\"_blank\">Doe een donatie</a> om ons project te steunen."
+    },
+    "holiday-donations": {
+      "title": "Iedereen verdient vakantie",
+      "copy": "Wist je dat 22% van de kinderen in Vlaanderen niet op vakantie kunnen? Zeker na de lockdown hebben ze meer dan ooit nood aan wat ademruimte. Dankzij jouw bijdrage kunnen de meest kwetsbare doelgroepen er ook even tussenuit.",
+      "link-text": "Doneer nu"
     }
   },
   "rules": {
@@ -130,9 +135,7 @@
       },
       {
         "title": "Aanraders accommodatie",
-        "recommendations": [
-          "Hospitality netwerk voor fietsers: WarmShowers"
-         ]
+        "recommendations": ["Hospitality netwerk voor fietsers: WarmShowers"]
       }
     ],
     "message": "Geniet!",
