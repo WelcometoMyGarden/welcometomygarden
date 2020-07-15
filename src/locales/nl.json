@@ -53,6 +53,11 @@
     "support": {
       "title": "Steun ons",
       "copy": "Welcome To My Garden is gratis te gebruiken maar we hebben wel enkele rekeningen te betalen.  <a href=\"https://opencollective.com/welcometomygarden\" target=\"_blank\">Doe een donatie</a> om ons project te steunen."
+    },
+    "holiday-donations": {
+      "title": "Iedereen verdient vakantie",
+      "copy": "Wist je dat 22% van de kinderen in Vlaanderen niet op vakantie kunnen? Zeker na de lockdown hebben ze meer dan ooit nood aan wat ademruimte. Dankzij jouw bijdrage kunnen de meest kwetsbare doelgroepen er ook even tussenuit.",
+      "link-text": "Doneer nu"
     }
   },
   "rules": {
@@ -68,8 +73,8 @@
         "copy": "Welcome to My Garden is een netwerk van burgers die gratis kampeerplekken in hun tuinen aanbieden aan trage reizigers. Het is een initiatief zonder winstoogmerk en er mag geen inkomen uit worden gehaald. Welcome To My Garden is niet verantwoordelijk voor verlies, schade of letsels opgelopen tijdens een verblijf."
       },
       {
-        "title": "Stuur vooraf een verzoek naar de tuin eigenaar",
-        "copy": "De tuineigenaars zijn mogelijk niet thuis om jou te verwelkomen. We vragen gebruikers om vooraf contact op te nemen met de tuin eigenaar om meteen de beschikbaarheid te controleren. Dit doe je door een verzoek te sturen naar het profiel van de tuin eigenaar. Nadat je de eerste verbinding tot stand hebt gebracht, kan je contactgegevens uitwisselen. Zo kan je contact houden en je host informeren over je aankomsttijd via e-mail of telefoon, afhankelijk van je hosts voorkeur. Geef bij het indienen van een verzoek wat informatie over jezelf en je verwachte aankomsttijd."
+        "title": "Stuur vooraf een verzoek naar de tuineigenaar",
+        "copy": "De tuineigenaars zijn mogelijk niet thuis om jou te verwelkomen. We vragen gebruikers om vooraf contact op te nemen met de tuineigenaar om meteen de beschikbaarheid te controleren. Dit doe je door een verzoek te sturen naar het profiel van de tuineigenaar. Nadat je de eerste verbinding tot stand hebt gebracht, kan je contactgegevens uitwisselen. Zo kan je contact houden en je host informeren over je aankomsttijd via e-mail of telefoon, afhankelijk van je hosts voorkeur. Geef bij het indienen van een verzoek wat informatie over jezelf en je verwachte aankomsttijd."
       },
       {
         "title": "Geen auto",
@@ -81,7 +86,7 @@
       },
       {
         "title": "Maximaal aantal tenten",
-        "copy": "Tuin eigenaars bepalen hoeveel tenten ze elke nacht kunnen herbergen (dit is geen Dour-festival). Respecteer alsjeblieft hun keuze."
+        "copy": "Tuineigenaars bepalen hoeveel tenten ze elke nacht kunnen herbergen (dit is geen Dour-festival). Respecteer alsjeblieft hun keuze."
       },
       {
         "title": "Voorzieningen",
@@ -130,9 +135,7 @@
       },
       {
         "title": "Aanraders accommodatie",
-        "recommendations": [
-          "Hospitality netwerk voor fietsers: WarmShowers"
-         ]
+        "recommendations": ["Hospitality netwerk voor fietsers: WarmShowers"]
       }
     ],
     "message": "Geniet!",

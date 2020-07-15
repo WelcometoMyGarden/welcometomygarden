@@ -21,7 +21,7 @@
     } catch (ex) {
       console.log(ex);
     }
-    unsubscribeFromChatObserver = await createChatObserver();
+    if ($user.emailVerified) unsubscribeFromChatObserver = await createChatObserver();
   };
 
   $: if ($params.confirmed) infoIsReady = false;

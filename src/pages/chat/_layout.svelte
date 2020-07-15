@@ -1,7 +1,7 @@
 <script>
   import { fly } from 'svelte/transition';
   import { flip } from 'svelte/animate';
-  import { goto, params, isActive } from '@sveltech/routify';
+  import { goto, redirect, params, isActive } from '@sveltech/routify';
   import { user } from '@/stores/auth';
   import notify from '@/stores/notification';
   import { chats, creatingNewChat, hasInitialized, getChatForUser } from '@/stores/chat';
@@ -12,8 +12,7 @@
   import { removeDiacritics } from '@/util';
 
   if (!$user) $goto(routes.SIGN_IN);
-
-  if (!$user.emailVerified) {
+  else if (!$user.emailVerified) {
     notify.warning('Please verify your email before you start chatting', 10000);
     $goto(routes.ACCOUNT);
   }
@@ -25,8 +24,12 @@
     .map(id => $chats[id])
     .sort(sortByLastActivity);
 
-  const getConvoRoute = (name, id) =>
-    `${routes.CHAT}/${removeDiacritics(name).toLowerCase()}/${id}`;
+  const normalizeName = name => {
+    const parts = name.split(/[^A-Za-z-]/);
+    return removeDiacritics(parts[0]).toLowerCase();
+  };
+
+  const getConvoRoute = (name, id) => `${routes.CHAT}/${normalizeName(name)}/${id}`;
 
   let newConversation;
 
@@ -42,17 +45,17 @@
     if ($chats) {
       const activeChatWithUser = getChatForUser(partnerId);
       if (activeChatWithUser) {
-        return $goto(
+        return $redirect(
           getConvoRoute($chats[activeChatWithUser].partner.firstName, activeChatWithUser)
         );
       }
       try {
         const newPartner = await initiateChat(partnerId);
         newConversation = { name: newPartner.firstName, partnerId };
-        $goto(getConvoRoute(newPartner.firstName, `new?id=${partnerId}`));
+        $redirect(getConvoRoute(newPartner.firstName, `new?id=${partnerId}`));
       } catch (ex) {
         // TODO: display error
-        $goto(routes.CHAT);
+        $redirect(routes.CHAT);
       }
     }
   };
@@ -61,7 +64,7 @@
 
   const selectConversation = id => {
     if (!id) $goto(getConvoRoute(newConversation.name, 'new'));
-    const name = $chats[id].partner.firstName.toLowerCase();
+    const name = $chats[id] ? $chats[id].partner.firstName.toLowerCase() : newConversation.name;
     $goto(getConvoRoute(name, id));
   };
 

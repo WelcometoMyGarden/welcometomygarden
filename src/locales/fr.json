@@ -53,6 +53,11 @@
     "support": {
       "title": "Soutenez-nous",
       "copy": "Utiliser Welcome To My Garden est 100% gratuit cependant nous avons quelques factures. <a href=\"https://opencollective.com/welcometomygarden\" target=\"_blank\">Soutenez-nous ici</a> pour nous permettre de continuer à exister!"
+    },
+    "holiday-donations": {
+      "title": "Tout le monde mérite des vacances",
+      "copy": "Saviez-vous que 22% des enfants ne peuvent pas partir en vacances ? Pourtant, après le confinement, ils ont bien besoin de respirer ! Grâce à vos dons, ils pourront aussi profiter d'un temps d'évasion.",
+      "link-text": "Faire un don"
     }
   },
   "rules": {
@@ -116,7 +121,7 @@
           "Faire un itinéraire pour vélo ou marche à pied : BRouter, Komoot, OutdoorActive",
           "Applications pour les itinéraires  : OSMAnd",
           "Sur OpenStreetMap, vous trouverez les réseaux de pistes cyclables."
-           ]
+        ]
       },
       {
         "title": "D’autres ressources",
