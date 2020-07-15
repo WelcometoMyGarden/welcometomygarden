@@ -28,6 +28,7 @@
 
   input {
     margin-right: 1rem;
+    cursor: pointer;
   }
 
   label {
@@ -36,6 +37,7 @@
     background-repeat: no-repeat;
     display: flex;
     align-items: center;
+    cursor: pointer;
   }
 
   .icon {
