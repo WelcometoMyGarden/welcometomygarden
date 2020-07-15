@@ -6,10 +6,11 @@
   import Map from '@/components/Map/Map.svelte';
   import Drawer from '@/components/Garden/Drawer.svelte';
   import GardenLayer from '@/components/Map/GardenLayer.svelte';
+  import WaymarkedTrails from '@/components/Map/WaymarkedTrails.svelte';
   import routes from '@/routes';
+  import { Progress, LabeledCheckbox, Icon } from '@/components/UI';
   import { getCookie, setCookie } from '@/util';
-  import { Progress, Icon } from '@/components/UI';
-  import { crossIcon } from '@/images/icons';
+  import { crossIcon, cyclistIcon, hikerIcon } from '@/images/icons';
 
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
   $: center = selectedGarden
@@ -51,6 +52,9 @@
   onDestroy(() => {
     isFetchingGardens.set(false);
   });
+
+  let showHiking = false;
+  let showCycling = false;
 </script>
 
 <Progress active={$isFetchingGardens} />
@@ -62,6 +66,7 @@
         selectedGardenId={selectedGarden ? selectedGarden.id : null}
         allGardens={$allGardens} />
       <Drawer on:close={closeDrawer} garden={selectedGarden} />
+      <WaymarkedTrails {showHiking} {showCycling} />
       <slot />
     {/if}
     {#if carNoticeShown}
@@ -83,7 +88,26 @@
       </div>
     {/if}
   </Map>
-
+  <div class="filters">
+    <div>
+      <LabeledCheckbox
+        name="hiking"
+        icon={hikerIcon}
+        label="Show hiking routes"
+        bind:checked={showHiking} />
+    </div>
+    <div>
+      <LabeledCheckbox
+        name="cycling"
+        icon={cyclistIcon}
+        label="Show cycling routes"
+        bind:checked={showCycling} />
+    </div>
+    <span class="attribution">
+      Trails courtesy of
+      <a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>
+    </span>
+  </div>
 </div>
 
 <style>
@@ -99,6 +123,26 @@
     top: calc(var(--height-nav) + 0.5rem);
   }
 
+  .filters {
+    background-color: rgba(255, 255, 255, 0.8);
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 26rem;
+    height: 9rem;
+    padding: 1rem;
+  }
+
+  .attribution {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    display: inline-block;
+  }
+
+  .attribution a {
+    text-decoration: underline;
+  }
+
   .vehicle-notice-wrapper {
     width: 45rem;
     height: 30rem;
@@ -108,6 +152,7 @@
     left: 0;
     background-color: var(--color-white);
     border-radius: 0.6rem;
+    z-index: 20;
   }
 
   .vehicle-notice {
@@ -170,8 +215,9 @@
       height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
     }
     .map-section :global(.mapboxgl-ctrl-top-left) {
-      top: 0;
+      top: calc(var(--height-nav) + 0.5rem);
     }
+
     .map-section :global(.mapboxgl-ctrl-bottom-right) {
       top: 0;
       right: 0;
