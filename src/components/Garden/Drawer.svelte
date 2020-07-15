@@ -79,7 +79,14 @@
 
   const handleClickOutsideDrawer = event => {
     const { clickEvent } = event.detail;
+    // if closing maginified photo view, don't close drawer
     if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) return;
+    // if showing/hiding trails, don't close drawer
+    else if (
+      (clickEvent.target instanceof HTMLInputElement && clickEvent.target.type == 'checkbox') ||
+      clickEvent.target.tagName == 'LABEL'
+    )
+      return;
     else if (!drawerElement.contains(clickEvent.target)) dispatch('close');
   };
 

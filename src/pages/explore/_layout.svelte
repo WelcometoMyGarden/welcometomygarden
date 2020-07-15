@@ -91,17 +91,17 @@
   <div class="filters">
     <div>
       <LabeledCheckbox
-        name="cycling"
-        icon={cyclistIcon}
-        label="Show cycling routes"
-        bind:checked={showCycling} />
-    </div>
-    <div>
-      <LabeledCheckbox
         name="hiking"
         icon={hikerIcon}
         label="Show hiking routes"
         bind:checked={showHiking} />
+    </div>
+    <div>
+      <LabeledCheckbox
+        name="cycling"
+        icon={cyclistIcon}
+        label="Show cycling routes"
+        bind:checked={showCycling} />
     </div>
   </div>
 </div>
