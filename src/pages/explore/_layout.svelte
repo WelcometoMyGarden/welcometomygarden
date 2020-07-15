@@ -10,7 +10,7 @@
   import routes from '@/routes';
   import { Progress, LabeledCheckbox, Icon } from '@/components/UI';
   import { getCookie, setCookie } from '@/util';
-  import { crossIcon } from '@/images/icons';
+  import { crossIcon, cyclistIcon, hikerIcon } from '@/images/icons';
 
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
   $: center = selectedGarden
@@ -90,10 +90,18 @@
   </Map>
   <div class="filters">
     <div>
-      <LabeledCheckbox name="cycling" label="Cycling routes" bind:checked={showCycling} />
+      <LabeledCheckbox
+        name="cycling"
+        icon={cyclistIcon}
+        label="Show cycling routes"
+        bind:checked={showCycling} />
     </div>
     <div>
-      <LabeledCheckbox name="hiking" label="Hiking routes" bind:checked={showHiking} />
+      <LabeledCheckbox
+        name="hiking"
+        icon={hikerIcon}
+        label="Show hiking routes"
+        bind:checked={showHiking} />
     </div>
   </div>
 </div>
@@ -116,7 +124,7 @@
     bottom: 0;
     left: 0;
     position: absolute;
-    width: 20rem;
+    width: 25rem;
     height: 5rem;
   }
 
