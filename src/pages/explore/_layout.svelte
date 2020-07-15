@@ -103,6 +103,10 @@
         label="Show cycling routes"
         bind:checked={showCycling} />
     </div>
+    <span class="attribution">
+      Trails courtesy of
+      <a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>
+    </span>
   </div>
 </div>
 
@@ -124,8 +128,19 @@
     bottom: 0;
     left: 0;
     position: absolute;
-    width: 25rem;
-    height: 5rem;
+    width: 26rem;
+    height: 9rem;
+    padding: 1rem;
+  }
+
+  .attribution {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    display: inline-block;
+  }
+
+  .attribution a {
+    text-decoration: underline;
   }
 
   .vehicle-notice-wrapper {
