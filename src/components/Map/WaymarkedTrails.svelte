@@ -20,36 +20,38 @@
 
   let toggleable = false;
   onMount(() => {
-    map.addSource('waymarked-hiking', {
-      type: 'raster',
-      tiles: ['https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png'],
-      tileSize: 256
-    });
+    map.on('load', () => {
+      map.addSource('waymarked-hiking', {
+        type: 'raster',
+        tiles: ['https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png'],
+        tileSize: 256
+      });
 
-    map.addSource('waymarked-cycling', {
-      type: 'raster',
-      tiles: ['https://tile.waymarkedtrails.org/cycling/{z}/{x}/{y}.png'],
-      tileSize: 256
-    });
+      map.addSource('waymarked-cycling', {
+        type: 'raster',
+        tiles: ['https://tile.waymarkedtrails.org/cycling/{z}/{x}/{y}.png'],
+        tileSize: 256
+      });
 
-    map.addLayer({
-      id: 'hiking-trails',
-      type: 'raster',
-      source: 'waymarked-hiking',
-      layout: {
-        visibility: getVisibilityProperty(showHiking)
-      }
-    });
+      map.addLayer({
+        id: 'hiking-trails',
+        type: 'raster',
+        source: 'waymarked-hiking',
+        layout: {
+          visibility: getVisibilityProperty(showHiking)
+        }
+      });
 
-    map.addLayer({
-      id: 'cycling-trails',
-      type: 'raster',
-      source: 'waymarked-cycling',
-      layout: {
-        visibility: getVisibilityProperty(showCycling)
-      }
+      map.addLayer({
+        id: 'cycling-trails',
+        type: 'raster',
+        source: 'waymarked-cycling',
+        layout: {
+          visibility: getVisibilityProperty(showCycling)
+        }
+      });
+      toggleable = true;
     });
-    toggleable = true;
   });
 
   $: if (toggleable) toggleHikingVisibility(showHiking);
