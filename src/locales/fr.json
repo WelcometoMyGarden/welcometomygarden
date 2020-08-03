@@ -1,5 +1,21 @@
 {
   "tagline": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour les voyageurs et voyageuses lent.e.s.",
+  "navigation": {
+    "cookie-policy": "Politique des cookies",
+    "privacy-policy": "Politique de confidentialité",
+    "terms-of-use": "Conditions d'utilisation",
+    "home": "Accueil",
+    "map": "Carte",
+    "rules": "Règles",
+    "faq": {
+      "acronym": "FAQ",
+      "explicit": "Foire aux questions"
+    },
+    "chat": "Messagerie",
+    "account": "Compte",
+    "sign-out": "Déconnexion",
+    "sign-in": "Connexion"
+  },
   "index": {
     "intro": {
       "copy": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme espace de bivouac gratuit pour des voyageurs et voyageuses adeptes du slow travel.",
