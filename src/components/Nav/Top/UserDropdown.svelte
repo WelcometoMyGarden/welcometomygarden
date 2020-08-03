@@ -6,6 +6,7 @@
   import { logout } from '@/api/auth';
   import { chatIcon, signOutIcon, userIcon } from '@/images/icons';
   import routes from '@/routes';
+  import { _ } from 'svelte-i18n';
 
   let isOpen = false;
 

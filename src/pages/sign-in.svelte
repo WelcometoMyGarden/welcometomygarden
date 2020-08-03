@@ -33,7 +33,7 @@
 </script>
 
 <svelte:head>
-  <title>{$_('sign-in.title')} | {$_('title')} </title>
+  <title>{$_('sign-in.title')} | Welcome To My Garden</title>
 </svelte:head>
 
 <AuthContainer>
