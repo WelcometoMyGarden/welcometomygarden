@@ -8,6 +8,7 @@
   import AuthContainer from '@/components/AuthContainer.svelte';
   import { TextInput, Button } from '@/components/UI';
   import { lockIcon, emailIcon } from '@/images/icons';
+  import { _ } from 'svelte-i18n';
 
   let email = {};
   let password = {};
@@ -18,14 +19,13 @@
     formError = '';
     try {
       await login(email.value, password.value);
-      notify.success(`Welcome back, ${$user.firstName}!`);
+      notify.success(`${$_('sign-in.welcome')}, ${$user.firstName}!`);
       $goto(routes.MAP);
     } catch (ex) {
       if (ex.code === 'auth/user-not-found' || ex.code === 'auth/wrong-password')
-        formError = 'The provided email or password is incorrect.';
+        formError = $_('sign-in.incorrect');
       else {
-        formError =
-          "We couldn't log you in. If the problem persists, please contact support@welcometomygarden.org";
+        formError = `${$_('sign-in.login-issue')} support@welcometomygarden.org`;
       }
       // TODO: Handle network errors and response errors
     }
@@ -33,15 +33,15 @@
 </script>
 
 <svelte:head>
-  <title>Sign in | Welcome To My Garden</title>
+  <title>{$_('sign-in.title')} | {$_('title')} </title>
 </svelte:head>
 
 <AuthContainer>
-  <span slot="title">Sign In</span>
+  <span slot="title">{$_('sign-in.title')}</span>
 
   <form slot="form" on:submit|preventDefault={submit}>
     <div>
-      <label for="email">Email</label>
+      <label for="email">{$_('sign-in.email')}</label>
       <TextInput
         icon={emailIcon}
         autocomplete="email"
@@ -51,7 +51,7 @@
         bind:value={email.value} />
     </div>
     <div>
-      <label for="password">Password</label>
+      <label for="password">{$_('sign-in.password')}</label>
       <TextInput
         icon={lockIcon}
         type="password"
@@ -66,17 +66,19 @@
       {/if}
     </div>
     <div class="submit">
-      <Button type="submit" medium disabled={!email.value || !password.value}>Sign in</Button>
+      <Button type="submit" medium disabled={!email.value || !password.value}>
+        {$_('sign-in.button')}
+      </Button>
     </div>
   </form>
 
   <p>
-    Forgot your password?
-    <a href={routes.REQUEST_PASSWORD_RESET} class="link">Reset it</a>
+    {$_('sign-in.reset-text')}
+    <a href={routes.REQUEST_PASSWORD_RESET} class="link">{$_('sign-in.reset-button')}</a>
   </p>
   <p>
-    Don't have an account yet?
-    <a href={routes.REGISTER} class="link">Register</a>
+    {$_('sign-in.register-text')}
+    <a href={routes.REGISTER} class="link">{$_('sign-in.register-button')}</a>
   </p>
 </AuthContainer>
 
