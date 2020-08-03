@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import { goto } from '@sveltech/routify';
   import { user } from '@/stores/auth';
@@ -8,7 +9,7 @@
   import AuthContainer from '@/components/AuthContainer.svelte';
   import { TextInput, Button } from '@/components/UI';
   import { lockIcon, emailIcon } from '@/images/icons';
-  import { _ } from 'svelte-i18n';
+  import { SUPPORT_EMAIL } from '@/constants';
 
   let email = {};
   let password = {};
@@ -25,7 +26,7 @@
       if (ex.code === 'auth/user-not-found' || ex.code === 'auth/wrong-password')
         formError = $_('sign-in.incorrect');
       else {
-        formError = `${$_('sign-in.login-issue')} support@welcometomygarden.org`;
+        formError = $_('sign-in.login-issue', { values: { email: SUPPORT_EMAIL } });
       }
       // TODO: Handle network errors and response errors
     }
@@ -41,7 +42,7 @@
 
   <form slot="form" on:submit|preventDefault={submit}>
     <div>
-      <label for="email">{$_('sign-in.email')}</label>
+      <label for="email">{$_('generics.email')}</label>
       <TextInput
         icon={emailIcon}
         autocomplete="email"
@@ -51,7 +52,7 @@
         bind:value={email.value} />
     </div>
     <div>
-      <label for="password">{$_('sign-in.password')}</label>
+      <label for="password">{$_('generics.password')}</label>
       <TextInput
         icon={lockIcon}
         type="password"

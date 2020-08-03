@@ -1,13 +1,15 @@
 {
   "tagline": "Welcome To My Garden is a not-for-profit network of citizens offering free camping spots in their gardens to slow travellers.",
-  "navigation": {
+  "generics": {
+    "password": "Password",
+    "email": "Email",
     "cookie-policy": "Cookie policy",
     "privacy-policy": "Privacy policy",
     "terms-of-use": "Terms of use",
-    "home" : "Home",
-    "map" : "Map",
-    "rules" : "Rules",
-    "faq":{
+    "home": "Home",
+    "map": "Map",
+    "rules": "Rules",
+    "faq": {
       "acronym": "FAQ",
       "explicit": "Frequently asked questions"
     },
@@ -237,17 +239,26 @@
       }
     ]
   },
-  "sign-in":{
+  "garden": {
+    "drawer": {
+      "unclaimed": "You can contact this host as soon as they have created their account.",
+      "button": "Contact host"
+    }
+  },
+  "sign-in": {
     "title": "Sign in",
     "button": "Sign in",
     "welcome": "Welcome back",
-    "email": "Email",
-    "password": "Password",
     "incorrect": "The provided email or password is incorrect.",
     "reset-text": "Forgot your password?",
     "reset-button": "Reset it",
     "register-text": "Don't have an account yet?",
     "register-button": "Register",
-    "login-issue": "We couldn't log you in. If the problem persists, please contact"
+    "login-issue": "We couldn't log you in. If the problem persists, please contact {email}"
+  },
+  "request-password-reset": {
+    "title": "Set a new password",
+    "description": "If you submit the form below, we can send you a unique link with which you can reset your password.",
+    "button": "Email reset instructions" 
   }
 }

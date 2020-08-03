@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import AuthContainer from '@/components/AuthContainer.svelte';
   import { TextInput, Progress, Button } from '@/components/UI';
@@ -22,19 +23,16 @@
 </script>
 
 <svelte:head>
-  <title>Set a new password | Welcome To My Garden</title>
+  <title>{$_('request-password-reset.title')} | Welcome To My Garden</title>
 </svelte:head>
 
 <Progress active={isSending} />
 
 <AuthContainer>
-  <span slot="title">Set a new password</span>
+  <span slot="title">{$_('request-password-reset.title')}</span>
   <div slot="form">
     {#if !done}
-      <p class="description">
-        If you submit the form below, we can send you a unique link with which you can reset your
-        password.
-      </p>
+      <p class="description">{$_('request-password-reset.description')}</p>
       <form transition:fade on:submit|preventDefault={submit}>
         <div>
           <label for="email">Email</label>
@@ -48,7 +46,7 @@
         </div>
         <div class="submit">
           <Button type="submit" medium disabled={!email.value || isSending}>
-            Email reset instructions
+            {$_('request-password-reset.button')}
           </Button>
         </div>
       </form>
