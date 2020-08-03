@@ -9,7 +9,7 @@
   import Socials from '@/components/Socials.svelte';
   import { Icon } from '@/components/UI';
   import LanguageSelector from '@/components/LanguageSelector.svelte';
-  import { _ } from 'svelte-i18n';
+  import { _, locale } from 'svelte-i18n';
 
   let hamburger;
   let drawerIsShown = false;
@@ -20,7 +20,10 @@
     if (drawerIsShown && !hamburger.contains(clickEvent.target)) toggleDrawer();
   };
 
-  const linksInDrawer = [
+  // hack to get reactivity on locale change
+  let userLocale = $locale;
+
+  $: linksInDrawer = [
     { route: routes.RULES, name: $_('navigation.rules') },
     { route: routes.FAQ, name: $_('navigation.faq.explicit') },
     { route: routes.COOKIE_POLICY, name: $_('navigation.cookie-policy') },
