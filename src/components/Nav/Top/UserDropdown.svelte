@@ -1,12 +1,12 @@
 <script>
   export let name;
 
+  import { _ } from 'svelte-i18n';
   import { slide } from 'svelte/transition';
   import { clickOutside } from '@/directives';
   import { logout } from '@/api/auth';
   import { chatIcon, signOutIcon, userIcon } from '@/images/icons';
   import routes from '@/routes';
-  import { _ } from 'svelte-i18n';
 
   let isOpen = false;
 
@@ -29,7 +29,7 @@
           <i>
             {@html chatIcon}
           </i>
-          {$_('navigation.chat')}
+          {$_('generics.chat')}
         </a>
       </li>
       <li>
@@ -37,7 +37,7 @@
           <i>
             {@html userIcon}
           </i>
-          {$_('navigation.account')}
+          {$_('generics.account')}
         </a>
       </li>
       <li class="separated">
@@ -51,7 +51,7 @@
           <i>
             {@html signOutIcon}
           </i>
-          {$_('navigation.sign-out')}
+          {$_('generics.sign-out')}
         </a>
       </li>
     </ul>

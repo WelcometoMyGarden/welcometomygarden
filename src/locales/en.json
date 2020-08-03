@@ -245,7 +245,7 @@
       "button": "Contact host"
     }
   },
-  "sign-in": {
+  "sign-in":{
     "title": "Sign in",
     "button": "Sign in",
     "welcome": "Welcome back",

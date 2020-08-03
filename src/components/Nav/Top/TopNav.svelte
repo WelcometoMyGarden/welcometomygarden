@@ -1,10 +1,10 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import { isActive } from '@sveltech/routify';
   import routes from '@/routes';
   import NavLink from './NavLink.svelte';
   import UserDropdown from './UserDropdown.svelte';
   import { user } from '@/stores/auth';
-  import { _ } from 'svelte-i18n';
 
   $: firstName = $user ? $user.firstName : '';
 </script>
@@ -17,22 +17,22 @@
   </a>
   <ul>
     <li>
-      <NavLink href={routes.HOME} isHome>{$_('navigation.home')}</NavLink>
+      <NavLink href={routes.HOME} isHome>{$_('generics.home')}</NavLink>
     </li>
     <li>
-      <NavLink href={routes.MAP}>{$_('navigation.map')}</NavLink>
+      <NavLink href={routes.MAP}>{$_('generics.map')}</NavLink>
     </li>
     <li>
-      <NavLink href={routes.RULES}>{$_('navigation.rules')}</NavLink>
+      <NavLink href={routes.RULES}>{$_('generics.rules')}</NavLink>
     </li>
     <li>
-      <NavLink href={routes.FAQ}>{$_('navigation.faq.acronym')}</NavLink>
+      <NavLink href={routes.FAQ}>{$_('generics.faq.acronym')}</NavLink>
     </li>
     {#if $user}
       <UserDropdown name={firstName || ''} />
     {:else}
       <li>
-        <NavLink href={routes.SIGN_IN}>{$_('navigation.sign-in')}</NavLink>
+        <NavLink href={routes.SIGN_IN}>{$_('generics.sign-in')}</NavLink>
       </li>
     {/if}
   </ul>
