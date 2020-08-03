@@ -245,7 +245,7 @@
       "button": "Contact host"
     }
   },
-  "sign-in":{
+  "sign-in": {
     "title": "Sign in",
     "button": "Sign in",
     "welcome": "Welcome back",
@@ -259,6 +259,6 @@
   "request-password-reset": {
     "title": "Set a new password",
     "description": "If you submit the form below, we can send you a unique link with which you can reset your password.",
-    "button": "Email reset instructions" 
+    "button": "Email reset instructions"
   }
 }
