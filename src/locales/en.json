@@ -1,5 +1,5 @@
 {
-  "wtmg": "Welcome To My Garden",
+  "title": "Welcome To My Garden",
   "tagline": "Welcome To My Garden is a not-for-profit network of citizens offering free camping spots in their gardens to slow travellers.",
   "navigation": {
     "cookie-policy": "Cookie policy",
@@ -237,5 +237,23 @@
         "copy": "Any issue or misconduct should be reported to Welcome To My Garden by email (welcometomygardennetwork-at-gmail.com). In case of misconduct we reserve the right to remove unilaterally this person’s account (see Terms of Use)."
       }
     ]
+  },
+  "sign-in":{
+    "title": "Sign in",
+    "button": "Sign in",
+    "welcome": "Welcome back",
+    "email": "Email",
+    "password": "Password",
+    "incorrect": "The provided email or password is incorrect.",
+    "reset-text": "Forgot your password?",
+    "reset-button": "Reset it",
+    "register-text": "Don't have an account yet?",
+    "register-button": "Register",
+    "login-issue": "We couldn't log you in. If the problem persists, please contact"
+
+
+    
+
+    
   }
 }

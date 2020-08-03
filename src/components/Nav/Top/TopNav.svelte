@@ -12,7 +12,7 @@
 <nav>
   <a href={routes.HOME} class="title">
     <h1>
-      {#if !$isActive('/index')}{$_('wtmg')}{/if}
+      {#if !$isActive('/index')}{$_('title')}{/if}
     </h1>
   </a>
   <ul>
