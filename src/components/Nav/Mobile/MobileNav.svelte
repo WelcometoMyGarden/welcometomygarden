@@ -9,12 +9,13 @@
   import Socials from '@/components/Socials.svelte';
   import { Icon } from '@/components/UI';
   import LanguageSelector from '@/components/LanguageSelector.svelte';
+  import { _ } from 'svelte-i18n';
 
   let hamburger;
   let drawerIsShown = false;
   const toggleDrawer = () => (drawerIsShown = !drawerIsShown);
 
-  const handleClickOutsideDrawer = event => {
+  const handleClickOutsideDrawer = (event) => {
     const { clickEvent } = event.detail;
     if (drawerIsShown && !hamburger.contains(clickEvent.target)) toggleDrawer();
   };
@@ -22,9 +23,9 @@
   const linksInDrawer = [
     { route: routes.RULES, name: 'Rules' },
     { route: routes.FAQ, name: 'Frequently asked questions' },
-    { route: routes.COOKIE_POLICY, name: 'Cookie policy' },
-    { route: routes.PRIVACY_POLICY, name: 'Privacy policy' },
-    { route: routes.TERMS_OF_USE, name: 'Terms of use' }
+    { route: routes.COOKIE_POLICY, name: $_('navigation.cookie-policy') },
+    { route: routes.PRIVACY_POLICY, name: $_('navigation.privacy-policy') },
+    { route: routes.TERMS_OF_USE, name: $_('navigation.terms-of-use') }
   ];
 </script>
 

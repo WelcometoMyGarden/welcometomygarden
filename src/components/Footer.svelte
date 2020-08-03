@@ -2,6 +2,7 @@
   import routes from '@/routes';
   import Socials from './Socials.svelte';
   import LanguageSelector from './LanguageSelector.svelte';
+  import { _ } from 'svelte-i18n';
 </script>
 
 <footer>
@@ -10,13 +11,13 @@
   </div>
   <ul class="terms">
     <li>
-      <a href={routes.COOKIE_POLICY}>Cookie policy</a>
+      <a href={routes.COOKIE_POLICY}>{$_('navigation.cookie-policy')}</a>
     </li>
     <li>
-      <a href={routes.PRIVACY_POLICY}>Privacy policy</a>
+      <a href={routes.PRIVACY_POLICY}>{$_('navigation.privacy-policy')}</a>
     </li>
     <li>
-      <a href={routes.TERMS_OF_USE}>Terms of use</a>
+      <a href={routes.TERMS_OF_USE}>{$_('navigation.terms-of-use')}</a>
     </li>
   </ul>
   <LanguageSelector />

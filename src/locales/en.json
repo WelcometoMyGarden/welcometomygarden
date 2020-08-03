@@ -1,5 +1,10 @@
 {
   "tagline": "Welcome To My Garden is a not-for-profit network of citizens offering free camping spots in their gardens to slow travellers.",
+  "navigation": {
+    "cookie-policy": "Cookie policy",
+    "privacy-policy": "Privacy policy",
+    "terms-of-use": "Terms of use"
+  },
   "index": {
     "intro": {
       "copy": "A not-for-profit network of citizens offering free camping spots in their gardens to slow travellers",
