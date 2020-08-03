@@ -21,8 +21,8 @@
   };
 
   const linksInDrawer = [
-    { route: routes.RULES, name: 'Rules' },
-    { route: routes.FAQ, name: 'Frequently asked questions' },
+    { route: routes.RULES, name: $_('navigation.rules') },
+    { route: routes.FAQ, name: $_('navigation.faq.explicit') },
     { route: routes.COOKIE_POLICY, name: $_('navigation.cookie-policy') },
     { route: routes.PRIVACY_POLICY, name: $_('navigation.privacy-policy') },
     { route: routes.TERMS_OF_USE, name: $_('navigation.terms-of-use') }
@@ -34,33 +34,33 @@
     <li>
       <a href={routes.HOME} class:active={$isActive('/index')}>
         <Icon icon={tentIcon} />
-        <span>Home</span>
+        <span>{$_('navigation.home')}</span>
       </a>
     </li>
     <li>
       <a href={routes.MAP} class:active={$isActive(routes.MAP)}>
         <Icon icon={mapIcon} />
-        Map
+        {$_('navigation.map')}
       </a>
     </li>
     {#if $user}
       <li>
         <a href={routes.CHAT} class:active={$isActive(routes.CHAT)}>
           <Icon icon={chatIcon} />
-          Chat
+          {$_('navigation.chat')}
         </a>
       </li>
       <li>
         <a href={routes.ACCOUNT} class:active={$isActive(routes.ACCOUNT)}>
           <Icon icon={userIcon} />
-          Account
+          {$_('navigation.account')}
         </a>
       </li>
     {:else}
       <li>
         <a href={routes.SIGN_IN} class:active={$isActive(routes.SIGN_IN)}>
           <Icon icon={signInIcon} />
-          Sign in
+          {$_('navigation.sign-in')}
         </a>
       </li>
     {/if}
@@ -90,7 +90,7 @@
           await logout();
           window.location = '/';
         }}>
-        Sign out
+        {$_('navigation.sign-out')}
       </a>
     </li>
     <div class="socials">

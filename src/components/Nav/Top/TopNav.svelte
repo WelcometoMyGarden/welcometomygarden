@@ -4,6 +4,7 @@
   import NavLink from './NavLink.svelte';
   import UserDropdown from './UserDropdown.svelte';
   import { user } from '@/stores/auth';
+  import { _ } from 'svelte-i18n';
 
   $: firstName = $user ? $user.firstName : '';
 </script>
@@ -11,27 +12,27 @@
 <nav>
   <a href={routes.HOME} class="title">
     <h1>
-      {#if !$isActive('/index')}Welcome To My Garden{/if}
+      {#if !$isActive('/index')}{$_('wtmg')}{/if}
     </h1>
   </a>
   <ul>
     <li>
-      <NavLink href={routes.HOME} isHome>Home</NavLink>
+      <NavLink href={routes.HOME} isHome>{$_('navigation.home')}</NavLink>
     </li>
     <li>
-      <NavLink href={routes.MAP}>Map</NavLink>
+      <NavLink href={routes.MAP}>{$_('navigation.map')}</NavLink>
     </li>
     <li>
-      <NavLink href={routes.RULES}>Rules</NavLink>
+      <NavLink href={routes.RULES}>{$_('navigation.rules')}</NavLink>
     </li>
     <li>
-      <NavLink href={routes.FAQ}>FAQ</NavLink>
+      <NavLink href={routes.FAQ}>{$_('navigation.faq.acronym')}</NavLink>
     </li>
     {#if $user}
       <UserDropdown name={firstName || ''} />
     {:else}
       <li>
-        <NavLink href={routes.SIGN_IN}>Sign in</NavLink>
+        <NavLink href={routes.SIGN_IN}>{$_('navigation.sign-in')}</NavLink>
       </li>
     {/if}
   </ul>
