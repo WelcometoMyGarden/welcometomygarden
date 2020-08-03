@@ -28,7 +28,7 @@
           <i>
             {@html chatIcon}
           </i>
-          Chat
+          {$_('navigation.chat')}
         </a>
       </li>
       <li>
@@ -36,7 +36,7 @@
           <i>
             {@html userIcon}
           </i>
-          Account
+          {$_('navigation.account')}
         </a>
       </li>
       <li class="separated">
@@ -50,7 +50,7 @@
           <i>
             {@html signOutIcon}
           </i>
-          Sign out
+          {$_('navigation.sign-out')}
         </a>
       </li>
     </ul>
