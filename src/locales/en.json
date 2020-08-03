@@ -1,5 +1,4 @@
 {
-  "wtmg": "Welcome To My Garden",
   "tagline": "Welcome To My Garden is a not-for-profit network of citizens offering free camping spots in their gardens to slow travellers.",
   "generic": {
     "password": "Password",
@@ -245,5 +244,18 @@
       "unclaimed": "You can contact this host as soon as they have created their account.",
       "button": "Contact host"
     }
+  },
+  "sign-in":{
+    "title": "Sign in",
+    "button": "Sign in",
+    "welcome": "Welcome back",
+    "email": "Email",
+    "password": "Password",
+    "incorrect": "The provided email or password is incorrect.",
+    "reset-text": "Forgot your password?",
+    "reset-button": "Reset it",
+    "register-text": "Don't have an account yet?",
+    "register-button": "Register",
+    "login-issue": "We couldn't log you in. If the problem persists, please contact"
   }
 }

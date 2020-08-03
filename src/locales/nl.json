@@ -1,5 +1,21 @@
 {
   "tagline": "Een netwerk zonder winstoogmerk van burgers die gratis hun tuin openstellen voor trage reizigers die een kampeerplek zoeken.",
+  "navigation": {
+    "cookie-policy": "Cookiebeleid",
+    "privacy-policy": "Privacybeleid",
+    "terms-of-use": "Gebruiksvoorwaarden",
+    "home" : "Startpagina",
+    "map" : "Kaart",
+    "rules" : "Regels",
+    "faq":{
+      "acronym": "FAQ",
+      "explicit": "Veelgestelde vragen"
+    },
+    "chat": "Chat",
+    "account": "Account",
+    "sign-out": "Uitloggen",
+    "sign-in": "Inloggen"
+  },
   "index": {
     "intro": {
       "copy": "Een netwerk zonder winstoogmerk van burgers die hun tuin gratis beschikbaar stellen voor trage reizigers",

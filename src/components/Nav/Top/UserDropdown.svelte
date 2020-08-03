@@ -6,6 +6,7 @@
   import { logout } from '@/api/auth';
   import { chatIcon, signOutIcon, userIcon } from '@/images/icons';
   import routes from '@/routes';
+  import { _ } from 'svelte-i18n';
 
   let isOpen = false;
 
@@ -28,7 +29,7 @@
           <i>
             {@html chatIcon}
           </i>
-          Chat
+          {$_('navigation.chat')}
         </a>
       </li>
       <li>
@@ -36,7 +37,7 @@
           <i>
             {@html userIcon}
           </i>
-          Account
+          {$_('navigation.account')}
         </a>
       </li>
       <li class="separated">
@@ -50,7 +51,7 @@
           <i>
             {@html signOutIcon}
           </i>
-          Sign out
+          {$_('navigation.sign-out')}
         </a>
       </li>
     </ul>
