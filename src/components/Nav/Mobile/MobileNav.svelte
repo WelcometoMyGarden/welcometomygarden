@@ -20,9 +20,6 @@
     if (drawerIsShown && !hamburger.contains(clickEvent.target)) toggleDrawer();
   };
 
-  // hack to get reactivity on locale change
-  let userLocale = $locale;
-
   $: linksInDrawer = [
     { route: routes.RULES, name: $_('generics.rules') },
     { route: routes.FAQ, name: $_('generics.faq.explicit') },

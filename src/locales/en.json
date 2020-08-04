@@ -16,7 +16,8 @@
     "chat": "Chat",
     "account": "Account",
     "sign-out": "Sign Out",
-    "sign-in": "Sign in"
+    "sign-in": "Sign in",
+    "garden": "Garden"
   },
   "index": {
     "intro": {
@@ -240,9 +241,73 @@
     ]
   },
   "garden": {
+    "facilities": {
+      "labels": {
+        "water":"Water",
+        "drinkable-water": "Drinkable water",
+        "toilet": "Toilet",
+        "bonfire": "Bonfire",
+        "electricity": "Electricity",
+        "shower": "Shower",
+        "tent": "Tent"
+      }
+    },
     "drawer": {
-      "unclaimed": "You can contact this host as soon as they have created their account.",
-      "button": "Contact host"
+      "facilities": {
+        "capacity": "Space for <strong>{capacity}</strong> {capacity, plural, one {tent} other {tents}}"
+      },
+      "owner": {
+        "your-garden": "Your Garden",
+        "button": "Manage garden"
+      },
+      "guest": {
+        "button": "Contact host",
+        "login": "You must <a class='link' href={addSignInLink}>sign in</a> to contact hosts"
+      },
+      "unclaimed": "You can contact this host as soon as they have created their account."
+    },
+    "add-garden": {
+      "title": "Add your garden",
+      "header": {
+        "title": "Add your garden to the map",
+        "auth-notice": "You must be signed in to add your garden to the map. Either <a class=\"link\" href={addSignInLink}>sign in</a> or <a class=\"link\" href={addRegisterLink}>create an account.</a>",
+        "email-confirm-notice": "You need to verify your email before you add your garden to the map. We sent you an email when you created your account. You can resend a verification link from your <a class=\"link\" href={addAccountLink}>your profile.</a>",
+        "normal-notice": "By submitting this form, your garden will be added to the map. You can manage or remove it at any time from <a class='link' href={addAccountLink}>your profile.</a>"
+      },
+      "location": {
+        "title": "Location (required)",
+        "notice": "Move the marker to set the location of your garden. You can fill in the address fields to move the marker closer to you. <br /> We don't store your address information.",
+        "coordinate-hint": "Make sure you have dragged the map marker to the exact location of your garden, and have clicked \"Confirm pin location\""
+      },
+      "description": {
+        "title": "Describe your camping spot (required)",
+        "notice": "A short description of your garden and the camping spot you can offer. This information is displayed publicly, so don't include any personal details here. <br />Your description must be between 20 and 300 characters.",
+        "hints": {
+          "too-short": "{remaining} more {remaining, plural, one {character} other {characters}} required...",
+          "too-long": "{surplus} {surplus, plural, one {character} other {characters}} too long..."
+        },
+        "placeholder": "Enter description...",
+        "label": "Description"
+      },
+      "facilities": {
+        "title": "Facilities",
+        "notice": "What kind of facilities do travellers have access to?",
+        "capacity": {
+          "label": "Capacity (required)",
+          "help": "How many tents do you have space for (estimation)"
+        }
+      },
+      "photo": {
+        "title": "Photo",
+        "notice": "Show people what your garden looks like.<br />Make sure that the picture only shows the camp spot and doesn't include your neighbour's home.",
+        "img-alt": "Your garden",
+        "hints": {
+          "wrong-format": "Your photo must be a JPEG, PNG, or TIFF file.",
+          "too-large": "Your image is too large. An image's file size should be 5MB or smaller."
+        }
+      },
+      "button": "{isUpdate, select, true {Update} false {Add}} your garden",
+      "invalid": "Some information was not valid. Please check your submitted information for errors."
     }
   },
   "sign-in": {
