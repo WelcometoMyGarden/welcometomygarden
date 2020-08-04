@@ -280,7 +280,14 @@
       "location": {
         "title": "Location (required)",
         "notice": "Move the marker to set the location of your garden. You can fill in the address fields to move the marker closer to you. <br /> We don't store your address information.",
-        "coordinate-hint": "Make sure you have dragged the map marker to the exact location of your garden, and have clicked \"Confirm pin location\""
+        "coordinate-hint": "Make sure you have dragged the map marker to the exact location of your garden, and have clicked \"Confirm pin location\"",
+        "button": "{locationConfirmed, select, true {Adjust} false {Confirm}} pin location",
+        "street": "Street",
+        "house-number": "House number",
+        "region": "Province or State",
+        "postal-code": "Postal/ZIP Code",
+        "city": "City",
+        "country": "Country"
       },
       "description": {
         "title": "Describe your camping spot (required)",
