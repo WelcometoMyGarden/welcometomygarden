@@ -5,6 +5,7 @@
   import { TextInput, Progress, Button } from '@/components/UI';
   import { emailIcon } from '@/images/icons';
   import { requestPasswordReset } from '@/api/auth';
+  import { SUPPORT_EMAIL } from '@/constants';
 
   let email = {};
   let done = false;
@@ -20,6 +21,7 @@
       isSending = false;
     }
   };
+  const supportEmailLink = `<a class="link" href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a>`
 </script>
 
 <svelte:head>
@@ -35,7 +37,7 @@
       <p class="description">{$_('request-password-reset.description')}</p>
       <form transition:fade on:submit|preventDefault={submit}>
         <div>
-          <label for="email">Email</label>
+          <label for="email">{$_('generics.email')}</label>
           <TextInput
             icon={emailIcon}
             autocomplete="off"
@@ -53,15 +55,10 @@
     {:else}
       <div transition:fade>
         <p>
-          If an account with the email {email.value} exists, an email will now be sent with
-          instructions on how to reset the password.
+          {$_('request-password-reset.set', { values: { email: email.value } })}
         </p>
         <p>
-          Are you having trouble logging in? Contact
-          <a class="link" href="mailto:support@welcometomygarden.org">
-            support@welcometomygarden.org
-          </a>
-          and we'll help you out!
+          {@html $_('request-password-reset.trouble', { values: { support: supportEmailLink } })}
         </p>
       </div>
     {/if}

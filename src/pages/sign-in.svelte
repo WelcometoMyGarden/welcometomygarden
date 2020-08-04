@@ -26,7 +26,7 @@
       if (ex.code === 'auth/user-not-found' || ex.code === 'auth/wrong-password')
         formError = $_('sign-in.incorrect');
       else {
-        formError = $_('sign-in.login-issue', { values: { email: SUPPORT_EMAIL } });
+        formError = $_('sign-in.login-issue', { values: { support: SUPPORT_EMAIL } });
       }
       // TODO: Handle network errors and response errors
     }
