@@ -7,7 +7,9 @@
     "build:prod": "cross-env NODE_ENV=production yarn run build",
     "dev": "rollup -c -w",
     "start": "sirv public --single",
-    "deploy": "yarn run build && firebase deploy"
+    "deploy": "yarn run build && firebase deploy",
+    "test": "cross-env FIRESTORE_EMULATOR_HOST=localhost:5002 jest ./test",
+    "test:watch": "cross-env FIRESTORE_EMULATOR_HOST=localhost:5002 jest --watchAll ./test"
   },
   "dependencies": {
     "sirv-cli": "^0.4.4",

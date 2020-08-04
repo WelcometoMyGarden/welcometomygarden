@@ -1,6 +1,5 @@
 const firebase = require('@firebase/testing');
 const fs = require('fs');
-const { expect } = require('jest');
 
 exports.setup = async (auth, data) => {
   // Create a unique projectId for every firebase simulated app
