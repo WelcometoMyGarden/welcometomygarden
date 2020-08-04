@@ -28,7 +28,7 @@
 </script>
 
 <svelte:head>
-  <title>Home | Welcome To My Garden</title>
+  <title>{$_('generics.home')} | Welcome To My Garden</title>
 </svelte:head>
 
 <section class="landing">
@@ -95,9 +95,9 @@
 </section>
 
 <section class="cooperation">
-  <!-- <div class="card cooperation-card partners">
-    <h1 class="heading-underline-center">Our partners</h1>
-    <div>Logos</div>
+ <!--  <div class="card cooperation-card partners">
+    <h1 class="heading-underline-center">{$_('index.partners.title')}</h1>
+    <div>{$_('index.partners.title')}</div>
   </div> -->
 
   <div class="card cooperation-card support">
