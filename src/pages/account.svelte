@@ -93,7 +93,7 @@
       </section>
       {#if !$user.emailVerified}
         <section>
-          <h2>{$_('account.verify.titel')}</h2>
+          <h2>{$_('account.verify.title')}</h2>
           <div>
             <p>{$_('account.verify.text')}</p>
             {#if !hasResentEmail}
@@ -114,7 +114,7 @@
         </section>
       {/if}
       <section>
-        <h2>{$_('account.preferences.titel')}</h2>
+        <h2>{$_('account.preferences.title')}</h2>
         <p>{$_('account.preferences.text')}</p>
         <ul class="preference-list">
           <li>
@@ -140,7 +140,7 @@
         </ul>
       </section>
       <section>
-        <h2>{$_('account.garden.titel')}</h2>
+        <h2>{$_('account.garden.title')}</h2>
         {#if !$user.garden}
           <p class="description">{$_('account.garden.unlisted.text')}</p>
           <Button uppercase medium href={routes.ADD_GARDEN}>

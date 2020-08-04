@@ -271,19 +271,19 @@
   "account": {
     "title": "Account",
     "verify": {
-      "titel": "Verify your email",
+      "title": "Verify your email",
       "text": "You need to verify your email address if you want to chat or add a garden.",
       "button": "Resend email",
       "sent": "Email sent!"
     },
     "preferences": {
-      "titel": "Email preferences",
+      "title": "Email preferences",
       "text": "Send me emails when:",
       "chat": "I receive a new chat message",
       "news": "Welcome To My Garden has news to share"
     },
     "garden": {
-      "titel": "Your garden",
+      "title": "Your garden",
       "unlisted": {
         "text": "You haven't added your garden to the map yet. When you add your garden, other users will be able to contact you to request a stay. You can unlist your garden at any time!",
         "button": "Add your garden"
