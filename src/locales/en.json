@@ -163,7 +163,7 @@
       }
     ],
     "message": "Enjoy!",
-    "contact": "Anything else we should add to this list? Drop us a line at welcometomygardennetwork@gmail.com to let us know."
+    "contact": "Anything else we should add to this list? Drop us a line at support@welcometomygarden.org to let us know."
   },
   "faq": {
     "title": "FAQ",
@@ -301,6 +301,17 @@
       "garden-show": "Your garden will show up on the map again",
       "garden-no-show": "Your garden won't show up on the map",
       "preferences-update": "Your email preferences have been updated!"
+    }
+  },
+  "auth": {
+    "invalid-code": "This page is not accessible without a valid action code",
+    "password": {
+      "expired": "This password reset link has expired. Please request a new one"
+    },
+    "verification": {
+      "succes": "Your email address was verified successfully!",
+      "refresh": "Your email has already been verified. Please refresh the page.",
+      "expired": "This verification link has expired. Please request a new one."
     }
   }
 }
