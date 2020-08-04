@@ -50,7 +50,7 @@
 </script>
 
 <svelte:head>
-  <title>Add your garden | Welcome To My Garden</title>
+  <title>{$_('garden.add-garden.title')} | Welcome To My Garden</title>
 </svelte:head>
 
 <Progress active={addingGarden} />
