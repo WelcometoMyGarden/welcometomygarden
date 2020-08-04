@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import { goto, redirect } from '@sveltech/routify';
   import { updateGardenLocally } from '@/stores/garden';
   import { user } from '@/stores/auth';
@@ -14,7 +15,7 @@
   }
   let updatingGarden = false;
 
-  const submit = async e => {
+  const submit = async (e) => {
     const garden = e.detail;
     updatingGarden = true;
     try {
@@ -39,7 +40,7 @@
 </script>
 
 <svelte:head>
-  <title>Manage garden | Welcome To My Garden</title>
+  <title>{$_('garden.manage.title')} | Welcome To My Garden</title>
 </svelte:head>
 
 <Progress active={updatingGarden} />
