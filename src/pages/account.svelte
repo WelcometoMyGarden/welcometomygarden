@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import { goto, redirect } from '@sveltech/routify';
   import notify from '@/stores/notification';
@@ -11,29 +12,30 @@
   import { flagIcon, emailIcon } from '@/images/icons';
   import { countries } from '@/util';
   import routes from '@/routes';
+  import { SUPPORT_EMAIL } from '@/constants';
 
   if (!$user) $redirect(routes.SIGN_IN);
 
-  const onMailPreferenceChanged = async event => {
+  const onMailPreferenceChanged = async (event) => {
     try {
       const { name, checked } = event.target;
       await updateMailPreferences(name, checked);
       $user.setEmailPreferences(name, checked);
-      notify.success('Your email preferences have been updated!', 3500);
+      notify.success($_('account.notify.preferences-update'), 3500);
     } catch (ex) {
       console.log(ex);
     }
   };
 
   let updatingListedStatus = false;
-  const changeGardenListed = async event => {
+  const changeGardenListed = async (event) => {
     const newStatus = event.target.checked;
     updatingListedStatus = true;
     try {
       await changeListedStatus(newStatus);
       $user.setGarden({ ...$user.garden, listed: newStatus });
-      if (!newStatus) notify.success("Your garden won't show up on the map", 7000);
-      else notify.success('Your garden will show up on the map again', 7000);
+      if (!newStatus) notify.success($_('account.notify.garden-no-show'), 7000);
+      else notify.success($_('account.notify.garden-show'), 7000);
     } catch (ex) {
       console.log(ex);
     }
@@ -53,7 +55,7 @@
       if (!ex.code) notify.danger(ex, 15000);
       else
         notify.danger(
-          "We couldn't resend an account verification email. Please contact support@welcometomygarden.be",
+          $_('account.notify.resend-error', { values: { support: SUPPORT_EMAIL } }),
           12000
         );
       isResendingEmail = false;
@@ -63,7 +65,7 @@
 </script>
 
 <svelte:head>
-  <title>Account | Welcome To My Garden</title>
+  <title>{$_('account.title')} | Welcome To My Garden</title>
 </svelte:head>
 
 {#if $user}
@@ -91,26 +93,29 @@
       </section>
       {#if !$user.emailVerified}
         <section>
-          <h2>Verify your email</h2>
+          <h2>{$_('account.verify.titel')}</h2>
           <div>
-            <p>You need to verify your email address if you want to chat or add a garden.</p>
+            <p>{$_('account.verify.text')}</p>
             {#if !hasResentEmail}
-              <button
-                class="resend-verification"
-                transition:fade
-                disabled={isResendingEmail}
-                on:click={doResendEmail}>
-                Resend email
-              </button>
+              <div class="resend-verification">
+                <Button
+                  class="resend-verification"
+                  uppercase
+                  xsmall
+                  disabled={isResendingEmail}
+                  on:click={doResendEmail}>
+                  {$_('account.verify.button')}
+                </Button>
+              </div>
             {:else}
-              <p class="resend-verification">Email sent!</p>
+              <p class="resend-verification">{$_('account.verify.sent')}</p>
             {/if}
           </div>
         </section>
       {/if}
       <section>
-        <h2>Email preferences</h2>
-        Send me emails when:
+        <h2>{$_('account.preferences.titel')}</h2>
+        <p>{$_('account.preferences.text')}</p>
         <ul class="preference-list">
           <li>
             <input
@@ -120,7 +125,7 @@
               name="newChat"
               checked={$user.emailPreferences.newChat}
               on:change={onMailPreferenceChanged} />
-            <label for="new-chat">I receive a new chat message</label>
+            <label for="new-chat">{$_('account.preferences.chat')}</label>
           </li>
           <li>
             <input
@@ -130,23 +135,19 @@
               name="news"
               checked={$user.emailPreferences.news}
               on:change={onMailPreferenceChanged} />
-            <label for="news">Welcome To My Garden has news to share</label>
+            <label for="news">{$_('account.preferences.news')}</label>
           </li>
         </ul>
       </section>
       <section>
-        <h2>Your garden</h2>
+        <h2>{$_('account.garden.titel')}</h2>
         {#if !$user.garden}
-          <p class="description">
-            You haven't added your garden to the map yet. When you add your garden, other users will
-            be able to contact you to request a stay. You can unlist your garden at any time!
-          </p>
-          <Button uppercase medium href={routes.ADD_GARDEN}>Add your garden</Button>
+          <p class="description">{$_('account.garden.unlisted.text')}</p>
+          <Button uppercase medium href={routes.ADD_GARDEN}>
+            {$_('account.garden.unlisted.button')}
+          </Button>
         {:else if $user.emailVerified && $user.garden}
-          <p class="mb-m">
-            You can unlist your garden at any time. This means it will stay saved for later - but
-            won't be shown on the map until you show it again.
-          </p>
+          <p class="mb-m">{$_('account.garden.listed.text')}</p>
           <LabeledCheckbox
             disabled={updatingListedStatus}
             name="listed"
@@ -154,10 +155,12 @@
             label="Shown on the map"
             on:input={changeGardenListed} />
           <div class="mt-m">
-            <Button href={routes.MANAGE_GARDEN} medium uppercase>Manage garden</Button>
+            <Button href={routes.MANAGE_GARDEN} medium uppercase>
+              {$_('account.garden.listed.button')}
+            </Button>
           </div>
         {:else if $user.garden && !user.emailVerified}
-          <p class="mb-m">Verify your email to manage your garden.</p>
+          <p class="mb-m">{$_('account.garden.unverified.text')}</p>
         {/if}
       </section>
     </div>

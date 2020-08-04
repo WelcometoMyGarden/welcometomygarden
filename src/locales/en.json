@@ -6,10 +6,10 @@
     "cookie-policy": "Cookie policy",
     "privacy-policy": "Privacy policy",
     "terms-of-use": "Terms of use",
-    "home" : "Home",
-    "map" : "Map",
-    "rules" : "Rules",
-    "faq":{
+    "home": "Home",
+    "map": "Map",
+    "rules": "Rules",
+    "faq": {
       "acronym": "FAQ",
       "explicit": "Frequently asked questions"
     },
@@ -164,7 +164,7 @@
       }
     ],
     "message": "Enjoy!",
-    "contact": "Anything else we should add to this list? Drop us a line at welcometomygardennetwork@gmail.com to let us know."
+    "contact": "Anything else we should add to this list? Drop us a line at support@welcometomygarden.org to let us know."
   },
   "faq": {
     "title": "FAQ",
@@ -310,17 +310,73 @@
       "invalid": "Some information was not valid. Please check your submitted information for errors."
     }
   },
-  "sign-in":{
+  "sign-in": {
     "title": "Sign in",
     "button": "Sign in",
     "welcome": "Welcome back",
-    "email": "Email",
-    "password": "Password",
     "incorrect": "The provided email or password is incorrect.",
     "reset-text": "Forgot your password?",
     "reset-button": "Reset it",
     "register-text": "Don't have an account yet?",
     "register-button": "Register",
-    "login-issue": "We couldn't log you in. If the problem persists, please contact"
+    "login-issue": "We couldn't log you in. If the problem persists, please contact {support}"
+  },
+  "request-password-reset": {
+    "title": "Set a new password",
+    "description": "If you submit the form below, we can send you a unique link with which you can reset your password.",
+    "button": "Email reset instructions",
+    "set": "If an account with the email {email} exists, an email will now be sent with instructions on how to reset the password.",
+    "trouble": "Are you having trouble logging in? Contact {support} and we'll help you out!"
+  },
+  "reset-password": {
+    "title": "Set a new password",
+    "update": "Update password",
+    "succes": "Your password was reset succesfully"
+  },
+  "account": {
+    "title": "Account",
+    "verify": {
+      "titel": "Verify your email",
+      "text": "You need to verify your email address if you want to chat or add a garden.",
+      "button": "Resend email",
+      "sent": "Email sent!"
+    },
+    "preferences": {
+      "titel": "Email preferences",
+      "text": "Send me emails when:",
+      "chat": "I receive a new chat message",
+      "news": "Welcome To My Garden has news to share"
+    },
+    "garden": {
+      "titel": "Your garden",
+      "unlisted": {
+        "text": "You haven't added your garden to the map yet. When you add your garden, other users will be able to contact you to request a stay. You can unlist your garden at any time!",
+        "button": "Add your garden"
+      },
+      "listed": {
+        "text": "You can unlist your garden at any time. This means it will stay saved for later - but won't be shown on the map until you show it again.",
+        "button": "Manage garden"
+      },
+      "unverified": {
+        "text": "Verify your email to manage your garden."
+      }
+    },
+    "notify": {
+      "resend-error": "We couldn't resend an account verification email. Please contact {support}",
+      "garden-show": "Your garden will show up on the map again",
+      "garden-no-show": "Your garden won't show up on the map",
+      "preferences-update": "Your email preferences have been updated!"
+    }
+  },
+  "auth": {
+    "invalid-code": "This page is not accessible without a valid action code",
+    "password": {
+      "expired": "This password reset link has expired. Please request a new one"
+    },
+    "verification": {
+      "succes": "Your email address was verified successfully!",
+      "refresh": "Your email has already been verified. Please refresh the page.",
+      "expired": "This verification link has expired. Please request a new one."
+    }
   }
 }
