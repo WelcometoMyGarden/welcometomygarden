@@ -1,4 +1,5 @@
 <script>
+  import { _, locale } from 'svelte-i18n';
   import { redirect } from '@sveltech/routify';
   import { addGardenLocally } from '@/stores/garden';
   import { user } from '@/stores/auth';
@@ -8,11 +9,11 @@
   import Form from '@/components/Garden/Form.svelte';
   import routes from '@/routes';
 
-  if ($user.garden) $redirect(routes.MANAGE_GARDEN);
+  if ($user && $user.garden) $redirect(routes.MANAGE_GARDEN);
 
   let addingGarden = false;
 
-  const submit = async e => {
+  const submit = async (e) => {
     const garden = e.detail;
     addingGarden = true;
     try {
