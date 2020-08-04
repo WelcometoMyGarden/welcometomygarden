@@ -21,7 +21,6 @@
       isSending = false;
     }
   };
-  const supportEmailLink = `<a class="link" href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a>`
 </script>
 
 <svelte:head>
@@ -54,11 +53,13 @@
       </form>
     {:else}
       <div transition:fade>
+        <p>{$_('request-password-reset.set', { values: { email: email.value } })}</p>
         <p>
-          {$_('request-password-reset.set', { values: { email: email.value } })}
-        </p>
-        <p>
-          {@html $_('request-password-reset.trouble', { values: { support: supportEmailLink } })}
+          {@html $_('request-password-reset.trouble', {
+            values: {
+              support: `<a class="link" href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a>`
+            }
+          })}
         </p>
       </div>
     {/if}

@@ -267,5 +267,40 @@
     "title": "Set a new password",
     "update": "Update password",
     "succes": "Your password was reset succesfully"
+  },
+  "account": {
+    "title": "Account",
+    "verify": {
+      "titel": "Verify your email",
+      "text": "You need to verify your email address if you want to chat or add a garden.",
+      "button": "Resend email",
+      "sent": "Email sent!"
+    },
+    "preferences": {
+      "titel": "Email preferences",
+      "text": "Send me emails when:",
+      "chat": "I receive a new chat message",
+      "news": "Welcome To My Garden has news to share"
+    },
+    "garden": {
+      "titel": "Your garden",
+      "unlisted": {
+        "text": "You haven't added your garden to the map yet. When you add your garden, other users will be able to contact you to request a stay. You can unlist your garden at any time!",
+        "button": "Add your garden"
+      },
+      "listed": {
+        "text": "You can unlist your garden at any time. This means it will stay saved for later - but won't be shown on the map until you show it again.",
+        "button": "Manage garden"
+      },
+      "unverified": {
+        "text": "Verify your email to manage your garden."
+      }
+    },
+    "notify": {
+      "resend-error": "We couldn't resend an account verification email. Please contact {support}",
+      "garden-show": "Your garden will show up on the map again",
+      "garden-no-show": "Your garden won't show up on the map",
+      "preferences-update": "Your email preferences have been updated!"
+    }
   }
 }
