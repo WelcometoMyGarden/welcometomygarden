@@ -95,10 +95,17 @@
 </section>
 
 <section class="cooperation">
-  <!-- <div class="card cooperation-card partners">
+  <div class="card cooperation-card partners">
     <h1 class="heading-underline-center">Our partners</h1>
-    <div>Logos</div>
-  </div> -->
+    <div class="partner-logos">
+      <a href="https://be.okfn.org/" class="partner-link">
+        <img src="" alt="" />
+      </a>
+      <a href="https://www.vgc.be/staycation" class="partner-link">
+        <img src="" alt="" />
+      </a>
+    </div>
+  </div>
 
   <div class="card cooperation-card support">
     <div class="cooperation-content">
@@ -339,18 +346,11 @@
   }
 
   .cooperation-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: grid;
+    grid-template-rows: 0.5fr;
     text-align: center;
-    /* width: 50%; */
+    width: 50%;
     padding: 12rem 10rem 14rem;
-    flex: 1;
-    align-items: center;
-  }
-
-  .cooperation-content {
-    max-width: 620px;
   }
 
   .support {
@@ -455,9 +455,9 @@
       padding-top: 10rem;
     }
 
-    /* .partners {
-      order: 2;
-    } */
+    .partner-logos {
+      display: flex;
+    }
 
     .support {
       order: 1;
