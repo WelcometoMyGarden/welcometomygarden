@@ -428,5 +428,13 @@
       "refresh": "Your email has already been verified. Please refresh the page.",
       "expired": "This verification link has expired. Please request a new one."
     }
+  },
+  "register": {
+    "title": "Sign Up",
+    "button": "Sign Up",
+    "first-name": "First Name",
+    "last-name": "Last name",
+    "country": "Country",
+    "policies": "I agree to the {cookiePolicy}, {privacyPolicy} and {termsOfUse}"
   }
 }

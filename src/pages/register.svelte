@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import { goto } from '@sveltech/routify';
   import { register } from '@/api/auth';
@@ -12,12 +13,12 @@
 
   let fields = {
     email: {
-      validate: v => {
+      validate: (v) => {
         if (!v) return 'Please add an email address, this is what you log in with!';
       }
     },
     password: {
-      validate: v => {
+      validate: (v) => {
         if (!v) return 'You need to set a password so you can log in later';
         if (v.length < 8) return 'Your password must be at least 8 characters';
         // Primarily to prevent password length denial of service
@@ -25,7 +26,7 @@
       }
     },
     firstName: {
-      validate: v => {
+      validate: (v) => {
         if (!v)
           return "Please enter a first name. This is how you're shown to other users of WTMG.";
         if (v.length > 25)
@@ -33,19 +34,19 @@
       }
     },
     lastName: {
-      validate: v => {
+      validate: (v) => {
         if (!v) return "Please enter your last name. This won't be shared with other users.";
       }
     },
     country: {
-      validate: v => {
+      validate: (v) => {
         if (!v)
           return "Please enter your country. This helps us focus the map on where you're from";
       }
     },
     consent: {
       value: false,
-      validate: v => {
+      validate: (v) => {
         if (!v)
           return "You must consent to Welcome To My Garden's terms if you want to use the platform";
       }
@@ -54,9 +55,9 @@
   let countryCode;
   let countryInput;
 
-  const validateCountry = v => {
+  const validateCountry = (v) => {
     const value = v ? v.toLowerCase() : v;
-    const code = Object.keys(countries).find(key => countries[key].toLowerCase() === value);
+    const code = Object.keys(countries).find((key) => countries[key].toLowerCase() === value);
     if (!code) {
       const error = 'Please choose a country from the list';
       fields.country.error = error;
@@ -105,20 +106,29 @@
       console.log(err);
     }
   };
+
+  const cookiePolicy = `<a class="link" href=${routes.COOKIE_POLICY} target="_blank">
+    ${$_('generics.cookie-policy')}</a>`;
+  const privacyPolicy = `<a class="link" href=${routes.PRIVACY_POLICY} target="_blank">${$_(
+    'generics.privacy-policy'
+  )},</a>`;
+  const termsOfUse = `<a class="link" href=${routes.TERMS_OF_USE} target="_blank">${$_(
+    'generics.terms-of-use'
+  )},</a>`;
 </script>
 
 <svelte:head>
-  <title>Sign up | Welcome To My Garden</title>
+  <title>{$_('register.title')} | Welcome To My Garden</title>
 </svelte:head>
 
 <Progress active={$isRegistering} />
 
 <AuthContainer>
-  <span slot="title">Sign Up</span>
+  <span slot="title">{$_('register.title')}</span>
 
   <form on:submit|preventDefault={submit} slot="form">
     <div>
-      <label for="first-name">First name</label>
+      <label for="first-name">{$_('register.first-name')}</label>
       <TextInput
         icon={userIcon}
         type="text"
@@ -131,7 +141,7 @@
     </div>
 
     <div>
-      <label for="last-name">Last name</label>
+      <label for="last-name">{$_('register.last-name')}</label>
       <TextInput
         icon={userIcon}
         autocomplete="family-name"
@@ -144,7 +154,7 @@
     </div>
 
     <div>
-      <label for="email">Email</label>
+      <label for="email">{$_('generics.email')}l</label>
       <TextInput
         icon={emailIcon}
         autocomplete="email"
@@ -159,7 +169,7 @@
     </div>
 
     <div>
-      <label for="password">Password</label>
+      <label for="password">{$_('generics.password')}</label>
       <TextInput
         icon={lockIcon}
         type="password"
@@ -172,7 +182,7 @@
     </div>
 
     <div>
-      <label for="country">Country</label>
+      <label for="country">{$_('register.country')}</label>
       <TextInput
         autocomplete="country"
         icon={flagIcon}
@@ -196,12 +206,21 @@
     <div class="consent">
       <div class="checkbox">
         <input type="checkbox" id="terms" name="terms" bind:checked={fields.consent.value} />
-        <label for="terms">
+<!--         <label for="terms">
           I agree to the
           <a class="link" href={routes.COOKIE_POLICY} target="_blank">cookie policy,</a>
           <a class="link" href={routes.PRIVACY_POLICY} target="_blank">privacy policy</a>
           and
           <a class="link" href={routes.TERMS_OF_USE} target="_blank">terms of use</a>
+        </label> -->
+        <label for="terms">
+          {@html $_('register.country', {
+            values: {
+              cookiePolicy: cookiePolicy,
+              privacyPolicy: privacyPolicy,
+              termsOfUse: termsOfUse
+            }
+          })}
         </label>
       </div>
       <div class="error">
@@ -215,7 +234,7 @@
           <p transition:fade class="hint danger">{formError}</p>
         {/if}
       </div>
-      <Button type="submit" medium disabled={$isRegistering}>Sign up</Button>
+      <Button type="submit" medium disabled={$isRegistering}>{$_('register.button')}</Button>
       {#if $isRegistering}
         <p class="mt-m mb-m">Signing you up...</p>
       {/if}
