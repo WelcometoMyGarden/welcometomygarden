@@ -10,45 +10,42 @@
   import AuthContainer from '@/components/AuthContainer.svelte';
   import { TextInput, Progress, Button } from '@/components/UI';
   import { lockIcon, emailIcon, userIcon, flagIcon } from '@/images/icons';
+  import { SUPPORT_EMAIL } from '@/constants';
 
   let fields = {
     email: {
       validate: (v) => {
-        if (!v) return 'Please add an email address, this is what you log in with!';
+        if (!v) return $_('register.validate.email');
       }
     },
     password: {
       validate: (v) => {
-        if (!v) return 'You need to set a password so you can log in later';
-        if (v.length < 8) return 'Your password must be at least 8 characters';
+        if (!v) return $_('register.validate.password.set');
+        if (v.length < 8) return $_('register.validate.password.min');
         // Primarily to prevent password length denial of service
-        if (v.length > 100) return 'Please make sure your password is at most 100 characters long';
+        if (v.length > 100) return $_('register.validate.password.max');
       }
     },
     firstName: {
       validate: (v) => {
-        if (!v)
-          return "Please enter a first name. This is how you're shown to other users of WTMG.";
-        if (v.length > 25)
-          return 'Your first name can only be 25 characters long so we can display it properly. Feel free too abbreviate or choose a nickname!';
+        if (!v) return $_('register.validate.first-name.set');
+        if (v.length > 25) return $_('register.validate.first-name.max');
       }
     },
     lastName: {
       validate: (v) => {
-        if (!v) return "Please enter your last name. This won't be shared with other users.";
+        if (!v) return $_('register.validate.last-name');
       }
     },
     country: {
       validate: (v) => {
-        if (!v)
-          return "Please enter your country. This helps us focus the map on where you're from";
+        if (!v) return $_('register.validate.country.set');
       }
     },
     consent: {
       value: false,
       validate: (v) => {
-        if (!v)
-          return "You must consent to Welcome To My Garden's terms if you want to use the platform";
+        if (!v) return $_('register.validate.consent');
       }
     }
   };
@@ -59,7 +56,7 @@
     const value = v ? v.toLowerCase() : v;
     const code = Object.keys(countries).find((key) => countries[key].toLowerCase() === value);
     if (!code) {
-      const error = 'Please choose a country from the list';
+      const error = $_('register.validate.country.from-list');
       fields.country.error = error;
       return error;
     } else {
@@ -91,30 +88,25 @@
         lastName: fields.lastName.value,
         countryCode
       });
-      notify.success(
-        'Your account was created successfully! Please check your email to verify your account.',
-        10000
-      );
+      notify.success($_('register.notify.successful'), 10000);
       $goto(routes.MAP);
     } catch (err) {
       isRegistering.set(false);
-      if (err.code === 'auth/email-already-in-use')
-        formError = 'This email address is already in use.';
-      else
-        formError =
-          'An unexpected error occurred. If the problem persists, please contact support@welcometomygarden.org';
+      if (err.code === 'auth/email-already-in-use') formError = $_('register.notify.in-use');
+      else formError = $_('register.notify.unexpected', { values: { support: SUPPORT_EMAIL } });
       console.log(err);
     }
   };
 
-  const cookiePolicy = `<a class="link" href=${routes.COOKIE_POLICY} target="_blank">
-    ${$_('generics.cookie-policy')}</a>`;
+  const cookiePolicy = `<a class="link" href=${routes.COOKIE_POLICY} target="_blank">${$_(
+    'generics.cookie-policy'
+  ).toLocaleLowerCase()}</a>`;
   const privacyPolicy = `<a class="link" href=${routes.PRIVACY_POLICY} target="_blank">${$_(
     'generics.privacy-policy'
-  )},</a>`;
+  ).toLocaleLowerCase()}</a>`;
   const termsOfUse = `<a class="link" href=${routes.TERMS_OF_USE} target="_blank">${$_(
     'generics.terms-of-use'
-  )},</a>`;
+  ).toLocaleLowerCase()}</a>`;
 </script>
 
 <svelte:head>
@@ -206,15 +198,8 @@
     <div class="consent">
       <div class="checkbox">
         <input type="checkbox" id="terms" name="terms" bind:checked={fields.consent.value} />
-<!--         <label for="terms">
-          I agree to the
-          <a class="link" href={routes.COOKIE_POLICY} target="_blank">cookie policy,</a>
-          <a class="link" href={routes.PRIVACY_POLICY} target="_blank">privacy policy</a>
-          and
-          <a class="link" href={routes.TERMS_OF_USE} target="_blank">terms of use</a>
-        </label> -->
         <label for="terms">
-          {@html $_('register.country', {
+          {@html $_('register.policies', {
             values: {
               cookiePolicy: cookiePolicy,
               privacyPolicy: privacyPolicy,
@@ -236,11 +221,14 @@
       </div>
       <Button type="submit" medium disabled={$isRegistering}>{$_('register.button')}</Button>
       {#if $isRegistering}
-        <p class="mt-m mb-m">Signing you up...</p>
+        <p class="mt-m mb-m">{$_('register.registering')}</p>
       {/if}
       <p>
-        Already have an account?
-        <a class="link" href={routes.SIGN_IN}>Sign in</a>
+        {@html $_('register.registred', {
+          values: {
+            signIn: `<a class="link" href=${routes.SIGN_IN}>${$_('generics.sign-in')}</a>`
+          }
+        })}
       </p>
     </div>
   </form>

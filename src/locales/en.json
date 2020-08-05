@@ -391,10 +391,36 @@
   },
   "register": {
     "title": "Sign Up",
-    "button": "Sign Up",
+    "button": "Sign up",
     "first-name": "First Name",
     "last-name": "Last name",
     "country": "Country",
-    "policies": "I agree to the {cookiePolicy}, {privacyPolicy} and {termsOfUse}"
+    "policies": "I agree to the {cookiePolicy}, {privacyPolicy} and {termsOfUse}",
+    "registering": "Signing you up...",
+    "registred": "Already have an account? {signIn}",
+    "validate": {
+      "email": "Please add an email address, this is what you log in with",
+      "password": {
+        "set": "You need to set a password so you can log in later",
+        "min": "Your password must be at least 8 characters",
+        "max": "Please make sure your password is at most 100 characters long"
+      },
+      "first-name": {
+        "set": "Please enter a first name. This is how you're shown to other users",
+        "max": "Your first name can only be 25 characters long so we can display it properly. Feel free too abbreviate or choose a nickname"
+      },
+      "last-name": "Please enter your last name. This won't be shared with other users",
+
+      "country": {
+        "set": "Please enter your country. This helps us focus the map on where you're from",
+        "from-list": "Please choose a country from the list. This helps us focus the map on where you're from"
+      },
+      "consent": "You must consent to Welcome To My Garden's terms if you want to use the platform"
+    },
+    "notify": {
+      "successful": "Your account was created successfully! Please check your email to verify your account.",
+      "in-use": "This email address is already in use.",
+      "unexpected": "An unexpected error occurred. If the problem persists, please contact {support}"
+    }
   }
 }
