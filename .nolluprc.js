@@ -3,6 +3,6 @@ module.exports = {
   hot: true,
   contentBase: 'dist',
   publicPath: 'build',
-  historyApiFallback: false,
+  historyApiFallback: 'index.html',
   port: 5000
 };

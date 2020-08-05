@@ -1,4 +1,4 @@
-import * as fire from 'firebase/app';
+import fire from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/functions';
 import 'firebase/storage';
