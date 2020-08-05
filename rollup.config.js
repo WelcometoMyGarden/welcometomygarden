@@ -36,28 +36,6 @@ export default async () => {
         name: 'app',
         dir: BUILD_DIR
       },
-      moduleContext: (id) => {
-        // In order to match native module behaviour, Rollup
-        // sets `this` as `undefined` at the top level of
-        // modules. Rollup also outputs a warning if a module
-        // tries to access `this` at the top level. The
-        // following modules use `this` at the top level and
-        // expect it to be the global `window` object, so we
-        // tell Rollup to set `this = window` for these modules.
-        const thisAsWindowForModules = [
-          'node_modules/intl-messageformat/lib/core.js',
-          'node_modules/intl-messageformat/lib/compiler.js',
-          'node_modules/intl-messageformat/lib/formatters.js',
-          'node_modules/intl-format-cache/lib/index.js',
-          'node_modules/intl-messageformat-parser/lib/parser.js',
-          'node_modules/intl-messageformat-parser/lib/skeleton.js',
-          'node_modules/intl-messageformat-parser/lib/normalize.js'
-        ];
-
-        if (thisAsWindowForModules.some((id_) => id.trimRight().endsWith(id_))) {
-          return 'window';
-        }
-      },
       plugins: [
         copy({
           targets: [{ src: [`${PUBLIC_DIR}/*`], dest: DIST_DIR }],
