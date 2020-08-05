@@ -1,5 +1,5 @@
 <script>
-  import { _, locale } from 'svelte-i18n';
+  import { _ } from 'svelte-i18n';
   import { redirect } from '@sveltech/routify';
   import { addGardenLocally } from '@/stores/garden';
   import { user } from '@/stores/auth';
@@ -50,7 +50,7 @@
 </script>
 
 <svelte:head>
-  <title>{$_('garden.add-garden.title')} | Welcome To My Garden</title>
+  <title>{$_('garden.add.title')} | Welcome To My Garden</title>
 </svelte:head>
 
 <Progress active={addingGarden} />

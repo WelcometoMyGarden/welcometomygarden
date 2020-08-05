@@ -3,7 +3,7 @@
   export let isSubmitting = false;
   export let isUpdate = false;
 
-  import { _, locale } from 'svelte-i18n';
+  import { _ } from 'svelte-i18n';
   import { createEventDispatcher } from 'svelte';
   import { slide } from 'svelte/transition';
   import CoordinateForm from '@/components/Garden/CoordinateForm.svelte';
@@ -31,14 +31,14 @@
     const len = description.length;
     if (len < 20) {
       descriptionHint.valid = false;
-      descriptionHint.message = $_('garden.add-garden.description.hints.too-short', {
+      descriptionHint.message = $_('garden.form.description.hints.too-short', {
         values: { remaining: 20 - len }
       });
       return false;
     }
     if (len > 300) {
       descriptionHint.valid = false;
-      descriptionHint.message = $_('garden.add-garden.description.hints.too-long', {
+      descriptionHint.message = $_('garden.form.description.hints.too-long', {
         values: { surplus: len - 300 }
       });
       return false;
@@ -57,7 +57,7 @@
   let coordinateHint = { message: '', valid: true };
   const validateLocation = (location) => {
     if (!location) {
-      coordinateHint.message = $_('garden.add-garden.location.coordinate-hint');
+      coordinateHint.message = $_('garden.form.location.coordinate-hint');
       coordinateHint.valid = false;
       return false;
     }
@@ -74,13 +74,13 @@
   let photoHint = { message: '', valid: true };
   const validatePhoto = (file) => {
     if (!validFileTypes.includes(file.type)) {
-      photoHint.message = $_('garden.add-garden.photo.hints.wrong-format');
+      photoHint.message = $_('garden.form.photo.hints.wrong-format');
       photoHint.valid = false;
       return false;
     }
     // Should be no bigger than 5MB
     if (file.size / 1024 / 1024 > 5) {
-      photoHint.message = $_('garden.add-garden.photo.hints.too-large');
+      photoHint.message = $_('garden.form.photo.hints.too-large');
       photoHint.valid = false;
       return false;
     }
@@ -149,25 +149,23 @@
 <form>
   <section>
     <div class="sub-container">
-      <h2>{$_('garden.add-garden.header.title')}</h2>
+      <h2>{$_('garden.form.title')}</h2>
       <div class="section-description">
         {#if !$user}
           <p class="notice">
-            {@html $_('garden.add-garden.header.auth-notice', {
+            {@html $_('garden.form.auth-notice', {
               values: { addSignInLink: routes.SIGN_IN, addRegisterLink: routes.REGISTER }
             })}
           </p>
         {:else if !$user.emailVerified}
           <p class="notice">
-            {@html $_('garden.add-garden.header.email-confirm-notice', {
+            {@html $_('garden.form.email-confirm-notice', {
               values: { addAccountLink: routes.ACCOUNT }
             })}
           </p>
         {:else}
           <p>
-            {@html $_('garden.add-garden.header.normal-notice', {
-              values: { addAccountLink: routes.ACCOUNT }
-            })}
+            {@html $_('garden.form.normal-notice', { values: { addAccountLink: routes.ACCOUNT } })}
           </p>
         {/if}
       </div>
@@ -176,9 +174,9 @@
 
   <section class:is-not-fillable={!isFillable}>
     <fieldset>
-      <h3>{$_('garden.add-garden.location.title')}</h3>
+      <h3>{$_('garden.form.location.title')}</h3>
       <p class="section-description">
-        {@html $_('garden.add-garden.location.notice')}
+        {@html $_('garden.form.location.notice')}
       </p>
       <CoordinateForm initialCoordinates={garden.location} on:confirm={setCoordinates} />
       <p class="hint" class:invalid={!coordinateHint.valid}>{coordinateHint.message}</p>
@@ -187,14 +185,14 @@
 
   <section class:is-not-fillable={!isFillable}>
     <fieldset>
-      <h3>{$_('garden.add-garden.description.title')}</h3>
+      <h3>{$_('garden.form.description.title')}</h3>
       <p class="section-description">
-        {@html $_('garden.add-garden.description.notice')}
+        {@html $_('garden.form.description.notice')}
       </p>
       <div>
         <textarea
-          placeholder={$_('garden.add-garden.description.placeholder')}
-          aria-label={$_('garden.add-garden.description.label')}
+          placeholder={$_('garden.form.description.placeholder')}
+          aria-label={$_('garden.form.description.label')}
           id="description"
           name="description"
           value={garden.description}
@@ -211,16 +209,16 @@
 
   <section class:is-not-fillable={!isFillable}>
     <fieldset>
-      <h3>{$_('garden.add-garden.facilities.title')}</h3>
-      <p class="section-description">{$_('garden.add-garden.facilities.notice')}</p>
+      <h3>{$_('garden.form.facilities.title')}</h3>
+      <p class="section-description">{$_('garden.form.facilities.notice')}</p>
       <div class="checkboxes">
         {#each facilities as facility (facility.name)}
           <LabeledCheckbox {...facility} bind:checked={garden.facilities[facility.name]} />
         {/each}
       </div>
       <div class="capacity">
-        <label for="capacity">{$_('garden.add-garden.facilities.capacity.label')}</label>
-        <p>{$_('garden.add-garden.facilities.capacity.help')}</p>
+        <label for="capacity">{$_('garden.form.facilities.capacity.label')}</label>
+        <p>{$_('garden.form.facilities.capacity.help')}</p>
         <input
           type="number"
           name="capacity"
@@ -234,9 +232,9 @@
   </section>
   <section class:is-not-fillable={!isFillable}>
     <fieldset>
-      <h3>{$_('garden.add-garden.photo.title')}</h3>
+      <h3>{$_('garden.form.photo.title')}</h3>
       <p class="section-description">
-        {@html $_('garden.add-garden.photo.notice')}
+        {@html $_('garden.form.photo.notice')}
       </p>
       <input
         type="file"
@@ -249,12 +247,12 @@
 
       {#if garden.photo && garden.photo.data}
         <div class="photo" transition:slide>
-          <img src={garden.photo.data} alt={$_('garden.add-garden.photo.img-alt')} />
+          <img src={garden.photo.data} alt={$_('garden.form.photo.img-alt')} />
         </div>
       {:else if existingPhoto && typeof existingPhoto == 'string'}
         {#await getExistingPhoto() then existingPhoto}
           <div class="photo" transition:slide>
-            <img src={existingPhoto} alt={$_('garden.add-garden.photo.img-alt')} />
+            <img src={existingPhoto} alt={$_('garden.form.photo.img-alt')} />
           </div>
         {/await}
       {/if}
@@ -265,10 +263,10 @@
   <section class="section-submit" class:is-not-fillable={!isFillable}>
     <div class="sub-container">
       <Button type="button" disabled={isSubmitting} on:click={handleSubmit} uppercase medium>
-        {$_('garden.add-garden.button', { values: { isUpdate } })}
+        {$_('garden.form.button', { values: { isUpdate } })}
       </Button>
       {#if !formValid}
-        <p class="hint invalid" transition:slide>{$_('garden.add-garden.invalid')}</p>
+        <p class="hint invalid" transition:slide>{$_('garden.form.invalid')}</p>
       {/if}
     </div>
   </section>
