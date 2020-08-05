@@ -21,7 +21,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
     "@rollup/plugin-replace": "^2.2.0",
-    "@sveltech/routify": "^1.7.12",
+    "@sveltech/routify": "^1.9.5",
     "bulma": "^0.8.2",
     "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
