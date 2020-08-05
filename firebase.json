@@ -10,24 +10,6 @@
     ],
     "headers": [
       {
-        "source": "**/*.@(js)",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "max-age=259200"
-          }
-        ]
-      },
-      {
-        "source": "bundle/main.js",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "max-age=3600"
-          }
-        ]
-      },
-      {
         "source": "reset.css",
         "headers": [
           {
