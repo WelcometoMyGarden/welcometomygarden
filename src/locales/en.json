@@ -476,5 +476,21 @@
       "in-use": "This email address is already in use.",
       "unexpected": "An unexpected error occurred. If the problem persists, please contact {support}"
     }
+  },
+  "chat": {
+    "title": "Chat",
+    "title-conversation": "Chat with {partnerName}",
+    "all-conversations": "All conversations",
+    "no-messages": {
+      "text": "You don't have any messages yet. Select a host {link} to contact them.",
+      "link": "on the map"
+    },
+    "type-message": "Type your message...",
+    "new": "new",
+    "notify": {
+      "unverified": "Please verify your email before you start chatting",
+      "empty-message": "Your message cannot be empty",
+      "too-long": "Your message is {surplus} {surplus, plural, one {character} other {characters}} too long..."
+    }
   }
 }

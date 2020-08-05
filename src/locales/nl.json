@@ -232,5 +232,15 @@
         "copy": "Elk probleem of wangedrag moet per e-mail worden gemeld aan Welcome To My Garden (welcometomygardennetwork-at-gmail.com). In geval van wangedrag behouden we het recht om eenzijdig het account van deze persoon te verwijderen (zie Gebruiksvoorwaarden)."
       }
     ]
+  },
+  "chat": {
+    "title": "Chat",
+    "all-conversations": "Alle gesprekken",
+    "no-messages": {
+      "text": "Je hebt nog geen berichten. Selecteer een host {link} om contact met ze op te nemen.",
+      "link": "op de kaart"
+    },
+    "type-message": "Typ uw bericht...",
+    "new": "nieuw"
   }
 }
