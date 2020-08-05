@@ -363,13 +363,19 @@
   "sign-in": {
     "title": "Sign in",
     "button": "Sign in",
-    "welcome": "Welcome back",
-    "incorrect": "The provided email or password is incorrect.",
-    "reset-text": "Forgot your password?",
-    "reset-button": "Reset it",
-    "register-text": "Don't have an account yet?",
-    "register-button": "Register",
-    "login-issue": "We couldn't log you in. If the problem persists, please contact {support}"
+    "reset": {
+      "text": "Forgot your password? {link}",
+      "link": "Reset it"
+    },
+    "register": {
+      "text": "Don't have an account yet? {link}",
+      "link": "Register"
+    },
+    "notify": {
+      "welcome": "Welcome back",
+      "incorrect": "The provided email or password is incorrect.",
+      "login-issue": "We couldn't log you in. If the problem persists, please contact {support}"
+    }
   },
   "request-password-reset": {
     "title": "Set a new password",

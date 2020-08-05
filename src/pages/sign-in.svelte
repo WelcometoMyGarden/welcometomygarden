@@ -20,13 +20,13 @@
     formError = '';
     try {
       await login(email.value, password.value);
-      notify.success(`${$_('sign-in.welcome')}, ${$user.firstName}!`);
+      notify.success(`${$_('sign-in.notify.welcome')}, ${$user.firstName}!`);
       $goto(routes.MAP);
     } catch (ex) {
       if (ex.code === 'auth/user-not-found' || ex.code === 'auth/wrong-password')
-        formError = $_('sign-in.incorrect');
+        formError = $_('sign-in.notify.incorrect');
       else {
-        formError = $_('sign-in.login-issue', { values: { support: SUPPORT_EMAIL } });
+        formError = $_('sign-in.notify.login-issue', { values: { support: SUPPORT_EMAIL } });
       }
       // TODO: Handle network errors and response errors
     }
@@ -74,12 +74,18 @@
   </form>
 
   <p>
-    {$_('sign-in.reset-text')}
-    <a href={routes.REQUEST_PASSWORD_RESET} class="link">{$_('sign-in.reset-button')}</a>
+    {@html $_('sign-in.reset.text', {
+      values: {
+        link: `<a class="link" href="${routes.REQUEST_PASSWORD_RESET}">${$_('sign-in.reset.link')}</a>`
+      }
+    })} 
   </p>
   <p>
-    {$_('sign-in.register-text')}
-    <a href={routes.REGISTER} class="link">{$_('sign-in.register-button')}</a>
+    {@html $_('sign-in.register.text', {
+      values: {
+        link: `<a class="link" href="${routes.REGISTER}">${$_('sign-in.register.link')}</a>`
+      }
+    })}    
   </p>
 </AuthContainer>
 
