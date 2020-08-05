@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-  <title>Rules | Welcome To My Garden</title>
+  <title>{$_('generics.rules')} | Welcome To My Garden</title>
 </svelte:head>
 
 <div class="intro">

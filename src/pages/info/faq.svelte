@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-  <title>FAQ | Welcome To My Garden</title>
+  <title>{$_('generics.faq.acronym')} | Welcome To My Garden</title>
 </svelte:head>
 
 <div class="intro">
