@@ -29,7 +29,8 @@
     "steps": [
       {
         "title": "Step 1: Sign up to become or find a host",
-        "copy": "Do you want to open up your garden? <a href=\"{addGardenLink}\">Add it to the map</a>. Are you looking for a camping spot? Pick your favourite garden and contact your host! Arrange a date and time for your stay and off you go!"
+        "copy": "Do you want to open up your garden?  {addGardenLink}. Are you looking for a camping spot? Pick your favourite garden and contact your host! Arrange a date and time for your stay and off you go!",
+        "add-garden-link-text": "Add it to the map"
       },
       {
         "title": "Step 2: Plan your journey",
@@ -42,7 +43,8 @@
     ],
     "faq": {
       "title": "All you need to know",
-      "copy": "Here are the most important things you need to know about your next adventure. Please read this FAQ section thoroughly so that you know what you’re getting yourself into. More questions? Read more in <a href=\"{faqLink}\">our complete FAQ</a>!",
+      "copy": "Here are the most important things you need to know about your next adventure. Please read this FAQ section thoroughly so that you know what you’re getting yourself into. More questions? Read more in {faqLink}!",
+      "faq-link-text": "our complete FAQ",
       "questions": [
         {
           "title": "Who is Welcome To My Garden for?",
@@ -71,7 +73,8 @@
     },
     "support": {
       "title": "Support us",
-      "copy": "Welcome To My Garden is free to use but we have to pay a couple of bills. <a href=\"https://opencollective.com/welcometomygarden\" target=\"_blank\">Make a donation</a> to keep us going!"
+      "copy": "Welcome To My Garden is free to use but we have to pay a couple of bills. {donationLink} to keep us going!",
+      "donation-link-text": "Make a donation"
     },
     "holiday-donations": {
       "title": "Everyone deserves a holiday",
@@ -302,7 +305,7 @@
     },
     "drawer": {
       "facilities": {
-        "capacity": "Space for <strong>{capacity}</strong> {capacity, plural, one {tent} other {tents}}"
+        "capacity": "Space for {styleCapacity} {capacity, plural, one {tent} other {tents}}"
       },
       "owner": {
         "your-garden": "Your Garden",
@@ -310,7 +313,8 @@
       },
       "guest": {
         "button": "Contact host",
-        "login": "You must <a class='link' href={addSignInLink}>sign in</a> to contact hosts"
+        "login": "You must {signInLink} to contact hosts",
+        "sign-link-text": "sign in"
       },
       "unclaimed": "You can contact this host as soon as they have created their account."
     },
@@ -322,14 +326,18 @@
     },
     "form": {
       "title": "Add your garden to the map",
-      "auth-notice": "You must be signed in to add your garden to the map. Either <a class=\"link\" href={addSignInLink}>sign in</a> or <a class=\"link\" href={addRegisterLink}>create an account.</a>",
-      "email-confirm-notice": "You need to verify your email before you add your garden to the map. We sent you an email when you created your account. You can resend a verification link from your <a class=\"link\" href={addAccountLink}>your profile.</a>",
-      "normal-notice": "By submitting this form, your garden will be added to the map. You can manage or remove it at any time from <a class='link' href={addAccountLink}>your profile.</a>",
+      "auth-notice": "You must be signed in to add your garden to the map. Either {signInLink} or {registerLink}.",
+      "sign-in-link-text": "sign in",
+      "register-link-text": "create an account",
+      "email-confirm-notice": "You need to verify your email before you add your garden to the map. We sent you an email when you created your account. You can resend a verification link from {accountLink}.",
+      "normal-notice": "By submitting this form, your garden will be added to the map. You can manage or remove it at any time from {accountLink}.",
+      "account-link-text": "your profile",
       "location": {
         "title": "Location (required)",
         "notice": "Move the marker to set the location of your garden. You can fill in the address fields to move the marker closer to you. <br /> We don't store your address information.",
         "coordinate-hint": "Make sure you have dragged the map marker to the exact location of your garden, and have clicked \"Confirm pin location\"",
-        "button": "{locationConfirmed, select, true {Adjust} false {Confirm}} pin location",
+        "confirm-button": "Confirm pin location",
+        "adjust-button": "Adjust pin location",
         "street": "Street",
         "house-number": "House number",
         "region": "Province or State",
@@ -364,7 +372,8 @@
           "too-large": "Your image is too large. An image's file size should be 5MB or smaller."
         }
       },
-      "button": "{isUpdate, select, true {Update} false {Add}} your garden",
+      "add-button": "Add your garden",
+      "update-button": "Update your garden",
       "invalid": "Some information was not valid. Please check your submitted information for errors."
     }
   },

@@ -70,7 +70,9 @@
   <Map lat={coordinates.latitude} lon={coordinates.longitude} recenterOnUpdate={true} zoom="6">
     {#if isAddressConfirmShown}
       <Button type="button" small inverse={locationConfirmed} on:click={toggleLocationConfirmed}>
-        {$_('garden.form.location.button', { values: { locationConfirmed } })}
+        {#if locationConfirmed}
+          {$_('garden.form.location.adjust-button')}
+        {:else}{$_('garden.form.location.confirm-button')}{/if}
       </Button>
     {/if}
     <DraggableMarker
