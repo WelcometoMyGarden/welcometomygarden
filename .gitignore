@@ -32,6 +32,7 @@ node_modules
 public/data
 public/build
 public/bundle
+dist
 
 .env*
 .firebase
