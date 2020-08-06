@@ -142,8 +142,7 @@
     display: inline-block;
   }
 
-  .attribution a,
-  #attributionLink {
+  .attribution :global(a) {
     text-decoration: underline;
   }
 
