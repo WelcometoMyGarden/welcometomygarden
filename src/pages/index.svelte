@@ -4,7 +4,7 @@
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
   import { Button } from '../components/UI';
-  import { getArrayFromLocale } from '@/util';
+  import { getArrayFromLocale, transKeyExists } from '@/util';
   import { user } from '@/stores/auth';
 
   import Logo from '../images/logo.svg';
@@ -76,13 +76,7 @@
       </div>
       <h2 class="step-header">{title}</h2>
       <p class="step-text">
-        {@html $_(`index.steps.${i}.copy`, {
-          values: {
-            addGardenLink: `<a href=${routes.ADD_GARDEN}>${$_(
-              `index.steps.${i}.add-garden-link-text`
-            )}</a>`
-          }
-        })}
+        {@html $_(`index.steps.${i}.copy`, transKeyExists(`index.steps.${i}.add-garden-link-text`) ? { values: { addGardenLink: `<a href=${routes.ADD_GARDEN}>${$_(`index.steps.${i}.add-garden-link-text`)}</a>` } } : undefined)}
       </p>
     </div>
   {/each}
