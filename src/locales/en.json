@@ -29,7 +29,8 @@
     "steps": [
       {
         "title": "Step 1: Sign up to become or find a host",
-        "copy": "Do you want to open up your garden? <a href=\"{addGardenLink}\">Add it to the map</a>. Are you looking for a camping spot? Pick your favourite garden and contact your host! Arrange a date and time for your stay and off you go!"
+        "copy": "Do you want to open up your garden?  {addGardenLink}. Are you looking for a camping spot? Pick your favourite garden and contact your host! Arrange a date and time for your stay and off you go!",
+        "add-garden-link-text": "Add it to the map"
       },
       {
         "title": "Step 2: Plan your journey",
@@ -42,7 +43,8 @@
     ],
     "faq": {
       "title": "All you need to know",
-      "copy": "Here are the most important things you need to know about your next adventure. Please read this FAQ section thoroughly so that you know what you’re getting yourself into. More questions? Read more in <a href=\"{faqLink}\">our complete FAQ</a>!",
+      "copy": "Here are the most important things you need to know about your next adventure. Please read this FAQ section thoroughly so that you know what you’re getting yourself into. More questions? Read more in {faqLink}!",
+      "faq-link-text": "our complete FAQ",
       "questions": [
         {
           "title": "Who is Welcome To My Garden for?",
@@ -71,7 +73,8 @@
     },
     "support": {
       "title": "Support us",
-      "copy": "Welcome To My Garden is free to use but we have to pay a couple of bills. <a href=\"https://opencollective.com/welcometomygarden\" target=\"_blank\">Make a donation</a> to keep us going!"
+      "copy": "Welcome To My Garden is free to use but we have to pay a couple of bills. {donationLink} to keep us going!",
+      "donation-link-text": "Make a donation"
     },
     "holiday-donations": {
       "title": "Everyone deserves a holiday",
@@ -288,6 +291,173 @@
       }
     ]
   },
+  "privacy-policy": {
+    "title": "Privacy policy",
+    "last-updated": "Last updated: 30 May 2020",
+    "subtitle": "Responsible for the processing of the Data and Owner",
+    "intro": " Welcome To My Garden with Open Collective Europe ASBL as legal entity, a not-for-profit organization, incorporated and existing under the laws of Belgium, with registered office at 12 Cantersteen 1000 Brussels, Belgium, with company number 0680.493.996.",
+    "email": "Email: {support}",
+    "scope": {
+      "title": "Privacy Policy",
+      "copy": "This ‘Privacy Policy’ applies to the ‘Personal Data’ collected by Welcome To My Garden through this website."
+    },
+    "personal-data": {
+      "meaning": {
+        "title": "What does personal data mean?",
+        "copy": "In this Privacy Policy, Personal Data refers to information that makes it possible to identify you. An identifiable person is someone who can be identified, either directly or indirectly, in particular by referring to an identification number or to one or more factors that are linked to physical, physiological, mental, economic, cultural or social identity. A typical example of personal information is your name and email address."
+      },
+      "collection": {
+        "title": "We collect your Personal Data from the following three sources",
+        "sources": [
+          {
+            "title": "3.1 Personal Data that you provide during the registration process on the platform.",
+            "list": [
+              "Email address (mandatory)",
+              "Your first and last name (mandatory)",
+              "Your country (mandatory)",
+              "Your consent to these terms"
+            ]
+          },
+          {
+            "title": "3.2 Personal Data that we collect when you visit our website.",
+            "list": [
+              "We use cookies to automatically collect personal data about you when you use this website. For more information, please consult our Cookie Policy."
+            ]
+          },
+          {
+            "title": "3.3. Personal Data that you provide when adding your garden to your account.",
+            "list": [
+              "Your garden's location (coordinates: the latitude and longitude) (mandatory)",
+              "Information about your garden (description, facilities, the amount of tents you can welcome) (mandatory)",
+              "Languages spoken (mandatory)",
+              "A picture of your garden (optional)"
+            ]
+          }
+        ]
+      },
+      "usage": {
+        "title": "How do we use personal data?",
+        "subtitle": "We might use your personal data for the following purposes",
+        "purposes": [
+          "To create and maintain your user profile on this website;",
+          "To manage the identification and authentication of users;",
+          "To verify your user account in order to guarantee the necessary security measures;",
+          "To provide information about your garden to the community of users;",
+          "To alert you when updates are taking place on the platform;",
+          "To alert you when activities on the platform may interest you."
+        ],
+        "copy": "The personal data is only stored and processed for the period required for the purpose of the processing. After that, the data will be deleted or anonymized. Welcome To My Garden relies on Firebase which is certified under major privacy and security standards. Firebase services are GDPR compliant. All information related to Firebase can be found <a href=\"https://firebase.google.com/support/privacy\">here</a>."
+      },
+      "extra": [
+        {
+          "title": "With whom do whe share your personal data?",
+          "copy": " Your personal data will not be shared with any third party. We will never sell or rent your personal data to other service providers, nor will we share your Personal Data with any service providers who are not compliant with the GDPR."
+        },
+        {
+          "title": "Where do we transfer your personal data to?",
+          "copy": "We only transfer your Personal Data to service providers established outside the European Economic Area if they comply to art 44 GDPR. All US-based service providers comply with Privacy Shield."
+        },
+        {
+          "title": "Automated decision-making and profiling",
+          "copy": "The processing of your personal data does not include profiling and will not be subjected to automated decision-making by Welcome To My Garden."
+        }
+      ]
+    },
+    "rights": {
+      "title": "You have the right to view your personal data at any time, as well as the right to be informed of the use that Welcome To My Garden makes of your personal data.",
+      "list": [
+        {
+          "title": "Right to rectification, removal and restriction of processing",
+          "copy": "You are free to decide whether or not to provide your personal data to Welcome To My Garden. In addition, you always have the right to amend, supplement or remove your personal data at Welcome To My Garden. You acknowledge that a refusal to provide or a request for the removal of personal data means that certain services can no longer be delivered. You may also request the limitation of the processing of your personal data."
+        },
+        {
+          "title": "Right to object",
+          "copy": "You have the right to object to the processing of your personal data, as long as this is for serious and legitimate reasons."
+        },
+        {
+          "title": "Right to data portability",
+          "copy": " You have the right to obtain the personal data you have provided to Welcome To My Garden in a structured, typical and machine-readable form and/or transfer it to different controllers."
+        },
+        {
+          "title": "Right to withdraw consent",
+          "copy": "Insofar as the processing is based on your prior consent, you have the right to withdraw this approval."
+        },
+        {
+          "title": "Right to lodge a complaint",
+          "copy": "You have the right to lodge a complaint to the Belgian Privacy Commission: Personal Privacy Protection Commission, Drukpersstraat 35, 1000 Brussels, Belgium, Tel +32 (0)2 274 48 00, Fax +32 (0)2 274 48 35, email: commission@privacycommission.be. This does not affect relief before a civil court."
+        }
+      ],
+      "exercise-rights": {
+        "title": "Exercising your rights",
+        "copy": "You can exercise your rights by contacting Welcome To My Garden to this end by sending an email to {support}, provided you enclose a copy of your identity card"
+      }
+    },
+    "additional-info": {
+      "title": "Additional information on data collection and processing",
+      "infos": [
+        {
+          "title": "Legal procedures",
+          "copy": [
+            "The Processor and the Controller for the processing of the Data might use the Personal Data of the User for legal purposes, for the court or legal proceedings in the event of unlawful use of this Application or the related services.",
+            "The User is aware that the Processor and the Data Controller might be obliged to disclose the personal data at the request of competent government institutions for the processing of the Data."
+          ]
+        },
+        {
+          "title": "Security measures",
+          "copy": [
+            "Welcome To My Garden has developed security measures which have been adjusted at the technological and organisational level to prevent the destruction, loss, falsification, changing, prohibited access or the erroneous disclosure to third parties of personal data as well as any other prohibited processing of this data.",
+            "Under no circumstances can Welcome To My Garden be held liable for any direct or indirect loss resulting from the incorrect or unlawful use of your personal data by a third party.",
+            "You must at all times comply with the security instructions, which includes preventing all prohibited access to your login details including your password. You are solely responsible for the usage of the website on your computer, from your IP-address and with your identification details, as well as for keeping these confidential."
+          ]
+        }
+      ]
+    },
+    "definitions": {
+      "title": "Definitions and legal framework",
+      "articles": [
+        {
+          "title": "Personal data (or Data)",
+          "copy": "All information regarding a natural person, a legal person, an institution or an association that has been or might be identified directly or indirectly by reference to other information."
+        },
+        {
+          "title": "Usage data",
+          "copy": "Information that is automatically collected from this Application (or external services used in this Application), including: the IP addresses or domain names of the computers used by the Users of this Application, the URI (Uniform Resource Identifier) ​​addresses, the time of the request, the method used to submit the request to the server, the size of the file received in response to it, the numerical code indicating the status of the server response (successful, error, etc.), the functions of the browser and the operating system of the User, the different time data per visit (such as the time spent on each page of the application) and the data collected while using the application (example : the order of pages visited or other parameters about the operating system of the device)."
+        },
+        {
+          "title": "User",
+          "copy": "The person using this Application and who must agree with or be authorized by the Data Subject to whom the Personal Data refer."
+        },
+        {
+          "title": "The person concerned",
+          "copy": "The legal person or natural person to whom the Personal Data relate."
+        },
+        {
+          "title": "Data processor (or Data supervisor)",
+          "copy": "The natural person, legal entity, government administration or any other institution, association or organization that has been authorized by the Data Controller to process the Personal Data in accordance with this privacy policy."
+        },
+        {
+          "title": "Responsible for the processing of the data (or Owner)",
+          "copy": "The natural person, legal person, government administration or any other institution, association or organization with the right, also jointly with the Controller for the processing of the Data to make decisions regarding the purposes and methods of processing Personal Data and the means used, including security measures regarding the exploitation and use of this Application. The Controller for the processing of the Data is the Owner of this Application, unless otherwise indicated."
+        },
+        {
+          "title": "This Application",
+          "copy": "The hardware or software tools through which the Personal Data of the User are collected."
+        },
+        {
+          "title": "Cookie",
+          "copy": "Small chunk of data stored on the User's device. See our Cookie policy."
+        }
+      ],
+      "legal-info": {
+        "title": "Legal information",
+        "copy": "Notice to European Users: this privacy statement has been drawn up with due observance of the obligations in art. 10 of the European Directive 95/46 / EC and the provisions of European Directive 2002/58 / EC, as well as the revision in Directive 2009/136 / EC regarding cookies."
+      }
+    },
+    "change-warning": {
+      "title": "Changes to this privacy policy",
+      "copy": "The Controller for the processing of the Data reserves the right to change this privacy policy at any time by notifying Users on this page. We encourage you to check this page for possible changes. The date of the last change is indicated at the bottom of the page. If a User objects to any change in the policy, the User must not continue to use this Application. One might request the Controller for the processing of the Data to delete the Personal Data. Unless otherwise indicated, the valid Privacy Policy applicable at that time applies to all Personal Data that the Controller has stored for the processing of the Data about Users."
+    }
+  },
   "garden": {
     "facilities": {
       "labels": {
@@ -302,7 +472,7 @@
     },
     "drawer": {
       "facilities": {
-        "capacity": "Space for <strong>{capacity}</strong> {capacity, plural, one {tent} other {tents}}"
+        "capacity": "Space for {styleCapacity} {capacity, plural, one {tent} other {tents}}"
       },
       "owner": {
         "your-garden": "Your Garden",
@@ -310,7 +480,8 @@
       },
       "guest": {
         "button": "Contact host",
-        "login": "You must <a class='link' href={addSignInLink}>sign in</a> to contact hosts"
+        "login": "You must {signInLink} to contact hosts",
+        "sign-link-text": "sign in"
       },
       "unclaimed": "You can contact this host as soon as they have created their account."
     },
@@ -322,14 +493,18 @@
     },
     "form": {
       "title": "Add your garden to the map",
-      "auth-notice": "You must be signed in to add your garden to the map. Either <a class=\"link\" href={addSignInLink}>sign in</a> or <a class=\"link\" href={addRegisterLink}>create an account.</a>",
-      "email-confirm-notice": "You need to verify your email before you add your garden to the map. We sent you an email when you created your account. You can resend a verification link from your <a class=\"link\" href={addAccountLink}>your profile.</a>",
-      "normal-notice": "By submitting this form, your garden will be added to the map. You can manage or remove it at any time from <a class='link' href={addAccountLink}>your profile.</a>",
+      "auth-notice": "You must be signed in to add your garden to the map. Either {signInLink} or {registerLink}.",
+      "sign-in-link-text": "sign in",
+      "register-link-text": "create an account",
+      "email-confirm-notice": "You need to verify your email before you add your garden to the map. We sent you an email when you created your account. You can resend a verification link from {accountLink}.",
+      "normal-notice": "By submitting this form, your garden will be added to the map. You can manage or remove it at any time from {accountLink}.",
+      "account-link-text": "your profile",
       "location": {
         "title": "Location (required)",
         "notice": "Move the marker to set the location of your garden. You can fill in the address fields to move the marker closer to you. <br /> We don't store your address information.",
         "coordinate-hint": "Make sure you have dragged the map marker to the exact location of your garden, and have clicked \"Confirm pin location\"",
-        "button": "{locationConfirmed, select, true {Adjust} false {Confirm}} pin location",
+        "confirm-button": "Confirm pin location",
+        "adjust-button": "Adjust pin location",
         "street": "Street",
         "house-number": "House number",
         "region": "Province or State",
@@ -364,7 +539,8 @@
           "too-large": "Your image is too large. An image's file size should be 5MB or smaller."
         }
       },
-      "button": "{isUpdate, select, true {Update} false {Add}} your garden",
+      "add-button": "Add your garden",
+      "update-button": "Update your garden",
       "invalid": "Some information was not valid. Please check your submitted information for errors."
     }
   },

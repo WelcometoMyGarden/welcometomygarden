@@ -184,7 +184,10 @@
       {#if garden && garden.facilities.capacity}
         <p class="mt-m capacity">
           {@html $_('garden.drawer.facilities.capacity', {
-            values: { capacity: garden.facilities.capacity }
+            values: {
+              capacity: garden.facilities.capacity,
+              styleCapacity: `<strong>${garden.facilities.capacity}</strong>`
+            }
           })}
         </p>
       {/if}
@@ -203,7 +206,13 @@
       {:else if garden}
         {#if !$user}
           <p class="cta-hint">
-            {@html $_('garden.drawer.guest.login', { values: { addSignInLink: routes.SIGN_IN } })}
+            {@html $_('garden.drawer.guest.login', {
+              values: {
+                signInLink: `<a class='link' href=${routes.SIGN_IN}>${$_(
+                  'garden.drawer.guest.sign-link-text'
+                )}</a>`
+              }
+            })}
           </p>
         {:else if garden.unclaimed}
           <p class="cta-hint">{$_('garden.drawer.unclaimed')}</p>

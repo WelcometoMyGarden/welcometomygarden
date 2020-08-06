@@ -4,7 +4,7 @@
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
   import { Button } from '../components/UI';
-  import { getArrayFromLocale } from '@/util';
+  import { getArrayFromLocale, transKeyExists } from '@/util';
   import { user } from '@/stores/auth';
 
   import Logo from '../images/logo.svg';
@@ -76,7 +76,7 @@
       </div>
       <h2 class="step-header">{title}</h2>
       <p class="step-text">
-        {@html $_(`index.steps.${i}.copy`, { values: { addGardenLink: routes.ADD_GARDEN } })}
+        {@html $_(`index.steps.${i}.copy`, transKeyExists(`index.steps.${i}.add-garden-link-text`) ? { values: { addGardenLink: `<a href=${routes.ADD_GARDEN}>${$_(`index.steps.${i}.add-garden-link-text`)}</a>` } } : undefined)}
       </p>
     </div>
   {/each}
@@ -86,7 +86,11 @@
   <div class="card faq-intro">
     <h1 class="heading-underline-center">{$_('index.faq.title')}</h1>
     <p>
-      {@html $_('index.faq.copy', { values: { faqLink: routes.FAQ } })}
+      {@html $_('index.faq.copy', {
+        values: {
+          faqLink: `<a href=${routes.FAQ}>${$_(`index.faq.faq-link-text`)}</a>`
+        }
+      })}
     </p>
   </div>
   <div class="faq-questions">
@@ -95,7 +99,7 @@
 </section>
 
 <section class="cooperation">
- <!--  <div class="card cooperation-card partners">
+  <!--  <div class="card cooperation-card partners">
     <h1 class="heading-underline-center">{$_('index.partners.title')}</h1>
     <div>{$_('index.partners.title')}</div>
   </div> -->
@@ -104,7 +108,13 @@
     <div class="cooperation-content">
       <h1 class="heading-underline-center">{$_('index.support.title')}</h1>
       <p>
-        {@html $_('index.support.copy')}
+        {@html $_('index.support.copy', {
+          values: {
+            donationLink: `<a href=\"https://opencollective.com/welcometomygarden\" target=\"_blank\" rel=\"noopener noreferrer\">${$_(
+              'index.support.donation-link-text'
+            )}</a>`
+          }
+        })}
       </p>
     </div>
   </div>

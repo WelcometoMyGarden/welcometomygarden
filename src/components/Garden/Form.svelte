@@ -154,18 +154,35 @@
         {#if !$user}
           <p class="notice">
             {@html $_('garden.form.auth-notice', {
-              values: { addSignInLink: routes.SIGN_IN, addRegisterLink: routes.REGISTER }
+              values: {
+                signInLink: `<a class='link' href=${routes.SIGN_IN}>${$_(
+                  'garden.form.sign-in-link-text'
+                )}</a>`,
+                registerLink: `<a class='link' href=${routes.REGISTER}>${$_(
+                  'garden.form.register-link-text'
+                )}</a>`
+              }
             })}
           </p>
         {:else if !$user.emailVerified}
           <p class="notice">
             {@html $_('garden.form.email-confirm-notice', {
-              values: { addAccountLink: routes.ACCOUNT }
+              values: {
+                accountLink: `<a class='link' href=${routes.ACCOUNT}>${$_(
+                  'garden.form.account-link-text'
+                )}</a>`
+              }
             })}
           </p>
         {:else}
           <p>
-            {@html $_('garden.form.normal-notice', { values: { addAccountLink: routes.ACCOUNT } })}
+            {@html $_('garden.form.normal-notice', {
+              values: {
+                accountLink: `<a class='link' href=${routes.ACCOUNT}>${$_(
+                  'garden.form.account-link-text'
+                )}</a>`
+              }
+            })}
           </p>
         {/if}
       </div>
@@ -263,7 +280,7 @@
   <section class="section-submit" class:is-not-fillable={!isFillable}>
     <div class="sub-container">
       <Button type="button" disabled={isSubmitting} on:click={handleSubmit} uppercase medium>
-        {$_('garden.form.button', { values: { isUpdate } })}
+        {#if isUpdate}{$_('garden.form.update-button')}{:else}{$_('garden.form.add-button')}{/if}
       </Button>
       {#if !formValid}
         <p class="hint invalid" transition:slide>{$_('garden.form.invalid')}</p>

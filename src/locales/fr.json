@@ -26,7 +26,8 @@
     "steps": [
       {
         "title": "Étape 1: Inscrivez-vous pour devenir ou trouver un.e hôte",
-        "copy": "Souhaitez-vous accueillir dans votre jardin? <a href=\"{addGardenLink}\">Ajoutez-le sur la carte</a>. Si vous cherchez un jardin où poser votre tente, cliquez sur \"Explorer la carte\" et contactez un.e hôte. Mettez-vous d’accord sur une date et c’est parti!"
+        "copy": "Souhaitez-vous accueillir dans votre jardin? {addGardenLink}. Si vous cherchez un jardin où poser votre tente, cliquez sur \"Explorer la carte\" et contactez un.e hôte. Mettez-vous d’accord sur une date et c’est parti!",
+        "add-garden-link-text": "Ajoutez-le sur la carte"
       },
       {
         "title": "Étape 2: Planifiez votre voyage",
@@ -39,7 +40,8 @@
     ],
     "faq": {
       "title": "Tout ce que vous devez savoir",
-      "copy": "Vous trouverez ci-dessous tout ce que vous devez savoir pour partir à l’aventure. Lisez attentivement la section FAQ afin de savoir exactement comment la plateforme fonctionne. Plus de questions? <a href=\"{faqLink}\">Consultez notre FAQ</a>!",
+      "copy": "Vous trouverez ci-dessous tout ce que vous devez savoir pour partir à l’aventure. Lisez attentivement la section FAQ afin de savoir exactement comment la plateforme fonctionne. Plus de questions? {faqLink}!",
+      "faq-link-text": "Consultez notre FAQ",
       "questions": [
         {
           "title": "Pour qui est Welcome To My Garden?",
@@ -68,7 +70,8 @@
     },
     "support": {
       "title": "Soutenez-nous",
-      "copy": "Utiliser Welcome To My Garden est 100% gratuit cependant nous avons quelques factures. <a href=\"https://opencollective.com/welcometomygarden\" target=\"_blank\">Soutenez-nous ici</a> pour nous permettre de continuer à exister!"
+      "copy": "Utiliser Welcome To My Garden est 100% gratuit cependant nous avons quelques factures. {donationLink} pour nous permettre de continuer à exister!",
+      "donation-link-text": "Soutenez-nous ici"
     },
     "holiday-donations": {
       "title": "Tout le monde mérite des vacances",

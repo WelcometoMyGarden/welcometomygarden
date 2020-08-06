@@ -10,7 +10,7 @@
     "map": "Kaart",
     "rules": "Regels",
     "faq": {
-      "acronym": "FaQ",
+      "acronym": "FAQ",
       "explicit": "Veelgestelde vragen"
     },
     "chat": "Chat",
@@ -28,7 +28,8 @@
     "steps": [
       {
         "title": "Stap 1: Meld je aan om een host te worden of te vinden",
-        "copy": "Wil je je tuin openstellen? <a href=\"{addGardenLink}\">Voeg deze toe aan de kaart</a>. Op zoek naar een kampeerplek? Kies je favoriete tuin en contacteer je host! Spreek een datum en tijdstip af voor jouw verblijf en je bent vertrokken! "
+        "copy": "Wil je je tuin openstellen? {addGardenLink}. Op zoek naar een kampeerplek? Kies je favoriete tuin en contacteer je host! Spreek een datum en tijdstip af voor jouw verblijf en je bent vertrokken! ",
+        "add-garden-link-text": "Voeg deze toe aan de kaart"
       },
       {
         "title": "Stap 2: Plan je reis",
@@ -41,7 +42,8 @@
     ],
     "faq": {
       "title": "Alles wat je moet weten",
-      "copy": "Dit zijn de belangrijkste dingen die je moet weten over je volgende avontuur. Lees deze FAQ sectie met veelgestelde vragen aandachtig, zodat je weet waar je aan begint. Meer vragen? <a href=\"{faqLink}\">Lees meer in onze FAQ</a>",
+      "copy": "Dit zijn de belangrijkste dingen die je moet weten over je volgende avontuur. Lees deze FAQ sectie met veelgestelde vragen aandachtig, zodat je weet waar je aan begint. Meer vragen? {faqLink}",
+      "faq-link-text": "Lees meer in onze FAQ",
       "questions": [
         {
           "title": "Voor wie is Welcome To My Garden?",
@@ -70,7 +72,8 @@
     },
     "support": {
       "title": "Steun ons",
-      "copy": "Welcome To My Garden is gratis te gebruiken maar we hebben wel enkele rekeningen te betalen.  <a href=\"https://opencollective.com/welcometomygarden\" target=\"_blank\">Doe een donatie</a> om ons project te steunen."
+      "copy": "Welcome To My Garden is gratis te gebruiken maar we hebben wel enkele rekeningen te betalen.  {donationLink} om ons project te steunen.",
+      "donation-link-text": "Doe een donatie"
     },
     "holiday-donations": {
       "title": "Iedereen verdient vakantie",
