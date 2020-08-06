@@ -10,7 +10,7 @@
     "map": "Kaart",
     "rules": "Regels",
     "faq": {
-      "acronym": "FAQ",
+      "acronym": "FaQ",
       "explicit": "Veelgestelde vragen"
     },
     "chat": "Chat",
@@ -31,11 +31,11 @@
         "copy": "Wil je je tuin openstellen? <a href=\"{addGardenLink}\">Voeg deze toe aan de kaart</a>. Op zoek naar een kampeerplek? Kies je favoriete tuin en contacteer je host! Spreek een datum en tijdstip af voor jouw verblijf en je bent vertrokken! "
       },
       {
-        "title": "Step 2: Plan je reis",
+        "title": "Stap 2: Plan je reis",
         "copy": "Nadat je afspraken gemaakt hebt met jouw host, stippel je de route uit naar je kampeerplek. Stel jezelf voor en zet je tent op voor de nacht."
       },
       {
-        "title": "Step 3: Geniet van de overnachting",
+        "title": "Stap 3: Geniet van de overnachting",
         "copy": "Geniet van jouw verblijf. Of dat nu op je eentje is, samen met vrienden of familie, en of je nog even gezellig wil chillen met de host - het is maar wat beide partijen verkiezen. Neem hartelijk afscheid en zet je fiets- of wandeltocht verder de volgende dag!"
       }
     ],
@@ -232,5 +232,15 @@
         "copy": "Elk probleem of wangedrag moet per e-mail worden gemeld aan Welcome To My Garden (welcometomygardennetwork-at-gmail.com). In geval van wangedrag behouden we het recht om eenzijdig het account van deze persoon te verwijderen (zie Gebruiksvoorwaarden)."
       }
     ]
+  },
+  "chat": {
+    "title": "Chat",
+    "all-conversations": "Alle gesprekken",
+    "no-messages": {
+      "text": "Je hebt nog geen berichten. Selecteer een host {link} om contact met ze op te nemen.",
+      "link": "op de kaart"
+    },
+    "type-message": "Typ uw bericht...",
+    "new": "nieuw"
   }
 }

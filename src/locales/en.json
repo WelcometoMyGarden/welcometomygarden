@@ -8,7 +8,7 @@
     "terms-of-use": "Terms of use",
     "home": "Home",
     "map": "Map",
-    "rules": "Rules",
+    "rules": "Rules yes rules",
     "faq": {
       "acronym": "FAQ",
       "explicit": "Frequently asked questions"
@@ -651,6 +651,33 @@
       "successful": "Your account was created successfully! Please check your email to verify your account.",
       "in-use": "This email address is already in use.",
       "unexpected": "An unexpected error occurred. If the problem persists, please contact {support}"
+    }
+  },
+  "chat": {
+    "title": "Chat",
+    "title-conversation": "Chat with {partnerName}",
+    "all-conversations": "All conversations",
+    "no-messages": {
+      "text": "You don't have any messages yet. Select a host {link} to contact them.",
+      "link": "on the map"
+    },
+    "type-message": "Type your message...",
+    "new": "new",
+    "notify": {
+      "unverified": "Please verify your email before you start chatting",
+      "empty-message": "Your message cannot be empty",
+      "too-long": "Your message is {surplus} {surplus, plural, one {character} other {characters}} too long..."
+    }
+  },
+  "map": {
+    "vehicle-notice": {
+      "title": "Welcome To My Garden is for slow travellers only.",
+      "text": "If you're planning to travel by motorized vehicle, please do not contact hosts via this platform. Thank you for understanding!"
+    },
+    "trails": {
+      "hiking": "Show hiking routes",
+      "cycling": "Show cycling routes",
+      "attribution": "Trails courtesy of {link}"
     }
   }
 }

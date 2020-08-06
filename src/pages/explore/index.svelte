@@ -1,3 +1,7 @@
+<script>
+  import { _ } from 'svelte-i18n';
+</script>
+
 <svelte:head>
-  <title>Explore | Welcome To My Garden</title>
+  <title>{$_('generics.map')} | Welcome To My Garden</title>
 </svelte:head>
