@@ -621,7 +621,8 @@
     "verification": {
       "succes": "Your email address was verified successfully!",
       "refresh": "Your email has already been verified. Please refresh the page.",
-      "expired": "This verification link has expired. Please request a new one."
+      "expired": "This verification link has expired. Please request a new one.",
+      "unsigned": "Please sign in first"
     }
   },
   "register": {
