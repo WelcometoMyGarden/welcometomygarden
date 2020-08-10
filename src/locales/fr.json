@@ -11,7 +11,7 @@
       "acronym": "FAQ",
       "explicit": "Foire aux questions"
     },
-    "chat": "Messagerie",
+    "chat": "Chat",
     "account": "Compte",
     "sign-out": "Déconnexion",
     "sign-in": "Connexion"
@@ -234,6 +234,54 @@
       {
         "title": "J’ai eu un problème avec un.e hôte, comment vous le faire savoir ?",
         "copy": "Tout problème ou mauvais comportement de la part d’un.e hôte ou d’un.e voyageur/voyageuse doit être reporté à Welcome To My Garden par email (welcometomygardennetwork-gmail.com). En cas de comportement inadapté, nous nous réservons le droit de suspendre de manière unilatérale le compte de la personne en question (voir les conditions d’utilisations)."
+      }
+    ]
+  },
+  "cookies": {
+    "title": "Politique d'utilisation des cookies",
+    "articles": [
+      {
+        "title": "1. Que sont les cookies ?",
+        "copy": [
+          "Comme pratiqué couramment par presque tous les sites Web, ce site utilise des cookies. Les cookies sont de minuscules fichiers téléchargés sur votre ordinateur pour améliorer votre expérience en ligne. Cette page décrit les informations qu'ils collectent, comment nous les utilisons et pourquoi nous devons parfois stocker ces cookies. Nous partagerons également comment vous pouvez empêcher le stockage de ces cookies. Cependant, ceci peut déclasser ou «casser» certains éléments de la fonctionnalité du site. Pour plus d'informations générales sur les cookies, <a href=\"https://fr.wikipedia.org/wiki/Cookie_(informatique)\">consultez cet article Wikipedia sur les cookies HTTP.</a>"
+        ]
+      },
+      {
+        "title": "‍2. Comment utilisons-nous des cookies ?",
+        "copy": [
+          "Nous utilisons des cookies pour diverses raisons détaillées ci-dessous. Malheureusement, dans la plupart des cas, il n'y a pas d'option standard pour désactiver les cookies sans désactiver complètement les fonctionnalités qu'ils ajoutent à ce site."
+        ]
+      },
+      {
+        "title": "3. Désactiver les cookies",
+        "copy": [
+          "Vous pouvez empêcher le téléchargement de cookies en ajustant les paramètres de votre navigateur (consultez le menu Aide de votre navigateur pour savoir comment procéder). Veuillez noter que la désactivation des cookies peut affecter la fonctionnalité de ce site et de nombreux autres sites Web que vous visitez. La désactivation des cookies entraînera généralement la désactivation de certaines fonctionnalités de ce site. Néanmoins, si vous souhaitez si vous souhaitez désactiver les cookies, nous vous recommandons d'utiliser Privacy Badger sur Firefox."
+        ]
+      },
+      {
+        "title": "‍4. Les cookies mis en place",
+        "copy": [
+          "Si vous créez un compte sur la plateforme, les cookies utilisés concernent la gestion la gestion du processus d'inscription et l'administration générale. Ces cookies sont généralement supprimés lorsque vous vous déconnectez. Cependant, dans certains cas, ils peuvent être conservés afin d’enregistrer vos préférences de site.",
+          "Nous utilisons des cookies lorsque vous êtes connecté afin que nous puissions nous souvenir de votre utilisation. Cela vous évite d'avoir à vous connecter à chaque fois que vous visitez une nouvelle page. Ces cookies sont généralement supprimés ou effacés lorsque vous vous déconnectez pour assurer votre sécurité en ligne.",
+          "Ce site pourrait offrir des services d'abonnement à la newsletter ou par e-mail à l'avenir. Des cookies peuvent dès lors être utilisés afin d'enregistrer votre inscription ainsi que pour permettre l'affichage de notification n'étant accessibles qu'aux utilisateurs abonnés.",
+          "Lorsque vous soumettez des données via un formulaire, des cookies peuvent être configurés pour mémoriser vos informations d'utilisateur pour une correspondance future.",
+          "Afin de vous offrir une grande expérience sur ce site, nous fournissons la fonctionnalité permettant de définir vos préférences quant à la façon dont ce site fonctionne lorsque vous l'utilisez. Afin de mémoriser vos préférences, nous devons définir des cookies pour que ces informations puissent être rappelées à chaque fois que vous interagissez avec une page qui a enregistré vos préférences."
+        ]
+      },
+      {
+        "title": "5. Cookies utilisés par des tiers",
+        "copy": [
+          "Dans certains cas particuliers, nous utilisons également des cookies fournis par des tiers de confiance. La section suivante détaille les cookies tiers que vous pourriez rencontrer sur ce site.",
+          "Ce site utilise Google Analytics, qui est l'une des solutions d'analyse les plus répandues et les plus fiables sur le Web. Nous l'utilisons pour nous aider à comprendre comment vous utilisez ce site et à découvrir comment nous pouvons améliorer votre expérience. Ces cookies peuvent suivre des éléments tels que le temps que vous passez sur le site et les pages que vous visitez, afin que nous puissions continuer à produire du contenu attrayant.",
+          "Pour plus d'informations sur les cookies de Google Analytics, <a href=\"https://www.google.com/url?q=https://analytics.google.com/analytics/web/%23/&amp;sa=D&amp;ust=1592214262289000\">consultez la page officielle de Google Analytics.</a>",
+          "Des analyses tierces sont utilisées pour suivre et mesurer l'utilisation de ce site afin que nous puissions continuer à produire du contenu engageant. De temps en temps, nous testons de nouvelles fonctionnalités et apportons des modifications subtiles à la manière dont le site est livré. Lorsque nous testons encore de nouvelles fonctionnalités, ces cookies peuvent être utilisés pour vous garantir une expérience cohérente lors de votre visite, tout en nous assurant que nous comprenons quelles optimisations nos utilisateurs apprécient le plus."
+        ]
+      },
+      {
+        "title": "6. Pour plus d’informations",
+        "copy": [
+          "Nous espérons que cette page ait fourni des informations claires. Comme mentionné précédemment, s'il y a quelque chose dont vous n'êtes pas sûr d'avoir besoin ou non, il est généralement plus sûr de laisser les cookies activés - juste au cas où ils interagiraient avec l'une des fonctionnalités que vous utilisez sur notre site. Si vous recherchez toujours plus d'informations, vous pouvez nous contacter à l'adresse {support}."
+        ]
       }
     ]
   }
