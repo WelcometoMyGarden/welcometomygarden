@@ -2815,7 +2815,7 @@ magic-string@^0.24.0:
   dependencies:
     sourcemap-codec "^1.4.1"
 
-magic-string@^0.25.2, magic-string@^0.25.5:
+magic-string@^0.25.2, magic-string@^0.25.5, magic-string@^0.25.7:
   version "0.25.7"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.7.tgz#3f497d6fd34c669c6798dcb821f2ef31f5445051"
   integrity sha512-4CrMT5DOHTDk4HYDlzmwu4FVCcIYI8gauveasrdCu2IKIFOJ3f0v/8MDGJCDL9oD2ppz/Av1b0Nj345H9M+XIA==
@@ -3116,7 +3116,7 @@ node-sass@^4.14.1:
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
 
-nollup@>=0.8.4, nollup@^0.13.2:
+nollup@>=0.8.4:
   version "0.13.2"
   resolved "https://registry.yarnpkg.com/nollup/-/nollup-0.13.2.tgz#58e3a7abe8c165ee527e14e6db08cbc27ce076ca"
   integrity sha512-M+zjYWmIFSHrdo0pa/q459M9WIQ9kOOJv5KkM4sXUBCnA75/SfcIiiA4/z9OVGhxiA5BXtt6G1VX6KE5/XX+Fw==
@@ -3130,6 +3130,23 @@ nollup@>=0.8.4, nollup@^0.13.2:
     express-http-proxy "^1.5.1"
     express-ws "^4.0.0"
     magic-string "^0.24.0"
+    mime-types "^2.1.24"
+    source-map "^0.5.6"
+
+nollup@^0.13.3:
+  version "0.13.3"
+  resolved "https://registry.yarnpkg.com/nollup/-/nollup-0.13.3.tgz#fa009565212d47bffa302f04e76e10c9dba2c9b0"
+  integrity sha512-7QMriWpgK77iqKkVeLzNy6hGbVReJf0IKz6ucdzIlxoQqVCYmaUGJCl2lZC2uyZinEEbKA6g3P3MBR2Kjs2i+A==
+  dependencies:
+    "@rollup/pluginutils" "^3.0.8"
+    acorn "^7.3.1"
+    chokidar "^3.0.0"
+    convert-source-map "^1.5.1"
+    express "^4.16.3"
+    express-history-api-fallback "^2.2.1"
+    express-http-proxy "^1.5.1"
+    express-ws "^4.0.0"
+    magic-string "^0.25.7"
     mime-types "^2.1.24"
     source-map "^0.5.6"
 
