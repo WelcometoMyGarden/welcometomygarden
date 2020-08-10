@@ -64,7 +64,7 @@ export default async () => {
         commonjs(),
 
         !production && isNollup && Hmr({ inMemory: true, public: PUBLIC_DIR }), // refresh only updated code
-        !isNollup && serve(),
+        !isNollup && !production && serve(),
         !production && !isNollup && livereload(BUILD_DIR), // refresh entire window when code is updated
 
         // If we're building for production (npm run build
