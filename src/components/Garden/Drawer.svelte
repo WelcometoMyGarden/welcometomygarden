@@ -33,9 +33,9 @@
 
   function dragBarMove({ detail }) {
     if (previousOffsetCursor !== null) {
-      drawerElement.style.height = `${drawerElement.offsetHeight -
-        previousOffsetCursor +
-        detail.y}px`;
+      drawerElement.style.height = `${
+        drawerElement.offsetHeight - previousOffsetCursor + detail.y
+      }px`;
       previousOffsetCursor = detail.y;
     }
   }
@@ -77,7 +77,7 @@
     }
   };
 
-  const handleClickOutsideDrawer = event => {
+  const handleClickOutsideDrawer = (event) => {
     const { clickEvent } = event.detail;
     // if closing maginified photo view, don't close drawer
     if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) return;
@@ -104,6 +104,11 @@
     }
     isShowingMagnifiedPhoto = true;
     isGettingMagnifiedPhoto = false;
+  };
+
+  const truncateDecimal = (number, keep = 6) => {
+    const tokens = number.toString().split('.');
+    return tokens[0] + '.' + tokens[1].substring(0, keep);
   };
 
   let previousGarden = {};
@@ -145,9 +150,21 @@
   </div>
   {#if ready}
     <section class="main">
-      <Text class="mb-l" weight="bold" size="l">
+      <Text weight="bold" size="l">
         {#if ownedByLoggedInUser}Your Garden{:else}{userInfo.firstName}{/if}
       </Text>
+      {#if garden && garden.location}
+        <small class="mb-l">
+          Location:
+          <a
+            class="link"
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.openstreetmap.org/?mlat={truncateDecimal(garden.location.latitude)}&mlon={truncateDecimal(garden.location.longitude)}&zoom=16">
+            {truncateDecimal(garden.location.latitude)}, {truncateDecimal(garden.location.longitude)}
+          </a>
+        </small>
+      {/if}
       {#if garden && garden.photo}
         <button on:click={magnifyPhoto} class="mb-l button-container image-container">
           {#if photoUrl}
