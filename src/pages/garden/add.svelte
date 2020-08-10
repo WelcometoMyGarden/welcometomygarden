@@ -23,12 +23,11 @@
       });
       await addGardenLocally(newGarden);
       addingGarden = false;
-      notify.success(
-        `Your garden was added successfully! ${
-          newGarden.photo ? 'It may take a minute for its photo to show up.' : ''
-        }`,
-        10000
-      );
+      let notifyMsg;
+      newGarden.photo
+        ? (notifyMsg = $_('garden.notify.success') + ' ' + $_('garden.notify.photo'))
+        : (notifyMsg = $_('garden.notify.success'));
+      notify.success(notifyMsg, 10000);
       $redirect(`${routes.MAP}/garden/${$user.id}`);
     } catch (ex) {
       console.log(ex);

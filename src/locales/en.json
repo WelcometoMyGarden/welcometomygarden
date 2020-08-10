@@ -29,7 +29,7 @@
     "steps": [
       {
         "title": "Step 1: Sign up to become or find a host",
-        "copy": "Do you want to open up your garden?  {addGardenLink}. Are you looking for a camping spot? Pick your favourite garden and contact your host! Arrange a date and time for your stay and off you go!",
+        "copy": "Do you want to open up your garden? {addGardenLink}. Are you looking for a camping spot? Pick your favourite garden and contact your host! Arrange a date and time for your stay and off you go!",
         "add-garden-link-text": "Add it to the map"
       },
       {
@@ -542,6 +542,11 @@
       "add-button": "Add your garden",
       "update-button": "Update your garden",
       "invalid": "Some information was not valid. Please check your submitted information for errors."
+    },
+    "notify": {
+      "success": "Your garden was added successfully!",
+      "update": "Your garden was updated successfully!",
+      "photo": "It may take a minute for its photo to show up."
     }
   },
   "sign-in": {
@@ -556,7 +561,7 @@
       "link": "Register"
     },
     "notify": {
-      "welcome": "Welcome back",
+      "welcome": "Welcome back, {user}!",
       "incorrect": "The provided email or password is incorrect.",
       "login-issue": "We couldn't log you in. If the problem persists, please contact {support}"
     }

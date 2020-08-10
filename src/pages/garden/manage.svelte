@@ -25,12 +25,12 @@
       });
       updatingGarden = false;
       await updateGardenLocally(newGarden);
-      notify.success(
-        `Your garden was updated successfully!  ${
-          newGarden.photo ? 'It may take a minute for its photo to show up.' : ''
-        }`,
-        10000
-      );
+
+      let notifyMsg;
+      newGarden.photo
+        ? (notifyMsg = $_('garden.notify.update') + ' ' + $_('garden.notify.photo'))
+        : (notifyMsg = $_('garden.notify.update'));
+      notify.success(notifyMsg, 10000);
       $goto(`${routes.MAP}/garden/${$user.id}`);
     } catch (ex) {
       console.log(ex);

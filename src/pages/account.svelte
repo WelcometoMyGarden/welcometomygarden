@@ -99,7 +99,6 @@
             {#if !hasResentEmail}
               <div class="resend-verification">
                 <Button
-                  class="resend-verification"
                   uppercase
                   xsmall
                   disabled={isResendingEmail}

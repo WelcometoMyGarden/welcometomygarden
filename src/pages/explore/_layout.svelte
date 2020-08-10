@@ -93,20 +93,16 @@
       <LabeledCheckbox
         name="hiking"
         icon={hikerIcon}
-        label="Show hiking routes"
+        label={$_('map.trails.hiking')}
         bind:checked={showHiking} />
     </div>
     <div>
       <LabeledCheckbox
         name="cycling"
         icon={cyclistIcon}
-        label="Show cycling routes"
+        label={$_('map.trails.cycling')}
         bind:checked={showCycling} />
     </div>
-<!--     <span class="attribution">
-      Trails courtesy of
-      <a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>
-    </span> -->
     <span class="attribution">
       {@html $_('map.trails.attribution', { values: { link: attributionLinkTrails } })}
     </span>

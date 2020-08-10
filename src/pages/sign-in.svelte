@@ -20,7 +20,7 @@
     formError = '';
     try {
       await login(email.value, password.value);
-      notify.success(`${$_('sign-in.notify.welcome')}, ${$user.firstName}!`);
+      notify.success($_('sign-in.notify.welcome', {values: { user: $user.firstName}}));
       $goto(routes.MAP);
     } catch (ex) {
       if (ex.code === 'auth/user-not-found' || ex.code === 'auth/wrong-password')
