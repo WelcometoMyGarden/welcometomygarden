@@ -49,7 +49,7 @@
   margin-top: 1rem;
 }
 
-html, body {
+html, body, #app-container {
   height: 100%;
 }
 
