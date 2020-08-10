@@ -1,0 +1,14 @@
+{
+  "MAPBOX_ACCESS_TOKEN": "",
+  "MAPTILER_ACCESS_TOKEN": "",
+  "FIREBASE": {
+     "apiKey": "",
+     "authDomain": "",
+     "databaseURL": "",
+     "projectId": "",
+     "storageBucket": "",
+     "messagingSenderId": "",
+     "appId": ""
+  },
+  "USE_API_EMULATOR": false
+}

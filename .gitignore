@@ -38,6 +38,8 @@ dist
 .firebase
 wtmg.config*.js
 !wtmg.config.example.js
+wtmg.config*.json
+!wtmg.config.example.json
 
 
 .firebaserc

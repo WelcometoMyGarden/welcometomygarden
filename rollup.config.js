@@ -19,12 +19,10 @@ const PUBLIC_DIR = 'public';
 const DIST_DIR = 'dist';
 const BUILD_DIR = 'dist/build';
 
-export default async () => {
-  const env = process.env.NODE_ENV || 'development';
-  const configModule = await import(
-    `./${env === 'development' ? 'wtmg.config.js' : `wtmg.config.${env}.js`}`
-  );
-  const wtmgConfig = configModule.default;
+const env = process.env.NODE_ENV || 'development';
+const wtmgConfig = require(env === 'development' ? './wtmg.config.json' : `./wtmg.config.${env}.json`);
+
+export default () => {
   rimraf.sync(DIST_DIR);
   return [
     {
@@ -50,8 +48,7 @@ export default async () => {
         svelte({
           // enable run-time checks when not in production
           dev: !production,
-          // we'll extract any component CSS out into
-          // a separate file - better for performance
+          // we'll extract any component CSS out into a separate file - better for performance
           css: (css) => {
             css.write(`${BUILD_DIR}/bundle.css`);
           },
@@ -67,12 +64,11 @@ export default async () => {
         !isNollup && !production && serve(),
         !production && !isNollup && livereload(BUILD_DIR), // refresh entire window when code is updated
 
-        // If we're building for production (npm run build
-        // instead of npm run dev), minify
+        // If we're building for production minify
         production && terser(),
         replace({
           NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-          WTMG_CONFIG: JSON.stringify({ ...wtmgConfig })
+          WTMG_CONFIG: JSON.stringify(wtmgConfig)
         })
       ],
       watch: {
