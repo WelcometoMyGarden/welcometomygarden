@@ -10,6 +10,9 @@
   import Logo from '../images/logo.svg';
   import welcomeMap from '../images/welcome-map.svg';
   import ArrowDown from '../images/arrow-down.svg';
+  import OKLogo from '../images/ok_logo.svg';
+  import VGCLogo from '../images/vgc_logo.svg';
+
   import Step1 from '../images/step-1.svg';
   import Step2 from '../images/step-2.svg';
   import Step3 from '../images/step-3.svg';
@@ -95,10 +98,21 @@
 </section>
 
 <section class="cooperation">
-  <!-- <div class="card cooperation-card partners">
-    <h1 class="heading-underline-center">Our partners</h1>
-    <div>Logos</div>
-  </div> -->
+  <div class="card cooperation-card partners">
+    <h1 class="partner-header heading-underline-center">Our partners</h1>
+    <div class="partner-logos">
+      <div class="partner-logo ok-logo">
+        <a href="https://be.okfn.org/" class="partner-link">
+          {@html OKLogo}
+        </a>
+      </div>
+      <div class="partner-logo vgc-logo">
+        <a href="https://www.vgc.be/staycation" class="partner-link">
+          {@html VGCLogo}
+        </a>
+      </div>
+    </div>
+  </div>
 
   <div class="card cooperation-card support">
     <div class="cooperation-content">
@@ -132,7 +146,7 @@
     font-weight: bold;
     line-height: 9rem;
     font-family: var(--fonts-titles);
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
     color: var(--color-green);
   }
 
@@ -339,18 +353,26 @@
   }
 
   .cooperation-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: grid;
+    grid-template-rows: 0.5fr;
     text-align: center;
-    /* width: 50%; */
-    padding: 12rem 10rem 14rem;
-    flex: 1;
-    align-items: center;
+    width: 50%;
+    padding: 10rem 10rem 8rem 14rem;
   }
 
-  .cooperation-content {
-    max-width: 620px;
+  .partner-logos {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .partner-logo {
+    width: 40%;
+    max-width: 18rem;
+  }
+
+  .vgc-logo {
+    max-width: 10rem;
   }
 
   .support {
@@ -391,7 +413,6 @@
   @media only screen and (max-width: 1300px) {
     h1 {
       font-size: 2.8rem;
-      margin-bottom: 2.3rem;
       line-height: 7.5rem;
     }
 
@@ -455,10 +476,6 @@
       padding-top: 10rem;
     }
 
-    /* .partners {
-      order: 2;
-    } */
-
     .support {
       order: 1;
     }
@@ -492,10 +509,6 @@
   @media only screen and (max-width: 700px) {
     h2 {
       font-size: 1.6rem;
-    }
-
-    p {
-      font-size: 1.4rem;
     }
 
     .learn-more {
@@ -534,13 +547,7 @@
   @media only screen and (max-width: 600px) {
     h1 {
       font-size: 2.2rem;
-      margin-bottom: 2rem;
       line-height: 6.5rem;
-    }
-
-    .heading-underline-center {
-      font-size: 2rem;
-      line-height: 2;
     }
 
     .donate-img-container {
@@ -582,7 +589,6 @@
     h1 {
       font-size: 1.8rem;
       line-height: 5.5rem;
-      margin-bottom: 1.5rem;
     }
 
     h2 {
@@ -591,10 +597,6 @@
 
     .landing {
       padding: 6rem 3rem;
-    }
-
-    .welcome-text {
-      margin-bottom: 2rem;
     }
 
     .welcome-logo {
