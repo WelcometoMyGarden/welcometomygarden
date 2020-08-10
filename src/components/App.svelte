@@ -1,5 +1,4 @@
 <script>
-  import { configure } from '@/config';
   import { Router } from '@sveltech/routify';
   import { routes } from '@sveltech/routify/tmp/routes';
   import { register, locale, init } from 'svelte-i18n';
@@ -45,6 +44,4 @@
   });
 </script>
 
-{#await configure() then config}
-  <Router {routes} />
-{/await}
+<Router {routes} />

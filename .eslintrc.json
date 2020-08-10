@@ -24,6 +24,7 @@
     "no-param-reassign": ["error", { "props": false }]
   },
   "globals": {
-    "NODE_ENV": true
+    "NODE_ENV": true,
+    "WTMG_CONFIG": true
   }
 }
