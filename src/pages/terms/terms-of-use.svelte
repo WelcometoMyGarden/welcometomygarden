@@ -2,8 +2,8 @@
   import { _, locale } from 'svelte-i18n';
   import { getArrayFromLocale, supportEmailLinkString } from '@/util';
 
-  $: intro = getArrayFromLocale('terms-of-use.intro');
-  $: articles = getArrayFromLocale('terms-of-use.articles');
+  $: intro = getArrayFromLocale('terms-of-use.intro', $locale);
+  $: articles = getArrayFromLocale('terms-of-use.articles', $locale);
 </script>
 
 <svelte:head>
@@ -25,18 +25,20 @@
     <!-- {i + 1}. -->
     {@html $_(`terms-of-use.articles.${i}.title`)}
   </h3>
-  {#each getArrayFromLocale(`terms-of-use.articles.${i}.descriptions`) as description, j}
+  {#each getArrayFromLocale(`terms-of-use.articles.${i}.descriptions`, $locale) as description, j}
     <p>
-      {@html $_(`terms-of-use.articles.${i}.descriptions.${j}.copy`)}
+      {@html $_(`terms-of-use.articles.${i}.descriptions.${j}.copy`, {
+        values: { support: supportEmailLinkString }
+      })}
     </p>
   {/each}
-  {#each getArrayFromLocale(`terms-of-use.articles.${i}.info`) as information, k}
+  {#each getArrayFromLocale(`terms-of-use.articles.${i}.info`, $locale) as information, k}
     <p class="info">
       <!-- {i + 1}.{k + 1}. -->
       {@html $_(`terms-of-use.articles.${i}.info.${k}.title`)}
     </p>
     <ol>
-      {#each getArrayFromLocale(`terms-of-use.articles.${i}.info.${k}.sections`) as section, l}
+      {#each getArrayFromLocale(`terms-of-use.articles.${i}.info.${k}.sections`, $locale) as section, l}
         <li class="info-item">
           <h4>
             <!-- {i + 1}.{k + 1}.{l + 1}. -->
@@ -50,13 +52,13 @@
     </ol>
   {/each}
   <ol>
-    {#each getArrayFromLocale(`terms-of-use.articles.${i}.paragraphs`) as paragraph, m}
+    {#each getArrayFromLocale(`terms-of-use.articles.${i}.paragraphs`, $locale) as paragraph, m}
       <li>
         <h4>
           <!-- {i + 1}.{m + 1}. -->
           {@html $_(`terms-of-use.articles.${i}.paragraphs.${m}.title`)}
         </h4>
-        {#each getArrayFromLocale(`terms-of-use.articles.${i}.paragraphs.${m}.copy`) as copy, n}
+        {#each getArrayFromLocale(`terms-of-use.articles.${i}.paragraphs.${m}.copy`, $locale) as copy, n}
           <p>
             {@html $_(`terms-of-use.articles.${i}.paragraphs.${m}.copy.${n}`)}
           </p>
