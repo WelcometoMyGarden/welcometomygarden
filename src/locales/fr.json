@@ -297,11 +297,11 @@
     },
     "personal-data": {
       "meaning": {
-        "title": "2. Que signifie le terme de données personnelles ?",
+        "title": "2. Que signifie le terme de données personnelles?",
         "copy": "Dans cette politique de confidentialité, les données personnelles font référence à des informations permettant de vous identifier. Une personne identifiable est une personne qui peut être identifiée, directement ou indirectement, notamment en se référant à un numéro d'identification ou à un ou plusieurs facteurs liés à l'identité physique, physiologique, mentale, économique, culturelle ou sociale. Un exemple typique d'informations personnelles est votre nom et votre adresse email."
       },
       "collection": {
-        "title": "3. Nous pouvons collecter vos données personnelles à partir des trois sources suivantes:",
+        "title": "3. Quelles données personnelles collectons-nous?",
         "copy": "Nous pouvons collecter vos données personnelles à partir des sources suivantes:",
         "sources": [
           {
