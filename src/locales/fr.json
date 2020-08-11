@@ -292,19 +292,20 @@
     "intro": "Welcome To My Garden, avec Open Collective Europe ASBL comme entité légale, est une organisation sans but lucratif, existant sous la loi de Belgique et ayant ses bureaux enregistrés à Cantersteen 12, 1000 Bruxelles Belgique, avec le numéro d’entreprise 0680.493.996.",
     "email": "Email : {support}",
     "scope": {
-      "title": "Politique de confidentialité",
+      "title": "1. Politique de confidentialité",
       "copy": "Cette 'politique de confidentialité' s'applique aux 'données personnelles' collectées par Welcome To My Garden via ce site web."
     },
     "personal-data": {
       "meaning": {
-        "title": "Que signifie le terme de données personnelles ?",
+        "title": "2. Que signifie le terme de données personnelles ?",
         "copy": "Dans cette politique de confidentialité, les données personnelles font référence à des informations permettant de vous identifier. Une personne identifiable est une personne qui peut être identifiée, directement ou indirectement, notamment en se référant à un numéro d'identification ou à un ou plusieurs facteurs liés à l'identité physique, physiologique, mentale, économique, culturelle ou sociale. Un exemple typique d'informations personnelles est votre nom et votre adresse email."
       },
       "collection": {
-        "title": "Nous pouvons collecter vos données personnelles à partir des trois sources suivantes:",
+        "title": "3. Nous pouvons collecter vos données personnelles à partir des trois sources suivantes:",
+        "copy": "Nous pouvons collecter vos données personnelles à partir des sources suivantes:",
         "sources": [
           {
-            "title": "Données personnelles que vous fournissez lors de l'inscription sur la plateforme.",
+            "title": "3.1 Données personnelles que vous fournissez lors de l'inscription sur la plateforme.",
             "list": [
               "Adresse email (obligatoire)",
               "Votre prénom et nom (obligatoire)",
@@ -313,13 +314,13 @@
             ]
           },
           {
-            "title": "Données personnelles que nous collectons lorsque vous visitez notre site web.",
+            "title": "3.2 Données personnelles que nous collectons lorsque vous visitez notre site web.",
             "list": [
               "Nous utilisons des cookies pour collecter automatiquement des données personnelles vous concernant lorsque vous utilisez ce site Web. Pour plus d'informations, veuillez consulter notre politique en matière de cookies."
             ]
           },
           {
-            "title": "Données personnelles que vous fournissez lors de l'ajout de votre jardin à votre compte.",
+            "title": "3.3 Données personnelles que vous fournissez lors de l'ajout de votre jardin à votre compte.",
             "list": [
               "L'emplacement de votre jardin (coordonnées: latitude et longitude) (obligatoire)",
               "Informations sur votre jardin (description, équipements, nombre de tentes que vous pouvez accueillir) (obligatoire)",
@@ -330,7 +331,7 @@
         ]
       },
       "usage": {
-        "title": "Comment utilisons-nous vos données personnelles ?",
+        "title": "4. Comment utilisons-nous vos données personnelles ?",
         "subtitle": "Nous pouvons utiliser vos données personnelles aux fins suivantes:",
         "purposes": [
           "Pour créer et maintenir votre profil d'utilisateur sur ce site Web;",
@@ -344,45 +345,46 @@
       },
       "extra": [
         {
-          "title": "Avec qui partageons-nous vos données personnelles ?",
-          "copy": " Vos données personnelles ne seront partagées avec aucun tiers. De plus, vos données personnelles ne seront jamais partagées à des prestataires de services non conformes au Règlement général de protection des données."
+          "title": "5. Avec qui partageons-nous vos données personnelles ?",
+          "copy": "Vos données personnelles ne seront partagées avec aucun tiers. De plus, vos données personnelles ne seront jamais partagées à des prestataires de services non conformes au Règlement général de protection des données."
         },
         {
-          "title": "Où transférons-nous vos données personnelles ?",
+          "title": "6. Où transférons-nous vos données personnelles ?",
           "copy": "Nous ne transférons vos données personnelles à des prestataires de services établis en dehors de l'Espace économique européen que s'ils sont conformes à l'article 44 du RGPD. Tous les fournisseurs de services basés aux États-Unis se conforment aux réglementations de protection des données."
         },
         {
-          "title": "Prise de décision et profilage automatisés",
+          "title": "7. Prise de décision et profilage automatisés",
           "copy": "Le traitement de vos données personnelles n'inclut pas le profilage et ne sera pas soumis à une prise de décision automatisée par Welcome To My Garden."
         }
       ]
     },
     "rights": {
-      "title": "Vous avez le droit de consulter vos données personnelles à tout moment, ainsi que le droit d'être informé de l'utilisation que Welcome To My Garden fait de vos données personnelles.",
+      "title": "8. Quels droits avez-vous?",
+      "copy": "Vous avez le droit de consulter vos données personnelles à tout moment, ainsi que le droit d'être informé de l'utilisation que Welcome To My Garden fait de vos données personnelles.",
       "list": [
         {
-          "title": "Droit de rectification, de suppression et de restriction du traitement",
+          "title": "8.1 Droit de rectification, de suppression et de restriction du traitement",
           "copy": "Vous êtes libre de décider de fournir ou non vos données personnelles à Welcome To My Garden. De plus, vous avez toujours le droit de modifier, compléter ou supprimer vos données personnelles sur Welcome To My Garden. Vous reconnaissez qu'un refus de fournir ou une demande de suppression de données personnelles signifie que certains services ne pourront vous être fournis."
         },
         {
-          "title": "Droit d'opposition",
+          "title": "8.2 Droit d'opposition",
           "copy": "Vous avez le droit de vous opposer au traitement de vos données personnelles, pour autant que cela soit pour des raisons sérieuses et légitimes."
         },
         {
-          "title": "Droit à la portabilité des données",
+          "title": "8.3 Droit à la portabilité des données",
           "copy": "Vous avez le droit d'obtenir les données personnelles que vous avez fournies à Welcome To My Garden sous une forme structurée et lisible par machine et/ou de les transférer vers des contrôleurs différents."
         },
         {
-          "title": "Droit de retirer son consentement",
+          "title": "8.4 Droit de retirer son consentement",
           "copy": "Dans la mesure où le traitement des données est basé sur votre accord préalable, vous avez le droit de retirer cette approbation."
         },
         {
-          "title": "Droit de porter plainte",
+          "title": "8.5 Droit de porter plainte",
           "copy": "Vous avez le droit de déposer une plainte auprès de la Commission belge de la protection de la vie privée: Commission de la protection de la vie privée, Drukpersstraat 35, 1000 Bruxelles, Belgique, Tél +32 (0) 2 274 48 00, Fax +32 (0) 2 274 48 35, email : commission@privacycommission.be. Cela n'affecte pas la réparation devant un tribunal civil."
         }
       ],
       "exercise-rights": {
-        "title": "Exercice de vos droits",
+        "title": "9. Exercice de vos droits",
         "copy": "Vous pouvez exercer vos droits en contactant Welcome To My Garden par email à {support}, à condition que l'adresse e-mail utilisée pour la demande soit identique à celle utilisée pour l’inscription sur la plateforme."
       }
     },
