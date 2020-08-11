@@ -494,61 +494,61 @@
       "title": "Beheer uw tuin"
     },
     "form": {
-      "title": null,
-      "auth-notice": null,
-      "sign-in-link-text": null,
-      "register-link-text": null,
-      "email-confirm-notice": null,
-      "normal-notice": null,
-      "account-link-text": null,
+      "title": "Voeg uw tuin toe aan de kaart",
+      "auth-notice": "U moet ingelogd zijn om uw tuin aan de kaart toe te voegen. Ofwel {signInLink} of {registerLink}",
+      "sign-in-link-text": "Log in",
+      "register-link-text": "een account aanmaken",
+      "email-confirm-notice": "U moet uw e-mail controleren voordat u uw tuin aan de kaart toevoegt. We hebben u een e-mail gestuurd toen u uw account aanmaakte. U kunt een verificatielink opnieuw versturen vanuit {accountLink}.",
+      "normal-notice": "Door het indienen van dit formulier wordt uw tuin aan de kaart toegevoegd. U kunt het te allen tijde beheren of verwijderen van {accountLink}.",
+      "account-link-text": "uw account",
       "location": {
-        "title": null,
-        "notice": null,
-        "coordinate-hint": null,
-        "confirm-button": null,
-        "adjust-button": null,
-        "street": null,
-        "house-number": null,
-        "region": null,
-        "postal-code": null,
-        "city": null,
-        "country": null
+        "title": "Locatie (verplicht)",
+        "notice": "Verplaats de marker om de locatie van uw tuin in te stellen. U kunt de adresvelden invullen om de marker dichter bij u te verplaatsen. <br /> Wij slaan uw adresgegevens niet op.",
+        "coordinate-hint": "Zorg ervoor dat u de kaartmarkering naar de exacte locatie van uw tuin hebt gesleept en op \"Bevestig pinlocatie\" hebt geklikt.",
+        "confirm-button": "Bevestig pinlocatie",
+        "adjust-button": "Aanpassen pinlocatie",
+        "street": "Straat",
+        "house-number": "Huisnummer",
+        "region": "Provincie of Staat",
+        "postal-code": "Postcode",
+        "city": "Stad",
+        "country": "Land"
       },
       "description": {
-        "title": null,
-        "notice": null,
+        "title": "Beschrijf uw kampeerplaats (verplicht)",
+        "notice": "Een korte beschrijving van uw tuin en de kampeerplek die u kunt aanbieden. Deze informatie wordt in het openbaar weergegeven, dus vermeld hier geen persoonlijke gegevens. <br />Uw beschrijving moet tussen 20 en 300 karakters zijn.",
         "hints": {
-          "too-short": null,
-          "too-long": null
+          "too-short": "{remaining} nog {remaining, plural, one {karakter} other {karakters}}  nodig...",
+          "too-long": "{surplus} {surplus, plural, one {karakter} other {karakters}} te lang..."
         },
-        "placeholder": null,
-        "label": null
+        "placeholder": "Voer de beschrijving in...",
+        "label": "Beschrijving"
       },
       "facilities": {
-        "title": null,
-        "notice": null,
+        "title": "Voorzieningen",
+        "notice": "Tot welke voorzieningen hebben reizigers toegang?",
         "capacity": {
-          "label": null,
-          "help": null
+          "label": "Capaciteit (vereist)",
+          "help": "Hoeveel tenten heeft u ruimte voor (schatting)"
         }
       },
       "photo": {
-        "title": null,
-        "notice": null,
-        "img-alt": null,
+        "title": "Foto",
+        "notice": "Laat de mensen zien hoe uw tuin eruit ziet.<br />Zorg ervoor dat de foto alleen de kampeerplek laat zien en niet het huis van uw buurman.",
+        "img-alt": "Uw tuin",
         "hints": {
-          "wrong-format": null,
-          "too-large": null
+          "wrong-format": "Uw foto moet een JPEG-, PNG- of TIFF-bestand zijn.",
+          "too-large": "Je foto is te groot. De bestandsgrootte van een foto moet 5MB of kleiner zijn."
         }
       },
-      "add-button": null,
-      "update-button": null,
-      "invalid": null
+      "add-button": "Voeg uw tuin toe",
+      "update-button": "Actualiseer uw tuin",
+      "invalid": "Sommige informatie was niet geldig. Controleer de door u verstrekte informatie op fouten."
     },
     "notify": {
-      "success": null,
-      "update": null,
-      "photo": null
+      "success": "Uw tuin is succesvol toegevoegd!",
+      "update": "Uw tuin werd met succes geüpdatet!",
+      "photo": "Het kan een minuut duren voordat de foto verschijnt."
     }
   },
   "sign-in": {
@@ -569,100 +569,100 @@
     }
   },
   "request-password-reset": {
-    "title": null,
-    "description": null,
-    "button": null,
-    "set": null,
-    "trouble": null
+    "title": "Stel een nieuw wachtwoord in",
+    "description": "Als u het onderstaande formulier indient, kunnen wij u een unieke link sturen waarmee u uw wachtwoord kunt resetten.",
+    "button": "Instructies voor het herstellen van uw e-mail",
+    "set": "Als er een account bestaat met de e-mail {email}, wordt er nu een e-mail gestuurd met instructies voor het herstellen van het wachtwoord.",
+    "trouble": "Heb je moeite met inloggen? contacteer ons via {support} en we helpen u verder!"
   },
   "reset-password": {
-    "title": null,
-    "update": null,
-    "succes": null
+    "title": "Stel een nieuw wachtwoord in",
+    "update": "Wachtwoord wijzigen",
+    "succes": "Uw wachtwoord is succesvol gereset"
   },
   "account": {
-    "title": null,
+    "title": "Account",
     "verify": {
-      "title": null,
-      "text": null,
-      "button": null,
-      "sent": null
+      "title": "Bevestig uw e-mail",
+      "text": "U moet uw e-mailadres controleren als u wilt chatten of een tuin wilt toevoegen.",
+      "button": "E-mail opnieuw versturen",
+      "sent": "E-mail verzonden!"
     },
     "preferences": {
-      "title": null,
-      "text": null,
-      "chat": null,
-      "news": null
+      "title": "E-mail voorkeuren",
+      "text": "Stuur me een e-mail wanneer:",
+      "chat": "Ik een nieuw chatbericht ontvangen heb",
+      "news": "Welcome To My Garden nieuws mee te delen heeft"
     },
     "garden": {
-      "title": null,
+      "title": "Uw tuin",
       "unlisted": {
-        "text": null,
-        "button": null
+        "text": "Je hebt je tuin nog niet op de kaart gezet. Wanneer u uw tuin toevoegt, kunnen andere gebruikers contact met u opnemen om een bezoek aan te vragen. U kunt uw tuin op elk moment uitschrijven!",
+        "button": "Voeg uw tuin toe"
       },
       "listed": {
-        "text": null,
-        "button": null
+        "text": "U kunt uw tuin op elk gewenst moment uit de lijst halen. Dit betekent dat het voor later bewaard blijft - maar pas op de kaart wordt getoond als u het weer laat zien.",
+        "button": "Beheer uw tuin"
       },
       "unverified": {
-        "text": null
+        "text": "Controleer uw e-mail om uw tuin te beheren."
       }
     },
     "notify": {
-      "resend-error": null,
-      "garden-show": null,
-      "garden-no-show": null,
-      "preferences-update": null
+      "resend-error": "We konden geen accountverificatie e-mail sturen. Neem contact op met {support}",
+      "garden-show": "Uw tuin komt weer op de kaart te staan",
+      "garden-no-show": "Uw tuin komt niet op de kaart te staan.",
+      "preferences-update": "Uw e-mailvoorkeuren zijn bijgewerkt!"
     }
   },
   "auth": {
-    "invalid-code": null,
+    "invalid-code": "Deze pagina is niet toegankelijk zonder een geldige actiecode",
     "password": {
-      "expired": null
+      "expired": "De link om uw wachtwoord te herstellen is verlopen, probeer nog eens."
     },
     "verification": {
-      "succes": null,
-      "refresh": null,
-      "expired": null,
-      "unsigned": null
+      "succes": "Uw e-mailadres is met succes geverifieerd!",
+      "refresh": "Uw e-mail is al geverifieerd. Vernieuw de pagina.",
+      "expired": "Deze verificatielink is vervallen. Vraag een nieuwe aan.",
+      "unsigned": "Gelieve eerst in te loggen"
     }
   },
   "register": {
-    "title": null,
-    "button": null,
-    "first-name": null,
-    "last-name": null,
-    "country": null,
-    "policies": null,
-    "registering": null,
-    "registred": null,
+    "title": "Registreren",
+    "button": "Registreren",
+    "first-name": "Voornaam",
+    "last-name": "Achternaam",
+    "country": "Land",
+    "policies": "Ik ga akkoord met de {cookiePolicy}, {privacyPolicy} en {termsOfUse}",
+    "registering": "Bezig met registratie...",
+    "registred": "Heb je al een account? {signIn}",
     "validate": {
-      "email": null,
+      "email": "Voeg een e-mail adres toe, dit is waarmee u inlogt.",
       "password": {
-        "set": null,
-        "min": null,
-        "max": null
+        "set": "U moet een wachtwoord instellen zodat u later kunt inloggen.",
+        "min": "Uw wachtwoord moet minimaal 8 karakters bevatten",
+        "max": "Zorg ervoor dat uw wachtwoord maximaal 100 karakters lang is."
       },
       "first-name": {
-        "set": null,
-        "max": null
+        "set": "Voer een voornaam in. Zo wordt u aan andere gebruikers getoond",
+        "max": "Je voornaam kan maar 25 karakters lang zijn, zodat we hem goed kunnen weergeven. Voel je vrij om deze te verkorten of kies een bijnaam"
       },
-      "last-name": null,
+      "last-name": "Voer uw achternaam in. Dit zal niet worden gedeeld met andere gebruikers",
       "country": {
-        "set": null,
-        "from-list": null
+        "set": "Geef alstublieft uw land in. Dit helpt ons om de kaart te focussen op waar u vandaan komt.",
+        "from-list": "Kies een land uit de lijst. Dit helpt ons om de kaart te focussen op waar u vandaan komt."
       },
-      "consent": null
+      "consent": "U moet akkoord gaan met de voorwaarden van Welcome To My Garden als u gebruik wilt maken van het platform."
     },
     "notify": {
-      "successful": null,
-      "in-use": null,
-      "unexpected": null
+      "successful": "Uw account is met succes aangemaakt! Controleer uw e-mail om uw account te verifiëren.",
+      "in-use": "Dit e-mailadres is al in gebruik.",
+      "unexpected": "Er is een onverwachte fout opgetreden. Als het probleem aanhoudt, neem dan contact op met {support}"
     }
   },
   "chat": {
     "title": "Chat",
-    "title-conversation": null,
+    "title-conversation": "Chat met {partnerName}",
     "all-conversations": "Alle gesprekken",
     "no-messages": {
       "text": "Je hebt nog geen berichten. Selecteer een host {link} om contact met ze op te nemen.",
@@ -671,20 +671,20 @@
     "type-message": "Typ uw bericht...",
     "new": "nieuw",
     "notify": {
-      "unverified": null,
-      "empty-message": null,
-      "too-long": null
+      "unverified": "Verifieer uw e-mail voordat u begint te chatten",
+      "empty-message": "Uw bericht kan niet leeg zijn",
+      "too-long": "Uw bericht is {surplus} {surplus, plural, one {karakter} other {karakters} te lang..."
     }
   },
   "map": {
     "vehicle-notice": {
-      "title": null,
-      "text": null
+      "title": "Welkom in mijn tuin is alleen voor langzame reizigers.",
+      "text": "Als u van plan bent om met een gemotoriseerd voertuig te reizen, neem dan geen contact op met de gastheer of -vrouw via dit platform. Bedankt voor uw begrip!"
     },
     "trails": {
-      "hiking": null,
-      "cycling": null,
-      "attribution": null
+      "hiking": "Wandelroutes tonen",
+      "cycling": "Fietsroutes tonen",
+      "attribution": "Trajecten met dank aan {link}"
     }
   },
   "terms-of-use": {
