@@ -298,16 +298,17 @@
     "intro": " Welcome To My Garden with Open Collective Europe ASBL as legal entity, a not-for-profit organization, incorporated and existing under the laws of Belgium, with registered office at 12 Cantersteen 1000 Brussels, Belgium, with company number 0680.493.996.",
     "email": "Email: {support}",
     "scope": {
-      "title": "Privacy Policy",
+      "title": "1. Privacy Policy",
       "copy": "This ‘Privacy Policy’ applies to the ‘Personal Data’ collected by Welcome To My Garden through this website."
     },
     "personal-data": {
       "meaning": {
-        "title": "What does personal data mean?",
+        "title": "2. What does personal data mean?",
         "copy": "In this Privacy Policy, Personal Data refers to information that makes it possible to identify you. An identifiable person is someone who can be identified, either directly or indirectly, in particular by referring to an identification number or to one or more factors that are linked to physical, physiological, mental, economic, cultural or social identity. A typical example of personal information is your name and email address."
       },
       "collection": {
-        "title": "We collect your Personal Data from the following three sources",
+        "title": "3. We collect your Personal Data from the following three sources",
+        "copy": "We might collect your Personal Data from the following sources:",
         "sources": [
           {
             "title": "3.1 Personal Data that you provide during the registration process on the platform.",
@@ -336,7 +337,7 @@
         ]
       },
       "usage": {
-        "title": "How do we use personal data?",
+        "title": "4. How do we use personal data?",
         "subtitle": "We might use your personal data for the following purposes",
         "purposes": [
           "To create and maintain your user profile on this website;",
@@ -350,45 +351,46 @@
       },
       "extra": [
         {
-          "title": "With whom do whe share your personal data?",
-          "copy": " Your personal data will not be shared with any third party. We will never sell or rent your personal data to other service providers, nor will we share your Personal Data with any service providers who are not compliant with the GDPR."
+          "title": "5. With whom do we share your personal data?",
+          "copy": "Your personal data will not be shared with any third party. We will never sell or rent your personal data to other service providers, nor will we share your Personal Data with any service providers who are not compliant with the GDPR."
         },
         {
-          "title": "Where do we transfer your personal data to?",
+          "title": "6. Where do we transfer your personal data to?",
           "copy": "We only transfer your Personal Data to service providers established outside the European Economic Area if they comply to art 44 GDPR. All US-based service providers comply with Privacy Shield."
         },
         {
-          "title": "Automated decision-making and profiling",
+          "title": "7. Automated decision-making and profiling",
           "copy": "The processing of your personal data does not include profiling and will not be subjected to automated decision-making by Welcome To My Garden."
         }
       ]
     },
     "rights": {
-      "title": "You have the right to view your personal data at any time, as well as the right to be informed of the use that Welcome To My Garden makes of your personal data.",
+      "title": "8. What rights do you have?",
+      "copy": "You have the right to view your personal data at any time, as well as the right to be informed of the use that Welcome To My Garden makes of your personal data.",
       "list": [
         {
-          "title": "Right to rectification, removal and restriction of processing",
+          "title": "8.1 Right to rectification, removal and restriction of processing",
           "copy": "You are free to decide whether or not to provide your personal data to Welcome To My Garden. In addition, you always have the right to amend, supplement or remove your personal data at Welcome To My Garden. You acknowledge that a refusal to provide or a request for the removal of personal data means that certain services can no longer be delivered. You may also request the limitation of the processing of your personal data."
         },
         {
-          "title": "Right to object",
+          "title": "8.2 Right to object",
           "copy": "You have the right to object to the processing of your personal data, as long as this is for serious and legitimate reasons."
         },
         {
-          "title": "Right to data portability",
-          "copy": " You have the right to obtain the personal data you have provided to Welcome To My Garden in a structured, typical and machine-readable form and/or transfer it to different controllers."
+          "title": "8.3 Right to data portability",
+          "copy": "You have the right to obtain the personal data you have provided to Welcome To My Garden in a structured, typical and machine-readable form and/or transfer it to different controllers."
         },
         {
-          "title": "Right to withdraw consent",
+          "title": "8.4 Right to withdraw consent",
           "copy": "Insofar as the processing is based on your prior consent, you have the right to withdraw this approval."
         },
         {
-          "title": "Right to lodge a complaint",
+          "title": "8.5 Right to lodge a complaint",
           "copy": "You have the right to lodge a complaint to the Belgian Privacy Commission: Personal Privacy Protection Commission, Drukpersstraat 35, 1000 Brussels, Belgium, Tel +32 (0)2 274 48 00, Fax +32 (0)2 274 48 35, email: commission@privacycommission.be. This does not affect relief before a civil court."
         }
       ],
       "exercise-rights": {
-        "title": "Exercising your rights",
+        "title": "9. Exercising your rights",
         "copy": "You can exercise your rights by contacting Welcome To My Garden to this end by sending an email to {support}, provided you enclose a copy of your identity card"
       }
     },

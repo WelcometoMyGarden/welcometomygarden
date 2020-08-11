@@ -16,7 +16,8 @@
     "chat": "Chat",
     "account": "Account",
     "sign-out": "Uitloggen",
-    "sign-in": "Inloggen"
+    "sign-in": "Inloggen",
+    "garden": "Tuin"
   },
   "index": {
     "intro": {
@@ -141,7 +142,10 @@
         "recommendations": [
           "Routeplanner voor fietsers en hikers: BRoute, Komoot , OutdoorActive",
           "Navigatie app voor hikers en fietsers: OSMAnd",
-          "Overzicht van het volledig fietsnetwerk: OpenStreetMap"
+          "Overzicht van het volledig fietsnetwerk: OpenStreetMap",
+          "Geweldige navigatie app voor fietsen en wandelen: OSMAnd",
+          "Nog een geweldige navigatie app: ViewRanger",
+          "Overzicht van het hele fietsnetwerk zichtbaar op OpenStreetMap"
         ]
       },
       {
@@ -156,7 +160,10 @@
       },
       {
         "title": "Aanraders accommodatie",
-        "recommendations": ["Hospitality netwerk voor fietsers: WarmShowers"]
+        "recommendations": [
+          "Hospitality netwerk voor fietsers: WarmShowers",
+          "Meer gedetailleerde informatie over alle bivakplaatsen: Bivakzone.be"
+        ]
       }
     ],
     "message": "Geniet!",
@@ -236,14 +243,661 @@
       }
     ]
   },
+  "cookies": {
+    "title": "Cookiebeleid",
+    "articles": [
+      {
+        "title": "1. Wat zijn cookies",
+        "copy": [
+          "Zoals bij bijna alle professionele websites gebruikelijk is, maakt deze site gebruik van cookies. Cookies zijn kleine bestanden die naar je computer worden gedownload om je ervaring te verbeteren. Deze pagina beschrijft welke informatie ze verzamelen, hoe we deze gebruiken en waarom we deze cookies soms moeten opslaan. We zullen ook delen hoe je kunt voorkomen dat deze cookies worden opgeslagen. Dit kan echter bepaalde elementen van de site functionaliteit verminderen of 'breken'.  <a href=\"https://en.wikipedia.org/wiki/HTTP_cookie\"> Zie dit Wikipedia-artikel over HTTP-cookies voor meer algemene informatie over cookies.</a>"
+        ]
+      },
+      {
+        "title": "‍2. Hoe gebruiken we cookies",
+        "copy": [
+          "We gebruiken cookies om verschillende redenen die hieronder worden beschreven. Helaas zijn er in de meeste gevallen geen standaard opties om cookies uit te schakelen zonder de functionaliteiten en opties die ze aan deze site toevoegen volledig uit te schakelen. Het wordt aanbevolen om alle cookies te laten staan ​​als je niet zeker weet of je ze nodig heeft, voor het geval ze worden gebruikt om een ​​dienst te verlenen die je gebruikt. ‍"
+        ]
+      },
+      {
+        "title": "3. Cookies uitschakelen ",
+        "copy": [
+          "Je kunt voorkomen dat cookies worden gedownload door je browserinstellingen aan te passen (zie het Help-menu van je browser om te zien hoe je dit moet doen). Houd er rekening mee dat het uitschakelen van cookies de functionaliteit van deze en vele andere websites die je bezoekt, kan beïnvloeden. Als je cookies wil uitschakelen, raden we aan Privacy Badger in Firefox te gebruiken."
+        ]
+      },
+      {
+        "title": "‍4. De cookies die we instellen",
+        "copy": [
+          "Als je een account bij ons aanmaakt, zullen we cookies gebruiken voor het beheer van het aanmeldingsproces en de algemene administratie. Deze cookies worden meestal verwijderd wanneer je uitlogt. In sommige gevallen kunnen ze echter achterblijven om je site voorkeuren te onthouden wanneer je bent uitgelogd.",
+          "We gebruiken cookies wanneer je bent ingelogd, zodat we dit kunnen onthouden. Dit voorkomt dat je elke keer dat je een nieuwe pagina bezoekt, moet inloggen. Deze cookies worden meestal verwijderd of gewist wanneer je uitlogt om ervoor te zorgen dat je alleen toegang hebt tot beperkte functies en gebieden wanneer je bent ingelogd.",
+          "Deze site kan in de toekomst nieuwsbrief- of e-mail abonnementsservices aanbieden en cookies kunnen worden gebruikt om te onthouden of je al bent geregistreerd en of bepaalde meldingen moeten worden weergegeven die mogelijk alleen geldig zijn voor geabonneerde/niet-geabonneerde gebruikers.",
+          "Wanneer je gegevens indient via een formulier zoals die op contactpagina's of commentaar formulieren, kunnen cookies worden ingesteld om je gebruikersgegevens te onthouden voor toekomstige correspondentie.",
+          "Om je een geweldige ervaring op deze site te bieden, bieden we de functionaliteit om je voorkeuren in te stellen voor hoe deze site werkt wanneer je deze gebruikt. Om je voorkeuren te onthouden, moeten we cookies instellen, zodat deze informatie kan worden teruggehaald wanneer je interactie hebt met een pagina die wordt beïnvloed door je voorkeuren."
+        ]
+      },
+      {
+        "title": "‍5. Cookies van derden ",
+        "copy": [
+          "In sommige speciale gevallen gebruiken we ook cookies van vertrouwde derde partijen. In de volgende sectie wordt beschreven welke cookies van derden je via deze site kunt tegenkomen.",
+          "Deze site maakt gebruik van Google Analytics, een van de meest wijdverspreide en vertrouwde analyse tools op het net. We gebruiken het om ons te helpen begrijpen hoe jij deze site gebruikt en om te ontdekken hoe we jouw ervaring kunnen verbeteren. Deze cookies kunnen bijvoorbeeld bijhouden hoeveel tijd je op de site doorbrengt en welke pagina's je bezoekt, zodat we boeiende inhoud kunnen blijven produceren.",
+          "Zie de officiële Google Analytics-pagina voor meer informatie over Google Analytics-cookies.",
+          "Analyse van derden wordt gebruikt om het gebruik van deze site te volgen en te meten, zodat we boeiende inhoud kunnen blijven produceren. Deze cookies kunnen dingen bijhouden, zoals hoeveel tijd je op deze site doorbrengt of welke pagina's je bezoekt, om ons te helpen begrijpen hoe we de site voor jou kunnen verbeteren. Van tijd tot tijd testen we nieuwe functies en brengen we subtiele wijzigingen aan in de manier waarop de site wordt afgeleverd. Wanneer we nieuwe functies testen, kunnen deze cookies worden gebruikt om ervoor te zorgen dat je tijdens je bezoek een consistente ervaring krijgt, terwijl we ervoor zorgen dat we begrijpen welke optimalisaties onze gebruikers het meest waarderen."
+        ]
+      },
+      {
+        "title": "6. Meer informatie",
+        "copy": [
+          "Hopelijk heeft deze pagina dingen voor je verduidelijkt. Zoals eerder vermeld: het is, als er iets is waarvan je niet zeker weet of je het al dan niet nodig hebt, meestal veiliger om cookies ingeschakeld te laten. Dit voor het geval het interactie heeft met een van de functies die je op onze site gebruikt. Als je nog steeds op zoek bent naar meer informatie, kan je contact met ons opnemen via een van onze aangegeven contactmethoden."
+        ]
+      }
+    ]
+  },
+  "privacy-policy": {
+    "title": "Privacybeleid",
+    "last-updated": "Laatst bijgewerkt op: 30 May 2020",
+    "subtitle": "Verantwoordelijke voor de verwerking van de gegevens en de eigenaar",
+    "intro": "Welkom to My Garden met Open Collective Europe ASBL als rechtsentiteit, een vzw, opgericht en bestaand naar Belgisch recht, met maatschappelijke zetel te Cantersteen 12, 1000 Brussel België, met ondernemingsnummer 0680.493 .996.",
+    "email": "Contact: {support}",
+    "scope": {
+      "title": "1. Privacybeleid",
+      "copy": "Dit ‘Privacybeleid’ is van toepassing op de ‘Persoonsgegevens’ die door Welcome to My Garden via deze website worden verzameld."
+    },
+    "personal-data": {
+      "meaning": {
+        "title": "2. Wat valt er onder persoonsgegevens?",
+        "copy": "In dit privacybeleid verwijzen persoonlijke gegevens naar informatie die het mogelijk maken jou te identificeren. Een identificeerbare persoon is iemand die direct of indirect kan worden geïdentificeerd, met name door te verwijzen naar een identificatienummer of naar een of meer factoren die verband houden met de fysieke, fysiologische, mentale, economische, culturele of sociale identiteit. Een typisch voorbeeld van persoonlijke informatie is je naam en e-mailadres."
+      },
+      "collection": {
+        "title": "3. Welke persoonsgegevens verzamelen we?",
+        "copy": "We kunnen uw persoonlijke gegevens verzamelen uit de volgende bronnen: ",
+        "sources": [
+          {
+            "title": "3.1. Persoonsgegevens die u verstrekt tijdens het registratieproces op het platform.",
+            "list": [
+              "E-mailadres (verplicht)",
+              "Jouw voornaam en familienaam (verplicht)",
+              "Uw land (verplicht)",
+              "Uw toestemming voor de voorwaarden"
+            ]
+          },
+          {
+            "title": "3.2. Persoonlijke gegevens die we verzamelen wanneer je onze website bezoekt: ",
+            "list": [
+              "We gebruiken cookies om automatisch gegevens over jou te verzamelen wanneer je deze website gebruikt. Raadpleeg ons Cookiebeleid voor meer informatie.  ‍"
+            ]
+          },
+          {
+            "title": "3.3. Persoonsgegevens die u verstrekt bij het toevoegen van uw tuin aan uw account.",
+            "list": [
+              "De locatie van uw tuin (coördinaten: de lengte- en breedtegraad) (verplicht)",
+              "Informatie over jouw tuin (beschrijving, faciliteiten, aantal tenten die opgezet kunnen worden) (verplicht)",
+              "Talen die je spreekt (verplicht)",
+              "Een foto van jouw tuin (optioneel)"
+            ]
+          }
+        ]
+      },
+      "usage": {
+        "title": "4. Hoe gebruiken we persoonsgegevens?",
+        "subtitle": "We kunnen jouw persoonlijke gegevens gebruiken voor onderstaande doeleinden:",
+        "purposes": [
+          "Om jouw gebruikersprofiel op deze website aan te maken en te behouden;",
+          "Om de gebruikers te identificeren;",
+          "Om jouw gebruikersaccount te verifiëren om zo de veiligheidsmaatregelen te garanderen;",
+          "Om het bezoekersnetwerk te voorzien van informatie over jouw tuin;",
+          "Om je te waarschuwen wanneer het platform geüpdatet wordt;",
+          "Om je te waarschuwen over activiteiten op het platform die je zouden kunnen interesseren."
+        ],
+        "copy": "De persoonsgegevens worden alleen opgeslagen en verwerkt voor de periode die nodig is voor de verwerking. Daarna worden de gegevens verwijderd of geanonimiseerd. Welcome to My Garden vertrouwt op Firebase, dat gecertificeerd is volgens de belangrijkste privacy- en beveiligingsnormen. Firebase-services voldoen aan de AVG. Alle informatie met betrekking tot Firebase is hier te vinden: <a href=\"https://firebase.google.com/support/privacy\">https://firebase.google.com/support/privacy</a>."
+      },
+      "extra": [
+        {
+          "title": "5. Met wie delen we jouw persoonsgegevens?",
+          "copy": "Je persoonlijke gegevens worden niet gedeeld met derden. We zullen je persoonlijke gegevens nooit verkopen of verhuren aan andere serviceproviders, noch zullen we jouw persoonlijke gegevens delen met serviceproviders die niet voldoen aan de AVG."
+        },
+        {
+          "title": "6. Waarnaar dragen we uw persoonsgegevens over?",
+          "copy": "We dragen jouw persoonsgegevens alleen over aan serviceproviders die buiten de Europese Economische Ruimte zijn gevestigd als ze voldoen aan art 44 GDPR (AVG). Alle in de VS gevestigde serviceproviders voldoen aan het Privacy Shield."
+        },
+        {
+          "title": "7. Geautomatiseerde besluitvorming en profilering",
+          "copy": "De verwerking van uw persoonlijke gegevens omvat geen profilering en zal niet worden onderworpen aan geautomatiseerde besluitvorming door Welcome To My Garden."
+        }
+      ]
+    },
+    "rights": {
+      "title": "8. Welke rechten heb je?",
+      "copy": "Je hebt ten allen tijde het recht om jouw persoonsgegevens in te zien, evenals het recht om geïnformeerd te worden over het gebruik dat Welcome to My Garden van jouw persoonsgegevens maakt.",
+      "list": [
+        {
+          "title": "8.1 Recht op rectificatie, verwijdering en beperking van verwerking",
+          "copy": "Je bent vrij om te beslissen of je jouw persoonsgegevens al dan niet aan Welcome to My Garden verstrekt. Daarnaast heb je altijd het recht om jouw persoonsgegevens bij Welcome to My Garden te wijzigen, aan te vullen of te verwijderen. Je erkent dat een weigering om te verstrekken of een verzoek om verwijdering van persoonsgegevens betekent dat bepaalde diensten niet langer kunnen worden geleverd. Je kunt ook verzoeken om de verwerking van je persoonsgegevens te beperken."
+        },
+        {
+          "title": "8.2 Recht op bezwaar",
+          "copy": "Je hebt het recht om bezwaar te maken tegen de verwerking van jouw persoonsgegevens, zolang dit om ernstige en legitieme redenen is."
+        },
+        {
+          "title": "8.3 Recht op overdraagbaarheid van gegevens",
+          "copy": "Je hebt het recht om de persoonsgegevens die je aan Welcome to My Garden hebt verstrekt in een gestructureerde, typische en machineleesbare vorm te verkrijgen en/of over te dragen aan verschillende controleurs."
+        },
+        {
+          "title": "8.4 Recht om toestemming in te trekken",
+          "copy": "Voor zover de verwerking is gebaseerd op voorafgaande toestemming, heb je het recht om deze goedkeuring in te trekken."
+        },
+        {
+          "title": "8.5 Recht om een klacht in te dienen",
+          "copy": "Je hebt het recht om een ​​klacht in te dienen bij de Belgische Privacycommissie: Commissie voor de bescherming van de persoonlijke levenssfeer, Drukpersstraat 35, 1000 Brussel, België, Tel +32 (0) 2274 48 00, Fax +32 (0) 2274 48 35, e-mail : commission@privacycommission.be.Dit heeft geen invloed op de voorziening voor een burgerlijke rechtbank."
+        }
+      ],
+      "exercise-rights": {
+        "title": "9. Uitoefening van jouw rechten",
+        "copy": "Je kunt jouw rechten uitoefenen door hiervoor contact op te nemen met Welcome to My Garden door een e-mail te sturen naar {support}, op voorwaarde dat het e-mailadres dat voor het verzoek is gebruikt identiek is aan het adres dat is gebruikt om zich op het platform te registreren."
+      }
+    },
+    "additional-info": {
+      "title": "Bijkomende informatie over het verzamelen en beheren van data ",
+      "infos": [
+        {
+          "title": "Legale procedures",
+          "copy": [
+            "De verwerker en de verantwoordelijke voor de verwerking van de gegevens kunnen de persoonsgegevens van de gebruiker gebruiken voor juridische doeleinden, voor de rechtbank of gerechtelijke procedures in geval van onrechtmatig gebruik van deze applicatie of de hieraan gerelateerde diensten.",
+            "De gebruiker is zich ervan bewust dat de verwerker en de verwerking verantwoordelijke mogelijk verplicht zijn om de persoonsgegevens openbaar te maken op verzoek van bevoegde overheidsinstellingen voor de verwerking van de gegevens."
+          ]
+        },
+        {
+          "title": "Veiligheidsmaatregelen",
+          "copy": [
+            "Welcome to My Garden heeft beveiligingsmaatregelen ontwikkeld die op technologisch en organisatorisch niveau zijn aangepast om vernietiging, verlies, vervalsing, wijziging, verboden toegang of de foutieve openbaarmaking van persoonsgegevens aan derden te voorkomen, evenals elke andere verboden verwerking van deze gegevens.",
+            "Welcome to My Garden kan in geen geval aansprakelijk worden gesteld voor enige directe of indirecte schade die voortvloeit uit het onjuist of onrechtmatig gebruik van jouw persoonsgegevens door een derde partij.",
+            "Je moet ten allen tijde de beveiligingsinstructies naleven, waaronder het voorkomen van alle verboden toegang tot uw inlog gegevens, inclusief je wachtwoord. Je bent zelf verantwoordelijk voor het gebruik van de website op jouw computer, vanaf je IP-adres en met jouw identificatiegegevens. ‍"
+          ]
+        }
+      ]
+    },
+    "definitions": {
+      "title": "DEFINITIES EN JURIDISCH KADER",
+      "articles": [
+        {
+          "title": "Persoonsgegevens of gegevens",
+          "copy": "Alle informatie over een natuurlijke persoon, een rechtspersoon, een instelling of een vereniging die direct of indirect is of zou kunnen worden geïdentificeerd door verwijzing naar andere informatie."
+        },
+        {
+          "title": "Gebruiksgegevens",
+          "copy": "Informatie die automatisch wordt verzameld uit deze applicatie (of externe services die in deze applicatie worden gebruikt), waaronder: de IP-adressen of domeinnamen van de computers die door de gebruikers van deze applicatie worden gebruikt, de URI-adressen (Uniform Resource Identifier), de tijd van het verzoek, de methode die is gebruikt om het verzoek bij de server in te dienen, de grootte van het bestand dat daarop is ontvangen, de numerieke code die de status van het serverantwoord aangeeft (geslaagd, fout, enz.), de functies van de browser en het besturingssysteem van de gebruiker, de verschillende tijdgegevens per bezoek (zoals de tijd doorgebracht op elke pagina van de applicatie) en de gegevens die zijn verzameld tijdens het gebruik van de applicatie (bijvoorbeeld: de volgorde van bezochte pagina's of andere parameters over het besturingssysteem van het apparaat)."
+        },
+        {
+          "title": "Gebruiker",
+          "copy": "De persoon die deze applicatie gebruikt en die moet instemmen met of gemachtigd is door de betrokkene naar wie de persoonsgegevens verwijzen."
+        },
+        {
+          "title": "De betrokken persoon",
+          "copy": "De persoon naar wie de peroonsgegevens verwijze. "
+        },
+        {
+          "title": "Data processor ",
+          "copy": "De natuurlijke persoon, rechtspersoon, overheidsadministratie of elke andere instelling, vereniging of organisatie die door de gegevensbeheerder is gemachtigd om de persoonsgegevens te verwerken in overeenstemming met dit privacybeleid."
+        },
+        {
+          "title": "Verantwoordelijke voor de verwerking van de gegevens",
+          "copy": "De natuurlijke persoon, rechtspersoon, overheidsadministratie of enige andere instelling, vereniging of organisatie met het recht, ook samen met de verantwoordelijke voor de verwerking van de gegevens om beslissingen te nemen met betrekking tot de doeleinden en methoden voor de verwerking van persoonsgegevens en de gebruikte middelen, waaronder veiligheidsmaatregelen met betrekking tot de exploitatie en het gebruik van deze applicatie. De verantwoordelijke voor de verwerking van de gegevens is de eigenaar van deze applicatie, tenzij anders aangegeven."
+        },
+        {
+          "title": "Deze applicatie",
+          "copy": "De hardware of software tools waarmee persoonsgegevens verzameld worden "
+        },
+        {
+          "title": "Cookie",
+          "copy": "Klein stukje gegevens opgeslagen op het apparaat van de gebruiker. Zie ons Cookiebeleid."
+        }
+      ],
+      "legal-info": {
+        "title": "LEGALE INFORMATIE",
+        "copy": "Kennisgeving aan Europese gebruikers: deze privacyverklaring is opgesteld met inachtneming van de verplichtingen uit art. 10 van de Europese richtlijn 95/46 / EG en de bepalingen van de Europese richtlijn 2002/58 / EG, evenals de herziening in richtlijn 2009/136 / EG betreffende cookies."
+      }
+    },
+    "change-warning": {
+      "title": "Aanpassingen in dit privacybeleid",
+      "copy": "De controleur voor de verwerking van de gegevens heeft het recht om dit privacybeleid op elk moment te wijzigen door gebruikers op deze pagina op de hoogte te stellen. We raden aan deze pagina te controleren op mogelijke wijzigingen. De datum van de laatste wijziging wordt onderaan de pagina aangegeven. Als een gebruiker bezwaar maakt tegen een wijziging in het beleid, mag de gebruiker deze applicatie niet blijven gebruiken. Men zou de verwerkingsverantwoordelijke kunnen verzoeken om de persoonsgegevens te verwijderen. Tenzij anders aangegeven, is het op dat moment geldige privacybeleid van applicatie op alle persoonsgegevens die de verwerkingsverantwoordelijke heeft opgeslagen voor de verwerking van de gegevens over gebruikers."
+    }
+  },
+  "garden": {
+    "facilities": {
+      "labels": {
+        "water": "Water",
+        "drinkable-water": "Drinkbaar water",
+        "toilet": "toilet",
+        "bonfire": "kampvuur",
+        "electricity": "elektriciteit",
+        "shower": "douche",
+        "tent": "tent"
+      }
+    },
+    "drawer": {
+      "facilities": {
+        "capacity": "Ruimte voor {styleCapacity} {capacity, plural, one {tent} other {tenten}}"
+      },
+      "owner": {
+        "your-garden": "Uw tuin",
+        "button": "Tuin beheren"
+      },
+      "guest": {
+        "button": "Contact gastheer",
+        "login": "U moet zich {signInLink} om contact op te nemen met de gastheren",
+        "sign-link-text": "inloggen"
+      },
+      "unclaimed": "U kunt contact opnemen met deze gastheer zodra zijn account is geverifieerd."
+    },
+    "add": {
+      "title": "Voeg uw tuin toe"
+    },
+    "manage": {
+      "title": "Beheer uw tuin"
+    },
+    "form": {
+      "title": null,
+      "auth-notice": null,
+      "sign-in-link-text": null,
+      "register-link-text": null,
+      "email-confirm-notice": null,
+      "normal-notice": null,
+      "account-link-text": null,
+      "location": {
+        "title": null,
+        "notice": null,
+        "coordinate-hint": null,
+        "confirm-button": null,
+        "adjust-button": null,
+        "street": null,
+        "house-number": null,
+        "region": null,
+        "postal-code": null,
+        "city": null,
+        "country": null
+      },
+      "description": {
+        "title": null,
+        "notice": null,
+        "hints": {
+          "too-short": null,
+          "too-long": null
+        },
+        "placeholder": null,
+        "label": null
+      },
+      "facilities": {
+        "title": null,
+        "notice": null,
+        "capacity": {
+          "label": null,
+          "help": null
+        }
+      },
+      "photo": {
+        "title": null,
+        "notice": null,
+        "img-alt": null,
+        "hints": {
+          "wrong-format": null,
+          "too-large": null
+        }
+      },
+      "add-button": null,
+      "update-button": null,
+      "invalid": null
+    },
+    "notify": {
+      "success": null,
+      "update": null,
+      "photo": null
+    }
+  },
+  "sign-in": {
+    "title": "Inloggen",
+    "button": "Inloggen",
+    "reset": {
+      "text": "Bent u uw wachtwoord vergeten? {link}",
+      "link": "Herstellen"
+    },
+    "register": {
+      "text": "Heb je nog geen account? {link}",
+      "link": "Registreer"
+    },
+    "notify": {
+      "welcome": "Welkom terug, {user}!",
+      "incorrect": "Het opgegeven e-mailadres of wachtwoord is onjuist.",
+      "login-issue": "We konden je niet inloggen. Als het probleem aanhoudt, neem dan contact op met {support}"
+    }
+  },
+  "request-password-reset": {
+    "title": null,
+    "description": null,
+    "button": null,
+    "set": null,
+    "trouble": null
+  },
+  "reset-password": {
+    "title": null,
+    "update": null,
+    "succes": null
+  },
+  "account": {
+    "title": null,
+    "verify": {
+      "title": null,
+      "text": null,
+      "button": null,
+      "sent": null
+    },
+    "preferences": {
+      "title": null,
+      "text": null,
+      "chat": null,
+      "news": null
+    },
+    "garden": {
+      "title": null,
+      "unlisted": {
+        "text": null,
+        "button": null
+      },
+      "listed": {
+        "text": null,
+        "button": null
+      },
+      "unverified": {
+        "text": null
+      }
+    },
+    "notify": {
+      "resend-error": null,
+      "garden-show": null,
+      "garden-no-show": null,
+      "preferences-update": null
+    }
+  },
+  "auth": {
+    "invalid-code": null,
+    "password": {
+      "expired": null
+    },
+    "verification": {
+      "succes": null,
+      "refresh": null,
+      "expired": null,
+      "unsigned": null
+    }
+  },
+  "register": {
+    "title": null,
+    "button": null,
+    "first-name": null,
+    "last-name": null,
+    "country": null,
+    "policies": null,
+    "registering": null,
+    "registred": null,
+    "validate": {
+      "email": null,
+      "password": {
+        "set": null,
+        "min": null,
+        "max": null
+      },
+      "first-name": {
+        "set": null,
+        "max": null
+      },
+      "last-name": null,
+      "country": {
+        "set": null,
+        "from-list": null
+      },
+      "consent": null
+    },
+    "notify": {
+      "successful": null,
+      "in-use": null,
+      "unexpected": null
+    }
+  },
   "chat": {
     "title": "Chat",
+    "title-conversation": null,
     "all-conversations": "Alle gesprekken",
     "no-messages": {
       "text": "Je hebt nog geen berichten. Selecteer een host {link} om contact met ze op te nemen.",
       "link": "op de kaart"
     },
     "type-message": "Typ uw bericht...",
-    "new": "nieuw"
+    "new": "nieuw",
+    "notify": {
+      "unverified": null,
+      "empty-message": null,
+      "too-long": null
+    }
+  },
+  "map": {
+    "vehicle-notice": {
+      "title": null,
+      "text": null
+    },
+    "trails": {
+      "hiking": null,
+      "cycling": null,
+      "attribution": null
+    }
+  },
+  "terms-of-use": {
+    "title": null,
+    "last-updated": null,
+    "intro": [
+      {
+        "copy": null
+      },
+      {
+        "copy": null
+      },
+      {
+        "copy": null
+      }
+    ],
+    "articles": [
+      {
+        "title": null,
+        "descriptions": [
+          {
+            "copy": null
+          },
+          {
+            "copy": null
+          }
+        ],
+        "info": [
+          {
+            "title": null,
+            "sections": [
+              {
+                "title": null,
+                "copy": null
+              },
+              {
+                "title": null,
+                "copy": null
+              },
+              {
+                "title": null,
+                "copy": null
+              },
+              {
+                "title": null,
+                "copy": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": null,
+        "info": [
+          {
+            "title": null,
+            "sections": [
+              {
+                "title": null,
+                "copy": null
+              },
+              {
+                "title": null,
+                "copy": null
+              },
+              {
+                "title": null,
+                "copy": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": null,
+        "descriptions": [
+          {
+            "copy": null
+          }
+        ],
+        "paragraphs": [
+          {
+            "title": null,
+            "copy": [null]
+          },
+          {
+            "title": null,
+            "copy": [null]
+          },
+          {
+            "title": null,
+            "copy": [null]
+          },
+          {
+            "title": null,
+            "copy": [null]
+          },
+          {
+            "title": null,
+            "copy": [null]
+          },
+          {
+            "title": null,
+            "copy": [null]
+          },
+          {
+            "title": null,
+            "copy": [null]
+          }
+        ]
+      },
+      {
+        "title": null,
+        "paragraphs": [
+          {
+            "title": null,
+            "copy": [null]
+          },
+          {
+            "title": null,
+            "copy": [null]
+          }
+        ]
+      },
+      {
+        "title": null,
+        "descriptions": [
+          {
+            "copy": null
+          }
+        ],
+        "paragraphs": [
+          {
+            "title": null,
+            "copy": [null, null, null]
+          },
+          {
+            "title": null,
+            "copy": [null]
+          }
+        ]
+      },
+      {
+        "title": null,
+        "descriptions": [
+          {
+            "copy": null
+          },
+          {
+            "copy": null
+          }
+        ]
+      },
+      {
+        "title": null,
+        "descriptions": [
+          {
+            "copy": null
+          },
+          {
+            "copy": null
+          }
+        ]
+      },
+      {
+        "title": null,
+        "descriptions": [
+          {
+            "copy": null
+          },
+          {
+            "copy": null
+          }
+        ]
+      },
+      {
+        "title": null,
+        "descriptions": [
+          {
+            "copy": null
+          },
+          {
+            "copy": null
+          },
+          {
+            "copy": null
+          }
+        ]
+      },
+      {
+        "title": null,
+        "descriptions": [
+          {
+            "copy": null
+          }
+        ]
+      },
+      {
+        "title": null,
+        "descriptions": [
+          {
+            "copy": null
+          }
+        ]
+      },
+      {
+        "title": null,
+        "descriptions": [
+          {
+            "copy": null
+          }
+        ]
+      }
+    ]
   }
 }
