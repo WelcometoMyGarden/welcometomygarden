@@ -167,7 +167,7 @@
       }
     ],
     "message": "Geniet!",
-    "contact": "Zouden we nog andere zaken moeten toevoegen aan deze lijst? Laat het ons gerust weten via welcometomygardennetwork[at]gmail.com"
+    "contact": "Zouden we nog andere zaken moeten toevoegen aan deze lijst? Laat het ons gerust weten via {support}"
   },
   "faq": {
     "title": "FAQ",
@@ -222,8 +222,8 @@
         "copy": "Breng handdesinfectiemiddel en vochtige doekjes mee, zodat je je handen en alle oppervlakken die je hebt aangeraakt (zoals de toiletbril, de spoelknop, de kraan en de deurgreep) kan reinigen. Je kan ook een mondmasker dragen als je het huis van je host moet betreden voor faciliteiten. Op deze manier help je ervoor te zorgen dat Covid-19 niet wordt overgedragen, voor het geval jij of een van de andere gebruikers van de badkamer het draagt. En als je weet dat je misschien ziek bent, vertrek dan niet op reis!"
       },
       {
-        "title": "Waarom is Welcome To My Garden beperkt tot België?",
-        "copy": "Welcome To My Garden is opgezet door een klein team enthousiastelingen gevestigd in België.. Om praktische redenen beperken we de kampeerplaatsen op onze kaarten voorlopig tot België. We willen het vooral simpel houden, hoewel we graag zouden zien dat dit project ook naar het buitenland overwaait. Neem contact met ons op als je Welcome To My Garden in een ander land wil opzetten. De broncode van de website is gratis beschikbaar op GitHub!"
+        "title": "Is Welcome To My Garden beperkt tot België?",
+        "copy": "Welcome To My Garden is opgezet door een klein team enthousiastelingen gevestigd in België. Om praktische redenen beperken we de kampeerplaatsen op onze kaarten voorlopig tot België. We willen het vooral simpel houden, hoewel we graag zouden zien dat dit project ook naar het buitenland overwaait. Neem contact met ons op als je Welcome To My Garden in een ander land wil opzetten. De broncode van de website is gratis beschikbaar op GitHub!"
       },
       {
         "title": "Waarom is de Facebookpagina alleen in het Engels?",
@@ -239,7 +239,7 @@
       },
       {
         "title": "Ik heb een probleem gehad met een gast of een host. Hoe meld ik dit?",
-        "copy": "Elk probleem of wangedrag moet per e-mail worden gemeld aan Welcome To My Garden (welcometomygardennetwork-at-gmail.com). In geval van wangedrag behouden we het recht om eenzijdig het account van deze persoon te verwijderen (zie Gebruiksvoorwaarden)."
+        "copy": "Elk probleem of wangedrag moet per e-mail worden gemeld aan Welcome To My Garden {support}. In geval van wangedrag behouden we het recht om eenzijdig het account van deze persoon te verwijderen (zie Gebruiksvoorwaarden)."
       }
     ]
   },
@@ -482,7 +482,7 @@
       },
       "guest": {
         "button": "Contact gastheer",
-        "login": "U moet zich {signInLink} om contact op te nemen met de gastheren",
+        "login": "Je moet {signInLink} om contact op te kunnen nemen met de gastheren",
         "sign-link-text": "inloggen"
       },
       "unclaimed": "U kunt contact opnemen met deze gastheer zodra zijn account is geverifieerd."
@@ -555,12 +555,12 @@
     "title": "Inloggen",
     "button": "Inloggen",
     "reset": {
-      "text": "Bent u uw wachtwoord vergeten? {link}",
-      "link": "Herstellen"
+      "text": "Wachtwoord vergeten? {link}",
+      "link": "Herstel het hier"
     },
     "register": {
-      "text": "Heb je nog geen account? {link}",
-      "link": "Registreer"
+      "text": "Nog geen account? {link}",
+      "link": "Registreer je hier"
     },
     "notify": {
       "welcome": "Welkom terug, {user}!",

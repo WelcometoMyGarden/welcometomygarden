@@ -222,7 +222,7 @@
         "copy": "Please bring hand sanitizer and wet wipes so you can clean your hands and any surfaces you’ve touched, such as the toilet seat, flush button, tap and door handle. You can also wear a mask if you need to enter your host’s house for facilities. This way you help guarantee that Covid-19 does not get transmitted, in case you or any of the other users of the bathroom happen to carry it. Of course, if you know you might be sick don’t go in the first place!"
       },
       {
-        "title": "Why is Welcome To My Garden limited to Belgium?",
+        "title": "Is Welcome to My Garden limited to Belgium?",
         "copy": "Welcome To My Garden was set up by a small team of Belgium-based enthusiasts. For lots of practical reasons we will limit campgrounds on our maps to Belgium for now. Mainly, we want to keep it simple. However, we would love this project to go abroad. If you want to set up Welcome To My Garden in your country, do contact us. The source code of the website is freely available on GitHub!"
       },
       {
@@ -239,7 +239,7 @@
       },
       {
         "title": "I’ve had an issue with a guest or a host. How do I report it?",
-        "copy": "Any issue or misconduct should be reported to Welcome To My Garden by email (welcometomygardennetwork-at-gmail.com). In case of misconduct we reserve the right to remove unilaterally this person’s account (see Terms of Use)."
+        "copy": "Any issue or misconduct should be reported to Welcome To My Garden by email {support}. In case of misconduct we reserve the right to remove unilaterally this person’s account (see Terms of Use)."
       }
     ]
   },
