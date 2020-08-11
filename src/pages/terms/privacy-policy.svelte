@@ -3,7 +3,10 @@
   import { getArrayFromLocale, supportEmailLinkString } from '@/util';
 
   $: definitions = getArrayFromLocale('privacy-policy.definitions.articles', $locale);
-  $: personalDataCollected = getArrayFromLocale('privacy-policy.personal-data.collection.sources');
+  $: personalDataCollected = getArrayFromLocale(
+    'privacy-policy.personal-data.collection.sources',
+    $locale
+  );
 </script>
 
 <svelte:head>
@@ -60,7 +63,7 @@
       {@html $_('privacy-policy.personal-data.usage.copy')}
     </p>
   </li>
-  {#each getArrayFromLocale('privacy-policy.personal-data.extra') as { title, copy }}
+  {#each getArrayFromLocale('privacy-policy.personal-data.extra', $locale) as { title, copy }}
     <li>
       <h4>{title}</h4>
       <p>{copy}</p>
@@ -70,7 +73,7 @@
     <h4>{$_('privacy-policy.rights.title')}</h4>
     <p class="info">{$_('privacy-policy.rights.copy')}</p>
     <ol class="info-item">
-      {#each getArrayFromLocale('privacy-policy.rights.list') as { title, copy }}
+      {#each getArrayFromLocale('privacy-policy.rights.list', $locale) as { title, copy }}
         <li>
           <h5>{title}</h5>
           <p class="info-item">{copy}</p>
@@ -78,7 +81,6 @@
       {/each}
     </ol>
   </li>
-
   <li>
     <h4>{$_('privacy-policy.rights.exercise-rights.title')}</h4>
     <p>
@@ -91,7 +93,7 @@
 
 <h3>{$_('privacy-policy.additional-info.title')}</h3>
 <ol>
-  {#each getArrayFromLocale('privacy-policy.additional-info.infos') as item}
+  {#each getArrayFromLocale('privacy-policy.additional-info.infos', $locale) as item}
     <li>
       <h4>{item.title}</h4>
       {#each Array(Object.keys(item).length - 1) as x, i}
