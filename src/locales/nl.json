@@ -902,7 +902,10 @@
         "title": "10. Intellectuele eigendomsrechten",
         "descriptions": [
           {
-            "copy": "Welcome to My Garden respecteert de intellectuele eigendomsrechten van anderen en verwacht dat gebruikers van dit platform ook deze voorgenoemde rechten respecteren. Welcome to My Garden behoudt zich het recht voor om inhoud te verwijderen die inbreuk pleegt op de intellectuele eigendomsrechten. Herhaalde inbreuken op welke intellectuele eigendomsrechten dan ook door een gebruiker zullen leiden tot de opschorting of verwijdering van het account door Welcome To my Garden. Inbreuken op intellectuele eigendomsrechten kunnen worden gemeld via het volgende email adres: {support}"
+            "copy": "Welcome to My Garden respecteert de intellectuele eigendomsrechten van anderen en verwacht dat gebruikers van dit platform ook deze voorgenoemde rechten respecteren. Welcome to My Garden behoudt zich het recht voor om inhoud te verwijderen die inbreuk pleegt op de intellectuele eigendomsrechten. Herhaalde inbreuken op welke intellectuele eigendomsrechten dan ook door een gebruiker zullen leiden tot de opschorting of verwijdering van het account door Welcome To my Garden."
+          },
+          {
+            "copy": "Inbreuken op intellectuele eigendomsrechten kunnen worden gemeld via het volgende email adres: {support}."
           }
         ]
       },

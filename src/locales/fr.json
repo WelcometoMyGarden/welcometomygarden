@@ -670,6 +670,9 @@
         "descriptions": [
           {
             "copy": "Welcome to My Garden respecte les droits de propriété intellectuelle d'autrui et attend des utilisateurs de cette plateforme qu'ils respectent également ces droits. Welcome to My Garden se réserve le droit de supprimer le contenu qui viole les droits de propriété intellectuelle. Les violations répétées des droits de propriété intellectuelle de toute nature par un utilisateur entraîneront la suspension ou la suppression du compte par Welcome to My Garden."
+          },
+          {
+            "copy": "Les atteintes aux droits de propriété intellectuelle peuvent être signalées via l'adresse email suivante: {support}"
           }
         ]
       },

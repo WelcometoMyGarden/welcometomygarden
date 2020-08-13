@@ -904,6 +904,9 @@
         "descriptions": [
           {
             "copy": "Welcome To My Garden respects the intellectual property rights of others and expects that users of this platform also respect these rights. Welcome To My Garden reserves the right to remove content that infringes intellectual property rights. Repeated infringements of intellectual property rights of any kind by a user will result in the suspension or removal of the account by Welcome To My Garden."
+          },
+          {
+            "copy": "Infringements against intellectual property rights can be reported via the following email address: {support}"
           }
         ]
       },
