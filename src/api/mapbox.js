@@ -41,3 +41,19 @@ export const reverseGeocode = async ({ latitude, longitude }) => {
   address = parseAddressPiece(address, addressData);
   return address;
 };
+
+export const geocodeFull = async (addressString, longAndLat) => {
+  const response = await fetch(
+    `https://api.mapbox.com/geocoding/v5/mapbox.places/${addressString}.json?proximity=${longAndLat[0]},${longAndLat[1]}&limit=5&types=place&access_token=${MAPBOX_ACCESS_TOKEN}`,
+    { headers }
+  );
+  const data = await response.json();
+
+  let addressData = [];
+  for (var i = 0; i < data.features.length; i++){
+    const location = data.features[i];
+    let locationData = [location.center[0], location.center[1], location.place_name];
+    addressData.push(locationData);
+  }
+  return addressData;
+};

@@ -2,24 +2,27 @@
   import { onMount, onDestroy } from 'svelte';
   import { goto, params } from '@sveltech/routify';
   import { getAllListedGardens } from '@/api/garden';
+  import { geocodeFull, geocode } from '@/api/mapbox';
   import { allGardens, isFetchingGardens } from '@/stores/garden';
   import Map from '@/components/Map/Map.svelte';
   import Drawer from '@/components/Garden/Drawer.svelte';
   import GardenLayer from '@/components/Map/GardenLayer.svelte';
   import WaymarkedTrails from '@/components/Map/WaymarkedTrails.svelte';
   import routes from '@/routes';
-  import { Progress, LabeledCheckbox, Icon } from '@/components/UI';
+  import { Progress, LabeledCheckbox, Icon, TextInput, Button } from '@/components/UI';
   import { getCookie, setCookie } from '@/util';
-  import { crossIcon, cyclistIcon, hikerIcon } from '@/images/icons';
+  import { crossIcon, cyclistIcon, hikerIcon, markerIcon, filterIcon } from '@/images/icons';
+
+  const fallbackLocation = [4.5, 50.5];
 
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
   $: center = selectedGarden
     ? [selectedGarden.location.longitude, selectedGarden.location.latitude]
-    : [4.5, 50.5];
+    : fallbackLocation;
 
   let carNoticeShown = !getCookie('car-notice-dismissed');
 
-  const selectGarden = garden => {
+  const selectGarden = (garden) => {
     const newSelectedId = garden.id;
     const newGarden = $allGardens[newSelectedId];
     center = [newGarden.location.longitude, newGarden.location.latitude];
@@ -55,6 +58,17 @@
 
   let showHiking = false;
   let showCycling = false;
+  let locationFilter;
+
+  const search = async () => {
+    getlocation(locationFilter);
+  };
+
+  async function getlocation(string) {
+    const addressData = await geocodeFull(string, fallbackLocation);
+    console.log(addressData);
+    center = addressData[0];
+  }
 </script>
 
 <Progress active={$isFetchingGardens} />
@@ -62,7 +76,7 @@
   <Map lat={center[1]} lon={center[0]} recenterOnUpdate zoom="7">
     {#if !$isFetchingGardens}
       <GardenLayer
-        on:garden-click={e => selectGarden(e.detail)}
+        on:garden-click={(e) => selectGarden(e.detail)}
         selectedGardenId={selectedGarden ? selectedGarden.id : null}
         allGardens={$allGardens} />
       <Drawer on:close={closeDrawer} garden={selectedGarden} />
@@ -88,6 +102,7 @@
       </div>
     {/if}
   </Map>
+
   <div class="filters">
     <div>
       <LabeledCheckbox
@@ -103,11 +118,32 @@
         label="Show cycling routes"
         bind:checked={showCycling} />
     </div>
+
     <span class="attribution">
       Trails courtesy of
       <a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>
     </span>
   </div>
+
+  <div class="location-filter">
+    <div class="location-filter-input">
+      <TextInput
+        icon={markerIcon}
+        type="text"
+        name="location-filter"
+        id="location-filter"
+        placeholder="Search for a city"
+        hideError={true}
+        bind:value={locationFilter} />
+    </div>
+
+    <div class="open-garden-filter">
+      <Button type="button" uppercase on:click={search}>
+        {@html filterIcon}
+      </Button>
+    </div>
+  </div>
+
 </div>
 
 <style>
@@ -131,6 +167,41 @@
     width: 26rem;
     height: 9rem;
     padding: 1rem;
+  }
+
+  .location-filter {
+    background-color: rgba(255, 255, 255, 0);
+    width: 80%;
+    top: calc(var(--height-nav) + 3rem);
+    width: 32rem;
+    right: 6rem;
+    position: absolute;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .location-filter-input {
+    background-color: rgba(255, 255, 255);
+    margin-right: 1rem;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .open-garden-filter {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  :global(.location-filter input, .location-filter .input:focus) {
+    border-radius: 10px;
+    border-bottom: none;
+  }
+
+  :global(.location-filter .button) {
+    padding: 0 1.5rem;
+    margin: 0;
+    width: 100%;
+    height: 100%;
   }
 
   .attribution {
@@ -210,22 +281,9 @@
     z-index: 10;
   }
 
-  @media screen and (max-width: 700px) {
-    .map-section {
-      height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
-    }
-    .map-section :global(.mapboxgl-ctrl-top-left) {
-      top: calc(var(--height-nav) + 0.5rem);
-    }
-
-    .map-section :global(.mapboxgl-ctrl-bottom-right) {
-      top: 0;
-      right: 0;
-    }
-
+  @media screen and (max-width: 400px) {
     .vehicle-notice-wrapper {
-      top: 2rem;
-      left: calc(50% - 22.5rem);
+      height: 28rem;
     }
   }
 
@@ -245,9 +303,29 @@
     }
   }
 
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 700px) {
+    .map-section {
+      height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
+    }
+    .map-section :global(.mapboxgl-ctrl-top-left) {
+      top: calc(var(--height-nav) + 0.5rem);
+    }
+
+    .map-section :global(.mapboxgl-ctrl-bottom-right) {
+      top: 0;
+      right: 0;
+    }
+
     .vehicle-notice-wrapper {
-      height: 28rem;
+      top: 2rem;
+      left: calc(50% - 22.5rem);
+    }
+
+    .location-filter {
+      top: 3rem;
+      width: 80%;
+      right: 50%;
+      transform: translateX(+50%);
     }
   }
 </style>
