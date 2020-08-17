@@ -1,8 +1,10 @@
 <script>
+  import { _, locale } from 'svelte-i18n';
   import { onMount, onDestroy } from 'svelte';
+  import { fade } from 'svelte/transition';
   import { goto, params } from '@sveltech/routify';
   import { getAllListedGardens } from '@/api/garden';
-  import { geocodeFull, geocode } from '@/api/mapbox';
+  import { geocodeExtensive } from '@/api/mapbox';
   import { allGardens, isFetchingGardens } from '@/stores/garden';
   import Map from '@/components/Map/Map.svelte';
   import Drawer from '@/components/Garden/Drawer.svelte';
@@ -13,11 +15,13 @@
   import { getCookie, setCookie } from '@/util';
   import { crossIcon, cyclistIcon, hikerIcon, markerIcon, filterIcon } from '@/images/icons';
 
-  const fallbackLocation = [4.5, 50.5];
+  const fallbackLocation = { longitude: 4.5, latitude: 50.5 };
+  let zoom = 7;
 
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
+
   $: center = selectedGarden
-    ? [selectedGarden.location.longitude, selectedGarden.location.latitude]
+    ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
     : fallbackLocation;
 
   let carNoticeShown = !getCookie('car-notice-dismissed');
@@ -58,22 +62,75 @@
 
   let showHiking = false;
   let showCycling = false;
-  let locationFilter;
 
-  const search = async () => {
-    getlocation(locationFilter);
+  let locationInput = '';
+  //a place format: {latitude: 51.221109, longitude: 4.3997081, place_name: "Antwerpen, Antwerpen, België"}
+  let places = [];
+
+  let filterOutputError = true;
+
+  //The api will not be called when the input is empty but if there is no input the places array should also be empty
+  $: if (locationInput == '') places = [];
+
+  //if locationInput changes query
+  $: getLocationWithTimeout(locationInput);
+
+  let timeout = null;
+  const getLocationWithTimeout = (input) => {
+    if (timeout !== null) {
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout(function () {
+      getlocation(input);
+    }, 250);
   };
 
-  async function getlocation(string) {
-    const addressData = await geocodeFull(string, fallbackLocation);
-    console.log(addressData);
-    center = addressData[0];
+  const search = async () => {
+    getlocation(locationInput);
+    goTo(places[0]);
+  };
+
+  const goTo = (long, lat) => {
+    zoom = 11;
+    center = { longitude: long, latitude: lat };
+    locationInput = '';
+  };
+
+  let showNoPlacesBool = false;
+  const getlocation = async (string) => {
+    try {
+      if (string.length > 0) {
+        const placesReturnedFromGeocode = await geocodeExtensive(
+          string,
+          fallbackLocation.longitude,
+          fallbackLocation.latitude,
+          $locale
+        );
+        if (placesReturnedFromGeocode.type == 'succes') {
+          showNoPlacesBool = false;
+          places = placesReturnedFromGeocode.data;
+        } else if (placesReturnedFromGeocode.type == 'error') {
+          places = [];
+          showNoPlacesBool = true;
+          showNoPlaces();
+        }
+      }
+    } catch (e) {
+      places = [];
+      console.log(e);
+    }
+  };
+
+  function showNoPlaces() {
+    setTimeout(function () {
+      showNoPlacesBool = false;
+    }, 5000);
   }
 </script>
 
 <Progress active={$isFetchingGardens} />
 <div class="map-section">
-  <Map lat={center[1]} lon={center[0]} recenterOnUpdate zoom="7">
+  <Map lon={center.longitude} lat={center.latitude} recenterOnUpdate {zoom}>
     {#if !$isFetchingGardens}
       <GardenLayer
         on:garden-click={(e) => selectGarden(e.detail)}
@@ -126,24 +183,42 @@
   </div>
 
   <div class="location-filter">
-    <div class="location-filter-input">
-      <TextInput
-        icon={markerIcon}
-        type="text"
-        name="location-filter"
-        id="location-filter"
-        placeholder="Search for a city"
-        hideError={true}
-        bind:value={locationFilter} />
+    <div class="location-filter-column">
+      <div class="location-filter-input">
+        <TextInput
+          icon={markerIcon}
+          type="text"
+          name="location-filter"
+          id="location-filter"
+          placeholder="Search for a city"
+          hideError={true}
+          bind:value={locationInput}
+          autocomplete="off" />
+      </div>
+      {#if places.length >= 1}
+        <div class="location-filter-output">
+          {#each places as place, i}
+            <div on:click={goTo(place.longitude, place.latitude)}>
+              <p>{place.place_name}</p>
+            </div>
+            {#if i != places.length - 1}
+              <hr />
+            {/if}
+          {/each}
+        </div>
+      {:else if showNoPlacesBool}
+        <div class="location-filter-output">
+          <p>No places found</p>
+        </div>
+      {/if}
     </div>
 
-    <div class="open-garden-filter">
-      <Button type="button" uppercase on:click={search}>
+    <div class="garden-filter">
+      <Button type="button" uppercase>
         {@html filterIcon}
       </Button>
     </div>
   </div>
-
 </div>
 
 <style>
@@ -174,34 +249,57 @@
     width: 80%;
     top: calc(var(--height-nav) + 3rem);
     width: 32rem;
-    right: 6rem;
+    left: 6rem;
     position: absolute;
+
     display: flex;
     justify-content: flex-end;
   }
 
+  .location-filter-column {
+    align-self: stretch;
+    width: 100%;
+    margin-right: 1rem;
+  }
+
   .location-filter-input {
     background-color: rgba(255, 255, 255);
-    margin-right: 1rem;
-    width: 100%;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1rem;
   }
 
-  .open-garden-filter {
+  .location-filter-output {
+    background-color: rgba(255, 255, 255);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+  }
+
+  .location-filter-output div {
+    cursor: pointer;
+  }
+
+  .location-filter-output hr {
+    height: 1px;
+    background-color: lightgray;
+    border: none;
+  }
+
+  .garden-filter {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
   }
 
-  :global(.location-filter input, .location-filter .input:focus) {
+  .location-filter :global(input, .input:focus) {
     border-radius: 10px;
     border-bottom: none;
   }
 
-  :global(.location-filter .button) {
-    padding: 0 1.5rem;
+  .location-filter :global(.button) {
+    padding: 0 1.2rem;
+    font-size: 1.6rem;
+    height: 43px;
     margin: 0;
-    width: 100%;
-    height: 100%;
   }
 
   .attribution {
@@ -323,9 +421,9 @@
 
     .location-filter {
       top: 3rem;
-      width: 80%;
-      right: 50%;
-      transform: translateX(+50%);
+      width: 72%;
+      left: 50%;
+      transform: translateX(-50%);
     }
   }
 </style>
