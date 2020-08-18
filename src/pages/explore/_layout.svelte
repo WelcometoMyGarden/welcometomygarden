@@ -14,12 +14,27 @@
   import routes from '@/routes';
   import { Progress, LabeledCheckbox, Icon, TextInput, Button } from '@/components/UI';
   import { getCookie, setCookie } from '@/util';
-  import { crossIcon, cyclistIcon, hikerIcon, markerIcon, filterIcon } from '@/images/icons';
+  import {
+    crossIcon,
+    cyclistIcon,
+    hikerIcon,
+    markerIcon,
+    filterIcon,
+    bonfireIcon,
+    electricityIcon,
+    showerIcon,
+    toiletIcon,
+    waterIcon,
+    tentIcon
+  } from '@/images/icons';
+  import Modal from '../../components/UI/Modal.svelte';
 
   const fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let zoom = 7;
 
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
+
+  $: console.log($allGardens);
 
   $: center = selectedGarden
     ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
@@ -119,14 +134,14 @@
 
   //display no places found warning message for 3 seconds, if there is a new warning reset the timer
   let timeoutNoPlaces = null;
-  function showNoPlaces() {
+  const showNoPlaces = () => {
     if (timeoutNoPlaces !== null) {
       clearTimeout(timeoutNoPlaces);
     }
     timeoutNoPlaces = setTimeout(function () {
       showNoPlacesBool = false;
     }, 3000);
-  }
+  };
 
   //go to a place zoom in to level 11 (city) => https://wiki.openstreetmap.org/wiki/Zoom_levels
   const goToPlace = (long, lat) => {
@@ -139,6 +154,24 @@
   const handleClickOutsidePlaces = (event) => {
     const { clickEvent } = event.detail;
     emptyPlacesAndInput();
+  };
+
+  //garden filter
+  let show;
+  let filter;
+
+  const facilities = [
+    { name: 'water', icon: waterIcon, label: 'Water' },
+    { name: 'drinkableWater', icon: waterIcon, label: 'Drinkable water' },
+    { name: 'toilet', icon: toiletIcon, label: 'Toilet' },
+    { name: 'bonfire', icon: bonfireIcon, label: 'Bonfire' },
+    { name: 'electricity', icon: electricityIcon, label: 'Electricity' },
+    { name: 'shower', icon: showerIcon, label: 'Shower' },
+    { name: 'tent', icon: tentIcon, label: 'Tent' }
+  ];
+
+  const openGardenFilerModal = () => {
+    show = true;
   };
 </script>
 
@@ -195,49 +228,82 @@
       <a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>
     </span>
   </div>
-
-  <div class="filter">
-    <div class="location-filter-column">
-      <div class="location-filter-input">
-        <TextInput
-          icon={markerIcon}
-          type="text"
-          name="location-filter"
-          id="location-filter"
-          placeholder="Search for a city"
-          hideError={true}
-          bind:value={locationInput}
-          autocomplete="off" />
-      </div>
-      {#if places.length >= 1}
-        <div class="location-filter-output" in:fade={{ duration: 50 }} out:fade={{ duration: 200 }}>
-          {#each places as place, i}
-            <div
-              on:click={goToPlace(place.longitude, place.latitude)}
-              use:clickOutside
-              on:click-outside={handleClickOutsidePlaces}>
-
-              <p>{place.place_name}</p>
-            </div>
-            {#if i != places.length - 1}
-              <hr />
-            {/if}
-          {/each}
-        </div>
-      {:else if showNoPlacesBool}
-        <div class="location-filter-output-error" transition:fade>
-          <p>No places found</p>
-        </div>
-      {/if}
-    </div>
-
-    <div class="garden-filter">
-      <Button type="button" uppercase>
-        {@html filterIcon}
-      </Button>
-    </div>
-  </div>
 </div>
+
+<div class="filter">
+  <div class="location-filter-column">
+    <div class="location-filter-input">
+      <TextInput
+        icon={markerIcon}
+        type="text"
+        name="location-filter"
+        id="location-filter"
+        placeholder="Search for a city"
+        hideError={true}
+        bind:value={locationInput}
+        autocomplete="off" />
+    </div>
+    {#if places.length >= 1}
+      <div class="location-filter-output" in:fade={{ duration: 50 }} out:fade={{ duration: 200 }}>
+        {#each places as place, i}
+          <div
+            on:click={goToPlace(place.longitude, place.latitude)}
+            use:clickOutside
+            on:click-outside={handleClickOutsidePlaces}>
+            <p>{place.place_name}</p>
+            <!-- <p>{place.place_name.split(',')[0]}</p> -->
+          </div>
+          {#if i != places.length - 1}
+            <hr />
+          {/if}
+        {/each}
+      </div>
+    {:else if showNoPlacesBool}
+      <div class="location-filter-output-error" transition:fade>
+        <p>No places found</p>
+      </div>
+    {/if}
+  </div>
+
+  <div class="garden-filter">
+    <Button type="button" uppercase on:click={openGardenFilerModal}>
+      {@html filterIcon}
+    </Button>
+  </div>
+
+</div>
+
+<Modal bind:show maxWidth="700px" radius="true" center="true">
+  <div slot="title" style="width:100%;">
+    <h2 id="gardenFilterTitle">Filter</h2>
+    <hr />
+  </div>
+  <div slot="body">
+
+    <div id="gardenFacilities" class="gardenFilterSection">
+      <h3 class="gardenFilterSubtitle">Garden Facilities</h3>
+      <div class="checkboxes">
+        {#each facilities as facility (facility.name)}
+          <LabeledCheckbox {...facility} />
+        {/each}
+      </div>
+    </div>
+    <hr />
+    <div id="gardenCapacity" class="gardenFilterSection">
+      <h3 class="gardenFilterSubtitle">Garden Capacity</h3>
+      <p>Tent spots available</p>
+      <div class="sliders">
+        <input value="1" min="1" max="20" step="1" type="range" name />
+        <input value="20" min="1" max="20" step="1" type="range" />
+      </div>
+    </div>
+    <hr />
+  </div>
+
+  <span slot="controls">
+    <Button>Send</Button>
+  </span>
+</Modal>
 
 <style>
   .map-section {
@@ -317,6 +383,20 @@
 
   .garden-filter :global(button) {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .gardenFilterSection {
+    margin: 1.5rem 0;
+  }
+
+  #gardenFilterTitle {
+    font-weight: bold;
+  }
+
+  .gardenFilterSubtitle {
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 1rem;
   }
 
   .filter :global(input, .input:focus) {

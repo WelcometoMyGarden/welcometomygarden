@@ -19,6 +19,7 @@
   export let show = true;
 
   export let radius = false;
+  export let center = false;
 
   const close = () => {
     show = false;
@@ -42,7 +43,7 @@
 <svelte:window on:keydown={handleKeydown} />
 
 {#if show}
-  <div class="modal" on:click|self={handleOuterClick}>
+  <div class="modal" class:center on:click|self={handleOuterClick}>
     <div
       bind:this={ref}
       aria-labelledby={ariaLabelledBy}
@@ -88,6 +89,10 @@
     padding: 2rem;
   }
 
+  .center {
+    justify-content: center;
+  }
+
   .modal-content {
     position: relative;
     overflow: auto;
@@ -105,7 +110,7 @@
     display: flex;
     justify-content: space-between;
 
-    margin-bottom: 25px;
+    margin-bottom: 1.5rem;
   }
 
   .modal-title {
@@ -114,8 +119,8 @@
   }
 
   .modal-header :global(i) {
-    height: 20px;
-    width: 20px;
+    height: 1.25rem;
+    width: 1.25rem;
   }
 
   button.close {
