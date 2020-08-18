@@ -135,6 +135,7 @@
     emptyPlacesAndInput();
   };
 
+  //if user drag map, nothing happens, if the user select a garden or click on the map the input and locations are emptied
   const handleClickOutsidePlaces = (event) => {
     const { clickEvent } = event.detail;
     emptyPlacesAndInput();
