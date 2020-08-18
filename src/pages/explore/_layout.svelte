@@ -2,6 +2,7 @@
   import { _, locale } from 'svelte-i18n';
   import { onMount, onDestroy } from 'svelte';
   import { fade } from 'svelte/transition';
+  import { clickOutside } from '@/directives';
   import { goto, params } from '@sveltech/routify';
   import { getAllListedGardens } from '@/api/garden';
   import { geocodeExtensive } from '@/api/mapbox';
@@ -29,7 +30,7 @@
   const selectGarden = (garden) => {
     const newSelectedId = garden.id;
     const newGarden = $allGardens[newSelectedId];
-    center = [newGarden.location.longitude, newGarden.location.latitude];
+    center = { longitude: newGarden.location.longitude, latitude: newGarden.location.latitude };
     $goto(`${routes.MAP}/garden/${newSelectedId}`);
   };
 
@@ -64,17 +65,21 @@
   let showCycling = false;
 
   let locationInput = '';
-  //a place format: {latitude: 51.221109, longitude: 4.3997081, place_name: "Antwerpen, Antwerpen, België"}
+  //a place format: {latitude: 51.221109, longitude: 4.3997081, place_name: "Antwerpen, Antwerpen, België"}, max 5
   let places = [];
 
-  let filterOutputError = true;
+  //if there is no text in the inputfield the places array should also be empty
+  $: if (locationInput == '') emptyPlacesAndInput();
 
-  //The api will not be called when the input is empty but if there is no input the places array should also be empty
-  $: if (locationInput == '') places = [];
+  const emptyPlacesAndInput = () => {
+    places = [];
+    locationInput = '';
+  };
 
-  //if locationInput changes query
+  //if locationInput changes then query
   $: getLocationWithTimeout(locationInput);
 
+  //only query when the user stop typing for 'amount ms' of time (value between 200-1000)
   let timeout = null;
   const getLocationWithTimeout = (input) => {
     if (timeout !== null) {
@@ -85,21 +90,12 @@
     }, 250);
   };
 
-  const search = async () => {
-    getlocation(locationInput);
-    goTo(places[0]);
-  };
-
-  const goTo = (long, lat) => {
-    zoom = 11;
-    center = { longitude: long, latitude: lat };
-    locationInput = '';
-  };
-
+  //if the input is valuable, query the input, biased results based on proximity paramater and locale (language)
+  //if search result is successful, hide no places found warning message
   let showNoPlacesBool = false;
   const getlocation = async (string) => {
     try {
-      if (string.length > 0) {
+      if (string.trim() !== '') {
         const placesReturnedFromGeocode = await geocodeExtensive(
           string,
           fallbackLocation.longitude,
@@ -121,11 +117,28 @@
     }
   };
 
+  //display no places found warning message for 3 seconds, if there is a new warning reset the timer
+  let timeoutNoPlaces = null;
   function showNoPlaces() {
-    setTimeout(function () {
+    if (timeoutNoPlaces !== null) {
+      clearTimeout(timeoutNoPlaces);
+    }
+    timeoutNoPlaces = setTimeout(function () {
       showNoPlacesBool = false;
-    }, 5000);
+    }, 3000);
   }
+
+  //go to a place zoom in to level 11 (city) => https://wiki.openstreetmap.org/wiki/Zoom_levels
+  const goToPlace = (long, lat) => {
+    zoom = 11;
+    center = { longitude: long, latitude: lat };
+    emptyPlacesAndInput();
+  };
+
+  const handleClickOutsidePlaces = (event) => {
+    const { clickEvent } = event.detail;
+    emptyPlacesAndInput();
+  };
 </script>
 
 <Progress active={$isFetchingGardens} />
@@ -160,7 +173,7 @@
     {/if}
   </Map>
 
-  <div class="filters">
+  <div class="trails">
     <div>
       <LabeledCheckbox
         name="hiking"
@@ -182,7 +195,7 @@
     </span>
   </div>
 
-  <div class="location-filter">
+  <div class="filter">
     <div class="location-filter-column">
       <div class="location-filter-input">
         <TextInput
@@ -196,9 +209,13 @@
           autocomplete="off" />
       </div>
       {#if places.length >= 1}
-        <div class="location-filter-output">
+        <div class="location-filter-output" in:fade={{ duration: 50 }} out:fade={{ duration: 200 }}>
           {#each places as place, i}
-            <div on:click={goTo(place.longitude, place.latitude)}>
+            <div
+              on:click={goToPlace(place.longitude, place.latitude)}
+              use:clickOutside
+              on:click-outside={handleClickOutsidePlaces}>
+
               <p>{place.place_name}</p>
             </div>
             {#if i != places.length - 1}
@@ -207,7 +224,7 @@
           {/each}
         </div>
       {:else if showNoPlacesBool}
-        <div class="location-filter-output">
+        <div class="location-filter-output-error" transition:fade>
           <p>No places found</p>
         </div>
       {/if}
@@ -234,7 +251,7 @@
     top: calc(var(--height-nav) + 0.5rem);
   }
 
-  .filters {
+  .trails {
     background-color: rgba(255, 255, 255, 0.8);
     bottom: 0;
     left: 0;
@@ -244,7 +261,7 @@
     padding: 1rem;
   }
 
-  .location-filter {
+  .filter {
     background-color: rgba(255, 255, 255, 0);
     width: 80%;
     top: calc(var(--height-nav) + 3rem);
@@ -286,16 +303,27 @@
     border: none;
   }
 
-  .garden-filter {
+  .location-filter-output-error {
+    background-color: rgba(255, 255, 255);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    border: 3px solid var(--color-warning);
+  }
+
+  .garden-filter :global(button) {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
   }
 
-  .location-filter :global(input, .input:focus) {
+  .filter :global(input, .input:focus) {
     border-radius: 10px;
     border-bottom: none;
   }
 
-  .location-filter :global(.button) {
+  .filter :global(.button) {
     padding: 0 1.2rem;
     font-size: 1.6rem;
     height: 43px;
@@ -416,10 +444,11 @@
 
     .vehicle-notice-wrapper {
       top: 2rem;
-      left: calc(50% - 22.5rem);
+      left: 50%;
+      transform: translateX(-50%);
     }
 
-    .location-filter {
+    .filter {
       top: 3rem;
       width: 72%;
       left: 50%;
