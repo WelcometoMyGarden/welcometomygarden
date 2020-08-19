@@ -49,7 +49,8 @@
     bind:value
     style="resize: {resize};"
     on:input={autogrow}
-    on:blur />
+    on:blur
+    {...$$restProps} />
   <div class="error">
     {#if error}
       <p class="error-message">{error}</p>
@@ -80,5 +81,13 @@
     font-size: 1.4rem;
     line-height: 3rem;
     color: var(--color-danger);
+  }
+
+  textarea:required {
+    box-shadow: none !important;
+  }
+
+  textarea:invalid {
+    box-shadow: none !important;
   }
 </style>

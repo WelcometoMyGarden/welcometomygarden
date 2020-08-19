@@ -104,6 +104,11 @@
     z-index: 1000;
   }
 
+  .modal-content :global(.title) {
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
   .modal-header {
     font-size: 18px;
     font-weight: bold;
@@ -115,9 +120,8 @@
     margin-bottom: 25px;
   }
 
-  .modal-title {
+  .modal-header :global(.title) {
     margin-right: 1rem;
-    text-transform: uppercase;
   }
 
   .modal-header :global(i) {

@@ -57,7 +57,8 @@
     class:small
     class:inverse
     class:clicked
-    {type}>
+    {type}
+    {...$$restProps}>
     <Text is="span" weight="bold">
       <slot />
     </Text>
