@@ -371,7 +371,7 @@
     grid-template-rows: 0.5fr;
     text-align: center;
     width: 50%;
-    padding: 10rem 10rem 8rem 14rem;
+    padding: 10rem;
   }
 
   .partner-logos {
@@ -414,7 +414,10 @@
 
   @media only screen and (max-width: 1500px) {
     .faq-intro {
-      padding: 6rem 12rem;
+      padding: 6rem 10rem;
+    }
+    h1 {
+      font-size: 3.4rem;
     }
     .summer-container {
       display: none;
