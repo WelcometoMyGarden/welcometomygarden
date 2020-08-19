@@ -16,7 +16,7 @@
   export let closeOnEsc = true;
   export let closeOnOuterClick = true;
   export let maxWidth = '';
-  export let show = true;
+  export let show = false;
 
   export let radius = false;
 
@@ -95,6 +95,7 @@
     padding: 4rem;
     background-color: var(--color-white);
     width: 100%;
+    z-index: 1000;
   }
 
   .modal-header {

@@ -10,13 +10,16 @@
   export let medium = false;
   export let small = false;
   export let disabled = false;
+  export let styled = true;
+
+  let style = styled ? 'button' : 'unstyled';
 
   import { createEventDispatcher } from 'svelte';
 
   const dispatch = createEventDispatcher();
 
   let clicked;
-  const click = e => {
+  const click = (e) => {
     clicked = true;
     setTimeout(() => (clicked = false), 100);
     if (!disabled) return dispatch('click', e);
@@ -34,7 +37,7 @@
     class:inverse
     class:clicked
     {href}
-    on:click={e => {
+    on:click={(e) => {
       if (disabled) e.preventDefault();
       click(e);
     }}
@@ -45,7 +48,7 @@
   </a>
 {:else}
   <button
-    class="button"
+    class={style}
     class:disabled
     on:click={click}
     class:uppercase
@@ -130,6 +133,14 @@
 
   .button:not(.disabled):hover {
     border-color: var(--color-orange);
+  }
+
+  .unstyled {
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    font-size: 1.8rem;
   }
 
   @keyframes shake {
