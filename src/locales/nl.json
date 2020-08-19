@@ -465,11 +465,11 @@
       "labels": {
         "water": "Water",
         "drinkable-water": "Drinkbaar water",
-        "toilet": "toilet",
-        "bonfire": "kampvuur",
-        "electricity": "elektriciteit",
-        "shower": "douche",
-        "tent": "tent"
+        "toilet": "Toilet",
+        "bonfire": "Kampvuur",
+        "electricity": "Elektriciteit",
+        "shower": "Douche",
+        "tent": "Tent"
       }
     },
     "drawer": {
