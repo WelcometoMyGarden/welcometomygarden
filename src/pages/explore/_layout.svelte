@@ -11,6 +11,7 @@
   import { Progress, LabeledCheckbox, Icon } from '@/components/UI';
   import { getCookie, setCookie } from '@/util';
   import { crossIcon, cyclistIcon, hikerIcon } from '@/images/icons';
+  import ReportGarden from '../../components/Abuse/ReportGarden.svelte';
 
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
   $: center = selectedGarden
@@ -19,7 +20,7 @@
 
   let carNoticeShown = !getCookie('car-notice-dismissed');
 
-  const selectGarden = garden => {
+  const selectGarden = (garden) => {
     const newSelectedId = garden.id;
     const newGarden = $allGardens[newSelectedId];
     center = [newGarden.location.longitude, newGarden.location.latitude];
@@ -55,17 +56,26 @@
 
   let showHiking = false;
   let showCycling = false;
+  let gardenToReport = null;
+  let showModal = false;
 </script>
 
+<ReportGarden bind:show={showModal} garden={gardenToReport} />
 <Progress active={$isFetchingGardens} />
 <div class="map-section">
   <Map lat={center[1]} lon={center[0]} recenterOnUpdate zoom="7">
     {#if !$isFetchingGardens}
       <GardenLayer
-        on:garden-click={e => selectGarden(e.detail)}
+        on:garden-click={(e) => selectGarden(e.detail)}
         selectedGardenId={selectedGarden ? selectedGarden.id : null}
         allGardens={$allGardens} />
-      <Drawer on:close={closeDrawer} garden={selectedGarden} />
+      <Drawer
+        on:close={closeDrawer}
+        garden={selectedGarden}
+        on:report={(e) => {
+          showModal = true;
+          gardenToReport = e.detail.garden;
+        }} />
       <WaymarkedTrails {showHiking} {showCycling} />
       <slot />
     {/if}

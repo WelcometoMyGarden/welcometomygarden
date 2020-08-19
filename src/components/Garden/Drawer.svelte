@@ -7,14 +7,15 @@
   import { getGardenPhotoSmall, getGardenPhotoBig } from '@/api/garden';
   import { user } from '@/stores/auth';
   import { draggable, clickOutside } from '@/directives';
-  import { Text, Badge, Image, Button, Progress } from '../UI';
+  import { Text, Badge, Image, Button, Progress, Icon } from '../UI';
   import {
     bonfireIcon,
     waterIcon,
     electricityIcon,
     showerIcon,
     tentIcon,
-    toiletIcon
+    toiletIcon,
+    flagIcon
   } from '@/images/icons';
   import routes from '@/routes';
 
@@ -33,9 +34,9 @@
 
   function dragBarMove({ detail }) {
     if (previousOffsetCursor !== null) {
-      drawerElement.style.height = `${drawerElement.offsetHeight -
-        previousOffsetCursor +
-        detail.y}px`;
+      drawerElement.style.height = `${
+        drawerElement.offsetHeight - previousOffsetCursor + detail.y
+      }px`;
       previousOffsetCursor = detail.y;
     }
   }
@@ -77,7 +78,7 @@
     }
   };
 
-  const handleClickOutsideDrawer = event => {
+  const handleClickOutsideDrawer = (event) => {
     const { clickEvent } = event.detail;
     // if closing maginified photo view, don't close drawer
     if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) return;
@@ -203,6 +204,16 @@
           medium>
           Contact host
         </Button>
+        <div class="mt-m report">
+          <Button
+            styled={false}
+            on:click={() => {
+              dispatch('report', { garden });
+            }}>
+            <Icon icon={flagIcon} />
+            <span class="underline">report this garden</span>
+          </Button>
+        </div>
       {/if}
     </footer>
   {:else}
@@ -402,5 +413,26 @@
     text-align: center;
     margin-bottom: 1rem;
     font-size: 1.4rem;
+  }
+
+  .underline {
+    text-decoration: underline;
+  }
+
+  .report :global(button span) {
+    display: flex;
+    align-items: center;
+  }
+
+  .report :global(button i) {
+    margin-right: 5px;
+    width: 2rem;
+    height: 1.4rem;
+    display: inline-block;
+    transform: rotate(-25deg);
+  }
+
+  .report :global(button i svg) {
+    fill: var(--color-green);
   }
 </style>
