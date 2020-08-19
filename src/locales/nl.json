@@ -556,11 +556,11 @@
     "button": "Inloggen",
     "reset": {
       "text": "Wachtwoord vergeten? {link}",
-      "link": "Herstel het hier"
+      "link": "Stel het opnieuw in"
     },
     "register": {
       "text": "Nog geen account? {link}",
-      "link": "Registreer je hier"
+      "link": "Registreer"
     },
     "notify": {
       "welcome": "Welkom terug, {user}!",
@@ -644,10 +644,10 @@
         "max": "Zorg ervoor dat uw wachtwoord maximaal 100 karakters lang is."
       },
       "first-name": {
-        "set": "Voer een voornaam in. Zo wordt u aan andere gebruikers getoond",
+        "set": "Voer een voornaam in. Zo wordt u aan andere gebruikers getoond.",
         "max": "Je voornaam kan maar 25 karakters lang zijn, zodat we hem goed kunnen weergeven. Voel je vrij om deze te verkorten of kies een bijnaam"
       },
-      "last-name": "Voer uw achternaam in. Dit zal niet worden gedeeld met andere gebruikers",
+      "last-name": "Voer uw achternaam in. Dit zal niet worden gedeeld met andere gebruikers.",
       "country": {
         "set": "Geef alstublieft uw land in. Dit helpt ons om de kaart te focussen op waar u vandaan komt.",
         "from-list": "Kies een land uit de lijst. Dit helpt ons om de kaart te focussen op waar u vandaan komt."
@@ -678,7 +678,7 @@
   },
   "map": {
     "vehicle-notice": {
-      "title": "Welkom in mijn tuin is alleen voor langzame reizigers.",
+      "title": "Welcome To My Garden is alleen voor langzame reizigers.",
       "text": "Als u van plan bent om met een gemotoriseerd voertuig te reizen, neem dan geen contact op met de gastheer of -vrouw via dit platform. Bedankt voor uw begrip!"
     },
     "trails": {
