@@ -400,7 +400,10 @@
 
   @media only screen and (max-width: 1500px) {
     .faq-intro {
-      padding: 6rem 12rem;
+      padding: 6rem 10rem;
+    }
+    h1 {
+      font-size: 3.4rem;
     }
     .summer-container {
       display: none;
