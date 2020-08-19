@@ -591,8 +591,8 @@
     "preferences": {
       "title": "E-mail voorkeuren",
       "text": "Stuur me een e-mail wanneer:",
-      "chat": "Ik een nieuw chatbericht ontvangen heb",
-      "news": "Welcome To My Garden nieuws mee te delen heeft"
+      "chat": "Ik een nieuw chatbericht ontvang",
+      "news": "Welcome To My Garden nieuws wil delen"
     },
     "garden": {
       "title": "Uw tuin",
