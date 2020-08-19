@@ -37,6 +37,12 @@
     if (!closeOnEsc) return;
     if (e.key === 'Escape' || e.keyCode === 27) close();
   };
+
+  $: if (show) {
+    document.body.setAttribute('data-modal', true);
+  } else {
+    document.body.removeAttribute('data-modal');
+  }
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
