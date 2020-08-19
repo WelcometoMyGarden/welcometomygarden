@@ -534,7 +534,7 @@
       },
       "photo": {
         "title": "Foto",
-        "notice": "Laat de mensen zien hoe uw tuin eruit ziet.<br />Zorg ervoor dat de foto alleen de kampeerplek laat zien en niet het huis van uw buurman.",
+        "notice": "Laat de mensen zien hoe uw tuin eruit ziet.<br />Zorg ervoor dat de foto alleen de kampeerplek laat zien en niet het huis van uw buur.",
         "img-alt": "Uw tuin",
         "hints": {
           "wrong-format": "Uw foto moet een JPEG-, PNG- of TIFF-bestand zijn.",
