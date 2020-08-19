@@ -115,7 +115,8 @@
           string,
           fallbackLocation.longitude,
           fallbackLocation.latitude,
-          $locale
+          $locale,
+          5
         );
         if (placesReturnedFromGeocode.type == 'succes') {
           showNoPlacesBool = false;
@@ -130,6 +131,19 @@
       places = [];
       console.log(e);
     }
+  };
+
+  const displayPlaceName = (place_name) => {
+    const placeParts = place_name.split(',');
+    let placeFormat = '';
+    for (let index = 0; index < placeParts.length - 1; index++) {
+      if (index == placeParts.length - 2) {
+        placeFormat += placeParts[index];
+      } else {
+        placeFormat += placeParts[index] + ', ';
+      }
+    }
+    return placeFormat;
   };
 
   //display no places found warning message for 3 seconds, if there is a new warning reset the timer
@@ -250,8 +264,9 @@
             on:click={goToPlace(place.longitude, place.latitude)}
             use:clickOutside
             on:click-outside={handleClickOutsidePlaces}>
-            <p>{place.place_name}</p>
+            <!-- <p>{place.place_name}</p> -->
             <!-- <p>{place.place_name.split(',')[0]}</p> -->
+            <p>{displayPlaceName(place.place_name)}</p>
           </div>
           {#if i != places.length - 1}
             <hr />
