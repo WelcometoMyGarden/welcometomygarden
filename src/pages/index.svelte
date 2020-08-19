@@ -357,7 +357,7 @@
     grid-template-rows: 0.5fr;
     text-align: center;
     width: 50%;
-    padding: 10rem 10rem 8rem 14rem;
+    padding: 10rem;
   }
 
   .partner-logos {
