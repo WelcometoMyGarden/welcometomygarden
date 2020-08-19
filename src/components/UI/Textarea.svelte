@@ -15,8 +15,8 @@
   export let disabled = false;
   export let readonly = false;
   export let spellcheck = false;
-  export let resize = 'none';
-  export let grow = true;
+  export let grow = false;
+  export let resize = grow ? 'none' : undefined;
 
   const dispatch = createEventDispatcher();
   let elt = null;
