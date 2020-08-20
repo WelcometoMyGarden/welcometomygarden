@@ -29,7 +29,7 @@
     "steps": [
       {
         "title": "Stap 1: Meld je aan om een host te worden of te vinden",
-        "copy": "Wil je je tuin openstellen? {addGardenLink}. Op zoek naar een kampeerplek? Kies je favoriete tuin en contacteer je host! Spreek een datum en tijdstip af voor jouw verblijf en je bent vertrokken! ",
+        "copy": "Wil je jouw tuin openstellen? {addGardenLink}. Op zoek naar een kampeerplek? Kies je favoriete tuin en contacteer je host! Spreek een datum en tijdstip af voor jouw verblijf en je bent vertrokken! ",
         "add-garden-link-text": "Voeg deze toe aan de kaart"
       },
       {
@@ -82,6 +82,233 @@
       "link-text": "Doneer nu"
     }
   },
+  "garden": {
+    "facilities": {
+      "labels": {
+        "water": "Water",
+        "drinkable-water": "Drinkbaar water",
+        "toilet": "Toilet",
+        "bonfire": "Kampvuur",
+        "electricity": "Elektriciteit",
+        "shower": "Douche",
+        "tent": "Tent"
+      }
+    },
+    "drawer": {
+      "facilities": {
+        "capacity": "Ruimte voor {styleCapacity} {capacity, plural, one {tent} other {tenten}}"
+      },
+      "owner": {
+        "your-garden": "jouw tuin",
+        "button": "Tuin beheren"
+      },
+      "guest": {
+        "button": "Contact host",
+        "login": "Je moet {signInLink} om contact op te kunnen nemen met de gastheren",
+        "sign-link-text": "inloggen"
+      },
+      "unclaimed": "Je kunt contact opnemen met deze host zodra zijn account is geverifieerd."
+    },
+    "add": {
+      "title": "Voeg jouw tuin toe"
+    },
+    "manage": {
+      "title": "Beheer jouw tuin"
+    },
+    "form": {
+      "title": "Voeg jouw tuin toe aan de kaart",
+      "auth-notice": "Je moet ingelogd zijn om jouw tuin aan de kaart toe te voegen. Ofwel {signInLink} of {registerLink}",
+      "sign-in-link-text": "Log in",
+      "register-link-text": "een account aanmaken",
+      "email-confirm-notice": "Je moet jouw e-mail controleren voordat je jouw tuin aan de kaart toevoegt. We hebben je een e-mail gestuurd toen je jouw account aanmaakte. Je kunt een verificatielink opnieuw versturen vanuit {accountLink}.",
+      "normal-notice": "Door het indienen van dit formulier wordt jouw tuin aan de kaart toegevoegd. Je kunt het te allen tijde beheren of verwijderen van {accountLink}.",
+      "account-link-text": "jouw account",
+      "location": {
+        "title": "Locatie (verplicht)",
+        "notice": "Verplaats de marker om de locatie van jouw tuin in te stellen. Je kunt de adresvelden invullen om de marker dichterbij te verplaatsen. <br /> Wij slaan jouw adresgegevens niet op.",
+        "coordinate-hint": "Zorg ervoor dat je de kaartmarkering naar de exacte locatie van jouw tuin hebt gesleept en op \"Bevestig pinlocatie\" hebt geklikt.",
+        "confirm-button": "Bevestig pinlocatie",
+        "adjust-button": "Aanpassen pinlocatie",
+        "street": "Straat",
+        "house-number": "Huisnummer",
+        "region": "Provincie of Staat",
+        "postal-code": "Postcode",
+        "city": "Stad",
+        "country": "Land"
+      },
+      "description": {
+        "title": "Beschrijf jouw kampeerplaats (verplicht)",
+        "notice": "Een korte beschrijving van jouw tuin en de kampeerplek die je kunt aanbieden. Deze informatie wordt in het openbaar weergegeven, dus vermeld hier geen persoonlijke gegevens. <br />jouw beschrijving moet tussen 20 en 300 karakters zijn.",
+        "hints": {
+          "too-short": "{remaining} nog {remaining, plural, one {karakter} other {karakters}}  nodig...",
+          "too-long": "{surplus} {surplus, plural, one {karakter} other {karakters}} te lang..."
+        },
+        "placeholder": "Voer de beschrijving in...",
+        "label": "Beschrijving"
+      },
+      "facilities": {
+        "title": "Voorzieningen",
+        "notice": "Tot welke voorzieningen hebben reizigers toegang?",
+        "capacity": {
+          "label": "Capaciteit (vereist)",
+          "help": "Hoeveel tenten heb je ruimte voor (schatting)"
+        }
+      },
+      "photo": {
+        "title": "Foto",
+        "notice": "Laat de mensen zien hoe jouw tuin eruit ziet.<br />Zorg ervoor dat de foto alleen de kampeerplek laat zien en niet het huis van jouw buur.",
+        "img-alt": "jouw tuin",
+        "hints": {
+          "wrong-format": "Jouw foto moet een JPEG-, PNG- of TIFF-bestand zijn.",
+          "too-large": "Je foto is te groot. De bestandsgrootte van een foto moet 5MB of kleiner zijn."
+        }
+      },
+      "add-button": "Voeg jouw tuin toe",
+      "update-button": "Actualiseer jouw tuin",
+      "invalid": "Sommige informatie was niet geldig. Controleer de door je verstrekte informatie op fouten."
+    },
+    "notify": {
+      "success": "Jouw tuin is succesvol toegevoegd!",
+      "update": "Jouw tuin werd met succes geüpdatet!",
+      "photo": "Het kan een minuut duren voordat de foto verschijnt."
+    }
+  },
+  "sign-in": {
+    "title": "Inloggen",
+    "button": "Inloggen",
+    "reset": {
+      "text": "Wachtwoord vergeten? {link}",
+      "link": "Stel het opnieuw in"
+    },
+    "register": {
+      "text": "Nog geen account? {link}",
+      "link": "Registreer"
+    },
+    "notify": {
+      "welcome": "Welkom terug, {user}!",
+      "incorrect": "Het opgegeven e-mailadres of wachtwoord is onjuist.",
+      "login-issue": "We konden je niet inloggen. Als het probleem aanhoudt, neem dan contact op met {support}"
+    }
+  },
+  "request-password-reset": {
+    "title": "Stel een nieuw wachtwoord in",
+    "description": "Als je het onderstaande formulier indient, kunnen wij je een unieke link sturen waarmee je jouw wachtwoord kunt resetten.",
+    "button": "Instructies voor het herstellen van jouw e-mail",
+    "set": "Als er een account bestaat met de e-mail {email}, wordt er nu een e-mail gestuurd met instructies voor het herstellen van het wachtwoord.",
+    "trouble": "Heb je moeite met inloggen? contacteer ons via {support} en we helpen je verder!"
+  },
+  "reset-password": {
+    "title": "Stel een nieuw wachtwoord in",
+    "update": "Wachtwoord wijzigen",
+    "succes": "Jouw wachtwoord is succesvol gereset"
+  },
+  "account": {
+    "title": "Account",
+    "verify": {
+      "title": "Bevestig jouw e-mail",
+      "text": "Je moet jouw e-mailadres controleren als je wilt chatten of een tuin wilt toevoegen.",
+      "button": "E-mail opnieuw versturen",
+      "sent": "E-mail verzonden!"
+    },
+    "preferences": {
+      "title": "E-mail voorkeuren",
+      "text": "Stuur me een e-mail wanneer:",
+      "chat": "Ik een nieuw chatbericht ontvang",
+      "news": "Welcome To My Garden nieuws wil delen"
+    },
+    "garden": {
+      "title": "Jouw tuin",
+      "unlisted": {
+        "text": "Je hebt jouw tuin nog niet op de kaart gezet. Wanneer je jouw tuin toevoegt, kunnen andere gebruikers contact met jou opnemen om een bezoek aan te vragen. Je kunt jouw tuin op elk moment uitschrijven!",
+        "button": "Voeg jouw tuin toe"
+      },
+      "listed": {
+        "text": "Je kunt jouw tuin op elk gewenst moment uit de lijst halen. Dit betekent dat het voor later bewaard blijft - maar pas op de kaart wordt getoond als je het weer laat zien.",
+        "button": "Beheer jouw tuin"
+      },
+      "unverified": {
+        "text": "Controleer jouw e-mail om jouw tuin te beheren."
+      }
+    },
+    "notify": {
+      "resend-error": "We konden geen accountverificatie e-mail sturen. Neem contact op met {support}",
+      "garden-show": "Jouw tuin komt weer op de kaart te staan",
+      "garden-no-show": "Jouw tuin komt niet op de kaart te staan.",
+      "preferences-update": "Jouw e-mailvoorkeuren zijn bijgewerkt!"
+    }
+  },
+  "auth": {
+    "invalid-code": "Deze pagina is niet toegankelijk zonder een geldige actiecode",
+    "password": {
+      "expired": "De link om jouw wachtwoord te herstellen is verlopen, probeer nog eens."
+    },
+    "verification": {
+      "succes": "Jouw e-mailadres is met succes geverifieerd!",
+      "refresh": "Jouw e-mail is al geverifieerd. Vernieuw de pagina.",
+      "expired": "Deze verificatielink is vervallen. Vraag een nieuwe aan.",
+      "unsigned": "Gelieve eerst in te loggen"
+    }
+  },
+  "register": {
+    "title": "Registreren",
+    "button": "Registreren",
+    "first-name": "Voornaam",
+    "last-name": "Achternaam",
+    "country": "Land",
+    "policies": "Ik ga akkoord met de {cookiePolicy}, {privacyPolicy} en {termsOfUse}",
+    "registering": "Bezig met registratie...",
+    "registred": "Heb je al een account? {signIn}",
+    "validate": {
+      "email": "Voeg een e-mail adres toe, dit is waarmee je inlogt.",
+      "password": {
+        "set": "Je moet een wachtwoord instellen zodat je later kunt inloggen.",
+        "min": "Jouw wachtwoord moet minimaal 8 karakters bevatten",
+        "max": "Zorg ervoor dat jouw wachtwoord maximaal 100 karakters lang is."
+      },
+      "first-name": {
+        "set": "Voer een voornaam in. Zo word je aan andere gebruikers getoond.",
+        "max": "Je voornaam kan maar 25 karakters lang zijn, zodat we hem goed kunnen weergeven. Voel je vrij om deze te verkorten of kies een bijnaam"
+      },
+      "last-name": "Voer jouw achternaam in. Dit zal niet worden gedeeld met andere gebruikers.",
+      "country": {
+        "set": "Geef alstublieft jouw land in. Dit helpt ons om de kaart te focussen op waar je vandaan komt.",
+        "from-list": "Kies een land uit de lijst. Dit helpt ons om de kaart te focussen op waar je vandaan komt."
+      },
+      "consent": "Je moet akkoord gaan met de voorwaarden van Welcome To My Garden als je gebruik wilt maken van het platform."
+    },
+    "notify": {
+      "successful": "Jouw account is met succes aangemaakt! Controleer jouw e-mail om jouw account te verifiëren.",
+      "in-use": "Dit e-mailadres is al in gebruik.",
+      "unexpected": "Er is een onverwachte fout opgetreden. Als het probleem aanhoudt, neem dan contact op met {support}"
+    }
+  },
+  "chat": {
+    "title": "Chat",
+    "title-conversation": "Chat met {partnerName}",
+    "all-conversations": "Alle gesprekken",
+    "no-messages": {
+      "text": "Je hebt nog geen berichten. Selecteer een host {link} om contact met ze op te nemen.",
+      "link": "op de kaart"
+    },
+    "type-message": "Typ jouw bericht...",
+    "new": "nieuw",
+    "notify": {
+      "unverified": "Verifieer jouw e-mail voordat je begint te chatten",
+      "empty-message": "Jouw bericht kan niet leeg zijn",
+      "too-long": "Jouw bericht is {surplus} {surplus, plural, one {karakter} other {karakters} te lang..."
+    }
+  },
+  "map": {
+    "vehicle-notice": {
+      "title": "Welcome To My Garden is alleen voor langzame reizigers.",
+      "text": "Als je van plan bent om met een gemotoriseerd voertuig te reizen, neem dan geen contact op met de host via dit platform. Bedankt voor jouw begrip!"
+    },
+    "trails": {
+      "hiking": "Wandelroutes tonen",
+      "cycling": "Fietsroutes tonen",
+      "attribution": "Trajecten met dank aan {link}"
+    }
+  },
   "rules": {
     "title": "Regels",
     "description": "Hier vind je hoe Welcome to My Garden werkt.  Lees eerst aandachtig de regels voordat je aan je avontuur begint! Dit platform werkt immers alleen als we allemaal volgens de regels spelen.",
@@ -128,7 +355,7 @@
       },
       {
         "title": "Vertel het verder",
-        "copy": "Wil jij ook je tuin openen of ken je iemand die dat graag zou doen? Vertel over Welcome to My Garden! Je kan ook mensen uitnodigen om onze Facebook-pagina leuk te vinden."
+        "copy": "Wil jij ook jouw tuin openen of ken je iemand die dat graag zou doen? Vertel over Welcome to My Garden! Je kan ook mensen uitnodigen om onze Facebook-pagina leuk te vinden."
       }
     ],
     "message": "Veel kampeerplezier!"
@@ -308,15 +535,15 @@
       },
       "collection": {
         "title": "3. Welke persoonsgegevens verzamelen we?",
-        "copy": "We kunnen uw persoonlijke gegevens verzamelen uit de volgende bronnen: ",
+        "copy": "We kunnen jouw persoonlijke gegevens verzamelen uit de volgende bronnen: ",
         "sources": [
           {
-            "title": "3.1. Persoonsgegevens die u verstrekt tijdens het registratieproces op het platform.",
+            "title": "3.1. Persoonsgegevens die je verstrekt tijdens het registratieproces op het platform.",
             "list": [
               "E-mailadres (verplicht)",
               "Jouw voornaam en familienaam (verplicht)",
-              "Uw land (verplicht)",
-              "Uw toestemming voor de voorwaarden"
+              "Jouw land (verplicht)",
+              "Jouw toestemming voor de voorwaarden"
             ]
           },
           {
@@ -326,9 +553,9 @@
             ]
           },
           {
-            "title": "3.3. Persoonsgegevens die u verstrekt bij het toevoegen van uw tuin aan uw account.",
+            "title": "3.3. Persoonsgegevens die je verstrekt bij het toevoegen van jouw tuin aan je account.",
             "list": [
-              "De locatie van uw tuin (coördinaten: de lengte- en breedtegraad) (verplicht)",
+              "De locatie van jouw tuin (coördinaten: de lengte- en breedtegraad) (verplicht)",
               "Informatie over jouw tuin (beschrijving, faciliteiten, aantal tenten die opgezet kunnen worden) (verplicht)",
               "Talen die je spreekt (verplicht)",
               "Een foto van jouw tuin (optioneel)"
@@ -355,12 +582,12 @@
           "copy": "Je persoonlijke gegevens worden niet gedeeld met derden. We zullen je persoonlijke gegevens nooit verkopen of verhuren aan andere serviceproviders, noch zullen we jouw persoonlijke gegevens delen met serviceproviders die niet voldoen aan de AVG."
         },
         {
-          "title": "6. Waarnaar dragen we uw persoonsgegevens over?",
+          "title": "6. Waarnaar dragen we jouw persoonsgegevens over?",
           "copy": "We dragen jouw persoonsgegevens alleen over aan serviceproviders die buiten de Europese Economische Ruimte zijn gevestigd als ze voldoen aan art 44 GDPR (AVG). Alle in de VS gevestigde serviceproviders voldoen aan het Privacy Shield."
         },
         {
           "title": "7. Geautomatiseerde besluitvorming en profilering",
-          "copy": "De verwerking van uw persoonlijke gegevens omvat geen profilering en zal niet worden onderworpen aan geautomatiseerde besluitvorming door Welcome To My Garden."
+          "copy": "De verwerking van jouw persoonlijke gegevens omvat geen profilering en zal niet worden onderworpen aan geautomatiseerde besluitvorming door Welcome To My Garden."
         }
       ]
     },
@@ -409,7 +636,7 @@
           "copy": [
             "Welcome to My Garden heeft beveiligingsmaatregelen ontwikkeld die op technologisch en organisatorisch niveau zijn aangepast om vernietiging, verlies, vervalsing, wijziging, verboden toegang of de foutieve openbaarmaking van persoonsgegevens aan derden te voorkomen, evenals elke andere verboden verwerking van deze gegevens.",
             "Welcome to My Garden kan in geen geval aansprakelijk worden gesteld voor enige directe of indirecte schade die voortvloeit uit het onjuist of onrechtmatig gebruik van jouw persoonsgegevens door een derde partij.",
-            "Je moet ten allen tijde de beveiligingsinstructies naleven, waaronder het voorkomen van alle verboden toegang tot uw inlog gegevens, inclusief je wachtwoord. Je bent zelf verantwoordelijk voor het gebruik van de website op jouw computer, vanaf je IP-adres en met jouw identificatiegegevens. ‍"
+            "Je moet ten allen tijde de beveiligingsinstructies naleven, waaronder het voorkomen van alle verboden toegang tot jouw inlog gegevens, inclusief je wachtwoord. Je bent zelf verantwoordelijk voor het gebruik van de website op jouw computer, vanaf je IP-adres en met jouw identificatiegegevens. ‍"
           ]
         }
       ]
@@ -460,239 +687,12 @@
       "copy": "De controleur voor de verwerking van de gegevens heeft het recht om dit privacybeleid op elk moment te wijzigen door gebruikers op deze pagina op de hoogte te stellen. We raden aan deze pagina te controleren op mogelijke wijzigingen. De datum van de laatste wijziging wordt onderaan de pagina aangegeven. Als een gebruiker bezwaar maakt tegen een wijziging in het beleid, mag de gebruiker deze applicatie niet blijven gebruiken. Men zou de verwerkingsverantwoordelijke kunnen verzoeken om de persoonsgegevens te verwijderen. Tenzij anders aangegeven, is het op dat moment geldige privacybeleid van applicatie op alle persoonsgegevens die de verwerkingsverantwoordelijke heeft opgeslagen voor de verwerking van de gegevens over gebruikers."
     }
   },
-  "garden": {
-    "facilities": {
-      "labels": {
-        "water": "Water",
-        "drinkable-water": "Drinkbaar water",
-        "toilet": "Toilet",
-        "bonfire": "Kampvuur",
-        "electricity": "Elektriciteit",
-        "shower": "Douche",
-        "tent": "Tent"
-      }
-    },
-    "drawer": {
-      "facilities": {
-        "capacity": "Ruimte voor {styleCapacity} {capacity, plural, one {tent} other {tenten}}"
-      },
-      "owner": {
-        "your-garden": "Uw tuin",
-        "button": "Tuin beheren"
-      },
-      "guest": {
-        "button": "Contact gastheer",
-        "login": "Je moet {signInLink} om contact op te kunnen nemen met de gastheren",
-        "sign-link-text": "inloggen"
-      },
-      "unclaimed": "U kunt contact opnemen met deze gastheer zodra zijn account is geverifieerd."
-    },
-    "add": {
-      "title": "Voeg uw tuin toe"
-    },
-    "manage": {
-      "title": "Beheer uw tuin"
-    },
-    "form": {
-      "title": "Voeg uw tuin toe aan de kaart",
-      "auth-notice": "U moet ingelogd zijn om uw tuin aan de kaart toe te voegen. Ofwel {signInLink} of {registerLink}",
-      "sign-in-link-text": "Log in",
-      "register-link-text": "een account aanmaken",
-      "email-confirm-notice": "U moet uw e-mail controleren voordat u uw tuin aan de kaart toevoegt. We hebben u een e-mail gestuurd toen u uw account aanmaakte. U kunt een verificatielink opnieuw versturen vanuit {accountLink}.",
-      "normal-notice": "Door het indienen van dit formulier wordt uw tuin aan de kaart toegevoegd. U kunt het te allen tijde beheren of verwijderen van {accountLink}.",
-      "account-link-text": "uw account",
-      "location": {
-        "title": "Locatie (verplicht)",
-        "notice": "Verplaats de marker om de locatie van uw tuin in te stellen. U kunt de adresvelden invullen om de marker dichter bij u te verplaatsen. <br /> Wij slaan uw adresgegevens niet op.",
-        "coordinate-hint": "Zorg ervoor dat u de kaartmarkering naar de exacte locatie van uw tuin hebt gesleept en op \"Bevestig pinlocatie\" hebt geklikt.",
-        "confirm-button": "Bevestig pinlocatie",
-        "adjust-button": "Aanpassen pinlocatie",
-        "street": "Straat",
-        "house-number": "Huisnummer",
-        "region": "Provincie of Staat",
-        "postal-code": "Postcode",
-        "city": "Stad",
-        "country": "Land"
-      },
-      "description": {
-        "title": "Beschrijf uw kampeerplaats (verplicht)",
-        "notice": "Een korte beschrijving van uw tuin en de kampeerplek die u kunt aanbieden. Deze informatie wordt in het openbaar weergegeven, dus vermeld hier geen persoonlijke gegevens. <br />Uw beschrijving moet tussen 20 en 300 karakters zijn.",
-        "hints": {
-          "too-short": "{remaining} nog {remaining, plural, one {karakter} other {karakters}}  nodig...",
-          "too-long": "{surplus} {surplus, plural, one {karakter} other {karakters}} te lang..."
-        },
-        "placeholder": "Voer de beschrijving in...",
-        "label": "Beschrijving"
-      },
-      "facilities": {
-        "title": "Voorzieningen",
-        "notice": "Tot welke voorzieningen hebben reizigers toegang?",
-        "capacity": {
-          "label": "Capaciteit (vereist)",
-          "help": "Hoeveel tenten heeft u ruimte voor (schatting)"
-        }
-      },
-      "photo": {
-        "title": "Foto",
-        "notice": "Laat de mensen zien hoe uw tuin eruit ziet.<br />Zorg ervoor dat de foto alleen de kampeerplek laat zien en niet het huis van uw buur.",
-        "img-alt": "Uw tuin",
-        "hints": {
-          "wrong-format": "Uw foto moet een JPEG-, PNG- of TIFF-bestand zijn.",
-          "too-large": "Je foto is te groot. De bestandsgrootte van een foto moet 5MB of kleiner zijn."
-        }
-      },
-      "add-button": "Voeg uw tuin toe",
-      "update-button": "Actualiseer uw tuin",
-      "invalid": "Sommige informatie was niet geldig. Controleer de door u verstrekte informatie op fouten."
-    },
-    "notify": {
-      "success": "Uw tuin is succesvol toegevoegd!",
-      "update": "Uw tuin werd met succes geüpdatet!",
-      "photo": "Het kan een minuut duren voordat de foto verschijnt."
-    }
-  },
-  "sign-in": {
-    "title": "Inloggen",
-    "button": "Inloggen",
-    "reset": {
-      "text": "Wachtwoord vergeten? {link}",
-      "link": "Stel het opnieuw in"
-    },
-    "register": {
-      "text": "Nog geen account? {link}",
-      "link": "Registreer"
-    },
-    "notify": {
-      "welcome": "Welkom terug, {user}!",
-      "incorrect": "Het opgegeven e-mailadres of wachtwoord is onjuist.",
-      "login-issue": "We konden je niet inloggen. Als het probleem aanhoudt, neem dan contact op met {support}"
-    }
-  },
-  "request-password-reset": {
-    "title": "Stel een nieuw wachtwoord in",
-    "description": "Als u het onderstaande formulier indient, kunnen wij u een unieke link sturen waarmee u uw wachtwoord kunt resetten.",
-    "button": "Instructies voor het herstellen van uw e-mail",
-    "set": "Als er een account bestaat met de e-mail {email}, wordt er nu een e-mail gestuurd met instructies voor het herstellen van het wachtwoord.",
-    "trouble": "Heb je moeite met inloggen? contacteer ons via {support} en we helpen u verder!"
-  },
-  "reset-password": {
-    "title": "Stel een nieuw wachtwoord in",
-    "update": "Wachtwoord wijzigen",
-    "succes": "Uw wachtwoord is succesvol gereset"
-  },
-  "account": {
-    "title": "Account",
-    "verify": {
-      "title": "Bevestig uw e-mail",
-      "text": "U moet uw e-mailadres controleren als u wilt chatten of een tuin wilt toevoegen.",
-      "button": "E-mail opnieuw versturen",
-      "sent": "E-mail verzonden!"
-    },
-    "preferences": {
-      "title": "E-mail voorkeuren",
-      "text": "Stuur me een e-mail wanneer:",
-      "chat": "Ik een nieuw chatbericht ontvang",
-      "news": "Welcome To My Garden nieuws wil delen"
-    },
-    "garden": {
-      "title": "Uw tuin",
-      "unlisted": {
-        "text": "Je hebt je tuin nog niet op de kaart gezet. Wanneer u uw tuin toevoegt, kunnen andere gebruikers contact met u opnemen om een bezoek aan te vragen. U kunt uw tuin op elk moment uitschrijven!",
-        "button": "Voeg uw tuin toe"
-      },
-      "listed": {
-        "text": "U kunt uw tuin op elk gewenst moment uit de lijst halen. Dit betekent dat het voor later bewaard blijft - maar pas op de kaart wordt getoond als u het weer laat zien.",
-        "button": "Beheer uw tuin"
-      },
-      "unverified": {
-        "text": "Controleer uw e-mail om uw tuin te beheren."
-      }
-    },
-    "notify": {
-      "resend-error": "We konden geen accountverificatie e-mail sturen. Neem contact op met {support}",
-      "garden-show": "Uw tuin komt weer op de kaart te staan",
-      "garden-no-show": "Uw tuin komt niet op de kaart te staan.",
-      "preferences-update": "Uw e-mailvoorkeuren zijn bijgewerkt!"
-    }
-  },
-  "auth": {
-    "invalid-code": "Deze pagina is niet toegankelijk zonder een geldige actiecode",
-    "password": {
-      "expired": "De link om uw wachtwoord te herstellen is verlopen, probeer nog eens."
-    },
-    "verification": {
-      "succes": "Uw e-mailadres is met succes geverifieerd!",
-      "refresh": "Uw e-mail is al geverifieerd. Vernieuw de pagina.",
-      "expired": "Deze verificatielink is vervallen. Vraag een nieuwe aan.",
-      "unsigned": "Gelieve eerst in te loggen"
-    }
-  },
-  "register": {
-    "title": "Registreren",
-    "button": "Registreren",
-    "first-name": "Voornaam",
-    "last-name": "Achternaam",
-    "country": "Land",
-    "policies": "Ik ga akkoord met de {cookiePolicy}, {privacyPolicy} en {termsOfUse}",
-    "registering": "Bezig met registratie...",
-    "registred": "Heb je al een account? {signIn}",
-    "validate": {
-      "email": "Voeg een e-mail adres toe, dit is waarmee u inlogt.",
-      "password": {
-        "set": "U moet een wachtwoord instellen zodat u later kunt inloggen.",
-        "min": "Uw wachtwoord moet minimaal 8 karakters bevatten",
-        "max": "Zorg ervoor dat uw wachtwoord maximaal 100 karakters lang is."
-      },
-      "first-name": {
-        "set": "Voer een voornaam in. Zo wordt u aan andere gebruikers getoond.",
-        "max": "Je voornaam kan maar 25 karakters lang zijn, zodat we hem goed kunnen weergeven. Voel je vrij om deze te verkorten of kies een bijnaam"
-      },
-      "last-name": "Voer uw achternaam in. Dit zal niet worden gedeeld met andere gebruikers.",
-      "country": {
-        "set": "Geef alstublieft uw land in. Dit helpt ons om de kaart te focussen op waar u vandaan komt.",
-        "from-list": "Kies een land uit de lijst. Dit helpt ons om de kaart te focussen op waar u vandaan komt."
-      },
-      "consent": "U moet akkoord gaan met de voorwaarden van Welcome To My Garden als u gebruik wilt maken van het platform."
-    },
-    "notify": {
-      "successful": "Uw account is met succes aangemaakt! Controleer uw e-mail om uw account te verifiëren.",
-      "in-use": "Dit e-mailadres is al in gebruik.",
-      "unexpected": "Er is een onverwachte fout opgetreden. Als het probleem aanhoudt, neem dan contact op met {support}"
-    }
-  },
-  "chat": {
-    "title": "Chat",
-    "title-conversation": "Chat met {partnerName}",
-    "all-conversations": "Alle gesprekken",
-    "no-messages": {
-      "text": "Je hebt nog geen berichten. Selecteer een host {link} om contact met ze op te nemen.",
-      "link": "op de kaart"
-    },
-    "type-message": "Typ uw bericht...",
-    "new": "nieuw",
-    "notify": {
-      "unverified": "Verifieer uw e-mail voordat u begint te chatten",
-      "empty-message": "Uw bericht kan niet leeg zijn",
-      "too-long": "Uw bericht is {surplus} {surplus, plural, one {karakter} other {karakters} te lang..."
-    }
-  },
-  "map": {
-    "vehicle-notice": {
-      "title": "Welcome To My Garden is alleen voor langzame reizigers.",
-      "text": "Als u van plan bent om met een gemotoriseerd voertuig te reizen, neem dan geen contact op met de gastheer of -vrouw via dit platform. Bedankt voor uw begrip!"
-    },
-    "trails": {
-      "hiking": "Wandelroutes tonen",
-      "cycling": "Fietsroutes tonen",
-      "attribution": "Trajecten met dank aan {link}"
-    }
-  },
   "terms-of-use": {
     "title": "Gebruiksvoorwaarden",
     "last-updated": "Laatst bijgewerkt: 30 Mei 2020",
     "intro": [
       {
-        "copy": "Welcome to My Garden is een netwerk zonder winstoogmerk van burgers die gratis kampeerplekken aanbieden aan trage reizigers. Deze Servicevoorwaarden (<span class=\"bold\">\"Voorwaarden\"</span>) zijn van toepassing op uw toegang tot en gebruik van de website en het gebruik van het netwerk (gezamenlijk ons ​​<span class=\"bold\">\"Platform\"</span>) dat wordt aangeboden door Welcome to My Garden."
+        "copy": "Welcome to My Garden is een netwerk zonder winstoogmerk van burgers die gratis kampeerplekken aanbieden aan trage reizigers. Deze Servicevoorwaarden (<span class=\"bold\">\"Voorwaarden\"</span>) zijn van toepassing op jouw toegang tot en gebruik van de website en het gebruik van het netwerk (gezamenlijk ons ​​<span class=\"bold\">\"Platform\"</span>) dat wordt aangeboden door Welcome to My Garden."
       },
       {
         "copy": "Het gebruik van dit platform is onderhevig aan een aantal regels. Hieronder vind je de algemene voorwaarden van ons platform, omdat we ervan overtuigd zijn dat duidelijke regels de beste garantie bieden voor een respectvolle gemeenschap. Door een account aan te maken of op een andere manier het platform te betreden, ga je akkoord met deze Voorwaarden."
@@ -913,7 +913,7 @@
         "title": "11. Eigendomsrechten Welcome to My Garden",
         "descriptions": [
           {
-            "copy": "De broncode van Welcome to My Garden is open source. U stemt ermee in gebonden te zijn aan en te voldoen aan elke licentieovereenkomst die van toepassing is op deze open source-software."
+            "copy": "De broncode van Welcome to My Garden is open source. Je stemt ermee in gebonden te zijn aan en te voldoen aan elke licentieovereenkomst die van toepassing is op deze open source-software."
           }
         ]
       },
