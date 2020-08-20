@@ -29,19 +29,22 @@
 
   function dragBarCatch() {
     previousOffsetCursor = 0;
+    document.body.style = 'overscroll-behavior: contain';
   }
 
   function dragBarMove({ detail }) {
     if (previousOffsetCursor !== null) {
-      drawerElement.style.height = `${drawerElement.offsetHeight -
-        previousOffsetCursor +
-        detail.y}px`;
+      drawerElement.style.height = `${
+        drawerElement.offsetHeight - previousOffsetCursor + detail.y
+      }px`;
       previousOffsetCursor = detail.y;
     }
   }
 
   function dragBarRelease() {
+    console.log('Released');
     previousOffsetCursor = null;
+    document.body.style = 'overscroll-behavior: auto';
   }
 
   const facilities = [
@@ -77,7 +80,7 @@
     }
   };
 
-  const handleClickOutsideDrawer = event => {
+  const handleClickOutsideDrawer = (event) => {
     const { clickEvent } = event.detail;
     // if closing maginified photo view, don't close drawer
     if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) return;

@@ -47,7 +47,7 @@ export default (node) => {
     const offsetY = y - clientY;
 
     node.dispatchEvent(
-      new CustomEvent('drag', {
+      new CustomEvent('dragend', {
         detail: { x: offsetX, y: offsetY }
       })
     );
