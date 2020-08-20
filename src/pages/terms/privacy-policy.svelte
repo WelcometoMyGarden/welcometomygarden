@@ -1,6 +1,7 @@
 <script>
   import { _, locale } from 'svelte-i18n';
   import { getArrayFromLocale, supportEmailLinkString } from '@/util';
+  import { Ol } from '@/components/UI';
 
   $: definitions = getArrayFromLocale('privacy-policy.definitions.articles', $locale);
   $: personalDataCollected = getArrayFromLocale(
@@ -26,37 +27,37 @@
   {@html $_('privacy-policy.email', { values: { support: supportEmailLinkString } })}
 </p>
 
-<ol>
-  <li>
-    <h4>{$_('privacy-policy.scope.title')}</h4>
+<Ol>
+  <li class="h4">
+    <h3 class="title t3">{$_('privacy-policy.scope.title')}</h3>
     <p>{$_('privacy-policy.scope.copy')}</p>
   </li>
-  <li>
-    <h4>{$_('privacy-policy.personal-data.meaning.title')}</h4>
+  <li class="h4">
+    <h3 class="title t3">{$_('privacy-policy.personal-data.meaning.title')}</h3>
     <p>{$_('privacy-policy.personal-data.meaning.copy')}</p>
   </li>
-  <li>
-    <h4>{$_('privacy-policy.personal-data.collection.title')}</h4>
+  <li class="h4">
+    <h3 class="title t3">{$_('privacy-policy.personal-data.collection.title')}</h3>
     <p class="info">{$_('privacy-policy.personal-data.collection.copy')}</p>
-    <ol>
+    <Ol>
       {#each personalDataCollected as source}
-        <li class="info-item">
-          <h5>{source.title}</h5>
+        <li class="info-item p">
+          <h4 class="title t4">{source.title}</h4>
           <ul>
             {#each Array(Object.keys(source).length - 1) as _, i}
-              <li class="info-item">{source[`list.${i}`]}</li>
+              <li class="info-item p">{source[`list.${i}`]}</li>
             {/each}
           </ul>
         </li>
       {/each}
-    </ol>
+    </Ol>
   </li>
-  <li>
-    <h4>{$_('privacy-policy.personal-data.usage.title')}</h4>
+  <li class="h4">
+    <h3 class="title t3">{$_('privacy-policy.personal-data.usage.title')}</h3>
     <p class="info">{$_('privacy-policy.personal-data.usage.subtitle')}</p>
     <ul>
       {#each getArrayFromLocale('privacy-policy.personal-data.usage.purposes') as x, i}
-        <li class="info-item">{$_(`privacy-policy.personal-data.usage.purposes.${i}`)}</li>
+        <li class="info-item p">{$_(`privacy-policy.personal-data.usage.purposes.${i}`)}</li>
       {/each}
     </ul>
     <p>
@@ -64,63 +65,54 @@
     </p>
   </li>
   {#each getArrayFromLocale('privacy-policy.personal-data.extra', $locale) as { title, copy }}
-    <li>
-      <h4>{title}</h4>
+    <li class="h4">
+      <h3 class="t3 title">{title}</h3>
       <p>{copy}</p>
     </li>
   {/each}
-  <li>
-    <h4>{$_('privacy-policy.rights.title')}</h4>
-    <p class="info">{$_('privacy-policy.rights.copy')}</p>
-    <ol class="info-item">
+  <li class="h4">
+    <h3 class="t3 title">{$_('privacy-policy.rights.title')}</h3>
+    <p class="info p">{$_('privacy-policy.rights.copy')}</p>
+    <Ol class="info-item">
       {#each getArrayFromLocale('privacy-policy.rights.list', $locale) as { title, copy }}
-        <li>
-          <h5>{title}</h5>
+        <li class="p">
+          <h4 class="t4 title">{title}</h4>
           <p class="info-item">{copy}</p>
         </li>
       {/each}
-    </ol>
+    </Ol>
   </li>
-  <li>
-    <h4>{$_('privacy-policy.rights.exercise-rights.title')}</h4>
+  <li class="h4">
+    <h3 class="title t3">{$_('privacy-policy.rights.exercise-rights.title')}</h3>
     <p>
       {@html $_('privacy-policy.rights.exercise-rights.copy', {
         values: { support: supportEmailLinkString }
       })}
     </p>
   </li>
-</ol>
+</Ol>
 
 <h3>{$_('privacy-policy.additional-info.title')}</h3>
-<ol>
-  {#each getArrayFromLocale('privacy-policy.additional-info.infos', $locale) as item}
-    <li>
-      <h4>{item.title}</h4>
-      {#each Array(Object.keys(item).length - 1) as x, i}
-        <p>{item[`copy.${i}`]}</p>
-      {/each}
-    </li>
+{#each getArrayFromLocale('privacy-policy.additional-info.infos', $locale) as item}
+  <h4>{item.title}</h4>
+  {#each Array(Object.keys(item).length - 1) as x, i}
+    <p>{item[`copy.${i}`]}</p>
   {/each}
-</ol>
+{/each}
 
 <h3>{$_('privacy-policy.definitions.title')}</h3>
-<ol>
-  {#each definitions as { title, copy }}
-    <li>
-      <h4>{title}</h4>
-      <p>{copy}</p>
-    </li>
-  {/each}
+{#each definitions as { title, copy }}
+  <h4>{title}</h4>
+  <p>{copy}</p>
+{/each}
 
-  <h4 class="info">{$_('privacy-policy.definitions.legal-info.title')}</h4>
-  <p class="info-item">{$_('privacy-policy.definitions.legal-info.copy')}</p>
-  <h4 class="info">
-    {$_('privacy-policy.change-warning.title')}
-    <small>{$_('privacy-policy.last-updated')}</small>
-  </h4>
-  <p class="info-item">{$_('privacy-policy.change-warning.copy')}</p>
-
-</ol>
+<h4 class="info">{$_('privacy-policy.definitions.legal-info.title')}</h4>
+<p class="info-item">{$_('privacy-policy.definitions.legal-info.copy')}</p>
+<h4 class="info">
+  {$_('privacy-policy.change-warning.title')}
+  <small>{$_('privacy-policy.last-updated')}</small>
+</h4>
+<p class="info-item">{$_('privacy-policy.change-warning.copy')}</p>
 
 <style>
   .subtitle {
@@ -133,7 +125,7 @@
     align-items: baseline;
   }
 
-  h3 {
-    padding-top: 5rem;
+  h3:not(.t3) {
+    padding-top: 2rem;
   }
 </style>
