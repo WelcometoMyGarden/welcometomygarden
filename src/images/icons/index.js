@@ -16,3 +16,4 @@ export { default as tentIcon } from './tent.svg';
 export { default as toiletIcon } from './toilet.svg';
 export { default as userIcon } from './user.svg';
 export { default as waterIcon } from './water.svg';
+export { default as heartIcon } from './heart.svg';

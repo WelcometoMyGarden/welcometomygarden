@@ -1,10 +1,14 @@
 <script>
   import { Modal, Button } from '../UI/index';
+  import { heartIcon } from '@/images/icons';
   export let show;
 </script>
 
 <Modal bind:show ariaLabelledBy="title" let:ariaLabelledBy maxWidth="500px">
-  <div slot="body" role={show ? undefined : 'form'} class="thanks">
+  <div slot="body" class="thanks">
+    <div class="heart mb-l">
+      {@html heartIcon}
+    </div>
     <h2 class="title mb-m" id={ariaLabelledBy}>Thank you for reporting!</h2>
     <p>Your feedback is important. It helps us keep the Welcome To My garden community safe.</p>
   </div>
