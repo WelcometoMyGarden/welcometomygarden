@@ -32,9 +32,11 @@
   const fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let zoom = 7;
 
-  $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
+  let filteredGardensee;
+  $: filteredGardens = $allGardens;
+  $: console.log(filteredGardens);
 
-  $: console.log($allGardens);
+  $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
 
   $: center = selectedGarden
     ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
@@ -170,9 +172,33 @@
     emptyPlacesAndInput();
   };
 
-  //garden filter
-  let show;
-  let filter;
+  let show = false;
+
+  let filter = {
+    facilities: {},
+    capacity: {
+      min: 1,
+      max: 20
+    }
+  };
+
+  /*
+  let filter = {
+    facilities: {
+      bonfire: false,
+      drinkableWater: false,
+      electricity: false,
+      shower: false,
+      tent: false,
+      toilet: false,
+      water: false
+    },
+    capacity: {
+      min: 1,
+      max: 20
+    }
+  };
+*/
 
   const facilities = [
     { name: 'water', icon: waterIcon, label: 'Water' },
@@ -187,6 +213,42 @@
   const openGardenFilerModal = () => {
     show = true;
   };
+
+  const capacityMinReduce = () => {
+    if (filter.capacity.min > 1) filter.capacity.min -= 1;
+  };
+  const capacityMinIncrease = () => {
+    if (filter.capacity.min < 20) filter.capacity.min += 1;
+  };
+
+  function gardenFilterFacilities(garden, index, array) {
+    for (const [key, value] of Object.entries(this)) {
+      if (value && garden.facilities[key] !== value) return false;
+    }
+    return true;
+  }
+
+  function gardenFilterCapacity(garden, index, array) {
+    const value = garden.facilities.capacity;
+    return value >= this.min && value <= this.max;
+  }
+
+  const returnFilteredGardens = (filter, allGardens) => {
+    const filteredGardens = Object.values(allGardens)
+      .filter(gardenFilterFacilities, filter.facilities)
+      .filter(gardenFilterCapacity, filter.capacity);
+
+    let gardens = {};
+    filteredGardens.forEach((garden) => {
+      gardens[garden.id] = { ...garden };
+    });
+    return gardens;
+  };
+
+  const filterGardens = (filter, allGardens) => {
+    filteredGardens = returnFilteredGardens(filter, allGardens);
+    show = false;
+  };
 </script>
 
 <Progress active={$isFetchingGardens} />
@@ -196,7 +258,7 @@
       <GardenLayer
         on:garden-click={(e) => selectGarden(e.detail)}
         selectedGardenId={selectedGarden ? selectedGarden.id : null}
-        allGardens={$allGardens} />
+        allGardens={filteredGardens} />
       <Drawer on:close={closeDrawer} garden={selectedGarden} />
       <WaymarkedTrails {showHiking} {showCycling} />
       <slot />
@@ -288,35 +350,46 @@
 
 </div>
 
-<Modal bind:show maxWidth="700px" radius="true" center="true">
-  <div slot="title" style="width:100%;">
+<Modal bind:show maxWidth="576px" radius="true" center="true">
+  <div slot="title" class="gardenFilterTitleSection">
     <h2 id="gardenFilterTitle">Filter</h2>
-    <hr />
   </div>
-  <div slot="body">
-
+  <div slot="body" class="gardenFilterBodySection">
+    <hr />
     <div id="gardenFacilities" class="gardenFilterSection">
       <h3 class="gardenFilterSubtitle">Garden Facilities</h3>
-      <div class="checkboxes">
+      <div class="gardenFilterCheckboxes">
         {#each facilities as facility (facility.name)}
-          <LabeledCheckbox {...facility} />
+          <div class="gardenFilterCheckbox">
+            <LabeledCheckbox {...facility} bind:checked={filter.facilities[facility.name]} />
+          </div>
         {/each}
       </div>
     </div>
     <hr />
     <div id="gardenCapacity" class="gardenFilterSection">
       <h3 class="gardenFilterSubtitle">Garden Capacity</h3>
-      <p>Tent spots available</p>
-      <div class="sliders">
+      <div class="gardenFilterCapacitySection">
+        <div>
+          <p>Tent spots available</p>
+        </div>
+        <div class="gardenFilterCapacityModifier">
+          <p>Min.</p>
+          <button on:click={capacityMinReduce}>-</button>
+          <p>{filter.capacity.min}</p>
+          <button on:click={capacityMinIncrease}>+</button>
+        </div>
+      </div>
+
+      <!-- <div class="sliders">
         <input value="1" min="1" max="20" step="1" type="range" name />
         <input value="20" min="1" max="20" step="1" type="range" />
-      </div>
+      </div> -->
     </div>
-    <hr />
   </div>
 
-  <span slot="controls">
-    <Button>Send</Button>
+  <span slot="controls" class="applyGardenFilter">
+    <Button on:click={filterGardens(filter, $allGardens)}>Apply Filters</Button>
   </span>
 </Modal>
 
@@ -396,16 +469,33 @@
     border: 3px solid var(--color-warning);
   }
 
+  .filter :global(input, .input:focus) {
+    border-radius: 10px;
+    border-bottom: none;
+  }
+
   .garden-filter :global(button) {
+    padding: 0 1.2rem;
+    font-size: 1.6rem;
+    height: 43px;
+    margin: 0;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
   }
 
-  .gardenFilterSection {
-    margin: 1.5rem 0;
+  .gardenFilterTitleSection {
+    width: 100%;
+    margin-bottom: 1rem;
   }
 
   #gardenFilterTitle {
     font-weight: bold;
+    font-size: 2rem;
+
+    text-align: center;
+  }
+
+  .gardenFilterSection {
+    padding: 3rem 1.5rem;
   }
 
   .gardenFilterSubtitle {
@@ -414,16 +504,51 @@
     margin-bottom: 1rem;
   }
 
-  .filter :global(input, .input:focus) {
-    border-radius: 10px;
-    border-bottom: none;
+  .gardenFilterCheckboxes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: min-content;
+    grid-row-gap: 1rem;
   }
 
-  .filter :global(.button) {
-    padding: 0 1.2rem;
-    font-size: 1.6rem;
-    height: 43px;
-    margin: 0;
+  .gardenFilterCapacitySection {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .gardenFilterCapacitySection > div {
+    flex: 0 50%;
+  }
+
+  .gardenFilterCapacityModifier {
+    display: flex;
+    justify-content: center;
+  }
+
+  .gardenFilterCapacityModifier > button {
+    margin: 2px 1rem 0 1rem;
+    padding: 0;
+
+    border: 1.5px solid var(--color-green);
+    border-radius: 50%;
+
+    background-color: var(--color-white);
+    cursor: pointer;
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .gardenFilterCapacityModifier > button:hover {
+    background-color: var(--color-green);
+    color: var(--color-white);
+  }
+
+  .applyGardenFilter {
+    margin: auto;
+    text-align: center;
   }
 
   .attribution {

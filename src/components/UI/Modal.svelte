@@ -97,7 +97,7 @@
     position: relative;
     overflow: auto;
     box-shadow: 0px 0px 21.5877px rgba(0, 0, 0, 0.1);
-    padding: 4rem;
+    padding: 2rem;
     background-color: var(--color-white);
     width: 100%;
   }
