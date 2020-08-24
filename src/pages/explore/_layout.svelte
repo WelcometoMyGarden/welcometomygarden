@@ -11,7 +11,7 @@
   import { Progress, LabeledCheckbox, Icon } from '@/components/UI';
   import { getCookie, setCookie } from '@/util';
   import { crossIcon, cyclistIcon, hikerIcon } from '@/images/icons';
-  import ReportGarden from '../../components/Abuse/ReportGarden.svelte';
+  import Report from '../../components/Abuse/Report.svelte';
 
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
   $: center = selectedGarden
@@ -60,7 +60,7 @@
   let showModal = false;
 </script>
 
-<ReportGarden bind:show={showModal} garden={gardenToReport} />
+<Report bind:show={showModal} objectId={gardenToReport ? gardenToReport.id : null} />
 <Progress active={$isFetchingGardens} />
 <div class="map-section">
   <Map lat={center[1]} lon={center[0]} recenterOnUpdate zoom="7">

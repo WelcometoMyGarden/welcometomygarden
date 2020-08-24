@@ -9,7 +9,7 @@
   import { chats, messages } from '@/stores/chat';
   import { Avatar, Button } from '@/components/UI';
   import ReportButton from '@/components/Abuse/ReportButton.svelte';
-  import ReportUser from '@/components/Abuse/ReportUser.svelte';
+  import Report from '@/components/Abuse/Report.svelte';
 
   import routes from '@/routes';
 
@@ -85,7 +85,7 @@
   <title>Chat with {partnerName} | Welcome To My Garden</title>
 </svelte:head>
 
-<ReportUser bind:show={showModal} />
+<Report bind:show={showModal} type="Chat" objectId={chatId} by={$user.id} />
 
 <header class="chat-header">
   <a class="back" href={routes.CHAT}>&#x3c;</a>

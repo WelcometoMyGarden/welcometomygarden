@@ -3,8 +3,9 @@
   import Thanks from './Thanks.svelte';
 
   export let show;
-  export let reported;
-  export let reporter;
+  export let type = 'Garden'; // one of 'Garden' (default), 'Chat'
+  export let objectId;
+  export let by = null;
 
   let next = false;
   let choice;
@@ -12,12 +13,42 @@
 
   show = !next && show;
 
+  const gardenChoices = [
+    {
+      code: 'ask-money',
+      label: 'The host asks money'
+    },
+    { code: 'misplaced', label: 'The garden is in the wrong place' }
+  ];
+
+  const chatChoices = [
+    { code: 'misbehaved', label: 'User misbehaved' },
+    { code: 'fast-traveller', label: 'Not a slow traveller' }
+  ];
+
+  let choices = null;
+  if (type === 'Garden') {
+    choices = gardenChoices;
+  } else if (type === 'Chat') {
+    choices = chatChoices;
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     problem = problem.trim();
-    if (choice === 3 && !problem) {
+    if (choice === choices.length && !problem) {
       return;
     }
+
+    const report = {
+      reason: choices[choice] ? choices[choice].code : 'other',
+      comment: problem || null,
+      object: { type, id: objectId },
+      by
+    };
+
+    console.log(report);
+
     next = true;
     show = false;
 
@@ -33,31 +64,25 @@
 <Modal bind:show ariaLabelledBy="title" let:ariaLabelledBy maxWidth="500px" on:close={reset}>
   <h2 slot="title" class="title" id={ariaLabelledBy}>Why did you report this garden?</h2>
   <form slot="body" class="container" id="report-garden" on:submit={handleSubmit}>
+    {#each choices as { code, label }, i}
+      <div class="choice">
+        <LabeledRadio name="abuse" id={code} bind:group={choice} value={i} {label} />
+      </div>
+    {/each}
     <div class="choice">
       <LabeledRadio
         name="abuse"
-        id="misbehaved"
+        id="other"
         bind:group={choice}
-        value={1}
-        label="User misbehaved" />
-    </div>
-    <div class="choice">
-      <LabeledRadio
-        name="abuse"
-        id="fast-traveller"
-        bind:group={choice}
-        value={2}
-        label="Not a slow traveller" />
-    </div>
-    <div class="choice">
-      <LabeledRadio name="abuse" id="other" bind:group={choice} value={3} label="Other" />
+        value={choices.length}
+        label="Other" />
       <div class="textarea">
         <Textarea
           grow
           placeholder="Tell us the problem"
           name="problem"
           bind:value={problem}
-          required={choice === 3} />
+          required={choice === choices.length} />
       </div>
     </div>
   </form>
