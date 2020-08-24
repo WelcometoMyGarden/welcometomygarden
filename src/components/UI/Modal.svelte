@@ -3,6 +3,19 @@
   import { Icon, Button } from './index';
   import { crossIcon } from '@/images/icons';
   import { focusTrap } from '@/directives';
+  import { beforeUpdate, onDestroy } from 'svelte';
+
+  beforeUpdate(() => {
+    if (show) {
+      document.body.setAttribute('data-modal', true);
+    } else {
+      document.body.removeAttribute('data-modal');
+    }
+  });
+
+  onDestroy(() => {
+    document.body.removeAttribute('data-modal');
+  });
 
   const dispatch = createEventDispatcher();
 
@@ -37,12 +50,6 @@
     if (!closeOnEsc) return;
     if (e.key === 'Escape' || e.keyCode === 27) close();
   };
-
-  $: if (show) {
-    document.body.setAttribute('data-modal', true);
-  } else {
-    document.body.removeAttribute('data-modal');
-  }
 </script>
 
 <svelte:window on:keydown={handleKeydown} />

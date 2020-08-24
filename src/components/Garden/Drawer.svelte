@@ -205,14 +205,16 @@
           medium>
           Contact host
         </Button>
-        <div class="mt-m report">
-          <ReportButton
-            on:click={() => {
-              dispatch('report', { garden });
-            }}>
-            <span class="underline">report this garden</span>
-          </ReportButton>
-        </div>
+        {#if $user}
+          <div class="mt-m report">
+            <ReportButton
+              on:click={() => {
+                dispatch('report', { garden, userId: $user.id });
+              }}>
+              <span class="underline">report this garden</span>
+            </ReportButton>
+          </div>
+        {/if}
       {/if}
     </footer>
   {:else}

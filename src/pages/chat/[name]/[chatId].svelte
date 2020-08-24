@@ -85,7 +85,12 @@
   <title>Chat with {partnerName} | Welcome To My Garden</title>
 </svelte:head>
 
-<Report bind:show={showModal} type="Chat" objectId={chatId} by={$user.id} />
+<Report
+  bind:show={showModal}
+  type="Chat"
+  object={chatId}
+  claimant={$user.id}
+  offender={chat.users.find((id) => $user.id !== id)} />
 
 <header class="chat-header">
   <a class="back" href={routes.CHAT}>&#x3c;</a>

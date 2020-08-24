@@ -4,8 +4,9 @@
 
   export let show;
   export let type = 'Garden'; // one of 'Garden' (default), 'Chat'
-  export let objectId;
-  export let by = null;
+  export let object;
+  export let offender;
+  export let claimant;
 
   let next = false;
   let choice;
@@ -43,8 +44,10 @@
     const report = {
       reason: choices[choice] ? choices[choice].code : 'other',
       comment: problem || null,
-      object: { type, id: objectId },
-      by
+      type,
+      object,
+      claimant,
+      offender: type === 'Garden' && !offender ? object : null
     };
 
     console.log(report);

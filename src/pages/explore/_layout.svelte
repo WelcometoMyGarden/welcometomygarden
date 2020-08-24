@@ -56,11 +56,16 @@
 
   let showHiking = false;
   let showCycling = false;
+
+  // abuse report
   let gardenToReport = null;
+  let claimant = null;
   let showModal = false;
 </script>
 
-<Report bind:show={showModal} objectId={gardenToReport ? gardenToReport.id : null} />
+{#if showModal}
+  <Report bind:show={showModal} object={gardenToReport ? gardenToReport.id : null} {claimant} />
+{/if}
 <Progress active={$isFetchingGardens} />
 <div class="map-section">
   <Map lat={center[1]} lon={center[0]} recenterOnUpdate zoom="7">
@@ -75,6 +80,7 @@
         on:report={(e) => {
           showModal = true;
           gardenToReport = e.detail.garden;
+          claimant = e.detail.userId;
         }} />
       <WaymarkedTrails {showHiking} {showCycling} />
       <slot />
