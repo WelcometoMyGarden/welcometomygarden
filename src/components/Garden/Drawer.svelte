@@ -8,6 +8,7 @@
   import { user } from '@/stores/auth';
   import { draggable, clickOutside } from '@/directives';
   import { Text, Badge, Image, Button, Progress, Icon } from '../UI';
+  import ReportButton from '../Abuse/ReportButton.svelte';
   import {
     bonfireIcon,
     waterIcon,
@@ -205,14 +206,12 @@
           Contact host
         </Button>
         <div class="mt-m report">
-          <Button
-            styled={false}
+          <ReportButton
             on:click={() => {
               dispatch('report', { garden });
             }}>
-            <Icon icon={flagIcon} />
             <span class="underline">report this garden</span>
-          </Button>
+          </ReportButton>
         </div>
       {/if}
     </footer>
@@ -413,26 +412,5 @@
     text-align: center;
     margin-bottom: 1rem;
     font-size: 1.4rem;
-  }
-
-  .underline {
-    text-decoration: underline;
-  }
-
-  .report :global(button span) {
-    display: flex;
-    align-items: center;
-  }
-
-  .report :global(button i) {
-    margin-right: 5px;
-    width: 2rem;
-    height: 1.4rem;
-    display: inline-block;
-    transform: rotate(-25deg);
-  }
-
-  .report :global(button i svg) {
-    fill: var(--color-green);
   }
 </style>

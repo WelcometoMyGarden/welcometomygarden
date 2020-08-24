@@ -3,7 +3,8 @@
   import Thanks from './Thanks.svelte';
 
   export let show;
-  export let garden;
+  export let reported;
+  export let reporter;
 
   let next = false;
   let choice;
@@ -35,18 +36,18 @@
     <div class="choice">
       <LabeledRadio
         name="abuse"
-        id="ask-money"
+        id="misbehaved"
         bind:group={choice}
         value={1}
-        label="The host asks money" />
+        label="User misbehaved" />
     </div>
     <div class="choice">
       <LabeledRadio
         name="abuse"
-        id="misplaced"
+        id="fast-traveller"
         bind:group={choice}
         value={2}
-        label="The garden is in the wrong place" />
+        label="Not a slow traveller" />
     </div>
     <div class="choice">
       <LabeledRadio name="abuse" id="other" bind:group={choice} value={3} label="Other" />

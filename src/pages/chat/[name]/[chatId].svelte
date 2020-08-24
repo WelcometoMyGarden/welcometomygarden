@@ -7,7 +7,10 @@
   import { observeMessagesForChat, create as createChat, sendMessage } from '@/api/chat';
   import { user } from '@/stores/auth';
   import { chats, messages } from '@/stores/chat';
-  import { Avatar } from '@/components/UI';
+  import { Avatar, Button } from '@/components/UI';
+  import ReportButton from '@/components/Abuse/ReportButton.svelte';
+  import ReportUser from '@/components/Abuse/ReportUser.svelte';
+
   import routes from '@/routes';
 
   $: chat = $chats[chatId];
@@ -41,7 +44,7 @@
     hint = '';
   }
 
-  const normalizeWhiteSpace = message => message.replace(/\n\s*\n\s*\n/g, '\n\n');
+  const normalizeWhiteSpace = (message) => message.replace(/\n\s*\n\s*\n/g, '\n\n');
 
   let typedMessage = '';
   let isSending = false;
@@ -74,17 +77,28 @@
   };
 
   $: partnerName = chat && chat.partner ? chat.partner.firstName : '';
+
+  let showModal = false;
 </script>
 
 <svelte:head>
   <title>Chat with {partnerName} | Welcome To My Garden</title>
 </svelte:head>
 
+<ReportUser bind:show={showModal} />
+
 <header class="chat-header">
   <a class="back" href={routes.CHAT}>&#x3c;</a>
   <h2 class="title">{partnerName}</h2>
 </header>
-
+<div class="mt-m report">
+  <ReportButton
+    on:click={() => {
+      showModal = true;
+    }}>
+    <span class="underline">report this user</span>
+  </ReportButton>
+</div>
 <div class="message-wrapper" bind:this={messageContainer}>
   <div class="messages">
     {#if chat && $messages[chat.id]}
@@ -216,6 +230,11 @@
 
   .chat-header {
     display: none;
+  }
+
+  .report {
+    text-align: center;
+    padding: 1rem;
   }
 
   @media (min-width: 700px) and (max-width: 850px) {
