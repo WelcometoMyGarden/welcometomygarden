@@ -15,11 +15,34 @@
   export let cancelButton = false;
   export let closeOnEsc = true;
   export let closeOnOuterClick = true;
-  export let maxWidth = '';
+  export let maxWidthPX;
   export let show = true;
 
   export let radius = false;
   export let center = false;
+  // top = true top = 0 else bottom = 0
+
+  export let sticky = false;
+  let top = true;
+  let bottom = false;
+  let nopadding = false;
+  let bottomSmall = false;
+  let radiusSmall = false;
+  const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+
+  if (sticky) {
+    top = false;
+    bottom = true;
+    nopadding = true;
+  }
+
+  if (maxWidthPX && vw < maxWidthPX) {
+    bottomSmall = true;
+    radiusSmall = true;
+  } else {
+    bottomSmall = false;
+    radiusSmall = false;
+  }
 
   const close = () => {
     show = false;
@@ -43,7 +66,14 @@
 <svelte:window on:keydown={handleKeydown} />
 
 {#if show}
-  <div class="modal" class:center on:click|self={handleOuterClick}>
+  <div
+    class="modal"
+    class:center
+    class:top
+    class:bottom
+    class:bottomSmall
+    class:nopadding
+    on:click|self={handleOuterClick}>
     <div
       bind:this={ref}
       aria-labelledby={ariaLabelledBy}
@@ -51,9 +81,11 @@
       aria-label={ariaLabel}
       role="dialog"
       class="modal-content"
-      style="max-width:{maxWidth};"
+      style="max-width:{maxWidthPX}px;"
       use:focusTrap
-      class:radius>
+      class:radius
+      class:radiusSmall
+      id="dialog">
       <div class="modal-header">
         <slot name="title" {ariaLabelledBy} class="modal-title" />
         {#if closeButton}
@@ -84,9 +116,25 @@
     align-items: center;
     width: 100vw;
     height: 100vh;
-    top: 0;
     left: 0;
     padding: 2rem;
+  }
+
+  .nopadding {
+    padding: 0 !important;
+  }
+
+  .top {
+    top: 0;
+  }
+
+  .bottom {
+    bottom: 0;
+  }
+
+  .bottomSmall {
+    bottom: calc(var(--height-nav)) !important;
+    justify-content: flex-end !important;
   }
 
   .center {
@@ -160,5 +208,9 @@
 
   .radius {
     border-radius: 10px;
+  }
+
+  .radiusSmall {
+    border-radius: 10px 10px 0 0;
   }
 </style>

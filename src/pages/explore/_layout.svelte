@@ -172,7 +172,7 @@
     emptyPlacesAndInput();
   };
 
-  let show = false;
+  let show = true;
 
   let filter = {
     facilities: {},
@@ -350,7 +350,7 @@
 
 </div>
 
-<Modal bind:show maxWidth="576px" radius="true" center="true">
+<Modal bind:show maxWidthPX="576" radius="true" center="true" sticky="true">
   <div slot="title" class="gardenFilterTitleSection">
     <h2 id="gardenFilterTitle">Filter</h2>
   </div>
@@ -370,13 +370,13 @@
     <div id="gardenCapacity" class="gardenFilterSection">
       <h3 class="gardenFilterSubtitle">Garden Capacity</h3>
       <div class="gardenFilterCapacitySection">
-        <div>
+        <div class="gardenFilterCapacityText">
           <p>Tent spots available</p>
         </div>
         <div class="gardenFilterCapacityModifier">
           <p>Min.</p>
           <button on:click={capacityMinReduce}>-</button>
-          <p>{filter.capacity.min}</p>
+          <p id="capacity">{filter.capacity.min}</p>
           <button on:click={capacityMinIncrease}>+</button>
         </div>
       </div>
@@ -389,7 +389,7 @@
   </div>
 
   <span slot="controls" class="applyGardenFilter">
-    <Button on:click={filterGardens(filter, $allGardens)}>Apply Filters</Button>
+    <Button on:click={filterGardens(filter, $allGardens)} medium>Apply Filters</Button>
   </span>
 </Modal>
 
@@ -484,18 +484,16 @@
 
   .gardenFilterTitleSection {
     width: 100%;
-    margin-bottom: 1rem;
   }
 
   #gardenFilterTitle {
     font-weight: bold;
     font-size: 2rem;
-
     text-align: center;
   }
 
   .gardenFilterSection {
-    padding: 3rem 1.5rem;
+    padding: 2.5rem 1.5rem;
   }
 
   .gardenFilterSubtitle {
@@ -525,6 +523,10 @@
     justify-content: center;
   }
 
+  .gardenFilterCapacityModifier p:first-of-type {
+    margin-left: 1rem;
+  }
+
   .gardenFilterCapacityModifier > button {
     margin: 2px 1rem 0 1rem;
     padding: 0;
@@ -549,6 +551,11 @@
   .applyGardenFilter {
     margin: auto;
     text-align: center;
+  }
+
+  #capacity {
+    font-weight: bold;
+    border-bottom: 2px solid var(--color-green);
   }
 
   .attribution {
@@ -632,6 +639,20 @@
     .vehicle-notice-wrapper {
       height: 28rem;
     }
+
+    .gardenFilterCapacityText {
+      display: none;
+    }
+
+    .gardenFilterCapacitySection {
+      flex-wrap: wrap;
+      margin: auto;
+      text-align: center;
+    }
+
+    .gardenFilterCapacitySection > div {
+      flex: 0 100%;
+    }
   }
 
   @media screen and (max-width: 500px) {
@@ -674,6 +695,24 @@
       width: 72%;
       left: 50%;
       transform: translateX(-50%);
+    }
+
+    #gardenFilterTitle {
+      font-size: initial;
+    }
+
+    .gardenFilterSection {
+      padding: 1.5rem 0.75rem;
+    }
+
+    .gardenFilterSubtitle {
+      font-weight: 600;
+      font-size: initial;
+      margin-bottom: 0.5rem;
+    }
+
+    .gardenFilterCheckboxes {
+      grid-row-gap: 0.5rem;
     }
   }
 </style>
