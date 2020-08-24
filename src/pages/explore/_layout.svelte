@@ -63,9 +63,7 @@
   let showModal = false;
 </script>
 
-{#if showModal}
-  <Report bind:show={showModal} object={gardenToReport ? gardenToReport.id : null} {claimant} />
-{/if}
+<Report bind:show={showModal} object={gardenToReport ? gardenToReport.id : null} {claimant} />
 <Progress active={$isFetchingGardens} />
 <div class="map-section">
   <Map lat={center[1]} lon={center[0]} recenterOnUpdate zoom="7">
