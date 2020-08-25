@@ -1,4 +1,5 @@
 <script>
+  import report, { findAll } from '@/api/report.js';
   import { Modal, Button, Textarea, LabeledRadio } from '../UI/index';
   import Thanks from './Thanks.svelte';
 
@@ -11,6 +12,10 @@
   let next = false;
   let choice;
   let problem;
+  let reporting = false;
+  let formError = '';
+  let textareaError;
+  let textareaValid = true;
 
   show = !next && show;
 
@@ -34,26 +39,41 @@
     choices = chatChoices;
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const validateTextarea = () => {
     problem = problem.trim();
+
     if (choice === choices.length && !problem) {
+      textareaError = 'Please give us more info';
+      textareaValid = false;
+    }
+
+    return textareaValid;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!choice && choice !== 0) {
+      formError = 'You need to make a choice';
       return;
     }
 
-    const report = {
+    if (!validateTextarea()) return;
+
+    reporting = true;
+
+    await report({
       reason: choices[choice] ? choices[choice].code : 'other',
       comment: problem || null,
       type,
       object,
       claimant,
       offender: type === 'Garden' && !offender ? object : null
-    };
-
-    console.log(report);
+    });
 
     next = true;
     show = false;
+    reporting = false;
 
     reset();
   };
@@ -61,12 +81,20 @@
   const reset = () => {
     choice = undefined;
     problem = undefined;
+    formError = undefined;
+    textareaError = undefined;
   };
 </script>
 
 <Modal bind:show ariaLabelledBy="title" let:ariaLabelledBy maxWidth="500px" on:close={reset}>
   <h2 slot="title" class="title" id={ariaLabelledBy}>Why did you report this garden?</h2>
-  <form slot="body" class="container" id="report-garden" on:submit={handleSubmit}>
+  <form
+    slot="body"
+    class="container"
+    id="report-garden"
+    on:submit={(e) => e.preventDefault()}
+    on:change={() => (formError = undefined)}
+    novalidate>
     {#each choices as { code, label }, i}
       <div class="choice">
         <LabeledRadio name="abuse" id={code} bind:group={choice} value={i} {label} />
@@ -85,12 +113,25 @@
           placeholder="Tell us the problem"
           name="problem"
           bind:value={problem}
-          required={choice === choices.length} />
+          required={choice === choices.length}
+          bind:error={textareaError}
+          bind:valid={textareaValid}
+          on:blur={validateTextarea}
+          minLength={10}
+          maxLength={300} />
       </div>
+      <p class="hint" class:invalid={true}>{formError || ''}</p>
     </div>
   </form>
   <span slot="controls">
-    <Button type="submit" uppercase form="report-garden">Next</Button>
+    <Button
+      type="submit"
+      uppercase
+      form="report-garden"
+      disabled={reporting}
+      on:click={handleSubmit}>
+      Next
+    </Button>
   </span>
 </Modal>
 <Thanks bind:show={next} />
@@ -112,5 +153,9 @@
   .textarea {
     margin-top: 5px;
     margin-left: 30px;
+  }
+
+  .hint.invalid {
+    color: var(--color-danger);
   }
 </style>

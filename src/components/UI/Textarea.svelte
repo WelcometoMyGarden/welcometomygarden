@@ -16,16 +16,37 @@
   export let readonly = false;
   export let spellcheck = false;
   export let grow = false;
+  export let valid = true;
   export let resize = grow ? 'none' : undefined;
 
   const dispatch = createEventDispatcher();
   let elt = null;
+  let internallyValid = true;
+
+  const validateSize = () => {
+    const len = value.length;
+    if (minLength && len < minLength) {
+      let plurality = minLength - len === 1 ? 'character' : 'characters';
+      error = `${minLength - len} more ${plurality} required...`;
+      return false;
+    }
+    if (maxLength && len > maxLength) {
+      const plurality = len - maxLength === 1 ? 'character' : 'characters';
+      error = `${len - maxLength} ${plurality} too long`;
+      return false;
+    }
+    return true;
+  };
 
   const autogrow = () => {
-    dispatch('input');
+    valid = validateSize();
+    if (valid) {
+      error = '';
+    }
     if (!grow) return;
     elt.style.height = 'auto';
     elt.style.height = elt.scrollHeight + 'px';
+    dispatch('input');
   };
 </script>
 
