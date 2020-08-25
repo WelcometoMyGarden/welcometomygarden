@@ -1,5 +1,5 @@
 <script>
-  import report, { findAll } from '@/api/report.js';
+  import report from '@/api/report.js';
   import { Modal, Button, Textarea, LabeledRadio } from '../UI/index';
   import Thanks from './Thanks.svelte';
 
