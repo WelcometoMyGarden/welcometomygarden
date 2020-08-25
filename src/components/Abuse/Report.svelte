@@ -140,6 +140,9 @@
   .container {
     margin-left: -4rem;
     margin-right: -4rem;
+
+    max-height: 50vh;
+    overflow: auto;
   }
 
   .choice {
