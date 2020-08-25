@@ -12,7 +12,7 @@
   import GardenLayer from '@/components/Map/GardenLayer.svelte';
   import WaymarkedTrails from '@/components/Map/WaymarkedTrails.svelte';
   import routes from '@/routes';
-  import { Progress, LabeledCheckbox, Icon, TextInput, Button } from '@/components/UI';
+  import { Progress, LabeledCheckbox, Icon, TextInput, Button, Modal, Tag } from '@/components/UI';
   import { getCookie, setCookie } from '@/util';
   import {
     crossIcon,
@@ -27,14 +27,12 @@
     waterIcon,
     tentIcon
   } from '@/images/icons';
-  import Modal from '../../components/UI/Modal.svelte';
 
   const fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let zoom = 7;
 
   let filteredGardensee;
   $: filteredGardens = $allGardens;
-  $: console.log(filteredGardens);
 
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
 
@@ -172,7 +170,7 @@
     emptyPlacesAndInput();
   };
 
-  let show = true;
+  let show = false;
 
   let filter = {
     facilities: {},
@@ -180,6 +178,15 @@
       min: 1,
       max: 20
     }
+  };
+
+  const filterFacilitiesActive = (filter, facilities) => {
+    let filtersActiveArray = [];
+    for (let index = 0; index < facilities.length; index++) {
+      if (filter.facilities[facilities[index].name] == true)
+        filtersActiveArray.push(facilities[index]);
+    }
+    return filtersActiveArray;
   };
 
   /*
@@ -200,14 +207,15 @@
   };
 */
 
+  //the order is important for displaying the "tags"
   const facilities = [
-    { name: 'water', icon: waterIcon, label: 'Water' },
-    { name: 'drinkableWater', icon: waterIcon, label: 'Drinkable water' },
     { name: 'toilet', icon: toiletIcon, label: 'Toilet' },
-    { name: 'bonfire', icon: bonfireIcon, label: 'Bonfire' },
-    { name: 'electricity', icon: electricityIcon, label: 'Electricity' },
     { name: 'shower', icon: showerIcon, label: 'Shower' },
-    { name: 'tent', icon: tentIcon, label: 'Tent' }
+    { name: 'electricity', icon: electricityIcon, label: 'Electricity' },
+    { name: 'tent', icon: tentIcon, label: 'Tent' },
+    { name: 'bonfire', icon: bonfireIcon, label: 'Bonfire' },
+    { name: 'water', icon: waterIcon, label: 'Water' },
+    { name: 'drinkableWater', icon: waterIcon, label: 'Drinkable water' }
   ];
 
   const openGardenFilerModal = () => {
@@ -248,6 +256,12 @@
   const filterGardens = (filter, allGardens) => {
     filteredGardens = returnFilteredGardens(filter, allGardens);
     show = false;
+  };
+
+  const uncheckFilterByTag = (facilityName) => {
+    filter.facilities[facilityName] = false;
+
+    filteredGardens = returnFilteredGardens(filter, $allGardens);
   };
 </script>
 
@@ -320,7 +334,7 @@
         autocomplete="off" />
     </div>
     {#if places.length >= 1}
-      <div class="location-filter-output" in:fade={{ duration: 50 }} out:fade={{ duration: 200 }}>
+      <div class="location-filter-output">
         {#each places as place, i}
           <div
             on:click={goToPlace(place.longitude, place.latitude)}
@@ -336,8 +350,18 @@
         {/each}
       </div>
     {:else if showNoPlacesBool}
-      <div class="location-filter-output-error" transition:fade>
+      <div class="location-filter-output-error">
         <p>No places found</p>
+      </div>
+    {:else}
+      <div class="filter-tags">
+        {#each filterFacilitiesActive(filter, facilities) as facility (facility.name)}
+          <Tag
+            name={facility.name}
+            icon={facility.icon}
+            label={facility.label}
+            on:click={() => uncheckFilterByTag(facility.name)} />
+        {/each}
       </div>
     {/if}
   </div>
@@ -380,7 +404,6 @@
           <button on:click={capacityMinIncrease}>+</button>
         </div>
       </div>
-
       <!-- <div class="sliders">
         <input value="1" min="1" max="20" step="1" type="range" name />
         <input value="20" min="1" max="20" step="1" type="range" />
@@ -469,6 +492,13 @@
     border: 3px solid var(--color-warning);
   }
 
+  .filter-tags {
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
   .filter :global(input, .input:focus) {
     border-radius: 10px;
     border-bottom: none;
@@ -500,6 +530,7 @@
     font-weight: 600;
     font-size: 18px;
     margin-bottom: 1rem;
+    text-align: left;
   }
 
   .gardenFilterCheckboxes {
