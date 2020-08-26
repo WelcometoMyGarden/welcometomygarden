@@ -140,6 +140,7 @@
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
     margin-bottom: 1rem;
+    padding-left: 1rem;
   }
 
   .location-filter-output {
@@ -154,6 +155,7 @@
     background-color: lightgray;
     border: none;
   }
+
 
   .location-filter-output-error {
     background-color: var(--color-white);
