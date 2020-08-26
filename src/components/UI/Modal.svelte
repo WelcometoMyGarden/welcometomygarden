@@ -15,34 +15,13 @@
   export let cancelButton = false;
   export let closeOnEsc = true;
   export let closeOnOuterClick = true;
-  export let maxWidthPX;
+  export let maxWidth;
   export let show = true;
 
   export let radius = false;
   export let center = false;
-  // top = true top = 0 else bottom = 0
-
-  export let sticky = false;
-  let top = true;
-  let bottom = false;
-  let nopadding = false;
-  let bottomSmall = false;
-  let radiusSmall = false;
-  const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-
-  if (sticky) {
-    top = false;
-    bottom = true;
-    nopadding = true;
-  }
-
-  if (maxWidthPX && vw < maxWidthPX) {
-    bottomSmall = true;
-    radiusSmall = true;
-  } else {
-    bottomSmall = false;
-    radiusSmall = false;
-  }
+  export let stickToBottom = false;
+  export let nopadding = false;
 
   const close = () => {
     show = false;
@@ -69,9 +48,7 @@
   <div
     class="modal"
     class:center
-    class:top
-    class:bottom
-    class:bottomSmall
+    class:stick-to-bottom={stickToBottom}
     class:nopadding
     on:click|self={handleOuterClick}>
     <div
@@ -81,10 +58,9 @@
       aria-label={ariaLabel}
       role="dialog"
       class="modal-content"
-      style="max-width:{maxWidthPX}px;"
+      style="max-width:{maxWidth};"
       use:focusTrap
       class:radius
-      class:radiusSmall
       id="dialog">
       <div class="modal-header">
         <slot name="title" {ariaLabelledBy} class="modal-title" />
@@ -118,23 +94,21 @@
     height: 100vh;
     left: 0;
     padding: 2rem;
-  }
-
-  .nopadding {
-    padding: 0 !important;
-  }
-
-  .top {
     top: 0;
   }
 
-  .bottom {
-    bottom: 0;
+  .nopadding {
+    padding: 0;
   }
 
-  .bottomSmall {
-    bottom: calc(var(--height-nav)) !important;
-    justify-content: flex-end !important;
+  .stick-to-bottom {
+    top: unset;
+    bottom: calc(var(--height-nav));
+    justify-content: flex-end;
+  }
+
+  .stick-to-bottom .modal-content {
+    border-radius: 10px 10px 0 0;
   }
 
   .center {
@@ -208,9 +182,5 @@
 
   .radius {
     border-radius: 10px;
-  }
-
-  .radiusSmall {
-    border-radius: 10px 10px 0 0;
   }
 </style>

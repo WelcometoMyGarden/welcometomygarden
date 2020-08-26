@@ -48,10 +48,29 @@
     filteredGardens = returnFilteredGardens();
     show = false;
   };
+
+  let stickToBottom = false;
+  let maxWidth = 576;
+
+  const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+
+  if (maxWidth && vw < maxWidth) {
+    stickToBottom = true;
+  } else {
+    stickToBottom = false;
+  }
 </script>
 
-<Modal bind:show maxWidthPX="576" radius="true" center="true" sticky="true">
-  <div slot="title" class="gardenFilterTitleSection">
+<Modal
+  bind:show
+  maxWidth="{maxWidth}px"
+  radius={true}
+  center={!stickToBottom}
+  {stickToBottom}
+  nopadding={stickToBottom}
+  ariaLabelledBy="title"
+  let:ariaLabelledBy>
+  <div slot="title" class="gardenFilterTitleSection" id={ariaLabelledBy}>
     <h2 id="gardenFilterTitle">Filter</h2>
   </div>
   <div slot="body" class="gardenFilterBodySection">
