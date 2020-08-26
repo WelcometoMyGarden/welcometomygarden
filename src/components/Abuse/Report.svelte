@@ -16,27 +16,36 @@
   let formError = '';
   let textareaError;
   let textareaValid = true;
+  let title;
 
   show = !next && show;
 
-  const gardenChoices = [
-    {
-      code: 'ask-money',
-      label: 'The host asks money'
-    },
-    { code: 'misplaced', label: 'The garden is in the wrong place' }
-  ];
+  const garden = {
+    title: 'Why did you report this garden?',
+    choices: [
+      {
+        code: 'ask-money',
+        label: 'The host asks money'
+      },
+      { code: 'misplaced', label: 'The garden is in the wrong place' }
+    ]
+  };
 
-  const chatChoices = [
-    { code: 'misbehaved', label: 'User misbehaved' },
-    { code: 'fast-traveller', label: 'Not a slow traveller' }
-  ];
+  const chat = {
+    title: 'Why did you report this user?',
+    choices: [
+      { code: 'misbehaved', label: 'User misbehaved' },
+      { code: 'fast-traveller', label: 'Not a slow traveller' }
+    ]
+  };
 
   let choices = null;
   if (type === 'Garden') {
-    choices = gardenChoices;
+    choices = garden.choices;
+    title = garden.title;
   } else if (type === 'Chat') {
-    choices = chatChoices;
+    choices = chat.choices;
+    title = chat.title;
   }
 
   const validateTextarea = () => {
@@ -87,7 +96,7 @@
 </script>
 
 <Modal bind:show ariaLabelledBy="title" let:ariaLabelledBy maxWidth="500px" on:close={reset}>
-  <h2 slot="title" class="title" id={ariaLabelledBy}>Why did you report this garden?</h2>
+  <h2 slot="title" class="title" id={ariaLabelledBy}>{title}</h2>
   <form
     slot="body"
     class="container"
