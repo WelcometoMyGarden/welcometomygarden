@@ -7,14 +7,16 @@
   import { getGardenPhotoSmall, getGardenPhotoBig } from '@/api/garden';
   import { user } from '@/stores/auth';
   import { draggable, clickOutside } from '@/directives';
-  import { Text, Badge, Image, Button, Progress } from '../UI';
+  import { Text, Badge, Image, Button, Progress, Icon } from '../UI';
+  import ReportButton from '../Abuse/ReportButton.svelte';
   import {
     bonfireIcon,
     waterIcon,
     electricityIcon,
     showerIcon,
     tentIcon,
-    toiletIcon
+    toiletIcon,
+    flagIcon
   } from '@/images/icons';
   import routes from '@/routes';
 
@@ -33,9 +35,9 @@
 
   function dragBarMove({ detail }) {
     if (previousOffsetCursor !== null) {
-      drawerElement.style.height = `${drawerElement.offsetHeight -
-        previousOffsetCursor +
-        detail.y}px`;
+      drawerElement.style.height = `${
+        drawerElement.offsetHeight - previousOffsetCursor + detail.y
+      }px`;
       previousOffsetCursor = detail.y;
     }
   }
@@ -77,7 +79,7 @@
     }
   };
 
-  const handleClickOutsideDrawer = event => {
+  const handleClickOutsideDrawer = (event) => {
     const { clickEvent } = event.detail;
     // if closing maginified photo view, don't close drawer
     if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) return;
@@ -203,6 +205,16 @@
           medium>
           Contact host
         </Button>
+        {#if $user}
+          <div class="mt-m report">
+            <ReportButton
+              on:click={() => {
+                dispatch('report', { garden, userId: $user.id });
+              }}>
+              <span class="underline">report this garden</span>
+            </ReportButton>
+          </div>
+        {/if}
       {/if}
     </footer>
   {:else}

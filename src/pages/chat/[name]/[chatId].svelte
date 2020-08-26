@@ -7,7 +7,10 @@
   import { observeMessagesForChat, create as createChat, sendMessage } from '@/api/chat';
   import { user } from '@/stores/auth';
   import { chats, messages } from '@/stores/chat';
-  import { Avatar } from '@/components/UI';
+  import { Avatar, Button } from '@/components/UI';
+  import ReportButton from '@/components/Abuse/ReportButton.svelte';
+  import Report from '@/components/Abuse/Report.svelte';
+
   import routes from '@/routes';
 
   $: chat = $chats[chatId];
@@ -41,7 +44,7 @@
     hint = '';
   }
 
-  const normalizeWhiteSpace = message => message.replace(/\n\s*\n\s*\n/g, '\n\n');
+  const normalizeWhiteSpace = (message) => message.replace(/\n\s*\n\s*\n/g, '\n\n');
 
   let typedMessage = '';
   let isSending = false;
@@ -74,15 +77,34 @@
   };
 
   $: partnerName = chat && chat.partner ? chat.partner.firstName : '';
+
+  let showModal = false;
 </script>
 
 <svelte:head>
   <title>Chat with {partnerName} | Welcome To My Garden</title>
 </svelte:head>
 
+<Report
+  bind:show={showModal}
+  type="Chat"
+  object={chatId}
+  claimant={$user.id}
+  offender={chat.users.find((id) => $user.id !== id)} />
+
 <header class="chat-header">
-  <a class="back" href={routes.CHAT}>&#x3c;</a>
-  <h2 class="title">{partnerName}</h2>
+  <div class="mobile-only">
+    <a class="back" href={routes.CHAT}>&#x3c;</a>
+    <h2 class="title">{partnerName}</h2>
+  </div>
+  <div class="report">
+    <ReportButton
+      on:click={() => {
+        showModal = true;
+      }}>
+      <span class="underline">report this user</span>
+    </ReportButton>
+  </div>
 </header>
 
 <div class="message-wrapper" bind:this={messageContainer}>
@@ -214,8 +236,18 @@
     cursor: not-allowed;
   }
 
-  .chat-header {
+  .mobile-only {
     display: none;
+  }
+
+  .report {
+    text-align: center;
+    padding: 1rem;
+    z-index: 10;
+  }
+
+  .report .underline {
+    font-weight: normal;
   }
 
   @media (min-width: 700px) and (max-width: 850px) {
@@ -245,9 +277,7 @@
     }
 
     .chat-header {
-      display: flex;
-      align-items: center;
-      height: 6rem;
+      height: 8rem;
       position: fixed;
       top: 0;
       left: 0;
@@ -255,6 +285,19 @@
       width: 100%;
       z-index: 10;
       box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
+    }
+
+    .report {
+      padding: 0;
+      position: relative;
+      top: -1.5rem;
+    }
+
+    .mobile-only {
+      display: flex;
+      align-items: center;
+      height: 6rem;
+      position: relative;
     }
 
     .chat-header .title {
@@ -269,7 +312,8 @@
       height: 4rem;
       width: 4rem;
       left: 2rem;
-      top: calc(50% - 2rem);
+      top: 50%;
+      transform: translateY(-50%);
       position: absolute;
       font-size: 2.2rem;
       display: flex;
