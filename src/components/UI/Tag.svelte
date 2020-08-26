@@ -1,13 +1,20 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
   import { crossIcon } from '@/images/icons';
   import { Icon, Button } from './index';
   export let name;
   export let label;
   export let icon = null;
   export let closeButton = true;
+
+  const dispatch = createEventDispatcher();
+
+  const close = () => {
+    dispatch("close")
+  }
 </script>
 
-<div class="tag">
+<div class="tag" on:click>
   <label for={name}>
     {#if icon}
       <div class="icon">
@@ -17,7 +24,7 @@
     {label}
   </label>
   {#if closeButton}
-    <button class="icon close" on:click>
+    <button class="icon close" on:click={close}>
       <Icon icon={crossIcon} />
     </button>
   {/if}

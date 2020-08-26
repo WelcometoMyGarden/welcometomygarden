@@ -18,3 +18,4 @@ export { default as userIcon } from './user.svg';
 export { default as waterIcon } from './water.svg';
 export { default as markerIcon } from './marker.svg';
 export { default as filterIcon } from './filter.svg';
+export { default as filterGreenIcon } from './filter-green.svg';
