@@ -74,6 +74,7 @@
   });
 
   let showHiking = false;
+
   let showCycling = false;
 
   let showFilterModal = false;
@@ -106,13 +107,6 @@
 
 <Progress active={$isFetchingGardens} />
 
-<Filter
-  bind:show={showFilterModal}
-  allGardens={$allGardens}
-  bind:filteredGardens
-  {facilities}
-  bind:filter />
-
 <div class="map-section">
   <Map lon={center.longitude} lat={center.latitude} recenterOnUpdate {zoom}>
     {#if !$isFetchingGardens}
@@ -124,25 +118,26 @@
       <WaymarkedTrails {showHiking} {showCycling} />
       <slot />
     {/if}
-    {#if carNoticeShown}
-      <div class="vehicle-notice-wrapper">
-        <button on:click={closeCarNotice} aria-label="Close notice" class="button-container close">
-          <Icon icon={crossIcon} />
-        </button>
-
-        <div class="vehicle-notice">
-          <div class="image-container">
-            <img src="/images/no-car.svg" alt="No vehicle allowed" />
-          </div>
-          <h3>Welcome To My Garden is for slow travellers only.</h3>
-          <p class="mt-m">
-            If you're planning to travel by motorized vehicle, please do not contact hosts via this
-            platform. Thank you for understanding!
-          </p>
-        </div>
-      </div>
-    {/if}
   </Map>
+
+  {#if carNoticeShown}
+    <div class="vehicle-notice-wrapper">
+      <button on:click={closeCarNotice} aria-label="Close notice" class="button-container close">
+        <Icon icon={crossIcon} />
+      </button>
+
+      <div class="vehicle-notice">
+        <div class="image-container">
+          <img src="/images/no-car.svg" alt="No vehicle allowed" />
+        </div>
+        <h3>Welcome To My Garden is for slow travellers only.</h3>
+        <p class="mt-m">
+          If you're planning to travel by motorized vehicle, please do not contact hosts via this
+          platform. Thank you for understanding!
+        </p>
+      </div>
+    </div>
+  {/if}
 
   <div class="trails">
     <div>
@@ -159,42 +154,47 @@
         label="Show cycling routes"
         bind:checked={showCycling} />
     </div>
-
     <span class="attribution">
       Trails courtesy of
       <a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>
     </span>
   </div>
-</div>
 
-<div class="filter">
-  <div class="location-filter">
-    <FilterLocation bind:zoom bind:center bind:isSearching {fallbackLocation} />
-  </div>
-
-  <div class="garden-filter">
-    <Button
-      type="button"
-      uppercase
-      on:click={() => {
-        showFilterModal = true;
-      }}>
-      {@html filterIcon}
-    </Button>
-  </div>
-
-  {#if !isSearching}
-    <div class="filter-tags">
-      {#each activeFacilities() as facility (facility.name)}
-        <Tag
-          name={facility.name}
-          icon={facility.icon}
-          label={facility.label}
-          on:click={() => (filter.facilities[facility.name] = false)} />
-      {/each}
+  <div class="filter">
+    <div class="location-filter">
+      <FilterLocation bind:zoom bind:center bind:isSearching {fallbackLocation} />
     </div>
-  {/if}
+    <div class="garden-filter">
+      <Button
+        type="button"
+        uppercase
+        on:click={() => {
+          showFilterModal = true;
+        }}>
+        {@html filterIcon}
+      </Button>
+    </div>
+    {#if !isSearching}
+      <div class="filter-tags">
+        {#each activeFacilities() as facility (facility.name)}
+          <Tag
+            name={facility.name}
+            icon={facility.icon}
+            label={facility.label}
+            on:click={() => (filter.facilities[facility.name] = false)} />
+        {/each}
+      </div>
+    {/if}
+  </div>
+
 </div>
+
+<Filter
+  bind:show={showFilterModal}
+  allGardens={$allGardens}
+  bind:filteredGardens
+  {facilities}
+  bind:filter />
 
 <style>
   .map-section {
