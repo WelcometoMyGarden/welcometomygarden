@@ -13,6 +13,9 @@
   import Filter from '@/components/Garden/Filter.svelte';
   import FilterLocation from '@/components/Garden/FilterLocation.svelte';
   import { getCookie, setCookie } from '@/util';
+  import { user } from '@/stores/auth';
+  import { geocodeCountryCode } from '@/api/mapbox';
+  import { getLocationFromIp } from '@/api/geolocation';
   import {
     crossIcon,
     cyclistIcon,
@@ -27,16 +30,44 @@
     filterGreenIcon
   } from '@/images/icons';
 
-  const fallbackLocation = { longitude: 4.5, latitude: 50.5 };
+  let initialLocation;
+  const userLocation = async () => {
+    if ($user && $user.garden) {
+      return {
+        longitude: $user.garden.location.longitude,
+        latitude: $user.garden.location.latitude
+      };
+    }
+    let responseLocationFromIP = await getLocationFromIp();
+    if (responseLocationFromIP) {
+      return {
+        longitude: responseLocationFromIP.longitude,
+        latitude: responseLocationFromIP.latitude
+      };
+    }
+    if ($user && $user.countryCode) {
+      let response = await geocodeCountryCode($user.countryCode);
+      //{longitude: 4.63357500000001, latitude: 50.438696, place_name: "Belgium"}
+      if (response) {
+        return {
+          longitude: response.longitude,
+          latitude: response.latitude
+        };
+      }
+    }
+    // initialLocation = { longitude: 4.5, latitude: 50.5 };
+  };
+
+  $: console.log(initialLocation);
+
   let zoom = 7;
 
   let filteredGardens = null;
-
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
 
   $: center = selectedGarden
     ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
-    : fallbackLocation;
+    : initialLocation;
 
   let carNoticeShown = !getCookie('car-notice-dismissed');
 
@@ -52,6 +83,11 @@
   };
 
   onMount(async () => {
+    const location = await userLocation();
+    location
+      ? (initialLocation = location)
+      : (initialLocation = { longitude: 4.5, latitude: 50.5 });
+
     if (Object.keys($allGardens).length === 0) {
       try {
         await getAllListedGardens();
@@ -125,17 +161,19 @@
 <Progress active={$isFetchingGardens} />
 
 <div class="map-section">
-  <Map lon={center.longitude} lat={center.latitude} recenterOnUpdate {zoom}>
-    {#if !$isFetchingGardens}
-      <GardenLayer
-        on:garden-click={(e) => selectGarden(e.detail)}
-        selectedGardenId={selectedGarden ? selectedGarden.id : null}
-        allGardens={filteredGardens || $allGardens} />
-      <Drawer on:close={closeDrawer} garden={selectedGarden} />
-      <WaymarkedTrails {showHiking} {showCycling} />
-      <slot />
-    {/if}
-  </Map>
+  {#if initialLocation}
+    <Map lon={center.longitude} lat={center.latitude} recenterOnUpdate {zoom}>
+      {#if !$isFetchingGardens}
+        <GardenLayer
+          on:garden-click={(e) => selectGarden(e.detail)}
+          selectedGardenId={selectedGarden ? selectedGarden.id : null}
+          allGardens={filteredGardens || $allGardens} />
+        <Drawer on:close={closeDrawer} garden={selectedGarden} />
+        <WaymarkedTrails {showHiking} {showCycling} />
+        <slot />
+      {/if}
+    </Map>
+  {/if}
 
   {#if carNoticeShown}
     <div class="vehicle-notice-wrapper">
@@ -179,7 +217,7 @@
 
   <div class="filter">
     <div class="location-filter">
-      <FilterLocation bind:zoom bind:center bind:isSearching {fallbackLocation} />
+      <FilterLocation bind:zoom bind:center bind:isSearching {initialLocation} />
     </div>
     <div class="garden-filter">
       <Button
