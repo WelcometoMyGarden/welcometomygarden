@@ -199,6 +199,10 @@
     .gardenFilterCapacitySection > div {
       flex: 0 100%;
     }
+
+    .gardenFilterCheckbox :global(input) {
+      margin-right: 0rem;
+    }
   }
 
   @media screen and (max-width: 700px) {

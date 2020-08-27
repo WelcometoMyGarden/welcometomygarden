@@ -10,8 +10,8 @@
   const dispatch = createEventDispatcher();
 
   const close = () => {
-    dispatch("close")
-  }
+    dispatch('close');
+  };
 </script>
 
 <div class="tag" on:click>
@@ -42,7 +42,7 @@
   }
 
   label {
-    padding: 0 0.5rem 0 0;
+    padding: 0 0.5rem 0 0.5rem;
     background-image: var(--icon);
     background-position: left center;
     background-repeat: no-repeat;
@@ -54,7 +54,7 @@
     width: 2rem;
     height: 1.8rem;
     display: inline-block;
-    margin: 0 0.5rem 0 0.5rem;
+    margin: 0 0.5rem 0 0;
   }
 
   button.close {

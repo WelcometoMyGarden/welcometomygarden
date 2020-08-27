@@ -104,20 +104,22 @@
   let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
   let allFiltersTag = false;
   const activeFacilities = () => {
-    let activeFacilitiesFiltered = facilities.filter((facility) => filter.facilities[facility.name] === true);
+    let activeFacilitiesFiltered = facilities.filter(
+      (facility) => filter.facilities[facility.name] === true
+    );
 
     if (maxWidth && vw < maxWidth) {
-        if (activeFacilitiesFiltered.length > 3) {
-            activeFacilitiesFiltered = activeFacilitiesFiltered.slice(0, 3);
-            allFiltersTag = true;
-        } else {
-            allFiltersTag = false;
-        }
-    } else {
+      if (activeFacilitiesFiltered.length > 3) {
+        activeFacilitiesFiltered = activeFacilitiesFiltered.slice(0, 3);
+        allFiltersTag = true;
+      } else {
         allFiltersTag = false;
+      }
+    } else {
+      allFiltersTag = false;
     }
     return activeFacilitiesFiltered;
-};
+  };
 </script>
 
 <Progress active={$isFetchingGardens} />
@@ -199,14 +201,13 @@
             on:close={() => (filter.facilities[facility.name] = false)} />
         {/each}
         {#if allFiltersTag}
-        <Tag
-        name="all-filters"
-        icon={filterGreenIcon}
-        label="all filters"
-        on:click={() => {         
-           showFilterModal = true;
-        }}
-        closeButton={false} />
+          <Tag
+            name="all-filters"
+            label="all filters"
+            on:click={() => {
+              showFilterModal = true;
+            }}
+            closeButton={false} />
         {/if}
       </div>
     {/if}
