@@ -14,7 +14,7 @@
   let drawerIsShown = false;
   const toggleDrawer = () => (drawerIsShown = !drawerIsShown);
 
-  const handleClickOutsideDrawer = event => {
+  const handleClickOutsideDrawer = (event) => {
     const { clickEvent } = event.detail;
     if (drawerIsShown && !hamburger.contains(clickEvent.target)) toggleDrawer();
   };
@@ -81,17 +81,19 @@
     <li>
       <LanguageSelector />
     </li>
-    <li class="separated sign-out">
-      <a
-        href="/"
-        on:click|preventDefault={async () => {
-          toggleDrawer();
-          await logout();
-          window.location = '/';
-        }}>
-        Sign out
-      </a>
-    </li>
+    {#if $user}
+      <li class="separated sign-out">
+        <a
+          href="/"
+          on:click|preventDefault={async () => {
+            toggleDrawer();
+            await logout();
+            window.location = '/';
+          }}>
+          Sign out
+        </a>
+      </li>
+    {/if}
     <div class="socials">
       <Socials small />
     </div>
