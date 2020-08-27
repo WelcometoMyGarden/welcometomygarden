@@ -12,7 +12,7 @@
 
   const getData = () => ({
     type: 'FeatureCollection',
-    features: Object.keys(allGardens).map(gardenId => {
+    features: Object.keys(allGardens).map((gardenId) => {
       const garden = allGardens[gardenId];
       return {
         type: 'Feature',
@@ -36,7 +36,7 @@
     map.getSource('gardens').setData(data);
   };
 
-  $: if (mapReady) updateSelectedMarker(selectedGardenId);
+  $: if (mapReady) updateSelectedMarker(selectedGardenId, allGardens);
 
   onMount(() => {
     map.on('load', async () => {
@@ -47,8 +47,8 @@
 
       await Promise.all(
         images.map(
-          img =>
-            new Promise(resolve => {
+          (img) =>
+            new Promise((resolve) => {
               map.loadImage(img.url, (error, res) => {
                 map.addImage(img.id, res);
                 resolve();
@@ -105,12 +105,12 @@
       });
 
       // inspect a cluster on click
-      map.on('click', 'clusters', e => {
+      map.on('click', 'clusters', (e) => {
         var features = map.queryRenderedFeatures(e.point, {
           layers: ['clusters']
         });
         var clusterId = features[0].properties.cluster_id;
-        map.getSource('gardens').getClusterExpansionZoom(clusterId, function(err, zoom) {
+        map.getSource('gardens').getClusterExpansionZoom(clusterId, function (err, zoom) {
           if (err) return;
 
           map.easeTo({
@@ -120,7 +120,7 @@
         });
       });
 
-      map.on('click', 'unclustered-point', e => {
+      map.on('click', 'unclustered-point', (e) => {
         const coordinates = e.features[0].geometry.coordinates.slice();
         const garden = e.features[0].properties;
 

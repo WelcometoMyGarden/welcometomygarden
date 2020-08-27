@@ -4,6 +4,6 @@
   "singleQuote": true,
   "trailingComma": "none",
   "tabWidth": 2,
-  "plugins": ["prettier-plugin-svelte"],
+  "plugins": ["./node_modules/prettier-plugin-svelte"],
   "svelteSortOrder": "scripts-markup-styles"
 }

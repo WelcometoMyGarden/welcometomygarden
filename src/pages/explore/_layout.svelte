@@ -1,5 +1,6 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
+  import { fade } from 'svelte/transition';
   import { goto, params } from '@sveltech/routify';
   import { getAllListedGardens } from '@/api/garden';
   import { allGardens, isFetchingGardens } from '@/stores/garden';
@@ -8,21 +9,72 @@
   import GardenLayer from '@/components/Map/GardenLayer.svelte';
   import WaymarkedTrails from '@/components/Map/WaymarkedTrails.svelte';
   import routes from '@/routes';
-  import { Progress, LabeledCheckbox, Icon } from '@/components/UI';
+  import { Progress, LabeledCheckbox, Icon, Button, Tag } from '@/components/UI';
+  import Filter from '@/components/Garden/Filter.svelte';
+  import FilterLocation from '@/components/Garden/FilterLocation.svelte';
   import { getCookie, setCookie } from '@/util';
-  import { crossIcon, cyclistIcon, hikerIcon } from '@/images/icons';
+  import { user } from '@/stores/auth';
+  import { geocodeCountryCode } from '@/api/mapbox';
+  import { getLocationFromIp } from '@/api/geolocation';
+  import {
+    crossIcon,
+    cyclistIcon,
+    hikerIcon,
+    filterIcon,
+    bonfireIcon,
+    electricityIcon,
+    showerIcon,
+    toiletIcon,
+    waterIcon,
+    tentIcon,
+    filterGreenIcon
+  } from '@/images/icons';
 
+  let initialLocation;
+  const userLocation = async () => {
+    if ($user && $user.garden) {
+      return {
+        longitude: $user.garden.location.longitude,
+        latitude: $user.garden.location.latitude
+      };
+    }
+    let responseLocationFromIP = await getLocationFromIp();
+    if (responseLocationFromIP) {
+      return {
+        longitude: responseLocationFromIP.longitude,
+        latitude: responseLocationFromIP.latitude
+      };
+    }
+    if ($user && $user.countryCode) {
+      let response = await geocodeCountryCode($user.countryCode);
+      //{longitude: 4.63357500000001, latitude: 50.438696, place_name: "Belgium"}
+      if (response) {
+        return {
+          longitude: response.longitude,
+          latitude: response.latitude
+        };
+      }
+    }
+    // initialLocation = { longitude: 4.5, latitude: 50.5 };
+  };
+
+  $: console.log(initialLocation);
+
+  let zoom = 7;
+
+  let filteredGardens = null;
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
+
   $: center = selectedGarden
-    ? [selectedGarden.location.longitude, selectedGarden.location.latitude]
-    : [4.5, 50.5];
+    ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
+    : initialLocation;
 
   let carNoticeShown = !getCookie('car-notice-dismissed');
 
-  const selectGarden = garden => {
+  const selectGarden = (garden) => {
     const newSelectedId = garden.id;
     const newGarden = $allGardens[newSelectedId];
-    center = [newGarden.location.longitude, newGarden.location.latitude];
+    center = { longitude: newGarden.location.longitude, latitude: newGarden.location.latitude };
     $goto(`${routes.MAP}/garden/${newSelectedId}`);
   };
 
@@ -31,6 +83,11 @@
   };
 
   onMount(async () => {
+    const location = await userLocation();
+    location
+      ? (initialLocation = location)
+      : (initialLocation = { longitude: 4.5, latitude: 50.5 });
+
     if (Object.keys($allGardens).length === 0) {
       try {
         await getAllListedGardens();
@@ -54,41 +111,90 @@
   });
 
   let showHiking = false;
+
   let showCycling = false;
+
+  let showFilterModal = false;
+
+  let isSearching = false;
+
+  let filter = {
+    facilities: {},
+    capacity: {
+      min: 1,
+      max: 20
+    }
+  };
+
+  const facilities = [
+    { name: 'toilet', icon: toiletIcon, label: 'Toilet' },
+    { name: 'shower', icon: showerIcon, label: 'Shower' },
+    { name: 'electricity', icon: electricityIcon, label: 'Electricity' },
+    { name: 'tent', icon: tentIcon, label: 'Tent' },
+    { name: 'bonfire', icon: bonfireIcon, label: 'Bonfire' },
+    { name: 'water', icon: waterIcon, label: 'Water' },
+    { name: 'drinkableWater', icon: waterIcon, label: 'Drinkable water' }
+  ];
+
+  let maxWidth = 500;
+  let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+  let allFiltersTag = false;
+  const activeFacilities = () => {
+    let activeFacilitiesFiltered = facilities.filter(
+      (facility) => filter.facilities[facility.name] === true
+    );
+
+    if (maxWidth && vw < maxWidth) {
+      if (activeFacilitiesFiltered.length > 3) {
+        activeFacilitiesFiltered = activeFacilitiesFiltered.slice(0, 3);
+        allFiltersTag = true;
+      } else {
+        allFiltersTag = false;
+      }
+    } else {
+      allFiltersTag = false;
+    }
+    return activeFacilitiesFiltered;
+  };
 </script>
 
 <Progress active={$isFetchingGardens} />
-<div class="map-section">
-  <Map lat={center[1]} lon={center[0]} recenterOnUpdate zoom="7">
-    {#if !$isFetchingGardens}
-      <GardenLayer
-        on:garden-click={e => selectGarden(e.detail)}
-        selectedGardenId={selectedGarden ? selectedGarden.id : null}
-        allGardens={$allGardens} />
-      <Drawer on:close={closeDrawer} garden={selectedGarden} />
-      <WaymarkedTrails {showHiking} {showCycling} />
-      <slot />
-    {/if}
-    {#if carNoticeShown}
-      <div class="vehicle-notice-wrapper">
-        <button on:click={closeCarNotice} aria-label="Close notice" class="button-container close">
-          <Icon icon={crossIcon} />
-        </button>
 
-        <div class="vehicle-notice">
-          <div class="image-container">
-            <img src="/images/no-car.svg" alt="No vehicle allowed" />
-          </div>
-          <h3>Welcome To My Garden is for slow travellers only.</h3>
-          <p class="mt-m">
-            If you're planning to travel by motorized vehicle, please do not contact hosts via this
-            platform. Thank you for understanding!
-          </p>
+<div class="map-section">
+  {#if initialLocation}
+    <Map lon={center.longitude} lat={center.latitude} recenterOnUpdate {zoom}>
+      {#if !$isFetchingGardens}
+        <GardenLayer
+          on:garden-click={(e) => selectGarden(e.detail)}
+          selectedGardenId={selectedGarden ? selectedGarden.id : null}
+          allGardens={filteredGardens || $allGardens} />
+        <Drawer on:close={closeDrawer} garden={selectedGarden} />
+        <WaymarkedTrails {showHiking} {showCycling} />
+        <slot />
+      {/if}
+    </Map>
+  {/if}
+
+  {#if carNoticeShown}
+    <div class="vehicle-notice-wrapper">
+      <button on:click={closeCarNotice} aria-label="Close notice" class="button-container close">
+        <Icon icon={crossIcon} />
+      </button>
+
+      <div class="vehicle-notice">
+        <div class="image-container">
+          <img src="/images/no-car.svg" alt="No vehicle allowed" />
         </div>
+        <h3>Welcome To My Garden is for slow travellers only.</h3>
+        <p class="mt-m">
+          If you're planning to travel by motorized vehicle, please do not contact hosts via this
+          platform. Thank you for understanding!
+        </p>
       </div>
-    {/if}
-  </Map>
-  <div class="filters">
+    </div>
+  {/if}
+
+  <div class="trails">
     <div>
       <LabeledCheckbox
         name="hiking"
@@ -108,7 +214,51 @@
       <a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>
     </span>
   </div>
+
+  <div class="filter">
+    <div class="location-filter">
+      <FilterLocation bind:zoom bind:center bind:isSearching fallbackLocation={initialLocation} />
+    </div>
+    <div class="garden-filter">
+      <Button
+        type="button"
+        uppercase
+        on:click={() => {
+          showFilterModal = true;
+        }}>
+        {@html filterIcon}
+      </Button>
+    </div>
+    {#if !isSearching}
+      <div class="filter-tags">
+        {#each activeFacilities() as facility (facility.name)}
+          <Tag
+            name={facility.name}
+            icon={facility.icon}
+            label={facility.label}
+            on:close={() => (filter.facilities[facility.name] = false)} />
+        {/each}
+        {#if allFiltersTag}
+          <Tag
+            name="all-filters"
+            label="all filters"
+            on:click={() => {
+              showFilterModal = true;
+            }}
+            closeButton={false} />
+        {/if}
+      </div>
+    {/if}
+  </div>
+
 </div>
+
+<Filter
+  bind:show={showFilterModal}
+  allGardens={$allGardens}
+  bind:filteredGardens
+  {facilities}
+  bind:filter />
 
 <style>
   .map-section {
@@ -123,7 +273,7 @@
     top: calc(var(--height-nav) + 0.5rem);
   }
 
-  .filters {
+  .trails {
     background-color: rgba(255, 255, 255, 0.8);
     bottom: 0;
     left: 0;
@@ -131,6 +281,43 @@
     width: 26rem;
     height: 9rem;
     padding: 1rem;
+  }
+
+  .filter {
+    background-color: rgba(255, 255, 255, 0);
+    width: 80%;
+    top: calc(var(--height-nav) + 3rem);
+    width: 32rem;
+    left: 6rem;
+    position: absolute;
+
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .location-filter {
+    width: calc(100% - 60px);
+    margin-right: 1rem;
+  }
+
+  .filter-tags {
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .filter :global(input, .input:focus) {
+    border-radius: 10px;
+    border-bottom: none;
+  }
+
+  .garden-filter :global(button) {
+    padding: 0 1.2rem;
+    font-size: 1.6rem;
+    height: 43px;
+    margin: 0;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
   }
 
   .attribution {
@@ -210,22 +397,9 @@
     z-index: 10;
   }
 
-  @media screen and (max-width: 700px) {
-    .map-section {
-      height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
-    }
-    .map-section :global(.mapboxgl-ctrl-top-left) {
-      top: calc(var(--height-nav) + 0.5rem);
-    }
-
-    .map-section :global(.mapboxgl-ctrl-bottom-right) {
-      top: 0;
-      right: 0;
-    }
-
+  @media screen and (max-width: 400px) {
     .vehicle-notice-wrapper {
-      top: 2rem;
-      left: calc(50% - 22.5rem);
+      height: 28rem;
     }
   }
 
@@ -245,9 +419,30 @@
     }
   }
 
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 700px) {
+    .map-section {
+      height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
+    }
+    .map-section :global(.mapboxgl-ctrl-top-left) {
+      top: calc(var(--height-nav) + 0.5rem);
+    }
+
+    .map-section :global(.mapboxgl-ctrl-bottom-right) {
+      top: 0;
+      right: 0;
+    }
+
     .vehicle-notice-wrapper {
-      height: 28rem;
+      top: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .filter {
+      top: 3rem;
+      width: 72%;
+      left: 50%;
+      transform: translateX(-50%);
     }
   }
 </style>

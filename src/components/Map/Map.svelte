@@ -41,9 +41,10 @@
   $: if (recenterOnUpdate && map && initialLat !== lat && initialLon !== lon) {
     map.flyTo({
       center: [lon, lat],
+      zoom: zoom,
       bearing: 0,
 
-      speed: 0.9,
+      speed: 1,
       curve: 1,
 
       essential: true
