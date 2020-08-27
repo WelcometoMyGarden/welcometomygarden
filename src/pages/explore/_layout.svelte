@@ -217,7 +217,7 @@
 
   <div class="filter">
     <div class="location-filter">
-      <FilterLocation bind:zoom bind:center bind:isSearching {initialLocation} />
+      <FilterLocation bind:zoom bind:center bind:isSearching fallbackLocation={initialLocation} />
     </div>
     <div class="garden-filter">
       <Button
