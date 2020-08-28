@@ -3,7 +3,7 @@
   "description": "a platform allowing citizens to put their garden freely at disposal as a rudimentary campsite to travelers.",
   "version": "1.0.0",
   "scripts": {
-    "build": "rollup -c",
+    "build": "cross-env routify -b --dynamic-imports && rollup -c",
     "build:prod": "cross-env NODE_ENV=production yarn run build",
     "dev": "cross-env BUNDLING=dynamic run-p routify nollup",
     "start": "sirv dist --single",
