@@ -13,6 +13,9 @@ Create `wtmg.config.json` file and make sure it has the values specified in [`wt
 
 You will need a Mapbox and Maptiler access token if you'd like to work on features that concern the map.
 
+## Roadmap
+
+We urgently need to stop spending so much money on our Google Cloud hosting service (Firebase). A redesign of our website that avoids such extreme cost is needed, or else we need to find a different Node.js hosting provider. Please help us solve this ridiculous problem.
 
 ## Usage
 From a terminal located at project root, install project dependencies:
