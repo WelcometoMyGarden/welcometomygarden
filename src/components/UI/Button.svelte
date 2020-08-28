@@ -9,6 +9,7 @@
   export let target = null;
   export let medium = false;
   export let small = false;
+  export let xsmall = false;
   export let disabled = false;
 
   import { createEventDispatcher } from 'svelte';
@@ -16,7 +17,7 @@
   const dispatch = createEventDispatcher();
 
   let clicked;
-  const click = e => {
+  const click = (e) => {
     clicked = true;
     setTimeout(() => (clicked = false), 100);
     if (!disabled) return dispatch('click', e);
@@ -30,11 +31,12 @@
     class:disabled
     class:fit
     class:small
+    class:xsmall
     class:medium
     class:inverse
     class:clicked
     {href}
-    on:click={e => {
+    on:click={(e) => {
       if (disabled) e.preventDefault();
       click(e);
     }}
@@ -52,6 +54,7 @@
     class:fit
     class:medium
     class:small
+    class:xsmall
     class:inverse
     class:clicked
     {type}>
@@ -112,6 +115,11 @@
   .small {
     padding: 1.2rem 1.8rem;
     font-size: 1.5rem;
+  }
+
+  .xsmall {
+    padding: 0.6rem 0.9rem;
+    font-size: 1rem;
   }
 
   .fit {

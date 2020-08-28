@@ -1,6 +1,7 @@
 <script>
   export let name;
 
+  import { _ } from 'svelte-i18n';
   import { slide } from 'svelte/transition';
   import { clickOutside } from '@/directives';
   import { logout } from '@/api/auth';
@@ -28,7 +29,7 @@
           <i>
             {@html chatIcon}
           </i>
-          Chat
+          {$_('generics.chat')}
         </a>
       </li>
       <li>
@@ -36,7 +37,7 @@
           <i>
             {@html userIcon}
           </i>
-          Account
+          {$_('generics.account')}
         </a>
       </li>
       <li class="separated">
@@ -50,7 +51,7 @@
           <i>
             {@html signOutIcon}
           </i>
-          Sign out
+          {$_('generics.sign-out')}
         </a>
       </li>
     </ul>

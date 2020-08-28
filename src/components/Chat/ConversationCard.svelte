@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   export let selected = false;
   export let recipient;
   export let lastMessage;
@@ -14,7 +15,7 @@
       {#if lastMessage}
         {lastMessage}
       {:else}
-        <span class="badge">New</span>
+        <span class="badge">{$_('chat.new')}</span>
       {/if}
     </p>
   </div>

@@ -1,5 +1,21 @@
 {
   "tagline": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour les voyageurs et voyageuses lent.e.s.",
+  "generics": {
+    "cookie-policy": "Politique des cookies",
+    "privacy-policy": "Politique de confidentialité",
+    "terms-of-use": "Conditions d'utilisation",
+    "home": "Accueil",
+    "map": "Carte",
+    "rules": "Règles",
+    "faq": {
+      "acronym": "FAQ",
+      "explicit": "Foire aux questions"
+    },
+    "chat": "Chat",
+    "account": "Compte",
+    "sign-out": "Déconnexion",
+    "sign-in": "Connexion"
+  },
   "index": {
     "intro": {
       "copy": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme espace de bivouac gratuit pour des voyageurs et voyageuses adeptes du slow travel.",
@@ -10,7 +26,8 @@
     "steps": [
       {
         "title": "Étape 1: Inscrivez-vous pour devenir ou trouver un.e hôte",
-        "copy": "Souhaitez-vous accueillir dans votre jardin? <a href=\"{addGardenLink}\">Ajoutez-le sur la carte</a>. Si vous cherchez un jardin où poser votre tente, cliquez sur \"Explorer la carte\" et contactez un.e hôte. Mettez-vous d’accord sur une date et c’est parti!"
+        "copy": "Souhaitez-vous accueillir dans votre jardin? {addGardenLink}. Si vous cherchez un jardin où poser votre tente, cliquez sur \"Explorer la carte\" et contactez un.e hôte. Mettez-vous d’accord sur une date et c’est parti!",
+        "add-garden-link-text": "Ajoutez-le sur la carte"
       },
       {
         "title": "Étape 2: Planifiez votre voyage",
@@ -23,7 +40,8 @@
     ],
     "faq": {
       "title": "Tout ce que vous devez savoir",
-      "copy": "Vous trouverez ci-dessous tout ce que vous devez savoir pour partir à l’aventure. Lisez attentivement la section FAQ afin de savoir exactement comment la plateforme fonctionne. Plus de questions? <a href=\"{faqLink}\">Consultez notre FAQ</a>!",
+      "copy": "Vous trouverez ci-dessous tout ce que vous devez savoir pour partir à l’aventure. Lisez attentivement la section FAQ afin de savoir exactement comment la plateforme fonctionne. Plus de questions? {faqLink}!",
+      "faq-link-text": "Consultez notre FAQ",
       "questions": [
         {
           "title": "Pour qui est Welcome To My Garden?",
@@ -52,7 +70,8 @@
     },
     "support": {
       "title": "Soutenez-nous",
-      "copy": "Utiliser Welcome To My Garden est 100% gratuit cependant nous avons quelques factures. <a href=\"https://opencollective.com/welcometomygarden\" target=\"_blank\">Soutenez-nous ici</a> pour nous permettre de continuer à exister!"
+      "copy": "Utiliser Welcome To My Garden est 100% gratuit cependant nous avons quelques factures. {donationLink} pour nous permettre de continuer à exister!",
+      "donation-link-text": "Soutenez-nous ici"
     },
     "holiday-donations": {
       "title": "Tout le monde mérite des vacances",
@@ -215,6 +234,463 @@
       {
         "title": "J’ai eu un problème avec un.e hôte, comment vous le faire savoir ?",
         "copy": "Tout problème ou mauvais comportement de la part d’un.e hôte ou d’un.e voyageur/voyageuse doit être reporté à Welcome To My Garden par email (welcometomygardennetwork-gmail.com). En cas de comportement inadapté, nous nous réservons le droit de suspendre de manière unilatérale le compte de la personne en question (voir les conditions d’utilisations)."
+      }
+    ]
+  },
+  "cookies": {
+    "title": "Politique d'utilisation des cookies",
+    "articles": [
+      {
+        "title": "Que sont les cookies ?",
+        "copy": [
+          "Comme pratiqué couramment par presque tous les sites Web, ce site utilise des cookies. Les cookies sont de minuscules fichiers téléchargés sur votre ordinateur pour améliorer votre expérience en ligne. Cette page décrit les informations qu'ils collectent, comment nous les utilisons et pourquoi nous devons parfois stocker ces cookies. Nous partagerons également comment vous pouvez empêcher le stockage de ces cookies. Cependant, ceci peut déclasser ou «casser» certains éléments de la fonctionnalité du site. Pour plus d'informations générales sur les cookies, <a href=\"https://fr.wikipedia.org/wiki/Cookie_(informatique)\">consultez cet article Wikipedia sur les cookies HTTP.</a>"
+        ]
+      },
+      {
+        "title": "‍Comment utilisons-nous des cookies ?",
+        "copy": [
+          "Nous utilisons des cookies pour diverses raisons détaillées ci-dessous. Malheureusement, dans la plupart des cas, il n'y a pas d'option standard pour désactiver les cookies sans désactiver complètement les fonctionnalités qu'ils ajoutent à ce site."
+        ]
+      },
+      {
+        "title": "Désactiver les cookies",
+        "copy": [
+          "Vous pouvez empêcher le téléchargement de cookies en ajustant les paramètres de votre navigateur (consultez le menu Aide de votre navigateur pour savoir comment procéder). Veuillez noter que la désactivation des cookies peut affecter la fonctionnalité de ce site et de nombreux autres sites Web que vous visitez. La désactivation des cookies entraînera généralement la désactivation de certaines fonctionnalités de ce site. Néanmoins, si vous souhaitez si vous souhaitez désactiver les cookies, nous vous recommandons d'utiliser Privacy Badger sur Firefox."
+        ]
+      },
+      {
+        "title": "‍Les cookies mis en place",
+        "copy": [
+          "Si vous créez un compte sur la plateforme, les cookies utilisés concernent la gestion la gestion du processus d'inscription et l'administration générale. Ces cookies sont généralement supprimés lorsque vous vous déconnectez. Cependant, dans certains cas, ils peuvent être conservés afin d’enregistrer vos préférences de site.",
+          "Nous utilisons des cookies lorsque vous êtes connecté afin que nous puissions nous souvenir de votre utilisation. Cela vous évite d'avoir à vous connecter à chaque fois que vous visitez une nouvelle page. Ces cookies sont généralement supprimés ou effacés lorsque vous vous déconnectez pour assurer votre sécurité en ligne.",
+          "Ce site pourrait offrir des services d'abonnement à la newsletter ou par e-mail à l'avenir. Des cookies peuvent dès lors être utilisés afin d'enregistrer votre inscription ainsi que pour permettre l'affichage de notification n'étant accessibles qu'aux utilisateurs abonnés.",
+          "Lorsque vous soumettez des données via un formulaire, des cookies peuvent être configurés pour mémoriser vos informations d'utilisateur pour une correspondance future.",
+          "Afin de vous offrir une grande expérience sur ce site, nous fournissons la fonctionnalité permettant de définir vos préférences quant à la façon dont ce site fonctionne lorsque vous l'utilisez. Afin de mémoriser vos préférences, nous devons définir des cookies pour que ces informations puissent être rappelées à chaque fois que vous interagissez avec une page qui a enregistré vos préférences."
+        ]
+      },
+      {
+        "title": "Cookies utilisés par des tiers",
+        "copy": [
+          "Dans certains cas particuliers, nous utilisons également des cookies fournis par des tiers de confiance. La section suivante détaille les cookies tiers que vous pourriez rencontrer sur ce site.",
+          "Ce site utilise Google Analytics, qui est l'une des solutions d'analyse les plus répandues et les plus fiables sur le Web. Nous l'utilisons pour nous aider à comprendre comment vous utilisez ce site et à découvrir comment nous pouvons améliorer votre expérience. Ces cookies peuvent suivre des éléments tels que le temps que vous passez sur le site et les pages que vous visitez, afin que nous puissions continuer à produire du contenu attrayant.",
+          "Pour plus d'informations sur les cookies de Google Analytics, <a href=\"https://www.google.com/url?q=https://analytics.google.com/analytics/web/%23/&amp;sa=D&amp;ust=1592214262289000\">consultez la page officielle de Google Analytics.</a>",
+          "Des analyses tierces sont utilisées pour suivre et mesurer l'utilisation de ce site afin que nous puissions continuer à produire du contenu engageant. De temps en temps, nous testons de nouvelles fonctionnalités et apportons des modifications subtiles à la manière dont le site est livré. Lorsque nous testons encore de nouvelles fonctionnalités, ces cookies peuvent être utilisés pour vous garantir une expérience cohérente lors de votre visite, tout en nous assurant que nous comprenons quelles optimisations nos utilisateurs apprécient le plus."
+        ]
+      },
+      {
+        "title": "Pour plus d’informations",
+        "copy": [
+          "Nous espérons que cette page ait fourni des informations claires. Comme mentionné précédemment, s'il y a quelque chose dont vous n'êtes pas sûr d'avoir besoin ou non, il est généralement plus sûr de laisser les cookies activés - juste au cas où ils interagiraient avec l'une des fonctionnalités que vous utilisez sur notre site. Si vous recherchez toujours plus d'informations, vous pouvez nous contacter à l'adresse {support}."
+        ]
+      }
+    ]
+  },
+  "privacy-policy": {
+    "title": "Politique de confidentialité",
+    "last-updated": "Dernière mise à jour: 30/05/2020",
+    "subtitle": "Responsabilité par rapport au traitement des données et du propriétaire de celles-ci",
+    "intro": "Welcome To My Garden, avec Open Collective Europe ASBL comme entité légale, est une organisation sans but lucratif, existant sous la loi de Belgique et ayant ses bureaux enregistrés à Cantersteen 12, 1000 Bruxelles Belgique, avec le numéro d’entreprise 0680.493.996.",
+    "email": "Email : {support}",
+    "scope": {
+      "title": "Politique de confidentialité",
+      "copy": "Cette 'politique de confidentialité' s'applique aux 'données personnelles' collectées par Welcome To My Garden via ce site web."
+    },
+    "personal-data": {
+      "meaning": {
+        "title": "Que signifie le terme de données personnelles?",
+        "copy": "Dans cette politique de confidentialité, les données personnelles font référence à des informations permettant de vous identifier. Une personne identifiable est une personne qui peut être identifiée, directement ou indirectement, notamment en se référant à un numéro d'identification ou à un ou plusieurs facteurs liés à l'identité physique, physiologique, mentale, économique, culturelle ou sociale. Un exemple typique d'informations personnelles est votre nom et votre adresse email."
+      },
+      "collection": {
+        "title": "Quelles données personnelles collectons-nous?",
+        "copy": "Nous pouvons collecter vos données personnelles à partir des sources suivantes:",
+        "sources": [
+          {
+            "title": "Données personnelles que vous fournissez lors de l'inscription sur la plateforme.",
+            "list": [
+              "Adresse email (obligatoire)",
+              "Votre prénom et nom (obligatoire)",
+              "Votre pays (obligatoire)",
+              "Votre consentement à ces conditions"
+            ]
+          },
+          {
+            "title": "Données personnelles que nous collectons lorsque vous visitez notre site web.",
+            "list": [
+              "Nous utilisons des cookies pour collecter automatiquement des données personnelles vous concernant lorsque vous utilisez ce site Web. Pour plus d'informations, veuillez consulter notre politique en matière de cookies."
+            ]
+          },
+          {
+            "title": "Données personnelles que vous fournissez lors de l'ajout de votre jardin à votre compte.",
+            "list": [
+              "L'emplacement de votre jardin (coordonnées: latitude et longitude) (obligatoire)",
+              "Informations sur votre jardin (description, équipements, nombre de tentes que vous pouvez accueillir) (obligatoire)",
+              "Langues parlées (obligatoire)",
+              "Une photo de votre jardin (facultatif)"
+            ]
+          }
+        ]
+      },
+      "usage": {
+        "title": "Comment utilisons-nous vos données personnelles ?",
+        "subtitle": "Nous pouvons utiliser vos données personnelles aux fins suivantes:",
+        "purposes": [
+          "Pour créer et maintenir votre profil d'utilisateur sur ce site Web;",
+          "Gérer l'identification et l'authentification des utilisateurs;",
+          "Pour vérifier votre compte utilisateur afin de garantir les mesures de sécurité nécessaires;",
+          "Pour fournir des informations sur votre jardin à la communauté des utilisateurs;",
+          "Pour vous alerter lorsque des mises à jour ont lieu sur la plateforme;",
+          "Pour vous alerter lorsque des activités sur la plateforme peuvent vous intéresser."
+        ],
+        "copy": "Les données personnelles ne sont stockées et traitées que pendant la période nécessaire aux fins du traitement. Après cela, les données seront supprimées ou anonymisées. Welcome To My Garden s'appuie sur Firebase, qui est certifié selon les principales normes de confidentialité et de sécurité. Les services Firebase sont conformes au Règlement général de protection des données. Toutes les informations relatives à Firebase peuvent être trouvées <a href=\"https://firebase.google.com/support/privacy\">ici</a>."
+      },
+      "extra": [
+        {
+          "title": "Avec qui partageons-nous vos données personnelles ?",
+          "copy": "Vos données personnelles ne seront partagées avec aucun tiers. De plus, vos données personnelles ne seront jamais partagées à des prestataires de services non conformes au Règlement général de protection des données."
+        },
+        {
+          "title": "Où transférons-nous vos données personnelles ?",
+          "copy": "Nous ne transférons vos données personnelles à des prestataires de services établis en dehors de l'Espace économique européen que s'ils sont conformes à l'article 44 du RGPD. Tous les fournisseurs de services basés aux États-Unis se conforment aux réglementations de protection des données."
+        },
+        {
+          "title": "Prise de décision et profilage automatisés",
+          "copy": "Le traitement de vos données personnelles n'inclut pas le profilage et ne sera pas soumis à une prise de décision automatisée par Welcome To My Garden."
+        }
+      ]
+    },
+    "rights": {
+      "title": "Quels droits avez-vous?",
+      "copy": "Vous avez le droit de consulter vos données personnelles à tout moment, ainsi que le droit d'être informé de l'utilisation que Welcome To My Garden fait de vos données personnelles.",
+      "list": [
+        {
+          "title": "Droit de rectification, de suppression et de restriction du traitement",
+          "copy": "Vous êtes libre de décider de fournir ou non vos données personnelles à Welcome To My Garden. De plus, vous avez toujours le droit de modifier, compléter ou supprimer vos données personnelles sur Welcome To My Garden. Vous reconnaissez qu'un refus de fournir ou une demande de suppression de données personnelles signifie que certains services ne pourront vous être fournis."
+        },
+        {
+          "title": "Droit d'opposition",
+          "copy": "Vous avez le droit de vous opposer au traitement de vos données personnelles, pour autant que cela soit pour des raisons sérieuses et légitimes."
+        },
+        {
+          "title": "Droit à la portabilité des données",
+          "copy": "Vous avez le droit d'obtenir les données personnelles que vous avez fournies à Welcome To My Garden sous une forme structurée et lisible par machine et/ou de les transférer vers des contrôleurs différents."
+        },
+        {
+          "title": "Droit de retirer son consentement",
+          "copy": "Dans la mesure où le traitement des données est basé sur votre accord préalable, vous avez le droit de retirer cette approbation."
+        },
+        {
+          "title": "Droit de porter plainte",
+          "copy": "Vous avez le droit de déposer une plainte auprès de la Commission belge de la protection de la vie privée: Commission de la protection de la vie privée, Drukpersstraat 35, 1000 Bruxelles, Belgique, Tél +32 (0) 2 274 48 00, Fax +32 (0) 2 274 48 35, email : commission@privacycommission.be. Cela n'affecte pas la réparation devant un tribunal civil."
+        }
+      ],
+      "exercise-rights": {
+        "title": "Exercice de vos droits",
+        "copy": "Vous pouvez exercer vos droits en contactant Welcome To My Garden par email à {support}, à condition que l'adresse e-mail utilisée pour la demande soit identique à celle utilisée pour l’inscription sur la plateforme."
+      }
+    },
+    "additional-info": {
+      "title": "Informations supplémentaires sur la collecte et le traitement des données",
+      "infos": [
+        {
+          "title": "Procédures légales",
+          "copy": [
+            "Le Processeur et le Responsable du traitement des données peuvent utiliser les données personnelles de l'utilisateur à des fins juridiques, pour les tribunaux ou les procédures judiciaires, en cas d'utilisation illégale de cette application ou des services connexes.",
+            "L'Utilisateur est conscient que le Processeur et le Responsable du traitement des données pourraient être tenus de divulguer les données personnelles à la demande des institutions gouvernementales compétentes pour le traitement des données."
+          ]
+        },
+        {
+          "title": "Mesures de sécurité",
+          "copy": [
+            "Welcome To My Garden a développé des mesures de sécurité qui ont été ajustées au niveau technologique et organisationnel pour empêcher la destruction, la perte, la falsification, la modification, l'accès interdit ou la divulgation erronée de données personnelles à des tiers  ainsi que tout autre traitement interdit de ces données.",
+            "Welcome To My Garden ne peut en aucun cas être tenu responsable de toute perte directe ou indirecte résultant d'une utilisation incorrecte ou illégale de vos données personnelles par un tiers.",
+            "Vous devez à tout moment vous conformer aux instructions de sécurité, ce qui inclut d'empêcher tout accès interdit à vos informations de connexion, y compris votre mot de passe. Vous êtes seul responsable de l'utilisation du site Web sur votre ordinateur, à partir de votre adresse IP et de vos informations d'identification, ainsi que de la confidentialité de ces informations."
+          ]
+        }
+      ]
+    },
+    "definitions": {
+      "title": "Définitions et cadre juridique",
+      "articles": [
+        {
+          "title": "Données personnelles (ou Données)",
+          "copy": "Toutes les informations concernant une personne physique, une personne morale, une institution ou une association qui ont été ou pourraient être identifiées directement ou indirectement par référence à d'autres informations."
+        },
+        {
+          "title": "Utilisation des données",
+          "copy": "Informations collectées automatiquement à partir de cette application (ou des services externes utilisés dans cette application), y compris: les adresses IP ou les noms de domaine des ordinateurs utilisés par les utilisateurs de cette application, les adresses URI (Uniform Resource Identifier), l'heure de la requête, la méthode utilisée pour soumettre la requête au serveur, la taille du fichier reçu en réponse à celle-ci, le code numérique indiquant l'état de la réponse du serveur (succès, erreur, etc.), les fonctions du navigateur et le système d'exploitation de l'Utilisateur, les différentes données de temps par visite (comme le temps passé sur chaque page de l'application) et les données collectées lors de l'utilisation de l'application (exemple: l'ordre des pages visitées ou d'autres paramètres sur le système d'exploitation de l'appareil)."
+        },
+        {
+          "title": "Utilisateur",
+          "copy": "La personne utilisant cette application."
+        },
+        {
+          "title": "La personne concernée",
+          "copy": "La personne morale ou la personne physique à laquelle se rapportent les données personnelles."
+        },
+        {
+          "title": "Processeur de données (ou superviseur de données)",
+          "copy": "La personne physique, l'entité juridique, l'administration gouvernementale ou toute autre institution, association ou organisation autorisée par le responsable du traitement des données à traiter les données personnelles conformément à la présente politique de confidentialité."
+        },
+        {
+          "title": "Responsable du traitement des données (ou propriétaire)",
+          "copy": "La personne physique, la personne morale, l'administration publique ou toute autre institution, association ou organisation ayant le droit, conjointement avec le responsable du traitement des données, de prendre des décisions concernant les finalités et les méthodes de traitement des données personnelles et les moyens utilisés, y compris mesures de sécurité concernant l'exploitation et l'utilisation de cette Application. Le responsable du traitement des données est le propriétaire de cette application, sauf indication contraire."
+        },
+        {
+          "title": "Définition de l’application",
+          "copy": "Le logiciel à travers lequel les données personnelles de l’utilisateur sont collectées."
+        },
+        {
+          "title": "Cookie",
+          "copy": "Petit bloc de données stocké sur l'appareil de l'utilisateur. Voir notre politique en matière de cookies."
+        }
+      ],
+      "legal-info": {
+        "title": "Information légale",
+        "copy": "Avis aux utilisateurs européens: cette déclaration de confidentialité a été rédigée dans le respect des obligations de l'art. 10 de la directive européenne 95/46 / CE et les dispositions de la directive européenne 2002/58 / CE, ainsi que la révision de la directive 2009/136 / CE concernant les cookies."
+      }
+    },
+    "change-warning": {
+      "title": "Modifications de cette politique de confidentialité",
+      "copy": "Le responsable du traitement des données se réserve le droit de modifier cette politique de confidentialité à tout moment en informant les utilisateurs de la plateforme. Nous vous encourageons à consulter cette page pour d'éventuels changements. La date du dernier changement est indiquée en bas de page. Si un utilisateur s'oppose à toute modification de la politique, l'utilisateur ne doit pas continuer à utiliser cette application. La plateforme pourrait alors demander au responsable du traitement des données de supprimer les données personnelles. Sauf indication contraire, la politique de confidentialité valide applicable à ce moment-là s'applique à toutes les données personnelles que le responsable du traitement a stocké pour le traitement des données sur les utilisateurs."
+    }
+  },
+  "terms-of-use": {
+    "title": "Conditions d'utilisation",
+    "last-updated": "Dernière mise à jour : 30 Mai 2020",
+    "intro": [
+      {
+        "copy": "Welcome to My Garden est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour les voyageurs et voyageuses lent.e.s. Ces conditions d’utilisation (\"Conditions\") s’appliquent quant à l’accès et l’utilisation de ce site ainsi qu’à l’utilisation du réseau (\"Plateforme\") fournie par Welcome to My Garden."
+      },
+      {
+        "copy": "L'utilisation de cette plateforme est soumise à un nombre de règles. Vous trouverez ci-dessous les conditions d’utilisation générale de celle-ci. Nous sommes convaincus que des règles claires garantissent le développement d’une communauté respectueuse. <span class=\"bold\">En créant un compte ou en accédant à la plateforme, vous acceptez ces conditions.</span>"
+      },
+      {
+        "copy": "Welcome to My Garden apprécie les commentaires des utilisateurs de la plateforme. Vous pouvez envoyer vos suggestions par email à {support}."
+      }
+    ],
+    "articles": [
+      {
+        "title": "Qui peut s'enregistrer sur la plateforme ?",
+        "descriptions": [
+          {
+            "copy": "Tout.e citoyen.ne qui souhaite mettre son jardin à disposition gratuitement comme espace de bivouac pour des voyageurs lents (cycliste ou randonneur) qui souhaite utiliser le réseau. Si vous voulez ajouter votre jardin ou contacter un hôte, vous devez créer un compte. Seul.e.s les participant.e.s enregistré.e.s peuvent être des utilisateurs actifs. Vous pouvez vous inscrire avec votre adresse email."
+          },
+          {
+            "copy": "La création d’un compte par un utilisateur ne confère pas à cet utilisateur la propriété du compte. Welcome to My Garden se réserve le droit de refuser, suspendre ou supprimer des comptes, par exemple si l'utilisateur ne respecte pas les règles suivantes ou si un comportement inapproprié a été signalé par un hôte ou un voyageur."
+          }
+        ],
+        "info": [
+          {
+            "title": "Chaque compte doit respecter les règles suivantes:",
+            "sections": [
+              {
+                "title": "Chaque compte est strictement personnel",
+                "copy": "Chaque compte doit être unique et lié à une personne physique. Si vous vous inscrivez pour un compte, vous devez fournir des informations réelles et mettre à jour rapidement ces informations si elles changent. Chaque utilisateur a le droit de créer un seul compte. S'il est déterminé qu'une personne possède plusieurs comptes, Welcome to My Garden se réserve le droit de supprimer tous ces comptes. Chaque utilisateur doit avoir plus de 16 ans."
+              },
+              {
+                "title": "Un compte ne peut pas être transféré à une autre personne",
+                "copy": "Étant donné que chaque compte est strictement lié à une personne spécifique, ce compte ne peut pas être transféré à une autre personne sans l'autorisation de Welcome to My Garden. Cette interdiction de transfert doit être considérée dans le sens le plus large. Welcome to My Garden se réserve le droit de refuser ou de supprimer ce compte en cas d'infraction."
+              },
+              {
+                "title": "Un compte ne peut pas être utilisé à des fins commerciales",
+                "copy": "La plateforme Welcome to My Garden est destinée à permettre aux citoyens de mettre leurs jardins gratuitement à disposition aux voyageurs lents d'utiliser le réseau lorsqu'ils voyagent. Un compte ne peut donc être utilisé qu'à ces fins. Toute utilisation du compte dans un but commercial est strictement interdite."
+              },
+              {
+                "title": "Les informations du compte doivent toujours rester confidentielles",
+                "copy": "Il est interdit à toute autre personne que la personne ayant créé le compte de l’utiliser. La personne qui a créé le compte doit s'assurer qu'il conserve le mot de passe et les informations de connexion en toute sécurité. Nous vous conseillons fortement d'utiliser un mot de passe \"fort\" (un mot de passe avec une combinaison de lettres minuscules, de majuscules et de chiffres). Nous vous conseillons d'utiliser un gestionnaire de mots de passe. Welcome to My Garden ne peut en aucun cas être tenu responsable de toute perte ou dommage subi sur le compte si les conditions ci-dessus ne sont pas remplies par l'utilisateur. Welcome to My Garden ne peut pas non plus être tenu responsable du vol de votre compte, par exemple par «phishing». Welcome to My Garden ne demandera jamais à ses utilisateurs des données personnelles telles qu'un identifiant ou un mot de passe par e-mail. Si des données personnelles sont demandées, l'utilisateur sera toujours redirigé vers la plateforme de Welcome to My Garden. Vous êtes responsable de toutes les activités qui se produisent en relation avec votre compte et acceptez tous les risques d'accès non autorisé."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Conditions d’utilisation pour les hôtes",
+        "info": [
+          {
+            "title": "En ajoutant votre jardin à la plateforme, vous marquez votre accord avec les règles générales de la plateforme qui sont les suivantes:",
+            "sections": [
+              {
+                "title": "Aucun revenu ne peut être généré",
+                "copy": "Welcome to My Garden est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour les voyageurs et voyageuses lent.e.s. Par conséquent, aucun revenu ne devrait en être tiré. Offrir un jardin contre un paiement ou une rémunération est strictement interdit et la plateforme se réserve le droit de supprimer définitivement le compte d'un hôte si cela se produit."
+              },
+              {
+                "title": "Avertissement",
+                "copy": "Welcome to My Garden est une initiative citoyenne. Les bénévoles derrière Welcome to My Garden ne prennent aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."
+              },
+              {
+                "title": "Aucune discrimination n’est autorisée",
+                "copy": "Welcome to My Garden ne tolère aucune forme de discrimination. Les hôtes doivent agir conformément à cela. Les hôtes ne peuvent pas discriminer sur la base du sexe, de l'origine ethnique, de l'âge, de l'orientation sexuelle, du statut socioéconomique, de l'apparence physique, des capacités et de la religion (ou de l’absence de celle-ci)."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Conditions d’utilisation pour les voyageurs",
+        "descriptions": [
+          {
+            "copy": "Les utilisateurs doivent avoir au moins 18 ans pour utiliser la plateforme. En créant un compte, les utilisateurs acceptent immédiatement les conditions d'utilisation de Welcome To My Garden."
+          }
+        ],
+        "paragraphs": [
+          {
+            "title": "Contacter les hôtes",
+            "copy": [
+              "Les hôtes doivent uniquement être contactés pour demander un séjour dans leurs jardins. Toute utilisation abusive de la plateforme peut entraîner la suspension ou la suppression du compte de l'utilisateur."
+            ]
+          },
+          {
+            "title": "Obligation de contacter préalablement les hôtes pour demander un séjour",
+            "copy": [
+              "Les utilisateurs sont obligés de contacter l'hôte au préalable pour demander un séjour, sauf si l'hôte a clairement indiqué sur son profil que cela n'est pas nécessaire. Les utilisateurs doivent toujours transmettre des informations réelles concernant leur identité."
+            ]
+          },
+          {
+            "title": "Installations mises à disposition par les hôtes",
+            "copy": [
+              "L’hôte est le seul à décider des installations qu'il met - ou ne met pas - à la disposition de l'utilisateur. En utilisant cette plateforme, l'utilisateur reconnaît et accepte les conditions de son séjour - qui peuvent ou non comprendre l'accès aux installations sanitaires."
+            ]
+          },
+          {
+            "title": "Le respect de la nature",
+            "copy": [
+              "Les utilisateurs doivent emporter tous leurs déchets en partant. Les utilisateurs doivent toujours respecter la nature, le jardin de l'hôte et leur environnement, et adhérer au principe <a href=\"https://fr.wikipedia.org/wiki/Programme_Sans_trace\">Leave No Trace</a>."
+            ]
+          },
+          {
+            "title": "Respect de l'hôte et du voisinage",
+            "copy": [
+              "Les utilisateurs doivent toujours être respectueux des propriétaires du jardin et faire attention au bruit. Ils doivent également respecter les conditions de séjour de l’hôte."
+            ]
+          },
+          {
+            "title": "Pas de voiture autorisée",
+            "copy": [
+              "La plateforme Welcome to My Garden respecte l'environnement et ne répond qu'aux besoins des voyageurs lents. Cela signifie que les utilisateurs ne peuvent se rendre dans les jardins qu'à pied, à vélo ou en transports en commun. L'utilisation de véhicules motorisés est interdite, sauf pour les utilisateurs à mobilité réduite. Cependant, il est permis de se rendre au début d'un sentier en utilisant un véhicule motorisé."
+            ]
+          },
+          {
+            "title": "Avertissement",
+            "copy": [
+              "La plateforme Welcome to My Garden est une initiative citoyenne. Les bénévoles derrière Welcome to My Garden ne prennent aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Interactions avec les autres membres",
+        "paragraphs": [
+          {
+            "title": "Vous avez l'entière responsabilité lorsque vous interagissez avec d'autres membres.",
+            "copy": [
+              "Welcome To My Garden est une plateforme permettant aux hôtes de mettre librement leur jardin à disposition, aux voyageurs de demander de camper dans un jardin et de communiquer entre eux pour réaliser cette utilisation. Les utilisateurs sont seuls responsables de toute interaction avec d'autres utilisateurs de la plateforme. Welcome To My Garden ne prend aucune responsabilité ni obligation en ce qui concerne les communications ou les différends entre deux utilisateurs. Pour être très clair: Welcome To My Garden est une plateforme permettant aux hôtes de mettre librement leur jardin à disposition, aux utilisateurs d'utiliser le jardin de quelqu'un pour camper et un endroit pour communiquer entre les utilisateurs. Welcome to My Garden ne sera pas et ne pourra être tenu responsable des interactions ou conséquences des interactions entre utilisateurs. Les utilisateurs libèrent Welcome To My Garden (et ses bénévoles) de réclamations, demandes et dommages (réels et consécutifs) de toute nature, connus et inconnus, soupçonnés et insoupçonnés, divulgués et non divulgués, découlant de ou liés de quelque manière que ce soit à ces des disputes. Gardez toujours à l'esprit la sécurité et votre bon jugement lorsque vous utilisez la plateforme."
+            ]
+          },
+          {
+            "title": "Vérification d'identité",
+            "copy": [
+              "Les utilisateurs sont seuls responsables de la détermination de l'identité et de l'adéquation des autres utilisateurs. En tant qu'hôte, vous pouvez toujours refuser des utilisateurs. En tant que voyageur, vous pouvez décider où vous souhaitez séjourner. Welcome To My Garden ne peut pas et ne confirme pas l'identité de chaque utilisateur. La plateforme ne détient ni n’est au courant d’aucune information sur les antécédents criminels ou la moralité de l'utilisateur. Gardez toujours à l'esprit la sécurité et le bon jugement lorsque vous utilisez la plateforme."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Limitations du contenu et de l’utilisation de la plateforme",
+        "descriptions": [
+          {
+            "copy": "Pour vous assurer que la plateforme Welcome to My Garden fonctionne correctement, que vous pouvez communiquer et vous connecter avec d'autres personnes, il existe certaines restrictions quant au type de contenu pouvant être publié via la plateforme."
+          }
+        ],
+        "paragraphs": [
+          {
+            "title": "Comportement offensif",
+            "copy": [
+              "Nous croyons fermement à la liberté d'expression. Cependant, afin de garantir que la plateforme puisse être utilisée de manière constructive par tous les utilisateurs, nous n'autorisons aucun comportements offensifs comme du harcèlement, de l'intimidation ou toute sorte de comportement visant à créer de la peur.",
+              "Les utilisateurs et leurs comptes associés qui seront utilisés pour effectuer les actions répertoriées ci-dessous peuvent être temporairement bloqués et/ou supprimés définitivement.",
+              "Menaces violentes (directes ou indirectes): Vous ne pouvez pas menacer ou promouvoir la violence. Cela comprend la promotion du terrorisme. Harcèlement: Vous ne pouvez pas inciter à ou être impliqué dans l'insulte ou le harcèlement délibéré d'autrui. Voici quelques facteurs que nous pouvons prendre en compte lors de l'évaluation d'un comportement abusif: si l'objectif principal est de harceler ou d'envoyer des messages offensants à d'autres; si le comportement signalé est unidirectionnel ou contient des menaces; si le compte rendu signalé encourage d'autres personnes à intimider un autre compte; et si le compte signalé envoie des messages d'intimidation à un compte à partir de plusieurs comptes. Haine: Vous ne pouvez pas promouvoir la violence contre d'autres personnes ni les attaquer ou les menacer directement sur la base de la race, de l'origine ethnique, de la nationalité, de l'orientation sexuelle, du sexe, de l'identité de genre, de l'affiliation philosophique, de la religion, de l'âge, du handicap ou de la maladie. Nous n'autorisons pas non plus les comptes dont le but principal est d'inciter d'autres personnes à nuire sur la base de ces catégories. Utilisation abusive de plusieurs comptes: la création de plusieurs comptes à des fins de chevauchement pour éviter la suspension temporaire ou permanente d'un compte individuel n'est pas autorisée. Données privées: Vous ne pouvez pas publier ou publier des données confidentielles et des informations privées d'autrui sans leur autorisation et consentement express. Ces données comprennent, sans s'y limiter: les numéros de carte de crédit, les coordonnées, les numéros de téléphone ou les données qui relèvent de la vie privée d'une personne. Usurpation d'identité: vous n'êtes pas autorisé à accéder à la plate-forme en prétendant être quelqu'un d'autre et, en particulier, vous ne pouvez pas tromper, confondre ou menacer d'autres utilisateurs de cette manière. Vous pouvez ne pas être autorisé à accéder à la plateforme si quelqu'un d'autre trompe, confond ou menace d'une manière qui trompe ou menace les autres."
+            ]
+          },
+          {
+            "title": "Indemnités",
+            "copy": [
+              "Vous dégagez Welcome To My Garden - et ces bénévoles - de toute réclamation, demande, action, dommage, perte, coût ou dépense, y compris, sans limitation, les honoraires d'avocat, découlant ou liés à (a) votre utilisation de nos services; (b) tout contenu des membres ou soumissions que vous fournissez; (c) votre violation de ces conditions; (d) votre violation des droits d'autrui; ou (e) votre conduite en relation avec les services. En outre, si vous utilisez les services au nom d'une entité, vous déclarez et garantissez que cette entité accepte de vous indemniser, vous et Welcome To My Garden, pour toute violation de ces conditions conformément à cette section. Si vous êtes obligé de nous indemniser, nous aurons le droit, à notre seule et entière discrétion, de contrôler toute action ou procédure et de déterminer si nous souhaitons le régler, et si oui, à quelles conditions."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Limitation des responsabilités",
+        "descriptions": [
+          {
+            "copy": "Welcome to My Garden ne sera pas tenu responsable envers les voyageurs et/ou les hôtes en vertu de toute théorie de responsabilité - qu'elle soit fondée sur un contrat, un délit, une négligence, une responsabilité stricte, une garantie ou autre - pour tout dommage indirect, consécutif, exemplaire, accessoire, punitif ou dommages particuliers."
+          },
+          {
+            "copy": "IN NO EVENT SHALL WELCOMETOMYGARDEN.ORG, A BELGIAN NONPROFIT ORGANISATION, OR ITS FUNDERS AND VOLUNTEERS, INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY OTHER DAMAGES OF ANY KIND, INCLUDING, BUT NOT LIMITED TO LOSS OF USE, LOSS OF PROFITS OR LOSS OF DATA, WHETHER IN AN ACTION IN CONTRACT, TORT (INCLUDING BUT NOT LIMITED TO NEGLIGENCE) OR OTHERWISE, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES, ARISING FROM OR RELATING TO: (A) THE USE OR INABILITY TO USE OUR SERVICES; (B) THE COST OF REPLACEMENT OF ANY GOODS, SERVICES OR INFORMATION PURCHASED OR OBTAINED AS A RESULT OF ANY INFORMATION OBTAINED FROM OR TRANSACTIONS ENTERED INTO THROUGH OR FROM OUR SERVICES; (C) DISCLOSURE OF, UNAUTHORIZED ACCESS TO OR ALTERATION OF YOUR CONTENT; (D) DAMAGES FOR LOSS OR CORRUPTION OF DATA OR PROGRAMS, SERVICE INTERRUPTIONS OR PROCUREMENT OF SUBSTITUTE SERVICES, EVEN IF WE KNOW OR HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES; (E) STATEMENTS, CONDUCT OR OMISSIONS OF ANY SERVICE PROVIDERS OR OTHER THIRD PARTY ON OUR SERVICES; (F) YOUR OR ANYONE ELSE’S CONDUCT OR ACTS IN CONNECTION WITH THE USE OF THE SERVICES, INCLUDING WITHOUT LIMITATION, BODILY INJURY, EMOTIONAL DISTRESS, DEATH OR ANY OTHER DAMAGES RESULTING FROM COMMUNICATIONS OR MEETINGS WITH OTHER REGISTERED MEMBERS OF OUR SERVICES OR PERSONS INTRODUCED TO YOU BY OUR SERVICES, WHETHER ON-LINE OR OFF-LINE; OR (G) ANY OTHER MATTER ARISING FROM, RELATING TO OR CONNECTED WITH OUR SERVICES OR THESE TERMS."
+          }
+        ]
+      },
+      {
+        "title": "Spam",
+        "descriptions": [
+          {
+            "copy": "Nous nous efforçons à tout moment de protéger l'utilisateur de la plateforme Welcome to My Garden contre les abus techniques et le spam. Les comptes utilisés pour effectuer les actions répertoriées ci-dessus peuvent être temporairement bloqués ou supprimés définitivement."
+          },
+          {
+            "copy": "Malware / phishing / viruses / worms / Trojans: You may not post malicious content or links to such content for the purpose of damaging or disrupting someone else's browsers or computers, or of violating someone's privacy. Spam: You are not allowed to use the Welcome To My Garden platform to spam people."
+          }
+        ]
+      },
+      {
+        "title": "Infraction aux lois applicables",
+        "descriptions": [
+          {
+            "copy": "L'utilisation du compte ne peut en aucun cas enfreindre les lois applicables. Cela comprend les infractions à la législation sur la confidentialité, aux droits de propriété intellectuelle, au code pénal, etc."
+          },
+          {
+            "copy": "Le compte ne peut en aucun cas être utilisé pour promouvoir des activités illégales."
+          }
+        ]
+      },
+      {
+        "title": "En cas de violation des règles susmentionnées",
+        "descriptions": [
+          {
+            "copy": "Welcome to My Garden se réserve le droit de supprimer les messages s'il détecte des infractions aux règles susmentionnées, et peut suspendre ou supprimer définitivement les comptes d'utilisateurs."
+          },
+          {
+            "copy": "Welcome to My Garden ne peut en aucun cas être tenu responsable des messages postés par des utilisateurs ou des tiers, qui enfreignent les règles précisées ci-dessus. Si un utilisateur détecte une infraction, veuillez le signaler à l'adresse e-mail suivante: {support}"
+          },
+          {
+            "copy": "Il peut arriver que des fichiers nuisibles puissent être téléchargés via la plateforme, qu'ils soient ou non dus à un utilisateur, ou que les utilisateurs placent des hyperliens nuisibles. Tout téléchargement par un utilisateur ou clic sur un lien hypertexte, placé par un utilisateur, se fait aux risques et périls de l'utilisateur. Tout dommage subi est entièrement et uniquement la responsabilité de cet utilisateur.‍"
+          }
+        ]
+      },
+      {
+        "title": "Droits de propriété intellectuelle",
+        "descriptions": [
+          {
+            "copy": "Welcome to My Garden respecte les droits de propriété intellectuelle d'autrui et attend des utilisateurs de cette plateforme qu'ils respectent également ces droits. Welcome to My Garden se réserve le droit de supprimer le contenu qui viole les droits de propriété intellectuelle. Les violations répétées des droits de propriété intellectuelle de toute nature par un utilisateur entraîneront la suspension ou la suppression du compte par Welcome to My Garden."
+          },
+          {
+            "copy": "Les atteintes aux droits de propriété intellectuelle peuvent être signalées via l'adresse email suivante: {support}"
+          }
+        ]
+      },
+      {
+        "title": "Droits de propriété de Welcome to My Garden",
+        "descriptions": [
+          {
+            "copy": "Le code source de Welcome to My Garden est open source. Vous acceptez d'être lié et de respecter tout accord de licence qui s'applique à ce logiciel open source."
+          }
+        ]
+      },
+      {
+        "title": "Modifications de ces conditions",
+        "descriptions": [
+          {
+            "copy": "Il est possible que nous apportons des modifications à ces conditions de temps en temps. Si nous apportons des modifications, nous publierons les Conditions modifiées sur notre Plateforme et mettrons à jour la date de \"Dernière mise à jour\" ci-dessus. Nous pouvons également vous tenir informer en envoyant email à l'adresse associée à votre compte ou en envoyant un avis via notre plateforme. Sauf indication contraire dans notre avis, les Conditions modifiées entreront en vigueur immédiatement et votre accès continu et votre utilisation de notre Plateforme après avoir donné un avis confirmera votre acceptation des changements. Dans tous les cas, les modifications de ces conditions ne seront pas rétroactives. Si vous n'acceptez pas les conditions modifiées, vous devez cesser d'accéder et d'utiliser notre plateforme."
+          }
+        ]
       }
     ]
   }

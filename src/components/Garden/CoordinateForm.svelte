@@ -1,6 +1,7 @@
 <script>
   export let initialCoordinates = null;
 
+  import { _ } from 'svelte-i18n';
   import { createEventDispatcher } from 'svelte';
   import { reverseGeocode, geocode } from '@/api/mapbox';
   import { slide } from 'svelte/transition';
@@ -28,15 +29,15 @@
   let locationConfirmed = !!initialCoordinates;
   let isAddressConfirmShown = !!initialCoordinates;
 
-  const setAddressField = async event => {
+  const setAddressField = async (event) => {
     if (reverseGeocoded) {
       address = { ...defaultAddressValues };
       reverseGeocoded = false;
     }
     address[event.target.name] = event.target.value;
     const addressString = Object.keys(address)
-      .map(key => address[key])
-      .filter(v => v)
+      .map((key) => address[key])
+      .filter((v) => v)
       .join(' ');
     try {
       coordinates = await geocode(addressString);
@@ -47,7 +48,7 @@
     dispatch('confirm', locationConfirmed ? coordinates : null);
   };
 
-  const onMarkerDragged = async event => {
+  const onMarkerDragged = async (event) => {
     coordinates = event.detail;
     isAddressConfirmShown = true;
     locationConfirmed = false;
@@ -69,7 +70,9 @@
   <Map lat={coordinates.latitude} lon={coordinates.longitude} recenterOnUpdate={true} zoom="6">
     {#if isAddressConfirmShown}
       <Button type="button" small inverse={locationConfirmed} on:click={toggleLocationConfirmed}>
-        {locationConfirmed ? 'Adjust pin location' : 'Confirm pin location'}
+        {#if locationConfirmed}
+          {$_('garden.form.location.adjust-button')}
+        {:else}{$_('garden.form.location.confirm-button')}{/if}
       </Button>
     {/if}
     <DraggableMarker
@@ -84,7 +87,7 @@
   <div transition:slide>
     <div class="address-group">
       <div class="street">
-        <label for="street-name">Street</label>
+        <label for="street-name">{$_('garden.form.location.street')}</label>
         <TextInput
           id="street-name"
           type="text"
@@ -93,14 +96,14 @@
           value={address.street} />
       </div>
       <div>
-        <label for="house-number">House number</label>
+        <label for="house-number">{$_('garden.form.location.house-number')}</label>
         <TextInput id="house-number" type="text" name="house-number" on:blur={setAddressField} />
       </div>
     </div>
 
     <div class="address-group">
       <div class="province">
-        <label for="region">Province or State</label>
+        <label for="region">{$_('garden.form.location.region')}</label>
         <TextInput
           id="region"
           type="text"
@@ -109,7 +112,7 @@
           on:blur={setAddressField} />
       </div>
       <div>
-        <label for="postal-code">Postal/ZIP Code</label>
+        <label for="postal-code">{$_('garden.form.location.postal-code')}</label>
         <TextInput
           id="postal-code"
           type="text"
@@ -121,7 +124,7 @@
 
     <div class="address-group city-country">
       <div>
-        <label for="city">City</label>
+        <label for="city">{$_('garden.form.location.city')}</label>
         <TextInput
           id="city"
           type="text"
@@ -130,7 +133,7 @@
           on:blur={setAddressField} />
       </div>
       <div>
-        <label for="country">Country</label>
+        <label for="country">{$_('garden.form.location.country')}</label>
         <TextInput id="country" type="text" name="country" value={address.country} />
       </div>
     </div>

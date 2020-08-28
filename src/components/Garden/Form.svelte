@@ -3,6 +3,7 @@
   export let isSubmitting = false;
   export let isUpdate = false;
 
+  import { _ } from 'svelte-i18n';
   import { createEventDispatcher } from 'svelte';
   import { slide } from 'svelte/transition';
   import CoordinateForm from '@/components/Garden/CoordinateForm.svelte';
@@ -26,18 +27,20 @@
   let formValid = true;
 
   let descriptionHint = { message: '', valid: true };
-  const validateDescription = description => {
+  const validateDescription = (description) => {
     const len = description.length;
     if (len < 20) {
       descriptionHint.valid = false;
-      const plurality = 20 - len === 1 ? 'character' : 'characters';
-      descriptionHint.message = `${20 - len} more ${plurality} required...`;
+      descriptionHint.message = $_('garden.form.description.hints.too-short', {
+        values: { remaining: 20 - len }
+      });
       return false;
     }
     if (len > 300) {
       descriptionHint.valid = false;
-      const plurality = len - 300 === 1 ? 'character' : 'characters';
-      descriptionHint.message = `${len - 300} ${plurality} too long`;
+      descriptionHint.message = $_('garden.form.description.hints.too-long', {
+        values: { surplus: len - 300 }
+      });
       return false;
     }
     descriptionHint.valid = true;
@@ -45,17 +48,16 @@
     return true;
   };
 
-  const updateDescription = event => {
+  const updateDescription = (event) => {
     const description = event.target.value;
     validateDescription(description);
     garden.description = description;
   };
 
   let coordinateHint = { message: '', valid: true };
-  const validateLocation = location => {
+  const validateLocation = (location) => {
     if (!location) {
-      coordinateHint.message =
-        'Make sure you have dragged the map marker to the exact location of your garden, and have clicked "Confirm pin location"';
+      coordinateHint.message = $_('garden.form.location.coordinate-hint');
       coordinateHint.valid = false;
       return false;
     }
@@ -63,22 +65,22 @@
     coordinateHint.valid = true;
     return true;
   };
-  const setCoordinates = event => {
+  const setCoordinates = (event) => {
     validateLocation(event.detail);
     garden.location = event.detail;
   };
 
   const validFileTypes = ['image/jpeg', 'image/png', 'image/tiff'];
   let photoHint = { message: '', valid: true };
-  const validatePhoto = file => {
+  const validatePhoto = (file) => {
     if (!validFileTypes.includes(file.type)) {
-      photoHint.message = 'Your photo must be a JPEG, PNG, or TIFF file';
+      photoHint.message = $_('garden.form.photo.hints.wrong-format');
       photoHint.valid = false;
       return false;
     }
     // Should be no bigger than 5MB
     if (file.size / 1024 / 1024 > 5) {
-      photoHint.message = "Your image is too large. An image's file size should be 5MB or smaller";
+      photoHint.message = $_('garden.form.photo.hints.too-large');
       photoHint.valid = false;
       return false;
     }
@@ -96,7 +98,7 @@
     if (!validatePhoto(file)) return;
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = e => {
+    reader.onload = (e) => {
       garden.photo.data = e.target.result;
     };
   };
@@ -115,6 +117,7 @@
       formValid = false;
       return;
     }
+
     if (garden.photo && garden.photo.files && !validatePhoto(garden.photo.files[0])) {
       formValid = false;
       return;
@@ -124,40 +127,62 @@
     dispatch('submit', garden);
   };
 
-  const facilities = [
-    { name: 'water', icon: waterIcon, label: 'Water' },
-    { name: 'drinkableWater', icon: waterIcon, label: 'Drinkable water' },
-    { name: 'toilet', icon: toiletIcon, label: 'Toilet' },
-    { name: 'bonfire', icon: bonfireIcon, label: 'Bonfire' },
-    { name: 'electricity', icon: electricityIcon, label: 'Electricity' },
-    { name: 'shower', icon: showerIcon, label: 'Shower' },
-    { name: 'tent', icon: tentIcon, label: 'Tent' }
+  $: facilities = [
+    { name: 'water', icon: waterIcon, label: $_('garden.facilities.labels.water') },
+    {
+      name: 'drinkableWater',
+      icon: waterIcon,
+      label: $_('garden.facilities.labels.drinkable-water')
+    },
+    { name: 'toilet', icon: toiletIcon, label: $_('garden.facilities.labels.toilet') },
+    { name: 'bonfire', icon: bonfireIcon, label: $_('garden.facilities.labels.bonfire') },
+    {
+      name: 'electricity',
+      icon: electricityIcon,
+      label: $_('garden.facilities.labels.electricity')
+    },
+    { name: 'shower', icon: showerIcon, label: $_('garden.facilities.labels.shower') },
+    { name: 'tent', icon: tentIcon, label: $_('garden.facilities.labels.tent') }
   ];
 </script>
 
 <form>
   <section>
     <div class="sub-container">
-      <h2>Add your garden to the map</h2>
+      <h2>{$_('garden.form.title')}</h2>
       <div class="section-description">
         {#if !$user}
           <p class="notice">
-            You must be signed in to add your garden to the map. Either
-            <a class="link" href={routes.SIGN_IN}>sign in</a>
-            or
-            <a class="link" href={routes.REGISTER}>create an account.</a>
+            {@html $_('garden.form.auth-notice', {
+              values: {
+                signInLink: `<a class='link' href=${routes.SIGN_IN}>${$_(
+                  'garden.form.sign-in-link-text'
+                )}</a>`,
+                registerLink: `<a class='link' href=${routes.REGISTER}>${$_(
+                  'garden.form.register-link-text'
+                )}</a>`
+              }
+            })}
           </p>
         {:else if !$user.emailVerified}
           <p class="notice">
-            You need to verify your email before you add your garden to the map. We sent you an
-            email when you created your account. You can resend a verification link from your
-            <a class="link" href={routes.ACCOUNT}>your profile.</a>
+            {@html $_('garden.form.email-confirm-notice', {
+              values: {
+                accountLink: `<a class='link' href=${routes.ACCOUNT}>${$_(
+                  'garden.form.account-link-text'
+                )}</a>`
+              }
+            })}
           </p>
         {:else}
           <p>
-            By submitting this form, your garden will be added to the map. You can manage or remove
-            it at any time from
-            <a class="link" href={routes.ACCOUNT}>your profile.</a>
+            {@html $_('garden.form.normal-notice', {
+              values: {
+                accountLink: `<a class='link' href=${routes.ACCOUNT}>${$_(
+                  'garden.form.account-link-text'
+                )}</a>`
+              }
+            })}
           </p>
         {/if}
       </div>
@@ -166,12 +191,9 @@
 
   <section class:is-not-fillable={!isFillable}>
     <fieldset>
-      <h3>Location (required)</h3>
+      <h3>{$_('garden.form.location.title')}</h3>
       <p class="section-description">
-        Move the marker to set the location of your garden. You can fill in the address fields to
-        move the marker closer to you.
-        <br />
-        We don't store your address information.
+        {@html $_('garden.form.location.notice')}
       </p>
       <CoordinateForm initialCoordinates={garden.location} on:confirm={setCoordinates} />
       <p class="hint" class:invalid={!coordinateHint.valid}>{coordinateHint.message}</p>
@@ -180,22 +202,19 @@
 
   <section class:is-not-fillable={!isFillable}>
     <fieldset>
-      <h3>Describe your camping spot (required)</h3>
+      <h3>{$_('garden.form.description.title')}</h3>
       <p class="section-description">
-        A short description of your garden and the camping spot you can offer. This information is
-        displayed publicly, so don't include any personal details here.
-        <br />
-        Your description must be between 20 and 300 characters.
+        {@html $_('garden.form.description.notice')}
       </p>
       <div>
         <textarea
-          placeholder="Enter description..."
-          aria-label="description"
+          placeholder={$_('garden.form.description.placeholder')}
+          aria-label={$_('garden.form.description.label')}
           id="description"
           name="description"
           value={garden.description}
           on:input={updateDescription}
-          on:keypress={e => {
+          on:keypress={(e) => {
             if ((e.keyCode || e.which) == 13) {
               e.preventDefault();
             }
@@ -207,16 +226,16 @@
 
   <section class:is-not-fillable={!isFillable}>
     <fieldset>
-      <h3>Facilities</h3>
-      <p class="section-description">What kind of facilities do travellers have access to?</p>
+      <h3>{$_('garden.form.facilities.title')}</h3>
+      <p class="section-description">{$_('garden.form.facilities.notice')}</p>
       <div class="checkboxes">
         {#each facilities as facility (facility.name)}
           <LabeledCheckbox {...facility} bind:checked={garden.facilities[facility.name]} />
         {/each}
       </div>
       <div class="capacity">
-        <label for="capacity">Capacity*</label>
-        <p>How many tents do you have space for (estimation)</p>
+        <label for="capacity">{$_('garden.form.facilities.capacity.label')}</label>
+        <p>{$_('garden.form.facilities.capacity.help')}</p>
         <input
           type="number"
           name="capacity"
@@ -230,14 +249,10 @@
   </section>
   <section class:is-not-fillable={!isFillable}>
     <fieldset>
-      <h3>Photo</h3>
+      <h3>{$_('garden.form.photo.title')}</h3>
       <p class="section-description">
-        Show people what your garden looks like.
-        <br />
-        Make sure that the picture only shows the camp spot and doesn't include your neighbour's
-        home.
+        {@html $_('garden.form.photo.notice')}
       </p>
-
       <input
         type="file"
         id="photo"
@@ -249,12 +264,12 @@
 
       {#if garden.photo && garden.photo.data}
         <div class="photo" transition:slide>
-          <img src={garden.photo.data} alt="Your garden" />
+          <img src={garden.photo.data} alt={$_('garden.form.photo.img-alt')} />
         </div>
       {:else if existingPhoto && typeof existingPhoto == 'string'}
         {#await getExistingPhoto() then existingPhoto}
           <div class="photo" transition:slide>
-            <img src={existingPhoto} alt="Your garden" />
+            <img src={existingPhoto} alt={$_('garden.form.photo.img-alt')} />
           </div>
         {/await}
       {/if}
@@ -265,13 +280,10 @@
   <section class="section-submit" class:is-not-fillable={!isFillable}>
     <div class="sub-container">
       <Button type="button" disabled={isSubmitting} on:click={handleSubmit} uppercase medium>
-        {#if isUpdate}Update{:else}Add{/if}
-        your garden
+        {#if isUpdate}{$_('garden.form.update-button')}{:else}{$_('garden.form.add-button')}{/if}
       </Button>
       {#if !formValid}
-        <p class="hint invalid" transition:slide>
-          Some information was not valid. Please check your submitted information for errors.
-        </p>
+        <p class="hint invalid" transition:slide>{$_('garden.form.invalid')}</p>
       {/if}
     </div>
   </section>

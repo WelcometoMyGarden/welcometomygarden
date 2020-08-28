@@ -23,12 +23,12 @@
     <a
       href="https://join.slack.com/t/welcometomygarden/shared_invite/zt-f31i37dj-_zFgnfe40B6EexJuB2f_~w"
       target="_blank">
-      <img src="/images/icons/slack.svg" alt="Join our Slack channel" />
+      <img src="/images/icons/slack.svg" alt="Slack" />
     </a>
   </li>
   <li>
     <a href="mailto:support@welcometomygarden.org" target="_blank">
-      <img src="/images/icons/email.svg" alt="Mail us" />
+      <img src="/images/icons/email.svg" alt="Mail" />
     </a>
   </li>
 </ul>

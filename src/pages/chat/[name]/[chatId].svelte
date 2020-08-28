@@ -1,6 +1,6 @@
 <script>
   export let chatId;
-
+  import { _ } from 'svelte-i18n';
   import { beforeUpdate, afterUpdate, onMount } from 'svelte';
   import { fade } from 'svelte/transition';
   import { params, goto } from '@sveltech/routify';
@@ -36,18 +36,18 @@
   let hint = '';
   $: if (typedMessage && typedMessage.length > 500) {
     const len = typedMessage.length;
-    hint = `Your message is ${len - 500} ${len - 500 === 1 ? 'character' : 'characters'} too long`;
+    hint = $_('chat.notify.too-long', { values: { surplus: len - 500 } });
   } else {
     hint = '';
   }
 
-  const normalizeWhiteSpace = message => message.replace(/\n\s*\n\s*\n/g, '\n\n');
+  const normalizeWhiteSpace = (message) => message.replace(/\n\s*\n\s*\n/g, '\n\n');
 
   let typedMessage = '';
   let isSending = false;
   const send = async () => {
     if (!typedMessage) {
-      hint = 'Your message cannot be empty';
+      hint = $_('chat.notify.empty-message');
       return;
     }
     isSending = true;
@@ -77,7 +77,9 @@
 </script>
 
 <svelte:head>
-  <title>Chat with {partnerName} | Welcome To My Garden</title>
+  <title>
+    {$_('chat.title-conversation', { values: { partnerName: partnerName } })} | Welcome To My Garden
+  </title>
 </svelte:head>
 
 <header class="chat-header">
@@ -104,7 +106,7 @@
     <p class="hint" transition:fade>{hint}</p>
   {/if}
   <textarea
-    placeholder="Type your message..."
+    placeholder={$_('chat.type-message')}
     type="text"
     name="message"
     bind:value={typedMessage}

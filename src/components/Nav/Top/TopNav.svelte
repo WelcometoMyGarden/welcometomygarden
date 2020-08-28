@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import { isActive } from '@sveltech/routify';
   import routes from '@/routes';
   import NavLink from './NavLink.svelte';
@@ -16,22 +17,22 @@
   </a>
   <ul>
     <li>
-      <NavLink href={routes.HOME} isHome>Home</NavLink>
+      <NavLink href={routes.HOME} isHome>{$_('generics.home')}</NavLink>
     </li>
     <li>
-      <NavLink href={routes.MAP}>Map</NavLink>
+      <NavLink href={routes.MAP}>{$_('generics.map')}</NavLink>
     </li>
     <li>
-      <NavLink href={routes.RULES}>Rules</NavLink>
+      <NavLink href={routes.RULES}>{$_('generics.rules')}</NavLink>
     </li>
     <li>
-      <NavLink href={routes.FAQ}>FAQ</NavLink>
+      <NavLink href={routes.FAQ}>{$_('generics.faq.acronym')}</NavLink>
     </li>
     {#if $user}
       <UserDropdown name={firstName || ''} />
     {:else}
       <li>
-        <NavLink href={routes.SIGN_IN}>Sign in</NavLink>
+        <NavLink href={routes.SIGN_IN}>{$_('generics.sign-in')}</NavLink>
       </li>
     {/if}
   </ul>
