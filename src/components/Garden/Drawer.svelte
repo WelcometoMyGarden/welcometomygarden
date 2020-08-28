@@ -34,9 +34,9 @@
 
   function dragBarMove({ detail }) {
     if (previousOffsetCursor !== null) {
-      drawerElement.style.height = `${
-        drawerElement.offsetHeight - previousOffsetCursor + detail.y
-      }px`;
+      drawerElement.style.height = `${drawerElement.offsetHeight -
+        previousOffsetCursor +
+        detail.y}px`;
       previousOffsetCursor = detail.y;
     }
   }
@@ -86,7 +86,7 @@
     }
   };
 
-  const handleClickOutsideDrawer = (event) => {
+  const handleClickOutsideDrawer = event => {
     const { clickEvent } = event.detail;
     // if closing maginified photo view, don't close drawer
     if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) return;
@@ -165,7 +165,7 @@
       {#if garden && garden.photo}
         <button on:click={magnifyPhoto} class="mb-l button-container image-container">
           {#if photoUrl}
-            <div transition:fade>
+            <div>
               <Image src={photoUrl} />
             </div>
           {/if}
