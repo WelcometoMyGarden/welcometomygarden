@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import { fly } from 'svelte/transition';
   import { flip } from 'svelte/animate';
   import { goto, redirect, params, isActive } from '@sveltech/routify';
@@ -13,7 +14,7 @@
 
   if (!$user) $goto(routes.SIGN_IN);
   else if (!$user.emailVerified) {
-    notify.warning('Please verify your email before you start chatting', 10000);
+    notify.warning($_('chat.notify.unverified'), 10000);
     $goto(routes.ACCOUNT);
   }
 
@@ -21,10 +22,10 @@
 
   $: selectedConversation = $chats[$params.chatId];
   $: conversations = Object.keys($chats)
-    .map(id => $chats[id])
+    .map((id) => $chats[id])
     .sort(sortByLastActivity);
 
-  const normalizeName = name => {
+  const normalizeName = (name) => {
     const parts = name.split(/[^A-Za-z-]/);
     return removeDiacritics(parts[0]).toLowerCase();
   };
@@ -41,7 +42,7 @@
   ) {
     newConversation = null;
   }
-  const startChattingWith = async partnerId => {
+  const startChattingWith = async (partnerId) => {
     if ($chats) {
       const activeChatWithUser = getChatForUser(partnerId);
       if (activeChatWithUser) {
@@ -62,7 +63,7 @@
 
   $: if ($params.with) startChattingWith($params.with);
 
-  const selectConversation = id => {
+  const selectConversation = (id) => {
     if (!id) $goto(getConvoRoute(newConversation.name, 'new'));
     const name = $chats[id] ? $chats[id].partner.firstName.toLowerCase() : newConversation.name;
     $goto(getConvoRoute(name, id));
@@ -82,7 +83,7 @@
   <div class="container">
     {#if !isMobile || (isMobile && isOverview)}
       <section class="conversations" in:fly={{ x: -outerWidth, duration: 400 }}>
-        <h2>All conversations</h2>
+        <h2>{$_('chat.all-conversations')}</h2>
         {#if newConversation}
           <article>
             <ConversationCard
@@ -94,9 +95,11 @@
         {/if}
         {#if $hasInitialized && conversations.length === 0 && !newConversation}
           <div class="empty">
-            You don't have any messages yet. Select a host
-            <a href={routes.MAP}>on the map</a>
-            to contact them.
+            {@html $_('chat.no-messages.text', {
+              values: {
+                link: `<a class="link" href="${routes.MAP}">${$_('chat.no-messages.link')}</a>`
+              }
+            })}
           </div>
         {:else}
           {#each conversations as conversation (conversation.id)}

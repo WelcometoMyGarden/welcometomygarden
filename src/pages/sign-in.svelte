@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import { goto } from '@sveltech/routify';
   import { user } from '@/stores/auth';
@@ -8,6 +9,7 @@
   import AuthContainer from '@/components/AuthContainer.svelte';
   import { TextInput, Button } from '@/components/UI';
   import { lockIcon, emailIcon } from '@/images/icons';
+  import { SUPPORT_EMAIL } from '@/constants';
 
   let email = {};
   let password = {};
@@ -18,14 +20,13 @@
     formError = '';
     try {
       await login(email.value, password.value);
-      notify.success(`Welcome back, ${$user.firstName}!`);
+      notify.success($_('sign-in.notify.welcome', {values: { user: $user.firstName}}));
       $goto(routes.MAP);
     } catch (ex) {
       if (ex.code === 'auth/user-not-found' || ex.code === 'auth/wrong-password')
-        formError = 'The provided email or password is incorrect.';
+        formError = $_('sign-in.notify.incorrect');
       else {
-        formError =
-          "We couldn't log you in. If the problem persists, please contact support@welcometomygarden.org";
+        formError = $_('sign-in.notify.login-issue', { values: { support: SUPPORT_EMAIL } });
       }
       // TODO: Handle network errors and response errors
     }
@@ -33,15 +34,15 @@
 </script>
 
 <svelte:head>
-  <title>Sign in | Welcome To My Garden</title>
+  <title>{$_('sign-in.title')} | Welcome To My Garden</title>
 </svelte:head>
 
 <AuthContainer>
-  <span slot="title">Sign In</span>
+  <span slot="title">{$_('sign-in.title')}</span>
 
   <form slot="form" on:submit|preventDefault={submit}>
     <div>
-      <label for="email">Email</label>
+      <label for="email">{$_('generics.email')}</label>
       <TextInput
         icon={emailIcon}
         autocomplete="email"
@@ -51,7 +52,7 @@
         bind:value={email.value} />
     </div>
     <div>
-      <label for="password">Password</label>
+      <label for="password">{$_('generics.password')}</label>
       <TextInput
         icon={lockIcon}
         type="password"
@@ -66,17 +67,25 @@
       {/if}
     </div>
     <div class="submit">
-      <Button type="submit" medium disabled={!email.value || !password.value}>Sign in</Button>
+      <Button type="submit" medium disabled={!email.value || !password.value}>
+        {$_('sign-in.button')}
+      </Button>
     </div>
   </form>
 
   <p>
-    Forgot your password?
-    <a href={routes.REQUEST_PASSWORD_RESET} class="link">Reset it</a>
+    {@html $_('sign-in.reset.text', {
+      values: {
+        link: `<a class="link" href="${routes.REQUEST_PASSWORD_RESET}">${$_('sign-in.reset.link')}</a>`
+      }
+    })} 
   </p>
   <p>
-    Don't have an account yet?
-    <a href={routes.REGISTER} class="link">Register</a>
+    {@html $_('sign-in.register.text', {
+      values: {
+        link: `<a class="link" href="${routes.REGISTER}">${$_('sign-in.register.link')}</a>`
+      }
+    })}    
   </p>
 </AuthContainer>
 

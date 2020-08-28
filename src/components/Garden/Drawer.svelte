@@ -1,6 +1,7 @@
 <script>
   export let garden = null;
 
+  import { _, locale } from 'svelte-i18n';
   import { createEventDispatcher } from 'svelte';
   import { scale, fade } from 'svelte/transition';
   import { getPublicUserProfile } from '@/api/user';
@@ -33,9 +34,9 @@
 
   function dragBarMove({ detail }) {
     if (previousOffsetCursor !== null) {
-      drawerElement.style.height = `${drawerElement.offsetHeight -
-        previousOffsetCursor +
-        detail.y}px`;
+      drawerElement.style.height = `${
+        drawerElement.offsetHeight - previousOffsetCursor + detail.y
+      }px`;
       previousOffsetCursor = detail.y;
     }
   }
@@ -44,14 +45,22 @@
     previousOffsetCursor = null;
   }
 
-  const facilities = [
-    { name: 'water', icon: waterIcon, label: 'Water' },
-    { name: 'drinkableWater', icon: waterIcon, label: 'Drinkable water' },
-    { name: 'toilet', icon: toiletIcon, label: 'Toilet' },
-    { name: 'bonfire', icon: bonfireIcon, label: 'Bonfire' },
-    { name: 'electricity', icon: electricityIcon, label: 'Electricity' },
-    { name: 'shower', icon: showerIcon, label: 'Shower' },
-    { name: 'tent', icon: tentIcon, label: 'Tent' }
+  $: facilities = [
+    { name: 'water', icon: waterIcon, label: $_('garden.facilities.labels.water') },
+    {
+      name: 'drinkableWater',
+      icon: waterIcon,
+      label: $_('garden.facilities.labels.drinkable-water')
+    },
+    { name: 'toilet', icon: toiletIcon, label: $_('garden.facilities.labels.toilet') },
+    { name: 'bonfire', icon: bonfireIcon, label: $_('garden.facilities.labels.bonfire') },
+    {
+      name: 'electricity',
+      icon: electricityIcon,
+      label: $_('garden.facilities.labels.electricity')
+    },
+    { name: 'shower', icon: showerIcon, label: $_('garden.facilities.labels.shower') },
+    { name: 'tent', icon: tentIcon, label: $_('garden.facilities.labels.tent') }
   ];
 
   let userInfo = {};
@@ -77,7 +86,7 @@
     }
   };
 
-  const handleClickOutsideDrawer = event => {
+  const handleClickOutsideDrawer = (event) => {
     const { clickEvent } = event.detail;
     // if closing maginified photo view, don't close drawer
     if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) return;
@@ -125,7 +134,10 @@
       isShowingMagnifiedPhoto = false;
     }}>
     <div class="magnified-photo">
-      <img alt="Garden" src={biggerPhotoUrl} on:click={() => (isShowingMagnifiedPhoto = false)} />
+      <img
+        alt={$_('generics.garden')}
+        src={biggerPhotoUrl}
+        on:click={() => (isShowingMagnifiedPhoto = false)} />
     </div>
   </div>
 {/if}
@@ -146,7 +158,9 @@
   {#if ready}
     <section class="main">
       <Text class="mb-l" weight="bold" size="l">
-        {#if ownedByLoggedInUser}Your Garden{:else}{userInfo.firstName}{/if}
+        {#if ownedByLoggedInUser}
+          {$_('garden.drawer.owner.your-garden')}
+        {:else}{userInfo.firstName}{/if}
       </Text>
       {#if garden && garden.photo}
         <button on:click={magnifyPhoto} class="mb-l button-container image-container">
@@ -169,9 +183,12 @@
       </div>
       {#if garden && garden.facilities.capacity}
         <p class="mt-m capacity">
-          Space for
-          <strong>{garden.facilities.capacity}</strong>
-          {garden.facilities.capacity === 1 ? 'tent' : 'tents'}
+          {@html $_('garden.drawer.facilities.capacity', {
+            values: {
+              capacity: garden.facilities.capacity,
+              styleCapacity: `<strong>${garden.facilities.capacity}</strong>`
+            }
+          })}
         </p>
       {/if}
     </section>
@@ -183,25 +200,29 @@
         </Text>
       {/if}
       {#if garden && ownedByLoggedInUser}
-        <Button href={routes.MANAGE_GARDEN} uppercase medium>Manage garden</Button>
+        <Button href={routes.MANAGE_GARDEN} uppercase medium>
+          {$_('garden.drawer.owner.button')}
+        </Button>
       {:else if garden}
         {#if !$user}
           <p class="cta-hint">
-            You must
-            <a class="link" href={routes.SIGN_IN}>sign in</a>
-            to contact hosts
+            {@html $_('garden.drawer.guest.login', {
+              values: {
+                signInLink: `<a class='link' href=${routes.SIGN_IN}>${$_(
+                  'garden.drawer.guest.sign-link-text'
+                )}</a>`
+              }
+            })}
           </p>
         {:else if garden.unclaimed}
-          <p class="cta-hint">
-            You can contact this host as soon as they have created their account.
-          </p>
+          <p class="cta-hint">{$_('garden.drawer.unclaimed')}</p>
         {/if}
         <Button
           href={`${routes.CHAT}?with=${garden.id}`}
           disabled={!$user || garden.unclaimed}
           uppercase
           medium>
-          Contact host
+          {$_('garden.drawer.guest.button')}
         </Button>
       {/if}
     </footer>

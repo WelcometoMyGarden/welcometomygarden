@@ -1,4 +1,5 @@
 <script>
+  import { _, locale } from 'svelte-i18n';
   import { isActive } from '@sveltech/routify';
   import routes from '@/routes';
   import { logout } from '@/api/auth';
@@ -19,12 +20,12 @@
     if (drawerIsShown && !hamburger.contains(clickEvent.target)) toggleDrawer();
   };
 
-  const linksInDrawer = [
-    { route: routes.RULES, name: 'Rules' },
-    { route: routes.FAQ, name: 'Frequently asked questions' },
-    { route: routes.COOKIE_POLICY, name: 'Cookie policy' },
-    { route: routes.PRIVACY_POLICY, name: 'Privacy policy' },
-    { route: routes.TERMS_OF_USE, name: 'Terms of use' }
+  $: linksInDrawer = [
+    { route: routes.RULES, name: $_('generics.rules') },
+    { route: routes.FAQ, name: $_('generics.faq.explicit') },
+    { route: routes.COOKIE_POLICY, name: $_('generics.cookie-policy') },
+    { route: routes.PRIVACY_POLICY, name: $_('generics.privacy-policy') },
+    { route: routes.TERMS_OF_USE, name: $_('generics.terms-of-use') }
   ];
 </script>
 
@@ -33,33 +34,33 @@
     <li>
       <a href={routes.HOME} class:active={$isActive('/index')}>
         <Icon icon={tentIcon} />
-        <span>Home</span>
+        <span>{$_('generics.home')}</span>
       </a>
     </li>
     <li>
       <a href={routes.MAP} class:active={$isActive(routes.MAP)}>
         <Icon icon={mapIcon} />
-        Map
+        {$_('generics.map')}
       </a>
     </li>
     {#if $user}
       <li>
         <a href={routes.CHAT} class:active={$isActive(routes.CHAT)}>
           <Icon icon={chatIcon} />
-          Chat
+          {$_('generics.chat')}
         </a>
       </li>
       <li>
         <a href={routes.ACCOUNT} class:active={$isActive(routes.ACCOUNT)}>
           <Icon icon={userIcon} />
-          Account
+          {$_('generics.account')}
         </a>
       </li>
     {:else}
       <li>
         <a href={routes.SIGN_IN} class:active={$isActive(routes.SIGN_IN)}>
           <Icon icon={signInIcon} />
-          Sign in
+          {$_('generics.sign-in')}
         </a>
       </li>
     {/if}
