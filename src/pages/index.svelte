@@ -2,20 +2,20 @@
   import { _, locale } from 'svelte-i18n';
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
-  import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
-  import { Button } from '../components/UI';
+  import CollapsibleGroup from '@/components/CollapsibleGroup.svelte';
+  import { Button } from '@/components/UI';
   import { getArrayFromLocale, transKeyExists } from '@/util';
   import { user } from '@/stores/auth';
 
-  import Logo from '../images/logo.svg';
-  import welcomeMap from '../images/welcome-map.svg';
-  import ArrowDown from '../images/arrow-down.svg';
-  import OKLogo from '../images/ok_logo.svg';
-  import VGCLogo from '../images/vgc_logo.svg';
+  import Logo from '@/images/logo.svg';
+  import welcomeMap from '@/images/welcome-map.svg';
+  import ArrowDown from '@/images/arrow-down.svg';
+  import OKLogo from '@/images/ok_logo.svg';
+  import VGCLogo from '@/images/vgc_logo.svg';
 
-  import Step1 from '../images/step-1.svg';
-  import Step2 from '../images/step-2.svg';
-  import Step3 from '../images/step-3.svg';
+  import Step1 from '@/images/step-1.svg';
+  import Step2 from '@/images/step-2.svg';
+  import Step3 from '@/images/step-3.svg';
 
   function handleLearnMoreClick() {
     const stepsSection = document.getElementById('steps-section');
@@ -102,12 +102,8 @@
 </section>
 
 <section class="cooperation">
-  <!--  <div class="card cooperation-card partners">
-    <h1 class="heading-underline-center">{$_('index.partners.title')}</h1>
-    <div>{$_('index.partners.title')}</div>
-  </div> -->
   <div class="card cooperation-card partners">
-    <h1 class="partner-header heading-underline-center">Our partners</h1>
+    <h1 class="heading-underline-center">{$_('index.partners.title')}</h1>
     <div class="partner-logos">
       <div class="partner-logo ok-logo">
         <a href="https://be.okfn.org/" class="partner-link">
