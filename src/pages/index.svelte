@@ -120,7 +120,7 @@
           {@html VGCLogo}
         </a>
       </div>
-       <div class="partner-logo natuurpunt-logo">
+      <div class="partner-logo natuurpunt-logo">
         <a href="https://www.natuurpunt.be/" class="partner-link">
           {@html natuurpuntLogo}
         </a>
@@ -387,7 +387,7 @@
   }
 
   .partner-logo {
-    width: 40%;
+    width: 30%;
     max-width: 18rem;
   }
 
