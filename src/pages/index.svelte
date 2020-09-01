@@ -12,6 +12,7 @@
   import ArrowDown from '../images/arrow-down.svg';
   import OKLogo from '../images/ok_logo.svg';
   import VGCLogo from '../images/vgc_logo.svg';
+  import natuurpuntLogo from '../images/natuurpunt_logo.svg';
 
   import Step1 from '../images/step-1.svg';
   import Step2 from '../images/step-2.svg';
@@ -117,6 +118,11 @@
       <div class="partner-logo vgc-logo">
         <a href="https://www.vgc.be/staycation" class="partner-link">
           {@html VGCLogo}
+        </a>
+      </div>
+      <div class="partner-logo natuurpunt-logo">
+        <a href="https://www.natuurpunt.be/" class="partner-link">
+          {@html natuurpuntLogo}
         </a>
       </div>
     </div>
@@ -381,11 +387,15 @@
   }
 
   .partner-logo {
-    width: 40%;
+    width: 30%;
     max-width: 18rem;
   }
 
   .vgc-logo {
+    max-width: 10rem;
+  }
+
+  .natuurpunt-logo {
     max-width: 10rem;
   }
 
