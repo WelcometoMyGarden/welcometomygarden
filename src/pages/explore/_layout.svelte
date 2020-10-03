@@ -1,6 +1,5 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
-  import { fade } from 'svelte/transition';
   import { goto, params } from '@sveltech/routify';
   import { getAllListedGardens } from '@/api/garden';
   import { allGardens, isFetchingGardens } from '@/stores/garden';
@@ -26,8 +25,7 @@
     showerIcon,
     toiletIcon,
     waterIcon,
-    tentIcon,
-    filterGreenIcon
+    tentIcon
   } from '@/images/icons';
 
   let initialLocation;
@@ -57,8 +55,6 @@
     }
     // initialLocation = { longitude: 4.5, latitude: 50.5 };
   };
-
-  $: console.log(initialLocation);
 
   let zoom = 7;
 
@@ -290,7 +286,6 @@
     width: 32rem;
     left: 6rem;
     position: absolute;
-
     display: flex;
     flex-wrap: wrap;
   }
