@@ -30,11 +30,7 @@
   let isAddressConfirmShown = !!initialCoordinates;
 
   const setAddressField = async (event) => {
-    if (reverseGeocoded) {
-      address = { ...defaultAddressValues };
-      reverseGeocoded = false;
-    }
-    address[event.target.name] = event.target.value;
+    address = { ...address, [event.target.name]: event.target.value };
     const addressString = Object.keys(address)
       .map((key) => address[key])
       .filter((v) => v)
@@ -54,7 +50,6 @@
     locationConfirmed = false;
     try {
       address = { ...defaultAddressValues, ...(await reverseGeocode(coordinates)) };
-      reverseGeocoded = true;
     } catch (ex) {
       console.log(ex);
     }
@@ -97,7 +92,7 @@
       </div>
       <div>
         <label for="house-number">{$_('garden.form.location.house-number')}</label>
-        <TextInput id="house-number" type="text" name="house-number" on:blur={setAddressField} />
+        <TextInput id="house-number" type="text" name="houseNumber" on:blur={setAddressField} />
       </div>
     </div>
 
