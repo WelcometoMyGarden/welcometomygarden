@@ -4,7 +4,7 @@
   export let collapsibles;
 
   let activeCollapsible = null;
-  const setActiveCollapsible = id => {
+  const setActiveCollapsible = (id) => {
     activeCollapsible === id ? (activeCollapsible = null) : (activeCollapsible = id);
   };
 </script>
@@ -20,7 +20,6 @@
 
 <style>
   div {
-    flex: 1;
     display: flex;
     flex-direction: column;
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);

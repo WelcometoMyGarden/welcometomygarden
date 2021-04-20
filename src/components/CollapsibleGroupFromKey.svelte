@@ -28,7 +28,6 @@
 
 <style>
   div {
-    flex: 1;
     display: flex;
     flex-direction: column;
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
