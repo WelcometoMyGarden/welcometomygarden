@@ -3,7 +3,7 @@
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
-  import { Button } from '../components/UI';
+  import { Button, Card } from '../components/UI';
   import { getArrayFromLocale, transKeyExists } from '@/util';
   import { user } from '@/stores/auth';
 
@@ -84,6 +84,79 @@
       </p>
     </div>
   {/each}
+</section>
+
+<section class="slow-travel-mini-festival">
+  <div class="stmf-intro">
+    <h1 class="heading-underline-center">Slow travel mini festival</h1>
+    <p>Prepare your slow travels with the community</p>
+  </div>
+
+  <div class="stmf-columns">
+    <div class="stmf-column">
+      <div class="stmf-column-header">Get Inspired</div>
+      <Card
+        languageAbbreviation="EN"
+        src="https://i.ibb.co/3Rdvp0f/workshop1-1001-ways-of-slow-travelling.jpg"
+        date="3 June 2021"
+        time="19h - 20h30"
+        title="The 1001 ways of slow travelling" />
+    </div>
+
+    <div class="stmf-column">
+      <div class="stmf-column-header">Plan</div>
+      <Card
+        languageAbbreviation="NL"
+        src="https://i.postimg.cc/hjzhdddH/ws2.png"
+        date="8 June 2021"
+        time="19h - 20h30"
+        title="Creëer je eigen route: praktische tips & tools" />
+      <Card
+        languageAbbreviation="FR"
+        src="https://i.postimg.cc/Lsh8c1Nn/ws5.png"
+        date="10 June 2021"
+        time="19h - 20h30"
+        title="Créer ton propre itinéraire: conseils pratique & outils" />
+      <Card
+        languageAbbreviation="EN"
+        src="https://i.postimg.cc/0jGkYd2H/ws7.png"
+        date="15 June 2021"
+        time="19h - 20h30"
+        title="Create your own itinerary: practical tips & tools" />
+    </div>
+
+    <div class="stmf-column">
+      <div class="stmf-column-header">Contribute</div>
+      <Card
+        languageAbbreviation="EN"
+        src="https://i.postimg.cc/DyjVtYDP/ws6.png"
+        date="17 June 2021"
+        time="19h - 20h30"
+        title="Collect data and improve maps while slow travelling: Introduction to OpenStreetMap" />
+      <Card
+        languageAbbreviation="EN"
+        src="https://i.postimg.cc/DyjVtYDP/ws6.png"
+        date="22 June 2021"
+        time="19h - 20h30"
+        title="Collect data and improve maps while slow travelling: Introduction to OpenStreetMap" />
+      <Card
+        languageAbbreviation="EN"
+        src="https://i.postimg.cc/cHw0WMY4/ws3.png"
+        date="24 June 2021"
+        time="19h - 20h30"
+        title="Opportunities of world's biggest encyclopedia for slow travellers: Wikipedia" />
+    </div>
+
+    <div class="stmf-column">
+      <div class="stmf-column-header">Rethink</div>
+      <Card
+        languageAbbreviation="EN"
+        src="https://i.postimg.cc/FFpwLB9X/ws4.png"
+        date="29 June 2021"
+        time="19h - 20h30"
+        title="Slow travelling & the commons: the role of the Welcome To My Garden community " />
+    </div>
+  </div>
 </section>
 
 <section class="faq">
@@ -404,8 +477,8 @@
   }
 
   .donate-holiday {
+    display: none;
     text-align: center;
-    display: flex;
     padding: 8rem;
     align-items: center;
   }
@@ -420,6 +493,38 @@
 
   .donate-img-container img {
     max-width: 100%;
+  }
+
+  .slow-travel-mini-festival {
+    background-color: var(--color-beige-light);
+    text-align: center;
+    padding: 8rem;
+    align-items: center;
+  }
+
+  .stmf-columns {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .stmf-column {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    max-width: 40rem;
+    flex: 1 1 10%;
+  }
+
+  .stmf-column-header {
+    background-color: var(--color-green);
+    color: var(--color-white);
+    border-radius: 0.6rem;
+    padding: 0.6rem;
+    text-align: center;
+    font-size: 1.8rem;
+    width: 100%;
+    margin-bottom: 1.8rem;
   }
 
   @media only screen and (max-width: 1500px) {
@@ -458,6 +563,10 @@
 
     .welcome-logo {
       width: 25vw;
+    }
+
+    .stmf-column {
+      flex: 1 1 50%;
     }
   }
 
@@ -569,6 +678,10 @@
     .cooperation-card {
       padding: 8rem 8rem 10rem;
     }
+
+    .slow-travel-mini-festival {
+      padding: 2rem;
+    }
   }
 
   @media only screen and (max-width: 600px) {
@@ -609,6 +722,10 @@
 
     .cooperation-card {
       padding: 8rem 4rem 10rem;
+    }
+
+    .slow-travel-mini-festival {
+      padding: 0;
     }
   }
 
