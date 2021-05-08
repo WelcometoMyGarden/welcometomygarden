@@ -10,13 +10,17 @@
   export let date = '';
   export let time = '';
   export let href = '';
+  export let group = null;
 </script>
 
 <div class="card">
-  <div class="languageAbbreviation">
+  <div class="badges">
     <div class="badge">{languageAbbreviation}</div>
+    {#if group}
+      <div class="badge">{group}</div>
+    {/if}
   </div>
-  <div class="image">
+  <div class="images">
     <Image {src} alt={title} rounded={false} />
   </div>
   <div class="when">
@@ -36,6 +40,7 @@
   <div class="title">
     <Text size="l" weight="bold">{title}</Text>
   </div>
+  <span class="filler" />
   <div class="registerHere">
     <a {href}>
       <Text weight="bold">Register here</Text>
@@ -48,19 +53,27 @@
 
 <style>
   .card {
+    height: 44rem;
     background-color: var(--color-white);
     padding: 1rem 2rem;
     margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .filler {
+    flex-grow: 1;
   }
   .icon {
     width: 2rem;
     height: 1.5rem;
   }
-  .languageAbbreviation {
+  .badges {
     padding-bottom: 1rem;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: row-reverse;
+    justify-content: space-between;
   }
+
   .badge {
     background-color: var(--color-orange);
     color: var(--color-white);
@@ -73,7 +86,6 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding-left: 0.5rem;
     padding-right: 0.5rem;
   }
   .date,
@@ -91,5 +103,17 @@
     align-items: center;
     padding-top: 0.5rem;
     text-decoration: underline;
+  }
+
+  @media only screen and (max-width: 1400px) {
+    .card {
+      height: 46.5rem;
+    }
+  }
+
+  @media only screen and (max-width: 1000px) {
+    .card {
+      height: auto;
+    }
   }
 </style>

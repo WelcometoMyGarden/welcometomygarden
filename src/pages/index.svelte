@@ -73,14 +73,25 @@
 </div>
 
 <section id="steps-section" class="steps">
-  {#each steps as { title, copy }, i}
+  {#each steps as { title }, i}
     <div class="step">
       <div class="step-logo">
         {@html stepGraphics[i]}
       </div>
       <h2 class="step-header">{title}</h2>
       <p class="step-text">
-        {@html $_(`index.steps.${i}.copy`, transKeyExists(`index.steps.${i}.add-garden-link-text`) ? { values: { addGardenLink: `<a href=${routes.ADD_GARDEN}>${$_(`index.steps.${i}.add-garden-link-text`)}</a>` } } : undefined)}
+        {@html $_(
+          `index.steps.${i}.copy`,
+          transKeyExists(`index.steps.${i}.add-garden-link-text`)
+            ? {
+                values: {
+                  addGardenLink: `<a href=${routes.ADD_GARDEN}>${$_(
+                    `index.steps.${i}.add-garden-link-text`
+                  )}</a>`
+                }
+              }
+            : undefined
+        )}
       </p>
     </div>
   {/each}
@@ -88,8 +99,8 @@
 
 <section class="slow-travel-mini-festival">
   <div class="stmf-intro">
-    <h1 class="heading-underline-center">Slow travel mini festival</h1>
-    <p>Prepare your slow travels with the community</p>
+    <h1 class="stmf-intro-title">Slow Travel Mini Festival</h1>
+    <p class="stmf-intro-byline">Prepare your slow travels with the community</p>
   </div>
 
   <div class="stmf-columns">
@@ -97,10 +108,11 @@
       <div class="stmf-column-header">Get Inspired</div>
       <Card
         languageAbbreviation="EN"
-        src="https://i.ibb.co/3Rdvp0f/workshop1-1001-ways-of-slow-travelling.jpg"
+        src="https://i.ibb.co/5Ynvqvk/ws-extra.png"
         date="3 June 2021"
-        time="19h - 20h30"
-        title="The 1001 ways of slow travelling" />
+        time="19:00 - 20:30"
+        title="The 1001 ways of slow travelling"
+      />
     </div>
 
     <div class="stmf-column">
@@ -109,42 +121,50 @@
         languageAbbreviation="NL"
         src="https://i.postimg.cc/hjzhdddH/ws2.png"
         date="8 June 2021"
-        time="19h - 20h30"
-        title="Creëer je eigen route: praktische tips & tools" />
+        time="19:00 - 20:30"
+        title="Creëer je eigen route: praktische tips & tools"
+      />
       <Card
         languageAbbreviation="FR"
         src="https://i.postimg.cc/Lsh8c1Nn/ws5.png"
         date="10 June 2021"
-        time="19h - 20h30"
-        title="Créer ton propre itinéraire: conseils pratique & outils" />
+        time="19:00 - 20:30"
+        title="Créer ton propre itinéraire: conseils pratiques & outils"
+      />
       <Card
         languageAbbreviation="EN"
         src="https://i.postimg.cc/0jGkYd2H/ws7.png"
         date="15 June 2021"
-        time="19h - 20h30"
-        title="Create your own itinerary: practical tips & tools" />
+        time="19:00 - 20:30"
+        title="Create your own itinerary: practical tips & tools"
+      />
     </div>
 
     <div class="stmf-column">
       <div class="stmf-column-header">Contribute</div>
       <Card
+        group="Beginner"
         languageAbbreviation="EN"
         src="https://i.postimg.cc/DyjVtYDP/ws6.png"
         date="17 June 2021"
-        time="19h - 20h30"
-        title="Collect data and improve maps while slow travelling: Introduction to OpenStreetMap" />
+        time="19:00 - 20:30"
+        title="Collect data and improve maps while slow travelling: Introduction to OpenStreetMap"
+      />
       <Card
+        group="Advanced"
         languageAbbreviation="EN"
         src="https://i.postimg.cc/DyjVtYDP/ws6.png"
         date="22 June 2021"
-        time="19h - 20h30"
-        title="Collect data and improve maps while slow travelling: Introduction to OpenStreetMap" />
+        time="19:00 - 20:30"
+        title="Collect data and improve maps while slow travelling: Introduction to OpenStreetMap"
+      />
       <Card
         languageAbbreviation="EN"
-        src="https://i.postimg.cc/cHw0WMY4/ws3.png"
+        src="https://i.postimg.cc/C1PLWD15/Wiki.png"
         date="24 June 2021"
-        time="19h - 20h30"
-        title="Opportunities of world's biggest encyclopedia for slow travellers: Wikipedia" />
+        time="19:00 - 20:30"
+        title="Opportunities of world's biggest encyclopedia for slow travellers: Wikipedia"
+      />
     </div>
 
     <div class="stmf-column">
@@ -153,8 +173,9 @@
         languageAbbreviation="EN"
         src="https://i.postimg.cc/FFpwLB9X/ws4.png"
         date="29 June 2021"
-        time="19h - 20h30"
-        title="Slow travelling & the commons: the role of the Welcome To My Garden community " />
+        time="19:00 - 20:30"
+        title="Slow travelling & the commons: the role of the Welcome To My Garden community "
+      />
     </div>
   </div>
 </section>
@@ -176,12 +197,8 @@
 </section>
 
 <section class="cooperation">
-  <!--  <div class="card cooperation-card partners">
-    <h1 class="heading-underline-center">{$_('index.partners.title')}</h1>
-    <div>{$_('index.partners.title')}</div>
-  </div> -->
   <div class="card cooperation-card partners">
-    <h1 class="partner-header heading-underline-center">Our partners</h1>
+    <h1 class="partner-header heading-underline-center">{$_('index.partners.title')}</h1>
     <div class="partner-logos">
       <div class="partner-logo ok-logo">
         <a href="https://be.okfn.org/" class="partner-link">
@@ -502,6 +519,18 @@
     align-items: center;
   }
 
+  .stmf-intro-title {
+    margin-bottom: 0;
+  }
+
+  .stmf-intro-byline {
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 3.5rem;
+    font-size: 1.8rem;
+    line-height: 1.6;
+  }
+
   .stmf-columns {
     display: flex;
     flex-direction: row;
@@ -510,10 +539,10 @@
   }
 
   .stmf-column {
+    flex: 1 1 10%;
     margin-left: 1rem;
     margin-right: 1rem;
     max-width: 40rem;
-    flex: 1 1 10%;
   }
 
   .stmf-column-header {
@@ -542,6 +571,12 @@
     }
   }
 
+  @media only screen and (max-width: 1400px) {
+    .stmf-column {
+      flex: 1 1 50%;
+    }
+  }
+
   @media only screen and (max-width: 1300px) {
     h1 {
       font-size: 2.8rem;
@@ -563,10 +598,6 @@
 
     .welcome-logo {
       width: 25vw;
-    }
-
-    .stmf-column {
-      flex: 1 1 50%;
     }
   }
 
