@@ -108,7 +108,7 @@
       <div class="stmf-column-header">Get Inspired</div>
       <Card
         languageAbbreviation="EN"
-        src="https://i.ibb.co/5Ynvqvk/ws-extra.png"
+        src="images/workshops/the-1001-ways-of-slow-travelling.png"
         date="3 June 2021"
         time="19:00 - 20:30"
         title="The 1001 ways of slow travelling"
@@ -120,7 +120,7 @@
       <div class="stmf-column-header">Plan</div>
       <Card
         languageAbbreviation="NL"
-        src="https://i.postimg.cc/hjzhdddH/ws2.png"
+        src="/images/workshops/creeer-je-eigen-route-praktische-tips-tools.png"
         date="8 June 2021"
         time="19:00 - 20:30"
         title="Creëer je eigen route: praktische tips & tools"
@@ -128,7 +128,7 @@
       />
       <Card
         languageAbbreviation="FR"
-        src="https://i.postimg.cc/Lsh8c1Nn/ws5.png"
+        src="/images/workshops/creer-ton-propre-itineraire-conseils-pratiques-outils.png"
         date="10 June 2021"
         time="19:00 - 20:30"
         title="Créer ton propre itinéraire: conseils pratiques & outils"
@@ -136,7 +136,7 @@
       />
       <Card
         languageAbbreviation="EN"
-        src="https://i.postimg.cc/0jGkYd2H/ws7.png"
+        src="/images/workshops/create-your-own-itinerary-practical-tips-tools.png"
         date="15 June 2021"
         time="19:00 - 20:30"
         title="Create your own itinerary: practical tips & tools"
@@ -149,7 +149,7 @@
       <Card
         group="Beginner"
         languageAbbreviation="EN"
-        src="https://i.postimg.cc/DyjVtYDP/ws6.png"
+        src="/images/workshops/collect-data-and-improve-maps-while-slow-travelling-introduction-to-openstreetmap.png"
         date="17 June 2021"
         time="19:00 - 20:30"
         title="Collect data and improve maps while slow travelling: Introduction to OpenStreetMap"
@@ -158,7 +158,7 @@
       <Card
         group="Advanced"
         languageAbbreviation="EN"
-        src="https://i.postimg.cc/DyjVtYDP/ws6.png"
+        src="/images/workshops/collect-data-and-improve-maps-while-slow-travelling-introduction-to-openstreetmap.png"
         date="22 June 2021"
         time="19:00 - 20:30"
         title="Collect data and improve maps while slow travelling: Introduction to OpenStreetMap"
@@ -166,7 +166,7 @@
       />
       <Card
         languageAbbreviation="EN"
-        src="https://i.postimg.cc/C1PLWD15/Wiki.png"
+        src="/images/workshops/opportunities-of-worlds-biggest-encyclopedia-for-slow-travellers-wikipedia.png"
         date="24 June 2021"
         time="19:00 - 20:30"
         title="Opportunities of world's biggest encyclopedia for slow travellers: Wikipedia"
@@ -178,7 +178,7 @@
       <div class="stmf-column-header">Rethink</div>
       <Card
         languageAbbreviation="EN"
-        src="https://i.postimg.cc/FFpwLB9X/ws4.png"
+        src="/images/workshops/slow-travelling--the-commons-the-role-of-the-welcome-to-my-garden-community.png"
         date="29 June 2021"
         time="19:00 - 20:30"
         title="Slow travelling & the commons: the role of the Welcome To My Garden community"
