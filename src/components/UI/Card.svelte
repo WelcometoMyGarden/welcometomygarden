@@ -11,9 +11,13 @@
   export let time = '';
   export let href = '';
   export let group = null;
+
+  const openLinkInNewTab = () => {
+    window.open(href, '_blank');
+  };
 </script>
 
-<div class="card">
+<div class="card" on:click={openLinkInNewTab}>
   <div class="badges">
     <div class="badge">{languageAbbreviation}</div>
     {#if group}
@@ -42,7 +46,7 @@
   </div>
   <span class="filler" />
   <div class="registerHere">
-    <a {href}>
+    <a {href} target="_blank">
       <Text weight="bold">Register here</Text>
       <div class="icon">
         <Icon icon={arrowIcon} />
@@ -59,6 +63,7 @@
     margin-bottom: 2rem;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
   }
   .filler {
     flex-grow: 1;
@@ -75,7 +80,7 @@
   }
 
   .badge {
-    background-color: var(--color-orange);
+    background-color: var(--color-orange-light);
     color: var(--color-white);
     border-radius: 4rem;
     padding: 0.5rem 1rem;
