@@ -15,6 +15,8 @@
   import OKLogo from '../images/ok_logo.svg';
   import VGCLogo from '../images/vgc_logo.svg';
   import natuurpuntLogo from '../images/natuurpunt_logo.svg';
+  import groteroutepadenLogo from '../images/groteroutepaden-logo.svg';
+  import lesSentiersDeGrandeRandonneeLogo from '../images/les-sentiers-de-grande-randonnee-logo.svg';
 
   import Step1 from '../images/step-1.svg';
   import Step2 from '../images/step-2.svg';
@@ -31,7 +33,6 @@
 
   $: steps = getArrayFromLocale('index.steps', $locale);
   $: faqQuestions = getArrayFromLocale('index.faq.questions', $locale);
-
 </script>
 
 <svelte:head>
@@ -192,7 +193,7 @@
 </section>
 
 <section class="getInspired">
-  <div>
+  <div class="left">
     <div>
       <svg width="33" height="2" viewBox="0 0 66 6" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0 3H66" stroke="#495747" stroke-width="5" />
@@ -200,10 +201,10 @@
       plan
     </div>
     <h2>create your own itinerary: practical tips &amp; tools <span>en</span></h2>
-    <div class="getInspiredFlexH">
+    <div class="getInspiredFlex">
       <div class="getInspiredDate">
         <div class="icon">
-          <Icon icon={clockIcon} />
+          <Icon icon={calendarIcon} />
         </div>
         <div>15 June 2021</div>
       </div>
@@ -214,22 +215,20 @@
         <div>19 - 20h30</div>
       </div>
     </div>
+    <div class="spacer" />
     <div class="getInspiredLogo">
       {@html LogoWithText}
     </div>
-    <div class="getInspiredFlexH getInspiredPartners">
-      <div>
-        <img src="images/partners/groteroutepaden.png" alt="groteroutepaden" />
+    <div class="getInspiredPartners">
+      <div class="getInspiredPartnersItem">
+        {@html groteroutepadenLogo}
       </div>
-      <div>
-        <img
-          src="images/partners/lessentiersdegrandrandonnee.png"
-          alt="lessentiersdegrandrandonnee"
-        />
+      <div class="getInspiredPartnersItem">
+        {@html lesSentiersDeGrandeRandonneeLogo}
       </div>
     </div>
   </div>
-  <figure class="getInspiredImg">
+  <figure class="right getInspiredImg">
     <img src="https://i.ibb.co/DwpXk0x/mapwithperson.png" alt="person with map" />
   </figure>
 </section>
@@ -614,6 +613,7 @@
     background-color: #e4d290;
     padding-left: 7%;
     display: flex;
+    /* display: flex; */
   }
 
   .getInspired div:first-child > div:first-child {
@@ -648,7 +648,6 @@
   }
 
   .getInspired > div {
-    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     margin-top: 10%;
@@ -659,23 +658,26 @@
     font-size: 2rem;
   }
 
-  .getInspiredFlexH {
+  .getInspiredFlex {
     display: flex;
   }
 
   .getInspiredLogo {
-    margin-top: 10%;
+    margin: 3rem auto 3rem auto;
     text-align: center;
+    width: 60%;
   }
 
   .getInspiredPartners {
     margin-top: 20px;
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
   }
 
-  .getInspiredPartners img {
-    max-height: 70px;
+  .getInspiredPartnersItem {
+    width: 40%;
+    padding-bottom: 3rem;
   }
 
   .getInspired h2 {
@@ -698,6 +700,10 @@
     margin-right: 15px;
     font-size: 1.8rem;
     font-weight: bold;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
   }
 
   @media only screen and (max-width: 1500px) {
@@ -814,10 +820,6 @@
     }
     .donate-copy {
       margin: 0 0 5rem;
-    }
-
-    .getInspired {
-      display: none;
     }
   }
 
@@ -954,5 +956,4 @@
       padding: 8rem 3rem 10rem;
     }
   }
-
 </style>
