@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import Text from './Text.svelte';
   import Icon from './Icon.svelte';
   import Image from './Image.svelte';
@@ -47,7 +48,7 @@
   <span class="filler" />
   <div class="registerHere">
     <a {href} target="_blank">
-      <Text weight="bold">Register here</Text>
+      <Text size="l" weight="bold">{$_('ui.card.register-here')}</Text>
       <div class="icon">
         <Icon icon={arrowIcon} />
       </div>

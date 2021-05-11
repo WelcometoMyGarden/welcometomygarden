@@ -16,6 +16,11 @@
     "sign-out": "Déconnexion",
     "sign-in": "Connexion"
   },
+  "ui": {
+    "card": {
+      "register-here": "S’enregistrer"
+    }
+  },
   "index": {
     "intro": {
       "copy": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme espace de bivouac gratuit pour des voyageurs et voyageuses adeptes du slow travel.",
@@ -693,5 +698,15 @@
         ]
       }
     ]
+  },
+  "stmf": {
+    "title": "Slow Travel Mini Festival",
+    "description": "Préparez votre voyage lent avec la communauté",
+    "sections": {
+      "get-inspired": "S’inspirer",
+      "plan": "Planifier",
+      "contribute": "Contribuer",
+      "rethink": "Repenser"
+    }
   }
 }

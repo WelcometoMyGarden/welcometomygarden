@@ -19,6 +19,11 @@
     "sign-in": "Sign in",
     "garden": "Garden"
   },
+  "ui": {
+    "card": {
+      "register-here": "Register here"
+    }
+  },
   "index": {
     "intro": {
       "copy": "A not-for-profit network of citizens offering free camping spots in their gardens to slow travellers",
@@ -927,5 +932,15 @@
         ]
       }
     ]
+  },
+  "stmf": {
+    "title": "Slow Travel Mini Festival",
+    "description": "Prepare your slow travels with the community",
+    "sections": {
+      "get-inspired": "Get Inspired",
+      "plan": "Plan",
+      "contribute": "Contribute",
+      "rethink": "Rethink"
+    }
   }
 }

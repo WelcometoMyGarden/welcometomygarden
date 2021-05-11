@@ -102,13 +102,13 @@
 
 <section class="slow-travel-mini-festival">
   <div class="stmf-intro">
-    <h1 class="stmf-intro-title">Slow Travel Mini Festival</h1>
-    <p class="stmf-intro-byline">Prepare your slow travels with the community</p>
+    <h1 class="stmf-intro-title">{$_('stmf.title')}</h1>
+    <p class="stmf-intro-byline">{$_('stmf.description')}</p>
   </div>
 
   <div class="stmf-columns">
     <div class="stmf-column">
-      <div class="stmf-column-header">Get Inspired</div>
+      <div class="stmf-column-header"><h4>{$_('stmf.sections.get-inspired')}</h4></div>
       <Card
         languageAbbreviation="EN"
         src="images/workshops/the-1001-ways-of-slow-travelling.png"
@@ -120,7 +120,7 @@
     </div>
 
     <div class="stmf-column">
-      <div class="stmf-column-header">Plan</div>
+      <div class="stmf-column-header"><h4>{$_('stmf.sections.plan')}</h4></div>
       <Card
         languageAbbreviation="NL"
         src="/images/workshops/creeer-je-eigen-route-praktische-tips-tools.png"
@@ -148,7 +148,7 @@
     </div>
 
     <div class="stmf-column">
-      <div class="stmf-column-header">Contribute</div>
+      <div class="stmf-column-header"><h4>{$_('stmf.sections.contribute')}</h4></div>
       <Card
         group="Beginner"
         languageAbbreviation="EN"
@@ -178,7 +178,7 @@
     </div>
 
     <div class="stmf-column">
-      <div class="stmf-column-header">Rethink</div>
+      <div class="stmf-column-header"><h4>{$_('stmf.sections.rethink')}</h4></div>
       <Card
         languageAbbreviation="EN"
         src="/images/workshops/slow-travelling--the-commons-the-role-of-the-welcome-to-my-garden-community.png"
@@ -603,7 +603,7 @@
     background-color: var(--color-green);
     color: var(--color-white);
     border-radius: 0.6rem;
-    padding: 0.6rem;
+    padding: 0.9rem 0.6rem;
     text-align: center;
     font-size: 1.8rem;
     width: 100%;
@@ -869,6 +869,10 @@
       line-height: 6.5rem;
     }
 
+    .stmf-intro-byline {
+      font-size: 1.6rem;
+    }
+
     .donate-img-container {
       width: 20rem;
     }
@@ -876,6 +880,10 @@
 
   @media only screen and (max-width: 500px) {
     p {
+      font-size: 1.4rem;
+    }
+
+    .stmf-intro-byline {
       font-size: 1.4rem;
     }
 

@@ -19,6 +19,11 @@
     "sign-in": "Inloggen",
     "garden": "Tuin"
   },
+  "ui": {
+    "card": {
+      "register-here": "Registreer hier"
+    }
+  },
   "index": {
     "intro": {
       "copy": "Een netwerk zonder winstoogmerk van burgers die hun tuin gratis beschikbaar stellen voor trage reizigers",
@@ -926,5 +931,15 @@
         ]
       }
     ]
+  },
+  "stmf": {
+    "title": "Slow Travel Mini Festival",
+    "description": "Bereid uw langzame reizen voor met de gemeenschap",
+    "sections": {
+      "get-inspired": "Inspireer",
+      "plan": "Plan",
+      "contribute": "Draag bij",
+      "rethink": "Heroverweeg"
+    }
   }
 }
