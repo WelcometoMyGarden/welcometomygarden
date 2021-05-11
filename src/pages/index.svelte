@@ -3,13 +3,12 @@
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
-  import { Button, Card, Icon } from '../components/UI';
+  import GetInspiredFlyer from '../components/GetInspiredFlyer.svelte';
+  import { Button, Card } from '../components/UI';
   import { getArrayFromLocale, transKeyExists } from '@/util';
   import { user } from '@/stores/auth';
-  import { calendarIcon, clockIcon } from '@/images/icons';
 
   import Logo from '../images/logo.svg';
-  import LogoWithText from '../images/logo_with_text.svg';
   import welcomeMap from '../images/welcome-map.svg';
   import ArrowDown from '../images/arrow-down.svg';
   import OKLogo from '../images/ok_logo.svg';
@@ -193,44 +192,15 @@
 </section>
 
 <section class="getInspired">
-  <div class="left">
-    <div>
-      <svg width="33" height="2" viewBox="0 0 66 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 3H66" stroke="#495747" stroke-width="5" />
-      </svg>
-      plan
-    </div>
-    <h2>create your own itinerary: practical tips &amp; tools <span>en</span></h2>
-    <div class="getInspiredFlex">
-      <div class="getInspiredDate">
-        <div class="icon">
-          <Icon icon={calendarIcon} />
-        </div>
-        <div>15 June 2021</div>
-      </div>
-      <div class="getInspiredDate">
-        <div class="icon">
-          <Icon icon={clockIcon} />
-        </div>
-        <div>19 - 20h30</div>
-      </div>
-    </div>
-    <div class="spacer" />
-    <div class="getInspiredLogo">
-      {@html LogoWithText}
-    </div>
-    <div class="getInspiredPartners">
-      <div class="getInspiredPartnersItem">
-        {@html groteroutepadenLogo}
-      </div>
-      <div class="getInspiredPartnersItem">
-        {@html lesSentiersDeGrandeRandonneeLogo}
-      </div>
-    </div>
-  </div>
-  <figure class="right getInspiredImg">
-    <img src="https://i.ibb.co/DwpXk0x/mapwithperson.png" alt="person with map" />
-  </figure>
+  <GetInspiredFlyer
+    section="plan"
+    title="Create your own itinerary: practical tips &amp; tools"
+    languageAbbreviation="EN"
+    date="15 June 2021"
+    time="19:00 - 20:30"
+    sponsor1={groteroutepadenLogo}
+    sponsor2={lesSentiersDeGrandeRandonneeLogo}
+  />
 </section>
 
 <section class="faq">
@@ -610,100 +580,7 @@
   }
 
   .getInspired {
-    background-color: #e4d290;
-    padding-left: 7%;
-    display: flex;
-    /* display: flex; */
-  }
-
-  .getInspired div:first-child > div:first-child {
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-  }
-
-  .getInspired svg {
-    margin-bottom: 6px;
-  }
-
-  .getInspired img {
-    height: 100%;
-  }
-
-  .getInspiredImg {
-    clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
-  }
-
-  .getInspired span {
-    display: inline-block;
-    vertical-align: middle;
-    line-height: 3.3rem;
-    font-size: 2rem;
-    background: #495747;
-    color: #fff;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-radius: 40px;
-    margin-bottom: 6px;
-  }
-
-  .getInspired > div {
-    display: flex;
-    flex-direction: column;
-    margin-top: 10%;
-    margin-right: 5%;
-  }
-
-  .getInspired > div > div:first-child {
-    font-size: 2rem;
-  }
-
-  .getInspiredFlex {
-    display: flex;
-  }
-
-  .getInspiredLogo {
-    margin: 3rem auto 3rem auto;
-    text-align: center;
-    width: 60%;
-  }
-
-  .getInspiredPartners {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-  }
-
-  .getInspiredPartnersItem {
-    width: 40%;
-    padding-bottom: 3rem;
-  }
-
-  .getInspired h2 {
-    color: #fff;
-    line-height: 5rem;
-    font-size: 3.5rem;
-    font-weight: bold;
-    margin-bottom: 30px;
-  }
-
-  .getInspired .icon {
-    width: 2rem;
-    height: 1.5rem;
-    margin-top: 2px;
-    margin-right: 0px;
-  }
-
-  .getInspiredDate {
-    display: flex;
-    margin-right: 15px;
-    font-size: 1.8rem;
-    font-weight: bold;
-  }
-
-  .spacer {
-    flex: 1 1 auto;
+    display: none;
   }
 
   @media only screen and (max-width: 1500px) {

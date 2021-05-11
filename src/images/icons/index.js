@@ -19,3 +19,4 @@ export { default as waterIcon } from './water.svg';
 export { default as calendarIcon } from './calendar.svg';
 export { default as clockIcon } from './clock.svg';
 export { default as arrowIcon } from './arrow.svg';
+export { default as lineIcon } from './line.svg';
