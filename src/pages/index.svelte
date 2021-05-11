@@ -3,11 +3,13 @@
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
-  import { Button, Card } from '../components/UI';
+  import { Button, Card, Icon } from '../components/UI';
   import { getArrayFromLocale, transKeyExists } from '@/util';
   import { user } from '@/stores/auth';
+  import { calendarIcon, clockIcon } from '@/images/icons';
 
   import Logo from '../images/logo.svg';
+  import LogoWithText from '../images/logo_with_text.svg';
   import welcomeMap from '../images/welcome-map.svg';
   import ArrowDown from '../images/arrow-down.svg';
   import OKLogo from '../images/ok_logo.svg';
@@ -29,6 +31,7 @@
 
   $: steps = getArrayFromLocale('index.steps', $locale);
   $: faqQuestions = getArrayFromLocale('index.faq.questions', $locale);
+
 </script>
 
 <svelte:head>
@@ -178,6 +181,49 @@
       />
     </div>
   </div>
+</section>
+
+<section class="getInspired">
+  <div>
+    <div>
+      <svg width="33" height="2" viewBox="0 0 66 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 3H66" stroke="#495747" stroke-width="5" />
+      </svg>
+      plan
+    </div>
+    <h2>create your own itinerary: practical tips &amp; tools <span>en</span></h2>
+    <div class="getInspiredFlexH">
+      <div class="getInspiredDate">
+        <div class="icon">
+          <Icon icon={clockIcon} />
+        </div>
+        <div>15 June 2021</div>
+      </div>
+      <div class="getInspiredDate">
+        <div class="icon">
+          <Icon icon={clockIcon} />
+        </div>
+        <div>19 - 20h30</div>
+      </div>
+    </div>
+    <div class="getInspiredLogo">
+      {@html LogoWithText}
+    </div>
+    <div class="getInspiredFlexH getInspiredPartners">
+      <div>
+        <img src="images/partners/groteroutepaden.png" alt="groteroutepaden" />
+      </div>
+      <div>
+        <img
+          src="images/partners/lessentiersdegrandrandonnee.png"
+          alt="lessentiersdegrandrandonnee"
+        />
+      </div>
+    </div>
+  </div>
+  <figure class="getInspiredImg">
+    <img src="https://i.ibb.co/DwpXk0x/mapwithperson.png" alt="person with map" />
+  </figure>
 </section>
 
 <section class="faq">
@@ -556,6 +602,96 @@
     margin-bottom: 1.8rem;
   }
 
+  .getInspired {
+    background-color: #e4d290;
+    padding-left: 7%;
+    display: flex;
+  }
+
+  .getInspired div:first-child > div:first-child {
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .getInspired svg {
+    margin-bottom: 6px;
+  }
+
+  .getInspired img {
+    height: 100%;
+  }
+
+  .getInspiredImg {
+    clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+
+  .getInspired span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 3.3rem;
+    font-size: 2rem;
+    background: #495747;
+    color: #fff;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 40px;
+    margin-bottom: 6px;
+  }
+
+  .getInspired > div {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10%;
+    margin-right: 5%;
+  }
+
+  .getInspired > div > div:first-child {
+    font-size: 2rem;
+  }
+
+  .getInspiredFlexH {
+    display: flex;
+  }
+
+  .getInspiredLogo {
+    margin-top: 10%;
+    text-align: center;
+  }
+
+  .getInspiredPartners {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .getInspiredPartners img {
+    max-height: 70px;
+  }
+
+  .getInspired h2 {
+    color: #fff;
+    line-height: 5rem;
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+
+  .getInspired .icon {
+    width: 2rem;
+    height: 1.5rem;
+    margin-top: 2px;
+    margin-right: 0px;
+  }
+
+  .getInspiredDate {
+    display: flex;
+    margin-right: 15px;
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+
   @media only screen and (max-width: 1500px) {
     .faq-intro {
       padding: 6rem 10rem;
@@ -670,6 +806,10 @@
     }
     .donate-copy {
       margin: 0 0 5rem;
+    }
+
+    .getInspired {
+      display: none;
     }
   }
 
@@ -798,4 +938,5 @@
       padding: 8rem 3rem 10rem;
     }
   }
+
 </style>
