@@ -112,6 +112,7 @@
         date="3 June 2021"
         time="19:00 - 20:30"
         title="The 1001 ways of slow travelling"
+        href="https://1001ways.eventbrite.be/?aff=Website"
       />
     </div>
 
@@ -123,6 +124,7 @@
         date="8 June 2021"
         time="19:00 - 20:30"
         title="Creëer je eigen route: praktische tips & tools"
+        href="https://eigenroute.eventbrite.be/?aff=Website"
       />
       <Card
         languageAbbreviation="FR"
@@ -130,6 +132,7 @@
         date="10 June 2021"
         time="19:00 - 20:30"
         title="Créer ton propre itinéraire: conseils pratiques & outils"
+        href="https://propreitineraire.eventbrite.be/?aff=Website"
       />
       <Card
         languageAbbreviation="EN"
@@ -137,6 +140,7 @@
         date="15 June 2021"
         time="19:00 - 20:30"
         title="Create your own itinerary: practical tips & tools"
+        href="https://ownitinerary.eventbrite.be/?aff=Website"
       />
     </div>
 
@@ -149,6 +153,7 @@
         date="17 June 2021"
         time="19:00 - 20:30"
         title="Collect data and improve maps while slow travelling: Introduction to OpenStreetMap"
+        href="https://openstreetmap-beginner.eventbrite.be/?aff=Website"
       />
       <Card
         group="Advanced"
@@ -157,6 +162,7 @@
         date="22 June 2021"
         time="19:00 - 20:30"
         title="Collect data and improve maps while slow travelling: Introduction to OpenStreetMap"
+        href="https://openstreetmap-advanced.eventbrite.be/?aff=Website"
       />
       <Card
         languageAbbreviation="EN"
@@ -164,6 +170,7 @@
         date="24 June 2021"
         time="19:00 - 20:30"
         title="Opportunities of world's biggest encyclopedia for slow travellers: Wikipedia"
+        href="https://wikipedia-workshop.eventbrite.be/?aff=Website"
       />
     </div>
 
@@ -174,7 +181,8 @@
         src="https://i.postimg.cc/FFpwLB9X/ws4.png"
         date="29 June 2021"
         time="19:00 - 20:30"
-        title="Slow travelling & the commons: the role of the Welcome To My Garden community "
+        title="Slow travelling & the commons: the role of the Welcome To My Garden community"
+        href="https://slowtravel-commons.eventbrite.be/?aff=Website"
       />
     </div>
   </div>
