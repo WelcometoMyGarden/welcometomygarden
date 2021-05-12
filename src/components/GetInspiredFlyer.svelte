@@ -103,7 +103,7 @@
     line-height: 5rem;
     font-size: 3.5rem;
     font-weight: bold;
-    margin-bottom: 30px;
+    margin-bottom: 3.5rem;
     text-transform: uppercase;
     position: relative;
   }
@@ -118,7 +118,7 @@
     padding: 0 2rem;
     margin-left: 1rem;
 
-    font-size: 0.5rem;
+    font-size: 1.5rem;
     vertical-align: top;
   }
 
