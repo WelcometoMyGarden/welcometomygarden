@@ -14,7 +14,7 @@
   export let sponsor2 = null;
 </script>
 
-<div class="getInspired">
+<div class="get-inspired">
   <div class="left">
     <div class="section">
       <div class="icon">
@@ -35,7 +35,7 @@
         <div class="icon">
           <Icon icon={calendarIcon} />
         </div>
-        <p class="dateText">
+        <p class="date-text">
           {date}
         </p>
       </div>
@@ -43,31 +43,31 @@
         <div class="icon">
           <Icon icon={clockIcon} />
         </div>
-        <p class="dateText">
+        <p class="date-text">
           {time}
         </p>
       </div>
     </div>
     <div class="spacer" />
-    <div class="getInspiredLogo spacingRight">
+    <div class="get-inspired-logo spacing-right">
       {@html LogoWithText}
     </div>
-    <div class="getInspiredPartners spacingRight">
-      <div class="getInspiredPartnersItem">
+    <div class="get-inspired-partners spacing-right">
+      <div class="get-inspired-partners-item">
         {@html sponsor1}
       </div>
-      <div class="getInspiredPartnersItem">
+      <div class="get-inspired-partners-item">
         {@html sponsor2}
       </div>
     </div>
   </div>
-  <figure class="right getInspiredImg">
+  <figure class="right get-inspired-img">
     <img src="/images/mapwithperson.png" alt="person with map" />
   </figure>
 </div>
 
 <style>
-  .getInspired {
+  .get-inspired {
     background-color: var(--color-yellow);
     padding-left: 8rem;
     display: flex;
@@ -98,7 +98,7 @@
     font-size: 2rem;
   }
 
-  .getInspired h2 {
+  .get-inspired h2 {
     color: #fff;
     line-height: 5rem;
     font-size: 3.5rem;
@@ -108,7 +108,7 @@
     position: relative;
   }
 
-  .getInspired .badge {
+  .get-inspired .badge {
     display: inline;
     background-color: var(--color-green);
     color: var(--color-white);
@@ -122,33 +122,33 @@
     vertical-align: top;
   }
 
-  .getInspired img {
+  .get-inspired img {
     height: 100%;
   }
 
-  .getInspiredImg {
+  .get-inspired-img {
     clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
   }
 
-  .spacingRight {
+  .spacing-right {
     padding-right: 8rem;
   }
 
-  .getInspiredLogo {
+  .get-inspired-logo {
     margin: 3rem auto 3rem auto;
     text-align: center;
     width: 60%;
     min-width: 25rem;
   }
 
-  .getInspiredPartners {
+  .get-inspired-partners {
     margin-top: 3rem;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
   }
 
-  .getInspiredPartnersItem {
+  .get-inspired-partners-item {
     width: 40%;
     min-width: 10rem;
     padding-bottom: 3rem;
@@ -176,7 +176,7 @@
     padding-left: 5rem;
   }
 
-  .dateText {
+  .date-text {
     font-weight: bold;
     font-size: 2rem;
   }
