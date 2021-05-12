@@ -101,7 +101,7 @@
     align-items: center;
   }
   .title {
-    padding: 1.5rem 0;
+    padding-top: 1.5rem;
     text-align: left;
   }
   .registerHere a {
@@ -113,7 +113,7 @@
 
   @media only screen and (max-width: 1400px) {
     .card {
-      height: 46.5rem;
+      height: 47rem;
     }
   }
 

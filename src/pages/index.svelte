@@ -585,6 +585,11 @@
     .stmf-column {
       flex: 1 1 50%;
     }
+
+    .stmf-column:nth-child(2),
+    .stmf-column:nth-child(3) {
+      order: 1;
+    }
   }
 
   @media only screen and (max-width: 1300px) {
