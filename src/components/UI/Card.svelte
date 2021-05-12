@@ -46,7 +46,7 @@
     <Text size="l" weight="bold">{title}</Text>
   </div>
   <span class="filler" />
-  <div class="registerHere">
+  <div class="register-here">
     <a {href} target="_blank">
       <Text size="l" weight="bold">{$_('ui.card.register-here')}</Text>
       <div class="icon">
@@ -104,7 +104,7 @@
     padding-top: 1.5rem;
     text-align: left;
   }
-  .registerHere a {
+  .register-here a {
     display: flex;
     align-items: center;
     padding-top: 0.5rem;
