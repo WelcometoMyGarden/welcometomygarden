@@ -3,7 +3,6 @@
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
-  import GetInspiredFlyer from '../components/GetInspiredFlyer.svelte';
   import { Button, Card } from '../components/UI';
   import { getArrayFromLocale, transKeyExists } from '@/util';
   import { user } from '@/stores/auth';
@@ -189,18 +188,6 @@
       />
     </div>
   </div>
-</section>
-
-<section class="getInspired">
-  <GetInspiredFlyer
-    section="plan"
-    title="Create your own itinerary: practical tips &amp; tools"
-    languageAbbreviation="EN"
-    date="15 June 2021"
-    time="19:00 - 20:30"
-    sponsor1={groteroutepadenLogo}
-    sponsor2={lesSentiersDeGrandeRandonneeLogo}
-  />
 </section>
 
 <section class="faq" id="faq">
