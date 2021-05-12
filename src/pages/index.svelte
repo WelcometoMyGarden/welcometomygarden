@@ -191,18 +191,6 @@
   </div>
 </section>
 
-<section class="getInspired">
-  <GetInspiredFlyer
-    section="plan"
-    title="Create your own itinerary: practical tips &amp; tools"
-    languageAbbreviation="EN"
-    date="15 June 2021"
-    time="19:00 - 20:30"
-    sponsor1={groteroutepadenLogo}
-    sponsor2={lesSentiersDeGrandeRandonneeLogo}
-  />
-</section>
-
 <section class="faq">
   <div class="card faq-intro">
     <h1 class="heading-underline-center">{$_('index.faq.title')}</h1>
@@ -577,10 +565,6 @@
     font-size: 1.8rem;
     width: 100%;
     margin-bottom: 1.8rem;
-  }
-
-  .getInspired {
-    display: none;
   }
 
   @media only screen and (max-width: 1500px) {
