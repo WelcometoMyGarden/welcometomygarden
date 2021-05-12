@@ -118,7 +118,7 @@
     padding: 0 2rem;
     margin-left: 1rem;
 
-    font-size: 0.5em;
+    font-size: 0.5rem;
     vertical-align: top;
   }
 
