@@ -155,4 +155,16 @@
       height: auto;
     }
   }
+
+  @media only screen and (max-width: 500px) {
+    h4 {
+      font-weight: bold;
+      font-size: 1.6rem;
+      line-height: 2.3rem;
+    }
+
+    .register-here-text {
+      font-size: 1.4rem;
+    }
+  }
 </style>
