@@ -18,61 +18,67 @@
   };
 </script>
 
-<div class="card" on:click={openLinkInNewTab}>
-  <div class="badges">
-    <div class="badge">{languageAbbreviation}</div>
-    {#if group}
-      <div class="badge">{group}</div>
-    {/if}
-  </div>
-  <div class="images">
-    <Image {src} alt={title} rounded={false} />
-  </div>
-  <div class="when">
-    <div class="date">
-      <div class="icon">
-        <Icon icon={calendarIcon} />
-      </div>
-      <Text size="m">{date}</Text>
+<button class="button-container card-container fixed-height" on:click={openLinkInNewTab}>
+  <article class="card fixed-height">
+    <div class="badges">
+      <div class="badge">{languageAbbreviation}</div>
+      {#if group}
+        <div class="badge">{group}</div>
+      {/if}
     </div>
-    <div class="time">
-      <div class="icon">
-        <Icon icon={clockIcon} />
-      </div>
-      <Text size="m">{time}</Text>
+    <div class="images">
+      <Image {src} alt={title} rounded={false} />
     </div>
-  </div>
-  <div class="title">
-    <Text size="l" weight="bold">{title}</Text>
-  </div>
-  <span class="filler" />
-  <div class="register-here">
-    <a {href} target="_blank">
-      <Text size="l" weight="bold">{$_('ui.card.register-here')}</Text>
-      <div class="icon">
-        <Icon icon={arrowIcon} />
+    <div class="when">
+      <div class="date">
+        <div class="icon">
+          <Icon icon={calendarIcon} />
+        </div>
+        <Text size="m">{date}</Text>
       </div>
-    </a>
-  </div>
-</div>
+      <div class="time">
+        <div class="icon">
+          <Icon icon={clockIcon} />
+        </div>
+        <Text size="m">{time}</Text>
+      </div>
+    </div>
+    <div class="content">
+      <div class="title">
+        <h4>{title}</h4>
+      </div>
+      <div class="register-here">
+        <a {href} target="_blank">
+          <span class="register-here-text">{$_('ui.card.register-here')}</span>
+          <div class="icon">
+            <Icon icon={arrowIcon} />
+          </div>
+        </a>
+      </div>
+    </div>
+  </article>
+</button>
 
 <style>
-  .card {
-    height: 44rem;
-    background-color: var(--color-white);
-    padding: 1rem 2rem;
+  .card-container {
+    display: block;
     margin-bottom: 2rem;
+    background-color: var(--color-white);
+  }
+
+  .card {
+    padding: 1rem 2rem;
     display: flex;
     flex-direction: column;
     cursor: pointer;
+    color: var(--color-green);
   }
-  .filler {
-    flex-grow: 1;
-  }
+
   .icon {
     width: 2rem;
     height: 1.5rem;
   }
+
   .badges {
     padding-bottom: 1rem;
     display: flex;
@@ -86,39 +92,66 @@
     border-radius: 4rem;
     padding: 0.5rem 1rem;
     font-size: 1.4rem;
+    line-height: 1.5rem;
     font-family: var(--fonts-titles);
   }
+
   .when {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding-right: 0.5rem;
   }
+
   .date,
   .time {
     margin-top: 0.5rem;
     display: flex;
     align-items: center;
   }
+
+  .content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
   .title {
     padding-top: 1.5rem;
     text-align: left;
   }
+
+  h4 {
+    font-weight: bold;
+    font-size: 1.8rem;
+    line-height: 2.6rem;
+  }
+
   .register-here a {
     display: flex;
     align-items: center;
-    padding-top: 0.5rem;
+    padding-top: 1rem;
     text-decoration: underline;
   }
 
+  .register-here-text {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+
+  .fixed-height {
+    height: 43rem;
+  }
+
   @media only screen and (max-width: 1400px) {
-    .card {
+    .fixed-height {
       height: 47rem;
     }
   }
 
   @media only screen and (max-width: 1000px) {
-    .card {
+    .fixed-height {
       height: auto;
     }
   }

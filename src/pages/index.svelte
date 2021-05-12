@@ -38,7 +38,7 @@
   <title>{$_('generics.home')} | Welcome To My Garden</title>
 </svelte:head>
 
-<section class="landing">
+<section class="landing" id="landing">
   <div class="welcome">
     <div class="welcome-logo">
       {@html Logo}
@@ -65,7 +65,7 @@
   </div>
 </section>
 
-<div class="learn-more">
+<div class="learn-more" id="learn-more">
   <span class="learn-more-text" aria-hidden>{$_('index.intro.learn-more')}</span>
   <button class="learn-more-button" on:click={handleLearnMoreClick}>
     <span class="screen-reader-only">{$_('index.intro.learn-more')}</span>
@@ -75,7 +75,7 @@
   </button>
 </div>
 
-<section id="steps-section" class="steps">
+<section class="steps" id="steps-section">
   {#each steps as { title }, i}
     <div class="step">
       <div class="step-logo">
@@ -100,7 +100,7 @@
   {/each}
 </section>
 
-<section class="slow-travel-mini-festival">
+<section class="slow-travel-mini-festival" id="stmf">
   <div class="stmf-intro">
     <h1 class="stmf-intro-title">{$_('stmf.title')}</h1>
     <p class="stmf-intro-byline">{$_('stmf.description')}</p>
@@ -203,7 +203,7 @@
   />
 </section>
 
-<section class="faq">
+<section class="faq" id="faq">
   <div class="card faq-intro">
     <h1 class="heading-underline-center">{$_('index.faq.title')}</h1>
     <p>
@@ -219,7 +219,7 @@
   </div>
 </section>
 
-<section class="cooperation">
+<section class="cooperation" id="cooperation">
   <div class="card cooperation-card partners">
     <h1 class="partner-header heading-underline-center">{$_('index.partners.title')}</h1>
     <div class="partner-logos">
@@ -257,7 +257,7 @@
   </div>
 </section>
 
-<section class="donate-holiday">
+<section class="donate-holiday" id="donate-holiday">
   <div class="donate-img-container summer-container">
     <img src="/images/zomer-2020.svg" alt="Zomer van 2020" />
   </div>
