@@ -152,7 +152,7 @@
       <Card
         group="Beginner"
         languageAbbreviation="EN"
-        src="/images/workshops/collect-data-and-improve-maps-while-slow-travelling-introduction-to-openstreetmap.png"
+        src="/images/workshops/collect-data-and-improve-maps-while-slow-travelling-introduction-to-openstreetmap-beginner.png"
         date="17 June 2021"
         time="19:00 - 20:30"
         title="Collect data and improve maps while slow travelling: Introduction to OpenStreetMap"
@@ -181,7 +181,7 @@
       <div class="stmf-column-header"><h4>{$_('stmf.sections.rethink')}</h4></div>
       <Card
         languageAbbreviation="EN"
-        src="/images/workshops/slow-travelling--the-commons-the-role-of-the-welcome-to-my-garden-community.png"
+        src="/images/workshops/slow-travelling-the-commons-the-role-of-the-welcome-to-my-garden-community.png"
         date="29 June 2021"
         time="19:00 - 20:30"
         title="Slow travelling & the commons: the role of the Welcome To My Garden community"
