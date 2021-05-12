@@ -3,7 +3,6 @@
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
-  import GetInspiredFlyer from '../components/GetInspiredFlyer.svelte';
   import { Button, Card } from '../components/UI';
   import { getArrayFromLocale, transKeyExists } from '@/util';
   import { user } from '@/stores/auth';
@@ -111,7 +110,7 @@
       <div class="stmf-column-header"><h4>{$_('stmf.sections.get-inspired')}</h4></div>
       <Card
         languageAbbreviation="EN"
-        src="images/workshops/the-1001-ways-of-slow-travelling.png"
+        src="images/workshops/the-1001-ways-of-slow-travelling.jpg"
         date="3 June 2021"
         time="19:00 - 20:30"
         title="The 1001 ways of slow travelling"
@@ -123,7 +122,7 @@
       <div class="stmf-column-header"><h4>{$_('stmf.sections.plan')}</h4></div>
       <Card
         languageAbbreviation="NL"
-        src="/images/workshops/creeer-je-eigen-route-praktische-tips-tools.png"
+        src="/images/workshops/creeer-je-eigen-route-praktische-tips-tools.jpg"
         date="8 June 2021"
         time="19:00 - 20:30"
         title="Creëer je eigen route: praktische tips & tools"
@@ -131,7 +130,7 @@
       />
       <Card
         languageAbbreviation="FR"
-        src="/images/workshops/creer-ton-propre-itineraire-conseils-pratiques-outils.png"
+        src="/images/workshops/creer-ton-propre-itineraire-conseils-pratiques-outils.jpg"
         date="10 June 2021"
         time="19:00 - 20:30"
         title="Créer ton propre itinéraire: conseils pratiques & outils"
@@ -139,7 +138,7 @@
       />
       <Card
         languageAbbreviation="EN"
-        src="/images/workshops/create-your-own-itinerary-practical-tips-tools.png"
+        src="/images/workshops/create-your-own-itinerary-practical-tips-tools.jpg"
         date="15 June 2021"
         time="19:00 - 20:30"
         title="Create your own itinerary: practical tips & tools"
@@ -152,7 +151,7 @@
       <Card
         group="Beginner"
         languageAbbreviation="EN"
-        src="/images/workshops/collect-data-and-improve-maps-while-slow-travelling-introduction-to-openstreetmap-beginner.png"
+        src="/images/workshops/collect-data-and-improve-maps-while-slow-travelling-introduction-to-openstreetmap-beginner.jpg"
         date="17 June 2021"
         time="19:00 - 20:30"
         title="Collect data and improve maps while slow travelling: Introduction to OpenStreetMap"
@@ -161,7 +160,7 @@
       <Card
         group="Advanced"
         languageAbbreviation="EN"
-        src="/images/workshops/collect-data-and-improve-maps-while-slow-travelling-introduction-to-openstreetmap.png"
+        src="/images/workshops/collect-data-and-improve-maps-while-slow-travelling-introduction-to-openstreetmap.jpg"
         date="22 June 2021"
         time="19:00 - 20:30"
         title="Collect data and improve maps while slow travelling: Introduction to OpenStreetMap"
@@ -169,7 +168,7 @@
       />
       <Card
         languageAbbreviation="EN"
-        src="/images/workshops/opportunities-of-worlds-biggest-encyclopedia-for-slow-travellers-wikipedia.png"
+        src="/images/workshops/opportunities-of-worlds-biggest-encyclopedia-for-slow-travellers-wikipedia.jpg"
         date="24 June 2021"
         time="19:00 - 20:30"
         title="Opportunities of world's biggest encyclopedia for slow travellers: Wikipedia"
@@ -181,7 +180,7 @@
       <div class="stmf-column-header"><h4>{$_('stmf.sections.rethink')}</h4></div>
       <Card
         languageAbbreviation="EN"
-        src="/images/workshops/slow-travelling-the-commons-the-role-of-the-welcome-to-my-garden-community.png"
+        src="/images/workshops/slow-travelling-the-commons-the-role-of-the-welcome-to-my-garden-community.jpg"
         date="29 June 2021"
         time="19:00 - 20:30"
         title="Slow travelling & the commons: the role of the Welcome To My Garden community"
