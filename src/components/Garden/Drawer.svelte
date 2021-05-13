@@ -43,7 +43,6 @@
   }
 
   function dragBarRelease() {
-    console.log('Released');
     previousOffsetCursor = null;
     document.body.style = 'overscroll-behavior: auto';
   }
@@ -135,12 +134,14 @@
     bind:this={photoWrapper}
     on:click={() => {
       isShowingMagnifiedPhoto = false;
-    }}>
+    }}
+  >
     <div class="magnified-photo">
       <img
         alt={$_('generics.garden')}
         src={biggerPhotoUrl}
-        on:click={() => (isShowingMagnifiedPhoto = false)} />
+        on:click={() => (isShowingMagnifiedPhoto = false)}
+      />
     </div>
   </div>
 {/if}
@@ -149,13 +150,15 @@
   class={drawerClasses}
   bind:this={drawerElement}
   use:clickOutside
-  on:click-outside={handleClickOutsideDrawer}>
+  on:click-outside={handleClickOutsideDrawer}
+>
   <div
     class="drag-area"
     use:draggable
     on:dragstart={dragBarCatch}
     on:drag={dragBarMove}
-    on:dragend={dragBarRelease}>
+    on:dragend={dragBarRelease}
+  >
     <div class="drag-bar" />
   </div>
   {#if ready}
@@ -224,7 +227,8 @@
           href={`${routes.CHAT}?with=${garden.id}`}
           disabled={!$user || garden.unclaimed}
           uppercase
-          medium>
+          medium
+        >
           {$_('garden.drawer.guest.button')}
         </Button>
       {/if}
