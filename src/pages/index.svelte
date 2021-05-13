@@ -231,22 +231,6 @@
   </div>
 </section>
 
-<section class="donate-holiday" id="donate-holiday">
-  <div class="donate-img-container summer-container">
-    <img src="/images/zomer-2020.svg" alt="Zomer van 2020" />
-  </div>
-  <div class="donate-copy">
-    <h1 class="heading-underline-center">{$_('index.holiday-donations.title')}</h1>
-    <p>{$_('index.holiday-donations.copy')}</p>
-    <Button medium uppercase href="https://dezomervan2020.be/doneer" target="_blank">
-      {$_('index.holiday-donations.link-text')}
-    </Button>
-  </div>
-  <div class="donate-img-container">
-    <img src="/images/hands-illustration.svg" alt={$_('index.holiday-donations.title')} />
-  </div>
-</section>
-
 <style>
   h1 {
     font-size: 3.6rem;
@@ -490,25 +474,6 @@
     background-color: var(--color-beige-light);
   }
 
-  .donate-holiday {
-    display: none;
-    text-align: center;
-    padding: 8rem;
-    align-items: center;
-  }
-
-  .donate-copy {
-    margin: 0 8rem;
-  }
-
-  .donate-img-container {
-    width: 50rem;
-  }
-
-  .donate-img-container img {
-    max-width: 100%;
-  }
-
   .slow-travel-mini-festival {
     background-color: var(--color-beige-light);
     text-align: center;
@@ -563,9 +528,6 @@
     }
     .summer-container {
       display: none;
-    }
-    .donate-copy {
-      margin-left: 0;
     }
   }
 
@@ -667,13 +629,6 @@
     .faq-intro {
       padding: 6rem 10rem 8rem;
     }
-    .donate-holiday {
-      flex-direction: column;
-      padding: 3rem;
-    }
-    .donate-copy {
-      margin: 0 0 5rem;
-    }
   }
 
   @media only screen and (max-width: 700px) {
@@ -726,10 +681,6 @@
 
     .stmf-intro-byline {
       font-size: 1.6rem;
-    }
-
-    .donate-img-container {
-      width: 20rem;
     }
   }
 
