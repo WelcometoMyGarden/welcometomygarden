@@ -29,7 +29,7 @@
     padding: 2.4rem 4.8rem;
   }
 
-  .content-container{
+  .content-container {
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   }
 

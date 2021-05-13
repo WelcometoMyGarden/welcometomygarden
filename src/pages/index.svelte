@@ -537,6 +537,7 @@
 
   .faq-questions {
     width: 50%;
+    display: flex;
   }
   .faq-intro h1 {
     color: var(--color-white);
