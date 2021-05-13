@@ -231,7 +231,7 @@
       <p>
         {@html $_('index.support.copy', {
           values: {
-            donationLink: `<a href=\"https://opencollective.com/welcometomygarden\" target=\"_blank\" rel=\"noopener noreferrer\">${$_(
+            donationLink: `<a href="https://opencollective.com/welcometomygarden/donate" target="_blank" rel="noopener noreferrer">${$_(
               'index.support.donation-link-text'
             )}</a>`
           }
@@ -262,6 +262,10 @@
 
   section {
     margin-bottom: 9rem;
+  }
+
+  section:last-child {
+    margin-bottom: 0;
   }
 
   p {
