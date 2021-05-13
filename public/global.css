@@ -26,6 +26,7 @@
   --color-warning: #ffbb33;
   --color-danger:  #ff4444;
   --color-success: #00C851;
+  --color-yellow: #e4d290;
 
   /*
   * Typography
@@ -67,8 +68,13 @@ body {
   font-family: var(--fonts-copy);
 }
 
+p, .p {
+  font-size: 1.6rem;
+  font-weight: normal;
+}
+
 @media screen and (max-width: 700px) {
-  body, .input, textarea {
+  body, .input, textarea, p, .p {
     font-size: 1.4rem;
   }
 

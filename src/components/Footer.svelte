@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import routes from '@/routes';
   import Socials from './Socials.svelte';
   import LanguageSelector from './LanguageSelector.svelte';
@@ -10,13 +11,13 @@
   </div>
   <ul class="terms">
     <li>
-      <a href={routes.COOKIE_POLICY}>Cookie policy</a>
+      <a href={routes.COOKIE_POLICY}>{$_('generics.cookie-policy')}</a>
     </li>
     <li>
-      <a href={routes.PRIVACY_POLICY}>Privacy policy</a>
+      <a href={routes.PRIVACY_POLICY}>{$_('generics.privacy-policy')}</a>
     </li>
     <li>
-      <a href={routes.TERMS_OF_USE}>Terms of use</a>
+      <a href={routes.TERMS_OF_USE}>{$_('generics.terms-of-use')}</a>
     </li>
   </ul>
   <LanguageSelector />

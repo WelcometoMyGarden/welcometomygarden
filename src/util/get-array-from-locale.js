@@ -9,8 +9,12 @@ export default (rootNode, currentLang, isArrayOfObjects = true) => {
     .reduce((all, key) => {
       const restOfNode = key.substring(key.indexOf(`${rootNode}.`) + rootNode.length + 1);
       const index = restOfNode.split('.')[0];
-      const property = restOfNode.substr(index.length + 1);
-      const value = { [property]: dicValue(`${rootNode}.${index}.${property}`) };
+      const property = index === restOfNode ? index : restOfNode.substr(index.length + 1);
+      const dicVal =
+        index === restOfNode
+          ? dicValue(`${rootNode}.${index}`)
+          : dicValue(`${rootNode}.${index}.${property}`);
+      const value = { [property]: dicVal };
       if (!all[index]) all[index] = value;
       else all[index] = { ...all[index], ...value };
       return all;

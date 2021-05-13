@@ -1,5 +1,13 @@
 {
  "name": "Welcome To My Garden",
+ "short_name": "WTMG",
+ "description": "Welcome To My Garden is a not-for-profit network of citizens offering free camping spots in their gardens to slow travellers.",
+ "start_url": "/",
+ "scope": "/",
+ "background_color": "#FFFFFF",
+ "theme_color": "#FFFFFF",
+ "display": "standalone",
+ "orientation": "any",
  "icons": [
   {
    "src": "\/images\/app-icon\/android-icon-36x36.png",

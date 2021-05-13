@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import { goto } from '@sveltech/routify';
   import { register } from '@/api/auth';
@@ -9,56 +10,53 @@
   import AuthContainer from '@/components/AuthContainer.svelte';
   import { TextInput, Progress, Button } from '@/components/UI';
   import { lockIcon, emailIcon, userIcon, flagIcon } from '@/images/icons';
+  import { SUPPORT_EMAIL } from '@/constants';
 
   let fields = {
     email: {
-      validate: v => {
-        if (!v) return 'Please add an email address, this is what you log in with!';
+      validate: (v) => {
+        if (!v) return $_('register.validate.email');
       }
     },
     password: {
-      validate: v => {
-        if (!v) return 'You need to set a password so you can log in later';
-        if (v.length < 8) return 'Your password must be at least 8 characters';
+      validate: (v) => {
+        if (!v) return $_('register.validate.password.set');
+        if (v.length < 8) return $_('register.validate.password.min');
         // Primarily to prevent password length denial of service
-        if (v.length > 100) return 'Please make sure your password is at most 100 characters long';
+        if (v.length > 100) return $_('register.validate.password.max');
       }
     },
     firstName: {
-      validate: v => {
-        if (!v)
-          return "Please enter a first name. This is how you're shown to other users of WTMG.";
-        if (v.length > 25)
-          return 'Your first name can only be 25 characters long so we can display it properly. Feel free too abbreviate or choose a nickname!';
+      validate: (v) => {
+        if (!v) return $_('register.validate.first-name.set');
+        if (v.length > 25) return $_('register.validate.first-name.max');
       }
     },
     lastName: {
-      validate: v => {
-        if (!v) return "Please enter your last name. This won't be shared with other users.";
+      validate: (v) => {
+        if (!v) return $_('register.validate.last-name');
       }
     },
     country: {
-      validate: v => {
-        if (!v)
-          return "Please enter your country. This helps us focus the map on where you're from";
+      validate: (v) => {
+        if (!v) return $_('register.validate.country.set');
       }
     },
     consent: {
       value: false,
-      validate: v => {
-        if (!v)
-          return "You must consent to Welcome To My Garden's terms if you want to use the platform";
+      validate: (v) => {
+        if (!v) return $_('register.validate.consent');
       }
     }
   };
   let countryCode;
   let countryInput;
 
-  const validateCountry = v => {
+  const validateCountry = (v) => {
     const value = v ? v.toLowerCase() : v;
-    const code = Object.keys(countries).find(key => countries[key].toLowerCase() === value);
+    const code = Object.keys(countries).find((key) => countries[key].toLowerCase() === value);
     if (!code) {
-      const error = 'Please choose a country from the list';
+      const error = $_('register.validate.country.from-list');
       fields.country.error = error;
       return error;
     } else {
@@ -90,35 +88,39 @@
         lastName: fields.lastName.value,
         countryCode
       });
-      notify.success(
-        'Your account was created successfully! Please check your email to verify your account.',
-        10000
-      );
+      notify.success($_('register.notify.successful'), 10000);
       $goto(routes.MAP);
     } catch (err) {
       isRegistering.set(false);
-      if (err.code === 'auth/email-already-in-use')
-        formError = 'This email address is already in use.';
-      else
-        formError =
-          'An unexpected error occurred. If the problem persists, please contact support@welcometomygarden.org';
+      if (err.code === 'auth/email-already-in-use') formError = $_('register.notify.in-use');
+      else formError = $_('register.notify.unexpected', { values: { support: SUPPORT_EMAIL } });
       console.log(err);
     }
   };
+
+  const cookiePolicy = `<a class="link" href=${routes.COOKIE_POLICY} target="_blank">${$_(
+    'generics.cookie-policy'
+  ).toLocaleLowerCase()}</a>`;
+  const privacyPolicy = `<a class="link" href=${routes.PRIVACY_POLICY} target="_blank">${$_(
+    'generics.privacy-policy'
+  ).toLocaleLowerCase()}</a>`;
+  const termsOfUse = `<a class="link" href=${routes.TERMS_OF_USE} target="_blank">${$_(
+    'generics.terms-of-use'
+  ).toLocaleLowerCase()}</a>`;
 </script>
 
 <svelte:head>
-  <title>Sign up | Welcome To My Garden</title>
+  <title>{$_('register.title')} | Welcome To My Garden</title>
 </svelte:head>
 
 <Progress active={$isRegistering} />
 
 <AuthContainer>
-  <span slot="title">Sign Up</span>
+  <span slot="title">{$_('register.title')}</span>
 
   <form on:submit|preventDefault={submit} slot="form">
     <div>
-      <label for="first-name">First name</label>
+      <label for="first-name">{$_('register.first-name')}</label>
       <TextInput
         icon={userIcon}
         type="text"
@@ -131,7 +133,7 @@
     </div>
 
     <div>
-      <label for="last-name">Last name</label>
+      <label for="last-name">{$_('register.last-name')}</label>
       <TextInput
         icon={userIcon}
         autocomplete="family-name"
@@ -144,7 +146,7 @@
     </div>
 
     <div>
-      <label for="email">Email</label>
+      <label for="email">{$_('generics.email')}l</label>
       <TextInput
         icon={emailIcon}
         autocomplete="email"
@@ -159,7 +161,7 @@
     </div>
 
     <div>
-      <label for="password">Password</label>
+      <label for="password">{$_('generics.password')}</label>
       <TextInput
         icon={lockIcon}
         type="password"
@@ -172,7 +174,7 @@
     </div>
 
     <div>
-      <label for="country">Country</label>
+      <label for="country">{$_('register.country')}</label>
       <TextInput
         autocomplete="country"
         icon={flagIcon}
@@ -197,11 +199,13 @@
       <div class="checkbox">
         <input type="checkbox" id="terms" name="terms" bind:checked={fields.consent.value} />
         <label for="terms">
-          I agree to the
-          <a class="link" href={routes.COOKIE_POLICY} target="_blank">cookie policy,</a>
-          <a class="link" href={routes.PRIVACY_POLICY} target="_blank">privacy policy</a>
-          and
-          <a class="link" href={routes.TERMS_OF_USE} target="_blank">terms of use</a>
+          {@html $_('register.policies', {
+            values: {
+              cookiePolicy: cookiePolicy,
+              privacyPolicy: privacyPolicy,
+              termsOfUse: termsOfUse
+            }
+          })}
         </label>
       </div>
       <div class="error">
@@ -215,13 +219,16 @@
           <p transition:fade class="hint danger">{formError}</p>
         {/if}
       </div>
-      <Button type="submit" medium disabled={$isRegistering}>Sign up</Button>
+      <Button type="submit" medium disabled={$isRegistering}>{$_('register.button')}</Button>
       {#if $isRegistering}
-        <p class="mt-m mb-m">Signing you up...</p>
+        <p class="mt-m mb-m">{$_('register.registering')}</p>
       {/if}
       <p>
-        Already have an account?
-        <a class="link" href={routes.SIGN_IN}>Sign in</a>
+        {@html $_('register.registred', {
+          values: {
+            signIn: `<a class="link" href=${routes.SIGN_IN}>${$_('generics.sign-in')}</a>`
+          }
+        })}
       </p>
     </div>
   </form>
