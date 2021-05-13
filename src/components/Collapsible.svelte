@@ -11,7 +11,7 @@
     <span class="sign">{open ? '-' : '+'}</span>
   </div>
   {#if open}
-    <div transition:slide={{ duration: 300 }}>
+    <div transition:slide={{ duration: 300 }} class="content-container">
       <div class="content">
         <slot name="content" />
       </div>
@@ -27,6 +27,10 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
     color: var(--color-green);
     padding: 2.4rem 4.8rem;
+  }
+
+  .content-container{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   }
 
   .title {
