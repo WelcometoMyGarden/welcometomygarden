@@ -36,6 +36,16 @@
   <title>{$_('generics.home')} | Welcome To My Garden</title>
 </svelte:head>
 
+<header class="banner">
+  <p>
+    {@html $_('index.banner-stmf.copy', {
+      values: {
+        stmfLink: `<a class="banner-link" href="#mini-festival">${$_(`index.banner-stmf.link`)}</a>`
+      }
+    })}
+  </p>
+</header>
+
 <section class="landing" id="landing">
   <div class="welcome">
     <div class="welcome-logo">
@@ -87,7 +97,7 @@
   {/each}
 </section>
 
-<section class="slow-travel-mini-festival" id="stmf">
+<section class="slow-travel-mini-festival" id="mini-festival">
   <div class="stmf-intro">
     <h1 class="stmf-intro-title">{$_('stmf.title')}</h1>
     <p class="stmf-intro-byline">{$_('stmf.description')}</p>
@@ -309,6 +319,34 @@
     background: var(--color-orange);
     width: 12rem;
     margin-left: -6rem;
+  }
+
+  .banner {
+    position: fixed;
+    width: 100vw;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    background-color: var(--color-green);
+    z-index: 100;
+    padding: 2rem 0;
+    box-shadow: 0px 15px 10px -15px var(--color-black);
+  }
+
+  .banner p {
+    color: var(--color-white);
+    font-weight: bold;
+    max-width: 80rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  :global(.banner-link) {
+    text-decoration: underline;
+  }
+
+  :global(.banner-link:hover) {
+    text-decoration: underline;
   }
 
   .landing {

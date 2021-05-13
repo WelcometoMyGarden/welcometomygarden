@@ -22,6 +22,10 @@
     }
   },
   "index": {
+    "banner-stmf": {
+      "copy": "Vous voulez préparer votre prochain voyage lent tout en soutenant Welcome To My Garden ? Découvrez notre {stmfLink} (du 3 au 29 juin) !",
+      "link": "Slow Travel Mini Festival"
+    },
     "intro": {
       "copy": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme espace de bivouac gratuit pour des voyageurs et voyageuses adeptes du slow travel.",
       "add-garden": "Ajouter son jardin",

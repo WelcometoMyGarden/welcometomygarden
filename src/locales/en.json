@@ -25,6 +25,10 @@
     }
   },
   "index": {
+    "banner-stmf": {
+      "copy": "Want to prepare your slow travels with the community while supporting Welcome To My Garden? Check out our {stmfLink} (from 3 to 29 June)!",
+      "link": "Slow Travel Mini Festival"
+    },
     "intro": {
       "copy": "A not-for-profit network of citizens offering free camping spots in their gardens to slow travellers",
       "add-garden": "Add your garden",
@@ -653,7 +657,6 @@
         "max": "Your first name can only be 25 characters long so we can display it properly. Feel free too abbreviate or choose a nickname"
       },
       "last-name": "Please enter your last name. This won't be shared with other users",
-
       "country": {
         "set": "Please enter your country. This helps us focus the map on where you're from",
         "from-list": "Please choose a country from the list. This helps us focus the map on where you're from"
