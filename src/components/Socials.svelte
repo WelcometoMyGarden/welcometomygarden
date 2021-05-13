@@ -39,6 +39,7 @@
     align-items: center;
     justify-content: space-evenly;
     width: 100%;
+    z-index: -1;
   }
 
   .socials li {
