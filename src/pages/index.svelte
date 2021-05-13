@@ -348,8 +348,11 @@
     position: fixed;
     width: 100vw;
     z-index: 100;
-    height: 9.2rem;
+    min-height: 9.2rem;
     box-shadow: 0px 15px 10px -15px var(--color-black);
+    background-color: var(--color-green);
+    text-align: center;
+    left: 0;
   }
 
   .banner-content {
@@ -357,7 +360,6 @@
     display: flex;
     align-content: center;
     justify-content: center;
-    background-color: var(--color-green);
     padding: 2rem 8rem;
   }
 
