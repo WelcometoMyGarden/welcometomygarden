@@ -13,6 +13,7 @@
   import OKLogo from '../images/ok_logo.svg';
   import VGCLogo from '../images/vgc_logo.svg';
   import natuurpuntLogo from '../images/natuurpunt_logo.svg';
+  import groteRoutePadenLogo from '../images/groteroutepaden-logo.svg';
 
   import Step1 from '../images/step-1.svg';
   import Step2 from '../images/step-2.svg';
@@ -197,20 +198,29 @@
   <div class="card cooperation-card partners">
     <h1 class="partner-header heading-underline-center">{$_('index.partners.title')}</h1>
     <div class="partner-logos">
-      <div class="partner-logo ok-logo">
-        <a href="https://be.okfn.org/" class="partner-link">
-          {@html OKLogo}
-        </a>
+      <div>
+        <div class="partner-logo ok-logo">
+          <a href="https://be.okfn.org/" class="partner-link">
+            {@html OKLogo}
+          </a>
+        </div>
+        <div class="partner-logo grouteroutepaden-logo">
+          <a href="https://www.groteroutepaden.be/" class="partner-link">
+            {@html groteRoutePadenLogo}
+          </a>
+        </div>
       </div>
-      <div class="partner-logo vgc-logo">
-        <a href="https://www.vgc.be/staycation" class="partner-link">
-          {@html VGCLogo}
-        </a>
-      </div>
-      <div class="partner-logo natuurpunt-logo">
-        <a href="https://www.natuurpunt.be/" class="partner-link">
-          {@html natuurpuntLogo}
-        </a>
+      <div>
+        <div class="partner-logo vgc-logo">
+          <a href="https://www.vgc.be/staycation" class="partner-link">
+            {@html VGCLogo}
+          </a>
+        </div>
+        <div class="partner-logo natuurpunt-logo">
+          <a href="https://www.natuurpunt.be/" class="partner-link">
+            {@html natuurpuntLogo}
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -453,8 +463,19 @@
 
   .partner-logos {
     display: flex;
+    flex-direction: column;
+  }
+
+  .partner-logos > div {
+    display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+
+  .partner-logos > div:last-child {
+    margin-bottom: 0;
   }
 
   .partner-logo {
@@ -468,6 +489,10 @@
 
   .natuurpunt-logo {
     max-width: 10rem;
+  }
+
+  .grouteroutepaden-logo {
+    max-width: 20rem;
   }
 
   .support {
@@ -525,9 +550,6 @@
     }
     h1 {
       font-size: 3.4rem;
-    }
-    .summer-container {
-      display: none;
     }
   }
 
