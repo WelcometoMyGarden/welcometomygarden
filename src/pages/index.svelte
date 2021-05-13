@@ -185,7 +185,7 @@
         src="/images/workshops/collect-data-and-improve-maps-while-slow-travelling-introduction-to-openstreetmap.jpg"
         date="22 June 2021"
         time="19:00 - 20:30"
-        title="Collect data and improve maps while slow travelling: Introduction to OpenStreetMap"
+        title="Collect data and improve maps while slow travelling: Deep dive into OpenStreetMap"
         href="https://openstreetmap-advanced.eventbrite.be/?aff=Website" />
       <Card
         languageAbbreviation="EN"
@@ -358,7 +358,7 @@
     align-content: center;
     justify-content: center;
     background-color: var(--color-green);
-    padding: 2rem 0;
+    padding: 2rem 8rem;
   }
 
   .banner p {
@@ -734,6 +734,10 @@
 
     .faq-intro {
       padding: 6rem 10rem 8rem;
+    }
+
+    .banner-content p {
+      font-size: 1.4rem;
     }
   }
 
