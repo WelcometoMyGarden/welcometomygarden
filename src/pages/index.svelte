@@ -13,8 +13,6 @@
   import OKLogo from '../images/ok_logo.svg';
   import VGCLogo from '../images/vgc_logo.svg';
   import natuurpuntLogo from '../images/natuurpunt_logo.svg';
-  import groteroutepadenLogo from '../images/groteroutepaden-logo.svg';
-  import lesSentiersDeGrandeRandonneeLogo from '../images/les-sentiers-de-grande-randonnee-logo.svg';
 
   import Step1 from '../images/step-1.svg';
   import Step2 from '../images/step-2.svg';
