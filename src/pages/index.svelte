@@ -82,18 +82,7 @@
       </div>
       <h2 class="step-header">{title}</h2>
       <p class="step-text">
-        {@html $_(
-          `index.steps.${i}.copy`,
-          transKeyExists(`index.steps.${i}.add-garden-link-text`)
-            ? {
-                values: {
-                  addGardenLink: `<a href=${routes.ADD_GARDEN}>${$_(
-                    `index.steps.${i}.add-garden-link-text`
-                  )}</a>`
-                }
-              }
-            : undefined
-        )}
+        {@html $_(`index.steps.${i}.copy`, transKeyExists(`index.steps.${i}.add-garden-link-text`) ? { values: { addGardenLink: `<a href=${routes.ADD_GARDEN}>${$_(`index.steps.${i}.add-garden-link-text`)}</a>` } } : undefined)}
       </p>
     </div>
   {/each}
@@ -107,47 +96,49 @@
 
   <div class="stmf-columns">
     <div class="stmf-column">
-      <div class="stmf-column-header"><h4>{$_('stmf.sections.get-inspired')}</h4></div>
+      <div class="stmf-column-header">
+        <h4>{$_('stmf.sections.get-inspired')}</h4>
+      </div>
       <Card
         languageAbbreviation="EN"
         src="images/workshops/the-1001-ways-of-slow-travelling.jpg"
         date="3 June 2021"
         time="19:00 - 20:30"
         title="The 1001 ways of slow travelling"
-        href="https://1001ways.eventbrite.be/?aff=Website"
-      />
+        href="https://1001ways.eventbrite.be/?aff=Website" />
     </div>
 
     <div class="stmf-column">
-      <div class="stmf-column-header"><h4>{$_('stmf.sections.plan')}</h4></div>
+      <div class="stmf-column-header">
+        <h4>{$_('stmf.sections.plan')}</h4>
+      </div>
       <Card
         languageAbbreviation="NL"
         src="/images/workshops/creeer-je-eigen-route-praktische-tips-tools.jpg"
         date="8 June 2021"
         time="19:00 - 20:30"
         title="Creëer je eigen route: praktische tips & tools"
-        href="https://eigenroute.eventbrite.be/?aff=Website"
-      />
+        href="https://eigenroute.eventbrite.be/?aff=Website" />
       <Card
         languageAbbreviation="FR"
         src="/images/workshops/creer-ton-propre-itineraire-conseils-pratiques-outils.jpg"
         date="10 June 2021"
         time="19:00 - 20:30"
         title="Créer ton propre itinéraire: conseils pratiques & outils"
-        href="https://propreitineraire.eventbrite.be/?aff=Website"
-      />
+        href="https://propreitineraire.eventbrite.be/?aff=Website" />
       <Card
         languageAbbreviation="EN"
         src="/images/workshops/create-your-own-itinerary-practical-tips-tools.jpg"
         date="15 June 2021"
         time="19:00 - 20:30"
         title="Create your own itinerary: practical tips & tools"
-        href="https://ownitinerary.eventbrite.be/?aff=Website"
-      />
+        href="https://ownitinerary.eventbrite.be/?aff=Website" />
     </div>
 
     <div class="stmf-column">
-      <div class="stmf-column-header"><h4>{$_('stmf.sections.contribute')}</h4></div>
+      <div class="stmf-column-header">
+        <h4>{$_('stmf.sections.contribute')}</h4>
+      </div>
       <Card
         group="Beginner"
         languageAbbreviation="EN"
@@ -155,8 +146,7 @@
         date="17 June 2021"
         time="19:00 - 20:30"
         title="Collect data and improve maps while slow travelling: Introduction to OpenStreetMap"
-        href="https://openstreetmap-beginner.eventbrite.be/?aff=Website"
-      />
+        href="https://openstreetmap-beginner.eventbrite.be/?aff=Website" />
       <Card
         group="Advanced"
         languageAbbreviation="EN"
@@ -164,28 +154,27 @@
         date="22 June 2021"
         time="19:00 - 20:30"
         title="Collect data and improve maps while slow travelling: Introduction to OpenStreetMap"
-        href="https://openstreetmap-advanced.eventbrite.be/?aff=Website"
-      />
+        href="https://openstreetmap-advanced.eventbrite.be/?aff=Website" />
       <Card
         languageAbbreviation="EN"
         src="/images/workshops/opportunities-of-worlds-biggest-encyclopedia-for-slow-travellers-wikipedia.jpg"
         date="24 June 2021"
         time="19:00 - 20:30"
         title="Opportunities of world's biggest encyclopedia for slow travellers: Wikipedia"
-        href="https://wikipedia-workshop.eventbrite.be/?aff=Website"
-      />
+        href="https://wikipedia-workshop.eventbrite.be/?aff=Website" />
     </div>
 
     <div class="stmf-column">
-      <div class="stmf-column-header"><h4>{$_('stmf.sections.rethink')}</h4></div>
+      <div class="stmf-column-header">
+        <h4>{$_('stmf.sections.rethink')}</h4>
+      </div>
       <Card
         languageAbbreviation="EN"
         src="/images/workshops/slow-travelling-the-commons-the-role-of-the-welcome-to-my-garden-community.jpg"
         date="29 June 2021"
         time="19:00 - 20:30"
         title="Slow travelling & the commons: the role of the Welcome To My Garden community"
-        href="https://slowtravel-commons.eventbrite.be/?aff=Website"
-      />
+        href="https://slowtravel-commons.eventbrite.be/?aff=Website" />
     </div>
   </div>
 </section>
@@ -552,6 +541,7 @@
     flex: 1 1 10%;
     margin-left: 1rem;
     margin-right: 1rem;
+    margin-bottom: 4rem;
     max-width: 40rem;
   }
 
