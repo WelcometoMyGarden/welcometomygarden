@@ -71,6 +71,8 @@
     overflow: hidden;
     max-width: 155rem;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
   }
 
   @media screen and (max-width: 700px) {
@@ -79,7 +81,7 @@
     }
 
     main {
-      min-height: calc(100% - var(--height-nav));
+      min-height: 100%;
       padding-bottom: calc(var(--height-nav));
     }
   }
