@@ -3,10 +3,11 @@
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
-  import { Button, Card } from '../components/UI';
-  import { getArrayFromLocale, transKeyExists } from '@/util';
+  import { Button, Card, Icon } from '../components/UI';
+  import { getArrayFromLocale, transKeyExists, getCookie, setCookie } from '@/util';
   import { user } from '@/stores/auth';
 
+  import { crossIcon } from '@/images/icons';
   import Logo from '../images/logo.svg';
   import welcomeMap from '../images/welcome-map.svg';
   import ArrowDown from '../images/arrow-down.svg';
@@ -24,6 +25,15 @@
     stepsSection.scrollIntoView({ behavior: 'smooth' });
   }
 
+  let festivalBannerShown = !getCookie('festival-banner-dismissed');
+  const closeBanner = () => {
+    const date = new Date();
+    // one year
+    date.setTime(date.getTime() + 365 * 86400000); //24 * 60 * 60 * 1000
+    setCookie('festival-banner-dismissed', true, { expires: date.toGMTString() });
+    festivalBannerShown = false;
+  };
+
   smoothscroll.polyfill();
 
   const stepGraphics = [Step1, Step2, Step3];
@@ -36,15 +46,28 @@
   <title>{$_('generics.home')} | Welcome To My Garden</title>
 </svelte:head>
 
-<header class="banner">
-  <p>
-    {@html $_('index.banner-stmf.copy', {
-      values: {
-        stmfLink: `<a class="banner-link" href="#mini-festival">${$_(`index.banner-stmf.link`)}</a>`
-      }
-    })}
-  </p>
-</header>
+{#if festivalBannerShown}
+  <header class="banner">
+    <div class="banner-content">
+      <p>
+        {@html $_('index.banner-stmf.copy', {
+          values: {
+            stmfLink: `<a class="banner-link" href="#mini-festival">${$_(
+              `index.banner-stmf.link`
+            )}</a>`
+          }
+        })}
+      </p>
+
+      <button
+        on:click={closeBanner}
+        aria-label="Close banner"
+        class="button-container close-banner">
+        <Icon icon={crossIcon} />
+      </button>
+    </div>
+  </header>
+{/if}
 
 <section class="landing" id="landing">
   <div class="welcome">
@@ -324,13 +347,18 @@
   .banner {
     position: fixed;
     width: 100vw;
+    z-index: 100;
+    height: 9.2rem;
+    box-shadow: 0px 15px 10px -15px var(--color-black);
+  }
+
+  .banner-content {
+    width: 100%;
     display: flex;
     align-content: center;
     justify-content: center;
     background-color: var(--color-green);
-    z-index: 100;
     padding: 2rem 0;
-    box-shadow: 0px 15px 10px -15px var(--color-black);
   }
 
   .banner p {
@@ -339,6 +367,20 @@
     max-width: 80rem;
     margin: 0 auto;
     text-align: center;
+  }
+
+  .close-banner {
+    width: 3.6rem;
+    height: 3.6rem;
+    position: absolute;
+    right: 2.2rem;
+    top: calc(50% - 1.8rem);
+    cursor: pointer;
+    z-index: 110;
+  }
+
+  .close-banner :global(svg) {
+    fill: var(--color-white);
   }
 
   :global(.banner-link) {
