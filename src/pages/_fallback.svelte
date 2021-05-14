@@ -5,15 +5,22 @@
   import { binocularsIcon } from '@/images/icons';
 </script>
 
-<div class="fallback-container">
-  <div class="icon">
-    <Icon icon={binocularsIcon} />
+<div class="available-space-container">
+  <div class="fallback-container">
+    <div class="icon">
+      <Icon icon={binocularsIcon} />
+    </div>
+    <h1>{$_('fallback.404')}</h1>
+    <Button href={routes.HOME} uppercase medium>{$_('fallback.redirect')}</Button>
   </div>
-  <h1>{$_('fallback.404')}</h1>
-  <Button href={routes.HOME} uppercase medium>{$_('fallback.redirect')}</Button>
 </div>
 
 <style>
+  .available-space-container {
+    height: calc(100vh - var(--height-footer) - var(--height-nav));
+    display: flex;
+  }
+
   .fallback-container {
     flex: 1;
     display: flex;
@@ -38,6 +45,9 @@
   @media only screen and (max-width: 700px) {
     .icon {
       width: 15rem;
+    }
+    .available-space-container {
+      height: calc(100vh - var(--height-nav));
     }
   }
 </style>

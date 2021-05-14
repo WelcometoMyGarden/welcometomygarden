@@ -81,7 +81,7 @@
     }
 
     main {
-      min-height: 100%;
+      min-height: calc(100% - var(--height-nav));
       padding-bottom: calc(var(--height-nav));
     }
   }
