@@ -21,8 +21,11 @@
   import Step3 from '../images/step-3.svg';
 
   function handleLearnMoreClick() {
-    var navBarHeight = 70; // --height-nav: 7rem;
-    var topOfStepsSection = document.getElementById('steps-section').offsetTop - navBarHeight;
+    const navBarHeight = parseInt(
+      getComputedStyle(document.getElementById('navigation')).getPropertyValue('height'),
+      10
+    );
+    const topOfStepsSection = document.getElementById('steps-section').offsetTop - navBarHeight;
     window.scroll({ top: topOfStepsSection, behavior: 'smooth' });
   }
 
