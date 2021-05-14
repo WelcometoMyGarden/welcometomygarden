@@ -71,8 +71,6 @@
     overflow: hidden;
     max-width: 155rem;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
   }
 
   @media screen and (max-width: 700px) {
