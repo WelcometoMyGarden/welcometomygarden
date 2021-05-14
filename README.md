@@ -1,6 +1,6 @@
 # Welcome To My Garden [![Open Collective backers and sponsors](https://img.shields.io/opencollective/all/welcometomygarden?label=Support%20through%20Open%20Collective&logo=open-collective)](https://opencollective.com/welcometomygarden) ![GitHub](https://img.shields.io/github/license/welcometomygarden/welcometomygarden?label=License)
 
-This repository houses the entire Welcome To My Garden app. Contribution guidelines will be added soon! 
+This repository houses the entire Welcome To My Garden app.
 
 Problems, feedback or questions are welcome in [issues](https://github.com/WelcometoMyGarden/welcometomygarden/issues) or on our [Slack](https://join.slack.com/t/welcometomygarden/shared_invite/zt-f31i37dj-_zFgnfe40B6EexJuB2f_~w)
 
