@@ -265,21 +265,14 @@
         </div>
       </div>
       <div>
-        <div class="partner-logo vgc-logo">
-          <a href="https://www.vgc.be/staycation" class="partner-link">
-            {@html VGCLogo}
+        <div class="partner-logo ok-logo">
+          <a href="https://be.okfn.org/" class="partner-link">
+            {@html OKLogo}
           </a>
         </div>
         <div class="partner-logo natuurpunt-logo">
           <a href="https://www.natuurpunt.be/" class="partner-link">
             {@html natuurpuntLogo}
-          </a>
-        </div>
-      </div>
-      <div>
-        <div class="partner-logo ok-logo">
-          <a href="https://be.okfn.org/" class="partner-link">
-            {@html OKLogo}
           </a>
         </div>
       </div>
