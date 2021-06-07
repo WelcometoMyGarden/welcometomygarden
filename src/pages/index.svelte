@@ -15,6 +15,7 @@
   import VGCLogo from '../images/vgc_logo.svg';
   import natuurpuntLogo from '../images/natuurpunt_logo.svg';
   import groteRoutePadenLogo from '../images/groteroutepaden-logo.svg';
+  import GRSentiers from '../images/les-sentiers-de-grande-randonnee-logo.svg';
 
   import Step1 from '../images/step-1.svg';
   import Step2 from '../images/step-2.svg';
@@ -62,7 +63,8 @@
       <button
         on:click={closeBanner}
         aria-label="Close banner"
-        class="button-container close-banner">
+        class="button-container close-banner"
+      >
         <Icon icon={crossIcon} />
       </button>
     </div>
@@ -114,7 +116,18 @@
       </div>
       <h2 class="step-header">{title}</h2>
       <p class="step-text">
-        {@html $_(`index.steps.${i}.copy`, transKeyExists(`index.steps.${i}.add-garden-link-text`) ? { values: { addGardenLink: `<a href=${routes.ADD_GARDEN}>${$_(`index.steps.${i}.add-garden-link-text`)}</a>` } } : undefined)}
+        {@html $_(
+          `index.steps.${i}.copy`,
+          transKeyExists(`index.steps.${i}.add-garden-link-text`)
+            ? {
+                values: {
+                  addGardenLink: `<a href=${routes.ADD_GARDEN}>${$_(
+                    `index.steps.${i}.add-garden-link-text`
+                  )}</a>`
+                }
+              }
+            : undefined
+        )}
       </p>
     </div>
   {/each}
@@ -137,7 +150,8 @@
         date="3 June 2021"
         time="19:00 - 20:30"
         title="The 1001 ways of slow travelling"
-        href="https://1001ways.eventbrite.be/?aff=Website" />
+        href="https://1001ways.eventbrite.be/?aff=Website"
+      />
     </div>
 
     <div class="stmf-column">
@@ -150,21 +164,24 @@
         date="8 June 2021"
         time="19:00 - 20:30"
         title="Creëer je eigen route: praktische tips & tools"
-        href="https://eigenroute.eventbrite.be/?aff=Website" />
+        href="https://eigenroute.eventbrite.be/?aff=Website"
+      />
       <Card
         languageAbbreviation="FR"
         src="/images/workshops/creer-ton-propre-itineraire-conseils-pratiques-outils.jpg"
         date="10 June 2021"
         time="19:00 - 20:30"
         title="Créer ton propre itinéraire: conseils pratiques & outils"
-        href="https://propreitineraire.eventbrite.be/?aff=Website" />
+        href="https://propreitineraire.eventbrite.be/?aff=Website"
+      />
       <Card
         languageAbbreviation="EN"
         src="/images/workshops/create-your-own-itinerary-practical-tips-tools.jpg"
         date="15 June 2021"
         time="19:00 - 20:30"
         title="Create your own itinerary: practical tips & tools"
-        href="https://ownitinerary.eventbrite.be/?aff=Website" />
+        href="https://ownitinerary.eventbrite.be/?aff=Website"
+      />
     </div>
 
     <div class="stmf-column">
@@ -178,7 +195,8 @@
         date="17 June 2021"
         time="19:00 - 20:30"
         title="Collect data and improve maps while slow travelling: Introduction to OpenStreetMap"
-        href="https://openstreetmap-beginner.eventbrite.be/?aff=Website" />
+        href="https://openstreetmap-beginner.eventbrite.be/?aff=Website"
+      />
       <Card
         group="Advanced"
         languageAbbreviation="EN"
@@ -186,14 +204,16 @@
         date="22 June 2021"
         time="19:00 - 20:30"
         title="Collect data and improve maps while slow travelling: Deep dive into OpenStreetMap"
-        href="https://openstreetmap-advanced.eventbrite.be/?aff=Website" />
+        href="https://openstreetmap-advanced.eventbrite.be/?aff=Website"
+      />
       <Card
         languageAbbreviation="EN"
         src="/images/workshops/opportunities-of-worlds-biggest-encyclopedia-for-slow-travellers-wikipedia.jpg"
         date="24 June 2021"
         time="19:00 - 20:30"
         title="Opportunities of world's biggest encyclopedia for slow travellers: Wikipedia"
-        href="https://wikipedia-workshop.eventbrite.be/?aff=Website" />
+        href="https://wikipedia-workshop.eventbrite.be/?aff=Website"
+      />
     </div>
 
     <div class="stmf-column">
@@ -206,7 +226,8 @@
         date="29 June 2021"
         time="19:00 - 20:30"
         title="Slow travelling & the commons: the role of the Welcome To My Garden community"
-        href="https://slowtravel-commons.eventbrite.be/?aff=Website" />
+        href="https://slowtravel-commons.eventbrite.be/?aff=Website"
+      />
     </div>
   </div>
 </section>
@@ -232,25 +253,25 @@
     <h1 class="partner-header heading-underline-center">{$_('index.partners.title')}</h1>
     <div class="partner-logos">
       <div>
-        <div class="partner-logo ok-logo">
-          <a href="https://be.okfn.org/" class="partner-link">
-            {@html OKLogo}
+        <div class="partner-logo grsentier-logo">
+          <a href="https://grsentiers.org/" class="partner-link" target="_blank">
+            {@html GRSentiers}
           </a>
         </div>
         <div class="partner-logo grouteroutepaden-logo">
-          <a href="https://www.groteroutepaden.be/" class="partner-link">
+          <a href="https://www.groteroutepaden.be/" class="partner-link"  target="_blank">
             {@html groteRoutePadenLogo}
           </a>
         </div>
       </div>
       <div>
-        <div class="partner-logo vgc-logo">
-          <a href="https://www.vgc.be/staycation" class="partner-link">
-            {@html VGCLogo}
+        <div class="partner-logo ok-logo">
+          <a href="https://be.okfn.org/" class="partner-link"  target="_blank">
+            {@html OKLogo}
           </a>
         </div>
         <div class="partner-logo natuurpunt-logo">
-          <a href="https://www.natuurpunt.be/" class="partner-link">
+          <a href="https://www.natuurpunt.be/" class="partner-link"  target="_blank">
             {@html natuurpuntLogo}
           </a>
         </div>
