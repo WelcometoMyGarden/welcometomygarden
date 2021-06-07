@@ -254,24 +254,24 @@
     <div class="partner-logos">
       <div>
         <div class="partner-logo grsentier-logo">
-          <a href="https://grsentiers.org/" class="partner-link">
+          <a href="https://grsentiers.org/" class="partner-link" target="_blank">
             {@html GRSentiers}
           </a>
         </div>
         <div class="partner-logo grouteroutepaden-logo">
-          <a href="https://www.groteroutepaden.be/" class="partner-link">
+          <a href="https://www.groteroutepaden.be/" class="partner-link"  target="_blank">
             {@html groteRoutePadenLogo}
           </a>
         </div>
       </div>
       <div>
         <div class="partner-logo ok-logo">
-          <a href="https://be.okfn.org/" class="partner-link">
+          <a href="https://be.okfn.org/" class="partner-link"  target="_blank">
             {@html OKLogo}
           </a>
         </div>
         <div class="partner-logo natuurpunt-logo">
-          <a href="https://www.natuurpunt.be/" class="partner-link">
+          <a href="https://www.natuurpunt.be/" class="partner-link"  target="_blank">
             {@html natuurpuntLogo}
           </a>
         </div>
