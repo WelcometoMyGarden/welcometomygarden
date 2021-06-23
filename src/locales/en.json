@@ -945,5 +945,9 @@
       "contribute": "Contribute",
       "rethink": "Rethink"
     }
+  },
+  "fallback": {
+    "404": "404 - page not found",
+    "redirect": "back to home"
   }
 }

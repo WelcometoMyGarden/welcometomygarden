@@ -22,8 +22,12 @@
   import Step3 from '../images/step-3.svg';
 
   function handleLearnMoreClick() {
-    const stepsSection = document.getElementById('steps-section');
-    stepsSection.scrollIntoView({ behavior: 'smooth' });
+    const navBarHeight = parseInt(
+      getComputedStyle(document.getElementById('navigation')).getPropertyValue('height'),
+      10
+    );
+    const topOfStepsSection = document.getElementById('steps-section').offsetTop - navBarHeight;
+    window.scroll({ top: topOfStepsSection, behavior: 'smooth' });
   }
 
   let festivalBannerShown = !getCookie('festival-banner-dismissed');
@@ -537,6 +541,7 @@
 
   .faq-questions {
     width: 50%;
+    display: flex;
   }
   .faq-intro h1 {
     color: var(--color-white);

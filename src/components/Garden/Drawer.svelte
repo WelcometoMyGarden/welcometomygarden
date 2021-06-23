@@ -30,19 +30,21 @@
 
   function dragBarCatch() {
     previousOffsetCursor = 0;
+    document.body.style = 'overscroll-behavior: contain';
   }
 
   function dragBarMove({ detail }) {
     if (previousOffsetCursor !== null) {
-      drawerElement.style.height = `${drawerElement.offsetHeight -
-        previousOffsetCursor +
-        detail.y}px`;
+      drawerElement.style.height = `${
+        drawerElement.offsetHeight - previousOffsetCursor + detail.y
+      }px`;
       previousOffsetCursor = detail.y;
     }
   }
 
   function dragBarRelease() {
     previousOffsetCursor = null;
+    document.body.style = 'overscroll-behavior: auto';
   }
 
   $: facilities = [
@@ -86,7 +88,7 @@
     }
   };
 
-  const handleClickOutsideDrawer = event => {
+  const handleClickOutsideDrawer = (event) => {
     const { clickEvent } = event.detail;
     // if closing maginified photo view, don't close drawer
     if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) return;
@@ -132,12 +134,14 @@
     bind:this={photoWrapper}
     on:click={() => {
       isShowingMagnifiedPhoto = false;
-    }}>
+    }}
+  >
     <div class="magnified-photo">
       <img
         alt={$_('generics.garden')}
         src={biggerPhotoUrl}
-        on:click={() => (isShowingMagnifiedPhoto = false)} />
+        on:click={() => (isShowingMagnifiedPhoto = false)}
+      />
     </div>
   </div>
 {/if}
@@ -146,13 +150,15 @@
   class={drawerClasses}
   bind:this={drawerElement}
   use:clickOutside
-  on:click-outside={handleClickOutsideDrawer}>
+  on:click-outside={handleClickOutsideDrawer}
+>
   <div
     class="drag-area"
     use:draggable
     on:dragstart={dragBarCatch}
     on:drag={dragBarMove}
-    on:dragend={dragBarRelease}>
+    on:dragend={dragBarRelease}
+  >
     <div class="drag-bar" />
   </div>
   {#if ready}
@@ -221,7 +227,8 @@
           href={`${routes.CHAT}?with=${garden.id}`}
           disabled={!$user || garden.unclaimed}
           uppercase
-          medium>
+          medium
+        >
           {$_('garden.drawer.guest.button')}
         </Button>
       {/if}

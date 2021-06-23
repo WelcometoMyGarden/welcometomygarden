@@ -29,7 +29,7 @@
   ];
 </script>
 
-<nav>
+<nav id="navigation">
   <ul class="main">
     <li>
       <a href={routes.HOME} class:active={$isActive('/index')}>
