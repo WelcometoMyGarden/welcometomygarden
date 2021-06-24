@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "wtmg-production"
+    "default": "wtmg-dev",
+    "prod": "wtmg-production"
   }
 }
