@@ -5,6 +5,7 @@
   "scripts": {
     "build": "cross-env routify -b --dynamic-imports && rollup -c",
     "build:prod": "cross-env NODE_ENV=production yarn run build",
+    "build:staging": "cross-env NODE_ENV=staging yarn run build",
     "dev": "cross-env BUNDLING=dynamic run-p routify nollup",
     "start": "sirv dist --single",
     "deploy": "yarn run build && firebase deploy",
