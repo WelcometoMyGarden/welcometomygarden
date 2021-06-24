@@ -1,14 +1,13 @@
 {
-  "MAPBOX_ACCESS_TOKEN": "",
-  "MAPTILER_ACCESS_TOKEN": "",
-  "FIREBASE": {
-     "apiKey": "",
-     "authDomain": "",
-     "databaseURL": "",
-     "projectId": "",
-     "storageBucket": "",
-     "messagingSenderId": "",
-     "appId": ""
-  },
-  "USE_API_EMULATOR": false
+  "USE_API_EMULATOR": false,
+  "MAPBOX_ACCESS_TOKEN": null,
+  "MAPTILER_ACCESS_TOKEN": null,
+  "FIREBASE_API_KEY": null,
+  "FIREBASE_AUTH_DOMAIN": null,
+  "FIREBASE_DATABASE_URL": null,
+  "FIREBASE_PROJECT_ID": null,
+  "FIREBASE_STORAGE_BUCKET": null,
+  "FIREBASE_MESSAGING_SENDER_ID": null,
+  "FIREBASE_APP_ID": null,
+  "FIREBASE_MEASUREMENT_ID": ""
 }
