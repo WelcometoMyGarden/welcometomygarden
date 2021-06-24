@@ -1,4 +1,5 @@
 /* eslint-env node */
+/* eslint-disable no-console */
 import svelte from 'rollup-plugin-svelte-hot';
 import Hmr from 'rollup-plugin-hot';
 import resolve from '@rollup/plugin-node-resolve';
