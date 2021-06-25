@@ -42,5 +42,4 @@ wtmg.config*.json
 !wtmg.config.example.json
 
 
-.firebaserc
 firestore.rules
