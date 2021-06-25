@@ -19,7 +19,7 @@ jobs:
           FIREBASE_STORAGE_BUCKET: $${{env.FIREBASE_STORAGE_BUCKET}}
           FIREBASE_MESSAGING_SENDER_ID: $${{env.FIREBASE_MESSAGING_SENDER_ID}}
           FIREBASE_APP_ID: $${{env.FIREBASE_APP_ID}}
-          MAPBOX_ACCESS_TOKEN": $${{env.MAPBOX_ACCESS_TOKEN}}
+          MAPBOX_ACCESS_TOKEN: $${{env.MAPBOX_ACCESS_TOKEN}}
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
