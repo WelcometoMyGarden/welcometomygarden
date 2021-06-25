@@ -1,6 +1,6 @@
 <script>
   import { setContext, onMount } from 'svelte';
-  import mapboxgl from 'mapbox-gl';
+  import maplibregl from 'maplibre-gl';
   import { config } from '@/config';
   import key from './mapbox-context.js';
 
@@ -19,20 +19,19 @@
     getMap: () => map
   });
 
-  mapboxgl.accessToken = config.MAPBOX_ACCESS_TOKEN;
-  const mapStyle = 'mapbox://styles/mapbox/outdoors-v11';
+  maplibregl.accessToken = config.MAPBOX_ACCESS_TOKEN;
 
   onMount(() => {
-    map = new mapboxgl.Map({
+    map = new maplibregl.Map({
       container,
-      style: mapStyle,
+      style: 'mapbox://styles/mapbox/outdoors-v11?optimize=true',
       center: [lon, lat],
       zoom,
       attributionControl: false
     });
 
-    map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left');
-    map.addControl(new mapboxgl.AttributionControl({ compact: false }));
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-left');
+    map.addControl(new maplibregl.AttributionControl({ compact: false }));
   });
 
   $: if (recenterOnUpdate && map && initialLat !== lat && initialLon !== lon) {
@@ -49,7 +48,10 @@
 </script>
 
 <svelte:head>
-  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css" />
+  <link
+    href="https://cdn.maptiler.com/maplibre-gl-js/v1.13.0-rc.4/mapbox-gl.css"
+    rel="stylesheet"
+  />
 </svelte:head>
 
 <div bind:this={container}>
