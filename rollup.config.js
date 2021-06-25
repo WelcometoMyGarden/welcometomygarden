@@ -1,4 +1,5 @@
 /* eslint-env node */
+/* eslint-disable no-console */
 import svelte from 'rollup-plugin-svelte-hot';
 import Hmr from 'rollup-plugin-hot';
 import resolve from '@rollup/plugin-node-resolve';
@@ -20,7 +21,39 @@ const DIST_DIR = 'dist';
 const BUILD_DIR = 'dist/build';
 
 const env = process.env.NODE_ENV || 'development';
-const wtmgConfig = require(env === 'development' ? './wtmg.config.json' : `./wtmg.config.${env}.json`);
+
+const defaultConfig = require('./wtmg.config.example.json');
+let wtmgConfig = null;
+try {
+  wtmgConfig = require(env === 'development' ? './wtmg.config.json' : `./wtmg.config.${env}.json`);
+} catch (ex) {
+  wtmgConfig = {};
+  console.log(
+    'No config file found, defaulting to environment variables and default configuration'
+  );
+}
+/*
+  Sets the environment & configuration variables
+  Will use environment variables first, then config file values, then the default value
+  Values that are null in the default config must be provided (they are required for the project to run)
+*/
+Object.keys(defaultConfig).forEach((key) => {
+  // if env variable is set, replace
+  if (key in process.env) {
+    wtmgConfig[key] = process.env[key];
+    return;
+  }
+
+  // if no env variable is set, but config value is set, all good
+  if (key in wtmgConfig && wtmgConfig[key] != null) return;
+
+  // use default config as last resort
+  if (defaultConfig[key] != null) {
+    wtmgConfig[key] = defaultConfig[key];
+    return;
+  }
+  console.error(`No value found for required configuration key "${key}"`);
+});
 
 export default () => {
   rimraf.sync(DIST_DIR);

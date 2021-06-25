@@ -945,5 +945,9 @@
       "contribute": "Draag bij",
       "rethink": "Herdenk"
     }
+  },
+  "fallback": {
+    "404": "404 - pagina niet gevonden",
+    "redirect": "terug naar de startpagina"
   }
 }
