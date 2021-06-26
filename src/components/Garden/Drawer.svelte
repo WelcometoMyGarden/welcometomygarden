@@ -54,6 +54,7 @@
       if (garden.photo) {
         const id = garden.previousPhotoId || garden.id;
         photoUrl = await getGardenPhotoSmall({ ...garden, id });
+        console.log(photoUrl);
       }
     } catch (ex) {
       console.log(ex);
@@ -138,20 +139,20 @@
 >
   {#if gardenIsSelected && infoHasLoaded}
     <section class="main">
-      <Text class="mb-l" weight="bold" size="l">
-        {#if ownedByLoggedInUser}
-          {$_('garden.drawer.owner.your-garden')}
-        {:else}{userInfo.firstName}{/if}
-      </Text>
-      {#if garden.photo}
-        <button on:click={magnifyPhoto} class="mb-l button-container image-container">
-          {#if photoUrl}
-            <div>
+      <header>
+        <Text class="mb-l" weight="bold" size="l">
+          {#if ownedByLoggedInUser}
+            {$_('garden.drawer.owner.your-garden')}
+          {:else}{userInfo.firstName}{/if}
+        </Text>
+        {#if garden.photo}
+          <button on:click={magnifyPhoto} class="mb-l button-container image-wrapper">
+            {#if photoUrl}
               <Image src={photoUrl} />
-            </div>
-          {/if}
-        </button>
-      {/if}
+            {/if}
+          </button>
+        {/if}
+      </header>
       <div class="drawer-content-area">
         <div class="description">
           <Text class="mb-l">{garden.description}</Text>
@@ -174,42 +175,42 @@
           </p>
         {/if}
       </div>
-    </section>
-    <footer class="footer mt-m">
-      {#if userInfo.languages}
-        <Text class="mb-m">
-          {userInfo.firstName} speaks
-          <Text is="span" weight="bold">Dutch & English</Text>
-        </Text>
-      {/if}
-      {#if ownedByLoggedInUser}
-        <Button href={routes.MANAGE_GARDEN} uppercase medium>
-          {$_('garden.drawer.owner.button')}
-        </Button>
-      {:else}
-        {#if !$user}
-          <p class="cta-hint">
-            {@html $_('garden.drawer.guest.login', {
-              values: {
-                signInLink: `<a class='link' href=${routes.SIGN_IN}>${$_(
-                  'garden.drawer.guest.sign-link-text'
-                )}</a>`
-              }
-            })}
-          </p>
-        {:else if garden.unclaimed}
-          <p class="cta-hint">{$_('garden.drawer.unclaimed')}</p>
+      <footer class="footer mt-m">
+        {#if userInfo.languages}
+          <Text class="mb-m">
+            {userInfo.firstName} speaks
+            <Text is="span" weight="bold">Dutch & English</Text>
+          </Text>
         {/if}
-        <Button
-          href={`${routes.CHAT}?with=${garden.id}`}
-          disabled={!$user || garden.unclaimed}
-          uppercase
-          medium
-        >
-          {$_('garden.drawer.guest.button')}
-        </Button>
-      {/if}
-    </footer>
+        {#if ownedByLoggedInUser}
+          <Button href={routes.MANAGE_GARDEN} uppercase medium>
+            {$_('garden.drawer.owner.button')}
+          </Button>
+        {:else}
+          {#if !$user}
+            <p class="cta-hint">
+              {@html $_('garden.drawer.guest.login', {
+                values: {
+                  signInLink: `<a class='link' href=${routes.SIGN_IN}>${$_(
+                    'garden.drawer.guest.sign-link-text'
+                  )}</a>`
+                }
+              })}
+            </p>
+          {:else if garden.unclaimed}
+            <p class="cta-hint">{$_('garden.drawer.unclaimed')}</p>
+          {/if}
+          <Button
+            href={`${routes.CHAT}?with=${garden.id}`}
+            disabled={!$user || garden.unclaimed}
+            uppercase
+            medium
+          >
+            {$_('garden.drawer.guest.button')}
+          </Button>
+        {/if}
+      </footer>
+    </section>
   {:else if !infoHasLoaded}
     <SkeletonDrawer />
   {/if}
@@ -228,8 +229,7 @@
     min-height: 45rem;
     max-height: 80%;
     z-index: 200;
-    padding: 3rem 2rem;
-    box-sizing: border-box;
+    padding: 3rem 2rem 0;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
     border-top-left-radius: 1rem;
     border-bottom-left-radius: 1rem;
@@ -241,10 +241,46 @@
     right: -38rem;
   }
 
+  .main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .drawer-content-area {
+    overflow-y: auto;
+  }
+
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem 0;
+  }
+
+  .image-wrapper {
+    width: 6rem;
+    height: 6rem;
+    background-color: var(--color-beige);
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .image-wrapper:hover {
+    cursor: zoom-in;
+  }
+
   @media screen and (max-height: 800px) {
     .drawer {
       max-height: calc(var(--vh, 1vh) * 65);
       top: calc(var(--height-nav) + 2rem);
+    }
+  }
+
+  @media screen and (min-width: 700px) {
+    .main {
+      min-height: 30rem;
     }
   }
 
@@ -253,41 +289,33 @@
       min-height: auto;
       max-height: calc(var(--vh, 1vh) * 70);
       top: auto;
-      left: 0;
-      right: 0;
+      right: auto;
       bottom: 0;
+      transform: none;
       width: 100%;
       border-top-right-radius: 2rem;
       border-top-left-radius: 2rem;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
+      transition: transform 250ms;
     }
     .drawer.hidden {
-      bottom: -(calc(var(--vh, 1vh) * 70));
+      right: 0;
+      transform: translateY(100rem);
+    }
+
+    .drawer-content-area {
+      margin-top: 1.2rem;
+    }
+
+    .image-wrapper {
+      position: absolute;
+      top: 1.5rem;
+      right: 3rem;
+      margin-bottom: 0;
     }
   }
 
-  .main {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  }
-
-  .drawer-content-area {
-    overflow-y: auto;
-    max-height: 50vh;
-  }
-
-  @media screen and (min-width: 700px) {
-    .main {
-      min-height: 30rem;
-    }
-  }
-  .footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
   .badges-container {
     display: flex;
     flex-wrap: wrap;
@@ -298,23 +326,6 @@
   .description {
     max-width: 45rem;
     word-wrap: break-word;
-  }
-
-  .image-container {
-    width: 6rem;
-    height: 6rem;
-    background-color: var(--color-beige);
-    margin-bottom: 2rem;
-    border-radius: 1rem;
-  }
-
-  .image-container > div {
-    width: 100%;
-    height: 100%;
-  }
-
-  .image-container:hover {
-    cursor: zoom-in;
   }
 
   .magnified-photo-wrapper {

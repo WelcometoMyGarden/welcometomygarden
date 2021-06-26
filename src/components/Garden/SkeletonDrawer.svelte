@@ -26,21 +26,30 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    position: relative;
   }
 
-  @media screen and (min-width: 700px) {
-    .main {
-      min-height: 30rem;
-    }
-  }
-  .skeleton-name {
-    width: 100%;
-    height: 3rem;
-  }
   .skeleton-photo {
     width: 6rem;
     height: 6rem;
     margin-bottom: 2rem;
+  }
+  @media screen and (max-width: 700px) {
+    .main {
+      min-height: 30rem;
+    }
+
+    .skeleton-photo {
+      position: absolute;
+      top: -1.5rem;
+      right: 0;
+      margin: 0;
+    }
+  }
+
+  .skeleton-name {
+    width: 75%;
+    height: 3rem;
   }
   .skeleton-description {
     height: 2rem;
@@ -62,6 +71,7 @@
   .description {
     max-width: 45rem;
     word-wrap: break-word;
+    margin-top: 1.2rem;
   }
 
   .badges-container {
