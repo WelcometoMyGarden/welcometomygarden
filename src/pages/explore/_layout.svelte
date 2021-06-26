@@ -67,7 +67,8 @@
       <GardenLayer
         on:garden-click={(e) => selectGarden(e.detail)}
         selectedGardenId={selectedGarden ? selectedGarden.id : null}
-        allGardens={$allGardens} />
+        allGardens={$allGardens}
+      />
       <Drawer on:close={closeDrawer} garden={selectedGarden} />
       <WaymarkedTrails {showHiking} {showCycling} />
       <slot />
@@ -94,14 +95,16 @@
         name="hiking"
         icon={hikerIcon}
         label={$_('map.trails.hiking')}
-        bind:checked={showHiking} />
+        bind:checked={showHiking}
+      />
     </div>
     <div>
       <LabeledCheckbox
         name="cycling"
         icon={cyclistIcon}
         label={$_('map.trails.cycling')}
-        bind:checked={showCycling} />
+        bind:checked={showCycling}
+      />
     </div>
     <span class="attribution">
       {@html $_('map.trails.attribution', { values: { link: attributionLinkTrails } })}
@@ -214,7 +217,7 @@
       height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
     }
     .map-section :global(.mapboxgl-ctrl-top-left) {
-      top: calc(var(--height-nav) + 0.5rem);
+      top: 1rem;
     }
 
     .map-section :global(.mapboxgl-ctrl-bottom-right) {

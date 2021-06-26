@@ -148,26 +148,28 @@
           {/if}
         </button>
       {/if}
-      <div class="description">
-        <Text class="mb-l">{garden && garden.description}</Text>
+      <div class="drawer-content-area">
+        <div class="description">
+          <Text class="mb-l">{garden && garden.description}</Text>
+        </div>
+        <div class="badges-container">
+          {#each facilities as facility (facility.name)}
+            {#if garden && garden.facilities[facility.name]}
+              <Badge icon={facility.icon}>{facility.label}</Badge>
+            {/if}
+          {/each}
+        </div>
+        {#if garden && garden.facilities.capacity}
+          <p class="mt-m capacity">
+            {@html $_('garden.drawer.facilities.capacity', {
+              values: {
+                capacity: garden.facilities.capacity,
+                styleCapacity: `<strong>${garden.facilities.capacity}</strong>`
+              }
+            })}
+          </p>
+        {/if}
       </div>
-      <div class="badges-container">
-        {#each facilities as facility (facility.name)}
-          {#if garden && garden.facilities[facility.name]}
-            <Badge icon={facility.icon}>{facility.label}</Badge>
-          {/if}
-        {/each}
-      </div>
-      {#if garden && garden.facilities.capacity}
-        <p class="mt-m capacity">
-          {@html $_('garden.drawer.facilities.capacity', {
-            values: {
-              capacity: garden.facilities.capacity,
-              styleCapacity: `<strong>${garden.facilities.capacity}</strong>`
-            }
-          })}
-        </p>
-      {/if}
     </section>
     <footer class="footer mt-m">
       {#if userInfo.languages}
@@ -253,6 +255,13 @@
     right: -38rem;
   }
 
+  @media screen and (max-height: 800px) {
+    .drawer {
+      max-height: calc(var(--vh, 1vh) * 60);
+      top: calc(var(--height-nav) + 2rem);
+    }
+  }
+
   @media screen and (max-width: 700px) {
     .drawer {
       top: auto;
@@ -265,7 +274,7 @@
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
       min-height: auto;
-      max-height: calc(var(--vh, 1vh) * 80);
+      max-height: calc(var(--vh, 1vh) * 70);
       overflow-y: hidden;
       transition: transform 250ms;
     }
@@ -279,6 +288,11 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+  }
+
+  .drawer-content-area {
+    overflow-y: auto;
+    max-height: 50vh;
   }
 
   @media screen and (min-width: 700px) {
@@ -296,7 +310,6 @@
     flex-wrap: wrap;
     /* Negative margin compensate the Badge components margins */
     margin-top: calc(0.8rem * -1);
-    margin-left: calc(0.8rem * -1);
   }
 
   .description {
