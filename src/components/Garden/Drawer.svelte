@@ -226,7 +226,6 @@
     right: 0;
     background-color: white;
     width: 38rem;
-    min-height: 45rem;
     max-height: 80%;
     z-index: 200;
     padding: 3rem 2rem 0;
@@ -273,14 +272,16 @@
 
   @media screen and (max-height: 800px) {
     .drawer {
-      max-height: calc(var(--vh, 1vh) * 65);
-      top: calc(var(--height-nav) + 2rem);
+      max-height: 70%;
     }
-  }
-
-  @media screen and (min-width: 700px) {
-    .main {
-      min-height: 30rem;
+    .drawer-content-area {
+      margin-top: 1.2rem;
+    }
+    .image-wrapper {
+      position: absolute;
+      top: 1.5rem;
+      right: 3rem;
+      margin-bottom: 0;
     }
   }
 

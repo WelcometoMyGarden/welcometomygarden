@@ -3,22 +3,26 @@
 </script>
 
 <section class="main">
-  <div class="skeleton mb-l skeleton-name" />
-  <div class="skeleton skeleton-photo" />
-  <div class="description">
-    <div class="skeleton skeleton-description" />
-    <div class="skeleton skeleton-description" />
-    <div class="skeleton skeleton-description" />
+  <header>
+    <div class="skeleton mb-l skeleton-name" />
+    <div class="skeleton skeleton-photo" />
+  </header>
+  <div>
+    <div class="description">
+      <div class="skeleton skeleton-description" />
+      <div class="skeleton skeleton-description" />
+      <div class="skeleton skeleton-description" />
+    </div>
+    <div class="badges-container skeleton-badges">
+      <Badge isSkeleton />
+      <Badge isSkeleton />
+      <Badge isSkeleton />
+      <Badge isSkeleton />
+      <Badge isSkeleton />
+      <Badge isSkeleton />
+    </div>
   </div>
-  <div class="badges-container skeleton-badges">
-    <Badge isSkeleton />
-    <Badge isSkeleton />
-    <Badge isSkeleton />
-    <Badge isSkeleton />
-    <Badge isSkeleton />
-    <Badge isSkeleton />
-  </div>
-  <div class="skeleton footer mt-ms skeleton-cta" />
+  <footer class="skeleton footer mt-ms skeleton-cta" />
 </section>
 
 <style>
@@ -27,8 +31,9 @@
     flex-direction: column;
     flex-grow: 1;
     position: relative;
+    overflow: hidden;
+    height: 30rem;
   }
-
   .skeleton-photo {
     width: 6rem;
     height: 6rem;
@@ -65,7 +70,6 @@
     height: 5rem;
     width: 12rem;
     align-self: center;
-    margin-top: auto;
   }
 
   .description {
