@@ -1,9 +1,10 @@
 <script>
   export let garden = null;
 
-  import { _ } from 'svelte-i18n';
   import { createEventDispatcher } from 'svelte';
   import { scale } from 'svelte/transition';
+  import { _ } from 'svelte-i18n';
+  import SkeletonDrawer from './SkeletonDrawer.svelte';
   import { getPublicUserProfile } from '@/api/user';
   import { getGardenPhotoSmall, getGardenPhotoBig } from '@/api/garden';
   import { user } from '@/stores/auth';
@@ -21,12 +22,7 @@
 
   const dispatch = createEventDispatcher();
 
-  let drawerElement;
-  let photoWrapper;
-
-  $: hasHiddenClass = garden ? '' : 'hidden';
-  $: drawerClasses = `drawer ${hasHiddenClass}`;
-
+  $: gardenIsSelected = !!garden;
   $: facilities = [
     { name: 'water', icon: waterIcon, label: $_('garden.facilities.labels.water') },
     {
@@ -45,16 +41,13 @@
     { name: 'tent', icon: tentIcon, label: $_('garden.facilities.labels.tent') }
   ];
 
-  let userInfo = {};
+  let drawerElement;
+  let photoWrapper;
+  let userInfo = null;
   let photoUrl = null;
   let biggerPhotoUrl = null;
+  let infoHasLoaded = false;
 
-  $: if (garden) {
-    userInfo = {};
-    photoUrl = null;
-    biggerPhotoUrl = null;
-  }
-  let ready = false;
   const setAllGardenInfo = async () => {
     try {
       userInfo = await getPublicUserProfile(garden.id);
@@ -64,22 +57,27 @@
       }
     } catch (ex) {
       console.log(ex);
-      ready = true;
     }
   };
 
-  const handleClickOutsideDrawer = (event) => {
-    const { clickEvent } = event.detail;
-    // if closing maginified photo view, don't close drawer
-    if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) return;
-    // if showing/hiding trails, don't close drawer
-    else if (
-      (clickEvent.target instanceof HTMLInputElement && clickEvent.target.type == 'checkbox') ||
-      clickEvent.target.tagName == 'LABEL'
-    )
-      return;
-    else if (!drawerElement.contains(clickEvent.target)) dispatch('close');
-  };
+  let previousGarden = {};
+  $: if (garden && garden.id !== previousGarden.id) {
+    infoHasLoaded = false;
+    userInfo = null;
+    previousGarden = garden;
+  }
+
+  $: if (garden) {
+    infoHasLoaded = false;
+    userInfo = null;
+    photoUrl = null;
+    biggerPhotoUrl = null;
+    setAllGardenInfo().then(() => {
+      infoHasLoaded = true;
+    });
+  }
+
+  $: ownedByLoggedInUser = $user && garden && $user.id === garden.id;
 
   let isShowingMagnifiedPhoto = false;
   let isGettingMagnifiedPhoto = false;
@@ -97,13 +95,18 @@
     isGettingMagnifiedPhoto = false;
   };
 
-  let previousGarden = {};
-  $: if (garden && garden.id !== previousGarden.id) {
-    ready = false;
-    previousGarden = garden;
-  }
-  $: if (garden) setAllGardenInfo().then(() => (ready = true));
-  $: ownedByLoggedInUser = $user && garden && $user.id === garden.id;
+  const handleClickOutsideDrawer = (event) => {
+    const { clickEvent } = event.detail;
+    // if closing maginified photo view, don't close drawer
+    if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) return;
+    // if showing/hiding trails, don't close drawer
+    else if (
+      (clickEvent.target instanceof HTMLInputElement && clickEvent.target.type == 'checkbox') ||
+      clickEvent.target.tagName == 'LABEL'
+    )
+      return;
+    else if (!drawerElement.contains(clickEvent.target)) dispatch('close');
+  };
 </script>
 
 <Progress active={isGettingMagnifiedPhoto} />
@@ -127,19 +130,20 @@
 {/if}
 
 <div
-  class={drawerClasses}
+  class="drawer"
+  class:hidden={!gardenIsSelected}
   bind:this={drawerElement}
   use:clickOutside
   on:click-outside={handleClickOutsideDrawer}
 >
-  {#if ready}
+  {#if gardenIsSelected && infoHasLoaded}
     <section class="main">
       <Text class="mb-l" weight="bold" size="l">
         {#if ownedByLoggedInUser}
           {$_('garden.drawer.owner.your-garden')}
         {:else}{userInfo.firstName}{/if}
       </Text>
-      {#if garden && garden.photo}
+      {#if garden.photo}
         <button on:click={magnifyPhoto} class="mb-l button-container image-container">
           {#if photoUrl}
             <div>
@@ -150,16 +154,16 @@
       {/if}
       <div class="drawer-content-area">
         <div class="description">
-          <Text class="mb-l">{garden && garden.description}</Text>
+          <Text class="mb-l">{garden.description}</Text>
         </div>
         <div class="badges-container">
           {#each facilities as facility (facility.name)}
-            {#if garden && garden.facilities[facility.name]}
+            {#if garden.facilities[facility.name]}
               <Badge icon={facility.icon}>{facility.label}</Badge>
             {/if}
           {/each}
         </div>
-        {#if garden && garden.facilities.capacity}
+        {#if garden.facilities.capacity}
           <p class="mt-m capacity">
             {@html $_('garden.drawer.facilities.capacity', {
               values: {
@@ -178,11 +182,11 @@
           <Text is="span" weight="bold">Dutch & English</Text>
         </Text>
       {/if}
-      {#if garden && ownedByLoggedInUser}
+      {#if ownedByLoggedInUser}
         <Button href={routes.MANAGE_GARDEN} uppercase medium>
           {$_('garden.drawer.owner.button')}
         </Button>
-      {:else if garden}
+      {:else}
         {#if !$user}
           <p class="cta-hint">
             {@html $_('garden.drawer.guest.login', {
@@ -206,30 +210,15 @@
         </Button>
       {/if}
     </footer>
-  {:else}
-    <section class="main">
-      <div class="skeleton mb-l skeleton-name" />
-      <div class="skeleton skeleton-photo" />
-      <div class="description">
-        <div class="skeleton skeleton-description" />
-        <div class="skeleton skeleton-description" />
-        <div class="skeleton skeleton-description" />
-      </div>
-      <div class="badges-container skeleton-badges">
-        <Badge isSkeleton />
-        <Badge isSkeleton />
-        <Badge isSkeleton />
-        <Badge isSkeleton />
-        <Badge isSkeleton />
-        <Badge isSkeleton />
-      </div>
-      <div class="skeleton footer mt-ms skeleton-cta" />
-    </section>
+  {:else if !infoHasLoaded}
+    <SkeletonDrawer />
   {/if}
 </div>
 
 <style>
   .drawer {
+    display: flex;
+    flex-direction: column;
     position: absolute;
     font-family: var(--fonts-copy);
     top: 50%;
@@ -239,16 +228,13 @@
     min-height: 45rem;
     max-height: 80%;
     z-index: 200;
-    transform: translate(0, -50%);
-    padding: 3rem;
+    padding: 3rem 2rem;
     box-sizing: border-box;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
     border-top-left-radius: 1rem;
     border-bottom-left-radius: 1rem;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
+    transform: translateY(-50%);
     transition: right 250ms;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
   }
 
   .drawer.hidden {
@@ -257,30 +243,27 @@
 
   @media screen and (max-height: 800px) {
     .drawer {
-      max-height: calc(var(--vh, 1vh) * 60);
+      max-height: calc(var(--vh, 1vh) * 65);
       top: calc(var(--height-nav) + 2rem);
     }
   }
 
   @media screen and (max-width: 700px) {
     .drawer {
+      min-height: auto;
+      max-height: calc(var(--vh, 1vh) * 70);
       top: auto;
-      right: auto;
+      left: 0;
+      right: 0;
       bottom: 0;
-      transform: none;
       width: 100%;
       border-top-right-radius: 2rem;
       border-top-left-radius: 2rem;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
-      min-height: auto;
-      max-height: calc(var(--vh, 1vh) * 70);
-      overflow-y: hidden;
-      transition: transform 250ms;
     }
     .drawer.hidden {
-      right: 0;
-      transform: translateY(100rem);
+      bottom: -(calc(var(--vh, 1vh) * 70));
     }
   }
 
@@ -357,32 +340,6 @@
   .magnified-photo img {
     max-width: 100%;
     max-height: 100%;
-  }
-
-  .skeleton-name {
-    width: 100%;
-    height: 3rem;
-  }
-  .skeleton-photo {
-    width: 6rem;
-    height: 6rem;
-    margin-bottom: 2rem;
-  }
-  .skeleton-description {
-    height: 2rem;
-    width: 100%;
-    margin-bottom: 0.8rem;
-  }
-  .skeleton-badges {
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-    padding: 0 1rem;
-  }
-  .skeleton-cta {
-    height: 5rem;
-    width: 12rem;
-    align-self: center;
-    margin-top: auto;
   }
 
   .capacity {

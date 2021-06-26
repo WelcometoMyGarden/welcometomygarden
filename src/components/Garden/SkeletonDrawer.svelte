@@ -58,4 +58,16 @@
     align-self: center;
     margin-top: auto;
   }
+
+  .description {
+    max-width: 45rem;
+    word-wrap: break-word;
+  }
+
+  .badges-container {
+    display: flex;
+    flex-wrap: wrap;
+    /* Negative margin compensate the Badge components margins */
+    margin-left: calc(0.8rem * -1);
+  }
 </style>
