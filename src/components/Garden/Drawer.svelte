@@ -1,9 +1,9 @@
 <script>
   export let garden = null;
 
-  import { _, locale } from 'svelte-i18n';
+  import { _ } from 'svelte-i18n';
   import { createEventDispatcher } from 'svelte';
-  import { scale, fade } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
   import { getPublicUserProfile } from '@/api/user';
   import { getGardenPhotoSmall, getGardenPhotoBig } from '@/api/garden';
   import { user } from '@/stores/auth';
