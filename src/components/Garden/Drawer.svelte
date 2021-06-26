@@ -7,7 +7,7 @@
   import { getPublicUserProfile } from '@/api/user';
   import { getGardenPhotoSmall, getGardenPhotoBig } from '@/api/garden';
   import { user } from '@/stores/auth';
-  import { draggable, clickOutside } from '@/directives';
+  import { clickOutside } from '@/directives';
   import { Text, Badge, Image, Button, Progress } from '../UI';
   import {
     bonfireIcon,
@@ -23,29 +23,9 @@
 
   let drawerElement;
   let photoWrapper;
-  let previousOffsetCursor = null;
 
   $: hasHiddenClass = garden ? '' : 'hidden';
   $: drawerClasses = `drawer ${hasHiddenClass}`;
-
-  function dragBarCatch() {
-    previousOffsetCursor = 0;
-    document.body.style = 'overscroll-behavior: contain';
-  }
-
-  function dragBarMove({ detail }) {
-    if (previousOffsetCursor !== null) {
-      drawerElement.style.height = `${
-        drawerElement.offsetHeight - previousOffsetCursor + detail.y
-      }px`;
-      previousOffsetCursor = detail.y;
-    }
-  }
-
-  function dragBarRelease() {
-    previousOffsetCursor = null;
-    document.body.style = 'overscroll-behavior: auto';
-  }
 
   $: facilities = [
     { name: 'water', icon: waterIcon, label: $_('garden.facilities.labels.water') },
@@ -152,15 +132,6 @@
   use:clickOutside
   on:click-outside={handleClickOutsideDrawer}
 >
-  <div
-    class="drag-area"
-    use:draggable
-    on:dragstart={dragBarCatch}
-    on:drag={dragBarMove}
-    on:dragend={dragBarRelease}
-  >
-    <div class="drag-bar" />
-  </div>
   {#if ready}
     <section class="main">
       <Text class="mb-l" weight="bold" size="l">
@@ -302,27 +273,6 @@
       right: 0;
       transform: translateY(100rem);
     }
-  }
-
-  .drag-area {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    padding: 2rem 2rem 1rem 2rem;
-    transform: translateX(-50%);
-    cursor: ns-resize;
-  }
-
-  @media screen and (min-width: 700px) {
-    .drag-area {
-      display: none;
-    }
-  }
-
-  .drag-bar {
-    width: 40px;
-    height: 3px;
-    background-color: var(--color-beige);
   }
 
   .main {
