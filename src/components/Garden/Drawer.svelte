@@ -54,7 +54,6 @@
       if (garden.photo) {
         const id = garden.previousPhotoId || garden.id;
         photoUrl = await getGardenPhotoSmall({ ...garden, id });
-        console.log(photoUrl);
       }
     } catch (ex) {
       console.log(ex);
@@ -238,6 +237,7 @@
 
   .drawer.hidden {
     right: -38rem;
+    min-height: 30rem;
   }
 
   .main {
