@@ -32,23 +32,30 @@
     flex-grow: 1;
     position: relative;
     overflow: hidden;
-    height: 30rem;
+    height: 40rem;
   }
+
+  header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+  }
+
   .skeleton-photo {
     width: 6rem;
     height: 6rem;
-    margin-bottom: 2rem;
   }
+
   @media screen and (max-width: 700px) {
     .main {
-      min-height: 30rem;
+      height: 35rem;
     }
 
-    .skeleton-photo {
-      position: absolute;
-      top: -1.5rem;
-      right: 0;
-      margin: 0;
+    header {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
     }
   }
 
@@ -75,7 +82,6 @@
   .description {
     max-width: 45rem;
     word-wrap: break-word;
-    margin-top: 1.2rem;
   }
 
   .badges-container {
