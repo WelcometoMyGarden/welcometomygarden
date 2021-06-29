@@ -23,9 +23,3 @@
     return () => map.removeControl(geocoder);
   });
 </script>
-
-<svelte:head>
-  <link
-    rel="stylesheet"
-    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css" />
-</svelte:head>

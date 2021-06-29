@@ -80,7 +80,8 @@
       lat={coordinates.latitude}
       lon={coordinates.longitude}
       on:dragged={onMarkerDragged}
-      filled={locationConfirmed} />
+      filled={locationConfirmed}
+    />
   </Map>
 </div>
 {#if !locationConfirmed}
@@ -93,7 +94,8 @@
           type="text"
           name="street"
           on:blur={setAddressField}
-          value={address.street} />
+          value={address.street}
+        />
       </div>
       <div>
         <label for="house-number">{$_('garden.form.location.house-number')}</label>
@@ -109,7 +111,8 @@
           type="text"
           name="region"
           value={address.region}
-          on:blur={setAddressField} />
+          on:blur={setAddressField}
+        />
       </div>
       <div>
         <label for="postal-code">{$_('garden.form.location.postal-code')}</label>
@@ -118,7 +121,8 @@
           type="text"
           name="postalCode"
           value={address.postalCode}
-          on:blur={setAddressField} />
+          on:blur={setAddressField}
+        />
       </div>
     </div>
 
@@ -130,7 +134,8 @@
           type="text"
           name="city"
           value={address.city}
-          on:blur={setAddressField} />
+          on:blur={setAddressField}
+        />
       </div>
       <div>
         <label for="country">{$_('garden.form.location.country')}</label>
@@ -169,6 +174,10 @@
     position: absolute;
     bottom: 0.5rem;
     left: 0.5rem;
+  }
+
+  .map-container :global(.mapboxgl-ctrl-bottom-left) {
+    bottom: 5rem;
   }
 
   @media screen and (max-width: 700px) {

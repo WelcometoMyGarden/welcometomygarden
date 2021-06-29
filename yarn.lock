@@ -523,7 +523,7 @@
     "@rollup/pluginutils" "^3.0.8"
     magic-string "^0.25.5"
 
-"@rollup/pluginutils@^3.0.0", "@rollup/pluginutils@^3.0.10", "@rollup/pluginutils@^3.0.8", "@rollup/pluginutils@^3.1.0":
+"@rollup/pluginutils@^3.0.10", "@rollup/pluginutils@^3.0.8", "@rollup/pluginutils@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-3.1.0.tgz#706b4524ee6dc8b103b3c995533e5ad680c02b9b"
   integrity sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==
@@ -2826,10 +2826,10 @@ map-obj@^4.0.0:
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-4.1.0.tgz#b91221b542734b9f14256c0132c897c5d7256fd5"
   integrity sha512-glc9y00wgtwcDmp7GaE/0b0OnxpNJsVf3ael/An6Fe2Q51LLwN1er6sdomLRzz5h0+yMpiYLhWYF5R7HeqVd4g==
 
-mapbox-gl@^1.10.1:
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/mapbox-gl/-/mapbox-gl-1.11.1.tgz#063e72b591d506b6b1f483df563e3e48cd0a971b"
-  integrity sha512-UjXpPUTUzHTLfhl5dLefwV3Jgu7DN9phpn8RnnkQVe1sOXfVYMS5Vhjn225krhzRc7xnKIBHxLyu0rHZGyeXuQ==
+maplibre-gl@^1.14.1-rc.2:
+  version "1.14.1-rc.2"
+  resolved "https://registry.yarnpkg.com/maplibre-gl/-/maplibre-gl-1.14.1-rc.2.tgz#b1b833dee2f09202bc585a5758e06bda34069f97"
+  integrity sha512-2ZAjKWfqWRoUVd/gRc61r9jNVx2Xy4874RNlJNlP4lnDDhqRqlGSAhMGn3adCMaXPHLRuUz2Fl3KIZderbGIOg==
   dependencies:
     "@mapbox/geojson-rewind" "^0.5.0"
     "@mapbox/geojson-types" "^1.0.2"
@@ -3873,14 +3873,6 @@ rollup-plugin-copy@^3.3.0:
     fs-extra "^8.1.0"
     globby "10.0.1"
     is-plain-object "^3.0.0"
-
-rollup-plugin-css-only@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-css-only/-/rollup-plugin-css-only-2.1.0.tgz#b9e8505eb01c5257b5eab65bd51eec9050bed9a3"
-  integrity sha512-pfdcqAWEmRMFy+ABXAQPA/DKyPqLuBTOf+lWSOgtrVs1v/q7DSXzYa9QZg4myd8/1F7NHcdvPkWnfWqMxq9vrw==
-  dependencies:
-    "@rollup/pluginutils" "^3.0.0"
-    fs-extra "^9.0.0"
 
 rollup-plugin-hot-nollup@^0.1.0:
   version "0.1.1"
