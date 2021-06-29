@@ -1,7 +1,6 @@
 {
   "USE_API_EMULATOR": false,
   "MAPBOX_ACCESS_TOKEN": null,
-  "MAPTILER_ACCESS_TOKEN": null,
   "FIREBASE_API_KEY": null,
   "FIREBASE_AUTH_DOMAIN": null,
   "FIREBASE_DATABASE_URL": null,

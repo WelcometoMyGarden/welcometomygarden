@@ -1,6 +1,11 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-const { createUser, requestPasswordReset, resendAccountVerification } = require('./auth');
+const {
+  createUser,
+  requestPasswordReset,
+  resendAccountVerification,
+  cleanupUserOnDelete
+} = require('./auth');
 const { onChatCreate } = require('./chat');
 
 admin.initializeApp();
@@ -12,3 +17,5 @@ exports.resendAccountVerification = functions.https.onCall(resendAccountVerifica
 exports.notifyOnChat = functions.firestore
   .document('chats/{chatId}/{messages}/{messageId}')
   .onCreate(onChatCreate);
+
+exports.cleanupUserOnDelete = functions.auth.user().onDelete(cleanupUserOnDelete);

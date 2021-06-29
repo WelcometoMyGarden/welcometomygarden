@@ -135,6 +135,10 @@
     padding: 1rem;
   }
 
+  .map-section :global(.mapboxgl-ctrl-bottom-left) {
+    bottom: 9rem;
+  }
+
   .attribution {
     font-size: 1.2rem;
     margin-top: 1rem;
