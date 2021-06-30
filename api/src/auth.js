@@ -141,3 +141,19 @@ exports.resendAccountVerification = async (data, context) => {
   });
   await sendAccountVerificationEmail(user.email, user.displayName, link);
 };
+
+exports.cleanupUserOnDelete = async (user) => {
+  const userId = user.uid;
+  const db = admin.firestore();
+
+  const batch = db.batch();
+
+  batch.delete(db.doc(`campsites/${userId}`));
+  batch.delete(db.doc(`users-private/${userId}`));
+
+  try {
+    await batch.commit();
+  } catch (ex) {
+    console.error(ex);
+  }
+};

@@ -11,7 +11,7 @@ Problems, feedback or questions are welcome in [issues](https://github.com/Welco
 
 Create `wtmg.config.json` file and make sure it has the values specified in [`wtmg.config.example.json`](https://github.com/WelcometoMyGarden/welcometomygarden/blob/master/wtmg.config.example.json).
 
-You will need a Mapbox and Maptiler access token if you'd like to work on features that concern the map.
+You will need a Mapbox access token if you'd like to work on features that concern the map.
 
 
 ## Usage
