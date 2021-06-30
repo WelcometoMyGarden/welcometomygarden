@@ -221,7 +221,7 @@
       height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
     }
     .map-section :global(.mapboxgl-ctrl-top-left) {
-      top: calc(var(--height-nav) + 0.5rem);
+      top: 1rem;
     }
 
     .map-section :global(.mapboxgl-ctrl-bottom-right) {
