@@ -6,7 +6,7 @@ const {
   resendAccountVerification,
   cleanupUserOnDelete
 } = require('./auth');
-const { onChatCreate } = require('./chat');
+const { onMessageCreate, onChatCreate } = require('./chat');
 
 admin.initializeApp();
 
@@ -16,6 +16,6 @@ exports.resendAccountVerification = functions.https.onCall(resendAccountVerifica
 
 exports.notifyOnChat = functions.firestore
   .document('chats/{chatId}/{messages}/{messageId}')
-  .onCreate(onChatCreate);
+  .onCreate(onMessageCreate);
 
 exports.cleanupUserOnDelete = functions.auth.user().onDelete(cleanupUserOnDelete);
