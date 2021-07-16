@@ -22,5 +22,9 @@ exports.notifyOnChat = functions.firestore
 exports.createUser = functions.https.onCall(createUser);
 exports.cleanupUserOnDelete = functions.auth.user().onDelete(cleanupUserOnDelete);
 
-exports.onCampsiteCreate = functions.auth.user().onCreate(onCampsiteCreate);
-exports.onCampsiteDelete = functions.auth.user().onDelete(onCampsiteDelete);
+exports.onCampsiteCreate = functions.firestore
+  .document('campsites/{campsiteId}')
+  .onCreate(onCampsiteCreate);
+exports.onCampsiteDelete = functions.firestore
+  .document('campsites/{campsiteId}')
+  .onDelete(onCampsiteDelete);
