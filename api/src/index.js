@@ -14,8 +14,10 @@ exports.createUser = functions.https.onCall(createUser);
 exports.requestPasswordReset = functions.https.onCall(requestPasswordReset);
 exports.resendAccountVerification = functions.https.onCall(resendAccountVerification);
 
+exports.onChatCreate = functions.firestore.document('chats/{chatId}').onCreate(onChatCreate);
 exports.notifyOnChat = functions.firestore
   .document('chats/{chatId}/{messages}/{messageId}')
   .onCreate(onMessageCreate);
 
+exports.onUserCreate = functions.auth.user().onCreate(onUserCreate);
 exports.cleanupUserOnDelete = functions.auth.user().onDelete(cleanupUserOnDelete);
