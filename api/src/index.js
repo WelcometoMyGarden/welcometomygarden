@@ -9,20 +9,22 @@ const {
   verifyEmail,
   updateEmail
 } = require('./auth');
+const { doBackup } = require('./storage');
 const { onMessageCreate, onChatCreate } = require('./chat');
 const { onCampsiteCreate, onCampsiteDelete } = require('./campsites');
 const { exportNewsletterEmails } = require('./mail');
 
 admin.initializeApp();
 
-exports.requestPasswordReset = functions.https.onCall(requestPasswordReset);
-exports.resendAccountVerification = functions.https.onCall(resendAccountVerification);
-
 exports.onChatCreate = functions.firestore.document('chats/{chatId}').onCreate(onChatCreate);
 exports.notifyOnChat = functions.firestore
   .document('chats/{chatId}/{messages}/{messageId}')
   .onCreate(onMessageCreate);
 
+exports.scheduledFirestoreBackup = functions.pubsub.schedule('every 6 hours').onRun(doBackup);
+
+exports.requestPasswordReset = functions.https.onCall(requestPasswordReset);
+exports.resendAccountVerification = functions.https.onCall(resendAccountVerification);
 exports.createUser = functions.https.onCall(createUser);
 exports.cleanupUserOnDelete = functions.auth.user().onDelete(cleanupUserOnDelete);
 exports.setAdminRole = functions.https.onCall(setAdminRole);
