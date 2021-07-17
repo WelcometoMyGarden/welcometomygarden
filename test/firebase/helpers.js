@@ -20,9 +20,10 @@ exports.setup = async (auth, data) => {
 
   // Write mock documents with test rules
   if (data) {
-    for (const key in data) {
-      const ref = db.doc(key);
-      await ref.set(data[key]);
+    for (const [collectionName, collections] of Object.entries(data)) {
+      for (const [documentId, doc] of Object.entries(collections)) {
+        await db.collection(collectionName).doc(documentId).set(doc);
+      }
     }
   }
 
