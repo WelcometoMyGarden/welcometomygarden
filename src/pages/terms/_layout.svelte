@@ -24,7 +24,8 @@
     font-family: var(--fonts-copy);
   }
 
-  .content :global(h4:not(.t4), .t3) {
+  .content :global(h4:not(.t4)),
+  .content :global(.t3) {
     font-size: 1.6rem;
     line-height: 3.2rem;
     margin: 1.2rem 0;
