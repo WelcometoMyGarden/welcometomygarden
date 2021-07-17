@@ -16,3 +16,8 @@ export { default as tentIcon } from './tent.svg';
 export { default as toiletIcon } from './toilet.svg';
 export { default as userIcon } from './user.svg';
 export { default as waterIcon } from './water.svg';
+export { default as calendarIcon } from './calendar.svg';
+export { default as clockIcon } from './clock.svg';
+export { default as arrowIcon } from './arrow.svg';
+export { default as lineIcon } from './line.svg';
+export { default as binocularsIcon } from './binoculars.svg';

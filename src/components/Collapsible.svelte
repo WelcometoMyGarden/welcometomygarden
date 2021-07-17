@@ -4,14 +4,14 @@
 </script>
 
 <button class="button button-container" on:click>
-  <div class="collapsible-item">
+  <div class="collapsible-item" class:green-border-bottom={!open}>
     <div class="title">
       <slot name="title" />
     </div>
     <span class="sign">{open ? '-' : '+'}</span>
   </div>
   {#if open}
-    <div transition:slide={{ duration: 300 }}>
+    <div transition:slide={{ duration: 300 }} class="green-border-bottom">
       <div class="content">
         <slot name="content" />
       </div>
@@ -24,9 +24,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
     color: var(--color-green);
     padding: 2.4rem 4.8rem;
+  }
+
+  .green-border-bottom {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   }
 
   .title {
@@ -36,7 +39,7 @@
 
   .content {
     font-weight: normal;
-    padding: 2.4rem 4.8rem;
+    padding: 0 4.8rem 2.4rem 4.8rem;
     max-width: 60rem;
   }
 

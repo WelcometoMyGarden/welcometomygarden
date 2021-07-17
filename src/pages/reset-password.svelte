@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import { goto, params } from '@sveltech/routify';
   import AuthContainer from '@/components/AuthContainer.svelte';
   import notify from '@/stores/notification';
@@ -18,7 +19,7 @@
       // if password reset was successful, sign user in:
       await login($params.email, password.value);
 
-      notify.success('Your password was reset succesfully');
+      notify.success($_('reset-password.succes'));
       $goto(routes.MAP);
     } catch (err) {
       console.log(err);
@@ -30,14 +31,14 @@
 <Progress active={isResetting} />
 
 <svelte:head>
-  <title>Set a new password | Welcome To My Garden</title>
+  <title>{$_('reset-password.title')} | Welcome To My Garden</title>
 </svelte:head>
 
 <AuthContainer>
-  <span slot="title">Set a new password</span>
+  <span slot="title">{$_('reset-password.title')}</span>
 
   <form slot="form" on:submit|preventDefault={submit}>
-    <label for="password">Password</label>
+    <label for="password">{$_('generics.password')}</label>
     <TextInput
       icon={lockIcon}
       type="password"
@@ -46,7 +47,7 @@
       autocomplete="new-password"
       bind:value={password.value} />
 
-    <Button type="submit" medium>Update password</Button>
+    <Button type="submit" medium>{$_('reset-password.update')}</Button>
   </form>
 </AuthContainer>
 

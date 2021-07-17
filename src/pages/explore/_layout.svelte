@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import { onMount, onDestroy } from 'svelte';
   import { goto, params } from '@sveltech/routify';
   import { getAllListedGardens } from '@/api/garden';
@@ -19,7 +20,7 @@
 
   let carNoticeShown = !getCookie('car-notice-dismissed');
 
-  const selectGarden = garden => {
+  const selectGarden = (garden) => {
     const newSelectedId = garden.id;
     const newGarden = $allGardens[newSelectedId];
     center = [newGarden.location.longitude, newGarden.location.latitude];
@@ -55,6 +56,8 @@
 
   let showHiking = false;
   let showCycling = false;
+
+  const attributionLinkTrails = `<a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>`;
 </script>
 
 <Progress active={$isFetchingGardens} />
@@ -62,9 +65,10 @@
   <Map lat={center[1]} lon={center[0]} recenterOnUpdate zoom="7">
     {#if !$isFetchingGardens}
       <GardenLayer
-        on:garden-click={e => selectGarden(e.detail)}
+        on:garden-click={(e) => selectGarden(e.detail)}
         selectedGardenId={selectedGarden ? selectedGarden.id : null}
-        allGardens={$allGardens} />
+        allGardens={$allGardens}
+      />
       <Drawer on:close={closeDrawer} garden={selectedGarden} />
       <WaymarkedTrails {showHiking} {showCycling} />
       <slot />
@@ -79,11 +83,8 @@
           <div class="image-container">
             <img src="/images/no-car.svg" alt="No vehicle allowed" />
           </div>
-          <h3>Welcome To My Garden is for slow travellers only.</h3>
-          <p class="mt-m">
-            If you're planning to travel by motorized vehicle, please do not contact hosts via this
-            platform. Thank you for understanding!
-          </p>
+          <h3>{$_('map.vehicle-notice.title')}</h3>
+          <p class="mt-m">{$_('map.vehicle-notice.text')}</p>
         </div>
       </div>
     {/if}
@@ -93,19 +94,20 @@
       <LabeledCheckbox
         name="hiking"
         icon={hikerIcon}
-        label="Show hiking routes"
-        bind:checked={showHiking} />
+        label={$_('map.trails.hiking')}
+        bind:checked={showHiking}
+      />
     </div>
     <div>
       <LabeledCheckbox
         name="cycling"
         icon={cyclistIcon}
-        label="Show cycling routes"
-        bind:checked={showCycling} />
+        label={$_('map.trails.cycling')}
+        bind:checked={showCycling}
+      />
     </div>
     <span class="attribution">
-      Trails courtesy of
-      <a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>
+      {@html $_('map.trails.attribution', { values: { link: attributionLinkTrails } })}
     </span>
   </div>
 </div>
@@ -133,13 +135,17 @@
     padding: 1rem;
   }
 
+  .map-section :global(.mapboxgl-ctrl-bottom-left) {
+    bottom: 9rem;
+  }
+
   .attribution {
     font-size: 1.2rem;
     margin-top: 1rem;
     display: inline-block;
   }
 
-  .attribution a {
+  .attribution :global(a) {
     text-decoration: underline;
   }
 
@@ -215,7 +221,7 @@
       height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
     }
     .map-section :global(.mapboxgl-ctrl-top-left) {
-      top: calc(var(--height-nav) + 0.5rem);
+      top: 1rem;
     }
 
     .map-section :global(.mapboxgl-ctrl-bottom-right) {

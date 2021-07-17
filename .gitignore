@@ -32,12 +32,14 @@ node_modules
 public/data
 public/build
 public/bundle
+dist
 
 .env*
 .firebase
 wtmg.config*.js
 !wtmg.config.example.js
+wtmg.config*.json
+!wtmg.config.example.json
 
 
-.firebaserc
 firestore.rules
