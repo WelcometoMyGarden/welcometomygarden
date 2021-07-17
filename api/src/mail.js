@@ -1,5 +1,6 @@
+const admin = require('firebase-admin');
 const functions = require('firebase-functions');
-
+const { parseAsync } = require('json2csv');
 const sendgrid = require('@sendgrid/mail');
 
 const API_KEY = functions.config().sendgrid.key;
@@ -51,3 +52,57 @@ exports.sendMessageReceivedEmail = (email, firstName, senderName, message, messa
 
   return send(msg);
 };
+
+const fail = (code, message = '') => {
+  throw new functions.https.HttpsError(code, message || code);
+};
+
+exports.exportNewsletterEmails = functions.https.onCall(async (_, context) => {
+  if (!context.auth) {
+    return fail('unauthenticated');
+  }
+
+  const { uid } = context.auth;
+  const adminUser = await admin.auth().getUser(uid);
+  if (!adminUser.customClaims || !adminUser.customClaims.admin) {
+    return fail('permission-denied');
+  }
+
+  const spliceIntoChunks = (arr, chunkSize) => {
+    const res = [];
+    while (arr.length > 0) {
+      const chunk = arr.splice(0, chunkSize);
+      res.push(chunk);
+    }
+    return res;
+  };
+
+  const db = admin.firestore();
+
+  const snapshot = await db.collection('users-private').get();
+  const ids = [];
+  snapshot.forEach((u) => {
+    const user = u.data();
+    if (user.emailPreferences.news) ids.push({ uid: u.id });
+  });
+
+  // Firebase has a limit on how many ids you can pass to getUsers at once, so we chunk operations
+  const queue = [];
+  const chunks = spliceIntoChunks(ids, 90);
+  chunks.forEach((chunk) => {
+    queue.push(admin.auth().getUsers(chunk));
+  });
+
+  const chunkedResolved = await Promise.all(queue);
+  const emails = [];
+  chunkedResolved.forEach((resolved) => {
+    resolved.users.forEach((user) => {
+      emails.push({ email: user.email });
+    });
+    resolved.notFound.forEach(() => {
+      // run delete
+    });
+  });
+
+  return parseAsync(emails, { fields: ['email'] });
+});
