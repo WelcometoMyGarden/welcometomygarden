@@ -5,6 +5,7 @@
   "env": {
     "node": true
   },
+  "root": true,
   "rules": {
     "prettier/prettier": ["error"],
     "comma-dangle": ["error", "never"],
