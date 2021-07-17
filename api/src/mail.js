@@ -57,7 +57,7 @@ const fail = (code, message = '') => {
   throw new functions.https.HttpsError(code, message || code);
 };
 
-exports.exportNewsletterEmails = functions.https.onCall(async (_, context) => {
+exports.exportNewsletterEmails = async (_, context) => {
   if (!context.auth) {
     return fail('unauthenticated');
   }
@@ -105,4 +105,4 @@ exports.exportNewsletterEmails = functions.https.onCall(async (_, context) => {
   });
 
   return parseAsync(emails, { fields: ['email'] });
-});
+};
