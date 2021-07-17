@@ -83,6 +83,11 @@ exports.createUser = async (data, context) => {
         }
       });
 
+    await db
+      .collection('stats')
+      .doc('users')
+      .update({ count: admin.firestore.FieldValue.increment(1) });
+
     const link = await admin.auth().generateEmailVerificationLink(email, {
       url: `${functions.config().frontend.url}/account`
     });
@@ -153,6 +158,10 @@ exports.cleanupUserOnDelete = async (user) => {
 
   try {
     await batch.commit();
+    await db
+      .collection('stats')
+      .doc('users')
+      .update({ count: admin.firestore.FieldValue.increment(-1) });
   } catch (ex) {
     console.error(ex);
   }
