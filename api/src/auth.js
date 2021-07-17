@@ -3,11 +3,11 @@ const functions = require('firebase-functions');
 const countries = require('./countries');
 const { sendAccountVerificationEmail, sendPasswordResetEmail } = require('./mail');
 
-exports.createUser = async (data, context) => {
-  const fail = (code) => {
-    throw new functions.https.HttpsError(code);
-  };
+const fail = (code) => {
+  throw new functions.https.HttpsError(code);
+};
 
+exports.createUser = async (data, context) => {
   if (!context.auth) {
     fail('unauthenticated');
   }
@@ -83,6 +83,11 @@ exports.createUser = async (data, context) => {
         }
       });
 
+    await db
+      .collection('stats')
+      .doc('users')
+      .update({ count: admin.firestore.FieldValue.increment(1) });
+
     const link = await admin.auth().generateEmailVerificationLink(email, {
       url: `${functions.config().frontend.url}/account`
     });
@@ -153,7 +158,66 @@ exports.cleanupUserOnDelete = async (user) => {
 
   try {
     await batch.commit();
+    await db
+      .collection('stats')
+      .doc('users')
+      .update({ count: admin.firestore.FieldValue.increment(-1) });
   } catch (ex) {
     console.error(ex);
   }
+};
+
+exports.setAdminRole = async (data, context) => {
+  if (!context.auth) {
+    return fail('unauthenticated');
+  }
+
+  const { uid } = context.auth;
+  const adminUser = await admin.auth().getUser(uid);
+  if (!adminUser.customClaims || !adminUser.customClaims.admin) {
+    return fail('permission-denied');
+  }
+
+  const { newStatus } = data;
+  const user = await admin.auth().getUserByEmail(data.email);
+  admin.auth().setCustomUserClaims(user.uid, { admin: newStatus });
+
+  return { message: `${data.email} admin status set successfully.` };
+};
+
+exports.verifyEmail = async ({ email }, context) => {
+  if (!context.auth) {
+    return fail('unauthenticated');
+  }
+
+  const { uid } = context.auth;
+  const adminUser = await admin.auth().getUser(uid);
+  if (!adminUser.customClaims || !adminUser.customClaims.admin) {
+    return fail('permission-denied');
+  }
+
+  const userToUpdate = await admin.auth().getUserByEmail(email);
+  await admin.auth().updateUser(userToUpdate.uid, {
+    emailVerified: true
+  });
+  return { message: `${email} was verified` };
+};
+
+exports.updateEmail = async ({ oldEmail, newEmail }, context) => {
+  if (!context.auth) {
+    return fail('unauthenticated');
+  }
+
+  const { uid } = context.auth;
+  const adminUser = await admin.auth().getUser(uid);
+  if (!adminUser.customClaims || !adminUser.customClaims.admin) {
+    return fail('permission-denied');
+  }
+
+  const userToUpdate = await admin.auth().getUserByEmail(oldEmail);
+  await admin.auth().updateUser(userToUpdate.uid, {
+    email: newEmail,
+    emailVerified: true
+  });
+  return { message: `${oldEmail} was changed to ${newEmail}` };
 };
