@@ -4,8 +4,6 @@
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
   import { Button } from '../components/UI';
-  import SlowTravelMiniFestival from '../components/Temporary/SlowTravelMiniFestival.svelte';
-  import FestivalBanner from '../components/Temporary/FestivalBanner.svelte';
   import { getArrayFromLocale, transKeyExists } from '@/util';
   import { user } from '@/stores/auth';
 
