@@ -160,7 +160,7 @@
 
 <div class="map-section">
   {#if initialLocation}
-    <Map lon={center.longitude} lat={center.latitude} recenterOnUpdate {zoom}>
+    <Map lon={center.longitude} lat={center.latitude} recenterOnUpdate zoom="7">
       {#if !$isFetchingGardens}
         <GardenLayer
           on:garden-click={(e) => selectGarden(e.detail)}
