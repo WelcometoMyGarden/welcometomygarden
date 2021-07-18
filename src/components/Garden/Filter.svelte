@@ -2,7 +2,7 @@
   import { beforeUpdate } from 'svelte';
   import { LabeledCheckbox, Button, Modal } from '@/components/UI';
 
-  //because filter has a 2 way binding, if filter is modified somewhere the fx is called
+  // because filter has a 2 way binding, if filter is modified somewhere the fx is called
   beforeUpdate(() => {
     filteredGardens = returnFilteredGardens();
   });
@@ -69,7 +69,8 @@
   {stickToBottom}
   nopadding={stickToBottom}
   ariaLabelledBy="title"
-  let:ariaLabelledBy>
+  let:ariaLabelledBy
+>
   <div slot="title" class="gardenFilterTitleSection" id={ariaLabelledBy}>
     <h2 id="gardenFilterTitle">Filter</h2>
   </div>
@@ -95,7 +96,12 @@
         <div class="gardenFilterCapacityModifier">
           <p>Min.</p>
           <button on:click={capacityMinReduce}>-</button>
-          <p id="capacity">{filter.capacity.min}</p>
+          <input
+            type="number"
+            class="capacity-input"
+            name="capacity"
+            bind:value={filter.capacity.min}
+          />
           <button on:click={capacityMinIncrease}>+</button>
         </div>
       </div>
@@ -180,9 +186,12 @@
     text-align: center;
   }
 
-  #capacity {
+  .capacity-input {
     font-weight: bold;
+    border: none;
     border-bottom: 2px solid var(--color-green);
+    width: 5rem;
+    text-align: center;
   }
 
   @media screen and (max-width: 400px) {
