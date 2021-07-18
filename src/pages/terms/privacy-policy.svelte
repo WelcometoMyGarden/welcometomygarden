@@ -1,13 +1,7 @@
 <script>
-  import { _, locale } from 'svelte-i18n';
-  import { getArrayFromLocale, supportEmailLinkString } from '@/util';
+  import { _, json } from 'svelte-i18n';
+  import { supportEmailLinkString } from '@/util';
   import { Ol } from '@/components/UI';
-
-  $: definitions = getArrayFromLocale('privacy-policy.definitions.articles', $locale);
-  $: personalDataCollected = getArrayFromLocale(
-    'privacy-policy.personal-data.collection.sources',
-    $locale
-  );
 </script>
 
 <svelte:head>
@@ -40,12 +34,12 @@
     <h3 class="title t3">{$_('privacy-policy.personal-data.collection.title')}</h3>
     <p class="info">{$_('privacy-policy.personal-data.collection.copy')}</p>
     <Ol>
-      {#each personalDataCollected as source}
+      {#each $json('privacy-policy.personal-data.collection.sources') as { title, list }}
         <li class="info-item p">
-          <h4 class="title t4">{source.title}</h4>
+          <h4 class="title t4">{title}</h4>
           <ul>
-            {#each Array(Object.keys(source).length - 1) as _, i}
-              <li class="info-item p">{source[`list.${i}`]}</li>
+            {#each list as s}
+              <li class="info-item p">{s}</li>
             {/each}
           </ul>
         </li>
@@ -56,15 +50,15 @@
     <h3 class="title t3">{$_('privacy-policy.personal-data.usage.title')}</h3>
     <p class="info">{$_('privacy-policy.personal-data.usage.subtitle')}</p>
     <ul>
-      {#each getArrayFromLocale('privacy-policy.personal-data.usage.purposes') as x, i}
-        <li class="info-item p">{$_(`privacy-policy.personal-data.usage.purposes.${i}`)}</li>
+      {#each $json('privacy-policy.personal-data.usage.purposes') as x}
+        <li class="info-item p">{x}</li>
       {/each}
     </ul>
     <p>
       {@html $_('privacy-policy.personal-data.usage.copy')}
     </p>
   </li>
-  {#each getArrayFromLocale('privacy-policy.personal-data.extra', $locale) as { title, copy }}
+  {#each $json('privacy-policy.personal-data.extra') as { title, copy }}
     <li class="h4">
       <h3 class="t3 title">{title}</h3>
       <p>{copy}</p>
@@ -74,7 +68,7 @@
     <h3 class="t3 title">{$_('privacy-policy.rights.title')}</h3>
     <p class="info p">{$_('privacy-policy.rights.copy')}</p>
     <Ol class="info-item">
-      {#each getArrayFromLocale('privacy-policy.rights.list', $locale) as { title, copy }}
+      {#each $json('privacy-policy.rights.list') as { title, copy }}
         <li class="p">
           <h4 class="t4 title">{title}</h4>
           <p class="info-item">{copy}</p>
@@ -93,15 +87,15 @@
 </Ol>
 
 <h3>{$_('privacy-policy.additional-info.title')}</h3>
-{#each getArrayFromLocale('privacy-policy.additional-info.infos', $locale) as item}
-  <h4>{item.title}</h4>
-  {#each Array(Object.keys(item).length - 1) as x, i}
-    <p>{item[`copy.${i}`]}</p>
+{#each $json('privacy-policy.additional-info.infos') as { title, copy }}
+  <h4>{title}</h4>
+  {#each copy as i}
+    <p>{i}</p>
   {/each}
 {/each}
 
 <h3>{$_('privacy-policy.definitions.title')}</h3>
-{#each definitions as { title, copy }}
+{#each $json('privacy-policy.definitions.articles') as { title, copy }}
   <h4>{title}</h4>
   <p>{copy}</p>
 {/each}
