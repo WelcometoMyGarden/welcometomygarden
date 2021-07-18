@@ -94,7 +94,7 @@
           <p>Tent spots available</p>
         </div>
         <div class="gardenFilterCapacityModifier">
-          <p>Min.</p>
+          <p>Minimum</p>
           <button on:click={capacityMinReduce}>-</button>
           <input
             type="number"
@@ -108,8 +108,9 @@
     </div>
   </div>
   <span slot="controls" class="applyGardenFilter">
-    <p class="light">{Object.values(filteredGardens).length} gardens</p>
-    <Button on:click={() => filterGardens()} medium uppercase>Apply filter</Button>
+    <p class="light">
+      <strong>{Object.values(filteredGardens).length}</strong> gardens available with the active filters.
+    </p>
   </span>
 </Modal>
 
