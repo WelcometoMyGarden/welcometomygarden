@@ -1,10 +1,10 @@
 <script>
-  import { _, locale } from 'svelte-i18n';
+  import { _, json } from 'svelte-i18n';
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
   import { Button } from '../components/UI';
-  import { getArrayFromLocale, transKeyExists } from '@/util';
+  import { transKeyExists } from '@/util';
   import { user } from '@/stores/auth';
 
   import Logo from '../images/logo.svg';
@@ -31,9 +31,6 @@
   smoothscroll.polyfill();
 
   const stepGraphics = [Step1, Step2, Step3];
-
-  $: steps = getArrayFromLocale('index.steps', $locale);
-  $: faqQuestions = getArrayFromLocale('index.faq.questions', $locale);
 </script>
 
 <svelte:head>
@@ -78,7 +75,7 @@
 </div>
 
 <section class="steps" id="steps-section">
-  {#each steps as { title }, i}
+  {#each $json('index.steps') as { title }, i}
     <div class="step">
       <div class="step-logo">
         {@html stepGraphics[i]}
@@ -114,7 +111,7 @@
     </p>
   </div>
   <div class="faq-questions">
-    <CollapsibleGroup collapsibles={faqQuestions} />
+    <CollapsibleGroup collapsibles={$json('index.faq.questions')} />
   </div>
 </section>
 
