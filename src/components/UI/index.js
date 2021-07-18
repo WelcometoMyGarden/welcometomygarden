@@ -10,3 +10,5 @@ export { default as Text } from './Text.svelte';
 export { default as TextInput } from './TextInput.svelte';
 export { default as Modal } from './Modal.svelte';
 export { default as Tag } from './Tag.svelte';
+export { default as Ol } from './Ol.svelte';
+export { default as Card } from './Card.svelte';

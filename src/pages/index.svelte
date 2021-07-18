@@ -4,22 +4,30 @@
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
   import { Button } from '../components/UI';
-  import { getArrayFromLocale } from '@/util';
+  import SlowTravelMiniFestival from '../components/Temporary/SlowTravelMiniFestival.svelte';
+  import FestivalBanner from '../components/Temporary/FestivalBanner.svelte';
+  import { getArrayFromLocale, transKeyExists } from '@/util';
   import { user } from '@/stores/auth';
 
   import Logo from '../images/logo.svg';
   import welcomeMap from '../images/welcome-map.svg';
   import ArrowDown from '../images/arrow-down.svg';
   import OKLogo from '../images/ok_logo.svg';
-  import VGCLogo from '../images/vgc_logo.svg';
+  import natuurpuntLogo from '../images/natuurpunt_logo.svg';
+  import groteRoutePadenLogo from '../images/groteroutepaden-logo.svg';
+  import GRSentiers from '../images/les-sentiers-de-grande-randonnee-logo.svg';
 
   import Step1 from '../images/step-1.svg';
   import Step2 from '../images/step-2.svg';
   import Step3 from '../images/step-3.svg';
 
   function handleLearnMoreClick() {
-    const stepsSection = document.getElementById('steps-section');
-    stepsSection.scrollIntoView({ behavior: 'smooth' });
+    const navBarHeight = parseInt(
+      getComputedStyle(document.getElementById('navigation')).getPropertyValue('height'),
+      10
+    );
+    const topOfStepsSection = document.getElementById('steps-section').offsetTop - navBarHeight;
+    window.scroll({ top: topOfStepsSection, behavior: 'smooth' });
   }
 
   smoothscroll.polyfill();
@@ -31,10 +39,10 @@
 </script>
 
 <svelte:head>
-  <title>Home | Welcome To My Garden</title>
+  <title>{$_('generics.home')} | Welcome To My Garden</title>
 </svelte:head>
 
-<section class="landing">
+<section class="landing" id="landing">
   <div class="welcome">
     <div class="welcome-logo">
       {@html Logo}
@@ -61,7 +69,7 @@
   </div>
 </section>
 
-<div class="learn-more">
+<div class="learn-more" id="learn-more">
   <span class="learn-more-text" aria-hidden>{$_('index.intro.learn-more')}</span>
   <button class="learn-more-button" on:click={handleLearnMoreClick}>
     <span class="screen-reader-only">{$_('index.intro.learn-more')}</span>
@@ -71,25 +79,40 @@
   </button>
 </div>
 
-<section id="steps-section" class="steps">
-  {#each steps as { title, copy }, i}
+<section class="steps" id="steps-section">
+  {#each steps as { title }, i}
     <div class="step">
       <div class="step-logo">
         {@html stepGraphics[i]}
       </div>
       <h2 class="step-header">{title}</h2>
       <p class="step-text">
-        {@html $_(`index.steps.${i}.copy`, { values: { addGardenLink: routes.ADD_GARDEN } })}
+        {@html $_(
+          `index.steps.${i}.copy`,
+          transKeyExists(`index.steps.${i}.add-garden-link-text`)
+            ? {
+                values: {
+                  addGardenLink: `<a href=${routes.ADD_GARDEN}>${$_(
+                    `index.steps.${i}.add-garden-link-text`
+                  )}</a>`
+                }
+              }
+            : undefined
+        )}
       </p>
     </div>
   {/each}
 </section>
 
-<section class="faq">
+<section class="faq" id="faq">
   <div class="card faq-intro">
     <h1 class="heading-underline-center">{$_('index.faq.title')}</h1>
     <p>
-      {@html $_('index.faq.copy', { values: { faqLink: routes.FAQ } })}
+      {@html $_('index.faq.copy', {
+        values: {
+          faqLink: `<a href=${routes.FAQ}>${$_(`index.faq.faq-link-text`)}</a>`
+        }
+      })}
     </p>
   </div>
   <div class="faq-questions">
@@ -97,19 +120,33 @@
   </div>
 </section>
 
-<section class="cooperation">
+<section class="cooperation" id="cooperation">
   <div class="card cooperation-card partners">
-    <h1 class="partner-header heading-underline-center">Our partners</h1>
+    <h1 class="partner-header heading-underline-center">{$_('index.partners.title')}</h1>
     <div class="partner-logos">
-      <div class="partner-logo ok-logo">
-        <a href="https://be.okfn.org/" class="partner-link">
-          {@html OKLogo}
-        </a>
+      <div>
+        <div class="partner-logo grsentier-logo">
+          <a href="https://grsentiers.org/" class="partner-link" target="_blank">
+            {@html GRSentiers}
+          </a>
+        </div>
+        <div class="partner-logo grouteroutepaden-logo">
+          <a href="https://www.groteroutepaden.be/" class="partner-link" target="_blank">
+            {@html groteRoutePadenLogo}
+          </a>
+        </div>
       </div>
-      <div class="partner-logo vgc-logo">
-        <a href="https://www.vgc.be/staycation" class="partner-link">
-          {@html VGCLogo}
-        </a>
+      <div>
+        <div class="partner-logo ok-logo">
+          <a href="https://be.okfn.org/" class="partner-link" target="_blank">
+            {@html OKLogo}
+          </a>
+        </div>
+        <div class="partner-logo natuurpunt-logo">
+          <a href="https://www.natuurpunt.be/" class="partner-link" target="_blank">
+            {@html natuurpuntLogo}
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -118,25 +155,15 @@
     <div class="cooperation-content">
       <h1 class="heading-underline-center">{$_('index.support.title')}</h1>
       <p>
-        {@html $_('index.support.copy')}
+        {@html $_('index.support.copy', {
+          values: {
+            donationLink: `<a href="https://opencollective.com/welcometomygarden/donate" target="_blank" rel="noopener noreferrer">${$_(
+              'index.support.donation-link-text'
+            )}</a>`
+          }
+        })}
       </p>
     </div>
-  </div>
-</section>
-
-<section class="donate-holiday">
-  <div class="donate-img-container summer-container">
-    <img src="/images/zomer-2020.svg" alt="Zomer van 2020" />
-  </div>
-  <div class="donate-copy">
-    <h1 class="heading-underline-center">{$_('index.holiday-donations.title')}</h1>
-    <p>{$_('index.holiday-donations.copy')}</p>
-    <Button medium uppercase href="https://dezomervan2020.be/doneer" target="_blank">
-      {$_('index.holiday-donations.link-text')}
-    </Button>
-  </div>
-  <div class="donate-img-container">
-    <img src="/images/hands-illustration.svg" alt={$_('index.holiday-donations.title')} />
   </div>
 </section>
 
@@ -161,6 +188,10 @@
 
   section {
     margin-bottom: 9rem;
+  }
+
+  section:last-child {
+    margin-bottom: 0;
   }
 
   p {
@@ -329,6 +360,7 @@
 
   .faq-questions {
     width: 50%;
+    display: flex;
   }
   .faq-intro h1 {
     color: var(--color-white);
@@ -357,56 +389,49 @@
     grid-template-rows: 0.5fr;
     text-align: center;
     width: 50%;
-    padding: 10rem 10rem 8rem 14rem;
+    padding: 10rem;
   }
 
   .partner-logos {
     display: flex;
+    flex-direction: column;
+  }
+
+  .partner-logos > div {
+    display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+
+  .partner-logos > div:last-child {
+    margin-bottom: 0;
   }
 
   .partner-logo {
-    width: 40%;
+    width: 30%;
     max-width: 18rem;
   }
 
-  .vgc-logo {
+  .natuurpunt-logo {
     max-width: 10rem;
+  }
+
+  .grouteroutepaden-logo {
+    max-width: 20rem;
   }
 
   .support {
     background-color: var(--color-beige-light);
   }
 
-  .donate-holiday {
-    text-align: center;
-    display: flex;
-    padding: 8rem;
-    align-items: center;
-  }
-
-  .donate-copy {
-    margin: 0 8rem;
-  }
-
-  .donate-img-container {
-    width: 50rem;
-  }
-
-  .donate-img-container img {
-    max-width: 100%;
-  }
-
   @media only screen and (max-width: 1500px) {
     .faq-intro {
-      padding: 6rem 12rem;
+      padding: 6rem 10rem;
     }
-    .summer-container {
-      display: none;
-    }
-    .donate-copy {
-      margin-left: 0;
+    h1 {
+      font-size: 3.4rem;
     }
   }
 
@@ -497,13 +522,6 @@
     .faq-intro {
       padding: 6rem 10rem 8rem;
     }
-    .donate-holiday {
-      flex-direction: column;
-      padding: 3rem;
-    }
-    .donate-copy {
-      margin: 0 0 5rem;
-    }
   }
 
   @media only screen and (max-width: 700px) {
@@ -548,10 +566,6 @@
     h1 {
       font-size: 2.2rem;
       line-height: 6.5rem;
-    }
-
-    .donate-img-container {
-      width: 20rem;
     }
   }
 

@@ -9,7 +9,7 @@
     flex-direction: column;
     max-width: 90rem;
     margin: 0 auto;
-    padding-bottom: 2rem;
+    padding-bottom: 8rem;
   }
 
   .info-page > :global(.intro) {

@@ -6,7 +6,7 @@ const { sendMessageReceivedEmail } = require('./mail');
 const normalizeMessage = (str) => str.replace(/\n\s*\n\s*\n/g, '\n\n');
 const normalizeName = (str) => removeDiacritics(str).toLowerCase();
 
-exports.onChatCreate = async (snap, context) => {
+exports.onMessageCreate = async (snap, context) => {
   const message = snap.data();
   const senderId = message.from;
   const { chatId } = context.params;
@@ -22,6 +22,11 @@ exports.onChatCreate = async (snap, context) => {
     .collection('unreads')
     .doc(chatId)
     .get();
+
+  await db
+    .collection('stats')
+    .doc('messages')
+    .update({ count: admin.firestore.FieldValue.increment(1) });
 
   const recipientDoc = await db.collection('users-private').doc(recipientId).get();
   const recipientEmailPreferences = recipientDoc.data().emailPreferences;
@@ -63,4 +68,12 @@ exports.onChatCreate = async (snap, context) => {
   } catch (ex) {
     console.log(ex);
   }
+};
+
+exports.onChatCreate = async () => {
+  const db = admin.firestore();
+  await db
+    .collection('stats')
+    .doc('chats')
+    .update({ count: admin.firestore.FieldValue.increment(1) });
 };

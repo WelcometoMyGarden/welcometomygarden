@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import { onMount, onDestroy } from 'svelte';
   import { goto, params } from '@sveltech/routify';
   import { getAllListedGardens } from '@/api/garden';
@@ -152,6 +153,7 @@
     }
     return activeFacilitiesFiltered;
   };
+  const attributionLinkTrails = `<a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>`;
 </script>
 
 <Progress active={$isFetchingGardens} />
@@ -163,14 +165,14 @@
         <GardenLayer
           on:garden-click={(e) => selectGarden(e.detail)}
           selectedGardenId={selectedGarden ? selectedGarden.id : null}
-          allGardens={filteredGardens || $allGardens} />
+          allGardens={filteredGardens || $allGardens}
+        />
         <Drawer on:close={closeDrawer} garden={selectedGarden} />
         <WaymarkedTrails {showHiking} {showCycling} />
         <slot />
       {/if}
     </Map>
   {/if}
-
   {#if carNoticeShown}
     <div class="vehicle-notice-wrapper">
       <button on:click={closeCarNotice} aria-label="Close notice" class="button-container close">
@@ -181,11 +183,8 @@
         <div class="image-container">
           <img src="/images/no-car.svg" alt="No vehicle allowed" />
         </div>
-        <h3>Welcome To My Garden is for slow travellers only.</h3>
-        <p class="mt-m">
-          If you're planning to travel by motorized vehicle, please do not contact hosts via this
-          platform. Thank you for understanding!
-        </p>
+        <h3>{$_('map.vehicle-notice.title')}</h3>
+        <p class="mt-m">{$_('map.vehicle-notice.text')}</p>
       </div>
     </div>
   {/if}
@@ -195,19 +194,20 @@
       <LabeledCheckbox
         name="hiking"
         icon={hikerIcon}
-        label="Show hiking routes"
-        bind:checked={showHiking} />
+        label={$_('map.trails.hiking')}
+        bind:checked={showHiking}
+      />
     </div>
     <div>
       <LabeledCheckbox
         name="cycling"
         icon={cyclistIcon}
-        label="Show cycling routes"
-        bind:checked={showCycling} />
+        label={$_('map.trails.cycling')}
+        bind:checked={showCycling}
+      />
     </div>
     <span class="attribution">
-      Trails courtesy of
-      <a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>
+      {@html $_('map.trails.attribution', { values: { link: attributionLinkTrails } })}
     </span>
   </div>
 
@@ -221,7 +221,8 @@
         uppercase
         on:click={() => {
           showFilterModal = true;
-        }}>
+        }}
+      >
         {@html filterIcon}
       </Button>
     </div>
@@ -232,7 +233,8 @@
             name={facility.name}
             icon={facility.icon}
             label={facility.label}
-            on:close={() => (filter.facilities[facility.name] = false)} />
+            on:close={() => (filter.facilities[facility.name] = false)}
+          />
         {/each}
         {#if allFiltersTag}
           <Tag
@@ -241,12 +243,12 @@
             on:click={() => {
               showFilterModal = true;
             }}
-            closeButton={false} />
+            closeButton={false}
+          />
         {/if}
       </div>
     {/if}
   </div>
-
 </div>
 
 <Filter
@@ -254,7 +256,8 @@
   allGardens={$allGardens}
   bind:filteredGardens
   {facilities}
-  bind:filter />
+  bind:filter
+/>
 
 <style>
   .map-section {
@@ -315,13 +318,17 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
   }
 
+  .map-section :global(.mapboxgl-ctrl-bottom-left) {
+    bottom: 9rem;
+  }
+
   .attribution {
     font-size: 1.2rem;
     margin-top: 1rem;
     display: inline-block;
   }
 
-  .attribution a {
+  .attribution :global(a) {
     text-decoration: underline;
   }
 
@@ -392,7 +399,19 @@
     z-index: 10;
   }
 
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 700px) {
+    .map-section {
+      height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
+    }
+    .map-section :global(.mapboxgl-ctrl-top-left) {
+      top: 1rem;
+    }
+
+    .map-section :global(.mapboxgl-ctrl-bottom-right) {
+      top: 0;
+      right: 0;
+    }
+
     .vehicle-notice-wrapper {
       height: 28rem;
     }

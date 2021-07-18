@@ -1,29 +1,59 @@
 {
   "tagline": "Een netwerk zonder winstoogmerk van burgers die gratis hun tuin openstellen voor trage reizigers die een kampeerplek zoeken.",
+  "generics": {
+    "password": "Wachtwoord",
+    "email": "E-mail",
+    "cookie-policy": "Cookiebeleid",
+    "privacy-policy": "Privacybeleid",
+    "terms-of-use": "Gebruiksvoorwaarden",
+    "home": "Startpagina",
+    "map": "Kaart",
+    "rules": "Regels",
+    "faq": {
+      "acronym": "FAQ",
+      "explicit": "Veelgestelde vragen"
+    },
+    "chat": "Chat",
+    "account": "Account",
+    "sign-out": "Uitloggen",
+    "sign-in": "Inloggen",
+    "garden": "Tuin"
+  },
+  "ui": {
+    "card": {
+      "register-here": "Registreer hier"
+    }
+  },
   "index": {
+    "banner-stmf": {
+      "copy": "Wil je je trage reis voorbereiden met de community en tegelijk Welcome To My Garden ondersteunen? Bekijk ons {stmfLink} (van 3 tot 29 juni)!",
+      "link": "Slow Travel Mini Festival"
+    },
     "intro": {
       "copy": "Een netwerk zonder winstoogmerk van burgers die hun tuin gratis beschikbaar stellen voor trage reizigers",
       "add-garden": "Voeg jouw tuin toe",
-      "explore-map": "Verken de map",
+      "explore-map": "Verken de kaart",
       "learn-more": "Ontdek meer"
     },
     "steps": [
       {
         "title": "Stap 1: Meld je aan om een host te worden of te vinden",
-        "copy": "Wil je je tuin openstellen? <a href=\"{addGardenLink}\">Voeg deze toe aan de kaart</a>. Op zoek naar een kampeerplek? Kies je favoriete tuin en contacteer je host! Spreek een datum en tijdstip af voor jouw verblijf en je bent vertrokken! "
+        "copy": "Wil je jouw tuin openstellen? {addGardenLink}. Op zoek naar een kampeerplek? Kies je favoriete tuin en contacteer je host! Spreek een datum en tijdstip af voor jouw verblijf en je bent vertrokken! ",
+        "add-garden-link-text": "Voeg deze toe aan de kaart"
       },
       {
-        "title": "Step 2: Plan je reis",
+        "title": "Stap 2: Plan je reis",
         "copy": "Nadat je afspraken gemaakt hebt met jouw host, stippel je de route uit naar je kampeerplek. Stel jezelf voor en zet je tent op voor de nacht."
       },
       {
-        "title": "Step 3: Geniet van de overnachting",
+        "title": "Stap 3: Geniet van de overnachting",
         "copy": "Geniet van jouw verblijf. Of dat nu op je eentje is, samen met vrienden of familie, en of je nog even gezellig wil chillen met de host - het is maar wat beide partijen verkiezen. Neem hartelijk afscheid en zet je fiets- of wandeltocht verder de volgende dag!"
       }
     ],
     "faq": {
       "title": "Alles wat je moet weten",
-      "copy": "Dit zijn de belangrijkste dingen die je moet weten over je volgende avontuur. Lees deze FAQ sectie met veelgestelde vragen aandachtig, zodat je weet waar je aan begint. Meer vragen? <a href=\"{faqLink}\">Lees meer in onze FAQ</a>",
+      "copy": "Dit zijn de belangrijkste dingen die je moet weten over je volgende avontuur. Lees deze FAQ sectie met veelgestelde vragen aandachtig, zodat je weet waar je aan begint. Meer vragen? {faqLink}",
+      "faq-link-text": "Lees meer in onze FAQ",
       "questions": [
         {
           "title": "Voor wie is Welcome To My Garden?",
@@ -52,12 +82,240 @@
     },
     "support": {
       "title": "Steun ons",
-      "copy": "Welcome To My Garden is gratis te gebruiken maar we hebben wel enkele rekeningen te betalen.  <a href=\"https://opencollective.com/welcometomygarden\" target=\"_blank\">Doe een donatie</a> om ons project te steunen."
+      "copy": "Welcome To My Garden is gratis te gebruiken maar we hebben wel enkele rekeningen te betalen.  {donationLink} om ons project te steunen.",
+      "donation-link-text": "Doe een donatie"
     },
     "holiday-donations": {
       "title": "Iedereen verdient vakantie",
       "copy": "Wist je dat 22% van de kinderen in Vlaanderen niet op vakantie kunnen? Zeker na de lockdown hebben ze meer dan ooit nood aan wat ademruimte. Dankzij jouw bijdrage kunnen de meest kwetsbare doelgroepen er ook even tussenuit.",
       "link-text": "Doneer nu"
+    }
+  },
+  "garden": {
+    "facilities": {
+      "labels": {
+        "water": "Water",
+        "drinkable-water": "Drinkbaar water",
+        "toilet": "Toilet",
+        "bonfire": "Kampvuur",
+        "electricity": "Elektriciteit",
+        "shower": "Douche",
+        "tent": "Tent"
+      }
+    },
+    "drawer": {
+      "facilities": {
+        "capacity": "Ruimte voor {styleCapacity} {capacity, plural, one {tent} other {tenten}}"
+      },
+      "owner": {
+        "your-garden": "jouw tuin",
+        "button": "Tuin beheren"
+      },
+      "guest": {
+        "button": "Contact host",
+        "login": "Je moet {signInLink} om contact op te kunnen nemen met de gastheren",
+        "sign-link-text": "inloggen"
+      },
+      "unclaimed": "Je kunt contact opnemen met deze host zodra zijn account is geverifieerd."
+    },
+    "add": {
+      "title": "Voeg jouw tuin toe"
+    },
+    "manage": {
+      "title": "Beheer jouw tuin"
+    },
+    "form": {
+      "title": "Voeg jouw tuin toe aan de kaart",
+      "auth-notice": "Je moet ingelogd zijn om jouw tuin aan de kaart toe te voegen. Ofwel {signInLink} of {registerLink}",
+      "sign-in-link-text": "Log in",
+      "register-link-text": "een account aanmaken",
+      "email-confirm-notice": "Je moet jouw e-mail controleren voordat je jouw tuin aan de kaart toevoegt. We hebben je een e-mail gestuurd toen je jouw account aanmaakte. Je kunt een verificatielink opnieuw versturen vanuit {accountLink}.",
+      "normal-notice": "Door het indienen van dit formulier wordt jouw tuin aan de kaart toegevoegd. Je kunt het te allen tijde beheren of verwijderen van {accountLink}.",
+      "account-link-text": "jouw account",
+      "location": {
+        "title": "Locatie (verplicht)",
+        "notice": "Verplaats de marker om de locatie van jouw tuin in te stellen. Je kunt de adresvelden invullen om de marker dichterbij te verplaatsen. <br /> Wij slaan jouw adresgegevens niet op.",
+        "coordinate-hint": "Zorg ervoor dat je de kaartmarkering naar de exacte locatie van jouw tuin hebt gesleept en op \"Bevestig pinlocatie\" hebt geklikt.",
+        "confirm-button": "Bevestig pinlocatie",
+        "adjust-button": "Aanpassen pinlocatie",
+        "street": "Straat",
+        "house-number": "Huisnummer",
+        "region": "Provincie of Staat",
+        "postal-code": "Postcode",
+        "city": "Stad",
+        "country": "Land"
+      },
+      "description": {
+        "title": "Beschrijf jouw kampeerplaats (verplicht)",
+        "notice": "Een korte beschrijving van jouw tuin en de kampeerplek die je kunt aanbieden. Deze informatie wordt in het openbaar weergegeven, dus vermeld hier geen persoonlijke gegevens. <br />jouw beschrijving moet tussen 20 en 300 karakters zijn.",
+        "hints": {
+          "too-short": "{remaining} nog {remaining, plural, one {karakter} other {karakters}}  nodig...",
+          "too-long": "{surplus} {surplus, plural, one {karakter} other {karakters}} te lang..."
+        },
+        "placeholder": "Voer de beschrijving in...",
+        "label": "Beschrijving"
+      },
+      "facilities": {
+        "title": "Voorzieningen",
+        "notice": "Tot welke voorzieningen hebben reizigers toegang?",
+        "capacity": {
+          "label": "Capaciteit (vereist)",
+          "help": "Hoeveel tenten heb je ruimte voor (schatting)"
+        }
+      },
+      "photo": {
+        "title": "Foto",
+        "notice": "Laat de mensen zien hoe jouw tuin eruit ziet.<br />Zorg ervoor dat de foto alleen de kampeerplek laat zien en niet het huis van jouw buur.",
+        "img-alt": "jouw tuin",
+        "hints": {
+          "wrong-format": "Jouw foto moet een JPEG-, PNG- of TIFF-bestand zijn.",
+          "too-large": "Je foto is te groot. De bestandsgrootte van een foto moet 5MB of kleiner zijn."
+        }
+      },
+      "add-button": "Voeg jouw tuin toe",
+      "update-button": "Actualiseer jouw tuin",
+      "invalid": "Sommige informatie was niet geldig. Controleer de door je verstrekte informatie op fouten."
+    },
+    "notify": {
+      "success": "Jouw tuin is succesvol toegevoegd!",
+      "update": "Jouw tuin werd met succes geüpdatet!",
+      "photo": "Het kan een minuut duren voordat de foto verschijnt."
+    }
+  },
+  "sign-in": {
+    "title": "Inloggen",
+    "button": "Inloggen",
+    "reset": {
+      "text": "Wachtwoord vergeten? {link}",
+      "link": "Stel het opnieuw in"
+    },
+    "register": {
+      "text": "Nog geen account? {link}",
+      "link": "Registreer"
+    },
+    "notify": {
+      "welcome": "Welkom terug, {user}!",
+      "incorrect": "Het opgegeven e-mailadres of wachtwoord is onjuist.",
+      "login-issue": "We konden je niet inloggen. Als het probleem aanhoudt, neem dan contact op met {support}"
+    }
+  },
+  "request-password-reset": {
+    "title": "Stel een nieuw wachtwoord in",
+    "description": "Als je het onderstaande formulier indient, kunnen wij je een unieke link sturen waarmee je jouw wachtwoord kunt resetten.",
+    "button": "Instructies voor het herstellen van jouw e-mail",
+    "set": "Als er een account bestaat met de e-mail {email}, wordt er nu een e-mail gestuurd met instructies voor het herstellen van het wachtwoord.",
+    "trouble": "Heb je moeite met inloggen? contacteer ons via {support} en we helpen je verder!"
+  },
+  "reset-password": {
+    "title": "Stel een nieuw wachtwoord in",
+    "update": "Wachtwoord wijzigen",
+    "succes": "Jouw wachtwoord is succesvol gereset"
+  },
+  "account": {
+    "title": "Account",
+    "verify": {
+      "title": "Bevestig jouw e-mail",
+      "text": "Je moet jouw e-mailadres controleren als je wilt chatten of een tuin wilt toevoegen.",
+      "button": "E-mail opnieuw versturen",
+      "sent": "E-mail verzonden!"
+    },
+    "preferences": {
+      "title": "E-mail voorkeuren",
+      "text": "Stuur me een e-mail wanneer:",
+      "chat": "Ik een nieuw chatbericht ontvang",
+      "news": "Welcome To My Garden nieuws wil delen"
+    },
+    "garden": {
+      "title": "Jouw tuin",
+      "unlisted": {
+        "text": "Je hebt jouw tuin nog niet op de kaart gezet. Wanneer je jouw tuin toevoegt, kunnen andere gebruikers contact met jou opnemen om een bezoek aan te vragen. Je kunt jouw tuin op elk moment uitschrijven!",
+        "button": "Voeg jouw tuin toe"
+      },
+      "listed": {
+        "text": "Je kunt jouw tuin op elk gewenst moment uit de lijst halen. Dit betekent dat het voor later bewaard blijft - maar pas op de kaart wordt getoond als je het weer laat zien.",
+        "button": "Beheer jouw tuin"
+      },
+      "unverified": {
+        "text": "Controleer jouw e-mail om jouw tuin te beheren."
+      }
+    },
+    "notify": {
+      "resend-error": "We konden geen accountverificatie e-mail sturen. Neem contact op met {support}",
+      "garden-show": "Jouw tuin komt weer op de kaart te staan",
+      "garden-no-show": "Jouw tuin komt niet op de kaart te staan.",
+      "preferences-update": "Jouw e-mailvoorkeuren zijn bijgewerkt!"
+    }
+  },
+  "auth": {
+    "invalid-code": "Deze pagina is niet toegankelijk zonder een geldige actiecode",
+    "password": {
+      "expired": "De link om jouw wachtwoord te herstellen is verlopen, probeer nog eens."
+    },
+    "verification": {
+      "succes": "Jouw e-mailadres is met succes geverifieerd!",
+      "refresh": "Jouw e-mail is al geverifieerd. Vernieuw de pagina.",
+      "expired": "Deze verificatielink is vervallen. Vraag een nieuwe aan.",
+      "unsigned": "Gelieve eerst in te loggen"
+    }
+  },
+  "register": {
+    "title": "Registreren",
+    "button": "Registreren",
+    "first-name": "Voornaam",
+    "last-name": "Achternaam",
+    "country": "Land",
+    "policies": "Ik ga akkoord met de {cookiePolicy}, {privacyPolicy} en {termsOfUse}",
+    "registering": "Bezig met registratie...",
+    "registred": "Heb je al een account? {signIn}",
+    "validate": {
+      "email": "Voeg een e-mail adres toe, dit is waarmee je inlogt.",
+      "password": {
+        "set": "Je moet een wachtwoord instellen zodat je later kunt inloggen.",
+        "min": "Jouw wachtwoord moet minimaal 8 karakters bevatten",
+        "max": "Zorg ervoor dat jouw wachtwoord maximaal 100 karakters lang is."
+      },
+      "first-name": {
+        "set": "Voer een voornaam in. Zo word je aan andere gebruikers getoond.",
+        "max": "Je voornaam kan maar 25 karakters lang zijn, zodat we hem goed kunnen weergeven. Voel je vrij om deze te verkorten of kies een bijnaam"
+      },
+      "last-name": "Voer jouw achternaam in. Dit zal niet worden gedeeld met andere gebruikers.",
+      "country": {
+        "set": "Geef alstublieft jouw land in. Dit helpt ons om de kaart te focussen op waar je vandaan komt.",
+        "from-list": "Kies een land uit de lijst. Dit helpt ons om de kaart te focussen op waar je vandaan komt."
+      },
+      "consent": "Je moet akkoord gaan met de voorwaarden van Welcome To My Garden als je gebruik wilt maken van het platform."
+    },
+    "notify": {
+      "successful": "Jouw account is met succes aangemaakt! Controleer jouw e-mail om jouw account te verifiëren.",
+      "in-use": "Dit e-mailadres is al in gebruik.",
+      "unexpected": "Er is een onverwachte fout opgetreden. Als het probleem aanhoudt, neem dan contact op met {support}"
+    }
+  },
+  "chat": {
+    "title": "Chat",
+    "title-conversation": "Chat met {partnerName}",
+    "all-conversations": "Alle gesprekken",
+    "no-messages": {
+      "text": "Je hebt nog geen berichten. Selecteer een host {link} om contact met ze op te nemen.",
+      "link": "op de kaart"
+    },
+    "type-message": "Typ jouw bericht...",
+    "new": "nieuw",
+    "notify": {
+      "unverified": "Verifieer jouw e-mail voordat je begint te chatten",
+      "empty-message": "Jouw bericht kan niet leeg zijn",
+      "too-long": "Jouw bericht is {surplus} {surplus, plural, one {karakter} other {karakters} te lang..."
+    }
+  },
+  "map": {
+    "vehicle-notice": {
+      "title": "Welcome To My Garden is alleen voor langzame reizigers.",
+      "text": "Als je van plan bent om met een gemotoriseerd voertuig te reizen, neem dan geen contact op met de host via dit platform. Bedankt voor jouw begrip!"
+    },
+    "trails": {
+      "hiking": "Wandelroutes tonen",
+      "cycling": "Fietsroutes tonen",
+      "attribution": "Trajecten met dank aan {link}"
     }
   },
   "rules": {
@@ -106,7 +364,7 @@
       },
       {
         "title": "Vertel het verder",
-        "copy": "Wil jij ook je tuin openen of ken je iemand die dat graag zou doen? Vertel over Welcome to My Garden! Je kan ook mensen uitnodigen om onze Facebook-pagina leuk te vinden."
+        "copy": "Wil jij ook jouw tuin openen of ken je iemand die dat graag zou doen? Vertel over Welcome to My Garden! Je kan ook mensen uitnodigen om onze Facebook-pagina leuk te vinden."
       }
     ],
     "message": "Veel kampeerplezier!"
@@ -120,7 +378,10 @@
         "recommendations": [
           "Routeplanner voor fietsers en hikers: BRoute, Komoot , OutdoorActive",
           "Navigatie app voor hikers en fietsers: OSMAnd",
-          "Overzicht van het volledig fietsnetwerk: OpenStreetMap"
+          "Overzicht van het volledig fietsnetwerk: OpenStreetMap",
+          "Geweldige navigatie app voor fietsen en wandelen: OSMAnd",
+          "Nog een geweldige navigatie app: ViewRanger",
+          "Overzicht van het hele fietsnetwerk zichtbaar op OpenStreetMap"
         ]
       },
       {
@@ -135,11 +396,14 @@
       },
       {
         "title": "Aanraders accommodatie",
-        "recommendations": ["Hospitality netwerk voor fietsers: WarmShowers"]
+        "recommendations": [
+          "Hospitality netwerk voor fietsers: WarmShowers",
+          "Meer gedetailleerde informatie over alle bivakplaatsen: Bivakzone.be"
+        ]
       }
     ],
     "message": "Geniet!",
-    "contact": "Zouden we nog andere zaken moeten toevoegen aan deze lijst? Laat het ons gerust weten via welcometomygardennetwork[at]gmail.com"
+    "contact": "Zouden we nog andere zaken moeten toevoegen aan deze lijst? Laat het ons gerust weten via {support}"
   },
   "faq": {
     "title": "FAQ",
@@ -147,7 +411,7 @@
     "questions": [
       {
         "title": "Wat is Welcome To My Garden?",
-        "copy": "Welcome To My Garden is een netwerk van burgers die hun tuinen openen om de trage reiziger een kampeerplek aan te bieden. Het is een initiatief zonder winstoogmerk dat is opgezet door een groep burgers."
+        "copy": "Welcome To My Garden is een netwerk van burgers die hun tuinen openen om de trage reiziger een kampeerplek aan te bieden. Het is een initiatief zonder winstoogmerk dat is opgezet door een groep burgers. Het idee ontstond tijdens de 2020 coronalockdown in België."
       },
       {
         "title": "Voor wie is Welcome to My Garden?",
@@ -194,8 +458,8 @@
         "copy": "Breng handdesinfectiemiddel en vochtige doekjes mee, zodat je je handen en alle oppervlakken die je hebt aangeraakt (zoals de toiletbril, de spoelknop, de kraan en de deurgreep) kan reinigen. Je kan ook een mondmasker dragen als je het huis van je host moet betreden voor faciliteiten. Op deze manier help je ervoor te zorgen dat Covid-19 niet wordt overgedragen, voor het geval jij of een van de andere gebruikers van de badkamer het draagt. En als je weet dat je misschien ziek bent, vertrek dan niet op reis!"
       },
       {
-        "title": "Waarom is Welcome To My Garden beperkt tot België?",
-        "copy": "Welcome To My Garden is opgezet door een klein team enthousiastelingen gevestigd in België.. Om praktische redenen beperken we de kampeerplaatsen op onze kaarten voorlopig tot België. We willen het vooral simpel houden, hoewel we graag zouden zien dat dit project ook naar het buitenland overwaait. Neem contact met ons op als je Welcome To My Garden in een ander land wil opzetten. De broncode van de website is gratis beschikbaar op GitHub!"
+        "title": "Is Welcome To My Garden beperkt tot België?",
+        "copy": "Welcome To My Garden is opgezet door een klein team enthousiastelingen gevestigd in België. Om praktische redenen beperken we de kampeerplaatsen op onze kaarten voorlopig tot België. We willen het vooral simpel houden, hoewel we graag zouden zien dat dit project ook naar het buitenland overwaait. Neem contact met ons op als je Welcome To My Garden in een ander land wil opzetten. De broncode van de website is gratis beschikbaar op GitHub!"
       },
       {
         "title": "Waarom is de Facebookpagina alleen in het Engels?",
@@ -211,8 +475,479 @@
       },
       {
         "title": "Ik heb een probleem gehad met een gast of een host. Hoe meld ik dit?",
-        "copy": "Elk probleem of wangedrag moet per e-mail worden gemeld aan Welcome To My Garden (welcometomygardennetwork-at-gmail.com). In geval van wangedrag behouden we het recht om eenzijdig het account van deze persoon te verwijderen (zie Gebruiksvoorwaarden)."
+        "copy": "Elk probleem of wangedrag moet per e-mail worden gemeld aan Welcome To My Garden {support}. In geval van wangedrag behouden we het recht om eenzijdig het account van deze persoon te verwijderen (zie Gebruiksvoorwaarden)."
       }
     ]
+  },
+  "cookies": {
+    "title": "Cookiebeleid",
+    "articles": [
+      {
+        "title": "Wat zijn cookies",
+        "copy": [
+          "Zoals bij bijna alle professionele websites gebruikelijk is, maakt deze site gebruik van cookies. Cookies zijn kleine bestanden die naar je computer worden gedownload om je ervaring te verbeteren. Deze pagina beschrijft welke informatie ze verzamelen, hoe we deze gebruiken en waarom we deze cookies soms moeten opslaan. We zullen ook delen hoe je kunt voorkomen dat deze cookies worden opgeslagen. Dit kan echter bepaalde elementen van de site functionaliteit verminderen of 'breken'.  <a href=\"https://en.wikipedia.org/wiki/HTTP_cookie\"> Zie dit Wikipedia-artikel over HTTP-cookies voor meer algemene informatie over cookies.</a>"
+        ]
+      },
+      {
+        "title": "‍Hoe gebruiken we cookies",
+        "copy": [
+          "We gebruiken cookies om verschillende redenen die hieronder worden beschreven. Helaas zijn er in de meeste gevallen geen standaard opties om cookies uit te schakelen zonder de functionaliteiten en opties die ze aan deze site toevoegen volledig uit te schakelen. Het wordt aanbevolen om alle cookies te laten staan ​​als je niet zeker weet of je ze nodig heeft, voor het geval ze worden gebruikt om een ​​dienst te verlenen die je gebruikt. ‍"
+        ]
+      },
+      {
+        "title": "Cookies uitschakelen ",
+        "copy": [
+          "Je kunt voorkomen dat cookies worden gedownload door je browserinstellingen aan te passen (zie het Help-menu van je browser om te zien hoe je dit moet doen). Houd er rekening mee dat het uitschakelen van cookies de functionaliteit van deze en vele andere websites die je bezoekt, kan beïnvloeden. Als je cookies wil uitschakelen, raden we aan Privacy Badger in Firefox te gebruiken."
+        ]
+      },
+      {
+        "title": "‍De cookies die we instellen",
+        "copy": [
+          "Als je een account bij ons aanmaakt, zullen we cookies gebruiken voor het beheer van het aanmeldingsproces en de algemene administratie. Deze cookies worden meestal verwijderd wanneer je uitlogt. In sommige gevallen kunnen ze echter achterblijven om je site voorkeuren te onthouden wanneer je bent uitgelogd.",
+          "We gebruiken cookies wanneer je bent ingelogd, zodat we dit kunnen onthouden. Dit voorkomt dat je elke keer dat je een nieuwe pagina bezoekt, moet inloggen. Deze cookies worden meestal verwijderd of gewist wanneer je uitlogt om ervoor te zorgen dat je alleen toegang hebt tot beperkte functies en gebieden wanneer je bent ingelogd.",
+          "Deze site kan in de toekomst nieuwsbrief- of e-mail abonnementsservices aanbieden en cookies kunnen worden gebruikt om te onthouden of je al bent geregistreerd en of bepaalde meldingen moeten worden weergegeven die mogelijk alleen geldig zijn voor geabonneerde/niet-geabonneerde gebruikers.",
+          "Wanneer je gegevens indient via een formulier zoals die op contactpagina's of commentaar formulieren, kunnen cookies worden ingesteld om je gebruikersgegevens te onthouden voor toekomstige correspondentie.",
+          "Om je een geweldige ervaring op deze site te bieden, bieden we de functionaliteit om je voorkeuren in te stellen voor hoe deze site werkt wanneer je deze gebruikt. Om je voorkeuren te onthouden, moeten we cookies instellen, zodat deze informatie kan worden teruggehaald wanneer je interactie hebt met een pagina die wordt beïnvloed door je voorkeuren."
+        ]
+      },
+      {
+        "title": "‍Cookies van derden ",
+        "copy": [
+          "In sommige speciale gevallen gebruiken we ook cookies van vertrouwde derde partijen. In de volgende sectie wordt beschreven welke cookies van derden je via deze site kunt tegenkomen.",
+          "Deze site maakt gebruik van Google Analytics, een van de meest wijdverspreide en vertrouwde analyse tools op het net. We gebruiken het om ons te helpen begrijpen hoe jij deze site gebruikt en om te ontdekken hoe we jouw ervaring kunnen verbeteren. Deze cookies kunnen bijvoorbeeld bijhouden hoeveel tijd je op de site doorbrengt en welke pagina's je bezoekt, zodat we boeiende inhoud kunnen blijven produceren.",
+          "Zie de officiële Google Analytics-pagina voor meer informatie over Google Analytics-cookies.",
+          "Analyse van derden wordt gebruikt om het gebruik van deze site te volgen en te meten, zodat we boeiende inhoud kunnen blijven produceren. Deze cookies kunnen dingen bijhouden, zoals hoeveel tijd je op deze site doorbrengt of welke pagina's je bezoekt, om ons te helpen begrijpen hoe we de site voor jou kunnen verbeteren. Van tijd tot tijd testen we nieuwe functies en brengen we subtiele wijzigingen aan in de manier waarop de site wordt afgeleverd. Wanneer we nieuwe functies testen, kunnen deze cookies worden gebruikt om ervoor te zorgen dat je tijdens je bezoek een consistente ervaring krijgt, terwijl we ervoor zorgen dat we begrijpen welke optimalisaties onze gebruikers het meest waarderen."
+        ]
+      },
+      {
+        "title": "Meer informatie",
+        "copy": [
+          "Hopelijk heeft deze pagina dingen voor je verduidelijkt. Zoals eerder vermeld: het is, als er iets is waarvan je niet zeker weet of je het al dan niet nodig hebt, meestal veiliger om cookies ingeschakeld te laten. Dit voor het geval het interactie heeft met een van de functies die je op onze site gebruikt. Als je nog steeds op zoek bent naar meer informatie, kan je contact met ons opnemen via een van onze aangegeven contactmethoden."
+        ]
+      }
+    ]
+  },
+  "privacy-policy": {
+    "title": "Privacybeleid",
+    "last-updated": "Laatst bijgewerkt: 30 Mei 2020",
+    "subtitle": "Verantwoordelijke voor de verwerking van de gegevens en de eigenaar",
+    "intro": "Welkom to My Garden met Open Collective Europe ASBL als rechtsentiteit, een vzw, opgericht en bestaand naar Belgisch recht, met maatschappelijke zetel te Cantersteen 12, 1000 Brussel België, met ondernemingsnummer 0680.493 .996.",
+    "email": "Contact: {support}",
+    "scope": {
+      "title": "Privacybeleid",
+      "copy": "Dit ‘Privacybeleid’ is van toepassing op de ‘Persoonsgegevens’ die door Welcome to My Garden via deze website worden verzameld."
+    },
+    "personal-data": {
+      "meaning": {
+        "title": "Wat valt er onder persoonsgegevens?",
+        "copy": "In dit privacybeleid verwijzen persoonlijke gegevens naar informatie die het mogelijk maken jou te identificeren. Een identificeerbare persoon is iemand die direct of indirect kan worden geïdentificeerd, met name door te verwijzen naar een identificatienummer of naar een of meer factoren die verband houden met de fysieke, fysiologische, mentale, economische, culturele of sociale identiteit. Een typisch voorbeeld van persoonlijke informatie is je naam en e-mailadres."
+      },
+      "collection": {
+        "title": "Welke persoonsgegevens verzamelen we?",
+        "copy": "We kunnen jouw persoonlijke gegevens verzamelen uit de volgende bronnen: ",
+        "sources": [
+          {
+            "title": "Persoonsgegevens die je verstrekt tijdens het registratieproces op het platform.",
+            "list": [
+              "E-mailadres (verplicht)",
+              "Jouw voornaam en familienaam (verplicht)",
+              "Jouw land (verplicht)",
+              "Jouw toestemming voor de voorwaarden"
+            ]
+          },
+          {
+            "title": "Persoonlijke gegevens die we verzamelen wanneer je onze website bezoekt: ",
+            "list": [
+              "We gebruiken cookies om automatisch gegevens over jou te verzamelen wanneer je deze website gebruikt. Raadpleeg ons Cookiebeleid voor meer informatie.  ‍"
+            ]
+          },
+          {
+            "title": "Persoonsgegevens die je verstrekt bij het toevoegen van jouw tuin aan jouw account.",
+            "list": [
+              "De locatie van jouw tuin (coördinaten: de lengte- en breedtegraad) (verplicht)",
+              "Informatie over jouw tuin (beschrijving, faciliteiten, aantal tenten die opgezet kunnen worden) (verplicht)",
+              "Talen die je spreekt (verplicht)",
+              "Een foto van jouw tuin (optioneel)"
+            ]
+          }
+        ]
+      },
+      "usage": {
+        "title": "Hoe gebruiken we persoonsgegevens?",
+        "subtitle": "We kunnen jouw persoonlijke gegevens gebruiken voor onderstaande doeleinden:",
+        "purposes": [
+          "Om jouw gebruikersprofiel op deze website aan te maken en te behouden;",
+          "Om de gebruikers te identificeren;",
+          "Om jouw gebruikersaccount te verifiëren om zo de veiligheidsmaatregelen te garanderen;",
+          "Om het bezoekersnetwerk te voorzien van informatie over jouw tuin;",
+          "Om je te waarschuwen wanneer het platform geüpdatet wordt;",
+          "Om je te waarschuwen over activiteiten op het platform die je zouden kunnen interesseren."
+        ],
+        "copy": "De persoonsgegevens worden alleen opgeslagen en verwerkt voor de periode die nodig is voor de verwerking. Daarna worden de gegevens verwijderd of geanonimiseerd. Welcome to My Garden vertrouwt op Firebase, dat gecertificeerd is volgens de belangrijkste privacy- en beveiligingsnormen. Firebase-services voldoen aan de AVG. Alle informatie met betrekking tot Firebase is hier te vinden: <a href=\"https://firebase.google.com/support/privacy\">https://firebase.google.com/support/privacy</a>."
+      },
+      "extra": [
+        {
+          "title": "Met wie delen we jouw persoonsgegevens?",
+          "copy": "Je persoonlijke gegevens worden niet gedeeld met derden. We zullen je persoonlijke gegevens nooit verkopen of verhuren aan andere serviceproviders, noch zullen we jouw persoonlijke gegevens delen met serviceproviders die niet voldoen aan de AVG."
+        },
+        {
+          "title": "Waarnaar dragen we jouw persoonsgegevens over?",
+          "copy": "We dragen jouw persoonsgegevens alleen over aan serviceproviders die buiten de Europese Economische Ruimte zijn gevestigd als ze voldoen aan art 44 GDPR (AVG). Alle in de VS gevestigde serviceproviders voldoen aan het Privacy Shield."
+        },
+        {
+          "title": "Geautomatiseerde besluitvorming en profilering",
+          "copy": "De verwerking van jouw persoonlijke gegevens omvat geen profilering en zal niet worden onderworpen aan geautomatiseerde besluitvorming door Welcome To My Garden."
+        }
+      ]
+    },
+    "rights": {
+      "title": "Welke rechten heb je?",
+      "copy": "Je hebt ten allen tijde het recht om jouw persoonsgegevens in te zien, evenals het recht om geïnformeerd te worden over het gebruik dat Welcome to My Garden van jouw persoonsgegevens maakt.",
+      "list": [
+        {
+          "title": "Recht op rectificatie, verwijdering en beperking van verwerking",
+          "copy": "Je bent vrij om te beslissen of je jouw persoonsgegevens al dan niet aan Welcome to My Garden verstrekt. Daarnaast heb je altijd het recht om jouw persoonsgegevens bij Welcome to My Garden te wijzigen, aan te vullen of te verwijderen. Je erkent dat een weigering om te verstrekken of een verzoek om verwijdering van persoonsgegevens betekent dat bepaalde diensten niet langer kunnen worden geleverd. Je kunt ook verzoeken om de verwerking van je persoonsgegevens te beperken."
+        },
+        {
+          "title": "Recht op bezwaar",
+          "copy": "Je hebt het recht om bezwaar te maken tegen de verwerking van jouw persoonsgegevens, zolang dit om ernstige en legitieme redenen is."
+        },
+        {
+          "title": "Recht op overdraagbaarheid van gegevens",
+          "copy": "Je hebt het recht om de persoonsgegevens die je aan Welcome to My Garden hebt verstrekt in een gestructureerde, typische en machineleesbare vorm te verkrijgen en/of over te dragen aan verschillende controleurs."
+        },
+        {
+          "title": "Recht om toestemming in te trekken",
+          "copy": "Voor zover de verwerking is gebaseerd op voorafgaande toestemming, heb je het recht om deze goedkeuring in te trekken."
+        },
+        {
+          "title": "Recht om een klacht in te dienen",
+          "copy": "Je hebt het recht om een ​​klacht in te dienen bij de Belgische Privacycommissie: Commissie voor de bescherming van de persoonlijke levenssfeer, Drukpersstraat 35, 1000 Brussel, België, Tel +32 (0) 2274 48 00, Fax +32 (0) 2274 48 35, e-mail : commission@privacycommission.be.Dit heeft geen invloed op de voorziening voor een burgerlijke rechtbank."
+        }
+      ],
+      "exercise-rights": {
+        "title": "Uitoefening van jouw rechten",
+        "copy": "Je kunt jouw rechten uitoefenen door hiervoor contact op te nemen met Welcome to My Garden door een e-mail te sturen naar {support}, op voorwaarde dat het e-mailadres dat voor het verzoek is gebruikt identiek is aan het adres dat is gebruikt om zich op het platform te registreren."
+      }
+    },
+    "additional-info": {
+      "title": "Bijkomende informatie over het verzamelen en beheren van data ",
+      "infos": [
+        {
+          "title": "Legale procedures",
+          "copy": [
+            "De verwerker en de verantwoordelijke voor de verwerking van de gegevens kunnen de persoonsgegevens van de gebruiker gebruiken voor juridische doeleinden, voor de rechtbank of gerechtelijke procedures in geval van onrechtmatig gebruik van deze applicatie of de hieraan gerelateerde diensten.",
+            "De gebruiker is zich ervan bewust dat de verwerker en de verwerking verantwoordelijke mogelijk verplicht zijn om de persoonsgegevens openbaar te maken op verzoek van bevoegde overheidsinstellingen voor de verwerking van de gegevens."
+          ]
+        },
+        {
+          "title": "Veiligheidsmaatregelen",
+          "copy": [
+            "Welcome to My Garden heeft beveiligingsmaatregelen ontwikkeld die op technologisch en organisatorisch niveau zijn aangepast om vernietiging, verlies, vervalsing, wijziging, verboden toegang of de foutieve openbaarmaking van persoonsgegevens aan derden te voorkomen, evenals elke andere verboden verwerking van deze gegevens.",
+            "Welcome to My Garden kan in geen geval aansprakelijk worden gesteld voor enige directe of indirecte schade die voortvloeit uit het onjuist of onrechtmatig gebruik van jouw persoonsgegevens door een derde partij.",
+            "Je moet ten allen tijde de beveiligingsinstructies naleven, waaronder het voorkomen van alle verboden toegang tot jouw inlog gegevens, inclusief je wachtwoord. Je bent zelf verantwoordelijk voor het gebruik van de website op jouw computer, vanaf je IP-adres en met jouw identificatiegegevens. ‍"
+          ]
+        }
+      ]
+    },
+    "definitions": {
+      "title": "DEFINITIES EN JURIDISCH KADER",
+      "articles": [
+        {
+          "title": "Persoonsgegevens of gegevens",
+          "copy": "Alle informatie over een natuurlijke persoon, een rechtspersoon, een instelling of een vereniging die direct of indirect is of zou kunnen worden geïdentificeerd door verwijzing naar andere informatie."
+        },
+        {
+          "title": "Gebruiksgegevens",
+          "copy": "Informatie die automatisch wordt verzameld uit deze applicatie (of externe services die in deze applicatie worden gebruikt), waaronder: de IP-adressen of domeinnamen van de computers die door de gebruikers van deze applicatie worden gebruikt, de URI-adressen (Uniform Resource Identifier), de tijd van het verzoek, de methode die is gebruikt om het verzoek bij de server in te dienen, de grootte van het bestand dat daarop is ontvangen, de numerieke code die de status van het serverantwoord aangeeft (geslaagd, fout, enz.), de functies van de browser en het besturingssysteem van de gebruiker, de verschillende tijdgegevens per bezoek (zoals de tijd doorgebracht op elke pagina van de applicatie) en de gegevens die zijn verzameld tijdens het gebruik van de applicatie (bijvoorbeeld: de volgorde van bezochte pagina's of andere parameters over het besturingssysteem van het apparaat)."
+        },
+        {
+          "title": "Gebruiker",
+          "copy": "De persoon die deze applicatie gebruikt en die moet instemmen met of gemachtigd is door de betrokkene naar wie de persoonsgegevens verwijzen."
+        },
+        {
+          "title": "De betrokken persoon",
+          "copy": "De persoon naar wie de peroonsgegevens verwijze. "
+        },
+        {
+          "title": "Data processor ",
+          "copy": "De natuurlijke persoon, rechtspersoon, overheidsadministratie of elke andere instelling, vereniging of organisatie die door de gegevensbeheerder is gemachtigd om de persoonsgegevens te verwerken in overeenstemming met dit privacybeleid."
+        },
+        {
+          "title": "Verantwoordelijke voor de verwerking van de gegevens",
+          "copy": "De natuurlijke persoon, rechtspersoon, overheidsadministratie of enige andere instelling, vereniging of organisatie met het recht, ook samen met de verantwoordelijke voor de verwerking van de gegevens om beslissingen te nemen met betrekking tot de doeleinden en methoden voor de verwerking van persoonsgegevens en de gebruikte middelen, waaronder veiligheidsmaatregelen met betrekking tot de exploitatie en het gebruik van deze applicatie. De verantwoordelijke voor de verwerking van de gegevens is de eigenaar van deze applicatie, tenzij anders aangegeven."
+        },
+        {
+          "title": "Deze applicatie",
+          "copy": "De hardware of software tools waarmee persoonsgegevens verzameld worden "
+        },
+        {
+          "title": "Cookie",
+          "copy": "Klein stukje gegevens opgeslagen op het apparaat van de gebruiker. Zie ons Cookiebeleid."
+        }
+      ],
+      "legal-info": {
+        "title": "LEGALE INFORMATIE",
+        "copy": "Kennisgeving aan Europese gebruikers: deze privacyverklaring is opgesteld met inachtneming van de verplichtingen uit art. 10 van de Europese richtlijn 95/46 / EG en de bepalingen van de Europese richtlijn 2002/58 / EG, evenals de herziening in richtlijn 2009/136 / EG betreffende cookies."
+      }
+    },
+    "change-warning": {
+      "title": "Aanpassingen in dit privacybeleid",
+      "copy": "De controleur voor de verwerking van de gegevens heeft het recht om dit privacybeleid op elk moment te wijzigen door gebruikers op deze pagina op de hoogte te stellen. We raden aan deze pagina te controleren op mogelijke wijzigingen. De datum van de laatste wijziging wordt onderaan de pagina aangegeven. Als een gebruiker bezwaar maakt tegen een wijziging in het beleid, mag de gebruiker deze applicatie niet blijven gebruiken. Men zou de verwerkingsverantwoordelijke kunnen verzoeken om de persoonsgegevens te verwijderen. Tenzij anders aangegeven, is het op dat moment geldige privacybeleid van applicatie op alle persoonsgegevens die de verwerkingsverantwoordelijke heeft opgeslagen voor de verwerking van de gegevens over gebruikers."
+    }
+  },
+  "terms-of-use": {
+    "title": "Gebruiksvoorwaarden",
+    "last-updated": "Laatst bijgewerkt: 30 Mei 2020",
+    "intro": [
+      {
+        "copy": "Welcome to My Garden is een netwerk zonder winstoogmerk van burgers die gratis kampeerplekken aanbieden aan trage reizigers. Deze Servicevoorwaarden (<span class=\"bold\">\"Voorwaarden\"</span>) zijn van toepassing op jouw toegang tot en gebruik van de website en het gebruik van het netwerk (gezamenlijk ons ​​<span class=\"bold\">\"Platform\"</span>) dat wordt aangeboden door Welcome to My Garden."
+      },
+      {
+        "copy": "Het gebruik van dit platform is onderhevig aan een aantal regels. Hieronder vind je de algemene voorwaarden van ons platform, omdat we ervan overtuigd zijn dat duidelijke regels de beste garantie bieden voor een respectvolle gemeenschap. Door een account aan te maken of op een andere manier het platform te betreden, ga je akkoord met deze Voorwaarden."
+      },
+      {
+        "copy": "Omdat Welcome to My Garden de feedback van de gebruikers van hun platform op prijs stelt, verwelkomen we alle ideeën om het platform verder te verbeteren. Je kunt jouw suggesties e-mailen naar {support}."
+      }
+    ],
+    "articles": [
+      {
+        "title": "‍Wie kan registreren op het platform?",
+        "descriptions": [
+          {
+            "copy": "Elke burger die een gratis kampeerplek in zijn tuin wil aanbieden aan trage reizigers en elke trage reiziger (fietsers en wandelaars) die gebruik wil maken van het netwerk. Als je jouw tuin wil toevoegen of contact wilt opnemen met een host, moet je een account aanmaken. Alleen geregistreerde deelnemers kunnen actieve gebruikers zijn. Je kan registreren met je e-mailadres."
+          },
+          {
+            "copy": "Het aanmaken van een account door een gebruiker geeft deze gebruiker geen eigendom over het account. Welcome to My Garden heeft het recht om accounts te weigeren, op te schorten of te verwijderen, bijvoorbeeld als de gebruiker zich niet aan de volgende regels houdt of als er melding zou zijn van ongepast gedrag door een host of gast."
+          }
+        ],
+        "info": [
+          {
+            "title": "Elk account moet voldoen aan de volgende regels: ‍",
+            "sections": [
+              {
+                "title": "Elk account is strikt persoonlijk",
+                "copy": "Elk account moet uniek zijn en gekoppeld aan een echt persoon. Als je je registreert voor een account, moet je nauwkeurige account informatie verstrekken en deze informatie onmiddellijk bijwerken als deze verandert. Elke gebruiker heeft het recht om één account aan te maken. Als wordt vastgesteld dat één persoon meerdere accounts heeft, behoudt Welcome to My Garden het recht om al deze accounts te verwijderen. Elke gebruiker moet ouder zijn dan 18 jaar."
+              },
+              {
+                "title": "Een account mag niet overgenomen worden door een andere persoon",
+                "copy": "Aangezien elk account strikt gekoppeld is aan een specifieke persoon, kan dit account niet worden overgedragen aan een andere persoon zonder toestemming van Welcome to My Garden. Dit transferverbod moet in de ruimste zin beschouwd worden. Welcome to My Garden heeft het recht om dit account te weigeren of te verwijderen in geval van inbreuken."
+              },
+              {
+                "title": "Een account mag niet gebruikt worden voor commerciële doeleinden",
+                "copy": "Het Welcome to My Garden-platform is bedoeld om burgers in staat te stellen hun tuinen aan te bieden als gratis kampeerplekken en om het mogelijk te maken voor trage reizigers dit netwerk te gebruiken. Een account kan daarom alleen voor deze doeleinden worden gebruikt. Elk gebruik van het account met als enig doel het genieten van een commercieel voordeel is ten strengste verboden."
+              },
+              {
+                "title": "De accountgegevens moeten altijd vertrouwelijk blijven",
+                "copy": "Het is niet toegestaan ​​dat een andere persoon dan de daadwerkelijke persoon die het account heeft aangemaakt, dit account gebruikt. De persoon die het account heeft aangemaakt, moet ervoor zorgen dat hij/zij het wachtwoord en de inloggegevens veilig bewaart. We raden ten zeerste aan om een ​​sterk wachtwoord te gebruiken (een wachtwoord met een combinatie van kleine letters, hoofdletters en cijfers). We raden je aan een wachtwoordbeheerder te gebruiken. Welcome to My Garden kan in geen geval aansprakelijk worden gesteld voor verlies of schade aan het account als de gebruiker niet aan bovenstaande voorwaarden voldoet. Welcome to My Garden kan niet verantwoordelijk worden gehouden voor diefstal van een account, bijvoorbeeld door 'phishing'. Welcome to My Garden zal haar gebruikers nooit om persoonlijke gegevens zoals een login of wachtwoord vragen via e-mail. Als er om persoonlijke gegevens wordt gevraagd, wordt de gebruiker altijd doorgestuurd naar het platform van Welcome to My Garden. Je bent verantwoordelijk voor alle activiteiten die doorgaan met jouw account en accepteert alle risico's van ongeoorloofde toegang."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Gebruiksvoorwaarden voor de host",
+        "info": [
+          {
+            "title": "Door jouw tuin aan het platform toe te voegen, erken je de algemene regels van het platform die hieronder opgesomd zijn: ",
+            "sections": [
+              {
+                "title": "Geen inkomen",
+                "copy": "Welcome to My Garden is een netwerk zonder winstoogmerk van burgers die gratis kampeerplekken in hun tuinen aanbieden aan trage reizigers. Daarom mag er geen inkomen uit worden verdiend. Het aanbieden van een tuin tegen betaling is ten strengste verboden en het platform heeft het recht om het account van een host permanent te verwijderen als dit gebeurt."
+              },
+              {
+                "title": "Disclaimer",
+                "copy": "Het Welcome to My Garden-platform is een burgerinitiatief. De vrijwilligers achter Welcome to My Garden zijn niet verantwoordelijk voor verlies, schade of letsel als gevolg van het gebruik van de website en/of tijdens een verblijf in de tuin van een andere burger."
+              },
+              {
+                "title": "Geen discriminatie",
+                "copy": "Welcome to My Garden tolereert geen enkele vorm van discriminatie. Hosts mogen niet discrimineren op basis van ras, etnische achtergrond, nationaliteit, seksuele geaardheid, geslacht, genderidentiteit, sociaaleconomische status, bekwaamheid, filosofische overtuiging, religie, leeftijd, handicap of ziekte."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Gebruiksvoorwaarden voor de reiziger",
+        "descriptions": [
+          {
+            "copy": "Gebruikers moeten minstens 18 jaar zijn om het platform te mogen gebruiken. Door een account aan te maken, gaan gebruikers akkoord met de Gebruikersvoorwaarden van Welcome To my Garden. "
+          }
+        ],
+        "paragraphs": [
+          {
+            "title": "De hosts contacteren",
+            "copy": [
+              "Hosts contacteer je enkel om een verblijf in hun tuin aan te vragen. Eender welke vorm van misbruik van het platform resulteert in opschorting of verwijdering van het gebruikersaccount."
+            ]
+          },
+          {
+            "title": "Verplichting om de hosts op voorhand te contacteren om een verblijf aan te vragen",
+            "copy": [
+              "Gebruikers zijn verplicht om vooraf contact op te nemen met de host om een ​​verblijf aan te vragen, tenzij de host op hun profiel duidelijk heeft aangegeven dat dit niet nodig is. Gebruikers moeten altijd nauwkeurige informatie over zichzelf doorgeven."
+            ]
+          },
+          {
+            "title": "Faciliteiten aangeboden door de host",
+            "copy": [
+              "De host is de enige verantwoordelijke voor de faciliteiten die hij/zij wel of niet ter beschikking stelt van de gebruiker. Door dit platform te gebruiken, erkent en accepteert de gebruiker de voorwaarden van zijn/haar verblijf - al dan niet inclusief toegang tot sanitaire voorzieningen."
+            ]
+          },
+          {
+            "title": "Respect voor de natuur",
+            "copy": [
+              "Reizigers nemen al hun afval mee bij het vertrek. Ze moeten hierbij altijd de natuur, de tuin van de host en hun omgeving respecteren en rekening houden met het Leave No Trace-principe."
+            ]
+          },
+          {
+            "title": "Respect voor de host en de buren",
+            "copy": [
+              "Reizigers moeten altijd respectvol zijn naar de tuin eigenaar toe en lawaai tot een minimum beperken. Ze houden zich ook aan de gemaakte afspraken met de host."
+            ]
+          },
+          {
+            "title": "Geen auto",
+            "copy": [
+              "Het Welcome to My Garden-platform respecteert het milieu en komt alleen tegemoet aan de behoeften van trage reizigers. Dit betekent dat gebruikers alleen te voet, met de fiets of met het openbaar vervoer naar tuinen kunnen reizen. Het gebruik van gemotoriseerde voertuigen is verboden, behalve voor gebruikers met beperkte mobiliteit. Het is wel toegestaan ​​om met een gemotoriseerd voertuig naar de start van een pad te reizen."
+            ]
+          },
+          {
+            "title": "Disclaimer",
+            "copy": [
+              "Het Welcome to My Garden-platform is een burgerinitiatief. De vrijwilligers achter Welcome to My Garden zijn niet verantwoordelijk voor verlies, schade of letsel als gevolg van het gebruik van de website en/of tijdens een verblijf in de tuin van een andere burger."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Interacties met andere gebruikers",
+        "paragraphs": [
+          {
+            "title": "Je bent volledig verantwoordelijk voor je interacties met andere gebruikers.",
+            "copy": [
+              "Welcome To My Garden is een platform waarop gebruikers hun tuin vrij ter beschikking kunnen stellen, een tuinverblijf kunnen aanvragen en met elkaar kunnen communiceren om dit doel te bereiken. Gebruikers zijn zelf verantwoordelijk voor alle interacties met andere gebruikers van het platform. Welcome To My Garden heeft geen betrokkenheid en geen verantwoordelijkheden of aansprakelijkheden met betrekking tot communicatie of geschillen tussen twee gebruikers. Voor alle duidelijkheid: Welcome To My Garden is een platform waarmee hosts hun tuin vrij ter beschikking kunnen stellen, zodat gebruikers iemands tuin kunnen gebruiken om te kamperen; en een plek om te communiceren tussen gebruikers. Welcome to My Garden kan niet verantwoordelijk worden gehouden voor de interacties tussen gebruikers of diens gevolgen. Gebruikers stellen Welcome To My Garden (en haar vrijwilligers) vrij van claims, eisen en schade (feitelijk en dientengevolge) van elke soort en aard, bekend en onbekend, vermoed en onvermoed, openbaar gemaakt en niet openbaar gemaakt, voortvloeiend uit of op enigerlei wijze verband houdend met dergelijke geschillen. Houd bij het gebruik van het platform altijd rekening met veiligheid en gezond verstand."
+            ]
+          },
+          {
+            "title": "Identiteitsverificatie",
+            "copy": [
+              "Gebruikers zijn zelf verantwoordelijk voor het bepalen van de identiteit en geschiktheid van andere gebruikers. Als host kun je altijd gebruikers weigeren. Als reiziger kan je zelf bepalen waar je wil verblijven. Welcome To My Garden kan en zal niet de identiteit van elke gebruiker bevestigen. Het platform heeft geen informatie over de criminele achtergrond of moraliteit van de gebruiker. Houd bij het gebruik van het platform altijd rekening met veiligheid en gezond verstand."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Beperkingen van inhoud en gebruik van het platform",
+        "descriptions": [
+          {
+            "copy": "Om ervoor te zorgen dat het Welcome to My Garden-platform naar behoren werkt en dat je kan communiceren en verbinding maken met anderen, gelden er enkele beperkingen voor het type inhoud dat via het platform kan worden gepubliceerd. Dit zijn de volgende:"
+          }
+        ],
+        "paragraphs": [
+          {
+            "title": "Offensief gedrag",
+            "copy": [
+              "Wij geloven sterk in de vrijheid van meningsuiting. Maar, om ervoor te zorgen dat het platform op een constructieve manier door alle gebruikers kan worden gebruikt, staan ​​we geen aanstootgevend gedrag toe dat intimidatie of bangmakerij inhoudt.",
+              "Accounts en gerelateerde accounts die worden gebruikt om de onderstaande acties uit te voeren, kunnen tijdelijk worden geblokkeerd en/of permanent worden verwijderd.",
+              "Gewelddadige bedreigingen (direct of indirect): je mag niet dreigen of geweld promoten. Dit omvat ook de bevordering van terrorisme. Intimidatie: je mag niet aanzetten tot of betrokken zijn bij het opzettelijk beledigen of lastigvallen van anderen. Hier zijn enkele factoren waarmee we rekening kunnen houden bij het beoordelen van misbruik: of het belangrijkste doel van het gerapporteerde account intimidatie is of beledigende berichten naar anderen worden gestuurd; of het gerapporteerde gedrag unidirectioneel is of bedreigingen bevat; of het gerapporteerde account anderen aanmoedigt om een ​​ander account te intimideren; en of het gerapporteerde account intimiderende berichten verzendt naar een account vanaf meerdere accounts. Haat: je mag geen geweld tegen andere mensen promoten of hen rechtstreeks aanvallen of bedreigen op basis van ras, etnische achtergrond, nationaliteit, seksuele geaardheid, geslacht, genderidentiteit, filosofische overtuiging, religie, leeftijd, handicap of ziekte. We staan ​​ook geen accounts toe waarvan het hoofddoel is om anderen aan te zetten schade te berokkenen op basis van deze categorieën. Misbruik van meerdere accounts: het maken van meerdere accounts voor overlappend gebruik om tijdelijke of permanente opschorting van een individueel account te voorkomen, is niet toegestaan. Privégegevens: je mag geen vertrouwelijke gegevens en privégegevens van anderen publiceren of posten zonder hun uitdrukkelijke toestemming. Deze gegevens omvatten (maar zijn niet beperkt tot): creditcardnummers, adresgegevens, telefoonnummers of gegevens die onder de persoonlijke levenssfeer van een persoon vallen. Nabootsing van identiteit: je mag geen toegang nemen tot het platform als iemand die zich voordoet als iemand anders en je mag op deze manier andere gebruikers niet misleiden, verwarren of bedreigen. Het is mogelijk dat je geen toegang krijgt tot het platform als je iemand anders bedriegt, verwart of bedreigt."
+            ]
+          },
+          {
+            "title": "Vrijwaring",
+            "copy": [
+              "Je zal WelcomeToMyGarden.org (en elk van haar financiers en/of vrijwilligers) verdedigen, vrijwaren en schadeloos stellen van elke claim, eis, actie, schade, verlies, kosten of uitgaven, inclusief maar niet beperkt tot redelijke advocatenkosten, die voortvloeien uit of verband houden met o.m. (a) jouw gebruik van onze diensten; (b) alle inhoud of inzendingen van leden die je verstrekt; (c) schending van deze voorwaarden door jou; (d) schending van rechten van een ander door jou; of (e) je gedrag in verband met de diensten. Verder, als je de diensten namens een entiteit gebruikt, verklaar en garandeer je dat een dergelijke entiteit ermee instemt jou en WelcomeToMyGarden.org te vrijwaren voor schendingen van deze voorwaarden in overeenstemming met deze sectie. Als je verplicht bent om ons te vrijwaren, hebben we het recht, naar eigen goeddunken en zonder enige belemmering, om eender welke ​​actie of procedure te controleren en te bepalen of we deze willen afwikkelen, en zo ja, onder welke voorwaarden."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Beperking van aansprakelijkheid",
+        "descriptions": [
+          {
+            "copy": "Welcome to My Garden is niet aansprakelijk jegens gebruikers en/of hosts onder enige aansprakelijkheidstheorie - of deze nu is gebaseerd op contract, onrechtmatige daad, nalatigheid, strikte aansprakelijkheid, garantie of anderszins - voor enige indirecte, daaruit volgende, voorbeeldige, incidentele, bestraffende of speciale schade."
+          },
+          {
+            "copy": "IN GEEN GEVAL ZAL WELCOMETOMYGARDEN.ORG, EEN BELGISCHE VERENIGING ZONDER WINSTOOGMERK, HAAR STICHTERS OF VRIJWILLIGERS, AANSPRAKELIJK WORDEN GESTELD VOOR INDIRECTE OF GEVOLGSCHADE, OF ENIGE ANDERE SCHADE VAN ELKE SOORT, INCLUSIEF MAAR NIET BEPERKT TOT VERLIES VAN GEBRUIK, WINST OF GEGEVENS, OF HET NU IN EEN ACTIE BINNEN HET CONTRACT, EEN ONRECHTMATIGE DAAD (INCLUSIEF MAAR NIET BEPERKT TOT NALATIGHEID) OF ANDERSZINS IS, ZELFS ALS WE OP DE HOOGTE WERDEN GESTELD VAN DERGELIJKE SCHADE, VOORTVLOEIEND UIT OF IN VERBAND MET: (A) HET GEBRUIK OF DE ONMOGELIJKHEID OM ONZE DIENSTEN TE GEBRUIKEN; (B) DE KOSTEN VOOR DE VERVANGING VAN GOEDEREN, DIENSTEN OF INFORMATIE DIE IS GEKOCHT OF VERKREGEN TEN GEVOLGE VAN INFORMATIE DIE IS VERKREGEN UIT, OF TRANSACTIES DIE ZIJN UITGEVOERD DOOR DEZE DIENSTEN; (C) BEKENDMAKING VAN,ONGEAUTORISEERDE TOEGANG TOT OF WIJZIGING VAN JOUW INHOUD; (D) SCHADE VOOR VERLIES OF VERBETERING VAN GEGEVENS OF PROGRAMMA’S, ONDERBREKING VAN DE DIENST OF AANKOOP VAN VERVANGENDE DIENSTEN; (E) VERKLARINGEN, GEDRAG OF NALATIGHEID VAN ENIGE DIENSTVERLENERS OF ANDERE DERDEN OP ONZE DIENSTEN; (F) JOUW OF IEDER ANDERS GEDRAG OF HANDELINGEN IN VERBAND MET HET GEBRUIK VAN DE DIENSTEN, MET INBEGRIP VAN MAAR NIET BEPERKT TOT LICHAMELIJKE LETSELS, EMOTIONELE PIJN, OVERLIJDEN OF ENIGE ANDERE SCHADE ALS GEVOLG VAN COMMUNICATIE OF SAMENKOMSTEN MET ANDERE GEREGISTREERDE GEBRUIKERS VAN ONZE DIENSTEN OF PERSONEN AAN JOU VOORGESTELD DOOR ONZE DIENSTEN, ZOWEL ONLINE ALS OFFLINE; OF (G) ENIGE ANDERE ZAAK DIE VOORTVLOEIT UIT, VERBAND HOUDT MET OF VERBONDEN IS MET ONZE DIENSTEN OF DEZE VOORWAARDEN."
+          }
+        ]
+      },
+      {
+        "title": "Spam",
+        "descriptions": [
+          {
+            "copy": "We streven er ten allen tijde naar om de Welcome to My Garden-platform gebruiker te beschermen tegen technisch misbruik en spam. Accounts die worden gebruikt om de onderstaande acties uit te voeren, kunnen tijdelijk worden geblokkeerd of permanent worden verwijderd."
+          },
+          {
+            "copy": "Malware / phishing / virussen / wormen / Trojans: je mag geen schadelijke inhoud of links naar dergelijke inhoud plaatsen om de browsers of computers van iemand anders te beschadigen of te verstoren, of om iemands privacy te schenden. Spam: je mag het Welcome to My Garden-platform niet gebruiken om mensen te spammen."
+          }
+        ]
+      },
+      {
+        "title": "Schending van toepasselijke wetten",
+        "descriptions": [
+          {
+            "copy": "Het gebruik van het account mag op geen enkele manier inbreuk plegen op de toepasselijke wetgeving. Dit omvat inbreuken op de privacywetgeving, intellectuele eigendomsrechten, het strafwetboek, enz."
+          },
+          {
+            "copy": "Het account mag op geen enkele manier worden gebruikt om illegale activiteiten te promoten."
+          }
+        ]
+      },
+      {
+        "title": "Bij overtreding van bovengenoemde redenen",
+        "descriptions": [
+          {
+            "copy": "Welcome to My Garden heeft het recht om de relevante berichten te verwijderen als het inbreuken op de bovengenoemde regels detecteert, en kan zelfs gebruikersaccounts opschorten of permanent verwijderen."
+          },
+          {
+            "copy": "Welcome to My Garden kan op geen enkele manier aansprakelijk worden gesteld voor berichten geplaatst door gebruikers of derden, die in strijd zijn met de hierboven gespecificeerde regels. Als je als gebruiker een inbreuk ontdekt, meld dit dan aan het volgende e-mailadres: {support}"
+          },
+          {
+            "copy": "Het kan gebeuren dat via het platform schadelijke bestanden worden gedownload, al dan niet vanwege een gebruiker; of dat gebruikers schadelijke hyperlinks plaatsen. Elke download door een gebruiker of klik op een hyperlink, geplaatst door een gebruiker, gebeurt op eigen risico van de gebruiker. Eventuele schade is volledig en uitsluitend de verantwoordelijkheid van deze gebruiker."
+          }
+        ]
+      },
+      {
+        "title": "Intellectuele eigendomsrechten",
+        "descriptions": [
+          {
+            "copy": "Welcome to My Garden respecteert de intellectuele eigendomsrechten van anderen en verwacht dat gebruikers van dit platform ook deze voorgenoemde rechten respecteren. Welcome to My Garden behoudt zich het recht voor om inhoud te verwijderen die inbreuk pleegt op de intellectuele eigendomsrechten. Herhaalde inbreuken op welke intellectuele eigendomsrechten dan ook door een gebruiker zullen leiden tot de opschorting of verwijdering van het account door Welcome To my Garden."
+          },
+          {
+            "copy": "Inbreuken op intellectuele eigendomsrechten kunnen worden gemeld via het volgende email adres: {support}."
+          }
+        ]
+      },
+      {
+        "title": "Eigendomsrechten Welcome to My Garden",
+        "descriptions": [
+          {
+            "copy": "De broncode van Welcome to My Garden is open source. Je stemt ermee in gebonden te zijn aan en te voldoen aan elke licentieovereenkomst die van toepassing is op deze open source-software."
+          }
+        ]
+      },
+      {
+        "title": "Wijzigingen in deze voorwaarden",
+        "descriptions": [
+          {
+            "copy": "We kunnen regelmatig wijzigingen aanbrengen in deze voorwaarden. Als we wijzigingen aanbrengen, zullen we de gewijzigde voorwaarden op ons platform plaatsen en de datum Laatst bijgewerkt hierboven aanpassen. We zullen ook trachten je hiervan op de hoogte te stellen door een e-mailmelding te sturen naar het adres dat aan jouw account is gekoppeld of door een melding via ons platform. Tenzij anders vermeld in onze kennisgeving, zijn de gewijzigde Voorwaarden onmiddellijk van kracht. Jouw voortdurende toegang tot en het gebruik van ons platform - nadat we je van de gewijzigde Voorwaarden op de hoogte hebben gesteld, bevestigt dat je de wijzigingen accepteert. Wijzigingen in deze Voorwaarden hebben in geen geval een terugwerkende kracht. Als je niet akkoord gaat met de gewijzigde voorwaarden, moet je de toegang tot en het gebruik van ons platform stopzetten."
+          }
+        ]
+      }
+    ]
+  },
+  "stmf": {
+    "title": "Slow Travel Mini Festival",
+    "description": "Bereid uw langzame reizen voor met de gemeenschap",
+    "sections": {
+      "get-inspired": "Word geïnspireerd",
+      "plan": "Plan",
+      "contribute": "Draag bij",
+      "rethink": "Herdenk"
+    }
+  },
+  "fallback": {
+    "404": "404 - pagina niet gevonden",
+    "redirect": "terug naar de startpagina"
   }
 }

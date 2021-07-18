@@ -4,10 +4,9 @@
 
 <style>
   .content {
-    display: flex;
-    flex-direction: column;
-    max-width: 60rem;
+    max-width: 85rem;
     margin: 0 auto;
+    padding: 0 30px;
   }
 
   .content :global(h2) {
@@ -18,24 +17,19 @@
     border-bottom: 0.2rem solid var(--color-orange);
   }
 
-  .content :global(h3) {
+  .content :global(h3:not(.t3)) {
     font-size: 2rem;
     line-height: 3.2rem;
     margin: 1.2rem 0;
     font-family: var(--fonts-copy);
   }
 
-  .content :global(h4) {
+  .content :global(h4:not(.t4)),
+  .content :global(.t3) {
     font-size: 1.6rem;
     line-height: 3.2rem;
     margin: 1.2rem 0;
     font-weight: bold;
-  }
-
-  @media screen and (max-width: 700px) {
-    .content :global(h2, h3) {
-      text-align: center;
-    }
   }
 
   .content :global(p) {
@@ -58,13 +52,13 @@
     align-items: center;
     background: var(--color-green-light);
     padding: 1.6rem;
-    margin: 1.6rem 0;
+    margin-top: 1.6rem;
     border-radius: 1.2rem 1.2rem 0 0;
   }
 
   .content :global(.info-item) {
     border-left: 0.2rem solid var(--color-green-light);
-    padding: 1.6rem;
+    padding: 0.8rem 1.6rem;
   }
 
   .content :global(small) {

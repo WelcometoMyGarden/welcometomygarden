@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import { redirect } from '@sveltech/routify';
   import { addGardenLocally } from '@/stores/garden';
   import { user } from '@/stores/auth';
@@ -8,11 +9,11 @@
   import Form from '@/components/Garden/Form.svelte';
   import routes from '@/routes';
 
-  if ($user.garden) $redirect(routes.MANAGE_GARDEN);
+  if ($user && $user.garden) $redirect(routes.MANAGE_GARDEN);
 
   let addingGarden = false;
 
-  const submit = async e => {
+  const submit = async (e) => {
     const garden = e.detail;
     addingGarden = true;
     try {
@@ -22,12 +23,11 @@
       });
       await addGardenLocally(newGarden);
       addingGarden = false;
-      notify.success(
-        `Your garden was added successfully! ${
-          newGarden.photo ? 'It may take a minute for its photo to show up.' : ''
-        }`,
-        10000
-      );
+      let notifyMsg;
+      newGarden.photo
+        ? (notifyMsg = $_('garden.notify.success') + ' ' + $_('garden.notify.photo'))
+        : (notifyMsg = $_('garden.notify.success'));
+      notify.success(notifyMsg, 10000);
       $redirect(`${routes.MAP}/garden/${$user.id}`);
     } catch (ex) {
       console.log(ex);
@@ -49,7 +49,7 @@
 </script>
 
 <svelte:head>
-  <title>Add your garden | Welcome To My Garden</title>
+  <title>{$_('garden.add.title')} | Welcome To My Garden</title>
 </svelte:head>
 
 <Progress active={addingGarden} />
