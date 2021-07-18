@@ -285,7 +285,7 @@
   .filter {
     background-color: rgba(255, 255, 255, 0);
     width: 80%;
-    top: calc(var(--height-nav) + 3rem);
+    top: calc(var(--height-nav) + 1.5rem);
     width: 32rem;
     left: 6rem;
     position: absolute;
@@ -295,7 +295,7 @@
 
   .location-filter {
     width: calc(100% - 60px);
-    margin-right: 1rem;
+    margin-right: 0.5rem;
   }
 
   .filter-tags {
@@ -313,9 +313,15 @@
   .garden-filter :global(button) {
     padding: 0 1.2rem;
     font-size: 1.6rem;
+    display: flex;
+    align-items: center;
     height: 43px;
     margin: 0;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .garden-filter :global(span) {
+    line-height: 1.2rem;
   }
 
   .map-section :global(.mapboxgl-ctrl-bottom-left) {
@@ -437,8 +443,9 @@
     .map-section {
       height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
     }
+
     .map-section :global(.mapboxgl-ctrl-top-left) {
-      top: calc(var(--height-nav) + 0.5rem);
+      top: 1rem;
     }
 
     .map-section :global(.mapboxgl-ctrl-bottom-right) {
