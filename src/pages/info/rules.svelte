@@ -1,9 +1,6 @@
 <script>
-  import { _, locale } from 'svelte-i18n';
+  import { _, json } from 'svelte-i18n';
   import CollapsibleGroup from '../../components/CollapsibleGroup.svelte';
-  import { getArrayFromLocale } from '@/util';
-
-  $: rules = getArrayFromLocale('rules.rules', $locale);
 </script>
 
 <svelte:head>
@@ -14,4 +11,4 @@
   <h2>{$_('rules.title')}</h2>
   <p>{$_('rules.description')}</p>
 </div>
-<CollapsibleGroup collapsibles={rules} />
+<CollapsibleGroup collapsibles={$json('rules.rules')} />

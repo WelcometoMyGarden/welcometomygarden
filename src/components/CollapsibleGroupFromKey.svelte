@@ -1,12 +1,9 @@
 <script>
-  import { _, locale } from 'svelte-i18n';
+  import { _, json } from 'svelte-i18n';
   import Collapsible from './Collapsible.svelte';
-  import { getArrayFromLocale } from '@/util';
   import { supportEmailLinkString } from '@/util';
 
-  export let basekey;
-
-  $: collapsibles = getArrayFromLocale(basekey, $locale);
+  export let i18nKey;
 
   let activeCollapsible = null;
 
@@ -16,11 +13,11 @@
 </script>
 
 <div>
-  {#each collapsibles as item, i}
+  {#each $json(i18nKey) as item, i}
     <Collapsible on:click={() => setActiveCollapsible(i)} open={activeCollapsible === i}>
-      <h3 slot="title">{$_(`${basekey}.${i}.title`)}</h3>
+      <h3 slot="title">{item.title}</h3>
       <p slot="content">
-        {@html $_(`${basekey}.${i}.copy`, { values: { support: supportEmailLinkString } })}
+        {@html $_(`${i18nKey}.${i}.copy`, { values: { support: supportEmailLinkString } })}
       </p>
     </Collapsible>
   {/each}
