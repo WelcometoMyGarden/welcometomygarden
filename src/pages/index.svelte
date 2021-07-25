@@ -3,9 +3,7 @@
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
-  import { Button } from '../components/UI';
-  import SlowTravelMiniFestival from '../components/Temporary/SlowTravelMiniFestival.svelte';
-  import FestivalBanner from '../components/Temporary/FestivalBanner.svelte';
+  import { Button, Banner } from '../components/UI';
   import { getArrayFromLocale, transKeyExists } from '@/util';
   import { user } from '@/stores/auth';
 
