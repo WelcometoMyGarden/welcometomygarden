@@ -4,9 +4,9 @@
   import { crossIcon } from '@/images/icons';
   import { getCookie, setCookie } from '@/util';
 
-  export let cookieName = 'default-cookie-name';
+  export let cookieName;
   export let cookieTime = 31536000000; //365 * 24 * 60 * 60 * 1000
-  export let bannerText = 'text in banner';
+  export let bannerText;
 
   let bannerShown = !getCookie(cookieName);
 

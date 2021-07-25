@@ -3,7 +3,7 @@
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
-  import { Button, Banner } from '../components/UI';
+  import { Button } from '../components/UI';
   import { getArrayFromLocale, transKeyExists } from '@/util';
   import { user } from '@/stores/auth';
 
@@ -18,6 +18,8 @@
   import Step1 from '../images/step-1.svg';
   import Step2 from '../images/step-2.svg';
   import Step3 from '../images/step-3.svg';
+
+  import ShopBanner from '../components/Temporary/ShopBanner.svelte';
 
   function handleLearnMoreClick() {
     const navBarHeight = parseInt(
@@ -39,6 +41,8 @@
 <svelte:head>
   <title>{$_('generics.home')} | Welcome To My Garden</title>
 </svelte:head>
+
+<ShopBanner />
 
 <section class="landing" id="landing">
   <div class="welcome">
