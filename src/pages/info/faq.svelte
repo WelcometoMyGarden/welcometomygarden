@@ -1,6 +1,5 @@
 <script>
-  import { _, locale } from 'svelte-i18n';
-  import { getArrayFromLocale } from '@/util';
+  import { _ } from 'svelte-i18n';
   import CollapsibleGroupFromKey from '../../components/CollapsibleGroupFromKey.svelte';
 </script>
 
@@ -12,4 +11,4 @@
   <h2>{$_('faq.title')}</h2>
   <p>{$_('faq.description')}</p>
 </div>
-<CollapsibleGroupFromKey basekey={'faq.questions'} />
+<CollapsibleGroupFromKey i18nKey="faq.questions" />
