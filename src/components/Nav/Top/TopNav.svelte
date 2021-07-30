@@ -5,6 +5,7 @@
   import NavLink from './NavLink.svelte';
   import UserDropdown from './UserDropdown.svelte';
   import { user } from '@/stores/auth';
+  import { SHOP_URL } from '@/constants';
 
   $: firstName = $user ? $user.firstName : '';
 </script>
@@ -27,6 +28,9 @@
     </li>
     <li>
       <NavLink href={routes.FAQ}>{$_('generics.faq.acronym')}</NavLink>
+    </li>
+    <li>
+      <NavLink href={SHOP_URL} target="_blank">{$_('generics.shop')}</NavLink>
     </li>
     {#if $user}
       <UserDropdown name={firstName || ''} />

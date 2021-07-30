@@ -17,7 +17,8 @@
     "account": "Account",
     "sign-out": "Uitloggen",
     "sign-in": "Inloggen",
-    "garden": "Tuin"
+    "garden": "Tuin",
+    "shop": "Shop"
   },
   "ui": {
     "card": {
@@ -28,6 +29,12 @@
     "banner-stmf": {
       "copy": "Wil je je trage reis voorbereiden met de community en tegelijk Welcome To My Garden ondersteunen? Bekijk ons {stmfLink} (van 3 tot 29 juni)!",
       "link": "Slow Travel Mini Festival"
+    },
+    "shop": {
+      "banner": {
+        "copy": "Welcome To My Garden heeft nu een {title} met houten WTMG-bordjes en postkaartjes om hosts te bedanken. Neem zeker een kijkje op {link}!",
+        "title": "online shop"
+      }
     },
     "intro": {
       "copy": "Een netwerk zonder winstoogmerk van burgers die hun tuin gratis beschikbaar stellen voor trage reizigers",

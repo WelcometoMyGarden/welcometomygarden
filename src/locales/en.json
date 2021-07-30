@@ -17,7 +17,8 @@
     "account": "Account",
     "sign-out": "Sign Out",
     "sign-in": "Sign in",
-    "garden": "Garden"
+    "garden": "Garden",
+    "shop": "Shop"
   },
   "ui": {
     "card": {
@@ -28,6 +29,12 @@
     "banner-stmf": {
       "copy": "Want to prepare your slow travels with the community while supporting Welcome To My Garden? Check out our {stmfLink} (from 3 to 29 June)!",
       "link": "Slow Travel Mini Festival"
+    },
+    "shop": {
+      "banner": {
+        "copy": "Welcome To My Garden now has its {title} with wooden WTMG signs and thank you postcards for hosts. Go check it out at {link}!",
+        "title": "online shop"
+      }
     },
     "intro": {
       "copy": "A not-for-profit network of citizens offering free camping spots in their gardens to slow travellers",
