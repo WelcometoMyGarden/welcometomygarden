@@ -14,29 +14,225 @@
     "email": "Correo electrónico",
     "cookie-policy": "Política de cookies",
     "chat": "Chat",
-    "account": "Cuenta"
+    "account": "Cuenta",
+    "sign-in": "",
+    "terms-of-use": "",
+    "sign-out": ""
   },
   "account": {
-    "title": "Cuenta"
+    "title": "Cuenta",
+    "notify": {
+      "preferences-update": "",
+      "garden-no-show": "",
+      "garden-show": "",
+      "resend-error": ""
+    },
+    "garden": {
+      "listed": {
+        "text": "",
+        "button": ""
+      },
+      "unlisted": {
+        "text": "",
+        "button": ""
+      },
+      "unverified": {
+        "text": ""
+      },
+      "title": ""
+    },
+    "preferences": {
+      "news": "",
+      "chat": "",
+      "text": "",
+      "title": ""
+    },
+    "verify": {
+      "sent": "",
+      "button": "",
+      "text": "",
+      "title": ""
+    }
   },
   "fallback": {
-    "404": "404 - Página no encontrada"
+    "404": "404 - Página no encontrada",
+    "redirect": ""
   },
   "garden": {
     "form": {
       "location": {
-        "adjust-button": "Ajustar ubicación del pin"
+        "adjust-button": "Ajustar ubicación del pin",
+        "notice": "",
+        "street": "",
+        "title": "",
+        "confirm-button": "",
+        "coordinate-hint": "",
+        "region": "",
+        "country": "",
+        "house-number": "",
+        "city": "",
+        "postal-code": ""
+      },
+      "photo": {
+        "hints": {
+          "too-large": "",
+          "wrong-format": ""
+        },
+        "img-alt": "",
+        "notice": "",
+        "title": ""
+      },
+      "facilities": {
+        "capacity": {
+          "help": "",
+          "label": ""
+        },
+        "notice": "",
+        "title": ""
+      },
+      "email-confirm-notice": "",
+      "invalid": "",
+      "description": {
+        "notice": "",
+        "hints": {
+          "too-short": "",
+          "too-long": ""
+        },
+        "title": "",
+        "label": "",
+        "placeholder": ""
+      },
+      "account-link-text": "",
+      "update-button": "",
+      "normal-notice": "",
+      "add-button": "",
+      "register-link-text": "",
+      "sign-in-link-text": "",
+      "auth-notice": "",
+      "title": ""
+    },
+    "notify": {
+      "success": "",
+      "photo": "",
+      "update": ""
+    },
+    "filter": {
+      "min-capacity": "",
+      "garden-capacity": "",
+      "search-city": "",
+      "spots-available": "",
+      "min": "",
+      "garden-facilities": "",
+      "apply-filter": "",
+      "available": "",
+      "all-filters": "",
+      "no-places": "",
+      "title": ""
+    },
+    "facilities": {
+      "labels": {
+        "water": "",
+        "shower": "",
+        "bonfire": "",
+        "toilet": "",
+        "drinkable-water": "",
+        "tent": "",
+        "electricity": ""
+      }
+    },
+    "manage": {
+      "title": ""
+    },
+    "add": {
+      "title": ""
+    },
+    "drawer": {
+      "unclaimed": "",
+      "guest": {
+        "sign-link-text": "",
+        "login": "",
+        "button": ""
+      },
+      "owner": {
+        "button": "",
+        "your-garden": ""
+      },
+      "facilities": {
+        "capacity": ""
       }
     }
   },
   "index": {
     "steps": {
       "1": {
-        "copy": "Una vez que hayas llegado a un acuerdo con tus anfitriones, calcula tu ruta a pie o en bicicleta hasta su jardín. Salúdalos y monta tu tienda para pasar la noche."
+        "copy": "Una vez que hayas llegado a un acuerdo con tus anfitriones, calcula tu ruta a pie o en bicicleta hasta su jardín. Salúdalos y monta tu tienda para pasar la noche.",
+        "title": ""
       },
       "0": {
-        "add-garden-link-text": "Añádelo al mapa"
+        "add-garden-link-text": "Añádelo al mapa",
+        "title": "",
+        "copy": ""
+      },
+      "2": {
+        "copy": "",
+        "title": ""
       }
+    },
+    "banner-stmf": {
+      "link": "",
+      "copy": ""
+    },
+    "faq": {
+      "questions": {
+        "3": {
+          "copy": "",
+          "title": ""
+        },
+        "2": {
+          "copy": "",
+          "title": ""
+        },
+        "0": {
+          "title": "",
+          "copy": ""
+        },
+        "4": {
+          "title": "",
+          "copy": ""
+        },
+        "1": {
+          "title": "",
+          "copy": ""
+        }
+      },
+      "copy": "",
+      "faq-link-text": "",
+      "title": ""
+    },
+    "shop": {
+      "banner": {
+        "copy": "",
+        "title": ""
+      }
+    },
+    "intro": {
+      "copy": "",
+      "learn-more": "",
+      "explore-map": "",
+      "add-garden": ""
+    },
+    "holiday-donations": {
+      "title": "",
+      "link-text": "",
+      "copy": ""
+    },
+    "support": {
+      "donation-link-text": "",
+      "copy": "",
+      "title": ""
+    },
+    "partners": {
+      "title": ""
     }
   },
   "terms-of-use": {
@@ -45,11 +241,798 @@
         "paragraphs": {
           "0": {
             "copy": {
-              "1": "Las cuentas y las cuentas relacionadas que se utilizan para realizar las acciones enumeradas a continuación pueden ser bloqueadas temporalmente y/o eliminadas permanentemente."
-            }
+              "1": "Las cuentas y las cuentas relacionadas que se utilizan para realizar las acciones enumeradas a continuación pueden ser bloqueadas temporalmente y/o eliminadas permanentemente.",
+              "0": "",
+              "2": ""
+            },
+            "title": ""
+          },
+          "1": {
+            "copy": {
+              "0": ""
+            },
+            "title": ""
+          }
+        },
+        "title": "",
+        "descriptions": {
+          "0": {
+            "copy": ""
           }
         }
+      },
+      "0": {
+        "descriptions": {
+          "0": {
+            "copy": ""
+          },
+          "1": {
+            "copy": ""
+          }
+        },
+        "info": {
+          "0": {
+            "title": "",
+            "sections": {
+              "3": {
+                "copy": "",
+                "title": ""
+              },
+              "0": {
+                "copy": "",
+                "title": ""
+              },
+              "1": {
+                "copy": "",
+                "title": ""
+              },
+              "2": {
+                "copy": "",
+                "title": ""
+              }
+            }
+          }
+        },
+        "title": ""
+      },
+      "1": {
+        "info": {
+          "0": {
+            "sections": {
+              "0": {
+                "copy": "",
+                "title": ""
+              },
+              "1": {
+                "title": "",
+                "copy": ""
+              },
+              "2": {
+                "title": "",
+                "copy": ""
+              }
+            },
+            "title": ""
+          }
+        },
+        "title": ""
+      },
+      "8": {
+        "descriptions": {
+          "2": {
+            "copy": ""
+          },
+          "1": {
+            "copy": ""
+          },
+          "0": {
+            "copy": ""
+          }
+        },
+        "title": ""
+      },
+      "10": {
+        "title": "",
+        "descriptions": {
+          "0": {
+            "copy": ""
+          }
+        }
+      },
+      "3": {
+        "paragraphs": {
+          "0": {
+            "copy": {
+              "0": ""
+            },
+            "title": ""
+          },
+          "1": {
+            "copy": {
+              "0": ""
+            },
+            "title": ""
+          }
+        },
+        "title": ""
+      },
+      "2": {
+        "paragraphs": {
+          "6": {
+            "copy": {
+              "0": ""
+            },
+            "title": ""
+          },
+          "4": {
+            "title": "",
+            "copy": {
+              "0": ""
+            }
+          },
+          "2": {
+            "copy": {
+              "0": ""
+            },
+            "title": ""
+          },
+          "5": {
+            "title": "",
+            "copy": {
+              "0": ""
+            }
+          },
+          "3": {
+            "copy": {
+              "0": ""
+            },
+            "title": ""
+          },
+          "1": {
+            "copy": {
+              "0": ""
+            },
+            "title": ""
+          },
+          "0": {
+            "copy": {
+              "0": ""
+            },
+            "title": ""
+          }
+        },
+        "title": "",
+        "descriptions": {
+          "0": {
+            "copy": ""
+          }
+        }
+      },
+      "9": {
+        "title": "",
+        "descriptions": {
+          "0": {
+            "copy": ""
+          },
+          "1": {
+            "copy": ""
+          }
+        }
+      },
+      "11": {
+        "title": "",
+        "descriptions": {
+          "0": {
+            "copy": ""
+          }
+        }
+      },
+      "7": {
+        "descriptions": {
+          "0": {
+            "copy": ""
+          },
+          "1": {
+            "copy": ""
+          }
+        },
+        "title": ""
+      },
+      "6": {
+        "descriptions": {
+          "0": {
+            "copy": ""
+          },
+          "1": {
+            "copy": ""
+          }
+        },
+        "title": ""
+      },
+      "5": {
+        "descriptions": {
+          "1": {
+            "copy": ""
+          },
+          "0": {
+            "copy": ""
+          }
+        },
+        "title": ""
       }
+    },
+    "intro": {
+      "1": {
+        "copy": ""
+      },
+      "0": {
+        "copy": ""
+      },
+      "2": {
+        "copy": ""
+      }
+    },
+    "last-updated": "",
+    "title": ""
+  },
+  "register": {
+    "validate": {
+      "first-name": {
+        "set": "",
+        "max": ""
+      },
+      "email": "",
+      "password": {
+        "min": "",
+        "set": "",
+        "max": ""
+      },
+      "consent": "",
+      "country": {
+        "set": "",
+        "from-list": ""
+      },
+      "last-name": ""
+    },
+    "registering": "",
+    "notify": {
+      "in-use": "",
+      "unexpected": "",
+      "successful": ""
+    },
+    "registred": "",
+    "policies": "",
+    "country": "",
+    "last-name": "",
+    "first-name": "",
+    "button": "",
+    "title": ""
+  },
+  "stmf": {
+    "sections": {
+      "plan": "",
+      "get-inspired": "",
+      "rethink": "",
+      "contribute": ""
+    },
+    "description": "",
+    "title": ""
+  },
+  "privacy-policy": {
+    "change-warning": {
+      "copy": "",
+      "title": ""
+    },
+    "rights": {
+      "list": {
+        "4": {
+          "copy": "",
+          "title": ""
+        },
+        "3": {
+          "copy": "",
+          "title": ""
+        },
+        "1": {
+          "title": "",
+          "copy": ""
+        },
+        "2": {
+          "copy": "",
+          "title": ""
+        },
+        "0": {
+          "copy": "",
+          "title": ""
+        }
+      },
+      "exercise-rights": {
+        "copy": "",
+        "title": ""
+      },
+      "copy": "",
+      "title": ""
+    },
+    "personal-data": {
+      "extra": {
+        "0": {
+          "title": "",
+          "copy": ""
+        },
+        "2": {
+          "copy": "",
+          "title": ""
+        },
+        "1": {
+          "title": "",
+          "copy": ""
+        }
+      },
+      "usage": {
+        "purposes": {
+          "4": "",
+          "3": "",
+          "2": "",
+          "5": "",
+          "1": "",
+          "0": ""
+        },
+        "copy": "",
+        "subtitle": "",
+        "title": ""
+      },
+      "meaning": {
+        "copy": "",
+        "title": ""
+      },
+      "backups": {
+        "title": "",
+        "copy": ""
+      },
+      "collection": {
+        "sources": {
+          "0": {
+            "list": {
+              "2": "",
+              "0": "",
+              "3": "",
+              "1": ""
+            },
+            "title": ""
+          },
+          "3": {
+            "list": {
+              "0": ""
+            },
+            "title": ""
+          },
+          "1": {
+            "list": {
+              "0": ""
+            },
+            "title": ""
+          },
+          "2": {
+            "title": "",
+            "list": {
+              "2": "",
+              "1": "",
+              "0": ""
+            }
+          }
+        },
+        "copy": "",
+        "title": ""
+      }
+    },
+    "definitions": {
+      "articles": {
+        "7": {
+          "copy": "",
+          "title": ""
+        },
+        "5": {
+          "title": "",
+          "copy": ""
+        },
+        "3": {
+          "copy": "",
+          "title": ""
+        },
+        "4": {
+          "title": "",
+          "copy": ""
+        },
+        "1": {
+          "copy": "",
+          "title": ""
+        },
+        "0": {
+          "title": "",
+          "copy": ""
+        },
+        "2": {
+          "copy": "",
+          "title": ""
+        },
+        "6": {
+          "copy": "",
+          "title": ""
+        }
+      },
+      "title": "",
+      "legal-info": {
+        "copy": "",
+        "title": ""
+      }
+    },
+    "additional-info": {
+      "infos": {
+        "1": {
+          "copy": {
+            "1": "",
+            "2": "",
+            "0": ""
+          },
+          "title": ""
+        },
+        "0": {
+          "title": "",
+          "copy": {
+            "0": "",
+            "1": ""
+          }
+        }
+      },
+      "title": ""
+    },
+    "email": "",
+    "scope": {
+      "copy": "",
+      "title": ""
+    },
+    "subtitle": "",
+    "intro": "",
+    "title": "",
+    "last-updated": ""
+  },
+  "faq": {
+    "clusters": {
+      "general": {
+        "questions": {
+          "how": {
+            "copy": "",
+            "title": ""
+          },
+          "what": {
+            "title": "",
+            "copy": ""
+          },
+          "who": {
+            "copy": "",
+            "title": ""
+          }
+        },
+        "title": ""
+      },
+      "slow-travellers": {
+        "questions": {
+          "no-garden": {
+            "title": "",
+            "copy": ""
+          },
+          "no-toilet": {
+            "copy": "",
+            "title": ""
+          },
+          "cost": {
+            "title": "",
+            "copy": ""
+          },
+          "what-facilities": {
+            "copy": "",
+            "title": ""
+          },
+          "how-camping": {
+            "copy": "",
+            "title": ""
+          },
+          "covid-safe": {
+            "copy": "",
+            "title": ""
+          },
+          "how-long": {
+            "copy": "",
+            "title": ""
+          },
+          "animals": {
+            "copy": "",
+            "title": ""
+          },
+          "tent-type": {
+            "copy": "",
+            "title": ""
+          }
+        },
+        "title": ""
+      },
+      "technical-support": {
+        "title": "",
+        "questions": {
+          "privacy": {
+            "title": "",
+            "copy": ""
+          },
+          "update-email": {
+            "title": "",
+            "copy": ""
+          },
+          "newsletter": {
+            "copy": "",
+            "title": ""
+          },
+          "messages": {
+            "title": "",
+            "copy": ""
+          },
+          "text-in-english": {
+            "title": "",
+            "copy": ""
+          }
+        }
+      },
+      "hosts": {
+        "questions": {
+          "messaging": {
+            "title": "",
+            "copy": ""
+          },
+          "privacy": {
+            "copy": "",
+            "title": ""
+          },
+          "suspend": {
+            "copy": "",
+            "title": ""
+          },
+          "issue": {
+            "title": "",
+            "copy": ""
+          }
+        },
+        "title": ""
+      },
+      "other": {
+        "questions": {
+          "fb-page": {
+            "title": "",
+            "copy": ""
+          },
+          "become-volunteer": {
+            "title": "",
+            "copy": ""
+          },
+          "warmshowers": {
+            "copy": "",
+            "title": ""
+          }
+        },
+        "title": ""
+      }
+    },
+    "instruction-page": "",
+    "donation": "",
+    "description": "",
+    "title": ""
+  },
+  "chat": {
+    "all-conversations": "",
+    "title": "",
+    "title-conversation": "",
+    "go-to-garden": "",
+    "type-message": "",
+    "no-messages": {
+      "link": "",
+      "text": ""
+    },
+    "notify": {
+      "empty-message": "",
+      "too-long": "",
+      "unverified": ""
+    },
+    "new": ""
+  },
+  "cookies": {
+    "articles": {
+      "3": {
+        "copy": {
+          "1": "",
+          "0": "",
+          "2": "",
+          "3": "",
+          "4": ""
+        },
+        "title": ""
+      },
+      "2": {
+        "copy": {
+          "0": ""
+        },
+        "title": ""
+      },
+      "4": {
+        "copy": {
+          "1": "",
+          "2": "",
+          "3": "",
+          "0": ""
+        },
+        "title": ""
+      },
+      "0": {
+        "copy": {
+          "0": ""
+        },
+        "title": ""
+      },
+      "5": {
+        "copy": {
+          "0": ""
+        },
+        "title": ""
+      },
+      "1": {
+        "copy": {
+          "0": ""
+        },
+        "title": ""
+      }
+    },
+    "title": ""
+  },
+  "auth": {
+    "password": {
+      "expired": ""
+    },
+    "invalid-code": "",
+    "verification": {
+      "refresh": "",
+      "succes": "",
+      "unsigned": "",
+      "expired": ""
     }
+  },
+  "rules": {
+    "rules": {
+      "9": {
+        "copy": "",
+        "title": ""
+      },
+      "8": {
+        "copy": "",
+        "title": ""
+      },
+      "10": {
+        "copy": "",
+        "title": ""
+      },
+      "3": {
+        "copy": "",
+        "title": ""
+      },
+      "7": {
+        "copy": "",
+        "title": ""
+      },
+      "5": {
+        "title": "",
+        "copy": ""
+      },
+      "6": {
+        "copy": "",
+        "title": ""
+      },
+      "2": {
+        "copy": "",
+        "title": ""
+      },
+      "0": {
+        "title": "",
+        "copy": ""
+      },
+      "1": {
+        "copy": "",
+        "title": ""
+      },
+      "4": {
+        "title": "",
+        "copy": ""
+      }
+    },
+    "message": "",
+    "description": "",
+    "title": ""
+  },
+  "request-password-reset": {
+    "description": "",
+    "title": "",
+    "trouble": "",
+    "button": "",
+    "set": ""
+  },
+  "recommendations": {
+    "recommendations-groups": {
+      "0": {
+        "recommendations": {
+          "2": "",
+          "4": "",
+          "0": "",
+          "5": "",
+          "1": "",
+          "3": ""
+        },
+        "title": ""
+      },
+      "2": {
+        "recommendations": {
+          "0": "",
+          "1": ""
+        },
+        "title": ""
+      },
+      "1": {
+        "title": "",
+        "recommendations": {
+          "3": "",
+          "4": "",
+          "2": "",
+          "1": "",
+          "0": ""
+        }
+      }
+    },
+    "contact": "",
+    "message": "",
+    "description": "",
+    "title": ""
+  },
+  "sign-in": {
+    "button": "",
+    "register": {
+      "link": "",
+      "text": ""
+    },
+    "reset": {
+      "text": "",
+      "link": ""
+    },
+    "title": "",
+    "notify": {
+      "login-issue": "",
+      "welcome": "",
+      "incorrect": ""
+    }
+  },
+  "map": {
+    "trails": {
+      "attribution": "",
+      "hiking": "",
+      "cycling": ""
+    },
+    "vehicle-notice": {
+      "text": "",
+      "title": ""
+    }
+  },
+  "tagline": "",
+  "ui": {
+    "card": {
+      "register-here": ""
+    }
+  },
+  "reset-password": {
+    "title": "",
+    "succes": "",
+    "update": ""
   }
 }
