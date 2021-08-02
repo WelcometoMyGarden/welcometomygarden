@@ -3,40 +3,20 @@
   import { routes } from '@sveltech/routify/tmp/routes';
   import { register, locale, init } from 'svelte-i18n';
   import { setCookie, getCookie } from '@/util';
+  import allLocales from '@/locales';
 
-  let lang = getCookie('locale');
-  if (!lang && navigator.language) lang = navigator.language.toLowerCase();
+  let lang = getCookie('locale'); //en or nl or ...
+  if (!lang && window.navigator.language)
+    lang = window.navigator.language.split('-')[0].toLowerCase();
   if (!lang) lang = 'en';
 
-  const langs = {
-    en: [
-      'en',
-      'en-au',
-      'en-bz',
-      'en-ca',
-      'en-ie',
-      'en-jm',
-      'en-nz',
-      'en-ph',
-      'en-za',
-      'en-tt',
-      'en-gb',
-      'en-us',
-      'en-zw'
-    ],
-    nl: ['nl', 'nl-be'],
-    fr: ['fr', 'fr-be', 'fr-ca', 'fr-fr', 'fr-lu', 'fr-mc', 'fr-ch']
-  };
+  allLocales.map((availableLocale) => {
+    register(availableLocale, () => import(`@/locales/${availableLocale}.json`));
+  });
 
-  const languageCode = Object.keys(langs).find(code => langs[code].includes(lang)) || 'en';
+  init({ fallbackLocale: 'en', initialLocale: lang });
 
-  register('en', () => import('@/locales/en.json'));
-  register('fr', () => import('@/locales/fr.json'));
-  register('nl', () => import('@/locales/nl.json'));
-
-  init({ fallbackLocale: 'en', initialLocale: languageCode });
-
-  locale.subscribe(value => {
+  locale.subscribe((value) => {
     if (value == null) return;
 
     // if running in the client, save the language preference in a cookie

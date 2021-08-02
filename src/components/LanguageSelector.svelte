@@ -1,15 +1,18 @@
 <script>
   import { locale } from 'svelte-i18n';
   import allLocales from '@/locales';
+  import { ISO6391 } from '@/utils';
 
-  const setLocale = event => {
+  const setLocale = (event) => {
     locale.set(event.target.value);
   };
+
+  const allAvailableLocales = ISO6391.getLanguages(allLocales); // [{code:'en',name:'English',nativeName:'English'},{code:'zh',name:'Chinese',nativeName:'中文'}]
 </script>
 
 <select value={$locale} on:input={setLocale}>
-  {#each allLocales as { code, name } (name)}
-    <option value={code}>{name}</option>
+  {#each allAvailableLocales as { code, name, nativeName } (name)}
+    <option value={code}>{nativeName}</option>
   {/each}
 </select>
 

@@ -5,3 +5,4 @@ export { default as removeDiacritics } from './removeDiacritics';
 export { default as setCookie } from './set-cookie';
 export { emailAsLink as supportEmailLinkString } from './support-email.js';
 export { default as transKeyExists } from './translation-key-exists';
+export { default as ISO6391 } from './iso-639-1';
