@@ -3,7 +3,7 @@
   // is this a little nasty? yes
   // until routify handles index routes a little more consistently, it's here to stay
   export let isHome = false;
-  export let target = undefined;;
+  export let target = undefined;
 
   import { isActive } from '@sveltech/routify';
 </script>
