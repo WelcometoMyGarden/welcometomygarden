@@ -1,14 +1,1 @@
-export default [
-  {
-    code: 'en',
-    name: 'English'
-  },
-  {
-    code: 'fr',
-    name: 'Français'
-  },
-  {
-    code: 'nl',
-    name: 'Nederlands'
-  }
-];
+export default ['en', 'nl', 'fr', 'de', 'es'];

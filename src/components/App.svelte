@@ -33,6 +33,8 @@
   register('en', () => import('@/locales/en.json'));
   register('fr', () => import('@/locales/fr.json'));
   register('nl', () => import('@/locales/nl.json'));
+  register('de', () => import('@/locales/de.json'));
+  register('es', () => import('@/locales/es.json'));
 
   init({ fallbackLocale: 'en', initialLocale: languageCode });
 
