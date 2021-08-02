@@ -1,0 +1,25 @@
+{
+    "generics": {
+        "shop": "Tienda",
+        "rules": "Reglas",
+        "privacy-policy": "Política de privacidad",
+        "password": "Contraseña",
+        "map": "Mapa",
+        "home": "Bienvenido",
+        "garden": "Jardín",
+        "faq": {
+            "explicit": "Preguntas frecuentes",
+            "acronym": "FAQ"
+        },
+        "email": "Correo electrónico",
+        "cookie-policy": "Política de cookies",
+        "chat": "Chat",
+        "account": "Cuenta"
+    },
+    "account": {
+        "title": "Cuenta"
+    },
+    "fallback": {
+        "404": "404 - Página no encontrada"
+    }
+}
