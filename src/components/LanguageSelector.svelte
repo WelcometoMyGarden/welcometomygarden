@@ -1,13 +1,13 @@
 <script>
   import { locale } from 'svelte-i18n';
-  import allLocales from '@/locales';
+  import appLocales from 'app-locales';
   import ISO6391 from 'iso-639-1';
 
   const setLocale = (event) => {
     locale.set(event.target.value);
   };
 
-  let allAvailableLocales = ISO6391.getLanguages(allLocales);
+  let allAvailableLocales = ISO6391.getLanguages(Object.keys(appLocales));
 </script>
 
 <select value={$locale} on:input={setLocale}>
