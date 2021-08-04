@@ -12,6 +12,7 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import copy from 'rollup-plugin-copy';
 import rimraf from 'rimraf';
+import appLocales from './plugins/rollup/app-locales';
 
 const production = !process.env.ROLLUP_WATCH;
 const isNollup = !!process.env.NOLLUP;
@@ -102,7 +103,8 @@ export default () => {
         replace({
           NODE_ENV: JSON.stringify(process.env.NODE_ENV),
           WTMG_CONFIG: JSON.stringify(wtmgConfig)
-        })
+        }),
+        appLocales()
       ],
       watch: {
         clearScreen: false,
