@@ -15,7 +15,7 @@ export default (localesDir = 'src/locales', virtualModuleId = 'app-locales') => 
       const targetDir = path.join(__dirname, localesDir);
       const locales = fs.readdirSync(targetDir).filter((f) => f.endsWith('.json'));
       const objectEntries = locales.map(
-        (file) => `  '${file.split('.')[0]}': () => import('${path.join(targetDir, file)}')`
+        (file) => `  '${file.split('.')[0]}': () => import('src/locales/${file}')`
       );
       return `export default {\n${objectEntries.join(',\n')}\n};`;
     }
