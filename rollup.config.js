@@ -7,12 +7,13 @@ import replace from '@rollup/plugin-replace';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import alias from '@rollup/plugin-alias';
+import dynamicImportVars from '@rollup/plugin-dynamic-import-vars';
 import svg from 'rollup-plugin-svg-import';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import copy from 'rollup-plugin-copy';
 import rimraf from 'rimraf';
-import appLocales from './plugins/rollup/app-locales';
+import availableLocales from './plugins/rollup/availableLocales';
 
 const production = !process.env.ROLLUP_WATCH;
 const isNollup = !!process.env.NOLLUP;
@@ -104,7 +105,8 @@ export default () => {
           NODE_ENV: JSON.stringify(process.env.NODE_ENV),
           WTMG_CONFIG: JSON.stringify(wtmgConfig)
         }),
-        appLocales()
+        dynamicImportVars({ include: ['src/locales/register.js'] }),
+        availableLocales()
       ],
       watch: {
         clearScreen: false,

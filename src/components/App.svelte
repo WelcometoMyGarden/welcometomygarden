@@ -1,18 +1,16 @@
 <script>
   import { Router } from '@sveltech/routify';
   import { routes } from '@sveltech/routify/tmp/routes';
-  import { register, locale, init } from 'svelte-i18n';
+  import { locale, init } from 'svelte-i18n';
   import { setCookie, getCookie } from '@/util';
-  import locales from 'app-locales';
+  import registerLocales from '@/locales/register';
 
   let lang = getCookie('locale'); //en or nl or ...
   if (!lang && window.navigator.language)
     lang = window.navigator.language.split('-')[0].toLowerCase();
   if (!lang) lang = 'en';
 
-  for (const [language, importFn] of Object.entries(locales)) {
-    register(language, importFn);
-  }
+  registerLocales();
 
   init({ fallbackLocale: 'en', initialLocale: lang });
 
