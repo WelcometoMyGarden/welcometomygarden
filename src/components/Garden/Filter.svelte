@@ -1,0 +1,162 @@
+<script>
+  import { _ } from 'svelte-i18n';
+  import { Icon, Button, Tag } from '@/components/UI';
+  import FacilitiesFilter from './FacilitiesFilter.svelte';
+
+  import {
+    filterIcon,
+    bonfireIcon,
+    electricityIcon,
+    showerIcon,
+    toiletIcon,
+    waterIcon,
+    tentIcon
+  } from '@/images/icons';
+  export let filteredGardens;
+
+  let showFilterModal = false;
+
+  let filter = {
+    facilities: [],
+    capacity: {
+      min: 1,
+      max: 20
+    }
+  };
+
+  const facilities = [
+    { name: 'toilet', icon: toiletIcon, label: $_('garden.facilities.labels.toilet') },
+    { name: 'shower', icon: showerIcon, label: $_('garden.facilities.labels.shower') },
+    {
+      name: 'electricity',
+      icon: electricityIcon,
+      label: $_('garden.facilities.labels.electricity')
+    },
+    { name: 'tent', icon: tentIcon, label: $_('garden.facilities.labels.tent') },
+    { name: 'bonfire', icon: bonfireIcon, label: $_('garden.facilities.labels.bonfire') },
+    { name: 'water', icon: waterIcon, label: $_('garden.facilities.labels.water') },
+    {
+      name: 'drinkableWater',
+      icon: waterIcon,
+      label: $_('garden.facilities.labels.drinkable-water')
+    }
+  ];
+
+  let isSearching = false;
+
+  let maxWidth = 500;
+  let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+  let allFiltersTag = false;
+
+  const activeFacilities = () => {
+    let activeFacilitiesFiltered = facilities.filter(
+      (facility) => filter.facilities[facility.name] === true
+    );
+
+    if (maxWidth && vw < maxWidth) {
+      if (activeFacilitiesFiltered.length > 3) {
+        activeFacilitiesFiltered = activeFacilitiesFiltered.slice(0, 3);
+        allFiltersTag = true;
+      } else {
+        allFiltersTag = false;
+      }
+    } else {
+      allFiltersTag = false;
+    }
+    return activeFacilitiesFiltered;
+  };
+</script>
+
+<div class="filter">
+  <div class="location-filter">
+    <!-- TODO create location filter -->
+  </div>
+  <div class="garden-filter">
+    <Button
+      type="button"
+      uppercase
+      on:click={() => {
+        showFilterModal = true;
+      }}
+    >
+      {@html filterIcon}
+    </Button>
+  </div>
+  {#if !isSearching}
+    <div class="filter-tags">
+      {#each activeFacilities() as facility (facility.name)}
+        <Tag
+          name={facility.name}
+          icon={facility.icon}
+          label={facility.label}
+          on:close={() => (filter.facilities[facility.name] = false)}
+        />
+      {/each}
+      {#if allFiltersTag}
+        <Tag
+          name="all-filters"
+          label="all filters"
+          on:click={() => {
+            showFilterModal = true;
+          }}
+          closeButton={false}
+        />
+      {/if}
+    </div>
+  {/if}
+</div>
+
+<FacilitiesFilter bind:show={showFilterModal} bind:filteredGardens {facilities} bind:filter />
+
+<style>
+  .filter {
+    background-color: rgba(255, 255, 255, 0);
+    width: 80%;
+    top: calc(var(--height-nav) + 1.5rem);
+    width: 32rem;
+    left: 6rem;
+    position: absolute;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .location-filter {
+    width: calc(100% - 60px);
+    margin-right: 0.5rem;
+  }
+
+  .filter-tags {
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .filter :global(input, .input:focus) {
+    border-radius: 10px;
+    border-bottom: none;
+  }
+
+  .garden-filter :global(button) {
+    padding: 0 1.2rem;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    height: 43px;
+    margin: 0;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .garden-filter :global(span) {
+    line-height: 1.2rem;
+  }
+
+  @media screen and (max-width: 700px) {
+    .filter {
+      top: 3rem;
+      width: 72%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+</style>

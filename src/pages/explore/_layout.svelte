@@ -4,16 +4,19 @@
   import { goto, params } from '@sveltech/routify';
   import { getAllListedGardens } from '@/api/garden';
   import { allGardens, isFetchingGardens } from '@/stores/garden';
+  import routes from '@/routes';
+
   import Map from '@/components/Map/Map.svelte';
   import Drawer from '@/components/Garden/Drawer.svelte';
   import GardenLayer from '@/components/Map/GardenLayer.svelte';
   import WaymarkedTrails from '@/components/Map/WaymarkedTrails.svelte';
-  import routes from '@/routes';
+  import Filter from '@/components/Garden/Filter.svelte';
   import { Progress, LabeledCheckbox, Icon } from '@/components/UI';
+
   import { getCookie, setCookie } from '@/util';
   import { crossIcon, cyclistIcon, hikerIcon } from '@/images/icons';
 
-  const fallBackLocation = { longitude: 4.5, latitude: 50.5 };
+  const fallbackLocation = { longitude: 4.5, latitude: 50.5 };
 
   /**
    * URL with gardenId
@@ -34,7 +37,7 @@
 
   $: center = selectedGarden
     ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
-    : fallBackLocation;
+    : fallbackLocation;
 
   const closeDrawer = () => {
     $goto(routes.MAP);
@@ -79,6 +82,11 @@
   const attributionLinkTrails = `<a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>`;
 
   /**
+   *  Filter
+   */
+  let filteredGardens;
+
+  /**
    * onDestroy lifecycle hook
    */
 
@@ -94,7 +102,7 @@
       <GardenLayer
         on:garden-click={(e) => selectGarden(e.detail)}
         selectedGardenId={selectedGarden ? selectedGarden.id : null}
-        allGardens={$allGardens}
+        allGardens={filteredGardens || $allGardens}
       />
       <Drawer on:close={closeDrawer} garden={selectedGarden} />
       <WaymarkedTrails {showHiking} {showCycling} />
@@ -137,6 +145,8 @@
       {@html $_('map.trails.attribution', { values: { link: attributionLinkTrails } })}
     </span>
   </div>
+
+  <Filter bind:filteredGardens />
 </div>
 
 <style>
