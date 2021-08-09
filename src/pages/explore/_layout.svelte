@@ -13,23 +13,36 @@
   import { getCookie, setCookie } from '@/util';
   import { crossIcon, cyclistIcon, hikerIcon } from '@/images/icons';
 
-  $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
-  $: center = selectedGarden
-    ? [selectedGarden.location.longitude, selectedGarden.location.latitude]
-    : [4.5, 50.5];
+  const fallBackLocation = { longitude: 4.5, latitude: 50.5 };
 
-  let carNoticeShown = !getCookie('car-notice-dismissed');
+  /**
+   * URL with gardenId
+   */
+
+  $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
 
   const selectGarden = (garden) => {
     const newSelectedId = garden.id;
     const newGarden = $allGardens[newSelectedId];
-    center = [newGarden.location.longitude, newGarden.location.latitude];
+    center = { longitude: newGarden.location.longitude, latitude: newGarden.location.latitude };
     $goto(`${routes.MAP}/garden/${newSelectedId}`);
   };
+
+  /**
+   * center
+   */
+
+  $: center = selectedGarden
+    ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
+    : fallBackLocation;
 
   const closeDrawer = () => {
     $goto(routes.MAP);
   };
+
+  /**
+   * onMount lifecycle hook
+   */
 
   onMount(async () => {
     if (Object.keys($allGardens).length === 0) {
@@ -42,6 +55,12 @@
     }
   });
 
+  /**
+   * Car Notice
+   */
+
+  let carNoticeShown = !getCookie('car-notice-dismissed');
+
   const closeCarNotice = () => {
     const date = new Date();
     // one year
@@ -50,19 +69,27 @@
     carNoticeShown = false;
   };
 
-  onDestroy(() => {
-    isFetchingGardens.set(false);
-  });
+  /**
+   *  Waymarked Trails
+   */
 
   let showHiking = false;
   let showCycling = false;
 
   const attributionLinkTrails = `<a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>`;
+
+  /**
+   * onDestroy lifecycle hook
+   */
+
+  onDestroy(() => {
+    isFetchingGardens.set(false);
+  });
 </script>
 
 <Progress active={$isFetchingGardens} />
 <div class="map-section">
-  <Map lat={center[1]} lon={center[0]} recenterOnUpdate zoom="7">
+  <Map lon={center.longitude} lat={center.latitude} recenterOnUpdate zoom="7">
     {#if !$isFetchingGardens}
       <GardenLayer
         on:garden-click={(e) => selectGarden(e.detail)}
