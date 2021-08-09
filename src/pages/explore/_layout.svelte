@@ -89,7 +89,7 @@
       </div>
     {/if}
   </Map>
-  <div class="filters">
+  <div class="trails">
     <div>
       <LabeledCheckbox
         name="hiking"
@@ -125,7 +125,7 @@
     top: calc(var(--height-nav) + 0.5rem);
   }
 
-  .filters {
+  .trails {
     background-color: rgba(255, 255, 255, 0.8);
     bottom: 0;
     left: 0;
