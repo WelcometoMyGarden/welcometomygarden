@@ -109,15 +109,13 @@
       </div>
     </div>
   </div>
-  <span slot="controls" class="applyGardenFilter">
-    <span class="light center">
-      {@html $_('garden.filter.available', {
-        values: {
-          amount: `<strong>${Object.values(filteredGardens).length}</strong>`
-        }
-      })}
-    </span>
-  </span>
+  <p slot="controls" class="applyGardenFilter">
+    {@html $_('garden.filter.available', {
+      values: {
+        amount: `<strong>${Object.values(filteredGardens).length}</strong>`
+      }
+    })}
+  </p>
 </Modal>
 
 <style>
@@ -189,7 +187,6 @@
   }
 
   .applyGardenFilter {
-    margin: auto;
     text-align: center;
   }
 
@@ -198,11 +195,6 @@
     border: none;
     border-bottom: 2px solid var(--color-green);
     width: 5rem;
-    text-align: center;
-  }
-
-  .center {
-    margin: auto;
     text-align: center;
   }
 

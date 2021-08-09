@@ -174,12 +174,6 @@
 
   .controls {
     margin-top: 10px;
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .controls > :global(*) {
-    margin-right: 10px;
   }
 
   .radius {
