@@ -113,7 +113,7 @@
     <p class="light">
       {@html $_('garden.filter.available', {
         values: {
-          amount: `<strong>{Object.values(filteredGardens).length}</strong>`
+          amount: `<strong>${Object.values(filteredGardens).length}</strong>`
         }
       })}
     </p>

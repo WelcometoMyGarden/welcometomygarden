@@ -104,7 +104,7 @@
           }}
           closeButton={false}
         >
-          all filters
+          {$_('garden.filter.all-filters')}
         </Tag>
       {/if}
     </div>

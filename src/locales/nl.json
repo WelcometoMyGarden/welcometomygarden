@@ -110,6 +110,15 @@
         "tent": "Tent"
       }
     },
+    "filter": {
+      "title": "Filter",
+      "garden-facilities": "Tuin faciliteiten",
+      "garden-capacity": "Tuin Capaciteit",
+      "spots-available": "Tentplaatsen beschikbaar",
+      "min": "Minimum",
+      "all-filters": "alle filters",
+      "available": "{amount} tuinen beschikbaar met de actieve filters."
+    },
     "drawer": {
       "facilities": {
         "capacity": "Ruimte voor {styleCapacity} {capacity, plural, one {tent} other {tenten}}"
