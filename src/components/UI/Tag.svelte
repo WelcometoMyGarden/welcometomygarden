@@ -3,7 +3,6 @@
   import { crossIcon } from '@/images/icons';
   import { Icon, Button } from './index';
   export let name;
-  export let label;
   export let icon = null;
   export let closeButton = true;
 
@@ -21,7 +20,7 @@
         <Icon {icon} />
       </div>
     {/if}
-    {label}
+    <slot />
   </label>
   {#if closeButton}
     <button class="icon close" on:click={close}>

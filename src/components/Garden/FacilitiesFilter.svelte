@@ -12,7 +12,6 @@
   // because filter has a 2 way binding, if filter is modified somewhere the fx is called
   beforeUpdate(() => {
     filteredGardens = returnFilteredGardens();
-    // console.log(filterGardens);
   });
 
   const capacityMinReduce = () => {
@@ -45,11 +44,6 @@
     return gardens;
   };
 
-  const filterGardens = () => {
-    filteredGardens = returnFilteredGardens();
-    show = false;
-  };
-
   let stickToBottom = false;
   let maxWidth = 576;
 
@@ -73,18 +67,19 @@
   let:ariaLabelledBy
 >
   <div slot="title" class="gardenFilterTitleSection" id={ariaLabelledBy}>
-    <h2 id="gardenFilterTitle">Filter</h2>
+    <h2 id="gardenFilterTitle">{$_('garden.filter.title')}</h2>
   </div>
   <div slot="body" class="gardenFilterBodySection">
     <hr />
     <div id="gardenFacilities" class="gardenFilterSection">
-      <h3 class="gardenFilterSubtitle">Garden Facilities</h3>
+      <h3 class="gardenFilterSubtitle">{$_('garden.filter.garden-facilities')}</h3>
       <div class="gardenFilterCheckboxes">
         {#each facilities as facility (facility.name)}
           <div class="gardenFilterCheckbox">
             <LabeledCheckbox
+              name={facility.name}
               icon={facility.icon}
-              label={facility.label}
+              label={$_(facility.transKey)}
               bind:checked={filter.facilities[facility.name]}
             />
           </div>
@@ -93,18 +88,20 @@
     </div>
     <hr />
     <div id="gardenCapacity" class="gardenFilterSection">
-      <h3 class="gardenFilterSubtitle">Garden Capacity</h3>
+      <h3 class="gardenFilterSubtitle">{$_('garden.filter.garden-capacity')}</h3>
       <div class="gardenFilterCapacitySection">
         <div class="gardenFilterCapacityText">
-          <p>Tent spots available</p>
+          <p>{$_('garden.filter.spots-available')}</p>
         </div>
         <div class="gardenFilterCapacityModifier">
-          <p>Minimum</p>
+          <p>{$_('garden.filter.min')}</p>
           <button on:click={capacityMinReduce}>-</button>
           <input
             type="number"
             class="capacity-input"
             name="capacity"
+            min="1"
+            max="20"
             bind:value={filter.capacity.min}
           />
           <button on:click={capacityMinIncrease}>+</button>
@@ -114,7 +111,11 @@
   </div>
   <span slot="controls" class="applyGardenFilter">
     <p class="light">
-      <strong>{Object.values(filteredGardens).length}</strong> gardens available with the active filters.
+      {@html $_('garden.filter.available', {
+        values: {
+          amount: `<strong>{Object.values(filteredGardens).length}</strong>`
+        }
+      })}
     </p>
   </span>
 </Modal>

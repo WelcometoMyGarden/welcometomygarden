@@ -488,6 +488,14 @@
         "tent": "Tent"
       }
     },
+    "filter": {
+      "title": "Filter",
+      "garden-facilities": "Garden Facilities",
+      "garden-capacity": "Garden Capacity",
+      "spots-available": "Tent spots available",
+      "min": "Minimum",
+      "available": "{amount} gardens available with the active filters."
+    },
     "drawer": {
       "facilities": {
         "capacity": "Space for {styleCapacity} {capacity, plural, one {tent} other {tents}}"

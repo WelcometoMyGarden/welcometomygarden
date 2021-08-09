@@ -25,20 +25,21 @@
   };
 
   const facilities = [
-    { name: 'toilet', icon: toiletIcon, label: $_('garden.facilities.labels.toilet') },
-    { name: 'shower', icon: showerIcon, label: $_('garden.facilities.labels.shower') },
+    { name: 'toilet', icon: toiletIcon, transKey: 'garden.facilities.labels.toilet' },
+    { name: 'shower', icon: showerIcon, transKey: 'garden.facilities.labels.shower' },
     {
       name: 'electricity',
       icon: electricityIcon,
-      label: $_('garden.facilities.labels.electricity')
+      transKey: 'garden.facilities.labels.electricity'
     },
-    { name: 'tent', icon: tentIcon, label: $_('garden.facilities.labels.tent') },
-    { name: 'bonfire', icon: bonfireIcon, label: $_('garden.facilities.labels.bonfire') },
-    { name: 'water', icon: waterIcon, label: $_('garden.facilities.labels.water') },
+    { name: 'tent', icon: tentIcon, transKey: 'garden.facilities.labels.tent' },
+    { name: 'bonfire', icon: bonfireIcon, transKey: 'garden.facilities.labels.bonfire' },
+
+    { name: 'water', icon: waterIcon, transKey: 'garden.facilities.labels.water' },
     {
       name: 'drinkableWater',
       icon: waterIcon,
-      label: $_('garden.facilities.labels.drinkable-water')
+      transKey: 'garden.facilities.labels.drinkable-water'
     }
   ];
 
@@ -68,19 +69,21 @@
 </script>
 
 <div class="filter">
-  <div class="location-filter">
+  <div class="filter-controls">
     <!-- TODO create location filter -->
-  </div>
-  <div class="garden-filter">
-    <Button
-      type="button"
-      uppercase
-      on:click={() => {
-        showFilterModal = true;
-      }}
-    >
-      {@html filterIcon}
-    </Button>
+    <!-- <div class="location-filter">
+    </div> -->
+    <div class="garden-filter">
+      <Button
+        type="button"
+        uppercase
+        on:click={() => {
+          showFilterModal = true;
+        }}
+      >
+        {@html filterIcon}
+      </Button>
+    </div>
   </div>
   {#if !isSearching}
     <div class="filter-tags">
@@ -88,19 +91,21 @@
         <Tag
           name={facility.name}
           icon={facility.icon}
-          label={facility.label}
           on:close={() => (filter.facilities[facility.name] = false)}
-        />
+        >
+          {$_(facility.transKey)}
+        </Tag>
       {/each}
       {#if allFiltersTag}
         <Tag
           name="all-filters"
-          label="all filters"
           on:click={() => {
             showFilterModal = true;
           }}
           closeButton={false}
-        />
+        >
+          all filters
+        </Tag>
       {/if}
     </div>
   {/if}
@@ -116,8 +121,12 @@
     width: 32rem;
     left: 6rem;
     position: absolute;
+  }
+
+  .filter-controls {
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 5px;
   }
 
   .location-filter {
