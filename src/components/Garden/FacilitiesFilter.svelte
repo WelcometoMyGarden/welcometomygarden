@@ -110,13 +110,13 @@
     </div>
   </div>
   <span slot="controls" class="applyGardenFilter">
-    <p class="light">
+    <span class="light center">
       {@html $_('garden.filter.available', {
         values: {
           amount: `<strong>${Object.values(filteredGardens).length}</strong>`
         }
       })}
-    </p>
+    </span>
   </span>
 </Modal>
 
@@ -198,6 +198,11 @@
     border: none;
     border-bottom: 2px solid var(--color-green);
     width: 5rem;
+    text-align: center;
+  }
+
+  .center {
+    margin: auto;
     text-align: center;
   }
 
