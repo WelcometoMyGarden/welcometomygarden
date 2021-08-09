@@ -146,7 +146,7 @@
     </span>
   </div>
 
-  <Filter bind:filteredGardens />
+  <Filter bind:center bind:filteredGardens {fallbackLocation} />
 </div>
 
 <style>

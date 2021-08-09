@@ -1,8 +1,8 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { Icon, Button, Tag } from '@/components/UI';
-  import FacilitiesFilter from './FacilitiesFilter.svelte';
-
+  import FacilitiesFilter from '@/components/Garden/FacilitiesFilter.svelte';
+  import FilterLocation from '@/components/Garden/FilterLocation.svelte';
   import {
     filterIcon,
     bonfireIcon,
@@ -12,7 +12,10 @@
     waterIcon,
     tentIcon
   } from '@/images/icons';
+
   export let filteredGardens;
+  export let center;
+  export let fallbackLocation;
 
   let showFilterModal = false;
 
@@ -70,9 +73,9 @@
 
 <div class="filter">
   <div class="filter-controls">
-    <!-- TODO create location filter -->
-    <!-- <div class="location-filter">
-    </div> -->
+    <div class="location-filter">
+      <FilterLocation bind:center bind:isSearching {fallbackLocation} />
+    </div>
     <div class="garden-filter">
       <Button
         type="button"

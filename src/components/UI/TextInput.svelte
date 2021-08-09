@@ -13,6 +13,7 @@
   export let icon = null;
   export let list = null;
   export let autocomplete = 'on';
+  export let hideError = false;
 
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
@@ -34,6 +35,7 @@
     {required}
     {autocomplete}
     {list}
+    {hideError}
     id={id || name}
     minlength={minLength}
     maxlength={maxLength}
@@ -42,22 +44,25 @@
     on:input
     class:has-icon={!!icon}
     class:invalid={!!isValid}
-    class="input" />
+    class="input"
+  />
   {#if icon}
     <div class="icon">
       <Icon {icon} />
     </div>
   {/if}
-  {#if !isValid}
-    <div class="validation-icon" transition:fade>
-      <Icon icon={crossIcon} />
+  {#if !hideError}
+    {#if !isValid}
+      <div class="validation-icon" transition:fade>
+        <Icon icon={crossIcon} />
+      </div>
+    {/if}
+    <div class="error">
+      {#if error}
+        <p class="error-message">{error}</p>
+      {/if}
     </div>
   {/if}
-  <div class="error">
-    {#if error}
-      <p class="error-message">{error}</p>
-    {/if}
-  </div>
 </div>
 
 <style>
