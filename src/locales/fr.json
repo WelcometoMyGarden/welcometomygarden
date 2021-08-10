@@ -95,6 +95,19 @@
       "link-text": "Faire un don"
     }
   },
+  "garden": {
+    "filter": {
+      "title": "Filtrer",
+      "garden-facilities": "Facilités du jardin",
+      "garden-capacity": "Capacités du jardin",
+      "spots-available": "Nombre d'emplacements disponibles",
+      "min": "Minimum",
+      "all-filters": "Tous les filtres",
+      "available": "{amount} de jardins disponibles avec les filtres actifs.",
+      "no-places": "Aucun lieu trouvé",
+      "search-city": "Chercher une ville"
+    }
+  },
   "rules": {
     "title": "Les règles à suivre",
     "description": "Vous trouverez ci-dessous comment Welcome To My Garden fonctionne. Assurez-vous de lire ces règles avant de commencer votre aventure ! Après tout, la plateforme ne pourra fonctionner que si nous respectons tou.te.s les règles.",
