@@ -488,6 +488,17 @@
         "tent": "Tent"
       }
     },
+    "filter": {
+      "title": "Filter",
+      "garden-facilities": "Garden Facilities",
+      "garden-capacity": "Garden Capacity",
+      "spots-available": "Tent spots available",
+      "min": "Minimum",
+      "all-filters": "all filters",
+      "available": "{amount} gardens available with the active filters.",
+      "no-places": "No places found",
+      "search-city": "Search for a city"
+    },
     "drawer": {
       "facilities": {
         "capacity": "Space for {styleCapacity} {capacity, plural, one {tent} other {tents}}"

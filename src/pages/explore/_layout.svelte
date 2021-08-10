@@ -4,32 +4,48 @@
   import { goto, params } from '@sveltech/routify';
   import { getAllListedGardens } from '@/api/garden';
   import { allGardens, isFetchingGardens } from '@/stores/garden';
+  import routes from '@/routes';
+
   import Map from '@/components/Map/Map.svelte';
   import Drawer from '@/components/Garden/Drawer.svelte';
   import GardenLayer from '@/components/Map/GardenLayer.svelte';
   import WaymarkedTrails from '@/components/Map/WaymarkedTrails.svelte';
-  import routes from '@/routes';
+  import Filter from '@/components/Garden/Filter.svelte';
   import { Progress, LabeledCheckbox, Icon } from '@/components/UI';
+
   import { getCookie, setCookie } from '@/util';
   import { crossIcon, cyclistIcon, hikerIcon } from '@/images/icons';
 
-  $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
-  $: center = selectedGarden
-    ? [selectedGarden.location.longitude, selectedGarden.location.latitude]
-    : [4.5, 50.5];
+  const fallbackLocation = { longitude: 4.5, latitude: 50.5 };
 
-  let carNoticeShown = !getCookie('car-notice-dismissed');
+  /**
+   * URL with gardenId
+   */
+
+  $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
 
   const selectGarden = (garden) => {
     const newSelectedId = garden.id;
     const newGarden = $allGardens[newSelectedId];
-    center = [newGarden.location.longitude, newGarden.location.latitude];
+    center = { longitude: newGarden.location.longitude, latitude: newGarden.location.latitude };
     $goto(`${routes.MAP}/garden/${newSelectedId}`);
   };
+
+  /**
+   * center
+   */
+
+  $: center = selectedGarden
+    ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
+    : fallbackLocation;
 
   const closeDrawer = () => {
     $goto(routes.MAP);
   };
+
+  /**
+   * onMount lifecycle hook
+   */
 
   onMount(async () => {
     if (Object.keys($allGardens).length === 0) {
@@ -42,6 +58,12 @@
     }
   });
 
+  /**
+   * Car Notice
+   */
+
+  let carNoticeShown = !getCookie('car-notice-dismissed');
+
   const closeCarNotice = () => {
     const date = new Date();
     // one year
@@ -50,24 +72,37 @@
     carNoticeShown = false;
   };
 
-  onDestroy(() => {
-    isFetchingGardens.set(false);
-  });
+  /**
+   *  Waymarked Trails
+   */
 
   let showHiking = false;
   let showCycling = false;
 
   const attributionLinkTrails = `<a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>`;
+
+  /**
+   *  Filter
+   */
+  let filteredGardens;
+
+  /**
+   * onDestroy lifecycle hook
+   */
+
+  onDestroy(() => {
+    isFetchingGardens.set(false);
+  });
 </script>
 
 <Progress active={$isFetchingGardens} />
 <div class="map-section">
-  <Map lat={center[1]} lon={center[0]} recenterOnUpdate zoom="7">
+  <Map lon={center.longitude} lat={center.latitude} recenterOnUpdate zoom="7">
     {#if !$isFetchingGardens}
       <GardenLayer
         on:garden-click={(e) => selectGarden(e.detail)}
         selectedGardenId={selectedGarden ? selectedGarden.id : null}
-        allGardens={$allGardens}
+        allGardens={filteredGardens || $allGardens}
       />
       <Drawer on:close={closeDrawer} garden={selectedGarden} />
       <WaymarkedTrails {showHiking} {showCycling} />
@@ -89,7 +124,7 @@
       </div>
     {/if}
   </Map>
-  <div class="filters">
+  <div class="trails">
     <div>
       <LabeledCheckbox
         name="hiking"
@@ -110,6 +145,8 @@
       {@html $_('map.trails.attribution', { values: { link: attributionLinkTrails } })}
     </span>
   </div>
+
+  <Filter bind:center bind:filteredGardens {fallbackLocation} />
 </div>
 
 <style>
@@ -125,7 +162,7 @@
     top: calc(var(--height-nav) + 0.5rem);
   }
 
-  .filters {
+  .trails {
     background-color: rgba(255, 255, 255, 0.8);
     bottom: 0;
     left: 0;
