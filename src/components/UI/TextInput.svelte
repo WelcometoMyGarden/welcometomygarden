@@ -35,7 +35,6 @@
     {required}
     {autocomplete}
     {list}
-    {hideError}
     id={id || name}
     minlength={minLength}
     maxlength={maxLength}
@@ -51,12 +50,12 @@
       <Icon {icon} />
     </div>
   {/if}
+  {#if !isValid}
+    <div class="validation-icon" transition:fade>
+      <Icon icon={crossIcon} />
+    </div>
+  {/if}
   {#if !hideError}
-    {#if !isValid}
-      <div class="validation-icon" transition:fade>
-        <Icon icon={crossIcon} />
-      </div>
-    {/if}
     <div class="error">
       {#if error}
         <p class="error-message">{error}</p>
