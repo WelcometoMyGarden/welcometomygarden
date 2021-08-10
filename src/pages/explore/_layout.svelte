@@ -12,6 +12,7 @@
   import { Progress, LabeledCheckbox, Icon } from '@/components/UI';
   import { getCookie, setCookie } from '@/util';
   import { crossIcon, cyclistIcon, hikerIcon } from '@/images/icons';
+  import { ZOOM_LEVELS } from '@/constants';
 
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
   $: center = selectedGarden
@@ -20,11 +21,16 @@
 
   let carNoticeShown = !getCookie('car-notice-dismissed');
 
+  // true when visiting the link to a garden directly, used to increase zoom level
+  let usingGardenLink = !!$params.gardenId;
+
   const selectGarden = (garden) => {
     const newSelectedId = garden.id;
     const newGarden = $allGardens[newSelectedId];
     center = [newGarden.location.longitude, newGarden.location.latitude];
     $goto(`${routes.MAP}/garden/${newSelectedId}`);
+
+    usingGardenLink = false;
   };
 
   const closeDrawer = () => {
@@ -62,7 +68,13 @@
 
 <Progress active={$isFetchingGardens} />
 <div class="map-section">
-  <Map lat={center[1]} lon={center[0]} recenterOnUpdate zoom="7">
+  <Map
+    lat={center[1]}
+    lon={center[0]}
+    jump={usingGardenLink}
+    recenterOnUpdate
+    zoom={usingGardenLink ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.SMALL_COUNTRY}
+  >
     {#if !$isFetchingGardens}
       <GardenLayer
         on:garden-click={(e) => selectGarden(e.detail)}
