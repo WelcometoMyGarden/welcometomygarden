@@ -1,14 +1,15 @@
 <script>
   import { _, locale } from 'svelte-i18n';
+  import { createEventDispatcher } from 'svelte';
   import { geocodeExtensive } from '@/api/mapbox';
   import { clickOutside } from '@/directives';
   import { TextInput } from '@/components/UI';
   import { markerIcon } from '@/images/icons';
 
-  export let zoom;
-  export let center;
   export let isSearching;
   export let fallbackLocation;
+
+  const dispatch = createEventDispatcher();
 
   let locationInput = '';
   //a place format: {latitude: 51.221109, longitude: 4.3997081, place_name: "Antwerpen, Antwerpen, België"}, max 5
@@ -88,11 +89,9 @@
     }, 3000);
   };
 
-  //go to a place zoom in to level 11 (city) => https://wiki.openstreetmap.org/wiki/Zoom_levels
   const goToPlace = (long, lat) => {
-    zoom = 11;
-    center = { longitude: long, latitude: lat };
     emptyPlacesAndInput();
+    dispatch('goToPlace', { longitude: long, latitude: lat });
   };
 
   //if user drag map, nothing happens, if the user select a garden or click on the map the input and locations are emptied

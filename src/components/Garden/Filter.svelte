@@ -1,6 +1,7 @@
 <script>
   import { _ } from 'svelte-i18n';
-  import { Icon, Button, Tag } from '@/components/UI';
+  import { createEventDispatcher } from 'svelte';
+  import { Button, Tag } from '@/components/UI';
   import FacilitiesFilter from '@/components/Garden/FacilitiesFilter.svelte';
   import FilterLocation from '@/components/Garden/FilterLocation.svelte';
   import {
@@ -14,8 +15,9 @@
   } from '@/images/icons';
 
   export let filteredGardens;
-  export let center;
   export let fallbackLocation;
+
+  const dispatch = createEventDispatcher();
 
   let showFilterModal = false;
 
@@ -69,12 +71,16 @@
     }
     return activeFacilitiesFiltered;
   };
+
+  const goToPlace = (event) => {
+    dispatch('goToPlace', { longitude: event.detail.longitude, latitude: event.detail.latitude });
+  };
 </script>
 
 <div class="filter">
   <div class="filter-controls">
     <div class="location-filter">
-      <FilterLocation bind:center bind:isSearching {fallbackLocation} />
+      <FilterLocation on:goToPlace={goToPlace} bind:isSearching {fallbackLocation} />
     </div>
     <div class="garden-filter">
       <Button

@@ -16,8 +16,9 @@
   import { getCookie, setCookie } from '@/util';
   import { crossIcon, cyclistIcon, hikerIcon } from '@/images/icons';
 
-  const fallbackLocation = { longitude: 4.5, latitude: 50.5 };
+  let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
 
+  let geolocationIsLoaded = false;
   /**
    * URL with gardenId
    */
@@ -39,6 +40,10 @@
     ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
     : fallbackLocation;
 
+  const goToPlace = (event) => {
+    center = { longitude: event.detail.longitude, latitude: event.detail.latitude };
+  };
+
   const closeDrawer = () => {
     $goto(routes.MAP);
   };
@@ -55,6 +60,19 @@
         console.log(ex);
         isFetchingGardens.set(false);
       }
+    }
+
+    if (!geolocationIsLoaded) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          fallbackLocation = { longitude: pos.coords.longitude, latitude: pos.coords.latitude };
+          geolocationIsLoaded = true;
+        },
+        (err) => {
+          console.log(err);
+          geolocationIsLoaded = true;
+        }
+      );
     }
   });
 
@@ -95,7 +113,8 @@
   });
 </script>
 
-<Progress active={$isFetchingGardens} />
+<Progress active={$isFetchingGardens && !geolocationIsLoaded} />
+
 <div class="map-section">
   <Map lon={center.longitude} lat={center.latitude} recenterOnUpdate zoom="7">
     {#if !$isFetchingGardens}
@@ -146,7 +165,7 @@
     </span>
   </div>
 
-  <Filter bind:center bind:filteredGardens {fallbackLocation} />
+  <Filter on:goToPlace={goToPlace} bind:filteredGardens {fallbackLocation} />
 </div>
 
 <style>
