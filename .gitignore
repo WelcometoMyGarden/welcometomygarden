@@ -35,11 +35,7 @@ public/bundle
 dist
 
 .env*
+!.env.example
+
 .firebase
-wtmg.config*.js
-!wtmg.config.example.js
-wtmg.config*.json
-!wtmg.config.example.json
-
-
 firestore.rules

@@ -20,7 +20,7 @@
     getMap: () => map
   });
 
-  maplibregl.accessToken = config.MAPBOX_ACCESS_TOKEN;
+  maplibregl.accessToken = config.VITE_MAPBOX_ACCESS_TOKEN;
 
   onMount(() => {
     map = new maplibregl.Map({
