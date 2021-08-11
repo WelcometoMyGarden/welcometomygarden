@@ -29,10 +29,8 @@ lerna-debug.log*
 .DS_Store
 node_modules
 
-public/data
-public/build
-public/bundle
 dist
+.routify
 
 .env*
 !.env.example
