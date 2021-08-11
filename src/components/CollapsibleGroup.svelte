@@ -1,19 +1,21 @@
 <script>
+  import { _ } from 'svelte-i18n';
+  import { getNodeChildren } from '@/util';
   import Collapsible from './Collapsible.svelte';
 
-  export let collapsibles;
+  export let collapsibleKey;
 
   let activeCollapsible = null;
-  const setActiveCollapsible = id => {
+  const setActiveCollapsible = (id) => {
     activeCollapsible === id ? (activeCollapsible = null) : (activeCollapsible = id);
   };
 </script>
 
 <div>
-  {#each collapsibles as { title, copy }, i}
+  {#each getNodeChildren(collapsibleKey) as key, i}
     <Collapsible on:click={() => setActiveCollapsible(i)} open={activeCollapsible === i}>
-      <h3 slot="title">{title}</h3>
-      <p slot="content">{copy}</p>
+      <h3 slot="title">{$_(`${collapsibleKey}.${key}.title`)}</h3>
+      <p slot="content">{$_(`${collapsibleKey}.${key}.copy`)}</p>
     </Collapsible>
   {/each}
 </div>

@@ -1,6 +1,6 @@
 <script>
   import { _ } from 'svelte-i18n';
-  import CollapsibleGroupFromKey from '../../components/CollapsibleGroupFromKey.svelte';
+  import CollapsibleGroup from '../../components/CollapsibleGroup.svelte';
 </script>
 
 <svelte:head>
@@ -11,4 +11,4 @@
   <h2>{$_('faq.title')}</h2>
   <p>{$_('faq.description')}</p>
 </div>
-<CollapsibleGroupFromKey i18nKey="faq.questions" />
+<CollapsibleGroup collapsibleKey="faq.questions" />

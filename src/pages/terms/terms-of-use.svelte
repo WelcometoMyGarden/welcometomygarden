@@ -1,12 +1,7 @@
 <script>
-  import { _, json } from 'svelte-i18n';
-  import { supportEmailLinkString } from '@/util';
+  import { _ } from 'svelte-i18n';
+  import { supportEmailLinkString, getNodeChildren } from '@/util';
   import { Ol } from '@/components/UI';
-
-  $: getJson = (key) => {
-    const value = $json(key);
-    return Array.isArray(value) ? value : [];
-  };
 </script>
 
 <svelte:head>
@@ -17,51 +12,59 @@
   {$_('terms-of-use.title')}
   <small>{$_('terms-of-use.last-updated')}</small>
 </h2>
-{#each getJson('terms-of-use.intro') as item, i}
+{#each getNodeChildren('terms-of-use.intro') as introKey}
   <p>
-    {@html $_(`terms-of-use.intro.${i}.copy`, { values: { support: supportEmailLinkString } })}
+    {@html $_(`terms-of-use.intro.${introKey}.copy`, {
+      values: { support: supportEmailLinkString }
+    })}
   </p>
 {/each}
 <div class="line-break" />
 <Ol>
-  {#each getJson('terms-of-use.articles') as article, i}
+  {#each getNodeChildren('terms-of-use.articles') as articleKey}
     <li class="h3">
       <h3 class="title">
-        {@html $_(`terms-of-use.articles.${i}.title`)}
+        {@html $_(`terms-of-use.articles.${articleKey}.title`)}
       </h3>
-      {#each getJson(`terms-of-use.articles.${i}.descriptions`) as description, j}
+      {#each getNodeChildren(`terms-of-use.articles.${articleKey}.descriptions`) as descriptionKey}
         <p>
-          {@html $_(`terms-of-use.articles.${i}.descriptions.${j}.copy`, {
+          {@html $_(`terms-of-use.articles.${articleKey}.descriptions.${descriptionKey}.copy`, {
             values: { support: supportEmailLinkString }
           })}
         </p>
       {/each}
-      {#each getJson(`terms-of-use.articles.${i}.info`) as information, k}
+      {#each getNodeChildren(`terms-of-use.articles.${articleKey}.info`) as infoKey}
         <p class="info">
-          {@html $_(`terms-of-use.articles.${i}.info.${k}.title`)}
+          {@html $_(`terms-of-use.articles.${articleKey}.info.${infoKey}.title`)}
         </p>
         <Ol>
-          {#each getJson(`terms-of-use.articles.${i}.info.${k}.sections`) as section, l}
+          {#each getNodeChildren(`terms-of-use.articles.${articleKey}.info.${infoKey}.sections`) as sectionsKey}
             <li class="info-item h4">
               <h4 class="title">
-                {@html $_(`terms-of-use.articles.${i}.info.${k}.sections.${l}.title`)}
+                {@html $_(
+                  `terms-of-use.articles.${articleKey}.info.${infoKey}.sections.${sectionsKey}.title`
+                )}
               </h4>
               <p>
-                {@html $_(`terms-of-use.articles.${i}.info.${k}.sections.${l}.copy`)}
+                {@html $_(
+                  `terms-of-use.articles.${articleKey}.info.${infoKey}.sections.${sectionsKey}.copy`
+                )}
               </p>
             </li>
           {/each}
         </Ol>
       {/each}
       <Ol>
-        {#each getJson(`terms-of-use.articles.${i}.paragraphs`) as paragraph, m}
+        {#each getNodeChildren(`terms-of-use.articles.${articleKey}.paragraphs`) as paragraphsKey}
           <li class="h4">
             <h4 class="title">
-              {@html $_(`terms-of-use.articles.${i}.paragraphs.${m}.title`)}
+              {@html $_(`terms-of-use.articles.${articleKey}.paragraphs.${paragraphsKey}.title`)}
             </h4>
-            {#each getJson(`terms-of-use.articles.${i}.paragraphs.${m}.copy`) as copy, n}
+            {#each getNodeChildren(`terms-of-use.articles.${articleKey}.paragraphs.${paragraphsKey}.copy`) as copyKey}
               <p>
-                {@html $_(`terms-of-use.articles.${i}.paragraphs.${m}.copy.${n}`)}
+                {@html $_(
+                  `terms-of-use.articles.${articleKey}.paragraphs.${paragraphsKey}.copy.${copyKey}`
+                )}
               </p>
             {/each}
           </li>
