@@ -17,13 +17,20 @@
   import { crossIcon, cyclistIcon, hikerIcon } from '@/images/icons';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
-
   let geolocationIsLoaded = false;
-  /**
-   * URL with gardenId
-   */
+  let showHiking = false;
+  let showCycling = false;
+  let filteredGardens;
+  let carNoticeShown = !getCookie('car-notice-dismissed');
+
+  const attributionLinkTrails = `<a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>`;
 
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
+  $: center = selectedGarden
+    ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
+    : fallbackLocation;
+
+  // FUNCTIONS
 
   const selectGarden = (garden) => {
     const newSelectedId = garden.id;
@@ -31,14 +38,6 @@
     center = { longitude: newGarden.location.longitude, latitude: newGarden.location.latitude };
     $goto(`${routes.MAP}/garden/${newSelectedId}`);
   };
-
-  /**
-   * center
-   */
-
-  $: center = selectedGarden
-    ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
-    : fallbackLocation;
 
   const goToPlace = (event) => {
     center = { longitude: event.detail.longitude, latitude: event.detail.latitude };
@@ -48,9 +47,15 @@
     $goto(routes.MAP);
   };
 
-  /**
-   * onMount lifecycle hook
-   */
+  const closeCarNotice = () => {
+    const date = new Date();
+    // one year
+    date.setTime(date.getTime() + 365 * 86400000); //24 * 60 * 60 * 1000
+    setCookie('car-notice-dismissed', true, { expires: date.toGMTString() });
+    carNoticeShown = false;
+  };
+
+  // LIFECYCLE HOOKS
 
   onMount(async () => {
     if (Object.keys($allGardens).length === 0) {
@@ -75,38 +80,6 @@
       );
     }
   });
-
-  /**
-   * Car Notice
-   */
-
-  let carNoticeShown = !getCookie('car-notice-dismissed');
-
-  const closeCarNotice = () => {
-    const date = new Date();
-    // one year
-    date.setTime(date.getTime() + 365 * 86400000); //24 * 60 * 60 * 1000
-    setCookie('car-notice-dismissed', true, { expires: date.toGMTString() });
-    carNoticeShown = false;
-  };
-
-  /**
-   *  Waymarked Trails
-   */
-
-  let showHiking = false;
-  let showCycling = false;
-
-  const attributionLinkTrails = `<a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>`;
-
-  /**
-   *  Filter
-   */
-  let filteredGardens;
-
-  /**
-   * onDestroy lifecycle hook
-   */
 
   onDestroy(() => {
     isFetchingGardens.set(false);
