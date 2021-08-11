@@ -67,7 +67,7 @@
       }
     }
 
-    if (!geolocationIsLoaded) {
+    if (!geolocationIsLoaded && 'geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           fallbackLocation = { longitude: pos.coords.longitude, latitude: pos.coords.latitude };
