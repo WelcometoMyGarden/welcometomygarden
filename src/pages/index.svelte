@@ -339,6 +339,15 @@
   .step-logo {
     display: flex;
     justify-content: center;
+    align-items: center;
+    width: 60%;
+    height: 15rem;
+    margin: 0 auto;
+  }
+
+  .step-logo > :global(svg) {
+    max-height: 100%;
+    max-width: 100%;
   }
 
   .card p {
