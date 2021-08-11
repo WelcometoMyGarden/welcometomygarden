@@ -3,6 +3,8 @@
   import maplibregl from 'maplibre-gl';
   import key from './mapbox-context.js';
 
+  import 'maplibre-gl/dist/maplibre-gl.css';
+
   export let lat;
   export let lon;
   export let zoom;
@@ -53,13 +55,6 @@
     }
   }
 </script>
-
-<svelte:head>
-  <link
-    href="https://cdn.maptiler.com/maplibre-gl-js/v1.13.0-rc.4/mapbox-gl.css"
-    rel="stylesheet"
-  />
-</svelte:head>
 
 <div bind:this={container}>
   {#if map}
