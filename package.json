@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "routify -c dev-vite",
     "dev:windows": "npm run open & routify -c dev-vite",
-    "build": "routify -b && vite build",
+    "build:prod": "routify -b && vite build --mode production",
+    "build:staging": "routify -b && vite build --mode staging",
     "dev-vite": "vite",
     "serve-vite": "vite preview",
     "open": "start http://localhost:3000"
