@@ -4,7 +4,7 @@
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
   import { Button } from '../components/UI';
-  import { transKeyExists } from '@/util';
+  import { getNodeChildren } from '@/util';
   import { user } from '@/stores/auth';
 
   import Logo from '../images/logo.svg';
@@ -79,25 +79,22 @@
 </div>
 
 <section class="steps" id="steps-section">
-  {#each $json('index.steps') as { title }, i}
+  {#each getNodeChildren('index.steps') as key, i}
     <div class="step">
       <div class="step-logo">
         {@html stepGraphics[i]}
       </div>
-      <h2 class="step-header">{title}</h2>
+      <h2 class="step-header">
+        {$_(`index.steps.${key}.title`)}
+      </h2>
       <p class="step-text">
-        {@html $_(
-          `index.steps.${i}.copy`,
-          transKeyExists(`index.steps.${i}.add-garden-link-text`)
-            ? {
-                values: {
-                  addGardenLink: `<a href=${routes.ADD_GARDEN}>${$_(
-                    `index.steps.${i}.add-garden-link-text`
-                  )}</a>`
-                }
-              }
-            : undefined
-        )}
+        {@html $_(`index.steps.${key}.copy`, {
+          values: {
+            addGardenLink: `<a href=${routes.ADD_GARDEN}>${$_(
+              `index.steps.${key}.add-garden-link-text`
+            )}</a>`
+          }
+        })}
       </p>
     </div>
   {/each}
