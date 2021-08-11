@@ -1,7 +1,7 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { onMount, onDestroy } from 'svelte';
-  import { goto, params } from '@sveltech/routify';
+  import { goto, params } from '@roxi/routify';
   import { getAllListedGardens } from '@/api/garden';
   import { allGardens, isFetchingGardens } from '@/stores/garden';
   import Map from '@/components/Map/Map.svelte';

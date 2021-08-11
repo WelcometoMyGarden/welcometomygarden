@@ -1,6 +1,6 @@
 <script>
   import { _ } from 'svelte-i18n';
-  import { redirect } from '@sveltech/routify';
+  import { redirect } from '@roxi/routify';
   import { addGardenLocally } from '@/stores/garden';
   import { user } from '@/stores/auth';
   import notify from '@/stores/notification';

@@ -1,7 +1,7 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
-  import { goto } from '@sveltech/routify';
+  import { goto } from '@roxi/routify';
   import { register } from '@/api/auth';
   import { isRegistering } from '@/stores/auth';
   import notify from '@/stores/notification';
@@ -129,7 +129,8 @@
         autocomplete="given-name"
         on:blur={() => (fields.firstName.error = '')}
         error={fields.firstName.error}
-        bind:value={fields.firstName.value} />
+        bind:value={fields.firstName.value}
+      />
     </div>
 
     <div>
@@ -142,7 +143,8 @@
         id="last-name"
         on:blur={() => (fields.lastName.error = '')}
         error={fields.lastName.error}
-        bind:value={fields.lastName.value} />
+        bind:value={fields.lastName.value}
+      />
     </div>
 
     <div>
@@ -157,7 +159,8 @@
           fields.email.error = '';
         }}
         error={fields.email.error}
-        bind:value={fields.email.value} />
+        bind:value={fields.email.value}
+      />
     </div>
 
     <div>
@@ -170,7 +173,8 @@
         autocomplete="new-password"
         on:blur={() => (fields.password.error = '')}
         error={fields.password.error}
-        bind:value={fields.password.value} />
+        bind:value={fields.password.value}
+      />
     </div>
 
     <div>
@@ -182,7 +186,8 @@
         name="country-list"
         on:blur={() => validateCountry(fields.country.value)}
         error={fields.country.error}
-        bind:value={fields.country.value} />
+        bind:value={fields.country.value}
+      />
       <datalist id="countries">
         {#each Object.keys(countries) as code}
           <option data-value={code}>{countries[code]}</option>
@@ -193,7 +198,8 @@
         name="country"
         id="country-hidden"
         value={countryCode}
-        bind:this={countryInput} />
+        bind:this={countryInput}
+      />
     </div>
     <div class="consent">
       <div class="checkbox">
