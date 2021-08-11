@@ -668,7 +668,7 @@
     "intro": {
       "learn-more": "En savoir plus",
       "explore-map": "Explorer la carte",
-      "add-garden": "Ajouter son jardin",
+      "add-garden": "Ajoutez votre jardin",
       "copy": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme espace de bivouac gratuit pour des voyageurs et voyageuses adeptes du slow travel."
     },
     "banner-stmf": {
@@ -759,7 +759,7 @@
       "register-link-text": "créer un compte",
       "title": "Ajoutez votre jardin à la carte",
       "sign-in-link-text": "vous connecter",
-      "add-button": "Ajouter votre jardin",
+      "add-button": "Ajoutez votre jardin",
       "email-confirm-notice": "Vous devez vérifier votre adresse électronique avant d'ajouter votre jardin à la carte. Nous vous avons envoyé un courriel lorsque vous avez créé votre compte. Vous pouvez renvoyer un lien de vérification à partir de {accountLink}.",
       "facilities": {
         "notice": "À quels types d'installations les voyageurs ont-ils accès ?",
@@ -876,7 +876,7 @@
     "garden": {
       "title": "Votre jardin",
       "unlisted": {
-        "button": "Ajouter votre jardin",
+        "button": "Ajoutez votre jardin",
         "text": "Vous n'avez pas encore ajouté votre jardin à la carte. Lorsque vous aurez ajouté votre jardin, les autres utilisateurs pourront vous contacter pour demander un séjour. Vous pouvez retirer votre jardin de la liste à tout moment !"
       },
       "unverified": {
