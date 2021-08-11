@@ -1,5 +1,5 @@
 <script>
-  import { _, json } from 'svelte-i18n';
+  import { _ } from 'svelte-i18n';
   import { supportEmailLinkString, getNodeChildren } from '@/util';
   import { Ol } from '@/components/UI';
 </script>
