@@ -1,5 +1,5 @@
 <script>
-  import { _, json } from 'svelte-i18n';
+  import { _ } from 'svelte-i18n';
   import CollapsibleGroup from '../../components/CollapsibleGroup.svelte';
 </script>
 
@@ -11,4 +11,4 @@
   <h2>{$_('rules.title')}</h2>
   <p>{$_('rules.description')}</p>
 </div>
-<CollapsibleGroup collapsibles={$json('rules.rules')} />
+<CollapsibleGroup collapsibleKey={'rules.rules'} />

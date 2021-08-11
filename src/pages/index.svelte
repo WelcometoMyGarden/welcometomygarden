@@ -1,5 +1,5 @@
 <script>
-  import { _, json } from 'svelte-i18n';
+  import { _ } from 'svelte-i18n';
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
@@ -112,7 +112,7 @@
     </p>
   </div>
   <div class="faq-questions">
-    <CollapsibleGroup collapsibles={$json('index.faq.questions')} />
+    <CollapsibleGroup collapsibleKey={'index.faq.questions'} />
   </div>
 </section>
 
