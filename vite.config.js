@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
+import svgLoader from './src/util/svg-loader';
 
 /* eslint-env node */
 export default defineConfig(() => {
@@ -20,6 +21,7 @@ export default defineConfig(() => {
       }
     },
     plugins: [
+      svgLoader(),
       svelte({
         hot: !isProduction,
         emitCss: true,
