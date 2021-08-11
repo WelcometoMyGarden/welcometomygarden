@@ -7,7 +7,7 @@
     "dev:windows": "npm run open & routify -c dev-vite",
     "build:prod": "routify -b && vite build --mode production",
     "build:staging": "routify -b && vite build --mode staging",
-    "dev-vite": "vite",
+    "dev-vite": "vite --host",
     "serve-vite": "vite preview",
     "open": "start http://localhost:3000"
   },

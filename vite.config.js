@@ -21,7 +21,7 @@ export default defineConfig(() => {
       }
     },
     plugins: [
-      svgLoader(),
+      svgLoader({ removeSVGTagAttrs: false }),
       svelte({
         hot: !isProduction,
         emitCss: true,
