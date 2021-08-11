@@ -1,7 +1,6 @@
 <script>
   import { setContext, onMount } from 'svelte';
   import maplibregl from 'maplibre-gl';
-  import { config } from '@/config';
   import key from './mapbox-context.js';
 
   export let lat;
@@ -20,7 +19,7 @@
     getMap: () => map
   });
 
-  maplibregl.accessToken = config.VITE_MAPBOX_ACCESS_TOKEN;
+  maplibregl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
   onMount(() => {
     map = new maplibregl.Map({

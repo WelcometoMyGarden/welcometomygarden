@@ -1,6 +1,4 @@
-import { config } from '@/config';
-
-const { VITE_MAPBOX_ACCESS_TOKEN } = config;
+const { VITE_MAPBOX_ACCESS_TOKEN } = import.meta.env;
 
 const headers = {
   'Content-Type': 'application/json'
