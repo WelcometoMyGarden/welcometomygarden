@@ -96,6 +96,15 @@
           {$_(facility.transKey)}
         </Tag>
       {/each}
+      {#if filter.capacity.min > 1}
+        <Tag name="min-capacity" on:close={() => (filter.capacity.min = 1)}>
+          {$_('garden.filter.min-capacity', {
+            values: {
+              capacity: filter.capacity.min
+            }
+          })}
+        </Tag>
+      {/if}
       {#if allFiltersTag}
         <Tag
           name="all-filters"
