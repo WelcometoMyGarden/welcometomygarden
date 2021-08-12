@@ -5,12 +5,28 @@
   import { fade } from 'svelte/transition';
   import { params, goto } from '@roxi/routify';
   import { observeMessagesForChat, create as createChat, sendMessage } from '@/api/chat';
+  import { hasGarden } from '@/api/garden';
   import { user } from '@/stores/auth';
   import { chats, messages } from '@/stores/chat';
-  import { Avatar } from '@/components/UI';
+  import { Avatar, Icon } from '@/components/UI';
+  import { tentIcon } from '@/images/icons';
   import routes from '@/routes';
 
+  let partnerHasGarden = null;
+  let partnerId;
+
   $: chat = $chats[chatId];
+  $: if (partnerHasGarden === null && chat && $user.id) {
+    partnerId = chat.users.find((id) => $user.id !== id);
+    partnerHasGarden = hasGarden(partnerId)
+      .then((res) => {
+        partnerHasGarden = res;
+      })
+      .catch(() => {
+        // something went wrong just act like partner has no garden
+        partnerHasGarden = false;
+      });
+  }
 
   $: if (chat && !$messages[chat.id]) observeMessagesForChat(chat.id);
 
@@ -82,9 +98,19 @@
   </title>
 </svelte:head>
 
-<header class="chat-header">
-  <a class="back" href={routes.CHAT}>&#x3c;</a>
-  <h2 class="title">{partnerName}</h2>
+<header class="chat-header" class:chat-header--hide-md={!partnerHasGarden}>
+  <div class="chat-header__top">
+    <a class="back" href={routes.CHAT}>&#x3c;</a>
+    <h2 class="title">{partnerName}</h2>
+  </div>
+  {#if partnerHasGarden}
+    <div class="chat-header__bot">
+      <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link"
+        ><Icon icon={tentIcon} />
+        <span>go to garden</span>
+      </a>
+    </div>
+  {/if}
 </header>
 
 <div class="message-wrapper" bind:this={messageContainer}>
@@ -218,7 +244,33 @@
   }
 
   .chat-header {
+    min-height: 4rem;
+    background: var(--color-white);
+    width: 100%;
+    box-shadow: 0px 10px 5px -5px rgba(143, 142, 142, 0.1);
+  }
+
+  .chat-header--hide-md {
     display: none;
+  }
+
+  .chat-header__top {
+    display: none;
+  }
+
+  .chat-header__bot {
+    padding: 1rem;
+    z-index: 10;
+  }
+
+  .chat-header__bot .garden-link {
+    display: flex;
+  }
+
+  .chat-header__bot .garden-link :global(i) {
+    width: 2.5rem;
+    margin-right: 5px;
+    display: inline-block;
   }
 
   @media (min-width: 700px) and (max-width: 850px) {
@@ -248,14 +300,10 @@
     }
 
     .chat-header {
-      display: flex;
-      align-items: center;
-      height: 6rem;
+      height: 8rem;
       position: fixed;
       top: 0;
       left: 0;
-      background: var(--color-white);
-      width: 100%;
       z-index: 10;
       box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
     }
@@ -265,7 +313,24 @@
       text-align: center;
       font-size: 1.8rem;
       font-weight: 900;
+    }
+
+    .chat-header__top {
+      display: flex;
+      align-items: center;
+      height: 6rem;
       position: relative;
+    }
+
+    .chat-header__bot {
+      padding: 0;
+      position: relative;
+      top: -1rem;
+      text-align: center;
+    }
+
+    .chat-header__bot .garden-link {
+      justify-content: center;
     }
 
     .back {
