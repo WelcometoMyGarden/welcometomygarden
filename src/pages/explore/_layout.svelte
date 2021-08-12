@@ -1,7 +1,7 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { onMount, onDestroy } from 'svelte';
-  import { goto, params } from '@sveltech/routify';
+  import { goto, params } from '@roxi/routify';
   import { getAllListedGardens } from '@/api/garden';
   import { allGardens, isFetchingGardens } from '@/stores/garden';
   import routes from '@/routes';
@@ -15,6 +15,7 @@
 
   import { getCookie, setCookie } from '@/util';
   import { crossIcon, cyclistIcon, hikerIcon } from '@/images/icons';
+  import { ZOOM_LEVELS } from '@/constants';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let geolocationIsLoaded = false;
@@ -23,8 +24,6 @@
   let filteredGardens;
   let carNoticeShown = !getCookie('car-notice-dismissed');
 
-  const attributionLinkTrails = `<a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>`;
-
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
   $: center = selectedGarden
     ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
@@ -32,11 +31,16 @@
 
   // FUNCTIONS
 
+  // true when visiting the link to a garden directly, used to increase zoom level
+  let usingGardenLink = !!$params.gardenId;
+
   const selectGarden = (garden) => {
     const newSelectedId = garden.id;
     const newGarden = $allGardens[newSelectedId];
     center = { longitude: newGarden.location.longitude, latitude: newGarden.location.latitude };
     $goto(`${routes.MAP}/garden/${newSelectedId}`);
+
+    usingGardenLink = false;
   };
 
   const goToPlace = (event) => {
@@ -93,9 +97,10 @@
     lon={center.longitude}
     lat={center.latitude}
     recenterOnUpdate
-    zoom="7"
     initialLon={fallbackLocation.longitude}
     initialLat={fallbackLocation.latitude}
+    jump={usingGardenLink}
+    zoom={usingGardenLink ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.SMALL_COUNTRY}
   >
     {#if !$isFetchingGardens}
       <GardenLayer
@@ -141,7 +146,11 @@
       />
     </div>
     <span class="attribution">
-      {@html $_('map.trails.attribution', { values: { link: attributionLinkTrails } })}
+      {@html $_('map.trails.attribution', {
+        values: {
+          link: `<a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>`
+        }
+      })}
     </span>
   </div>
 

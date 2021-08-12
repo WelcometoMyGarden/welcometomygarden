@@ -5,6 +5,8 @@
   export let name;
   export let icon = null;
   export let closeButton = true;
+  export let pointer = false;
+  export let invert = false;
 
   const dispatch = createEventDispatcher();
 
@@ -13,8 +15,8 @@
   };
 </script>
 
-<div class="tag" on:click>
-  <label for={name}>
+<div class="tag" class:invert>
+  <label for={name} on:click class:pointer>
     {#if icon}
       <div class="icon">
         <Icon {icon} />
@@ -37,7 +39,11 @@
 
     margin: 0.25rem;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
+  }
+
+  .pointer {
+    cursor: pointer;
   }
 
   label {
@@ -74,5 +80,28 @@
 
   button.close:hover > :global(i > svg) {
     fill: var(--color-white);
+  }
+
+  .invert {
+    background-color: var(--color-green);
+    color: var(--color-white);
+  }
+
+  .invert button.close {
+    color: var(--color-white);
+    background-color: var(--color-green);
+  }
+
+  .invert button.close > :global(i > svg) {
+    fill: var(--color-white);
+  }
+
+  .invert button.close:hover {
+    color: var(--color-green);
+    background-color: var(--color-white);
+  }
+
+  .invert button.close:hover > :global(i > svg) {
+    fill: var(--color-green);
   }
 </style>

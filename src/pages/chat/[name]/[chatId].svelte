@@ -3,7 +3,7 @@
   import { _ } from 'svelte-i18n';
   import { beforeUpdate, afterUpdate, onMount } from 'svelte';
   import { fade } from 'svelte/transition';
-  import { params, goto } from '@sveltech/routify';
+  import { params, goto } from '@roxi/routify';
   import { observeMessagesForChat, create as createChat, sendMessage } from '@/api/chat';
   import { user } from '@/stores/auth';
   import { chats, messages } from '@/stores/chat';
@@ -110,7 +110,8 @@
     type="text"
     name="message"
     bind:value={typedMessage}
-    disabled={isSending} />
+    disabled={isSending}
+  />
   <button type="submit" disabled={isSending || !typedMessage || hint} aria-label="Send message">
     &#62;
   </button>
