@@ -1,7 +1,7 @@
 <script>
   import { onDestroy } from 'svelte';
   import { isLoading as isLocaleLoading } from 'svelte-i18n';
-  import { params } from '@sveltech/routify';
+  import { params } from '@roxi/routify';
   import { createAuthObserver } from '@/api/auth';
   import { setAllUserInfo } from '@/api/user';
   import { createChatObserver } from '@/api/chat';

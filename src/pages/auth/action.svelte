@@ -1,7 +1,7 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { user } from '@/stores/auth';
-  import { params, goto } from '@sveltech/routify';
+  import { params, goto } from '@roxi/routify';
   import notify from '@/stores/notification';
   import { verifyPasswordResetCode, applyActionCode } from '@/api/auth';
   import routes from '@/routes';
