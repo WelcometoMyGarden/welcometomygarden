@@ -2,6 +2,7 @@ import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import svgLoader from './plugins/rollup/svg-loader';
+import createAvailableLocales from './plugins/rollup/available-locales';
 
 /* eslint-env node */
 export default defineConfig(() => {
@@ -21,6 +22,7 @@ export default defineConfig(() => {
       }
     },
     plugins: [
+      createAvailableLocales(),
       svgLoader({ removeSVGTagAttrs: false }),
       svelte({
         hot: !isProduction,

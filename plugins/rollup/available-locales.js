@@ -7,7 +7,7 @@ import fs from 'fs';
  * @see https://github.com/rollup/rollup/issues/2463#issuecomment-455957865
  * @docs https://rollupjs.org/guide/en/#plugin-development
  */
-export default (localesDir = 'src/locales', virtualModuleId = 'app-available-locales') => ({
+export default (localesDir = '../../src/locales', virtualModuleId = 'app-available-locales') => ({
   name: 'app-available-locales-plugin',
   resolveId: (id) => (id === virtualModuleId ? id : null),
   load: (id) => {
