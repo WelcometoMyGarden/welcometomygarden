@@ -8,6 +8,7 @@
   export let lon;
   export let zoom;
   export let recenterOnUpdate = false;
+  export let jump = false;
 
   let container;
   let map;
@@ -35,15 +36,22 @@
   });
 
   $: if (recenterOnUpdate && map && initialLat !== lat && initialLon !== lon) {
-    map.flyTo({
-      center: [lon, lat],
-      bearing: 0,
+    if (!jump) {
+      map.flyTo({
+        center: [lon, lat],
+        bearing: 0,
 
-      speed: 0.9,
-      curve: 1,
+        speed: 0.9,
+        curve: 1,
 
-      essential: true
-    });
+        essential: true
+      });
+    } else {
+      map.jumpTo({
+        center: [lon, lat],
+        zoom
+      });
+    }
   }
 </script>
 
