@@ -494,7 +494,7 @@
       "garden-capacity": "Garden Capacity",
       "spots-available": "Tent spots available",
       "min": "Minimum",
-      "all-filters": "all filters",
+      "all-filters": "All filters",
       "available": "{amount} gardens available with the active filters.",
       "min-capacity": "Space for {capacity} {capacity, plural, one {tent} other {tents}}"
     },
