@@ -86,18 +86,13 @@
       </div>
       <h2 class="step-header">{title}</h2>
       <p class="step-text">
-        {@html $_(
-          `index.steps.${i}.copy`,
-          transKeyExists(`index.steps.${i}.add-garden-link-text`)
-            ? {
-                values: {
-                  addGardenLink: `<a href=${routes.ADD_GARDEN}>${$_(
-                    `index.steps.${i}.add-garden-link-text`
-                  )}</a>`
-                }
-              }
-            : undefined
-        )}
+        {@html $_(`index.steps.${i}.copy`, {
+          values: {
+            addGardenLink: `<a href=${routes.ADD_GARDEN}>${$_(
+              `index.steps.${i}.add-garden-link-text`
+            )}</a>`
+          }
+        })}
       </p>
     </div>
   {/each}
