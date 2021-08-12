@@ -1,6 +1,6 @@
 <script>
   import { _, locale } from 'svelte-i18n';
-  import { isActive } from '@sveltech/routify';
+  import { isActive } from '@roxi/routify';
   import routes from '@/routes';
   import { logout } from '@/api/auth';
   import { user } from '@/stores/auth';

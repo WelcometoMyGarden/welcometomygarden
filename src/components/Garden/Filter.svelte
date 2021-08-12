@@ -48,28 +48,33 @@
 
   let isSearching = false;
 
-  let maxWidth = 500;
-  let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
   let allFiltersTag = false;
 
-  const activeFacilities = () => {
+  let vw;
+
+  $: activeFacilities = () => {
     let activeFacilitiesFiltered = facilities.filter(
       (facility) => filter.facilities[facility.name] === true
     );
 
-    if (maxWidth && vw < maxWidth) {
-      if (activeFacilitiesFiltered.length > 3) {
+    let maxWidth = 500;
+
+    allFiltersTag = false;
+
+    if (vw < maxWidth) {
+      if (activeFacilitiesFiltered.length > 2 && filter.capacity.min > 1) {
+        activeFacilitiesFiltered = activeFacilitiesFiltered.slice(0, 2);
+        allFiltersTag = true;
+      } else if (activeFacilitiesFiltered.length > 3) {
         activeFacilitiesFiltered = activeFacilitiesFiltered.slice(0, 3);
         allFiltersTag = true;
-      } else {
-        allFiltersTag = false;
       }
-    } else {
-      allFiltersTag = false;
     }
     return activeFacilitiesFiltered;
   };
 </script>
+
+<svelte:window bind:innerWidth={vw} />
 
 <div class="filter">
   <div class="filter-controls">
@@ -99,13 +104,33 @@
           {$_(facility.transKey)}
         </Tag>
       {/each}
+      {#if filter.capacity.min > 1}
+        <Tag name="min-capacity" on:close={() => (filter.capacity.min = 1)}>
+          {$_('garden.filter.min-capacity', {
+            values: {
+              capacity: filter.capacity.min
+            }
+          })}
+        </Tag>
+      {/if}
       {#if allFiltersTag}
         <Tag
           name="all-filters"
+          pointer={true}
+          invert={true}
           on:click={() => {
             showFilterModal = true;
           }}
-          closeButton={false}
+          on:close={() => {
+            filter = {
+              facilities: [],
+              capacity: {
+                min: 1,
+                max: 20
+              }
+            };
+          }}
+          closeButton={true}
         >
           {$_('garden.filter.all-filters')}
         </Tag>
@@ -144,7 +169,12 @@
     flex-wrap: wrap;
   }
 
-  .filter :global(input, .input:focus) {
+  .filter :global(input) {
+    border-radius: 10px;
+    border-bottom: none;
+  }
+
+  .filter :global(.input:focus) {
     border-radius: 10px;
     border-bottom: none;
   }

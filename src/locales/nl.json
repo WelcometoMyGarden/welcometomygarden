@@ -107,8 +107,7 @@
         "bonfire": "Kampvuur",
         "electricity": "Elektriciteit",
         "shower": "Douche",
-        "tent": "Tent",
-        "search-city": "Zoek een stad"
+        "tent": "Tent"
       }
     },
     "filter": {
@@ -117,9 +116,11 @@
       "garden-capacity": "Tuin Capaciteit",
       "spots-available": "Tentplaatsen beschikbaar",
       "min": "Minimum",
-      "all-filters": "alle filters",
+      "no-places": "Geen plaatsen gevonden",
+      "search-city": "Zoek een stad",
+      "all-filters": "Alle filters",
       "available": "{amount} tuinen beschikbaar met de actieve filters.",
-      "no-places": "Geen plaatsen gevonden"
+      "min-capacity": "Ruimte voor {capacity} {capacity, plural, one {tent} other {tenten}}"
     },
     "drawer": {
       "facilities": {
