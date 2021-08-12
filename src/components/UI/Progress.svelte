@@ -11,6 +11,3 @@
     else NProgress.done();
   }
 </script>
-
-<style>
-</style>
