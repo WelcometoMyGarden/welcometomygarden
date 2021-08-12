@@ -43,7 +43,7 @@ export const reverseGeocode = async ({ latitude, longitude }) => {
 export const geocodeExtensive = async (place, longitude, latitude, language, amount) => {
   let types = 'place,locality';
   const response = await fetch(
-    `https://api.mapbox.com/geocoding/v5/mapbox.places/${place}.json?proximity=${longitude},${latitude}&limit=${amount}&types=${types}&language=${language}&access_token=${MAPBOX_ACCESS_TOKEN}`,
+    `https://api.mapbox.com/geocoding/v5/mapbox.places/${place}.json?proximity=${longitude},${latitude}&limit=${amount}&types=${types}&language=${language}&access_token=${VITE_MAPBOX_ACCESS_TOKEN}`,
     {
       headers
     }
@@ -77,7 +77,7 @@ export const geocodeCountryCode = async (country_code) => {
   try {
     let types = 'country';
     const response = await fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${country_code}.json?&limit=1&autocomplete=false&types=${types}&access_token=${MAPBOX_ACCESS_TOKEN}`,
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${country_code}.json?&limit=1&autocomplete=false&types=${types}&access_token=${VITE_MAPBOX_ACCESS_TOKEN}`,
       {
         headers
       }
