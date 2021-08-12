@@ -1,6 +1,5 @@
 <script>
   import { _ } from 'svelte-i18n';
-  import { createEventDispatcher } from 'svelte';
   import { Button, Tag } from '@/components/UI';
   import FacilitiesFilter from '@/components/Garden/FacilitiesFilter.svelte';
   import FilterLocation from '@/components/Garden/FilterLocation.svelte';
@@ -16,8 +15,6 @@
 
   export let filteredGardens;
   export let fallbackLocation;
-
-  const dispatch = createEventDispatcher();
 
   let showFilterModal = false;
 
@@ -71,16 +68,12 @@
     }
     return activeFacilitiesFiltered;
   };
-
-  const goToPlace = (event) => {
-    dispatch('goToPlace', { longitude: event.detail.longitude, latitude: event.detail.latitude });
-  };
 </script>
 
 <div class="filter">
   <div class="filter-controls">
     <div class="location-filter">
-      <FilterLocation on:goToPlace={goToPlace} bind:isSearching {fallbackLocation} />
+      <FilterLocation on:goToPlace bind:isSearching {fallbackLocation} />
     </div>
     <div class="garden-filter">
       <Button
@@ -150,7 +143,12 @@
     flex-wrap: wrap;
   }
 
-  .filter :global(input, .input:focus) {
+  .filter :global(input) {
+    border-radius: 10px;
+    border-bottom: none;
+  }
+
+  .filter :global(.input:focus) {
     border-radius: 10px;
     border-bottom: none;
   }
