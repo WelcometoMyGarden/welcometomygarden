@@ -12,7 +12,8 @@
     "routify": "routify",
     "nollup": "nollup -c",
     "test": "cross-env FIRESTORE_EMULATOR_HOST=localhost:5002 jest ./test",
-    "test:watch": "cross-env FIRESTORE_EMULATOR_HOST=localhost:5002 jest --watchAll ./test"
+    "test:watch": "cross-env FIRESTORE_EMULATOR_HOST=localhost:5002 jest --watchAll ./test",
+    "start:emulators": "firebase emulators:start"
   },
   "publishConfig": {
     "access": "public"
