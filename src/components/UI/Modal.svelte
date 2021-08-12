@@ -22,6 +22,7 @@
   export let center = false;
   export let stickToBottom = false;
   export let nopadding = false;
+  export let opacity = true;
 
   const close = () => {
     show = false;
@@ -48,6 +49,7 @@
   <div
     class="modal"
     class:center
+    class:opacity
     class:stick-to-bottom={stickToBottom}
     class:nopadding
     on:click|self={handleOuterClick}
@@ -97,6 +99,10 @@
     left: 0;
     padding: 2rem;
     top: 0;
+  }
+
+  .opacity {
+    background-color: rgba(0, 0, 0, 0.6);
   }
 
   .nopadding {
