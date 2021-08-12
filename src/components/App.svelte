@@ -1,6 +1,6 @@
 <script>
-  import { Router } from '@sveltech/routify';
-  import { routes } from '@sveltech/routify/tmp/routes';
+  import { Router } from '@roxi/routify';
+  import { routes } from '../../.routify/routes';
   import { locale, init } from 'svelte-i18n';
   import { setCookie, getCookie } from '@/util';
   import registerLocales from '@/locales/register';

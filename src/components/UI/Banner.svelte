@@ -6,7 +6,6 @@
 
   export let cookieName;
   export let cookieTime = 31536000000; //365 * 24 * 60 * 60 * 1000
-  export let bannerText;
 
   let bannerShown = !getCookie(cookieName);
 
@@ -22,9 +21,8 @@
   <header class="banner">
     <div class="banner-content">
       <p>
-        {@html bannerText}
+        <slot />
       </p>
-
       <button
         on:click={closeBanner}
         aria-label="Close banner"

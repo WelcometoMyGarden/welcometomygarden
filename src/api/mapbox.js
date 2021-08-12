@@ -1,6 +1,4 @@
-import { config } from '@/config';
-
-const { MAPBOX_ACCESS_TOKEN } = config;
+const { VITE_MAPBOX_ACCESS_TOKEN } = import.meta.env;
 
 const headers = {
   'Content-Type': 'application/json'
@@ -19,7 +17,7 @@ const parseAddressPiece = (address, piece) => {
 
 export const geocode = async (addressString) => {
   const response = await fetch(
-    `https://api.mapbox.com/geocoding/v5/mapbox.places/${addressString}.json?limit=1&access_token=${MAPBOX_ACCESS_TOKEN}`,
+    `https://api.mapbox.com/geocoding/v5/mapbox.places/${addressString}.json?limit=1&access_token=${VITE_MAPBOX_ACCESS_TOKEN}`,
     { headers }
   );
   const data = await response.json();
@@ -30,7 +28,7 @@ export const geocode = async (addressString) => {
 
 export const reverseGeocode = async ({ latitude, longitude }) => {
   const response = await fetch(
-    `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?limit=1&access_token=${MAPBOX_ACCESS_TOKEN}`,
+    `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?limit=1&access_token=${VITE_MAPBOX_ACCESS_TOKEN}`,
     { headers }
   );
   const data = await response.json();

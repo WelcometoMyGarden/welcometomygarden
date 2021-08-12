@@ -15,9 +15,9 @@
   import groteRoutePadenLogo from '../images/groteroutepaden-logo.svg';
   import GRSentiers from '../images/les-sentiers-de-grande-randonnee-logo.svg';
 
-  import Step1 from '../images/step-1.svg';
-  import Step2 from '../images/step-2.svg';
-  import Step3 from '../images/step-3.svg';
+  import Step1 from '@/images/step-1.svg';
+  import Step2 from '@/images/step-2.svg';
+  import Step3 from '@/images/step-3.svg';
 
   import ShopBanner from '../components/Temporary/ShopBanner.svelte';
 
@@ -336,6 +336,15 @@
   .step-logo {
     display: flex;
     justify-content: center;
+    align-items: center;
+    width: 60%;
+    height: 15rem;
+    margin: 0 auto;
+  }
+
+  .step-logo > :global(svg) {
+    max-height: 100%;
+    max-width: 100%;
   }
 
   .card p {
