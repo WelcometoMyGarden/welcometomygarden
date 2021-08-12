@@ -88,10 +88,10 @@
         {$_(`index.steps.${key}.title`)}
       </h2>
       <p class="step-text">
-        {@html $_(`index.steps.${key}.copy`, {
+        {@html $_(`index.steps.${i}.copy`, {
           values: {
             addGardenLink: `<a href=${routes.ADD_GARDEN}>${$_(
-              `index.steps.${key}.add-garden-link-text`
+              `index.steps.${i}.add-garden-link-text`
             )}</a>`
           }
         })}
