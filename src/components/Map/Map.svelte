@@ -8,12 +8,11 @@
   export let lon;
   export let zoom;
   export let recenterOnUpdate = false;
+  export let initialLat = lat;
+  export let initialLon = lon;
 
   let container;
   let map;
-
-  let initialLat = lat;
-  let initialLon = lon;
 
   setContext(key, {
     getMap: () => map
@@ -33,6 +32,12 @@
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-left');
     map.addControl(new maplibregl.AttributionControl({ compact: false }));
   });
+
+  $: if (map) {
+    map.jumpTo({
+      center: [initialLon, initialLat]
+    });
+  }
 
   $: if (recenterOnUpdate && map && initialLat !== lat && initialLon !== lon) {
     map.flyTo({

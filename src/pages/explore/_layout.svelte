@@ -89,7 +89,14 @@
 <Progress active={$isFetchingGardens && !geolocationIsLoaded} />
 
 <div class="map-section">
-  <Map lon={center.longitude} lat={center.latitude} recenterOnUpdate zoom="7">
+  <Map
+    lon={center.longitude}
+    lat={center.latitude}
+    recenterOnUpdate
+    zoom="7"
+    initialLon={fallbackLocation.longitude}
+    initialLat={fallbackLocation.latitude}
+  >
     {#if !$isFetchingGardens}
       <GardenLayer
         on:garden-click={(e) => selectGarden(e.detail)}
