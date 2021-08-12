@@ -141,7 +141,12 @@
     flex-wrap: wrap;
   }
 
-  .filter :global(input, .input:focus) {
+  .filter :global(input) {
+    border-radius: 10px;
+    border-bottom: none;
+  }
+
+  .filter :global(.input:focus) {
     border-radius: 10px;
     border-bottom: none;
   }

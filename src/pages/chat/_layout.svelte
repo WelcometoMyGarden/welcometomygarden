@@ -2,7 +2,7 @@
   import { _ } from 'svelte-i18n';
   import { fly } from 'svelte/transition';
   import { flip } from 'svelte/animate';
-  import { goto, redirect, params, isActive } from '@sveltech/routify';
+  import { goto, redirect, params, isActive } from '@roxi/routify';
   import { user } from '@/stores/auth';
   import notify from '@/stores/notification';
   import { chats, creatingNewChat, hasInitialized, getChatForUser } from '@/stores/chat';
@@ -90,7 +90,8 @@
               on:click={() => selectConversation(null)}
               recipient={newConversation.name}
               lastMessage={''}
-              selected={$params.chatId === 'new'} />
+              selected={$params.chatId === 'new'}
+            />
           </article>
         {/if}
         {#if $hasInitialized && conversations.length === 0 && !newConversation}
@@ -108,7 +109,8 @@
                 recipient={$chats[conversation.id].partner.firstName}
                 lastMessage={conversation.lastMessage}
                 selected={selectedConversation && selectedConversation.id === conversation.id}
-                on:click={() => selectConversation(conversation.id)} />
+                on:click={() => selectConversation(conversation.id)}
+              />
             </article>
           {/each}
         {/if}

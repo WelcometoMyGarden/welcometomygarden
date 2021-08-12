@@ -1,7 +1,7 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
-  import { goto, redirect } from '@sveltech/routify';
+  import { goto, redirect } from '@roxi/routify';
   import notify from '@/stores/notification';
   import { updateMailPreferences } from '@/api/user';
   import { resendAccountVerification } from '@/api/auth';
@@ -98,11 +98,7 @@
             <p>{$_('account.verify.text')}</p>
             {#if !hasResentEmail}
               <div class="resend-verification">
-                <Button
-                  uppercase
-                  xsmall
-                  disabled={isResendingEmail}
-                  on:click={doResendEmail}>
+                <Button uppercase xsmall disabled={isResendingEmail} on:click={doResendEmail}>
                   {$_('account.verify.button')}
                 </Button>
               </div>
@@ -123,7 +119,8 @@
               id="new-chat"
               name="newChat"
               checked={$user.emailPreferences.newChat}
-              on:change={onMailPreferenceChanged} />
+              on:change={onMailPreferenceChanged}
+            />
             <label for="new-chat">{$_('account.preferences.chat')}</label>
           </li>
           <li>
@@ -133,7 +130,8 @@
               id="news"
               name="news"
               checked={$user.emailPreferences.news}
-              on:change={onMailPreferenceChanged} />
+              on:change={onMailPreferenceChanged}
+            />
             <label for="news">{$_('account.preferences.news')}</label>
           </li>
         </ul>
@@ -152,7 +150,8 @@
             name="listed"
             checked={$user.garden.listed}
             label="Shown on the map"
-            on:input={changeGardenListed} />
+            on:input={changeGardenListed}
+          />
           <div class="mt-m">
             <Button href={routes.MANAGE_GARDEN} medium uppercase>
               {$_('account.garden.listed.button')}

@@ -1,7 +1,7 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
-  import { goto } from '@sveltech/routify';
+  import { goto } from '@roxi/routify';
   import { user } from '@/stores/auth';
   import notify from '@/stores/notification';
   import { login } from '@/api/auth';
@@ -20,7 +20,7 @@
     formError = '';
     try {
       await login(email.value, password.value);
-      notify.success($_('sign-in.notify.welcome', {values: { user: $user.firstName}}));
+      notify.success($_('sign-in.notify.welcome', { values: { user: $user.firstName } }));
       $goto(routes.MAP);
     } catch (ex) {
       if (ex.code === 'auth/user-not-found' || ex.code === 'auth/wrong-password')
@@ -49,7 +49,8 @@
         type="email"
         name="email"
         id="email"
-        bind:value={email.value} />
+        bind:value={email.value}
+      />
     </div>
     <div>
       <label for="password">{$_('generics.password')}</label>
@@ -59,7 +60,8 @@
         name="password"
         id="password"
         autocomplete="new-password"
-        bind:value={password.value} />
+        bind:value={password.value}
+      />
     </div>
     <div class="hint">
       {#if formError}
@@ -76,16 +78,18 @@
   <p>
     {@html $_('sign-in.reset.text', {
       values: {
-        link: `<a class="link" href="${routes.REQUEST_PASSWORD_RESET}">${$_('sign-in.reset.link')}</a>`
+        link: `<a class="link" href="${routes.REQUEST_PASSWORD_RESET}">${$_(
+          'sign-in.reset.link'
+        )}</a>`
       }
-    })} 
+    })}
   </p>
   <p>
     {@html $_('sign-in.register.text', {
       values: {
         link: `<a class="link" href="${routes.REGISTER}">${$_('sign-in.register.link')}</a>`
       }
-    })}    
+    })}
   </p>
 </AuthContainer>
 
