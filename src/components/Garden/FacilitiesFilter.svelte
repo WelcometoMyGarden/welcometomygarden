@@ -47,14 +47,18 @@
   let stickToBottom = false;
   let maxWidth = 576;
 
-  const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+  let vw;
 
-  if (maxWidth && vw < maxWidth) {
-    stickToBottom = true;
-  } else {
-    stickToBottom = false;
+  $: {
+    if (vw < maxWidth) {
+      stickToBottom = true;
+    } else {
+      stickToBottom = false;
+    }
   }
 </script>
+
+<svelte:window bind:innerWidth={vw} />
 
 <Modal
   bind:show
@@ -198,7 +202,7 @@
     text-align: center;
   }
 
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 500px) {
     .gardenFilterCapacityText {
       display: none;
     }
