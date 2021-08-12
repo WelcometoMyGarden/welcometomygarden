@@ -1,16 +1,19 @@
 <script>
   import { setContext, onMount } from 'svelte';
   import maplibregl from 'maplibre-gl';
-  import { config } from '@/config';
   import key from './mapbox-context.js';
+
+  import 'maplibre-gl/dist/maplibre-gl.css';
 
   export let lat;
   export let lon;
   export let zoom;
   export let recenterOnUpdate = false;
+  export let jump = false;
 
   let container;
   let map;
+  let loaded = false;
 
   let initialLat = lat;
   let initialLon = lon;
@@ -19,7 +22,7 @@
     getMap: () => map
   });
 
-  maplibregl.accessToken = config.MAPBOX_ACCESS_TOKEN;
+  maplibregl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
   onMount(() => {
     map = new maplibregl.Map({
@@ -32,30 +35,34 @@
 
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-left');
     map.addControl(new maplibregl.AttributionControl({ compact: false }));
+
+    map.on('load', () => {
+      loaded = true;
+    });
   });
 
   $: if (recenterOnUpdate && map && initialLat !== lat && initialLon !== lon) {
-    map.flyTo({
-      center: [lon, lat],
-      bearing: 0,
+    if (!jump) {
+      map.flyTo({
+        center: [lon, lat],
+        bearing: 0,
 
-      speed: 0.9,
-      curve: 1,
+        speed: 0.9,
+        curve: 1,
 
-      essential: true
-    });
+        essential: true
+      });
+    } else {
+      map.jumpTo({
+        center: [lon, lat],
+        zoom
+      });
+    }
   }
 </script>
 
-<svelte:head>
-  <link
-    href="https://cdn.maptiler.com/maplibre-gl-js/v1.13.0-rc.4/mapbox-gl.css"
-    rel="stylesheet"
-  />
-</svelte:head>
-
 <div bind:this={container}>
-  {#if map}
+  {#if map && loaded}
     <slot />
   {/if}
 </div>

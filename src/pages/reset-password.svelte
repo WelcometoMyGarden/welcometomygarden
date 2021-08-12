@@ -1,6 +1,6 @@
 <script>
   import { _ } from 'svelte-i18n';
-  import { goto, params } from '@sveltech/routify';
+  import { goto, params } from '@roxi/routify';
   import AuthContainer from '@/components/AuthContainer.svelte';
   import notify from '@/stores/notification';
   import { confirmPasswordReset, login } from '@/api/auth';
@@ -45,7 +45,8 @@
       name="password"
       id="password"
       autocomplete="new-password"
-      bind:value={password.value} />
+      bind:value={password.value}
+    />
 
     <Button type="submit" medium>{$_('reset-password.update')}</Button>
   </form>

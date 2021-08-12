@@ -1,6 +1,6 @@
 <script>
   import { _ } from 'svelte-i18n';
-  import { isActive } from '@sveltech/routify';
+  import { isActive } from '@roxi/routify';
   import routes from '@/routes';
   import NavLink from './NavLink.svelte';
   import UserDropdown from './UserDropdown.svelte';
