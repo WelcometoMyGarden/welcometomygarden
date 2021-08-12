@@ -14,8 +14,14 @@
 
   let partnerHasGarden = null;
   let partnerId;
+  let chat;
 
-  $: chat = $chats[chatId];
+  // Allow chat to change on chatId change
+  $: if (chatId) chat = null;
+
+  // Only change chat if falsy (this will avoid reregistering the observeMessagesForChat, thus avoid dups)
+  $: if (!chat) chat = $chats[chatId];
+
   $: if (partnerHasGarden === null && chat && $user.id) {
     partnerId = chat.users.find((id) => $user.id !== id);
     partnerHasGarden = hasGarden(partnerId)
@@ -28,7 +34,9 @@
       });
   }
 
-  $: if (chat && !$messages[chat.id]) observeMessagesForChat(chat.id);
+  $: if (chat && !$messages[chat.id]) {
+    observeMessagesForChat(chat.id);
+  }
 
   let messageContainer;
   let autoscroll;
@@ -116,7 +124,7 @@
 <div class="message-wrapper" bind:this={messageContainer}>
   <div class="messages">
     {#if chat && $messages[chat.id]}
-      {#each $messages[chatId] as message (message.id)}
+      {#each $messages[chat.id] as message (message.id)}
         <div class="message" class:by-user={message.from === $user.id}>
           <div class="avatar">
             <Avatar name={message.from === $user.id ? $user.firstName : chat.partner.firstName} />
