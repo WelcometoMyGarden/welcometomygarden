@@ -85,8 +85,6 @@
   let showHiking = false;
   let showCycling = false;
 
-  const attributionLinkTrails = `<a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>`;
-
   /**
    *  Filter
    */
@@ -154,7 +152,11 @@
       />
     </div>
     <span class="attribution">
-      {@html $_('map.trails.attribution', { values: { link: attributionLinkTrails } })}
+      {@html $_('map.trails.attribution', {
+        values: {
+          link: `<a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>`
+        }
+      })}
     </span>
   </div>
 
