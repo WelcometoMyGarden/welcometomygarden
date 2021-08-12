@@ -13,6 +13,7 @@
 
   let container;
   let map;
+  let loaded = false;
 
   let initialLat = lat;
   let initialLon = lon;
@@ -34,6 +35,10 @@
 
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-left');
     map.addControl(new maplibregl.AttributionControl({ compact: false }));
+
+    map.on('load', () => {
+      loaded = true;
+    });
   });
 
   $: if (recenterOnUpdate && map && initialLat !== lat && initialLon !== lon) {
@@ -57,7 +62,7 @@
 </script>
 
 <div bind:this={container}>
-  {#if map}
+  {#if map && loaded}
     <slot />
   {/if}
 </div>
