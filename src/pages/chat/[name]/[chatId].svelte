@@ -8,8 +8,7 @@
   import { hasGarden } from '@/api/garden';
   import { user } from '@/stores/auth';
   import { chats, messages } from '@/stores/chat';
-  import { Avatar, Icon } from '@/components/UI';
-  import { tentIcon } from '@/images/icons';
+  import { Avatar } from '@/components/UI';
   import routes from '@/routes';
 
   let partnerHasGarden = null;
@@ -113,8 +112,8 @@
   </div>
   {#if partnerHasGarden}
     <div class="chat-header__bot">
-      <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link"
-        ><Icon icon={tentIcon} />
+      <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link">
+        <img src="/images/markers/tent-filled.png" alt="" role="presentation" />
         <span>go to garden</span>
       </a>
     </div>
@@ -271,11 +270,12 @@
 
   .chat-header__bot .garden-link {
     display: flex;
+    align-items: center;
     font-weight: bold;
     color: var(--color-green);
   }
 
-  .chat-header__bot .garden-link :global(i) {
+  .chat-header__bot .garden-link img {
     width: 2.5rem;
     margin-right: 5px;
     display: inline-block;
