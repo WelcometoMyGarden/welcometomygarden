@@ -298,7 +298,8 @@
       "infos": {
         "0": {
           "copy": {
-            "0": "Le Processeur et le Responsable du traitement des données peuvent utiliser les données personnelles de l'utilisateur à des fins juridiques, pour les tribunaux ou les procédures judiciaires, en cas d'utilisation illégale de cette application ou des services connexes."
+            "0": "Le Processeur et le Responsable du traitement des données peuvent utiliser les données personnelles de l'utilisateur à des fins juridiques, pour les tribunaux ou les procédures judiciaires, en cas d'utilisation illégale de cette application ou des services connexes.",
+            "1": "L'Utilisateur est conscient que le Processeur et le Contrôleur des données pourraient être obligés de divulguer les données personnelles à la demande des institutions gouvernementales compétentes pour le traitement des données."
           },
           "title": "Procédures légales"
         },
@@ -385,7 +386,9 @@
           "2": {
             "list": {
               "0": "L'emplacement de votre jardin (coordonnées : latitude et longitude) (obligatoire)",
-              "1": "Informations sur votre jardin (description, équipements, nombre de tentes que vous pouvez accueillir) (obligatoire)"
+              "1": "Informations sur votre jardin (description, équipements, nombre de tentes que vous pouvez accueillir) (obligatoire)",
+              "2": "Langues parlées (obligatoire)",
+              "3": "Une photo de votre jardin (facultatif)"
             },
             "title": "Données personnelles que vous fournissez lors de l'ajout de votre jardin à votre compte."
           }
@@ -432,14 +435,17 @@
         "copy": {
           "0": "Si vous créez un compte sur la plateforme, les cookies utilisés concernent la gestion la gestion du processus d'inscription et l'administration générale. Ces cookies sont généralement supprimés lorsque vous vous déconnectez. Cependant, dans certains cas, ils peuvent être conservés afin d’enregistrer vos préférences de site.",
           "1": "Nous utilisons des cookies lorsque vous êtes connecté afin que nous puissions nous souvenir de votre utilisation. Cela vous évite d'avoir à vous connecter à chaque fois que vous visitez une nouvelle page. Ces cookies sont généralement supprimés ou effacés lorsque vous vous déconnectez pour assurer votre sécurité en ligne.",
-          "2": "Ce site pourrait offrir des services d'abonnement à la newsletter ou par courriel à l'avenir. Des cookies peuvent dès lors être utilisés afin d'enregistrer votre inscription ainsi que pour permettre l'affichage de notification n'étant accessibles qu'aux utilisateurs abonnés."
+          "2": "Ce site pourrait offrir des services d'abonnement à la newsletter ou par courriel à l'avenir. Des cookies peuvent dès lors être utilisés afin d'enregistrer votre inscription ainsi que pour permettre l'affichage de notification n'étant accessibles qu'aux utilisateurs abonnés.",
+          "4": "Afin de vous offrir une expérience agréable sur ce site, nous vous offrons la possibilité de définir vos préférences pour le fonctionnement de ce site lorsque vous l'utilisez. Pour mémoriser vos préférences, nous devons installer des cookies, de sorte que ces informations puissent être rappelées chaque fois que vous interagissez avec une page affectée par vos préférences."
         },
         "title": "‍Les cookies mis en place"
       },
       "4": {
         "copy": {
           "0": "Dans certains cas particuliers, nous utilisons également des cookies fournis par des tiers de confiance. La section suivante détaille les cookies tiers que vous pourriez rencontrer sur ce site.",
-          "1": "Ce site utilise Google Analytics, qui est l'une des solutions d'analyse les plus répandues et les plus fiables sur le Web. Nous l'utilisons pour nous aider à comprendre comment vous utilisez ce site et à découvrir comment nous pouvons améliorer votre expérience. Ces cookies peuvent suivre des éléments tels que le temps que vous passez sur le site et les pages que vous visitez, afin que nous puissions continuer à produire du contenu attrayant."
+          "1": "Ce site utilise Google Analytics, qui est l'une des solutions d'analyse les plus répandues et les plus fiables sur le Web. Nous l'utilisons pour nous aider à comprendre comment vous utilisez ce site et à découvrir comment nous pouvons améliorer votre expérience. Ces cookies peuvent suivre des éléments tels que le temps que vous passez sur le site et les pages que vous visitez, afin que nous puissions continuer à produire du contenu attrayant.",
+          "3": "Des outils d'analyse tiers sont utilisés pour suivre et mesurer l'utilisation de ce site afin que nous puissions continuer à produire un contenu attrayant. Ces cookies peuvent suivre des éléments tels que le temps que vous passez sur ce site ou les pages que vous visitez, afin de nous aider à comprendre comment nous pouvons améliorer le site pour vous. De temps à autre, nous testons de nouvelles fonctionnalités et apportons des modifications subtiles à la manière dont le site est proposé. Lorsque nous testons encore de nouvelles fonctionnalités, ces cookies peuvent être utilisés pour garantir que vous bénéficiez d'une expérience cohérente au cours de votre visite, tout en nous permettant de comprendre quelles optimisations nos utilisateurs apprécient le plus.",
+          "2": "Pour plus d'informations sur les cookies de Google Analytics, <a href=\"https://www.google.com/url?q=https://analytics.google.com/analytics/web/%23/&amp;sa=D&amp;ust=1592214262289000\">voir la page officielle de Google Analytics</a>."
         },
         "title": "Cookies utilisés par des tiers"
       },
@@ -535,7 +541,8 @@
           "0": "Faire un itinéraire pour vélo ou marche à pied : BRouter, Komoot, OutdoorActive",
           "1": "Applications pour les itinéraires : Komoot",
           "2": "Une autre excellente application de navigation : ViewRanger",
-          "3": "Excellente application de navigation pour le cyclisme et la randonnée : OSMAnd"
+          "3": "Excellente application de navigation pour le cyclisme et la randonnée : OSMAnd",
+          "4": "Une autre excellente application de navigation : ViewRanger"
         },
         "title": "Cartes et applications"
       },
@@ -543,7 +550,9 @@
         "recommendations": {
           "0": "Collection de chemins de randonnées : RouteYou",
           "1": "Pour le réseau de Knooppunten : Wandelknooppunt",
-          "2": "Sentiers de longue distance en Wallonie : le RAVeL"
+          "2": "Sentiers de longue distance en Wallonie : le RAVeL",
+          "4": "Les sentiers de grande randonnée en Flandre et en Wallonie : Grote Routepaden",
+          "3": "Les pistes cyclables longue distance en Flandre : Réseau LF Flandre"
         },
         "title": "D'autres ressources"
       },
