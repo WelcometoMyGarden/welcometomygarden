@@ -60,13 +60,6 @@
     }
   };
 
-  let previousGarden = {};
-  $: if (garden && garden.id !== previousGarden.id) {
-    infoHasLoaded = false;
-    userInfo = null;
-    previousGarden = garden;
-  }
-
   $: if (garden) {
     infoHasLoaded = false;
     userInfo = null;
