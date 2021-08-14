@@ -14,7 +14,11 @@
   import { crossIcon, cyclistIcon, hikerIcon } from '@/images/icons';
   import { ZOOM_LEVELS } from '@/constants';
 
-  $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
+  let selectedGarden = null;
+
+  $: if (!selectedGarden || selectedGarden.id !== $params.gardenId)
+    selectedGarden = $allGardens[$params.gardenId]; // undefined or garden
+
   $: center = selectedGarden
     ? [selectedGarden.location.longitude, selectedGarden.location.latitude]
     : [4.5, 50.5];
