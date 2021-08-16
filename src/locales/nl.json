@@ -117,7 +117,7 @@
       "spots-available": "Tentplaatsen beschikbaar",
       "min": "Minimum",
       "all-filters": "Alle filters",
-      "available": "{amount} tuinen beschikbaar met de actieve filters."
+      "available": "{styledAmount} {amount, plural, one {tuin} other {tuinen}} beschikbaar met de actieve filters."
     },
     "drawer": {
       "facilities": {

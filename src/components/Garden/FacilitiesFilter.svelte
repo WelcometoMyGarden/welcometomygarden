@@ -116,7 +116,8 @@
   <p slot="controls" class="applyGardenFilter">
     {@html $_('garden.filter.available', {
       values: {
-        amount: `<strong>${Object.values(filteredGardens).length}</strong>`
+        amount: Object.values(filteredGardens).length,
+        styledAmount: `<strong>${Object.values(filteredGardens).length}</strong>`
       }
     })}
   </p>
