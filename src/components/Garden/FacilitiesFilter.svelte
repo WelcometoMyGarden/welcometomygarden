@@ -113,14 +113,23 @@
       </div>
     </div>
   </div>
-  <p slot="controls" class="applyGardenFilter">
-    {@html $_('garden.filter.available', {
-      values: {
-        amount: Object.values(filteredGardens).length,
-        styledAmount: `<strong>${Object.values(filteredGardens).length}</strong>`
-      }
-    })}
-  </p>
+  <div slot="controls" class="applyGardenFilter">
+    <p class="controls-gardens-available">
+      {@html $_('garden.filter.available', {
+        values: {
+          amount: Object.values(filteredGardens).length,
+          styledAmount: `<strong>${Object.values(filteredGardens).length}</strong>`
+        }
+      })}
+    </p>
+    <Button
+      uppercase
+      small
+      on:click={() => {
+        show = false;
+      }}>{$_('garden.filter.apply-filter')}</Button
+    >
+  </div>
 </Modal>
 
 <style>
@@ -193,6 +202,10 @@
 
   .applyGardenFilter {
     text-align: center;
+  }
+
+  .controls-gardens-available {
+    padding-bottom: 1rem;
   }
 
   .capacity-input {
