@@ -148,6 +148,7 @@
     width: 32rem;
     left: 6rem;
     position: absolute;
+    z-index: 5;
   }
 
   .filter-controls {
