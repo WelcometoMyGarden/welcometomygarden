@@ -27,6 +27,8 @@
   // true when visiting the link to a garden directly, used to increase zoom level
   let usingGardenLink = !!$params.gardenId;
 
+  let zoom = usingGardenLink ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.SMALL_COUNTRY;
+
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
   $: center = selectedGarden
     ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
@@ -42,6 +44,7 @@
   };
 
   const goToPlace = (event) => {
+    zoom = ZOOM_LEVELS.CITY;
     center = { longitude: event.detail.longitude, latitude: event.detail.latitude };
   };
 
@@ -100,7 +103,7 @@
     initialLon={fallbackLocation.longitude}
     initialLat={fallbackLocation.latitude}
     jump={usingGardenLink}
-    zoom={usingGardenLink ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.SMALL_COUNTRY}
+    {zoom}
   >
     {#if !$isFetchingGardens}
       <GardenLayer
