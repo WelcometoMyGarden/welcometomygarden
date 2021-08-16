@@ -21,8 +21,6 @@
 <style>
   .conversation {
     padding: 2rem 2.4rem 2rem 2rem;
-    display: flex;
-    align-items: center;
     background-color: var(--color-white);
     border-left: 0.3rem solid var(--color-white);
     transition: all 0.3s ease-in-out;

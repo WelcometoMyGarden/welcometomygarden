@@ -3,13 +3,20 @@
   export let name;
 </script>
 
-<Avatar {name} />
-<div class="details">
-  <span class="name">{name}</span>
-  <slot />
+<div class="user">
+  <Avatar {name} />
+  <div class="details">
+    <span class="name">{name}</span>
+    <slot />
+  </div>
 </div>
 
 <style>
+  .user {
+    display: flex;
+    align-items: center;
+  }
+
   .name {
     font-weight: 700;
   }

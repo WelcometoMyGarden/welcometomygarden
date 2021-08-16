@@ -9,6 +9,7 @@
   import { user } from '@/stores/auth';
   import { chats, messages } from '@/stores/chat';
   import { Avatar } from '@/components/UI';
+  import { User } from '@/components/Chat';
   import routes from '@/routes';
 
   let partnerHasGarden = null;
@@ -120,6 +121,21 @@
         <span>go to garden</span>
       </a>
     </div>
+  {/if}
+</header>
+
+<header class="chat-header-md">
+  {#if partnerName}
+    <User name={partnerName}>
+      {#if partnerHasGarden}
+        <div class="chat-header-md__bot">
+          <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link">
+            <img src="/images/markers/tent-filled.png" alt="" role="presentation" />
+            <span>go to garden</span>
+          </a>
+        </div>
+      {/if}
+    </User>
   {/if}
 </header>
 
@@ -257,24 +273,26 @@
     display: none;
   }
 
-  .chat-header-sm {
-    min-height: 5rem;
+  .chat-header-md {
+    padding: 1.5rem 1rem;
     background: var(--color-white);
     width: 100%;
     box-shadow: 0px 5px 3px -3px rgba(143, 142, 142, 0.1);
-    display: flex;
-    align-items: center;
   }
 
-  .chat-header-sm .garden-link {
+  .chat-header-md__bot {
+    margin-top: 0.4rem;
+  }
+
+  .garden-link {
     display: inline-flex;
     align-items: center;
     font-weight: bold;
     color: var(--color-green);
   }
 
-  .chat-header-sm .garden-link img {
-    width: 2.5rem;
+  .garden-link img {
+    width: 2rem;
     margin-right: 5px;
     display: inline-block;
   }
@@ -303,6 +321,10 @@
 
     .message.by-user .message-text {
       margin-right: 1rem;
+    }
+
+    .chat-header-md {
+      display: none;
     }
 
     .chat-header-sm {
