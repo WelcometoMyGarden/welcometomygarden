@@ -45,7 +45,7 @@
   };
 
   let stickToBottom = false;
-  let maxWidth = 576;
+  let maxWidth = 700;
 
   let vw;
 
