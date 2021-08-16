@@ -51,16 +51,16 @@
 
   let vw;
 
-  $: activeFacilities = () => {
+  const activeFacilities = (currentWidth) => {
     let activeFacilitiesFiltered = facilities.filter(
       (facility) => filter.facilities[facility.name] === true
     );
 
-    let maxWidth = 500;
+    let maxWidth = 700;
 
     allFiltersTag = false;
 
-    if (vw < maxWidth) {
+    if (currentWidth < maxWidth) {
       if (activeFacilitiesFiltered.length > 2 && filter.capacity.min > 1) {
         activeFacilitiesFiltered = activeFacilitiesFiltered.slice(0, 2);
         allFiltersTag = true;
@@ -94,7 +94,7 @@
   </div>
   {#if !isSearching}
     <div class="filter-tags">
-      {#each activeFacilities() as facility (facility.name)}
+      {#each activeFacilities(vw) as facility (facility.name)}
         <Tag
           name={facility.name}
           icon={facility.icon}
