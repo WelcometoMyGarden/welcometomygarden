@@ -146,7 +146,7 @@
     width: 80%;
     top: calc(var(--height-nav) + 1.5rem);
     width: 32rem;
-    left: 6rem;
+    left: 5rem;
     position: absolute;
     z-index: 5;
   }
@@ -196,9 +196,8 @@
   @media screen and (max-width: 700px) {
     .filter {
       top: 3rem;
-      width: 72%;
-      left: 50%;
-      transform: translateX(-50%);
+      margin-right: 1rem;
+      width: calc(100% - 5rem - 1rem);
     }
   }
 </style>
