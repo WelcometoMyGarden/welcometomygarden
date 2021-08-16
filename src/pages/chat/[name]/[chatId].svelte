@@ -16,7 +16,9 @@
   let chat;
 
   // Allow chat to change on chatId change
-  $: if (chatId) chat = null;
+  $: if (chatId) {
+    partnerHasGarden = chat = null;
+  }
 
   // Only change chat if falsy (this will avoid reregistering the observeMessagesForChat, thus avoid dups)
   $: if (!chat) chat = $chats[chatId];
