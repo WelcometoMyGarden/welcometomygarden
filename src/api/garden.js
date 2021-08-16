@@ -107,8 +107,8 @@ export const hasGarden = async (userId) => {
   try {
     snapshot = await doc.get({ source: 'cache' });
   } catch (error) {
-    // not cached
-    snapshot = await doc.get();
+    // probably not cached
+    snapshot = await doc.get({ source: 'server' });
   }
-  return snapshot ? snapshot.exists : false;
+  return snapshot ? snapshot.exists && snapshot.data().listed : false;
 };

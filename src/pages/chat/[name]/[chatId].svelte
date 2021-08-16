@@ -27,8 +27,9 @@
       .then((res) => {
         partnerHasGarden = res;
       })
-      .catch(() => {
+      .catch((err) => {
         // something went wrong just act like partner has no garden
+        console.log(err);
         partnerHasGarden = false;
       });
   }
