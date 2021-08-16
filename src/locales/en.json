@@ -497,7 +497,7 @@
       "no-places": "No places found",
       "search-city": "Search for a city",
       "all-filters": "All filters",
-      "available": "{amount} gardens available with the active filters.",
+      "available": "{styledAmount} {amount, plural, one {garden} other {gardens}} available with the active filters.",
       "min-capacity": "Space for {capacity} {capacity, plural, one {tent} other {tents}}"
     },
     "drawer": {

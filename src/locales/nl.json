@@ -119,7 +119,7 @@
       "no-places": "Geen plaatsen gevonden",
       "search-city": "Zoek een stad",
       "all-filters": "Alle filters",
-      "available": "{amount} tuinen beschikbaar met de actieve filters.",
+      "available": "{styledAmount} {amount, plural, one {tuin} other {tuinen}} beschikbaar met de actieve filters.",
       "min-capacity": "Ruimte voor {capacity} {capacity, plural, one {tent} other {tenten}}"
     },
     "drawer": {
