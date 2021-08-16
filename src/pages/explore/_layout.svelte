@@ -24,6 +24,9 @@
   let filteredGardens;
   let carNoticeShown = !getCookie('car-notice-dismissed');
 
+  // true when visiting the link to a garden directly, used to increase zoom level
+  let usingGardenLink = !!$params.gardenId;
+
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
   $: center = selectedGarden
     ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
@@ -31,16 +34,11 @@
 
   // FUNCTIONS
 
-  // true when visiting the link to a garden directly, used to increase zoom level
-  let usingGardenLink = !!$params.gardenId;
-
   const selectGarden = (garden) => {
     const newSelectedId = garden.id;
     const newGarden = $allGardens[newSelectedId];
     center = { longitude: newGarden.location.longitude, latitude: newGarden.location.latitude };
     $goto(`${routes.MAP}/garden/${newSelectedId}`);
-
-    usingGardenLink = false;
   };
 
   const goToPlace = (event) => {
@@ -48,6 +46,8 @@
   };
 
   const closeDrawer = () => {
+    usingGardenLink = false;
+
     $goto(routes.MAP);
   };
 
