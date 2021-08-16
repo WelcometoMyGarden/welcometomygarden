@@ -25,7 +25,7 @@
 
   $: if (partnerHasGarden === null && chat && $user.id) {
     partnerId = chat.users.find((id) => $user.id !== id);
-    partnerHasGarden = hasGarden(partnerId)
+    hasGarden(partnerId)
       .then((res) => {
         partnerHasGarden = res;
       })
@@ -108,13 +108,13 @@
   </title>
 </svelte:head>
 
-<header class="chat-header" class:chat-header--hide-md={!partnerHasGarden}>
-  <div class="chat-header__top">
+<header class="chat-header-sm">
+  <div class="chat-header-sm__top">
     <a class="back" href={routes.CHAT}>&#x3c;</a>
     <h2 class="title">{partnerName}</h2>
   </div>
   {#if partnerHasGarden}
-    <div class="chat-header__bot">
+    <div class="chat-header-sm__bot">
       <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link">
         <img src="/images/markers/tent-filled.png" alt="" role="presentation" />
         <span>go to garden</span>
@@ -253,7 +253,11 @@
     cursor: not-allowed;
   }
 
-  .chat-header {
+  .chat-header-sm {
+    display: none;
+  }
+
+  .chat-header-sm {
     min-height: 5rem;
     background: var(--color-white);
     width: 100%;
@@ -262,23 +266,14 @@
     align-items: center;
   }
 
-  .chat-header__top,
-  .chat-header--hide-md {
-    display: none;
-  }
-
-  .chat-header__bot {
-    padding: 1rem;
-  }
-
-  .chat-header__bot .garden-link {
-    display: flex;
+  .chat-header-sm .garden-link {
+    display: inline-flex;
     align-items: center;
     font-weight: bold;
     color: var(--color-green);
   }
 
-  .chat-header__bot .garden-link img {
+  .chat-header-sm .garden-link img {
     width: 2.5rem;
     margin-right: 5px;
     display: inline-block;
@@ -310,8 +305,7 @@
       margin-right: 1rem;
     }
 
-    .chat-header {
-      height: 8rem;
+    .chat-header-sm {
       position: fixed;
       top: 0;
       left: 0;
@@ -320,43 +314,42 @@
       display: block;
     }
 
-    .chat-header .title {
+    .chat-header-sm .title {
       width: 100%;
       text-align: center;
       font-size: 1.8rem;
       font-weight: 900;
     }
 
-    .chat-header__top {
+    .chat-header-sm__top {
+      height: 6rem;
       display: flex;
       align-items: center;
-      height: 6rem;
       position: relative;
     }
 
-    .chat-header__bot {
-      padding: 0;
+    .chat-header-sm__bot {
+      height: 2rem;
       position: relative;
-      top: -1rem;
-      text-align: center;
-    }
-
-    .chat-header__bot .garden-link {
+      display: flex;
       justify-content: center;
+    }
+
+    .chat-header-sm__bot .garden-link {
+      position: absolute;
+      top: -1.5rem;
     }
 
     .back {
       height: 4rem;
       width: 4rem;
       left: 2rem;
-      top: calc(50% - 2rem);
       position: absolute;
       font-size: 2.2rem;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 900;
-      z-index: 20;
     }
   }
 </style>
