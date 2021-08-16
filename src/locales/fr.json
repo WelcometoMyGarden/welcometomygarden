@@ -373,7 +373,8 @@
           "0": {
             "list": {
               "0": "Adresse électronique (obligatoire)",
-              "1": "Votre prénom et votre nom (obligatoire)"
+              "1": "Votre prénom et votre nom (obligatoire)",
+              "2": "Votre pays (obligatoire)"
             },
             "title": "Données personnelles que vous fournissez lors de l'inscription sur la plateforme."
           },
@@ -436,7 +437,8 @@
           "0": "Si vous créez un compte sur la plateforme, les cookies utilisés concernent la gestion la gestion du processus d'inscription et l'administration générale. Ces cookies sont généralement supprimés lorsque vous vous déconnectez. Cependant, dans certains cas, ils peuvent être conservés afin d’enregistrer vos préférences de site.",
           "1": "Nous utilisons des cookies lorsque vous êtes connecté afin que nous puissions nous souvenir de votre utilisation. Cela vous évite d'avoir à vous connecter à chaque fois que vous visitez une nouvelle page. Ces cookies sont généralement supprimés ou effacés lorsque vous vous déconnectez pour assurer votre sécurité en ligne.",
           "2": "Ce site pourrait offrir des services d'abonnement à la newsletter ou par courriel à l'avenir. Des cookies peuvent dès lors être utilisés afin d'enregistrer votre inscription ainsi que pour permettre l'affichage de notification n'étant accessibles qu'aux utilisateurs abonnés.",
-          "4": "Afin de vous offrir une expérience agréable sur ce site, nous vous offrons la possibilité de définir vos préférences pour le fonctionnement de ce site lorsque vous l'utilisez. Pour mémoriser vos préférences, nous devons installer des cookies, de sorte que ces informations puissent être rappelées chaque fois que vous interagissez avec une page affectée par vos préférences."
+          "4": "Afin de vous offrir une expérience agréable sur ce site, nous vous offrons la possibilité de définir vos préférences pour le fonctionnement de ce site lorsque vous l'utilisez. Pour mémoriser vos préférences, nous devons installer des cookies, de sorte que ces informations puissent être rappelées chaque fois que vous interagissez avec une page affectée par vos préférences.",
+          "3": "Lorsque vous soumettez des données par le biais d'un formulaire, comme ceux que l'on trouve sur les pages de contact ou les formulaires de commentaires, des cookies peuvent être installés pour mémoriser vos coordonnées d'utilisateur en vue d'une correspondance ultérieure."
         },
         "title": "‍Les cookies mis en place"
       },
