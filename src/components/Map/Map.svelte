@@ -38,11 +38,9 @@
     map.on('load', () => {
       loaded = true;
     });
-
-    map.on('zoomend', () => {
-      zoom = map.getZoom();
-    });
   });
+
+  $: if (map && zoom) map.setZoom(zoom);
 
   $: if (map) {
     map.jumpTo({
@@ -54,7 +52,6 @@
     if (!jump) {
       map.flyTo({
         center: [lon, lat],
-        zoom,
         bearing: 0,
         speed: 1,
         curve: 1,
@@ -62,8 +59,7 @@
       });
     } else {
       map.jumpTo({
-        center: [lon, lat],
-        zoom
+        center: [lon, lat]
       });
     }
   }
