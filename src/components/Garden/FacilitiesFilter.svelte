@@ -159,6 +159,7 @@
     grid-template-columns: 1fr 1fr;
     grid-auto-rows: min-content;
     grid-row-gap: 1rem;
+    row-gap: 1rem;
   }
 
   .gardenFilterCapacitySection {
@@ -252,7 +253,8 @@
     }
 
     .gardenFilterCheckboxes {
-      grid-row-gap: 0.5rem;
+      grid-row-gap: 0.8rem;
+      row-gap: 0.8rem;
     }
   }
 </style>
