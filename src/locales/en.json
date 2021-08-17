@@ -42,47 +42,47 @@
       "explore-map": "Explore map",
       "learn-more": "Learn more"
     },
-    "steps": [
-      {
+    "steps": {
+      "0": {
         "title": "Step 1: Sign up to become or find a host",
         "copy": "Do you want to open up your garden? {addGardenLink}. Are you looking for a camping spot? Pick your favourite garden and contact your host! Arrange a date and time for your stay and off you go!",
         "add-garden-link-text": "Add it to the map"
       },
-      {
+      "1": {
         "title": "Step 2: Plan your journey",
         "copy": "After you’ve made arrangements with your hosts, figure out your walking/biking route to your host’s garden. Introduce yourself and pitch your tent for the night."
       },
-      {
+      "2": {
         "title": "Step 3: Pitch your tent and have fun!",
         "copy": "Enjoy your stay, whether that means a quiet night all by yourself, having fun with your friends or family or hanging out with your hosts - whatever both parties prefer. Say fond farewells and continue on your hike or ride the next day!"
       }
-    ],
+    },
     "faq": {
       "title": "All you need to know",
       "copy": "Here are the most important things you need to know about your next adventure. Please read this FAQ section thoroughly so that you know what you’re getting yourself into. More questions? Read more in {faqLink}!",
       "faq-link-text": "our complete FAQ",
-      "questions": [
-        {
+      "questions": {
+        "0": {
           "title": "Who is Welcome To My Garden for?",
           "copy": "Welcome To My Garden has been created for hikers and cyclists who need a camping spot on their trail at the end of the day. It isn’t meant to replace fully-fledged campsites; just a safe spot for the night! Consider it an addition to Belgium’s network of bivouacking sites. Welcome To My Garden is non-commercial: no money should exchange hands. This means that as a host, you cannot ask your guests to pay for their stay."
         },
-        {
+        "1": {
           "title": "How do I get to my camping spot?",
           "copy": "Welcome To My Garden is for slow travellers only. Please walk or bike to your camping spot. Of course you can use public transport or your car to get to the start of your trail - as long as you don't turn up at your host's in your car!"
         },
-        {
+        "2": {
           "title": "How do I request a stay?",
           "copy": "Except if clearly stated on the host’s profile, you should always contact the host in advance. When you request a stay, please provide some information about yourself, your arrival date and time."
         },
-        {
+        "3": {
           "title": "What about facilities?",
           "copy": "Basically hosts just offer a corner in their garden for you to pitch your tent on. In addition, they may offer access to drinking water, a toilet and electricity. They are not obliged to do so though: all of these are bonuses. Consider a garden as a bivouac spot; not a fully-fledged campsite."
         },
-        {
+        "4": {
           "title": "Does Welcome To My Garden cost anything?",
           "copy": "Using Welcome To My Garden is completely free. However, as a platform we do incur costs. If you want to make a donation that will put a big smile on our faces! We are a not-for-profit initiative, so we’re not making any money out of this."
         }
-      ]
+      }
     },
     "partners": {
       "title": "Our partners"
@@ -101,211 +101,211 @@
   "rules": {
     "title": "Rules",
     "description": "Here’s how Welcome To My Garden works. Make sure to read the rules before starting your adventure! After all, this platform will only work well if we all play by the rules.",
-    "rules": [
-      {
+    "rules": {
+      "0": {
         "title": "Covid-19 warning",
         "copy": "At any time adhere to the government's measures to stop the spread of Covid-19."
       },
-      {
+      "1": {
         "title": "Network of citizens",
         "copy": "Welcome To My Garden is a network of citizens offering free camping spots in their gardens to slow travellers. It is a not-for-profit initiative and no income should be made from it. Welcome To My Garden will not take any responsibility for any loss, damage or injury incurred during a stay."
       },
-      {
+      "2": {
         "title": "Send a request in advance to the garden owner",
         "copy": "Garden owners might not be home and ready to welcome you at all times. We ask users to contact the garden owner in advance to check availability directly. This should be done by sending a request to the host through their profile. After establishing the initial connection you can exchange contact details, so that you can stay in touch and update your host about your arrival time by email or phone, depending on their preference. When you send a request, provide some information about yourself and about your expected arrival time."
       },
-      {
+      "3": {
         "title": "No car rule",
         "copy": "Welcome To My Garden respects the environment and has been set up for slow travellers only. This means you can only reach the camping spots on foot, by bicycle or public transport. Getting there with your private car is forbidden. You are allowed to drive to the start of your hiking or biking trail – as long as you don’t turn up at the camping spots in your car."
       },
-      {
+      "4": {
         "title": "Maximum duration of stay",
         "copy": "You can stay at a camping spot for a maximum of 48 hours. Always check with the garden owner."
       },
-      {
+      "5": {
         "title": "Maximum amount of tents",
         "copy": "Garden owners define how many tents they can accommodate each night (this is not Dour Festival). Please respect their choice."
       },
-      {
+      "6": {
         "title": "Facilities",
         "copy": "Facilities may vary from one camping spot to another. Some garden owners might offer access to their bathrooms; others might prefer not to. Please respect their choices in these matters as well."
       },
-      {
+      "7": {
         "title": "Respect for nature",
         "copy": "All your waste has to be taken away. This includes pee and poo if there’s no toilet available: find a bush or tree outside the garden for Number One; bag your Number Two and throw it in a bin the next day. Respect nature and the garden owners: apply the Leave No Trace principle as you would if bivouacking out in the wild."
       },
-      {
+      "8": {
         "title": "No noise policy",
         "copy": "Please respect the camping spot owners’ privacy. So don’t sing along with Celine Dion at the top of your voice or generate any other type of noise – definitely not after 10pm!"
       },
-      {
+      "9": {
         "title": "Have fun!",
         "copy": "This is a great opportunity to meet other people and have fun! Learn a few words of French, Dutch or German if you’re travelling in a different region than your own. Be curious, share stories and build new friendships!"
       },
-      {
+      "10": {
         "title": "Spread the word",
         "copy": "Would you like to open up your garden or do you know someone who would be happy to? Spread the word about Welcome To My Garden! You can invite them to like our Facebook Page too."
       }
-    ],
+    },
     "message": "Happy camping!"
   },
   "recommendations": {
     "title": "Slow travel inspirations",
     "description": "Planning to discover Belgium on foot or by bike? Here are some links and tools we can warmly recommend!",
-    "recommendations-groups": [
-      {
+    "recommendations-groups": {
+      "0": {
         "title": "Planning tools, apps & maps",
-        "recommendations": [
-          "Route planner for cycling and hiking: BRouter",
-          "Another great route planner: Komoot",
-          "Great route finder and planner: OutdoorActive",
-          "Great navigation app for cycling and hiking: OSMAnd",
-          "Another great navigation app: ViewRanger",
-          "Overview of the whole cycling network cycling layer of OpenStreetMap"
-        ]
+        "recommendations": {
+          "0": "Route planner for cycling and hiking: BRouter",
+          "1": "Another great route planner: Komoot",
+          "2": "Great route finder and planner: OutdoorActive",
+          "3": "Great navigation app for cycling and hiking: OSMAnd",
+          "4": "Another great navigation app: ViewRanger",
+          "5": "Overview of the whole cycling network cycling layer of OpenStreetMap"
+        }
       },
-      {
+      "1": {
         "title": "Trail info",
-        "recommendations": [
-          "Great collection of hiking trails: RouteYou",
-          "Knooppunten network planner: Wandelknooppunt",
-          "Long distance trails in Wallonia: le RAVeL",
-          "Long distance biking trails in Flanders: LF network Flanders",
-          "Long distance hiking trails in Flanders and Wallonia: Grote Routepaden"
-        ]
+        "recommendations": {
+          "0": "Great collection of hiking trails: RouteYou",
+          "1": "Knooppunten network planner: Wandelknooppunt",
+          "2": "Long distance trails in Wallonia: le RAVeL",
+          "3": "Long distance biking trails in Flanders: LF network Flanders",
+          "4": "Long distance hiking trails in Flanders and Wallonia: Grote Routepaden"
+        }
       },
-      {
+      "2": {
         "title": "Other accomodation services",
-        "recommendations": [
-          "Hospitality network for cyclists: WarmShowers",
-          "More detailed information about all bivouac places: Bivakzone.be"
-        ]
+        "recommendations": {
+          "0": "Hospitality network for cyclists: WarmShowers",
+          "1": "More detailed information about all bivouac places: Bivakzone.be"
+        }
       }
-    ],
+    },
     "message": "Enjoy!",
     "contact": "Anything else we should add to this list? Drop us a line at {support} to let us know."
   },
   "faq": {
     "title": "FAQ",
     "description": "Frequently asked questions",
-    "questions": [
-      {
+    "questions": {
+      "0": {
         "title": "What is Welcome To My Garden?",
         "copy": "Welcome To My Garden is a network of citizens opening up their gardens to slow travellers in need of a camping spot. It's a not-for-profit initiative set up by a group of citizens. The idea was born during the 2020 Covid-19 lockdown in Belgium."
       },
-      {
+      "1": {
         "title": "Who is Welcome To My Garden for?",
         "copy": "Welcome To My Garden has been created for hikers and cyclists who need a camping spot on their trail at the end of the day. It isn’t meant to replace fully-fledged campsites; just a safe spot for the night! Consider it an addition to Belgium’s network of bivouacking sites."
       },
-      {
+      "2": {
         "title": "How does Welcome To My Garden work?",
         "copy": "People who want to open up their garden to travellers can add their garden by filling out the form on the website (click the \"Add your garden\" button). People who want to stay at one of the camping spots can then contact the garden owners to arrange their stay."
       },
-      {
+      "3": {
         "title": "How do I get to my camping spot?",
         "copy": "Welcome To My Garden has been set up to meet the needs of slow travellers: hikers and cyclists who need a camping spot at the end of the day. For this reason you are supposed to arrive at your camping spot on foot or by bike, or by public transport – definitely not by car. Of course you can drive to the start of your trail – as long as you don’t turn up at your host’s in your car!"
       },
-      {
+      "4": {
         "title": "How does Welcome To My Garden guarantee my privacy as a host?",
         "copy": "All your personal details are protected by the login system. If you are a host, we will not display your house number or exact location on the map. You can give this to your guests once you’re in touch with them. You decide how you want them to contact you: by email, by phone, or both."
       },
-      {
+      "5": {
         "title": "What facilities will you find in the garden?",
         "copy": "Basically hosts just offer a corner in their garden for you to pitch your tent on. In addition, they may offer access to drinking water, a toilet and electricity. They are not obliged to do so though: all of these are bonuses. Consider a garden as a bivouac spot; not a fully-fledged campsite."
       },
-      {
+      "6": {
         "title": "Does Welcome To My Garden cost anything?",
         "copy": "Using Welcome To My Garden is completely free. However, as a platform we do incur costs. If you want to make a donation that will put a big smile on our faces! We are a not-for-profit initiative, so we’re not making any money out of this. This means any money you donate will go directly towards covering the costs of the project. You can look into our expenses too on the donation page."
       },
-      {
+      "7": {
         "title": "I don’t have a garden. Can I still travel to other people’s gardens?",
         "copy": "Yes! You don’t need to offer a garden to use one. The platform is open to all slow travellers!"
       },
-      {
+      "8": {
         "title": "How long can I stay there?",
         "copy": "Since these camping spots only cater to the needs of slow travellers who are on a multi-stage trek or bike ride, you can stay at a camping spot for a maximum of 48 hours (two nights). Of course you can move on to the next camping spot after that! And the next. And the next…Always check with the host how long you can stay, some hosts will prefer that you stay one night only."
       },
-      {
+      "9": {
         "title": "Can I bring my family? My children? My dog?",
         "copy": "It’s best to ask your host whether they are open to children and/or dogs. Quite a few hosts have already indicated on their profile that they are open to families, but even if they haven’t, you can always ask!"
       },
-      {
+      "10": {
         "title": "So, what if there’s no toilet?",
         "copy": "Not every host may offer access to a toilet. In this case, please find a spot outside the garden that meets your needs. Pee behind a tree, and bag your Number Two so you can bin it the next day. Apply the Leave No Trace principle as you would when camping out in the wild."
       },
-      {
+      "11": {
         "title": "And if there is a toilet, how do we guarantee Covid-19 doesn’t get transmitted?",
         "copy": "Please bring hand sanitizer and wet wipes so you can clean your hands and any surfaces you’ve touched, such as the toilet seat, flush button, tap and door handle. You can also wear a mask if you need to enter your host’s house for facilities. This way you help guarantee that Covid-19 does not get transmitted, in case you or any of the other users of the bathroom happen to carry it. Of course, if you know you might be sick don’t go in the first place!"
       },
-      {
+      "12": {
         "title": "Is Welcome to My Garden limited to Belgium?",
         "copy": "Welcome To My Garden was set up by a small team of Belgium-based enthusiasts. For lots of practical reasons we will limit camping spots on our maps to Belgium for now. Mainly, we want to keep it simple. However, we would love this project to go abroad. If you want to set up Welcome To My Garden in your country, do contact us. The source code of the website is freely available on GitHub!"
       },
-      {
+      "13": {
         "title": "Why is the facebook page only in English?",
         "copy": "First of all, there is a very practical reason: English is the only language the entire team can communicate in fluently enough! We also want WTMG to be open to everyone, so that people in other countries can implement the initiative in their country too. On the facebook page we will stick to English. If you feel more comfortable writing in Dutch or French please do!"
       },
-      {
+      "14": {
         "title": "How does Welcome To My Garden differ from other platforms such as Warmshowers?",
         "copy": "There are quite a few other platforms out there that cater to the needs of (slow) travellers. Whereas Warmshowers is for cyclists only, WTMG is for both hikers and cyclists. Also, WTMG is all about tents, not beds. You could consider it the outdoor version of Couchsurfing. There is a commercial initiative called Campspace in the Netherlands which does more or less the same thing as WTMG, but you have to pay for your camping spot. WTMG is a free initiative, and you don’t need to pay your host for your stay."
       },
-      {
+      "15": {
         "title": "What type of tent can I bring?",
         "copy": "Since WTMG is only catering to hikers and cyclists, we expect you to bring nothing bigger than a trekker’s tent. That means it should easily fit in your pack. If you’re not sure your tent will fit in your host’s garden, please consult them before leaving."
       },
-      {
+      "16": {
         "title": "I’ve had an issue with a guest or a host. How do I report it?",
         "copy": "Any issue or misconduct should be reported to Welcome To My Garden by email {support}. In case of misconduct we reserve the right to remove unilaterally this person’s account (see Terms of Use)."
       }
-    ]
+    }
   },
   "cookies": {
     "title": "Cookie policy",
-    "articles": [
-      {
+    "articles": {
+      "0": {
         "title": "What Are Cookies",
-        "copy": [
-          "As is common practice with almost all professional websites, this site uses cookies. Cookies are tiny files that are downloaded to your computer, to improve your experience. This page describes what information they gather, how we use it and why we sometimes need to store these cookies. We will also share how you can prevent these cookies from being stored. However, this may downgrade or 'break' certain elements of the site functionality. For more general information on cookies <a href=\"https://www.google.com/url?q=https://en.wikipedia.org/wiki/HTTP_cookie&amp;sa=D&amp;ust=1592214262286000\"> see this Wikipedia article on HTTP Cookies.</a>"
-        ]
+        "copy": {
+          "0": "As is common practice with almost all professional websites, this site uses cookies. Cookies are tiny files that are downloaded to your computer, to improve your experience. This page describes what information they gather, how we use it and why we sometimes need to store these cookies. We will also share how you can prevent these cookies from being stored. However, this may downgrade or 'break' certain elements of the site functionality. For more general information on cookies <a href=\"https://www.google.com/url?q=https://en.wikipedia.org/wiki/HTTP_cookie&amp;sa=D&amp;ust=1592214262286000\"> see this Wikipedia article on HTTP Cookies.</a>"
+        }
       },
-      {
+      "1": {
         "title": "How We Use Cookies",
-        "copy": [
-          "We use cookies for a variety of reasons detailed below. Unfortunately, in most cases there are no industry standard options for disabling cookies without completely disabling the functionality and features they add to this site. It is recommended that you leave all cookies if you are not sure whether you need them or not in case they are used to provide a service that you use."
-        ]
+        "copy": {
+          "0": "We use cookies for a variety of reasons detailed below. Unfortunately, in most cases there are no industry standard options for disabling cookies without completely disabling the functionality and features they add to this site. It is recommended that you leave all cookies if you are not sure whether you need them or not in case they are used to provide a service that you use."
+        }
       },
-      {
+      "2": {
         "title": "Disabling Cookies",
-        "copy": [
-          "You can prevent cookies being downloaded by adjusting your browser settings (see the Help menu of your browser to find out how to do this). Please be aware that disabling cookies might affect the functionality of this and many other websites that you visit. Disabling cookies will usually result in disabling certain functionality and features of this site as well. If you'd like to disable cookies, we recommend using <a href=\"https://www.google.com/url?q=https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/&amp;sa=D&amp;ust=1592214262287000\"> Privacy Badger</a> on Firefox."
-        ]
+        "copy": {
+          "0": "You can prevent cookies being downloaded by adjusting your browser settings (see the Help menu of your browser to find out how to do this). Please be aware that disabling cookies might affect the functionality of this and many other websites that you visit. Disabling cookies will usually result in disabling certain functionality and features of this site as well. If you'd like to disable cookies, we recommend using <a href=\"https://www.google.com/url?q=https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/&amp;sa=D&amp;ust=1592214262287000\"> Privacy Badger</a> on Firefox."
+        }
       },
-      {
+      "3": {
         "title": "The Cookies We Set",
-        "copy": [
-          "If you create an account with us then we will use cookies for the management of the signup process and general administration. These cookies will usually be deleted when you log out. However, in some cases they may remain afterwards to remember your site preferences when logged out.",
-          "We use cookies when you are logged in so that we can remember this fact. This prevents you from having to log in every single time you visit a new page. These cookies are typically removed or cleared when you log out to ensure that you can only access restricted features and areas when logged in.",
-          "This site might offer newsletter or email subscription services in the future and cookies may be used to remember if you are already registered and whether to show certain notifications which might only be valid to subscribed/unsubscribed users.",
-          "When you submit data through a form such as those found on contact pages or comment forms, cookies may be set to remember your user details for future correspondence.",
-          "In order to provide you with a great experience on this site, we provide the functionality to set your preferences for how this site runs when you use it. In order to remember your preferences we need to set cookies, so that this information can be recalled whenever you interact with a page that is affected by your preferences."
-        ]
+        "copy": {
+          "0": "If you create an account with us then we will use cookies for the management of the signup process and general administration. These cookies will usually be deleted when you log out. However, in some cases they may remain afterwards to remember your site preferences when logged out.",
+          "1": "We use cookies when you are logged in so that we can remember this fact. This prevents you from having to log in every single time you visit a new page. These cookies are typically removed or cleared when you log out to ensure that you can only access restricted features and areas when logged in.",
+          "2": "This site might offer newsletter or email subscription services in the future and cookies may be used to remember if you are already registered and whether to show certain notifications which might only be valid to subscribed/unsubscribed users.",
+          "3": "When you submit data through a form such as those found on contact pages or comment forms, cookies may be set to remember your user details for future correspondence.",
+          "4": "In order to provide you with a great experience on this site, we provide the functionality to set your preferences for how this site runs when you use it. In order to remember your preferences we need to set cookies, so that this information can be recalled whenever you interact with a page that is affected by your preferences."
+        }
       },
-      {
+      "4": {
         "title": "Third Party Cookies",
-        "copy": [
-          "In some special cases we also use cookies provided by trusted third parties. The following section details which third party cookies you might encounter through this site.",
-          "This site uses Google Analytics, which is one of the most widespread and trusted analytics solutions on the web. We use it to help us to understand how you use this site and to discover how we can improve your experience. These cookies may track things such as how much time you spend on the site and which pages you visit, so we can continue to produce engaging content.",
-          "For more information on Google Analytics cookies, <a href=\"https://www.google.com/url?q=https://analytics.google.com/analytics/web/%23/&amp;sa=D&amp;ust=1592214262289000\">see the official Google Analytics page.</a>",
-          "Third party analytics are used to track and measure usage of this site so that we can continue to produce engaging content. These cookies may track things such as how much time you spend on this site or which pages you visit, to help us to understand how we can improve the site for you. From time to time we test new features and make subtle changes to the way that the site is delivered. When we are still testing new features, these cookies may be used to ensure that you receive a consistent experience during your visit, whilst ensuring that we understand which optimisations our users appreciate the most."
-        ]
+        "copy": {
+          "0": "In some special cases we also use cookies provided by trusted third parties. The following section details which third party cookies you might encounter through this site.",
+          "1": "This site uses Google Analytics, which is one of the most widespread and trusted analytics solutions on the web. We use it to help us to understand how you use this site and to discover how we can improve your experience. These cookies may track things such as how much time you spend on the site and which pages you visit, so we can continue to produce engaging content.",
+          "2": "For more information on Google Analytics cookies, <a href=\"https://www.google.com/url?q=https://analytics.google.com/analytics/web/%23/&amp;sa=D&amp;ust=1592214262289000\">see the official Google Analytics page.</a>",
+          "3": "Third party analytics are used to track and measure usage of this site so that we can continue to produce engaging content. These cookies may track things such as how much time you spend on this site or which pages you visit, to help us to understand how we can improve the site for you. From time to time we test new features and make subtle changes to the way that the site is delivered. When we are still testing new features, these cookies may be used to ensure that you receive a consistent experience during your visit, whilst ensuring that we understand which optimisations our users appreciate the most."
+        }
       },
-      {
+      "5": {
         "title": "More Information",
-        "copy": [
-          "Hopefully this page has clarified things for you. As previously mentioned, if there is anything that you aren&#39;t sure you need or not, it&#39;s usually safer to leave cookies enabled - just in case it does interact with one of the features you use on our site. If you are still looking for more information, you can contact us at {support}."
-        ]
+        "copy": {
+          "0": "Hopefully this page has clarified things for you. As previously mentioned, if there is anything that you aren&#39;t sure you need or not, it&#39;s usually safer to leave cookies enabled - just in case it does interact with one of the features you use on our site. If you are still looking for more information, you can contact us at {support}."
+        }
       }
-    ]
+    }
   },
   "privacy-policy": {
     "title": "Privacy policy",
@@ -325,86 +325,86 @@
       "collection": {
         "title": "What personal data do we collect?",
         "copy": "We might collect your Personal Data from the following sources:",
-        "sources": [
-          {
+        "sources": {
+          "0": {
             "title": "Personal Data that you provide during the registration process on the platform.",
-            "list": [
-              "Email address (mandatory)",
-              "Your first and last name (mandatory)",
-              "Your country (mandatory)",
-              "Your consent to these terms"
-            ]
+            "list": {
+              "0": "Email address (mandatory)",
+              "1": "Your first and last name (mandatory)",
+              "2": "Your country (mandatory)",
+              "3": "Your consent to these terms"
+            }
           },
-          {
+          "1": {
             "title": "Personal Data that we collect when you visit our website.",
-            "list": [
-              "We use cookies to automatically collect personal data about you when you use this website. For more information, please consult our Cookie Policy."
-            ]
+            "list": {
+              "0": "We use cookies to automatically collect personal data about you when you use this website. For more information, please consult our Cookie Policy."
+            }
           },
-          {
+          "2": {
             "title": "Personal Data that you provide when adding your garden to your account.",
-            "list": [
-              "Your garden's location (coordinates: the latitude and longitude) (mandatory)",
-              "Information about your garden (description, facilities, the amount of tents you can welcome) (mandatory)",
-              "Languages spoken (mandatory)",
-              "A picture of your garden (optional)"
-            ]
+            "list": {
+              "0": "Your garden's location (coordinates: the latitude and longitude) (mandatory)",
+              "1": "Information about your garden (description, facilities, the amount of tents you can welcome) (mandatory)",
+              "2": "Languages spoken (mandatory)",
+              "3": "A picture of your garden (optional)"
+            }
           }
-        ]
+        }
       },
       "usage": {
         "title": "How do we use personal data?",
         "subtitle": "We might use your personal data for the following purposes",
-        "purposes": [
-          "To create and maintain your user profile on this website;",
-          "To manage the identification and authentication of users;",
-          "To verify your user account in order to guarantee the necessary security measures;",
-          "To provide information about your garden to the community of users;",
-          "To alert you when updates are taking place on the platform;",
-          "To alert you when activities on the platform may interest you."
-        ],
+        "purposes": {
+          "0": "To create and maintain your user profile on this website;",
+          "1": "To manage the identification and authentication of users;",
+          "2": "To verify your user account in order to guarantee the necessary security measures;",
+          "3": "To provide information about your garden to the community of users;",
+          "4": "To alert you when updates are taking place on the platform;",
+          "5": "To alert you when activities on the platform may interest you."
+        },
         "copy": "The personal data is only stored and processed for the period required for the purpose of the processing. After that, the data will be deleted or anonymized. Welcome To My Garden relies on Firebase which is certified under major privacy and security standards. Firebase services are GDPR compliant. All information related to Firebase can be found <a href=\"https://firebase.google.com/support/privacy\">here</a>."
       },
-      "extra": [
-        {
+      "extra": {
+        "0": {
           "title": "With whom do we share your personal data?",
           "copy": "Your personal data will not be shared with any third party. We will never sell or rent your personal data to other service providers, nor will we share your Personal Data with any service providers who are not compliant with the GDPR."
         },
-        {
+        "1": {
           "title": "Where do we transfer your personal data to?",
           "copy": "We only transfer your Personal Data to service providers established outside the European Economic Area if they comply to art 44 GDPR. All US-based service providers comply with Privacy Shield."
         },
-        {
+        "2": {
           "title": "Automated decision-making and profiling",
           "copy": "The processing of your personal data does not include profiling and will not be subjected to automated decision-making by Welcome To My Garden."
         }
-      ]
+      }
     },
     "rights": {
       "title": "What rights do you have?",
       "copy": "You have the right to view your personal data at any time, as well as the right to be informed of the use that Welcome To My Garden makes of your personal data.",
-      "list": [
-        {
+      "list": {
+        "0": {
           "title": "Right to rectification, removal and restriction of processing",
           "copy": "You are free to decide whether or not to provide your personal data to Welcome To My Garden. In addition, you always have the right to amend, supplement or remove your personal data at Welcome To My Garden. You acknowledge that a refusal to provide or a request for the removal of personal data means that certain services can no longer be delivered. You may also request the limitation of the processing of your personal data."
         },
-        {
+        "1": {
           "title": "Right to object",
           "copy": "You have the right to object to the processing of your personal data, as long as this is for serious and legitimate reasons."
         },
-        {
+        "2": {
           "title": "Right to data portability",
           "copy": "You have the right to obtain the personal data you have provided to Welcome To My Garden in a structured, typical and machine-readable form and/or transfer it to different controllers."
         },
-        {
+        "3": {
           "title": "Right to withdraw consent",
           "copy": "Insofar as the processing is based on your prior consent, you have the right to withdraw this approval."
         },
-        {
+        "4": {
           "title": "Right to lodge a complaint",
           "copy": "You have the right to lodge a complaint to the Belgian Privacy Commission: Personal Privacy Protection Commission, Drukpersstraat 35, 1000 Brussels, Belgium, Tel +32 (0)2 274 48 00, Fax +32 (0)2 274 48 35, email: commission@privacycommission.be. This does not affect relief before a civil court."
         }
-      ],
+      },
       "exercise-rights": {
         "title": "Exercising your rights",
         "copy": "You can exercise your rights by contacting Welcome To My Garden to this end by sending an email to {support}, provided you enclose a copy of your identity card"
@@ -412,60 +412,60 @@
     },
     "additional-info": {
       "title": "Additional information on data collection and processing",
-      "infos": [
-        {
+      "infos": {
+        "0": {
           "title": "Legal procedures",
-          "copy": [
-            "The Processor and the Controller for the processing of the Data might use the Personal Data of the User for legal purposes, for the court or legal proceedings in the event of unlawful use of this Application or the related services.",
-            "The User is aware that the Processor and the Data Controller might be obliged to disclose the personal data at the request of competent government institutions for the processing of the Data."
-          ]
+          "copy": {
+            "0": "The Processor and the Controller for the processing of the Data might use the Personal Data of the User for legal purposes, for the court or legal proceedings in the event of unlawful use of this Application or the related services.",
+            "1": "The User is aware that the Processor and the Data Controller might be obliged to disclose the personal data at the request of competent government institutions for the processing of the Data."
+          }
         },
-        {
+        "1": {
           "title": "Security measures",
-          "copy": [
-            "Welcome To My Garden has developed security measures which have been adjusted at the technological and organisational level to prevent the destruction, loss, falsification, changing, prohibited access or the erroneous disclosure to third parties of personal data as well as any other prohibited processing of this data.",
-            "Under no circumstances can Welcome To My Garden be held liable for any direct or indirect loss resulting from the incorrect or unlawful use of your personal data by a third party.",
-            "You must at all times comply with the security instructions, which includes preventing all prohibited access to your login details including your password. You are solely responsible for the usage of the website on your computer, from your IP-address and with your identification details, as well as for keeping these confidential."
-          ]
+          "copy": {
+            "0": "Welcome To My Garden has developed security measures which have been adjusted at the technological and organisational level to prevent the destruction, loss, falsification, changing, prohibited access or the erroneous disclosure to third parties of personal data as well as any other prohibited processing of this data.",
+            "1": "Under no circumstances can Welcome To My Garden be held liable for any direct or indirect loss resulting from the incorrect or unlawful use of your personal data by a third party.",
+            "2": "You must at all times comply with the security instructions, which includes preventing all prohibited access to your login details including your password. You are solely responsible for the usage of the website on your computer, from your IP-address and with your identification details, as well as for keeping these confidential."
+          }
         }
-      ]
+      }
     },
     "definitions": {
       "title": "Definitions and legal framework",
-      "articles": [
-        {
+      "articles": {
+        "0": {
           "title": "Personal data (or Data)",
           "copy": "All information regarding a natural person, a legal person, an institution or an association that has been or might be identified directly or indirectly by reference to other information."
         },
-        {
+        "1": {
           "title": "Usage data",
           "copy": "Information that is automatically collected from this Application (or external services used in this Application), including: the IP addresses or domain names of the computers used by the Users of this Application, the URI (Uniform Resource Identifier) ​​addresses, the time of the request, the method used to submit the request to the server, the size of the file received in response to it, the numerical code indicating the status of the server response (successful, error, etc.), the functions of the browser and the operating system of the User, the different time data per visit (such as the time spent on each page of the application) and the data collected while using the application (example : the order of pages visited or other parameters about the operating system of the device)."
         },
-        {
+        "2": {
           "title": "User",
           "copy": "The person using this Application and who must agree with or be authorized by the Data Subject to whom the Personal Data refer."
         },
-        {
+        "3": {
           "title": "The person concerned",
           "copy": "The legal person or natural person to whom the Personal Data relate."
         },
-        {
+        "4": {
           "title": "Data processor (or Data supervisor)",
           "copy": "The natural person, legal entity, government administration or any other institution, association or organization that has been authorized by the Data Controller to process the Personal Data in accordance with this privacy policy."
         },
-        {
+        "5": {
           "title": "Responsible for the processing of the data (or Owner)",
           "copy": "The natural person, legal person, government administration or any other institution, association or organization with the right, also jointly with the Controller for the processing of the Data to make decisions regarding the purposes and methods of processing Personal Data and the means used, including security measures regarding the exploitation and use of this Application. The Controller for the processing of the Data is the Owner of this Application, unless otherwise indicated."
         },
-        {
+        "6": {
           "title": "This Application",
           "copy": "The hardware or software tools through which the Personal Data of the User are collected."
         },
-        {
+        "7": {
           "title": "Cookie",
           "copy": "Small chunk of data stored on the User's device. See our Cookie policy."
         }
-      ],
+      },
       "legal-info": {
         "title": "Legal information",
         "copy": "Notice to European Users: this privacy statement has been drawn up with due observance of the obligations in art. 10 of the European Directive 95/46 / EC and the provisions of European Directive 2002/58 / EC, as well as the revision in Directive 2009/136 / EC regarding cookies."
@@ -706,242 +706,242 @@
   "terms-of-use": {
     "title": "Terms of use",
     "last-updated": "Last updated : 30 May 2020",
-    "intro": [
-      {
+    "intro": {
+      "0": {
         "copy": "Welcome To My Garden is a not-for-profit network of citizens offering free camping spots in their gardens to slow travellers. These Terms of Service (<span class=\"bold\">\"Terms\"</span>) apply to your access to and use of the website and the use of the network (collectively, our <span class=\"bold\">\"Platform\"</span>) provided by Welcome To My Garden."
       },
-      {
+      "1": {
         "copy": "The use of this platform is <span class=\"bold\">subject to a number of rules</span>. Below you can find the general conditions of our platform, as we are convinced that <span class=\"bold\">clear rules</span> provide the best guarantee for a <span class=\"bold\">respectful community</span>. <span class=\"bold\">By creating an account or otherwise accessing the Platform, you agree to these Terms.</span>"
       },
-      {
+      "2": {
         "copy": "Because Welcome To My Garden appreciates the feedback of the users of their platform, we welcome any ideas to further improve the platform. You can email your suggestions to {support}."
       }
-    ],
-    "articles": [
-      {
+    },
+    "articles": {
+      "0": {
         "title": "Who can register on the platform?",
-        "descriptions": [
-          {
+        "descriptions": {
+          "0": {
             "copy": "<span class=\"bold\"> Any citizen who wants to offer a free camping spot in their garden to slow travellers and any slow travellers (cyclists and hikers) who want to use the network. </span> If you want to add your garden or contact a host, you need to create an account. Only registered participants can be active users. You can register with your email address."
           },
-          {
+          "1": {
             "copy": "The creation of an account by a user does not give this user ownership over the account. Welcome To My Garden reserves the right to refuse, suspend or delete accounts, for example if the user does not comply with the following rules or inappropriate behaviour has been reported by a host or guest."
           }
-        ],
-        "info": [
-          {
+        },
+        "info": {
+          "0": {
             "title": "Each account must comply with the following rules‍",
-            "sections": [
-              {
+            "sections": {
+              "0": {
                 "title": "Every account is strictly personal",
                 "copy": "Each account must be unique and linked to a natural person. If you register for an account, you must provide accurate account information and promptly update this information if it changes. Every user has the right to create one account. If it is determined that one person has multiple accounts, Welcome To My Garden reserves the right to delete all these accounts. Every user must be over 16 years old."
               },
-              {
+              "1": {
                 "title": "An account cannot be transferred to another person",
                 "copy": "Since each account is strictly linked to one specific person, this account cannot be transferred to another person without the permission of Welcome To My Garden. This transfer ban must be considered in the broadest sense. Welcome To My Garden reserves the right to refuse or delete this account in case of infringements."
               },
-              {
+              "2": {
                 "title": "An account cannot be used for commercial purposes",
                 "copy": "The Welcome To My Garden platform is intended to enable citizens to offer their gardens as free camping spots and to enable slow travellers to use the network while travelling. An account can therefore only be used for these purposes. Any use of the account for the sole purpose of enjoying a commercial advantage is strictly prohibited."
               },
-              {
+              "3": {
                 "title": "The account information must always remain confidential",
                 "copy": "It is not allowed for any other person than the actual person who created the account, to use this account. The person who created the account must ensure that (s)he keeps the password and login details safe. We strongly advise you to use a 'strong' password (a password with a combination of lowercase, uppercase letters and numbers). We advise you to use a password manager. Welcome To My Garden can under no circumstances be held responsible for any loss or damage incurred to the account if the above conditions are not met by the user. Welcome To My Garden cannot be held responsible for theft of your account, by 'phishing' for example, either. Welcome To My Garden will never ask its users for personal data such as a login or password via email. If personal data is requested, the user will always be redirected to the platform of Welcome To My Garden. You are responsible for all activities that occur in connection with your account and accept all risks of unauthorized access."
               }
-            ]
+            }
           }
-        ]
+        }
       },
-      {
+      "1": {
         "title": "Terms of use for Hosts",
-        "info": [
-          {
+        "info": {
+          "0": {
             "title": "By adding your garden to the platform, you acknowledge the general rules of the platform which are as follows",
-            "sections": [
-              {
+            "sections": {
+              "0": {
                 "title": "No income",
                 "copy": "Welcome To My Garden is a not-for-profit network of citizens offering free camping spots in their gardens to slow travellers. Therefore, no income should be made from it. Offering a garden against a fee is strictly prohibited and the platform reserves the right to delete a host’s account permanently if it happens."
               },
-              {
+              "1": {
                 "title": "Disclaimer",
                 "copy": "The Welcome To My Garden platform is a citizen initiative. The volunteers behind Welcome To My Garden will not take any responsibility for any loss, damage or injury incurred resulting from the use of the website and/or while staying in another citizen’s garden."
               },
-              {
+              "2": {
                 "title": "No discrimination",
                 "copy": "Welcome To My Garden does not tolerate any kind of discrimination. Hosts are expected to act in compliance with this. Hosts cannot discriminate on the basis of gender, ethnicity, age, sexual orientation, socioeconomic status, physical appearance, ability and religion (or lack thereof)."
               }
-            ]
+            }
           }
-        ]
+        }
       },
-      {
+      "2": {
         "title": "Terms for Users",
-        "descriptions": [
-          {
+        "descriptions": {
+          "0": {
             "copy": "Users must be at least 18 years old to use the platform. By creating an account, users immediately agree to the terms of use of Welcome To My Garden."
           }
-        ],
-        "paragraphs": [
-          {
+        },
+        "paragraphs": {
+          "0": {
             "title": "Contacting the hosts",
-            "copy": [
-              "Hosts should solely be contacted to request a stay in their gardens. Any misuse of the platform may result in the suspension or deletion of the user’s account."
-            ]
+            "copy": {
+              "0": "Hosts should solely be contacted to request a stay in their gardens. Any misuse of the platform may result in the suspension or deletion of the user’s account."
+            }
           },
-          {
+          "1": {
             "title": "Obligation to contact hosts beforehand to request a stay",
-            "copy": [
-              "Users are obliged to contact the host beforehand to request a stay, unless the host has clearly stated on their profile that this is not necessary. Users should always pass on accurate information about themselves."
-            ]
+            "copy": {
+              "0": "Users are obliged to contact the host beforehand to request a stay, unless the host has clearly stated on their profile that this is not necessary. Users should always pass on accurate information about themselves."
+            }
           },
-          {
+          "2": {
             "title": "Facilities offered by the host",
-            "copy": [
-              "The host is the sole responsible person for the facilities they do or do not put at the user’s disposal. By using this platform, the user acknowledges and accepts the conditions of their stay - which may or may not include access to sanitary facilities."
-            ]
+            "copy": {
+              "0": "The host is the sole responsible person for the facilities they do or do not put at the user’s disposal. By using this platform, the user acknowledges and accepts the conditions of their stay - which may or may not include access to sanitary facilities."
+            }
           },
-          {
+          "3": {
             "title": "Respect for nature",
-            "copy": [
-              "Users have to take all their waste away upon leaving. Users should always respect nature, the host’s garden and their surroundings, and adhere to the <a href=\"https://en.wikipedia.org/wiki/Leave_No_Trace\">Leave No Trace</a> principle."
-            ]
+            "copy": {
+              "0": "Users have to take all their waste away upon leaving. Users should always respect nature, the host’s garden and their surroundings, and adhere to the <a href=\"https://en.wikipedia.org/wiki/Leave_No_Trace\">Leave No Trace</a> principle."
+            }
           },
-          {
+          "4": {
             "title": "Respect for the host and the neighbours",
-            "copy": [
-              "Users should always be respectful of the garden owners and reduce noise to a minimum. They should also stick by any requirements the hosts have made."
-            ]
+            "copy": {
+              "0": "Users should always be respectful of the garden owners and reduce noise to a minimum. They should also stick by any requirements the hosts have made."
+            }
           },
-          {
+          "5": {
             "title": "No car rule",
-            "copy": [
-              "The Welcome To My Garden platform respects the environment and caters to the needs of slow travellers only. This means users can only travel to gardens on foot, by bicycle or by public transport. The use of motorized vehicles is forbidden, except for users with reduced mobility. However, it is permitted to travel to the start of a trail using a motorized vehicle."
-            ]
+            "copy": {
+              "0": "The Welcome To My Garden platform respects the environment and caters to the needs of slow travellers only. This means users can only travel to gardens on foot, by bicycle or by public transport. The use of motorized vehicles is forbidden, except for users with reduced mobility. However, it is permitted to travel to the start of a trail using a motorized vehicle."
+            }
           },
-          {
+          "6": {
             "title": "Disclaimer",
-            "copy": [
-              "The platform Welcome To My Garden is a citizen initiative. The volunteers behind Welcome To My Garden will not take any responsibility for any loss, damage or injury incurred as a result of using the website and/or while staying in another citizen’s garden."
-            ]
+            "copy": {
+              "0": "The platform Welcome To My Garden is a citizen initiative. The volunteers behind Welcome To My Garden will not take any responsibility for any loss, damage or injury incurred as a result of using the website and/or while staying in another citizen’s garden."
+            }
           }
-        ]
+        }
       },
-      {
+      "3": {
         "title": "Interactions with other members",
-        "paragraphs": [
-          {
+        "paragraphs": {
+          "0": {
             "title": "You alone are responsible for your interactions with other users.",
-            "copy": [
-              "Welcome To My Garden is a platform for users to put their garden freely at disposal, to request a garden stay and communicate with one another to achieve this use. Users have the sole responsibility for any interactions with other users of the platform. Welcome To My Garden has no involvement and no responsibilities or liabilities with respect to any communications or disputes between two users. To be very clear: Welcome To My Garden is a platform allowing hosts to put their garden freely at disposal, allowing users to use someone’s garden to camp and a place to communicate between users. Welcome To My Garden will not be and cannot be held responsible for the interactions or consequences of interactions between users. Users release Welcome To My Garden (and its volunteers) from claims, demands and damages (actual and consequential) of every kind and nature, known and unknown, suspected and unsuspected, disclosed and undisclosed, arising out of or in any way connected with such disputes. Always keep safety and good judgement in mind when using the platform."
-            ]
+            "copy": {
+              "0": "Welcome To My Garden is a platform for users to put their garden freely at disposal, to request a garden stay and communicate with one another to achieve this use. Users have the sole responsibility for any interactions with other users of the platform. Welcome To My Garden has no involvement and no responsibilities or liabilities with respect to any communications or disputes between two users. To be very clear: Welcome To My Garden is a platform allowing hosts to put their garden freely at disposal, allowing users to use someone’s garden to camp and a place to communicate between users. Welcome To My Garden will not be and cannot be held responsible for the interactions or consequences of interactions between users. Users release Welcome To My Garden (and its volunteers) from claims, demands and damages (actual and consequential) of every kind and nature, known and unknown, suspected and unsuspected, disclosed and undisclosed, arising out of or in any way connected with such disputes. Always keep safety and good judgement in mind when using the platform."
+            }
           },
-          {
+          "1": {
             "title": "Identity verification",
-            "copy": [
-              "Users are solely responsible for determining the identity and suitability of other users. As a host, you can always refuse users. As a traveller, you can decide where you want to stay. Welcome To My Garden cannot and do not confirm each user’s identity. The platform does not have any information about the user’s criminal background or morality. Always keep safety and good judgement in mind when using the platform."
-            ]
+            "copy": {
+              "0": "Users are solely responsible for determining the identity and suitability of other users. As a host, you can always refuse users. As a traveller, you can decide where you want to stay. Welcome To My Garden cannot and do not confirm each user’s identity. The platform does not have any information about the user’s criminal background or morality. Always keep safety and good judgement in mind when using the platform."
+            }
           }
-        ]
+        }
       },
-      {
+      "4": {
         "title": "Limitations to content and use of the platform",
-        "descriptions": [
-          {
+        "descriptions": {
+          "0": {
             "copy": "To ensure that the Welcome To My Garden platform is working properly and that you can communicate and connect with others, there are some restrictions to the type of content that can be published via the platform. These are as follows:"
           }
-        ],
-        "paragraphs": [
-          {
+        },
+        "paragraphs": {
+          "0": {
             "title": "Offensive behaviour",
-            "copy": [
-              "We firmly believe in freedom of speech. However, in order to ensure that the platform can be used in a constructive way by all users, we do not allow offensive behaviour that constitutes harassment, intimidation or fear-mongering.",
-              "Accounts and related accounts that are used to perform the actions listed below can be temporarily blocked and / or permanently deleted.",
-              "Violent threats (direct or indirect): You may not threaten or promote violence. This includes the promotion of terrorism. Harassment: You may not incite to or be involved in deliberately insulting or harassing others. Here are some factors that we can take into account when assessing abusive behaviour: whether the main purpose of the reported account is harassing or sending offensive messages to others; whether the reported behaviour is unidirectional or contains threats; whether the reported account encourages others to intimidate another account; and whether the reported account sends intimidating messages to an account from multiple accounts. Hatred: You may not promote violence against other people or directly attack or threaten them on the basis of race, ethnic background, nationality, sexual orientation, gender, gender identity, philosophical affiliation, religion, age, disability or illness. We also do not allow accounts whose main purpose is to incite others to do harm on the basis of these categories. Misuse of multiple accounts: Creating multiple accounts for overlapping use to avoid temporary or permanent suspension of an individual account is not allowed. Private data: You may not publish or post confidential data and private information of others without their express authorization and consent. These data include but are not limited to: credit card numbers, address details, telephone numbers or data that fall under the personal privacy of a person. Impersonation: You are not allowed to access the platform pretending to be someone else and specifically you may not deceive, confuse or threaten other users in this way. You may not be allowed to enter via the platform if someone else deceives, confuses or threatens in a manner that actually decks or threatens others."
-            ]
+            "copy": {
+              "0": "We firmly believe in freedom of speech. However, in order to ensure that the platform can be used in a constructive way by all users, we do not allow offensive behaviour that constitutes harassment, intimidation or fear-mongering.",
+              "1": "Accounts and related accounts that are used to perform the actions listed below can be temporarily blocked and / or permanently deleted.",
+              "2": "Violent threats (direct or indirect): You may not threaten or promote violence. This includes the promotion of terrorism. Harassment: You may not incite to or be involved in deliberately insulting or harassing others. Here are some factors that we can take into account when assessing abusive behaviour: whether the main purpose of the reported account is harassing or sending offensive messages to others; whether the reported behaviour is unidirectional or contains threats; whether the reported account encourages others to intimidate another account; and whether the reported account sends intimidating messages to an account from multiple accounts. Hatred: You may not promote violence against other people or directly attack or threaten them on the basis of race, ethnic background, nationality, sexual orientation, gender, gender identity, philosophical affiliation, religion, age, disability or illness. We also do not allow accounts whose main purpose is to incite others to do harm on the basis of these categories. Misuse of multiple accounts: Creating multiple accounts for overlapping use to avoid temporary or permanent suspension of an individual account is not allowed. Private data: You may not publish or post confidential data and private information of others without their express authorization and consent. These data include but are not limited to: credit card numbers, address details, telephone numbers or data that fall under the personal privacy of a person. Impersonation: You are not allowed to access the platform pretending to be someone else and specifically you may not deceive, confuse or threaten other users in this way. You may not be allowed to enter via the platform if someone else deceives, confuses or threatens in a manner that actually decks or threatens others."
+            }
           },
-          {
+          "1": {
             "title": "Indemnity",
-            "copy": [
-              "You shall defend, indemnify and hold harmless WelcomeToMyGarden.org (and each of its funders and/or volunteers) from any claim, demand, action, damage, loss, cost or expense, including without limitation reasonable attorneys’ fees, arising out or relating to (a) your use of our services; (b) any member content or submissions you provide; (c) your violation of these terms; (d) your violation of any rights of another; or (e) your conduct in connection with the services. Further, if you are using the services on behalf of any entity, you represent and warrant that such entity agrees to indemnify you and WelcomeToMyGarden.org for violations of these terms in accordance with this section. If you are obligated to indemnify us, we will have the right, in our sole and unfettered discretion, to control any action or proceeding and determine whether we wish to settle it, and if so, on what terms."
-            ]
+            "copy": {
+              "0": "You shall defend, indemnify and hold harmless WelcomeToMyGarden.org (and each of its funders and/or volunteers) from any claim, demand, action, damage, loss, cost or expense, including without limitation reasonable attorneys’ fees, arising out or relating to (a) your use of our services; (b) any member content or submissions you provide; (c) your violation of these terms; (d) your violation of any rights of another; or (e) your conduct in connection with the services. Further, if you are using the services on behalf of any entity, you represent and warrant that such entity agrees to indemnify you and WelcomeToMyGarden.org for violations of these terms in accordance with this section. If you are obligated to indemnify us, we will have the right, in our sole and unfettered discretion, to control any action or proceeding and determine whether we wish to settle it, and if so, on what terms."
+            }
           }
-        ]
+        }
       },
-      {
+      "5": {
         "title": "Limitation of Liability",
-        "descriptions": [
-          {
+        "descriptions": {
+          "0": {
             "copy": "Welcome To My Garden - including volunteers - will not be liable to either users and/or hosts under any theory of liability—whether based in contract, tort, negligence, strict liability, warranty, or otherwise—for any indirect, consequential, exemplary, incidental, punitive or special damages. The platform cannot be held responsible for any failure or delay in performing the terms. The platform cannot be held responsible for any liability in case of personal injury or death resulting from using it."
           },
-          {
+          "1": {
             "copy": "IN NO EVENT SHALL WELCOMETOMYGARDEN.ORG, A BELGIAN NONPROFIT ORGANISATION, OR ITS FUNDERS AND VOLUNTEERS, INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY OTHER DAMAGES OF ANY KIND, INCLUDING, BUT NOT LIMITED TO LOSS OF USE, LOSS OF PROFITS OR LOSS OF DATA, WHETHER IN AN ACTION IN CONTRACT, TORT (INCLUDING BUT NOT LIMITED TO NEGLIGENCE) OR OTHERWISE, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES, ARISING FROM OR RELATING TO: (A) THE USE OR INABILITY TO USE OUR SERVICES; (B) THE COST OF REPLACEMENT OF ANY GOODS, SERVICES OR INFORMATION PURCHASED OR OBTAINED AS A RESULT OF ANY INFORMATION OBTAINED FROM OR TRANSACTIONS ENTERED INTO THROUGH OR FROM OUR SERVICES; (C) DISCLOSURE OF, UNAUTHORIZED ACCESS TO OR ALTERATION OF YOUR CONTENT; (D) DAMAGES FOR LOSS OR CORRUPTION OF DATA OR PROGRAMS, SERVICE INTERRUPTIONS OR PROCUREMENT OF SUBSTITUTE SERVICES, EVEN IF WE KNOW OR HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES; (E) STATEMENTS, CONDUCT OR OMISSIONS OF ANY SERVICE PROVIDERS OR OTHER THIRD PARTY ON OUR SERVICES; (F) YOUR OR ANYONE ELSE’S CONDUCT OR ACTS IN CONNECTION WITH THE USE OF THE SERVICES, INCLUDING WITHOUT LIMITATION, BODILY INJURY, EMOTIONAL DISTRESS, DEATH OR ANY OTHER DAMAGES RESULTING FROM COMMUNICATIONS OR MEETINGS WITH OTHER REGISTERED MEMBERS OF OUR SERVICES OR PERSONS INTRODUCED TO YOU BY OUR SERVICES, WHETHER ON-LINE OR OFF-LINE; OR (G) ANY OTHER MATTER ARISING FROM, RELATING TO OR CONNECTED WITH OUR SERVICES OR THESE TERMS."
           }
-        ]
+        }
       },
-      {
+      "6": {
         "title": "Spam",
-        "descriptions": [
-          {
+        "descriptions": {
+          "0": {
             "copy": "We strive at all times to protect the Welcome To My Garden platform user from technical abuse and spam. Accounts that are used to perform the actions listed below can be temporarily blocked or permanently deleted."
           },
-          {
+          "1": {
             "copy": "Malware / phishing / viruses / worms / Trojans: You may not post malicious content or links to such content for the purpose of damaging or disrupting someone else's browsers or computers, or of violating someone's privacy. Spam: You are not allowed to use the Welcome To My Garden platform to spam people."
           }
-        ]
+        }
       },
-      {
+      "7": {
         "title": "Infringement of applicable laws",
-        "descriptions": [
-          {
+        "descriptions": {
+          "0": {
             "copy": "The use of the account may not in any way infringe applicable laws. This includes infringements against privacy legislation, intellectual property rights, the criminal code, etc."
           },
-          {
+          "1": {
             "copy": "The account may not be used to promote illegal activities in any way."
           }
-        ]
+        }
       },
-      {
+      "8": {
         "title": "In case of breaches of the aforementioned rules",
-        "descriptions": [
-          {
+        "descriptions": {
+          "0": {
             "copy": "Welcome To My Garden reserves the right to delete the relevant messages if it detects infringements of the aforementioned rules, and may even suspend or permanently delete user accounts."
           },
-          {
+          "1": {
             "copy": "Welcome To My Garden cannot be held liable in any way for messages posted by users or third parties, which violate the rules specified above. If a user detects an infringement, please report this to the following email address: {support}"
           },
-          {
+          "2": {
             "copy": "It may occur that harmful files can be downloaded via the platform, whether or not due to a user, or that users place harmful hyperlinks. Every download by a user or click on a hyperlink, placed by a user, is done at the user’s own risk. Any damage incurred is completely and solely the responsibility of this user."
           }
-        ]
+        }
       },
-      {
+      "9": {
         "title": "Intellectual property rights",
-        "descriptions": [
-          {
+        "descriptions": {
+          "0": {
             "copy": "Welcome To My Garden respects the intellectual property rights of others and expects that users of this platform also respect these rights. Welcome To My Garden reserves the right to remove content that infringes intellectual property rights. Repeated infringements of intellectual property rights of any kind by a user will result in the suspension or removal of the account by Welcome To My Garden."
           },
-          {
+          "1": {
             "copy": "Infringements against intellectual property rights can be reported via the following email address: {support}"
           }
-        ]
+        }
       },
-      {
+      "10": {
         "title": "Property rights Welcome To My Garden",
-        "descriptions": [
-          {
+        "descriptions": {
+          "0": {
             "copy": "The source code of Welcome To My Garden is open source. You agree to be bound by and comply with any license agreement that applies to this open source software. The visual identity, including the logo and colors, and the name cannot be used nor replicated for any other platform without the prior permission of Welcome To My Garden."
           }
-        ]
+        }
       },
-      {
+      "11": {
         "title": "Changes to these Terms",
-        "descriptions": [
-          {
+        "descriptions": {
+          "0": {
             "copy": "We may make changes to these Terms from time to time. If we make changes, we will post the amended Terms to our Platform and update the 'Last Updated' date above. We may also attempt to notify you by sending an email notification to the address associated with your account or give notice through our Platform. Unless specified otherwise in our notice, the amended Terms will be effective immediately and your continued access to and use of our Platform after we give notice will confirm your acceptance of the changes. In any case, changes to these Terms will not be retroactive. If you do not agree to the amended Terms, you must stop accessing and using our Platform."
           }
-        ]
+        }
       }
-    ]
+    }
   },
   "stmf": {
     "title": "Slow Travel Mini Festival",
