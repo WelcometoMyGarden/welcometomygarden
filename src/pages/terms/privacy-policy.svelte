@@ -63,6 +63,12 @@
       {@html $_('privacy-policy.personal-data.usage.copy')}
     </p>
   </li>
+  <li class="h4">
+    <h3 class="t3 title">
+      {$_(`privacy-policy.personal-data.backups.title`)}
+    </h3>
+    <p>{$_(`privacy-policy.personal-data.backups.copy`)}</p>
+  </li>
   {#each getNodeChildren(`privacy-policy.personal-data.extra`) as extraKey}
     <li class="h4">
       <h3 class="t3 title">

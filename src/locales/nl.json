@@ -597,6 +597,10 @@
         },
         "copy": "De persoonsgegevens worden alleen opgeslagen en verwerkt voor de periode die nodig is voor de verwerking. Daarna worden de gegevens verwijderd of geanonimiseerd. Welcome to My Garden vertrouwt op Firebase, dat gecertificeerd is volgens de belangrijkste privacy- en beveiligingsnormen. Firebase-services voldoen aan de AVG. Alle informatie met betrekking tot Firebase is hier te vinden: <a href=\"https://firebase.google.com/support/privacy\">https://firebase.google.com/support/privacy</a>."
       },
+      "backups": {
+        "title": "Back-ups",
+        "copy": "Welcome To My Garden maakt elke 6 uur een backup van alle gegevens en bewaart de gegevens gedurende 30 dagen. Indien je verzoekt om jouw account te verwijderen, zullen de gegevens voor deze duur in de backup worden bewaard. Niets van deze data zal ooit worden gebruikt tenzij er zich een probleem aandient met de productiedata."
+      },
       "extra": {
         "0": {
           "title": "Met wie delen we jouw persoonsgegevens?",

@@ -370,6 +370,10 @@
         },
         "copy": "The personal data is only stored and processed for the period required for the purpose of the processing. After that, the data will be deleted or anonymized. Welcome To My Garden relies on Firebase which is certified under major privacy and security standards. Firebase services are GDPR compliant. All information related to Firebase can be found <a href=\"https://firebase.google.com/support/privacy\">here</a>."
       },
+      "backups": {
+        "title": "Back-ups",
+        "copy": "Welcome To My Garden makes a backup of all its data every 6 hours and stores the data for 30 days. If you request your account to be deleted, the data will be stored in backup for this duration. None of this data will ever be used unless there’s corruption of production data."
+      },
       "extra": {
         "0": {
           "title": "With whom do we share your personal data?",
