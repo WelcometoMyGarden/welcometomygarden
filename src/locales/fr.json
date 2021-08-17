@@ -340,8 +340,7 @@
             "list": {
               "0": "L'emplacement de votre jardin (coordonnées: latitude et longitude) (obligatoire)",
               "1": "Informations sur votre jardin (description, équipements, nombre de tentes que vous pouvez accueillir) (obligatoire)",
-              "2": "Langues parlées (obligatoire)",
-              "3": "Une photo de votre jardin (facultatif)"
+              "2": "Une photo de votre jardin (facultatif)"
             }
           }
         }

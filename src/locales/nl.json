@@ -573,8 +573,7 @@
             "list": {
               "0": "De locatie van jouw tuin (coördinaten: de lengte- en breedtegraad) (verplicht)",
               "1": "Informatie over jouw tuin (beschrijving, faciliteiten, aantal tenten die opgezet kunnen worden) (verplicht)",
-              "2": "Talen die je spreekt (verplicht)",
-              "3": "Een foto van jouw tuin (optioneel)"
+              "2": "Een foto van jouw tuin (optioneel)"
             }
           }
         }

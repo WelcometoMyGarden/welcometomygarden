@@ -346,8 +346,7 @@
             "list": {
               "0": "Your garden's location (coordinates: the latitude and longitude) (mandatory)",
               "1": "Information about your garden (description, facilities, the amount of tents you can welcome) (mandatory)",
-              "2": "Languages spoken (mandatory)",
-              "3": "A picture of your garden (optional)"
+              "2": "A picture of your garden (optional)"
             }
           }
         }
