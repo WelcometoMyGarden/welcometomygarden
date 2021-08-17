@@ -22,7 +22,8 @@
   <li>
     <a
       href="https://join.slack.com/t/welcometomygarden/shared_invite/zt-f31i37dj-_zFgnfe40B6EexJuB2f_~w"
-      target="_blank">
+      target="_blank"
+    >
       <img src="/images/icons/slack.svg" alt="Slack" />
     </a>
   </li>

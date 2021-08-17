@@ -9,7 +9,9 @@
     "build:staging": "routify -b && vite build --mode staging",
     "dev-vite": "vite --host",
     "serve-vite": "vite preview",
-    "open": "start http://localhost:3000"
+    "open": "start http://localhost:3000",
+    "lint": "eslint src/**",
+    "format": "prettier --write src/**"
   },
   "publishConfig": {
     "access": "public"

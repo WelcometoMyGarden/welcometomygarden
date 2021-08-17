@@ -218,7 +218,8 @@
             if ((e.keyCode || e.which) == 13) {
               e.preventDefault();
             }
-          }} />
+          }}
+        />
         <p class="hint" class:invalid={!descriptionHint.valid}>{descriptionHint.message}</p>
       </div>
     </fieldset>
@@ -243,7 +244,8 @@
           id="capacity"
           max="20"
           bind:value={garden.facilities.capacity}
-          required />
+          required
+        />
       </div>
     </fieldset>
   </section>
@@ -260,7 +262,8 @@
         bind:files={garden.photo.files}
         on:change={choosePhoto}
         multiple={false}
-        accept={validFileTypes.join(',')} />
+        accept={validFileTypes.join(',')}
+      />
 
       {#if garden.photo && garden.photo.data}
         <div class="photo" transition:slide>

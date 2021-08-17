@@ -12,7 +12,7 @@
   const animateOut = (node, { delay = 0, duration = 300 }) => ({
     delay,
     duration,
-    css: t =>
+    css: (t) =>
       `opacity: ${(t - 0.5) * 1}; transform-origin: top right; transform: scaleX(${(t - 0.5) * 1});`
   });
 
@@ -31,7 +31,7 @@
     count = count + 1;
   };
 
-  unsubscribe = notification.subscribe(value => {
+  unsubscribe = notification.subscribe((value) => {
     if (!value) return;
     createToast(value.message, value.type, value.timeout, value.options);
     notification.set();
@@ -39,8 +39,8 @@
 
   onDestroy(unsubscribe);
 
-  const removeToast = id => {
-    toasts = toasts.filter(t => t.id != id);
+  const removeToast = (id) => {
+    toasts = toasts.filter((t) => t.id != id);
   };
 </script>
 
@@ -52,12 +52,14 @@
       on:click={() => {
         if (toast.click) toast.click();
         removeToast(toast.id);
-      }}>
+      }}
+    >
       <div class="content">{toast.msg}</div>
       <div
         class="time"
         style="animation-duration: {toast.timeout}ms;"
-        on:animationend={() => removeToast(toast.id)} />
+        on:animationend={() => removeToast(toast.id)}
+      />
     </li>
   {/each}
 </ul>

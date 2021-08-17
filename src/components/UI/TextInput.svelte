@@ -42,7 +42,8 @@
     on:input
     class:has-icon={!!icon}
     class:invalid={!!isValid}
-    class="input" />
+    class="input"
+  />
   {#if icon}
     <div class="icon">
       <Icon {icon} />

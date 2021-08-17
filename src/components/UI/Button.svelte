@@ -40,7 +40,8 @@
       if (disabled) e.preventDefault();
       click(e);
     }}
-    {target}>
+    {target}
+  >
     <Text is="span">
       <slot />
     </Text>
@@ -57,7 +58,8 @@
     class:xsmall
     class:inverse
     class:clicked
-    {type}>
+    {type}
+  >
     <Text is="span" weight="bold">
       <slot />
     </Text>

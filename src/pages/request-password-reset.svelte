@@ -43,7 +43,8 @@
             type="email"
             name="email"
             id="email"
-            bind:value={email.value} />
+            bind:value={email.value}
+          />
         </div>
         <div class="submit">
           <Button type="submit" medium disabled={!email.value || isSending}>

@@ -4,7 +4,7 @@
 
   const colors = ['#EC9570', '#F6C4B7', '#F4E27E', '#59C29D', '#A2D0D3', '#2E5F63'];
 
-  const getHashCode = str => {
+  const getHashCode = (str) => {
     let h;
     // don't worry about it
     for (let i = 0; i < str.length; i++) h = (Math.imul(31, h) + str.charCodeAt(i)) | 0;

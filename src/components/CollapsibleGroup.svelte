@@ -4,7 +4,7 @@
   import Collapsible from './Collapsible.svelte';
 
   export let collapsibleKey;
-  
+
   let activeCollapsible = null;
   const setActiveCollapsible = (id) => {
     activeCollapsible === id ? (activeCollapsible = null) : (activeCollapsible = id);

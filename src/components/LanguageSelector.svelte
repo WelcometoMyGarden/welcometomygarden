@@ -2,7 +2,7 @@
   import { locale } from 'svelte-i18n';
   import allLocales from '@/locales';
 
-  const setLocale = event => {
+  const setLocale = (event) => {
     locale.set(event.target.value);
   };
 </script>

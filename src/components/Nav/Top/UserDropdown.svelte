@@ -47,7 +47,8 @@
             toggleOpen();
             await logout();
             window.location = '/';
-          }}>
+          }}
+        >
           <i>
             {@html signOutIcon}
           </i>
