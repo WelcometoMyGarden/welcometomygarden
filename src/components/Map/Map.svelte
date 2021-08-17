@@ -8,6 +8,7 @@
   export let lat;
   export let lon;
   export let zoom;
+  export let applyZoom = false; // make this true if the provided zoom level should be applied
   export let recenterOnUpdate = false;
   export let initialLat = lat;
   export let initialLon = lon;
@@ -40,8 +41,6 @@
     });
   });
 
-  $: if (map && zoom) map.setZoom(zoom);
-
   $: if (map) {
     map.jumpTo({
       center: [initialLon, initialLat]
@@ -49,18 +48,18 @@
   }
 
   $: if (recenterOnUpdate && map && initialLat !== lat && initialLon !== lon) {
+    const zoomLevel = applyZoom ? zoom : map.getZoom();
+    const params = { center: [lon, lat], zoom: zoomLevel };
     if (!jump) {
       map.flyTo({
-        center: [lon, lat],
+        ...params,
         bearing: 0,
         speed: 1,
         curve: 1,
         essential: true
       });
     } else {
-      map.jumpTo({
-        center: [lon, lat]
-      });
+      map.jumpTo(params);
     }
   }
 </script>
