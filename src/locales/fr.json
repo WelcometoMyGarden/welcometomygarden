@@ -104,7 +104,7 @@
       "min": "Minimum",
       "all-filters": "Tous les filtres",
       "apply-filter": "Filtrer",
-      "available": "{styledAmount} {amount, plural, one {jardin} other {jardins}} de jardins disponibles avec les filtres actifs.",
+      "available": "{styledAmount} {amount, plural, one {jardin} other {jardins}} disponibles avec les filtres actifs.",
       "no-places": "Aucun lieu trouvé",
       "search-city": "Chercher une ville",
       "min-capacity": "Min. {capacity} {capacity, plural, one {tente} other {tentes}}"

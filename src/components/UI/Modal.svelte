@@ -117,6 +117,7 @@
 
   .stick-to-bottom .modal-content {
     border-radius: 10px 10px 0 0;
+    max-height: 70%;
   }
 
   .center {
