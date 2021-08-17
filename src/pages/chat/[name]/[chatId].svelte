@@ -8,8 +8,9 @@
   import { hasGarden } from '@/api/garden';
   import { user } from '@/stores/auth';
   import { chats, messages } from '@/stores/chat';
-  import { Avatar } from '@/components/UI';
+  import { Avatar, Icon } from '@/components/UI';
   import { User } from '@/components/Chat';
+  import { tentIcon } from '@/images/icons';
   import routes from '@/routes';
 
   let partnerHasGarden = null;
@@ -117,8 +118,8 @@
   {#if partnerHasGarden}
     <div class="chat-header--sm__bot">
       <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link" in:fade>
-        <img src="/images/markers/tent-filled.png" alt="" role="presentation" />
-        <span>go to garden</span>
+        <Icon icon={tentIcon} />
+        <span>Go to garden</span>
       </a>
     </div>
   {/if}
@@ -127,14 +128,14 @@
 <header class="chat-header chat-header--md">
   {#if partnerName}
     <User name={partnerName}>
-      <div class="chat-header--md__bot">
-        {#if partnerHasGarden}
-          <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link" in:fade>
-            <img src="/images/markers/tent-filled.png" alt="" role="presentation" />
-            <span>go to garden</span>
+      {#if partnerHasGarden}
+        <div class="chat-header--md__bot" in:fade>
+          <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link">
+            <Icon icon={tentIcon} />
+            <span>Go to garden</span>
           </a>
-        {/if}
-      </div>
+        </div>
+      {/if}
     </User>
   {/if}
 </header>
@@ -284,19 +285,18 @@
   }
 
   .chat-header--md__bot {
-    margin-top: 0.4rem;
+    margin-top: 0.8rem;
     height: 2rem;
   }
 
   .garden-link {
     display: inline-flex;
     align-items: center;
-    font-weight: bold;
     color: var(--color-green);
   }
 
-  .garden-link img {
-    width: 2rem;
+  .garden-link :global(i) {
+    width: 2.5rem;
     margin-right: 5px;
     display: inline-block;
   }
