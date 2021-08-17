@@ -452,11 +452,11 @@
         },
         "2": {
           "title": "User",
-          "copy": "The person using this Application and who must agree with or be authorized by the Data Subject to whom the Personal Data refer."
+          "copy": "The person using this Application and who must agree with or be authorized by the Data Subject to whom the Personal Data refers."
         },
         "3": {
           "title": "The person concerned",
-          "copy": "The legal person or natural person to whom the Personal Data relate."
+          "copy": "The legal person or natural person to whom the Personal Data relates."
         },
         "4": {
           "title": "Data processor (or Data supervisor)",
