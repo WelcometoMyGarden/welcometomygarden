@@ -121,7 +121,7 @@
       "all-filters": "Alle filters",
       "apply-filter": "Filteren",
       "available": "{styledAmount} {amount, plural, one {tuin} other {tuinen}} beschikbaar met de actieve filters.",
-      "min-capacity": "Ruimte voor {capacity} {capacity, plural, one {tent} other {tenten}}"
+      "min-capacity": "Min. {capacity} {capacity, plural, one {tent} other {tenten}}"
     },
     "drawer": {
       "facilities": {

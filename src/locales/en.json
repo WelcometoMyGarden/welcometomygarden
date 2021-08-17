@@ -499,7 +499,7 @@
       "all-filters": "All filters",
       "apply-filter": "Apply filter",
       "available": "{styledAmount} {amount, plural, one {garden} other {gardens}} available with the active filters.",
-      "min-capacity": "Space for {capacity} {capacity, plural, one {tent} other {tents}}"
+      "min-capacity": "Min. {capacity} {capacity, plural, one {tent} other {tents}}"
     },
     "drawer": {
       "facilities": {
