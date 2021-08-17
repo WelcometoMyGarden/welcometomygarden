@@ -119,7 +119,7 @@
     <div class="chat-header--sm__bot">
       <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link" in:fade>
         <Icon icon={tentIcon} />
-        <span>Go to garden</span>
+        <span>{$_('chat.go-to-garden')}</span>
       </a>
     </div>
   {/if}
@@ -132,7 +132,7 @@
         <div class="chat-header--md__bot" in:fade>
           <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link">
             <Icon icon={tentIcon} />
-            <span>Go to garden</span>
+            <span>{$_('chat.go-to-garden')}</span>
           </a>
         </div>
       {/if}
