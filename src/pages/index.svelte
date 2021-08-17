@@ -1,10 +1,10 @@
 <script>
-  import { _, json } from 'svelte-i18n';
+  import { _ } from 'svelte-i18n';
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
   import { Button } from '../components/UI';
-  import { transKeyExists } from '@/util';
+  import { getNodeChildren } from '@/util';
   import { user } from '@/stores/auth';
 
   import Logo from '../images/logo.svg';
@@ -79,12 +79,14 @@
 </div>
 
 <section class="steps" id="steps-section">
-  {#each $json('index.steps') as { title }, i}
+  {#each getNodeChildren('index.steps') as key, i}
     <div class="step">
       <div class="step-logo">
         {@html stepGraphics[i]}
       </div>
-      <h2 class="step-header">{title}</h2>
+      <h2 class="step-header">
+        {$_(`index.steps.${key}.title`)}
+      </h2>
       <p class="step-text">
         {@html $_(`index.steps.${i}.copy`, {
           values: {
@@ -110,7 +112,7 @@
     </p>
   </div>
   <div class="faq-questions">
-    <CollapsibleGroup collapsibles={$json('index.faq.questions')} />
+    <CollapsibleGroup collapsibleKey={'index.faq.questions'} />
   </div>
 </section>
 
