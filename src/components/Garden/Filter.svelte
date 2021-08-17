@@ -189,6 +189,11 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
   }
 
+  .garden-filter :global(button > span) {
+    display: flex;
+    align-items: center;
+  }
+
   .garden-filter :global(span) {
     line-height: 1.2rem;
   }
