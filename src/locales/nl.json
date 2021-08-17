@@ -575,6 +575,12 @@
               "1": "Informatie over jouw tuin (beschrijving, faciliteiten, aantal tenten die opgezet kunnen worden) (verplicht)",
               "2": "Een foto van jouw tuin (optioneel)"
             }
+          },
+          "3": {
+            "title": "Gebruikerslocatie",
+            "list": {
+              "0": "Indien je akkoord gaat met het delen van jouw locatie met Welcome To My Garden, zal de kaart van Welcome To My Garden gecentreerd worden op de locatie die door jouw browser wordt opgegeven. Welcome To My Garden slaat jouw locatie op geen enkele manier op, niet in een cookie noch in lokale opslag. De gebruikerslocatie dient uitsluitend om jouw gebruikerservaring te verbeteren door de kaart te centreren."
+            }
           }
         }
       },

@@ -342,6 +342,12 @@
               "1": "Informations sur votre jardin (description, équipements, nombre de tentes que vous pouvez accueillir) (obligatoire)",
               "2": "Une photo de votre jardin (facultatif)"
             }
+          },
+          "3": {
+            "title": "Localisation de l'utilisateur",
+            "list": {
+              "0": "Dans le cas où vous acceptez de partager votre localisation avec Welcome To My Garden, la carte de Welcome To My Garden sera centrée sur la localisation fournie par votre navigateur. Welcome To My Garden ne stocke votre localisation d'aucune manière, ni dans un cookie ni dans un stockage local. La localisation de l'utilisateur sert uniquement à améliorer votre expérience utilisateur en centrant la carte."
+            }
           }
         }
       },

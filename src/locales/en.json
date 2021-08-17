@@ -348,6 +348,12 @@
               "1": "Information about your garden (description, facilities, the amount of tents you can welcome) (mandatory)",
               "2": "A picture of your garden (optional)"
             }
+          },
+          "3": {
+            "title": "User location",
+            "list": {
+              "0": "In case you agree to share your location with Welcome To My Garden, the Welcome To My Garden map will be centered on the location provided by your browser. Welcome To My Garden does not store your location of any kind, not in a cookie nor in local storage. The user location only serves to improve your user experience by centering the map."
+            }
           }
         }
       },
