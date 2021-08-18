@@ -154,7 +154,6 @@
   .filter-controls {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 5px;
   }
 
   .location-filter {
