@@ -11,7 +11,6 @@
   };
 </script>
 
-<div />
 <div class="cluster">
   <div class="title">
     <h3>{$_(`${clusterKey}.title`)}</h3>
