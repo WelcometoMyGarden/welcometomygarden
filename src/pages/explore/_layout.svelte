@@ -4,42 +4,72 @@
   import { goto, params } from '@roxi/routify';
   import { getAllListedGardens } from '@/api/garden';
   import { allGardens, isFetchingGardens } from '@/stores/garden';
+  import routes from '@/routes';
+
   import Map from '@/components/Map/Map.svelte';
   import Drawer from '@/components/Garden/Drawer.svelte';
   import GardenLayer from '@/components/Map/GardenLayer.svelte';
   import WaymarkedTrails from '@/components/Map/WaymarkedTrails.svelte';
-  import routes from '@/routes';
+  import Filter from '@/components/Garden/Filter.svelte';
   import { Progress, LabeledCheckbox, Icon } from '@/components/UI';
+
   import { getCookie, setCookie } from '@/util';
   import { crossIcon, cyclistIcon, hikerIcon } from '@/images/icons';
   import { ZOOM_LEVELS } from '@/constants';
 
   let selectedGarden = null;
 
-  $: if (!selectedGarden || selectedGarden.id !== $params.gardenId)
-    selectedGarden = $allGardens[$params.gardenId]; // undefined or garden
-
-  $: center = selectedGarden
-    ? [selectedGarden.location.longitude, selectedGarden.location.latitude]
-    : [4.5, 50.5];
-
+  let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
+  let geolocationIsLoaded = false;
+  let showHiking = false;
+  let showCycling = false;
+  let filteredGardens;
   let carNoticeShown = !getCookie('car-notice-dismissed');
 
   // true when visiting the link to a garden directly, used to increase zoom level
   let usingGardenLink = !!$params.gardenId;
 
+  let zoom = usingGardenLink ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.SMALL_COUNTRY;
+
+  $: applyZoom = usingGardenLink ? true : false;
+  $: if (!selectedGarden || selectedGarden.id !== $params.gardenId) {
+    selectedGarden = $allGardens[$params.gardenId]; // undefined or garden
+  }
+  $: center = selectedGarden
+    ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
+    : fallbackLocation;
+
+  // FUNCTIONS
+
   const selectGarden = (garden) => {
     const newSelectedId = garden.id;
     const newGarden = $allGardens[newSelectedId];
-    center = [newGarden.location.longitude, newGarden.location.latitude];
+    center = { longitude: newGarden.location.longitude, latitude: newGarden.location.latitude };
+    applyZoom = false; // zoom level is not programatically changed when exploring a garden
     $goto(`${routes.MAP}/garden/${newSelectedId}`);
+  };
 
-    usingGardenLink = false;
+  const goToPlace = (event) => {
+    zoom = ZOOM_LEVELS.CITY;
+    applyZoom = true;
+    center = { longitude: event.detail.longitude, latitude: event.detail.latitude };
   };
 
   const closeDrawer = () => {
+    usingGardenLink = false;
+
     $goto(routes.MAP);
   };
+
+  const closeCarNotice = () => {
+    const date = new Date();
+    // one year
+    date.setTime(date.getTime() + 365 * 86400000); //24 * 60 * 60 * 1000
+    setCookie('car-notice-dismissed', true, { expires: date.toGMTString() });
+    carNoticeShown = false;
+  };
+
+  // LIFECYCLE HOOKS
 
   onMount(async () => {
     if (Object.keys($allGardens).length === 0) {
@@ -50,40 +80,44 @@
         isFetchingGardens.set(false);
       }
     }
-  });
 
-  const closeCarNotice = () => {
-    const date = new Date();
-    // one year
-    date.setTime(date.getTime() + 365 * 86400000); //24 * 60 * 60 * 1000
-    setCookie('car-notice-dismissed', true, { expires: date.toGMTString() });
-    carNoticeShown = false;
-  };
+    if (!geolocationIsLoaded && 'geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          fallbackLocation = { longitude: pos.coords.longitude, latitude: pos.coords.latitude };
+          geolocationIsLoaded = true;
+        },
+        (err) => {
+          console.log(err);
+          geolocationIsLoaded = true;
+        }
+      );
+    }
+  });
 
   onDestroy(() => {
     isFetchingGardens.set(false);
   });
-
-  let showHiking = false;
-  let showCycling = false;
-
-  const attributionLinkTrails = `<a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>`;
 </script>
 
-<Progress active={$isFetchingGardens} />
+<Progress active={$isFetchingGardens && !geolocationIsLoaded} />
+
 <div class="map-section">
   <Map
-    lat={center[1]}
-    lon={center[0]}
-    jump={usingGardenLink}
+    lon={center.longitude}
+    lat={center.latitude}
     recenterOnUpdate
-    zoom={usingGardenLink ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.SMALL_COUNTRY}
+    initialLon={fallbackLocation.longitude}
+    initialLat={fallbackLocation.latitude}
+    jump={usingGardenLink}
+    {zoom}
+    {applyZoom}
   >
     {#if !$isFetchingGardens}
       <GardenLayer
         on:garden-click={(e) => selectGarden(e.detail)}
         selectedGardenId={selectedGarden ? selectedGarden.id : null}
-        allGardens={$allGardens}
+        allGardens={filteredGardens || $allGardens}
       />
       <Drawer on:close={closeDrawer} garden={selectedGarden} />
       <WaymarkedTrails {showHiking} {showCycling} />
@@ -105,7 +139,7 @@
       </div>
     {/if}
   </Map>
-  <div class="filters">
+  <div class="trails">
     <div>
       <LabeledCheckbox
         name="hiking"
@@ -123,9 +157,15 @@
       />
     </div>
     <span class="attribution">
-      {@html $_('map.trails.attribution', { values: { link: attributionLinkTrails } })}
+      {@html $_('map.trails.attribution', {
+        values: {
+          link: `<a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>`
+        }
+      })}
     </span>
   </div>
+
+  <Filter on:goToPlace={goToPlace} bind:filteredGardens {fallbackLocation} />
 </div>
 
 <style>
@@ -141,7 +181,7 @@
     top: calc(var(--height-nav) + 0.5rem);
   }
 
-  .filters {
+  .trails {
     background-color: rgba(255, 255, 255, 0.8);
     bottom: 0;
     left: 0;
