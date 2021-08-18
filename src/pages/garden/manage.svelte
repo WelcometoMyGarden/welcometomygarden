@@ -14,14 +14,18 @@
     $redirect(routes.ACCOUNT);
   }
   let updatingGarden = false;
+  const garden = $user.garden;
 
   const submit = async (e) => {
-    const garden = e.detail;
+    const updatedGarden = e.detail;
     updatingGarden = true;
     try {
       const newGarden = await updateGarden({
-        ...garden,
-        photo: garden.photo && garden.photo.files ? garden.photo.files[0] : null
+        ...updatedGarden,
+        photo:
+          updatedGarden.photo && updatedGarden.photo.files
+            ? updatedGarden.photo.files[0]
+            : garden.photo
       });
       updatingGarden = false;
       await updateGardenLocally(newGarden);
@@ -45,4 +49,9 @@
 
 <Progress active={updatingGarden} />
 
-<Form on:submit={submit} isUpdate isSubmitting={updatingGarden} garden={$user.garden} />
+<Form
+  on:submit={submit}
+  isUpdate
+  isSubmitting={updatingGarden}
+  garden={{ ...garden, facilities: { ...garden.facilities }, location: { ...garden.location } }}
+/>

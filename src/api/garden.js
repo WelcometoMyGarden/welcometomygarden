@@ -58,7 +58,7 @@ export const updateGarden = async ({ photo, ...rest }) => {
   const currentUser = get(user);
 
   let uploadedName = null;
-  if (photo) uploadedName = await doUploadGardenPhoto(photo, currentUser);
+  if (photo && photo instanceof File) uploadedName = await doUploadGardenPhoto(photo, currentUser);
 
   const facilities = Object.keys(rest.facilities).reduce((all, facility) => {
     all[facility] = rest.facilities[facility] || false;
@@ -68,10 +68,8 @@ export const updateGarden = async ({ photo, ...rest }) => {
   const garden = {
     ...rest,
     facilities,
-    previousPhotoId: null
+    photo: uploadedName || photo
   };
-
-  if (uploadedName || rest.photo) garden.photo = uploadedName || rest.photo;
 
   await db.collection('campsites').doc(currentUser.id).update(garden);
 
