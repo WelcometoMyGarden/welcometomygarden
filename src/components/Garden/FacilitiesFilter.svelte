@@ -181,25 +181,23 @@
   }
 
   .gardenFilterCapacityModifier > button {
-    margin: 2px 1rem 0 1rem;
+    margin: 0 1rem 0 1rem;
     padding: 0;
-
     border: 1.5px solid var(--color-green);
     border-radius: 50%;
-
     background-color: var(--color-white);
     cursor: pointer;
-    height: 2rem;
-    width: 2rem;
+    width: 2.1rem;
+    height: 2.1rem;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
   .gardenFilterCapacityModifier > button span {
-    width: 100%;
-    height: 100%;
-    font-family: monospace;
+    padding-top: 1.5px;
+    font-family: 'Courier', monospace;
+    font-weight: bold;
   }
 
   .gardenFilterCapacityModifier > button:hover {
