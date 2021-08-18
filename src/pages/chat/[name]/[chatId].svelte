@@ -240,6 +240,7 @@
   .timestamp {
     color: var(--color-darker-gray);
     font-size: 1.2rem;
+    padding-top: 0.2rem;
 
     margin-left: calc(5rem + 2rem);
     margin-right: 0;
@@ -354,6 +355,8 @@
     }
 
     .message-text {
+      padding: 1rem;
+
       margin-left: 1rem;
       padding: 1rem;
     }
