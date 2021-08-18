@@ -1,6 +1,6 @@
 <script>
-  import { _, json } from 'svelte-i18n';
-  import { supportEmailLinkString } from '@/util';
+  import { _ } from 'svelte-i18n';
+  import { supportEmailLinkString, getNodeChildren } from '@/util';
   import { Ol } from '@/components/UI';
 </script>
 
@@ -10,12 +10,12 @@
 
 <h2>{$_('cookies.title')}</h2>
 <Ol>
-  {#each $json('cookies.articles') as { title, copy }, i}
+  {#each getNodeChildren('cookies.articles') as key}
     <li class="h3">
-      <h3 class="title">{title}</h3>
-      {#each $json(`cookies.articles.${i}.copy`) as copy, j}
+      <h3 class="title">{$_(`cookies.articles.${key}.title`)}</h3>
+      {#each getNodeChildren(`cookies.articles.${key}.copy`) as copyKey}
         <p>
-          {@html $_(`cookies.articles.${i}.copy.${j}`, {
+          {@html $_(`cookies.articles.${key}.copy.${copyKey}`, {
             values: { support: supportEmailLinkString }
           })}
         </p>

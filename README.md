@@ -9,7 +9,7 @@ Problems, feedback or questions are welcome in [issues](https://github.com/Welco
 - [Node](https://nodejs.org/en/download/) version >=10 installed
 - This project uses the [Yarn](https://yarnpkg.com/getting-started/install) package manager
 
-Create a `.env` file and make sure it has the values specified in [`wtmg.config.example.json`](https://github.com/WelcometoMyGarden/welcometomygarden/blob/master/.env.example).
+Create a `.env` file and make sure it has the values specified in [`.env.example`](https://github.com/WelcometoMyGarden/welcometomygarden/blob/master/.env.example).
 
 You will need a Mapbox access token if you'd like to work on features that concern the map.
 
