@@ -39,3 +39,60 @@ export const reverseGeocode = async ({ latitude, longitude }) => {
   address = parseAddressPiece(address, addressData);
   return address;
 };
+
+export const geocodeExtensive = async (place, longitude, latitude, language, amount) => {
+  let types = 'place,locality';
+  const response = await fetch(
+    `https://api.mapbox.com/geocoding/v5/mapbox.places/${place}.json?proximity=${longitude},${latitude}&limit=${amount}&types=${types}&language=${language}&access_token=${VITE_MAPBOX_ACCESS_TOKEN}`,
+    {
+      headers
+    }
+  );
+  const data = await response.json();
+
+  if (data.features.length >= 1) {
+    let addressData = [];
+    for (var i = 0; i < data.features.length; i++) {
+      const location = data.features[i];
+      let locationData = {
+        longitude: location.center[0],
+        latitude: location.center[1],
+        place_name: location.place_name
+      };
+      addressData.push(locationData);
+    }
+    return {
+      type: 'succes',
+      data: addressData
+    };
+  } else {
+    return {
+      type: 'error',
+      query: `${data.query[0]}`
+    };
+  }
+};
+
+export const geocodeCountryCode = async (country_code) => {
+  try {
+    let types = 'country';
+    const response = await fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${country_code}.json?&limit=1&autocomplete=false&types=${types}&access_token=${VITE_MAPBOX_ACCESS_TOKEN}`,
+      {
+        headers
+      }
+    );
+    if (!response.ok) return;
+    const data = await response.json();
+
+    const location = data.features[0];
+    let locationData = {
+      longitude: location.center[0],
+      latitude: location.center[1],
+      place_name: location.place_name
+    };
+    return locationData;
+  } catch {
+    return;
+  }
+};

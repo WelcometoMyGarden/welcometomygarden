@@ -110,6 +110,19 @@
         "tent": "Tent"
       }
     },
+    "filter": {
+      "title": "Filter",
+      "garden-facilities": "Tuinfaciliteiten",
+      "garden-capacity": "Tuincapaciteit",
+      "spots-available": "Tentplaatsen beschikbaar",
+      "min": "Minimum",
+      "no-places": "Geen plaatsen gevonden",
+      "search-city": "Zoek een stad",
+      "all-filters": "Alle filters",
+      "apply-filter": "Filteren",
+      "available": "{styledAmount} {amount, plural, one {tuin} other {tuinen}} beschikbaar met de actieve filters.",
+      "min-capacity": "Min. {capacity} {capacity, plural, one {tent} other {tenten}}"
+    },
     "drawer": {
       "facilities": {
         "capacity": "Ruimte voor {styleCapacity} {capacity, plural, one {tent} other {tenten}}"
