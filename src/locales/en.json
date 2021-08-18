@@ -188,74 +188,89 @@
   "faq": {
     "title": "FAQ",
     "description": "Frequently asked questions",
-    "questions": {
+    "clusters": {
       "0": {
-        "title": "What is Welcome To My Garden?",
-        "copy": "Welcome To My Garden is a network of citizens opening up their gardens to slow travellers in need of a camping spot. It's a not-for-profit initiative set up by a group of citizens. The idea was born during the 2020 Covid-19 lockdown in Belgium."
+        "title": "This is a cluster title!",
+        "questions": {
+          "0": {
+            "title": "What is Welcome To My Garden?",
+            "copy": "Welcome To My Garden is a network of citizens opening up their gardens to slow travellers in need of a camping spot. It's a not-for-profit initiative set up by a group of citizens. The idea was born during the 2020 Covid-19 lockdown in Belgium."
+          },
+          "1": {
+            "title": "Who is Welcome To My Garden for?",
+            "copy": "Welcome To My Garden has been created for hikers and cyclists who need a camping spot on their trail at the end of the day. It isn’t meant to replace fully-fledged campsites; just a safe spot for the night! Consider it an addition to Belgium’s network of bivouacking sites."
+          },
+          "2": {
+            "title": "How does Welcome To My Garden work?",
+            "copy": "People who want to open up their garden to travellers can add their garden by filling out the form on the website (click the \"Add your garden\" button). People who want to stay at one of the camping spots can then contact the garden owners to arrange their stay."
+          },
+          "3": {
+            "title": "How do I get to my camping spot?",
+            "copy": "Welcome To My Garden has been set up to meet the needs of slow travellers: hikers and cyclists who need a camping spot at the end of the day. For this reason you are supposed to arrive at your camping spot on foot or by bike, or by public transport – definitely not by car. Of course you can drive to the start of your trail – as long as you don’t turn up at your host’s in your car!"
+          },
+          "4": {
+            "title": "How does Welcome To My Garden guarantee my privacy as a host?",
+            "copy": "All your personal details are protected by the login system. If you are a host, we will not display your house number or exact location on the map. You can give this to your guests once you’re in touch with them. You decide how you want them to contact you: by email, by phone, or both."
+          },
+          "5": {
+            "title": "What facilities will you find in the garden?",
+            "copy": "Basically hosts just offer a corner in their garden for you to pitch your tent on. In addition, they may offer access to drinking water, a toilet and electricity. They are not obliged to do so though: all of these are bonuses. Consider a garden as a bivouac spot; not a fully-fledged campsite."
+          }
+        }
       },
       "1": {
-        "title": "Who is Welcome To My Garden for?",
-        "copy": "Welcome To My Garden has been created for hikers and cyclists who need a camping spot on their trail at the end of the day. It isn’t meant to replace fully-fledged campsites; just a safe spot for the night! Consider it an addition to Belgium’s network of bivouacking sites."
+        "title": "This is a cluster title!",
+        "questions": {
+          "0": {
+            "title": "Does Welcome To My Garden cost anything?",
+            "copy": "Using Welcome To My Garden is completely free. However, as a platform we do incur costs. If you want to make a donation that will put a big smile on our faces! We are a not-for-profit initiative, so we’re not making any money out of this. This means any money you donate will go directly towards covering the costs of the project. You can look into our expenses too on the donation page."
+          },
+          "1": {
+            "title": "I don’t have a garden. Can I still travel to other people’s gardens?",
+            "copy": "Yes! You don’t need to offer a garden to use one. The platform is open to all slow travellers!"
+          },
+          "2": {
+            "title": "How long can I stay there?",
+            "copy": "Since these camping spots only cater to the needs of slow travellers who are on a multi-stage trek or bike ride, you can stay at a camping spot for a maximum of 48 hours (two nights). Of course you can move on to the next camping spot after that! And the next. And the next…Always check with the host how long you can stay, some hosts will prefer that you stay one night only."
+          },
+          "3": {
+            "title": "Can I bring my family? My children? My dog?",
+            "copy": "It’s best to ask your host whether they are open to children and/or dogs. Quite a few hosts have already indicated on their profile that they are open to families, but even if they haven’t, you can always ask!"
+          },
+          "4": {
+            "title": "So, what if there’s no toilet?",
+            "copy": "Not every host may offer access to a toilet. In this case, please find a spot outside the garden that meets your needs. Pee behind a tree, and bag your Number Two so you can bin it the next day. Apply the Leave No Trace principle as you would when camping out in the wild."
+          },
+          "5": {
+            "title": "And if there is a toilet, how do we guarantee Covid-19 doesn’t get transmitted?",
+            "copy": "Please bring hand sanitizer and wet wipes so you can clean your hands and any surfaces you’ve touched, such as the toilet seat, flush button, tap and door handle. You can also wear a mask if you need to enter your host’s house for facilities. This way you help guarantee that Covid-19 does not get transmitted, in case you or any of the other users of the bathroom happen to carry it. Of course, if you know you might be sick don’t go in the first place!"
+          },
+          "6": {
+            "title": "Is Welcome to My Garden limited to Belgium?",
+            "copy": "Welcome To My Garden was set up by a small team of Belgium-based enthusiasts. For lots of practical reasons we will limit camping spots on our maps to Belgium for now. Mainly, we want to keep it simple. However, we would love this project to go abroad. If you want to set up Welcome To My Garden in your country, do contact us. The source code of the website is freely available on GitHub!"
+          }
+        }
       },
       "2": {
-        "title": "How does Welcome To My Garden work?",
-        "copy": "People who want to open up their garden to travellers can add their garden by filling out the form on the website (click the \"Add your garden\" button). People who want to stay at one of the camping spots can then contact the garden owners to arrange their stay."
-      },
-      "3": {
-        "title": "How do I get to my camping spot?",
-        "copy": "Welcome To My Garden has been set up to meet the needs of slow travellers: hikers and cyclists who need a camping spot at the end of the day. For this reason you are supposed to arrive at your camping spot on foot or by bike, or by public transport – definitely not by car. Of course you can drive to the start of your trail – as long as you don’t turn up at your host’s in your car!"
-      },
-      "4": {
-        "title": "How does Welcome To My Garden guarantee my privacy as a host?",
-        "copy": "All your personal details are protected by the login system. If you are a host, we will not display your house number or exact location on the map. You can give this to your guests once you’re in touch with them. You decide how you want them to contact you: by email, by phone, or both."
-      },
-      "5": {
-        "title": "What facilities will you find in the garden?",
-        "copy": "Basically hosts just offer a corner in their garden for you to pitch your tent on. In addition, they may offer access to drinking water, a toilet and electricity. They are not obliged to do so though: all of these are bonuses. Consider a garden as a bivouac spot; not a fully-fledged campsite."
-      },
-      "6": {
-        "title": "Does Welcome To My Garden cost anything?",
-        "copy": "Using Welcome To My Garden is completely free. However, as a platform we do incur costs. If you want to make a donation that will put a big smile on our faces! We are a not-for-profit initiative, so we’re not making any money out of this. This means any money you donate will go directly towards covering the costs of the project. You can look into our expenses too on the donation page."
-      },
-      "7": {
-        "title": "I don’t have a garden. Can I still travel to other people’s gardens?",
-        "copy": "Yes! You don’t need to offer a garden to use one. The platform is open to all slow travellers!"
-      },
-      "8": {
-        "title": "How long can I stay there?",
-        "copy": "Since these camping spots only cater to the needs of slow travellers who are on a multi-stage trek or bike ride, you can stay at a camping spot for a maximum of 48 hours (two nights). Of course you can move on to the next camping spot after that! And the next. And the next…Always check with the host how long you can stay, some hosts will prefer that you stay one night only."
-      },
-      "9": {
-        "title": "Can I bring my family? My children? My dog?",
-        "copy": "It’s best to ask your host whether they are open to children and/or dogs. Quite a few hosts have already indicated on their profile that they are open to families, but even if they haven’t, you can always ask!"
-      },
-      "10": {
-        "title": "So, what if there’s no toilet?",
-        "copy": "Not every host may offer access to a toilet. In this case, please find a spot outside the garden that meets your needs. Pee behind a tree, and bag your Number Two so you can bin it the next day. Apply the Leave No Trace principle as you would when camping out in the wild."
-      },
-      "11": {
-        "title": "And if there is a toilet, how do we guarantee Covid-19 doesn’t get transmitted?",
-        "copy": "Please bring hand sanitizer and wet wipes so you can clean your hands and any surfaces you’ve touched, such as the toilet seat, flush button, tap and door handle. You can also wear a mask if you need to enter your host’s house for facilities. This way you help guarantee that Covid-19 does not get transmitted, in case you or any of the other users of the bathroom happen to carry it. Of course, if you know you might be sick don’t go in the first place!"
-      },
-      "12": {
-        "title": "Is Welcome to My Garden limited to Belgium?",
-        "copy": "Welcome To My Garden was set up by a small team of Belgium-based enthusiasts. For lots of practical reasons we will limit camping spots on our maps to Belgium for now. Mainly, we want to keep it simple. However, we would love this project to go abroad. If you want to set up Welcome To My Garden in your country, do contact us. The source code of the website is freely available on GitHub!"
-      },
-      "13": {
-        "title": "Why is the facebook page only in English?",
-        "copy": "First of all, there is a very practical reason: English is the only language the entire team can communicate in fluently enough! We also want WTMG to be open to everyone, so that people in other countries can implement the initiative in their country too. On the facebook page we will stick to English. If you feel more comfortable writing in Dutch or French please do!"
-      },
-      "14": {
-        "title": "How does Welcome To My Garden differ from other platforms such as Warmshowers?",
-        "copy": "There are quite a few other platforms out there that cater to the needs of (slow) travellers. Whereas Warmshowers is for cyclists only, WTMG is for both hikers and cyclists. Also, WTMG is all about tents, not beds. You could consider it the outdoor version of Couchsurfing. There is a commercial initiative called Campspace in the Netherlands which does more or less the same thing as WTMG, but you have to pay for your camping spot. WTMG is a free initiative, and you don’t need to pay your host for your stay."
-      },
-      "15": {
-        "title": "What type of tent can I bring?",
-        "copy": "Since WTMG is only catering to hikers and cyclists, we expect you to bring nothing bigger than a trekker’s tent. That means it should easily fit in your pack. If you’re not sure your tent will fit in your host’s garden, please consult them before leaving."
-      },
-      "16": {
-        "title": "I’ve had an issue with a guest or a host. How do I report it?",
-        "copy": "Any issue or misconduct should be reported to Welcome To My Garden by email {support}. In case of misconduct we reserve the right to remove unilaterally this person’s account (see Terms of Use)."
+        "title": "This is a cluster title!",
+        "questions": {
+          "0": {
+            "title": "Why is the facebook page only in English?",
+            "copy": "First of all, there is a very practical reason: English is the only language the entire team can communicate in fluently enough! We also want WTMG to be open to everyone, so that people in other countries can implement the initiative in their country too. On the facebook page we will stick to English. If you feel more comfortable writing in Dutch or French please do!"
+          },
+          "1": {
+            "title": "How does Welcome To My Garden differ from other platforms such as Warmshowers?",
+            "copy": "There are quite a few other platforms out there that cater to the needs of (slow) travellers. Whereas Warmshowers is for cyclists only, WTMG is for both hikers and cyclists. Also, WTMG is all about tents, not beds. You could consider it the outdoor version of Couchsurfing. There is a commercial initiative called Campspace in the Netherlands which does more or less the same thing as WTMG, but you have to pay for your camping spot. WTMG is a free initiative, and you don’t need to pay your host for your stay."
+          },
+          "2": {
+            "title": "What type of tent can I bring?",
+            "copy": "Since WTMG is only catering to hikers and cyclists, we expect you to bring nothing bigger than a trekker’s tent. That means it should easily fit in your pack. If you’re not sure your tent will fit in your host’s garden, please consult them before leaving."
+          },
+          "3": {
+            "title": "I’ve had an issue with a guest or a host. How do I report it?",
+            "copy": "Any issue or misconduct should be reported to Welcome To My Garden by email {support}. In case of misconduct we reserve the right to remove unilaterally this person’s account (see Terms of Use)."
+          }
+        }
       }
     }
   },

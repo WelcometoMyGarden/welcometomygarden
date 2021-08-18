@@ -8,7 +8,7 @@
     <div class="title">
       <slot name="title" />
     </div>
-    <span class="sign">{open ? '-' : '+'}</span>
+    <span class="sign">{open ? '−' : '+'}</span>
   </div>
   {#if open}
     <div transition:slide={{ duration: 300 }} class="green-border-bottom">
@@ -40,7 +40,7 @@
   .content {
     font-weight: normal;
     padding: 0 4.8rem 2.4rem 4.8rem;
-    max-width: 60rem;
+    max-width: 80rem;
   }
 
   .sign {
