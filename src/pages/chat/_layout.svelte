@@ -74,7 +74,7 @@
 
   let outerWidth;
   let isMobile = false;
-  $: if (outerWidth <= 700) isMobile = true;
+  $: outerWidth <= 700 ? (isMobile = true) : (isMobile = false);
 </script>
 
 <svelte:window bind:outerWidth />
