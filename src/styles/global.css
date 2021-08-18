@@ -275,7 +275,7 @@ a.link:hover {
   animation: nprogress-spinner 400ms linear infinite;
 }
 
-.nprogress-custom-parent) {
+.nprogress-custom-parent {
   overflow: hidden;
   position: relative;
 }
