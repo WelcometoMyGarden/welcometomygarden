@@ -1,6 +1,6 @@
 <script>
   export let chatId;
-  import { _, locale } from 'svelte-i18n';
+  import { _ } from 'svelte-i18n';
   import { beforeUpdate, afterUpdate, onMount } from 'svelte';
   import { fade } from 'svelte/transition';
   import { params, goto } from '@roxi/routify';
@@ -12,12 +12,11 @@
   import { User } from '@/components/Chat';
   import { tentIcon } from '@/images/icons';
   import routes from '@/routes';
+  import { formatDate } from '@/util';
 
   let partnerHasGarden = null;
   let partnerId;
   let chat;
-
-  let toLocaleStringOptions = { dateStyle: 'medium', timeStyle: 'short' };
 
   // Allow chat to change on chatId change
   $: if (chatId) {
@@ -154,7 +153,7 @@
             <p class="message-text">{normalizeWhiteSpace(message.content)}</p>
           </div>
           <div class="timestamp">
-            {new Date(message.createdAt.seconds * 1000).toLocaleString([], toLocaleStringOptions)}
+            {formatDate(message.createdAt.seconds * 1000)}
           </div>
         </div>
       {/each}
