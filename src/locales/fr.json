@@ -685,6 +685,11 @@
     "banner-stmf": {
       "link": "Slow Travel Mini Festival",
       "copy": "Vous voulez préparer votre prochain voyage lent tout en soutenant Welcome To My Garden ? Découvrez notre {stmfLink} (du 3 au 29 juin) !"
+    },
+    "shop": {
+      "banner": {
+        "title": "son shop"
+      }
     }
   },
   "ui": {
