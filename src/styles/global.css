@@ -1,10 +1,10 @@
 @font-face {
-  font-family: "Inknut Antiqua";
+  font-family: 'Inknut Antiqua';
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
   font-display: swap;
 }
 
@@ -14,25 +14,28 @@
   */
   --color-white: #fff;
   --color-black: #333;
-  --color-gray: #E5E5E5;
-  --color-orange: #CE6854;
-  --color-orange-light: #ED7F69;
-  --color-beige-light: #F9F5EE;
-  --color-beige: #F0E7D5;
+  --color-gray: #e5e5e5;
+  --color-darker-gray: #828b80;
+  --color-orange: #ce6854;
+  --color-orange-light: #ed7f69;
+  --color-beige-light: #f9f5ee;
+  --color-beige: #f0e7d5;
   --color-green: #495747;
-  --color-green-light: #CFE3D4;
+  --color-green-light: #cfe3d4;
   --color-copy: #495747;
-  --color-info: #2D69EA;
+  --color-info: #2d69ea;
   --color-warning: #ffbb33;
-  --color-danger:  #ff4444;
-  --color-success: #00C851;
+  --color-danger: #ff4444;
+  --color-success: #00c851;
   --color-yellow: #e4d290;
 
   /*
   * Typography
   */
-  --fonts-copy: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --fonts-titles: "Inknut Antiqua", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --fonts-copy: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --fonts-titles: 'Inknut Antiqua', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 
   /*
   * Units
@@ -50,7 +53,9 @@
   margin-top: 1rem;
 }
 
-html, body, #app-container {
+html,
+body,
+#app-container {
   height: 100%;
 }
 
@@ -68,16 +73,20 @@ body {
   font-family: var(--fonts-copy);
 }
 
-p, .p {
+p,
+.p {
   font-size: 1.6rem;
   font-weight: normal;
 }
 
 @media screen and (max-width: 700px) {
-  body, .input, textarea, p, .p {
+  body,
+  .input,
+  textarea,
+  p,
+  .p {
     font-size: 1.4rem;
   }
-
 }
 
 *,
@@ -91,11 +100,18 @@ h1 {
   font-family: var(--fonts-titles);
 }
 
-h2, h3, h4, h5, h6 {
-  font-family: var(--fonts-copy)
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--fonts-copy);
 }
 
-h3, h4, h5, h6 {
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--fonts-copy);
 }
 
@@ -264,7 +280,8 @@ a.link:hover {
   position: relative;
 }
 
-.nprogress-custom-parent #nprogress .spinner, .nprogress-custom-parent #nprogress .bar {
+.nprogress-custom-parent #nprogress .spinner,
+.nprogress-custom-parent #nprogress .bar {
   position: absolute;
 }
 

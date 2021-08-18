@@ -1,6 +1,6 @@
 <script>
   export let chatId;
-  import { _ } from 'svelte-i18n';
+  import { _, locale } from 'svelte-i18n';
   import { beforeUpdate, afterUpdate, onMount } from 'svelte';
   import { fade } from 'svelte/transition';
   import { params, goto } from '@roxi/routify';
@@ -16,6 +16,8 @@
   let partnerHasGarden = null;
   let partnerId;
   let chat;
+
+  let toLocaleStringOptions = { dateStyle: 'medium', timeStyle: 'short' };
 
   // Allow chat to change on chatId change
   $: if (chatId) {
@@ -145,10 +147,15 @@
     {#if chat && $messages[chat.id]}
       {#each $messages[chat.id] as message (message.id)}
         <div class="message" class:by-user={message.from === $user.id}>
-          <div class="avatar">
-            <Avatar name={message.from === $user.id ? $user.firstName : chat.partner.firstName} />
+          <div class="holder">
+            <div class="avatar">
+              <Avatar name={message.from === $user.id ? $user.firstName : chat.partner.firstName} />
+            </div>
+            <p class="message-text">{normalizeWhiteSpace(message.content)}</p>
           </div>
-          <p class="message-text">{normalizeWhiteSpace(message.content)}</p>
+          <div class="timestamp">
+            {new Date(message.createdAt.seconds * 1000).toLocaleString([], toLocaleStringOptions)}
+          </div>
         </div>
       {/each}
     {/if}
@@ -192,29 +199,58 @@
 
   .message {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     margin-top: 1rem;
     max-width: 70%;
     word-break: break-word;
+
+    align-items: flex-start;
   }
 
   .message.by-user {
     align-self: flex-end;
-    flex-flow: row-reverse;
+  }
+
+  .holder {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .message.by-user .holder {
+    flex-direction: row-reverse;
+    align-self: flex-end;
   }
 
   .message-text {
-    margin-left: 2rem;
     white-space: pre-wrap;
     padding: 1.2rem;
+
+    border-radius: 1rem 1rem 1rem 0rem;
+    margin-left: 2rem;
+    margin-right: 0rem;
     background-color: var(--color-gray);
-    border-radius: 1rem;
   }
 
   .message.by-user .message-text {
+    border-radius: 1rem 1rem 0rem 1rem;
     margin-left: 0;
     margin-right: 2rem;
     background-color: var(--color-green-light);
+  }
+
+  .timestamp {
+    color: var(--color-darker-gray);
+    font-size: 1.3rem;
+
+    margin-left: calc(5rem + 2rem);
+    margin-right: 0;
+    align-self: flex-start;
+  }
+
+  .message.by-user .timestamp {
+    margin-left: 0;
+    margin-right: calc(5rem + 2rem);
+    align-self: flex-end;
   }
 
   form {
@@ -325,6 +361,14 @@
 
     .message.by-user .message-text {
       margin-right: 1rem;
+    }
+
+    .timestamp {
+      margin-left: 5rem;
+    }
+
+    .message.by-user .timestamp {
+      margin-right: 5rem;
     }
 
     .chat-header--md {
