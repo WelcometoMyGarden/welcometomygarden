@@ -239,7 +239,7 @@
 
   .timestamp {
     color: var(--color-darker-gray);
-    font-size: 1.3rem;
+    font-size: 1.2rem;
 
     margin-left: calc(5rem + 2rem);
     margin-right: 0;
