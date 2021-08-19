@@ -65,6 +65,8 @@ export const updateGarden = async ({ photo, ...rest }) => {
     return all;
   }, {});
 
+  if ('previousPhotoId' in rest) delete rest.previousPhotoId;
+
   const garden = {
     ...rest,
     facilities,
