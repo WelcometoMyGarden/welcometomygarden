@@ -430,7 +430,7 @@
     "description": "Veelgestelde vragen",
     "clusters": {
       "general": {
-        "title": "General",
+        "title": "Algemeen",
         "questions": {
           "what": {
             "title": "Wat is Welcome To My Garden?",
@@ -447,7 +447,7 @@
         }
       },
       "slow-travellers": {
-        "title": "Slow Travellers",
+        "title": "Trage Reizigers",
         "questions": {
           "how-camping": {
             "title": "Hoe kom ik bij mijn kampeerplek?",
@@ -501,10 +501,10 @@
         }
       },
       "technical-support": {
-        "title": "Technical support"
+        "title": "Technische ondersteuning"
       },
       "other": {
-        "title": "Other",
+        "title": "Andere",
         "questions": {
           "fb-page": {
             "title": "Waarom is de Facebookpagina alleen in het Engels?",
