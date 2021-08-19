@@ -1,12 +1,6 @@
 <script>
   import { _ } from 'svelte-i18n';
-  import { supportEmailLinkString, getNodeChildren } from '@/util';
-  import Cluster from '../../components/Info/Cluster.svelte';
-
-  let activeCollapsible = null;
-  const setActiveCollapsible = (id) => {
-    activeCollapsible === id ? (activeCollapsible = null) : (activeCollapsible = id);
-  };
+  import Clusters from '../../components/Info/Clusters.svelte';
 
   let clustersKey = 'faq.clusters';
 </script>
@@ -20,6 +14,4 @@
   <p>{$_('faq.description')}</p>
 </div>
 
-{#each getNodeChildren(clustersKey) as key, i}
-  <Cluster clusterKey={`${clustersKey}.${key}`} />
-{/each}
+<Clusters {clustersKey} />

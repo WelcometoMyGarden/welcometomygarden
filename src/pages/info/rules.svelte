@@ -11,4 +11,5 @@
   <h2>{$_('rules.title')}</h2>
   <p>{$_('rules.description')}</p>
 </div>
+
 <CollapsibleGroup collapsibleKey={'rules.rules'} />
