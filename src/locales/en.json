@@ -712,7 +712,8 @@
       "unverified": "Please verify your email before you start chatting",
       "empty-message": "Your message cannot be empty",
       "too-long": "Your message is {surplus} {surplus, plural, one {character} other {characters}} too long..."
-    }
+    },
+    "go-to-garden": "Go to garden"
   },
   "map": {
     "vehicle-notice": {
