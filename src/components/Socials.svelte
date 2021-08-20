@@ -22,7 +22,8 @@
   <li>
     <a
       href="https://join.slack.com/t/welcometomygarden/shared_invite/zt-f31i37dj-_zFgnfe40B6EexJuB2f_~w"
-      target="_blank">
+      target="_blank"
+    >
       <img src="/images/icons/slack.svg" alt="Slack" />
     </a>
   </li>
@@ -39,7 +40,6 @@
     align-items: center;
     justify-content: space-evenly;
     width: 100%;
-    z-index: -1;
   }
 
   .socials li {
@@ -59,7 +59,6 @@
   .socials li img {
     width: 100%;
     height: 100%;
-    position: relative;
   }
 
   .socials li:last-child {

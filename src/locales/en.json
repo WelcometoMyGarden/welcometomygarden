@@ -77,7 +77,9 @@
         }
       }
     },
-    "partners": { "title": "Our partners" },
+    "partners": {
+      "title": "Our partners"
+    },
     "support": {
       "title": "Support us",
       "copy": "Welcome To My Garden is free to use but we have to pay a couple of bills. {donationLink} to keep us going!",
@@ -300,9 +302,9 @@
   },
   "privacy-policy": {
     "title": "Privacy policy",
-    "last-updated": "Last updated: 30 May 2020",
+    "last-updated": "Last updated: 16 August 2021",
     "subtitle": "Responsible for the processing of the Data and Owner",
-    "intro": "Welcome To My Garden with Open Collective Europe ASBL as legal entity, a not-for-profit organization, incorporated and existing under the laws of Belgium, with registered office at 12 Cantersteen 1000 Brussels, Belgium, with company number 0680.493.996.",
+    "intro": "Welcome To My Garden with Open Collective Brussels as legal entity, a not-for-profit organization, incorporated and existing under the laws of Belgium, with registered office at Cantersteen 12, 1000 Brussels, Belgium, with company number BE 0664.932.030.",
     "email": "Email: {support}",
     "scope": {
       "title": "Privacy Policy",
@@ -337,8 +339,13 @@
             "list": {
               "0": "Your garden's location (coordinates: the latitude and longitude) (mandatory)",
               "1": "Information about your garden (description, facilities, the amount of tents you can welcome) (mandatory)",
-              "2": "Languages spoken (mandatory)",
-              "3": "A picture of your garden (optional)"
+              "2": "A picture of your garden (optional)"
+            }
+          },
+          "3": {
+            "title": "User location",
+            "list": {
+              "0": "In case you agree to share your location with Welcome To My Garden, the Welcome To My Garden map will be centered on the location provided by your browser. Welcome To My Garden does not store your location of any kind, not in a cookie nor in local storage. The user location only serves to improve your user experience by centering the map."
             }
           }
         }
@@ -355,6 +362,10 @@
           "5": "To alert you when activities on the platform may interest you."
         },
         "copy": "The personal data is only stored and processed for the period required for the purpose of the processing. After that, the data will be deleted or anonymized. Welcome To My Garden relies on Firebase which is certified under major privacy and security standards. Firebase services are GDPR compliant. All information related to Firebase can be found <a href=\"https://firebase.google.com/support/privacy\">here</a>."
+      },
+      "backups": {
+        "title": "Back-ups",
+        "copy": "Welcome To My Garden makes a backup of all its data every 6 hours and stores the data for 30 days. If you request your account to be deleted, the data will be stored in backup for this duration. None of this data will ever be used unless there’s corruption of production data."
       },
       "extra": {
         "0": {
@@ -434,11 +445,11 @@
         },
         "2": {
           "title": "User",
-          "copy": "The person using this Application and who must agree with or be authorized by the Data Subject to whom the Personal Data refer."
+          "copy": "The person using this Application and who must agree with or be authorized by the Data Subject to whom the Personal Data refers."
         },
         "3": {
           "title": "The person concerned",
-          "copy": "The legal person or natural person to whom the Personal Data relate."
+          "copy": "The legal person or natural person to whom the Personal Data relates."
         },
         "4": {
           "title": "Data processor (or Data supervisor)",
@@ -478,6 +489,19 @@
         "shower": "Shower",
         "tent": "Tent"
       }
+    },
+    "filter": {
+      "title": "Filter",
+      "garden-facilities": "Garden Facilities",
+      "garden-capacity": "Garden Capacity",
+      "spots-available": "Tent spots available",
+      "min": "Minimum",
+      "no-places": "No places found",
+      "search-city": "Search for a city",
+      "all-filters": "All filters",
+      "apply-filter": "Apply filter",
+      "available": "{styledAmount} {amount, plural, one {garden} other {gardens}} available with the active filters.",
+      "min-capacity": "Min. {capacity} {capacity, plural, one {tent} other {tents}}"
     },
     "drawer": {
       "facilities": {
@@ -669,7 +693,8 @@
       "unverified": "Please verify your email before you start chatting",
       "empty-message": "Your message cannot be empty",
       "too-long": "Your message is {surplus} {surplus, plural, one {character} other {characters}} too long..."
-    }
+    },
+    "go-to-garden": "Go to garden"
   },
   "map": {
     "vehicle-notice": {

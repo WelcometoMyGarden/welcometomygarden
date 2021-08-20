@@ -7,7 +7,6 @@
 <svelte:head>
   <title>{$_('privacy-policy.title')} | Welcome To My Garden</title>
 </svelte:head>
-
 <h2>
   <div class="header">
     {$_('privacy-policy.title')}
@@ -15,12 +14,10 @@
   </div>
   <p class="subtitle">{$_('privacy-policy.subtitle')}</p>
 </h2>
-
 <p>{$_('privacy-policy.intro')}</p>
 <p>
   {@html $_('privacy-policy.email', { values: { support: supportEmailLinkString } })}
 </p>
-
 <Ol>
   <li class="h4">
     <h3 class="title t3">{$_('privacy-policy.scope.title')}</h3>
@@ -65,6 +62,12 @@
     <p>
       {@html $_('privacy-policy.personal-data.usage.copy')}
     </p>
+  </li>
+  <li class="h4">
+    <h3 class="t3 title">
+      {$_(`privacy-policy.personal-data.backups.title`)}
+    </h3>
+    <p>{$_(`privacy-policy.personal-data.backups.copy`)}</p>
   </li>
   {#each getNodeChildren(`privacy-policy.personal-data.extra`) as extraKey}
     <li class="h4">
