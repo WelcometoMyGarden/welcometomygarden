@@ -18,16 +18,10 @@
   },
   "account": {
     "title": "Cuenta",
-    "notify": {
-      "garden-show": ""
-    },
     "garden": {
       "unlisted": {
         "button": ""
       }
-    },
-    "preferences": {
-      "title": ""
     },
     "verify": {
       "button": ""
@@ -38,77 +32,47 @@
   },
   "faq": {
     "questions": {
-      "0": {
-        "copy": ""
-      },
       "11": {
-        "title": ""
-      },
-      "7": {
         "title": ""
       },
       "14": {
         "title": ""
       },
-      "5": {
-        "copy": ""
-      },
       "9": {
-        "copy": ""
-      },
-      "4": {
         "copy": ""
       },
       "2": {
         "copy": ""
       }
-    },
-    "description": ""
+    }
   },
   "register": {
     "validate": {
-      "email": "",
-      "consent": ""
+      "email": ""
     },
     "notify": {
       "successful": ""
     },
-    "registred": "",
     "first-name": ""
   },
   "index": {
     "faq": {
       "questions": {
-        "1": {
-          "copy": ""
-        },
         "4": {
           "title": ""
-        },
-        "3": {
-          "copy": ""
         }
       }
     },
     "steps": {
       "1": {
         "copy": ""
-      },
-      "0": {
-        "add-garden-link-text": ""
       }
     },
     "holiday-donations": {
       "link-text": ""
     },
-    "support": {
-      "title": ""
-    },
     "intro": {
       "add-garden": ""
-    },
-    "banner-stmf": {
-      "link": ""
     }
   },
   "garden": {
@@ -117,63 +81,36 @@
     },
     "form": {
       "location": {
-        "confirm-button": "",
         "postal-code": ""
       },
-      "facilities": {
-        "capacity": {
-          "help": ""
-        }
-      },
       "email-confirm-notice": "",
-      "description": {
-        "label": ""
-      },
       "account-link-text": "",
-      "photo": {
-        "hints": {
-          "too-large": ""
-        }
-      },
-      "add-button": "",
-      "title": ""
+      "add-button": ""
     },
     "filter": {
-      "min": "",
-      "no-places": ""
+      "min": ""
     },
     "facilities": {
       "labels": {
-        "toilet": "",
-        "bonfire": ""
+        "toilet": ""
       }
     },
     "add": {
       "title": ""
-    },
-    "drawer": {
-      "guest": {
-        "button": ""
-      }
     }
   },
   "stmf": {
     "sections": {
       "plan": ""
-    },
-    "description": ""
+    }
   },
   "sign-in": {
-    "button": "",
-    "notify": {
-      "login-issue": ""
-    }
+    "button": ""
   },
   "chat": {
     "notify": {
       "unverified": ""
     },
-    "title-conversation": "",
     "no-messages": {
       "text": ""
     }
@@ -183,12 +120,8 @@
       "0": {
         "info": {
           "0": {
-            "title": "",
             "sections": {
               "2": {
-                "title": ""
-              },
-              "1": {
                 "title": ""
               }
             }
@@ -202,8 +135,7 @@
               "1": {
                 "title": ""
               }
-            },
-            "title": ""
+            }
           }
         }
       },
@@ -214,13 +146,6 @@
           }
         }
       },
-      "3": {
-        "paragraphs": {
-          "1": {
-            "title": ""
-          }
-        }
-      },
       "2": {
         "paragraphs": {
           "3": {
@@ -228,13 +153,7 @@
               "0": ""
             }
           },
-          "2": {
-            "title": ""
-          },
           "5": {
-            "title": ""
-          },
-          "0": {
             "title": ""
           }
         }
@@ -243,31 +162,10 @@
         "title": ""
       },
       "4": {
-        "paragraphs": {
-          "0": {
-            "copy": {
-              "1": ""
-            }
-          }
-        },
         "title": ""
-      },
-      "5": {
-        "descriptions": {
-          "0": {
-            "copy": ""
-          }
-        }
       },
       "9": {
         "title": ""
-      },
-      "6": {
-        "descriptions": {
-          "1": {
-            "copy": ""
-          }
-        }
       }
     },
     "intro": {
@@ -278,26 +176,16 @@
   },
   "rules": {
     "rules": {
-      "1": {
-        "title": ""
-      },
       "2": {
         "title": ""
-      },
-      "5": {
-        "copy": ""
       },
       "7": {
         "title": ""
       },
-      "9": {
-        "copy": ""
-      },
       "0": {
         "copy": ""
       }
-    },
-    "title": ""
+    }
   },
   "request-password-reset": {
     "trouble": ""
@@ -305,23 +193,14 @@
   "privacy-policy": {
     "rights": {
       "list": {
-        "3": {
-          "copy": ""
-        },
         "0": {
           "copy": ""
         }
-      },
-      "exercise-rights": {
-        "copy": ""
       }
     },
     "personal-data": {
       "extra": {
         "0": {
-          "title": ""
-        },
-        "1": {
           "title": ""
         }
       },
@@ -330,22 +209,19 @@
           "0": {
             "list": {
               "1": ""
-            },
-            "title": ""
+            }
           },
           "2": {
             "list": {
               "1": ""
             }
           }
-        },
-        "title": ""
+        }
       },
       "usage": {
         "purposes": {
           "2": ""
-        },
-        "subtitle": ""
+        }
       },
       "backups": {
         "title": ""
@@ -353,21 +229,12 @@
     },
     "definitions": {
       "articles": {
-        "5": {
-          "title": ""
-        },
         "0": {
           "title": ""
-        },
-        "3": {
-          "copy": ""
         },
         "6": {
           "copy": ""
         }
-      },
-      "legal-info": {
-        "title": ""
       }
     },
     "additional-info": {
@@ -375,13 +242,9 @@
         "1": {
           "title": ""
         }
-      },
-      "title": ""
+      }
     },
     "scope": {
-      "copy": ""
-    },
-    "change-warning": {
       "copy": ""
     }
   },
@@ -392,14 +255,10 @@
           "2": ""
         }
       },
-      "5": {
-        "title": ""
-      },
       "4": {
         "copy": {
           "2": ""
-        },
-        "title": ""
+        }
       },
       "2": {
         "title": ""
@@ -409,34 +268,23 @@
   "recommendations": {
     "recommendations-groups": {
       "0": {
-        "recommendations": {
-          "4": ""
-        },
         "title": ""
       },
       "1": {
         "recommendations": {
-          "4": "",
           "0": ""
         }
       }
-    },
-    "description": ""
+    }
   },
   "map": {
     "trails": {
       "attribution": ""
     }
   },
-  "reset-password": {
-    "succes": ""
-  },
   "auth": {
     "verification": {
       "unsigned": ""
-    },
-    "password": {
-      "expired": ""
     }
   }
 }

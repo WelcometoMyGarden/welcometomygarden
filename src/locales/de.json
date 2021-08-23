@@ -81,8 +81,7 @@
       "4": {
         "copy": {
           "0": "In einigen speziellen Fällen verwenden wir auch Cookies, die von vertrauenswürdigen Drittanbietern bereitgestellt werden. Der folgende Abschnitt beschreibt, welche Cookies von Drittanbietern Sie auf dieser Seite finden können."
-        },
-        "title": ""
+        }
       },
       "5": {
         "title": "Mehr Informationen",
@@ -386,10 +385,7 @@
       "usage": {
         "title": "Wie verwenden wir personenbezogene Daten?",
         "copy": "Die personenbezogenen Daten werden nur für den Zeitraum gespeichert und verarbeitet, der für den Zweck der Verarbeitung erforderlich ist. Danach werden die Daten gelöscht oder anonymisiert. Welcome To My Garden setzt auf Firebase, das nach wichtigen Datenschutz- und Sicherheitsstandards zertifiziert ist. Die Firebase-Dienste sind DSGVO-konform. Alle Informationen zu Firebase finden Sie <a href=\"https://firebase.google.com/support/privacy\">hier</a>.",
-        "subtitle": "Wir können Ihre personenbezogenen Daten für die folgenden Zwecke verwenden",
-        "purposes": {
-          "2": ""
-        }
+        "subtitle": "Wir können Ihre personenbezogenen Daten für die folgenden Zwecke verwenden"
       },
       "extra": {
         "0": {
@@ -635,7 +631,6 @@
       "update": "Ihr Garten wurde erfolgreich aktualisiert!"
     },
     "filter": {
-      "all-filters": "",
       "garden-facilities": ""
     }
   },
