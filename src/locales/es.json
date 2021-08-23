@@ -22,13 +22,6 @@
   "fallback": {
     "404": "404 - Página no encontrada"
   },
-  "faq": {
-    "questions": {
-      "2": {
-        "copy": ""
-      }
-    }
-  },
   "index": {
     "faq": {
       "questions": {
@@ -39,16 +32,8 @@
     }
   },
   "garden": {
-    "notify": {
-      "update": ""
-    },
     "form": {
       "add-button": ""
-    }
-  },
-  "stmf": {
-    "sections": {
-      "plan": ""
     }
   },
   "terms-of-use": {
@@ -63,13 +48,6 @@
             }
           }
         }
-      },
-      "2": {
-        "paragraphs": {
-          "5": {
-            "title": ""
-          }
-        }
       }
     },
     "intro": {
@@ -77,9 +55,6 @@
         "copy": ""
       }
     }
-  },
-  "request-password-reset": {
-    "trouble": ""
   },
   "privacy-policy": {
     "personal-data": {
@@ -92,13 +67,6 @@
           }
         }
       }
-    },
-    "definitions": {
-      "articles": {
-        "6": {
-          "copy": ""
-        }
-      }
     }
   },
   "cookies": {
@@ -108,11 +76,6 @@
           "2": ""
         }
       }
-    }
-  },
-  "map": {
-    "trails": {
-      "attribution": ""
     }
   }
 }
