@@ -5,19 +5,17 @@
   import { getAllListedGardens } from '@/api/garden';
   import { allGardens, isFetchingGardens } from '@/stores/garden';
   import routes from '@/routes';
-
   import Map from '@/components/Map/Map.svelte';
   import Drawer from '@/components/Garden/Drawer.svelte';
   import GardenLayer from '@/components/Map/GardenLayer.svelte';
   import WaymarkedTrails from '@/components/Map/WaymarkedTrails.svelte';
   import Filter from '@/components/Garden/Filter.svelte';
   import { Progress, LabeledCheckbox, Icon } from '@/components/UI';
-
   import { getCookie, setCookie } from '@/util';
   import { crossIcon, cyclistIcon, hikerIcon } from '@/images/icons';
-  import { ZOOM_LEVELS } from '@/constants';
+  import { ZOOM_LEVELS, BE_CENTER } from '@/constants';
 
-  let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
+  let fallbackLocation = { ...BE_CENTER };
   let geolocationIsLoaded = false;
   let showHiking = false;
   let showCycling = false;
@@ -26,34 +24,33 @@
 
   // true when visiting the link to a garden directly, used to increase zoom level
   let usingGardenLink = !!$params.gardenId;
+  let selectedGarden;
+  let map;
 
-  let zoom = usingGardenLink ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.SMALL_COUNTRY;
-
-  $: applyZoom = usingGardenLink ? true : false;
   $: selectedGarden = $isFetchingGardens ? null : $allGardens[$params.gardenId];
-  $: center = selectedGarden
-    ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
-    : fallbackLocation;
+  $: if (usingGardenLink && selectedGarden && map) {
+    map.jumpTo(
+      selectedGarden.location.longitude,
+      selectedGarden.location.latitude,
+      ZOOM_LEVELS.ROAD
+    );
+  }
 
   // FUNCTIONS
 
   const selectGarden = (garden) => {
     const newSelectedId = garden.id;
     const newGarden = $allGardens[newSelectedId];
-    center = { longitude: newGarden.location.longitude, latitude: newGarden.location.latitude };
-    applyZoom = false; // zoom level is not programatically changed when exploring a garden
+    map.flyTo(newGarden.location.longitude, newGarden.location.latitude);
     $goto(`${routes.MAP}/garden/${newSelectedId}`);
   };
 
-  const goToPlace = (event) => {
-    zoom = ZOOM_LEVELS.CITY;
-    applyZoom = true;
-    center = { longitude: event.detail.longitude, latitude: event.detail.latitude };
+  const goToPlace = ({ detail: { longitude, latitude } }) => {
+    map.flyTo(longitude, latitude, ZOOM_LEVELS.CITY);
   };
 
   const closeDrawer = () => {
     usingGardenLink = false;
-
     $goto(routes.MAP);
   };
 
@@ -81,6 +78,8 @@
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           fallbackLocation = { longitude: pos.coords.longitude, latitude: pos.coords.latitude };
+          if (!usingGardenLink)
+            map.jumpTo(pos.coords.longitude, pos.coords.latitude, ZOOM_LEVELS.SMALL_COUNTRY);
           geolocationIsLoaded = true;
         },
         (err) => {
@@ -100,14 +99,10 @@
 
 <div class="map-section">
   <Map
-    lon={center.longitude}
-    lat={center.latitude}
-    recenterOnUpdate
-    initialLon={fallbackLocation.longitude}
-    initialLat={fallbackLocation.latitude}
-    jump={usingGardenLink}
-    {zoom}
-    {applyZoom}
+    initialLon={BE_CENTER.longitude}
+    initialLat={BE_CENTER.latitude}
+    initialZoom={ZOOM_LEVELS.SMALL_COUNTRY}
+    bind:this={map}
   >
     {#if !$isFetchingGardens}
       <GardenLayer

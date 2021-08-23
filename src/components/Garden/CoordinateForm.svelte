@@ -8,6 +8,7 @@
   import { TextInput, Button } from '@/components/UI';
   import Map from '@/components/Map/Map.svelte';
   import DraggableMarker from '@/components/Map/DraggableMarker.svelte';
+  import { BE_CENTER } from '@/constants';
 
   const dispatch = createEventDispatcher();
 
@@ -19,10 +20,7 @@
     city: ''
   };
 
-  let coordinates = initialCoordinates || {
-    latitude: 50.5,
-    longitude: 4.5
-  };
+  let coordinates = initialCoordinates || { ...BE_CENTER };
 
   let address = {};
   let reverseGeocoded = false;
