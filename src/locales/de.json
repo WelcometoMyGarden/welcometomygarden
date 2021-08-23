@@ -39,7 +39,10 @@
     "rules": "Regeln",
     "privacy-policy": "Datenschutz",
     "password": "Passwort",
-    "faq": { "explicit": "Häufig gestellte Fragen", "acronym": "HgF" },
+    "faq": {
+      "explicit": "Häufig gestellte Fragen",
+      "acronym": "HgF"
+    },
     "home": "Startseite",
     "cookie-policy": "Cookie-Richtlinie",
     "chat": "Chat",
@@ -128,9 +131,15 @@
         "info": {
           "0": {
             "sections": {
-              "0": { "title": "Kein Einkommen" },
-              "1": { "title": "Haftungsausschluss" },
-              "2": { "title": "Keine Diskriminierung" }
+              "0": {
+                "title": "Kein Einkommen"
+              },
+              "1": {
+                "title": "Haftungsausschluss"
+              },
+              "2": {
+                "title": "Keine Diskriminierung"
+              }
             },
             "title": "Indem Sie Ihren Garten auf der Plattform einstellen, erkennen Sie die allgemeinen Regeln der Plattform an, die wie folgt lauten"
           }
@@ -154,14 +163,18 @@
               "0": "Der Gastgeber ist die einzige verantwortliche Person für die Einrichtungen, die er dem Benutzer zur Verfügung stellt oder nicht. Mit der Nutzung dieser Plattform erkennt der Nutzer die Bedingungen für seinen Aufenthalt an – die den Zugang zu sanitären Einrichtungen beinhalten können oder auch nicht."
             }
           },
-          "3": { "title": "Respekt vor der Natur" },
+          "3": {
+            "title": "Respekt vor der Natur"
+          },
           "4": {
             "title": "Den Gastgeber und die Nachbarn respektieren",
             "copy": {
               "0": "Die Nutzer/innen sollten immer Rücksicht auf die Gartenbesitzer nehmen und den Lärm auf ein Minimum reduzieren. Sie sollten sich auch an eventuelle Auflagen der Gastgeber halten."
             }
           },
-          "5": { "title": "Kein Auto" },
+          "5": {
+            "title": "Kein Auto"
+          },
           "6": {
             "title": "Haftungsausschluss",
             "copy": {
@@ -181,7 +194,9 @@
           "0": {
             "title": "Sie allein sind für Ihre Interaktionen mit anderen Benutzern verantwortlich."
           },
-          "1": { "title": "Identitätsprüfung" }
+          "1": {
+            "title": "Identitätsprüfung"
+          }
         },
         "title": "Interaktionen mit anderen Mitgliedern"
       },
@@ -193,13 +208,14 @@
               "0": "Konten und zugehörige Konten, die zur Durchführung der unten aufgeführten Aktionen verwendet werden, können vorübergehend gesperrt und / oder dauerhaft gelöscht werden."
             }
           },
-          "1": { "title": "Entschädigung" }
+          "1": {
+            "title": "Entschädigung"
+          }
         },
         "title": "Beschränkungen für Inhalt und Nutzung der Plattform"
       },
       "5": {
         "descriptions": {
-          "0": {},
           "1": {
             "copy": "IN KEINEM FALL IST WELCOMETOMYGARDEN.ORG, EINE BELGISCHE GEMEINNÜTZIGE ORGANISATION, ODER SEINE GELDGEBER UND FREIWILLIGEN, INDIREKTE ODER FOLGESCHÄDEN ODER ANDERE SCHÄDEN JEGLICHER ART, EINSCHLIEẞLICH, ABER NICHT BESCHRÄNKT AUF NUTZUNGSAUSFALL, GEWINNAUSFALL ODER DATENVERLUST, OB IN EINER KLAGE AUS VERTRAG, UNERLAUBTER HANDLUNG (EINSCHLIEẞLICH, ABER NICHT BESCHRÄNKT AUF FAHRLÄSSIGKEIT) ODER ANDERWEITIG, SELBST WENN WIR AUF DIE MÖGLICHKEIT SOLCHER SCHÄDEN HINGEWIESEN WURDEN, DIE AUS ODER IN BEZUG AUF: (A) DIE NUTZUNG ODER DIE UNFÄHIGKEIT, UNSERE DIENSTE ZU NUTZEN; (B) DIE KOSTEN FÜR DEN ERSATZ VON WAREN, DIENSTLEISTUNGEN ODER INFORMATIONEN, DIE ALS ERGEBNIS VON INFORMATIONEN ODER TRANSAKTIONEN, DIE ÜBER ODER VON UNSEREN DIENSTEN AUS GETÄTIGT WURDEN, GEKAUFT ODER ERHALTEN WURDEN; (C) DIE OFFENLEGUNG, DER UNBEFUGTE ZUGRIFF AUF ODER DIE VERÄNDERUNG VON IHREN INHALTEN; (D) SCHÄDEN DURCH DEN VERLUST ODER DIE BESCHÄDIGUNG VON DATEN ODER PROGRAMMEN, DIENSTUNTERBRECHUNGEN ODER DIE BESCHAFFUNG VON ERSATZDIENSTEN, AUCH WENN WIR VON DER MÖGLICHKEIT SOLCHER SCHÄDEN WISSEN ODER DARAUF HINGEWIESEN WURDEN; (E) ÄUẞERUNGEN, VERHALTEN ODER UNTERLASSUNGEN VON DIENSTANBIETERN ODER ANDEREN DRITTEN AUF UNSEREN DIENSTEN; (F) IHR VERHALTEN ODER HANDLUNGEN VON DRITTEN IN VERBINDUNG MIT DER NUTZUNG DER DIENSTE, EINSCHLIEẞLICH, ABER NICHT BESCHRÄNKT AUF, KÖRPERVERLETZUNG, SEELISCHE BELASTUNG, TOD ODER ANDERE SCHÄDEN, DIE AUS DER KOMMUNIKATION ODER TREFFEN MIT ANDEREN REGISTRIERTEN MITGLIEDERN UNSERER DIENSTE ODER PERSONEN, DIE IHNEN DURCH UNSERE DIENSTE VORGESTELLT WURDEN, OB ONLINE ODER OFFLINE, ENTSTEHEN; ODER (G) JEDE ANDERE ANGELEGENHEIT, DIE SICH AUS UNSEREN DIENSTEN ODER DIESEN BEDINGUNGEN ERGIBT, SICH DARAUF BEZIEHT ODER DAMIT VERBUNDEN IST."
           }
@@ -231,8 +247,6 @@
       "8": {
         "title": "Im Falle von Verstößen gegen die vorgenannten Regeln",
         "descriptions": {
-          "0": {},
-          "1": {},
           "2": {
             "copy": "Es kann vorkommen, dass über die Plattform schädliche Dateien heruntergeladen werden können, unabhängig davon, ob dies durch einen Nutzer erfolgt oder nicht, oder dass Nutzer schädliche Hyperlinks platzieren. Jede Datenübertragung eines Nutzers oder jeder Klick auf einen Hyperlink, der von einem Nutzer platziert wird, erfolgt auf eigenes Risiko des Nutzers. Jeder entstandene Schaden liegt vollständig und allein in der Verantwortung dieses Nutzers."
           }
@@ -240,7 +254,6 @@
       },
       "9": {
         "descriptions": {
-          "0": {},
           "1": {
             "copy": "Verstöße gegen geistige Eigentumsrechte können über die folgende E-Mail-Adresse gemeldet werden: {support}"
           }
@@ -255,11 +268,12 @@
           }
         }
       },
-      "11": { "title": "Änderungen an diesen Bedingungen" }
+      "11": {
+        "title": "Änderungen an diesen Bedingungen"
+      }
     },
     "last-updated": "Zuletzt aktualisiert: 30. Mai 2020",
     "intro": {
-      "0": {},
       "1": {
         "copy": "Die Nutzung dieser Plattform unterliegt <span class=\"bold\">einer Reihe von Regeln</span>. Im Folgenden finden Sie die allgemeinen Bedingungen unserer Plattform, da wir davon überzeugt sind, dass <span class=\"bold\">klare Regeln</span> die beste Garantie für eine <span class=\"bold\">respektvolle Gemeinschaft</span> bieten. <span class=\"bold\">Indem Sie ein Konto erstellen oder anderweitig auf die Plattform zugreifen, stimmen Sie diesen Bedingungen zu.</span>"
       },
@@ -318,7 +332,9 @@
           "title": "Die betroffene Person",
           "copy": "Die juristische oder natürliche Person, auf die sich die personenbezogenen Daten beziehen."
         },
-        "4": { "title": "Datenverarbeiter (oder Datenverantwortlicher)" },
+        "4": {
+          "title": "Datenverarbeiter (oder Datenverantwortlicher)"
+        },
         "5": {
           "title": "Verantwortlicher für die Verarbeitung der Daten (oder Eigentümer)"
         },
@@ -400,8 +416,12 @@
           "copy": "Sie können frei entscheiden, ob Sie Welcome To My Garden Ihre persönlichen Daten zur Verfügung stellen wollen oder nicht. Darüber hinaus haben Sie jederzeit das Recht, Ihre personenbezogenen Daten bei Welcome To My Garden zu ändern, zu ergänzen oder zu löschen. Sie nehmen zur Kenntnis, dass eine Verweigerung der Bereitstellung oder ein Antrag auf Löschung personenbezogener Daten dazu führt, dass bestimmte Dienstleistungen nicht mehr erbracht werden können. Sie können auch die Einschränkung der Verarbeitung Ihrer personenbezogenen Daten verlangen.",
           "title": "Recht auf Berichtigung, Löschung und Einschränkung der Verarbeitung"
         },
-        "1": { "title": "Widerspruchsrecht" },
-        "2": { "title": "Recht auf Datenübertragbarkeit" },
+        "1": {
+          "title": "Widerspruchsrecht"
+        },
+        "2": {
+          "title": "Recht auf Datenübertragbarkeit"
+        },
         "3": {
           "title": "Recht auf Widerruf der Zustimmung",
           "copy": "Soweit die Verarbeitung auf Ihrer vorherigen Einwilligung beruht, haben Sie das Recht, diese Einwilligung zu widerrufen."
@@ -421,12 +441,16 @@
           },
           "title": "Rechtliche Verfahren"
         },
-        "1": { "title": "Sicherheitsmaßnahmen" }
+        "1": {
+          "title": "Sicherheitsmaßnahmen"
+        }
       },
       "title": "Zusätzliche Informationen zur Datenerfassung und -verarbeitung"
     },
     "subtitle": "Verantwortlich für die Verarbeitung der Daten und Eigentümer",
-    "scope": { "title": "Datenschutz" },
+    "scope": {
+      "title": "Datenschutz"
+    },
     "title": "Datenschutz",
     "change-warning": {
       "title": "Änderungen an dieser Datenschutzrichtlinie",
@@ -454,13 +478,19 @@
   },
   "faq": {
     "questions": {
-      "0": { "title": "Was ist Welcome To My Garden?" },
-      "1": { "title": "Für wen ist Welcome To My Garden gedacht?" },
+      "0": {
+        "title": "Was ist Welcome To My Garden?"
+      },
+      "1": {
+        "title": "Für wen ist Welcome To My Garden gedacht?"
+      },
       "2": {
         "title": "Wie funktioniert Welcome To My Garden?",
         "copy": "Personen, die ihren Garten für Reisende öffnen möchten, können ihren Garten hinzufügen, indem sie das Formular auf der Website ausfüllen (klicken Sie auf die Schaltfläche „Ihren Garten hinzufügen“). Personen, die auf einem der Campingplätze übernachten möchten, können dann die Gartenbesitzer kontaktieren, um ihren Aufenthalt zu arrangieren."
       },
-      "3": { "title": "Wie komme ich zu meinem Stellplatz?" },
+      "3": {
+        "title": "Wie komme ich zu meinem Stellplatz?"
+      },
       "4": {
         "title": "Wie garantiert Welcome To My Garden meine Privatsphäre als Gastgeber?",
         "copy": "Alle Ihre persönlichen Daten sind durch das Anmeldesystem geschützt. Wenn Sie ein Gastgeber sind, zeigen wir Ihre Hausnummer oder den genauen Standort nicht auf der Karte an. Sie können dies Ihren Gästen mitteilen, sobald Sie mit ihnen in Kontakt sind. Sie entscheiden, wie sie Sie kontaktieren sollen: per E-Mail, per Telefon oder beides."
@@ -493,7 +523,9 @@
         "copy": "Bitte bringen Sie Handdesinfektionsmittel und Feuchttücher mit, damit Sie Ihre Hände und alle Oberflächen, die Sie berührt haben, reinigen können, z. B. den Toilettensitz, den Spülknopf, den Wasserhahn und den Türgriff. Sie können auch eine Maske tragen, wenn Sie das Haus Ihres Gastgebers für Einrichtungen betreten müssen. Auf diese Weise tragen Sie dazu bei, dass COVID-19 nicht übertragen wird, für den Fall, dass Sie oder einer der anderen Benutzer des Badezimmers es zufällig in sich tragen. Natürlich, wenn Sie wissen, dass Sie krank sein könnten, gehen Sie gar nicht erst hin!",
         "title": "Und wenn es eine Toilette gibt, wie können wir garantieren, dass COVID-19 nicht übertragen wird?"
       },
-      "12": { "title": "Ist Welcome to My Garden auf Belgien beschränkt?" },
+      "12": {
+        "title": "Ist Welcome to My Garden auf Belgien beschränkt?"
+      },
       "13": {
         "copy": "Es gibt einen ganz praktischen Grund: Englisch ist die einzige Sprache, in der sich das gesamte Team fließend genug verständigen kann! Außerdem wollen wir, dass die WTMG für alle offen ist, damit auch Menschen in anderen Ländern die Initiative in ihrem Land umsetzen können. Auf der Facebook-Seite werden wir uns an Englisch halten. Wenn Sie sich wohler fühlen, wenn Sie auf Niederländisch oder Französisch schreiben, tun Sie das bitte!",
         "title": "Warum ist die Facebook-Seite nur auf Englisch?"
@@ -573,7 +605,10 @@
       "facilities": {
         "capacity": "Platz für {styleCapacity} {capacity, plural, one {Zelt} other {Zelte}}"
       },
-      "owner": { "button": "Garten verwalten", "your-garden": "Ihr Garten" }
+      "owner": {
+        "button": "Garten verwalten",
+        "your-garden": "Ihr Garten"
+      }
     },
     "facilities": {
       "labels": {
@@ -584,8 +619,12 @@
         "tent": "Zelt"
       }
     },
-    "add": { "title": "Fügen Sie Ihren Garten hinzu" },
-    "manage": { "title": "Garten verwalten" },
+    "add": {
+      "title": "Fügen Sie Ihren Garten hinzu"
+    },
+    "manage": {
+      "title": "Garten verwalten"
+    },
     "notify": {
       "photo": "Es kann eine Minute dauern, bis das Foto angezeigt wird.",
       "success": "Ihr Garten wurde erfolgreich hinzugefügt!",
@@ -595,8 +634,12 @@
   "index": {
     "faq": {
       "questions": {
-        "0": { "title": "Für wen ist Welcome To My Garden gedacht?" },
-        "1": { "title": "Wie komme ich zu meinem Stellplatz?" },
+        "0": {
+          "title": "Für wen ist Welcome To My Garden gedacht?"
+        },
+        "1": {
+          "title": "Wie komme ich zu meinem Stellplatz?"
+        },
         "2": {
           "title": "Wie kann ich einen Aufenthalt beantragen?",
           "copy": "Außer wenn es im Profil des Gastgebers deutlich angegeben ist, sollten Sie den Gastgeber immer im Voraus kontaktieren. Wenn Sie einen Aufenthalt anfragen, geben Sie bitte einige Informationen über sich selbst, Ihr Ankunftsdatum und die Uhrzeit an."
@@ -605,13 +648,17 @@
           "copy": "Im Grunde bieten die Gastgeber nur eine Ecke in ihrem Garten an, auf der Sie Ihr Zelt aufschlagen können. Zusätzlich können sie Zugang zu Trinkwasser, einer Toilette und Strom anbieten. Dazu sind sie aber nicht verpflichtet: All das sind Boni. Betrachten Sie einen Garten als einen Biwakplatz, nicht als einen vollwertigen Campingplatz.",
           "title": "Was ist mit Einrichtungen?"
         },
-        "4": { "title": "Kostet Welcome To My Garden etwas?" }
+        "4": {
+          "title": "Kostet Welcome To My Garden etwas?"
+        }
       },
       "copy": "Hier sind die wichtigsten Dinge, die Sie über Ihr nächstes Abenteuer wissen müssen. Bitte lesen Sie diesen FAQ-Bereich gründlich durch, damit Sie wissen, worauf Sie sich einlassen. Noch mehr Fragen? Lesen Sie {faqLink}!",
       "faq-link-text": "all die häufig gestellten Fragen",
       "title": "Alles, was Sie wissen müssen"
     },
-    "partners": { "title": "Unsere Partner" },
+    "partners": {
+      "title": "Unsere Partner"
+    },
     "intro": {
       "explore-map": "Karte erkunden",
       "copy": "Ein gemeinnütziges Netzwerk von Bürgern und Bürgerinnen, die Langsamreisenden kostenlose Campingplätze in ihren Gärten anbieten",
@@ -642,7 +689,9 @@
       "title": "Unterstützen Sie uns",
       "donation-link-text": "Spenden"
     },
-    "banner-stmf": { "link": "Slow Travel Mini Festival" }
+    "banner-stmf": {
+      "link": "Slow Travel Mini Festival"
+    }
   },
   "rules": {
     "description": "So funktioniert Welcome To My Garden. Lesen Sie unbedingt die Regeln, bevor Sie Ihr Abenteuer beginnen! Schließlich wird diese Plattform nur dann gut funktionieren, wenn wir uns alle an die Regeln halten.",
@@ -651,12 +700,16 @@
         "title": "COVID-19-Warnung",
         "copy": "Halten Sie sich jederzeit an die Maßnahmen der Regierung, um die Verbreitung von COVID-19 zu stoppen."
       },
-      "1": { "title": "Netzwerk von Bürgern und Bürgerinnen" },
+      "1": {
+        "title": "Netzwerk von Bürgern und Bürgerinnen"
+      },
       "2": {
         "title": "Senden Sie eine Anfrage im Voraus an den Gartenbesitzer",
         "copy": "Die Gartenbesitzer sind möglicherweise nicht zu jeder Zeit zu Hause und bereit, Sie zu empfangen. Wir bitten die Benutzer, den Gartenbesitzer im Voraus zu kontaktieren, um die Verfügbarkeit direkt zu prüfen. Dies sollte geschehen, indem Sie eine Anfrage an den Gastgeber über sein Profil senden. Nachdem Sie die erste Verbindung hergestellt haben, können Sie Ihre Kontaktdaten austauschen, so dass Sie in Kontakt bleiben und den Gastgeber über Ihre Ankunftszeit per E-Mail oder Telefon informieren können, je nach dessen Präferenz. Wenn Sie eine Anfrage senden, geben Sie einige Informationen über sich selbst und über Ihre voraussichtliche Ankunftszeit an."
       },
-      "3": { "title": "Kein Auto" },
+      "3": {
+        "title": "Kein Auto"
+      },
       "4": {
         "copy": "Sie können maximal 48 Stunden auf einem Stellplatz bleiben. Erkundigen Sie sich immer bei dem Gartenbesitzer.",
         "title": "Maximale Dauer des Aufenthalts"
@@ -764,12 +817,19 @@
     "description": "Bereiten Sie Ihre langsame Reise mit der Gemeinschaft vor",
     "title": "Slow Travel Mini Festival"
   },
-  "ui": { "card": { "register-here": "Hier registrieren" } },
+  "ui": {
+    "card": {
+      "register-here": "Hier registrieren"
+    }
+  },
   "auth": {
     "verification": {
       "unsigned": "Bitte melden Sie sich zuerst an",
       "refresh": "Ihre E-Mail-Adresse wurde bereits verifiziert. Bitte aktualisieren Sie die Seite.",
       "succes": "Ihre E-Mail-Adresse wurde erfolgreich verifiziert!"
     }
+  },
+  "fallback": {
+    "404": "404 - Seite nicht gefunden"
   }
 }
