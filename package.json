@@ -1,34 +1,35 @@
 {
-    "name": "wtmg",
-    "version": "2.0.0",
-    "description": "",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "concurrently \"npm start -w server\" \"npm start -w client\"",
-        "client:dev": "npm run -w client dev",
-        "server:dev": "npm run -w server start:dev",
-        "common:build": "npm run -w common build"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/WelcometoMyGarden/welcometomygarden.git"
-    },
-    "author": "Welcome To My Garden",
-    "license": "GNU General Public License v3.0",
-    "bugs": {
-        "url": "https://github.com/WelcometoMyGarden/welcometomygarden/issues"
-    },
-    "homepage": "https://github.com/WelcometoMyGarden/welcometomygarden#readme",
-    "workspaces": [
-        "./common",
-        "./server",
-        "./client"
-    ],
-    "dependencies": {
-        "concurrently": "^6.2.0"
-    },
-    "engines": {
-        "npm": "^7.20.0",
-        "node": "14.x"
-    }
+  "name": "wtmg",
+  "version": "2.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"npm start -w server\" \"npm start -w client\"",
+    "client:dev": "npm run -w client dev",
+    "server:dev": "npm run -w server start:dev",
+    "common:build": "npm run -w common build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WelcometoMyGarden/welcometomygarden.git"
+  },
+  "author": "Welcome To My Garden",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/WelcometoMyGarden/welcometomygarden/issues"
+  },
+  "homepage": "https://github.com/WelcometoMyGarden/welcometomygarden#readme",
+  "workspaces": [
+    "./common",
+    "./server",
+    "./client"
+  ],
+  "dependencies": {
+    "concurrently": "^6.2.1"
+  },
+  "engines": {
+    "npm": "^7.20.0",
+    "node": "14.x"
+  }
 }
