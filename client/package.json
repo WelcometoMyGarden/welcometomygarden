@@ -1,0 +1,50 @@
+{
+  "name": "welcome-to-my-garden",
+  "description": "a platform allowing citizens to put their garden freely at disposal as a rudimentary campsite to travelers.",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "routify -c dev-vite",
+    "dev:windows": "npm run open & routify -c dev-vite",
+    "build:prod": "routify -b && vite build --mode production",
+    "build:staging": "routify -b && vite build --mode staging",
+    "dev-vite": "vite --host",
+    "serve-vite": "vite preview",
+    "open": "start http://localhost:3000"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "smoothscroll-polyfill": "^0.4.4"
+  },
+  "devDependencies": {
+    "@mapbox/mapbox-gl-geocoder": "^4.5.1",
+    "@roxi/routify": "^2.18.3",
+    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.15",
+    "dotenv": "^8.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-svelte3": "^2.7.3",
+    "firebase": "^7.14.6",
+    "maplibre-gl": "^1.14.1-rc.2",
+    "nprogress": "^0.2.0",
+    "open": "^8.2.1",
+    "prettier": "^2.2.1",
+    "prettier-plugin-svelte": "^2.2.0",
+    "svelte": "^3.42.1",
+    "svelte-i18n": "^3.3.9",
+    "svg-inline-loader": "^0.8.2",
+    "vite": "^2.4.4",
+    "workbox-cacheable-response": "^5.1.3",
+    "workbox-expiration": "^5.1.3",
+    "workbox-routing": "^5.1.3",
+    "workbox-strategies": "^5.1.3",
+    "workbox-window": "^5.1.3"
+  },
+  "routify": {
+    "extensions": [
+      "svelte"
+    ]
+  }
+}
