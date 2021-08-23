@@ -7,7 +7,6 @@
 <svelte:head>
   <title>{$_('terms-of-use.title')} | Welcome To My Garden</title>
 </svelte:head>
-
 <h2>
   {$_('terms-of-use.title')}
   <small>{$_('terms-of-use.last-updated')}</small>

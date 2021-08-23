@@ -142,7 +142,7 @@
     map.getSource('gardens').setData(data);
   };
 
-  $: if (mapReady) updateSelectedMarker(selectedGardenId);
+  $: if (mapReady) updateSelectedMarker(selectedGardenId, allGardens);
 
   setupMarkers();
 </script>

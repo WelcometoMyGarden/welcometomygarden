@@ -100,3 +100,15 @@ export const getGardenPhotoSmall = async (garden) => {
 export const getGardenPhotoBig = async (garden) => {
   return getPhotoBySize('1920x1080', garden);
 };
+
+export const hasGarden = async (userId) => {
+  let snapshot;
+  const doc = db.collection('campsites').doc(userId);
+  try {
+    snapshot = await doc.get({ source: 'cache' });
+  } catch (error) {
+    // probably not cached
+    snapshot = await doc.get({ source: 'server' });
+  }
+  return snapshot ? snapshot.exists && snapshot.data().listed : false;
+};
