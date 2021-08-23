@@ -9,7 +9,10 @@
     "home": "Startpagina",
     "map": "Kaart",
     "rules": "Regels",
-    "faq": { "acronym": "FAQ", "explicit": "Veelgestelde vragen" },
+    "faq": {
+      "acronym": "FAQ",
+      "explicit": "Veelgestelde vragen"
+    },
     "chat": "Chat",
     "account": "Account",
     "sign-out": "Uitloggen",
@@ -17,7 +20,11 @@
     "garden": "Tuin",
     "shop": "Shop"
   },
-  "ui": { "card": { "register-here": "Registreer hier" } },
+  "ui": {
+    "card": {
+      "register-here": "Registreer hier"
+    }
+  },
   "index": {
     "banner-stmf": {
       "copy": "Wil je je trage reis voorbereiden met de community en tegelijk Welcome To My Garden ondersteunen? Bekijk ons {stmfLink} (van 3 tot 29 juni)!",
@@ -120,7 +127,10 @@
       "facilities": {
         "capacity": "Ruimte voor {styleCapacity} {capacity, plural, one {tent} other {tenten}}"
       },
-      "owner": { "your-garden": "jouw tuin", "button": "Tuin beheren" },
+      "owner": {
+        "your-garden": "jouw tuin",
+        "button": "Tuin beheren"
+      },
       "guest": {
         "button": "Contact host",
         "login": "Je moet {signInLink} om contact op te kunnen nemen met de gastheren",
@@ -128,8 +138,12 @@
       },
       "unclaimed": "Je kunt contact opnemen met deze host zodra zijn account is geverifieerd."
     },
-    "add": { "title": "Voeg jouw tuin toe" },
-    "manage": { "title": "Beheer jouw tuin" },
+    "add": {
+      "title": "Voeg jouw tuin toe"
+    },
+    "manage": {
+      "title": "Beheer jouw tuin"
+    },
     "form": {
       "title": "Voeg jouw tuin toe aan de kaart",
       "auth-notice": "Je moet ingelogd zijn om jouw tuin aan de kaart toe te voegen. Ofwel {signInLink} of {registerLink}",
@@ -195,7 +209,10 @@
       "text": "Wachtwoord vergeten? {link}",
       "link": "Stel het opnieuw in"
     },
-    "register": { "text": "Nog geen account? {link}", "link": "Registreer" },
+    "register": {
+      "text": "Nog geen account? {link}",
+      "link": "Registreer"
+    },
     "notify": {
       "welcome": "Welkom terug, {user}!",
       "incorrect": "Het opgegeven e-mailadres of wachtwoord is onjuist.",
@@ -308,7 +325,8 @@
       "unverified": "Verifieer jouw e-mail voordat je begint te chatten",
       "empty-message": "Jouw bericht kan niet leeg zijn",
       "too-long": "Jouw bericht is {surplus} {surplus, plural, one {karakter} other {karakters} te lang..."
-    }
+    },
+    "go-to-garden": "Ga naar de tuin"
   },
   "map": {
     "vehicle-notice": {
@@ -679,7 +697,7 @@
         },
         "3": {
           "title": "De betrokken persoon",
-          "copy": "De persoon naar wie de peroonsgegevens verwijze. "
+          "copy": "De persoon naar wie de peroonsgegevens verwijzen."
         },
         "4": {
           "title": "Data processor ",
