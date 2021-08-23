@@ -22,24 +22,10 @@
   "fallback": {
     "404": "404 - Página no encontrada"
   },
-  "garden": {
-    "form": {
-      "add-button": ""
-    }
-  },
   "terms-of-use": {
     "intro": {
       "0": {
         "copy": ""
-      }
-    }
-  },
-  "cookies": {
-    "articles": {
-      "4": {
-        "copy": {
-          "2": ""
-        }
       }
     }
   }
