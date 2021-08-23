@@ -527,7 +527,7 @@
       "register-link-text": "créer un compte",
       "title": "Ajoutez votre jardin à la carte",
       "sign-in-link-text": "vous connecter",
-      "add-button": "Ajouter votre jardin",
+      "add-button": "Ajoutez votre jardin",
       "email-confirm-notice": "Vous devez vérifier votre adresse électronique avant d'ajouter votre jardin à la carte. Nous vous avons envoyé un courriel lorsque vous avez créé votre compte. Vous pouvez renvoyer un lien de vérification à partir de {accountLink}.",
       "facilities": {
         "notice": "À quels types d'installations les voyageurs ont-ils accès ?",
@@ -557,7 +557,10 @@
       "photo": "Ça peut prendre une minute pour que sa photo apparaisse."
     },
     "drawer": {
-      "owner": { "your-garden": "Votre jardin", "button": "Gérer le jardin" },
+      "owner": {
+        "your-garden": "Votre jardin",
+        "button": "Gérer le jardin"
+      },
       "guest": {
         "sign-link-text": "vous connecter",
         "login": "Vous devez {signInLink} pour contacter les hôtes.",
@@ -956,5 +959,9 @@
       "plan": "Planifier",
       "get-inspired": "S'inspirer"
     }
+  },
+  "fallback": {
+    "404": "404 - page introuvable",
+    "redirect": "retour à l'accueil"
   }
 }
