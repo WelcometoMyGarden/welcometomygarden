@@ -7,12 +7,977 @@
     "map": "Mapa",
     "home": "Bienvenido",
     "garden": "Jardín",
-    "faq": { "explicit": "Preguntas frecuentes", "acronym": "FAQ" },
+    "faq": {
+      "explicit": "Preguntas frecuentes",
+      "acronym": "FAQ"
+    },
     "email": "Correo electrónico",
     "cookie-policy": "Política de cookies",
     "chat": "Chat",
-    "account": "Cuenta"
+    "account": "Cuenta",
+    "sign-in": "",
+    "sign-out": "",
+    "terms-of-use": ""
   },
-  "account": { "title": "Cuenta" },
-  "fallback": { "404": "404 - Página no encontrada" }
+  "account": {
+    "title": "Cuenta",
+    "notify": {
+      "preferences-update": "",
+      "garden-no-show": "",
+      "resend-error": "",
+      "garden-show": ""
+    },
+    "garden": {
+      "listed": {
+        "text": "",
+        "button": ""
+      },
+      "unlisted": {
+        "text": "",
+        "button": ""
+      },
+      "unverified": {
+        "text": ""
+      },
+      "title": ""
+    },
+    "preferences": {
+      "news": "",
+      "title": "",
+      "chat": "",
+      "text": ""
+    },
+    "verify": {
+      "sent": "",
+      "button": "",
+      "text": "",
+      "title": ""
+    }
+  },
+  "fallback": {
+    "404": "404 - Página no encontrada",
+    "redirect": ""
+  },
+  "faq": {
+    "questions": {
+      "16": {
+        "title": "",
+        "copy": ""
+      },
+      "0": {
+        "copy": "",
+        "title": ""
+      },
+      "15": {
+        "copy": "",
+        "title": ""
+      },
+      "11": {
+        "title": "",
+        "copy": ""
+      },
+      "13": {
+        "copy": "",
+        "title": ""
+      },
+      "7": {
+        "title": "",
+        "copy": ""
+      },
+      "6": {
+        "title": "",
+        "copy": ""
+      },
+      "14": {
+        "title": "",
+        "copy": ""
+      },
+      "12": {
+        "title": "",
+        "copy": ""
+      },
+      "5": {
+        "copy": "",
+        "title": ""
+      },
+      "10": {
+        "title": "",
+        "copy": ""
+      },
+      "9": {
+        "copy": "",
+        "title": ""
+      },
+      "8": {
+        "copy": "",
+        "title": ""
+      },
+      "4": {
+        "copy": "",
+        "title": ""
+      },
+      "3": {
+        "copy": "",
+        "title": ""
+      },
+      "2": {
+        "copy": "",
+        "title": ""
+      },
+      "1": {
+        "copy": "",
+        "title": ""
+      }
+    },
+    "description": "",
+    "title": ""
+  },
+  "register": {
+    "validate": {
+      "first-name": {
+        "set": "",
+        "max": ""
+      },
+      "email": "",
+      "password": {
+        "min": "",
+        "set": "",
+        "max": ""
+      },
+      "consent": "",
+      "last-name": "",
+      "country": {
+        "set": "",
+        "from-list": ""
+      }
+    },
+    "notify": {
+      "successful": "",
+      "in-use": "",
+      "unexpected": ""
+    },
+    "registering": "",
+    "registred": "",
+    "policies": "",
+    "country": "",
+    "last-name": "",
+    "first-name": "",
+    "button": "",
+    "title": ""
+  },
+  "index": {
+    "faq": {
+      "questions": {
+        "1": {
+          "title": "",
+          "copy": ""
+        },
+        "0": {
+          "copy": "",
+          "title": ""
+        },
+        "4": {
+          "copy": "",
+          "title": ""
+        },
+        "2": {
+          "title": "",
+          "copy": ""
+        },
+        "3": {
+          "title": "",
+          "copy": ""
+        }
+      },
+      "faq-link-text": "",
+      "copy": "",
+      "title": ""
+    },
+    "steps": {
+      "1": {
+        "copy": "",
+        "title": ""
+      },
+      "2": {
+        "title": "",
+        "copy": ""
+      },
+      "0": {
+        "add-garden-link-text": "",
+        "copy": "",
+        "title": ""
+      }
+    },
+    "holiday-donations": {
+      "title": "",
+      "link-text": "",
+      "copy": ""
+    },
+    "support": {
+      "donation-link-text": "",
+      "copy": "",
+      "title": ""
+    },
+    "partners": {
+      "title": ""
+    },
+    "intro": {
+      "learn-more": "",
+      "explore-map": "",
+      "add-garden": "",
+      "copy": ""
+    },
+    "shop": {
+      "banner": {
+        "title": "",
+        "copy": ""
+      }
+    },
+    "banner-stmf": {
+      "link": "",
+      "copy": ""
+    }
+  },
+  "garden": {
+    "notify": {
+      "success": "",
+      "photo": "",
+      "update": ""
+    },
+    "form": {
+      "location": {
+        "notice": "",
+        "adjust-button": "",
+        "title": "",
+        "confirm-button": "",
+        "coordinate-hint": "",
+        "country": "",
+        "city": "",
+        "postal-code": "",
+        "region": "",
+        "house-number": "",
+        "street": ""
+      },
+      "facilities": {
+        "capacity": {
+          "help": "",
+          "label": ""
+        },
+        "notice": "",
+        "title": ""
+      },
+      "email-confirm-notice": "",
+      "invalid": "",
+      "description": {
+        "notice": "",
+        "title": "",
+        "label": "",
+        "placeholder": "",
+        "hints": {
+          "too-long": "",
+          "too-short": ""
+        }
+      },
+      "account-link-text": "",
+      "photo": {
+        "notice": "",
+        "title": "",
+        "img-alt": "",
+        "hints": {
+          "too-large": "",
+          "wrong-format": ""
+        }
+      },
+      "update-button": "",
+      "normal-notice": "",
+      "add-button": "",
+      "register-link-text": "",
+      "sign-in-link-text": "",
+      "auth-notice": "",
+      "title": ""
+    },
+    "filter": {
+      "garden-capacity": "",
+      "search-city": "",
+      "spots-available": "",
+      "min": "",
+      "garden-facilities": "",
+      "apply-filter": "",
+      "title": "",
+      "no-places": "",
+      "all-filters": "",
+      "min-capacity": "",
+      "available": ""
+    },
+    "facilities": {
+      "labels": {
+        "toilet": "",
+        "shower": "",
+        "tent": "",
+        "electricity": "",
+        "bonfire": "",
+        "drinkable-water": "",
+        "water": ""
+      }
+    },
+    "manage": {
+      "title": ""
+    },
+    "add": {
+      "title": ""
+    },
+    "drawer": {
+      "unclaimed": "",
+      "guest": {
+        "sign-link-text": "",
+        "login": "",
+        "button": ""
+      },
+      "owner": {
+        "button": "",
+        "your-garden": ""
+      },
+      "facilities": {
+        "capacity": ""
+      }
+    }
+  },
+  "stmf": {
+    "sections": {
+      "plan": "",
+      "get-inspired": "",
+      "rethink": "",
+      "contribute": ""
+    },
+    "description": "",
+    "title": ""
+  },
+  "sign-in": {
+    "register": {
+      "text": "",
+      "link": ""
+    },
+    "button": "",
+    "reset": {
+      "text": "",
+      "link": ""
+    },
+    "title": "",
+    "notify": {
+      "login-issue": "",
+      "incorrect": "",
+      "welcome": ""
+    }
+  },
+  "chat": {
+    "all-conversations": "",
+    "notify": {
+      "unverified": "",
+      "empty-message": "",
+      "too-long": ""
+    },
+    "title": "",
+    "title-conversation": "",
+    "type-message": "",
+    "new": "",
+    "no-messages": {
+      "link": "",
+      "text": ""
+    },
+    "go-to-garden": ""
+  },
+  "terms-of-use": {
+    "articles": {
+      "0": {
+        "descriptions": {
+          "0": {
+            "copy": ""
+          },
+          "1": {
+            "copy": ""
+          }
+        },
+        "info": {
+          "0": {
+            "title": "",
+            "sections": {
+              "0": {
+                "title": "",
+                "copy": ""
+              },
+              "2": {
+                "copy": "",
+                "title": ""
+              },
+              "3": {
+                "copy": "",
+                "title": ""
+              },
+              "1": {
+                "copy": "",
+                "title": ""
+              }
+            }
+          }
+        },
+        "title": ""
+      },
+      "1": {
+        "info": {
+          "0": {
+            "sections": {
+              "0": {
+                "copy": "",
+                "title": ""
+              },
+              "1": {
+                "title": "",
+                "copy": ""
+              },
+              "2": {
+                "copy": "",
+                "title": ""
+              }
+            },
+            "title": ""
+          }
+        },
+        "title": ""
+      },
+      "8": {
+        "descriptions": {
+          "2": {
+            "copy": ""
+          },
+          "1": {
+            "copy": ""
+          },
+          "0": {
+            "copy": ""
+          }
+        },
+        "title": ""
+      },
+      "3": {
+        "paragraphs": {
+          "0": {
+            "copy": {
+              "0": ""
+            },
+            "title": ""
+          },
+          "1": {
+            "title": "",
+            "copy": {
+              "0": ""
+            }
+          }
+        },
+        "title": ""
+      },
+      "2": {
+        "paragraphs": {
+          "3": {
+            "title": "",
+            "copy": {
+              "0": ""
+            }
+          },
+          "4": {
+            "title": "",
+            "copy": {
+              "0": ""
+            }
+          },
+          "2": {
+            "copy": {
+              "0": ""
+            },
+            "title": ""
+          },
+          "6": {
+            "copy": {
+              "0": ""
+            },
+            "title": ""
+          },
+          "5": {
+            "copy": {
+              "0": ""
+            },
+            "title": ""
+          },
+          "1": {
+            "copy": {
+              "0": ""
+            },
+            "title": ""
+          },
+          "0": {
+            "copy": {
+              "0": ""
+            },
+            "title": ""
+          }
+        },
+        "descriptions": {
+          "0": {
+            "copy": ""
+          }
+        },
+        "title": ""
+      },
+      "10": {
+        "descriptions": {
+          "0": {
+            "copy": ""
+          }
+        },
+        "title": ""
+      },
+      "4": {
+        "paragraphs": {
+          "1": {
+            "copy": {
+              "0": ""
+            },
+            "title": ""
+          },
+          "0": {
+            "copy": {
+              "2": "",
+              "1": "",
+              "0": ""
+            },
+            "title": ""
+          }
+        },
+        "descriptions": {
+          "0": {
+            "copy": ""
+          }
+        },
+        "title": ""
+      },
+      "11": {
+        "descriptions": {
+          "0": {
+            "copy": ""
+          }
+        },
+        "title": ""
+      },
+      "5": {
+        "descriptions": {
+          "1": {
+            "copy": ""
+          },
+          "0": {
+            "copy": ""
+          }
+        },
+        "title": ""
+      },
+      "9": {
+        "descriptions": {
+          "1": {
+            "copy": ""
+          },
+          "0": {
+            "copy": ""
+          }
+        },
+        "title": ""
+      },
+      "7": {
+        "descriptions": {
+          "1": {
+            "copy": ""
+          },
+          "0": {
+            "copy": ""
+          }
+        },
+        "title": ""
+      },
+      "6": {
+        "descriptions": {
+          "1": {
+            "copy": ""
+          },
+          "0": {
+            "copy": ""
+          }
+        },
+        "title": ""
+      }
+    },
+    "intro": {
+      "1": {
+        "copy": ""
+      },
+      "0": {
+        "copy": ""
+      },
+      "2": {
+        "copy": ""
+      }
+    },
+    "last-updated": "",
+    "title": ""
+  },
+  "rules": {
+    "rules": {
+      "1": {
+        "title": "",
+        "copy": ""
+      },
+      "8": {
+        "title": "",
+        "copy": ""
+      },
+      "2": {
+        "title": "",
+        "copy": ""
+      },
+      "4": {
+        "copy": "",
+        "title": ""
+      },
+      "5": {
+        "copy": "",
+        "title": ""
+      },
+      "6": {
+        "title": "",
+        "copy": ""
+      },
+      "7": {
+        "title": "",
+        "copy": ""
+      },
+      "10": {
+        "copy": "",
+        "title": ""
+      },
+      "9": {
+        "copy": "",
+        "title": ""
+      },
+      "3": {
+        "copy": "",
+        "title": ""
+      },
+      "0": {
+        "copy": "",
+        "title": ""
+      }
+    },
+    "message": "",
+    "description": "",
+    "title": ""
+  },
+  "request-password-reset": {
+    "button": "",
+    "description": "",
+    "set": "",
+    "trouble": "",
+    "title": ""
+  },
+  "privacy-policy": {
+    "rights": {
+      "list": {
+        "4": {
+          "copy": "",
+          "title": ""
+        },
+        "3": {
+          "copy": "",
+          "title": ""
+        },
+        "1": {
+          "title": "",
+          "copy": ""
+        },
+        "0": {
+          "copy": "",
+          "title": ""
+        },
+        "2": {
+          "copy": "",
+          "title": ""
+        }
+      },
+      "exercise-rights": {
+        "copy": "",
+        "title": ""
+      },
+      "copy": "",
+      "title": ""
+    },
+    "personal-data": {
+      "extra": {
+        "0": {
+          "title": "",
+          "copy": ""
+        },
+        "2": {
+          "copy": "",
+          "title": ""
+        },
+        "1": {
+          "title": "",
+          "copy": ""
+        }
+      },
+      "collection": {
+        "sources": {
+          "1": {
+            "title": "",
+            "list": {
+              "0": ""
+            }
+          },
+          "0": {
+            "list": {
+              "1": "",
+              "3": "",
+              "2": "",
+              "0": ""
+            },
+            "title": ""
+          },
+          "3": {
+            "list": {
+              "0": ""
+            },
+            "title": ""
+          },
+          "2": {
+            "list": {
+              "2": "",
+              "1": "",
+              "0": ""
+            },
+            "title": ""
+          }
+        },
+        "copy": "",
+        "title": ""
+      },
+      "usage": {
+        "purposes": {
+          "4": "",
+          "3": "",
+          "5": "",
+          "2": "",
+          "1": "",
+          "0": ""
+        },
+        "copy": "",
+        "subtitle": "",
+        "title": ""
+      },
+      "meaning": {
+        "copy": "",
+        "title": ""
+      },
+      "backups": {
+        "title": "",
+        "copy": ""
+      }
+    },
+    "definitions": {
+      "articles": {
+        "7": {
+          "copy": "",
+          "title": ""
+        },
+        "5": {
+          "title": "",
+          "copy": ""
+        },
+        "4": {
+          "title": "",
+          "copy": ""
+        },
+        "0": {
+          "title": "",
+          "copy": ""
+        },
+        "1": {
+          "copy": "",
+          "title": ""
+        },
+        "3": {
+          "copy": "",
+          "title": ""
+        },
+        "2": {
+          "copy": "",
+          "title": ""
+        },
+        "6": {
+          "copy": "",
+          "title": ""
+        }
+      },
+      "title": "",
+      "legal-info": {
+        "copy": "",
+        "title": ""
+      }
+    },
+    "additional-info": {
+      "infos": {
+        "1": {
+          "copy": {
+            "1": "",
+            "2": "",
+            "0": ""
+          },
+          "title": ""
+        },
+        "0": {
+          "copy": {
+            "1": "",
+            "0": ""
+          },
+          "title": ""
+        }
+      },
+      "title": ""
+    },
+    "intro": "",
+    "last-updated": "",
+    "scope": {
+      "title": "",
+      "copy": ""
+    },
+    "email": "",
+    "subtitle": "",
+    "title": "",
+    "change-warning": {
+      "copy": "",
+      "title": ""
+    }
+  },
+  "cookies": {
+    "articles": {
+      "3": {
+        "copy": {
+          "1": "",
+          "0": "",
+          "2": "",
+          "3": "",
+          "4": ""
+        },
+        "title": ""
+      },
+      "5": {
+        "title": "",
+        "copy": {
+          "0": ""
+        }
+      },
+      "1": {
+        "title": "",
+        "copy": {
+          "0": ""
+        }
+      },
+      "4": {
+        "copy": {
+          "2": "",
+          "3": "",
+          "1": "",
+          "0": ""
+        },
+        "title": ""
+      },
+      "0": {
+        "title": "",
+        "copy": {
+          "0": ""
+        }
+      },
+      "2": {
+        "copy": {
+          "0": ""
+        },
+        "title": ""
+      }
+    },
+    "title": ""
+  },
+  "recommendations": {
+    "recommendations-groups": {
+      "0": {
+        "recommendations": {
+          "3": "",
+          "5": "",
+          "4": "",
+          "2": "",
+          "1": "",
+          "0": ""
+        },
+        "title": ""
+      },
+      "2": {
+        "recommendations": {
+          "1": "",
+          "0": ""
+        },
+        "title": ""
+      },
+      "1": {
+        "recommendations": {
+          "4": "",
+          "3": "",
+          "2": "",
+          "1": "",
+          "0": ""
+        },
+        "title": ""
+      }
+    },
+    "contact": "",
+    "message": "",
+    "description": "",
+    "title": ""
+  },
+  "map": {
+    "trails": {
+      "hiking": "",
+      "cycling": "",
+      "attribution": ""
+    },
+    "vehicle-notice": {
+      "text": "",
+      "title": ""
+    }
+  },
+  "reset-password": {
+    "title": "",
+    "succes": "",
+    "update": ""
+  },
+  "ui": {
+    "card": {
+      "register-here": ""
+    }
+  },
+  "tagline": "",
+  "auth": {
+    "verification": {
+      "unsigned": "",
+      "expired": "",
+      "refresh": "",
+      "succes": ""
+    },
+    "password": {
+      "expired": ""
+    },
+    "invalid-code": ""
+  }
 }
