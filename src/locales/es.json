@@ -21,12 +21,5 @@
   },
   "fallback": {
     "404": "404 - Página no encontrada"
-  },
-  "terms-of-use": {
-    "intro": {
-      "0": {
-        "copy": ""
-      }
-    }
   }
 }
