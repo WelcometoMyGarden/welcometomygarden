@@ -18,11 +18,6 @@
   },
   "account": {
     "title": "Cuenta",
-    "garden": {
-      "unlisted": {
-        "button": ""
-      }
-    },
     "verify": {
       "button": ""
     }
@@ -32,14 +27,8 @@
   },
   "faq": {
     "questions": {
-      "11": {
-        "title": ""
-      },
       "14": {
         "title": ""
-      },
-      "9": {
-        "copy": ""
       },
       "2": {
         "copy": ""
@@ -47,13 +36,9 @@
     }
   },
   "register": {
-    "validate": {
-      "email": ""
-    },
     "notify": {
       "successful": ""
-    },
-    "first-name": ""
+    }
   },
   "index": {
     "faq": {
@@ -63,16 +48,8 @@
         }
       }
     },
-    "steps": {
-      "1": {
-        "copy": ""
-      }
-    },
     "holiday-donations": {
       "link-text": ""
-    },
-    "intro": {
-      "add-garden": ""
     }
   },
   "garden": {
@@ -80,23 +57,13 @@
       "update": ""
     },
     "form": {
-      "location": {
-        "postal-code": ""
-      },
       "email-confirm-notice": "",
-      "account-link-text": "",
       "add-button": ""
-    },
-    "filter": {
-      "min": ""
     },
     "facilities": {
       "labels": {
         "toilet": ""
       }
-    },
-    "add": {
-      "title": ""
     }
   },
   "stmf": {
@@ -104,15 +71,9 @@
       "plan": ""
     }
   },
-  "sign-in": {
-    "button": ""
-  },
   "chat": {
     "notify": {
       "unverified": ""
-    },
-    "no-messages": {
-      "text": ""
     }
   },
   "terms-of-use": {
@@ -128,17 +89,6 @@
           }
         }
       },
-      "1": {
-        "info": {
-          "0": {
-            "sections": {
-              "1": {
-                "title": ""
-              }
-            }
-          }
-        }
-      },
       "8": {
         "descriptions": {
           "0": {
@@ -148,23 +98,12 @@
       },
       "2": {
         "paragraphs": {
-          "3": {
-            "copy": {
-              "0": ""
-            }
-          },
           "5": {
             "title": ""
           }
         }
       },
-      "10": {
-        "title": ""
-      },
       "4": {
-        "title": ""
-      },
-      "9": {
         "title": ""
       }
     },
@@ -176,14 +115,8 @@
   },
   "rules": {
     "rules": {
-      "2": {
-        "title": ""
-      },
       "7": {
         "title": ""
-      },
-      "0": {
-        "copy": ""
       }
     }
   },
@@ -191,13 +124,6 @@
     "trouble": ""
   },
   "privacy-policy": {
-    "rights": {
-      "list": {
-        "0": {
-          "copy": ""
-        }
-      }
-    },
     "personal-data": {
       "extra": {
         "0": {
@@ -206,21 +132,11 @@
       },
       "collection": {
         "sources": {
-          "0": {
-            "list": {
-              "1": ""
-            }
-          },
           "2": {
             "list": {
               "1": ""
             }
           }
-        }
-      },
-      "usage": {
-        "purposes": {
-          "2": ""
         }
       },
       "backups": {
@@ -229,18 +145,8 @@
     },
     "definitions": {
       "articles": {
-        "0": {
-          "title": ""
-        },
         "6": {
           "copy": ""
-        }
-      }
-    },
-    "additional-info": {
-      "infos": {
-        "1": {
-          "title": ""
         }
       }
     },
@@ -250,18 +156,10 @@
   },
   "cookies": {
     "articles": {
-      "3": {
-        "copy": {
-          "2": ""
-        }
-      },
       "4": {
         "copy": {
           "2": ""
         }
-      },
-      "2": {
-        "title": ""
       }
     }
   },
@@ -269,22 +167,12 @@
     "recommendations-groups": {
       "0": {
         "title": ""
-      },
-      "1": {
-        "recommendations": {
-          "0": ""
-        }
       }
     }
   },
   "map": {
     "trails": {
       "attribution": ""
-    }
-  },
-  "auth": {
-    "verification": {
-      "unsigned": ""
     }
   }
 }
