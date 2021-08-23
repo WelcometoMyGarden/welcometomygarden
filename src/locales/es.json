@@ -14,31 +14,23 @@
     "email": "Correo electrónico",
     "cookie-policy": "Política de cookies",
     "chat": "Chat",
-    "account": "Cuenta",
-    "sign-out": ""
+    "account": "Cuenta"
   },
   "account": {
     "title": "Cuenta",
     "notify": {
-      "garden-no-show": "",
       "garden-show": ""
     },
     "garden": {
-      "listed": {
-        "button": ""
-      },
       "unlisted": {
         "button": ""
-      },
-      "title": ""
+      }
     },
     "preferences": {
-      "title": "",
-      "text": ""
+      "title": ""
     },
     "verify": {
-      "button": "",
-      "title": ""
+      "button": ""
     }
   },
   "fallback": {
@@ -46,55 +38,28 @@
   },
   "faq": {
     "questions": {
-      "16": {
-        "title": ""
-      },
       "0": {
-        "copy": ""
-      },
-      "15": {
         "copy": ""
       },
       "11": {
         "title": ""
       },
-      "13": {
-        "copy": ""
-      },
       "7": {
-        "title": ""
-      },
-      "6": {
         "title": ""
       },
       "14": {
         "title": ""
       },
-      "12": {
-        "title": ""
-      },
       "5": {
         "copy": ""
       },
-      "10": {
-        "title": ""
-      },
       "9": {
-        "copy": ""
-      },
-      "8": {
         "copy": ""
       },
       "4": {
         "copy": ""
       },
-      "3": {
-        "copy": ""
-      },
       "2": {
-        "copy": ""
-      },
-      "1": {
         "copy": ""
       }
     },
@@ -102,26 +67,14 @@
   },
   "register": {
     "validate": {
-      "first-name": {
-        "set": ""
-      },
       "email": "",
-      "password": {
-        "set": ""
-      },
-      "consent": "",
-      "country": {
-        "set": ""
-      }
+      "consent": ""
     },
     "notify": {
-      "successful": "",
-      "unexpected": ""
+      "successful": ""
     },
     "registred": "",
-    "country": "",
-    "first-name": "",
-    "title": ""
+    "first-name": ""
   },
   "index": {
     "faq": {
@@ -129,48 +82,30 @@
         "1": {
           "copy": ""
         },
-        "0": {
-          "title": ""
-        },
         "4": {
           "title": ""
-        },
-        "2": {
-          "copy": ""
         },
         "3": {
           "copy": ""
         }
-      },
-      "copy": ""
+      }
     },
     "steps": {
       "1": {
         "copy": ""
       },
-      "2": {
-        "title": ""
-      },
       "0": {
-        "add-garden-link-text": "",
-        "title": ""
+        "add-garden-link-text": ""
       }
     },
     "holiday-donations": {
       "link-text": ""
     },
     "support": {
-      "donation-link-text": "",
       "title": ""
     },
     "intro": {
-      "learn-more": "",
       "add-garden": ""
-    },
-    "shop": {
-      "banner": {
-        "title": ""
-      }
     },
     "banner-stmf": {
       "link": ""
@@ -178,56 +113,39 @@
   },
   "garden": {
     "notify": {
-      "success": "",
       "update": ""
     },
     "form": {
       "location": {
-        "adjust-button": "",
         "confirm-button": "",
-        "country": "",
-        "postal-code": "",
-        "house-number": ""
+        "postal-code": ""
       },
       "facilities": {
         "capacity": {
           "help": ""
-        },
-        "notice": ""
+        }
       },
       "email-confirm-notice": "",
       "description": {
-        "notice": "",
-        "label": "",
-        "hints": {
-          "too-long": ""
-        }
+        "label": ""
       },
       "account-link-text": "",
       "photo": {
-        "title": "",
         "hints": {
           "too-large": ""
         }
       },
-      "update-button": "",
       "add-button": "",
-      "sign-in-link-text": "",
       "title": ""
     },
     "filter": {
-      "search-city": "",
       "min": "",
-      "apply-filter": "",
-      "no-places": "",
-      "min-capacity": ""
+      "no-places": ""
     },
     "facilities": {
       "labels": {
         "toilet": "",
-        "tent": "",
-        "bonfire": "",
-        "water": ""
+        "bonfire": ""
       }
     },
     "add": {
@@ -235,41 +153,27 @@
     },
     "drawer": {
       "guest": {
-        "sign-link-text": "",
         "button": ""
-      },
-      "owner": {
-        "your-garden": ""
       }
     }
   },
   "stmf": {
     "sections": {
-      "plan": "",
-      "rethink": ""
+      "plan": ""
     },
     "description": ""
   },
   "sign-in": {
-    "register": {
-      "text": ""
-    },
     "button": "",
-    "reset": {
-      "link": ""
-    },
     "notify": {
-      "login-issue": "",
-      "welcome": ""
+      "login-issue": ""
     }
   },
   "chat": {
     "notify": {
-      "unverified": "",
-      "too-long": ""
+      "unverified": ""
     },
     "title-conversation": "",
-    "new": "",
     "no-messages": {
       "text": ""
     }
@@ -277,22 +181,11 @@
   "terms-of-use": {
     "articles": {
       "0": {
-        "descriptions": {
-          "0": {
-            "copy": ""
-          }
-        },
         "info": {
           "0": {
             "title": "",
             "sections": {
-              "0": {
-                "copy": ""
-              },
               "2": {
-                "title": ""
-              },
-              "3": {
                 "title": ""
               },
               "1": {
@@ -306,14 +199,8 @@
         "info": {
           "0": {
             "sections": {
-              "0": {
-                "copy": ""
-              },
               "1": {
                 "title": ""
-              },
-              "2": {
-                "copy": ""
               }
             },
             "title": ""
@@ -322,9 +209,6 @@
       },
       "8": {
         "descriptions": {
-          "2": {
-            "copy": ""
-          },
           "0": {
             "copy": ""
           }
@@ -332,16 +216,10 @@
       },
       "3": {
         "paragraphs": {
-          "0": {
-            "copy": {
-              "0": ""
-            }
-          },
           "1": {
             "title": ""
           }
-        },
-        "title": ""
+        }
       },
       "2": {
         "paragraphs": {
@@ -350,47 +228,28 @@
               "0": ""
             }
           },
-          "4": {
-            "copy": {
-              "0": ""
-            }
-          },
           "2": {
-            "title": ""
-          },
-          "6": {
             "title": ""
           },
           "5": {
             "title": ""
           },
-          "1": {
-            "title": ""
-          },
           "0": {
             "title": ""
           }
-        },
-        "title": ""
+        }
       },
       "10": {
         "title": ""
       },
       "4": {
         "paragraphs": {
-          "1": {
-            "title": ""
-          },
           "0": {
             "copy": {
               "1": ""
-            },
-            "title": ""
+            }
           }
         },
-        "title": ""
-      },
-      "11": {
         "title": ""
       },
       "5": {
@@ -401,110 +260,66 @@
         }
       },
       "9": {
-        "descriptions": {
-          "1": {
-            "copy": ""
-          }
-        },
         "title": ""
-      },
-      "7": {
-        "descriptions": {
-          "0": {
-            "copy": ""
-          }
-        }
       },
       "6": {
         "descriptions": {
           "1": {
             "copy": ""
           }
-        },
-        "title": ""
+        }
       }
     },
     "intro": {
       "0": {
         "copy": ""
       }
-    },
-    "last-updated": ""
+    }
   },
   "rules": {
     "rules": {
       "1": {
         "title": ""
       },
-      "8": {
-        "title": ""
-      },
       "2": {
         "title": ""
-      },
-      "4": {
-        "copy": ""
       },
       "5": {
         "copy": ""
       },
-      "6": {
-        "title": ""
-      },
       "7": {
         "title": ""
       },
-      "10": {
-        "copy": ""
-      },
       "9": {
-        "copy": ""
-      },
-      "3": {
         "copy": ""
       },
       "0": {
         "copy": ""
       }
     },
-    "message": "",
     "title": ""
   },
   "request-password-reset": {
-    "description": "",
     "trouble": ""
   },
   "privacy-policy": {
     "rights": {
       "list": {
-        "4": {
-          "copy": ""
-        },
         "3": {
           "copy": ""
         },
-        "1": {
-          "title": ""
-        },
         "0": {
-          "copy": ""
-        },
-        "2": {
           "copy": ""
         }
       },
       "exercise-rights": {
         "copy": ""
-      },
-      "copy": ""
+      }
     },
     "personal-data": {
       "extra": {
         "0": {
           "title": ""
-        },
-        "2": {
-          "copy": ""
         },
         "1": {
           "title": ""
@@ -512,38 +327,25 @@
       },
       "collection": {
         "sources": {
-          "1": {
-            "title": ""
-          },
           "0": {
             "list": {
-              "1": "",
-              "2": ""
+              "1": ""
             },
-            "title": ""
-          },
-          "3": {
             "title": ""
           },
           "2": {
             "list": {
               "1": ""
-            },
-            "title": ""
+            }
           }
         },
         "title": ""
       },
       "usage": {
         "purposes": {
-          "3": "",
-          "2": "",
-          "0": ""
+          "2": ""
         },
         "subtitle": ""
-      },
-      "meaning": {
-        "copy": ""
       },
       "backups": {
         "title": ""
@@ -551,32 +353,19 @@
     },
     "definitions": {
       "articles": {
-        "7": {
-          "copy": ""
-        },
         "5": {
-          "title": ""
-        },
-        "4": {
           "title": ""
         },
         "0": {
           "title": ""
         },
-        "1": {
-          "copy": ""
-        },
         "3": {
-          "copy": ""
-        },
-        "2": {
           "copy": ""
         },
         "6": {
           "copy": ""
         }
       },
-      "title": "",
       "legal-info": {
         "title": ""
       }
@@ -584,24 +373,14 @@
     "additional-info": {
       "infos": {
         "1": {
-          "copy": {
-            "2": ""
-          },
           "title": ""
-        },
-        "0": {
-          "copy": {
-            "0": ""
-          }
         }
       },
       "title": ""
     },
-    "last-updated": "",
     "scope": {
       "copy": ""
     },
-    "subtitle": "",
     "change-warning": {
       "copy": ""
     }
@@ -610,28 +389,17 @@
     "articles": {
       "3": {
         "copy": {
-          "1": "",
-          "2": "",
-          "4": ""
+          "2": ""
         }
       },
       "5": {
         "title": ""
       },
-      "1": {
-        "title": ""
-      },
       "4": {
         "copy": {
-          "2": "",
-          "1": ""
+          "2": ""
         },
         "title": ""
-      },
-      "0": {
-        "copy": {
-          "0": ""
-        }
       },
       "2": {
         "title": ""
@@ -642,49 +410,30 @@
     "recommendations-groups": {
       "0": {
         "recommendations": {
-          "3": "",
-          "4": "",
-          "1": ""
+          "4": ""
         },
         "title": ""
-      },
-      "2": {
-        "recommendations": {
-          "0": ""
-        }
       },
       "1": {
         "recommendations": {
           "4": "",
-          "2": "",
           "0": ""
         }
       }
     },
-    "contact": "",
     "description": ""
   },
   "map": {
     "trails": {
-      "hiking": "",
       "attribution": ""
-    },
-    "vehicle-notice": {
-      "title": ""
     }
   },
   "reset-password": {
     "succes": ""
   },
-  "ui": {
-    "card": {
-      "register-here": ""
-    }
-  },
   "auth": {
     "verification": {
-      "unsigned": "",
-      "refresh": ""
+      "unsigned": ""
     },
     "password": {
       "expired": ""

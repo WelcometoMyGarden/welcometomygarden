@@ -74,15 +74,13 @@
       "3": {
         "copy": {
           "0": "Wenn Sie ein Konto bei uns anlegen, verwenden wir Cookies für die Verwaltung des Anmeldevorgangs und die allgemeine Verwaltung. Diese Cookies werden normalerweise gelöscht, wenn Sie sich abmelden. In einigen Fällen können sie jedoch im Nachhinein verbleiben, um sich an Ihre Website-Einstellungen zu erinnern, wenn Sie abgemeldet sind.",
-          "1": "Wir verwenden Cookies, wenn Sie eingeloggt sind, damit wir uns diese Tatsache merken können. Dies verhindert, dass Sie sich jedes Mal anmelden müssen, wenn Sie eine neue Seite besuchen. Diese Cookies werden normalerweise entfernt oder gelöscht, wenn Sie sich abmelden, um sicherzustellen, dass Sie nur auf eingeschränkte Funktionen und Bereiche zugreifen können, wenn Sie angemeldet sind.",
-          "3": ""
+          "1": "Wir verwenden Cookies, wenn Sie eingeloggt sind, damit wir uns diese Tatsache merken können. Dies verhindert, dass Sie sich jedes Mal anmelden müssen, wenn Sie eine neue Seite besuchen. Diese Cookies werden normalerweise entfernt oder gelöscht, wenn Sie sich abmelden, um sicherzustellen, dass Sie nur auf eingeschränkte Funktionen und Bereiche zugreifen können, wenn Sie angemeldet sind."
         },
         "title": "Die von uns gesetzten Cookies"
       },
       "4": {
         "copy": {
-          "0": "In einigen speziellen Fällen verwenden wir auch Cookies, die von vertrauenswürdigen Drittanbietern bereitgestellt werden. Der folgende Abschnitt beschreibt, welche Cookies von Drittanbietern Sie auf dieser Seite finden können.",
-          "3": ""
+          "0": "In einigen speziellen Fällen verwenden wir auch Cookies, die von vertrauenswürdigen Drittanbietern bereitgestellt werden. Der folgende Abschnitt beschreibt, welche Cookies von Drittanbietern Sie auf dieser Seite finden können."
         },
         "title": ""
       },
@@ -208,8 +206,7 @@
           "0": {
             "title": "Beleidigendes Verhalten",
             "copy": {
-              "0": "Konten und zugehörige Konten, die zur Durchführung der unten aufgeführten Aktionen verwendet werden, können vorübergehend gesperrt und / oder dauerhaft gelöscht werden.",
-              "1": ""
+              "0": "Konten und zugehörige Konten, die zur Durchführung der unten aufgeführten Aktionen verwendet werden, können vorübergehend gesperrt und / oder dauerhaft gelöscht werden."
             }
           },
           "1": {
@@ -253,9 +250,6 @@
         "descriptions": {
           "2": {
             "copy": "Es kann vorkommen, dass über die Plattform schädliche Dateien heruntergeladen werden können, unabhängig davon, ob dies durch einen Nutzer erfolgt oder nicht, oder dass Nutzer schädliche Hyperlinks platzieren. Jede Datenübertragung eines Nutzers oder jeder Klick auf einen Hyperlink, der von einem Nutzer platziert wird, erfolgt auf eigenes Risiko des Nutzers. Jeder entstandene Schaden liegt vollständig und allein in der Verantwortung dieses Nutzers."
-          },
-          "1": {
-            "copy": ""
           }
         }
       },
@@ -384,9 +378,6 @@
               "2": "Gesprochene Sprachen (obligatorisch)"
             },
             "title": "Persönliche Daten, die Sie angeben, wenn Sie Ihren Garten zu Ihrem Konto hinzufügen."
-          },
-          "3": {
-            "title": ""
           }
         },
         "title": "Welche persönlichen Daten sammeln wir?",
@@ -397,9 +388,7 @@
         "copy": "Die personenbezogenen Daten werden nur für den Zeitraum gespeichert und verarbeitet, der für den Zweck der Verarbeitung erforderlich ist. Danach werden die Daten gelöscht oder anonymisiert. Welcome To My Garden setzt auf Firebase, das nach wichtigen Datenschutz- und Sicherheitsstandards zertifiziert ist. Die Firebase-Dienste sind DSGVO-konform. Alle Informationen zu Firebase finden Sie <a href=\"https://firebase.google.com/support/privacy\">hier</a>.",
         "subtitle": "Wir können Ihre personenbezogenen Daten für die folgenden Zwecke verwenden",
         "purposes": {
-          "5": "",
-          "2": "",
-          "1": ""
+          "2": ""
         }
       },
       "extra": {
@@ -419,9 +408,6 @@
       "meaning": {
         "copy": "In dieser Datenschutzrichtlinie bezieht sich der Begriff „personenbezogene Daten“ auf Informationen, die es ermöglichen, Sie zu identifizieren. Eine identifizierbare Person ist jemand, der direkt oder indirekt identifiziert werden kann, insbesondere durch Zuordnung zu einer Kennnummer oder zu einem oder mehreren Faktoren, die mit der physischen, physiologischen, psychischen, wirtschaftlichen, kulturellen oder sozialen Identität in Verbindung stehen. Ein typisches Beispiel für personenbezogene Daten sind Ihr Name und Ihre E-Mail-Adresse.",
         "title": "Was bedeutet „personenbezogene Daten“?"
-      },
-      "backups": {
-        "copy": ""
       }
     },
     "rights": {
@@ -460,10 +446,7 @@
           "title": "Rechtliche Verfahren"
         },
         "1": {
-          "title": "Sicherheitsmaßnahmen",
-          "copy": {
-            "2": ""
-          }
+          "title": "Sicherheitsmaßnahmen"
         }
       },
       "title": "Zusätzliche Informationen zur Datenerfassung und -verarbeitung"
@@ -615,8 +598,7 @@
       "add-button": "Ihren Garten hinzufügen",
       "update-button": "Ihren Garten aktualisieren",
       "invalid": "Einige Informationen waren nicht gültig. Bitte überprüfen Sie Ihre übermittelten Informationen auf Fehler.",
-      "account-link-text": "Ihr Profil",
-      "auth-notice": ""
+      "account-link-text": "Ihr Profil"
     },
     "drawer": {
       "unclaimed": "Sie können diesen Gastgeber kontaktieren, sobald er sein Konto erstellt hat.",
@@ -638,8 +620,7 @@
         "electricity": "Strom",
         "drinkable-water": "Trinkwasser",
         "bonfire": "Lagerfeuer",
-        "tent": "Zelt",
-        "water": ""
+        "tent": "Zelt"
       }
     },
     "add": {
@@ -654,11 +635,8 @@
       "update": "Ihr Garten wurde erfolgreich aktualisiert!"
     },
     "filter": {
-      "min": "",
       "all-filters": "",
-      "garden-capacity": "",
-      "garden-facilities": "",
-      "spots-available": ""
+      "garden-facilities": ""
     }
   },
   "index": {
@@ -721,11 +699,6 @@
     },
     "banner-stmf": {
       "link": "Slow Travel Mini Festival"
-    },
-    "shop": {
-      "banner": {
-        "title": ""
-      }
     }
   },
   "rules": {
@@ -790,8 +763,7 @@
     "new": "neu",
     "title-conversation": "Mit {partnerName} chatten",
     "title": "Chat",
-    "all-conversations": "Alle Unterhaltungen",
-    "go-to-garden": ""
+    "all-conversations": "Alle Unterhaltungen"
   },
   "sign-in": {
     "button": "Anmelden",
@@ -805,8 +777,7 @@
       "text": "Sie haben noch kein Konto? {link}"
     },
     "notify": {
-      "incorrect": "Die angegebene E-Mail-Adresse oder das Passwort ist falsch.",
-      "welcome": ""
+      "incorrect": "Die angegebene E-Mail-Adresse oder das Passwort ist falsch."
     }
   },
   "reset-password": {
@@ -821,8 +792,7 @@
           "0": "Routenplaner für Radfahren und Wandern: BRouter",
           "1": "Ein weiterer großartiger Routenplaner: Komoot",
           "2": "Großartiger Routenfinder und -planer: OutdoorActive",
-          "3": "Tolle Navigationsnwendung für Radfahren und Wandern: OSMAnd",
-          "4": ""
+          "3": "Tolle Navigationsnwendung für Radfahren und Wandern: OSMAnd"
         },
         "title": "Anwendungen und Karten"
       },
@@ -830,8 +800,7 @@
         "recommendations": {
           "0": "Tolle Sammlung von Wanderwegen: RouteYou",
           "1": "Knooppunten Netzwerk-Planer: Wandelknooppunt",
-          "2": "Langstrecken-Radwege in Flandern: LF-Netzwerk Flandern",
-          "4": ""
+          "2": "Langstrecken-Radwege in Flandern: LF-Netzwerk Flandern"
         }
       },
       "2": {
@@ -866,13 +835,9 @@
       "unsigned": "Bitte melden Sie sich zuerst an",
       "refresh": "Ihre E-Mail-Adresse wurde bereits verifiziert. Bitte aktualisieren Sie die Seite.",
       "succes": "Ihre E-Mail-Adresse wurde erfolgreich verifiziert!"
-    },
-    "password": {
-      "expired": ""
     }
   },
   "fallback": {
     "404": "404 - Seite nicht gefunden"
-  },
-  "tagline": ""
+  }
 }
