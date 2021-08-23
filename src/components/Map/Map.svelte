@@ -27,7 +27,7 @@
   onMount(() => {
     map = new maplibregl.Map({
       container,
-      style: 'mapbox://styles/mapbox/outdoors-v11',
+      style: 'mapbox://styles/mapbox/streets-v11',
       center: [lon, lat],
       zoom,
       attributionControl: false
