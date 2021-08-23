@@ -1,5 +1,5 @@
 name: Deploy to Firebase Hosting on merge
-'on':
+on:
   push:
     branches:
       - master
@@ -20,12 +20,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install Dependencies
-        run: yarn
+        run: cd client && yarn
       - name: Build project
-        run: yarn run build:prod
+        run: cd client && yarn run build:prod
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_PRODUCTION }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_PRODUCTION }}"
           channelId: live
           projectId: wtmg-production
+          entryPoint: "./client"
