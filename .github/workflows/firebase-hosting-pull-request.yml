@@ -16,12 +16,10 @@ jobs:
       VITE_MAPBOX_ACCESS_TOKEN: ${{secrets.MAPBOX_ACCESS_TOKEN}}
     steps:
       - uses: actions/checkout@v2
-      - name: Change directory to client
-        run: cd client
       - name: Install Dependencies
-        run: yarn
+        run: cd client && yarn
       - name: Build project
-        run: yarn run build:staging
+        run: cd client && yarn run build:staging
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
