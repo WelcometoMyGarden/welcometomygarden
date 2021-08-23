@@ -9,7 +9,10 @@
     "home": "Home",
     "map": "Map",
     "rules": "Rules",
-    "faq": { "acronym": "FAQ", "explicit": "Frequently asked questions" },
+    "faq": {
+      "acronym": "FAQ",
+      "explicit": "Frequently asked questions"
+    },
     "chat": "Chat",
     "account": "Account",
     "sign-out": "Sign Out",
@@ -17,7 +20,11 @@
     "garden": "Garden",
     "shop": "Shop"
   },
-  "ui": { "card": { "register-here": "Register here" } },
+  "ui": {
+    "card": {
+      "register-here": "Register here"
+    }
+  },
   "index": {
     "banner-stmf": {
       "copy": "Want to prepare your slow travels with the community while supporting Welcome To My Garden? Check out our {stmfLink} (from 3 to 29 June)!",
@@ -507,7 +514,10 @@
       "facilities": {
         "capacity": "Space for {styleCapacity} {capacity, plural, one {tent} other {tents}}"
       },
-      "owner": { "your-garden": "Your Garden", "button": "Manage garden" },
+      "owner": {
+        "your-garden": "Your Garden",
+        "button": "Manage garden"
+      },
       "guest": {
         "button": "Contact host",
         "login": "You must {signInLink} to contact hosts",
@@ -515,8 +525,12 @@
       },
       "unclaimed": "You can contact this host as soon as they have created their account."
     },
-    "add": { "title": "Add your garden" },
-    "manage": { "title": "Manage garden" },
+    "add": {
+      "title": "Add your garden"
+    },
+    "manage": {
+      "title": "Manage garden"
+    },
     "form": {
       "title": "Add your garden to the map",
       "auth-notice": "You must be signed in to add your garden to the map. Either {signInLink} or {registerLink}.",
@@ -578,7 +592,10 @@
   "sign-in": {
     "title": "Sign in",
     "button": "Sign in",
-    "reset": { "text": "Forgot your password? {link}", "link": "Reset it" },
+    "reset": {
+      "text": "Forgot your password? {link}",
+      "link": "Reset it"
+    },
     "register": {
       "text": "Don't have an account yet? {link}",
       "link": "Register"
@@ -625,7 +642,9 @@
         "text": "You can unlist your garden at any time. This means it will stay saved for later - but won't be shown on the map until you show it again.",
         "button": "Manage garden"
       },
-      "unverified": { "text": "Verify your email to manage your garden." }
+      "unverified": {
+        "text": "Verify your email to manage your garden."
+      }
     },
     "notify": {
       "resend-error": "We couldn't resend an account verification email. Please contact {support}",
@@ -957,5 +976,8 @@
       "rethink": "Rethink"
     }
   },
-  "fallback": { "404": "404 - page not found", "redirect": "back to home" }
+  "fallback": {
+    "404": "404 - page not found",
+    "redirect": "back to home"
+  }
 }
