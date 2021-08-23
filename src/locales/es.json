@@ -17,27 +17,16 @@
     "account": "Cuenta"
   },
   "account": {
-    "title": "Cuenta",
-    "verify": {
-      "button": ""
-    }
+    "title": "Cuenta"
   },
   "fallback": {
     "404": "404 - Página no encontrada"
   },
   "faq": {
     "questions": {
-      "14": {
-        "title": ""
-      },
       "2": {
         "copy": ""
       }
-    }
-  },
-  "register": {
-    "notify": {
-      "successful": ""
     }
   },
   "index": {
@@ -47,9 +36,6 @@
           "title": ""
         }
       }
-    },
-    "holiday-donations": {
-      "link-text": ""
     }
   },
   "garden": {
@@ -57,23 +43,12 @@
       "update": ""
     },
     "form": {
-      "email-confirm-notice": "",
       "add-button": ""
-    },
-    "facilities": {
-      "labels": {
-        "toilet": ""
-      }
     }
   },
   "stmf": {
     "sections": {
       "plan": ""
-    }
-  },
-  "chat": {
-    "notify": {
-      "unverified": ""
     }
   },
   "terms-of-use": {
@@ -89,22 +64,12 @@
           }
         }
       },
-      "8": {
-        "descriptions": {
-          "0": {
-            "copy": ""
-          }
-        }
-      },
       "2": {
         "paragraphs": {
           "5": {
             "title": ""
           }
         }
-      },
-      "4": {
-        "title": ""
       }
     },
     "intro": {
@@ -113,23 +78,11 @@
       }
     }
   },
-  "rules": {
-    "rules": {
-      "7": {
-        "title": ""
-      }
-    }
-  },
   "request-password-reset": {
     "trouble": ""
   },
   "privacy-policy": {
     "personal-data": {
-      "extra": {
-        "0": {
-          "title": ""
-        }
-      },
       "collection": {
         "sources": {
           "2": {
@@ -138,9 +91,6 @@
             }
           }
         }
-      },
-      "backups": {
-        "title": ""
       }
     },
     "definitions": {
@@ -149,9 +99,6 @@
           "copy": ""
         }
       }
-    },
-    "scope": {
-      "copy": ""
     }
   },
   "cookies": {
@@ -160,13 +107,6 @@
         "copy": {
           "2": ""
         }
-      }
-    }
-  },
-  "recommendations": {
-    "recommendations-groups": {
-      "0": {
-        "title": ""
       }
     }
   },
