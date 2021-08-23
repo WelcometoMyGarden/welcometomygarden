@@ -22,9 +22,5 @@
     "no-unused-expressions": ["error", { "allowTernary": true }],
     "no-return-assign": [2, "except-parens"],
     "no-param-reassign": ["error", { "props": false }]
-  },
-  "globals": {
-    "NODE_ENV": true,
-    "WTMG_CONFIG": true
   }
 }

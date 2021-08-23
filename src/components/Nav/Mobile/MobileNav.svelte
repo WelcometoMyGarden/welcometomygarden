@@ -1,6 +1,6 @@
 <script>
   import { _, locale } from 'svelte-i18n';
-  import { isActive } from '@sveltech/routify';
+  import { isActive } from '@roxi/routify';
   import routes from '@/routes';
   import { logout } from '@/api/auth';
   import { user } from '@/stores/auth';
@@ -10,6 +10,7 @@
   import Socials from '@/components/Socials.svelte';
   import { Icon } from '@/components/UI';
   import LanguageSelector from '@/components/LanguageSelector.svelte';
+  import { SHOP_URL } from '@/constants';
 
   let hamburger;
   let drawerIsShown = false;
@@ -29,7 +30,7 @@
   ];
 </script>
 
-<nav>
+<nav id="navigation">
   <ul class="main">
     <li>
       <a href={routes.HOME} class:active={$isActive('/index')}>
@@ -73,7 +74,11 @@
     class="drawer"
     class:open={drawerIsShown}
     use:clickOutside
-    on:click-outside={handleClickOutsideDrawer}>
+    on:click-outside={handleClickOutsideDrawer}
+  >
+    <li>
+      <a href={SHOP_URL} on:click={toggleDrawer} target="_blank">{$_('generics.shop')}</a>
+    </li>
     {#each linksInDrawer as { route, name } (route)}
       <li>
         <a href={route} on:click={toggleDrawer} class:active={$isActive(route)}>{name}</a>
@@ -90,7 +95,8 @@
             toggleDrawer();
             await logout();
             window.location = '/';
-          }}>
+          }}
+        >
           Sign out
         </a>
       </li>

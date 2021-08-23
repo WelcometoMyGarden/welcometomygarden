@@ -29,18 +29,11 @@ lerna-debug.log*
 .DS_Store
 node_modules
 
-public/data
-public/build
-public/bundle
 dist
+.routify
 
 .env*
+!.env.example
+
 .firebase
-wtmg.config*.js
-!wtmg.config.example.js
-wtmg.config*.json
-!wtmg.config.example.json
-
-
-.firebaserc
 firestore.rules

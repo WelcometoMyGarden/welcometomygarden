@@ -1,9 +1,7 @@
 <script>
-  import { _, locale } from 'svelte-i18n';
-  import { getArrayFromLocale, supportEmailLinkString } from '@/util';
+  import { _ } from 'svelte-i18n';
+  import { supportEmailLinkString, getNodeChildren } from '@/util';
   import { Ol } from '@/components/UI';
-
-  $: articles = getArrayFromLocale('cookies.articles', $locale);
 </script>
 
 <svelte:head>
@@ -12,12 +10,12 @@
 
 <h2>{$_('cookies.title')}</h2>
 <Ol>
-  {#each articles as { title, copy }, i}
+  {#each getNodeChildren('cookies.articles') as key}
     <li class="h3">
-      <h3 class="title">{title}</h3>
-      {#each getArrayFromLocale(`cookies.articles.${i}.copy`, $locale) as copy, j}
+      <h3 class="title">{$_(`cookies.articles.${key}.title`)}</h3>
+      {#each getNodeChildren(`cookies.articles.${key}.copy`) as copyKey}
         <p>
-          {@html $_(`cookies.articles.${i}.copy.${j}`, {
+          {@html $_(`cookies.articles.${key}.copy.${copyKey}`, {
             values: { support: supportEmailLinkString }
           })}
         </p>

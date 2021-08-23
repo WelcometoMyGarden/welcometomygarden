@@ -2,7 +2,7 @@
   import { _ } from 'svelte-i18n';
   import { fly } from 'svelte/transition';
   import { flip } from 'svelte/animate';
-  import { goto, redirect, params, isActive } from '@sveltech/routify';
+  import { goto, redirect, params, isActive } from '@roxi/routify';
   import { user } from '@/stores/auth';
   import notify from '@/stores/notification';
   import { chats, creatingNewChat, hasInitialized, getChatForUser } from '@/stores/chat';
@@ -12,8 +12,9 @@
   import { Progress } from '@/components/UI';
   import { removeDiacritics } from '@/util';
 
-  if (!$user) $goto(routes.SIGN_IN);
-  else if (!$user.emailVerified) {
+  if (!$user) {
+    $goto(routes.SIGN_IN);
+  } else if (!$user.emailVerified) {
     notify.warning($_('chat.notify.unverified'), 10000);
     $goto(routes.ACCOUNT);
   }
@@ -73,13 +74,13 @@
 
   let outerWidth;
   let isMobile = false;
-  $: if (outerWidth <= 700) isMobile = true;
+  $: outerWidth <= 700 ? (isMobile = true) : (isMobile = false);
 </script>
 
 <svelte:window bind:outerWidth />
-<Progress active={!hasInitialized || $creatingNewChat} />
+<Progress active={!$hasInitialized || $creatingNewChat} />
 
-{#if !$params.with}
+{#if !$params.with && $hasInitialized}
   <div class="container">
     {#if !isMobile || (isMobile && isOverview)}
       <section class="conversations" in:fly={{ x: -outerWidth, duration: 400 }}>
@@ -90,7 +91,8 @@
               on:click={() => selectConversation(null)}
               recipient={newConversation.name}
               lastMessage={''}
-              selected={$params.chatId === 'new'} />
+              selected={$params.chatId === 'new'}
+            />
           </article>
         {/if}
         {#if $hasInitialized && conversations.length === 0 && !newConversation}
@@ -108,7 +110,8 @@
                 recipient={$chats[conversation.id].partner.firstName}
                 lastMessage={conversation.lastMessage}
                 selected={selectedConversation && selectedConversation.id === conversation.id}
-                on:click={() => selectConversation(conversation.id)} />
+                on:click={() => selectConversation(conversation.id)}
+              />
             </article>
           {/each}
         {/if}
@@ -142,11 +145,6 @@
   .empty {
     padding: 1rem 3rem;
     line-height: 1.6;
-  }
-
-  .empty a {
-    text-decoration: underline;
-    color: var(--color-orange);
   }
 
   .conversations {

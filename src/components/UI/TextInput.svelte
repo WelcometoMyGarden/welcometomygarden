@@ -13,6 +13,7 @@
   export let icon = null;
   export let list = null;
   export let autocomplete = 'on';
+  export let hideError = false;
 
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
@@ -42,7 +43,8 @@
     on:input
     class:has-icon={!!icon}
     class:invalid={!!isValid}
-    class="input" />
+    class="input"
+  />
   {#if icon}
     <div class="icon">
       <Icon {icon} />
@@ -53,11 +55,13 @@
       <Icon icon={crossIcon} />
     </div>
   {/if}
-  <div class="error">
-    {#if error}
-      <p class="error-message">{error}</p>
-    {/if}
-  </div>
+  {#if !hideError}
+    <div class="error">
+      {#if error}
+        <p class="error-message">{error}</p>
+      {/if}
+    </div>
+  {/if}
 </div>
 
 <style>

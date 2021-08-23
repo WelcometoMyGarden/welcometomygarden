@@ -3,16 +3,45 @@
   import { _ } from 'svelte-i18n';
   import { beforeUpdate, afterUpdate, onMount } from 'svelte';
   import { fade } from 'svelte/transition';
-  import { params, goto } from '@sveltech/routify';
+  import { params, goto } from '@roxi/routify';
   import { observeMessagesForChat, create as createChat, sendMessage } from '@/api/chat';
+  import { hasGarden } from '@/api/garden';
   import { user } from '@/stores/auth';
   import { chats, messages } from '@/stores/chat';
-  import { Avatar } from '@/components/UI';
+  import { Avatar, Icon } from '@/components/UI';
+  import { User } from '@/components/Chat';
+  import { tentIcon } from '@/images/icons';
   import routes from '@/routes';
+  import { formatDate } from '@/util';
 
-  $: chat = $chats[chatId];
+  let partnerHasGarden = null;
+  let partnerId;
+  let chat;
 
-  $: if (chat && !$messages[chat.id]) observeMessagesForChat(chat.id);
+  // Allow chat to change on chatId change
+  $: if (chatId) {
+    partnerHasGarden = chat = null;
+  }
+
+  // Only change chat if falsy (this will avoid reregistering the observeMessagesForChat, thus avoid dups)
+  $: if (!chat) chat = $chats[chatId];
+
+  $: if (partnerHasGarden === null && chat && $user.id) {
+    partnerId = chat.users.find((id) => $user.id !== id);
+    hasGarden(partnerId)
+      .then((res) => {
+        partnerHasGarden = res;
+      })
+      .catch((err) => {
+        // something went wrong just act like partner has no garden
+        console.log(err);
+        partnerHasGarden = false;
+      });
+  }
+
+  $: if (chat && !$messages[chat.id]) {
+    observeMessagesForChat(chat.id);
+  }
 
   let messageContainer;
   let autoscroll;
@@ -82,20 +111,50 @@
   </title>
 </svelte:head>
 
-<header class="chat-header">
-  <a class="back" href={routes.CHAT}>&#x3c;</a>
-  <h2 class="title">{partnerName}</h2>
+<header class="chat-header chat-header--sm">
+  <div class="chat-header--sm__top">
+    <a class="back" href={routes.CHAT}>&#x3c;</a>
+    <h2 class="title">{partnerName}</h2>
+  </div>
+  {#if partnerHasGarden}
+    <div class="chat-header--sm__bot">
+      <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link" in:fade>
+        <Icon icon={tentIcon} />
+        <span>{$_('chat.go-to-garden')}</span>
+      </a>
+    </div>
+  {/if}
+</header>
+
+<header class="chat-header chat-header--md">
+  {#if partnerName}
+    <User name={partnerName}>
+      {#if partnerHasGarden}
+        <div class="chat-header--md__bot" in:fade>
+          <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link">
+            <Icon icon={tentIcon} />
+            <span>{$_('chat.go-to-garden')}</span>
+          </a>
+        </div>
+      {/if}
+    </User>
+  {/if}
 </header>
 
 <div class="message-wrapper" bind:this={messageContainer}>
   <div class="messages">
     {#if chat && $messages[chat.id]}
-      {#each $messages[chatId] as message (message.id)}
+      {#each $messages[chat.id] as message (message.id)}
         <div class="message" class:by-user={message.from === $user.id}>
-          <div class="avatar">
-            <Avatar name={message.from === $user.id ? $user.firstName : chat.partner.firstName} />
+          <div class="holder">
+            <div class="avatar">
+              <Avatar name={message.from === $user.id ? $user.firstName : chat.partner.firstName} />
+            </div>
+            <p class="message-text">{normalizeWhiteSpace(message.content)}</p>
           </div>
-          <p class="message-text">{normalizeWhiteSpace(message.content)}</p>
+          <div class="timestamp">
+            {formatDate(message.createdAt.seconds * 1000)}
+          </div>
         </div>
       {/each}
     {/if}
@@ -110,7 +169,8 @@
     type="text"
     name="message"
     bind:value={typedMessage}
-    disabled={isSending} />
+    disabled={isSending}
+  />
   <button type="submit" disabled={isSending || !typedMessage || hint} aria-label="Send message">
     &#62;
   </button>
@@ -138,29 +198,59 @@
 
   .message {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     margin-top: 1rem;
     max-width: 70%;
     word-break: break-word;
+
+    align-items: flex-start;
   }
 
   .message.by-user {
     align-self: flex-end;
-    flex-flow: row-reverse;
+  }
+
+  .holder {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .message.by-user .holder {
+    flex-direction: row-reverse;
+    align-self: flex-end;
   }
 
   .message-text {
-    margin-left: 2rem;
     white-space: pre-wrap;
     padding: 1.2rem;
+
+    border-radius: 1rem 1rem 1rem 0rem;
+    margin-left: 2rem;
+    margin-right: 0rem;
     background-color: var(--color-gray);
-    border-radius: 1rem;
   }
 
   .message.by-user .message-text {
+    border-radius: 1rem 1rem 0rem 1rem;
     margin-left: 0;
     margin-right: 2rem;
     background-color: var(--color-green-light);
+  }
+
+  .timestamp {
+    color: var(--color-darker-gray);
+    font-size: 1.2rem;
+    padding-top: 0.2rem;
+
+    margin-left: calc(5rem + 2rem);
+    margin-right: 0;
+    align-self: flex-start;
+  }
+
+  .message.by-user .timestamp {
+    margin-left: 0;
+    margin-right: calc(5rem + 2rem);
+    align-self: flex-end;
   }
 
   form {
@@ -216,8 +306,35 @@
     cursor: not-allowed;
   }
 
-  .chat-header {
+  .chat-header--sm {
     display: none;
+  }
+
+  .chat-header {
+    background: var(--color-white);
+    width: 100%;
+  }
+
+  .chat-header--md {
+    padding: 1.5rem 1rem;
+    box-shadow: 0px 5px 3px -3px rgba(143, 142, 142, 0.1);
+  }
+
+  .chat-header--md__bot {
+    margin-top: 0.8rem;
+    height: 2rem;
+  }
+
+  .garden-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-green);
+  }
+
+  .garden-link :global(i) {
+    width: 2.5rem;
+    margin-right: 5px;
+    display: inline-block;
   }
 
   @media (min-width: 700px) and (max-width: 850px) {
@@ -238,6 +355,8 @@
     }
 
     .message-text {
+      padding: 1rem;
+
       margin-left: 1rem;
       padding: 1rem;
     }
@@ -246,39 +365,63 @@
       margin-right: 1rem;
     }
 
-    .chat-header {
-      display: flex;
-      align-items: center;
-      height: 6rem;
+    .timestamp {
+      margin-left: 5rem;
+    }
+
+    .message.by-user .timestamp {
+      margin-right: 5rem;
+    }
+
+    .chat-header--md {
+      display: none;
+    }
+
+    .chat-header--sm {
       position: fixed;
       top: 0;
       left: 0;
-      background: var(--color-white);
-      width: 100%;
       z-index: 10;
       box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
+      display: block;
     }
 
-    .chat-header .title {
+    .chat-header--sm .title {
       width: 100%;
       text-align: center;
       font-size: 1.8rem;
       font-weight: 900;
+    }
+
+    .chat-header--sm__top {
+      height: 6rem;
+      display: flex;
+      align-items: center;
       position: relative;
+    }
+
+    .chat-header--sm__bot {
+      height: 2rem;
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    .chat-header--sm__bot .garden-link {
+      position: absolute;
+      top: -1.5rem;
     }
 
     .back {
       height: 4rem;
       width: 4rem;
       left: 2rem;
-      top: calc(50% - 2rem);
       position: absolute;
       font-size: 2.2rem;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 900;
-      z-index: 20;
     }
   }
 </style>

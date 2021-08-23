@@ -1,62 +1,71 @@
 <script>
   import { setContext, onMount } from 'svelte';
-  import mapboxgl from 'mapbox-gl';
-  import { config } from '@/config';
+  import maplibregl from 'maplibre-gl';
   import key from './mapbox-context.js';
+
+  import 'maplibre-gl/dist/maplibre-gl.css';
 
   export let lat;
   export let lon;
   export let zoom;
+  export let applyZoom = false; // make this true if the provided zoom level should be applied
   export let recenterOnUpdate = false;
+  export let initialLat = lat;
+  export let initialLon = lon;
+  export let jump = false;
 
   let container;
   let map;
-
-  let initialLat = lat;
-  let initialLon = lon;
+  let loaded = false;
 
   setContext(key, {
     getMap: () => map
   });
 
-  mapboxgl.accessToken = config.MAPBOX_ACCESS_TOKEN;
-  const mapStyle =
-    NODE_ENV === 'production' || NODE_ENV === 'staging'
-      ? 'https://tile.welcometomygarden.org/styles/klokantech-basic/style.json'
-      : `https://api.maptiler.com/maps/basic/style.json?key=${config.MAPTILER_ACCESS_TOKEN}`;
+  maplibregl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
   onMount(() => {
-    map = new mapboxgl.Map({
+    map = new maplibregl.Map({
       container,
-      style: mapStyle,
+      style: 'mapbox://styles/mapbox/streets-v8',
       center: [lon, lat],
       zoom,
       attributionControl: false
     });
 
-    map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-left');
-    map.addControl(new mapboxgl.AttributionControl({ compact: false }));
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-left');
+    map.addControl(new maplibregl.AttributionControl({ compact: false }));
+
+    map.on('load', () => {
+      loaded = true;
+    });
   });
 
-  $: if (recenterOnUpdate && map && initialLat !== lat && initialLon !== lon) {
-    map.flyTo({
-      center: [lon, lat],
-      bearing: 0,
-
-      speed: 0.9,
-      curve: 1,
-
-      essential: true
+  $: if (map) {
+    map.jumpTo({
+      center: [initialLon, initialLat]
     });
+  }
+
+  $: if (recenterOnUpdate && map && initialLat !== lat && initialLon !== lon) {
+    const zoomLevel = applyZoom ? zoom : map.getZoom();
+    const params = { center: [lon, lat], zoom: zoomLevel };
+    if (!jump) {
+      map.flyTo({
+        ...params,
+        bearing: 0,
+        speed: 1,
+        curve: 1,
+        essential: true
+      });
+    } else {
+      map.jumpTo(params);
+    }
   }
 </script>
 
-<svelte:head>
-  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css" />
-</svelte:head>
-
 <div bind:this={container}>
-  {#if map}
+  {#if map && loaded}
     <slot />
   {/if}
 </div>

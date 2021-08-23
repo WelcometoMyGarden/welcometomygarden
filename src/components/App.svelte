@@ -1,6 +1,6 @@
 <script>
-  import { Router } from '@sveltech/routify';
-  import { routes } from '@sveltech/routify/tmp/routes';
+  import { Router } from '@roxi/routify';
+  import { routes } from '../../.routify/routes';
   import { register, locale, init } from 'svelte-i18n';
   import { setCookie, getCookie } from '@/util';
 
@@ -28,7 +28,7 @@
     fr: ['fr', 'fr-be', 'fr-ca', 'fr-fr', 'fr-lu', 'fr-mc', 'fr-ch']
   };
 
-  const languageCode = Object.keys(langs).find(code => langs[code].includes(lang)) || 'en';
+  const languageCode = Object.keys(langs).find((code) => langs[code].includes(lang)) || 'en';
 
   register('en', () => import('@/locales/en.json'));
   register('fr', () => import('@/locales/fr.json'));
@@ -36,7 +36,7 @@
 
   init({ fallbackLocale: 'en', initialLocale: languageCode });
 
-  locale.subscribe(value => {
+  locale.subscribe((value) => {
     if (value == null) return;
 
     // if running in the client, save the language preference in a cookie
