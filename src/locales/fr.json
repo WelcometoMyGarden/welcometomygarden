@@ -5,7 +5,10 @@
     "sign-out": "Se déconnecter",
     "account": "Compte",
     "chat": "Discussion",
-    "faq": { "explicit": "Foire aux questions", "acronym": "FAQ" },
+    "faq": {
+      "explicit": "Foire aux questions",
+      "acronym": "FAQ"
+    },
     "rules": "Règles",
     "map": "Carte",
     "home": "Accueil",
@@ -14,7 +17,8 @@
     "cookie-policy": "Politique des cookies",
     "email": "Courriel",
     "password": "Mot de passe",
-    "garden": "Jardin"
+    "garden": "Jardin",
+    "shop": "Shop"
   },
   "ui": {
     "card": {
@@ -154,7 +158,10 @@
         "recommendations": {
           "0": "Faire un itinéraire pour vélo ou marche à pied : BRouter, Komoot, OutdoorActive",
           "1": "Applications pour les itinéraires  : OSMAnd",
-          "2": "Sur OpenStreetMap, vous trouverez les réseaux de pistes cyclables."
+          "2": "Sur OpenStreetMap, vous trouverez les réseaux de pistes cyclables.",
+          "3": "Excellente application de navigation pour le cyclisme et la randonnée : OSMAnd",
+          "4": "Une autre excellente application de navigation : ViewRanger",
+          "5": "Vue d'ensemble de toute la couche cyclable du réseau cyclable d'OpenStreetMap"
         }
       },
       "1": {
@@ -445,7 +452,7 @@
         },
         "2": {
           "title": "Utilisateur",
-          "copy": "La personne utilisant cette application."
+          "copy": "La personne qui utilise cette application et qui doit être d’accord ou être autorisée par la personne concernée à laquelle les données personnelles se réfèrent."
         },
         "3": {
           "title": "La personne concernée",
@@ -472,6 +479,10 @@
         "title": "Information légale",
         "copy": "Avis aux utilisateurs européens: cette déclaration de confidentialité a été rédigée dans le respect des obligations de l'art. 10 de la directive européenne 95/46 / CE et les dispositions de la directive européenne 2002/58 / CE, ainsi que la révision de la directive 2009/136 / CE concernant les cookies."
       }
+    },
+    "change-warning": {
+      "copy": "Le responsable du traitement des données se réserve le droit de modifier à tout moment la présente politique de confidentialité en en informant les utilisateurs sur cette page. Nous vous encourageons à vérifier cette page pour d'éventuelles modifications. La date de la dernière modification est indiquée au bas de la page. Si un Utilisateur s'oppose à toute modification de la politique, il ne doit pas continuer à utiliser cette Application. Il peut demander au responsable du traitement des données de supprimer les données personnelles. Sauf indication contraire, la politique de confidentialité en vigueur à ce moment-là s'applique à toutes les Données personnelles que le Contrôleur a stockées pour le traitement des Données concernant les Utilisateurs.",
+      "title": "Modifications de la présente politique de confidentialité"
     }
   },
   "garden": {
@@ -571,8 +582,12 @@
         "capacity": "Place pour {styleCapacity} {capacity, plural, one {tente} other {tentes}}"
       }
     },
-    "add": { "title": "Ajoutez votre jardin" },
-    "manage": { "title": "Gérer le jardin" }
+    "add": {
+      "title": "Ajoutez votre jardin"
+    },
+    "manage": {
+      "title": "Gérer le jardin"
+    }
   },
   "sign-in": {
     "register": {
@@ -697,7 +712,8 @@
     "type-message": "Tapez votre message…",
     "new": "nouveau",
     "title-conversation": "Discuter avec {partnerName}",
-    "title": "Discussion"
+    "title": "Discussion",
+    "go-to-garden": "Aller au jardin"
   },
   "map": {
     "vehicle-notice": {
