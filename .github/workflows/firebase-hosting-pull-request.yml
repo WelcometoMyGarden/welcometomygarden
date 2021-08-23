@@ -1,8 +1,8 @@
 name: Deploy to Firebase Hosting on PR
-'on': pull_request
+on: pull_request
 jobs:
   build_and_preview:
-    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+    if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
     runs-on: ubuntu-latest
     environment: staging
     env:
@@ -16,12 +16,14 @@ jobs:
       VITE_MAPBOX_ACCESS_TOKEN: ${{secrets.MAPBOX_ACCESS_TOKEN}}
     steps:
       - uses: actions/checkout@v2
+      - name: Change directory to client
+        run: cd client
       - name: Install Dependencies
         run: yarn
       - name: Build project
         run: yarn run build:staging
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_STAGING }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_STAGING }}"
           projectId: wtmg-dev
