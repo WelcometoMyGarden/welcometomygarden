@@ -22,50 +22,15 @@
   "fallback": {
     "404": "404 - Página no encontrada"
   },
-  "index": {
-    "faq": {
-      "questions": {
-        "4": {
-          "title": ""
-        }
-      }
-    }
-  },
   "garden": {
     "form": {
       "add-button": ""
     }
   },
   "terms-of-use": {
-    "articles": {
-      "0": {
-        "info": {
-          "0": {
-            "sections": {
-              "2": {
-                "title": ""
-              }
-            }
-          }
-        }
-      }
-    },
     "intro": {
       "0": {
         "copy": ""
-      }
-    }
-  },
-  "privacy-policy": {
-    "personal-data": {
-      "collection": {
-        "sources": {
-          "2": {
-            "list": {
-              "1": ""
-            }
-          }
-        }
       }
     }
   },
