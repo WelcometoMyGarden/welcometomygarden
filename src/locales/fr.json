@@ -260,12 +260,49 @@
           "privacy": {
             "title": "Comment Welcome To My Garden garantit la confidentialité des hôtes ?",
             "copy": "Toutes vos données personnelles sont protégées grâce au système d’identification mis en place. Si vous êtes un hôte, nous ne publierons pas le numéro de votre maison et les voyageurs ne pourront pas zoomer exactement sur votre habitation. Vous pourrez donner toutes ces informations aux voyageurs quand vous serez en contact avec eux. À vous de dire comment vous souhaitez communiquer avec eux. "
+          },
+          "messaging": {
+            "title": "J'ai reçu un message d'un·e voyageur·se lent·e, où puis-je répondre ?",
+            "copy": "La conversation entre les hôtes et voyageur·se·ss se déroule via le chat de la plateforme. Si vous recevez un une notification par email indiquant que vous avez reçu un message, rendez-vous sur https://welcometomygarden.org/chat pour y répondre."
+          },
+          "suspend": {
+            "title": "J'aimerais suspendre mon jardin pendant un moment mais je reviens bientôt ! Comment est-ce que je peux le faire ?",
+            "copy": "Rendez-vous sur welcometomygarden.org/manage. Dans la catégorie « Your Garden », décochez la case \"Shown on the map\". Votre jardin sera toujours enregistré sur la plateforme mais n'apparaîtra pas sur la carte. À votre retour, il suffit de cliquer à nouveau sur la boîte et vous pouvez recommencer à accueillir les voyageur·se·s lent·e·s !"
+          },
+          "issue": {
+            "title": "J’ai eu un problème avec un.e hôte, comment vous le faire savoir ?",
+            "copy": "Tout problème ou mauvais comportement de la part d’un.e hôte ou d’un.e voyageur/voyageuse doit être reporté à Welcome To My Garden par email (welcometomygardennetwork-gmail.com). En cas de comportement inadapté, nous nous réservons le droit de suspendre de manière unilatérale le compte de la personne en question (voir les conditions d’utilisations)."
+          }
+        }
+      },
+      "technical-support": {
+        "title": "Technical support",
+        "questions": {
+          "privacy": {
+            "title": "Je viens de m'inscrire mais je n'ai pas reçu d'email pour confirmer mon adresse.",
+            "copy": "Contactez l'équipe bénévole de support {support} et ils/elles vous aideront à vérifier votre email !"
+          },
+          "messages": {
+            "title": "Je n'arrive pas à lire les messages sur le chat.",
+            "copy": "Tout d'abord, essayez de vous connecter en utilisant un autre navigateur, tel que Firefox ou Google Chrome. Si cela ne fonctionne pas, contactez le support. Il y a toujours une solution à tout, nous la trouverons ensemble !"
+          },
+          "update-email": {
+            "title": "Je souhaite mettre à jour mon adresse email ou supprimer mon compte. Comment dois-je procéder ?",
+            "copy": "Nous prenons vos données très au sérieux. Si vous souhaitez mettre à jour votre adresse e-mail ou supprimer complètement votre compte de la plateforme, veuillez contacter notre support {support}. N'oubliez pas de confirmer l'adresse e-mail que vous souhaitez modifier ou supprimer."
+          },
+          "newsletter": {
+            "title": "J'aimerais recevoir votre prochaine lettre d'information ! Que dois-je faire ?",
+            "copy": "Pour recevoir notre prochaine lettre d'information, rendez-vous sur https://welcometomygarden.org/account et cochez la case \"Welcome To My Garden a des nouvelles à partager\". Si vous ne souhaitez plus recevoir de nouvelles, décochez la même case."
           }
         }
       },
       "other": {
         "title": "Autre",
         "questions": {
+          "become-volunteer": {
+            "title": "Est-ce que je peux devenir bénévole ?",
+            "copy": "Nous recherchons actuellement des volontaires pour traduire Welcome To My Garden dans d'autres langues ! Plus nous aurons d’icônes de tentes sur la carte, plus les voyages lents deviendront la nouvelle normalité. Si vous voulez faire partie de l'aventure, envoyez-nous un courriel à {support} ou rejoignez notre Slack (lien en bas de page)."
+          },
           "fb-page": {
             "title": "Pourquoi est-ce que votre page facebook n’est qu’en anglais ?",
             "copy": "La première raison est toute simple : l’anglais est la seule langue commune de notre équipe de bénévoles ! Nous souhaitons aussi ouvrir Welcome To my Garden au plus grand nombre et donc permettre à des personnes ne parlant ni français ni néerlandais de l’utiliser et, qui sait, de le répliquer dans leur propre pays. Nous continuerons à poster en anglais sur facebook, mais n’hésitez pas à nous écrire en néerlandais ou français !"
