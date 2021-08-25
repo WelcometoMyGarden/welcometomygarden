@@ -629,6 +629,9 @@
       "photo": "Es kann eine Minute dauern, bis das Foto angezeigt wird.",
       "success": "Ihr Garten wurde erfolgreich hinzugefügt!",
       "update": "Ihr Garten wurde erfolgreich aktualisiert!"
+    },
+    "filter": {
+      "min": "Minimum"
     }
   },
   "index": {
