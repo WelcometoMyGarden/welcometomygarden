@@ -617,7 +617,8 @@
         "drinkable-water": "Trinkwasser",
         "bonfire": "Lagerfeuer",
         "tent": "Zelt",
-        "toilet": "Toilette"
+        "toilet": "Toilette",
+        "water": "Wasser"
       }
     },
     "add": {
