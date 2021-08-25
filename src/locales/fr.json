@@ -199,7 +199,7 @@
     "description": "Questions fréquentes",
     "clusters": {
       "general": {
-        "title": "General",
+        "title": "Général",
         "questions": {
           "what": {
             "title": "Welcome To My Garden, c’est quoi ?",
@@ -216,6 +216,7 @@
         }
       },
       "slow-travellers": {
+        "title": "voyageurs lents",
         "questions": {
           "how-camping": {
             "title": "Comment accéder au bivouac ?",
@@ -256,6 +257,7 @@
         }
       },
       "hosts": {
+        "title": "Hôtes",
         "questions": {
           "privacy": {
             "title": "Comment Welcome To My Garden garantit la confidentialité des hôtes ?",
@@ -276,7 +278,7 @@
         }
       },
       "technical-support": {
-        "title": "Technical support",
+        "title": "Support technique",
         "questions": {
           "privacy": {
             "title": "Je viens de m'inscrire mais je n'ai pas reçu d'email pour confirmer mon adresse.",
@@ -297,7 +299,7 @@
         }
       },
       "other": {
-        "title": "Autre",
+        "title": "Autres",
         "questions": {
           "become-volunteer": {
             "title": "Est-ce que je peux devenir bénévole ?",
