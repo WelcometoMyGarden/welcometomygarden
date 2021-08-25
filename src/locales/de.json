@@ -616,7 +616,8 @@
         "electricity": "Strom",
         "drinkable-water": "Trinkwasser",
         "bonfire": "Lagerfeuer",
-        "tent": "Zelt"
+        "tent": "Zelt",
+        "toilet": "Toilette"
       }
     },
     "add": {
