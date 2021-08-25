@@ -2,6 +2,7 @@
   import { _ } from 'svelte-i18n';
   import { supportEmailLinkString, getNodeChildren } from '@/util';
   import Collapsible from '../../components/Collapsible.svelte';
+  import { DONATION_URL } from '../../constants';
 
   export let clustersKey;
 
@@ -27,7 +28,10 @@
           <p slot="content">
             {@html $_(`${clustersKey}.${clusterKey}.questions.${questionKey}.copy`, {
               values: {
-                support: supportEmailLinkString
+                support: supportEmailLinkString,
+                donation: `</span><a href="${DONATION_URL}" target="_blank" rel="noopener noreferrer" class="link">${$_(
+                  'faq.donation'
+                )}</a>`
               }
             })}
           </p>

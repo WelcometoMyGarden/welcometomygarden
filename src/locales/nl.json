@@ -459,7 +459,7 @@
           },
           "cost": {
             "title": "Is Welcome To My Garden gratis?",
-            "copy": "Welcome to My Garden gebruiken is helemaal gratis. Als platform maken we wel kosten. Als je een donatie wilt doen, zal dat een grote glimlach op ons gezicht toveren! We zijn een initiatief zonder winstoogmerk, dus we verdienen hier geen geld aan. Dit betekent dat al het geld dat je doneert, rechtstreeks naar de kosten van het project gaat. Je kan ook onze uitgaven bekijken op de donatiepagina."
+            "copy": "Welcome to My Garden gebruiken is helemaal gratis. Als platform maken we wel kosten. Als je {donation} wilt doen, zal dat een grote glimlach op ons gezicht toveren! We zijn een initiatief zonder winstoogmerk, dus we verdienen hier geen geld aan. Dit betekent dat al het geld dat je doneert, rechtstreeks naar de kosten van het project gaat. Je kan ook onze uitgaven bekijken op de donatiepagina."
           },
           "no-garden": {
             "title": "Ik heb geen tuin. Kan ik nog steeds naar de tuinen van anderen reizen?",
@@ -516,7 +516,8 @@
           }
         }
       }
-    }
+    },
+    "donation": "een donatie"
   },
   "cookies": {
     "title": "Cookiebeleid",

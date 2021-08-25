@@ -219,7 +219,7 @@
           },
           "cost": {
             "title": "Does Welcome To My Garden cost anything?",
-            "copy": "Using Welcome To My Garden is completely free. However, as a platform we do incur costs. If you want to make a donation that will put a big smile on our faces! We are a not-for-profit initiative, so we’re not making any money out of this. This means any money you donate will go directly towards covering the costs of the project. You can look into our expenses too on the donation page."
+            "copy": "Using Welcome To My Garden is completely free. However, as a platform we do incur costs. If you want to make {donation} that will put a big smile on our faces! We are a not-for-profit initiative, so we’re not making any money out of this. This means any money you donate will go directly towards covering the costs of the project. You can look into our expenses too on the donation page."
           },
           "no-garden": {
             "title": "I don’t have a garden. Can I still travel to other people’s gardens?",
@@ -306,7 +306,8 @@
           }
         }
       }
-    }
+    },
+    "donation": "a donation"
   },
   "cookies": {
     "title": "Cookie policy",
