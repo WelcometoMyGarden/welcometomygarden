@@ -17,21 +17,22 @@ export class CampsiteController {
 
   @Get(':id')
   async getOne(@Param('id') id: number): Promise<Campsite> {
-    return this.campsiteService.getOne(id);
+    return this.campsiteService.getOne({ id });
   }
 
   @Post()
   async createOne(@Body() campsite: CampsiteDTO): Promise<Campsite> {
-    return this.campsiteService.createOne(campsite);
+    return this.campsiteService.createOne((delete campsite.id, campsite));
   }
 
   @Put()
   async updateOne(@Body() campsite: CampsiteDTO): Promise<Campsite> {
-    return this.campsiteService.updateOne(campsite);
+    const { id, ...rest } = campsite;
+    return this.campsiteService.updateOne({ where: { id }, data: rest });
   }
 
   @Delete(':id')
   async deleteOne(@Param('id') id: number): Promise<Campsite> {
-    return this.campsiteService.deleteOne(id);
+    return this.campsiteService.deleteOne({ id });
   }
 }

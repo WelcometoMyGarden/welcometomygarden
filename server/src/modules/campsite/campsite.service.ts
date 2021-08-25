@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Campsite } from '@prisma/client';
+import { Campsite, Prisma } from '@prisma/client';
 import { PrismaService } from '../../config/prisma/prisma.service';
-import { CampsiteDTO } from './dto/campsite.dto';
 
 @Injectable()
 export class CampsiteService {
@@ -11,33 +10,30 @@ export class CampsiteService {
     return this.prisma.campsite.findMany();
   }
 
-  async getOne(id: number): Promise<Campsite> {
+  async getOne(where: Prisma.CampsiteWhereUniqueInput): Promise<Campsite> {
     return this.prisma.campsite.findUnique({
-      where: {
-        id,
-      },
+      where,
     });
   }
 
-  async createOne(data: CampsiteDTO): Promise<Campsite> {
+  async createOne(data: Prisma.CampsiteCreateInput): Promise<Campsite> {
     return await this.prisma.campsite.create({ data });
   }
 
-  async updateOne(data: CampsiteDTO): Promise<Campsite> {
-    const { id } = data;
+  async updateOne(params: {
+    where: Prisma.CampsiteWhereUniqueInput;
+    data: Prisma.CampsiteUpdateInput;
+  }): Promise<Campsite> {
+    const { where, data } = params;
     return await this.prisma.campsite.update({
-      where: {
-        id,
-      },
+      where,
       data,
     });
   }
 
-  async deleteOne(id: number): Promise<Campsite> {
+  async deleteOne(where: Prisma.CampsiteWhereUniqueInput): Promise<Campsite> {
     return await this.prisma.campsite.delete({
-      where: {
-        id,
-      },
+      where,
     });
   }
 }
