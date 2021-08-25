@@ -15,6 +15,7 @@ jobs:
       - name: Install dependencies
         run: cd server && yarn
       - name: Run linters
+        run: cd server
         uses: wearerequired/lint-action@v1
         with:
           eslint: true
