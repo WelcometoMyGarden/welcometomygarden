@@ -13,6 +13,6 @@ async function bootstrap() {
   SwaggerModule.setup('/', app, SwaggerModule.createDocument(app, config));
 
   app.use(helmet());
-  await app.listen(5000);
+  await app.listen(process.env.PORT || 5000);
 }
 bootstrap();

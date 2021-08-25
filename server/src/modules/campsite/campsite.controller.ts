@@ -7,4 +7,14 @@ import { Campsite } from '@prisma/client';
 @Controller('campsite')
 export class CampsiteController {
   constructor(private campsiteService: CampsiteService) {}
+
+  @Get()
+  async listAll(): Promise<Campsite[]> {
+    return this.campsiteService.findAll();
+  }
+
+  @Post()
+  async createCampsite(@Body() campsiteData: any): Promise<Campsite> {
+    return this.campsiteService.createCampsite(campsiteData);
+  }
 }
