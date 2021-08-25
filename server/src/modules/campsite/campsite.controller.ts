@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CampsiteService } from 'src/modules/campsite/campsite.service';
 import { Campsite } from '@prisma/client';
+import { CampsiteService } from './campsite.service';
 
 @ApiTags('campsite')
 @Controller('campsite')
