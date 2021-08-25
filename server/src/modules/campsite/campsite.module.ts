@@ -7,6 +7,6 @@ import { CampsiteService } from './campsite.service';
 @Module({
   imports: [PrismaModule],
   controllers: [CampsiteController],
-  providers: [CampsiteService, PrismaService],
+  providers: [PrismaService, CampsiteService],
 })
 export class CampsiteModule {}
