@@ -494,6 +494,14 @@
             "title": "Hoe garandeert Welcome To My Garden mijn privacy als host?",
             "copy": "Al jouw persoonlijke gegevens worden beschermd door het inlogsysteem. Als je een host bent, zullen we jouw huisnummer of exacte locatie niet op de kaart weergeven. Je kan dit aan jouw gasten geven zodra je contact met hen opneemt. Je bepaalt zelf hoe je wilt dat ze contact met je opnemen: per e-mail, telefoon of allebei."
           },
+          "messaging": {
+            "title": "Ik heb een bericht ontvangen van een trage reiziger. Waar kan ik het beantwoorden?",
+            "copy": "De conversaties tussen hosts en reizigers vinden plaats via de chat op het platform. Als je een notificatiemail ontvangt dat je een bericht hebt ontvangen, ga dan naar https://welcometomygarden.org/chat om te antwoorden."
+          },
+          "suspend": {
+            "title": "Ik wil mijn tuin een tijdje offline halen, maar binnenkort ben ik terug! Hoe doe ik dat?",
+            "copy": "Ga naar welcometomygarden.org/manage. In de sectie \"Beheer jouw tuin\", verwijder je het vinkje bij \"Weergeven op de kaart\". De tuin wordt nog steeds opgeslagen op het platform, maar verschijnt niet meer op de kaart. Van zodra je terug bent, klik je het vakje weer aan en kun je weer beginnen met het verwelkomen van trage reizigers!"
+          },
           "issue": {
             "title": "Ik heb een probleem gehad met een gast of een host. Hoe meld ik dit?",
             "copy": "Elk probleem of wangedrag moet per e-mail worden gemeld aan Welcome To My Garden {support}. In geval van wangedrag behouden we het recht om eenzijdig het account van deze persoon te verwijderen (zie Gebruiksvoorwaarden)."
@@ -501,11 +509,33 @@
         }
       },
       "technical-support": {
-        "title": "Technische ondersteuning"
+        "title": "Technische ondersteuning",
+        "questions": {
+          "privacy": {
+            "title": "Ik heb me net ingeschreven, maar ik heb nog geen bevestigingsmail ontvangen.",
+            "copy": "Neem contact op met het vrijwilligersteam {support} en zij zullen je helpen jouw e-mail te verifiëren!"
+          },
+          "messages": {
+            "title": "Ik heb problemen met het lezen van berichten.",
+            "copy": "Probeer eerst in te loggen met een andere browser, zoals Firefox of Google Chrome. Als het niet werkt, neem dan contact op met de support {support}. Er is altijd een oplossing voor alles, we zullen het samen vinden!"
+          },
+          "update-email": {
+            "title": "Ik wil mijn e-mailadres bijwerken of mijn account verwijderen. Hoe kan ik dit doen?",
+            "copy": "Wij nemen jouw gegevens zeer serieus. Als je jouw e-mailadres wilt bijwerken of jouw account volledig van het platform wilt verwijderen, neem dan contact op met onze support (support-at-welcometomygarden.org). Vergeet niet jouw e-mailadres te vermelden dat je wilt wijzigen of verwijderen."
+          },
+          "newsletter": {
+            "title": "Ik zou graag jouw volgende nieuwsbrief ontvangen! Wat moet ik doen?",
+            "copy": "Om onze volgende nieuwsbrief te ontvangen, ga naar https://welcometomygarden.org/account en vink het vakje \"Welcome To My Garden heeft nieuws te delen\" aan. Als je geen nieuws meer wilt ontvangen, verwijder je eenvoudigweg het vinkje in hetzelfde vakje."
+          }
+        }
       },
       "other": {
         "title": "Andere",
         "questions": {
+          "become-volunteer": {
+            "title": "Kan ik vrijwilliger worden?",
+            "copy": "We zijn momenteel op zoek naar vrijwilligers om Welcome To My Garden in andere talen te vertalen! Hoe meer tenten we op de kaart hebben, hoe meer traag reizen het nieuwe normaal wordt. Als je deel wilt uitmaken van het avontuur, stuur ons dan een e-mail naar {support} of word lid van onze slack (link onderaan)."
+          },
           "fb-page": {
             "title": "Waarom is de Facebookpagina alleen in het Engels?",
             "copy": "Allereerst is er een heel praktische reden: Engels is de enige taal waarin het hele team vloeiend genoeg kan communiceren! We willen ook dat Welcome To My Garden voor iedereen openstaat, zodat mensen in andere landen het initiatief ook bij hen kunnen realiseren. Op de Facebookpagina houden we het bij Engels. Contacteer je ons liever in het Nederlands of Frans? Dat kan gerust!"
