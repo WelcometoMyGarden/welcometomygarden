@@ -10,7 +10,7 @@ export default defineConfig(() => {
     build: {
       polyfillDynamicImport: false,
       cssCodeSplit: false,
-      minify: isProduction
+      minify: isProduction ? "terser" : false
     },
     optimizeDeps: { exclude: ['@roxi/routify'] },
     resolve: {
