@@ -1,0 +1,13 @@
+name: Test server on PR
+on: pull_request
+jobs:
+  build_and_preview:
+    if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
+    runs-on: ubuntu-latest
+    environment: test
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: cd server && yarn
+      - name: Run tests
+        run: cd server && yarn test
