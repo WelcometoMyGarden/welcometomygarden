@@ -39,7 +39,7 @@
 
   .content {
     font-weight: normal;
-    margin: 0 calc(4.8rem * 2) 2.4rem 4.8rem;
+    margin: 0 9.6rem 2.4rem 4.8rem;
     max-width: 70rem;
   }
 
