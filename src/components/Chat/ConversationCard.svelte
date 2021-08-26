@@ -1,16 +1,13 @@
 <script>
   import { _ } from 'svelte-i18n';
+  import User from './User.svelte';
   export let selected = false;
   export let recipient;
   export let lastMessage;
-
-  import { Avatar } from '@/components/UI';
 </script>
 
 <button class="button-container conversation" class:selected on:click>
-  <Avatar name={recipient} />
-  <div class="details">
-    <span class="name">{recipient}</span>
+  <User name={recipient}>
     <p class="last-message">
       {#if lastMessage}
         {lastMessage}
@@ -18,14 +15,12 @@
         <span class="badge">{$_('chat.new')}</span>
       {/if}
     </p>
-  </div>
+  </User>
 </button>
 
 <style>
   .conversation {
     padding: 2rem 2.4rem 2rem 2rem;
-    display: flex;
-    align-items: center;
     background-color: var(--color-white);
     border-left: 0.3rem solid var(--color-white);
     transition: all 0.3s ease-in-out;
@@ -44,13 +39,8 @@
     border-left: 0.3rem solid var(--color-green);
   }
 
-  .details {
+  .conversation :global(.details) {
     width: 75%;
-    margin-left: 1.2rem;
-  }
-
-  .name {
-    font-weight: 700;
   }
 
   /* truncate on overflow */

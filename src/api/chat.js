@@ -12,23 +12,26 @@ export const initiateChat = async (partnerUid) => {
 };
 
 export const createChatObserver = async () => {
-  const query = await db.collection('chats').where('users', 'array-contains', get(user).id);
+  const query = db.collection('chats').where('users', 'array-contains', get(user).id);
   return query.onSnapshot(
-    (querySnapshot) => {
+    async (querySnapshot) => {
       const changes = querySnapshot.docChanges();
       const amount = querySnapshot.size;
       let counter = 0;
-      changes.forEach(async (change, i) => {
-        const chat = change.doc.data();
-        const partnerId = chat.users.find((id) => get(user).id !== id);
-        const partner = await getPublicUserProfile(partnerId);
-        chat.partner = partner;
-        addChat({ id: change.doc.id, ...chat });
-        counter = i;
-      });
+      await Promise.all(
+        changes.map(async (change) => {
+          const chat = change.doc.data();
+          const partnerId = chat.users.find((id) => get(user).id !== id);
+          const partner = await getPublicUserProfile(partnerId);
+          chat.partner = partner;
+          addChat({ id: change.doc.id, ...chat });
+          counter++;
+        })
+      );
       if (counter === amount) hasInitialized.set(true);
     },
     (err) => {
+      hasInitialized.set(true);
       throw new Error(err);
     }
   );
