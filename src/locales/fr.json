@@ -295,6 +295,10 @@
           "newsletter": {
             "title": "J'aimerais recevoir votre prochaine lettre d'information ! Que dois-je faire ?",
             "copy": "Pour recevoir notre prochaine lettre d'information, rendez-vous sur {accountLink} et cochez la case \"Welcome To My Garden a des nouvelles à partager\". Si vous ne souhaitez plus recevoir de nouvelles, décochez la même case."
+          },
+          "text-in-english": {
+            "title": "Il y a du texte en anglais, alors que ce n’est pas ma langue préférée. Comment puis-je le modifier ?",
+            "copy": "Si un texte n’est pas encore traduit dans votre langue préférée, il apparaîtra en anglais. Vous pouvez nous aider à traduire Welcome To My Garden dans votre langue préférée. Allez {communityTranslationsLink} pour commencer."
           }
         }
       },
@@ -316,7 +320,8 @@
         }
       }
     },
-    "donation": "un don"
+    "donation": "un don",
+    "instruction-page": "à cette page d’instructions"
   },
   "cookies": {
     "title": "Politique d'utilisation des cookies",

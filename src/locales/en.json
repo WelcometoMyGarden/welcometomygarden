@@ -286,6 +286,10 @@
           "newsletter": {
             "title": "I would love to receive your next newsletter! What should I do?",
             "copy": "To receive our next newsletter, go to {accountLink} and tick the box “Welcome To My Garden has news to share”. If you’d like to stop receiving news, untick the same box."
+          },
+          "text-in-english": {
+            "title": "There’s text in English, whereas it’s not my preferred language. How can I change this?",
+            "copy": "If some text isn’t translated to your preferred language yet, then it will appear in English. You can help us translate Welcome To My Garden to your preferred language. Go to {communityTranslationsLink} to get started."
           }
         }
       },
@@ -307,7 +311,8 @@
         }
       }
     },
-    "donation": "a donation"
+    "donation": "a donation",
+    "instruction-page": "this instructions page"
   },
   "cookies": {
     "title": "Cookie policy",

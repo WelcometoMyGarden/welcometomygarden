@@ -526,6 +526,10 @@
           "newsletter": {
             "title": "Ik zou graag jouw volgende nieuwsbrief ontvangen! Wat moet ik doen?",
             "copy": "Om onze volgende nieuwsbrief te ontvangen, ga naar {accountLink} en vink het vakje \"Welcome To My Garden heeft nieuws te delen\" aan. Als je geen nieuws meer wilt ontvangen, verwijder je eenvoudigweg het vinkje in hetzelfde vakje."
+          },
+          "text-in-english": {
+            "title": "Er staat tekst in het Engels, terwijl dat niet mijn voorkeurstaal is. Hoe kan ik dit veranderen?",
+            "copy": "Indien bepaalde tekst nog niet vertaald is naar uw voorkeurstaal, dan zal het in het Engels verschijnen. Je kan ons helpen Welcome To My Garden te vertalen naar jouw voorkeurstaal. Ga naar {communityTranslationsLink} om van start te gaan."
           }
         }
       },
@@ -547,7 +551,8 @@
         }
       }
     },
-    "donation": "een donatie"
+    "donation": "een donatie",
+    "instruction-page": "deze instructiepagina"
   },
   "cookies": {
     "title": "Cookiebeleid",

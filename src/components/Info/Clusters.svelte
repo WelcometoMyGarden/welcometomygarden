@@ -2,7 +2,7 @@
   import { _ } from 'svelte-i18n';
   import { supportEmailLinkString, getNodeChildren } from '@/util';
   import Collapsible from '../../components/Collapsible.svelte';
-  import { DONATION_URL } from '@/constants';
+  import { DONATION_URL, COMMUNITY_TRANSLATIONS_URL } from '@/constants';
   import routes from '@/routes';
 
   export let clustersKey;
@@ -35,7 +35,9 @@
                 chatLink: `<a href="${routes.CHAT}" target="_blank" class="link lowercase">
                   ${$_('generics.chat')}</a>`,
                 accountLink: `<a href="${routes.ACCOUNT}" target="_blank" class="link lowercase">
-                  ${$_('generics.account')}</a>`
+                  ${$_('generics.account')}</a>`,
+                communityTranslationsLink: `<a href="${COMMUNITY_TRANSLATIONS_URL}" target="_blank" class="link lowercase">
+                  ${$_('faq.instruction-page')}</a>`
               }
             })}
           </p>
