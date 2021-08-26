@@ -21,5 +21,12 @@
   },
   "fallback": {
     "404": "404 - Página no encontrada"
+  },
+  "garden": {
+    "form": {
+      "location": {
+        "adjust-button": "Ajustar ubicación del pin"
+      }
+    }
   }
 }
