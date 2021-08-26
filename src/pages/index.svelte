@@ -6,7 +6,7 @@
   import { Button } from '../components/UI';
   import { getNodeChildren } from '@/util';
   import { user } from '@/stores/auth';
-  import { DONATION_URL } from '../constants';
+  import { DONATION_URL } from '@/constants';
 
   import Logo from '../images/logo.svg';
   import welcomeMap from '../images/welcome-map.svg';
