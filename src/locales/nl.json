@@ -496,11 +496,11 @@
           },
           "messaging": {
             "title": "Ik heb een bericht ontvangen van een trage reiziger. Waar kan ik het beantwoorden?",
-            "copy": "De conversaties tussen hosts en reizigers vinden plaats via de chat op het platform. Als je een notificatiemail ontvangt dat je een bericht hebt ontvangen, ga dan naar https://welcometomygarden.org/chat om te antwoorden."
+            "copy": "De conversaties tussen hosts en reizigers vinden plaats via de chat op het platform. Als je een notificatiemail ontvangt dat je een bericht hebt ontvangen, ga dan naar https://{chatLink} om te antwoorden."
           },
           "suspend": {
             "title": "Ik wil mijn tuin een tijdje offline halen, maar binnenkort ben ik terug! Hoe doe ik dat?",
-            "copy": "Ga naar welcometomygarden.org/manage. In de sectie \"Beheer jouw tuin\", verwijder je het vinkje bij \"Weergeven op de kaart\". De tuin wordt nog steeds opgeslagen op het platform, maar verschijnt niet meer op de kaart. Van zodra je terug bent, klik je het vakje weer aan en kun je weer beginnen met het verwelkomen van trage reizigers!"
+            "copy": "Ga naar {accountLink}. In de sectie \"Beheer jouw tuin\", verwijder je het vinkje bij \"Weergeven op de kaart\". De tuin wordt nog steeds opgeslagen op het platform, maar verschijnt niet meer op de kaart. Van zodra je terug bent, klik je het vakje weer aan en kun je weer beginnen met het verwelkomen van trage reizigers!"
           },
           "issue": {
             "title": "Ik heb een probleem gehad met een gast of een host. Hoe meld ik dit?",
@@ -525,7 +525,7 @@
           },
           "newsletter": {
             "title": "Ik zou graag jouw volgende nieuwsbrief ontvangen! Wat moet ik doen?",
-            "copy": "Om onze volgende nieuwsbrief te ontvangen, ga naar https://welcometomygarden.org/account en vink het vakje \"Welcome To My Garden heeft nieuws te delen\" aan. Als je geen nieuws meer wilt ontvangen, verwijder je eenvoudigweg het vinkje in hetzelfde vakje."
+            "copy": "Om onze volgende nieuwsbrief te ontvangen, ga naar {accountLink} en vink het vakje \"Welcome To My Garden heeft nieuws te delen\" aan. Als je geen nieuws meer wilt ontvangen, verwijder je eenvoudigweg het vinkje in hetzelfde vakje."
           }
         }
       },

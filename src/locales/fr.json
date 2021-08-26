@@ -265,11 +265,11 @@
           },
           "messaging": {
             "title": "J'ai reçu un message d'un·e voyageur·se lent·e, où puis-je répondre ?",
-            "copy": "La conversation entre les hôtes et voyageur·se·ss se déroule via le chat de la plateforme. Si vous recevez un une notification par email indiquant que vous avez reçu un message, rendez-vous sur https://welcometomygarden.org/chat pour y répondre."
+            "copy": "La conversation entre les hôtes et voyageur·se·ss se déroule via le chat de la plateforme. Si vous recevez un une notification par email indiquant que vous avez reçu un message, rendez-vous sur https://{chatLink} pour y répondre."
           },
           "suspend": {
             "title": "J'aimerais suspendre mon jardin pendant un moment mais je reviens bientôt ! Comment est-ce que je peux le faire ?",
-            "copy": "Rendez-vous sur welcometomygarden.org/manage. Dans la catégorie « Your Garden », décochez la case \"Shown on the map\". Votre jardin sera toujours enregistré sur la plateforme mais n'apparaîtra pas sur la carte. À votre retour, il suffit de cliquer à nouveau sur la boîte et vous pouvez recommencer à accueillir les voyageur·se·s lent·e·s !"
+            "copy": "Rendez-vous sur {accountLink}. Dans la catégorie « Your Garden », décochez la case \"Shown on the map\". Votre jardin sera toujours enregistré sur la plateforme mais n'apparaîtra pas sur la carte. À votre retour, il suffit de cliquer à nouveau sur la boîte et vous pouvez recommencer à accueillir les voyageur·se·s lent·e·s !"
           },
           "issue": {
             "title": "J’ai eu un problème avec un.e hôte, comment vous le faire savoir ?",
@@ -294,7 +294,7 @@
           },
           "newsletter": {
             "title": "J'aimerais recevoir votre prochaine lettre d'information ! Que dois-je faire ?",
-            "copy": "Pour recevoir notre prochaine lettre d'information, rendez-vous sur https://welcometomygarden.org/account et cochez la case \"Welcome To My Garden a des nouvelles à partager\". Si vous ne souhaitez plus recevoir de nouvelles, décochez la même case."
+            "copy": "Pour recevoir notre prochaine lettre d'information, rendez-vous sur {accountLink} et cochez la case \"Welcome To My Garden a des nouvelles à partager\". Si vous ne souhaitez plus recevoir de nouvelles, décochez la même case."
           }
         }
       },

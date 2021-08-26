@@ -2,7 +2,8 @@
   import { _ } from 'svelte-i18n';
   import { supportEmailLinkString, getNodeChildren } from '@/util';
   import Collapsible from '../../components/Collapsible.svelte';
-  import { DONATION_URL } from '../../constants';
+  import { DONATION_URL, ROOT_URL } from '@/constants';
+  import routes from '@/routes';
 
   export let clustersKey;
 
@@ -29,9 +30,15 @@
             {@html $_(`${clustersKey}.${clusterKey}.questions.${questionKey}.copy`, {
               values: {
                 support: supportEmailLinkString,
-                donationLink: `</span><a href="${DONATION_URL}" target="_blank" rel="noopener noreferrer" class="link">${$_(
+                donationLink: `<a href="${DONATION_URL}" target="_blank" rel="noopener noreferrer" class="link">${$_(
                   'faq.donation'
-                )}</a>`
+                )}</a>`,
+                chatLink: `<a href="${ROOT_URL}${
+                  routes.CHAT
+                }" target="_blank" class="link lowercase">${$_('generics.chat')}</a>`,
+                accountLink: `<a href="${ROOT_URL}${
+                  routes.ACCOUNT
+                }" target="_blank" class="link lowercase">${$_('generics.account')}</a>`
               }
             })}
           </p>
@@ -62,5 +69,9 @@
     display: flex;
     flex-direction: column;
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
+  }
+
+  .cluster :global(.lowercase) {
+    text-transform: lowercase;
   }
 </style>

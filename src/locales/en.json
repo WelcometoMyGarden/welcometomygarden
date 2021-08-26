@@ -256,11 +256,11 @@
           },
           "messaging": {
             "title": "I’ve received a message from a slow traveler, where should I answer it?",
-            "copy": "The conversation between hosts and travelers takes place via the chat on the platform. If you receive a notification email that you received a message, go to https://welcometomygarden.org/chat to answer."
+            "copy": "The conversation between hosts and travelers takes place via the chat on the platform. If you receive a notification email that you received a message, go to {chatLink} to answer."
           },
           "suspend": {
             "title": "I would like to suspend my garden for a while but I will be back soon! How do I do this?",
-            "copy": "Go to welcometomygarden.org/manage. In the category -Your garden-, unthick the box -Shown on the map-. The garden will still be saved in the platform but won’t appear on the map. When you’re back, just thick the box again and you can start welcoming slow travellers again!"
+            "copy": "Go to {accountLink}. In the category -Your garden-, unthick the box -Shown on the map-. The garden will still be saved in the platform but won’t appear on the map. When you’re back, just thick the box again and you can start welcoming slow travellers again!"
           },
           "issue": {
             "title": "I’ve had an issue with a guest or a host. How do I report it?",
@@ -285,7 +285,7 @@
           },
           "newsletter": {
             "title": "I would love to receive your next newsletter! What should I do?",
-            "copy": "To receive our next newsletter, go to https://welcometomygarden.org/account and tick the box “Welcome To My Garden has news to share”. If you’d like to stop receiving news, untick the same box."
+            "copy": "To receive our next newsletter, go to {accountLink} and tick the box “Welcome To My Garden has news to share”. If you’d like to stop receiving news, untick the same box."
           }
         }
       },
