@@ -8,7 +8,7 @@
     <div class="title">
       <slot name="title" />
     </div>
-    <span class="sign">{open ? '-' : '+'}</span>
+    <span class="sign">{open ? '−' : '+'}</span>
   </div>
   {#if open}
     <div transition:slide={{ duration: 300 }} class="green-border-bottom">
@@ -39,18 +39,25 @@
 
   .content {
     font-weight: normal;
-    padding: 0 4.8rem 2.4rem 4.8rem;
-    max-width: 60rem;
+    margin: 0 9.6rem 2.4rem 4.8rem;
+    max-width: 70rem;
   }
 
   .sign {
     font-size: 3.2rem;
+    margin-left: 4.8rem;
   }
 
   @media only screen and (max-width: 700px) {
-    .collapsible-item,
-    .content {
+    .collapsible-item {
       padding: 2.4rem 8vw;
+    }
+    .content {
+      margin: 0 16vw 2.4rem 8vw;
+    }
+
+    .sign {
+      margin-left: 8vw;
     }
   }
 </style>
