@@ -1,20 +1,23 @@
 {
   "tagline": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour les voyageurs et voyageuses lent.e.s.",
   "generics": {
-    "cookie-policy": "Politique des cookies",
-    "privacy-policy": "Politique de confidentialité",
-    "terms-of-use": "Conditions d'utilisation",
-    "home": "Accueil",
-    "map": "Carte",
-    "rules": "Règles",
-    "faq": {
-      "acronym": "FAQ",
-      "explicit": "Foire aux questions"
-    },
-    "chat": "Chat",
-    "account": "Compte",
-    "sign-out": "Déconnexion",
     "sign-in": "Connexion",
+    "sign-out": "Se déconnecter",
+    "account": "Compte",
+    "chat": "Discussion",
+    "faq": {
+      "explicit": "Foire aux questions",
+      "acronym": "FAQ"
+    },
+    "rules": "Règles",
+    "map": "Carte",
+    "home": "Accueil",
+    "terms-of-use": "Conditions d'utilisation",
+    "privacy-policy": "Politique de confidentialité",
+    "cookie-policy": "Politique des cookies",
+    "email": "Courriel",
+    "password": "Mot de passe",
+    "garden": "Jardin",
     "shop": "Shop"
   },
   "ui": {
@@ -23,6 +26,54 @@
     }
   },
   "index": {
+    "faq": {
+      "questions": {
+        "0": {
+          "copy": "Welcome To My Garden a été créé pour les randonneurs/randonneuses pédestres ou les cyclistes ayant besoin d'un coin d'herbe pour poser leur tente à la fin d'une longue journée. Le but n'est pas de remplacer les campings mais de simplement d’offrir un endroit en sécurité pour la nuit. Considérez le comme une addition au réseau des zones de bivouacs référencées en Belgique. Welcome To My Garden est une initiative sans but lucratif : aucun argent ne peut être échangé lors de son utilisation. En tant qu'hôte, vous ne pouvez donc pas demander aux voyageurs de payer pour la nuit.",
+          "title": "Pour qui est Welcome To My Garden ?"
+        },
+        "1": {
+          "copy": "Welcome To My Garden est destiné aux voyageurs et voyageuses adeptes du slow travel, c’est à dire à celles et ceux qui arriveront au jardin à pied ou en vélo. Vous pouvez bien sûr utiliser les transports en commun ou votre voiture pour arriver au début de votre randonnée - mais vous ne pouvez pas arriver chez votre hôte directement en voiture.",
+          "title": "Comment puis-je arriver au jardin ?"
+        },
+        "2": {
+          "copy": "Sauf si indication contraire, vous devez toujours contacter votre hôte à l’avance. Lorsque vous envoyez une demande, n’oubliez pas d’inclure des informations sur vous, sur votre voyage et la date de votre arrivée.",
+          "title": "Comment contacter un·e hôte ?"
+        },
+        "3": {
+          "copy": "Les jardins mis à disposition sont des coins d’herbe pour poser votre tente. Selon le choix des propriétaires, vous pourriez également avoir accès – ou non – à de l'eau potable, aux sanitaires et à l'électricité. Ils ne sont toutefois pas obligés de le faire : c’est un bonus. Considérez les jardins comme des zones de bivouacs ; il ne s’agit en aucun cas d’espaces de camping à part entière.",
+          "title": "Et les installations ?"
+        },
+        "4": {
+          "copy": "Utiliser Welcome To My Garden est 100 % gratuit. Cependant, en tant que plateforme, nous engageons des frais. Si vous souhaitez nous soutenir, vous pouvez faire un don. Nous sommes une initiative citoyenne sans but lucratif et ne faisons donc aucun profit sur l’argent collecté. En effet, chaque somme collectée couvre des frais. Vous trouverez la liste des dépenses sur la page de dons.",
+          "title": "Est-ce que Welcome To My Garden a un coût ?"
+        }
+      },
+      "faq-link-text": "Consultez notre FAQ",
+      "copy": "Vous trouverez ci-dessous tout ce que vous devez savoir pour partir à l’aventure. Lisez attentivement la section FAQ afin de savoir exactement comment la plateforme fonctionne. Plus de questions ? {faqLink} !",
+      "title": "Tout ce que vous devez savoir"
+    },
+    "steps": {
+      "0": {
+        "add-garden-link-text": "Ajoutez-le sur la carte",
+        "copy": "Souhaitez-vous accueillir dans votre jardin ? {addGardenLink}. Si vous cherchez un jardin où poser votre tente, cliquez sur « Explorer la carte » et contactez un·e hôte. Mettez-vous d’accord sur une date et c'est parti !",
+        "title": "Étape 1 : Inscrivez-vous pour devenir ou trouver un·e hôte"
+      },
+      "1": {
+        "copy": "Préparez votre itinéraire. Après s’être mis.e d’accord avec votre hôte, marchez ou rendez-vous à vélo jusqu’au jardin.",
+        "title": "Étape 2 : Planifiez votre voyage"
+      },
+      "2": {
+        "copy": "Passez une nuit calme, amusez-vous avec vos ami.e.s, votre famille ou discutez avec votre hôte, selon les préférences de chacun.e. Continuez votre randonnée pédestre ou cycliste le lendemain. Et surtout, amusez-vous!",
+        "title": "Étape 3 : Plantez votre tente et profitez-en !"
+      }
+    },
+    "intro": {
+      "learn-more": "En savoir plus",
+      "explore-map": "Explorer la carte",
+      "add-garden": "Ajouter son jardin",
+      "copy": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme espace de bivouac gratuit pour des voyageurs et voyageuses adeptes du slow travel."
+    },
     "banner-stmf": {
       "copy": "Vous voulez préparer votre prochain voyage lent tout en soutenant Welcome To My Garden ? Découvrez notre {stmfLink} (du 3 au 29 juin) !",
       "link": "Slow Travel Mini Festival"
@@ -31,54 +82,6 @@
       "banner": {
         "copy": "Welcome To My Garden a désormais {title} avec des panneaux en bois WTMG et des cartes postales pour remercier vos hôtes. Rendez-vous sur sur {link} !",
         "title": "son shop"
-      }
-    },
-    "intro": {
-      "copy": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme espace de bivouac gratuit pour des voyageurs et voyageuses adeptes du slow travel.",
-      "add-garden": "Ajouter son jardin",
-      "explore-map": "Explorer la carte",
-      "learn-more": "En savoir plus"
-    },
-    "steps": {
-      "0": {
-        "title": "Étape 1: Inscrivez-vous pour devenir ou trouver un.e hôte",
-        "copy": "Souhaitez-vous accueillir dans votre jardin? {addGardenLink}. Si vous cherchez un jardin où poser votre tente, cliquez sur \"Explorer la carte\" et contactez un.e hôte. Mettez-vous d’accord sur une date et c’est parti!",
-        "add-garden-link-text": "Ajoutez-le sur la carte"
-      },
-      "1": {
-        "title": "Étape 2: Planifiez votre voyage",
-        "copy": "Préparez votre itinéraire. Après s’être mis.e d’accord avec votre hôte, marchez ou rendez-vous à vélo jusqu’au jardin."
-      },
-      "2": {
-        "title": "Étape 3: Plantez votre tente et profitez-en!",
-        "copy": "Passez une nuit calme, amusez-vous avec vos ami.e.s, votre famille ou discutez avec votre hôte, selon les préférences de chacun.e. Continuez votre randonnée pédestre ou cycliste le lendemain. Et surtout, amusez-vous!"
-      }
-    },
-    "faq": {
-      "title": "Tout ce que vous devez savoir",
-      "copy": "Vous trouverez ci-dessous tout ce que vous devez savoir pour partir à l’aventure. Lisez attentivement la section FAQ afin de savoir exactement comment la plateforme fonctionne. Plus de questions? {faqLink}!",
-      "faq-link-text": "Consultez notre FAQ",
-      "questions": {
-        "0": {
-          "title": "Pour qui est Welcome To My Garden?",
-          "copy": "Welcome To My Garden a été créé pour les randonneurs/randonneuses pédestres ou les cyclistes ayant besoin d’un coin d’herbe pour poser leur tente à la fin d’une longue journée. Le but n’est pas de remplacer les campings mais de simplement d’offrir un endroit en sécurité pour la nuit. Considérez le comme une addition au réseau des zones de bivouacs référencées en Belgique. Welcome To My Garden est une initiative sans but lucratif : aucun argent ne peut être échangé lors de son utilisation. En tant qu’hôte, vous ne pouvez donc pas demander aux voyageurs de payer pour la nuit."
-        },
-        "1": {
-          "title": "Comment puis-je arriver au jardin?",
-          "copy": "Welcome To My Garden est destiné aux voyageurs et voyageuses adeptes du slow travel, c’est à dire à celles et ceux qui arriveront au jardin à pied ou en vélo. Vous pouvez bien sûr utiliser les transports en commun ou votre voiture pour arriver au début de votre randonnée - mais vous ne pouvez pas arriver chez votre hôte directement en voiture."
-        },
-        "2": {
-          "title": "Comment contacter un.e hôte?",
-          "copy": "Sauf si indication contraire, vous devez toujours contacter votre hôte à l’avance. Lorsque vous envoyez une demande, n’oubliez pas d’inclure des informations sur vous, sur votre voyage et la date de votre arrivée."
-        },
-        "3": {
-          "title": "Et les installations?",
-          "copy": "Les jardins mis à disposition sont des coins d’herbe pour poser votre tente. Selon le choix des propriétaires, vous pourriez également avoir accès - ou non - à de l'eau potable, aux sanitaires et à l'électricité. Ils ne sont toutefois pas obligés de le faire : c’est un bonus. Considérez les jardins comme des zones de bivouacs ; il ne s’agit en aucun cas d’espaces de camping à part entière."
-        },
-        "4": {
-          "title": "Est-ce que Welcome To My Garden a un coût?",
-          "copy": "Utiliser Welcome To My Garden est 100% gratuit. Cependant, en tant que plateforme, nous engageons des frais. Si vous souhaitez nous soutenir, vous pouvez faire un don. Nous sommes une initiative citoyenne sans but lucratif et ne faisons donc aucun profit sur l’argent collecté. En effet, chaque somme collectée couvre des frais. Vous trouverez la liste des dépenses sur la page de dons."
-        }
       }
     },
     "partners": {
@@ -93,21 +96,6 @@
       "title": "Tout le monde mérite des vacances",
       "copy": "Saviez-vous que 22% des enfants ne peuvent pas partir en vacances ? Pourtant, après le confinement, ils ont bien besoin de respirer ! Grâce à vos dons, ils pourront aussi profiter d'un temps d'évasion.",
       "link-text": "Faire un don"
-    }
-  },
-  "garden": {
-    "filter": {
-      "title": "Filtre",
-      "garden-facilities": "Facilités du jardin",
-      "garden-capacity": "Capacités du jardin",
-      "spots-available": "Nombre de tentes",
-      "min": "Minimum",
-      "all-filters": "Tous les filtres",
-      "apply-filter": "Filtrer",
-      "available": "{styledAmount} {amount, plural, one {jardin} other {jardins}} disponibles avec les filtres actifs.",
-      "no-places": "Aucun lieu trouvé",
-      "search-city": "Chercher une ville",
-      "min-capacity": "Min. {capacity} {capacity, plural, one {tente} other {tentes}}"
     }
   },
   "rules": {
@@ -170,7 +158,10 @@
         "recommendations": {
           "0": "Faire un itinéraire pour vélo ou marche à pied : BRouter, Komoot, OutdoorActive",
           "1": "Applications pour les itinéraires  : OSMAnd",
-          "2": "Sur OpenStreetMap, vous trouverez les réseaux de pistes cyclables."
+          "2": "Sur OpenStreetMap, vous trouverez les réseaux de pistes cyclables.",
+          "3": "Excellente application de navigation pour le cyclisme et la randonnée : OSMAnd",
+          "4": "Une autre excellente application de navigation : ViewRanger",
+          "5": "Vue d'ensemble de toute la couche cyclable du réseau cyclable d'OpenStreetMap"
         }
       },
       "1": {
@@ -516,7 +507,7 @@
         },
         "2": {
           "title": "Utilisateur",
-          "copy": "La personne utilisant cette application."
+          "copy": "La personne qui utilise cette application et qui doit être d’accord ou être autorisée par la personne concernée à laquelle les données personnelles se réfèrent."
         },
         "3": {
           "title": "La personne concernée",
@@ -545,8 +536,249 @@
       }
     },
     "change-warning": {
-      "title": "Modifications de cette politique de confidentialité",
-      "copy": "Le responsable du traitement des données se réserve le droit de modifier cette politique de confidentialité à tout moment en informant les utilisateurs de la plateforme. Nous vous encourageons à consulter cette page pour d'éventuels changements. La date du dernier changement est indiquée en bas de page. Si un utilisateur s'oppose à toute modification de la politique, l'utilisateur ne doit pas continuer à utiliser cette application. La plateforme pourrait alors demander au responsable du traitement des données de supprimer les données personnelles. Sauf indication contraire, la politique de confidentialité valide applicable à ce moment-là s'applique à toutes les données personnelles que le responsable du traitement a stocké pour le traitement des données sur les utilisateurs."
+      "copy": "Le responsable du traitement des données se réserve le droit de modifier à tout moment la présente politique de confidentialité en en informant les utilisateurs sur cette page. Nous vous encourageons à vérifier cette page pour d'éventuelles modifications. La date de la dernière modification est indiquée au bas de la page. Si un Utilisateur s'oppose à toute modification de la politique, il ne doit pas continuer à utiliser cette Application. Il peut demander au responsable du traitement des données de supprimer les données personnelles. Sauf indication contraire, la politique de confidentialité en vigueur à ce moment-là s'applique à toutes les Données personnelles que le Contrôleur a stockées pour le traitement des Données concernant les Utilisateurs.",
+      "title": "Modifications de la présente politique de confidentialité"
+    }
+  },
+  "garden": {
+    "filter": {
+      "title": "Filtre",
+      "garden-facilities": "Facilités du jardin",
+      "garden-capacity": "Capacités du jardin",
+      "spots-available": "Nombre de tentes",
+      "min": "Minimum",
+      "all-filters": "Tous les filtres",
+      "apply-filter": "Filtrer",
+      "available": "{styledAmount} {amount, plural, one {jardin} other {jardins}} disponibles avec les filtres actifs.",
+      "no-places": "Aucun lieu trouvé",
+      "search-city": "Chercher une ville",
+      "min-capacity": "Min. {capacity} {capacity, plural, one {tente} other {tentes}}"
+    },
+    "form": {
+      "photo": {
+        "notice": "Montrez aux gens à quoi ressemble votre jardin.<br />Assurez-vous que la photo ne montre que le lieu de bivouac et n'inclut pas la maison de votre voisin.",
+        "title": "Photo",
+        "hints": {
+          "wrong-format": "Votre photo doit être un fichier JPEG, PNG ou TIFF.",
+          "too-large": "Votre image est trop grande. La taille du fichier d'une image doit être inférieure ou égale à 5 Mo."
+        },
+        "img-alt": "Votre jardin"
+      },
+      "description": {
+        "title": "Décrivez votre lieu de bivouac (obligatoire)",
+        "notice": "Une courte description de votre jardin et du lieu de bivouac que vous pouvez proposer. Ces informations sont affichées publiquement, alors n'incluez pas de détails personnels ici.<br />Votre description doit comporter entre 20 et 300 caractères.",
+        "hints": {
+          "too-long": "{surplus} {surplus, plural, one {caractères} other {caractères}} de trop…",
+          "too-short": "{remaining} plus {remaining, plural, one {caractère} other {caractères}} sont requis…"
+        },
+        "placeholder": "Entrez la description…",
+        "label": "Description"
+      },
+      "auth-notice": "Vous devez être connecté·e pour ajouter votre jardin à la carte. Vous pouvez {signInLink} ou {registerLink}.",
+      "location": {
+        "adjust-button": "Ajuster l'emplacement de l'épingle",
+        "street": "Rue",
+        "region": "Province ou État",
+        "postal-code": "Code postal",
+        "notice": "Déplacez le marqueur pour définir l'emplacement de votre jardin. Vous pouvez remplir les champs d'adresse pour rapprocher le marqueur de vous.<br /> Nous ne conservons pas vos coordonnées.",
+        "coordinate-hint": "Assurez-vous que vous avez fait glisser le marqueur de la carte à l'emplacement exact de votre jardin et que vous avez cliqué sur « Confirmer l'emplacement de l'épingle ».",
+        "title": "Emplacement (obligatoire)",
+        "house-number": "Numéro de la maison",
+        "country": "Pays",
+        "confirm-button": "Confirmer l'emplacement de l'épingle",
+        "city": "Ville"
+      },
+      "account-link-text": "votre profil",
+      "normal-notice": "En soumettant ce formulaire, votre jardin sera ajouté à la carte. Vous pouvez le gérer ou le supprimer à tout moment à partir de {compteLink}.",
+      "register-link-text": "créer un compte",
+      "title": "Ajoutez votre jardin à la carte",
+      "sign-in-link-text": "vous connecter",
+      "add-button": "Ajoutez votre jardin",
+      "email-confirm-notice": "Vous devez vérifier votre adresse électronique avant d'ajouter votre jardin à la carte. Nous vous avons envoyé un courriel lorsque vous avez créé votre compte. Vous pouvez renvoyer un lien de vérification à partir de {accountLink}.",
+      "facilities": {
+        "notice": "À quels types d'installations les voyageurs ont-ils accès ?",
+        "capacity": {
+          "help": "Combien de tentes pouvez-vous accueillir (estimation) ?",
+          "label": "Capacité (obligatoire)"
+        },
+        "title": "Installations"
+      },
+      "update-button": "Mettre à jour le jardin",
+      "invalid": "Certaines informations n'étaient pas valides. Veuillez vérifier que les informations que vous avez soumises ne contiennent pas d'erreurs."
+    },
+    "facilities": {
+      "labels": {
+        "bonfire": "Feu de camp",
+        "water": "Eau",
+        "toilet": "Toilettes",
+        "tent": "Tente",
+        "shower": "Douche",
+        "electricity": "Électricité",
+        "drinkable-water": "Eau potable"
+      }
+    },
+    "notify": {
+      "update": "Votre jardin a bien été mis à jour !",
+      "success": "Votre jardin a bien été ajouté !",
+      "photo": "Ça peut prendre une minute pour que sa photo apparaisse."
+    },
+    "drawer": {
+      "owner": {
+        "your-garden": "Votre jardin",
+        "button": "Gérer le jardin"
+      },
+      "guest": {
+        "sign-link-text": "vous connecter",
+        "login": "Vous devez {signInLink} pour contacter les hôtes.",
+        "button": "Contacter l'hôte"
+      },
+      "unclaimed": "Vous pouvez contacter cet hôte dès qu'il a créé son compte.",
+      "facilities": {
+        "capacity": "Place pour {styleCapacity} {capacity, plural, one {tente} other {tentes}}"
+      }
+    },
+    "add": {
+      "title": "Ajoutez votre jardin"
+    },
+    "manage": {
+      "title": "Gérer le jardin"
+    }
+  },
+  "sign-in": {
+    "register": {
+      "text": "Vous n'avez pas encore de compte ? {link}",
+      "link": "S'inscrire"
+    },
+    "button": "Se connecter",
+    "title": "Connexion",
+    "notify": {
+      "incorrect": "L'adresse électronique ou le mot de passe fournis sont incorrects.",
+      "welcome": "Bienvenue, {user} !",
+      "login-issue": "Nous n'avons pas pu vous connecter. Si le problème persiste, veuillez contacter {support}."
+    },
+    "reset": {
+      "link": "Le réinitialiser",
+      "text": "Vous avez oublié votre mot de passe ? {link}"
+    }
+  },
+  "request-password-reset": {
+    "trouble": "Vous avez des difficultés à vous connecter ? Contactez {support} et nous vous aiderons !",
+    "set": "Si un compte avec l'adresse électronique {email} existe, un courriel sera maintenant envoyé avec des instructions sur la façon de réinitialiser le mot de passe.",
+    "button": "Instructions de réinitialisation de l'adresse électronique",
+    "title": "Définir un nouveau mot de passe",
+    "description": "Si vous soumettez le formulaire ci-dessous, nous pouvons vous envoyer un lien unique avec lequel vous pourrez réinitialiser votre mot de passe."
+  },
+  "reset-password": {
+    "succes": "Votre mot de passe a été réinitialisé avec succès",
+    "update": "Mettre à jour le mot de passe",
+    "title": "Définir un nouveau mot de passe"
+  },
+  "account": {
+    "notify": {
+      "garden-no-show": "Votre jardin n'apparaîtra pas sur la carte",
+      "garden-show": "Votre jardin apparaîtra à nouveau sur la carte",
+      "preferences-update": "Vos préférences en matière de courriel ont été mises à jour !",
+      "resend-error": "Nous n'avons pas pu renvoyer le courriel de vérification du compte. Veuillez contacter {support}"
+    },
+    "garden": {
+      "title": "Votre jardin",
+      "unlisted": {
+        "button": "Ajouter votre jardin",
+        "text": "Vous n'avez pas encore ajouté votre jardin à la carte. Lorsque vous aurez ajouté votre jardin, les autres utilisateurs pourront vous contacter pour demander un séjour. Vous pouvez retirer votre jardin de la liste à tout moment !"
+      },
+      "unverified": {
+        "text": "Vérifiez votre adresse électronique pour gérer votre jardin."
+      },
+      "listed": {
+        "text": "Vous pouvez retirer votre jardin de la liste à tout moment. Ceci signifie qu'il restera enregistré pour plus tard, mais qu'il n'apparaîtra plus sur la carte jusqu'à ce que vous l'affichiez à nouveau.",
+        "button": "Gérer le jardin"
+      }
+    },
+    "verify": {
+      "title": "Confirmez votre adresse électronique",
+      "sent": "Courriel envoyé !",
+      "button": "Renvoyer le courriel",
+      "text": "Vous devez vérifier votre adresse électronique si vous voulez discuter ou ajouter un jardin."
+    },
+    "preferences": {
+      "text": "M'envoyer des courriels quand :",
+      "title": "Préférences de courriel",
+      "news": "Welcome To My Garden a des nouvelles à partager",
+      "chat": "Je reçois un nouveau message de discussion"
+    },
+    "title": "Compte"
+  },
+  "auth": {
+    "verification": {
+      "refresh": "Votre adresse électronique a déjà été vérifié. Veuillez actualiser la page.",
+      "succes": "Votre adresse électronique a été vérifiée avec succès !",
+      "expired": "Ce lien de vérification a expiré. Veuillez en demander un nouveau.",
+      "unsigned": "Veuillez vous inscrire d'abord"
+    },
+    "password": {
+      "expired": "Ce lien de réinitialisation du mot de passe a expiré. Veuillez en demander un nouveau"
+    },
+    "invalid-code": "Cette page n'est pas accessible sans un code d'action valide."
+  },
+  "register": {
+    "notify": {
+      "unexpected": "Une erreur inattendue s'est produite. Si le problème persiste, veuillez contacter {support}.",
+      "in-use": "Cette adresse électronique est déjà utilisée.",
+      "successful": "Votre compte a été créé avec succès ! Veuillez confirmer votre adresse électronique pour confirmer votre compte."
+    },
+    "registred": "Vous avez déjà un compte ? {signIn}",
+    "validate": {
+      "password": {
+        "min": "Votre mot de passe doit comporter au moins 8 caractères",
+        "set": "Vous devez définir un mot de passe pour pouvoir vous connecter ultérieurement.",
+        "max": "Veillez à ce que votre mot de passe comporte au maximum 100 caractères."
+      },
+      "email": "Veuillez ajouter une adresse électronique, c'est avec elle que vous vous connectez",
+      "first-name": {
+        "max": "Votre prénom ne peut comporter que 25 caractères afin que nous puissions l'afficher correctement. N'hésitez pas à l'abréger ou à choisir un surnom.",
+        "set": "Veuillez saisir un prénom. C'est ainsi que les autres utilisateurs vous verront."
+      },
+      "consent": "Vous devez accepter les conditions de Welcome To My Garden si vous souhaitez utiliser la plateforme.",
+      "last-name": "Veuillez saisir votre nom de famille. Celui-ci ne sera pas partagé avec d'autres utilisateurs",
+      "country": {
+        "set": "Veuillez saisir votre pays. Ceci nous aide à centrer la carte vers votre pays d'origine.",
+        "from-list": "Veuillez choisir un pays dans la liste. Ceci nous aide à centrer la carte vers votre pays d'origine."
+      }
+    },
+    "title": "Inscription",
+    "button": "S'inscrire",
+    "registering": "Inscription en cours…",
+    "last-name": "Nom",
+    "policies": "J'accepte la {cookiePolicy}, la {privacyPolicy} et les {termsOfUse}",
+    "first-name": "Prénom",
+    "country": "Pays"
+  },
+  "chat": {
+    "all-conversations": "Toutes les conversations",
+    "notify": {
+      "too-long": "Votre message est trop long de {surplus} {surplus, plural, one {caractère} other {caractères}}…",
+      "empty-message": "Votre message ne peut pas être vide",
+      "unverified": "Veuillez confirmer votre adresse électronique avant de commencer à discuter"
+    },
+    "no-messages": {
+      "text": "Vous n'avez pas encore de messages. Sélectionnez un hôte {lien} pour le contacter.",
+      "link": "sur la carte"
+    },
+    "type-message": "Tapez votre message…",
+    "new": "nouveau",
+    "title-conversation": "Discuter avec {partnerName}",
+    "title": "Discussion",
+    "go-to-garden": "Aller au jardin"
+  },
+  "map": {
+    "vehicle-notice": {
+      "title": "Welcome To My Garden est réservé aux voyageurs lents.",
+      "text": "Si vous prévoyez de voyager en véhicule motorisé, veuillez ne pas contacter les hôtes via cette plateforme. Merci de votre compréhension !"
+    },
+    "trails": {
+      "attribution": "Sentiers avec l'aimable autorisation de {link}",
+      "hiking": "Afficher les itinéraires de randonnée",
+      "cycling": "Afficher les itinéraires cyclables"
     }
   },
   "terms-of-use": {
@@ -720,7 +952,7 @@
             "copy": "Welcome to My Garden ne sera pas tenu responsable envers les voyageurs et/ou les hôtes en vertu de toute théorie de responsabilité - qu'elle soit fondée sur un contrat, un délit, une négligence, une responsabilité stricte, une garantie ou autre - pour tout dommage indirect, consécutif, exemplaire, accessoire, punitif ou dommages particuliers."
           },
           "1": {
-            "copy": "IN NO EVENT SHALL WELCOMETOMYGARDEN.ORG, A BELGIAN NONPROFIT ORGANISATION, OR ITS FUNDERS AND VOLUNTEERS, INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY OTHER DAMAGES OF ANY KIND, INCLUDING, BUT NOT LIMITED TO LOSS OF USE, LOSS OF PROFITS OR LOSS OF DATA, WHETHER IN AN ACTION IN CONTRACT, TORT (INCLUDING BUT NOT LIMITED TO NEGLIGENCE) OR OTHERWISE, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES, ARISING FROM OR RELATING TO: (A) THE USE OR INABILITY TO USE OUR SERVICES; (B) THE COST OF REPLACEMENT OF ANY GOODS, SERVICES OR INFORMATION PURCHASED OR OBTAINED AS A RESULT OF ANY INFORMATION OBTAINED FROM OR TRANSACTIONS ENTERED INTO THROUGH OR FROM OUR SERVICES; (C) DISCLOSURE OF, UNAUTHORIZED ACCESS TO OR ALTERATION OF YOUR CONTENT; (D) DAMAGES FOR LOSS OR CORRUPTION OF DATA OR PROGRAMS, SERVICE INTERRUPTIONS OR PROCUREMENT OF SUBSTITUTE SERVICES, EVEN IF WE KNOW OR HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES; (E) STATEMENTS, CONDUCT OR OMISSIONS OF ANY SERVICE PROVIDERS OR OTHER THIRD PARTY ON OUR SERVICES; (F) YOUR OR ANYONE ELSE’S CONDUCT OR ACTS IN CONNECTION WITH THE USE OF THE SERVICES, INCLUDING WITHOUT LIMITATION, BODILY INJURY, EMOTIONAL DISTRESS, DEATH OR ANY OTHER DAMAGES RESULTING FROM COMMUNICATIONS OR MEETINGS WITH OTHER REGISTERED MEMBERS OF OUR SERVICES OR PERSONS INTRODUCED TO YOU BY OUR SERVICES, WHETHER ON-LINE OR OFF-LINE; OR (G) ANY OTHER MATTER ARISING FROM, RELATING TO OR CONNECTED WITH OUR SERVICES OR THESE TERMS."
+            "copy": "EN AUCUN CAS WELCOMETOMYGARDEN.ORG, UNE ORGANISATION BELGE À BUT NON LUCRATIF, OU SES BAILLEURS DE FONDS ET BÉNÉVOLES, NE POURRONT ÊTRE TENUS RESPONSABLES DE DOMMAGES INDIRECTS OU CONSÉCUTIFS, OU DE TOUT AUTRE DOMMAGE DE QUELQUE NATURE QUE CE SOIT, Y COMPRIS, MAIS SANS S'Y LIMITER, LA PERTE D'UTILISATION, LA PERTE DE BÉNÉFICES OU LA PERTE DE DONNÉES, QUE CE SOIT DANS LE CADRE D'UNE ACTION CONTRACTUELLE, DÉLICTUELLE (Y COMPRIS, MAIS SANS S'Y LIMITER, LA NÉGLIGENCE) OU AUTRE, MÊME SI NOUS AVONS ÉTÉ INFORMÉS DE LA POSSIBILITÉ DE TELS DOMMAGES, DÉCOULANT DE OU LIÉS À : (A) L'UTILISATION OU L'INCAPACITÉ D'UTILISER NOS SERVICES ; (B) LE COÛT DE REMPLACEMENT DE TOUT BIEN, SERVICE OU INFORMATION ACHETÉ OU OBTENU À LA SUITE DE TOUTE INFORMATION OBTENUE OU DE TRANSACTIONS CONCLUES PAR L'INTERMÉDIAIRE DE NOS SERVICES ; (C) LA DIVULGATION, L'ACCÈS NON AUTORISÉ OU L'ALTÉRATION DE VOTRE CONTENU ; (D) LES DOMMAGES POUR PERTE OU CORRUPTION DE DONNÉES OU DE PROGRAMMES, LES INTERRUPTIONS DE SERVICE OU L'OBTENTION DE SERVICES DE REMPLACEMENT, MÊME SI NOUS SAVONS OU AVONS ÉTÉ INFORMÉS DE LA POSSIBILITÉ DE TELS DOMMAGES ; (E) LES DÉCLARATIONS, LA CONDUITE OU LES OMISSIONS DE TOUT FOURNISSEUR DE SERVICES OU AUTRE TIERS SUR NOS SERVICES ; (F) VOTRE CONDUITE OU LES ACTES DE TOUTE AUTRE PERSONNE EN RELATION AVEC L'UTILISATION DES SERVICES, Y COMPRIS, MAIS SANS S'Y LIMITER, LES DOMMAGES CORPORELS, LA DÉTRESSE ÉMOTIONNELLE, LA MORT OU TOUT AUTRE DOMMAGE RÉSULTANT DE COMMUNICATIONS OU DE RÉUNIONS AVEC D'AUTRES MEMBRES ENREGISTRÉS DE NOS SERVICES OU DES PERSONNES QUI VOUS ONT ÉTÉ PRÉSENTÉES PAR NOS SERVICES, QUE CE SOIT EN LIGNE OU HORS LIGNE ; OU (G) TOUTE AUTRE QUESTION DÉCOULANT DE, RELATIVE À OU LIÉE À NOS SERVICES OU À CES CONDITIONS."
           }
         }
       },
@@ -731,7 +963,7 @@
             "copy": "Nous nous efforçons à tout moment de protéger l'utilisateur de la plateforme Welcome to My Garden contre les abus techniques et le spam. Les comptes utilisés pour effectuer les actions répertoriées ci-dessus peuvent être temporairement bloqués ou supprimés définitivement."
           },
           "1": {
-            "copy": "Malware / phishing / viruses / worms / Trojans: You may not post malicious content or links to such content for the purpose of damaging or disrupting someone else's browsers or computers, or of violating someone's privacy. Spam: You are not allowed to use the Welcome To My Garden platform to spam people."
+            "copy": "Logiciels malveillants / hameçonnage / virus / vers / chevaux de Troie : vous n'avez pas le droit de poster du contenu malveillant ou des liens vers un tel contenu dans le but d'endommager ou de perturber les navigateurs ou les ordinateurs de quelqu'un d'autre, ou de violer la vie privée de quelqu'un. Spam : vous n'avez pas le droit d'utiliser la plateforme Welcome To My Garden pour spammer des personnes."
           }
         }
       },
@@ -793,14 +1025,14 @@
     "title": "Slow Travel Mini Festival",
     "description": "Préparez votre voyage lent avec la communauté",
     "sections": {
-      "get-inspired": "S'inspirer",
-      "plan": "Planifier",
+      "rethink": "Repenser",
       "contribute": "Contribuer",
-      "rethink": "Repenser"
+      "plan": "Planifier",
+      "get-inspired": "S'inspirer"
     }
   },
   "fallback": {
-    "404": "404 - page non trouvée",
-    "redirect": "Retour à l'Accueil"
+    "404": "404 - page introuvable",
+    "redirect": "retour à l'accueil"
   }
 }

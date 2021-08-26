@@ -325,7 +325,8 @@
       "unverified": "Verifieer jouw e-mail voordat je begint te chatten",
       "empty-message": "Jouw bericht kan niet leeg zijn",
       "too-long": "Jouw bericht is {surplus} {surplus, plural, one {karakter} other {karakters} te lang..."
-    }
+    },
+    "go-to-garden": "Ga naar de tuin"
   },
   "map": {
     "vehicle-notice": {
@@ -751,7 +752,7 @@
         },
         "3": {
           "title": "De betrokken persoon",
-          "copy": "De persoon naar wie de peroonsgegevens verwijze. "
+          "copy": "De persoon naar wie de peroonsgegevens verwijzen."
         },
         "4": {
           "title": "Data processor ",
