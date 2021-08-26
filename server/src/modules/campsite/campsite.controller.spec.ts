@@ -6,7 +6,7 @@ import { Prisma } from '@prisma/client';
 
 const campsites = [
   { id: 1, userId: 1, facilities: {} },
-  { id: 2, userId: 2, facilities: {} },
+  { id: 2, userId: 2, facilities: {} }
 ];
 
 describe('CampsiteController', () => {
@@ -14,22 +14,21 @@ describe('CampsiteController', () => {
 
   const catsService = {
     getAll: () => campsites,
-    getOne: (where: Prisma.CampsiteWhereUniqueInput) =>
-      campsites.find((c) => c.id === where.id),
+    getOne: (where: Prisma.CampsiteWhereUniqueInput) => campsites.find((c) => c.id === where.id),
     createOne: (campsite: Prisma.CampsiteUpdateInput) => campsite,
     updateOne: (params: {
       where: Prisma.CampsiteWhereUniqueInput;
       data: Prisma.CampsiteUpdateInput;
     }) => ({
       ...campsites.find((c) => c.id === params.where.id),
-      ...params.data,
+      ...params.data
     }),
-    deleteOne: (where: Prisma.CampsiteWhereUniqueInput) => campsites[where.id],
+    deleteOne: (where: Prisma.CampsiteWhereUniqueInput) => campsites[where.id]
   };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [CampsiteModule],
+      imports: [CampsiteModule]
     })
       .overrideProvider(CampsiteService)
       .useValue(catsService)
