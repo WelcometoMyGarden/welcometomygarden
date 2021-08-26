@@ -1,5 +1,8 @@
 export const SUPPORT_EMAIL = 'support@welcometomygarden.org';
 export const SHOP_URL = 'https://shop.welcometomygarden.org/';
+export const DONATION_URL = 'https://opencollective.com/welcometomygarden/donate';
+export const COMMUNITY_TRANSLATIONS_URL =
+  'https://community.welcometomygarden.org/volunteer/translations';
 export const ZOOM_LEVELS = {
   CITY: 11,
   ROAD: 14, // 14 or 15
