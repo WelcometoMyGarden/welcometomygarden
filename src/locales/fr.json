@@ -269,7 +269,7 @@
           },
           "suspend": {
             "title": "J'aimerais suspendre mon jardin pendant un moment mais je reviens bientôt ! Comment est-ce que je peux le faire ?",
-            "copy": "Rendez-vous sur {accountLink}. Dans la catégorie « Your Garden », décochez la case \"Shown on the map\". Votre jardin sera toujours enregistré sur la plateforme mais n'apparaîtra pas sur la carte. À votre retour, il suffit de cliquer à nouveau sur la boîte et vous pouvez recommencer à accueillir les voyageur·se·s lent·e·s !"
+            "copy": "Rendez-vous sur votre {accountLink}. Dans la catégorie « Your Garden », décochez la case \"Shown on the map\". Votre jardin sera toujours enregistré sur la plateforme mais n'apparaîtra pas sur la carte. À votre retour, il suffit de cliquer à nouveau sur la boîte et vous pouvez recommencer à accueillir les voyageur·se·s lent·e·s !"
           },
           "issue": {
             "title": "J’ai eu un problème avec un.e hôte, comment vous le faire savoir ?",
@@ -294,7 +294,7 @@
           },
           "newsletter": {
             "title": "J'aimerais recevoir votre prochaine lettre d'information ! Que dois-je faire ?",
-            "copy": "Pour recevoir notre prochaine lettre d'information, rendez-vous sur {accountLink} et cochez la case \"Welcome To My Garden a des nouvelles à partager\". Si vous ne souhaitez plus recevoir de nouvelles, décochez la même case."
+            "copy": "Pour recevoir notre prochaine lettre d'information, rendez-vous sur votre {accountLink} et cochez la case \"Welcome To My Garden a des nouvelles à partager\". Si vous ne souhaitez plus recevoir de nouvelles, décochez la même case."
           },
           "text-in-english": {
             "title": "Il y a du texte en anglais, alors que ce n’est pas ma langue préférée. Comment puis-je le modifier ?",
