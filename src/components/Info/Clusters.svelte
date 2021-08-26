@@ -29,7 +29,7 @@
             {@html $_(`${clustersKey}.${clusterKey}.questions.${questionKey}.copy`, {
               values: {
                 support: supportEmailLinkString,
-                donation: `</span><a href="${DONATION_URL}" target="_blank" rel="noopener noreferrer" class="link">${$_(
+                donationLink: `</span><a href="${DONATION_URL}" target="_blank" rel="noopener noreferrer" class="link">${$_(
                   'faq.donation'
                 )}</a>`
               }
