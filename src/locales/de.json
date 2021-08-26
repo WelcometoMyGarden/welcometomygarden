@@ -477,17 +477,6 @@
     }
   },
   "faq": {
-    "questions": {
-      "5": {
-        "copy": "Im Grunde bieten die Gastgeber nur eine Ecke in ihrem Garten an, auf der Sie Ihr Zelt aufschlagen können. Zusätzlich können sie Zugang zu Trinkwasser, einer Toilette und Strom anbieten. Dazu sind sie aber nicht verpflichtet: All das sind Boni. Betrachten Sie einen Garten als einen Biwakplatz, nicht als einen vollwertigen Campingplatz."
-      },
-      "9": {
-        "title": "Kann ich meine Familie mitbringen? Meine Kinder? Meinen Hund?"
-      },
-      "13": {
-        "title": "Warum ist die Facebook-Seite nur auf Englisch?"
-      }
-    },
     "description": "Häufig gestellte Fragen",
     "title": "HgF"
   },
