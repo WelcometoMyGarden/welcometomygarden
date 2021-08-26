@@ -265,7 +265,7 @@
           },
           "messaging": {
             "title": "J'ai reçu un message d'un·e voyageur·se lent·e, où puis-je répondre ?",
-            "copy": "La conversation entre les hôtes et voyageur·se·ss se déroule via le chat de la plateforme. Si vous recevez un une notification par email indiquant que vous avez reçu un message, rendez-vous sur https://{chatLink} pour y répondre."
+            "copy": "La conversation entre les hôtes et voyageur·se·ss se déroule via le chat de la plateforme. Si vous recevez un une notification par email indiquant que vous avez reçu un message, rendez-vous sur {chatLink} pour y répondre."
           },
           "suspend": {
             "title": "J'aimerais suspendre mon jardin pendant un moment mais je reviens bientôt ! Comment est-ce que je peux le faire ?",

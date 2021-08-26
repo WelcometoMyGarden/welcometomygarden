@@ -496,7 +496,7 @@
           },
           "messaging": {
             "title": "Ik heb een bericht ontvangen van een trage reiziger. Waar kan ik het beantwoorden?",
-            "copy": "De conversaties tussen hosts en reizigers vinden plaats via de chat op het platform. Als je een notificatiemail ontvangt dat je een bericht hebt ontvangen, ga dan naar https://{chatLink} om te antwoorden."
+            "copy": "De conversaties tussen hosts en reizigers vinden plaats via de chat op het platform. Als je een notificatiemail ontvangt dat je een bericht hebt ontvangen, ga dan naar {chatLink} om te antwoorden."
           },
           "suspend": {
             "title": "Ik wil mijn tuin een tijdje offline halen, maar binnenkort ben ik terug! Hoe doe ik dat?",
