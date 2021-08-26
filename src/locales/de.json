@@ -477,29 +477,6 @@
     }
   },
   "faq": {
-    "questions": {
-      "2": {
-        "copy": "Personen, die ihren Garten für Reisende öffnen möchten, können ihren Garten hinzufügen, indem sie das Formular auf der Website ausfüllen (klicken Sie auf die Schaltfläche „Ihren Garten hinzufügen“). Personen, die auf einem der Campingplätze übernachten möchten, können dann die Gartenbesitzer kontaktieren, um ihren Aufenthalt zu arrangieren."
-      },
-      "5": {
-        "copy": "Im Grunde bieten die Gastgeber nur eine Ecke in ihrem Garten an, auf der Sie Ihr Zelt aufschlagen können. Zusätzlich können sie Zugang zu Trinkwasser, einer Toilette und Strom anbieten. Dazu sind sie aber nicht verpflichtet: All das sind Boni. Betrachten Sie einen Garten als einen Biwakplatz, nicht als einen vollwertigen Campingplatz."
-      },
-      "7": {
-        "title": "Ich habe keinen Garten. Kann ich trotzdem in die Gärten anderer Leute reisen?"
-      },
-      "9": {
-        "title": "Kann ich meine Familie mitbringen? Meine Kinder? Meinen Hund?"
-      },
-      "11": {
-        "copy": "Bitte bringen Sie Handdesinfektionsmittel und Feuchttücher mit, damit Sie Ihre Hände und alle Oberflächen, die Sie berührt haben, reinigen können, z. B. den Toilettensitz, den Spülknopf, den Wasserhahn und den Türgriff. Sie können auch eine Maske tragen, wenn Sie das Haus Ihres Gastgebers für Einrichtungen betreten müssen. Auf diese Weise tragen Sie dazu bei, dass COVID-19 nicht übertragen wird, für den Fall, dass Sie oder einer der anderen Benutzer des Badezimmers es zufällig in sich tragen. Natürlich, wenn Sie wissen, dass Sie krank sein könnten, gehen Sie gar nicht erst hin!"
-      },
-      "13": {
-        "title": "Warum ist die Facebook-Seite nur auf Englisch?"
-      },
-      "16": {
-        "copy": "Jedes Problem oder Fehlverhalten sollte an Welcome To My Garden per E-Mail {support} gemeldet werden. Im Falle eines Fehlverhaltens behalten wir uns das Recht vor, das Konto dieser Person einseitig zu entfernen (siehe Nutzungsbedingungen)."
-      }
-    },
     "description": "Häufig gestellte Fragen",
     "title": "HgF"
   },
