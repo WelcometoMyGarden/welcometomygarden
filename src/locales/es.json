@@ -33,6 +33,22 @@
     "steps": {
       "1": {
         "copy": "Una vez que hayas llegado a un acuerdo con tus anfitriones, calcula tu ruta a pie o en bicicleta hasta su jardín. Salúdalos y monta tu tienda para pasar la noche."
+      },
+      "0": {
+        "add-garden-link-text": "Añádelo al mapa"
+      }
+    }
+  },
+  "terms-of-use": {
+    "articles": {
+      "4": {
+        "paragraphs": {
+          "0": {
+            "copy": {
+              "1": "Las cuentas y las cuentas relacionadas que se utilizan para realizar las acciones enumeradas a continuación pueden ser bloqueadas temporalmente y/o eliminadas permanentemente."
+            }
+          }
+        }
       }
     }
   }
