@@ -28,5 +28,12 @@
         "adjust-button": "Ajustar ubicación del pin"
       }
     }
+  },
+  "index": {
+    "steps": {
+      "1": {
+        "copy": "Una vez que hayas llegado a un acuerdo con tus anfitriones, calcula tu ruta a pie o en bicicleta hasta su jardín. Salúdalos y monta tu tienda para pasar la noche."
+      }
+    }
   }
 }
