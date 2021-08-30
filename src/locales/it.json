@@ -1,8 +1,5 @@
 {
   "garden": {
-    "form": {
-      "account-link-text": ""
-    },
     "drawer": {
       "owner": {
         "your-garden": ""
@@ -10,11 +7,6 @@
     }
   },
   "privacy-policy": {
-    "personal-data": {
-      "usage": {
-        "subtitle": ""
-      }
-    },
     "additional-info": {
       "infos": {
         "0": {
@@ -25,26 +17,12 @@
       }
     }
   },
-  "register": {
-    "validate": {
-      "first-name": {
-        "set": ""
-      }
-    }
-  },
   "faq": {
     "clusters": {
       "slow-travellers": {
         "questions": {
           "no-garden": {
             "copy": ""
-          }
-        }
-      },
-      "other": {
-        "questions": {
-          "fb-page": {
-            "title": ""
           }
         }
       }
@@ -57,11 +35,6 @@
       }
     }
   },
-  "index": {
-    "faq": {
-      "faq-link-text": ""
-    }
-  },
   "terms-of-use": {
     "articles": {
       "2": {
@@ -72,30 +45,13 @@
             }
           }
         }
-      },
-      "0": {
-        "descriptions": {
-          "0": {
-            "copy": ""
-          }
-        }
       }
     },
     "last-updated": ""
-  },
-  "recommendations": {
-    "recommendations-groups": {
-      "1": {
-        "title": ""
-      }
-    }
   },
   "sign-in": {
     "notify": {
       "login-issue": ""
     }
-  },
-  "request-password-reset": {
-    "button": ""
   }
 }

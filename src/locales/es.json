@@ -26,8 +26,7 @@
     "form": {
       "location": {
         "adjust-button": "Ajustar ubicación del pin"
-      },
-      "register-link-text": ""
+      }
     },
     "drawer": {
       "owner": {
@@ -43,9 +42,6 @@
       "0": {
         "add-garden-link-text": "Añádelo al mapa"
       }
-    },
-    "partners": {
-      "title": ""
     }
   },
   "terms-of-use": {
@@ -59,9 +55,6 @@
           }
         }
       },
-      "10": {
-        "title": ""
-      },
       "6": {
         "descriptions": {
           "1": {
@@ -71,23 +64,11 @@
       }
     }
   },
-  "stmf": {
-    "sections": {
-      "get-inspired": ""
-    }
-  },
   "privacy-policy": {
     "personal-data": {
       "usage": {
         "purposes": {
           "0": ""
-        }
-      }
-    },
-    "definitions": {
-      "articles": {
-        "1": {
-          "title": ""
         }
       }
     }
@@ -100,13 +81,6 @@
             "title": ""
           }
         }
-      },
-      "hosts": {
-        "questions": {
-          "privacy": {
-            "copy": ""
-          }
-        }
       }
     }
   },
@@ -116,13 +90,6 @@
         "copy": {
           "3": ""
         }
-      }
-    }
-  },
-  "rules": {
-    "rules": {
-      "7": {
-        "title": ""
       }
     }
   },
