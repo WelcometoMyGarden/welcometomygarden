@@ -24,12 +24,14 @@
     "verify": {
       "button": "E-Mail erneut senden",
       "sent": "E-Mail gesendet!",
-      "title": "Bestätigen Sie Ihre E-Mail-Adresse"
+      "title": "Bestätigen Sie Ihre E-Mail-Adresse",
+      "text": ""
     },
     "notify": {
       "preferences-update": "Ihre E-Mail-Einstellungen wurden aktualisiert!",
       "garden-show": "Ihr Garten wird wieder auf der Karte angezeigt",
-      "garden-no-show": "Ihr Garten wird nicht auf der Karte angezeigt"
+      "garden-no-show": "Ihr Garten wird nicht auf der Karte angezeigt",
+      "resend-error": ""
     }
   },
   "generics": {
@@ -49,7 +51,8 @@
     "garden": "Garten",
     "email": "E-Mail",
     "terms-of-use": "Nutzungsbedingungen",
-    "map": "Karte"
+    "map": "Karte",
+    "shop": ""
   },
   "cookies": {
     "articles": {
@@ -74,14 +77,21 @@
       "3": {
         "copy": {
           "0": "Wenn Sie ein Konto bei uns anlegen, verwenden wir Cookies für die Verwaltung des Anmeldevorgangs und die allgemeine Verwaltung. Diese Cookies werden normalerweise gelöscht, wenn Sie sich abmelden. In einigen Fällen können sie jedoch im Nachhinein verbleiben, um sich an Ihre Website-Einstellungen zu erinnern, wenn Sie abgemeldet sind.",
-          "1": "Wir verwenden Cookies, wenn Sie eingeloggt sind, damit wir uns diese Tatsache merken können. Dies verhindert, dass Sie sich jedes Mal anmelden müssen, wenn Sie eine neue Seite besuchen. Diese Cookies werden normalerweise entfernt oder gelöscht, wenn Sie sich abmelden, um sicherzustellen, dass Sie nur auf eingeschränkte Funktionen und Bereiche zugreifen können, wenn Sie angemeldet sind."
+          "1": "Wir verwenden Cookies, wenn Sie eingeloggt sind, damit wir uns diese Tatsache merken können. Dies verhindert, dass Sie sich jedes Mal anmelden müssen, wenn Sie eine neue Seite besuchen. Diese Cookies werden normalerweise entfernt oder gelöscht, wenn Sie sich abmelden, um sicherzustellen, dass Sie nur auf eingeschränkte Funktionen und Bereiche zugreifen können, wenn Sie angemeldet sind.",
+          "3": "",
+          "2": "",
+          "4": ""
         },
         "title": "Die von uns gesetzten Cookies"
       },
       "4": {
         "copy": {
-          "0": "In einigen speziellen Fällen verwenden wir auch Cookies, die von vertrauenswürdigen Drittanbietern bereitgestellt werden. Der folgende Abschnitt beschreibt, welche Cookies von Drittanbietern Sie auf dieser Seite finden können."
-        }
+          "0": "In einigen speziellen Fällen verwenden wir auch Cookies, die von vertrauenswürdigen Drittanbietern bereitgestellt werden. Der folgende Abschnitt beschreibt, welche Cookies von Drittanbietern Sie auf dieser Seite finden können.",
+          "3": "",
+          "2": "",
+          "1": ""
+        },
+        "title": ""
       },
       "5": {
         "title": "Mehr Informationen",
@@ -107,7 +117,8 @@
                 "title": "Ein Konto kann nicht auf eine andere Person übertragen werden"
               },
               "2": {
-                "title": "Ein Konto kann nicht für kommerzielle Zwecke genutzt werden"
+                "title": "Ein Konto kann nicht für kommerzielle Zwecke genutzt werden",
+                "copy": ""
               },
               "3": {
                 "copy": "Es ist nicht erlaubt, dass eine andere Person als die Person, die das Konto erstellt hat, dieses Konto verwendet. Die Person, die das Konto erstellt hat, muss sicherstellen, dass sie das Passwort und die Anmeldedaten sicher aufbewahrt. Wir empfehlen Ihnen dringend, ein „starkes“ Passwort zu verwenden (ein Passwort mit einer Kombination aus Klein- und Großbuchstaben und Zahlen). Wir empfehlen Ihnen, einen Passwort-Manager zu verwenden. Welcome To My Garden kann unter keinen Umständen für den Verlust oder die Beschädigung des Kontos verantwortlich gemacht werden, wenn die oben genannten Bedingungen vom Benutzer nicht eingehalten werden. Welcome To My Garden kann auch nicht für den Diebstahl Ihres Kontos, z.B. durch Phishing, verantwortlich gemacht werden. Welcome To My Garden wird seine Nutzer niemals per E-Mail nach persönlichen Daten wie z.B. einem Passwort fragen. Wenn persönliche Daten abgefragt werden, wird der Nutzer immer auf die Plattform von Welcome To My Garden umgeleitet. Sie sind verantwortlich für alle Aktivitäten, die in Verbindung mit Ihrem Konto stattfinden und akzeptieren alle Risiken eines unberechtigten Zugriffs.",
@@ -132,13 +143,16 @@
           "0": {
             "sections": {
               "0": {
-                "title": "Kein Einkommen"
+                "title": "Kein Einkommen",
+                "copy": ""
               },
               "1": {
-                "title": "Haftungsausschluss"
+                "title": "Haftungsausschluss",
+                "copy": ""
               },
               "2": {
-                "title": "Keine Diskriminierung"
+                "title": "Keine Diskriminierung",
+                "copy": ""
               }
             },
             "title": "Indem Sie Ihren Garten auf der Plattform einstellen, erkennen Sie die allgemeinen Regeln der Plattform an, die wie folgt lauten"
@@ -155,7 +169,10 @@
             }
           },
           "1": {
-            "title": "Pflicht zur vorherigen Kontaktaufnahme mit dem Gastgeber, um einen Aufenthalt zu beantragen"
+            "title": "Pflicht zur vorherigen Kontaktaufnahme mit dem Gastgeber, um einen Aufenthalt zu beantragen",
+            "copy": {
+              "0": ""
+            }
           },
           "2": {
             "title": "Vom Gastgeber angebotene Einrichtungen",
@@ -164,7 +181,10 @@
             }
           },
           "3": {
-            "title": "Respekt vor der Natur"
+            "title": "Respekt vor der Natur",
+            "copy": {
+              "0": ""
+            }
           },
           "4": {
             "title": "Den Gastgeber und die Nachbarn respektieren",
@@ -173,7 +193,10 @@
             }
           },
           "5": {
-            "title": "Kein Auto"
+            "title": "Kein Auto",
+            "copy": {
+              "0": ""
+            }
           },
           "6": {
             "title": "Haftungsausschluss",
@@ -192,10 +215,16 @@
       "3": {
         "paragraphs": {
           "0": {
-            "title": "Sie allein sind für Ihre Interaktionen mit anderen Benutzern verantwortlich."
+            "title": "Sie allein sind für Ihre Interaktionen mit anderen Benutzern verantwortlich.",
+            "copy": {
+              "0": ""
+            }
           },
           "1": {
-            "title": "Identitätsprüfung"
+            "title": "Identitätsprüfung",
+            "copy": {
+              "0": ""
+            }
           }
         },
         "title": "Interaktionen mit anderen Mitgliedern"
@@ -205,19 +234,32 @@
           "0": {
             "title": "Beleidigendes Verhalten",
             "copy": {
-              "0": "Konten und zugehörige Konten, die zur Durchführung der unten aufgeführten Aktionen verwendet werden, können vorübergehend gesperrt und / oder dauerhaft gelöscht werden."
+              "0": "Konten und zugehörige Konten, die zur Durchführung der unten aufgeführten Aktionen verwendet werden, können vorübergehend gesperrt und / oder dauerhaft gelöscht werden.",
+              "2": "",
+              "1": ""
             }
           },
           "1": {
-            "title": "Entschädigung"
+            "title": "Entschädigung",
+            "copy": {
+              "0": ""
+            }
           }
         },
-        "title": "Beschränkungen für Inhalt und Nutzung der Plattform"
+        "title": "Beschränkungen für Inhalt und Nutzung der Plattform",
+        "descriptions": {
+          "0": {
+            "copy": ""
+          }
+        }
       },
       "5": {
         "descriptions": {
           "1": {
             "copy": "IN KEINEM FALL IST WELCOMETOMYGARDEN.ORG, EINE BELGISCHE GEMEINNÜTZIGE ORGANISATION, ODER SEINE GELDGEBER UND FREIWILLIGEN, INDIREKTE ODER FOLGESCHÄDEN ODER ANDERE SCHÄDEN JEGLICHER ART, EINSCHLIEẞLICH, ABER NICHT BESCHRÄNKT AUF NUTZUNGSAUSFALL, GEWINNAUSFALL ODER DATENVERLUST, OB IN EINER KLAGE AUS VERTRAG, UNERLAUBTER HANDLUNG (EINSCHLIEẞLICH, ABER NICHT BESCHRÄNKT AUF FAHRLÄSSIGKEIT) ODER ANDERWEITIG, SELBST WENN WIR AUF DIE MÖGLICHKEIT SOLCHER SCHÄDEN HINGEWIESEN WURDEN, DIE AUS ODER IN BEZUG AUF: (A) DIE NUTZUNG ODER DIE UNFÄHIGKEIT, UNSERE DIENSTE ZU NUTZEN; (B) DIE KOSTEN FÜR DEN ERSATZ VON WAREN, DIENSTLEISTUNGEN ODER INFORMATIONEN, DIE ALS ERGEBNIS VON INFORMATIONEN ODER TRANSAKTIONEN, DIE ÜBER ODER VON UNSEREN DIENSTEN AUS GETÄTIGT WURDEN, GEKAUFT ODER ERHALTEN WURDEN; (C) DIE OFFENLEGUNG, DER UNBEFUGTE ZUGRIFF AUF ODER DIE VERÄNDERUNG VON IHREN INHALTEN; (D) SCHÄDEN DURCH DEN VERLUST ODER DIE BESCHÄDIGUNG VON DATEN ODER PROGRAMMEN, DIENSTUNTERBRECHUNGEN ODER DIE BESCHAFFUNG VON ERSATZDIENSTEN, AUCH WENN WIR VON DER MÖGLICHKEIT SOLCHER SCHÄDEN WISSEN ODER DARAUF HINGEWIESEN WURDEN; (E) ÄUẞERUNGEN, VERHALTEN ODER UNTERLASSUNGEN VON DIENSTANBIETERN ODER ANDEREN DRITTEN AUF UNSEREN DIENSTEN; (F) IHR VERHALTEN ODER HANDLUNGEN VON DRITTEN IN VERBINDUNG MIT DER NUTZUNG DER DIENSTE, EINSCHLIEẞLICH, ABER NICHT BESCHRÄNKT AUF, KÖRPERVERLETZUNG, SEELISCHE BELASTUNG, TOD ODER ANDERE SCHÄDEN, DIE AUS DER KOMMUNIKATION ODER TREFFEN MIT ANDEREN REGISTRIERTEN MITGLIEDERN UNSERER DIENSTE ODER PERSONEN, DIE IHNEN DURCH UNSERE DIENSTE VORGESTELLT WURDEN, OB ONLINE ODER OFFLINE, ENTSTEHEN; ODER (G) JEDE ANDERE ANGELEGENHEIT, DIE SICH AUS UNSEREN DIENSTEN ODER DIESEN BEDINGUNGEN ERGIBT, SICH DARAUF BEZIEHT ODER DAMIT VERBUNDEN IST."
+          },
+          "0": {
+            "copy": ""
           }
         },
         "title": "Begrenzung der Haftung"
@@ -249,6 +291,12 @@
         "descriptions": {
           "2": {
             "copy": "Es kann vorkommen, dass über die Plattform schädliche Dateien heruntergeladen werden können, unabhängig davon, ob dies durch einen Nutzer erfolgt oder nicht, oder dass Nutzer schädliche Hyperlinks platzieren. Jede Datenübertragung eines Nutzers oder jeder Klick auf einen Hyperlink, der von einem Nutzer platziert wird, erfolgt auf eigenes Risiko des Nutzers. Jeder entstandene Schaden liegt vollständig und allein in der Verantwortung dieses Nutzers."
+          },
+          "1": {
+            "copy": ""
+          },
+          "0": {
+            "copy": ""
           }
         }
       },
@@ -256,6 +304,9 @@
         "descriptions": {
           "1": {
             "copy": "Verstöße gegen geistige Eigentumsrechte können über die folgende E-Mail-Adresse gemeldet werden: {support}"
+          },
+          "0": {
+            "copy": ""
           }
         },
         "title": "Geistige Eigentumsrechte"
@@ -269,7 +320,12 @@
         }
       },
       "11": {
-        "title": "Änderungen an diesen Bedingungen"
+        "title": "Änderungen an diesen Bedingungen",
+        "descriptions": {
+          "0": {
+            "copy": ""
+          }
+        }
       }
     },
     "last-updated": "Zuletzt aktualisiert: 30. Mai 2020",
@@ -279,6 +335,9 @@
       },
       "2": {
         "copy": "Da Welcome To My Garden Rückmeldung und Kommentare der Nutzer ihrer Plattform schätzt, begrüßen wir alle Ideen zur weiteren Verbesserung der Plattform. Sie können Ihre Vorschläge per E-Mail an {support} senden."
+      },
+      "0": {
+        "copy": ""
       }
     },
     "title": "Nutzungsbedingungen"
@@ -286,7 +345,8 @@
   "register": {
     "notify": {
       "in-use": "Diese E-Mail-Adresse ist bereits in Gebrauch.",
-      "unexpected": "Ein unerwarteter Fehler ist aufgetreten. Wenn das Problem weiterhin besteht, wenden Sie sich bitte an {support}"
+      "unexpected": "Ein unerwarteter Fehler ist aufgetreten. Wenn das Problem weiterhin besteht, wenden Sie sich bitte an {support}",
+      "successful": ""
     },
     "policies": "Ich akzeptiere die {cookiePolicy}, {privacyPolicy} und {termsOfUse}",
     "title": "Registrierung",
@@ -295,7 +355,8 @@
     "validate": {
       "password": {
         "max": "Bitte achten Sie darauf, dass Ihr Passwort maximal 100 Zeichen lang ist",
-        "min": "Ihr Passwort muss mindestens 8 Zeichen lang sein"
+        "min": "Ihr Passwort muss mindestens 8 Zeichen lang sein",
+        "set": ""
       },
       "last-name": "Bitte geben Sie Ihren Nachnamen ein. Dieser wird nicht an andere Benutzer weitergegeben",
       "country": {
@@ -306,7 +367,8 @@
         "set": "Bitte geben Sie einen Vornamen ein. So werden Sie anderen Benutzern angezeigt",
         "max": "Ihr Vorname darf nur 25 Zeichen lang sein, damit wir ihn richtig darstellen können. Sie können ihn gerne abkürzen oder einen Spitznamen wählen"
       },
-      "email": "Bitte fügen Sie eine E-Mail-Adresse hinzu, mit der Sie sich anmelden"
+      "email": "Bitte fügen Sie eine E-Mail-Adresse hinzu, mit der Sie sich anmelden",
+      "consent": ""
     },
     "first-name": "Vorname",
     "country": "Land",
@@ -333,10 +395,12 @@
           "copy": "Die juristische oder natürliche Person, auf die sich die personenbezogenen Daten beziehen."
         },
         "4": {
-          "title": "Datenverarbeiter (oder Datenverantwortlicher)"
+          "title": "Datenverarbeiter (oder Datenverantwortlicher)",
+          "copy": ""
         },
         "5": {
-          "title": "Verantwortlicher für die Verarbeitung der Daten (oder Eigentümer)"
+          "title": "Verantwortlicher für die Verarbeitung der Daten (oder Eigentümer)",
+          "copy": ""
         },
         "6": {
           "title": "Diese Anwendung",
@@ -361,7 +425,8 @@
             "list": {
               "0": "E-Mail-Adresse (Pflichtfeld)",
               "1": "Ihr Vor- und Nachname (Pflichtfeld)",
-              "2": "Ihr Land (obligatorisch)"
+              "2": "Ihr Land (obligatorisch)",
+              "3": ""
             }
           },
           "1": {
@@ -377,6 +442,12 @@
               "2": "Gesprochene Sprachen (obligatorisch)"
             },
             "title": "Persönliche Daten, die Sie angeben, wenn Sie Ihren Garten zu Ihrem Konto hinzufügen."
+          },
+          "3": {
+            "list": {
+              "0": ""
+            },
+            "title": ""
           }
         },
         "title": "Welche persönlichen Daten sammeln wir?",
@@ -385,7 +456,15 @@
       "usage": {
         "title": "Wie verwenden wir personenbezogene Daten?",
         "copy": "Die personenbezogenen Daten werden nur für den Zeitraum gespeichert und verarbeitet, der für den Zweck der Verarbeitung erforderlich ist. Danach werden die Daten gelöscht oder anonymisiert. Welcome To My Garden setzt auf Firebase, das nach wichtigen Datenschutz- und Sicherheitsstandards zertifiziert ist. Die Firebase-Dienste sind DSGVO-konform. Alle Informationen zu Firebase finden Sie <a href=\"https://firebase.google.com/support/privacy\">hier</a>.",
-        "subtitle": "Wir können Ihre personenbezogenen Daten für die folgenden Zwecke verwenden"
+        "subtitle": "Wir können Ihre personenbezogenen Daten für die folgenden Zwecke verwenden",
+        "purposes": {
+          "3": "",
+          "0": "",
+          "4": "",
+          "1": "",
+          "2": "",
+          "5": ""
+        }
       },
       "extra": {
         "0": {
@@ -404,6 +483,10 @@
       "meaning": {
         "copy": "In dieser Datenschutzrichtlinie bezieht sich der Begriff „personenbezogene Daten“ auf Informationen, die es ermöglichen, Sie zu identifizieren. Eine identifizierbare Person ist jemand, der direkt oder indirekt identifiziert werden kann, insbesondere durch Zuordnung zu einer Kennnummer oder zu einem oder mehreren Faktoren, die mit der physischen, physiologischen, psychischen, wirtschaftlichen, kulturellen oder sozialen Identität in Verbindung stehen. Ein typisches Beispiel für personenbezogene Daten sind Ihr Name und Ihre E-Mail-Adresse.",
         "title": "Was bedeutet „personenbezogene Daten“?"
+      },
+      "backups": {
+        "copy": "",
+        "title": ""
       }
     },
     "rights": {
@@ -417,10 +500,12 @@
           "title": "Recht auf Berichtigung, Löschung und Einschränkung der Verarbeitung"
         },
         "1": {
-          "title": "Widerspruchsrecht"
+          "title": "Widerspruchsrecht",
+          "copy": ""
         },
         "2": {
-          "title": "Recht auf Datenübertragbarkeit"
+          "title": "Recht auf Datenübertragbarkeit",
+          "copy": ""
         },
         "3": {
           "title": "Recht auf Widerruf der Zustimmung",
@@ -431,25 +516,33 @@
           "copy": "Sie haben das Recht, eine Beschwerde bei der belgischen Datenschutzkommission einzureichen: Datenschutzbehörde, Drukpersstraat/Rue de la Presse 35, 1000 Brüssel, Belgien, Tel +32 (0)2 274 48 00, Fax +32 (0)2 274 48 35, E-Mail: commission@privacycommission.be. Der Rechtsweg vor einem Zivilgericht ist davon nicht betroffen."
         }
       },
-      "title": "Welche Rechte haben Sie?"
+      "title": "Welche Rechte haben Sie?",
+      "copy": ""
     },
     "additional-info": {
       "infos": {
         "0": {
           "copy": {
-            "0": "Der Verarbeiter und der Verantwortliche für die Datenverarbeitung können die personenbezogenen Daten des Nutzers für rechtliche Zwecke, für das Gericht oder für Gerichtsverfahren im Falle einer unrechtmäßigen Nutzung dieser Anwendung oder der damit verbundenen Dienste verwenden."
+            "0": "Der Verarbeiter und der Verantwortliche für die Datenverarbeitung können die personenbezogenen Daten des Nutzers für rechtliche Zwecke, für das Gericht oder für Gerichtsverfahren im Falle einer unrechtmäßigen Nutzung dieser Anwendung oder der damit verbundenen Dienste verwenden.",
+            "1": ""
           },
           "title": "Rechtliche Verfahren"
         },
         "1": {
-          "title": "Sicherheitsmaßnahmen"
+          "title": "Sicherheitsmaßnahmen",
+          "copy": {
+            "2": "",
+            "0": "",
+            "1": ""
+          }
         }
       },
       "title": "Zusätzliche Informationen zur Datenerfassung und -verarbeitung"
     },
     "subtitle": "Verantwortlich für die Verarbeitung der Daten und Eigentümer",
     "scope": {
-      "title": "Datenschutz"
+      "title": "Datenschutz",
+      "copy": ""
     },
     "title": "Datenschutz",
     "change-warning": {
@@ -469,16 +562,143 @@
   },
   "map": {
     "vehicle-notice": {
-      "text": "Wenn Sie planen, mit einem motorisierten Fahrzeug anzureisen, kontaktieren Sie die Gastgeber bitte nicht über diese Plattform. Vielen Dank für Ihr Verständnis!"
+      "text": "Wenn Sie planen, mit einem motorisierten Fahrzeug anzureisen, kontaktieren Sie die Gastgeber bitte nicht über diese Plattform. Vielen Dank für Ihr Verständnis!",
+      "title": ""
     },
     "trails": {
       "hiking": "Wanderrouten anzeigen",
-      "cycling": "Fahrradrouten anzeigen"
+      "cycling": "Fahrradrouten anzeigen",
+      "attribution": ""
     }
   },
   "faq": {
     "description": "Häufig gestellte Fragen",
-    "title": "HgF"
+    "title": "HgF",
+    "clusters": {
+      "slow-travellers": {
+        "questions": {
+          "what-facilities": {
+            "copy": "",
+            "title": ""
+          },
+          "how-long": {
+            "title": "",
+            "copy": ""
+          },
+          "animals": {
+            "copy": "",
+            "title": ""
+          },
+          "no-garden": {
+            "copy": "",
+            "title": ""
+          },
+          "covid-safe": {
+            "title": "",
+            "copy": ""
+          },
+          "no-toilet": {
+            "copy": "",
+            "title": ""
+          },
+          "tent-type": {
+            "title": "",
+            "copy": ""
+          },
+          "cost": {
+            "copy": "",
+            "title": ""
+          },
+          "how-camping": {
+            "copy": "",
+            "title": ""
+          }
+        },
+        "title": ""
+      },
+      "hosts": {
+        "questions": {
+          "suspend": {
+            "title": "",
+            "copy": ""
+          },
+          "issue": {
+            "title": "",
+            "copy": ""
+          },
+          "privacy": {
+            "title": "",
+            "copy": ""
+          },
+          "messaging": {
+            "copy": "",
+            "title": ""
+          }
+        },
+        "title": ""
+      },
+      "general": {
+        "questions": {
+          "who": {
+            "title": "",
+            "copy": ""
+          },
+          "how": {
+            "title": "",
+            "copy": ""
+          },
+          "what": {
+            "copy": "",
+            "title": ""
+          }
+        },
+        "title": ""
+      },
+      "technical-support": {
+        "questions": {
+          "newsletter": {
+            "title": "",
+            "copy": ""
+          },
+          "messages": {
+            "copy": "",
+            "title": ""
+          },
+          "text-in-english": {
+            "title": "",
+            "copy": ""
+          },
+          "privacy": {
+            "title": "",
+            "copy": ""
+          },
+          "update-email": {
+            "title": "",
+            "copy": ""
+          }
+        },
+        "title": ""
+      },
+      "other": {
+        "questions": {
+          "fb-page": {
+            "copy": "",
+            "title": ""
+          },
+          "become-volunteer": {
+            "copy": "",
+            "title": ""
+          },
+          "warmshowers": {
+            "title": "",
+            "copy": ""
+          }
+        },
+        "title": ""
+      }
+    },
+    "donation": "",
+    "instruction-page": ""
   },
   "garden": {
     "form": {
@@ -529,13 +749,16 @@
       "add-button": "Ihren Garten hinzufügen",
       "update-button": "Ihren Garten aktualisieren",
       "invalid": "Einige Informationen waren nicht gültig. Bitte überprüfen Sie Ihre übermittelten Informationen auf Fehler.",
-      "account-link-text": "Ihr Profil"
+      "account-link-text": "Ihr Profil",
+      "email-confirm-notice": "",
+      "auth-notice": ""
     },
     "drawer": {
       "unclaimed": "Sie können diesen Gastgeber kontaktieren, sobald er sein Konto erstellt hat.",
       "guest": {
         "sign-link-text": "anmelden",
-        "button": "Gastgeber kontaktieren"
+        "button": "Gastgeber kontaktieren",
+        "login": ""
       },
       "facilities": {
         "capacity": "Platz für {styleCapacity} {capacity, plural, one {Zelt} other {Zelte}}"
@@ -568,17 +791,29 @@
       "update": "Ihr Garten wurde erfolgreich aktualisiert!"
     },
     "filter": {
-      "min": "Minimum"
+      "min": "Minimum",
+      "garden-capacity": "",
+      "apply-filter": "",
+      "title": "",
+      "available": "",
+      "garden-facilities": "",
+      "spots-available": "",
+      "all-filters": "",
+      "search-city": "",
+      "no-places": "",
+      "min-capacity": ""
     }
   },
   "index": {
     "faq": {
       "questions": {
         "0": {
-          "title": "Für wen ist Welcome To My Garden gedacht?"
+          "title": "Für wen ist Welcome To My Garden gedacht?",
+          "copy": ""
         },
         "1": {
-          "title": "Wie komme ich zu meinem Stellplatz?"
+          "title": "Wie komme ich zu meinem Stellplatz?",
+          "copy": ""
         },
         "2": {
           "title": "Wie kann ich einen Aufenthalt beantragen?",
@@ -589,7 +824,8 @@
           "title": "Was ist mit Einrichtungen?"
         },
         "4": {
-          "title": "Kostet Welcome To My Garden etwas?"
+          "title": "Kostet Welcome To My Garden etwas?",
+          "copy": ""
         }
       },
       "copy": "Hier sind die wichtigsten Dinge, die Sie über Ihr nächstes Abenteuer wissen müssen. Bitte lesen Sie diesen FAQ-Bereich gründlich durch, damit Sie wissen, worauf Sie sich einlassen. Noch mehr Fragen? Lesen Sie {faqLink}!",
@@ -627,10 +863,18 @@
     },
     "support": {
       "title": "Unterstützen Sie uns",
-      "donation-link-text": "Spenden"
+      "donation-link-text": "Spenden",
+      "copy": ""
     },
     "banner-stmf": {
-      "link": "Slow Travel Mini Festival"
+      "link": "Slow Travel Mini Festival",
+      "copy": ""
+    },
+    "shop": {
+      "banner": {
+        "title": "",
+        "copy": ""
+      }
     }
   },
   "rules": {
@@ -641,14 +885,16 @@
         "copy": "Halten Sie sich jederzeit an die Maßnahmen der Regierung, um die Verbreitung von COVID-19 zu stoppen."
       },
       "1": {
-        "title": "Netzwerk von Bürgern und Bürgerinnen"
+        "title": "Netzwerk von Bürgern und Bürgerinnen",
+        "copy": ""
       },
       "2": {
         "title": "Senden Sie eine Anfrage im Voraus an den Gartenbesitzer",
         "copy": "Die Gartenbesitzer sind möglicherweise nicht zu jeder Zeit zu Hause und bereit, Sie zu empfangen. Wir bitten die Benutzer, den Gartenbesitzer im Voraus zu kontaktieren, um die Verfügbarkeit direkt zu prüfen. Dies sollte geschehen, indem Sie eine Anfrage an den Gastgeber über sein Profil senden. Nachdem Sie die erste Verbindung hergestellt haben, können Sie Ihre Kontaktdaten austauschen, so dass Sie in Kontakt bleiben und den Gastgeber über Ihre Ankunftszeit per E-Mail oder Telefon informieren können, je nach dessen Präferenz. Wenn Sie eine Anfrage senden, geben Sie einige Informationen über sich selbst und über Ihre voraussichtliche Ankunftszeit an."
       },
       "3": {
-        "title": "Kein Auto"
+        "title": "Kein Auto",
+        "copy": ""
       },
       "4": {
         "copy": "Sie können maximal 48 Stunden auf einem Stellplatz bleiben. Erkundigen Sie sich immer bei dem Gartenbesitzer.",
@@ -695,7 +941,9 @@
     "new": "neu",
     "title-conversation": "Mit {partnerName} chatten",
     "title": "Chat",
-    "all-conversations": "Alle Unterhaltungen"
+    "all-conversations": "Alle Unterhaltungen",
+    "type-message": "",
+    "go-to-garden": ""
   },
   "sign-in": {
     "button": "Anmelden",
@@ -709,7 +957,9 @@
       "text": "Sie haben noch kein Konto? {link}"
     },
     "notify": {
-      "incorrect": "Die angegebene E-Mail-Adresse oder das Passwort ist falsch."
+      "incorrect": "Die angegebene E-Mail-Adresse oder das Passwort ist falsch.",
+      "login-issue": "",
+      "welcome": ""
     }
   },
   "reset-password": {
@@ -724,7 +974,9 @@
           "0": "Routenplaner für Radfahren und Wandern: BRouter",
           "1": "Ein weiterer großartiger Routenplaner: Komoot",
           "2": "Großartiger Routenfinder und -planer: OutdoorActive",
-          "3": "Tolle Navigationsnwendung für Radfahren und Wandern: OSMAnd"
+          "3": "Tolle Navigationsnwendung für Radfahren und Wandern: OSMAnd",
+          "4": "",
+          "5": ""
         },
         "title": "Anwendungen und Karten"
       },
@@ -732,13 +984,17 @@
         "recommendations": {
           "0": "Tolle Sammlung von Wanderwegen: RouteYou",
           "1": "Knooppunten Netzwerk-Planer: Wandelknooppunt",
-          "2": "Langstrecken-Radwege in Flandern: LF-Netzwerk Flandern"
-        }
+          "2": "Langstrecken-Radwege in Flandern: LF-Netzwerk Flandern",
+          "4": "",
+          "3": ""
+        },
+        "title": ""
       },
       "2": {
         "title": "Sonstige Unterkunftsleistungen",
         "recommendations": {
-          "0": "Gastfreundschaftsnetzwerk für Radfahrer: WarmShowers"
+          "0": "Gastfreundschaftsnetzwerk für Radfahrer: WarmShowers",
+          "1": ""
         }
       }
     },
@@ -766,10 +1022,17 @@
     "verification": {
       "unsigned": "Bitte melden Sie sich zuerst an",
       "refresh": "Ihre E-Mail-Adresse wurde bereits verifiziert. Bitte aktualisieren Sie die Seite.",
-      "succes": "Ihre E-Mail-Adresse wurde erfolgreich verifiziert!"
+      "succes": "Ihre E-Mail-Adresse wurde erfolgreich verifiziert!",
+      "expired": ""
+    },
+    "invalid-code": "",
+    "password": {
+      "expired": ""
     }
   },
   "fallback": {
-    "404": "404 - Seite nicht gefunden"
-  }
+    "404": "404 - Seite nicht gefunden",
+    "redirect": ""
+  },
+  "tagline": ""
 }
