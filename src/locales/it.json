@@ -2,70 +2,43 @@
   "garden": {
     "form": {
       "location": {
-        "house-number": "",
         "street": "",
-        "city": "",
-        "notice": "",
-        "coordinate-hint": ""
+        "notice": ""
       },
       "facilities": {
-        "notice": "",
-        "capacity": {
-          "help": ""
-        }
+        "notice": ""
       },
       "register-link-text": "",
       "description": {
-        "notice": "",
         "hints": {
           "too-short": ""
-        },
-        "placeholder": ""
+        }
       },
       "add-button": "",
       "photo": {
-        "hints": {
-          "too-large": ""
-        },
         "img-alt": ""
       },
-      "update-button": "",
       "account-link-text": "",
-      "sign-in-link-text": "",
       "title": ""
-    },
-    "notify": {
-      "photo": ""
     },
     "filter": {
       "no-places": "",
-      "garden-capacity": "",
       "spots-available": "",
-      "search-city": "",
-      "title": "",
-      "apply-filter": ""
+      "title": ""
     },
     "facilities": {
       "labels": {
         "toilet": "",
-        "electricity": "",
         "water": ""
       }
     },
-    "add": {
-      "title": ""
-    },
     "drawer": {
       "guest": {
-        "button": "",
-        "login": ""
+        "button": ""
       },
       "owner": {
         "your-garden": ""
       }
-    },
-    "manage": {
-      "title": ""
     }
   },
   "privacy-policy": {
@@ -74,8 +47,7 @@
         "sources": {
           "0": {
             "list": {
-              "2": "",
-              "3": ""
+              "2": ""
             }
           },
           "1": {
@@ -83,72 +55,40 @@
           },
           "2": {
             "list": {
-              "1": "",
               "2": ""
-            }
-          },
-          "3": {
-            "list": {
-              "0": ""
             }
           }
         },
         "copy": ""
       },
       "extra": {
-        "0": {
-          "title": ""
-        },
         "2": {
-          "copy": ""
-        },
-        "1": {
           "copy": ""
         }
       },
       "usage": {
         "purposes": {
           "2": "",
-          "4": "",
           "0": ""
         },
-        "copy": "",
         "subtitle": ""
-      },
-      "meaning": {
-        "title": ""
       },
       "backups": {
         "copy": ""
       }
-    },
-    "change-warning": {
-      "title": ""
     },
     "definitions": {
       "articles": {
         "3": {
           "title": ""
         },
-        "0": {
-          "copy": ""
-        },
         "2": {
           "title": ""
-        },
-        "5": {
-          "copy": ""
         },
         "4": {
           "title": ""
         },
-        "7": {
-          "copy": ""
-        },
         "1": {
-          "copy": ""
-        },
-        "6": {
           "copy": ""
         }
       },
@@ -156,20 +96,17 @@
         "title": ""
       }
     },
-    "title": "",
     "additional-info": {
       "infos": {
         "1": {
           "copy": {
-            "1": "",
-            "0": ""
+            "1": ""
           }
         },
         "0": {
           "copy": {
             "1": ""
-          },
-          "title": ""
+          }
         }
       }
     },
@@ -178,56 +115,35 @@
         "2": {
           "copy": ""
         },
-        "4": {
-          "copy": ""
-        },
         "3": {
-          "copy": ""
-        },
-        "1": {
           "copy": ""
         },
         "0": {
           "copy": ""
         }
       },
-      "exercise-rights": {
-        "title": ""
-      },
       "copy": ""
     },
-    "scope": {
-      "copy": ""
-    },
-    "email": "",
-    "subtitle": ""
+    "email": ""
   },
   "register": {
     "notify": {
       "in-use": ""
     },
-    "country": "",
     "validate": {
       "last-name": "",
-      "country": {
-        "from-list": ""
-      },
       "first-name": {
         "set": ""
       },
       "password": {
-        "max": "",
         "min": ""
       }
     },
-    "title": "",
-    "last-name": "",
-    "registred": ""
+    "last-name": ""
   },
   "stmf": {
     "sections": {
-      "get-inspired": "",
-      "rethink": ""
+      "get-inspired": ""
     },
     "description": ""
   },
@@ -235,46 +151,25 @@
     "clusters": {
       "slow-travellers": {
         "questions": {
-          "how-long": {
-            "title": ""
-          },
           "no-toilet": {
             "title": ""
           },
-          "covid-safe": {
-            "copy": ""
-          },
           "what-facilities": {
-            "title": ""
-          },
-          "cost": {
             "title": ""
           },
           "animals": {
             "copy": ""
           },
-          "how-camping": {
-            "title": ""
-          },
           "no-garden": {
             "copy": ""
-          },
-          "tent-type": {
-            "title": ""
           }
         },
         "title": ""
       },
       "hosts": {
         "questions": {
-          "issue": {
-            "copy": ""
-          },
           "privacy": {
             "copy": ""
-          },
-          "suspend": {
-            "title": ""
           },
           "messaging": {
             "title": ""
@@ -283,33 +178,18 @@
       },
       "general": {
         "questions": {
-          "how": {
-            "copy": ""
-          },
           "who": {
             "copy": ""
-          },
-          "what": {
-            "title": ""
           }
         },
         "title": ""
       },
       "technical-support": {
         "questions": {
-          "newsletter": {
-            "title": ""
-          },
           "text-in-english": {
             "title": ""
           },
-          "messages": {
-            "copy": ""
-          },
           "update-email": {
-            "title": ""
-          },
-          "privacy": {
             "title": ""
           }
         }
@@ -319,68 +199,43 @@
           "fb-page": {
             "title": ""
           },
-          "become-volunteer": {
-            "copy": ""
-          },
           "warmshowers": {
             "copy": ""
           }
-        },
-        "title": ""
+        }
       }
     },
-    "donation": "",
-    "title": ""
+    "donation": ""
   },
   "rules": {
     "rules": {
       "1": {
         "title": ""
       },
-      "9": {
-        "copy": ""
-      },
       "3": {
-        "copy": ""
-      },
-      "0": {
         "copy": ""
       },
       "8": {
         "title": ""
       },
-      "10": {
-        "title": ""
-      },
       "2": {
         "copy": ""
-      },
-      "4": {
-        "title": ""
       },
       "7": {
         "title": ""
       },
-      "6": {
-        "copy": ""
-      },
       "5": {
         "copy": ""
       }
-    },
-    "description": ""
+    }
   },
   "generics": {
     "rules": "",
-    "home": "",
     "faq": {
       "explicit": ""
     },
-    "chat": "",
     "shop": "",
-    "sign-out": "",
-    "map": "",
-    "email": ""
+    "map": ""
   },
   "index": {
     "faq": {
@@ -388,54 +243,31 @@
         "3": {
           "title": ""
         },
-        "2": {
-          "copy": ""
-        },
         "4": {
-          "copy": ""
-        },
-        "1": {
           "copy": ""
         },
         "0": {
           "copy": ""
         }
       },
-      "title": "",
       "faq-link-text": ""
-    },
-    "holiday-donations": {
-      "title": ""
     },
     "steps": {
       "1": {
         "title": ""
       },
-      "2": {
-        "copy": ""
-      },
       "0": {
-        "copy": "",
-        "title": ""
+        "copy": ""
       }
     },
     "banner-stmf": {
       "copy": ""
     },
-    "support": {
-      "donation-link-text": ""
-    },
     "partners": {
       "title": ""
     },
     "intro": {
-      "learn-more": "",
       "add-garden": ""
-    },
-    "shop": {
-      "banner": {
-        "copy": ""
-      }
     }
   },
   "terms-of-use": {
@@ -447,14 +279,10 @@
               "1": {
                 "copy": ""
               },
-              "2": {
-                "copy": ""
-              },
               "0": {
                 "title": ""
               }
-            },
-            "title": ""
+            }
           }
         }
       },
@@ -465,34 +293,16 @@
               "0": ""
             }
           },
-          "5": {
-            "copy": {
-              "0": ""
-            }
-          },
           "1": {
             "title": ""
-          },
-          "2": {
-            "copy": {
-              "0": ""
-            }
           },
           "6": {
             "copy": {
               "0": ""
             }
           },
-          "0": {
-            "title": ""
-          },
           "3": {
             "title": ""
-          }
-        },
-        "descriptions": {
-          "0": {
-            "copy": ""
           }
         }
       },
@@ -504,13 +314,9 @@
             }
           },
           "0": {
-            "copy": {
-              "1": ""
-            },
             "title": ""
           }
-        },
-        "title": ""
+        }
       },
       "0": {
         "info": {
@@ -519,13 +325,7 @@
               "3": {
                 "title": ""
               },
-              "1": {
-                "title": ""
-              },
               "0": {
-                "title": ""
-              },
-              "2": {
                 "title": ""
               }
             }
@@ -535,8 +335,7 @@
           "0": {
             "copy": ""
           }
-        },
-        "title": ""
+        }
       },
       "6": {
         "descriptions": {
@@ -546,25 +345,16 @@
         }
       },
       "9": {
-        "descriptions": {
-          "1": {
-            "copy": ""
-          }
-        },
         "title": ""
       },
       "3": {
         "paragraphs": {
-          "0": {
-            "title": ""
-          },
           "1": {
             "title": ""
           }
         }
       },
       "7": {
-        "title": "",
         "descriptions": {
           "0": {
             "copy": ""
@@ -572,36 +362,14 @@
         }
       },
       "8": {
-        "descriptions": {
-          "1": {
-            "copy": ""
-          }
-        },
         "title": ""
-      },
-      "5": {
-        "descriptions": {
-          "0": {
-            "copy": ""
-          }
-        }
       },
       "11": {
         "title": ""
-      },
-      "10": {
-        "descriptions": {
-          "0": {
-            "copy": ""
-          }
-        }
       }
     },
     "intro": {
       "0": {
-        "copy": ""
-      },
-      "2": {
         "copy": ""
       }
     },
@@ -609,27 +377,18 @@
   },
   "account": {
     "preferences": {
-      "text": "",
       "chat": ""
     },
     "notify": {
-      "resend-error": "",
       "preferences-update": ""
     },
     "garden": {
-      "unlisted": {
-        "button": ""
-      },
       "unverified": {
         "text": ""
-      },
-      "listed": {
-        "button": ""
       }
     },
     "verify": {
-      "button": "",
-      "title": ""
+      "button": ""
     }
   },
   "recommendations": {
@@ -637,31 +396,21 @@
       "0": {
         "recommendations": {
           "1": "",
-          "3": "",
           "2": ""
-        },
-        "title": ""
+        }
       },
       "1": {
         "recommendations": {
-          "0": "",
-          "2": ""
+          "0": ""
         },
         "title": ""
-      },
-      "2": {
-        "recommendations": {
-          "0": ""
-        }
       }
     },
-    "title": "",
-    "message": ""
+    "title": ""
   },
   "map": {
     "trails": {
-      "attribution": "",
-      "hiking": ""
+      "attribution": ""
     },
     "vehicle-notice": {
       "text": ""
@@ -669,34 +418,23 @@
   },
   "auth": {
     "verification": {
-      "unsigned": "",
       "refresh": ""
-    },
-    "invalid-code": ""
+    }
   },
   "chat": {
     "new": "",
-    "notify": {
-      "too-long": ""
-    },
     "no-messages": {
       "text": ""
     },
-    "type-message": "",
     "title": ""
   },
   "sign-in": {
-    "register": {
-      "link": ""
-    },
     "notify": {
-      "login-issue": "",
-      "welcome": ""
+      "login-issue": ""
     },
     "reset": {
       "text": ""
-    },
-    "title": ""
+    }
   },
   "cookies": {
     "articles": {
@@ -705,22 +443,12 @@
       },
       "4": {
         "copy": {
-          "1": "",
           "0": ""
         }
-      },
-      "2": {
-        "title": ""
       },
       "3": {
         "copy": {
           "4": "",
-          "1": "",
-          "0": ""
-        }
-      },
-      "0": {
-        "copy": {
           "0": ""
         }
       },
@@ -729,19 +457,15 @@
           "0": ""
         }
       }
-    },
-    "title": ""
+    }
   },
   "reset-password": {
     "update": ""
   },
   "request-password-reset": {
-    "trouble": "",
-    "button": "",
-    "title": ""
+    "button": ""
   },
   "fallback": {
     "404": ""
-  },
-  "tagline": ""
+  }
 }
