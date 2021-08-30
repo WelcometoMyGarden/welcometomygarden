@@ -27,11 +27,6 @@
       "location": {
         "adjust-button": "Ajustar ubicación del pin"
       }
-    },
-    "drawer": {
-      "owner": {
-        "your-garden": ""
-      }
     }
   },
   "index": {
@@ -54,13 +49,6 @@
             }
           }
         }
-      },
-      "6": {
-        "descriptions": {
-          "1": {
-            "copy": ""
-          }
-        }
       }
     }
   },
@@ -73,30 +61,10 @@
       }
     }
   },
-  "faq": {
-    "clusters": {
-      "slow-travellers": {
-        "questions": {
-          "no-garden": {
-            "title": ""
-          }
-        }
-      }
-    }
-  },
   "cookies": {
     "articles": {
       "3": {
         "copy": {
-          "3": ""
-        }
-      }
-    }
-  },
-  "recommendations": {
-    "recommendations-groups": {
-      "1": {
-        "recommendations": {
           "3": ""
         }
       }

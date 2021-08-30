@@ -1,28 +1,10 @@
 {
-  "garden": {
-    "drawer": {
-      "owner": {
-        "your-garden": ""
-      }
-    }
-  },
   "privacy-policy": {
     "additional-info": {
       "infos": {
         "0": {
           "copy": {
             "1": ""
-          }
-        }
-      }
-    }
-  },
-  "faq": {
-    "clusters": {
-      "slow-travellers": {
-        "questions": {
-          "no-garden": {
-            "copy": ""
           }
         }
       }
@@ -36,22 +18,6 @@
     }
   },
   "terms-of-use": {
-    "articles": {
-      "2": {
-        "paragraphs": {
-          "4": {
-            "copy": {
-              "0": ""
-            }
-          }
-        }
-      }
-    },
     "last-updated": ""
-  },
-  "sign-in": {
-    "notify": {
-      "login-issue": ""
-    }
   }
 }
