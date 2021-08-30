@@ -18,16 +18,10 @@
   },
   "account": {
     "title": "Cuenta",
-    "notify": {
-      "resend-error": ""
-    },
     "garden": {
       "unlisted": {
         "button": ""
       }
-    },
-    "preferences": {
-      "chat": ""
     },
     "verify": {
       "button": ""
@@ -40,46 +34,30 @@
     "form": {
       "location": {
         "adjust-button": "Ajustar ubicación del pin",
-        "confirm-button": "",
         "house-number": ""
-      },
-      "photo": {
-        "hints": {
-          "wrong-format": ""
-        }
       },
       "facilities": {
         "capacity": {
           "help": ""
         }
       },
-      "email-confirm-notice": "",
       "description": {
         "hints": {
           "too-long": ""
         }
       },
-      "account-link-text": "",
       "register-link-text": ""
-    },
-    "notify": {
-      "success": ""
     },
     "filter": {
       "garden-capacity": "",
-      "garden-facilities": "",
       "no-places": ""
     },
     "facilities": {
       "labels": {
-        "bonfire": "",
         "electricity": ""
       }
     },
     "drawer": {
-      "guest": {
-        "sign-link-text": ""
-      },
       "owner": {
         "your-garden": ""
       }
@@ -92,9 +70,6 @@
       },
       "0": {
         "add-garden-link-text": "Añádelo al mapa"
-      },
-      "2": {
-        "title": ""
       }
     },
     "faq": {
@@ -102,24 +77,13 @@
         "3": {
           "title": ""
         },
-        "0": {
-          "copy": ""
-        },
         "1": {
           "copy": ""
         }
       }
     },
-    "shop": {
-      "banner": {
-        "copy": ""
-      }
-    },
     "intro": {
       "explore-map": ""
-    },
-    "holiday-donations": {
-      "copy": ""
     },
     "partners": {
       "title": ""
@@ -133,11 +97,6 @@
             "copy": {
               "1": "Las cuentas y las cuentas relacionadas que se utilizan para realizar las acciones enumeradas a continuación pueden ser bloqueadas temporalmente y/o eliminadas permanentemente."
             }
-          },
-          "1": {
-            "copy": {
-              "0": ""
-            }
           }
         }
       },
@@ -150,9 +109,6 @@
         "info": {
           "0": {
             "sections": {
-              "3": {
-                "title": ""
-              },
               "1": {
                 "title": ""
               }
@@ -164,9 +120,6 @@
         "info": {
           "0": {
             "sections": {
-              "0": {
-                "copy": ""
-              },
               "2": {
                 "title": ""
               }
@@ -174,49 +127,20 @@
           }
         }
       },
-      "8": {
-        "descriptions": {
-          "2": {
-            "copy": ""
-          }
-        }
-      },
       "10": {
         "title": ""
-      },
-      "3": {
-        "paragraphs": {
-          "1": {
-            "copy": {
-              "0": ""
-            }
-          }
-        }
       },
       "2": {
         "paragraphs": {
           "6": {
             "title": ""
           },
-          "2": {
-            "title": ""
-          },
           "3": {
-            "title": ""
-          },
-          "0": {
             "title": ""
           }
         }
       },
       "9": {
-        "descriptions": {
-          "0": {
-            "copy": ""
-          }
-        }
-      },
-      "7": {
         "descriptions": {
           "0": {
             "copy": ""
@@ -229,27 +153,20 @@
             "copy": ""
           }
         }
-      },
-      "5": {
-        "title": ""
       }
     },
     "last-updated": ""
   },
   "register": {
     "validate": {
-      "email": "",
       "consent": ""
     },
-    "registering": "",
-    "registred": "",
-    "first-name": ""
+    "registred": ""
   },
   "stmf": {
     "sections": {
       "get-inspired": ""
-    },
-    "title": ""
+    }
   },
   "privacy-policy": {
     "rights": {
@@ -257,14 +174,10 @@
         "4": {
           "title": ""
         },
-        "1": {
-          "copy": ""
-        },
         "0": {
           "title": ""
         }
-      },
-      "title": ""
+      }
     },
     "personal-data": {
       "extra": {
@@ -274,28 +187,18 @@
       },
       "usage": {
         "purposes": {
-          "3": "",
           "0": ""
         }
-      },
-      "meaning": {
-        "copy": ""
       },
       "collection": {
         "sources": {
           "0": {
             "list": {
               "2": ""
-            },
-            "title": ""
+            }
           },
           "1": {
             "title": ""
-          },
-          "2": {
-            "list": {
-              "0": ""
-            }
           }
         }
       }
@@ -305,13 +208,7 @@
         "7": {
           "title": ""
         },
-        "3": {
-          "title": ""
-        },
         "1": {
-          "title": ""
-        },
-        "2": {
           "title": ""
         }
       },
@@ -321,11 +218,6 @@
     },
     "additional-info": {
       "infos": {
-        "1": {
-          "copy": {
-            "0": ""
-          }
-        },
         "0": {
           "copy": {
             "1": ""
@@ -333,32 +225,16 @@
         }
       }
     },
-    "scope": {
-      "title": ""
-    },
     "last-updated": ""
   },
   "faq": {
     "clusters": {
-      "general": {
-        "questions": {
-          "what": {
-            "copy": ""
-          }
-        }
-      },
       "slow-travellers": {
         "questions": {
           "no-garden": {
             "title": ""
           },
-          "cost": {
-            "title": ""
-          },
           "how-camping": {
-            "copy": ""
-          },
-          "how-long": {
             "copy": ""
           },
           "tent-type": {
@@ -368,14 +244,8 @@
       },
       "technical-support": {
         "questions": {
-          "privacy": {
-            "title": ""
-          },
           "newsletter": {
             "copy": ""
-          },
-          "text-in-english": {
-            "title": ""
           }
         }
       },
@@ -383,9 +253,6 @@
         "questions": {
           "privacy": {
             "copy": ""
-          },
-          "issue": {
-            "title": ""
           }
         }
       },
@@ -393,9 +260,6 @@
         "questions": {
           "fb-page": {
             "copy": ""
-          },
-          "warmshowers": {
-            "title": ""
           }
         }
       }
@@ -403,11 +267,9 @@
     "description": ""
   },
   "chat": {
-    "title-conversation": "",
     "no-messages": {
       "text": ""
-    },
-    "new": ""
+    }
   },
   "cookies": {
     "articles": {
@@ -416,15 +278,7 @@
           "3": ""
         }
       },
-      "2": {
-        "title": ""
-      },
       "4": {
-        "copy": {
-          "0": ""
-        }
-      },
-      "5": {
         "copy": {
           "0": ""
         }
@@ -432,36 +286,21 @@
     },
     "title": ""
   },
-  "auth": {
-    "verification": {
-      "succes": ""
-    }
-  },
   "rules": {
     "rules": {
       "9": {
         "title": ""
       },
-      "10": {
-        "title": ""
-      },
       "7": {
         "title": ""
       },
-      "6": {
-        "title": ""
-      },
       "0": {
-        "copy": ""
-      },
-      "4": {
         "copy": ""
       }
     }
   },
   "request-password-reset": {
-    "description": "",
-    "set": ""
+    "description": ""
   },
   "recommendations": {
     "recommendations-groups": {
@@ -470,31 +309,17 @@
           "5": ""
         }
       },
-      "2": {
-        "recommendations": {
-          "0": ""
-        }
-      },
       "1": {
         "recommendations": {
-          "3": "",
-          "0": ""
+          "3": ""
         }
       }
     },
     "title": ""
   },
   "sign-in": {
-    "reset": {
-      "text": ""
-    },
     "notify": {
       "welcome": ""
-    }
-  },
-  "map": {
-    "trails": {
-      "cycling": ""
     }
   },
   "ui": {
