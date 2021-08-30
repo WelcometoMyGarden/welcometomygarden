@@ -1,23 +1,9 @@
 {
-  "privacy-policy": {
-    "additional-info": {
-      "infos": {
-        "0": {
-          "copy": {
-            "1": ""
-          }
-        }
-      }
-    }
-  },
   "rules": {
     "rules": {
       "5": {
         "copy": ""
       }
     }
-  },
-  "terms-of-use": {
-    "last-updated": ""
   }
 }
