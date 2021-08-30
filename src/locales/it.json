@@ -1,11 +1,7 @@
 {
   "garden": {
     "form": {
-      "register-link-text": "",
       "account-link-text": ""
-    },
-    "filter": {
-      "title": ""
     },
     "drawer": {
       "owner": {
@@ -15,18 +11,8 @@
   },
   "privacy-policy": {
     "personal-data": {
-      "collection": {
-        "copy": ""
-      },
       "usage": {
         "subtitle": ""
-      }
-    },
-    "definitions": {
-      "articles": {
-        "4": {
-          "title": ""
-        }
       }
     },
     "additional-info": {
@@ -37,9 +23,6 @@
           }
         }
       }
-    },
-    "rights": {
-      "copy": ""
     }
   },
   "register": {
@@ -49,21 +32,11 @@
       }
     }
   },
-  "stmf": {
-    "description": ""
-  },
   "faq": {
     "clusters": {
       "slow-travellers": {
         "questions": {
           "no-garden": {
-            "copy": ""
-          }
-        }
-      },
-      "general": {
-        "questions": {
-          "who": {
             "copy": ""
           }
         }
@@ -79,23 +52,14 @@
   },
   "rules": {
     "rules": {
-      "3": {
-        "copy": ""
-      },
       "5": {
         "copy": ""
       }
     }
   },
-  "generics": {
-    "map": ""
-  },
   "index": {
     "faq": {
       "faq-link-text": ""
-    },
-    "partners": {
-      "title": ""
     }
   },
   "terms-of-use": {
@@ -109,23 +73,7 @@
           }
         }
       },
-      "4": {
-        "paragraphs": {
-          "1": {
-            "copy": {
-              "0": ""
-            }
-          }
-        }
-      },
       "0": {
-        "descriptions": {
-          "0": {
-            "copy": ""
-          }
-        }
-      },
-      "7": {
         "descriptions": {
           "0": {
             "copy": ""
@@ -135,11 +83,6 @@
     },
     "last-updated": ""
   },
-  "account": {
-    "verify": {
-      "button": ""
-    }
-  },
   "recommendations": {
     "recommendations-groups": {
       "1": {
@@ -147,23 +90,9 @@
       }
     }
   },
-  "auth": {
-    "verification": {
-      "refresh": ""
-    }
-  },
   "sign-in": {
     "notify": {
       "login-issue": ""
-    }
-  },
-  "cookies": {
-    "articles": {
-      "3": {
-        "copy": {
-          "4": ""
-        }
-      }
     }
   },
   "request-password-reset": {

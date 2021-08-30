@@ -17,10 +17,7 @@
     "account": "Cuenta"
   },
   "account": {
-    "title": "Cuenta",
-    "verify": {
-      "button": ""
-    }
+    "title": "Cuenta"
   },
   "fallback": {
     "404": "404 - Página no encontrada"
@@ -30,15 +27,7 @@
       "location": {
         "adjust-button": "Ajustar ubicación del pin"
       },
-      "facilities": {
-        "capacity": {
-          "help": ""
-        }
-      },
       "register-link-text": ""
-    },
-    "filter": {
-      "no-places": ""
     },
     "drawer": {
       "owner": {
@@ -53,13 +42,6 @@
       },
       "0": {
         "add-garden-link-text": "Añádelo al mapa"
-      }
-    },
-    "faq": {
-      "questions": {
-        "1": {
-          "copy": ""
-        }
       }
     },
     "partners": {
@@ -77,26 +59,8 @@
           }
         }
       },
-      "0": {
-        "info": {
-          "0": {
-            "sections": {
-              "1": {
-                "title": ""
-              }
-            }
-          }
-        }
-      },
       "10": {
         "title": ""
-      },
-      "2": {
-        "paragraphs": {
-          "3": {
-            "title": ""
-          }
-        }
       },
       "6": {
         "descriptions": {
@@ -107,35 +71,16 @@
       }
     }
   },
-  "register": {
-    "validate": {
-      "consent": ""
-    }
-  },
   "stmf": {
     "sections": {
       "get-inspired": ""
     }
   },
   "privacy-policy": {
-    "rights": {
-      "list": {
-        "0": {
-          "title": ""
-        }
-      }
-    },
     "personal-data": {
       "usage": {
         "purposes": {
           "0": ""
-        }
-      },
-      "collection": {
-        "sources": {
-          "1": {
-            "title": ""
-          }
         }
       }
     },
@@ -143,15 +88,6 @@
       "articles": {
         "1": {
           "title": ""
-        }
-      }
-    },
-    "additional-info": {
-      "infos": {
-        "0": {
-          "copy": {
-            "1": ""
-          }
         }
       }
     }
@@ -162,9 +98,6 @@
         "questions": {
           "no-garden": {
             "title": ""
-          },
-          "tent-type": {
-            "copy": ""
           }
         }
       },
@@ -175,8 +108,7 @@
           }
         }
       }
-    },
-    "description": ""
+    }
   },
   "cookies": {
     "articles": {
@@ -185,8 +117,7 @@
           "3": ""
         }
       }
-    },
-    "title": ""
+    }
   },
   "rules": {
     "rules": {
@@ -195,9 +126,6 @@
       }
     }
   },
-  "request-password-reset": {
-    "description": ""
-  },
   "recommendations": {
     "recommendations-groups": {
       "1": {
@@ -205,11 +133,6 @@
           "3": ""
         }
       }
-    }
-  },
-  "sign-in": {
-    "notify": {
-      "welcome": ""
     }
   }
 }

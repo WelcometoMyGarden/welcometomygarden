@@ -480,24 +480,10 @@
     "description": "Häufig gestellte Fragen",
     "title": "HgF",
     "clusters": {
-      "slow-travellers": {
-        "questions": {
-          "cost": {
-            "title": ""
-          }
-        }
-      },
       "general": {
         "questions": {
           "how": {
             "copy": ""
-          }
-        }
-      },
-      "other": {
-        "questions": {
-          "fb-page": {
-            "title": ""
           }
         }
       }
