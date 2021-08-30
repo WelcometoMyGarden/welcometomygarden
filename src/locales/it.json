@@ -1,21 +1,11 @@
 {
   "garden": {
     "form": {
-      "location": {
-        "notice": ""
-      },
       "register-link-text": "",
-      "add-button": "",
       "account-link-text": ""
     },
     "filter": {
-      "no-places": "",
       "title": ""
-    },
-    "facilities": {
-      "labels": {
-        "water": ""
-      }
     },
     "drawer": {
       "owner": {
@@ -26,31 +16,17 @@
   "privacy-policy": {
     "personal-data": {
       "collection": {
-        "sources": {
-          "1": {
-            "title": ""
-          }
-        },
         "copy": ""
       },
       "usage": {
-        "purposes": {
-          "2": ""
-        },
         "subtitle": ""
       }
     },
     "definitions": {
       "articles": {
-        "3": {
-          "title": ""
-        },
         "4": {
           "title": ""
         }
-      },
-      "legal-info": {
-        "title": ""
       }
     },
     "additional-info": {
@@ -63,24 +39,15 @@
       }
     },
     "rights": {
-      "list": {
-        "3": {
-          "copy": ""
-        }
-      },
       "copy": ""
     }
   },
   "register": {
-    "notify": {
-      "in-use": ""
-    },
     "validate": {
       "first-name": {
         "set": ""
       }
-    },
-    "last-name": ""
+    }
   },
   "stmf": {
     "description": ""
@@ -89,17 +56,7 @@
     "clusters": {
       "slow-travellers": {
         "questions": {
-          "what-facilities": {
-            "title": ""
-          },
           "no-garden": {
-            "copy": ""
-          }
-        }
-      },
-      "hosts": {
-        "questions": {
-          "privacy": {
             "copy": ""
           }
         }
@@ -111,13 +68,6 @@
           }
         }
       },
-      "technical-support": {
-        "questions": {
-          "text-in-english": {
-            "title": ""
-          }
-        }
-      },
       "other": {
         "questions": {
           "fb-page": {
@@ -125,15 +75,11 @@
           }
         }
       }
-    },
-    "donation": ""
+    }
   },
   "rules": {
     "rules": {
       "3": {
-        "copy": ""
-      },
-      "2": {
         "copy": ""
       },
       "5": {
@@ -142,24 +88,11 @@
     }
   },
   "generics": {
-    "faq": {
-      "explicit": ""
-    },
     "map": ""
   },
   "index": {
     "faq": {
-      "questions": {
-        "4": {
-          "copy": ""
-        }
-      },
       "faq-link-text": ""
-    },
-    "steps": {
-      "0": {
-        "copy": ""
-      }
     },
     "partners": {
       "title": ""
@@ -167,25 +100,9 @@
   },
   "terms-of-use": {
     "articles": {
-      "1": {
-        "info": {
-          "0": {
-            "sections": {
-              "1": {
-                "copy": ""
-              }
-            }
-          }
-        }
-      },
       "2": {
         "paragraphs": {
           "4": {
-            "copy": {
-              "0": ""
-            }
-          },
-          "6": {
             "copy": {
               "0": ""
             }
@@ -202,23 +119,11 @@
         }
       },
       "0": {
-        "info": {
-          "0": {
-            "sections": {
-              "3": {
-                "title": ""
-              }
-            }
-          }
-        },
         "descriptions": {
           "0": {
             "copy": ""
           }
         }
-      },
-      "9": {
-        "title": ""
       },
       "7": {
         "descriptions": {
@@ -226,46 +131,25 @@
             "copy": ""
           }
         }
-      },
-      "11": {
-        "title": ""
       }
     },
     "last-updated": ""
   },
   "account": {
-    "notify": {
-      "preferences-update": ""
-    },
     "verify": {
       "button": ""
     }
   },
   "recommendations": {
     "recommendations-groups": {
-      "0": {
-        "recommendations": {
-          "2": ""
-        }
-      },
       "1": {
         "title": ""
       }
     }
   },
-  "map": {
-    "trails": {
-      "attribution": ""
-    }
-  },
   "auth": {
     "verification": {
       "refresh": ""
-    }
-  },
-  "chat": {
-    "no-messages": {
-      "text": ""
     }
   },
   "sign-in": {
@@ -275,17 +159,9 @@
   },
   "cookies": {
     "articles": {
-      "5": {
-        "title": ""
-      },
       "3": {
         "copy": {
           "4": ""
-        }
-      },
-      "1": {
-        "copy": {
-          "0": ""
         }
       }
     }

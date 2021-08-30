@@ -18,11 +18,6 @@
   },
   "account": {
     "title": "Cuenta",
-    "garden": {
-      "unlisted": {
-        "button": ""
-      }
-    },
     "verify": {
       "button": ""
     }
@@ -33,29 +28,17 @@
   "garden": {
     "form": {
       "location": {
-        "adjust-button": "Ajustar ubicación del pin",
-        "house-number": ""
+        "adjust-button": "Ajustar ubicación del pin"
       },
       "facilities": {
         "capacity": {
           "help": ""
         }
       },
-      "description": {
-        "hints": {
-          "too-long": ""
-        }
-      },
       "register-link-text": ""
     },
     "filter": {
-      "garden-capacity": "",
       "no-places": ""
-    },
-    "facilities": {
-      "labels": {
-        "electricity": ""
-      }
     },
     "drawer": {
       "owner": {
@@ -74,16 +57,10 @@
     },
     "faq": {
       "questions": {
-        "3": {
-          "title": ""
-        },
         "1": {
           "copy": ""
         }
       }
-    },
-    "intro": {
-      "explore-map": ""
     },
     "partners": {
       "title": ""
@@ -101,26 +78,10 @@
         }
       },
       "0": {
-        "descriptions": {
-          "0": {
-            "copy": ""
-          }
-        },
         "info": {
           "0": {
             "sections": {
               "1": {
-                "title": ""
-              }
-            }
-          }
-        }
-      },
-      "1": {
-        "info": {
-          "0": {
-            "sections": {
-              "2": {
                 "title": ""
               }
             }
@@ -132,18 +93,8 @@
       },
       "2": {
         "paragraphs": {
-          "6": {
-            "title": ""
-          },
           "3": {
             "title": ""
-          }
-        }
-      },
-      "9": {
-        "descriptions": {
-          "0": {
-            "copy": ""
           }
         }
       },
@@ -154,14 +105,12 @@
           }
         }
       }
-    },
-    "last-updated": ""
+    }
   },
   "register": {
     "validate": {
       "consent": ""
-    },
-    "registred": ""
+    }
   },
   "stmf": {
     "sections": {
@@ -171,20 +120,12 @@
   "privacy-policy": {
     "rights": {
       "list": {
-        "4": {
-          "title": ""
-        },
         "0": {
           "title": ""
         }
       }
     },
     "personal-data": {
-      "extra": {
-        "2": {
-          "title": ""
-        }
-      },
       "usage": {
         "purposes": {
           "0": ""
@@ -192,11 +133,6 @@
       },
       "collection": {
         "sources": {
-          "0": {
-            "list": {
-              "2": ""
-            }
-          },
           "1": {
             "title": ""
           }
@@ -205,15 +141,9 @@
     },
     "definitions": {
       "articles": {
-        "7": {
-          "title": ""
-        },
         "1": {
           "title": ""
         }
-      },
-      "legal-info": {
-        "copy": ""
       }
     },
     "additional-info": {
@@ -224,8 +154,7 @@
           }
         }
       }
-    },
-    "last-updated": ""
+    }
   },
   "faq": {
     "clusters": {
@@ -234,17 +163,7 @@
           "no-garden": {
             "title": ""
           },
-          "how-camping": {
-            "copy": ""
-          },
           "tent-type": {
-            "copy": ""
-          }
-        }
-      },
-      "technical-support": {
-        "questions": {
-          "newsletter": {
             "copy": ""
           }
         }
@@ -255,21 +174,9 @@
             "copy": ""
           }
         }
-      },
-      "other": {
-        "questions": {
-          "fb-page": {
-            "copy": ""
-          }
-        }
       }
     },
     "description": ""
-  },
-  "chat": {
-    "no-messages": {
-      "text": ""
-    }
   },
   "cookies": {
     "articles": {
@@ -277,25 +184,14 @@
         "copy": {
           "3": ""
         }
-      },
-      "4": {
-        "copy": {
-          "0": ""
-        }
       }
     },
     "title": ""
   },
   "rules": {
     "rules": {
-      "9": {
-        "title": ""
-      },
       "7": {
         "title": ""
-      },
-      "0": {
-        "copy": ""
       }
     }
   },
@@ -304,27 +200,16 @@
   },
   "recommendations": {
     "recommendations-groups": {
-      "0": {
-        "recommendations": {
-          "5": ""
-        }
-      },
       "1": {
         "recommendations": {
           "3": ""
         }
       }
-    },
-    "title": ""
+    }
   },
   "sign-in": {
     "notify": {
       "welcome": ""
-    }
-  },
-  "ui": {
-    "card": {
-      "register-here": ""
     }
   }
 }

@@ -482,17 +482,7 @@
     "clusters": {
       "slow-travellers": {
         "questions": {
-          "no-garden": {
-            "title": ""
-          },
           "cost": {
-            "title": ""
-          }
-        }
-      },
-      "hosts": {
-        "questions": {
-          "privacy": {
             "title": ""
           }
         }
@@ -501,13 +491,6 @@
         "questions": {
           "how": {
             "copy": ""
-          }
-        }
-      },
-      "technical-support": {
-        "questions": {
-          "text-in-english": {
-            "title": ""
           }
         }
       },
@@ -608,8 +591,7 @@
       "update": "Ihr Garten wurde erfolgreich aktualisiert!"
     },
     "filter": {
-      "min": "Minimum",
-      "search-city": ""
+      "min": "Minimum"
     }
   },
   "index": {
