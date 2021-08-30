@@ -15,221 +15,153 @@
     "cookie-policy": "Política de cookies",
     "chat": "Chat",
     "account": "Cuenta",
-    "sign-in": "",
-    "terms-of-use": "",
-    "sign-out": ""
+    "terms-of-use": ""
   },
   "account": {
     "title": "Cuenta",
     "notify": {
-      "preferences-update": "",
       "garden-no-show": "",
-      "garden-show": "",
       "resend-error": ""
     },
     "garden": {
       "listed": {
-        "text": "",
         "button": ""
       },
       "unlisted": {
-        "text": "",
         "button": ""
-      },
-      "unverified": {
-        "text": ""
       },
       "title": ""
     },
     "preferences": {
-      "news": "",
       "chat": "",
-      "text": "",
       "title": ""
     },
     "verify": {
-      "sent": "",
       "button": "",
-      "text": "",
       "title": ""
     }
   },
   "fallback": {
-    "404": "404 - Página no encontrada",
-    "redirect": ""
+    "404": "404 - Página no encontrada"
   },
   "garden": {
     "form": {
       "location": {
         "adjust-button": "Ajustar ubicación del pin",
-        "notice": "",
         "street": "",
-        "title": "",
         "confirm-button": "",
-        "coordinate-hint": "",
         "region": "",
-        "country": "",
         "house-number": "",
-        "city": "",
         "postal-code": ""
       },
       "photo": {
         "hints": {
-          "too-large": "",
           "wrong-format": ""
         },
-        "img-alt": "",
-        "notice": "",
-        "title": ""
+        "notice": ""
       },
       "facilities": {
         "capacity": {
-          "help": "",
-          "label": ""
+          "help": ""
         },
-        "notice": "",
-        "title": ""
+        "notice": ""
       },
       "email-confirm-notice": "",
-      "invalid": "",
       "description": {
         "notice": "",
         "hints": {
-          "too-short": "",
           "too-long": ""
         },
-        "title": "",
-        "label": "",
-        "placeholder": ""
+        "label": ""
       },
       "account-link-text": "",
-      "update-button": "",
       "normal-notice": "",
-      "add-button": "",
       "register-link-text": "",
-      "sign-in-link-text": "",
-      "auth-notice": "",
-      "title": ""
+      "auth-notice": ""
     },
     "notify": {
       "success": "",
-      "photo": "",
       "update": ""
     },
     "filter": {
-      "min-capacity": "",
       "garden-capacity": "",
-      "search-city": "",
       "spots-available": "",
-      "min": "",
       "garden-facilities": "",
-      "apply-filter": "",
       "available": "",
-      "all-filters": "",
-      "no-places": "",
-      "title": ""
+      "no-places": ""
     },
     "facilities": {
       "labels": {
         "water": "",
-        "shower": "",
         "bonfire": "",
-        "toilet": "",
         "drinkable-water": "",
-        "tent": "",
         "electricity": ""
       }
-    },
-    "manage": {
-      "title": ""
     },
     "add": {
       "title": ""
     },
     "drawer": {
-      "unclaimed": "",
       "guest": {
         "sign-link-text": "",
-        "login": "",
         "button": ""
       },
       "owner": {
-        "button": "",
         "your-garden": ""
-      },
-      "facilities": {
-        "capacity": ""
       }
     }
   },
   "index": {
     "steps": {
       "1": {
-        "copy": "Una vez que hayas llegado a un acuerdo con tus anfitriones, calcula tu ruta a pie o en bicicleta hasta su jardín. Salúdalos y monta tu tienda para pasar la noche.",
-        "title": ""
+        "copy": "Una vez que hayas llegado a un acuerdo con tus anfitriones, calcula tu ruta a pie o en bicicleta hasta su jardín. Salúdalos y monta tu tienda para pasar la noche."
       },
       "0": {
         "add-garden-link-text": "Añádelo al mapa",
-        "title": "",
         "copy": ""
       },
       "2": {
-        "copy": "",
         "title": ""
       }
     },
     "banner-stmf": {
-      "link": "",
       "copy": ""
     },
     "faq": {
       "questions": {
         "3": {
-          "copy": "",
           "title": ""
         },
         "2": {
-          "copy": "",
           "title": ""
         },
         "0": {
-          "title": "",
           "copy": ""
         },
         "4": {
-          "title": "",
           "copy": ""
         },
         "1": {
-          "title": "",
           "copy": ""
         }
       },
-      "copy": "",
-      "faq-link-text": "",
-      "title": ""
+      "faq-link-text": ""
     },
     "shop": {
       "banner": {
-        "copy": "",
-        "title": ""
+        "copy": ""
       }
     },
     "intro": {
       "copy": "",
-      "learn-more": "",
-      "explore-map": "",
-      "add-garden": ""
+      "explore-map": ""
     },
     "holiday-donations": {
       "title": "",
-      "link-text": "",
       "copy": ""
     },
     "support": {
-      "donation-link-text": "",
-      "copy": "",
-      "title": ""
+      "copy": ""
     },
     "partners": {
       "title": ""
@@ -242,31 +174,20 @@
           "0": {
             "copy": {
               "1": "Las cuentas y las cuentas relacionadas que se utilizan para realizar las acciones enumeradas a continuación pueden ser bloqueadas temporalmente y/o eliminadas permanentemente.",
-              "0": "",
               "2": ""
-            },
-            "title": ""
+            }
           },
           "1": {
             "copy": {
               "0": ""
-            },
-            "title": ""
+            }
           }
         },
-        "title": "",
-        "descriptions": {
-          "0": {
-            "copy": ""
-          }
-        }
+        "title": ""
       },
       "0": {
         "descriptions": {
           "0": {
-            "copy": ""
-          },
-          "1": {
             "copy": ""
           }
         },
@@ -275,83 +196,63 @@
             "title": "",
             "sections": {
               "3": {
-                "copy": "",
                 "title": ""
               },
               "0": {
-                "copy": "",
                 "title": ""
               },
               "1": {
-                "copy": "",
                 "title": ""
               },
               "2": {
-                "copy": "",
                 "title": ""
               }
             }
           }
-        },
-        "title": ""
+        }
       },
       "1": {
         "info": {
           "0": {
             "sections": {
               "0": {
-                "copy": "",
-                "title": ""
+                "copy": ""
               },
               "1": {
-                "title": "",
-                "copy": ""
+                "title": ""
               },
               "2": {
-                "title": "",
-                "copy": ""
+                "title": ""
               }
             },
             "title": ""
           }
-        },
-        "title": ""
+        }
       },
       "8": {
         "descriptions": {
           "2": {
             "copy": ""
           },
-          "1": {
-            "copy": ""
-          },
-          "0": {
-            "copy": ""
-          }
-        },
-        "title": ""
-      },
-      "10": {
-        "title": "",
-        "descriptions": {
           "0": {
             "copy": ""
           }
         }
+      },
+      "10": {
+        "title": ""
       },
       "3": {
         "paragraphs": {
           "0": {
             "copy": {
               "0": ""
-            },
-            "title": ""
+            }
           },
           "1": {
             "copy": {
               "0": ""
-            },
-            "title": ""
+            }
           }
         },
         "title": ""
@@ -359,49 +260,31 @@
       "2": {
         "paragraphs": {
           "6": {
-            "copy": {
-              "0": ""
-            },
             "title": ""
           },
           "4": {
-            "title": "",
             "copy": {
               "0": ""
             }
           },
           "2": {
-            "copy": {
-              "0": ""
-            },
             "title": ""
           },
           "5": {
-            "title": "",
             "copy": {
               "0": ""
             }
           },
           "3": {
-            "copy": {
-              "0": ""
-            },
             "title": ""
           },
           "1": {
-            "copy": {
-              "0": ""
-            },
             "title": ""
           },
           "0": {
-            "copy": {
-              "0": ""
-            },
             "title": ""
           }
         },
-        "title": "",
         "descriptions": {
           "0": {
             "copy": ""
@@ -409,30 +292,18 @@
         }
       },
       "9": {
-        "title": "",
         "descriptions": {
           "0": {
-            "copy": ""
-          },
-          "1": {
             "copy": ""
           }
         }
       },
       "11": {
-        "title": "",
-        "descriptions": {
-          "0": {
-            "copy": ""
-          }
-        }
+        "title": ""
       },
       "7": {
         "descriptions": {
           "0": {
-            "copy": ""
-          },
-          "1": {
             "copy": ""
           }
         },
@@ -440,21 +311,14 @@
       },
       "6": {
         "descriptions": {
-          "0": {
-            "copy": ""
-          },
           "1": {
             "copy": ""
           }
-        },
-        "title": ""
+        }
       },
       "5": {
         "descriptions": {
           "1": {
-            "copy": ""
-          },
-          "0": {
             "copy": ""
           }
         },
@@ -462,208 +326,149 @@
       }
     },
     "intro": {
-      "1": {
-        "copy": ""
-      },
       "0": {
-        "copy": ""
-      },
-      "2": {
         "copy": ""
       }
     },
-    "last-updated": "",
-    "title": ""
+    "last-updated": ""
   },
   "register": {
     "validate": {
       "first-name": {
-        "set": "",
-        "max": ""
+        "set": ""
       },
       "email": "",
       "password": {
-        "min": "",
-        "set": "",
-        "max": ""
+        "set": ""
       },
       "consent": "",
       "country": {
-        "set": "",
         "from-list": ""
-      },
-      "last-name": ""
+      }
     },
     "registering": "",
     "notify": {
-      "in-use": "",
-      "unexpected": "",
-      "successful": ""
+      "unexpected": ""
     },
     "registred": "",
-    "policies": "",
     "country": "",
-    "last-name": "",
     "first-name": "",
-    "button": "",
     "title": ""
   },
   "stmf": {
     "sections": {
-      "plan": "",
       "get-inspired": "",
-      "rethink": "",
       "contribute": ""
     },
-    "description": "",
     "title": ""
   },
   "privacy-policy": {
     "change-warning": {
-      "copy": "",
       "title": ""
     },
     "rights": {
       "list": {
         "4": {
-          "copy": "",
           "title": ""
         },
         "3": {
-          "copy": "",
           "title": ""
         },
         "1": {
-          "title": "",
           "copy": ""
         },
         "2": {
-          "copy": "",
           "title": ""
         },
         "0": {
-          "copy": "",
           "title": ""
         }
       },
       "exercise-rights": {
-        "copy": "",
         "title": ""
       },
-      "copy": "",
       "title": ""
     },
     "personal-data": {
       "extra": {
         "0": {
-          "title": "",
           "copy": ""
         },
         "2": {
-          "copy": "",
           "title": ""
         },
         "1": {
-          "title": "",
           "copy": ""
         }
       },
       "usage": {
         "purposes": {
-          "4": "",
           "3": "",
-          "2": "",
           "5": "",
-          "1": "",
           "0": ""
         },
-        "copy": "",
-        "subtitle": "",
-        "title": ""
+        "subtitle": ""
       },
       "meaning": {
-        "copy": "",
-        "title": ""
+        "copy": ""
       },
       "backups": {
-        "title": "",
-        "copy": ""
+        "title": ""
       },
       "collection": {
         "sources": {
           "0": {
             "list": {
               "2": "",
-              "0": "",
-              "3": "",
-              "1": ""
+              "3": ""
             },
             "title": ""
           },
           "3": {
-            "list": {
-              "0": ""
-            },
             "title": ""
           },
           "1": {
-            "list": {
-              "0": ""
-            },
             "title": ""
           },
           "2": {
-            "title": "",
             "list": {
               "2": "",
-              "1": "",
               "0": ""
             }
           }
         },
-        "copy": "",
         "title": ""
       }
     },
     "definitions": {
       "articles": {
         "7": {
-          "copy": "",
           "title": ""
         },
         "5": {
-          "title": "",
           "copy": ""
         },
         "3": {
-          "copy": "",
           "title": ""
         },
         "4": {
-          "title": "",
           "copy": ""
         },
         "1": {
-          "copy": "",
           "title": ""
         },
         "0": {
-          "title": "",
           "copy": ""
         },
         "2": {
-          "copy": "",
           "title": ""
         },
         "6": {
-          "copy": "",
           "title": ""
         }
       },
-      "title": "",
       "legal-info": {
-        "copy": "",
-        "title": ""
+        "copy": ""
       }
     },
     "additional-info": {
@@ -671,29 +476,22 @@
         "1": {
           "copy": {
             "1": "",
-            "2": "",
             "0": ""
-          },
-          "title": ""
+          }
         },
         "0": {
           "title": "",
           "copy": {
-            "0": "",
             "1": ""
           }
         }
-      },
-      "title": ""
+      }
     },
     "email": "",
     "scope": {
-      "copy": "",
       "title": ""
     },
-    "subtitle": "",
     "intro": "",
-    "title": "",
     "last-updated": ""
   },
   "faq": {
@@ -701,103 +499,80 @@
       "general": {
         "questions": {
           "how": {
-            "copy": "",
             "title": ""
           },
           "what": {
-            "title": "",
             "copy": ""
           },
           "who": {
-            "copy": "",
             "title": ""
           }
-        },
-        "title": ""
+        }
       },
       "slow-travellers": {
         "questions": {
           "no-garden": {
-            "title": "",
-            "copy": ""
+            "title": ""
           },
           "no-toilet": {
-            "copy": "",
-            "title": ""
-          },
-          "cost": {
-            "title": "",
             "copy": ""
           },
-          "what-facilities": {
-            "copy": "",
+          "cost": {
             "title": ""
+          },
+          "what-facilities": {
+            "copy": ""
           },
           "how-camping": {
-            "copy": "",
-            "title": ""
+            "copy": ""
           },
           "covid-safe": {
-            "copy": "",
-            "title": ""
+            "copy": ""
           },
           "how-long": {
-            "copy": "",
-            "title": ""
+            "copy": ""
           },
           "animals": {
-            "copy": "",
-            "title": ""
+            "copy": ""
           },
           "tent-type": {
-            "copy": "",
-            "title": ""
+            "copy": ""
           }
         },
         "title": ""
       },
       "technical-support": {
-        "title": "",
         "questions": {
           "privacy": {
-            "title": "",
-            "copy": ""
-          },
-          "update-email": {
-            "title": "",
-            "copy": ""
-          },
-          "newsletter": {
-            "copy": "",
             "title": ""
           },
-          "messages": {
-            "title": "",
+          "update-email": {
+            "title": ""
+          },
+          "newsletter": {
             "copy": ""
           },
+          "messages": {
+            "title": ""
+          },
           "text-in-english": {
-            "title": "",
-            "copy": ""
+            "title": ""
           }
         }
       },
       "hosts": {
         "questions": {
           "messaging": {
-            "title": "",
-            "copy": ""
+            "title": ""
           },
           "privacy": {
-            "copy": "",
-            "title": ""
+            "copy": ""
           },
           "suspend": {
-            "copy": "",
-            "title": ""
+            "copy": ""
           },
           "issue": {
-            "title": "",
-            "copy": ""
+            "title": ""
           }
         },
         "title": ""
@@ -805,40 +580,29 @@
       "other": {
         "questions": {
           "fb-page": {
-            "title": "",
             "copy": ""
           },
           "become-volunteer": {
-            "title": "",
             "copy": ""
           },
           "warmshowers": {
-            "copy": "",
             "title": ""
           }
-        },
-        "title": ""
+        }
       }
     },
     "instruction-page": "",
-    "donation": "",
-    "description": "",
-    "title": ""
+    "description": ""
   },
   "chat": {
     "all-conversations": "",
-    "title": "",
     "title-conversation": "",
-    "go-to-garden": "",
     "type-message": "",
     "no-messages": {
-      "link": "",
       "text": ""
     },
     "notify": {
-      "empty-message": "",
-      "too-long": "",
-      "unverified": ""
+      "too-long": ""
     },
     "new": ""
   },
@@ -846,193 +610,141 @@
     "articles": {
       "3": {
         "copy": {
-          "1": "",
           "0": "",
-          "2": "",
-          "3": "",
-          "4": ""
+          "3": ""
         },
         "title": ""
       },
       "2": {
-        "copy": {
-          "0": ""
-        },
         "title": ""
       },
       "4": {
         "copy": {
-          "1": "",
           "2": "",
-          "3": "",
           "0": ""
-        },
-        "title": ""
+        }
       },
       "0": {
         "copy": {
           "0": ""
-        },
-        "title": ""
+        }
       },
       "5": {
         "copy": {
           "0": ""
-        },
-        "title": ""
+        }
       },
       "1": {
         "copy": {
           "0": ""
-        },
-        "title": ""
+        }
       }
     },
     "title": ""
   },
   "auth": {
-    "password": {
-      "expired": ""
-    },
     "invalid-code": "",
     "verification": {
-      "refresh": "",
       "succes": "",
-      "unsigned": "",
       "expired": ""
     }
   },
   "rules": {
     "rules": {
       "9": {
-        "copy": "",
         "title": ""
       },
       "8": {
-        "copy": "",
         "title": ""
       },
       "10": {
-        "copy": "",
         "title": ""
       },
       "3": {
-        "copy": "",
         "title": ""
       },
       "7": {
-        "copy": "",
         "title": ""
       },
       "5": {
-        "title": "",
         "copy": ""
       },
       "6": {
-        "copy": "",
         "title": ""
       },
       "2": {
-        "copy": "",
         "title": ""
       },
       "0": {
-        "title": "",
         "copy": ""
       },
       "1": {
-        "copy": "",
         "title": ""
       },
       "4": {
-        "title": "",
         "copy": ""
       }
     },
-    "message": "",
-    "description": "",
-    "title": ""
+    "description": ""
   },
   "request-password-reset": {
     "description": "",
-    "title": "",
     "trouble": "",
-    "button": "",
     "set": ""
   },
   "recommendations": {
     "recommendations-groups": {
       "0": {
         "recommendations": {
-          "2": "",
           "4": "",
-          "0": "",
           "5": "",
-          "1": "",
           "3": ""
-        },
-        "title": ""
+        }
       },
       "2": {
         "recommendations": {
-          "0": "",
-          "1": ""
+          "0": ""
         },
         "title": ""
       },
       "1": {
-        "title": "",
         "recommendations": {
           "3": "",
-          "4": "",
           "2": "",
-          "1": "",
           "0": ""
         }
       }
     },
-    "contact": "",
     "message": "",
-    "description": "",
     "title": ""
   },
   "sign-in": {
-    "button": "",
     "register": {
-      "link": "",
-      "text": ""
+      "link": ""
     },
     "reset": {
-      "text": "",
-      "link": ""
+      "text": ""
     },
     "title": "",
     "notify": {
-      "login-issue": "",
-      "welcome": "",
-      "incorrect": ""
+      "welcome": ""
     }
   },
   "map": {
     "trails": {
       "attribution": "",
-      "hiking": "",
       "cycling": ""
     },
     "vehicle-notice": {
-      "text": "",
       "title": ""
     }
   },
-  "tagline": "",
   "ui": {
     "card": {
       "register-here": ""
     }
   },
   "reset-password": {
-    "title": "",
-    "succes": "",
-    "update": ""
+    "succes": ""
   }
 }
