@@ -80,7 +80,7 @@
     },
     "shop": {
       "banner": {
-        "copy": "Welcome To My Garden a désormais {title} avec des panneaux en bois WTMG et des cartes postales pour remercier vos hôtes. Rendez-vous sur sur {link} !",
+        "copy": "Welcome To My Garden a désormais {title} avec des panneaux en bois WTMG et des cartes postales pour remercier vos hôtes. Rendez-vous sur {link} !",
         "title": "son shop"
       }
     },
