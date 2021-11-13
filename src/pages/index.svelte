@@ -15,6 +15,7 @@
   import natuurpuntLogo from '../images/natuurpunt_logo.svg';
   import groteRoutePadenLogo from '../images/groteroutepaden-logo.svg';
   import GRSentiers from '../images/les-sentiers-de-grande-randonnee-logo.svg';
+  import wikimediaBELogo from '../images/wikimediabe_logo.svg';
 
   import Step1 from '@/images/step-1.svg';
   import Step2 from '@/images/step-2.svg';
@@ -142,6 +143,17 @@
         <div class="partner-logo natuurpunt-logo">
           <a href="https://www.natuurpunt.be/" class="partner-link" target="_blank">
             {@html natuurpuntLogo}
+          </a>
+        </div>
+      </div>
+      <div>
+        <div class="partner-logo wikimediabe-logo">
+          <a
+            href="https://be.wikimedia.org/wiki/Wikimedia_Belgium"
+            class="partner-link"
+            target="_blank"
+          >
+            {@html wikimediaBELogo}
           </a>
         </div>
       </div>
@@ -420,7 +432,8 @@
     max-width: 18rem;
   }
 
-  .natuurpunt-logo {
+  .natuurpunt-logo,
+  .wikimediabe-logo {
     max-width: 10rem;
   }
 
