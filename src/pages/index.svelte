@@ -432,6 +432,10 @@
     max-width: 18rem;
   }
 
+  .partner-logo :global(svg) {
+    fill: var(--color-orange-light);
+  }
+
   .natuurpunt-logo,
   .wikimediabe-logo {
     max-width: 10rem;
