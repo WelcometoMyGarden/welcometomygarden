@@ -3,19 +3,15 @@
   import smoothscroll from 'smoothscroll-polyfill';
   import routes from '@/routes';
   import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
-  import { Button } from '../components/UI';
+  import { Button, Partner } from '../components/UI';
   import { getNodeChildren } from '@/util';
   import { user } from '@/stores/auth';
   import { DONATION_URL } from '@/constants';
+  import partners from '../partners';
 
   import Logo from '../images/logo.svg';
   import welcomeMap from '../images/welcome-map.svg';
   import ArrowDown from '../images/arrow-down.svg';
-  import OKLogo from '../images/ok_logo.svg';
-  import natuurpuntLogo from '../images/natuurpunt_logo.svg';
-  import groteRoutePadenLogo from '../images/groteroutepaden-logo.svg';
-  import GRSentiers from '../images/les-sentiers-de-grande-randonnee-logo.svg';
-  import wikimediaBELogo from '../images/wikimediabe_logo.svg';
 
   import Step1 from '@/images/step-1.svg';
   import Step2 from '@/images/step-2.svg';
@@ -122,41 +118,9 @@
   <div class="card cooperation-card partners">
     <h1 class="partner-header heading-underline-center">{$_('index.partners.title')}</h1>
     <div class="partner-logos">
-      <div>
-        <div class="partner-logo grsentier-logo">
-          <a href="https://grsentiers.org/" class="partner-link" target="_blank">
-            {@html GRSentiers}
-          </a>
-        </div>
-        <div class="partner-logo grouteroutepaden-logo">
-          <a href="https://www.groteroutepaden.be/" class="partner-link" target="_blank">
-            {@html groteRoutePadenLogo}
-          </a>
-        </div>
-      </div>
-      <div>
-        <div class="partner-logo ok-logo">
-          <a href="https://be.okfn.org/" class="partner-link" target="_blank">
-            {@html OKLogo}
-          </a>
-        </div>
-        <div class="partner-logo natuurpunt-logo">
-          <a href="https://www.natuurpunt.be/" class="partner-link" target="_blank">
-            {@html natuurpuntLogo}
-          </a>
-        </div>
-      </div>
-      <div>
-        <div class="partner-logo wikimediabe-logo">
-          <a
-            href="https://be.wikimedia.org/wiki/Wikimedia_Belgium"
-            class="partner-link"
-            target="_blank"
-          >
-            {@html wikimediaBELogo}
-          </a>
-        </div>
-      </div>
+      {#each partners as { name, logo, link } (name)}
+        <Partner {name} {logo} {link} />
+      {/each}
     </div>
   </div>
 
@@ -208,11 +172,6 @@
     line-height: 2.6rem;
     color: var(--color-green);
     margin-bottom: 2rem;
-  }
-
-  a {
-    font-weight: bold;
-    text-decoration: underline;
   }
 
   .welcome-buttons > :global(.button) {
@@ -411,38 +370,15 @@
   }
 
   .partner-logos {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .partner-logos > div {
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 30% 30%;
     justify-content: space-evenly;
-    margin-bottom: 3rem;
-    text-align: center;
+    align-items: center;
+    row-gap: 3rem;
   }
 
-  .partner-logos > div:last-child {
-    margin-bottom: 0;
-  }
-
-  .partner-logo {
-    width: 30%;
-    max-width: 18rem;
-  }
-
-  .partner-logo :global(svg) {
-    fill: var(--color-orange-light);
-  }
-
-  .natuurpunt-logo,
-  .wikimediabe-logo {
-    max-width: 10rem;
-  }
-
-  .grouteroutepaden-logo {
-    max-width: 20rem;
+  .partner-logos :global(:last-child:nth-child(2n - 1)) {
+    grid-column: span 2;
   }
 
   .support {
