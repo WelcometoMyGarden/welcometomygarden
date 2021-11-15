@@ -13,3 +13,4 @@ export { default as Card } from './Card.svelte';
 export { default as Banner } from './Banner.svelte';
 export { default as Tag } from './Tag.svelte';
 export { default as Modal } from './Modal.svelte';
+export { default as Partner } from './Partner.svelte';
