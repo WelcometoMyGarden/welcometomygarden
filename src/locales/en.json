@@ -15,10 +15,11 @@
     },
     "chat": "Chat",
     "account": "Account",
-    "sign-out": "Sign Out",
+    "sign-out": "Sign out",
     "sign-in": "Sign in",
     "garden": "Garden",
-    "shop": "Shop"
+    "shop": "Shop",
+    "plan-your-trip": "Plan Your Trip"
   },
   "ui": {
     "card": {
@@ -34,6 +35,13 @@
       "banner": {
         "copy": "Welcome To My Garden now has its {title} with wooden WTMG signs and thank you postcards for hosts. Go check it out at {link}!",
         "title": "online shop"
+      }
+    },
+    "slowby": {
+      "banner": {
+        "copy": "Want to easily plan your slow travel and explore the best of the offline world? We just launched {title}, our new slow travel planner. Go check it out at {link}!",
+        "title": "Slowby",
+        "url": "https://slowby.travel"
       }
     },
     "intro": {
