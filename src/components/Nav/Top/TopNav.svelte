@@ -5,7 +5,6 @@
   import NavLink from './NavLink.svelte';
   import UserDropdown from './UserDropdown.svelte';
   import { user } from '@/stores/auth';
-  import { SLOWBY_URL } from '@/constants';
 
   $: firstName = $user ? $user.firstName : '';
 </script>
@@ -30,7 +29,7 @@
       <NavLink href={routes.FAQ}>{$_('generics.faq.acronym')}</NavLink>
     </li>
     <li>
-      <NavLink href={SLOWBY_URL} target="_blank">{$_('generics.plan-your-trip')}</NavLink>
+      <NavLink href={$_('index.slowby.banner.url')} target="_blank">{$_('generics.plan-your-trip')}</NavLink>
     </li>
     {#if $user}
       <UserDropdown name={firstName || ''} />
