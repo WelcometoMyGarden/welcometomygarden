@@ -11,7 +11,6 @@
   import { Icon } from '@/components/UI';
   import LanguageSelector from '@/components/LanguageSelector.svelte';
   import { SHOP_URL } from '@/constants';
-  import { SLOWBY_URL } from '@/constants';
 
   let hamburger;
   let drawerIsShown = false;
@@ -78,7 +77,7 @@
     on:click-outside={handleClickOutsideDrawer}
   >
     <li>
-      <a href={SLOWBY_URL} on:click={toggleDrawer} target="_blank">{$_('generics.plan-your-trip')}</a>
+      <a href={$_('index.slowby.banner.url')} on:click={toggleDrawer} target="_blank">{$_('generics.plan-your-trip')}</a>
     </li>
     <li>
       <a href={SHOP_URL} on:click={toggleDrawer} target="_blank">{$_('generics.shop')}</a>
