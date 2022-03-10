@@ -87,7 +87,7 @@
     },
     "slowby": {
       "banner": {
-        "copy": "Vous voulez planifier facilement votre slow travel et explorer le meilleur du monde hors ligne ? Nous venons de lancer {title}, notre nouveau planificateur de voyage lent. Allez le découvrir sur {link} !",
+        "copy": "Vous voulez facilement planifier votre slow travel et explorer le meilleur du monde hors ligne ? Nous venons de lancer {title}, notre nouveau planificateur de voyage lent. Allez le découvrir sur {link} !",
         "title": "Slowby",
         "url": "https://slowby.travel/fr/accueil"
       }
