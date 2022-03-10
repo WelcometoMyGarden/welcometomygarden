@@ -18,7 +18,8 @@
     "email": "Courriel",
     "password": "Mot de passe",
     "garden": "Jardin",
-    "shop": "Shop"
+    "shop": "Shop",
+    "plan-your-trip": "Planifiez Votre Trip"
   },
   "ui": {
     "card": {
@@ -82,6 +83,13 @@
       "banner": {
         "copy": "Welcome To My Garden a désormais {title} avec des panneaux en bois WTMG et des cartes postales pour remercier vos hôtes. Rendez-vous sur sur {link} !",
         "title": "son shop"
+      }
+    },
+    "slowby": {
+      "banner": {
+        "copy": "Vous voulez facilement planifier votre slow travel et explorer le meilleur du monde hors ligne ? Nous venons de lancer {title}, notre nouveau planificateur de voyage lent. Allez le découvrir sur {link} !",
+        "title": "Slowby",
+        "url": "https://slowby.travel/fr/accueil"
       }
     },
     "partners": {

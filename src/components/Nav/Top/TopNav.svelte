@@ -5,7 +5,6 @@
   import NavLink from './NavLink.svelte';
   import UserDropdown from './UserDropdown.svelte';
   import { user } from '@/stores/auth';
-  import { SHOP_URL } from '@/constants';
 
   $: firstName = $user ? $user.firstName : '';
 </script>
@@ -30,7 +29,9 @@
       <NavLink href={routes.FAQ}>{$_('generics.faq.acronym')}</NavLink>
     </li>
     <li>
-      <NavLink href={SHOP_URL} target="_blank">{$_('generics.shop')}</NavLink>
+      <NavLink href={$_('index.slowby.banner.url')} target="_blank"
+        >{$_('generics.plan-your-trip')}</NavLink
+      >
     </li>
     {#if $user}
       <UserDropdown name={firstName || ''} />
@@ -93,7 +94,7 @@
     margin-left: 4rem;
   }
 
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1300px) {
     :global(body) {
       --height-nav: 5.5rem;
     }
@@ -117,7 +118,7 @@
     }
   }
 
-  @media screen and (max-width: 1100px) {
+  @media screen and (max-width: 1200px) {
     nav {
       padding-left: 2rem;
     }
@@ -126,6 +127,19 @@
     }
     h1 {
       display: none;
+    }
+  }
+
+  @media screen and (max-width: 850px) {
+    nav {
+      padding-left: 1.5rem;
+    }
+    nav > ul {
+      padding-right: 1.5rem;
+    }
+    nav > ul > li {
+      margin-left: 1rem;
+      min-width: 7rem;
     }
   }
 

@@ -17,7 +17,7 @@
   import Step2 from '@/images/step-2.svg';
   import Step3 from '@/images/step-3.svg';
 
-  import ShopBanner from '../components/Temporary/ShopBanner.svelte';
+  import SlowbyBanner from '../components/Temporary/SlowbyBanner.svelte';
 
   function handleLearnMoreClick() {
     const navBarHeight = parseInt(
@@ -37,7 +37,7 @@
   <title>{$_('generics.home')} | Welcome To My Garden</title>
 </svelte:head>
 
-<ShopBanner />
+<SlowbyBanner />
 
 <section class="landing" id="landing">
   <div class="welcome">
