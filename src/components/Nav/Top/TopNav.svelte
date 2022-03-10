@@ -29,7 +29,9 @@
       <NavLink href={routes.FAQ}>{$_('generics.faq.acronym')}</NavLink>
     </li>
     <li>
-      <NavLink href={$_('index.slowby.banner.url')} target="_blank">{$_('generics.plan-your-trip')}</NavLink>
+      <NavLink href={$_('index.slowby.banner.url')} target="_blank"
+        >{$_('generics.plan-your-trip')}</NavLink
+      >
     </li>
     {#if $user}
       <UserDropdown name={firstName || ''} />
@@ -125,6 +127,19 @@
     }
     h1 {
       display: none;
+    }
+  }
+
+  @media screen and (max-width: 850px) {
+    nav {
+      padding-left: 1.5rem;
+    }
+    nav > ul {
+      padding-right: 1.5rem;
+    }
+    nav > ul > li {
+      margin-left: 1rem;
+      min-width: 7rem;
     }
   }
 
