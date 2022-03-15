@@ -1,6 +1,6 @@
 import OKLogo from './images/ok_logo.svg';
 import natuurpuntLogo from './images/natuurpunt_logo.svg';
-import groteRoutePadenLogo from './images/groteroutepaden-logo.svg';
+import groteRoutePadenLogo from './images/groteroutepaden-logo-vernieuwd.svg';
 import GRSentiers from './images/les-sentiers-de-grande-randonnee-logo.svg';
 import wikimediaBELogo from './images/wikimediabe_logo.svg';
 
