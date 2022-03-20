@@ -3,7 +3,7 @@
   import { Banner } from '../UI';
 </script>
 
-<Banner cookieName="slowby-banner-dismissed"
+<Banner cookieName="slowby-slow-travel-banner-dismissed"
   >{@html $_('index.slowby.banner.copy', {
     values: {
       title: `<a class="banner-link" href="${$_(`index.slowby.banner.url`)}" target="_blank">${$_(
