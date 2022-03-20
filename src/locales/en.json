@@ -39,7 +39,7 @@
     },
     "slowby": {
       "banner": {
-        "copy": "Want to make the move from fast to slow travel? Good news! You can now take secret slow travel trips to discover the hidden side of Belgium. We just launched {title} - go check it out at {link}.",
+        "copy": "Do you want to get started with slow travel? Good news! You can now take secret slow travel trips to discover the hidden side of Belgium. We just launched {title} - go check it out at {link}.",
         "title": "Slowby",
         "url": "https://slowby.travel"
       }

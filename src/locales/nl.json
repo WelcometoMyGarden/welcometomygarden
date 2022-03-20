@@ -39,7 +39,7 @@
     },
     "slowby": {
       "banner": {
-        "copy": "Wil je de overstap maken van fast naar slow travel? Goed nieuws! Met secret slow travel trips kan je nu de verborgen hoekjes van België ontdekken. We hebben net {title} gelanceerd - neem een kijkje op {link}.",
+        "copy": "Wil je starten met slow travel? Goed nieuws! Met secret slow travel trips kan je nu de verborgen hoekjes van België ontdekken. We hebben net {title} gelanceerd - neem een kijkje op {link}.",
         "title": "Slowby",
         "url": "https://slowby.travel/nl/start"
       }
