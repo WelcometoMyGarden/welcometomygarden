@@ -77,7 +77,7 @@
     on:click-outside={handleClickOutsideDrawer}
   >
     <li>
-      <a href={$_('index.slowby.banner.url')} on:click={toggleDrawer} target="_blank">{$_('generics.plan-your-trip')}</a>
+      <a href={$_('index.slowby.banner.url')} on:click={toggleDrawer} target="_blank">{$_('generics.slowby')}</a>
     </li>
     <li>
       <a href={SHOP_URL} on:click={toggleDrawer} target="_blank">{$_('generics.shop')}</a>
