@@ -19,7 +19,7 @@
     "password": "Mot de passe",
     "garden": "Jardin",
     "shop": "Shop",
-    "plan-your-trip": "Planifiez Votre Trip"
+    "slowby": "Secrets Trips"
   },
   "ui": {
     "card": {
@@ -87,7 +87,7 @@
     },
     "slowby": {
       "banner": {
-        "copy": "Vous voulez facilement planifier votre slow travel et explorer le meilleur du monde hors ligne ? Nous venons de lancer {title}, notre nouveau planificateur de voyage lent. Allez le découvrir sur {link} !",
+        "copy": "Vous commencez à voyager lentement ? Bonne nouvelle ! Vous pouvez maintenant partir en trips secrets pour découvrir les coins cachés de la Belgique. Nous venons de lancer {title} - découvrez-le sur {link}.",
         "title": "Slowby",
         "url": "https://slowby.travel/fr/accueil"
       }

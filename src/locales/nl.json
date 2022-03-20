@@ -19,7 +19,7 @@
     "sign-in": "Inloggen",
     "garden": "Tuin",
     "shop": "Shop",
-    "plan-your-trip": "Plan Jouw Trip"
+    "slowby": "Secrets Trips"
   },
   "ui": {
     "card": {
@@ -39,7 +39,7 @@
     },
     "slowby": {
       "banner": {
-        "copy": "Wil je eenvoudig jouw slow travel plannen en het beste van de offline wereld verkennen? We hebben net {title}, onze nieuwe slow travel planner, gelanceerd. Neem een kijkje op {link}!",
+        "copy": "Wil je de overstap maken van fast naar slow travel? Goed nieuws! Met secret slow travel trips kan je nu de verborgen hoekjes van België ontdekken. We hebben net {title} gelanceerd - neem een kijkje op {link}.",
         "title": "Slowby",
         "url": "https://slowby.travel/nl/start"
       }

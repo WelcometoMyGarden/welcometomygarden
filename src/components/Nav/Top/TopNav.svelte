@@ -30,7 +30,7 @@
     </li>
     <li>
       <NavLink href={$_('index.slowby.banner.url')} target="_blank"
-        >{$_('generics.plan-your-trip')}</NavLink
+        >{$_('generics.slowby')}</NavLink
       >
     </li>
     {#if $user}
