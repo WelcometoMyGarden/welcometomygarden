@@ -19,7 +19,7 @@
     "sign-in": "Sign in",
     "garden": "Garden",
     "shop": "Shop",
-    "plan-your-trip": "Plan Your Trip"
+    "slowby": "Secrets Trips"
   },
   "ui": {
     "card": {
@@ -39,7 +39,7 @@
     },
     "slowby": {
       "banner": {
-        "copy": "Want to easily plan your slow travel and explore the best of the offline world? We just launched {title}, our new slow travel planner. Go check it out at {link}!",
+        "copy": "Do you want to get started with slow travel? Good news! You can now take secret slow travel trips to discover the hidden side of Belgium. We just launched {title} - go check it out at {link}.",
         "title": "Slowby",
         "url": "https://slowby.travel"
       }
