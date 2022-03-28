@@ -34,6 +34,7 @@
     });
 
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-left');
+    map.addControl(new maplibregl.ScaleControl());
     map.addControl(new maplibregl.AttributionControl({ compact: false }));
 
     map.on('load', () => {
