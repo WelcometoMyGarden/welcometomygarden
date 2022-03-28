@@ -54,7 +54,7 @@
     left: 0;
     width: 100%;
     padding: 0 0 0 5rem;
-    z-index: 100;
+    z-index: 110;
     background-color: var(--color-white);
     box-shadow: 0 0 3.3rem rgba(0, 0, 0, 0.1);
   }
