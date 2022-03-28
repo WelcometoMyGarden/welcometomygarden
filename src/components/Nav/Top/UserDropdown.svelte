@@ -101,7 +101,7 @@
 
   .user-dropdown {
     position: absolute;
-    z-index: 110;
+    z-index: 120;
     top: calc(var(--height-nav) - 1.5rem);
     right: 0;
     width: 21rem;
