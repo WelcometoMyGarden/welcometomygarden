@@ -408,6 +408,9 @@
       "meaning": {
         "copy": "In dieser Datenschutzrichtlinie bezieht sich der Begriff „personenbezogene Daten“ auf Informationen, die es ermöglichen, Sie zu identifizieren. Eine identifizierbare Person ist jemand, der direkt oder indirekt identifiziert werden kann, insbesondere durch Zuordnung zu einer Kennnummer oder zu einem oder mehreren Faktoren, die mit der physischen, physiologischen, psychischen, wirtschaftlichen, kulturellen oder sozialen Identität in Verbindung stehen. Ein typisches Beispiel für personenbezogene Daten sind Ihr Name und Ihre E-Mail-Adresse.",
         "title": "Was bedeutet „personenbezogene Daten“?"
+      },
+      "backups": {
+        "title": "Back-ups"
       }
     },
     "rights": {
@@ -629,7 +632,15 @@
       "update": "Ihr Garten wurde erfolgreich aktualisiert!"
     },
     "filter": {
-      "min": "Minimum"
+      "min": "Minimum",
+      "all-filters": "Alle Filter",
+      "apply-filter": "Filter andwenden",
+      "title": "Filter",
+      "garden-capacity": "Garten Kapazität",
+      "garden-facilities": "Garten Ausstattung",
+      "spots-available": "Plätze für Zelte verfügbar",
+      "search-city": "Suche nach einer Stadt",
+      "no-places": "Keine Plätze gefunden"
     }
   },
   "index": {
@@ -716,7 +727,8 @@
         "copy": "Halten Sie sich jederzeit an die Maßnahmen der Regierung, um die Verbreitung von COVID-19 zu stoppen."
       },
       "1": {
-        "title": "Netzwerk von Bürgern und Bürgerinnen"
+        "title": "Netzwerk von Bürgern und Bürgerinnen",
+        "copy": "Welcome To My Garden ist ein Netzwerk von Bürgern, die Langsamreisenden kostenlose Stellplätze in ihren Gärten anbieten. Es handelt sich um eine gemeinnützige Initiative, mit der keine Einnahmen erzielt werden sollen. Welcome To My Garden übernimmt keine Verantwortung für Verluste, Schäden oder Verletzungen, die während eines Aufenthalts entstehen."
       },
       "2": {
         "title": "Senden Sie eine Anfrage im Voraus an den Gartenbesitzer",
@@ -771,7 +783,8 @@
     "new": "neu",
     "title-conversation": "Mit {partnerName} chatten",
     "title": "Chat",
-    "all-conversations": "Alle Unterhaltungen"
+    "all-conversations": "Alle Unterhaltungen",
+    "go-to-garden": "Gehe zu Garten"
   },
   "sign-in": {
     "button": "Anmelden",
@@ -800,7 +813,8 @@
           "0": "Routenplaner für Radfahren und Wandern: BRouter",
           "1": "Ein weiterer großartiger Routenplaner: Komoot",
           "2": "Großartiger Routenfinder und -planer: OutdoorActive",
-          "3": "Tolle Navigationsnwendung für Radfahren und Wandern: OSMAnd"
+          "3": "Tolle Navigationsnwendung für Radfahren und Wandern: OSMAnd",
+          "4": "Noch eine hervorragende Navigationsapp: ViewRanger"
         },
         "title": "Anwendungen und Karten"
       },
@@ -846,7 +860,8 @@
     }
   },
   "fallback": {
-    "404": "404 - Seite nicht gefunden"
+    "404": "404 - Seite nicht gefunden",
+    "redirect": "zurück zur Startseite"
   },
   "tagline": "Welcome To My Garden ist ein gemeinnütziges Netzwerk von Bürgern, die Langsamreisenden kostenlose Zeltstellplätze in ihren Gärten anbieten."
 }
