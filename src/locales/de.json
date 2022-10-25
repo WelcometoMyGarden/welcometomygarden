@@ -528,6 +528,14 @@
         "questions": {
           "how": {
             "title": "Wie funktioniert Welcome To My Garden?"
+          },
+          "what": {
+            "title": "Was ist Welcome To My Garden?",
+            "copy": "Welcome To My Garden ist ein Netzwerk von Bürgern, die ihre Gärten für Langsamreisende öffnen, die einen Campingplatz brauchen. Es handelt sich um eine gemeinnützige Initiative, die von einer Gruppe von Bürgern gegründet wurde. Die Idee entstand während der Abriegelung von Covid-19 in Belgien im Jahr 2020."
+          },
+          "who": {
+            "copy": "Welcome To My Garden wurde für Wanderer und Radfahrer geschaffen, die am Ende des Tages einen Campingplatz auf ihrem Weg benötigen. Es ist kein Ersatz für einen vollwertigen Campingplatz, sondern nur ein sicherer Platz für die Nacht! Betrachten Sie ihn als Ergänzung zum belgischen Netz der Biwakierplätze.",
+            "title": "Für wen ist Welcome To My Garden gedacht?"
           }
         },
         "title": "Allgemein"
@@ -647,7 +655,8 @@
     "faq": {
       "questions": {
         "0": {
-          "title": "Für wen ist Welcome To My Garden gedacht?"
+          "title": "Für wen ist Welcome To My Garden gedacht?",
+          "copy": "Welcome To My Garden wurde für Wanderer und Radfahrer geschaffen, die am Ende des Tages einen Campingplatz auf ihrem Weg benötigen. Es ist kein Ersatz für einen vollwertigen Campingplatz, sondern nur ein sicherer Platz für die Nacht! Betrachten Sie ihn als Ergänzung zum belgischen Netz der Biwakierplätze. Welcome To My Garden ist nicht kommerziell: Es wird kein Geld gezahlt. Das bedeutet, dass Sie als Gastgeber Ihre Gäste nicht bitten können, für ihren Aufenthalt zu bezahlen."
         },
         "1": {
           "title": "Wie komme ich zu meinem Stellplatz?",
@@ -715,7 +724,8 @@
     },
     "shop": {
       "banner": {
-        "copy": "Welcome To My Garden hat jetzt seinen {Titel} mit WTMG-Holzschildern und Dankespostkarten für Gastgeber. Schauen Sie es sich an unter {link}!"
+        "copy": "Welcome To My Garden hat jetzt seinen {Titel} mit WTMG-Holzschildern und Dankespostkarten für Gastgeber. Schauen Sie es sich an unter {link}!",
+        "title": "Internetshop"
       }
     }
   },
@@ -814,7 +824,8 @@
           "1": "Ein weiterer großartiger Routenplaner: Komoot",
           "2": "Großartiger Routenfinder und -planer: OutdoorActive",
           "3": "Tolle Navigationsnwendung für Radfahren und Wandern: OSMAnd",
-          "4": "Noch eine hervorragende Navigationsapp: ViewRanger"
+          "4": "Noch eine hervorragende Navigationsapp: ViewRanger",
+          "5": "Überblick über das gesamte Radverkehrsnetz Radverkehrslayer von OpenStreetMap"
         },
         "title": "Anwendungen und Karten"
       },
@@ -822,13 +833,17 @@
         "recommendations": {
           "0": "Tolle Sammlung von Wanderwegen: RouteYou",
           "1": "Knooppunten Netzwerk-Planer: Wandelknooppunt",
-          "2": "Langstrecken-Radwege in Flandern: LF-Netzwerk Flandern"
-        }
+          "2": "Langstrecken-Radwege in Flandern: LF-Netzwerk Flandern",
+          "3": "Langstrecken-Radwege in Flandern: LF-Netzwerk Flandern",
+          "4": "Fernwanderwege in Flandern und Wallonien: Grote Routepaden"
+        },
+        "title": "Infos zum Weg"
       },
       "2": {
         "title": "Sonstige Unterkunftsleistungen",
         "recommendations": {
-          "0": "Gastfreundschaftsnetzwerk für Radfahrer: WarmShowers"
+          "0": "Gastfreundschaftsnetzwerk für Radfahrer: WarmShowers",
+          "1": "Ausführlichere Informationen über alle Biwakplätze: Bivakzone.be"
         }
       }
     },
