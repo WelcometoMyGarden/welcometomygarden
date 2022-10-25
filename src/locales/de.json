@@ -49,7 +49,9 @@
     "garden": "Garten",
     "email": "E-Mail",
     "terms-of-use": "Nutzungsbedingungen",
-    "map": "Karte"
+    "map": "Karte",
+    "shop": "Shop",
+    "slowby": "Geheime Reisen"
   },
   "cookies": {
     "articles": {
@@ -80,7 +82,8 @@
       },
       "4": {
         "copy": {
-          "0": "In einigen speziellen Fällen verwenden wir auch Cookies, die von vertrauenswürdigen Drittanbietern bereitgestellt werden. Der folgende Abschnitt beschreibt, welche Cookies von Drittanbietern Sie auf dieser Seite finden können."
+          "0": "In einigen speziellen Fällen verwenden wir auch Cookies, die von vertrauenswürdigen Drittanbietern bereitgestellt werden. Der folgende Abschnitt beschreibt, welche Cookies von Drittanbietern Sie auf dieser Seite finden können.",
+          "2": "Weitere Informationen zu Google-Analytics-Cookies finden Sie <a href=\"https://www.google.com/url?q=https://analytics.google.com/analytics/web/%23/&amp;sa=D&amp;ust=1592214262289000\">auf der offiziellen Google-Analytics-Seite.</a>"
         }
       },
       "5": {
@@ -205,7 +208,7 @@
           "0": {
             "title": "Beleidigendes Verhalten",
             "copy": {
-              "0": "Konten und zugehörige Konten, die zur Durchführung der unten aufgeführten Aktionen verwendet werden, können vorübergehend gesperrt und / oder dauerhaft gelöscht werden.",
+              "0": "Wir glauben fest an die Freiheit der Rede. Um jedoch sicherzustellen, dass die Plattform von allen Nutzern in konstruktiver Weise genutzt werden kann, erlauben wir kein beleidigendes Verhalten, das eine Belästigung, Einschüchterung oder Angstmacherei darstellt.",
               "1": "Konten und zugehörige Konten, die zur Durchführung der unten aufgeführten Aktionen verwendet werden, können vorübergehend gesperrt und / oder dauerhaft gelöscht werden."
             }
           },
@@ -375,7 +378,7 @@
             "list": {
               "0": "Der Standort Ihres Gartens (Koordinaten: der Breiten- und Längengrad) (obligatorisch)",
               "1": "Informationen über Ihren Garten (Beschreibung, Ausstattung, Anzahl der Zelte, die Sie aufnehmen können) (obligatorisch)",
-              "2": "Gesprochene Sprachen (obligatorisch)"
+              "2": "Ein Bild von Ihrem Garten (optional)"
             },
             "title": "Persönliche Daten, die Sie angeben, wenn Sie Ihren Garten zu Ihrem Konto hinzufügen."
           }
@@ -479,7 +482,64 @@
   },
   "faq": {
     "description": "Häufig gestellte Fragen",
-    "title": "HgF"
+    "title": "HgF",
+    "clusters": {
+      "slow-travellers": {
+        "questions": {
+          "no-garden": {
+            "title": "Ich habe keinen Garten. Kann ich trotzdem in die Gärten anderer Leute reisen?"
+          },
+          "cost": {
+            "title": "Kostet Welcome To My Garden etwas?"
+          },
+          "how-camping": {
+            "title": "Wie komme ich zu meinem Stellplatz?"
+          },
+          "how-long": {
+            "title": "Wie lange kann ich dort bleiben?"
+          },
+          "what-facilities": {
+            "copy": "Im Grunde genommen bieten die Gastgeber nur eine Ecke in ihrem Garten an, in der Sie Ihr Zelt aufschlagen können. Darüber hinaus können sie Zugang zu Trinkwasser, einer Toilette und Strom anbieten. Dazu sind sie jedoch nicht verpflichtet: All das sind Bonusse. Betrachten Sie einen Garten als einen Biwakplatz, nicht als einen vollwertigen Campingplatz."
+          }
+        }
+      },
+      "hosts": {
+        "questions": {
+          "privacy": {
+            "title": "Wie garantiert Welcome To My Garden meine Privatsphäre als Gastgeber?"
+          },
+          "messaging": {
+            "copy": "Die Konversation zwischen Gastgebern und Reisenden findet über den Chat auf der Plattform statt. Wenn Sie eine Benachrichtigungs-E-Mail erhalten, dass Sie eine Nachricht erhalten haben, gehen Sie zu {chatLink}, um zu antworten."
+          }
+        },
+        "title": "Gastgeber"
+      },
+      "technical-support": {
+        "questions": {
+          "messages": {
+            "title": "Ich habe Probleme beim Lesen von Nachrichten."
+          }
+        }
+      },
+      "general": {
+        "questions": {
+          "how": {
+            "title": "Wie funktioniert Welcome To My Garden?"
+          }
+        },
+        "title": "Allgemein"
+      },
+      "other": {
+        "questions": {
+          "become-volunteer": {
+            "title": "Kann ich ein Freiwilliger werden?"
+          },
+          "warmshowers": {
+            "title": "Wie unterscheidet sich Welcome to My Garden von anderen Plattformen wie Warmshowers?"
+          }
+        }
+      }
+    }
   },
   "garden": {
     "form": {
@@ -579,7 +639,8 @@
           "title": "Für wen ist Welcome To My Garden gedacht?"
         },
         "1": {
-          "title": "Wie komme ich zu meinem Stellplatz?"
+          "title": "Wie komme ich zu meinem Stellplatz?",
+          "copy": "Welcome To My Garden ist nur für langsame Reisende gedacht. Bitte gehen Sie zu Fuß oder fahren Sie mit dem Fahrrad zu Ihrem Campingplatz. Natürlich können Sie auch öffentliche Verkehrsmittel oder Ihr Auto benutzen, um zum Startpunkt Ihrer Wanderung zu gelangen - solange Sie nicht mit dem Auto bei Ihrem Gastgeber auftauchen!"
         },
         "2": {
           "title": "Wie kann ich einen Aufenthalt beantragen?",
@@ -590,7 +651,8 @@
           "title": "Was ist mit Einrichtungen?"
         },
         "4": {
-          "title": "Kostet Welcome To My Garden etwas?"
+          "title": "Kostet Welcome To My Garden etwas?",
+          "copy": "Die Nutzung von Welcome To My Garden ist völlig kostenlos. Als Plattform entstehen uns jedoch Kosten. Wenn Sie uns eine Spende zukommen lassen wollen, wird uns das ein großes Lächeln auf die Lippen zaubern! Wir sind eine gemeinnützige Initiative, wir verdienen also kein Geld damit."
         }
       },
       "copy": "Hier sind die wichtigsten Dinge, die Sie über Ihr nächstes Abenteuer wissen müssen. Bitte lesen Sie diesen FAQ-Bereich gründlich durch, damit Sie wissen, worauf Sie sich einlassen. Noch mehr Fragen? Lesen Sie {faqLink}!",
@@ -628,10 +690,22 @@
     },
     "support": {
       "title": "Unterstützen Sie uns",
-      "donation-link-text": "Spenden"
+      "donation-link-text": "Spenden",
+      "copy": "Die Nutzung von Welcome To My Garden ist kostenlos, aber wir müssen eine Reihe von Rechnungen bezahlen. {donationLink} um uns am Laufen zu halten!"
     },
     "banner-stmf": {
-      "link": "Slow Travel Mini Festival"
+      "link": "Slow Travel Mini Festival",
+      "copy": "Möchten Sie Ihre langsamen Reisen mit der Gemeinschaft vorbereiten und gleichzeitig Welcome To My Garden unterstützen? Besuchen Sie unseren {stmfLink} (vom 3. bis 29. Juni)!"
+    },
+    "slowby": {
+      "banner": {
+        "copy": "Möchten Sie mit dem langsamen Reisen beginnen? Gute Nachrichten! Sie können jetzt geheime Slow-Travel-Reisen unternehmen, um die verborgenen Seiten Belgiens zu entdecken. Wir haben gerade den {Titel} - Schau es dir unter {link} an."
+      }
+    },
+    "shop": {
+      "banner": {
+        "copy": "Welcome To My Garden hat jetzt seinen {Titel} mit WTMG-Holzschildern und Dankespostkarten für Gastgeber. Schauen Sie es sich an unter {link}!"
+      }
     }
   },
   "rules": {
@@ -649,7 +723,8 @@
         "copy": "Die Gartenbesitzer sind möglicherweise nicht zu jeder Zeit zu Hause und bereit, Sie zu empfangen. Wir bitten die Benutzer, den Gartenbesitzer im Voraus zu kontaktieren, um die Verfügbarkeit direkt zu prüfen. Dies sollte geschehen, indem Sie eine Anfrage an den Gastgeber über sein Profil senden. Nachdem Sie die erste Verbindung hergestellt haben, können Sie Ihre Kontaktdaten austauschen, so dass Sie in Kontakt bleiben und den Gastgeber über Ihre Ankunftszeit per E-Mail oder Telefon informieren können, je nach dessen Präferenz. Wenn Sie eine Anfrage senden, geben Sie einige Informationen über sich selbst und über Ihre voraussichtliche Ankunftszeit an."
       },
       "3": {
-        "title": "Kein Auto"
+        "title": "Kein Auto",
+        "copy": "Welcome To My Garden respektiert die Umwelt und ist nur für langsame Reisende eingerichtet worden. Das bedeutet, dass Sie die Campingplätze nur zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln erreichen können. Die Anreise mit dem eigenen Auto ist untersagt. Sie dürfen mit dem Auto zum Startpunkt Ihrer Wander- oder Fahrradtour fahren - solange Sie nicht mit dem Auto auf den Campingplätzen auftauchen."
       },
       "4": {
         "copy": "Sie können maximal 48 Stunden auf einem Stellplatz bleiben. Erkundigen Sie sich immer bei dem Gartenbesitzer.",
