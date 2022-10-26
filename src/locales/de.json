@@ -255,7 +255,7 @@
             "copy": "Es kann vorkommen, dass über die Plattform schädliche Dateien heruntergeladen werden können, unabhängig davon, ob dies durch einen Nutzer erfolgt oder nicht, oder dass Nutzer schädliche Hyperlinks platzieren. Jede Datenübertragung eines Nutzers oder jeder Klick auf einen Hyperlink, der von einem Nutzer platziert wird, erfolgt auf eigenes Risiko des Nutzers. Jeder entstandene Schaden liegt vollständig und allein in der Verantwortung dieses Nutzers."
           },
           "1": {
-            "copy": "Welcome To My Garden kann in keiner Weise für Nachrichten von Nutzern oder Dritten, die gegen die oben genannten Regeln verstoßen, haftbar gemacht werden. Wenn ein Nutzer einen Verstoß feststellt, melden Sie diesen bitte an die folgende E-Mail-Adresse: {Support}"
+            "copy": "Welcome To My Garden kann in keiner Weise für Nachrichten von Nutzern oder Dritten, die gegen die oben genannten Regeln verstoßen, haftbar gemacht werden. Wenn ein Nutzer einen Verstoß feststellt, melden Sie diesen bitte an die folgende E-Mail-Adresse: {support}"
           }
         }
       },
@@ -590,8 +590,8 @@
       },
       "description": {
         "hints": {
-          "too-short": "{remaining} mehr {remaining, plural, one {Zeichen} other {Zeichen}} erforderlich …",
-          "too-long": "{surplus} {surplus, plural, one {Zeichen} other {Zeichen}} zu lang …"
+          "too-short": "{remaining} mehr {remaining, plural, one {character} other {characters}} erforderlich …",
+          "too-long": "{surplus} {surplus, plural, one {character} other {characters}} zu lang …"
         },
         "placeholder": "Geben Sie eine Beschreibung ein …",
         "label": "Beschreibung",
@@ -616,7 +616,7 @@
         "login": "Sie müssen {signInLink}, um Gastgeber zu kontaktieren"
       },
       "facilities": {
-        "capacity": "Platz für {styleCapacity} {capacity, plural, one {Zelt} other {Zelte}}"
+        "capacity": "Platz für {styleCapacity} {capacity, plural, one {tent} other {tents}}"
       },
       "owner": {
         "button": "Garten verwalten",
@@ -796,7 +796,7 @@
     "notify": {
       "unverified": "Bitte bestätigen Sie Ihre E-Mail-Adresse, bevor Sie mit dem Chatten beginnen",
       "empty-message": "Ihre Nachricht kann nicht leer sein",
-      "too-long": "Ihre Nachricht ist {surplus} {surplus, plural, one {Zeichen} other {Zeichen}} zu lang …"
+      "too-long": "Ihre Nachricht ist {surplus} {surplus, plural, one {character} other {characters}} zu lang …"
     },
     "new": "neu",
     "title-conversation": "Mit {partnerName} chatten",
