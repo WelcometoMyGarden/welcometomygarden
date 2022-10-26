@@ -719,12 +719,12 @@
     },
     "slowby": {
       "banner": {
-        "copy": "Möchten Sie mit dem langsamen Reisen beginnen? Gute Nachrichten! Sie können jetzt geheime Slow-Travel-Reisen unternehmen, um die verborgenen Seiten Belgiens zu entdecken. Wir haben gerade den {Titel} - Schau es dir unter {link} an."
+        "copy": "Möchten Sie mit dem langsamen Reisen beginnen? Gute Nachrichten! Sie können jetzt geheime Slow-Travel-Reisen unternehmen, um die verborgenen Seiten Belgiens zu entdecken. Wir haben gerade den {title} - Schau es dir unter {link} an."
       }
     },
     "shop": {
       "banner": {
-        "copy": "Welcome To My Garden hat jetzt seinen {Titel} mit WTMG-Holzschildern und Dankespostkarten für Gastgeber. Schauen Sie es sich an unter {link}!",
+        "copy": "Welcome To My Garden hat jetzt seinen {title} mit WTMG-Holzschildern und Dankespostkarten für Gastgeber. Schauen Sie es sich an unter {link}!",
         "title": "Internetshop"
       }
     }
