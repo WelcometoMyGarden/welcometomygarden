@@ -483,7 +483,8 @@
     },
     "trails": {
       "hiking": "Wanderrouten anzeigen",
-      "cycling": "Fahrradrouten anzeigen"
+      "cycling": "Fahrradrouten anzeigen",
+      "attribution": "Trails mit freundlicher Genehmigung von {link}"
     }
   },
   "faq": {
