@@ -253,6 +253,9 @@
         "descriptions": {
           "2": {
             "copy": "Es kann vorkommen, dass über die Plattform schädliche Dateien heruntergeladen werden können, unabhängig davon, ob dies durch einen Nutzer erfolgt oder nicht, oder dass Nutzer schädliche Hyperlinks platzieren. Jede Datenübertragung eines Nutzers oder jeder Klick auf einen Hyperlink, der von einem Nutzer platziert wird, erfolgt auf eigenes Risiko des Nutzers. Jeder entstandene Schaden liegt vollständig und allein in der Verantwortung dieses Nutzers."
+          },
+          "1": {
+            "copy": "Welcome To My Garden kann in keiner Weise für Nachrichten von Nutzern oder Dritten, die gegen die oben genannten Regeln verstoßen, haftbar gemacht werden. Wenn ein Nutzer einen Verstoß feststellt, melden Sie diesen bitte an die folgende E-Mail-Adresse: {Support}"
           }
         }
       },
