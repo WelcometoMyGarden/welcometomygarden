@@ -22,10 +22,11 @@ jobs:
       - name: Install Dependencies
         run: yarn
       - name: Build project
-        run: yarn run build:prod
+        run: yarn run build:staging
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_PRODUCTION }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_STAGING }}'
+          projectId: wtmg-dev
           channelId: live
-          projectId: wtmg-production
+
