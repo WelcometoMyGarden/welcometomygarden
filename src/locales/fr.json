@@ -428,8 +428,8 @@
           "1": "Gérer l'identification et l'authentification des utilisateurs;",
           "2": "Pour vérifier votre compte utilisateur afin de garantir les mesures de sécurité nécessaires;",
           "3": "Pour fournir des informations sur votre jardin à la communauté des utilisateurs;",
-          "4": "Pour vous alerter lorsque des mises à jour ont lieu sur la plateforme;",
-          "5": "Pour vous alerter lorsque des activités sur la plateforme peuvent vous intéresser."
+          "4": "Pour vous avertir des mises à jour de la plate-forme ;",
+          "5": "Pour vous avertir lorsque des activités sur la plate-forme sont susceptibles de vous intéresser."
         },
         "copy": "Les données personnelles ne sont stockées et traitées que pendant la période nécessaire aux fins du traitement. Après cela, les données seront supprimées ou anonymisées. Welcome To My Garden s'appuie sur Firebase, qui est certifié selon les principales normes de confidentialité et de sécurité. Les services Firebase sont conformes au Règlement général de protection des données. Toutes les informations relatives à Firebase peuvent être trouvées <a href=\"https://firebase.google.com/support/privacy\">ici</a>."
       },
@@ -497,7 +497,7 @@
           "copy": {
             "0": "Welcome To My Garden a développé des mesures de sécurité qui ont été ajustées au niveau technologique et organisationnel pour empêcher la destruction, la perte, la falsification, la modification, l'accès interdit ou la divulgation erronée de données personnelles à des tiers  ainsi que tout autre traitement interdit de ces données.",
             "1": "Welcome To My Garden ne peut en aucun cas être tenu responsable de toute perte directe ou indirecte résultant d'une utilisation incorrecte ou illégale de vos données personnelles par un tiers.",
-            "2": "Vous devez à tout moment vous conformer aux instructions de sécurité, ce qui inclut d'empêcher tout accès interdit à vos informations de connexion, y compris votre mot de passe. Vous êtes seul responsable de l'utilisation du site Web sur votre ordinateur, à partir de votre adresse IP et de vos informations d'identification, ainsi que de la confidentialité de ces informations."
+            "2": "Vous devez à tout moment respecter les consignes de sécurité, ce qui implique d'empêcher tout accès interdit à vos données de connexion, y compris votre mot de passe. Vous êtes seul responsable de l'utilisation du site sur votre ordinateur, à partir de votre adresse IP et avec vos données d'identification, ainsi que de leur confidentialité."
           }
         }
       }
