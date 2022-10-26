@@ -601,13 +601,16 @@
       "add-button": "Ihren Garten hinzufügen",
       "update-button": "Ihren Garten aktualisieren",
       "invalid": "Einige Informationen waren nicht gültig. Bitte überprüfen Sie Ihre übermittelten Informationen auf Fehler.",
-      "account-link-text": "Ihr Profil"
+      "account-link-text": "Ihr Profil",
+      "email-confirm-notice": "Sie müssen Ihre E-Mail verifizieren, bevor Sie Ihren Garten zur Karte hinzufügen können. Wir haben Ihnen eine E-Mail geschickt, als Sie Ihr Konto erstellt haben. Sie können einen Verifizierungslink von {accountLink} erneut senden.",
+      "auth-notice": "Sie müssen angemeldet sein, um Ihren Garten zur Karte hinzufügen zu können. Entweder {signInLink} oder {registerLink}."
     },
     "drawer": {
       "unclaimed": "Sie können diesen Gastgeber kontaktieren, sobald er sein Konto erstellt hat.",
       "guest": {
         "sign-link-text": "anmelden",
-        "button": "Gastgeber kontaktieren"
+        "button": "Gastgeber kontaktieren",
+        "login": "Sie müssen {signInLink}, um Gastgeber zu kontaktieren"
       },
       "facilities": {
         "capacity": "Platz für {styleCapacity} {capacity, plural, one {Zelt} other {Zelte}}"
@@ -650,7 +653,7 @@
       "search-city": "Suche nach einer Stadt",
       "no-places": "Keine Plätze gefunden",
       "min-capacity": "Min. {capacity} {capacity, plural, one {tent} other {tents}}",
-      "available": "{styledAmount} {amount, plural, one {Garten} other {Gärten}} verfügbar mit den aktiven Filtern"
+      "available": "{styledAmount} {amount, plural, one {garden} other {gardens}} verfügbar mit den aktiven Filtern."
     }
   },
   "index": {
@@ -810,7 +813,8 @@
       "text": "Sie haben noch kein Konto? {link}"
     },
     "notify": {
-      "incorrect": "Die angegebene E-Mail-Adresse oder das Passwort ist falsch."
+      "incorrect": "Die angegebene E-Mail-Adresse oder das Passwort ist falsch.",
+      "welcome": "Willkommen zurück, {user}!"
     }
   },
   "reset-password": {
