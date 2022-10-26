@@ -648,7 +648,8 @@
       "garden-facilities": "Garten Ausstattung",
       "spots-available": "Plätze für Zelte verfügbar",
       "search-city": "Suche nach einer Stadt",
-      "no-places": "Keine Plätze gefunden"
+      "no-places": "Keine Plätze gefunden",
+      "min-capacity": "Min. {capacity} {capacity, plural, one {Zelt} other {Zelte}}"
     }
   },
   "index": {
