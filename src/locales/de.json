@@ -649,7 +649,7 @@
       "spots-available": "Plätze für Zelte verfügbar",
       "search-city": "Suche nach einer Stadt",
       "no-places": "Keine Plätze gefunden",
-      "min-capacity": "Min. {capacity} {capacity, plural, one {Zelt} other {Zelte}}",
+      "min-capacity": "Min. {capacity} {capacity, plural, one {tent} other {tents}}",
       "available": "{styledAmount} {amount, plural, one {Garten} other {Gärten}} verfügbar mit den aktiven Filtern"
     }
   },
