@@ -295,7 +295,8 @@
   "register": {
     "notify": {
       "in-use": "Diese E-Mail-Adresse ist bereits in Gebrauch.",
-      "unexpected": "Ein unerwarteter Fehler ist aufgetreten. Wenn das Problem weiterhin besteht, wenden Sie sich bitte an {support}"
+      "unexpected": "Ein unerwarteter Fehler ist aufgetreten. Wenn das Problem weiterhin besteht, wenden Sie sich bitte an {support}",
+      "successful": "Ihr Konto wurde erfolgreich erstellt! Bitte überprüfen Sie Ihre E-Mail, um Ihr Konto zu bestätigen."
     },
     "policies": "Ich akzeptiere die {cookiePolicy}, {privacyPolicy} und {termsOfUse}",
     "title": "Registrierung",
@@ -316,7 +317,8 @@
         "set": "Bitte geben Sie einen Vornamen ein. So werden Sie anderen Benutzern angezeigt",
         "max": "Ihr Vorname darf nur 25 Zeichen lang sein, damit wir ihn richtig darstellen können. Sie können ihn gerne abkürzen oder einen Spitznamen wählen"
       },
-      "email": "Bitte fügen Sie eine E-Mail-Adresse hinzu, mit der Sie sich anmelden"
+      "email": "Bitte fügen Sie eine E-Mail-Adresse hinzu, mit der Sie sich anmelden",
+      "consent": "Sie müssen den Bedingungen von Welcome To My Garden zustimmen, wenn Sie die Plattform nutzen möchten."
     },
     "first-name": "Vorname",
     "country": "Land",
