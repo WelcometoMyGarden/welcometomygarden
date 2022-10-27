@@ -24,12 +24,14 @@
     "verify": {
       "button": "E-Mail erneut senden",
       "sent": "E-Mail gesendet!",
-      "title": "Bestätigen Sie Ihre E-Mail-Adresse"
+      "title": "Bestätigen Sie Ihre E-Mail-Adresse",
+      "text": "Sie müssen Ihre E-Mail-Adresse verifizieren, wenn Sie chatten oder einen Garten hinzufügen möchten."
     },
     "notify": {
       "preferences-update": "Ihre E-Mail-Einstellungen wurden aktualisiert!",
       "garden-show": "Ihr Garten wird wieder auf der Karte angezeigt",
-      "garden-no-show": "Ihr Garten wird nicht auf der Karte angezeigt"
+      "garden-no-show": "Ihr Garten wird nicht auf der Karte angezeigt",
+      "resend-error": "Wir konnten keine E-Mail zur Kontobestätigung erneut senden. Bitte kontaktieren Sie {support}"
     }
   },
   "generics": {
@@ -302,7 +304,8 @@
     "validate": {
       "password": {
         "max": "Bitte achten Sie darauf, dass Ihr Passwort maximal 100 Zeichen lang ist",
-        "min": "Ihr Passwort muss mindestens 8 Zeichen lang sein"
+        "min": "Ihr Passwort muss mindestens 8 Zeichen lang sein",
+        "set": "Sie müssen ein Passwort festlegen, damit Sie sich später anmelden können"
       },
       "last-name": "Bitte geben Sie Ihren Nachnamen ein. Dieser wird nicht an andere Benutzer weitergegeben",
       "country": {
@@ -479,7 +482,8 @@
   },
   "map": {
     "vehicle-notice": {
-      "text": "Wenn Sie planen, mit einem motorisierten Fahrzeug anzureisen, kontaktieren Sie die Gastgeber bitte nicht über diese Plattform. Vielen Dank für Ihr Verständnis!"
+      "text": "Wenn Sie planen, mit einem motorisierten Fahrzeug anzureisen, kontaktieren Sie die Gastgeber bitte nicht über diese Plattform. Vielen Dank für Ihr Verständnis!",
+      "title": "Welcome To My Garden ist nur für langsame Reisende."
     },
     "trails": {
       "hiking": "Wanderrouten anzeigen",
@@ -803,7 +807,8 @@
     "title-conversation": "Mit {partnerName} chatten",
     "title": "Chat",
     "all-conversations": "Alle Unterhaltungen",
-    "go-to-garden": "Gehe zu Garten"
+    "go-to-garden": "Gehe zu Garten",
+    "type-message": "Schreibe deine Nachricht …"
   },
   "sign-in": {
     "button": "Anmelden",
@@ -818,7 +823,8 @@
     },
     "notify": {
       "incorrect": "Die angegebene E-Mail-Adresse oder das Passwort ist falsch.",
-      "welcome": "Willkommen zurück, {user}!"
+      "welcome": "Willkommen zurück, {user}!",
+      "login-issue": "Wir konnten Sie nicht anmelden. Wenn das Problem weiterhin besteht, wenden Sie sich bitte an {support}"
     }
   },
   "reset-password": {
@@ -881,8 +887,13 @@
     "verification": {
       "unsigned": "Bitte melden Sie sich zuerst an",
       "refresh": "Ihre E-Mail-Adresse wurde bereits verifiziert. Bitte aktualisieren Sie die Seite.",
-      "succes": "Ihre E-Mail-Adresse wurde erfolgreich verifiziert!"
-    }
+      "succes": "Ihre E-Mail-Adresse wurde erfolgreich verifiziert!",
+      "expired": "Dieser Verifizierungslink ist abgelaufen. Bitte fordern Sie einen neuen an."
+    },
+    "password": {
+      "expired": "Dieser Link zum Zurücksetzen des Passworts ist abgelaufen. Bitte fordern Sie ein neues an"
+    },
+    "invalid-code": "Diese Seite ist ohne einen gültigen Aktionscode nicht zugänglich"
   },
   "fallback": {
     "404": "404 - Seite nicht gefunden",
