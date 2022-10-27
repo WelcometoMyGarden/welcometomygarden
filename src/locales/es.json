@@ -51,5 +51,8 @@
         }
       }
     }
+  },
+  "chat": {
+    "go-to-garden": "Ir al jardín"
   }
 }
