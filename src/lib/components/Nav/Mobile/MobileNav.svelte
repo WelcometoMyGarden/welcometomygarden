@@ -2,7 +2,7 @@
   import { _, locale } from 'svelte-i18n';
   import { isActive } from '@roxi/routify';
   import routes from '$lib/routes';
-  import { logout } from '$lib/api/auth';
+  import { logout } from '@/lib/api/auth';
   import { user } from '@/lib/stores/auth';
   import { clickOutside } from '$lib/directives';
   import { tentIcon, mapIcon, chatIcon, signInIcon, userIcon } from '$lib/images/icons';

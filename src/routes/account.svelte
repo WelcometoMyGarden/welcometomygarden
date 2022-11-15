@@ -3,8 +3,8 @@
   import { fade } from 'svelte/transition';
   import { goto, redirect } from '@roxi/routify';
   import notify from '$lib/stores/notification';
-  import { updateMailPreferences } from '$lib/api/user';
-  import { resendAccountVerification } from '$lib/api/auth';
+  import { updateMailPreferences } from '@/lib/api/user';
+  import { resendAccountVerification } from '@/lib/api/auth';
   import { changeListedStatus } from '$lib/api/garden';
   import { user } from '@/lib/stores/auth';
   import { updatingMailPreferences } from '$lib/stores/user';

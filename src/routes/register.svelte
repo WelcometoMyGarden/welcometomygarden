@@ -2,7 +2,7 @@
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import { goto } from '@roxi/routify';
-  import { register } from '$lib/api/auth';
+  import { register } from '@/lib/api/auth';
   import { isRegistering } from '@/lib/stores/auth';
   import notify from '$lib/stores/notification';
   import { countries } from '$lib/util';

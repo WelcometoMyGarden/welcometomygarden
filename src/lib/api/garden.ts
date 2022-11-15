@@ -1,13 +1,19 @@
+import type { User } from '$lib/models/User';
+import { CAMPSITES } from './collections';
 import { get } from 'svelte/store';
-import { user } from '@/lib/stores/auth';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { getUser } from '@/lib/stores/auth';
 import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '@/lib/stores/garden';
-import { db, storage } from './index';
+import { db, storage } from './firebase';
+import { ref, uploadBytesResumable } from 'firebase/storage';
 
 export const getAllListedGardens = async () => {
   isFetchingGardens.set(true);
-  const snapshot = await db.collection('campsites').where('listed', '==', true).get();
-  const gardens = {};
-  snapshot.forEach((doc) => {
+  const q = query(collection(db, CAMPSITES), where('listed', '==', true));
+  const querySnapshot = await getDocs(q);
+
+  const gardens: { [id: string]: any } = {};
+  querySnapshot.forEach((doc) => {
     gardens[doc.id] = { id: doc.id, ...doc.data() };
   });
   allGardens.set(gardens);
@@ -15,22 +21,26 @@ export const getAllListedGardens = async () => {
   return gardens;
 };
 
-const doUploadGardenPhoto = async (photo, currentUser) => {
+const doUploadGardenPhoto = async (photo: File, currentUser: User) => {
   const extension = photo.name.split('.').pop();
   const photoLocation = `gardens/${currentUser.id}/garden.${extension}`;
   isUploading.set(true);
-  const uploadTask = storage.child(photoLocation).put(photo, { contentType: photo.type });
+  const photoRef = ref(storage, photoLocation);
+
+  const uploadTask = uploadBytesResumable(photoRef, photo, { contentType: photo.type });
   uploadTask.on('state_changed', (snapshot) => {
     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
     uploadProgress.set(progress);
   });
+  // TODO: handle errors
   await uploadTask;
   isUploading.set(false);
+  uploadProgress.set(0);
   return `garden.${extension}`;
 };
 
-export const addGarden = async ({ photo, ...rest }) => {
-  const currentUser = get(user);
+export const addGarden = async ({ photo, ...rest }: { photo: File, facilities: { [key: string]: any } }) => {
+  const currentUser = getUser();
 
   let uploadedName = null;
   if (photo) uploadedName = await doUploadGardenPhoto(photo, currentUser);

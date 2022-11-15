@@ -5,7 +5,7 @@
   import { scale } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
   import SkeletonDrawer from './SkeletonDrawer.svelte';
-  import { getPublicUserProfile } from '$lib/api/user';
+  import { getPublicUserProfile } from '@/lib/api/user';
   import { getGardenPhotoSmall, getGardenPhotoBig } from '$lib/api/garden';
   import { user } from '@/lib/stores/auth';
   import { clickOutside } from '$lib/directives';

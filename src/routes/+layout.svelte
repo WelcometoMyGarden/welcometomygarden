@@ -3,8 +3,8 @@
   console.log('+layout.svelte' + data);
   import { onDestroy, onMount } from 'svelte';
   import { isLoading as isLocaleLoading } from 'svelte-i18n';
-  import { createAuthObserver } from '$lib/api/auth';
-  import { setAllUserInfo } from '$lib/api/user';
+  import { createAuthObserver } from '@/lib/api/auth';
+  import { setAllUserInfo } from '@/lib/api/user';
   import { createChatObserver } from '$lib/api/chat';
   import { user, isInitializing } from '@/lib/stores/auth';
   import { Progress, Notifications } from '$lib/components/UI';

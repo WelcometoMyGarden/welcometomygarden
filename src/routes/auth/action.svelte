@@ -3,7 +3,7 @@
   import { user } from '@/lib/stores/auth';
   import { params, goto } from '@roxi/routify';
   import notify from '$lib/stores/notification';
-  import { verifyPasswordResetCode, applyActionCode } from '$lib/api/auth';
+  import { verifyPasswordResetCode, applyActionCode } from '@/lib/api/auth';
   import routes from '$lib/routes';
 
   const { mode, oobCode } = $params;
