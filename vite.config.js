@@ -1,8 +1,8 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
-import { customSvgLoader } from './plugins/rollup/svg-loader.js';
-import { createAvailableLocales } from './plugins/rollup/available-locales.js';
+import { customSvgLoader } from './plugins/svg-loader.js';
+import { createAvailableLocales } from './plugins/available-locales.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
