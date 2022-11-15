@@ -1,4 +1,4 @@
-<script>
+<script lang="js">
   import { onDestroy } from 'svelte';
   import { isLoading as isLocaleLoading } from 'svelte-i18n';
   import { params } from '@roxi/routify';

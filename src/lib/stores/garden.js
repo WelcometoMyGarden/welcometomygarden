@@ -1,5 +1,5 @@
 import { writable, get } from 'svelte/store';
-import { getAllListedGardens } from '@/api/garden';
+import { getAllListedGardens } from '@/lib/api/garden';
 
 export const isUploading = writable(false);
 export const uploadProgress = writable(0);

@@ -1,7 +1,7 @@
 import { get } from 'svelte/store';
 import { db } from './index';
-import { user } from '@/stores/auth';
-import { gettingPrivateUserProfile, updatingMailPreferences } from '@/stores/user';
+import { user } from '@/lib/stores/auth';
+import { gettingPrivateUserProfile, updatingMailPreferences } from '@/lib/stores/user';
 
 export const getPublicUserProfile = async (uid) => {
   const profile = await db.collection('users').doc(uid).get();

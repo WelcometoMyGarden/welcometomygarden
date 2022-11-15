@@ -2,7 +2,7 @@ import { get } from 'svelte/store';
 import { auth } from './index';
 import * as api from './functions';
 import { isLoggingIn, isRegistering, user, isInitializing } from '../stores/auth';
-import User from '@/models/User';
+import User from '@/lib/models/User';
 
 const reloadUserInfo = async () => {
   await auth.currentUser.reload();

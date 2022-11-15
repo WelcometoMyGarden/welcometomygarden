@@ -1,6 +1,6 @@
 import { get } from 'svelte/store';
-import { user } from '@/stores/auth';
-import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '@/stores/garden';
+import { user } from '@/lib/stores/auth';
+import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '@/lib/stores/garden';
 import { db, storage } from './index';
 
 export const getAllListedGardens = async () => {
