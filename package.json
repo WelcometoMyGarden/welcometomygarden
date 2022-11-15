@@ -49,5 +49,6 @@
     "extensions": [
       "svelte"
     ]
-  }
+  },
+  "type": "module"
 }

@@ -1,8 +1,13 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
-import svgLoader from './plugins/rollup/svg-loader';
-import createAvailableLocales from './plugins/rollup/available-locales';
+import { customSvgLoader } from './plugins/rollup/svg-loader.js';
+import { createAvailableLocales } from './plugins/rollup/available-locales.js';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const fileName = fileURLToPath(import.meta.url);
+const dirName = dirname(fileName);
 
 /* eslint-env node */
 export default defineConfig(() => {
@@ -17,13 +22,13 @@ export default defineConfig(() => {
     resolve: {
       dedupe: ['@roxi/routify'],
       alias: {
-        svelte: resolve(__dirname, 'node_modules/svelte'),
-        '@': resolve(__dirname, './src')
+        svelte: resolve(dirName, 'node_modules/svelte'),
+        '@': resolve(dirName, './src')
       }
     },
     plugins: [
       createAvailableLocales(),
-      svgLoader({ removeSVGTagAttrs: false }),
+      customSvgLoader({ removeSVGTagAttrs: false }),
       svelte({
         hot: !isProduction,
         emitCss: true,
