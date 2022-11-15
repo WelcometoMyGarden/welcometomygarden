@@ -1,7 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { crossIcon } from '@/images/icons';
-  import { Icon, Button } from './index';
+  import { crossIcon } from '$lib/images/icons';
+  import { Icon, Button } from '../UI';
   export let name;
   export let icon = null;
   export let closeButton = true;
@@ -16,7 +16,7 @@
 </script>
 
 <div class="tag" class:invert>
-  <label for={name} on:click class:pointer>
+  <label for={name} on:click on:keypress class:pointer>
     {#if icon}
       <div class="icon">
         <Icon {icon} />
@@ -25,7 +25,13 @@
     <slot />
   </label>
   {#if closeButton}
-    <button class="icon close" on:click={close}>
+    <button
+      class="icon close"
+      on:click={close}
+      on:keypress={(e) => {
+        if (e.key === 'Escape') close();
+      }}
+    >
       <Icon icon={crossIcon} />
     </button>
   {/if}

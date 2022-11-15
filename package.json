@@ -37,7 +37,7 @@
     "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-svelte3": "^4.0.0",
-    "firebase": "^7.14.6",
+    "firebase": "^9.14.0",
     "iso-639-1": "^2.1.9",
     "maplibre-gl": "^1.15.2",
     "nprogress": "^0.2.0",

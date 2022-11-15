@@ -1,8 +1,8 @@
 <script>
   import { _ } from 'svelte-i18n';
-  import { Button, Tag } from '@/components/UI';
-  import FacilitiesFilter from '@/components/Garden/FacilitiesFilter.svelte';
-  import FilterLocation from '@/components/Garden/FilterLocation.svelte';
+  import { Button, Tag } from '$lib/components/UI';
+  import FacilitiesFilter from '$lib/components/Garden/FacilitiesFilter.svelte';
+  import FilterLocation from '$lib/components/Garden/FilterLocation.svelte';
   import {
     filterIcon,
     bonfireIcon,
@@ -11,7 +11,7 @@
     toiletIcon,
     waterIcon,
     tentIcon
-  } from '@/images/icons';
+  } from '$lib/images/icons';
 
   export let filteredGardens;
   export let fallbackLocation;

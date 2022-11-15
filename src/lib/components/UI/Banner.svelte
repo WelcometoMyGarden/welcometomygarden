@@ -1,8 +1,8 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { Icon } from '../UI';
-  import { crossIcon } from '@/images/icons';
-  import { getCookie, setCookie } from '@/util';
+  import { crossIcon } from '$lib/images/icons';
+  import { getCookie, setCookie } from '$lib/util';
 
   export let cookieName;
   export let cookieTime = 31536000000; //365 * 24 * 60 * 60 * 1000

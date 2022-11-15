@@ -1,10 +1,10 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { isActive } from '@roxi/routify';
-  import routes from '@/routes';
+  import routes from '$lib/routes';
   import NavLink from './NavLink.svelte';
   import UserDropdown from './UserDropdown.svelte';
-  import { user } from '@/stores/auth';
+  import { user } from '@/lib/stores/auth';
 
   $: firstName = $user ? $user.firstName : '';
 </script>
@@ -29,7 +29,7 @@
       <NavLink href={routes.FAQ}>{$_('generics.faq.acronym')}</NavLink>
     </li>
     <li>
-      <NavLink href={$_('index.slowby.banner.url')} target="_blank"
+      <NavLink href={$_('index.slowby.banner.url')} target="_blank"  rel="noreferrer"
         >{$_('generics.slowby')}</NavLink
       >
     </li>

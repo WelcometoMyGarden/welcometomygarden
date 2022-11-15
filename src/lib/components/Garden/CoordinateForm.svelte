@@ -3,11 +3,11 @@
 
   import { _ } from 'svelte-i18n';
   import { createEventDispatcher } from 'svelte';
-  import { reverseGeocode, geocode } from '@/api/mapbox';
+  import { reverseGeocode, geocode } from '$lib/api/mapbox';
   import { slide } from 'svelte/transition';
-  import { TextInput, Button } from '@/components/UI';
-  import Map from '@/components/Map/Map.svelte';
-  import DraggableMarker from '@/components/Map/DraggableMarker.svelte';
+  import { TextInput, Button } from '$lib/components/UI';
+  import Map from '$lib/components/Map/Map.svelte';
+  import DraggableMarker from '$lib/components/Map/DraggableMarker.svelte';
 
   const dispatch = createEventDispatcher();
 

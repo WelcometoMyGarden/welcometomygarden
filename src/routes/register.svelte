@@ -2,15 +2,15 @@
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import { goto } from '@roxi/routify';
-  import { register } from '@/api/auth';
-  import { isRegistering } from '@/stores/auth';
-  import notify from '@/stores/notification';
-  import { countries } from '@/util';
-  import routes from '@/routes';
-  import AuthContainer from '@/components/AuthContainer.svelte';
-  import { TextInput, Progress, Button } from '@/components/UI';
-  import { lockIcon, emailIcon, userIcon, flagIcon } from '@/images/icons';
-  import { SUPPORT_EMAIL } from '@/constants';
+  import { register } from '$lib/api/auth';
+  import { isRegistering } from '@/lib/stores/auth';
+  import notify from '$lib/stores/notification';
+  import { countries } from '$lib/util';
+  import routes from '$lib/routes';
+  import AuthContainer from '$lib/components/AuthContainer.svelte';
+  import { TextInput, Progress, Button } from '$lib/components/UI';
+  import { lockIcon, emailIcon, userIcon, flagIcon } from '$lib/images/icons';
+  import { SUPPORT_EMAIL } from '$lib/constants';
 
   let fields = {
     email: {
@@ -98,13 +98,13 @@
     }
   };
 
-  const cookiePolicy = `<a class="link" href=${routes.COOKIE_POLICY} target="_blank">${$_(
+  const cookiePolicy = `<a class="link" href=${routes.COOKIE_POLICY} target="_blank"  rel="noreferrer" >${$_(
     'generics.cookie-policy'
   ).toLocaleLowerCase()}</a>`;
-  const privacyPolicy = `<a class="link" href=${routes.PRIVACY_POLICY} target="_blank">${$_(
+  const privacyPolicy = `<a class="link" href=${routes.PRIVACY_POLICY} target="_blank"  rel="noreferrer" >${$_(
     'generics.privacy-policy'
   ).toLocaleLowerCase()}</a>`;
-  const termsOfUse = `<a class="link" href=${routes.TERMS_OF_USE} target="_blank">${$_(
+  const termsOfUse = `<a class="link" href=${routes.TERMS_OF_USE} target="_blank"  rel="noreferrer" >${$_(
     'generics.terms-of-use'
   ).toLocaleLowerCase()}</a>`;
 </script>

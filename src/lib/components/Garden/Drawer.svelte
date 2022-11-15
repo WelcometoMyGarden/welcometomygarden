@@ -5,10 +5,10 @@
   import { scale } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
   import SkeletonDrawer from './SkeletonDrawer.svelte';
-  import { getPublicUserProfile } from '@/api/user';
-  import { getGardenPhotoSmall, getGardenPhotoBig } from '@/api/garden';
-  import { user } from '@/stores/auth';
-  import { clickOutside } from '@/directives';
+  import { getPublicUserProfile } from '$lib/api/user';
+  import { getGardenPhotoSmall, getGardenPhotoBig } from '$lib/api/garden';
+  import { user } from '@/lib/stores/auth';
+  import { clickOutside } from '$lib/directives';
   import { Text, Badge, Image, Button, Progress } from '../UI';
   import {
     bonfireIcon,
@@ -17,8 +17,8 @@
     showerIcon,
     tentIcon,
     toiletIcon
-  } from '@/images/icons';
-  import routes from '@/routes';
+  } from '$lib/images/icons';
+  import routes from '$lib/routes';
 
   const dispatch = createEventDispatcher();
 

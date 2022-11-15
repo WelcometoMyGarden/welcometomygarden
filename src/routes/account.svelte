@@ -2,17 +2,17 @@
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import { goto, redirect } from '@roxi/routify';
-  import notify from '@/stores/notification';
-  import { updateMailPreferences } from '@/api/user';
-  import { resendAccountVerification } from '@/api/auth';
-  import { changeListedStatus } from '@/api/garden';
-  import { user } from '@/stores/auth';
-  import { updatingMailPreferences } from '@/stores/user';
-  import { Avatar, Icon, Button, LabeledCheckbox } from '@/components/UI';
-  import { flagIcon, emailIcon } from '@/images/icons';
-  import { countries } from '@/util';
-  import routes from '@/routes';
-  import { SUPPORT_EMAIL } from '@/constants';
+  import notify from '$lib/stores/notification';
+  import { updateMailPreferences } from '$lib/api/user';
+  import { resendAccountVerification } from '$lib/api/auth';
+  import { changeListedStatus } from '$lib/api/garden';
+  import { user } from '@/lib/stores/auth';
+  import { updatingMailPreferences } from '$lib/stores/user';
+  import { Avatar, Icon, Button, LabeledCheckbox } from '$lib/components/UI';
+  import { flagIcon, emailIcon } from '$lib/images/icons';
+  import { countries } from '$lib/util';
+  import routes from '$lib/routes';
+  import { SUPPORT_EMAIL } from '$lib/constants';
 
   if (!$user) $redirect(routes.SIGN_IN);
 

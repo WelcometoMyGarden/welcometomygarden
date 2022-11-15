@@ -1,8 +1,8 @@
 <script>
   import { _ } from 'svelte-i18n';
-  import routes from '@/routes';
-  import { Icon, Button } from '../components/UI';
-  import { binocularsIcon } from '@/images/icons';
+  import routes from '$lib/routes';
+  import { Icon, Button } from '$lib/components/UI';
+  import { binocularsIcon } from '$lib/images/icons';
 </script>
 
 <div class="available-space-container">

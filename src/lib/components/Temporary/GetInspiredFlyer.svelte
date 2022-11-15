@@ -1,9 +1,9 @@
 <script>
-  import { calendarIcon, clockIcon } from '@/images/icons';
+  import { calendarIcon, clockIcon } from '$lib/images/icons';
   import { Icon } from './UI';
 
-  import LogoWithText from '../images/logo_with_text.svg';
-  import { lineIcon } from '../images/icons';
+  import LogoWithText from '$lib/images/logo_with_text.svg';
+  import { lineIcon } from '$lib/images/icons';
 
   export let section = '';
   export let title = '';

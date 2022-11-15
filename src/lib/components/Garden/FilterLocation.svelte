@@ -1,10 +1,10 @@
 <script>
   import { _, locale } from 'svelte-i18n';
   import { createEventDispatcher } from 'svelte';
-  import { geocodeExtensive } from '@/api/mapbox';
-  import { clickOutside } from '@/directives';
-  import { TextInput } from '@/components/UI';
-  import { markerIcon } from '@/images/icons';
+  import { geocodeExtensive } from '$lib/api/mapbox';
+  import { clickOutside } from '$lib/directives';
+  import { TextInput } from '$lib/components/UI';
+  import { markerIcon } from '$lib/images/icons';
 
   export let isSearching;
   export let fallbackLocation;

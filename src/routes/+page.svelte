@@ -1,23 +1,23 @@
 <script>
   import { _ } from 'svelte-i18n';
   import smoothscroll from 'smoothscroll-polyfill';
-  import routes from '@/routes';
-  import CollapsibleGroup from '../components/CollapsibleGroup.svelte';
-  import { Button, Partner } from '../components/UI';
-  import { getNodeChildren } from '@/util';
-  import { user } from '@/stores/auth';
-  import { DONATION_URL } from '@/constants';
-  import partners from '../partners';
+  import routes from '$lib/routes';
+  import CollapsibleGroup from '$lib/components/CollapsibleGroup.svelte';
+  import { Button, Partner } from '$lib/components/UI';
+  import { getNodeChildren } from '$lib/util';
+  import { user } from '@/lib/stores/auth';
+  import { DONATION_URL } from '$lib/constants';
+  import partners from '$lib/partners';
 
-  import Logo from '../images/logo.svg';
-  import welcomeMap from '../images/welcome-map.svg';
-  import ArrowDown from '../images/arrow-down.svg';
+  import Logo from '$lib/images/logo.svg';
+  import welcomeMap from '$lib/images/welcome-map.svg';
+  import ArrowDown from '$lib/images/arrow-down.svg';
 
-  import Step1 from '@/images/step-1.svg';
-  import Step2 from '@/images/step-2.svg';
-  import Step3 from '@/images/step-3.svg';
+  import Step1 from '$lib/images/step-1.svg';
+  import Step2 from '$lib/images/step-2.svg';
+  import Step3 from '$lib/images/step-3.svg';
 
-  import SlowbyBanner from '../components/Temporary/SlowbyBanner.svelte';
+  import SlowbyBanner from '$lib/components/Temporary/SlowbyBanner.svelte';
 
   function handleLearnMoreClick() {
     const navBarHeight = parseInt(
@@ -130,7 +130,7 @@
       <p>
         {@html $_('index.support.copy', {
           values: {
-            donationLink: `<a href="${DONATION_URL}" target="_blank" rel="noopener noreferrer">${$_(
+            donationLink: `<a href="${DONATION_URL}" target="_blank"  rel="noreferrer"  rel="noopener noreferrer">${$_(
               'index.support.donation-link-text'
             )}</a>`
           }

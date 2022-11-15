@@ -2,7 +2,7 @@
   import { Router } from '@roxi/routify';
   import { routes } from '../../.routify/routes';
   import { locale, init } from 'svelte-i18n';
-  import { setCookie, getCookie } from '@/util';
+  import { setCookie, getCookie } from '$lib/util';
   import registerLocales from '@/locales/register';
 
   let lang = getCookie('locale'); //en or nl or ...

@@ -1,5 +1,5 @@
 <script>
-  import { Avatar } from '@/components/UI';
+  import { Avatar } from '$lib/components/UI';
   export let name;
 </script>
 

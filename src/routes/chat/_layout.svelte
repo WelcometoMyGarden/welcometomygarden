@@ -3,14 +3,14 @@
   import { fly } from 'svelte/transition';
   import { flip } from 'svelte/animate';
   import { goto, redirect, params, isActive } from '@roxi/routify';
-  import { user } from '@/stores/auth';
-  import notify from '@/stores/notification';
-  import { chats, creatingNewChat, hasInitialized, getChatForUser } from '@/stores/chat';
-  import routes from '@/routes';
-  import { initiateChat } from '@/api/chat';
-  import ConversationCard from '@/components/Chat/ConversationCard.svelte';
-  import { Progress } from '@/components/UI';
-  import { removeDiacritics } from '@/util';
+  import { user } from '@/lib/stores/auth';
+  import notify from '$lib/stores/notification';
+  import { chats, creatingNewChat, hasInitialized, getChatForUser } from '$lib/stores/chat';
+  import routes from '$lib/routes';
+  import { initiateChat } from '$lib/api/chat';
+  import ConversationCard from '$lib/components/Chat/ConversationCard.svelte';
+  import { Progress } from '$lib/components/UI';
+  import { removeDiacritics } from '$lib/util';
 
   if (!$user) {
     $goto(routes.SIGN_IN);

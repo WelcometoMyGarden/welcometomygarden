@@ -3,7 +3,7 @@
   import Text from './Text.svelte';
   import Icon from './Icon.svelte';
   import Image from './Image.svelte';
-  import { calendarIcon, clockIcon, arrowIcon } from '@/images/icons';
+  import { calendarIcon, clockIcon, arrowIcon } from '$lib/images/icons';
 
   export let languageAbbreviation = 'EN';
   export let title = '';
@@ -48,7 +48,7 @@
         <h4>{title}</h4>
       </div>
       <div class="register-here">
-        <a {href} target="_blank">
+        <a {href} target="_blank"  rel="noreferrer" >
           <span class="register-here-text">{$_('ui.card.register-here')}</span>
           <div class="icon">
             <Icon icon={arrowIcon} />

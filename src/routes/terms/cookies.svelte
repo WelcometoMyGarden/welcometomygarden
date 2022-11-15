@@ -1,7 +1,7 @@
 <script>
   import { _ } from 'svelte-i18n';
-  import { supportEmailLinkString, getNodeChildren } from '@/util';
-  import { Ol } from '@/components/UI';
+  import { supportEmailLinkString, getNodeChildren } from '$lib/util';
+  import { Ol } from '$lib/components/UI';
 </script>
 
 <svelte:head>

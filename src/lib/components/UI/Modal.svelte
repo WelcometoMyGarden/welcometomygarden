@@ -1,8 +1,8 @@
 <script>
   import { createEventDispatcher } from 'svelte';
   import { Icon, Button } from './index';
-  import { crossIcon } from '@/images/icons';
-  import { focusTrap } from '@/directives';
+  import { crossIcon } from '$lib/images/icons';
+  import { focusTrap } from '$lib/directives';
 
   const dispatch = createEventDispatcher();
 
@@ -53,6 +53,9 @@
     class:stick-to-bottom={stickToBottom}
     class:nopadding
     on:click|self={handleOuterClick}
+    on:keypress={(e) => {
+      if (e.key === 'Enter') handleOuterClick();
+    }}
   >
     <div
       bind:this={ref}

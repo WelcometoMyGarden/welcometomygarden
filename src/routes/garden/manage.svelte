@@ -1,13 +1,13 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { goto, redirect } from '@roxi/routify';
-  import { updateGardenLocally } from '@/stores/garden';
-  import { user } from '@/stores/auth';
-  import notify from '@/stores/notification';
-  import { Progress } from '@/components/UI';
-  import { updateGarden } from '@/api/garden';
-  import Form from '@/components/Garden/Form.svelte';
-  import routes from '@/routes';
+  import { updateGardenLocally } from '$lib/stores/garden';
+  import { user } from '@/lib/stores/auth';
+  import notify from '$lib/stores/notification';
+  import { Progress } from '$lib/components/UI';
+  import { updateGarden } from '$lib/api/garden';
+  import Form from '$lib/components/Garden/Form.svelte';
+  import routes from '$lib/routes';
 
   if (!$user || !$user.emailVerified) {
     notify.warning('Please verify your email first.', 8000);

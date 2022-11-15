@@ -1,16 +1,16 @@
 <script>
   import { _, locale } from 'svelte-i18n';
   import { isActive } from '@roxi/routify';
-  import routes from '@/routes';
-  import { logout } from '@/api/auth';
-  import { user } from '@/stores/auth';
-  import { clickOutside } from '@/directives';
-  import { tentIcon, mapIcon, chatIcon, signInIcon, userIcon } from '@/images/icons';
+  import routes from '$lib/routes';
+  import { logout } from '$lib/api/auth';
+  import { user } from '@/lib/stores/auth';
+  import { clickOutside } from '$lib/directives';
+  import { tentIcon, mapIcon, chatIcon, signInIcon, userIcon } from '$lib/images/icons';
   import Hamburger from './Hamburger.svelte';
-  import Socials from '@/components/Socials.svelte';
-  import { Icon } from '@/components/UI';
-  import LanguageSelector from '@/components/LanguageSelector.svelte';
-  import { SHOP_URL } from '@/constants';
+  import Socials from '$lib/components/Socials.svelte';
+  import { Icon } from '$lib/components/UI';
+  import LanguageSelector from '$lib/components/LanguageSelector.svelte';
+  import { SHOP_URL } from '$lib/constants';
 
   let hamburger;
   let drawerIsShown = false;
@@ -77,10 +77,10 @@
     on:click-outside={handleClickOutsideDrawer}
   >
     <li>
-      <a href={$_('index.slowby.banner.url')} on:click={toggleDrawer} target="_blank">{$_('generics.slowby')}</a>
+      <a href={$_('index.slowby.banner.url')} on:click={toggleDrawer} target="_blank"  rel="noreferrer" >{$_('generics.slowby')}</a>
     </li>
     <li>
-      <a href={SHOP_URL} on:click={toggleDrawer} target="_blank">{$_('generics.shop')}</a>
+      <a href={SHOP_URL} on:click={toggleDrawer} target="_blank"  rel="noreferrer" >{$_('generics.shop')}</a>
     </li>
     {#each linksInDrawer as { route, name } (route)}
       <li>

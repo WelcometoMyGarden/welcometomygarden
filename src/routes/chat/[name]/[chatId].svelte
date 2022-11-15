@@ -4,15 +4,15 @@
   import { beforeUpdate, afterUpdate, onMount } from 'svelte';
   import { fade } from 'svelte/transition';
   import { params, goto } from '@roxi/routify';
-  import { observeMessagesForChat, create as createChat, sendMessage } from '@/api/chat';
-  import { hasGarden } from '@/api/garden';
-  import { user } from '@/stores/auth';
-  import { chats, messages } from '@/stores/chat';
-  import { Avatar, Icon } from '@/components/UI';
-  import { User } from '@/components/Chat';
-  import { tentIcon } from '@/images/icons';
-  import routes from '@/routes';
-  import { formatDate } from '@/util';
+  import { observeMessagesForChat, create as createChat, sendMessage } from '$lib/api/chat';
+  import { hasGarden } from '$lib/api/garden';
+  import { user } from '@/lib/stores/auth';
+  import { chats, messages } from '$lib/stores/chat';
+  import { Avatar, Icon } from '$lib/components/UI';
+  import { User } from '$lib/components/Chat';
+  import { tentIcon } from '$lib/images/icons';
+  import routes from '$lib/routes';
+  import { formatDate } from '$lib/util';
 
   let partnerHasGarden = null;
   let partnerId;

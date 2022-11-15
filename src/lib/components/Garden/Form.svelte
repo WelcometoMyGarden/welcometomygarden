@@ -6,11 +6,11 @@
   import { _ } from 'svelte-i18n';
   import { createEventDispatcher } from 'svelte';
   import { slide } from 'svelte/transition';
-  import CoordinateForm from '@/components/Garden/CoordinateForm.svelte';
-  import routes from '@/routes';
-  import { user } from '@/stores/auth';
-  import { LabeledCheckbox, Button } from '@/components/UI';
-  import { getGardenPhotoBig } from '@/api/garden';
+  import CoordinateForm from '$lib/components/Garden/CoordinateForm.svelte';
+  import routes from '$lib/routes';
+  import { user } from '@/lib/stores/auth';
+  import { LabeledCheckbox, Button } from '$lib/components/UI';
+  import { getGardenPhotoBig } from '$lib/api/garden';
   import {
     bonfireIcon,
     electricityIcon,
@@ -18,7 +18,7 @@
     toiletIcon,
     waterIcon,
     tentIcon
-  } from '@/images/icons';
+  } from '$lib/images/icons';
 
   const dispatch = createEventDispatcher();
 

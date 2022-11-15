@@ -1,13 +1,13 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { redirect } from '@roxi/routify';
-  import { addGardenLocally } from '@/stores/garden';
-  import { user } from '@/stores/auth';
-  import notify from '@/stores/notification';
-  import { Progress } from '@/components/UI';
-  import { addGarden } from '@/api/garden';
-  import Form from '@/components/Garden/Form.svelte';
-  import routes from '@/routes';
+  import { addGardenLocally } from '$lib/stores/garden';
+  import { user } from '@/lib/stores/auth';
+  import notify from '$lib/stores/notification';
+  import { Progress } from '$lib/components/UI';
+  import { addGarden } from '$lib/api/garden';
+  import Form from '$lib/components/Garden/Form.svelte';
+  import routes from '$lib/routes';
 
   if ($user && $user.garden) $redirect(routes.MANAGE_GARDEN);
 

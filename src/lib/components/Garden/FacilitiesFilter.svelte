@@ -1,8 +1,8 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { beforeUpdate } from 'svelte';
-  import { LabeledCheckbox, Button, Modal } from '@/components/UI';
-  import { allGardens } from '@/stores/garden';
+  import { LabeledCheckbox, Button, Modal } from '$lib/components/UI';
+  import { allGardens } from '$lib/stores/garden';
 
   export let facilities;
   export let filteredGardens;

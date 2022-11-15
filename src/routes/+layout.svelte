@@ -1,17 +1,18 @@
-<script lang="js">
-  import { onDestroy } from 'svelte';
+<script lang="ts">
+  export let data;
+  console.log('+layout.svelte' + data);
+  import { onDestroy, onMount } from 'svelte';
   import { isLoading as isLocaleLoading } from 'svelte-i18n';
-  import { params } from '@roxi/routify';
-  import { createAuthObserver } from '@/api/auth';
-  import { setAllUserInfo } from '@/api/user';
-  import { createChatObserver } from '@/api/chat';
-  import { user, isInitializing } from '@/stores/auth';
-  import { Progress, Notifications } from '@/components/UI';
-  import Nav from '../components/Nav/Navigation.svelte';
-  import Footer from '@/components/Footer.svelte';
+  import { createAuthObserver } from '$lib/api/auth';
+  import { setAllUserInfo } from '$lib/api/user';
+  import { createChatObserver } from '$lib/api/chat';
+  import { user, isInitializing } from '@/lib/stores/auth';
+  import { Progress, Notifications } from '$lib/components/UI';
+  import Nav from '$lib/components/Nav/Navigation.svelte';
+  import Footer from '$lib/components/Footer.svelte';
 
-  let unsubscribeFromAuthObserver = createAuthObserver();
-  let unsubscribeFromChatObserver;
+  let unsubscribeFromAuthObserver: () => void;
+  let unsubscribeFromChatObserver: () => void;
 
   let infoIsReady = false;
 
@@ -21,13 +22,20 @@
     } catch (ex) {
       console.log(ex);
     }
-    if ($user.emailVerified) unsubscribeFromChatObserver = await createChatObserver();
+    if ($user?.emailVerified) unsubscribeFromChatObserver = await createChatObserver();
   };
 
-  $: if ($params.confirmed) infoIsReady = false;
+  // TODO: Fix this after builing the project works
+  // $: if ($params.confirmed) infoIsReady = false;
+
   $: if ($user) {
     addUserInformation().then(() => (infoIsReady = true));
   } else if (!$isInitializing) infoIsReady = true;
+
+  onMount(async () => {
+    console.log('onMount +layout.svelte');
+    if (!unsubscribeFromAuthObserver) unsubscribeFromAuthObserver = createAuthObserver();
+  });
 
   onDestroy(() => {
     if (unsubscribeFromChatObserver) unsubscribeFromChatObserver();

@@ -1,11 +1,11 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
-  import AuthContainer from '@/components/AuthContainer.svelte';
-  import { TextInput, Progress, Button } from '@/components/UI';
-  import { emailIcon } from '@/images/icons';
-  import { requestPasswordReset } from '@/api/auth';
-  import { SUPPORT_EMAIL } from '@/constants';
+  import AuthContainer from '$lib/components/AuthContainer.svelte';
+  import { TextInput, Progress, Button } from '$lib/components/UI';
+  import { emailIcon } from '$lib/images/icons';
+  import { requestPasswordReset } from '$lib/api/auth';
+  import { SUPPORT_EMAIL } from '$lib/constants';
 
   let email = {};
   let done = false;

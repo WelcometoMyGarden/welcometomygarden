@@ -6,10 +6,10 @@
 <Banner cookieName="slowby-slow-travel-banner-dismissed"
   >{@html $_('index.slowby.banner.copy', {
     values: {
-      title: `<a class="banner-link" href="${$_(`index.slowby.banner.url`)}" target="_blank">${$_(
+      title: `<a class="banner-link" href="${$_(`index.slowby.banner.url`)}" target="_blank"  rel="noreferrer" >${$_(
         `index.slowby.banner.title`
       )}</a>`,
-      link: `<a class="banner-link" href="${$_(`index.slowby.banner.url`)}" target="_blank">${$_(
+      link: `<a class="banner-link" href="${$_(`index.slowby.banner.url`)}" target="_blank"  rel="noreferrer" >${$_(
         `index.slowby.banner.url`
       )}</a>`
     }

@@ -1,12 +1,12 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { goto, params } from '@roxi/routify';
-  import AuthContainer from '@/components/AuthContainer.svelte';
-  import notify from '@/stores/notification';
-  import { confirmPasswordReset, login } from '@/api/auth';
-  import { TextInput, Progress, Button } from '@/components/UI';
-  import { lockIcon } from '@/images/icons';
-  import routes from '@/routes';
+  import AuthContainer from '$lib/components/AuthContainer.svelte';
+  import notify from '$lib/stores/notification';
+  import { confirmPasswordReset, login } from '$lib/api/auth';
+  import { TextInput, Progress, Button } from '$lib/components/UI';
+  import { lockIcon } from '$lib/images/icons';
+  import routes from '$lib/routes';
 
   let password = {};
 

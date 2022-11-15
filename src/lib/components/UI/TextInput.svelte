@@ -18,7 +18,7 @@
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
   import Icon from './Icon.svelte';
-  import { crossIcon } from '@/images/icons';
+  import { crossIcon } from '$lib/images/icons';
 
   let inputElement;
   onMount(() => {

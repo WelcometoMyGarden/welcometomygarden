@@ -1,4 +1,11 @@
-class User {
+export class User {
+  id: string;
+  uid: string;
+  firstName: string;
+  email: string;
+  emailVerified: boolean;
+  countryCode: string;
+
   constructor(user) {
     this.id = user.uid;
     this.uid = user.uid;

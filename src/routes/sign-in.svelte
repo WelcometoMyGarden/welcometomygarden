@@ -2,14 +2,14 @@
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import { goto } from '@roxi/routify';
-  import { user } from '@/stores/auth';
-  import notify from '@/stores/notification';
-  import { login } from '@/api/auth';
-  import routes from '@/routes';
-  import AuthContainer from '@/components/AuthContainer.svelte';
-  import { TextInput, Button } from '@/components/UI';
-  import { lockIcon, emailIcon } from '@/images/icons';
-  import { SUPPORT_EMAIL } from '@/constants';
+  import { user } from '@/lib/stores/auth';
+  import notify from '$lib/stores/notification';
+  import { login } from '$lib/api/auth';
+  import routes from '$lib/routes';
+  import AuthContainer from '$lib/components/AuthContainer.svelte';
+  import { TextInput, Button } from '$lib/components/UI';
+  import { lockIcon, emailIcon } from '$lib/images/icons';
+  import { SUPPORT_EMAIL } from '$lib/constants';
 
   let email = {};
   let password = {};

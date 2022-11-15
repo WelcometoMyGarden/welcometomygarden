@@ -1,6 +1,6 @@
 <script>
   import { _ } from 'svelte-i18n';
-  import { getNodeChildren } from '@/util';
+  import { getNodeChildren } from '$lib/util';
   import Collapsible from './Collapsible.svelte';
 
   export let collapsibleKey;

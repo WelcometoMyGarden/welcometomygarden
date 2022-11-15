@@ -12,7 +12,7 @@ const dirName = dirname(fileName);
  * @docs https://rollupjs.org/guide/en/#plugin-development
  */
 export const createAvailableLocales = (
-  localesDir = '../../src/locales',
+  localesDir = '../src/locales',
   virtualModuleId = 'app-available-locales'
 ) => ({
   name: 'app-available-locales-plugin',

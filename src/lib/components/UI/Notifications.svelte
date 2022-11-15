@@ -1,18 +1,18 @@
-<script>
+<script lang="ts">
   /* Reworked version of https://github.com/beyonk-adventures/svelte-notifications */
-  import { notification } from '@/stores/notification';
+  import { notification } from '$lib/stores/notification';
   import { onDestroy } from 'svelte';
 
   export let timeout = 5000;
 
   let count = 0;
-  let toasts = [];
+  let toasts: any[] = [];
   let unsubscribe;
 
-  const animateOut = (node, { delay = 0, duration = 300 }) => ({
+  const animateOut = (_node, { delay = 0, duration = 300 }) => ({
     delay,
     duration,
-    css: t =>
+    css: (t) =>
       `opacity: ${(t - 0.5) * 1}; transform-origin: top right; transform: scaleX(${(t - 0.5) * 1});`
   });
 
@@ -31,7 +31,7 @@
     count = count + 1;
   };
 
-  unsubscribe = notification.subscribe(value => {
+  unsubscribe = notification.subscribe((value) => {
     if (!value) return;
     createToast(value.message, value.type, value.timeout, value.options);
     notification.set();
@@ -39,8 +39,8 @@
 
   onDestroy(unsubscribe);
 
-  const removeToast = id => {
-    toasts = toasts.filter(t => t.id != id);
+  const removeToast = (id) => {
+    toasts = toasts.filter((t) => t.id != id);
   };
 </script>
 
@@ -52,12 +52,20 @@
       on:click={() => {
         if (toast.click) toast.click();
         removeToast(toast.id);
-      }}>
+      }}
+      on:keypress={(e) => {
+        if (e.key === 'Enter') {
+          if (toast.click) toast.click();
+          removeToast(toast.id);
+        }
+      }}
+    >
       <div class="content">{toast.msg}</div>
       <div
         class="time"
         style="animation-duration: {toast.timeout}ms;"
-        on:animationend={() => removeToast(toast.id)} />
+        on:animationend={() => removeToast(toast.id)}
+      />
     </li>
   {/each}
 </ul>

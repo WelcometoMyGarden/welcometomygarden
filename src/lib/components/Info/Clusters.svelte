@@ -1,9 +1,9 @@
 <script>
   import { _ } from 'svelte-i18n';
-  import { supportEmailLinkString, getNodeChildren } from '@/util';
+  import { supportEmailLinkString, getNodeChildren } from '$lib/util';
   import Collapsible from '../../components/Collapsible.svelte';
-  import { DONATION_URL, COMMUNITY_TRANSLATIONS_URL } from '@/constants';
-  import routes from '@/routes';
+  import { DONATION_URL, COMMUNITY_TRANSLATIONS_URL } from '$lib/constants';
+  import routes from '$lib/routes';
 
   export let clustersKey;
 
@@ -30,13 +30,13 @@
             {@html $_(`${clustersKey}.${clusterKey}.questions.${questionKey}.copy`, {
               values: {
                 support: supportEmailLinkString,
-                donationLink: `<a href="${DONATION_URL}" target="_blank" rel="noopener noreferrer" class="link">
+                donationLink: `<a href="${DONATION_URL}" target="_blank"  rel="noreferrer"  rel="noopener noreferrer" class="link">
                   ${$_('faq.donation')}</a>`,
-                chatLink: `<a href="${routes.CHAT}" target="_blank" class="link lowercase">
+                chatLink: `<a href="${routes.CHAT}" target="_blank"  rel="noreferrer"  class="link lowercase">
                   ${$_('generics.chat')}</a>`,
-                accountLink: `<a href="${routes.ACCOUNT}" target="_blank" class="link lowercase">
+                accountLink: `<a href="${routes.ACCOUNT}" target="_blank"  rel="noreferrer"  class="link lowercase">
                   ${$_('generics.account')}</a>`,
-                communityTranslationsLink: `<a href="${COMMUNITY_TRANSLATIONS_URL}" target="_blank" class="link lowercase">
+                communityTranslationsLink: `<a href="${COMMUNITY_TRANSLATIONS_URL}" target="_blank"  rel="noreferrer"  class="link lowercase">
                   ${$_('faq.instruction-page')}</a>`
               }
             })}

@@ -2,20 +2,20 @@
   import { _ } from 'svelte-i18n';
   import { onMount, onDestroy } from 'svelte';
   import { goto, params } from '@roxi/routify';
-  import { getAllListedGardens } from '@/api/garden';
-  import { allGardens, isFetchingGardens } from '@/stores/garden';
-  import routes from '@/routes';
+  import { getAllListedGardens } from '$lib/api/garden';
+  import { allGardens, isFetchingGardens } from '$lib/stores/garden';
+  import routes from '$lib/routes';
 
-  import Map from '@/components/Map/Map.svelte';
-  import Drawer from '@/components/Garden/Drawer.svelte';
-  import GardenLayer from '@/components/Map/GardenLayer.svelte';
-  import WaymarkedTrails from '@/components/Map/WaymarkedTrails.svelte';
-  import Filter from '@/components/Garden/Filter.svelte';
-  import { Progress, LabeledCheckbox, Icon } from '@/components/UI';
+  import Map from '$lib/components/Map/Map.svelte';
+  import Drawer from '$lib/components/Garden/Drawer.svelte';
+  import GardenLayer from '$lib/components/Map/GardenLayer.svelte';
+  import WaymarkedTrails from '$lib/components/Map/WaymarkedTrails.svelte';
+  import Filter from '$lib/components/Garden/Filter.svelte';
+  import { Progress, LabeledCheckbox, Icon } from '$lib/components/UI';
 
-  import { getCookie, setCookie } from '@/util';
-  import { crossIcon, cyclistIcon, hikerIcon } from '@/images/icons';
-  import { ZOOM_LEVELS } from '@/constants';
+  import { getCookie, setCookie } from '$lib/util';
+  import { crossIcon, cyclistIcon, hikerIcon } from '$lib/images/icons';
+  import { ZOOM_LEVELS } from '$lib/constants';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let geolocationIsLoaded = false;
@@ -155,7 +155,7 @@
     <span class="attribution">
       {@html $_('map.trails.attribution', {
         values: {
-          link: `<a href="https://waymarkedtrails.org/" target="_blank">Waymarked Trails</a>`
+          link: `<a href="https://waymarkedtrails.org/" target="_blank"  rel="noreferrer" >Waymarked Trails</a>`
         }
       })}
     </span>
