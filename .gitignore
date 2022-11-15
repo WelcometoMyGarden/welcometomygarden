@@ -38,3 +38,7 @@ wtmg.config.json
 
 .firebase
 firestore.rules
+
+/build
+/.svelte-kit
+/package
