@@ -4,7 +4,7 @@ import { db } from './firebase';
 import { getPublicUserProfile } from './user';
 import { getUser, user } from '$lib/stores/auth';
 import { creatingNewChat, addChat, addMessage, hasInitialized } from '$lib/stores/chat';
-import { collection, query, where, getDocs, doc, setDoc, updateDoc, getDocFromCache, getDocFromServer, onSnapshot } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, setDoc, updateDoc, getDocFromCache, getDocFromServer, onSnapshot, addDoc, Timestamp } from 'firebase/firestore';
 
 export const initiateChat = async (partnerUid: string) => {
   creatingNewChat.set(true);
@@ -61,26 +61,19 @@ export const sendMessage = async (chatId: string, message: string) => {
   const chatRef = doc(db, CHATS, chatId);
   const chatMessagesCollection = collection(chatRef, 'messages');
 
-  // https://firebase.google.com/docs/firestore/manage-data/add-data#add_a_document
-  // Behind the scenes, .add(...) and .doc().set(...) are completely equivalent, so you can use whichever is more convenient.
-  setDoc(chatMessagesCollection, )
+  await addDoc(chatMessagesCollection, {
+    content: message.trim(),
+    createdAt: Timestamp.now(),
+    from: getUser().id
+  });
 
-  await db
-    .collection('chats')
-    .doc(chatId)
-    .collection('messages')
-    .add({
-      content: message.trim(),
-      createdAt: Timestamp.now(),
-      from: get(user).id
-    });
-  await db.collection('chats').doc(chatId).update({
+  await updateDoc(chatRef, {
     lastActivity: Timestamp.now(),
     lastMessage: message.trim()
   });
 };
 
-export const create = async (uid1, uid2, message) => {
+export const create = async (uid1: string, uid2: string, message: string) => {
   const doc = await db.collection('chats').add({
     users: [uid1, uid2],
     createdAt: Timestamp.now(),
