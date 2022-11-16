@@ -73,7 +73,7 @@ export const geocodeExtensive = async (place: string, longitude: number, latitud
   }
 };
 
-export const geocodeCountryCode = async (country_code) => {
+export const geocodeCountryCode = async (country_code: string) => {
   try {
     let types = 'country';
     const response = await fetch(
