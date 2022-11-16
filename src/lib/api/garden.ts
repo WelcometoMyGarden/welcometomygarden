@@ -1,18 +1,19 @@
 import type { User } from '$lib/models/User';
 import { CAMPSITES } from './collections';
 import { get } from 'svelte/store';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, setDoc, updateDoc, getDocFromCache, getDocFromServer } from 'firebase/firestore';
 import { getUser } from '@/lib/stores/auth';
 import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '@/lib/stores/garden';
 import { db, storage } from './firebase';
-import { ref, uploadBytesResumable } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import type { Garden } from '@/lib/types/Garden';
 
 export const getAllListedGardens = async () => {
   isFetchingGardens.set(true);
   const q = query(collection(db, CAMPSITES), where('listed', '==', true));
   const querySnapshot = await getDocs(q);
 
-  const gardens: { [id: string]: any } = {};
+  const gardens: { [id: string]: Garden } = {};
   querySnapshot.forEach((doc) => {
     gardens[doc.id] = { id: doc.id, ...doc.data() };
   });
@@ -41,6 +42,7 @@ const doUploadGardenPhoto = async (photo: File, currentUser: User) => {
 
 export const addGarden = async ({ photo, ...rest }: { photo: File, facilities: { [key: string]: any } }) => {
   const currentUser = getUser();
+  if (!currentUser.id) throw new Error('User is not logged in.');
 
   let uploadedName = null;
   if (photo) uploadedName = await doUploadGardenPhoto(photo, currentUser);
@@ -57,15 +59,16 @@ export const addGarden = async ({ photo, ...rest }: { photo: File, facilities: {
     photo: uploadedName
   };
 
-  await db.collection('campsites').doc(currentUser.id).set(garden);
+  await setDoc(doc(db, CAMPSITES, currentUser.id), garden);
 
   const gardenWithId = { ...garden, id: currentUser.id };
-  get(user).setGarden(gardenWithId);
+  currentUser.setGarden(gardenWithId);
   return gardenWithId;
 };
 
-export const updateGarden = async ({ photo, ...rest }) => {
-  const currentUser = get(user);
+export const updateGarden = async ({ photo, ...rest }: { photo: File, facilities }) => {
+  const currentUser = getUser();
+  if (!currentUser.id) throw new Error('User is not logged in.');
 
   let uploadedName = null;
   if (photo) uploadedName = await doUploadGardenPhoto(photo, currentUser);
@@ -83,42 +86,46 @@ export const updateGarden = async ({ photo, ...rest }) => {
 
   if (uploadedName || rest.photo) garden.photo = uploadedName || rest.photo;
 
-  await db.collection('campsites').doc(currentUser.id).update(garden);
+  const docRef = doc(db, CAMPSITES, currentUser.id);
+
+  await updateDoc(docRef, garden);
 
   const gardenWithId = { ...garden, id: currentUser.id };
-  get(user).setGarden(gardenWithId);
+  getUser().setGarden(gardenWithId);
   return gardenWithId;
 };
 
-export const changeListedStatus = async (shouldBeListed) => {
-  const currentUser = get(user);
-  await db.collection('campsites').doc(currentUser.id).update({
-    listed: shouldBeListed
-  });
+export const changeListedStatus = async (shouldBeListed: boolean) => {
+  const currentUser = getUser();
+  if (!currentUser.id) throw new Error('User is not logged in.');
+
+  const docRef = doc(db, CAMPSITES, currentUser.id);
+  await updateDoc(docRef, { listed: shouldBeListed });
 };
 
-const getPhotoBySize = (size, garden) => {
-  return storage
-    .child(`gardens/${garden.id}/garden_${size}.${garden.photo.split('.').pop()}`)
-    .getDownloadURL();
+const getPhotoBySize = async (size: string, garden: Garden & { photo: string }) => {
+  const photoLocation = `gardens/${garden.id}/garden_${size}.${garden.photo.split('.').pop()}`;
+  const photoRef = ref(storage, photoLocation);
+
+  return await getDownloadURL(photoRef);
 };
 
-export const getGardenPhotoSmall = async (garden) => {
-  return getPhotoBySize('360x360', garden);
+export const getGardenPhotoSmall = async (garden: Garden & { photo: string }) => {
+  return await getPhotoBySize('360x360', garden);
 };
 
-export const getGardenPhotoBig = async (garden) => {
-  return getPhotoBySize('1920x1080', garden);
+export const getGardenPhotoBig = async (garden: Garden & { photo: string }) => {
+  return await getPhotoBySize('1920x1080', garden);
 };
 
-export const hasGarden = async (userId) => {
+export const hasGarden = async (userId: string) => {
   let snapshot;
-  const doc = db.collection('campsites').doc(userId);
+  const docRef = doc(db, CAMPSITES, userId);
   try {
-    snapshot = await doc.get({ source: 'cache' });
+    snapshot = await getDocFromCache(docRef);
   } catch (error) {
     // probably not cached
-    snapshot = await doc.get({ source: 'server' });
+    snapshot = await getDocFromServer(docRef);
   }
-  return snapshot ? snapshot.exists && snapshot.data().listed : false;
+  return snapshot ? snapshot.exists() && snapshot.data().listed : false;
 };

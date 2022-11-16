@@ -1,3 +1,4 @@
+import type { Garden } from "$lib/types/Garden";
 export class User {
   id: string;
   uid: string;
@@ -5,6 +6,11 @@ export class User {
   email: string;
   emailVerified: boolean;
   countryCode: string;
+  garden?: Garden;
+  emailPreferences?: {
+    newChat?: boolean;
+    news?: boolean;
+  }
 
   constructor(user) {
     this.id = user.uid;
@@ -25,7 +31,7 @@ export class User {
     this.setAllInObject(info);
   }
 
-  setGarden(garden) {
+  setGarden(garden: Garden) {
     this.garden = garden;
   }
 
@@ -33,7 +39,7 @@ export class User {
     this.setAllInObject(fields);
   }
 
-  setEmailPreferences(name, pref) {
+  setEmailPreferences(name: "newChat" | "news", pref: boolean) {
     this.emailPreferences[name] = pref;
   }
 }

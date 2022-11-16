@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { _ } from 'svelte-i18n';
   import { redirect } from '@roxi/routify';
   import { addGardenLocally } from '$lib/stores/garden';
@@ -8,6 +8,7 @@
   import { addGarden } from '$lib/api/garden';
   import Form from '$lib/components/Garden/Form.svelte';
   import routes from '$lib/routes';
+  import type { Garden } from '$lib/types/Garden';
 
   if ($user && $user.garden) $redirect(routes.MANAGE_GARDEN);
 
@@ -35,7 +36,7 @@
     }
   };
 
-  const initialGarden = {
+  const initialGarden: Garden = {
     description: '',
     location: null,
     facilities: {
@@ -44,7 +45,8 @@
     photo: {
       files: null,
       data: null
-    }
+    },
+    listed: true
   };
 </script>
 
