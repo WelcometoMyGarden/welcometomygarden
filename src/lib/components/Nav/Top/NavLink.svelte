@@ -5,9 +5,9 @@
   export let isHome = false;
   export let target = undefined;
 
-  import { isActive } from '@roxi/routify';
 </script>
 
+//TODO fix isActive
 <a {href} on:click class:active={isHome ? $isActive('/index') : $isActive(href)} {target} on:click>
   <slot />
 </a>

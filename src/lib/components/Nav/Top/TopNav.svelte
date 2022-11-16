@@ -1,18 +1,21 @@
 <script>
   import { _ } from 'svelte-i18n';
-  import { isActive } from '@roxi/routify';
   import routes from '$lib/routes';
   import NavLink from './NavLink.svelte';
   import UserDropdown from './UserDropdown.svelte';
   import { user } from '@/lib/stores/auth';
+  import { page } from '$app/stores';
+
 
   $: firstName = $user ? $user.firstName : '';
+  $: console.log($page);
 </script>
 
 <nav>
   <a href={routes.HOME} class="title">
     <h1>
-      {#if !$isActive('/index')}Welcome To My Garden{/if}
+      <!-- TODO: !$isActive('/index') -->
+      {#if true}Welcome To My Garden{/if}
     </h1>
   </a>
   <ul>
@@ -29,7 +32,7 @@
       <NavLink href={routes.FAQ}>{$_('generics.faq.acronym')}</NavLink>
     </li>
     <li>
-      <NavLink href={$_('index.slowby.banner.url')} target="_blank"  rel="noreferrer"
+      <NavLink href={$_('index.slowby.banner.url')} target="_blank" rel="noreferrer"
         >{$_('generics.slowby')}</NavLink
       >
     </li>
