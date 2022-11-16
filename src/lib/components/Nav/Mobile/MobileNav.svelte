@@ -1,6 +1,5 @@
 <script>
   import { _, locale } from 'svelte-i18n';
-  import { isActive } from '@roxi/routify';
   import routes from '$lib/routes';
   import { logout } from '@/lib/api/auth';
   import { user } from '@/lib/stores/auth';
@@ -11,6 +10,8 @@
   import { Icon } from '$lib/components/UI';
   import LanguageSelector from '$lib/components/LanguageSelector.svelte';
   import { SHOP_URL } from '$lib/constants';
+  import { page, navigating } from '$app/stores';
+  import isActive from '@/lib/util/isActive';
 
   let hamburger;
   let drawerIsShown = false;
@@ -33,33 +34,33 @@
 <nav id="navigation">
   <ul class="main">
     <li>
-      <a href={routes.HOME} class:active={$isActive('/index')}>
+      <a href={routes.HOME} class:active={isActive($page, '/index')}>
         <Icon icon={tentIcon} />
         <span>{$_('generics.home')}</span>
       </a>
     </li>
     <li>
-      <a href={routes.MAP} class:active={$isActive(routes.MAP)}>
+      <a href={routes.MAP} class:active={isActive($page, routes.MAP)}>
         <Icon icon={mapIcon} />
         {$_('generics.map')}
       </a>
     </li>
     {#if $user}
       <li>
-        <a href={routes.CHAT} class:active={$isActive(routes.CHAT)}>
+        <a href={routes.CHAT} class:active={isActive($page, routes.CHAT)}>
           <Icon icon={chatIcon} />
           {$_('generics.chat')}
         </a>
       </li>
       <li>
-        <a href={routes.ACCOUNT} class:active={$isActive(routes.ACCOUNT)}>
+        <a href={routes.ACCOUNT} class:active={isActive($page, routes.ACCOUNT)}>
           <Icon icon={userIcon} />
           {$_('generics.account')}
         </a>
       </li>
     {:else}
       <li>
-        <a href={routes.SIGN_IN} class:active={$isActive(routes.SIGN_IN)}>
+        <a href={routes.SIGN_IN} class:active={isActive($page, routes.SIGN_IN)}>
           <Icon icon={signInIcon} />
           {$_('generics.sign-in')}
         </a>
@@ -77,14 +78,21 @@
     on:click-outside={handleClickOutsideDrawer}
   >
     <li>
-      <a href={$_('index.slowby.banner.url')} on:click={toggleDrawer} target="_blank"  rel="noreferrer" >{$_('generics.slowby')}</a>
+      <a
+        href={$_('index.slowby.banner.url')}
+        on:click={toggleDrawer}
+        target="_blank"
+        rel="noreferrer">{$_('generics.slowby')}</a
+      >
     </li>
     <li>
-      <a href={SHOP_URL} on:click={toggleDrawer} target="_blank"  rel="noreferrer" >{$_('generics.shop')}</a>
+      <a href={SHOP_URL} on:click={toggleDrawer} target="_blank" rel="noreferrer"
+        >{$_('generics.shop')}</a
+      >
     </li>
     {#each linksInDrawer as { route, name } (route)}
       <li>
-        <a href={route} on:click={toggleDrawer} class:active={$isActive(route)}>{name}</a>
+        <a href={route} on:click={toggleDrawer} class:active={isActive($page, route)}>{name}</a>
       </li>
     {/each}
     <li>

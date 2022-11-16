@@ -8,9 +8,9 @@
 </script>
 
 //TODO fix isActive
-<a {href} on:click class:active={isHome ? $isActive('/index') : $isActive(href)} {target} on:click>
+<!-- <a {href} on:click class:active={isHome ? $isActive('/index') : $isActive(href)} {target} on:click>
   <slot />
-</a>
+</a> -->
 
 <style>
   a {
