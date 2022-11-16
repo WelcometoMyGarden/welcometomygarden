@@ -1,4 +1,4 @@
-import { USERS, CHATS } from './collections';
+import { USERS, CHATS, MESSAGES } from './collections';
 import { get } from 'svelte/store';
 import { db } from './firebase';
 import { getPublicUserProfile } from './user';
@@ -43,7 +43,7 @@ export const createChatObserver = async () => {
 
 export const observeMessagesForChat = (chatId: string) => {
   const chatRef = doc(db, CHATS, chatId);
-  const chatMessagesCollection = collection(chatRef, 'messages');
+  const chatMessagesCollection = collection(chatRef, MESSAGES);
 
   return onSnapshot(chatMessagesCollection,
     (snapshot) => {
@@ -59,7 +59,7 @@ export const observeMessagesForChat = (chatId: string) => {
 
 export const sendMessage = async (chatId: string, message: string) => {
   const chatRef = doc(db, CHATS, chatId);
-  const chatMessagesCollection = collection(chatRef, 'messages');
+  const chatMessagesCollection = collection(chatRef, MESSAGES);
 
   await addDoc(chatMessagesCollection, {
     content: message.trim(),
@@ -74,16 +74,22 @@ export const sendMessage = async (chatId: string, message: string) => {
 };
 
 export const create = async (uid1: string, uid2: string, message: string) => {
-  const doc = await db.collection('chats').add({
+  const chatCollection = collection(db, CHATS)
+
+  const docRef = await addDoc(chatCollection, {
     users: [uid1, uid2],
     createdAt: Timestamp.now(),
     lastActivity: Timestamp.now(),
     lastMessage: message.trim()
   });
-  await doc.collection('messages').add({
+
+  const chatMessagesCollection = collection(docRef, MESSAGES);
+
+  await addDoc(chatMessagesCollection, {
     content: message,
     createdAt: Timestamp.now(),
     from: uid1
   });
-  return doc.id;
+
+  return docRef.id;
 };
