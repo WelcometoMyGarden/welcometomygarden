@@ -75,7 +75,7 @@ export const geocodeExtensive = async (place: string, longitude: number, latitud
 
 export const geocodeCountryCode = async (country_code: string) => {
   try {
-    let types = 'country';
+    const types = 'country';
     const response = await fetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${country_code}.json?&limit=1&autocomplete=false&types=${types}&access_token=${VITE_MAPBOX_ACCESS_TOKEN}`,
       {
@@ -86,7 +86,7 @@ export const geocodeCountryCode = async (country_code: string) => {
     const data = await response.json();
 
     const location = data.features[0];
-    let locationData = {
+    const locationData = {
       longitude: location.center[0],
       latitude: location.center[1],
       place_name: location.place_name
