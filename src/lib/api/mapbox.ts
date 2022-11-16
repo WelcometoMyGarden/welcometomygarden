@@ -41,7 +41,7 @@ export const reverseGeocode = async ({ latitude, longitude }: { latitude: number
 };
 
 export const geocodeExtensive = async (place: string, longitude: number, latitude: number, language: string, amount: number) => {
-  let types = 'place,locality';
+  const types = 'place,locality';
   const response = await fetch(
     `https://api.mapbox.com/geocoding/v5/mapbox.places/${place}.json?proximity=${longitude},${latitude}&limit=${amount}&types=${types}&language=${language}&access_token=${VITE_MAPBOX_ACCESS_TOKEN}`,
     {
@@ -51,10 +51,10 @@ export const geocodeExtensive = async (place: string, longitude: number, latitud
   const data = await response.json();
 
   if (data.features.length >= 1) {
-    let addressData = [];
-    for (var i = 0; i < data.features.length; i++) {
+    const addressData = [];
+    for (let i = 0; i < data.features.length; i++) {
       const location = data.features[i];
-      let locationData = {
+      const locationData = {
         longitude: location.center[0],
         latitude: location.center[1],
         place_name: location.place_name
