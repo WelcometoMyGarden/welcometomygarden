@@ -15,7 +15,7 @@ const parseAddressPiece = (address, piece) => {
   return address;
 };
 
-export const geocode = async (addressString) => {
+export const geocode = async (addressString: string) => {
   const response = await fetch(
     `https://api.mapbox.com/geocoding/v5/mapbox.places/${addressString}.json?limit=1&access_token=${VITE_MAPBOX_ACCESS_TOKEN}`,
     { headers }
