@@ -6,7 +6,7 @@ export class User {
   email: string;
   emailVerified: boolean;
   countryCode: string;
-  garden?: Garden;
+  garden: Garden | null;
   emailPreferences?: {
     newChat?: boolean;
     news?: boolean;
@@ -19,6 +19,7 @@ export class User {
     this.email = user.email;
     this.emailVerified = user.emailVerified;
     this.countryCode = user.countryCode;
+    this.garden = user.garden || null;
   }
 
   setAllInObject(obj) {

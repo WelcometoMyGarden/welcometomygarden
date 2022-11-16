@@ -5,6 +5,7 @@ import { db } from './firebase';
 
 import { getUser } from '@/lib/stores/auth';
 import { gettingPrivateUserProfile, updatingMailPreferences } from '@/lib/stores/user';
+import type { Garden } from '@/lib/types/Garden';
 
 export const getPublicUserProfile = async (uid: string) => {
   const docRef = doc(db, USERS, uid);
@@ -29,7 +30,7 @@ const setCampsiteInformation = async () => {
   const docRef = doc(db, CAMPSITES, getUser().id);
   const docSnap = await getDoc(docRef);
 
-  if (docSnap.exists()) getUser().setGarden(docSnap.data());
+  if (docSnap.exists()) getUser().setGarden(<Garden>docSnap.data());
   else getUser().setGarden(null);
 };
 
