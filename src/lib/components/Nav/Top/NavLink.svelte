@@ -1,16 +1,23 @@
-<script>
-  export let href;
+<script lang="ts">
+  import { page } from '$app/stores';
+  import isActive from '@/lib/util/isActive';
+
+  export let href: string;
   // is this a little nasty? yes
   // until routify handles index routes a little more consistently, it's here to stay
   export let isHome = false;
   export let target = undefined;
-
 </script>
 
-//TODO fix isActive
-<!-- <a {href} on:click class:active={isHome ? $isActive('/index') : $isActive(href)} {target} on:click>
+<a
+  {href}
+  on:click
+  class:active={isHome ? isActive($page, '/index') : isActive($page, href)}
+  {target}
+  on:click
+>
   <slot />
-</a> -->
+</a>
 
 <style>
   a {

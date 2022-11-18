@@ -2,7 +2,7 @@
   import { _ } from 'svelte-i18n';
   import { fly } from 'svelte/transition';
   import { flip } from 'svelte/animate';
-  import { goto, redirect, params, isActive } from '@roxi/routify';
+  // import { goto, redirect, params, isActive } from '@roxi/routify';
   import { user } from '@/lib/stores/auth';
   import notify from '$lib/stores/notification';
   import { chats, creatingNewChat, hasInitialized, getChatForUser } from '$lib/stores/chat';

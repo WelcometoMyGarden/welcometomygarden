@@ -1,10 +1,6 @@
 <script lang="ts">
   export let data;
-  console.log('+layout.svelte' + JSON.stringify(data));
-
-  import '$lib/styles/reset.css';
-  import '$lib/styles/global.css';
-
+  console.log('+layout.svelte' + data);
   import { onDestroy, onMount, tick } from 'svelte';
   import { isLoading as isLocaleLoading } from 'svelte-i18n';
   import { createAuthObserver } from '@/lib/api/auth';
@@ -14,7 +10,6 @@
   import { Progress, Notifications } from '$lib/components/UI';
   import Nav from '$lib/components/Nav/Navigation.svelte';
   import Footer from '$lib/components/Footer.svelte';
-  import { initialize } from '@/lib/api/firebase';
 
   let unsubscribeFromAuthObserver: () => void;
   let unsubscribeFromChatObserver: () => void;
@@ -37,30 +32,16 @@
     addUserInformation().then(() => (infoIsReady = true));
   } else if (!$isInitializing) infoIsReady = true;
 
-  let vh = `0px`;
-
-  $: console.log(
-    '!$isInitializing: ' +
-      !$isInitializing +
-      ' !$isLocaleLoading: ' +
-      !$isLocaleLoading +
-      ' infoIsReady: ' +
-      infoIsReady
-  );
+  let vh = `14px`;
 
   onMount(async () => {
     console.log('onMount +layout.svelte');
-
-    console.log('Initializing firebase');
-    await initialize();
-    console.log('Firebase initialized');
-    console.log('Creating auth observer');
     if (!unsubscribeFromAuthObserver) unsubscribeFromAuthObserver = createAuthObserver();
 
     vh = `${window.innerHeight * 0.01}px`;
-    // tick().then(() => {
-    //   updateViewportHeight();
-    // });
+    tick().then(() => {
+      updateViewportHeight();
+    });
   });
 
   onDestroy(() => {
@@ -74,7 +55,6 @@
 </script>
 
 <svelte:window on:resize={updateViewportHeight} />
-<div>test</div>
 
 <div class="app" style="--vh:{vh}">
   <!-- <Progress active={$isInitializing || $isLocaleLoading || !infoIsReady} /> -->

@@ -5,7 +5,7 @@
   import UserDropdown from './UserDropdown.svelte';
   import { user } from '@/lib/stores/auth';
   import { page } from '$app/stores';
-
+  import isActive from '@/lib/util/isActive';
 
   $: firstName = $user ? $user.firstName : '';
   $: console.log($page);
@@ -14,8 +14,7 @@
 <nav>
   <a href={routes.HOME} class="title">
     <h1>
-      <!-- TODO: !$isActive('/index') -->
-      {#if true}Welcome To My Garden{/if}
+      {#if !isActive($page, '/index')}Welcome To My Garden{/if}
     </h1>
   </a>
   <ul>

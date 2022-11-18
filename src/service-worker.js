@@ -1,4 +1,6 @@
-import { registerRoute } from 'workbox-routing';
+//TODO fix again
+
+/* import { registerRoute } from 'workbox-routing';
 import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 import { ExpirationPlugin } from 'workbox-expiration';
@@ -45,3 +47,4 @@ registerRoute(
     ]
   })
 );
+ */
