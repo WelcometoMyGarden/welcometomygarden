@@ -5,6 +5,7 @@
   import '$lib/styles/reset.css';
   import '$lib/styles/global.css';
 
+  import { browser } from '$app/environment';
   import { onDestroy, onMount, tick } from 'svelte';
   import { isLoading as isLocaleLoading } from 'svelte-i18n';
   import { createAuthObserver } from '@/lib/api/auth';
@@ -15,41 +16,39 @@
   import Nav from '$lib/components/Nav/Navigation.svelte';
   import Footer from '$lib/components/Footer.svelte';
   import { initialize } from '@/lib/api/firebase';
+  import { locale, init } from 'svelte-i18n';
+  import { setCookie, getCookie } from '$lib/util';
+  import registerLocales from '@/locales/register';
 
   let unsubscribeFromAuthObserver: () => void;
   let unsubscribeFromChatObserver: () => void;
 
   let infoIsReady = false;
 
-  const addUserInformation = async () => {
-    try {
-      await setAllUserInfo();
-    } catch (ex) {
-      console.log(ex);
-    }
-    if ($user?.emailVerified) unsubscribeFromChatObserver = await createChatObserver();
-  };
+  let lang;
 
   // TODO: Fix this after builing the project works
   // $: if ($params.confirmed) infoIsReady = false;
 
-  $: if ($user) {
-    addUserInformation().then(() => (infoIsReady = true));
-  } else if (!$isInitializing) infoIsReady = true;
-
   let vh = `0px`;
 
-  $: console.log(
-    '!$isInitializing: ' +
-      !$isInitializing +
-      ' !$isLocaleLoading: ' +
-      !$isLocaleLoading +
-      ' infoIsReady: ' +
-      infoIsReady
-  );
+  locale.subscribe((value) => {
+    if (value == null) return;
+
+    // if running in the client, save the language preference in a cookie
+    if (typeof window !== 'undefined') setCookie('locale', value, { path: '/' });
+  });
 
   onMount(async () => {
     console.log('onMount +layout.svelte');
+
+    lang = getCookie('locale'); //en or nl or ...
+    if (!lang && window.navigator.language)
+      lang = window.navigator.language.split('-')[0].toLowerCase();
+    if (!lang) lang = 'en';
+
+    registerLocales();
+    init({ fallbackLocale: 'en', initialLocale: lang });
 
     console.log('Initializing firebase');
     await initialize();
@@ -63,6 +62,19 @@
     // });
   });
 
+  const addUserInformation = async () => {
+    try {
+      await setAllUserInfo();
+    } catch (ex) {
+      console.log(ex);
+    }
+    if ($user?.emailVerified) unsubscribeFromChatObserver = await createChatObserver();
+  };
+
+  $: if ($user) {
+    addUserInformation().then(() => (infoIsReady = true));
+  } else if (!$isInitializing) infoIsReady = true;
+
   onDestroy(() => {
     if (unsubscribeFromChatObserver) unsubscribeFromChatObserver();
     if (unsubscribeFromAuthObserver) unsubscribeFromAuthObserver();
@@ -74,11 +86,12 @@
 </script>
 
 <svelte:window on:resize={updateViewportHeight} />
-<div>test</div>
 
 <div class="app" style="--vh:{vh}">
-  <!-- <Progress active={$isInitializing || $isLocaleLoading || !infoIsReady} /> -->
-  <Notifications />
+  {#if browser}
+    <Progress active={$isInitializing || $isLocaleLoading || !infoIsReady} />
+    <Notifications />
+  {/if}
 
   {#if !$isInitializing && !$isLocaleLoading && infoIsReady}
     <Nav />
