@@ -20,6 +20,14 @@
   import { setCookie, getCookie } from '$lib/util';
   import registerLocales from '@/locales/register';
 
+  registerLocales();
+
+  locale.subscribe((value) => {
+    if (value == null) return;
+    // if running in the client, save the language preference in a cookie
+    if (typeof window !== 'undefined') setCookie('locale', value, { path: '/' });
+  });
+
   let unsubscribeFromAuthObserver: () => void;
   let unsubscribeFromChatObserver: () => void;
 
@@ -32,13 +40,6 @@
 
   let vh = `0px`;
 
-  locale.subscribe((value) => {
-    if (value == null) return;
-
-    // if running in the client, save the language preference in a cookie
-    if (typeof window !== 'undefined') setCookie('locale', value, { path: '/' });
-  });
-
   onMount(async () => {
     console.log('onMount +layout.svelte');
 
@@ -47,7 +48,6 @@
       lang = window.navigator.language.split('-')[0].toLowerCase();
     if (!lang) lang = 'en';
 
-    registerLocales();
     init({ fallbackLocale: 'en', initialLocale: lang });
 
     console.log('Initializing firebase');
@@ -57,9 +57,6 @@
     if (!unsubscribeFromAuthObserver) unsubscribeFromAuthObserver = createAuthObserver();
 
     vh = `${window.innerHeight * 0.01}px`;
-    // tick().then(() => {
-    //   updateViewportHeight();
-    // });
   });
 
   const addUserInformation = async () => {
