@@ -7,7 +7,8 @@
   import { verifyPasswordResetCode, applyActionCode } from '@/lib/api/auth';
   import routes from '$lib/routes';
 
-  const { mode, oobCode } = $page.params;
+  const mode = $page.url.searchParams.get('mode');
+  const oobCode = $page.url.searchParams.get('oobCode');
 
   if (!mode || !oobCode) {
     notify.danger($_('auth.invalid-code'));
