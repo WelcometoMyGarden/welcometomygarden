@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { Icon, Button } from './index';
+  import { Icon, Button } from '$lib/components/UI';
   import { crossIcon } from '$lib/images/icons';
   import { focusTrap } from '$lib/directives';
 
