@@ -40,10 +40,12 @@ export const register = async ({
 }) => {
   isRegistering.set(true);
   const userCreds = await createUserWithEmailAndPassword(auth, email, password);
-  // console.log('userCreds', userCreds);
+  console.log('userCreds', userCreds);
+  // TODO: fix createUser cloud function
   const createUserResult = await api.createUser({ firstName, lastName, countryCode });
-  // console.log('createUserResult', createUserResult);
+  console.log('createUserResult', createUserResult);
   await reloadUserInfo();
+  console.log('created user after reload', get(user));
   isRegistering.set(false);
 };
 
