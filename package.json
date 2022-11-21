@@ -3,13 +3,6 @@
   "description": "a platform allowing citizens to put their garden freely at disposal as a rudimentary campsite to travelers.",
   "version": "3.0.0",
   "scripts": {
-    "old:dev": "routify -c dev-vite",
-    "old:dev:windows": "npm run open & routify -c dev-vite",
-    "old:build:prod": "routify -b && vite build --mode production",
-    "old:build:staging": "routify -b && vite build --mode staging",
-    "old:dev-vite": "vite --host",
-    "old:serve-vite": "vite preview",
-    "old:open": "start http://localhost:3000",
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
