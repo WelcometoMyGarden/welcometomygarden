@@ -1,5 +1,5 @@
-import adapter from '@sveltejs/adapter-auto';
-// import adapter from '@sveltejs/adapter-static'; // https://www.npmjs.com/package/@sveltejs/adapter-static
+// import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-static'; // https://www.npmjs.com/package/@sveltejs/adapter-static
 
 import preprocess from 'svelte-preprocess';
 import { resolve } from 'path';
@@ -12,6 +12,12 @@ const config = {
 
   kit: {
     adapter: adapter(),
+
+    prerender: {
+      crawl: true,
+      enabled: true,
+      entries: ['*', '/chat/[name]/[chatId]', '/explore/garden/[gardenId]']
+    },
 
     alias: {
       '@': resolve('./src')
