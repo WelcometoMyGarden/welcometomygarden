@@ -1,2 +1,3 @@
 navigation: underline and big WTMG words
 sign up: invoking cloud function
+to test: password reset check if params work
