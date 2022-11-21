@@ -39,8 +39,10 @@ export const register = async ({
   countryCode: string;
 }) => {
   isRegistering.set(true);
-  await createUserWithEmailAndPassword(auth, email, password);
-  await api.createUser({ firstName, lastName, countryCode });
+  const userCreds = await createUserWithEmailAndPassword(auth, email, password);
+  // console.log('userCreds', userCreds);
+  const createUserResult = await api.createUser({ firstName, lastName, countryCode });
+  // console.log('createUserResult', createUserResult);
   await reloadUserInfo();
   isRegistering.set(false);
 };
@@ -48,7 +50,7 @@ export const register = async ({
 export const logout = async () => {
   isInitializing.set(true);
   await auth.signOut();
-  await reloadUserInfo();
+  await auth.currentUser?.reload();
   user.set(null);
   isInitializing.set(false);
 };
