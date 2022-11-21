@@ -34,7 +34,7 @@
 <nav id="navigation">
   <ul class="main">
     <li>
-      <a href={routes.HOME} class:active={isActive($page, '/index')}>
+      <a href={routes.HOME} class:active={isActive($page, '/')}>
         <Icon icon={tentIcon} />
         <span>{$_('generics.home')}</span>
       </a>

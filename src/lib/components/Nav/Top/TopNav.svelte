@@ -9,12 +9,13 @@
 
   $: firstName = $user ? $user.firstName : '';
   // TODO: fix isActive with $page
+  $: console.log($page.url);
 </script>
 
 <nav>
   <a href={routes.HOME} class="title">
     <h1>
-      {#if !isActive($page, '/index')}Welcome To My Garden{/if}
+      {#if !isActive($page, '/')}Welcome To My Garden{/if}
     </h1>
   </a>
   <ul>

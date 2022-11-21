@@ -12,7 +12,7 @@
 <a
   {href}
   on:click
-  class:active={isHome ? isActive($page, '/index') : isActive($page, href)}
+  class:active={isHome ? isActive($page, '/') : isActive($page, href)}
   {target}
   on:click
 >
