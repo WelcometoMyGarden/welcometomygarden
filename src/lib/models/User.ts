@@ -3,6 +3,7 @@ export class User {
   id: string;
   uid: string;
   firstName: string;
+  lastName?: string;
   email: string;
   emailVerified: boolean;
   countryCode: string;
@@ -11,6 +12,10 @@ export class User {
     newChat?: boolean;
     news?: boolean;
   }
+  consendedAt?: {
+    seconds: number | null;
+    nanoseconds: number | null;
+  } | null;
 
   constructor(user) {
     this.id = user.uid;
