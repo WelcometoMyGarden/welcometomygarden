@@ -19,7 +19,11 @@
     if (mode === 'resetPassword') {
       try {
         const email = await verifyPasswordResetCode(oobCode);
-        goto(routes.RESET_PASSWORD, { email, oobCode });
+        let query = new URLSearchParams();
+        query.set('mode', mode);
+        query.set('oobCode', oobCode);
+        query.set('email', email);
+        goto(routes.RESET_PASSWORD + `?${query.toString()}`);
       } catch (ex) {
         notify.danger($_('auth.password.expired'), 15000);
         goto(routes.REQUEST_PASSWORD_RESET);
