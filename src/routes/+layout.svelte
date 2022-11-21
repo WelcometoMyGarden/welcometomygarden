@@ -75,9 +75,6 @@
     vh = `${window.innerHeight * 0.01}px`;
   };
 
-  user.subscribe((u) => {
-    console.log('user', u);
-  });
 </script>
 
 <svelte:window on:resize={updateViewportHeight} />
