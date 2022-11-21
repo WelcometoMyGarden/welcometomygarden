@@ -8,7 +8,7 @@
   import isActive from '@/lib/util/isActive';
 
   $: firstName = $user ? $user.firstName : '';
-  $: console.log($page);
+  // TODO: fix isActive with $page
 </script>
 
 <nav>
