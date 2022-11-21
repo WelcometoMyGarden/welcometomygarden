@@ -108,7 +108,8 @@
   }
 
   main {
-    min-height: calc(100% - var(--height-footer));
+    /* min-height: calc(100% - var(--height-footer)); */
+    min-height: calc(100vh - var(--height-nav) - var(--height-footer));
     width: 100%;
     overflow: hidden;
     max-width: 155rem;
