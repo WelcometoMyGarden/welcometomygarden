@@ -1,0 +1,2 @@
+navigation: underline and big WTMG words
+sign up: invoking cloud function
