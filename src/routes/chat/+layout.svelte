@@ -67,8 +67,9 @@
     }
   };
 
-  $: if (localPage.url.searchParams.get('with'))
+  $: if (localPage.url.searchParams.get('with')) {
     startChattingWith(localPage.url.searchParams.get('with'));
+  }
 
   const selectConversation = (id) => {
     if (!id) goto(getConvoRoute(newConversation.name, 'new'));

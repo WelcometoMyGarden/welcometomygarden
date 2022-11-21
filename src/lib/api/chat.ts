@@ -1,10 +1,9 @@
-import { USERS, CHATS, MESSAGES } from './collections';
-import { get } from 'svelte/store';
+import { CHATS, MESSAGES } from './collections';
 import { db } from './firebase';
 import { getPublicUserProfile } from './user';
-import { getUser, user } from '$lib/stores/auth';
+import { getUser } from '$lib/stores/auth';
 import { creatingNewChat, addChat, addMessage, hasInitialized } from '$lib/stores/chat';
-import { collection, query, where, getDocs, doc, setDoc, updateDoc, getDocFromCache, getDocFromServer, onSnapshot, addDoc, Timestamp } from 'firebase/firestore';
+import { collection, query, where, doc, updateDoc, onSnapshot, addDoc, Timestamp } from 'firebase/firestore';
 
 export const initiateChat = async (partnerUid: string) => {
   creatingNewChat.set(true);

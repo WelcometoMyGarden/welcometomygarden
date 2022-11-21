@@ -89,7 +89,7 @@
       try {
         const newChatId = await createChat(
           $user.id,
-          $page.params.id,
+          $page.url.searchParams.get('id'),
           normalizeWhiteSpace(typedMessage)
         );
         typedMessage = '';
