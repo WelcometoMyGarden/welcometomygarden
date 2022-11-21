@@ -1,6 +1,5 @@
 <script lang="ts">
   export let data;
-  console.log('+layout.svelte' + JSON.stringify(data));
 
   import '$lib/styles/reset.css';
   import '$lib/styles/global.css';
@@ -41,8 +40,6 @@
   let vh = `0px`;
 
   onMount(async () => {
-    console.log('onMount +layout.svelte');
-
     lang = getCookie('locale'); //en or nl or ...
     if (!lang && window.navigator.language)
       lang = window.navigator.language.split('-')[0].toLowerCase();
@@ -50,10 +47,7 @@
 
     init({ fallbackLocale: 'en', initialLocale: lang });
 
-    console.log('Initializing firebase');
     await initialize();
-    console.log('Firebase initialized');
-    console.log('Creating auth observer');
     if (!unsubscribeFromAuthObserver) unsubscribeFromAuthObserver = createAuthObserver();
 
     vh = `${window.innerHeight * 0.01}px`;
@@ -80,6 +74,10 @@
   const updateViewportHeight = () => {
     vh = `${window.innerHeight * 0.01}px`;
   };
+
+  user.subscribe((u) => {
+    console.log('user', u);
+  });
 </script>
 
 <svelte:window on:resize={updateViewportHeight} />
