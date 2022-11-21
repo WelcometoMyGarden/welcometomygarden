@@ -10,6 +10,7 @@
   import routes from '$lib/routes';
 
   const oobCode = $page.url.searchParams.get('oobCode');
+  const email = $page.url.searchParams.get('email');
 
   let password = {};
 
@@ -20,7 +21,7 @@
       await confirmPasswordReset(oobCode, password.value);
 
       // if password reset was successful, sign user in:
-      await login($params.email, password.value);
+      await login(email, password.value);
 
       notify.success($_('reset-password.succes'));
       goto(routes.MAP);
@@ -50,7 +51,6 @@
       autocomplete="new-password"
       bind:value={password.value}
     />
-
     <Button type="submit" medium>{$_('reset-password.update')}</Button>
   </form>
 </AuthContainer>
