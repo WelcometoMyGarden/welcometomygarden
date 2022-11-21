@@ -3,9 +3,9 @@
   import { user } from '@/lib/stores/auth';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
+  import routes from '$lib/routes';
   import notify from '$lib/stores/notification';
   import { verifyPasswordResetCode, applyActionCode } from '@/lib/api/auth';
-  import routes from '$lib/routes';
 
   const mode = $page.url.searchParams.get('mode');
   const oobCode = $page.url.searchParams.get('oobCode');
