@@ -35,6 +35,7 @@ exports.createUser = async (data, context) => {
 
     const normalizeName = (name) => {
       const normalized = name.trim().toLowerCase();
+      // TODO remove diacritics
       return normalized.replace(/\b(\w)/g, (s) => s.toUpperCase());
     };
 
