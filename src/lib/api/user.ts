@@ -47,7 +47,6 @@ export const updateMailPreferences = async (preferenceName: string, preference: 
 
   await updateDoc(docRef, { [`emailPreferences.${preferenceName}`]: preference });
 
-  // TODO: check if this is necessary
-  //getUser().setEmailPreference(preferenceName, preference);
+  getUser().setEmailPreferences(preferenceName, preference);
   updatingMailPreferences.set(false);
 };
