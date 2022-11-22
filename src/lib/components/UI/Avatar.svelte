@@ -17,7 +17,7 @@
 </script>
 
 <div class="avatar" class:large style="--chat-color: {colorOf(name)}">
-  {name.charAt(0).toUpperCase()}
+  {name ? name.charAt(0).toUpperCase() : '...'}
 </div>
 
 <style>
