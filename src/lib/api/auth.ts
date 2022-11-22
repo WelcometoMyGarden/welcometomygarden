@@ -7,11 +7,10 @@ import {
   type Unsubscribe,
   confirmPasswordReset as firebaseConfirmPasswordReset
 } from 'firebase/auth';
-
 import { auth } from './firebase';
-import * as api from './functions';
 import { isLoggingIn, isRegistering, user, isInitializing } from '$lib/stores/auth';
 import User from '$lib/models/User';
+import { createUser, requestPasswordReset as reqPasswordReset, resendAccountVerification as resendAccVerif } from '@/lib/api/functions';
 
 const reloadUserInfo = async (): Promise<void> => {
   await auth.currentUser?.reload();
@@ -40,12 +39,8 @@ export const register = async ({
 }) => {
   isRegistering.set(true);
   const userCreds = await createUserWithEmailAndPassword(auth, email, password);
-  console.log('userCreds', userCreds);
-  // TODO: fix createUser cloud function
-  const createUserResult = await api.createUser({ firstName, lastName, countryCode });
-  console.log('createUserResult', createUserResult);
+  const createUserResult = await createUser({ firstName, lastName, countryCode });
   await reloadUserInfo();
-  console.log('created user after reload', get(user));
   isRegistering.set(false);
 };
 
@@ -57,7 +52,7 @@ export const logout = async () => {
   isInitializing.set(false);
 };
 
-export const requestPasswordReset = (email: string) => api.requestPasswordReset(email);
+export const requestPasswordReset = async (email: string) => await reqPasswordReset(email);
 
 export const createAuthObserver = (): Unsubscribe =>
   auth.onAuthStateChanged(async (userData) => {
@@ -66,10 +61,10 @@ export const createAuthObserver = (): Unsubscribe =>
     isInitializing.set(false);
   });
 
-export const resendAccountVerification = () => {
+export const resendAccountVerification = async () => {
   if (!get(user)) throw 'Please sign in first';
   if (get(user)?.emailVerified) throw 'Your email is already verified. Please refresh the page.';
-  return api.resendAccountVerification();
+  return await resendAccVerif();
 };
 
 export const verifyPasswordResetCode = (code: string) =>

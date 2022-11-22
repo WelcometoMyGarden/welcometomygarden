@@ -1,8 +1,15 @@
-import { functions } from './firebase';
-
+import { functions } from '@/lib/api/firebase';
 import { httpsCallable } from 'firebase/functions';
 
-// https://firebase.google.com/docs/functions/callable#call_the_function
-export const createUser = httpsCallable(functions, 'createUser');
-export const requestPasswordReset = httpsCallable(functions, 'requestPasswordReset');
-export const resendAccountVerification = httpsCallable(functions, 'resendAccountVerification');
+export const createUser = async ({ firstName, lastName, countryCode }: { firstName: string; lastName: string, countryCode: string }) => {
+  const createUserCallable = httpsCallable(functions, 'createUser');
+  return await createUserCallable({ firstName, lastName, countryCode });
+}
+export const requestPasswordReset = async (email: string) => {
+  const requestPasswordResetCallable = httpsCallable(functions, 'requestPasswordReset');
+  return await requestPasswordResetCallable(email);
+}
+export const resendAccountVerification = async () => {
+  const resendAccountVerificationCallable = httpsCallable(functions, 'resendAccountVerification');
+  return await resendAccountVerificationCallable();
+}
