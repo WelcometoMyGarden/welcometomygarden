@@ -4,6 +4,7 @@
   import '$lib/styles/reset.css';
   import '$lib/styles/global.css';
 
+  import { page } from '$app/stores';
   import { browser } from '$app/environment';
   import { onDestroy, onMount, tick } from 'svelte';
   import { isLoading as isLocaleLoading } from 'svelte-i18n';
@@ -34,8 +35,7 @@
 
   let lang;
 
-  // TODO: Fix this after builing the project works
-  // $: if ($params.confirmed) infoIsReady = false;
+  $: if ($page.url.searchParams.get('confirmed')) infoIsReady = false;
 
   let vh = `0px`;
 
@@ -74,7 +74,6 @@
   const updateViewportHeight = () => {
     vh = `${window.innerHeight * 0.01}px`;
   };
-
 </script>
 
 <svelte:window on:resize={updateViewportHeight} />
