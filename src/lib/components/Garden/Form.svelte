@@ -105,7 +105,6 @@
 
   const getExistingPhoto = () => {
     const id = garden && garden.previousPhotoId ? garden.previousPhotoId : $user.id;
-    console.log(id);
     return getGardenPhotoBig({ photo: existingPhoto, id });
   };
 
