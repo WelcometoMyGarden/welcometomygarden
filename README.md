@@ -13,7 +13,6 @@ Create a `.env` file and make sure it has the values specified in [`.env.example
 
 You will need a Mapbox access token if you'd like to work on features that concern the map.
 
-
 ## Usage
 From a terminal located at the project root, install project dependencies:
 
@@ -34,6 +33,11 @@ You can easily make an account and start translating in their web-environment - 
 
 [![Translation status](https://hosted.weblate.org/widgets/wtmg/-/multi-auto.svg)](https://hosted.weblate.org/engage/wtmg/)
 
+## Firebase API
+
+Welcome To My Garden is a project running on Firebase. The `/api` folder in this repository is a sub-project that contains the source code for the Firebase Cloud Functions used by this project.
+
+Some of the functions are only used by administrators, and are not used by the frontend client in this repository.
 
 ## License
 ![GitHub](https://img.shields.io/github/license/welcometomygarden/welcometomygarden?label=License)
