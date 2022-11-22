@@ -1,5 +1,5 @@
 <script>
-  import { _, locale } from 'svelte-i18n';
+  import { _ } from 'svelte-i18n';
   import routes from '$lib/routes';
   import { logout } from '@/lib/api/auth';
   import { user } from '@/lib/stores/auth';
@@ -10,8 +10,8 @@
   import { Icon } from '$lib/components/UI';
   import LanguageSelector from '$lib/components/LanguageSelector.svelte';
   import { SHOP_URL } from '$lib/constants';
-  import { page, navigating } from '$app/stores';
-  import isActive from '@/lib/util/isActive';
+  import { page } from '$app/stores';
+  import { isActive, isActiveContains } from '@/lib/util/isActive';
 
   let hamburger;
   let drawerIsShown = false;
@@ -40,14 +40,14 @@
       </a>
     </li>
     <li>
-      <a href={routes.MAP} class:active={isActive($page, routes.MAP)}>
+      <a href={routes.MAP} class:active={isActiveContains($page, routes.MAP)}>
         <Icon icon={mapIcon} />
         {$_('generics.map')}
       </a>
     </li>
     {#if $user}
       <li>
-        <a href={routes.CHAT} class:active={isActive($page, routes.CHAT)}>
+        <a href={routes.CHAT} class:active={isActiveContains($page, routes.CHAT)}>
           <Icon icon={chatIcon} />
           {$_('generics.chat')}
         </a>

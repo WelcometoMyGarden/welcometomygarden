@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import isActive from '@/lib/util/isActive';
+  import { isActive, isActiveContains } from '@/lib/util/isActive';
 
   export let href: string;
   // is this a little nasty? yes
@@ -11,8 +11,7 @@
 
 <a
   {href}
-  on:click
-  class:active={isHome ? isActive($page, '/') : isActive($page, href)}
+  class:active={isHome ? isActive($page, '/') : isActiveContains($page, href)}
   {target}
   on:click
 >
