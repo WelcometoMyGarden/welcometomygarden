@@ -6,7 +6,7 @@ import {
   verifyPasswordResetCode as firebaseVerifyPasswordResetCode,
   type Unsubscribe,
   confirmPasswordReset as firebaseConfirmPasswordReset
-} from '@firebase/auth';
+} from 'firebase/auth';
 
 import { auth } from './firebase';
 import * as api from './functions';
