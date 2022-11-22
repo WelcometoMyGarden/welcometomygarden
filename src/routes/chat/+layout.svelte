@@ -2,7 +2,7 @@
   import { _ } from 'svelte-i18n';
   import { fly } from 'svelte/transition';
   import { flip } from 'svelte/animate';
-  import { goto } from '$app/navigation';
+  import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
   import { user } from '@/lib/stores/auth';
   import notify from '$lib/stores/notification';

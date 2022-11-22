@@ -9,7 +9,7 @@
   import { TextInput, Button } from '$lib/components/UI';
   import { lockIcon, emailIcon } from '$lib/images/icons';
   import { SUPPORT_EMAIL } from '$lib/constants';
-  import { goto } from '$app/navigation';
+  import { goto } from '$lib/util/navigate';
 
 
   let email = {};

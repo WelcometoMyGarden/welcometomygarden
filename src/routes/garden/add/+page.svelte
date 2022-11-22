@@ -1,6 +1,6 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { goto } from '$app/navigation';
+  import { goto } from '$lib/util/navigate';
   import { addGardenLocally } from '$lib/stores/garden';
   import { user } from '@/lib/stores/auth';
   import notify from '$lib/stores/notification';

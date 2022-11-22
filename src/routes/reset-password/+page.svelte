@@ -1,6 +1,6 @@
 <script>
   import { _ } from 'svelte-i18n';
-  import { goto } from '$app/navigation';
+  import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
   import AuthContainer from '$lib/components/AuthContainer.svelte';
   import notify from '$lib/stores/notification';

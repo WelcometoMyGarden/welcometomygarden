@@ -1,7 +1,7 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { user } from '@/lib/stores/auth';
-  import { goto } from '$app/navigation';
+  import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
   import routes from '$lib/routes';
   import notify from '$lib/stores/notification';

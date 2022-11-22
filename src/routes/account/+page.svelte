@@ -1,7 +1,7 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
-  import { goto } from '$app/navigation';
+  import { goto } from '$lib/util/navigate';
   import notify from '$lib/stores/notification';
   import { updateMailPreferences } from '@/lib/api/user';
   import { resendAccountVerification } from '@/lib/api/auth';

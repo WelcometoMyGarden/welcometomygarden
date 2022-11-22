@@ -1,7 +1,7 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { onMount, onDestroy } from 'svelte';
-  import { goto } from '$app/navigation';
+  import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
   import { getAllListedGardens } from '$lib/api/garden';
   import { allGardens, isFetchingGardens } from '$lib/stores/garden';

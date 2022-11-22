@@ -2,7 +2,7 @@
   import { _ } from 'svelte-i18n';
   import { beforeUpdate, afterUpdate, onMount } from 'svelte';
   import { fade } from 'svelte/transition';
-  import { goto } from '$app/navigation';
+  import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
   import { observeMessagesForChat, create as createChat, sendMessage } from '$lib/api/chat';
   import { hasGarden } from '$lib/api/garden';
