@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import { goto } from '$lib/util/navigate';
