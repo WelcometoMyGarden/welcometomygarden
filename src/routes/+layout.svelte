@@ -4,12 +4,11 @@
   import '$lib/styles/reset.css';
   import '$lib/styles/global.css';
 
-  import { page } from '$app/stores';
   import { browser } from '$app/environment';
-  import { onDestroy, onMount, tick } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
   import { isLoading as isLocaleLoading } from 'svelte-i18n';
   import { createAuthObserver } from '@/lib/api/auth';
-  import { setAllUserInfo } from '@/lib/api/user';
+  import { doesPublicUserExist, setAllUserInfo } from '@/lib/api/user';
   import { createChatObserver } from '$lib/api/chat';
   import { user, isInitializing } from '@/lib/stores/auth';
   import { Progress, Notifications } from '$lib/components/UI';
@@ -51,7 +50,13 @@
     vh = `${window.innerHeight * 0.01}px`;
   });
 
+  $: if ($user) {
+    addUserInformation().finally(() => (infoIsReady = true));
+  } else if (!$isInitializing) infoIsReady = true;
+
   const addUserInformation = async () => {
+    // If the user is registered with email and pwd AND it has a public doc THEN set all the user information
+    if (!($user && $user.id && (await doesPublicUserExist($user.id)))) return;
     try {
       await setAllUserInfo();
     } catch (ex) {
@@ -59,10 +64,6 @@
     }
     if ($user?.emailVerified) unsubscribeFromChatObserver = await createChatObserver();
   };
-
-  $: if ($user) {
-    addUserInformation().then(() => (infoIsReady = true));
-  } else if (!$isInitializing) infoIsReady = true;
 
   onDestroy(() => {
     if (unsubscribeFromChatObserver) unsubscribeFromChatObserver();
