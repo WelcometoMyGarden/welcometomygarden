@@ -12,7 +12,7 @@ export class User {
     newChat?: boolean;
     news?: boolean;
   }
-  consendedAt?: {
+  consentedAt?: {
     seconds: number | null;
     nanoseconds: number | null;
   } | null;
