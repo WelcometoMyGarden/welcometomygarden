@@ -45,7 +45,6 @@
     if (!$user) {
       return goto(routes.SIGN_IN);
     } else if (!$user.emailVerified) {
-      console.log('User is not verified', localPage.url);
       notify.warning($_('chat.notify.unverified'), 10000);
       return goto(routes.ACCOUNT);
     }
