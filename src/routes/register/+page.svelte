@@ -151,7 +151,7 @@
     </div>
 
     <div>
-      <label for="email">{$_('generics.email')}l</label>
+      <label for="email">{$_('generics.email')}</label>
       <TextInput
         icon={emailIcon}
         autocomplete="email"
