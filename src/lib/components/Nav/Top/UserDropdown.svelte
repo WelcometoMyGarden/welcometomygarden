@@ -1,5 +1,5 @@
-<script>
-  export let name;
+<script type="ts">
+  export let name: string;
 
   import { _ } from 'svelte-i18n';
   import { slide } from 'svelte/transition';
@@ -47,7 +47,8 @@
             toggleOpen();
             await logout();
             window.location = '/';
-          }}>
+          }}
+        >
           <i>
             {@html signOutIcon}
           </i>
