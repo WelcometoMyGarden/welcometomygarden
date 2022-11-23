@@ -4,9 +4,8 @@
   import '$lib/styles/reset.css';
   import '$lib/styles/global.css';
 
-  import { page } from '$app/stores';
   import { browser } from '$app/environment';
-  import { onDestroy, onMount, tick } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
   import { isLoading as isLocaleLoading } from 'svelte-i18n';
   import { createAuthObserver } from '@/lib/api/auth';
   import { setAllUserInfo } from '@/lib/api/user';
