@@ -34,14 +34,15 @@
       try {
         await applyActionCode(oobCode);
         notify.success($_('auth.verification.succes'), 8000);
-        goto(`${routes.ACCOUNT}?confirmed=true`);
+        return goto(`${routes.MAP}`);
       } catch (ex) {
         if ($user && $user.emailVerified) {
           notify.success($_('auth.verification.refresh'), 12000);
-          goto(routes.ACCOUNT);
+          return goto(routes.ACCOUNT);
         } else {
+          console.error(ex);
           notify.danger($_('auth.verification.expired'), 15000);
-          goto(routes.ACCOUNT);
+          return goto(routes.ACCOUNT);
         }
       }
     }
