@@ -35,8 +35,6 @@
 
   let lang;
 
-  $: if ($page.url.searchParams.get('confirmed')) infoIsReady = false;
-
   let vh = `0px`;
 
   onMount(async () => {
