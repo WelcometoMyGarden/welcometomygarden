@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { _ } from 'svelte-i18n';
   import { fly } from 'svelte/transition';
   import { flip } from 'svelte/animate';
@@ -12,31 +12,17 @@
   import ConversationCard from '$lib/components/Chat/ConversationCard.svelte';
   import { Progress } from '$lib/components/UI';
   import { removeDiacritics } from '$lib/util';
+  import { onMount } from 'svelte';
 
   let localPage = $page;
   // Subscribe to page is necessary to render the chat page of the selected chat (when the url changes) for mobile
   page.subscribe((currentPage) => (localPage = currentPage));
 
-  if (!$user) {
-    goto(routes.SIGN_IN);
-  } else if (!$user.emailVerified) {
-    notify.warning($_('chat.notify.unverified'), 10000);
-    goto(routes.ACCOUNT);
-  }
-
-  const sortByLastActivity = (c1, c2) => c2.lastActivity - c1.lastActivity;
-
   $: selectedConversation = $chats[localPage.params.chatId];
+
   $: conversations = Object.keys($chats)
     .map((id) => $chats[id])
     .sort(sortByLastActivity);
-
-  const normalizeName = (name) => {
-    const parts = name.split(/[^A-Za-z-]/);
-    return removeDiacritics(parts[0]).toLowerCase();
-  };
-
-  const getConvoRoute = (name, id) => `${routes.CHAT}/${normalizeName(name)}/${id}`;
 
   let newConversation;
 
@@ -48,6 +34,37 @@
   ) {
     newConversation = null;
   }
+
+  $: isOverview = localPage.url.pathname == '/chat';
+
+  let outerWidth;
+  let isMobile = false;
+  $: outerWidth <= 700 ? (isMobile = true) : (isMobile = false);
+
+  onMount(() => {
+    if (!$user) {
+      return goto(routes.SIGN_IN);
+    } else if (!$user.emailVerified) {
+      console.log('User is not verified', localPage.url);
+      notify.warning($_('chat.notify.unverified'), 10000);
+      return goto(routes.ACCOUNT);
+    }
+
+    if (localPage.url.searchParams.get('with')) {
+      startChattingWith(localPage.url.searchParams.get('with'));
+    }
+  });
+
+  // Functions
+  const sortByLastActivity = (c1, c2) => c2.lastActivity - c1.lastActivity;
+
+  const getConvoRoute = (name, id) => `${routes.CHAT}/${normalizeName(name)}/${id}`;
+
+  const normalizeName = (name: string) => {
+    const parts = name.split(/[^A-Za-z-]/);
+    return removeDiacritics(parts[0]).toLowerCase();
+  };
+
   const startChattingWith = async (partnerId) => {
     if ($chats) {
       const activeChatWithUser = getChatForUser(partnerId);
@@ -67,21 +84,11 @@
     }
   };
 
-  $: if (localPage.url.searchParams.get('with')) {
-    startChattingWith(localPage.url.searchParams.get('with'));
-  }
-
   const selectConversation = (id) => {
     if (!id) goto(getConvoRoute(newConversation.name, 'new'));
     const name = $chats[id] ? $chats[id].partner.firstName.toLowerCase() : newConversation.name;
     goto(getConvoRoute(name, id));
   };
-
-  $: isOverview = localPage.url.pathname == '/chat';
-
-  let outerWidth;
-  let isMobile = false;
-  $: outerWidth <= 700 ? (isMobile = true) : (isMobile = false);
 </script>
 
 <svelte:window bind:outerWidth />
