@@ -34,7 +34,7 @@
         >{$_('generics.slowby')}</NavLink
       >
     </li>
-    {#if $user}
+    {#if firstName}
       <UserDropdown name={firstName || ''} />
     {:else}
       <li>

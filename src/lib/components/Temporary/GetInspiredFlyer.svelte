@@ -62,7 +62,7 @@
     </div>
   </div>
   <figure class="right get-inspired-img">
-    <img src="/images/mapwithperson.png" alt="person with map" />
+    <img src="/images/workshops/mapwithperson.png" alt="person with map" />
   </figure>
 </div>
 

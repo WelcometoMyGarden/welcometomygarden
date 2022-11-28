@@ -7,6 +7,11 @@ import { getUser } from '@/lib/stores/auth';
 import { gettingPrivateUserProfile, updatingMailPreferences } from '@/lib/stores/user';
 import type { Garden } from '@/lib/types/Garden';
 
+export const doesPublicUserExist = async (uid: string) => {
+  const userDoc = await getDoc(doc(db, USERS, uid));
+  return userDoc.exists();
+};
+
 export const getPublicUserProfile = async (uid: string) => {
   const docRef = doc(db(), USERS, uid);
   const docSnap = await getDoc(docRef);
@@ -35,10 +40,10 @@ const setCampsiteInformation = async () => {
 };
 
 export const setAllUserInfo = async () => {
-  await setCampsiteInformation();
   const info = await getPublicUserProfile(getUser().id);
   getUser().addFields(info);
   await getPrivateUserProfile();
+  await setCampsiteInformation();
 };
 
 export const updateMailPreferences = async (preferenceName: string, preference: boolean) => {

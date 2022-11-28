@@ -1,17 +1,17 @@
-<script>
+<script lang="ts">
   export let name = '';
   export let large = false;
 
   const colors = ['#EC9570', '#F6C4B7', '#F4E27E', '#59C29D', '#A2D0D3', '#2E5F63'];
 
-  const getHashCode = (str) => {
+  const getHashCode = (str: string) => {
     let h;
     // don't worry about it
     for (let i = 0; i < str.length; i++) h = (Math.imul(31, h) + str.charCodeAt(i)) | 0;
     return h;
   };
 
-  const colorOf = (value) => {
+  const colorOf = (value: string) => {
     return colors[Math.abs(getHashCode(value) % colors.length)];
   };
 </script>
