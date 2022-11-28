@@ -1,7 +1,7 @@
-<script>
-  export let name;
-  export let icon = null;
-  export let label;
+<script lang="ts">
+  export let name: string;
+  export let icon: null | string = null;
+  export let label: string;
   export let checked = false;
   export let disabled = false;
 
