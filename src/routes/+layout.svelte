@@ -1,4 +1,7 @@
 <script lang="ts">
+  // SvelteKit uses this export to load data into this layout.
+  // https://kit.svelte.dev/docs/load#layout-data
+  // svelte-ignore unused-export-let
   export let data;
 
   import '$lib/styles/reset.css';

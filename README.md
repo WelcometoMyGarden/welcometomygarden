@@ -26,6 +26,16 @@ Start the project in development mode
 yarn run dev
 ```
 
+## Testing
+
+[Playwright](https://playwright.dev/) is set up for e2e testing.
+
+After running `yarn install`, also install the testing browsers:
+
+```
+npx playwright install
+```
+
 ## Translations
 
 The website is translated through [Hosted Weblate](https://hosted.weblate.org/projects/wtmg/).
@@ -33,9 +43,15 @@ You can easily make an account and start translating in their web-environment - 
 
 [![Translation status](https://hosted.weblate.org/widgets/wtmg/-/multi-auto.svg)](https://hosted.weblate.org/engage/wtmg/)
 
-## Firebase API
+## Firebase
 
-Welcome To My Garden is a project running on Firebase. The `/api` folder in this repository is a sub-project that contains the source code for the Firebase Cloud Functions used by this project.
+Welcome To My Garden is a project running on Firebase, which is configured with `/.firebaserc`.
+
+Follow Firebase documentation to [manage, test and deploy Firestore security rules](https://firebase.google.com/docs/rules/manage-deploy]).
+
+### API
+
+The `/api` folder in this repository is a sub-project that contains the source code for the Firebase Cloud Functions used by this project.
 
 Some of the functions are only used by administrators, and are not used by the frontend client in this repository.
 

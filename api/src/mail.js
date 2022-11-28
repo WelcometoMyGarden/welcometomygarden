@@ -86,7 +86,9 @@ exports.exportNewsletterEmails = async (_, context) => {
     if (user.emailPreferences.news) ids.push({ uid: u.id });
   });
 
-  // Firebase has a limit on how many ids you can pass to getUsers at once, so we chunk operations
+  // Firebase has a limit on how many ids you can pass to getUsers at once, so we chunk operations.
+  // The limit is 100 identifiers per getUsers request.
+  // https://firebase.google.com/docs/auth/admin/manage-users#bulk_retrieve_user_data
   const queue = [];
   const chunks = spliceIntoChunks(ids, 90);
   chunks.forEach((chunk) => {

@@ -56,8 +56,7 @@
 </AuthContainer>
 
 <style>
-  label,
-  button {
+  label {
     display: block;
   }
 </style>

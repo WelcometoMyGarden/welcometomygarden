@@ -30,7 +30,7 @@
             {@html $_(`${clustersKey}.${clusterKey}.questions.${questionKey}.copy`, {
               values: {
                 support: supportEmailLinkString,
-                donationLink: `<a href="${DONATION_URL}" target="_blank"  rel="noreferrer"  rel="noopener noreferrer" class="link">
+                donationLink: `<a href="${DONATION_URL}" target="_blank"  rel="noopener noreferrer" class="link">
                   ${$_('faq.donation')}</a>`,
                 chatLink: `<a href="${routes.CHAT}" target="_blank"  rel="noreferrer"  class="link lowercase">
                   ${$_('generics.chat')}</a>`,
