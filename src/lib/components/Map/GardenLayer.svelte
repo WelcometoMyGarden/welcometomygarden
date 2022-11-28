@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   export let allGardens;
   export let selectedGardenId;
 
@@ -9,6 +9,8 @@
   const map = getMap();
 
   const dispatch = createEventDispatcher();
+
+  let mapReady = false;
 
   const getData = () => ({
     type: 'FeatureCollection',
@@ -41,12 +43,13 @@
       await Promise.all(
         images.map((img) =>
           new Promise((resolve) => {
-            map.loadImage(img.url, (error, res) => {
+            map.loadImage(img.url, (err, res) => {
               if (!map.hasImage(img.id)) map.addImage(img.id, res);
-              resolve();
+              resolve(true);
             });
-          }).catch(() => {
+          }).catch((err) => {
             // should not error in prod
+            console.log(err);
           })
         )
       );
@@ -136,14 +139,14 @@
       map.on('mouseleave', 'clusters', () => {
         map.getCanvas().style.cursor = '';
       });
-    } catch (error) {
+    } catch (err) {
       // should not error in prod
+      console.log(err);
     } finally {
       mapReady = true;
     }
   };
 
-  let mapReady = false;
   const updateSelectedMarker = () => {
     const data = getData();
     map.getSource('gardens').setData(data);

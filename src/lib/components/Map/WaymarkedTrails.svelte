@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   export let showHiking = false;
   export let showCycling = true;
 
@@ -8,13 +8,13 @@
   const { getMap } = getContext(key);
   const map = getMap();
 
-  const getVisibilityProperty = (visibility) => (visibility ? 'visible' : 'none');
+  const getVisibilityProperty = (visibility: boolean) => (visibility ? 'visible' : 'none');
 
-  const toggleHikingVisibility = (visible) => {
+  const toggleHikingVisibility = (visible: boolean) => {
     map.setLayoutProperty('hiking-trails', 'visibility', getVisibilityProperty(visible));
   };
 
-  const toggleCyclingVisibility = (visible) => {
+  const toggleCyclingVisibility = (visible: boolean) => {
     map.setLayoutProperty('cycling-trails', 'visibility', getVisibilityProperty(visible));
   };
 
@@ -52,8 +52,9 @@
           visibility: getVisibilityProperty(showCycling)
         }
       });
-    } catch (error) {
+    } catch (err) {
       // should not error in prod
+      console.log(err);
     } finally {
       toggleable = true;
     }
