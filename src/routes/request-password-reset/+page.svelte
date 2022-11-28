@@ -1,18 +1,22 @@
-<script>
+<script lang="ts">
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import AuthContainer from '$lib/components/AuthContainer.svelte';
   import { TextInput, Progress, Button } from '$lib/components/UI';
   import { emailIcon } from '$lib/images/icons';
-  import { requestPasswordReset } from '@/lib/api/auth';
+  import { requestPasswordReset } from '@/lib/api/functions';
   import { SUPPORT_EMAIL } from '$lib/constants';
+  import { FIREBASE_WARNING } from '@/lib/api/firebase';
 
-  let email = {};
+  let email: {value?: string} = {};
   let done = false;
   let isSending = false;
   const submit = async () => {
     isSending = true;
     try {
+      if (!requestPasswordReset) {
+        throw new Error(FIREBASE_WARNING.functions)
+      }
       await requestPasswordReset(email.value);
       done = true;
       isSending = false;
