@@ -26,7 +26,13 @@ export const FIREBASE_WARNING: FirestoreWarning =
   ['app', 'firestore', 'auth', 'storage', 'functions']
     .reduce((warningsObj, service) => ({ ...warningsObj, [service]: messageFor(service) }), {}) as FirestoreWarning
 
-const guardNull = <T>(accessRef: () => T | null, type: keyof FirestoreWarning): (() => T) => {
+/**
+ * Helper function to provide access to a Firebase service with strong TypeScript typing.
+ * @param accessRef an accessor function for the Firebase service.
+ *        Should return null if the service is not yet initialized.
+ * @throws in case the service is called when it is not yet initiazed.
+ */
+export const guardNull = <T>(accessRef: () => T | null, type: keyof FirestoreWarning): (() => T) => {
   return () => {
     const ref = accessRef();
     if (ref) {
@@ -63,7 +69,6 @@ export async function initialize(): Promise<void> {
     console.log('Firebase app already initialized');
     return;
   }
-  console.log("FB initialized")
   appRef = initializeApp(FIREBASE_CONFIG);
   dbRef = getFirestore(appRef);
   authRef = getAuth(appRef);

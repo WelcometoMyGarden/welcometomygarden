@@ -3,7 +3,7 @@ import { CAMPSITES } from './collections';
 import { collection, query, where, getDocs, doc, setDoc, updateDoc, getDocFromCache, getDocFromServer } from 'firebase/firestore';
 import { getUser } from '@/lib/stores/auth';
 import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '@/lib/stores/garden';
-import { db, FIREBASE_WARNING, storage } from './firebase';
+import { db, storage } from './firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import type { Garden, GardenFacilities } from '@/lib/types/Garden';
 

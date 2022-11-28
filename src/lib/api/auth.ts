@@ -7,7 +7,7 @@ import {
   type Unsubscribe,
   confirmPasswordReset as firebaseConfirmPasswordReset
 } from 'firebase/auth';
-import { auth, FIREBASE_WARNING } from './firebase';
+import { auth } from './firebase';
 import { isLoggingIn, isRegistering, user, isInitializing } from '$lib/stores/auth';
 import User from '$lib/models/User';
 import { createUser, resendAccountVerification as resendAccVerif } from '@/lib/api/functions';
@@ -38,9 +38,6 @@ export const register = async ({
   countryCode: string;
 }) => {
   isRegistering.set(true);
-  if (!createUser) {
-    throw new Error(FIREBASE_WARNING.functions)
-  }
   await createUserWithEmailAndPassword(auth(), email, password);
   await createUser({ firstName, lastName, countryCode });
   await reloadUserInfo();
@@ -64,9 +61,6 @@ export const createAuthObserver = (): Unsubscribe => {
 }
 
 export const resendAccountVerification = async () => {
-  if (!resendAccVerif) {
-    throw new Error(FIREBASE_WARNING.functions)
-  }
   if (!get(user)) throw 'Please sign in first';
   if (get(user)?.emailVerified) throw 'Your email is already verified. Please refresh the page.';
   return await resendAccVerif();
