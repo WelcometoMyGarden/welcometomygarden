@@ -1,0 +1,248 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /*
+     *  Generic functions
+     */
+
+    function isOwner(userId) {
+      return request.auth.uid == userId
+    }
+
+    function isVerified() {
+      return request.auth.token.email_verified;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+    	return request.auth.token.admin;
+    }
+
+    function requesterId() {
+      return request.auth.uid;
+    }
+
+    function existingData() {
+    	return resource.data
+    }
+
+    function incomingData() {
+    	return request.resource.data
+    }
+
+    function userExists(uid) {
+    	return exists(/databases/$(database)/documents/users/$(uid))
+    }
+
+    function requestHas(field) {
+      return field in request.resource.data;
+    }
+
+
+    function validateUserRequest(user) {
+      return isNonEmptyString(user.firstName);
+    }
+
+    function validateUserPrivateRequest(user) {
+     // return isNonEmptyString(user.lastName);
+     return true;
+    }
+
+    /*
+     * General validation functions
+     */
+
+	  function isNonEmptyString(str) {
+      return str is string &&
+             str.size() > 0
+    }
+
+
+
+    /*
+     * Public user collection
+     */
+
+
+    match /users/{userId} {
+      allow create: if false;
+      allow read;
+      allow update:
+        if isSignedIn() &&
+           validateUserRequest(request.resource.data) &&
+           isOwner(userId)
+    }
+
+    /*
+     * Private user collection
+     */
+
+    match /users-private/{userId} {
+      allow create: if false;
+      allow read: if isOwner(userId);
+      allow update:
+        if isSignedIn() &&
+           validateUserPrivateRequest(request.resource.data) &&
+           isOwner(userId)
+      allow delete:
+        if isSignedIn() &&
+           isOwner(userId)
+    }
+
+    /*
+     * Garden functions
+     */
+
+    function validateDescription(description) {
+      return description is string &&
+        		 description.size() >= 20 &&
+             description.size() <= 300
+    }
+
+    function validateContactLanguages(languages) {
+      /* TODO: verify firestore enum security rule? */
+      // return languages in ['Dutch', 'French', 'German', 'English']
+      return true;
+    }
+
+    function validateLocation(location) {
+      return location.keys().hasAll(['latitude', 'longitude']) && location.latitude is latlng && location.longitude is latlng
+    }
+
+  	function validateFacilities(facilities) {
+      return facilities.keys().hasAll([
+               'drinkableWater',
+               'water',
+               'electricity',
+               'tent',
+               'bonfire',
+               'toilet',
+               'capacity',
+               'shower'
+             ]) &&
+						 facilities.drinkableWater is bool &&
+             facilities.water is bool &&
+             facilities.electricity is bool &&
+             facilities.tent is bool &&
+             facilities.bonfire is bool &&
+             facilities.toilet is bool &&
+             facilities.capacity is number &&
+             facilities.shower is bool
+    }
+
+    function validatePhoto(photo) {
+      return photo is string
+    }
+
+
+    function validateGardenRequest(garden) {
+      //return garden.keys().hasAll([
+        //       'description',
+          //     'location',
+            //   'facilities'
+            // ]) &&
+            // validateDescription(garden.description) &&
+            //
+             //validateFacilities(garden.facilities) &&
+             // validatePhoto(garden.photo)
+  		return true;
+    }
+
+    /*
+     * Garden collection
+     */
+
+    match /campsites/{userId} {
+      allow read;
+      allow create:
+        if isSignedIn() &&
+           isVerified()
+      allow update:
+        if isSignedIn() &&
+  				 validateGardenRequest(request.resource.data) &&
+           isOwner(userId)
+      allow delete:
+        if isSignedIn() &&
+           isOwner(userId)
+    }
+
+
+
+    /*
+     * Chats
+     */
+
+    function getChatUsers(chatId) {
+    	return get(/databases/$(database)/documents/chats/$(chatId)).data.users;
+    }
+
+  	function canCreateChat() {
+    	return isSignedIn() && isVerified()
+      	&& incomingData().keys().hasOnly(['users', 'lastActivity', 'createdAt', 'lastMessage'])
+      	&& requesterId() in incomingData().users
+        && incomingData().users.size() == 2
+        && userExists(incomingData().users[0])
+        && userExists(incomingData().users[1])
+        && incomingData().users[0] != incomingData().users[1]
+    }
+
+  	function canReadChat() {
+    	return isSignedIn() && isVerified() && requesterId() in existingData().users;
+    }
+
+    function canUpdateChat() {
+    	return canReadChat()
+        && incomingData().keys().hasOnly(['users', 'lastActivity', 'createdAt', 'lastMessage'])
+        && requestHas('lastActivity')
+        && requestHas('lastMessage')
+        && incomingData().lastActivity is timestamp
+        && incomingData().lastMessage is string
+        && incomingData().lastMessage.size() >= 1
+        && incomingData().lastMessage.size() <= 500
+        && incomingData().createdAt == existingData().createdAt
+      	&& incomingData().users[0] == existingData().users[0]
+        && incomingData().users[1] == existingData().users[1]
+    }
+
+
+    function canReadMessage(chatId) {
+    	return isSignedIn() && isVerified() && requesterId() in getChatUsers(chatId);
+    }
+
+  	function canSendMessage(chatId) {
+    	return canReadMessage(chatId)
+      	&& incomingData().keys().hasOnly(['content', 'createdAt', 'from'])
+      	&& incomingData().content is string
+        && incomingData().content.size() >= 1
+      	&& incomingData().content.size() <= 500
+        && incomingData().createdAt is timestamp
+        && incomingData().from == requesterId()
+    }
+
+
+    match /chats/{chatId} {
+    	allow create: if canCreateChat();
+			allow read: if canReadChat();
+      allow update: if canUpdateChat();
+      allow delete: if false;
+      match /messages/{messageId} {
+        allow read: if canReadMessage(chatId);
+        allow create: if canSendMessage(chatId);
+        allow update, delete: if false;
+      }
+    }
+
+  	match /tmp-users/{userId} {
+			allow read, write: if false
+    }
+
+    match /stats/{type} {
+    	allow read: if isSignedIn() && isAdmin();
+    	allow write: if false;
+   	}
+  }
+}
