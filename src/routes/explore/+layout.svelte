@@ -155,30 +155,6 @@
     top: calc(var(--height-nav) + 0.5rem);
   }
 
-  .trails {
-    background-color: rgba(255, 255, 255, 0.8);
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    width: 26rem;
-    height: 9rem;
-    padding: 1rem;
-  }
-
-  .map-section :global(.mapboxgl-ctrl-bottom-left) {
-    bottom: 9rem;
-  }
-
-  .attribution {
-    font-size: 1.2rem;
-    margin-top: 1rem;
-    display: inline-block;
-  }
-
-  .attribution :global(a) {
-    text-decoration: underline;
-  }
-
   .vehicle-notice-wrapper {
     width: 45rem;
     height: 30rem;

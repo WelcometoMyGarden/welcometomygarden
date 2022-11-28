@@ -33,13 +33,20 @@
 </div>
 
 <style>
+  :root {
+    --layers-and-tools-height: 9rem;
+  }
+  /* The bottom left mapbox controls should be above the layersAndTools component */
+  :global(.mapboxgl-ctrl-bottom-left) {
+    bottom: var(--layers-and-tools-height);
+  }
   .layers-and-tools {
     background-color: rgba(255, 255, 255, 0.8);
     bottom: 0;
     left: 0;
     position: absolute;
     width: 26rem;
-    height: 9rem;
+    height: var(--layers-and-tools-height);
     padding: 1rem;
   }
 
