@@ -27,5 +27,9 @@
       "enabled": true,
       "port": 4001
     }
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   }
 }

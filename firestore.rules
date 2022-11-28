@@ -1,0 +1,259 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /*
+     *  Generic functions
+     */
+
+    function isOwner(userId) {
+      return request.auth.uid == userId
+    }
+
+    function isVerified() {
+      return request.auth.token.email_verified;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+    	return request.auth.token.admin;
+    }
+
+    function requesterId() {
+      return request.auth.uid;
+    }
+
+    function existingData() {
+    	return resource.data
+    }
+
+    function incomingData() {
+    	return request.resource.data
+    }
+
+    function userExists(uid) {
+    	return exists(/databases/$(database)/documents/users/$(uid))
+    }
+
+    function requestHas(field) {
+      return field in request.resource.data;
+    }
+
+
+    /*
+     * General validation functions
+     */
+
+	  function isNonEmptyString(str) {
+      return str is string &&
+             str.size() > 0
+    }
+
+    function firstNameIsValid(name) {
+      return isNonEmptyString(name)
+      	&& name.size() <= 25;
+    }
+
+    function lastNameIsValid(name) {
+      return isNonEmptyString(name)
+      	&& name.size() <= 50;
+    }
+
+
+    /*
+     * Public user collection
+     */
+
+    match /users/{userId} {
+      allow create: if false;
+      allow read;
+      allow update: if isSignedIn()
+        && isOwner(userId)
+        && firstNameIsValid(incomingData().firstName)
+      allow delete: if false;
+    }
+
+    /*
+     * Private user collection
+     */
+
+    function emailPreferencesAreValid(data) {
+    	return data.keys().hasOnly(['newChat', 'news'])
+      	&& (!data.keys().hasAll(['newChat']) || data.newChat is bool)
+        && (!data.keys().hasAll(['news']) || data.news is bool)
+    }
+
+    function privateUserIsValid(user) {
+    	return user.keys().hasOnly(['emailPreferences', 'lastName'])
+      	&& (
+          !requestHas('emailPreferences') || emailPreferencesAreValid(user.emailPreferences)
+        )
+      	&& (!requestHas('lastName') || lastNameIsValid(user.lastName))
+    }
+
+    match /users-private/{userId} {
+      allow create: if false;
+      allow read: if isSignedIn() && isOwner(userId);
+      allow update:
+        if isSignedIn()
+        	&& isOwner(userId)
+          && privateUserIsValid(incomingData())
+      allow delete: if false;
+    }
+
+    /*
+     * Gardens
+     */
+
+    function descriptionIsValid(description) {
+      return description is string &&
+        		 description.size() >= 20 &&
+             description.size() <= 300
+    }
+
+    function allFacilities() {
+    	return ['drinkableWater', 'water', 'electricity', 'tent',
+               'bonfire', 'toilet', 'capacity', 'shower']
+    }
+
+  	function facilitiesAreValid(facilities) {
+      return facilities.keys().hasAll(allFacilities())
+      	&& facilities.keys().hasOnly(allFacilities())
+				&& facilities.drinkableWater is bool
+        && facilities.water is bool
+      	&& facilities.electricity is bool
+        && facilities.tent is bool
+        && facilities.bonfire is bool
+      	&& facilities.toilet is bool
+        && facilities.capacity is int
+        && facilities.capacity > 0 && facilities.capacity <= 20
+        && facilities.shower is bool
+    }
+
+    function locationIsValid(location) {
+      return location.keys().hasAll(['latitude', 'longitude'])
+       && location.keys().hasOnly(['latitude', 'longitude'])
+       && (location.latitude is int || location.latitude is float)
+       && (location.longitude is int || location.longitude is float)
+       && float(location.latitude) >= -90 && float(location.latitude) <= 90
+       && float(location.longitude) >= -180 && float(location.longitude) <= 180
+    }
+
+    function photoIsValid(photo) {
+      return ((photo is string && photo.size() < 200) || photo == null)
+    }
+
+    function campsiteExists(uid) {
+    	return exists(/databases/$(database)/documents/campsites/$(uid))
+    }
+
+    function campsiteFieldsAreValid() {
+    	return incomingData().keys().hasOnly([
+          'description', 'facilities', 'listed', 'id',
+          'location' ,'photo'
+      	])
+        && incomingData().keys().hasAll([
+          'description', 'facilities', 'location'
+      	])
+        && facilitiesAreValid(incomingData().facilities)
+        && locationIsValid(incomingData().location)
+        && descriptionIsValid(incomingData().description)
+        && (!requestHas('photo') || photoIsValid(incomingData().photo))
+        && (!requestHas('listed') || incomingData().listed is bool)
+    }
+
+    function canCreateCampsite() {
+    	return isSignedIn() && isVerified()
+      	 && !campsiteExists(requesterId())
+       	 && campsiteFieldsAreValid()
+    }
+
+    function canUpdateCampsite() {
+    	return isSignedIn() && isOwner(requesterId()) && campsiteFieldsAreValid()
+    }
+
+    match /campsites/{userId} {
+      allow read;
+      allow create: if canCreateCampsite();
+      allow update: if canUpdateCampsite();
+      allow delete: if isSignedIn() && isOwner(userId)
+    }
+
+
+    /*
+     * Chats
+     */
+
+    function getChatUsers(chatId) {
+    	return get(/databases/$(database)/documents/chats/$(chatId)).data.users;
+    }
+
+  	function canCreateChat() {
+    	return isSignedIn() && isVerified()
+      	&& incomingData().keys().hasOnly(['users', 'lastActivity', 'createdAt', 'lastMessage'])
+      	&& requesterId() in incomingData().users
+        && incomingData().users.size() == 2
+        && userExists(incomingData().users[0])
+        && userExists(incomingData().users[1])
+        && incomingData().users[0] != incomingData().users[1]
+    }
+
+  	function canReadChat() {
+    	return isSignedIn() && isVerified()
+    }
+
+    function canUpdateChat() {
+    	return canReadChat()
+        && incomingData().keys().hasOnly(['users', 'lastActivity', 'createdAt', 'lastMessage'])
+        && requestHas('lastActivity')
+        && requestHas('lastMessage')
+        && incomingData().lastActivity is timestamp
+        && incomingData().lastMessage is string
+        && incomingData().lastMessage.size() >= 1
+        && incomingData().lastMessage.size() <= 500
+        && incomingData().createdAt == existingData().createdAt
+      	&& incomingData().users[0] == existingData().users[0]
+        && incomingData().users[1] == existingData().users[1]
+    }
+
+    function canReadMessage(chatId) {
+    	return isSignedIn() && isVerified() && requesterId() in getChatUsers(chatId);
+    }
+
+  	function canSendMessage(chatId) {
+    	return canReadMessage(chatId)
+      	&& incomingData().keys().hasOnly(['content', 'createdAt', 'from'])
+      	&& incomingData().content is string
+        && incomingData().content.size() >= 1
+      	&& incomingData().content.size() <= 500
+        && incomingData().createdAt is timestamp
+        && incomingData().from == requesterId()
+    }
+
+
+    match /chats/{chatId} {
+    	allow create: if canCreateChat();
+			allow read: if canReadChat();
+      allow update: if canUpdateChat();
+      allow delete: if false;
+      match /messages/{messageId} {
+        allow read: if canReadMessage(chatId);
+        allow create: if canSendMessage(chatId);
+        allow update, delete: if false;
+      }
+    }
+
+    match /reports/{reportId} {
+			allow read;
+      allow write;
+    }
+
+  	match /stats/{type} {
+			allow read: if isSignedIn() && isAdmin();
+      allow write: if false;
+    }
+  }
+}
