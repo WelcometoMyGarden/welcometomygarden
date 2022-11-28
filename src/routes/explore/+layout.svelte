@@ -16,6 +16,7 @@
   import { getCookie, setCookie } from '$lib/util';
   import { crossIcon, cyclistIcon, hikerIcon } from '$lib/images/icons';
   import { ZOOM_LEVELS } from '$lib/constants';
+  import LayersAndTools from '@/lib/components/Map/LayersAndTools.svelte';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let geolocationIsLoaded = false;
@@ -136,31 +137,7 @@
       </div>
     {/if}
   </Map>
-  <div class="trails">
-    <div>
-      <LabeledCheckbox
-        name="hiking"
-        icon={hikerIcon}
-        label={$_('map.trails.hiking')}
-        bind:checked={showHiking}
-      />
-    </div>
-    <div>
-      <LabeledCheckbox
-        name="cycling"
-        icon={cyclistIcon}
-        label={$_('map.trails.cycling')}
-        bind:checked={showCycling}
-      />
-    </div>
-    <span class="attribution">
-      {@html $_('map.trails.attribution', {
-        values: {
-          link: `<a href="https://waymarkedtrails.org/" target="_blank"  rel="noreferrer" >Waymarked Trails</a>`
-        }
-      })}
-    </span>
-  </div>
+  <LayersAndTools bind:showHiking bind:showCycling />
 
   <Filter on:goToPlace={goToPlace} bind:filteredGardens {fallbackLocation} />
 </div>
