@@ -8,7 +8,7 @@ import { gettingPrivateUserProfile, updatingMailPreferences } from '@/lib/stores
 import type { Garden } from '@/lib/types/Garden';
 
 export const doesPublicUserExist = async (uid: string) => {
-  const userDoc = await getDoc(doc(db, USERS, uid));
+  const userDoc = await getDoc(doc(db(), USERS, uid));
   return userDoc.exists();
 };
 

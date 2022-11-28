@@ -6,7 +6,6 @@
   import { emailIcon } from '$lib/images/icons';
   import { requestPasswordReset } from '@/lib/api/functions';
   import { SUPPORT_EMAIL } from '$lib/constants';
-  import { FIREBASE_WARNING } from '@/lib/api/firebase';
 
   let email: {value?: string} = {};
   let done = false;
@@ -14,9 +13,6 @@
   const submit = async () => {
     isSending = true;
     try {
-      if (!requestPasswordReset) {
-        throw new Error(FIREBASE_WARNING.functions)
-      }
       await requestPasswordReset(email.value);
       done = true;
       isSending = false;
