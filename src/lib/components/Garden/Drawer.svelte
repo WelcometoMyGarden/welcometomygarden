@@ -96,23 +96,30 @@
 
     // See https://stackoverflow.com/a/60112649
     await tick();
-    photoWrapper?.focus()
-
+    photoWrapper?.focus();
   };
 
   const handleClickOutsideDrawer = (event) => {
     const { clickEvent } = event.detail;
-    // if closing maginified photo view, don't close drawer
-    if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) return;
-    // if showing/hiding trails, don't close drawer
+    // If the drawer is not open, don't try to close it
+    // (this might mess with focus elsewhere on the page)
+    if (!gardenIsSelected) {
+      return;
+    }
+    // If closing maginified photo view, don't close drawer
+    if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) {
+      return;
+    }
+    // If showing/hiding trails, don't close drawer
     else if (
       (clickEvent.target instanceof HTMLInputElement && clickEvent.target.type == 'checkbox') ||
       clickEvent.target.tagName == 'LABEL'
-    )
+    ) {
       return;
-    else if (!drawerElement.contains(clickEvent.target)) dispatch('close');
+    } else if (!drawerElement.contains(clickEvent.target)) {
+      dispatch('close');
+    }
   };
-
 </script>
 
 <Progress active={isGettingMagnifiedPhoto} />
@@ -128,15 +135,12 @@
       // keypress handler to satisfy svelte linter for a11y
       switch (e.key) {
         case 'Enter':
-          // Don't do anything: the on:click will also be called when Enter is pressed
+        // Don't do anything: the on:click will also be called when Enter is pressed
       }
     }}
   >
     <div class="magnified-photo">
-      <img
-        alt={$_('generics.garden')}
-        src={biggerPhotoUrl}
-      />
+      <img alt={$_('generics.garden')} src={biggerPhotoUrl} />
     </div>
   </button>
 {/if}
