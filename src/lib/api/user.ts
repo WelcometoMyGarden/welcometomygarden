@@ -8,7 +8,7 @@ import { gettingPrivateUserProfile, updatingMailPreferences } from '@/lib/stores
 import type { Garden } from '@/lib/types/Garden';
 
 export const getPublicUserProfile = async (uid: string) => {
-  const docRef = doc(db, USERS, uid);
+  const docRef = doc(db(), USERS, uid);
   const docSnap = await getDoc(docRef);
 
   if (!docSnap.exists()) throw new Error('This person does not have an account.');;
@@ -18,7 +18,7 @@ export const getPublicUserProfile = async (uid: string) => {
 const getPrivateUserProfile = async () => {
   gettingPrivateUserProfile.set(true);
 
-  const docRef = doc(db, USERS_PRIVATE, getUser().id);
+  const docRef = doc(db(), USERS_PRIVATE, getUser().id);
 
   const profile = await getDoc(docRef);
   getUser().setPrivateInformation(profile.data());
@@ -27,7 +27,7 @@ const getPrivateUserProfile = async () => {
 };
 
 const setCampsiteInformation = async () => {
-  const docRef = doc(db, CAMPSITES, getUser().id);
+  const docRef = doc(db(), CAMPSITES, getUser().id);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) getUser().setGarden(<Garden>docSnap.data());
@@ -43,7 +43,7 @@ export const setAllUserInfo = async () => {
 
 export const updateMailPreferences = async (preferenceName: string, preference: boolean) => {
   updatingMailPreferences.set(true);
-  const docRef = doc(db, USERS_PRIVATE, getUser().id);
+  const docRef = doc(db(), USERS_PRIVATE, getUser().id);
 
   await updateDoc(docRef, { [`emailPreferences.${preferenceName}`]: preference });
 

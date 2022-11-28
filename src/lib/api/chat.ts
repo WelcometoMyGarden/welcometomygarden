@@ -14,9 +14,8 @@ export const initiateChat = async (partnerUid: string) => {
 
 export const createChatObserver = async () => {
   const currentUser = getUser();
-  if (!currentUser.id) throw new Error('User is not logged in.');
 
-  const q = query(collection(db, CHATS), where('users', 'array-contains', currentUser.id));
+  const q = query(collection(db(), CHATS), where('users', 'array-contains', currentUser.id));
 
   return onSnapshot(q, async (querySnapshot) => {
     const changes = querySnapshot.docChanges();
@@ -36,12 +35,13 @@ export const createChatObserver = async () => {
   },
     (err) => {
       hasInitialized.set(true);
-      throw new Error(err);
+      console.error(err)
+      throw err;
     });
 };
 
 export const observeMessagesForChat = (chatId: string) => {
-  const chatRef = doc(db, CHATS, chatId);
+  const chatRef = doc(db(), CHATS, chatId);
   const chatMessagesCollection = collection(chatRef, MESSAGES);
 
   return onSnapshot(chatMessagesCollection,
@@ -52,12 +52,13 @@ export const observeMessagesForChat = (chatId: string) => {
       });
     },
     (err) => {
-      throw new Error(err);
-    });
+      console.error(err)
+      throw err;
+    })
 };
 
 export const sendMessage = async (chatId: string, message: string) => {
-  const chatRef = doc(db, CHATS, chatId);
+  const chatRef = doc(db(), CHATS, chatId);
   const chatMessagesCollection = collection(chatRef, MESSAGES);
 
   await addDoc(chatMessagesCollection, {
@@ -73,7 +74,7 @@ export const sendMessage = async (chatId: string, message: string) => {
 };
 
 export const create = async (uid1: string, uid2: string, message: string) => {
-  const chatCollection = collection(db, CHATS)
+  const chatCollection = collection(db(), CHATS)
 
   const docRef = await addDoc(chatCollection, {
     users: [uid1, uid2],

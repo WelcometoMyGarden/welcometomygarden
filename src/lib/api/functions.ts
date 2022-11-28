@@ -1,15 +1,18 @@
-import { functions } from '@/lib/api/firebase';
-import { httpsCallable } from 'firebase/functions';
+import { httpsCallable, type Functions, type HttpsCallable } from 'firebase/functions';
 
-export const createUser = async ({ firstName, lastName, countryCode }: { firstName: string; lastName: string, countryCode: string }) => {
-  const createUserCallable = httpsCallable(functions, 'createUser');
-  return await createUserCallable({ firstName, lastName, countryCode });
+// TS-TODO: type the function responses in this file
+
+type CreateUserRequest = { firstName: string; lastName: string, countryCode: string };
+type email = string;
+
+export let createUser: HttpsCallable<CreateUserRequest> | null = null;
+export let requestPasswordReset: HttpsCallable<email> | null = null;
+export let resendAccountVerification: HttpsCallable | null = null;
+
+export const initializeFunctions = (functions: Functions) => {
+  createUser = httpsCallable<CreateUserRequest>(functions, 'createUser');
+  requestPasswordReset = httpsCallable<email>(functions, 'requestPasswordReset');
+  resendAccountVerification = httpsCallable(functions, 'resendAccountVerification');
 }
-export const requestPasswordReset = async (email: string) => {
-  const requestPasswordResetCallable = httpsCallable(functions, 'requestPasswordReset');
-  return await requestPasswordResetCallable(email);
-}
-export const resendAccountVerification = async () => {
-  const resendAccountVerificationCallable = httpsCallable(functions, 'resendAccountVerification');
-  return await resendAccountVerificationCallable();
-}
+
+

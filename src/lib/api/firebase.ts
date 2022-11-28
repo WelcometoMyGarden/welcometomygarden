@@ -5,6 +5,7 @@ import { getApps, initializeApp, type FirebaseApp } from 'firebase/app';
 import { getAnalytics, type Analytics } from 'firebase/analytics';
 import { getPerformance, type FirebasePerformance } from 'firebase/performance';
 import { getFunctions, type Functions } from 'firebase/functions';
+import { initializeFunctions } from './functions';
 
 const FIREBASE_CONFIG = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
@@ -19,34 +20,65 @@ const FIREBASE_CONFIG = {
 if (import.meta.env.VITE_FIREBASE_MEASUREMENT_ID) FIREBASE_CONFIG.measurementId = import.meta.env.VITE_FIREBASE_MEASUREMENT_ID as string;
 
 
-export let app: FirebaseApp = null;
-export let db: Firestore = null;
-export let auth: Auth = null;
-export let functions: Functions = null;
-export let storage: FirebaseStorage = null;
+const messageFor = (str: string) => `Trying to use an uninitialized ${str}.`;
+type FirestoreWarning = { 'app': string, 'firestore': string, 'auth': string, 'storage': string, 'functions': string, 'analytics': string, 'performance': string };
+export const FIREBASE_WARNING: FirestoreWarning =
+  ['app', 'firestore', 'auth', 'storage', 'functions']
+    .reduce((warningsObj, service) => ({ ...warningsObj, [service]: messageFor(service) }), {}) as FirestoreWarning
 
-export let analytics: Analytics = null;
-export let performance: FirebasePerformance = null;
+const guardNull = <T>(accessRef: () => T | null, type: keyof FirestoreWarning): (() => T) => {
+  return () => {
+    const ref = accessRef();
+    if (ref) {
+      return ref;
+    }
+    throw new Error(FIREBASE_WARNING[type])
+  }
+}
+
+// Throw warnings when trying to access uninitialized services.
+let appRef: FirebaseApp | null = null;
+export const app: () => FirebaseApp = guardNull<FirebaseApp>(() => appRef, 'app');
+
+let dbRef: Firestore | null = null;
+export const db: () => Firestore = guardNull<Firestore>(() => dbRef, 'firestore');
+
+let authRef: Auth | null = null;
+export const auth: () => Auth = guardNull<Auth>(() => authRef, 'auth')
+
+let functionsRef: Functions | null = null;
+export const functions: () => Functions = guardNull<Functions>(() => functionsRef, 'functions')
+
+let storageRef: FirebaseStorage | null = null;
+export const storage: () => FirebaseStorage = guardNull<FirebaseStorage>(() => storageRef, 'storage')
+
+let analyticsRef: Analytics | null = null;
+export const analytics: () => Analytics = guardNull<Analytics>(() => analyticsRef, 'analytics')
+
+let performanceRef: FirebasePerformance | null = null;
+export const performance: () => FirebasePerformance = guardNull<FirebasePerformance>(() => performanceRef, 'performance')
 
 export async function initialize(): Promise<void> {
   if (getApps().length !== 0) {
     console.log('Firebase app already initialized');
     return;
   }
-  app = initializeApp(FIREBASE_CONFIG);
-  db = getFirestore(app);
-  auth = getAuth(app);
-  storage = getStorage(app);
-  functions = getFunctions(app);
-
-  auth.useDeviceLanguage();
+  console.log("FB initialized")
+  appRef = initializeApp(FIREBASE_CONFIG);
+  dbRef = getFirestore(appRef);
+  authRef = getAuth(appRef);
+  storageRef = getStorage(appRef);
+  functionsRef = getFunctions(appRef);
+  initializeFunctions(functionsRef);
+  authRef.useDeviceLanguage();
 
   if (import.meta.env.PROD) addMetrics();
 }
 
+
 const addMetrics = async () => {
-  analytics = getAnalytics(app);
-  performance = getPerformance(app);
+  analyticsRef = getAnalytics(app());
+  performanceRef = getPerformance(app());
 };
 
 

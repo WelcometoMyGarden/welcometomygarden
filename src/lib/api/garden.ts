@@ -1,16 +1,15 @@
 import type { User } from '$lib/models/User';
 import { CAMPSITES } from './collections';
-import { get } from 'svelte/store';
 import { collection, query, where, getDocs, doc, setDoc, updateDoc, getDocFromCache, getDocFromServer } from 'firebase/firestore';
 import { getUser } from '@/lib/stores/auth';
 import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '@/lib/stores/garden';
-import { db, storage } from './firebase';
+import { db, FIREBASE_WARNING, storage } from './firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import type { Garden } from '@/lib/types/Garden';
+import type { Garden, GardenFacilities } from '@/lib/types/Garden';
 
 export const getAllListedGardens = async () => {
   isFetchingGardens.set(true);
-  const q = query(collection(db, CAMPSITES), where('listed', '==', true));
+  const q = query(collection(db(), CAMPSITES), where('listed', '==', true));
   const querySnapshot = await getDocs(q);
 
   const gardens: { [id: string]: Garden } = {};
@@ -26,7 +25,7 @@ const doUploadGardenPhoto = async (photo: File, currentUser: User) => {
   const extension = photo.name.split('.').pop();
   const photoLocation = `gardens/${currentUser.id}/garden.${extension}`;
   isUploading.set(true);
-  const photoRef = ref(storage, photoLocation);
+  const photoRef = ref(storage(), photoLocation);
 
   const uploadTask = uploadBytesResumable(photoRef, photo, { contentType: photo.type });
   uploadTask.on('state_changed', (snapshot) => {
@@ -40,26 +39,26 @@ const doUploadGardenPhoto = async (photo: File, currentUser: User) => {
   return `garden.${extension}`;
 };
 
-export const addGarden = async ({ photo, ...rest }: { photo: File, facilities: { [key: string]: any } }) => {
+export const addGarden = async ({ photo, facilities, ...rest }: { photo: File, facilities: GardenFacilities }) => {
   const currentUser = getUser();
-  if (!currentUser.id) throw new Error('User is not logged in.');
 
   let uploadedName = null;
   if (photo) uploadedName = await doUploadGardenPhoto(photo, currentUser);
 
-  const facilities = Object.keys(rest.facilities).reduce((all, facility) => {
-    all[facility] = rest.facilities[facility] || false;
-    return all;
-  }, {});
+  // Copy the facilities object, converting any falsy value to false
+  // TODO: is this conversion necessary?
+  const facilitiesCopy = Object.fromEntries(
+    Object.entries(facilities).map((k, v) => [k, v || false]
+  ))
 
   const garden = {
     ...rest,
-    facilities,
+    facilities: facilitiesCopy,
     listed: true,
     photo: uploadedName
   };
 
-  await setDoc(doc(db, CAMPSITES, currentUser.id), garden);
+  await setDoc(doc(db(), CAMPSITES, currentUser.id), garden);
 
   const gardenWithId = { ...garden, id: currentUser.id };
   currentUser.setGarden(gardenWithId);
@@ -86,7 +85,7 @@ export const updateGarden = async ({ photo, ...rest }: { photo: File, facilities
 
   if (uploadedName || rest.photo) garden.photo = uploadedName || rest.photo;
 
-  const docRef = doc(db, CAMPSITES, currentUser.id);
+  const docRef = doc(db(), CAMPSITES, currentUser.id);
 
   await updateDoc(docRef, garden);
 
@@ -99,13 +98,13 @@ export const changeListedStatus = async (shouldBeListed: boolean) => {
   const currentUser = getUser();
   if (!currentUser.id) throw new Error('User is not logged in.');
 
-  const docRef = doc(db, CAMPSITES, currentUser.id);
+  const docRef = doc(db(), CAMPSITES, currentUser.id);
   await updateDoc(docRef, { listed: shouldBeListed });
 };
 
 const getPhotoBySize = async (size: string, garden: Garden & { photo: string }) => {
   const photoLocation = `gardens/${garden.id}/garden_${size}.${garden.photo.split('.').pop()}`;
-  const photoRef = ref(storage, photoLocation);
+  const photoRef = ref(storage(), photoLocation);
 
   return await getDownloadURL(photoRef);
 };
@@ -120,7 +119,7 @@ export const getGardenPhotoBig = async (garden: Garden & { photo: string }) => {
 
 export const hasGarden = async (userId: string) => {
   let snapshot;
-  const docRef = doc(db, CAMPSITES, userId);
+  const docRef = doc(db(), CAMPSITES, userId);
   try {
     snapshot = await getDocFromCache(docRef);
   } catch (error) {
