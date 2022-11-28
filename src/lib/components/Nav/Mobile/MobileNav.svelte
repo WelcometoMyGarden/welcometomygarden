@@ -33,6 +33,7 @@
 
 <nav id="navigation">
   <ul class="main">
+    <!-- TODO: render this from data with a component rather than repeating code -->
     <li>
       <a href={routes.HOME} class:active={isActive($page, '/')}>
         <Icon icon={tentIcon} />
