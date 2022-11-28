@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   export let garden = null;
 
   import { createEventDispatcher } from 'svelte';
@@ -44,8 +44,8 @@
   let drawerElement;
   let photoWrapper;
   let userInfo = null;
-  let photoUrl = null;
-  let biggerPhotoUrl = null;
+  let photoUrl: string | null = null;
+  let biggerPhotoUrl: string | null = null;
   let infoHasLoaded = false;
 
   const setAllGardenInfo = async () => {
