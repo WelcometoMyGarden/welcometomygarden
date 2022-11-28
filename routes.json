@@ -1,0 +1,18 @@
+[
+  "/account",
+  "/auth/action",
+  "/chat/index",
+  "/explore/index",
+  "/garden/add",
+  "/garden/manage",
+  "/index",
+  "/info/faq",
+  "/info/rules",
+  "/register",
+  "/request-password-reset",
+  "/reset-password",
+  "/sign-in",
+  "/terms/cookies",
+  "/terms/privacy-policy",
+  "/terms/terms-of-use"
+]
