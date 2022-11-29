@@ -29,7 +29,7 @@
     map.fitBounds(bboxBounds, {
       padding: {
         top: 150,
-        bottom: 50,
+        bottom: 150,
         left: 50,
         right: 50
       },
@@ -62,6 +62,27 @@
         }
       });
     }
+  };
+
+  const getFileDataLayerIdsOnMap = () => {
+    const fileDataLayerIdsOnMap: string[] = [];
+
+    map.getStyle().layers?.map((layer) => {
+      if (layer.id.includes(prefix)) {
+        // Instead of returning the layer ID, we could return the layer object
+
+        // const fileDataLayer: FileDataLayer = {
+        //   id: layer.id,
+        //   name: layer.id,
+        //   visible: layer.layout?.visibility === 'visible',
+        //   geoJson: map.getSource(layer.id)?.data
+        // };
+
+        fileDataLayerIdsOnMap.push(layer.id);
+      }
+    });
+
+    return fileDataLayerIdsOnMap;
   };
 
   const setup = async (geoJson?: SourceData) => {
@@ -114,6 +135,7 @@
 
     // TODO: remove logs
     console.log('---');
+    console.log('getFileDataLayerIdsOnMap', getFileDataLayerIdsOnMap());
     console.log('prev ids', prevFileDataLayerIds);
     console.log('ids', fileDataLayerIds);
     console.log('idsToAdd', idsToAdd);
@@ -143,25 +165,4 @@
 
     prevFileDataLayerIds = fileDataLayerIds;
   });
-
-  const getFileDataLayerIdsOnMap = () => {
-    const fileDataLayerIdsOnMap: string[] = [];
-
-    map.getStyle().layers?.map((layer) => {
-      if (layer.id.includes(prefix)) {
-        // Instead of returning the layer ID, we could return the layer object
-
-        // const fileDataLayer: FileDataLayer = {
-        //   id: layer.id,
-        //   name: layer.id,
-        //   visible: layer.layout?.visibility === 'visible',
-        //   geoJson: map.getSource(layer.id)?.data
-        // };
-
-        fileDataLayerIdsOnMap.push(layer.id);
-      }
-    });
-
-    return fileDataLayerIdsOnMap;
-  };
 </script>
