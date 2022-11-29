@@ -3,16 +3,10 @@
 
   export let files: FileList;
   export let disabled = false;
+  export let accept: string;
+  export let multiple = false;
 </script>
 
 <Label label="Upload your trail">
-  <input
-    {disabled}
-    type="file"
-    accept=".geojson,.gpx"
-    bind:files
-    on:change
-    class="border border-gray-500 w-full focus:ring-blue-600 bg-white
-      rounded focus:outline-none focus:ring-2 focus:border-transparent"
-  />
+  <input {disabled} type="file" {accept} bind:files on:change {multiple} />
 </Label>

@@ -3,15 +3,15 @@
   import { Button, FileInput, Modal } from '$lib/components/UI';
   import fileToGeoJson from '@/lib/util/map/fileToGeoJson';
   import { keyboardEvent } from '@/lib/stores/keyboardEvent';
+  import { VALID_FILETYPE_EXTENSIONS } from '@/lib/constants';
+  import { getFileExtension, slugify } from '@/lib/util';
+  import { addFileDataLayers, fileDataLayers } from '@/lib/stores/file';
 
-  export let file: GeoJSON.GeoJSON;
-  let files: FileList;
-  // application/vnd.geo+json is obsolete, but still used by some apps
-  const validFileTypes = ['application/geo+json', 'application/vnd.geo+json'];
+  export let show = false;
+  let files: FileList | null = null;
 
   // MODAL
   let ariaLabelledBy = 'route-modal-title';
-  export let show = false;
   let stickToBottom = false;
   let maxWidth = 700;
   let vw: number;
@@ -22,16 +22,23 @@
 
   // TEMPORARY
   $: if (files) {
-    if (validFileTypes.includes(files[0].type)) {
-      fileToGeoJson(files[0]).then((geoJson) => {
-        file = geoJson;
+    console.log(files);
+    Array.from(files).forEach(async (file) => {
+      const extension = getFileExtension(file.name);
+      if (VALID_FILETYPE_EXTENSIONS.includes(extension)) {
+        const geoJson = await fileToGeoJson(file);
+        addFileDataLayers({
+          name: file.name,
+          geoJson: geoJson
+        });
+        files = null;
         show = false;
-      });
-    }
+      }
+    });
   }
 
   keyboardEvent.subscribe((e) => {
-    if (e?.key === 'n') if (!show) show = true;
+    if (e?.key === 'n') show = !show;
   });
 </script>
 
@@ -51,7 +58,11 @@
   </div>
   <div slot="body" class="BodySection">
     <hr />
-    <FileInput bind:files />
+    <FileInput
+      bind:files
+      accept={VALID_FILETYPE_EXTENSIONS.map((ft) => '.' + ft).join(', ')}
+      multiple
+    />
     <hr />
   </div>
   <div slot="controls">

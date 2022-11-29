@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { _ } from 'svelte-i18n';
   import { onMount, onDestroy } from 'svelte';
   import { goto } from '$lib/util/navigate';
@@ -24,9 +24,9 @@
   let geolocationIsLoaded = false;
   let showHiking = false;
   let showCycling = false;
+  let showRouteModal = false;
   let filteredGardens;
   let carNoticeShown = !getCookie('car-notice-dismissed');
-  let trail;
 
   // true when visiting the link to a garden directly, used to increase zoom level
   // TODO check this: It looks like there is no need for a subscribe on page
@@ -139,14 +139,12 @@
         </div>
       </div>
     {/if}
-    <RouteModal bind:file={trail} />
-    {#if trail}
-      <Trail {trail} />
-    {/if}
+    <Trail />
   </Map>
   <LayersAndTools bind:showHiking bind:showCycling />
 
   <Filter on:goToPlace={goToPlace} bind:filteredGardens {fallbackLocation} />
+  <RouteModal bind:show={showRouteModal} />
 </div>
 
 <style>

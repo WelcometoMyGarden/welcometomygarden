@@ -10,3 +10,4 @@ export const ZOOM_LEVELS = {
   ROAD: 14, // 14 or 15
   SMALL_COUNTRY: 7
 };
+export const VALID_FILETYPE_EXTENSIONS = ['gpx', 'geojson', 'kml', 'tcx'];
