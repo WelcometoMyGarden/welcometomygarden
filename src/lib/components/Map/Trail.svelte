@@ -46,20 +46,22 @@
       });
     }
 
-    map.addLayer({
-      id: id,
-      type: 'line',
-      source: id,
-      layout: {
-        'line-join': 'round',
-        'line-cap': 'round'
-      },
-      paint: {
-        'line-width': 7,
-        'line-color': 'indigo',
-        'line-opacity': 0.7
-      }
-    });
+    if (!map.getLayer(id)) {
+      map.addLayer({
+        id,
+        type: 'line',
+        source: id,
+        layout: {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        paint: {
+          'line-width': 7,
+          'line-color': 'indigo',
+          'line-opacity': 0.7
+        }
+      });
+    }
   };
 
   const setup = async (geoJson?: SourceData) => {
@@ -101,7 +103,7 @@
   fileDataLayers.subscribe((fileDataLayers) => {
     const fileDataLayerIds = fileDataLayers.map((fileDataLayer) => fileDataLayer.id);
 
-    // TODO:
+    // TODO: Discussion
     // We should get the prevFileDataLayerIds from the map, not from the variable; otherwise, we might miss layers that were added to the map
     // but not yet added to the store (e.g. when a new file is loaded)
     // fileDataLayerIds = getFileDataLayerIdsOnMap();
@@ -110,6 +112,7 @@
     const idsToRemove = prevFileDataLayerIds.filter((id) => !fileDataLayerIds.includes(id)); // IDs that are in the old data, but not in the new data
     const idsToUpdate = fileDataLayerIds.filter((id) => prevFileDataLayerIds.includes(id)); // IDs that are in both the old and new data
 
+    // TODO: remove logs
     console.log('---');
     console.log('prev ids', prevFileDataLayerIds);
     console.log('ids', fileDataLayerIds);
@@ -146,12 +149,15 @@
 
     map.getStyle().layers?.map((layer) => {
       if (layer.id.includes(prefix)) {
+        // Instead of returning the layer ID, we could return the layer object
+
         // const fileDataLayer: FileDataLayer = {
         //   id: layer.id,
         //   name: layer.id,
         //   visible: layer.layout?.visibility === 'visible',
         //   geoJson: map.getSource(layer.id)?.data
         // };
+
         fileDataLayerIdsOnMap.push(layer.id);
       }
     });
