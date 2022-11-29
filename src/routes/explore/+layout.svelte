@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { _ } from 'svelte-i18n';
   import { onMount, onDestroy } from 'svelte';
   import { goto } from '$lib/util/navigate';
@@ -16,11 +16,15 @@
   import { getCookie, setCookie } from '$lib/util';
   import { crossIcon, cyclistIcon, hikerIcon } from '$lib/images/icons';
   import { ZOOM_LEVELS } from '$lib/constants';
+  import LayersAndTools from '@/lib/components/Map/LayersAndTools.svelte';
+  import RouteModal from '@/lib/components/Map/RouteModal.svelte';
+  import Trail from '@/lib/components/Map/Trail.svelte';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let geolocationIsLoaded = false;
   let showHiking = false;
   let showCycling = false;
+  let showRouteModal = false;
   let filteredGardens;
   let carNoticeShown = !getCookie('car-notice-dismissed');
 
@@ -135,34 +139,12 @@
         </div>
       </div>
     {/if}
+    <Trail />
   </Map>
-  <div class="trails">
-    <div>
-      <LabeledCheckbox
-        name="hiking"
-        icon={hikerIcon}
-        label={$_('map.trails.hiking')}
-        bind:checked={showHiking}
-      />
-    </div>
-    <div>
-      <LabeledCheckbox
-        name="cycling"
-        icon={cyclistIcon}
-        label={$_('map.trails.cycling')}
-        bind:checked={showCycling}
-      />
-    </div>
-    <span class="attribution">
-      {@html $_('map.trails.attribution', {
-        values: {
-          link: `<a href="https://waymarkedtrails.org/" target="_blank"  rel="noreferrer" >Waymarked Trails</a>`
-        }
-      })}
-    </span>
-  </div>
+  <LayersAndTools bind:showHiking bind:showCycling />
 
   <Filter on:goToPlace={goToPlace} bind:filteredGardens {fallbackLocation} />
+  <RouteModal bind:show={showRouteModal} />
 </div>
 
 <style>
@@ -176,30 +158,6 @@
 
   .map-section :global(.mapboxgl-ctrl-top-left) {
     top: calc(var(--height-nav) + 0.5rem);
-  }
-
-  .trails {
-    background-color: rgba(255, 255, 255, 0.8);
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    width: 26rem;
-    height: 9rem;
-    padding: 1rem;
-  }
-
-  .map-section :global(.mapboxgl-ctrl-bottom-left) {
-    bottom: 9rem;
-  }
-
-  .attribution {
-    font-size: 1.2rem;
-    margin-top: 1rem;
-    display: inline-block;
-  }
-
-  .attribution :global(a) {
-    text-decoration: underline;
   }
 
   .vehicle-notice-wrapper {

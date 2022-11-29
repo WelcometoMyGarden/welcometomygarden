@@ -44,8 +44,8 @@
   let drawerElement;
   let photoWrapper: HTMLElement | undefined;
   let userInfo = null;
-  let photoUrl = null;
-  let biggerPhotoUrl = null;
+  let photoUrl: string | null = null;
+  let biggerPhotoUrl: string | null = null;
   let infoHasLoaded = false;
 
   const setAllGardenInfo = async () => {
