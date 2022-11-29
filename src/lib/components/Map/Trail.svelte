@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fileDataLayers, updateFileDataLayers } from '@/lib/stores/file';
+  import { fileDataLayers, prefix, updateFileDataLayers } from '@/lib/stores/file';
   import { onMount, getContext } from 'svelte';
   import bbox from '@turf/bbox';
   import type mapboxgl from 'maplibre-gl';
@@ -37,10 +37,14 @@
       linear: true
     });
 
-    map.addSource(id, {
-      type: 'geojson',
-      data: geoJson
-    });
+    if (map.getSource(id)) {
+      map.getSource(id).setData(geoJson);
+    } else {
+      map.addSource(id, {
+        type: 'geojson',
+        data: geoJson
+      });
+    }
 
     map.addLayer({
       id: id,
@@ -96,42 +100,62 @@
   // Subscribe to fileDataLayers store and update map layers accordingly when it changes (e.g. when a new file is loaded)
   fileDataLayers.subscribe((fileDataLayers) => {
     const fileDataLayerIds = fileDataLayers.map((fileDataLayer) => fileDataLayer.id);
-    // const currentFileDataLayer = getFileDataLayersOnMap() -> returns visibility state, id, ... in the ame FileDataLayer structure
-    //    via prefixing
 
-    // Use set methods: difference, intersection
-    // idsToUpdate = intersection(newDataLayers, oldDataLayers)
-    //   deze hebben misschien een visibility update: set them all!
-    // idsToAdd = difference() // hetgeen dat niet in A zit, maar wel in B
-    // idsToRemove = difference() // het geen dat in A zit, maar niet in B
+    // TODO:
+    // We should get the prevFileDataLayerIds from the map, not from the variable; otherwise, we might miss layers that were added to the map
+    // but not yet added to the store (e.g. when a new file is loaded)
+    // fileDataLayerIds = getFileDataLayerIdsOnMap();
 
     const idsToAdd = fileDataLayerIds.filter((id) => !prevFileDataLayerIds.includes(id)); // IDs that are in the new data, but not in the old data
     const idsToRemove = prevFileDataLayerIds.filter((id) => !fileDataLayerIds.includes(id)); // IDs that are in the old data, but not in the new data
     const idsToUpdate = fileDataLayerIds.filter((id) => prevFileDataLayerIds.includes(id)); // IDs that are in both the old and new data
 
+    console.log('---');
     console.log('prev ids', prevFileDataLayerIds);
     console.log('ids', fileDataLayerIds);
     console.log('idsToAdd', idsToAdd);
     console.log('idsToRemove', idsToRemove);
     console.log('idsToUpdate', idsToUpdate);
+    console.log('---');
 
     // Check
 
-    fileDataLayers.map((fileDataLayer) => {
-      if (!(fileDataLayer && fileDataLayer.geoJson && fileDataLayer.id && fileDataLayer.name))
-        return;
-      if (idsToAdd.length > 0 && idsToAdd.includes(fileDataLayer.id)) {
-        addTrail(fileDataLayer.geoJson, fileDataLayer.name);
-        // Update state to 'created' so that this layer is not added again
-        // Extra uneccessary trigger of a subscribe that doesnt change anything
-        updateFileDataLayers(fileDataLayer.id, {
-          ...fileDataLayer,
-          state: 'created',
-          visible: true
-        });
-      } else updateVisibility(fileDataLayer.id, fileDataLayer.visible);
+    // Add new layers
+    idsToAdd.map((id) => {
+      const fileDataLayer = fileDataLayers.find((fileDataLayer) => fileDataLayer.id === id);
+      if (fileDataLayer) addTrail(fileDataLayer.geoJson, id);
+    });
+
+    // Remove old layers
+    idsToRemove.map((id) => {
+      if (map.getLayer(id)) map.removeLayer(id);
+      if (map.getSource(id)) map.removeSource(id);
+    });
+
+    // Update visibility of existing layers
+    idsToUpdate.map((id) => {
+      const fileDataLayer = fileDataLayers.find((fileDataLayer) => fileDataLayer.id === id);
+      if (fileDataLayer) updateVisibility(id, fileDataLayer.visible);
     });
 
     prevFileDataLayerIds = fileDataLayerIds;
   });
+
+  const getFileDataLayerIdsOnMap = () => {
+    const fileDataLayerIdsOnMap: string[] = [];
+
+    map.getStyle().layers?.map((layer) => {
+      if (layer.id.includes(prefix)) {
+        // const fileDataLayer: FileDataLayer = {
+        //   id: layer.id,
+        //   name: layer.id,
+        //   visible: layer.layout?.visibility === 'visible',
+        //   geoJson: map.getSource(layer.id)?.data
+        // };
+        fileDataLayerIdsOnMap.push(layer.id);
+      }
+    });
+
+    return fileDataLayerIdsOnMap;
+  };
 </script>

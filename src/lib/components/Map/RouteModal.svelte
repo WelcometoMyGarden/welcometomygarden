@@ -15,27 +15,43 @@
   let stickToBottom = false;
   let maxWidth = 700;
   let vw: number;
+
   $: {
     if (vw < maxWidth) stickToBottom = true;
     else stickToBottom = false;
   }
 
   // TEMPORARY
-  $: if (files) {
+  $: if (files && files.length > 0) {
     console.log(files);
-    Array.from(files).forEach(async (file) => {
+
+    handleFiles(files);
+  }
+
+  const handleFiles = async (files: FileList) => {
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
       const extension = getFileExtension(file.name);
       if (VALID_FILETYPE_EXTENSIONS.includes(extension)) {
         const geoJson = await fileToGeoJson(file);
-        addFileDataLayers({
-          name: file.name,
-          geoJson: geoJson
-        });
-        files = null;
-        show = false;
+        try {
+          addFileDataLayers({
+            name: file.name,
+            geoJson: geoJson
+          });
+        } catch (error) {
+          console.error(error);
+        }
+
+        reset();
       }
-    });
-  }
+    }
+  };
+
+  const reset = () => {
+    files = null;
+    show = false;
+  };
 
   keyboardEvent.subscribe((e) => {
     if (e?.key === 'n') show = !show;
