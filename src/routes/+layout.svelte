@@ -11,6 +11,7 @@
   import { doesPublicUserExist, setAllUserInfo } from '@/lib/api/user';
   import { createChatObserver } from '$lib/api/chat';
   import { user, isInitializing } from '@/lib/stores/auth';
+  import { keyboardEvent } from '@/lib/stores/keyboardEvent';
   import { Progress, Notifications } from '$lib/components/UI';
   import Nav from '$lib/components/Nav/Navigation.svelte';
   import Footer from '$lib/components/Footer.svelte';
@@ -73,9 +74,17 @@
   const updateViewportHeight = () => {
     vh = `${window.innerHeight * 0.01}px`;
   };
+
+  const onCustomPress = (e: KeyboardEvent) => {
+    if (e?.altKey) {
+      e.preventDefault();
+      e.stopPropagation();
+      keyboardEvent.set(e);
+    }
+  };
 </script>
 
-<svelte:window on:resize={updateViewportHeight} />
+<svelte:window on:resize={updateViewportHeight} on:keyup={onCustomPress} />
 
 <div class="app" style="--vh:{vh}">
   {#if browser}

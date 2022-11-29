@@ -8,3 +8,4 @@ export { default as transKeyExists } from './translation-key-exists';
 export { getNodeChildren } from './get-node-children';
 export { default as formatDate } from './format-date';
 export { parse, pick } from './accept-language-parser';
+export { slugify } from './slugify';

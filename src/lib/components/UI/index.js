@@ -14,3 +14,5 @@ export { default as Banner } from './Banner.svelte';
 export { default as Tag } from './Tag.svelte';
 export { default as Modal } from './Modal.svelte';
 export { default as Partner } from './Partner.svelte';
+export { default as Label } from './Label.svelte';
+export { default as FileInput } from './FileInput.svelte';

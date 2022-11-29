@@ -17,6 +17,8 @@
   import { crossIcon, cyclistIcon, hikerIcon } from '$lib/images/icons';
   import { ZOOM_LEVELS } from '$lib/constants';
   import LayersAndTools from '@/lib/components/Map/LayersAndTools.svelte';
+  import RouteModal from '@/lib/components/Map/RouteModal.svelte';
+  import Trail from '@/lib/components/Map/Trail.svelte';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let geolocationIsLoaded = false;
@@ -24,6 +26,7 @@
   let showCycling = false;
   let filteredGardens;
   let carNoticeShown = !getCookie('car-notice-dismissed');
+  let trail;
 
   // true when visiting the link to a garden directly, used to increase zoom level
   // TODO check this: It looks like there is no need for a subscribe on page
@@ -135,6 +138,10 @@
           <p class="mt-m">{$_('map.vehicle-notice.text')}</p>
         </div>
       </div>
+    {/if}
+    <RouteModal bind:file={trail} />
+    {#if trail}
+      <Trail {trail} />
     {/if}
   </Map>
   <LayersAndTools bind:showHiking bind:showCycling />
