@@ -1,5 +1,5 @@
 import { CAMPSITES, USERS, USERS_PRIVATE } from './collections';
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 import { db } from './firebase';
 
@@ -16,7 +16,7 @@ export const getPublicUserProfile = async (uid: string) => {
   const docRef = doc(db(), USERS, uid);
   const docSnap = await getDoc(docRef);
 
-  if (!docSnap.exists()) throw new Error('This person does not have an account.');;
+  if (!docSnap.exists()) throw new Error('This person does not have an account.');
   return docSnap.data();
 };
 
