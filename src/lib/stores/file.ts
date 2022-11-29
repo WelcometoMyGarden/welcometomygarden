@@ -23,7 +23,7 @@ export const addFileDataLayers = ({
 
   const checkIndex = get(fileDataLayers).findIndex((layer) => layer.id === id);
 
-  if (checkIndex === -1) throw new Error('FileDataLayer with id ' + id + ' already exists');
+  if (checkIndex !== -1) throw new Error('FileDataLayer with id ' + id + ' already exists');
   else
     fileDataLayers.update((layers) => [
       ...layers,
