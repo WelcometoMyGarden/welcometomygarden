@@ -46,7 +46,10 @@ export const setAllUserInfo = async () => {
   await setCampsiteInformation();
 };
 
-export const updateMailPreferences = async (preferenceName: string, preference: boolean) => {
+export const updateMailPreferences = async (
+  preferenceName: 'newChat' | 'news',
+  preference: boolean
+) => {
   updatingMailPreferences.set(true);
   const docRef = doc(db(), USERS_PRIVATE, getUser().id);
 
