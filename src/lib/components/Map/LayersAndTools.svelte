@@ -1,38 +1,106 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { LabeledCheckbox } from '@/lib/components/UI';
-  import { cyclistIcon, hikerIcon } from '@/lib/images/icons';
+  import { LabeledCheckbox, Text } from '@/lib/components/UI';
+  import { cyclistIcon, hikerIcon, tentIcon } from '@/lib/images/icons';
+  import { user } from '@/lib/stores/auth';
   export let showHiking = false;
   export let showCycling = false;
+  export let showGardens = false;
+  export let showSavedGardens = false;
+
+  $: superfan = $user?.superfan;
 </script>
 
 <div class="layers-and-tools">
-  <div>
-    <LabeledCheckbox
-      name="hiking"
-      icon={hikerIcon}
-      label={$_('map.trails.hiking')}
-      bind:checked={showHiking}
-    />
-  </div>
-  <div>
-    <LabeledCheckbox
-      name="cycling"
-      icon={cyclistIcon}
-      label={$_('map.trails.cycling')}
-      bind:checked={showCycling}
-    />
-  </div>
-  <span class="attribution">
-    {@html $_('map.trails.attribution', {
-      values: {
-        link: `<a href="https://waymarkedtrails.org/" target="_blank"  rel="noreferrer" >Waymarked Trails</a>`
-      }
-    })}
-  </span>
+  {#if superfan}
+    <!-- content here -->
+    <div>
+      <Text>LAYERS & TOOLS</Text>
+    </div>
+
+    <div class="toggleTitle">
+      <Text>GARDENS</Text>
+    </div>
+    <div>
+      <div>
+        <LabeledCheckbox
+          name="gardens"
+          icon={tentIcon}
+          label={'Gardens'}
+          bind:checked={showGardens}
+        />
+      </div>
+      <div>
+        <LabeledCheckbox
+          name="savedGardens"
+          icon={tentIcon}
+          label={'Saved ardens'}
+          bind:checked={showSavedGardens}
+        />
+      </div>
+    </div>
+
+    <div class="toggleTitle">
+      <Text>WAYMARKED TRAILS</Text>
+    </div>
+    <div class="waymarked-checks">
+      <div>
+        <LabeledCheckbox
+          name="hiking"
+          icon={hikerIcon}
+          label={$_('map.trails.hiking')}
+          bind:checked={showHiking}
+        />
+      </div>
+      <div>
+        <LabeledCheckbox
+          name="cycling"
+          icon={cyclistIcon}
+          label={$_('map.trails.cycling')}
+          bind:checked={showCycling}
+        />
+      </div>
+      <span class="attribution">
+        {@html $_('map.trails.attribution', {
+          values: {
+            link: `<a href="https://waymarkedtrails.org/" target="_blank"  rel="noreferrer" >Waymarked Trails</a>`
+          }
+        })}
+      </span>
+    </div>
+  {:else}
+    <div>
+      <LabeledCheckbox
+        name="hiking"
+        icon={hikerIcon}
+        label={$_('map.trails.hiking')}
+        bind:checked={showHiking}
+      />
+    </div>
+    <div>
+      <LabeledCheckbox
+        name="cycling"
+        icon={cyclistIcon}
+        label={$_('map.trails.cycling')}
+        bind:checked={showCycling}
+      />
+    </div>
+    <span class="attribution">
+      {@html $_('map.trails.attribution', {
+        values: {
+          link: `<a href="https://waymarkedtrails.org/" target="_blank"  rel="noreferrer" >Waymarked Trails</a>`
+        }
+      })}
+    </span>
+  {/if}
 </div>
 
 <style>
+  .toggleTitle {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+  }
   :root {
     --layers-and-tools-height: 9rem;
   }
