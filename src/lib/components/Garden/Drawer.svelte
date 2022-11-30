@@ -81,7 +81,6 @@
   $: ownedByLoggedInUser = $user && garden && $user.id === garden.id;
   $: isSaved =
     ($user && garden?.id && $user.savedGardens && $user.savedGardens.includes(garden.id)) || false;
-  $: console.log('isSaved', isSaved);
 
   let isShowingMagnifiedPhoto = false;
   let isGettingMagnifiedPhoto = false;
