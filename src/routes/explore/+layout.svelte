@@ -11,21 +11,25 @@
   import GardenLayer from '$lib/components/Map/GardenLayer.svelte';
   import WaymarkedTrails from '$lib/components/Map/WaymarkedTrails.svelte';
   import Filter from '$lib/components/Garden/Filter.svelte';
-  import { Progress, LabeledCheckbox, Icon } from '$lib/components/UI';
+  import { Progress, Icon } from '$lib/components/UI';
 
   import { getCookie, setCookie } from '$lib/util';
-  import { crossIcon, cyclistIcon, hikerIcon } from '$lib/images/icons';
+  import { crossIcon } from '$lib/images/icons';
   import { ZOOM_LEVELS } from '$lib/constants';
   import LayersAndTools from '@/lib/components/Map/LayersAndTools.svelte';
   import RouteModal from '@/lib/components/Map/RouteModal.svelte';
   import Trail from '@/lib/components/Map/Trail.svelte';
+  import { user } from '@/lib/stores/auth';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let geolocationIsLoaded = false;
   let showHiking = false;
   let showCycling = false;
   let showRouteModal = false;
+  let showGardens = true;
+  let showSavedGardens = false;
   let filteredGardens;
+  let savedGardens = [] as string[];
   let carNoticeShown = !getCookie('car-notice-dismissed');
 
   // true when visiting the link to a garden directly, used to increase zoom level
@@ -62,6 +66,11 @@
     goto(routes.MAP);
   };
 
+  const reloadSavedGardens = () => {
+    let tempSavedGardens = $user?.savedGardens || [];
+    if (Array.isArray(tempSavedGardens)) savedGardens = tempSavedGardens;
+  };
+
   const closeCarNotice = () => {
     const date = new Date();
     // one year
@@ -94,6 +103,8 @@
         }
       );
     }
+
+    reloadSavedGardens();
   });
 
   onDestroy(() => {
@@ -116,11 +127,18 @@
   >
     {#if !$isFetchingGardens}
       <GardenLayer
+        {showGardens}
+        {showSavedGardens}
         on:garden-click={(e) => selectGarden(e.detail)}
         selectedGardenId={selectedGarden ? selectedGarden.id : null}
         allGardens={filteredGardens || $allGardens}
+        {savedGardens}
       />
-      <Drawer on:close={closeDrawer} garden={selectedGarden} />
+      <Drawer
+        on:close={closeDrawer}
+        garden={selectedGarden}
+        on:savedGardenChange={reloadSavedGardens}
+      />
       <WaymarkedTrails {showHiking} {showCycling} />
       <slot />
     {/if}
@@ -141,7 +159,7 @@
     {/if}
     <Trail />
   </Map>
-  <LayersAndTools bind:showHiking bind:showCycling />
+  <LayersAndTools bind:showHiking bind:showCycling bind:showGardens bind:showSavedGardens />
 
   <Filter on:goToPlace={goToPlace} bind:filteredGardens {fallbackLocation} />
   <RouteModal bind:show={showRouteModal} />

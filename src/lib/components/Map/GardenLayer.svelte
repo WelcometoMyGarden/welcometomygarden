@@ -1,6 +1,9 @@
 <script lang="ts">
   export let allGardens;
-  export let selectedGardenId;
+  export let selectedGardenId: string | null = null;
+  export let showGardens: boolean;
+  export let showSavedGardens: boolean;
+  export let savedGardens = [] as string[];
 
   import { getContext, createEventDispatcher, onMount, onDestroy } from 'svelte';
   import key from './mapbox-context.js';
@@ -12,32 +15,39 @@
 
   let mapReady = false;
 
-  const getData = () => ({
-    type: 'FeatureCollection',
-    features: Object.keys(allGardens).map((gardenId) => {
+  const getData = () => {
+    const features = Object.keys(allGardens).map((gardenId) => {
       const garden = allGardens[gardenId];
+      //check if garden id is in savedGardens
+      const isSaved = savedGardens.includes(gardenId);
       return {
         type: 'Feature',
         properties: {
           id: gardenId,
           ...garden,
           lnglat: [garden.location.longitude, garden.location.latitude],
-          icon: selectedGardenId === gardenId ? 'tent-filled' : 'tent'
+          icon: selectedGardenId === gardenId ? 'tent-filled' : isSaved ? 'tent-saved' : 'tent'
         },
         geometry: {
           type: 'Point',
           coordinates: [garden.location.longitude, garden.location.latitude]
         }
       };
-    })
-  });
+    });
+
+    return {
+      type: 'FeatureCollection',
+      features
+    };
+  };
 
   const setupMarkers = async () => {
     // Catch all errors to avoid having to reload when working on this component in development
     try {
       const images = [
         { url: '/images/markers/tent-neutral.png', id: 'tent' },
-        { url: '/images/markers/tent-filled.png', id: 'tent-filled' }
+        { url: '/images/markers/tent-filled.png', id: 'tent-filled' },
+        { url: '/images/markers/tent-saved.png', id: 'tent-saved' }
       ];
 
       await Promise.all(
@@ -73,7 +83,7 @@
           //   * Blue, 20px circles when point count is less than 20
           //   * Yellow, 30px circles when point count is between 30 and 40
           //   * Pink, 40px circles when point count is greater than or equal to 40
-          'circle-color': ['step', ['get', 'point_count'], '#51bbd6', 20, '#f1f075', 40, '#f28cb1'],
+          'circle-color': ['step', ['get', 'point_count'], '#A2D0D3', 20, '#F4E27E', 40, '#F6C4B7'],
           'circle-radius': ['step', ['get', 'point_count'], 20, 20, 30, 40, 40]
         }
       });

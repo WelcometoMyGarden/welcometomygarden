@@ -24,3 +24,4 @@ export { default as binocularsIcon } from './binoculars.svg';
 export { default as filterGreenIcon } from './filter-green.svg';
 export { default as filterIcon } from './filter.svg';
 export { default as markerIcon } from './marker.svg';
+export { default as bookmarkIcon } from './bookmark.svg';

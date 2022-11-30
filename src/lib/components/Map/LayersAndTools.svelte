@@ -1,12 +1,12 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { LabeledCheckbox, Text } from '@/lib/components/UI';
-  import { cyclistIcon, hikerIcon, tentIcon } from '@/lib/images/icons';
+  import { bookmarkIcon, cyclistIcon, hikerIcon, tentIcon } from '@/lib/images/icons';
   import { user } from '@/lib/stores/auth';
   export let showHiking = false;
   export let showCycling = false;
-  export let showGardens = false;
-  export let showSavedGardens = false;
+  export let showGardens: boolean;
+  export let showSavedGardens: boolean;
 
   $: superfan = $user?.superfan;
 </script>
@@ -33,7 +33,7 @@
       <div>
         <LabeledCheckbox
           name="savedGardens"
-          icon={tentIcon}
+          icon={bookmarkIcon}
           label={'Saved ardens'}
           bind:checked={showSavedGardens}
         />

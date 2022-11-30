@@ -1,7 +1,7 @@
 <script lang="ts">
   export let garden: Garden | null = null;
 
-  import { createEventDispatcher, onMount } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
   import { scale } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
   import SkeletonDrawer from './SkeletonDrawer.svelte';
@@ -125,6 +125,7 @@
     isSaved =
       ($user && garden?.id && $user.savedGardens && $user.savedGardens.includes(garden.id)) ||
       false;
+    dispatch('savedGardenChange');
   };
 </script>
 
