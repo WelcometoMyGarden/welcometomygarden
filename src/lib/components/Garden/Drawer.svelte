@@ -1,11 +1,11 @@
 <script lang="ts">
-  export let garden = null;
+  export let garden: Garden | null = null;
 
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
   import { scale } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
   import SkeletonDrawer from './SkeletonDrawer.svelte';
-  import { getPublicUserProfile } from '@/lib/api/user';
+  import { addSavedGarden, getPublicUserProfile, removeSavedGarden } from '@/lib/api/user';
   import { getGardenPhotoSmall, getGardenPhotoBig } from '$lib/api/garden';
   import { user } from '@/lib/stores/auth';
   import { clickOutside } from '$lib/directives';
@@ -19,6 +19,7 @@
     toiletIcon
   } from '$lib/images/icons';
   import routes from '$lib/routes';
+  import type { Garden } from '@/lib/types/Garden';
 
   const dispatch = createEventDispatcher();
 
@@ -78,6 +79,9 @@
   }
 
   $: ownedByLoggedInUser = $user && garden && $user.id === garden.id;
+  $: isSaved =
+    ($user && garden?.id && $user.savedGardens && $user.savedGardens.includes(garden.id)) || false;
+  $: console.log('isSaved', isSaved);
 
   let isShowingMagnifiedPhoto = false;
   let isGettingMagnifiedPhoto = false;
@@ -106,6 +110,22 @@
     )
       return;
     else if (!drawerElement.contains(clickEvent.target)) dispatch('close');
+  };
+
+  const saveGarden = async () => {
+    if (!garden?.id) return;
+
+    try {
+      if (isSaved) await removeSavedGarden(garden.id);
+      else await addSavedGarden(garden.id);
+    } catch (err) {
+      console.log(err);
+    }
+
+    // We need to update the isSaved variable manually because the user store is not updated when we change props, only when we change the user ex: sign in/out
+    isSaved =
+      ($user && garden?.id && $user.savedGardens && $user.savedGardens.includes(garden.id)) ||
+      false;
   };
 </script>
 
@@ -139,12 +159,19 @@
   {#if gardenIsSelected && infoHasLoaded}
     <section class="main">
       <header>
-        <Text class="mb-l" weight="bold" size="l">
-          {#if ownedByLoggedInUser}
-            {$_('garden.drawer.owner.your-garden')}
-          {:else}{userInfo.firstName}{/if}
-        </Text>
-        {#if garden.photo}
+        <div class="mb-l garden-title">
+          <Text weight="bold" size="l">
+            {#if ownedByLoggedInUser}
+              {$_('garden.drawer.owner.your-garden')}
+            {:else}{userInfo.firstName}{/if}
+          </Text>
+          {#if $user?.superfan}
+            <Button inverse xsmall on:click={saveGarden}
+              >{isSaved ? 'unsave garden' : 'save garden'}</Button
+            >
+          {/if}
+        </div>
+        {#if garden?.photo}
           <button on:click={magnifyPhoto} class="mb-l button-container image-wrapper">
             {#if photoUrl}
               <Image src={photoUrl} />
@@ -249,6 +276,13 @@
 
   .drawer-content-area {
     overflow-y: auto;
+  }
+
+  .garden-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .footer {

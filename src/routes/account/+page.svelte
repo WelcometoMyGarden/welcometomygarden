@@ -6,13 +6,14 @@
   import { updateMailPreferences } from '@/lib/api/user';
   import { resendAccountVerification } from '@/lib/api/auth';
   import { changeListedStatus } from '$lib/api/garden';
-  import { user } from '@/lib/stores/auth';
+  import { getUser, user } from '@/lib/stores/auth';
   import { updatingMailPreferences } from '$lib/stores/user';
   import { Avatar, Icon, Button, LabeledCheckbox } from '$lib/components/UI';
   import { flagIcon, emailIcon } from '$lib/images/icons';
   import { countries } from '$lib/util';
   import routes from '$lib/routes';
   import { SUPPORT_EMAIL } from '$lib/constants';
+  import { keyboardEvent } from '@/lib/stores/keyboardEvent';
 
   if (!$user) goto(routes.SIGN_IN);
 
@@ -62,6 +63,10 @@
       hasResentEmail = false;
     }
   };
+
+  keyboardEvent.subscribe((e) => {
+    if (e?.key === 's') getUser().setAllInObject({ superfan: !getUser().superfan });
+  });
 </script>
 
 <svelte:head>
