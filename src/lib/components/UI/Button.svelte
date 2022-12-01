@@ -1,12 +1,12 @@
-<script>
+<script lang="ts">
   import Text from './Text.svelte';
 
-  export let type = null;
-  export let href = null;
+  export let type: null | string = null;
+  export let href: null | string = null;
   export let inverse = false;
   export let uppercase = false;
   export let fit = true;
-  export let target = null;
+  export let target: null | string = null;
   export let medium = false;
   export let small = false;
   export let xsmall = false;
@@ -16,8 +16,8 @@
 
   const dispatch = createEventDispatcher();
 
-  let clicked;
-  const click = (e) => {
+  let clicked: boolean;
+  const click = (e: MouseEvent) => {
     clicked = true;
     setTimeout(() => (clicked = false), 100);
     if (!disabled) return dispatch('click', e);
