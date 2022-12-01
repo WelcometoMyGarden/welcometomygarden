@@ -13,6 +13,13 @@ import User from '$lib/models/User';
 import { createUser, resendAccountVerification as resendAccVerif } from '@/lib/api/functions';
 import { getAllUserInfo } from './user';
 
+export const createAuthObserver = (): Unsubscribe => {
+  return auth().onAuthStateChanged(async (userData) => {
+    if (userData) await reloadUserInfo();
+    isInitializing.set(false);
+  });
+};
+
 const reloadUserInfo = async (): Promise<void> => {
   await auth().currentUser?.reload();
 
@@ -31,7 +38,7 @@ const reloadUserInfo = async (): Promise<void> => {
 export const login = async (email: string, password: string): Promise<void> => {
   isLoggingIn.set(true);
   await signInWithEmailAndPassword(auth(), email, password);
-  await reloadUserInfo();
+  // You don't need 'await reloadUserInfo();' here because the auth observer will trigger "reloadUserInfo()" (because the user is logged in)
   isLoggingIn.set(false);
 };
 
@@ -64,11 +71,10 @@ export const logout = async () => {
   user.set(null);
 };
 
-export const createAuthObserver = (): Unsubscribe => {
-  return auth().onAuthStateChanged(async (userData) => {
-    if (userData) await reloadUserInfo();
-    isInitializing.set(false);
-  });
+export const applyActionCode = async (code: string) => {
+  await firebaseApplyActionCode(auth(), code);
+  await auth().currentUser?.getIdToken(true);
+  await reloadUserInfo();
 };
 
 export const resendAccountVerification = async () => {
@@ -79,12 +85,6 @@ export const resendAccountVerification = async () => {
 
 export const verifyPasswordResetCode = (code: string) => {
   return firebaseVerifyPasswordResetCode(auth(), code);
-};
-
-export const applyActionCode = async (code: string) => {
-  await firebaseApplyActionCode(auth(), code);
-  await auth().currentUser?.getIdToken(true);
-  await reloadUserInfo();
 };
 
 export const confirmPasswordReset = (code: string, password: string) => {
