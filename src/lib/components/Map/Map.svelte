@@ -30,7 +30,8 @@
       style: 'mapbox://styles/mapbox/streets-v8',
       center: [lon, lat],
       zoom,
-      attributionControl: false
+      attributionControl: false,
+      hash: true
     });
 
     map.addControl(
