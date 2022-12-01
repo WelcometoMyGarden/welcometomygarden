@@ -16,6 +16,9 @@
   }
 
   const handleAction = async () => {
+    if (!mode || !oobCode) {
+      throw new Error('Invalid code');
+    }
     if (mode === 'resetPassword') {
       try {
         const email = await verifyPasswordResetCode(oobCode);
