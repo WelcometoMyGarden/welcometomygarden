@@ -100,7 +100,7 @@
       }
     } else {
       try {
-        await sendMessage(chat.id, normalizeWhiteSpace(typedMessage));
+        await sendMessage($user.id, chat.id, normalizeWhiteSpace(typedMessage));
         typedMessage = '';
       } catch (ex) {
         // TODO: show error

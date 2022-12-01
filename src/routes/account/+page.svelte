@@ -65,7 +65,7 @@
   };
 
   keyboardEvent.subscribe((e) => {
-    if (e?.key === 's') getUser().setAllInObject({ superfan: !getUser().superfan });
+    if (e?.key === 's') getUser().addFields({ superfan: !getUser().superfan });
   });
 </script>
 

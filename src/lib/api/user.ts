@@ -24,18 +24,18 @@ export const getPublicUserProfile = async (uid: string) => {
   return docSnap.data();
 };
 
-const getPrivateUserProfile = async () => {
+const getPrivateUserProfile = async (uid: string) => {
   gettingPrivateUserProfile.set(true);
 
-  const docRef = doc(db(), USERS_PRIVATE, getUser().id);
+  const docRef = doc(db(), USERS_PRIVATE, uid);
 
   const profile = await getDoc(docRef);
   gettingPrivateUserProfile.set(false);
   return profile.data();
 };
 
-const getCampsiteInformation = async () => {
-  const docRef = doc(db(), CAMPSITES, getUser().id);
+const getCampsiteInformation = async (uid: string) => {
+  const docRef = doc(db(), CAMPSITES, uid);
   const docSnap = await getDoc(docRef);
 
   let garden = null;
@@ -45,8 +45,8 @@ const getCampsiteInformation = async () => {
 
 export const getAllUserInfo = async (userId: string) => {
   const publicUserProfile = await getPublicUserProfile(userId);
-  const privateUserProfile = await getPrivateUserProfile();
-  const garden = await getCampsiteInformation();
+  const privateUserProfile = await getPrivateUserProfile(userId);
+  const garden = await getCampsiteInformation(userId);
   return { ...publicUserProfile, ...privateUserProfile, ...garden };
 };
 
@@ -86,7 +86,7 @@ const updateSavedGardens = async (gardenId: string, action: 'REMOVE' | 'ADD') =>
       // We could use a filter here but I think this is more readable and the mutation is no concern here
       savedGardens.splice(index, 1);
       await updateDoc(docRef, { savedGardens });
-      getUser().setAllInObject({ savedGardens });
+      getUser().addFields({ savedGardens });
       updatingSavedGardens.set(false);
       return savedGardens;
     }
@@ -97,7 +97,7 @@ const updateSavedGardens = async (gardenId: string, action: 'REMOVE' | 'ADD') =>
       // the mutation is no concern here
       savedGardens.push(gardenId);
       await updateDoc(docRef, { savedGardens });
-      getUser().setAllInObject({ savedGardens });
+      getUser().addFields({ savedGardens });
       updatingSavedGardens.set(false);
       return savedGardens;
     }

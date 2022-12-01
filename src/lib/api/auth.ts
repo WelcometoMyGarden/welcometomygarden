@@ -19,10 +19,13 @@ const reloadUserInfo = async (): Promise<void> => {
   // Check if there is a user logged in
   if (!auth().currentUser) return;
 
-  let tempUser = new User(auth().currentUser);
-  tempUser.addFields(await getAllUserInfo(tempUser.uid));
-
-  user.set(tempUser);
+  try {
+    let tempUser = new User(auth().currentUser);
+    tempUser.addFields(await getAllUserInfo(tempUser.uid));
+    user.set(tempUser);
+  } catch (ex) {
+    console.log(ex);
+  }
 };
 
 export const login = async (email: string, password: string): Promise<void> => {
@@ -46,8 +49,11 @@ export const register = async ({
   countryCode: string;
 }) => {
   isRegistering.set(true);
+  // TODO: refactor
+  // createUserWithEmailAndPassword triggers the onAuthStateChanged listener, with limited user data and the firebase docs are not yet created, so we expect the error "'This person does not have an account.'" and reload the user data after the user is created
   await createUserWithEmailAndPassword(auth(), email, password);
   await createUser({ firstName, lastName, countryCode });
+  // this reloads the user data with the full user data from the firebase docs
   await reloadUserInfo();
   isRegistering.set(false);
 };

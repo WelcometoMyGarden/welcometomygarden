@@ -40,6 +40,10 @@ export class User {
     });
   }
 
+  setGarden(garden: Garden | null) {
+    this.garden = garden;
+  }
+
   setEmailPreferences(name: 'newChat' | 'news', pref: boolean) {
     this.emailPreferences[name] = pref;
   }

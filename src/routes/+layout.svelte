@@ -35,33 +35,12 @@
 
   let vh = `0px`;
 
-  const addUserInformation = async () => {
-    console.log('before ADDUSERINFORMATION: ', $user);
+  user.subscribe(async (tempUser) => {
+    console.log('User changed to', tempUser);
+    if (!unsubscribeFromChatObserver && tempUser && tempUser.emailVerified)
+      unsubscribeFromChatObserver = await createChatObserver(tempUser.uid);
 
-    // If the user is registered with email and pwd AND it has a public doc THEN set all the user information
-    if (!$user || !$user.id) return console.log('no user or no user id');
-    const doesExist = await doesPublicUserExist($user.id);
-
-    if (!doesExist) return console.log('no public user exists');
-    try {
-      await setAllUserInfo();
-      console.log('after ADDUSERINFORMATION: ', getUser());
-    } catch (ex) {
-      console.log(ex);
-    }
-    if ($user?.emailVerified) unsubscribeFromChatObserver = await createChatObserver();
-  };
-
-  isInitializing.subscribe(async (isInitializingTemp) => {
-    console.log('isInitializing', isInitializingTemp);
-
-    // Only run when done initializing (isInitializing = false)
-    if (!isInitializingTemp) {
-      // If there is a user, then we need to get the public user information
-      if ($user) await addUserInformation();
-
-      infoIsReady = true;
-    }
+    if (unsubscribeFromChatObserver && !tempUser) unsubscribeFromChatObserver();
   });
 
   onMount(async () => {
