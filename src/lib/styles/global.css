@@ -29,12 +29,12 @@
   --color-success: #00c851;
   --color-yellow: #e4d290;
 
-  --color-avatar-0: '#EC9570';
-  --color-avatar-1: '#F6C4B7';
-  --color-avatar-2: '#F4E27E';
-  --color-avatar-3: '#59C29D';
-  --color-avatar-4: '#A2D0D3';
-  --color-avatar-5: '#2E5F63';
+  --color-extra-0: '#EC9570';
+  --color-extra-1: '#F6C4B7';
+  --color-extra-2: '#F4E27E';
+  --color-extra-3: '#59C29D';
+  --color-extra-4: '#A2D0D3';
+  --color-extra-5: '#2E5F63';
 
   /*
   * Typography
