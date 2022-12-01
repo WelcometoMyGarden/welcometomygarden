@@ -20,6 +20,7 @@
   import RouteModal from '@/lib/components/Map/RouteModal.svelte';
   import Trail from '@/lib/components/Map/Trail.svelte';
   import { user } from '@/lib/stores/auth';
+  import type { Garden } from '@/lib/types/Garden';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let geolocationIsLoaded = false;
@@ -28,7 +29,7 @@
   let showRouteModal = false;
   let showGardens = true;
   let showSavedGardens = false;
-  let filteredGardens;
+  let filteredGardens: { [id: string]: Garden };
   let savedGardens = [] as string[];
   let carNoticeShown = !getCookie('car-notice-dismissed');
 

@@ -8,7 +8,6 @@
   import { onDestroy, onMount } from 'svelte';
   import { isLoading as isLocaleLoading } from 'svelte-i18n';
   import { createAuthObserver } from '@/lib/api/auth';
-  import { doesPublicUserExist } from '@/lib/api/user';
   import { createChatObserver } from '$lib/api/chat';
   import { user, isInitializing, getUser } from '@/lib/stores/auth';
   import { keyboardEvent } from '@/lib/stores/keyboardEvent';

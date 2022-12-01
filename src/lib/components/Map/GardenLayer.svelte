@@ -1,5 +1,8 @@
 <script lang="ts">
-  export let allGardens;
+  import type { Garden } from '@/lib/types/Garden.js';
+  import type maplibregl from 'maplibre-gl';
+
+  export let allGardens: { [id: string]: Garden };
   export let selectedGardenId: string | null = null;
   export let showGardens: boolean;
   export let showSavedGardens: boolean;
@@ -8,37 +11,81 @@
   import { getContext, createEventDispatcher, onMount, onDestroy } from 'svelte';
   import key from './mapbox-context.js';
 
+  type GardenFeatureCollection = {
+    type: 'FeatureCollection';
+    features: GeoJSON.Feature[];
+  };
+
   const { getMap } = getContext(key);
-  const map = getMap();
+  const map: maplibregl.Map = getMap();
 
   const dispatch = createEventDispatcher();
 
   let mapReady = false;
 
-  const getData = () => {
-    const features = Object.keys(allGardens).map((gardenId) => {
-      const garden = allGardens[gardenId];
-      //check if garden id is in savedGardens
-      const isSaved = savedGardens.includes(gardenId);
-      return {
+  const savedGardenSourceId = 'saved-gardens';
+  const gardensWithoutSavedGardensSourceId = 'gardens-without-saved-gardens';
+  const savedGardenLayerId = 'saved-gardens-layer';
+  const clustersLayerId = 'clusters';
+  const clusterCountLayerId = 'cluster-count';
+  const unclusteredPointLayerId = 'unclustered-point';
+
+  const calculateData = () => {
+    const fcSavedGardens: GardenFeatureCollection = {
+      type: 'FeatureCollection',
+      features: []
+    };
+
+    const fcGardensWithoutSavedGardens: GardenFeatureCollection = {
+      type: 'FeatureCollection',
+      features: []
+    };
+
+    Object.values(allGardens).map((garden: Garden) => {
+      if (!garden.id) return;
+
+      const gardenId = garden.id;
+
+      let gardenFeature = {
         type: 'Feature',
         properties: {
           id: gardenId,
           ...garden,
-          lnglat: [garden.location.longitude, garden.location.latitude],
-          icon: selectedGardenId === gardenId ? 'tent-filled' : isSaved ? 'tent-saved' : 'tent'
+          lnglat: [garden.location?.longitude, garden.location?.latitude]
+          // icon: selectedGardenId === gardenId ? 'tent-filled' : isSaved ? 'tent-saved' : 'tent'
         },
         geometry: {
           type: 'Point',
-          coordinates: [garden.location.longitude, garden.location.latitude]
+          coordinates: [garden.location?.longitude, garden.location?.latitude]
         }
       };
+
+      //check if garden id is in savedGardens
+      const isSaved = savedGardens.includes(gardenId);
+
+      // Add garden to allGardens feature collection
+      //fcAllGardens.features.push(gardenFeature);
+
+      // if garden is saved, add to savedGardens feature collection and if garden is not saved, add to gardensWithoutSavedGardens feature collection
+      if (isSaved) fcSavedGardens.features.push(gardenFeature);
+      else fcGardensWithoutSavedGardens.features.push(gardenFeature);
+
+      // if garden is selected, add to selectedGarden feature collection
+      //const isSelected = selectedGardenId === gardenId;
+      //if (isSelected) fcSelectedGarden.features.push(gardenFeature);
     });
 
+    console.log({ fcSavedGardens, fcGardensWithoutSavedGardens });
+
     return {
-      type: 'FeatureCollection',
-      features
+      fcSavedGardens,
+      fcGardensWithoutSavedGardens
     };
+  };
+
+  const onGardenClick = (e: maplibregl.MapMouseEvent) => {
+    const garden = e.features?.[0]?.properties;
+    dispatch('garden-click', garden);
   };
 
   const setupMarkers = async () => {
@@ -47,7 +94,9 @@
       const images = [
         { url: '/images/markers/tent-neutral.png', id: 'tent' },
         { url: '/images/markers/tent-filled.png', id: 'tent-filled' },
-        { url: '/images/markers/tent-saved.png', id: 'tent-saved' }
+        { url: '/images/markers/bookmark.png', id: 'tent-bookmark' },
+        { url: '/images/markers/tent-white-yellow.png', id: 'tent-saved-selected' },
+        { url: '/images/markers/tent-yellow.png', id: 'tent-saved' }
       ];
 
       await Promise.all(
@@ -63,35 +112,52 @@
           })
         )
       );
-      const data = getData();
 
-      map.addSource('gardens', {
+      const { fcSavedGardens, fcGardensWithoutSavedGardens } = calculateData();
+
+      // map.addSource('gardens', {
+      //   type: 'geojson',
+      //   data: data,
+      //   cluster: true,
+      //   clusterMaxZoom: 14,
+      //   clusterRadius: 50
+      // });
+
+      map.addSource(gardensWithoutSavedGardensSourceId, {
         type: 'geojson',
-        data: data,
+        data: fcGardensWithoutSavedGardens,
         cluster: true,
         clusterMaxZoom: 14,
         clusterRadius: 50
       });
 
+      map.addSource(savedGardenSourceId, {
+        type: 'geojson',
+        data: fcSavedGardens
+      });
+
       map.addLayer({
-        id: 'clusters',
+        id: clustersLayerId,
         type: 'circle',
-        source: 'gardens',
+        source: gardensWithoutSavedGardensSourceId,
         filter: ['has', 'point_count'],
         paint: {
           // https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step
           //   * Blue, 20px circles when point count is less than 20
           //   * Yellow, 30px circles when point count is between 30 and 40
           //   * Pink, 40px circles when point count is greater than or equal to 40
-          'circle-color': ['step', ['get', 'point_count'], '#A2D0D3', 20, '#F4E27E', 40, '#F6C4B7'],
+          // --color-avatar-0: '#EC9570'; --color-avatar-1: '#F6C4B7'; --color-avatar-2: '#F4E27E';
+          // --color-avatar-3: '#59C29D'; --color-avatar-4: '#A2D0D3'; --color-avatar-5: '#2E5F63';
+
+          'circle-color': ['step', ['get', 'point_count'], '#A2D0D3', 20, '#EC9570', 80, '#F6C4B7'],
           'circle-radius': ['step', ['get', 'point_count'], 20, 20, 30, 40, 40]
         }
       });
 
       map.addLayer({
-        id: 'cluster-count',
+        id: clusterCountLayerId,
         type: 'symbol',
-        source: 'gardens',
+        source: gardensWithoutSavedGardensSourceId,
         filter: ['has', 'point_count'],
         layout: {
           'text-field': '{point_count_abbreviated}',
@@ -100,53 +166,65 @@
       });
 
       map.addLayer({
-        id: 'unclustered-point',
+        id: unclusteredPointLayerId,
         type: 'symbol',
-        source: 'gardens',
+        source: gardensWithoutSavedGardensSourceId,
         filter: ['!', ['has', 'point_count']],
         layout: {
-          'icon-image': ['get', 'icon'],
+          'icon-image': 'tent',
+          'icon-size': 0.4
+        }
+      });
+
+      map.addLayer({
+        id: savedGardenLayerId,
+        type: 'symbol',
+        source: savedGardenSourceId,
+        layout: {
+          'icon-image': 'tent-saved',
           'icon-size': 0.4
         }
       });
 
       // inspect a cluster on click
-      map.on('click', 'clusters', (e) => {
-        var features = map.queryRenderedFeatures(e.point, {
-          layers: ['clusters']
+      map.on('click', clustersLayerId, (e) => {
+        const features = map.queryRenderedFeatures(e.point, {
+          layers: [clustersLayerId]
         });
-        var clusterId = features[0].properties.cluster_id;
-        map.getSource('gardens').getClusterExpansionZoom(clusterId, function (err, zoom) {
-          if (err) return;
+        const clusterId = features[0].properties?.cluster_id;
+        map
+          .getSource(gardensWithoutSavedGardensSourceId)
+          .getClusterExpansionZoom(clusterId, function (err, zoom) {
+            if (err) return console.log(err);
 
-          map.easeTo({
-            center: features[0].geometry.coordinates,
-            zoom: zoom
+            map.easeTo({
+              center: features[0].geometry.coordinates,
+              zoom: zoom
+            });
           });
-        });
       });
 
-      map.on('click', 'unclustered-point', (e) => {
-        const coordinates = e.features[0].geometry.coordinates.slice();
-        const garden = e.features[0].properties;
+      map.on('click', unclusteredPointLayerId, onGardenClick);
+      map.on('click', savedGardenLayerId, onGardenClick);
 
-        // Ensure that if the map is zoomed out such that
-        // multiple copies of the feature are visible, the
-        // popup appears over the copy being pointed to.
-        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-        }
-
-        dispatch('garden-click', garden);
-      });
-
-      map.on('mouseenter', 'clusters', () => {
+      map.on('mouseenter', clustersLayerId, () => {
         map.getCanvas().style.cursor = 'pointer';
       });
-      map.on('mouseenter', 'unclustered-point', () => {
+      map.on('mouseleave', clustersLayerId, () => {
+        map.getCanvas().style.cursor = '';
+      });
+
+      map.on('mouseenter', unclusteredPointLayerId, () => {
         map.getCanvas().style.cursor = 'pointer';
       });
-      map.on('mouseleave', 'clusters', () => {
+      map.on('mouseleave', unclusteredPointLayerId, () => {
+        map.getCanvas().style.cursor = '';
+      });
+
+      map.on('mouseenter', savedGardenLayerId, () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+      map.on('mouseleave', savedGardenLayerId, () => {
         map.getCanvas().style.cursor = '';
       });
     } catch (err) {
@@ -158,11 +236,34 @@
   };
 
   const updateSelectedMarker = (_?: any) => {
-    const data = getData();
-    map.getSource('gardens').setData(data);
+    const { fcSavedGardens, fcGardensWithoutSavedGardens } = calculateData();
+    map.getSource(gardensWithoutSavedGardensSourceId).setData(fcGardensWithoutSavedGardens);
+    map.getSource(savedGardenSourceId).setData(fcSavedGardens);
   };
 
-  $: if (mapReady) updateSelectedMarker({ selectedGardenId, allGardens, savedGardens });
+  $: if (mapReady) updateSelectedMarker({ allGardens, savedGardens });
+
+  $: {
+    if (mapReady)
+      if (selectedGardenId) {
+        map.setLayoutProperty(unclusteredPointLayerId, 'icon-image', {
+          property: 'id',
+          type: 'categorical',
+          stops: [[selectedGardenId, 'tent-filled']],
+          default: 'tent'
+        });
+
+        map.setLayoutProperty(savedGardenLayerId, 'icon-image', {
+          property: 'id',
+          type: 'categorical',
+          stops: [[selectedGardenId, 'tent-filled']],
+          default: 'tent-saved'
+        });
+      } else {
+        map.setLayoutProperty(unclusteredPointLayerId, 'icon-image', 'tent');
+        map.setLayoutProperty(savedGardenLayerId, 'icon-image', 'tent-saved');
+      }
+  }
 
   setupMarkers();
 </script>
