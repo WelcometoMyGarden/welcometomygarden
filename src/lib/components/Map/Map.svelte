@@ -1,21 +1,21 @@
-<script>
-  import { setContext, onMount } from 'svelte';
+<script lang="ts">
+  import { setContext, onMount, tick } from 'svelte';
   import maplibregl from 'maplibre-gl';
   import key from './mapbox-context.js';
 
   import 'maplibre-gl/dist/maplibre-gl.css';
 
-  export let lat;
-  export let lon;
-  export let zoom;
+  export let lat: number;
+  export let lon: number;
+  export let zoom: number;
   export let applyZoom = false; // make this true if the provided zoom level should be applied
   export let recenterOnUpdate = false;
   export let initialLat = lat;
   export let initialLon = lon;
   export let jump = false;
 
-  let container;
-  let map;
+  let container: HTMLElement;
+  let map: maplibregl.Map;
   let loaded = false;
 
   setContext(key, {
@@ -42,6 +42,10 @@
 
     map.on('load', () => {
       loaded = true;
+    });
+
+    tick().then(() => {
+      map.resize();
     });
   });
 
