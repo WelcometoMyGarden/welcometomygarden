@@ -6,11 +6,13 @@
   // is this a little nasty? yes
   // until routify handles index routes a little more consistently, it's here to stay
   export let isHome = false;
-  export let target = undefined;
+  export let target: string | undefined = undefined;
+  export let rel: string | undefined = undefined;
 </script>
 
 <a
   {href}
+  {rel}
   class:active={isHome ? isActive($page, '/') : isActiveContains($page, href)}
   {target}
   on:click
