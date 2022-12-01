@@ -36,7 +36,6 @@
   let vh = `0px`;
 
   user.subscribe(async (tempUser) => {
-    console.log('User changed to', tempUser);
     if (!unsubscribeFromChatObserver && tempUser && tempUser.emailVerified)
       unsubscribeFromChatObserver = await createChatObserver(tempUser.uid);
 
