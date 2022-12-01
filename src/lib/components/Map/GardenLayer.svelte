@@ -157,12 +157,12 @@
     }
   };
 
-  const updateSelectedMarker = () => {
+  const updateSelectedMarker = (_?: any) => {
     const data = getData();
     map.getSource('gardens').setData(data);
   };
 
-  $: if (mapReady) updateSelectedMarker(selectedGardenId, allGardens);
+  $: if (mapReady) updateSelectedMarker({ selectedGardenId, allGardens, savedGardens });
 
   setupMarkers();
 </script>

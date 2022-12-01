@@ -134,14 +134,16 @@
     const idsToUpdate = fileDataLayerIds.filter((id) => prevFileDataLayerIds.includes(id)); // IDs that are in both the old and new data
 
     // TODO: remove logs
-    console.log('---');
-    console.log('getFileDataLayerIdsOnMap', getFileDataLayerIdsOnMap());
-    console.log('prev ids', prevFileDataLayerIds);
-    console.log('ids', fileDataLayerIds);
-    console.log('idsToAdd', idsToAdd);
-    console.log('idsToRemove', idsToRemove);
-    console.log('idsToUpdate', idsToUpdate);
-    console.log('---');
+    if (false) {
+      console.log('---');
+      console.log('getFileDataLayerIdsOnMap', getFileDataLayerIdsOnMap());
+      console.log('prev ids', prevFileDataLayerIds);
+      console.log('ids', fileDataLayerIds);
+      console.log('idsToAdd', idsToAdd);
+      console.log('idsToRemove', idsToRemove);
+      console.log('idsToUpdate', idsToUpdate);
+      console.log('---');
+    }
 
     // Check
 

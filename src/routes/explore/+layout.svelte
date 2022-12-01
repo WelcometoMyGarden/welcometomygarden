@@ -66,9 +66,10 @@
     goto(routes.MAP);
   };
 
-  const reloadSavedGardens = () => {
+  $: reloadSavedGardens = () => {
     let tempSavedGardens = $user?.savedGardens || [];
     if (Array.isArray(tempSavedGardens)) savedGardens = tempSavedGardens;
+    console.log('savedGardens', savedGardens);
   };
 
   const closeCarNotice = () => {
