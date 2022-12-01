@@ -19,8 +19,8 @@
   import LayersAndTools from '@/lib/components/Map/LayersAndTools.svelte';
   import RouteModal from '@/lib/components/Map/RouteModal.svelte';
   import Trail from '@/lib/components/Map/Trail.svelte';
-  import { user } from '@/lib/stores/auth';
   import type { Garden } from '@/lib/types/Garden';
+  import { savedGardens as savedGardenStore } from '@/lib/stores/savedGardens';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let geolocationIsLoaded = false;
@@ -45,6 +45,11 @@
     ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
     : fallbackLocation;
 
+  savedGardenStore.subscribe((gardens) => {
+    if (Array.isArray(gardens)) savedGardens = gardens;
+    else savedGardens = [];
+  });
+
   // FUNCTIONS
 
   const selectGarden = (garden) => {
@@ -65,12 +70,6 @@
     usingGardenLink = false;
 
     goto(routes.MAP);
-  };
-
-  $: reloadSavedGardens = () => {
-    let tempSavedGardens = $user?.savedGardens || [];
-    if (Array.isArray(tempSavedGardens)) savedGardens = tempSavedGardens;
-    console.log('savedGardens', savedGardens);
   };
 
   const closeCarNotice = () => {
@@ -105,8 +104,6 @@
         }
       );
     }
-
-    reloadSavedGardens();
   });
 
   onDestroy(() => {
@@ -136,11 +133,7 @@
         allGardens={filteredGardens || $allGardens}
         {savedGardens}
       />
-      <Drawer
-        on:close={closeDrawer}
-        garden={selectedGarden}
-        on:savedGardenChange={reloadSavedGardens}
-      />
+      <Drawer on:close={closeDrawer} garden={selectedGarden} />
       <WaymarkedTrails {showHiking} {showCycling} />
       <slot />
     {/if}

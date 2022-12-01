@@ -120,12 +120,6 @@
     } catch (err) {
       console.log(err);
     }
-
-    // We need to update the isSaved variable manually because the user store is not updated when we change props, only when we change the user ex: sign in/out
-    isSaved =
-      ($user && garden?.id && $user.savedGardens && $user.savedGardens.includes(garden.id)) ||
-      false;
-    dispatch('savedGardenChange');
   };
 </script>
 

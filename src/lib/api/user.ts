@@ -3,7 +3,7 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 import { db } from './firebase';
 
-import { getUser } from '@/lib/stores/auth';
+import { getUser, user } from '@/lib/stores/auth';
 import {
   gettingPrivateUserProfile,
   updatingMailPreferences,
@@ -85,8 +85,11 @@ const updateSavedGardens = async (gardenId: string, action: 'REMOVE' | 'ADD') =>
     if (index > -1) {
       // We could use a filter here but I think this is more readable and the mutation is no concern here
       savedGardens.splice(index, 1);
+
       await updateDoc(docRef, { savedGardens });
-      getUser().addFields({ savedGardens });
+      let tempUser = getUser();
+      tempUser.addFields({ savedGardens });
+      user.set(tempUser);
       updatingSavedGardens.set(false);
       return savedGardens;
     }
@@ -96,8 +99,11 @@ const updateSavedGardens = async (gardenId: string, action: 'REMOVE' | 'ADD') =>
     if (!savedGardens.includes(gardenId)) {
       // the mutation is no concern here
       savedGardens.push(gardenId);
+
       await updateDoc(docRef, { savedGardens });
-      getUser().addFields({ savedGardens });
+      let tempUser = getUser();
+      tempUser.addFields({ savedGardens });
+      user.set(tempUser);
       updatingSavedGardens.set(false);
       return savedGardens;
     }
@@ -114,5 +120,7 @@ export const addSavedGarden = async (gardenId: string) => {
 export const updateSuperfan = async (superfan: boolean) => {
   const docRef = doc(db(), USERS, getUser().id);
   await updateDoc(docRef, { superfan });
-  getUser().superfan = superfan;
+  let tempUser = getUser();
+  tempUser.addFields({ superfan });
+  user.set(tempUser);
 };
