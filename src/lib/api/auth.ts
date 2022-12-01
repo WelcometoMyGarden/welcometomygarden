@@ -38,7 +38,11 @@ const reloadUserInfo = async (): Promise<void> => {
 export const login = async (email: string, password: string): Promise<void> => {
   isLoggingIn.set(true);
   await signInWithEmailAndPassword(auth(), email, password);
+  // TODO: refactor this
   // You don't need 'await reloadUserInfo();' here because the auth observer will trigger "reloadUserInfo()" (because the user is logged in)
+  // Jokes on me, we do need it because the we return the promise of this function before the auth observer is completed
+  // so yes the reloadUserInfo() is called here and in the auth observer after, so it's called twice, but it's not a big deal
+  await reloadUserInfo();
   isLoggingIn.set(false);
 };
 
