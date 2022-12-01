@@ -29,4 +29,3 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_STAGING }}'
           projectId: wtmg-dev
           channelId: live
-

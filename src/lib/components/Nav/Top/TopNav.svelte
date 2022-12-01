@@ -5,7 +5,7 @@
   import UserDropdown from './UserDropdown.svelte';
   import { user } from '@/lib/stores/auth';
   import { page } from '$app/stores';
-  import {isActive} from '@/lib/util/isActive';
+  import { isActive } from '@/lib/util/isActive';
 
   $: firstName = $user ? $user.firstName : '';
 </script>

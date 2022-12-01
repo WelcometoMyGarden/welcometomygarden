@@ -5,30 +5,31 @@
 
 <ul class="socials" class:medium class:small>
   <li>
-    <a href="https://www.facebook.com/Welcome2mygarden/" target="_blank"  rel="noreferrer" >
+    <a href="https://www.facebook.com/Welcome2mygarden/" target="_blank" rel="noreferrer">
       <img src="/images/icons/facebook.svg" alt="Facebook" />
     </a>
   </li>
   <li>
-    <a href="https://opencollective.com/welcometomygarden" target="_blank"  rel="noreferrer" >
+    <a href="https://opencollective.com/welcometomygarden" target="_blank" rel="noreferrer">
       <img src="/images/icons/open-collective.svg" alt="Open Collective" />
     </a>
   </li>
   <li>
-    <a href="https://github.com/welcometomygarden" target="_blank"  rel="noreferrer" >
+    <a href="https://github.com/welcometomygarden" target="_blank" rel="noreferrer">
       <img src="/images/icons/github.svg" alt="GitHub" />
     </a>
   </li>
   <li>
     <a
       href="https://join.slack.com/t/welcometomygarden/shared_invite/zt-f31i37dj-_zFgnfe40B6EexJuB2f_~w"
-      target="_blank"  rel="noreferrer"
+      target="_blank"
+      rel="noreferrer"
     >
       <img src="/images/icons/slack.svg" alt="Slack" />
     </a>
   </li>
   <li>
-    <a href="mailto:support@welcometomygarden.org" target="_blank"  rel="noreferrer" >
+    <a href="mailto:support@welcometomygarden.org" target="_blank" rel="noreferrer">
       <img src="/images/icons/email.svg" alt="Mail" />
     </a>
   </li>

@@ -48,7 +48,7 @@
         <h4>{title}</h4>
       </div>
       <div class="register-here">
-        <a {href} target="_blank"  rel="noreferrer" >
+        <a {href} target="_blank" rel="noreferrer">
           <span class="register-here-text">{$_('ui.card.register-here')}</span>
           <div class="icon">
             <Icon icon={arrowIcon} />

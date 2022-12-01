@@ -11,10 +11,6 @@ export default defineConfig((): UserConfig => {
     build: {
       minify: isProduction
     },
-    plugins: [
-      createAvailableLocales(),
-      customSvgLoader({ removeSVGTagAttrs: false }),
-      sveltekit()
-    ]
+    plugins: [createAvailableLocales(), customSvgLoader({ removeSVGTagAttrs: false }), sveltekit()]
   };
 });

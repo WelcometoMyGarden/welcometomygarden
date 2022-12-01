@@ -1,4 +1,3 @@
-
 Note: this uses firebase-admin version 9, that is a version before 10.
 
 [Version 10 introduced a major architecture rewrite](https://firebase.google.com/docs/admin/migrate-node-v10).
