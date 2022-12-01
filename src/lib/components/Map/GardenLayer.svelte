@@ -8,7 +8,7 @@
   export let showSavedGardens: boolean;
   export let savedGardens = [] as string[];
 
-  import { getContext, createEventDispatcher, onMount, onDestroy } from 'svelte';
+  import { getContext, createEventDispatcher } from 'svelte';
   import key from './mapbox-context.js';
 
   type GardenFeatureCollection = {
@@ -30,16 +30,23 @@
   const clusterCountLayerId = 'cluster-count';
   const unclusteredPointLayerId = 'unclustered-point';
 
-  const calculateData = () => {
-    const fcSavedGardens: GardenFeatureCollection = {
-      type: 'FeatureCollection',
-      features: []
-    };
+  const fcAllGardens: GardenFeatureCollection = {
+    type: 'FeatureCollection',
+    features: []
+  };
+  const fcSavedGardens: GardenFeatureCollection = {
+    type: 'FeatureCollection',
+    features: []
+  };
+  const fcGardensWithoutSavedGardens: GardenFeatureCollection = {
+    type: 'FeatureCollection',
+    features: []
+  };
 
-    const fcGardensWithoutSavedGardens: GardenFeatureCollection = {
-      type: 'FeatureCollection',
-      features: []
-    };
+  const calculateData = () => {
+    fcAllGardens.features = [];
+    fcSavedGardens.features = [];
+    fcGardensWithoutSavedGardens.features = [];
 
     Object.values(allGardens).map((garden: Garden) => {
       if (!garden.id) return;
@@ -64,7 +71,7 @@
       const isSaved = savedGardens.includes(gardenId);
 
       // Add garden to allGardens feature collection
-      //fcAllGardens.features.push(gardenFeature);
+      fcAllGardens.features.push(gardenFeature);
 
       // if garden is saved, add to savedGardens feature collection and if garden is not saved, add to gardensWithoutSavedGardens feature collection
       if (isSaved) fcSavedGardens.features.push(gardenFeature);
@@ -75,12 +82,7 @@
       //if (isSelected) fcSelectedGarden.features.push(gardenFeature);
     });
 
-    console.log({ fcSavedGardens, fcGardensWithoutSavedGardens });
-
-    return {
-      fcSavedGardens,
-      fcGardensWithoutSavedGardens
-    };
+    console.log({ fcAllGardens, fcSavedGardens, fcGardensWithoutSavedGardens });
   };
 
   const onGardenClick = (e: maplibregl.MapMouseEvent) => {
@@ -113,7 +115,7 @@
         )
       );
 
-      const { fcSavedGardens, fcGardensWithoutSavedGardens } = calculateData();
+      calculateData();
 
       // map.addSource('gardens', {
       //   type: 'geojson',
@@ -146,8 +148,8 @@
           //   * Blue, 20px circles when point count is less than 20
           //   * Yellow, 30px circles when point count is between 30 and 40
           //   * Pink, 40px circles when point count is greater than or equal to 40
-          // --color-avatar-0: '#EC9570'; --color-avatar-1: '#F6C4B7'; --color-avatar-2: '#F4E27E';
-          // --color-avatar-3: '#59C29D'; --color-avatar-4: '#A2D0D3'; --color-avatar-5: '#2E5F63';
+          // --color-0: '#EC9570'; --color-1: '#F6C4B7'; --color-2: '#F4E27E';
+          // --color-3: '#59C29D'; --color-4: '#A2D0D3'; --color-5: '#2E5F63';
 
           'circle-color': ['step', ['get', 'point_count'], '#A2D0D3', 20, '#EC9570', 80, '#F6C4B7'],
           'circle-radius': ['step', ['get', 'point_count'], 20, 20, 30, 40, 40]
@@ -236,12 +238,27 @@
   };
 
   const updateSelectedMarker = (_?: any) => {
-    const { fcSavedGardens, fcGardensWithoutSavedGardens } = calculateData();
+    calculateData();
     map.getSource(gardensWithoutSavedGardensSourceId).setData(fcGardensWithoutSavedGardens);
     map.getSource(savedGardenSourceId).setData(fcSavedGardens);
   };
 
+  const updateGardensWithoutSavedGardensVisibility = (visible: boolean) => {
+    map.setLayoutProperty(clustersLayerId, 'visibility', visible ? 'visible' : 'none');
+    map.setLayoutProperty(clusterCountLayerId, 'visibility', visible ? 'visible' : 'none');
+    map.setLayoutProperty(unclusteredPointLayerId, 'visibility', visible ? 'visible' : 'none');
+  };
+
+  const updateSavedGardensVisibility = (visible: boolean) => {
+    map.setLayoutProperty(savedGardenLayerId, 'visibility', visible ? 'visible' : 'none');
+  };
+
   $: if (mapReady) updateSelectedMarker({ allGardens, savedGardens });
+
+  $: if (mapReady) {
+    updateGardensWithoutSavedGardensVisibility(showGardens);
+    updateSavedGardensVisibility(showSavedGardens);
+  }
 
   $: {
     if (mapReady)
