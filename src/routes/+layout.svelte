@@ -8,9 +8,9 @@
   import { onDestroy, onMount } from 'svelte';
   import { isLoading as isLocaleLoading } from 'svelte-i18n';
   import { createAuthObserver } from '@/lib/api/auth';
-  import { doesPublicUserExist, setAllUserInfo } from '@/lib/api/user';
+  import { doesPublicUserExist } from '@/lib/api/user';
   import { createChatObserver } from '$lib/api/chat';
-  import { user, isInitializing } from '@/lib/stores/auth';
+  import { user, isInitializing, getUser } from '@/lib/stores/auth';
   import { keyboardEvent } from '@/lib/stores/keyboardEvent';
   import { Progress, Notifications } from '$lib/components/UI';
   import Nav from '$lib/components/Nav/Navigation.svelte';
@@ -31,40 +31,54 @@
   let unsubscribeFromAuthObserver: () => void;
   let unsubscribeFromChatObserver: () => void;
 
-  let infoIsReady = false;
-
   let lang;
 
   let vh = `0px`;
 
-  onMount(async () => {
-    lang = getCookie('locale'); //en or nl or ...
-    if (!lang && window.navigator.language)
-      lang = window.navigator.language.split('-')[0].toLowerCase();
-    if (!lang) lang = 'en';
-
-    init({ fallbackLocale: 'en', initialLocale: lang });
-
-    await initialize();
-    if (!unsubscribeFromAuthObserver) unsubscribeFromAuthObserver = createAuthObserver();
-
-    vh = `${window.innerHeight * 0.01}px`;
-  });
-
-  $: if ($user) {
-    addUserInformation().finally(() => (infoIsReady = true));
-  } else if (!$isInitializing) infoIsReady = true;
-
   const addUserInformation = async () => {
+    console.log('before ADDUSERINFORMATION: ', $user);
+
     // If the user is registered with email and pwd AND it has a public doc THEN set all the user information
-    if (!($user && $user.id && (await doesPublicUserExist($user.id)))) return;
+    if (!$user || !$user.id) return console.log('no user or no user id');
+    const doesExist = await doesPublicUserExist($user.id);
+
+    if (!doesExist) return console.log('no public user exists');
     try {
       await setAllUserInfo();
+      console.log('after ADDUSERINFORMATION: ', getUser());
     } catch (ex) {
       console.log(ex);
     }
     if ($user?.emailVerified) unsubscribeFromChatObserver = await createChatObserver();
   };
+
+  isInitializing.subscribe(async (isInitializingTemp) => {
+    console.log('isInitializing', isInitializingTemp);
+
+    // Only run when done initializing (isInitializing = false)
+    if (!isInitializingTemp) {
+      // If there is a user, then we need to get the public user information
+      if ($user) await addUserInformation();
+
+      infoIsReady = true;
+    }
+  });
+
+  onMount(async () => {
+    lang = getCookie('locale'); //en or nl or ...
+    if (!lang && window.navigator.language)
+      // TODO: check if the language is supported
+      lang = window.navigator.language.split('-')[0].toLowerCase();
+    if (!lang) lang = 'en';
+
+    init({ fallbackLocale: 'en', initialLocale: lang });
+
+    // Initialize Firebase
+    await initialize();
+    if (!unsubscribeFromAuthObserver) unsubscribeFromAuthObserver = createAuthObserver();
+
+    vh = `${window.innerHeight * 0.01}px`;
+  });
 
   onDestroy(() => {
     if (unsubscribeFromChatObserver) unsubscribeFromChatObserver();
@@ -88,11 +102,11 @@
 
 <div class="app" style="--vh:{vh}">
   {#if browser}
-    <Progress active={$isInitializing || $isLocaleLoading || !infoIsReady} />
+    <Progress active={$isInitializing || $isLocaleLoading} />
     <Notifications />
   {/if}
 
-  {#if !$isInitializing && !$isLocaleLoading && infoIsReady}
+  {#if !$isInitializing && !$isLocaleLoading}
     <Nav />
     <main>
       <slot />

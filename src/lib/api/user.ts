@@ -30,24 +30,24 @@ const getPrivateUserProfile = async () => {
   const docRef = doc(db(), USERS_PRIVATE, getUser().id);
 
   const profile = await getDoc(docRef);
-  getUser().setPrivateInformation(profile.data());
   gettingPrivateUserProfile.set(false);
   return profile.data();
 };
 
-const setCampsiteInformation = async () => {
+const getCampsiteInformation = async () => {
   const docRef = doc(db(), CAMPSITES, getUser().id);
   const docSnap = await getDoc(docRef);
 
-  if (docSnap.exists()) getUser().setGarden(<Garden>docSnap.data());
-  else getUser().setGarden(null);
+  let garden = null;
+  if (docSnap.exists()) garden = <Garden>docSnap.data();
+  return { garden };
 };
 
-export const setAllUserInfo = async () => {
-  const info = await getPublicUserProfile(getUser().id);
-  getUser().addFields(info);
-  await getPrivateUserProfile();
-  await setCampsiteInformation();
+export const getAllUserInfo = async (userId: string) => {
+  const publicUserProfile = await getPublicUserProfile(userId);
+  const privateUserProfile = await getPrivateUserProfile();
+  const garden = await getCampsiteInformation();
+  return { ...publicUserProfile, ...privateUserProfile, ...garden };
 };
 
 export const updateMailPreferences = async (

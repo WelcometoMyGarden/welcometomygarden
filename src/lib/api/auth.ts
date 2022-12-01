@@ -11,10 +11,18 @@ import { auth } from './firebase';
 import { isLoggingIn, isRegistering, user, isInitializing } from '$lib/stores/auth';
 import User from '$lib/models/User';
 import { createUser, resendAccountVerification as resendAccVerif } from '@/lib/api/functions';
+import { getAllUserInfo } from './user';
 
 const reloadUserInfo = async (): Promise<void> => {
   await auth().currentUser?.reload();
-  user.set(new User(auth().currentUser));
+
+  // Check if there is a user logged in
+  if (!auth().currentUser) return;
+
+  let tempUser = new User(auth().currentUser);
+  tempUser.addFields(await getAllUserInfo(tempUser.uid));
+
+  user.set(tempUser);
 };
 
 export const login = async (email: string, password: string): Promise<void> => {
@@ -45,20 +53,17 @@ export const register = async ({
 };
 
 export const logout = async () => {
-  isInitializing.set(true);
   await auth().signOut();
   await auth().currentUser?.reload();
   user.set(null);
-  isInitializing.set(false);
 };
 
 export const createAuthObserver = (): Unsubscribe => {
   return auth().onAuthStateChanged(async (userData) => {
-    if (!userData) user.set(null);
-    else user.set(new User(userData));
+    if (userData) await reloadUserInfo();
     isInitializing.set(false);
   });
-}
+};
 
 export const resendAccountVerification = async () => {
   if (!get(user)) throw 'Please sign in first';
@@ -68,7 +73,7 @@ export const resendAccountVerification = async () => {
 
 export const verifyPasswordResetCode = (code: string) => {
   return firebaseVerifyPasswordResetCode(auth(), code);
-}
+};
 
 export const applyActionCode = async (code: string) => {
   await firebaseApplyActionCode(auth(), code);
@@ -78,4 +83,4 @@ export const applyActionCode = async (code: string) => {
 
 export const confirmPasswordReset = (code: string, password: string) => {
   return firebaseConfirmPasswordReset(auth(), code, password);
-}
+};

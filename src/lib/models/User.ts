@@ -11,7 +11,7 @@ export class User {
   emailPreferences?: {
     newChat?: boolean;
     news?: boolean;
-  };
+  } | null;
   consentedAt?: {
     seconds: number | null;
     nanoseconds: number | null;
@@ -20,31 +20,24 @@ export class User {
   savedGardens?: string[];
 
   constructor(user) {
-    this.id = user.uid;
-    this.uid = user.uid;
+    this.id = user.uid || user.id;
+    this.uid = user.uid || user.id;
     this.firstName = user.firstName || user.displayName;
+    this.lastName = user.lastName;
     this.email = user.email;
     this.emailVerified = user.emailVerified;
     this.countryCode = user.countryCode;
     this.garden = user.garden || null;
+    this.emailPreferences = user.emailPreferences || null;
+    this.consentedAt = user.consentedAt || null;
+    this.superfan = user.superfan || false;
+    this.savedGardens = user.savedGardens || [];
   }
 
-  setAllInObject(obj) {
+  addFields(obj) {
     Object.keys(obj).forEach((prop) => {
       this[prop] = obj[prop];
     });
-  }
-
-  setPrivateInformation(info) {
-    this.setAllInObject(info);
-  }
-
-  setGarden(garden: Garden | null) {
-    this.garden = garden;
-  }
-
-  addFields(fields) {
-    this.setAllInObject(fields);
   }
 
   setEmailPreferences(name: 'newChat' | 'news', pref: boolean) {
