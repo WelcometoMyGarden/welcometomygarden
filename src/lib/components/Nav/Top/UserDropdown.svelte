@@ -7,6 +7,7 @@
   import { logout } from '@/lib/api/auth';
   import { chatIcon, signOutIcon, userIcon } from '$lib/images/icons';
   import routes from '$lib/routes';
+  import { goto } from '@/lib/util/navigate';
 
   let isOpen = false;
 
@@ -46,7 +47,7 @@
           on:click|preventDefault={async () => {
             toggleOpen();
             await logout();
-            window.location = '/';
+            goto(routes.HOME);
           }}
         >
           <i>
