@@ -1,3 +1,4 @@
+import { user as userStore } from '@/lib/stores/auth';
 import type { Garden } from '$lib/types/Garden';
 export class User {
   id: string;
@@ -38,6 +39,11 @@ export class User {
     Object.keys(obj).forEach((prop) => {
       this[prop] = obj[prop];
     });
+  }
+
+  addFieldsAndUpdate(obj) {
+    this.addFields(obj);
+    userStore.set(this);
   }
 
   setGarden(garden: Garden | null) {
