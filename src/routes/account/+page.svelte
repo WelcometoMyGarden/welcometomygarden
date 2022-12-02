@@ -65,7 +65,7 @@
   };
 
   keyboardEvent.subscribe((e) => {
-    if (e?.key === 's') getUser().addFields({ superfan: !getUser().superfan });
+    if (e?.key === 's') getUser().addFieldsAndUpdate({ superfan: !getUser().superfan });
   });
 </script>
 
@@ -76,7 +76,7 @@
 {#if $user}
   <div class="wrapper">
     <div class="avatar">
-      <Avatar large name={$user.firstName} />
+      <Avatar large name={$user.firstName} border={!!$user.superfan} />
     </div>
     <div class="content">
       <section class="user-information">
