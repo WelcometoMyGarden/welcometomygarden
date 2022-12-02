@@ -1,7 +1,7 @@
 <script lang="ts">
   export let name = '';
   export let large = false;
-  export let border = false;
+  export let border = true;
 
   const colors = ['#EC9570', '#F6C4B7', '#F4E27E', '#59C29D', '#A2D0D3', '#2E5F63'];
 
@@ -17,18 +17,26 @@
   };
 </script>
 
-<div class="avatarContainer">
-  <div class="avatar" class:large class:border style="--chat-color: {colorOf(name)}">
-    {name ? name.charAt(0).toUpperCase() : '...'}
-  </div>
+<div class="avatar-container">
+  {#if border}
+    <div class="avatar" class:large style="--chat-color: {colorOf(name)}">
+      <span class="avatar-border-white" />
+      <span class="avatar-border-multi" />
+      {name ? name.charAt(0).toUpperCase() : '...'}
+    </div>
+  {:else}
+    <div class="avatar" class:large style="--chat-color: {colorOf(name)}">
+      {name ? name.charAt(0).toUpperCase() : '...'}
+    </div>
+  {/if}
 </div>
 
 <style>
   :root {
-    --avatar-border-size: 3.5px;
+    --avatar-border-size: 0.4rem;
   }
 
-  .avatarContainer {
+  .avatar-container {
     display: inline-block;
     position: relative;
   }
@@ -45,8 +53,6 @@
     font-weight: 900;
 
     position: relative;
-    /* TODO: fix z-index */
-    /* z-index: 15; */
   }
 
   .large {
@@ -55,7 +61,7 @@
     font-size: 3rem;
   }
 
-  .border::before {
+  .avatar-border-white {
     box-sizing: border-box;
 
     content: '';
@@ -70,7 +76,7 @@
     background-color: var(--color-white);
   }
 
-  .border::after {
+  .avatar-border-multi {
     --color-extra-0: '#EC9570';
     --color-extra-1: '#F6C4B7';
     --color-extra-2: '#F4E27E';
@@ -102,10 +108,12 @@
       #59c29d 240deg 300deg,
       #f4e27e 300deg 360deg
     );
+    animation: rotate 4s linear 0ms infinite forwards;
+    animation-play-state: paused;
   }
 
-  .border:hover::after {
-    animation: rotate 4s linear infinite;
+  .avatar-container:hover .avatar-border-multi {
+    animation-play-state: running;
   }
 
   @keyframes rotate {
