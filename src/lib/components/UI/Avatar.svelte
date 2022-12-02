@@ -17,14 +17,22 @@
   };
 </script>
 
-<div class="avatar" class:large class:border style="--chat-color: {colorOf(name)}">
-  {name ? name.charAt(0).toUpperCase() : '...'}
+<div class="avatarContainer">
+  <div class="avatar" class:large class:border style="--chat-color: {colorOf(name)}">
+    {name ? name.charAt(0).toUpperCase() : '...'}
+  </div>
 </div>
 
 <style>
   :root {
     --avatar-border-size: 3.5px;
   }
+
+  .avatarContainer {
+    display: inline-block;
+    position: relative;
+  }
+
   .avatar {
     width: 5rem;
     height: 5rem;
@@ -37,6 +45,8 @@
     font-weight: 900;
 
     position: relative;
+    /* TODO: fix z-index */
+    /* z-index: 15; */
   }
 
   .large {
@@ -84,9 +94,6 @@
     background-size: 50% 50%, 50% 50%;
     background-size: 100%;
     background-position: 0 0, 100% 0, 100% 100%, 0 100%;
-    background-image: linear-gradient(#ec9570, #ec9570), linear-gradient(#f6c4b7, #f6c4b7),
-      linear-gradient(#2e5f63, #2e5f63), linear-gradient(#f4e27e, #f4e27e),
-      linear-gradient(#59c29d, #59c29d), linear-gradient(#a2d0d3, #a2d0d3);
     background-image: conic-gradient(
       #ec9570 60deg,
       #a2d0d3 60deg 120deg,
