@@ -155,7 +155,7 @@
       {#each $messages[chat.id] as message (message.id)}
         <div class="message" class:by-user={message.from === $user.id}>
           <div class="holder">
-            <div class="avatar">
+            <div class="avatar-box">
               <Avatar name={message.from === $user.id ? $user.firstName : chat.partner.firstName} />
             </div>
             <p class="message-text">{normalizeWhiteSpace(message.content)}</p>
@@ -194,13 +194,13 @@
   }
 
   .messages {
-    padding: 0 2rem 0 0;
+    padding: 0 2rem 0 1rem;
     display: flex;
     flex-direction: column-reverse;
     min-height: 100%;
   }
 
-  .avatar {
+  .avatar-box {
     align-self: flex-end;
   }
 
