@@ -2,11 +2,13 @@
   export let name = '';
   export let large = false;
   export let border = true;
+  export let animate = true;
+  let animating = false;
 
   const colors = ['#EC9570', '#F6C4B7', '#F4E27E', '#59C29D', '#A2D0D3', '#2E5F63'];
 
-  const getHashCode = (str: string) => {
-    let h;
+  const getHashCode = (str: string): number => {
+    let h = 0;
     // don't worry about it
     for (let i = 0; i < str.length; i++) h = (Math.imul(31, h) + str.charCodeAt(i)) | 0;
     return h;
@@ -19,10 +21,19 @@
 
 <div class="avatar-container">
   {#if border}
-    <div class="avatar" class:large style="--chat-color: {colorOf(name)}">
-      <span class="avatar-border-white" />
-      <span class="avatar-border-multi" />
-      {name ? name.charAt(0).toUpperCase() : '...'}
+    <div
+      class="avatar"
+      class:large
+      style="--chat-color: {colorOf(name)}"
+      on:mouseenter={() => (animate ? (animating = true) : null)}
+      on:mouseleave={() => (animate ? (animating = false) : null)}
+    >
+      <div class="avatar-border-multi" class:animating>
+        <div class="avatar-border-white" />
+      </div>
+      <span class="avatar-text">
+        {name ? name.charAt(0).toUpperCase() : '...'}
+      </span>
     </div>
   {:else}
     <div class="avatar" class:large style="--chat-color: {colorOf(name)}">
@@ -33,7 +44,7 @@
 
 <style>
   :root {
-    --avatar-border-size: 0.4rem;
+    --avatar-border-size: 0.2rem;
   }
 
   .avatar-container {
@@ -56,39 +67,14 @@
   }
 
   .large {
+    --avatar-border-size: 0.4rem;
     width: 10rem;
     height: 10rem;
     font-size: 3rem;
   }
 
-  .avatar-border-white {
-    box-sizing: border-box;
-
-    content: '';
-    position: absolute;
-    z-index: -1;
-    left: calc(-1 * var(--avatar-border-size));
-    top: calc(-1 * var(--avatar-border-size));
-    width: calc(100% + var(--avatar-border-size) * 2);
-    height: calc(100% + var(--avatar-border-size) * 2);
-    border-radius: 50%;
-
-    background-color: var(--color-white);
-  }
-
   .avatar-border-multi {
-    --color-extra-0: '#EC9570';
-    --color-extra-1: '#F6C4B7';
-    --color-extra-2: '#F4E27E';
-    --color-extra-3: '#59C29D';
-    --color-extra-4: '#A2D0D3';
-    --color-extra-5: '#2E5F63';
-
-    box-sizing: border-box;
-
-    content: '';
     position: absolute;
-    z-index: -2;
     left: calc(-1 * var(--avatar-border-size) * 2);
     top: calc(-1 * var(--avatar-border-size) * 2);
     width: calc(100% + var(--avatar-border-size) * 4);
@@ -101,7 +87,7 @@
     background-size: 100%;
     background-position: 0 0, 100% 0, 100% 100%, 0 100%;
     background-image: conic-gradient(
-      #ec9570 60deg,
+      #ec9570 0deg 60deg,
       #a2d0d3 60deg 120deg,
       #2e5f63 120deg 180deg,
       #f6c4b7 180deg 240deg,
@@ -112,7 +98,33 @@
     animation-play-state: paused;
   }
 
-  .avatar-container:hover .avatar-border-multi {
+  .avatar-border-white {
+    position: absolute;
+    left: calc(1 * var(--avatar-border-size));
+    top: calc(1 * var(--avatar-border-size));
+    width: calc(100% - 2 * var(--avatar-border-size));
+    height: calc(100% - 2 * var(--avatar-border-size));
+    border-radius: 50%;
+
+    background-color: var(--color-white);
+  }
+
+  .avatar-text {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: var(--color-white);
+    background-color: var(--chat-color);
+    border-radius: 50%;
+  }
+
+  .animating {
     animation-play-state: running;
   }
 
