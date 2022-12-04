@@ -1,7 +1,7 @@
 <script lang="ts">
   export let garden: Garden | null = null;
 
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, tick } from 'svelte';
   import { scale } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
   import SkeletonDrawer from './SkeletonDrawer.svelte';
@@ -43,7 +43,7 @@
   ];
 
   let drawerElement;
-  let photoWrapper;
+  let photoWrapper: HTMLElement | undefined;
   let userInfo = null;
   let photoUrl: string | null = null;
   let biggerPhotoUrl: string | null = null;
@@ -96,19 +96,32 @@
     }
     isShowingMagnifiedPhoto = true;
     isGettingMagnifiedPhoto = false;
+
+    // See https://stackoverflow.com/a/60112649
+    await tick();
+    photoWrapper?.focus();
   };
 
   const handleClickOutsideDrawer = (event) => {
     const { clickEvent } = event.detail;
-    // if closing maginified photo view, don't close drawer
-    if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) return;
-    // if showing/hiding trails, don't close drawer
+    // If the drawer is not open, don't try to close it
+    // (this might mess with focus elsewhere on the page)
+    if (!gardenIsSelected) {
+      return;
+    }
+    // If closing maginified photo view, don't close drawer
+    if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) {
+      return;
+    }
+    // If showing/hiding trails, don't close drawer
     else if (
       (clickEvent.target instanceof HTMLInputElement && clickEvent.target.type == 'checkbox') ||
       clickEvent.target.tagName == 'LABEL'
-    )
+    ) {
       return;
-    else if (!drawerElement.contains(clickEvent.target)) dispatch('close');
+    } else if (!drawerElement.contains(clickEvent.target)) {
+      dispatch('close');
+    }
   };
 
   const saveGarden = async () => {
@@ -125,22 +138,25 @@
 
 <Progress active={isGettingMagnifiedPhoto} />
 {#if isShowingMagnifiedPhoto && !isGettingMagnifiedPhoto}
-  <div
+  <button
     class="magnified-photo-wrapper"
     transition:scale
     bind:this={photoWrapper}
     on:click={() => {
       isShowingMagnifiedPhoto = false;
     }}
+    on:keypress={(e) => {
+      // keypress handler to satisfy svelte linter for a11y
+      switch (e.key) {
+        case 'Enter':
+        // Don't do anything: the on:click will also be called when Enter is pressed
+      }
+    }}
   >
     <div class="magnified-photo">
-      <img
-        alt={$_('generics.garden')}
-        src={biggerPhotoUrl}
-        on:click={() => (isShowingMagnifiedPhoto = false)}
-      />
+      <img alt={$_('generics.garden')} src={biggerPhotoUrl} />
     </div>
-  </div>
+  </button>
 {/if}
 
 <div
