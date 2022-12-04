@@ -1,9 +1,9 @@
 <script lang="ts">
   export let name = '';
   export let large = false;
-  export let border = false;
-  export let animate = false;
-  let animating = false;
+  export let border = false; // Adds a multi-color border around the avatar.
+  export let animate = true; // Enable the avatar to animate on hover.
+  let animating = false; // Whether the avatar is currently animating.
 
   const colors = ['#EC9570', '#F6C4B7', '#F4E27E', '#59C29D', '#A2D0D3', '#2E5F63'];
 
@@ -117,6 +117,10 @@
   }
 
   .avatar.border.animate.animating .avatar-border-multi {
+    animation-play-state: running;
+  }
+
+  .avatar.border.animate:hover .avatar-border-multi {
     animation-play-state: running;
   }
 
