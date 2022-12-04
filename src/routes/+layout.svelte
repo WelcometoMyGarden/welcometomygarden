@@ -8,19 +8,18 @@
   import '$lib/styles/global.css';
 
   import { browser } from '$app/environment';
-  import { onDestroy, onMount } from 'svelte';
-  import { isLoading as isLocaleLoading } from 'svelte-i18n';
-  import { createAuthObserver } from '@/lib/api/auth';
   import { createChatObserver } from '$lib/api/chat';
-  import { user, isInitializing, getUser } from '@/lib/stores/auth';
-  import { keyboardEvent } from '@/lib/stores/keyboardEvent';
-  import { Progress, Notifications } from '$lib/components/UI';
-  import Nav from '$lib/components/Nav/Navigation.svelte';
   import Footer from '$lib/components/Footer.svelte';
+  import Nav from '$lib/components/Nav/Navigation.svelte';
+  import { Notifications, Progress } from '$lib/components/UI';
+  import { getCookie, setCookie } from '$lib/util';
+  import { createAuthObserver } from '@/lib/api/auth';
   import { initialize } from '@/lib/api/firebase';
-  import { locale, init } from 'svelte-i18n';
-  import { setCookie, getCookie } from '$lib/util';
+  import { isInitializing, user } from '@/lib/stores/auth';
+  import { keyboardEvent } from '@/lib/stores/keyboardEvent';
   import registerLocales from '@/locales/register';
+  import { onDestroy, onMount } from 'svelte';
+  import { init, isLoading as isLocaleLoading, locale } from 'svelte-i18n';
 
   registerLocales();
 
