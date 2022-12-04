@@ -31,7 +31,7 @@
       center: [lon, lat],
       zoom,
       attributionControl: false,
-      hash: true
+      hash: false // TODO: discuss if we want this or not
     });
 
     map.addControl(
