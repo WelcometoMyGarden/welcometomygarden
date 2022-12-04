@@ -1,8 +1,8 @@
 <script lang="ts">
   export let name = '';
   export let large = false;
-  export let border = true;
-  export let animate = true;
+  export let border = false;
+  export let animate = false;
   let animating = false;
 
   const colors = ['#EC9570', '#F6C4B7', '#F4E27E', '#59C29D', '#A2D0D3', '#2E5F63'];
@@ -19,37 +19,25 @@
   };
 </script>
 
-<div class="avatar-container">
-  {#if border}
-    <div
-      class="avatar"
-      class:large
-      style="--chat-color: {colorOf(name)}"
-      on:mouseenter={() => (animate ? (animating = true) : null)}
-      on:mouseleave={() => (animate ? (animating = false) : null)}
-    >
-      <div class="avatar-border-multi" class:animating>
-        <div class="avatar-border-white" />
-      </div>
-      <span class="avatar-text">
-        {name ? name.charAt(0).toUpperCase() : '...'}
-      </span>
-    </div>
-  {:else}
-    <div class="avatar" class:large style="--chat-color: {colorOf(name)}">
-      {name ? name.charAt(0).toUpperCase() : '...'}
-    </div>
-  {/if}
+<div
+  class="avatar"
+  class:large
+  class:border
+  class:animate
+  class:animating
+  style="--chat-color: {colorOf(name)}"
+>
+  <div class="avatar-border-multi">
+    <div class="avatar-border-white" />
+  </div>
+  <span class="avatar-text">
+    {name ? name.charAt(0).toUpperCase() : '...'}
+  </span>
 </div>
 
 <style>
   :root {
     --avatar-border-size: 0.2rem;
-  }
-
-  .avatar-container {
-    display: inline-block;
-    position: relative;
   }
 
   .avatar {
@@ -71,6 +59,10 @@
     width: 10rem;
     height: 10rem;
     font-size: 3rem;
+  }
+
+  .avatar:not(.border) .avatar-border-multi {
+    visibility: hidden;
   }
 
   .avatar-border-multi {
@@ -124,7 +116,7 @@
     border-radius: 50%;
   }
 
-  .animating {
+  .avatar.border.animate.animating .avatar-border-multi {
     animation-play-state: running;
   }
 
