@@ -1,4 +1,6 @@
-<script>
+<script type="ts">
+  import type { ContextType } from './Map.svelte'
+
   export let lat;
   export let lon;
   export let label;
@@ -10,7 +12,7 @@
 
   const dispatch = createEventDispatcher();
 
-  const { getMap } = getContext(key);
+  const { getMap } = getContext<ContextType>(key);
   const map = getMap();
 
   let markerElement;

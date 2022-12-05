@@ -14,12 +14,12 @@
 <div class="layers-and-tools">
   {#if superfan}
     <!-- content here -->
-    <div>
-      <Text>LAYERS & TOOLS</Text>
+    <div class="uppercase">
+      <Text>Layers & Tools</Text>
     </div>
 
-    <div class="toggleTitle">
-      <Text>GARDENS</Text>
+    <div class="toggle-title uppercase">
+      <Text>Gardens</Text>
     </div>
     <div>
       <div>
@@ -34,14 +34,14 @@
         <LabeledCheckbox
           name="savedGardens"
           icon={bookmarkIcon}
-          label={'Saved ardens'}
+          label={'Saved gardens'}
           bind:checked={showSavedGardens}
         />
       </div>
     </div>
 
-    <div class="toggleTitle">
-      <Text>WAYMARKED TRAILS</Text>
+    <div class="toggle-title uppercase">
+      <Text>Waymarked Trails</Text>
     </div>
     <div class="waymarked-checks">
       <div>
@@ -96,7 +96,11 @@
 </div>
 
 <style>
-  .toggleTitle {
+  .uppercase {
+    text-transform: uppercase;
+  }
+
+  .toggle-title {
     display: flex;
     align-items: center;
     margin-top: 1rem;

@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Garden } from '@/lib/types/Garden.js';
+  import type { ContextType } from './Map.svelte'
   import type maplibregl from 'maplibre-gl';
 
   export let allGardens: { [id: string]: Garden };
@@ -16,8 +17,8 @@
     features: GeoJSON.Feature[];
   };
 
-  const { getMap } = getContext(key);
-  const map: maplibregl.Map = getMap();
+  const { getMap } = getContext<ContextType>(key);
+  const map = getMap();
 
   const dispatch = createEventDispatcher();
 
@@ -67,7 +68,7 @@
         }
       };
 
-      //check if garden id is in savedGardens
+      // Check if garden id is in savedGardens
       const isSaved = savedGardens.includes(gardenId);
 
       // Add garden to allGardens feature collection

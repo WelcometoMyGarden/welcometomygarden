@@ -1,3 +1,6 @@
+<script context="module" lang="ts">
+  export type ContextType = { getMap: () => maplibregl.Map}
+</script>
 <script lang="ts">
   import { setContext, onMount, tick } from 'svelte';
   import maplibregl from 'maplibre-gl';
@@ -18,7 +21,8 @@
   let map: maplibregl.Map;
   let loaded = false;
 
-  setContext(key, {
+
+  setContext<ContextType>(key, {
     getMap: () => map
   });
 

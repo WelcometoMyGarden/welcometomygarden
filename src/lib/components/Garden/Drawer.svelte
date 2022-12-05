@@ -177,7 +177,7 @@
           </Text>
           {#if $user?.superfan}
             <Button inverse xsmall on:click={saveGarden}
-              >{isSaved ? 'unsave garden' : 'save garden'}</Button
+              >{isSaved ? 'Unsave garden' : 'Save garden'}</Button
             >
           {/if}
         </div>
