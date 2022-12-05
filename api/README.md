@@ -6,8 +6,6 @@ Note: this uses firebase-admin version 9, that is a version before 10.
 
 ### Install
 
-Make sure you're using node v10. Then run:
-
 ```
 yarn install
 ```

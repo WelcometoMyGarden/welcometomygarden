@@ -1,11 +1,12 @@
 {
+  "root": true,
   "extends": ["airbnb/base", "plugin:prettier/recommended"],
   "plugins": ["prettier"],
   "parser": "babel-eslint",
   "env": {
+    "es6": true,
     "node": true
   },
-  "root": true,
   "rules": {
     "prettier/prettier": ["error"],
     "comma-dangle": ["error", "never"],
@@ -14,5 +15,11 @@
     "no-unused-expressions": ["error", { "allowTernary": true }],
     "no-return-assign": [2, "except-parens"],
     "no-param-reassign": ["error", { "props": false }]
+  },
+  // https://stackoverflow.com/questions/69746672/unable-to-resolve-path-to-module-firebase-admin-app-eslint
+  "paths": {
+    "firebase-admin/*": [
+      "node_modules/firebase-admin/lib/*"
+    ]
   }
 }

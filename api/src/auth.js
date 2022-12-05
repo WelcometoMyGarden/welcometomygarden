@@ -1,7 +1,11 @@
-const admin = require('firebase-admin');
+const { getFirestore, FieldValue } = require('firebase-admin/firestore')
+const { getAuth } = require('firebase-admin/auth')
 const functions = require('firebase-functions');
 const countries = require('./countries');
 const { sendAccountVerificationEmail, sendPasswordResetEmail } = require('./mail');
+
+const db = getFirestore();
+const auth = getAuth();
 
 const fail = (code) => {
   throw new functions.https.HttpsError(code);
@@ -13,8 +17,6 @@ exports.createUser = async (data, context) => {
   }
 
   try {
-    const db = admin.firestore();
-
     const existingUser = await db.collection('users').doc(context.auth.uid).get();
     if (existingUser.exists) fail('already-exists');
 
@@ -42,7 +44,6 @@ exports.createUser = async (data, context) => {
     const firstName = normalizeName(data.firstName);
     const lastName = normalizeName(data.lastName);
 
-    const auth = admin.auth();
     const user = await auth.getUser(context.auth.uid);
     const { email } = user;
 
@@ -77,7 +78,7 @@ exports.createUser = async (data, context) => {
       .doc(user.uid)
       .set({
         lastName,
-        consentedAt: admin.firestore.FieldValue.serverTimestamp(),
+        consentedAt: FieldValue.serverTimestamp(),
         emailPreferences: {
           newChat: true,
           news: true
@@ -87,9 +88,9 @@ exports.createUser = async (data, context) => {
     await db
       .collection('stats')
       .doc('users')
-      .update({ count: admin.firestore.FieldValue.increment(1) });
+      .update({ count: FieldValue.increment(1) });
 
-    const link = await admin.auth().generateEmailVerificationLink(email, {
+    const link = await auth.generateEmailVerificationLink(email, {
       url: `${functions.config().frontend.url}/account`
     });
 
@@ -98,7 +99,7 @@ exports.createUser = async (data, context) => {
     return { message: 'Your account was created successfully,', success: true };
   } catch (ex) {
     console.log(ex);
-    await admin.auth().deleteUser(context.auth.uid);
+    await auth.deleteUser(context.auth.uid);
     return ex;
   }
 };
@@ -107,7 +108,6 @@ exports.requestPasswordReset = async (email) => {
   if (!email) throw new functions.https.HttpsError('invalid-argument');
 
   try {
-    const auth = admin.auth();
     const exists = await auth.getUserByEmail(email);
     if (!exists) return { message: 'Password reset request received', success: true };
     const link = await auth.generatePasswordResetLink(email, {
@@ -123,14 +123,12 @@ exports.requestPasswordReset = async (email) => {
   }
 };
 
-exports.changeEmail = async () => {};
+exports.changeEmail = async () => { };
 
 exports.resendAccountVerification = async (data, context) => {
   if (!context.auth) {
     throw new functions.https.HttpsError('unauthenticated');
   }
-
-  const auth = admin.auth();
 
   let user;
   try {
@@ -150,7 +148,6 @@ exports.resendAccountVerification = async (data, context) => {
 
 exports.cleanupUserOnDelete = async (user) => {
   const userId = user.uid;
-  const db = admin.firestore();
 
   const batch = db.batch();
 
@@ -162,7 +159,7 @@ exports.cleanupUserOnDelete = async (user) => {
     await db
       .collection('stats')
       .doc('users')
-      .update({ count: admin.firestore.FieldValue.increment(-1) });
+      .update({ count: FieldValue.increment(-1) });
   } catch (ex) {
     console.error(ex);
   }
@@ -174,14 +171,14 @@ exports.setAdminRole = async (data, context) => {
   }
 
   const { uid } = context.auth;
-  const adminUser = await admin.auth().getUser(uid);
+  const adminUser = await auth.getUser(uid);
   if (!adminUser.customClaims || !adminUser.customClaims.admin) {
     return fail('permission-denied');
   }
 
   const { newStatus } = data;
-  const user = await admin.auth().getUserByEmail(data.email);
-  admin.auth().setCustomUserClaims(user.uid, { admin: newStatus });
+  const user = await auth.getUserByEmail(data.email);
+  await auth.setCustomUserClaims(user.uid, { admin: newStatus });
 
   return { message: `${data.email} admin status set successfully.` };
 };
@@ -192,13 +189,13 @@ exports.verifyEmail = async ({ email }, context) => {
   }
 
   const { uid } = context.auth;
-  const adminUser = await admin.auth().getUser(uid);
+  const adminUser = await auth.getUser(uid);
   if (!adminUser.customClaims || !adminUser.customClaims.admin) {
     return fail('permission-denied');
   }
 
-  const userToUpdate = await admin.auth().getUserByEmail(email);
-  await admin.auth().updateUser(userToUpdate.uid, {
+  const userToUpdate = await auth.getUserByEmail(email);
+  await auth.updateUser(userToUpdate.uid, {
     emailVerified: true
   });
   return { message: `${email} was verified` };
@@ -210,13 +207,13 @@ exports.updateEmail = async ({ oldEmail, newEmail }, context) => {
   }
 
   const { uid } = context.auth;
-  const adminUser = await admin.auth().getUser(uid);
+  const adminUser = await auth.getUser(uid);
   if (!adminUser.customClaims || !adminUser.customClaims.admin) {
     return fail('permission-denied');
   }
 
-  const userToUpdate = await admin.auth().getUserByEmail(oldEmail);
-  await admin.auth().updateUser(userToUpdate.uid, {
+  const userToUpdate = await auth.getUserByEmail(oldEmail);
+  await auth.updateUser(userToUpdate.uid, {
     email: newEmail,
     emailVerified: true
   });

@@ -1,5 +1,7 @@
+const { initializeApp } = require('firebase-admin/app')
+initializeApp();
+
 const functions = require('firebase-functions');
-const admin = require('firebase-admin');
 const {
   createUser,
   requestPasswordReset,
@@ -14,7 +16,6 @@ const { onMessageCreate, onChatCreate } = require('./chat');
 const { onCampsiteCreate, onCampsiteDelete } = require('./campsites');
 const { exportNewsletterEmails } = require('./mail');
 
-admin.initializeApp();
 
 exports.onChatCreate = functions.firestore.document('chats/{chatId}').onCreate(onChatCreate);
 exports.notifyOnChat = functions.firestore

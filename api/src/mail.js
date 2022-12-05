@@ -1,4 +1,3 @@
-const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const { parseAsync } = require('json2csv');
 const sendgrid = require('@sendgrid/mail');
@@ -63,7 +62,7 @@ exports.exportNewsletterEmails = async (_, context) => {
   }
 
   const { uid } = context.auth;
-  const adminUser = await admin.auth().getUser(uid);
+  const adminUser = await auth.getUser(uid);
   if (!adminUser.customClaims || !adminUser.customClaims.admin) {
     return fail('permission-denied');
   }
@@ -77,7 +76,6 @@ exports.exportNewsletterEmails = async (_, context) => {
     return res;
   };
 
-  const db = admin.firestore();
 
   const snapshot = await db.collection('users-private').get();
   const ids = [];
@@ -92,7 +90,7 @@ exports.exportNewsletterEmails = async (_, context) => {
   const queue = [];
   const chunks = spliceIntoChunks(ids, 90);
   chunks.forEach((chunk) => {
-    queue.push(admin.auth().getUsers(chunk));
+    queue.push(auth.getUsers(chunk));
   });
 
   const chunkedResolved = await Promise.all(queue);
