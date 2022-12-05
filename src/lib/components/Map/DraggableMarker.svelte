@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
   import type { ContextType } from './Map.svelte'
 
   export let lat;

@@ -106,9 +106,13 @@
     margin-top: 1rem;
   }
   :root {
-    --layers-and-tools-height: 9rem;
+    --layers-and-tools-height: 21rem;
   }
-  /* The bottom left mapbox controls should be above the layersAndTools component */
+  /*
+    The bottom left mapbox controls should be above the layersAndTools component
+    TODO: Can we render this scale control ourselves in a flex-box ruled component?
+    Then it will scale dynamically.
+  */
   :global(.mapboxgl-ctrl-bottom-left) {
     bottom: var(--layers-and-tools-height);
   }
@@ -118,7 +122,7 @@
     left: 0;
     position: absolute;
     width: 26rem;
-    height: var(--layers-and-tools-height);
+    /* height: var(--layers-and-tools-height); */
     padding: 1rem;
   }
 

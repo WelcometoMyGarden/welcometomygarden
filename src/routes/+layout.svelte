@@ -1,8 +1,8 @@
 <script lang="ts">
+  import type { LayoutData } from "./$types"
   // SvelteKit uses this export to load data into this layout.
   // https://kit.svelte.dev/docs/load#layout-data
-  // svelte-ignore unused-export-let
-  export let data;
+  export let data: LayoutData;
 
   import '$lib/styles/reset.css';
   import '$lib/styles/global.css';
