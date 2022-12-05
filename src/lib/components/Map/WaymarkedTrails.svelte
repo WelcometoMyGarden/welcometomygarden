@@ -3,9 +3,10 @@
   export let showCycling = true;
 
   import { getContext } from 'svelte';
+  import type { ContextType } from './Map.svelte';
   import key from './mapbox-context.js';
 
-  const { getMap } = getContext(key);
+  const { getMap } = getContext<ContextType>(key);
   const map = getMap();
 
   const getVisibilityProperty = (visibility: boolean) => (visibility ? 'visible' : 'none');

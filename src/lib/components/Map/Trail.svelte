@@ -1,8 +1,8 @@
 <script lang="ts">
   import { fileDataLayers, prefix, updateFileDataLayers } from '@/lib/stores/file';
+  import type { ContextType } from './Map.svelte';
   import { onMount, getContext } from 'svelte';
   import bbox from '@turf/bbox';
-  import type mapboxgl from 'maplibre-gl';
   import key from './mapbox-context.js';
   import { ZOOM_LEVELS } from '@/lib/constants.js';
 
@@ -13,8 +13,8 @@
     | undefined;
 
   // @ts-ignore
-  const { getMap } = getContext(key);
-  const map: mapboxgl.Map = getMap();
+  const { getMap } = getContext<ContextType>(key);
+  const map = getMap();
 
   const updateVisibility = (id: string, visible?: boolean) => {
     const layer = map.getLayer(id);
