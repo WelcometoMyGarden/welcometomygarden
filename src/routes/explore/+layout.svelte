@@ -21,6 +21,7 @@
   import Trail from '@/lib/components/Map/Trail.svelte';
   import type { Garden } from '@/lib/types/Garden';
   import { savedGardens as savedGardenStore } from '@/lib/stores/savedGardens';
+  import TrainconnectionsLayer from '@/lib/components/Map/TrainconnectionsLayer.svelte';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let geolocationIsLoaded = false;
@@ -153,6 +154,7 @@
       </div>
     {/if}
     <Trail />
+    <TrainconnectionsLayer />
   </Map>
   <LayersAndTools bind:showHiking bind:showCycling bind:showGardens bind:showSavedGardens />
 

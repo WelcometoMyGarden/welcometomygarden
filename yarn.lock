@@ -1951,6 +1951,11 @@
   resolved "https://registry.yarnpkg.com/@types/long/-/long-4.0.2.tgz#b74129719fc8d11c01868010082d483b7545591a"
   integrity sha512-MqTGEo5bj5t157U6fA/BiDynNkn0YknVdh48CMPkTSpFTVmvao5UQmm7uEF6xBEo7qIMAlY/JSleYaE6VOdpaA==
 
+"@types/luxon@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-3.1.0.tgz#b9842d233a06b267fe4117f1c224f20b8a149825"
+  integrity sha512-gCd/HcCgjqSxfMrgtqxCgYk/22NBQfypwFUG7ZAyG/4pqs51WLTcUzVp1hqTbieDYeHS3WoVEh2Yv/2l+7B0Vg==
+
 "@types/minimist@^1.2.0":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.2.tgz#ee771e2ba4b3dc5b372935d549fd9617bf345b8c"
@@ -3559,6 +3564,11 @@ lru-queue@^0.1.0:
   integrity sha512-BpdYkt9EvGl8OfWHDQPISVpcl5xZthb+XPsbELj5AQXxIC8IriDZIQYjBJPEm5rS420sjZ0TLEzRcq5KdBhYrQ==
   dependencies:
     es5-ext "~0.10.2"
+
+luxon@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.1.1.tgz#b492c645b2474fb86f3bd3283213846b99c32c1e"
+  integrity sha512-Ah6DloGmvseB/pX1cAmjbFvyU/pKuwQMQqz7d0yvuDlVYLTs2WeDHQMpC8tGjm1da+BriHROW/OEIT/KfYg6xw==
 
 magic-string@^0.25.7:
   version "0.25.9"
