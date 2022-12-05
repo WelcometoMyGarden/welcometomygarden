@@ -87,7 +87,7 @@ const updateSavedGardens = async (gardenId: string, action: 'REMOVE' | 'ADD') =>
       savedGardens.splice(index, 1);
 
       await updateDoc(docRef, { savedGardens });
-      let tempUser = getUser();
+      const tempUser = getUser();
       tempUser.addFields({ savedGardens });
       user.set(tempUser);
       updatingSavedGardens.set(false);
@@ -101,7 +101,7 @@ const updateSavedGardens = async (gardenId: string, action: 'REMOVE' | 'ADD') =>
       savedGardens.push(gardenId);
 
       await updateDoc(docRef, { savedGardens });
-      let tempUser = getUser();
+      const tempUser = getUser();
       tempUser.addFields({ savedGardens });
       user.set(tempUser);
       updatingSavedGardens.set(false);
@@ -120,7 +120,7 @@ export const addSavedGarden = async (gardenId: string) => {
 export const updateSuperfan = async (superfan: boolean) => {
   const docRef = doc(db(), USERS, getUser().id);
   await updateDoc(docRef, { superfan });
-  let tempUser = getUser();
+  const tempUser = getUser();
   tempUser.addFields({ superfan });
   user.set(tempUser);
 };

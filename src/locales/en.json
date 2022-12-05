@@ -669,6 +669,9 @@
       "login-issue": "We couldn't log you in. If the problem persists, please contact {support}"
     }
   },
+  "become-superfan": {
+    "title": "Become a Superfan"
+  },
   "request-password-reset": {
     "title": "Set a new password",
     "description": "If you submit the form below, we can send you a unique link with which you can reset your password.",

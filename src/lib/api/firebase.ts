@@ -4,7 +4,7 @@ import { getStorage, type FirebaseStorage } from 'firebase/storage';
 import { getApps, initializeApp, type FirebaseApp } from 'firebase/app';
 import { getAnalytics, type Analytics } from 'firebase/analytics';
 import { getPerformance, type FirebasePerformance } from 'firebase/performance';
-import { getFunctions, type Functions } from 'firebase/functions';
+import { connectFunctionsEmulator, getFunctions, type Functions } from 'firebase/functions';
 import { initializeFunctions } from './functions';
 
 const FIREBASE_CONFIG = {
@@ -99,6 +99,10 @@ export async function initialize(): Promise<void> {
   storageRef = getStorage(appRef);
   functionsRef = getFunctions(appRef);
   initializeFunctions(functionsRef);
+  const useFunctionEmulator = import.meta.env.VITE_USE_API_EMULATOR;
+  if (window && window.location.hostname.match('localhost|127.0.0.1') && useFunctionEmulator === 'true') {
+   connectFunctionsEmulator(functionsRef, 'localhost', 5001);
+  }
   authRef.useDeviceLanguage();
 
   if (import.meta.env.PROD) addMetrics();
@@ -109,9 +113,3 @@ const addMetrics = async () => {
   performanceRef = getPerformance(app());
 };
 
-// TODO: Add emulator support :
-/*
-if (window && window.location.hostname === 'localhost' && import.meta.env.VITE_USE_API_EMULATOR) {
-  functions.useFunctionsEmulator('http://localhost:5001');
-}
- */
