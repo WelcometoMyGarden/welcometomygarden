@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
   export let name: string;
 
   import { _ } from 'svelte-i18n';

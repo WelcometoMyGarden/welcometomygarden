@@ -155,7 +155,6 @@
     <Trail />
   </Map>
   <LayersAndTools bind:showHiking bind:showCycling bind:showGardens bind:showSavedGardens />
-
   <Filter on:goToPlace={goToPlace} bind:filteredGardens {fallbackLocation} />
   <RouteModal bind:show={showRouteModal} />
 </div>
