@@ -28,7 +28,7 @@
   let showCycling = false;
   let showRouteModal = false;
   let showGardens = true;
-  let showSavedGardens = false;
+  let showSavedGardens = true;
   let filteredGardens: { [id: string]: Garden };
   let savedGardens = [] as string[];
   let carNoticeShown = !getCookie('car-notice-dismissed');
