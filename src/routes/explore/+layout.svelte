@@ -18,6 +18,7 @@
   import { ZOOM_LEVELS } from '$lib/constants';
   import LayersAndTools from '@/lib/components/Map/LayersAndTools.svelte';
   import RouteModal from '@/lib/components/Map/RouteModal.svelte';
+  import TrainConnectionsModal from '@/lib/components/Map/TrainConnectionsModal.svelte';
   import Trail from '@/lib/components/Map/Trail.svelte';
   import type { Garden } from '@/lib/types/Garden';
   import { savedGardens as savedGardenStore } from '@/lib/stores/savedGardens';
@@ -28,6 +29,7 @@
   let showHiking = false;
   let showCycling = false;
   let showRouteModal = false;
+  let showTrainConnectionsModal = false;
   let showGardens = true;
   let showSavedGardens = true;
   let filteredGardens: { [id: string]: Garden };
@@ -159,6 +161,7 @@
   <LayersAndTools bind:showHiking bind:showCycling bind:showGardens bind:showSavedGardens />
   <Filter on:goToPlace={goToPlace} bind:filteredGardens {fallbackLocation} />
   <RouteModal bind:show={showRouteModal} />
+  <TrainConnectionsModal bind:show={showTrainConnectionsModal}/>
 </div>
 
 <style>
