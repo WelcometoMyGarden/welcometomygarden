@@ -257,6 +257,9 @@
 
   $: if (mapReady) {
     updateGardensWithoutSavedGardensVisibility(showGardens);
+  }
+
+  $: if (mapReady) {
     updateSavedGardensVisibility(showSavedGardens);
   }
 
