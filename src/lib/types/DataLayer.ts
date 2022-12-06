@@ -1,9 +1,19 @@
 type DataLayer = {
-  name: string;
   id: string;
-  geoJson: GeoJSON.FeatureCollection | GeoJSON.Feature;
   visible?: boolean;
 };
 
-export type FileDataLayer = DataLayer;
-export type TrainconnectionsDataLayer = DataLayer;
+export type OriginStation = {
+  location: { longitude: number; latitude: number };
+  name: string;
+  id: number;
+};
+
+export type TrainconnectionsDataLayer = DataLayer & {
+  originStation: OriginStation;
+};
+
+export type FileDataLayer = DataLayer & {
+  name: string;
+  geoJson: GeoJSON.FeatureCollection | GeoJSON.Feature;
+};

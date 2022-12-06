@@ -1,12 +1,13 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { LabeledCheckbox, Text } from '@/lib/components/UI';
-  import { bookmarkIcon, cyclistIcon, hikerIcon, tentIcon } from '@/lib/images/icons';
+  import { bookmarkIcon, cyclistIcon, flagIcon, hikerIcon, tentIcon } from '@/lib/images/icons';
   import { user } from '@/lib/stores/auth';
   export let showHiking = false;
   export let showCycling = false;
   export let showGardens: boolean;
   export let showSavedGardens: boolean;
+  export let showTrainsAndRails: boolean;
 
   $: superfan = $user?.superfan;
 </script>
@@ -67,6 +68,20 @@
           }
         })}
       </span>
+    </div>
+
+    <div class="toggle-title uppercase">
+      <Text>Trains</Text>
+    </div>
+    <div>
+      <div>
+        <LabeledCheckbox
+          name="rails"
+          icon={flagIcon}
+          label={'Railway'}
+          bind:checked={showTrainsAndRails}
+        />
+      </div>
     </div>
   {:else}
     <div>

@@ -23,6 +23,7 @@
   import type { Garden } from '@/lib/types/Garden';
   import { savedGardens as savedGardenStore } from '@/lib/stores/savedGardens';
   import TrainconnectionsLayer from '@/lib/components/Map/TrainconnectionsLayer.svelte';
+  import TrainAndRails from '@/lib/components/Map/TrainAndRails.svelte';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let geolocationIsLoaded = false;
@@ -32,6 +33,7 @@
   let showTrainConnectionsModal = false;
   let showGardens = true;
   let showSavedGardens = true;
+  let showTrainsAndRails = true;
   let filteredGardens: { [id: string]: Garden };
   let savedGardens = [] as string[];
   let carNoticeShown = !getCookie('car-notice-dismissed');
@@ -157,8 +159,15 @@
     {/if}
     <FileTrails />
     <TrainconnectionsLayer />
+    <TrainAndRails show={showTrainsAndRails} />
   </Map>
-  <LayersAndTools bind:showHiking bind:showCycling bind:showGardens bind:showSavedGardens />
+  <LayersAndTools
+    bind:showHiking
+    bind:showCycling
+    bind:showGardens
+    bind:showSavedGardens
+    bind:showTrainsAndRails
+  />
   <Filter on:goToPlace={goToPlace} bind:filteredGardens {fallbackLocation} />
   <RouteModal bind:show={showRouteModal} />
   <TrainConnectionsModal bind:show={showTrainConnectionsModal} />
