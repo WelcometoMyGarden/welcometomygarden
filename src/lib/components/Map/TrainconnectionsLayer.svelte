@@ -77,7 +77,7 @@
       layout: {
         'icon-image': 'train',
         'icon-size': 0.4,
-        'icon-ignore-placement': true
+        // 'icon-ignore-placement': true
       }
     };
 
