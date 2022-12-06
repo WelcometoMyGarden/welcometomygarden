@@ -3001,6 +3001,13 @@ is-regex@^1.0.4:
     call-bind "^1.0.2"
     has-tostringtag "^1.0.0"
 
+is-uic-location-code@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/is-uic-location-code/-/is-uic-location-code-0.0.1.tgz#02a79f0dc2f09d87313832a33de00f981775cd1c"
+  integrity sha512-IU0fa7xHDpFcfz4oZ2kLHK2GqARGpdD6aSAc91LBqmHIaKaJH3S4BFHqUHkVvylWH2+J5+4Oz+TvFAlcj8m09Q==
+  dependencies:
+    uic-codes "^0.3.0"
+
 isarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
@@ -3969,6 +3976,11 @@ typescript@*, typescript@^4.7.4:
   version "4.9.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.3.tgz#3aea307c1746b8c384435d8ac36b8a2e580d85db"
   integrity sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA==
+
+uic-codes@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/uic-codes/-/uic-codes-0.3.0.tgz#dc4470e2164422ea68154ac621d63de8a82755e8"
+  integrity sha512-GLcAMaxrGmAhhhhAz5Diz9mKVaDkDIN9yRfgdc/d4eVytKdV27xjpTRvr+aZwRn/Nvs679a+LZXc6kLJI/4Cwg==
 
 undici@5.12.0:
   version "5.12.0"

@@ -2,6 +2,13 @@
   import { _ } from 'svelte-i18n';
   import { Button, Modal, TextInput } from '$lib/components/UI';
   import { keyboardEvent } from '@/lib/stores/keyboardEvent';
+  import {
+    fetchStation,
+    hasLocation,
+    isLongDistanceOrRegionalOrSuburban,
+    isRegion,
+    toPoint
+  } from '@/lib/util/map/trainConnections';
 
   export let show = false;
   let input: string = '';
@@ -16,6 +23,20 @@
     if (vw < maxWidth) stickToBottom = true;
     else stickToBottom = false;
   }
+
+  $: if (input.length > 0) {
+    getStations(input).then((stations) => {
+      console.log(stations);
+    });
+  }
+
+  const getStations = async (input: string) => {
+    const results = await fetchStation(input);
+    const filteredResults = results.filter(
+      (x) => isLongDistanceOrRegionalOrSuburban(x) && !isRegion(x) && hasLocation(x)
+    );
+    return filteredResults.map(toPoint());
+  };
 
   const handleInput = async () => {
     console.log(input);
