@@ -94,10 +94,10 @@
 
   const addTentImageToMap = async (
     id: string,
-    colors?: {
-      tentBackgroundColor?: string;
-      tentColor?: string;
-      backGroundColor?: string;
+    colors: {
+      tentBackgroundColor: string;
+      tentColor: string;
+      backGroundColor: string;
     }
   ) => {
     const tentBackgroundColor = '**tentBackgroundColor**';
@@ -109,7 +109,6 @@
       icon = icon.replaceAll(tentBackgroundColor, colors.tentBackgroundColor);
     if (colors?.tentColor) icon = icon.replaceAll(tentColor, colors.tentColor);
     if (colors?.backGroundColor) icon = icon.replaceAll(backGroundColor, colors.backGroundColor);
-    console.log(id, icon);
     new Promise((resolve) => {
       let img = new Image(100, 100);
       img.onload = () => {
