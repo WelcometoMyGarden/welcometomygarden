@@ -41,7 +41,8 @@ export const toPoint = () => (station) => ({
   id: formatStationId(station.id)
 });
 
-export const apiUrls = <string>import.meta.env.VITE_DIRECT_TRAIN_API_URLS;
+// export const apiUrls = <string>import.meta.env.VITE_DIRECT_TRAIN_API_URLS;
+export const apiUrls = 'https://api.direkt.bahn.guru';
 
 export const fetchDirectConnections = async (id: string): Promise<Station[]> => {
   const urls = apiUrls ? apiUrls.split(',') : [];
@@ -69,7 +70,10 @@ export const createPopupHtml = (properties: any) => {
   else return name;
 };
 
-export const locationToPoint = (location: { longitude: number; latitude: number }): GeoJSON.Point => ({
+export const locationToPoint = (location: {
+  longitude: number;
+  latitude: number;
+}): GeoJSON.Point => ({
   type: 'Point',
   coordinates: [location.longitude, location.latitude]
 });
@@ -97,7 +101,10 @@ export const durationCategoryColour = (c: number) => {
   return '#999';
 };
 
-export const convertToFeatureList = (stations: Station[], fromStationName: string): GeoJSON.Feature[] => {
+export const convertToFeatureList = (
+  stations: Station[],
+  fromStationName: string
+): GeoJSON.Feature[] => {
   const resultsWithLocations = stations
     .map((s) => ({
       ...s,
