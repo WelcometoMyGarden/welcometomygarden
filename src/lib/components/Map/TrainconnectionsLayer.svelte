@@ -1,38 +1,31 @@
 <script lang="ts">
   import { ZOOM_LEVELS } from '$lib/constants';
-  import type { AnyLayer, GeoJSONSourceRaw } from 'maplibre-gl';
-  import mapboxgl from 'maplibre-gl';
-  import { getContext, onMount } from 'svelte';
-  import key from './mapbox-context.js';
+  import { trainTimeIcon } from '@/lib/images/icons/index.js';
   import {
     addTrainconnectionsDataLayers,
     trainconnectionsDataLayers
   } from '@/lib/stores/trainconnections.js';
-  import { trainTimeIcon } from '@/lib/images/icons/index.js';
   import type { OriginStation } from '@/lib/types/DataLayer.js';
+  import {
+    convertToFeatureList,
+    createPopupHtml,
+    durationCategory,
+    durationCategoryColour,
+    fetchDirectConnections,
+    locationToPoint
+  } from '@/lib/util/map/trainConnections.js';
+  import type { AnyLayer, GeoJSONSourceRaw } from 'maplibre-gl';
+  import mapboxgl from 'maplibre-gl';
+  import { getContext } from 'svelte';
+  import key from './mapbox-context.js';
 
   // @ts-ignore
   const { getMap } = getContext(key);
   const map: mapboxgl.Map = getMap();
 
-  interface Station {
-    id: string;
-    name: string;
-    location: {
-      type: 'location';
-      id: string;
-      latitude: number;
-      longitude: number;
-    };
-    duration: number;
-  }
-
-  const apiUrls = <string>import.meta.env.VITE_DIRECT_TRAIN_API_URLS;
-
   let mapReady = false;
   let popUpsAlwaysVisible = false;
 
-  // helpers
   const createFixedPopup = () =>
     new mapboxgl.Popup({
       closeButton: false,
@@ -51,54 +44,6 @@
     className: 'trainconnections-popup-single',
     offset: 10
   });
-
-  const createPopupHtml = (properties: any) => {
-    const { name, duration, durationMinutes, type, fromName } = properties;
-
-    if (type == 2)
-      return `
-  <div>
-    <div class="dtc-popup-text">
-      <span>${fromName}</span>
-      <span>&#8594</span>
-      <span>${name}</span>
-    </div>
-    <div class="dtc-popup-tag">~ ${durationMinutes} min.</div>
-  </div>`;
-    else {
-      return name;
-    }
-  };
-
-  const formatStationId = (i: string) => (i.length === 9 && i.slice(0, 2) ? i.slice(2) : i);
-
-  const locationToPoint = (location: { longitude: number; latitude: number }): GeoJSON.Point => ({
-    type: 'Point',
-    coordinates: [location.longitude, location.latitude]
-  });
-
-  const durationCategory = (d: number): number => {
-    if (d === 0) return 0;
-    if (!d) return -1;
-    if (d > 0 && d <= 60) return 1;
-    if (d > 0 && d <= 120) return 2;
-    if (d > 0 && d <= 240) return 3;
-    if (d > 0 && d <= 480) return 4;
-    if (d > 0 && d <= 960) return 5;
-    return 6;
-  };
-
-  const durationCategoryColour = (c: number) => {
-    if (c === -1) return '#999'; // unknown duration
-    if (c === 0) return '#333'; // 0
-    if (c === 1) return '#191'; // < 1h
-    if (c === 2) return '#2d1'; // 1h-2h
-    if (c === 3) return '#d4d411'; // 2h-4h
-    if (c === 4) return '#d91'; // 4h-8h
-    if (c === 5) return '#d41'; // 8h-16h
-    if (c === 6) return '#a41'; // > 16h
-    return '#999';
-  };
 
   const createLayer = (id: string, source: any): AnyLayer => {
     return {
@@ -138,47 +83,6 @@
   };
 
   // functions
-
-  const fetchDirectConnections = async (id: string): Promise<Station[]> => {
-    const urls = apiUrls ? apiUrls.split(',') : [];
-    if (!urls.length) throw new Error('No API URLs provided');
-    // const urlA = new URL(`https://api.direkt.bahn.guru/${formatStationId(id)}`);
-
-    const fetchUrls = urls.map((url) => fetch(new URL(`${url}/${formatStationId(id)}`)));
-
-    const resp = await Promise.any<any>(fetchUrls);
-    return await resp.json();
-  };
-
-  const convertToFeatureList = (
-    stations: Station[],
-    fromStationName: string
-  ): GeoJSON.Feature[] => {
-    const resultsWithLocations = stations
-      .map((s) => ({
-        ...s,
-        location: s.location
-      }))
-      .filter((s) => !!s.location);
-
-    const features: GeoJSON.Feature[] = resultsWithLocations
-      .map(
-        (s): GeoJSON.Feature => ({
-          type: 'Feature',
-          geometry: locationToPoint(s.location),
-          properties: {
-            type: 2,
-            name: s.name,
-            fromName: fromStationName,
-            duration: durationCategory(s.duration),
-            durationMinutes: s.duration
-          }
-        })
-      )
-      .sort((a, b) => a.properties?.duration - b.properties?.duration);
-
-    return features;
-  };
 
   const updateVisibility = (id: string, visible?: boolean) => {
     const layer = map.getLayer(id);
@@ -293,15 +197,6 @@
       for (let i = -1; i <= 6; i++) {
         await addTrainTimeImage(`train-time-${i}`, durationCategoryColour(i));
       }
-
-      // await addTrainTimeImage('train-time--1', '#999');
-      // await addTrainTimeImage('train-time-0', '#333');
-      // await addTrainTimeImage('train-time-1', '#191');
-      // await addTrainTimeImage('train-time-2', '#2d1');
-      // await addTrainTimeImage('train-time-3', '#d4d411');
-      // await addTrainTimeImage('train-time-4', '#d91');
-      // await addTrainTimeImage('train-time-5', '#d41');
-      // await addTrainTimeImage('train-time-6', '#a41');
     } catch (err) {
       // should not error in prod
       console.log(err);
@@ -310,15 +205,17 @@
     }
   };
 
-  // const origin = {
-  //   location: {
-  //     longitude: 4.71613883972168,
-  //     latitude: 50.88153913009131
-  //   },
-  //   name: 'Leuven',
-  //   id: 8800011
-  // };
-  // $: mapReady ? addTrainconnectionsDataLayers(origin) : null;
+  // $: if (mapReady) {
+  //   const origin = {
+  //     location: {
+  //       longitude: 4.71613883972168,
+  //       latitude: 50.88153913009131
+  //     },
+  //     name: 'Leuven',
+  //     id: 8800011
+  //   };
+  //   addTrainconnectionsDataLayers(origin);
+  // }
 
   // Subscribe to trainconnectionsDataLayers store and update map layers accordingly when it changes
   let prevFileDataLayerIds: string[] = [];
