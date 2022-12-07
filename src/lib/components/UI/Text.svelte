@@ -4,7 +4,7 @@
   export let weight = 'inherit';
   export let className = $$props.class || '';
 
-  const allowedSize = ['m', 'l'];
+  const allowedSize = ['s', 'm', 'l'];
   const allowedWeight = ['inherit', 'thin', 'bold'];
   if (!allowedSize.includes(size)) throw new Error('Size props is invalid');
   if (!allowedWeight.includes(weight)) throw new Error('Weight props is invalid');
@@ -31,6 +31,11 @@
     font-style: normal;
     color: inherit;
     font-weight: inherit;
+  }
+
+  .text.s {
+    font-size: 1rem;
+    line-height: 1;
   }
 
   .text.m {

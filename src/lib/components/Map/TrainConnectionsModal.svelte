@@ -33,10 +33,7 @@
   }
 
   $: if (input.length > 0) {
-    getStations(input).then((stations) => {
-      console.log(stations);
-      foundStations = stations;
-    });
+    getStations(input).then((stations) => (foundStations = stations));
   }
 
   const getStations = async (input: string) => {

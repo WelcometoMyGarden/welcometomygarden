@@ -9,7 +9,7 @@
 </script>
 
 <div>
-  <input id={name} type="checkbox" {disabled} {name} on:input bind:checked />
+  <input id={name} type="checkbox" {disabled} {name} on:input bind:checked on:change />
   <label for={name}>
     {#if icon}
       <div class="icon">

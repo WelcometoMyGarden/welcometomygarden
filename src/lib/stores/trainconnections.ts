@@ -36,3 +36,9 @@ export const updateTrainconnectionsDataLayers = (
     layers.map((layer) => (layer.id === id ? { ...layer, ...trainconnectionsDataLayer } : layer))
   );
 };
+
+export const toggleVisibilityTrainconnectionsDataLayers = (id: string) => {
+  trainconnectionsDataLayers.update((layers) =>
+    layers.map((layer) => (layer.id === id ? { ...layer, visible: !layer.visible } : layer))
+  );
+};

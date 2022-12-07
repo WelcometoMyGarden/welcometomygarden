@@ -29,11 +29,19 @@ export const addFileDataLayers = ({
       }
     ]);
 };
+
 export const removeFileDataLayers = (id: string) => {
   fileDataLayers.update((layers) => layers.filter((layer) => layer.id !== id));
 };
+
 export const updateFileDataLayers = (id: string, fileDataLayer: FileDataLayer) => {
   fileDataLayers.update((layers) =>
     layers.map((layer) => (layer.id === id ? { ...layer, ...fileDataLayer } : layer))
+  );
+};
+
+export const toggleVisibilityFileDataLayers = (id: string) => {
+  fileDataLayers.update((layers) =>
+    layers.map((layer) => (layer.id === id ? { ...layer, visible: !layer.visible } : layer))
   );
 };

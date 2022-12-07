@@ -146,7 +146,6 @@
     if (popUpsAlwaysVisible) createPopupsForLayer(geojson.features);
     else {
       map.on('mouseenter', layerId, (e) => {
-        console.log(e);
         const coordinates = e.features[0].geometry.coordinates.slice();
 
         singlePopup

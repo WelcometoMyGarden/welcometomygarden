@@ -33,7 +33,8 @@
   let showTrainConnectionsModal = false;
   let showGardens = true;
   let showSavedGardens = true;
-  let showTrainsAndRails = false;
+  let showStations = false;
+  let showRails = false;
   let filteredGardens: { [id: string]: Garden };
   let savedGardens = [] as string[];
   let carNoticeShown = !getCookie('car-notice-dismissed');
@@ -159,14 +160,17 @@
     {/if}
     <FileTrails />
     <TrainconnectionsLayer />
-    <TrainAndRails showStations={showTrainsAndRails} showRails={showTrainsAndRails} />
+    <TrainAndRails {showStations} {showRails} />
   </Map>
   <LayersAndTools
     bind:showHiking
     bind:showCycling
     bind:showGardens
     bind:showSavedGardens
-    bind:showTrainsAndRails
+    bind:showStations
+    bind:showRails
+    bind:showRouteModal
+    bind:showTrainConnectionsModal
   />
   <Filter on:goToPlace={goToPlace} bind:filteredGardens {fallbackLocation} />
   <RouteModal bind:show={showRouteModal} />
