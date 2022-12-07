@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { ZOOM_LEVELS } from '$lib/constants';
   import type { AnyLayer, GeoJSONSourceRaw } from 'maplibre-gl';
   import mapboxgl from 'maplibre-gl';
   import { getContext, onMount } from 'svelte';
@@ -7,6 +8,8 @@
     addTrainconnectionsDataLayers,
     trainconnectionsDataLayers
   } from '@/lib/stores/trainconnections.js';
+  import { trainTimeIcon } from '@/lib/images/icons/index.js';
+  import type { OriginStation } from '@/lib/types/DataLayer.js';
 
   // @ts-ignore
   const { getMap } = getContext(key);
@@ -27,9 +30,10 @@
   const apiUrls = <string>import.meta.env.VITE_DIRECT_TRAIN_API_URLS;
 
   let mapReady = false;
+  let popUpsAlwaysVisible = false;
 
   // helpers
-  const createPopup = () =>
+  const createFixedPopup = () =>
     new mapboxgl.Popup({
       closeButton: false,
       closeOnClick: false,
@@ -38,6 +42,33 @@
       className: 'trainconnections-popup',
       offset: 15
     });
+
+  const singlePopup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false,
+    maxWidth: 'none',
+    anchor: 'top',
+    className: 'trainconnections-popup-single',
+    offset: 10
+  });
+
+  const createPopupHtml = (properties: any) => {
+    const { name, duration, durationMinutes, type, fromName } = properties;
+
+    if (type == 2)
+      return `
+  <div>
+    <div class="dtc-popup-text">
+      <span>${fromName}</span>
+      <span>&#8594</span>
+      <span>${name}</span>
+    </div>
+    <div class="dtc-popup-tag">~ ${durationMinutes} min.</div>
+  </div>`;
+    else {
+      return name;
+    }
+  };
 
   const formatStationId = (i: string) => (i.length === 9 && i.slice(0, 2) ? i.slice(2) : i);
 
@@ -75,51 +106,35 @@
       type: 'symbol',
       source,
       layout: {
-        'icon-image': 'train',
-        'icon-size': 0.4,
-        // 'icon-ignore-placement': true
+        'icon-ignore-placement': true,
+        'icon-image': {
+          property: 'duration',
+          stops: [
+            [-1, 'train-time--1'],
+            [0, 'train-time-0'],
+            [1, 'train-time-1'],
+            [2, 'train-time-2'],
+            [3, 'train-time-3'],
+            [4, 'train-time-4'],
+            [5, 'train-time-5'],
+            [6, 'train-time-6']
+          ]
+        },
+        'icon-size': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          0,
+          0.2,
+          ZOOM_LEVELS.SMALL_COUNTRY,
+          0.3,
+          ZOOM_LEVELS.CITY,
+          0.4,
+          ZOOM_LEVELS.ROAD,
+          0.4
+        ]
       }
     };
-
-    // return {
-    //   id,
-    //   type: 'circle',
-    //   source,
-    //   paint: {
-    //     'circle-radius': [
-    //       'interpolate',
-    //       ['linear'],
-    //       ['zoom'],
-    //       4.5,
-    //       ['*', 4.5, ['/', 2, ['number', ['get', 'type']]]], // origin = 1, destination = 2
-    //       15,
-    //       ['*', 12, ['/', 2, ['number', ['get', 'type']]]] // origin = 1, destination = 2
-    //     ],
-    //     'circle-color': [
-    //       'interpolate',
-    //       ['linear'],
-    //       ['number', ['get', 'duration']],
-    //       -1,
-    //       durationCategoryColour(-1), // unknown duration
-    //       0,
-    //       durationCategoryColour(0), // 0
-    //       1,
-    //       durationCategoryColour(1), // < 1h
-    //       2,
-    //       durationCategoryColour(2), // 1h-2h
-    //       3,
-    //       durationCategoryColour(3), // 2h-4h
-    //       4,
-    //       durationCategoryColour(4), // 4h-8h
-    //       5,
-    //       durationCategoryColour(5), // 8h-16h
-    //       6,
-    //       durationCategoryColour(6) // > 16h
-    //     ],
-    //     'circle-stroke-color': '#333',
-    //     'circle-stroke-width': 0.5
-    //   }
-    // };
   };
 
   // functions
@@ -135,7 +150,10 @@
     return await resp.json();
   };
 
-  const convertToFeatureList = (stations: Station[]): GeoJSON.Feature[] => {
+  const convertToFeatureList = (
+    stations: Station[],
+    fromStationName: string
+  ): GeoJSON.Feature[] => {
     const resultsWithLocations = stations
       .map((s) => ({
         ...s,
@@ -151,6 +169,7 @@
           properties: {
             type: 2,
             name: s.name,
+            fromName: fromStationName,
             duration: durationCategory(s.duration),
             durationMinutes: s.duration
           }
@@ -169,20 +188,28 @@
     }
   };
 
-  const create = async (
-    origin: {
-      location: { longitude: number; latitude: number };
-      name: string;
-      id: number;
-    },
-    layerId: string
-  ): Promise<void> => {
+  const createPopupsForLayer = (
+    features: {
+      properties: { name: string; duration: number; durationMinutes: number };
+      geometry: { coordinates: [number, number] };
+    }[]
+  ) => {
+    features.forEach((feat) => {
+      const { name, duration, durationMinutes } = feat.properties;
+
+      let popup = createFixedPopup();
+      let durationElement = ` <b>${durationMinutes} min.</b>`;
+      popup.setLngLat(feat.geometry.coordinates).setHTML(`${durationElement}`).addTo(map);
+    });
+  };
+
+  const create = async (origin: OriginStation, layerId: string): Promise<void> => {
     const geojson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
       type: 'FeatureCollection',
       features: []
     };
 
-    const stationFeature: GeoJSON.Feature = {
+    const fromStationFeature: GeoJSON.Feature = {
       type: 'Feature',
       geometry: locationToPoint(origin.location),
       properties: {
@@ -195,8 +222,8 @@
 
     const stationsList = await fetchDirectConnections(origin.id.toString());
 
-    geojson.features = convertToFeatureList(stationsList);
-    geojson.features.push(stationFeature);
+    geojson.features = convertToFeatureList(stationsList, origin.name);
+    geojson.features.push(fromStationFeature);
 
     const source: GeoJSONSourceRaw = {
       type: 'geojson',
@@ -205,18 +232,96 @@
     map.addSource(layerId, source);
     map.addLayer(createLayer(layerId, layerId));
 
-    geojson.features.forEach((feat) => {
-      const { name, duration, durationMinutes } = feat.properties;
+    if (popUpsAlwaysVisible) createPopupsForLayer(geojson.features);
+    else {
+      map.on('mouseenter', layerId, (e) => {
+        console.log(e);
+        const coordinates = e.features[0].geometry.coordinates.slice();
 
-      let popup = createPopup();
-      let durationElement = ` <b>${durationMinutes} min.</b>`;
-      popup.setLngLat(feat.geometry.coordinates).setHTML(`${durationElement}`).addTo(map);
+        singlePopup
+          .setLngLat(coordinates)
+          .setHTML(createPopupHtml({ ...e.features[0].properties }))
+          .addTo(map);
+        map.getCanvas().style.cursor = 'pointer';
+      });
+
+      map.on('mouseleave', layerId, (e) => {
+        map.getCanvas().style.cursor = '';
+        singlePopup.remove();
+      });
+    }
+  };
+
+  const addTrainTimeImage = async (id: string, color: string) => {
+    const borderColor = '#04BC16';
+
+    new Promise((resolve) => {
+      let icon = trainTimeIcon;
+      icon = icon.replace(borderColor, color);
+      let img = new Image(100, 100);
+      img.onload = () => {
+        if (!map.hasImage(id)) map.addImage(id, img);
+        console.log('added image', id, color, map.hasImage(id));
+        resolve(true);
+      };
+      img.src = 'data:image/svg+xml;base64,' + btoa(icon);
+    }).catch((err) => {
+      // should not error in prod
+      console.log(err);
     });
   };
 
-  let prevFileDataLayerIds: string[] = [];
+  const setup = async () => {
+    // Catch all errors to avoid having to reload when working on this component in development
+    try {
+      const images = [{ url: '/images/markers/train.png', id: 'train' }];
+
+      await Promise.all(
+        images.map((img) =>
+          new Promise((resolve) => {
+            map.loadImage(img.url, (err, res) => {
+              if (!map.hasImage(img.id)) map.addImage(img.id, res);
+              resolve(true);
+            });
+          }).catch((err) => {
+            // should not error in prod
+            console.log(err);
+          })
+        )
+      );
+
+      for (let i = -1; i <= 6; i++) {
+        await addTrainTimeImage(`train-time-${i}`, durationCategoryColour(i));
+      }
+
+      // await addTrainTimeImage('train-time--1', '#999');
+      // await addTrainTimeImage('train-time-0', '#333');
+      // await addTrainTimeImage('train-time-1', '#191');
+      // await addTrainTimeImage('train-time-2', '#2d1');
+      // await addTrainTimeImage('train-time-3', '#d4d411');
+      // await addTrainTimeImage('train-time-4', '#d91');
+      // await addTrainTimeImage('train-time-5', '#d41');
+      // await addTrainTimeImage('train-time-6', '#a41');
+    } catch (err) {
+      // should not error in prod
+      console.log(err);
+    } finally {
+      mapReady = true;
+    }
+  };
+
+  // const origin = {
+  //   location: {
+  //     longitude: 4.71613883972168,
+  //     latitude: 50.88153913009131
+  //   },
+  //   name: 'Leuven',
+  //   id: 8800011
+  // };
+  // $: mapReady ? addTrainconnectionsDataLayers(origin) : null;
 
   // Subscribe to trainconnectionsDataLayers store and update map layers accordingly when it changes
+  let prevFileDataLayerIds: string[] = [];
   trainconnectionsDataLayers.subscribe((trainDLs) => {
     const dataLayerIds = trainDLs.map((dataLayer) => dataLayer.id);
 
@@ -245,51 +350,10 @@
     prevFileDataLayerIds = dataLayerIds;
   });
 
-  const setup = async () => {
-    // Catch all errors to avoid having to reload when working on this component in development
-    try {
-      const images = [{ url: '/images/markers/train.png', id: 'train' }];
-
-      await Promise.all(
-        images.map((img) =>
-          new Promise((resolve) => {
-            map.loadImage(img.url, (err, res) => {
-              if (!map.hasImage(img.id)) map.addImage(img.id, res);
-              resolve(true);
-            });
-          }).catch((err) => {
-            // should not error in prod
-            console.log(err);
-          })
-        )
-      );
-    } catch (err) {
-      // should not error in prod
-      console.log(err);
-    } finally {
-      mapReady = true;
-    }
-  };
-
   setup();
-
-  /* 
-    const origin = {
-      location: {
-        longitude: 4.71613883972168,
-        latitude: 50.88153913009131
-      },
-      name: 'Leuven',
-      id: 8800011
-    };
-  */
 </script>
 
 <style>
-  :global(.trainconnections-popup) {
-    cursor: auto;
-  }
-
   :global(.trainconnections-popup .mapboxgl-popup-content) {
     padding: 0.2rem 1rem;
     border-radius: 3rem;
@@ -299,6 +363,17 @@
     font-size: 1.4rem;
     line-height: 1.4;
     font-weight: bold;
+
+    cursor: pointer;
+  }
+
+  :global(.trainconnections-popup-single .mapboxgl-popup-content) {
+    padding: 0.2rem 1rem;
+    border: 1px solid #c9c9c9;
+    border-top: none;
+
+    font-size: 1.4rem;
+    line-height: 1.4;
 
     cursor: pointer;
   }

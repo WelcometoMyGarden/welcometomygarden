@@ -33,7 +33,7 @@
   let showTrainConnectionsModal = false;
   let showGardens = true;
   let showSavedGardens = true;
-  let showTrainsAndRails = true;
+  let showTrainsAndRails = false;
   let filteredGardens: { [id: string]: Garden };
   let savedGardens = [] as string[];
   let carNoticeShown = !getCookie('car-notice-dismissed');
