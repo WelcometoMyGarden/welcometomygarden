@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { ZOOM_LEVELS } from '$lib/constants';
-  import { trainTimeIcon } from '@/lib/images/icons/index.js';
+  import { ICON_SIZE, ZOOM_LEVELS } from '$lib/constants';
+  import { trainTimeIcon } from '@/lib/images/markers/index.js';
   import {
     addTrainconnectionsDataLayers,
     trainconnectionsDataLayers
@@ -25,6 +25,7 @@
 
   let mapReady = false;
   let popUpsAlwaysVisible = false;
+  const trainTime = 'train-time-';
 
   const createFixedPopup = () =>
     new mapboxgl.Popup({
@@ -55,29 +56,17 @@
         'icon-image': {
           property: 'duration',
           stops: [
-            [-1, 'train-time--1'],
-            [0, 'train-time-0'],
-            [1, 'train-time-1'],
-            [2, 'train-time-2'],
-            [3, 'train-time-3'],
-            [4, 'train-time-4'],
-            [5, 'train-time-5'],
-            [6, 'train-time-6']
+            [-1, trainTime + '-1'],
+            [0, trainTime + '0'],
+            [1, trainTime + '1'],
+            [2, trainTime + '2'],
+            [3, trainTime + '3'],
+            [4, trainTime + '4'],
+            [5, trainTime + '5'],
+            [6, trainTime + '6']
           ]
         },
-        'icon-size': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          0,
-          0.2,
-          ZOOM_LEVELS.SMALL_COUNTRY,
-          0.3,
-          ZOOM_LEVELS.CITY,
-          0.4,
-          ZOOM_LEVELS.ROAD,
-          0.4
-        ]
+        'icon-size': ICON_SIZE
       }
     };
   };
@@ -104,6 +93,24 @@
       let popup = createFixedPopup();
       let durationElement = ` <b>${durationMinutes} min.</b>`;
       popup.setLngLat(feat.geometry.coordinates).setHTML(`${durationElement}`).addTo(map);
+    });
+  };
+
+  const addTrainTimeImageToMap = async (id: string, color: string) => {
+    const borderColor = '#04BC16';
+
+    new Promise((resolve) => {
+      let icon = trainTimeIcon;
+      icon = icon.replace(borderColor, color);
+      let img = new Image(100, 100);
+      img.onload = () => {
+        if (!map.hasImage(id)) map.addImage(id, img);
+        resolve(true);
+      };
+      img.src = 'data:image/svg+xml;base64,' + btoa(icon);
+    }).catch((err) => {
+      // should not error in prod
+      console.log(err);
     });
   };
 
@@ -156,46 +163,11 @@
     }
   };
 
-  const addTrainTimeImage = async (id: string, color: string) => {
-    const borderColor = '#04BC16';
-
-    new Promise((resolve) => {
-      let icon = trainTimeIcon;
-      icon = icon.replace(borderColor, color);
-      let img = new Image(100, 100);
-      img.onload = () => {
-        if (!map.hasImage(id)) map.addImage(id, img);
-        console.log('added image', id, color, map.hasImage(id));
-        resolve(true);
-      };
-      img.src = 'data:image/svg+xml;base64,' + btoa(icon);
-    }).catch((err) => {
-      // should not error in prod
-      console.log(err);
-    });
-  };
-
   const setup = async () => {
     // Catch all errors to avoid having to reload when working on this component in development
     try {
-      const images = [{ url: '/images/markers/train.png', id: 'train' }];
-
-      await Promise.all(
-        images.map((img) =>
-          new Promise((resolve) => {
-            map.loadImage(img.url, (err, res) => {
-              if (!map.hasImage(img.id)) map.addImage(img.id, res);
-              resolve(true);
-            });
-          }).catch((err) => {
-            // should not error in prod
-            console.log(err);
-          })
-        )
-      );
-
       for (let i = -1; i <= 6; i++) {
-        await addTrainTimeImage(`train-time-${i}`, durationCategoryColour(i));
+        await addTrainTimeImageToMap(trainTime + i, durationCategoryColour(i));
       }
     } catch (err) {
       // should not error in prod

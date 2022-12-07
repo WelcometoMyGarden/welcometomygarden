@@ -159,7 +159,7 @@
     {/if}
     <FileTrails />
     <TrainconnectionsLayer />
-    <TrainAndRails show={showTrainsAndRails} />
+    <TrainAndRails showStations={showTrainsAndRails} showRails={showTrainsAndRails} />
   </Map>
   <LayersAndTools
     bind:showHiking

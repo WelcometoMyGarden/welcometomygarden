@@ -3,12 +3,15 @@
   import { getContext, onMount, onDestroy } from 'svelte';
   import key from './mapbox-context.js';
   import { fetchFrom } from '@/lib/util';
+  import { ICON_SIZE, ZOOM_LEVELS } from '@/lib/constants.js';
+  import { trainAllIcon } from '@/lib/images/markers/index.js';
 
   // @ts-ignore
   const { getMap } = getContext(key);
   const map: mapboxgl.Map = getMap();
 
-  export let show = true;
+  export let showStations: boolean;
+  export let showRails: boolean;
   let mapReady = false;
   let stationSourceAndLayerId = 'stations';
 
@@ -85,16 +88,13 @@
   ];
   for (let i = 0; i < railwayLayers.length; i++) {
     const layer = railwayLayers[i];
-    layer.id = `train-and-rails-${layer.id}`;
-    layer.layout.visibility = show ? 'visible' : 'none';
+    layer.id = `rails-${layer.id}`;
+    layer.layout.visibility = showRails ? 'visible' : 'none';
   }
 
   const updateVisibility = (id: string, visible?: boolean) => {
     const layer = map.getLayer(id);
-    if (layer) {
-      if (visible) map.setLayoutProperty(id, 'visibility', 'visible');
-      else map.setLayoutProperty(id, 'visibility', 'none');
-    }
+    if (layer) map.setLayoutProperty(id, 'visibility', visible ? 'visible' : 'none');
   };
 
   const createStations = async () => {
@@ -110,41 +110,34 @@
       type: 'symbol',
       source: stationSourceAndLayerId,
       layout: {
+        visibility: showStations ? 'visible' : 'none',
         'icon-image': 'train-all',
-        'icon-size': 0.4
+        'icon-size': ICON_SIZE
       }
     });
   };
 
   $: if (mapReady) {
-    railwayLayers.map((layer) => {
-      if (map.getLayer(layer.id)) updateVisibility(layer.id, show);
-    });
-    updateVisibility(stationSourceAndLayerId, show);
+    railwayLayers.map((layer) => updateVisibility(layer.id, showRails));
+    updateVisibility(stationSourceAndLayerId, showStations);
   }
 
   onMount(async () => {
     try {
-      const images = [{ url: '/images/markers/train-dark-blue.png', id: 'train-all' }];
-
-      await Promise.all(
-        images.map((img) =>
-          new Promise((resolve) => {
-            map.loadImage(img.url, (err, res) => {
-              if (!map.hasImage(img.id)) map.addImage(img.id, res);
-              resolve(true);
-            });
-          }).catch((err) => {
-            // should not error in prod
-            console.log(err);
-          })
-        )
-      );
+      const icon = { src: trainAllIcon, id: 'train-all' };
+      await new Promise((resolve) => {
+        let img = new Image(100, 100);
+        img.onload = () => {
+          if (!map.hasImage(icon.id)) map.addImage(icon.id, img);
+          resolve(true);
+        };
+        img.src = 'data:image/svg+xml;base64,' + btoa(icon.src);
+      });
     } catch (err) {
       console.log(err);
     }
 
-    railwayLayers.map((layer) => map.addLayer(layer));
+    railwayLayers.map((l) => map.addLayer(l));
 
     await createStations();
     mapReady = true;

@@ -25,5 +25,4 @@ export { default as filterGreenIcon } from './filter-green.svg';
 export { default as filterIcon } from './filter.svg';
 export { default as markerIcon } from './marker.svg';
 export { default as bookmarkIcon } from './bookmark.svg';
-export { default as trainTimeIcon } from './train-time.svg';
 export { default as arrowRightIcon } from './arrow-right.svg';
