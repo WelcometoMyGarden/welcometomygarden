@@ -10,19 +10,19 @@
       title: 'Reduced price',
       id: 'reduced',
       value: 3,
-      stripePriceId: 'a'
+      stripePriceId: 'price_1MAcGMDY48WHyD7GoNncm5nX'
     },
     {
       title: 'Normal price',
       id: 'normal',
       value: 5,
-      stripePriceId: 'b'
+      stripePriceId: 'price_1MAcGbDY48WHyD7GY6TCMmoC'
     },
     {
       title: 'Solidarity price',
       id: 'solidarity',
       value: 7,
-      stripePriceId: 'c'
+      stripePriceId: 'price_1MAcGzDY48WHyD7GVUZAbVcf'
     }
   ];
 </script>
@@ -32,10 +32,15 @@
   import { goto } from '$app/navigation';
   import enterHandler from '@/lib/util/keyhandlers';
   import SuperfanLevel from '@/lib/components/UI/SuperfanLevel.svelte';
+  import routes from '@/lib/routes';
 
   function selectLevel(level: SuperfanLevelData) {
-    // TODO replace with constant
-    goto(`/become-superfan/payment/${level.id}`)
+
+    if (!user) {
+      return goto(routes.SIGN_IN);
+    }
+
+    return goto(`/become-superfan/payment/${level.id}`)
   }
 
   function handleKeyPress(event: CustomEvent<KeyboardEvent>, item: SuperfanLevelData) {

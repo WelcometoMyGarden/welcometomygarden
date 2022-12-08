@@ -5,6 +5,7 @@
   "scripts": {
     "lint": "eslint ./src",
     "serve": "firebase emulators:start --only functions",
+    "debug": "firebase emulators:start --only functions --inspect-functions",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
@@ -18,7 +19,8 @@
     "@sendgrid/mail": "^7.1.1",
     "firebase-admin": "^11.3.0",
     "firebase-functions": "^4.1.0",
-    "json2csv": "^5.0.6"
+    "json2csv": "^5.0.6",
+    "stripe": "^11.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",

@@ -6,6 +6,30 @@ import { FIREBASE_WARNING } from './firebase';
 type CreateUserRequest = { firstName: string; lastName: string; countryCode: string };
 type email = string;
 
+// And more fields, thers are just the ones we're interested in
+// https://stripe.com/docs/api/customers/create
+type CreateStripeCustomerResponse = {
+  id: string,
+  object: string,
+  description: string,
+  name: string,
+  metadata: {
+    wtmg_id?: string
+  }
+}
+
+type CreateOrRetrieveUnpaidSubscriptionRequest = {
+  // Price ID of the subscription to create
+  priceId: string
+}
+
+type CreateOrRetrieveUnpaidSubscriptionResponse = {
+  subscriptionId: string,
+  // Payment intent client secret for the first invoice,
+  // can be used to load a Stripe embedded payment module
+  clientSecret: string
+}
+
 /**
  * Checks whether the Firebase function is initialized before calling it, while keeping
  * strong TS typing.
@@ -36,8 +60,21 @@ export const resendAccountVerification: HttpsCallable = wrapCallable(
   () => resendAccountVerificationRef
 );
 
+
+let createStripeCustomerRef: HttpsCallable<unknown, CreateStripeCustomerResponse> | null = null;
+export const createStripeCustomer: HttpsCallable<unknown, CreateStripeCustomerResponse> = wrapCallable(
+  () => createStripeCustomerRef
+);
+
+let createOrRetrieveUnpaidSubscriptionRef: HttpsCallable<CreateOrRetrieveUnpaidSubscriptionRequest, CreateOrRetrieveUnpaidSubscriptionResponse> | null = null;
+export const createOrRetrieveUnpaidSubscription: HttpsCallable<CreateOrRetrieveUnpaidSubscriptionRequest, CreateOrRetrieveUnpaidSubscriptionResponse> = wrapCallable(
+  () => createOrRetrieveUnpaidSubscriptionRef
+);
+
 export const initializeFunctions = (functions: Functions) => {
   createUserRef = httpsCallable<CreateUserRequest>(functions, 'createUser');
   requestPasswordResetRef = httpsCallable<email>(functions, 'requestPasswordReset');
   resendAccountVerificationRef = httpsCallable(functions, 'resendAccountVerification');
+  createStripeCustomerRef = httpsCallable(functions, 'createStripeCustomer')
+  createOrRetrieveUnpaidSubscriptionRef = httpsCallable(functions, 'createOrRetrieveUnpaidSubscription')
 };

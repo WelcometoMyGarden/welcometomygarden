@@ -718,6 +718,11 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.6.0.tgz#3c7c9c46e678feefe7a2e5bb609d3dbd665ffb3f"
   integrity sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==
 
+"@stripe/stripe-js@^1.24.0", "@stripe/stripe-js@^1.46.0":
+  version "1.46.0"
+  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-1.46.0.tgz#2b9acca0dfa7b90aaecd909e678a049f799a27d6"
+  integrity sha512-dkm0zCEoRLu5rTnsIgwDf/QG2DKcalOT2dk1IVgMySOHWTChLyOvQwMYhEduGgLvyYWTwNhAUV4WOLPQvjwLwA==
+
 "@sveltejs/adapter-auto@next":
   version "1.0.0-next.89"
   resolved "https://registry.yarnpkg.com/@sveltejs/adapter-auto/-/adapter-auto-1.0.0-next.89.tgz#2ed9cd7253115402bad98547e301985ff3fbd501"
@@ -4501,6 +4506,13 @@ svelte-preprocess@^4.0.0, svelte-preprocess@^4.10.6:
     magic-string "^0.25.7"
     sorcery "^0.10.0"
     strip-indent "^3.0.0"
+
+svelte-stripe@^0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/svelte-stripe/-/svelte-stripe-0.0.19.tgz#80a1f64a138fb10791f3fa6e5d70742845b5b39e"
+  integrity sha512-Q0C/MxthhSV7TFdBTz3qsYxvbYVFsoeP42mMVrYUpizhASR7HwmF+N1YBNOCWM8Ttk/RAegY/4AqJVNHb4fDkQ==
+  dependencies:
+    "@stripe/stripe-js" "^1.24.0"
 
 svelte@^3.44.0:
   version "3.53.1"

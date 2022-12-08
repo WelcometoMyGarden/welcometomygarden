@@ -9,7 +9,7 @@ import {
   updatingMailPreferences,
   updatingSavedGardens
 } from '@/lib/stores/user';
-import type { Garden } from '@/lib/types/Garden';
+import type { Garden, UserPrivate } from '@/lib/types/Garden';
 
 export const doesPublicUserExist = async (uid: string) => {
   const userDoc = await getDoc(doc(db(), USERS, uid));
@@ -24,12 +24,12 @@ export const getPublicUserProfile = async (uid: string) => {
   return docSnap.data();
 };
 
-const getPrivateUserProfile = async (uid: string) => {
+export const getPrivateUserProfile = async (uid: string): Promise<UserPrivate | undefined> => {
   gettingPrivateUserProfile.set(true);
 
   const docRef = doc(db(), USERS_PRIVATE, uid);
 
-  const profile = await getDoc(docRef);
+  const profile = await getDoc<UserPrivate>(docRef);
   gettingPrivateUserProfile.set(false);
   return profile.data();
 };
@@ -43,6 +43,9 @@ const getCampsiteInformation = async (uid: string) => {
   return { garden };
 };
 
+/**
+ * Gets all non-id data related to the user from the user, user-private and campsite collections.
+ */
 export const getAllUserInfo = async (userId: string) => {
   const publicUserProfile = await getPublicUserProfile(userId);
   const privateUserProfile = await getPrivateUserProfile(userId);

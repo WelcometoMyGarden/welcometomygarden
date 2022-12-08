@@ -2,14 +2,13 @@ const { getFirestore, FieldValue } = require('firebase-admin/firestore')
 const { getAuth } = require('firebase-admin/auth')
 const functions = require('firebase-functions');
 const countries = require('./countries');
+const fail = require('./util/fail');
+
 const { sendAccountVerificationEmail, sendPasswordResetEmail } = require('./mail');
 
 const db = getFirestore();
 const auth = getAuth();
 
-const fail = (code) => {
-  throw new functions.https.HttpsError(code);
-};
 
 exports.createUser = async (data, context) => {
   if (!context.auth) {

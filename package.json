@@ -18,7 +18,9 @@
     "access": "public"
   },
   "dependencies": {
-    "smoothscroll-polyfill": "^0.4.4"
+    "@stripe/stripe-js": "^1.46.0",
+    "smoothscroll-polyfill": "^0.4.4",
+    "svelte-stripe": "^0.0.19"
   },
   "devDependencies": {
     "@mapbox/mapbox-gl-geocoder": "^4.5.1",

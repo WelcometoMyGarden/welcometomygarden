@@ -7,33 +7,94 @@ import {
   type Unsubscribe,
   confirmPasswordReset as firebaseConfirmPasswordReset
 } from 'firebase/auth';
-import { auth } from './firebase';
-import { isLoggingIn, isRegistering, user, isInitializing } from '$lib/stores/auth';
+import { auth, db } from './firebase';
+import { isLoggingIn, isRegistering, user, isInitializing, getUser } from '$lib/stores/auth';
 import User from '$lib/models/User';
 import { createUser, resendAccountVerification as resendAccVerif } from '@/lib/api/functions';
 import { getAllUserInfo } from './user';
+import { USERS_PRIVATE } from './collections';
+import { doc, onSnapshot } from 'firebase/firestore';
 
+/**
+ * Creates Firebase observers that manage the app's User model.
+ */
 export const createAuthObserver = (): Unsubscribe => {
-  return auth().onAuthStateChanged(async (userData) => {
-    if (userData) await reloadUserInfo();
+  let unsubscribeFromUserPrivate: (() => void) | null = null;
+
+  const unsubscribeFromAuthObserver = auth().onAuthStateChanged(async (userData) => {
+    // If logged in
+    if (userData) {
+      // Reload the user
+      const user = await reloadUserInfo();
+      if (user) {
+        // Re-subscribe to dependendent observers
+        if (unsubscribeFromUserPrivate) unsubscribeFromUserPrivate()
+        unsubscribeFromUserPrivate = await createUserPrivateObserver(user.id);
+      }
+    } else {
+      // If the user somehow got logged out by Firebase, sync this change to the app.
+      // (e.g. their password was reset elsewhere)
+      if (unsubscribeFromUserPrivate) unsubscribeFromUserPrivate()
+      const localUserState = get(user)
+      if (localUserState) {
+        user.set(null)
+      }
+    }
+
     isInitializing.set(false);
   });
+
+  // Unsubscribe from all related observers
+  return () => {
+    if (unsubscribeFromUserPrivate) unsubscribeFromUserPrivate()
+    unsubscribeFromAuthObserver()
+  }
 };
 
-const reloadUserInfo = async (): Promise<void> => {
+/**
+ * Actively reload user info, in case the user is logged in.
+ * Note: when looking for user-private data changes, just subscribe to the user.
+ * user-private snaphots are being listened to.
+ * @returns the reloaded user if the user was signed in, otherwise null.
+ */
+const reloadUserInfo = async (): Promise<User | null> => {
   await auth().currentUser?.reload();
 
   // Check if there is a user logged in
-  if (!auth().currentUser) return;
+  const firebaseUser = auth().currentUser;
+  if (!firebaseUser) {
+    console.warn("Trying to reload user info while logged out");
+    return null;
+  }
 
   try {
-    let tempUser = new User(auth().currentUser);
-    tempUser.addFields(await getAllUserInfo(tempUser.uid));
-    user.set(tempUser);
+    const userInfo = await getAllUserInfo(firebaseUser.uid)
+    const { email, emailVerified, uid } = firebaseUser;
+    const newUser = new User({
+      ...userInfo,
+      email: email || undefined,
+      emailVerified: emailVerified,
+      id: uid
+    }
+      );
+    user.set(newUser);
+    return newUser
   } catch (ex) {
     console.log(ex);
   }
+  return null
 };
+
+export const createUserPrivateObserver = async (currentUserId: string) => {
+  const docRef = doc(db(), USERS_PRIVATE, currentUserId);
+  return onSnapshot(docRef, (doc) => {
+    const newUserPrivateData = doc.data();
+    if (newUserPrivateData) {
+      const newUser = getUser().copyWith(newUserPrivateData)
+      user.set(newUser);
+    }
+  })
+}
 
 export const login = async (email: string, password: string): Promise<void> => {
   isLoggingIn.set(true);
@@ -72,6 +133,9 @@ export const register = async ({
 export const logout = async () => {
   await auth().signOut();
   await auth().currentUser?.reload();
+  if (auth().currentUser) {
+    throw new Error("Log out failed")
+  }
   user.set(null);
 };
 
