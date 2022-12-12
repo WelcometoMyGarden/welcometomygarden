@@ -52,6 +52,19 @@ exports.sendMessageReceivedEmail = (email, firstName, senderName, message, messa
   return send(msg);
 };
 
+exports.sendSubscriptionConfirmationEmail = (email, firstName) => {
+  const msg = {
+    to: email,
+    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    templateId: 'd-cc5be739da8f46628eeef6d23b393503',
+    dynamic_template_data: {
+      firstName,
+    }
+  };
+
+  return send(msg);
+};
+
 const fail = (code, message = '') => {
   throw new functions.https.HttpsError(code, message || code);
 };

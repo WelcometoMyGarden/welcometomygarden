@@ -1,5 +1,6 @@
 const getFirebaseUserId  = require("../getFirebaseUserId");
-const { getFirestore } = require('firebase-admin/firestore')
+const { getFirestore } = require('firebase-admin/firestore');
+const { sendSubscriptionConfirmationEmail } = require("../../mail");
 const db = getFirestore();
 
 /**
@@ -23,9 +24,11 @@ module.exports = async (event, res) => {
   // Ensure the user is marked as a superfan.
   // (pointless overwrite in case it was already set to true)
   const publicUserProfileDocRef = db.doc(`users/${uid}`)
+  const publicUserProfileData = (await publicUserProfileDocRef.get()).data()
   await publicUserProfileDocRef.update({ superfan: true })
 
   if (invoice.billing_reason = 'subscription_create') {
+    sendSubscriptionConfirmationEmail(invoice.customer_email, publicUserProfileData.firstName)
     // this is the paid invoice for the first subscription
     // TODO send a thank you for subscribing email
   }
