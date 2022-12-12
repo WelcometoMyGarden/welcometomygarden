@@ -35,6 +35,7 @@
   let showSavedGardens = true;
   let showStations = false;
   let showRails = false;
+  let showTransport = true;
   let filteredGardens: { [id: string]: Garden };
   let savedGardens = [] as string[];
   let carNoticeShown = !getCookie('car-notice-dismissed');
@@ -130,6 +131,7 @@
     {zoom}
     {applyZoom}
   >
+    <TrainAndRails {showStations} {showRails} {showTransport} />
     {#if !$isFetchingGardens}
       <GardenLayer
         {showGardens}
@@ -160,7 +162,6 @@
     {/if}
     <FileTrails />
     <TrainconnectionsLayer />
-    <TrainAndRails {showStations} {showRails} />
   </Map>
   <LayersAndTools
     bind:showHiking
@@ -169,6 +170,7 @@
     bind:showSavedGardens
     bind:showStations
     bind:showRails
+    bind:showTransport
     bind:showRouteModal
     bind:showTrainConnectionsModal
   />

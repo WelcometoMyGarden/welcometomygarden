@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { toggleVisibilityFileDataLayers } from './../../stores/file.ts';
+  import { toggleVisibilityFileDataLayers } from './../../stores/file.ts';
   import { LabeledCheckbox, Text } from '$lib/components/UI';
   import { _ } from 'svelte-i18n';
   import { bookmarkIcon, cyclistIcon, flagIcon, hikerIcon, tentIcon } from '@/lib/images/icons';
@@ -16,6 +16,7 @@
   export let showSavedGardens: boolean;
   export let showRails: boolean;
   export let showStations: boolean;
+  export let showTransport: boolean;
   export let showRouteModal: boolean;
   export let showTrainConnectionsModal: boolean;
 
@@ -132,33 +133,41 @@
           bind:checked={showStations}
         />
       </div>
-    </div>
+      <div>
+        <LabeledCheckbox
+          name="transport"
+          icon={flagIcon}
+          label={'Transport'}
+          bind:checked={showTransport}
+        />
+      </div>
 
-    <div>
-      {#each localTrainconnectionsDataLayers as layer, i}
-        <div>
-          <LabeledCheckbox
-            icon={flagIcon}
-            name={layer.id}
-            label={layer.originStation.name}
-            checked={layer.visible}
-            on:change={() => {
-              toggleVisibilityTrainconnectionsDataLayers(layer.id);
-            }}
-          />
-        </div>
-      {/each}
-    </div>
+      <div>
+        {#each localTrainconnectionsDataLayers as layer, i}
+          <div>
+            <LabeledCheckbox
+              icon={flagIcon}
+              name={layer.id}
+              label={layer.originStation.name}
+              checked={layer.visible}
+              on:change={() => {
+                toggleVisibilityTrainconnectionsDataLayers(layer.id);
+              }}
+            />
+          </div>
+        {/each}
+      </div>
 
-    <div class="layers-and-tools-button">
-      <Button
-        inverse
-        xxsmall
-        on:click={() => (showTrainConnectionsModal = !showTrainConnectionsModal)}
-      >
-        Find train connections
-      </Button>
-      <span class="attribution">Uses the Direkt Bahn Guru project </span>
+      <div class="layers-and-tools-button">
+        <Button
+          inverse
+          xxsmall
+          on:click={() => (showTrainConnectionsModal = !showTrainConnectionsModal)}
+        >
+          Find train connections
+        </Button>
+        <span class="attribution">Uses the Direkt Bahn Guru project </span>
+      </div>
     </div>
   {:else}
     <div>
