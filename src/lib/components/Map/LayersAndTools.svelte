@@ -117,22 +117,25 @@
       <Text>Railway network</Text>
     </div>
     <div>
-      <div>
-        <LabeledCheckbox
-          name="rails"
-          icon={flagIcon}
-          label={'Railway track'}
-          bind:checked={showRails}
-        />
-      </div>
-      <div>
-        <LabeledCheckbox
-          name="trainStations"
-          icon={flagIcon}
-          label={'Train stations'}
-          bind:checked={showStations}
-        />
-      </div>
+      {#if false}
+        <div>
+          <LabeledCheckbox
+            name="rails"
+            icon={flagIcon}
+            label={'Railway track'}
+            bind:checked={showRails}
+          />
+        </div>
+        <div>
+          <LabeledCheckbox
+            name="trainStations"
+            icon={flagIcon}
+            label={'Train stations'}
+            bind:checked={showStations}
+          />
+        </div>
+      {/if}
+
       <div>
         <LabeledCheckbox
           name="transport"
