@@ -66,6 +66,7 @@
   };
 
   let formError = '';
+  
   const submit = async () => {
     const errors = Object.keys(fields).reduce((all, field) => {
       const error = fields[field].validate(fields[field].value);

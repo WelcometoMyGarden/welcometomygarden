@@ -10,6 +10,7 @@
   export let medium = false;
   export let small = false;
   export let xsmall = false;
+  export let xxsmall = false;
   export let disabled = false;
 
   import { createEventDispatcher } from 'svelte';
@@ -32,6 +33,7 @@
     class:fit
     class:small
     class:xsmall
+    class:xxsmall
     class:medium
     class:inverse
     class:clicked
@@ -56,6 +58,7 @@
     class:medium
     class:small
     class:xsmall
+    class:xxsmall
     class:inverse
     class:clicked
     {type}
@@ -122,6 +125,10 @@
   .xsmall {
     padding: 0.6rem 0.9rem;
     font-size: 1rem;
+  }
+
+  .xxsmall {
+    padding: 0.2rem 0.4rem;
   }
 
   .fit {

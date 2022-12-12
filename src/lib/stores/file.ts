@@ -1,12 +1,6 @@
 import { get, writable } from 'svelte/store';
+import type { FileDataLayer } from '../types/DataLayer';
 import { slugify } from '../util';
-
-type FileDataLayer = {
-  name: string;
-  id: string;
-  geoJson: GeoJSON.FeatureCollection | GeoJSON.Feature;
-  visible?: boolean;
-};
 
 export const prefix = 'fileDataLayer-';
 
@@ -19,7 +13,7 @@ export const addFileDataLayers = ({
   name: string;
   geoJson: GeoJSON.FeatureCollection | GeoJSON.Feature;
 }) => {
-  const id = prefix + slugify(name ?? (Math.random() + 1).toString(36).substring(7));
+  const id = prefix + slugify(name ? name : (Math.random() + 1).toString(36).substring(7));
 
   const checkIndex = get(fileDataLayers).findIndex((layer) => layer.id === id);
 
@@ -35,11 +29,19 @@ export const addFileDataLayers = ({
       }
     ]);
 };
+
 export const removeFileDataLayers = (id: string) => {
   fileDataLayers.update((layers) => layers.filter((layer) => layer.id !== id));
 };
+
 export const updateFileDataLayers = (id: string, fileDataLayer: FileDataLayer) => {
   fileDataLayers.update((layers) =>
     layers.map((layer) => (layer.id === id ? { ...layer, ...fileDataLayer } : layer))
+  );
+};
+
+export const toggleVisibilityFileDataLayers = (id: string) => {
+  fileDataLayers.update((layers) =>
+    layers.map((layer) => (layer.id === id ? { ...layer, visible: !layer.visible } : layer))
   );
 };

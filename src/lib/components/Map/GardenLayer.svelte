@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Garden } from '@/lib/types/Garden.js';
-  import type { ContextType } from './Map.svelte'
+  import type { ContextType } from './Map.svelte';
   import type maplibregl from 'maplibre-gl';
 
   export let allGardens: { [id: string]: Garden };
@@ -11,6 +11,7 @@
 
   import { getContext, createEventDispatcher } from 'svelte';
   import key from './mapbox-context.js';
+  import { tentIcon } from '@/lib/images/markers';
 
   type GardenFeatureCollection = {
     type: 'FeatureCollection';
@@ -91,30 +92,80 @@
     dispatch('garden-click', garden);
   };
 
+  const addTentImageToMap = async (
+    id: string,
+    colors: {
+      tentBackgroundColor: string;
+      tentColor: string;
+      backGroundColor: string;
+    }
+  ) => {
+    const tentBackgroundColor = '**tentBackgroundColor**';
+    const tentColor = '**tentColor**';
+    const backGroundColor = '**backGroundColor**';
+
+    let icon = tentIcon;
+    if (colors?.tentBackgroundColor)
+      icon = icon.replaceAll(tentBackgroundColor, colors.tentBackgroundColor);
+    if (colors?.tentColor) icon = icon.replaceAll(tentColor, colors.tentColor);
+    if (colors?.backGroundColor) icon = icon.replaceAll(backGroundColor, colors.backGroundColor);
+    new Promise((resolve) => {
+      let img = new Image(100, 100);
+      img.onload = () => {
+        if (!map.hasImage(id)) map.addImage(id, img);
+        resolve(true);
+      };
+      img.src = 'data:image/svg+xml;base64,' + btoa(icon);
+    }).catch((err) => {
+      // should not error in prod
+      console.log(err);
+    });
+  };
+
   const setupMarkers = async () => {
     // Catch all errors to avoid having to reload when working on this component in development
     try {
-      const images = [
-        { url: '/images/markers/tent-neutral.png', id: 'tent' },
-        { url: '/images/markers/tent-filled.png', id: 'tent-filled' },
-        { url: '/images/markers/bookmark.png', id: 'tent-bookmark' },
-        { url: '/images/markers/tent-white-yellow.png', id: 'tent-saved-selected' },
-        { url: '/images/markers/tent-yellow.png', id: 'tent-saved' }
+      const colorTentYellow = '#FFF8CE';
+      const colorTentDarkYellow = '#F4E27E';
+      const colorTentDarkGreen = '#495747';
+      const colorTentWhite = '#FFF';
+
+      const icons = [
+        {
+          colors: {
+            tentBackgroundColor: colorTentWhite,
+            tentColor: colorTentDarkGreen,
+            backGroundColor: colorTentWhite
+          },
+          id: 'tent'
+        },
+        {
+          colors: {
+            tentBackgroundColor: colorTentDarkGreen,
+            tentColor: colorTentWhite,
+            backGroundColor: colorTentDarkGreen
+          },
+          id: 'tent-filled'
+        },
+        {
+          colors: {
+            tentBackgroundColor: colorTentYellow,
+            tentColor: colorTentDarkGreen,
+            backGroundColor: colorTentWhite
+          },
+          id: 'tent-saved-selected'
+        },
+        {
+          colors: {
+            tentBackgroundColor: colorTentYellow,
+            tentColor: colorTentDarkGreen,
+            backGroundColor: colorTentDarkYellow
+          },
+          id: 'tent-saved'
+        }
       ];
 
-      await Promise.all(
-        images.map((img) =>
-          new Promise((resolve) => {
-            map.loadImage(img.url, (err, res) => {
-              if (!map.hasImage(img.id)) map.addImage(img.id, res);
-              resolve(true);
-            });
-          }).catch((err) => {
-            // should not error in prod
-            console.log(err);
-          })
-        )
-      );
+      await Promise.all(icons.map((icon) => addTentImageToMap(icon.id, icon.colors)));
 
       calculateData();
 
@@ -152,7 +203,7 @@
           // --color-0: '#EC9570'; --color-1: '#F6C4B7'; --color-2: '#F4E27E';
           // --color-3: '#59C29D'; --color-4: '#A2D0D3'; --color-5: '#2E5F63';
 
-          'circle-color': ['step', ['get', 'point_count'], '#A2D0D3', 20, '#EC9570', 80, '#F6C4B7'],
+          'circle-color': ['step', ['get', 'point_count'], '#A2D0D3', 20, '#F6C4B7', 80, '#EC9570'],
           'circle-radius': ['step', ['get', 'point_count'], 20, 20, 30, 40, 40]
         }
       });
