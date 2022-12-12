@@ -1,10 +1,10 @@
 <script context="module" lang="ts">
   export type SuperfanLevelData = {
-    title: string,
-    id: string,
-    value: number,
-    stripePriceId: string
-  }
+    title: string;
+    id: string;
+    value: number;
+    stripePriceId: string;
+  };
   export const superfanLevels: SuperfanLevelData[] = [
     {
       title: 'Reduced price',
@@ -26,6 +26,7 @@
     }
   ];
 </script>
+
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { user } from '@/lib/stores/auth';
@@ -35,12 +36,11 @@
   import routes from '@/lib/routes';
 
   function selectLevel(level: SuperfanLevelData) {
-
     if (!user) {
       return goto(routes.SIGN_IN);
     }
 
-    return goto(`/become-superfan/payment/${level.id}`)
+    return goto(`${routes.SUPERFAN_PAYMENT}/${level.id}`);
   }
 
   function handleKeyPress(event: CustomEvent<KeyboardEvent>, item: SuperfanLevelData) {
@@ -55,18 +55,15 @@
 
 <!-- TODO: find a way to generalize the wrapper across pages -->
 <div class="wrapper">
-  {#if $user}
-    <div>
-      <div class="superfan-levels">
-        {#each superfanLevels as item}
-          <SuperfanLevel item={item} on:click={() => selectLevel(item)} on:keypress={(e) => handleKeyPress(e, item)}></SuperfanLevel>
-        {/each}
-      </div>
-    </div>
-  {:else}
-    No user!
-    <!-- else content here -->
-  {/if}
+  <div class="superfan-levels">
+    {#each superfanLevels as item}
+      <SuperfanLevel
+        {item}
+        on:click={() => selectLevel(item)}
+        on:keypress={(e) => handleKeyPress(e, item)}
+      />
+    {/each}
+  </div>
 </div>
 
 <style>
@@ -83,6 +80,4 @@
     gap: 2rem;
     width: 100%;
   }
-
-
 </style>
