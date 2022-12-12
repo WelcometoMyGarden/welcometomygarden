@@ -1,12 +1,14 @@
 <script context="module" lang="ts">
-  export type ContextType = { getMap: () => maplibregl.Map}
+  export type ContextType = { getMap: () => maplibregl.Map };
 </script>
+
 <script lang="ts">
   import { setContext, onMount, tick } from 'svelte';
   import maplibregl from 'maplibre-gl';
   import key from './mapbox-context.js';
 
   import 'maplibre-gl/dist/maplibre-gl.css';
+  import { DEFAULT_MAP_STYLE } from '@/lib/constants.js';
 
   export let lat: number;
   export let lon: number;
@@ -21,7 +23,6 @@
   let map: maplibregl.Map;
   let loaded = false;
 
-
   setContext<ContextType>(key, {
     getMap: () => map
   });
@@ -31,7 +32,7 @@
   onMount(() => {
     map = new maplibregl.Map({
       container,
-      style: 'mapbox://styles/mapbox/streets-v8',
+      style: DEFAULT_MAP_STYLE,
       center: [lon, lat],
       zoom,
       attributionControl: false,
