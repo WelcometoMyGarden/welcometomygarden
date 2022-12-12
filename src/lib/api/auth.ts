@@ -12,7 +12,7 @@ import { isLoggingIn, isRegistering, user, isInitializing, getUser } from '$lib/
 import User from '$lib/models/User';
 import { createUser, resendAccountVerification as resendAccVerif } from '@/lib/api/functions';
 import { getAllUserInfo } from './user';
-import { USERS_PRIVATE } from './collections';
+import { USERS, USERS_PRIVATE } from './collections';
 import { doc, onSnapshot } from 'firebase/firestore';
 
 /**
@@ -20,21 +20,25 @@ import { doc, onSnapshot } from 'firebase/firestore';
  */
 export const createAuthObserver = (): Unsubscribe => {
   let unsubscribeFromUserPrivate: (() => void) | null = null;
+  let unsubscribeFromUserPublic: (() => void) | null = null;
 
   const unsubscribeFromAuthObserver = auth().onAuthStateChanged(async (userData) => {
+    // Reset subscriptions
+    if (unsubscribeFromUserPrivate) unsubscribeFromUserPrivate()
+    if (unsubscribeFromUserPublic) unsubscribeFromUserPublic()
+
     // If logged in
     if (userData) {
       // Reload the user
       const user = await reloadUserInfo();
       if (user) {
         // Re-subscribe to dependendent observers
-        if (unsubscribeFromUserPrivate) unsubscribeFromUserPrivate()
         unsubscribeFromUserPrivate = await createUserPrivateObserver(user.id);
+        unsubscribeFromUserPublic = await createUserPublicObserver(user.id);
       }
     } else {
       // If the user somehow got logged out by Firebase, sync this change to the app.
       // (e.g. their password was reset elsewhere)
-      if (unsubscribeFromUserPrivate) unsubscribeFromUserPrivate()
       const localUserState = get(user)
       if (localUserState) {
         user.set(null)
@@ -84,6 +88,17 @@ const reloadUserInfo = async (): Promise<User | null> => {
   }
   return null
 };
+
+export const createUserPublicObserver = async (currentUserId: string) => {
+  const docRef = doc(db(), USERS, currentUserId);
+  return onSnapshot(docRef, (doc) => {
+    const newUserData = doc.data();
+    if (newUserData) {
+      const newUser = getUser().copyWith(newUserData)
+      user.set(newUser);
+    }
+  })
+}
 
 export const createUserPrivateObserver = async (currentUserId: string) => {
   const docRef = doc(db(), USERS_PRIVATE, currentUserId);

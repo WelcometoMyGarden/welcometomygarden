@@ -18,6 +18,7 @@ const { exportNewsletterEmails } = require('./mail');
 const { stripeWebhookHandler } = require('./subscriptions/webhookHandler');
 const { createOrRetrieveUnpaidSubscription } = require("./subscriptions/createOrRetrieveUnpaidSubscription.js");
 const { createStripeCustomer } = require("./subscriptions/createStripeCustomer.js");
+const { createCustomerPortalSession } = require('./subscriptions/createCustomerPortalSession');
 
 // Callable functions: accounts
 exports.requestPasswordReset = functions.https.onCall(requestPasswordReset);
@@ -28,6 +29,7 @@ exports.verifyEmail = functions.https.onCall(verifyEmail);
 // Callable functions: subscriptions
 exports.createStripeCustomer = functions.https.onCall(createStripeCustomer)
 exports.createOrRetrieveUnpaidSubscription = functions.https.onCall(createOrRetrieveUnpaidSubscription)
+exports.createCustomerPortalSession = functions.https.onCall(createCustomerPortalSession)
 
 // Callable functions: admin functions
 exports.setAdminRole = functions.https.onCall(setAdminRole);

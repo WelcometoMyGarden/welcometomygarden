@@ -14,6 +14,7 @@
   import routes from '$lib/routes';
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { keyboardEvent } from '@/lib/stores/keyboardEvent';
+  import { createCustomerPortalSession } from '@/lib/api/functions';
 
   if (!$user) goto(routes.SIGN_IN);
 
@@ -63,6 +64,12 @@
       hasResentEmail = false;
     }
   };
+
+  async function openCustomerPortalSession() {
+    const { data } = await createCustomerPortalSession();
+    const { url } = data;
+    window.open(url, '_self');
+  }
 
   keyboardEvent.subscribe((e) => {
     if (e?.key === 's') getUser().addFields({ superfan: !getUser().superfan });
@@ -162,10 +169,21 @@
               {$_('account.garden.listed.button')}
             </Button>
           </div>
-        {:else if $user.garden && !user.emailVerified}
+        {:else if $user.garden && !$user.emailVerified}
           <p class="mb-m">{$_('account.garden.unverified.text')}</p>
         {/if}
       </section>
+      {#if $user.superfan === true}
+        <section>
+          <h2>Superfan Subscription</h2>
+          {#if !$user.garden}
+            <p class="description">About your subscription</p>
+            <Button uppercase medium on:click={openCustomerPortalSession}>
+              Manage Subscription
+            </Button>
+          {/if}
+        </section>
+      {/if}
     </div>
   </div>
 {/if}
