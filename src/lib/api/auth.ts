@@ -32,7 +32,7 @@ export const createAuthObserver = (): Unsubscribe => {
       // Reload the user
       const user = await reloadUserInfo();
       if (user) {
-        // Re-subscribe to dependendent observers
+        // Re-subscribe to dependent observers
         unsubscribeFromUserPrivate = await createUserPrivateObserver(user.id);
         unsubscribeFromUserPublic = await createUserPublicObserver(user.id);
       }
@@ -58,7 +58,7 @@ export const createAuthObserver = (): Unsubscribe => {
 /**
  * Actively reload user info, in case the user is logged in.
  * Note: when looking for user-private data changes, just subscribe to the user.
- * user-private snaphots are being listened to.
+ * user-private snapshots are being listened to.
  * @returns the reloaded user if the user was signed in, otherwise null.
  */
 const reloadUserInfo = async (): Promise<User | null> => {
