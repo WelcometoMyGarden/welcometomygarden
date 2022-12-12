@@ -16,6 +16,8 @@ Install the [Firebase CLI](https://firebaseopensource.com/projects/firebase/fire
 
 ```
 yarn global add firebase-tools
+or
+npm install -g firebase-tools
 ```
 
 Then, set up the Firebase project.
@@ -41,6 +43,9 @@ See https://firebase.google.com/docs/functions/local-emulator#set_up_functions_c
 
 ```
 firebase functions:config:get > .runtimeconfig.json
+
+# If using Windows PowerShell, replace the above with:
+# firebase functions:config:get | ac .runtimeconfig.json
 ```
 
 Will output the following, which will be picked up by the emulators:
@@ -63,6 +68,8 @@ You can replace "frontend" with the localhost URL where you are currently runnin
 
 ```
 yarn serve
+or
+npm run serve
 ```
 
 use `yarn debug` to launch an inspectable dev server.
@@ -93,6 +100,7 @@ After having installed the CLI & logged in, refer them to function emulators:
 ```
 stripe listen --forward-to http://127.0.0.1:5001/wtmg-dev/us-central1/stripeWebhooks
 ```
+
 (the HTTP endpoint will be printed when starting the firebase dev servers)
 
 #### Testing payment methods
