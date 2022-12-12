@@ -18,21 +18,21 @@
   </a>
   <ul>
     <li>
-      <NavLink href={routes.HOME} isHome>{$_('generics.home')}</NavLink>
-    </li>
-    <li>
       <NavLink href={routes.MAP}>{$_('generics.map')}</NavLink>
     </li>
     <li>
       <NavLink href={routes.RULES}>{$_('generics.rules')}</NavLink>
     </li>
-    <li>
-      <NavLink href={routes.FAQ}>{$_('generics.faq.acronym')}</NavLink>
-    </li>
-    <li>
+    <!-- <li>
       <NavLink href={$_('index.slowby.banner.url')} target="_blank" rel="noreferrer"
         >{$_('generics.slowby')}</NavLink
       >
+    </li> -->
+    <li>
+      <NavLink href={routes.ABOUT_US}>About Us</NavLink>
+    </li>
+    <li>
+      <NavLink href={routes.BECOME_SUPERFAN} highlighted>Become a Superfan</NavLink>
     </li>
     {#if firstName}
       <UserDropdown name={firstName || ''} />

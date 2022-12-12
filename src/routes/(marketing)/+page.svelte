@@ -18,6 +18,10 @@
   import Step3 from '$lib/images/step-3.svg';
 
   import SlowbyBanner from '$lib/components/Temporary/SlowbyBanner.svelte';
+  import PaddedSection from './_components/PaddedSection.svelte';
+  import MarketingBlock from './_components/MarketingBlock.svelte';
+  import InnerVideoSection from './_sections/VideoSection.svelte';
+  import Heading from './_components/Heading.svelte';
 
   function handleLearnMoreClick() {
     const navBarHeight = parseInt(
@@ -98,6 +102,26 @@
   {/each}
 </section>
 
+<PaddedSection desktopOnly>
+  <MarketingBlock backgroundColor="var(--color-beige-light)">
+    <InnerVideoSection>
+      <Heading caption="New: support our mission">Support WTMG: become a Superfan!</Heading>
+      <p>
+        Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Like
+        any garden, WTMG needs nurturing in order to grow and stay healthy.
+      </p>
+      <p>
+        With your financial support, WTMG can remain free for everyone to use! Will you help us make
+        WTMG survive and thrive? Become a Superfan and get access to new features!
+      </p>
+      <div>
+        <Button href={routes.BECOME_SUPERFAN}>Become a superfan</Button>
+        <Button href={routes.ABOUT_SUPERFAN} inverse>Learn more</Button>
+      </div>
+    </InnerVideoSection>
+  </MarketingBlock>
+</PaddedSection>
+
 <section class="faq" id="faq">
   <div class="card faq-intro">
     <h1 class="heading-underline-center">{$_('index.faq.title')}</h1>
@@ -141,39 +165,6 @@
 </section>
 
 <style>
-  h1 {
-    font-size: 3.6rem;
-    font-weight: bold;
-    line-height: 9rem;
-    font-family: var(--fonts-titles);
-    margin-bottom: 3.5rem;
-    color: var(--color-green);
-  }
-
-  h2 {
-    font-size: 1.8rem;
-    font-weight: bold;
-    line-height: 2.8rem;
-    font-family: var(--fonts-copy);
-    color: var(--color-green);
-    text-transform: uppercase;
-  }
-
-  section {
-    margin-bottom: 9rem;
-  }
-
-  section:last-child {
-    margin-bottom: 0;
-  }
-
-  p {
-    font-size: 1.6rem;
-    line-height: 2.6rem;
-    color: var(--color-green);
-    margin-bottom: 2rem;
-  }
-
   .welcome-buttons > :global(.button) {
     margin-bottom: 1rem;
   }
@@ -188,21 +179,6 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap; /* added line */
     border: 0;
-  }
-
-  .heading-underline-center {
-    position: relative;
-  }
-
-  .heading-underline-center::after {
-    position: absolute;
-    bottom: -4px;
-    left: 50%;
-    content: '';
-    height: 3px;
-    background: var(--color-orange);
-    width: 12rem;
-    margin-left: -6rem;
   }
 
   .landing {
@@ -389,17 +365,9 @@
     .faq-intro {
       padding: 6rem 10rem;
     }
-    h1 {
-      font-size: 3.4rem;
-    }
   }
 
   @media only screen and (max-width: 1300px) {
-    h1 {
-      font-size: 2.8rem;
-      line-height: 7.5rem;
-    }
-
     .faq-intro {
       padding: 6rem 10rem;
     }
@@ -484,10 +452,6 @@
   }
 
   @media only screen and (max-width: 700px) {
-    h2 {
-      font-size: 1.6rem;
-    }
-
     .learn-more {
       display: none;
     }
@@ -521,18 +485,7 @@
     }
   }
 
-  @media only screen and (max-width: 600px) {
-    h1 {
-      font-size: 2.2rem;
-      line-height: 6.5rem;
-    }
-  }
-
   @media only screen and (max-width: 500px) {
-    p {
-      font-size: 1.4rem;
-    }
-
     .landing {
       padding: 10rem 4rem 2rem;
     }
@@ -559,15 +512,6 @@
   }
 
   @media only screen and (max-width: 400px) {
-    h1 {
-      font-size: 1.8rem;
-      line-height: 5.5rem;
-    }
-
-    h2 {
-      font-size: 1.4rem;
-    }
-
     .landing {
       padding: 6rem 3rem;
     }
