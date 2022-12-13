@@ -91,11 +91,11 @@
         on:keypress={(e) => handleKeyPress(e, item)}
       />
     {/each}
-  </div></PaddedSection
->
+  </div>
+</PaddedSection>
 <PaddedSection>
- <h1>Thanks to your support, we can...</h1>
- <SupportReasons />
+  <h1>Thanks to your support, we can...</h1>
+  <SupportReasons />
 </PaddedSection>
 
 <style>

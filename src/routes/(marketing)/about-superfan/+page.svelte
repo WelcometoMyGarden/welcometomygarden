@@ -8,6 +8,7 @@
   import Features from '../_sections/Features.svelte';
   import InnerVideoSection from '../_sections/VideoSection.svelte';
   import SupportReasons from '../_sections/SupportReasons.svelte';
+  import CollapsibleGroup from '@/lib/components/CollapsibleGroup.svelte';
 </script>
 
 <PaddedSection>
@@ -65,6 +66,8 @@
 </PaddedSection>
 <PaddedSection>
   <h1>FAQ: todo</h1>
+  <!-- TODO replace the key with actual question content -->
+  <CollapsibleGroup collapsibleKey='index.faq.questions' />
 </PaddedSection>
 <PaddedSection>
   <div class="more-questions">

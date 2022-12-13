@@ -3,15 +3,19 @@
 </div>
 
 <style>
-  /* TODO: tarnsfer previous approach */
-  /* .marketing-wrapper {
-    max-width: 900px;
-    width: 100%;
-    min-height: calc(calc(var(--vh, 1vh) * 100) - var(--height-footer) - var(--height-nav) - 14rem);
-    margin: 10rem auto 4rem auto;
-  } */
-
   /* Styles to be inherited by all marketing pages and components */
+
+  div :global(.screen-reader-only) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap; /* added line */
+    border: 0;
+  }
 
   div :global(h1) {
     font-size: 3.6rem;

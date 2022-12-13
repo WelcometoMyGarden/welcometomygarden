@@ -4,12 +4,18 @@
   export let backgroundColor: string | undefined = undefined;
 </script>
 
-<section class:desktopOnly class:vertical style:background-color={backgroundColor}><slot /></section>
+<section class:desktopOnly class:vertical style:background-color={backgroundColor}>
+  <div class="inner">
+    <slot />
+  </div>
+</section>
 
 <style>
-  section {
+  div.inner {
     padding-left: 6rem;
     padding-right: 6rem;
+    margin: auto;
+    max-width: 1200px;
   }
 
   section.vertical {
