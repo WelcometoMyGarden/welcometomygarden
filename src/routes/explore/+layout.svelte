@@ -17,7 +17,7 @@
   import { crossIcon } from '$lib/images/icons';
   import { ZOOM_LEVELS } from '$lib/constants';
   import LayersAndTools from '@/lib/components/Map/LayersAndTools.svelte';
-  import RouteModal from '@/lib/components/Map/RouteModal.svelte';
+  import FileTrailModal from '@/lib/components/Map/FileTrailModal.svelte';
   import TrainConnectionsModal from '@/lib/components/Map/TrainConnectionsModal.svelte';
   import FileTrails from '@/lib/components/Map/FileTrails.svelte';
   import type { Garden } from '@/lib/types/Garden';
@@ -29,7 +29,7 @@
   let geolocationIsLoaded = false;
   let showHiking = false;
   let showCycling = false;
-  let showRouteModal = false;
+  let showFileTrailModal = false;
   let showTrainConnectionsModal = false;
   let showGardens = true;
   let showSavedGardens = true;
@@ -171,11 +171,11 @@
     bind:showStations
     bind:showRails
     bind:showTransport
-    bind:showRouteModal
+    bind:showFileTrailModal
     bind:showTrainConnectionsModal
   />
   <Filter on:goToPlace={goToPlace} bind:filteredGardens {fallbackLocation} />
-  <RouteModal bind:show={showRouteModal} />
+  <FileTrailModal bind:show={showFileTrailModal} />
   <TrainConnectionsModal bind:show={showTrainConnectionsModal} />
 </div>
 

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { toggleVisibilityFileDataLayers } from './../../stores/file.ts';
   import { LabeledCheckbox, Text } from '$lib/components/UI';
   import { _ } from 'svelte-i18n';
   import { bookmarkIcon, cyclistIcon, flagIcon, hikerIcon, tentIcon } from '@/lib/images/icons';
@@ -9,7 +8,7 @@
     toggleVisibilityTrainconnectionsDataLayers,
     trainconnectionsDataLayers
   } from '@/lib/stores/trainconnections';
-  import { fileDataLayers } from '@/lib/stores/file';
+  import { fileDataLayers, toggleVisibilityFileDataLayers } from '@/lib/stores/file';
   export let showHiking = false;
   export let showCycling = false;
   export let showGardens: boolean;
@@ -17,7 +16,7 @@
   export let showRails: boolean;
   export let showStations: boolean;
   export let showTransport: boolean;
-  export let showRouteModal: boolean;
+  export let showFileTrailModal: boolean;
   export let showTrainConnectionsModal: boolean;
 
   $: superfan = $user?.superfan;
@@ -108,7 +107,7 @@
     </div>
 
     <div class="layers-and-tools-button">
-      <Button inverse xxsmall on:click={() => (showRouteModal = !showRouteModal)}>
+      <Button inverse xxsmall on:click={() => (showFileTrailModal = !showFileTrailModal)}>
         Upload a route
       </Button>
     </div>

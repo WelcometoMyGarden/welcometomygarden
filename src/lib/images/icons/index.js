@@ -26,3 +26,4 @@ export { default as filterIcon } from './filter.svg';
 export { default as markerIcon } from './marker.svg';
 export { default as bookmarkIcon } from './bookmark.svg';
 export { default as arrowRightIcon } from './arrow-right.svg';
+export { default as uploadCloudIcon } from './upload-cloud.svg';

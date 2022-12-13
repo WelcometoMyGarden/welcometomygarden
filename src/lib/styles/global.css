@@ -34,6 +34,7 @@
   --color-white: #fff;
   --color-yellow-light: #f4e27e;
   --color-yellow: #e4d290;
+  --color-highlight-blue: #47b3d0;
 
   /*
   * Typography
@@ -306,4 +307,8 @@ a.link:hover {
   100% {
     transform: rotate(360deg);
   }
+}
+
+hr {
+  background-color: var(--color-green);
 }
