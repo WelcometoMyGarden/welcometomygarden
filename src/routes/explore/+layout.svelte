@@ -35,7 +35,7 @@
   let showSavedGardens = true;
   let showStations = false;
   let showRails = false;
-  let showTransport = true;
+  let showTransport = false;
   let filteredGardens: { [id: string]: Garden };
   let savedGardens = [] as string[];
   let carNoticeShown = !getCookie('car-notice-dismissed');
