@@ -16,3 +16,4 @@ export { default as Modal } from './Modal.svelte';
 export { default as Partner } from './Partner.svelte';
 export { default as Label } from './Label.svelte';
 export { default as FileInput } from './FileInput.svelte';
+export { default as MultiActionLabel } from './MultiActionLabel.svelte';

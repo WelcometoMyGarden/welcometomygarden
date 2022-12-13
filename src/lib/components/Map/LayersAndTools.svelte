@@ -8,7 +8,13 @@
     toggleVisibilityTrainconnectionsDataLayers,
     trainconnectionsDataLayers
   } from '@/lib/stores/trainconnections';
-  import { fileDataLayers, toggleVisibilityFileDataLayers } from '@/lib/stores/file';
+  import {
+    fileDataLayers,
+    removeFileDataLayers,
+    toggleVisibilityFileDataLayers
+  } from '@/lib/stores/file';
+  import MultiActionLabel from '@/lib/components/UI/MultiActionLabel.svelte';
+  import { cleanName } from '@/lib/util/slugify';
   export let showHiking = false;
   export let showCycling = false;
   export let showGardens: boolean;
@@ -93,13 +99,16 @@
     <div>
       {#each localFileDataLayers as layer, i}
         <div>
-          <LabeledCheckbox
+          <MultiActionLabel
             icon={flagIcon}
             name={layer.id}
-            label={layer.name}
+            label={cleanName(layer.name)}
             checked={layer.visible}
             on:change={() => {
               toggleVisibilityFileDataLayers(layer.id);
+            }}
+            on:secondary={() => {
+              removeFileDataLayers(layer.id);
             }}
           />
         </div>

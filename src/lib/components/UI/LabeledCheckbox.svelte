@@ -4,6 +4,7 @@
   export let label: string;
   export let checked = false;
   export let disabled = false;
+  export let ellipsis = false;
 
   import Icon from './Icon.svelte';
 </script>
@@ -16,7 +17,7 @@
         <Icon {icon} />
       </div>
     {/if}
-    {label}
+    <span class:ellipsis>{label}</span>
   </label>
 </div>
 
@@ -45,5 +46,11 @@
     height: 1.8rem;
     display: inline-block;
     margin: 0 0.5rem 0 0.5rem;
+  }
+
+  .ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 </style>
