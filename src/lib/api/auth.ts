@@ -23,9 +23,9 @@ export const createAuthObserver = (): Unsubscribe => {
   let unsubscribeFromUserPublic: (() => void) | null = null;
 
   const unsubscribeFromInnerObservers = () => {
-    if (unsubscribeFromUserPrivate) unsubscribeFromUserPrivate()
-    if (unsubscribeFromUserPublic) unsubscribeFromUserPublic()
-  }
+    if (unsubscribeFromUserPrivate) unsubscribeFromUserPrivate();
+    if (unsubscribeFromUserPublic) unsubscribeFromUserPublic();
+  };
 
   const unsubscribeFromAuthObserver = auth().onAuthStateChanged(async (userData) => {
     // Reset subscriptions
@@ -43,9 +43,9 @@ export const createAuthObserver = (): Unsubscribe => {
     } else {
       // If the user somehow got logged out by Firebase, sync this change to the app.
       // (e.g. their password was reset elsewhere)
-      const localUserState = get(user)
+      const localUserState = get(user);
       if (localUserState) {
-        user.set(null)
+        user.set(null);
       }
     }
 
@@ -55,8 +55,8 @@ export const createAuthObserver = (): Unsubscribe => {
   // Unsubscribe from all related observers
   return () => {
     unsubscribeFromInnerObservers();
-    unsubscribeFromAuthObserver()
-  }
+    unsubscribeFromAuthObserver();
+  };
 };
 
 /**
@@ -71,26 +71,25 @@ const reloadUserInfo = async (): Promise<User | null> => {
   // Check if there is a user logged in
   const firebaseUser = auth().currentUser;
   if (!firebaseUser) {
-    console.warn("Trying to reload user info while logged out");
+    console.warn('Trying to reload user info while logged out');
     return null;
   }
 
   try {
-    const userInfo = await getAllUserInfo(firebaseUser.uid)
+    const userInfo = await getAllUserInfo(firebaseUser.uid);
     const { email, emailVerified, uid } = firebaseUser;
     const newUser = new User({
       ...userInfo,
       email: email || undefined,
       emailVerified: emailVerified,
       id: uid
-    }
-      );
+    });
     user.set(newUser);
-    return newUser
+    return newUser;
   } catch (ex) {
     console.log(ex);
   }
-  return null
+  return null;
 };
 
 export const createUserPublicObserver = async (currentUserId: string) => {
@@ -98,22 +97,22 @@ export const createUserPublicObserver = async (currentUserId: string) => {
   return onSnapshot(docRef, (doc) => {
     const newUserData = doc.data();
     if (newUserData) {
-      const newUser = getUser().copyWith(newUserData)
+      const newUser = getUser().copyWith(newUserData);
       user.set(newUser);
     }
-  })
-}
+  });
+};
 
 export const createUserPrivateObserver = async (currentUserId: string) => {
   const docRef = doc(db(), USERS_PRIVATE, currentUserId);
   return onSnapshot(docRef, (doc) => {
     const newUserPrivateData = doc.data();
     if (newUserPrivateData) {
-      const newUser = getUser().copyWith(newUserPrivateData)
+      const newUser = getUser().copyWith(newUserPrivateData);
       user.set(newUser);
     }
-  })
-}
+  });
+};
 
 export const login = async (email: string, password: string): Promise<void> => {
   isLoggingIn.set(true);
@@ -153,7 +152,7 @@ export const logout = async () => {
   await auth().signOut();
   await auth().currentUser?.reload();
   if (auth().currentUser) {
-    throw new Error("Log out failed")
+    throw new Error('Log out failed');
   }
   user.set(null);
 };
