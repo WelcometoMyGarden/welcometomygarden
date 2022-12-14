@@ -7,12 +7,12 @@
   import { getFileExtension } from '@/lib/util';
   import { addFileDataLayers } from '@/lib/stores/file';
   import Icon from '@/lib/components/UI/Icon.svelte';
-  import { arrowIcon, crossIcon, tentIcon, uploadCloudIcon } from '@/lib/images/icons';
+  import { crossIcon, uploadCloudIcon } from '@/lib/images/icons';
   import Text from '@/lib/components/UI/Text.svelte';
   import { cleanName, readableSlugify, removeFileExtension } from '@/lib/util/slugify';
   import { humanFileSize } from '@/lib/util/humanFileSize';
-  import Filter from '@/lib/components/Garden/Filter.svelte';
   import notification from '@/lib/stores/notification';
+  import { valid } from '@/lib/util/geojson-validator';
 
   export let show = false;
   let files: File[] = [];
@@ -39,13 +39,18 @@
       const file = files[i];
       const extension = getFileExtension(file.name);
       if (VALID_FILETYPE_EXTENSIONS.includes(extension)) {
-        const geoJson = await fileToGeoJson(file);
         try {
+          const geoJson = await fileToGeoJson(file);
+          const isValid = valid(geoJson, true);
+          console.log(isValid);
+          if (!isValid) throw new Error('Invalid GeoJSON');
+
           addFileDataLayers({
             name: file.name,
             geoJson: geoJson
           });
         } catch (error) {
+          notification.danger('Error while processing file', 5000);
           console.error(error);
         }
       }
