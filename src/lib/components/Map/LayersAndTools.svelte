@@ -6,6 +6,7 @@
     cyclistIcon,
     flagIcon,
     hikerIcon,
+    routesIcon,
     tentIcon,
     tentNoIcon
   } from '@/lib/images/icons';
@@ -134,7 +135,7 @@
         <div class="data-layers">
           {#each localFileDataLayers as layer, i}
             <MultiActionLabel
-              icon={flagIcon}
+              icon={routesIcon}
               name={layer.id}
               label={cleanName(layer.name)}
               checked={layer.visible}
@@ -164,7 +165,7 @@
           bind:checked={showTransport}
         />
 
-        <div style="display: none;" class="hide">
+        <div class="hide">
           <LabeledCheckbox
             name="rails"
             icon={flagIcon}
@@ -194,9 +195,9 @@
             {/each}
           </div>
           <div class="layers-and-tools-button">
-            <Button inverse xxsmall on:click={toggleTrainConnectionsModal}
-              >Find train connections</Button
-            >
+            <Button inverse xxsmall on:click={toggleTrainConnectionsModal}>
+              Find train connections
+            </Button>
             <span class="attribution">Uses the Direkt Bahn Guru project </span>
           </div>
         </div>
@@ -230,15 +231,6 @@
 </div>
 
 <style>
-  .uppercase {
-    text-transform: uppercase;
-  }
-
-  .toggle-title {
-    display: flex;
-    align-items: center;
-    margin-top: 1rem;
-  }
   :root {
     --layers-and-tools-height: 21rem;
   }
@@ -264,7 +256,6 @@
 
   .attribution {
     font-size: 1.2rem;
-    margin-top: 1rem;
     display: inline-block;
   }
 
@@ -274,5 +265,6 @@
 
   .layers-and-tools-button {
     margin-top: 0.5rem;
+    text-align: center;
   }
 </style>
