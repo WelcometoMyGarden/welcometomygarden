@@ -70,10 +70,6 @@
     const { url } = data;
     window.open(url, '_self');
   }
-
-  keyboardEvent.subscribe((e) => {
-    if (e?.key === 's') getUser().addFields({ superfan: !getUser().superfan });
-  });
 </script>
 
 <svelte:head>
