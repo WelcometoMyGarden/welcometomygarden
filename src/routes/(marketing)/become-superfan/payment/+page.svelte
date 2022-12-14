@@ -73,12 +73,3 @@
     <!-- else content here -->
   {/if}
 </div>
-
-<style>
-  .wrapper {
-    max-width: 900px;
-    width: 100%;
-    min-height: calc(calc(var(--vh, 1vh) * 100) - var(--height-footer) - var(--height-nav) - 14rem);
-    margin: 10rem auto 4rem auto;
-  }
-</style>
