@@ -4,21 +4,22 @@
   import PaddedSection from '../_components/PaddedSection.svelte';
   import Profile from '../_components/Profile.svelte';
 
-  import driesImg from '$lib/images/profile-pictures/dries.png';
-  import manonImg from '$lib/images/profile-pictures/manon.png';
-  import thorImg from '$lib/images/profile-pictures/thor.png';
-  import wardImg from '$lib/images/profile-pictures/ward.png';
-  import jannekeImg from '$lib/images/profile-pictures/janneke.png';
-  import michielImg from '$lib/images/profile-pictures/michiel.png';
-  import marieImg from '$lib/images/profile-pictures/marie.jpg';
-  import ismailaImg from '$lib/images/profile-pictures/ismaila.jpg';
-  import brentImg from '$lib/images/profile-pictures/brent.jpg';
+  const driesImg = staticAssetUrl('/profile-pictures/dries.png');
+  const manonImg = staticAssetUrl('/profile-pictures/manon.png');
+  const thorImg = staticAssetUrl('/profile-pictures/thor.png');
+  const wardImg = staticAssetUrl('/profile-pictures/ward.png');
+  const jannekeImg = staticAssetUrl('/profile-pictures/janneke.png');
+  const michielImg = staticAssetUrl('/profile-pictures/michiel.png');
+  const marieImg = staticAssetUrl('/profile-pictures/marie.jpg');
+  const ismailaImg = staticAssetUrl('/profile-pictures/ismaila.jpg');
+  const brentImg = staticAssetUrl('/profile-pictures/brent.jpg');
 
   import OurStorySection from './OurStorySection.svelte';
   import ContributeSection from './ContributeSection.svelte';
   import Heading from '../_components/Heading.svelte';
   import Text from '$lib/components/UI/Text.svelte';
   import PartnersSection from './PartnersSection.svelte';
+  import staticAssetUrl from '@/lib/util/staticAssetUrl';
 
   type ProfileData = ComponentProps<Profile> & { introHtml: string };
   const profiles: ProfileData[] = [

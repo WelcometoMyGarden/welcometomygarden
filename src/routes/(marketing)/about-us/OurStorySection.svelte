@@ -1,7 +1,8 @@
 <script>
+  import staticAssetUrl from '$lib/util/staticAssetUrl';
   import PaddedSection from '../_components/PaddedSection.svelte';
-  import manonDriesInJapan from '$lib/images/our-story/manon-dries-in-japan.jpg';
-  import hosts from '$lib/images/our-story/hosts.jpg';
+  const manonDriesInJapan = staticAssetUrl('/our-story/manon-dries-in-japan.jpg');
+  const hosts = staticAssetUrl('/our-story/hosts.jpg');
 </script>
 
 <PaddedSection backgroundColor="var(--color-beige-light)" vertical>
