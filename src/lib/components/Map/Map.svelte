@@ -23,7 +23,7 @@
   let map: maplibregl.Map;
   let loaded = false;
   const customAttribution = [
-    `<a href="https://waymarkedtrails.org/" target="_blank" title="WaymarkedTrails">© WaymarkedTrails</a>`,
+    `<a href="https://waymarkedtrails.org/" target="_blank" title="WaymarkedTrails">© Waymarked Trails</a>`,
     `<a href="https://www.thunderforest.com" target="_blank" title="Thunderforest">© Thunderforest</a>`
   ];
 
