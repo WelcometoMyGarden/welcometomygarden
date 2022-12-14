@@ -8,7 +8,8 @@
     hikerIcon,
     routesIcon,
     tentIcon,
-    tentNoIcon
+    tentNoIcon,
+    trainIcon
   } from '@/lib/images/icons';
   import { user } from '@/lib/stores/auth';
   import Button from '../UI/Button.svelte';
@@ -24,6 +25,7 @@
   } from '@/lib/stores/file';
   import MultiActionLabel from '@/lib/components/UI/MultiActionLabel.svelte';
   import { cleanName } from '@/lib/util/slugify';
+  import Icon from '@/lib/components/UI/Icon.svelte';
   export let showHiking = false;
   export let showCycling = false;
   export let showGardens: boolean;
@@ -150,17 +152,24 @@
         </div>
 
         <div class="layers-and-tools-button">
-          <Button inverse xxsmall on:click={toggleFileTrailModal}>Upload a route</Button>
+          <Button inverse xxsmall on:click={toggleFileTrailModal}>
+            <span class="button-text-container">
+              <span class="button-icon">
+                <Icon icon={routesIcon} />
+              </span>
+              <span class="button-text">Upload a route</span>
+            </span>
+          </Button>
         </div>
       </div>
     </ToggleAble>
 
     <ToggleAble>
-      <span slot="title">Railway network </span>
+      <span slot="title">Railway network</span>
       <div slot="content">
         <LabeledCheckbox
           name="transport"
-          icon={flagIcon}
+          icon={trainIcon}
           label={'Show train network'}
           bind:checked={showTransport}
         />
@@ -266,5 +275,17 @@
   .layers-and-tools-button {
     margin-top: 0.5rem;
     text-align: center;
+  }
+
+  .button-text-container {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .button-icon {
+    width: 1.4rem;
+    height: 1.4rem;
+    display: inline-block;
+    margin: 0 0.5rem 0 0.5rem;
   }
 </style>
