@@ -15,6 +15,7 @@
     "node": "16"
   },
   "dependencies": {
+    "@babel/eslint-parser": "^7.19.1",
     "@google-cloud/firestore": "^6.4.1",
     "@sendgrid/mail": "^7.1.1",
     "firebase-admin": "^11.3.0",
@@ -25,7 +26,6 @@
   "devDependencies": {
     "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.9.6",
-    "babel-eslint": "^10.1.0",
     "eslint": "^8.29.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
