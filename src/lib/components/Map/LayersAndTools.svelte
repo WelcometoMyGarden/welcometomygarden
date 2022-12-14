@@ -126,13 +126,6 @@
           label={$_('map.trails.cycling')}
           bind:checked={showCycling}
         />
-        <span class="attribution">
-          {@html $_('map.trails.attribution', {
-            values: {
-              link: `<a href="https://waymarkedtrails.org/" target="_blank"  rel="noreferrer" >Waymarked Trails</a>`
-            }
-          })}
-        </span>
 
         <div class="data-layers">
           {#each localFileDataLayers as layer, i}
@@ -152,7 +145,7 @@
         </div>
 
         <div class="layers-and-tools-button">
-          <Button inverse xxsmall on:click={toggleFileTrailModal}>
+          <Button preventing inverse xxsmall on:click={toggleFileTrailModal}>
             <span class="button-text-container">
               <span class="button-icon">
                 <Icon icon={routesIcon} />
@@ -204,7 +197,7 @@
             {/each}
           </div>
           <div class="layers-and-tools-button">
-            <Button inverse xxsmall on:click={toggleTrainConnectionsModal}>
+            <Button preventing inverse xxsmall on:click={toggleTrainConnectionsModal}>
               Find train connections
             </Button>
             <span class="attribution">Uses the Direkt Bahn Guru project </span>

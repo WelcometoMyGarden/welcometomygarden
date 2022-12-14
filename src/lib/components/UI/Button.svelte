@@ -12,6 +12,7 @@
   export let xsmall = false;
   export let xxsmall = false;
   export let disabled = false;
+  export let preventing = false;
 
   import { createEventDispatcher } from 'svelte';
 
@@ -19,6 +20,10 @@
 
   let clicked: boolean;
   const click = (e: MouseEvent) => {
+    if (preventing) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     clicked = true;
     setTimeout(() => (clicked = false), 100);
     if (!disabled) return dispatch('click', e);
@@ -38,7 +43,7 @@
     class:inverse
     class:clicked
     {href}
-    on:click|preventDefault|stopPropagation={(e) => {
+    on:click={(e) => {
       if (disabled) e.preventDefault();
       click(e);
     }}
@@ -52,7 +57,7 @@
   <button
     class="button"
     class:disabled
-    on:click|preventDefault|stopPropagation={click}
+    on:click={click}
     class:uppercase
     class:fit
     class:medium
