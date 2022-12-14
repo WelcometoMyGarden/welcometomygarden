@@ -11,7 +11,7 @@
 
 <div>
   <input id={name} type="checkbox" {disabled} {name} on:input bind:checked on:change />
-  <label for={name}>
+  <label for={name} class="label">
     {#if icon}
       <div class="icon">
         <Icon {icon} />
@@ -39,6 +39,10 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+  }
+
+  .label {
+    width: 100%;
   }
 
   .icon {

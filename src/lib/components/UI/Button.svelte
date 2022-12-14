@@ -38,7 +38,7 @@
     class:inverse
     class:clicked
     {href}
-    on:click={(e) => {
+    on:click|preventDefault|stopPropagation={(e) => {
       if (disabled) e.preventDefault();
       click(e);
     }}
@@ -52,7 +52,7 @@
   <button
     class="button"
     class:disabled
-    on:click={click}
+    on:click|preventDefault|stopPropagation={click}
     class:uppercase
     class:fit
     class:medium

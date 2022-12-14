@@ -14,7 +14,10 @@
 
 <div class="multi-action-label">
   <LabeledCheckbox ellipsis {icon} {name} {label} {disabled} on:input bind:checked on:change />
-  <button class="button-unstyle secondary" on:click={(e) => dispatch('secondary', e)}>
+  <button
+    class="button-unstyle secondary"
+    on:click|preventDefault|stopPropagation={(e) => dispatch('secondary', e)}
+  >
     <Icon icon={crossIcon} />
   </button>
 </div>

@@ -19,7 +19,7 @@
         <Icon {icon} />
       </div>
     {/if}
-    <span class:ellipsis>{label}</span>
+    <span class="label" class:ellipsis>{label}</span>
   </label>
 </div>
 
@@ -41,6 +41,7 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+    width: 100%;
   }
 
   .icon {
@@ -48,6 +49,10 @@
     height: 1.8rem;
     display: inline-block;
     margin: 0 0.5rem 0 0.5rem;
+  }
+
+  .label {
+    width: 100%;
   }
 
   .ellipsis {

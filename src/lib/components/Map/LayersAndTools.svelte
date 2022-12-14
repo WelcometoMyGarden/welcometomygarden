@@ -12,6 +12,7 @@
   import { user } from '@/lib/stores/auth';
   import Button from '../UI/Button.svelte';
   import {
+    removeTrainconnectionsDataLayers,
     toggleVisibilityTrainconnectionsDataLayers,
     trainconnectionsDataLayers
   } from '@/lib/stores/trainconnections';
@@ -63,6 +64,14 @@
   fileDataLayers.subscribe((value) => {
     localFileDataLayers = value;
   });
+
+  const toggleTrainConnectionsModal = (e: Event) => {
+    showTrainConnectionsModal = !showTrainConnectionsModal;
+  };
+
+  const toggleFileTrailModal = (e: Event) => {
+    showFileTrailModal = !showFileTrailModal;
+  };
 </script>
 
 <div class="layers-and-tools">
@@ -114,100 +123,85 @@
           label={$_('map.trails.cycling')}
           bind:checked={showCycling}
         />
+        <span class="attribution">
+          {@html $_('map.trails.attribution', {
+            values: {
+              link: `<a href="https://waymarkedtrails.org/" target="_blank"  rel="noreferrer" >Waymarked Trails</a>`
+            }
+          })}
+        </span>
+
+        <div class="data-layers">
+          {#each localFileDataLayers as layer, i}
+            <MultiActionLabel
+              icon={flagIcon}
+              name={layer.id}
+              label={cleanName(layer.name)}
+              checked={layer.visible}
+              on:change={() => {
+                toggleVisibilityFileDataLayers(layer.id);
+              }}
+              on:secondary={() => {
+                removeFileDataLayers(layer.id);
+              }}
+            />
+          {/each}
+        </div>
+
+        <div class="layers-and-tools-button">
+          <Button inverse xxsmall on:click={toggleFileTrailModal}>Upload a route</Button>
+        </div>
       </div>
-      <span class="attribution">
-        {@html $_('map.trails.attribution', {
-          values: {
-            link: `<a href="https://waymarkedtrails.org/" target="_blank"  rel="noreferrer" >Waymarked Trails</a>`
-          }
-        })}
-      </span>
     </ToggleAble>
 
-    <div>
-      {#each localFileDataLayers as layer, i}
-        <div>
-          <MultiActionLabel
-            icon={flagIcon}
-            name={layer.id}
-            label={cleanName(layer.name)}
-            checked={layer.visible}
-            on:change={() => {
-              toggleVisibilityFileDataLayers(layer.id);
-            }}
-            on:secondary={() => {
-              removeFileDataLayers(layer.id);
-            }}
-          />
-        </div>
-      {/each}
-    </div>
+    <ToggleAble>
+      <span slot="title">Railway network </span>
+      <div slot="content">
+        <LabeledCheckbox
+          name="transport"
+          icon={flagIcon}
+          label={'Show train network'}
+          bind:checked={showTransport}
+        />
 
-    <div class="layers-and-tools-button">
-      <Button inverse xxsmall on:click={() => (showFileTrailModal = !showFileTrailModal)}>
-        Upload a route
-      </Button>
-    </div>
-
-    <div class="toggle-title uppercase">
-      <Text>Railway network</Text>
-    </div>
-    <div>
-      {#if false}
-        <div>
+        <div style="display: none;" class="hide">
           <LabeledCheckbox
             name="rails"
             icon={flagIcon}
             label={'Railway track'}
             bind:checked={showRails}
           />
-        </div>
-        <div>
           <LabeledCheckbox
             name="trainStations"
             icon={flagIcon}
             label={'Train stations'}
             bind:checked={showStations}
           />
-        </div>
-      {/if}
-
-      <div>
-        <LabeledCheckbox
-          name="transport"
-          icon={flagIcon}
-          label={'Transport'}
-          bind:checked={showTransport}
-        />
-      </div>
-
-      <div>
-        {#each localTrainconnectionsDataLayers as layer, i}
-          <div>
-            <LabeledCheckbox
-              icon={flagIcon}
-              name={layer.id}
-              label={layer.originStation.name}
-              checked={layer.visible}
-              on:change={() => {
-                toggleVisibilityTrainconnectionsDataLayers(layer.id);
-              }}
-            />
+          <div class="data-layers">
+            {#each localTrainconnectionsDataLayers as layer, i}
+              <MultiActionLabel
+                icon={flagIcon}
+                name={layer.id}
+                label={layer.originStation.name}
+                checked={layer.visible}
+                on:change={() => {
+                  toggleVisibilityTrainconnectionsDataLayers(layer.id);
+                }}
+                on:secondary={() => {
+                  removeTrainconnectionsDataLayers(layer.id);
+                }}
+              />
+            {/each}
           </div>
-        {/each}
+          <div class="layers-and-tools-button">
+            <Button inverse xxsmall on:click={toggleTrainConnectionsModal}
+              >Find train connections</Button
+            >
+            <span class="attribution">Uses the Direkt Bahn Guru project </span>
+          </div>
+        </div>
       </div>
-
-      <div class="layers-and-tools-button">
-        <Button
-          inverse
-          xxsmall
-          on:click={() => (showTrainConnectionsModal = !showTrainConnectionsModal)}
-        >
-          Find train connections
-        </Button>
-        <span class="attribution">Uses the Direkt Bahn Guru project </span>
-      </div>
-    </div>
+    </ToggleAble>
   {:else}
     <div>
       <LabeledCheckbox
@@ -259,7 +253,7 @@
     /* TODO REMOVE HIDDEN */
   }
   .layers-and-tools {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.9);
     bottom: 0;
     left: 0;
     position: absolute;

@@ -246,7 +246,9 @@
         source: savedGardenSourceId,
         layout: {
           'icon-image': ['get', 'icon'],
-          'icon-size': 0.4
+          'icon-size': 0.4,
+          'icon-allow-overlap': true,
+          'icon-ignore-placement': true
         }
       });
 
