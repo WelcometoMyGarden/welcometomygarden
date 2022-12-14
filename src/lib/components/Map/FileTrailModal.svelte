@@ -12,7 +12,7 @@
   import { cleanName, readableSlugify, removeFileExtension } from '@/lib/util/slugify';
   import { humanFileSize } from '@/lib/util/humanFileSize';
   import notification from '@/lib/stores/notification';
-  import { valid } from '@/lib/util/geojson-validator';
+  import { hint } from '@mapbox/geojsonhint';
 
   export let show = false;
   let files: File[] = [];
@@ -34,27 +34,30 @@
     else stickToBottom = false;
   }
 
-  const handleFiles = async (files: File[]) => {
+  const handleFiles = async (files: File[]): Promise<boolean> => {
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const extension = getFileExtension(file.name);
       if (VALID_FILETYPE_EXTENSIONS.includes(extension)) {
         try {
           const geoJson = await fileToGeoJson(file);
-          const isValid = valid(geoJson, true);
-          console.log(isValid);
-          if (!isValid) throw new Error('Invalid GeoJSON');
+          const hints = hint(geoJson);
+          if (hints.length !== 0 || geoJson.features?.length == 0)
+            throw new Error('Invalid GeoJSON');
 
           addFileDataLayers({
             name: file.name,
             geoJson: geoJson
           });
+          return true;
         } catch (error) {
-          notification.danger('Error while processing file', 5000);
-          console.error(error);
+          notification.warning('Error while processing file', 5000);
+          console.log(error);
+          return false;
         }
       }
     }
+    return true;
   };
 
   const onFileClick = (
@@ -69,7 +72,8 @@
   const clicked = async () => {
     if (phase === 'SELECTING') {
       if (files && files.length > 0) {
-        await handleFiles(files);
+        const b = await handleFiles(files);
+        if (!b) return reset();
         phase = 'DONE';
       }
     } else if (phase === 'DONE') reset();
