@@ -1,7 +1,14 @@
 <script lang="ts">
-  import { LabeledCheckbox, Text } from '$lib/components/UI';
+  import { LabeledCheckbox, Text, LabeledRadiobox, ToggleAble } from '$lib/components/UI';
   import { _ } from 'svelte-i18n';
-  import { bookmarkIcon, cyclistIcon, flagIcon, hikerIcon, tentIcon } from '@/lib/images/icons';
+  import {
+    bookmarkIcon,
+    cyclistIcon,
+    flagIcon,
+    hikerIcon,
+    tentIcon,
+    tentNoIcon
+  } from '@/lib/images/icons';
   import { user } from '@/lib/stores/auth';
   import Button from '../UI/Button.svelte';
   import {
@@ -24,8 +31,28 @@
   export let showTransport: boolean;
   export let showFileTrailModal: boolean;
   export let showTrainConnectionsModal: boolean;
+  let gardensGroup: 'ALL' | 'SAVED' | 'HIDE' = 'ALL';
 
   $: superfan = $user?.superfan;
+
+  $: {
+    switch (gardensGroup) {
+      case 'ALL':
+        showGardens = true;
+        showSavedGardens = false;
+        break;
+      case 'SAVED':
+        showGardens = false;
+        showSavedGardens = true;
+        break;
+      case 'HIDE':
+        showGardens = false;
+        showSavedGardens = false;
+        break;
+      default:
+        break;
+    }
+  }
 
   let localTrainconnectionsDataLayers = $trainconnectionsDataLayers;
   trainconnectionsDataLayers.subscribe((value) => {
@@ -41,45 +68,46 @@
 <div class="layers-and-tools">
   {#if superfan}
     <!-- content here -->
-    <div class="uppercase">
+    <!-- <div class="uppercase">
       <Text>Layers & Tools</Text>
-    </div>
+    </div> -->
 
-    <div class="toggle-title uppercase">
-      <Text>Gardens</Text>
-    </div>
-    <div>
-      <div>
-        <LabeledCheckbox
+    <ToggleAble>
+      <span slot="title">Gardens</span>
+      <div slot="content">
+        <LabeledRadiobox
+          id="all-gardens"
           name="gardens"
-          icon={tentIcon}
-          label={'Gardens'}
-          bind:checked={showGardens}
+          bind:group={gardensGroup}
+          label={'Show all gardens'}
+          value="ALL"
+        />
+        <LabeledRadiobox
+          id="saved-gardens"
+          name="gardens"
+          bind:group={gardensGroup}
+          label={'Only saved gardens'}
+          value="SAVED"
+        />
+        <LabeledRadiobox
+          id="hide-gardens"
+          name="gardens"
+          bind:group={gardensGroup}
+          label={'Hide all gardens'}
+          value="HIDE"
         />
       </div>
-      <div>
-        <LabeledCheckbox
-          name="savedGardens"
-          icon={bookmarkIcon}
-          label={'Saved gardens'}
-          bind:checked={showSavedGardens}
-        />
-      </div>
-    </div>
+    </ToggleAble>
 
-    <div class="toggle-title uppercase">
-      <Text>Trails</Text>
-    </div>
-    <div class="waymarked-checks">
-      <div>
+    <ToggleAble>
+      <span slot="title">Hiking & cycling routes</span>
+      <div slot="content">
         <LabeledCheckbox
           name="hiking"
           icon={hikerIcon}
           label={$_('map.trails.hiking')}
           bind:checked={showHiking}
         />
-      </div>
-      <div>
         <LabeledCheckbox
           name="cycling"
           icon={cyclistIcon}
@@ -94,7 +122,7 @@
           }
         })}
       </span>
-    </div>
+    </ToggleAble>
 
     <div>
       {#each localFileDataLayers as layer, i}
