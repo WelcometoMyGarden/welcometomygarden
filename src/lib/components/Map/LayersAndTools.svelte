@@ -244,11 +244,8 @@
         </span>
       </div>
       {#if showSuperfanInfo}
-        <div
-          class="layers-and-tools-visitors-superfan"
-          in:fly={{ x: -260, duration: 2000 }}
-          out:fly|local={{ x: -260, duration: 2000 }}
-        >
+        <!-- out:fly|local={{ x: -260, duration: 2000 }} -->
+        <div class="layers-and-tools-visitors-superfan" in:fly={{ x: -260, duration: 2000 }}>
           <button
             class="button-container layers-and-tools-visitors-close"
             on:click|preventDefault|stopPropagation={() => (showSuperfanInfo = !showSuperfanInfo)}
