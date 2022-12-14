@@ -1,5 +1,8 @@
-const { getAuth } = require('firebase-admin/auth')
-const { getFirestore, FieldValue } = require('firebase-admin/firestore')
+// https://stackoverflow.com/a/69959606/4973029
+// eslint-disable-next-line import/no-unresolved
+const { getAuth } = require('firebase-admin/auth');
+// eslint-disable-next-line import/no-unresolved
+const { getFirestore, FieldValue } = require('firebase-admin/firestore');
 const functions = require('firebase-functions');
 const removeDiacritics = require('./util/removeDiacritics');
 const { sendMessageReceivedEmail } = require('./mail');

@@ -1,5 +1,8 @@
-const { getFirestore } = require('firebase-admin/firestore')
+// https://stackoverflow.com/a/69959606/4973029
+// eslint-disable-next-line import/no-unresolved
+const { getFirestore } = require('firebase-admin/firestore');
 const stripe = require('./stripe');
+
 const db = getFirestore();
 
 /**
@@ -9,8 +12,8 @@ const db = getFirestore();
  * @param customerId a stripe customer ID
  * @returns null if no uid was found
  */
-module.exports = getFirebaseUserId = async (customerId) => {
-  const stripeCustomer = await stripe.customers.retrieve(customerId)
+module.exports = async (customerId) => {
+  const stripeCustomer = await stripe.customers.retrieve(customerId);
 
   // Attempt 1: fetch from the Stripe metadata
   if (stripeCustomer.metadata.wtmg_id) {
@@ -19,20 +22,20 @@ module.exports = getFirebaseUserId = async (customerId) => {
 
   // Attempt 2: query firebase
   console.warn(
-    `Trying to find ${customerId} in Firbase. This shouldn't occur, since `
-   + `the wtmg_id should have been saved in the Stripe customer metadata.`
-  )
+    `Trying to find ${customerId} in Firbase. This shouldn't occur, since ` +
+      `the wtmg_id should have been saved in the Stripe customer metadata.`
+  );
   const snapshot = await db
     .collection('users-private')
-    .where("stripeCustomerId", "==", customerId)
+    .where('stripeCustomerId', '==', customerId)
     .limit(1)
-    .get()
-  const [ doc ] = snapshot.docs
+    .get();
+  const [doc] = snapshot.docs;
   if (doc) {
     // The document's ID is the user's uid
-    return doc.id
+    return doc.id;
   }
 
   // All methods failed
   return null;
-}
+};

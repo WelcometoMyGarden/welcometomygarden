@@ -1,8 +1,15 @@
 const functions = require('firebase-functions');
+// https://stackoverflow.com/a/69959606/4973029
+// eslint-disable-next-line import/no-unresolved
+const { getFirestore } = require('firebase-admin/firestore');
+// eslint-disable-next-line import/no-unresolved
+const { getAuth } = require('firebase-admin/auth');
 const { parseAsync } = require('json2csv');
 const sendgrid = require('@sendgrid/mail');
 
 const API_KEY = functions.config().sendgrid.key;
+const auth = getAuth();
+const db = getFirestore();
 
 const send = (msg) => sendgrid.send(msg);
 
@@ -58,7 +65,7 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName) => {
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
     templateId: 'd-cc5be739da8f46628eeef6d23b393503',
     dynamic_template_data: {
-      firstName,
+      firstName
     }
   };
 
@@ -88,7 +95,6 @@ exports.exportNewsletterEmails = async (_, context) => {
     }
     return res;
   };
-
 
   const snapshot = await db.collection('users-private').get();
   const ids = [];

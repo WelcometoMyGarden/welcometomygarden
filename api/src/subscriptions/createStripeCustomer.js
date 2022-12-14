@@ -1,7 +1,11 @@
+// https://stackoverflow.com/a/69959606/4973029
+// eslint-disable-next-line import/no-unresolved
+const { getFirestore } = require('firebase-admin/firestore');
+// eslint-disable-next-line import/no-unresolved
+const { getAuth } = require('firebase-admin/auth');
 const fail = require('../util/fail');
-const { getFirestore } = require('firebase-admin/firestore')
-const { getAuth } = require('firebase-admin/auth')
 const stripe = require('./stripe');
+
 const db = getFirestore();
 const auth = getAuth();
 
@@ -45,4 +49,6 @@ exports.createStripeCustomer = async (_, context) => {
     console.error("Couldn't create a Stripe customer", e);
     fail('internal');
   }
+  // To make ESLint happy
+  return true;
 };

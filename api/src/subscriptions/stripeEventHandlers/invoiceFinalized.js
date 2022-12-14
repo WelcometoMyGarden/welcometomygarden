@@ -4,7 +4,7 @@
  * @param {*} res
  */
 module.exports = async (event, res) => {
-  console.log("Handling invoice.finalized")
+  console.log('Handling invoice.finalized');
   // TODO send email with the finalized invoice!?
   // see "hosted_invoice_url" and "invoice_pdf"
 
@@ -23,5 +23,5 @@ module.exports = async (event, res) => {
     // We created the invoice, and are about to finalize it manually.
     // Allow this operation to proceed.
   }
-  return res.sendStatus(200)
-}
+  return res.sendStatus(200);
+};

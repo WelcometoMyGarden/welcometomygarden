@@ -5,7 +5,7 @@
  * @param {*} res
  */
 module.exports = async (event, res) => {
-  console.log("Handling subscription.updated")
+  console.log('Handling subscription.updated');
   const subscription = event.data.object;
 
   // TODO
@@ -16,4 +16,4 @@ module.exports = async (event, res) => {
 
   // Don't do anything for now.
   return res.sendStatus(200);
-}
+};
