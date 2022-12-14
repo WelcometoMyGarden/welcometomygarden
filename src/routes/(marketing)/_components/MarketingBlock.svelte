@@ -10,7 +10,7 @@
 <style>
   div {
     width: 100%;
-    border-radius: 30px;
+    border-radius: var(--marketing-block-border-radius);
     padding: 4rem;
     display: flex;
   }

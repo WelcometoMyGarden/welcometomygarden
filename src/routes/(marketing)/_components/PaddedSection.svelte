@@ -2,13 +2,17 @@
   export let desktopOnly: boolean | undefined = undefined;
   export let vertical: boolean | undefined = undefined;
   export let backgroundColor: string | undefined = undefined;
+
+  const elementOptions = ['section', 'footer'] as const;
+  type Option = typeof elementOptions[number];
+  export let is: Option = 'section';
 </script>
 
-<section class:desktopOnly class:vertical style:background-color={backgroundColor}>
+<svelte:element this={is} class:desktopOnly class:vertical style:background-color={backgroundColor}>
   <div class="inner">
     <slot />
   </div>
-</section>
+</svelte:element>
 
 <style>
   div.inner {
@@ -18,16 +22,16 @@
     max-width: 1200px;
   }
 
-  section.vertical {
+  .vertical {
     padding-top: 6rem;
     padding-bottom: 6rem;
   }
 
   @media only screen and (max-width: 600px) {
-    section {
+    .inner {
       padding: 0 2rem;
     }
-    section.desktopOnly {
+    .desktopOnly .inner {
       padding: 0;
     }
   }

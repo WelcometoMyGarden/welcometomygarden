@@ -1,6 +1,6 @@
-<script>
+<script lang="ts">
+  import { _ } from 'svelte-i18n';
   import Button from '@/lib/components/UI/Button.svelte';
-
   import routes from '@/lib/routes';
   import Heading from '../_components/Heading.svelte';
   import MarketingBlock from '../_components/MarketingBlock.svelte';
@@ -9,6 +9,31 @@
   import InnerVideoSection from '../_sections/VideoSection.svelte';
   import SupportReasons from '../_sections/SupportReasons.svelte';
   import CollapsibleGroup from '@/lib/components/CollapsibleGroup.svelte';
+  import Testimonials from '../_components/Testimonials.svelte';
+  import type { Slide } from '../_components/Testimonials.svelte';
+  import { coreTeamProfiles } from '../_components/profiles';
+  import ProfilePicture from '../_components/ProfilePicture.svelte';
+  import { SUPPORT_EMAIL } from '@/lib/constants';
+
+  const testimonials: Slide[] = [
+    {
+      quote:
+        'Starting to travel by bicycle crystallized what I wanted to become: free, minimalist, autonomous and active.',
+      name: 'Boris',
+      imagePath: '/testimonials/boris.jpeg'
+    },
+    {
+      quote: 'WTMG is not only fun, it’s about changing the world, changing the way we travel.',
+      name: 'Marie Marth',
+      imagePath: '/testimonials/marie-marth.jpg'
+    },
+    {
+      quote:
+        "I'm happy to be surrounded by such an amazing community of slow travellers who put their actions where their mouth is!",
+      name: 'Benoit & Hélène',
+      imagePath: '/testimonials/benoit-helene.jpg'
+    }
+  ];
 </script>
 
 <PaddedSection>
@@ -50,29 +75,34 @@
   <Button href={routes.BECOME_SUPERFAN}>Become a Superfan</Button>
 </PaddedSection>
 <PaddedSection desktopOnly>
-  <MarketingBlock centered>
+  <MarketingBlock centered backgroundColor="var(--color-beige-light" )>
+    <div class="team-pictures">
+      {#each coreTeamProfiles as profileData}
+        <div class="image-wrapper"><ProfilePicture {...profileData} /></div>
+      {/each}
+    </div>
     <h1>Meet the team</h1>
     <p>
       So, who’s behind WTMG? We’re a small team of five slow travel enthusiasts and we want to help
-      others embark on their slow travel adventures too!Í
+      others embark on their slow travel adventures too!
     </p>
     <Button href={routes.ABOUT_US}>Meet the Team</Button>
   </MarketingBlock>
 </PaddedSection>
-<PaddedSection desktopOnly backgroundColor="var(--color-green-light)">
-  <MarketingBlock centered>
-    <h1>Testimonials</h1>
-  </MarketingBlock>
+<PaddedSection desktopOnly>
+  <Testimonials slides={testimonials} />
 </PaddedSection>
 <PaddedSection>
-  <h1>FAQ: todo</h1>
-  <!-- TODO replace the key with actual question content -->
-  <CollapsibleGroup collapsibleKey='index.faq.questions' />
+  <h2>FAQ</h2>
+  <h3>{$_('about-superfan.superfan-faq.title')}</h3>
+  <CollapsibleGroup collapsibleKey="about-superfan.superfan-faq.questions" />
+  <h3>{$_('about-superfan.structure-faq.title')}</h3>
+  <CollapsibleGroup collapsibleKey="about-superfan.structure-faq.questions" />
 </PaddedSection>
 <PaddedSection>
   <div class="more-questions">
     <h1>Still have a question?</h1>
-    <Button>Contact Us TODO</Button>
+    <Button href="mailto:{SUPPORT_EMAIL}?subject={encodeURIComponent("WTMG, I have a question!")}">Contact Us</Button>
   </div>
 </PaddedSection>
 
@@ -81,5 +111,21 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  div.team-pictures {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    /* Compensate for the negative margins below */
+    transform: translateX(1.75rem);
+  }
+
+  .image-wrapper {
+    /* This gives the elements a concrete width */
+    max-width: 18rem;
+    flex-grow: 1;
+    max-height: 100%;
+    margin-left: -3.5rem;
   }
 </style>

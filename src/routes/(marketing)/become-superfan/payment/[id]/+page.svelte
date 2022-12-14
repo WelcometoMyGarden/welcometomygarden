@@ -49,6 +49,7 @@
         // todo
         confirmParams: {
           // redirect to the same page
+          // TODO: redirect to /become-superfan/thank-you, on success only!
           return_url: `${protocol}//${hostname}:${port}/become-superfan/payment`
         }
       })

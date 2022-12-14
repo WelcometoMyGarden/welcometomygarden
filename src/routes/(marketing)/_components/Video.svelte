@@ -1,16 +1,12 @@
-<div class="video">I am a video</div>
+<script>
+  import staticAssetUrl from '@/lib/util/staticAssetUrl';
+</script>
+
+<video controls src={staticAssetUrl('/Superfans_V3.mp4')} />
 
 <style>
-  div.video {
-    background-color: var(--color-blue-light);
+  video {
     border-radius: 2rem;
-    height: 100%;
-
-    /* temporary */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-style: italic;
+    width: 100%;
   }
 </style>
-

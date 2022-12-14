@@ -3,14 +3,12 @@
   export let role: string;
   export let imageSrc: string;
   import Text from '$lib/components/UI/Text.svelte';
-  import ResponsiveSquare from '@/lib/components/UI/ResponsiveSquare.svelte';
+  import ProfilePicture from './ProfilePicture.svelte';
 </script>
 
 <div class="profile">
   <div class="image-wrapper">
-    <ResponsiveSquare>
-      <img src={imageSrc} alt="Picture of {name}" />
-    </ResponsiveSquare>
+    <ProfilePicture {imageSrc} {name} />
   </div>
   <Text is="span" size="l" class="name" weight="bold">{name}</Text>
   <Text is="span" size="l" class="role">{role}</Text>
@@ -40,13 +38,5 @@
     margin-top: 1rem;
     text-align: center;
     line-height: 160%;
-  }
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 0.5rem solid var(--color-green-light);
   }
 </style>

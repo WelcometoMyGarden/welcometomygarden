@@ -4,7 +4,6 @@ export { default as checkIcon } from './check.svg';
 export { default as crossIcon } from './cross.svg';
 export { default as cyclistIcon } from './cyclist.svg';
 export { default as electricityIcon } from './electricity.svg';
-export { default as emailIcon } from './email.svg';
 export { default as flagIcon } from './flag.svg';
 export { default as hikerIcon } from './hiker.svg';
 export { default as lockIcon } from './lock.svg';

@@ -19,13 +19,12 @@
   }
 
   div.text {
-    flex-basis: 1;
-    max-width: 50%;
+    flex: 1;
+    max-width: 46%;
   }
 
   div.video {
-    flex-basis: 1;
-    flex-grow: 1;
+    flex: 1;
     height: 60%;
   }
 </style>
