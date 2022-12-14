@@ -11,7 +11,7 @@
   import CollapsibleGroup from '@/lib/components/CollapsibleGroup.svelte';
   import Testimonials from '../_components/Testimonials.svelte';
   import type { Slide } from '../_components/Testimonials.svelte';
-  import { coreTeamProfiles } from '../_components/profiles';
+  import { coreTeamProfiles } from '../_static/profiles';
   import ProfilePicture from '../_components/ProfilePicture.svelte';
   import { SUPPORT_EMAIL } from '@/lib/constants';
 

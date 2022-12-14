@@ -1,58 +1,29 @@
-<script context="module" lang="ts">
-  export type SuperfanLevelData = {
-    title: string;
-    id: string;
-    value: number;
-    stripePriceId: string;
-  };
-  export const superfanLevels: SuperfanLevelData[] = [
-    {
-      title: 'Reduced price',
-      id: 'reduced',
-      value: 3,
-      stripePriceId: 'price_1MAcGMDY48WHyD7GoNncm5nX'
-    },
-    {
-      title: 'Normal price',
-      id: 'normal',
-      value: 5,
-      stripePriceId: 'price_1MAcGbDY48WHyD7GY6TCMmoC'
-    },
-    {
-      title: 'Solidarity price',
-      id: 'solidarity',
-      value: 7,
-      stripePriceId: 'price_1MAcGzDY48WHyD7GVUZAbVcf'
-    }
-  ];
-</script>
-
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { user } from '@/lib/stores/auth';
   import { goto } from '$app/navigation';
   import enterHandler from '@/lib/util/keyhandlers';
-  import SuperfanLevel from '@/lib/components/UI/SuperfanLevel.svelte';
+  import SuperfanLevel from '@/routes/(marketing)/_components/SuperfanLevel.svelte';
   import routes from '@/lib/routes';
   import MarketingBlock from '@/routes/(marketing)/_components/MarketingBlock.svelte';
-  import Tile from '../_components/Tile.svelte';
   import Features from '../_sections/Features.svelte';
   import PaddedSection from '../_components/PaddedSection.svelte';
   import Heading from '../_components/Heading.svelte';
   import SupportReasons from '../_sections/SupportReasons.svelte';
+  import { superfanLevels, type SuperfanLevelData } from '../_static/superfan-levels';
 
-  function selectLevel(level: SuperfanLevelData) {
+  const selectLevel = (level: SuperfanLevelData) => {
     if (!user) {
       return goto(routes.SIGN_IN);
     }
 
     return goto(`${routes.SUPERFAN_PAYMENT}/${level.id}`);
-  }
+  };
 
-  function handleKeyPress(event: CustomEvent<KeyboardEvent>, item: SuperfanLevelData) {
+  const handleKeyPress = (event: CustomEvent<KeyboardEvent>, item: SuperfanLevelData) => {
     const handler = enterHandler(() => selectLevel(item));
     handler(event.detail);
-  }
+  };
 </script>
 
 <svelte:head>

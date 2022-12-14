@@ -14,7 +14,7 @@
   import Text from '$lib/components/UI/Text.svelte';
   import PartnersSection from './PartnersSection.svelte';
   import staticAssetUrl from '@/lib/util/staticAssetUrl';
-  import { coreTeamProfiles, type ProfileData } from '../_components/profiles';
+  import { coreTeamProfiles, type ProfileData } from '../_static/profiles';
 
   const contributorProfiles: ProfileData[] = [
     {

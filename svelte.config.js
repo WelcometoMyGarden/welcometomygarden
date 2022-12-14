@@ -18,7 +18,12 @@ const config = {
     prerender: {
       crawl: true,
       enabled: true,
-      entries: ['*', '/chat/[name]/[chatId]', '/explore/garden/[gardenId]']
+      entries: [
+        '*',
+        '/chat/[name]/[chatId]',
+        '/explore/garden/[gardenId]',
+        '/become-superfan/payment/[id]'
+      ]
     },
 
     alias: {

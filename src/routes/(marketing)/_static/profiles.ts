@@ -1,6 +1,6 @@
 import staticAssetUrl from "@/lib/util/staticAssetUrl";
 import type { ComponentProps } from "svelte";
-import type Profile from "./Profile.svelte";
+import type Profile from "../_components/Profile.svelte";
 
 const driesImg = staticAssetUrl('/profile-pictures/dries.png');
 const manonImg = staticAssetUrl('/profile-pictures/manon.png');

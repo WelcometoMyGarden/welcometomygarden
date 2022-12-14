@@ -1,6 +1,5 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { fade } from 'svelte/transition';
   import { goto } from '$lib/util/navigate';
   import notify from '$lib/stores/notification';
   import { updateMailPreferences } from '@/lib/api/user';
@@ -13,16 +12,19 @@
   import { countries } from '$lib/util';
   import routes from '$lib/routes';
   import { SUPPORT_EMAIL } from '$lib/constants';
-  import { keyboardEvent } from '@/lib/stores/keyboardEvent';
   import { createCustomerPortalSession } from '@/lib/api/functions';
 
-  if (!$user) goto(routes.SIGN_IN);
+  if (!$user) {
+    goto(routes.SIGN_IN);
+  }
 
   const onMailPreferenceChanged = async (event) => {
     try {
       const { name, checked } = event.target;
       await updateMailPreferences(name, checked);
-      $user.setEmailPreferences(name, checked);
+      if ($user) {
+        $user.setEmailPreferences(name, checked);
+      }
       notify.success($_('account.notify.preferences-update'), 3500);
     } catch (ex) {
       console.log(ex);
@@ -65,11 +67,11 @@
     }
   };
 
-  async function openCustomerPortalSession() {
+  const openCustomerPortalSession = async () => {
     const { data } = await createCustomerPortalSession();
     const { url } = data;
     window.open(url, '_self');
-  }
+  };
 </script>
 
 <svelte:head>
