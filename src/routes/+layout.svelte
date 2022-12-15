@@ -24,7 +24,7 @@
     // if running in the client, save the language preference in a cookie
     if (typeof window !== 'undefined') {
       setCookie('locale', value, { path: '/' });
-      if (user) updateCommunicationLanguage(value);
+      if ($user) updateCommunicationLanguage(value);
     }
   });
 
