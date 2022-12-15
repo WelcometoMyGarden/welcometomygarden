@@ -102,7 +102,9 @@
 <PaddedSection>
   <div class="more-questions">
     <h1>Still have a question?</h1>
-    <Button href="mailto:{SUPPORT_EMAIL}?subject={encodeURIComponent("WTMG, I have a question!")}">Contact Us</Button>
+    <Button href="mailto:{SUPPORT_EMAIL}?subject={encodeURIComponent('WTMG, I have a question!')}"
+      >Contact Us</Button
+    >
   </div>
 </PaddedSection>
 

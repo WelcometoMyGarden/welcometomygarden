@@ -22,18 +22,20 @@ export const getNodeKeys = (nodePath: string) => {
   // Drill down the node tree
   const nodeValue = pathComponents.reduce((currentNode, pathComponent) => {
     // If we can drill deeper, do so
-    if (currentNode != null
-      && typeof currentNode !== 'string'
-      && !(currentNode instanceof Array)
-      && pathComponent in currentNode) {
-      const nextNode = currentNode[pathComponent]
+    if (
+      currentNode != null &&
+      typeof currentNode !== 'string' &&
+      !(currentNode instanceof Array) &&
+      pathComponent in currentNode
+    ) {
+      const nextNode = currentNode[pathComponent];
       // We know for sure this value is also a LocaleDictionary, but TS complains.
       return nextNode as LocaleDictionary;
     }
     // Otherwise stop here
     else {
-      return currentNode
-    };
+      return currentNode;
+    }
   }, englishDict);
 
   if (nodeValue) {

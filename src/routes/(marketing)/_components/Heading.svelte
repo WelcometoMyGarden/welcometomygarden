@@ -16,5 +16,4 @@
     text-transform: uppercase;
     letter-spacing: 0.1rem;
   }
-
 </style>

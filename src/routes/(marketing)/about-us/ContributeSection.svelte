@@ -27,19 +27,18 @@
 </div>
 
 <style>
-    div.how-to-contribute {
-        max-width: 90rem;
-        margin: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-    }
+  div.how-to-contribute {
+    max-width: 90rem;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
 
-    div :global(.block:nth-child(odd)) {
-        align-self: flex-start;
-    }
-    div :global(.block:not(:first-child)) {
-        margin-top: 2rem;
-    }
-
+  div :global(.block:nth-child(odd)) {
+    align-self: flex-start;
+  }
+  div :global(.block:not(:first-child)) {
+    margin-top: 2rem;
+  }
 </style>

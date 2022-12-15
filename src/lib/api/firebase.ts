@@ -71,10 +71,16 @@ let authRef: Auth | null = null;
 export const auth: () => Auth = guardNull<Auth>(() => authRef, 'auth');
 
 let usCentral1FunctionsRef: Functions | null = null;
-export const functions: () => Functions = guardNull<Functions>(() => usCentral1FunctionsRef, 'functions');
+export const functions: () => Functions = guardNull<Functions>(
+  () => usCentral1FunctionsRef,
+  'functions'
+);
 
 let europeWest1FunctionsRef: Functions | null = null;
-export const europeWest1Functions: () => Functions = guardNull<Functions>(() => europeWest1FunctionsRef, 'functions');
+export const europeWest1Functions: () => Functions = guardNull<Functions>(
+  () => europeWest1FunctionsRef,
+  'functions'
+);
 
 let storageRef: FirebaseStorage | null = null;
 export const storage: () => FirebaseStorage = guardNull<FirebaseStorage>(
@@ -109,9 +115,13 @@ export async function initialize(): Promise<void> {
   europeWest1FunctionsRef = getFunctions(appRef, 'europe-west1');
   initializeEuropeWest1Functions(europeWest1FunctionsRef);
   const useFunctionEmulator = import.meta.env.VITE_USE_API_EMULATOR;
-  if (window && window.location.hostname.match('localhost|127.0.0.1') && useFunctionEmulator === 'true') {
+  if (
+    window &&
+    window.location.hostname.match('localhost|127.0.0.1') &&
+    useFunctionEmulator === 'true'
+  ) {
     connectFunctionsEmulator(usCentral1FunctionsRef, 'localhost', 5001);
-    connectFunctionsEmulator(europeWest1FunctionsRef, 'localhost', 5001)
+    connectFunctionsEmulator(europeWest1FunctionsRef, 'localhost', 5001);
   }
   authRef.useDeviceLanguage();
 
@@ -122,4 +132,3 @@ const addMetrics = async () => {
   analyticsRef = getAnalytics(app());
   performanceRef = getPerformance(app());
 };
-

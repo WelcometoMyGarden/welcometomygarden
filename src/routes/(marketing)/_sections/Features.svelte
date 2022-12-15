@@ -14,10 +14,10 @@
     {
       icon: '🏕',
       title: 'Save gardens',
-      description: 'Keep track of your favourite gardens and in touch with the amazing hosts you’ve met!'
+      description:
+        'Keep track of your favourite gardens and in touch with the amazing hosts you’ve met!'
     }
   ];
 </script>
 
-<TileList tiles={features}></TileList>
-
+<TileList tiles={features} />

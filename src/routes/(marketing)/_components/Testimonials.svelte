@@ -13,8 +13,12 @@
 
   export let slides: Slide[];
   let activeSlide = 0;
-  const previous = () => {activeSlide = (activeSlide == 0 ? slides.length : activeSlide) - 1 }
-  const next = () => { activeSlide = (activeSlide === slides.length - 1) ? 0 : activeSlide + 1 }
+  const previous = () => {
+    activeSlide = (activeSlide == 0 ? slides.length : activeSlide) - 1;
+  };
+  const next = () => {
+    activeSlide = activeSlide === slides.length - 1 ? 0 : activeSlide + 1;
+  };
 </script>
 
 <div class="testimonial-wrapper">
