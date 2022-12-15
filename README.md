@@ -37,6 +37,12 @@ After running `yarn install`, also install the testing browsers:
 npx playwright install
 ```
 
+To check if your code won't have compilation issues in production, do a production build locally and preview the result:
+```
+yarn build:prod
+yarn preview
+```
+
 ## Translations
 
 The website is translated through [Hosted Weblate](https://hosted.weblate.org/projects/wtmg/).
