@@ -21,7 +21,7 @@
       <a href={routes.TERMS_OF_USE}>{$_('generics.terms-of-use')}</a>
     </li>
     <li>
-      <a href={SHOP_URL} target="_blank" rel="noreferrer">{$_('generics.shop')}</a>
+      <a href={SHOP_URL} target="_blank">{$_('generics.shop')}</a>
     </li>
   </ul>
   <LanguageSelector />

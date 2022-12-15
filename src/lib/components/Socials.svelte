@@ -42,7 +42,7 @@
 <ul class="socials" class:medium class:small>
   {#each socials as { name, link, iconFileName }}
     <li>
-      <a href={link} target="_blank" rel="noopener noreferrer">
+      <a href={link} target="_blank" rel="noopener">
         <img src="/images/icons/{iconFileName}" alt={name} />
       </a>
     </li>

@@ -4,7 +4,7 @@
   export let name: string;
 </script>
 
-<a href={link} class="partner-link" target="_blank" rel="noreferrer noopener" aria-label={name}>
+<a href={link} class="partner-link" target="_blank" aria-label={name}>
   {@html logo}
 </a>
 

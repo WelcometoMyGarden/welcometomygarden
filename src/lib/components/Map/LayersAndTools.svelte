@@ -238,7 +238,7 @@
         <span class="attribution">
           {@html $_('map.trails.attribution', {
             values: {
-              link: `<a href="https://waymarkedtrails.org/" target="_blank"  rel="noreferrer" >Waymarked Trails</a>`
+              link: `<a href="https://waymarkedtrails.org/" target="_blank" rel="noreferrer" >Waymarked Trails</a>`
             }
           })}
         </span>

@@ -5,39 +5,49 @@
   import UserDropdown from './UserDropdown.svelte';
   import { user } from '@/lib/stores/auth';
   import WtmgLogo from '../../UI/WTMGLogo.svelte';
+  import { SLOWBY_URL } from '@/lib/constants';
 
   $: firstName = $user ? $user.firstName : '';
 </script>
 
 <nav>
-  <WtmgLogo hideTitleWhenOnHome />
-  <ul>
-    <li>
-      <NavLink href={routes.MAP}>{$_('generics.map')}</NavLink>
-    </li>
-    <li>
-      <NavLink href={routes.RULES}>{$_('generics.rules')}</NavLink>
-    </li>
-    <!-- TODO reuse this language key in the footer -->
-    <!-- <li>
+  <div class="nav-extra">
+    <span
+      >Need help planning a trip? Check our <a href={SLOWBY_URL} target="_blank" rel="noopener"
+        >Slowby Secret Trips</a
+      ></span
+    >
+  </div>
+  <div class="main-nav">
+    <WtmgLogo hideTitleWhenOnHome />
+    <ul>
+      <li>
+        <NavLink href={routes.MAP}>{$_('generics.map')}</NavLink>
+      </li>
+      <li>
+        <NavLink href={routes.RULES}>{$_('generics.rules')}</NavLink>
+      </li>
+      <!-- TODO reuse this language key in the footer -->
+      <!-- <li>
       <NavLink href={$_('index.slowby.banner.url')} target="_blank" rel="noreferrer"
         >{$_('generics.slowby')}</NavLink
       >
     </li> -->
-    <li>
-      <NavLink href={routes.ABOUT_US}>About Us</NavLink>
-    </li>
-    <li>
-      <NavLink href={routes.BECOME_SUPERFAN} highlighted>Become a Superfan</NavLink>
-    </li>
-    {#if firstName}
-      <UserDropdown name={firstName || ''} />
-    {:else}
       <li>
-        <NavLink href={routes.SIGN_IN}>{$_('generics.sign-in')}</NavLink>
+        <NavLink href={routes.ABOUT_US}>About Us</NavLink>
       </li>
-    {/if}
-  </ul>
+      <li>
+        <NavLink href={routes.BECOME_SUPERFAN} highlighted>Become a Superfan</NavLink>
+      </li>
+      {#if firstName}
+        <UserDropdown name={firstName || ''} />
+      {:else}
+        <li>
+          <NavLink href={routes.SIGN_IN}>{$_('generics.sign-in')}</NavLink>
+        </li>
+      {/if}
+    </ul>
+  </div>
 </nav>
 
 <style>
