@@ -20,18 +20,18 @@
     toggleVisibilityTrainconnectionsDataLayers,
     trainconnectionsDataLayers
   } from '@/lib/stores/trainconnections';
-  import {
-    fileDataLayers,
-    removeFileDataLayers,
-    toggleVisibilityFileDataLayers
-  } from '@/lib/stores/file';
+
   import MultiActionLabel from '@/lib/components/UI/MultiActionLabel.svelte';
-  import { cleanName } from '@/lib/util/slugify';
   import Icon from '@/lib/components/UI/Icon.svelte';
   import routes from '@/lib/routes';
   import { fly } from 'svelte/transition';
   import IconButton from '@/lib/components/UI/IconButton.svelte';
   import { getCookie, setCookie } from '@/lib/util';
+  import GardenTools from '@/lib/components/LayersAndTools/GardenTools.svelte';
+  import GardensModal from '@/lib/components/LayersAndTools/GardensModal.svelte';
+  import TrailsModal from '@/lib/components/LayersAndTools/TrailsModal.svelte';
+  import TransportModal from '@/lib/components/LayersAndTools/TransportModal.svelte';
+  import TrailsTool from '@/lib/components/LayersAndTools/TrailsTool.svelte';
 
   export let showHiking = false;
   export let showCycling = false;
@@ -42,6 +42,10 @@
   export let showTransport: boolean;
   export let showFileTrailModal: boolean;
   export let showTrainConnectionsModal: boolean;
+  let showGardensModal = false;
+  let showTrailsModal = false;
+  let showTransportModal = false;
+
   let gardensGroup: 'ALL' | 'SAVED' | 'HIDE' = 'ALL';
   let showSuperfanInfo = true;
 
@@ -56,33 +60,9 @@
 
   $: superfan = $user?.superfan;
 
-  $: {
-    switch (gardensGroup) {
-      case 'ALL':
-        showGardens = true;
-        showSavedGardens = false;
-        break;
-      case 'SAVED':
-        showGardens = false;
-        showSavedGardens = true;
-        break;
-      case 'HIDE':
-        showGardens = false;
-        showSavedGardens = false;
-        break;
-      default:
-        break;
-    }
-  }
-
   let localTrainconnectionsDataLayers = $trainconnectionsDataLayers;
   trainconnectionsDataLayers.subscribe((value) => {
     localTrainconnectionsDataLayers = value;
-  });
-
-  let localFileDataLayers = $fileDataLayers;
-  fileDataLayers.subscribe((value) => {
-    localFileDataLayers = value;
   });
 
   const toggleTrainConnectionsModal = (e: Event) => {
@@ -114,73 +94,14 @@
       <ToggleAble>
         <span slot="title">Gardens</span>
         <div slot="content">
-          <LabeledRadiobox
-            id="all-gardens"
-            name="gardens"
-            bind:group={gardensGroup}
-            label={'Show all gardens'}
-            value="ALL"
-          />
-          <LabeledRadiobox
-            id="saved-gardens"
-            name="gardens"
-            bind:group={gardensGroup}
-            label={'Only saved gardens'}
-            value="SAVED"
-          />
-          <LabeledRadiobox
-            id="hide-gardens"
-            name="gardens"
-            bind:group={gardensGroup}
-            label={'Hide all gardens'}
-            value="HIDE"
-          />
+          <GardenTools bind:showGardens bind:showSavedGardens />
         </div>
       </ToggleAble>
 
       <ToggleAble>
         <span slot="title">Hiking & cycling routes</span>
         <div slot="content">
-          <LabeledCheckbox
-            name="hiking"
-            icon={hikerIcon}
-            label={$_('map.trails.hiking')}
-            bind:checked={showHiking}
-          />
-          <LabeledCheckbox
-            name="cycling"
-            icon={cyclistIcon}
-            label={$_('map.trails.cycling')}
-            bind:checked={showCycling}
-          />
-
-          <div class="data-layers">
-            {#each localFileDataLayers as layer, i}
-              <MultiActionLabel
-                icon={routesIcon}
-                name={layer.id}
-                label={cleanName(layer.name)}
-                checked={layer.visible}
-                on:change={() => {
-                  toggleVisibilityFileDataLayers(layer.id);
-                }}
-                on:secondary={() => {
-                  removeFileDataLayers(layer.id);
-                }}
-              />
-            {/each}
-          </div>
-
-          <div class="layers-and-tools-button">
-            <Button preventing inverse xxsmall on:click={toggleFileTrailModal}>
-              <span class="button-text-container">
-                <span class="button-icon">
-                  <Icon icon={routesIcon} />
-                </span>
-                <span class="button-text">Upload a route</span>
-              </span>
-            </Button>
-          </div>
+          <TrailsTool bind:showCycling bind:showHiking on:click={toggleFileTrailModal} />
         </div>
       </ToggleAble>
 
@@ -235,27 +156,33 @@
     </div>
     <div class="layers-and-tools-superfan-mobile">
       <div class="fab">
-        <IconButton xsmall>
+        <IconButton xsmall on:click={() => (showGardensModal = !showGardensModal)}>
           <div class="fab-icon">
             <Icon icon={tentWhiteIcon} />
           </div>
         </IconButton>
       </div>
       <div class="fab">
-        <IconButton xsmall>
+        <IconButton xsmall on:click={() => (showTrailsModal = !showTrailsModal)}>
           <div class="fab-icon">
             <Icon icon={cyclistWhiteIcon} />
           </div>
         </IconButton>
       </div>
       <div class="fab">
-        <IconButton xsmall>
+        <IconButton xsmall on:click={() => (showTransportModal = !showTransportModal)}>
           <div class="fab-icon">
             <Icon icon={trainWhiteIcon} />
           </div>
         </IconButton>
       </div>
     </div>
+
+    {#if isMobile}
+      <GardensModal bind:show={showGardensModal} bind:showGardens bind:showSavedGardens />
+      <TrailsModal bind:show={showTrailsModal} />
+      <TransportModal bind:show={showTransportModal} />
+    {/if}
   {:else}
     <div class="layers-and-tools-visitors-container">
       <div class="layers-and-tools-visitors">
