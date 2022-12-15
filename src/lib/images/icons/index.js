@@ -30,3 +30,6 @@ export { default as uploadCloudIcon } from './upload-cloud.svg';
 export { default as tentNoIcon } from './tent-no.svg';
 export { default as trainIcon } from './train.svg';
 export { default as routesIcon } from './routes.svg';
+export { default as tentWhiteIcon } from './tent-white.svg';
+export { default as cyclistWhiteIcon } from './cyclist-white.svg';
+export { default as trainWhiteIcon } from './train-white.svg';
