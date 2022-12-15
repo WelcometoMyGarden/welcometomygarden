@@ -1,11 +1,7 @@
 <script lang="ts">
-  export let icon: null | string = null;
   export let type: null | string = null;
-  export let href: null | string = null;
   export let inverse = false;
-  export let uppercase = false;
   export let fit = true;
-  export let target: null | string = null;
   export let medium = false;
   export let small = false;
   export let xsmall = false;
@@ -30,52 +26,26 @@
   };
 </script>
 
-{#if href}
-  <a
-    class="button"
-    class:uppercase
-    class:disabled
-    class:fit
-    class:small
-    class:xsmall
-    class:xxsmall
-    class:medium
-    class:inverse
-    class:clicked
-    {href}
-    on:click={(e) => {
-      if (disabled) e.preventDefault();
-      click(e);
-    }}
-    {target}
-  >
-    <span class="icon-span">
-      <Icon {icon} />
-    </span>
-  </a>
-{:else}
-  <button
-    class="button"
-    class:disabled
-    on:click={click}
-    class:uppercase
-    class:fit
-    class:medium
-    class:small
-    class:xsmall
-    class:xxsmall
-    class:inverse
-    class:clicked
-    {type}
-  >
-    <span class="icon-span">
-      <Icon {icon} />
-    </span>
-  </button>
-{/if}
+<button
+  class="button"
+  class:disabled
+  on:click={click}
+  class:fit
+  class:medium
+  class:small
+  class:xsmall
+  class:xxsmall
+  class:inverse
+  class:clicked
+  {type}
+>
+  <slot />
+</button>
 
 <style>
   .button {
+    width: initial;
+    height: initial;
     text-decoration: none;
     display: inline-block;
     background-color: var(--color-green);
@@ -88,7 +58,6 @@
     font-size: 1.8rem;
     font-weight: bold;
     cursor: pointer;
-    min-width: 25rem;
     font-family: var(--fonts-copy);
     transition: all 300ms ease-in-out;
     outline: 0;
@@ -119,26 +88,18 @@
 
   .medium {
     padding: 1.4rem 2rem;
-    font-size: 1.6rem;
   }
 
   .small {
     padding: 1.2rem 1.8rem;
-    font-size: 1.5rem;
   }
 
   .xsmall {
     padding: 0.6rem 0.9rem;
-    font-size: 1rem;
   }
 
   .xxsmall {
     padding: 0.2rem 0.4rem;
-  }
-
-  .fit {
-    width: auto;
-    min-width: auto;
   }
 
   .inverse {
@@ -146,17 +107,8 @@
     color: var(--color-green);
   }
 
-  .uppercase {
-    text-transform: uppercase;
-  }
-
   .button:not(.disabled):hover {
     border-color: var(--color-orange);
-  }
-
-  .icon-span {
-    width: 3rem;
-    height: 3rem;
   }
 
   @keyframes shake {

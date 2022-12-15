@@ -5,12 +5,15 @@
     bookmarkIcon,
     crossIcon,
     cyclistIcon,
+    cyclistWhiteIcon,
     flagIcon,
     hikerIcon,
     routesIcon,
     tentIcon,
     tentNoIcon,
-    trainIcon
+    tentWhiteIcon,
+    trainIcon,
+    trainWhiteIcon
   } from '@/lib/images/icons';
   import { user } from '@/lib/stores/auth';
   import Button from '../UI/Button.svelte';
@@ -31,6 +34,7 @@
   import { goto } from '@/lib/util/navigate';
   import routes from '@/lib/routes';
   import { fade, fly } from 'svelte/transition';
+  import IconButton from '@/lib/components/UI/IconButton.svelte';
 
   export let showHiking = false;
   export let showCycling = false;
@@ -216,6 +220,29 @@
         </div>
       </ToggleAble>
     </div>
+    <div class="layers-and-tools-superfan-mobile">
+      <div class="fab">
+        <IconButton xsmall>
+          <div class="fab-icon">
+            <Icon icon={tentWhiteIcon} />
+          </div>
+        </IconButton>
+      </div>
+      <div class="fab">
+        <IconButton xsmall>
+          <div class="fab-icon">
+            <Icon icon={cyclistWhiteIcon} />
+          </div>
+        </IconButton>
+      </div>
+      <div class="fab">
+        <IconButton xsmall>
+          <div class="fab-icon">
+            <Icon icon={trainWhiteIcon} />
+          </div>
+        </IconButton>
+      </div>
+    </div>
   {:else}
     <div class="layers-and-tools-visitors-container">
       <div class="layers-and-tools-visitors">
@@ -306,6 +333,25 @@
     background-color: rgba(255, 255, 255, 0.9);
     width: 26rem;
     padding: 1rem;
+  }
+
+  .layers-and-tools-superfan-mobile {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+  }
+
+  .layers-and-tools-superfan-mobile .fab {
+    margin: 0.5rem 0;
+    width: 4rem;
+  }
+
+  .layers-and-tools-superfan-mobile .fab-icon {
+    width: 3rem;
+    height: 3rem;
   }
 
   .attribution {
@@ -414,5 +460,15 @@
     cursor: pointer;
     width: 3rem;
     height: 3rem;
+  }
+
+  @media screen and (max-width: 700px) {
+    .layers-and-tools-superfan {
+      display: none;
+    }
+
+    .layers-and-tools-superfan-mobile {
+      display: flex;
+    }
   }
 </style>
