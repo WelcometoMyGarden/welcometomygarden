@@ -5,7 +5,7 @@ import { getApps, initializeApp, type FirebaseApp } from 'firebase/app';
 import { getAnalytics, type Analytics } from 'firebase/analytics';
 import { getPerformance, type FirebasePerformance } from 'firebase/performance';
 import { connectFunctionsEmulator, getFunctions, type Functions } from 'firebase/functions';
-import { initializeEuropeWest1Functions, initializeEuropeWest1Functions as initializeUsCentral1Functions } from './functions';
+import { initializeEuropeWest1Functions, initializeUsCentral1Functions } from './functions';
 
 const FIREBASE_CONFIG = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
@@ -101,7 +101,7 @@ export async function initialize(): Promise<void> {
   authRef = getAuth(appRef);
   storageRef = getStorage(appRef);
   // The default functions ref is us-central1
-  usCentral1FunctionsRef = getFunctions(appRef);
+  usCentral1FunctionsRef = getFunctions(appRef, 'us-central1');
   initializeUsCentral1Functions(usCentral1FunctionsRef);
   // Surprise surprise, we need to explicitly create a new Functions
   // instance for any functions hosted on europe-west1

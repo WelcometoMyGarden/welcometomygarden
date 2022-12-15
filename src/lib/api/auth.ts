@@ -22,10 +22,14 @@ export const createAuthObserver = (): Unsubscribe => {
   let unsubscribeFromUserPrivate: (() => void) | null = null;
   let unsubscribeFromUserPublic: (() => void) | null = null;
 
-  const unsubscribeFromAuthObserver = auth().onAuthStateChanged(async (userData) => {
-    // Reset subscriptions
+  const unsubscribeFromInnerObservers = () => {
     if (unsubscribeFromUserPrivate) unsubscribeFromUserPrivate()
     if (unsubscribeFromUserPublic) unsubscribeFromUserPublic()
+  }
+
+  const unsubscribeFromAuthObserver = auth().onAuthStateChanged(async (userData) => {
+    // Reset subscriptions
+    unsubscribeFromInnerObservers();
 
     // If logged in
     if (userData) {
@@ -50,7 +54,7 @@ export const createAuthObserver = (): Unsubscribe => {
 
   // Unsubscribe from all related observers
   return () => {
-    if (unsubscribeFromUserPrivate) unsubscribeFromUserPrivate()
+    unsubscribeFromInnerObservers();
     unsubscribeFromAuthObserver()
   }
 };
