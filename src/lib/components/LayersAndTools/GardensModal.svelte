@@ -1,7 +1,7 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { Modal } from '$lib/components/UI';
-  import GardenTools from '@/lib/components/LayersAndTools/GardenTools.svelte';
+  import GardensTools from '@/lib/components/LayersAndTools/GardensTools.svelte';
 
   export let show = false;
   export let showGardens: boolean;
@@ -27,7 +27,7 @@
   <div slot="body" class="BodySection">
     <hr />
     <div class="modal-content">
-      <GardenTools bind:showGardens bind:showSavedGardens />
+      <GardensTools bind:showGardens bind:showSavedGardens />
     </div>
 
     <!-- <hr /> -->

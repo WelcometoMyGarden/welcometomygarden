@@ -59,3 +59,17 @@
     </span>
   </Button>
 </div>
+
+<style>
+  .button-text-container {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .button-icon {
+    width: 1.4rem;
+    height: 1.4rem;
+    display: inline-block;
+    margin: 0 0.5rem 0 0.5rem;
+  }
+</style>

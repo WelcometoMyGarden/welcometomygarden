@@ -1,8 +1,12 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { Modal } from '$lib/components/UI';
+  import TransportTools from '@/lib/components/LayersAndTools/TransportTools.svelte';
 
   export let show = false;
+  export let showTransport: boolean;
+  export let showRails: boolean;
+  export let showStations: boolean;
 
   // MODAL
   let ariaLabelledBy = 'tent-modal-title';
@@ -24,10 +28,8 @@
   <div slot="body" class="BodySection">
     <hr />
     <div class="modal-content">
-      <!-- <GardenTools bind:showGardens bind:showSavedGardens /> -->
+      <TransportTools bind:showRails bind:showStations bind:showTransport on:click />
     </div>
-
-    <!-- <hr /> -->
   </div>
 </Modal>
 

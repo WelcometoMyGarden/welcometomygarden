@@ -15,23 +15,17 @@
   } from '@/lib/images/icons';
   import { user } from '@/lib/stores/auth';
   import Button from '../UI/Button.svelte';
-  import {
-    removeTrainconnectionsDataLayers,
-    toggleVisibilityTrainconnectionsDataLayers,
-    trainconnectionsDataLayers
-  } from '@/lib/stores/trainconnections';
-
-  import MultiActionLabel from '@/lib/components/UI/MultiActionLabel.svelte';
   import Icon from '@/lib/components/UI/Icon.svelte';
   import routes from '@/lib/routes';
   import { fly } from 'svelte/transition';
   import IconButton from '@/lib/components/UI/IconButton.svelte';
   import { getCookie, setCookie } from '@/lib/util';
-  import GardenTools from '@/lib/components/LayersAndTools/GardenTools.svelte';
+  import GardensTools from '@/lib/components/LayersAndTools/GardensTools.svelte';
   import GardensModal from '@/lib/components/LayersAndTools/GardensModal.svelte';
   import TrailsModal from '@/lib/components/LayersAndTools/TrailsModal.svelte';
   import TransportModal from '@/lib/components/LayersAndTools/TransportModal.svelte';
   import TrailsTool from '@/lib/components/LayersAndTools/TrailsTool.svelte';
+  import TransportTools from '@/lib/components/LayersAndTools/TransportTools.svelte';
 
   export let showHiking = false;
   export let showCycling = false;
@@ -46,7 +40,6 @@
   let showTrailsModal = false;
   let showTransportModal = false;
 
-  let gardensGroup: 'ALL' | 'SAVED' | 'HIDE' = 'ALL';
   let showSuperfanInfo = true;
 
   let innerWidth: number;
@@ -59,11 +52,6 @@
   }
 
   $: superfan = $user?.superfan;
-
-  let localTrainconnectionsDataLayers = $trainconnectionsDataLayers;
-  trainconnectionsDataLayers.subscribe((value) => {
-    localTrainconnectionsDataLayers = value;
-  });
 
   const toggleTrainConnectionsModal = (e: Event) => {
     showTrainConnectionsModal = !showTrainConnectionsModal;
@@ -94,7 +82,7 @@
       <ToggleAble>
         <span slot="title">Gardens</span>
         <div slot="content">
-          <GardenTools bind:showGardens bind:showSavedGardens />
+          <GardensTools bind:showGardens bind:showSavedGardens />
         </div>
       </ToggleAble>
 
@@ -108,49 +96,12 @@
       <ToggleAble>
         <span slot="title">Railway network</span>
         <div slot="content">
-          <LabeledCheckbox
-            name="transport"
-            icon={trainIcon}
-            label={'Show train network'}
-            bind:checked={showTransport}
+          <TransportTools
+            bind:showRails
+            bind:showStations
+            bind:showTransport
+            on:click={toggleTrainConnectionsModal}
           />
-
-          <div class="hide">
-            <LabeledCheckbox
-              name="rails"
-              icon={flagIcon}
-              label={'Railway track'}
-              bind:checked={showRails}
-            />
-            <LabeledCheckbox
-              name="trainStations"
-              icon={flagIcon}
-              label={'Train stations'}
-              bind:checked={showStations}
-            />
-            <div class="data-layers">
-              {#each localTrainconnectionsDataLayers as layer, i}
-                <MultiActionLabel
-                  icon={flagIcon}
-                  name={layer.id}
-                  label={layer.originStation.name}
-                  checked={layer.visible}
-                  on:change={() => {
-                    toggleVisibilityTrainconnectionsDataLayers(layer.id);
-                  }}
-                  on:secondary={() => {
-                    removeTrainconnectionsDataLayers(layer.id);
-                  }}
-                />
-              {/each}
-            </div>
-            <div class="layers-and-tools-button">
-              <Button preventing inverse xxsmall on:click={toggleTrainConnectionsModal}>
-                Find train connections
-              </Button>
-              <span class="attribution">Uses the Direkt Bahn Guru project </span>
-            </div>
-          </div>
         </div>
       </ToggleAble>
     </div>
@@ -180,8 +131,19 @@
 
     {#if isMobile}
       <GardensModal bind:show={showGardensModal} bind:showGardens bind:showSavedGardens />
-      <TrailsModal bind:show={showTrailsModal} />
-      <TransportModal bind:show={showTransportModal} />
+      <TrailsModal
+        bind:show={showTrailsModal}
+        bind:showCycling
+        bind:showHiking
+        on:click={toggleFileTrailModal}
+      />
+      <TransportModal
+        bind:show={showTransportModal}
+        bind:showRails
+        bind:showStations
+        bind:showTransport
+        on:click={toggleTrainConnectionsModal}
+      />
     {/if}
   {:else}
     <div class="layers-and-tools-visitors-container">
@@ -331,18 +293,6 @@
   .layers-and-tools-button {
     margin-top: 0.5rem;
     text-align: center;
-  }
-
-  .button-text-container {
-    display: inline-flex;
-    align-items: center;
-  }
-
-  .button-icon {
-    width: 1.4rem;
-    height: 1.4rem;
-    display: inline-block;
-    margin: 0 0.5rem 0 0.5rem;
   }
 
   .layers-and-tools-visitors-container {
