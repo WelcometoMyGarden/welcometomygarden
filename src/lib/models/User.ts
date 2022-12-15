@@ -1,5 +1,8 @@
 import { user as userStore } from '@/lib/stores/auth';
 import type { Garden } from '$lib/types/Garden';
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+type UserOverwritableProps = { [Property in keyof User]: User[Property] extends Function ? never : User[Property] }
 export class User {
   id: string;
   uid: string;
@@ -20,14 +23,15 @@ export class User {
   superfan?: boolean;
   savedGardens?: string[];
 
-  constructor(user) {
-    this.id = user.uid || user.id;
-    this.uid = user.uid || user.id;
-    this.firstName = user.firstName || user.displayName;
+  constructor(user: Partial<UserOverwritableProps> & {displayName?: string}) {
+    // TYPE TODO: choose one, id or uid
+    this.id = user.uid || user.id || '';
+    this.uid = user.uid || user.id || '';
+    this.firstName = user.firstName || user.displayName || '';
     this.lastName = user.lastName;
-    this.email = user.email;
-    this.emailVerified = user.emailVerified;
-    this.countryCode = user.countryCode;
+    this.email = user.email || '';
+    this.emailVerified = user.emailVerified || false;
+    this.countryCode = user.countryCode || '';
     this.garden = user.garden || null;
     this.emailPreferences = user.emailPreferences || null;
     this.consentedAt = user.consentedAt || null;
@@ -35,9 +39,10 @@ export class User {
     this.savedGardens = user.savedGardens || [];
   }
 
-  addFields(obj) {
+  addFields(obj: Partial<UserOverwritableProps>) {
     Object.keys(obj).forEach((prop) => {
-      this[prop] = obj[prop];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (this as any)[prop] = obj[prop as keyof UserOverwritableProps];
     });
   }
 
@@ -51,7 +56,11 @@ export class User {
   }
 
   setEmailPreferences(name: 'newChat' | 'news', pref: boolean) {
-    this.emailPreferences[name] = pref;
+    if (this.emailPreferences) {
+      this.emailPreferences[name] = pref;
+    } else {
+      this.emailPreferences = { [name]: pref }
+    }
   }
 }
 

@@ -65,7 +65,7 @@ export const addGarden = async ({
   // Copy the facilities object, converting any falsy value to false
   // TODO: is this conversion necessary?
   const facilitiesCopy = Object.fromEntries(
-    Object.entries(facilities).map((k, v) => [k, v || false])
+    Object.entries(facilities).map(([k, v]) => [k, v || false])
   );
 
   const garden = {

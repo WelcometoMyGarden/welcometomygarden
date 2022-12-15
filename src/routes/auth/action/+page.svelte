@@ -8,6 +8,8 @@
   import { verifyPasswordResetCode, applyActionCode } from '@/lib/api/auth';
 
   const mode = $page.url.searchParams.get('mode');
+  // https://firebase.google.com/docs/auth/custom-email-handler
+  // oobCode = "A one-time code, used to identify and verify a request"
   const oobCode = $page.url.searchParams.get('oobCode');
 
   if (!mode || !oobCode) {

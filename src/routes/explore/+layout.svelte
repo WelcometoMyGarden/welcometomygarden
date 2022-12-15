@@ -17,18 +17,25 @@
   import { crossIcon } from '$lib/images/icons';
   import { ZOOM_LEVELS } from '$lib/constants';
   import LayersAndTools from '@/lib/components/Map/LayersAndTools.svelte';
-  import RouteModal from '@/lib/components/Map/RouteModal.svelte';
-  import Trail from '@/lib/components/Map/Trail.svelte';
+  import FileTrailModal from '@/lib/components/Map/FileTrailModal.svelte';
+  import TrainConnectionsModal from '@/lib/components/Map/TrainConnectionsModal.svelte';
+  import FileTrails from '@/lib/components/Map/FileTrails.svelte';
   import type { Garden } from '@/lib/types/Garden';
   import { savedGardens as savedGardenStore } from '@/lib/stores/savedGardens';
+  import TrainconnectionsLayer from '@/lib/components/Map/TrainconnectionsLayer.svelte';
+  import TrainAndRails from '@/lib/components/Map/TrainAndRails.svelte';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let geolocationIsLoaded = false;
   let showHiking = false;
   let showCycling = false;
-  let showRouteModal = false;
+  let showFileTrailModal = false;
+  let showTrainConnectionsModal = false;
   let showGardens = true;
-  let showSavedGardens = false;
+  let showSavedGardens = true;
+  let showStations = false;
+  let showRails = false;
+  let showTransport = false;
   let filteredGardens: { [id: string]: Garden };
   let savedGardens = [] as string[];
   let carNoticeShown = !getCookie('car-notice-dismissed');
@@ -124,6 +131,7 @@
     {zoom}
     {applyZoom}
   >
+    <TrainAndRails {showStations} {showRails} {showTransport} />
     {#if !$isFetchingGardens}
       <GardenLayer
         {showGardens}
@@ -152,12 +160,23 @@
         </div>
       </div>
     {/if}
-    <Trail />
+    <FileTrails />
+    <TrainconnectionsLayer />
   </Map>
-  <LayersAndTools bind:showHiking bind:showCycling bind:showGardens bind:showSavedGardens />
-
+  <LayersAndTools
+    bind:showHiking
+    bind:showCycling
+    bind:showGardens
+    bind:showSavedGardens
+    bind:showStations
+    bind:showRails
+    bind:showTransport
+    bind:showFileTrailModal
+    bind:showTrainConnectionsModal
+  />
   <Filter on:goToPlace={goToPlace} bind:filteredGardens {fallbackLocation} />
-  <RouteModal bind:show={showRouteModal} />
+  <FileTrailModal bind:show={showFileTrailModal} />
+  <TrainConnectionsModal bind:show={showTrainConnectionsModal} />
 </div>
 
 <style>

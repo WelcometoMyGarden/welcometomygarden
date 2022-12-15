@@ -63,10 +63,6 @@
       hasResentEmail = false;
     }
   };
-
-  keyboardEvent.subscribe((e) => {
-    if (e?.key === 's') getUser().addFieldsAndUpdate({ superfan: !getUser().superfan });
-  });
 </script>
 
 <svelte:head>

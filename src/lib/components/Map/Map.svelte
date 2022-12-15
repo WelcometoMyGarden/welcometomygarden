@@ -1,9 +1,14 @@
+<script context="module" lang="ts">
+  export type ContextType = { getMap: () => maplibregl.Map };
+</script>
+
 <script lang="ts">
   import { setContext, onMount, tick } from 'svelte';
   import maplibregl from 'maplibre-gl';
   import key from './mapbox-context.js';
 
   import 'maplibre-gl/dist/maplibre-gl.css';
+  import { DEFAULT_MAP_STYLE } from '@/lib/constants.js';
 
   export let lat: number;
   export let lon: number;
@@ -17,8 +22,12 @@
   let container: HTMLElement;
   let map: maplibregl.Map;
   let loaded = false;
+  const customAttribution = [
+    `<a href="https://waymarkedtrails.org/" target="_blank" title="WaymarkedTrails">© Waymarked Trails</a>`,
+    `<a href="https://www.thunderforest.com" target="_blank" title="Thunderforest">© Thunderforest</a>`
+  ];
 
-  setContext(key, {
+  setContext<ContextType>(key, {
     getMap: () => map
   });
 
@@ -27,11 +36,11 @@
   onMount(() => {
     map = new maplibregl.Map({
       container,
-      style: 'mapbox://styles/mapbox/streets-v8',
+      style: DEFAULT_MAP_STYLE,
       center: [lon, lat],
       zoom,
       attributionControl: false,
-      hash: true
+      hash: false // TODO: discuss if we want this or not
     });
 
     map.addControl(
@@ -39,7 +48,9 @@
       'top-left'
     );
     map.addControl(new maplibregl.ScaleControl());
-    map.addControl(new maplibregl.AttributionControl({ compact: false }));
+    map.addControl(
+      new maplibregl.AttributionControl({ compact: false, customAttribution: customAttribution })
+    );
 
     map.on('load', () => {
       loaded = true;
