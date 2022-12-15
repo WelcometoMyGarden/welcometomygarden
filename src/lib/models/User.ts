@@ -24,6 +24,7 @@ export class User {
     seconds: number | null;
     nanoseconds: number | null;
   } | null;
+  communicationLanguage?: string;
   superfan?: boolean;
   savedGardens?: string[];
   stripeCustomerId?: string;
@@ -55,6 +56,7 @@ export class User {
     this.garden = user.garden || null;
     this.emailPreferences = user.emailPreferences || null;
     this.consentedAt = user.consentedAt || null;
+    this.communicationLanguage = user.communicationLanguage || '';
     this.superfan = user.superfan || false;
     this.savedGardens = user.savedGardens || [];
     this.stripeCustomerId = user.stripeCustomerId;
@@ -87,6 +89,7 @@ export class User {
       garden: this.garden,
       emailPreferences: this.emailPreferences ? { ...this.emailPreferences } : undefined,
       consentedAt: this.consentedAt,
+      communicationLanguage: this.communicationLanguage,
       superfan: this.superfan,
       savedGardens: this.savedGardens,
       stripeCustomerId: this.stripeCustomerId,
@@ -101,11 +104,6 @@ export class User {
     const currentUserProps = this.toJSON();
     const newProps = { ...currentUserProps, ...props };
     return new User(newProps);
-  }
-
-  addFieldsAndUpdate(obj) {
-    this.addFields(obj);
-    userStore.set(this);
   }
 
   setGarden(garden: Garden | null) {

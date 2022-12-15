@@ -127,3 +127,11 @@ export const updateSuperfan = async (superfan: boolean) => {
   tempUser.addFields({ superfan });
   user.set(tempUser);
 };
+
+export const updateCommunicationLanguage = async (lang: string) => {
+  const docRef = doc(db(), USERS_PRIVATE, getUser().id);
+  await updateDoc(docRef, { communicationLanguage: lang });
+  const tempUser = getUser();
+  tempUser.addFields({ communicationLanguage: lang });
+  user.set(tempUser);
+};

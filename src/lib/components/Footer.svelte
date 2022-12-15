@@ -88,6 +88,7 @@
     <div class="top">
       <div class="left">
         <WtmgLogo is="span" />
+        <LanguageSelector />
         <div class="socials">
           <Socials small />
         </div>
