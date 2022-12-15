@@ -79,11 +79,14 @@ export const createOrRetrieveUnpaidSubscription: HttpsCallable<CreateOrRetrieveU
   () => createOrRetrieveUnpaidSubscriptionRef
 );
 
-export const initializeFunctions = (functions: Functions) => {
-  createUserRef = httpsCallable<CreateUserRequest>(functions, 'createUser');
-  requestPasswordResetRef = httpsCallable<email>(functions, 'requestPasswordReset');
-  resendAccountVerificationRef = httpsCallable(functions, 'resendAccountVerification');
-  createStripeCustomerRef = httpsCallable(functions, 'createStripeCustomer');
-  createOrRetrieveUnpaidSubscriptionRef = httpsCallable(functions, 'createOrRetrieveUnpaidSubscription');
-  createCustomerPortalSessionRef = httpsCallable(functions, 'createCustomerPortalSession');
+export const initializeUsCentral1Functions = (usCentral1Functions: Functions) => {
+  createUserRef = httpsCallable<CreateUserRequest>(usCentral1Functions, 'createUser');
+  requestPasswordResetRef = httpsCallable<email>(usCentral1Functions, 'requestPasswordReset');
+  resendAccountVerificationRef = httpsCallable(usCentral1Functions, 'resendAccountVerification');
+};
+
+export const initializeEuropeWest1Functions = (europeWest1Functions: Functions) => {
+  createStripeCustomerRef = httpsCallable(europeWest1Functions, 'createStripeCustomer');
+  createOrRetrieveUnpaidSubscriptionRef = httpsCallable(europeWest1Functions, 'createOrRetrieveUnpaidSubscription');
+  createCustomerPortalSessionRef = httpsCallable(europeWest1Functions, 'createCustomerPortalSession');
 };
