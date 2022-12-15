@@ -41,7 +41,11 @@ exports.createOrRetrieveUnpaidSubscription = async ({ priceId }, context) => {
 
   // Find an active subscription (if any) that is already paid
   const existingValidSubscription = existingSubscriptions.data.find((sub) => {
-    return typeof sub.latest_invoice === 'object' && sub.latest_invoice.status === 'paid';
+    return (
+      sub.latest_invoice != null &&
+      typeof sub.latest_invoice !== 'string' &&
+      sub.latest_invoice.status === 'paid'
+    );
   });
 
   // Don't create a new subscription

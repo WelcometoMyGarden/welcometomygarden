@@ -136,6 +136,7 @@ firebase use wtmg-dev
   ```
 2. ensure no stray `.env.*` files are around in the `/api` dir that might confuse Firebase.
 
+Keep in mind that Stripe Webhook signing secrets are **unique to the webhook endpoint**. They will be different for local testing, staging and production environments.
 ### Deploy functions
 
 This will deploy all functions:

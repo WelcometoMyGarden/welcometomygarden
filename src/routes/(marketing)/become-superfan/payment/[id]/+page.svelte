@@ -35,7 +35,7 @@
   let elements: StripeElements;
   // payment intent client secret
   let clientSecret: string | null = null;
-  let processing: boolean = false;
+  let processingPayment: boolean = false;
   let error: StripeError | Error | null = null;
 
   let selectedLevel: SuperfanLevelData | undefined = data.params.id
@@ -47,8 +47,8 @@
   const submit = async () => {
     if (!stripe || !clientSecret) return;
     // avoid processing duplicates
-    if (processing) return;
-    processing = true;
+    if (processingPayment) return;
+    processingPayment = true;
     // confirm payment with stripe
     const { protocol, hostname, port } = document.location;
     const result = await stripe.confirmPayment({
@@ -66,10 +66,11 @@
     if (result.error) {
       // payment failed, notify user
       error = result.error;
-      processing = false;
     } else {
       // payment succeeded, wait for the user to update
     }
+    // In any case, we're done processing.
+    processingPayment = false;
   };
 
   // Subscribe to user state changes
@@ -101,14 +102,20 @@
         );
         clientSecret = data.clientSecret;
       } catch (firebaseError: any) {
-        // if (firebaseError.code && firebaseError.code === 'functions/already-exists') {
-        if (firebaseError.error && firebaseError.error.message == 'ALREADY_EXISTS') {
-          // This means we're already subscribed and no payment is due
-          // Wait until the User gets updated.
-          // TODO some kind of loading indication? Or a "processing"?
+        if (firebaseError && firebaseError.code === 'functions/already-exists') {
+          processingPayment = true;
+          // This means, in the best case, that we're already subscribed and no payment is due.
+          // Wait until the User state gets updated (there might be an issue there).
+          console.warn(
+            'Tried to recreate an existing, paid subscription.' +
+              ' Are our Stripe backend webhooks working & syncing data to Firebase?'
+          );
+          setTimeout(() => {
+            error = new Error('');
+          }, 3000)
           return;
         } else {
-          processing = false;
+          processingPayment = false;
           error = new Error('Something went wrong when loading our payments service.');
         }
       }
@@ -134,8 +141,11 @@
 {/if}
 <PaddedSection>
   {#if $user && selectedLevel && !hasActiveSubscription($user)}
+  <!-- Payment block - TODO: move into component -->
     {#if error}
       <p class="error">{error.message} Please try again.</p>
+    {:else if processingPayment}
+      <p>Processing...</p>
     {/if}
     {#if stripe && clientSecret}
       <form on:submit|preventDefault={submit}>
@@ -145,13 +155,14 @@
         <button type="submit">Pay</button>
       </form>
     {:else if !error}
-      Loading...
+      <p>Loading...</p>
     {/if}
   {:else if $user && hasActiveSubscription($user)}
+    <!-- Subscription block -->
     <!-- Show status -->
     You're subscribed!
     {#if requestedLevel && selectedLevel && requestedLevel.stripePriceId !== selectedLevel.stripePriceId}
-      We currently don't support switching to a different price from here, working on it!
+      We currently don't support switching to a different price, working on it!
     {/if}
   {:else}
     No user!

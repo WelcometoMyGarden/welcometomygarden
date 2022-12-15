@@ -111,6 +111,7 @@ export async function initialize(): Promise<void> {
   const useFunctionEmulator = import.meta.env.VITE_USE_API_EMULATOR;
   if (window && window.location.hostname.match('localhost|127.0.0.1') && useFunctionEmulator === 'true') {
     connectFunctionsEmulator(usCentral1FunctionsRef, 'localhost', 5001);
+    connectFunctionsEmulator(europeWest1FunctionsRef, 'localhost', 5001)
   }
   authRef.useDeviceLanguage();
 
