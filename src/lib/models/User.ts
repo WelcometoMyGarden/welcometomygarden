@@ -1,3 +1,4 @@
+import { user as userStore } from '@/lib/stores/auth';
 import type { Garden } from '$lib/types/Garden';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -43,6 +44,11 @@ export class User {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (this as any)[prop] = obj[prop as keyof UserOverwritableProps];
     });
+  }
+
+  addFieldsAndUpdate(obj) {
+    this.addFields(obj);
+    userStore.set(this);
   }
 
   setGarden(garden: Garden | null) {
