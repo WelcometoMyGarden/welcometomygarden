@@ -72,4 +72,9 @@
     display: inline-block;
     margin: 0 0.5rem 0 0.5rem;
   }
+
+  .layers-and-tools-button {
+    margin-top: 0.5rem;
+    text-align: center;
+  }
 </style>

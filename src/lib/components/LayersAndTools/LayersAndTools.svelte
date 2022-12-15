@@ -290,11 +290,6 @@
     text-decoration: underline;
   }
 
-  .layers-and-tools-button {
-    margin-top: 0.5rem;
-    text-align: center;
-  }
-
   .layers-and-tools-visitors-container {
     background-color: transparent;
     display: flex;
