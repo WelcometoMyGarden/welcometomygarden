@@ -1,23 +1,29 @@
-<script>
+<script lang="ts">
   import Text from './Text.svelte';
 
-  export let type = null;
-  export let href = null;
+  export let type: null | string = null;
+  export let href: null | string = null;
   export let inverse = false;
   export let uppercase = false;
   export let fit = true;
-  export let target = null;
+  export let target: null | string = null;
   export let medium = false;
   export let small = false;
   export let xsmall = false;
+  export let xxsmall = false;
   export let disabled = false;
+  export let preventing = false;
 
   import { createEventDispatcher } from 'svelte';
 
   const dispatch = createEventDispatcher();
 
-  let clicked;
-  const click = (e) => {
+  let clicked: boolean;
+  const click = (e: MouseEvent) => {
+    if (preventing) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     clicked = true;
     setTimeout(() => (clicked = false), 100);
     if (!disabled) return dispatch('click', e);
@@ -32,6 +38,7 @@
     class:fit
     class:small
     class:xsmall
+    class:xxsmall
     class:medium
     class:inverse
     class:clicked
@@ -40,7 +47,8 @@
       if (disabled) e.preventDefault();
       click(e);
     }}
-    {target}>
+    {target}
+  >
     <Text is="span">
       <slot />
     </Text>
@@ -55,9 +63,11 @@
     class:medium
     class:small
     class:xsmall
+    class:xxsmall
     class:inverse
     class:clicked
-    {type}>
+    {type}
+  >
     <Text is="span" weight="bold">
       <slot />
     </Text>
@@ -120,6 +130,10 @@
   .xsmall {
     padding: 0.6rem 0.9rem;
     font-size: 1rem;
+  }
+
+  .xxsmall {
+    padding: 0.2rem 0.4rem;
   }
 
   .fit {

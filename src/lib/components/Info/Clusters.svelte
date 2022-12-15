@@ -32,9 +32,13 @@
                 support: supportEmailLinkString,
                 donationLink: `<a href="${DONATION_URL}" target="_blank"  rel="noopener noreferrer" class="link">
                   ${$_('faq.donation')}</a>`,
-                chatLink: `<a href="${routes.CHAT}" target="_blank"  rel="noreferrer"  class="link lowercase">
+                chatLink: `<a href="${
+                  routes.CHAT
+                }" target="_blank"  rel="noreferrer"  class="link lowercase">
                   ${$_('generics.chat')}</a>`,
-                accountLink: `<a href="${routes.ACCOUNT}" target="_blank"  rel="noreferrer"  class="link lowercase">
+                accountLink: `<a href="${
+                  routes.ACCOUNT
+                }" target="_blank"  rel="noreferrer"  class="link lowercase">
                   ${$_('generics.account')}</a>`,
                 communityTranslationsLink: `<a href="${COMMUNITY_TRANSLATIONS_URL}" target="_blank"  rel="noreferrer"  class="link lowercase">
                   ${$_('faq.instruction-page')}</a>`

@@ -1,9 +1,15 @@
-const admin = require('firebase-admin');
 const functions = require('firebase-functions');
+// https://stackoverflow.com/a/69959606/4973029
+// eslint-disable-next-line import/no-unresolved
+const { getFirestore } = require('firebase-admin/firestore');
+// eslint-disable-next-line import/no-unresolved
+const { getAuth } = require('firebase-admin/auth');
 const { parseAsync } = require('json2csv');
 const sendgrid = require('@sendgrid/mail');
 
 const API_KEY = functions.config().sendgrid.key;
+const auth = getAuth();
+const db = getFirestore();
 
 const send = (msg) => sendgrid.send(msg);
 
@@ -53,6 +59,19 @@ exports.sendMessageReceivedEmail = (email, firstName, senderName, message, messa
   return send(msg);
 };
 
+exports.sendSubscriptionConfirmationEmail = (email, firstName) => {
+  const msg = {
+    to: email,
+    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    templateId: 'd-cc5be739da8f46628eeef6d23b393503',
+    dynamic_template_data: {
+      firstName
+    }
+  };
+
+  return send(msg);
+};
+
 const fail = (code, message = '') => {
   throw new functions.https.HttpsError(code, message || code);
 };
@@ -63,7 +82,7 @@ exports.exportNewsletterEmails = async (_, context) => {
   }
 
   const { uid } = context.auth;
-  const adminUser = await admin.auth().getUser(uid);
+  const adminUser = await auth.getUser(uid);
   if (!adminUser.customClaims || !adminUser.customClaims.admin) {
     return fail('permission-denied');
   }
@@ -76,8 +95,6 @@ exports.exportNewsletterEmails = async (_, context) => {
     }
     return res;
   };
-
-  const db = admin.firestore();
 
   const snapshot = await db.collection('users-private').get();
   const ids = [];
@@ -92,7 +109,7 @@ exports.exportNewsletterEmails = async (_, context) => {
   const queue = [];
   const chunks = spliceIntoChunks(ids, 90);
   chunks.forEach((chunk) => {
-    queue.push(admin.auth().getUsers(chunk));
+    queue.push(auth.getUsers(chunk));
   });
 
   const chunkedResolved = await Promise.all(queue);

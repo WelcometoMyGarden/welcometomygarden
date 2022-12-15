@@ -12,6 +12,7 @@
   import { SHOP_URL } from '$lib/constants';
   import { page } from '$app/stores';
   import { isActive, isActiveContains } from '@/lib/util/isActive';
+  import { goto } from '$app/navigation';
 
   let hamburger;
   let drawerIsShown = false;
@@ -106,7 +107,7 @@
           on:click|preventDefault={async () => {
             toggleDrawer();
             await logout();
-            window.location = '/';
+            goto(routes.HOME);
           }}
         >
           Sign out

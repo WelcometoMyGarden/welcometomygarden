@@ -4,19 +4,20 @@
   export let label: string;
   export let checked = false;
   export let disabled = false;
+  export let ellipsis = false;
 
   import Icon from './Icon.svelte';
 </script>
 
 <div>
-  <input id={name} type="checkbox" {disabled} {name} on:input bind:checked />
-  <label for={name}>
+  <input id={name} type="checkbox" {disabled} {name} on:input bind:checked on:change />
+  <label for={name} class="label">
     {#if icon}
       <div class="icon">
         <Icon {icon} />
       </div>
     {/if}
-    {label}
+    <span class:ellipsis>{label}</span>
   </label>
 </div>
 
@@ -40,10 +41,20 @@
     cursor: pointer;
   }
 
+  .label {
+    width: 100%;
+  }
+
   .icon {
     width: 2rem;
     height: 1.8rem;
     display: inline-block;
     margin: 0 0.5rem 0 0.5rem;
+  }
+
+  .ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 </style>

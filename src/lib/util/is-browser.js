@@ -8,6 +8,6 @@ export default (b) => {
         !window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification)
       ),
     firefox: typeof InstallTrigger !== 'undefined'
-  }
+  };
   return browsers[browser];
 };

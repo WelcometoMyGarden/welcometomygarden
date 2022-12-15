@@ -4,35 +4,31 @@
   import NavLink from './NavLink.svelte';
   import UserDropdown from './UserDropdown.svelte';
   import { user } from '@/lib/stores/auth';
-  import { page } from '$app/stores';
-  import {isActive} from '@/lib/util/isActive';
+  import WtmgLogo from '../../UI/WTMGLogo.svelte';
 
   $: firstName = $user ? $user.firstName : '';
 </script>
 
 <nav>
-  <a href={routes.HOME} class="title">
-    <h1>
-      {#if !isActive($page, '/')}Welcome To My Garden{/if}
-    </h1>
-  </a>
+  <WtmgLogo hideTitleWhenOnHome />
   <ul>
-    <li>
-      <NavLink href={routes.HOME} isHome>{$_('generics.home')}</NavLink>
-    </li>
     <li>
       <NavLink href={routes.MAP}>{$_('generics.map')}</NavLink>
     </li>
     <li>
       <NavLink href={routes.RULES}>{$_('generics.rules')}</NavLink>
     </li>
-    <li>
-      <NavLink href={routes.FAQ}>{$_('generics.faq.acronym')}</NavLink>
-    </li>
-    <li>
+    <!-- TODO reuse this language key in the footer -->
+    <!-- <li>
       <NavLink href={$_('index.slowby.banner.url')} target="_blank" rel="noreferrer"
         >{$_('generics.slowby')}</NavLink
       >
+    </li> -->
+    <li>
+      <NavLink href={routes.ABOUT_US}>About Us</NavLink>
+    </li>
+    <li>
+      <NavLink href={routes.BECOME_SUPERFAN} highlighted>Become a Superfan</NavLink>
     </li>
     {#if firstName}
       <UserDropdown name={firstName || ''} />
@@ -58,22 +54,6 @@
     z-index: 110;
     background-color: var(--color-white);
     box-shadow: 0 0 3.3rem rgba(0, 0, 0, 0.1);
-  }
-
-  .title {
-    display: flex;
-    align-items: center;
-    background-image: url(/images/logo-emblem.svg);
-    background-repeat: no-repeat;
-    background-position: left 40%;
-    background-size: 7rem auto;
-    height: 100%;
-  }
-
-  h1 {
-    padding-left: 8.5rem;
-    font-size: 2.3rem;
-    font-weight: 900;
   }
 
   nav > ul {
@@ -108,15 +88,6 @@
     nav > ul > li {
       margin-left: 2.8rem;
     }
-    h1 {
-      font-size: 2rem;
-      padding-left: 2rem;
-    }
-    .title {
-      background-position: left 50%;
-      background-size: 6rem auto;
-      padding-left: 6rem;
-    }
   }
 
   @media screen and (max-width: 1200px) {
@@ -125,9 +96,6 @@
     }
     nav > ul {
       padding-right: 2rem;
-    }
-    h1 {
-      display: none;
     }
   }
 

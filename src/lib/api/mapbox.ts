@@ -26,7 +26,13 @@ export const geocode = async (addressString: string) => {
   return { longitude: addressData.center[0], latitude: addressData.center[1] };
 };
 
-export const reverseGeocode = async ({ latitude, longitude }: { latitude: number; longitude: number }) => {
+export const reverseGeocode = async ({
+  latitude,
+  longitude
+}: {
+  latitude: number;
+  longitude: number;
+}) => {
   const response = await fetch(
     `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?limit=1&access_token=${VITE_MAPBOX_ACCESS_TOKEN}`,
     { headers }
@@ -40,7 +46,13 @@ export const reverseGeocode = async ({ latitude, longitude }: { latitude: number
   return address;
 };
 
-export const geocodeExtensive = async (place: string, longitude: number, latitude: number, language: string, amount: number) => {
+export const geocodeExtensive = async (
+  place: string,
+  longitude: number,
+  latitude: number,
+  language: string,
+  amount: number
+) => {
   const types = 'place,locality';
   const response = await fetch(
     `https://api.mapbox.com/geocoding/v5/mapbox.places/${place}.json?proximity=${longitude},${latitude}&limit=${amount}&types=${types}&language=${language}&access_token=${VITE_MAPBOX_ACCESS_TOKEN}`,

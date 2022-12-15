@@ -1,4 +1,3 @@
-
 Note: this uses firebase-admin version 9, that is a version before 10.
 
 [Version 10 introduced a major architecture rewrite](https://firebase.google.com/docs/admin/migrate-node-v10).
@@ -6,8 +5,6 @@ Note: this uses firebase-admin version 9, that is a version before 10.
 ## Get started
 
 ### Install
-
-Make sure you're using node v10. Then run:
 
 ```
 yarn install
@@ -19,6 +16,8 @@ Install the [Firebase CLI](https://firebaseopensource.com/projects/firebase/fire
 
 ```
 yarn global add firebase-tools
+or
+npm install -g firebase-tools
 ```
 
 Then, set up the Firebase project.
@@ -44,6 +43,9 @@ See https://firebase.google.com/docs/functions/local-emulator#set_up_functions_c
 
 ```
 firebase functions:config:get > .runtimeconfig.json
+
+# If using Windows PowerShell, replace the above with:
+# firebase functions:config:get | ac .runtimeconfig.json
 ```
 
 Will output the following, which will be picked up by the emulators:
@@ -66,6 +68,83 @@ You can replace "frontend" with the localhost URL where you are currently runnin
 
 ```
 yarn serve
+or
+npm run serve
 ```
 
+use `yarn debug` to launch an inspectable dev server.
+
 See package.json for alternative commands, as well as the `firebase` command itself.
+
+### Stripe - dev environment
+
+The Stripe integration was set up with the core ideas from this guide: [https://stripe.com/docs/billing/subscriptions/build-subscriptions?ui=elements](https://stripe.com/docs/billing/subscriptions/build-subscriptions?ui=elements), however, we're using `collection_method: 'send_invoice'` when creating subscriptions instead, and not the default auto-charge method.
+
+This changes the way that Stripe operates on subscriptions & invoices significantly, so the real code differs from the guide.
+
+Documentation is detailed and extensive, but also scattered. These additional resource may help:
+
+#### Testing the integration
+
+**Test config**
+
+Ensure the testing private secret and webhook secret are filled in `./.runtimeconfig.json`, and that the frontend has access to the publishable test key.
+
+**Set up local webhooks**
+
+Refer to the Stripe guide to set up local Stripe webhook triggers: https://stripe.com/docs/webhooks/test
+o.
+
+After having installed the CLI & logged in, refer them to function emulators:
+
+```
+stripe listen --forward-to http://127.0.0.1:5001/wtmg-dev/us-central1/stripeWebhooks
+```
+
+(the HTTP endpoint will be printed when starting the firebase dev servers)
+
+**Testing payment methods**
+
+See here for fake payment details: https://stripe.com/docs/billing/subscriptions/build-subscriptions?ui=elements&element=payment#test
+
+**Stripe config notes**
+
+- In https://dashboard.stripe.com/settings/billing/automatic, we switched "Email finalised invoices to customers" OFF (default: ON), so we can create our own copy for this email
+- We changed the rules for overdue subscriptions and invoices.
+
+
+## Deployment
+
+Use the correct environment:
+```
+firebase use wtmg-dev
+```
+
+### Set (upload) the environment variables
+
+1. [Akwardly ensure, one-by-one](https://firebase.google.com/docs/functions/config-env#deploying_multiple_sets_of_environment_variables) that your target environment has all the needed files (we should probably migrate to the new parametrized config, or [hack around it another way](](https://medium.com/@AllanHasegawa/setting-config-for-firebase-cloud-functions-with-json-136f455e7c69)))
+  ```
+  # Check what is live now
+  firebase functions:config:get
+
+  # Make changes
+  firebase functions:config:set stripe.secret_key="API KEY" stripe.webh
+  ook_secret="SECRET"
+
+  # Check if you did well
+  firebase functions:config:get
+  ```
+2. ensure no stray `.env.*` files are around in the `/api` dir that might confuse Firebase.
+
+Keep in mind that Stripe Webhook signing secrets are **unique to the webhook endpoint**. They will be different for local testing, staging and production environments.
+### Deploy functions
+
+This will deploy all functions:
+```
+firebase deploy --only functions
+```
+
+This will deploy specific functions
+```
+firebase deploy --only functions:createStripeCustomer,functions:verifyEmail
+```

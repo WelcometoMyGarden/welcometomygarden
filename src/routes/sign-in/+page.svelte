@@ -11,7 +11,6 @@
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { goto } from '$lib/util/navigate';
 
-
   let email = {};
   let password = {};
 
