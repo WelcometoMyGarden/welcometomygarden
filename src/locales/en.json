@@ -669,6 +669,61 @@
       "login-issue": "We couldn't log you in. If the problem persists, please contact {support}"
     }
   },
+  "become-superfan": {
+    "title": "Become a Superfan"
+  },
+  "about-superfan": {
+    "superfan-faq": {
+      "title": "Superfans",
+      "questions": {
+        "0": {
+          "title": "Why does Welcome To My Garden launch a superfan program?",
+          "copy": ""
+        },
+        "1": {
+          "title": "What do I get when I become a superfan?",
+          "copy": ""
+        },
+        "2": {
+          "title": "How can I decide how much I want to contribute?",
+          "copy": ""
+        },
+        "3": {
+          "title": "Is being a superfan optional or mandatory?",
+          "copy": ""
+        },
+        "5": {
+          "title": "Where does my money go?",
+          "copy": ""
+        },
+        "6": {
+          "title": "Can I stop being a superfan?",
+          "copy": ""
+        },
+        "7": {
+          "title": "For how long am I signing up?",
+          "copy": ""
+        },
+        "8": {
+          "title": "Can I also become a superfan with my organisation?",
+          "copy": ""
+        }
+      }
+    },
+    "structure-faq": {
+      "title": "Structure",
+      "questions": {
+        "0": {
+          "title": "What’s the legal structure behind WTMG?",
+          "copy": ""
+        },
+        "1": {
+          "title": "Is being a superfan for both hosts and travellers?",
+          "copy": ""
+        }
+      }
+    }
+  },
   "request-password-reset": {
     "title": "Set a new password",
     "description": "If you submit the form below, we can send you a unique link with which you can reset your password.",

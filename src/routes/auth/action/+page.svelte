@@ -39,7 +39,7 @@
       try {
         await applyActionCode(oobCode);
         notify.success($_('auth.verification.succes'), 8000);
-        return goto(`${routes.MAP}`);
+        return goto(routes.MAP);
       } catch (ex) {
         if ($user && $user.emailVerified) {
           notify.success($_('auth.verification.refresh'), 12000);

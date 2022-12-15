@@ -1,11 +1,17 @@
-<script>
-  export let is = 'p';
-  export let size = 'm';
-  export let weight = 'inherit';
+<script lang="ts">
+  // This temporarily allows us both static checking and runtime checking,
+  // until we transferred everything to TypeScript, and we don't need runimte checking anymore.
+  // https://stackoverflow.com/questions/40863488/how-can-i-iterate-over-a-custom-literal-type-in-typescript
+  const allowedSize = ['s', 'm', 'l'] as const;
+  const allowedWeight = ['inherit', 'thin', 'bold'] as const;
+  type AllowedSize = typeof allowedSize[number];
+  type AllowedWeight = typeof allowedWeight[number];
+
+  export let is: 'p' | 'span' | 'h2' = 'p';
+  export let size: AllowedSize = 'm';
+  export let weight: AllowedWeight = 'inherit';
   export let className = $$props.class || '';
 
-  const allowedSize = ['s', 'm', 'l'];
-  const allowedWeight = ['inherit', 'thin', 'bold'];
   if (!allowedSize.includes(size)) throw new Error('Size props is invalid');
   if (!allowedWeight.includes(weight)) throw new Error('Weight props is invalid');
 

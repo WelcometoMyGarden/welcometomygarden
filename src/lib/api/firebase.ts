@@ -4,8 +4,8 @@ import { getStorage, type FirebaseStorage } from 'firebase/storage';
 import { getApps, initializeApp, type FirebaseApp } from 'firebase/app';
 import { getAnalytics, type Analytics } from 'firebase/analytics';
 import { getPerformance, type FirebasePerformance } from 'firebase/performance';
-import { getFunctions, type Functions } from 'firebase/functions';
-import { initializeFunctions } from './functions';
+import { connectFunctionsEmulator, getFunctions, type Functions } from 'firebase/functions';
+import { initializeEuropeWest1Functions, initializeUsCentral1Functions } from './functions';
 
 const FIREBASE_CONFIG = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
@@ -70,8 +70,11 @@ export const db: () => Firestore = guardNull<Firestore>(() => dbRef, 'firestore'
 let authRef: Auth | null = null;
 export const auth: () => Auth = guardNull<Auth>(() => authRef, 'auth');
 
-let functionsRef: Functions | null = null;
-export const functions: () => Functions = guardNull<Functions>(() => functionsRef, 'functions');
+let usCentral1FunctionsRef: Functions | null = null;
+export const functions: () => Functions = guardNull<Functions>(() => usCentral1FunctionsRef, 'functions');
+
+let europeWest1FunctionsRef: Functions | null = null;
+export const europeWest1Functions: () => Functions = guardNull<Functions>(() => europeWest1FunctionsRef, 'functions');
 
 let storageRef: FirebaseStorage | null = null;
 export const storage: () => FirebaseStorage = guardNull<FirebaseStorage>(
@@ -97,8 +100,19 @@ export async function initialize(): Promise<void> {
   dbRef = getFirestore(appRef);
   authRef = getAuth(appRef);
   storageRef = getStorage(appRef);
-  functionsRef = getFunctions(appRef);
-  initializeFunctions(functionsRef);
+  // The default functions ref is us-central1
+  usCentral1FunctionsRef = getFunctions(appRef, 'us-central1');
+  initializeUsCentral1Functions(usCentral1FunctionsRef);
+  // Surprise surprise, we need to explicitly create a new Functions
+  // instance for any functions hosted on europe-west1
+  // https://firebase.google.com/docs/functions/beta/callable#initialize_the_client_sdk
+  europeWest1FunctionsRef = getFunctions(appRef, 'europe-west1');
+  initializeEuropeWest1Functions(europeWest1FunctionsRef);
+  const useFunctionEmulator = import.meta.env.VITE_USE_API_EMULATOR;
+  if (window && window.location.hostname.match('localhost|127.0.0.1') && useFunctionEmulator === 'true') {
+    connectFunctionsEmulator(usCentral1FunctionsRef, 'localhost', 5001);
+    connectFunctionsEmulator(europeWest1FunctionsRef, 'localhost', 5001)
+  }
   authRef.useDeviceLanguage();
 
   if (import.meta.env.PROD) addMetrics();
@@ -109,9 +123,3 @@ const addMetrics = async () => {
   performanceRef = getPerformance(app());
 };
 
-// TODO: Add emulator support :
-/*
-if (window && window.location.hostname === 'localhost' && import.meta.env.VITE_USE_API_EMULATOR) {
-  functions.useFunctionsEmulator('http://localhost:5001');
-}
- */

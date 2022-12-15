@@ -8,12 +8,14 @@
   export let isHome = false;
   export let target: string | undefined = undefined;
   export let rel: string | undefined = undefined;
+  export let highlighted: boolean | undefined = undefined;
 </script>
 
 <a
   {href}
   {rel}
   class:active={isHome ? isActive($page, '/') : isActiveContains($page, href)}
+  class:highlighted={!!highlighted}
   {target}
   on:click
 >
@@ -34,6 +36,7 @@
     text-decoration: none;
   }
 
+  /* Underline with animation when hovered/active */
   a:after {
     background: none repeat scroll 0 0 transparent;
     bottom: 0;
@@ -52,5 +55,22 @@
   a:hover:after {
     width: 100%;
     left: 0;
+  }
+
+  a.highlighted:not(.active) {
+    /*
+      This top border is a hack to keep the title centered while it is highlighted.
+      It is normally centered in the <li> around it, but pushed off center when
+      the bottom border gets added, which increases the height of the link compared ot the other links.
+      This top border "balances out" the change of the bottom border.
+
+      Approaches with `transform: translateY(1px)` are not helpful here, because they seem to
+      mess up the alignment of the active underline, which is normally
+      absolutely positioned relative to the <li> (position: relative), but becomes positioned
+      relative to the <a> itself when a transform is used.
+     */
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid var(--color-yellow);
+    transition: all 0.3s ease;
   }
 </style>

@@ -1,9 +1,4 @@
 <script lang="ts">
-  import type { LayoutData } from "./$types"
-  // SvelteKit uses this export to load data into this layout.
-  // https://kit.svelte.dev/docs/load#layout-data
-  export let data: LayoutData;
-
   import '$lib/styles/reset.css';
   import '$lib/styles/global.css';
 
@@ -20,13 +15,17 @@
   import registerLocales from '@/locales/register';
   import { onDestroy, onMount } from 'svelte';
   import { init, isLoading as isLocaleLoading, locale } from 'svelte-i18n';
+  import { updateCommunicationLanguage } from '@/lib/api/user';
 
   registerLocales();
 
   locale.subscribe((value) => {
     if (value == null) return;
     // if running in the client, save the language preference in a cookie
-    if (typeof window !== 'undefined') setCookie('locale', value, { path: '/' });
+    if (typeof window !== 'undefined') {
+      setCookie('locale', value, { path: '/' });
+      if (user) updateCommunicationLanguage(value);
+    }
   });
 
   let unsubscribeFromAuthObserver: () => void;
@@ -41,6 +40,9 @@
       unsubscribeFromChatObserver = await createChatObserver(tempUser.uid);
 
     if (unsubscribeFromChatObserver && !tempUser) unsubscribeFromChatObserver();
+
+    if (tempUser && !tempUser.communicationLanguage && $locale)
+      updateCommunicationLanguage($locale);
   });
 
   onMount(async () => {
