@@ -1,8 +1,10 @@
 <script lang="ts">
+  export let id: string;
   export let name: string;
   export let icon: null | string = null;
   export let label: string;
-  export let checked = false;
+  export let group: string;
+  export let value: string;
   export let disabled = false;
   export let ellipsis = false;
 
@@ -10,14 +12,14 @@
 </script>
 
 <div>
-  <input id={name} type="checkbox" {disabled} {name} on:input bind:checked on:change />
-  <label for={name} class="label">
+  <label>
+    <input {id} type="radio" {disabled} {name} {value} bind:group on:input on:change />
     {#if icon}
       <div class="icon">
         <Icon {icon} />
       </div>
     {/if}
-    <span class:ellipsis>{label}</span>
+    <span class="label" class:ellipsis>{label}</span>
   </label>
 </div>
 
@@ -39,9 +41,6 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-  }
-
-  .label {
     width: 100%;
   }
 
@@ -50,6 +49,10 @@
     height: 1.8rem;
     display: inline-block;
     margin: 0 0.5rem 0 0.5rem;
+  }
+
+  .label {
+    width: 100%;
   }
 
   .ellipsis {

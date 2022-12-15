@@ -25,17 +25,21 @@
   };
 
   const addTrail = (geoJson: SourceData, id: string) => {
-    const bboxBounds = <[number, number, number, number]>bbox(geoJson);
-    map.fitBounds(bboxBounds, {
-      padding: {
-        top: 150,
-        bottom: 150,
-        left: 50,
-        right: 50
-      },
-      maxZoom: ZOOM_LEVELS.ROAD,
-      linear: true
-    });
+    try {
+      const bboxBounds = <[number, number, number, number]>bbox(geoJson).slice(0, 4);
+      map.fitBounds(bboxBounds, {
+        padding: {
+          top: 150,
+          bottom: 150,
+          left: 50,
+          right: 50
+        },
+        maxZoom: ZOOM_LEVELS.ROAD,
+        linear: true
+      });
+    } catch (error) {
+      console.error(error);
+    }
 
     if (map.getSource(id)) {
       map.getSource(id).setData(geoJson);

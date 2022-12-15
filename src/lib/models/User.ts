@@ -1,8 +1,11 @@
+import { user as userStore } from '@/lib/stores/auth';
 import type { Garden } from '$lib/types/Garden';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-type UserOverwritableProps = { [Property in keyof User]: User[Property] extends Function ? never : User[Property] }
-type UserProps = Partial<UserOverwritableProps> & { displayName?: string }
+type UserOverwritableProps = {
+  [Property in keyof User]: User[Property] extends Function ? never : User[Property];
+};
+type UserProps = Partial<UserOverwritableProps> & { displayName?: string };
 
 export class User {
   id: string;
@@ -25,13 +28,20 @@ export class User {
   savedGardens?: string[];
   stripeCustomerId?: string;
   stripeSubscription?: {
-    id: string,
-    priceId: string,
+    id: string;
+    priceId: string;
     // https://stripe.com/docs/api/subscriptions/object#subscription_object-status
-    status: 'active' | 'past_due' | 'unpaid' | 'canceled' | 'incomplete' | 'incomplete_expired' | 'trialing'
+    status:
+      | 'active'
+      | 'past_due'
+      | 'unpaid'
+      | 'canceled'
+      | 'incomplete'
+      | 'incomplete_expired'
+      | 'trialing';
     // https://stripe.com/docs/api/invoices/object#invoice_object-status
-    latestInvoiceStatus: 'draft' | 'open' | 'paid' | 'uncollectible' | 'void',
-  }
+    latestInvoiceStatus: 'draft' | 'open' | 'paid' | 'uncollectible' | 'void';
+  };
 
   constructor(user: UserProps) {
     // TYPE TODO: choose one, id or uid
@@ -75,13 +85,13 @@ export class User {
       emailVerified: this.emailVerified,
       countryCode: this.countryCode,
       garden: this.garden,
-      emailPreferences: this.emailPreferences ? {...this.emailPreferences } : undefined,
+      emailPreferences: this.emailPreferences ? { ...this.emailPreferences } : undefined,
       consentedAt: this.consentedAt,
       superfan: this.superfan,
       savedGardens: this.savedGardens,
       stripeCustomerId: this.stripeCustomerId,
-      stripeSubscription: this.stripeSubscription ? {...this.stripeSubscription} : undefined
-    }
+      stripeSubscription: this.stripeSubscription ? { ...this.stripeSubscription } : undefined
+    };
   }
 
   /**
@@ -89,10 +99,14 @@ export class User {
    */
   copyWith(props: Partial<UserProps>) {
     const currentUserProps = this.toJSON();
-    const newProps = {...currentUserProps, ...props};
+    const newProps = { ...currentUserProps, ...props };
     return new User(newProps);
   }
 
+  addFieldsAndUpdate(obj) {
+    this.addFields(obj);
+    userStore.set(this);
+  }
 
   setGarden(garden: Garden | null) {
     this.garden = garden;
@@ -102,7 +116,7 @@ export class User {
     if (this.emailPreferences) {
       this.emailPreferences[name] = pref;
     } else {
-      this.emailPreferences = { [name]: pref }
+      this.emailPreferences = { [name]: pref };
     }
   }
 }

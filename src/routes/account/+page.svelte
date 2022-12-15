@@ -81,7 +81,7 @@
 {#if $user}
   <div class="wrapper">
     <div class="avatar">
-      <Avatar large name={$user.firstName} />
+      <Avatar large name={$user.firstName} border={!!$user.superfan} />
     </div>
     <div class="content">
       <section class="user-information">
