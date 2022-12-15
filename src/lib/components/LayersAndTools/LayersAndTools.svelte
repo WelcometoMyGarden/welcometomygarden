@@ -43,11 +43,16 @@
   export let showFileTrailModal: boolean;
   export let showTrainConnectionsModal: boolean;
   let gardensGroup: 'ALL' | 'SAVED' | 'HIDE' = 'ALL';
-  let showSuperfanInfo = !getCookie('superfan-dismissed');
+  let showSuperfanInfo = true;
 
   let innerWidth: number;
   let isMobile = false;
   $: isMobile = innerWidth <= 700;
+
+  $: {
+    if (isMobile) showSuperfanInfo = !getCookie('superfan-dismissed');
+    else showSuperfanInfo = true;
+  }
 
   $: superfan = $user?.superfan;
 
