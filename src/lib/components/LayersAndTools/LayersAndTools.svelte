@@ -9,8 +9,6 @@
     flagIcon,
     hikerIcon,
     routesIcon,
-    tentIcon,
-    tentNoIcon,
     tentWhiteIcon,
     trainIcon,
     trainWhiteIcon
@@ -30,11 +28,10 @@
   import MultiActionLabel from '@/lib/components/UI/MultiActionLabel.svelte';
   import { cleanName } from '@/lib/util/slugify';
   import Icon from '@/lib/components/UI/Icon.svelte';
-  import Badge from '@/lib/components/UI/Badge.svelte';
-  import { goto } from '@/lib/util/navigate';
   import routes from '@/lib/routes';
-  import { fade, fly } from 'svelte/transition';
+  import { fly } from 'svelte/transition';
   import IconButton from '@/lib/components/UI/IconButton.svelte';
+  import { getCookie, setCookie } from '@/lib/util';
 
   export let showHiking = false;
   export let showCycling = false;
@@ -45,9 +42,12 @@
   export let showTransport: boolean;
   export let showFileTrailModal: boolean;
   export let showTrainConnectionsModal: boolean;
-  let showSuperfanInfo = true;
-
   let gardensGroup: 'ALL' | 'SAVED' | 'HIDE' = 'ALL';
+  let showSuperfanInfo = !getCookie('superfan-dismissed');
+
+  let innerWidth: number;
+  let isMobile = false;
+  $: isMobile = innerWidth <= 700;
 
   $: superfan = $user?.superfan;
 
@@ -88,13 +88,21 @@
     showFileTrailModal = !showFileTrailModal;
   };
 
-  const gotoSuperfan = (e: Event) => {
-    e.preventDefault();
-    e.stopPropagation();
-    goto(routes.SIGN_IN);
+  const toggleSuperfanInfo = (e: Event) => {
+    if (showSuperfanInfo) closeSuperfanInfo();
+    else showSuperfanInfo = !showSuperfanInfo;
+  };
+
+  const closeSuperfanInfo = (_?: any) => {
+    const date = new Date();
+    const days = 1 / 24 / 60;
+    date.setTime(date.getTime() + days * 86400000); //24 * 60 * 60 * 1000
+    setCookie('superfan-dismissed', true, { expires: date.toGMTString() });
+    showSuperfanInfo = false;
   };
 </script>
 
+<svelte:window bind:innerWidth />
 <div class="layers-and-tools">
   {#if superfan}
     <div class="layers-and-tools-superfan">
@@ -270,12 +278,12 @@
           })}
         </span>
       </div>
-      {#if showSuperfanInfo}
+      {#if showSuperfanInfo && !isMobile}
         <!-- out:fly|local={{ x: -260, duration: 2000 }} -->
         <div class="layers-and-tools-visitors-superfan" in:fly={{ x: -260, duration: 2000 }}>
           <button
             class="button-container layers-and-tools-visitors-close"
-            on:click|preventDefault|stopPropagation={() => (showSuperfanInfo = !showSuperfanInfo)}
+            on:click|preventDefault|stopPropagation={toggleSuperfanInfo}
           >
             <Icon icon={crossIcon} />
           </button>
@@ -289,14 +297,14 @@
           <div>
             <Text size="m" weight="thin">
               Upload your own routes, save gardens, see train connections & more by
-              <a on:click={gotoSuperfan}>becoming a superfan</a>.
+              <a href={routes.BECOME_SUPERFAN} class="underline">becoming a superfan</a>.
             </Text>
           </div>
         </div>
       {:else}
         <button
           class="button-container layers-and-tools-visitors-icons"
-          on:click|preventDefault|stopPropagation={() => (showSuperfanInfo = !showSuperfanInfo)}
+          on:click|preventDefault|stopPropagation={toggleSuperfanInfo}
         >
           <Icon icon={trainIcon} />
           <Icon icon={bookmarkIcon} />
@@ -306,6 +314,30 @@
     </div>
   {/if}
 </div>
+
+{#if showSuperfanInfo && isMobile}
+  <div class="superfan-notice-wrapper">
+    <button on:click={closeSuperfanInfo} aria-label="Close notice" class="button-container close">
+      <Icon icon={crossIcon} />
+    </button>
+    <div class="superfan-notice">
+      <div class="title">
+        <div class="badge"><Text size="m" weight="bold">NEW</Text></div>
+        <h3>Plan Better</h3>
+      </div>
+      <div class="text">
+        <Text size="m" weight="thin">
+          Upload your own routes, save gardens, see train connections & more by
+          <a href={routes.BECOME_SUPERFAN} class="underline">becoming a superfan</a>.
+        </Text>
+      </div>
+
+      <div>
+        <Button href={routes.BECOME_SUPERFAN} medium uppercase>Become a superfan</Button>
+      </div>
+    </div>
+  </div>
+{/if}
 
 <style>
   :root {
@@ -421,7 +453,7 @@
 
     display: inline-flex;
     align-items: center;
-    border-radius: 1rem;
+    border-radius: 0.7rem;
     box-sizing: border-box;
     padding: 0.4rem 0.6rem;
     font-size: 1.4rem;
@@ -431,7 +463,7 @@
     padding-left: 1rem;
   }
 
-  .layers-and-tools-visitors-superfan a {
+  a.underline {
     text-decoration: underline;
     cursor: pointer;
   }
@@ -469,6 +501,124 @@
 
     .layers-and-tools-superfan-mobile {
       display: flex;
+    }
+  }
+
+  /* notice */
+
+  .superfan-notice-wrapper {
+    width: 45rem;
+    height: 30rem;
+    box-shadow: 0px 0px 21.5877px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: var(--height-footer);
+    left: 0;
+    background-color: var(--color-white);
+    border-radius: 0.6rem;
+    z-index: 20;
+  }
+
+  .superfan-notice {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+    font-family: var(--fonts-copy);
+    width: 100%;
+    height: 100%;
+  }
+
+  .superfan-notice .title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .superfan-notice .badge {
+    color: var(--color-white);
+    background-color: var(--color-green);
+
+    display: inline-flex;
+    align-items: center;
+    border-radius: 0.7rem;
+    box-sizing: border-box;
+    padding: 0.2rem 0.3rem;
+    font-size: 1.4rem;
+  }
+
+  .superfan-notice h3 {
+    margin-left: 1rem;
+    font-size: 1.8rem;
+    line-height: 1.4;
+    text-transform: uppercase;
+    position: relative;
+    font-weight: 900;
+  }
+
+  .superfan-notice .title::after {
+    content: '';
+    width: 20rem;
+    position: absolute;
+    bottom: -1rem;
+    left: calc(50% - 10rem);
+    height: 0.4rem;
+    background: var(--color-orange-light);
+    border-radius: 0.5rem;
+  }
+
+  .superfan-notice .title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .superfan-notice .text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+  }
+
+  .close {
+    width: 3.6rem;
+    height: 3.6rem;
+    position: absolute;
+    right: 1.2rem;
+    top: 1.2rem;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  @media screen and (max-width: 700px) {
+    .superfan-notice-wrapper {
+      top: 2rem;
+      left: calc(50% - 22.5rem);
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .superfan-notice-wrapper {
+      width: 90%;
+      left: 5%;
+      height: 24rem;
+    }
+
+    .superfan-notice {
+      padding: 3rem 2rem 1rem;
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    .superfan-notice-wrapper {
+      height: 28rem;
     }
   }
 </style>
