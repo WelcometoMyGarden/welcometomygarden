@@ -26,3 +26,7 @@ export { default as markerIcon } from './marker.svg';
 export { default as bookmarkIcon } from './bookmark.svg';
 export { default as arrowRightIcon } from './arrow-right.svg';
 export { default as emailIcon } from './email.svg';
+export { default as uploadCloudIcon } from './upload-cloud.svg';
+export { default as tentNoIcon } from './tent-no.svg';
+export { default as trainIcon } from './train.svg';
+export { default as routesIcon } from './routes.svg';

@@ -1,3 +1,4 @@
+import { user as userStore } from '@/lib/stores/auth';
 import type { Garden } from '$lib/types/Garden';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
