@@ -17,5 +17,6 @@ export default {
   RULES: '/info/rules',
   SIGN_IN: '/sign-in',
   SUPERFAN_PAYMENT: '/become-superfan/payment',
-  TERMS_OF_USE: '/terms/terms-of-use'
+  TERMS_OF_USE: '/terms/terms-of-use',
+  SUPERFAN_THANK_YOU: '/become-superfan/thank-you'
 };

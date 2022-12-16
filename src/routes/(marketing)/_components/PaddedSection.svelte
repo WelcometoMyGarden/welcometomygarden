@@ -45,5 +45,11 @@
     .desktopOnly .inner {
       padding: 0;
     }
+
+    /* On mobile, there is no nav bar.
+       The margin of the first section is then usually weird. */
+    section.outer:first-child {
+      margin-top: 0;
+    }
   }
 </style>
