@@ -871,6 +871,11 @@
       "hiking": "Show hiking routes",
       "cycling": "Show cycling routes",
       "attribution": "Trails courtesy of {link}"
+    },
+    "superfan-notice": {
+      "title": "New features for Superfans",
+      "linkText": "become a Superfan",
+      "description": "Upload routes, save gardens, see train connections & more when you {linkText}!"
     }
   },
   "terms-of-use": {

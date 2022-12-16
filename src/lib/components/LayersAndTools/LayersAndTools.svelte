@@ -26,6 +26,7 @@
   import TransportModal from '@/lib/components/LayersAndTools/TransportModal.svelte';
   import TrailsTool from '@/lib/components/LayersAndTools/TrailsTool.svelte';
   import TransportTools from '@/lib/components/LayersAndTools/TransportTools.svelte';
+  import capitalize from '@/lib/util/capitalize';
 
   export let showHiking = false;
   export let showCycling = false;
@@ -182,16 +183,20 @@
             <Icon icon={crossIcon} />
           </button>
           <div class="title">
-            <div class="badge"><Text size="s" weight="bold">NEW</Text></div>
             <div class="text">
-              <Text size="m" weight="bold">Plan Better</Text>
+              <Text size="m" weight="bold">{$_('map.superfan-notice.title')}</Text>
             </div>
             <span />
           </div>
           <div>
             <Text size="m" weight="thin">
-              Upload your own routes, save gardens, see train connections & more by
-              <a href={routes.BECOME_SUPERFAN} class="underline">becoming a superfan</a>.
+              {@html $_('map.superfan-notice.description', {
+                values: {
+                  linkText: `<a class="underline" href="${routes.BECOME_SUPERFAN}">${$_(
+                    'map.superfan-notice.linkText'
+                  )}`
+                }
+              })}
             </Text>
           </div>
         </div>
@@ -216,22 +221,22 @@
     </button>
     <div class="superfan-notice">
       <div class="title">
-        <div class="badge"><Text size="m" weight="bold">NEW</Text></div>
-        <h3>Plan Better</h3>
+        <h3>{$_('map.superfan-notice.title')}</h3>
       </div>
       <div class="text">
         <Text size="m" weight="thin">
-          Upload your own routes, save gardens, see train connections & more by
-          {#if isMobile}
-            becoming a superfan
-          {:else}
-            <a href={routes.BECOME_SUPERFAN} class="underline">becoming a superfan</a>.
-          {/if}
+          {@html $_('map.superfan-notice.description', {
+            values: {
+              linkText: $_('map.superfan-notice.linkText')
+            }
+          })}
         </Text>
       </div>
 
       <div>
-        <Button href={routes.BECOME_SUPERFAN} medium uppercase>Become a superfan</Button>
+        <Button href={routes.BECOME_SUPERFAN} medium uppercase
+          >{capitalize($_('map.superfan-notice.linkText'))}</Button
+        >
       </div>
     </div>
   </div>
@@ -333,27 +338,11 @@
     justify-content: flex-start;
   }
 
-  .layers-and-tools-visitors-superfan .badge {
-    color: var(--color-white);
-    background-color: var(--color-green);
-
-    display: inline-flex;
-    align-items: center;
-    border-radius: 0.7rem;
-    box-sizing: border-box;
-    padding: 0.4rem 0.6rem;
-    font-size: 1.4rem;
-  }
-
-  .layers-and-tools-visitors-superfan .title .text {
-    padding-left: 1rem;
-  }
-
   .layers-and-tools-visitors-superfan :global(.text) {
-    max-width: 34rem;
+    max-width: 27rem;
   }
 
-  a.underline {
+  .layers-and-tools :global(a.underline) {
     text-decoration: underline;
     cursor: pointer;
   }
@@ -430,18 +419,6 @@
     position: relative;
   }
 
-  .superfan-notice .badge {
-    color: var(--color-white);
-    background-color: var(--color-green);
-
-    display: inline-flex;
-    align-items: center;
-    border-radius: 0.7rem;
-    box-sizing: border-box;
-    padding: 0.2rem 0.3rem;
-    font-size: 1.4rem;
-  }
-
   .superfan-notice h3 {
     margin-left: 1rem;
     font-size: 1.8rem;
@@ -451,6 +428,7 @@
     font-weight: 900;
   }
 
+  /* Underline bar */
   .superfan-notice .title::after {
     content: '';
     width: 20rem;
