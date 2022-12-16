@@ -690,12 +690,7 @@
         },
         "3": {
           "title": "What do I get when I become a Superfan?",
-          "copy": "As a Superfan, you will get access to some great new slow travel tools! These will make planning your slow travel adventures even easier. This is our way to say thank you for believing in us. Here they are:
-                  <ul>
-                  <li>Train layer: with the train layer on, you can easily see the rail network on the map!</li>
-                  <li>Upload your route: upload your own GPX file and easily find gardens along your route.</li>
-                  <li>Save gardens: keep track of your favourite gardens and stay in touch with the amazing hosts you’ve met!</li>
-                  </ul>"
+          "copy": "As a Superfan, you will get access to some great new slow travel tools! These will make planning your slow travel adventures even easier. This is our way to say thank you for believing in us. Here they are: <ul> <li>Train layer: with the train layer on, you can easily see the rail network on the map!</li> <li>Upload your route: upload your own GPX file and easily find gardens along your route.</li> <li>Save gardens: keep track of your favourite gardens and stay in touch with the amazing hosts you’ve met!</li> </ul>"
         },
         "5": {
           "title": "How much do I need to contribute to become a Superfan?",
@@ -720,7 +715,7 @@
         "10": {
           "title": "Can I stop being a Superfan?",
           "copy": "Yes, any time you want. As soon as you’ve become a Superfan, you can manage your yearly Superfan subscription on <a href={accountLink}>your WTMG account page</a>."
-        },
+        }
       }
     },
     "hosts-faq": {
@@ -729,7 +724,7 @@
         "0": {
           "title": "I’m a host. Should I become a Superfan?",
           "copy": "First of all, we’re so happy that you’re welcoming slow travellers in your garden! WTMG wouldn’t exist without warm-hearted citizens like you. If you want to become a Superfan and support us on our mission to make slow travel more accessible, we’d be very happy about that. But we want to stress that you’re already making a huge contribution as a host!"
-        },
+        }
       }
     },
     "structure-faq": {
