@@ -66,7 +66,7 @@
   };
 
   let formError = '';
-  
+
   const submit = async () => {
     const errors = Object.keys(fields).reduce((all, field) => {
       const error = fields[field].validate(fields[field].value);
@@ -102,15 +102,15 @@
     }
   };
 
-  const cookiePolicy = `<a class="link" href=${
-    routes.COOKIE_POLICY
-  } target="_blank"  rel="noreferrer" >${$_('generics.cookie-policy').toLocaleLowerCase()}</a>`;
-  const privacyPolicy = `<a class="link" href=${
-    routes.PRIVACY_POLICY
-  } target="_blank"  rel="noreferrer" >${$_('generics.privacy-policy').toLocaleLowerCase()}</a>`;
-  const termsOfUse = `<a class="link" href=${
-    routes.TERMS_OF_USE
-  } target="_blank"  rel="noreferrer" >${$_('generics.terms-of-use').toLocaleLowerCase()}</a>`;
+  const cookiePolicy = `<a class="link" href=${routes.COOKIE_POLICY} target="_blank" >${$_(
+    'generics.cookie-policy'
+  ).toLocaleLowerCase()}</a>`;
+  const privacyPolicy = `<a class="link" href=${routes.PRIVACY_POLICY} target="_blank">${$_(
+    'generics.privacy-policy'
+  ).toLocaleLowerCase()}</a>`;
+  const termsOfUse = `<a class="link" href=${routes.TERMS_OF_USE} target="_blank">${$_(
+    'generics.terms-of-use'
+  ).toLocaleLowerCase()}</a>`;
 </script>
 
 <svelte:head>

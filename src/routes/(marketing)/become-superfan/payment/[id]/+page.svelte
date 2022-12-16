@@ -112,7 +112,7 @@
           );
           setTimeout(() => {
             error = new Error('');
-          }, 3000)
+          }, 3000);
           return;
         } else {
           processingPayment = false;
@@ -141,7 +141,7 @@
 {/if}
 <PaddedSection>
   {#if $user && selectedLevel && !hasActiveSubscription($user)}
-  <!-- Payment block - TODO: move into component -->
+    <!-- Payment block - TODO: move into component -->
     {#if error}
       <p class="error">{error.message} Please try again.</p>
     {:else if processingPayment}

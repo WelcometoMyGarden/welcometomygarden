@@ -10,8 +10,8 @@
     "build:staging": "vite build --mode staging",
     "preview": "vite preview",
     "test": "playwright test",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "check": "svelte-kit sync && svelte-check --compiler-warnings 'security-anchor-rel-noreferrer:ignore' --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --compiler-warnings 'security-anchor-rel-noreferrer:ignore' --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
     "format": "prettier --plugin-search-dir . --write ."
   },
@@ -19,7 +19,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mapbox/geojsonhint": "^3.1.0",
     "@playwright/test": "1.25.0",
     "@stripe/stripe-js": "^1.46.0",
     "@sveltejs/adapter-static": "^1.0.0-next.48",

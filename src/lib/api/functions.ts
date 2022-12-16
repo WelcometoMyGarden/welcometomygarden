@@ -36,48 +36,55 @@ export const resendAccountVerification: HttpsCallable = wrapCallable(
 // These are just the fields we're interested in
 // https://stripe.com/docs/api/customers/create
 type CreateStripeCustomerResponse = {
-  id: string,
-  object: string,
-  description: string,
-  name: string,
+  id: string;
+  object: string;
+  description: string;
+  name: string;
   metadata: {
-    wtmg_id?: string
-  }
-}
+    wtmg_id?: string;
+  };
+};
 let createStripeCustomerRef: HttpsCallable<unknown, CreateStripeCustomerResponse> | null = null;
-export const createStripeCustomer: HttpsCallable<unknown, CreateStripeCustomerResponse> = wrapCallable(
-  () => createStripeCustomerRef
-);
+export const createStripeCustomer: HttpsCallable<unknown, CreateStripeCustomerResponse> =
+  wrapCallable(() => createStripeCustomerRef);
 
 // These are just the fields we're interested in
 // https://stripe.com/docs/api/customers/create
 type CreateCustomerPortalSessionResponse = {
-  id: string,
-  object: string,
-  return_url: string,
-  url: string,
-}
-let createCustomerPortalSessionRef: HttpsCallable<unknown, CreateCustomerPortalSessionResponse> | null = null;
-export const createCustomerPortalSession: HttpsCallable<unknown, CreateCustomerPortalSessionResponse> = wrapCallable(
-  () => createCustomerPortalSessionRef
-);
+  id: string;
+  object: string;
+  return_url: string;
+  url: string;
+};
+let createCustomerPortalSessionRef: HttpsCallable<
+  unknown,
+  CreateCustomerPortalSessionResponse
+> | null = null;
+export const createCustomerPortalSession: HttpsCallable<
+  unknown,
+  CreateCustomerPortalSessionResponse
+> = wrapCallable(() => createCustomerPortalSessionRef);
 
 type CreateOrRetrieveUnpaidSubscriptionRequest = {
   // Price ID of the subscription to create
-  priceId: string
-}
+  priceId: string;
+};
 
 type CreateOrRetrieveUnpaidSubscriptionResponse = {
-  subscriptionId: string,
+  subscriptionId: string;
   // Payment intent client secret for the first invoice,
   // can be used to load a Stripe embedded payment module
-  clientSecret: string
-}
+  clientSecret: string;
+};
 
-let createOrRetrieveUnpaidSubscriptionRef: HttpsCallable<CreateOrRetrieveUnpaidSubscriptionRequest, CreateOrRetrieveUnpaidSubscriptionResponse> | null = null;
-export const createOrRetrieveUnpaidSubscription: HttpsCallable<CreateOrRetrieveUnpaidSubscriptionRequest, CreateOrRetrieveUnpaidSubscriptionResponse> = wrapCallable(
-  () => createOrRetrieveUnpaidSubscriptionRef
-);
+let createOrRetrieveUnpaidSubscriptionRef: HttpsCallable<
+  CreateOrRetrieveUnpaidSubscriptionRequest,
+  CreateOrRetrieveUnpaidSubscriptionResponse
+> | null = null;
+export const createOrRetrieveUnpaidSubscription: HttpsCallable<
+  CreateOrRetrieveUnpaidSubscriptionRequest,
+  CreateOrRetrieveUnpaidSubscriptionResponse
+> = wrapCallable(() => createOrRetrieveUnpaidSubscriptionRef);
 
 export const initializeUsCentral1Functions = (usCentral1Functions: Functions) => {
   createUserRef = httpsCallable<CreateUserRequest>(usCentral1Functions, 'createUser');
@@ -87,6 +94,12 @@ export const initializeUsCentral1Functions = (usCentral1Functions: Functions) =>
 
 export const initializeEuropeWest1Functions = (europeWest1Functions: Functions) => {
   createStripeCustomerRef = httpsCallable(europeWest1Functions, 'createStripeCustomer');
-  createOrRetrieveUnpaidSubscriptionRef = httpsCallable(europeWest1Functions, 'createOrRetrieveUnpaidSubscription');
-  createCustomerPortalSessionRef = httpsCallable(europeWest1Functions, 'createCustomerPortalSession');
+  createOrRetrieveUnpaidSubscriptionRef = httpsCallable(
+    europeWest1Functions,
+    'createOrRetrieveUnpaidSubscription'
+  );
+  createCustomerPortalSessionRef = httpsCallable(
+    europeWest1Functions,
+    'createCustomerPortalSession'
+  );
 };

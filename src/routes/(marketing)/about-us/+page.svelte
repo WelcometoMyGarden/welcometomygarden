@@ -54,7 +54,7 @@
     </p>
   </MarketingBlock>
 </PaddedSection>
-<PaddedSection vertical>
+<PaddedSection>
   <div class="profiles">
     {#each coreTeamProfiles as item}
       <Profile {...item}>
@@ -75,7 +75,7 @@
       of the platform and believed in it from the start!
     </Text>
   </div>
-  <div class="profiles">
+  <div class="profiles contributors">
     {#each contributorProfiles as item}
       <Profile {...item}>
         {@html item.introHtml}
@@ -91,6 +91,14 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 6rem;
+  }
+
+  .profiles.contributors {
+    gap: 1rem;
+  }
+
+  .profiles.contributors :global(.text) {
+    max-width: 20rem;
   }
 
   div.profiles :global(.profile) {

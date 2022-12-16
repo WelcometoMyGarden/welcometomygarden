@@ -25,7 +25,7 @@
 
   div.image-wrapper {
     width: 100%;
-    max-width: 9rem;
+    max-width: 12rem;
     margin-bottom: 1rem;
   }
 

@@ -9,10 +9,9 @@
   import Icon from '@/lib/components/UI/Icon.svelte';
   import { crossIcon, uploadCloudIcon } from '@/lib/images/icons';
   import Text from '@/lib/components/UI/Text.svelte';
-  import { cleanName, readableSlugify, removeFileExtension } from '@/lib/util/slugify';
+  import { cleanName } from '@/lib/util/slugify';
   import { humanFileSize } from '@/lib/util/humanFileSize';
   import notification from '@/lib/stores/notification';
-  import { hint } from '@mapbox/geojsonhint';
 
   export let show = false;
   let files: File[] = [];
@@ -41,9 +40,6 @@
       if (VALID_FILETYPE_EXTENSIONS.includes(extension)) {
         try {
           const geoJson = await fileToGeoJson(file);
-          const hints = hint(geoJson);
-          if (hints.length !== 0 || geoJson.features?.length == 0)
-            throw new Error('Invalid GeoJSON');
 
           addFileDataLayers({
             name: file.name,

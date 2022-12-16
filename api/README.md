@@ -112,39 +112,44 @@ See here for fake payment details: https://stripe.com/docs/billing/subscriptions
 - In https://dashboard.stripe.com/settings/billing/automatic, we switched "Email finalised invoices to customers" OFF (default: ON), so we can create our own copy for this email
 - We changed the rules for overdue subscriptions and invoices.
 
-
 ## Deployment
 
 Use the correct environment:
+
 ```
 firebase use wtmg-dev
 ```
 
 ### Set (upload) the environment variables
 
-1. [Akwardly ensure, one-by-one](https://firebase.google.com/docs/functions/config-env#deploying_multiple_sets_of_environment_variables) that your target environment has all the needed files (we should probably migrate to the new parametrized config, or [hack around it another way](](https://medium.com/@AllanHasegawa/setting-config-for-firebase-cloud-functions-with-json-136f455e7c69)))
-  ```
-  # Check what is live now
-  firebase functions:config:get
+1. [Akwardly ensure, one-by-one](https://firebase.google.com/docs/functions/config-env#deploying_multiple_sets_of_environment_variables) that your target environment has all the needed files (we should probably migrate to the new parametrized config, or [hack around it another way](<](https://medium.com/@AllanHasegawa/setting-config-for-firebase-cloud-functions-with-json-136f455e7c69)>))
 
-  # Make changes
-  firebase functions:config:set stripe.secret_key="API KEY" stripe.webh
-  ook_secret="SECRET"
+```
+# Check what is live now
+firebase functions:config:get
 
-  # Check if you did well
-  firebase functions:config:get
-  ```
+# Make changes
+firebase functions:config:set stripe.secret_key="API KEY" stripe.webh
+ook_secret="SECRET"
+
+# Check if you did well
+firebase functions:config:get
+```
+
 2. ensure no stray `.env.*` files are around in the `/api` dir that might confuse Firebase.
 
 Keep in mind that Stripe Webhook signing secrets are **unique to the webhook endpoint**. They will be different for local testing, staging and production environments.
+
 ### Deploy functions
 
 This will deploy all functions:
+
 ```
 firebase deploy --only functions
 ```
 
 This will deploy specific functions
+
 ```
 firebase deploy --only functions:createStripeCustomer,functions:verifyEmail
 ```

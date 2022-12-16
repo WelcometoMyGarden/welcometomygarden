@@ -1,6 +1,6 @@
-import staticAssetUrl from "@/lib/util/staticAssetUrl";
-import type { ComponentProps } from "svelte";
-import type Profile from "../_components/Profile.svelte";
+import staticAssetUrl from '@/lib/util/staticAssetUrl';
+import type { ComponentProps } from 'svelte';
+import type Profile from '../_components/Profile.svelte';
 
 const driesImg = staticAssetUrl('/profile-pictures/dries.png');
 const manonImg = staticAssetUrl('/profile-pictures/manon.png');
@@ -46,4 +46,3 @@ export const coreTeamProfiles: ProfileData[] = [
       'Janneke loves words and is absolutely amazing with them. As soon as she read about WTMG, she immediately suggested there should be a Facebook page and has been taking care of our communication ever since! She is head over heels in love with Romania; she wrote a guidebook about it, bought a house there, and founded Roamaniac.'
   }
 ];
-

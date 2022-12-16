@@ -16,12 +16,12 @@ export type Garden = {
 
 export type UserPrivate = {
   emailPreferences?: {
-    newChat?: boolean,
-    news?: boolean,
-  },
-  lastName?: string,
-  stripeCustomerId?: string
-}
+    newChat?: boolean;
+    news?: boolean;
+  };
+  lastName?: string;
+  stripeCustomerId?: string;
+};
 
 type latLng = {
   latitude: number;

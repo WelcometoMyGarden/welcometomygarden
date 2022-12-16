@@ -2,7 +2,7 @@
   import staticAssetUrl from '@/lib/util/staticAssetUrl';
 </script>
 
-<video controls src={staticAssetUrl('/Superfans_V3.mp4')} />
+<video controls src={staticAssetUrl('/Superfans_latest.mp4')} />
 
 <style>
   video {

@@ -80,17 +80,12 @@
     on:click-outside={handleClickOutsideDrawer}
   >
     <li>
-      <a
-        href={$_('index.slowby.banner.url')}
-        on:click={toggleDrawer}
-        target="_blank"
-        rel="noreferrer">{$_('generics.slowby')}</a
+      <a href={$_('index.slowby.banner.url')} on:click={toggleDrawer} target="_blank"
+        >{$_('generics.slowby')}</a
       >
     </li>
     <li>
-      <a href={SHOP_URL} on:click={toggleDrawer} target="_blank" rel="noreferrer"
-        >{$_('generics.shop')}</a
-      >
+      <a href={SHOP_URL} on:click={toggleDrawer} target="_blank">{$_('generics.shop')}</a>
     </li>
     {#each linksInDrawer as { route, name } (route)}
       <li>
@@ -128,12 +123,12 @@
   }
 
   :global(body) {
-    --height-nav: 9rem;
+    --height-mobile-nav: 7rem;
   }
 
   nav {
     width: 100%;
-    height: var(--height-nav);
+    height: var(--height-mobile-nav);
     position: fixed;
     bottom: 0;
     left: 0;

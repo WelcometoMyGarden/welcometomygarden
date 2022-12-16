@@ -7,8 +7,10 @@
 
 <PaddedSection>
   <div class="wrapper">
-    <h2 class="partner-header heading-underline-center">{$_('index.partners.title')}</h2>
-    <p>These partners helped us get going and believed in Welcome To My Garden right from the start!</p>
+    <h2>{$_('index.partners.title')}</h2>
+    <p>
+      These partners helped us get going and believed in Welcome To My Garden right from the start!
+    </p>
     <div class="partner-logos">
       {#each partners as { name, logo, link } (name)}
         <Partner {name} {logo} {link} />
@@ -29,8 +31,8 @@
     justify-content: center;
     flex-wrap: wrap;
     width: 100%;
+    gap: 2rem;
   }
-
 
   .partner-logos :global(.partner-link) {
     flex: 0 1;

@@ -38,6 +38,7 @@ npx playwright install
 ```
 
 To check if your code won't have compilation issues in production, do a production build locally and preview the result:
+
 ```
 yarn build:prod
 yarn preview

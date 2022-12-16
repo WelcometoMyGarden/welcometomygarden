@@ -11,7 +11,6 @@
   {/each}
 </div>
 
-
 <style>
   div {
     display: flex;
@@ -26,4 +25,3 @@
     }
   }
 </style>
-

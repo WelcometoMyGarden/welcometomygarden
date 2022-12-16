@@ -8,7 +8,7 @@
 
 <footer>
   <div class="socials">
-    <Socials />
+    <Socials small />
   </div>
   <ul class="terms">
     <li>
@@ -21,22 +21,27 @@
       <a href={routes.TERMS_OF_USE}>{$_('generics.terms-of-use')}</a>
     </li>
     <li>
-      <a href={SHOP_URL} target="_blank" rel="noreferrer">{$_('generics.shop')}</a>
+      <a href={SHOP_URL} target="_blank">{$_('generics.shop')}</a>
     </li>
   </ul>
   <LanguageSelector />
 </footer>
 
 <style>
+  /* Use CSS specificity to override the height */
+  :global(div.app.active-explore) {
+    --height-footer: 4.5rem;
+  }
+
   footer {
     height: var(--height-footer);
     width: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
+    padding: 0 1rem;
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
-    padding-top: 1rem;
   }
 
   .terms {

@@ -8,14 +8,23 @@
   export let is: Option = 'section';
 </script>
 
-<svelte:element this={is} class:desktopOnly class:vertical style:background-color={backgroundColor}>
+<svelte:element
+  this={is}
+  class="outer"
+  class:desktopOnly
+  class:vertical
+  style:background-color={backgroundColor}
+>
   <div class="inner">
     <slot />
   </div>
 </svelte:element>
 
 <style>
-  div.inner {
+  .outer {
+    margin: 6rem 0;
+  }
+  .inner {
     padding-left: 6rem;
     padding-right: 6rem;
     margin: auto;
@@ -27,7 +36,7 @@
     padding-bottom: 6rem;
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 700px) {
     .inner {
       padding: 0 2rem;
     }

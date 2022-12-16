@@ -30,7 +30,7 @@
   <title>{$_('account.title')} | Welcome To My Garden</title>
 </svelte:head>
 
-<PaddedSection>
+<PaddedSection desktopOnly>
   <MarketingBlock backgroundColor="var(--color-green-light)" centered>
     <h1>Support WTMG: become a Superfan!</h1>
     <p>

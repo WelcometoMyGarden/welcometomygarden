@@ -3,28 +3,62 @@
 </script>
 
 <div class="wrapper">
+  <div class="heading">
+    <slot name="heading" />
+  </div>
   <div class="text">
-    <slot />
+    <slot name="text" />
   </div>
   <div class="video"><Video /></div>
 </div>
 
 <style>
-  div.wrapper {
+  .wrapper {
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 3rem;
+    /* display: flex; */
+    display: grid;
+
+    /* flex-direction: row;
+    align-items: center; */
+    column-gap: 3rem;
+    row-gap: 0.5rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
   }
 
-  div.text {
+  .text {
+    grid-column: 1;
+    grid-row: 2;
     flex: 1;
-    max-width: 46%;
+    max-width: 500px;
+    margin: 2rem 0;
   }
 
-  div.video {
-    flex: 1;
-    height: 60%;
+  .video {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+
+  @media only screen and (max-width: 1000px) {
+    .wrapper {
+      /* Change to to a simple row grid */
+      grid-template-rows: auto auto auto;
+      grid-template-columns: 100%;
+      row-gap: 1rem;
+      justify-items: center;
+    }
+
+    .heading {
+      grid-row: 1;
+    }
+    .video {
+      grid-row: 2;
+      grid-column: 1;
+    }
+    .text {
+      grid-row: 3;
+      width: 100%;
+    }
   }
 </style>

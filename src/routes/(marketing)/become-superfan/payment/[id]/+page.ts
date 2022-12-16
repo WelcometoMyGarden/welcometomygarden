@@ -4,4 +4,4 @@ export const load: PageLoad = function load({ params }) {
   return {
     params
   };
-}
+};
