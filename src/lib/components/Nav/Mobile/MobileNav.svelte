@@ -58,7 +58,7 @@
 </nav>
 
 <style>
-  @media screen and (min-width: 700) {
+  @media screen and (min-width: 700px) {
     nav {
       display: none;
     }

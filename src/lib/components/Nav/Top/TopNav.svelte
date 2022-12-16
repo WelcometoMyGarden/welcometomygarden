@@ -42,8 +42,7 @@
         <NavLink href={routes.ABOUT_US}>About Us</NavLink>
       </li>
       <li>
-        <NavLink href={routes.BECOME_SUPERFAN} highlighted>{$_('generics.become-superfan')}</NavLink
-        >
+        <NavLink href={routes.ABOUT_SUPERFAN} highlighted>{$_('generics.become-superfan')}</NavLink>
       </li>
       {#if firstName}
         <UserDropdown name={firstName || ''} />

@@ -2,6 +2,7 @@
   export let desktopOnly: boolean | undefined = undefined;
   export let vertical: boolean | undefined = undefined;
   export let backgroundColor: string | undefined = undefined;
+  export let id: string | undefined = undefined;
 
   const elementOptions = ['section', 'footer'] as const;
   type Option = typeof elementOptions[number];
@@ -14,6 +15,7 @@
   class:desktopOnly
   class:vertical
   style:background-color={backgroundColor}
+  {id}
 >
   <div class="inner">
     <slot />
@@ -22,18 +24,18 @@
 
 <style>
   .outer {
-    margin: 6rem 0;
+    margin: var(--section-inner-padding) 0;
   }
   .inner {
-    padding-left: 6rem;
-    padding-right: 6rem;
+    padding-left: var(--section-inner-padding);
+    padding-right: var(--section-inner-padding);
     margin: auto;
     max-width: 1200px;
   }
 
   .vertical {
-    padding-top: 6rem;
-    padding-bottom: 6rem;
+    padding-top: var(--section-inner-padding);
+    padding-bottom: var(--section-inner-padding);
   }
 
   @media only screen and (max-width: 700px) {

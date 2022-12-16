@@ -13,7 +13,7 @@
   import type { Slide } from '../_components/Testimonials.svelte';
   import { coreTeamProfiles } from '../_static/profiles';
   import ProfilePicture from '../_components/ProfilePicture.svelte';
-  import { SUPPORT_EMAIL } from '@/lib/constants';
+  import { SUPERFAN_PRICING_ROUTE, SUPPORT_EMAIL } from '@/lib/constants';
 
   const testimonials: Slide[] = [
     {
@@ -59,7 +59,7 @@
         into something bigger. It’s clear that WTMG is here to stay, and we want to make sure we can
         survive as well as thrive. And that’s where you come in!
       </p>
-      <Button href={routes.BECOME_SUPERFAN}>Become a Superfan</Button>
+      <Button href={SUPERFAN_PRICING_ROUTE}>Become a Superfan</Button>
     </div>
   </InnerVideoSection>
 </PaddedSection>
@@ -71,13 +71,14 @@
     to say thank you for believing in us.
   </p>
   <Features />
+  <div style="width: 100%; padding-bottom: var(--section-inner-padding)" />
   <Heading caption="WTMG for everyone">Thanks to your support, we can...</Heading>
   <!-- TODO: change content -->
   <SupportReasons />
-  <Button href={routes.BECOME_SUPERFAN}>Become a Superfan</Button>
+  <Button href={SUPERFAN_PRICING_ROUTE}>Become a Superfan</Button>
 </PaddedSection>
 <PaddedSection desktopOnly>
-  <MarketingBlock centered backgroundColor="var(--color-beige-light" )>
+  <MarketingBlock centered backgroundColor="var(--color-beige-light">
     <div class="team-pictures">
       {#each coreTeamProfiles as profileData}
         <div class="image-wrapper"><ProfilePicture {...profileData} /></div>

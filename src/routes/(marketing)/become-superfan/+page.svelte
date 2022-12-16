@@ -3,7 +3,6 @@
   import { user } from '@/lib/stores/auth';
   import { goto } from '$app/navigation';
   import enterHandler from '@/lib/util/keyhandlers';
-  import SuperfanLevel from '@/routes/(marketing)/_components/SuperfanLevel.svelte';
   import routes from '@/lib/routes';
   import MarketingBlock from '@/routes/(marketing)/_components/MarketingBlock.svelte';
   import Features from '../_sections/Features.svelte';
@@ -11,19 +10,30 @@
   import Heading from '../_components/Heading.svelte';
   import SupportReasons from '../_sections/SupportReasons.svelte';
   import { superfanLevels, type SuperfanLevelData } from '../_static/superfan-levels';
+  import { onMount } from 'svelte';
+  import smoothscroll from 'smoothscroll-polyfill';
+  import SuperfanLevel from '../_components/SuperfanLevel.svelte';
 
-  const selectLevel = (level: SuperfanLevelData) => {
+  const selectLevel = async (level: SuperfanLevelData) => {
     if (!user) {
-      return goto(routes.SIGN_IN);
+      return await goto(routes.SIGN_IN);
     }
-
-    return goto(`${routes.SUPERFAN_PAYMENT}/${level.id}`);
+    return await goto(`${routes.SUPERFAN_PAYMENT}/${level.slug}`);
   };
 
   const handleKeyPress = (event: CustomEvent<KeyboardEvent>, item: SuperfanLevelData) => {
     const handler = enterHandler(() => selectLevel(item));
     handler(event.detail);
   };
+
+  onMount(() => {
+    // Allow to skip to the pricing section
+    smoothscroll.polyfill();
+    if (window.location.hash.endsWith('pricing')) {
+      const pricingElem = document.getElementById('pricing');
+      window.scroll({ top: pricingElem?.offsetTop });
+    }
+  });
 </script>
 
 <svelte:head>
@@ -45,7 +55,7 @@
   <Features />
 </PaddedSection>
 
-<PaddedSection backgroundColor="var(--color-beige-light)" vertical>
+<PaddedSection backgroundColor="var(--color-beige-light)" vertical id="pricing">
   <Heading caption="Open pricing">
     Choose the price that fits you best
     <p>
@@ -75,5 +85,11 @@
     justify-content: center;
     gap: 2rem;
     width: 100%;
+  }
+
+  @media screen and (max-width: 850px) {
+    .superfan-levels {
+      flex-direction: column;
+    }
   }
 </style>

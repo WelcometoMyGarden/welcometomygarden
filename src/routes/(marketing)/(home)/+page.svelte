@@ -4,7 +4,6 @@
   import CollapsibleGroup from '$lib/components/CollapsibleGroup.svelte';
   import { Button } from '$lib/components/UI';
 
-  import SlowbyBanner from '$lib/components/Temporary/SlowbyBanner.svelte';
   import PaddedSection from '../_components/PaddedSection.svelte';
   import MarketingBlock from '../_components/MarketingBlock.svelte';
   import VideoSection from '../_sections/VideoSection.svelte';
@@ -58,7 +57,7 @@
           make WTMG survive and thrive? Become a Superfan and get access to new features!
         </p>
         <div class="become-superfan-buttons">
-          <Button href={routes.BECOME_SUPERFAN}>Become a superfan</Button>
+          <Button href={routes.ABOUT_SUPERFAN}>Become a superfan</Button>
           <Button href={routes.ABOUT_SUPERFAN} inverse>Learn more</Button>
         </div>
       </div>

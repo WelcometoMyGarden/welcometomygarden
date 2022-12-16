@@ -19,7 +19,7 @@
 <style>
   div {
     padding: 4rem;
-    border-radius: 24px;
+    border-radius: var(--tile-border-radius);
     display: flex;
     gap: 1rem;
     flex-direction: column;

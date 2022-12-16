@@ -54,6 +54,8 @@
   * Units
   */
   --marketing-block-border-radius: 3rem;
+  --tile-border-radius: 2.2rem;
+  --section-inner-padding: 6rem;
 }
 
 .mb-l {

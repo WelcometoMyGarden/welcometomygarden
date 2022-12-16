@@ -20,5 +20,5 @@ export const getSubLevelFromUser = (user: User) => {
 };
 
 export const getSubLevelBySlug = (slug: string) => {
-  return superfanLevels.find((level) => level.id === slug);
+  return superfanLevels.find((level) => level.slug === slug);
 };

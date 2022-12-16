@@ -1,3 +1,5 @@
+import routes from './routes';
+
 export const SUPPORT_EMAIL = 'support@welcometomygarden.org';
 export const mailToSupportHref = `mailto:${SUPPORT_EMAIL}`;
 export const emailAsLink = `<a class="link" href="${mailToSupportHref}">${SUPPORT_EMAIL}</a>`;
@@ -26,3 +28,7 @@ export const ICON_SIZE = [
   ZOOM_LEVELS.ROAD,
   0.4
 ];
+
+export const SUPERFAN_PRICING_ROUTE = `${routes.BECOME_SUPERFAN}#pricing`;
+
+export const IMAGES_PATH = '/images';
