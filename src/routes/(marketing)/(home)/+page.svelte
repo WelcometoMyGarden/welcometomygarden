@@ -39,8 +39,6 @@
   <title>{$_('generics.home')} | Welcome To My Garden</title>
 </svelte:head>
 
-<SlowbyBanner />
-
 <LandingSection />
 <LearnMoreArrow />
 <StepsSection />

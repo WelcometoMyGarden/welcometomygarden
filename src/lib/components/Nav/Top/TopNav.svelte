@@ -32,6 +32,7 @@
         <NavLink href={routes.RULES}>{$_('generics.rules')}</NavLink>
       </li>
       <!-- TODO reuse this language key in the footer -->
+      <!-- But create a new key -->
       <!-- <li>
       <NavLink href={$_('index.slowby.banner.url')} target="_blank" rel="noreferrer"
         >{$_('generics.slowby')}</NavLink
