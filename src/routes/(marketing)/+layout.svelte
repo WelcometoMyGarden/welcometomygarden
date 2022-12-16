@@ -69,6 +69,15 @@
     color: var(--color-green);
   }
 
+  div :global(.oh3) {
+    font-size: 1em;
+    font-family: var(--fonts-copy);
+    line-height: normal;
+    font-weight: 600;
+    color: var(--color-green);
+    margin-bottom: 0;
+  }
+
   div :global(.caption) {
     /* font-family: 'Montserrat'; */
     font-style: normal;
@@ -111,6 +120,7 @@
       line-height: 180%;
       text-align: center;
     }
+
     div :global(h3),
     div :global(.mh3) {
       font-size: 1.8rem;

@@ -20,7 +20,7 @@
 
   const categories: Category[] = [
     {
-      title: 'Welcome To My Garen',
+      title: 'Welcome To My Garden',
       links: [
         {
           title: 'Map',
@@ -88,7 +88,7 @@
     <div class="top">
       <div class="left">
         <WtmgLogo is="span" />
-        <LanguageSelector />
+        <div class="language-selector"><LanguageSelector /></div>
         <div class="socials">
           <Socials small />
         </div>
@@ -150,6 +150,10 @@
     /* TODO better, reusable color variable */
     border-bottom: 1px solid grey;
     padding-bottom: 4rem;
+    gap: 2rem;
+  }
+
+  .language-selector {
   }
 
   .bottom {
@@ -163,12 +167,13 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    flex: 1;
+    flex: 1 2;
   }
 
   /* Override WTMG logo height */
   .left :global(.title) {
     height: 4rem;
+    display: inline-block;
   }
 
   .terms {
@@ -193,18 +198,25 @@
   }
 
   .socials {
-    width: 25rem;
+    width: 18rem;
+  }
+
+  .socials :global(ul.socials) {
+    justify-content: space-between;
   }
 
   .right {
     display: flex;
+    flex: 1 1;
     gap: 7rem;
   }
 
   .category > .title {
     display: inline-block;
     font-weight: bold;
+    line-height: 130%;
     margin-bottom: 1rem;
+    min-width: 14rem;
   }
 
   .links {
