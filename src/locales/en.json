@@ -19,7 +19,9 @@
     "sign-in": "Sign in",
     "garden": "Garden",
     "shop": "Shop",
-    "slowby": "Secret Trips"
+    "slowby": "Secret Trips",
+    "about-us": "About Us",
+    "become-superfan": "Become a Superfan"
   },
   "ui": {
     "card": {

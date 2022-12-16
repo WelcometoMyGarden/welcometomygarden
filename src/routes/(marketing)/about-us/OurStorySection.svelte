@@ -61,6 +61,12 @@
           </span>
         </li>
       </ul>
+      <p>
+        The most meaningful and memorable experiences happen when we take our time to explore and
+        engage with our surroundings. With WTMG, we want to help you do just that. Together, we can
+        make the world a better place – by travelling more slowly and more sustainably. Will you
+        join the ride?
+      </p>
     </div>
     <img class="bigger-picture" src={hosts} alt="Two hosts holding a WTMG sign." />
   </div>
