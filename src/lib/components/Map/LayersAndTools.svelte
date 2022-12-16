@@ -299,12 +299,10 @@
     bottom: 0;
     left: 0;
     position: absolute;
-    /* height: var(--layers-and-tools-height); */
   }
 
   .layers-and-tools-superfan {
     background-color: rgba(255, 255, 255, 0.9);
-    width: 26rem;
     padding: 1rem;
   }
 
@@ -312,6 +310,8 @@
     font-size: 1.2rem;
     margin-top: 1rem;
     display: inline-block;
+    white-space: nowrap;
+    padding-right: 0.5rem;
   }
 
   .attribution :global(a) {
@@ -339,23 +339,21 @@
     background-color: transparent;
     display: flex;
     flex-direction: row;
+    align-items: stretch;
     width: 100%;
-    height: 9rem;
     position: relative;
   }
 
   .layers-and-tools-visitors {
     background-color: rgba(255, 255, 255, 0.9);
-    width: 26rem;
     padding: 1rem;
     z-index: 10;
   }
 
   .layers-and-tools-visitors-superfan {
     background-color: var(--color-superfan-yellow);
-    width: 26rem;
     padding: 1rem;
-
+    width: 26rem;
     display: flex;
     flex-direction: column;
     z-index: 9;
@@ -394,6 +392,7 @@
     background-color: var(--color-superfan-yellow);
 
     display: flex;
+    flex: 1;
     flex-direction: column;
     align-items: center;
     padding: 0.8rem;
@@ -404,6 +403,7 @@
     flex-grow: 1;
     width: 1.4rem;
     height: 1.4rem;
+    margin: 0.4rem 0;
   }
 
   .layers-and-tools-visitors-close {

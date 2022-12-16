@@ -131,6 +131,9 @@
 </PaddedSection>
 
 <style>
+  :global(body) {
+    --height-footer: 18rem;
+  }
   .wrapper {
     width: 100%;
     display: flex;
@@ -211,8 +214,12 @@
   }
 
   @media screen and (max-width: 700px) {
-    .wrapper {
+    /* Disable the footer on the map */
+    :global(body footer) {
       display: none;
+    }
+    :global(body) {
+      --footer-height: 0px;
     }
   }
 </style>

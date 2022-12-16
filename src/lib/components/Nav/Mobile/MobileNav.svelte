@@ -123,12 +123,12 @@
   }
 
   :global(body) {
-    --height-nav: 9rem;
+    --height-mobile-nav: 7rem;
   }
 
   nav {
     width: 100%;
-    height: var(--height-nav);
+    height: var(--height-mobile-nav);
     position: fixed;
     bottom: 0;
     left: 0;

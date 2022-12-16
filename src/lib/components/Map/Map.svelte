@@ -95,4 +95,11 @@
     width: 100%;
     height: 100%;
   }
+
+  div :global(.maplibregl-canvas-container) {
+    height: 100%;
+  }
+  div :global(canvas) {
+    height: 100%;
+  }
 </style>

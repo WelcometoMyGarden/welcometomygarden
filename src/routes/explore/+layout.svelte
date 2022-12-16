@@ -182,14 +182,14 @@
 <style>
   .map-section {
     width: 100%;
-    height: calc(calc(var(--vh, 1vh) * 100) - var(--height-footer));
+    height: calc((var(--vh, 1vh) * 100) - var(--height-footer) - var(--height-nav));
     position: fixed;
-    top: 0;
+    top: var(--height-nav);
     left: 0;
   }
 
   .map-section :global(.mapboxgl-ctrl-top-left) {
-    top: calc(var(--height-nav) + 0.5rem);
+    top: calc(0.5rem);
   }
 
   .vehicle-notice-wrapper {
@@ -261,7 +261,8 @@
 
   @media screen and (max-width: 700px) {
     .map-section {
-      height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
+      height: calc(100vh - var(--height-mobile-nav));
+      top: 0;
     }
     .map-section :global(.mapboxgl-ctrl-top-left) {
       top: 1rem;

@@ -16,6 +16,10 @@
   import { onDestroy, onMount } from 'svelte';
   import { init, isLoading as isLocaleLoading, locale } from 'svelte-i18n';
   import { updateCommunicationLanguage } from '@/lib/api/user';
+  import MinimalFooter from '@/lib/components/MinimalFooter.svelte';
+  import { isActiveContains } from '@/lib/util/isActive';
+  import routes from '$lib/routes';
+  import { page } from '$app/stores';
 
   registerLocales();
 
@@ -81,7 +85,7 @@
 
 <svelte:window on:resize={updateViewportHeight} on:keyup={onCustomPress} />
 
-<div class="app" style="--vh:{vh}">
+<div class="app active-{$page?.route?.id?.substring(1).split('/')[0]}" style="--vh:{vh}">
   {#if browser}
     <Progress active={$isInitializing || $isLocaleLoading} />
     <Notifications />
@@ -92,14 +96,16 @@
     <main>
       <slot />
     </main>
-    <Footer />
+    {#if isActiveContains($page, routes.MAP)}
+      <MinimalFooter />
+    {:else}
+      <Footer />
+    {/if}
   {/if}
 </div>
 
 <style>
   .app {
-    --height-nav: 7rem;
-    --height-footer: 18rem;
     width: 100%;
     height: 100%;
     position: relative;
@@ -107,7 +113,6 @@
   }
 
   main {
-    /* min-height: calc(100% - var(--height-footer)); */
     min-height: calc(100vh - var(--height-nav) - var(--height-footer));
     width: 100%;
     overflow: hidden;
@@ -121,8 +126,8 @@
     }
 
     main {
-      min-height: calc(100% - var(--height-nav));
-      padding-bottom: calc(var(--height-nav));
+      min-height: calc(100vh - var(--height-mobile-nav));
+      padding-bottom: calc(var(--height-mobile-nav));
     }
   }
 </style>

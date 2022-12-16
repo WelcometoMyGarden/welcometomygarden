@@ -17,24 +17,24 @@
       iconFileName: 'facebook.svg'
     },
     {
+      name: 'LinkedIn',
+      link: 'https://www.linkedin.com/company/welcometomygarden/',
+      iconFileName: 'linkedin.svg'
+    },
+    {
       name: 'Instagram',
       link: 'https://www.instagram.com/welcometomygarden_org/',
-      // TODO replace icon
-      iconFileName: 'facebook.svg'
+      iconFileName: 'instagram.svg'
     },
     {
-      name: 'Twitter',
-      // TODO do we even have a twitter for?
-      link: 'https://twitter.com/slowbytravel',
-      // TODO replace icon
-      iconFileName: 'facebook.svg'
+      name: 'GitHub',
+      link: 'https://github.com/WelcometoMyGarden/welcometomygarden',
+      iconFileName: 'github.svg'
     },
     {
-      name: 'LinkedIn',
-      // TODO do we even have a twitter handle for WTMG?
-      link: 'https://www.linkedin.com/company/welcometomygarden/',
-      // TODO replace icon
-      iconFileName: 'facebook.svg'
+      name: 'Slack',
+      link: 'https://join.slack.com/t/welcometomygarden/shared_invite/zt-f31i37dj-_zFgnfe40B6EexJuB2f_~w',
+      iconFileName: 'slack.svg'
     }
   ];
 </script>
@@ -55,11 +55,11 @@
   </li> -->
   <!-- <li>
     <a
-      href="https://join.slack.com/t/welcometomygarden/shared_invite/zt-f31i37dj-_zFgnfe40B6EexJuB2f_~w"
+      href=""
       target="_blank"
       rel="noreferrer"
     >
-      <img src="/images/icons/slack.svg" alt="Slack" />
+      <img src="" alt="Slack" />
     </a>
   </li> -->
   <!-- Todo: remove mail icon? -->
