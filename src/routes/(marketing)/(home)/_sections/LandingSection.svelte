@@ -12,7 +12,7 @@
     <div class="welcome-logo">
       {@html Logo}
     </div>
-    <h1 class="heading-underline-center">Welcome To My Garden</h1>
+    <h1 class="oh1 heading-underline-center">Welcome To My Garden</h1>
     <p class="welcome-text">{$_('index.intro.copy')}</p>
     <div class="welcome-buttons">
       <!-- User is not logged in -->

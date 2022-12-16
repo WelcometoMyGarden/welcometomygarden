@@ -36,7 +36,7 @@
   ];
 </script>
 
-<PaddedSection>
+<PaddedSection desktopOnly>
   <MarketingBlock backgroundColor="var(--color-green-light)" centered>
     <h1>Superfans keep us going</h1>
     <p>
@@ -46,19 +46,21 @@
 </PaddedSection>
 <PaddedSection>
   <InnerVideoSection>
-    <h1>Why become a Superfan</h1>
-    <p>
-      If you are truly passionate about slow travel and you want to support WTMG’s mission, then
-      perhaps you should become a Superfan! With your financial support, we can make WTMG
-      financially stable and keep it free for everyone to use! You pay only what you can afford.
-    </p>
-    <p>
-      We’re a small team of five and have invested a lot of our personal time, energy and money in
-      this initiative. We started off as a small citizen initiative in Belgium, but we are growing
-      into something bigger. It’s clear that WTMG is here to stay, and we want to make sure we can
-      survive as well as thrive. And that’s where you come in!
-    </p>
-    <Button href={routes.BECOME_SUPERFAN}>Become a Superfan</Button>
+    <h1 slot="heading">Why become a Superfan</h1>
+    <div slot="text">
+      <p>
+        If you are truly passionate about slow travel and you want to support WTMG’s mission, then
+        perhaps you should become a Superfan! With your financial support, we can make WTMG
+        financially stable and keep it free for everyone to use! You pay only what you can afford.
+      </p>
+      <p>
+        We’re a small team of five and have invested a lot of our personal time, energy and money in
+        this initiative. We started off as a small citizen initiative in Belgium, but we are growing
+        into something bigger. It’s clear that WTMG is here to stay, and we want to make sure we can
+        survive as well as thrive. And that’s where you come in!
+      </p>
+      <Button href={routes.BECOME_SUPERFAN}>Become a Superfan</Button>
+    </div>
   </InnerVideoSection>
 </PaddedSection>
 <PaddedSection backgroundColor="var(--color-beige-light)" vertical>

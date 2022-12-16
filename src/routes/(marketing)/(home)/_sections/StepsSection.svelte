@@ -14,7 +14,7 @@
       <div class="step-logo">
         {@html stepGraphics[i]}
       </div>
-      <h2 class="step-header">
+      <h2 class="oh2 step-header">
         {$_(`index.steps.${key}.title`)}
       </h2>
       <p class="step-text">

@@ -47,20 +47,22 @@
 <PaddedSection desktopOnly>
   <MarketingBlock backgroundColor="var(--color-beige-light)">
     <VideoSection>
-      <HeadingSection caption="New: support our mission"
+      <HeadingSection slot="heading" caption="New: support our mission"
         >Support WTMG: become a Superfan!</HeadingSection
       >
-      <p>
-        Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Like
-        any garden, WTMG needs nurturing in order to grow and stay healthy.
-      </p>
-      <p>
-        With your financial support, WTMG can remain free for everyone to use! Will you help us make
-        WTMG survive and thrive? Become a Superfan and get access to new features!
-      </p>
-      <div>
-        <Button href={routes.BECOME_SUPERFAN}>Become a superfan</Button>
-        <Button href={routes.ABOUT_SUPERFAN} inverse>Learn more</Button>
+      <div slot="text">
+        <p>
+          Welcome To My Garden is on a mission to make slow travel more accessible for everyone.
+          Like any garden, WTMG needs nurturing in order to grow and stay healthy.
+        </p>
+        <p>
+          With your financial support, WTMG can remain free for everyone to use! Will you help us
+          make WTMG survive and thrive? Become a Superfan and get access to new features!
+        </p>
+        <div class="become-superfan-buttons">
+          <Button href={routes.BECOME_SUPERFAN}>Become a superfan</Button>
+          <Button href={routes.ABOUT_SUPERFAN} inverse>Learn more</Button>
+        </div>
       </div>
     </VideoSection>
   </MarketingBlock>
@@ -68,11 +70,10 @@
 <PaddedSection desktopOnly>
   <Testimonials slides={testimonials} />
 </PaddedSection>
-
 <PaddedSection desktopOnly>
   <div class="faq" id="faq">
     <div class="card faq-intro">
-      <h1 class="heading-underline-center">{$_('index.faq.title')}</h1>
+      <h2 class="oh1 heading-underline-center">{$_('index.faq.title')}</h2>
       <p>
         {@html $_('index.faq.copy', {
           values: {
@@ -92,6 +93,11 @@
     font-weight: bold;
     text-decoration: underline;
     color: var(--color-orange);
+  }
+
+  .become-superfan-buttons {
+    display: flex;
+    gap: 1.5rem;
   }
 
   .card p {
@@ -114,7 +120,7 @@
     width: 50%;
     display: flex;
   }
-  .faq-intro h1 {
+  .faq-intro h2 {
     color: var(--color-white);
   }
 
@@ -165,6 +171,10 @@
   @media only screen and (max-width: 500px) {
     .faq-intro {
       padding: 4rem 4rem 6rem;
+    }
+
+    .become-superfan-buttons {
+      flex-direction: column;
     }
   }
 

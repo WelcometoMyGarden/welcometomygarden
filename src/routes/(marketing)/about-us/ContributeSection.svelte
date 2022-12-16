@@ -1,6 +1,7 @@
 <script lang="ts">
   import ContributeBlock from './ContributeBlock.svelte';
   import Text from '$lib/components/UI/Text.svelte';
+  import PaddedSection from '../_components/PaddedSection.svelte';
 
   const blocks = [
     {
@@ -18,13 +19,15 @@
   ].map((b, index) => ({ ...b, number: '' + (index + 1) }));
 </script>
 
-<div class="how-to-contribute">
-  {#each blocks as block}
-    <ContributeBlock {...block}>
-      <Text>{block.text}</Text>
-    </ContributeBlock>
-  {/each}
-</div>
+<PaddedSection>
+  <div class="how-to-contribute">
+    {#each blocks as block}
+      <ContributeBlock {...block}>
+        <Text>{block.text}</Text>
+      </ContributeBlock>
+    {/each}
+  </div>
+</PaddedSection>
 
 <style>
   div.how-to-contribute {
