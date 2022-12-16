@@ -16,7 +16,7 @@
   import { getCookie, setCookie } from '$lib/util';
   import { crossIcon } from '$lib/images/icons';
   import { ZOOM_LEVELS } from '$lib/constants';
-  import LayersAndTools from '@/lib/components/Map/LayersAndTools.svelte';
+  import LayersAndTools from '@/lib/components/LayersAndTools/LayersAndTools.svelte';
   import FileTrailModal from '@/lib/components/Map/FileTrailModal.svelte';
   import TrainConnectionsModal from '@/lib/components/Map/TrainConnectionsModal.svelte';
   import FileTrails from '@/lib/components/Map/FileTrails.svelte';

@@ -12,7 +12,8 @@
 </script>
 
 <div>
-  <label>
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <label on:click|stopPropagation>
     <input {id} type="radio" {disabled} {name} {value} bind:group on:input on:change />
     {#if icon}
       <div class="icon">
@@ -27,6 +28,8 @@
   div {
     display: flex;
     align-items: center;
+    font-size: var(--controls-font-size);
+    margin: 0.1rem 0;
   }
 
   input {
@@ -59,5 +62,24 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  @media screen and (max-width: 700px) {
+    div {
+      margin: var(--controls-vert-margin) 0;
+      padding: var(--controls-vert-padding) 0;
+    }
+
+    input {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+    .icon {
+      height: 3.5rem;
+      width: 3.5rem;
+    }
+    .icon {
+      margin-right: 0.7rem;
+    }
   }
 </style>

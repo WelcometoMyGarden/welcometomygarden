@@ -45,6 +45,11 @@
   --fonts-titles: 'Inknut Antiqua', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 
+  --controls-font-size: 1.7rem;
+  --controls-vert-margin: 0.1rem;
+  /* To increase the tap target, also include more padding */
+  --controls-vert-padding: 0.1rem;
+
   /*
   * Units
   */
@@ -69,7 +74,7 @@ body,
 
 html {
   box-sizing: border-box;
-  font-size: 62.5%;
+  font-size: 65%;
 }
 
 body {
@@ -326,4 +331,12 @@ hr {
 
 .hide {
   display: none;
+}
+
+@media screen and (max-width: 700px) {
+  :root {
+    --controls-font-size: 1.55rem;
+    --controls-vert-margin: 0.15rem;
+    --controls-vert-padding: 0.3rem;
+  }
 }
