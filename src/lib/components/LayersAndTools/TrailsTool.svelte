@@ -19,21 +19,23 @@
   });
 </script>
 
-<LabeledCheckbox
-  name="hiking"
-  icon={hikerIcon}
-  label={$_('map.trails.hiking')}
-  bind:checked={showHiking}
-/>
-<LabeledCheckbox
-  name="cycling"
-  icon={cyclistIcon}
-  label={$_('map.trails.cycling')}
-  bind:checked={showCycling}
-/>
+<div class="static-layers">
+  <LabeledCheckbox
+    name="hiking"
+    icon={hikerIcon}
+    label={$_('map.trails.hiking')}
+    bind:checked={showHiking}
+  />
+  <LabeledCheckbox
+    name="cycling"
+    icon={cyclistIcon}
+    label={$_('map.trails.cycling')}
+    bind:checked={showCycling}
+  />
+</div>
 
 <div class="data-layers">
-  {#each localFileDataLayers as layer, i}
+  {#each localFileDataLayers as layer}
     <MultiActionLabel
       icon={routesIcon}
       name={layer.id}
@@ -76,5 +78,15 @@
   .layers-and-tools-button {
     margin-top: 0.5rem;
     text-align: center;
+  }
+
+  @media screen and (max-width: 700px) {
+    .static-layers {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      max-width: 370px;
+      margin: auto;
+    }
   }
 </style>

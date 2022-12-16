@@ -22,6 +22,7 @@
 <style>
   .button {
     background-color: transparent;
+    padding-bottom: 0.5rem;
   }
 
   .toggle-item {

@@ -167,7 +167,7 @@
         <span class="attribution">
           {@html $_('map.trails.attribution', {
             values: {
-              link: `<a href="https://waymarkedtrails.org/" target="_blank"  rel="noreferrer" >Waymarked Trails</a>`
+              link: `<a href="https://waymarkedtrails.org/" target="_blank" rel="noreferrer">Waymarked Trails</a>`
             }
           })}
         </span>
@@ -222,7 +222,11 @@
       <div class="text">
         <Text size="m" weight="thin">
           Upload your own routes, save gardens, see train connections & more by
-          <a href={routes.BECOME_SUPERFAN} class="underline">becoming a superfan</a>.
+          {#if isMobile}
+            becoming a superfan
+          {:else}
+            <a href={routes.BECOME_SUPERFAN} class="underline">becoming a superfan</a>.
+          {/if}
         </Text>
       </div>
 
@@ -283,7 +287,9 @@
   .attribution {
     font-size: 1.2rem;
     margin-top: 1rem;
+    line-height: 120%;
     display: inline-block;
+    max-width: 26rem;
   }
 
   .attribution :global(a) {
@@ -292,25 +298,28 @@
 
   .layers-and-tools-visitors-container {
     background-color: transparent;
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto;
+    align-items: stretch;
     width: 100%;
-    height: 9rem;
     position: relative;
+  }
+
+  .layers-and-tools-visitors > div {
+    white-space: nowrap;
   }
 
   .layers-and-tools-visitors {
     background-color: rgba(255, 255, 255, 0.9);
-    width: 26rem;
+    /* width: 26rem; */
     padding: 1rem;
     z-index: 10;
   }
 
   .layers-and-tools-visitors-superfan {
     background-color: var(--color-superfan-yellow);
-    width: 26rem;
     padding: 1rem;
-
     display: flex;
     flex-direction: column;
     z-index: 9;
@@ -340,6 +349,10 @@
     padding-left: 1rem;
   }
 
+  .layers-and-tools-visitors-superfan :global(.text) {
+    max-width: 34rem;
+  }
+
   a.underline {
     text-decoration: underline;
     cursor: pointer;
@@ -351,14 +364,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100%;
     padding: 0.8rem;
-    width: initial !important;
   }
 
   .layers-and-tools-visitors-icons :global(i) {
     flex-grow: 1;
     width: 1.4rem;
     height: 1.4rem;
+    margin: 0.4rem 0;
   }
 
   .layers-and-tools-visitors-close {
