@@ -12,7 +12,9 @@
     type StripeElements,
     type StripeError
   } from '@stripe/stripe-js';
-  import { Elements, PaymentElement } from 'svelte-stripe';
+  import { Elements } from 'svelte-stripe';
+  // Custom alternative to svelte-stripe's paymentElement
+  import PaymentElement from './PaymentElement.svelte';
   import { createOrRetrieveUnpaidSubscription } from '@/lib/api/functions';
   import { timeout } from '@/lib/util/timeout';
   import {
@@ -196,7 +198,10 @@
     {#if stripe && clientSecret}
       <form on:submit|preventDefault={submit}>
         <Elements {stripe} {clientSecret} bind:elements>
-          <PaymentElement />
+          <span class="method-title">Payment method</span>
+          <PaymentElement
+            options={{ paymentMethodOrder: ['bancontact', 'card', 'sepa_debit', 'ideal'] }}
+          />
         </Elements>
         <div class="payment-button">
           <div>
@@ -224,6 +229,13 @@
 </PaddedSection>
 
 <style>
+  .method-title {
+    /* Taken from Stripe's Payment element CSS */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+      'Open Sans', 'Helvetica Neue', sans-serif;
+    display: inline-block;
+    margin-bottom: 0.8rem;
+  }
   .payment-button {
     width: 100%;
     padding: 2rem;

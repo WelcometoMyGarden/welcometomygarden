@@ -29,6 +29,7 @@ exports.createOrRetrieveUnpaidSubscription = async ({ priceId }, context) => {
   }
 
   // Find existing subscriptions from Stripe
+  // TODO: a failed payment moves the sub status to overdue afaics - what does that mean for this?
   const existingSubscriptions = await stripe.subscriptions.list({
     customer: customerId,
     // send_invoice subs are always activated when they are created
