@@ -2,8 +2,8 @@
   import { IMAGES_PATH } from '@/lib/constants';
   import { createEventDispatcher } from 'svelte';
   import type { SuperfanLevelData } from '../_static/superfan-levels';
-  export let item: SuperfanLevelData;
-  const { slug, title, description, value, alt } = item;
+  export let level: SuperfanLevelData;
+  const { slug, title, description, value, alt } = level;
   const clickDispatch = createEventDispatcher<{ click: MouseEvent }>();
   const keyDispatch = createEventDispatcher<{ keypress: KeyboardEvent }>();
 </script>

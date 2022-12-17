@@ -3,7 +3,6 @@
   import { onDestroy, onMount } from 'svelte';
   import { user } from '@/lib/stores/auth';
   import type { PageData } from './$types';
-  import SuperfanLevel from '@/routes/(marketing)/_components/SuperfanLevel.svelte';
   import { goto } from '@/lib/util/navigate';
   import routes from '@/lib/routes';
   import {
@@ -26,6 +25,7 @@
   import type { SuperfanLevelData } from '@/routes/(marketing)/_static/superfan-levels';
   import Button from '@/lib/components/UI/Button.svelte';
   import { SUPPORT_EMAIL } from '@/lib/constants';
+  import LevelSummary from './LevelSummary.svelte';
 
   // TODO: if you subscribe & unsubscribe in 1 session without refreshing, no new sub will be auto-generated
   // we could fix this by detecting changes to the user (if we go from subscribed -> unsubscribed)
@@ -185,8 +185,8 @@
 </svelte:head>
 
 {#if selectedLevel}
-  <PaddedSection>
-    <SuperfanLevel item={selectedLevel} />
+  <PaddedSection desktopOnly>
+    <LevelSummary level={selectedLevel} />
   </PaddedSection>
 {/if}
 <PaddedSection>

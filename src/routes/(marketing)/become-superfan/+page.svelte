@@ -65,11 +65,11 @@
     </p>
   </Heading>
   <div class="superfan-levels">
-    {#each superfanLevels as item}
+    {#each superfanLevels as level}
       <SuperfanLevel
-        {item}
-        on:click={() => selectLevel(item)}
-        on:keypress={(e) => handleKeyPress(e, item)}
+        {level}
+        on:click={() => selectLevel(level)}
+        on:keypress={(e) => handleKeyPress(e, level)}
       />
     {/each}
   </div>
