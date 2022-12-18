@@ -97,11 +97,23 @@ o.
 
 After having installed the CLI & logged in, refer them to function emulators:
 
-```
-stripe listen --forward-to http://127.0.0.1:5001/wtmg-dev/us-central1/stripeWebhooks
-```
+If another live testing webhook listener is already active, disable it first, to avoid having duplicate handlers for events:
 
 (the HTTP endpoint will be printed when starting the firebase dev servers)
+
+1. Disable the main live test endpoint of the (temporarily) at https://dashboard.stripe.com/test/webhooks
+2. Take over its events locally by running:
+
+```
+stripe listen --load-from-webhooks-api --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/stripeWebhooks
+```
+
+If no other live webhook handler is running yet, the only listen locally:
+kkk
+
+```
+stripe listen --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/stripeWebhooks
+```
 
 **Testing payment methods**
 
