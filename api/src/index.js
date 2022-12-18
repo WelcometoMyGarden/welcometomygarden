@@ -50,7 +50,7 @@ exports.setAdminRole = usCentral1.https.onCall(setAdminRole);
 exports.exportNewsletterEmails = usCentral1.https.onCall(exportNewsletterEmails);
 exports.updateEmail = usCentral1.https.onCall(updateEmail);
 
-// HTTP function: Stipe webhook endpoint
+// HTTP function: Stripe webhook endpoint
 exports.stripeWebhooks = euWest1.https.onRequest(stripeWebhookHandler);
 
 // Auth triggers
