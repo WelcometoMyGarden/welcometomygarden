@@ -14,6 +14,7 @@
   import { coreTeamProfiles } from '../_static/profiles';
   import ProfilePicture from '../_components/ProfilePicture.svelte';
   import { SUPERFAN_PRICING_ROUTE, SUPPORT_EMAIL } from '@/lib/constants';
+  import { getNodeKeys } from '@/lib/util/get-node-children';
 
   const testimonials: Slide[] = [
     {
@@ -97,14 +98,16 @@
 </PaddedSection>
 <PaddedSection>
   <h2>FAQ</h2>
-  <h3>{$_('about-superfan.superfan-faq.title')}</h3>
-  <CollapsibleGroup collapsibleKey="about-superfan.superfan-faq.questions" />
-  <h3>{$_('about-superfan.structure-faq.title')}</h3>
-  <CollapsibleGroup collapsibleKey="about-superfan.structure-faq.questions" />
+  {#each getNodeKeys('about-superfan.faq-sections') as sectionKey}
+    <div class="faq-section">
+      <h3 class="faq-title">{$_(`about-superfan.faq-sections.${sectionKey}.title`)}</h3>
+      <CollapsibleGroup collapsibleKey={`about-superfan.faq-sections.${sectionKey}.questions`} />
+    </div>
+  {/each}
 </PaddedSection>
 <PaddedSection>
   <div class="more-questions">
-    <h1>Still have a question?</h1>
+    <h2>Still have a question?</h2>
     <Button href="mailto:{SUPPORT_EMAIL}?subject={encodeURIComponent('WTMG, I have a question!')}"
       >Contact Us</Button
     >
@@ -132,5 +135,14 @@
     flex-grow: 1;
     max-height: 100%;
     margin-left: -3.5rem;
+  }
+
+  .faq-section {
+    margin-bottom: var(--section-inner-padding);
+  }
+
+  .faq-title {
+    display: inline-block;
+    margin-bottom: 1.5rem;
   }
 </style>
