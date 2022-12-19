@@ -894,6 +894,12 @@
       "title": "Railway network",
       "title-modal": "Trains",
       "show-transport": "Show train network"
+    },
+    "upload-route": {
+      "title": "Upload your route",
+      "drag-here": "Drag here or {selectFile}",
+      "select-file": "select file",
+      "added-to-map": "has been added to the map."
     }
   },
   "terms-of-use": {

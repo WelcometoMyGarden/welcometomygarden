@@ -104,7 +104,7 @@
   ariaLabelledBy="title"
 >
   <div slot="title" class="TitleSection" id={ariaLabelledBy}>
-    <h2 id="Title">Upload your route</h2>
+    <h2 id="Title">{$_('map.upload-route.title')}</h2>
   </div>
   <div slot="body" class="BodySection">
     <!-- <hr /> -->
@@ -144,13 +144,19 @@
                 <Icon icon={uploadCloudIcon} />
               </div>
               <div class="drag-here">
-                <Text size="l" weight="bold"
-                  >Drag here or <span class="select-highlight">select file</span></Text
-                >
+                <Text size="l" weight="bold">
+                  {@html $_('map.upload-route.drag-here', {
+                    values: {
+                      selectFile: `<span class="select-highlight">${$_(
+                        'map.upload-route.select-file'
+                      )}</span>`
+                    }
+                  })}
+                </Text>
               </div>
               <div class="sub-text">
                 <Text>
-                  {VALID_FILETYPE_EXTENSIONS.map((ft) => '.' + ft).join(' or ')}
+                  {VALID_FILETYPE_EXTENSIONS.map((ft) => '.' + ft).join(' | ')}
                 </Text>
               </div>
             </div>
@@ -166,7 +172,7 @@
               <Text size="l" weight="bold">{files.map((f) => cleanName(f.name)).join(', ')}</Text>
             </div>
             <div class="sub-text">
-              <Text>has been added to the map.</Text>
+              <Text>{$_('map.upload-route.added-to-map')}</Text>
             </div>
           </div>
         </div>
@@ -228,7 +234,7 @@
     padding-top: 2.5rem;
   }
 
-  .modal-content .select-highlight {
+  .modal-content :global(.select-highlight) {
     color: var(--color-highlight-blue);
   }
 
