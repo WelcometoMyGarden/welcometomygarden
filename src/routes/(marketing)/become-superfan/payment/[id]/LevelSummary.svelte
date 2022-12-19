@@ -74,6 +74,16 @@
     margin-right: 0.5rem;
   }
 
+  .title {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
+
+  ol {
+    list-style-type: decimal;
+    list-style-position: inside;
+  }
+
   @media screen and (max-width: 900px) {
     .icon {
       display: none;
