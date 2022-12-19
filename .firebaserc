@@ -2,5 +2,18 @@
   "projects": {
     "default": "wtmg-dev",
     "prod": "wtmg-production"
-  }
+  },
+  "targets": {
+    "wtmg-production": {
+      "hosting": {
+        "production": [
+          "wtmg-production"
+        ],
+        "beta": [
+          "wtmg-beta"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
