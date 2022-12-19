@@ -8,6 +8,7 @@ const { parseAsync } = require('json2csv');
 const sendgrid = require('@sendgrid/mail');
 
 const API_KEY = functions.config().sendgrid.key;
+const FRONTEND_URL = functions.config().frontend.url;
 
 const auth = getAuth();
 const db = getFirestore();
@@ -60,18 +61,34 @@ exports.sendMessageReceivedEmail = (email, firstName, senderName, message, messa
   return send(msg);
 };
 
-exports.sendSubscriptionConfirmationEmail = (email, firstName) => {
-  // TODO: make this multi-lingual based on the user's language preference
-  // Thank you email Superfans - EN : d-239412fbd44141e0a227c32b4d75b906
-  // Thank you email Superfans - NL : d-bd1e491ad7a6463bac3649eb91d3a342
-  // Thank you email Superfans - FR : d-5f9ab48669e545669511a64789a50c92
+/**
+ *
+ * @param {'en' | 'fr' | 'nl'} language
+ * @param {string} email
+ * @param {string} firstName
+ * @returns
+ */
+exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-5f9ab48669e545669511a64789a50c92';
+      break;
+    case 'nl':
+      templateId = 'd-bd1e491ad7a6463bac3649eb91d3a342';
+      break;
+    default:
+      templateId = 'd-239412fbd44141e0a227c32b4d75b906';
+      break;
+  }
 
   const msg = {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
-    templateId: 'd-cc5be739da8f46628eeef6d23b393503',
+    templateId,
     dynamic_template_data: {
-      firstName
+      firstName,
+      exploreFeaturesLink: `${FRONTEND_URL}${FRONTEND_URL.endsWith('/') ? '' : '/'}explore`
     }
   };
 

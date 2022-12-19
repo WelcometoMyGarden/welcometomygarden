@@ -24,6 +24,7 @@ module.exports = async (event, res) => {
 
   // Set the user's latest invoice state
   const privateUserProfileDocRef = db.doc(`users-private/${uid}`);
+  const privateUserProfileData = (await privateUserProfileDocRef.get()).data();
   await privateUserProfileDocRef.update({
     [latestInvoiceStatusKey]: invoice.status
   });
@@ -39,7 +40,11 @@ module.exports = async (event, res) => {
     invoice.metadata.billing_reason_override === 'subscription_create'
   ) {
     // this is the paid invoice for the first subscription
-    sendSubscriptionConfirmationEmail(invoice.customer_email, publicUserProfileData.firstName);
+    sendSubscriptionConfirmationEmail(
+      invoice.customer_email,
+      publicUserProfileData.firstName,
+      privateUserProfileData.communicationLanguage
+    );
   }
 
   return res.sendStatus(200);

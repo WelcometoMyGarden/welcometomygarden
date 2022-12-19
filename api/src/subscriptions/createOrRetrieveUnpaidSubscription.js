@@ -24,7 +24,7 @@ const db = getFirestore();
 /**
  * @param {*} customerId string
  * @param {*} priceId string
- * @param privateUserProfileDocRef {import('@google-cloud/firestore').DocumentReference}
+ * @param {import('@google-cloud/firestore').DocumentReference} privateUserProfileDocRef
  * @returns
  */
 const createNewSubscription = async (customerId, priceId, privateUserProfileDocRef) => {
@@ -79,9 +79,9 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
  * Changes the price of a subscription with an unpaid first invoice (assumed input),
  * and returnts a subscription object with a finalized latest_invoice set to an invoice
  * of the full amount of the new price.
- * @param existingSubscription {import('stripe').Stripe.Subscription}
- * @param priceObject {import('stripe').Stripe.Price}
- * @param privateUserProfileDocRef {import('@google-cloud/firestore').DocumentReference}
+ * @param {import('stripe').Stripe.Subscription} existingSubscription
+ * @param {import('stripe').Stripe.Price} priceObject
+ * @param {import('@google-cloud/firestore').DocumentReference} privateUserProfileDocRef
  */
 const changeSubscriptionPrice = async (
   existingSubscription,
