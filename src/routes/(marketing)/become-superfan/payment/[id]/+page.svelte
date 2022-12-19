@@ -2,6 +2,7 @@
   import { _ } from 'svelte-i18n';
   import { onDestroy, onMount } from 'svelte';
   import { user } from '@/lib/stores/auth';
+  import notify from '$lib/stores/notification';
   import type { PageData } from './$types';
   import { goto } from '@/lib/util/navigate';
   import routes from '@/lib/routes';
@@ -93,6 +94,7 @@
   onMount(async () => {
     // todo: validate priceID
     if (!$user) {
+      notify.warning('You need to be logged in!', 10000);
       return goto(routes.SIGN_IN);
     } else {
       if (hasActiveSubscription($user)) {
