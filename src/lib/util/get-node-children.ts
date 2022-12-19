@@ -43,3 +43,13 @@ export const getNodeKeys = (nodePath: string) => {
   }
   return [];
 };
+
+export const getNodeChildrenOldVersion = (node) => {
+  const fallback = get(dictionary).en;
+  const nodes = node.split('.');
+  const nodeValue = nodes.reduce((acc, cur) => acc[cur], fallback);
+  if (nodeValue) {
+    return Object.keys(nodeValue);
+  }
+  return [];
+};
