@@ -22,7 +22,7 @@
   {ariaLabelledBy}
 >
   <div slot="title" class="TitleSection" id={ariaLabelledBy}>
-    <h2 id="Title">Gardens</h2>
+    <h2 id="Title">{$_('map.layers-and-tools.gardens')}</h2>
   </div>
   <div slot="body" class="BodySection">
     <hr />

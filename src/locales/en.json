@@ -879,10 +879,16 @@
       "linkText": "become a Superfan",
       "description": "Upload routes, save gardens, see train connections & more when you {linkText}!"
     },
-    "layers-and-tools": {
-      "gardens": "Gardens",
-      "routes": "Hiking & cycling routes",
-      "railway": "Railway network"
+    "gardens": {
+      "title": "Gardens"
+    },
+    "routes": {
+      "title": "Hiking & cycling routes",
+      "title-modal": "Hiking & cycling"
+    },
+    "railway": {
+      "title": "Railway network",
+      "title-modal": "Railway network"
     }
   },
   "terms-of-use": {
