@@ -21,7 +21,7 @@
 <PaddedSection>
   <h2>You now have access to new features</h2>
   <Features />
-  <Button href={routes.MAP}>Explore new features</Button>
+  <Button href={routes.MAP} uppercase orange arrow>Explore new features</Button>
 </PaddedSection>
 <PaddedSection>
   <MarketingBlock backgroundColor="var(--color-beige-light)" centered>

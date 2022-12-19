@@ -3,6 +3,7 @@
   import { createEventDispatcher } from 'svelte';
   import type { SuperfanLevelData } from '../_static/superfan-levels';
   export let level: SuperfanLevelData;
+  export let selected = false;
   const { slug, title, description, value, alt } = level;
   const clickDispatch = createEventDispatcher<{ click: MouseEvent }>();
   const keyDispatch = createEventDispatcher<{ keypress: KeyboardEvent }>();
@@ -10,6 +11,7 @@
 
 <div
   class="superfan-level"
+  class:selected
   on:click={(e) => clickDispatch('click', e)}
   on:keypress={(e) => keyDispatch('keypress', e)}
 >
@@ -30,7 +32,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border: 1px solid var(--color-green);
+    outline: 1px solid var(--color-green);
     border-radius: var(--tile-border-radius);
     padding: 1.5rem;
     cursor: pointer;
@@ -38,9 +40,14 @@
     transition: background-color 0.4s;
   }
 
-  .superfan-level:hover {
+  .superfan-level:hover,
+  .superfan-level.selected {
     background-color: white;
     transition: background-color 0.4s;
+  }
+
+  .superfan-level.selected {
+    outline-width: 2px;
   }
 
   img {

@@ -60,7 +60,7 @@
         into something bigger. It’s clear that WTMG is here to stay, and we want to make sure we can
         survive as well as thrive. And that’s where you come in!
       </p>
-      <Button href={SUPERFAN_PRICING_ROUTE}>Become a Superfan</Button>
+      <Button href={SUPERFAN_PRICING_ROUTE} uppercase orange arrow>Become a Superfan</Button>
     </div>
   </InnerVideoSection>
 </PaddedSection>
@@ -76,7 +76,7 @@
   <Heading caption="WTMG for everyone">Thanks to your support, we can...</Heading>
   <!-- TODO: change content -->
   <SupportReasons />
-  <Button href={SUPERFAN_PRICING_ROUTE}>Become a Superfan</Button>
+  <Button href={SUPERFAN_PRICING_ROUTE} uppercase orange arrow>Become a Superfan</Button>
 </PaddedSection>
 <PaddedSection desktopOnly>
   <MarketingBlock centered backgroundColor="var(--color-beige-light">
@@ -90,7 +90,7 @@
       So, who’s behind WTMG? We’re a small team of five slow travel enthusiasts and we want to help
       others embark on their slow travel adventures too!
     </p>
-    <Button href={routes.ABOUT_US}>Meet the Team</Button>
+    <Button href={routes.ABOUT_US} uppercase orange arrow>Meet the Team</Button>
   </MarketingBlock>
 </PaddedSection>
 <PaddedSection desktopOnly>
@@ -108,8 +108,9 @@
 <PaddedSection>
   <div class="more-questions">
     <h2>Still have a question?</h2>
-    <Button href="mailto:{SUPPORT_EMAIL}?subject={encodeURIComponent('WTMG, I have a question!')}"
-      >Contact Us</Button
+    <Button
+      href="mailto:{SUPPORT_EMAIL}?subject={encodeURIComponent('WTMG, I have a question!')}"
+      uppercase>Contact Us</Button
     >
   </div>
 </PaddedSection>
