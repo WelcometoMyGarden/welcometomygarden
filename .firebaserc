@@ -13,6 +13,13 @@
           "wtmg-prod"
         ]
       }
+    },
+    "wtmg-dev": {
+      "hosting": {
+        "production": [
+          "wtmg-frontend"
+        ]
+      }
     }
   },
   "etags": {}
