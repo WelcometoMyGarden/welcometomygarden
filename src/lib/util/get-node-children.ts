@@ -9,7 +9,8 @@ interface LocaleDictionary {
 /**
  *
  * @param nodePath path inside the language directory, example: 'index.faq.questions'
- * @returns Array of the keys of the children of the node
+ * @returns Array of the keys of the children of the node. If the node does not exist,
+ * an empty array will be returned.
  */
 export const getNodeKeys = (nodePath: string) => {
   // TODO: https://trello.com/c/bpULmQeT/2884-refactor-getnodechildren
