@@ -899,7 +899,7 @@
         "title": "Who can register on the platform?",
         "descriptions": {
           "0": {
-            "copy": "<span class=\"bold\"> Any citizen who wants to offer a free camping spot in their garden to slow travellers and any slow travellers - strictly defined as non-motorized travellers like cyclists and hikers - st who want to use the network. </span> If you want to add your garden or contact a host, you need to create an account. Only registered participants can be active users. You can register with your email address."
+            "copy": "<span class=\"bold\">Any citizen who wants to offer a free camping spot in their garden to slow travellers and any slow travellers - strictly defined as non-motorized travellers like cyclists and hikers - who want to use the network. </span> If you want to add your garden or contact a host, you need to create an account. Only registered participants can be active users. You can register with your email address."
           },
           "1": {
             "copy": "The creation of an account by a user does not give this user ownership over the account. Welcome To My Garden reserves the right to refuse, suspend or delete accounts, for example if the user does not comply with the following rules or inappropriate behaviour has been reported by a host or guest."
@@ -941,7 +941,7 @@
               },
               "1": {
                 "title": "Disclaimer",
-                "copy": "The Welcome To My Garden platform is a citizen initiative. The volunteers behind Welcome To My Garden will not take any responsibility for any loss, damage or injury incurred resulting from the use of the website and/or while staying in another citizen’s garden."
+                "copy": "The Welcome To My Garden platform is a citizen initiative. The team behind Welcome To My Garden will not take any responsibility for any loss, damage or injury incurred resulting from the use of the website and/or while staying in another citizen’s garden."
               },
               "2": {
                 "title": "No discrimination",
@@ -992,10 +992,18 @@
           "5": {
             "title": "No car rule",
             "copy": {
-              "0": "The Welcome To My Garden platform respects the environment and caters to the needs of slow travellers only. This means users can only travel to gardens on foot, by bicycle or by public transport. The use of motorized vehicles is forbidden, except for users with reduced mobility. However, it is permitted to travel to the start of a trail using a motorized vehicle."
+              "0": "The Welcome To My Garden platform respects the environment and caters to the needs of slow travellers only. This means users can only travel to gardens on foot, by bicycle or by public transport. If you're planning to travel by motorized vehicle, please do not contact hosts via this platform. The use of motorized vehicles is forbidden."
             }
           },
           "6": {
+            "title": "The option to become a Superfan",
+            "copy": {
+              "0": "Welcome To My Garden offers users the possibility to become a Superfan and financially support the project so that it can remain free to use for everyone. To thank Superfans for their support, they get access to extra features. The choice to become Superfan is optional. Superfans are not allowed to transfer their login to a third party. Superfans agree with the same terms of all users and Welcome To My Garden reserves the right to refuse, suspend or delete accounts of Superfans who don’t comply with the terms.",
+              "1": "The limitations of liability (see below) of Welcome To My Garden in general also apply for the use of the extra features for Superfans, which means that Welcome To My Garden cannot be held responsible for any damages or loss that would occur due to the use of Welcome To My Garden.",
+              "2": "Becoming a Superfan is based on the principle of open pricing. Superfans choose the price that fits their budget best and pay for one year at a time. The price includes 6% VAT applied to memberships. The subscription is commitment-free: it stops automatically after one year, and Superfans get an email to renew it. The Superfan subscription is non-refundable and non-transferable to a third party."
+            }
+          },
+          "7": {
             "title": "Disclaimer",
             "copy": {
               "0": "The platform Welcome To My Garden is a citizen initiative. The volunteers behind Welcome To My Garden will not take any responsibility for any loss, damage or injury incurred as a result of using the website and/or while staying in another citizen’s garden."
