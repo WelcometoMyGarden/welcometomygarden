@@ -209,7 +209,7 @@
         </Elements>
         <div class="payment-button">
           <div>
-            <Button type="submit" uppercase small>Pay</Button>
+            <Button type="submit" uppercase small orange arrow>Pay</Button>
             {#if processingPayment}
               <p>Processing...</p>
             {/if}
