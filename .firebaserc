@@ -6,11 +6,11 @@
   "targets": {
     "wtmg-production": {
       "hosting": {
-        "production": [
-          "wtmg-production"
-        ],
         "beta": [
           "wtmg-beta"
+        ],
+        "production": [
+          "wtmg-prod"
         ]
       }
     }
