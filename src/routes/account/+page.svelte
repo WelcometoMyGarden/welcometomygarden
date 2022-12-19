@@ -174,12 +174,8 @@
       {#if $user.superfan === true}
         <section>
           <h2>Superfan Subscription</h2>
-          {#if !$user.garden}
-            <p class="description">About your subscription</p>
-            <Button uppercase medium on:click={openCustomerPortalSession}>
-              Manage Subscription
-            </Button>
-          {/if}
+          <p class="description">About your subscription</p>
+          <Button uppercase medium on:click={openCustomerPortalSession}>Manage Subscription</Button>
         </section>
       {/if}
     </div>
