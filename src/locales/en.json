@@ -878,6 +878,11 @@
       "title": "New features for Superfans",
       "linkText": "become a Superfan",
       "description": "Upload routes, save gardens, see train connections & more when you {linkText}!"
+    },
+    "layers-and-tools": {
+      "gardens": "Gardens",
+      "routes": "Hiking & cycling routes",
+      "railway": "Railway network"
     }
   },
   "terms-of-use": {

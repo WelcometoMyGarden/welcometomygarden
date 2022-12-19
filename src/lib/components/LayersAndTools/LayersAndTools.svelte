@@ -81,21 +81,21 @@
   {#if superfan}
     <div class="layers-and-tools-superfan">
       <ToggleAble>
-        <span slot="title">Gardens</span>
+        <span slot="title">{$_('map.layers-and-tools.gardens')}</span>
         <div slot="content">
           <GardensTools bind:showGardens bind:showSavedGardens />
         </div>
       </ToggleAble>
 
       <ToggleAble>
-        <span slot="title">Hiking & cycling routes</span>
+        <span slot="title">{$_('map.layers-and-tools.routes')}</span>
         <div slot="content">
           <TrailsTool bind:showCycling bind:showHiking on:click={toggleFileTrailModal} />
         </div>
       </ToggleAble>
 
       <ToggleAble>
-        <span slot="title">Railway network</span>
+        <span slot="title">{$_('map.layers-and-tools.railway')}</span>
         <div slot="content">
           <TransportTools
             bind:showRails
