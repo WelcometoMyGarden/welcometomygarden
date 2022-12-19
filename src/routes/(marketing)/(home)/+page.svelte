@@ -56,7 +56,7 @@
           make WTMG survive and thrive? Become a Superfan and get access to new features!
         </p>
         <div class="become-superfan-buttons">
-          <Button href={routes.BECOME_SUPERFAN}>Become a superfan</Button>
+          <Button href={routes.BECOME_SUPERFAN}>Become a Superfan</Button>
           <Button href={routes.ABOUT_SUPERFAN} inverse>Learn more</Button>
         </div>
       </div>

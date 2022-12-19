@@ -2,10 +2,13 @@
   import ContributeBlock from './ContributeBlock.svelte';
   import Text from '$lib/components/UI/Text.svelte';
   import PaddedSection from '../_components/PaddedSection.svelte';
+  import Icon from '@/lib/components/UI/Icon.svelte';
+  import contributeIllustration from '$lib/images/contribute.svg';
+  import Heading from '../_components/Heading.svelte';
 
   const blocks = [
     {
-      title: 'Become a superfan',
+      title: 'Become a Superfan',
       text: 'Become a Superfan and get access to extra features! Superfans are very important to WTMG as they keep it free for everyone to use.'
     },
     {
@@ -20,6 +23,11 @@
 </script>
 
 <PaddedSection>
+  <div class="header">
+    <Icon icon={contributeIllustration} />
+    <Heading caption="WTMG For Everyone">How can you contribute?</Heading>
+    <p>Here are all the ways in which you can support us.</p>
+  </div>
   <div class="how-to-contribute">
     {#each blocks as block}
       <ContributeBlock {...block}>
@@ -36,6 +44,34 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+  }
+
+  .header {
+    text-align: center;
+  }
+
+  .header :global(svg) {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 16rem;
+    margin-bottom: 2rem;
+  }
+
+  /* Centers the heading */
+  .header :global(div h2) {
+    /* text-align: center; */
+    margin-bottom: 1.5rem;
+  }
+
+  .header > p {
+    margin-bottom: var(--section-inner-padding);
+  }
+
+  @media screen and (max-width: 700px) {
+    .header :global(svg) {
+      max-width: 13rem;
+    }
   }
 
   div :global(.block:nth-child(odd)) {

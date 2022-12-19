@@ -3,7 +3,7 @@
   export let id: string | undefined = undefined;
 </script>
 
-<div>
+<div class="heading">
   {#if caption}
     <span class="caption" {id}>{caption}</span>
   {/if}
