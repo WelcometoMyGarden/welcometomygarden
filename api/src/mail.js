@@ -8,6 +8,7 @@ const { parseAsync } = require('json2csv');
 const sendgrid = require('@sendgrid/mail');
 
 const API_KEY = functions.config().sendgrid.key;
+
 const auth = getAuth();
 const db = getFirestore();
 

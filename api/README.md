@@ -41,6 +41,8 @@ firebase use wtmg-dev
 
 See https://firebase.google.com/docs/functions/local-emulator#set_up_functions_configuration_optional
 
+Run this inside the `api` functions dir:
+
 ```
 firebase functions:config:get > .runtimeconfig.json
 
@@ -48,7 +50,7 @@ firebase functions:config:get > .runtimeconfig.json
 # firebase functions:config:get | ac .runtimeconfig.json
 ```
 
-Will output the following, which will be picked up by the emulators:
+Will output the following (or updated versions), which will be picked up by the emulators:
 
 ```
 
@@ -105,15 +107,10 @@ If another live testing webhook listener is already active, disable it first, to
 2. Take over its events locally by running:
 
 ```
-stripe listen --load-from-webhooks-api --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/stripeWebhooks
+stripe listen --events customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.paid  --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/stripeWebhooks
 ```
 
-If no other live webhook handler is running yet, the only listen locally:
-kkk
-
-```
-stripe listen --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/stripeWebhooks
-```
+NOTE: I've had weird behavior with `--load-from-webhooks-api`, with or without an extra `--events` key specified. Sometimes events got forwarded to the local server, and sometimes not propery (no responses were being logged). It might also depend on the staging endpoint beign disabled or not. The above works dependably.
 
 **Testing payment methods**
 
@@ -160,8 +157,8 @@ This will deploy all functions:
 firebase deploy --only functions
 ```
 
-This will deploy specific functions
+This will deploy specific functions, for example, all new Stripe-related functions:
 
 ```
-firebase deploy --only functions:createStripeCustomer,functions:verifyEmail
+firebase deploy --only functions:createStripeCustomer,functions:createOrRetrieveUnpaidSubscription,functions:createCustomerPortalSession,functions:stripeWebhooks
 ```

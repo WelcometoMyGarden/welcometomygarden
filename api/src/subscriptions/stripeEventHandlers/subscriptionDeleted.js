@@ -1,7 +1,11 @@
 // https://stackoverflow.com/a/69959606/4973029
 // eslint-disable-next-line import/no-unresolved
 const { getFirestore } = require('firebase-admin/firestore');
+const removeUndefined = require('../../util/removeUndefined');
+const { stripeSubscriptionKeys } = require('../constants');
 const getFirebaseUserId = require('../getFirebaseUserId');
+
+const { statusKey, cancelAtKey, canceledAtKey } = stripeSubscriptionKeys;
 
 const db = getFirestore();
 
@@ -15,9 +19,11 @@ const db = getFirestore();
  * @param {*} res
  */
 module.exports = async (event, res) => {
-  console.log('Handling subscription.deleted');
+  console.log('Handling customer.subscription.deleted');
+  /** @type {import('stripe').Stripe.Subscription} */
   const subscription = event.data.object;
   const uid = await getFirebaseUserId(subscription.customer);
+
   // Ensure the user is UNmarked as a superfan.
   // (pointless overwrite in case it was already set to true)
   const publicUserProfileDocRef = db.doc(`users/${uid}`);
@@ -25,8 +31,12 @@ module.exports = async (event, res) => {
 
   // Set the Firebase subscription status
   const privateUserProfileDocRef = db.doc(`users-private/${uid}`);
-  await privateUserProfileDocRef.update({
-    'stripeSubscription.status': subscription.status
-  });
+  await privateUserProfileDocRef.update(
+    removeUndefined({
+      [statusKey]: subscription.status,
+      [cancelAtKey]: subscription.cancel_at,
+      [canceledAtKey]: subscription.canceled_at
+    })
+  );
   return res.sendStatus(200);
 };

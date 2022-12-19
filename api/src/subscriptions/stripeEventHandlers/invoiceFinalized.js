@@ -5,6 +5,7 @@
  */
 module.exports = async (event, res) => {
   console.log('Handling invoice.finalized');
+  const invoice = event.data.object;
   // TODO send email with the finalized invoice!?
   // see "hosted_invoice_url" and "invoice_pdf"
 
@@ -17,9 +18,12 @@ module.exports = async (event, res) => {
     // we finalized the invoice manually
   }
   // Extract the object from the event.
-  const dataObject = event.data.object;
   // https://stripe.com/docs/api/invoices/object#invoice_object-billing_reason
-  if (dataObject.billing_reason === 'subscription_create') {
+  if (
+    invoice.billing_reason === 'subscription_create' ||
+    invoice.metadata.billing_reason_override === 'subscription_create'
+  ) {
+    // TODO if the invoice was a changed invoice
     // We created the invoice, and are about to finalize it manually.
     // Allow this operation to proceed.
   }

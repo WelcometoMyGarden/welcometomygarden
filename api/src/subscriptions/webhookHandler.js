@@ -25,9 +25,9 @@ exports.stripeWebhookHandler = async (req, res) => {
       functions.config().stripe.webhook_secret
     );
   } catch (err) {
-    console.log(err);
-    console.log(`⚠️  Webhook signature verification failed.`);
-    console.log(`⚠️  Check the env file and enter the correct webhook secret.`);
+    functions.logger.log(err);
+    functions.logger.log(`⚠️  Webhook signature verification failed.`);
+    functions.logger.log(`⚠️  Check the env file and enter the correct webhook secret.`);
     return res.sendStatus(400);
   }
 

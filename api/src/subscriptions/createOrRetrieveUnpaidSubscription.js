@@ -4,9 +4,29 @@ const { getFirestore } = require('firebase-admin/firestore');
 const fail = require('../util/fail');
 const stripe = require('./stripe');
 const { createStripeCustomer } = require('./createStripeCustomer');
+const { stripeSubscriptionKeys } = require('./constants');
+const removeUndefined = require('../util/removeUndefined');
+
+const {
+  idKey,
+  statusKey,
+  priceIdKey,
+  latestInvoiceStatusKey,
+  currentPeriodStartKey,
+  currentPeriodEndKey,
+  startDateKey,
+  cancelAtKey,
+  canceledAtKey
+} = stripeSubscriptionKeys;
 
 const db = getFirestore();
 
+/**
+ * @param {*} customerId string
+ * @param {*} priceId string
+ * @param privateUserProfileDocRef {import('@google-cloud/firestore').DocumentReference}
+ * @returns
+ */
 const createNewSubscription = async (customerId, priceId, privateUserProfileDocRef) => {
   // Create the subscription in Sripe
   const subscription = await stripe.subscriptions.create({
@@ -39,12 +59,19 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
   subscription.latest_invoice.payment_intent = openInvoice.payment_intent;
 
   // Set initial subscription parameters in Firebase
-  await privateUserProfileDocRef.update({
-    'stripeSubscription.id': subscription.id,
-    'stripeSubscription.priceId': subscription.items.data[0].price.id,
-    'stripeSubscription.status': subscription.status,
-    'stripeSubscription.latestInvoiceStatus': subscription.latest_invoice.status
-  });
+  await privateUserProfileDocRef.update(
+    removeUndefined({
+      [idKey]: subscription.id,
+      [priceIdKey]: subscription.items.data[0].price.id,
+      [statusKey]: subscription.status,
+      [latestInvoiceStatusKey]: subscription.latest_invoice.status,
+      [currentPeriodStartKey]: subscription.current_period_start,
+      [currentPeriodEndKey]: subscription.current_period_end,
+      [startDateKey]: subscription.start_date,
+      [cancelAtKey]: subscription.cancel_at,
+      [canceledAtKey]: subscription.canceled_at
+    })
+  );
   return subscription;
 };
 
@@ -52,10 +79,17 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
  * Changes the price of a subscription with an unpaid first invoice (assumed input),
  * and returnts a subscription object with a finalized latest_invoice set to an invoice
  * of the full amount of the new price.
+ * @param existingSubscription {import('stripe').Stripe.Subscription}
+ * @param priceObject {import('stripe').Stripe.Price}
+ * @param privateUserProfileDocRef {import('@google-cloud/firestore').DocumentReference}
  */
-const changeSubscriptionPrice = async (existingSubscription, priceObject) => {
+const changeSubscriptionPrice = async (
+  existingSubscription,
+  priceObject,
+  privateUserProfileDocRef
+) => {
   const newPriceId = priceObject.id;
-  // Step 1: void the previous unpaid invoice. The upgrade will generate a new invoice,
+  // void the previous unpaid invoice. The upgrade will generate a new invoice,
   // and the old finalized one is not relevant anymore.
   await stripe.invoices.voidInvoice(existingSubscription.latest_invoice.id);
 
@@ -121,14 +155,34 @@ const changeSubscriptionPrice = async (existingSubscription, priceObject) => {
     currency: priceObject.currency
   });
 
+  // Mark the invoice as a special changed invoice, so later events can now what happened here.
+  await stripe.invoices.update(proratedInvoice.id, {
+    metadata: {
+      // the actual proratedInvoice.billing_reason will be 'subscription_update'
+      billing_reason_override: 'subscription_create'
+    }
+  });
+
   // Finalize the changed invoice, ensure a payment intent exists
   const finalizedProratedInvoice = await stripe.invoices.finalizeInvoice(proratedInvoice.id, {
     expand: ['payment_intent']
   });
 
   // Overwrite the the latest invoice/payment intent in the subscription to return
-  existingSubscription.latest_invoice = finalizedProratedInvoice;
-  return existingSubscription;
+  proratedSubscription.latest_invoice = finalizedProratedInvoice;
+
+  // Save the updated info in Firebase
+  await privateUserProfileDocRef.update(
+    removeUndefined({
+      // Get the new price id from the source of truth, it should be equal to priceObject.id though.
+      [priceIdKey]: proratedSubscription.items.data[0].price.id,
+      [statusKey]: proratedSubscription.status,
+      [latestInvoiceStatusKey]: proratedSubscription.latest_invoice.status
+      // id, startDate, currentPeriodStart & currentPeriodEnd should not have altered
+    })
+  );
+
+  return proratedSubscription;
 };
 
 exports.createOrRetrieveUnpaidSubscription = async ({ priceId }, context) => {
@@ -153,7 +207,7 @@ exports.createOrRetrieveUnpaidSubscription = async ({ priceId }, context) => {
   let customerId;
   const privateUserProfileDocRef = db.doc(`users-private/${uid}`);
 
-  const privateUserProfileData = await (await privateUserProfileDocRef.get()).data();
+  const privateUserProfileData = (await privateUserProfileDocRef.get()).data();
   if (!privateUserProfileData.stripeCustomerId) {
     console.info(`User ${uid} does not yet have a Stripe customer linked to it, creating it.`);
     const { id: createdCustomerId } = await createStripeCustomer(null, context);
@@ -217,7 +271,11 @@ exports.createOrRetrieveUnpaidSubscription = async ({ priceId }, context) => {
   if (existingIncompleteSubscription) {
     if (priceId !== existingIncompleteSubscription.items.data[0].price.id) {
       // If the price id requested is different to the current subscription's price, then change the subscription
-      subscription = await changeSubscriptionPrice(existingIncompleteSubscription, requestedPrice);
+      subscription = await changeSubscriptionPrice(
+        existingIncompleteSubscription,
+        requestedPrice,
+        privateUserProfileDocRef
+      );
     } else {
       // If the price ID was the same, return the payment intent of the unpaid invoice
       subscription = existingIncompleteSubscription;
