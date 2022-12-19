@@ -156,6 +156,7 @@
 
   .button.link :global(span) {
     position: relative;
+    display: inline-block;
     font-size: 1.5rem;
     font-weight: 700;
   }
