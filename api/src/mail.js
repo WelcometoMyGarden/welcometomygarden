@@ -60,6 +60,11 @@ exports.sendMessageReceivedEmail = (email, firstName, senderName, message, messa
 };
 
 exports.sendSubscriptionConfirmationEmail = (email, firstName) => {
+  // TODO: make this multi-lingual based on the user's language preference
+  // Thank you email Superfans - EN : d-239412fbd44141e0a227c32b4d75b906
+  // Thank you email Superfans - NL : d-bd1e491ad7a6463bac3649eb91d3a342
+  // Thank you email Superfans - FR : d-5f9ab48669e545669511a64789a50c92
+
   const msg = {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
