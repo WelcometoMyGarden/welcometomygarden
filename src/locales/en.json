@@ -880,7 +880,10 @@
       "description": "Upload routes, save gardens, see train connections & more when you {linkText}!"
     },
     "gardens": {
-      "title": "Gardens"
+      "title": "Gardens",
+      "show-all": "Show all gardens",
+      "show-saved": "Only saved gardens",
+      "hide-all": "Hide all gardens"
     },
     "routes": {
       "title": "Hiking & cycling routes",
