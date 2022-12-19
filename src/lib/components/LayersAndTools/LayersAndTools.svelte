@@ -69,7 +69,7 @@
 
   const closeSuperfanInfo = (_?: any) => {
     const date = new Date();
-    const days = 7;
+    const days = 30;
     date.setTime(date.getTime() + days * 86400000); //24 * 60 * 60 * 1000
     setCookie('superfan-dismissed', true, { expires: date.toGMTString() });
     showSuperfanInfo = false;
