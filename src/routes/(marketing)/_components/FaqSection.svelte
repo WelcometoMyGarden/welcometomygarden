@@ -8,7 +8,7 @@
 
 <section class="faq" id="faq">
   <div class="card faq-intro">
-    <h2 class="oh1 heading-underline-center">{$_('index.faq.title')}</h2>
+    <h2 class="oh1 heading-underline heading-underline--center">{$_('index.faq.title')}</h2>
     <p>
       {@html $_('index.faq.copy', {
         values: {

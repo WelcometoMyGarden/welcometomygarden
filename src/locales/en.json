@@ -47,11 +47,13 @@
       }
     },
     "intro": {
-      "copy": "A not-for-profit network of citizens offering free camping spots in their gardens to slow travellers",
+      "headline": "Your slow travel adventure starts here",
+      "copy": "Free camping spots in people’s gardens for slow travellers. Brought to you by a warm-hearted community of citizens.",
       "add-garden": "Add your garden",
       "explore-map": "Explore map",
       "learn-more": "Learn more"
     },
+
     "steps": {
       "0": {
         "title": "Step 1: Sign up to become or find a host",

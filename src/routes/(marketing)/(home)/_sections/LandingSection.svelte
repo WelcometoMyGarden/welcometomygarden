@@ -5,14 +5,18 @@
   import { user } from '@/lib/stores/auth';
   import routes from '$lib/routes';
   import { _ } from 'svelte-i18n';
+  import PaddedSection from '../../_components/PaddedSection.svelte';
 </script>
 
-<section class="landing" id="landing">
+<PaddedSection id="landing">
   <div class="welcome">
     <div class="welcome-logo">
       {@html Logo}
     </div>
-    <h1 class="oh1 heading-underline-center">Welcome To My Garden</h1>
+    <span class="mobile-heading oh1">Welcome To My Garden</span>
+    <h1 class="landing-headline heading-underline heading-underline--left">
+      {$_('index.intro.headline')}
+    </h1>
     <p class="welcome-text">{$_('index.intro.copy')}</p>
     <div class="welcome-buttons">
       <!-- User is not logged in -->
@@ -32,23 +36,29 @@
       {@html welcomeMap}
     </div>
   </div>
-</section>
+</PaddedSection>
 
 <style>
   .welcome-buttons > :global(.button) {
     margin-bottom: 1rem;
   }
 
-  .landing {
-    display: flex;
-    padding-top: 14rem;
-    padding-left: 17rem;
+  .mobile-heading {
+    display: none;
+  }
+
+  h1.landing-headline {
+    text-transform: uppercase;
+    font-family: var(--fonts-copy);
+    /* TODO: add a bold style here, the font is missing */
+    font-weight: 700;
+    line-height: 1.4;
   }
 
   .welcome-map {
     position: absolute;
     right: 0;
-    top: 0;
+    top: -3vw;
     width: 35vw;
     max-width: 54rem;
   }
@@ -62,12 +72,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
   }
 
   .welcome-logo {
-    width: 20vw;
-    max-width: 23.3rem;
-    min-width: 16rem;
+    align-self: flex-start;
+    width: 10rem;
+    margin-bottom: 1.5rem;
+    max-width: 90%;
+    /* margin: auto; */
+    /* width: 15vw; */
+    /* max-width: 23.3rem;
+    min-width: 16rem; */
   }
 
   .welcome-logo > :global(svg) {
@@ -76,80 +92,81 @@
 
   .welcome-text {
     margin-bottom: 3.7rem;
-    text-align: center;
+    text-align: left;
   }
 
   .welcome-buttons {
     display: flex;
-    flex-direction: column;
+    gap: 2rem;
+    align-self: flex-start;
+    flex-direction: row-reverse;
     align-items: center;
-    margin: 0 auto;
-  }
-
-  .welcome-buttons :global(button:first-of-type) {
-    margin-bottom: 1.6rem;
-  }
-
-  @media only screen and (max-width: 1300px) {
-    .landing {
-      justify-content: center;
-      padding-left: 0;
-    }
-
-    .welcome {
-      padding-left: 0;
-    }
-
-    .welcome-logo {
-      width: 25vw;
-    }
   }
 
   @media only screen and (max-width: 1000px) {
-    .landing {
-      padding: 14rem 10rem 0;
+    .welcome {
+      margin: auto;
+      text-align: center;
+    }
+    .welcome-logo {
+      margin-top: 15rem;
+      /* 11 rem for small mobiles, 22vw going to tablet sizes (until 1000px wide) */
+      width: calc(max(11rem, 22vw));
+      align-self: center;
+      margin-bottom: 0.5rem;
+    }
+    span.mobile-heading {
+      display: inline-block;
+      line-height: 1.4;
+      margin-bottom: 0.5rem;
+    }
+    h1.landing-headline {
+      text-transform: none;
+      font-weight: normal;
+      font-size: 2rem;
+      position: relative;
+      display: inline-block;
+      /* To be used together with the ::after spec below */
+      margin-bottom: 6rem;
     }
 
-    .welcome-logo {
-      width: 30vw;
+    h1.landing-headline.heading-underline--left::after {
+      left: calc(50% - 6rem);
+      display: inline-block;
+      bottom: -3rem;
+    }
+
+    .welcome-text {
+      text-align: center;
+      max-width: 500px;
     }
   }
-
   @media only screen and (max-width: 700px) {
-    .landing {
-      padding: 10rem 8rem 2rem;
+    div.welcome-map {
+      top: 0rem;
+    }
+    .welcome-buttons {
+      align-self: center;
+      flex-direction: column;
+      gap: 0.5rem;
     }
 
-    .welcome-logo {
-      width: 40vw;
-    }
-
-    .welcome-map {
-      top: -2rem;
-      width: 35vw;
+    h1.landing-headline.heading-underline--left::after {
+      left: calc(50% - 6rem);
     }
   }
 
   @media only screen and (max-width: 500px) {
-    .landing {
-      padding: 10rem 4rem 2rem;
-    }
-
-    .welcome-map {
-      width: 40vw;
-    }
-
     .welcome-logo {
-      width: 45vw;
+      margin-top: 21rem;
     }
-  }
-  @media only screen and (max-width: 400px) {
-    .landing {
-      padding: 6rem 3rem;
+    div.welcome-map {
+      top: -4rem;
+      right: -5rem;
     }
-
-    .welcome-logo {
-      width: 50vw;
+    div.welcome-map {
+      width: 29rem;
+      right: -10rem;
     }
   }
 </style>

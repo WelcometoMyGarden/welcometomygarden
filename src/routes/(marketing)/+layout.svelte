@@ -181,18 +181,25 @@
     margin-bottom: 2rem;
   }
 
-  div :global(.heading-underline-center) {
+  div :global(.heading-underline) {
     position: relative;
   }
 
-  div :global(.heading-underline-center::after) {
+  div :global(.heading-underline::after) {
     position: absolute;
     bottom: -4px;
-    left: 50%;
     content: '';
     height: 3px;
     background: var(--color-orange);
     width: 12rem;
+  }
+
+  div :global(.heading-underline--center::after) {
+    left: 50%;
     margin-left: -6rem;
+  }
+
+  div :global(.heading-underline--left::after) {
+    left: 0;
   }
 </style>

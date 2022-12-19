@@ -3,7 +3,6 @@
   import routes from '$lib/routes';
   import CollapsibleGroup from '$lib/components/CollapsibleGroup.svelte';
   import { Button } from '$lib/components/UI';
-
   import PaddedSection from '../_components/PaddedSection.svelte';
   import MarketingBlock from '../_components/MarketingBlock.svelte';
   import VideoSection from '../_sections/VideoSection.svelte';
@@ -70,7 +69,7 @@
 <PaddedSection desktopOnly>
   <div class="faq" id="faq">
     <div class="card faq-intro">
-      <h2 class="oh1 heading-underline-center">{$_('index.faq.title')}</h2>
+      <h2 class="oh1 heading-underline heading-underline--center">{$_('index.faq.title')}</h2>
       <p>
         {@html $_('index.faq.copy', {
           values: {

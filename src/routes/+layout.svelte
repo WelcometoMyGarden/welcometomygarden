@@ -116,6 +116,9 @@
     min-height: calc(100vh - var(--height-nav) - var(--height-footer));
     width: 100%;
     overflow: hidden;
+    /* Anchor overflow:hidden on descendants
+    (there was a problem with .welcome-map in LandingSection with this before) */
+    position: relative;
     max-width: 155rem;
     margin: 0 auto;
   }
