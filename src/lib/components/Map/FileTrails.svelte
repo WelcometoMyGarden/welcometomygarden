@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { fileDataLayers, prefix, updateFileDataLayers } from '@/lib/stores/file';
   import type { ContextType } from './Map.svelte';
-  import { onMount, getContext } from 'svelte';
+  import type GeoJSON from 'geojson';
+  import { fileDataLayers, prefix } from '@/lib/stores/file';
+  import { getContext } from 'svelte';
   import bbox from '@turf/bbox';
   import key from './mapbox-context.js';
   import { ZOOM_LEVELS } from '@/lib/constants.js';
@@ -12,7 +13,6 @@
     | GeoJSON.FeatureCollection<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>
     | undefined;
 
-  // @ts-ignore
   const { getMap } = getContext<ContextType>(key);
   const map = getMap();
 

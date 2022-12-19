@@ -372,9 +372,9 @@
   },
   "privacy-policy": {
     "title": "Politique de confidentialité",
-    "last-updated": "Dernière mise à jour: 16 août 2021",
+    "last-updated": "Dernière mise à jour: 08/12/2022",
     "subtitle": "Responsabilité par rapport au traitement des données et du propriétaire de celles-ci",
-    "intro": "Welcome To My Garden, avec Open Collective Brussels comme entité légale, est une association sans but lucratif, existant sous la loi de Belgique et ayant ses bureaux enregistrés à Cantersteen 12, 1000 Bruxelles Belgique, avec le numéro d’entreprise BE 0664.932.030.",
+    "intro": "Welcome To My Garden, un projet sans but lucratif sous l'entité juridique de Slowby, une entreprise sociale, constituée et existant en vertu des lois de la Belgique, dont le siège social est situé Henri Van Bortonnestraat 100, 1090 Jette, Belgique, avec le numéro d'entreprise BE 0784.423.261.",
     "email": "Email : {support}",
     "scope": {
       "title": "Politique de confidentialité",
@@ -791,7 +791,7 @@
   },
   "terms-of-use": {
     "title": "Conditions d'utilisation",
-    "last-updated": "Dernière mise à jour : 30 Mai 2020",
+    "last-updated": "Dernière mise à jour : 08/12/2022",
     "intro": {
       "0": {
         "copy": "Welcome to My Garden est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour les voyageurs et voyageuses lent.e.s. Ces conditions d’utilisation (\"Conditions\") s’appliquent quant à l’accès et l’utilisation de ce site ainsi qu’à l’utilisation du réseau (\"Plateforme\") fournie par Welcome to My Garden."
@@ -808,7 +808,7 @@
         "title": "Qui peut s'enregistrer sur la plateforme ?",
         "descriptions": {
           "0": {
-            "copy": "Tout.e citoyen.ne qui souhaite mettre son jardin à disposition gratuitement comme espace de bivouac pour des voyageurs lents (cycliste ou randonneur) qui souhaite utiliser le réseau. Si vous voulez ajouter votre jardin ou contacter un hôte, vous devez créer un compte. Seul.e.s les participant.e.s enregistré.e.s peuvent être des utilisateurs actifs. Vous pouvez vous inscrire avec votre adresse email."
+            "copy": "Tout.e citoyen.ne qui souhaite mettre son jardin à disposition gratuitement comme espace de bivouac pour des voyageurs lents - strictement défini comme des voyageurs et voyageuses non-montorisés comme des cyclistes et randonneurs - qui souhaite utiliser le réseau. Si vous voulez ajouter votre jardin ou contacter un hôte, vous devez créer un compte. Seul.e.s les participant.e.s enregistré.e.s peuvent être des utilisateurs actifs. Vous pouvez vous inscrire avec votre adresse email."
           },
           "1": {
             "copy": "La création d’un compte par un utilisateur ne confère pas à cet utilisateur la propriété du compte. Welcome to My Garden se réserve le droit de refuser, suspendre ou supprimer des comptes, par exemple si l'utilisateur ne respecte pas les règles suivantes ou si un comportement inapproprié a été signalé par un hôte ou un voyageur."
@@ -850,7 +850,7 @@
               },
               "1": {
                 "title": "Avertissement",
-                "copy": "Welcome to My Garden est une initiative citoyenne. Les bénévoles derrière Welcome to My Garden ne prennent aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."
+                "copy": "Welcome to My Garden est une initiative citoyenne. L’équipe derrière Welcome to My Garden ne prend aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."
               },
               "2": {
                 "title": "Aucune discrimination n’est autorisée",
@@ -901,13 +901,21 @@
           "5": {
             "title": "Pas de voiture autorisée",
             "copy": {
-              "0": "La plateforme Welcome to My Garden respecte l'environnement et ne répond qu'aux besoins des voyageurs lents. Cela signifie que les utilisateurs ne peuvent se rendre dans les jardins qu'à pied, à vélo ou en transports en commun. L'utilisation de véhicules motorisés est interdite, sauf pour les utilisateurs à mobilité réduite. Cependant, il est permis de se rendre au début d'un sentier en utilisant un véhicule motorisé."
+              "0": "La plateforme Welcome to My Garden respecte l'environnement et ne répond qu'aux besoins des voyageurs lents. Cela signifie que les utilisateurs ne peuvent se rendre dans les jardins qu'à pied, à vélo ou en transports en commun. Si vous prévoyez de voyager en véhicule motorisé, veuillez ne pas contacter les hôtes via cette plateforme. L'utilisation de véhicules motorisés est interdite."
             }
           },
           "6": {
+            "title": "Programme de Superfan",
+            "copy": {
+              "0": "Welcome To My Garden offre aux utilisateurs la possibilité de devenir un Superfan et de soutenir financièrement le projet afin qu'il puisse rester libre d'utilisation pour tous et toutes. Pour remercier les Superfans de leur soutien, ils ont accès à des fonctionnalités supplémentaires. Le choix de devenir Superfan est optionnel. Les Superfans ne sont pas autorisés à transférer leur login à un tiers. Les Superfans acceptent les mêmes conditions que tous les utilisateurs et Welcome To My Garden se réserve le droit de refuser, suspendre ou supprimer les comptes des Superfans qui ne respectent pas ces conditions.",
+              "1": "Les limitations de responsabilité (voir ci-dessous) de Welcome To My Garden en général s'appliquent également à l'utilisation des fonctions supplémentaires pour les Superfans, ce qui signifie que Welcome To My Garden ne peut être tenu responsable de tout dommage ou perte qui se produirait en raison de l'utilisation de Welcome To My Garden.",
+              "2": "Devenir un Superfan est basé sur le principe de la tarification ouverte. Les Superfans choisissent le prix qui correspond le mieux à leur budget et paient pour une année à la fois. Le prix comprend la TVA de 6% appliquée aux abonnements. L'abonnement est sans engagement : il s'arrête automatiquement au bout d'un an, et les Superfans reçoivent un e-mail pour le renouveler. L'abonnement Superfan est non remboursable et non transférable à un tiers."
+            }
+          },
+          "7": {
             "title": "Avertissement",
             "copy": {
-              "0": "La plateforme Welcome to My Garden est une initiative citoyenne. Les bénévoles derrière Welcome to My Garden ne prennent aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."
+              "0": "La plateforme Welcome to My Garden est une initiative citoyenne. Les membres de l’équipe derrière Welcome to My Garden ne prennent aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."
             }
           }
         }
@@ -918,7 +926,7 @@
           "0": {
             "title": "Vous avez l'entière responsabilité lorsque vous interagissez avec d'autres membres.",
             "copy": {
-              "0": "Welcome To My Garden est une plateforme permettant aux hôtes de mettre librement leur jardin à disposition, aux voyageurs de demander de camper dans un jardin et de communiquer entre eux pour réaliser cette utilisation. Les utilisateurs sont seuls responsables de toute interaction avec d'autres utilisateurs de la plateforme. Welcome To My Garden ne prend aucune responsabilité ni obligation en ce qui concerne les communications ou les différends entre deux utilisateurs. Pour être très clair: Welcome To My Garden est une plateforme permettant aux hôtes de mettre librement leur jardin à disposition, aux utilisateurs d'utiliser le jardin de quelqu'un pour camper et un endroit pour communiquer entre les utilisateurs. Welcome to My Garden ne sera pas et ne pourra être tenu responsable des interactions ou conséquences des interactions entre utilisateurs. Les utilisateurs libèrent Welcome To My Garden (et ses bénévoles) de réclamations, demandes et dommages (réels et consécutifs) de toute nature, connus et inconnus, soupçonnés et insoupçonnés, divulgués et non divulgués, découlant de ou liés de quelque manière que ce soit à ces des disputes. Gardez toujours à l'esprit la sécurité et votre bon jugement lorsque vous utilisez la plateforme."
+              "0": "Welcome To My Garden est une plateforme permettant aux hôtes de mettre librement leur jardin à disposition, aux voyageurs de demander de camper dans un jardin et de communiquer entre eux pour réaliser cette utilisation. Les utilisateurs sont seuls responsables de toute interaction avec d'autres utilisateurs de la plateforme. Welcome To My Garden ne prend aucune responsabilité ni obligation en ce qui concerne les communications ou les différends entre deux utilisateurs. Pour être très clair: Welcome To My Garden est une plateforme permettant aux hôtes de mettre librement leur jardin à disposition, aux utilisateurs d'utiliser le jardin de quelqu'un pour camper et un endroit pour communiquer entre les utilisateurs. Welcome to My Garden ne sera pas et ne pourra être tenu responsable des interactions ou conséquences des interactions entre utilisateurs. Les utilisateurs libèrent Welcome To My Garden (ainsi que son équipe et ses bénévoles) de réclamations, demandes et dommages (réels et consécutifs) de toute nature, connus et inconnus, soupçonnés et insoupçonnés, divulgués et non divulgués, découlant de ou liés de quelque manière que ce soit à ces des disputes. Gardez toujours à l'esprit la sécurité et votre bon jugement lorsque vous utilisez la plateforme."
             }
           },
           "1": {
@@ -957,7 +965,7 @@
         "title": "Limitation des responsabilités",
         "descriptions": {
           "0": {
-            "copy": "Welcome to My Garden ne sera pas tenu responsable envers les voyageurs et/ou les hôtes en vertu de toute théorie de responsabilité - qu'elle soit fondée sur un contrat, un délit, une négligence, une responsabilité stricte, une garantie ou autre - pour tout dommage indirect, consécutif, exemplaire, accessoire, punitif ou dommages particuliers."
+            "copy": "Welcome to My Garden, y compris son équipe et ses bénévoles, ne sera pas tenu responsable envers les voyageurs et/ou les hôtes en vertu de toute théorie de responsabilité - qu'elle soit fondée sur un contrat, un délit, une négligence, une responsabilité stricte, une garantie ou autre - pour tout dommage indirect, consécutif, exemplaire, accessoire, punitif ou dommages particuliers."
           },
           "1": {
             "copy": "EN AUCUN CAS WELCOMETOMYGARDEN.ORG, UNE ORGANISATION BELGE À BUT NON LUCRATIF, OU SES BAILLEURS DE FONDS ET BÉNÉVOLES, NE POURRONT ÊTRE TENUS RESPONSABLES DE DOMMAGES INDIRECTS OU CONSÉCUTIFS, OU DE TOUT AUTRE DOMMAGE DE QUELQUE NATURE QUE CE SOIT, Y COMPRIS, MAIS SANS S'Y LIMITER, LA PERTE D'UTILISATION, LA PERTE DE BÉNÉFICES OU LA PERTE DE DONNÉES, QUE CE SOIT DANS LE CADRE D'UNE ACTION CONTRACTUELLE, DÉLICTUELLE (Y COMPRIS, MAIS SANS S'Y LIMITER, LA NÉGLIGENCE) OU AUTRE, MÊME SI NOUS AVONS ÉTÉ INFORMÉS DE LA POSSIBILITÉ DE TELS DOMMAGES, DÉCOULANT DE OU LIÉS À : (A) L'UTILISATION OU L'INCAPACITÉ D'UTILISER NOS SERVICES ; (B) LE COÛT DE REMPLACEMENT DE TOUT BIEN, SERVICE OU INFORMATION ACHETÉ OU OBTENU À LA SUITE DE TOUTE INFORMATION OBTENUE OU DE TRANSACTIONS CONCLUES PAR L'INTERMÉDIAIRE DE NOS SERVICES ; (C) LA DIVULGATION, L'ACCÈS NON AUTORISÉ OU L'ALTÉRATION DE VOTRE CONTENU ; (D) LES DOMMAGES POUR PERTE OU CORRUPTION DE DONNÉES OU DE PROGRAMMES, LES INTERRUPTIONS DE SERVICE OU L'OBTENTION DE SERVICES DE REMPLACEMENT, MÊME SI NOUS SAVONS OU AVONS ÉTÉ INFORMÉS DE LA POSSIBILITÉ DE TELS DOMMAGES ; (E) LES DÉCLARATIONS, LA CONDUITE OU LES OMISSIONS DE TOUT FOURNISSEUR DE SERVICES OU AUTRE TIERS SUR NOS SERVICES ; (F) VOTRE CONDUITE OU LES ACTES DE TOUTE AUTRE PERSONNE EN RELATION AVEC L'UTILISATION DES SERVICES, Y COMPRIS, MAIS SANS S'Y LIMITER, LES DOMMAGES CORPORELS, LA DÉTRESSE ÉMOTIONNELLE, LA MORT OU TOUT AUTRE DOMMAGE RÉSULTANT DE COMMUNICATIONS OU DE RÉUNIONS AVEC D'AUTRES MEMBRES ENREGISTRÉS DE NOS SERVICES OU DES PERSONNES QUI VOUS ONT ÉTÉ PRÉSENTÉES PAR NOS SERVICES, QUE CE SOIT EN LIGNE OU HORS LIGNE ; OU (G) TOUTE AUTRE QUESTION DÉCOULANT DE, RELATIVE À OU LIÉE À NOS SERVICES OU À CES CONDITIONS."
@@ -1015,7 +1023,7 @@
         "title": "Droits de propriété de Welcome to My Garden",
         "descriptions": {
           "0": {
-            "copy": "Le code source de Welcome to My Garden est open source. Vous acceptez d'être lié et de respecter tout accord de licence qui s'applique à ce logiciel open source."
+            "copy": "Le code source de Welcome To My Garden est un logiciel libre. Vous acceptez d'être lié par et de vous conformer à tout accord de licence qui s'applique à ce logiciel open source. L'identité visuelle, y compris le logo et les couleurs, et le nom ne peuvent être utilisés ou reproduits pour toute autre plateforme sans l'autorisation préalable de Welcome To My Garden."
           }
         }
       },

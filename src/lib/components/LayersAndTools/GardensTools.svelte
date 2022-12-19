@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { _ } from 'svelte-i18n';
   import { LabeledRadiobox } from '@/lib/components/UI';
   export let showGardens: boolean;
   export let showSavedGardens: boolean;
@@ -28,20 +29,20 @@
   id="all-gardens"
   name="gardens"
   bind:group={gardensGroup}
-  label={'Show all gardens'}
+  label={$_('map.gardens.show-all')}
   value="ALL"
 />
 <LabeledRadiobox
   id="saved-gardens"
   name="gardens"
   bind:group={gardensGroup}
-  label={'Only saved gardens'}
+  label={$_('map.gardens.show-saved')}
   value="SAVED"
 />
 <LabeledRadiobox
   id="hide-gardens"
   name="gardens"
   bind:group={gardensGroup}
-  label={'Hide all gardens'}
+  label={$_('map.gardens.hide-all')}
   value="HIDE"
 />

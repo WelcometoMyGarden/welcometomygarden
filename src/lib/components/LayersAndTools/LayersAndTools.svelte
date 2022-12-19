@@ -69,7 +69,7 @@
 
   const closeSuperfanInfo = (_?: any) => {
     const date = new Date();
-    const days = 7;
+    const days = 30;
     date.setTime(date.getTime() + days * 86400000); //24 * 60 * 60 * 1000
     setCookie('superfan-dismissed', true, { expires: date.toGMTString() });
     showSuperfanInfo = false;
@@ -81,21 +81,21 @@
   {#if superfan}
     <div class="layers-and-tools-superfan">
       <ToggleAble>
-        <span slot="title">Gardens</span>
+        <span slot="title">{$_('map.gardens.title')}</span>
         <div slot="content">
           <GardensTools bind:showGardens bind:showSavedGardens />
         </div>
       </ToggleAble>
 
       <ToggleAble>
-        <span slot="title">Hiking & cycling routes</span>
+        <span slot="title">{$_('map.routes.title')}</span>
         <div slot="content">
           <TrailsTool bind:showCycling bind:showHiking on:click={toggleFileTrailModal} />
         </div>
       </ToggleAble>
 
       <ToggleAble>
-        <span slot="title">Railway network</span>
+        <span slot="title">{$_('map.railway.title')}</span>
         <div slot="content">
           <TransportTools
             bind:showRails

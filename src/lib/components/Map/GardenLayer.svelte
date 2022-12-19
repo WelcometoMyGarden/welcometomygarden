@@ -2,6 +2,7 @@
   import type { Garden } from '@/lib/types/Garden.js';
   import type { ContextType } from './Map.svelte';
   import type maplibregl from 'maplibre-gl';
+  import type GeoJSON from 'geojson';
 
   export let allGardens: { [id: string]: Garden };
   export let selectedGardenId: string | null = null;
@@ -121,7 +122,7 @@
         if (!map.hasImage(id)) map.addImage(id, img);
         resolve(true);
       };
-      img.src = 'data:image/svg+xml;base64,' + btoa(icon);
+      img.src = 'data:image/svg+xml;  ,' + btoa(icon);
     }).catch((err) => {
       // should not error in prod
       console.log(err);

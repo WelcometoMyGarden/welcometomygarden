@@ -11,5 +11,8 @@
   },
   "svelte.plugin.svelte.compilerWarnings": {
     "security-anchor-rel-noreferrer": "ignore"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

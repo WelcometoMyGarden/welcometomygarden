@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { _ } from 'svelte-i18n';
   import { Button, LabeledCheckbox, MultiActionLabel } from '@/lib/components/UI';
   import { flagIcon, trainIcon } from '@/lib/images/icons';
   import {
@@ -20,7 +21,7 @@
 <LabeledCheckbox
   name="transport"
   icon={trainIcon}
-  label={'Show train network'}
+  label={$_('map.railway.show-transport')}
   bind:checked={showTransport}
 />
 
