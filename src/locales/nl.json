@@ -613,9 +613,9 @@
   },
   "privacy-policy": {
     "title": "Privacybeleid",
-    "last-updated": "Laatst bijgewerkt: 16 augustus 2021",
+    "last-updated": "Laatst bijgewerkt: 08 decemeber 2022",
     "subtitle": "Verantwoordelijke voor de verwerking van de gegevens en de eigenaar",
-    "intro": "Welcome To My Garden met Open Collective Brussels als rechtsentiteit, een vzw, opgericht en bestaand naar Belgisch recht, met maatschappelijke zetel te Cantersteen 12, 1000 Brussel België, met ondernemingsnummer BE 0664.932.030.",
+    "intro": "Welcome To My Garden, een project zonder winstoogmerk onder de legale entiteit Slowby, een sociale onderneming, opgericht en bestaand naar Belgisch recht, met maatschappelijke zetel te Henri Van Bortonnestraat 100, 1090 Jette, België, met ondernemingsnummer BE 0784.423.261.",
     "email": "Contact: {support}",
     "scope": {
       "title": "Privacybeleid",
@@ -791,7 +791,7 @@
   },
   "terms-of-use": {
     "title": "Gebruiksvoorwaarden",
-    "last-updated": "Laatst bijgewerkt: 30 Mei 2020",
+    "last-updated": "Laatst bijgewerkt: 8 december 2022",
     "intro": {
       "0": {
         "copy": "Welcome to My Garden is een netwerk zonder winstoogmerk van burgers die gratis kampeerplekken aanbieden aan trage reizigers. Deze Servicevoorwaarden (<span class=\"bold\">\"Voorwaarden\"</span>) zijn van toepassing op jouw toegang tot en gebruik van de website en het gebruik van het netwerk (gezamenlijk ons ​​<span class=\"bold\">\"Platform\"</span>) dat wordt aangeboden door Welcome to My Garden."
@@ -850,7 +850,7 @@
               },
               "1": {
                 "title": "Disclaimer",
-                "copy": "Het Welcome to My Garden-platform is een burgerinitiatief. De vrijwilligers achter Welcome to My Garden zijn niet verantwoordelijk voor verlies, schade of letsel als gevolg van het gebruik van de website en/of tijdens een verblijf in de tuin van een andere burger."
+                "copy": "Het Welcome to My Garden-platform is een burgerinitiatief. Het team achter Welcome to My Garden is niet verantwoordelijk voor verlies, schade of letsel als gevolg van het gebruik van de website en/of tijdens een verblijf in de tuin van een andere burger."
               },
               "2": {
                 "title": "Geen discriminatie",
@@ -901,13 +901,21 @@
           "5": {
             "title": "Geen auto",
             "copy": {
-              "0": "Het Welcome to My Garden-platform respecteert het milieu en komt alleen tegemoet aan de behoeften van trage reizigers. Dit betekent dat gebruikers alleen te voet, met de fiets of met het openbaar vervoer naar tuinen kunnen reizen. Het gebruik van gemotoriseerde voertuigen is verboden, behalve voor gebruikers met beperkte mobiliteit. Het is wel toegestaan ​​om met een gemotoriseerd voertuig naar de start van een pad te reizen."
+              "0": "Het Welcome to My Garden-platform respecteert het milieu en komt alleen tegemoet aan de behoeften van trage reizigers. Dit betekent dat gebruikers alleen te voet, met de fiets of met het openbaar vervoer naar tuinen kunnen reizen. Als je van plan bent met een gemotoriseerd voertuig te reizen, neem dan geen contact op met hosts via Welcome To My Garden. Het gebruik van gemotoriseerde voertuigen is verboden."
             }
           },
           "6": {
+            "title": "De optie om Superfan te worden",
+            "copy": {
+              "0": "Welcome To My Garden biedt gebruikers de optie om Superfan te worden en het project financieel te steunen zodat het voor iedereen gratis te gebruiken blijft. Om Superfans te bedanken voor hun steun, krijgen ze toegang tot extra functies. De keuze om Superfan te worden is optioneel. Superfans mogen hun login niet overdragen aan derden. Superfans gaan akkoord met dezelfde voorwaarden van alle gebruikers en Welcome To My Garden behoudt zich het recht voor om accounts van Superfans die niet voldoen aan de voorwaarden te weigeren, op te schorten of te verwijderen.",
+              "1": "De beperkingen van aansprakelijkheid (zie hieronder) van Welcome To My Garden in het algemeen gelden ook voor het gebruik van de extra functies voor Superfans, wat betekent dat Welcome To My Garden niet verantwoordelijk kan worden gehouden voor enige schade of verlies dat zou ontstaan als gevolg van het gebruik van Welcome To My Garden.",
+              "2": "Superfan worden is gebaseerd op het principe van open pricing. Superfans kiezen de prijs die het beste bij hun budget past en betalen per jaar. De prijs is inclusief 6% BTW op het lidmaatschap. De bijdrage is vrijblijvend: het stopt automatisch na een jaar, en Superfans krijgen een e-mail om het te verlengen. De bijdrage als Superfan kan niet worden terugbetaald en kan niet aan derden worden overgedragen."
+            }
+          },
+          "7": {
             "title": "Disclaimer",
             "copy": {
-              "0": "Het Welcome to My Garden-platform is een burgerinitiatief. De vrijwilligers achter Welcome to My Garden zijn niet verantwoordelijk voor verlies, schade of letsel als gevolg van het gebruik van de website en/of tijdens een verblijf in de tuin van een andere burger."
+              "0": "Het Welcome to My Garden-platform is een burgerinitiatief. Het team en de vrijwilligers achter Welcome to My Garden zijn niet verantwoordelijk voor verlies, schade of letsel als gevolg van het gebruik van de website en/of tijdens een verblijf in de tuin van een andere burger."
             }
           }
         }
@@ -918,7 +926,7 @@
           "0": {
             "title": "Je bent volledig verantwoordelijk voor je interacties met andere gebruikers.",
             "copy": {
-              "0": "Welcome To My Garden is een platform waarop gebruikers hun tuin vrij ter beschikking kunnen stellen, een tuinverblijf kunnen aanvragen en met elkaar kunnen communiceren om dit doel te bereiken. Gebruikers zijn zelf verantwoordelijk voor alle interacties met andere gebruikers van het platform. Welcome To My Garden heeft geen betrokkenheid en geen verantwoordelijkheden of aansprakelijkheden met betrekking tot communicatie of geschillen tussen twee gebruikers. Voor alle duidelijkheid: Welcome To My Garden is een platform waarmee hosts hun tuin vrij ter beschikking kunnen stellen, zodat gebruikers iemands tuin kunnen gebruiken om te kamperen; en een plek om te communiceren tussen gebruikers. Welcome to My Garden kan niet verantwoordelijk worden gehouden voor de interacties tussen gebruikers of diens gevolgen. Gebruikers stellen Welcome To My Garden (en haar vrijwilligers) vrij van claims, eisen en schade (feitelijk en dientengevolge) van elke soort en aard, bekend en onbekend, vermoed en onvermoed, openbaar gemaakt en niet openbaar gemaakt, voortvloeiend uit of op enigerlei wijze verband houdend met dergelijke geschillen. Houd bij het gebruik van het platform altijd rekening met veiligheid en gezond verstand."
+              "0": "Welcome To My Garden is een platform waarop gebruikers hun tuin vrij ter beschikking kunnen stellen, een tuinverblijf kunnen aanvragen en met elkaar kunnen communiceren om dit doel te bereiken. Gebruikers zijn zelf verantwoordelijk voor alle interacties met andere gebruikers van het platform. Welcome To My Garden heeft geen betrokkenheid en geen verantwoordelijkheden of aansprakelijkheden met betrekking tot communicatie of geschillen tussen twee gebruikers. Voor alle duidelijkheid: Welcome To My Garden is een platform waarmee hosts hun tuin vrij ter beschikking kunnen stellen, zodat gebruikers iemands tuin kunnen gebruiken om te kamperen; en een plek om te communiceren tussen gebruikers. Welcome to My Garden kan niet verantwoordelijk worden gehouden voor de interacties tussen gebruikers of diens gevolgen. Gebruikers stellen Welcome To My Garden (en haar team en vrijwilligers) vrij van claims, eisen en schade (feitelijk en dientengevolge) van elke soort en aard, bekend en onbekend, vermoed en onvermoed, openbaar gemaakt en niet openbaar gemaakt, voortvloeiend uit of op enigerlei wijze verband houdend met dergelijke geschillen. Houd bij het gebruik van het platform altijd rekening met veiligheid en gezond verstand."
             }
           },
           "1": {
@@ -957,7 +965,7 @@
         "title": "Beperking van aansprakelijkheid",
         "descriptions": {
           "0": {
-            "copy": "Welcome to My Garden is niet aansprakelijk jegens gebruikers en/of hosts onder enige aansprakelijkheidstheorie - of deze nu is gebaseerd op contract, onrechtmatige daad, nalatigheid, strikte aansprakelijkheid, garantie of anderszins - voor enige indirecte, daaruit volgende, voorbeeldige, incidentele, bestraffende of speciale schade."
+            "copy": "Welcome to My Garden (en haar team en vrijwilligers) is niet aansprakelijk jegens gebruikers en/of hosts onder enige aansprakelijkheidstheorie - of deze nu is gebaseerd op contract, onrechtmatige daad, nalatigheid, strikte aansprakelijkheid, garantie of anderszins - voor enige indirecte, daaruit volgende, voorbeeldige, incidentele, bestraffende of speciale schade."
           },
           "1": {
             "copy": "IN GEEN GEVAL ZAL WELCOMETOMYGARDEN.ORG, EEN BELGISCHE VERENIGING ZONDER WINSTOOGMERK, HAAR STICHTERS OF VRIJWILLIGERS, AANSPRAKELIJK WORDEN GESTELD VOOR INDIRECTE OF GEVOLGSCHADE, OF ENIGE ANDERE SCHADE VAN ELKE SOORT, INCLUSIEF MAAR NIET BEPERKT TOT VERLIES VAN GEBRUIK, WINST OF GEGEVENS, OF HET NU IN EEN ACTIE BINNEN HET CONTRACT, EEN ONRECHTMATIGE DAAD (INCLUSIEF MAAR NIET BEPERKT TOT NALATIGHEID) OF ANDERSZINS IS, ZELFS ALS WE OP DE HOOGTE WERDEN GESTELD VAN DERGELIJKE SCHADE, VOORTVLOEIEND UIT OF IN VERBAND MET: (A) HET GEBRUIK OF DE ONMOGELIJKHEID OM ONZE DIENSTEN TE GEBRUIKEN; (B) DE KOSTEN VOOR DE VERVANGING VAN GOEDEREN, DIENSTEN OF INFORMATIE DIE IS GEKOCHT OF VERKREGEN TEN GEVOLGE VAN INFORMATIE DIE IS VERKREGEN UIT, OF TRANSACTIES DIE ZIJN UITGEVOERD DOOR DEZE DIENSTEN; (C) BEKENDMAKING VAN,ONGEAUTORISEERDE TOEGANG TOT OF WIJZIGING VAN JOUW INHOUD; (D) SCHADE VOOR VERLIES OF VERBETERING VAN GEGEVENS OF PROGRAMMA’S, ONDERBREKING VAN DE DIENST OF AANKOOP VAN VERVANGENDE DIENSTEN; (E) VERKLARINGEN, GEDRAG OF NALATIGHEID VAN ENIGE DIENSTVERLENERS OF ANDERE DERDEN OP ONZE DIENSTEN; (F) JOUW OF IEDER ANDERS GEDRAG OF HANDELINGEN IN VERBAND MET HET GEBRUIK VAN DE DIENSTEN, MET INBEGRIP VAN MAAR NIET BEPERKT TOT LICHAMELIJKE LETSELS, EMOTIONELE PIJN, OVERLIJDEN OF ENIGE ANDERE SCHADE ALS GEVOLG VAN COMMUNICATIE OF SAMENKOMSTEN MET ANDERE GEREGISTREERDE GEBRUIKERS VAN ONZE DIENSTEN OF PERSONEN AAN JOU VOORGESTELD DOOR ONZE DIENSTEN, ZOWEL ONLINE ALS OFFLINE; OF (G) ENIGE ANDERE ZAAK DIE VOORTVLOEIT UIT, VERBAND HOUDT MET OF VERBONDEN IS MET ONZE DIENSTEN OF DEZE VOORWAARDEN."

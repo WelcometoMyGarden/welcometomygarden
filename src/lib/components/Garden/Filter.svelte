@@ -144,7 +144,7 @@
   .filter {
     background-color: rgba(255, 255, 255, 0);
     width: 80%;
-    top: calc(var(--height-nav) + 1.5rem);
+    top: 1.5rem;
     width: 32rem;
     left: 5rem;
     position: absolute;

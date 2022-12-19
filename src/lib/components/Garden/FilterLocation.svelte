@@ -59,9 +59,9 @@
           showNoPlaces();
         }
       }
-    } catch (e) {
+    } catch (err) {
       places = [];
-      console.log(e);
+      console.log(err);
     }
   };
 

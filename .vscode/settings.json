@@ -1,5 +1,18 @@
 {
   "i18n-ally.localesPaths": ["src/locales"],
   "i18n-ally.sourceLanguage": "en",
-  "i18n-ally.keystyle": "nested"
+  "i18n-ally.keystyle": "nested",
+  "svg.preview.background": "transparent",
+  "eslint.lintTask.enable": true,
+  "eslint.validate": ["svelte"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[svelte]": {
+    "editor.defaultFormatter": "svelte.svelte-vscode"
+  },
+  "svelte.plugin.svelte.compilerWarnings": {
+    "security-anchor-rel-noreferrer": "ignore"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

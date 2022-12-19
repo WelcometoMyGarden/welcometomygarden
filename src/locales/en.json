@@ -19,7 +19,9 @@
     "sign-in": "Sign in",
     "garden": "Garden",
     "shop": "Shop",
-    "slowby": "Secret Trips"
+    "slowby": "Secret Trips",
+    "about-us": "About Us",
+    "become-superfan": "Become a Superfan"
   },
   "ui": {
     "card": {
@@ -45,11 +47,13 @@
       }
     },
     "intro": {
-      "copy": "A not-for-profit network of citizens offering free camping spots in their gardens to slow travellers",
+      "headline": "Your slow travel adventure starts here",
+      "copy": "Free camping spots in people’s gardens for slow travellers. Brought to you by a warm-hearted community of citizens.",
       "add-garden": "Add your garden",
       "explore-map": "Explore map",
       "learn-more": "Learn more"
     },
+
     "steps": {
       "0": {
         "title": "Step 1: Sign up to become or find a host",
@@ -372,9 +376,9 @@
   },
   "privacy-policy": {
     "title": "Privacy policy",
-    "last-updated": "Last updated: 16 August 2021",
+    "last-updated": "Last updated: 08 December 2022",
     "subtitle": "Responsible for the processing of the Data and Owner",
-    "intro": "Welcome To My Garden with Open Collective Brussels as legal entity, a not-for-profit organization, incorporated and existing under the laws of Belgium, with registered office at Cantersteen 12, 1000 Brussels, Belgium, with company number BE 0664.932.030.",
+    "intro": "Welcome To My Garden, a not-for-profit project under the legal entity of Slowby, a social enterprise, incorporated and existing under the laws of Belgium, with registered office at Henri Van Bortonnestraat 100, 1090 Jette, Belgium, with company number BE 0784.423.261.",
     "email": "Email: {support}",
     "scope": {
       "title": "Privacy Policy",
@@ -669,6 +673,92 @@
       "login-issue": "We couldn't log you in. If the problem persists, please contact {support}"
     }
   },
+  "become-superfan": {
+    "title": "Become a Superfan"
+  },
+  "about-superfan": {
+    "faq-sections": {
+      "superfan-faq": {
+        "title": "Superfans",
+        "questions": {
+          "0": {
+            "title": "What does it mean to be a Superfan?",
+            "copy": "As a Superfan, you contribute financially to Welcome To My Garden so that we can become financially stable, and keep the platform free for everyone to use. You will also get access to some amazing new slow travel tools: switch on the train layer, upload your routes and save gardens!"
+          },
+          "1": {
+            "title": "Why does WTMG need Superfans?",
+            "copy": "We started off as a small citizen initiative in Belgium, but now we’re growing into something bigger. We’re a small team of five and have invested a lot of our personal time, energy and money in the platform, but now we’re moving beyond the volunteer stage. A lot of good initiatives collapse when they grow because they lack funding, and we don’t want that to happen to our beautiful community and platform. And that’s where our Superfans come in! Thanks to your contribution, we can make sure that WTMG not only survives, but also thrives."
+          },
+          "2": {
+            "title": "Where will my money go?",
+            "copy": "WTMG is free to use, but not free to make. We have bills to pay: our technical costs, which increase as we grow; our talented team; our office space at the Impact House. Behind the scenes, we are continually improving the platform. So many beautiful encounters have already taken place through WTMG, and we want to continue fostering genuine connections between real people through our platform. To make that happen, we want to create a community space where people can meet and talk, both online and offline. Also, we are committed to keeping WTMG safe and user friendly, and won't allow irrelevant automated ads (preferably no ads at all, but that may not be feasible). All of this requires hard work behind the scenes - WTMG now needs our full-time attention to stay alive and kicking!"
+          },
+          "3": {
+            "title": "What do I get when I become a Superfan?",
+            "copy": "As a Superfan, you will get access to some great new slow travel tools! These will make planning your slow travel adventures even easier. This is our way to say thank you for believing in us. Here they are: <ul> <li>Train layer: with the train layer on, you can easily see the rail network on the map!</li> <li>Upload your route: upload your own GPX file and easily find gardens along your route.</li> <li>Save gardens: keep track of your favourite gardens and stay in touch with the amazing hosts you’ve met!</li> </ul>"
+          },
+          "5": {
+            "title": "How much do I need to contribute to become a Superfan?",
+            "copy": "It’s up to you! We decided to use open pricing, which means you get to choose the price that fits your budget best. We want WTMG to be available to everyone, and we trust your decision. Our standard fee is €5/month; if you are a student or otherwise on a low budget, you can opt for our reduced fee of €3/month. If you would like to contribute a bit more so that others can pay less you can opt for the solidarity fee of €10/month. You pay for one year at a time."
+          },
+          "6": {
+            "title": "How does payment work?",
+            "copy": "Once you’ve chosen how much you want to pay, you will be redirected to the payment page. You pay for one year at a time. Becoming a Superfan is commitment-free: your subscription stops automatically after one year, and we’ll send you an email to renew it."
+          },
+          "7": {
+            "title": "Is it optional to become a Superfan?",
+            "copy": "Yes, it’s totally optional! We want to stress that we want to keep WTMG free for everyone to use. Yet, in order to be able to do that, we need the financial support of our Superfans. That way, we can make WTMG financially stable, future-proof and keep it free for everyone to use. As a Superfan, you will get access to extra features, and support WTMG’s mission at the same time!"
+          },
+          "8": {
+            "title": "If I don’t become a Superfan, what will happen to my free account?",
+            "copy": "Nothing will change for you if you have a free account. We want to make slow travel more accessible for everyone, which is why we are committed to keeping the free version. The social impact we are making is very important to us: through WTMG, thousands of meaningful connections have been made between people! The financial contribution of our Superfans will help us sustain and improve the platform."
+          },
+          "9": {
+            "title": "For how long will I become a Superfan?",
+            "copy": "If you become a Superfan, you will pay for one year. Your subscription stops automatically after one year, and we’ll send you an email to renew it."
+          },
+          "10": {
+            "title": "Can I stop being a Superfan?",
+            "copy": "Yes, any time you want. As soon as you’ve become a Superfan, you can manage your yearly Superfan subscription on <a href={accountLink}>your WTMG account page</a>."
+          }
+        }
+      },
+      "hosts-faq": {
+        "title": "Hosts",
+        "questions": {
+          "0": {
+            "title": "I’m a host. Should I become a Superfan?",
+            "copy": "First of all, we’re so happy that you’re welcoming slow travellers in your garden! WTMG wouldn’t exist without warm-hearted citizens like you. If you want to become a Superfan and support us on our mission to make slow travel more accessible, we’d be very happy about that. But we want to stress that you’re already making a huge contribution as a host!"
+          }
+        }
+      },
+      "structure-faq": {
+        "title": "About WTMG",
+        "questions": {
+          "0": {
+            "title": "Who’s behind WTMG?",
+            "copy": "We’re a small team of five slow travel enthusiasts and we want to help others embark on their slow travel adventures too! You can read more about us here."
+          },
+          "1": {
+            "title": "What’s the legal structure behind WTMG?",
+            "copy": "Welcome To My Garden, a not-for-profit project under the legal entity of Slowby, a <a href=\"https://1819.brussels/en/information-library/sustainable-entrepreneurship/accreditation-social-enterprise-benefits\">social enterprise</a>, meaning that we’re an initiative striving for social impact. The five principles of the <a href=\"https://www.codesocialeondernemingen.nl/application/files/2615/5491/1784/Principles_Code_Social_Enterprises_English_version.pdf\">Code Social Enterprises</a> are our guideline for decision making.<br>To safeguard the mission of WTMG, we're considering becoming a cooperative or implementing a <a href=\"https://purpose-economy.org/en/whats-steward-ownership/\">steward ownership model</a> at some point in the future. Yet, first we need to make sure that we can create a viable model that makes WTMG financially stable."
+          },
+          "2": {
+            "title": "How much does it cost to run WTMG?",
+            "copy": "WTMG is free to use, but not free to make. We have bills to pay: our technical costs alone are a few thousands of euros a year, and those increase as we grow. We also want to make sure we can pay fair salaries to our talented team; we’re well beyond the volunteer stage now. And we have to pay rent for our office space at the Impact House. This is just to give you an idea of what our costs are - it’s hard to put a precise number on this right now but it’s much, much more than we can pay out of our own pocket! As soon as we can, we will issue an annual impact report which will also give you more insight into our costs."
+          },
+          "3": {
+            "title": "How did WTMG pay the bills before there were Superfans?",
+            "copy": "During our first year of existence, we received financial support from early believers like GR Sentiers, Grote Routepaden vzw, Natuurpunt and Wikimedia Belgium. Several generous individuals also made a donation on the WTMG page on Open Collective.<br><br>Over the last two years, the proceeds of the Velotour Festival were used to pay the salary of students working on the technical development of WTMG.<br><br>At the beginning of 2022, we launched Slowby to help beginners to plan a slow travel trip. The revenue received from our planning helped us cover most of the bills of WTMG. Last but not least, our team of volunteers has also invested a lot of their personal time, energy and money in this initiative. Now that the platform is growing we need to invest more time and money in it. WTMG now needs our full-time attention to stay alive and kicking!"
+          },
+          "4": {
+            "title": "How many Superfans does WTMG need to survive and thrive?",
+            "copy": "Our goal is to gather at least 1.000 Superfans in 2023. However, that's not enough to cover all our costs. We fill the gap with the revenue generated by Manon’s film, Women Don’t Cycle, and our Slowby Secret Trips. We intend to create an annual impact report which will also include a budget breakdown."
+          }
+        }
+      }
+    }
+  },
   "request-password-reset": {
     "title": "Set a new password",
     "description": "If you submit the form below, we can send you a unique link with which you can reset your password.",
@@ -787,11 +877,38 @@
       "hiking": "Show hiking routes",
       "cycling": "Show cycling routes",
       "attribution": "Trails courtesy of {link}"
+    },
+    "superfan-notice": {
+      "title": "New features for Superfans",
+      "linkText": "become a Superfan",
+      "description": "Upload routes, save gardens, see train connections & more when you {linkText}!"
+    },
+    "gardens": {
+      "title": "Gardens",
+      "show-all": "Show all gardens",
+      "show-saved": "Only saved gardens",
+      "hide-all": "Hide all gardens"
+    },
+    "routes": {
+      "title": "Hiking & cycling routes",
+      "title-modal": "Hiking & cycling",
+      "upload-route": "Upload a route"
+    },
+    "railway": {
+      "title": "Railway network",
+      "title-modal": "Trains",
+      "show-transport": "Show train network"
+    },
+    "upload-route": {
+      "title": "Upload your route",
+      "drag-here": "Drag here or {selectFile}",
+      "select-file": "select file",
+      "added-to-map": "has been added to the map."
     }
   },
   "terms-of-use": {
     "title": "Terms of use",
-    "last-updated": "Last updated : 30 May 2020",
+    "last-updated": "Last updated: 8 December 2022",
     "intro": {
       "0": {
         "copy": "Welcome To My Garden is a not-for-profit network of citizens offering free camping spots in their gardens to slow travellers. These Terms of Service (<span class=\"bold\">\"Terms\"</span>) apply to your access to and use of the website and the use of the network (collectively, our <span class=\"bold\">\"Platform\"</span>) provided by Welcome To My Garden."
@@ -808,7 +925,7 @@
         "title": "Who can register on the platform?",
         "descriptions": {
           "0": {
-            "copy": "<span class=\"bold\"> Any citizen who wants to offer a free camping spot in their garden to slow travellers and any slow travellers (cyclists and hikers) who want to use the network. </span> If you want to add your garden or contact a host, you need to create an account. Only registered participants can be active users. You can register with your email address."
+            "copy": "<span class=\"bold\">Any citizen who wants to offer a free camping spot in their garden to slow travellers and any slow travellers - strictly defined as non-motorized travellers like cyclists and hikers - who want to use the network. </span> If you want to add your garden or contact a host, you need to create an account. Only registered participants can be active users. You can register with your email address."
           },
           "1": {
             "copy": "The creation of an account by a user does not give this user ownership over the account. Welcome To My Garden reserves the right to refuse, suspend or delete accounts, for example if the user does not comply with the following rules or inappropriate behaviour has been reported by a host or guest."
@@ -850,7 +967,7 @@
               },
               "1": {
                 "title": "Disclaimer",
-                "copy": "The Welcome To My Garden platform is a citizen initiative. The volunteers behind Welcome To My Garden will not take any responsibility for any loss, damage or injury incurred resulting from the use of the website and/or while staying in another citizen’s garden."
+                "copy": "The Welcome To My Garden platform is a citizen initiative. The team behind Welcome To My Garden will not take any responsibility for any loss, damage or injury incurred resulting from the use of the website and/or while staying in another citizen’s garden."
               },
               "2": {
                 "title": "No discrimination",
@@ -901,13 +1018,21 @@
           "5": {
             "title": "No car rule",
             "copy": {
-              "0": "The Welcome To My Garden platform respects the environment and caters to the needs of slow travellers only. This means users can only travel to gardens on foot, by bicycle or by public transport. The use of motorized vehicles is forbidden, except for users with reduced mobility. However, it is permitted to travel to the start of a trail using a motorized vehicle."
+              "0": "The Welcome To My Garden platform respects the environment and caters to the needs of slow travellers only. This means users can only travel to gardens on foot, by bicycle or by public transport. If you're planning to travel by motorized vehicle, please do not contact hosts via this platform. The use of motorized vehicles is forbidden."
             }
           },
           "6": {
+            "title": "The option to become a Superfan",
+            "copy": {
+              "0": "Welcome To My Garden offers users the possibility to become a Superfan and financially support the project so that it can remain free to use for everyone. To thank Superfans for their support, they get access to extra features. The choice to become Superfan is optional. Superfans are not allowed to transfer their login to a third party. Superfans agree with the same terms of all users and Welcome To My Garden reserves the right to refuse, suspend or delete accounts of Superfans who don’t comply with the terms.",
+              "1": "The limitations of liability (see below) of Welcome To My Garden in general also apply for the use of the extra features for Superfans, which means that Welcome To My Garden cannot be held responsible for any damages or loss that would occur due to the use of Welcome To My Garden.",
+              "2": "Becoming a Superfan is based on the principle of open pricing. Superfans choose the price that fits their budget best and pay for one year at a time. The price includes 6% VAT applied to memberships. The subscription is commitment-free: it stops automatically after one year, and Superfans get an email to renew it. The Superfan subscription is non-refundable and non-transferable to a third party."
+            }
+          },
+          "7": {
             "title": "Disclaimer",
             "copy": {
-              "0": "The platform Welcome To My Garden is a citizen initiative. The volunteers behind Welcome To My Garden will not take any responsibility for any loss, damage or injury incurred as a result of using the website and/or while staying in another citizen’s garden."
+              "0": "The platform Welcome To My Garden is a citizen initiative. The team and volunteers behind Welcome To My Garden will not take any responsibility for any loss, damage or injury incurred as a result of using the website and/or while staying in another citizen’s garden."
             }
           }
         }
@@ -918,7 +1043,7 @@
           "0": {
             "title": "You alone are responsible for your interactions with other users.",
             "copy": {
-              "0": "Welcome To My Garden is a platform for users to put their garden freely at disposal, to request a garden stay and communicate with one another to achieve this use. Users have the sole responsibility for any interactions with other users of the platform. Welcome To My Garden has no involvement and no responsibilities or liabilities with respect to any communications or disputes between two users. To be very clear: Welcome To My Garden is a platform allowing hosts to put their garden freely at disposal, allowing users to use someone’s garden to camp and a place to communicate between users. Welcome To My Garden will not be and cannot be held responsible for the interactions or consequences of interactions between users. Users release Welcome To My Garden (and its volunteers) from claims, demands and damages (actual and consequential) of every kind and nature, known and unknown, suspected and unsuspected, disclosed and undisclosed, arising out of or in any way connected with such disputes. Always keep safety and good judgement in mind when using the platform."
+              "0": "Welcome To My Garden is a platform for users to put their garden freely at disposal, to request a garden stay and communicate with one another to achieve this use. Users have the sole responsibility for any interactions with other users of the platform. Welcome To My Garden has no involvement and no responsibilities or liabilities with respect to any communications or disputes between two users. To be very clear: Welcome To My Garden is a platform allowing hosts to put their garden freely at disposal, allowing users to use someone’s garden to camp and a place to communicate between users. Welcome To My Garden will not be and cannot be held responsible for the interactions or consequences of interactions between users. Users release Welcome To My Garden (and its team and volunteers) from claims, demands and damages (actual and consequential) of every kind and nature, known and unknown, suspected and unsuspected, disclosed and undisclosed, arising out of or in any way connected with such disputes. Always keep safety and good judgement in mind when using the platform."
             }
           },
           "1": {
@@ -957,7 +1082,7 @@
         "title": "Limitation of Liability",
         "descriptions": {
           "0": {
-            "copy": "Welcome To My Garden - including volunteers - will not be liable to either users and/or hosts under any theory of liability—whether based in contract, tort, negligence, strict liability, warranty, or otherwise—for any indirect, consequential, exemplary, incidental, punitive or special damages. The platform cannot be held responsible for any failure or delay in performing the terms. The platform cannot be held responsible for any liability in case of personal injury or death resulting from using it."
+            "copy": "Welcome To My Garden - including its team and volunteers - will not be liable to either users and/or hosts under any theory of liability—whether based in contract, tort, negligence, strict liability, warranty, or otherwise—for any indirect, consequential, exemplary, incidental, punitive or special damages. The platform cannot be held responsible for any failure or delay in performing the terms. The platform cannot be held responsible for any liability in case of personal injury or death resulting from using it."
           },
           "1": {
             "copy": "IN NO EVENT SHALL WELCOMETOMYGARDEN.ORG, A BELGIAN NONPROFIT ORGANISATION, OR ITS FUNDERS AND VOLUNTEERS, INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY OTHER DAMAGES OF ANY KIND, INCLUDING, BUT NOT LIMITED TO LOSS OF USE, LOSS OF PROFITS OR LOSS OF DATA, WHETHER IN AN ACTION IN CONTRACT, TORT (INCLUDING BUT NOT LIMITED TO NEGLIGENCE) OR OTHERWISE, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES, ARISING FROM OR RELATING TO: (A) THE USE OR INABILITY TO USE OUR SERVICES; (B) THE COST OF REPLACEMENT OF ANY GOODS, SERVICES OR INFORMATION PURCHASED OR OBTAINED AS A RESULT OF ANY INFORMATION OBTAINED FROM OR TRANSACTIONS ENTERED INTO THROUGH OR FROM OUR SERVICES; (C) DISCLOSURE OF, UNAUTHORIZED ACCESS TO OR ALTERATION OF YOUR CONTENT; (D) DAMAGES FOR LOSS OR CORRUPTION OF DATA OR PROGRAMS, SERVICE INTERRUPTIONS OR PROCUREMENT OF SUBSTITUTE SERVICES, EVEN IF WE KNOW OR HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES; (E) STATEMENTS, CONDUCT OR OMISSIONS OF ANY SERVICE PROVIDERS OR OTHER THIRD PARTY ON OUR SERVICES; (F) YOUR OR ANYONE ELSE’S CONDUCT OR ACTS IN CONNECTION WITH THE USE OF THE SERVICES, INCLUDING WITHOUT LIMITATION, BODILY INJURY, EMOTIONAL DISTRESS, DEATH OR ANY OTHER DAMAGES RESULTING FROM COMMUNICATIONS OR MEETINGS WITH OTHER REGISTERED MEMBERS OF OUR SERVICES OR PERSONS INTRODUCED TO YOU BY OUR SERVICES, WHETHER ON-LINE OR OFF-LINE; OR (G) ANY OTHER MATTER ARISING FROM, RELATING TO OR CONNECTED WITH OUR SERVICES OR THESE TERMS."

@@ -1,23 +1,35 @@
-<script>
+<script lang="ts">
   import Text from './Text.svelte';
 
-  export let type = null;
-  export let href = null;
+  export let type: null | string = null;
+  export let href: null | string = null;
   export let inverse = false;
   export let uppercase = false;
   export let fit = true;
-  export let target = null;
+  export let target: null | string = null;
   export let medium = false;
   export let small = false;
   export let xsmall = false;
+  export let xxsmall = false;
   export let disabled = false;
+  export let preventing = false;
+  export let orange = false;
+  export let arrow = false;
+  /** Whether this is a link-style button */
+  export let link = false;
 
   import { createEventDispatcher } from 'svelte';
+  import Icon from './Icon.svelte';
+  import chevron from '$lib/images/icons/chevron-right.svg';
 
   const dispatch = createEventDispatcher();
 
-  let clicked;
-  const click = (e) => {
+  let clicked: boolean;
+  const click = (e: MouseEvent) => {
+    if (preventing) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     clicked = true;
     setTimeout(() => (clicked = false), 100);
     if (!disabled) return dispatch('click', e);
@@ -32,18 +44,26 @@
     class:fit
     class:small
     class:xsmall
+    class:xxsmall
     class:medium
     class:inverse
     class:clicked
+    class:orange
+    class:arrow
+    class:link
     {href}
     on:click={(e) => {
       if (disabled) e.preventDefault();
       click(e);
     }}
-    {target}>
+    {target}
+  >
     <Text is="span">
       <slot />
     </Text>
+    {#if arrow}
+      <div class="arrow-icon"><Icon icon={chevron} /></div>
+    {/if}
   </a>
 {:else}
   <button
@@ -55,12 +75,20 @@
     class:medium
     class:small
     class:xsmall
+    class:xxsmall
     class:inverse
     class:clicked
-    {type}>
+    class:orange
+    class:arrow
+    class:link
+    {type}
+  >
     <Text is="span" weight="bold">
       <slot />
     </Text>
+    {#if arrow}
+      <div class="arrow-icon"><Icon icon={chevron} /></div>
+    {/if}
   </button>
 {/if}
 
@@ -82,6 +110,64 @@
     font-family: var(--fonts-copy);
     transition: all 300ms ease-in-out;
     outline: 0;
+  }
+
+  .orange {
+    background-color: var(--color-orange-light);
+    border: none;
+    border-radius: 3rem;
+    transition: all 0.3s;
+    /* TODO: add weight */
+    font-weight: 600;
+  }
+  .orange:hover,
+  .orange:active {
+    background-color: var(--color-orange);
+  }
+
+  .button.arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 2rem;
+  }
+
+  .button.arrow .arrow-icon {
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    width: 3rem;
+    height: 3rem;
+    margin-left: 0.75rem;
+  }
+  /* TODO: fix the source icon instead */
+  .button.arrow .arrow-icon :global(i) {
+    transform: translateX(1px);
+  }
+
+  .button.link {
+    background-color: unset;
+    border: none;
+    text-transform: none;
+  }
+
+  .button.link :global(span) {
+    position: relative;
+    display: inline-block;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  .button.link :global(span)::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 0.2rem;
+    position: absolute;
+    bottom: -0.4rem;
+    background-color: var(--color-blue-light);
   }
 
   .disabled {
@@ -120,6 +206,10 @@
   .xsmall {
     padding: 0.6rem 0.9rem;
     font-size: 1rem;
+  }
+
+  .xxsmall {
+    padding: 0.2rem 0.4rem;
   }
 
   .fit {

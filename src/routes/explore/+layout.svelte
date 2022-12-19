@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { _ } from 'svelte-i18n';
   import { onMount, onDestroy } from 'svelte';
   import { goto } from '$lib/util/navigate';
@@ -11,17 +11,33 @@
   import GardenLayer from '$lib/components/Map/GardenLayer.svelte';
   import WaymarkedTrails from '$lib/components/Map/WaymarkedTrails.svelte';
   import Filter from '$lib/components/Garden/Filter.svelte';
-  import { Progress, LabeledCheckbox, Icon } from '$lib/components/UI';
+  import { Progress, Icon } from '$lib/components/UI';
 
   import { getCookie, setCookie } from '$lib/util';
-  import { crossIcon, cyclistIcon, hikerIcon } from '$lib/images/icons';
+  import { crossIcon } from '$lib/images/icons';
   import { ZOOM_LEVELS } from '$lib/constants';
+  import LayersAndTools from '@/lib/components/LayersAndTools/LayersAndTools.svelte';
+  import FileTrailModal from '@/lib/components/Map/FileTrailModal.svelte';
+  import TrainConnectionsModal from '@/lib/components/Map/TrainConnectionsModal.svelte';
+  import FileTrails from '@/lib/components/Map/FileTrails.svelte';
+  import type { Garden } from '@/lib/types/Garden';
+  import { savedGardens as savedGardenStore } from '@/lib/stores/savedGardens';
+  import TrainconnectionsLayer from '@/lib/components/Map/TrainconnectionsLayer.svelte';
+  import TrainAndRails from '@/lib/components/Map/TrainAndRails.svelte';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let geolocationIsLoaded = false;
   let showHiking = false;
   let showCycling = false;
-  let filteredGardens;
+  let showFileTrailModal = false;
+  let showTrainConnectionsModal = false;
+  let showGardens = true;
+  let showSavedGardens = true;
+  let showStations = false;
+  let showRails = false;
+  let showTransport = false;
+  let filteredGardens: { [id: string]: Garden };
+  let savedGardens = [] as string[];
   let carNoticeShown = !getCookie('car-notice-dismissed');
 
   // true when visiting the link to a garden directly, used to increase zoom level
@@ -35,6 +51,11 @@
   $: center = selectedGarden
     ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
     : fallbackLocation;
+
+  savedGardenStore.subscribe((gardens) => {
+    if (Array.isArray(gardens)) savedGardens = gardens;
+    else savedGardens = [];
+  });
 
   // FUNCTIONS
 
@@ -110,11 +131,15 @@
     {zoom}
     {applyZoom}
   >
+    <TrainAndRails {showStations} {showRails} {showTransport} />
     {#if !$isFetchingGardens}
       <GardenLayer
+        {showGardens}
+        {showSavedGardens}
         on:garden-click={(e) => selectGarden(e.detail)}
         selectedGardenId={selectedGarden ? selectedGarden.id : null}
         allGardens={filteredGardens || $allGardens}
+        {savedGardens}
       />
       <Drawer on:close={closeDrawer} garden={selectedGarden} />
       <WaymarkedTrails {showHiking} {showCycling} />
@@ -135,71 +160,36 @@
         </div>
       </div>
     {/if}
+    <FileTrails />
+    <TrainconnectionsLayer />
   </Map>
-  <div class="trails">
-    <div>
-      <LabeledCheckbox
-        name="hiking"
-        icon={hikerIcon}
-        label={$_('map.trails.hiking')}
-        bind:checked={showHiking}
-      />
-    </div>
-    <div>
-      <LabeledCheckbox
-        name="cycling"
-        icon={cyclistIcon}
-        label={$_('map.trails.cycling')}
-        bind:checked={showCycling}
-      />
-    </div>
-    <span class="attribution">
-      {@html $_('map.trails.attribution', {
-        values: {
-          link: `<a href="https://waymarkedtrails.org/" target="_blank"  rel="noreferrer" >Waymarked Trails</a>`
-        }
-      })}
-    </span>
-  </div>
-
+  <LayersAndTools
+    bind:showHiking
+    bind:showCycling
+    bind:showGardens
+    bind:showSavedGardens
+    bind:showStations
+    bind:showRails
+    bind:showTransport
+    bind:showFileTrailModal
+    bind:showTrainConnectionsModal
+  />
   <Filter on:goToPlace={goToPlace} bind:filteredGardens {fallbackLocation} />
+  <FileTrailModal bind:show={showFileTrailModal} />
+  <TrainConnectionsModal bind:show={showTrainConnectionsModal} />
 </div>
 
 <style>
   .map-section {
     width: 100%;
-    height: calc(calc(var(--vh, 1vh) * 100) - var(--height-footer));
+    height: calc((var(--vh, 1vh) * 100) - var(--height-footer) - var(--height-nav));
     position: fixed;
-    top: 0;
+    top: var(--height-nav);
     left: 0;
   }
 
   .map-section :global(.mapboxgl-ctrl-top-left) {
-    top: calc(var(--height-nav) + 0.5rem);
-  }
-
-  .trails {
-    background-color: rgba(255, 255, 255, 0.8);
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    width: 26rem;
-    height: 9rem;
-    padding: 1rem;
-  }
-
-  .map-section :global(.mapboxgl-ctrl-bottom-left) {
-    bottom: 9rem;
-  }
-
-  .attribution {
-    font-size: 1.2rem;
-    margin-top: 1rem;
-    display: inline-block;
-  }
-
-  .attribution :global(a) {
-    text-decoration: underline;
+    top: calc(0.5rem);
   }
 
   .vehicle-notice-wrapper {
@@ -271,7 +261,8 @@
 
   @media screen and (max-width: 700px) {
     .map-section {
-      height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
+      height: calc(100vh - var(--height-mobile-nav));
+      top: 0;
     }
     .map-section :global(.mapboxgl-ctrl-top-left) {
       top: 1rem;

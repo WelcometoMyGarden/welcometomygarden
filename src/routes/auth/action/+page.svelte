@@ -8,6 +8,8 @@
   import { verifyPasswordResetCode, applyActionCode } from '@/lib/api/auth';
 
   const mode = $page.url.searchParams.get('mode');
+  // https://firebase.google.com/docs/auth/custom-email-handler
+  // oobCode = "A one-time code, used to identify and verify a request"
   const oobCode = $page.url.searchParams.get('oobCode');
 
   if (!mode || !oobCode) {
@@ -16,6 +18,9 @@
   }
 
   const handleAction = async () => {
+    if (!mode || !oobCode) {
+      throw new Error('Invalid code');
+    }
     if (mode === 'resetPassword') {
       try {
         const email = await verifyPasswordResetCode(oobCode);
@@ -34,7 +39,7 @@
       try {
         await applyActionCode(oobCode);
         notify.success($_('auth.verification.succes'), 8000);
-        return goto(`${routes.MAP}`);
+        return goto(routes.MAP);
       } catch (ex) {
         if ($user && $user.emailVerified) {
           notify.success($_('auth.verification.refresh'), 12000);

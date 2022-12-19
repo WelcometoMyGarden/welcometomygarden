@@ -1,11 +1,11 @@
 <script lang="ts">
-  export let garden = null;
+  export let garden: Garden | null = null;
 
   import { createEventDispatcher, tick } from 'svelte';
   import { scale } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
   import SkeletonDrawer from './SkeletonDrawer.svelte';
-  import { getPublicUserProfile } from '@/lib/api/user';
+  import { addSavedGarden, getPublicUserProfile, removeSavedGarden } from '@/lib/api/user';
   import { getGardenPhotoSmall, getGardenPhotoBig } from '$lib/api/garden';
   import { user } from '@/lib/stores/auth';
   import { clickOutside } from '$lib/directives';
@@ -16,9 +16,13 @@
     electricityIcon,
     showerIcon,
     tentIcon,
-    toiletIcon
+    toiletIcon,
+    bookmarkEmptyIcon,
+    bookmarkYellowIcon
   } from '$lib/images/icons';
   import routes from '$lib/routes';
+  import type { Garden } from '@/lib/types/Garden';
+  import Icon from '@/lib/components/UI/Icon.svelte';
 
   const dispatch = createEventDispatcher();
 
@@ -44,8 +48,8 @@
   let drawerElement;
   let photoWrapper: HTMLElement | undefined;
   let userInfo = null;
-  let photoUrl = null;
-  let biggerPhotoUrl = null;
+  let photoUrl: string | null = null;
+  let biggerPhotoUrl: string | null = null;
   let infoHasLoaded = false;
 
   const setAllGardenInfo = async () => {
@@ -78,6 +82,8 @@
   }
 
   $: ownedByLoggedInUser = $user && garden && $user.id === garden.id;
+  $: isSaved =
+    ($user && garden?.id && $user.savedGardens && $user.savedGardens.includes(garden.id)) || false;
 
   let isShowingMagnifiedPhoto = false;
   let isGettingMagnifiedPhoto = false;
@@ -120,6 +126,17 @@
       dispatch('close');
     }
   };
+
+  const saveGarden = async () => {
+    if (!garden?.id) return;
+
+    try {
+      if (isSaved) await removeSavedGarden(garden.id);
+      else await addSavedGarden(garden.id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 </script>
 
 <Progress active={isGettingMagnifiedPhoto} />
@@ -155,12 +172,22 @@
   {#if gardenIsSelected && infoHasLoaded}
     <section class="main">
       <header>
-        <Text class="mb-l" weight="bold" size="l">
-          {#if ownedByLoggedInUser}
-            {$_('garden.drawer.owner.your-garden')}
-          {:else}{userInfo.firstName}{/if}
-        </Text>
-        {#if garden.photo}
+        <div class="mb-l garden-title">
+          <Text weight="bold" size="l" className="garden-title-text">
+            {#if ownedByLoggedInUser}
+              {$_('garden.drawer.owner.your-garden')}
+            {:else}{userInfo.firstName}{/if}
+          </Text>
+          {#if $user?.superfan}
+            <button class="button-container" on:click={saveGarden}>
+              <div class="button-save">
+                <Icon icon={isSaved ? bookmarkYellowIcon : bookmarkEmptyIcon} />
+                <Text weight="bold">{isSaved ? 'Saved' : 'Save'}</Text>
+              </div>
+            </button>
+          {/if}
+        </div>
+        {#if garden?.photo}
           <button on:click={magnifyPhoto} class="mb-l button-container image-wrapper">
             {#if photoUrl}
               <Image src={photoUrl} />
@@ -267,6 +294,26 @@
     overflow-y: auto;
   }
 
+  .garden-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .button-save {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .button-save :global(i) {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+  }
+
   .footer {
     display: flex;
     flex-direction: column;
@@ -293,12 +340,17 @@
     .drawer-content-area {
       margin-top: 1.2rem;
     }
-    .image-wrapper {
+
+    .drawer :global(.mb-l) {
+      margin-bottom: 0.4rem;
+    }
+
+    /* .image-wrapper {
       position: absolute;
       top: 1.5rem;
       right: 3rem;
       margin-bottom: 0;
-    }
+    } */
   }
 
   @media screen and (max-width: 700px) {
@@ -325,11 +377,15 @@
       margin-top: 1.2rem;
     }
 
-    .image-wrapper {
+    /* .image-wrapper {
       position: absolute;
       top: 1.5rem;
       right: 3rem;
       margin-bottom: 0;
+    } */
+
+    .drawer :global(.mb-l) {
+      margin-bottom: 0.4rem;
     }
   }
 

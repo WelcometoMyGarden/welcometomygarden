@@ -7,7 +7,7 @@
   import { requestPasswordReset } from '@/lib/api/functions';
   import { SUPPORT_EMAIL } from '$lib/constants';
 
-  let email: {value?: string} = {};
+  let email: { value?: string } = {};
   let done = false;
   let isSending = false;
   const submit = async () => {

@@ -14,6 +14,7 @@ Create a `.env` file and make sure it has the values specified in [`.env.example
 You will need a Mapbox access token if you'd like to work on features that concern the map.
 
 ## Usage
+
 From a terminal located at the project root, install project dependencies:
 
 ```bash
@@ -36,6 +37,13 @@ After running `yarn install`, also install the testing browsers:
 npx playwright install
 ```
 
+To check if your code won't have compilation issues in production, do a production build locally and preview the result:
+
+```
+yarn build:prod
+yarn preview
+```
+
 ## Translations
 
 The website is translated through [Hosted Weblate](https://hosted.weblate.org/projects/wtmg/).
@@ -56,4 +64,5 @@ The `/api` folder in this repository is a sub-project that contains the source c
 Some of the functions are only used by administrators, and are not used by the frontend client in this repository.
 
 ## License
+
 ![GitHub](https://img.shields.io/github/license/welcometomygarden/welcometomygarden?label=License)
