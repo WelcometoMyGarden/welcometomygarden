@@ -887,11 +887,13 @@
     },
     "routes": {
       "title": "Hiking & cycling routes",
-      "title-modal": "Hiking & cycling"
+      "title-modal": "Hiking & cycling",
+      "upload-route": "Upload a route"
     },
     "railway": {
       "title": "Railway network",
-      "title-modal": "Trains"
+      "title-modal": "Trains",
+      "show-transport": "Show train network"
     }
   },
   "terms-of-use": {

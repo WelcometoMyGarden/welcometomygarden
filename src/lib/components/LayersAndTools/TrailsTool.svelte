@@ -57,7 +57,7 @@
       <span class="button-icon">
         <Icon icon={routesIcon} />
       </span>
-      <span class="button-text">Upload a route</span>
+      <span class="button-text">{$_('map.routes.upload-route')}</span>
     </span>
   </Button>
 </div>
