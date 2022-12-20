@@ -43,21 +43,23 @@
 <PaddedSection desktopOnly>
   <MarketingBlock backgroundColor="var(--color-beige-light)">
     <VideoSection>
-      <HeadingSection slot="heading" caption="New: support our mission"
-        >Support WTMG: become a Superfan!</HeadingSection
-      >
+      <HeadingSection slot="heading" caption={$_('index.superfan.support-mission')}>
+        {$_('index.superfan.become-superfan-title')}
+      </HeadingSection>
       <div slot="text">
         <p>
-          Welcome To My Garden is on a mission to make slow travel more accessible for everyone.
-          Like any garden, WTMG needs nurturing in order to grow and stay healthy.
+          {$_('index.superfan.mission')}
         </p>
         <p>
-          With your financial support, WTMG can remain free for everyone to use! Will you help us
-          make WTMG survive and thrive? Become a Superfan and get access to new features!
+          {$_('index.superfan.financial-support')}
         </p>
         <div class="become-superfan-buttons">
-          <Button href={routes.BECOME_SUPERFAN} uppercase orange arrow>Become a Superfan</Button>
-          <Button href={routes.ABOUT_SUPERFAN} uppercase inverse link>Learn more</Button>
+          <Button href={routes.BECOME_SUPERFAN} uppercase orange arrow
+            >{$_('index.superfan.become-superfan')}</Button
+          >
+          <Button href={routes.ABOUT_SUPERFAN} uppercase inverse link
+            >{$_('index.superfan.learn-more')}</Button
+          >
         </div>
       </div>
     </VideoSection>
