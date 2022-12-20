@@ -129,50 +129,71 @@
     });
   };
 
+  const addImages = async () => {
+    const colorTentYellow = '#FFF8CE';
+    const colorTentDarkYellow = '#F4E27E';
+    const colorTentDarkGreen = '#495747';
+    const colorTentWhite = '#FFF';
+
+    const icons = [
+      {
+        colors: {
+          tentBackgroundColor: colorTentWhite,
+          tentColor: colorTentDarkGreen,
+          backGroundColor: colorTentWhite
+        },
+        id: 'tent'
+      },
+      {
+        colors: {
+          tentBackgroundColor: colorTentDarkGreen,
+          tentColor: colorTentWhite,
+          backGroundColor: colorTentDarkGreen
+        },
+        id: 'tent-filled'
+      },
+      {
+        colors: {
+          tentBackgroundColor: colorTentYellow,
+          tentColor: colorTentDarkGreen,
+          backGroundColor: colorTentWhite
+        },
+        id: 'tent-saved-selected'
+      },
+      {
+        colors: {
+          tentBackgroundColor: colorTentYellow,
+          tentColor: colorTentDarkGreen,
+          backGroundColor: colorTentDarkYellow
+        },
+        id: 'tent-saved'
+      }
+    ];
+
+    await Promise.all(icons.map((icon) => addTentImageToMap(icon.id, icon.colors)));
+  };
+
   const setupMarkers = async () => {
     // Catch all errors to avoid having to reload when working on this component in development
     try {
-      const colorTentYellow = '#FFF8CE';
-      const colorTentDarkYellow = '#F4E27E';
-      const colorTentDarkGreen = '#495747';
-      const colorTentWhite = '#FFF';
-
-      const icons = [
-        {
-          colors: {
-            tentBackgroundColor: colorTentWhite,
-            tentColor: colorTentDarkGreen,
-            backGroundColor: colorTentWhite
-          },
-          id: 'tent'
-        },
-        {
-          colors: {
-            tentBackgroundColor: colorTentDarkGreen,
-            tentColor: colorTentWhite,
-            backGroundColor: colorTentDarkGreen
-          },
-          id: 'tent-filled'
-        },
-        {
-          colors: {
-            tentBackgroundColor: colorTentYellow,
-            tentColor: colorTentDarkGreen,
-            backGroundColor: colorTentWhite
-          },
-          id: 'tent-saved-selected'
-        },
-        {
-          colors: {
-            tentBackgroundColor: colorTentYellow,
-            tentColor: colorTentDarkGreen,
-            backGroundColor: colorTentDarkYellow
-          },
-          id: 'tent-saved'
-        }
+      const images = [
+        { url: '/images/markers/tent-neutral.png', id: 'tent' },
+        { url: '/images/markers/tent-filled.png', id: 'tent-filled' },
+        { url: '/images/markers/tent-white-yellow.png', id: 'tent-saved-selected' },
+        { url: '/images/markers/tent-yellow.png', id: 'tent-saved' }
       ];
 
-      await Promise.all(icons.map((icon) => addTentImageToMap(icon.id, icon.colors)));
+      await Promise.all(
+        images.map(
+          (img) =>
+            new Promise((resolve) => {
+              map.loadImage(img.url, (error, res) => {
+                map.addImage(img.id, res);
+                resolve(true);
+              });
+            })
+        )
+      );
 
       calculateData();
 
