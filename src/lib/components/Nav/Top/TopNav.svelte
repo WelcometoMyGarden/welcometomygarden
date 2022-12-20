@@ -23,7 +23,7 @@
     >
   </div>
   <div class="main-nav">
-    <WtmgLogo hideTitleWhenOnHome />
+    <WtmgLogo />
     <ul>
       <li>
         <NavLink href={routes.MAP}>{$_('generics.map')}</NavLink>
