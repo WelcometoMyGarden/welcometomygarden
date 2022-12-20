@@ -10,14 +10,14 @@
           "wtmg-beta"
         ],
         "production": [
-          "wtmg-prod"
+          "wtmg-production"
         ]
       }
     },
     "wtmg-dev": {
       "hosting": {
         "beta": [
-          "wtmg-frontend"
+          "wtmg-dev"
         ]
       }
     }
