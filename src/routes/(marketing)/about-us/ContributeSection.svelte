@@ -5,33 +5,20 @@
   import Icon from '@/lib/components/UI/Icon.svelte';
   import contributeIllustration from '$lib/images/contribute.svg';
   import Heading from '../_components/Heading.svelte';
-
-  const blocks = [
-    {
-      title: 'Become a Superfan',
-      text: 'Become a Superfan and get access to extra features! Superfans are very important to WTMG as they keep it free for everyone to use.'
-    },
-    {
-      title: 'Go on a secret trip',
-      text: 'With Slowby, WTMG’s little sister, you can go on a secret slow travel trip! We take care of the planning. All you need to do is pack and pedal, or walk! You can also get a gift card for someone you love!'
-    },
-    {
-      title: 'Spread the word',
-      text: 'Tell other slow travel lovers and garden owners about WTMG, and share WTMG on social media. More slow travellers means a bigger impact on our beautiful world!'
-    }
-  ].map((b, index) => ({ ...b, number: '' + (index + 1) }));
+  import { _ } from 'svelte-i18n';
+  import { getNodeChildren } from '@/lib/util';
 </script>
 
 <PaddedSection>
   <div class="header">
     <Icon icon={contributeIllustration} />
-    <Heading caption="WTMG For Everyone">How can you contribute?</Heading>
-    <p>Here are all the ways in which you can support us.</p>
+    <Heading caption={$_('about-us.for-everyone')}>{$_('about-us.how-contribute')}</Heading>
+    <p>{$_('about-us.ways-support')}</p>
   </div>
   <div class="how-to-contribute">
-    {#each blocks as block}
-      <ContributeBlock {...block}>
-        <Text>{block.text}</Text>
+    {#each getNodeChildren('about-us.contribute-blocks') as number}
+      <ContributeBlock title={$_(`about-us.contribute-blocks.${number}.title`)} {number}>
+        <Text>{$_(`about-us.contribute-blocks.${number}.text`)}</Text>
       </ContributeBlock>
     {/each}
   </div>

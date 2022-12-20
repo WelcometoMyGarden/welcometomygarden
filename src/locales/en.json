@@ -1187,6 +1187,9 @@
     "marie": "The genius designer. She made WTMG so pretty.",
     "ismaila": "Ismaila is the brain behind the filters on the map.",
     "brent": "Brent coded our first landing page.",
+    "for-everyone": "WTMG For Everyone",
+    "how-contribute": "How can you contribute?",
+    "ways-support": "Here are all the ways in which you can support us.",
     "our-story": {
       "title": "Our story",
       "parents": "Hey! We’re Dries and Manon and we’re the proud parents of Welcome To My Garden. In 2019, we cycled from Brussels to Tokyo. Over the course of 11 months, we travelled through 21 countries, and were hosted by countless incredible people along the way.",
@@ -1202,6 +1205,21 @@
       "financial-support": "We received financial support from partners like Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers and Natuurpunt",
       "experiences": "The most meaningful and memorable experiences happen when we take our time to explore and engage with our surroundings. With WTMG, we want to help you do just that. Together, we can make the world a better place – by travelling more slowly and more sustainably. Will you join the ride?"
     },
+    "contribute-blocks": {
+      "1": {
+        "title": "Become a Superfan",
+        "text": "Become a Superfan and get access to extra features! Superfans are very important to WTMG as they keep it free for everyone to use."
+      },
+      "2": {
+        "title": "Go on a secret trip",
+        "text": "With Slowby, WTMG’s little sister, you can go on a secret slow travel trip! We take care of the planning. All you need to do is pack and pedal, or walk! You can also get a gift card for someone you love!"
+      },
+      "3": {
+        "title": "Spread the word",
+        "text": "Tell other slow travel lovers and garden owners about WTMG, and share WTMG on social media. More slow travellers means a bigger impact on our beautiful world!"
+      }
+    },
+    "contributors": "Contributors",
     "amazing-people": "Last but not least, we want to thank these amazing people",
     "cradle": "Without these amazing people, Welcome To My Garden wouldn’t exist. They stood at the cradle of the platform and believed in it from the start!"
   }

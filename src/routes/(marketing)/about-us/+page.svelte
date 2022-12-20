@@ -66,7 +66,7 @@
 <ContributeSection />
 <PaddedSection vertical backgroundColor="var(--color-beige-light)">
   <div class="contributors-header">
-    <Heading caption="Contributors">
+    <Heading caption={$_('about-us.contributors')}>
       {$_('about-us.amazing-people')}
     </Heading>
     <Text>
