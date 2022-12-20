@@ -787,6 +787,33 @@
       "attribution": "Sentiers avec l'aimable autorisation de {link}",
       "hiking": "Afficher les itinéraires de randonnée",
       "cycling": "Afficher les itinéraires cyclables"
+    },
+    "superfan-notice": {
+      "title": "Nouvelles fonctionnalités pour les Superfans",
+      "linkText": "devez Superfan",
+      "description": "Voir le réseau ferroviaire, uploader votre itinéraire, sauvegarder des jardins & bien plus quand vous {linkText}!"
+    },
+    "gardens": {
+      "title": "Jardins",
+      "show-all": "Afficher tous les jardins",
+      "show-saved": "Seulement les jardins sauvegardés",
+      "hide-all": "Cacher tous les jardins"
+    },
+    "routes": {
+      "title": "Itinéraires cyclables et de randonnées",
+      "title-modal": "Randonnée et vélo",
+      "upload-route": "Uploader un itinéraire"
+    },
+    "railway": {
+      "title": "Réseau ferroviaire",
+      "title-modal": "Trains",
+      "show-transport": "Afficher le réseau ferroviaire"
+    },
+    "upload-route": {
+      "title": "Uploader votre itinéraire",
+      "drag-here": "Faites glisser ici ou {selectFile}",
+      "select-file": "sélectionnez le fichier",
+      "added-to-map": "a été ajouté sur la carte."
     }
   },
   "terms-of-use": {
