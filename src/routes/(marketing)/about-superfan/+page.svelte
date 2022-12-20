@@ -81,8 +81,10 @@
 <PaddedSection desktopOnly>
   <MarketingBlock centered backgroundColor="var(--color-beige-light">
     <div class="team-pictures">
-      {#each coreTeamProfiles as profileData}
-        <div class="image-wrapper"><ProfilePicture {...profileData} /></div>
+      {#each Object.values(coreTeamProfiles) as profileData}
+        <div class="image-wrapper">
+          <ProfilePicture {...profileData} />
+        </div>
       {/each}
     </div>
     <h1>Meet the team</h1>

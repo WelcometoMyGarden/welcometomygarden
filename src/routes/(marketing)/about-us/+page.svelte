@@ -15,9 +15,14 @@
   import Text from '$lib/components/UI/Text.svelte';
   import PartnersSection from './PartnersSection.svelte';
   import staticAssetUrl from '@/lib/util/staticAssetUrl';
-  import { coreTeamProfiles, type ProfileData } from '../_static/profiles';
+  import {
+    coreTeamProfiles as coreTeamProfilesStatic,
+    type ProfileData
+  } from '../_static/profiles';
 
-  const contributorProfiles: ProfileData[] = [
+  // https://stackoverflow.com/a/67830849
+  let contributorProfiles: ProfileData[];
+  $: contributorProfiles = [
     {
       name: 'Michiel',
       role: $_('about-us.dev'),
@@ -43,6 +48,37 @@
       introHtml: $_('about-us.brent')
     }
   ];
+
+  // https://stackoverflow.com/a/67830849
+  // coreTeamProfiles is structured like this for the sake of i18n
+  let coreTeamProfiles: { [name: string]: ProfileData };
+  $: coreTeamProfiles = {
+    dries: {
+      ...coreTeamProfilesStatic.dries,
+      role: $_('about-us.co-founder'),
+      introHtml: $_('about-us.dries')
+    },
+    manon: {
+      ...coreTeamProfilesStatic.manon,
+      role: $_('about-us.co-founder'),
+      introHtml: $_('about-us.manon')
+    },
+    thor: {
+      ...coreTeamProfilesStatic.thor,
+      role: $_('about-us.co-founder'),
+      introHtml: $_('about-us.thor')
+    },
+    ward: {
+      ...coreTeamProfilesStatic.ward,
+      role: $_('about-us.dev'),
+      introHtml: $_('about-us.ward')
+    },
+    janneke: {
+      ...coreTeamProfilesStatic.janneke,
+      role: $_('about-us.communications'),
+      introHtml: $_('about-us.janneke')
+    }
+  };
 </script>
 
 <PaddedSection>
@@ -55,7 +91,7 @@
 </PaddedSection>
 <PaddedSection>
   <div class="profiles">
-    {#each coreTeamProfiles as item}
+    {#each Object.values(coreTeamProfiles) as item}
       <Profile {...item}>
         {@html item.introHtml}
       </Profile>
