@@ -1186,22 +1186,23 @@
     "michiel": "The original coder. Without him, WTMG wouldn’t exist.",
     "marie": "The genius designer. She made WTMG so pretty.",
     "ismaila": "Ismaila is the brain behind the filters on the map.",
-    "brent": "Brent coded our first landing page."
-  },
-  "our-story": {
-    "title": "Our story",
-    "parents": "Hey! We’re Dries and Manon and we’re the proud parents of Welcome To My Garden. In 2019, we cycled from Brussels to Tokyo. Over the course of 11 months, we travelled through 21 countries, and were hosted by countless incredible people along the way.",
-    "origin": "When we arrived back in Belgium, we asked ourselves: how can we make slow travel easier and more fun in our own country? On a rainy Sunday afternoon in 2020, Dries set up the first version of WTMG. Within two hours, there were 50 gardens on the map - and after two weeks, there were 500!",
-    "long-way": "We’ve come a long way since then: today, WTMG counts 30.000+ users and 4000+ gardens. It’s clear we’re here to stay! And it’s time to step up. We’ve listened to you, our community, and we’re now investing in making WTMG meet all your slow travel needs.",
-    "big-picture": "The bigger picture",
-    "slow-down": "If there’s one thing we’ve learned over the past few years, it’s this: it’s time to slow down. This applies to life in general, but also definitely to travel specifically. The faster we travel, the more we miss out on. Fast travel generates a lot of CO2 emissions, disconnects people from their surroundings, and damages communities. Enter slow travel!",
-    "proud": "And enter WTMG! We are proud to be part of the solution to this global challenge. In two years’ time, WTMG has achieved a lot:",
-    "users": "31.000 users have embarked on a slow travel adventure",
-    "hosts": "4.300 warm-hearted hosts have opened up their garden to slow travellers",
-    "stays": "57.000 stay requests have been sent through the WTMG platform",
-    "everywhere": "We started in Belgium but more and more gardens are now also popping up across Europe and beyond",
-    "financial-support": "We received financial support from partners like Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers and Natuurpunt",
-    "experiences": "The most meaningful and memorable experiences happen when we take our time to explore and engage with our surroundings. With WTMG, we want to help you do just that. Together, we can make the world a better place – by travelling more slowly and more sustainably. Will you join the ride?",
-    "random": "We’re not the only ones who believe in the power of slow travel. In 2019, the United Nations declared 2020 the International Year of Tourism and Sustainable Development. The goal? To raise awareness of the importance of tourism and its potential to drive sustainable development. We’re proud to be part of this movement."
+    "brent": "Brent coded our first landing page.",
+    "our-story": {
+      "title": "Our story",
+      "parents": "Hey! We’re Dries and Manon and we’re the proud parents of Welcome To My Garden. In 2019, we cycled from Brussels to Tokyo. Over the course of 11 months, we travelled through 21 countries, and were hosted by countless incredible people along the way.",
+      "origin": "When we arrived back in Belgium, we asked ourselves: how can we make slow travel easier and more fun in our own country? On a rainy Sunday afternoon in 2020, Dries set up the first version of WTMG. Within two hours, there were 50 gardens on the map - and after two weeks, there were 500!",
+      "long-way": "We’ve come a long way since then: today, WTMG counts 30.000+ users and 4000+ gardens. It’s clear we’re here to stay! And it’s time to step up. We’ve listened to you, our community, and we’re now investing in making WTMG meet all your slow travel needs.",
+      "big-picture": "The bigger picture",
+      "slow-down": "If there’s one thing we’ve learned over the past few years, it’s this: it’s time to slow down. This applies to life in general, but also definitely to travel specifically. The faster we travel, the more we miss out on. Fast travel generates a lot of CO2 emissions, disconnects people from their surroundings, and damages communities. Enter slow travel!",
+      "proud": "And enter WTMG! We are proud to be part of the solution to this global challenge. In two years’ time, WTMG has achieved a lot:",
+      "users": "31.000 users have embarked on a slow travel adventure",
+      "hosts": "4.300 warm-hearted hosts have opened up their garden to slow travellers",
+      "stays": "57.000 stay requests have been sent through the WTMG platform",
+      "everywhere": "We started in Belgium but more and more gardens are now also popping up across Europe and beyond",
+      "financial-support": "We received financial support from partners like Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers and Natuurpunt",
+      "experiences": "The most meaningful and memorable experiences happen when we take our time to explore and engage with our surroundings. With WTMG, we want to help you do just that. Together, we can make the world a better place – by travelling more slowly and more sustainably. Will you join the ride?"
+    },
+    "amazing-people": "Last but not least, we want to thank these amazing people",
+    "cradle": "Without these amazing people, Welcome To My Garden wouldn’t exist. They stood at the cradle of the platform and believed in it from the start!"
   }
 }

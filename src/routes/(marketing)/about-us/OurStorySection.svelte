@@ -9,45 +9,45 @@
 <PaddedSection backgroundColor="var(--color-beige-light)" vertical>
   <div class="wrapper">
     <img class="our-story" src={manonDriesInJapan} alt="Manon & Dries with bikes in Japan" />
-    <h2 class="our-story">{$_('our-story.title')}</h2>
+    <h2 class="our-story">{$_('about-us.our-story.title')}</h2>
     <div class="text our-story">
       <p>
-        {$_('our-story.parents')}
+        {$_('about-us.our-story.parents')}
       </p>
       <p>
-        {$_('our-story.origin')}
+        {$_('about-us.our-story.origin')}
       </p>
       <p>
-        {$_('our-story.long-way')}
+        {$_('about-us.our-story.long-way')}
       </p>
     </div>
-    <h2 class="bigger-picture">{$_('our-story.big-picture')}</h2>
+    <h2 class="bigger-picture">{$_('about-us.our-story.big-picture')}</h2>
     <div class="text bigger-picture">
       <p>
-        {$_('our-story.slow-down')}
+        {$_('about-us.our-story.slow-down')}
       </p>
       <p>
-        {$_('our-story.proud')}
+        {$_('about-us.our-story.proud')}
       </p>
       <ul>
         <li>
-          <span>{$_('our-story.users')}</span>
+          <span>{$_('about-us.our-story.users')}</span>
         </li>
         <li>
-          <span>{$_('our-story.hosts')}</span>
+          <span>{$_('about-us.our-story.hosts')}</span>
         </li>
         <li>
-          <span>{$_('our-story.stays')}</span>
+          <span>{$_('about-us.our-story.stays')}</span>
         </li>
         <li>
-          <span>{$_('our-story.everywhere')}</span>
+          <span>{$_('about-us.our-story.everywhere')}</span>
         </li>
         <li>
-          <span>{$_('our-story.financial-support')}</span>
+          <span>{$_('about-us.our-story.financial-support')}</span>
         </li>
       </ul>
       <p>
-        {$_('our-story.experiences')}
+        {$_('about-us.our-story.experiences')}
       </p>
     </div>
     <img class="bigger-picture" src={hosts} alt="Two hosts holding a WTMG sign." />

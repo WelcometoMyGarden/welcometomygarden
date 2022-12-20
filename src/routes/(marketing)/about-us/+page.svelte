@@ -67,11 +67,10 @@
 <PaddedSection vertical backgroundColor="var(--color-beige-light)">
   <div class="contributors-header">
     <Heading caption="Contributors">
-      Last but not least, we want to thank these amazing people
+      {$_('about-us.amazing-people')}
     </Heading>
-    <Text
-      >Without these amazing people, Welcome To My Garden wouldn’t exist. They stood at the cradle
-      of the platform and believed in it from the start!
+    <Text>
+      {$_('about-us.cradle')}
     </Text>
   </div>
   <div class="profiles contributors">
