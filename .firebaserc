@@ -16,7 +16,7 @@
     },
     "wtmg-dev": {
       "hosting": {
-        "production": [
+        "beta": [
           "wtmg-frontend"
         ]
       }
