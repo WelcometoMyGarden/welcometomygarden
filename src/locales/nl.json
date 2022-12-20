@@ -345,6 +345,33 @@
       "hiking": "Wandelroutes tonen",
       "cycling": "Fietsroutes tonen",
       "attribution": "Trajecten met dank aan {link}"
+    },
+    "superfan-notice": {
+      "title": "Nieuwe features voor Superfans",
+      "linkText": "Superfan",
+      "description": "Bekijk de treinlaag, upload routes, sla tuinen op & meer als {linkText}!"
+    },
+    "gardens": {
+      "title": "Tuinen",
+      "show-all": "Toon alle tuinen",
+      "show-saved": "Enkel bewaarde tuinen",
+      "hide-all": "Verberg alle tuinen"
+    },
+    "routes": {
+      "title": "Fiets-en wandelroutes",
+      "title-modal": "Fietsen en wandelen",
+      "upload-route": "Upload een route"
+    },
+    "railway": {
+      "title": "Spoornetwerk",
+      "title-modal": "Treinen",
+      "show-transport": "Toon treinnetwerk"
+    },
+    "upload-route": {
+      "title": "Upload je route",
+      "drag-here": "Sleep hier of {selectFile}",
+      "select-file": "selecteer een bestand",
+      "added-to-map": "is toegevoegd aan de kaart."
     }
   },
   "rules": {
