@@ -1175,5 +1175,17 @@
   "fallback": {
     "404": "404 - page not found",
     "redirect": "back to home"
+  },
+  "about-us": {
+    "here-we-are": "Here we are",
+    "who-behind": "So, who’s behind WTMG? We’re a small team of five slow travel enthusiasts and we want to help others embark on their slow travel adventures too! Fun fact: all of us are both WTMG hosts and travellers",
+    "co-founder": "Co-founder",
+    "dev": "Developer",
+    "designer": "Designer",
+    "communications": "Communications",
+    "michiel": "The original coder. Without him, WTMG wouldn’t exist.",
+    "marie": "The genius designer. She made WTMG so pretty.",
+    "ismaila": "Ismaila is the brain behind the filters on the map.",
+    "brent": "Brent coded our first landing page."
   }
 }

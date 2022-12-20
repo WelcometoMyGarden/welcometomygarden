@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { _ } from 'svelte-i18n';
   import MarketingBlock from '@/routes/(marketing)/_components/MarketingBlock.svelte';
   import PaddedSection from '../_components/PaddedSection.svelte';
   import Profile from '../_components/Profile.svelte';
@@ -19,38 +20,36 @@
   const contributorProfiles: ProfileData[] = [
     {
       name: 'Michiel',
-      role: 'Developer',
+      role: $_('about-us.dev'),
       imageSrc: michielImg,
-      introHtml: 'The original coder. Without him, WTMG wouldn’t exist.'
+      introHtml: $_('about-us.michiel')
     },
     {
       name: 'Marie',
-      role: 'Designer',
+      role: $_('about-us.designer'),
       imageSrc: marieImg,
-      introHtml: 'The genius designer. She made WTMG so pretty.'
+      introHtml: $_('about-us.marie')
     },
     {
       name: 'Ismaila',
-      role: 'Developer',
+      role: $_('about-us.dev'),
       imageSrc: ismailaImg,
-      introHtml: 'Ismaila is the brain behind the filters on the map.'
+      introHtml: $_('about-us.ismaila')
     },
     {
       name: 'Brent',
-      role: 'Developer',
+      role: $_('about-us.dev'),
       imageSrc: brentImg,
-      introHtml: 'Brent coded our first landing page.'
+      introHtml: $_('about-us.brent')
     }
   ];
 </script>
 
 <PaddedSection>
   <MarketingBlock centered>
-    <h1>Here we are!</h1>
+    <h1>{$_('about-us.here-we-are')}</h1>
     <p>
-      So, who’s behind WTMG? We’re a small team of five slow travel enthusiasts and we want to help
-      others embark on their slow travel adventures too! Fun fact: all of us are both WTMG hosts and
-      travellers
+      {$_('about-us.who-behind')}
     </p>
   </MarketingBlock>
 </PaddedSection>
