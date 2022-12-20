@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { ContextType } from './Map.svelte'
+  import type { ContextType } from './Map.svelte';
 
   export let lat;
   export let lon;

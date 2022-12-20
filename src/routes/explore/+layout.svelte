@@ -16,8 +16,8 @@
   import { getCookie, setCookie } from '$lib/util';
   import { crossIcon } from '$lib/images/icons';
   import { ZOOM_LEVELS } from '$lib/constants';
-  import LayersAndTools from '@/lib/components/Map/LayersAndTools.svelte';
-  import RouteModal from '@/lib/components/Map/RouteModal.svelte';
+  import LayersAndTools from '@/lib/components/LayersAndTools/LayersAndTools.svelte';
+  import FileTrailModal from '@/lib/components/Map/FileTrailModal.svelte';
   import TrainConnectionsModal from '@/lib/components/Map/TrainConnectionsModal.svelte';
   import FileTrails from '@/lib/components/Map/FileTrails.svelte';
   import type { Garden } from '@/lib/types/Garden';
@@ -29,13 +29,13 @@
   let geolocationIsLoaded = false;
   let showHiking = false;
   let showCycling = false;
-  let showRouteModal = false;
+  let showFileTrailModal = false;
   let showTrainConnectionsModal = false;
   let showGardens = true;
   let showSavedGardens = true;
   let showStations = false;
   let showRails = false;
-  let showTransport = true;
+  let showTransport = false;
   let filteredGardens: { [id: string]: Garden };
   let savedGardens = [] as string[];
   let carNoticeShown = !getCookie('car-notice-dismissed');
@@ -171,25 +171,25 @@
     bind:showStations
     bind:showRails
     bind:showTransport
-    bind:showRouteModal
+    bind:showFileTrailModal
     bind:showTrainConnectionsModal
   />
   <Filter on:goToPlace={goToPlace} bind:filteredGardens {fallbackLocation} />
-  <RouteModal bind:show={showRouteModal} />
+  <FileTrailModal bind:show={showFileTrailModal} />
   <TrainConnectionsModal bind:show={showTrainConnectionsModal} />
 </div>
 
 <style>
   .map-section {
     width: 100%;
-    height: calc(calc(var(--vh, 1vh) * 100) - var(--height-footer));
+    height: calc((var(--vh, 1vh) * 100) - var(--height-footer) - var(--height-nav));
     position: fixed;
-    top: 0;
+    top: var(--height-nav);
     left: 0;
   }
 
   .map-section :global(.mapboxgl-ctrl-top-left) {
-    top: calc(var(--height-nav) + 0.5rem);
+    top: calc(0.5rem);
   }
 
   .vehicle-notice-wrapper {
@@ -261,7 +261,8 @@
 
   @media screen and (max-width: 700px) {
     .map-section {
-      height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
+      height: calc(100vh - var(--height-mobile-nav));
+      top: 0;
     }
     .map-section :global(.mapboxgl-ctrl-top-left) {
       top: 1rem;

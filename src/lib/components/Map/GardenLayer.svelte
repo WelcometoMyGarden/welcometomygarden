@@ -2,6 +2,7 @@
   import type { Garden } from '@/lib/types/Garden.js';
   import type { ContextType } from './Map.svelte';
   import type maplibregl from 'maplibre-gl';
+  import type GeoJSON from 'geojson';
 
   export let allGardens: { [id: string]: Garden };
   export let selectedGardenId: string | null = null;
@@ -27,6 +28,7 @@
 
   const savedGardenSourceId = 'saved-gardens';
   const gardensWithoutSavedGardensSourceId = 'gardens-without-saved-gardens';
+  const gardensAllSourceId = 'gardens-all';
   const savedGardenLayerId = 'saved-gardens-layer';
   const clustersLayerId = 'clusters';
   const clusterCountLayerId = 'cluster-count';
@@ -54,23 +56,30 @@
       if (!garden.id) return;
 
       const gardenId = garden.id;
+      // Check if garden id is in savedGardens
+      const isSaved = savedGardens.includes(gardenId);
 
       let gardenFeature = {
         type: 'Feature',
         properties: {
           id: gardenId,
           ...garden,
+          // icon: isSaved ? 'tent-saved' : 'tent',
+          icon:
+            isSaved && selectedGardenId === gardenId
+              ? 'tent-filled' // selected saved garden
+              : selectedGardenId === gardenId
+              ? 'tent-filled' // selected garden
+              : isSaved
+              ? 'tent-saved' // saved garden
+              : 'tent', // garden
           lnglat: [garden.location?.longitude, garden.location?.latitude]
-          // icon: selectedGardenId === gardenId ? 'tent-filled' : isSaved ? 'tent-saved' : 'tent'
         },
         geometry: {
           type: 'Point',
           coordinates: [garden.location?.longitude, garden.location?.latitude]
         }
       };
-
-      // Check if garden id is in savedGardens
-      const isSaved = savedGardens.includes(gardenId);
 
       // Add garden to allGardens feature collection
       fcAllGardens.features.push(gardenFeature);
@@ -83,8 +92,6 @@
       //const isSelected = selectedGardenId === gardenId;
       //if (isSelected) fcSelectedGarden.features.push(gardenFeature);
     });
-
-    console.log({ fcAllGardens, fcSavedGardens, fcGardensWithoutSavedGardens });
   };
 
   const onGardenClick = (e: maplibregl.MapMouseEvent) => {
@@ -115,7 +122,7 @@
         if (!map.hasImage(id)) map.addImage(id, img);
         resolve(true);
       };
-      img.src = 'data:image/svg+xml;base64,' + btoa(icon);
+      img.src = 'data:image/svg+xml;  ,' + btoa(icon);
     }).catch((err) => {
       // should not error in prod
       console.log(err);
@@ -177,9 +184,9 @@
       //   clusterRadius: 50
       // });
 
-      map.addSource(gardensWithoutSavedGardensSourceId, {
+      map.addSource(gardensAllSourceId, {
         type: 'geojson',
-        data: fcGardensWithoutSavedGardens,
+        data: fcAllGardens,
         cluster: true,
         clusterMaxZoom: 14,
         clusterRadius: 50
@@ -193,7 +200,7 @@
       map.addLayer({
         id: clustersLayerId,
         type: 'circle',
-        source: gardensWithoutSavedGardensSourceId,
+        source: gardensAllSourceId,
         filter: ['has', 'point_count'],
         paint: {
           // https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step
@@ -203,7 +210,11 @@
           // --color-0: '#EC9570'; --color-1: '#F6C4B7'; --color-2: '#F4E27E';
           // --color-3: '#59C29D'; --color-4: '#A2D0D3'; --color-5: '#2E5F63';
 
-          'circle-color': ['step', ['get', 'point_count'], '#A2D0D3', 20, '#F6C4B7', 80, '#EC9570'],
+          // 'circle-color': ['step', ['get', 'point_count'], '#A2D0D3', 20, '#F6C4B7', 80, '#EC9570'],
+          // 'circle-radius': ['step', ['get', 'point_count'], 20, 20, 30, 40, 40]
+
+          // Original colors and sizes
+          'circle-color': ['step', ['get', 'point_count'], '#51bbd6', 20, '#f1f075', 40, '#f28cb1'],
           'circle-radius': ['step', ['get', 'point_count'], 20, 20, 30, 40, 40]
         }
       });
@@ -211,7 +222,7 @@
       map.addLayer({
         id: clusterCountLayerId,
         type: 'symbol',
-        source: gardensWithoutSavedGardensSourceId,
+        source: gardensAllSourceId,
         filter: ['has', 'point_count'],
         layout: {
           'text-field': '{point_count_abbreviated}',
@@ -222,10 +233,10 @@
       map.addLayer({
         id: unclusteredPointLayerId,
         type: 'symbol',
-        source: gardensWithoutSavedGardensSourceId,
+        source: gardensAllSourceId,
         filter: ['!', ['has', 'point_count']],
         layout: {
-          'icon-image': 'tent',
+          'icon-image': ['get', 'icon'],
           'icon-size': 0.4
         }
       });
@@ -235,8 +246,10 @@
         type: 'symbol',
         source: savedGardenSourceId,
         layout: {
-          'icon-image': 'tent-saved',
-          'icon-size': 0.4
+          'icon-image': ['get', 'icon'],
+          'icon-size': 0.4,
+          'icon-allow-overlap': true,
+          'icon-ignore-placement': true
         }
       });
 
@@ -246,16 +259,14 @@
           layers: [clustersLayerId]
         });
         const clusterId = features[0].properties?.cluster_id;
-        map
-          .getSource(gardensWithoutSavedGardensSourceId)
-          .getClusterExpansionZoom(clusterId, function (err, zoom) {
-            if (err) return console.log(err);
+        map.getSource(gardensAllSourceId).getClusterExpansionZoom(clusterId, function (err, zoom) {
+          if (err) return console.log(err);
 
-            map.easeTo({
-              center: features[0].geometry.coordinates,
-              zoom: zoom
-            });
+          map.easeTo({
+            center: features[0].geometry.coordinates,
+            zoom: zoom
           });
+        });
       });
 
       map.on('click', unclusteredPointLayerId, onGardenClick);
@@ -289,13 +300,18 @@
     }
   };
 
-  const updateSelectedMarker = (_?: any) => {
+  const updateAll = (..._: any) => {
     calculateData();
-    map.getSource(gardensWithoutSavedGardensSourceId).setData(fcGardensWithoutSavedGardens);
+    map.getSource(gardensAllSourceId).setData(fcAllGardens);
     map.getSource(savedGardenSourceId).setData(fcSavedGardens);
   };
 
-  const updateGardensWithoutSavedGardensVisibility = (visible: boolean) => {
+  const updateVisibility = (..._: any) => {
+    updateGardensAllVisibility(showGardens);
+    updateSavedGardensVisibility(showSavedGardens);
+  };
+
+  const updateGardensAllVisibility = (visible: boolean) => {
     map.setLayoutProperty(clustersLayerId, 'visibility', visible ? 'visible' : 'none');
     map.setLayoutProperty(clusterCountLayerId, 'visibility', visible ? 'visible' : 'none');
     map.setLayoutProperty(unclusteredPointLayerId, 'visibility', visible ? 'visible' : 'none');
@@ -305,37 +321,50 @@
     map.setLayoutProperty(savedGardenLayerId, 'visibility', visible ? 'visible' : 'none');
   };
 
-  $: if (mapReady) updateSelectedMarker({ allGardens, savedGardens });
+  const updateSelectedMarker = (_?: any) => {
+    calculateData();
+    map.getSource(gardensAllSourceId).setData(fcAllGardens);
+    map.getSource(savedGardenSourceId).setData(fcSavedGardens);
+  };
 
-  $: if (mapReady) {
-    updateGardensWithoutSavedGardensVisibility(showGardens);
-  }
+  const updateGardensWithoutSavedGardensVisibility = (visible: boolean) => {
+    map.setLayoutProperty(clustersLayerId, 'visibility', visible ? 'visible' : 'none');
+    map.setLayoutProperty(clusterCountLayerId, 'visibility', visible ? 'visible' : 'none');
+    map.setLayoutProperty(unclusteredPointLayerId, 'visibility', visible ? 'visible' : 'none');
+  };
 
-  $: if (mapReady) {
-    updateSavedGardensVisibility(showSavedGardens);
-  }
+  // update featurecollections when allGardens or savedGardens change and selectedGardenId
+  $: if (mapReady) updateAll(selectedGardenId, savedGardens, allGardens);
+  // Update visibility when showGardens or showSavedGardens change
+  $: if (mapReady) updateVisibility(showGardens, showSavedGardens);
 
-  $: {
-    if (mapReady)
-      if (selectedGardenId) {
-        map.setLayoutProperty(unclusteredPointLayerId, 'icon-image', {
-          property: 'id',
-          type: 'categorical',
-          stops: [[selectedGardenId, 'tent-filled']],
-          default: 'tent'
-        });
+  // $: if (mapReady) {
+  //   updateSavedGardensVisibility(showSavedGardens);
+  // }
 
-        map.setLayoutProperty(savedGardenLayerId, 'icon-image', {
-          property: 'id',
-          type: 'categorical',
-          stops: [[selectedGardenId, 'tent-filled']],
-          default: 'tent-saved'
-        });
-      } else {
-        map.setLayoutProperty(unclusteredPointLayerId, 'icon-image', 'tent');
-        map.setLayoutProperty(savedGardenLayerId, 'icon-image', 'tent-saved');
-      }
-  }
+  // $: if (mapReady) updateSelectedMarker({ allGardens, savedGardens });
+  // Instead of recalculate the data every time, we could use a mapbox expression
+  // $: {
+  //   if (mapReady)
+  //     if (selectedGardenId) {
+  //       map.setLayoutProperty(unclusteredPointLayerId, 'icon-image', {
+  //         property: 'id',
+  //         type: 'categorical',
+  //         stops: [[selectedGardenId, 'tent-filled']],
+  //         default: 'tent'
+  //       });
+
+  //       map.setLayoutProperty(savedGardenLayerId, 'icon-image', {
+  //         property: 'id',
+  //         type: 'categorical',
+  //         stops: [[selectedGardenId, 'tent-filled']],
+  //         default: 'tent-saved'
+  //       });
+  //     } else {
+  //       map.setLayoutProperty(unclusteredPointLayerId, 'icon-image', 'tent');
+  //       map.setLayoutProperty(savedGardenLayerId, 'icon-image', 'tent-saved');
+  //     }
+  // }
 
   setupMarkers();
 </script>

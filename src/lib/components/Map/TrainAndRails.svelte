@@ -160,7 +160,7 @@
   };
 
   // This updates the visibility of the layers through the reactive statement based on the showStations and showRails props
-  $: if (mapReady && false) {
+  $: if (mapReady) {
     (map.getStyle().layers || [])
       .filter((layer) => layer.id.includes('rails-'))
       .map((layer) => updateVisibility(layer.id, showRails));
@@ -173,12 +173,10 @@
     // Create the transport layer from thunderforest
     createTransport();
 
-    // At this moment 12/12/2022 we decided to show the transport layer instead of the railways and stations
-    if (false) {
-      await addImagesToMap();
-      createRailways();
-      await createStations();
-    }
+    await addImagesToMap();
+    createRailways();
+    await createStations();
+
     mapReady = true;
   };
 

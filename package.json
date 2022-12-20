@@ -1,5 +1,6 @@
 {
   "name": "welcome-to-my-garden",
+  "license": "GPL-3.0-or-later",
   "description": "a platform allowing citizens to put their garden freely at disposal as a rudimentary campsite to travelers.",
   "version": "3.0.0",
   "scripts": {
@@ -9,19 +10,17 @@
     "build:staging": "vite build --mode staging",
     "preview": "vite preview",
     "test": "playwright test",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "check": "svelte-kit sync && svelte-check --compiler-warnings 'security-anchor-rel-noreferrer:ignore' --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --compiler-warnings 'security-anchor-rel-noreferrer:ignore' --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
     "format": "prettier --plugin-search-dir . --write ."
   },
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "smoothscroll-polyfill": "^0.4.4"
-  },
   "devDependencies": {
     "@playwright/test": "1.25.0",
+    "@stripe/stripe-js": "^1.46.0",
     "@sveltejs/adapter-static": "^1.0.0-next.48",
     "@sveltejs/kit": "1.0.0-next.559",
     "@tmcw/togeojson": "^5.5.0",
@@ -34,6 +33,7 @@
     "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-svelte3": "^4.0.0",
+    "file-selector": "^0.6.0",
     "firebase": "^9.14.0",
     "is-uic-location-code": "^0.0.1",
     "iso-639-1": "^2.1.9",
@@ -41,10 +41,12 @@
     "nprogress": "^0.2.0",
     "prettier": "^2.6.2",
     "prettier-plugin-svelte": "^2.7.0",
-    "svelte": "^3.44.0",
+    "smoothscroll-polyfill": "^0.4.4",
+    "svelte": "^3.54.0",
     "svelte-check": "^2.7.1",
     "svelte-i18n": "^3.3.9",
     "svelte-preprocess": "^4.10.6",
+    "svelte-stripe": "^0.0.19",
     "svg-inline-loader": "^0.8.2",
     "tslib": "^2.3.1",
     "typescript": "^4.7.4",

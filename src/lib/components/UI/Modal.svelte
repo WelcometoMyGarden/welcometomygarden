@@ -114,7 +114,7 @@
 
   .stick-to-bottom {
     top: unset;
-    bottom: calc(var(--height-nav));
+    bottom: calc(var(--height-mobile-nav));
     justify-content: flex-end;
   }
 

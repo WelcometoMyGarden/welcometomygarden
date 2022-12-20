@@ -9,7 +9,7 @@ import {
   updatingMailPreferences,
   updatingSavedGardens
 } from '@/lib/stores/user';
-import type { Garden } from '@/lib/types/Garden';
+import type { Garden, UserPrivate } from '@/lib/types/Garden';
 
 export const doesPublicUserExist = async (uid: string) => {
   const userDoc = await getDoc(doc(db(), USERS, uid));
@@ -24,12 +24,12 @@ export const getPublicUserProfile = async (uid: string) => {
   return docSnap.data();
 };
 
-const getPrivateUserProfile = async (uid: string) => {
+export const getPrivateUserProfile = async (uid: string): Promise<UserPrivate | undefined> => {
   gettingPrivateUserProfile.set(true);
 
   const docRef = doc(db(), USERS_PRIVATE, uid);
 
-  const profile = await getDoc(docRef);
+  const profile = await getDoc<UserPrivate>(docRef);
   gettingPrivateUserProfile.set(false);
   return profile.data();
 };
@@ -43,6 +43,9 @@ const getCampsiteInformation = async (uid: string) => {
   return { garden };
 };
 
+/**
+ * Gets all non-id data related to the user from the user, user-private and campsite collections.
+ */
 export const getAllUserInfo = async (userId: string) => {
   const publicUserProfile = await getPublicUserProfile(userId);
   const privateUserProfile = await getPrivateUserProfile(userId);
@@ -87,7 +90,7 @@ const updateSavedGardens = async (gardenId: string, action: 'REMOVE' | 'ADD') =>
       savedGardens.splice(index, 1);
 
       await updateDoc(docRef, { savedGardens });
-      let tempUser = getUser();
+      const tempUser = getUser();
       tempUser.addFields({ savedGardens });
       user.set(tempUser);
       updatingSavedGardens.set(false);
@@ -101,7 +104,7 @@ const updateSavedGardens = async (gardenId: string, action: 'REMOVE' | 'ADD') =>
       savedGardens.push(gardenId);
 
       await updateDoc(docRef, { savedGardens });
-      let tempUser = getUser();
+      const tempUser = getUser();
       tempUser.addFields({ savedGardens });
       user.set(tempUser);
       updatingSavedGardens.set(false);
@@ -120,7 +123,15 @@ export const addSavedGarden = async (gardenId: string) => {
 export const updateSuperfan = async (superfan: boolean) => {
   const docRef = doc(db(), USERS, getUser().id);
   await updateDoc(docRef, { superfan });
-  let tempUser = getUser();
+  const tempUser = getUser();
   tempUser.addFields({ superfan });
+  user.set(tempUser);
+};
+
+export const updateCommunicationLanguage = async (lang: string) => {
+  const docRef = doc(db(), USERS_PRIVATE, getUser().id);
+  await updateDoc(docRef, { communicationLanguage: lang });
+  const tempUser = getUser();
+  tempUser.addFields({ communicationLanguage: lang });
   user.set(tempUser);
 };

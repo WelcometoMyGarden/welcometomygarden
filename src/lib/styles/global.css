@@ -34,6 +34,8 @@
   --color-white: #fff;
   --color-yellow-light: #f4e27e;
   --color-yellow: #e4d290;
+  --color-highlight-blue: #47b3d0;
+  --color-superfan-yellow: #fbf4de;
 
   /*
   * Typography
@@ -43,10 +45,17 @@
   --fonts-titles: 'Inknut Antiqua', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 
+  --controls-font-size: 1.7rem;
+  --controls-vert-margin: 0.1rem;
+  /* To increase the tap target, also include more padding */
+  --controls-vert-padding: 0.1rem;
+
   /*
   * Units
   */
-  --height-nav: 8rem;
+  --marketing-block-border-radius: 3rem;
+  --tile-border-radius: 2.2rem;
+  --section-inner-padding: 6rem;
 }
 
 .mb-l {
@@ -67,7 +76,7 @@ body,
 
 html {
   box-sizing: border-box;
-  font-size: 62.5%;
+  font-size: 65%;
 }
 
 body {
@@ -305,5 +314,31 @@ a.link:hover {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+hr {
+  background-color: var(--color-green);
+}
+
+.button-unstyle {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+.hide {
+  display: none;
+}
+
+@media screen and (max-width: 700px) {
+  :root {
+    --controls-font-size: 1.55rem;
+    --controls-vert-margin: 0.15rem;
+    --controls-vert-padding: 0.3rem;
   }
 }

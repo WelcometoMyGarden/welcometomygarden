@@ -1,9 +1,4 @@
 <script lang="ts">
-  import type { LayoutData } from "./$types"
-  // SvelteKit uses this export to load data into this layout.
-  // https://kit.svelte.dev/docs/load#layout-data
-  export let data: LayoutData;
-
   import '$lib/styles/reset.css';
   import '$lib/styles/global.css';
 
@@ -20,13 +15,21 @@
   import registerLocales from '@/locales/register';
   import { onDestroy, onMount } from 'svelte';
   import { init, isLoading as isLocaleLoading, locale } from 'svelte-i18n';
+  import { updateCommunicationLanguage } from '@/lib/api/user';
+  import MinimalFooter from '@/lib/components/MinimalFooter.svelte';
+  import { isActiveContains } from '@/lib/util/isActive';
+  import routes from '$lib/routes';
+  import { page } from '$app/stores';
 
   registerLocales();
 
   locale.subscribe((value) => {
     if (value == null) return;
     // if running in the client, save the language preference in a cookie
-    if (typeof window !== 'undefined') setCookie('locale', value, { path: '/' });
+    if (typeof window !== 'undefined') {
+      setCookie('locale', value, { path: '/' });
+      if ($user) updateCommunicationLanguage(value);
+    }
   });
 
   let unsubscribeFromAuthObserver: () => void;
@@ -41,6 +44,9 @@
       unsubscribeFromChatObserver = await createChatObserver(tempUser.uid);
 
     if (unsubscribeFromChatObserver && !tempUser) unsubscribeFromChatObserver();
+
+    if (tempUser && !tempUser.communicationLanguage && $locale)
+      updateCommunicationLanguage($locale);
   });
 
   onMount(async () => {
@@ -79,7 +85,7 @@
 
 <svelte:window on:resize={updateViewportHeight} on:keyup={onCustomPress} />
 
-<div class="app" style="--vh:{vh}">
+<div class="app active-{$page?.route?.id?.substring(1).split('/')[0]}" style="--vh:{vh}">
   {#if browser}
     <Progress active={$isInitializing || $isLocaleLoading} />
     <Notifications />
@@ -90,14 +96,16 @@
     <main>
       <slot />
     </main>
-    <Footer />
+    {#if isActiveContains($page, routes.MAP)}
+      <MinimalFooter />
+    {:else}
+      <Footer />
+    {/if}
   {/if}
 </div>
 
 <style>
   .app {
-    --height-nav: 7rem;
-    --height-footer: 18rem;
     width: 100%;
     height: 100%;
     position: relative;
@@ -105,10 +113,12 @@
   }
 
   main {
-    /* min-height: calc(100% - var(--height-footer)); */
     min-height: calc(100vh - var(--height-nav) - var(--height-footer));
     width: 100%;
     overflow: hidden;
+    /* Anchor overflow:hidden on descendants
+    (there was a problem with .welcome-map in LandingSection with this before) */
+    position: relative;
     max-width: 155rem;
     margin: 0 auto;
   }
@@ -119,8 +129,8 @@
     }
 
     main {
-      min-height: calc(100% - var(--height-nav));
-      padding-bottom: calc(var(--height-nav));
+      min-height: calc(100vh - var(--height-mobile-nav));
+      padding-bottom: calc(var(--height-mobile-nav));
     }
   }
 </style>

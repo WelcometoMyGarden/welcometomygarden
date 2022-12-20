@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { fileDataLayers, prefix, updateFileDataLayers } from '@/lib/stores/file';
   import type { ContextType } from './Map.svelte';
-  import { onMount, getContext } from 'svelte';
+  import type GeoJSON from 'geojson';
+  import { fileDataLayers, prefix } from '@/lib/stores/file';
+  import { getContext } from 'svelte';
   import bbox from '@turf/bbox';
   import key from './mapbox-context.js';
   import { ZOOM_LEVELS } from '@/lib/constants.js';
@@ -12,7 +13,6 @@
     | GeoJSON.FeatureCollection<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>
     | undefined;
 
-  // @ts-ignore
   const { getMap } = getContext<ContextType>(key);
   const map = getMap();
 
@@ -25,17 +25,21 @@
   };
 
   const addTrail = (geoJson: SourceData, id: string) => {
-    const bboxBounds = <[number, number, number, number]>bbox(geoJson);
-    map.fitBounds(bboxBounds, {
-      padding: {
-        top: 150,
-        bottom: 150,
-        left: 50,
-        right: 50
-      },
-      maxZoom: ZOOM_LEVELS.ROAD,
-      linear: true
-    });
+    try {
+      const bboxBounds = <[number, number, number, number]>bbox(geoJson).slice(0, 4);
+      map.fitBounds(bboxBounds, {
+        padding: {
+          top: 150,
+          bottom: 150,
+          left: 50,
+          right: 50
+        },
+        maxZoom: ZOOM_LEVELS.ROAD,
+        linear: true
+      });
+    } catch (error) {
+      console.error(error);
+    }
 
     if (map.getSource(id)) {
       map.getSource(id).setData(geoJson);

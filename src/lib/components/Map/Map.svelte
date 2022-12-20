@@ -22,6 +22,10 @@
   let container: HTMLElement;
   let map: maplibregl.Map;
   let loaded = false;
+  const customAttribution = [
+    `<a href="https://waymarkedtrails.org/" target="_blank" title="WaymarkedTrails">© Waymarked Trails</a>`,
+    `<a href="https://www.thunderforest.com" target="_blank" title="Thunderforest">© Thunderforest</a>`
+  ];
 
   setContext<ContextType>(key, {
     getMap: () => map
@@ -44,7 +48,9 @@
       'top-left'
     );
     map.addControl(new maplibregl.ScaleControl());
-    map.addControl(new maplibregl.AttributionControl({ compact: false }));
+    map.addControl(
+      new maplibregl.AttributionControl({ compact: false, customAttribution: customAttribution })
+    );
 
     map.on('load', () => {
       loaded = true;
@@ -87,6 +93,13 @@
 <style>
   div {
     width: 100%;
+    height: 100%;
+  }
+
+  div :global(.maplibregl-canvas-container) {
+    height: 100%;
+  }
+  div :global(canvas) {
     height: 100%;
   }
 </style>

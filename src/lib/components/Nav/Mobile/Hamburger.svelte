@@ -1,6 +1,6 @@
-<script>
+<script lang="ts">
   export let isOpen = false;
-  export let hamburger = null;
+  export let hamburger: HTMLButtonElement | null = null;
 </script>
 
 <button bind:this={hamburger} class="button-container" on:click class:open={isOpen}>

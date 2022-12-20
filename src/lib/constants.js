@@ -1,5 +1,8 @@
+import routes from './routes';
+
 export const SUPPORT_EMAIL = 'support@welcometomygarden.org';
-export const emailAsLink = `<a class="link" href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a>`;
+export const mailToSupportHref = `mailto:${SUPPORT_EMAIL}`;
+export const emailAsLink = `<a class="link" href="${mailToSupportHref}">${SUPPORT_EMAIL}</a>`;
 export const SHOP_URL = 'https://shop.welcometomygarden.org/';
 export const SLOWBY_URL = 'https://slowby.travel';
 export const DONATION_URL = 'https://opencollective.com/welcometomygarden/donate';
@@ -25,3 +28,7 @@ export const ICON_SIZE = [
   ZOOM_LEVELS.ROAD,
   0.4
 ];
+
+export const SUPERFAN_PRICING_ROUTE = `${routes.BECOME_SUPERFAN}#pricing`;
+
+export const IMAGES_PATH = '/images';

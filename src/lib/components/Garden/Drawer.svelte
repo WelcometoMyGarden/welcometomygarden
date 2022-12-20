@@ -16,10 +16,13 @@
     electricityIcon,
     showerIcon,
     tentIcon,
-    toiletIcon
+    toiletIcon,
+    bookmarkEmptyIcon,
+    bookmarkYellowIcon
   } from '$lib/images/icons';
   import routes from '$lib/routes';
   import type { Garden } from '@/lib/types/Garden';
+  import Icon from '@/lib/components/UI/Icon.svelte';
 
   const dispatch = createEventDispatcher();
 
@@ -170,15 +173,18 @@
     <section class="main">
       <header>
         <div class="mb-l garden-title">
-          <Text weight="bold" size="l">
+          <Text weight="bold" size="l" className="garden-title-text">
             {#if ownedByLoggedInUser}
               {$_('garden.drawer.owner.your-garden')}
             {:else}{userInfo.firstName}{/if}
           </Text>
           {#if $user?.superfan}
-            <Button inverse xsmall on:click={saveGarden}
-              >{isSaved ? 'Unsave garden' : 'Save garden'}</Button
-            >
+            <button class="button-container" on:click={saveGarden}>
+              <div class="button-save">
+                <Icon icon={isSaved ? bookmarkYellowIcon : bookmarkEmptyIcon} />
+                <Text weight="bold">{isSaved ? 'Saved' : 'Save'}</Text>
+              </div>
+            </button>
           {/if}
         </div>
         {#if garden?.photo}
@@ -295,6 +301,19 @@
     justify-content: space-between;
   }
 
+  .button-save {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .button-save :global(i) {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+  }
+
   .footer {
     display: flex;
     flex-direction: column;
@@ -321,12 +340,17 @@
     .drawer-content-area {
       margin-top: 1.2rem;
     }
-    .image-wrapper {
+
+    .drawer :global(.mb-l) {
+      margin-bottom: 0.4rem;
+    }
+
+    /* .image-wrapper {
       position: absolute;
       top: 1.5rem;
       right: 3rem;
       margin-bottom: 0;
-    }
+    } */
   }
 
   @media screen and (max-width: 700px) {
@@ -353,11 +377,15 @@
       margin-top: 1.2rem;
     }
 
-    .image-wrapper {
+    /* .image-wrapper {
       position: absolute;
       top: 1.5rem;
       right: 3rem;
       margin-bottom: 0;
+    } */
+
+    .drawer :global(.mb-l) {
+      margin-bottom: 0.4rem;
     }
   }
 

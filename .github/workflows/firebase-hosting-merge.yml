@@ -1,5 +1,5 @@
 name: Deploy to Firebase Hosting on merge
-'on':
+on:
   push:
     branches:
       - master
@@ -17,6 +17,14 @@ jobs:
       VITE_FIREBASE_APP_ID: ${{secrets.FIREBASE_APP_ID}}
       VITE_FIREBASE_MEASUREMENT_ID: ${{secrets.FIREBASE_MEASUREMENT_ID}}
       VITE_MAPBOX_ACCESS_TOKEN: ${{secrets.MAPBOX_ACCESS_TOKEN}}
+      VITE_THUNDERFOREST_API_KEY: ${{secrets.THUNDERFOREST_API_KEY}}
+      VITE_DIRECT_TRAIN_API_URLS: ${{secrets.DIRECT_TRAIN_API_URLS}}
+      VITE_DB_TRANSPORT_REST_API_URLS: ${{secrets.DB_TRANSPORT_REST_API_URLS}}
+      VITE_STATIC_ASSETS_BUCKET: ${{secrets.STATIC_ASSETS_BUCKET}}
+      VITE_STRIPE_PUBLISHABLE_KEY: ${{secrets.STRIPE_PUBLISHABLE_KEY}}
+      VITE_STRIPE_PRICE_ID_REDUCED: ${{secrets.STRIPE_PRICE_ID_REDUCED}}
+      VITE_STRIPE_PRICE_ID_NORMAL: ${{secrets.STRIPE_PRICE_ID_NORMAL}}
+      VITE_STRIPE_PRICE_ID_SOLIDARITY: ${{secrets.STRIPE_PRICE_ID_SOLIDARITY}}
     steps:
       - uses: actions/checkout@v2
       - name: Install Dependencies
@@ -29,3 +37,4 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_PRODUCTION }}'
           channelId: live
           projectId: wtmg-production
+          target: production

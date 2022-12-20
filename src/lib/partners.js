@@ -6,14 +6,14 @@ import wikimediaBELogo from './images/wikimediabe_logo.svg';
 
 export default [
   {
-    name: 'Les Sentiers de Grande Randonnée Asbl',
-    link: 'https://grsentiers.org/',
-    logo: GRSentiers
-  },
-  {
     name: 'Grote Routepaden',
     link: 'https://www.groteroutepaden.be/',
     logo: groteRoutePadenLogo
+  },
+  {
+    name: 'Natuurpunt',
+    link: 'https://www.natuurpunt.be/',
+    logo: natuurpuntLogo
   },
   {
     name: 'Open Knowledge Belgium',
@@ -21,9 +21,9 @@ export default [
     logo: OKLogo
   },
   {
-    name: 'Natuurpunt',
-    link: 'https://www.natuurpunt.be/',
-    logo: natuurpuntLogo
+    name: 'Les Sentiers de Grande Randonnée Asbl',
+    link: 'https://grsentiers.org/',
+    logo: GRSentiers
   },
   {
     name: 'Wikimedia Belgium',
