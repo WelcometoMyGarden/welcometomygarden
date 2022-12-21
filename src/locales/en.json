@@ -92,7 +92,7 @@
         },
         "4": {
           "title": "Does Welcome To My Garden cost anything?",
-          "copy": "Using Welcome To My Garden is completely free. However, as a platform we do incur costs. If you want to make a donation that will put a big smile on our faces! We are a not-for-profit initiative, so we’re not making any money out of this."
+          "copy": "WTMG is free for everyone to use, but not free to make. We have bills to pay: our technical costs, which increase as we grow; our talented team; our office space at the Impact House. Behind the scenes, we are continually improving the platform. To support us, you can now <a href=\"/become-superfan\">become a Superfan</a> and get access to extra features."
         }
       }
     },
@@ -123,48 +123,44 @@
     "description": "Here’s how Welcome To My Garden works. Make sure to read the rules before starting your adventure! After all, this platform will only work well if we all play by the rules.",
     "rules": {
       "0": {
-        "title": "Covid-19 warning",
-        "copy": "At any time adhere to the government's measures to stop the spread of Covid-19."
-      },
-      "1": {
         "title": "Network of citizens",
         "copy": "Welcome To My Garden is a network of citizens offering free camping spots in their gardens to slow travellers. It is a not-for-profit initiative and no income should be made from it. Welcome To My Garden will not take any responsibility for any loss, damage or injury incurred during a stay."
       },
-      "2": {
+      "1": {
         "title": "Send a request in advance to the garden owner",
-        "copy": "Garden owners might not be home and ready to welcome you at all times. We ask users to contact the garden owner in advance to check availability directly. This should be done by sending a request to the host through their profile. After establishing the initial connection you can exchange contact details, so that you can stay in touch and update your host about your arrival time by email or phone, depending on their preference. When you send a request, provide some information about yourself and about your expected arrival time."
+        "copy": "Garden owners might not be home and ready to welcome you at all times. We ask users to contact the garden owner in advance to check availability directly. This should be done by sending a request to the host through their profile. After establishing the initial connection you can exchange contact details, so that you can stay in touch and update your host about your arrival time by email or phone, depending on their preference. When you send a request, provide some information about yourself and about your expected arrival time. Offensive behaviours and misuse of the platform will lead to accounts suspension (please see our terms of use)."
       },
-      "3": {
-        "title": "No car rule",
+      "2": {
+        "title": "Only for slow travellers (no car rule)",
         "copy": "Welcome To My Garden respects the environment and has been set up for slow travellers only. This means you can only reach the camping spots on foot, by bicycle or public transport. Getting there with your private car is forbidden. You are allowed to drive to the start of your hiking or biking trail – as long as you don’t turn up at the camping spots in your car."
       },
-      "4": {
+      "3": {
         "title": "Maximum duration of stay",
         "copy": "You can stay at a camping spot for a maximum of 48 hours. Always check with the garden owner."
       },
-      "5": {
+      "4": {
         "title": "Maximum amount of tents",
         "copy": "Garden owners define how many tents they can accommodate each night (this is not Dour Festival). Please respect their choice."
       },
-      "6": {
+      "5": {
         "title": "Facilities",
         "copy": "Facilities may vary from one camping spot to another. Some garden owners might offer access to their bathrooms; others might prefer not to. Please respect their choices in these matters as well."
       },
-      "7": {
+      "6": {
         "title": "Respect for nature",
         "copy": "All your waste has to be taken away. This includes pee and poo if there’s no toilet available: find a bush or tree outside the garden for Number One; bag your Number Two and throw it in a bin the next day. Respect nature and the garden owners: apply the Leave No Trace principle as you would if bivouacking out in the wild."
       },
-      "8": {
+      "7": {
         "title": "No noise policy",
         "copy": "Please respect the camping spot owners’ privacy. So don’t sing along with Celine Dion at the top of your voice or generate any other type of noise – definitely not after 10pm!"
       },
-      "9": {
+      "8": {
         "title": "Have fun!",
-        "copy": "This is a great opportunity to meet other people and have fun! Learn a few words of French, Dutch or German if you’re travelling in a different region than your own. Be curious, share stories and build new friendships!"
+        "copy": "This is a great opportunity to meet other people and have fun! Learn a few words of your host's language if you’re travelling in a different region than your own. Be curious, share stories and build new friendships!"
       },
-      "10": {
+      "9": {
         "title": "Spread the word",
-        "copy": "Would you like to open up your garden or do you know someone who would be happy to? Spread the word about Welcome To My Garden! You can invite them to like our Facebook Page too."
+        "copy": "Would you like to open up your garden or do you know someone who would be happy to? Spread the word about Welcome To My Garden! You can invite them to like our <a href=\"https://www.facebook.com/Welcome2mygarden\">Facebook Page</a> too."
       }
     },
     "message": "Happy camping!"
@@ -214,7 +210,7 @@
         "questions": {
           "what": {
             "title": "What is Welcome To My Garden?",
-            "copy": "Welcome To My Garden is a network of citizens opening up their gardens to slow travellers in need of a camping spot. It's a not-for-profit initiative set up by a group of citizens. The idea was born during the 2020 Covid-19 lockdown in Belgium."
+            "copy": "Welcome to My Garden is a network of citizens opening up their gardens to slow travellers in need of a camping spot. It’s a not-for-profit initiative started by a group of citizens during the first Covid-19 lockdown. Welcome To My Garden is now a social enterprise on a mission to make slow travel more accessible for everyone."
           },
           "who": {
             "title": "Who is Welcome To My Garden for?",
@@ -222,7 +218,7 @@
           },
           "how": {
             "title": "How does Welcome To My Garden work?",
-            "copy": "People who want to open up their garden to travellers can add their garden by filling out the form on the website (click the \"Add your garden\" button). People who want to stay at one of the camping spots can then contact the garden owners to arrange their stay."
+            "copy": "People who want to open up their garden to travellers can add their garden by clicking \"Add your garden\". People who want to stay in a garden can then contact the hosts to arrange their stay."
           }
         }
       },
@@ -231,7 +227,7 @@
         "questions": {
           "how-camping": {
             "title": "How do I get to my camping spot?",
-            "copy": "Welcome To My Garden has been set up to meet the needs of slow travellers: hikers and cyclists who need a camping spot at the end of the day. For this reason you are supposed to arrive at your camping spot on foot or by bike, or by public transport – definitely not by car. Of course you can drive to the start of your trail – as long as you don’t turn up at your host’s in your car!"
+            "copy": "Welcome To My Garden has been set up to meet the needs of slow travellers: hikers and cyclists who need a camping spot at the end of the day. For this reason you are supposed to arrive at your camping spot on foot or by bike, or by public transport – definitely not by car."
           },
           "what-facilities": {
             "title": "What facilities will you find in the garden?",
@@ -239,7 +235,7 @@
           },
           "cost": {
             "title": "Does Welcome To My Garden cost anything?",
-            "copy": "Using Welcome To My Garden is completely free. However, as a platform we do incur costs. If you want to make {donationLink} that will put a big smile on our faces! We are a not-for-profit initiative, so we’re not making any money out of this. This means any money you donate will go directly towards covering the costs of the project. You can look into our expenses too on the donation page."
+            "copy": "WTMG is free for everyone to use, but not free to make. We have bills to pay: our technical costs, which increase as we grow; our talented team; our office space at the Impact House. Behind the scenes, we are continually improving the platform. To support us, you can now <a href=\"/become-superfan\">become a Superfan</a> and get access to extra features."
           },
           "no-garden": {
             "title": "I don’t have a garden. Can I still travel to other people’s gardens?",
@@ -247,7 +243,7 @@
           },
           "how-long": {
             "title": "How long can I stay there?",
-            "copy": "Since these camping spots only cater to the needs of slow travellers who are on a multi-stage trek or bike ride, you can stay at a camping spot for a maximum of 48 hours (two nights). Of course you can move on to the next camping spot after that! And the next. And the next…Always check with the host how long you can stay, some hosts will prefer that you stay one night only."
+            "copy": "Since these gardens only cater to the needs of slow travellers who are on a multi-stage trek or bike ride, you can stay at a camping spot for a maximum of 48 hours (two nights). Of course you can move on to the next camping spot after that! And the next. And the next…Always check with the host how long you can stay, some hosts will prefer that you stay one night only."
           },
           "animals": {
             "title": "Can I bring my family? My children? My dog?",
@@ -256,10 +252,6 @@
           "no-toilet": {
             "title": "So, what if there’s no toilet?",
             "copy": "Not every host may offer access to a toilet. In this case, please find a spot outside the garden that meets your needs. Pee behind a tree, and bag your Number Two so you can bin it the next day. Apply the Leave No Trace principle as you would when camping out in the wild."
-          },
-          "covid-safe": {
-            "title": "And if there is a toilet, how do we guarantee Covid-19 doesn’t get transmitted?",
-            "copy": "Please bring hand sanitizer and wet wipes so you can clean your hands and any surfaces you’ve touched, such as the toilet seat, flush button, tap and door handle. You can also wear a mask if you need to enter your host’s house for facilities. This way you help guarantee that Covid-19 does not get transmitted, in case you or any of the other users of the bathroom happen to carry it. Of course, if you know you might be sick don’t go in the first place!"
           },
           "tent-type": {
             "title": "What type of tent can I bring?",
@@ -293,7 +285,7 @@
         "questions": {
           "privacy": {
             "title": "I just signed up but I haven’t received the confirmation email.",
-            "copy": "Contact the volunteer support team {support} and they will help you verify your email!"
+            "copy": "Contact the support team (support@welcometomygarden.org) and they will help you verify your email!"
           },
           "messages": {
             "title": "I have issues reading messages.",
@@ -301,7 +293,7 @@
           },
           "update-email": {
             "title": "I would like to update my email address or delete my account. How do I do this?",
-            "copy": "We take your data very seriously. If you’d like to update your email or fully delete your account from the platform, please contact our support {support}. Don’t forget to confirm your email address you’d like to amend or delete. "
+            "copy": "We take your data very seriously. If you’d like to update your email or fully delete your account from the platform, please contact our support (support@welcometomygarden.org). Don’t forget to confirm your email address you’d like to amend or delete. "
           },
           "newsletter": {
             "title": "I would love to receive your next newsletter! What should I do?",
@@ -318,7 +310,7 @@
         "questions": {
           "become-volunteer": {
             "title": "Can I become a volunteer?",
-            "copy": "We are currently looking for volunteers to translate Welcome To My Garden in other languages! The more tents we’ll have on the map, the more slow travelling will become the new normal. If you want to be part of the adventure, send us an email to {support} or join our slack (link at the bottom)."
+            "copy": "We are always looking for volunteers to translate Welcome To My Garden in other languages! The more tents we’ll have on the map, the more slow travelling will become the new normal. If you want to be part of the adventure, send us an email at support@welcometomygarden.org or join our slack (link at the bottom)."
           },
           "fb-page": {
             "title": "Why is the Facebook page only in English?",
@@ -727,7 +719,7 @@
           },
           "10": {
             "title": "Can I stop being a Superfan?",
-            "copy": "Yes, any time you want. As soon as you’ve become a Superfan, you can manage your yearly Superfan subscription on <a href={accountLink}>your WTMG account page</a>."
+            "copy": "Yes, any time you want. As soon as you’ve become a Superfan, you can manage your yearly Superfan subscription on <a href=\"/account\">your WTMG account page</a>."
           }
         }
       },
@@ -765,6 +757,10 @@
           }
         }
       }
+    },
+    "video-section": {
+      "title": "Why become a Superfan",
+      "description": "<p>If you are truly passionate about slow travel and you want to support WTMG’s mission, then perhaps you should become a Superfan! With your financial support, we can make WTMG financially stable and keep it free for everyone to use! You pay only what you can afford.</p><p>We’re a small team of five and have invested a lot of our personal time, energy and money in this initiative. We started off as a small citizen initiative in Belgium, but we are growing into something bigger. It’s clear that WTMG is here to stay, and we want to make sure we can survive as well as thrive. And that’s where you come in!</p>"
     }
   },
   "request-password-reset": {
