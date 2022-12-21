@@ -88,7 +88,7 @@
         },
         "4": {
           "title": "Moet ik bij Welcome To My Garden iets betalen?",
-          "copy": "Het gebruik van Welcome To My Garden is volledig gratis! Met het platform zelf maken we wel kosten. Het zou dus zeker een glimlach op ons gezicht toveren mocht je een donatie doen! Dit is een initiatief zonder winstoogmerk. Wij verdienen hier niks aan."
+          "copy": "WTMG is gratis om te gebruiken, maar niet gratis om te maken. We moeten onze rekeningen betalen: onze technische kosten, die toenemen naarmate het platform groeit; ons getalenteerde team; onze kantoorruimte bij het Impact House. Achter de schermen zijn we continu bezig om het platform te verbeteren. Daarvoor hebben we <a href=\"/become-superfan\">onze Superfans</a> dus nodig. Dankzij jouw bijdrage kunnen we ervoor zorgen dat WTMG niet alleen overleeft maar ook echt floreert."
         }
       }
     },
@@ -379,48 +379,44 @@
     "description": "Hier vind je hoe Welcome to My Garden werkt.  Lees eerst aandachtig de regels voordat je aan je avontuur begint! Dit platform werkt immers alleen als we allemaal volgens de regels spelen.",
     "rules": {
       "0": {
-        "title": "Covid-19 waarschuwing",
-        "copy": "Houd je ten allen tijde aan de maatregelen van de regering om de verspreiding van Covid-19 te stoppen. De laatste informatie voor België vind je op info-coronavirus.be."
+        "title": "Netwerk van burgers",
+        "copy": "Welcome to My Garden is een netwerk van burgers die gratis kampeerplekken in hun tuinen aanbieden aan trage reizigers. Het is een initiatief zonder winstoogmerk en er mag geen inkomen uit worden gehaald. Welcome To My Garden is niet verantwoordelijk voor verlies, schade of letsels opgelopen tijdens een verblijf. Aanstootgevend gedrag en misbruik van het platform leiden tot schorsing van accounts (zie onze gebruiksvoorwaarden)."
       },
       "1": {
-        "title": "Netwerk van burgers",
-        "copy": "Welcome to My Garden is een netwerk van burgers die gratis kampeerplekken in hun tuinen aanbieden aan trage reizigers. Het is een initiatief zonder winstoogmerk en er mag geen inkomen uit worden gehaald. Welcome To My Garden is niet verantwoordelijk voor verlies, schade of letsels opgelopen tijdens een verblijf."
-      },
-      "2": {
         "title": "Stuur vooraf een verzoek naar de tuineigenaar",
         "copy": "De tuineigenaars zijn mogelijk niet thuis om jou te verwelkomen. We vragen gebruikers om vooraf contact op te nemen met de tuineigenaar om meteen de beschikbaarheid te controleren. Dit doe je door een verzoek te sturen naar het profiel van de tuineigenaar. Nadat je de eerste verbinding tot stand hebt gebracht, kan je contactgegevens uitwisselen. Zo kan je contact houden en je host informeren over je aankomsttijd via e-mail of telefoon, afhankelijk van je hosts voorkeur. Geef bij het indienen van een verzoek wat informatie over jezelf en je verwachte aankomsttijd."
       },
-      "3": {
-        "title": "Geen auto",
+      "2": {
+        "title": "Alleen voor trage reizigers (geen auto)",
         "copy": "Welcome To My Garden respecteert het milieu en is alleen bedoeld voor trage reizigers. Hierdoor kun je de kampeerplekken enkel te voet, met de fiets of met het openbaar vervoer bereiken.Het is verboden om er te komen met een auto. Je mag naar het begin van je wandel- of fietspad rijden - zolang je maar niet met de auto naar de kampeerplekken komt."
       },
-      "4": {
+      "3": {
         "title": "Maximale verblijfsduur",
         "copy": "You can stay at a camp spot for a maximum of 48 hours. Always check with the garden owner."
       },
-      "5": {
+      "4": {
         "title": "Maximaal aantal tenten",
         "copy": "Tuineigenaars bepalen hoeveel tenten ze elke nacht kunnen herbergen (dit is geen Dour-festival). Respecteer alsjeblieft hun keuze."
       },
-      "6": {
+      "5": {
         "title": "Voorzieningen",
         "copy": "Voorzieningen kunnen per tuin verschillen. Sommige hosts bieden misschien toegang tot hun badkamers; anderen doen dat liever niet. Respecteer steeds hun keuzes."
       },
-      "7": {
+      "6": {
         "title": "Respect voor de natuur",
         "copy": "Laat geen afval achter.  Dit geldt ook voor je toiletbezoek: zoek een struik of boom buiten de tuin om te plassen; grotere boodschappen pak je mee en gooi je in een vuilnisbak. Respecteer de natuur en de hosts: pas het Leave No Trace-principe toe zoals bij bivakkeren in het wild."
       },
-      "8": {
+      "7": {
         "title": "Beperk je geluid",
         "copy": "Respecteer de privacy van de eigenaar van de kampeerplek. Zing dus niet luidkeels mee met Celine Dion en zorg niet voor geluidsoverlast. Zeker niet na 22.00 uur!"
       },
-      "9": {
+      "8": {
         "title": "Veel plezier!",
         "copy": "Dit is een geweldige kans om andere mensen te ontmoeten en plezier te hebben! Leer een woordje Frans, Nederlands of Duits als je in een andere regio reist dan de jouwe. Wees nieuwsgierig, deel verhalen en bouw nieuwe vriendschappen op!"
       },
-      "10": {
+      "9": {
         "title": "Vertel het verder",
-        "copy": "Wil jij ook jouw tuin openen of ken je iemand die dat graag zou doen? Vertel over Welcome to My Garden! Je kan ook mensen uitnodigen om onze Facebookpagina leuk te vinden."
+        "copy": "Wil jij ook jouw tuin openen of ken je iemand die dat graag zou doen? Vertel over Welcome to My Garden! Je kan ook mensen uitnodigen om onze <a href=\"https://www.facebook.com/Welcome2mygarden\">Facebookpagina</a> leuk te vinden."
       }
     },
     "message": "Veel kampeerplezier!"
@@ -470,7 +466,7 @@
         "questions": {
           "what": {
             "title": "Wat is Welcome To My Garden?",
-            "copy": "Welcome To My Garden is een netwerk van burgers die hun tuinen openen om de trage reiziger een kampeerplek aan te bieden. Het is een initiatief zonder winstoogmerk dat is opgezet door een groep burgers. Het idee ontstond tijdens de 2020 coronalockdown in België."
+            "copy": "Welcome to My Garden is een netwerk van burgers die hun tuin openstellen voor trage reizigers die een kampeerplek nodig hebben. Het is een initiatief zonder winstoogmerk, opgezet door een groep burgers tijdens de eerste Covid-19 lockdown. Welcome To My Garden is nu een sociale onderneming met als missie om slow travel toegankelijker te maken voor iedereen."
           },
           "who": {
             "title": "Voor wie is Welcome to My Garden?",
@@ -495,7 +491,7 @@
           },
           "cost": {
             "title": "Is Welcome To My Garden gratis?",
-            "copy": "Welcome to My Garden gebruiken is helemaal gratis. Als platform maken we wel kosten. Als je {donationLink} wilt doen, zal dat een grote glimlach op ons gezicht toveren! We zijn een initiatief zonder winstoogmerk, dus we verdienen hier geen geld aan. Dit betekent dat al het geld dat je doneert, rechtstreeks naar de kosten van het project gaat. Je kan ook onze uitgaven bekijken op de donatiepagina."
+            "copy": "WTMG is gratis om te gebruiken, maar niet gratis om te maken. We moeten onze rekeningen betalen: onze technische kosten, die toenemen naarmate het platform groeit; ons getalenteerde team; onze kantoorruimte bij het Impact House. Achter de schermen zijn we continu bezig om het platform te verbeteren. Ben je enthousiast over slow travel en wil je WTMG steunen in haar missie? Dan is <a href=\"/become-superfan\">Superfan worden</a> misschien iets voor jou! Met jouw financiële steun kunnen we WTMG financieel stabiel maken en gratis toegankelijk houden voor iedereen."
           },
           "no-garden": {
             "title": "Ik heb geen tuin. Kan ik nog steeds naar de tuinen van anderen reizen?",
@@ -512,10 +508,6 @@
           "no-toilet": {
             "title": "Wat als er geen toilet is?",
             "copy": "Mogelijk biedt niet elke host toegang tot een toilet. Zoek in dit geval een plek buiten de tuin die aan je wensen voldoet. Plas achter een boom en raap je grotere boodschap op, zodat je die de volgende dag kan weggooien. Pas het Leave No Trace-principe toe zoals je  zou doen bij kamperen in het wild."
-          },
-          "covid-safe": {
-            "title": "En als er een toilet is, hoe garanderen we dan dat Covid-19 niet wordt overgedragen?",
-            "copy": "Breng handdesinfectiemiddel en vochtige doekjes mee, zodat je je handen en alle oppervlakken die je hebt aangeraakt (zoals de toiletbril, de spoelknop, de kraan en de deurgreep) kan reinigen. Je kan ook een mondmasker dragen als je het huis van je host moet betreden voor faciliteiten. Op deze manier help je ervoor te zorgen dat Covid-19 niet wordt overgedragen, voor het geval jij of een van de andere gebruikers van de badkamer het draagt. En als je weet dat je misschien ziek bent, vertrek dan niet op reis!"
           },
           "tent-type": {
             "title": "Welk type tent kan ik meenemen?",
@@ -540,7 +532,7 @@
           },
           "issue": {
             "title": "Ik heb een probleem gehad met een gast of een host. Hoe meld ik dit?",
-            "copy": "Elk probleem of wangedrag moet per e-mail worden gemeld aan Welcome To My Garden {support}. In geval van wangedrag behouden we het recht om eenzijdig het account van deze persoon te verwijderen (zie Gebruiksvoorwaarden)."
+            "copy": "Elk probleem of wangedrag moet per e-mail worden gemeld aan Welcome To My Garden: {support}. In geval van wangedrag behouden we het recht om eenzijdig het account van deze persoon te verwijderen (zie Gebruiksvoorwaarden)."
           }
         }
       },
@@ -549,15 +541,15 @@
         "questions": {
           "privacy": {
             "title": "Ik heb me net ingeschreven, maar ik heb nog geen bevestigingsmail ontvangen.",
-            "copy": "Neem contact op met het vrijwilligersteam {support} en zij zullen je helpen jouw e-mail te verifiëren!"
+            "copy": "Neem contact op met ons team op {support} en zij zullen je helpen jouw e-mail te verifiëren!"
           },
           "messages": {
             "title": "Ik heb problemen met het lezen van berichten.",
-            "copy": "Probeer eerst in te loggen met een andere browser, zoals Firefox of Google Chrome. Als het niet werkt, neem dan contact op met de support {support}. Er is altijd een oplossing voor alles, we zullen het samen vinden!"
+            "copy": "Probeer eerst in te loggen met een andere browser, zoals Firefox of Google Chrome. Als het niet werkt, neem dan contact op met de support: {support}. Er is altijd een oplossing voor alles, we zullen het samen vinden!"
           },
           "update-email": {
             "title": "Ik wil mijn e-mailadres bijwerken of mijn account verwijderen. Hoe kan ik dit doen?",
-            "copy": "Wij nemen jouw gegevens zeer serieus. Als je jouw e-mailadres wilt bijwerken of jouw account volledig van het platform wilt verwijderen, neem dan contact op met onze support (support-at-welcometomygarden.org). Vergeet niet jouw e-mailadres te vermelden dat je wilt wijzigen of verwijderen."
+            "copy": "Wij nemen jouw gegevens zeer serieus. Als je jouw e-mailadres wilt bijwerken of jouw account volledig van het platform wilt verwijderen, neem dan contact op met onze support: {support}. Vergeet niet jouw e-mailadres te vermelden dat je wilt wijzigen of verwijderen."
           },
           "newsletter": {
             "title": "Ik zou graag jouw volgende nieuwsbrief ontvangen! Wat moet ik doen?",
@@ -574,7 +566,7 @@
         "questions": {
           "become-volunteer": {
             "title": "Kan ik vrijwilliger worden?",
-            "copy": "We zijn momenteel op zoek naar vrijwilligers om Welcome To My Garden in andere talen te vertalen! Hoe meer tenten we op de kaart hebben, hoe meer traag reizen het nieuwe normaal wordt. Als je deel wilt uitmaken van het avontuur, stuur ons dan een e-mail naar {support} of word lid van onze slack (link onderaan)."
+            "copy": "We zijn momenteel op zoek naar vrijwilligers om Welcome To My Garden in andere talen te vertalen! Hoe meer tenten we op de kaart hebben, hoe meer traag reizen het nieuwe normaal wordt. Als je deel wilt uitmaken van het avontuur, stuur ons dan een e-mail naar {support} of word lid van onze Slack (link onderaan)."
           },
           "fb-page": {
             "title": "Waarom is de Facebookpagina alleen in het Engels?",
