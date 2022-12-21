@@ -46,7 +46,7 @@
           "title": "Et les installations ?"
         },
         "4": {
-          "copy": "Utiliser Welcome To My Garden est 100 % gratuit. Cependant, en tant que plateforme, nous engageons des frais. Si vous souhaitez nous soutenir, vous pouvez faire un don. Nous sommes une initiative citoyenne sans but lucratif et ne faisons donc aucun profit sur l’argent collecté. En effet, chaque somme collectée couvre des frais. Vous trouverez la liste des dépenses sur la page de dons.",
+          "copy": "WTMG est gratuit à utiliser mais n’est pas gratuit à maintenir ni à développer. Nous avons des factures à payer : nos coûts techniques, qui augmentent au fur et à mesure que nous nous développons, notre équipe talentueuse, nos bureaux à l'Impact House. En coulisses, nous améliorons sans cesse la plateforme.  Pour nous soutenir, vous pouvez désormais <a href=\"/become-superfan\">devenir Superfan</a> et avoir accès à des fonctionnalités supplémentaires.",
           "title": "Est-ce que Welcome To My Garden a un coût ?"
         }
       },
@@ -111,46 +111,42 @@
     "description": "Vous trouverez ci-dessous comment Welcome To My Garden fonctionne. Assurez-vous de lire ces règles avant de commencer votre aventure ! Après tout, la plateforme ne pourra fonctionner que si nous respectons tou.te.s les règles.",
     "rules": {
       "0": {
-        "title": "Avertissement Covid-19",
-        "copy": "À tout moment, respectez les mesures prises par le gouvernement pour arrêter la propagation de Covid-19. Vous pouvez trouver les dernières informations pour la Belgique sur info-coronavirus.be."
+        "title": "Réseau de citoyen.ne.s",
+        "copy": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour de voyageurs et voyageuses adeptes du slow travel. Il s’agit d’une initiative sans but lucratif et en conséquence, aucun bénéfice, ni de la part de la plateforme ni de la part des hôtes, ne peut être fait. Welcome To My Garden ne prendra aucune responsabilité pour toute perte, dommage ou blessure encourue pendant un séjour. Les comportements offensants et l'utilisation abusive de la plateforme entraîneront la suspension des comptes (veuillez vous référer à nos conditions d'utilisation)."
       },
       "1": {
-        "title": "Réseau de citoyen.ne.s",
-        "copy": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour de voyageurs et voyageuses adeptes du slow travel. Il s’agit d’une initiative sans but lucratif et en conséquence, aucun bénéfice, ni de la part de la plateforme ni de la part des hôtes, ne peut être fait. Welcome To My Garden ne prendra aucune responsabilité pour toute perte, dommage ou blessure encourue pendant un séjour."
-      },
-      "2": {
         "title": "Envoyez une demande à l’avance au propriétaire du jardin",
         "copy": "Les propriétaires de jardins ne sont pas toujours disponibles pour vous accueillir. Contactez-les à l’avance via leur profil et vérifiez leurs disponibilités directement. Après avoir établi un premier contact, vous pourrez échanger vos coordonnées afin de rester en contact et les informer de votre heure d’arrivée, soit par email, soit par téléphone selon leur préférence. Lorsque vous envoyez une demande, n'hésitez pas à donner quelques informations sur vous et votre voyage !"
       },
-      "3": {
-        "title": "Pas de voiture",
+      "2": {
+        "title": "Seulement pour les voyageur.ses lent.es (pas de voiture)",
         "copy": "Welcome To My Garden respecte l’environnement et est une initiative à destination des voyageurs et voyageuses adeptes du slow travel, c’est à dire pour ceux et celles qui se déplacent à pied, à vélo ou en transport en commun. Arriver directement à un jardin en voiture est interdit. Vous pouvez bien sûr vous déplacer en voiture pour vous rendre au point de départ de votre randonnée pédestre ou cycliste."
       },
-      "4": {
+      "3": {
         "title": "Durée maximum",
         "copy": "Vous ne pouvez rester dans les jardins pour une durée maximale de 48 heures. Néanmoins, confirmez toujours à l'avance la durée de votre séjour avec le/la propriétaire du jardin."
       },
-      "5": {
+      "4": {
         "title": "Nombre maximum de tentes",
         "copy": "Les propriétaires de jardin définissent le nombre de tentes qu’ils/elles peuvent accueillir chaque nuit (ce n’est pas le festival de Dour !). Merci de respecter leur choix."
       },
-      "6": {
+      "5": {
         "title": "Installations",
         "copy": "Les installations peuvent varier d’un jardin à un autre. Certains propriétaires décident de mettre leurs sanitaires à disposition; d’autres décideront de ne pas le faire. Merci de respecter leur choix."
       },
-      "7": {
+      "6": {
         "title": "Respect de la nature",
         "copy": "Emportez avec vous tous vos déchets en respectant le principe de Leave No Trace. Ce principe inclut les besoins naturels lorsqu’il n’y a pas de toilettes disponibles : trouvez un buisson ou un arbre en dehors du jardin pour le besoin numéro 1 ; en cas de besoin numéro 2, emballez-le et jetez-le dans une poubelle le jour suivant. Respectez la nature et le jardin de vos hôtes en agissant comme lorsque vous faites un bivouac en pleine nature."
       },
-      "8": {
+      "7": {
         "title": "Respect du voisinage",
         "copy": "Respectez l’intimité des propriétaires et le voisinage. Pas question de chanter Céline Dion à toute voix ou de faire trop de bruit - en tout cas pas après 22h !"
       },
-      "9": {
+      "8": {
         "title": "Profitez, profitez, profitez !",
-        "copy": "Ceci est une excellente opportunité de rencontrer d’autres personnes ! Apprenez quelques mots de néerlandais, d’anglais ou d’allemand si vous voyagez dans une autre région que la vôtre. Soyez curieux, partagez des histoires et faites des nouvelles amitiés !"
+        "copy": "Ceci est une excellente opportunité de rencontrer d’autres personnes ! Apprenez quelques mots dans la langue de vos hôtes si vous voyagez dans une autre région que la vôtre. Soyez curieux, partagez des histoires et faites des nouvelles amitiés !"
       },
-      "10": {
+      "9": {
         "title": "Partagez Welcome To My Garden autour de vous",
         "copy": "Connaissez-vous quelqu’un qui pourrait ouvrir son jardin ? Partagez les informations à propos de l’initiative ! Vous pouvez également les inviter à suivre notre page Facebook."
       }
@@ -202,7 +198,7 @@
         "questions": {
           "what": {
             "title": "Welcome To My Garden, c’est quoi ?",
-            "copy": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour les voyageurs et voyageuses adeptes du slow travel. Cette initiative citoyenne sans but lucratif est composée de bénévoles amateurs et amatrices de randonnées ou de cyclotourisme."
+            "copy": "Welcome to My Garden est un réseau de citoyen.nes qui ouvrent leurs jardins aux voyageur.ses lent.es qui cherchent un espace pour camper pour la nuit. Il s'agit d'une initiative à but non lucratif lancée par un groupe de citoyens lors du premier confinement du Covid-19. Welcome To My Garden est désormais une entreprise sociale dont la mission est de rendre le slow travel plus accessible à tous et à toutes."
           },
           "who": {
             "title": "Pour qui est Welcome To My Garden ?",
@@ -215,7 +211,7 @@
         }
       },
       "slow-travellers": {
-        "title": "Voyageurs lents",
+        "title": "Voyageur.ses lent.es",
         "questions": {
           "how-camping": {
             "title": "Comment accéder au bivouac ?",
@@ -227,7 +223,7 @@
           },
           "cost": {
             "title": "Est-ce que Welcome To My Garden a un coût ?",
-            "copy": "Utiliser Welcome To My Garden est 100% gratuit. Cependant, en tant que plateforme, nous engageons des frais. Si vous souhaitez nous soutenir, vous pouvez faire {donationLink}. Nous sommes une initiative citoyenne sans but lucratif et ne faisons donc aucun profit sur l’argent collecté. En effet, chaque somme collectée couvre des frais. Vous trouverez la liste des dépenses sur la page de dons."
+            "copy": "WTMG est gratuit à utiliser mais n’est pas gratuit à maintenir ni à développer. Nous avons des factures à payer : nos coûts techniques, qui augmentent au fur et à mesure que nous nous développons, notre équipe talentueuse, nos bureaux à l'Impact House. En coulisses, nous améliorons sans cesse la plateforme.  Pour nous soutenir, vous pouvez désormais <a href=\"/become-superfan\">devenir Superfan</a> et avoir accès à des fonctionnalités supplémentaires."
           },
           "no-garden": {
             "title": "Je n’ai pas de jardin. Est-ce que je peux quand même voyager dans les jardins d’autres personnes ?",
@@ -244,10 +240,6 @@
           "no-toilet": {
             "title": "Que faire s’il n’y a pas de toilettes ?",
             "copy": "Tous les hôtes ne vont pas forcément donner accès à leurs toilettes. Dans ce cas, trouvez une solution avant d’arriver chez l’hôte et repartez tôt le matin. La nuit, ce sera pipi nature ! Appliquez le principe de Leave No Trace, comme si vous campiez en pleine nature. "
-          },
-          "covid-safe": {
-            "title": "Et s’il y a des toilettes, comment garantir que le Covid-19 ne soit pas transmis ?",
-            "copy": "Apportez du désinfectant et des lingettes humides afin de pouvoir vous laver les mains et nettoyer toutes les surfaces que vous aurez touchées, comme le siège des toilettes, la chasse d'eau, le robinet,... Portez également un masque si vous entrez dans la maison. De cette manière, vous contribuez à ne pas transmettre le Covid-19. Si vous avez des signes de maladie, n’allez pas camper !"
           },
           "tent-type": {
             "title": "Quel type de tente puis-je apporter ?",
@@ -272,7 +264,7 @@
           },
           "issue": {
             "title": "J’ai eu un problème avec un.e hôte, comment vous le faire savoir ?",
-            "copy": "Tout problème ou mauvais comportement de la part d’un.e hôte ou d’un.e voyageur/voyageuse doit être reporté à Welcome To My Garden par email {support}. En cas de comportement inadapté, nous nous réservons le droit de suspendre de manière unilatérale le compte de la personne en question (voir les conditions d’utilisations)."
+            "copy": "Tout problème ou mauvais comportement de la part d’un.e hôte ou d’un.e voyageur/voyageuse doit être reporté à Welcome To My Garden par email: {support}. En cas de comportement inadapté, nous nous réservons le droit de suspendre de manière unilatérale le compte de la personne en question (voir les conditions d’utilisations)."
           }
         }
       },
@@ -281,7 +273,7 @@
         "questions": {
           "privacy": {
             "title": "Je viens de m'inscrire mais je n'ai pas reçu d'email pour confirmer mon adresse.",
-            "copy": "Contactez l'équipe bénévole de support {support} et ils/elles vous aideront à vérifier votre email !"
+            "copy": "Contactez le support: {support} et ils/elles vous aideront à vérifier votre email !"
           },
           "messages": {
             "title": "Je n'arrive pas à lire les messages sur le chat.",
@@ -289,7 +281,7 @@
           },
           "update-email": {
             "title": "Je souhaite mettre à jour mon adresse email ou supprimer mon compte. Comment dois-je procéder ?",
-            "copy": "Nous prenons vos données très au sérieux. Si vous souhaitez mettre à jour votre adresse e-mail ou supprimer complètement votre compte de la plateforme, veuillez contacter notre support {support}. N'oubliez pas de confirmer l'adresse e-mail que vous souhaitez modifier ou supprimer."
+            "copy": "Nous prenons vos données très au sérieux. Si vous souhaitez mettre à jour votre adresse e-mail ou supprimer complètement votre compte de la plateforme, veuillez contacter notre support: {support}. N'oubliez pas de confirmer l'adresse e-mail que vous souhaitez modifier ou supprimer."
           },
           "newsletter": {
             "title": "J'aimerais recevoir votre prochaine lettre d'information ! Que dois-je faire ?",
@@ -310,7 +302,7 @@
           },
           "fb-page": {
             "title": "Pourquoi est-ce que votre page Facebook n’est qu’en anglais ?",
-            "copy": "La première raison est toute simple : l’anglais est la seule langue commune de notre équipe de bénévoles ! Nous souhaitons aussi ouvrir Welcome To my Garden au plus grand nombre et donc permettre à des personnes ne parlant ni français ni néerlandais de l’utiliser et, qui sait, de le répliquer dans leur propre pays. Nous continuerons à poster en anglais sur Facebook, mais n’hésitez pas à nous écrire en néerlandais ou français !"
+            "copy": "La première raison est toute simple : l’anglais est la seule langue commune de notre équipe ! Nous souhaitons aussi ouvrir Welcome To my Garden au plus grand nombre et donc permettre à des personnes ne parlant ni français ni néerlandais de l’utiliser. Nous continuerons à poster en anglais sur Facebook, mais n’hésitez pas à nous écrire en néerlandais ou français !"
           },
           "warmshowers": {
             "title": "Comment est-ce que Welcome To My Garden diffère d’autres plateformes (p.ex : Warmshower)",
