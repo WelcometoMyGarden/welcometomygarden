@@ -39,27 +39,15 @@
 
 <PaddedSection desktopOnly>
   <MarketingBlock backgroundColor="var(--color-green-light)" centered>
-    <h1>Superfans keep us going</h1>
-    <p>
-      We want to create a community space where people can meet and talk, both online and offline.
-    </p>
+    <h1>{$_('about-superfan.top-section.title')}</h1>
+    <p>{$_('about-superfan.top-section.description')}</p>
   </MarketingBlock>
 </PaddedSection>
 <PaddedSection>
   <InnerVideoSection>
-    <h1 slot="heading">Why become a Superfan</h1>
+    <h1 slot="heading">{$_('about-superfan.video-section.title')}</h1>
     <div slot="text">
-      <p>
-        If you are truly passionate about slow travel and you want to support WTMG’s mission, then
-        perhaps you should become a Superfan! With your financial support, we can make WTMG
-        financially stable and keep it free for everyone to use! You pay only what you can afford.
-      </p>
-      <p>
-        We’re a small team of five and have invested a lot of our personal time, energy and money in
-        this initiative. We started off as a small citizen initiative in Belgium, but we are growing
-        into something bigger. It’s clear that WTMG is here to stay, and we want to make sure we can
-        survive as well as thrive. And that’s where you come in!
-      </p>
+      {@html $_('about-superfan.video-section.description')}
       <Button href={SUPERFAN_PRICING_ROUTE} uppercase orange arrow>Become a Superfan</Button>
     </div>
   </InnerVideoSection>
