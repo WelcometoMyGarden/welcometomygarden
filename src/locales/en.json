@@ -676,6 +676,9 @@
   "become-superfan": {
     "title": "Become a Superfan"
   },
+  "become-superfan-payment": {
+    "not-logged-in-warning": "To subscribe, first log in or create an account"
+  },
   "about-superfan": {
     "faq-sections": {
       "superfan-faq": {
