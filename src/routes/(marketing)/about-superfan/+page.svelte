@@ -99,11 +99,15 @@
   <Testimonials slides={testimonials} />
 </PaddedSection>
 <PaddedSection>
-  <h2>FAQ</h2>
-  {#each getNodeKeys('about-superfan.faq-sections') as sectionKey}
+  <h2>{$_('about-superfan.faq-section.title')}</h2>
+  {#each getNodeKeys('about-superfan.faq-section.faq-subsections') as sectionKey}
     <div class="faq-section">
-      <h3 class="faq-title">{$_(`about-superfan.faq-sections.${sectionKey}.title`)}</h3>
-      <CollapsibleGroup collapsibleKey={`about-superfan.faq-sections.${sectionKey}.questions`} />
+      <h3 class="faq-title">
+        {$_(`about-superfan.faq-section.faq-subsections.${sectionKey}.title`)}
+      </h3>
+      <CollapsibleGroup
+        collapsibleKey={`about-superfan.faq-section.faq-subsections.${sectionKey}.questions`}
+      />
     </div>
   {/each}
 </PaddedSection>
