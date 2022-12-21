@@ -31,4 +31,16 @@
     flex-direction: column;
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
   }
+
+  p :global(a) {
+    color: var(--color-orange);
+    text-decoration: underline;
+  }
+
+  p :global(a:visited),
+  a :global(a:active),
+  a :global(a:hover) {
+    color: var(--color-orange);
+    text-decoration: underline;
+  }
 </style>
