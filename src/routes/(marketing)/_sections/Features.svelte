@@ -1,21 +1,22 @@
 <script lang="ts">
   import TileList from '../_components/TileList.svelte';
+  import { _ } from 'svelte-i18n';
+
   export let features = [
     {
       icon: '🚆',
-      title: 'Trains',
-      description: 'With the train layer on, you can easily see the rail network on the map!'
+      title: $_('superfan-shared.three-features.feature-one-title'),
+      description: $_('superfan-shared.three-features.feature-one-description')
     },
     {
       icon: '📍',
-      title: 'Upload your route',
-      description: 'Upload your own GPX file and easily find gardens along your route.'
+      title: $_('superfan-shared.three-features.feature-two-title'),
+      description: $_('superfan-shared.three-features.feature-two-description')
     },
     {
       icon: '🏕',
-      title: 'Save gardens',
-      description:
-        'Keep track of your favourite gardens and in touch with the amazing hosts you’ve met!'
+      title: $_('superfan-shared.three-features.feature-two-title'),
+      description: $_('superfan-shared.three-features.feature-three-description')
     }
   ];
 </script>

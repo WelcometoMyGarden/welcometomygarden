@@ -53,12 +53,10 @@
   </InnerVideoSection>
 </PaddedSection>
 <PaddedSection backgroundColor="var(--color-beige-light)" vertical>
-  <Heading caption="What’s in it for you?">Our Superfans deserve a massive thank you</Heading>
-  <p>
-    We can’t do without your support! As a Superfan, you will get access to some great new slow
-    travel tools! These will make planning your slow travel adventures even easier. This is our way
-    to say thank you for believing in us.
-  </p>
+  <Heading caption={$_('about-superfan.for-superfans-section.slug')}
+    >{$_('about-superfan.for-superfans-section.title')}</Heading
+  >
+  <p>{$_('about-superfan.for-superfans-section.description')}</p>
   <Features />
   <div style="width: 100%; padding-bottom: var(--section-inner-padding)" />
   <Heading caption="WTMG for everyone">Thanks to your support, we can...</Heading>
