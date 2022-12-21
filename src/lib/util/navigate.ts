@@ -6,6 +6,8 @@ export const goto = (
     replaceState?: boolean;
     noScroll?: boolean;
     keepFocus?: boolean;
+    // This is coming from Svelte types, not on us to fix!
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     state?: any;
     invalidateAll?: boolean;
   }
