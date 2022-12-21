@@ -19,7 +19,7 @@
   {#each getNodeChildren(collapsibleKey) as key, i}
     <Collapsible on:click={() => toggleCollapsible(i)} open={activeCollapsible === i}>
       <h3 class="oh3" slot="title">{$_(`${collapsibleKey}.${key}.title`)}</h3>
-      <p slot="content">{$_(`${collapsibleKey}.${key}.copy`)}</p>
+      <p slot="content">{@html $_(`${collapsibleKey}.${key}.copy`)}</p>
     </Collapsible>
   {/each}
 </div>
