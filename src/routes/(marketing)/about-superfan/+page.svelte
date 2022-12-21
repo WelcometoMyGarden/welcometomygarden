@@ -39,38 +39,24 @@
 
 <PaddedSection desktopOnly>
   <MarketingBlock backgroundColor="var(--color-green-light)" centered>
-    <h1>Superfans keep us going</h1>
-    <p>
-      We want to create a community space where people can meet and talk, both online and offline.
-    </p>
+    <h1>{$_('about-superfan.top-section.title')}</h1>
+    <p>{$_('about-superfan.top-section.description')}</p>
   </MarketingBlock>
 </PaddedSection>
 <PaddedSection>
   <InnerVideoSection>
-    <h1 slot="heading">Why become a Superfan</h1>
+    <h1 slot="heading">{$_('about-superfan.video-section.title')}</h1>
     <div slot="text">
-      <p>
-        If you are truly passionate about slow travel and you want to support WTMG’s mission, then
-        perhaps you should become a Superfan! With your financial support, we can make WTMG
-        financially stable and keep it free for everyone to use! You pay only what you can afford.
-      </p>
-      <p>
-        We’re a small team of five and have invested a lot of our personal time, energy and money in
-        this initiative. We started off as a small citizen initiative in Belgium, but we are growing
-        into something bigger. It’s clear that WTMG is here to stay, and we want to make sure we can
-        survive as well as thrive. And that’s where you come in!
-      </p>
+      {@html $_('about-superfan.video-section.description')}
       <Button href={SUPERFAN_PRICING_ROUTE} uppercase orange arrow>Become a Superfan</Button>
     </div>
   </InnerVideoSection>
 </PaddedSection>
 <PaddedSection backgroundColor="var(--color-beige-light)" vertical>
-  <Heading caption="What’s in it for you?">Our Superfans deserve a massive thank you</Heading>
-  <p>
-    We can’t do without your support! As a Superfan, you will get access to some great new slow
-    travel tools! These will make planning your slow travel adventures even easier. This is our way
-    to say thank you for believing in us.
-  </p>
+  <Heading caption={$_('about-superfan.for-superfans-section.slug')}
+    >{$_('about-superfan.for-superfans-section.title')}</Heading
+  >
+  <p>{$_('about-superfan.for-superfans-section.description')}</p>
   <Features />
   <div style="width: 100%; padding-bottom: var(--section-inner-padding)" />
   <Heading caption="WTMG for everyone">Thanks to your support, we can...</Heading>
@@ -99,11 +85,15 @@
   <Testimonials slides={testimonials} />
 </PaddedSection>
 <PaddedSection>
-  <h2>FAQ</h2>
-  {#each getNodeKeys('about-superfan.faq-sections') as sectionKey}
+  <h2>{$_('about-superfan.faq-section.title')}</h2>
+  {#each getNodeKeys('about-superfan.faq-section.faq-subsections') as sectionKey}
     <div class="faq-section">
-      <h3 class="faq-title">{$_(`about-superfan.faq-sections.${sectionKey}.title`)}</h3>
-      <CollapsibleGroup collapsibleKey={`about-superfan.faq-sections.${sectionKey}.questions`} />
+      <h3 class="faq-title">
+        {$_(`about-superfan.faq-section.faq-subsections.${sectionKey}.title`)}
+      </h3>
+      <CollapsibleGroup
+        collapsibleKey={`about-superfan.faq-section.faq-subsections.${sectionKey}.questions`}
+      />
     </div>
   {/each}
 </PaddedSection>

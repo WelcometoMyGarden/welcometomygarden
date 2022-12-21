@@ -7,8 +7,9 @@
   "svg.preview.background": "transparent",
   "eslint.lintTask.enable": true,
   "eslint.validate": [
-    "svelte",
+    "svelte"
   ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[svelte]": {
     "editor.defaultFormatter": "svelte.svelte-vscode"
   },

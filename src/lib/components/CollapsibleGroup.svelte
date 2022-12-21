@@ -38,9 +38,14 @@
   }
 
   p :global(a:visited),
-  a :global(a:active),
-  a :global(a:hover) {
+  p :global(a:active),
+  p :global(a:hover) {
     color: var(--color-orange);
     text-decoration: underline;
+  }
+
+  p :global(ul) {
+    list-style-type: unset;
+    list-style-position: inside;
   }
 </style>
