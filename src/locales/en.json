@@ -1078,7 +1078,7 @@
           "5": {
             "title": "No car rule",
             "copy": {
-              "0": "The Welcome To My Garden platform respects the environment and caters to the needs of slow travellers only. This means users can only travel to gardens on foot, by bicycle or by public transport. If you're planning to travel by motorized vehicle, please do not contact hosts via this platform. The use of motorized vehicles is forbidden."
+              "0": "The Welcome To My Garden platform respects the environment and caters to the needs of slow travellers only. This means users can only travel to gardens on f,,oot, by bicycle or by public transport. If you're planning to travel by motorized vehicle, please do not contact hosts via this platform. The use of motorized vehicles is forbidden."
             }
           },
           "6": {
@@ -1247,6 +1247,8 @@
     "for-everyone": "WTMG For Everyone",
     "how-contribute": "How can you contribute?",
     "ways-support": "Here are all the ways in which you can support us.",
+    "our-story-title": "Our story",
+    "our-story-description": "<p>Hey! We’re Dries and Manon and we’re the proud parents of Welcome To My Garden. In 2019, we cycled from Brussels to Tokyo. Over the course of 11 months, we travelled through 21 countries, and were hosted by countless incredible people along the way.</p><p>When we arrived back in Belgium, we asked ourselves: how can we make slow travel easier and more fun in our own country? On a rainy Sunday afternoon in 2020, Dries set up the first version of WTMG. Within two hours, there were 50 gardens on the map - and after two weeks, there were 500!</p><p>We’ve come a long way since then: today, WTMG counts 30.000+ users and 4000+ gardens. It’s clear we’re here to stay! And it’s time to step up. We’ve listened to you, our community, and we’re now investing in making WTMG meet all your slow travel needs.</p>",
     "our-story": {
       "title": "Our story",
       "parents": "Hey! We’re Dries and Manon and we’re the proud parents of Welcome To My Garden. In 2019, we cycled from Brussels to Tokyo. Over the course of 11 months, we travelled through 21 countries, and were hosted by countless incredible people along the way.",
@@ -1262,22 +1264,24 @@
       "financial-support": "We received financial support from partners like Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers and Natuurpunt",
       "experiences": "The most meaningful and memorable experiences happen when we take our time to explore and engage with our surroundings. With WTMG, we want to help you do just that. Together, we can make the world a better place – by travelling more slowly and more sustainably. Will you join the ride?"
     },
-    "contribute-blocks": {
-      "1": {
-        "title": "Become a Superfan",
-        "text": "Become a Superfan and get access to extra features! Superfans are very important to WTMG as they keep it free for everyone to use."
-      },
-      "2": {
-        "title": "Go on a secret trip",
-        "text": "With Slowby, WTMG’s little sister, you can go on a secret slow travel trip! We take care of the planning. All you need to do is pack and pedal, or walk! You can also get a gift card for someone you love!"
-      },
-      "3": {
-        "title": "Spread the word",
-        "text": "Tell other slow travel lovers and garden owners about WTMG, and share WTMG on social media. More slow travellers means a bigger impact on our beautiful world!"
-      }
+    "bigger-picture-title": "The bigger picture",
+    "bigger-picture-description": "<p>If there’s one thing we’ve learned over the past few years, it’s this: it’s time to slow down. This applies to life in general, but also definitely to travel specifically. The faster we travel, the more we miss out on. Fast travel generates a lot of CO2 emissions, disconnects people from their surroundings, and damages communities. Enter slow travel!</p><p>And enter WTMG! We are proud to be part of the solution to this global challenge. In two years’ time, WTMG has achieved a lot:</p>"
+  },
+  "contribute-blocks": {
+    "1": {
+      "title": "Become a Superfan",
+      "text": "Become a Superfan and get access to extra features! Superfans are very important to WTMG as they keep it free for everyone to use."
     },
-    "contributors": "Contributors",
-    "amazing-people": "Last but not least, we want to thank these amazing people",
-    "cradle": "Without these amazing people, Welcome To My Garden wouldn’t exist. They stood at the cradle of the platform and believed in it from the start!"
-  }
+    "2": {
+      "title": "Go on a secret trip",
+      "text": "With Slowby, WTMG’s little sister, you can go on a secret slow travel trip! We take care of the planning. All you need to do is pack and pedal, or walk! You can also get a gift card for someone you love!"
+    },
+    "3": {
+      "title": "Spread the word",
+      "text": "Tell other slow travel lovers and garden owners about WTMG, and share WTMG on social media. More slow travellers means a bigger impact on our beautiful world!"
+    }
+  },
+  "contributors": "Contributors",
+  "amazing-people": "Last but not least, we want to thank these amazing people",
+  "cradle": "Without these amazing people, Welcome To My Garden wouldn’t exist. They stood at the cradle of the platform and believed in it from the start!"
 }
