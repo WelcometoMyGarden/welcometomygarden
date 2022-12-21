@@ -53,7 +53,6 @@
       "explore-map": "Explore map",
       "learn-more": "Learn more"
     },
-
     "steps": {
       "0": {
         "title": "Step 1: Sign up to become or find a host",
@@ -116,6 +115,20 @@
       "financial-support": "With your financial support, WTMG can remain free for everyone to use! Will you help us make WTMG survive and thrive? Become a Superfan and get access to new features!",
       "become-superfan": "Become a Superfan",
       "learn-more": "Learn more"
+    },
+    "wtmg-quotes": {
+      "0": {
+        "name": "Frank & Katlijn",
+        "quote": "We love hearing the stories of slow travellers. Some just started, others travel with children. Everyone has a story."
+      },
+      "1": {
+        "name": "Carolien and her family",
+        "quote": "Apparently WTMG doesn’t only bring together people but also animals. We were kindly welcomed with our donkeys!"
+      },
+      "2": {
+        "name": "Marie Marth",
+        "quote": "Thanks to WTMG and to the slow travellers I’ve been hosting, I’m rediscovering my own region on foot now. I see everything from a new perspective and it’s fascinating."
+      }
     }
   },
   "rules": {
