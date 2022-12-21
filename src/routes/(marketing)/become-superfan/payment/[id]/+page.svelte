@@ -72,6 +72,7 @@
       if (error?.message) error.message += ' Please try again.';
       error = result.error;
     } else if (result.paymentIntent.status === 'succeeded') {
+      console.log('stripe.confirmPayment succeeded, redirecting to the Thank You page');
       await goto(routes.SUPERFAN_THANK_YOU);
       // payment succeeded, wait for the user object to update
     }
@@ -81,9 +82,13 @@
 
   // Subscribe to user state changes
   let unsubscribeFromUser = user.subscribe((newUserData) => {
+    console.log('Receiving new user state');
     if (newUserData && hasActiveSubscription(newUserData)) {
+      console.log('The received user is subscribed');
       selectedLevel = getSubLevelFromUser(newUserData);
+      return;
     }
+    console.log('The received user is not subscribed');
   });
 
   const reloadStripe = async () => {
@@ -91,53 +96,80 @@
     stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
   };
 
+  /**
+   * @returns true if search params were processed, which means that no further subscription
+   * processing is required.
+   *          false if no search params were found & processed
+   */
+  const processStripeSearchParams = async () => {
+    // Check if we got redirected back from a succesful or failed payment
+    // Relevant for bancontact and other redirect methods.
+    const searchParams = new URLSearchParams(document.location.search);
+    if (searchParams.get('payment_intent')) {
+      console.log('onMount: redirect params were found');
+      // I couldn't find proper docs of these query parameters,
+      // https://stripe.com/docs/js/setup_intents/confirm_setup
+      // > If they fail to authorize the payment, they will be redirected back to your return_url
+      // > and the **SetupIntent** will have a status of requires_payment_method.
+      // > In this case you should attempt to recollect payment from the user.
+      // So our backend should in any case return that payment intent on the createOrRetrieveUnpaidSubscription
+      // (maybe we can adjust it to return an eventual previous error, via requires_payment_method)
+      //
+      // Empirically, these seem to exist:
+      // ?payment_intent=&payment_intent_client_secret=&redirect_status=failed
+      // the last status can be 'failed' or 'succeeded'
+      if (searchParams.get('redirect_status')) {
+        const status = searchParams.get('redirect_status');
+        const clientSecretFromError = searchParams.get('payment_intent_client_secret');
+        // Clear search params, to not repeat an error on refresh
+        // window.history.replaceState({}, document.title, document.location.pathname);
+
+        switch (status) {
+          case 'failed':
+            error = new Error('Something went wrong with your payment, please try again.');
+            if (clientSecretFromError) {
+              clientSecret = clientSecretFromError;
+            }
+            await reloadStripe();
+            return true;
+          case 'succeeded':
+            console.log(
+              'onMount: redirect_status param was "succeeded", redirecting to the Thank You page'
+            );
+            await goto(routes.SUPERFAN_THANK_YOU);
+            return true;
+        }
+      }
+    }
+    return false;
+  };
+
   onMount(async () => {
     // todo: validate priceID
+    console.log('Running onMount');
     if (!$user) {
-      notify.warning('You need to be logged in!', 10000);
-      return goto(routes.SIGN_IN);
+      notify.warning($_('become-superfan-payment.not-logged-in-warning'), 10000);
+      // replaceState: replaces the state of the current page, which we want,
+      // because when a visitor click back on the Sign in page, they should go back to /become-superfan
+      // and not to /become-superfan/payment, which puts them in a redirect "loop"
+      // https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API#the_replacestate_method
+      return goto(routes.SIGN_IN, { replaceState: true });
     } else {
+      // Check if we got redirected back from Stripe
+      const processed = await processStripeSearchParams();
+      if (processed) {
+        // no more processing needed
+        return;
+      }
+
       if (hasActiveSubscription($user)) {
+        console.log('onMount: $user is subscribed, selecting level');
         // Make sure the correct price is shown, even if the user re-entered another price page
         selectedLevel = getSubLevelFromUser($user);
         return;
       }
 
-      // No active subscription: check if we got redirected from a succesful or failed payment
-      // Relevant for bancontact and other redirect methods.
-      //
-      const searchParams = new URLSearchParams(document.location.search);
-      if (searchParams.get('payment_intent')) {
-        // I couldn't find proper docs of these query parameters,
-        // https://stripe.com/docs/js/setup_intents/confirm_setup
-        // > If they fail to authorize the payment, they will be redirected back to your return_url
-        // > and the **SetupIntent** will have a status of requires_payment_method.
-        // > In this case you should attempt to recollect payment from the user.
-        // So our backend should in any case return that payment intent on the createOrRetrieveUnpaidSubscription
-        // (maybe we can adjust it to return an eventual previous error, via requires_payment_method)
-        //
-        // Empirically, these seem to exist:
-        // ?payment_intent=&payment_intent_client_secret=&redirect_status=failed
-        // the last status can be 'failed' or 'succeeded'
-        if (searchParams.get('redirect_status')) {
-          const status = searchParams.get('redirect_status');
-          const clientSecretFromError = searchParams.get('payment_intent_client_secret');
-          processingPayment = false;
-          switch (status) {
-            case 'failed':
-              error = new Error('Something went wrong with your payment, please try again.');
-              if (clientSecretFromError) {
-                clientSecret = clientSecretFromError;
-              }
-              await reloadStripe();
-              break;
-            case 'succeeded':
-              await goto(routes.SUPERFAN_THANK_YOU);
-              break;
-          }
-          return;
-        }
-      }
+      console.log('onMount: $user is not subscribed');
 
       if (!selectedLevel) {
         console.error("Didn't select, or couldn't find, a price level");
