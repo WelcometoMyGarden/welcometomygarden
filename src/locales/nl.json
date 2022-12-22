@@ -261,7 +261,37 @@
     }
   },
   "become-superfan": {
-    "title": "Become a Superfan"
+    "top-section": {
+      "title": "Steun WTMG: word Superfan!",
+      "description": "Welcome To My Garden wil slow travel toegankelijker maken voor iedereen. Jouw financiële bijdrage maakt het mogelijk om Welcome To My Garden gratis toegankelijk te houden voor iedereen. Als Superfan krijg je bovendien toegang tot nieuwe features!"
+    },
+    "feature-section": {
+      "title": "Wat krijg je ervoor terug?"
+    },
+    "pricing-section": {
+      "slug": "Open pricing",
+      "title": "Open pricing: kies je tarief op basis van je budget",
+      "description": "We passen open pricing toe omdat we willen dat WTMG toegankelijk is voor iedereen - en we vertrouwen jou. Je betaalt ineens voor een jaar. Je gaat geen verplichting aan door Superfan te worden: je abonnement stopt automatisch na een jaar, en je krijgt een herinnering per email om het te verlengen.",
+      "per-month": "/ maand",
+      "annual-amount": ", betaald per jaar",
+      "pricing-levels": {
+        "0": {
+          "slug": "🌱 Zaai",
+          "title": "Gereduceerd tarief",
+          "description": "Ben je student of heb je een laag inkomen? We snappen dat. Je kunt voor dit gereduceerde tarief kiezen en ons zo toch steunen. Dankjewel!"
+        },
+        "1": {
+          "slug": "🌾 Plant",
+          "title": "Normaal tarief",
+          "description": "Dit is het bedrag wat we gemiddeld per Superfan nodig hebben om WTMG future-proof te maken. Super dat je daaraan wilt bijdragen!"
+        },
+        "2": {
+          "slug": "🌳 Grow",
+          "title": "Solidariteitstarief",
+          "description": "Wil je meer bijdragen zodat anderen die het nodig hebben minder hoeven te betalen, en zodat wij echt kunnen bloeien? Geweldig, dankjewel!"
+        }
+      }
+    }
   },
   "about-superfan": {
     "top-section": {
