@@ -694,6 +694,59 @@
       "text": "Vous avez oublié votre mot de passe ? {link}"
     }
   },
+  "superfan-shared": {
+    "become-superfan-button": "FR Become a Superfan",
+    "three-features": {
+      "feature-one-title": "Voir le réseau ferroviaire",
+      "feature-one-description": "Activez l’option train et vous aurez accès au réseau ferroviaire sur la carte.",
+      "feature-two-title": "Télécharger votre itinéraire",
+      "feature-two-description": "Uploadez votre propre fichier GPX et trouvez facilement des jardins le long de votre itinéraire.",
+      "feature-three-title": "Sauvegarder les jardins",
+      "feature-three-description": "Enregistrez vos jardins préférés et restez en contact avec les hôtes extraordinaires que vous avez rencontrés."
+    },
+    "three-support-reasons": {
+      "title": "FR Thanks to your support, we can...",
+      "support-one-title": "FR Keep the WTMG spirit alive",
+      "support-one-description": "We are committed to keeping WTMG ad-free, safe and user friendly. This requires hard work!",
+      "support-two-title": "Improve the WTMG experience",
+      "support-two-description": "We’re moving beyond the volunteer stage: WTMG needs our full-time attention to stay alive and kicking!",
+      "support-three-title": "Bring the community together",
+      "support-three-description": "We want to create a community space where people can meet and talk, both online and offline."
+    }
+  },
+  "become-superfan": {
+    "top-section": {
+      "title": "FR Support WTMG: become a Superfan!",
+      "description": "FR Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Your financial contribution will make it possible for Welcome To My Garden to remain free for everyone to use. As a Superfan, you also get access to new features!"
+    },
+    "feature-section": {
+      "title": "FR What's in it for you?"
+    },
+    "pricing-section": {
+      "slug": "Prix différencié",
+      "title": "Choisissez le prix qui vous convient le mieux",
+      "description": "Nous utilisons un prix différencié parce que nous voulons que WTMG soit accessible à tous et à toutes, et nous vous faisons confiance. Vous payez pour un an à la fois. Devenir Superfan est sans engagement : votre abonnement s'arrête automatiquement après un an, et vous recevrez un email pour le renouveler.",
+      "per-month": "/mois",
+      "annual-amount": "facturés annuellement",
+      "pricing-levels": {
+        "0": {
+          "slug": "🌱 Semer",
+          "title": "Prix réduit",
+          "description": "Vous êtes étudiant·e ou vous avez un budget limité ? Optez pour le tarif ‘Semer’. Grâce à votre financement, nous pouvons continuer à maintenir la plateforme. Merci d’avance !"
+        },
+        "1": {
+          "slug": "🌾 Planter",
+          "title": "Prix juste",
+          "description": "C’est le prix juste, celui qui nous permet de maintenir la plateforme et de continuer à la développer. Vous nous aidez à le faire ? Ça signifie tellement pour nous ! Merci !"
+        },
+        "2": {
+          "slug": "🌳 Pousser",
+          "title": "Prix de solidarité",
+          "description": "Votre contribution supplémentaire permettra d'équilibrer celles qui ne peuvent pas se le permettre. Merci ! Vous êtes fantastique."
+        }
+      }
+    }
+  },
   "about-superfan": {
     "top-section": {
       "title": "Superfans keep us going",
@@ -816,6 +869,19 @@
         "title": "Vous avez encore une question ?",
         "contact-button": "Contactez-nous !"
       }
+    }
+  },
+  "thank-you-superfan": {
+    "top-section": {
+      "title": "Merci d’être devenu·e un·e Superfan 🌟",
+      "description": "<p>Vous êtes incroyable ! En devenant un·e Superfan, vous nous aidez à accomplir notre mission : rendre le slow travel plus accessible à tous et à toutes, encourager le voyage durable et favoriser de nouvelles rencontres entre les gens.</p><p>Un immense merci au nom de toute l'équipe !</p>"
+    },
+    "features-section": {
+      "title": "Vous avez maintenant accès à ces nouvelles fonctionnalités",
+      "explore-features-button": "Explorer les fonctionnalités"
+    },
+    "closing-section": {
+      "text": "<p>Merci encore d’être devenu·e Superfan !</p><p><strong>L'équipe WTMG,</strong><br/>Dries, Manon, Thor, Ward & Janneke</p>"
     }
   },
   "request-password-reset": {

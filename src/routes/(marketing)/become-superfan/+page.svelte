@@ -1,3 +1,13 @@
+<script context="module" lang="ts">
+  export type SuperfanLevelDataWithCopy = SuperfanLevelData & {
+    slugCopy: string;
+    title: string;
+    description: string;
+    // TODO alt
+    alt?: string;
+  };
+</script>
+
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { user } from '@/lib/stores/auth';
@@ -23,6 +33,24 @@
   const selectLevel = (level: SuperfanLevelData) => {
     selectedLevel = level;
   };
+
+  // const addCopy = () => {};
+
+  let superfanLevelDataWithCopy: SuperfanLevelDataWithCopy[];
+  const mapCopy = (level: SuperfanLevelData) => ({
+    ...level,
+    slugCopy: $_(`become-superfan.pricing-section.pricing-levels.${level.copyKey}.slug`),
+    title: $_(`become-superfan.pricing-section.pricing-levels.${level.copyKey}.title`),
+    description: $_(`become-superfan.pricing-section.pricing-levels.${level.copyKey}.description`)
+  });
+
+  let superfanLevelsReactive = superfanLevels;
+  _.subscribe(() => {
+    // console.log('react!');
+    superfanLevelsReactive = superfanLevels;
+  });
+
+  $: superfanLevelDataWithCopy = superfanLevelsReactive.map(mapCopy);
 
   // TODO: the selectedLevels should be a keyed object, not an array.
   // Array is more difficult to type.
@@ -86,31 +114,23 @@
 
 <PaddedSection desktopOnly>
   <MarketingBlock backgroundColor="var(--color-green-light)" centered>
-    <h1>Support WTMG: become a Superfan!</h1>
-    <p>
-      Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Your
-      financial contribution will make it possible for Welcome To My Garden to remain free for
-      everyone to use. As a Superfan, you also get access to new features!
-    </p>
+    <h1>{$_('become-superfan.top-section.title')}</h1>
+    <p>{$_('become-superfan.top-section.description')}</p>
   </MarketingBlock>
 </PaddedSection>
 <PaddedSection>
-  <h1>What's in it for you?</h1>
+  <h1>{$_('become-superfan.feature-section.title')}</h1>
   <Features />
 </PaddedSection>
 
 <PaddedSection backgroundColor="var(--color-beige-light)" vertical id="pricing">
-  <Heading caption="Open pricing">
-    Choose the price that fits you best
-    <p>
-      We use open pricing because we want WTMG to be available to everyone, and we trust your
-      decision. You pay for one year at a time. Becoming a Superfan is commitment-free: your
-      subscription stops automatically after one year, and you will receive an email to renew it.
-    </p>
+  <Heading caption={$_('become-superfan.pricing-section.slug')}>
+    {$_('become-superfan.pricing-section.title')}
+    <p>{$_('become-superfan.pricing-section.description')}</p>
   </Heading>
   <div class="superfan-levels-container">
     <div class="superfan-levels">
-      {#each superfanLevels as level}
+      {#each superfanLevelDataWithCopy as level}
         <SuperfanLevel
           {level}
           on:click={() => selectLevel(level)}
@@ -146,12 +166,12 @@
   </div>
   <div class="select-level-button">
     <Button uppercase orange arrow on:click={() => goToPaymentPage(selectedLevel)}
-      >Become a Superfan</Button
+      >{$_('generics.become-superfan')}</Button
     >
   </div>
 </PaddedSection>
 <PaddedSection>
-  <h1>Thanks to your support, we can...</h1>
+  <h1>{$_('superfan-shared.three-support-reasons.title')}</h1>
   <SupportReasons />
 </PaddedSection>
 

@@ -9,11 +9,11 @@
 <PaddedSection backgroundColor="var(--color-beige-light)" vertical>
   <div class="wrapper">
     <img class="our-story" src={manonDriesInJapan} alt="Manon & Dries with bikes in Japan" />
-    <h2 class="our-story">{$_('about-us.our-story.title')}</h2>
+    <h2 class="our-story">{$_('about-us.our-story-title')}</h2>
     <div class="text our-story">
       {@html $_('about-us.our-story-description')}
     </div>
-    <h2 class="bigger-picture">{$_('about-us.our-story.big-picture')}</h2>
+    <h2 class="bigger-picture">{$_('about-us.bigger-picture-title')}</h2>
     <div class="text bigger-picture">
       {@html $_('about-us.bigger-picture-description')}
     </div>
@@ -71,12 +71,13 @@
     justify-self: center;
   }
 
-  ul {
+  .text :global(ul) {
     list-style-type: disc;
     list-style-position: inside;
   }
 
-  li > span {
+  /* TODO: should be li > span, might break? */
+  .text :global(li span) {
     padding-left: 0.1rem;
   }
 

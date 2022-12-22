@@ -2,7 +2,8 @@
   import Video from '../_components/Video.svelte';
 </script>
 
-<div class="wrapper">
+<!-- TODO: auto scroll to this id? No SSR, so it won't be immediately there -->
+<div class="wrapper" id="video">
   <div class="heading">
     <slot name="heading" />
   </div>
