@@ -5,7 +5,6 @@
   import UserDropdown from './UserDropdown.svelte';
   import { user } from '@/lib/stores/auth';
   import WtmgLogo from '../../UI/WTMGLogo.svelte';
-  import { SLOWBY_URL } from '@/lib/constants';
 
   $: firstName = $user ? $user.firstName : '';
 </script>
@@ -13,14 +12,19 @@
 <nav>
   <div class="nav-extra">
     <span
-      >Need help planning a trip? Check our <a
+      >{$_('navigation.slowby-notice.prompt')}
+      {@html $_('navigation.slowby-notice.answer', {
+        values: {
+          slowbyLink: `<a
         class="link"
-        style:color="inherit"
-        href={SLOWBY_URL}
+        style="color:inherit"
+        href="${$_('generics.slowby-url')}"
         target="_blank"
-        rel="noopener">Slowby Secret Trips</a
-      ></span
-    >
+        rel="noopener">${$_('navigation.slowby-notice.slowby-link-text')}</a
+      >`
+        }
+      })}
+    </span>
   </div>
   <div class="main-nav">
     <WtmgLogo />
@@ -31,13 +35,6 @@
       <li>
         <NavLink href={routes.RULES}>{$_('generics.rules')}</NavLink>
       </li>
-      <!-- TODO reuse this language key in the footer -->
-      <!-- But create a new key -->
-      <!-- <li>
-      <NavLink href={$_('index.slowby.banner.url')} target="_blank" rel="noreferrer"
-        >{$_('generics.slowby')}</NavLink
-      >
-    </li> -->
       <li>
         <NavLink href={routes.ABOUT_US}>About Us</NavLink>
       </li>

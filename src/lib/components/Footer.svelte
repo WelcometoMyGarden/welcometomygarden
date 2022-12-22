@@ -23,21 +23,21 @@
       title: 'Welcome To My Garden',
       links: [
         {
-          title: 'Map',
+          title: $_('generics.map'),
           link: routes.MAP
         },
         {
-          title: 'About us',
+          title: $_('generics.about-us'),
           link: routes.ABOUT_US
         },
         {
-          title: 'Superfans',
+          title: $_('footer.superfans'),
           link: routes.ABOUT_SUPERFAN
         }
       ]
     },
     {
-      title: 'Our projects',
+      title: $_('footer.link-category-titles.our-projects'),
       links: [
         {
           title: 'Secret Trips',
@@ -64,18 +64,18 @@
       ]
     },
     {
-      title: 'Learn more',
+      title: $_('footer.link-category-titles.learn-more'),
       links: [
         {
-          title: 'Rules',
+          title: $_('generics.rules'),
           link: routes.RULES
         },
         {
-          title: 'FAQ',
+          title: $_('generics.faq.acronym'),
           link: routes.FAQ
         },
         {
-          title: 'Get in touch',
+          title: $_('footer.links.get-in-touch'),
           link: mailToSupportHref
         }
       ]
@@ -100,9 +100,9 @@
               {categoryTitle}
             </span>
             <ul class="links">
-              {#each links as { title: linkTitle, link }}
+              {#each links as { title: linkTitle, link, target }}
                 <li>
-                  <a href={link} rel="noopener">{linkTitle}</a>
+                  <a href={link} rel="noopener" {target}>{linkTitle}</a>
                 </li>
               {/each}
             </ul>
@@ -111,7 +111,7 @@
       </div>
     </div>
     <div class="bottom">
-      <p class="copyright">© Made with 💚 by Welcome To My Garden 2022. All rights reserved.</p>
+      <p class="copyright">{$_('footer.copyright')}</p>
       <ul class="terms">
         <li>
           <a href={routes.PRIVACY_POLICY}>{$_('generics.privacy-policy')}</a>
@@ -125,9 +125,6 @@
       </ul>
     </div>
   </div>
-
-  <!-- TODO move lang selector somewhere -->
-  <!-- <LanguageSelector /> -->
 </PaddedSection>
 
 <style>

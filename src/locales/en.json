@@ -21,11 +21,19 @@
     "shop": "Shop",
     "slowby": "Secret Trips",
     "about-us": "About Us",
-    "become-superfan": "Become a Superfan"
+    "become-superfan": "Become a Superfan",
+    "slowby-url": "https://slowby.travel"
   },
   "ui": {
     "card": {
       "register-here": "Register here"
+    }
+  },
+  "navigation": {
+    "slowby-notice": {
+      "prompt": "Need help planning a trip?",
+      "answer": "Check our {slowbyLink}",
+      "slowby-link-text": "Slowby Secret Trips"
     }
   },
   "index": {
@@ -1366,23 +1374,34 @@
       "experiences": "The most meaningful and memorable experiences happen when we take our time to explore and engage with our surroundings. With WTMG, we want to help you do just that. Together, we can make the world a better place – by travelling more slowly and more sustainably. Will you join the ride?"
     },
     "bigger-picture-title": "The bigger picture",
-    "bigger-picture-description": "<p>If there’s one thing we’ve learned over the past few years, it’s this: it’s time to slow down. This applies to life in general, but also definitely to travel specifically. The faster we travel, the more we miss out on. Fast travel generates a lot of CO2 emissions, disconnects people from their surroundings, and damages communities. Enter slow travel!</p><p>And enter WTMG! We are proud to be part of the solution to this global challenge. In two years’ time, WTMG has achieved a lot:</p>"
+    "bigger-picture-description": "<p>If there’s one thing we’ve learned over the past few years, it’s this: it’s time to slow down. This applies to life in general, but also definitely to travel specifically. The faster we travel, the more we miss out on. Fast travel generates a lot of CO2 emissions, disconnects people from their surroundings, and damages communities. Enter slow travel!</p><p>And enter WTMG! We are proud to be part of the solution to this global challenge. In two years’ time, WTMG has achieved a lot:</p>",
+    "contribute-blocks": {
+      "1": {
+        "title": "Become a Superfan",
+        "text": "Become a Superfan and get access to extra features! Superfans are very important to WTMG as they keep it free for everyone to use."
+      },
+      "2": {
+        "title": "Go on a secret trip",
+        "text": "With Slowby, WTMG’s little sister, you can go on a secret slow travel trip! We take care of the planning. All you need to do is pack and pedal, or walk! You can also get a gift card for someone you love!"
+      },
+      "3": {
+        "title": "Spread the word",
+        "text": "Tell other slow travel lovers and garden owners about WTMG, and share WTMG on social media. More slow travellers means a bigger impact on our beautiful world!"
+      }
+    },
+    "contributors": "Contributors",
+    "amazing-people": "Last but not least, we want to thank these amazing people",
+    "cradle": "Without these amazing people, Welcome To My Garden wouldn’t exist. They stood at the cradle of the platform and believed in it from the start!"
   },
-  "contribute-blocks": {
-    "1": {
-      "title": "Become a Superfan",
-      "text": "Become a Superfan and get access to extra features! Superfans are very important to WTMG as they keep it free for everyone to use."
+  "footer": {
+    "copyright": "© Made with 💚 by Welcome To My Garden 2022. All rights reserved.",
+    "link-category-titles": {
+      "our-projects": "Our projects",
+      "learn-more": "Learn more",
+      "superfans": "Superfans"
     },
-    "2": {
-      "title": "Go on a secret trip",
-      "text": "With Slowby, WTMG’s little sister, you can go on a secret slow travel trip! We take care of the planning. All you need to do is pack and pedal, or walk! You can also get a gift card for someone you love!"
-    },
-    "3": {
-      "title": "Spread the word",
-      "text": "Tell other slow travel lovers and garden owners about WTMG, and share WTMG on social media. More slow travellers means a bigger impact on our beautiful world!"
+    "links": {
+      "get-in-touch": "Get in touch"
     }
-  },
-  "contributors": "Contributors",
-  "amazing-people": "Last but not least, we want to thank these amazing people",
-  "cradle": "Without these amazing people, Welcome To My Garden wouldn’t exist. They stood at the cradle of the platform and believed in it from the start!"
+  }
 }
