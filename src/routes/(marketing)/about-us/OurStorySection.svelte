@@ -71,12 +71,13 @@
     justify-self: center;
   }
 
-  ul {
+  .text :global(ul) {
     list-style-type: disc;
     list-style-position: inside;
   }
 
-  li > span {
+  /* TODO: should be li > span, might break? */
+  .text :global(li span) {
     padding-left: 0.1rem;
   }
 

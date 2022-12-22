@@ -18,7 +18,7 @@
   <div class="how-to-contribute">
     {#each getNodeChildren('about-us.contribute-blocks') as number}
       <ContributeBlock title={$_(`about-us.contribute-blocks.${number}.title`)} {number}>
-        <Text>{$_(`about-us.contribute-blocks.${number}.text`)}</Text>
+        <Text>{@html $_(`about-us.contribute-blocks.${number}.text`)}</Text>
       </ContributeBlock>
     {/each}
   </div>

@@ -17,22 +17,26 @@
   import { getNodeKeys } from '@/lib/util/get-node-children';
 
   let testimonials: Slide[];
+
+  $: contentOf = (quoteNumber: string) => {
+    const prefix = `about-superfan.superfan-quotes-section.quotes.${quoteNumber}`;
+    return {
+      name: $_(prefix + '.name'),
+      quote: $_(prefix + '.quote')
+    };
+  };
+
   $: testimonials = [
     {
-      quote:
-        'Starting to travel by bicycle crystallized what I wanted to become: free, minimalist, autonomous and active.',
-      name: 'Boris',
+      ...contentOf('0'),
       imagePath: '/testimonials/boris.jpeg'
     },
     {
-      quote: 'WTMG is not only fun, it’s about changing the world, changing the way we travel.',
-      name: 'Marie Marth',
+      ...contentOf('1'),
       imagePath: '/testimonials/marie-marth.jpg'
     },
     {
-      quote:
-        "I'm happy to be surrounded by such an amazing community of slow travellers who put their actions where their mouth is!",
-      name: 'Benoit & Hélène',
+      ...contentOf('2'),
       imagePath: '/testimonials/benoit-helene.jpg'
     }
   ];
@@ -49,7 +53,9 @@
     <h1 slot="heading">{$_('about-superfan.video-section.title')}</h1>
     <div slot="text">
       {@html $_('about-superfan.video-section.description')}
-      <Button href={SUPERFAN_PRICING_ROUTE} uppercase orange arrow>Become a Superfan</Button>
+      <Button href={SUPERFAN_PRICING_ROUTE} uppercase orange arrow
+        >{$_('generics.become-superfan')}</Button
+      >
     </div>
   </InnerVideoSection>
 </PaddedSection>
@@ -60,10 +66,13 @@
   <p>{$_('about-superfan.for-superfans-section.description')}</p>
   <Features />
   <div style="width: 100%; padding-bottom: var(--section-inner-padding)" />
-  <Heading caption="WTMG for everyone">Thanks to your support, we can...</Heading>
-  <!-- TODO: change content -->
+  <Heading caption={$_('about-us.for-everyone')}
+    >{$_('superfan-shared.three-support-reasons.title')}</Heading
+  >
   <SupportReasons />
-  <Button href={SUPERFAN_PRICING_ROUTE} uppercase orange arrow>Become a Superfan</Button>
+  <Button href={SUPERFAN_PRICING_ROUTE} uppercase orange arrow
+    >{$_('generics.become-superfan')}</Button
+  >
 </PaddedSection>
 <PaddedSection desktopOnly>
   <MarketingBlock centered backgroundColor="var(--color-beige-light">
@@ -74,12 +83,11 @@
         </div>
       {/each}
     </div>
-    <h1>Meet the team</h1>
-    <p>
-      So, who’s behind WTMG? We’re a small team of five slow travel enthusiasts and we want to help
-      others embark on their slow travel adventures too!
-    </p>
-    <Button href={routes.ABOUT_US} uppercase orange arrow>Meet the Team</Button>
+    <h1>{$_('about-superfan.team-section.title')}</h1>
+    <p>{$_('about-superfan.team-section.description')}</p>
+    <Button href={routes.ABOUT_US} uppercase orange arrow
+      >{$_('about-superfan.team-section.meet-team-button')}</Button
+    >
   </MarketingBlock>
 </PaddedSection>
 <PaddedSection desktopOnly>
@@ -100,10 +108,11 @@
 </PaddedSection>
 <PaddedSection>
   <div class="more-questions">
-    <h2>Still have a question?</h2>
+    <h2>{$_('about-superfan.faq-section.contact-section.title')}</h2>
+    <!-- TODO: fix the mailto localization -->
     <Button
       href="mailto:{SUPPORT_EMAIL}?subject={encodeURIComponent('WTMG, I have a question!')}"
-      uppercase>Contact Us</Button
+      uppercase>{$_('about-superfan.faq-section.contact-section.contact-button')}</Button
     >
   </div>
 </PaddedSection>

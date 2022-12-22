@@ -9,7 +9,7 @@
   };
 
   // Optional param features override
-  export let features: Feature[];
+  export let features: Feature[] | undefined = undefined;
 
   let defaultFeatures: Feature[];
   $: defaultFeatures = [

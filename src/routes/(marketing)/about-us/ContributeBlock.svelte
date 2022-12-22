@@ -27,4 +27,11 @@
     font-size: 5rem;
     font-weight: bold;
   }
+
+  .description :global(a:visited),
+  .description :global(a:active),
+  .description :global(a:hover) {
+    color: var(--color-orange);
+    text-decoration: underline;
+  }
 </style>
