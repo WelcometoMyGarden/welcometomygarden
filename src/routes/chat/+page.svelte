@@ -3,5 +3,5 @@
 </script>
 
 <svelte:head>
-  <title>{$_('chat.title')} | Welcome To My Garden</title>
+  <title>{$_('chat.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>

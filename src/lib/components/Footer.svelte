@@ -20,7 +20,7 @@
 
   const categories: Category[] = [
     {
-      title: 'Welcome To My Garden',
+      title: $_('generics.wtmg.acronym'),
       links: [
         {
           title: $_('generics.map'),
@@ -31,7 +31,7 @@
           link: routes.ABOUT_US
         },
         {
-          title: $_('footer.superfans'),
+          title: $_('footer.links.superfans'),
           link: routes.ABOUT_SUPERFAN
         }
       ]

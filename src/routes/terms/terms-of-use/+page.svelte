@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-  <title>{$_('terms-of-use.title')} | Welcome To My Garden</title>
+  <title>{$_('terms-of-use.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 <h2>
   {$_('terms-of-use.title')}

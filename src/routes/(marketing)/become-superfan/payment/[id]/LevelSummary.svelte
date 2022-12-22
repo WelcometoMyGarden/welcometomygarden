@@ -19,7 +19,7 @@
       <img src="images/logo-emblem.svg" alt="The WTMG Logo" />
     </div>
     <div class="summary-wrapper">
-      <h1 class="mh2">Welcome To My Garden · 1 year</h1>
+      <h1 class="mh2">{$_('generics.wtmg.explicit')} · 1 year</h1>
       <div class="price mh3">€{level.value * 12}</div>
       <div class="period">
         <span class="from">{formatDate(now)}</span>

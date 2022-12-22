@@ -114,7 +114,7 @@
 </script>
 
 <svelte:head>
-  <title>{$_('register.title')} | Welcome To My Garden</title>
+  <title>{$_('register.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
 <Progress active={$isRegistering} />

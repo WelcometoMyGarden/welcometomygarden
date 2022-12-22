@@ -3,5 +3,5 @@
 </script>
 
 <svelte:head>
-  <title>{$_('generics.map')} | Welcome To My Garden</title>
+  <title>{$_('generics.map')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
