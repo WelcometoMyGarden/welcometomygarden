@@ -697,12 +697,12 @@
   "superfan-shared": {
     "become-superfan-button": "FR Become a Superfan",
     "three-features": {
-      "feature-one-title": "FR Trains",
-      "feature-one-description": "FR With the train layer on, you can easily see the rail network on the map!",
-      "feature-two-title": "FR Upload your route",
-      "feature-two-description": "Upload your own GPX file and easily find gardens along your route.",
-      "feature-three-title": "Save gardens",
-      "feature-three-description": "Keep track of your favourite gardens and in touch with the amazing hosts you’ve met!"
+      "feature-one-title": "Voir le réseau ferroviaire",
+      "feature-one-description": "Activez l’option train et vous aurez accès au réseau ferroviaire sur la carte.",
+      "feature-two-title": "Télécharger votre itinéraire",
+      "feature-two-description": "Uploadez votre propre fichier GPX et trouvez facilement des jardins le long de votre itinéraire.",
+      "feature-three-title": "Sauvegarder les jardins",
+      "feature-three-description": "Enregistrez vos jardins préférés et restez en contact avec les hôtes extraordinaires que vous avez rencontrés."
     },
     "three-support-reasons": {
       "title": "FR Thanks to your support, we can...",
@@ -869,6 +869,19 @@
         "title": "Vous avez encore une question ?",
         "contact-button": "Contactez-nous !"
       }
+    }
+  },
+  "thank-you-superfan": {
+    "top-section": {
+      "title": "Merci d’être devenu·e un·e Superfan 🌟",
+      "description": "<p>Vous êtes incroyable ! En devenant un·e Superfan, vous nous aidez à accomplir notre mission : rendre le slow travel plus accessible à tous et à toutes, encourager le voyage durable et favoriser de nouvelles rencontres entre les gens.</p><p>Un immense merci au nom de toute l'équipe !</p>"
+    },
+    "features-section": {
+      "title": "Vous avez maintenant accès à ces nouvelles fonctionnalités",
+      "explore-features-button": "Explorer les fonctionnalités"
+    },
+    "closing-section": {
+      "text": "<p>Merci encore d’être devenu·e Superfan !</p><p><strong>L'équipe WTMG,</strong><br/>Dries, Manon, Thor, Ward & Janneke</p>"
     }
   },
   "request-password-reset": {

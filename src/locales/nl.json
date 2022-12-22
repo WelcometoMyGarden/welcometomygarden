@@ -260,6 +260,26 @@
       "login-issue": "We konden je niet inloggen. Als het probleem aanhoudt, neem dan contact op met {support}"
     }
   },
+  "superfan-shared": {
+    "become-superfan-button": "Become a Superfan",
+    "three-features": {
+      "feature-one-title": "Bekijk het spoornetwerk",
+      "feature-one-description": "Als je de treinlaag inschakelt, kun je eenvoudig heel het spoornetwerk op de kaart zien!",
+      "feature-two-title": "Upload je route",
+      "feature-two-description": "Upload je eigen GPX file en vind tuinen in de buurt van jouw route!",
+      "feature-three-title": "Sla tuinen op",
+      "feature-three-description": "Houd je favoriete tuinen bij de hand door ze op te slaan, en houd contact met de fantastische hosts die je hebt ontmoet!"
+    },
+    "three-support-reasons": {
+      "title": "Thanks to your support, we can...",
+      "support-one-title": "Keep the WTMG spirit alive",
+      "support-one-description": "We are committed to keeping WTMG ad-free, safe and user friendly. This requires hard work!",
+      "support-two-title": "Improve the WTMG experience",
+      "support-two-description": "We’re moving beyond the volunteer stage: WTMG needs our full-time attention to stay alive and kicking!",
+      "support-three-title": "Bring the community together",
+      "support-three-description": "We want to create a community space where people can meet and talk, both online and offline."
+    }
+  },
   "become-superfan": {
     "top-section": {
       "title": "Steun WTMG: word Superfan!",
@@ -415,6 +435,19 @@
         "title": "Nog een andere vraag?",
         "contact-button": "Contacteer ons"
       }
+    }
+  },
+  "thank-you-superfan": {
+    "top-section": {
+      "title": "Dankjewel om Superfan te worden! 🌟",
+      "description": "<p>Jij bent onze held! Door Superfan te worden help je ons onze missie te realiseren: om slow travel toegankelijker te maken voor iedereen, duurzaam reizen aan te moedigen en waardevolle nieuwe connecties tussen mensen te bevorderen.</p><p>Superbedankt namens het hele team! </p>"
+    },
+    "features-section": {
+      "title": "Je hebt nu toegang tot nieuwe features",
+      "explore-features-button": "Verken de nieuwe features"
+    },
+    "closing-section": {
+      "text": "<p>Nogmaals bedankt om Superfan te worden!</p><p><strong>Het WTMG team,</strong><br/>Dries, Manon, Thor, Ward & Janneke</p>"
     }
   },
   "request-password-reset": {
