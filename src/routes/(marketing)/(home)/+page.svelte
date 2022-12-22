@@ -11,20 +11,25 @@
   import StepsSection from './_sections/StepsSection.svelte';
   import LearnMoreArrow from './_sections/LearnMoreArrowSection.svelte';
   import Testimonials, { type Slide } from '../_components/Testimonials.svelte';
+
+  const contentOf = (quoteNumber: string) => {
+    const prefix = `index.wtmg-quotes.${quoteNumber}`;
+    return {
+      name: $_(prefix + '.name'),
+      quote: $_(prefix + '.quote')
+    };
+  };
   const testimonials: Slide[] = [
     {
-      quote:
-        'We love hearing the stories of slow travellers. Some just started, others travel with children. Everyone has a story.',
-      name: 'Frank & Katlijn',
+      ...contentOf('0'),
       imagePath: '/testimonials/katlijn-frank.jpg'
     },
     {
-      quote:
-        'Apparently WTMG doesn’t only bring together people but also animals. We were kindly welcomed with our donkeys!',
-      name: 'Carolien and her family',
+      ...contentOf('1'),
       imagePath: '/testimonials/carolien-family.jpg'
     },
     {
+      ...contentOf('2'),
       quote:
         'Thanks to WTMG and to the slow travellers I’ve been hosting, I’m rediscovering my own region on foot now. I see everything from a new perspective and it’s fascinating.',
       name: 'Marie Marth',
