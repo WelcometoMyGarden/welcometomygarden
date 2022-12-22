@@ -67,17 +67,17 @@
     },
     "steps": {
       "0": {
-        "title": "Step 1: Sign up to become or find a host",
-        "copy": "Do you want to open up your garden? {addGardenLink}. Are you looking for a camping spot? Pick your favourite garden and contact your host! Arrange a date and time for your stay and off you go!",
-        "add-garden-link-text": "Add it to the map"
+        "title": "Step 1: Sign up to get started",
+        "copy": "Sign up to find camping spots in people’s gardens and contact hosts, or {addGardenLink} to the map!",
+        "add-garden-link-text": "add your own garden"
       },
       "1": {
         "title": "Step 2: Plan your journey",
-        "copy": "After you’ve made arrangements with your hosts, figure out your walking/biking route to your host’s garden. Introduce yourself and pitch your tent for the night."
+        "copy": "Make arrangements with your host, and plan your hiking or cycling route to your host’s garden."
       },
       "2": {
-        "title": "Step 3: Pitch your tent and have fun!",
-        "copy": "Enjoy your stay, whether that means a quiet night all by yourself, having fun with your friends or family or hanging out with your hosts - whatever both parties prefer. Say fond farewells and continue on your hike or ride the next day!"
+        "title": "Step 3: Pitch your tent",
+        "copy": "Meet your host, pitch your tent and enjoy your stay - whether that means a quiet night or hanging out with your host!"
       }
     },
     "faq": {

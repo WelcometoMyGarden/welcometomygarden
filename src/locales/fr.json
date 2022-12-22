@@ -19,14 +19,21 @@
     "password": "Mot de passe",
     "garden": "Jardin",
     "shop": "Shop",
-    "slowby": "Secret Trips",
-    "about-us": "FR About us",
-    "become-superfan": "FR Become a Superfan",
+    "slowby": "Trips Secrets",
+    "about-us": "À propos",
+    "become-superfan": "Devenez Superfan",
     "slowby-url": "https://www.slowby.travel/fr/accueil"
   },
   "ui": {
     "card": {
       "register-here": "S'enregistrer"
+    }
+  },
+  "navigation": {
+    "slowby-notice": {
+      "prompt": "Besoin d'aide pour planifier un trip ?",
+      "answer": "Allez voir nos {slowbyLink}",
+      "slowby-link-text": "Trips Secrets Slowby"
     }
   },
   "index": {
@@ -59,24 +66,18 @@
     },
     "steps": {
       "0": {
-        "add-garden-link-text": "Ajoutez-le sur la carte",
-        "copy": "Souhaitez-vous accueillir dans votre jardin ? {addGardenLink}. Si vous cherchez un jardin où poser votre tente, cliquez sur « Explorer la carte » et contactez un·e hôte. Mettez-vous d’accord sur une date et c'est parti !",
-        "title": "Étape 1 : Inscrivez-vous pour devenir ou trouver un·e hôte"
+        "add-garden-link-text": "ajouter votre propre jardin",
+        "copy": "Inscrivez-vous pour visualiser les jardins et contacter les hôtes, ou {addGardenLink} sur la carte !",
+        "title": "Étape 1 : Inscrivez-vous"
       },
       "1": {
-        "copy": "Préparez votre itinéraire. Après s’être mis.e d’accord avec votre hôte, marchez ou rendez-vous à vélo jusqu’au jardin.",
-        "title": "Étape 2 : Planifiez votre voyage"
+        "copy": "Organisez-vous avec votre hôte, et planifiez votre itinéraire à pied ou à vélo jusqu’à son jardin.",
+        "title": "Étape 2 : Planifiez votre trip"
       },
       "2": {
-        "copy": "Passez une nuit calme, amusez-vous avec vos ami.e.s, votre famille ou discutez avec votre hôte, selon les préférences de chacun.e. Continuez votre randonnée pédestre ou cycliste le lendemain. Et surtout, amusez-vous!",
-        "title": "Étape 3 : Plantez votre tente et profitez-en !"
+        "copy": "Rencontrez votre hôte, plantez votre tente et profitez de ce moment - que ce soit pour passer une nuit tranquille ou pour discuter !",
+        "title": "Étape 3 : Plantez votre tente"
       }
-    },
-    "intro": {
-      "learn-more": "En savoir plus",
-      "explore-map": "Explorer la carte",
-      "add-garden": "Ajouter son jardin",
-      "copy": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme espace de bivouac gratuit pour des voyageurs et voyageuses adeptes du slow travel."
     },
     "banner-stmf": {
       "copy": "Vous voulez préparer votre prochain voyage lent tout en soutenant Welcome To My Garden ? Découvrez notre {stmfLink} (du 3 au 29 juin) !",
@@ -95,6 +96,13 @@
         "url": "https://slowby.travel/fr/accueil"
       }
     },
+    "intro": {
+      "headline": "Votre aventure slow travel commence ici",
+      "copy": "Des jardins mis à disposition gratuitement pour les voyageur·ses lent·es, une initiative rendue possible grâce à une communauté de citoyen·nes généreux·ses.",
+      "add-garden": "Ajouter son jardin",
+      "explore-map": "Explorer la carte",
+      "learn-more": "En savoir plus"
+    },
     "partners": {
       "title": "Nos partenaires"
     },
@@ -107,6 +115,28 @@
       "title": "Tout le monde mérite des vacances",
       "copy": "Saviez-vous que 22% des enfants ne peuvent pas partir en vacances ? Pourtant, après le confinement, ils ont bien besoin de respirer ! Grâce à vos dons, ils pourront aussi profiter d'un temps d'évasion.",
       "link-text": "Faire un don"
+    },
+    "superfan": {
+      "support-mission": "Nouveau : soutenez notre mission",
+      "become-superfan-title": "Soutenez WTMG : devenez un·e Superfan !",
+      "mission": "Welcome To My Garden a pour mission de rendre le slow travel plus accessible à tous·tes. WTMG a besoin d’être entretenu, comme chaque jardin, pour pouvoir grandir et rester en bonne santé.",
+      "financial-support": "Avec votre soutien financier, WTMG peut rester gratuit pour tous et toutes. Envie de nous aider à faire vivre et grandir WTMG ? Devenez Superfan et accédez à de nouvelles fonctionnalités !",
+      "become-superfan": "Devenir Superfan",
+      "learn-more": "En savoir plus"
+    },
+    "wtmg-quotes": {
+      "0": {
+        "name": "Frank & Katlijn",
+        "quote": "Nous adorons rencontrer des voyageur·ses lent·es. Une première expérience de voyage pour certains, d’autres voyagent en famille, ils ont tous des histoires à nous raconter."
+      },
+      "1": {
+        "name": "Carolien and her family",
+        "quote": "WTMG ne rassemble pas seulement des personnes mais aussi des animaux. Nous avons été magnifiquement accueillis avec nos ânes !"
+      },
+      "2": {
+        "name": "Marie Marth",
+        "quote": "Grâce à WTMG et aux voyageur·ses que j'ai accueilli, je redécouvre maintenant ma propre région à pied. Je vois tout sous un nouvel angle et c'est fascinant."
+      }
     }
   },
   "rules": {
@@ -1239,14 +1269,14 @@
     "cradle": "FR Without these amazing people, Welcome To My Garden wouldn’t exist. They stood at the cradle of the platform and believed in it from the start!"
   },
   "footer": {
-    "copyright": "© FR Made with 💚 by Welcome To My Garden 2022. All rights reserved.",
+    "copyright": "© Fait avec 💚 par Welcome To My Garden 2022. Tous droits réservés.",
     "link-category-titles": {
-      "our-projects": "FR Our projects",
-      "learn-more": "FR Learn more"
+      "our-projects": "Nos projets",
+      "learn-more": "En savoir plus"
     },
     "links": {
-      "get-in-touch": "FR Get in touch",
-      "superfans": "FR Superfans",
+      "get-in-touch": "Contact",
+      "superfans": "Superfans",
       "velotour": {
         "title": "Velotour Festival",
         "url": "https://velotourfestival.be/fr.html"
