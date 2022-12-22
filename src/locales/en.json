@@ -870,6 +870,56 @@
       }
     }
   },
+  "thank-you-superfan": {
+    "top-section": {
+      "title": "Thank you for becoming a Superfan 🌟",
+      "description": "<p>You are our hero! By becoming a Superfan, you are helping us to accomplish our mission: to make slow travel more accessible for everyone, encourage sustainable travel and foster precious new connections between people.</p><p>A huge thank you on behalf of the entire team!</p>"
+    },
+    "features-section": {
+      "title": "You now have access to new features",
+      "explore-features-button": "Explore new features"
+    },
+    "closing-section": {
+      "text": "<p><p>Thank you again for becoming a Superfan!</p><p><strong>The WTMG team,</strong><br/>Dries, Manon, Thor, Ward & Janneke</p>A huge thank you on behalf of the entire team!<p/>"
+    }
+  },
+  "payment-superfan": {
+    "overview-section": {
+      "duration": "1 year",
+      "feature-overview": {
+        "title": "You get 3 new features:",
+        "features": {
+          "0": {
+            "feature-one": "1. See train layer"
+          },
+          "1": {
+            "feature-two": "2. Upload your route"
+          },
+          "2": {
+            "feature-three": "3. Save gardens"
+          }
+        } 
+      },
+      "support-us-overview": {
+        "title": "You help us:",
+        "support-reasons": {
+          "0": {
+            "support-one": "1. Keep the WTMG spirit alive"
+          },
+          "1": {
+            "support-two": "2. Improve the WTMG experience"
+          },
+          "2": {
+            "support-three": "3. Bring the community together"
+          }
+        } 
+      } 
+    },
+    "payment-section": {
+      "payment-method": "Payment method",
+      "pay-button": "Pay"
+    }
+  },
   "request-password-reset": {
     "title": "Set a new password",
     "description": "If you submit the form below, we can send you a unique link with which you can reset your password.",
