@@ -786,7 +786,7 @@
         },
         "2": {
           "name": "Benoit & Hélène",
-          "quote": "I'm happy to be surrounded by such an amazing community of slow travellers who put their actions where their mouth is!"
+          "quote": "I'm happy to be surrounded by such an amazing community of slow travellers who put their actions where their mouths are!"
         }
       }
     },
@@ -810,7 +810,7 @@
             },
             "3": {
               "title": "What do I get when I become a Superfan?",
-              "copy": "As a Superfan, you will get access to some great new slow travel tools! These will make planning your slow travel adventures even easier. This is our way to say thank you for believing in us. Here they are: <ul> <li>Train layer: with the train layer on, you can easily see the rail network on the map!</li> <li>Upload your route: upload your own GPX file and easily find gardens along your route.</li> <li>Save gardens: keep track of your favourite gardens and stay in touch with the amazing hosts you’ve met!</li> </ul>"
+              "copy": "As a Superfan, you will get access to some great new slow travel tools! These will make planning your slow travel adventures even easier. This is our way to say thank you for believing in us. Here they are: <ul> <li>See rail network: with the train layer on, you can easily see the rail network on the map!</li> <li>Upload your route: upload your own GPX file and easily find gardens along your route.</li> <li>Save gardens: keep track of your favourite gardens and stay in touch with the amazing hosts you’ve met!</li> </ul>"
             },
             "4": {
               "title": "How much do I need to contribute to become a Superfan?",
@@ -1339,8 +1339,8 @@
     "redirect": "back to home"
   },
   "about-us": {
-    "here-we-are": "Here we are",
-    "who-behind": "So, who’s behind WTMG? We’re a small team of five slow travel enthusiasts and we want to help others embark on their slow travel adventures too! Fun fact: all of us are both WTMG hosts and travellers",
+    "here-we-are": "Here we are!",
+    "who-behind": "So, who’s behind WTMG? We’re a small team of five slow travel enthusiasts and we want to help others embark on their slow travel adventures too! Fun fact: all of us are both WTMG hosts and travellers.",
     "co-founder": "Co-founder",
     "dev": "Developer",
     "designer": "Designer",
@@ -1349,7 +1349,7 @@
     "manon": "Manon is a true multipotentialite and has a solution for everything. She ran a marathon twice, cycled from Brussels to Tokyo with Dries, and made a beautiful film about it: <a href=\"{womenDontCycleUrl}\">‘Women Don’t Cycle’</a>. She's the only one on the team who studied tourism. The fact that she's fluent in four languages and feels very comfortable in front of a camera makes her our unofficial spokesperson!",
     "thor": "Thor is the genius technologist any project needs. He participated in Open Summer of Code twice, where he met Dries in 2017. In the same year, he cycled from Leuven to Helsinki. He is now a WTMG host there! Not only is he a fantastic developer, he’s a great designer as well. He loves cooking, coding and reading long intriguing articles!",
     "ward": "Ward is the most enthusiastic developer the world has ever seen! He went on a trip using WTMG only two days after he’d discovered it. Coincidentally, a journalist who wanted to write about WTMG took his picture and so he made it into a newspaper! He’s so eager to bring code to the world that we call him the “Push the button guy” on our team!",
-    "janneke": "Janneke loves words and is absolutely amazing with them. As soon as she read about WTMG, she immediately suggested there should be a Facebook page and has been taking care of our communication ever since! She is head over heels in love with Romania; she wrote a guidebook about it, bought a house there, and founded Roamaniac.",
+    "janneke": "Janneke loves words and is absolutely amazing with them. As soon as she read about WTMG, she immediately suggested there should be a Facebook page and has been taking care of our communication ever since! She is head over heels in love with Romania; she wrote a guidebook about it, bought a house there, and founded <a href=\"https://roamaniac.com/\" target=\"_blank\">Roamaniac</a>.",
     "michiel": "The original coder. Without him, WTMG wouldn’t exist.",
     "marie": "The genius designer. She made WTMG so pretty.",
     "ismaila": "Ismaila is the brain behind the filters on the map.",
@@ -1358,17 +1358,17 @@
     "how-contribute": "How can you contribute?",
     "ways-support": "Here are all the ways in which you can support us.",
     "our-story-title": "Our story",
-    "our-story-description": "<p>Hey! We’re Dries and Manon and we’re the proud parents of Welcome To My Garden. In 2019, we cycled from Brussels to Tokyo. Over the course of 11 months, we travelled through 21 countries, and were hosted by countless incredible people along the way.</p><p>When we arrived back in Belgium, we asked ourselves: how can we make slow travel easier and more fun in our own country? On a rainy Sunday afternoon in 2020, Dries set up the first version of WTMG. Within two hours, there were 50 gardens on the map - and after two weeks, there were 500!</p><p>We’ve come a long way since then: today, WTMG counts 30.000+ users and 4000+ gardens. It’s clear we’re here to stay! And it’s time to step up. We’ve listened to you, our community, and we’re now investing in making WTMG meet all your slow travel needs.</p>",
+    "our-story-description": "<p>Hey! We’re Dries and Manon and we’re the proud parents of Welcome To My Garden. In 2019, we cycled from Brussels to Tokyo. Over the course of 11 months, we travelled through 21 countries, and were hosted by countless incredible people along the way.</p><p>When we arrived back in Belgium, we asked ourselves: how can we make slow travel easier and more fun in our own country? On a rainy Sunday afternoon in 2020, Dries set up the first version of WTMG. Within two hours, there were 50 gardens on the map - and after two weeks, there were 500!</p><p>We’ve come a long way since then: today, WTMG counts 30.000+ users and 4000+ gardens. It’s clear we’re here to stay! And it’s time to step up. We’ve listened to you, our community, and we’re now investing in making WTMG meet all your slow travel needs.</p><p>WTMG exists thanks to the hard work of a passionate bunch of volunteers, who invested evenings and weekends in it. But to keep going, we need more time and people power. This is why Thor, Ward and Janneke also jumped on board. We’re giving it our all, and are hoping that you will join us on the ride!</p>",
     "bigger-picture-title": "The bigger picture",
-    "bigger-picture-description": "<p>If there’s one thing we’ve learned over the past few years, it’s this: it’s time to slow down. This applies to life in general, but also definitely to travel specifically. The faster we travel, the more we miss out on. Fast travel generates a lot of CO2 emissions, disconnects people from their surroundings, and damages communities. Enter slow travel!</p><p>And enter WTMG! We are proud to be part of the solution to this global challenge. In two years’ time, WTMG has achieved a lot:</p>",
+    "bigger-picture-description": "<p>If there’s one thing we’ve learned over the past few years, it’s this: it’s time to slow down. This applies to life in general, but also definitely to travel specifically. The faster we travel, the more we miss out on. Fast travel generates a lot of CO2 emissions, disconnects people from their surroundings, and damages communities. Enter slow travel!</p><p>And enter WTMG! We are proud to be part of the solution to this global challenge. In two years’ time, WTMG has achieved a lot:<ul><li>31.000 users have embarked on a slow travel adventure</li><li>4.300 warm-hearted hosts have opened up their garden to slow travellers</li><li>57.000 stay requests have been sent through the WTMG platform</li><li>We started in Belgium but more and more gardens are now also popping up across Europe and beyond?</li><li>We received financial support from partners like Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers and Natuurpunt</li></ul></p><p>The most meaningful and memorable experiences happen when we take our time to explore and engage with our surroundings. With WTMG, we want to help you do just that. Together, we can make the world a better place – by travelling more slowly and more sustainably. Will you join the ride?</p><p>We’re always open to new ideas and collaborations, so please don’t hesitate to get in touch!</p>",
     "contribute-blocks": {
       "1": {
         "title": "Become a Superfan",
-        "text": "Become a Superfan and get access to extra features! Superfans are very important to WTMG as they keep it free for everyone to use."
+        "text": "<a href=\"/about-superfan\">Become a Superfan</a> and get access to extra features! Superfans are very important to WTMG as they keep it free for everyone to use."
       },
       "2": {
         "title": "Go on a secret trip",
-        "text": "With Slowby, WTMG’s little sister, you can go on a secret slow travel trip! We take care of the planning. All you need to do is pack and pedal, or walk! You can also get a gift card for someone you love!"
+        "text": "With <a href=\"https://www.slowby.travel/\" target=\"_blank\">Slowby</a>, WTMG’s little sister, you can go on a secret slow travel trip! We take care of the planning. All you need to do is pack and pedal, or walk! You can also get a <a href=\"https://gift.slowby.travel/\" target=\"_blank\">gift card</a> for someone you love!"
       },
       "3": {
         "title": "Spread the word",
@@ -1379,7 +1379,7 @@
     "amazing-people": "Last but not least, we want to thank these amazing people",
     "cradle": "Without these amazing people, Welcome To My Garden wouldn’t exist. They stood at the cradle of the platform and believed in it from the start!",
     "partners-section": {
-      "title": "Our partners",
+      "title": "Early believers",
       "description": "These partners helped us get going and believed in Welcome To My Garden right from the start!"
     }
   },

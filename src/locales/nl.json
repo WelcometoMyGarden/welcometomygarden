@@ -1231,45 +1231,49 @@
     "redirect": "terug naar de startpagina"
   },
   "about-us": {
-    "here-we-are": "NL Here we are",
-    "who-behind": "NL So, who’s behind WTMG? We’re a small team of five slow travel enthusiasts and we want to help others embark on their slow travel adventures too! Fun fact: all of us are both WTMG hosts and travellers",
-    "co-founder": "NL Co-founder",
-    "dev": "NL Developer",
-    "designer": "NL Designer",
-    "communications": "NL Communications",
-    "dries": "NL Dries is the one who came up with WTMG. He bought his first tour bike when he was only 18, and biked from Brussels to Tokyo with Manon in 2019. His love for open data and open source led him to work for Open Knowledge Belgium for a few years, which is also where he met Ward and Thor. He's leading the WTMG team and his enthusiasm is utterly contagious!",
-    "manon": "NL Manon is a true multipotentialite and has a solution for everything. She ran a marathon twice, cycled from Brussels to Tokyo with Dries, and made a beautiful film about it: <a href=\"https://womendontcycle.com/\">‘Women Don’t Cycle’</a>. She's the only one on the team who studied tourism. The fact that she's fluent in four languages and feels very comfortable in front of a camera makes her our unofficial spokesperson!",
-    "thor": "NL Thor is the genius technologist any project needs. He participated in Open Summer of Code twice, where he met Dries in 2017. In the same year, he cycled from Leuven to Helsinki. He is now a WTMG host there! Not only is he a fantastic developer, he’s a great designer as well. He loves cooking, coding and reading long intriguing articles!",
-    "ward": "NL Ward is the most enthusiastic developer the world has ever seen! He went on a trip using WTMG only two days after he’d discovered it. Coincidentally, a journalist who wanted to write about WTMG took his picture and so he made it into a newspaper! He’s so eager to bring code to the world that we call him the “Push the button guy” on our team!",
-    "janneke": "NL Janneke loves words and is absolutely amazing with them. As soon as she read about WTMG, she immediately suggested there should be a Facebook page and has been taking care of our communication ever since! She is head over heels in love with Romania; she wrote a guidebook about it, bought a house there, and founded Roamaniac.",
-    "michiel": "NL The original coder. Without him, WTMG wouldn’t exist.",
-    "marie": "NL The genius designer. She made WTMG so pretty.",
-    "ismaila": "NL Ismaila is the brain behind the filters on the map.",
-    "brent": "NL Brent coded our first landing page.",
-    "for-everyone": "NL WTMG For Everyone",
-    "how-contribute": "NL How can you contribute?",
-    "ways-support": "NL Here are all the ways in which you can support us.",
-    "our-story-title": "NL Our story",
-    "our-story-description": "NL <p>Hey! We’re Dries and Manon and we’re the proud parents of Welcome To My Garden. In 2019, we cycled from Brussels to Tokyo. Over the course of 11 months, we travelled through 21 countries, and were hosted by countless incredible people along the way.</p><p>When we arrived back in Belgium, we asked ourselves: how can we make slow travel easier and more fun in our own country? On a rainy Sunday afternoon in 2020, Dries set up the first version of WTMG. Within two hours, there were 50 gardens on the map - and after two weeks, there were 500!</p><p>We’ve come a long way since then: today, WTMG counts 30.000+ users and 4000+ gardens. It’s clear we’re here to stay! And it’s time to step up. We’ve listened to you, our community, and we’re now investing in making WTMG meet all your slow travel needs.</p>",
-    "bigger-picture-title": "NL The bigger picture",
-    "bigger-picture-description": "NL <p>If there’s one thing we’ve learned over the past few years, it’s this: it’s time to slow down. This applies to life in general, but also definitely to travel specifically. The faster we travel, the more we miss out on. Fast travel generates a lot of CO2 emissions, disconnects people from their surroundings, and damages communities. Enter slow travel!</p><p>And enter WTMG! We are proud to be part of the solution to this global challenge. In two years’ time, WTMG has achieved a lot:</p>",
+    "here-we-are": "Hier zijn wij!",
+    "who-behind": "Wie zit er achter WTMG? We zijn een klein team van vijf slow travel enthousiastelingen en we willen anderen graag helpen om ook aan hun trage reisavonturen te beginnen. Leuk weetje: we zijn allemaal zelf ook WTMG hosts en -reizigers!",
+    "co-founder": "Cofounder",
+    "dev": "Developer",
+    "designer": "Ontwerper",
+    "communications": "Communicatie",
+    "dries": "Dries heeft WTMG bedacht. Op zijn achttiende kocht hij zijn eerste toerfiets, en in 2019 fietste hij samen met Manon van Brussel naar Tokyo. Door zijn liefde voor open data en open source belandde hij voor enkele jaren bij Open Knowledge Belgium, waar hij ook Ward en Thor ontmoette. Hij is de aanvoerder van het WTMG-team, en zijn enthousiasme is aanstekelijk!",
+    "manon": "Manon is een echte duizendpoot en heeft overal een oplossing voor. Ze heeft al twee keer een marathon gelopen, fietste met Dries van Brussel naar Tokyo, en maakte daar een schitterende film over: <a href=\"{womenDontCycleUrl}\">‘Women Don’t Cycle’</a>. Ze is de enige binnen ons team die toerisme heeft gestudeerd (best handig). Het feit dat ze vier talen vloeiend spreekt én zich thuis voelt voor de camera maakt haar onze onofficiële woordvoerster!",
+    "thor": "Thor is de ingenieuze technoloog die ieder project wil hebben. Hij nam twee keer deel aan Open Summer of Code, waar hij in 2017 Dries ontmoette. Dat jaar fietste hij ook van Leuven naar Helsinki, waar hij nu WTMG host is! Hij is niet alleen een fantastische developer, maar ook een geweldige designer. Hij houdt van koken en coderen en leest graag lange intrigerende artikelen.",
+    "ward": "Ward is de allerenthousiastste developer die je je maar kunt wensen. Twee dagen nadat hij WTMG had ontdekt was hij al op de fiets onderweg naar zijn eerste tuin. Toevallig kruiste een journalist die over WTMG wilde schrijven zijn pad en zo belandde hij in de krant! Hij wil de wereld dolgraag verbeteren door middel van code!",
+    "janneke": "Janneke is dol op taal en weet wat ze ermee moet doen. Zodra ze van WTMG hoorde, suggereerde ze onmiddellijk dat er een facebookpagina moest komen - en sindsdien leidt ze onze communicatie in goede banen. Ze is verliefd op Roemenië, en schreef er een bergwandelgids over; ze kocht er ook een huis en deelt haar liefde voor het land via <a href=\"https://roamaniac.com/\" target=\"_blank\">Roamaniac.com</a>.",
+    "michiel": "De oorspronkelijke coder. Zonder hem zou WTMG niet bestaan.",
+    "marie": "Onze geniale ontwerper, die WTMG supermooi heeft gemaakt!",
+    "ismaila": "Ismaila is het brein achter de filters op de kaart.",
+    "brent": "Brent codeerde onze eerste landingspagina.",
+    "for-everyone": "WTMG voor iedereen",
+    "how-contribute": "Hoe kan jij bijdragen?",
+    "ways-support": "Je kunt ons op allerlei manieren steunen. We hebben ze op een rijtje gezet:",
+    "our-story-title": "Ons verhaal",
+    "our-story-description": "<p>Hey! Wij zijn Dries en Manon en wij zijn de trotse ouders van Welcome To My Garden. In 2019 fietsten we van Brussel naar Tokyo. Gedurende 11 maanden reisden we door 21 landen, en genoten we van de gastvrijheid van talloze geweldige mensen die we op onze route tegenkwamen.</p><p>Eenmaal terug in België vroegen we ons af hoe we slow travel eenvoudiger en leuker konden maken in ons eigen land. Op een regenachtige zondagnamiddag in 2020 zette Dries de eerste versie van WTMG in elkaar. Binnen twee uur tijd stonden er 50 tuinen op de kaart. Twee weken later waren dat er 500!</p><p>Sindsdien is er veel gebeurd. Vandaag maken 30.000+ mensen gebruik van WTMG en staan er 4000+ tuinen op de kaart. Het is duidelijk dat we geen eendagsvlieg zijn! En het is tijd om verder te denken. We hebben naar jullie, onze community, geluisterd en we zijn bezig om WTMG nog beter te laten aansluiten bij jullie trage reisbehoeften.</p><p>WTMG bestaat vandaag dankzij de inzet van een bevlogen vrijwilligersteam. Samen hebben we avonden en weekenden ingezet. Maar om WTMG gaande te houden hebben we meer tijd en menskracht nodig. Daarom maken Thor, Ward en Janneke nu ook onderdeel uit van het team. Wij zetten alles op alles en hopen dat jullie ons ook willen steunen!</p>",
+    "bigger-picture-title": "Het grotere plaatje",
+    "bigger-picture-description": "<p>Als we één ding geleerd hebben de afgelopen jaren is het wel dit: het is tijd om te vertragen. Dit geldt voor het leven in het algemeen, maar zeker ook voor reizen. Hoe sneller we reizen, hoe minder we meemaken. Fast travel zorgt voor een hoop CO2-emissies, verbindt mensen niet met hun omgeving en beschadigt communities. De oplossing? Slow travel!</p><p>WTMG is trots om deel uit te maken van de oplossing voor deze uitdaging, die ons allemaal aangaat. Op twee jaar tijd heeft WTMG veel bereikt:<ul><li>Al 31.000 gebruikers zijn op een traag reisavontuur gegaan</li><li>Maar liefst 4.300 gastvrije hosts hebben hun tuin beschikbaar gesteld voor trage reizigers</li><li>Er zijn ruim 57.000 verblijfsverzoeken verstuurd via WTMG</li><li>We zijn begonnen in België, maar er verschijnen steeds meer tuinen elders in Europa - en verder - op de kaart!</li><li>We kregen financiële steun van partners als Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers en Natuurpunt</li></ul></p><p>De mooiste en meest betekenisvolle ervaringen gebeuren wanneer we echt de tijd nemen om onze omgeving te verkennen. WTMG helpt je op weg! Samen kunnen we de wereld mooier maken - door trager en duurzamer te reizen. Ga je mee?</p><p>We staan altijd open voor nieuwe ideeën en samenwerkingen, dus aarzel niet om contact met ons op te nemen!</p>",
     "contribute-blocks": {
       "1": {
-        "title": "NL Become a Superfan",
-        "text": "NL Become a Superfan and get access to extra features! Superfans are very important to WTMG as they keep it free for everyone to use."
+        "title": "Word Superfan",
+        "text": "<a href=\"/about-superfan\">Word Superfan</a> en krijg toegang tot extra features! Superfans zijn erg belangrijk voor WTMG omdat ze ons in staat stellen om het platform gratis toegankelijk te houden voor iedereen."
       },
       "2": {
-        "title": "NL Go on a secret trip",
-        "text": "NL With Slowby, WTMG’s little sister, you can go on a secret slow travel trip! We take care of the planning. All you need to do is pack and pedal, or walk! You can also get a gift card for someone you love!"
+        "title": "Ga op een secret trip",
+        "text": "Ga op een <a href=\"https://www.slowby.travel/nl/start\" target=\"_blank\">secret slow travel trip</a> met Slowby, de kleine zus van WTMG! Wij zorgen voor de planning; jij hoeft alleen maar in te pakken en op te stappen! Je kunt ook een <a href=\"https://gift.slowby.travel/nl\" target=\"_blank\">cadeaubon</a> kopen voor iemand die je graag ziet."
       },
       "3": {
-        "title": "NL Spread the word",
-        "text": "NL Tell other slow travel lovers and garden owners about WTMG, and share WTMG on social media. More slow travellers means a bigger impact on our beautiful world!"
+        "title": "Vertel anderen over WTMG",
+        "text": "Vertel andere slow travel lovers en tuineigenaren over WTMG, en deel WTMG op sociale media. Hoe meer trage reizigers, hoe groter onze impact op onze mooie wereld!"
       }
     },
-    "contributors": "NL Contributors",
-    "amazing-people": "NL Last but not least, we want to thank these amazing people",
-    "cradle": "NL Without these amazing people, Welcome To My Garden wouldn’t exist. They stood at the cradle of the platform and believed in it from the start!"
+    "contributors": "Bijdragers",
+    "amazing-people": "Tot slot willen we deze geweldige mensen bedanken",
+    "cradle": "Zonder deze fantastische mensen zou Welcome To My Garden niet bestaan. Zij stonden aan de wieg van het platform en geloofden erin vanaf het begin!",
+    "partners-section": {
+      "title": "Early believers",
+      "description": "Deze partners hielpen ons in het zadel en hadden vanaf het begin vertrouwen in Welcome To My Garden!"
+    }
   },
   "footer": {
     "copyright": "© Met 💚 gemaakt door Welcome To My Garden 2022. Alle rechten voorbehouden.",
