@@ -18,7 +18,8 @@
     links: Link[];
   };
 
-  const categories: Category[] = [
+  let categories: Category[];
+  $: categories = [
     {
       title: $_('generics.wtmg.acronym'),
       links: [
@@ -40,20 +41,18 @@
       title: $_('footer.link-category-titles.our-projects'),
       links: [
         {
-          title: 'Secret Trips',
-          // TODO: language specific redirect based on current language?
-          link: 'https://slowby.travel',
+          title: $_('generics.slowby'),
+          link: $_('generics.slowby-url'),
           target: '_blank'
         },
         {
-          title: 'Velotour Festival',
-          link: 'https://velotourfestival.be/',
+          title: $_('footer.links.velotour.title'),
+          link: $_('footer.links.velotour.url'),
           target: '_blank'
         },
         {
-          title: "Women Don't Cycle - The Film",
-          // TODO extract url to constant? It's also in Manon's profile.
-          link: 'https://womendontcycle.com/',
+          title: $_('footer.links.women-dont-cycle.title'),
+          link: $_('footer.links.women-dont-cycle.url'),
           target: '_blank'
         },
         {

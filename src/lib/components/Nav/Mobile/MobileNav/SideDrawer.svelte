@@ -33,7 +33,8 @@
     if (isOpen && !hamburger?.contains(clickEvent.target)) toggleDrawer();
   };
 
-  const sideLinks = [
+  let sideLinks: { route: string; name: string }[];
+  $: sideLinks = [
     { route: routes.FAQ, name: $_('generics.faq.acronym') },
     { route: routes.COOKIE_POLICY, name: $_('generics.cookie-policy') },
     { route: routes.PRIVACY_POLICY, name: $_('generics.privacy-policy') },

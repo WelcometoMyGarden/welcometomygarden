@@ -1255,5 +1255,24 @@
     "contributors": "NL Contributors",
     "amazing-people": "NL Last but not least, we want to thank these amazing people",
     "cradle": "NL Without these amazing people, Welcome To My Garden wouldn’t exist. They stood at the cradle of the platform and believed in it from the start!"
+  },
+  "footer": {
+    "copyright": "© Made with 💚 by Welcome To My Garden 2022. All rights reserved.",
+    "link-category-titles": {
+      "our-projects": "Our projects",
+      "learn-more": "Learn more"
+    },
+    "links": {
+      "get-in-touch": "Get in touch",
+      "superfans": "Superfans",
+      "velotour": {
+        "title": "Velotour Festival",
+        "url": "https://velotourfestival.be/nl.html"
+      },
+      "women-dont-cycle": {
+        "title": "Women Don't Cycle - De Film",
+        "url": "https://womendontcycle.com/nl.html"
+      }
+    }
   }
 }
