@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import Button from '@/lib/components/UI/Button.svelte';
   import routes from '@/lib/routes';
   import MarketingBlock from '../../_components/MarketingBlock.svelte';
@@ -8,29 +9,19 @@
 
 <PaddedSection>
   <MarketingBlock backgroundColor="var(--color-green-light)" centered>
-    <h1>Thank you for becoming a Superfan 🌟</h1>
-    <p>
-      You are our hero! By becoming a Superfan, you are helping us to accomplish our mission: to
-      make slow travel more accessible for everyone, encourage sustainable travel and foster
-      precious new connections between people.
-    </p>
-    A huge thank you on behalf of the entire team!
-    <p />
+    <h1>{$_('thank-you-superfan.top-section.title')}</h1>
+    {@html $_('thank-you-superfan.top-section.description')}
   </MarketingBlock>
 </PaddedSection>
 <PaddedSection>
-  <h2>You now have access to new features</h2>
+  <h2>{$_('thank-you-superfan.features-section.title')}</h2>
   <Features />
-  <Button href={routes.MAP} uppercase orange arrow>Explore new features</Button>
+  <Button href={routes.MAP} uppercase orange arrow
+    >{$_('thank-you-superfan.features-section.explore-features-button')}</Button
+  >
 </PaddedSection>
 <PaddedSection>
   <MarketingBlock backgroundColor="var(--color-beige-light)" centered>
-    <p>Thank you again for becoming a Superfan!</p>
-    <p>
-      <strong>The WTMG team,</strong><br />
-      Dries, Manon, Thor, Ward & Janneke
-    </p>
-    A huge thank you on behalf of the entire team!
-    <p />
+    {@html $_('thank-you-superfan.closing-section.text')}
   </MarketingBlock>
 </PaddedSection>

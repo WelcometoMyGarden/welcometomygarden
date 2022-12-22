@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { _ } from 'svelte-i18n';
   import MarketingBlock from '@/routes/(marketing)/_components/MarketingBlock.svelte';
   import type { SuperfanLevelData } from '@/routes/(marketing)/_static/superfan-levels';
 
@@ -16,10 +17,14 @@
 <MarketingBlock backgroundColor="var(--color-beige-light)"
   ><div class="wrapper">
     <div class="icon">
+      <!-- TODO: localize alt -->
       <img src="images/logo-emblem.svg" alt="The WTMG Logo" />
     </div>
     <div class="summary-wrapper">
-      <h1 class="mh2">Welcome To My Garden · 1 year</h1>
+      <h1 class="mh2">
+        {$_('generics.wtmg.acronym')}
+        {$_('generics.superfan')} · {$_('payment-superfan.overview-section.duration')}
+      </h1>
       <div class="price mh3">€{level.value * 12}</div>
       <div class="period">
         <span class="from">{formatDate(now)}</span>
@@ -27,19 +32,41 @@
       </div>
       <div class="summary">
         <div class="features">
-          <strong class="title"> You get 3 new features: </strong>
+          <strong class="title"
+            >{$_('payment-superfan.overview-section.feature-overview.title')}</strong
+          >
           <ol>
-            <li>See train layer</li>
-            <li>Upload your route</li>
-            <li>Save gardens</li>
+            <li>
+              {$_('payment-superfan.overview-section.feature-overview.features.0.feature-one')}
+            </li>
+            <li>
+              {$_('payment-superfan.overview-section.feature-overview.features.1.feature-two')}
+            </li>
+            <li>
+              {$_('payment-superfan.overview-section.feature-overview.features.2.feature-three')}
+            </li>
           </ol>
         </div>
         <div class="features">
-          <strong class="title"> You help us: </strong>
+          <strong class="title">
+            {$_('payment-superfan.overview-section.support-us-overview.title')}
+          </strong>
           <ol>
-            <li>Keep the WTMG spirit alive</li>
-            <li>Improve the WTMG experience</li>
-            <li>Bring the community together</li>
+            <li>
+              {$_(
+                'payment-superfan.overview-section.support-us-overview.support-reasons.0.support-one'
+              )}
+            </li>
+            <li>
+              {$_(
+                'payment-superfan.overview-section.support-us-overview.support-reasons.1.support-two'
+              )}
+            </li>
+            <li>
+              {$_(
+                'payment-superfan.overview-section.support-us-overview.support-reasons.2.support-three'
+              )}
+            </li>
           </ol>
         </div>
       </div>

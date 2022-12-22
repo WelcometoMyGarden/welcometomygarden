@@ -7,10 +7,8 @@
 
 <PaddedSection>
   <div class="wrapper">
-    <h2>{$_('index.partners.title')}</h2>
-    <p>
-      These partners helped us get going and believed in Welcome To My Garden right from the start!
-    </p>
+    <h2>{$_('about-us.partners-section.title')}</h2>
+    <p>{$_('about-us.partners-section.description')}</p>
     <div class="partner-logos">
       {#each partners as { name, logo, link } (name)}
         <Partner {name} {logo} {link} />

@@ -61,7 +61,11 @@
     manon: {
       ...coreTeamProfilesStatic.manon,
       role: $_('about-us.co-founder'),
-      introHtml: $_('about-us.manon')
+      introHtml: $_('about-us.manon', {
+        values: {
+          womenDontCycleUrl: $_('footer.links.women-dont-cycle.url')
+        }
+      })
     },
     thor: {
       ...coreTeamProfilesStatic.thor,

@@ -126,7 +126,7 @@
 
         switch (status) {
           case 'failed':
-            error = new Error('Something went wrong with your payment, please try again.');
+            error = new Error($_('payment-superfan.payment-section.errors.payment-error'));
             if (clientSecretFromError) {
               clientSecret = clientSecretFromError;
             }
@@ -194,16 +194,18 @@
           );
           setTimeout(() => {
             error = new Error(
-              `Something went wrong in our systems. Please contact ${SUPPORT_EMAIL} and we'll help you asap! Sorry for the trouble!`
+              $_('payment-superfan.payment-section.errors.systems-error', {
+                values: {
+                  supportEmail: SUPPORT_EMAIL
+                }
+              })
             );
           }, 3000);
           return;
         } else {
           processingPayment = false;
           console.error(firebaseError);
-          error = new Error(
-            'Something went wrong when loading our payments service. Please try reloading the page.'
-          );
+          error = new Error($_('payment-superfan.payment-section.errors.loading-error'));
         }
       }
 
@@ -217,7 +219,7 @@
 </script>
 
 <svelte:head>
-  <title>{$_('account.title')} | Welcome To My Garden</title>
+  <title>{$_('account.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
 {#if selectedLevel}
@@ -234,29 +236,31 @@
     {#if stripe && clientSecret}
       <form on:submit|preventDefault={submit}>
         <Elements {stripe} {clientSecret} bind:elements>
-          <span class="method-title">Payment method</span>
+          <span class="method-title">{$_('payment-superfan.payment-section.payment-method')}</span>
           <PaymentElement
             options={{ paymentMethodOrder: ['bancontact', 'card', 'sepa_debit', 'ideal'] }}
           />
         </Elements>
         <div class="payment-button">
           <div>
-            <Button type="submit" uppercase small orange arrow>Pay</Button>
+            <Button type="submit" uppercase small orange arrow
+              >{$_('payment-superfan.payment-section.pay-button')}</Button
+            >
             {#if processingPayment}
-              <p>Processing...</p>
+              <p>{$_('payment-superfan.payment-section.processing-payment')}</p>
             {/if}
           </div>
         </div>
       </form>
     {:else if !error}
-      <p>Loading...</p>
+      <p>{$_('payment-superfan.payment-section.loading')}</p>
     {/if}
   {:else if $user && hasActiveSubscription($user)}
     <!-- Subscription block -->
     <!-- Show status -->
-    You're subscribed!
+    {$_('payment-superfan.payment-section.youre-subscribed')}
     {#if requestedLevel && selectedLevel && requestedLevel.stripePriceId !== selectedLevel.stripePriceId}
-      We currently don't support switching to a different price, working on it!
+      {$_('payment-superfan.payment-section.no-switching-here')}
     {/if}
   {:else}
     No user!

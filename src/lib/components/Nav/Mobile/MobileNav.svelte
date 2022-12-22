@@ -11,7 +11,7 @@
 
   let hamburger: HTMLButtonElement | null = null;
   let drawerIsShown = false;
-  const toggleDrawer = (event) => (drawerIsShown = !drawerIsShown);
+  const toggleDrawer = () => (drawerIsShown = !drawerIsShown);
 </script>
 
 <nav id="navigation">

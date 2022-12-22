@@ -33,8 +33,9 @@
     if (isOpen && !hamburger?.contains(clickEvent.target)) toggleDrawer();
   };
 
-  const sideLinks = [
-    { route: routes.FAQ, name: 'FAQ' },
+  let sideLinks: { route: string; name: string }[];
+  $: sideLinks = [
+    { route: routes.FAQ, name: $_('generics.faq.acronym') },
     { route: routes.COOKIE_POLICY, name: $_('generics.cookie-policy') },
     { route: routes.PRIVACY_POLICY, name: $_('generics.privacy-policy') },
     { route: routes.TERMS_OF_USE, name: $_('generics.terms-of-use') }
@@ -47,15 +48,19 @@
     <Socials small />
   </li>
   <li class="slowby-bar">
-    <span class="title">Need help planning a trip?</span>
+    <span class="title">{$_('navigation.slowby-notice.prompt')}</span>
     <span
-      >Check our <a
+      >{@html $_('navigation.slowby-notice.answer', {
+        values: {
+          slowbyLink: `<a
         class="link"
-        style:color="inherit"
-        href={SLOWBY_URL}
+        style="color:inherit"
+        href="${$_('generics.slowby-url')}"
         target="_blank"
-        rel="noopener">Slowby Secret Trips</a
-      ></span
+        rel="noopener">${$_('navigation.slowby-notice.slowby-link-text')}
+        </a>`
+        }
+      })}</span
     >
   </li>
   <li class="main-links-container">

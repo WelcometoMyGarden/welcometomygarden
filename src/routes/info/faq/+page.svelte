@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-  <title>{$_('generics.faq.acronym')} | Welcome To My Garden</title>
+  <title>{$_('generics.faq.acronym')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
 <div class="intro">

@@ -1,25 +1,35 @@
 <script lang="ts">
+  import { _ } from 'svelte-i18n';
   import TileList from '../_components/TileList.svelte';
-  export let features = [
+
+  type SupportReason = {
+    icon: string;
+    title: string;
+    description: string;
+  };
+
+  // This might not be totally valid svelte, but it seems to work
+  const contentOf = (prefix: string) => ({
+    title: $_(prefix + '-title'),
+    description: $_(prefix + '-description')
+  });
+
+  let supportReasons: SupportReason[];
+
+  $: supportReasons = [
     {
       icon: '💚',
-      title: 'Keep the WTMG spirit alive',
-      description:
-        'We are committed to keeping WTMG ad-free, safe and user friendly. This requires hard work!'
+      ...contentOf('superfan-shared.three-support-reasons.support-one')
     },
     {
       icon: '🤩',
-      title: 'Improve the WTMG experience',
-      description:
-        'We’re moving beyond the volunteer stage: WTMG needs our full-time attention to stay alive and kicking!'
+      ...contentOf('superfan-shared.three-support-reasons.support-two')
     },
     {
       icon: '👋',
-      title: 'Bring the community together',
-      description:
-        'We want to create a community space where people can meet and talk, both online and offline.'
+      ...contentOf('superfan-shared.three-support-reasons.support-three')
     }
   ];
 </script>
 
-<TileList tiles={features} />
+<TileList tiles={supportReasons} />

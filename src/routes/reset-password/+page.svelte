@@ -45,7 +45,7 @@
 <Progress active={isResetting} />
 
 <svelte:head>
-  <title>{$_('reset-password.title')} | Welcome To My Garden</title>
+  <title>{$_('reset-password.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
 <AuthContainer>
