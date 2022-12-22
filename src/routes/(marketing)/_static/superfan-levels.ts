@@ -14,6 +14,7 @@ const {
   VITE_STRIPE_PRICE_ID_SOLIDARITY
 } = import.meta.env;
 
+// TODO REACTIVITY
 export const superfanLevels: SuperfanLevelData[] = [
   {
     title: 'Reduced price',

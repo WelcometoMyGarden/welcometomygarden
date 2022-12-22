@@ -12,13 +12,14 @@
   import LearnMoreArrow from './_sections/LearnMoreArrowSection.svelte';
   import Testimonials, { type Slide } from '../_components/Testimonials.svelte';
 
-  const contentOf = (quoteNumber: string) => {
+  $: contentOf = (quoteNumber: string) => {
     const prefix = `index.wtmg-quotes.${quoteNumber}`;
     return {
       name: $_(prefix + '.name'),
       quote: $_(prefix + '.quote')
     };
   };
+
   const testimonials: Slide[] = [
     {
       ...contentOf('0'),

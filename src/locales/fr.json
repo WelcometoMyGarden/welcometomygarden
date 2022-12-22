@@ -694,6 +694,26 @@
       "text": "Vous avez oublié votre mot de passe ? {link}"
     }
   },
+  "superfan-shared": {
+    "become-superfan-button": "FR Become a Superfan",
+    "three-features": {
+      "feature-one-title": "FR Trains",
+      "feature-one-description": "FR With the train layer on, you can easily see the rail network on the map!",
+      "feature-two-title": "FR Upload your route",
+      "feature-two-description": "Upload your own GPX file and easily find gardens along your route.",
+      "feature-three-title": "Save gardens",
+      "feature-three-description": "Keep track of your favourite gardens and in touch with the amazing hosts you’ve met!"
+    },
+    "three-support-reasons": {
+      "title": "FR Thanks to your support, we can...",
+      "support-one-title": "FR Keep the WTMG spirit alive",
+      "support-one-description": "We are committed to keeping WTMG ad-free, safe and user friendly. This requires hard work!",
+      "support-two-title": "Improve the WTMG experience",
+      "support-two-description": "We’re moving beyond the volunteer stage: WTMG needs our full-time attention to stay alive and kicking!",
+      "support-three-title": "Bring the community together",
+      "support-three-description": "We want to create a community space where people can meet and talk, both online and offline."
+    }
+  },
   "about-superfan": {
     "top-section": {
       "title": "Superfans keep us going",

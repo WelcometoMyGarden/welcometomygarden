@@ -16,7 +16,8 @@
   import { SUPERFAN_PRICING_ROUTE, SUPPORT_EMAIL } from '@/lib/constants';
   import { getNodeKeys } from '@/lib/util/get-node-children';
 
-  const testimonials: Slide[] = [
+  let testimonials: Slide[];
+  $: testimonials = [
     {
       quote:
         'Starting to travel by bicycle crystallized what I wanted to become: free, minimalist, autonomous and active.',
