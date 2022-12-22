@@ -727,7 +727,7 @@
       "title": "Choisissez le prix qui vous convient le mieux",
       "description": "Nous utilisons un prix différencié parce que nous voulons que WTMG soit accessible à tous et à toutes, et nous vous faisons confiance. Vous payez pour un an à la fois. Devenir Superfan est sans engagement : votre abonnement s'arrête automatiquement après un an, et vous recevrez un email pour le renouveler.",
       "per-month": "/mois",
-      "annual-amount": "facturés annuellement",
+      "annual-amount": " facturés annuellement",
       "pricing-levels": {
         "0": {
           "slug": "🌱 Semer",
@@ -882,6 +882,52 @@
     },
     "closing-section": {
       "text": "<p>Merci encore d’être devenu·e Superfan !</p><p><strong>L'équipe WTMG,</strong><br/>Dries, Manon, Thor, Ward & Janneke</p>"
+    }
+  },
+  "payment-superfan": {
+    "overview-section": {
+      "duration": "1 an",
+      "feature-overview": {
+        "title": "Vous avez accès à 3 nouvelles fonctionnalités :",
+        "features": {
+          "0": {
+            "feature-one": "Voir le réseau ferroviaire"
+          },
+          "1": {
+            "feature-two": "Uploader votre itinéraire"
+          },
+          "2": {
+            "feature-three": "Sauvegarder les jardins"
+          }
+        }
+      },
+      "support-us-overview": {
+        "title": "Vous nous aidez à :",
+        "support-reasons": {
+          "0": {
+            "support-one": "Garder l'esprit WTMG vivant;"
+          },
+          "1": {
+            "support-two": "Améliorer l'expérience WTMG;"
+          },
+          "2": {
+            "support-three": "Rassembler la communauté."
+          }
+        }
+      }
+    },
+    "payment-section": {
+      "payment-method": "Mode de paiement",
+      "pay-button": "Payer",
+      "loading": "FR Loading...",
+      "processing-payment": "FR Aan het verwerken...",
+      "youre-subscribed": "FR Je bent geabonneerd!",
+      "no-switching-here": "FR We ondersteunen het momenteel nog niet om hier te veranderen naar een andere prijs, laat het ons weten als je dat wil doen!",
+      "errors": {
+        "loading-error": "FR Er ging iets fout tijdens het laden van ons betaalsysteem. Probeer de pagina te herladen.",
+        "systems-error": "FR Er ging iets fout in ons systeem. Gelieve {supportEmail} te contacteren, we zullen je zo snel mogelijk helpen! Excuseer voor het ongemak.",
+        "payment-error": "FR Er ging iets fout met je betaling, probeer alstublieft opnieuw."
+      }
     }
   },
   "request-password-reset": {

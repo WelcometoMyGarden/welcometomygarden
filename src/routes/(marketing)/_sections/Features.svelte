@@ -25,7 +25,7 @@
     },
     {
       icon: '🏕',
-      title: $_('superfan-shared.three-features.feature-two-title'),
+      title: $_('superfan-shared.three-features.feature-three-title'),
       description: $_('superfan-shared.three-features.feature-three-description')
     }
   ];

@@ -450,6 +450,52 @@
       "text": "<p>Nogmaals bedankt om Superfan te worden!</p><p><strong>Het WTMG team,</strong><br/>Dries, Manon, Thor, Ward & Janneke</p>"
     }
   },
+  "payment-superfan": {
+    "overview-section": {
+      "duration": "1 jaar",
+      "feature-overview": {
+        "title": "Je krijgt 3 extra features:",
+        "features": {
+          "0": {
+            "feature-one": "Bekijk het spoornetwerk"
+          },
+          "1": {
+            "feature-two": "Upload je route"
+          },
+          "2": {
+            "feature-three": "Sla tuinen op"
+          }
+        }
+      },
+      "support-us-overview": {
+        "title": "Je helpt ons om:",
+        "support-reasons": {
+          "0": {
+            "support-one": "De WTMG vibe te behouden"
+          },
+          "1": {
+            "support-two": "De WTMG ervaring te verbeteren"
+          },
+          "2": {
+            "support-three": "De WTMG community samen te brengen"
+          }
+        }
+      }
+    },
+    "payment-section": {
+      "payment-method": "Betaalmethode",
+      "pay-button": "Betaal nu",
+      "loading": "Aan het laden...",
+      "processing-payment": "Aan het verwerken...",
+      "youre-subscribed": "Je bent geabonneerd!",
+      "no-switching-here": "We ondersteunen het momenteel nog niet om hier te veranderen naar een andere prijs, laat het ons weten als je dat wil doen!",
+      "errors": {
+        "loading-error": "Er ging iets fout tijdens het laden van ons betaalsysteem. Probeer de pagina te herladen.",
+        "systems-error": "Er ging iets fout in ons systeem. Gelieve {supportEmail} te contacteren, we zullen je zo snel mogelijk helpen! Excuseer voor het ongemak.",
+        "payment-error": "Er ging iets fout met je betaling, probeer alstublieft opnieuw."
+      }
+    }
+  },
   "request-password-reset": {
     "title": "Stel een nieuw wachtwoord in",
     "description": "Als je het onderstaande formulier indient, kunnen wij je een unieke link sturen waarmee je jouw wachtwoord kunt resetten.",
