@@ -271,13 +271,13 @@
       "feature-three-description": "Houd je favoriete tuinen bij de hand door ze op te slaan, en houd contact met de fantastische hosts die je hebt ontmoet!"
     },
     "three-support-reasons": {
-      "title": "Thanks to your support, we can...",
-      "support-one-title": "Keep the WTMG spirit alive",
-      "support-one-description": "We are committed to keeping WTMG ad-free, safe and user friendly. This requires hard work!",
-      "support-two-title": "Improve the WTMG experience",
-      "support-two-description": "We’re moving beyond the volunteer stage: WTMG needs our full-time attention to stay alive and kicking!",
-      "support-three-title": "Bring the community together",
-      "support-three-description": "We want to create a community space where people can meet and talk, both online and offline."
+      "title": "Dankzij jouw steun kunnen we…",
+      "support-one-title": "De warme WTMG vibe behouden",
+      "support-one-description": "We willen echte connecties tussen echte mensen blijven bevorderen door ons platform. Daarbij willen we WTMG graag veilig en gebruiksvriendelijk houden. Hier wordt achter de schermen hard voor gewerkt!",
+      "support-two-title": "De WTMG ervaring verbeteren",
+      "support-two-description": "De eerste versie van WTMG hebben we in onze vrije tijd als vrijwilligers opgezet. Nu het platform groeit is het nodig om meer tijd en geld te investeren. WTMG heeft nu voltijds onze aandacht nodig om in leven te blijven!",
+      "support-three-title": "De community samenbrengen",
+      "support-three-description": "WTMG is meer dan een netwerk van tuinen; het is vooral een netwerk van fantastische mensen die van slow travel houden. We willen een community space creëren waar mensen elkaar kunnen ontmoeten, zowel online als offline."
     }
   },
   "become-superfan": {
@@ -315,36 +315,36 @@
   },
   "about-superfan": {
     "top-section": {
-      "title": "Superfans keep us going",
-      "description": "As a Superfan, you help accomplish WTMG's mission of making slow travel more accessible for everyone. Your financial contribution will make it possible for WTMG to remain free for everyone to use. You will also get access to new features!"
+      "title": "Dankzij Superfans kan WTMG blijven bestaan",
+      "description": "Als Superfan help je ons om onze missie te realiseren! Samen kunnen we slow travel toegankelijker maken voor iedereen. Jouw financiële bijdrage zorgt ervoor dat WTMG gratis kan blijven voor iedereen. Als Superfan krijg je bovendien toegang tot nieuwe features!"
     },
     "video-section": {
-      "title": "Why become a Superfan",
-      "description": "<p>If you are truly passionate about slow travel and you want to support WTMG’s mission, then perhaps you should become a Superfan! With your financial support, we can make WTMG financially stable and keep it free for everyone to use! You choose the price that fits you best.</p><p>We’re a small team of five and have invested a lot of our personal time, energy and money in this initiative. We started off as a small citizen initiative in Belgium, but we are growing into something bigger. It’s clear that WTMG is here to stay, and we want to make sure we can survive as well as thrive. And that’s where you come in!</p>"
+      "title": "Waarom Superfan worden?",
+      "description": "<p>Ben je enthousiast over slow travel en wil je WTMG steunen in haar missie? Dan is Superfan worden misschien iets voor jou! Met jouw financiële steun kunnen we WTMG financieel stabiel maken en gratis toegankelijk houden voor iedereen. Je betaalt de prijs die het best bij jou past.</p><p>We zijn een klein team van vijf en hebben superveel energie, tijd en geld in dit initiatief geïnvesteerd. We zijn begonnen als klein burgerinitiatief in België, maar zijn nu hard aan het groeien. Het is duidelijk dat WTMG een blijvertje is, en we willen er zeker van zijn dat we niet alleen kunnen overleven, maar ook floreren. En daarvoor hebben we jou nodig!</p>"
     },
     "for-superfans-section": {
-      "slug": "What's in it for you?",
-      "title": "Our Superfans deserve a massive thank you",
-      "description": "We can’t do without your support! As a Superfan, you will get access to some great new slow travel tools! These will make planning your slow travel adventures even easier. This is our way to say thank you for believing in us."
+      "slug": "Wat krijg je ervoor terug?",
+      "title": "We zijn onze Superfans superdankbaar",
+      "description": "We kunnen niet zonder jouw steun. Dankjewel daarvoor! Als blijk van onze waardering krijg je als Superfan toegang tot drie geweldige nieuwe slow travel tools! Deze gaan het plannen van je trage reisavontuur nog makkelijker maken."
     },
     "team-section": {
-      "title": "Meet the team",
-      "description": "So, who’s behind WTMG? We’re a small team of five slow travel enthusiasts and we want to help others embark on their slow travel adventures too!",
-      "meet-team-button": "Meet the team"
+      "title": "Maak kennis met het team",
+      "description": "Wie zit er achter WTMG? We zijn een klein team van vijf slow travel enthousiastelingen en we willen graag anderen helpen om ook te beginnen aan hun trage reisavonturen!",
+      "meet-team-button": "Dit zijn wij"
     },
     "superfan-quotes-section": {
       "quotes": {
         "0": {
           "name": "Boris",
-          "quote": "Starting to travel by bicycle crystallized what I wanted to become: free, minimalist, autonomous and active."
+          "quote": "Door te beginnen met reizen per fiets is het kraakhelder voor me geworden wat ik wil zijn: minimalistisch, autonoom en actief."
         },
         "1": {
           "name": "Marie Marth",
-          "quote": "WTMG is not only fun, it’s about changing the world, changing the way we travel."
+          "quote": "WTMG is niet alleen leuk; het gaat ook over de wereld veranderen; de manier waarop we reizen veranderen."
         },
         "2": {
           "name": "Benoit & Hélène",
-          "quote": "I'm happy to be surrounded by such an amazing community of slow travellers who put their actions where their mouth is!"
+          "quote": "Ik ben zo blij om me omringd te weten door zo’n geweldige community van trage reizigers die doen waar ze in geloven!"
         }
       }
     },
