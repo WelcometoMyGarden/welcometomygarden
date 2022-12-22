@@ -217,7 +217,7 @@
 </script>
 
 <svelte:head>
-  <title>{$_('account.title')} | Welcome To My Garden</title>
+  <title>{$_('account.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
 {#if selectedLevel}

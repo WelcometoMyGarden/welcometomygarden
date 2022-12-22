@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-  <title>{$_('cookies.title')} | Welcome To My Garden</title>
+  <title>{$_('cookies.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
 <h2>{$_('cookies.title')}</h2>

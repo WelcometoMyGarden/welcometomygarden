@@ -36,7 +36,7 @@
         <NavLink href={routes.RULES}>{$_('generics.rules')}</NavLink>
       </li>
       <li>
-        <NavLink href={routes.ABOUT_US}>About Us</NavLink>
+        <NavLink href={routes.ABOUT_US}>{$_('generics.about-us')}</NavLink>
       </li>
       <li>
         <NavLink href={routes.ABOUT_SUPERFAN} highlighted>{$_('generics.become-superfan')}</NavLink>

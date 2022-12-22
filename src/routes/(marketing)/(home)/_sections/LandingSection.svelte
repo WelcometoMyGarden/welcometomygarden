@@ -13,7 +13,7 @@
     <div class="welcome-logo">
       {@html Logo}
     </div>
-    <span class="mobile-heading oh1">Welcome To My Garden</span>
+    <span class="mobile-heading oh1">{$_('generics.wtmg.explicit')}</span>
     <h1 class="landing-headline heading-underline heading-underline--left">
       {$_('index.intro.headline')}
     </h1>

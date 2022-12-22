@@ -51,7 +51,7 @@
 </script>
 
 <svelte:head>
-  <title>{$_('garden.add.title')} | Welcome To My Garden</title>
+  <title>{$_('garden.add.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
 <Progress active={addingGarden} />

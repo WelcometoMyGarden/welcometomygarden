@@ -40,7 +40,7 @@
 </script>
 
 <svelte:head>
-  <title>{$_('garden.manage.title')} | Welcome To My Garden</title>
+  <title>{$_('garden.manage.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
 <Progress active={updatingGarden} />

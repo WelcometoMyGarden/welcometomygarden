@@ -115,7 +115,9 @@
 
 <svelte:head>
   <title>
-    {$_('chat.title-conversation', { values: { partnerName: partnerName } })} | Welcome To My Garden
+    {$_('chat.title-conversation', { values: { partnerName: partnerName } })} | {$_(
+      'generics.wtmg.explicit'
+    )}
   </title>
 </svelte:head>
 

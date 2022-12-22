@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-  <title>{$_('privacy-policy.title')} | Welcome To My Garden</title>
+  <title>{$_('privacy-policy.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 <h2>
   <div class="header">

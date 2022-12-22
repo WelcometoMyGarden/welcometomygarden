@@ -39,7 +39,7 @@
 </script>
 
 <svelte:head>
-  <title>{$_('generics.home')} | Welcome To My Garden</title>
+  <title>{$_('generics.home')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
 <LandingSection />

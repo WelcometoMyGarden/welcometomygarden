@@ -13,6 +13,10 @@
       "acronym": "FAQ",
       "explicit": "Frequently asked questions"
     },
+    "wtmg": {
+      "acronym": "WTMG",
+      "explicit": "Welcome To My Garden"
+    },
     "chat": "Chat",
     "account": "Account",
     "sign-out": "Sign out",
@@ -906,7 +910,7 @@
           "2": {
             "feature-three": "3. Save gardens"
           }
-        } 
+        }
       },
       "support-us-overview": {
         "title": "You help us:",
@@ -920,8 +924,8 @@
           "2": {
             "support-three": "3. Bring the community together"
           }
-        } 
-      } 
+        }
+      }
     },
     "payment-section": {
       "payment-method": "Payment method",
@@ -1397,11 +1401,11 @@
     "copyright": "© Made with 💚 by Welcome To My Garden 2022. All rights reserved.",
     "link-category-titles": {
       "our-projects": "Our projects",
-      "learn-more": "Learn more",
-      "superfans": "Superfans"
+      "learn-more": "Learn more"
     },
     "links": {
-      "get-in-touch": "Get in touch"
+      "get-in-touch": "Get in touch",
+      "superfans": "Superfans"
     }
   }
 }

@@ -24,7 +24,7 @@
 </script>
 
 <svelte:head>
-  <title>{$_('request-password-reset.title')} | Welcome To My Garden</title>
+  <title>{$_('request-password-reset.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
 <Progress active={isSending} />
