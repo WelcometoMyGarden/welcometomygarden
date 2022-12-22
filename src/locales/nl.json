@@ -20,13 +20,20 @@
     "garden": "Tuin",
     "shop": "Shop",
     "slowby": "Secret Trips",
-    "about-us": "NL About us",
-    "become-superfan": "NL Become a Superfan",
+    "about-us": "Over Ons",
+    "become-superfan": "Word Superfan",
     "slowby-url": "https://www.slowby.travel/nl/start"
   },
   "ui": {
     "card": {
       "register-here": "Registreer hier"
+    }
+  },
+  "navigation": {
+    "slowby-notice": {
+      "prompt": "Hulp nodig bij het plannen van een trip?",
+      "answer": "Bekijk onze {slowbyLink}",
+      "slowby-link-text": "Slowby Secret Trips"
     }
   },
   "index": {
@@ -48,24 +55,25 @@
       }
     },
     "intro": {
-      "copy": "Een netwerk zonder winstoogmerk van burgers die hun tuin gratis beschikbaar stellen voor trage reizigers",
+      "headline": "Jouw slow travel avontuur begint hier",
+      "copy": "Gratis kampeerplekjes voor trage reizigers, bij mensen in de tuin. Met dank aan een warm netwerk van betrokken burgers.",
       "add-garden": "Voeg jouw tuin toe",
       "explore-map": "Verken de kaart",
       "learn-more": "Ontdek meer"
     },
     "steps": {
       "0": {
-        "title": "Stap 1: Meld je aan om een host te worden of te vinden",
-        "copy": "Wil je jouw tuin openstellen? {addGardenLink}. Op zoek naar een kampeerplek? Kies je favoriete tuin en contacteer je host! Spreek een datum en tijdstip af voor jouw verblijf en je bent vertrokken! ",
-        "add-garden-link-text": "Voeg deze toe aan de kaart"
+        "title": "Stap 1: Meld je aan",
+        "copy": "Meld je aan om kampeerplekjes bij mensen in de tuin te vinden en om hosts te contacteren, of {addGardenLink}!",
+        "add-garden-link-text": "zet je eigen tuin op de kaart"
       },
       "1": {
-        "title": "Stap 2: Plan je reis",
-        "copy": "Nadat je afspraken gemaakt hebt met jouw host, stippel je de route uit naar je kampeerplek. Stel jezelf voor en zet je tent op voor de nacht."
+        "title": "Stap 2: Plan je trip",
+        "copy": "Maak afspraken met je host, en stippel je hike- of fietsroute uit naar je kampeerplek."
       },
       "2": {
-        "title": "Stap 3: Geniet van de overnachting",
-        "copy": "Geniet van jouw verblijf. Of dat nu op je eentje is, samen met vrienden of familie, en of je nog even gezellig wil chillen met de host - het is maar wat beide partijen verkiezen. Neem hartelijk afscheid en zet je fiets- of wandeltocht verder de volgende dag!"
+        "title": "Stap 3: Zet je tent op",
+        "copy": "Maak kennis met je host, plant je tent neer en geniet - van een rustige avond alleen is of in het gezelschap van je host!"
       }
     },
     "faq": {
@@ -107,6 +115,28 @@
       "title": "Iedereen verdient vakantie",
       "copy": "Wist je dat 22% van de kinderen in Vlaanderen niet op vakantie kunnen? Zeker na de lockdown hebben ze meer dan ooit nood aan wat ademruimte. Dankzij jouw bijdrage kunnen de meest kwetsbare doelgroepen er ook even tussenuit.",
       "link-text": "Doneer nu"
+    },
+    "superfan": {
+      "support-mission": "Nieuw: steun onze missie!",
+      "become-superfan-title": "Steun WTMG: word Superfan!",
+      "mission": "Welcome To My Garden wil traag reizen toegankelijker maken voor iedereen. Zoals iedere tuin heeft WTMG ook onderhoud nodig om te kunnen groeien en gezond te blijven.",
+      "financial-support": "Met jouw financiële steun kan WTMG voor iedereen gratis toegankelijk blijven! Wil jij ons helpen om WTMG te laten blijven bloeien? Word Superfan en krijg toegang tot nieuwe features: bekijk het spoornetwerk op de kaart, upload routes en sla tuinen op!",
+      "become-superfan": "Word Superfan",
+      "learn-more": "Lees meer"
+    },
+    "wtmg-quotes": {
+      "0": {
+        "name": "Frank & Katlijn",
+        "quote": "We genieten van de verhalen van trage reizigers. Sommigen zijn net begonnen, anderen reizen met kinderen. Iedereen heeft een verhaal."
+      },
+      "1": {
+        "name": "Carolien and her family",
+        "quote": "Blijkbaar brengt WTMG niet alleen mensen, maar ook dieren samen. We werden met onze ezels vriendelijk ontvangen."
+      },
+      "2": {
+        "name": "Marie Marth",
+        "quote": "Met dank aan WTMG en de trage reizigers die ik te gast had heb ik mijn eigen regio te voet herontdekt. Ik zie alles vanuit een nieuw perspectief - en het is fascinerend!"
+      }
     }
   },
   "garden": {
@@ -1255,5 +1285,16 @@
     "contributors": "NL Contributors",
     "amazing-people": "NL Last but not least, we want to thank these amazing people",
     "cradle": "NL Without these amazing people, Welcome To My Garden wouldn’t exist. They stood at the cradle of the platform and believed in it from the start!"
+  },
+  "footer": {
+    "copyright": "© Met 💚 gemaakt door Welcome To My Garden 2022. Alle rechten voorbehouden.",
+    "link-category-titles": {
+      "our-projects": "Onze projecten",
+      "learn-more": "Lees meer"
+    },
+    "links": {
+      "get-in-touch": "Contact",
+      "superfans": "Superfans"
+    }
   }
 }
