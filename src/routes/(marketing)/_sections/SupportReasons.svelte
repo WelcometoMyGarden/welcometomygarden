@@ -9,7 +9,7 @@
   };
 
   // This might not be totally valid svelte, but it seems to work
-  $: contentOf = (prefix: string) => ({
+  const contentOf = (prefix: string) => ({
     title: $_(prefix + '-title'),
     description: $_(prefix + '-description')
   });

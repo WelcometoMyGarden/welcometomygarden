@@ -718,7 +718,7 @@
   "become-superfan": {
     "top-section": {
       "title": "Support WTMG: become a Superfan!",
-      "Description": "Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Your financial contribution will make it possible for Welcome To My Garden to remain free for everyone to use. As a Superfan, you also get access to new features!"
+      "description": "Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Your financial contribution will make it possible for Welcome To My Garden to remain free for everyone to use. As a Superfan, you also get access to new features!"
     },
     "feature-section": {
       "title": "What's in it for you?"
@@ -726,28 +726,24 @@
     "pricing-section": {
       "slug": "Open Pricing",
       "title": "Choose the price that fits you best",
-      "Description": "We use open pricing because we want WTMG to be available to everyone, and we trust your decision. You pay for one year at a time. Becoming a Superfan is commitment-free: your subscription stops automatically after one year, and you will receive an email to renew it.",
+      "description": "We use open pricing because we want WTMG to be available to everyone, and we trust your decision. You pay for one year at a time. Becoming a Superfan is commitment-free: your subscription stops automatically after one year, and you will receive an email to renew it.",
+      "per-month": "/month",
+      "annual-amount": "billed anually",
       "pricing-levels": {
         "0": {
           "slug": "Sow",
           "title": "Reduced price",
-          "description": "Are you a student or do you have a low income? We get it. You can opt for this reduced fee and still support us!",
-          "per-month": "/month",
-          "annual-amount": "= €36 billed anually"
+          "description": "Are you a student or do you have a low income? We get it. You can opt for this reduced fee and still support us!"
         },
         "1": {
           "slug": "Plant",
           "title": "Normal price",
-          "description": "This is what we need each Superfan to pay on average. Can you pitch in so we can keep going?",
-          "per-month": "/month",
-          "annual-amount": "= €60 billed anually"
+          "description": "This is what we need each Superfan to pay on average. Can you pitch in so we can keep going?"
         },
         "2": {
           "slug": "Grow",
           "title": "Solidarity price",
-          "description": "Would you like to contribute a bit more so that others who need it can pay less? That’s brilliant! Thank you!",
-          "per-month": "/month",
-          "annual-amount": "= €120 billed anually"
+          "description": "Would you like to contribute a bit more so that others who need it can pay less? That’s brilliant! Thank you!"
         }
       }
     }

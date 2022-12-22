@@ -18,7 +18,7 @@
 
   let testimonials: Slide[];
 
-  $: contentOf = (quoteNumber: string) => {
+  const contentOf = (quoteNumber: string) => {
     const prefix = `about-superfan.superfan-quotes-section.quotes.${quoteNumber}`;
     return {
       name: $_(prefix + '.name'),

@@ -1,10 +1,11 @@
 <script lang="ts">
+  import { _ } from 'svelte-i18n';
   import { IMAGES_PATH } from '@/lib/constants';
   import { createEventDispatcher } from 'svelte';
-  import type { SuperfanLevelData } from '../_static/superfan-levels';
-  export let level: SuperfanLevelData;
+  import type { SuperfanLevelDataWithCopy } from '../become-superfan/+page.svelte';
+  export let level: SuperfanLevelDataWithCopy;
   export let selected = false;
-  const { slug, title, description, value, alt } = level;
+  const { slug, title, description, value, alt, slugCopy } = level;
   const clickDispatch = createEventDispatcher<{ click: MouseEvent }>();
   const keyDispatch = createEventDispatcher<{ keypress: KeyboardEvent }>();
 </script>
@@ -15,15 +16,18 @@
   on:click={(e) => clickDispatch('click', e)}
   on:keypress={(e) => keyDispatch('keypress', e)}
 >
-  <img src="{IMAGES_PATH}/pricing/{slug}.png" {alt} />
-  <span class="slug">{slug.toLocaleUpperCase()}</span>
+  <!-- TODO: fix alt -->
+  <img src="{IMAGES_PATH}/pricing/{slug}.png" alt="" />
+  <span class="slug">{slugCopy.toLocaleUpperCase()}</span>
   <div>
     <h3>{title}</h3>
     <p class="description">{description}</p>
   </div>
   <div class="price">
-    <div class="monthly"><span class="price-value">€{value}</span>/month</div>
-    <div class="annual">= €{value * 12} billed anually</div>
+    <div class="monthly">
+      <span class="price-value">€{value}</span>{$_('become-superfan.pricing-section.per-month')}
+    </div>
+    <div class="annual">= €{value * 12} {$_('become-superfan.pricing-section.annual-amount')}</div>
   </div>
 </div>
 

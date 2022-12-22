@@ -13,7 +13,7 @@
   import Testimonials, { type Slide } from '../_components/Testimonials.svelte';
 
   // TODO: shared with the other testimonial, abstract away?
-  $: contentOf = (quoteNumber: string) => {
+  const contentOf = (quoteNumber: string) => {
     const prefix = `index.wtmg-quotes.${quoteNumber}`;
     return {
       name: $_(prefix + '.name'),

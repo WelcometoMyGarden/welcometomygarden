@@ -714,6 +714,39 @@
       "support-three-description": "We want to create a community space where people can meet and talk, both online and offline."
     }
   },
+  "become-superfan": {
+    "top-section": {
+      "title": "FR Support WTMG: become a Superfan!",
+      "description": "FR Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Your financial contribution will make it possible for Welcome To My Garden to remain free for everyone to use. As a Superfan, you also get access to new features!"
+    },
+    "feature-section": {
+      "title": "FR What's in it for you?"
+    },
+    "pricing-section": {
+      "slug": "Prix différencié",
+      "title": "Choisissez le prix qui vous convient le mieux",
+      "description": "Nous utilisons un prix différencié parce que nous voulons que WTMG soit accessible à tous et à toutes, et nous vous faisons confiance. Vous payez pour un an à la fois. Devenir Superfan est sans engagement : votre abonnement s'arrête automatiquement après un an, et vous recevrez un email pour le renouveler.",
+      "per-month": "/mois",
+      "annual-amount": "facturés annuellement",
+      "pricing-levels": {
+        "0": {
+          "slug": "🌱 Semer",
+          "title": "Prix réduit",
+          "description": "Vous êtes étudiant·e ou vous avez un budget limité ? Optez pour le tarif ‘Semer’. Grâce à votre financement, nous pouvons continuer à maintenir la plateforme. Merci d’avance !"
+        },
+        "1": {
+          "slug": "🌾 Planter",
+          "title": "Prix juste",
+          "description": "C’est le prix juste, celui qui nous permet de maintenir la plateforme et de continuer à la développer. Vous nous aidez à le faire ? Ça signifie tellement pour nous ! Merci !"
+        },
+        "2": {
+          "slug": "🌳 Pousser",
+          "title": "Prix de solidarité",
+          "description": "Votre contribution supplémentaire permettra d'équilibrer celles qui ne peuvent pas se le permettre. Merci ! Vous êtes fantastique."
+        }
+      }
+    }
+  },
   "about-superfan": {
     "top-section": {
       "title": "Superfans keep us going",
