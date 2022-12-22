@@ -815,27 +815,27 @@
               "title": "What do I get when I become a Superfan?",
               "copy": "As a Superfan, you will get access to some great new slow travel tools! These will make planning your slow travel adventures even easier. This is our way to say thank you for believing in us. Here they are: <ul> <li>Train layer: with the train layer on, you can easily see the rail network on the map!</li> <li>Upload your route: upload your own GPX file and easily find gardens along your route.</li> <li>Save gardens: keep track of your favourite gardens and stay in touch with the amazing hosts you’ve met!</li> </ul>"
             },
-            "5": {
+            "4": {
               "title": "How much do I need to contribute to become a Superfan?",
               "copy": "It’s up to you! We decided to use open pricing, which means you get to choose the price that fits your budget best. We want WTMG to be available to everyone, and we trust your decision. Our standard fee is €5/month; if you are a student or otherwise on a low budget, you can opt for our reduced fee of €3/month. If you would like to contribute a bit more so that others can pay less you can opt for the solidarity fee of €10/month. You pay for one year at a time."
             },
-            "6": {
+            "5": {
               "title": "How does payment work?",
               "copy": "Once you’ve chosen how much you want to pay, you will be redirected to the payment page. You pay for one year at a time. Becoming a Superfan is commitment-free: your subscription stops automatically after one year, and we’ll send you an email to renew it."
             },
-            "7": {
+            "6": {
               "title": "Is it optional to become a Superfan?",
               "copy": "Yes, it’s totally optional! We want to stress that we want to keep WTMG free for everyone to use. Yet, in order to be able to do that, we need the financial support of our Superfans. That way, we can make WTMG financially stable, future-proof and keep it free for everyone to use. As a Superfan, you will get access to extra features, and support WTMG’s mission at the same time!"
             },
-            "8": {
+            "7": {
               "title": "If I don’t become a Superfan, what will happen to my free account?",
               "copy": "Nothing will change for you if you have a free account. We want to make slow travel more accessible for everyone, which is why we are committed to keeping the free version. The social impact we are making is very important to us: through WTMG, thousands of meaningful connections have been made between people! The financial contribution of our Superfans will help us sustain and improve the platform."
             },
-            "9": {
+            "8": {
               "title": "For how long will I become a Superfan?",
               "copy": "If you become a Superfan, you will pay for one year. Your subscription stops automatically after one year, and we’ll send you an email to renew it."
             },
-            "10": {
+            "9": {
               "title": "Can I stop being a Superfan?",
               "copy": "Yes, any time you want. As soon as you’ve become a Superfan, you can manage your yearly Superfan subscription on <a href=\"/account\">your WTMG account page</a>."
             }
@@ -855,11 +855,11 @@
           "questions": {
             "0": {
               "title": "Who’s behind WTMG?",
-              "copy": "We’re a small team of five slow travel enthusiasts and we want to help others embark on their slow travel adventures too! You can read more about us <a href=\"/about-us\">here</a>."
+              "copy": "We’re a small team of five slow travel enthusiasts and we want to help others embark on their slow travel adventures too! You can read more about us <a href=\"/about-us\" target=\"_blank\">here</a>."
             },
             "1": {
               "title": "What’s the legal structure behind WTMG?",
-              "copy": "Welcome To My Garden, a not-for-profit project under the legal entity of Slowby, a <a href=\"https://1819.brussels/en/information-library/sustainable-entrepreneurship/accreditation-social-enterprise-benefits\">social enterprise</a>, meaning that we’re an initiative striving for social impact. The five principles of the <a href=\"https://www.codesocialeondernemingen.nl/application/files/2615/5491/1784/Principles_Code_Social_Enterprises_English_version.pdf\">Code Social Enterprises</a> are our guideline for decision making. To safeguard the mission of WTMG, we're considering becoming a cooperative or implementing a <a href=\"https://purpose-economy.org/en/whats-steward-ownership/\">steward ownership model</a> at some point in the future. Yet, first we need to make sure that we can create a viable model that makes WTMG financially stable."
+              "copy": "Welcome To My Garden, a not-for-profit project under the legal entity of Slowby, a <a href=\"https://1819.brussels/en/information-library/sustainable-entrepreneurship/accreditation-social-enterprise-benefits\" target=\"_blank\">social enterprise</a>, meaning that we’re an initiative striving for social impact. The five principles of the <a href=\"https://www.codesocialeondernemingen.nl/application/files/2615/5491/1784/Principles_Code_Social_Enterprises_English_version.pdf\" target=\"_blank\">Code Social Enterprises</a> are our guideline for decision making. To safeguard the mission of WTMG, we're considering becoming a cooperative or implementing a <a href=\"https://purpose-economy.org/en/whats-steward-ownership/\" target=\"_blank\">steward ownership model</a> at some point in the future. Yet, first we need to make sure that we can create a viable model that makes WTMG financially stable."
             },
             "2": {
               "title": "How much does it cost to run WTMG?",
@@ -871,7 +871,7 @@
             },
             "4": {
               "title": "How many Superfans does WTMG need to survive and thrive?",
-              "copy": "Our goal is to gather at least 1.000 Superfans in 2023. However, that's not enough to cover all our costs. We fill the gap with the revenue generated by Manon’s film, <a href=\"https://womendontcycle.com/\">Women Don’t Cycle</a>, and our <a href=\"https://www.slowby.travel\">Slowby Secret Trips</a>. We intend to create an annual impact report which will also include a budget breakdown."
+              "copy": "Our goal is to gather at least 1.000 Superfans in 2023. However, that's not enough to cover all our costs. We fill the gap with the revenue generated by Manon’s film, <a href=\"https://womendontcycle.com/\" target=\"_blank\">Women Don’t Cycle</a>, and our <a href=\"https://www.slowby.travel\" target=\"_blank\">Slowby Secret Trips</a>. We intend to create an annual impact report which will also include a budget breakdown."
             }
           }
         }
