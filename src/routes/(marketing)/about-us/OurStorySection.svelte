@@ -11,44 +11,11 @@
     <img class="our-story" src={manonDriesInJapan} alt="Manon & Dries with bikes in Japan" />
     <h2 class="our-story">{$_('about-us.our-story.title')}</h2>
     <div class="text our-story">
-      <p>
-        {$_('about-us.our-story.parents')}
-      </p>
-      <p>
-        {$_('about-us.our-story.origin')}
-      </p>
-      <p>
-        {$_('about-us.our-story.long-way')}
-      </p>
+      {@html $_('about-us.our-story-description')}
     </div>
     <h2 class="bigger-picture">{$_('about-us.our-story.big-picture')}</h2>
     <div class="text bigger-picture">
-      <p>
-        {$_('about-us.our-story.slow-down')}
-      </p>
-      <p>
-        {$_('about-us.our-story.proud')}
-      </p>
-      <ul>
-        <li>
-          <span>{$_('about-us.our-story.users')}</span>
-        </li>
-        <li>
-          <span>{$_('about-us.our-story.hosts')}</span>
-        </li>
-        <li>
-          <span>{$_('about-us.our-story.stays')}</span>
-        </li>
-        <li>
-          <span>{$_('about-us.our-story.everywhere')}</span>
-        </li>
-        <li>
-          <span>{$_('about-us.our-story.financial-support')}</span>
-        </li>
-      </ul>
-      <p>
-        {$_('about-us.our-story.experiences')}
-      </p>
+      {@html $_('about-us.bigger-picture-description')}
     </div>
     <img class="bigger-picture" src={hosts} alt="Two hosts holding a WTMG sign." />
   </div>
