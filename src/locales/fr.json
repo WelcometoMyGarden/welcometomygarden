@@ -705,27 +705,27 @@
       "feature-three-description": "Enregistrez vos jardins préférés et restez en contact avec les hôtes extraordinaires que vous avez rencontrés."
     },
     "three-support-reasons": {
-      "title": "FR Thanks to your support, we can...",
-      "support-one-title": "FR Keep the WTMG spirit alive",
-      "support-one-description": "We are committed to keeping WTMG ad-free, safe and user friendly. This requires hard work!",
-      "support-two-title": "Improve the WTMG experience",
-      "support-two-description": "We’re moving beyond the volunteer stage: WTMG needs our full-time attention to stay alive and kicking!",
-      "support-three-title": "Bring the community together",
-      "support-three-description": "We want to create a community space where people can meet and talk, both online and offline."
+      "title": "Grâce à votre soutien, nous pouvons…",
+      "support-one-title": "Garder l'esprit WTMG vivant",
+      "support-one-description": "Nous voulons continuer à encourager les rencontres authentiques à travers l’utilisation de notre plateforme. Nous nous engageons à garder WTMG sûr et convivial.",
+      "support-two-title": "Améliorer l'expérience WTMG",
+      "support-two-description": "La première version de WTMG a été développée pendant notre temps libre, mais la plateforme a besoin de plus d’attention pour continuer à se développer durablement. Grâce à votre soutien, nous pourrons investir le temps nécessaire pour l’améliorer !",
+      "support-three-title": "Rassembler la communauté",
+      "support-three-description": "WTMG est plus qu'un réseau de jardins, c'est aussi une communauté de personnes incroyables partageant le même intérêt pour le slow travel. Nous aimerions à terme créer un espace où les utilisateur·rices pourront discuter et échanger en ligne ou hors ligne."
     }
   },
   "become-superfan": {
     "top-section": {
-      "title": "FR Support WTMG: become a Superfan!",
-      "description": "FR Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Your financial contribution will make it possible for Welcome To My Garden to remain free for everyone to use. As a Superfan, you also get access to new features!"
+      "title": "Soutenez WTMG : devenez un·e Superfan !",
+      "description": "Welcome To My Garden a pour mission de rendre le slow travel plus accessible à tous et à toutes. Votre contribution financière permettra à Welcome To My Garden de rester gratuit pour tout le monde. En tant que Superfan, vous aurez également accès à de nouvelles fonctionnalités."
     },
     "feature-section": {
-      "title": "FR What's in it for you?"
+      "title": "Quels sont les avantages à devenir Superfan ?"
     },
     "pricing-section": {
       "slug": "Prix différencié",
       "title": "Choisissez le prix qui vous convient le mieux",
-      "description": "Nous utilisons un prix différencié parce que nous voulons que WTMG soit accessible à tous et à toutes, et nous vous faisons confiance. Vous payez pour un an à la fois. Devenir Superfan est sans engagement : votre abonnement s'arrête automatiquement après un an, et vous recevrez un email pour le renouveler.",
+      "description": "Nous utilisons un prix différencié parce que nous voulons que WTMG soit accessible à tous et à toutes, et nous vous faisons confiance. Vous payez pour un an à la fois. Devenir Superfan est sans engagement : votre abonnement s'arrête automatiquement après un an, et vous recevrez un rappel par email pour le renouveler.",
       "per-month": "/mois",
       "annual-amount": " facturés annuellement",
       "pricing-levels": {
@@ -749,36 +749,36 @@
   },
   "about-superfan": {
     "top-section": {
-      "title": "Superfans keep us going",
-      "description": "As a Superfan, you help accomplish WTMG's mission of making slow travel more accessible for everyone. Your financial contribution will make it possible for WTMG to remain free for everyone to use. You will also get access to new features!"
+      "title": "Les Superfans nous permettent d’avancer",
+      "description": "En tant que Superfan, vous aidez à accomplir la mission de WTMG qui est de rendre le slow travel plus accessible à tous et à toutes. Votre contribution financière permettra à WTMG de rester gratuit à utiliser pour tout le monde. Vous aurez également accès à de nouvelles fonctionnalités. Vous choisissez le prix qui vous convient le mieux."
     },
     "video-section": {
-      "title": "Why become a Superfan",
-      "description": "<p>If you are truly passionate about slow travel and you want to support WTMG’s mission, then perhaps you should become a Superfan! With your financial support, we can make WTMG financially stable and keep it free for everyone to use! You choose the price that fits you best.</p><p>We’re a small team of five and have invested a lot of our personal time, energy and money in this initiative. We started off as a small citizen initiative in Belgium, but we are growing into something bigger. It’s clear that WTMG is here to stay, and we want to make sure we can survive as well as thrive. And that’s where you come in!</p>"
+      "title": "Pourquoi devenir un·e Superfan ?",
+      "description": "<p>Vous êtes passionné·e par le slow travel et vous souhaitez soutenir la mission de WTMG ? Alors devenez un·e Superfan ! Grâce à votre soutien financier, WTMG peut se stabiliser, développer de nouvelles fonctionnalités et surtout rester gratuit et accessible pour tous·tes.</p><p>Notre petite équipe de cinq personnes a investi beaucoup de temps, d'énergie et d'argent dans ce projet. La petite initiative citoyenne belge est en train de devenir quelque chose de beaucoup plus grand et dépasse même nos frontières. WTMG est là pour rester, et nous avons besoin de vous pour continuer à le faire vivre et grandir !</p>"
     },
     "for-superfans-section": {
       "slug": "What's in it for you?",
-      "title": "Our Superfans deserve a massive thank you",
-      "description": "We can’t do without your support! As a Superfan, you will get access to some great new slow travel tools! These will make planning your slow travel adventures even easier. This is our way to say thank you for believing in us."
+      "title": "Nos Superfans méritent un immense merci",
+      "description": "WTMG ne peut pas exister sans votre soutien ! Pour vous remercier, vous aurez accès à plus de fonctionnalités qui vous permettront de planifier vos prochains voyages plus facilement. C’est notre manière de vous remercier de croire en nous."
     },
     "team-section": {
-      "title": "Meet the team",
-      "description": "So, who’s behind WTMG? We’re a small team of five slow travel enthusiasts and we want to help others embark on their slow travel adventures too!",
-      "meet-team-button": "Meet the team"
+      "title": "Rencontrez l'équipe",
+      "description": "Quise cache derrière WTMG ? Nous sommes une petite équipe de cinq passionné·es de slow travel et nous voulons aider les autres à se lancer aussi dans l'aventure.",
+      "meet-team-button": "Rencontrez l'équipe"
     },
     "superfan-quotes-section": {
       "quotes": {
         "0": {
           "name": "Boris",
-          "quote": "Starting to travel by bicycle crystallized what I wanted to become: free, minimalist, autonomous and active."
+          "quote": "Commencer à voyager à vélo a cristallisé ce que je voulais devenir : libre, minimaliste, autonome et actif."
         },
         "1": {
           "name": "Marie Marth",
-          "quote": "WTMG is not only fun, it’s about changing the world, changing the way we travel."
+          "quote": "WTMG n'est pas seulement chouette, il s'agit de changer le monde, de changer la façon dont nous voyageons."
         },
         "2": {
           "name": "Benoit & Hélène",
-          "quote": "I'm happy to be surrounded by such an amazing community of slow travellers who put their actions where their mouth is!"
+          "quote": "Je suis heureux d'être entouré d'une communauté aussi incroyable de voyageurs lents qui joignent le geste à la parole !"
         }
       }
     },

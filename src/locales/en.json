@@ -699,7 +699,7 @@
   "superfan-shared": {
     "become-superfan-button": "Become a Superfan",
     "three-features": {
-      "feature-one-title": "Trains",
+      "feature-one-title": "See rail network",
       "feature-one-description": "With the train layer on, you can easily see the rail network on the map!",
       "feature-two-title": "Upload your route",
       "feature-two-description": "Upload your own GPX file and easily find gardens along your route.",
@@ -709,7 +709,7 @@
     "three-support-reasons": {
       "title": "Thanks to your support, we can...",
       "support-one-title": "Keep the WTMG spirit alive",
-      "support-one-description": "We are committed to keeping WTMG ad-free, safe and user friendly. This requires hard work!",
+      "support-one-description": "We are committed to keeping WTMG safe and user friendly. This requires hard work!",
       "support-two-title": "Improve the WTMG experience",
       "support-two-description": "We’re moving beyond the volunteer stage: WTMG needs our full-time attention to stay alive and kicking!",
       "support-three-title": "Bring the community together",
@@ -727,24 +727,24 @@
     "pricing-section": {
       "slug": "Open Pricing",
       "title": "Choose the price that fits you best",
-      "description": "We use open pricing because we want WTMG to be available to everyone, and we trust your decision. You pay for one year at a time. Becoming a Superfan is commitment-free: your subscription stops automatically after one year, and you will receive an email to renew it.",
+      "description": "We use open pricing because we want WTMG to be available to everyone, and we trust your decision. You pay for one year at a time. Becoming a Superfan is commitment-free: your subscription stops automatically after one year, and you will receive a reminder email to renew it.",
       "per-month": "/month",
       "annual-amount": " billed anually",
       "pricing-levels": {
         "0": {
           "slug": "Sow",
           "title": "Reduced price",
-          "description": "Are you a student or do you have a low income? We get it. You can opt for this reduced fee and still support us!"
+          "description": "Are you a student or do you have a low income? We get it. You can opt for this reduced fee and still support us. Thank you so much!"
         },
         "1": {
           "slug": "Plant",
           "title": "Normal price",
-          "description": "This is what we need each Superfan to pay on average. Can you pitch in so we can keep going?"
+          "description": "This is what we need each Superfan to pay on average. Can you pitch in so we can make WTMG future-proof? It means the world to us!"
         },
         "2": {
           "slug": "Grow",
           "title": "Solidarity price",
-          "description": "Would you like to contribute a bit more so that others who need it can pay less? That’s brilliant! Thank you!"
+          "description": "Do you want to contribute more so that others who need it can pay less? That’s brilliant! Thank you!"
         }
       }
     }
@@ -758,7 +758,7 @@
       "description": "As a Superfan, you help accomplish WTMG's mission of making slow travel more accessible for everyone. Your financial contribution will make it possible for WTMG to remain free for everyone to use. You will also get access to new features!"
     },
     "video-section": {
-      "title": "Why become a Superfan",
+      "title": "Why become a Superfan?",
       "description": "<p>If you are truly passionate about slow travel and you want to support WTMG’s mission, then perhaps you should become a Superfan! With your financial support, we can make WTMG financially stable and keep it free for everyone to use! You choose the price that fits you best.</p><p>We’re a small team of five and have invested a lot of our personal time, energy and money in this initiative. We started off as a small citizen initiative in Belgium, but we are growing into something bigger. It’s clear that WTMG is here to stay, and we want to make sure we can survive as well as thrive. And that’s where you come in!</p>"
     },
     "for-superfans-section": {
