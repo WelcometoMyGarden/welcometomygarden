@@ -28,6 +28,7 @@
     font-weight: bold;
   }
 
+  .description :global(a:link),
   .description :global(a:visited),
   .description :global(a:active),
   .description :global(a:hover) {

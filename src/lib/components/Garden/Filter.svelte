@@ -84,6 +84,7 @@
       <Button
         type="button"
         uppercase
+        small
         on:click={() => {
           showFilterModal = true;
         }}
@@ -153,7 +154,7 @@
 
   .filter-controls {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin-bottom: 5px;
   }
 
@@ -179,11 +180,15 @@
     border-bottom: none;
   }
 
-  .garden-filter :global(button) {
-    padding: 0 1.2rem;
+  /* Override button styles to make it match the search box height */
+  .garden-filter :global(button.small) {
+    /* Use flexbox to center instead */
+    padding: 0 0;
+    min-width: 5.5rem;
     font-size: 1.6rem;
     display: flex;
     align-items: center;
+    justify-content: center;
     height: 43px;
     margin: 0;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);

@@ -186,7 +186,7 @@
 
   li a.highlighted {
     display: inline-block;
-    border-bottom: 2px solid var(--color-yellow);
+    border-bottom: 2px solid var(--color-orange-light);
   }
 
   .drawer.open {

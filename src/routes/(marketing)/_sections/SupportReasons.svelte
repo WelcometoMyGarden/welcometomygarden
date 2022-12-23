@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte';
   import { _ } from 'svelte-i18n';
   import TileList from '../_components/TileList.svelte';
 
@@ -8,7 +9,6 @@
     description: string;
   };
 
-  // This might not be totally valid svelte, but it seems to work
   const contentOf = (prefix: string) => ({
     title: $_(prefix + '-title'),
     description: $_(prefix + '-description')
@@ -16,20 +16,29 @@
 
   let supportReasons: SupportReason[];
 
-  $: supportReasons = [
-    {
-      icon: '💚',
-      ...contentOf('superfan-shared.three-support-reasons.support-one')
-    },
-    {
-      icon: '🤩',
-      ...contentOf('superfan-shared.three-support-reasons.support-two')
-    },
-    {
-      icon: '👋',
-      ...contentOf('superfan-shared.three-support-reasons.support-three')
-    }
-  ];
+  const setSupportReasons = () =>
+    (supportReasons = [
+      {
+        icon: '💚',
+        ...contentOf('superfan-shared.three-support-reasons.support-one')
+      },
+      {
+        icon: '🤩',
+        ...contentOf('superfan-shared.three-support-reasons.support-two')
+      },
+      {
+        icon: '👋',
+        ...contentOf('superfan-shared.three-support-reasons.support-three')
+      }
+    ]);
+  setSupportReasons();
+
+  const unsubscribeLocalization = _.subscribe(() => {
+    setSupportReasons();
+  });
+  onDestroy(() => {
+    unsubscribeLocalization();
+  });
 </script>
 
 <TileList tiles={supportReasons} />

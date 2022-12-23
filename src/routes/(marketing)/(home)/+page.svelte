@@ -11,8 +11,8 @@
   import StepsSection from './_sections/StepsSection.svelte';
   import LearnMoreArrow from './_sections/LearnMoreArrowSection.svelte';
   import Testimonials, { type Slide } from '../_components/Testimonials.svelte';
+  import { onDestroy } from 'svelte';
 
-  // TODO: shared with the other testimonial, abstract away?
   const contentOf = (quoteNumber: string) => {
     const prefix = `index.wtmg-quotes.${quoteNumber}`;
     return {
@@ -21,23 +21,33 @@
     };
   };
 
-  const testimonials: Slide[] = [
-    {
-      ...contentOf('0'),
-      imagePath: '/testimonials/katlijn-frank.jpg'
-    },
-    {
-      ...contentOf('1'),
-      imagePath: '/testimonials/carolien-family.jpg'
-    },
-    {
-      ...contentOf('2'),
-      quote:
-        'Thanks to WTMG and to the slow travellers I’ve been hosting, I’m rediscovering my own region on foot now. I see everything from a new perspective and it’s fascinating.',
-      name: 'Marie Marth',
-      imagePath: '/testimonials/garden.jpeg'
-    }
-  ];
+  const setTestimonials = () => {
+    testimonials = [
+      {
+        ...contentOf('0'),
+        imagePath: '/testimonials/katlijn-frank.jpg'
+      },
+      {
+        ...contentOf('1'),
+        imagePath: '/testimonials/carolien-family.jpg'
+      },
+      {
+        ...contentOf('2'),
+        imagePath: '/testimonials/garden.jpeg'
+      }
+    ];
+  };
+
+  // TODO: we're repeating this code
+  let testimonials: Slide[];
+  setTestimonials();
+
+  const unsubscribeLocalization = _.subscribe(() => {
+    setTestimonials();
+  });
+  onDestroy(() => {
+    unsubscribeLocalization();
+  });
 </script>
 
 <svelte:head>
@@ -180,6 +190,7 @@
 
     .become-superfan-buttons {
       flex-direction: column;
+      align-items: center;
     }
   }
 

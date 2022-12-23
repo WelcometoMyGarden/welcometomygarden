@@ -70,7 +70,7 @@
       relative to the <a> itself when a transform is used.
      */
     border-top: 2px solid transparent;
-    border-bottom: 2px solid var(--color-yellow);
+    border-bottom: 2px solid var(--color-orange-light);
     transition: all 0.3s ease;
   }
 </style>

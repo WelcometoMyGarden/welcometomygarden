@@ -108,6 +108,10 @@
       margin: auto;
       text-align: center;
     }
+
+    .welcome-buttons {
+      align-self: center;
+    }
     .welcome-logo {
       margin-top: 15rem;
       /* 11 rem for small mobiles, 22vw going to tablet sizes (until 1000px wide) */

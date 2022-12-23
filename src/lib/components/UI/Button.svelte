@@ -119,6 +119,7 @@
     transition: all 0.3s;
     /* TODO: add weight */
     font-weight: 600;
+    width: fit-content;
   }
   .orange:hover,
   .orange:active {
@@ -213,7 +214,7 @@
   }
 
   .fit {
-    width: auto;
+    width: fit-content;
     min-width: auto;
   }
 

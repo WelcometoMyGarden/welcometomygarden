@@ -3,6 +3,7 @@
   export let vertical: boolean | undefined = undefined;
   export let backgroundColor: string | undefined = undefined;
   export let id: string | undefined = undefined;
+  export let centered: boolean | undefined = undefined;
 
   const elementOptions = ['section', 'footer'] as const;
   type Option = typeof elementOptions[number];
@@ -17,7 +18,7 @@
   style:background-color={backgroundColor}
   {id}
 >
-  <div class="inner">
+  <div class="inner" class:centered>
     <slot />
   </div>
 </svelte:element>
@@ -33,9 +34,20 @@
     max-width: 1200px;
   }
 
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .vertical {
     padding-top: var(--section-inner-padding);
     padding-bottom: var(--section-inner-padding);
+  }
+
+  /* No margin at the bottom of the page */
+  footer.outer {
+    margin-bottom: 0;
   }
 
   @media only screen and (max-width: 700px) {

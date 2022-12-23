@@ -19,7 +19,7 @@
     width: 100%;
   }
 
-  @media only screen and (max-width: 800px) {
+  @media only screen and (max-width: 1000px) {
     div {
       flex-direction: column;
     }
