@@ -99,7 +99,7 @@
         },
         "4": {
           "title": "Moet ik bij Welcome To My Garden iets betalen?",
-          "copy": "WTMG is gratis om te gebruiken, maar niet gratis om te maken. We moeten onze rekeningen betalen: onze technische kosten, die toenemen naarmate het platform groeit; ons getalenteerde team; onze kantoorruimte bij het Impact House. Achter de schermen zijn we continu bezig om het platform te verbeteren. Daarvoor hebben we <a href=\"/become-superfan\">onze Superfans</a> dus nodig. Dankzij jouw bijdrage kunnen we ervoor zorgen dat WTMG niet alleen overleeft maar ook echt floreert."
+          "copy": "WTMG is gratis om te gebruiken, maar niet gratis om te maken. We moeten onze rekeningen betalen: onze technische kosten, die toenemen naarmate het platform groeit; ons getalenteerde team; onze kantoorruimte bij het Impact House. Achter de schermen zijn we continu bezig om het platform te verbeteren. Daarvoor hebben we <a href=\"/about-superfan\">onze Superfans</a> dus nodig. Dankzij jouw bijdrage kunnen we ervoor zorgen dat WTMG niet alleen overleeft maar ook echt floreert."
         }
       }
     },
@@ -120,7 +120,7 @@
       "support-mission": "Nieuw: steun onze missie!",
       "become-superfan-title": "Steun WTMG: word Superfan!",
       "mission": "Welcome To My Garden wil traag reizen toegankelijker maken voor iedereen. Zoals iedere tuin heeft WTMG ook onderhoud nodig om te kunnen groeien en gezond te blijven.",
-      "financial-support": "Met jouw financiële steun kan WTMG voor iedereen gratis toegankelijk blijven! Wil jij ons helpen om WTMG te laten blijven bloeien? Word Superfan en krijg toegang tot nieuwe features: bekijk het spoornetwerk op de kaart, upload routes en sla tuinen op!",
+      "financial-support": "Met jouw financiële steun kan WTMG voor iedereen gratis toegankelijk blijven! Wil jij ons helpen om WTMG te laten blijven bloeien? Word Superfan en krijg toegang tot nieuwe features!",
       "become-superfan": "Word Superfan",
       "learn-more": "Lees meer"
     },
@@ -130,7 +130,7 @@
         "quote": "We genieten van de verhalen van trage reizigers. Sommigen zijn net begonnen, anderen reizen met kinderen. Iedereen heeft een verhaal."
       },
       "1": {
-        "name": "Carolien and her family",
+        "name": "Carolien en haar familie",
         "quote": "Blijkbaar brengt WTMG niet alleen mensen, maar ook dieren samen. We werden met onze ezels vriendelijk ontvangen."
       },
       "2": {
@@ -296,22 +296,25 @@
       "annual-amount": ", betaald per jaar",
       "pricing-levels": {
         "0": {
-          "slug": "🌱 Zaai",
+          "slug": "Zaai",
           "title": "Gereduceerd tarief",
           "description": "Ben je student of heb je een laag inkomen? We snappen dat. Je kunt voor dit gereduceerde tarief kiezen en ons zo toch steunen. Dankjewel!"
         },
         "1": {
-          "slug": "🌾 Plant",
+          "slug": "Plant",
           "title": "Normaal tarief",
           "description": "Dit is het bedrag wat we gemiddeld per Superfan nodig hebben om WTMG future-proof te maken. Super dat je daaraan wilt bijdragen!"
         },
         "2": {
-          "slug": "🌳 Grow",
+          "slug": "Grow",
           "title": "Solidariteitstarief",
           "description": "Wil je meer bijdragen zodat anderen die het nodig hebben minder hoeven te betalen, en zodat wij echt kunnen bloeien? Geweldig, dankjewel!"
         }
       }
     }
+  },
+  "become-superfan-payment": {
+    "not-logged-in-warning": "Om Superfan te worden, moet je eerst inloggen of een account aanmaken"
   },
   "about-superfan": {
     "top-section": {
@@ -368,7 +371,7 @@
             },
             "3": {
               "title": "Wat krijg ik als ik Superfan word?",
-              "copy": "Als blijk van onze waardering krijg je als Superfan toegang tot superhandige nieuwe slow travel tools! Deze gaan het plannen van je trage reisavonturen nog makkelijker maken. Dit zijn ze: <ul> <li>Treinlaag: als je de treinlaag inschakelt, kun je eenvoudig heel het spoornetwerk op de kaart zien!</li> <li>Upload je route: upload je eigen GPX file en vind tuinen in de buurt van jouw route!</li> <li>Sla tuinen op: houd je favoriete tuinen bij de hand door ze op te slaan, en houd contact met de fantastische hosts die je hebt ontmoet!</li> </ul>"
+              "copy": "Als blijk van onze waardering krijg je als Superfan toegang tot superhandige nieuwe slow travel tools! Deze gaan het plannen van je trage reisavonturen nog makkelijker maken. Dit zijn ze: <ul> <li>Bekijk het spoornetwerk: als je de treinlaag inschakelt, kun je eenvoudig heel het spoornetwerk op de kaart zien!</li> <li>Upload je route: upload je eigen GPX file en vind tuinen in de buurt van jouw route!</li> <li>Sla tuinen op: houd je favoriete tuinen bij de hand door ze op te slaan, en houd contact met de fantastische hosts die je hebt ontmoet!</li> </ul>"
             },
             "4": {
               "title": "Hoeveel moet ik bijdragen om Superfan te worden?",
@@ -487,12 +490,12 @@
       "pay-button": "Betaal nu",
       "loading": "Aan het laden...",
       "processing-payment": "Aan het verwerken...",
-      "youre-subscribed": "Je bent geabonneerd!",
-      "no-switching-here": "We ondersteunen het momenteel nog niet om hier te veranderen naar een andere prijs, laat het ons weten als je dat wil doen!",
+      "youre-subscribed": "Je bent aangemeld als Superfan!",
+      "no-switching-here": "We ondersteunen het momenteel nog niet om hier te veranderen naar een andere prijs, laat het ons weten op {supportEmail} als je dat wil doen. Bedankt!",
       "errors": {
         "loading-error": "Er ging iets fout tijdens het laden van ons betaalsysteem. Probeer de pagina te herladen.",
-        "systems-error": "Er ging iets fout in ons systeem. Gelieve {supportEmail} te contacteren, we zullen je zo snel mogelijk helpen! Excuseer voor het ongemak.",
-        "payment-error": "Er ging iets fout met je betaling, probeer alstublieft opnieuw."
+        "systems-error": "Er ging iets fout in ons systeem. Gelieve {supportEmail} te contacteren en we zullen je zo snel mogelijk helpen! Excuseer voor het ongemak.",
+        "payment-error": "Er ging iets fout met je betaling, probeer alsjeblieft opnieuw."
       }
     }
   },
@@ -617,13 +620,13 @@
     },
     "superfan-notice": {
       "title": "Nieuwe features voor Superfans",
-      "linkText": "Superfan",
-      "description": "Bekijk de treinlaag, upload routes, sla tuinen op & meer als {linkText}!"
+      "linkText": "door Superfan te worden",
+      "description": "Bekijk het spoornetwerk, upload routes, sla tuinen op & meer {linkText}!"
     },
     "gardens": {
       "title": "Tuinen",
       "show-all": "Toon alle tuinen",
-      "show-saved": "Enkel bewaarde tuinen",
+      "show-saved": "Toon bewaarde tuinen",
       "hide-all": "Verberg alle tuinen"
     },
     "routes": {
@@ -1347,7 +1350,7 @@
     "designer": "Ontwerper",
     "communications": "Communicatie",
     "dries": "Dries heeft WTMG bedacht. Op zijn achttiende kocht hij zijn eerste toerfiets, en in 2019 fietste hij samen met Manon van Brussel naar Tokyo. Door zijn liefde voor open data en open source belandde hij voor enkele jaren bij Open Knowledge Belgium, waar hij ook Ward en Thor ontmoette. Hij is de aanvoerder van het WTMG-team, en zijn enthousiasme is aanstekelijk!",
-    "manon": "Manon is een echte duizendpoot en heeft overal een oplossing voor. Ze heeft al twee keer een marathon gelopen, fietste met Dries van Brussel naar Tokyo, en maakte daar een schitterende film over: <a href=\"{womenDontCycleUrl}\">‘Women Don’t Cycle’</a>. Ze is de enige binnen ons team die toerisme heeft gestudeerd (best handig). Het feit dat ze vier talen vloeiend spreekt én zich thuis voelt voor de camera maakt haar onze onofficiële woordvoerster!",
+    "manon": "Manon is een echte duizendpoot en heeft overal een oplossing voor. Ze heeft al twee keer een marathon gelopen, fietste met Dries van Brussel naar Tokyo, en maakte daar een schitterende film over: <a href=\"{womenDontCycleUrl}\" target=\"_blank\">‘Women Don’t Cycle’</a>. Ze is de enige binnen ons team die toerisme heeft gestudeerd (best handig). Het feit dat ze vier talen vloeiend spreekt én zich thuis voelt voor de camera maakt haar onze onofficiële woordvoerster!",
     "thor": "Thor is de ingenieuze technoloog die ieder project wil hebben. Hij nam twee keer deel aan Open Summer of Code, waar hij in 2017 Dries ontmoette. Dat jaar fietste hij ook van Leuven naar Helsinki, waar hij nu WTMG host is! Hij is niet alleen een fantastische developer, maar ook een geweldige designer. Hij houdt van koken en coderen en leest graag lange intrigerende artikelen.",
     "ward": "Ward is de allerenthousiastste developer die je je maar kunt wensen. Twee dagen nadat hij WTMG had ontdekt was hij al op de fiets onderweg naar zijn eerste tuin. Toevallig kruiste een journalist die over WTMG wilde schrijven zijn pad en zo belandde hij in de krant! Hij wil de wereld dolgraag verbeteren door middel van code!",
     "janneke": "Janneke is dol op taal en weet wat ze ermee moet doen. Zodra ze van WTMG hoorde, suggereerde ze onmiddellijk dat er een facebookpagina moest komen - en sindsdien leidt ze onze communicatie in goede banen. Ze is verliefd op Roemenië, en schreef er een bergwandelgids over; ze kocht er ook een huis en deelt haar liefde voor het land via <a href=\"https://roamaniac.com/\" target=\"_blank\">Roamaniac.com</a>.",
