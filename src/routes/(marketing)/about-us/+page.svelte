@@ -4,7 +4,7 @@
   import PaddedSection from '../_components/PaddedSection.svelte';
   import Profile from '../_components/Profile.svelte';
 
-  const michielImg = staticAssetUrl('/profile-pictures/michiel.png');
+  const michielImg = staticAssetUrl('/profile-pictures/michiel.png?v=2');
   const marieImg = staticAssetUrl('/profile-pictures/marie.jpg');
   const ismailaImg = staticAssetUrl('/profile-pictures/ismaila.jpg');
   const brentImg = staticAssetUrl('/profile-pictures/brent.jpg');
