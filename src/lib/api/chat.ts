@@ -1,9 +1,17 @@
 import { CHATS, MESSAGES } from './collections';
 import { db } from './firebase';
 import { getPublicUserProfile } from './user';
-import { getUser } from '$lib/stores/auth';
 import { creatingNewChat, addChat, addMessage, hasInitialized } from '$lib/stores/chat';
-import { collection, query, where, doc, updateDoc, onSnapshot, addDoc, Timestamp } from 'firebase/firestore';
+import {
+  collection,
+  query,
+  where,
+  doc,
+  updateDoc,
+  onSnapshot,
+  addDoc,
+  Timestamp
+} from 'firebase/firestore';
 
 export const initiateChat = async (partnerUid: string) => {
   creatingNewChat.set(true);
@@ -12,39 +20,41 @@ export const initiateChat = async (partnerUid: string) => {
   return partner;
 };
 
-export const createChatObserver = async () => {
-  const currentUser = getUser();
+export const createChatObserver = async (currentUserId: string) => {
+  const q = query(collection(db(), CHATS), where('users', 'array-contains', currentUserId));
 
-  const q = query(collection(db(), CHATS), where('users', 'array-contains', currentUser.id));
-
-  return onSnapshot(q, async (querySnapshot) => {
-    const changes = querySnapshot.docChanges();
-    const amount = querySnapshot.size;
-    let counter = 0;
-    await Promise.all(
-      changes.map(async (change) => {
-        const chat = change.doc.data();
-        const partnerId = chat.users.find((id: string) => getUser().id !== id);
-        const partner = await getPublicUserProfile(partnerId);
-        chat.partner = partner;
-        addChat({ id: change.doc.id, ...chat });
-        counter++;
-      })
-    );
-    if (counter === amount) hasInitialized.set(true);
-  },
+  return onSnapshot(
+    q,
+    async (querySnapshot) => {
+      const changes = querySnapshot.docChanges();
+      const amount = querySnapshot.size;
+      let counter = 0;
+      await Promise.all(
+        changes.map(async (change) => {
+          const chat = change.doc.data();
+          const partnerId = chat.users.find((id: string) => currentUserId !== id);
+          const partner = await getPublicUserProfile(partnerId);
+          chat.partner = partner;
+          addChat({ id: change.doc.id, ...chat });
+          counter++;
+        })
+      );
+      if (counter === amount) hasInitialized.set(true);
+    },
     (err) => {
       hasInitialized.set(true);
-      console.error(err)
+      console.error(err);
       throw err;
-    });
+    }
+  );
 };
 
 export const observeMessagesForChat = (chatId: string) => {
   const chatRef = doc(db(), CHATS, chatId);
   const chatMessagesCollection = collection(chatRef, MESSAGES);
 
-  return onSnapshot(chatMessagesCollection,
+  return onSnapshot(
+    chatMessagesCollection,
     (snapshot) => {
       const changes = snapshot.docChanges();
       changes.forEach((message) => {
@@ -52,19 +62,20 @@ export const observeMessagesForChat = (chatId: string) => {
       });
     },
     (err) => {
-      console.error(err)
+      console.error(err);
       throw err;
-    })
+    }
+  );
 };
 
-export const sendMessage = async (chatId: string, message: string) => {
+export const sendMessage = async (currentUserId: string, chatId: string, message: string) => {
   const chatRef = doc(db(), CHATS, chatId);
   const chatMessagesCollection = collection(chatRef, MESSAGES);
 
   await addDoc(chatMessagesCollection, {
     content: message.trim(),
     createdAt: Timestamp.now(),
-    from: getUser().id
+    from: currentUserId
   });
 
   await updateDoc(chatRef, {
@@ -74,7 +85,7 @@ export const sendMessage = async (chatId: string, message: string) => {
 };
 
 export const create = async (uid1: string, uid2: string, message: string) => {
-  const chatCollection = collection(db(), CHATS)
+  const chatCollection = collection(db(), CHATS);
 
   const docRef = await addDoc(chatCollection, {
     users: [uid1, uid2],

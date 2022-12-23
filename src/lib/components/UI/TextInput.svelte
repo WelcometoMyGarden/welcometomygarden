@@ -1,17 +1,17 @@
-<script>
-  export let id = null;
-  export let name;
+<script lang="ts">
+  export let id: null | string = null;
+  export let name: null | string;
   export let type = 'text';
   export let placeholder = '';
   export let required = false;
   export let value = '';
   export let error = '';
-  export let minLength = null;
-  export let maxLength = null;
-  export let testPattern = null;
+  export let minLength: null | number = null;
+  export let maxLength: null | number = null;
+  export let testPattern: null | string = null;
   export let isValid = true;
-  export let icon = null;
-  export let list = null;
+  export let icon: string | null = null;
+  export let list: null | string = null;
   export let autocomplete = 'on';
   export let hideError = false;
 
@@ -20,7 +20,7 @@
   import Icon from './Icon.svelte';
   import { crossIcon } from '$lib/images/icons';
 
-  let inputElement;
+  let inputElement: HTMLInputElement;
   onMount(() => {
     inputElement.type = type;
   });

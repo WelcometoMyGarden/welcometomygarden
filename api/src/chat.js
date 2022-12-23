@@ -1,7 +1,14 @@
-const admin = require('firebase-admin');
+// https://stackoverflow.com/a/69959606/4973029
+// eslint-disable-next-line import/no-unresolved
+const { getAuth } = require('firebase-admin/auth');
+// eslint-disable-next-line import/no-unresolved
+const { getFirestore, FieldValue } = require('firebase-admin/firestore');
 const functions = require('firebase-functions');
 const removeDiacritics = require('./util/removeDiacritics');
 const { sendMessageReceivedEmail } = require('./mail');
+
+const auth = getAuth();
+const db = getFirestore();
 
 const normalizeMessage = (str) => str.replace(/\n\s*\n\s*\n/g, '\n\n');
 const normalizeName = (str) => removeDiacritics(str).toLowerCase();
@@ -11,7 +18,6 @@ exports.onMessageCreate = async (snap, context) => {
   const senderId = message.from;
   const { chatId } = context.params;
 
-  const db = admin.firestore();
   const doc = await db.collection('chats').doc(chatId).get();
   const chat = doc.data();
 
@@ -26,7 +32,7 @@ exports.onMessageCreate = async (snap, context) => {
   await db
     .collection('stats')
     .doc('messages')
-    .update({ count: admin.firestore.FieldValue.increment(1) });
+    .update({ count: FieldValue.increment(1) });
 
   const recipientDoc = await db.collection('users-private').doc(recipientId).get();
   const recipientEmailPreferences = recipientDoc.data().emailPreferences;
@@ -46,11 +52,11 @@ exports.onMessageCreate = async (snap, context) => {
   if (!shouldNotify) return;
 
   try {
-    const recipient = await admin.auth().getUser(recipientId);
-    const sender = await admin.auth().getUser(senderId);
+    const recipient = await auth.getUser(recipientId);
+    const sender = await auth.getUser(senderId);
 
     await db.collection('users-private').doc(recipientId).collection('unreads').doc(chatId).set({
-      notifiedAt: admin.firestore.FieldValue.serverTimestamp(),
+      notifiedAt: FieldValue.serverTimestamp(),
       chatId
     });
     const baseUrl = functions.config().frontend.url;
@@ -71,9 +77,8 @@ exports.onMessageCreate = async (snap, context) => {
 };
 
 exports.onChatCreate = async () => {
-  const db = admin.firestore();
   await db
     .collection('stats')
     .doc('chats')
-    .update({ count: admin.firestore.FieldValue.increment(1) });
+    .update({ count: FieldValue.increment(1) });
 };

@@ -1,37 +1,68 @@
-<script>
+<script lang="ts">
+  import { SUPPORT_EMAIL } from '../constants';
+
   export let medium = true;
   export let small = false;
+
+  type SocialLink = {
+    name: string;
+    link: string;
+    iconFileName: string;
+  };
+
+  const socials: SocialLink[] = [
+    {
+      name: 'Facebook',
+      link: 'https://www.facebook.com/Welcome2mygarden/',
+      iconFileName: 'facebook.svg'
+    },
+    {
+      name: 'LinkedIn',
+      link: 'https://www.linkedin.com/company/welcometomygarden/',
+      iconFileName: 'linkedin.svg'
+    },
+    {
+      name: 'Instagram',
+      link: 'https://www.instagram.com/welcometomygarden_org/',
+      iconFileName: 'instagram.svg'
+    },
+    {
+      name: 'GitHub',
+      link: 'https://github.com/WelcometoMyGarden/welcometomygarden',
+      iconFileName: 'github.svg'
+    },
+    {
+      name: 'Slack',
+      link: 'https://join.slack.com/t/welcometomygarden/shared_invite/zt-f31i37dj-_zFgnfe40B6EexJuB2f_~w',
+      iconFileName: 'slack.svg'
+    }
+  ];
 </script>
 
 <ul class="socials" class:medium class:small>
-  <li>
-    <a href="https://www.facebook.com/Welcome2mygarden/" target="_blank"  rel="noreferrer" >
-      <img src="/images/icons/facebook.svg" alt="Facebook" />
-    </a>
-  </li>
-  <li>
-    <a href="https://opencollective.com/welcometomygarden" target="_blank"  rel="noreferrer" >
-      <img src="/images/icons/open-collective.svg" alt="Open Collective" />
-    </a>
-  </li>
-  <li>
-    <a href="https://github.com/welcometomygarden" target="_blank"  rel="noreferrer" >
+  {#each socials as { name, link, iconFileName }}
+    <li>
+      <a href={link} target="_blank" rel="noopener">
+        <img src="/images/icons/{iconFileName}" alt={name} />
+      </a>
+    </li>
+  {/each}
+  <!-- TODO: totally remove these? -->
+  <!-- <li>
+    <a href="https://github.com/welcometomygarden" target="_blank" rel="noreferrer">
       <img src="/images/icons/github.svg" alt="GitHub" />
     </a>
-  </li>
-  <li>
+  </li> -->
+  <!-- <li>
     <a
-      href="https://join.slack.com/t/welcometomygarden/shared_invite/zt-f31i37dj-_zFgnfe40B6EexJuB2f_~w"
-      target="_blank"  rel="noreferrer"
+      href=""
+      target="_blank"
+      rel="noreferrer"
     >
-      <img src="/images/icons/slack.svg" alt="Slack" />
+      <img src="" alt="Slack" />
     </a>
-  </li>
-  <li>
-    <a href="mailto:support@welcometomygarden.org" target="_blank"  rel="noreferrer" >
-      <img src="/images/icons/email.svg" alt="Mail" />
-    </a>
-  </li>
+  </li> -->
+  <!-- Todo: remove mail icon? -->
 </ul>
 
 <style>

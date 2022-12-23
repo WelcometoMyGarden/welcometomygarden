@@ -11,7 +11,6 @@
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { goto } from '$lib/util/navigate';
 
-
   let email = {};
   let password = {};
 
@@ -35,7 +34,7 @@
 </script>
 
 <svelte:head>
-  <title>{$_('sign-in.title')} | Welcome To My Garden</title>
+  <title>{$_('sign-in.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
 <AuthContainer>

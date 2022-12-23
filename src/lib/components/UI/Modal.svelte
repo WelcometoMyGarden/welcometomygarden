@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { Icon, Button } from '$lib/components/UI';
   import { crossIcon } from '$lib/images/icons';
@@ -7,15 +7,15 @@
   const dispatch = createEventDispatcher();
 
   // a11y
-  export let ariaLabel = null;
-  export let ariaLabelledBy = null;
-  export let ariaDescribedBy = null;
+  export let ariaLabel: string | null = null;
+  export let ariaLabelledBy: string | null = null;
+  export let ariaDescribedBy: string | null = null;
 
   export let closeButton = true;
   export let cancelButton = false;
   export let closeOnEsc = true;
   export let closeOnOuterClick = true;
-  export let maxWidth;
+  export let maxWidth: string;
   export let show = true;
 
   export let radius = false;
@@ -54,7 +54,7 @@
     class:nopadding
     on:click|self={handleOuterClick}
     on:keypress={(e) => {
-      if (e.key === 'Enter') handleOuterClick();
+      if (e.key === 'Escape') handleOuterClick();
     }}
   >
     <div
@@ -114,7 +114,7 @@
 
   .stick-to-bottom {
     top: unset;
-    bottom: calc(var(--height-nav));
+    bottom: calc(var(--height-mobile-nav));
     justify-content: flex-end;
   }
 

@@ -1,72 +1,69 @@
 <script lang="ts">
-  // SvelteKit uses this export to load data into this layout.
-  // https://kit.svelte.dev/docs/load#layout-data
-  // svelte-ignore unused-export-let
-  export let data;
-
   import '$lib/styles/reset.css';
   import '$lib/styles/global.css';
 
   import { browser } from '$app/environment';
-  import { onDestroy, onMount } from 'svelte';
-  import { isLoading as isLocaleLoading } from 'svelte-i18n';
-  import { createAuthObserver } from '@/lib/api/auth';
-  import { doesPublicUserExist, setAllUserInfo } from '@/lib/api/user';
   import { createChatObserver } from '$lib/api/chat';
-  import { user, isInitializing } from '@/lib/stores/auth';
-  import { Progress, Notifications } from '$lib/components/UI';
-  import Nav from '$lib/components/Nav/Navigation.svelte';
   import Footer from '$lib/components/Footer.svelte';
+  import Nav from '$lib/components/Nav/Navigation.svelte';
+  import { Notifications, Progress } from '$lib/components/UI';
+  import { getCookie, setCookie } from '$lib/util';
+  import { createAuthObserver } from '@/lib/api/auth';
   import { initialize } from '@/lib/api/firebase';
-  import { locale, init } from 'svelte-i18n';
-  import { setCookie, getCookie } from '$lib/util';
+  import { isInitializing, user } from '@/lib/stores/auth';
+  import { keyboardEvent } from '@/lib/stores/keyboardEvent';
   import registerLocales from '@/locales/register';
+  import { onDestroy, onMount } from 'svelte';
+  import { init, isLoading as isLocaleLoading, locale } from 'svelte-i18n';
+  import { updateCommunicationLanguage } from '@/lib/api/user';
+  import MinimalFooter from '@/lib/components/MinimalFooter.svelte';
+  import { isActiveContains } from '@/lib/util/isActive';
+  import routes from '$lib/routes';
+  import { page } from '$app/stores';
 
   registerLocales();
 
   locale.subscribe((value) => {
     if (value == null) return;
     // if running in the client, save the language preference in a cookie
-    if (typeof window !== 'undefined') setCookie('locale', value, { path: '/' });
+    if (typeof window !== 'undefined') {
+      setCookie('locale', value, { path: '/' });
+      if ($user) updateCommunicationLanguage(value);
+    }
   });
 
   let unsubscribeFromAuthObserver: () => void;
   let unsubscribeFromChatObserver: () => void;
 
-  let infoIsReady = false;
-
   let lang;
 
   let vh = `0px`;
 
+  user.subscribe(async (tempUser) => {
+    if (!unsubscribeFromChatObserver && tempUser && tempUser.emailVerified)
+      unsubscribeFromChatObserver = await createChatObserver(tempUser.uid);
+
+    if (unsubscribeFromChatObserver && !tempUser) unsubscribeFromChatObserver();
+
+    if (tempUser && !tempUser.communicationLanguage && $locale)
+      updateCommunicationLanguage($locale);
+  });
+
   onMount(async () => {
     lang = getCookie('locale'); //en or nl or ...
     if (!lang && window.navigator.language)
+      // TODO: check if the language is supported
       lang = window.navigator.language.split('-')[0].toLowerCase();
     if (!lang) lang = 'en';
 
     init({ fallbackLocale: 'en', initialLocale: lang });
 
+    // Initialize Firebase
     await initialize();
     if (!unsubscribeFromAuthObserver) unsubscribeFromAuthObserver = createAuthObserver();
 
     vh = `${window.innerHeight * 0.01}px`;
   });
-
-  $: if ($user) {
-    addUserInformation().finally(() => (infoIsReady = true));
-  } else if (!$isInitializing) infoIsReady = true;
-
-  const addUserInformation = async () => {
-    // If the user is registered with email and pwd AND it has a public doc THEN set all the user information
-    if (!($user && $user.id && (await doesPublicUserExist($user.id)))) return;
-    try {
-      await setAllUserInfo();
-    } catch (ex) {
-      console.log(ex);
-    }
-    if ($user?.emailVerified) unsubscribeFromChatObserver = await createChatObserver();
-  };
 
   onDestroy(() => {
     if (unsubscribeFromChatObserver) unsubscribeFromChatObserver();
@@ -76,29 +73,39 @@
   const updateViewportHeight = () => {
     vh = `${window.innerHeight * 0.01}px`;
   };
+
+  const onCustomPress = (e: KeyboardEvent) => {
+    if (e?.altKey) {
+      e.preventDefault();
+      e.stopPropagation();
+      keyboardEvent.set(e);
+    }
+  };
 </script>
 
-<svelte:window on:resize={updateViewportHeight} />
+<svelte:window on:resize={updateViewportHeight} on:keyup={onCustomPress} />
 
-<div class="app" style="--vh:{vh}">
+<div class="app active-{$page?.route?.id?.substring(1).split('/')[0]}" style="--vh:{vh}">
   {#if browser}
-    <Progress active={$isInitializing || $isLocaleLoading || !infoIsReady} />
+    <Progress active={$isInitializing || $isLocaleLoading} />
     <Notifications />
   {/if}
 
-  {#if !$isInitializing && !$isLocaleLoading && infoIsReady}
+  {#if !$isInitializing && !$isLocaleLoading}
     <Nav />
     <main>
       <slot />
     </main>
-    <Footer />
+    {#if isActiveContains($page, routes.MAP)}
+      <MinimalFooter />
+    {:else}
+      <Footer />
+    {/if}
   {/if}
 </div>
 
 <style>
   .app {
-    --height-nav: 7rem;
-    --height-footer: 18rem;
     width: 100%;
     height: 100%;
     position: relative;
@@ -106,10 +113,12 @@
   }
 
   main {
-    /* min-height: calc(100% - var(--height-footer)); */
     min-height: calc(100vh - var(--height-nav) - var(--height-footer));
     width: 100%;
     overflow: hidden;
+    /* Anchor overflow:hidden on descendants
+    (there was a problem with .welcome-map in LandingSection with this before) */
+    position: relative;
     max-width: 155rem;
     margin: 0 auto;
   }
@@ -120,8 +129,8 @@
     }
 
     main {
-      min-height: calc(100% - var(--height-nav));
-      padding-bottom: calc(var(--height-nav));
+      min-height: calc(100vh - var(--height-mobile-nav) - env(safe-area-inset-bottom));
+      padding-bottom: calc(var(--height-mobile-nav) + env(safe-area-inset-bottom));
     }
   }
 </style>
