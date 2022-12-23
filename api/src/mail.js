@@ -1,9 +1,17 @@
-const admin = require('firebase-admin');
 const functions = require('firebase-functions');
+// https://stackoverflow.com/a/69959606/4973029
+// eslint-disable-next-line import/no-unresolved
+const { getFirestore } = require('firebase-admin/firestore');
+// eslint-disable-next-line import/no-unresolved
+const { getAuth } = require('firebase-admin/auth');
 const { parseAsync } = require('json2csv');
 const sendgrid = require('@sendgrid/mail');
 
 const API_KEY = functions.config().sendgrid.key;
+const FRONTEND_URL = functions.config().frontend.url;
+
+const auth = getAuth();
+const db = getFirestore();
 
 const send = (msg) => sendgrid.send(msg);
 
@@ -53,6 +61,40 @@ exports.sendMessageReceivedEmail = (email, firstName, senderName, message, messa
   return send(msg);
 };
 
+/**
+ *
+ * @param {'en' | 'fr' | 'nl'} language
+ * @param {string} email
+ * @param {string} firstName
+ * @returns
+ */
+exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-5f9ab48669e545669511a64789a50c92';
+      break;
+    case 'nl':
+      templateId = 'd-bd1e491ad7a6463bac3649eb91d3a342';
+      break;
+    default:
+      templateId = 'd-239412fbd44141e0a227c32b4d75b906';
+      break;
+  }
+
+  const msg = {
+    to: email,
+    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    templateId,
+    dynamic_template_data: {
+      firstName,
+      exploreFeaturesLink: `${FRONTEND_URL}${FRONTEND_URL.endsWith('/') ? '' : '/'}explore`
+    }
+  };
+
+  return send(msg);
+};
+
 const fail = (code, message = '') => {
   throw new functions.https.HttpsError(code, message || code);
 };
@@ -63,7 +105,7 @@ exports.exportNewsletterEmails = async (_, context) => {
   }
 
   const { uid } = context.auth;
-  const adminUser = await admin.auth().getUser(uid);
+  const adminUser = await auth.getUser(uid);
   if (!adminUser.customClaims || !adminUser.customClaims.admin) {
     return fail('permission-denied');
   }
@@ -76,8 +118,6 @@ exports.exportNewsletterEmails = async (_, context) => {
     }
     return res;
   };
-
-  const db = admin.firestore();
 
   const snapshot = await db.collection('users-private').get();
   const ids = [];
@@ -92,7 +132,7 @@ exports.exportNewsletterEmails = async (_, context) => {
   const queue = [];
   const chunks = spliceIntoChunks(ids, 90);
   chunks.forEach((chunk) => {
-    queue.push(admin.auth().getUsers(chunk));
+    queue.push(auth.getUsers(chunk));
   });
 
   const chunkedResolved = await Promise.all(queue);

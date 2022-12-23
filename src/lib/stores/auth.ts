@@ -10,6 +10,4 @@ export const getUser = (): User => {
   const localUser = get(user);
   if (!localUser || !localUser.id) throw new Error('User is not logged in.');
   return localUser;
-}
-
-
+};

@@ -1,6 +1,16 @@
 import type { User } from '$lib/models/User';
 import { CAMPSITES } from './collections';
-import { collection, query, where, getDocs, doc, setDoc, updateDoc, getDocFromCache, getDocFromServer } from 'firebase/firestore';
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  setDoc,
+  updateDoc,
+  getDocFromCache,
+  getDocFromServer
+} from 'firebase/firestore';
 import { getUser } from '@/lib/stores/auth';
 import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '@/lib/stores/garden';
 import { db, storage } from './firebase';
@@ -39,7 +49,14 @@ const doUploadGardenPhoto = async (photo: File, currentUser: User) => {
   return `garden.${extension}`;
 };
 
-export const addGarden = async ({ photo, facilities, ...rest }: { photo: File, facilities: GardenFacilities }) => {
+export const addGarden = async ({
+  photo,
+  facilities,
+  ...rest
+}: {
+  photo: File;
+  facilities: GardenFacilities;
+}) => {
   const currentUser = getUser();
 
   let uploadedName = null;
@@ -48,8 +65,8 @@ export const addGarden = async ({ photo, facilities, ...rest }: { photo: File, f
   // Copy the facilities object, converting any falsy value to false
   // TODO: is this conversion necessary?
   const facilitiesCopy = Object.fromEntries(
-    Object.entries(facilities).map(([k, v]) => [k, v || false]
-  ))
+    Object.entries(facilities).map(([k, v]) => [k, v || false])
+  );
 
   const garden = {
     ...rest,
@@ -65,7 +82,7 @@ export const addGarden = async ({ photo, facilities, ...rest }: { photo: File, f
   return gardenWithId;
 };
 
-export const updateGarden = async ({ photo, ...rest }: { photo: File, facilities }) => {
+export const updateGarden = async ({ photo, ...rest }: { photo: File; facilities }) => {
   const currentUser = getUser();
   if (!currentUser.id) throw new Error('User is not logged in.');
 

@@ -1,4 +1,3 @@
-// import adapter from '@sveltejs/adapter-auto';
 import adapter from '@sveltejs/adapter-static'; // https://www.npmjs.com/package/@sveltejs/adapter-static
 
 import preprocess from 'svelte-preprocess';
@@ -19,12 +18,20 @@ const config = {
     prerender: {
       crawl: true,
       enabled: true,
-      entries: ['*', '/chat/[name]/[chatId]', '/explore/garden/[gardenId]']
+      entries: [
+        '*',
+        '/chat/[name]/[chatId]',
+        '/explore/garden/[gardenId]',
+        '/become-superfan/payment/[id]'
+      ]
     },
-
     alias: {
       '@': resolve('./src')
     }
+  },
+  onwarn: (warning) => {
+    // https://github.com/sveltejs/vite-plugin-svelte/blob/main/docs/config.md#config-file-resolving
+    if (warning.code === 'security-anchor-rel-noreferrer') return;
   }
 };
 

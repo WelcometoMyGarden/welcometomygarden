@@ -12,22 +12,30 @@
   /*
   * Colors
   */
-  --color-white: #fff;
-  --color-black: #333;
-  --color-gray: #e5e5e5;
-  --color-darker-gray: #828b80;
-  --color-orange: #ce6854;
-  --color-orange-light: #ed7f69;
   --color-beige-light: #f9f5ee;
   --color-beige: #f0e7d5;
-  --color-green: #495747;
-  --color-green-light: #cfe3d4;
+  --color-black: #333;
+  --color-blue-dark: #2e5f63;
+  --color-blue-light: #a2d0d3;
   --color-copy: #495747;
-  --color-info: #2d69ea;
-  --color-warning: #ffbb33;
   --color-danger: #ff4444;
+  --color-darker-gray: #828b80;
+  --color-gray: #e5e5e5;
+  --color-green-light: #cfe3d4;
+  --color-green: #495747;
+  --color-green-2: #59c29d;
+  --color-info: #2d69ea;
+  --color-orange-light-2: #ec9570;
+  --color-orange-light: #ed7f69;
+  --color-orange: #ce6854;
+  --color-pink: #f6c4b7;
   --color-success: #00c851;
+  --color-warning: #ffbb33;
+  --color-white: #fff;
+  --color-yellow-light: #f4e27e;
   --color-yellow: #e4d290;
+  --color-highlight-blue: #47b3d0;
+  --color-superfan-yellow: #fbf4de;
 
   /*
   * Typography
@@ -37,10 +45,17 @@
   --fonts-titles: 'Inknut Antiqua', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 
+  --controls-font-size: 1.7rem;
+  --controls-vert-margin: 0.1rem;
+  /* To increase the tap target, also include more padding */
+  --controls-vert-padding: 0.1rem;
+
   /*
   * Units
   */
-  --height-nav: 8rem;
+  --marketing-block-border-radius: 3rem;
+  --tile-border-radius: 2.2rem;
+  --section-inner-padding: 6rem;
 }
 
 .mb-l {
@@ -61,7 +76,7 @@ body,
 
 html {
   box-sizing: border-box;
-  font-size: 62.5%;
+  font-size: 65%;
 }
 
 body {
@@ -126,6 +141,7 @@ ol li {
 }
 
 a,
+a:link,
 a:visited,
 a:active,
 a:hover {
@@ -299,5 +315,31 @@ a.link:hover {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+hr {
+  background-color: var(--color-green);
+}
+
+.button-unstyle {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+.hide {
+  display: none;
+}
+
+@media screen and (max-width: 700px) {
+  :root {
+    --controls-font-size: 1.55rem;
+    --controls-vert-margin: 0.15rem;
+    --controls-vert-padding: 0.3rem;
   }
 }
