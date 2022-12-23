@@ -148,7 +148,7 @@
     // todo: validate priceID
     console.log('Running onMount');
     if (!$user) {
-      notify.warning($_('become-superfan-payment.not-logged-in-warning'), 10000);
+      notify.warning($_('payment-superfan.not-logged-in-warning'), 10000);
       // replaceState: replaces the state of the current page, which we want,
       // because when a visitor click back on the Sign in page, they should go back to /become-superfan
       // and not to /become-superfan/payment, which puts them in a redirect "loop"

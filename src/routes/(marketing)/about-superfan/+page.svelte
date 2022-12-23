@@ -15,6 +15,7 @@
   import ProfilePicture from '../_components/ProfilePicture.svelte';
   import { SUPERFAN_PRICING_ROUTE, SUPPORT_EMAIL } from '@/lib/constants';
   import { getNodeKeys } from '@/lib/util/get-node-children';
+  import { onDestroy } from 'svelte';
 
   let testimonials: Slide[];
 
@@ -26,20 +27,31 @@
     };
   };
 
-  $: testimonials = [
-    {
-      ...contentOf('0'),
-      imagePath: '/testimonials/boris.jpeg'
-    },
-    {
-      ...contentOf('1'),
-      imagePath: '/testimonials/marie-marth.jpg'
-    },
-    {
-      ...contentOf('2'),
-      imagePath: '/testimonials/benoit-helene.jpg'
-    }
-  ];
+  const setTestimonials = () => {
+    testimonials = [
+      {
+        ...contentOf('0'),
+        imagePath: '/testimonials/boris.jpeg'
+      },
+      {
+        ...contentOf('1'),
+        imagePath: '/testimonials/marie-marth.jpg'
+      },
+      {
+        ...contentOf('2'),
+        imagePath: '/testimonials/benoit-helene.jpg'
+      }
+    ];
+  };
+
+  setTestimonials();
+
+  const unsubscribeLocalization = _.subscribe(() => {
+    setTestimonials();
+  });
+  onDestroy(() => {
+    unsubscribeLocalization();
+  });
 </script>
 
 <PaddedSection desktopOnly>

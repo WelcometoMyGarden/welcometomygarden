@@ -1,13 +1,3 @@
-<script context="module" lang="ts">
-  export type SuperfanLevelDataWithCopy = SuperfanLevelData & {
-    slugCopy: string;
-    title: string;
-    description: string;
-    // TODO alt
-    alt?: string;
-  };
-</script>
-
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { user } from '@/lib/stores/auth';
@@ -20,7 +10,7 @@
   import Heading from '../_components/Heading.svelte';
   import SupportReasons from '../_sections/SupportReasons.svelte';
   import { superfanLevels, type SuperfanLevelData } from '../_static/superfan-levels';
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import smoothscroll from 'smoothscroll-polyfill';
   import SuperfanLevel from '../_components/SuperfanLevel.svelte';
   import Button from '@/lib/components/UI/Button.svelte';
@@ -34,25 +24,33 @@
     selectedLevel = level;
   };
 
-  // const addCopy = () => {};
+  /**
+   * Inserts localized copy.
+   */
+  const mapToSuperfanLevelProps = (level: SuperfanLevelData) => {
+    // remove copyKey & stripePriceId, of which the SuperfanLevel component needs no knowledge.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { copyKey, stripePriceId, ...rest } = level;
 
-  let superfanLevelDataWithCopy: SuperfanLevelDataWithCopy[];
-  const mapCopy = (level: SuperfanLevelData) => ({
-    ...level,
-    slugCopy: $_(`become-superfan.pricing-section.pricing-levels.${level.copyKey}.slug`),
-    title: $_(`become-superfan.pricing-section.pricing-levels.${level.copyKey}.title`),
-    description: $_(`become-superfan.pricing-section.pricing-levels.${level.copyKey}.description`)
+    return {
+      ...rest,
+      slugCopy: $_(`become-superfan.pricing-section.pricing-levels.${level.copyKey}.slug`),
+      title: $_(`become-superfan.pricing-section.pricing-levels.${level.copyKey}.title`),
+      description: $_(`become-superfan.pricing-section.pricing-levels.${level.copyKey}.description`)
+    };
+  };
+
+  let superfanLevelData: SuperfanLevelData[] = superfanLevels;
+
+  // Listen to localization to trigger reactivity on superfanLevelData.
+  const unsubscribeFromLocalization = _.subscribe(() => {
+    superfanLevelData = superfanLevels;
   });
 
-  let superfanLevelsReactive = superfanLevels;
-  _.subscribe(() => {
-    // console.log('react!');
-    superfanLevelsReactive = superfanLevels;
+  onDestroy(() => {
+    unsubscribeFromLocalization();
   });
 
-  $: superfanLevelDataWithCopy = superfanLevelsReactive.map(mapCopy);
-
-  // TODO: the selectedLevels should be a keyed object, not an array.
   // Array is more difficult to type.
   const selectLevelBySlug = (level: string) => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -130,9 +128,9 @@
   </Heading>
   <div class="superfan-levels-container">
     <div class="superfan-levels">
-      {#each superfanLevelDataWithCopy as level}
+      {#each superfanLevelData as level}
         <SuperfanLevel
-          {level}
+          {...mapToSuperfanLevelProps(level)}
           on:click={() => selectLevel(level)}
           on:keypress={(e) => handleKeyPress(e, level)}
           selected={level.slug === selectedLevel.slug}

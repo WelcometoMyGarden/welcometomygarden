@@ -921,12 +921,12 @@
       "pay-button": "Payer",
       "loading": "FR Loading...",
       "processing-payment": "FR Aan het verwerken...",
-      "youre-subscribed": "FR Je bent geabonneerd!",
+      "youre-subscribed": "Vous vous êtes inscrit·e",
       "no-switching-here": "FR We ondersteunen het momenteel nog niet om hier te veranderen naar een andere prijs, laat het ons weten als je dat wil doen!",
       "errors": {
         "loading-error": "FR Er ging iets fout tijdens het laden van ons betaalsysteem. Probeer de pagina te herladen.",
         "systems-error": "FR Er ging iets fout in ons systeem. Gelieve {supportEmail} te contacteren, we zullen je zo snel mogelijk helpen! Excuseer voor het ongemak.",
-        "payment-error": "FR Er ging iets fout met je betaling, probeer alstublieft opnieuw."
+        "payment-error": "FR Er ging iets fout met je betaling, probeer alsjeblieft opnieuw."
       }
     }
   },

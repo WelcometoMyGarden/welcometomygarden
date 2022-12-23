@@ -2,10 +2,20 @@
   import { _ } from 'svelte-i18n';
   import { IMAGES_PATH } from '@/lib/constants';
   import { createEventDispatcher } from 'svelte';
-  import type { SuperfanLevelDataWithCopy } from '../become-superfan/+page.svelte';
-  export let level: SuperfanLevelDataWithCopy;
   export let selected = false;
-  const { slug, title, description, value, alt, slugCopy } = level;
+
+  // Svelte learning: don't do this! This code executes only once,
+  // which means only the first prop values will be destructured.
+  // Subsequent updates don't get destructured, and the template doesn't react
+  // when they change
+  // export let level;
+  // const { slug, title, description, value, alt, slugCopy } = level;
+  export let slug: string;
+  export let title: string;
+  export let description: string;
+  export let value: number;
+  export let alt: string | undefined = undefined;
+  export let slugCopy: string;
   const clickDispatch = createEventDispatcher<{ click: MouseEvent }>();
   const keyDispatch = createEventDispatcher<{ keypress: KeyboardEvent }>();
 </script>

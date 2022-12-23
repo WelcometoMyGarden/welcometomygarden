@@ -749,9 +749,6 @@
       }
     }
   },
-  "become-superfan-payment": {
-    "not-logged-in-warning": "To subscribe, first log in or create an account"
-  },
   "about-superfan": {
     "top-section": {
       "title": "Superfans keep us going",
@@ -933,7 +930,8 @@
         "systems-error": "Something went wrong in our systems. Please contact {supportEmail} and we'll help you asap! Sorry for the trouble!",
         "payment-error": "Something went wrong with your payment, please try again."
       }
-    }
+    },
+    "not-logged-in-warning": "To subscribe, first log in or create an account"
   },
   "request-password-reset": {
     "title": "Set a new password",
