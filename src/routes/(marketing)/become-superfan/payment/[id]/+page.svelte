@@ -192,15 +192,13 @@
             'Tried to recreate an existing, paid subscription.' +
               ' Are our Stripe backend webhooks working & syncing data to Firebase?'
           );
-          setTimeout(() => {
-            error = new Error(
-              $_('payment-superfan.payment-section.errors.systems-error', {
-                values: {
-                  supportEmail: SUPPORT_EMAIL
-                }
-              })
-            );
-          }, 3000);
+          error = new Error(
+            $_('payment-superfan.payment-section.errors.systems-error', {
+              values: {
+                supportEmail: SUPPORT_EMAIL
+              }
+            })
+          );
           return;
         } else {
           processingPayment = false;
