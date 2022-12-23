@@ -24,6 +24,7 @@
     gap: 1rem;
     flex-direction: column;
     border: 2px solid var(--color-beige);
+    flex: 1 0 0;
   }
 
   span.icon {
@@ -34,5 +35,6 @@
     font-family: var(--fonts-titles);
     font-weight: 700;
     font-size: 2.2rem;
+    line-height: 1.7;
   }
 </style>

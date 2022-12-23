@@ -40,6 +40,9 @@
     grid-row: 1 / span 2;
     align-self: center;
   }
+  .heading :global(h2) {
+    margin-bottom: 0;
+  }
 
   @media only screen and (max-width: 1000px) {
     .wrapper {
@@ -53,9 +56,15 @@
     .heading {
       grid-row: 1;
     }
+
+    .heading :global(h2) {
+      margin-bottom: 2rem;
+    }
+
     .video {
       grid-row: 2;
       grid-column: 1;
+      width: 100%;
     }
     .text {
       grid-row: 3;

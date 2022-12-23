@@ -190,6 +190,7 @@
 
     .become-superfan-buttons {
       flex-direction: column;
+      align-items: center;
     }
   }
 

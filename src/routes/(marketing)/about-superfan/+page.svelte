@@ -62,7 +62,7 @@
 </PaddedSection>
 <PaddedSection>
   <InnerVideoSection>
-    <h1 slot="heading">{$_('about-superfan.video-section.title')}</h1>
+    <h2 slot="heading">{$_('about-superfan.video-section.title')}</h2>
     <div slot="text">
       {@html $_('about-superfan.video-section.description')}
       <Button href={SUPERFAN_PRICING_ROUTE} uppercase orange arrow

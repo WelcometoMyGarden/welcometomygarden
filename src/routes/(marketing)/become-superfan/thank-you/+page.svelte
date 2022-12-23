@@ -13,9 +13,10 @@
     {@html $_('thank-you-superfan.top-section.description')}
   </MarketingBlock>
 </PaddedSection>
-<PaddedSection>
+<PaddedSection centered>
   <h2>{$_('thank-you-superfan.features-section.title')}</h2>
   <Features />
+  <div style="margin-bottom: var(--section-inner-padding)" />
   <Button href={routes.MAP} uppercase orange arrow
     >{$_('thank-you-superfan.features-section.explore-features-button')}</Button
   >

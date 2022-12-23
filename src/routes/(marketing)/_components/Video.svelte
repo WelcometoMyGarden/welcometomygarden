@@ -3,8 +3,7 @@
 </script>
 
 <iframe
-  width="560"
-  height="315"
+  class="youtube"
   src={`https://www.youtube-nocookie.com/embed/Dnuzpb-Om1M?cc_load_policy=1&cc_lang_pref=${$locale}`}
   title="YouTube video player"
   frameborder="0"
@@ -16,5 +15,6 @@
   iframe {
     border-radius: 2rem;
     width: 100%;
+    aspect-ratio: 16/9;
   }
 </style>
