@@ -63,7 +63,7 @@
       redirect: 'if_required',
       confirmParams: {
         // Redirect to the current page
-        return_url: document.location.href
+        return_url: `${document.location.protocol}//${document.location.hostname}:${document.location.port}${document.location.pathname}`
       }
     });
 
