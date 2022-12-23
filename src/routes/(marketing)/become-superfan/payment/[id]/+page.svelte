@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { _ } from 'svelte-i18n';
+  import { _, locale } from 'svelte-i18n';
   import { onDestroy, onMount } from 'svelte';
   import { user } from '@/lib/stores/auth';
   import notify from '$lib/stores/notification';
@@ -8,7 +8,9 @@
   import routes from '@/lib/routes';
   import {
     loadStripe,
+    type CheckoutLocale,
     type Stripe,
+    type StripeElementLocale,
     type StripeElements,
     type StripeError
   } from '@stripe/stripe-js';
@@ -93,8 +95,17 @@
 
   const reloadStripe = async () => {
     // Load the Stripe payment elements
-    stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+    // TODO: can we fix this TS locale `as` hack? Verify that our input locales are always valid?
+    console.log('Reloading stripe');
+    stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY, {
+      locale: ($locale as StripeElementLocale | CheckoutLocale) || 'auto'
+    });
   };
+
+  const unsubscribeFromLocale = _.subscribe(async () => {
+    // TODO: this doesn't work, implement reactivity on Stripe somehow?
+    // await reloadStripe();
+  });
 
   /**
    * @returns true if search params were processed, which means that no further subscription
@@ -213,6 +224,7 @@
 
   onDestroy(() => {
     unsubscribeFromUser();
+    unsubscribeFromLocale();
   });
 </script>
 
