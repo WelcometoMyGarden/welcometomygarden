@@ -11,7 +11,10 @@
     <ProfilePicture {imageSrc} {name} />
   </div>
   <Text is="span" size="l" class="name" weight="bold">{name}</Text>
-  <Text is="span" size="l" class="role">{role}</Text>
+  <!-- TODO: how to do this less hacky? -->
+  <Text is="span" size="l" class="role"
+    >{role === 'Cofondateur' && name == 'Manon' ? 'Cofondatrice' : role}</Text
+  >
   <Text is="p" class="intro"><slot /></Text>
 </div>
 
@@ -38,5 +41,13 @@
     margin-top: 1rem;
     text-align: center;
     line-height: 160%;
+  }
+
+  :global(.intro a:link),
+  :global(.intro a:visited),
+  :global(.intro a:active),
+  :global(.intro a:hover) {
+    color: var(--color-orange);
+    text-decoration: underline;
   }
 </style>
