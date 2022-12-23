@@ -37,6 +37,7 @@
     text-decoration: underline;
   }
 
+  p :global(a),
   p :global(a:visited),
   p :global(a:active),
   p :global(a:hover) {

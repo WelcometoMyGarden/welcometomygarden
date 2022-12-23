@@ -141,6 +141,7 @@ ol li {
 }
 
 a,
+a:link,
 a:visited,
 a:active,
 a:hover {
