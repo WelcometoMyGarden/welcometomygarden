@@ -2,6 +2,7 @@
   import { onDestroy } from 'svelte';
   import { _ } from 'svelte-i18n';
   import TileList from '../_components/TileList.svelte';
+  export let backgroundColor: string | undefined = undefined;
 
   type SupportReason = {
     icon: string;
@@ -41,4 +42,4 @@
   });
 </script>
 
-<TileList tiles={supportReasons} />
+<TileList tiles={supportReasons.map((r) => ({ ...r, backgroundColor }))} />

@@ -76,13 +76,14 @@
     >{$_('about-superfan.for-superfans-section.title')}</Heading
   >
   <p>{$_('about-superfan.for-superfans-section.description')}</p>
-  <Features />
+  <Features backgroundColor="white" />
   <div style="width: 100%; padding-bottom: var(--section-inner-padding)" />
   <Heading caption={$_('about-us.for-everyone')}
     >{$_('superfan-shared.three-support-reasons.title')}</Heading
   >
-  <SupportReasons />
-  <Button href={SUPERFAN_PRICING_ROUTE} uppercase orange arrow
+  <SupportReasons backgroundColor="white" />
+  <div style="margin-bottom: var(--spacing-medium)" />
+  <Button href={SUPERFAN_PRICING_ROUTE} uppercase orange arrow centered
     >{$_('generics.become-superfan')}</Button
   >
 </PaddedSection>
@@ -95,9 +96,9 @@
         </div>
       {/each}
     </div>
-    <h1>{$_('about-superfan.team-section.title')}</h1>
-    <p>{$_('about-superfan.team-section.description')}</p>
-    <Button href={routes.ABOUT_US} uppercase orange arrow
+    <h1 class="team-title">{$_('about-superfan.team-section.title')}</h1>
+    <p class="team-text">{$_('about-superfan.team-section.description')}</p>
+    <Button href={routes.ABOUT_US} uppercase orange arrow centered
       >{$_('about-superfan.team-section.meet-team-button')}</Button
     >
   </MarketingBlock>
@@ -130,13 +131,25 @@
 </PaddedSection>
 
 <style>
-  div.more-questions {
+  .more-questions {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  div.team-pictures {
+  .team-title,
+  :global(div) p.team-text {
+    margin-bottom: 1rem;
+  }
+
+  /* Not an ideal escape, maybe MarketingBlock should
+    contain less strict styling. */
+  :global(div) p.team-text {
+    display: inline-block;
+    max-width: 49rem;
+  }
+
+  .team-pictures {
     display: flex;
     justify-content: center;
     width: 100%;

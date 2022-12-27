@@ -29,6 +29,7 @@
   --color-orange-light: #ed7f69;
   --color-orange: #ce6854;
   --color-pink: #f6c4b7;
+  --color-pink-light: #f9dcd6;
   --color-success: #00c851;
   --color-warning: #ffbb33;
   --color-white: #fff;
@@ -56,6 +57,8 @@
   --marketing-block-border-radius: 3rem;
   --tile-border-radius: 2.2rem;
   --section-inner-padding: 6rem;
+  --spacing-small: 2rem;
+  --spacing-medium: 3.5rem;
 }
 
 .mb-l {
