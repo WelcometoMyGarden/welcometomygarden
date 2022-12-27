@@ -1,17 +1,14 @@
 <script lang="ts">
-  import { LabeledCheckbox, Text, LabeledRadiobox, ToggleAble } from '$lib/components/UI';
+  import { LabeledCheckbox, Text, ToggleAble } from '$lib/components/UI';
   import { _ } from 'svelte-i18n';
   import {
     bookmarkIcon,
     crossIcon,
     cyclistIcon,
-    cyclistWhiteIcon,
-    flagIcon,
     hikerIcon,
     routesIcon,
-    tentWhiteIcon,
-    trainIcon,
-    trainWhiteIcon
+    tentIcon,
+    trainIcon
   } from '@/lib/images/icons';
   import { user } from '@/lib/stores/auth';
   import Button from '../UI/Button.svelte';
@@ -110,21 +107,21 @@
       <div class="fab">
         <IconButton xsmall on:click={() => (showGardensModal = !showGardensModal)}>
           <div class="fab-icon">
-            <Icon icon={tentWhiteIcon} />
+            <Icon icon={tentIcon} whiteStroke />
           </div>
         </IconButton>
       </div>
       <div class="fab">
         <IconButton xsmall on:click={() => (showTrailsModal = !showTrailsModal)}>
           <div class="fab-icon">
-            <Icon icon={cyclistWhiteIcon} />
+            <Icon icon={routesIcon} whiteStroke />
           </div>
         </IconButton>
       </div>
       <div class="fab">
         <IconButton xsmall on:click={() => (showTransportModal = !showTransportModal)}>
           <div class="fab-icon">
-            <Icon icon={trainWhiteIcon} />
+            <Icon icon={trainIcon} whiteStroke />
           </div>
         </IconButton>
       </div>
