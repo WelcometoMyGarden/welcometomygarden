@@ -59,6 +59,14 @@
     margin: 0 auto;
   }
 
+  .step-text :global(a),
+  .step-text :global(a:visited),
+  .step-text :global(a:active),
+  .step-text :global(a:hover) {
+    color: var(--color-orange);
+    text-decoration: underline;
+  }
+
   .step-logo > :global(svg) {
     max-height: 100%;
     max-width: 100%;
