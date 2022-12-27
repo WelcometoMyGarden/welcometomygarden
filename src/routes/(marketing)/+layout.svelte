@@ -25,7 +25,7 @@
   div :global(.oh1) {
     font-size: 3.6rem;
     font-weight: bold;
-    line-height: 9rem;
+    line-height: 1.6;
     font-family: var(--fonts-titles);
     margin-bottom: 3.5rem;
     color: var(--color-green);
@@ -98,7 +98,6 @@
   @media only screen and (max-width: 1300px) {
     div :global(.oh1) {
       font-size: 2.8rem;
-      line-height: 7.5rem;
     }
   }
 
@@ -111,7 +110,6 @@
   @media only screen and (max-width: 600px) {
     div :global(.oh1) {
       font-size: 2.2rem;
-      line-height: 6.5rem;
     }
 
     div :global(h1),
@@ -138,7 +136,6 @@
   @media only screen and (max-width: 400px) {
     div :global(.oh1) {
       font-size: 1.8rem;
-      line-height: 5.5rem;
     }
 
     div :global(h1),

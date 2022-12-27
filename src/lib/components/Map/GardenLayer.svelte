@@ -67,7 +67,7 @@
           // icon: isSaved ? 'tent-saved' : 'tent',
           icon:
             isSaved && selectedGardenId === gardenId
-              ? 'tent-filled' // selected saved garden
+              ? 'tent-saved-selected' // selected saved garden
               : selectedGardenId === gardenId
               ? 'tent-filled' // selected garden
               : isSaved
@@ -179,7 +179,7 @@
       const images = [
         { url: '/images/markers/tent-neutral.png', id: 'tent' },
         { url: '/images/markers/tent-filled.png', id: 'tent-filled' },
-        { url: '/images/markers/tent-white-yellow.png', id: 'tent-saved-selected' },
+        { url: '/images/markers/tent-yellow-dark.png', id: 'tent-saved-selected' },
         { url: '/images/markers/tent-yellow.png', id: 'tent-saved' }
       ];
 

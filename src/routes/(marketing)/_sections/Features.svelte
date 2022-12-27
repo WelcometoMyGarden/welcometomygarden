@@ -1,6 +1,7 @@
 <script lang="ts">
   import TileList from '../_components/TileList.svelte';
   import { _ } from 'svelte-i18n';
+  export let backgroundColor: string | undefined = undefined;
 
   type Feature = {
     icon: string;
@@ -31,4 +32,10 @@
   ];
 </script>
 
-<TileList tiles={features || defaultFeatures} />
+<TileList
+  tiles={(features || defaultFeatures).map((f, i) => ({
+    ...f,
+    backgroundColor,
+    label: `Feature ${i + 1}`
+  }))}
+/>

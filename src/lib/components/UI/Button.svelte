@@ -15,6 +15,7 @@
   export let preventing = false;
   export let orange = false;
   export let arrow = false;
+  export let centered = false;
   /** Whether this is a link-style button */
   export let link = false;
 
@@ -51,6 +52,7 @@
     class:orange
     class:arrow
     class:link
+    class:centered
     {href}
     on:click={(e) => {
       if (disabled) e.preventDefault();
@@ -81,6 +83,7 @@
     class:orange
     class:arrow
     class:link
+    class:centered
     {type}
   >
     <Text is="span" weight="bold">
@@ -124,6 +127,13 @@
   .orange:hover,
   .orange:active {
     background-color: var(--color-orange);
+  }
+
+  .centered {
+    margin-left: auto;
+    margin-right: auto;
+    /* In case we're in a flexbox */
+    align-self: center;
   }
 
   .button.arrow {

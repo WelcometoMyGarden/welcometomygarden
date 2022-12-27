@@ -964,6 +964,11 @@
         "button": "Gérer le jardin"
       }
     },
+    "superfan": {
+      "title": "Votre abonnement Superfan",
+      "manage-button": "Gérer votre abonnement",
+      "loading-portal": "Chargement du portail..."
+    },
     "verify": {
       "title": "Confirmez votre adresse électronique",
       "sent": "Courriel envoyé !",

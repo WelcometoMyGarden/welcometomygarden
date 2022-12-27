@@ -1,8 +1,9 @@
-<script>
-  export let icon;
+<script lang="ts">
+  export let icon: string;
+  export let whiteStroke = false;
 </script>
 
-<i>
+<i class:white-stroke={whiteStroke}>
   {@html icon}
 </i>
 
@@ -19,5 +20,9 @@
     width: 100% !important;
     height: auto !important;
     max-height: 100% !important;
+  }
+
+  i.white-stroke > :global(svg path) {
+    stroke: white;
   }
 </style>

@@ -973,6 +973,11 @@
         "text": "Verify your email to manage your garden."
       }
     },
+    "superfan": {
+      "title": "Your Superfan Subscription",
+      "manage-button": "Manage Subscription",
+      "loading-portal": "Loading portal..."
+    },
     "notify": {
       "resend-error": "We couldn't resend an account verification email. Please contact {support}",
       "garden-show": "Your garden will show up on the map again",

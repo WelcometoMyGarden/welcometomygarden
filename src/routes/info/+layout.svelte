@@ -7,7 +7,8 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    max-width: 90rem;
+    max-width: 92rem;
+    padding: 0 2rem;
     margin: 0 auto;
     padding-bottom: 8rem;
   }
@@ -34,6 +35,9 @@
   }
 
   @media (max-width: 920px) {
+    .info-page {
+      padding: 0;
+    }
     .info-page > :global(.intro) {
       padding: 0 4rem;
       text-align: center;
