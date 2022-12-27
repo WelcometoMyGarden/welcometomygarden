@@ -534,6 +534,11 @@
         "text": "Controleer jouw e-mail om jouw tuin te beheren."
       }
     },
+    "superfan": {
+      "title": "Jouw Superfan Abonnement",
+      "manage-button": "Beheer jouw Abonnement",
+      "loading-portal": "Portaal aan het laden..."
+    },
     "notify": {
       "resend-error": "We konden geen accountverificatie e-mail sturen. Neem contact op met {support}",
       "garden-show": "Jouw tuin komt weer op de kaart te staan",

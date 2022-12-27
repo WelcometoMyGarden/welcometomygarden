@@ -67,10 +67,16 @@
     }
   };
 
+  let loadingPortal = false;
   const openCustomerPortalSession = async () => {
-    const { data } = await createCustomerPortalSession();
-    const { url } = data;
-    window.open(url, '_self');
+    loadingPortal = true;
+    try {
+      const { data } = await createCustomerPortalSession();
+      const { url } = data;
+      window.open(url, '_blank');
+    } finally {
+      loadingPortal = false;
+    }
   };
 </script>
 
@@ -173,9 +179,13 @@
       </section>
       {#if $user.superfan === true}
         <section>
-          <h2>Superfan Subscription</h2>
-          <p class="description">About your subscription</p>
-          <Button uppercase medium on:click={openCustomerPortalSession}>Manage Subscription</Button>
+          <h2>{$_('account.superfan.title')}</h2>
+          <Button uppercase medium on:click={openCustomerPortalSession}
+            >{$_('account.superfan.manage-button')}</Button
+          >
+          {#if loadingPortal}
+            <div class="loading">{$_('account.superfan.loading-portal')}</div>
+          {/if}
         </section>
       {/if}
     </div>

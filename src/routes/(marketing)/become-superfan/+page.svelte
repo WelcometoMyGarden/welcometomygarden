@@ -122,10 +122,10 @@
 </PaddedSection>
 
 <PaddedSection backgroundColor="var(--color-beige-light)" vertical id="pricing">
-  <Heading caption={$_('become-superfan.pricing-section.slug')}>
+  <Heading caption={$_('become-superfan.pricing-section.slug')} centered>
     {$_('become-superfan.pricing-section.title')}
-    <p>{$_('become-superfan.pricing-section.description')}</p>
   </Heading>
+  <p class="pricing-description">{$_('become-superfan.pricing-section.description')}</p>
   <div class="superfan-levels-container">
     <div class="superfan-levels">
       {#each superfanLevelData as level}
@@ -179,6 +179,12 @@
     justify-content: center;
     gap: 2rem;
     width: 100%;
+  }
+
+  .pricing-description {
+    max-width: 82rem;
+    text-align: center;
+    margin: 0 auto var(--section-inner-padding) auto;
   }
 
   .select-level-button {
