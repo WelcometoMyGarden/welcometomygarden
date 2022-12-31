@@ -142,12 +142,20 @@
 <FacilitiesFilter bind:show={showFilterModal} bind:filteredGardens {facilities} bind:filter />
 
 <style>
+  :root {
+    /* TODO: might as well override the mapbox zoom controls side & top spacing
+        with our own rem-based spacing for full consistency? */
+    --mapbox-zoom-ctrl-full-width: 39px;
+    --mapbox-zoom-ctrl-padding: 10px;
+  }
+
   .filter {
     background-color: rgba(255, 255, 255, 0);
     width: 80%;
-    top: 1.5rem;
+    top: var(--spacing-map-controls);
     width: 32rem;
-    left: 5rem;
+    /* Width of zoom control incl padding: 39px */
+    left: calc(var(--mapbox-zoom-ctrl-full-width) + var(--spacing-map-controls));
     position: absolute;
     z-index: 5;
   }
@@ -160,7 +168,7 @@
 
   .location-filter {
     width: calc(100% - 60px);
-    margin-right: 0.5rem;
+    margin-right: var(--spacing-map-controls);
   }
 
   .filter-tags {
@@ -181,7 +189,14 @@
   }
 
   /* Override button styles to make it match the search box height */
+  .garden-filter {
+    margin-bottom: 1rem;
+  }
   .garden-filter :global(button.small) {
+    /* The container margin-bottom + height combo
+       replicates how the location filter is aligned */
+    height: 100%;
+
     /* Use flexbox to center instead */
     padding: 0 0;
     min-width: 5.5rem;
@@ -189,7 +204,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 43px;
     margin: 0;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
   }
@@ -205,9 +219,17 @@
 
   @media screen and (max-width: 700px) {
     .filter {
-      top: 3rem;
-      margin-right: 1rem;
-      width: calc(100% - 5rem - 1rem);
+      /* Align with scale control */
+      top: 10px;
+      /* Full width (including control padding) on the left
+       - control inner spacing until the Filter component
+       - spacing on the right, equal to the control padding */
+      width: calc(
+        100% - var(--mapbox-zoom-ctrl-full-width) - var(--spacing-map-controls) -
+          var(--mapbox-zoom-ctrl-padding)
+      );
+      /* This should not be necessary with the above width, but for safety */
+      margin-right: var(--mapbox-zoom-ctrl-padding);
     }
   }
 </style>

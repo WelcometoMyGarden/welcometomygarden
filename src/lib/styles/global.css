@@ -59,6 +59,8 @@
   --section-inner-padding: 6rem;
   --spacing-small: 2rem;
   --spacing-medium: 3.5rem;
+
+  --spacing-map-controls: 1rem;
 }
 
 .mb-l {
@@ -344,5 +346,6 @@ hr {
     --controls-font-size: 1.55rem;
     --controls-vert-margin: 0.15rem;
     --controls-vert-padding: 0.3rem;
+    --spacing-map-controls: 0.75rem;
   }
 }

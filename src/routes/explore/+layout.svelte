@@ -188,8 +188,14 @@
     left: 0;
   }
 
+  /* TODO: unhide this attribution logo? */
+  .map-section :global(.mapboxgl-ctrl-logo) {
+    display: none;
+  }
+
   .map-section :global(.mapboxgl-ctrl-top-left) {
-    top: calc(0.5rem);
+    /* 10px is the built-in margin of the zoom control */
+    top: calc(var(--spacing-map-controls) - 10px);
   }
 
   .vehicle-notice-wrapper {
@@ -265,12 +271,13 @@
       top: 0;
     }
     .map-section :global(.mapboxgl-ctrl-top-left) {
-      top: 1rem;
+      top: 0rem;
     }
 
-    .map-section :global(.mapboxgl-ctrl-bottom-right) {
-      top: 0;
-      right: 0;
+    .map-section :global(.maplibregl-ctrl-attrib.maplibregl-compact:not(.mapboxgl-compact-show)) {
+      /* Fix the oval attribution info box by setting a height equal to width,
+      but allow flexible height expansion when opened */
+      height: 24px;
     }
 
     .vehicle-notice-wrapper {
