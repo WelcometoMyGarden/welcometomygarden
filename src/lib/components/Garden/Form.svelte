@@ -364,13 +364,13 @@
 
   h2 {
     font-size: 2.2rem;
-    font-weight: 900;
+    font-weight: 600;
     margin-top: 2rem;
   }
 
   h3 {
     font-size: 1.8rem;
-    font-weight: 900;
+    font-weight: 500;
     margin-bottom: 2rem;
     line-height: 1.6;
   }

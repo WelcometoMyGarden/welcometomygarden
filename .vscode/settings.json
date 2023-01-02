@@ -19,6 +19,10 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "html.format.enable": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   }

@@ -1,13 +1,3 @@
-@font-face {
-  font-family: 'Inknut Antiqua';
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Montserrat';
-  font-display: swap;
-}
-
 :root {
   /*
   * Colors
@@ -46,7 +36,10 @@
   --fonts-titles: 'Inknut Antiqua', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 
+  /* Font sizes */
   --controls-font-size: 1.7rem;
+  --paragraph-font-size: 1.6rem;
+
   --controls-vert-margin: 0.1rem;
   /* To increase the tap target, also include more padding */
   --controls-vert-padding: 0.1rem;
@@ -57,6 +50,9 @@
   --marketing-block-border-radius: 3rem;
   --tile-border-radius: 2.2rem;
   --section-inner-padding: 6rem;
+  --spacing-map-controls: 1rem;
+
+  /* Constant spacing */
   --spacing-small: 2rem;
   --spacing-medium: 3.5rem;
 }
@@ -93,7 +89,7 @@ body {
 
 p,
 .p {
-  font-size: 1.6rem;
+  font-size: var(--paragraph-font-size);
   font-weight: normal;
 }
 
@@ -103,7 +99,7 @@ p,
   textarea,
   p,
   .p {
-    font-size: 1.4rem;
+    font-size: var(--paragraph-font-size);
   }
 }
 
@@ -341,8 +337,10 @@ hr {
 
 @media screen and (max-width: 700px) {
   :root {
+    --paragraph-font-size: 1.4rem;
     --controls-font-size: 1.55rem;
     --controls-vert-margin: 0.15rem;
-    --controls-vert-padding: 0.3rem;
+    --controls-vert-padding: 0.2rem;
+    --spacing-map-controls: 0.75rem;
   }
 }

@@ -266,7 +266,7 @@
 
   h2 {
     margin-bottom: 2rem;
-    font-weight: 900;
+    font-weight: 500;
     font-size: 1.8rem;
   }
 

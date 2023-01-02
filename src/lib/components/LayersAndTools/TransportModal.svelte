@@ -23,7 +23,7 @@
   {ariaLabelledBy}
 >
   <div slot="title" class="TitleSection" id={ariaLabelledBy}>
-    <h2 id="Title">{$_('map.railway.title-modal')}</h2>
+    <h2 class="title-modal">{$_('map.railway.title-modal')}</h2>
   </div>
   <div slot="body" class="BodySection">
     <hr />
@@ -38,14 +38,14 @@
     width: 100%;
   }
 
-  #Title {
-    font-weight: bold;
+  .title-modal {
+    font-weight: 600;
     font-size: 2rem;
     text-align: center;
   }
 
   @media screen and (max-width: 700px) {
-    #Title {
+    .title-modal {
       font-size: initial;
     }
   }

@@ -104,7 +104,7 @@
   .user-dropdown {
     position: absolute;
     z-index: 120;
-    top: calc(var(--height-nav) - 1.5rem);
+    top: 130%;
     right: 0;
     width: 21rem;
     padding: 2.4rem 1rem;
@@ -126,6 +126,7 @@
 
   .user-dropdown li a {
     display: flex;
+    font-weight: 500;
     align-items: center;
   }
 

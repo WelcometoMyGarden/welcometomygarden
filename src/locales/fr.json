@@ -22,7 +22,8 @@
     "slowby": "Trips Secrets",
     "about-us": "À propos",
     "become-superfan": "Devenez Superfan",
-    "slowby-url": "https://www.slowby.travel/fr/accueil"
+    "slowby-url": "https://www.slowby.travel/fr/accueil",
+    "feature": "Fonctionnalité"
   },
   "ui": {
     "card": {
@@ -668,7 +669,9 @@
       "unclaimed": "Vous pouvez contacter cet hôte dès qu'il a créé son compte.",
       "facilities": {
         "capacity": "Place pour {styleCapacity} {capacity, plural, one {tente} other {tentes}}"
-      }
+      },
+      "save": "Sauvegarder",
+      "saved": "Sauvegardé"
     },
     "add": {
       "title": "Ajoutez votre jardin"

@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-  import { setContext, onMount, tick } from 'svelte';
+  import { setContext, onMount, tick, afterUpdate } from 'svelte';
   import maplibregl from 'maplibre-gl';
   import key from './mapbox-context.js';
 
@@ -22,6 +22,9 @@
   let container: HTMLElement;
   let map: maplibregl.Map;
   let loaded = false;
+
+  let innerWidth: number;
+  $: isMobile = innerWidth != null && innerWidth <= 700;
   const customAttribution = [
     `<a href="https://waymarkedtrails.org/" target="_blank" title="WaymarkedTrails">© Waymarked Trails</a>`,
     `<a href="https://www.thunderforest.com" target="_blank" title="Thunderforest">© Thunderforest</a>`
@@ -32,6 +35,14 @@
   });
 
   maplibregl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
+
+  const fullAttribution = new maplibregl.AttributionControl({ customAttribution });
+  const compactAttribution = new maplibregl.AttributionControl({
+    compact: true,
+    customAttribution
+  });
+
+  const scaleControl = new maplibregl.ScaleControl();
 
   onMount(() => {
     map = new maplibregl.Map({
@@ -47,10 +58,9 @@
       new maplibregl.NavigationControl({ showCompass: false, showZoom: true }),
       'top-left'
     );
-    map.addControl(new maplibregl.ScaleControl());
-    map.addControl(
-      new maplibregl.AttributionControl({ compact: false, customAttribution: customAttribution })
-    );
+    // Default to full attribution
+    map.addControl(fullAttribution, 'bottom-right');
+    map.addControl(scaleControl, 'bottom-right');
 
     map.on('load', () => {
       loaded = true;
@@ -59,6 +69,30 @@
     tick().then(() => {
       map.resize();
     });
+  });
+
+  /**
+   * Ensures the scale control is always added last, which positions it on top.
+   */
+  const readdScaleControl = () => {
+    map.removeControl(scaleControl);
+    map.addControl(scaleControl, 'bottom-right');
+  };
+
+  afterUpdate(() => {
+    if (isMobile && !map.hasControl(compactAttribution) && map.hasControl(fullAttribution)) {
+      map.removeControl(fullAttribution);
+      map.addControl(compactAttribution);
+      // The scale control is not removed here, and hence moves to the bottom.
+    } else if (
+      !isMobile &&
+      map.hasControl(compactAttribution) &&
+      !map.hasControl(fullAttribution)
+    ) {
+      map.removeControl(compactAttribution);
+      map.addControl(fullAttribution);
+      readdScaleControl();
+    }
   });
 
   $: if (map) {
@@ -83,6 +117,8 @@
     }
   }
 </script>
+
+<svelte:window bind:innerWidth />
 
 <div bind:this={container}>
   {#if map && loaded}

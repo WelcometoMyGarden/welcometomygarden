@@ -39,8 +39,9 @@
     width: 100%;
   }
 
+  /* TODO: reuse these styles, there are several modal */
   #Title {
-    font-weight: bold;
+    font-weight: 600;
     font-size: 2rem;
     text-align: center;
   }

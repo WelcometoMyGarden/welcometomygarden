@@ -101,7 +101,9 @@
   }
 
   nav > .main-nav > ul > li {
-    font-weight: 600;
+    font-weight: 500;
+    /* Required for the <NavLink> underline,
+       wich is absolutely positioned */
     position: relative;
     height: 100%;
     display: flex;
@@ -113,9 +115,6 @@
   }
 
   @media screen and (max-width: 1300px) {
-    /* :global() {
-      --height-nav: 10.5rem;
-    } */
     nav > .main-nav {
       padding-left: 3rem;
     }
