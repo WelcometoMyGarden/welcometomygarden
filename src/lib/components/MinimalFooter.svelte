@@ -53,7 +53,7 @@
     padding: 0 1rem;
     line-height: 1.4;
     font-size: 1.4rem;
-    font-weight: 600;
+    font-weight: 500;
     border-right: 1px solid var(--color-green);
   }
 

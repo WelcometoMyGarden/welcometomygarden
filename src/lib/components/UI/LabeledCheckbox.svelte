@@ -5,13 +5,14 @@
   export let checked = false;
   export let disabled = false;
   export let ellipsis = false;
+  export let compact = false;
 
   import Icon from './Icon.svelte';
 </script>
 
 <!-- Just stop click propagation from here -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div on:click|stopPropagation>
+<div on:click|stopPropagation class:compact>
   <input id={name} type="checkbox" {disabled} {name} on:input bind:checked on:change />
   <label for={name} class="label">
     {#if icon}
@@ -64,6 +65,11 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .compact .icon {
+    width: 2.6rem;
+    height: 2.6rem;
   }
 
   @media screen and (max-width: 700px) {

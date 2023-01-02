@@ -50,6 +50,10 @@
     width: 0;
   }
 
+  a.active {
+    font-weight: 600;
+  }
+
   a.active:after,
   a:focus:after,
   a:hover:after {

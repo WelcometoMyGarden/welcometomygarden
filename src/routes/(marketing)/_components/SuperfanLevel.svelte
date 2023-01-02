@@ -100,8 +100,7 @@
 
   .price-value {
     font-size: 5rem;
-    /* TODO: we need something even more bold, is 700 not loaded? */
-    font-weight: 700;
+    font-weight: 600;
     padding-right: 1rem;
   }
 </style>

@@ -36,6 +36,6 @@
   tiles={(features || defaultFeatures).map((f, i) => ({
     ...f,
     backgroundColor,
-    label: `Feature ${i + 1}`
+    label: `${$_('generics.feature')} ${i + 1}`
   }))}
 />

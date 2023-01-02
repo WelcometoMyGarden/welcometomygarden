@@ -102,7 +102,7 @@
     align-items: center;
     outline: 0;
     position: relative;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 1.4rem;
   }
 

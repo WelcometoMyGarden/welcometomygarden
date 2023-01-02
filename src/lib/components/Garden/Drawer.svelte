@@ -182,7 +182,9 @@
             <button class="button-container" on:click={saveGarden}>
               <div class="button-save">
                 <Icon icon={isSaved ? bookmarkYellowIcon : bookmarkEmptyIcon} />
-                <Text weight="bold">{isSaved ? 'Saved' : 'Save'}</Text>
+                <Text weight="inherit"
+                  >{isSaved ? $_('garden.drawer.saved') : $_('garden.drawer.save')}</Text
+                >
               </div>
             </button>
           {/if}
@@ -306,6 +308,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
+    font-weight: 500;
   }
 
   .button-save :global(i) {

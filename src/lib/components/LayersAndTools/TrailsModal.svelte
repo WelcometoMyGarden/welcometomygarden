@@ -38,7 +38,7 @@
   }
 
   #Title {
-    font-weight: bold;
+    font-weight: 600;
     font-size: 2rem;
     text-align: center;
   }

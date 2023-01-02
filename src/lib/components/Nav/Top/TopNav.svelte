@@ -101,7 +101,7 @@
   }
 
   nav > .main-nav > ul > li {
-    font-weight: 600;
+    font-weight: 500;
     position: relative;
     height: 100%;
     display: flex;

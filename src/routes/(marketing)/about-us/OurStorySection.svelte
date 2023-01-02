@@ -6,7 +6,7 @@
   const hosts = staticAssetUrl('/our-story/hosts.jpg');
 </script>
 
-<PaddedSection backgroundColor="var(--color-beige-light)" vertical>
+<PaddedSection backgroundColor="var(--color-beige-light)" vertical desktopOnly>
   <div class="wrapper">
     <img class="our-story" src={manonDriesInJapan} alt="Manon & Dries with bikes in Japan" />
     <h2 class="our-story">{$_('about-us.our-story-title')}</h2>
@@ -77,8 +77,9 @@
   }
 
   /* TODO: should be li > span, might break? */
-  .text :global(li span) {
+  .text :global(li) {
     padding-left: 0.1rem;
+    font-size: var(--paragraph-font-size);
   }
 
   @media only screen and (max-width: 900px) {
@@ -125,6 +126,16 @@
       padding: 0;
       object-fit: cover;
       margin-bottom: var(--spacing-medium);
+    }
+  }
+
+  @media only screen and (max-width: 700px) {
+    .text {
+      padding: 0 var(--spacing-small);
+    }
+
+    img {
+      aspect-ratio: unset;
     }
   }
 </style>

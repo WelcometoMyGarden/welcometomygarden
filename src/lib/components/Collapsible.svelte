@@ -20,12 +20,15 @@
 </button>
 
 <style>
+  :root {
+    --spacing-collapsible-item-hor: 4.8rem;
+  }
   .collapsible-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: var(--color-green);
-    padding: 2.4rem 4.8rem;
+    padding: 2.4rem var(--spacing-collapsible-item-hor);
   }
 
   .green-border-bottom {
@@ -49,8 +52,12 @@
   }
 
   @media only screen and (max-width: 700px) {
+    :root {
+      --spacing-collapsible-item-hor: 8vw;
+    }
+
     .collapsible-item {
-      padding: 2.4rem 8vw;
+      padding: 2.4rem var(--spacing-collapsible-item-hor);
     }
     .content {
       margin: 0 16vw 2.4rem 8vw;

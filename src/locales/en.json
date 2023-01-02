@@ -27,7 +27,8 @@
     "about-us": "About Us",
     "become-superfan": "Become a Superfan",
     "slowby-url": "https://slowby.travel",
-    "superfan": "Superfan"
+    "superfan": "Superfan",
+    "feature": "Feature"
   },
   "ui": {
     "card": {
@@ -613,7 +614,9 @@
         "login": "You must {signInLink} to contact hosts",
         "sign-link-text": "sign in"
       },
-      "unclaimed": "You can contact this host as soon as they have created their account."
+      "unclaimed": "You can contact this host as soon as they have created their account.",
+      "save": "Save",
+      "saved": "Saved"
     },
     "add": {
       "title": "Add your garden"
