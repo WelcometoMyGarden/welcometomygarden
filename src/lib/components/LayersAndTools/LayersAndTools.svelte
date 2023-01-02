@@ -137,6 +137,7 @@
             icon={hikerIcon}
             label={$_('map.trails.hiking')}
             bind:checked={showHiking}
+            compact
           />
         </div>
         <div>
@@ -145,6 +146,7 @@
             icon={cyclistIcon}
             label={$_('map.trails.cycling')}
             bind:checked={showCycling}
+            compact
           />
         </div>
         <span class="attribution">
@@ -203,7 +205,8 @@
 
   .attribution {
     font-size: 1.2rem;
-    line-height: 1.6;
+    margin-top: 0.3rem;
+    line-height: 120%;
     display: inline-block;
     max-width: 26rem;
   }
@@ -228,8 +231,11 @@
 
   .layers-and-tools-visitors {
     background-color: rgba(255, 255, 255, 0.9);
-    padding: 0.5rem 1rem;
+    padding: 1rem;
     z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
   }
 
   .layers-and-tools :global(a.underline) {
@@ -244,6 +250,16 @@
 
     .layers-and-tools-superfan-mobile {
       display: flex;
+    }
+
+    .layers-and-tools-visitors {
+      padding: 0.5rem 1rem;
+      gap: 0;
+    }
+
+    .attribution {
+      margin-top: 0;
+      line-height: 1.6;
     }
   }
 </style>

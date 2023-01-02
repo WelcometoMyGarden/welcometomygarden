@@ -78,6 +78,11 @@
       padding: var(--controls-vert-padding) 0;
     }
 
+    div.compact {
+      margin: calc(0.5 * var(--controls-vert-margin)) 0;
+      padding: calc(0.25 * var(--controls-vert-padding)) 0;
+    }
+
     input {
       width: 2.1rem;
       height: 2.1rem;
