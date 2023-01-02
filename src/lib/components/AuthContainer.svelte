@@ -31,7 +31,7 @@
   .title {
     font-size: 1.8rem;
     text-transform: uppercase;
-    font-weight: 900;
+    font-weight: 600;
     margin-bottom: 4rem;
     text-align: center;
   }

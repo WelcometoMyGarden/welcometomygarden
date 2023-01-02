@@ -37,6 +37,8 @@
 
   $: isOverview = localPage.url.pathname == '/chat';
 
+  // TODO: do this with css grids, not with separate html templates switched by JS
+  // It is currently not responsive without reloading.
   let outerWidth;
   let isMobile = false;
   $: outerWidth <= 700 ? (isMobile = true) : (isMobile = false);
@@ -142,7 +144,7 @@
   h2 {
     font-family: var(--fonts-copy);
     font-size: 2.2rem;
-    font-weight: 900;
+    font-weight: 500;
     padding: 3rem;
   }
 
@@ -197,7 +199,7 @@
   @media screen and (max-width: 700px) {
     .container {
       width: 100%;
-      height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
+      height: calc(100vh - var(--height-mobile-nav));
       padding: 0;
     }
 
@@ -212,8 +214,11 @@
     }
 
     .messages {
+      /* TODO: env(safe-area-inset-bottom) behavior check on safari mobile */
+      height: calc(100% - env(safe-area-inset-bottom));
       width: 100%;
       padding: 2rem;
+      padding-top: var(--spacing-chat-header);
       position: relative;
     }
   }

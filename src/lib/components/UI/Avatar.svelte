@@ -49,7 +49,7 @@
     color: var(--color-white);
     background-color: var(--chat-color);
     border-radius: 50%;
-    font-weight: 900;
+    font-weight: 700;
 
     position: relative;
   }

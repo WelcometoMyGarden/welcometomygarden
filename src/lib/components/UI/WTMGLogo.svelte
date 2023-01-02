@@ -29,7 +29,7 @@
   .inner {
     padding-left: 8.5rem;
     font-size: 2.3rem;
-    font-weight: 900;
+    font-weight: 700;
     font-family: var(--fonts-titles);
   }
 

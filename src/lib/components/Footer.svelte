@@ -178,7 +178,7 @@
     padding: 0 1rem;
     line-height: 1.4;
     font-size: 1.3rem;
-    font-weight: 600;
+    font-weight: 500;
     border-right: 1px solid var(--color-green);
   }
 
@@ -187,7 +187,8 @@
   }
 
   .copyright {
-    font-weight: bold;
+    font-size: 1.3rem;
+    font-weight: 500;
   }
 
   .socials {
@@ -206,7 +207,7 @@
 
   .category > .title {
     display: inline-block;
-    font-weight: bold;
+    font-weight: 600;
     line-height: 130%;
     margin-bottom: 1rem;
     min-width: 14rem;

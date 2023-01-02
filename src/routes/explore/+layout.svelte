@@ -228,7 +228,7 @@
     line-height: 1.4;
     text-transform: uppercase;
     position: relative;
-    font-weight: 900;
+    font-weight: 700;
   }
 
   .vehicle-notice h3::after {
