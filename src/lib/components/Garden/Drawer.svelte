@@ -173,7 +173,7 @@
     <section class="main">
       <header>
         <div class="mb-l garden-title">
-          <Text weight="bold" size="l" className="garden-title-text">
+          <Text weight="w600" size="l" className="garden-title-text">
             {#if ownedByLoggedInUser}
               {$_('garden.drawer.owner.your-garden')}
             {:else}{userInfo.firstName}{/if}
