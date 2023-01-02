@@ -124,6 +124,7 @@
       align-self: stretch;
       padding: 0;
       object-fit: cover;
+      margin-bottom: var(--spacing-medium);
     }
   }
 </style>

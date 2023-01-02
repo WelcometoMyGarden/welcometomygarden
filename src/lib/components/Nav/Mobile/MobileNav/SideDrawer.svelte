@@ -6,7 +6,7 @@
   import Socials from '$lib/components/Socials.svelte';
   import LanguageSelector from '$lib/components/LanguageSelector.svelte';
   import routes from '@/lib/routes';
-  import { SHOP_URL, SLOWBY_URL } from '@/lib/constants';
+  import { SHOP_URL } from '@/lib/constants';
   import { user } from '@/lib/stores/auth';
   import { goto } from '$app/navigation';
   import { isActive } from '@/lib/util/isActive';
@@ -200,6 +200,7 @@
 
   .drawer ul.side-links li {
     margin-top: 0.5rem;
+    line-height: 2;
   }
 
   .drawer li.separated {

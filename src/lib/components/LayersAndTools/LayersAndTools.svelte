@@ -203,8 +203,7 @@
 
   .attribution {
     font-size: 1.2rem;
-    margin-top: 1rem;
-    line-height: 120%;
+    line-height: 1.6;
     display: inline-block;
     max-width: 26rem;
   }
@@ -229,8 +228,7 @@
 
   .layers-and-tools-visitors {
     background-color: rgba(255, 255, 255, 0.9);
-    /* width: 26rem; */
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     z-index: 10;
   }
 

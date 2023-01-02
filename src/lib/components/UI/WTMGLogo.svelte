@@ -20,9 +20,10 @@
     align-items: center;
     background-image: url(/images/logo-emblem.svg);
     background-repeat: no-repeat;
-    background-position: left 40%;
-    background-size: 7rem auto;
+    background-position: left center;
+    background-size: contain;
     height: 100%;
+    max-height: 4.3rem;
   }
 
   .inner {
@@ -34,8 +35,6 @@
 
   @media screen and (max-width: 1300px) {
     .title {
-      background-position: left 50%;
-      background-size: 6rem auto;
       padding-left: 6rem;
     }
 

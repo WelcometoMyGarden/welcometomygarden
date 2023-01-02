@@ -27,6 +27,11 @@
     grid-template-rows: auto auto;
   }
 
+  .heading {
+    grid-row: 1;
+    grid-column: 1 / 3;
+  }
+
   .text {
     grid-column: 1;
     grid-row: 2;
@@ -44,7 +49,7 @@
     margin-bottom: 0;
   }
 
-  @media only screen and (max-width: 1000px) {
+  @media only screen and (max-width: 1050px) {
     .wrapper {
       /* Change to to a simple row grid */
       grid-template-rows: auto auto auto;
@@ -55,6 +60,7 @@
 
     .heading {
       grid-row: 1;
+      grid-column: 1;
     }
 
     .heading :global(h2) {

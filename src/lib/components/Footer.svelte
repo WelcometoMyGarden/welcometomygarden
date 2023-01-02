@@ -167,7 +167,6 @@
   /* Override WTMG logo height */
   .left :global(.title) {
     height: 4rem;
-    display: inline-block;
   }
 
   .terms {
@@ -221,6 +220,12 @@
 
   .links > li {
     line-height: 1.3;
+  }
+
+  @media screen and (max-width: 1050px) {
+    .copyright {
+      max-width: 42vw;
+    }
   }
 
   @media screen and (max-width: 900px) {
