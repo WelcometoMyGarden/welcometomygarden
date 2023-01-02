@@ -127,12 +127,6 @@
     }
   }
 
-  @media only screen and (max-width: 500px) {
-    div :global(p) {
-      font-size: 1.4rem;
-    }
-  }
-
   @media only screen and (max-width: 400px) {
     div :global(.oh1) {
       font-size: 1.8rem;
@@ -172,7 +166,6 @@
   }
 
   div :global(p) {
-    font-size: 1.6rem;
     line-height: 2.6rem;
     color: var(--color-green);
     margin-bottom: 2rem;

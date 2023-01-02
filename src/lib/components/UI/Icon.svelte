@@ -1,9 +1,10 @@
 <script lang="ts">
   export let icon: string;
   export let whiteStroke = false;
+  export let greenStroke = false;
 </script>
 
-<i class:white-stroke={whiteStroke}>
+<i class:white-stroke={whiteStroke} class:green-stroke={greenStroke}>
   {@html icon}
 </i>
 
@@ -24,5 +25,9 @@
 
   i.white-stroke > :global(svg path) {
     stroke: white;
+  }
+
+  i.green-stroke > :global(svg path) {
+    stroke: var(--color-green);
   }
 </style>

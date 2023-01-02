@@ -3,7 +3,7 @@
   // until we transferred everything to TypeScript, and we don't need runimte checking anymore.
   // https://stackoverflow.com/questions/40863488/how-can-i-iterate-over-a-custom-literal-type-in-typescript
   const allowedSize = ['s', 'm', 'l'] as const;
-  const allowedWeight = ['inherit', 'thin', 'bold'] as const;
+  const allowedWeight = ['inherit', 'thin', 'bold', 'w600'] as const;
   type AllowedSize = typeof allowedSize[number];
   type AllowedWeight = typeof allowedWeight[number];
 
@@ -58,5 +58,9 @@
   }
   .text.bold {
     font-weight: bold;
+  }
+
+  .text.w600 {
+    font-weight: 600;
   }
 </style>

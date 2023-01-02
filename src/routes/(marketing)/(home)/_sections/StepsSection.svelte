@@ -44,7 +44,7 @@
 
   .step-header {
     font-family: var(--font-copy);
-    font-weight: bold;
+    font-weight: 600;
     align-self: start;
     margin-bottom: 2rem;
   }

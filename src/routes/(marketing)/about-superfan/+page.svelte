@@ -63,7 +63,7 @@
 <PaddedSection>
   <InnerVideoSection>
     <h2 slot="heading">{$_('about-superfan.video-section.title')}</h2>
-    <div slot="text">
+    <div slot="text" class="video-text">
       {@html $_('about-superfan.video-section.description')}
       <Button href={SUPERFAN_PRICING_ROUTE} uppercase orange arrow
         >{$_('generics.become-superfan')}</Button
@@ -106,8 +106,8 @@
 <PaddedSection desktopOnly>
   <Testimonials slides={testimonials} />
 </PaddedSection>
-<PaddedSection>
-  <h2>{$_('about-superfan.faq-section.title')}</h2>
+<PaddedSection desktopOnly>
+  <h2 class="faq-heading">{$_('about-superfan.faq-section.title')}</h2>
   {#each getNodeKeys('about-superfan.faq-section.faq-subsections') as sectionKey}
     <div class="faq-section">
       <h3 class="faq-title">
@@ -169,8 +169,20 @@
     margin-bottom: var(--section-inner-padding);
   }
 
+  .faq-heading {
+    text-align: center;
+  }
+
   .faq-title {
     display: inline-block;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 0 var(--spacing-collapsible-item-hor);
+  }
+
+  @media screen and (max-width: 1050px) {
+    /* Center the video section button, only when it collapses */
+    .video-text :global(.button) {
+      margin: auto;
+    }
   }
 </style>

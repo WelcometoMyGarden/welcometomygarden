@@ -173,7 +173,7 @@
     <section class="main">
       <header>
         <div class="mb-l garden-title">
-          <Text weight="bold" size="l" className="garden-title-text">
+          <Text weight="w600" size="l" className="garden-title-text">
             {#if ownedByLoggedInUser}
               {$_('garden.drawer.owner.your-garden')}
             {:else}{userInfo.firstName}{/if}
@@ -182,7 +182,9 @@
             <button class="button-container" on:click={saveGarden}>
               <div class="button-save">
                 <Icon icon={isSaved ? bookmarkYellowIcon : bookmarkEmptyIcon} />
-                <Text weight="bold">{isSaved ? 'Saved' : 'Save'}</Text>
+                <Text weight="inherit"
+                  >{isSaved ? $_('garden.drawer.saved') : $_('garden.drawer.save')}</Text
+                >
               </div>
             </button>
           {/if}
@@ -306,6 +308,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
+    font-weight: 500;
   }
 
   .button-save :global(i) {

@@ -174,7 +174,9 @@
         "login": "Je moet {signInLink} om contact op te kunnen nemen met de gastheren",
         "sign-link-text": "inloggen"
       },
-      "unclaimed": "Je kunt contact opnemen met deze host zodra zijn account is geverifieerd."
+      "unclaimed": "Je kunt contact opnemen met deze host zodra zijn account is geverifieerd.",
+      "save": "Bewaar",
+      "saved": "Bewaard"
     },
     "add": {
       "title": "Voeg jouw tuin toe"

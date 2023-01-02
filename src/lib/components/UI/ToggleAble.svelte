@@ -33,7 +33,7 @@
 
   .title {
     padding-left: 1rem;
-    font-weight: 600;
+    font-weight: 500;
     flex: 1;
     height: 100%;
     width: 100%;

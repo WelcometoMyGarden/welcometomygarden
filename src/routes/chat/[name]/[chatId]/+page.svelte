@@ -13,6 +13,7 @@
   import { tentIcon } from '$lib/images/icons';
   import routes from '$lib/routes';
   import { formatDate } from '$lib/util';
+  import chevronRight from '$lib/images/icons/chevron-right.svg';
 
   let chatId = $page.params.chatId;
   // Subscribe to page is necessary to get the chat page of the selected chat (when the url changes) for desktop
@@ -121,18 +122,17 @@
   </title>
 </svelte:head>
 
+<!-- TODO: probably no need to have two different sets of markup here,
+CSS grids should do the job cleanly -->
+
 <header class="chat-header chat-header--sm">
-  <div class="chat-header--sm__top">
-    <a class="back" href={routes.CHAT}>&#x3c;</a>
-    <h2 class="title">{partnerName}</h2>
-  </div>
+  <a class="back" href={routes.CHAT}><Icon greenStroke icon={chevronRight} /></a>
+  <h2 class="title">{partnerName}</h2>
   {#if partnerHasGarden}
-    <div class="chat-header--sm__bot">
-      <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link" in:fade>
-        <Icon icon={tentIcon} />
-        <span>{$_('chat.go-to-garden')}</span>
-      </a>
-    </div>
+    <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link" in:fade>
+      <Icon icon={tentIcon} />
+      <span>{$_('chat.go-to-garden')}</span>
+    </a>
   {/if}
 </header>
 
@@ -181,12 +181,22 @@
     bind:value={typedMessage}
     disabled={isSending}
   />
-  <button type="submit" disabled={isSending || !typedMessage || hint} aria-label="Send message">
-    &#62;
+  <!-- TODO: pressed state -->
+  <button
+    class="send"
+    type="submit"
+    disabled={isSending || !typedMessage || hint}
+    aria-label="Send message"
+  >
+    <!-- TODO: add a better send icon (paper plane?) -->
+    <Icon icon={chevronRight} greenStroke />
   </button>
 </form>
 
 <style>
+  :root {
+    --spacing-chat-header: 8rem;
+  }
   .message-wrapper {
     flex: 0.9;
     width: 100%;
@@ -199,6 +209,9 @@
     padding: 0 2rem 0 1rem;
     display: flex;
     flex-direction: column-reverse;
+    height: calc(
+      100% - var(--spacing-chat-header) - var(--height-mobile-nav) - env(safe-area-inset-bottom)
+    );
     min-height: 100%;
   }
 
@@ -347,6 +360,11 @@
     display: inline-block;
   }
 
+  .send {
+    width: 6rem;
+    padding: 1.7rem;
+  }
+
   @media (min-width: 700px) and (max-width: 850px) {
     .message {
       max-width: 80%;
@@ -356,7 +374,6 @@
   @media (max-width: 700px) {
     .message-wrapper {
       margin-bottom: 2rem;
-      padding-top: 6rem;
     }
 
     .message-wrapper :global(.avatar) {
@@ -393,45 +410,34 @@
       left: 0;
       z-index: 10;
       box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
-      display: block;
+      height: var(--spacing-chat-header);
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .chat-header--sm .title {
       width: 100%;
       text-align: center;
       font-size: 1.8rem;
-      font-weight: 900;
-    }
-
-    .chat-header--sm__top {
-      height: 6rem;
-      display: flex;
-      align-items: center;
-      position: relative;
-    }
-
-    .chat-header--sm__bot {
-      height: 2rem;
-      position: relative;
-      display: flex;
-      justify-content: center;
-    }
-
-    .chat-header--sm__bot .garden-link {
-      position: absolute;
-      top: -1.5rem;
+      font-weight: 600;
     }
 
     .back {
-      height: 4rem;
-      width: 4rem;
-      left: 2rem;
+      height: 3rem;
+      width: 3rem;
+      left: 2.5rem;
       position: absolute;
-      font-size: 2.2rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 900;
+    }
+
+    .back :global(i) {
+      transform: rotate(180deg);
     }
   }
 </style>

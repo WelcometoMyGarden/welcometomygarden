@@ -85,6 +85,7 @@
               icon={facility.icon}
               label={$_(facility.transKey)}
               bind:checked={filter.facilities[facility.name]}
+              compact
             />
           </div>
         {/each}
@@ -158,8 +159,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-auto-rows: min-content;
-    grid-row-gap: 1.3rem;
-    row-gap: 1.3rem;
+    row-gap: 1.2rem;
   }
 
   .gardenFilterCapacitySection {
@@ -240,6 +240,7 @@
   @media screen and (max-width: 700px) {
     #gardenFilterTitle {
       font-size: initial;
+      font-weight: 600;
     }
 
     .gardenFilterSection {
@@ -252,8 +253,8 @@
     }
 
     .gardenFilterCheckboxes {
-      grid-row-gap: 1.1rem;
-      row-gap: 1.1rem;
+      row-gap: 0.6rem;
+      column-gap: 1.4rem;
     }
   }
 </style>

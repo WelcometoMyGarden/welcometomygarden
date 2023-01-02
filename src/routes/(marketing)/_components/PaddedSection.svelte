@@ -52,7 +52,7 @@
 
   @media only screen and (max-width: 700px) {
     .inner {
-      padding: 0 2rem;
+      padding: 0 var(--spacing-small);
     }
     .desktopOnly .inner {
       padding: 0;

@@ -120,8 +120,6 @@
     border: none;
     border-radius: 3rem;
     transition: all 0.3s;
-    /* TODO: add weight */
-    font-weight: 600;
     width: fit-content;
   }
   .orange:hover,
@@ -178,7 +176,7 @@
     height: 0.2rem;
     position: absolute;
     bottom: -0.4rem;
-    background-color: var(--color-blue-light);
+    background-color: var(--color-orange-light);
   }
 
   .disabled {

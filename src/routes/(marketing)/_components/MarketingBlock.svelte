@@ -31,6 +31,7 @@
   @media only screen and (max-width: 700px) {
     div {
       border-radius: 0;
+      padding: 4rem 3rem;
     }
   }
 </style>

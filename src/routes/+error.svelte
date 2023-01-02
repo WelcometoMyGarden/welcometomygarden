@@ -33,7 +33,7 @@
     padding-top: 3rem;
     padding-bottom: 7rem;
     font-size: clamp(1.8rem, 0.1731rem + 4.5192vw, 6.5rem);
-    font-weight: 900;
+    font-weight: 700;
     text-transform: uppercase;
     font-family: var(--fonts-copy);
   }

@@ -56,4 +56,16 @@
     font-size: 2.2rem;
     line-height: 1.7;
   }
+
+  @media screen and (max-width: 700px) {
+    span.title {
+      font-size: 1.8rem;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    div {
+      padding: 3rem;
+    }
+  }
 </style>

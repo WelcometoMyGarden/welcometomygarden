@@ -27,7 +27,8 @@
     "about-us": "About Us",
     "become-superfan": "Become a Superfan",
     "slowby-url": "https://slowby.travel",
-    "superfan": "Superfan"
+    "superfan": "Superfan",
+    "feature": "Feature"
   },
   "ui": {
     "card": {
@@ -613,7 +614,9 @@
         "login": "You must {signInLink} to contact hosts",
         "sign-link-text": "sign in"
       },
-      "unclaimed": "You can contact this host as soon as they have created their account."
+      "unclaimed": "You can contact this host as soon as they have created their account.",
+      "save": "Save",
+      "saved": "Saved"
     },
     "add": {
       "title": "Add your garden"
@@ -804,7 +807,7 @@
             },
             "3": {
               "title": "What do I get when I become a Superfan?",
-              "copy": "As a Superfan, you will get access to some great new slow travel tools! These will make planning your slow travel adventures even easier. This is our way to say thank you for believing in us. Here they are: <ul> <li>See rail network: with the train layer on, you can easily see the rail network on the map!</li> <li>Upload your route: upload your own GPX file and easily find gardens along your route.</li> <li>Save gardens: keep track of your favourite gardens and stay in touch with the amazing hosts you’ve met!</li> </ul>"
+              "copy": "As a Superfan, you will get access to some great new slow travel tools! These will make planning your slow travel adventures even easier. This is our way to say thank you for believing in us. Here they are: <ul> <li>See the rail network: with the train layer on, you can easily see the rail network on the map!</li> <li>Upload your route: upload your own GPX file and easily find gardens along your route.</li> <li>Save gardens: keep track of your favourite gardens and stay in touch with the amazing hosts you’ve met!</li> </ul>"
             },
             "4": {
               "title": "How much do I need to contribute to become a Superfan?",
@@ -1060,7 +1063,7 @@
     "superfan-notice": {
       "title": "New features for Superfans",
       "linkText": "become a Superfan",
-      "description": "See rail network, upload routes, save gardens & more when you {linkText}!"
+      "description": "See the rail network, upload routes, save gardens & more when you {linkText}!"
     },
     "gardens": {
       "title": "Gardens",

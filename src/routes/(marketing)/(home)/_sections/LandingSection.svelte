@@ -50,8 +50,7 @@
   h1.landing-headline {
     text-transform: uppercase;
     font-family: var(--fonts-copy);
-    /* TODO: add a bold style here, the font is missing */
-    font-weight: 700;
+    font-weight: 600;
     line-height: 1.4;
   }
 
