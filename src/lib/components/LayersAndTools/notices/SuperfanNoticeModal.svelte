@@ -43,7 +43,7 @@
     </div>
 
     <div>
-      <Button href={routes.BECOME_SUPERFAN} medium uppercase
+      <Button href={routes.BECOME_SUPERFAN} medium uppercase orange
         >{capitalize($_('map.superfan-notice.linkText'))}</Button
       >
     </div>

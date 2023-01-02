@@ -28,7 +28,8 @@
   let showTrailsModal = false;
   let showTransportModal = false;
 
-  let showSuperfanInfo = !getCookie('superfan-dismissed');
+  // Only show the Superfan notice when the car notice was already shown
+  let showSuperfanNotice = !!getCookie('car-notice-dismissed') && !getCookie('superfan-dismissed');
 
   let innerWidth: number;
   $: isMobile = innerWidth <= 700;
@@ -44,8 +45,8 @@
   };
 
   const toggleSuperfanInfo = () => {
-    if (showSuperfanInfo) closeSuperfanInfo();
-    else showSuperfanInfo = true;
+    if (showSuperfanNotice) closeSuperfanInfo();
+    else showSuperfanNotice = true;
   };
 
   const closeSuperfanInfo = () => {
@@ -53,7 +54,7 @@
     const days = 30;
     date.setTime(date.getTime() + days * 86400000); // 24 * 60 * 60 * 1000
     setCookie('superfan-dismissed', true, { expires: date.toUTCString() });
-    showSuperfanInfo = false;
+    showSuperfanNotice = false;
   };
 </script>
 
@@ -154,12 +155,12 @@
           })}
         </span>
       </div>
-      <SuperfanNoticeBox {isMobile} isOpen={showSuperfanInfo} onToggle={toggleSuperfanInfo} />
+      <SuperfanNoticeBox {isMobile} isOpen={showSuperfanNotice} onToggle={toggleSuperfanInfo} />
     </div>
   {/if}
 </div>
 
-{#if showSuperfanInfo && isMobile}
+{#if showSuperfanNotice && isMobile}
   <SuperfanNoticeModal onToggle={toggleSuperfanInfo} />
 {/if}
 
