@@ -85,7 +85,10 @@
 
 <svelte:window on:resize={updateViewportHeight} on:keyup={onCustomPress} />
 
-<div class="app active-{$page?.route?.id?.substring(1).split('/')[0]}" style="--vh:{vh}">
+<div
+  class="app active-{$page?.route?.id?.substring(1).split('/')[0]} locale-{$locale}"
+  style="--vh:{vh}"
+>
   {#if browser}
     <Progress active={$isInitializing || $isLocaleLoading} />
     <Notifications />

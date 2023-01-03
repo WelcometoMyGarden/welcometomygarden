@@ -244,6 +244,19 @@
   }
 
   @media screen and (max-width: 700px) {
+    /* Hacky quick fix start: don't allow long French copy to push the superfan notice
+       off-screen & cover the map scale.
+       TODO: apply a more sustainable solution for all locales
+    */
+    :global(div.locale-fr) .layers-and-tools-visitors > div {
+      white-space: normal;
+    }
+
+    :global(div.locale-fr) .layers-and-tools-visitors-container {
+      max-width: 82%;
+    }
+    /* Quick fix end */
+
     .layers-and-tools-superfan {
       display: none;
     }
