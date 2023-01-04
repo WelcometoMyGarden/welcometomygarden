@@ -42,8 +42,9 @@
 
   .video {
     grid-column: 2;
-    grid-row: 1 / span 2;
-    align-self: center;
+    grid-row: 2 / span 1;
+    align-self: start;
+    margin-top: 2rem;
   }
   .heading :global(h2) {
     margin-bottom: 0;
@@ -71,6 +72,8 @@
       grid-row: 2;
       grid-column: 1;
       width: 100%;
+      align-self: center;
+      margin-top: 0;
     }
     .text {
       grid-row: 3;
