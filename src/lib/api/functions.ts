@@ -66,14 +66,17 @@ export const createCustomerPortalSession: HttpsCallable<
 > = wrapCallable(() => createCustomerPortalSessionRef);
 
 type CreateOrRetrieveUnpaidSubscriptionRequest = {
-  // Price ID of the subscription to create
+  /** Price ID of the subscription to create */
   priceId: string;
+  /** ISO 639-1 locale that the Stripe subscription-related flow should be localized in. */
+  locale: string;
 };
 
 type CreateOrRetrieveUnpaidSubscriptionResponse = {
   subscriptionId: string;
-  // Payment intent client secret for the first invoice,
-  // can be used to load a Stripe embedded payment module
+  /** Payment intent client secret for the first invoice,
+   * can be used to load a Stripe embedded payment module
+   */
   clientSecret: string;
 };
 

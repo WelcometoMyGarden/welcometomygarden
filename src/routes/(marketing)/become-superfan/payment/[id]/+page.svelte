@@ -189,9 +189,12 @@
 
       try {
         const { data } = await timeout(
-          createOrRetrieveUnpaidSubscription({ priceId: selectedLevel.stripePriceId }),
+          createOrRetrieveUnpaidSubscription({
+            priceId: selectedLevel.stripePriceId,
+            locale: $locale || 'en'
+          }),
           // In case an invoice is changed, it takes longer than 4 seconds
-          10000
+          15000
         );
         clientSecret = data.clientSecret;
       } catch (firebaseError: any) {

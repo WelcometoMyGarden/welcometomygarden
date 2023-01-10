@@ -22,12 +22,20 @@ const {
 const db = getFirestore();
 
 /**
- * @param {*} customerId string
- * @param {*} priceId string
+ * @param {string} customerId
+ * @param {string} priceId
  * @param {import('@google-cloud/firestore').DocumentReference} privateUserProfileDocRef
+ * @param {string} locale
  * @returns
  */
-const createNewSubscription = async (customerId, priceId, privateUserProfileDocRef) => {
+const createNewSubscription = async (customerId, priceId, privateUserProfileDocRef, locale) => {
+  // Check if we can set a preferred language for bancontact
+  // https://stripe.com/docs/api/subscriptions/create#create_subscription-payment_settings-payment_method_options-bancontact-preferred_language
+  let preferredBancontactLanguage;
+  if (['en', 'de', 'nl', 'fr'].includes(locale)) {
+    preferredBancontactLanguage = locale;
+  }
+
   // Create the subscription in Sripe
   const subscription = await stripe.subscriptions.create({
     customer: customerId,
@@ -38,7 +46,13 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
     ],
     payment_behavior: 'default_incomplete',
     payment_settings: {
-      save_default_payment_method: 'on_subscription'
+      save_default_payment_method: 'on_subscription',
+      payment_method_options: {
+        // https://stripe.com/docs/api/subscriptions/create#create_subscription-payment_settings-payment_method_options-bancontact-preferred_language
+        bancontact: {
+          preferred_language: preferredBancontactLanguage || 'en'
+        }
+      }
     },
     // When using 'send_invoice', invoices are not immediately finalized by Stripe (see below)
     // Here we can only expand the invoice, and not `latest_invoice.payment_intent`.
@@ -185,13 +199,18 @@ const changeSubscriptionPrice = async (
   return proratedSubscription;
 };
 
-exports.createOrRetrieveUnpaidSubscription = async ({ priceId }, context) => {
+exports.createOrRetrieveUnpaidSubscription = async ({ priceId, locale }, context) => {
   if (!context.auth) {
     fail('unauthenticated');
   }
-  if (typeof priceId !== 'string') {
+  if (
+    typeof priceId !== 'string' ||
+    // Allow undefined locales, or a string locale
+    !(locale === null || locale === undefined || typeof locale === 'string')
+  ) {
     fail('invalid-argument');
   }
+
   const { uid } = context.auth;
 
   let requestedPrice;
@@ -281,7 +300,12 @@ exports.createOrRetrieveUnpaidSubscription = async ({ priceId }, context) => {
       subscription = existingIncompleteSubscription;
     }
   } else {
-    subscription = await createNewSubscription(customerId, priceId, privateUserProfileDocRef);
+    subscription = await createNewSubscription(
+      customerId,
+      priceId,
+      privateUserProfileDocRef,
+      locale
+    );
   }
 
   return {

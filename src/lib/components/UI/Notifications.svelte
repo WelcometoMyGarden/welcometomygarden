@@ -94,7 +94,6 @@
   .toast {
     position: relative;
     margin: 0.5rem 1rem;
-    font-weight: bold;
     font-size: 1.5rem;
     min-width: 15rem;
     max-width: 80vw;
@@ -119,7 +118,7 @@
   .toast > .content {
     padding: 1rem;
     display: block;
-    font-weight: bold;
+    font-weight: 600;
   }
 
   .toast > .time {
