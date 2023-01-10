@@ -46,7 +46,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    outline: 1px solid var(--color-green);
+    border: 1px solid var(--color-green);
     border-radius: var(--tile-border-radius);
     padding: 1.5rem;
     cursor: pointer;
@@ -61,7 +61,12 @@
   }
 
   .superfan-level.selected {
-    outline-width: 2px;
+    border-width: 2px;
+  }
+  .superfan-level:not(.selected) {
+    /* Compensate for the layout shift that occurs
+      when the selected level gets 1px extra in border-width. */
+    margin: 1px;
   }
 
   img {

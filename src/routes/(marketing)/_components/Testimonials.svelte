@@ -98,6 +98,12 @@
     width: 9.5rem;
   }
 
+  /* Fixes a problem in Safari where the icons are not shown */
+  .controls > button :global(svg) {
+    height: 100%;
+    width: 100%;
+  }
+
   button {
     display: flex;
     align-items: center;
