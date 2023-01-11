@@ -1,9 +1,40 @@
-<script>
+<script lang="ts">
   import { slide } from 'svelte/transition';
   export let open = false;
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
+
+  // Variation on https://stackoverflow.com/a/21851799/4973029
+  // Doesn't trigger a click when the user is selecting text.
+  const clickWhenNotSelecting = (node: HTMLElement) => {
+    let selection: string | undefined = '';
+
+    const mouseDownListener = () => {
+      selection = document.getSelection()?.toString();
+    };
+
+    const mouseUpListener = () => {
+      let newSelection = document.getSelection()?.toString();
+
+      // Only dispatch a click when the selection didn't change.
+      if (selection == newSelection) {
+        dispatch('click');
+      }
+      selection = newSelection;
+    };
+    node.addEventListener('mouseup', mouseUpListener);
+
+    return {
+      destroy: () => {
+        node.removeEventListener('mousedown', mouseDownListener);
+        node.removeEventListener('mouseup', mouseUpListener);
+      }
+    };
+  };
 </script>
 
-<button class="button button-container" on:click>
+<button class="button button-container" use:clickWhenNotSelecting>
   <div class="collapsible-item" class:green-border-bottom={!open}>
     <div class="title">
       <slot name="title" />
@@ -44,6 +75,7 @@
     font-weight: normal;
     margin: 0 9.6rem 2.4rem 4.8rem;
     max-width: 70rem;
+    user-select: text;
   }
 
   .sign {
