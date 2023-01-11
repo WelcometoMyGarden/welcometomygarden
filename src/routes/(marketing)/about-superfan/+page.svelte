@@ -96,7 +96,7 @@
         </div>
       {/each}
     </div>
-    <h1 class="team-title">{$_('about-superfan.team-section.title')}</h1>
+    <h2 class="team-title">{$_('about-superfan.team-section.title')}</h2>
     <p class="team-text">{$_('about-superfan.team-section.description')}</p>
     <Button href={routes.ABOUT_US} uppercase orange arrow centered
       >{$_('about-superfan.team-section.meet-team-button')}</Button
