@@ -105,6 +105,7 @@
   .title {
     display: inline-block;
     margin-bottom: 0.5rem;
+    line-height: 1.3;
   }
 
   ol {
