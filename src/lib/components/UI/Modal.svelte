@@ -119,7 +119,7 @@
   }
 
   .stick-to-bottom .modal-content {
-    border-radius: 10px 10px 0 0;
+    border-radius: var(--modal-border-radius) var(--modal-border-radius) 0 0;
     max-height: 77%;
   }
 
@@ -187,6 +187,6 @@
   }
 
   .radius {
-    border-radius: 10px;
+    border-radius: var(--modal-border-radius);
   }
 </style>

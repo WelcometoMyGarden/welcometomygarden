@@ -81,7 +81,8 @@
   }
 
   @media screen and (max-width: 700px) {
-    .static-layers {
+    .static-layers,
+    .data-layers {
       width: 100%;
       display: flex;
       flex-direction: column;
