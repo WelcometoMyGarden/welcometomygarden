@@ -43,11 +43,13 @@
     line-height: 160%;
   }
 
-  :global(.intro a:link),
-  :global(.intro a:visited),
-  :global(.intro a:active),
-  :global(.intro a:hover) {
+  .profile :global(.intro a:link),
+  .profile :global(.intro a:visited),
+  .profile :global(.intro a:active) {
     color: var(--color-orange);
     text-decoration: underline;
+  }
+  .profile :global(.intro a:hover) {
+    text-decoration: none;
   }
 </style>

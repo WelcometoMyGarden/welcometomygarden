@@ -230,7 +230,7 @@
       <p class="section-description">{$_('garden.form.facilities.notice')}</p>
       <div class="checkboxes">
         {#each facilities as facility (facility.name)}
-          <LabeledCheckbox {...facility} bind:checked={garden.facilities[facility.name]} />
+          <LabeledCheckbox {...facility} bind:checked={garden.facilities[facility.name]} compact />
         {/each}
       </div>
       <div class="capacity">
@@ -320,6 +320,8 @@
     border: 1px solid var(--color-gray);
     box-shadow: 0px 0px 1rem rgba(0, 0, 0, 0.1);
     transition: border 300ms ease-in-out;
+    font-size: var(--paragraph-font-size);
+    line-height: 1.6;
   }
 
   textarea:focus {

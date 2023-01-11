@@ -18,5 +18,5 @@ export { default as Label } from './Label.svelte';
 export { default as FileInput } from './FileInput.svelte';
 export { default as MultiActionLabel } from './MultiActionLabel.svelte';
 export { default as ToggleAble } from './ToggleAble.svelte';
-export { default as LabeledRadiobox } from './LabeledRadiobox.svelte';
+export { default as LabeledRadioButton } from './LabeledRadioButton.svelte';
 export { default as IconButton } from './IconButton.svelte';

@@ -117,7 +117,7 @@
   </MarketingBlock>
 </PaddedSection>
 <PaddedSection>
-  <h1>{$_('become-superfan.feature-section.title')}</h1>
+  <h2>{$_('become-superfan.feature-section.title')}</h2>
   <Features />
 </PaddedSection>
 
@@ -169,7 +169,7 @@
   </div>
 </PaddedSection>
 <PaddedSection>
-  <h1>{$_('superfan-shared.three-support-reasons.title')}</h1>
+  <h2>{$_('superfan-shared.three-support-reasons.title')}</h2>
   <SupportReasons />
 </PaddedSection>
 

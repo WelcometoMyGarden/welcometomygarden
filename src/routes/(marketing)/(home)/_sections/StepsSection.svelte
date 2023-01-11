@@ -70,10 +70,12 @@
 
   .step-text :global(a),
   .step-text :global(a:visited),
-  .step-text :global(a:active),
-  .step-text :global(a:hover) {
+  .step-text :global(a:active) {
     color: var(--color-orange);
     text-decoration: underline;
+  }
+  .step-text :global(a:hover) {
+    text-decoration: none;
   }
 
   @media only screen and (max-width: 1100px) {

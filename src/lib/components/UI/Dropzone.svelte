@@ -338,6 +338,14 @@
     transition: border 0.24s ease-in-out;
     cursor: pointer;
   }
+
+  @media screen and (min-width: 701px) {
+    .dropzone {
+      height: min(340px, calc(0.5 * (100vh - var(--height-nav))));
+      flex-grow: 1;
+    }
+  }
+
   .dropzone:focus {
     border-color: var(--color-green);
   }

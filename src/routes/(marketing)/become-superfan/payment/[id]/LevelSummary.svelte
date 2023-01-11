@@ -83,8 +83,9 @@
 
   .summary-wrapper {
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
-    max-width: 600px;
+    max-width: 560px;
   }
 
   .period {
@@ -117,6 +118,11 @@
     }
   }
 
+  @media screen and (min-width: 501px) {
+    .features:not(:first-child) {
+      margin-left: 1rem;
+    }
+  }
   @media screen and (max-width: 500px) {
     .summary {
       flex-direction: column;

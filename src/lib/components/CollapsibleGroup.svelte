@@ -34,10 +34,13 @@
 
   p :global(a),
   p :global(a:visited),
-  p :global(a:active),
-  p :global(a:hover) {
+  p :global(a:active) {
     color: var(--color-orange);
     text-decoration: underline;
+  }
+
+  p :global(a:hover) {
+    text-decoration: none;
   }
 
   p :global(ul) {

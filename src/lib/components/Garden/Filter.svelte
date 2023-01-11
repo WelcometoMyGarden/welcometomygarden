@@ -179,12 +179,12 @@
   }
 
   .filter :global(input) {
-    border-radius: 10px;
+    border-radius: var(--modal-border-radius);
     border-bottom: none;
   }
 
   .filter :global(.input:focus) {
-    border-radius: 10px;
+    border-radius: var(--modal-border-radius);
     border-bottom: none;
   }
 

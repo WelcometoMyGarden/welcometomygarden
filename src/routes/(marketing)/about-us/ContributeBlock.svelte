@@ -30,9 +30,12 @@
 
   .description :global(a:link),
   .description :global(a:visited),
-  .description :global(a:active),
-  .description :global(a:hover) {
+  .description :global(a:active) {
     color: var(--color-orange);
     text-decoration: underline;
+  }
+
+  .description :global(a:hover) {
+    text-decoration: none;
   }
 </style>

@@ -107,7 +107,6 @@
     <h2 id="Title">{$_('map.upload-route.title')}</h2>
   </div>
   <div slot="body" class="BodySection">
-    <!-- <hr /> -->
     <div class="modal-content">
       {#if phase === 'SELECTING'}
         <div class="file-input">
@@ -140,24 +139,26 @@
                   {/each}
                 </div>
               {/if}
-              <div class="icon">
-                <Icon icon={uploadCloudIcon} />
-              </div>
-              <div class="drag-here">
-                <Text size="l" weight="bold">
-                  {@html $_('map.upload-route.drag-here', {
-                    values: {
-                      selectFile: `<span class="select-highlight">${$_(
-                        'map.upload-route.select-file'
-                      )}</span>`
-                    }
-                  })}
-                </Text>
-              </div>
-              <div class="sub-text">
-                <Text>
-                  {VALID_FILETYPE_EXTENSIONS.map((ft) => '.' + ft).join(' | ')}
-                </Text>
+              <div class="upload-prompt">
+                <div class="icon">
+                  <Icon icon={uploadCloudIcon} />
+                </div>
+                <div class="drag-here">
+                  <Text size="l" weight="w600">
+                    {@html $_('map.upload-route.drag-here', {
+                      values: {
+                        selectFile: `<span class="select-highlight">${$_(
+                          'map.upload-route.select-file'
+                        )}</span>`
+                      }
+                    })}
+                  </Text>
+                </div>
+                <div class="sub-text">
+                  <Text>
+                    {VALID_FILETYPE_EXTENSIONS.map((ft) => '.' + ft).join(' | ')}
+                  </Text>
+                </div>
               </div>
             </div>
           </FileInput>
@@ -211,7 +212,9 @@
   }
 
   .modal-content {
-    border: 1px solid #000;
+    border-radius: var(--modal-border-radius);
+    overflow: hidden;
+    border: 1px solid var(--color-gray);
   }
 
   :global(.dropzone) {
@@ -224,6 +227,10 @@
     width: 100%;
     height: 100%;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 2rem;
   }
 
   .modal-content .icon {
@@ -231,11 +238,15 @@
   }
 
   .modal-content .drag-here {
-    padding-top: 2.5rem;
+    padding-top: 2rem;
   }
 
   .modal-content :global(.select-highlight) {
     color: var(--color-highlight-blue);
+    text-decoration: underline;
+  }
+  .modal-content :global(.select-highlight:hover) {
+    text-decoration: none;
   }
 
   .modal-controls {
