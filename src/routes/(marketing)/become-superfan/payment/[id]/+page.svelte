@@ -27,7 +27,7 @@
   import PaddedSection from '@/routes/(marketing)/_components/PaddedSection.svelte';
   import type { SuperfanLevelData } from '@/routes/(marketing)/_static/superfan-levels';
   import Button from '@/lib/components/UI/Button.svelte';
-  import { SUPPORT_EMAIL } from '@/lib/constants';
+  import { emailAsLink, SUPPORT_EMAIL } from '@/lib/constants';
   import LevelSummary from './LevelSummary.svelte';
 
   // TODO: if you subscribe & unsubscribe in 1 session without refreshing, no new sub will be auto-generated
@@ -235,7 +235,7 @@
   <title>{$_('account.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
-{#if selectedLevel}
+{#if selectedLevel && $user && !hasActiveSubscription($user)}
   <PaddedSection desktopOnly>
     <LevelSummary level={selectedLevel} />
   </PaddedSection>
@@ -271,13 +271,18 @@
   {:else if $user && hasActiveSubscription($user)}
     <!-- Subscription block -->
     <!-- Show status -->
-    {$_('payment-superfan.payment-section.youre-subscribed')}
-    {#if requestedLevel && selectedLevel && requestedLevel.stripePriceId !== selectedLevel.stripePriceId}
-      {$_('payment-superfan.payment-section.no-switching-here')}
-    {/if}
+    <p>
+      {$_('payment-superfan.payment-section.youre-subscribed')}
+      {#if requestedLevel && selectedLevel && requestedLevel.stripePriceId !== selectedLevel.stripePriceId}
+        {@html $_('payment-superfan.payment-section.no-switching-here', {
+          values: {
+            supportEmail: emailAsLink
+          }
+        })}
+      {/if}
+    </p>
   {:else}
     No user!
-    <!-- else content here -->
   {/if}
 </PaddedSection>
 
