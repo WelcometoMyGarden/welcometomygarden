@@ -31,7 +31,10 @@
 
   a,
   a:visited,
-  a:active,
+  a:active {
+    text-decoration: none;
+  }
+
   a:hover {
     text-decoration: none;
   }

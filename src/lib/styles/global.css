@@ -202,10 +202,13 @@ a.link {
 }
 
 a.link:visited,
-a.link:active,
-a.link:hover {
+a.link:active {
   color: var(--color-orange);
   text-decoration: underline;
+}
+
+a.link:hover {
+  text-decoration: none;
 }
 
 .danger {

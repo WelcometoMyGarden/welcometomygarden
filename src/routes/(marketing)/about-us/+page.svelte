@@ -95,9 +95,9 @@
 </PaddedSection>
 <PaddedSection>
   <div class="profiles">
-    {#each Object.values(coreTeamProfiles) as item}
-      <Profile {...item}>
-        {@html item.introHtml}
+    {#each Object.values(coreTeamProfiles) as { introHtml, ...rest }}
+      <Profile {...rest}>
+        {@html introHtml}
       </Profile>
     {/each}
   </div>
@@ -114,9 +114,9 @@
     </Text>
   </div>
   <div class="profiles contributors">
-    {#each contributorProfiles as item}
-      <Profile {...item}>
-        {@html item.introHtml}
+    {#each contributorProfiles as { introHtml, ...rest }}
+      <Profile {...rest}>
+        {@html introHtml}
       </Profile>
     {/each}
   </div>
