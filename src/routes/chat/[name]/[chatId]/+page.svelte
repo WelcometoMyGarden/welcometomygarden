@@ -112,6 +112,8 @@
   };
 
   $: partnerName = chat && chat.partner ? chat.partner.firstName : '';
+
+  $: sendButtonDisabled = isSending || !typedMessage || !!hint;
 </script>
 
 <svelte:head>
@@ -182,14 +184,9 @@ CSS grids should do the job cleanly -->
     disabled={isSending}
   />
   <!-- TODO: pressed state -->
-  <button
-    class="send"
-    type="submit"
-    disabled={isSending || !typedMessage || hint}
-    aria-label="Send message"
-  >
+  <button class="send" type="submit" disabled={sendButtonDisabled} aria-label="Send message">
     <!-- TODO: add a better send icon (paper plane?) -->
-    <Icon icon={chevronRight} greenStroke />
+    <Icon icon={chevronRight} greenStroke={sendButtonDisabled} whiteStroke={!sendButtonDisabled} />
   </button>
 </form>
 
