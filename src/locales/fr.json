@@ -1036,7 +1036,7 @@
       "unverified": "Veuillez confirmer votre adresse électronique avant de commencer à discuter"
     },
     "no-messages": {
-      "text": "Vous n'avez pas encore de messages. Sélectionnez un hôte {lien} pour le contacter.",
+      "text": "Vous n'avez pas encore de messages. Sélectionnez un hôte {link} pour le contacter.",
       "link": "sur la carte"
     },
     "type-message": "Tapez votre message…",

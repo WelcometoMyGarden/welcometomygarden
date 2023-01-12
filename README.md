@@ -44,6 +44,14 @@ yarn build:prod
 yarn preview
 ```
 
+## Deployment
+
+Gitub Actions are set up for a production environment (based off `master`), a beta environment (`beta`) and a staging environment (`staging`).
+
+The beta environment connects to the production Firebase backend, but has an independent frontend.
+
+The staging environment connects to a separate staging Firebase backend.
+
 ## Translations
 
 The website is translated through [Hosted Weblate](https://hosted.weblate.org/projects/wtmg/).

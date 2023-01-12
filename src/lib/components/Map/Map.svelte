@@ -4,8 +4,9 @@
 
 <script lang="ts">
   import { setContext, onMount, tick, afterUpdate } from 'svelte';
-  import maplibregl from 'maplibre-gl';
+  import maplibregl, { type ResourceTypeEnum } from 'maplibre-gl';
   import key from './mapbox-context.js';
+  import { isMapboxURL, transformMapboxUrl } from 'maplibregl-mapbox-request-transformer';
 
   import 'maplibre-gl/dist/maplibre-gl.css';
   import { DEFAULT_MAP_STYLE } from '@/lib/constants.js';
@@ -34,7 +35,22 @@
     getMap: () => map
   });
 
-  maplibregl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
+  // See:
+  // - The problematic breaking change in maplibre-gl-js v2:
+  //  - https://github.com/maplibre/maplibre-gl-js/discussions/290
+  //  - https://github.com/maplibre/maplibre-gl-js/releases/tag/v2.0.0
+  // - The workaround package we're using here: https://github.com/rowanwins/maplibregl-mapbox-request-transformer
+  const transformRequest = (url: string, resourceType?: ResourceTypeEnum) => {
+    if (isMapboxURL(url)) {
+      return transformMapboxUrl(
+        url,
+        // TODO: typing of this library is not up-to-date
+        resourceType as string,
+        import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
+      );
+    }
+    return { url };
+  };
 
   const fullAttribution = new maplibregl.AttributionControl({ customAttribution });
   const compactAttribution = new maplibregl.AttributionControl({
@@ -42,7 +58,8 @@
     customAttribution
   });
 
-  const scaleControl = new maplibregl.ScaleControl();
+  // TODO: switch based on user's location? (eg. US & others: imperial, EU: metric)
+  const scaleControl = new maplibregl.ScaleControl({ unit: 'metric' });
 
   onMount(() => {
     map = new maplibregl.Map({
@@ -51,7 +68,8 @@
       center: [lon, lat],
       zoom,
       attributionControl: false,
-      hash: false // TODO: discuss if we want this or not
+      transformRequest,
+      hash: false // TODO: discuss if we want this or not,
     });
 
     map.addControl(

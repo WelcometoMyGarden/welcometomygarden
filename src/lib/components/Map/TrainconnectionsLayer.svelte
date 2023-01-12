@@ -14,7 +14,7 @@
     fetchDirectConnections,
     locationToPoint
   } from '@/lib/util/map/trainConnections.js';
-  import type { AnyLayer, GeoJSONSourceRaw } from 'maplibre-gl';
+  import type { LayerSpecification, GeoJSONSourceSpecification } from 'maplibre-gl';
   import mapboxgl from 'maplibre-gl';
   import { getContext } from 'svelte';
   import key from './mapbox-context.js';
@@ -46,7 +46,7 @@
     offset: 10
   });
 
-  const createLayer = (id: string, source: any): AnyLayer => {
+  const createLayer = (id: string, source: any): LayerSpecification => {
     return {
       id,
       type: 'symbol',
@@ -136,7 +136,7 @@
     geojson.features = convertToFeatureList(stationsList, origin.name);
     geojson.features.push(fromStationFeature);
 
-    const source: GeoJSONSourceRaw = {
+    const source: GeoJSONSourceSpecification = {
       type: 'geojson',
       data: geojson
     };
