@@ -33,6 +33,9 @@ firebase login:add
 # Register this account with the current directory
 firebase login:use <your_wtmg_email>
 
+# Check if you have the right projects available
+firebase projects:list
+
 # Specify the project you want to target (wtmg-dev or wtmg-production)
 firebase use wtmg-dev
 ```
