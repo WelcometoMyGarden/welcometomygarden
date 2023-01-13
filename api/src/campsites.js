@@ -8,12 +8,12 @@ exports.onCampsiteCreate = async () => {
   await db
     .collection('stats')
     .doc('campsites')
-    .update({ count: FieldValue.increment(1) });
+    .set({ count: FieldValue.increment(1) }, { merge: true });
 };
 
 exports.onCampsiteDelete = async () => {
   await db
     .collection('stats')
     .doc('campsites')
-    .update({ count: FieldValue.increment(-1) });
+    .set({ count: FieldValue.increment(-1) }, { merge: true });
 };

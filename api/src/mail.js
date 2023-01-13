@@ -6,9 +6,10 @@ const { getFirestore } = require('firebase-admin/firestore');
 const { getAuth } = require('firebase-admin/auth');
 const { parseAsync } = require('json2csv');
 const sendgrid = require('@sendgrid/mail');
+const removeEndingSlash = require('./util/removeEndingSlash');
 
 const API_KEY = functions.config().sendgrid.key;
-const FRONTEND_URL = functions.config().frontend.url;
+const FRONTEND_URL = removeEndingSlash(functions.config().frontend.url);
 
 const auth = getAuth();
 const db = getFirestore();
@@ -88,7 +89,7 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
     templateId,
     dynamic_template_data: {
       firstName,
-      exploreFeaturesLink: `${FRONTEND_URL}${FRONTEND_URL.endsWith('/') ? '' : '/'}explore`
+      exploreFeaturesLink: `${FRONTEND_URL}/explore`
     }
   };
 

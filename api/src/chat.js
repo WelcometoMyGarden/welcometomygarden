@@ -6,6 +6,7 @@ const { getFirestore, FieldValue } = require('firebase-admin/firestore');
 const functions = require('firebase-functions');
 const removeDiacritics = require('./util/removeDiacritics');
 const { sendMessageReceivedEmail } = require('./mail');
+const removeEndingSlash = require('./util/removeEndingSlash');
 
 const auth = getAuth();
 const db = getFirestore();
@@ -32,7 +33,7 @@ exports.onMessageCreate = async (snap, context) => {
   await db
     .collection('stats')
     .doc('messages')
-    .update({ count: FieldValue.increment(1) });
+    .set({ count: FieldValue.increment(1) }, { merge: true });
 
   const recipientDoc = await db.collection('users-private').doc(recipientId).get();
   const recipientEmailPreferences = recipientDoc.data().emailPreferences;
@@ -59,7 +60,7 @@ exports.onMessageCreate = async (snap, context) => {
       notifiedAt: FieldValue.serverTimestamp(),
       chatId
     });
-    const baseUrl = functions.config().frontend.url;
+    const baseUrl = removeEndingSlash(functions.config().frontend.url);
 
     const nameParts = sender.displayName.split(/[^A-Za-z-]/);
     const messageUrl = `${baseUrl}/chat/${normalizeName(nameParts[0])}/${chatId}`;
@@ -80,5 +81,5 @@ exports.onChatCreate = async () => {
   await db
     .collection('stats')
     .doc('chats')
-    .update({ count: FieldValue.increment(1) });
+    .set({ count: FieldValue.increment(1) }, { merge: true });
 };
