@@ -111,7 +111,7 @@ yarn preview
 
 ## Deployment
 
-Gitub Actions are set up for a production environment (based off `master`), a beta environment (`beta`) and a staging environment (`staging`).
+Gitub Actions are set up for a production environment (based off `master`), a beta environment (`beta`) and a staging environment (`staging`). These only deploy the SvelteKit frontend, and not the Cloud Functions in `/api`. See [/api](./api) to learn how the backend functions are deployed.
 
 The beta environment connects to the production Firebase backend, but has an independent frontend.
 
