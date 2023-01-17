@@ -6,6 +6,7 @@ import { getAnalytics, type Analytics } from 'firebase/analytics';
 import { getPerformance, type FirebasePerformance } from 'firebase/performance';
 import { connectFunctionsEmulator, getFunctions, type Functions } from 'firebase/functions';
 import { initializeEuropeWest1Functions, initializeUsCentral1Functions } from './functions';
+import envIsTrue from '../util/env-is-true';
 
 const FIREBASE_CONFIG = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
@@ -103,7 +104,8 @@ const isRunningLocally = window && window.location.hostname.match('localhost|127
 const shouldUseEmulator = (specificEmulatorOverride?: boolean | undefined | null) =>
   // If an override is defined, only look at that value.
   // Otherwise, look at the generic ALL_EMULATORS setting.
-  isRunningLocally && (specificEmulatorOverride ?? import.meta.env.VITE_USE_ALL_EMULATORS ?? false);
+  isRunningLocally &&
+  (specificEmulatorOverride ?? envIsTrue(import.meta.env.VITE_USE_ALL_EMULATORS) ?? false);
 
 export async function initialize(): Promise<void> {
   if (getApps().length !== 0) {
@@ -113,17 +115,17 @@ export async function initialize(): Promise<void> {
   appRef = initializeApp(FIREBASE_CONFIG);
 
   dbRef = getFirestore(appRef);
-  if (shouldUseEmulator(import.meta.env.VITE_USE_FIRESTORE_EMULATOR)) {
+  if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_FIRESTORE_EMULATOR))) {
     connectFirestoreEmulator(dbRef, 'localhost', 8080);
   }
 
   authRef = getAuth(appRef);
-  if (shouldUseEmulator(import.meta.env.VITE_USE_AUTH_EMULATOR)) {
+  if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_AUTH_EMULATOR))) {
     connectAuthEmulator(authRef, 'http://localhost:9099');
   }
 
   storageRef = getStorage(appRef);
-  if (shouldUseEmulator(import.meta.env.VITE_USE_STORAGE_EMULATOR)) {
+  if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_STORAGE_EMULATOR))) {
     connectStorageEmulator(storageRef, 'localhost', 9199);
   }
 
@@ -136,7 +138,7 @@ export async function initialize(): Promise<void> {
   europeWest1FunctionsRef = getFunctions(appRef, 'europe-west1');
   initializeEuropeWest1Functions(europeWest1FunctionsRef);
 
-  if (shouldUseEmulator(import.meta.env.VITE_USE_API_EMULATOR)) {
+  if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_API_EMULATOR))) {
     connectFunctionsEmulator(usCentral1FunctionsRef, 'localhost', 5001);
     connectFunctionsEmulator(europeWest1FunctionsRef, 'localhost', 5001);
   }
