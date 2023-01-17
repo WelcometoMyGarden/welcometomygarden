@@ -16,7 +16,13 @@ const db = getFirestore();
 
 const send = (msg) => sendgrid.send(msg);
 
-sendgrid.setApiKey(API_KEY);
+if (API_KEY != null) {
+  sendgrid.setApiKey(API_KEY);
+}
+
+const NO_API_KEY_WARNING =
+  "You don't have an SendGrid API key set in your .runtimeconfig.json. " +
+  'No emails will be sent. Inspect the logs to see what would have been sent by email';
 
 exports.sendAccountVerificationEmail = (email, name, verificationLink) => {
   const msg = {
@@ -28,6 +34,12 @@ exports.sendAccountVerificationEmail = (email, name, verificationLink) => {
       verificationLink
     }
   };
+
+  if (API_KEY == null) {
+    console.warn(NO_API_KEY_WARNING);
+    console.info(JSON.stringify(msg));
+    return Promise.resolve();
+  }
 
   return send(msg);
 };
@@ -42,6 +54,12 @@ exports.sendPasswordResetEmail = (email, name, resetLink) => {
       resetLink
     }
   };
+
+  if (API_KEY == null) {
+    console.warn(NO_API_KEY_WARNING);
+    console.info(JSON.stringify(msg));
+    return Promise.resolve();
+  }
 
   return send(msg);
 };
@@ -58,6 +76,12 @@ exports.sendMessageReceivedEmail = (email, firstName, senderName, message, messa
       message
     }
   };
+
+  if (API_KEY == null) {
+    console.warn(NO_API_KEY_WARNING);
+    console.info(JSON.stringify(msg));
+    return Promise.resolve();
+  }
 
   return send(msg);
 };
@@ -92,6 +116,12 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
       exploreFeaturesLink: `${FRONTEND_URL}/explore`
     }
   };
+
+  if (API_KEY == null) {
+    console.warn(NO_API_KEY_WARNING);
+    console.info(JSON.stringify(msg));
+    return Promise.resolve();
+  }
 
   return send(msg);
 };

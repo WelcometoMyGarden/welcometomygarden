@@ -1,35 +1,100 @@
-# Welcome To My Garden [![Open Collective backers and sponsors](https://img.shields.io/opencollective/all/welcometomygarden?label=Support%20through%20Open%20Collective&logo=open-collective)](https://opencollective.com/welcometomygarden) ![GitHub](https://img.shields.io/github/license/welcometomygarden/welcometomygarden?label=License) [![Translation status](https://hosted.weblate.org/widgets/wtmg/-/svg-badge.svg)](https://hosted.weblate.org/engage/wtmg/)
+# Welcome To My Garden ![GitHub](https://img.shields.io/github/license/welcometomygarden/welcometomygarden?label=License) [![Translation status](https://hosted.weblate.org/widgets/wtmg/-/svg-badge.svg)](https://hosted.weblate.org/engage/wtmg/)
 
-This repository houses the entire Welcome To My Garden app. Contribution guidelines will be added soon!
+This repository houses the entire Welcome To My Garden app.
 
-Problems, feedback or questions are welcome in [issues](https://github.com/WelcometoMyGarden/welcometomygarden/issues) or on our [Slack](https://join.slack.com/t/welcometomygarden/shared_invite/zt-f31i37dj-_zFgnfe40B6EexJuB2f_~w).
+## Contributing
 
-## Prerequisites
+Use [Discussions](https://github.com/WelcometoMyGarden/welcometomygarden/discussions) to discuss feature requests, ideas and questions regarding WTMG. We're also on our [Slack](https://join.slack.com/t/welcometomygarden/shared_invite/zt-f31i37dj-_zFgnfe40B6EexJuB2f_~w).
 
-- [Node](https://nodejs.org/en/download/) version >=10 installed
-- This project uses the [Yarn](https://yarnpkg.com/getting-started/install) package manager
+Problems & bug reports are welcome in [Issues](https://github.com/WelcometoMyGarden/welcometomygarden/issues).
 
-Create a `.env` file and make sure it has the values specified in [`.env.example`](https://github.com/WelcometoMyGarden/welcometomygarden/blob/master/.env.example).
+If you want to contribute to the code, read on!
 
-You will need a Mapbox access token if you'd like to work on features that concern the map.
+## Get started coding
 
-## Usage
+WTMG has a frontend built with [SvelteKit](https://kit.svelte.dev/), and a backend largely on built on [Firebase](https://firebase.google.com/docs) (see also [/api](./api/)). Several functions also depend on SendGrid (email), and Stripe (subscriptions for our Superfan program).
 
-From a terminal located at the project root, install project dependencies:
+Firebase [is not our dream ecosystem](https://github.com/WelcometoMyGarden/welcometomygarden/issues/106), but it has supported WTMG's growth uptil now, and is easier to manage for our tiny team of contributors. We might migrate to another system later.
 
-```bash
-yarn
+### First, set up your dev environment
+
+- We use the package manager [Yarn](https://yarnpkg.com/getting-started/install), install it if you haven't already.
+- Ensure you have [Node](https://nodejs.org/en/download/) 16 installed. Use [nvm](https://github.com/nvm-sh/nvm) if needed. Any version >= 14 should work too, but we are using 16 for development.
+- Ensure you have Java >= v11 is installed, preferably the latest LTS version (17). This is required for Firebase's CLI. [Adoptium builds](https://adoptium.net/en-GB/) are helpful.
+- Install the [Firebase CLI](https://firebaseopensource.com/projects/firebase/firebase-tools/) globally.
+
+  ```
+  yarn global add firebase-tools
+  ```
+
+- Install project dependencies, in both the root and `/api` directory.
+  ```
+  yarn
+  cd api && yarn
+  ```
+- Create environment files from their examples.
+
+  ```
+  # For the frontend SvelteKit app
+
+  cp .env.example .env
+
+  # Create a .runtimeconfig.json file in /api, for Firebase Cloud Functions
+
+  cp api/.runtimeconfig-example.json api/.runtimeconfig.json
+  ```
+
+### Next, get the dev servers running
+
+Start all Firebase emulators:
+
+```
+firebase --project demo-test emulators:start
 ```
 
-Start the project in development mode
+This will locally emulate our "backend": Firebase's [Auth](https://firebase.google.com/docs/auth), [Firestore](https://firebase.google.com/docs/firestore), [Storage](https://firebase.google.com/docs/storage), [Hosting](https://firebase.google.com/docs/hosting) and [Cloud Functions](https://firebase.google.com/docs/functions) modules.
+
+In a new terminal, run:
 
 ```
-yarn run dev
+yarn dev
 ```
+
+This will run a SvelteKit app dev server via Vite (our frontend). SvelteKit also has server-side (backend) capabilities, but for the moment we use it as a pure frontend static site generator via [adapter-static](https://kit.svelte.dev/docs/adapters#supported-environments-static-sites).
+
+### What can you do now?
+
+Assuming that you did the above, you now have a partially functioning development environment!
+
+You should now be able to:
+
+- access your local WTMG app at [http://127.0.0.1:5173/](http://127.0.0.1:5173/)
+- access the [Firebase emulator](https://firebase.google.com/docs/emulator-suite) dashboard UI should be [http://127.0.0.1:4001/](http://127.0.0.1:4001/)
+
+In the app, you can now try:
+
+1. Creating an account
+2. Since you don't have access to the SendGrid variables, no emails will be sent. You can see what emails would have been sent in the Firebase Emulator logs terminal (e.g. to access your email verification link).
+3. You can add a test garden and also upload a file into emulated [Storage](https://firebase.google.com/docs/storage) (but because of [this bug](https://github.com/WelcometoMyGarden/welcometomygarden/issues/289) their images won't show up).
+
+⚠️ Importantly, with the default demo development environment, the **map will be empty/broken** by default. That's because you're missing an API token. If you [get your own Mapbox Access Token](https://docs.mapbox.com/help/getting-started/#how-to-use-mapbox) and fill it in in `.env`, most basic features of the map should work. You may need to restart the Vite server.
+
+Some features are reserved for [Superfans](https://welcometomygarden.org/about-superfan). You can make your local test account a Superfan easily (and without Stripe) by:
+
+1. Opening the Firestore emulator dashboard, the `users` collection (http://localhost:4001/firestore/data/users)
+2. Going to your test account's document (as a title, it has your user ID)
+3. Adding a boolean field named `superfan`, setting it to `true`.
+
+### What can you NOT immediately do?
+
+- Preview the email HTML - except if you create your own SendGrid account.
+- Work on subscription features - except if you go through the hassle of setting up your own test company on Stripe!
+
+If you have received access to our staging or production Firebase environment, see how to log in your Firebase account & access real API services with [these additional notes](./docs/full-access.md).
 
 ## Testing
 
-[Playwright](https://playwright.dev/) is set up for e2e testing.
+[Playwright](https://playwright.dev/) is set up for e2e testing, but does not any tests at the moment.
 
 After running `yarn install`, also install the testing browsers:
 
@@ -58,18 +123,6 @@ The website is translated through [Hosted Weblate](https://hosted.weblate.org/pr
 You can easily make an account and start translating in their web-environment - no installation required.
 
 [![Translation status](https://hosted.weblate.org/widgets/wtmg/-/multi-auto.svg)](https://hosted.weblate.org/engage/wtmg/)
-
-## Firebase
-
-Welcome To My Garden is a project running on Firebase, which is configured with `/.firebaserc`.
-
-Follow Firebase documentation to [manage, test and deploy Firestore security rules](https://firebase.google.com/docs/rules/manage-deploy]).
-
-### API
-
-The `/api` folder in this repository is a sub-project that contains the source code for the Firebase Cloud Functions used by this project.
-
-Some of the functions are only used by administrators, and are not used by the frontend client in this repository.
 
 ## License
 
