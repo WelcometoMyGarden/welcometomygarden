@@ -3,6 +3,9 @@
   "license": "GPL-3.0-or-later",
   "description": "a platform allowing citizens to put their garden freely at disposal as a rudimentary campsite to travelers.",
   "version": "3.1.1",
+  "engines": {
+    "node": "16"
+  },
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",

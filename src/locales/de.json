@@ -832,7 +832,7 @@
   "reset-password": {
     "title": "Ein neues Passwort festlegen",
     "update": "Passwort aktualisieren",
-    "succes": "Ihr Passwort wurde erfolgreich zurückgesetzt"
+    "success": "Ihr Passwort wurde erfolgreich zurückgesetzt"
   },
   "recommendations": {
     "recommendations-groups": {
@@ -889,7 +889,7 @@
     "verification": {
       "unsigned": "Bitte melden Sie sich zuerst an",
       "refresh": "Ihre E-Mail-Adresse wurde bereits verifiziert. Bitte aktualisieren Sie die Seite.",
-      "succes": "Ihre E-Mail-Adresse wurde erfolgreich verifiziert!",
+      "success": "Ihre E-Mail-Adresse wurde erfolgreich verifiziert!",
       "expired": "Dieser Verifizierungslink ist abgelaufen. Bitte fordern Sie einen neuen an."
     },
     "password": {

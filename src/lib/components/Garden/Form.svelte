@@ -22,7 +22,7 @@
 
   const dispatch = createEventDispatcher();
 
-  let isFillable = $user && $user.emailVerified;
+  $: isFillable = $user && $user.emailVerified;
 
   let formValid = true;
 

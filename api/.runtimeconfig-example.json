@@ -1,0 +1,12 @@
+{
+  "frontend": {
+    "url": "http://localhost:5173"
+  },
+  "stripe": {
+    "secret_key": null,
+    "webhook_secret": null
+  },
+  "sendgrid": {
+    "key": null
+  }
+}

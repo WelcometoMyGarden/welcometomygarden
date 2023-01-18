@@ -946,7 +946,7 @@
   "reset-password": {
     "title": "Set a new password",
     "update": "Update password",
-    "succes": "Your password was reset succesfully"
+    "success": "Your password was reset succesfully"
   },
   "account": {
     "title": "Account",
@@ -994,11 +994,13 @@
       "expired": "This password reset link has expired. Please request a new one"
     },
     "verification": {
-      "succes": "Your email address was verified successfully!",
-      "refresh": "Your email has already been verified. Please refresh the page.",
+      "verifying": "Verifying your email address... Don't close this page, this could take a few seconds.",
+      "success": "Your email address was verified successfully!",
+      "refresh": "Your email has already been verified.",
       "expired": "This verification link has expired. Please request a new one.",
       "unsigned": "Please sign in first"
-    }
+    },
+    "logged-out": "You have been logged out elsewhere. Please log in again."
   },
   "register": {
     "title": "Sign Up",
