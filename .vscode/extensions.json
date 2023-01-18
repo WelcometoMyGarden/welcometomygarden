@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "chflick.firecode",
+        "svelte.svelte-vscode",
+        "esbenp.prettier-vscode",
+        "mikestead.dotenv"
+    ]
+}

@@ -1,11 +1,12 @@
-import { getAuth, type Auth } from 'firebase/auth';
-import { type Firestore, getFirestore } from 'firebase/firestore';
-import { getStorage, type FirebaseStorage } from 'firebase/storage';
+import { connectAuthEmulator, getAuth, type Auth } from 'firebase/auth';
+import { type Firestore, getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
+import { connectStorageEmulator, getStorage, type FirebaseStorage } from 'firebase/storage';
 import { getApps, initializeApp, type FirebaseApp } from 'firebase/app';
 import { getAnalytics, type Analytics } from 'firebase/analytics';
 import { getPerformance, type FirebasePerformance } from 'firebase/performance';
 import { connectFunctionsEmulator, getFunctions, type Functions } from 'firebase/functions';
 import { initializeEuropeWest1Functions, initializeUsCentral1Functions } from './functions';
+import envIsTrue from '../util/env-is-true';
 
 const FIREBASE_CONFIG = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
@@ -97,15 +98,37 @@ export const performance: () => FirebasePerformance = guardNull<FirebasePerforma
   'performance'
 );
 
+// TODO: window may not be available on server-side SvelteKit
+const isRunningLocally = window && window.location.hostname.match('localhost|127.0.0.1');
+
+const shouldUseEmulator = (specificEmulatorOverride?: boolean | undefined | null) =>
+  // If an override is defined, only look at that value.
+  // Otherwise, look at the generic ALL_EMULATORS setting.
+  isRunningLocally &&
+  (specificEmulatorOverride ?? envIsTrue(import.meta.env.VITE_USE_ALL_EMULATORS) ?? false);
+
 export async function initialize(): Promise<void> {
   if (getApps().length !== 0) {
     console.log('Firebase app already initialized');
     return;
   }
   appRef = initializeApp(FIREBASE_CONFIG);
+
   dbRef = getFirestore(appRef);
+  if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_FIRESTORE_EMULATOR))) {
+    connectFirestoreEmulator(dbRef, 'localhost', 8080);
+  }
+
   authRef = getAuth(appRef);
+  if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_AUTH_EMULATOR))) {
+    connectAuthEmulator(authRef, 'http://localhost:9099');
+  }
+
   storageRef = getStorage(appRef);
+  if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_STORAGE_EMULATOR))) {
+    connectStorageEmulator(storageRef, 'localhost', 9199);
+  }
+
   // The default functions ref is us-central1
   usCentral1FunctionsRef = getFunctions(appRef, 'us-central1');
   initializeUsCentral1Functions(usCentral1FunctionsRef);
@@ -114,12 +137,8 @@ export async function initialize(): Promise<void> {
   // https://firebase.google.com/docs/functions/beta/callable#initialize_the_client_sdk
   europeWest1FunctionsRef = getFunctions(appRef, 'europe-west1');
   initializeEuropeWest1Functions(europeWest1FunctionsRef);
-  const useFunctionEmulator = import.meta.env.VITE_USE_API_EMULATOR;
-  if (
-    window &&
-    window.location.hostname.match('localhost|127.0.0.1') &&
-    useFunctionEmulator === 'true'
-  ) {
+
+  if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_API_EMULATOR))) {
     connectFunctionsEmulator(usCentral1FunctionsRef, 'localhost', 5001);
     connectFunctionsEmulator(europeWest1FunctionsRef, 'localhost', 5001);
   }

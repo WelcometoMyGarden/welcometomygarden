@@ -32,8 +32,7 @@
       // if password reset was successful, sign user in:
       await logout();
       await login(email, password.value);
-
-      notify.success($_('reset-password.succes'));
+      notify.success($_('reset-password.success'));
       goto(routes.MAP);
     } catch (err) {
       console.log(err);

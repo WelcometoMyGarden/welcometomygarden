@@ -506,7 +506,7 @@
   "reset-password": {
     "title": "Stel een nieuw wachtwoord in",
     "update": "Wachtwoord wijzigen",
-    "succes": "Jouw wachtwoord is succesvol gereset"
+    "success": "Jouw wachtwoord is succesvol gereset"
   },
   "account": {
     "title": "Account",
@@ -554,8 +554,9 @@
       "expired": "De link om jouw wachtwoord te herstellen is verlopen, probeer nog eens."
     },
     "verification": {
-      "succes": "Jouw e-mailadres is met succes geverifieerd!",
-      "refresh": "Jouw e-mail is al geverifieerd. Vernieuw de pagina.",
+      "verifying": "Je e-mailadres wordt geverifieerd... Gelieve deze pagina niet te sluiten, dit kan enkele seconden duren.",
+      "success": "Jouw e-mailadres is met succes geverifieerd!",
+      "refresh": "Jouw e-mail is al geverifieerd.",
       "expired": "Deze verificatielink is vervallen. Vraag een nieuwe aan.",
       "unsigned": "Gelieve eerst in te loggen"
     }

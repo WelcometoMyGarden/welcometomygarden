@@ -1,46 +1,16 @@
-Note: this uses firebase-admin version 9, that is a version before 10.
+This inner package houses the Firebase Cloud Functions of WTMG's Firebase backend.
 
-[Version 10 introduced a major architecture rewrite](https://firebase.google.com/docs/admin/migrate-node-v10).
+## Install
 
-## Get started
-
-### Install
+Install the dependencies, if you haven't already while following the [main README](../api/):
 
 ```
 yarn install
 ```
 
-### Set up Firebase
+## Configure the Cloud Functions
 
-Install the [Firebase CLI](https://firebaseopensource.com/projects/firebase/firebase-tools/), if you don't have it already.
-
-```
-yarn global add firebase-tools
-or
-npm install -g firebase-tools
-```
-
-Then, set up the Firebase project.
-
-```
-# A. simple login. Will open a browser prompt
-firebase login
-
-# B. Use the following if you need to login using your WTMG Google Account address that has access to WTMG, but already have another active Firebase account elsewhere.
-
-# Open web login prompt
-firebase login:add
-# Register this account with the current directory
-firebase login:use <your_wtmg_email>
-
-# Check if you have the right projects available
-firebase projects:list
-
-# Specify the project you want to target (wtmg-dev or wtmg-production)
-firebase use wtmg-dev
-```
-
-### Configure the environment
+If you have [full access](../docs/full-access.md), set it up.
 
 See https://firebase.google.com/docs/functions/local-emulator#set_up_functions_configuration_optional
 
@@ -58,12 +28,16 @@ Will output the following (or updated versions), which will be picked up by the 
 ```
 
 {
+  "frontend": {
+    "url": "https://staging.welcometomygarden.org"
+  },
   "sendgrid": {
     "key": "<secret_sendgrid_key>"
   },
-  "frontend": {
-    "url": "https://staging.welcometomygarden.org"
-  }
+    "stripe": {
+    "secret_key": "<secret_key>",
+    "webhook_secret": "<secret_key>"
+  },
 }
 ```
 
@@ -77,7 +51,7 @@ yarn serve
 
 See package.json for alternative commands, as well as the `firebase` command itself.
 
-### Stripe - dev environment
+## Running the Stripe dev environment
 
 The Stripe integration was set up with the core ideas from this guide: [https://stripe.com/docs/billing/subscriptions/build-subscriptions?ui=elements](https://stripe.com/docs/billing/subscriptions/build-subscriptions?ui=elements), however, we're using `collection_method: 'send_invoice'` when creating subscriptions instead, and not the default auto-charge method.
 
@@ -85,7 +59,7 @@ This changes the way that Stripe operates on subscriptions & invoices significan
 
 Documentation is detailed and extensive, but also scattered. These additional resource may help:
 
-#### Testing the integration
+### Testing the integration
 
 **Test config**
 
@@ -105,9 +79,9 @@ If another live testing webhook listener is already active, disable it first, to
 1. Disable the main live test endpoint of the (temporarily) at https://dashboard.stripe.com/test/webhooks
 2. Take over its events locally by running:
 
-```
-stripe listen --events customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.paid  --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/stripeWebhooks
-```
+   ```
+   stripe listen --events customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.paid  --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/stripeWebhooks
+   ```
 
 3. Verify that `/wtmg-dev/` in the URL above matches your current Firebase emulator project (did you run `firebase use wtmg-dev` before running Firebase emulators?).
 
@@ -122,7 +96,7 @@ See here for fake payment details: https://stripe.com/docs/billing/subscriptions
 - In https://dashboard.stripe.com/settings/billing/automatic, we switched "Email finalised invoices to customers" OFF (default: ON), so we can create our own copy for this email
 - We changed the rules for overdue subscriptions and invoices.
 
-## Deployment
+## Deployment to Firebase
 
 Use the correct environment:
 
@@ -134,17 +108,17 @@ firebase use wtmg-dev
 
 1. [Akwardly ensure, one-by-one](https://firebase.google.com/docs/functions/config-env#deploying_multiple_sets_of_environment_variables) that your target environment has all the needed files (we should probably migrate to the new parametrized config, or [hack around it another way](<](https://medium.com/@AllanHasegawa/setting-config-for-firebase-cloud-functions-with-json-136f455e7c69)>))
 
-```
-# Check what is live now
-firebase functions:config:get
+   ```
+   # Check what is live now
+   firebase functions:config:get
 
-# Make changes
-firebase functions:config:set stripe.secret_key="API KEY" stripe.webh
-ook_secret="SECRET"
+   # Make changes
+   firebase functions:config:set stripe.secret_key="API KEY" stripe.webh
+   ook_secret="SECRET"
 
-# Check if you did well
-firebase functions:config:get
-```
+   # Check if you did well
+   firebase functions:config:get
+   ```
 
 2. ensure no stray `.env.*` files are around in the `/api` dir that might confuse Firebase.
 

@@ -6,11 +6,23 @@ const { getAuth } = require('firebase-admin/auth');
 const functions = require('firebase-functions');
 const countries = require('./countries');
 const fail = require('./util/fail');
-
 const { sendAccountVerificationEmail, sendPasswordResetEmail } = require('./mail');
+const removeEndingSlash = require('./util/removeEndingSlash');
 
 const db = getFirestore();
 const auth = getAuth();
+
+const frontendUrl = removeEndingSlash(functions.config().frontend.url);
+
+const sendVerificationEmail = async (email, firstName) => {
+  // https://firebase.google.com/docs/auth/admin/email-action-links#generate_email_verification_link
+  // https://firebase.google.com/docs/auth/custom-email-handler
+  const link = await auth.generateEmailVerificationLink(email, {
+    url: `${frontendUrl}/account`
+  });
+
+  await sendAccountVerificationEmail(email, firstName, link);
+};
 
 exports.createUser = async (data, context) => {
   if (!context.auth) {
@@ -89,17 +101,17 @@ exports.createUser = async (data, context) => {
     await db
       .collection('stats')
       .doc('users')
-      .update({ count: FieldValue.increment(1) });
+      .set({ count: FieldValue.increment(1) }, { merge: true });
 
-    const link = await auth.generateEmailVerificationLink(email, {
-      url: `${functions.config().frontend.url}/account`
-    });
-
-    await sendAccountVerificationEmail(user.email, firstName, link);
+    await sendVerificationEmail(email, firstName);
 
     return { message: 'Your account was created successfully,', success: true };
   } catch (ex) {
-    console.log(ex);
+    console.error(
+      'Something went wrong while creating the user, or sending the verification email. ' +
+        'The user will be deleted',
+      ex
+    );
     await auth.deleteUser(context.auth.uid);
     return ex;
   }
@@ -112,7 +124,7 @@ exports.requestPasswordReset = async (email) => {
     const exists = await auth.getUserByEmail(email);
     if (!exists) return { message: 'Password reset request received', success: true };
     const link = await auth.generatePasswordResetLink(email, {
-      url: `${functions.config().frontend.url}/reset-password`
+      url: `${frontendUrl}/reset-password`
     });
 
     const user = await auth.getUserByEmail(email);
@@ -135,16 +147,16 @@ exports.resendAccountVerification = async (data, context) => {
   try {
     user = await auth.getUser(context.auth.uid);
   } catch (ex) {
-    console.log(ex);
+    console.log(
+      'Exception while trying to get the user while resending the account verification email',
+      ex
+    );
     throw new functions.https.HttpsError('permission-denied');
   }
 
   if (!user || user.emailVerified) throw new functions.https.HttpsError('permission-denied');
 
-  const link = await auth.generateEmailVerificationLink(user.email, {
-    url: `${functions.config().frontend.url}/account`
-  });
-  await sendAccountVerificationEmail(user.email, user.displayName, link);
+  await sendVerificationEmail(user.email, user.displayName);
 };
 
 exports.cleanupUserOnDelete = async (user) => {
@@ -160,7 +172,7 @@ exports.cleanupUserOnDelete = async (user) => {
     await db
       .collection('stats')
       .doc('users')
-      .update({ count: FieldValue.increment(-1) });
+      .set({ count: FieldValue.increment(-1) }, { merge: true });
   } catch (ex) {
     console.error(ex);
   }
@@ -184,6 +196,10 @@ exports.setAdminRole = async (data, context) => {
   return { message: `${data.email} admin status set successfully.` };
 };
 
+/**
+ * Function to force the verification of an email, only to be used by admins.
+ * The normal verification process starts in createUser.
+ */
 exports.verifyEmail = async ({ email }, context) => {
   if (!context.auth) {
     return fail('unauthenticated');

@@ -939,7 +939,7 @@
     "description": "Si vous soumettez le formulaire ci-dessous, nous pouvons vous envoyer un lien unique avec lequel vous pourrez réinitialiser votre mot de passe."
   },
   "reset-password": {
-    "succes": "Votre mot de passe a été réinitialisé avec succès",
+    "success": "Votre mot de passe a été réinitialisé avec succès",
     "update": "Mettre à jour le mot de passe",
     "title": "Définir un nouveau mot de passe"
   },
@@ -985,8 +985,9 @@
   },
   "auth": {
     "verification": {
-      "refresh": "Votre adresse électronique a déjà été vérifié. Veuillez actualiser la page.",
-      "succes": "Votre adresse électronique a été vérifiée avec succès !",
+      "verifying": "Vérification de votre email en cours... Merci de ne pas fermer cette page, cela peut prendre quelques secondes.",
+      "refresh": "Votre adresse électronique a déjà été vérifié.",
+      "success": "Votre adresse électronique a été vérifiée avec succès !",
       "expired": "Ce lien de vérification a expiré. Veuillez en demander un nouveau.",
       "unsigned": "Veuillez vous inscrire d'abord"
     },
