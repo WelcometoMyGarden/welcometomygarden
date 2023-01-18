@@ -1,2 +1,2 @@
-.runtimeconfig.*json
+.runtimeconfig*json
 admin-credentials.json

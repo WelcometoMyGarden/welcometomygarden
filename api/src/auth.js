@@ -14,6 +14,16 @@ const auth = getAuth();
 
 const frontendUrl = removeEndingSlash(functions.config().frontend.url);
 
+const sendVerificationEmail = async (email, firstName) => {
+  // https://firebase.google.com/docs/auth/admin/email-action-links#generate_email_verification_link
+  // https://firebase.google.com/docs/auth/custom-email-handler
+  const link = await auth.generateEmailVerificationLink(email, {
+    url: `${frontendUrl}/account`
+  });
+
+  await sendAccountVerificationEmail(email, firstName, link);
+};
+
 exports.createUser = async (data, context) => {
   if (!context.auth) {
     fail('unauthenticated');
@@ -93,15 +103,15 @@ exports.createUser = async (data, context) => {
       .doc('users')
       .set({ count: FieldValue.increment(1) }, { merge: true });
 
-    const link = await auth.generateEmailVerificationLink(email, {
-      url: `${frontendUrl}/account`
-    });
-
-    await sendAccountVerificationEmail(user.email, firstName, link);
+    await sendVerificationEmail(email, firstName);
 
     return { message: 'Your account was created successfully,', success: true };
   } catch (ex) {
-    console.log(ex);
+    console.error(
+      'Something went wrong while creating the user, or sending the verification email. ' +
+        'The user will be deleted',
+      ex
+    );
     await auth.deleteUser(context.auth.uid);
     return ex;
   }
@@ -146,10 +156,7 @@ exports.resendAccountVerification = async (data, context) => {
 
   if (!user || user.emailVerified) throw new functions.https.HttpsError('permission-denied');
 
-  const link = await auth.generateEmailVerificationLink(user.email, {
-    url: `${frontendUrl}/account`
-  });
-  await sendAccountVerificationEmail(user.email, user.displayName, link);
+  await sendVerificationEmail(user.email, user.displayName);
 };
 
 exports.cleanupUserOnDelete = async (user) => {
