@@ -1,0 +1,52 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Local Development",
+      "dependsOn": [
+        "copy-demo-env",
+        "npm: firebase:demo",
+        "npm: dev"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "group": "local-dev"
+      }
+    },
+    {
+      "type": "npm",
+      "script": "firebase:demo",
+      "problemMatcher": [],
+      "label": "npm: firebase:demo",
+      "detail": "firebase --project demo-test emulators:start",
+      "group": {
+        "kind": "build"
+      },
+      "presentation": {
+        "group": "local-dev"
+      }
+    },
+    {
+      "type": "npm",
+      "script": "dev",
+      "problemMatcher": [],
+      "label": "npm: dev",
+      "detail": "vite dev",
+      "group": {
+        "kind": "build",
+      },
+      "presentation": {
+        "group": "local-dev"
+      }
+    },
+    {
+      "type": "shell",
+      "label": "copy-demo-env",
+      "detail": "Copy Demo-test env",
+      "command": "if [[ -a .env.demo-test ]] then cp .env.demo-test .env; fi"
+    }
+  ]
+}

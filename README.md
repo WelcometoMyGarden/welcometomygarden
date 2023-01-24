@@ -62,6 +62,8 @@ yarn dev
 
 This will run a SvelteKit app dev server via Vite (our frontend). SvelteKit also has server-side (backend) capabilities, but for the moment we use it as a pure frontend static site generator via [adapter-static](https://kit.svelte.dev/docs/adapters#supported-environments-static-sites).
 
+If you use VSCode (recommended), you can also execute both commands at the same time using the pre-configured [Run Build Task](https://code.visualstudio.com/Docs/editor/tasks#_typescript-hello-world) command.
+
 ### What can you do now?
 
 Assuming that you did the above, you now have a partially functioning development environment!

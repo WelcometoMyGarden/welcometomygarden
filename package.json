@@ -16,7 +16,9 @@
     "check": "svelte-kit sync && svelte-check --compiler-warnings 'security-anchor-rel-noreferrer:ignore' --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --compiler-warnings 'security-anchor-rel-noreferrer:ignore' --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
-    "format": "prettier --plugin-search-dir . --write ."
+    "format": "prettier --plugin-search-dir . --write .",
+    "firebase:demo": "firebase --project demo-test emulators:start",
+    "firebase:staging": "firebase --project wtmg-dev emulators:start --only functions"
   },
   "publishConfig": {
     "access": "public"
