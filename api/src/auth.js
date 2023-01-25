@@ -84,6 +84,9 @@ exports.createUser = async (data, context) => {
     await db.collection('users').doc(user.uid).set({
       countryCode: data.countryCode,
       firstName
+      // NOTE: for new accounts, we are not setting defaults for `superfan` (false) here
+      // or other properties defined in src/lib/models/Users.ts -> UserPublic
+      // A data migration was run only for new existing accounts in November/December 2022.
     });
 
     await db
@@ -91,11 +94,16 @@ exports.createUser = async (data, context) => {
       .doc(user.uid)
       .set({
         lastName,
+        // Consent can be assumed here, because on the frontend, the registration form does not
+        // submit without the consent checkbox being set.
+        // This is essentially a mirror the creation timestamp of the users-private doc
         consentedAt: FieldValue.serverTimestamp(),
         emailPreferences: {
           newChat: true,
           news: true
         }
+        // NOTE: there are several other properties that don't have defaults, see
+        // src/lib/models/Users.ts -> UserPrivate
       });
 
     await db
@@ -112,6 +120,7 @@ exports.createUser = async (data, context) => {
         'The user will be deleted',
       ex
     );
+    // TODO: instead of deleting here, use a transaction that can be rolled back (if possible).
     await auth.deleteUser(context.auth.uid);
     return ex;
   }
