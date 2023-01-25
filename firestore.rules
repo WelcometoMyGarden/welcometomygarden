@@ -5,6 +5,11 @@
 // Description: Firestore Security Rules Syntax Highlighting and Suggestions
 // VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=ChFlick.firecode
 
+// Helpful docs on data type validation with `is`
+// - https://stackoverflow.com/a/58034743/4973029
+// - https://youtu.be/qbd_4LT0Y4s?t=652
+// Can't find this in the official docs so far!
+
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -56,39 +61,42 @@ service cloud.firestore {
 
     // Public user collection
 
-    function validateUserRequest(user) {
-      return isNonEmptyString(user.firstName);
+    function validateUserState(user) {
+      // See src/lib/models/Users.ts -> UserPublic
+      // and api/src/auth.js -> createUser
+      return isNonEmptyString(user.firstName) &&
+      isNonEmptyString(user.countryCode)
     }
 
     match /users/{userId} {
-      // user documents are always created by firebase-admin.
-      allow create: if false;
-      // Public document data can always be read.
       allow read;
       allow update:
       if isSignedIn() &&
-      validateUserRequest(request.resource.data) &&
-      isOwner(userId)
+      isOwner(userId) &&
+      validateUserState(request.resource.data) &&
+      // Don't allow superfan status to be changed by clients
+      !request.resource.data.diff(resource.data).affectedKeys().hasAny(['superfan'])
     }
 
     // Private user collection
 
-    function validateUserPrivateRequest(user) {
-      // return isNonEmptyString(user.lastName);
-      return true;
+    function validateUserPrivateState(user) {
+      return isNonEmptyString(user.lastName)
+        && user.consentedAt is timestamp
+        && user.emailPreferences is map
+        && user.emailPreferences.newChat is bool
+        && user.emailPreferences.news is bool
+      // Don't allow stripe properties to be changed by clients
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['stripeCustomerId', 'stripeSubscription'])
     }
 
     match /users-private/{userId} {
-      // User-private documents are always created by firebase-admin.
-      allow create: if false;
+      // users-private documents are always created by firebase-admin.
       allow read: if isOwner(userId);
       allow update:
       if isSignedIn() &&
-      validateUserPrivateRequest(request.resource.data) &&
-      isOwner(userId)
-      allow delete:
-      if isSignedIn() &&
-      isOwner(userId)
+      isOwner(userId) &&
+      validateUserPrivateState(request.resource.data)
     }
 
     // Garden functions
