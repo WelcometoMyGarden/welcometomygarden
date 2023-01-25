@@ -11,6 +11,7 @@ package-lock.json
 # Tests
 /coverage
 /.nyc_output
+firestore-coverage.html
 
 # IDEs and editors
 /.idea
@@ -41,3 +42,5 @@ wtmg.config.json
 /build
 /.svelte-kit
 /package
+
+vite.config.ts.timestamp*

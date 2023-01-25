@@ -12,7 +12,8 @@
     "build:prod": "vite build --mode production",
     "build:staging": "vite build --mode staging",
     "preview": "vite preview",
-    "test": "playwright test",
+    "test:e2e": "playwright test",
+    "test:unit": "vitest",
     "check": "svelte-kit sync && svelte-check --compiler-warnings 'security-anchor-rel-noreferrer:ignore' --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --compiler-warnings 'security-anchor-rel-noreferrer:ignore' --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
@@ -24,6 +25,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@firebase/rules-unit-testing": "^2.0.5",
     "@playwright/test": "^1.29.2",
     "@stripe/stripe-js": "^1.46.0",
     "@sveltejs/adapter-static": "^1.0.0-next.48",
@@ -57,7 +59,8 @@
     "svg-inline-loader": "^0.8.2",
     "tslib": "^2.3.1",
     "typescript": "^4.9.4",
-    "vite": "^4.0.4"
+    "vite": "^4.0.4",
+    "vitest": "^0.28.2"
   },
   "type": "module"
 }
