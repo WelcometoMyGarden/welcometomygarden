@@ -10,11 +10,11 @@ import {
 } from 'firebase/auth';
 import { auth, db } from './firebase';
 import { isLoggingIn, isRegistering, user, isInitializing, getUser } from '$lib/stores/auth';
-import User from '$lib/models/User';
+import User, { type UserPrivate, type UserPublic } from '$lib/models/User';
 import { createUser, resendAccountVerification as resendAccVerif } from '@/lib/api/functions';
 import { getAllUserInfo } from './user';
 import { USERS, USERS_PRIVATE } from './collections';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, DocumentReference, DocumentSnapshot, onSnapshot } from 'firebase/firestore';
 import notify from '$lib/stores/notification';
 import { goto } from '$app/navigation';
 import routes from '../routes';
@@ -171,7 +171,7 @@ export const storeNewUser = async () => {
     return null;
   }
 
-  // TODO: refactor, see above. This fetches the user-private and user-public docs.
+  // TODO: refactor, see above. This fetches the users-private and user-public docs.
   // We should be able to fully depend on the streaming listeners for both docs that
   // were added, this generates unnecessary fetches.
   // Approach to fix this:
@@ -193,8 +193,8 @@ export const storeNewUser = async () => {
 };
 
 export const createUserPublicObserver = async (currentUserId: string) => {
-  const docRef = doc(db(), USERS, currentUserId);
-  return onSnapshot(docRef, (doc) => {
+  const docRef = doc(db(), USERS, currentUserId) as DocumentReference<UserPublic>;
+  return onSnapshot<UserPublic>(docRef, (doc: DocumentSnapshot<UserPublic>) => {
     const newUserData = doc.data();
     if (newUserData) {
       const newUser = getUser().copyWith(newUserData);
@@ -204,8 +204,8 @@ export const createUserPublicObserver = async (currentUserId: string) => {
 };
 
 export const createUserPrivateObserver = async (currentUserId: string) => {
-  const docRef = doc(db(), USERS_PRIVATE, currentUserId);
-  return onSnapshot(docRef, (doc) => {
+  const docRef = doc(db(), USERS_PRIVATE, currentUserId) as DocumentReference<UserPrivate>;
+  return onSnapshot<UserPrivate>(docRef, (doc: DocumentSnapshot<UserPrivate>) => {
     const newUserPrivateData = doc.data();
     if (newUserPrivateData) {
       const newUser = getUser().copyWith(newUserPrivateData);
@@ -244,10 +244,10 @@ export const register = async ({
   // TODO Refactor note
   // Now, between these two lines, we are in a state that:
   // 1. triggers an idTokenChanged event (because of the account creation above)
-  // 2. has no user and user-private docs yet (partially created account).
+  // 2. has no user and users-private docs yet (partially created account).
   // This is error-prone & confusing.
   // Idea:
-  // createUser() creates the user and user-private Firestrore docs in the backend.
+  // createUser() creates the user and users-private Firestrore docs in the backend.
   // Is it possible to run createUserWithEmailAndPassword in the backend in createUser too?
   // Then we can atomically say that after createUser() is called, the new user is guaranteed to
   // have a public user and private user doc (remotely).

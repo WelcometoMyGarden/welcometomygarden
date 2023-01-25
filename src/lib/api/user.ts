@@ -9,7 +9,8 @@ import {
   updatingMailPreferences,
   updatingSavedGardens
 } from '@/lib/stores/user';
-import type { Garden, UserPrivate } from '@/lib/types/Garden';
+import type { Garden } from '@/lib/types/Garden';
+import type { UserPrivate } from '../models/User';
 
 export const doesPublicUserExist = async (uid: string) => {
   const userDoc = await getDoc(doc(db(), USERS, uid));
@@ -44,7 +45,7 @@ const getCampsiteInformation = async (uid: string) => {
 };
 
 /**
- * Gets all non-id data related to the user from the user, user-private and campsite collections.
+ * Gets all non-id data related to the user from the user, users-private and campsite collections.
  */
 export const getAllUserInfo = async (userId: string) => {
   const publicUserProfile = await getPublicUserProfile(userId);
