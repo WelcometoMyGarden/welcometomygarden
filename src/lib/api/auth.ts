@@ -52,6 +52,10 @@ export const createAuthObserver = (): Unsubscribe => {
     let routeTo: string | null = null;
 
     if (firebaseUser) {
+      if (oldStoredUser && oldStoredUser.uid !== firebaseUser.uid) {
+        console.info('The Firebase account was changed.');
+      }
+
       // If already logged in
       const firebaseUserEmailVerified: boolean = firebaseUser.emailVerified;
       // This is undocumented, but it gets set, and it is used to check whether the email was verified in
@@ -97,10 +101,8 @@ export const createAuthObserver = (): Unsubscribe => {
         console.log('Email verification full sync success - storing new user');
         isVerifying = false;
         newStoredUser = await storeNewUser();
-        if (!isActiveContains(get(page), routes.ACCOUNT)) {
-          // - demo-test auth will already be on /account
-          // - staging/production auth will be on auth/action,
-          //   if it has not already been redirected by the continueUrl redirector.
+        if (isActiveContains(get(page), routes.AUTH_ACTION)) {
+          // If we're not on a useful page, redirect to /account
           routeTo = routes.ACCOUNT;
         }
       } else {
@@ -142,6 +144,22 @@ export const createAuthObserver = (): Unsubscribe => {
     unsubscribeFromInnerObservers();
     unsubscribeFromAuthObserver();
   };
+};
+
+export const checkAndHandleUnverified = async (message?: string, timeout = 8000) => {
+  if (!get(user)?.emailVerified) {
+    // Migitates https://github.com/WelcometoMyGarden/welcometomygarden/issues/297
+    await auth().currentUser?.reload();
+    // Note: we check the currentUser.emailVerified prop here, because that is the only
+    // one that is atomically set after the .reload()
+    // It's enough signal to not show the warning, but for functionality,
+    // $user.emailVerified should still be checked before rendering content
+    // or taking actions that require full token verification.
+    if (!auth().currentUser?.emailVerified) {
+      notify.warning(message ?? get(_)('auth.verification.unverified'), timeout);
+      return goto(routes.ACCOUNT);
+    }
+  }
 };
 
 export const isEmailVerifiedAndTokenSynced = async () => {

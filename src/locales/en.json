@@ -622,7 +622,8 @@
       "title": "Add your garden"
     },
     "manage": {
-      "title": "Manage garden"
+      "title": "Manage garden",
+      "add-first": "Please add a garden first."
     },
     "form": {
       "title": "Add your garden to the map",
@@ -954,7 +955,9 @@
       "title": "Verify your email",
       "text": "You need to verify your email address if you want to chat or add a garden.",
       "button": "Resend email",
-      "sent": "Email sent!"
+      "sent": "Email sent!",
+      "reload-suggestion": "Did you already verify? Try {reloading} the page.",
+      "reloading-text": "reloading"
     },
     "preferences": {
       "title": "Email preferences",
@@ -993,12 +996,15 @@
     "password": {
       "expired": "This password reset link has expired. Please request a new one"
     },
+    "unsigned": "Please sign in first.",
     "verification": {
       "verifying": "Verifying your email address... Don't close this page, this could take a few seconds.",
+      "reloading": "Reloading your account...",
       "success": "Your email address was verified successfully!",
       "refresh": "Your email has already been verified.",
       "expired": "This verification link has expired. Please request a new one.",
-      "unsigned": "Please sign in first"
+      "sign-in": "Sign in to continue.",
+      "unverified": "Please verify your email first."
     },
     "logged-out": "You have been logged out elsewhere. Please log in again."
   },

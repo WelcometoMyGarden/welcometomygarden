@@ -13,6 +13,7 @@
   import { Progress } from '$lib/components/UI';
   import { removeDiacritics } from '$lib/util';
   import { onMount } from 'svelte';
+  import { checkAndHandleUnverified } from '@/lib/api/auth';
 
   let localPage = $page;
   // Subscribe to page is necessary to render the chat page of the selected chat (when the url changes) for mobile
@@ -43,13 +44,12 @@
   let isMobile = false;
   $: outerWidth <= 700 ? (isMobile = true) : (isMobile = false);
 
-  onMount(() => {
+  onMount(async () => {
     if (!$user) {
+      notify.info($_('auth.unsigned'), 8000);
       return goto(routes.SIGN_IN);
-    } else if (!$user.emailVerified) {
-      notify.warning($_('chat.notify.unverified'), 10000);
-      return goto(routes.ACCOUNT);
     }
+    await checkAndHandleUnverified($_('chat.notify.unverified'));
 
     if (localPage.url.searchParams.get('with')) {
       startChattingWith(localPage.url.searchParams.get('with'));
@@ -95,7 +95,7 @@
 <svelte:window bind:outerWidth />
 <Progress active={!$hasInitialized || $creatingNewChat} />
 
-{#if !localPage.url.searchParams.get('with') && $hasInitialized}
+{#if !localPage.url.searchParams.get('with') && $hasInitialized && $user && $user.emailVerified}
   <div class="container">
     {#if !isMobile || (isMobile && isOverview)}
       <section class="conversations" in:fly={{ x: -outerWidth, duration: 400 }}>

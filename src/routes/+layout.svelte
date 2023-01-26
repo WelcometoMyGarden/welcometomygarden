@@ -39,10 +39,12 @@
 
   let vh = `0px`;
 
+  // Manage chat observers
   user.subscribe(async (tempUser) => {
     if (!unsubscribeFromChatObserver && tempUser && tempUser.emailVerified)
       unsubscribeFromChatObserver = await createChatObserver(tempUser.uid);
 
+    // Unsubscribe if the user logged out
     if (unsubscribeFromChatObserver && !tempUser) unsubscribeFromChatObserver();
 
     if (tempUser && !tempUser.communicationLanguage && $locale)
