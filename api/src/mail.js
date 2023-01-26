@@ -38,6 +38,13 @@ exports.sendAccountVerificationEmail = (email, name, verificationLink) => {
   if (API_KEY == null) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
+    // To help debugging the /auth/action verification page, transform the local auth URL
+    if (verificationLink.includes('/emulator/action')) {
+      console.info(
+        'Transformed /auth/action URL: ',
+        `"${verificationLink.replace(/http:\/\/[^/]+\/emulator/, `${FRONTEND_URL}/auth`)}"`
+      );
+    }
     return Promise.resolve();
   }
 
