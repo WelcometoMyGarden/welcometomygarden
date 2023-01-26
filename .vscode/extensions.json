@@ -3,6 +3,7 @@
         "chflick.firecode",
         "svelte.svelte-vscode",
         "esbenp.prettier-vscode",
-        "mikestead.dotenv"
+        "mikestead.dotenv",
+        "zixuanchen.vitest-explorer"
     ]
 }

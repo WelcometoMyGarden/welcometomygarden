@@ -1,55 +1,96 @@
-import { user as userStore } from '@/lib/stores/auth';
 import type { Garden } from '$lib/types/Garden';
+import type { Timestamp } from 'firebase/firestore';
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 type UserOverwritableProps = {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   [Property in keyof User]: User[Property] extends Function ? never : User[Property];
 };
 type UserProps = Partial<UserOverwritableProps> & { displayName?: string };
 
-export class User {
+type StripeSubscription = {
+  id: string;
+  priceId: string;
+  // https://stripe.com/docs/api/subscriptions/object#subscription_object-status
+  status:
+    | 'active'
+    | 'past_due'
+    | 'unpaid'
+    | 'canceled'
+    | 'incomplete'
+    | 'incomplete_expired'
+    | 'trialing';
+  // https://stripe.com/docs/api/invoices/object#invoice_object-status
+  latestInvoiceStatus: 'draft' | 'open' | 'paid' | 'uncollectible' | 'void';
+  /** Date when the subscription was first created. Date since Unix epoch in seconds */
+  startDate: number;
+  /** Date since Unix epoch in seconds */
+  currentPeriodStart: number;
+  /** Date since Unix epoch in seconds */
+  currentPeriodEnd: number;
+  /** When this subscription is scheduled to be canceled. Date since Unix epoch in seconds */
+  cancelAt: number;
+  /** Date since Unix epoch in seconds */
+  canceledAt: number;
+};
+
+type EmailPreferences = {
+  newChat?: boolean;
+  news?: boolean;
+} | null;
+
+/**
+ * Firebase "users-private" model
+ */
+export type UserPrivate = {
+  // Added during registration, must be non-empty
+  lastName: string;
+  consentedAt: Timestamp | null;
+  emailPreferences: EmailPreferences;
+  // The existence of the below properties can not be guaranteed
+  // see api/src/auth.js
+  communicationLanguage?: string;
+  stripeCustomerId?: string;
+  stripeSubscription?: StripeSubscription;
+};
+
+/**
+ * Firebase "users" model
+ */
+export type UserPublic = {
+  // Added during registration, must be non-empty
+  countryCode: string;
+  // Added during registration, must be non-empty
+  firstName: string;
+  // The existence of the below properties can not be guaranteed
+  // see api/src/auth.js
+  // Empty array if none
+  savedGardens?: string[];
+  superfan?: boolean;
+};
+
+export class User implements UserPrivate, UserPublic {
   id: string;
   uid: string;
   firstName: string;
-  lastName?: string;
+  lastName: string;
   email: string;
   emailVerified: boolean;
   countryCode: string;
   garden: Garden | null;
-  emailPreferences?: {
-    newChat?: boolean;
-    news?: boolean;
-  } | null;
-  consentedAt?: {
-    seconds: number | null;
-    nanoseconds: number | null;
-  } | null;
+  emailPreferences: EmailPreferences;
+  consentedAt: Timestamp | null;
   communicationLanguage?: string;
   superfan?: boolean;
   savedGardens?: string[];
   stripeCustomerId?: string;
-  stripeSubscription?: {
-    id: string;
-    priceId: string;
-    // https://stripe.com/docs/api/subscriptions/object#subscription_object-status
-    status:
-      | 'active'
-      | 'past_due'
-      | 'unpaid'
-      | 'canceled'
-      | 'incomplete'
-      | 'incomplete_expired'
-      | 'trialing';
-    // https://stripe.com/docs/api/invoices/object#invoice_object-status
-    latestInvoiceStatus: 'draft' | 'open' | 'paid' | 'uncollectible' | 'void';
-  };
+  stripeSubscription?: StripeSubscription;
 
   constructor(user: UserProps) {
     // TYPE TODO: choose one, id or uid
     this.id = user.uid || user.id || '';
     this.uid = user.uid || user.id || '';
     this.firstName = user.firstName || user.displayName || '';
-    this.lastName = user.lastName;
+    this.lastName = user.lastName || '';
     this.email = user.email || '';
     this.emailVerified = user.emailVerified || false;
     this.countryCode = user.countryCode || '';

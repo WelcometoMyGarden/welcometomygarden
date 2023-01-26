@@ -8,10 +8,16 @@
   import { updateGarden } from '$lib/api/garden';
   import Form from '$lib/components/Garden/Form.svelte';
   import routes from '$lib/routes';
+  import { checkAndHandleUnverified } from '@/lib/api/auth';
 
-  if (!$user || !$user.emailVerified) {
-    notify.warning('Please verify your email first.', 8000);
-    goto(routes.ACCOUNT);
+  if (!$user) {
+    notify.info($_('auth.unsigned'), 8000);
+    goto(routes.SIGN_IN);
+  } else if (!$user.emailVerified) {
+    checkAndHandleUnverified($_('auth.verification.unverified'), 8000);
+  } else if (!$user.garden) {
+    notify.warning($_('garden.manage.add-first'));
+    goto(routes.ADD_GARDEN);
   }
   let updatingGarden = false;
 
@@ -45,4 +51,6 @@
 
 <Progress active={updatingGarden} />
 
-<Form on:submit={submit} isUpdate isSubmitting={updatingGarden} garden={$user.garden} />
+{#if $user && $user.garden}
+  <Form on:submit={submit} isUpdate isSubmitting={updatingGarden} garden={$user.garden} />
+{/if}

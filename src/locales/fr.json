@@ -674,7 +674,8 @@
       "title": "Ajoutez votre jardin"
     },
     "manage": {
-      "title": "Gérer le jardin"
+      "title": "Gérer le jardin",
+      "add-first": "Veuillez d'abord ajouter votre jardin"
     }
   },
   "sign-in": {
@@ -973,7 +974,9 @@
       "title": "Confirmez votre adresse électronique",
       "sent": "Courriel envoyé !",
       "button": "Renvoyer le courriel",
-      "text": "Vous devez vérifier votre adresse électronique si vous voulez discuter ou ajouter un jardin."
+      "text": "Vous devez vérifier votre adresse électronique si vous voulez discuter ou ajouter un jardin.",
+      "reload-suggestion": "Avez vous déjà verifié? Essaye de {reloading} la page.",
+      "reloading-text": "recharger"
     },
     "preferences": {
       "text": "M'envoyer des courriels quand :",
@@ -984,12 +987,15 @@
     "title": "Compte"
   },
   "auth": {
+    "unsigned": "Veuillez vous inscrire d'abord.",
     "verification": {
       "verifying": "Vérification de votre email en cours... Merci de ne pas fermer cette page, cela peut prendre quelques secondes.",
+      "reloading": "Rechargement de votre compte en cours...",
       "refresh": "Votre adresse électronique a déjà été vérifié.",
       "success": "Votre adresse électronique a été vérifiée avec succès !",
       "expired": "Ce lien de vérification a expiré. Veuillez en demander un nouveau.",
-      "unsigned": "Veuillez vous inscrire d'abord"
+      "sign-in": "Veuillez vous inscrire pour continuer.",
+      "unverified": "Veuillez vérifier voter adresse électronique d'abord."
     },
     "password": {
       "expired": "Ce lien de réinitialisation du mot de passe a expiré. Veuillez en demander un nouveau"

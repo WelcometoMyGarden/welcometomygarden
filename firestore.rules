@@ -1,8 +1,20 @@
+
+// This file is auto-formatted by the VS Code ChFlick.firecode extension
+// Name: Firestore Rules
+// Id: ChFlick.firecode
+// Description: Firestore Security Rules Syntax Highlighting and Suggestions
+// VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=ChFlick.firecode
+
+// Helpful docs on data type validation with `is`
+// - https://stackoverflow.com/a/58034743/4973029
+// - https://youtu.be/qbd_4LT0Y4s?t=652
+// Can't find this in the official docs so far!
+
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    //  Generic functions
+    // Generic functions
 
     function isOwner(userId) {
       return request.auth.uid == userId
@@ -40,16 +52,6 @@ service cloud.firestore {
       return field in request.resource.data;
     }
 
-
-    function validateUserRequest(user) {
-      return isNonEmptyString(user.firstName);
-    }
-
-    function validateUserPrivateRequest(user) {
-      // return isNonEmptyString(user.lastName);
-      return true;
-    }
-
     // General validation functions
 
     function isNonEmptyString(str) {
@@ -57,52 +59,68 @@ service cloud.firestore {
       str.size() > 0
     }
 
-
-
     // Public user collection
 
+    function validateUserState(user) {
+      // See src/lib/models/Users.ts -> UserPublic
+      // and api/src/auth.js -> createUser
+      return isNonEmptyString(user.firstName) &&
+      isNonEmptyString(user.countryCode)
+    }
 
     match /users/{userId} {
-      allow create: if false;
       allow read;
       allow update:
       if isSignedIn() &&
-      validateUserRequest(request.resource.data) &&
-      isOwner(userId)
+      isOwner(userId) &&
+      validateUserState(request.resource.data) &&
+      // Don't allow superfan status to be changed by clients
+      !request.resource.data.diff(resource.data).affectedKeys().hasAny(['superfan'])
     }
 
     // Private user collection
 
+    function validateUserPrivateState(user) {
+      return isNonEmptyString(user.lastName)
+        && user.consentedAt is timestamp
+        && user.emailPreferences is map
+        && user.emailPreferences.newChat is bool
+        && user.emailPreferences.news is bool
+      // Don't allow stripe properties to be changed by clients
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['stripeCustomerId', 'stripeSubscription'])
+    }
+
     match /users-private/{userId} {
-      allow create: if false;
+      // users-private documents are always created by firebase-admin.
       allow read: if isOwner(userId);
       allow update:
       if isSignedIn() &&
-      validateUserPrivateRequest(request.resource.data) &&
-      isOwner(userId)
-      allow delete:
-      if isSignedIn() &&
-      isOwner(userId)
+      isOwner(userId) &&
+      validateUserPrivateState(request.resource.data)
     }
 
     // Garden functions
 
+    // TODO unused
     function validateDescription(description) {
       return description is string &&
       description.size() >= 20 &&
       description.size() <= 300
     }
 
+    // TODO unused
     function validateContactLanguages(languages) {
-      /* TODO: verify firestore enum security rule? */
+      // TODO: verify firestore enum security rule?
       // return languages in ['Dutch', 'French', 'German', 'English']
       return true;
     }
 
+    // TODO unused
     function validateLocation(location) {
       return location.keys().hasAll(['latitude', 'longitude']) && location.latitude is latlng && location.longitude is latlng
     }
 
+    // TODO unused
     function validateFacilities(facilities) {
       return facilities.keys().hasAll([
       'drinkableWater',
@@ -158,10 +176,7 @@ service cloud.firestore {
       isOwner(userId)
     }
 
-
-
     // Chats
-
 
     function getChatUsers(chatId) {
       return get(/databases/$(database)/documents/chats/$(chatId)).data.users;

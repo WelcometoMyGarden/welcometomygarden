@@ -182,7 +182,8 @@
       "title": "Voeg jouw tuin toe"
     },
     "manage": {
-      "title": "Beheer jouw tuin"
+      "title": "Beheer jouw tuin",
+      "add-first": "Voeg eerst jouw tuin toe."
     },
     "form": {
       "title": "Voeg jouw tuin toe aan de kaart",
@@ -514,7 +515,9 @@
       "title": "Bevestig jouw e-mail",
       "text": "Je moet jouw e-mailadres controleren als je wilt chatten of een tuin wilt toevoegen.",
       "button": "E-mail opnieuw versturen",
-      "sent": "E-mail verzonden!"
+      "sent": "E-mail verzonden!",
+      "reload-suggestion": "Heb je al geverifieerd? Probeer de pagina te {reloading}.",
+      "reloading-text": "herladen"
     },
     "preferences": {
       "title": "E-mail voorkeuren",
@@ -553,12 +556,15 @@
     "password": {
       "expired": "De link om jouw wachtwoord te herstellen is verlopen, probeer nog eens."
     },
+    "unsigned": "Gelieve eerst in te loggen",
     "verification": {
       "verifying": "Je e-mailadres wordt geverifieerd... Gelieve deze pagina niet te sluiten, dit kan enkele seconden duren.",
+      "reloading": "Je account wordt herladen...",
       "success": "Jouw e-mailadres is met succes geverifieerd!",
       "refresh": "Jouw e-mail is al geverifieerd.",
       "expired": "Deze verificatielink is vervallen. Vraag een nieuwe aan.",
-      "unsigned": "Gelieve eerst in te loggen"
+      "sign-in": "Log in om verder te gaan.",
+      "unverified": "Gelieve eerst je email te verifiëren."
     }
   },
   "register": {

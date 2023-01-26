@@ -10,11 +10,11 @@ import {
 } from 'firebase/auth';
 import { auth, db } from './firebase';
 import { isLoggingIn, isRegistering, user, isInitializing, getUser } from '$lib/stores/auth';
-import User from '$lib/models/User';
+import User, { type UserPrivate, type UserPublic } from '$lib/models/User';
 import { createUser, resendAccountVerification as resendAccVerif } from '@/lib/api/functions';
 import { getAllUserInfo } from './user';
 import { USERS, USERS_PRIVATE } from './collections';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, DocumentReference, DocumentSnapshot, onSnapshot } from 'firebase/firestore';
 import notify from '$lib/stores/notification';
 import { goto } from '$app/navigation';
 import routes from '../routes';
@@ -52,6 +52,10 @@ export const createAuthObserver = (): Unsubscribe => {
     let routeTo: string | null = null;
 
     if (firebaseUser) {
+      if (oldStoredUser && oldStoredUser.uid !== firebaseUser.uid) {
+        console.info('The Firebase account was changed.');
+      }
+
       // If already logged in
       const firebaseUserEmailVerified: boolean = firebaseUser.emailVerified;
       // This is undocumented, but it gets set, and it is used to check whether the email was verified in
@@ -97,10 +101,8 @@ export const createAuthObserver = (): Unsubscribe => {
         console.log('Email verification full sync success - storing new user');
         isVerifying = false;
         newStoredUser = await storeNewUser();
-        if (!isActiveContains(get(page), routes.ACCOUNT)) {
-          // - demo-test auth will already be on /account
-          // - staging/production auth will be on auth/action,
-          //   if it has not already been redirected by the continueUrl redirector.
+        if (isActiveContains(get(page), routes.AUTH_ACTION)) {
+          // If we're not on a useful page, redirect to /account
           routeTo = routes.ACCOUNT;
         }
       } else {
@@ -144,6 +146,22 @@ export const createAuthObserver = (): Unsubscribe => {
   };
 };
 
+export const checkAndHandleUnverified = async (message?: string, timeout = 8000) => {
+  if (!get(user)?.emailVerified) {
+    // Migitates https://github.com/WelcometoMyGarden/welcometomygarden/issues/297
+    await auth().currentUser?.reload();
+    // Note: we check the currentUser.emailVerified prop here, because that is the only
+    // one that is atomically set after the .reload()
+    // It's enough signal to not show the warning, but for functionality,
+    // $user.emailVerified should still be checked before rendering content
+    // or taking actions that require full token verification.
+    if (!auth().currentUser?.emailVerified) {
+      notify.warning(message ?? get(_)('auth.verification.unverified'), timeout);
+      return goto(routes.ACCOUNT);
+    }
+  }
+};
+
 export const isEmailVerifiedAndTokenSynced = async () => {
   const currentUser = auth().currentUser;
   const firebaseUserEmailVerified: boolean = currentUser?.emailVerified ?? false;
@@ -171,7 +189,7 @@ export const storeNewUser = async () => {
     return null;
   }
 
-  // TODO: refactor, see above. This fetches the user-private and user-public docs.
+  // TODO: refactor, see above. This fetches the users-private and user-public docs.
   // We should be able to fully depend on the streaming listeners for both docs that
   // were added, this generates unnecessary fetches.
   // Approach to fix this:
@@ -193,8 +211,8 @@ export const storeNewUser = async () => {
 };
 
 export const createUserPublicObserver = async (currentUserId: string) => {
-  const docRef = doc(db(), USERS, currentUserId);
-  return onSnapshot(docRef, (doc) => {
+  const docRef = doc(db(), USERS, currentUserId) as DocumentReference<UserPublic>;
+  return onSnapshot<UserPublic>(docRef, (doc: DocumentSnapshot<UserPublic>) => {
     const newUserData = doc.data();
     if (newUserData) {
       const newUser = getUser().copyWith(newUserData);
@@ -204,8 +222,8 @@ export const createUserPublicObserver = async (currentUserId: string) => {
 };
 
 export const createUserPrivateObserver = async (currentUserId: string) => {
-  const docRef = doc(db(), USERS_PRIVATE, currentUserId);
-  return onSnapshot(docRef, (doc) => {
+  const docRef = doc(db(), USERS_PRIVATE, currentUserId) as DocumentReference<UserPrivate>;
+  return onSnapshot<UserPrivate>(docRef, (doc: DocumentSnapshot<UserPrivate>) => {
     const newUserPrivateData = doc.data();
     if (newUserPrivateData) {
       const newUser = getUser().copyWith(newUserPrivateData);
@@ -244,10 +262,10 @@ export const register = async ({
   // TODO Refactor note
   // Now, between these two lines, we are in a state that:
   // 1. triggers an idTokenChanged event (because of the account creation above)
-  // 2. has no user and user-private docs yet (partially created account).
+  // 2. has no user and users-private docs yet (partially created account).
   // This is error-prone & confusing.
   // Idea:
-  // createUser() creates the user and user-private Firestrore docs in the backend.
+  // createUser() creates the user and users-private Firestrore docs in the backend.
   // Is it possible to run createUserWithEmailAndPassword in the backend in createUser too?
   // Then we can atomically say that after createUser() is called, the new user is guaranteed to
   // have a public user and private user doc (remotely).

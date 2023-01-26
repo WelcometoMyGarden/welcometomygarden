@@ -1,5 +1,7 @@
+/// <reference types="vitest" />
 import { sveltekit } from '@sveltejs/kit/vite';
 import type { UserConfig } from 'vite';
+
 import { defineConfig } from 'vite';
 import { createAvailableLocales } from './plugins/available-locales';
 import { customSvgLoader } from './plugins/svg-loader';
@@ -11,6 +13,11 @@ export default defineConfig((): UserConfig => {
     build: {
       minify: isProduction
     },
-    plugins: [createAvailableLocales(), customSvgLoader({ removeSVGTagAttrs: false }), sveltekit()]
+    plugins: [createAvailableLocales(), customSvgLoader({ removeSVGTagAttrs: false }), sveltekit()],
+    test: {
+      // Modified from
+      // https://vitest.dev/config/#include
+      include: ['tests/unit/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}']
+    }
   };
 });
