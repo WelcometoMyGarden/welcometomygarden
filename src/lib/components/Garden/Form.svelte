@@ -19,6 +19,7 @@
     waterIcon,
     tentIcon
   } from '$lib/images/icons';
+  import ReloadSuggestion from '../ReloadSuggestion.svelte';
 
   const dispatch = createEventDispatcher();
 
@@ -172,6 +173,7 @@
                 )}</a>`
               }
             })}
+            <ReloadSuggestion />
           </p>
         {:else}
           <p>

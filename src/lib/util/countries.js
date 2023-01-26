@@ -1,3 +1,7 @@
+/**
+ * What this map probably is:
+ * ISO 3166 Alpha-2 country codes mapped onto their English country names.
+ */
 export default {
   AF: 'Afghanistan',
   AL: 'Albania',

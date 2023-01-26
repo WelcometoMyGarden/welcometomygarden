@@ -3,6 +3,7 @@ export default {
   ADD_GARDEN: '/garden/add',
   ABOUT_SUPERFAN: '/about-superfan',
   ABOUT_US: '/about-us',
+  AUTH_ACTION: '/auth/action',
   BECOME_SUPERFAN: '/become-superfan',
   CHAT: '/chat',
   COOKIE_POLICY: '/terms/cookies',
