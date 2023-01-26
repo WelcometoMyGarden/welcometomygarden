@@ -46,7 +46,12 @@
       "type": "shell",
       "label": "copy-demo-env",
       "detail": "Copy Demo-test env",
-      "command": "if [[ -a .env.demo-test ]] then cp .env.demo-test .env; fi"
+      "command": "if [[ -a .env.demo-test ]] then cp .env.demo-test .env; fi",
+      "presentation": {
+        "revealProblems": "onProblem",
+        "panel": "new",
+        "close": true
+      }
     }
   ]
 }
