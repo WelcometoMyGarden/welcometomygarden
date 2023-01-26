@@ -14,6 +14,7 @@
   import { removeDiacritics } from '$lib/util';
   import { onMount } from 'svelte';
   import { checkAndHandleUnverified } from '@/lib/api/auth';
+  import createSlug from '@/lib/util/createSlug';
 
   let localPage = $page;
   // Subscribe to page is necessary to render the chat page of the selected chat (when the url changes) for mobile
@@ -51,22 +52,18 @@
     }
     await checkAndHandleUnverified($_('chat.notify.unverified'));
 
-    if (localPage.url.searchParams.get('with')) {
-      startChattingWith(localPage.url.searchParams.get('with'));
+    let withQueryParam = localPage.url.searchParams.get('with');
+    if (withQueryParam) {
+      startChattingWith(withQueryParam);
     }
   });
 
   // Functions
   const sortByLastActivity = (c1, c2) => c2.lastActivity - c1.lastActivity;
 
-  const getConvoRoute = (name, id) => `${routes.CHAT}/${normalizeName(name)}/${id}`;
+  const getConvoRoute = (name, id) => `${routes.CHAT}/${createSlug(name)}/${id}`;
 
-  const normalizeName = (name: string) => {
-    const parts = name.split(/[^A-Za-z-]/);
-    return removeDiacritics(parts[0]).toLowerCase();
-  };
-
-  const startChattingWith = async (partnerId) => {
+  const startChattingWith = async (partnerId: string) => {
     if ($chats) {
       const activeChatWithUser = getChatForUser(partnerId);
       if (activeChatWithUser) {

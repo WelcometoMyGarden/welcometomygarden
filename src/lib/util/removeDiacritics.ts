@@ -221,7 +221,7 @@ const defaultDiacriticsRemovalMap = [
   }
 ];
 
-export default (str) => {
+export default (str: string) => {
   let stripped = str;
   for (let i = 0; i < defaultDiacriticsRemovalMap.length; i += 1) {
     stripped = stripped.replace(
