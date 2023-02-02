@@ -2,6 +2,22 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Local Debugging",
+      "dependsOn": [
+        "copy-demo-env",
+        "npm: firebase:debug",
+        "npm: dev"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "group": "local-dev"
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "Local Development",
       "dependsOn": [
         "copy-demo-env",
@@ -9,8 +25,7 @@
         "npm: dev"
       ],
       "group": {
-        "kind": "build",
-        "isDefault": true
+        "kind": "build"
       },
       "presentation": {
         "group": "local-dev"
@@ -36,7 +51,7 @@
       "label": "npm: dev",
       "detail": "vite dev",
       "group": {
-        "kind": "build",
+        "kind": "build"
       },
       "presentation": {
         "group": "local-dev"
@@ -51,6 +66,19 @@
         "revealProblems": "onProblem",
         "panel": "new",
         "close": true
+      }
+    },
+    {
+      "type": "npm",
+      "script": "firebase:debug",
+      "group": {
+        "kind": "build"
+      },
+      "problemMatcher": [],
+      "label": "npm: firebase:debug",
+      "detail": "firebase --project demo-test emulators:start --inspect-functions",
+      "presentation": {
+        "group": "local-dev"
       }
     }
   ]

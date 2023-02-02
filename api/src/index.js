@@ -12,7 +12,9 @@ const {
   cleanupUserOnDelete,
   setAdminRole,
   verifyEmail,
-  updateEmail
+  updateEmail,
+  onUserPrivateWrite: onUserPrivateUpdate,
+  onUserWrite: onUserUpdate
 } = require('./auth');
 const { doBackup } = require('./storage');
 const { onMessageCreate, onChatCreate } = require('./chat');
@@ -55,6 +57,12 @@ exports.stripeWebhooks = euWest1.https.onRequest(stripeWebhookHandler);
 
 // Auth triggers
 exports.cleanupUserOnDelete = usCentral1.auth.user().onDelete(cleanupUserOnDelete);
+
+// Firestore triggers: users
+exports.onUserPrivateWrite = euWest1.firestore
+  .document('users-private/{userId}')
+  .onWrite(onUserPrivateUpdate);
+exports.onUserWrite = euWest1.firestore.document('users/{userId}').onWrite(onUserUpdate);
 
 // Firestore triggers: campsites
 exports.onCampsiteCreate = usCentral1.firestore

@@ -47,7 +47,10 @@ export type UserPrivate = {
   consentedAt: Timestamp | null;
   emailPreferences: EmailPreferences;
   // The existence of the below properties can not be guaranteed
+  // They are added later to the object.
   // see api/src/auth.js
+  sendgridId?: string;
+  // TODO: this one should move into createUser, so it can be guaranteed.
   communicationLanguage?: string;
   stripeCustomerId?: string;
   stripeSubscription?: StripeSubscription;
