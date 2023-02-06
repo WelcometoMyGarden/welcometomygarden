@@ -89,7 +89,7 @@ Some features are reserved for [Superfans](https://welcometomygarden.org/about-s
 
 ### What can you NOT immediately do?
 
-- Preview the email HTML - except if you create your own SendGrid account.
+- Preview the email HTML, and test contact property syncing functionality - except if you create your own SendGrid account. It's a quick procedure to set up your own free account for testing.
 - Work on subscription features - except if you go through the hassle of setting up your own test company on Stripe!
 
 If you have received access to our staging or production Firebase environment, see how to log in your Firebase account & access real API services with [these additional notes](./docs/full-access.md).

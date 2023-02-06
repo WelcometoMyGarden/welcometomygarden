@@ -7,6 +7,13 @@
     "webhook_secret": null
   },
   "sendgrid": {
-    "key": null
+    "key": null,
+    "newsletter_list_id": null,
+    "field_ids": {
+      "wtmg_id": null,
+      "superfan": null,
+      "communication_language": null,
+      "creation_time": null
+    }
   }
 }

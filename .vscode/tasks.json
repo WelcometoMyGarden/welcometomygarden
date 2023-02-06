@@ -10,7 +10,6 @@
       ],
       "group": {
         "kind": "build",
-        "isDefault": true
       },
       "presentation": {
         "group": "local-dev"
@@ -25,7 +24,8 @@
         "npm: dev"
       ],
       "group": {
-        "kind": "build"
+        "kind": "build",
+        "isDefault": true
       },
       "presentation": {
         "group": "local-dev"

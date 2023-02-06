@@ -22,9 +22,9 @@ const removeEndingSlash = require('./util/removeEndingSlash');
 const db = getFirestore();
 const auth = getAuth();
 
-const SG_MARKETING_KEY = functions.config().sendgrid.marketing_key;
-if (SG_MARKETING_KEY) {
-  sendgridClient.setApiKey(SG_MARKETING_KEY);
+const SG_KEY = functions.config().sendgrid.key;
+if (SG_KEY) {
+  sendgridClient.setApiKey(SG_KEY);
 }
 
 /**
@@ -325,7 +325,7 @@ const createSendgridContact = async (user, extraContactDetails = {}) => {
     await setTimeout(2000);
     // Check for the statustoISOString
     const [
-      response,
+      ,
       {
         status: latestStatus,
         results: { errored_count, updated_count }
@@ -399,7 +399,7 @@ const createSendgridContact = async (user, extraContactDetails = {}) => {
  * @returns {Promise<any>}
  */
 exports.onUserPrivateWrite = async (change) => {
-  if (!SG_MARKETING_KEY) {
+  if (!SG_KEY) {
     console.log('onUserPrivateWrite: No SG marketing key');
     return;
   }
@@ -544,7 +544,7 @@ exports.onUserPrivateWrite = async (change) => {
  * @returns {Promise<any>}
  */
 exports.onUserWrite = async (change) => {
-  if (!SG_MARKETING_KEY) {
+  if (!SG_KEY) {
     console.log('onUserWrite: No SG marketing key');
     return;
   }
