@@ -8,7 +8,7 @@ const { parseAsync } = require('json2csv');
 const sendgrid = require('@sendgrid/mail');
 const removeEndingSlash = require('./util/removeEndingSlash');
 
-const API_KEY = functions.config().sendgrid.key;
+const API_KEY = functions.config().sendgrid.send_key;
 const FRONTEND_URL = removeEndingSlash(functions.config().frontend.url);
 
 const auth = getAuth();
@@ -25,7 +25,7 @@ if (API_KEY != null) {
  * For now, we have only configured mail templates in the production environment.
  * @type {boolean}
  */
-const canSendMail = API_KEY != null && API_KEY.startsWith('SG.lwDdmP_1RLqT3oWg6ucoEg');
+const canSendMail = API_KEY != null;
 
 const NO_API_KEY_WARNING =
   "You don't have an SendGrid API key set in your .runtimeconfig.json, " +

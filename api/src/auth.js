@@ -22,7 +22,7 @@ const removeEndingSlash = require('./util/removeEndingSlash');
 const db = getFirestore();
 const auth = getAuth();
 
-const SG_KEY = functions.config().sendgrid.key;
+const SG_KEY = functions.config().sendgrid.marketing_key;
 if (SG_KEY) {
   sendgridClient.setApiKey(SG_KEY);
 }
