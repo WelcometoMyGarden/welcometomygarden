@@ -10,9 +10,12 @@
   import { lockIcon, emailIcon } from '$lib/images/icons';
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { goto } from '$lib/util/navigate';
+  import { page } from '$app/stores';
 
   let email = {};
   let password = {};
+
+  const continueUrl = $page.url.searchParams.get('continueUrl');
 
   let formError = '';
   const submit = async () => {
@@ -21,7 +24,11 @@
     try {
       await login(email.value, password.value);
       notify.success($_('sign-in.notify.welcome', { values: { user: $user.firstName } }));
-      goto(routes.MAP);
+      if (continueUrl) {
+        goto(continueUrl);
+      } else {
+        goto(routes.MAP);
+      }
     } catch (ex) {
       if (ex.code === 'auth/user-not-found' || ex.code === 'auth/wrong-password')
         formError = $_('sign-in.notify.incorrect');

@@ -11,7 +11,6 @@
   import { initiateChat } from '$lib/api/chat';
   import ConversationCard from '$lib/components/Chat/ConversationCard.svelte';
   import { Progress } from '$lib/components/UI';
-  import { removeDiacritics } from '$lib/util';
   import { onMount } from 'svelte';
   import { checkAndHandleUnverified } from '@/lib/api/auth';
   import createSlug from '@/lib/util/createSlug';

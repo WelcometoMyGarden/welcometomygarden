@@ -239,7 +239,7 @@
     },
     "notify": {
       "success": "Jouw tuin is succesvol toegevoegd!",
-      "update": "Jouw tuin werd met succes geüpdatet!",
+      "update": "Jouw tuin werd succesvol geüpdatet!",
       "photo": "Het kan een minuut duren voordat de foto verschijnt."
     }
   },
@@ -560,7 +560,7 @@
     "verification": {
       "verifying": "Je e-mailadres wordt geverifieerd... Gelieve deze pagina niet te sluiten, dit kan enkele seconden duren.",
       "reloading": "Je account wordt herladen...",
-      "success": "Jouw e-mailadres is met succes geverifieerd!",
+      "success": "Jouw e-mailadres is geverifieerd!",
       "refresh": "Jouw e-mail is al geverifieerd.",
       "expired": "Deze verificatielink is vervallen. Vraag een nieuwe aan.",
       "sign-in": "Log in om verder te gaan.",
@@ -595,7 +595,7 @@
       "consent": "Je moet akkoord gaan met de voorwaarden van Welcome To My Garden als je gebruik wilt maken van het platform."
     },
     "notify": {
-      "successful": "Jouw account is met succes aangemaakt! Controleer jouw e-mail om jouw account te verifiëren.",
+      "successful": "Jouw account is aangemaakt! Controleer jouw e-mail om jouw account te verifiëren.",
       "in-use": "Dit e-mailadres is al in gebruik.",
       "unexpected": "Er is een onverwachte fout opgetreden. Als het probleem aanhoudt, neem dan contact op met {support}"
     }
