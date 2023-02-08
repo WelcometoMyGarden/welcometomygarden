@@ -1008,7 +1008,8 @@
     },
     "discourse": {
       "superfan": "You need to be a Superfan to enter the community.",
-      "logging-in": "Logging you into Discourse..."
+      "logging-in": "Logging you into Discourse...",
+      "failed": "Login to Discourse failed, contact support if this keeps happening"
     },
     "logged-out": "You have been logged out elsewhere. Please log in again."
   },
