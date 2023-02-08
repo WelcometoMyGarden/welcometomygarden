@@ -25,5 +25,5 @@ Create a `.env` file and make sure it has the values specified in [`.env.example
 For the backend, your `.runtimeconfig.json` will need:
 
 - `frontend.url`: the "callback URL" endpoint, typically where your frontend dev server is running (`http://localhost:5173`) if you're dveloping locally. In production, this will be `https://welcometomygarden.org`.
-- `stripe.secret_key` & `stripe.webhook_secret`: backend keys for Stripe. Use test keys when developing.
-- `sendgrid.key`: a SendGrid API key, now only used to send email. Use a development key when developing.
+- `stripe.secret_key` & `stripe.webhook_secret`: backend keys for Stripe. Use test keys when developing. - `sendgrid.send_key`: a SendGrid API key, only used to send email. We currently use these in both staging and production environments, so that we can reuse created Dynamic Templates. **This might result in hard-to-test scenarios regarding unsubscribe group emails** (production SendGrid groups will not affect the staging contacts)
+- `sendgrid.marketing_key`: a SendGrid API key, only used to perform operations with the SendGrid Marketing API (e.g. syncing contacts). This one differs between the production & staging environments.

@@ -4,6 +4,7 @@ export default {
   ABOUT_SUPERFAN: '/about-superfan',
   ABOUT_US: '/about-us',
   AUTH_ACTION: '/auth/action',
+  AUTH_DISCOURSE: '/auth/discourse-connect',
   BECOME_SUPERFAN: '/become-superfan',
   CHAT: '/chat',
   COOKIE_POLICY: '/terms/cookies',

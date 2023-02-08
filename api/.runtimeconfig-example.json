@@ -7,7 +7,8 @@
     "webhook_secret": null
   },
   "sendgrid": {
-    "key": null,
+    "send_key": null,
+    "marketing_key": null,
     "newsletter_list_id": null,
     "field_ids": {
       "wtmg_id": null,
@@ -15,5 +16,8 @@
       "communication_language": null,
       "creation_time": null
     }
+  },
+  "discourse": {
+    "connect_secret": null
   }
 }

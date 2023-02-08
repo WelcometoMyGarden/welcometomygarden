@@ -1006,6 +1006,10 @@
       "sign-in": "Sign in to continue.",
       "unverified": "Please verify your email first."
     },
+    "discourse": {
+      "superfan": "You need to be a Superfan to enter the community.",
+      "logging-in": "Logging you into Discourse..."
+    },
     "logged-out": "You have been logged out elsewhere. Please log in again."
   },
   "register": {
