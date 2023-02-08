@@ -16,7 +16,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div on:click|stopPropagation>
   <input {id} type="radio" {disabled} {name} {value} bind:group on:input on:change />
-  <LabelWithIcon {ellipsis} {compact} labelFor={name} {icon}>{label}</LabelWithIcon>
+  <LabelWithIcon {ellipsis} {compact} labelFor={id} {icon}>{label}</LabelWithIcon>
 </div>
 
 <style>
