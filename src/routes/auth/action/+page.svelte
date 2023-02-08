@@ -118,6 +118,11 @@
     }
   };
 
+  // TODO: the async actions here are not awaited.
+  // it would probably be safer to do so in an an onMount
+  // to be sure that initialization is completed before component
+  // internals are modified
+  // https://github.com/sveltejs/svelte/issues/5501
   handleAction();
 </script>
 

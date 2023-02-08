@@ -12,7 +12,9 @@ const {
   cleanupUserOnDelete,
   setAdminRole,
   verifyEmail,
-  updateEmail
+  updateEmail,
+  onUserPrivateWrite: onUserPrivateUpdate,
+  onUserWrite: onUserUpdate
 } = require('./auth');
 const { doBackup } = require('./storage');
 const { onMessageCreate, onChatCreate } = require('./chat');
@@ -24,6 +26,7 @@ const {
 } = require('./subscriptions/createOrRetrieveUnpaidSubscription');
 const { createStripeCustomer } = require('./subscriptions/createStripeCustomer');
 const { createCustomerPortalSession } = require('./subscriptions/createCustomerPortalSession');
+const { discourseConnectLogin } = require('./discourseConnectLogin');
 
 // Regions
 // This is in Belgium! All new functions should be deployed here.
@@ -33,10 +36,11 @@ const euWest1 = functions.region('europe-west1');
 const usCentral1 = functions.region('us-central1');
 
 // Callable functions: accounts
-exports.requestPasswordReset = functions.https.onCall(requestPasswordReset);
-exports.resendAccountVerification = functions.https.onCall(resendAccountVerification);
-exports.createUser = functions.https.onCall(createUser);
-exports.verifyEmail = functions.https.onCall(verifyEmail);
+exports.requestPasswordReset = usCentral1.https.onCall(requestPasswordReset);
+exports.resendAccountVerification = usCentral1.https.onCall(resendAccountVerification);
+exports.createUser = usCentral1.https.onCall(createUser);
+exports.verifyEmail = usCentral1.https.onCall(verifyEmail);
+exports.discourseConnectLogin = euWest1.https.onCall(discourseConnectLogin);
 
 // Callable functions: subscriptions
 exports.createStripeCustomer = euWest1.https.onCall(createStripeCustomer);
@@ -55,6 +59,12 @@ exports.stripeWebhooks = euWest1.https.onRequest(stripeWebhookHandler);
 
 // Auth triggers
 exports.cleanupUserOnDelete = usCentral1.auth.user().onDelete(cleanupUserOnDelete);
+
+// Firestore triggers: users
+exports.onUserPrivateWrite = euWest1.firestore
+  .document('users-private/{userId}')
+  .onWrite(onUserPrivateUpdate);
+exports.onUserWrite = euWest1.firestore.document('users/{userId}').onWrite(onUserUpdate);
 
 // Firestore triggers: campsites
 exports.onCampsiteCreate = usCentral1.firestore

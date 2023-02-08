@@ -8,7 +8,7 @@ const { parseAsync } = require('json2csv');
 const sendgrid = require('@sendgrid/mail');
 const removeEndingSlash = require('./util/removeEndingSlash');
 
-const API_KEY = functions.config().sendgrid.key;
+const API_KEY = functions.config().sendgrid.send_key;
 const FRONTEND_URL = removeEndingSlash(functions.config().frontend.url);
 
 const auth = getAuth();
@@ -20,8 +20,16 @@ if (API_KEY != null) {
   sendgrid.setApiKey(API_KEY);
 }
 
+/**
+ * Don't allow sending email when there is no API key, or the API key is not the production key.
+ * For now, we have only configured mail templates in the production environment.
+ * @type {boolean}
+ */
+const canSendMail = API_KEY != null;
+
 const NO_API_KEY_WARNING =
-  "You don't have an SendGrid API key set in your .runtimeconfig.json. " +
+  "You don't have an SendGrid API key set in your .runtimeconfig.json, " +
+  'or it is not the production key. ' +
   'No emails will be sent. Inspect the logs to see what would have been sent by email';
 
 exports.sendAccountVerificationEmail = (email, name, verificationLink) => {
@@ -35,7 +43,7 @@ exports.sendAccountVerificationEmail = (email, name, verificationLink) => {
     }
   };
 
-  if (API_KEY == null) {
+  if (!canSendMail) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
     // To help debugging the /auth/action verification page, transform the local auth URL
@@ -62,7 +70,7 @@ exports.sendPasswordResetEmail = (email, name, resetLink) => {
     }
   };
 
-  if (API_KEY == null) {
+  if (!canSendMail) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
     return Promise.resolve();
@@ -84,7 +92,7 @@ exports.sendMessageReceivedEmail = (email, firstName, senderName, message, messa
     }
   };
 
-  if (API_KEY == null) {
+  if (!canSendMail) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
     return Promise.resolve();
@@ -124,7 +132,7 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
     }
   };
 
-  if (API_KEY == null) {
+  if (!canSendMail) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
     return Promise.resolve();

@@ -89,6 +89,27 @@ export const createOrRetrieveUnpaidSubscription: HttpsCallable<
   CreateOrRetrieveUnpaidSubscriptionResponse
 > = wrapCallable(() => createOrRetrieveUnpaidSubscriptionRef);
 
+export type DiscourseConnectLoginRequest = {
+  /**
+   * Payload
+   */
+  sso: string;
+  sig: string;
+};
+
+export type DiscourseConnectLoginResponse = DiscourseConnectLoginRequest & {
+  return_sso_url: string;
+};
+
+let discourseConnectLoginRef: HttpsCallable<
+  DiscourseConnectLoginRequest,
+  DiscourseConnectLoginResponse
+> | null = null;
+export const discourseConnectLogin: HttpsCallable<
+  DiscourseConnectLoginRequest,
+  DiscourseConnectLoginResponse
+> = wrapCallable(() => discourseConnectLoginRef);
+
 export const initializeUsCentral1Functions = (usCentral1Functions: Functions) => {
   createUserRef = httpsCallable<CreateUserRequest>(usCentral1Functions, 'createUser');
   requestPasswordResetRef = httpsCallable<email>(usCentral1Functions, 'requestPasswordReset');
@@ -105,4 +126,5 @@ export const initializeEuropeWest1Functions = (europeWest1Functions: Functions) 
     europeWest1Functions,
     'createCustomerPortalSession'
   );
+  discourseConnectLoginRef = httpsCallable(europeWest1Functions, 'discourseConnectLogin');
 };

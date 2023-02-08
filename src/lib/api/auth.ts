@@ -269,6 +269,11 @@ export const register = async ({
   // Is it possible to run createUserWithEmailAndPassword in the backend in createUser too?
   // Then we can atomically say that after createUser() is called, the new user is guaranteed to
   // have a public user and private user doc (remotely).
+  //
+  // TODO add communicationLanguage as a parameter
+  // instead of setting it afterwards here
+  // https://github.com/WelcometoMyGarden/welcometomygarden/blob/064dcf85e9daa175e34d32decc78b96bd79c1f0c/src/routes/+layout.svelte#L51
+  // this will result in one less call to onUserPrivateWrite
   await createUser({ firstName, lastName, countryCode });
   await storeNewUser();
   isRegistering.set(false);

@@ -23,7 +23,7 @@ firebase functions:config:get > .runtimeconfig.json
 # firebase functions:config:get | ac .runtimeconfig.json
 ```
 
-Will output the following (or updated versions), which will be picked up by the emulators:
+Will output a JSON file similar to the following (see .runtimeconfig-example.json), which will be picked up by the emulators:
 
 ```
 
@@ -33,8 +33,9 @@ Will output the following (or updated versions), which will be picked up by the 
   },
   "sendgrid": {
     "key": "<secret_sendgrid_key>"
+    ...
   },
-    "stripe": {
+  "stripe": {
     "secret_key": "<secret_key>",
     "webhook_secret": "<secret_key>"
   },
@@ -136,4 +137,12 @@ This will deploy specific functions, for example, all new Stripe-related functio
 
 ```
 firebase deploy --only functions:createStripeCustomer,functions:createOrRetrieveUnpaidSubscription,functions:createCustomerPortalSession,functions:stripeWebhooks
+```
+
+### Deploy Firestore rules
+
+See [the docs](https://firebase.google.com/docs/rules/manage-deploy#deploy_your_updates).
+
+```
+firebase deploy --only firestore:rules
 ```

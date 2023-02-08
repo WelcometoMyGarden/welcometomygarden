@@ -1,5 +1,5 @@
 const functions = require('firebase-functions');
-/*
+/**
  * Possible `code` values (taken from the functions.https.HttpsError docs):
  *
  * - `cancelled`: The operation was cancelled (typically by the caller).
@@ -49,6 +49,8 @@ const functions = require('firebase-functions');
  *
  * - `unauthenticated`: The request does not have valid authentication
  *   credentials for the operation.
+ * @param {"ok" | "cancelled" | "unknown" | "invalid-argument" | "deadline-exceeded" | "not-found" | "already-exists" | "permission-denied" | "resource-exhausted" | "failed-precondition" | "aborted" | "out-of-range" | "unimplemented" | "internal" | "unavailable" | "data-loss" | "unauthenticated"} code
+ * @returns {Never}
  */
 module.exports = (code) => {
   // https://firebase.google.com/docs/functions/callable#handle_errors
