@@ -210,6 +210,7 @@ CSS grids should do the job cleanly -->
       100% - var(--spacing-chat-header) - var(--height-mobile-nav) - env(safe-area-inset-bottom)
     );
     min-height: 100%;
+    overflow-y: scroll;
   }
 
   .avatar-box {
