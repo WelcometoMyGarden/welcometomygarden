@@ -19,7 +19,7 @@ const wrapCallable = <R, S>(callableAccessor: () => HttpsCallable<R, S> | null) 
   };
 };
 
-type CreateUserRequest = { firstName: string; lastName: string; countryCode: string };
+export type CreateUserRequest = { firstName: string; lastName: string; countryCode: string };
 let createUserRef: HttpsCallable<CreateUserRequest> | null = null;
 export const createUser: HttpsCallable<CreateUserRequest> = wrapCallable(() => createUserRef);
 

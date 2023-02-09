@@ -49,7 +49,7 @@ Firebase [is not our dream ecosystem](https://github.com/WelcometoMyGarden/welco
 Start all Firebase emulators:
 
 ```
-firebase --project demo-test emulators:start
+yarn firebase:demo
 ```
 
 This will locally emulate our "backend": Firebase's [Auth](https://firebase.google.com/docs/auth), [Firestore](https://firebase.google.com/docs/firestore), [Storage](https://firebase.google.com/docs/storage), [Hosting](https://firebase.google.com/docs/hosting) and [Cloud Functions](https://firebase.google.com/docs/functions) modules.
@@ -63,6 +63,8 @@ yarn dev
 This will run a SvelteKit app dev server via Vite (our frontend). SvelteKit also has server-side (backend) capabilities, but for the moment we use it as a pure frontend static site generator via [adapter-static](https://kit.svelte.dev/docs/adapters#supported-environments-static-sites).
 
 If you use VSCode (recommended), you can also execute both commands at the same time using the pre-configured [Run Build Task](https://code.visualstudio.com/Docs/editor/tasks#_typescript-hello-world) command.
+
+There are several other development scripts available in `package.json`, for example, `yarn firebase:demo-seed` will add some testing data to the dev env upon startup.
 
 ### What can you do now?
 
