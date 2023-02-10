@@ -568,6 +568,11 @@
       "expired": "Deze verificatielink is vervallen. Vraag een nieuwe aan.",
       "sign-in": "Log in om verder te gaan.",
       "unverified": "Gelieve eerst je email te verifiëren."
+    },
+    "discourse": {
+      "superfan": "Alleen Superfans hebben toegang tot de communityruimte.",
+      "logging-in": "Bezig met inloggen op de communityruimte...",
+      "failed": "Inloggen op de communityruimte is mislukt, neem contact op met support als dit blijft gebeuren."
     }
   },
   "register": {
