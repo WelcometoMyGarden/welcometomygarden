@@ -997,6 +997,11 @@
       "sign-in": "Veuillez vous inscrire pour continuer.",
       "unverified": "Veuillez vérifier voter adresse électronique d'abord."
     },
+    "discourse": {
+      "superfan": "L'espace de discussion est seulement accessible aux Superfans.",
+      "logging-in": "En train de vous connecter à l'espace de discussion...",
+      "failed": "La connexion à l'espace de discussion a échoué, contactez le support si cela se reproduit."
+    },
     "password": {
       "expired": "Ce lien de réinitialisation du mot de passe a expiré. Veuillez en demander un nouveau"
     },
