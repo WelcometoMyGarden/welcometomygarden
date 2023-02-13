@@ -11,6 +11,7 @@
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
+  import { get } from 'svelte/store';
 
   let email = {};
   let password = {};
@@ -23,7 +24,11 @@
     formError = '';
     try {
       await login(email.value, password.value);
-      notify.success($_('sign-in.notify.welcome', { values: { user: $user.firstName } }));
+      const localUser = get(user);
+      if (!localUser) {
+        console.warn('User unexpectedly null in sign-in');
+      }
+      notify.success($_('sign-in.notify.welcome', { values: { user: localUser?.firstName } }));
       if (continueUrl) {
         goto(continueUrl);
       } else {

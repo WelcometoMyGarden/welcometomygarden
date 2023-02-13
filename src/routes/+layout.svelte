@@ -10,7 +10,7 @@
   import { getCookie, setCookie } from '$lib/util';
   import { createAuthObserver } from '@/lib/api/auth';
   import { initialize } from '@/lib/api/firebase';
-  import { isInitializing, user } from '@/lib/stores/auth';
+  import { isInitializing, user, isUserLoading } from '@/lib/stores/auth';
   import { keyboardEvent } from '@/lib/stores/keyboardEvent';
   import registerLocales from '@/locales/register';
   import { onDestroy, onMount } from 'svelte';
@@ -20,36 +20,47 @@
   import { isActiveContains } from '@/lib/util/isActive';
   import routes from '$lib/routes';
   import { page } from '$app/stores';
+  import { resetChatStores } from '@/lib/stores/chat';
 
   registerLocales();
 
+  // React to locale initialization or changes
   locale.subscribe((value) => {
     if (value == null) return;
-    // if running in the client, save the language preference in a cookie
+    // If running in the client, save the language preference in a cookie
+    // and update local + remote state
     if (typeof window !== 'undefined') {
       setCookie('locale', value, { path: '/' });
+      // Update the state if it changed
       if ($user && $user.communicationLanguage !== value) {
         updateCommunicationLanguage(value);
       }
     }
   });
 
-  let unsubscribeFromAuthObserver: () => void;
-  let unsubscribeFromChatObserver: () => void;
+  let unsubscribeFromAuthObserver: (() => void) | undefined;
+  let unsubscribeFromChatObserver: (() => void) | undefined;
 
   let lang;
 
   let vh = `0px`;
 
-  // Manage chat observers
-  user.subscribe(async (tempUser) => {
-    if (!unsubscribeFromChatObserver && tempUser && tempUser.emailVerified)
-      unsubscribeFromChatObserver = await createChatObserver(tempUser.uid);
+  // React to user changes
+  user.subscribe(async (latestUser) => {
+    // Subscribe to the chat observer if the user logged in, and has a verified email
+    if (!unsubscribeFromChatObserver && latestUser && latestUser.emailVerified)
+      unsubscribeFromChatObserver = await createChatObserver(latestUser.uid);
 
     // Unsubscribe if the user logged out
-    if (unsubscribeFromChatObserver && !tempUser) unsubscribeFromChatObserver();
+    if (unsubscribeFromChatObserver && !latestUser) {
+      console.log(`Unsubscribing from chat observer & resetting stores`);
+      unsubscribeFromChatObserver();
+      unsubscribeFromChatObserver = undefined;
+      resetChatStores();
+    }
 
-    if (tempUser && !tempUser.communicationLanguage && $locale)
+    // Set a communication language when there is none yet
+    if (latestUser && !latestUser.communicationLanguage && $locale)
       updateCommunicationLanguage($locale);
   });
 
@@ -64,14 +75,22 @@
 
     // Initialize Firebase
     await initialize();
-    if (!unsubscribeFromAuthObserver) unsubscribeFromAuthObserver = createAuthObserver();
+    if (!unsubscribeFromAuthObserver) {
+      unsubscribeFromAuthObserver = createAuthObserver();
+    }
 
     vh = `${window.innerHeight * 0.01}px`;
   });
 
   onDestroy(() => {
-    if (unsubscribeFromChatObserver) unsubscribeFromChatObserver();
-    if (unsubscribeFromAuthObserver) unsubscribeFromAuthObserver();
+    if (unsubscribeFromChatObserver) {
+      unsubscribeFromChatObserver();
+      unsubscribeFromChatObserver = undefined;
+    }
+    if (unsubscribeFromAuthObserver) {
+      unsubscribeFromAuthObserver();
+      unsubscribeFromAuthObserver = undefined;
+    }
   });
 
   const updateViewportHeight = () => {
@@ -94,11 +113,11 @@
   style="--vh:{vh}"
 >
   {#if browser}
-    <Progress active={$isInitializing || $isLocaleLoading} />
+    <Progress active={$isInitializing || $isLocaleLoading || $isUserLoading} />
     <Notifications />
   {/if}
 
-  {#if !$isInitializing && !$isLocaleLoading}
+  {#if !$isInitializing && !$isLocaleLoading && !$isUserLoading}
     <Nav />
     <main>
       <slot />

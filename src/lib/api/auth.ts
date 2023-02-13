@@ -1,5 +1,5 @@
 import { get } from 'svelte/store';
-import { _ } from 'svelte-i18n';
+import { locale, _ } from 'svelte-i18n';
 import {
   applyActionCode as firebaseApplyActionCode,
   createUserWithEmailAndPassword,
@@ -9,17 +9,31 @@ import {
   confirmPasswordReset as firebaseConfirmPasswordReset
 } from 'firebase/auth';
 import { auth, db } from './firebase';
-import { isLoggingIn, isRegistering, user, isInitializing, getUser } from '$lib/stores/auth';
+import {
+  isRegistering,
+  user,
+  isInitializing,
+  isUserLoading,
+  resolveOnUserLoaded
+} from '$lib/stores/auth';
 import User, { type UserPrivate, type UserPublic } from '$lib/models/User';
 import { createUser, resendAccountVerification as resendAccVerif } from '@/lib/api/functions';
-import { getAllUserInfo } from './user';
-import { USERS, USERS_PRIVATE } from './collections';
+import { CAMPSITES, USERS, USERS_PRIVATE } from './collections';
 import { doc, DocumentReference, DocumentSnapshot, onSnapshot } from 'firebase/firestore';
 import notify from '$lib/stores/notification';
 import { goto } from '$app/navigation';
 import routes from '../routes';
 import { page } from '$app/stores';
 import { isActiveContains } from '../util/isActive';
+import type { Garden } from '../types/Garden';
+import type { User as FirebaseUser } from 'firebase/auth';
+
+// These are not Svelte stores, because we do not wish to listen to updates on them.
+// They are abstracted away by the User store, and trigger updates on that store.
+let latestUserPrivateState: UserPrivate | null = null;
+let latestUserPublicState: UserPublic | null = null;
+let latestAuthUserState: FirebaseUser | null = null;
+let latestCampsiteState: Garden | null = null;
 
 /**
  * Creates Firebase observers that manage the app's User model.
@@ -27,10 +41,12 @@ import { isActiveContains } from '../util/isActive';
 export const createAuthObserver = (): Unsubscribe => {
   let unsubscribeFromUserPrivate: (() => void) | null = null;
   let unsubscribeFromUserPublic: (() => void) | null = null;
+  let unsubscribeFromCampsite: (() => void) | null = null;
 
   const unsubscribeFromInnerObservers = () => {
     if (unsubscribeFromUserPrivate) unsubscribeFromUserPrivate();
     if (unsubscribeFromUserPublic) unsubscribeFromUserPublic();
+    if (unsubscribeFromCampsite) unsubscribeFromCampsite();
   };
 
   let isVerifying = false;
@@ -41,19 +57,30 @@ export const createAuthObserver = (): Unsubscribe => {
   // https://firebase.google.com/docs/reference/node/firebase.auth.Auth#onidtokenchanged
   const unsubscribeFromAuthObserver = auth().onIdTokenChanged(async (firebaseUser) => {
     console.info('auth/token changed');
+
     // Reset subscriptions
     unsubscribeFromInnerObservers();
+    // Reset state caches
+    cleanupStateCaches();
+
+    // Reinitialize auth state
+    latestAuthUserState = firebaseUser;
 
     const oldStoredUser = get(user);
     if (oldStoredUser == null) {
       console.info('Previous user was null');
     }
-    let newStoredUser: User | null = null;
     let routeTo: string | null = null;
 
     if (firebaseUser) {
+      if (oldStoredUser == null) {
+        // A new user is loading if the previous user was null, and the next one is not.
+        isUserLoading.set(true);
+      }
       if (oldStoredUser && oldStoredUser.uid !== firebaseUser.uid) {
         console.info('The Firebase account was changed.');
+        // A new user is loading if the user was changed.
+        isUserLoading.set(true);
       }
 
       // If already logged in
@@ -98,23 +125,25 @@ export const createAuthObserver = (): Unsubscribe => {
       ) {
         // The email is fully verified, and this change has synced to the token too.
         notify.success(get(_)('auth.verification.success'), 8000);
-        console.log('Email verification full sync success - storing new user');
+        console.log('Email verification full sync success - syncing new user state');
         isVerifying = false;
-        newStoredUser = await storeNewUser();
+        await updateUserIfPossible();
         if (isActiveContains(get(page), routes.AUTH_ACTION)) {
           // If we're not on a useful page, redirect to /account
           routeTo = routes.ACCOUNT;
         }
       } else {
-        // In any other case, use the most recent firebaseUser data to
-        // store a User
-        console.log('Storing new user');
-        newStoredUser = await storeNewUser();
+        // In any other case, sync the most recent firebaseUser data into app state
+        console.log('Syncing Firebase user state to local state');
+        await updateUserIfPossible();
       }
-      if (newStoredUser) {
+      if (latestAuthUserState) {
         // Re-subscribe to dependent observers
-        unsubscribeFromUserPrivate = await createUserPrivateObserver(newStoredUser.id);
-        unsubscribeFromUserPublic = await createUserPublicObserver(newStoredUser.id);
+        // NOTE: these do not synchronously update when registered, like Svelte stores.
+        // This is why we use the isUserLoading store.
+        unsubscribeFromUserPrivate = createUserPrivateObserver(latestAuthUserState.uid);
+        unsubscribeFromUserPublic = createUserPublicObserver(latestAuthUserState.uid);
+        unsubscribeFromCampsite = createCampsiteObserver(latestAuthUserState.uid);
       }
     } else {
       console.log('Received a null Firebase user update');
@@ -131,19 +160,33 @@ export const createAuthObserver = (): Unsubscribe => {
           routeTo = routes.SIGN_IN;
         }
       }
+      // If we know we are logged out, we are not loading anymore.
+      if (get(isUserLoading)) {
+        isUserLoading.set(false);
+      }
     }
 
-    isInitializing.set(false);
+    if (get(isInitializing)) {
+      isInitializing.set(false);
+    }
     if (routeTo) {
       return goto(routeTo);
     }
   });
 
-  // Unsubscribe from all related observers
+  // Unsubscribe from all related observers, and clean up caches.
   return () => {
     unsubscribeFromInnerObservers();
     unsubscribeFromAuthObserver();
+    cleanupStateCaches();
   };
+};
+
+const cleanupStateCaches = () => {
+  latestAuthUserState = null;
+  latestUserPrivateState = null;
+  latestUserPublicState = null;
+  latestUserPrivateState = null;
 };
 
 export const checkAndHandleUnverified = async (message?: string, timeout = 8000) => {
@@ -173,71 +216,103 @@ export const isEmailVerifiedAndTokenSynced = async () => {
 };
 
 /**
- * Fetches user data from the Firestore, combines it with the given Firebase User,
- * then stores it in the local User model.
- * @returns {Promise<User>} a User object with the new data
+ * Syncs firebase auth data with the local cache, and with the User state if possible.
+ * @returns {Promise<User | null>} a User object with the new data, if complete.
  */
-export const storeNewUser = async () => {
-  const firebaseUser = auth().currentUser;
-  if (firebaseUser == null) {
+export const syncAuthToLocalState = async () => {
+  latestAuthUserState = auth().currentUser;
+  const oldUserState = get(user);
+  if (latestAuthUserState == null) {
     console.warn(
       'storeNewUser called when currentUser was null. Setting the local User store to null.'
     );
-    if (get(user) != null) {
+    if (oldUserState != null) {
       user.set(null);
     }
     return null;
   }
 
-  // TODO: refactor, see above. This fetches the users-private and user-public docs.
-  // We should be able to fully depend on the streaming listeners for both docs that
-  // were added, this generates unnecessary fetches.
-  // Approach to fix this:
-  // 1. cache the last userPrivate and userPublic docs received from the stream
-  // 2. if both exist, store a new user with the last docs
-  // This ensures that a local User model is either fully complete, or `null`
-  const userInfo = await getAllUserInfo(firebaseUser.uid);
-  const { email, uid } = firebaseUser;
-  // Only consider the local user verified if the verification is fully synced.
-  const emailVerified = await isEmailVerifiedAndTokenSynced();
-  const newUser = new User({
-    ...userInfo,
-    email: email || undefined,
-    emailVerified,
-    id: uid
-  });
-  user.set(newUser);
-  return newUser;
+  return await updateUserIfPossible();
 };
 
-export const createUserPublicObserver = async (currentUserId: string) => {
+/**
+ * Only updates the local User store if both its auth record, as well as users and users-private docs are available.
+ * @returns the resulting state of the updated user (null if an update was not possible)
+ */
+const updateUserIfPossible = async () => {
+  // These three states required to broadcast a non-null User state locally
+  if (latestUserPrivateState && latestUserPublicState && latestAuthUserState) {
+    const { email, uid } = latestAuthUserState;
+    // Only consider the local user verified if the verification is fully synced.
+    // Async because token check is an async operation.
+    const emailVerified = await isEmailVerifiedAndTokenSynced();
+
+    const updateProperties = {
+      ...latestUserPublicState,
+      ...latestUserPrivateState,
+      // It's possible that latestCampsiteState is set to null after a garden deletion
+      garden: latestCampsiteState,
+      email: email || undefined,
+      emailVerified,
+      // overlap with id on Garden...
+      id: uid
+    };
+
+    const currentUser = get(user);
+    let newUser: User;
+    if (!currentUser) {
+      newUser = new User(updateProperties);
+    } else {
+      newUser = currentUser.copyWith(updateProperties);
+    }
+
+    user.set(newUser);
+
+    // User initialization is done
+    if (get(isUserLoading)) {
+      console.log(`User fully loaded: ${newUser.uid}`);
+      isUserLoading.set(false);
+    }
+
+    return newUser;
+  }
+  return null;
+};
+
+export const createUserPublicObserver = (currentUserId: string) => {
   const docRef = doc(db(), USERS, currentUserId) as DocumentReference<UserPublic>;
   return onSnapshot<UserPublic>(docRef, (doc: DocumentSnapshot<UserPublic>) => {
     const newUserData = doc.data();
     if (newUserData) {
-      const newUser = getUser().copyWith(newUserData);
-      user.set(newUser);
+      latestUserPublicState = newUserData;
+      updateUserIfPossible();
     }
   });
 };
 
-export const createUserPrivateObserver = async (currentUserId: string) => {
+export const createUserPrivateObserver = (currentUserId: string) => {
   const docRef = doc(db(), USERS_PRIVATE, currentUserId) as DocumentReference<UserPrivate>;
   return onSnapshot<UserPrivate>(docRef, (doc: DocumentSnapshot<UserPrivate>) => {
     const newUserPrivateData = doc.data();
     if (newUserPrivateData) {
-      const newUser = getUser().copyWith(newUserPrivateData);
-      user.set(newUser);
+      latestUserPrivateState = newUserPrivateData;
+      updateUserIfPossible();
     }
   });
 };
 
+export const createCampsiteObserver = (currentUserId: string) => {
+  const docRef = doc(db(), CAMPSITES, currentUserId) as DocumentReference<Garden>;
+  return onSnapshot<Garden>(docRef, (doc) => {
+    const newCampsiteData = doc.data();
+    latestCampsiteState = newCampsiteData ?? null;
+    updateUserIfPossible();
+  });
+};
+
 export const login = async (email: string, password: string): Promise<void> => {
-  isLoggingIn.set(true);
   await signInWithEmailAndPassword(auth(), email, password);
-  // TODO refactor: see below in register
-  await storeNewUser();
-  isLoggingIn.set(false);
+  return resolveOnUserLoaded();
 };
 
 export const register = async ({
@@ -255,8 +330,9 @@ export const register = async ({
 }) => {
   isRegistering.set(true);
   // TODO: refactor
-  // - Problem: createUserWithEmailAndPassword triggers the onAuthStateChanged listener, with limited user data
+  // - Problem: createUserWithEmailAndPassword triggers the onIdTokenChanged listener, with limited user data
   //    and the firebase docs are not yet created, so we expect the error "'This person does not have an account.'"
+  //      or 'This user does not have Firestore account data yet.'
   //    and reload the user data after the user is created
   await createUserWithEmailAndPassword(auth(), email, password);
   // TODO Refactor note
@@ -274,8 +350,14 @@ export const register = async ({
   // instead of setting it afterwards here
   // https://github.com/WelcometoMyGarden/welcometomygarden/blob/064dcf85e9daa175e34d32decc78b96bd79c1f0c/src/routes/+layout.svelte#L51
   // this will result in one less call to onUserPrivateWrite
-  await createUser({ firstName, lastName, countryCode });
-  await storeNewUser();
+  await createUser({
+    firstName,
+    lastName,
+    countryCode,
+    communicationLanguage: get(locale) ?? 'en'
+  });
+  await resolveOnUserLoaded();
+
   isRegistering.set(false);
 };
 

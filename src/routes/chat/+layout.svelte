@@ -14,6 +14,8 @@
   import { onMount } from 'svelte';
   import { checkAndHandleUnverified } from '@/lib/api/auth';
   import createSlug from '@/lib/util/createSlug';
+  import { onDestroy } from 'svelte';
+  import nProgress from 'nprogress';
 
   let localPage = $page;
   // Subscribe to page is necessary to render the chat page of the selected chat (when the url changes) for mobile
@@ -55,6 +57,13 @@
     if (withQueryParam) {
       startChattingWith(withQueryParam);
     }
+  });
+
+  onDestroy(() => {
+    // Otherwise, when unverified and redirected away because of this from this page,
+    // the <Progress> below has the side-effect on waiting for chat initialization
+    // that will never happen.
+    nProgress.done();
   });
 
   // Functions

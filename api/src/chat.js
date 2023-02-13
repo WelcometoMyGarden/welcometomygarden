@@ -14,6 +14,11 @@ const db = getFirestore();
 const normalizeMessage = (str) => str.replace(/\n\s*\n\s*\n/g, '\n\n');
 const normalizeName = (str) => removeDiacritics(str).toLowerCase();
 
+/**
+ * Sends an email notification of a new chat to a recipient, if the recipient
+ * wishes to receive email notifications and has not received a notification about the
+ * chat yet very recently.
+ */
 exports.onMessageCreate = async (snap, context) => {
   const message = snap.data();
   const senderId = message.from;
