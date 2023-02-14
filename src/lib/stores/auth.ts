@@ -1,4 +1,4 @@
-import type { User } from '@/lib/models/User';
+import type { User } from '$lib/models/User';
 import { get, writable, type Writable } from 'svelte/store';
 
 /**

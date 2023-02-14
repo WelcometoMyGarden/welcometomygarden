@@ -5,9 +5,9 @@
   import { scale } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
   import SkeletonDrawer from './SkeletonDrawer.svelte';
-  import { addSavedGarden, getPublicUserProfile, removeSavedGarden } from '@/lib/api/user';
+  import { addSavedGarden, getPublicUserProfile, removeSavedGarden } from '$lib/api/user';
   import { getGardenPhotoSmall, getGardenPhotoBig } from '$lib/api/garden';
-  import { user } from '@/lib/stores/auth';
+  import { user } from '$lib/stores/auth';
   import { clickOutside } from '$lib/directives';
   import { Text, Badge, Image, Button, Progress } from '../UI';
   import {
@@ -21,8 +21,8 @@
     bookmarkYellowIcon
   } from '$lib/images/icons';
   import routes from '$lib/routes';
-  import type { Garden } from '@/lib/types/Garden';
-  import Icon from '@/lib/components/UI/Icon.svelte';
+  import type { Garden } from '$lib/types/Garden';
+  import Icon from '$lib/components/UI/Icon.svelte';
 
   const dispatch = createEventDispatcher();
 

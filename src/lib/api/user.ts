@@ -3,7 +3,7 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 import { db } from './firebase';
 
-import { getUser } from '@/lib/stores/auth';
+import { getUser } from '$lib/stores/auth';
 
 export const doesPublicUserExist = async (uid: string) => {
   const userDoc = await getDoc(doc(db(), USERS, uid));

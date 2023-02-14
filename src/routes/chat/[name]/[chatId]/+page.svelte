@@ -6,7 +6,7 @@
   import { page } from '$app/stores';
   import { observeMessagesForChat, create as createChat, sendMessage } from '$lib/api/chat';
   import { hasGarden } from '$lib/api/garden';
-  import { user } from '@/lib/stores/auth';
+  import { user } from '$lib/stores/auth';
   import { chats, messages } from '$lib/stores/chat';
   import { Avatar, Icon } from '$lib/components/UI';
   import { User } from '$lib/components/Chat';

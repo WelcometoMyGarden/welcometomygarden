@@ -17,7 +17,7 @@ import {
   resolveOnUserLoaded
 } from '$lib/stores/auth';
 import User, { type UserPrivate, type UserPublic } from '$lib/models/User';
-import { createUser, resendAccountVerification as resendAccVerif } from '@/lib/api/functions';
+import { createUser, resendAccountVerification as resendAccVerif } from '$lib/api/functions';
 import { CAMPSITES, USERS, USERS_PRIVATE } from './collections';
 import { doc, DocumentReference, DocumentSnapshot, onSnapshot } from 'firebase/firestore';
 import notify from '$lib/stores/notification';

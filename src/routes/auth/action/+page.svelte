@@ -14,7 +14,7 @@
   // It will detect that email_verified is not yet true as a token claim, and will force-reset the token.
   // The force-reset triggers idTokenChanged everywhere.
   import { _ } from 'svelte-i18n';
-  import { resolveOnUserLoaded, user } from '@/lib/stores/auth';
+  import { resolveOnUserLoaded, user } from '$lib/stores/auth';
   import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
   import routes from '$lib/routes';
@@ -23,9 +23,9 @@
     verifyPasswordResetCode,
     applyActionCode,
     isEmailVerifiedAndTokenSynced
-  } from '@/lib/api/auth';
-  import { auth } from '@/lib/api/firebase';
-  import PaddedSection from '@/routes/(marketing)/_components/PaddedSection.svelte';
+  } from '$lib/api/auth';
+  import { auth } from '$lib/api/firebase';
+  import PaddedSection from '$routes/(marketing)/_components/PaddedSection.svelte';
   import { get } from 'svelte/store';
 
   let loadingState = '';

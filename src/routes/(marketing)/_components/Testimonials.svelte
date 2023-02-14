@@ -8,9 +8,9 @@
 </script>
 
 <script lang="ts">
-  import { arrowRightIcon } from '@/lib/images/icons';
+  import { arrowRightIcon } from '$lib/images/icons';
 
-  import staticAssetUrl from '@/lib/util/staticAssetUrl';
+  import staticAssetUrl from '$lib/util/staticAssetUrl';
   import { fade } from 'svelte/transition';
 
   export let slides: Slide[];

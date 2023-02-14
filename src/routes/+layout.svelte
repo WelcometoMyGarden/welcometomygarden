@@ -8,19 +8,19 @@
   import Nav from '$lib/components/Nav/Navigation.svelte';
   import { Notifications, Progress } from '$lib/components/UI';
   import { getCookie, setCookie } from '$lib/util';
-  import { createAuthObserver } from '@/lib/api/auth';
-  import { initialize } from '@/lib/api/firebase';
-  import { isInitializing, user, isUserLoading } from '@/lib/stores/auth';
-  import { keyboardEvent } from '@/lib/stores/keyboardEvent';
-  import registerLocales from '@/locales/register';
+  import { createAuthObserver } from '$lib/api/auth';
+  import { initialize } from '$lib/api/firebase';
+  import { isInitializing, user, isUserLoading } from '$lib/stores/auth';
+  import { keyboardEvent } from '$lib/stores/keyboardEvent';
+  import registerLocales from '$locales/register';
   import { onDestroy, onMount } from 'svelte';
   import { init, isLoading as isLocaleLoading, locale } from 'svelte-i18n';
-  import { updateCommunicationLanguage } from '@/lib/api/user';
-  import MinimalFooter from '@/lib/components/MinimalFooter.svelte';
-  import { isActiveContains } from '@/lib/util/isActive';
-  import routes from '@/lib/routes';
+  import { updateCommunicationLanguage } from '$lib/api/user';
+  import MinimalFooter from '$lib/components/MinimalFooter.svelte';
+  import { isActiveContains } from '$lib/util/isActive';
+  import routes from '$lib/routes';
   import { page } from '$app/stores';
-  import { resetChatStores } from '@/lib/stores/chat';
+  import { resetChatStores } from '$lib/stores/chat';
 
   registerLocales();
 

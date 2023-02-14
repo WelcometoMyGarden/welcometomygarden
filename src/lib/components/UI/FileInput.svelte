@@ -1,11 +1,11 @@
 <script lang="ts">
-  import Dropzone from '@/lib/components/UI/Dropzone.svelte';
+  import Dropzone from '$lib/components/UI/Dropzone.svelte';
   import { createEventDispatcher } from 'svelte';
 
   export let name: string;
-  export let disabled: boolean = false;
+  export let disabled = false;
   export let accept: string;
-  export let multiple: boolean = false;
+  export let multiple = false;
 
   const dispatch = createEventDispatcher();
 

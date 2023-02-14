@@ -1,13 +1,13 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { Button, LabeledCheckbox, MultiActionLabel } from '@/lib/components/UI';
-  import { flagIcon, trainIcon } from '@/lib/images/icons';
+  import { Button, LabeledCheckbox, MultiActionLabel } from '$lib/components/UI';
+  import { flagIcon, trainIcon } from '$lib/images/icons';
   import {
     removeTrainconnectionsDataLayers,
     toggleVisibilityTrainconnectionsDataLayers,
     trainconnectionsDataLayers
-  } from '@/lib/stores/trainconnections';
-  import type { TrainconnectionsDataLayer } from '@/lib/types/DataLayer';
+  } from '$lib/stores/trainconnections';
+  import type { TrainconnectionsDataLayer } from '$lib/types/DataLayer';
   import { onDestroy } from 'svelte';
 
   export let showTransport: boolean;

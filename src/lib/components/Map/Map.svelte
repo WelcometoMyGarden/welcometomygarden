@@ -9,7 +9,7 @@
   import { isMapboxURL, transformMapboxUrl } from 'maplibregl-mapbox-request-transformer';
 
   import 'maplibre-gl/dist/maplibre-gl.css';
-  import { DEFAULT_MAP_STYLE } from '@/lib/constants.js';
+  import { DEFAULT_MAP_STYLE } from '$lib/constants.js';
 
   export let lat: number;
   export let lon: number;

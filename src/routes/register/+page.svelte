@@ -2,17 +2,17 @@
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import { goto } from '$lib/util/navigate';
-  import { register } from '@/lib/api/auth';
-  import { isRegistering } from '@/lib/stores/auth';
+  import { register } from '$lib/api/auth';
+  import { isRegistering } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
   import { countries } from '$lib/util';
-  import routes from '@/lib/routes';
+  import routes from '$lib/routes';
   import AuthContainer from '$lib/components/AuthContainer.svelte';
   import { TextInput, Progress, Button } from '$lib/components/UI';
   import { lockIcon, emailIcon, userIcon, flagIcon } from '$lib/images/icons';
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { AuthErrorCodes } from 'firebase/auth';
-  import isFirebaseError from '@/lib/util/types/isFirebaseError';
+  import isFirebaseError from '$lib/util/types/isFirebaseError';
 
   type FieldCommon = {
     /**

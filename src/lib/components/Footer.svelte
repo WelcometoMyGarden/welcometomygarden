@@ -5,7 +5,7 @@
   import Socials from './Socials.svelte';
   import LanguageSelector from './LanguageSelector.svelte';
   import WtmgLogo from './UI/WTMGLogo.svelte';
-  import PaddedSection from '@/routes/(marketing)/_components/PaddedSection.svelte';
+  import PaddedSection from '$routes/(marketing)/_components/PaddedSection.svelte';
 
   type Link = {
     title: string;

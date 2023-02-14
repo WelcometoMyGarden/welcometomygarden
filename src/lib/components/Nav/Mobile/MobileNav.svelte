@@ -1,11 +1,11 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import routes from '$lib/routes';
-  import { user } from '@/lib/stores/auth';
+  import { user } from '$lib/stores/auth';
   import { tentIcon, mapIcon, chatIcon, signInIcon, userIcon } from '$lib/images/icons';
   import Hamburger from './Hamburger.svelte';
   import { Icon } from '$lib/components/UI';
-  import { isActive, isActiveContains } from '@/lib/util/isActive';
+  import { isActive, isActiveContains } from '$lib/util/isActive';
   import { page } from '$app/stores';
   import Drawer from './MobileNav/SideDrawer.svelte';
 

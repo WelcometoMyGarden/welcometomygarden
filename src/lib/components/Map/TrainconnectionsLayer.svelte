@@ -1,8 +1,8 @@
 <script lang="ts">
   import { ICON_SIZE } from '$lib/constants';
-  import { trainTimeIcon } from '@/lib/images/markers/index.js';
-  import { trainconnectionsDataLayers } from '@/lib/stores/trainconnections.js';
-  import type { OriginStation } from '@/lib/types/DataLayer.js';
+  import { trainTimeIcon } from '$lib/images/markers/index.js';
+  import { trainconnectionsDataLayers } from '$lib/stores/trainconnections.js';
+  import type { OriginStation } from '$lib/types/DataLayer.js';
   import {
     convertToFeatureList,
     createPopupHtml,
@@ -10,7 +10,7 @@
     durationCategoryColour,
     fetchDirectConnections,
     locationToPoint
-  } from '@/lib/util/map/trainConnections.js';
+  } from '$lib/util/map/trainConnections.js';
   import type { LayerSpecification, GeoJSONSourceSpecification } from 'maplibre-gl';
   import mapboxgl from 'maplibre-gl';
   import { getContext, onDestroy } from 'svelte';

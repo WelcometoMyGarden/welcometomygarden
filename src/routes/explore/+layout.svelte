@@ -16,14 +16,14 @@
   import { getCookie, setCookie } from '$lib/util';
   import { crossIcon } from '$lib/images/icons';
   import { ZOOM_LEVELS } from '$lib/constants';
-  import LayersAndTools from '@/lib/components/LayersAndTools/LayersAndTools.svelte';
-  import FileTrailModal from '@/lib/components/Map/FileTrailModal.svelte';
-  import TrainConnectionsModal from '@/lib/components/Map/TrainConnectionsModal.svelte';
-  import FileTrails from '@/lib/components/Map/FileTrails.svelte';
-  import type { Garden } from '@/lib/types/Garden';
-  import { savedGardens as savedGardenStore } from '@/lib/stores/savedGardens';
-  import TrainconnectionsLayer from '@/lib/components/Map/TrainconnectionsLayer.svelte';
-  import TrainAndRails from '@/lib/components/Map/TrainAndRails.svelte';
+  import LayersAndTools from '$lib/components/LayersAndTools/LayersAndTools.svelte';
+  import FileTrailModal from '$lib/components/Map/FileTrailModal.svelte';
+  import TrainConnectionsModal from '$lib/components/Map/TrainConnectionsModal.svelte';
+  import FileTrails from '$lib/components/Map/FileTrails.svelte';
+  import type { Garden } from '$lib/types/Garden';
+  import { savedGardens as savedGardenStore } from '$lib/stores/savedGardens';
+  import TrainconnectionsLayer from '$lib/components/Map/TrainconnectionsLayer.svelte';
+  import TrainAndRails from '$lib/components/Map/TrainAndRails.svelte';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let geolocationIsLoaded = false;

@@ -4,7 +4,7 @@
   import { flip } from 'svelte/animate';
   import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
-  import { user } from '@/lib/stores/auth';
+  import { user } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
   import { chats, creatingNewChat, hasInitialized, getChatForUser } from '$lib/stores/chat';
   import routes from '$lib/routes';
@@ -12,8 +12,8 @@
   import ConversationCard from '$lib/components/Chat/ConversationCard.svelte';
   import { Progress } from '$lib/components/UI';
   import { onMount } from 'svelte';
-  import { checkAndHandleUnverified } from '@/lib/api/auth';
-  import createSlug from '@/lib/util/createSlug';
+  import { checkAndHandleUnverified } from '$lib/api/auth';
+  import createSlug from '$lib/util/createSlug';
   import { onDestroy } from 'svelte';
   import nProgress from 'nprogress';
 
