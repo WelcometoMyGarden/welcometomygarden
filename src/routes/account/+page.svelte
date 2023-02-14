@@ -10,7 +10,7 @@
   import { Avatar, Icon, Button, LabeledCheckbox } from '$lib/components/UI';
   import { flagIcon, emailIcon } from '$lib/images/icons';
   import { countries } from '$lib/util';
-  import routes from '$lib/routes';
+  import routes from '@/lib/routes';
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { createCustomerPortalSession } from '@/lib/api/functions';
   import ReloadSuggestion from '@/lib/components/ReloadSuggestion.svelte';
@@ -23,9 +23,6 @@
     try {
       const { name, checked } = event.target;
       await updateMailPreferences(name, checked);
-      if ($user) {
-        $user.setEmailPreferences(name, checked);
-      }
       notify.success($_('account.notify.preferences-update'), 3500);
     } catch (ex) {
       console.log(ex);
@@ -38,7 +35,6 @@
     updatingListedStatus = true;
     try {
       await changeListedStatus(newStatus);
-      $user.setGarden({ ...$user.garden, listed: newStatus });
       if (!newStatus) notify.success($_('account.notify.garden-no-show'), 7000);
       else notify.success($_('account.notify.garden-show'), 7000);
     } catch (ex) {

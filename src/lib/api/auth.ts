@@ -66,7 +66,7 @@ export const createAuthObserver = (): Unsubscribe => {
     unsubscribeFromInnerObserversIfExisting();
     // Set the user to null (log out), if we're not yet logged out.
     // This triggers chat observer cleanup in layout.svelte
-    if (get(user)) user.set(null);
+    user.set(null);
     // Notify that we're loading a new user
     isUserLoading.set(true);
   };
@@ -200,15 +200,11 @@ export const createAuthObserver = (): Unsubscribe => {
         }
       }
       // If we know we are logged out, we are not loading anymore.
-      if (get(isUserLoading)) {
-        isUserLoading.set(false);
-      }
+      isUserLoading.set(false);
     }
 
     // Firebase auth has been initialized, regardless of status
-    if (get(isInitializing)) {
-      isInitializing.set(false);
-    }
+    isInitializing.set(false);
 
     if (routeTo) {
       // Before navigating, ensure the user is fully loaded.
@@ -256,26 +252,6 @@ export const isEmailVerifiedAndTokenSynced = async () => {
     : false;
 
   return firebaseUserEmailVerified && firebaseTokenEmailVerified;
-};
-
-/**
- * Syncs firebase auth data with the local cache, and with the User state if possible.
- * @returns {Promise<User | null>} a User object with the new data, if complete.
- */
-export const syncAuthToLocalState = async () => {
-  latestAuthUserState = auth().currentUser;
-  const oldUserState = get(user);
-  if (latestAuthUserState == null) {
-    console.warn(
-      'storeNewUser called when currentUser was null. Setting the local User store to null.'
-    );
-    if (oldUserState != null) {
-      user.set(null);
-    }
-    return null;
-  }
-
-  return await updateUserIfPossible();
 };
 
 /**
@@ -372,11 +348,6 @@ export const register = async ({
   countryCode: string;
 }) => {
   isRegistering.set(true);
-  // TODO: refactor
-  // - Problem: createUserWithEmailAndPassword triggers the onIdTokenChanged listener, with limited user data
-  //    and the firebase docs are not yet created, so we expect the error "'This person does not have an account.'"
-  //      or 'This user does not have Firestore account data yet.'
-  //    and reload the user data after the user is created
   await createUserWithEmailAndPassword(auth(), email, password);
   // TODO Refactor note
   // Now, between these two lines, we are in a state that:
@@ -389,10 +360,6 @@ export const register = async ({
   // Then we can atomically say that after createUser() is called, the new user is guaranteed to
   // have a public user and private user doc (remotely).
   //
-  // TODO add communicationLanguage as a parameter
-  // instead of setting it afterwards here
-  // https://github.com/WelcometoMyGarden/welcometomygarden/blob/064dcf85e9daa175e34d32decc78b96bd79c1f0c/src/routes/+layout.svelte#L51
-  // this will result in one less call to onUserPrivateWrite
   await createUser({
     firstName,
     lastName,
@@ -409,7 +376,7 @@ export const logout = async () => {
   if (auth().currentUser) {
     throw new Error('Log out failed');
   }
-  user.set(null);
+  // onIdTokenChanged will set the user to null
 };
 
 export const applyActionCode = async (code: string) => {

@@ -3,8 +3,7 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 import { db } from './firebase';
 
-import { getUser, user } from '@/lib/stores/auth';
-import { updatingMailPreferences, updatingSavedGardens } from '@/lib/stores/user';
+import { getUser } from '@/lib/stores/auth';
 
 export const doesPublicUserExist = async (uid: string) => {
   const userDoc = await getDoc(doc(db(), USERS, uid));
@@ -26,20 +25,13 @@ export const updateMailPreferences = async (
   preferenceName: 'newChat' | 'news',
   preference: boolean
 ) => {
-  updatingMailPreferences.set(true);
   const docRef = doc(db(), USERS_PRIVATE, getUser().id);
-
   await updateDoc(docRef, { [`emailPreferences.${preferenceName}`]: preference });
-
-  getUser().setEmailPreferences(preferenceName, preference);
-  updatingMailPreferences.set(false);
 };
 
 const updateSavedGardens = async (gardenId: string, action: 'REMOVE' | 'ADD') => {
   if (!gardenId || !action) throw new Error('Missing parameters');
   if (action !== 'REMOVE' && action !== 'ADD') throw new Error('Action is not valid.');
-
-  updatingSavedGardens.set(true);
 
   const localUser = getUser();
 
@@ -56,9 +48,6 @@ const updateSavedGardens = async (gardenId: string, action: 'REMOVE' | 'ADD') =>
       savedGardens.splice(index, 1);
 
       await updateDoc(docRef, { savedGardens });
-      const newUser = localUser.copyWith({ savedGardens });
-      user.set(newUser);
-      updatingSavedGardens.set(false);
       return savedGardens;
     }
   }
@@ -69,9 +58,6 @@ const updateSavedGardens = async (gardenId: string, action: 'REMOVE' | 'ADD') =>
       savedGardens.push(gardenId);
 
       await updateDoc(docRef, { savedGardens });
-      const newUser = localUser.copyWith({ savedGardens });
-      user.set(newUser);
-      updatingSavedGardens.set(false);
       return savedGardens;
     }
   }
@@ -88,6 +74,4 @@ export const updateCommunicationLanguage = async (lang: string) => {
   const localUser = getUser();
   const docRef = doc(db(), USERS_PRIVATE, localUser.id);
   await updateDoc(docRef, { communicationLanguage: lang });
-  const newUser = localUser.copyWith({ communicationLanguage: lang });
-  user.set(newUser);
 };
