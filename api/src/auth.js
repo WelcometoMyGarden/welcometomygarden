@@ -58,17 +58,15 @@ const sendVerificationEmail = async (email, firstName) => {
 /**
  * @param {import('../../src/lib/api/functions').CreateUserRequest} data
  * @param {import('firebase-functions/v1/https').CallableContext} context
- * @returns
+ * @returns {Promise<object>}
  */
 exports.createUser = async (data, context) => {
   if (!context.auth) {
-    fail('unauthenticated');
-    return;
+    return fail('unauthenticated');
   }
 
   if (!context.auth.uid) {
-    fail('internal');
-    return;
+    return fail('internal');
   }
 
   try {
