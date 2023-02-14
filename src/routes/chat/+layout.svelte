@@ -19,7 +19,7 @@
 
   let localPage = $page;
   // Subscribe to page is necessary to render the chat page of the selected chat (when the url changes) for mobile
-  page.subscribe((currentPage) => (localPage = currentPage));
+  const unsubscribeFromPage = page.subscribe((currentPage) => (localPage = currentPage));
 
   $: selectedConversation = $chats[localPage.params.chatId];
 
@@ -64,6 +64,7 @@
     // the <Progress> below has the side-effect on waiting for chat initialization
     // that will never happen.
     nProgress.done();
+    unsubscribeFromPage();
   });
 
   // Functions

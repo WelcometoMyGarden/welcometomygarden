@@ -9,14 +9,16 @@
     toggleVisibilityFileDataLayers
   } from '@/lib/stores/file';
   import { cleanName } from '@/lib/util/slugify';
+  import { onDestroy } from 'svelte';
 
   export let showHiking: boolean;
   export let showCycling: boolean;
 
   let localFileDataLayers = $fileDataLayers;
-  fileDataLayers.subscribe((value) => {
+  const fileDataLayersUnsubscribe = fileDataLayers.subscribe((value) => {
     localFileDataLayers = value;
   });
+  onDestroy(fileDataLayersUnsubscribe);
 </script>
 
 <div class="static-layers">

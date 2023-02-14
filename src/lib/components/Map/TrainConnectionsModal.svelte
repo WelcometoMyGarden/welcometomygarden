@@ -14,9 +14,10 @@
   import { addTrainconnectionsDataLayers } from '@/lib/stores/trainconnections';
   import { slugify } from '@/lib/util';
   import type { OriginStation } from '@/lib/types/DataLayer';
+  import { onDestroy } from 'svelte';
 
   export let show = false;
-  let input: string = '';
+  let input = '';
   let error = '';
   let foundStations: any[] = [];
   let selectedStation: OriginStation | null = null;
@@ -70,9 +71,11 @@
     show = false;
   };
 
-  keyboardEvent.subscribe((e) => {
+  const unsubscribeFromKeyboardEvent = keyboardEvent.subscribe((e) => {
     if (e?.key === 't') show = !show;
   });
+
+  onDestroy(unsubscribeFromKeyboardEvent);
 </script>
 
 <svelte:window bind:innerWidth={vw} />

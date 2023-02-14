@@ -22,7 +22,7 @@ import { CAMPSITES, USERS, USERS_PRIVATE } from './collections';
 import { doc, DocumentReference, DocumentSnapshot, onSnapshot } from 'firebase/firestore';
 import notify from '$lib/stores/notification';
 import { goto } from '$app/navigation';
-import routes from '../routes';
+import routes, { getCurrentRoute } from '../routes';
 import { page } from '$app/stores';
 import { isActiveContains } from '../util/isActive';
 import type { Garden } from '../types/Garden';
@@ -43,10 +43,32 @@ export const createAuthObserver = (): Unsubscribe => {
   let unsubscribeFromUserPublic: (() => void) | null = null;
   let unsubscribeFromCampsite: (() => void) | null = null;
 
-  const unsubscribeFromInnerObservers = () => {
-    if (unsubscribeFromUserPrivate) unsubscribeFromUserPrivate();
-    if (unsubscribeFromUserPublic) unsubscribeFromUserPublic();
-    if (unsubscribeFromCampsite) unsubscribeFromCampsite();
+  const unsubscribeFromInnerObserversIfExisting = () => {
+    if (unsubscribeFromUserPrivate) {
+      unsubscribeFromUserPrivate();
+      unsubscribeFromUserPrivate = null;
+    }
+    if (unsubscribeFromUserPublic) {
+      unsubscribeFromUserPublic();
+      unsubscribeFromUserPublic = null;
+    }
+    if (unsubscribeFromCampsite) {
+      unsubscribeFromCampsite();
+      unsubscribeFromCampsite = null;
+    }
+  };
+
+  const startLoadingNewUser = () => {
+    // Reset caches for all non-auth docs, to prevent user updates from happening.
+    // The auth cache is managed by onIdTokenChanged
+    resetDocCaches();
+    // Unsubscribe from all user-related observers
+    unsubscribeFromInnerObserversIfExisting();
+    // Set the user to null (log out), if we're not yet logged out.
+    // This triggers chat observer cleanup in layout.svelte
+    if (get(user)) user.set(null);
+    // Notify that we're loading a new user
+    isUserLoading.set(true);
   };
 
   let isVerifying = false;
@@ -58,12 +80,7 @@ export const createAuthObserver = (): Unsubscribe => {
   const unsubscribeFromAuthObserver = auth().onIdTokenChanged(async (firebaseUser) => {
     console.info('auth/token changed');
 
-    // Reset subscriptions
-    unsubscribeFromInnerObservers();
-    // Reset state caches
-    cleanupStateCaches();
-
-    // Reinitialize auth state
+    // Update the auth state cache
     latestAuthUserState = firebaseUser;
 
     const oldStoredUser = get(user);
@@ -72,20 +89,27 @@ export const createAuthObserver = (): Unsubscribe => {
     }
     let routeTo: string | null = null;
 
+    let justLoggedIn = false;
+
     if (firebaseUser) {
+      // A user is logged in
+
       if (oldStoredUser == null) {
         // A new user is loading if the previous user was null, and the next one is not.
-        isUserLoading.set(true);
+        startLoadingNewUser();
+        justLoggedIn = true;
       }
       if (oldStoredUser && oldStoredUser.uid !== firebaseUser.uid) {
         console.info('The Firebase account was changed.');
         // A new user is loading if the user was changed.
-        isUserLoading.set(true);
+        startLoadingNewUser();
+        justLoggedIn = true;
       }
+      // Other cases: the current user was updated with new auth info
 
-      // If already logged in
       const firebaseUserEmailVerified: boolean = firebaseUser.emailVerified;
-      // This is undocumented, but it gets set, and it is used to check whether the email was verified in
+      // The token email_verified field is undocumented, but it gets set,
+      // and it is used to check whether the email was verified in
       // Firestore (the token gets passed to the Firestore in the backend)
       console.info('User email verified: ', firebaseUserEmailVerified);
       const firebaseTokenEmailVerified: boolean =
@@ -94,6 +118,8 @@ export const createAuthObserver = (): Unsubscribe => {
 
       // emailVerified signals that we have to consider this.
       if (
+        // case 1: we logged in into a half-verified account
+        // OR case 2: we just did a verification while logged in
         (oldStoredUser == null || !oldStoredUser.emailVerified) &&
         firebaseUserEmailVerified &&
         !firebaseTokenEmailVerified
@@ -104,14 +130,13 @@ export const createAuthObserver = (): Unsubscribe => {
         // This is counterintuitive, but Firebase does not refresh the auth token (including its emailVerified claims)
         // when a user verifies their email. It is also problematic, because this version of the token is used by
         // Firestore backend checks (see above).
-        //
-
         console.log('Email verified: force refresh token for full sync');
         isVerifying = true;
         // To set firebaseTokenEmailVerified to true, we force-refresh the token.
         // This should re-trigger onIdTokenChanged with true & true
         // **This will also trigger onIdTokenChanged in other open tabs.**
         await firebaseUser.getIdToken(true);
+        // Abort, because we know we will restart execution of onIdTokenChanged with new state.
         return;
       } else if (
         // `isVerifying` ensures that this notification is only displayed on a page that
@@ -125,7 +150,7 @@ export const createAuthObserver = (): Unsubscribe => {
       ) {
         // The email is fully verified, and this change has synced to the token too.
         notify.success(get(_)('auth.verification.success'), 8000);
-        console.log('Email verification full sync success - syncing new user state');
+        console.log('Email verification full sync success - syncing auth state to user');
         isVerifying = false;
         await updateUserIfPossible();
         if (isActiveContains(get(page), routes.AUTH_ACTION)) {
@@ -138,12 +163,23 @@ export const createAuthObserver = (): Unsubscribe => {
         await updateUserIfPossible();
       }
       if (latestAuthUserState) {
-        // Re-subscribe to dependent observers
+        // Subscribe to dependent observers, if they are missing.
+        // This will eventually lead to an asynchronous full user login.
         // NOTE: these do not synchronously update when registered, like Svelte stores.
         // This is why we use the isUserLoading store.
-        unsubscribeFromUserPrivate = createUserPrivateObserver(latestAuthUserState.uid);
-        unsubscribeFromUserPublic = createUserPublicObserver(latestAuthUserState.uid);
-        unsubscribeFromCampsite = createCampsiteObserver(latestAuthUserState.uid);
+        if (!unsubscribeFromUserPrivate) {
+          unsubscribeFromUserPrivate = createUserPrivateObserver(latestAuthUserState.uid);
+        }
+        if (!unsubscribeFromUserPublic) {
+          unsubscribeFromUserPublic = createUserPublicObserver(latestAuthUserState.uid);
+        }
+        if (!unsubscribeFromCampsite) {
+          unsubscribeFromCampsite = createCampsiteObserver(latestAuthUserState.uid);
+        }
+      }
+      if (justLoggedIn && getCurrentRoute()?.route === routes.SIGN_IN) {
+        // might happen if you have the sign in page open on two different tabs
+        routeTo = routes.MAP;
       }
     } else {
       console.log('Received a null Firebase user update');
@@ -151,11 +187,14 @@ export const createAuthObserver = (): Unsubscribe => {
       // (e.g. their password was reset elsewhere)
       if (oldStoredUser) {
         console.log('User is/has been logged out');
+        // Perform cleanup
+        unsubscribeFromInnerObserversIfExisting();
+        resetDocCaches();
         user.set(null);
         // Send the user back to the sign in page, if they are not yet on a page where they can stay.
-        if (
-          !(isActiveContains(get(page), routes.SIGN_IN) || isActiveContains(get(page), routes.HOME))
-        ) {
+        // NOTE: This is also handled by individual pages. Should it? Probably yes, because
+        // individual pages don't only trigger on logout and can include specific messages
+        if (getCurrentRoute()?.requiresAuth) {
           notify.info(get(_)('auth.logged-out'), 8000);
           routeTo = routes.SIGN_IN;
         }
@@ -166,27 +205,31 @@ export const createAuthObserver = (): Unsubscribe => {
       }
     }
 
+    // Firebase auth has been initialized, regardless of status
     if (get(isInitializing)) {
       isInitializing.set(false);
     }
+
     if (routeTo) {
+      // Before navigating, ensure the user is fully loaded.
+      await resolveOnUserLoaded();
       return goto(routeTo);
     }
   });
 
-  // Unsubscribe from all related observers, and clean up caches.
+  // Auth unsubscriber
+  // Unsubscribes from all related observers
+  // Does not clear the local state.
   return () => {
-    unsubscribeFromInnerObservers();
+    unsubscribeFromInnerObserversIfExisting();
     unsubscribeFromAuthObserver();
-    cleanupStateCaches();
   };
 };
 
-const cleanupStateCaches = () => {
-  latestAuthUserState = null;
+const resetDocCaches = () => {
   latestUserPrivateState = null;
   latestUserPublicState = null;
-  latestUserPrivateState = null;
+  latestCampsiteState = null;
 };
 
 export const checkAndHandleUnverified = async (message?: string, timeout = 8000) => {

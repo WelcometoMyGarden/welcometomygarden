@@ -6,7 +6,7 @@
   import { isRegistering } from '@/lib/stores/auth';
   import notify from '$lib/stores/notification';
   import { countries } from '$lib/util';
-  import routes from '$lib/routes';
+  import routes from '@/lib/routes';
   import AuthContainer from '$lib/components/AuthContainer.svelte';
   import { TextInput, Progress, Button } from '$lib/components/UI';
   import { lockIcon, emailIcon, userIcon, flagIcon } from '$lib/images/icons';

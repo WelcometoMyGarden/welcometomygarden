@@ -7,15 +7,18 @@
     toggleVisibilityTrainconnectionsDataLayers,
     trainconnectionsDataLayers
   } from '@/lib/stores/trainconnections';
+  import type { TrainconnectionsDataLayer } from '@/lib/types/DataLayer';
+  import { onDestroy } from 'svelte';
 
   export let showTransport: boolean;
   export let showRails: boolean;
   export let showStations: boolean;
 
-  let localTrainconnectionsDataLayers = $trainconnectionsDataLayers;
-  trainconnectionsDataLayers.subscribe((value) => {
+  let localTrainconnectionsDataLayers: TrainconnectionsDataLayer[];
+  const trainconnectionsDataLayersUnsubscribe = trainconnectionsDataLayers.subscribe((value) => {
     localTrainconnectionsDataLayers = value;
   });
+  onDestroy(trainconnectionsDataLayersUnsubscribe);
 </script>
 
 <LabeledCheckbox

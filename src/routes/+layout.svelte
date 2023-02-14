@@ -18,14 +18,14 @@
   import { updateCommunicationLanguage } from '@/lib/api/user';
   import MinimalFooter from '@/lib/components/MinimalFooter.svelte';
   import { isActiveContains } from '@/lib/util/isActive';
-  import routes from '$lib/routes';
+  import routes from '@/lib/routes';
   import { page } from '$app/stores';
   import { resetChatStores } from '@/lib/stores/chat';
 
   registerLocales();
 
   // React to locale initialization or changes
-  locale.subscribe((value) => {
+  const unsubscribeFromLocale = locale.subscribe((value) => {
     if (value == null) return;
     // If running in the client, save the language preference in a cookie
     // and update local + remote state
@@ -46,7 +46,7 @@
   let vh = `0px`;
 
   // React to user changes
-  user.subscribe(async (latestUser) => {
+  const unsubscribeFromUser = user.subscribe(async (latestUser) => {
     // Subscribe to the chat observer if the user logged in, and has a verified email
     if (!unsubscribeFromChatObserver && latestUser && latestUser.emailVerified)
       unsubscribeFromChatObserver = await createChatObserver(latestUser.uid);
@@ -90,6 +90,12 @@
     if (unsubscribeFromAuthObserver) {
       unsubscribeFromAuthObserver();
       unsubscribeFromAuthObserver = undefined;
+    }
+    if (unsubscribeFromUser) {
+      unsubscribeFromUser();
+    }
+    if (unsubscribeFromLocale) {
+      unsubscribeFromLocale();
     }
   });
 

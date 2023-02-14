@@ -52,7 +52,7 @@
     ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
     : fallbackLocation;
 
-  savedGardenStore.subscribe((gardens) => {
+  const unsubscribeFromSavedGardens = savedGardenStore.subscribe((gardens) => {
     if (Array.isArray(gardens)) savedGardens = gardens;
     else savedGardens = [];
   });
@@ -115,6 +115,7 @@
 
   onDestroy(() => {
     isFetchingGardens.set(false);
+    unsubscribeFromSavedGardens();
   });
 </script>
 

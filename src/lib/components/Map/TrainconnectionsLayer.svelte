@@ -1,10 +1,7 @@
 <script lang="ts">
-  import { ICON_SIZE, ZOOM_LEVELS } from '$lib/constants';
+  import { ICON_SIZE } from '$lib/constants';
   import { trainTimeIcon } from '@/lib/images/markers/index.js';
-  import {
-    addTrainconnectionsDataLayers,
-    trainconnectionsDataLayers
-  } from '@/lib/stores/trainconnections.js';
+  import { trainconnectionsDataLayers } from '@/lib/stores/trainconnections.js';
   import type { OriginStation } from '@/lib/types/DataLayer.js';
   import {
     convertToFeatureList,
@@ -16,7 +13,7 @@
   } from '@/lib/util/map/trainConnections.js';
   import type { LayerSpecification, GeoJSONSourceSpecification } from 'maplibre-gl';
   import mapboxgl from 'maplibre-gl';
-  import { getContext } from 'svelte';
+  import { getContext, onDestroy } from 'svelte';
   import key from './mapbox-context.js';
 
   // @ts-ignore
@@ -190,7 +187,7 @@
 
   // Subscribe to trainconnectionsDataLayers store and update map layers accordingly when it changes
   let prevFileDataLayerIds: string[] = [];
-  trainconnectionsDataLayers.subscribe((trainDLs) => {
+  const trainconnectionsDataLayersUnsubscribe = trainconnectionsDataLayers.subscribe((trainDLs) => {
     const dataLayerIds = trainDLs.map((dataLayer) => dataLayer.id);
 
     const idsToAdd = dataLayerIds.filter((id) => !prevFileDataLayerIds.includes(id)); // IDs that are in the new data, but not in the old data
@@ -217,6 +214,8 @@
 
     prevFileDataLayerIds = dataLayerIds;
   });
+
+  onDestroy(trainconnectionsDataLayersUnsubscribe);
 
   setup();
 </script>

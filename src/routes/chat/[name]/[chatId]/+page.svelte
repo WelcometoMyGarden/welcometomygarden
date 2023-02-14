@@ -1,6 +1,6 @@
 <script>
   import { _ } from 'svelte-i18n';
-  import { beforeUpdate, afterUpdate, onMount } from 'svelte';
+  import { beforeUpdate, afterUpdate, onMount, onDestroy } from 'svelte';
   import { fade } from 'svelte/transition';
   import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
@@ -17,7 +17,7 @@
 
   let chatId = $page.params.chatId;
   // Subscribe to page is necessary to get the chat page of the selected chat (when the url changes) for desktop
-  page.subscribe((currentPage) => (chatId = currentPage.params.chatId));
+  const unsubscribeFromPage = page.subscribe((currentPage) => (chatId = currentPage.params.chatId));
 
   let partnerHasGarden = null;
   let partnerId;
@@ -110,6 +110,8 @@
     }
     isSending = false;
   };
+
+  onDestroy(unsubscribeFromPage);
 
   $: partnerName = chat && chat.partner ? chat.partner.firstName : '';
 
