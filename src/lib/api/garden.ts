@@ -11,11 +11,11 @@ import {
   getDocFromCache,
   getDocFromServer
 } from 'firebase/firestore';
-import { getUser } from '@/lib/stores/auth';
-import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '@/lib/stores/garden';
+import { getUser } from '$lib/stores/auth';
+import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '$lib/stores/garden';
 import { db, storage } from './firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import type { Garden, GardenFacilities } from '@/lib/types/Garden';
+import type { Garden, GardenFacilities } from '$lib/types/Garden';
 
 export const getAllListedGardens = async () => {
   isFetchingGardens.set(true);

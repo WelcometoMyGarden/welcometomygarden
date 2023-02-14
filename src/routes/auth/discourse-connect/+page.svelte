@@ -3,11 +3,11 @@
   import { page } from '$app/stores';
   import { _ } from 'svelte-i18n';
   import notify from '$lib/stores/notification';
-  import { checkAndHandleUnverified } from '@/lib/api/auth';
-  import { discourseConnectLogin } from '@/lib/api/functions';
-  import routes from '@/lib/routes';
-  import { user } from '@/lib/stores/auth';
-  import PaddedSection from '@/routes/(marketing)/_components/PaddedSection.svelte';
+  import { checkAndHandleUnverified } from '$lib/api/auth';
+  import { discourseConnectLogin } from '$lib/api/functions';
+  import routes from '$lib/routes';
+  import { user } from '$lib/stores/auth';
+  import PaddedSection from '$routes/(marketing)/_components/PaddedSection.svelte';
   import { onMount } from 'svelte';
 
   // Note: searchParams values will already be URL-decoded

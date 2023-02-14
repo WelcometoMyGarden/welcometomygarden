@@ -1,6 +1,6 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { IMAGES_PATH } from '@/lib/constants';
+  import { IMAGES_PATH } from '$lib/constants';
   import { createEventDispatcher } from 'svelte';
   export let selected = false;
 

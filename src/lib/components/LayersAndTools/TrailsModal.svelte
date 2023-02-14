@@ -1,7 +1,7 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { Modal } from '$lib/components/UI';
-  import TrailsTool from '@/lib/components/LayersAndTools/TrailsTool.svelte';
+  import TrailsTool from '$lib/components/LayersAndTools/TrailsTool.svelte';
 
   export let show = false;
   export let showHiking: boolean;

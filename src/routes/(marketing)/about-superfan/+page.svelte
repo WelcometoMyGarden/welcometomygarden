@@ -1,20 +1,20 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import Button from '@/lib/components/UI/Button.svelte';
-  import routes from '@/lib/routes';
+  import Button from '$lib/components/UI/Button.svelte';
+  import routes from '$lib/routes';
   import Heading from '../_components/Heading.svelte';
   import MarketingBlock from '../_components/MarketingBlock.svelte';
   import PaddedSection from '../_components/PaddedSection.svelte';
   import Features from '../_sections/Features.svelte';
   import InnerVideoSection from '../_sections/VideoSection.svelte';
   import SupportReasons from '../_sections/SupportReasons.svelte';
-  import CollapsibleGroup from '@/lib/components/CollapsibleGroup.svelte';
+  import CollapsibleGroup from '$lib/components/CollapsibleGroup.svelte';
   import Testimonials from '../_components/Testimonials.svelte';
   import type { Slide } from '../_components/Testimonials.svelte';
   import { coreTeamProfiles } from '../_static/profiles';
   import ProfilePicture from '../_components/ProfilePicture.svelte';
-  import { SUPERFAN_PRICING_ROUTE, SUPPORT_EMAIL } from '@/lib/constants';
-  import { getNodeKeys } from '@/lib/util/get-node-children';
+  import { SUPERFAN_PRICING_ROUTE, SUPPORT_EMAIL } from '$lib/constants';
+  import { getNodeKeys } from '$lib/util/get-node-children';
   import { onDestroy } from 'svelte';
 
   let testimonials: Slide[];

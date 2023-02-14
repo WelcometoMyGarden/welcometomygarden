@@ -1,7 +1,7 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import MarketingBlock from '@/routes/(marketing)/_components/MarketingBlock.svelte';
-  import type { SuperfanLevelData } from '@/routes/(marketing)/_static/superfan-levels';
+  import MarketingBlock from '$routes/(marketing)/_components/MarketingBlock.svelte';
+  import type { SuperfanLevelData } from '$routes/(marketing)/_static/superfan-levels';
 
   export let level: SuperfanLevelData;
 

@@ -32,11 +32,30 @@ const NO_API_KEY_WARNING =
   'or it is not the production key. ' +
   'No emails will be sent. Inspect the logs to see what would have been sent by email';
 
-exports.sendAccountVerificationEmail = (email, name, verificationLink) => {
+/**
+ * @param {string} email
+ * @param {string} name
+ * @param {string} verificationLink
+ * @param {string} language
+ */
+exports.sendAccountVerificationEmail = (email, name, verificationLink, language) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-56d23ef8795d470eb4a615101f45a1bb';
+      break;
+    case 'nl':
+      templateId = 'd-3bfeec1f2b3d4849bb725c74805f8592';
+      break;
+    default:
+      templateId = 'd-9fa3c99cbc4e410ca2d51db0f5048276';
+      break;
+  }
+
   const msg = {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
-    templateId: 'd-9fa3c99cbc4e410ca2d51db0f5048276',
+    templateId,
     dynamic_template_data: {
       firstName: name,
       verificationLink

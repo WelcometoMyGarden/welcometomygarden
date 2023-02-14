@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { LabeledCheckbox } from '@/lib/components/UI';
-  import Icon from '@/lib/components/UI/Icon.svelte';
-  import { crossIcon } from '@/lib/images/icons';
+  import { LabeledCheckbox } from '$lib/components/UI';
+  import Icon from '$lib/components/UI/Icon.svelte';
+  import { crossIcon } from '$lib/images/icons';
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 

@@ -2,9 +2,9 @@
   import type mapboxgl from 'maplibre-gl';
   import { getContext, onMount, onDestroy } from 'svelte';
   import key from './mapbox-context.js';
-  import { fetchFrom } from '@/lib/util';
-  import { DEFAULT_MAP_STYLE, ICON_SIZE, ZOOM_LEVELS } from '@/lib/constants.js';
-  import { trainAllIcon } from '@/lib/images/markers/index.js';
+  import { fetchFrom } from '$lib/util';
+  import { DEFAULT_MAP_STYLE, ICON_SIZE, ZOOM_LEVELS } from '$lib/constants.js';
+  import { trainAllIcon } from '$lib/images/markers/index.js';
 
   // @ts-ignore
   const { getMap } = getContext(key);

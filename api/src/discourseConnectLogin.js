@@ -17,14 +17,16 @@ const fail = require('./util/fail');
 
 const db = getFirestore();
 
-/** @type {string} */
-const DISCOURSE_CONNECT_SECRET = functions.config().discourse.connect_secret;
+/** @type {string | null} */
+const DISCOURSE_CONNECT_SECRET = functions.config().discourse
+  ? functions.config().discourse.connect_secret
+  : null;
 
 /**
  * @param {string} payload
  */
 const getHmacDigest = (payload) => {
-  const hmac = createHmac('sha256', DISCOURSE_CONNECT_SECRET);
+  const hmac = createHmac('sha256', /** @type {string} */ (DISCOURSE_CONNECT_SECRET));
   return hmac.update(payload).digest('hex');
 };
 
@@ -36,6 +38,10 @@ const getHmacDigest = (payload) => {
  * @returns {Promise<import("../../src/lib/api/functions").DiscourseConnectLoginResponse | undefined>} sso payload will not be URL-encoded
  */
 exports.discourseConnectLogin = async (data, context) => {
+  if (DISCOURSE_CONNECT_SECRET == null) {
+    fail('failed-precondition');
+    return;
+  }
   // Validation
   if (!context.auth) {
     fail('unauthenticated');

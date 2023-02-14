@@ -2,11 +2,11 @@
   import ContributeBlock from './ContributeBlock.svelte';
   import Text from '$lib/components/UI/Text.svelte';
   import PaddedSection from '../_components/PaddedSection.svelte';
-  import Icon from '@/lib/components/UI/Icon.svelte';
+  import Icon from '$lib/components/UI/Icon.svelte';
   import contributeIllustration from '$lib/images/contribute.svg';
   import Heading from '../_components/Heading.svelte';
   import { _ } from 'svelte-i18n';
-  import { getNodeChildren } from '@/lib/util';
+  import { getNodeChildren } from '$lib/util';
 </script>
 
 <PaddedSection>

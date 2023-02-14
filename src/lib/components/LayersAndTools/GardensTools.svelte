@@ -1,7 +1,7 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { LabeledRadioButton } from '@/lib/components/UI';
-  import { bookmarkEmptyIcon, hideIcon, tentIcon } from '@/lib/images/icons';
+  import { LabeledRadioButton } from '$lib/components/UI';
+  import { bookmarkEmptyIcon, hideIcon, tentIcon } from '$lib/images/icons';
   export let showGardens: boolean;
   export let showSavedGardens: boolean;
   let gardensGroup: 'ALL' | 'SAVED' | 'HIDE' = 'ALL';

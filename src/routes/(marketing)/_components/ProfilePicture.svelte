@@ -1,5 +1,5 @@
 <script lang="ts">
-  import ResponsiveSquare from '@/lib/components/UI/ResponsiveSquare.svelte';
+  import ResponsiveSquare from '$lib/components/UI/ResponsiveSquare.svelte';
   export let imageSrc: string;
   export let name: string;
 </script>

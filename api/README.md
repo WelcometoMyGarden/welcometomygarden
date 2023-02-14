@@ -50,7 +50,22 @@ You can replace "frontend" with the localhost URL where you are currently runnin
 yarn serve
 ```
 
-See package.json for alternative commands, as well as the `firebase` command itself.
+See package.json for alternative commands, as well as the `firebase` command itself. More convenience methods are available in [the root `package.json`](../package.json).
+
+The Firebase CLI acts upon the `/api` folder as part of a bigger project.
+
+**Dev server troubleshooting**
+
+Sometimes the dev servers don't quit properly, and remain handing. On a restart, they will complain that the port of a certain emulator is already taken.
+
+On macOS/Linux, you can kill the process listening on that port with:
+
+```
+lsof -ti tcp:8080 | xargs kill
+
+# Or, if we're desperate:
+lsof -ti tcp:8080 | xargs kill -9
+```
 
 ## Running the Stripe dev environment
 

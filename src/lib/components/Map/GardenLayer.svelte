@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Garden } from '@/lib/types/Garden.js';
+  import type { Garden } from '$lib/types/Garden.js';
   import type { ContextType } from './Map.svelte';
   import type maplibregl from 'maplibre-gl';
   import type GeoJSON from 'geojson';
@@ -12,7 +12,7 @@
 
   import { getContext, createEventDispatcher } from 'svelte';
   import key from './mapbox-context.js';
-  import { tentIcon } from '@/lib/images/markers';
+  import { tentIcon } from '$lib/images/markers';
 
   type GardenFeatureCollection = {
     type: 'FeatureCollection';

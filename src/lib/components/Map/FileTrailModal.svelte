@@ -1,17 +1,17 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { Button, FileInput, Modal } from '$lib/components/UI';
-  import fileToGeoJson from '@/lib/util/map/fileToGeoJson';
-  import { keyboardEvent } from '@/lib/stores/keyboardEvent';
-  import { VALID_FILETYPE_EXTENSIONS } from '@/lib/constants';
-  import { getFileExtension } from '@/lib/util';
-  import { addFileDataLayers } from '@/lib/stores/file';
-  import Icon from '@/lib/components/UI/Icon.svelte';
-  import { crossIcon, uploadCloudIcon } from '@/lib/images/icons';
-  import Text from '@/lib/components/UI/Text.svelte';
-  import { cleanName } from '@/lib/util/slugify';
-  import { humanFileSize } from '@/lib/util/humanFileSize';
-  import notification from '@/lib/stores/notification';
+  import fileToGeoJson from '$lib/util/map/fileToGeoJson';
+  import { keyboardEvent } from '$lib/stores/keyboardEvent';
+  import { VALID_FILETYPE_EXTENSIONS } from '$lib/constants';
+  import { getFileExtension } from '$lib/util';
+  import { addFileDataLayers } from '$lib/stores/file';
+  import Icon from '$lib/components/UI/Icon.svelte';
+  import { crossIcon, uploadCloudIcon } from '$lib/images/icons';
+  import Text from '$lib/components/UI/Text.svelte';
+  import { cleanName } from '$lib/util/slugify';
+  import { humanFileSize } from '$lib/util/humanFileSize';
+  import notification from '$lib/stores/notification';
 
   export let show = false;
   let files: File[] = [];

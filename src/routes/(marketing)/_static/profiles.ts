@@ -1,5 +1,5 @@
-import staticAssetUrl from '@/lib/util/staticAssetUrl';
-import type ProfilePicture from '@/routes/(marketing)/_components/ProfilePicture.svelte';
+import staticAssetUrl from '$lib/util/staticAssetUrl';
+import type ProfilePicture from '$routes/(marketing)/_components/ProfilePicture.svelte';
 import type { ComponentProps } from 'svelte';
 import type Profile from '../_components/Profile.svelte';
 

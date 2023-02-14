@@ -39,29 +39,39 @@ const {
   // Takes some more setup:
   // https://stackoverflow.com/questions/46452921/can-cloud-functions-for-firebase-execute-on-user-login
   // last_sign_in_time: SG_LAST_SIGN_IN_TIME_FIELD_ID,
-  creation_time: SG_CREATION_TIME_FIELD_ID
+  creation_time: SG_CREATION_TIME_FIELD_ID,
+  creation_language: SG_CREATION_LANGUAGE_FIELD_ID
 } = /** @type {{[key: string]: string}} */ (functions.config().sendgrid.field_ids ?? {});
 
 const frontendUrl = removeEndingSlash(functions.config().frontend.url);
 
-const sendVerificationEmail = async (email, firstName) => {
+/**
+ * @param {string} email
+ * @param {string} firstName
+ * @param {string} language
+ */
+const sendVerificationEmail = async (email, firstName, language) => {
   // https://firebase.google.com/docs/auth/admin/email-action-links#generate_email_verification_link
   // https://firebase.google.com/docs/auth/custom-email-handler
   const link = await auth.generateEmailVerificationLink(email, {
     url: `${frontendUrl}/account`
   });
 
-  await sendAccountVerificationEmail(email, firstName, link);
+  await sendAccountVerificationEmail(email, firstName, link, language);
 };
 
 /**
  * @param {import('../../src/lib/api/functions').CreateUserRequest} data
  * @param {import('firebase-functions/v1/https').CallableContext} context
- * @returns
+ * @returns {Promise<object>}
  */
 exports.createUser = async (data, context) => {
   if (!context.auth) {
-    fail('unauthenticated');
+    return fail('unauthenticated');
+  }
+
+  if (!context.auth.uid) {
+    return fail('internal');
   }
 
   try {
@@ -124,29 +134,32 @@ exports.createUser = async (data, context) => {
       // A data migration was run only for new existing accounts in November/December 2022.
     });
 
-    await db
-      .collection('users-private')
-      .doc(user.uid)
-      .set({
-        lastName,
-        // Consent can be assumed here, because on the frontend, the registration form does not
-        // submit without the consent checkbox being set.
-        // This is essentially a mirror the creation timestamp of the users-private doc
-        consentedAt: FieldValue.serverTimestamp(),
-        emailPreferences: {
-          newChat: true,
-          news: true
-        }
-        // NOTE: there are several other properties that don't have defaults, see
-        // src/lib/models/Users.ts -> UserPrivate
-      });
+    const userPrivateRef =
+      /** @type {import('firebase-admin/firestore').DocumentReference<UserPrivate>} */ (
+        db.collection('users-private').doc(user.uid)
+      );
+    await userPrivateRef.set({
+      lastName,
+      // Consent can be assumed here, because on the frontend, the registration form does not
+      // submit without the consent checkbox being set.
+      // This is essentially a mirror the creation timestamp of the users-private doc
+      consentedAt: FieldValue.serverTimestamp(),
+      emailPreferences: {
+        newChat: true,
+        news: true
+      },
+      creationLanguage: data.communicationLanguage,
+      communicationLanguage: data.communicationLanguage
+      // NOTE: there are several other properties that don't have defaults, see
+      // src/lib/models/Users.ts -> UserPrivate
+    });
 
     await db
       .collection('stats')
       .doc('users')
       .set({ count: FieldValue.increment(1) }, { merge: true });
 
-    await sendVerificationEmail(email, firstName);
+    await sendVerificationEmail(email, firstName, data.communicationLanguage);
 
     return { message: 'Your account was created successfully,', success: true };
   } catch (ex) {
@@ -184,23 +197,42 @@ exports.changeEmail = async () => {};
 
 exports.resendAccountVerification = async (data, context) => {
   if (!context.auth) {
-    throw new functions.https.HttpsError('unauthenticated');
+    throw new functions.https.HttpsError('unauthenticated', '');
   }
 
+  /** @type {UserRecord} */
   let user;
+  /** @type {UserPrivate} */
+  let userPrivate;
   try {
-    user = await auth.getUser(context.auth.uid);
+    const [userIn, userPrivateIn] = await Promise.all([
+      auth.getUser(context.auth.uid),
+      /** @type {Promise<UserPrivate>} */ (
+        db
+          .doc(`users-private/${context.auth.uid}`)
+          .get()
+          .then((dS) => dS.data())
+      )
+    ]);
+    user = userIn;
+    userPrivate = userPrivateIn;
   } catch (ex) {
     console.log(
       'Exception while trying to get the user while resending the account verification email',
       ex
     );
-    throw new functions.https.HttpsError('permission-denied');
+    throw new functions.https.HttpsError('permission-denied', '');
   }
 
-  if (!user || user.emailVerified) throw new functions.https.HttpsError('permission-denied');
+  if (!user || user.emailVerified) throw new functions.https.HttpsError('permission-denied', '');
+  if (!user.email) throw new functions.https.HttpsError('invalid-argument', '');
 
-  await sendVerificationEmail(user.email, user.displayName);
+  await sendVerificationEmail(
+    user.email,
+    // Empty string shouldn't occur, as we make it mandatory and set it on user creation.
+    user.displayName ?? '',
+    userPrivate.communicationLanguage ?? 'en'
+  );
 };
 
 /**
@@ -263,24 +295,24 @@ exports.cleanupUserOnDelete = async (user) => {
  * Add a contact for this user to SendGrid, and store its contact ID
  * in the user's users-private doc.
  * Precondition: the user's users-private document must already exist
- * @param {UserRecord} user
+ * @param {UserRecord} firebaseUser
  * @param {object} [extraContactDetails]
  * @returns
  */
-const createSendgridContact = async (user, extraContactDetails = {}) => {
-  if (!user.email) {
+const createSendgridContact = async (firebaseUser, extraContactDetails = {}) => {
+  if (!firebaseUser.email) {
     console.error('New Firebase users must always have an email address');
     fail('invalid-argument');
     return;
   }
   const sendgridContactCreationDetails = {
-    email: user.email,
+    email: firebaseUser.email,
     // Set to first name on creation
-    first_name: user.displayName,
+    first_name: firebaseUser.displayName,
     ...extraContactDetails,
     custom_fields: {
-      [SG_WTMG_ID_FIELD_ID]: user.uid,
-      [SG_CREATION_TIME_FIELD_ID]: new Date(user.metadata.creationTime).toISOString(),
+      [SG_WTMG_ID_FIELD_ID]: firebaseUser.uid,
+      [SG_CREATION_TIME_FIELD_ID]: new Date(firebaseUser.metadata.creationTime).toISOString(),
       ...(extraContactDetails.custom_fields ?? {})
     }
   };
@@ -370,7 +402,7 @@ const createSendgridContact = async (user, extraContactDetails = {}) => {
     url: '/v3/marketing/contacts/search/emails',
     method: 'POST',
     body: {
-      emails: [user.email]
+      emails: [firebaseUser.email]
     }
   });
 
@@ -378,15 +410,15 @@ const createSendgridContact = async (user, extraContactDetails = {}) => {
     console.error('Something went wrong while getting the SendGrid contact ID', errors);
     fail('internal');
   }
-  if (!result || !(user.email && user.email in result)) {
+  if (!result || !(firebaseUser.email && firebaseUser.email in result)) {
     console.log('Contact not found in SendGrid!');
     fail('internal');
   }
 
   // Add the sendgrid contact ID to firebase
-  const { id: contactId } = result[user.email].contact;
+  const { id: contactId } = result[firebaseUser.email].contact;
 
-  await db.doc(`users-private/${user.uid}`).update({
+  await db.doc(`users-private/${firebaseUser.uid}`).update({
     sendgridId: contactId
   });
 };
@@ -412,16 +444,11 @@ exports.onUserPrivateWrite = async (change) => {
   // TODO: current problematic situation
   // 1. the initial createUser call calls this first.
   // 2. This results in a call to createSendgridContact, which takes about 32 seconds
-  // 3. ! While createSendgridContact is still polling createSendgridContact, communicationLanguage gets updated (or any other prop may get updated)
-  // 4. ! this restarts the call from 2, because the sendgridId is still undefined. THIS DOES A REDUNDANT 32 SEC UPDATE
-  // 5. The call from (2) triggers another update, which returns in 2ms no-op because of the installed guard
-  // 6. The call from (4) triggers another update, which probably results in a normal update because the guard does not apply anymore
-  //
-  // Can we avoid this situation?
-  //
-  // We could make sure that (3) doesn't happen by setting communicationLanguage on account create, as a createUser param (this is good in any case)
-  //
-  // Even more robust: a way to make sure that whichever changes DO happen in those 30 seconds, won't cause a redundant update.
+  // 3. Any update to user private within this window (e.g. comm language change, newsletter pref update)
+  //    will restart createSendGridContact (another 32 sec), because sendGridId is not defined yet.
+  // 4. createSendGridContact itself triggers another onUserPrivateWrite, but this one is ignored by the installed guard.
+
+  // To avoid the (3) situation, we need a way to make sure that whichever changes DO happen in those 30 seconds, won't cause a redundant update.
   // - create the sendgrid account in the createUser function: unacceptable, because it would delay account creation (already slow) with 30 sec
   //    we have to await the polling, because the function thread might be force-terminated after returning https://stackoverflow.com/a/51802305/4973029
   // - ! calling another cloud function from createUser, that can complete on its own, and just does the update?
@@ -487,7 +514,15 @@ exports.onUserPrivateWrite = async (change) => {
     // No recorded sendgridID means that we first have to create the contact
     // This will "recursively" trigger another userPrivate write, which will
     // match the ignore case above.
-    await createSendgridContact(authUser, sendgridContactUpdateFields);
+    await createSendgridContact(authUser, {
+      ...sendgridContactUpdateFields,
+      custom_fields: {
+        ...sendgridContactUpdateFields.custom_fields,
+        // The creation language can only be updated one time, upon creation.
+        // Yet, it stems from the same source field as communicationLanguage.
+        [SG_CREATION_LANGUAGE_FIELD_ID]: communicationLanguage
+      }
+    });
   } else {
     // Otherwise, this is an update of changed information
 

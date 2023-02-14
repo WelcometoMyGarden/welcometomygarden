@@ -1,7 +1,7 @@
 <script>
   import { _ } from 'svelte-i18n';
-  import Button from '@/lib/components/UI/Button.svelte';
-  import routes from '@/lib/routes';
+  import Button from '$lib/components/UI/Button.svelte';
+  import routes from '$lib/routes';
   import MarketingBlock from '../../_components/MarketingBlock.svelte';
   import PaddedSection from '../../_components/PaddedSection.svelte';
   import Features from '../../_sections/Features.svelte';

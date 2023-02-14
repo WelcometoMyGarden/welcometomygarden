@@ -3,7 +3,7 @@
   import routes from '$lib/routes';
   import NavLink from './NavLink.svelte';
   import UserDropdown from './UserDropdown.svelte';
-  import { user } from '@/lib/stores/auth';
+  import { user } from '$lib/stores/auth';
   import WtmgLogo from '../../UI/WTMGLogo.svelte';
 
   $: firstName = $user ? $user.firstName : '';

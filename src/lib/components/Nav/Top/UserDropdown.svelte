@@ -4,10 +4,10 @@
   import { _ } from 'svelte-i18n';
   import { slide } from 'svelte/transition';
   import { clickOutside } from '$lib/directives';
-  import { logout } from '@/lib/api/auth';
+  import { logout } from '$lib/api/auth';
   import { chatIcon, signOutIcon, userIcon } from '$lib/images/icons';
   import routes from '$lib/routes';
-  import { goto } from '@/lib/util/navigate';
+  import { goto } from '$lib/util/navigate';
 
   let isOpen = false;
 

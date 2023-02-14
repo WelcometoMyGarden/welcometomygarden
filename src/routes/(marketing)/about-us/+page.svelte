@@ -1,6 +1,6 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import MarketingBlock from '@/routes/(marketing)/_components/MarketingBlock.svelte';
+  import MarketingBlock from '$routes/(marketing)/_components/MarketingBlock.svelte';
   import PaddedSection from '../_components/PaddedSection.svelte';
   import Profile from '../_components/Profile.svelte';
 
@@ -14,7 +14,7 @@
   import Heading from '../_components/Heading.svelte';
   import Text from '$lib/components/UI/Text.svelte';
   import PartnersSection from './PartnersSection.svelte';
-  import staticAssetUrl from '@/lib/util/staticAssetUrl';
+  import staticAssetUrl from '$lib/util/staticAssetUrl';
   import {
     coreTeamProfiles as coreTeamProfilesStatic,
     type ProfileData

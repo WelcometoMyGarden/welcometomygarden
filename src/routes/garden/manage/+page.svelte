@@ -2,13 +2,13 @@
   import { _ } from 'svelte-i18n';
   import { goto } from '$lib/util/navigate';
   import { updateGardenLocally } from '$lib/stores/garden';
-  import { user } from '@/lib/stores/auth';
+  import { user } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
   import { Progress } from '$lib/components/UI';
   import { updateGarden } from '$lib/api/garden';
   import Form from '$lib/components/Garden/Form.svelte';
   import routes from '$lib/routes';
-  import { checkAndHandleUnverified } from '@/lib/api/auth';
+  import { checkAndHandleUnverified } from '$lib/api/auth';
 
   if (!$user) {
     notify.info($_('auth.unsigned'), 8000);
