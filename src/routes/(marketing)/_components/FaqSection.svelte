@@ -1,7 +1,7 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import routes from '@/lib/routes';
-  import CollapsibleGroup from '@/lib/components/CollapsibleGroup.svelte';
+  import routes from '$lib/routes';
+  import CollapsibleGroup from '$lib/components/CollapsibleGroup.svelte';
 
   export let dictionaryPath: string;
 </script>

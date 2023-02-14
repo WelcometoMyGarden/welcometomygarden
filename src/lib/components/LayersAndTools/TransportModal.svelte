@@ -1,7 +1,7 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { Modal } from '$lib/components/UI';
-  import TransportTools from '@/lib/components/LayersAndTools/TransportTools.svelte';
+  import TransportTools from '$lib/components/LayersAndTools/TransportTools.svelte';
 
   export let show = false;
   export let showTransport: boolean;

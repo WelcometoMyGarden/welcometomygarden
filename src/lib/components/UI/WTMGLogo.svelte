@@ -1,9 +1,9 @@
 <script lang="ts">
-  import routes from '@/lib/routes';
-  import { isActive } from '@/lib/util/isActive';
+  import routes from '$lib/routes';
+  import { isActive } from '$lib/util/isActive';
   import { page } from '$app/stores';
   const elementOptions = ['h1', 'h2', 'span'] as const;
-  type Option = typeof elementOptions[number];
+  type Option = (typeof elementOptions)[number];
   export let is: Option = 'h1';
   export let hideTitleWhenOnHome = false;
 </script>

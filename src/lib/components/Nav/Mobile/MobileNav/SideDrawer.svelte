@@ -1,15 +1,15 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { page } from '$app/stores';
-  import { logout } from '@/lib/api/auth';
+  import { logout } from '$lib/api/auth';
   import { clickOutside } from '$lib/directives';
   import Socials from '$lib/components/Socials.svelte';
   import LanguageSelector from '$lib/components/LanguageSelector.svelte';
-  import routes from '@/lib/routes';
-  import { SHOP_URL } from '@/lib/constants';
-  import { user } from '@/lib/stores/auth';
+  import routes from '$lib/routes';
+  import { SHOP_URL } from '$lib/constants';
+  import { user } from '$lib/stores/auth';
   import { goto } from '$app/navigation';
-  import { isActive } from '@/lib/util/isActive';
+  import { isActive } from '$lib/util/isActive';
   import { createEventDispatcher } from 'svelte';
 
   const dispatch = createEventDispatcher();

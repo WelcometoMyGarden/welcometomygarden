@@ -2,7 +2,7 @@
   import { _ } from 'svelte-i18n';
   import smoothscroll from 'smoothscroll-polyfill';
   import ArrowDown from '$lib/images/arrow-down.svg';
-  import enterHandler from '@/lib/util/keyhandlers';
+  import enterHandler from '$lib/util/keyhandlers';
 
   const handleLearnMoreClick = () => {
     const navBarHeightElem = document.getElementById('navigation');

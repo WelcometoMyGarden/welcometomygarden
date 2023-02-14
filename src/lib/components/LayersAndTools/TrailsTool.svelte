@@ -1,22 +1,24 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
 
-  import { LabeledCheckbox, MultiActionLabel, Button, Icon } from '@/lib/components/UI';
-  import { cyclistIcon, hikerIcon, routesIcon } from '@/lib/images/icons';
+  import { LabeledCheckbox, MultiActionLabel, Button, Icon } from '$lib/components/UI';
+  import { cyclistIcon, hikerIcon, routesIcon } from '$lib/images/icons';
   import {
     fileDataLayers,
     removeFileDataLayers,
     toggleVisibilityFileDataLayers
-  } from '@/lib/stores/file';
-  import { cleanName } from '@/lib/util/slugify';
+  } from '$lib/stores/file';
+  import { cleanName } from '$lib/util/slugify';
+  import { onDestroy } from 'svelte';
 
   export let showHiking: boolean;
   export let showCycling: boolean;
 
   let localFileDataLayers = $fileDataLayers;
-  fileDataLayers.subscribe((value) => {
+  const fileDataLayersUnsubscribe = fileDataLayers.subscribe((value) => {
     localFileDataLayers = value;
   });
+  onDestroy(fileDataLayersUnsubscribe);
 </script>
 
 <div class="static-layers">

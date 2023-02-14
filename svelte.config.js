@@ -1,7 +1,6 @@
 import adapter from '@sveltejs/adapter-static'; // https://www.npmjs.com/package/@sveltejs/adapter-static
 
 import preprocess from 'svelte-preprocess';
-import { resolve } from 'path';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -10,6 +9,11 @@ const config = {
   preprocess: preprocess(),
 
   kit: {
+    // https://stackoverflow.com/a/74222951/4973029
+    alias: {
+      $routes: './src/routes',
+      $locales: './src/locales'
+    },
     adapter: adapter({
       pages: 'dist',
       assets: 'dist'
@@ -23,9 +27,6 @@ const config = {
         '/explore/garden/[gardenId]',
         '/become-superfan/payment/[id]'
       ]
-    },
-    alias: {
-      '@': resolve('./src')
     }
   },
   onwarn: (warning) => {

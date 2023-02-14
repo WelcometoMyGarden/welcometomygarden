@@ -8,7 +8,7 @@
   import { slide } from 'svelte/transition';
   import CoordinateForm from '$lib/components/Garden/CoordinateForm.svelte';
   import routes from '$lib/routes';
-  import { user } from '@/lib/stores/auth';
+  import { user } from '$lib/stores/auth';
   import { LabeledCheckbox, Button } from '$lib/components/UI';
   import { getGardenPhotoBig } from '$lib/api/garden';
   import {

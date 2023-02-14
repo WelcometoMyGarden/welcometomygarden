@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { crossIcon } from '@/lib/images/icons';
+  import { crossIcon } from '$lib/images/icons';
   import { Icon } from '../../UI';
   import { Text } from '$lib/components/UI';
   import routes from '$lib/routes';
-  import { clickOutside } from '@/lib/directives';
+  import { clickOutside } from '$lib/directives';
   import { _ } from 'svelte-i18n';
   import Button from '../../UI/Button.svelte';
-  import capitalize from '@/lib/util/capitalize';
+  import capitalize from '$lib/util/capitalize';
   export let onToggle: (e: Event) => void;
 </script>
 

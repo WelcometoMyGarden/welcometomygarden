@@ -10,7 +10,7 @@
   export let preventing = false;
 
   import { createEventDispatcher } from 'svelte';
-  import Icon from '@/lib/components/UI/Icon.svelte';
+  import Icon from '$lib/components/UI/Icon.svelte';
 
   const dispatch = createEventDispatcher();
 

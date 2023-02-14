@@ -34,3 +34,10 @@ export const getChatForUser = (uid) => {
     return chat.users.includes(uid);
   });
 };
+
+export const resetChatStores = () => {
+  hasInitialized.set(false);
+  creatingNewChat.set(false);
+  chats.set({});
+  messages.set({});
+};

@@ -1,11 +1,11 @@
 <script lang="ts">
   import type { ContextType } from './Map.svelte';
   import type GeoJSON from 'geojson';
-  import { fileDataLayers, prefix } from '@/lib/stores/file';
+  import { fileDataLayers, prefix } from '$lib/stores/file';
   import { getContext } from 'svelte';
   import bbox from '@turf/bbox';
   import key from './mapbox-context.js';
-  import { ZOOM_LEVELS } from '@/lib/constants.js';
+  import { ZOOM_LEVELS } from '$lib/constants.js';
 
   type SourceData =
     | string
@@ -136,18 +136,6 @@
     const idsToAdd = fileDataLayerIds.filter((id) => !prevFileDataLayerIds.includes(id)); // IDs that are in the new data, but not in the old data
     const idsToRemove = prevFileDataLayerIds.filter((id) => !fileDataLayerIds.includes(id)); // IDs that are in the old data, but not in the new data
     const idsToUpdate = fileDataLayerIds.filter((id) => prevFileDataLayerIds.includes(id)); // IDs that are in both the old and new data
-
-    // TODO: remove logs
-    if (false) {
-      console.log('---');
-      console.log('getFileDataLayerIdsOnMap', getFileDataLayerIdsOnMap());
-      console.log('prev ids', prevFileDataLayerIds);
-      console.log('ids', fileDataLayerIds);
-      console.log('idsToAdd', idsToAdd);
-      console.log('idsToRemove', idsToRemove);
-      console.log('idsToUpdate', idsToUpdate);
-      console.log('---');
-    }
 
     // Check
 

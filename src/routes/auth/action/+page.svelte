@@ -14,7 +14,7 @@
   // It will detect that email_verified is not yet true as a token claim, and will force-reset the token.
   // The force-reset triggers idTokenChanged everywhere.
   import { _ } from 'svelte-i18n';
-  import { user } from '@/lib/stores/auth';
+  import { resolveOnUserLoaded, user } from '$lib/stores/auth';
   import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
   import routes from '$lib/routes';
@@ -23,9 +23,10 @@
     verifyPasswordResetCode,
     applyActionCode,
     isEmailVerifiedAndTokenSynced
-  } from '@/lib/api/auth';
-  import { auth } from '@/lib/api/firebase';
-  import PaddedSection from '@/routes/(marketing)/_components/PaddedSection.svelte';
+  } from '$lib/api/auth';
+  import { auth } from '$lib/api/firebase';
+  import PaddedSection from '$routes/(marketing)/_components/PaddedSection.svelte';
+  import { get } from 'svelte/store';
 
   let loadingState = '';
 
@@ -76,8 +77,10 @@
         // applyActionCode DOES NOT trigger idTokenChanged
         await applyActionCode(oobCode);
 
+        // Wait until the user is fully loaded, if it is not yet.
+        await resolveOnUserLoaded();
         console.log('Verification: Reloading user to trigger idTokenChanged');
-        if ($user) {
+        if (get(user)) {
           loadingState = $_('auth.verification.reloading');
           // TODO: an edge case we're not handling here:
           // if you're logged in into a different account from the
@@ -106,7 +109,7 @@
           goto(routes.SIGN_IN);
         }
       } catch (ex) {
-        if ($user && (await isEmailVerifiedAndTokenSynced())) {
+        if (get(user) && (await isEmailVerifiedAndTokenSynced())) {
           notify.success($_('auth.verification.refresh'), 12000);
           return goto(routes.ACCOUNT);
         } else {

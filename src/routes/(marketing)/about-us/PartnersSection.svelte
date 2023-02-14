@@ -1,6 +1,6 @@
 <script>
   import { _ } from 'svelte-i18n';
-  import Partner from '@/lib/components/UI/Partner.svelte';
+  import Partner from '$lib/components/UI/Partner.svelte';
   import partners from '$lib/partners';
   import PaddedSection from '../_components/PaddedSection.svelte';
 </script>

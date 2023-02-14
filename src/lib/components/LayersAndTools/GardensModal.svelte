@@ -1,7 +1,7 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { Modal } from '$lib/components/UI';
-  import GardensTools from '@/lib/components/LayersAndTools/GardensTools.svelte';
+  import GardensTools from '$lib/components/LayersAndTools/GardensTools.svelte';
 
   export let show = false;
   export let showGardens: boolean;

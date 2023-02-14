@@ -50,8 +50,9 @@ export type UserPrivate = {
   // They are added later to the object.
   // see api/src/auth.js
   sendgridId?: string;
-  // TODO: this one should move into createUser, so it can be guaranteed.
+  // Note: these language fields are guaranteed to be present for new users since Feb 13th, 2023.
   communicationLanguage?: string;
+  creationLanguage?: string;
   stripeCustomerId?: string;
   stripeSubscription?: StripeSubscription;
 };

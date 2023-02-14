@@ -1,5 +1,5 @@
-import { removeDiacritics } from '@/lib/util';
-import createSlug from '@/lib/util/createSlug';
+import { removeDiacritics } from '$lib/util';
+import createSlug from '$lib/util/createSlug';
 import { describe, expect, it } from 'vitest';
 
 describe('removeDiacritics', () => {

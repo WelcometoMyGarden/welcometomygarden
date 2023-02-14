@@ -4,7 +4,7 @@
   import { page } from '$app/stores';
   import AuthContainer from '$lib/components/AuthContainer.svelte';
   import notify from '$lib/stores/notification';
-  import { confirmPasswordReset, login, logout } from '@/lib/api/auth';
+  import { confirmPasswordReset, login, logout } from '$lib/api/auth';
   import { TextInput, Progress, Button } from '$lib/components/UI';
   import { lockIcon } from '$lib/images/icons';
   import routes from '$lib/routes';

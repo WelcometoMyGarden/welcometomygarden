@@ -1,8 +1,8 @@
 <script>
-  import Button from '@/lib/components/UI/Button.svelte';
+  import Button from '$lib/components/UI/Button.svelte';
   import Logo from '$lib/images/logo.svg';
   import welcomeMap from '$lib/images/welcome-map.svg';
-  import { user } from '@/lib/stores/auth';
+  import { user } from '$lib/stores/auth';
   import routes from '$lib/routes';
   import { _ } from 'svelte-i18n';
   import PaddedSection from '../../_components/PaddedSection.svelte';

@@ -1,17 +1,17 @@
 <script lang="ts">
   import { LabeledCheckbox, ToggleAble } from '$lib/components/UI';
   import { _ } from 'svelte-i18n';
-  import { cyclistIcon, hikerIcon, routesIcon, tentIcon, trainIcon } from '@/lib/images/icons';
-  import { user } from '@/lib/stores/auth';
-  import Icon from '@/lib/components/UI/Icon.svelte';
-  import IconButton from '@/lib/components/UI/IconButton.svelte';
-  import { getCookie, setCookie } from '@/lib/util';
-  import GardensTools from '@/lib/components/LayersAndTools/GardensTools.svelte';
-  import GardensModal from '@/lib/components/LayersAndTools/GardensModal.svelte';
-  import TrailsModal from '@/lib/components/LayersAndTools/TrailsModal.svelte';
-  import TransportModal from '@/lib/components/LayersAndTools/TransportModal.svelte';
-  import TrailsTool from '@/lib/components/LayersAndTools/TrailsTool.svelte';
-  import TransportTools from '@/lib/components/LayersAndTools/TransportTools.svelte';
+  import { cyclistIcon, hikerIcon, routesIcon, tentIcon, trainIcon } from '$lib/images/icons';
+  import { user } from '$lib/stores/auth';
+  import Icon from '$lib/components/UI/Icon.svelte';
+  import IconButton from '$lib/components/UI/IconButton.svelte';
+  import { getCookie, setCookie } from '$lib/util';
+  import GardensTools from '$lib/components/LayersAndTools/GardensTools.svelte';
+  import GardensModal from '$lib/components/LayersAndTools/GardensModal.svelte';
+  import TrailsModal from '$lib/components/LayersAndTools/TrailsModal.svelte';
+  import TransportModal from '$lib/components/LayersAndTools/TransportModal.svelte';
+  import TrailsTool from '$lib/components/LayersAndTools/TrailsTool.svelte';
+  import TransportTools from '$lib/components/LayersAndTools/TransportTools.svelte';
   import SuperfanNoticeModal from './notices/SuperfanNoticeModal.svelte';
   import SuperfanNoticeBox from './notices/SuperfanNoticeBox.svelte';
 
