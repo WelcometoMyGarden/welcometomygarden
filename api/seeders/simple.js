@@ -68,7 +68,7 @@ const createChat = async (uid1, uid2, message) => {
     lastMessage: message.trim()
   });
 
-  const chatMessagesCollection = db.collection('messages');
+  const chatMessagesCollection = db.collection(`chats/${docRef.id}/messages`);
 
   await chatMessagesCollection.add({
     content: message,
@@ -116,7 +116,6 @@ const seed = async () => {
   );
 
   // Send chats
-  // TODO there is still something wrong with the logic here, the opening message doesn't appear
   // TODO messages are sent without gardens being created, this is not realistic
   // from 1 to 2
   const chatId = await createChat(user1.uid, user2.uid, 'Hey, can I stay in your garden?');

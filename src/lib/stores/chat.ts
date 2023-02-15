@@ -1,33 +1,57 @@
+import type { LocalChat, LocalMessage } from '$lib/types/Chat';
 import { writable, get } from 'svelte/store';
 
 export const hasInitialized = writable(false);
 export const creatingNewChat = writable(false);
 
-export const chats = writable({});
-export const addChat = (chat) => {
+export const chats = writable<{ [chatId: string]: LocalChat }>({});
+
+/**
+ * Adds or updates the chat. Chats are overwritten by referencing their chat id.
+ */
+export const addChat = (chat: LocalChat) => {
   chats.update((old) => ({
     ...old,
     [chat.id]: chat
   }));
 };
 
-const sortBySentDate = (m1, m2) => m2.createdAt - m1.createdAt;
+export const removeChat = (chatId: string) => {
+  chats.update((old) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { [chatId]: toRemove, ...others } = old;
+    return others;
+  });
+};
 
-export const messages = writable({});
-export const addMessage = (chatId, message) => {
+/**
+ * Sorts chats in descending order. This might be unintuitive (we want to show them in ascending order!),
+ * but it is necessary to use `flex-direction: column-reverse` in the UI.
+ * See src/routes/chat/[name]/[chatId]/+page.svelte
+ */
+const sortBySentDate = (m1: LocalMessage, m2: LocalMessage) =>
+  m2.createdAt.toMillis() - m1.createdAt.toMillis();
+
+export const messages = writable<{ [chatId: string]: LocalMessage[] }>({});
+export const addMessage = (chatId: string, message: LocalMessage) => {
   const chat = get(chats)[chatId];
   if (!chat) return;
   messages.update((old) => {
     const newMessages = { ...old };
-    if (!old[chatId]) newMessages[chatId] = [message];
-    else {
+    if (!old[chatId]) {
+      // If the chat is empty, we can just add the single message.
+      newMessages[chatId] = [message];
+    } else {
       newMessages[chatId] = [...newMessages[chatId], message].sort(sortBySentDate);
     }
     return newMessages;
   });
 };
 
-export const getChatForUser = (uid) => {
+/**
+ * Gets the first (and hopefully only) chat that the currently logged in user has with the given uid.
+ */
+export const getChatForUser = (uid: string) => {
   const all = get(chats);
   return Object.keys(all).find((chatId) => {
     const chat = all[chatId];

@@ -4,7 +4,7 @@
   import { fade } from 'svelte/transition';
   import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
-  import { observeMessagesForChat, create as createChat, sendMessage } from '$lib/api/chat';
+  import { observeMessagesForChat, createChat, sendMessage } from '$lib/api/chat';
   import { hasGarden } from '$lib/api/garden';
   import { user } from '$lib/stores/auth';
   import { chats, messages } from '$lib/stores/chat';
@@ -224,6 +224,10 @@ CSS grids should do the job cleanly -->
   .messages {
     padding: 0 2rem 0 1rem;
     display: flex;
+    /* column-reverse is useful to make the newly-sent messages appear on the bottom of an overflowed message container,
+      without having JS that scrolls the overflowed container.
+      Be careful with other methods, they might block scrolling: https://codepen.io/th0rgall/pen/xxabORw
+    */
     flex-direction: column-reverse;
     height: calc(
       100% - var(--spacing-chat-header) - var(--height-mobile-nav) - env(safe-area-inset-bottom)

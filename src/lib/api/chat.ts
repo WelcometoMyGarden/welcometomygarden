@@ -1,7 +1,7 @@
 import { CHATS, MESSAGES } from './collections';
 import { db } from './firebase';
 import { getPublicUserProfile } from './user';
-import { creatingNewChat, addChat, addMessage, hasInitialized } from '$lib/stores/chat';
+import { creatingNewChat, addChat, addMessage, hasInitialized, removeChat } from '$lib/stores/chat';
 import {
   collection,
   query,
@@ -10,8 +10,10 @@ import {
   updateDoc,
   onSnapshot,
   addDoc,
-  Timestamp
+  Timestamp,
+  CollectionReference
 } from 'firebase/firestore';
+import type { FirebaseChat, FirebaseMessage } from '$lib/types/Chat';
 
 export const initiateChat = async (partnerUid: string) => {
   creatingNewChat.set(true);
@@ -21,25 +23,40 @@ export const initiateChat = async (partnerUid: string) => {
 };
 
 export const createChatObserver = async (currentUserId: string) => {
-  const q = query(collection(db(), CHATS), where('users', 'array-contains', currentUserId));
+  const q = query(
+    collection(db(), CHATS) as CollectionReference<FirebaseChat>,
+    where('users', 'array-contains', currentUserId)
+  );
 
   return onSnapshot(
     q,
     async (querySnapshot) => {
       const changes = querySnapshot.docChanges();
-      const amount = querySnapshot.size;
-      let counter = 0;
       await Promise.all(
         changes.map(async (change) => {
           const chat = change.doc.data();
-          const partnerId = chat.users.find((id: string) => currentUserId !== id);
-          const partner = await getPublicUserProfile(partnerId);
-          chat.partner = partner;
-          addChat({ id: change.doc.id, ...chat });
-          counter++;
+          if (change.type === 'added' || change.type === 'modified') {
+            // Add partner info to the chat and store in the local chat model
+            const partnerId = chat.users.find((id: string) => currentUserId !== id);
+            if (!partnerId) {
+              console.error(`Couldn't find the chat partner for chat ${change.doc.id}`);
+              // Don't throw an error, to avoid breaking the other chat loads
+              return null;
+            }
+            const partner = await getPublicUserProfile(partnerId);
+            const localChat = {
+              ...chat,
+              partner,
+              id: change.doc.id
+            };
+            addChat(localChat);
+          } else if (change.type === 'removed') {
+            // Remove chat (not possible yet by users)
+            removeChat(change.doc.id);
+          }
         })
       );
-      if (counter === amount) hasInitialized.set(true);
+      hasInitialized.set(true);
     },
     (err) => {
       hasInitialized.set(true);
@@ -51,7 +68,10 @@ export const createChatObserver = async (currentUserId: string) => {
 
 export const observeMessagesForChat = (chatId: string) => {
   const chatRef = doc(db(), CHATS, chatId);
-  const chatMessagesCollection = collection(chatRef, MESSAGES);
+  const chatMessagesCollection = collection(
+    chatRef,
+    MESSAGES
+  ) as CollectionReference<FirebaseMessage>;
 
   return onSnapshot(
     chatMessagesCollection,
@@ -84,8 +104,8 @@ export const sendMessage = async (currentUserId: string, chatId: string, message
   });
 };
 
-export const create = async (uid1: string, uid2: string, message: string) => {
-  const chatCollection = collection(db(), CHATS);
+export const createChat = async (uid1: string, uid2: string, message: string) => {
+  const chatCollection = collection(db(), CHATS) as CollectionReference<FirebaseChat>;
 
   const docRef = await addDoc(chatCollection, {
     users: [uid1, uid2],
@@ -94,7 +114,10 @@ export const create = async (uid1: string, uid2: string, message: string) => {
     lastMessage: message.trim()
   });
 
-  const chatMessagesCollection = collection(docRef, MESSAGES);
+  const chatMessagesCollection = collection(
+    docRef,
+    MESSAGES
+  ) as CollectionReference<FirebaseMessage>;
 
   await addDoc(chatMessagesCollection, {
     content: message,
