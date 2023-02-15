@@ -296,10 +296,15 @@ exports.cleanupUserOnDelete = async (user) => {
  * in the user's users-private doc.
  * Precondition: the user's users-private document must already exist
  * @param {UserRecord} firebaseUser
- * @param {object} [extraContactDetails]
+ * @param {object} extraContactDetails
+ * @param {boolean} addToNewsletter
  * @returns
  */
-const createSendgridContact = async (firebaseUser, extraContactDetails = {}) => {
+const createSendgridContact = async (
+  firebaseUser,
+  extraContactDetails = {},
+  addToNewsletter = false
+) => {
   if (!firebaseUser.email) {
     console.error('New Firebase users must always have an email address');
     fail('invalid-argument');
@@ -322,13 +327,17 @@ const createSendgridContact = async (firebaseUser, extraContactDetails = {}) => 
    * @type {string | undefined}
    */
   let contactCreationJobId;
+  let list_ids;
+  if (addToNewsletter) {
+    list_ids = [SG_WTMG_NEWS_YES_ID];
+  }
   try {
     const [{ statusCode }, { job_id }] = await sendgridClient.request({
       url: '/v3/marketing/contacts',
       method: 'PUT',
       body: {
         // Inclusion assumed on creation, for now.
-        list_ids: [SG_WTMG_NEWS_YES_ID],
+        ...(list_ids ? { list_ids } : {}),
         contacts: [sendgridContactCreationDetails]
       }
     });
@@ -469,6 +478,8 @@ exports.onUserPrivateWrite = async (change) => {
   // console.log('before ', JSON.stringify(before.data(), null, 2));
   // console.log('after ', JSON.stringify(after.data(), null, 2));
 
+  const isCreationWrite = !before.exists && after.exists;
+
   // We are only interested in:
   // - creation events (!before.exists)
   // - update event (before.exists)
@@ -510,23 +521,40 @@ exports.onUserPrivateWrite = async (change) => {
     }
   };
 
-  if (!sendgridId) {
+  // NOTE: the following case is fully ignored
+  // `sendgridId == null && userPrivateAfter.emailPreferences?.news === false`
+  //
+  if (sendgridId == null && userPrivateAfter.emailPreferences?.news === true) {
+    // Only add this contact to SendGrid if they want to receive news
+    // (this applies to all newly created contacts, and to existing contacts
+    //  that change a userPrivate property (e.g. communicationLanguage), while
+    //  never having been added to SendGrid)
+    //
     // No recorded sendgridID means that we first have to create the contact
     // This will "recursively" trigger another userPrivate write, which will
     // match the ignore case above.
-    await createSendgridContact(authUser, {
-      ...sendgridContactUpdateFields,
-      custom_fields: {
-        ...sendgridContactUpdateFields.custom_fields,
-        // The creation language can only be updated one time, upon creation.
-        // Yet, it stems from the same source field as communicationLanguage.
-        [SG_CREATION_LANGUAGE_FIELD_ID]: communicationLanguage
-      }
-    });
-  } else {
+    await createSendgridContact(
+      authUser,
+      {
+        ...sendgridContactUpdateFields,
+        custom_fields: {
+          ...sendgridContactUpdateFields.custom_fields,
+          // The creation language will be updated only one time, upon the creation
+          // of a users-private doc.
+          ...(isCreationWrite && userPrivateAfter.creationLanguage != null
+            ? {
+                [SG_CREATION_LANGUAGE_FIELD_ID]: userPrivateAfter.creationLanguage
+              }
+            : {})
+        }
+      },
+      true
+    );
+  } else if (sendgridId != null) {
     // Otherwise, this is an update of changed information
 
-    // Check if we should do a list addition
+    // Check if we should do a newsletter list addition
+    // This could happen when someone unsubscribes, and then re-subscribes.
     /**
      * @type {string[] | undefined}
      */
@@ -541,6 +569,8 @@ exports.onUserPrivateWrite = async (change) => {
     ) {
       list_ids = [SG_WTMG_NEWS_YES_ID];
     }
+
+    // Perform the update in any case
     try {
       await sendgridClient.request({
         url: '/v3/marketing/contacts',
@@ -555,7 +585,7 @@ exports.onUserPrivateWrite = async (change) => {
       fail('internal');
     }
 
-    // Check if we should do a list deletion
+    // Check if we should do a newsletter list deletion
     if (
       userPrivateBefore &&
       userPrivateBefore.emailPreferences &&
