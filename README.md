@@ -97,6 +97,10 @@ Some features are reserved for [Superfans](https://welcometomygarden.org/about-s
 
 If you have received access to our staging or production Firebase environment, see how to log in your Firebase account & access real API services with [these additional notes](./docs/full-access.md).
 
+### Code orientation
+
+The [architecture docs](./docs/architecture.md) contain some notes on the architecture of the app.
+
 ## Testing
 
 [Playwright](https://playwright.dev/) is set up for e2e testing, but does not any tests at the moment.
