@@ -81,7 +81,7 @@ In the app, you can now try:
 2. Since you don't have access to the SendGrid variables, no emails will be sent. You can see what emails would have been sent in the Firebase Emulator logs terminal (e.g. to access your email verification link).
 3. You can add a test garden and also upload a file into emulated [Storage](https://firebase.google.com/docs/storage) (but because of [this bug](https://github.com/WelcometoMyGarden/welcometomygarden/issues/289) their images won't show up).
 
-⚠️ Importantly, with the default demo development environment, the **map will be empty/broken** by default. That's because you're missing an API token. If you [get your own Mapbox Access Token](https://docs.mapbox.com/help/getting-started/#how-to-use-mapbox) and fill it in in `.env`, most basic features of the map should work. You may need to restart the Vite server.
+⚠️ Importantly, with the default demo development environment, the **map will be empty/broken** by default. That's because you're missing an API token. If you [get your own Mapbox Access Token](https://docs.mapbox.com/help/getting-started/#how-to-use-mapbox) and fill it in in `.env`, most basic features of the map should work. You may need to restart the Vite server. **Mapbox asks for payment details to get a token, but has a free tier that should be sufficient for your local development needs.** If you really dislike this, [upvote the issue to support an open & free alternative](https://github.com/WelcometoMyGarden/welcometomygarden/issues/308).
 
 Some features are reserved for [Superfans](https://welcometomygarden.org/about-superfan). You can make your local test account a Superfan easily (and without Stripe) by:
 
