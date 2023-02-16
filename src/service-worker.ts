@@ -5,16 +5,23 @@
 // See https://kit.svelte.dev/docs/service-workers#type-safety
 const sw = self as unknown as ServiceWorkerGlobalScope;
 
-import { build, files, version } from '$service-worker';
+// The goal of this service worker is:
+// 1. Speed up loading by caching static assets
+// 2. Provide best-effort offline continuity, however, this will be very unreliable
+//    because the only resources cached are the ones that were accessed before while the app was online.
+//    No attempt is made yet to pre-emptively cache app routes or data.
+//
+// In `vite dev` (`yarn dev`) mode, the service worker might not be loaded in all browsers.
+// See the docs linked above (browsers require module support for service workers, recent Chrome versions do)
 
-const STATIC_CACHE_NAME = `cache${version}`;
-const APP_CACHE_NAME = `offline${version}`;
+// The docs of the `build` and `files` arrays are confusing. The "URLs" specified
+// are pathnames like `/images/icons/tent-white.svg`, not fully qualified URLs.
+import { build as buildPathnames, files as filePathnames, version } from '$service-worker';
 
-// hard-coded list of app routes we want to preemptively cache
-const routes = ['/'];
+const VERSIONED_CACHE_NAME = `cache-${version}`;
 
 // hard-coded list of other assets necessary for page load outside our domain
-const customAssets: string[] = [
+const CUSTOM_ASSETS_FULL_HREF: string[] = [
   'https://fonts.googleapis.com/css2?family=Inknut+Antiqua&family=Montserrat:wght@400;500;600;700&display=swap'
 ];
 
@@ -22,62 +29,76 @@ const customAssets: string[] = [
 // `files` is an array of everything in the `static` directory
 // `version` is the current version of the app
 
-const addDomain = (assets: string[]) => assets.map((f) => sw.location.origin + f);
+const prependOrigin = (assets: string[]) => assets.map((f) => sw.location.origin + f);
 
-const customFileFilter = (path: string) => {
-  if (path.startsWith('/images/workshops/')) return false;
+// We filter the files because we don't want to cache
+// (they're big and largely unused)
+const customFileFilter = (pathName: string) => {
+  if (
+    // Referenced from an unused component (SlowTravelMiniFestival)
+    pathName.startsWith('/images/workshops/') ||
+    // Temporarily disabled feature, ~5MB file
+    pathName.startsWith('/stations.geojson')
+  )
+    return false;
   return true;
 };
 
-// we filter the files because we don't want
-// (they're big and largely unused)
 // also, we add the domain to our assets, so we can differentiate routes of our
 // app from those of other apps that we cache
-const ourAssets = addDomain([...files.filter(customFileFilter), ...build, ...routes]);
+const INTERNAL_ASSETS_FULL_HREF = prependOrigin([
+  ...filePathnames.filter(customFileFilter),
+  ...buildPathnames
+]);
 
-const toCache = [...ourAssets, ...customAssets];
-const staticAssets = new Set(toCache);
+const ASSETS_TO_CACHE_FULL_HREF = [...INTERNAL_ASSETS_FULL_HREF, ...CUSTOM_ASSETS_FULL_HREF];
+const ASSETS_TO_CACHE_FULL_HREF_SET = new Set(ASSETS_TO_CACHE_FULL_HREF);
 
 sw.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches
-      .open(STATIC_CACHE_NAME)
-      .then((cache) => {
-        return cache.addAll(toCache);
-      })
-      .then(() => {
-        sw.skipWaiting();
-      })
-  );
+  // Ensure that updates to the service worker take effect immediately for both the current client and all other active clients.
+  // https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope/skipWaiting#examples
+  // The promise that skipWaiting() returns can be safely ignored.
+  sw.skipWaiting();
+
+  // Create a new cache and add all files to it
+  async function addFilesToCache() {
+    const cache = await caches.open(VERSIONED_CACHE_NAME);
+    await cache.addAll(ASSETS_TO_CACHE_FULL_HREF);
+  }
+
+  event.waitUntil(addFilesToCache());
 });
 
 sw.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then(async (keys) => {
-      // delete old caches
-      for (const key of keys) {
-        if (key !== STATIC_CACHE_NAME && key !== APP_CACHE_NAME) {
-          await caches.delete(key);
-        }
+  // Remove previous cached data from disk
+  async function deleteOldCaches() {
+    for (const key of await caches.keys()) {
+      if (key !== VERSIONED_CACHE_NAME) {
+        await caches.delete(key);
       }
-
-      sw.clients.claim();
-    })
-  );
+    }
+  }
+  event.waitUntil(deleteOldCaches());
 });
 
 /**
  * Fetch the asset from the network and store it in the cache.
- * Fall back to the cache if the user is offline.
+ * Fall back to the cache, but only if the user is offline.
  */
 async function fetchAndCache(request: Request) {
-  const cache = await caches.open(APP_CACHE_NAME);
+  const cache = await caches.open(VERSIONED_CACHE_NAME);
 
   try {
+    // Try fetching from the network
     const response = await fetch(request);
-    cache.put(request, response.clone());
+    if (response.status >= 200 && response.status <= 299) {
+      // Cache if successful
+      cache.put(request, response.clone());
+    }
     return response;
   } catch (err) {
+    // If the fetch fails (probably because we're offline),
+    // try retrieving the same request from the cache
     const response = await cache.match(request);
     if (response) {
       return response;
@@ -88,28 +109,29 @@ async function fetchAndCache(request: Request) {
 }
 
 sw.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET' || event.request.headers.has('range')) {
+  const url = new URL(event.request.url);
+
+  // Only cache HTTP/HTTPS traffic
+  const isHttp = url.protocol.startsWith('http');
+
+  // Ignore caching for the following cases
+  if (event.request.method !== 'GET' || !isHttp) {
     return;
   }
 
-  const url = new URL(event.request.url);
-
-  // don't try to handle e.g. data: URIs
-  const isHttp = url.protocol.startsWith('http');
-  const isDevServerRequest = url.hostname === sw.location.hostname && url.port !== sw.location.port;
-  const isStaticAsset = staticAssets.has(url.href);
-  const skipBecauseUncached = event.request.cache === 'only-if-cached' && !isStaticAsset;
-
-  if (isHttp && !isDevServerRequest && !skipBecauseUncached) {
-    event.respondWith(
-      (async () => {
-        // always serve static files and bundler-generated assets from cache.
-        // if your application has other URLs with data that will never change,
-        // set this variable to true for them, and they will only be fetched once.
-        const cachedAsset = isStaticAsset && (await caches.match(event.request));
-
-        return cachedAsset || fetchAndCache(event.request);
-      })()
-    );
+  const alwaysServeFromCache = ASSETS_TO_CACHE_FULL_HREF_SET.has(url.href);
+  if (alwaysServeFromCache) {
+    // We can assume that these assets were added to the cache
+    // by the "install" event
+    const match = caches.match(event.request);
+    if (match) {
+      return match;
+    } else {
+      console.warn(`service worker: unexpected cache miss for ${url.href}`);
+      // Continue with a normal fetchAndCache
+    }
   }
+
+  // Try network first, but fall back to cache if we're offline.
+  event.respondWith(fetchAndCache(event.request));
 });
