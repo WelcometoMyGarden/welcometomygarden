@@ -1,6 +1,12 @@
+/// <reference types="@sveltejs/kit" />
+/// <reference no-default-lib="true"/>
+/// <reference lib="esnext" />
+/// <reference lib="webworker" />
+// See https://kit.svelte.dev/docs/service-workers#type-safety
+const sw = self as unknown as ServiceWorkerGlobalScope;
+
 import { build, files, version } from '$service-worker';
 
-const worker = self as unknown; // as ServiceWorkerGlobalScope
 const STATIC_CACHE_NAME = `cache${version}`;
 const APP_CACHE_NAME = `offline${version}`;
 
@@ -16,7 +22,7 @@ const customAssets: string[] = [
 // `files` is an array of everything in the `static` directory
 // `version` is the current version of the app
 
-const addDomain = (assets: string[]) => assets.map((f) => self.location.origin + f);
+const addDomain = (assets: string[]) => assets.map((f) => sw.location.origin + f);
 
 const customFileFilter = (path: string) => {
   if (path.startsWith('/images/workshops/')) return false;
@@ -32,7 +38,7 @@ const ourAssets = addDomain([...files.filter(customFileFilter), ...build, ...rou
 const toCache = [...ourAssets, ...customAssets];
 const staticAssets = new Set(toCache);
 
-worker.addEventListener('install', (event) => {
+sw.addEventListener('install', (event) => {
   event.waitUntil(
     caches
       .open(STATIC_CACHE_NAME)
@@ -40,12 +46,12 @@ worker.addEventListener('install', (event) => {
         return cache.addAll(toCache);
       })
       .then(() => {
-        worker.skipWaiting();
+        sw.skipWaiting();
       })
   );
 });
 
-worker.addEventListener('activate', (event) => {
+sw.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then(async (keys) => {
       // delete old caches
@@ -55,7 +61,7 @@ worker.addEventListener('activate', (event) => {
         }
       }
 
-      worker.clients.claim();
+      sw.clients.claim();
     })
   );
 });
@@ -81,7 +87,7 @@ async function fetchAndCache(request: Request) {
   }
 }
 
-worker.addEventListener('fetch', (event) => {
+sw.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET' || event.request.headers.has('range')) {
     return;
   }
@@ -90,8 +96,7 @@ worker.addEventListener('fetch', (event) => {
 
   // don't try to handle e.g. data: URIs
   const isHttp = url.protocol.startsWith('http');
-  const isDevServerRequest =
-    url.hostname === self.location.hostname && url.port !== self.location.port;
+  const isDevServerRequest = url.hostname === sw.location.hostname && url.port !== sw.location.port;
   const isStaticAsset = staticAssets.has(url.href);
   const skipBecauseUncached = event.request.cache === 'only-if-cached' && !isStaticAsset;
 
