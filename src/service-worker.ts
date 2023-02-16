@@ -57,16 +57,20 @@ const ASSETS_TO_CACHE_FULL_HREF_SET = new Set(ASSETS_TO_CACHE_FULL_HREF);
 sw.addEventListener('install', (event) => {
   // Ensure that updates to the service worker take effect immediately for both the current client and all other active clients.
   // https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope/skipWaiting#examples
-  // The promise that skipWaiting() returns can be safely ignored.
-  sw.skipWaiting();
+  // https://felixgerschau.com/service-worker-lifecycle-update/#selfskipwaiting
+  event.waitUntil(sw.skipWaiting());
 
   // Create a new cache and add all files to it
-  async function addFilesToCache() {
+  async function preCacheFiles() {
     const cache = await caches.open(VERSIONED_CACHE_NAME);
-    await cache.addAll(ASSETS_TO_CACHE_FULL_HREF);
+    try {
+      await cache.addAll(ASSETS_TO_CACHE_FULL_HREF);
+    } catch (e) {
+      console.error('Error on sw install pre-caching', e);
+    }
   }
 
-  event.waitUntil(addFilesToCache());
+  event.waitUntil(preCacheFiles());
 });
 
 sw.addEventListener('activate', (event) => {
@@ -79,6 +83,8 @@ sw.addEventListener('activate', (event) => {
     }
   }
   event.waitUntil(deleteOldCaches());
+  // https://felixgerschau.com/service-worker-lifecycle-update/#selfclientsclaim
+  event.waitUntil(sw.clients.claim());
 });
 
 /**
@@ -119,19 +125,23 @@ sw.addEventListener('fetch', (event) => {
     return;
   }
 
-  const alwaysServeFromCache = ASSETS_TO_CACHE_FULL_HREF_SET.has(url.href);
-  if (alwaysServeFromCache) {
-    // We can assume that these assets were added to the cache
-    // by the "install" event
-    const match = caches.match(event.request);
-    if (match) {
-      return match;
-    } else {
-      console.warn(`service worker: unexpected cache miss for ${url.href}`);
-      // Continue with a normal fetchAndCache
+  async function respond() {
+    const alwaysServeFromCache = ASSETS_TO_CACHE_FULL_HREF_SET.has(url.href);
+    if (alwaysServeFromCache) {
+      // We can assume that these assets were added to the cache
+      // by the "install" event
+      const match = await caches.match(event.request);
+      if (match) {
+        return match;
+      } else {
+        console.warn(`service worker: unexpected cache miss for ${url.href}`);
+        // Continue with a normal fetchAndCache
+      }
     }
+
+    return fetchAndCache(event.request);
   }
 
   // Try network first, but fall back to cache if we're offline.
-  event.respondWith(fetchAndCache(event.request));
+  event.respondWith(respond());
 });
