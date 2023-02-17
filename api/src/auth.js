@@ -455,7 +455,7 @@ exports.onUserPrivateWrite = async (change) => {
   // 2. This results in a call to createSendgridContact, which takes about 32 seconds
   // 3. Any update to user private within this window (e.g. comm language change, newsletter pref update)
   //    will restart createSendGridContact (another 32 sec), because sendGridId is not defined yet.
-  // 4. createSendGridContact itself triggers another onUserPrivateWrite, but this one is ignored by the installed guard.
+  // 4. createSendGridContact itself triggers another onUserPrivateWrite (we need this one! see comment on the call)
 
   // To avoid the (3) situation, we need a way to make sure that whichever changes DO happen in those 30 seconds, won't cause a redundant update.
   // - create the sendgrid account in the createUser function: unacceptable, because it would delay account creation (already slow) with 30 sec
@@ -502,12 +502,8 @@ exports.onUserPrivateWrite = async (change) => {
    * @type {UserPrivate | undefined} userPrivateBefore
    */
   let userPrivateBefore;
-  // Ignore the recursive case where the sendgridId was just added by code below
   if (before.exists) {
     userPrivateBefore = before.data();
-    if (userPrivateBefore && !userPrivateBefore.sendgridId && !!userPrivateAfter.sendgridId) {
-      return;
-    }
   }
 
   // Create or update a SendGrid contact for this user
@@ -525,14 +521,16 @@ exports.onUserPrivateWrite = async (change) => {
   // `sendgridId == null && userPrivateAfter.emailPreferences?.news === false`
   //
   if (sendgridId == null && userPrivateAfter.emailPreferences?.news === true) {
-    // Only add this contact to SendGrid if they want to receive news
-    // (this applies to all newly created contacts, and to existing contacts
-    //  that change a userPrivate property (e.g. communicationLanguage), while
-    //  never having been added to SendGrid)
+    // Only add this contact to SendGrid if they want to receive news, and are
+    // not in SendGrid yet. This applies to all newly created contacts, and to existing contacts
+    // that change a userPrivate property (e.g. communicationLanguage), while never having been added to SendGrid.
     //
-    // No recorded sendgridID means that we first have to create the contact
-    // This will "recursively" trigger another userPrivate write, which will
-    // match the ignore case above.
+    // This will "recursively" trigger another userPrivate write event when the sendgridId is written.
+    // This other runthrough is useful, because it is possible that within the 30 secs
+    // it takes SendGrid to acknowledge the new contact ID, the new user has unsubscribed
+    // from SendGrid. Syncing that unsubscribe would then *have been ignored* by the code below, because
+    // the sendgridId is not yet available. It's a race condition, which is mitigated by the second runthrough
+    // that does the final sync. See `unsubscribedWhileAddingSendGridId`
     await createSendgridContact(
       authUser,
       {
@@ -559,14 +557,16 @@ exports.onUserPrivateWrite = async (change) => {
      * @type {string[] | undefined}
      */
     let list_ids;
-    if (
+
+    const changedToNewsTrue =
       userPrivateBefore &&
       userPrivateBefore.emailPreferences &&
       userPrivateBefore.emailPreferences.news === false &&
       userPrivateAfter &&
       userPrivateAfter.emailPreferences &&
-      userPrivateAfter.emailPreferences.news === true
-    ) {
+      userPrivateAfter.emailPreferences.news === true;
+
+    if (changedToNewsTrue) {
       list_ids = [SG_WTMG_NEWS_YES_ID];
     }
 
@@ -585,15 +585,36 @@ exports.onUserPrivateWrite = async (change) => {
       fail('internal');
     }
 
-    // Check if we should do a newsletter list deletion
-    if (
+    const changedToNewsFalse =
       userPrivateBefore &&
       userPrivateBefore.emailPreferences &&
       userPrivateBefore.emailPreferences.news === true &&
       userPrivateAfter &&
       userPrivateAfter.emailPreferences &&
-      userPrivateAfter.emailPreferences.news === false
-    ) {
+      userPrivateAfter.emailPreferences.news === false;
+
+    const addedSendgridId =
+      userPrivateBefore &&
+      userPrivateAfter &&
+      userPrivateBefore.sendgridId == null &&
+      userPrivateAfter.sendgridId != null;
+
+    /**
+     * This catches a race condition where news was set to false while the SendGrid was being set.
+     * In that case, the userPrivateBefore news state will already be false when the sendgridId is being set,
+     * but the change won't have synced yet to SendGrid, because deletions are dependent on the sendgridId.
+     */
+    const unsubscribedWhileAddingSendGridId =
+      addedSendgridId &&
+      userPrivateAfter &&
+      userPrivateBefore &&
+      userPrivateBefore.emailPreferences &&
+      userPrivateBefore.emailPreferences.news === false &&
+      userPrivateAfter.emailPreferences &&
+      userPrivateAfter.emailPreferences.news === false;
+
+    // Check if we should do a newsletter list deletion
+    if (changedToNewsFalse || unsubscribedWhileAddingSendGridId) {
       await sendgridClient.request({
         url: `/v3/marketing/lists/${SG_WTMG_NEWS_YES_ID}/contacts`,
         method: 'DELETE',
