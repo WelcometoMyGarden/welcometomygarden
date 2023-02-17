@@ -12,4 +12,4 @@ When the user is loaded, all user data is combined into the `$user` Svelte store
 
 **Note**: `$user == null` does not necessarily mean that the user is logged out. It could be that the user data is still loading! Check or subscribe to the `$isUserLoading` store to know, or use the convenience method `await resolveOnUserLoaded()`. Example: after logging in into Firebase with `signInWithEmailAndPassword()` or `createUserWithEmailAndPassword()`, the User data will most likely not be loaded yet. This might be unintuitive.
 
-The root layout waits until the user is loaded before it. `$isUserLoading` can also be `false` while `$user` is `null`. In that case, we can be certain that the user is logged out.
+The root layout waits until the user is loaded before it renders. `$isUserLoading` can also be `false` while `$user` is `null`. In that case, we can be certain that the user is logged out.
