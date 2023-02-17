@@ -5,11 +5,7 @@
 // See https://kit.svelte.dev/docs/service-workers#type-safety
 const sw = self as unknown as ServiceWorkerGlobalScope;
 
-// The goal of this service worker is:
-// 1. Speed up loading by caching static assets
-// 2. Provide best-effort offline continuity, however, this will be very unreliable
-//    because the only resources cached are the ones that were accessed before while the app was online.
-//    No attempt is made yet to pre-emptively cache app routes or data.
+// The goal of this service worker is to speed up loading by caching static assets
 //
 // In `vite dev` (`yarn dev`) mode, the service worker might not be loaded in all browsers.
 // See the docs linked above (browsers require module support for service workers, recent Chrome versions do)
@@ -87,61 +83,30 @@ sw.addEventListener('activate', (event) => {
   event.waitUntil(sw.clients.claim());
 });
 
-/**
- * Fetch the asset from the network and store it in the cache.
- * Fall back to the cache, but only if the user is offline.
- */
-async function fetchAndCache(request: Request) {
-  const cache = await caches.open(VERSIONED_CACHE_NAME);
-
-  try {
-    // Try fetching from the network
-    const response = await fetch(request);
-    if (response.status >= 200 && response.status <= 299) {
-      // Cache if successful
-      cache.put(request, response.clone());
-    }
-    return response;
-  } catch (err) {
-    // If the fetch fails (probably because we're offline),
-    // try retrieving the same request from the cache
-    const response = await cache.match(request);
-    if (response) {
-      return response;
-    }
-
-    throw err;
-  }
-}
-
 sw.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Only cache HTTP/HTTPS traffic
-  const isHttp = url.protocol.startsWith('http');
+  // Only attempt to retrieve designated assets from the cache
+  const alwaysServeHrefFromCache = ASSETS_TO_CACHE_FULL_HREF_SET.has(url.href);
 
-  // Ignore caching for the following cases
-  if (event.request.method !== 'GET' || !isHttp) {
+  if (!(event.request.method === 'GET' && alwaysServeHrefFromCache)) {
+    // Ignore this fetch
     return;
   }
 
-  async function respond() {
-    const alwaysServeFromCache = ASSETS_TO_CACHE_FULL_HREF_SET.has(url.href);
-    if (alwaysServeFromCache) {
-      // We can assume that these assets were added to the cache
-      // by the "install" event
-      const match = await caches.match(event.request);
-      if (match) {
-        return match;
-      } else {
-        console.warn(`service worker: unexpected cache miss for ${url.href}`);
-        // Continue with a normal fetchAndCache
-      }
+  async function respondWithCachedAsset() {
+    // We can assume that these assets were added to the cache
+    // by the "install" event
+    const match = await caches.match(event.request);
+    if (match) {
+      return match;
+    } else {
+      console.warn(`service worker: unexpected cache miss for ${url.href}`);
     }
 
-    return fetchAndCache(event.request);
+    // Fallback in case of a problem
+    return fetch(event.request);
   }
 
-  // Try network first, but fall back to cache if we're offline.
-  event.respondWith(respond());
+  event.respondWith(respondWithCachedAsset());
 });
