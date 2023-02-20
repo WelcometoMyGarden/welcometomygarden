@@ -1,7 +1,6 @@
 <script>
   import { _ } from 'svelte-i18n';
   import routes from '$lib/routes';
-  import { SHOP_URL } from '$lib/constants';
   import Socials from './Socials.svelte';
   import LanguageSelector from './LanguageSelector.svelte';
 </script>
@@ -19,9 +18,6 @@
     </li>
     <li>
       <a href={routes.TERMS_OF_USE}>{$_('generics.terms-of-use')}</a>
-    </li>
-    <li>
-      <a href={SHOP_URL} target="_blank">{$_('generics.shop')}</a>
     </li>
   </ul>
   <LanguageSelector />

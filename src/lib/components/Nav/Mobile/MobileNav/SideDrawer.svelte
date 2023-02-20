@@ -6,7 +6,6 @@
   import Socials from '$lib/components/Socials.svelte';
   import LanguageSelector from '$lib/components/LanguageSelector.svelte';
   import routes from '$lib/routes';
-  import { SHOP_URL } from '$lib/constants';
   import { user } from '$lib/stores/auth';
   import { goto } from '$app/navigation';
   import { isActive } from '$lib/util/isActive';
@@ -75,9 +74,6 @@
       </li>
       <li>
         <a href={routes.RULES} on:click={toggleDrawer}>{$_('generics.rules')}</a>
-      </li>
-      <li>
-        <a href={SHOP_URL} on:click={toggleDrawer} target="_blank">{$_('generics.shop')}</a>
       </li>
       <li>
         <LanguageSelector />

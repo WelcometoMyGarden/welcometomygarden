@@ -1,7 +1,7 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import routes from '$lib/routes';
-  import { mailToSupportHref, SHOP_URL } from '$lib/constants';
+  import { mailToSupportHref } from '$lib/constants';
   import Socials from './Socials.svelte';
   import LanguageSelector from './LanguageSelector.svelte';
   import WtmgLogo from './UI/WTMGLogo.svelte';
@@ -53,11 +53,6 @@
         {
           title: $_('footer.links.women-dont-cycle.title'),
           link: $_('footer.links.women-dont-cycle.url'),
-          target: '_blank'
-        },
-        {
-          title: $_('generics.shop'),
-          link: SHOP_URL,
           target: '_blank'
         }
       ]
