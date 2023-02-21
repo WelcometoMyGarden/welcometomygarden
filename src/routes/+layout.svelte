@@ -21,18 +21,21 @@
   import routes from '$lib/routes';
   import { page } from '$app/stores';
   import { resetChatStores } from '$lib/stores/chat';
-
-  registerLocales();
+  import getBrowserLang, { coerceToSupportedLanguage } from '$lib/util/get-browser-lang';
+  import type { SupportedLanguage } from '$lib/types/general';
 
   // React to locale initialization or changes
   const unsubscribeFromLocale = locale.subscribe((value) => {
     if (value == null) return;
-    // If running in the client, save the language preference in a cookie
-    // and update local + remote state
     if (typeof window !== 'undefined') {
-      setCookie('locale', value, { path: '/' });
-      // Update the state if it changed
-      if ($user && $user.communicationLanguage !== value) {
+      // Set a locale cookie if the browser/cookie locale is different from the requested locale,
+      // so the setting will be remembered.
+      const localeCookie = getCookie('locale');
+      if (value && (getBrowserLang() !== value || (localeCookie && localeCookie !== value))) {
+        setCookie('locale', value, { path: '/' });
+      }
+      // Update the locale in Firebase if we're logged in
+      if (value && $user && $user.communicationLanguage !== value) {
         updateCommunicationLanguage(value);
       }
     }
@@ -40,8 +43,6 @@
 
   let unsubscribeFromAuthObserver: (() => void) | undefined;
   let unsubscribeFromChatObserver: (() => void) | undefined;
-
-  let lang;
 
   let vh = `0px`;
 
@@ -64,15 +65,24 @@
       updateCommunicationLanguage($locale);
   });
 
-  onMount(async () => {
-    lang = getCookie('locale'); //en or nl or ...
-    if (!lang && window.navigator.language)
-      // TODO: check if the language is supported
-      lang = window.navigator.language.split('-')[0].toLowerCase();
-    if (!lang) lang = 'en';
+  const initializeSvelteI18n = () => {
+    registerLocales();
 
+    let lang: SupportedLanguage;
+    const localeCookie = getCookie('locale');
+    if (localeCookie) {
+      // Start from a cookie, if present.
+      lang = coerceToSupportedLanguage(localeCookie);
+    } else {
+      lang = getBrowserLang();
+    }
+
+    // Initialize svelte-i18n
     init({ fallbackLocale: 'en', initialLocale: lang });
+  };
 
+  onMount(async () => {
+    initializeSvelteI18n();
     // Initialize Firebase
     await initialize();
     if (!unsubscribeFromAuthObserver) {
