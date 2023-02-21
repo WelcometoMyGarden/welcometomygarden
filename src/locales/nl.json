@@ -425,7 +425,7 @@
             },
             "4": {
               "title": "Hoeveel superfans heeft WTMG nodig om te overleven en te floreren?",
-              "copy": "Ons doel is om minstens 1.000 Superfans te verzamelen in 2023. Dat is echter nog niet voldoende om al onze kosten te dekken. We overbruggen het gat met de inkomsten van Manon’s film, <a href=\"https://womendontcycle.com/nl.html\" target=\"_blank\">Women Don’t Cycle</a>, en onze <a href=\"https://www.slowby.travel/nl/start\" target=\"_blank\">Slowby Secret Trips</a>. We zijn van plan om een jaarlijks impactrapport te maken zodra dat kan, waarin je ook een breakdown van ons budget zult kunnen zien."
+              "copy": "Ons doel is om minstens 1.000 Superfans te verzamelen in 2023. Dat is echter nog niet voldoende om al onze kosten te dekken. We overbruggen het gat met de inkomsten van Manon’s film, <a href=\"https://womendontcycle.com/nl.html?utm_source=welcometomygarden.org&utm_medium=web&utm_content=superfan_faq\" target=\"_blank\">Women Don’t Cycle</a>, en onze <a href=\"https://www.slowby.travel/nl/start?utm_source=welcometomygarden.org&utm_medium=web&utm_content=superfan_faq\" target=\"_blank\">Slowby Secret Trips</a>. We zijn van plan om een jaarlijks impactrapport te maken zodra dat kan, waarin je ook een breakdown van ons budget zult kunnen zien."
             }
           }
         }
@@ -1363,7 +1363,7 @@
     "designer": "Ontwerper",
     "communications": "Communicatie",
     "dries": "Dries heeft WTMG bedacht. Op zijn achttiende kocht hij zijn eerste toerfiets, en in 2019 fietste hij samen met Manon van Brussel naar Tokyo. Door zijn liefde voor open data en open source belandde hij voor enkele jaren bij Open Knowledge Belgium, waar hij ook Ward en Thor ontmoette. Hij is de aanvoerder van het WTMG-team, en zijn enthousiasme is aanstekelijk!",
-    "manon": "Manon is een echte duizendpoot en heeft overal een oplossing voor. Ze heeft al twee keer een marathon gelopen, fietste met Dries van Brussel naar Tokyo, en maakte daar een schitterende film over: <a href=\"{womenDontCycleUrl}\" target=\"_blank\">‘Women Don’t Cycle’</a>. Ze is de enige binnen ons team die toerisme heeft gestudeerd (best handig). Het feit dat ze vier talen vloeiend spreekt én zich thuis voelt voor de camera maakt haar onze onofficiële woordvoerster!",
+    "manon": "Manon is een echte duizendpoot en heeft overal een oplossing voor. Ze heeft al twee keer een marathon gelopen, fietste met Dries van Brussel naar Tokyo, en maakte daar een schitterende film over: <a href=\"https://womendontcycle.com/nl.html?utm_source=welcometomygarden.org&utm_medium=web&utm_content=about_profile\" target=\"_blank\">‘Women Don’t Cycle’</a>. Ze is de enige binnen ons team die toerisme heeft gestudeerd (best handig). Het feit dat ze vier talen vloeiend spreekt én zich thuis voelt voor de camera maakt haar onze onofficiële woordvoerster!",
     "thor": "Thor is de ingenieuze technoloog die ieder project wil hebben. Hij nam twee keer deel aan Open Summer of Code, waar hij in 2017 Dries ontmoette. Dat jaar fietste hij ook van Leuven naar Helsinki, waar hij nu WTMG host is! Hij is niet alleen een fantastische developer, maar ook een geweldige designer. Hij houdt van koken en coderen en leest graag lange intrigerende artikelen.",
     "ward": "Ward is de allerenthousiastste developer die je je maar kunt wensen. Twee dagen nadat hij WTMG had ontdekt was hij al op de fiets onderweg naar zijn eerste tuin. Toevallig kruiste een journalist die over WTMG wilde schrijven zijn pad en zo belandde hij in de krant! Hij wil de wereld dolgraag verbeteren door middel van code!",
     "janneke": "Janneke is dol op taal en weet wat ze ermee moet doen. Zodra ze van WTMG hoorde, suggereerde ze onmiddellijk dat er een facebookpagina moest komen - en sindsdien leidt ze onze communicatie in goede banen. Ze is verliefd op Roemenië, en schreef er een bergwandelgids over; ze kocht er ook een huis en deelt haar liefde voor het land via <a href=\"https://roamaniac.com/\" target=\"_blank\">Roamaniac.com</a>.",
@@ -1385,7 +1385,7 @@
       },
       "2": {
         "title": "Ga op een secret trip",
-        "text": "Ga op een <a href=\"https://www.slowby.travel/nl/start\" target=\"_blank\">secret slow travel trip</a> met Slowby, de kleine zus van WTMG! Wij zorgen voor de planning; jij hoeft alleen maar in te pakken en op te stappen! Je kunt ook een <a href=\"https://gift.slowby.travel/nl\" target=\"_blank\">cadeaubon</a> kopen voor iemand die je graag ziet."
+        "text": "Ga op een <a href=\"https://www.slowby.travel/nl/start?utm_source=welcometomygarden.org&utm_medium=web&utm_content=contribute_method\" target=\"_blank\">secret slow travel trip</a> met Slowby, de kleine zus van WTMG! Wij zorgen voor de planning; jij hoeft alleen maar in te pakken en op te stappen! Je kunt ook een <a href=\"https://gift.slowby.travel/nl?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=giftcard&utm_content=contribute_method\" target=\"_blank\">cadeaubon</a> kopen voor iemand die je graag ziet."
       },
       "3": {
         "title": "Vertel anderen over WTMG",
@@ -1411,11 +1411,11 @@
       "superfans": "Superfans",
       "velotour": {
         "title": "Velotour Festival",
-        "url": "https://velotourfestival.be/nl.html"
+        "url": "https://velotourfestival.be/nl.html?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer"
       },
       "women-dont-cycle": {
         "title": "Women Don't Cycle - De Film",
-        "url": "https://womendontcycle.com/nl.html"
+        "url": "https://womendontcycle.com/nl.html?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer"
       }
     }
   }

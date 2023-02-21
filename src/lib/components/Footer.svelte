@@ -42,7 +42,9 @@
       links: [
         {
           title: $_('generics.slowby'),
-          link: $_('generics.slowby-url'),
+          link: `${$_(
+            'generics.slowby-url'
+          )}?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer`,
           target: '_blank'
         },
         {
