@@ -732,7 +732,7 @@
       "title": "Choose the price that fits you best",
       "description": "We use open pricing because we want WTMG to be available to everyone, and we trust your decision. You pay for one year at a time. Becoming a Superfan is commitment-free: your subscription stops automatically after one year, and you will receive a reminder email to renew it.",
       "per-month": "/month",
-      "annual-amount": " billed anually",
+      "annual-amount": " billed annually",
       "pricing-levels": {
         "0": {
           "slug": "Sow",
