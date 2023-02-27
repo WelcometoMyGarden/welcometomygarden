@@ -241,15 +241,8 @@
                 }
               })}
             </p>
-          {:else if garden.unclaimed}
-            <p class="cta-hint">{$_('garden.drawer.unclaimed')}</p>
           {/if}
-          <Button
-            href={`${routes.CHAT}?with=${garden.id}`}
-            disabled={!$user || garden.unclaimed}
-            uppercase
-            medium
-          >
+          <Button href={`${routes.CHAT}?with=${garden.id}`} disabled={!$user} uppercase medium>
             {$_('garden.drawer.guest.button')}
           </Button>
         {/if}
