@@ -662,7 +662,6 @@
         "login": "Vous devez {signInLink} pour contacter les hôtes.",
         "button": "Contacter l'hôte"
       },
-      "unclaimed": "Vous pouvez contacter cet hôte dès qu'il a créé son compte.",
       "facilities": {
         "capacity": "Place pour {styleCapacity} {capacity, plural, one {tente} other {tentes}}"
       },

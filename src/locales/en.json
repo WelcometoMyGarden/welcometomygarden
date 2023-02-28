@@ -613,7 +613,6 @@
         "login": "You must {signInLink} to contact hosts",
         "sign-link-text": "sign in"
       },
-      "unclaimed": "You can contact this host as soon as they have created their account.",
       "save": "Save",
       "saved": "Saved"
     },
