@@ -20,7 +20,7 @@
   import FileTrailModal from '$lib/components/Map/FileTrailModal.svelte';
   import TrainConnectionsModal from '$lib/components/Map/TrainConnectionsModal.svelte';
   import FileTrails from '$lib/components/Map/FileTrails.svelte';
-  import type { Garden } from '$lib/types/Garden';
+  import type { Garden, GardenWithId } from '$lib/types/Garden';
   import { savedGardens as savedGardenStore } from '$lib/stores/savedGardens';
   import TrainconnectionsLayer from '$lib/components/Map/TrainconnectionsLayer.svelte';
   import TrainAndRails from '$lib/components/Map/TrainAndRails.svelte';
@@ -59,9 +59,13 @@
 
   // FUNCTIONS
 
-  const selectGarden = (garden) => {
+  const selectGarden = (garden: GardenWithId) => {
     const newSelectedId = garden.id;
     const newGarden = $allGardens[newSelectedId];
+    if (newGarden == null) {
+      console.error('Selected garden was null');
+      return;
+    }
     center = { longitude: newGarden.location.longitude, latitude: newGarden.location.latitude };
     applyZoom = false; // zoom level is not programatically changed when exploring a garden
     goto(`${routes.MAP}/garden/${newSelectedId}`);

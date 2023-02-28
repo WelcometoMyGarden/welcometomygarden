@@ -1,6 +1,7 @@
-<script>
-  export let initialCoordinates = null;
+<script lang="ts">
+  export let initialCoordinates: LatLong | null = null;
 
+  import { initialCoordinates as defaultCoordinates } from '$lib/types/Garden';
   import { _ } from 'svelte-i18n';
   import { createEventDispatcher } from 'svelte';
   import { reverseGeocode, geocode } from '$lib/api/mapbox';
@@ -8,8 +9,9 @@
   import { TextInput, Button } from '$lib/components/UI';
   import Map from '$lib/components/Map/Map.svelte';
   import DraggableMarker from '$lib/components/Map/DraggableMarker.svelte';
+  import type { LatLong } from '$lib/types/Garden';
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{ confirm: LatLong | null }>();
 
   const defaultAddressValues = {
     street: '',
@@ -18,26 +20,44 @@
     country: '',
     city: ''
   };
+  type Address = typeof defaultAddressValues;
+  const validAddressFieldNames = ['street', 'postalCode', 'region', 'country', 'city'] as const;
+  type ValidAddressFieldName = (typeof validAddressFieldNames)[number];
 
-  let coordinates = initialCoordinates || {
-    latitude: 50.5,
-    longitude: 4.5
-  };
+  let coordinates: LatLong = initialCoordinates || { ...defaultCoordinates };
 
-  let address = {};
+  let address: Partial<Address> = {};
   let reverseGeocoded = false;
   let locationConfirmed = !!initialCoordinates;
   let isAddressConfirmShown = !!initialCoordinates;
 
-  const setAddressField = async (event) => {
+  /**
+   * Saves the address field by its name field, on clicking away/unfocussing the input
+   */
+  const setAddressField = async (event: FocusEvent) => {
     if (reverseGeocoded) {
       address = { ...defaultAddressValues };
       reverseGeocoded = false;
     }
-    address[event.target.name] = event.target.value;
-    const addressString = Object.keys(address)
-      .map((key) => address[key])
-      .filter((v) => v)
+
+    // event typing: https://stackoverflow.com/a/72340285/4973029
+    if (!event.currentTarget || !(event.target instanceof HTMLInputElement)) {
+      console.warn('Invalid AddressField event type');
+      return;
+    }
+    const innerEvent = event as FocusEvent & { currentTarget: HTMLInputElement };
+
+    if (!(validAddressFieldNames as readonly string[]).includes(innerEvent.currentTarget.name)) {
+      console.warn('Invalid AddressField name attribute');
+      return;
+    }
+    address[innerEvent.currentTarget.name as ValidAddressFieldName] =
+      innerEvent.currentTarget.value;
+
+    // Determine the full address from all provided fields so far, then try geocoding
+    const addressString = validAddressFieldNames
+      .map((fieldName) => address[fieldName])
+      .filter((v) => v && v.trim())
       .join(' ');
     try {
       coordinates = await geocode(addressString);

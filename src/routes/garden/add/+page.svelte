@@ -8,20 +8,17 @@
   import { addGarden } from '$lib/api/garden';
   import Form from '$lib/components/Garden/Form.svelte';
   import routes from '$lib/routes';
-  import type { Garden } from '$lib/types/Garden';
+  import { initialGarden, type GardenToUpload } from '$lib/types/Garden';
 
   if ($user && $user.garden) goto(routes.MANAGE_GARDEN);
 
   let addingGarden = false;
 
-  const submit = async (e) => {
+  const submit = async (e: CustomEvent<GardenToUpload>) => {
     const garden = e.detail;
     addingGarden = true;
     try {
-      const newGarden = await addGarden({
-        ...garden,
-        photo: garden.photo && garden.photo.files ? garden.photo.files[0] : null
-      });
+      const newGarden = await addGarden(garden);
       await addGardenLocally(newGarden);
       addingGarden = false;
       let notifyMsg;
@@ -35,19 +32,6 @@
       addingGarden = false;
     }
   };
-
-  const initialGarden: Garden = {
-    description: '',
-    location: null,
-    facilities: {
-      capacity: 1
-    },
-    photo: {
-      files: null,
-      data: null
-    },
-    listed: true
-  };
 </script>
 
 <svelte:head>
@@ -56,4 +40,4 @@
 
 <Progress active={addingGarden} />
 
-<Form on:submit={submit} isSubmitting={addingGarden} garden={initialGarden} />
+<Form on:submit={submit} isSubmitting={addingGarden} garden={{ ...initialGarden }} />

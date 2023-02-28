@@ -1,5 +1,8 @@
-<script>
-  export let garden;
+<script lang="ts">
+  /**
+   * The default initial garden state, or existing garden details if one exists.
+   */
+  export let garden: GardenToUpload;
   export let isSubmitting = false;
   export let isUpdate = false;
 
@@ -20,15 +23,16 @@
     tentIcon
   } from '$lib/images/icons';
   import ReloadSuggestion from '../ReloadSuggestion.svelte';
+  import type { GardenFacilities, GardenToUpload, LatLong } from '$lib/types/Garden';
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{ submit: GardenToUpload }>();
 
   $: isFillable = $user && $user.emailVerified;
 
   let formValid = true;
 
   let descriptionHint = { message: '', valid: true };
-  const validateDescription = (description) => {
+  const validateDescription = (description: string) => {
     const len = description.length;
     if (len < 20) {
       descriptionHint.valid = false;
@@ -49,14 +53,30 @@
     return true;
   };
 
-  const updateDescription = (event) => {
-    const description = event.target.value;
+  const validateFacilities = (facilities: GardenFacilities) => {
+    for (let expectedFacility of booleanFacilities) {
+      if (typeof facilities[expectedFacility.name] !== 'boolean') {
+        console.error('Unexpected invalid boolean facility');
+        return false;
+      }
+      if (typeof facilities.capacity !== 'number' || facilities.capacity < 1) {
+        // This should be prevented by HTML number input validation
+        console.error('Unexpected invalid capacity facility');
+        return false;
+      }
+    }
+    return true;
+  };
+
+  // event typing: https://stackoverflow.com/a/72340285/4973029
+  const updateDescription = (event: Event & { currentTarget: HTMLTextAreaElement }) => {
+    const description = event.currentTarget.value;
     validateDescription(description);
     garden.description = description;
   };
 
   let coordinateHint = { message: '', valid: true };
-  const validateLocation = (location) => {
+  const validateLocation = (location: null | LatLong) => {
     if (!location) {
       coordinateHint.message = $_('garden.form.location.coordinate-hint');
       coordinateHint.valid = false;
@@ -66,14 +86,19 @@
     coordinateHint.valid = true;
     return true;
   };
-  const setCoordinates = (event) => {
+
+  const setCoordinates = (event: CustomEvent<LatLong | null>) => {
     validateLocation(event.detail);
-    garden.location = event.detail;
+    // validated not null by the above function
+    garden.location = event.detail as LatLong;
   };
 
   const validFileTypes = ['image/jpeg', 'image/png', 'image/tiff'];
+
+  let selectedFiles: FileList;
+
   let photoHint = { message: '', valid: true };
-  const validatePhoto = (file) => {
+  const validatePhoto = (file: File) => {
     if (!validFileTypes.includes(file.type)) {
       photoHint.message = $_('garden.form.photo.hints.wrong-format');
       photoHint.valid = false;
@@ -91,19 +116,36 @@
   };
 
   let existingPhoto = garden.photo;
-  garden.photo = {};
-  const choosePhoto = () => {
-    if (!garden.photo.files) return;
+
+  /**
+   * Called when the file input changes, that is, when the user
+   * has selected photos
+   */
+  const onSelectedPhotos = () => {
+    if (!selectedFiles) return;
     existingPhoto = null;
-    const file = garden.photo.files[0];
+    const file = selectedFiles[0];
     if (!validatePhoto(file)) return;
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (e) => {
-      garden.photo.data = e.target.result;
+      if (!e.target) {
+        console.warn('Unexpected null target when reading the selected photo');
+        return;
+      }
+      // We know it is a string, because we called readAsDataURL on the reader
+      // http://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL
+      garden.photo = {
+        file,
+        data: e.target.result as string
+      };
     };
   };
 
+  /**
+   * Gets the image URL of the photo referenced by the photo ID, previousPhotoId, or user ID
+   * of this garden.
+   */
   const getExistingPhoto = () => {
     const id = garden && garden.previousPhotoId ? garden.previousPhotoId : $user.id;
     return getGardenPhotoBig({ photo: existingPhoto, id });
@@ -112,13 +154,12 @@
   const handleSubmit = async () => {
     if (!isFillable) return;
     if (
-      [validateDescription(garden.description), validateLocation(garden.location)].includes(false)
+      [
+        validateDescription(garden.description),
+        validateLocation(garden.location),
+        validateFacilities(garden.facilities)
+      ].includes(false)
     ) {
-      formValid = false;
-      return;
-    }
-
-    if (garden.photo && garden.photo.files && !validatePhoto(garden.photo.files[0])) {
       formValid = false;
       return;
     }
@@ -127,7 +168,13 @@
     dispatch('submit', garden);
   };
 
-  $: facilities = [
+  let booleanFacilities: {
+    icon: string;
+    name: keyof Omit<GardenFacilities, 'capacity'>;
+    label: string;
+  }[];
+
+  $: booleanFacilities = [
     { name: 'water', icon: waterIcon, label: $_('garden.facilities.labels.water') },
     {
       name: 'drinkableWater',
@@ -231,7 +278,7 @@
       <h3>{$_('garden.form.facilities.title')}</h3>
       <p class="section-description">{$_('garden.form.facilities.notice')}</p>
       <div class="checkboxes">
-        {#each facilities as facility (facility.name)}
+        {#each booleanFacilities as facility (facility.name)}
           <LabeledCheckbox {...facility} bind:checked={garden.facilities[facility.name]} compact />
         {/each}
       </div>
@@ -260,17 +307,19 @@
         type="file"
         id="photo"
         name="photo"
-        bind:files={garden.photo.files}
-        on:change={choosePhoto}
+        bind:files={selectedFiles}
+        on:change={onSelectedPhotos}
         multiple={false}
         accept={validFileTypes.join(',')}
       />
 
-      {#if garden.photo && garden.photo.data}
+      {#if garden.photo && !(typeof garden.photo === 'string') && garden.photo.data}
+        <!-- Preview the selected photo -->
         <div class="photo" transition:slide>
           <img src={garden.photo.data} alt={$_('garden.form.photo.img-alt')} />
         </div>
       {:else if existingPhoto && typeof existingPhoto == 'string'}
+        <!-- Preview an existing photo -->
         {#await getExistingPhoto() then existingPhoto}
           <div class="photo" transition:slide>
             <img src={existingPhoto} alt={$_('garden.form.photo.img-alt')} />

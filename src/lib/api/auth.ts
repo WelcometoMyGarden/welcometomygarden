@@ -33,7 +33,13 @@ import type { User as FirebaseUser } from 'firebase/auth';
 let latestUserPrivateState: UserPrivate | null = null;
 let latestUserPublicState: UserPublic | null = null;
 let latestAuthUserState: FirebaseUser | null = null;
-let latestCampsiteState: Garden | null = null;
+/**
+ * - undefined when it was never loaded
+ * - null when the user verifyably has no garden.
+ * This way we can be sure that the garden is not still loading.
+ * Contrary to users & users-private docs, the doc does not *need* to exist.
+ */
+let latestCampsiteState: Garden | null | undefined = undefined;
 
 /**
  * Creates Firebase observers that manage the app's User model.
@@ -225,7 +231,7 @@ export const createAuthObserver = (): Unsubscribe => {
 const resetDocCaches = () => {
   latestUserPrivateState = null;
   latestUserPublicState = null;
-  latestCampsiteState = null;
+  latestCampsiteState = undefined;
 };
 
 export const checkAndHandleUnverified = async (message?: string, timeout = 8000) => {
@@ -260,7 +266,13 @@ export const isEmailVerifiedAndTokenSynced = async () => {
  */
 const updateUserIfPossible = async () => {
   // These three states required to broadcast a non-null User state locally
-  if (latestUserPrivateState && latestUserPublicState && latestAuthUserState) {
+  if (
+    latestUserPrivateState &&
+    latestUserPublicState &&
+    latestAuthUserState &&
+    // meaning the campsite state has loaded
+    latestCampsiteState !== undefined
+  ) {
     const { email, uid } = latestAuthUserState;
     // Only consider the local user verified if the verification is fully synced.
     // Async because token check is an async operation.
@@ -270,7 +282,13 @@ const updateUserIfPossible = async () => {
       ...latestUserPublicState,
       ...latestUserPrivateState,
       // It's possible that latestCampsiteState is set to null after a garden deletion
-      garden: latestCampsiteState,
+      garden: latestCampsiteState
+        ? {
+            ...latestCampsiteState,
+            // The id field is necessary locally, so if it doensn't exist, supply it.
+            id: latestCampsiteState.id ?? uid
+          }
+        : null,
       email: email || undefined,
       emailVerified,
       // overlap with id on Garden...

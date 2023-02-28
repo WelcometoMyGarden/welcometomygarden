@@ -9,6 +9,7 @@
   import Form from '$lib/components/Garden/Form.svelte';
   import routes from '$lib/routes';
   import { checkAndHandleUnverified } from '$lib/api/auth';
+  import type { GardenToUpload } from '$lib/types/Garden';
 
   if (!$user) {
     notify.info($_('auth.unsigned'), 8000);
@@ -21,14 +22,12 @@
   }
   let updatingGarden = false;
 
-  const submit = async (e) => {
+  const submit = async (e: CustomEvent<GardenToUpload>) => {
     const garden = e.detail;
     updatingGarden = true;
+
     try {
-      const newGarden = await updateGarden({
-        ...garden,
-        photo: garden.photo && garden.photo.files ? garden.photo.files[0] : null
-      });
+      const newGarden = await updateGarden(garden);
       updatingGarden = false;
       await updateGardenLocally(newGarden);
 
@@ -52,5 +51,5 @@
 <Progress active={updatingGarden} />
 
 {#if $user && $user.garden}
-  <Form on:submit={submit} isUpdate isSubmitting={updatingGarden} garden={$user.garden} />
+  <Form on:submit={submit} isUpdate isSubmitting={updatingGarden} garden={{ ...$user.garden }} />
 {/if}

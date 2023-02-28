@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let garden: Garden | null = null;
+  export let garden: GardenWithId | null = null;
 
   import { createEventDispatcher, tick } from 'svelte';
   import { scale } from 'svelte/transition';
@@ -21,7 +21,7 @@
     bookmarkYellowIcon
   } from '$lib/images/icons';
   import routes from '$lib/routes';
-  import type { Garden } from '$lib/types/Garden';
+  import type { GardenWithId } from '$lib/types/Garden';
   import Icon from '$lib/components/UI/Icon.svelte';
 
   const dispatch = createEventDispatcher();

@@ -1,4 +1,4 @@
-import type { Garden } from '$lib/types/Garden';
+import type { GardenWithId } from '$lib/types/Garden';
 import type { Timestamp } from 'firebase/firestore';
 
 type UserOverwritableProps = {
@@ -80,7 +80,7 @@ export class User implements UserPrivate, UserPublic {
   email: string;
   emailVerified: boolean;
   countryCode: string;
-  garden: Garden | null;
+  garden: GardenWithId | null;
   emailPreferences: EmailPreferences;
   consentedAt: Timestamp | null;
   communicationLanguage?: string;
@@ -149,10 +149,6 @@ export class User implements UserPrivate, UserPublic {
     const currentUserProps = this.toJSON();
     const newProps = { ...currentUserProps, ...props };
     return new User(newProps);
-  }
-
-  setGarden(garden: Garden | null) {
-    this.garden = garden;
   }
 
   setEmailPreferences(name: 'newChat' | 'news', pref: boolean) {

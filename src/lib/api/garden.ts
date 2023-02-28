@@ -9,20 +9,25 @@ import {
   setDoc,
   updateDoc,
   getDocFromCache,
-  getDocFromServer
+  getDocFromServer,
+  CollectionReference,
+  DocumentReference
 } from 'firebase/firestore';
 import { getUser } from '$lib/stores/auth';
 import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '$lib/stores/garden';
 import { db, storage } from './firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import type { Garden, GardenFacilities } from '$lib/types/Garden';
+import type { FirebaseGarden, GardenToUpload, GardenWithId } from '$lib/types/Garden';
 
 export const getAllListedGardens = async () => {
   isFetchingGardens.set(true);
-  const q = query(collection(db(), CAMPSITES), where('listed', '==', true));
+  const q = query(
+    collection(db(), CAMPSITES) as CollectionReference<FirebaseGarden>,
+    where('listed', '==', true)
+  );
   const querySnapshot = await getDocs(q);
 
-  const gardens: { [id: string]: Garden } = {};
+  const gardens: { [id: string]: GardenWithId } = {};
   querySnapshot.forEach((doc) => {
     gardens[doc.id] = { id: doc.id, ...doc.data() };
   });
@@ -49,65 +54,70 @@ const doUploadGardenPhoto = async (photo: File, currentUser: User) => {
   return `garden.${extension}`;
 };
 
-export const addGarden = async ({
-  photo,
-  facilities,
-  ...rest
-}: {
-  photo: File;
-  facilities: GardenFacilities;
-}) => {
+export const addGarden = async ({ photo, ...rest }: GardenToUpload): Promise<GardenWithId> => {
   const currentUser = getUser();
 
-  let uploadedName = null;
-  if (photo) uploadedName = await doUploadGardenPhoto(photo, currentUser);
-
-  // Copy the facilities object, converting any falsy value to false
-  // TODO: is this conversion necessary?
-  const facilitiesCopy = Object.fromEntries(
-    Object.entries(facilities).map(([k, v]) => [k, v || false])
-  );
+  if (typeof photo === 'string') {
+    // It can't be a string, because we're creating this garden.
+    throw new Error('unexpected string in photo while creating garden');
+  }
+  let uploadedFileNameOrNull: string | null = null;
+  if (photo) uploadedFileNameOrNull = await doUploadGardenPhoto(photo.file, currentUser);
 
   const garden = {
     ...rest,
-    facilities: facilitiesCopy,
     listed: true,
-    photo: uploadedName
+    photo: uploadedFileNameOrNull
   };
 
-  await setDoc(doc(db(), CAMPSITES, currentUser.id), garden);
+  await setDoc(doc(db(), CAMPSITES, currentUser.id) as DocumentReference<FirebaseGarden>, garden);
 
   const gardenWithId = { ...garden, id: currentUser.id };
-  currentUser.setGarden(gardenWithId);
   return gardenWithId;
 };
 
-export const updateGarden = async ({ photo, ...rest }: { photo: File; facilities }) => {
+/**
+ * In case an existing photo exists, pass the string of the existing photo.
+ * In case you want to delete the existing photo, pass "null" for photo
+ */
+export const updateGarden = async ({ photo, ...rest }: GardenToUpload): Promise<GardenWithId> => {
   const currentUser = getUser();
   if (!currentUser.id) throw new Error('User is not logged in.');
 
-  let uploadedName = null;
-  if (photo) uploadedName = await doUploadGardenPhoto(photo, currentUser);
-
-  const facilities = Object.keys(rest.facilities).reduce((all, facility) => {
-    all[facility] = rest.facilities[facility] || false;
-    return all;
-  }, {});
-
-  const garden = {
+  // Copy the object, because the photo value can not be `undefined` when we update it.
+  // Either it needs a value (string/null), or the key should not be present.
+  const gardenUpdateObject: Omit<FirebaseGarden, 'photo'> & {
+    photo?: string | null;
+  } = {
     ...rest,
-    facilities,
     previousPhotoId: null
   };
 
-  if (uploadedName || rest.photo) garden.photo = uploadedName || rest.photo;
+  // If a file was selected, upload it
+  let uploadedFileName = null;
+  if (photo && !(typeof photo === 'string'))
+    uploadedFileName = await doUploadGardenPhoto(photo.file, currentUser);
+  if (uploadedFileName) gardenUpdateObject.photo = uploadedFileName;
+
+  // If the photo should be removed, remove it
+  if (photo === null) {
+    // TODO: will this also remove storage object? Probably not?
+    // Can we overwrite?
+    gardenUpdateObject.photo = null;
+  }
+
+  // If the photo is a string, it means we didn't change the existing photo
+  // Don't do anything, the photo key will not be present and will not be changed.
 
   const docRef = doc(db(), CAMPSITES, currentUser.id);
 
-  await updateDoc(docRef, garden);
+  await updateDoc(docRef, gardenUpdateObject);
 
-  const gardenWithId = { ...garden, id: currentUser.id };
-  getUser().setGarden(gardenWithId);
+  const gardenWithId = {
+    ...gardenUpdateObject,
+    photo: gardenUpdateObject.photo ?? null,
+    id: currentUser.id
+  };
   return gardenWithId;
 };
 
@@ -119,18 +129,18 @@ export const changeListedStatus = async (shouldBeListed: boolean) => {
   await updateDoc(docRef, { listed: shouldBeListed });
 };
 
-const getPhotoBySize = async (size: string, garden: Garden & { photo: string }) => {
+const getPhotoBySize = async (size: string, garden: GardenWithId & { photo: string }) => {
   const photoLocation = `gardens/${garden.id}/garden_${size}.${garden.photo.split('.').pop()}`;
   const photoRef = ref(storage(), photoLocation);
 
   return await getDownloadURL(photoRef);
 };
 
-export const getGardenPhotoSmall = async (garden: Garden & { photo: string }) => {
+export const getGardenPhotoSmall = async (garden: GardenWithId & { photo: string }) => {
   return await getPhotoBySize('360x360', garden);
 };
 
-export const getGardenPhotoBig = async (garden: Garden & { photo: string }) => {
+export const getGardenPhotoBig = async (garden: GardenWithId & { photo: string }) => {
   return await getPhotoBySize('1920x1080', garden);
 };
 

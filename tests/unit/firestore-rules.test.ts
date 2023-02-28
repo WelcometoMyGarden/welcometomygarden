@@ -16,6 +16,7 @@ import {
 import { doc, serverTimestamp, setDoc, setLogLevel, updateDoc } from 'firebase/firestore';
 import type firebase from 'firebase/compat/app';
 import { afterAll, beforeAll, beforeEach, describe, it } from 'vitest';
+import type { Garden } from '$lib/types/Garden';
 
 let testEnv: RulesTestEnvironment;
 
@@ -131,7 +132,7 @@ describe('"user" data', async () => {
       })
     );
 
-    // Missing countryCode & superfan field
+    // Fails because of missing countryCode & superfan field
     await assertFails(
       setDoc(doc(testDb, 'users/alice'), {
         firstName: 'Alice'
@@ -209,6 +210,75 @@ describe('"user-private" data', async () => {
         stripeSubscription: {
           priceId: '123'
         }
+      })
+    );
+  });
+});
+
+describe('campsite data', () => {
+  let testDb: firebase.firestore.Firestore;
+  beforeEach(async () => {
+    testDb = await createAliceUser();
+  });
+
+  const verifiedBobFirestore = () =>
+    testEnv
+      .authenticatedContext('bob', {
+        email_verified: true
+      })
+      .firestore();
+
+  const validGardenDoc: Garden = {
+    id: 'some-id',
+    description: 'A beautiful garden in the middle of Belgium.',
+    location: {
+      latitude: 50.4,
+      longitude: 40.1
+    },
+    facilities: {
+      capacity: 2,
+      toilet: true,
+      shower: false,
+      electricity: true,
+      water: true,
+      drinkableWater: false,
+      bonfire: true,
+      tent: true
+    },
+    photo: null,
+    // Test: previousPhoto undefined
+    // previousPhotoId: null,
+    listed: true
+  };
+
+  it('disallows setting your own valid garden when you are unverified', async () => {
+    await assertFails(setDoc(doc(testDb, 'campsites/alice'), { ...validGardenDoc }));
+  });
+  it("disallows a verified user from creating someone else's garden", async () => {
+    await assertFails(
+      setDoc(doc(verifiedBobFirestore(), 'campsites/someone-else'), { ...validGardenDoc })
+    );
+  });
+  it('disallows setting an invalid garden', async () => {
+    await assertFails(
+      setDoc(doc(verifiedBobFirestore(), 'campsites/bob'), {
+        ...validGardenDoc,
+        // all facilities should be present
+        facilities: { toilets: false }
+      })
+    );
+  });
+  it('allows setting your own valid garden when your email is verified', async () => {
+    await assertSucceeds(
+      setDoc(doc(verifiedBobFirestore(), 'campsites/bob'), { ...validGardenDoc })
+    );
+  });
+  it('allows setting your own valid garden with defined photo and previousPhotoId props', async () => {
+    await assertSucceeds(
+      setDoc(doc(verifiedBobFirestore(), 'campsites/bob'), {
+        ...validGardenDoc,
+        photo: 'adsfiaehf.jpeg',
+        previousPhotoId: null
       })
     );
   });
