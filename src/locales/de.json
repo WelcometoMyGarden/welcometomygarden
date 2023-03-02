@@ -57,41 +57,28 @@
   "cookies": {
     "articles": {
       "0": {
-        "copy": {
-          "0": "Wie bei fast allen professionellen Websites üblich, verwendet diese Website Cookies. Cookies sind kleine Dateien, die auf Ihren Computer heruntergeladen werden, um Ihre Erfahrung zu verbessern. Diese Seite beschreibt, welche Informationen sie sammeln, wie wir sie verwenden und warum wir diese Cookies manchmal speichern müssen. Wir teilen Ihnen auch mit, wie Sie die Speicherung dieser Cookies verhindern können. Dies kann jedoch dazu führen, dass bestimmte Elemente der Website-Funktionalität herabgestuft oder „gebrochen“ werden. Weitere allgemeine Informationen über Cookies <a href=\"https://de.wikipedia.org/wiki/HTTP-Cookie\"> finden Sie in diesem Wikipedia-Artikel über HTTP-Cookies.</a>"
-        },
         "title": "Was sind Cookies?"
       },
       "1": {
-        "title": "Wie wir Cookies verwenden",
         "copy": {
           "0": "Wir verwenden Cookies aus einer Vielzahl von Gründen, die im Folgenden beschrieben werden. Leider gibt es in den meisten Fällen keine branchenüblichen Optionen zur Deaktivierung von Cookies, ohne die Funktionalität und die Merkmale, die sie dieser Website hinzufügen, vollständig zu deaktivieren. Es wird empfohlen, alle Cookies zu belassen, wenn Sie nicht sicher sind, ob Sie sie benötigen oder nicht, falls sie zur Bereitstellung eines von Ihnen genutzten Dienstes verwendet werden."
         }
       },
       "2": {
-        "copy": {
-          "0": "Sie können das Herunterladen von Cookies verhindern, indem Sie die Einstellungen Ihres Browsers anpassen (siehe das Hilfemenü Ihres Browsers, um herauszufinden, wie Sie dies tun können). Bitte beachten Sie, dass die Deaktivierung von Cookies die Funktionalität dieser und vieler anderer Websites, die Sie besuchen, beeinträchtigen kann. Die Deaktivierung von Cookies führt in der Regel auch zur Deaktivierung bestimmter Funktionen und Merkmale dieser Website. Wenn Sie Cookies deaktivieren möchten, empfehlen wir die Verwendung von <a href=\"https://addons.mozilla.org/de/firefox/addon/privacy-badger17/\">Privacy Badger</a> auf Firefox."
-        },
         "title": "Cookies deaktivieren"
       },
       "3": {
         "copy": {
-          "0": "Wenn Sie ein Konto bei uns anlegen, verwenden wir Cookies für die Verwaltung des Anmeldevorgangs und die allgemeine Verwaltung. Diese Cookies werden normalerweise gelöscht, wenn Sie sich abmelden. In einigen Fällen können sie jedoch im Nachhinein verbleiben, um sich an Ihre Website-Einstellungen zu erinnern, wenn Sie abgemeldet sind.",
           "1": "Wir verwenden Cookies, wenn Sie eingeloggt sind, damit wir uns diese Tatsache merken können. Dies verhindert, dass Sie sich jedes Mal anmelden müssen, wenn Sie eine neue Seite besuchen. Diese Cookies werden normalerweise entfernt oder gelöscht, wenn Sie sich abmelden, um sicherzustellen, dass Sie nur auf eingeschränkte Funktionen und Bereiche zugreifen können, wenn Sie angemeldet sind."
-        },
-        "title": "Die von uns gesetzten Cookies"
+        }
       },
       "4": {
         "copy": {
-          "0": "In einigen speziellen Fällen verwenden wir auch Cookies, die von vertrauenswürdigen Drittanbietern bereitgestellt werden. Der folgende Abschnitt beschreibt, welche Cookies von Drittanbietern Sie auf dieser Seite finden können.",
-          "2": "Weitere Informationen zu Google-Analytics-Cookies finden Sie <a href=\"https://www.google.com/url?q=https://analytics.google.com/analytics/web/%23/&amp;sa=D&amp;ust=1592214262289000\">auf der offiziellen Google-Analytics-Seite.</a>"
+          "0": "In einigen speziellen Fällen verwenden wir auch Cookies, die von vertrauenswürdigen Drittanbietern bereitgestellt werden. Der folgende Abschnitt beschreibt, welche Cookies von Drittanbietern Sie auf dieser Seite finden können."
         }
       },
       "5": {
-        "title": "Mehr Informationen",
-        "copy": {
-          "0": "Hoffentlich hat diese Seite alles für Sie geklärt. Wie bereits erwähnt, ist es bei Dingen, bei denen Sie sich nicht sicher sind, ob Sie sie benötigen, in der Regel sicherer, Cookies aktiviert zu lassen – nur für den Fall, dass sie mit einer der Funktionen interagieren, die Sie auf unserer Website nutzen. Wenn Sie noch weitere Informationen suchen, können Sie uns unter {support} kontaktieren."
-        }
+        "title": "Mehr Informationen"
       }
     },
     "title": "Cookie-Richtlinie"
