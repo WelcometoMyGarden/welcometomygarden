@@ -1,25 +1,26 @@
-<script>
-  import { _ } from 'svelte-i18n';
-  import { supportEmailLinkString, getNodeChildren } from '$lib/util';
-  import { Ol } from '$lib/components/UI';
+<script lang="ts">
+  import { locale, _ } from 'svelte-i18n';
+  import En from './cookie-pages/en.svelte';
+  import Nl from './cookie-pages/nl.svelte';
+  import Fr from './cookie-pages/fr.svelte';
+
+  const localeToCookiePageHTML = (loc?: string | null) => {
+    switch (loc) {
+      case 'fr':
+        return Fr;
+      case 'nl':
+        return Nl;
+      default:
+        return En;
+    }
+  };
+
+  $: pageComponent = localeToCookiePageHTML($locale);
 </script>
 
 <svelte:head>
+  <!-- TODO: return cookies.title -->
   <title>{$_('cookies.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
-<h2>{$_('cookies.title')}</h2>
-<Ol>
-  {#each getNodeChildren('cookies.articles') as key}
-    <li class="h3">
-      <h3 class="title">{$_(`cookies.articles.${key}.title`)}</h3>
-      {#each getNodeChildren(`cookies.articles.${key}.copy`) as copyKey}
-        <p>
-          {@html $_(`cookies.articles.${key}.copy.${copyKey}`, {
-            values: { support: supportEmailLinkString }
-          })}
-        </p>
-      {/each}
-    </li>
-  {/each}
-</Ol>
+<svelte:component this={pageComponent} />

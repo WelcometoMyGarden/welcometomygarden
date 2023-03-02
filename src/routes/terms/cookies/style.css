@@ -1,0 +1,50 @@
+ul {
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+table {
+  /* http://stackoverflow.com/questions/5533636/ddg#30423904 */
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+  empty-cells: show;
+  border: 1px solid #cbcbcb;
+  max-width: 100%;
+}
+
+table td {
+  border-bottom: 1px solid #cbcbcb;
+}
+table tbody > tr:last-child > td {
+  border-bottom-width: 0;
+}
+
+table tbody > tr > td:first-child,
+table thead > tr > th:first-child {
+  border-left: 0;
+}
+
+table tbody > tr:last-child > td {
+  border-bottom-width: 0;
+}
+
+table td,
+table th {
+  border-left: 1px solid #cbcbcb; /* inner column border */
+  border-width: 0 0 1px 1px;
+  overflow: visible;
+  margin: 0;
+  padding: 0.5em 1em;
+  font-size: inherit;
+  /* max-width: 600px; */
+  border-bottom: 1px solid #cbcbcb;
+}
+
+table thead {
+  background-color: #e0e0e0;
+  color: #000;
+  text-align: left;
+  vertical-align: bottom;
+}
