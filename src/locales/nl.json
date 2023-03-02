@@ -870,52 +870,7 @@
     "instruction-page": "deze instructiepagina"
   },
   "cookies": {
-    "title": "Cookiebeleid",
-    "articles": {
-      "0": {
-        "title": "Wat zijn cookies",
-        "copy": {
-          "0": "Zoals bij bijna alle professionele websites gebruikelijk is, maakt deze site gebruik van cookies. Cookies zijn kleine bestanden die naar je computer worden gedownload om je ervaring te verbeteren. Deze pagina beschrijft welke informatie ze verzamelen, hoe we deze gebruiken en waarom we deze cookies soms moeten opslaan. We zullen ook delen hoe je kunt voorkomen dat deze cookies worden opgeslagen. Dit kan echter bepaalde elementen van de site functionaliteit verminderen of 'breken'.  <a href=\"https://en.wikipedia.org/wiki/HTTP_cookie\"> Zie dit Wikipedia-artikel over HTTP-cookies voor meer algemene informatie over cookies.</a>"
-        }
-      },
-      "1": {
-        "title": "‍Hoe gebruiken we cookies",
-        "copy": {
-          "0": "We gebruiken cookies om verschillende redenen die hieronder worden beschreven. Helaas zijn er in de meeste gevallen geen standaard opties om cookies uit te schakelen zonder de functionaliteiten en opties die ze aan deze site toevoegen volledig uit te schakelen. Het wordt aanbevolen om alle cookies te laten staan ​​als je niet zeker weet of je ze nodig heeft, voor het geval ze worden gebruikt om een ​​dienst te verlenen die je gebruikt. ‍"
-        }
-      },
-      "2": {
-        "title": "Cookies uitschakelen ",
-        "copy": {
-          "0": "Je kunt voorkomen dat cookies worden gedownload door je browserinstellingen aan te passen (zie het Help-menu van je browser om te zien hoe je dit moet doen). Houd er rekening mee dat het uitschakelen van cookies de functionaliteit van deze en vele andere websites die je bezoekt, kan beïnvloeden. Als je cookies wil uitschakelen, raden we aan Privacy Badger in Firefox te gebruiken."
-        }
-      },
-      "3": {
-        "title": "‍De cookies die we instellen",
-        "copy": {
-          "0": "Als je een account bij ons aanmaakt, zullen we cookies gebruiken voor het beheer van het aanmeldingsproces en de algemene administratie. Deze cookies worden meestal verwijderd wanneer je uitlogt. In sommige gevallen kunnen ze echter achterblijven om je site voorkeuren te onthouden wanneer je bent uitgelogd.",
-          "1": "We gebruiken cookies wanneer je bent ingelogd, zodat we dit kunnen onthouden. Dit voorkomt dat je elke keer dat je een nieuwe pagina bezoekt, moet inloggen. Deze cookies worden meestal verwijderd of gewist wanneer je uitlogt om ervoor te zorgen dat je alleen toegang hebt tot beperkte functies en gebieden wanneer je bent ingelogd.",
-          "2": "Deze site kan in de toekomst nieuwsbrief- of e-mail abonnementsservices aanbieden en cookies kunnen worden gebruikt om te onthouden of je al bent geregistreerd en of bepaalde meldingen moeten worden weergegeven die mogelijk alleen geldig zijn voor geabonneerde/niet-geabonneerde gebruikers.",
-          "3": "Wanneer je gegevens indient via een formulier zoals die op contactpagina's of commentaar formulieren, kunnen cookies worden ingesteld om je gebruikersgegevens te onthouden voor toekomstige correspondentie.",
-          "4": "Om je een geweldige ervaring op deze site te bieden, bieden we de functionaliteit om je voorkeuren in te stellen voor hoe deze site werkt wanneer je deze gebruikt. Om je voorkeuren te onthouden, moeten we cookies instellen, zodat deze informatie kan worden teruggehaald wanneer je interactie hebt met een pagina die wordt beïnvloed door je voorkeuren."
-        }
-      },
-      "4": {
-        "title": "‍Cookies van derden ",
-        "copy": {
-          "0": "In sommige speciale gevallen gebruiken we ook cookies van vertrouwde derde partijen. In de volgende sectie wordt beschreven welke cookies van derden je via deze site kunt tegenkomen.",
-          "1": "Deze site maakt gebruik van Google Analytics, een van de meest wijdverspreide en vertrouwde analyse tools op het net. We gebruiken het om ons te helpen begrijpen hoe jij deze site gebruikt en om te ontdekken hoe we jouw ervaring kunnen verbeteren. Deze cookies kunnen bijvoorbeeld bijhouden hoeveel tijd je op de site doorbrengt en welke pagina's je bezoekt, zodat we boeiende inhoud kunnen blijven produceren.",
-          "2": "Zie de officiële Google Analytics-pagina voor meer informatie over Google Analytics-cookies.",
-          "3": "Analyse van derden wordt gebruikt om het gebruik van deze site te volgen en te meten, zodat we boeiende inhoud kunnen blijven produceren. Deze cookies kunnen dingen bijhouden, zoals hoeveel tijd je op deze site doorbrengt of welke pagina's je bezoekt, om ons te helpen begrijpen hoe we de site voor jou kunnen verbeteren. Van tijd tot tijd testen we nieuwe functies en brengen we subtiele wijzigingen aan in de manier waarop de site wordt afgeleverd. Wanneer we nieuwe functies testen, kunnen deze cookies worden gebruikt om ervoor te zorgen dat je tijdens je bezoek een consistente ervaring krijgt, terwijl we ervoor zorgen dat we begrijpen welke optimalisaties onze gebruikers het meest waarderen."
-        }
-      },
-      "5": {
-        "title": "Meer informatie",
-        "copy": {
-          "0": "Hopelijk heeft deze pagina dingen voor je verduidelijkt. Zoals eerder vermeld: het is, als er iets is waarvan je niet zeker weet of je het al dan niet nodig hebt, meestal veiliger om cookies ingeschakeld te laten. Dit voor het geval het interactie heeft met een van de functies die je op onze site gebruikt. Als je nog steeds op zoek bent naar meer informatie, kan je contact met ons opnemen via een van onze aangegeven contactmethoden."
-        }
-      }
-    }
+    "title": "Cookiebeleid"
   },
   "privacy-policy": {
     "title": "Privacybeleid",
