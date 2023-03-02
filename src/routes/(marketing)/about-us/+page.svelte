@@ -5,6 +5,7 @@
   import Profile from '../_components/Profile.svelte';
 
   const michielImg = staticAssetUrl('/profile-pictures/michiel.png?v=2');
+  const wardImg = staticAssetUrl('/profile-pictures/ward.png');
   const marieImg = staticAssetUrl('/profile-pictures/marie.jpg');
   const ismailaImg = staticAssetUrl('/profile-pictures/ismaila.jpg');
   const brentImg = staticAssetUrl('/profile-pictures/brent.jpg');
@@ -28,6 +29,12 @@
       role: $_('about-us.dev'),
       imageSrc: michielImg,
       introHtml: $_('about-us.michiel')
+    },
+    {
+      name: 'Ward',
+      role: $_('about-us.dev'),
+      imageSrc: wardImg,
+      introHtml: $_('about-us.ward')
     },
     {
       name: 'Marie',
@@ -67,11 +74,6 @@
       ...coreTeamProfilesStatic.thor,
       role: $_('about-us.co-founder'),
       introHtml: $_('about-us.thor')
-    },
-    ward: {
-      ...coreTeamProfilesStatic.ward,
-      role: $_('about-us.dev'),
-      introHtml: $_('about-us.ward')
     },
     janneke: {
       ...coreTeamProfilesStatic.janneke,
@@ -129,6 +131,8 @@
 
   .profiles.contributors {
     gap: 1rem;
+    max-width: 900px;
+    margin: auto;
   }
 
   .profiles.contributors :global(.text) {
@@ -141,5 +145,10 @@
 
   div.contributors-header {
     text-align: center;
+    margin-bottom: var(--spacing-medium);
+  }
+  div.contributors-header :global(p) {
+    max-width: 800px;
+    margin: auto;
   }
 </style>
