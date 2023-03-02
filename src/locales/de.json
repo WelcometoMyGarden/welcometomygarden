@@ -56,25 +56,14 @@
   },
   "cookies": {
     "articles": {
-      "0": {
-        "title": "Was sind Cookies?"
-      },
       "1": {
         "copy": {
           "0": "Wir verwenden Cookies aus einer Vielzahl von Gründen, die im Folgenden beschrieben werden. Leider gibt es in den meisten Fällen keine branchenüblichen Optionen zur Deaktivierung von Cookies, ohne die Funktionalität und die Merkmale, die sie dieser Website hinzufügen, vollständig zu deaktivieren. Es wird empfohlen, alle Cookies zu belassen, wenn Sie nicht sicher sind, ob Sie sie benötigen oder nicht, falls sie zur Bereitstellung eines von Ihnen genutzten Dienstes verwendet werden."
         }
       },
-      "2": {
-        "title": "Cookies deaktivieren"
-      },
       "3": {
         "copy": {
           "1": "Wir verwenden Cookies, wenn Sie eingeloggt sind, damit wir uns diese Tatsache merken können. Dies verhindert, dass Sie sich jedes Mal anmelden müssen, wenn Sie eine neue Seite besuchen. Diese Cookies werden normalerweise entfernt oder gelöscht, wenn Sie sich abmelden, um sicherzustellen, dass Sie nur auf eingeschränkte Funktionen und Bereiche zugreifen können, wenn Sie angemeldet sind."
-        }
-      },
-      "4": {
-        "copy": {
-          "0": "In einigen speziellen Fällen verwenden wir auch Cookies, die von vertrauenswürdigen Drittanbietern bereitgestellt werden. Der folgende Abschnitt beschreibt, welche Cookies von Drittanbietern Sie auf dieser Seite finden können."
         }
       },
       "5": {
