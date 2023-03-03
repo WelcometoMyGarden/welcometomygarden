@@ -10,6 +10,7 @@
   import { goto } from '$app/navigation';
   import { isActive } from '$lib/util/isActive';
   import { createEventDispatcher } from 'svelte';
+  import { DONATION_URL } from '$lib/constants';
 
   const dispatch = createEventDispatcher();
   export let isOpen = false;
@@ -32,9 +33,23 @@
     if (isOpen && !hamburger?.contains(clickEvent.target)) toggleDrawer();
   };
 
+  const donationUrlParams = new URLSearchParams({
+    ...($user
+      ? {
+          prefilled_email: $user.email,
+          client_reference_id: $user.id
+        }
+      : {}),
+    utm_source: 'welcometomygarden.org',
+    utm_medium: 'web',
+    utm_campaign: 'donation_payment',
+    utm_content: 'side_navbar'
+  });
+
   let sideLinks: { route: string; name: string }[];
   $: sideLinks = [
     { route: routes.FAQ, name: $_('generics.faq.acronym') },
+    { route: `${DONATION_URL}?${donationUrlParams.toString()}`, name: $_('footer.links.donate') },
     { route: routes.COOKIE_POLICY, name: $_('generics.cookie-policy') },
     { route: routes.PRIVACY_POLICY, name: $_('generics.privacy-policy') },
     { route: routes.TERMS_OF_USE, name: $_('generics.terms-of-use') }

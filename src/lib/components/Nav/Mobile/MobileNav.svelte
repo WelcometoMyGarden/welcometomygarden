@@ -7,7 +7,7 @@
   import { Icon } from '$lib/components/UI';
   import { isActive, isActiveContains } from '$lib/util/isActive';
   import { page } from '$app/stores';
-  import Drawer from './MobileNav/SideDrawer.svelte';
+  import SideDrawer from './MobileNav/SideDrawer.svelte';
 
   let hamburger: HTMLButtonElement | null = null;
   let drawerIsShown = false;
@@ -54,7 +54,7 @@
       <Hamburger bind:hamburger on:click={toggleDrawer} isOpen={drawerIsShown} />
     </li>
   </ul>
-  <Drawer isOpen={drawerIsShown} on:toggle={toggleDrawer} {hamburger} />
+  <SideDrawer isOpen={drawerIsShown} on:toggle={toggleDrawer} {hamburger} />
 </nav>
 
 <style>

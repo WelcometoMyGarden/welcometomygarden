@@ -98,22 +98,12 @@
         },
         "4": {
           "title": "Moet ik bij Welcome To My Garden iets betalen?",
-          "copy": "WTMG is gratis om te gebruiken, maar niet gratis om te maken. We moeten onze rekeningen betalen: onze technische kosten, die toenemen naarmate het platform groeit; ons getalenteerde team; onze kantoorruimte bij het Impact House. Achter de schermen zijn we continu bezig om het platform te verbeteren. Daarvoor hebben we <a href=\"/about-superfan\">onze Superfans</a> dus nodig. Dankzij jouw bijdrage kunnen we ervoor zorgen dat WTMG niet alleen overleeft maar ook echt floreert."
+          "copy": "WTMG is gratis om te gebruiken, maar niet gratis om te maken. We moeten onze rekeningen betalen: onze technische kosten, die toenemen naarmate het platform groeit; ons getalenteerde team; onze kantoorruimte bij het Impact House. Achter de schermen zijn we continu bezig om het platform te verbeteren. Wil je WTMG steunen? <a href=\"/about-superfan\">Word dan Superfan</a> en krijg toegang tot geweldige extra features. Jouw financiële bijdrage zorgt ervoor dat WTMG gratis kan blijven voor iedereen. Je kunt ook <a href=\"https://donate.stripe.com/14k4kf26r2sjfLO3ce?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=donation_payment&utm_content=index_faq\" target=\"_blank\">een eenmalige donatie</a> doen."
         }
       }
     },
     "partners": {
       "title": "Onze partners"
-    },
-    "support": {
-      "title": "Steun ons",
-      "copy": "Welcome To My Garden is gratis te gebruiken maar we hebben wel enkele rekeningen te betalen.  {donationLink} om ons project te steunen.",
-      "donation-link-text": "Doe een donatie"
-    },
-    "holiday-donations": {
-      "title": "Iedereen verdient vakantie",
-      "copy": "Wist je dat 22% van de kinderen in Vlaanderen niet op vakantie kunnen? Zeker na de lockdown hebben ze meer dan ooit nood aan wat ademruimte. Dankzij jouw bijdrage kunnen de meest kwetsbare doelgroepen er ook even tussenuit.",
-      "link-text": "Doneer nu"
     },
     "superfan": {
       "support-mission": "Nieuw: steun onze missie!",
@@ -1373,7 +1363,8 @@
       "women-dont-cycle": {
         "title": "Women Don't Cycle - De Film",
         "url": "https://womendontcycle.com/nl.html?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer"
-      }
+      },
+      "donate": "Doneer"
     }
   }
 }
