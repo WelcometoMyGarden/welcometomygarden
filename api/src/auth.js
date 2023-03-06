@@ -488,6 +488,7 @@ exports.onUserPrivateWrite = async (change) => {
   }
 
   // Create or update a SendGrid contact for this user
+  // TODO: it's maybe better to user context.userId for this (not dependent on the existence of the after doc)
   const authUser = await auth.getUser(after.id);
   const { lastName, communicationLanguage, sendgridId } = userPrivateAfter;
   const sendgridContactUpdateFields = {

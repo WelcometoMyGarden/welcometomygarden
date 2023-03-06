@@ -28,20 +28,16 @@ exports.onMessageCreate = async (snap, context) => {
   const chat = doc.data();
 
   const recipientId = chat.users.find((uid) => senderId !== uid);
-  const unreadDoc = await db
-    .collection('users-private')
-    .doc(recipientId)
-    .collection('unreads')
-    .doc(chatId)
-    .get();
+  const recipientUserPrivateDocRef = db.collection('users-private').doc(recipientId);
+  const unreadDoc = await recipientUserPrivateDocRef.collection('unreads').doc(chatId).get();
 
   await db
     .collection('stats')
     .doc('messages')
     .set({ count: FieldValue.increment(1) }, { merge: true });
 
-  const recipientDoc = await db.collection('users-private').doc(recipientId).get();
-  const recipientEmailPreferences = recipientDoc.data().emailPreferences;
+  const recipientUserPrivateDocData = (await recipientUserPrivateDocRef.get()).data();
+  const recipientEmailPreferences = recipientUserPrivateDocData.emailPreferences;
 
   let shouldNotify = recipientEmailPreferences.newChat || true;
   if (shouldNotify && unreadDoc.exists) {
@@ -61,7 +57,7 @@ exports.onMessageCreate = async (snap, context) => {
     const recipient = await auth.getUser(recipientId);
     const sender = await auth.getUser(senderId);
 
-    await db.collection('users-private').doc(recipientId).collection('unreads').doc(chatId).set({
+    await recipientUserPrivateDocRef.collection('unreads').doc(chatId).set({
       notifiedAt: FieldValue.serverTimestamp(),
       chatId
     });
@@ -75,7 +71,8 @@ exports.onMessageCreate = async (snap, context) => {
       recipient.displayName,
       sender.displayName,
       normalizeMessage(message.content),
-      messageUrl
+      messageUrl,
+      recipientUserPrivateDocData.communicationLanguage ?? 'en'
     );
   } catch (ex) {
     console.log(ex);

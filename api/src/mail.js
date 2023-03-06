@@ -98,11 +98,41 @@ exports.sendPasswordResetEmail = (email, name, resetLink) => {
   return send(msg);
 };
 
-exports.sendMessageReceivedEmail = (email, firstName, senderName, message, messageUrl) => {
+/**
+ *
+ * @param {string} email
+ * @param {string} firstName
+ * @param {string} senderName
+ * @param {string} message
+ * @param {string} messageUrl
+ * @param {string} language
+ * @returns
+ */
+exports.sendMessageReceivedEmail = (
+  email,
+  firstName,
+  senderName,
+  message,
+  messageUrl,
+  language
+) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-274cca0cb26b4c3d9d2bfd224d5aa6f0';
+      break;
+    case 'nl':
+      templateId = 'd-bddbb11eae8849d29eda3d90bad6534c';
+      break;
+    default:
+      templateId = 'd-9f8e900fee7d49bdabb79852de387609';
+      break;
+  }
+
   const msg = {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
-    templateId: 'd-9f8e900fee7d49bdabb79852de387609',
+    templateId,
     dynamic_template_data: {
       firstName,
       senderName,
@@ -122,7 +152,7 @@ exports.sendMessageReceivedEmail = (email, firstName, senderName, message, messa
 
 /**
  *
- * @param {'en' | 'fr' | 'nl'} language
+ * @param {string} language
  * @param {string} email
  * @param {string} firstName
  * @returns
