@@ -907,7 +907,7 @@
         "text": "Vérifiez votre adresse électronique pour gérer votre jardin."
       },
       "listed": {
-        "text": "Vous pouvez retirer votre jardin de la liste à tout moment. Ceci signifie qu'il restera enregistré pour plus tard, mais qu'il n'apparaîtra plus sur la carte jusqu'à ce que vous l'affichiez à nouveau.",
+        "text": "Retirer temporairement mon jardin de la carte",
         "button": "Gérer le jardin"
       }
     },
