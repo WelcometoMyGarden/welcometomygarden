@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { _, locale } from 'svelte-i18n';
   import { createEventDispatcher } from 'svelte';
   import { geocodeExtensive } from '$lib/api/mapbox';
@@ -145,6 +145,8 @@
   }
 
   .location-filter-output {
+    width: 100%;
+    position: absolute;
     background-color: var(--color-white);
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
