@@ -51,6 +51,7 @@
   let photoUrl: string | null = null;
   let biggerPhotoUrl: string | null = null;
   let infoHasLoaded = false;
+  let gardenCapacity = 1;
 
   const setAllGardenInfo = async () => {
     try {
@@ -79,6 +80,9 @@
     setAllGardenInfo().then(() => {
       infoHasLoaded = true;
     });
+    // Converting the capacity field to a number prevents XSS attacks where
+    // the capacity field could be set to some HTML.
+    gardenCapacity = Number(garden.facilities.capacity) || 1;
   }
 
   $: ownedByLoggedInUser = $user && garden && $user.id === garden.id;
@@ -212,8 +216,8 @@
           <p class="mt-m capacity">
             {@html $_('garden.drawer.facilities.capacity', {
               values: {
-                capacity: garden.facilities.capacity,
-                styleCapacity: `<strong>${garden.facilities.capacity}</strong>`
+                capacity: gardenCapacity,
+                styleCapacity: `<strong>${gardenCapacity}</strong>`
               }
             })}
           </p>
