@@ -296,6 +296,13 @@
     justify-content: space-between;
   }
 
+  .garden-title .button-container {
+    /* Override the 100% width that causes 
+       the paragraph on the left to collapse on desktop drawers. */
+    width: auto;
+    margin-left: 1rem;
+  }
+
   .button-save {
     display: flex;
     flex-direction: row;
