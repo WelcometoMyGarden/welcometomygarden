@@ -915,7 +915,7 @@
         "button": "Add your garden"
       },
       "listed": {
-        "text": "You can unlist your garden at any time. This means it will stay saved for later - but won't be shown on the map until you show it again.",
+        "text": "Unlist my garden temporarily",
         "button": "Manage garden"
       },
       "unverified": {
