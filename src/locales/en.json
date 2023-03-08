@@ -703,7 +703,7 @@
     },
     "video-section": {
       "title": "Why become a Superfan?",
-      "description": "<p>If you are truly passionate about slow travel and you want to support WTMG’s mission, then perhaps you should become a Superfan! With your financial support, we can make WTMG financially stable and keep it free for everyone to use! You choose the price that fits you best.</p><p>We’re a small team of five and have invested a lot of our personal time, energy and money in this initiative. We started off as a small citizen initiative in Belgium, but we are growing into something bigger. It’s clear that WTMG is here to stay, and we want to make sure we can survive as well as thrive. And that’s where you come in!</p>"
+      "description": "<p>If you are truly passionate about slow travel and you want to support WTMG’s mission, then perhaps you should become a Superfan! With your financial support, we can make WTMG financially stable and keep it free for everyone to use! You choose the price that fits you best.</p><p>We’re a small team of four and have invested a lot of our personal time, energy and money in this initiative. We started off as a small citizen initiative in Belgium, but we are growing into something bigger. It’s clear that WTMG is here to stay, and we want to make sure we can survive as well as thrive. And that’s where you come in!</p>"
     },
     "for-superfans-section": {
       "slug": "What's in it for you?",
@@ -712,7 +712,7 @@
     },
     "team-section": {
       "title": "Meet the team",
-      "description": "So, who’s behind WTMG? We’re a small team of five slow travel enthusiasts and we want to help others embark on their slow travel adventures too!",
+      "description": "So, who’s behind WTMG? We’re a small team of four slow travel enthusiasts and we want to help others embark on their slow travel adventures too!",
       "meet-team-button": "Meet the team"
     },
     "superfan-quotes-section": {
@@ -743,7 +743,7 @@
             },
             "1": {
               "title": "Why does WTMG need Superfans?",
-              "copy": "We started off as a small citizen initiative in Belgium, but now we’re growing into something bigger. We’re a small team of five and have invested a lot of our personal time, energy and money in the platform, but now we’re moving beyond the volunteer stage. A lot of good initiatives collapse when they grow because they lack funding, and we don’t want that to happen to our beautiful community and platform. And that’s where our Superfans come in! Thanks to your contribution, we can make sure that WTMG not only survives, but also thrives."
+              "copy": "We started off as a small citizen initiative in Belgium, but now we’re growing into something bigger. We’re a small team of four and have invested a lot of our personal time, energy and money in the platform, but now we’re moving beyond the volunteer stage. A lot of good initiatives collapse when they grow because they lack funding, and we don’t want that to happen to our beautiful community and platform. And that’s where our Superfans come in! Thanks to your contribution, we can make sure that WTMG not only survives, but also thrives."
             },
             "2": {
               "title": "Where will my money go?",
@@ -793,7 +793,7 @@
           "questions": {
             "0": {
               "title": "Who’s behind WTMG?",
-              "copy": "We’re a small team of five slow travel enthusiasts and we want to help others embark on their slow travel adventures too! You can read more about us <a href=\"/about-us\" target=\"_blank\">here</a>."
+              "copy": "We’re a small team of four slow travel enthusiasts and we want to help others embark on their slow travel adventures too! You can read more about us <a href=\"/about-us\" target=\"_blank\">here</a>."
             },
             "1": {
               "title": "What’s the legal structure behind WTMG?",
@@ -836,7 +836,7 @@
   "thank-you-donate": {
     "top-section": {
       "title": "Thank you for supporting WTMG! 💚",
-      "description": "<p>You are amazing! You are helping us to accomplish our mission: to make slow travel more accessible for everyone, encourage sustainable travel and foster precious new connections between people.</p><p>A huge thank you on behalf of the entire team!</p><p><strong>The WTMG team,</strong><br/>Dries, Manon, Thor & Janneke</p>"
+      "description": "<p>You are helping us to accomplish our mission: to make slow travel more accessible for everyone, encourage sustainable travel and foster precious new connections between people.</p><p><strong>A huge thank you on behalf of the entire team!</strong></p><p>The WTMG team,<br/>Dries, Manon, Thor & Janneke</p>"
     }
   },
   "payment-superfan": {
@@ -1314,12 +1314,12 @@
   },
   "about-us": {
     "here-we-are": "Here we are!",
-    "who-behind": "So, who’s behind WTMG? We’re a small team of five slow travel enthusiasts and we want to help others embark on their slow travel adventures too! Fun fact: all of us are both WTMG hosts and travellers.",
+    "who-behind": "So, who’s behind WTMG? We’re a small team of four slow travel enthusiasts and we want to help others embark on their slow travel adventures too! Fun fact: all of us are both WTMG hosts and travellers.",
     "co-founder": "Co-founder",
     "dev": "Developer",
     "designer": "Designer",
     "communications": "Communications",
-    "dries": "Dries is the one who came up with WTMG. He bought his first tour bike when he was only 18, and biked from Brussels to Tokyo with Manon in 2019. His love for open data and open source led him to work for Open Knowledge Belgium for a few years, which is also where he met Ward and Thor. He's leading the WTMG team and his enthusiasm is utterly contagious!",
+    "dries": "Dries is the one who came up with WTMG. He bought his first tour bike when he was only 18, and biked from Brussels to Tokyo with Manon in 2019. His love for open data and open source led him to work for Open Knowledge Belgium for a few years, which is also where he met Thor. He's leading the WTMG team and his enthusiasm is utterly contagious!",
     "manon": "Manon is a true multipotentialite and has a solution for everything. She ran a marathon twice, cycled from Brussels to Tokyo with Dries, and made a beautiful film about it: <a href=\"https://womendontcycle.com/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=about_profile\" target=\"_blank\">‘Women Don’t Cycle’</a>. She's the only one on the team who studied tourism. The fact that she's fluent in four languages and feels very comfortable in front of a camera makes her our unofficial spokesperson!",
     "thor": "Thor is the genius technologist any project needs. He participated in Open Summer of Code twice, where he met Dries in 2017. In the same year, he cycled from Leuven to Helsinki. He is now a WTMG host there! Not only is he a fantastic developer, he’s a great designer as well. He loves cooking, coding and reading long intriguing articles!",
     "ward": "Ward contributed to WTMG from the beginning!",
