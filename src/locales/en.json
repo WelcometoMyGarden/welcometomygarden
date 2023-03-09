@@ -938,6 +938,25 @@
       "garden-show": "Your garden will show up on the map again",
       "garden-no-show": "Your garden won't show up on the map",
       "preferences-update": "Your email preferences have been updated!"
+    },
+    "danger-zone": "Danger zone",
+    "delete": {
+      "button-action": "Delete your account",
+      "modal": {
+        "are-you-sure": "<p>Deleting your account deletes all your account details, such as your email address, last name, and your garden information, from our systems.</p>\n<p>The chat messages you have received or sent will still be visible to the other accounts involved in those chats, including your first name.</p><strong>This action can not be undone!</strong></p>\n<p>If you just want to hide your garden from the map, exit this popup and click on \"{unlist}\".</p>",
+        "prompt": "delete everything",
+        "errors": {
+          "wrong-verification": "Did you type \"{prompt}\" into the field above?",
+          "reauthenticate": "It was a long time ago since you logged in. To make sure that it's you, please provide your password to finalize the deletion:"
+        },
+        "delete-field-label": "Type \"{prompt}\"",
+        "title": "Are you sure?",
+        "reauthentication-info": "<span style=\"color:var(--color-danger);\">⚠️ It was a long time ago that you logged in.</span> To make sure it's you, please provide your password to confirm the deletion:",
+        "deleted": "Your account was deleted",
+        "verification-info": "<p>To make sure that you are not accidentally deleting your account, type \"{prompt}\" into the text box below:</p>",
+        "verification-ok": "✅ You can now delete your account!",
+        "reauthentication-incorrect-password": "The provided password was incorrect, try again."
+      }
     }
   },
   "auth": {
@@ -1376,5 +1395,6 @@
       },
       "donate": "Donate"
     }
-  }
+  },
+  "danger-zone": "Danger zone"
 }

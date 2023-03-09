@@ -546,6 +546,10 @@
       "garden-show": "Jouw tuin komt weer op de kaart te staan",
       "garden-no-show": "Jouw tuin komt niet op de kaart te staan.",
       "preferences-update": "Jouw e-mailvoorkeuren zijn bijgewerkt!"
+    },
+    "danger-zone": "Gevarenzone",
+    "delete": {
+      "button-action": "Verwijder je account"
     }
   },
   "auth": {
