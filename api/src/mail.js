@@ -99,23 +99,23 @@ exports.sendPasswordResetEmail = (email, name, resetLink) => {
 };
 
 /**
- *
- * @param {string} email
- * @param {string} firstName
- * @param {string} senderName
- * @param {string} message
- * @param {string} messageUrl
- * @param {string} language
+ * @typedef {Object} MessageReceivedConfig
+ * @property {string} email
+ * @property {string} firstName
+ * @property {string} senderName
+ * @property {string} message
+ * @property {string} messageUrl
+ * @property {boolean} superfan
+ * @property {string} language
+ */
+
+/**
+ * @param {MessageReceivedConfig} config
  * @returns
  */
-exports.sendMessageReceivedEmail = (
-  email,
-  firstName,
-  senderName,
-  message,
-  messageUrl,
-  language
-) => {
+exports.sendMessageReceivedEmail = (config) => {
+  const { email, firstName, senderName, message, messageUrl, superfan, language } = config;
+
   let templateId;
   switch (language) {
     case 'fr':
@@ -137,7 +137,8 @@ exports.sendMessageReceivedEmail = (
       firstName,
       senderName,
       messageUrl,
-      message
+      message,
+      superfan
     }
   };
 

@@ -1,3 +1,4 @@
+// @ts-check
 // https://stackoverflow.com/a/69959606/4973029
 // eslint-disable-next-line import/no-unresolved
 const { getAuth } = require('firebase-admin/auth');
@@ -7,6 +8,11 @@ const functions = require('firebase-functions');
 const removeDiacritics = require('./util/removeDiacritics');
 const { sendMessageReceivedEmail } = require('./mail');
 const removeEndingSlash = require('./util/removeEndingSlash');
+
+/**
+ * @typedef {import("../../src/lib/models/User").UserPrivate} UserPrivate
+ * @typedef {import("../../src/lib/models/User").UserPublic} UserPublic
+ */
 
 const auth = getAuth();
 const db = getFirestore();
@@ -36,7 +42,24 @@ exports.onMessageCreate = async (snap, context) => {
     .doc('messages')
     .set({ count: FieldValue.increment(1) }, { merge: true });
 
-  const recipientUserPrivateDocData = (await recipientUserPrivateDocRef.get()).data();
+  const recipientUserPrivateDocData = /** @type {UserPrivate} */ (
+    (await recipientUserPrivateDocRef.get()).data()
+  );
+  if (!recipientUserPrivateDocData) {
+    console.error(
+      "Could not retrieve the recipient's private document data. The recipient is likely deleted, aborting."
+    );
+    return;
+  }
+
+  const recipientUserPublicDocData = /** @type {UserPublic} */ (
+    (await db.collection('users').doc(recipientId).get()).data()
+  );
+  if (!recipientUserPublicDocData) {
+    console.error("Could not retrieve the recipient's public document data. Aborting.");
+    return;
+  }
+
   const recipientEmailPreferences = recipientUserPrivateDocData.emailPreferences;
 
   let shouldNotify = recipientEmailPreferences.newChat || true;
@@ -66,14 +89,15 @@ exports.onMessageCreate = async (snap, context) => {
     const nameParts = sender.displayName.split(/[^A-Za-z-]/);
     const messageUrl = `${baseUrl}/chat/${normalizeName(nameParts[0])}/${chatId}`;
 
-    await sendMessageReceivedEmail(
-      recipient.email,
-      recipient.displayName,
-      sender.displayName,
-      normalizeMessage(message.content),
+    await sendMessageReceivedEmail({
+      email: recipient.email,
+      firstName: recipient.displayName,
+      senderName: sender.displayName,
+      message: normalizeMessage(message.content),
       messageUrl,
-      recipientUserPrivateDocData.communicationLanguage ?? 'en'
-    );
+      superfan: recipientUserPublicDocData.superfan ?? false,
+      language: recipientUserPrivateDocData.communicationLanguage ?? 'en'
+    });
   } catch (ex) {
     console.log(ex);
   }

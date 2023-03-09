@@ -36,7 +36,7 @@ type StripeSubscription = {
 type EmailPreferences = {
   newChat?: boolean;
   news?: boolean;
-} | null;
+};
 
 /**
  * Firebase "users-private" model
