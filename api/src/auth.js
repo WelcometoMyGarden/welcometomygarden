@@ -12,6 +12,7 @@ const countries = require('./countries');
 const fail = require('./util/fail');
 const { sendAccountVerificationEmail, sendPasswordResetEmail } = require('./mail');
 const removeEndingSlash = require('./util/removeEndingSlash');
+const stripe = require('./subscriptions/stripe');
 
 /**
  * @typedef {import("../../src/lib/models/User").UserPrivate} UserPrivate
@@ -233,9 +234,13 @@ exports.cleanupUserOnDelete = async (user) => {
     console.error(`Couldn't fetch users-private data while cleaning up deleted user ${user.uid}`);
   }
 
-  if (typeof userPrivate === 'undefined' || !userPrivate.sendgridId) {
-    console.error(`No sendgridId recorded for user to be deleted: ${user.uid}`);
-  } else {
+  if (!userPrivate) {
+    console.error(`users-private data not existing for user ${user.uid}, this is unexpected`);
+  }
+
+  if (userPrivate && !userPrivate.sendgridId) {
+    console.warn(`No sendgridId recorded for user to be deleted: ${user.uid}`);
+  } else if (userPrivate && userPrivate.sendgridId) {
     try {
       await sendgridClient.request({
         url: `/v3/marketing/contacts`,
@@ -252,11 +257,23 @@ exports.cleanupUserOnDelete = async (user) => {
     }
   }
 
+  if (userPrivate && !userPrivate.stripeCustomerId) {
+    console.warn(`No stripe customer ID recorded for the user to be deleted: ${user.uid}`);
+  } else if (userPrivate && userPrivate.stripeCustomerId) {
+    try {
+      await stripe.customers.del(userPrivate.stripeCustomerId);
+    } catch (e) {
+      console.error(
+        `Something went wrong while deleting the Stripe customer ${userPrivate.stripeCustomerId} of Firebase user ${user.uid}`
+      );
+    }
+  }
+
   const batch = db.batch();
 
-  // TODO: why doesn't this delete from the "users" collection?
-  // Is their first name still used in chats or something that are not deleted?
-  // What happens with the garden link in this case?
+  // We are NOT cleaning up the user's 'users' document, because its first name is still
+  // visible in their partners chats
+  // https://github.com/WelcometoMyGarden/welcometomygarden/blob/b7e361d5ede37c3b7a0b27a40ec2f3c018b2fd3a/src/lib/api/chat.ts#L36
   // To be tested.
   batch.delete(db.doc(`campsites/${userId}`));
   batch.delete(db.doc(`users-private/${userId}`));
@@ -363,8 +380,8 @@ const createSendgridContact = async (
       method: 'GET'
     });
 
-    // It more than a minute before 'pending' becomes 'completed' or something else
-    // but intermediary results should be enough for us to know the actual status
+    // It may take more than a minute before 'pending' becomes 'completed' or something else
+    // but intermediary results seem to be enough for us to know the actual status
     // They come more quickly
     if (errored_count === 1) {
       status = 'failed';
@@ -408,9 +425,19 @@ const createSendgridContact = async (
   // Add the sendgrid contact ID to firebase
   const { id: contactId } = result[firebaseUser.email].contact;
 
-  await db.doc(`users-private/${firebaseUser.uid}`).update({
-    sendgridId: contactId
-  });
+  try {
+    await db.doc(`users-private/${firebaseUser.uid}`).update({
+      sendgridId: contactId
+    });
+  } catch (e) {
+    // NOTE: If the account is deleted < 30 secs after creation, this will
+    // lead to an uncaught error (can't update non-existing doc).
+    // We're not properly handling this yet, the SendGrid contact might linger due to this race condition.
+    console.error(
+      "Couldn't update a users-private doc with an initial sendgridId set. Was the account deleted before sendgrid added the contact?",
+      e
+    );
+  }
 };
 
 /*
@@ -423,9 +450,10 @@ const createSendgridContact = async (
 /**
  * @typedef {import("@google-cloud/firestore").DocumentSnapshot<UserPrivate>} UserPrivateDocumentSnapshot
  * @param {import("firebase-functions").Change<UserPrivateDocumentSnapshot>} change
+ * @param {import("firebase-functions").EventContext} context
  * @returns {Promise<any>}
  */
-exports.onUserPrivateWrite = async (change) => {
+exports.onUserPrivateWrite = async (change, context) => {
   if (!SG_KEY) {
     console.log('onUserPrivateWrite: No SG marketing key');
     return;
@@ -461,10 +489,14 @@ exports.onUserPrivateWrite = async (change) => {
 
   const isCreationWrite = !before.exists && after.exists;
 
+  const isDeletionWrite = before.exists && !after.exists;
+  console.log(after.exists);
+  console.log('isDeletionWrite', isDeletionWrite);
+
   // We are only interested in:
   // - creation events (!before.exists)
   // - update event (before.exists)
-  // In both cases, after.exists should hold.
+  // In both cases, after.exists should be true
   if (!after.exists) {
     return;
   }

@@ -15,14 +15,20 @@ const db = getFirestore();
 module.exports = async (customerId) => {
   const stripeCustomer = await stripe.customers.retrieve(customerId);
 
+  if (stripeCustomer.deleted) {
+    // If the customer is deleted
+    console.warn(`The requested customer ${customerId} is deleted`);
+    return null;
+  }
+
   // Attempt 1: fetch from the Stripe metadata
-  if (stripeCustomer.metadata.wtmg_id) {
+  if (stripeCustomer.metadata && stripeCustomer.metadata.wtmg_id) {
     return stripeCustomer.metadata.wtmg_id;
   }
 
   // Attempt 2: query firebase
   console.warn(
-    `Trying to find ${customerId} in Firbase. This shouldn't occur, since ` +
+    `Trying to find ${customerId} in Firebase. This shouldn't occur, since ` +
       `the wtmg_id should have been saved in the Stripe customer metadata.`
   );
   const snapshot = await db
