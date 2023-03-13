@@ -450,7 +450,7 @@ const createSendgridContact = async (
 /**
  * @typedef {import("@google-cloud/firestore").DocumentSnapshot<UserPrivate>} UserPrivateDocumentSnapshot
  * @param {import("firebase-functions").Change<UserPrivateDocumentSnapshot>} change
- * @param {import("firebase-functions").EventContext} context
+ * @param {import("firebase-functions").EventContext<{ userId: string; }>} context
  * @returns {Promise<any>}
  */
 exports.onUserPrivateWrite = async (change, context) => {
@@ -489,9 +489,7 @@ exports.onUserPrivateWrite = async (change, context) => {
 
   const isCreationWrite = !before.exists && after.exists;
 
-  const isDeletionWrite = before.exists && !after.exists;
-  console.log(after.exists);
-  console.log('isDeletionWrite', isDeletionWrite);
+  // Note: context.auth?.uid is undefined on deletion
 
   // We are only interested in:
   // - creation events (!before.exists)
@@ -520,8 +518,7 @@ exports.onUserPrivateWrite = async (change, context) => {
   }
 
   // Create or update a SendGrid contact for this user
-  // TODO: it's maybe better to user context.userId for this (not dependent on the existence of the after doc)
-  const authUser = await auth.getUser(after.id);
+  const authUser = await auth.getUser(context.params.userId);
   const { lastName, communicationLanguage, sendgridId } = userPrivateAfter;
   const sendgridContactUpdateFields = {
     email: authUser.email,
