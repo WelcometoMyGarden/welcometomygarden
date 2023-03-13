@@ -8,12 +8,15 @@
   import { user } from '$lib/stores/auth';
   import { updatingMailPreferences } from '$lib/stores/user';
   import { Avatar, Icon, Button, LabeledCheckbox } from '$lib/components/UI';
+  import AccountDeletionModal from './AccountDeletionModal.svelte';
   import { flagIcon, emailIcon } from '$lib/images/icons';
   import { countries } from '$lib/util';
   import routes from '$lib/routes';
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { createCustomerPortalSession } from '$lib/api/functions';
   import ReloadSuggestion from '$lib/components/ReloadSuggestion.svelte';
+
+  let showAccountDeletionModal = false;
 
   if (!$user) {
     goto(routes.SIGN_IN);
@@ -186,9 +189,17 @@
           {/if}
         </section>
       {/if}
+      <section>
+        <h2>{$_('account.danger-zone')}</h2>
+        <Button xxsmall danger on:click={() => (showAccountDeletionModal = true)}
+          >{$_('account.delete.button-action')}</Button
+        >
+      </section>
     </div>
   </div>
 {/if}
+
+<AccountDeletionModal bind:showAccountDeletionModal />
 
 <style>
   .wrapper {

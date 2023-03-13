@@ -13,7 +13,7 @@ const {
   setAdminRole,
   verifyEmail,
   updateEmail,
-  onUserPrivateWrite: onUserPrivateUpdate,
+  onUserPrivateWrite,
   onUserWrite: onUserUpdate
 } = require('./auth');
 const { doBackup } = require('./storage');
@@ -63,7 +63,7 @@ exports.cleanupUserOnDelete = usCentral1.auth.user().onDelete(cleanupUserOnDelet
 // Firestore triggers: users
 exports.onUserPrivateWrite = euWest1.firestore
   .document('users-private/{userId}')
-  .onWrite(onUserPrivateUpdate);
+  .onWrite(onUserPrivateWrite);
 exports.onUserWrite = euWest1.firestore.document('users/{userId}').onWrite(onUserUpdate);
 
 // Firestore triggers: campsites

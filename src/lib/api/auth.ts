@@ -6,7 +6,8 @@ import {
   signInWithEmailAndPassword,
   verifyPasswordResetCode as firebaseVerifyPasswordResetCode,
   type Unsubscribe,
-  confirmPasswordReset as firebaseConfirmPasswordReset
+  confirmPasswordReset as firebaseConfirmPasswordReset,
+  deleteUser
 } from 'firebase/auth';
 import { auth, db } from './firebase';
 import {
@@ -395,4 +396,17 @@ export const verifyPasswordResetCode = (code: string) => {
 
 export const confirmPasswordReset = (code: string, password: string) => {
   return firebaseConfirmPasswordReset(auth(), code, password);
+};
+
+/**
+ * Might throw if the login is not recent enough, in that case, reauthenticate
+ * https://firebase.google.com/docs/auth/web/manage-users#re-authenticate_a_user
+ */
+export const deleteAccount = async () => {
+  const user = auth().currentUser;
+  if (user) {
+    await deleteUser(user);
+  } else {
+    throw new Error('unauthenticated');
+  }
 };

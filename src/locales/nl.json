@@ -546,6 +546,24 @@
       "garden-show": "Jouw tuin komt weer op de kaart te staan",
       "garden-no-show": "Jouw tuin komt niet op de kaart te staan.",
       "preferences-update": "Jouw e-mailvoorkeuren zijn bijgewerkt!"
+    },
+    "danger-zone": "Gevarenzone",
+    "delete": {
+      "button-action": "Verwijder je account",
+      "modal": {
+        "are-you-sure": "<p>Dit proces verwijdert al je accountgegevens van onze systemen, zoals je e-mailadres, achternaam en tuininformatie</p>\n<p>De chatberichten die je verzonden of ontvangen hebt zullen nog steeds zichtbaar zijn voor de tegenpartijen in die chats, alsook je voornaam.</p><strong>Deze actie kan niet ongedaan gemaakt worden!</strong></p>\n<p>Als je enkel je tuin wilt verbergen voor reizigers, verlaat dan deze popup en klik op \"{unlist}\".</p>",
+        "prompt": "Verwijder alles",
+        "errors": {
+          "wrong-verification": "Did you type \"{prompt}\" into the field above?"
+        },
+        "delete-field-label": "Typ \"{prompt}\"",
+        "title": "Ben je zeker?",
+        "reauthentication-info": "<span style=\"color:var(--color-danger);\">⚠️ Het is te lang geleden dat je hebt ingelogd.</span> Om zeker te zijn dat jij het bent, gelieve je paswoord in te geven om het verwijderen van je account te bevestigen:",
+        "deleted": "Je account is verwijderd",
+        "verification-info": "<p>Om zeker te zijn dat je niet perongeluk je account verwijdert, typ \"{prompt}\" in het tekstveld hieronder:</p>",
+        "verification-ok": "✅ Je kan nu je account verwijderen!",
+        "reauthentication-incorrect-password": "Je paswoord was niet correct, probeer opnieuw."
+      }
     }
   },
   "auth": {
