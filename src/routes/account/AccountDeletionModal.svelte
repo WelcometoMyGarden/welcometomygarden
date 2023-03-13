@@ -16,7 +16,7 @@
 
   let formError: null | string = null;
   let shouldReauthenticate = false;
-  $: verificationPrompt = $_('account.delete.modal.prompt');
+  $: verificationPrompt = $_('account.delete.modal.prompt').toLowerCase();
 
   let verificationField = '';
   $: processedVerificationField = verificationField.toLowerCase().trim();
@@ -150,7 +150,7 @@
       danger
       uppercase
       small
-      on:click={onConfirmDeletion}>Delete account</Button
+      on:click={onConfirmDeletion}>{$_('account.delete.button-action')}</Button
     >
   </div>
 </Modal>
