@@ -6,7 +6,12 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# Config
 package-lock.json
+.env*
+!.env.example
+wtmg.config.json
+vite.config.ts.timestamp*
 
 # Tests
 /coverage
@@ -30,17 +35,19 @@ firestore-coverage.html
 !.vscode/extensions.json
 
 .DS_Store
-node_modules
+
+
+
+# Build & cache files
 
 dist
 .routify
-
-.env*
-!.env.example
-wtmg.config.json
+node_modules
 
 /build
 /.svelte-kit
 /package
 
-vite.config.ts.timestamp*
+# Cache
+
+.yarn
