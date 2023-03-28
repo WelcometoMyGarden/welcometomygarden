@@ -14,6 +14,7 @@
   import TransportTools from '$lib/components/LayersAndTools/TransportTools.svelte';
   import SuperfanNoticeModal from './notices/SuperfanNoticeModal.svelte';
   import SuperfanNoticeBox from './notices/SuperfanNoticeBox.svelte';
+  import trackEvent from '$lib/util/track-event';
 
   export let showHiking = false;
   export let showCycling = false;
@@ -42,6 +43,9 @@
 
   const toggleFileTrailModal = (e: Event) => {
     showFileTrailModal = !showFileTrailModal;
+    if (showFileTrailModal) {
+      trackEvent('Start Route Upload Flow');
+    }
   };
 
   const toggleSuperfanInfo = () => {
