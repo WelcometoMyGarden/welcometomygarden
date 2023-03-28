@@ -64,5 +64,6 @@
     "vite": "^4.0.4",
     "vitest": "^0.28.2"
   },
-  "type": "module"
+  "type": "module",
+  "packageManager": "yarn@3.5.0"
 }
