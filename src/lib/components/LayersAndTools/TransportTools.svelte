@@ -9,10 +9,15 @@
   } from '$lib/stores/trainconnections';
   import type { TrainconnectionsDataLayer } from '$lib/types/DataLayer';
   import { onDestroy } from 'svelte';
+  import trackEvent from '$lib/util/track-event';
 
   export let showTransport: boolean;
   export let showRails: boolean;
   export let showStations: boolean;
+
+  $: if (showTransport) {
+    trackEvent('Show Train Network');
+  }
 
   let localTrainconnectionsDataLayers: TrainconnectionsDataLayer[];
   const trainconnectionsDataLayersUnsubscribe = trainconnectionsDataLayers.subscribe((value) => {

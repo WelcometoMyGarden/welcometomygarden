@@ -12,6 +12,7 @@
   import { cleanName } from '$lib/util/slugify';
   import { humanFileSize } from '$lib/util/humanFileSize';
   import notification from '$lib/stores/notification';
+  import trackEvent from '$lib/util/track-event';
 
   export let show = false;
   let files: File[] = [];
@@ -69,6 +70,7 @@
     if (phase === 'SELECTING') {
       if (files && files.length > 0) {
         const b = await handleFiles(files);
+        trackEvent('Upload Route');
         if (!b) return reset();
         phase = 'DONE';
       }
