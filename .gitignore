@@ -44,3 +44,13 @@ wtmg.config.json
 /package
 
 vite.config.ts.timestamp*
+
+# yarn
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
