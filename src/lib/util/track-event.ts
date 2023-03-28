@@ -16,7 +16,9 @@ export default (
     debouncedLoggers[eventName] = debounce(
       (innerEventName: Parameters<Plausible>[0], innerCustomProperties?: CustomProps) => {
         const { superfan } = getUser();
-        window.plausible(innerEventName, { superfan: superfan || false, ...innerCustomProperties });
+        window.plausible(innerEventName, {
+          props: { superfan: superfan || false, ...innerCustomProperties }
+        });
       },
       5 * 1000,
       {

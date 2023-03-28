@@ -23,7 +23,16 @@ type PlausibleVisibilityProperties = PlausibleCommonCustomProperties & {
 
 type PlausibleCustomProperties = PlausibleCommonCustomProperties | PlausibleVisibilityProperties;
 
-type Plausible = (eventName: PlausibleEvent, customProperties: PlausibleCustomProperties) => void;
+type Plausible = (
+  eventName: PlausibleEvent,
+  options?: {
+    props?: PlausibleCustomProperties;
+    /**
+     * A function that is called once the event is logged successfully
+     */
+    callback?: () => void;
+  }
+) => void;
 declare interface Window {
   /**
    * Log a Plausible event with optional custom properties.
