@@ -5,7 +5,6 @@
   import { clickOutside } from '$lib/directives';
   import { TextInput } from '$lib/components/UI';
   import { markerIcon } from '$lib/images/icons';
-  import trackEvent from '$lib/util/track-event';
 
   export let isSearching;
   export let fallbackLocation;
@@ -120,10 +119,7 @@
     {#each places as place, i}
       <button
         class="button-container"
-        on:click={() => {
-          goToPlace(place.longitude, place.latitude);
-          trackEvent('Visit Searched Location');
-        }}
+        on:click={goToPlace(place.longitude, place.latitude)}
         tabindex="0"
       >
         {displayPlaceName(place.place_name)}

@@ -2,24 +2,11 @@
   import { _ } from 'svelte-i18n';
   import { LabeledRadioButton } from '$lib/components/UI';
   import { bookmarkEmptyIcon, hideIcon, tentIcon } from '$lib/images/icons';
-  import trackEvent from '$lib/util/track-event';
   export let showGardens: boolean;
   export let showSavedGardens: boolean;
-  type VisibilityStates = 'ALL' | 'SAVED' | 'HIDE';
-  let gardensGroup: VisibilityStates = 'ALL';
-  let previousGardensGroup: VisibilityStates = gardensGroup;
+  let gardensGroup: 'ALL' | 'SAVED' | 'HIDE' = 'ALL';
 
   $: {
-    if (previousGardensGroup !== gardensGroup) {
-      // Remember the last event that was clicked
-      trackEvent(
-        'Set Garden Visibility',
-        {
-          type: ({ ALL: 'show_all', SAVED: 'show_saved', HIDE: 'hide_all' } as const)[gardensGroup]
-        },
-        true
-      );
-    }
     switch (gardensGroup) {
       case 'ALL':
         showGardens = true;
@@ -36,7 +23,6 @@
       default:
         break;
     }
-    previousGardensGroup = gardensGroup;
   }
 </script>
 

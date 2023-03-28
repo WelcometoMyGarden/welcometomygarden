@@ -12,7 +12,6 @@
     waterIcon,
     tentIcon
   } from '$lib/images/icons';
-  import trackEvent from '$lib/util/track-event';
 
   export let filteredGardens;
   export let fallbackLocation;
@@ -88,7 +87,6 @@
         small
         on:click={() => {
           showFilterModal = true;
-          trackEvent('Show Garden Filter');
         }}
       >
         {@html filterIcon}

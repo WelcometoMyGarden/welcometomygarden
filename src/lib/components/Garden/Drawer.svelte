@@ -23,7 +23,6 @@
   import routes from '$lib/routes';
   import type { Garden } from '$lib/types/Garden';
   import Icon from '$lib/components/UI/Icon.svelte';
-  import trackEvent from '$lib/util/track-event';
 
   const dispatch = createEventDispatcher();
 
@@ -136,13 +135,8 @@
     if (!garden?.id) return;
 
     try {
-      if (isSaved) {
-        await removeSavedGarden(garden.id);
-        trackEvent('Unsave Garden');
-      } else {
-        await addSavedGarden(garden.id);
-        trackEvent('Save Garden');
-      }
+      if (isSaved) await removeSavedGarden(garden.id);
+      else await addSavedGarden(garden.id);
     } catch (err) {
       console.log(err);
     }

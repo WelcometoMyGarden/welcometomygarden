@@ -75,8 +75,6 @@ You should now be able to:
 - access your local WTMG app at [http://127.0.0.1:5173/](http://127.0.0.1:5173/)
 - access the [Firebase emulator](https://firebase.google.com/docs/emulator-suite) dashboard UI should be [http://127.0.0.1:4001/](http://127.0.0.1:4001/)
 
-If this doesn't work, check your web console logs if your ad blocker is enabled and blocking certain code modules from loading in the development watcher of Vite. Disable the ad blocker on your localhost:5173, or add exception rules.
-
 In the app, you can now try:
 
 1. Creating an account

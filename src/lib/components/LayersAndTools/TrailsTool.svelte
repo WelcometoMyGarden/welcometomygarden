@@ -10,20 +10,9 @@
   } from '$lib/stores/file';
   import { cleanName } from '$lib/util/slugify';
   import { onDestroy } from 'svelte';
-  import trackEvent from '$lib/util/track-event';
 
   export let showHiking: boolean;
   export let showCycling: boolean;
-
-  // TODO: this works for now, because the default state when loading the
-  // page is that the checkboxes are unchecked. We may want to intercept actual
-  // clicks/actions on the button.
-  $: if (showHiking) {
-    trackEvent('Show Hiking Routes');
-  }
-  $: if (showCycling) {
-    trackEvent('Show Cycling Routes');
-  }
 
   let localFileDataLayers = $fileDataLayers;
   const fileDataLayersUnsubscribe = fileDataLayers.subscribe((value) => {
