@@ -9,6 +9,8 @@
   import Form from '$lib/components/Garden/Form.svelte';
   import routes from '$lib/routes';
   import type { Garden } from '$lib/types/Garden';
+  import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   if ($user && $user.garden) goto(routes.MANAGE_GARDEN);
 
@@ -24,6 +26,7 @@
       });
       await addGardenLocally(newGarden);
       addingGarden = false;
+      trackEvent(PlausibleEvent.ADD_GARDEN);
       let notifyMsg;
       newGarden.photo
         ? (notifyMsg = $_('garden.notify.success') + ' ' + $_('garden.notify.photo'))

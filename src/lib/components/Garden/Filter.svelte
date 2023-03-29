@@ -13,6 +13,7 @@
     tentIcon
   } from '$lib/images/icons';
   import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   export let filteredGardens;
   export let fallbackLocation;
@@ -88,7 +89,7 @@
         small
         on:click={() => {
           showFilterModal = true;
-          trackEvent('Show Garden Filter');
+          trackEvent(PlausibleEvent.SHOW_GARDEN_FILTER);
         }}
       >
         {@html filterIcon}

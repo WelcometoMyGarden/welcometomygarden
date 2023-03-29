@@ -9,6 +9,8 @@
   import Form from '$lib/components/Garden/Form.svelte';
   import routes from '$lib/routes';
   import { checkAndHandleUnverified } from '$lib/api/auth';
+  import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   if (!$user) {
     notify.info($_('auth.unsigned'), 8000);
@@ -37,6 +39,7 @@
         ? (notifyMsg = $_('garden.notify.update') + ' ' + $_('garden.notify.photo'))
         : (notifyMsg = $_('garden.notify.update'));
       notify.success(notifyMsg, 10000);
+      trackEvent(PlausibleEvent.UPDATE_GARDEN);
       goto(`${routes.MAP}/garden/${$user.id}`);
     } catch (ex) {
       console.log(ex);

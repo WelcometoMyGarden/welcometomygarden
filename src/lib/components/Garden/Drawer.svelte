@@ -24,6 +24,7 @@
   import type { Garden } from '$lib/types/Garden';
   import Icon from '$lib/components/UI/Icon.svelte';
   import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   const dispatch = createEventDispatcher();
 
@@ -138,10 +139,10 @@
     try {
       if (isSaved) {
         await removeSavedGarden(garden.id);
-        trackEvent('Unsave Garden');
+        trackEvent(PlausibleEvent.UNSAVE_GARDEN);
       } else {
         await addSavedGarden(garden.id);
-        trackEvent('Save Garden');
+        trackEvent(PlausibleEvent.SAVE_GARDEN);
       }
     } catch (err) {
       console.log(err);

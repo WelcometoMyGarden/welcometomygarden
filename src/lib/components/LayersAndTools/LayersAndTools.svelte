@@ -15,6 +15,7 @@
   import SuperfanNoticeModal from './notices/SuperfanNoticeModal.svelte';
   import SuperfanNoticeBox from './notices/SuperfanNoticeBox.svelte';
   import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   export let showHiking = false;
   export let showCycling = false;
@@ -44,7 +45,7 @@
   const toggleFileTrailModal = (e: Event) => {
     showFileTrailModal = !showFileTrailModal;
     if (showFileTrailModal) {
-      trackEvent('Start Route Upload Flow');
+      trackEvent(PlausibleEvent.START_ROUTE_UPLOAD_FLOW);
     }
   };
 

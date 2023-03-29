@@ -14,6 +14,8 @@
   import routes from '$lib/routes';
   import { formatDate } from '$lib/util';
   import chevronRight from '$lib/images/icons/chevron-right.svg';
+  import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   let chatId = $page.params.chatId;
   // Subscribe to page is necessary to get the chat page of the selected chat (when the url changes) for desktop
@@ -99,6 +101,7 @@
           $page.url.searchParams.get('id'),
           normalizeWhiteSpace(typedMessage)
         );
+        trackEvent(PlausibleEvent.SEND_REQUEST);
         typedMessage = '';
         goto(`${routes.CHAT}/${$page.params.name}/${newChatId}`);
       } catch (ex) {
@@ -108,6 +111,9 @@
     } else {
       try {
         await sendMessage($user.id, chat.id, normalizeWhiteSpace(typedMessage));
+        // The first uid in the users array is the requester/traveller
+        const role = chat.users[0] === $user.id ? 'traveller' : 'host';
+        trackEvent(PlausibleEvent.SEND_RESPONSE, { role });
         typedMessage = '';
       } catch (ex) {
         // TODO: show error

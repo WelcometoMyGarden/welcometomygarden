@@ -28,6 +28,8 @@ import { page } from '$app/stores';
 import { isActiveContains } from '../util/isActive';
 import type { Garden } from '../types/Garden';
 import type { User as FirebaseUser } from 'firebase/auth';
+import trackEvent from '$lib/util/track-event';
+import { PlausibleEvent } from '$lib/types/Plausible';
 
 // These are not Svelte stores, because we do not wish to listen to updates on them.
 // They are abstracted away by the User store, and trigger updates on that store.
@@ -332,7 +334,8 @@ export const createCampsiteObserver = (currentUserId: string) => {
 
 export const login = async (email: string, password: string): Promise<void> => {
   await signInWithEmailAndPassword(auth(), email, password);
-  return resolveOnUserLoaded();
+  trackEvent(PlausibleEvent.SIGN_IN);
+  return await resolveOnUserLoaded();
 };
 
 export const register = async ({
@@ -367,6 +370,7 @@ export const register = async ({
     countryCode,
     communicationLanguage: get(locale) ?? 'en'
   });
+  trackEvent(PlausibleEvent.CREATE_ACCOUNT);
   await resolveOnUserLoaded();
 
   isRegistering.set(false);

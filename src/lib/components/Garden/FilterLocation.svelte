@@ -6,6 +6,7 @@
   import { TextInput } from '$lib/components/UI';
   import { markerIcon } from '$lib/images/icons';
   import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   export let isSearching;
   export let fallbackLocation;
@@ -122,7 +123,7 @@
         class="button-container"
         on:click={() => {
           goToPlace(place.longitude, place.latitude);
-          trackEvent('Visit Searched Location');
+          trackEvent(PlausibleEvent.VISIT_SEARCHED_LOCATION);
         }}
         tabindex="0"
       >

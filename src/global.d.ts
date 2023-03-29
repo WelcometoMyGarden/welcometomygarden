@@ -1,32 +1,7 @@
-type PlausibleCommonEvent =
-  | 'Show Hiking Routes'
-  | 'Show Cycling Routes'
-  | 'Show Garden Filter'
-  | 'Visit Searched Location';
-type PlausibleSuperfanEvent =
-  | 'Set Garden Visibility'
-  | 'Start Route Upload Flow'
-  | 'Upload Route'
-  | 'Save Garden'
-  | 'Unsave Garden'
-  | 'Show Train Network';
-
-type PlausibleEvent = PlausibleSuperfanEvent | PlausibleCommonEvent;
-
-type PlausibleCommonCustomProperties = {
-  superfan: boolean;
-};
-
-type PlausibleVisibilityProperties = PlausibleCommonCustomProperties & {
-  type: 'show_all' | 'show_saved' | 'hide_all';
-};
-
-type PlausibleCustomProperties = PlausibleCommonCustomProperties | PlausibleVisibilityProperties;
-
 type Plausible = (
-  eventName: PlausibleEvent,
+  eventName: string,
   options?: {
-    props?: PlausibleCustomProperties;
+    props?: import('./lib/types/Plausible').PlausibleCustomProperties;
     /**
      * A function that is called once the event is logged successfully
      */

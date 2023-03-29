@@ -13,6 +13,7 @@
   import { humanFileSize } from '$lib/util/humanFileSize';
   import notification from '$lib/stores/notification';
   import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   export let show = false;
   let files: File[] = [];
@@ -70,7 +71,7 @@
     if (phase === 'SELECTING') {
       if (files && files.length > 0) {
         const b = await handleFiles(files);
-        trackEvent('Upload Route');
+        trackEvent(PlausibleEvent.UPLOAD_ROUTE);
         if (!b) return reset();
         phase = 'DONE';
       }
