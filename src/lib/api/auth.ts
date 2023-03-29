@@ -381,6 +381,7 @@ export const logout = async () => {
   if (auth().currentUser) {
     throw new Error('Log out failed');
   }
+  trackEvent(PlausibleEvent.SIGN_OUT);
   // onIdTokenChanged will set the user to null
 };
 

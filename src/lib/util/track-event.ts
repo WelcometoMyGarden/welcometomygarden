@@ -1,15 +1,26 @@
 import { getUser } from '$lib/stores/auth';
-import type {
+import {
   PlausibleEvent,
-  PlausibleCustomProperties,
-  PlausibleGardenVisibilityProperties,
-  PlausibleResponseRoleProperties
+  type PlausibleCustomProperties,
+  type PlausibleGardenVisibilityProperties,
+  type PlausibleResponseRoleProperties,
+  type PlausibleSubscriptionProperties
 } from '$lib/types/Plausible';
 import { debounce } from 'lodash-es';
 
 type Callable = (eventName: PlausibleEvent, customProperties?: PlausibleCustomProperties) => void;
 
 const debouncedLoggers: { [key in PlausibleEvent]?: Callable } = {};
+
+const logToPlausible = (
+  eventName: PlausibleEvent,
+  customProperties?: PlausibleCustomProperties
+) => {
+  const { superfan } = getUser();
+  window.plausible(eventName, {
+    props: { superfan: superfan || false, ...customProperties }
+  });
+};
 
 function trackEvent(
   name: PlausibleEvent.SET_GARDEN_VISIBILITY,
@@ -22,9 +33,17 @@ function trackEvent(
   trailing?: boolean
 ): void;
 function trackEvent(
+  name: PlausibleEvent.EMAIL_RESUBSCRIBE | PlausibleEvent.EMAIL_UNSUBSCRIBE,
+  props: PlausibleSubscriptionProperties & PlausibleCustomProperties
+): void;
+function trackEvent(
+  // Exclude all events that were handled above
   name: Exclude<
     PlausibleEvent,
-    PlausibleEvent.SET_GARDEN_VISIBILITY | PlausibleEvent.SEND_RESPONSE
+    | PlausibleEvent.SET_GARDEN_VISIBILITY
+    | PlausibleEvent.SEND_RESPONSE
+    | PlausibleEvent.EMAIL_RESUBSCRIBE
+    | PlausibleEvent.EMAIL_UNSUBSCRIBE
   >,
   props?: PlausibleCustomProperties,
   trailing?: boolean
@@ -34,26 +53,26 @@ function trackEvent(
   customProperties: PlausibleCustomProperties = {},
   trailing = false
 ) {
-  if (!debouncedLoggers[eventName]) {
-    debouncedLoggers[eventName] = debounce(
-      (innerEventName: PlausibleEvent, innerCustomProperties?: PlausibleCustomProperties) => {
-        const { superfan } = getUser();
-        window.plausible(innerEventName, {
-          props: { superfan: superfan || false, ...innerCustomProperties }
-        });
-      },
-      5 * 1000,
-      {
+  if (
+    eventName === PlausibleEvent.EMAIL_UNSUBSCRIBE ||
+    eventName === PlausibleEvent.EMAIL_RESUBSCRIBE
+  ) {
+    // Don't debounce these events, because we want to know if two different list subscriptions were
+    // changed in quick succession
+    return logToPlausible(eventName, customProperties);
+  } else {
+    // Debounce all other events
+    if (!debouncedLoggers[eventName]) {
+      debouncedLoggers[eventName] = debounce(logToPlausible, 5 * 1000, {
         // By default, immediately send the event, and ignore following events
         leading: !trailing,
         trailing
-      }
-    );
+      });
+    }
+    // We can be certain that the debounced logger exists due to section above.
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return debouncedLoggers[eventName]!(eventName, customProperties);
   }
-
-  // The line above sets the events
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  return debouncedLoggers[eventName]!(eventName, customProperties);
 }
 
 export default trackEvent;

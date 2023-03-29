@@ -15,6 +15,8 @@
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { createCustomerPortalSession } from '$lib/api/functions';
   import ReloadSuggestion from '$lib/components/ReloadSuggestion.svelte';
+  import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   let showAccountDeletionModal = false;
 
@@ -70,6 +72,7 @@
   let loadingPortal = false;
   const openCustomerPortalSession = async () => {
     loadingPortal = true;
+    trackEvent(PlausibleEvent.VISIT_MANAGE_SUBSCRIPTION);
     try {
       const { data } = await createCustomerPortalSession();
       const { url } = data;

@@ -4,6 +4,8 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from './firebase';
 
 import { getUser } from '$lib/stores/auth';
+import trackEvent from '$lib/util/track-event';
+import { PlausibleEvent } from '$lib/types/Plausible';
 
 export const doesPublicUserExist = async (uid: string) => {
   const userDoc = await getDoc(doc(db(), USERS, uid));
@@ -27,6 +29,9 @@ export const updateMailPreferences = async (
 ) => {
   const docRef = doc(db(), USERS_PRIVATE, getUser().id);
   await updateDoc(docRef, { [`emailPreferences.${preferenceName}`]: preference });
+  trackEvent(preference ? PlausibleEvent.EMAIL_RESUBSCRIBE : PlausibleEvent.EMAIL_UNSUBSCRIBE, {
+    list: ({ newChat: 'new_chat', news: 'newsletter' } as const)[preferenceName]
+  });
 };
 
 const updateSavedGardens = async (gardenId: string, action: 'REMOVE' | 'ADD') => {

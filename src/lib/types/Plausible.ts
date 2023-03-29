@@ -1,6 +1,8 @@
 export enum PlausibleEvent {
   CREATE_ACCOUNT = 'Create Account',
+  DELETE_ACCOUNT = 'Delete Account',
   SIGN_IN = 'Sign In',
+  SIGN_OUT = 'Sign Out',
   ADD_GARDEN = 'Add Garden',
   UPDATE_GARDEN = 'Update Garden',
   SEND_REQUEST = 'Send Request',
@@ -14,7 +16,10 @@ export enum PlausibleEvent {
   UPLOAD_ROUTE = 'Upload Route',
   SAVE_GARDEN = 'Save Garden',
   UNSAVE_GARDEN = 'Unsave Garden',
-  SHOW_TRAIN_NETWORK = 'Show Train Network'
+  SHOW_TRAIN_NETWORK = 'Show Train Network',
+  EMAIL_UNSUBSCRIBE = 'Email Unsubscribe',
+  EMAIL_RESUBSCRIBE = 'Email Resubscribe',
+  VISIT_MANAGE_SUBSCRIPTION = 'Visit Manage Subscription'
 }
 
 export type PlausibleCustomProperties = {
@@ -27,4 +32,8 @@ export type PlausibleGardenVisibilityProperties = {
 
 export type PlausibleResponseRoleProperties = {
   role: 'host' | 'traveller';
+};
+
+export type PlausibleSubscriptionProperties = {
+  list: 'newsletter' | 'new_chat';
 };

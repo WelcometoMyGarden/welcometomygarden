@@ -1,17 +1,15 @@
 <script lang="ts">
-  import { Button, Modal, TextInput, Text } from '$lib/components/UI';
+  import { Button, Modal, TextInput } from '$lib/components/UI';
   import { _ } from 'svelte-i18n';
   import notify from '$lib/stores/notification';
-  import {
-    EmailAuthCredential,
-    EmailAuthProvider,
-    reauthenticateWithCredential
-  } from 'firebase/auth';
+  import { EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
   import { deleteAccount } from '$lib/api/auth';
   import { fade } from 'svelte/transition';
   import { getUser } from '$lib/stores/auth';
   import { auth } from '$lib/api/firebase';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
+  import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
   export let showAccountDeletionModal = false;
 
   let formError: null | string = null;
@@ -24,6 +22,7 @@
 
   const executeDeletion = async () => {
     await deleteAccount();
+    trackEvent(PlausibleEvent.DELETE_ACCOUNT);
     notify.success($_('account.delete.modal.deleted'));
   };
 
