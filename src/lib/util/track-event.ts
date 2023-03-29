@@ -1,5 +1,7 @@
 import { getUser } from '$lib/stores/auth';
 import {
+  isNonsuperfanOnlyEvent,
+  isSuperfanOnlyEvent,
   PlausibleEvent,
   type PlausibleCustomProperties,
   type PlausibleGardenVisibilityProperties,
@@ -16,10 +18,16 @@ const logToPlausible = (
   eventName: PlausibleEvent,
   customProperties?: PlausibleCustomProperties
 ) => {
-  const { superfan } = getUser();
-  window.plausible(eventName, {
-    props: { superfan: superfan || false, ...customProperties }
-  });
+  // Don't log the superfan custom property if it can be derived from the event.
+  const superfanProperty: { superfan?: boolean } =
+    isSuperfanOnlyEvent(eventName) || isNonsuperfanOnlyEvent(eventName)
+      ? {}
+      : { superfan: getUser().superfan || false };
+
+  const options = {
+    props: { ...superfanProperty, ...customProperties }
+  };
+  window.plausible(eventName, options);
 };
 
 function trackEvent(

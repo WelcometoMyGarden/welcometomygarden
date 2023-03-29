@@ -22,6 +22,24 @@ export enum PlausibleEvent {
   VISIT_MANAGE_SUBSCRIPTION = 'Visit Manage Subscription'
 }
 
+const superfanOnlyEvents = [
+  PlausibleEvent.SET_GARDEN_VISIBILITY,
+  PlausibleEvent.START_ROUTE_UPLOAD_FLOW,
+  PlausibleEvent.UPLOAD_ROUTE,
+  PlausibleEvent.SAVE_GARDEN,
+  PlausibleEvent.UNSAVE_GARDEN,
+  PlausibleEvent.SHOW_TRAIN_NETWORK,
+  PlausibleEvent.VISIT_MANAGE_SUBSCRIPTION
+] as const;
+type SuperfanOnlyEvent = (typeof superfanOnlyEvents)[number];
+export const isSuperfanOnlyEvent = (event: PlausibleEvent): event is SuperfanOnlyEvent =>
+  (superfanOnlyEvents as ReadonlyArray<PlausibleEvent>).includes(event);
+
+const nonSuperfanOnlyEvents = [PlausibleEvent.CREATE_ACCOUNT] as const;
+type NonSuperfanOnlyEvent = (typeof nonSuperfanOnlyEvents)[number];
+export const isNonsuperfanOnlyEvent = (event: PlausibleEvent): event is NonSuperfanOnlyEvent =>
+  (nonSuperfanOnlyEvents as ReadonlyArray<PlausibleEvent>).includes(event);
+
 export type PlausibleCustomProperties = {
   [key: string]: string | boolean | number;
 };
