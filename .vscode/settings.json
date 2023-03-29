@@ -26,4 +26,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
+  "search.exclude": {
+    ".yarn": true
+  },
 }
