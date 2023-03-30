@@ -23,6 +23,7 @@
     "firebase-admin": "^11.3.0",
     "firebase-functions": "^4.1.1",
     "json2csv": "^5.0.6",
+    "lodash.groupby": "^4.6.0",
     "stripe": "^11.1.0"
   },
   "devDependencies": {

@@ -1,2 +1,11 @@
 .runtimeconfig*json
 admin-credentials.json
+
+# Package Managers
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

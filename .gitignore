@@ -50,6 +50,7 @@ node_modules
 
 # Cache
 
+# Package Managers
 .pnp.*
 .yarn/*
 !.yarn/patches
