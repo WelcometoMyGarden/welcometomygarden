@@ -1,9 +1,5 @@
-// https://stackoverflow.com/a/69959606/4973029
-// eslint-disable-next-line import/no-unresolved
-const { getFirestore } = require('firebase-admin/firestore');
+const { db } = require('../firebase');
 const stripe = require('./stripe');
-
-const db = getFirestore();
 
 /**
  * Return the Firebase UID related to a Stripe customer.

@@ -1,12 +1,8 @@
-// https://stackoverflow.com/a/69959606/4973029
-// eslint-disable-next-line import/no-unresolved
-const { getFirestore } = require('firebase-admin/firestore');
 // eslint-disable-next-line import/no-unresolved
 const frontendUrl = require('firebase-functions').config().frontend.url;
+const { db } = require('../firebase');
 const fail = require('../util/fail');
 const stripe = require('./stripe');
-
-const db = getFirestore();
 
 exports.createCustomerPortalSession = async (_, context) => {
   if (!context.auth) {

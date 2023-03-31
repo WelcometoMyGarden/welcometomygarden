@@ -1,21 +1,17 @@
 // @ts-check
 // https://stackoverflow.com/a/69959606/4973029
 // eslint-disable-next-line import/no-unresolved
-const { getAuth } = require('firebase-admin/auth');
-// eslint-disable-next-line import/no-unresolved
-const { getFirestore, FieldValue } = require('firebase-admin/firestore');
+const { FieldValue } = require('firebase-admin/firestore');
 const functions = require('firebase-functions');
 const removeDiacritics = require('./util/removeDiacritics');
 const { sendMessageReceivedEmail } = require('./mail');
 const removeEndingSlash = require('./util/removeEndingSlash');
+const { auth, db } = require('./firebase');
 
 /**
  * @typedef {import("../../src/lib/models/User").UserPrivate} UserPrivate
  * @typedef {import("../../src/lib/models/User").UserPublic} UserPublic
  */
-
-const auth = getAuth();
-const db = getFirestore();
 
 const normalizeMessage = (str) => str.replace(/\n\s*\n\s*\n/g, '\n\n');
 const normalizeName = (str) => removeDiacritics(str).toLowerCase();

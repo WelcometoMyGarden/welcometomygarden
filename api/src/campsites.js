@@ -1,15 +1,12 @@
 /* eslint-disable camelcase */
 // https://stackoverflow.com/a/69959606/4973029
 // eslint-disable-next-line import/no-unresolved
-const { getFirestore, FieldValue } = require('firebase-admin/firestore');
+const { FieldValue } = require('firebase-admin/firestore');
 // eslint-disable-next-line import/no-unresolved
-const { getAuth } = require('firebase-admin/auth');
 const functions = require('firebase-functions');
 const sendgridClient = require('@sendgrid/client');
 const fail = require('./util/fail');
-
-const db = getFirestore();
-const auth = getAuth();
+const { auth, db } = require('./firebase');
 
 const SG_KEY = functions.config().sendgrid.marketing_key;
 if (SG_KEY) {

@@ -1,13 +1,9 @@
-// https://stackoverflow.com/a/69959606/4973029
-// eslint-disable-next-line import/no-unresolved
-const { getFirestore } = require('firebase-admin/firestore');
+const { db } = require('../../firebase');
 const removeUndefined = require('../../util/removeUndefined');
 const { stripeSubscriptionKeys } = require('../constants');
 const getFirebaseUserId = require('../getFirebaseUserId');
 
 const { statusKey, cancelAtKey, canceledAtKey } = stripeSubscriptionKeys;
-
-const db = getFirestore();
 
 /**
  * When a subscription is deleted, that means it's over. We configure it

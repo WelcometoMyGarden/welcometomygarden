@@ -1,13 +1,9 @@
-// https://stackoverflow.com/a/69959606/4973029
-// eslint-disable-next-line import/no-unresolved
-const { getFirestore } = require('firebase-admin/firestore');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const { sendSubscriptionConfirmationEmail } = require('../../mail');
 const { stripeSubscriptionKeys } = require('../constants');
+const { db } = require('../../firebase');
 
 const { latestInvoiceStatusKey } = stripeSubscriptionKeys;
-
-const db = getFirestore();
 
 /**
  * Mark the user's last invoice as paid
