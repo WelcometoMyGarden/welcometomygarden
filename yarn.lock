@@ -1069,29 +1069,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sveltejs/kit@npm:^1.0.11":
-  version: 1.0.11
-  resolution: "@sveltejs/kit@npm:1.0.11"
+"@sveltejs/kit@npm:^1.15.1":
+  version: 1.15.1
+  resolution: "@sveltejs/kit@npm:1.15.1"
   dependencies:
     "@sveltejs/vite-plugin-svelte": ^2.0.0
     "@types/cookie": ^0.5.1
     cookie: ^0.5.0
-    devalue: ^4.2.0
+    devalue: ^4.3.0
     esm-env: ^1.0.0
     kleur: ^4.1.5
-    magic-string: ^0.27.0
+    magic-string: ^0.30.0
     mime: ^3.0.0
     sade: ^1.8.1
     set-cookie-parser: ^2.5.1
     sirv: ^2.0.2
     tiny-glob: ^0.2.9
-    undici: 5.14.0
+    undici: 5.20.0
   peerDependencies:
     svelte: ^3.54.0
     vite: ^4.0.0
   bin:
     svelte-kit: svelte-kit.js
-  checksum: 650e84c7cf3fa5ef72782398b3f7971879d0b82adccea7892bd7b69ac19999227e5a323823be362e492350d06b9e01c60be4cd00522203ddc59011a00edb4c8d
+  checksum: 572c0a969500f218cf23ce36686602a66c97c98b3e656bedd0d14446d125f002dd1b37d2ede422570de18e5800e4bec109fe3ed57a78c9df4ac00718f53f6f1f
   languageName: node
   linkType: hard
 
@@ -3339,10 +3339,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"devalue@npm:^4.2.0":
-  version: 4.2.1
-  resolution: "devalue@npm:4.2.1"
-  checksum: c840c4b21cfeb4773223c8119d604d697d2f3070812b68377dee5d0c514be5bca7b656d9e3511774d978dfad34d75a4600690d54837b1246d642d9d7960bffd1
+"devalue@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "devalue@npm:4.3.0"
+  checksum: ad9a7d496e0b4f878ecf799bd93250330d226c525e5e5ac709cb63e267f800a5a85de21ad1d32e2981533f99bfc5025e480b1af2fe9d7cef6cd3bb8c55d7b04c
   languageName: node
   linkType: hard
 
@@ -4652,6 +4652,15 @@ __metadata:
   dependencies:
     "@jridgewell/sourcemap-codec": ^1.4.13
   checksum: 273faaa50baadb7a2df6e442eac34ad611304fc08fe16e24fe2e472fd944bfcb73ffb50d2dc972dc04e92784222002af46868cb9698b1be181c81830fd95a13e
+  languageName: node
+  linkType: hard
+
+"magic-string@npm:^0.30.0":
+  version: 0.30.0
+  resolution: "magic-string@npm:0.30.0"
+  dependencies:
+    "@jridgewell/sourcemap-codec": ^1.4.13
+  checksum: 7bdf22e27334d8a393858a16f5f840af63a7c05848c000fd714da5aa5eefa09a1bc01d8469362f25cc5c4a14ec01b46557b7fff8751365522acddf21e57c488d
   languageName: node
   linkType: hard
 
@@ -6263,12 +6272,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:5.14.0":
-  version: 5.14.0
-  resolution: "undici@npm:5.14.0"
+"undici@npm:5.20.0":
+  version: 5.20.0
+  resolution: "undici@npm:5.20.0"
   dependencies:
     busboy: ^1.6.0
-  checksum: 7a076e44d84b25844b4eb657034437b8b9bb91f17d347de474fdea1d4263ce7ae9406db79cd30de5642519277b4893f43073258bcc8fed420b295da3fdd11b26
+  checksum: 25412a785b2bd0b12f0bb0ec47ef00aa7a611ca0e570cb7af97cffe6a42e0d78e4b15190363a43771e9002defc3c6647c1b2d52201b3f64e2196819db4d150d3
   languageName: node
   linkType: hard
 
@@ -6469,7 +6478,7 @@ __metadata:
     "@playwright/test": ^1.29.2
     "@stripe/stripe-js": ^1.46.0
     "@sveltejs/adapter-static": ^1.0.0-next.48
-    "@sveltejs/kit": ^1.0.11
+    "@sveltejs/kit": ^1.15.1
     "@tmcw/togeojson": ^5.5.0
     "@turf/turf": ^6.5.0
     "@types/lodash-es": ^4.17.7
