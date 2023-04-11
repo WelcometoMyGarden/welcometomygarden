@@ -69,11 +69,8 @@
           slowbyLink: `<a
         class="link"
         style="color:inherit"
-        href="${$_(
-          'generics.slowby-url'
-        )}?utm_source=welcometomygarden.org&utm_medium=web&utm_content=side_navbar"
-        target="_blank"
-        rel="noopener">${$_('navigation.slowby-notice.slowby-link-text')}
+        href="${routes.BECOME_SUPERFAN}"
+        >${$_('navigation.slowby-notice.slowby-link-text')}
         </a>`
         }
       })}</span

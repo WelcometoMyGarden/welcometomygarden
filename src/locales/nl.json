@@ -30,9 +30,9 @@
   },
   "navigation": {
     "slowby-notice": {
-      "prompt": "Hulp nodig bij het plannen van een trip?",
-      "answer": "Bekijk onze {slowbyLink}",
-      "slowby-link-text": "Slowby Secret Trips"
+      "prompt": "WTMG mee 100% onafhankelijk houden?",
+      "answer": "{slowbyLink} en laat ons doorgaan. ",
+      "slowby-link-text": "Sluit je aan bij onze 207 Superfans"
     }
   },
   "index": {

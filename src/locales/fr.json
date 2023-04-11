@@ -31,9 +31,9 @@
   },
   "navigation": {
     "slowby-notice": {
-      "prompt": "Besoin d'aide pour planifier un trip ?",
-      "answer": "Allez voir nos {slowbyLink}",
-      "slowby-link-text": "Trips Secrets Slowby"
+      "prompt": "Garder WTMG 100% indépendant ?",
+      "answer": "{slowbyLink} et rendez cela possible !",
+      "slowby-link-text": "Rejoignez nos 207 Superfans"
     }
   },
   "index": {

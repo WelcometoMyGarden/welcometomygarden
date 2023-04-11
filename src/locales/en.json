@@ -36,9 +36,9 @@
   },
   "navigation": {
     "slowby-notice": {
-      "prompt": "Need help planning a trip?",
-      "answer": "Check our {slowbyLink}",
-      "slowby-link-text": "Slowby Secret Trips"
+      "prompt": "Want WTMG to stay 100% independent?",
+      "answer": "{slowbyLink} and keep us going.",
+      "slowby-link-text": "Join our 207 Superfans"
     }
   },
   "index": {
