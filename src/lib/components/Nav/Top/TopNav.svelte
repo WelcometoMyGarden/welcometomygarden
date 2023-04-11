@@ -6,17 +6,20 @@
   import { user } from '$lib/stores/auth';
   import WtmgLogo from '../../UI/WTMGLogo.svelte';
   import SuperfanCounter from '../SuperfanCounter.svelte';
+  import { COMMUNITY_FORUM_URL } from '$lib/constants';
 
   $: firstName = $user ? $user.firstName : '';
 </script>
 
 <nav>
-  <div class="nav-extra">
-    <span
-      >{$_('navigation.slowby-notice.prompt')}
-      <SuperfanCounter />
-    </span>
-  </div>
+  {#if !$user?.superfan}
+    <div class="nav-extra">
+      <span
+        >{$_('navigation.slowby-notice.prompt')}
+        <SuperfanCounter />
+      </span>
+    </div>
+  {/if}
   <div class="main-nav">
     <WtmgLogo />
     <ul>
@@ -29,9 +32,18 @@
       <li>
         <NavLink href={routes.ABOUT_US}>{$_('generics.about-us')}</NavLink>
       </li>
-      <li>
-        <NavLink href={routes.ABOUT_SUPERFAN} highlighted>{$_('generics.become-superfan')}</NavLink>
-      </li>
+      {#if $user?.superfan}
+        <li>
+          <NavLink href={COMMUNITY_FORUM_URL}>{$_('generics.community')}</NavLink>
+        </li>
+      {/if}
+      {#if !$user?.superfan}
+        <li>
+          <NavLink href={routes.ABOUT_SUPERFAN} highlighted
+            >{$_('generics.become-superfan')}</NavLink
+          >
+        </li>
+      {/if}
       {#if firstName}
         <UserDropdown name={firstName || ''} />
       {:else}
@@ -42,6 +54,23 @@
     </ul>
   </div>
 </nav>
+
+<svelte:head>
+  <!-- Applying this hack: https://github.com/sveltejs/svelte/issues/3105#issuecomment-584037243 -->
+  <!-- TODO: Maybe replace later with: https://github.com/sveltejs/svelte/issues/3105#issuecomment-1440443254 -->
+  <!-- !important is necessary because the svelte component-scoped CSS otherwise has higher CSS specificity -->
+  {#if $user?.superfan}
+    <!-- Hide the extra bar -->
+    <style>
+      .nav-extra {
+        display: none !important;
+      }
+      body {
+        --height-nav-extra: 0px !important;
+      }
+    </style>
+  {/if}
+</svelte:head>
 
 <style>
   :global(body) {
