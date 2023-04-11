@@ -31,9 +31,9 @@
   },
   "navigation": {
     "slowby-notice": {
-      "prompt": "Garder WTMG 100% indépendant ?",
-      "answer": "{slowbyLink} et rendez cela possible !",
-      "slowby-link-text": "Rejoignez nos 207 Superfans"
+      "prompt": "Envie que WTMG reste 100% indépendant ?",
+      "answer": "et rendez cela possible !",
+      "link-text": "Rejoignez nos"
     }
   },
   "index": {

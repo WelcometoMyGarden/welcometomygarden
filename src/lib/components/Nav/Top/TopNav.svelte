@@ -5,6 +5,7 @@
   import UserDropdown from './UserDropdown.svelte';
   import { user } from '$lib/stores/auth';
   import WtmgLogo from '../../UI/WTMGLogo.svelte';
+  import SuperfanCounter from '../SuperfanCounter.svelte';
 
   $: firstName = $user ? $user.firstName : '';
 </script>
@@ -13,17 +14,7 @@
   <div class="nav-extra">
     <span
       >{$_('navigation.slowby-notice.prompt')}
-      {@html $_('navigation.slowby-notice.answer', {
-        values: {
-          slowbyLink: `<a
-        class="link"
-        style="color:inherit"
-        href="${routes.BECOME_SUPERFAN}"
-        >
-        ${$_('navigation.slowby-notice.slowby-link-text')}</a
-      >`
-        }
-      })}
+      <SuperfanCounter />
     </span>
   </div>
   <div class="main-nav">

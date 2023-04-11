@@ -30,9 +30,9 @@
   },
   "navigation": {
     "slowby-notice": {
-      "prompt": "WTMG mee 100% onafhankelijk houden?",
-      "answer": "{slowbyLink} en laat ons doorgaan. ",
-      "slowby-link-text": "Sluit je aan bij onze 207 Superfans"
+      "prompt": "Wil je dat WTMG 100% onafhankelijk blijft?",
+      "answer": "en laat ons doorgaan. ",
+      "link-text": "Sluit je aan bij onze"
     }
   },
   "index": {

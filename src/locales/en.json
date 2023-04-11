@@ -37,8 +37,8 @@
   "navigation": {
     "slowby-notice": {
       "prompt": "Want WTMG to stay 100% independent?",
-      "answer": "{slowbyLink} and keep us going.",
-      "slowby-link-text": "Join our 207 Superfans"
+      "answer": "and keep us going.",
+      "link-text": "Join our"
     }
   },
   "index": {

@@ -11,6 +11,7 @@
   import { isActive } from '$lib/util/isActive';
   import { createEventDispatcher } from 'svelte';
   import { DONATION_URL } from '$lib/constants';
+  import SuperfanCounter from '../../SuperfanCounter.svelte';
 
   const dispatch = createEventDispatcher();
   export let isOpen = false;
@@ -63,18 +64,7 @@
   </li>
   <li class="slowby-bar">
     <span class="title">{$_('navigation.slowby-notice.prompt')}</span>
-    <span
-      >{@html $_('navigation.slowby-notice.answer', {
-        values: {
-          slowbyLink: `<a
-        class="link"
-        style="color:inherit"
-        href="${routes.BECOME_SUPERFAN}"
-        >${$_('navigation.slowby-notice.slowby-link-text')}
-        </a>`
-        }
-      })}</span
-    >
+    <SuperfanCounter />
   </li>
   <li class="main-links-container">
     <ul class="main-links">

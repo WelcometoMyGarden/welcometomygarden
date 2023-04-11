@@ -275,5 +275,10 @@ service cloud.firestore {
       allow read: if isSignedIn() && isAdmin();
       allow write: if false;
     }
+
+    // Allow reading superfan stats on our public pages
+    match /stats/superfans {
+      allow read: if true;
+    }
   }
 }
