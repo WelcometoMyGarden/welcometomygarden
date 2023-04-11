@@ -57,7 +57,7 @@ exports.requestPasswordReset = async (email) => {
   }
 };
 
-exportschangeEmail = async () => {};
+exports.changeEmail = async () => {};
 
 exports.resendAccountVerification = async (data, context) => {
   if (!context.auth) {
