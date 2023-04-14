@@ -11,9 +11,11 @@ import {
   onSnapshot,
   addDoc,
   Timestamp,
-  CollectionReference
+  CollectionReference,
+  DocumentReference
 } from 'firebase/firestore';
 import type { FirebaseChat, FirebaseMessage } from '$lib/types/Chat';
+import { getUser } from '$lib/stores/auth';
 
 export const initiateChat = async (partnerUid: string) => {
   creatingNewChat.set(true);
@@ -22,10 +24,10 @@ export const initiateChat = async (partnerUid: string) => {
   return partner;
 };
 
-export const createChatObserver = async (currentUserId: string) => {
+export const createChatObserver = async () => {
   const q = query(
     collection(db(), CHATS) as CollectionReference<FirebaseChat>,
-    where('users', 'array-contains', currentUserId)
+    where('users', 'array-contains', getUser().id)
   );
 
   return onSnapshot(
@@ -37,7 +39,7 @@ export const createChatObserver = async (currentUserId: string) => {
           const chat = change.doc.data();
           if (change.type === 'added' || change.type === 'modified') {
             // Add partner info to the chat and store in the local chat model
-            const partnerId = chat.users.find((id: string) => currentUserId !== id);
+            const partnerId = chat.users.find((id: string) => getUser().id !== id);
             if (!partnerId) {
               console.error(`Couldn't find the chat partner for chat ${change.doc.id}`);
               // Don't throw an error, to avoid breaking the other chat loads
@@ -88,30 +90,45 @@ export const observeMessagesForChat = (chatId: string) => {
   );
 };
 
-export const sendMessage = async (currentUserId: string, chatId: string, message: string) => {
-  const chatRef = doc(db(), CHATS, chatId);
+export const sendMessage = async (chatId: string, message: string) => {
+  const chatRef = doc(db(), CHATS, chatId) as DocumentReference<FirebaseChat>;
   const chatMessagesCollection = collection(chatRef, MESSAGES);
 
   await addDoc(chatMessagesCollection, {
     content: message.trim(),
     createdAt: Timestamp.now(),
-    from: currentUserId
+    from: getUser().id
   });
 
   await updateDoc(chatRef, {
     lastActivity: Timestamp.now(),
-    lastMessage: message.trim()
+    lastMessage: message.trim(),
+    lastMessageSeen: false,
+    lastMessageSender: getUser().id
   });
 };
 
-export const createChat = async (uid1: string, uid2: string, message: string) => {
+export const markChatSeen = async (chatId: string) => {
+  const chatRef = doc(db(), CHATS, chatId) as DocumentReference<FirebaseChat>;
+  await updateDoc(chatRef, {
+    lastMessageSeen: true
+  });
+};
+
+/**
+ * Creates a chat in Firebase, and sends the given first message from the current user to the recipient.
+ * If the recipient UID is invalid, Firstore rules cause an error.
+ */
+export const createChat = async (recipientUid: string, message: string) => {
   const chatCollection = collection(db(), CHATS) as CollectionReference<FirebaseChat>;
 
   const docRef = await addDoc(chatCollection, {
-    users: [uid1, uid2],
+    users: [getUser().id, recipientUid],
     createdAt: Timestamp.now(),
     lastActivity: Timestamp.now(),
-    lastMessage: message.trim()
+    lastMessage: message.trim(),
+    lastMessageSeen: false,
+    lastMessageSender: getUser().id
   });
 
   const chatMessagesCollection = collection(
@@ -122,7 +139,7 @@ export const createChat = async (uid1: string, uid2: string, message: string) =>
   await addDoc(chatMessagesCollection, {
     content: message,
     createdAt: Timestamp.now(),
-    from: uid1
+    from: getUser().id
   });
 
   return docRef.id;

@@ -33,6 +33,11 @@ const sortBySentDate = (m1: LocalMessage, m2: LocalMessage) =>
   m2.createdAt.toMillis() - m1.createdAt.toMillis();
 
 export const messages = writable<{ [chatId: string]: LocalMessage[] }>({});
+
+/**
+ * Adds a new message to the local store of chat messages.
+ * If the message already exists, it will be overwritten.
+ */
 export const addMessage = (chatId: string, message: LocalMessage) => {
   const chat = get(chats)[chatId];
   if (!chat) return;
@@ -42,7 +47,10 @@ export const addMessage = (chatId: string, message: LocalMessage) => {
       // If the chat is empty, we can just add the single message.
       newMessages[chatId] = [message];
     } else {
-      newMessages[chatId] = [...newMessages[chatId], message].sort(sortBySentDate);
+      newMessages[chatId] = [
+        ...newMessages[chatId].filter((existingMessage) => existingMessage.id !== message.id),
+        message
+      ].sort(sortBySentDate);
     }
     return newMessages;
   });

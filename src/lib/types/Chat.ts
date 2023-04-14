@@ -9,6 +9,13 @@ export type FirebaseChat = {
   lastActivity: Timestamp;
   lastMessage: string;
   /**
+   * Reflects whether the last message was seen (opened) by the receiving user.
+   * see https://github.com/WelcometoMyGarden/welcometomygarden/issues/276#issuecomment-1407382095
+   * @since 3.2.0 (April 2023)
+   */
+  lastMessageSeen?: boolean;
+  lastMessageSender?: string;
+  /**
    * Array of participating uids
    */
   users: string[];

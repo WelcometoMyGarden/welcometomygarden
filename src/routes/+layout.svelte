@@ -50,7 +50,7 @@
   const unsubscribeFromUser = user.subscribe(async (latestUser) => {
     // Subscribe to the chat observer if the user logged in, and has a verified email
     if (!unsubscribeFromChatObserver && latestUser && latestUser.emailVerified)
-      unsubscribeFromChatObserver = await createChatObserver(latestUser.uid);
+      unsubscribeFromChatObserver = await createChatObserver();
 
     // Unsubscribe if the user logged out
     if (unsubscribeFromChatObserver && !latestUser) {
