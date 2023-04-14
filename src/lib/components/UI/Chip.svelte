@@ -5,7 +5,7 @@
   export let icon = null;
 </script>
 
-<div class="badge" class:skeleton={isSkeleton} class:is-skeleton={isSkeleton}>
+<div class="chip" class:skeleton={isSkeleton} class:is-skeleton={isSkeleton}>
   {#if icon}
     <div class="icon">
       <Icon {icon} />
@@ -15,7 +15,7 @@
 </div>
 
 <style>
-  .badge {
+  .chip {
     display: inline-flex;
     align-items: center;
     background-color: var(--color-green-light);

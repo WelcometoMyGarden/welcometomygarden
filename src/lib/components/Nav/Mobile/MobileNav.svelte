@@ -8,6 +8,8 @@
   import { isActive, isActiveContains } from '$lib/util/isActive';
   import { page } from '$app/stores';
   import SideDrawer from './MobileNav/SideDrawer.svelte';
+  import { chatsCountWithUnseenMessages } from '$lib/stores/chat';
+  import Badge from '../Badge.svelte';
 
   let hamburger: HTMLButtonElement | null = null;
   let drawerIsShown = false;
@@ -34,6 +36,7 @@
         <a href={routes.CHAT} class:active={isActiveContains($page, routes.CHAT)}>
           <Icon icon={chatIcon} />
           {$_('generics.chat')}
+          <Badge count={$chatsCountWithUnseenMessages} />
         </a>
       </li>
       <li>

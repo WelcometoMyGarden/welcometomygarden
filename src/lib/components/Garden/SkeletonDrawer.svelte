@@ -1,5 +1,5 @@
 <script>
-  import { Badge } from '../UI';
+  import { Chip } from '../UI';
 </script>
 
 <section class="main">
@@ -13,13 +13,13 @@
       <div class="skeleton skeleton-description" />
       <div class="skeleton skeleton-description" />
     </div>
-    <div class="badges-container skeleton-badges">
-      <Badge isSkeleton />
-      <Badge isSkeleton />
-      <Badge isSkeleton />
-      <Badge isSkeleton />
-      <Badge isSkeleton />
-      <Badge isSkeleton />
+    <div class="chips-container skeleton-chips">
+      <Chip isSkeleton />
+      <Chip isSkeleton />
+      <Chip isSkeleton />
+      <Chip isSkeleton />
+      <Chip isSkeleton />
+      <Chip isSkeleton />
     </div>
   </div>
   <footer class="skeleton footer mt-ms skeleton-cta" />
@@ -68,7 +68,7 @@
     width: 100%;
     margin-bottom: 0.8rem;
   }
-  .skeleton-badges {
+  .skeleton-chips {
     margin-top: 1rem;
     margin-bottom: 2rem;
     padding: 0 1rem;
@@ -84,7 +84,7 @@
     word-wrap: break-word;
   }
 
-  .badges-container {
+  .chips-container {
     display: flex;
     flex-wrap: wrap;
     /* Negative margin compensate the Badge components margins */
