@@ -52,7 +52,6 @@
     "email": "E-Mail",
     "terms-of-use": "Nutzungsbedingungen",
     "map": "Karte",
-    "shop": "Shop",
     "slowby": "Geheime Reisen"
   },
   "cookies": {
@@ -616,7 +615,6 @@
       "auth-notice": "Sie müssen angemeldet sein, um Ihren Garten zur Karte hinzufügen zu können. Entweder {signInLink} oder {registerLink}."
     },
     "drawer": {
-      "unclaimed": "Sie können diesen Gastgeber kontaktieren, sobald er sein Konto erstellt hat.",
       "guest": {
         "sign-link-text": "anmelden",
         "button": "Gastgeber kontaktieren",

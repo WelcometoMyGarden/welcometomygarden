@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { isActive, isActiveContains } from '@/lib/util/isActive';
+  import { isActive, isActiveContains } from '$lib/util/isActive';
 
   export let href: string;
   // is this a little nasty? yes

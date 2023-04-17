@@ -5,11 +5,11 @@
   import { scale } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
   import SkeletonDrawer from './SkeletonDrawer.svelte';
-  import { addSavedGarden, getPublicUserProfile, removeSavedGarden } from '@/lib/api/user';
+  import { addSavedGarden, getPublicUserProfile, removeSavedGarden } from '$lib/api/user';
   import { getGardenPhotoSmall, getGardenPhotoBig } from '$lib/api/garden';
-  import { user } from '@/lib/stores/auth';
+  import { user } from '$lib/stores/auth';
   import { clickOutside } from '$lib/directives';
-  import { Text, Badge, Image, Button, Progress } from '../UI';
+  import { Text, Chip, Image, Button, Progress } from '../UI';
   import {
     bonfireIcon,
     waterIcon,
@@ -21,8 +21,10 @@
     bookmarkYellowIcon
   } from '$lib/images/icons';
   import routes from '$lib/routes';
-  import type { Garden } from '@/lib/types/Garden';
-  import Icon from '@/lib/components/UI/Icon.svelte';
+  import type { Garden } from '$lib/types/Garden';
+  import Icon from '$lib/components/UI/Icon.svelte';
+  import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   const dispatch = createEventDispatcher();
 
@@ -51,6 +53,7 @@
   let photoUrl: string | null = null;
   let biggerPhotoUrl: string | null = null;
   let infoHasLoaded = false;
+  let gardenCapacity = 1;
 
   const setAllGardenInfo = async () => {
     try {
@@ -79,6 +82,9 @@
     setAllGardenInfo().then(() => {
       infoHasLoaded = true;
     });
+    // Converting the capacity field to a number prevents XSS attacks where
+    // the capacity field could be set to some HTML.
+    gardenCapacity = Number(garden.facilities.capacity) || 1;
   }
 
   $: ownedByLoggedInUser = $user && garden && $user.id === garden.id;
@@ -131,8 +137,13 @@
     if (!garden?.id) return;
 
     try {
-      if (isSaved) await removeSavedGarden(garden.id);
-      else await addSavedGarden(garden.id);
+      if (isSaved) {
+        await removeSavedGarden(garden.id);
+        trackEvent(PlausibleEvent.UNSAVE_GARDEN);
+      } else {
+        await addSavedGarden(garden.id);
+        trackEvent(PlausibleEvent.SAVE_GARDEN);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -201,10 +212,10 @@
         <div class="description">
           <Text class="mb-l">{garden.description}</Text>
         </div>
-        <div class="badges-container">
+        <div class="chips-container">
           {#each facilities as facility (facility.name)}
             {#if garden.facilities[facility.name]}
-              <Badge icon={facility.icon}>{facility.label}</Badge>
+              <Chip icon={facility.icon}>{facility.label}</Chip>
             {/if}
           {/each}
         </div>
@@ -212,8 +223,8 @@
           <p class="mt-m capacity">
             {@html $_('garden.drawer.facilities.capacity', {
               values: {
-                capacity: garden.facilities.capacity,
-                styleCapacity: `<strong>${garden.facilities.capacity}</strong>`
+                capacity: gardenCapacity,
+                styleCapacity: `<strong>${gardenCapacity}</strong>`
               }
             })}
           </p>
@@ -241,15 +252,8 @@
                 }
               })}
             </p>
-          {:else if garden.unclaimed}
-            <p class="cta-hint">{$_('garden.drawer.unclaimed')}</p>
           {/if}
-          <Button
-            href={`${routes.CHAT}?with=${garden.id}`}
-            disabled={!$user || garden.unclaimed}
-            uppercase
-            medium
-          >
+          <Button href={`${routes.CHAT}?with=${garden.id}`} disabled={!$user} uppercase medium>
             {$_('garden.drawer.guest.button')}
           </Button>
         {/if}
@@ -301,6 +305,13 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .garden-title .button-container {
+    /* Override the 100% width that causes 
+       the paragraph on the left to collapse on desktop drawers. */
+    width: auto;
+    margin-left: 1rem;
   }
 
   .button-save {
@@ -392,7 +403,7 @@
     }
   }
 
-  .badges-container {
+  .chips-container {
     display: flex;
     flex-wrap: wrap;
     /* Negative margin compensate the Badge components margins */

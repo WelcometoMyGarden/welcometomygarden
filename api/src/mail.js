@@ -1,18 +1,11 @@
 const functions = require('firebase-functions');
-// https://stackoverflow.com/a/69959606/4973029
-// eslint-disable-next-line import/no-unresolved
-const { getFirestore } = require('firebase-admin/firestore');
-// eslint-disable-next-line import/no-unresolved
-const { getAuth } = require('firebase-admin/auth');
 const { parseAsync } = require('json2csv');
 const sendgrid = require('@sendgrid/mail');
 const removeEndingSlash = require('./util/removeEndingSlash');
+const { auth, db } = require('./firebase');
 
 const API_KEY = functions.config().sendgrid.send_key;
 const FRONTEND_URL = removeEndingSlash(functions.config().frontend.url);
-
-const auth = getAuth();
-const db = getFirestore();
 
 const send = (msg) => sendgrid.send(msg);
 
@@ -32,11 +25,30 @@ const NO_API_KEY_WARNING =
   'or it is not the production key. ' +
   'No emails will be sent. Inspect the logs to see what would have been sent by email';
 
-exports.sendAccountVerificationEmail = (email, name, verificationLink) => {
+/**
+ * @param {string} email
+ * @param {string} name
+ * @param {string} verificationLink
+ * @param {string} language
+ */
+exports.sendAccountVerificationEmail = (email, name, verificationLink, language) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-56d23ef8795d470eb4a615101f45a1bb';
+      break;
+    case 'nl':
+      templateId = 'd-3bfeec1f2b3d4849bb725c74805f8592';
+      break;
+    default:
+      templateId = 'd-9fa3c99cbc4e410ca2d51db0f5048276';
+      break;
+  }
+
   const msg = {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
-    templateId: 'd-9fa3c99cbc4e410ca2d51db0f5048276',
+    templateId,
     dynamic_template_data: {
       firstName: name,
       verificationLink
@@ -79,16 +91,47 @@ exports.sendPasswordResetEmail = (email, name, resetLink) => {
   return send(msg);
 };
 
-exports.sendMessageReceivedEmail = (email, firstName, senderName, message, messageUrl) => {
+/**
+ * @typedef {Object} MessageReceivedConfig
+ * @property {string} email
+ * @property {string} firstName
+ * @property {string} senderName
+ * @property {string} message
+ * @property {string} messageUrl
+ * @property {boolean} superfan
+ * @property {string} language
+ */
+
+/**
+ * @param {MessageReceivedConfig} config
+ * @returns
+ */
+exports.sendMessageReceivedEmail = (config) => {
+  const { email, firstName, senderName, message, messageUrl, superfan, language } = config;
+
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-274cca0cb26b4c3d9d2bfd224d5aa6f0';
+      break;
+    case 'nl':
+      templateId = 'd-bddbb11eae8849d29eda3d90bad6534c';
+      break;
+    default:
+      templateId = 'd-9f8e900fee7d49bdabb79852de387609';
+      break;
+  }
+
   const msg = {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
-    templateId: 'd-9f8e900fee7d49bdabb79852de387609',
+    templateId,
     dynamic_template_data: {
       firstName,
       senderName,
       messageUrl,
-      message
+      message,
+      superfan
     }
   };
 
@@ -103,7 +146,7 @@ exports.sendMessageReceivedEmail = (email, firstName, senderName, message, messa
 
 /**
  *
- * @param {'en' | 'fr' | 'nl'} language
+ * @param {string} language
  * @param {string} email
  * @param {string} firstName
  * @returns

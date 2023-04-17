@@ -80,6 +80,13 @@
       "presentation": {
         "group": "local-dev"
       }
+    },
+    {
+      "type": "npm",
+      "script": "firebase:demo-seed",
+      "problemMatcher": [],
+      "label": "npm: firebase:demo-seed",
+      "detail": "firebase --project demo-test emulators:exec api/seeders/simple.js"
     }
   ]
 }

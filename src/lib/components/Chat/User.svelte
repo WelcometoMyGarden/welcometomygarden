@@ -1,12 +1,13 @@
-<script>
+<script lang="ts">
   import { Avatar } from '$lib/components/UI';
-  export let name;
+  export let name: string;
+  export let seen = true;
 </script>
 
 <div class="user">
   <Avatar {name} />
   <div class="details">
-    <span class="name">{name}</span>
+    <span class="name" class:seen>{name}</span>
     <slot />
   </div>
 </div>
@@ -19,6 +20,10 @@
 
   .name {
     font-weight: 600;
+  }
+
+  .name.seen {
+    font-weight: 400;
   }
 
   .details {

@@ -2,9 +2,9 @@
   import { Text } from '$lib/components/UI';
   import { fly } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
-  import Icon from '@/lib/components/UI/Icon.svelte';
-  import routes from '@/lib/routes';
-  import { bookmarkIcon, crossIcon, routesIcon, trainIcon } from '@/lib/images/icons';
+  import Icon from '$lib/components/UI/Icon.svelte';
+  import routes from '$lib/routes';
+  import { bookmarkIcon, crossIcon, routesIcon, trainIcon } from '$lib/images/icons';
 
   export let isOpen: boolean;
   export let isMobile: boolean;

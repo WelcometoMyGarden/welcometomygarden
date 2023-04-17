@@ -1,11 +1,11 @@
 <script lang="ts">
   import { _, locale } from 'svelte-i18n';
   import { onDestroy, onMount } from 'svelte';
-  import { user } from '@/lib/stores/auth';
+  import { user } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
   import type { PageData } from './$types';
-  import { goto } from '@/lib/util/navigate';
-  import routes from '@/lib/routes';
+  import { goto } from '$lib/util/navigate';
+  import routes from '$lib/routes';
   import {
     loadStripe,
     type CheckoutLocale,
@@ -17,17 +17,17 @@
   import { Elements } from 'svelte-stripe';
   // Custom alternative to svelte-stripe's paymentElement
   import PaymentElement from './PaymentElement.svelte';
-  import { createOrRetrieveUnpaidSubscription } from '@/lib/api/functions';
-  import { timeout } from '@/lib/util/timeout';
+  import { createOrRetrieveUnpaidSubscription } from '$lib/api/functions';
+  import { timeout } from '$lib/util/timeout';
   import {
     hasActiveSubscription,
     getSubLevelFromUser,
     getSubLevelBySlug
   } from '../../subscription-utils';
-  import PaddedSection from '@/routes/(marketing)/_components/PaddedSection.svelte';
-  import type { SuperfanLevelData } from '@/routes/(marketing)/_static/superfan-levels';
-  import Button from '@/lib/components/UI/Button.svelte';
-  import { emailAsLink, SUPPORT_EMAIL } from '@/lib/constants';
+  import PaddedSection from '$routes/(marketing)/_components/PaddedSection.svelte';
+  import type { SuperfanLevelData } from '$routes/(marketing)/_static/superfan-levels';
+  import Button from '$lib/components/UI/Button.svelte';
+  import { emailAsLink, SUPPORT_EMAIL } from '$lib/constants';
   import LevelSummary from './LevelSummary.svelte';
 
   // TODO: if you subscribe & unsubscribe in 1 session without refreshing, no new sub will be auto-generated

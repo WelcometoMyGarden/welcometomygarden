@@ -1,10 +1,10 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { user } from '@/lib/stores/auth';
+  import { user } from '$lib/stores/auth';
   import { goto } from '$app/navigation';
-  import enterHandler from '@/lib/util/keyhandlers';
-  import routes from '@/lib/routes';
-  import MarketingBlock from '@/routes/(marketing)/_components/MarketingBlock.svelte';
+  import enterHandler from '$lib/util/keyhandlers';
+  import routes from '$lib/routes';
+  import MarketingBlock from '$routes/(marketing)/_components/MarketingBlock.svelte';
   import Features from '../_sections/Features.svelte';
   import PaddedSection from '../_components/PaddedSection.svelte';
   import Heading from '../_components/Heading.svelte';
@@ -13,7 +13,7 @@
   import { onMount, onDestroy } from 'svelte';
   import smoothscroll from 'smoothscroll-polyfill';
   import SuperfanLevel from '../_components/SuperfanLevel.svelte';
-  import Button from '@/lib/components/UI/Button.svelte';
+  import Button from '$lib/components/UI/Button.svelte';
   import { getSubLevelBySlug } from './subscription-utils';
 
   // Default: normal / plant

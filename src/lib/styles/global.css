@@ -348,3 +348,9 @@ hr {
     --spacing-map-controls: 0.75rem;
   }
 }
+
+/* For development, to mitigate the hindrance of the Firebase-injected warning */
+.firebase-emulator-warning {
+  opacity: 0.3;
+  pointer-events: none;
+}

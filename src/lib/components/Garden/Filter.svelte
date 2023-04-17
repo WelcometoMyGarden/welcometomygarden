@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { _ } from 'svelte-i18n';
   import { Button, Tag } from '$lib/components/UI';
   import FacilitiesFilter from '$lib/components/Garden/FacilitiesFilter.svelte';
@@ -12,6 +12,8 @@
     waterIcon,
     tentIcon
   } from '$lib/images/icons';
+  import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   export let filteredGardens;
   export let fallbackLocation;
@@ -87,6 +89,7 @@
         small
         on:click={() => {
           showFilterModal = true;
+          trackEvent(PlausibleEvent.SHOW_GARDEN_FILTER);
         }}
       >
         {@html filterIcon}
@@ -151,7 +154,6 @@
 
   .filter {
     background-color: rgba(255, 255, 255, 0);
-    width: 80%;
     top: var(--spacing-map-controls);
     width: 32rem;
     /* Width of zoom control incl padding: 39px */
@@ -169,6 +171,7 @@
   .location-filter {
     width: calc(100% - 60px);
     margin-right: var(--spacing-map-controls);
+    position: relative;
   }
 
   .filter-tags {

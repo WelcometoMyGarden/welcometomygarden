@@ -1,13 +1,15 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import routes from '$lib/routes';
-  import { user } from '@/lib/stores/auth';
+  import { user } from '$lib/stores/auth';
   import { tentIcon, mapIcon, chatIcon, signInIcon, userIcon } from '$lib/images/icons';
   import Hamburger from './Hamburger.svelte';
   import { Icon } from '$lib/components/UI';
-  import { isActive, isActiveContains } from '@/lib/util/isActive';
+  import { isActive, isActiveContains } from '$lib/util/isActive';
   import { page } from '$app/stores';
-  import Drawer from './MobileNav/SideDrawer.svelte';
+  import SideDrawer from './MobileNav/SideDrawer.svelte';
+  import { chatsCountWithUnseenMessages } from '$lib/stores/chat';
+  import Badge from '../Badge.svelte';
 
   let hamburger: HTMLButtonElement | null = null;
   let drawerIsShown = false;
@@ -34,6 +36,7 @@
         <a href={routes.CHAT} class:active={isActiveContains($page, routes.CHAT)}>
           <Icon icon={chatIcon} />
           {$_('generics.chat')}
+          <Badge count={$chatsCountWithUnseenMessages} />
         </a>
       </li>
       <li>
@@ -54,7 +57,7 @@
       <Hamburger bind:hamburger on:click={toggleDrawer} isOpen={drawerIsShown} />
     </li>
   </ul>
-  <Drawer isOpen={drawerIsShown} on:toggle={toggleDrawer} {hamburger} />
+  <SideDrawer isOpen={drawerIsShown} on:toggle={toggleDrawer} {hamburger} />
 </nav>
 
 <style>

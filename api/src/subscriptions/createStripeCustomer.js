@@ -1,13 +1,6 @@
-// https://stackoverflow.com/a/69959606/4973029
-// eslint-disable-next-line import/no-unresolved
-const { getFirestore } = require('firebase-admin/firestore');
-// eslint-disable-next-line import/no-unresolved
-const { getAuth } = require('firebase-admin/auth');
 const fail = require('../util/fail');
 const stripe = require('./stripe');
-
-const db = getFirestore();
-const auth = getAuth();
+const { auth, db } = require('../firebase');
 
 /**
  * Creates a customer in stripe

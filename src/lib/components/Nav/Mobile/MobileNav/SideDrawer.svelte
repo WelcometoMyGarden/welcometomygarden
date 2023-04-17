@@ -1,16 +1,17 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { page } from '$app/stores';
-  import { logout } from '@/lib/api/auth';
+  import { logout } from '$lib/api/auth';
   import { clickOutside } from '$lib/directives';
   import Socials from '$lib/components/Socials.svelte';
   import LanguageSelector from '$lib/components/LanguageSelector.svelte';
-  import routes from '@/lib/routes';
-  import { SHOP_URL } from '@/lib/constants';
-  import { user } from '@/lib/stores/auth';
+  import routes from '$lib/routes';
+  import { user } from '$lib/stores/auth';
   import { goto } from '$app/navigation';
-  import { isActive } from '@/lib/util/isActive';
+  import { isActive } from '$lib/util/isActive';
   import { createEventDispatcher } from 'svelte';
+  import { DONATION_URL } from '$lib/constants';
+  import SuperfanCounter from '../../SuperfanCounter.svelte';
 
   const dispatch = createEventDispatcher();
   export let isOpen = false;
@@ -33,9 +34,23 @@
     if (isOpen && !hamburger?.contains(clickEvent.target)) toggleDrawer();
   };
 
+  const donationUrlParams = new URLSearchParams({
+    ...($user
+      ? {
+          prefilled_email: $user.email,
+          client_reference_id: $user.id
+        }
+      : {}),
+    utm_source: 'welcometomygarden.org',
+    utm_medium: 'web',
+    utm_campaign: 'donation_payment',
+    utm_content: 'side_navbar'
+  });
+
   let sideLinks: { route: string; name: string }[];
   $: sideLinks = [
     { route: routes.FAQ, name: $_('generics.faq.acronym') },
+    { route: `${DONATION_URL}?${donationUrlParams.toString()}`, name: $_('footer.links.donate') },
     { route: routes.COOKIE_POLICY, name: $_('generics.cookie-policy') },
     { route: routes.PRIVACY_POLICY, name: $_('generics.privacy-policy') },
     { route: routes.TERMS_OF_USE, name: $_('generics.terms-of-use') }
@@ -49,19 +64,7 @@
   </li>
   <li class="slowby-bar">
     <span class="title">{$_('navigation.slowby-notice.prompt')}</span>
-    <span
-      >{@html $_('navigation.slowby-notice.answer', {
-        values: {
-          slowbyLink: `<a
-        class="link"
-        style="color:inherit"
-        href="${$_('generics.slowby-url')}"
-        target="_blank"
-        rel="noopener">${$_('navigation.slowby-notice.slowby-link-text')}
-        </a>`
-        }
-      })}</span
-    >
+    <SuperfanCounter />
   </li>
   <li class="main-links-container">
     <ul class="main-links">
@@ -75,9 +78,6 @@
       </li>
       <li>
         <a href={routes.RULES} on:click={toggleDrawer}>{$_('generics.rules')}</a>
-      </li>
-      <li>
-        <a href={SHOP_URL} on:click={toggleDrawer} target="_blank">{$_('generics.shop')}</a>
       </li>
       <li>
         <LanguageSelector />

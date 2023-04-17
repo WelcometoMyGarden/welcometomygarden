@@ -4,7 +4,7 @@
   import AuthContainer from '$lib/components/AuthContainer.svelte';
   import { TextInput, Progress, Button } from '$lib/components/UI';
   import { emailIcon } from '$lib/images/icons';
-  import { requestPasswordReset } from '@/lib/api/functions';
+  import { requestPasswordReset } from '$lib/api/functions';
   import { SUPPORT_EMAIL } from '$lib/constants';
 
   let email: { value?: string } = {};

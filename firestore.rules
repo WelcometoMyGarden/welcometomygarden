@@ -101,10 +101,14 @@ service cloud.firestore {
 
     // Garden functions
 
-    // TODO unused
     function validateDescription(description) {
       return description is string &&
-      description.size() >= 20 &&
+      // Note: min. 20 characters is enforced by the frontend.
+      // However, we have 6 gardens form before the time that this was enforced,
+      // which have a description of min. 11 characters.
+      // They should still be able to change their description.
+      // description.size() >= 20 &&
+      description.size() >= 11 &&
       description.size() <= 300
     }
 
@@ -115,49 +119,70 @@ service cloud.firestore {
       return true;
     }
 
-    // TODO unused
     function validateLocation(location) {
-      return location.keys().hasAll(['latitude', 'longitude']) && location.latitude is latlng && location.longitude is latlng
+      // Note: these could be a float, but there might be some ints too
+      // did not check this. Hence, number is the safest.
+      return location.latitude is number
+        && location.latitude >= -90
+        && location.latitude <= 90
+        && location.longitude is number
+        && location.longitude >= -180
+        && location.longitude <= 180
+      // NOTE: using `return location is latlng` would be nice, but for that
+      // we need to migrate all location values in to real Firebase GeoPoints
+      // - https://firebase.google.com/docs/reference/rules/rules.LatLng
+      // - https://firebase.google.com/docs/reference/js/firestore_.geopoint
     }
 
-    // TODO unused
+
     function validateFacilities(facilities) {
       return facilities.keys().hasAll([
-      'drinkableWater',
-      'water',
-      'electricity',
-      'tent',
-      'bonfire',
-      'toilet',
       'capacity',
-      'shower'
+      'toilet',
+      'shower',
+      'electricity',
+      'water',
+      'drinkableWater',
+      'bonfire',
+      'tent'
       ]) &&
-      facilities.drinkableWater is bool &&
-      facilities.water is bool &&
-      facilities.electricity is bool &&
-      facilities.tent is bool &&
-      facilities.bonfire is bool &&
-      facilities.toilet is bool &&
       facilities.capacity is number &&
-      facilities.shower is bool
+      facilities.capacity >= 1 &&
+      facilities.toilet is bool &&
+      facilities.shower is bool &&
+      facilities.electricity is bool &&
+      facilities.water is bool &&
+      facilities.drinkableWater is bool &&
+      facilities.bonfire is bool &&
+      facilities.tent is bool
     }
 
     function validatePhoto(photo) {
-      return photo is string
+      // photo can not be undefined
+      return photo == null || photo is string
     }
 
+    function validatePreviousPhotoId(garden) {
+      // Allowed values are: undefined | null | string
+      // previousPhotoId is undefined for 1480 gardens
+      // Map.get is needed to check undefined safely: https://stackoverflow.com/a/67138054/4973029
+      return garden.get('previousPhotoId', null) == null || garden.previousPhotoId is string
+    }
 
-    function validateGardenRequest(garden) {
-      //return garden.keys().hasAll([
-      //       'description',
-      //     'location',
-      //   'facilities'
-      // ]) &&
-      // validateDescription(garden.description) &&
-      //
-      //validateFacilities(garden.facilities) &&
-      // validatePhoto(garden.photo)
-      return true;
+    function validateGardenState(garden) {
+      return garden.keys().hasAll([
+      'description',
+      'location',
+      'facilities',
+      'photo',
+      'listed'
+      ]) &&
+      validateFacilities(garden.facilities) &&
+      validateDescription(garden.description) &&
+      validatePhoto(garden.photo) &&
+      validateLocation(garden.location) &&
+      validatePreviousPhotoId(garden) &&
+      garden.listed is bool
     }
 
     // Garden collection
@@ -166,13 +191,17 @@ service cloud.firestore {
       allow read;
       allow create:
       if isSignedIn() &&
-      isVerified()
+      validateGardenState(request.resource.data) &&
+      isVerified() &&
+      isOwner(userId)
       allow update:
       if isSignedIn() &&
-      validateGardenRequest(request.resource.data) &&
+      validateGardenState(request.resource.data) &&
+      isVerified() &&
       isOwner(userId)
       allow delete:
       if isSignedIn() &&
+      isVerified() &&
       isOwner(userId)
     }
 
@@ -182,29 +211,45 @@ service cloud.firestore {
       return get(/databases/$(database)/documents/chats/$(chatId)).data.users;
     }
 
-    function canCreateChat() {
-      return isSignedIn() && isVerified()
-        && incomingData().keys().hasOnly(['users', 'lastActivity', 'createdAt', 'lastMessage'])
-        && requesterId() in incomingData().users
-        && incomingData().users.size() == 2
-        && userExists(incomingData().users[0])
-        && userExists(incomingData().users[1])
-        && incomingData().users[0] != incomingData().users[1]
-    }
-
+    // Function does not work on creation operations (existingData reference)
     function canReadChat() {
       return isSignedIn() && isVerified() && requesterId() in existingData().users;
     }
 
-    function canUpdateChat() {
-      return canReadChat()
-        && incomingData().keys().hasOnly(['users', 'lastActivity', 'createdAt', 'lastMessage'])
-        && requestHas('lastActivity')
-        && requestHas('lastMessage')
+    // Conditions common to chat creations and updates
+    function isValidChatWrite() {
+      return isSignedIn() && isVerified()
+        && incomingData().keys().hasAll(['users', 'lastActivity', 'createdAt', 'lastMessage'])
+        && incomingData().users.size() == 2
+        && incomingData().users[0] != incomingData().users[1]
         && incomingData().lastActivity is timestamp
         && incomingData().lastMessage is string
         && incomingData().lastMessage.size() >= 1
         && incomingData().lastMessage.size() <= 500
+      // The following keys are optional
+        && 
+      (
+      !incomingData().keys().hasAny(['lastMessageSeen', 'lastMessageSender'])
+        || 
+      (
+      incomingData().keys().hasAll(['lastMessageSeen', 'lastMessageSender']) 
+        && incomingData().lastMessageSeen is bool
+        && incomingData().lastMessageSender is string
+        && incomingData().lastMessageSender in incomingData().users
+      )
+      )
+    }
+
+    function canCreateChat() {
+      return isValidChatWrite()
+        && userExists(incomingData().users[0])
+        && userExists(incomingData().users[1])
+    }
+
+
+    function canUpdateChat() {
+      return isValidChatWrite()
+      // Immutable properties didn't change
         && incomingData().createdAt == existingData().createdAt
         && incomingData().users[0] == existingData().users[0]
         && incomingData().users[1] == existingData().users[1]
@@ -245,6 +290,11 @@ service cloud.firestore {
     match /stats/{type} {
       allow read: if isSignedIn() && isAdmin();
       allow write: if false;
+    }
+
+    // Allow reading superfan stats on our public pages
+    match /stats/superfans {
+      allow read: if true;
     }
   }
 }

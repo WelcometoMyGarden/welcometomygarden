@@ -14,6 +14,7 @@
   export let disabled = false;
   export let preventing = false;
   export let orange = false;
+  export let danger = false;
   export let arrow = false;
   export let centered = false;
   /** Whether this is a link-style button */
@@ -50,6 +51,7 @@
     class:inverse
     class:clicked
     class:orange
+    class:danger
     class:arrow
     class:link
     class:centered
@@ -81,6 +83,7 @@
     class:inverse
     class:clicked
     class:orange
+    class:danger
     class:arrow
     class:link
     class:centered
@@ -125,6 +128,15 @@
   .orange:hover,
   .orange:active {
     background-color: var(--color-orange);
+  }
+
+  .danger {
+    border-color: var(--color-danger);
+    background-color: var(--color-danger);
+  }
+
+  .danger:hover {
+    border-color: var(--color-black);
   }
 
   .centered {
@@ -179,7 +191,9 @@
     background-color: var(--color-orange-light);
   }
 
-  .disabled {
+  .disabled,
+  .disabled.danger,
+  .disabled.orange {
     background-color: var(--color-gray);
     border: 0.2rem solid var(--color-gray);
     color: var(--color-green);

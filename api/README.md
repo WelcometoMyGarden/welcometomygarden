@@ -50,7 +50,22 @@ You can replace "frontend" with the localhost URL where you are currently runnin
 yarn serve
 ```
 
-See package.json for alternative commands, as well as the `firebase` command itself.
+See package.json for alternative commands, as well as the `firebase` command itself. More convenience methods are available in [the root `package.json`](../package.json).
+
+The Firebase CLI acts upon the `/api` folder as part of a bigger project.
+
+**Dev server troubleshooting**
+
+Sometimes the dev servers don't quit properly, and remain handing. On a restart, they will complain that the port of a certain emulator is already taken.
+
+On macOS/Linux, you can kill the process listening on that port with:
+
+```
+lsof -ti tcp:8080 | xargs kill
+
+# Or, if we're desperate:
+lsof -ti tcp:8080 | xargs kill -9
+```
 
 ## Running the Stripe dev environment
 
@@ -71,7 +86,9 @@ Ensure the testing private secret and webhook secret are filled in `./.runtimeco
 Refer to the Stripe guide to set up local Stripe webhook triggers: https://stripe.com/docs/webhooks/test
 o.
 
-After having [installed the CLI](https://stripe.com/docs/stripe-cli) & logged in, refer them to function emulators:
+First, [install the CLI](https://stripe.com/docs/stripe-cli) & log in.
+
+Then, refer webhook events to your local function emulators.
 
 If another live testing webhook listener is already active, disable it first, to avoid having duplicate handlers for events:
 
@@ -85,6 +102,8 @@ If another live testing webhook listener is already active, disable it first, to
    ```
 
 3. Verify that `/wtmg-dev/` in the URL above matches your current Firebase emulator project (did you run `firebase use wtmg-dev` before running Firebase emulators?).
+
+If you get an api-key-expired error, you must likely log in again. The authentication expires after 90 days.
 
 NOTE: I've had weird behavior with `--load-from-webhooks-api`, with or without an extra `--events` key specified. Sometimes events got forwarded to the local server, and sometimes not propery (no responses were being logged). It might also depend on the staging endpoint beign disabled or not. The above works dependably.
 

@@ -1,7 +1,7 @@
 <script>
   import routes from '$lib/routes';
   import { _ } from 'svelte-i18n';
-  import { getNodeKeys } from '@/lib/util/get-node-children';
+  import { getNodeKeys } from '$lib/util/get-node-children';
   import Step1 from '$lib/images/home-steps/step-register.svg';
   import Step2 from '$lib/images/home-steps/step-map.svg';
   import Step3 from '$lib/images/home-steps/step-tent.svg';

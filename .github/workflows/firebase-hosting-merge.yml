@@ -28,6 +28,9 @@ jobs:
       VITE_DISCOURSE_HOST: ${{vars.DISCOURSE_HOST}}
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
       - name: Install Dependencies
         run: yarn
       - name: Build project

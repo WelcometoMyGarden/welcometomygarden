@@ -25,6 +25,9 @@ jobs:
       VITE_DISCOURSE_HOST: ${{vars.DISCOURSE_HOST}}
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
       - name: Install Dependencies
         run: yarn
       - name: Build project
@@ -32,6 +35,6 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_STAGING }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_DEV }}'
           projectId: wtmg-dev
           target: beta

@@ -49,7 +49,7 @@ Firebase [is not our dream ecosystem](https://github.com/WelcometoMyGarden/welco
 Start all Firebase emulators:
 
 ```
-firebase --project demo-test emulators:start
+yarn firebase:demo
 ```
 
 This will locally emulate our "backend": Firebase's [Auth](https://firebase.google.com/docs/auth), [Firestore](https://firebase.google.com/docs/firestore), [Storage](https://firebase.google.com/docs/storage), [Hosting](https://firebase.google.com/docs/hosting) and [Cloud Functions](https://firebase.google.com/docs/functions) modules.
@@ -64,6 +64,8 @@ This will run a SvelteKit app dev server via Vite (our frontend). SvelteKit also
 
 If you use VSCode (recommended), you can also execute both commands at the same time using the pre-configured [Run Build Task](https://code.visualstudio.com/Docs/editor/tasks#_typescript-hello-world) command.
 
+There are several other development scripts available in `package.json`, for example, `yarn firebase:demo-seed` will add some testing data to the dev env upon startup.
+
 ### What can you do now?
 
 Assuming that you did the above, you now have a partially functioning development environment!
@@ -73,13 +75,15 @@ You should now be able to:
 - access your local WTMG app at [http://127.0.0.1:5173/](http://127.0.0.1:5173/)
 - access the [Firebase emulator](https://firebase.google.com/docs/emulator-suite) dashboard UI should be [http://127.0.0.1:4001/](http://127.0.0.1:4001/)
 
+If this doesn't work, check your web console logs if your ad blocker is enabled and blocking certain code modules from loading in the development watcher of Vite. Disable the ad blocker on your localhost:5173, or add exception rules.
+
 In the app, you can now try:
 
 1. Creating an account
 2. Since you don't have access to the SendGrid variables, no emails will be sent. You can see what emails would have been sent in the Firebase Emulator logs terminal (e.g. to access your email verification link).
 3. You can add a test garden and also upload a file into emulated [Storage](https://firebase.google.com/docs/storage) (but because of [this bug](https://github.com/WelcometoMyGarden/welcometomygarden/issues/289) their images won't show up).
 
-⚠️ Importantly, with the default demo development environment, the **map will be empty/broken** by default. That's because you're missing an API token. If you [get your own Mapbox Access Token](https://docs.mapbox.com/help/getting-started/#how-to-use-mapbox) and fill it in in `.env`, most basic features of the map should work. You may need to restart the Vite server.
+⚠️ Importantly, with the default demo development environment, the **map will be empty/broken** by default. That's because you're missing an API token. If you [get your own Mapbox Access Token](https://docs.mapbox.com/help/getting-started/#how-to-use-mapbox) and fill it in in `.env`, most basic features of the map should work. You may need to restart the Vite server. **Mapbox asks for payment details to get a token, but has a free tier that should be sufficient for your local development needs.** If you really dislike this, [upvote the issue to support an open & free alternative](https://github.com/WelcometoMyGarden/welcometomygarden/issues/308).
 
 Some features are reserved for [Superfans](https://welcometomygarden.org/about-superfan). You can make your local test account a Superfan easily (and without Stripe) by:
 
@@ -94,6 +98,10 @@ Some features are reserved for [Superfans](https://welcometomygarden.org/about-s
 - Log into the Discourse community reserved for superfans - except if you set up your own Discourse server for testing, see [additional Discourse notes](./docs/discourse.md)
 
 If you have received access to our staging or production Firebase environment, see how to log in your Firebase account & access real API services with [these additional notes](./docs/full-access.md).
+
+### Code orientation
+
+The [architecture docs](./docs/architecture.md) contain some notes on the architecture of the app.
 
 ## Testing
 

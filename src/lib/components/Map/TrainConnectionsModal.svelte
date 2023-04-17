@@ -1,22 +1,23 @@
 <script lang="ts">
-  import { Text } from '@/lib/components/UI';
+  import { Text } from '$lib/components/UI';
   import { _ } from 'svelte-i18n';
   import { Button, Modal, TextInput } from '$lib/components/UI';
-  import { keyboardEvent } from '@/lib/stores/keyboardEvent';
+  import { keyboardEvent } from '$lib/stores/keyboardEvent';
   import {
     fetchStation,
     hasLocation,
     isLongDistanceOrRegionalOrSuburban,
     isRegion,
     toPoint
-  } from '@/lib/util/map/trainConnections';
-  import { flagIcon } from '@/lib/images/icons';
-  import { addTrainconnectionsDataLayers } from '@/lib/stores/trainconnections';
-  import { slugify } from '@/lib/util';
-  import type { OriginStation } from '@/lib/types/DataLayer';
+  } from '$lib/util/map/trainConnections';
+  import { flagIcon } from '$lib/images/icons';
+  import { addTrainconnectionsDataLayers } from '$lib/stores/trainconnections';
+  import { slugify } from '$lib/util';
+  import type { OriginStation } from '$lib/types/DataLayer';
+  import { onDestroy } from 'svelte';
 
   export let show = false;
-  let input: string = '';
+  let input = '';
   let error = '';
   let foundStations: any[] = [];
   let selectedStation: OriginStation | null = null;
@@ -70,9 +71,11 @@
     show = false;
   };
 
-  keyboardEvent.subscribe((e) => {
+  const unsubscribeFromKeyboardEvent = keyboardEvent.subscribe((e) => {
     if (e?.key === 't') show = !show;
   });
+
+  onDestroy(unsubscribeFromKeyboardEvent);
 </script>
 
 <svelte:window bind:innerWidth={vw} />

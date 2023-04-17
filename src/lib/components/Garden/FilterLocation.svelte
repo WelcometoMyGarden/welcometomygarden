@@ -1,10 +1,12 @@
-<script>
+<script lang="ts">
   import { _, locale } from 'svelte-i18n';
   import { createEventDispatcher } from 'svelte';
   import { geocodeExtensive } from '$lib/api/mapbox';
   import { clickOutside } from '$lib/directives';
   import { TextInput } from '$lib/components/UI';
   import { markerIcon } from '$lib/images/icons';
+  import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   export let isSearching;
   export let fallbackLocation;
@@ -119,7 +121,10 @@
     {#each places as place, i}
       <button
         class="button-container"
-        on:click={goToPlace(place.longitude, place.latitude)}
+        on:click={() => {
+          goToPlace(place.longitude, place.latitude);
+          trackEvent(PlausibleEvent.VISIT_SEARCHED_LOCATION);
+        }}
         tabindex="0"
       >
         {displayPlaceName(place.place_name)}
@@ -145,6 +150,8 @@
   }
 
   .location-filter-output {
+    width: 100%;
+    position: absolute;
     background-color: var(--color-white);
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);

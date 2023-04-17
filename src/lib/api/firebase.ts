@@ -2,8 +2,6 @@ import { connectAuthEmulator, getAuth, type Auth } from 'firebase/auth';
 import { type Firestore, getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { connectStorageEmulator, getStorage, type FirebaseStorage } from 'firebase/storage';
 import { getApps, initializeApp, type FirebaseApp } from 'firebase/app';
-import { getAnalytics, type Analytics } from 'firebase/analytics';
-import { getPerformance, type FirebasePerformance } from 'firebase/performance';
 import { connectFunctionsEmulator, getFunctions, type Functions } from 'firebase/functions';
 import { initializeEuropeWest1Functions, initializeUsCentral1Functions } from './functions';
 import envIsTrue from '../util/env-is-true';
@@ -18,9 +16,6 @@ const FIREBASE_CONFIG = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID as string
 };
 
-if (import.meta.env.VITE_FIREBASE_MEASUREMENT_ID)
-  FIREBASE_CONFIG.measurementId = import.meta.env.VITE_FIREBASE_MEASUREMENT_ID as string;
-
 const messageFor = (str: string) => `Trying to use an uninitialized ${str}.`;
 type FirestoreWarning = {
   app: string;
@@ -28,8 +23,6 @@ type FirestoreWarning = {
   auth: string;
   storage: string;
   functions: string;
-  analytics: string;
-  performance: string;
 };
 export const FIREBASE_WARNING: FirestoreWarning = [
   'app',
@@ -89,15 +82,6 @@ export const storage: () => FirebaseStorage = guardNull<FirebaseStorage>(
   'storage'
 );
 
-let analyticsRef: Analytics | null = null;
-export const analytics: () => Analytics = guardNull<Analytics>(() => analyticsRef, 'analytics');
-
-let performanceRef: FirebasePerformance | null = null;
-export const performance: () => FirebasePerformance = guardNull<FirebasePerformance>(
-  () => performanceRef,
-  'performance'
-);
-
 // TODO: window may not be available on server-side SvelteKit
 const isRunningLocally = window && window.location.hostname.match('localhost|127.0.0.1');
 
@@ -143,11 +127,4 @@ export async function initialize(): Promise<void> {
     connectFunctionsEmulator(europeWest1FunctionsRef, 'localhost', 5001);
   }
   authRef.useDeviceLanguage();
-
-  if (import.meta.env.PROD) addMetrics();
 }
-
-const addMetrics = async () => {
-  analyticsRef = getAnalytics(app());
-  performanceRef = getPerformance(app());
-};

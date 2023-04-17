@@ -4,6 +4,7 @@
         "svelte.svelte-vscode",
         "esbenp.prettier-vscode",
         "mikestead.dotenv",
-        "zixuanchen.vitest-explorer"
+        "zixuanchen.vitest-explorer",
+        "lokalise.i18n-ally"
     ]
 }

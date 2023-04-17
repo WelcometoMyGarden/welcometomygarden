@@ -16,14 +16,16 @@
   import { getCookie, setCookie } from '$lib/util';
   import { crossIcon } from '$lib/images/icons';
   import { ZOOM_LEVELS } from '$lib/constants';
-  import LayersAndTools from '@/lib/components/LayersAndTools/LayersAndTools.svelte';
-  import FileTrailModal from '@/lib/components/Map/FileTrailModal.svelte';
-  import TrainConnectionsModal from '@/lib/components/Map/TrainConnectionsModal.svelte';
-  import FileTrails from '@/lib/components/Map/FileTrails.svelte';
-  import type { Garden } from '@/lib/types/Garden';
-  import { savedGardens as savedGardenStore } from '@/lib/stores/savedGardens';
-  import TrainconnectionsLayer from '@/lib/components/Map/TrainconnectionsLayer.svelte';
-  import TrainAndRails from '@/lib/components/Map/TrainAndRails.svelte';
+  import LayersAndTools from '$lib/components/LayersAndTools/LayersAndTools.svelte';
+  import FileTrailModal from '$lib/components/Map/FileTrailModal.svelte';
+  import TrainConnectionsModal from '$lib/components/Map/TrainConnectionsModal.svelte';
+  import FileTrails from '$lib/components/Map/FileTrails.svelte';
+  import type { Garden } from '$lib/types/Garden';
+  import { savedGardens as savedGardenStore } from '$lib/stores/savedGardens';
+  import TrainconnectionsLayer from '$lib/components/Map/TrainconnectionsLayer.svelte';
+  import TrainAndRails from '$lib/components/Map/TrainAndRails.svelte';
+  import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let geolocationIsLoaded = false;
@@ -40,6 +42,20 @@
   let savedGardens = [] as string[];
   let carNoticeShown = !getCookie('car-notice-dismissed');
 
+  // TODO: this works for now, because the default state when loading the
+  // page is that the checkboxes are unchecked. We may want to intercept actual
+  // clicks/actions on the button.
+  $: if (showHiking) {
+    trackEvent(PlausibleEvent.SHOW_HIKING_ROUTES);
+  }
+  $: if (showCycling) {
+    trackEvent(PlausibleEvent.SHOW_CYCLING_ROUTES);
+  }
+
+  $: if (showTransport) {
+    trackEvent(PlausibleEvent.SHOW_TRAIN_NETWORK);
+  }
+
   // true when visiting the link to a garden directly, used to increase zoom level
   // TODO check this: It looks like there is no need for a subscribe on page
   let usingGardenLink = !!$page.params.gardenId;
@@ -52,7 +68,7 @@
     ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
     : fallbackLocation;
 
-  savedGardenStore.subscribe((gardens) => {
+  const unsubscribeFromSavedGardens = savedGardenStore.subscribe((gardens) => {
     if (Array.isArray(gardens)) savedGardens = gardens;
     else savedGardens = [];
   });
@@ -115,6 +131,7 @@
 
   onDestroy(() => {
     isFetchingGardens.set(false);
+    unsubscribeFromSavedGardens();
   });
 </script>
 

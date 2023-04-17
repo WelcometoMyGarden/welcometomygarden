@@ -2,13 +2,15 @@
   import { _ } from 'svelte-i18n';
   import { goto } from '$lib/util/navigate';
   import { addGardenLocally } from '$lib/stores/garden';
-  import { user } from '@/lib/stores/auth';
+  import { user } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
   import { Progress } from '$lib/components/UI';
   import { addGarden } from '$lib/api/garden';
   import Form from '$lib/components/Garden/Form.svelte';
   import routes from '$lib/routes';
   import type { Garden } from '$lib/types/Garden';
+  import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   if ($user && $user.garden) goto(routes.MANAGE_GARDEN);
 
@@ -24,6 +26,7 @@
       });
       await addGardenLocally(newGarden);
       addingGarden = false;
+      trackEvent(PlausibleEvent.ADD_GARDEN);
       let notifyMsg;
       newGarden.photo
         ? (notifyMsg = $_('garden.notify.success') + ' ' + $_('garden.notify.photo'))

@@ -1,11 +1,25 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import routes from '$lib/routes';
-  import { mailToSupportHref, SHOP_URL } from '$lib/constants';
+  import { DONATION_URL, mailToSupportHref } from '$lib/constants';
   import Socials from './Socials.svelte';
   import LanguageSelector from './LanguageSelector.svelte';
   import WtmgLogo from './UI/WTMGLogo.svelte';
-  import PaddedSection from '@/routes/(marketing)/_components/PaddedSection.svelte';
+  import PaddedSection from '$routes/(marketing)/_components/PaddedSection.svelte';
+  import { user } from '$lib/stores/auth';
+
+  const donationUrlParams = new URLSearchParams({
+    ...($user
+      ? {
+          prefilled_email: $user.email,
+          client_reference_id: $user.id
+        }
+      : {}),
+    utm_source: 'welcometomygarden.org',
+    utm_medium: 'web',
+    utm_campaign: 'donation_payment',
+    utm_content: 'footer'
+  });
 
   type Link = {
     title: string;
@@ -34,6 +48,11 @@
         {
           title: $_('footer.links.superfans'),
           link: routes.ABOUT_SUPERFAN
+        },
+        {
+          title: $_('footer.links.donate'),
+          link: `${DONATION_URL}?${donationUrlParams.toString()}`,
+          target: '_blank'
         }
       ]
     },
@@ -42,7 +61,9 @@
       links: [
         {
           title: $_('generics.slowby'),
-          link: $_('generics.slowby-url'),
+          link: `${$_(
+            'generics.slowby-url'
+          )}?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer`,
           target: '_blank'
         },
         {
@@ -53,11 +74,6 @@
         {
           title: $_('footer.links.women-dont-cycle.title'),
           link: $_('footer.links.women-dont-cycle.url'),
-          target: '_blank'
-        },
-        {
-          title: $_('generics.shop'),
-          link: SHOP_URL,
           target: '_blank'
         }
       ]

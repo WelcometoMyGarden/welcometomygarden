@@ -1,3 +1,4 @@
+// @ts-check
 // https://stackoverflow.com/a/69959606/4973029
 // eslint-disable-next-line import/no-unresolved
 const { initializeApp } = require('firebase-admin/app');
@@ -6,15 +7,11 @@ initializeApp();
 
 const functions = require('firebase-functions');
 const {
-  createUser,
   requestPasswordReset,
   resendAccountVerification,
-  cleanupUserOnDelete,
   setAdminRole,
   verifyEmail,
-  updateEmail,
-  onUserPrivateWrite: onUserPrivateUpdate,
-  onUserWrite: onUserUpdate
+  updateEmail
 } = require('./auth');
 const { doBackup } = require('./storage');
 const { onMessageCreate, onChatCreate } = require('./chat');
@@ -27,6 +24,10 @@ const {
 const { createStripeCustomer } = require('./subscriptions/createStripeCustomer');
 const { createCustomerPortalSession } = require('./subscriptions/createCustomerPortalSession');
 const { discourseConnectLogin } = require('./discourseConnectLogin');
+const { createUser } = require('./user/createUser');
+const { cleanupUserOnDelete } = require('./user/cleanupUserOnDelete');
+const { onUserWrite } = require('./user/onUserWrite');
+const { onUserPrivateWrite } = require('./user/onUserPrivateWrite');
 
 // Regions
 // This is in Belgium! All new functions should be deployed here.
@@ -63,15 +64,19 @@ exports.cleanupUserOnDelete = usCentral1.auth.user().onDelete(cleanupUserOnDelet
 // Firestore triggers: users
 exports.onUserPrivateWrite = euWest1.firestore
   .document('users-private/{userId}')
-  .onWrite(onUserPrivateUpdate);
-exports.onUserWrite = euWest1.firestore.document('users/{userId}').onWrite(onUserUpdate);
+  // @ts-ignore
+  .onWrite(onUserPrivateWrite);
+// @ts-ignore
+exports.onUserWrite = euWest1.firestore.document('users/{userId}').onWrite(onUserWrite);
 
 // Firestore triggers: campsites
 exports.onCampsiteCreate = usCentral1.firestore
   .document('campsites/{campsiteId}')
+  // @ts-ignore
   .onCreate(onCampsiteCreate);
 exports.onCampsiteDelete = usCentral1.firestore
   .document('campsites/{campsiteId}')
+  // @ts-ignore
   .onDelete(onCampsiteDelete);
 
 // Firestore triggers: chats

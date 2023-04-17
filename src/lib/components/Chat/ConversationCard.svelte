@@ -1,14 +1,15 @@
-<script>
+<script lang="ts">
   import { _ } from 'svelte-i18n';
   import User from './User.svelte';
   export let selected = false;
-  export let recipient;
-  export let lastMessage;
+  export let recipient: string;
+  export let seen = true;
+  export let lastMessage: string | undefined;
 </script>
 
 <button class="button-container conversation" class:selected on:click>
-  <User name={recipient}>
-    <p class="last-message">
+  <User name={recipient} {seen}>
+    <p class="last-message" class:seen>
       {#if lastMessage}
         {lastMessage}
       {:else}
@@ -51,6 +52,12 @@
     text-overflow: ellipsis;
     font-size: 1.4rem;
     margin-top: 0.4rem;
+    font-weight: 500;
+    color: var(--color-copy);
+  }
+
+  .last-message.seen {
+    font-weight: 400;
   }
 
   .badge {

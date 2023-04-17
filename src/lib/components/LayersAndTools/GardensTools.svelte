@@ -1,12 +1,26 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { LabeledRadioButton } from '@/lib/components/UI';
-  import { bookmarkEmptyIcon, hideIcon, tentIcon } from '@/lib/images/icons';
+  import { LabeledRadioButton } from '$lib/components/UI';
+  import { bookmarkEmptyIcon, hideIcon, tentIcon } from '$lib/images/icons';
+  import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
   export let showGardens: boolean;
   export let showSavedGardens: boolean;
-  let gardensGroup: 'ALL' | 'SAVED' | 'HIDE' = 'ALL';
+  type VisibilityStates = 'ALL' | 'SAVED' | 'HIDE';
+  let gardensGroup: VisibilityStates = 'ALL';
+  let previousGardensGroup: VisibilityStates = gardensGroup;
 
   $: {
+    if (previousGardensGroup !== gardensGroup) {
+      // Remember the last event that was clicked
+      trackEvent(
+        PlausibleEvent.SET_GARDEN_VISIBILITY,
+        {
+          type: ({ ALL: 'show_all', SAVED: 'show_saved', HIDE: 'hide_all' } as const)[gardensGroup]
+        },
+        true
+      );
+    }
     switch (gardensGroup) {
       case 'ALL':
         showGardens = true;
@@ -23,6 +37,7 @@
       default:
         break;
     }
+    previousGardensGroup = gardensGroup;
   }
 </script>
 

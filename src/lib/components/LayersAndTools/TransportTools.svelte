@@ -1,21 +1,24 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { Button, LabeledCheckbox, MultiActionLabel } from '@/lib/components/UI';
-  import { flagIcon, trainIcon } from '@/lib/images/icons';
+  import { Button, LabeledCheckbox, MultiActionLabel } from '$lib/components/UI';
+  import { flagIcon, trainIcon } from '$lib/images/icons';
   import {
     removeTrainconnectionsDataLayers,
     toggleVisibilityTrainconnectionsDataLayers,
     trainconnectionsDataLayers
-  } from '@/lib/stores/trainconnections';
+  } from '$lib/stores/trainconnections';
+  import type { TrainconnectionsDataLayer } from '$lib/types/DataLayer';
+  import { onDestroy } from 'svelte';
 
   export let showTransport: boolean;
   export let showRails: boolean;
   export let showStations: boolean;
 
-  let localTrainconnectionsDataLayers = $trainconnectionsDataLayers;
-  trainconnectionsDataLayers.subscribe((value) => {
+  let localTrainconnectionsDataLayers: TrainconnectionsDataLayer[];
+  const trainconnectionsDataLayersUnsubscribe = trainconnectionsDataLayers.subscribe((value) => {
     localTrainconnectionsDataLayers = value;
   });
+  onDestroy(trainconnectionsDataLayersUnsubscribe);
 </script>
 
 <LabeledCheckbox

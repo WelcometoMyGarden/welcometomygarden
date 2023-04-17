@@ -73,4 +73,14 @@
   .cluster :global(.lowercase) {
     text-transform: lowercase;
   }
+
+  .cluster-collapsible p :global(a:link),
+  .cluster-collapsible p :global(a:visited),
+  .cluster-collapsible p :global(a:active) {
+    color: var(--color-orange);
+    text-decoration: underline;
+  }
+  .cluster-collapsible p :global(a:hover) {
+    text-decoration: none;
+  }
 </style>

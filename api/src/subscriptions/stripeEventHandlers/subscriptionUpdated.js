@@ -1,9 +1,7 @@
-// https://stackoverflow.com/a/69959606/4973029
-// eslint-disable-next-line import/no-unresolved
-const { getFirestore } = require('firebase-admin/firestore');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const { stripeSubscriptionKeys } = require('../constants');
 const removeUndefined = require('../../util/removeUndefined');
+const { db } = require('../../firebase');
 
 const {
   priceIdKey,
@@ -14,7 +12,6 @@ const {
   currentPeriodStartKey
 } = stripeSubscriptionKeys;
 
-const db = getFirestore();
 /**
  * Sent when the subscription is successfully started, after the payment is confirmed.
  * Also sent whenever a subscription is changed. For example, adding a coupon, applying a discount, adding an invoice item, and changing plans all trigger this event.

@@ -2,18 +2,23 @@
   import { _ } from 'svelte-i18n';
   import { goto } from '$lib/util/navigate';
   import notify from '$lib/stores/notification';
-  import { updateMailPreferences } from '@/lib/api/user';
-  import { resendAccountVerification } from '@/lib/api/auth';
+  import { updateMailPreferences } from '$lib/api/user';
+  import { resendAccountVerification } from '$lib/api/auth';
   import { changeListedStatus } from '$lib/api/garden';
-  import { user } from '@/lib/stores/auth';
+  import { user } from '$lib/stores/auth';
   import { updatingMailPreferences } from '$lib/stores/user';
   import { Avatar, Icon, Button, LabeledCheckbox } from '$lib/components/UI';
+  import AccountDeletionModal from './AccountDeletionModal.svelte';
   import { flagIcon, emailIcon } from '$lib/images/icons';
   import { countries } from '$lib/util';
   import routes from '$lib/routes';
   import { SUPPORT_EMAIL } from '$lib/constants';
-  import { createCustomerPortalSession } from '@/lib/api/functions';
-  import ReloadSuggestion from '@/lib/components/ReloadSuggestion.svelte';
+  import { createCustomerPortalSession } from '$lib/api/functions';
+  import ReloadSuggestion from '$lib/components/ReloadSuggestion.svelte';
+  import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
+
+  let showAccountDeletionModal = false;
 
   if (!$user) {
     goto(routes.SIGN_IN);
@@ -23,9 +28,6 @@
     try {
       const { name, checked } = event.target;
       await updateMailPreferences(name, checked);
-      if ($user) {
-        $user.setEmailPreferences(name, checked);
-      }
       notify.success($_('account.notify.preferences-update'), 3500);
     } catch (ex) {
       console.log(ex);
@@ -38,7 +40,6 @@
     updatingListedStatus = true;
     try {
       await changeListedStatus(newStatus);
-      $user.setGarden({ ...$user.garden, listed: newStatus });
       if (!newStatus) notify.success($_('account.notify.garden-no-show'), 7000);
       else notify.success($_('account.notify.garden-show'), 7000);
     } catch (ex) {
@@ -71,6 +72,7 @@
   let loadingPortal = false;
   const openCustomerPortalSession = async () => {
     loadingPortal = true;
+    trackEvent(PlausibleEvent.VISIT_MANAGE_SUBSCRIPTION);
     try {
       const { data } = await createCustomerPortalSession();
       const { url } = data;
@@ -190,9 +192,17 @@
           {/if}
         </section>
       {/if}
+      <section>
+        <h2>{$_('account.danger-zone')}</h2>
+        <Button xxsmall danger on:click={() => (showAccountDeletionModal = true)}
+          >{$_('account.delete.button-action')}</Button
+        >
+      </section>
     </div>
   </div>
 {/if}
+
+<AccountDeletionModal bind:showAccountDeletionModal />
 
 <style>
   .wrapper {

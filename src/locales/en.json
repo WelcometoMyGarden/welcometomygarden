@@ -22,11 +22,10 @@
     "sign-out": "Sign out",
     "sign-in": "Sign in",
     "garden": "Garden",
-    "shop": "Shop",
     "slowby": "Secret Trips",
     "about-us": "About Us",
     "become-superfan": "Become a Superfan",
-    "slowby-url": "https://slowby.travel",
+    "slowby-url": "https://slowby.travel/",
     "superfan": "Superfan",
     "feature": "Feature"
   },
@@ -37,9 +36,9 @@
   },
   "navigation": {
     "slowby-notice": {
-      "prompt": "Need help planning a trip?",
-      "answer": "Check our {slowbyLink}",
-      "slowby-link-text": "Slowby Secret Trips"
+      "prompt": "Want WTMG to stay 100% independent?",
+      "answer": "and keep us going.",
+      "link-text": "Join our"
     }
   },
   "index": {
@@ -105,19 +104,9 @@
         },
         "4": {
           "title": "Does Welcome To My Garden cost anything?",
-          "copy": "WTMG is free for everyone to use, but not free to make. We have bills to pay: our technical costs, which increase as we grow; our talented team; our office space at the Impact House. Behind the scenes, we are continually improving the platform. To support us, you can now <a href=\"/about-superfan\">become a Superfan</a> and get access to extra features."
+          "copy": "WTMG is free for everyone to use, but not free to make. We have bills to pay: our technical costs, which increase as we grow; our talented team; our office space at the Impact House. Behind the scenes, we are continually improving the platform. To support us, you can now <a href=\"/about-superfan\">become a Superfan</a> and get access to extra features. You can also <a href=\"https://donate.stripe.com/14k4kf26r2sjfLO3ce?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=donation_payment&utm_content=index_faq\">make a single donation</a> instead!"
         }
       }
-    },
-    "support": {
-      "title": "Support us",
-      "copy": "Welcome To My Garden is free to use but we have to pay a couple of bills. {donationLink} to keep us going!",
-      "donation-link-text": "Make a donation"
-    },
-    "holiday-donations": {
-      "title": "Everyone deserves a holiday",
-      "copy": "Did you know that 22% of children can't go on a holiday? After the lockdown, they need some breathing room now more than ever. Thanks to your contribution, the most vulnerable groups can also experience a getaway.",
-      "link-text": "Donate now"
     },
     "superfan": {
       "support-mission": "New: support our mission",
@@ -259,7 +248,7 @@
           },
           "cost": {
             "title": "Does Welcome To My Garden cost anything?",
-            "copy": "WTMG is free for everyone to use, but not free to make. We have bills to pay: our technical costs, which increase as we grow; our talented team; our office space at the Impact House. Behind the scenes, we are continually improving the platform. To support us, you can now <a href=\"/become-superfan\">become a Superfan</a> and get access to extra features."
+            "copy": "WTMG is free for everyone to use, but not free to make. We have bills to pay: our technical costs, which increase as we grow; our talented team; our office space at the Impact House. Behind the scenes, we are continually improving the platform. To support us, you can now <a href=\"/become-superfan\">become a Superfan</a> and get access to extra features. You can also <a href=\"https://donate.stripe.com/14k4kf26r2sjfLO3ce?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=donation_payment&utm_content=index_faq\">make a single donation</a> instead!"
           },
           "no-garden": {
             "title": "I don’t have a garden. Can I still travel to other people’s gardens?",
@@ -351,52 +340,7 @@
     "instruction-page": "this instructions page"
   },
   "cookies": {
-    "title": "Cookie policy",
-    "articles": {
-      "0": {
-        "title": "What Are Cookies",
-        "copy": {
-          "0": "As is common practice with almost all professional websites, this site uses cookies. Cookies are tiny files that are downloaded to your computer, to improve your experience. This page describes what information they gather, how we use it and why we sometimes need to store these cookies. We will also share how you can prevent these cookies from being stored. However, this may downgrade or 'break' certain elements of the site functionality. For more general information on cookies <a href=\"https://www.google.com/url?q=https://en.wikipedia.org/wiki/HTTP_cookie&amp;sa=D&amp;ust=1592214262286000\"> see this Wikipedia article on HTTP Cookies.</a>"
-        }
-      },
-      "1": {
-        "title": "How We Use Cookies",
-        "copy": {
-          "0": "We use cookies for a variety of reasons detailed below. Unfortunately, in most cases there are no industry standard options for disabling cookies without completely disabling the functionality and features they add to this site. It is recommended that you leave all cookies if you are not sure whether you need them or not in case they are used to provide a service that you use."
-        }
-      },
-      "2": {
-        "title": "Disabling Cookies",
-        "copy": {
-          "0": "You can prevent cookies being downloaded by adjusting your browser settings (see the Help menu of your browser to find out how to do this). Please be aware that disabling cookies might affect the functionality of this and many other websites that you visit. Disabling cookies will usually result in disabling certain functionality and features of this site as well. If you'd like to disable cookies, we recommend using <a href=\"https://www.google.com/url?q=https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/&amp;sa=D&amp;ust=1592214262287000\"> Privacy Badger</a> on Firefox."
-        }
-      },
-      "3": {
-        "title": "The Cookies We Set",
-        "copy": {
-          "0": "If you create an account with us then we will use cookies for the management of the signup process and general administration. These cookies will usually be deleted when you log out. However, in some cases they may remain afterwards to remember your site preferences when logged out.",
-          "1": "We use cookies when you are logged in so that we can remember this fact. This prevents you from having to log in every single time you visit a new page. These cookies are typically removed or cleared when you log out to ensure that you can only access restricted features and areas when logged in.",
-          "2": "This site might offer newsletter or email subscription services in the future and cookies may be used to remember if you are already registered and whether to show certain notifications which might only be valid to subscribed/unsubscribed users.",
-          "3": "When you submit data through a form such as those found on contact pages or comment forms, cookies may be set to remember your user details for future correspondence.",
-          "4": "In order to provide you with a great experience on this site, we provide the functionality to set your preferences for how this site runs when you use it. In order to remember your preferences we need to set cookies, so that this information can be recalled whenever you interact with a page that is affected by your preferences."
-        }
-      },
-      "4": {
-        "title": "Third Party Cookies",
-        "copy": {
-          "0": "In some special cases we also use cookies provided by trusted third parties. The following section details which third party cookies you might encounter through this site.",
-          "1": "This site uses Google Analytics, which is one of the most widespread and trusted analytics solutions on the web. We use it to help us to understand how you use this site and to discover how we can improve your experience. These cookies may track things such as how much time you spend on the site and which pages you visit, so we can continue to produce engaging content.",
-          "2": "For more information on Google Analytics cookies, <a href=\"https://www.google.com/url?q=https://analytics.google.com/analytics/web/%23/&amp;sa=D&amp;ust=1592214262289000\">see the official Google Analytics page.</a>",
-          "3": "Third party analytics are used to track and measure usage of this site so that we can continue to produce engaging content. These cookies may track things such as how much time you spend on this site or which pages you visit, to help us to understand how we can improve the site for you. From time to time we test new features and make subtle changes to the way that the site is delivered. When we are still testing new features, these cookies may be used to ensure that you receive a consistent experience during your visit, whilst ensuring that we understand which optimisations our users appreciate the most."
-        }
-      },
-      "5": {
-        "title": "More Information",
-        "copy": {
-          "0": "Hopefully this page has clarified things for you. As previously mentioned, if there is anything that you aren&#39;t sure you need or not, it&#39;s usually safer to leave cookies enabled - just in case it does interact with one of the features you use on our site. If you are still looking for more information, you can contact us at {support}."
-        }
-      }
-    }
+    "title": "Cookie policy"
   },
   "privacy-policy": {
     "title": "Privacy policy",
@@ -614,7 +558,6 @@
         "login": "You must {signInLink} to contact hosts",
         "sign-link-text": "sign in"
       },
-      "unclaimed": "You can contact this host as soon as they have created their account.",
       "save": "Save",
       "saved": "Saved"
     },
@@ -733,7 +676,7 @@
       "title": "Choose the price that fits you best",
       "description": "We use open pricing because we want WTMG to be available to everyone, and we trust your decision. You pay for one year at a time. Becoming a Superfan is commitment-free: your subscription stops automatically after one year, and you will receive a reminder email to renew it.",
       "per-month": "/month",
-      "annual-amount": " billed anually",
+      "annual-amount": " billed annually",
       "pricing-levels": {
         "0": {
           "slug": "Sow",
@@ -760,7 +703,7 @@
     },
     "video-section": {
       "title": "Why become a Superfan?",
-      "description": "<p>If you are truly passionate about slow travel and you want to support WTMG’s mission, then perhaps you should become a Superfan! With your financial support, we can make WTMG financially stable and keep it free for everyone to use! You choose the price that fits you best.</p><p>We’re a small team of five and have invested a lot of our personal time, energy and money in this initiative. We started off as a small citizen initiative in Belgium, but we are growing into something bigger. It’s clear that WTMG is here to stay, and we want to make sure we can survive as well as thrive. And that’s where you come in!</p>"
+      "description": "<p>If you are truly passionate about slow travel and you want to support WTMG’s mission, then perhaps you should become a Superfan! With your financial support, we can make WTMG financially stable and keep it free for everyone to use! You choose the price that fits you best.</p><p>We’re a small team of four and have invested a lot of our personal time, energy and money in this initiative. We started off as a small citizen initiative in Belgium, but we are growing into something bigger. It’s clear that WTMG is here to stay, and we want to make sure we can survive as well as thrive. And that’s where you come in!</p>"
     },
     "for-superfans-section": {
       "slug": "What's in it for you?",
@@ -769,7 +712,7 @@
     },
     "team-section": {
       "title": "Meet the team",
-      "description": "So, who’s behind WTMG? We’re a small team of five slow travel enthusiasts and we want to help others embark on their slow travel adventures too!",
+      "description": "So, who’s behind WTMG? We’re a small team of four slow travel enthusiasts and we want to help others embark on their slow travel adventures too!",
       "meet-team-button": "Meet the team"
     },
     "superfan-quotes-section": {
@@ -800,7 +743,7 @@
             },
             "1": {
               "title": "Why does WTMG need Superfans?",
-              "copy": "We started off as a small citizen initiative in Belgium, but now we’re growing into something bigger. We’re a small team of five and have invested a lot of our personal time, energy and money in the platform, but now we’re moving beyond the volunteer stage. A lot of good initiatives collapse when they grow because they lack funding, and we don’t want that to happen to our beautiful community and platform. And that’s where our Superfans come in! Thanks to your contribution, we can make sure that WTMG not only survives, but also thrives."
+              "copy": "We started off as a small citizen initiative in Belgium, but now we’re growing into something bigger. We’re a small team of four and have invested a lot of our personal time, energy and money in the platform, but now we’re moving beyond the volunteer stage. A lot of good initiatives collapse when they grow because they lack funding, and we don’t want that to happen to our beautiful community and platform. And that’s where our Superfans come in! Thanks to your contribution, we can make sure that WTMG not only survives, but also thrives."
             },
             "2": {
               "title": "Where will my money go?",
@@ -850,7 +793,7 @@
           "questions": {
             "0": {
               "title": "Who’s behind WTMG?",
-              "copy": "We’re a small team of five slow travel enthusiasts and we want to help others embark on their slow travel adventures too! You can read more about us <a href=\"/about-us\" target=\"_blank\">here</a>."
+              "copy": "We’re a small team of four slow travel enthusiasts and we want to help others embark on their slow travel adventures too! You can read more about us <a href=\"/about-us\" target=\"_blank\">here</a>."
             },
             "1": {
               "title": "What’s the legal structure behind WTMG?",
@@ -866,7 +809,7 @@
             },
             "4": {
               "title": "How many Superfans does WTMG need to survive and thrive?",
-              "copy": "Our goal is to gather at least 1.000 Superfans in 2023. However, that's not enough to cover all our costs. We fill the gap with the revenue generated by Manon’s film, <a href=\"https://womendontcycle.com/\" target=\"_blank\">Women Don’t Cycle</a>, and our <a href=\"https://www.slowby.travel\" target=\"_blank\">Slowby Secret Trips</a>. We intend to create an annual impact report which will also include a budget breakdown."
+              "copy": "Our goal is to gather at least 1.000 Superfans in 2023. However, that's not enough to cover all our costs. We fill the gap with the revenue generated by Manon’s film, <a href=\"https://womendontcycle.com/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=superfan_faq\" target=\"_blank\">Women Don’t Cycle</a>, and our <a href=\"https://www.slowby.travel/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=superfan_faq\" target=\"_blank\">Slowby Secret Trips</a>. We intend to create an annual impact report which will also include a budget breakdown."
             }
           }
         }
@@ -887,7 +830,13 @@
       "explore-features-button": "Explore new features"
     },
     "closing-section": {
-      "text": "<p><p>Thank you again for becoming a Superfan!</p><p><strong>The WTMG team,</strong><br/>Dries, Manon, Thor, Ward & Janneke</p>A huge thank you on behalf of the entire team!<p/>"
+      "text": "<p><p>Thank you again for becoming a Superfan!</p><p><strong>The WTMG team,</strong><br/>Dries, Manon, Thor & Janneke</p>A huge thank you on behalf of the entire team!<p/>"
+    }
+  },
+  "thank-you-donate": {
+    "top-section": {
+      "title": "Thank you for supporting WTMG! 💚",
+      "description": "<p>You are helping us to accomplish our mission: to make slow travel more accessible for everyone, encourage sustainable travel and foster precious new connections between people.</p><p><strong>A huge thank you on behalf of the entire team!</strong></p><p>The WTMG team,<br/>Dries, Manon, Thor & Janneke</p>"
     }
   },
   "payment-superfan": {
@@ -972,7 +921,7 @@
         "button": "Add your garden"
       },
       "listed": {
-        "text": "You can unlist your garden at any time. This means it will stay saved for later - but won't be shown on the map until you show it again.",
+        "text": "Unlist my garden temporarily",
         "button": "Manage garden"
       },
       "unverified": {
@@ -989,6 +938,24 @@
       "garden-show": "Your garden will show up on the map again",
       "garden-no-show": "Your garden won't show up on the map",
       "preferences-update": "Your email preferences have been updated!"
+    },
+    "danger-zone": "Danger zone",
+    "delete": {
+      "button-action": "Delete your account",
+      "modal": {
+        "are-you-sure": "<p>Deleting your account deletes all your account details, such as your email address, last name, and your garden information, from our systems.</p>\n<p>The chat messages you have received or sent will still be visible to the other accounts involved in those chats, including your first name.</p><strong>This action can not be undone!</strong></p>\n<p>If you just want to hide your garden from the map, exit this popup and click on \"{unlist}\".</p>",
+        "prompt": "delete everything",
+        "errors": {
+          "wrong-verification": "Did you type \"{prompt}\" into the field above?"
+        },
+        "delete-field-label": "Type \"{prompt}\"",
+        "title": "Are you sure?",
+        "reauthentication-info": "<span style=\"color:var(--color-danger);\">⚠️ It was a long time ago that you logged in.</span> To make sure it's you, please provide your password to confirm the deletion:",
+        "deleted": "Your account was deleted",
+        "verification-info": "<p>To make sure that you are not accidentally deleting your account, type \"{prompt}\" into the text box below:</p>",
+        "verification-ok": "✅ You can now delete your account!",
+        "reauthentication-incorrect-password": "The provided password was incorrect, try again."
+      }
     }
   },
   "auth": {
@@ -1007,8 +974,9 @@
       "unverified": "Please verify your email first."
     },
     "discourse": {
-      "superfan": "You need to be a Superfan to enter the community.",
-      "logging-in": "Logging you into Discourse..."
+      "superfan": "Only Superfans have access to the community space.",
+      "logging-in": "Busy logging you into the community space...",
+      "failed": "Login to the community space failed, contact support if this keeps happening."
     },
     "logged-out": "You have been logged out elsewhere. Please log in again."
   },
@@ -1364,15 +1332,15 @@
   },
   "about-us": {
     "here-we-are": "Here we are!",
-    "who-behind": "So, who’s behind WTMG? We’re a small team of five slow travel enthusiasts and we want to help others embark on their slow travel adventures too! Fun fact: all of us are both WTMG hosts and travellers.",
+    "who-behind": "So, who’s behind WTMG? We’re a small team of four slow travel enthusiasts and we want to help others embark on their slow travel adventures too! Fun fact: all of us are both WTMG hosts and travellers.",
     "co-founder": "Co-founder",
     "dev": "Developer",
     "designer": "Designer",
     "communications": "Communications",
-    "dries": "Dries is the one who came up with WTMG. He bought his first tour bike when he was only 18, and biked from Brussels to Tokyo with Manon in 2019. His love for open data and open source led him to work for Open Knowledge Belgium for a few years, which is also where he met Ward and Thor. He's leading the WTMG team and his enthusiasm is utterly contagious!",
-    "manon": "Manon is a true multipotentialite and has a solution for everything. She ran a marathon twice, cycled from Brussels to Tokyo with Dries, and made a beautiful film about it: <a href=\"{womenDontCycleUrl}\" target=\"_blank\">‘Women Don’t Cycle’</a>. She's the only one on the team who studied tourism. The fact that she's fluent in four languages and feels very comfortable in front of a camera makes her our unofficial spokesperson!",
+    "dries": "Dries is the one who came up with WTMG. He bought his first tour bike when he was only 18, and biked from Brussels to Tokyo with Manon in 2019. His love for open data and open source led him to work for Open Knowledge Belgium for a few years, which is also where he met Thor. He's leading the WTMG team and his enthusiasm is utterly contagious!",
+    "manon": "Manon is a true multipotentialite and has a solution for everything. She ran a marathon twice, cycled from Brussels to Tokyo with Dries, and made a beautiful film about it: <a href=\"https://womendontcycle.com/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=about_profile\" target=\"_blank\">‘Women Don’t Cycle’</a>. She's the only one on the team who studied tourism. The fact that she's fluent in four languages and feels very comfortable in front of a camera makes her our unofficial spokesperson!",
     "thor": "Thor is the genius technologist any project needs. He participated in Open Summer of Code twice, where he met Dries in 2017. In the same year, he cycled from Leuven to Helsinki. He is now a WTMG host there! Not only is he a fantastic developer, he’s a great designer as well. He loves cooking, coding and reading long intriguing articles!",
-    "ward": "Ward is the most enthusiastic developer the world has ever seen! He went on a trip using WTMG only two days after he’d discovered it. Coincidentally, a journalist who wanted to write about WTMG took his picture and so he made it into a newspaper! He’s so eager to bring code to the world that we call him the “Push the button guy” on our team!",
+    "ward": "Ward contributed to WTMG from the beginning!",
     "janneke": "Janneke loves words and is absolutely amazing with them. As soon as she read about WTMG, she immediately suggested there should be a Facebook page and has been taking care of our communication ever since! She is head over heels in love with Romania; she wrote a guidebook about it, bought a house there, and founded <a href=\"https://roamaniac.com/\" target=\"_blank\">Roamaniac</a>.",
     "michiel": "The original coder. Without him, WTMG wouldn’t exist.",
     "marie": "The genius designer. She made WTMG so pretty.",
@@ -1382,7 +1350,7 @@
     "how-contribute": "How can you contribute?",
     "ways-support": "Here are all the ways in which you can support us.",
     "our-story-title": "Our story",
-    "our-story-description": "<p>Hey! We’re Dries and Manon and we’re the proud parents of Welcome To My Garden. In 2019, we cycled from Brussels to Tokyo. Over the course of 11 months, we travelled through 21 countries, and were hosted by countless incredible people along the way.</p><p>When we arrived back in Belgium, we asked ourselves: how can we make slow travel easier and more fun in our own country? On a rainy Sunday afternoon in 2020, Dries set up the first version of WTMG. Within two hours, there were 50 gardens on the map - and after two weeks, there were 500!</p><p>We’ve come a long way since then: today, WTMG counts 30.000+ users and 4000+ gardens. It’s clear we’re here to stay! And it’s time to step up. We’ve listened to you, our community, and we’re now investing in making WTMG meet all your slow travel needs.</p><p>WTMG exists thanks to the hard work of a passionate bunch of volunteers, who invested evenings and weekends in it. But to keep going, we need more time and people power. This is why Thor, Ward and Janneke also jumped on board. We’re giving it our all, and are hoping that you will join us on the ride!</p>",
+    "our-story-description": "<p>Hey! We’re Dries and Manon and we’re the proud parents of Welcome To My Garden. In 2019, we cycled from Brussels to Tokyo. Over the course of 11 months, we travelled through 21 countries, and were hosted by countless incredible people along the way.</p><p>When we arrived back in Belgium, we asked ourselves: how can we make slow travel easier and more fun in our own country? On a rainy Sunday afternoon in 2020, Dries set up the first version of WTMG. Within two hours, there were 50 gardens on the map - and after two weeks, there were 500!</p><p>We’ve come a long way since then: today, WTMG counts 30.000+ users and 4000+ gardens. It’s clear we’re here to stay! And it’s time to step up. We’ve listened to you, our community, and we’re now investing in making WTMG meet all your slow travel needs.</p><p>WTMG exists thanks to the hard work of a passionate bunch of volunteers, who invested evenings and weekends in it. But to keep going, we need more time and people power. This is why Thor and Janneke also jumped on board. We’re giving it our all, and are hoping that you will join us on the ride!</p>",
     "bigger-picture-title": "The bigger picture",
     "bigger-picture-description": "<p>If there’s one thing we’ve learned over the past few years, it’s this: it’s time to slow down. This applies to life in general, but also definitely to travel specifically. The faster we travel, the more we miss out on. Fast travel generates a lot of CO2 emissions, disconnects people from their surroundings, and damages communities. Enter slow travel!</p><p>And enter WTMG! We are proud to be part of the solution to this global challenge. In two years’ time, WTMG has achieved a lot:<ul><li>31.000 users have embarked on a slow travel adventure</li><li>4.300 warm-hearted hosts have opened up their garden to slow travellers</li><li>57.000 stay requests have been sent through the WTMG platform</li><li>We started in Belgium but more and more gardens are now also popping up across Europe and beyond?</li><li>We received financial support from partners like Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers and Natuurpunt</li></ul></p><p>The most meaningful and memorable experiences happen when we take our time to explore and engage with our surroundings. With WTMG, we want to help you do just that. Together, we can make the world a better place – by travelling more slowly and more sustainably. Will you join the ride?</p><p>We’re always open to new ideas and collaborations, so please don’t hesitate to get in touch!</p>",
     "contribute-blocks": {
@@ -1392,7 +1360,7 @@
       },
       "2": {
         "title": "Go on a secret trip",
-        "text": "With <a href=\"https://www.slowby.travel/\" target=\"_blank\">Slowby</a>, WTMG’s little sister, you can go on a secret slow travel trip! We take care of the planning. All you need to do is pack and pedal, or walk! You can also get a <a href=\"https://gift.slowby.travel/\" target=\"_blank\">gift card</a> for someone you love!"
+        "text": "With <a href=\"https://www.slowby.travel/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=contribute_method\" target=\"_blank\">Slowby</a>, WTMG’s little sister, you can go on a secret slow travel trip! We take care of the planning. All you need to do is pack and pedal, or walk! You can also get a <a href=\"https://gift.slowby.travel/?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=giftcard&utm_content=contribute_method\" target=\"_blank\">gift card</a> for someone you love!"
       },
       "3": {
         "title": "Spread the word",
@@ -1418,12 +1386,14 @@
       "superfans": "Superfans",
       "velotour": {
         "title": "Velotour Festival",
-        "url": "https://velotourfestival.be/"
+        "url": "https://velotourfestival.be/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer"
       },
       "women-dont-cycle": {
         "title": "Women Don't Cycle - The Film",
-        "url": "https://womendontcycle.com/"
-      }
+        "url": "https://womendontcycle.com/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer"
+      },
+      "donate": "Donate"
     }
-  }
+  },
+  "danger-zone": "Danger zone"
 }

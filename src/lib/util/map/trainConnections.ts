@@ -1,4 +1,4 @@
-import type { Station } from '@/lib/types/Station';
+import type { Station } from '$lib/types/Station';
 import isUicLocationCode from 'is-uic-location-code';
 
 export const fetchStation = async (query: string): Promise<any> => {

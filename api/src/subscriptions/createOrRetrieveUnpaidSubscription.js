@@ -1,11 +1,9 @@
-// https://stackoverflow.com/a/69959606/4973029
-// eslint-disable-next-line import/no-unresolved
-const { getFirestore } = require('firebase-admin/firestore');
 const fail = require('../util/fail');
 const stripe = require('./stripe');
 const { createStripeCustomer } = require('./createStripeCustomer');
 const { stripeSubscriptionKeys } = require('./constants');
 const removeUndefined = require('../util/removeUndefined');
+const { db } = require('../firebase');
 
 const {
   idKey,
@@ -18,8 +16,6 @@ const {
   cancelAtKey,
   canceledAtKey
 } = stripeSubscriptionKeys;
-
-const db = getFirestore();
 
 /**
  * @param {string} customerId
