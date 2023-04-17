@@ -4,7 +4,7 @@
   import { flip } from 'svelte/animate';
   import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
-  import { user } from '$lib/stores/auth';
+  import { getUser, user } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
   import { chats, creatingNewChat, hasInitialized, getChatForUser } from '$lib/stores/chat';
   import routes from '$lib/routes';
@@ -16,6 +16,7 @@
   import createSlug from '$lib/util/createSlug';
   import { onDestroy } from 'svelte';
   import nProgress from 'nprogress';
+  import type { LocalChat } from '$lib/types/Chat';
 
   let localPage = $page;
   // Subscribe to page is necessary to render the chat page of the selected chat (when the url changes) for mobile
@@ -27,7 +28,7 @@
     .map((id) => $chats[id])
     .sort(sortByLastActivity);
 
-  let newConversation;
+  let newConversation: { name: string; partnerId: string } | null = null;
 
   $: if (
     newConversation &&
@@ -42,9 +43,9 @@
 
   // TODO: do this with css grids, not with separate html templates switched by JS
   // It is currently not responsive without reloading.
-  let outerWidth;
+  let outerWidth: number | undefined;
   let isMobile = false;
-  $: outerWidth <= 700 ? (isMobile = true) : (isMobile = false);
+  $: typeof outerWidth === 'number' && outerWidth <= 700 ? (isMobile = true) : (isMobile = false);
 
   onMount(async () => {
     if (!$user) {
@@ -68,9 +69,17 @@
   });
 
   // Functions
-  const sortByLastActivity = (c1, c2) => c2.lastActivity - c1.lastActivity;
+  const sortByLastActivity = (c1: LocalChat, c2: LocalChat) =>
+    c2.lastActivity.toMillis() - c1.lastActivity.toMillis();
 
-  const getConvoRoute = (name, id) => `${routes.CHAT}/${createSlug(name)}/${id}`;
+  /**
+   * Create a route for a specific chat with the slugified name or the chat partner (for aesthetic purposes),
+   * and their UID (for an actual lookup)
+   * @param partnerName
+   * @param chatId
+   */
+  const getConvoRoute = (partnerName: string, chatId: string) =>
+    `${routes.CHAT}/${createSlug(partnerName)}/${chatId}`;
 
   const startChattingWith = async (partnerId: string) => {
     if ($chats) {
@@ -91,10 +100,21 @@
     }
   };
 
-  const selectConversation = (id) => {
-    if (!id) goto(getConvoRoute(newConversation.name, 'new'));
-    const name = $chats[id] ? $chats[id].partner.firstName.toLowerCase() : newConversation.name;
-    goto(getConvoRoute(name, id));
+  const isConversationSeen = (conversation: LocalChat) => {
+    // Seen if you are the last sender, or otherwise, if lastMessageSeen is undefined/null, or true
+    return (
+      conversation.lastMessageSender === getUser().id || conversation.lastMessageSeen !== false
+    );
+  };
+
+  const selectConversation = (id: string | null) => {
+    if (!id && newConversation) {
+      goto(getConvoRoute(newConversation.name, 'new'));
+    }
+    if (id) {
+      const chatName = $chats[id].partner.firstName.toLowerCase();
+      goto(getConvoRoute(chatName, id));
+    }
   };
 </script>
 
@@ -103,7 +123,7 @@
 
 {#if !localPage.url.searchParams.get('with') && $hasInitialized && $user && $user.emailVerified}
   <div class="container">
-    {#if !isMobile || (isMobile && isOverview)}
+    {#if outerWidth != null && (!isMobile || (isMobile && isOverview))}
       <section class="conversations" in:fly={{ x: -outerWidth, duration: 400 }}>
         <h2>{$_('chat.all-conversations')}</h2>
         {#if newConversation}
@@ -131,6 +151,7 @@
                 recipient={$chats[conversation.id].partner.firstName}
                 lastMessage={conversation.lastMessage}
                 selected={selectedConversation && selectedConversation.id === conversation.id}
+                seen={isConversationSeen(conversation)}
                 on:click={() => selectConversation(conversation.id)}
               />
             </article>

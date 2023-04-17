@@ -1,11 +1,12 @@
 import { USERS, USERS_PRIVATE } from './collections';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, DocumentReference, getDoc, updateDoc } from 'firebase/firestore';
 
 import { db } from './firebase';
 
 import { getUser } from '$lib/stores/auth';
 import trackEvent from '$lib/util/track-event';
 import { PlausibleEvent } from '$lib/types/Plausible';
+import type { UserPublic } from '$lib/models/User';
 
 export const doesPublicUserExist = async (uid: string) => {
   const userDoc = await getDoc(doc(db(), USERS, uid));
@@ -16,7 +17,7 @@ export const doesPublicUserExist = async (uid: string) => {
  * Get the public user profile of a user. Used, for example, to fetch information about a chat partner.
  */
 export const getPublicUserProfile = async (uid: string) => {
-  const docRef = doc(db(), USERS, uid);
+  const docRef = doc(db(), USERS, uid) as DocumentReference<UserPublic>;
   const docSnap = await getDoc(docRef);
 
   if (!docSnap.exists()) throw new Error('This user does not have Firestore account data yet.');

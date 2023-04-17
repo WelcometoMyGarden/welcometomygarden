@@ -25,7 +25,7 @@ jobs:
       VITE_STRIPE_PRICE_ID_REDUCED: ${{secrets.STRIPE_PRICE_ID_REDUCED}}
       VITE_STRIPE_PRICE_ID_NORMAL: ${{secrets.STRIPE_PRICE_ID_NORMAL}}
       VITE_STRIPE_PRICE_ID_SOLIDARITY: ${{secrets.STRIPE_PRICE_ID_SOLIDARITY}}
-
+      VITE_DISCOURSE_HOST: ${{vars.DISCOURSE_HOST}}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3

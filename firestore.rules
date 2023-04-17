@@ -211,29 +211,45 @@ service cloud.firestore {
       return get(/databases/$(database)/documents/chats/$(chatId)).data.users;
     }
 
-    function canCreateChat() {
-      return isSignedIn() && isVerified()
-        && incomingData().keys().hasOnly(['users', 'lastActivity', 'createdAt', 'lastMessage'])
-        && requesterId() in incomingData().users
-        && incomingData().users.size() == 2
-        && userExists(incomingData().users[0])
-        && userExists(incomingData().users[1])
-        && incomingData().users[0] != incomingData().users[1]
-    }
-
+    // Function does not work on creation operations (existingData reference)
     function canReadChat() {
       return isSignedIn() && isVerified() && requesterId() in existingData().users;
     }
 
-    function canUpdateChat() {
-      return canReadChat()
-        && incomingData().keys().hasOnly(['users', 'lastActivity', 'createdAt', 'lastMessage'])
-        && requestHas('lastActivity')
-        && requestHas('lastMessage')
+    // Conditions common to chat creations and updates
+    function isValidChatWrite() {
+      return isSignedIn() && isVerified()
+        && incomingData().keys().hasAll(['users', 'lastActivity', 'createdAt', 'lastMessage'])
+        && incomingData().users.size() == 2
+        && incomingData().users[0] != incomingData().users[1]
         && incomingData().lastActivity is timestamp
         && incomingData().lastMessage is string
         && incomingData().lastMessage.size() >= 1
         && incomingData().lastMessage.size() <= 500
+      // The following keys are optional
+        && 
+      (
+      !incomingData().keys().hasAny(['lastMessageSeen', 'lastMessageSender'])
+        || 
+      (
+      incomingData().keys().hasAll(['lastMessageSeen', 'lastMessageSender']) 
+        && incomingData().lastMessageSeen is bool
+        && incomingData().lastMessageSender is string
+        && incomingData().lastMessageSender in incomingData().users
+      )
+      )
+    }
+
+    function canCreateChat() {
+      return isValidChatWrite()
+        && userExists(incomingData().users[0])
+        && userExists(incomingData().users[1])
+    }
+
+
+    function canUpdateChat() {
+      return isValidChatWrite()
+      // Immutable properties didn't change
         && incomingData().createdAt == existingData().createdAt
         && incomingData().users[0] == existingData().users[0]
         && incomingData().users[1] == existingData().users[1]

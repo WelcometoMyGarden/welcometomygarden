@@ -4,7 +4,7 @@
   import { fade } from 'svelte/transition';
   import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
-  import { observeMessagesForChat, create as createChat, sendMessage } from '$lib/api/chat';
+  import { observeMessagesForChat, createChat, sendMessage, markChatSeen } from '$lib/api/chat';
   import { hasGarden } from '$lib/api/garden';
   import { user } from '$lib/stores/auth';
   import { chats, messages } from '$lib/stores/chat';
@@ -16,26 +16,26 @@
   import chevronRight from '$lib/images/icons/chevron-right.svg';
   import trackEvent from '$lib/util/track-event';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import type { LocalChat } from '$lib/types/Chat';
 
   let chatId = $page.params.chatId;
   // Subscribe to page is necessary to get the chat page of the selected chat (when the url changes) for desktop
   const unsubscribeFromPage = page.subscribe((currentPage) => (chatId = currentPage.params.chatId));
 
-  let partnerHasGarden = null;
-  let partnerId;
-  let chat;
+  let partnerHasGarden: boolean | null = null;
+  let partnerId: string | undefined;
+  let chat: LocalChat | null | undefined;
 
-  // Allow chat to change on chatId change
-  $: if (chatId) {
-    partnerHasGarden = chat = null;
-  }
+  $: chat = $chats[chatId];
 
-  // Only change chat if falsy (this will avoid reregistering the observeMessagesForChat, thus avoid dups)
-  // Will set the chat to null if we log out
-  $: if (!chat) chat = $chats[chatId];
-
-  $: if (partnerHasGarden === null && chat && $user.id) {
-    partnerId = chat.users.find((id) => $user.id !== id);
+  // Initialize variables related to the chat partner,
+  // when the first chat is opened or when the selected chat has changed.
+  let partnerInitializedForChatId: string | null = null;
+  $: if (chat && (partnerHasGarden === null || partnerInitializedForChatId !== chat.id)) {
+    partnerId = chat.users.find((id) => $user?.id !== id);
+    if (!partnerId) {
+      throw new Error('Unexpected error: no chat partner found. All chats must have two members.');
+    }
     hasGarden(partnerId)
       .then((res) => {
         partnerHasGarden = res;
@@ -45,19 +45,62 @@
         console.log(err);
         partnerHasGarden = false;
       });
+    partnerInitializedForChatId = chat.id;
   }
 
-  let unsubscribeFromMessages: (() => void) | null = null;
-  $: if ($user && chat && !$messages[chat.id]) {
-    unsubscribeFromMessages = observeMessagesForChat(chat.id);
-  }
-  $: if (!$user && unsubscribeFromMessages) {
-    unsubscribeFromMessages();
-    unsubscribeFromMessages = null;
+  let unsubscribeFromMessageListener: (() => void) | null = null;
+  let messageListenerRegisteredForChatId: string | null = null;
+
+  /**
+   * Does _not_ take care of unregistering existing listeners
+   */
+  const registerMessageListenerForChat = (chat: LocalChat) => {
+    unsubscribeFromMessageListener = observeMessagesForChat(chat.id);
+    messageListenerRegisteredForChatId = chat.id;
+  };
+
+  // Register the message listener if it has not been registered yet,
+  // or change it if the chat has changed.
+  $: if ($user && chat) {
+    if (!unsubscribeFromMessageListener && !messageListenerRegisteredForChatId) {
+      // Registering first message observer
+      registerMessageListenerForChat(chat);
+    }
+    if (unsubscribeFromMessageListener && messageListenerRegisteredForChatId !== chatId) {
+      // The user changed the selected chat: change the message listener registration
+      unsubscribeFromMessageListener();
+      registerMessageListenerForChat(chat);
+    }
   }
 
-  let messageContainer;
-  let autoscroll;
+  // Mark the last message as seen if this is the first time the user opens it
+  $: if (
+    chat &&
+    $messages[chat.id] instanceof Array &&
+    // The last message is from the partner
+    chat.lastMessageSender === partnerId &&
+    // The message was not seen yet
+    chat.lastMessageSeen === false
+  ) {
+    markChatSeen(chatId);
+  }
+
+  const cleanupPage = () => {
+    if (unsubscribeFromMessageListener) unsubscribeFromMessageListener();
+    unsubscribeFromMessageListener = null;
+    messageListenerRegisteredForChatId = null;
+    chat = null;
+    partnerId = undefined;
+    partnerHasGarden = null;
+  };
+
+  // On logout, clean up
+  $: if (!$user && unsubscribeFromMessageListener) {
+    cleanupPage();
+  }
+
+  let messageContainer: HTMLDivElement | undefined;
+  let autoscroll: boolean | undefined;
 
   // Scroll to bottom of mesage container on new message
   beforeUpdate(() => {
@@ -72,7 +115,7 @@
   });
 
   onMount(() => {
-    messageContainer.scrollTo(0, messageContainer.scrollHeight);
+    messageContainer?.scrollTo(0, messageContainer.scrollHeight);
   });
 
   let hint = '';
@@ -83,7 +126,7 @@
     hint = '';
   }
 
-  const normalizeWhiteSpace = (message) => message.replace(/\n\s*\n\s*\n/g, '\n\n');
+  const normalizeWhiteSpace = (message: string) => message.replace(/\n\s*\n\s*\n/g, '\n\n');
 
   let typedMessage = '';
   let isSending = false;
@@ -97,8 +140,7 @@
     if (!chat) {
       try {
         const newChatId = await createChat(
-          $user.id,
-          $page.url.searchParams.get('id'),
+          $page.url.searchParams.get('id') || '',
           normalizeWhiteSpace(typedMessage)
         );
         trackEvent(PlausibleEvent.SEND_REQUEST);
@@ -110,9 +152,9 @@
       }
     } else {
       try {
-        await sendMessage($user.id, chat.id, normalizeWhiteSpace(typedMessage));
+        await sendMessage(chat.id, normalizeWhiteSpace(typedMessage));
         // The first uid in the users array is the requester/traveller
-        const role = chat.users[0] === $user.id ? 'traveller' : 'host';
+        const role = chat.users[0] === $user?.id ? 'traveller' : 'host';
         trackEvent(PlausibleEvent.SEND_RESPONSE, { role });
         typedMessage = '';
       } catch (ex) {
@@ -124,9 +166,7 @@
   };
 
   onDestroy(() => {
-    if (unsubscribeFromMessages) {
-      unsubscribeFromMessages();
-    }
+    cleanupPage();
     unsubscribeFromPage();
   });
 
@@ -176,10 +216,12 @@ CSS grids should do the job cleanly -->
   <div class="messages">
     {#if chat && $messages[chat.id]}
       {#each $messages[chat.id] as message (message.id)}
-        <div class="message" class:by-user={message.from === $user.id}>
+        <div class="message" class:by-user={message.from === $user?.id}>
           <div class="holder">
             <div class="avatar-box">
-              <Avatar name={message.from === $user.id ? $user.firstName : chat.partner.firstName} />
+              <Avatar
+                name={message.from === $user?.id ? $user.firstName : chat.partner.firstName}
+              />
             </div>
             <p class="message-text">{normalizeWhiteSpace(message.content)}</p>
           </div>
@@ -197,7 +239,6 @@ CSS grids should do the job cleanly -->
   {/if}
   <textarea
     placeholder={$_('chat.type-message')}
-    type="text"
     name="message"
     bind:value={typedMessage}
     disabled={isSending}
@@ -224,6 +265,10 @@ CSS grids should do the job cleanly -->
   .messages {
     padding: 0 2rem 0 1rem;
     display: flex;
+    /* column-reverse is useful to make the newly-sent messages appear on the bottom of an overflowed message container,
+      without having JS that scrolls the overflowed container.
+      Be careful with other methods, they might block scrolling: https://codepen.io/th0rgall/pen/xxabORw
+    */
     flex-direction: column-reverse;
     height: calc(
       100% - var(--spacing-chat-header) - var(--height-mobile-nav) - env(safe-area-inset-bottom)

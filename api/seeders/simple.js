@@ -56,19 +56,26 @@ const createNewUser = async (authProps, callableProps) => {
  * @param {string} uid1
  * @param {string} uid2
  * @param {string} message
+ * @param {boolean} [useLastMessageSeen]
  * @returns {Promise<string>} chatId
  */
-const createChat = async (uid1, uid2, message) => {
+const createChat = async (uid1, uid2, message, useLastMessageSeen = true) => {
   const chatCollection = db.collection('chats');
 
   const docRef = await chatCollection.add({
     users: [uid1, uid2],
     createdAt: Timestamp.now(),
     lastActivity: Timestamp.now(),
-    lastMessage: message.trim()
+    lastMessage: message.trim(),
+    ...(useLastMessageSeen
+      ? {
+          lastMessageSeen: false,
+          lastMessageSender: uid1
+        }
+      : {})
   });
 
-  const chatMessagesCollection = db.collection('messages');
+  const chatMessagesCollection = db.collection(`chats/${docRef.id}/messages`);
 
   await chatMessagesCollection.add({
     content: message,
@@ -84,8 +91,9 @@ const createChat = async (uid1, uid2, message) => {
  * @param {string} currentUserId
  * @param {string} chatId
  * @param {string} message
+ * @param {boolean} [useLastMessageSeen]
  */
-const sendMessage = async (currentUserId, chatId, message) => {
+const sendMessage = async (currentUserId, chatId, message, useLastMessageSeen = true) => {
   const chatRef = db.collection('chats').doc(chatId);
   const chatMessagesCollection = chatRef.collection('messages');
 
@@ -97,7 +105,13 @@ const sendMessage = async (currentUserId, chatId, message) => {
 
   await chatRef.update({
     lastActivity: Timestamp.now(),
-    lastMessage: message.trim()
+    lastMessage: message.trim(),
+    ...(useLastMessageSeen
+      ? {
+          lastMessageSeen: false,
+          lastMessageSender: currentUserId
+        }
+      : {})
   });
 
   return msg.id;
@@ -116,14 +130,13 @@ const seed = async () => {
   );
 
   // Send chats
-  // TODO there is still something wrong with the logic here, the opening message doesn't appear
   // TODO messages are sent without gardens being created, this is not realistic
-  // from 1 to 2
-  const chatId = await createChat(user1.uid, user2.uid, 'Hey, can I stay in your garden?');
+  // initiated by 1 to 2
+  const chatId = await createChat(user1.uid, user2.uid, 'Hey, can I stay in your garden?', false);
   for (let i = 0; i < 10; i += 1) {
     const even = i % 2 === 0;
     // eslint-disable-next-line no-await-in-loop
-    await sendMessage((even ? user2 : user1).uid, chatId, faker.lorem.sentences());
+    await sendMessage((even ? user2 : user1).uid, chatId, faker.lorem.sentences(), false);
   }
 
   const user3 = await createNewUser(

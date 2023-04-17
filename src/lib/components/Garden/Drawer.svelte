@@ -9,7 +9,7 @@
   import { getGardenPhotoSmall, getGardenPhotoBig } from '$lib/api/garden';
   import { user } from '$lib/stores/auth';
   import { clickOutside } from '$lib/directives';
-  import { Text, Badge, Image, Button, Progress } from '../UI';
+  import { Text, Chip, Image, Button, Progress } from '../UI';
   import {
     bonfireIcon,
     waterIcon,
@@ -212,10 +212,10 @@
         <div class="description">
           <Text class="mb-l">{garden.description}</Text>
         </div>
-        <div class="badges-container">
+        <div class="chips-container">
           {#each facilities as facility (facility.name)}
             {#if garden.facilities[facility.name]}
-              <Badge icon={facility.icon}>{facility.label}</Badge>
+              <Chip icon={facility.icon}>{facility.label}</Chip>
             {/if}
           {/each}
         </div>
@@ -403,7 +403,7 @@
     }
   }
 
-  .badges-container {
+  .chips-container {
     display: flex;
     flex-wrap: wrap;
     /* Negative margin compensate the Badge components margins */
