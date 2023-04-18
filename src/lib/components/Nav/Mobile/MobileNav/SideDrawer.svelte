@@ -10,7 +10,7 @@
   import { goto } from '$app/navigation';
   import { isActive } from '$lib/util/isActive';
   import { createEventDispatcher } from 'svelte';
-  import { DONATION_URL } from '$lib/constants';
+  import { COMMUNITY_FORUM_URL, DONATION_URL } from '$lib/constants';
   import SuperfanCounter from '../../SuperfanCounter.svelte';
 
   const dispatch = createEventDispatcher();
@@ -62,23 +62,32 @@
   <li class="socials">
     <Socials small />
   </li>
-  <li class="slowby-bar">
-    <span class="title">{$_('navigation.slowby-notice.prompt')}</span>
-    <SuperfanCounter />
+  <li class="superfan-bar" class:show={!$user?.superfan}>
+    {#if !$user?.superfan}
+      <span class="title">{$_('navigation.slowby-notice.prompt')}</span>
+      <SuperfanCounter />
+    {/if}
   </li>
   <li class="main-links-container">
     <ul class="main-links">
-      <li>
-        <a class="highlighted" href={routes.ABOUT_SUPERFAN} on:click={toggleDrawer}>
-          {$_('generics.become-superfan')}
-        </a>
-      </li>
+      {#if !$user?.superfan}
+        <li>
+          <a class="highlighted" href={routes.ABOUT_SUPERFAN} on:click={toggleDrawer}>
+            {$_('generics.become-superfan')}
+          </a>
+        </li>
+      {/if}
       <li>
         <a href={routes.ABOUT_US} on:click={toggleDrawer}>{$_('generics.about-us')}</a>
       </li>
       <li>
         <a href={routes.RULES} on:click={toggleDrawer}>{$_('generics.rules')}</a>
       </li>
+      {#if $user?.superfan}
+        <li>
+          <a href={COMMUNITY_FORUM_URL}>{$_('generics.community')}</a>
+        </li>
+      {/if}
       <li>
         <LanguageSelector />
       </li>
@@ -171,13 +180,16 @@
     padding-left: 3.5em;
   }
 
-  ul > li.slowby-bar {
+  ul > li.superfan-bar.show {
     width: 100%;
     background-color: var(--color-beige-light);
     padding: 1.5rem;
   }
 
-  .slowby-bar .title {
+  ul > li.superfan-bar:not(.show) {
+    height: 1rem;
+  }
+  .superfan-bar .title {
     font-weight: 600;
     font-size: 1.1rem;
     letter-spacing: 0.1em;

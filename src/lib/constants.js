@@ -8,6 +8,7 @@ export const SLOWBY_URL = 'https://slowby.travel';
 export const DONATION_URL = 'https://donate.stripe.com/14k4kf26r2sjfLO3ce';
 export const COMMUNITY_TRANSLATIONS_URL =
   'https://github.com/WelcometoMyGarden/welcometomygarden#translations';
+export const COMMUNITY_FORUM_URL = 'https://community.welcometomygarden.org/';
 export const DEFAULT_MAP_STYLE = 'mapbox://styles/mapbox/streets-v8';
 export const ZOOM_LEVELS = {
   CITY: 11,
