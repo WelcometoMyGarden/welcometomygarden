@@ -12,6 +12,7 @@
   import { createEventDispatcher } from 'svelte';
   import { COMMUNITY_FORUM_URL, DONATION_URL } from '$lib/constants';
   import SuperfanCounter from '../../SuperfanCounter.svelte';
+  import NewBadge from '../../NewBadge.svelte';
 
   const dispatch = createEventDispatcher();
   export let isOpen = false;
@@ -85,7 +86,8 @@
       </li>
       {#if $user?.superfan}
         <li>
-          <a href={COMMUNITY_FORUM_URL}>{$_('generics.community')}</a>
+          <a href={COMMUNITY_FORUM_URL} style="margin-right: 0.6rem;">{$_('generics.community')}</a>
+          <NewBadge />
         </li>
       {/if}
       <li>

@@ -7,6 +7,7 @@
   import WtmgLogo from '../../UI/WTMGLogo.svelte';
   import SuperfanCounter from '../SuperfanCounter.svelte';
   import { COMMUNITY_FORUM_URL } from '$lib/constants';
+  import NewBadge from '../NewBadge.svelte';
 
   $: firstName = $user ? $user.firstName : '';
 </script>
@@ -33,7 +34,8 @@
         <NavLink href={routes.ABOUT_US}>{$_('generics.about-us')}</NavLink>
       </li>
       {#if $user?.superfan}
-        <li>
+        <li style="display: inline-flex; flex-direction: row; align-items: center;">
+          <NewBadge />
           <NavLink href={COMMUNITY_FORUM_URL}>{$_('generics.community')}</NavLink>
         </li>
       {/if}
