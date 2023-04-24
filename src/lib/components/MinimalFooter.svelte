@@ -25,7 +25,7 @@
 
 <style>
   /* Use CSS specificity to override the height */
-  :global(div.app.active-explore) {
+  :global(div.app.active-explore:not(.fullscreen)) {
     --height-footer: 4.5rem;
   }
 
