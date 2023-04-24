@@ -1,4 +1,4 @@
-import { getUser } from '$lib/stores/auth';
+import { user } from '$lib/stores/auth';
 import {
   isNonsuperfanOnlyEvent,
   isSuperfanOnlyEvent,
@@ -9,6 +9,7 @@ import {
   type PlausibleSubscriptionProperties
 } from '$lib/types/Plausible';
 import { debounce } from 'lodash-es';
+import { get } from 'svelte/store';
 
 type Callable = (eventName: PlausibleEvent, customProperties?: PlausibleCustomProperties) => void;
 
@@ -18,11 +19,12 @@ const logToPlausible = (
   eventName: PlausibleEvent,
   customProperties?: PlausibleCustomProperties
 ) => {
+  const concreteUser = get(user);
   // Don't log the superfan custom property if it can be derived from the event.
   const superfanProperty: { superfan?: boolean } =
     isSuperfanOnlyEvent(eventName) || isNonsuperfanOnlyEvent(eventName)
       ? {}
-      : { superfan: getUser().superfan || false };
+      : { superfan: concreteUser ? !!concreteUser.superfan : false };
 
   const options = {
     props: { ...superfanProperty, ...customProperties }
@@ -61,25 +63,30 @@ function trackEvent(
   customProperties: PlausibleCustomProperties = {},
   trailing = false
 ) {
-  if (
-    eventName === PlausibleEvent.EMAIL_UNSUBSCRIBE ||
-    eventName === PlausibleEvent.EMAIL_RESUBSCRIBE
-  ) {
-    // Don't debounce these events, because we want to know if two different list subscriptions were
-    // changed in quick succession
-    return logToPlausible(eventName, customProperties);
-  } else {
-    // Debounce all other events
-    if (!debouncedLoggers[eventName]) {
-      debouncedLoggers[eventName] = debounce(logToPlausible, 5 * 1000, {
-        // By default, immediately send the event, and ignore following events
-        leading: !trailing,
-        trailing
-      });
+  // Error boundary for this non-critical action
+  try {
+    if (
+      eventName === PlausibleEvent.EMAIL_UNSUBSCRIBE ||
+      eventName === PlausibleEvent.EMAIL_RESUBSCRIBE
+    ) {
+      // Don't debounce these events, because we want to know if two different list subscriptions were
+      // changed in quick succession
+      return logToPlausible(eventName, customProperties);
+    } else {
+      // Debounce all other events
+      if (!debouncedLoggers[eventName]) {
+        debouncedLoggers[eventName] = debounce(logToPlausible, 5 * 1000, {
+          // By default, immediately send the event, and ignore following events
+          leading: !trailing,
+          trailing
+        });
+      }
+      // We can be certain that the debounced logger exists due to section above.
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return debouncedLoggers[eventName]!(eventName, customProperties);
     }
-    // We can be certain that the debounced logger exists due to section above.
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return debouncedLoggers[eventName]!(eventName, customProperties);
+  } catch (e) {
+    console.error('Error while logging to plausible:', e);
   }
 }
 
