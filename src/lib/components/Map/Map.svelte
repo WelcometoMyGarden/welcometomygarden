@@ -9,6 +9,8 @@
 
   import 'maplibre-gl/dist/maplibre-gl.css';
   import { DEFAULT_MAP_STYLE } from '$lib/constants.js';
+  import FullscreenControl from './FullscreenControl.js';
+  import { isFullscreen } from '$lib/stores/fullscreen.js';
 
   export let lat: number;
   export let lon: number;
@@ -78,6 +80,28 @@
     // Default to full attribution
     map.addControl(fullAttribution, 'bottom-right');
     map.addControl(scaleControl, 'bottom-right');
+    const fullscreenControl = new FullscreenControl({
+      // We can assume that <main> is already in the DOM, because the map only loads
+      // after a log in, and by then the first render has happened.
+      // TODO: this might break if we switcht to SSR
+      container: document.querySelector('main')!
+    });
+
+    // Add full screen control
+    map.addControl(fullscreenControl);
+    fullscreenControl.on('fullscreenstart', async () => {
+      isFullscreen.set(true);
+      document.body.style.cssText = '--height-footer: 0px; --height-nav: 0px';
+      await tick();
+      // The above did not always lead to a resize event on mobile
+      map.resize();
+    });
+    fullscreenControl.on('fullscreenend', async () => {
+      isFullscreen.set(false);
+      document.body.style.cssText = '';
+      await tick();
+      map.resize();
+    });
 
     map.on('load', () => {
       loaded = true;
@@ -154,5 +178,13 @@
   }
   div :global(canvas) {
     height: 100%;
+  }
+
+  @media screen and (max-width: 700px) {
+    /* Includes the FullscreenControl */
+    :global(.maplibregl-ctrl-top-right) {
+      top: 5.5rem;
+      right: 0.2rem;
+    }
   }
 </style>

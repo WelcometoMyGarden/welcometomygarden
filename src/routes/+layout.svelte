@@ -23,6 +23,7 @@
   import { resetChatStores } from '$lib/stores/chat';
   import getBrowserLang, { coerceToSupportedLanguage } from '$lib/util/get-browser-lang';
   import type { SupportedLanguage } from '$lib/types/general';
+  import { isFullscreen } from '$lib/stores/fullscreen';
 
   // React to locale initialization or changes
   const unsubscribeFromLocale = locale.subscribe((value) => {
@@ -126,6 +127,7 @@
 
 <div
   class="app active-{$page?.route?.id?.substring(1).split('/')[0]} locale-{$locale}"
+  class:fullscreen={$isFullscreen}
   style="--vh:{vh}"
 >
   {#if browser}

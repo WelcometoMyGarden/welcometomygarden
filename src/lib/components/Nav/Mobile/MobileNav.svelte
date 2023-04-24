@@ -67,8 +67,11 @@
     }
   }
 
-  :global(body) {
+  :global(body div.app:not(.fullscreen)) {
     --height-mobile-nav: 7rem;
+  }
+  :global(body div.app.fullscreen) {
+    --height-mobile-nav: 0rem;
   }
 
   nav {
