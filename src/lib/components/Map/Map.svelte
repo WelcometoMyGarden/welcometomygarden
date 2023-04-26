@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-  import { setContext, onMount, tick, afterUpdate } from 'svelte';
+  import { setContext, onMount, tick, afterUpdate, onDestroy } from 'svelte';
   import maplibregl from 'maplibre-gl';
   import key from './mapbox-context.js';
 
@@ -45,6 +45,9 @@
   });
 
   const scaleControl = new maplibregl.ScaleControl();
+  const fullscreenControl: FullscreenControl | undefined = new FullscreenControl({
+    container: document.querySelector('html')!
+  });
 
   onMount(() => {
     // Before loading the map, clear the mapbox.eventData.uuid:<token_piece>
@@ -80,12 +83,6 @@
     // Default to full attribution
     map.addControl(fullAttribution, 'bottom-right');
     map.addControl(scaleControl, 'bottom-right');
-    const fullscreenControl = new FullscreenControl({
-      // We can assume that <main> is already in the DOM, because the map only loads
-      // after a log in, and by then the first render has happened.
-      // TODO: this might break if we switcht to SSR
-      container: document.querySelector('main')!
-    });
 
     // Add full screen control
     map.addControl(fullscreenControl);
@@ -110,6 +107,12 @@
     tick().then(() => {
       map.resize();
     });
+  });
+
+  onDestroy(() => {
+    if (fullscreenControl?._isFullscreen()) {
+      fullscreenControl._exitFullscreen();
+    }
   });
 
   /**
