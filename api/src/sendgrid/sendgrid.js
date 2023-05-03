@@ -16,6 +16,7 @@ const SG_WTMG_NEWS_YES_ID = functions.config().sendgrid.newsletter_list_id;
 exports.SG_WTMG_NEWS_YES_ID = SG_WTMG_NEWS_YES_ID;
 exports.SG_KEY = SG_KEY;
 
+// Destructure Firebase config into constants
 const {
   wtmg_id: SG_WTMG_ID_FIELD_ID,
   superfan: SENDGRID_SUPERFAN_FIELD_ID,

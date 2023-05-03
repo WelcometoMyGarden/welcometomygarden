@@ -14,6 +14,9 @@ const { auth, db } = require('../firebase');
  */
 
 /**
+ * Callable function to create the required Firestore user documents for a newly created
+ * account in Firebase Auth.
+ *
  * @param {import('../../../src/lib/api/functions').CreateUserRequest} data
  * @param {import('firebase-functions/v1/https').CallableContext} context
  * @returns {Promise<object>}
@@ -93,7 +96,13 @@ exports.createUser = async (data, context) => {
       .doc('users')
       .set({ count: FieldValue.increment(1) }, { merge: true });
 
-    await sendVerificationEmail(email, firstName, data.communicationLanguage);
+    if (!email) {
+      console.error(
+        `The email for UID ${user.uid} was not set when trying to send its verification email.`
+      );
+    } else {
+      await sendVerificationEmail(email, firstName, data.communicationLanguage);
+    }
 
     return { message: 'Your account was created successfully,', success: true };
   } catch (ex) {

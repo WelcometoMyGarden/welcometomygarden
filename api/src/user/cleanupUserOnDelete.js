@@ -3,8 +3,8 @@
 // eslint-disable-next-line import/no-unresolved
 const { FieldValue } = require('firebase-admin/firestore');
 const { db } = require('../firebase');
-const { sendgrid: sendgridClient } = require('../sendgrid/sendgrid');
 const stripe = require('../subscriptions/stripe');
+const { deleteContact } = require('../sendgrid/deleteContact');
 
 /**
  * @typedef {import("../../../src/lib/models/User").UserPrivate} UserPrivate
@@ -20,6 +20,8 @@ const stripe = require('../subscriptions/stripe');
  */
 
 /**
+ * Cloud Function handler intended to run on a Firebase Auth user deletion event:
+ * https://firebase.google.com/docs/reference/functions/firebase-functions.auth.userbuilder.md#authuserbuilderondelete
  * @param {UserRecord} user
  */
 exports.cleanupUserOnDelete = async (user) => {
@@ -40,24 +42,7 @@ exports.cleanupUserOnDelete = async (user) => {
     console.error(`users-private data not existing for user ${user.uid}, this is unexpected`);
   }
 
-  if (userPrivate && !userPrivate.sendgridId) {
-    console.warn(`No sendgridId recorded for user to be deleted: ${user.uid}`);
-  } else if (userPrivate && userPrivate.sendgridId) {
-    try {
-      await sendgridClient.request({
-        url: `/v3/marketing/contacts`,
-        method: 'DELETE',
-        qs: {
-          ids: userPrivate.sendgridId
-        }
-      });
-    } catch (e) {
-      console.error(
-        `Something went wrong while deleting the contact ${userPrivate.sendgridId} of Firebase user ${user.uid}`,
-        e
-      );
-    }
-  }
+  await deleteContact(user, userPrivate);
 
   if (userPrivate && !userPrivate.stripeCustomerId) {
     console.warn(`No stripe customer ID recorded for the user to be deleted: ${user.uid}`);
