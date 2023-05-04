@@ -1,6 +1,6 @@
 const { createSendgridContact } = require('./createSendgridContact');
 const { db } = require('../firebase');
-const { SG_COMMUNICATION_LANG_FIELD_ID } = require('./sendgrid');
+const { SG_COMMUNICATION_LANG_FIELD_ID, SG_HOST_FIELD_ID } = require('./sendgrid');
 const { SENDGRID_SUPERFAN_FIELD_ID } = require('./sendgrid');
 const { deleteContact } = require('./deleteContact');
 
@@ -30,6 +30,8 @@ exports.updateSendgridContactEmail = async (firebaseUser, oldUserPrivateData) =>
   const userPublicData = /** @type {UserPublic | undefined} */ (
     (await db.doc(`users/${firebaseUser.uid}`).get()).data()
   );
+  const campsiteRef = await db.doc(`campsites/${firebaseUser.uid}`).get();
+  const isHost = campsiteRef.exists;
 
   // Combine all fields that are not set in the SG contact creation function
   const contactUpdateFields = {
@@ -38,7 +40,8 @@ exports.updateSendgridContactEmail = async (firebaseUser, oldUserPrivateData) =>
     lastName: oldUserPrivateData.lastName,
     custom_fields: {
       [SG_COMMUNICATION_LANG_FIELD_ID]: oldUserPrivateData.communicationLanguage,
-      [SENDGRID_SUPERFAN_FIELD_ID]: userPublicData.superfan ? 1 : 0
+      [SENDGRID_SUPERFAN_FIELD_ID]: userPublicData.superfan ? 1 : 0,
+      [SG_HOST_FIELD_ID]: isHost ? 1 : 0
       // We intentionally DO NOT include SG_CREATION_LANGUAGE_FIELD_ID
       // this prevents the user from re-entering (with the new contact)
       // automation lists, which all depend on this field

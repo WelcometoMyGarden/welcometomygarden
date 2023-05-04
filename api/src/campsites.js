@@ -2,18 +2,9 @@
 // https://stackoverflow.com/a/69959606/4973029
 // eslint-disable-next-line import/no-unresolved
 const { FieldValue } = require('firebase-admin/firestore');
-// eslint-disable-next-line import/no-unresolved
-const functions = require('firebase-functions');
-const sendgridClient = require('@sendgrid/client');
+const { sendgrid: sendgridClient, SG_HOST_FIELD_ID } = require('./sendgrid/sendgrid');
 const fail = require('./util/fail');
 const { auth, db } = require('./firebase');
-
-const SG_KEY = functions.config().sendgrid.marketing_key;
-if (SG_KEY) {
-  sendgridClient.setApiKey(SG_KEY);
-}
-
-const SG_HOST_FIELD_ID = /** @type string */ functions.config().sendgrid.field_ids.host;
 
 /**
  * @typedef {import("../../src/lib/types/Garden").Garden} Garden
