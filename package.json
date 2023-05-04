@@ -2,7 +2,7 @@
   "name": "welcome-to-my-garden",
   "license": "GPL-3.0-or-later",
   "description": "a platform allowing citizens to put their garden freely at disposal as a rudimentary campsite to travelers.",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "engines": {
     "node": "16"
   },

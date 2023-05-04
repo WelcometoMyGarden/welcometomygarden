@@ -2,9 +2,10 @@
   export let icon: string;
   export let whiteStroke = false;
   export let greenStroke = false;
+  export let clickable = false;
 </script>
 
-<i class:white-stroke={whiteStroke} class:green-stroke={greenStroke}>
+<i class:white-stroke={whiteStroke} class:green-stroke={greenStroke} class:clickable>
   {@html icon}
 </i>
 
@@ -15,6 +16,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  i.clickable {
+    cursor: pointer;
   }
 
   i > :global(svg) {

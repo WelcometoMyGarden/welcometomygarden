@@ -29,13 +29,30 @@ let createUserRef: HttpsCallable<CreateUserRequest> | null = null;
 export const createUser: HttpsCallable<CreateUserRequest> = wrapCallable(() => createUserRef);
 
 type email = string;
-let requestPasswordResetRef: HttpsCallable<email> | null = null;
-export const requestPasswordReset: HttpsCallable<email> = wrapCallable(
+type EmptyObject = Record<string, never>;
+let requestPasswordResetRef: HttpsCallable<EmptyObject> | null = null;
+export const requestPasswordReset: HttpsCallable<EmptyObject> = wrapCallable(
   () => requestPasswordResetRef
 );
+
 let resendAccountVerificationRef: HttpsCallable | null = null;
 export const resendAccountVerification: HttpsCallable = wrapCallable(
   () => resendAccountVerificationRef
+);
+
+let requestEmailChangeRef: HttpsCallable<email> | null = null;
+export const requestEmailChange: HttpsCallable<email> = wrapCallable(() => requestEmailChangeRef);
+
+export type PropagateEmailChangeRequest = {
+  mode: 'change' | 'recover';
+  /**
+   * The email to change to, or recover to
+   */
+  email: string;
+};
+let propagateEmailChangeRef: HttpsCallable<PropagateEmailChangeRequest> | null = null;
+export const propagateEmailChange: HttpsCallable<PropagateEmailChangeRequest> = wrapCallable(
+  () => propagateEmailChangeRef
 );
 
 // These are just the fields we're interested in
@@ -117,7 +134,7 @@ export const discourseConnectLogin: HttpsCallable<
 
 export const initializeUsCentral1Functions = (usCentral1Functions: Functions) => {
   createUserRef = httpsCallable<CreateUserRequest>(usCentral1Functions, 'createUser');
-  requestPasswordResetRef = httpsCallable<email>(usCentral1Functions, 'requestPasswordReset');
+  requestPasswordResetRef = httpsCallable<EmptyObject>(usCentral1Functions, 'requestPasswordReset');
   resendAccountVerificationRef = httpsCallable(usCentral1Functions, 'resendAccountVerification');
 };
 
@@ -132,4 +149,6 @@ export const initializeEuropeWest1Functions = (europeWest1Functions: Functions) 
     'createCustomerPortalSession'
   );
   discourseConnectLoginRef = httpsCallable(europeWest1Functions, 'discourseConnectLogin');
+  requestEmailChangeRef = httpsCallable(europeWest1Functions, 'requestEmailChange');
+  propagateEmailChangeRef = httpsCallable(europeWest1Functions, 'propagateEmailChange');
 };

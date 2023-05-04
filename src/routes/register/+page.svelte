@@ -13,6 +13,7 @@
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { AuthErrorCodes } from 'firebase/auth';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
+  import validateEmail from '$lib/util/validate-email';
 
   type FieldCommon = {
     /**
@@ -53,11 +54,7 @@
   let fields: RegistrationFields = {
     email: {
       validate: (v) => {
-        // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email#basic_validation
-        // NOTE: the value of the type="email" field seems to be trimmed by the browser.
-        const emailRegex =
-          /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-        if (!v || !emailRegex.test(v)) return $_('register.validate.email');
+        if (!v || !validateEmail(v)) return $_('register.validate.email');
       }
     },
     password: {

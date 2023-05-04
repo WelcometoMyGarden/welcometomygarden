@@ -9,7 +9,7 @@
   import { updatingMailPreferences } from '$lib/stores/user';
   import { Avatar, Icon, Button, LabeledCheckbox } from '$lib/components/UI';
   import AccountDeletionModal from './AccountDeletionModal.svelte';
-  import { flagIcon, emailIcon } from '$lib/images/icons';
+  import { flagIcon, emailIcon, pencilIcon } from '$lib/images/icons';
   import { countries } from '$lib/util';
   import routes from '$lib/routes';
   import { SUPPORT_EMAIL } from '$lib/constants';
@@ -17,8 +17,10 @@
   import ReloadSuggestion from '$lib/components/ReloadSuggestion.svelte';
   import trackEvent from '$lib/util/track-event';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import EmailChangeModal from './EmailChangeModal.svelte';
 
   let showAccountDeletionModal = false;
+  let showEmailChangeModal = false;
 
   if (!$user) {
     goto(routes.SIGN_IN);
@@ -97,10 +99,15 @@
         <h2>{$user.firstName} {$user.lastName}</h2>
         <div class="details">
           <div>
-            <span class="icon">
+            <span class="icon icon--left">
               <Icon icon={emailIcon} />
             </span>
             {$user.email}
+            <button class="icon icon--right" on:click={() => (showEmailChangeModal = true)}>
+              <Icon icon={pencilIcon} clickable />
+              <!-- Text for accessibility -->
+              <span class="screen-reader">Change email address</span>
+            </button>
           </div>
           <div>
             <span class="icon">
@@ -202,9 +209,14 @@
   </div>
 {/if}
 
-<AccountDeletionModal bind:showAccountDeletionModal />
+<AccountDeletionModal bind:show={showAccountDeletionModal} />
+<EmailChangeModal bind:show={showEmailChangeModal} />
 
 <style>
+  button {
+    /* Reset button styles */
+    all: initial;
+  }
   .wrapper {
     background-color: var(--color-white);
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
@@ -258,7 +270,14 @@
     width: 2rem;
     height: 1.5rem;
     display: inline-block;
+  }
+
+  .icon--left {
     margin-right: 0.8rem;
+  }
+
+  .icon--right {
+    margin-left: 0.8rem;
   }
 
   .preference-list {

@@ -21,7 +21,7 @@ const { db } = require('../firebase');
  * in the user's users-private doc.
  * Precondition: the user's users-private document must already exist
  * @param {UserRecord} firebaseUser
- * @param {object} extraContactDetails
+ * @param {{custom_fields?: Record<string,string>, [key: string]: object | string}} extraContactDetails use the { custom_fields: {} } sub-property for custom fields
  * @param {boolean} addToNewsletter
  * @returns
  */
@@ -34,6 +34,8 @@ const createSendgridContact = async (
     console.error('New Firebase users must always have an email address');
     fail('invalid-argument');
   }
+
+  console.info(`Creating new SendGrid contact for uid ${firebaseUser.uid} / ${firebaseUser.email}`);
   const sendgridContactCreationDetails = {
     email: firebaseUser.email,
     // Set to first name on creation
@@ -84,11 +86,13 @@ const createSendgridContact = async (
   }
   /** @type {'pending'|'completed'|'errored'|'failed'} */
   let status = 'pending';
-  const MAX_ITERATIONS = 30;
+  // From staging tests: this may take long
+  // 179,339(3 mins) - 250 secs
+  const MAX_ITERATIONS = 100;
   let currentIteration = 0;
   while (status === 'pending' && currentIteration < MAX_ITERATIONS) {
     // eslint-disable-next-line no-await-in-loop
-    await setTimeout(2000);
+    await setTimeout(3000);
     // Check for the statustoISOString
     const [
       ,
