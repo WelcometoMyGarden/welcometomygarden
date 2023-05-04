@@ -20,6 +20,12 @@ const { host: HOST, api_key: API_KEY } = /** @type {{[key: string]: string}} */ 
  * @returns {Promise<boolean>} - whether a change occurred
  */
 exports.updateDiscourseUser = async (user) => {
+  if (!HOST || !API_KEY) {
+    console.warn(
+      'No Discourse HOST & API_KEY variables are configured. Skipping Discourse user email update.'
+    );
+    return false;
+  }
   const { uid, email } = user;
   if (!email) {
     console.error(`Discourse update asked for ${uid}, but email was falsy`);
