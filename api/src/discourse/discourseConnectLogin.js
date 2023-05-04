@@ -5,12 +5,12 @@
 const functions = require('firebase-functions');
 const { createHmac } = require('crypto');
 const { Buffer } = require('node:buffer');
-const fail = require('./util/fail');
-const { db } = require('./firebase');
+const fail = require('../util/fail');
+const { db } = require('../firebase');
 
 /**
- * @typedef {import("../../src/lib/models/User").UserPrivate} UserPrivate
- * @typedef {import("../../src/lib/models/User").UserPublic} UserPublic
+ * @typedef {import("../../../src/lib/models/User").UserPrivate} UserPrivate
+ * @typedef {import("../../../src/lib/models/User").UserPublic} UserPublic
  * @typedef {import("firebase-admin/auth").UserRecord} UserRecord
  */
 
@@ -27,33 +27,31 @@ const getHmacDigest = (payload) => {
   return hmac.update(payload).digest('hex');
 };
 
+exports.getHmacDigest = getHmacDigest;
+
 /**
  * See https://meta.discourse.org/t/setup-discourseconnect-official-single-sign-on-for-discourse-sso/13045
  * Note that the URL-decoding and encoding discussed in the guide will be handled by URLSearchParams on the frontend.
- * @param {import("../../src/lib/api/functions").DiscourseConnectLoginRequest} data sso payload should NOT be URL encoded
+ * @param {import("../../../src/lib/api/functions").DiscourseConnectLoginRequest} data sso payload should NOT be URL encoded
  * @param {import('firebase-functions/v1/https').CallableContext} context
- * @returns {Promise<import("../../src/lib/api/functions").DiscourseConnectLoginResponse | undefined>} sso payload will not be URL-encoded
+ * @returns {Promise<import("../../../src/lib/api/functions").DiscourseConnectLoginResponse | undefined>} sso payload will not be URL-encoded
  */
 exports.discourseConnectLogin = async (data, context) => {
   if (DISCOURSE_CONNECT_SECRET == null) {
     fail('failed-precondition');
-    return;
   }
   // Validation
   if (!context.auth) {
     fail('unauthenticated');
-    return;
   }
 
   if (!(context && context.auth && context.auth.token)) {
     fail('internal');
-    return;
   }
 
   if (!(typeof data.sig === 'string' && typeof data.sso === 'string')) {
     console.warn('Improper payload & signature received');
     fail('invalid-argument');
-    return;
   }
 
   const { sig, sso } = data;
@@ -68,7 +66,6 @@ exports.discourseConnectLogin = async (data, context) => {
       'A non-verified or empty email account tried to log into Discourse. The frontend should prevent this'
     );
     fail('invalid-argument');
-    return;
   }
 
   // Validate the payload using a HMAC digest
@@ -77,7 +74,6 @@ exports.discourseConnectLogin = async (data, context) => {
   if (payloadDigest !== sig) {
     console.warn("Request payload signature didn't match");
     fail('invalid-argument');
-    return;
   }
 
   // Check if the user is a superfan
@@ -87,13 +83,11 @@ exports.discourseConnectLogin = async (data, context) => {
   if (!userPublicData) {
     // Shouldn't happen. Any authenticated user should have a users-private doc.
     fail('internal');
-    return;
   }
 
   if (!userPublicData.superfan) {
     console.warn('A non-superfan tried to login into Discourse. The frontend should prevent this.');
     fail('unauthenticated');
-    return;
   }
 
   // Now we have verified: Firebase auth, email verified, superfan status
@@ -106,7 +100,6 @@ exports.discourseConnectLogin = async (data, context) => {
   if (!decodedRequestNonce || !decodedReturnUrl) {
     console.error("Couldn't decode request nonce or return_sso_url");
     fail('internal');
-    return;
   }
 
   // Not adding the full name for privacy reasons
@@ -122,7 +115,5 @@ exports.discourseConnectLogin = async (data, context) => {
 
   const base64ResponsePayload = Buffer.from(responsePayload.toString()).toString('base64');
   const responseSig = getHmacDigest(base64ResponsePayload);
-  // All empty return statements are preceded by an always-error-throwing function.
-  // eslint-disable-next-line consistent-return
   return { sso: base64ResponsePayload, sig: responseSig, return_sso_url: decodedReturnUrl };
 };

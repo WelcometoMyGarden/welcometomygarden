@@ -306,7 +306,7 @@
           },
           "update-email": {
             "title": "Je souhaite mettre à jour mon adresse email ou supprimer mon compte. Comment dois-je procéder ?",
-            "copy": "Nous prenons vos données très au sérieux. Si vous souhaitez mettre à jour votre adresse e-mail ou supprimer complètement votre compte de la plateforme, veuillez contacter notre support: {support}. N'oubliez pas de confirmer l'adresse e-mail que vous souhaitez modifier ou supprimer."
+            "copy": "Nous prenons vos données très au sérieux. Si vous souhaitez mettre à jour votre adresse email ou supprimer complètement votre compte de la plateforme, veuillez contacter notre support: {support}. N'oubliez pas de confirmer l'adresse email que vous souhaitez modifier ou supprimer."
           },
           "newsletter": {
             "title": "J'aimerais recevoir votre prochaine lettre d'information ! Que dois-je faire ?",
@@ -451,7 +451,7 @@
       },
       "exercise-rights": {
         "title": "Exercice de vos droits",
-        "copy": "Vous pouvez exercer vos droits en contactant Welcome To My Garden par email à {support}, à condition que l'adresse e-mail utilisée pour la demande soit identique à celle utilisée pour l’inscription sur la plateforme."
+        "copy": "Vous pouvez exercer vos droits en contactant Welcome To My Garden par email à {support}, à condition que l'adresse email utilisée pour la demande soit identique à celle utilisée pour l’inscription sur la plateforme."
       }
     },
     "additional-info": {
@@ -759,7 +759,7 @@
             },
             "5": {
               "title": "Comment fonctionne le paiement ?",
-              "copy": "Une fois que vous avez choisi le montant que vous souhaitez payer, vous êtes redirigé·e vers la page de paiement. Vous payez pour une année à la fois. Devenir Superfan est sans engagement : votre abonnement s'arrête automatiquement au bout d'un an, et nous vous enverrons un e-mail pour le renouveler."
+              "copy": "Une fois que vous avez choisi le montant que vous souhaitez payer, vous êtes redirigé·e vers la page de paiement. Vous payez pour une année à la fois. Devenir Superfan est sans engagement : votre abonnement s'arrête automatiquement au bout d'un an, et nous vous enverrons un email pour le renouveler."
             },
             "6": {
               "title": "Est-il optionnel de devenir un·e Superfan ?",
@@ -771,7 +771,7 @@
             },
             "8": {
               "title": "Pendant combien de temps vais-je devenir un Superfan ?",
-              "copy": "Si vous devenez un·e Superfan, vous payez pour un an à la fois. Votre abonnement s'arrête automatiquement après un an, et nous vous enverrons un e-mail pour le renouveler."
+              "copy": "Si vous devenez un·e Superfan, vous payez pour un an à la fois. Votre abonnement s'arrête automatiquement après un an, et nous vous enverrons un email pour le renouveler."
             },
             "9": {
               "title": "Puis-je cesser d'être un·e Superfan ?",
@@ -956,6 +956,19 @@
         "reauthentication-incorrect-password": "Le mot de passe introduit est incorrect, merci d'essayer à nouveau",
         "reauthentication-info": "<span style=\"color:var(--color-danger);\">⚠️ Il y a longtemps que vous vous êtes connecté·e.</span> Pour nous assurer qu'il s'agit bien de vous, introduisez votre mot de passe pour confirmer la suppression:"
       }
+    },
+    "change-email": {
+      "modal": {
+        "info": "Cette action changera votre adresse email dans tous les systèmes de WTMG.",
+        "new-email-label": "Nouvelle adresse email",
+        "new-email-placeholder": "nouvelleemail@welcometomygarden.org",
+        "success": "La modification de votre adresse email a bien été effectuée ! Pour finaliser le changement, cliquez sur le lien de vérification envoyé dans votre boite email ({newEmail}).",
+        "title": "Changez votre adresse email",
+        "error": {
+          "firebase-error": "Un problème est survenu lors de la modification de votre email. Si vous n'avez pas reçu de lien de vérification, vérifiez vos SPAMS et essayez à nouveau en utlisant un autre navigateur. Si le problème persiste, contactez le support."
+        },
+        "button-label": "Changer votre email"
+      }
     }
   },
   "auth": {
@@ -977,7 +990,11 @@
     "password": {
       "expired": "Ce lien de réinitialisation du mot de passe a expiré. Veuillez en demander un nouveau"
     },
-    "invalid-code": "Cette page n'est pas accessible sans un code d'action valide."
+    "invalid-code": "Cette page n'est pas accessible sans un code d'action valide.",
+    "email-change": {
+      "in-progress": "Modification de votre email en cours...",
+      "success": "La modification de votre adresse email a bien été finalisée! Veuillez se connecter de nouveau"
+    }
   },
   "register": {
     "notify": {
@@ -1110,7 +1127,7 @@
               },
               "3": {
                 "title": "Les informations du compte doivent toujours rester confidentielles",
-                "copy": "Il est interdit à toute autre personne que la personne ayant créé le compte de l’utiliser. La personne qui a créé le compte doit s'assurer qu'il conserve le mot de passe et les informations de connexion en toute sécurité. Nous vous conseillons fortement d'utiliser un mot de passe \"fort\" (un mot de passe avec une combinaison de lettres minuscules, de majuscules et de chiffres). Nous vous conseillons d'utiliser un gestionnaire de mots de passe. Welcome to My Garden ne peut en aucun cas être tenu responsable de toute perte ou dommage subi sur le compte si les conditions ci-dessus ne sont pas remplies par l'utilisateur. Welcome to My Garden ne peut pas non plus être tenu responsable du vol de votre compte, par exemple par «phishing». Welcome to My Garden ne demandera jamais à ses utilisateurs des données personnelles telles qu'un identifiant ou un mot de passe par e-mail. Si des données personnelles sont demandées, l'utilisateur sera toujours redirigé vers la plateforme de Welcome to My Garden. Vous êtes responsable de toutes les activités qui se produisent en relation avec votre compte et acceptez tous les risques d'accès non autorisé."
+                "copy": "Il est interdit à toute autre personne que la personne ayant créé le compte de l’utiliser. La personne qui a créé le compte doit s'assurer qu'il conserve le mot de passe et les informations de connexion en toute sécurité. Nous vous conseillons fortement d'utiliser un mot de passe \"fort\" (un mot de passe avec une combinaison de lettres minuscules, de majuscules et de chiffres). Nous vous conseillons d'utiliser un gestionnaire de mots de passe. Welcome to My Garden ne peut en aucun cas être tenu responsable de toute perte ou dommage subi sur le compte si les conditions ci-dessus ne sont pas remplies par l'utilisateur. Welcome to My Garden ne peut pas non plus être tenu responsable du vol de votre compte, par exemple par «phishing». Welcome to My Garden ne demandera jamais à ses utilisateurs des données personnelles telles qu'un identifiant ou un mot de passe par email. Si des données personnelles sont demandées, l'utilisateur sera toujours redirigé vers la plateforme de Welcome to My Garden. Vous êtes responsable de toutes les activités qui se produisent en relation avec votre compte et acceptez tous les risques d'accès non autorisé."
               }
             }
           }
@@ -1187,7 +1204,7 @@
             "copy": {
               "0": "Welcome To My Garden offre aux utilisateurs la possibilité de devenir un Superfan et de soutenir financièrement le projet afin qu'il puisse rester libre d'utilisation pour tous et toutes. Pour remercier les Superfans de leur soutien, ils ont accès à des fonctionnalités supplémentaires. Le choix de devenir Superfan est optionnel. Les Superfans ne sont pas autorisés à transférer leur login à un tiers. Les Superfans acceptent les mêmes conditions que tous les utilisateurs et Welcome To My Garden se réserve le droit de refuser, suspendre ou supprimer les comptes des Superfans qui ne respectent pas ces conditions.",
               "1": "Les limitations de responsabilité (voir ci-dessous) de Welcome To My Garden en général s'appliquent également à l'utilisation des fonctions supplémentaires pour les Superfans, ce qui signifie que Welcome To My Garden ne peut être tenu responsable de tout dommage ou perte qui se produirait en raison de l'utilisation de Welcome To My Garden.",
-              "2": "Devenir un Superfan est basé sur le principe de la tarification ouverte. Les Superfans choisissent le prix qui correspond le mieux à leur budget et paient pour une année à la fois. Le prix comprend la TVA de 6% appliquée aux abonnements. L'abonnement est sans engagement : il s'arrête automatiquement au bout d'un an, et les Superfans reçoivent un e-mail pour le renouveler. L'abonnement Superfan est non remboursable et non transférable à un tiers."
+              "2": "Devenir un Superfan est basé sur le principe de la tarification ouverte. Les Superfans choisissent le prix qui correspond le mieux à leur budget et paient pour une année à la fois. Le prix comprend la TVA de 6% appliquée aux abonnements. L'abonnement est sans engagement : il s'arrête automatiquement au bout d'un an, et les Superfans reçoivent un email pour le renouveler. L'abonnement Superfan est non remboursable et non transférable à un tiers."
             }
           },
           "7": {
@@ -1279,7 +1296,7 @@
             "copy": "Welcome to My Garden se réserve le droit de supprimer les messages s'il détecte des infractions aux règles susmentionnées, et peut suspendre ou supprimer définitivement les comptes d'utilisateurs."
           },
           "1": {
-            "copy": "Welcome to My Garden ne peut en aucun cas être tenu responsable des messages postés par des utilisateurs ou des tiers, qui enfreignent les règles précisées ci-dessus. Si un utilisateur détecte une infraction, veuillez le signaler à l'adresse e-mail suivante: {support}"
+            "copy": "Welcome to My Garden ne peut en aucun cas être tenu responsable des messages postés par des utilisateurs ou des tiers, qui enfreignent les règles précisées ci-dessus. Si un utilisateur détecte une infraction, veuillez le signaler à l'adresse email suivante: {support}"
           },
           "2": {
             "copy": "Il peut arriver que des fichiers nuisibles puissent être téléchargés via la plateforme, qu'ils soient ou non dus à un utilisateur, ou que les utilisateurs placent des hyperliens nuisibles. Tout téléchargement par un utilisateur ou clic sur un lien hypertexte, placé par un utilisateur, se fait aux risques et périls de l'utilisateur. Tout dommage subi est entièrement et uniquement la responsabilité de cet utilisateur.‍"

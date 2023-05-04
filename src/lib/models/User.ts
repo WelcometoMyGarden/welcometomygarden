@@ -55,6 +55,10 @@ export type UserPrivate = {
   creationLanguage?: string;
   stripeCustomerId?: string;
   stripeSubscription?: StripeSubscription;
+  /** Internal property to assist in handling an email change across systems. Only writable by the admin sdk. */
+  newEmail?: string;
+  /** Internal property to assist in the handling of an email recovery across systems. Only writable by the admin sdk. */
+  oldEmail?: string;
 };
 
 /**

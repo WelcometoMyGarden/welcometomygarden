@@ -46,6 +46,9 @@
 
   const scaleControl = new maplibregl.ScaleControl();
   const fullscreenControl: FullscreenControl | undefined = new FullscreenControl({
+    // We can assume that <html> is already in the DOM, because the map only loads
+    // after a log in, and by then the first render has happened.
+    // TODO: this might break if we switch to SSR
     container: document.querySelector('html')!
   });
 

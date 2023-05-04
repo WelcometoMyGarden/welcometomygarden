@@ -35,7 +35,7 @@
       if (value && (getBrowserLang() !== value || (localeCookie && localeCookie !== value))) {
         setCookie('locale', value, { path: '/' });
       }
-      // Update the locale in Firebase if we're logged in
+      // Update the locale in Firebase, if we're logged in, and if it changed
       if (value && $user && $user.communicationLanguage !== value) {
         updateCommunicationLanguage(value);
       }
@@ -61,9 +61,15 @@
       resetChatStores();
     }
 
-    // Set a communication language when there is none yet
-    if (latestUser && !latestUser.communicationLanguage && $locale)
+    // Set a communication language to the current locale, when there is none yet
+    if (latestUser && !latestUser.communicationLanguage && $locale) {
       updateCommunicationLanguage($locale);
+    }
+
+    // Use the set account communication language locally
+    if (latestUser && latestUser.communicationLanguage) {
+      locale.set(latestUser.communicationLanguage);
+    }
   });
 
   const initializeSvelteI18n = () => {

@@ -11,7 +11,9 @@ const {
   resendAccountVerification,
   setAdminRole,
   verifyEmail,
-  updateEmail
+  updateEmail,
+  requestEmailChange,
+  propagateEmailChange
 } = require('./auth');
 const { doBackup } = require('./storage');
 const { onMessageCreate, onChatCreate } = require('./chat');
@@ -23,7 +25,7 @@ const {
 } = require('./subscriptions/createOrRetrieveUnpaidSubscription');
 const { createStripeCustomer } = require('./subscriptions/createStripeCustomer');
 const { createCustomerPortalSession } = require('./subscriptions/createCustomerPortalSession');
-const { discourseConnectLogin } = require('./discourseConnectLogin');
+const { discourseConnectLogin } = require('./discourse/discourseConnectLogin');
 const { createUser } = require('./user/createUser');
 const { cleanupUserOnDelete } = require('./user/cleanupUserOnDelete');
 const { onUserWrite } = require('./user/onUserWrite');
@@ -36,11 +38,21 @@ const euWest1 = functions.region('europe-west1');
 // migrate them safely.
 const usCentral1 = functions.region('us-central1');
 
+// Extended 5 minutes timeout for function that handle SendGrid account creation
+// https://firebase.google.com/docs/functions/manage-functions#set_timeout_and_memory_allocation
+const SENDGRID_CONTACT_CREATION_TIMEOUT_S = 60 * 5;
+
 // Callable functions: accounts
 exports.requestPasswordReset = usCentral1.https.onCall(requestPasswordReset);
 exports.resendAccountVerification = usCentral1.https.onCall(resendAccountVerification);
 exports.createUser = usCentral1.https.onCall(createUser);
 exports.verifyEmail = usCentral1.https.onCall(verifyEmail);
+exports.requestEmailChange = euWest1.https.onCall(requestEmailChange);
+exports.propagateEmailChange = euWest1
+  .runWith({
+    timeoutSeconds: SENDGRID_CONTACT_CREATION_TIMEOUT_S
+  })
+  .https.onCall(propagateEmailChange);
 exports.discourseConnectLogin = euWest1.https.onCall(discourseConnectLogin);
 
 // Callable functions: subscriptions
@@ -62,8 +74,11 @@ exports.stripeWebhooks = euWest1.https.onRequest(stripeWebhookHandler);
 exports.cleanupUserOnDelete = usCentral1.auth.user().onDelete(cleanupUserOnDelete);
 
 // Firestore triggers: users
-exports.onUserPrivateWrite = euWest1.firestore
-  .document('users-private/{userId}')
+exports.onUserPrivateWrite = euWest1
+  .runWith({
+    timeoutSeconds: SENDGRID_CONTACT_CREATION_TIMEOUT_S
+  })
+  .firestore.document('users-private/{userId}')
   // @ts-ignore
   .onWrite(onUserPrivateWrite);
 // @ts-ignore

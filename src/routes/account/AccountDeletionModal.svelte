@@ -10,7 +10,7 @@
   import isFirebaseError from '$lib/util/types/isFirebaseError';
   import trackEvent from '$lib/util/track-event';
   import { PlausibleEvent } from '$lib/types/Plausible';
-  export let showAccountDeletionModal = false;
+  export let show = false;
 
   let formError: null | string = null;
   let shouldReauthenticate = false;
@@ -78,7 +78,7 @@
 </script>
 
 <Modal
-  bind:show={showAccountDeletionModal}
+  bind:show
   maxWidth="700px"
   radius={true}
   center={true}
@@ -87,7 +87,7 @@
   ariaLabelledBy="title"
 >
   <div slot="title" class="title-section">
-    <h2 id="gardenFilterTitle">{$_('account.delete.modal.title')}</h2>
+    <h2>{$_('account.delete.modal.title')}</h2>
   </div>
   <div slot="body" class="main-section">
     <form on:submit|preventDefault={onConfirmDeletion}>
@@ -143,7 +143,7 @@
       </div>
     </form>
   </div>
-  <div slot="controls" class="applyGardenFilter">
+  <div slot="controls">
     <Button
       disabled={processedVerificationField !== verificationPrompt}
       danger

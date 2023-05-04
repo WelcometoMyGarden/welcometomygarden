@@ -23,6 +23,7 @@ export { default as lineIcon } from './line.svg';
 export { default as lockIcon } from './lock.svg';
 export { default as mapIcon } from './map.svg';
 export { default as markerIcon } from './marker.svg';
+export { default as pencilIcon } from './pencil.svg';
 export { default as routesIcon } from './routes.svg';
 export { default as showerIcon } from './shower.svg';
 export { default as signInIcon } from './sign-in.svg';

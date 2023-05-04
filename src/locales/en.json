@@ -945,7 +945,7 @@
     "delete": {
       "button-action": "Delete your account",
       "modal": {
-        "are-you-sure": "<p>Deleting your account deletes all your account details, such as your email address, last name, and your garden information, from our systems.</p>\n<p>The chat messages you have received or sent will still be visible to the other accounts involved in those chats, including your first name.</p><strong>This action can not be undone!</strong></p>\n<p>If you just want to hide your garden from the map, exit this popup and click on \"{unlist}\".</p>",
+        "are-you-sure": "<p>Deleting your account deletes all your account details, such as your email address, last name, and your garden information, from our systems.</p>\n<p>The chat messages you have received or sent will still be visible to the other accounts involved in those chats, including your first name.</p><strong>This action can not be undone!</strong></p>\n<p>If you just want to hide your garden from the map, close this popup and click on \"{unlist}\".</p>",
         "prompt": "delete everything",
         "errors": {
           "wrong-verification": "Did you type \"{prompt}\" into the field above?"
@@ -957,6 +957,19 @@
         "verification-info": "<p>To make sure that you are not accidentally deleting your account, type \"{prompt}\" into the text box below:</p>",
         "verification-ok": "✅ You can now delete your account!",
         "reauthentication-incorrect-password": "The provided password was incorrect, try again."
+      }
+    },
+    "change-email": {
+      "modal": {
+        "title": "Change your email address",
+        "info": "This action will change your email address in all WTMG-systems.",
+        "new-email-placeholder": "newemail@welcometomygarden.org",
+        "new-email-label": "New email address",
+        "error": {
+          "firebase-error": "Something whent wrong when requesting your email address update. If you didn't receive a verification email on your new email address, check your SPAM inbox. If this keeps happening, please contact our support."
+        },
+        "success": "Your change request succeeded! Open the inbox of your new email address ({newEmail}), and click the verification link to finalize the process.",
+        "button-label": "Change Email"
       }
     }
   },
@@ -980,7 +993,11 @@
       "logging-in": "Busy logging you into the community space...",
       "failed": "Login to the community space failed, contact support if this keeps happening."
     },
-    "logged-out": "You have been logged out elsewhere. Please log in again."
+    "logged-out": "You have been logged out elsewhere. Please log in again.",
+    "email-change": {
+      "in-progress": "Changing your email...",
+      "success": "Your email has successfully been changed! Please log in again"
+    }
   },
   "register": {
     "title": "Sign Up",

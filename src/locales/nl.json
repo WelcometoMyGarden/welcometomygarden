@@ -565,6 +565,19 @@
         "verification-ok": "✅ Je kan nu je account verwijderen!",
         "reauthentication-incorrect-password": "Je paswoord was niet correct, probeer opnieuw."
       }
+    },
+    "change-email": {
+      "modal": {
+        "title": "Verander je emailadres",
+        "info": "Deze actie zal je emailadres veranderen in alle WTMG-systemen.",
+        "new-email-label": "Nieuw emailadres",
+        "new-email-placeholder": "nieuwadres@welcometomygarden.org",
+        "success": "Je verzoek om je email te veranderen is geslaagd! Open de inbox van je nieuwe emailadres ({newEmail}) en klik op de verificatielink om het proces te voltooien.",
+        "error": {
+          "firebase-error": "Er ging iets mis bij het aanvragen van je e-mailadresverandering. \nAls je geen verificatie-email hebt ontvangen op je nieuwe emailadres (check ook je spam-map), en als dit blijft gebeuren, neem dan contact op met onze support!"
+        },
+        "button-label": "Verander je emailadres"
+      }
     }
   },
   "auth": {
@@ -586,6 +599,10 @@
       "superfan": "Alleen Superfans hebben toegang tot de communityruimte.",
       "logging-in": "Bezig met inloggen op de communityruimte...",
       "failed": "Inloggen op de communityruimte is mislukt, neem contact op met support als dit blijft gebeuren."
+    },
+    "email-change": {
+      "in-progress": "Je email adres wordt gewijzigd...",
+      "success": "Je email is gewijzigd! Gelieve opnieuw in te loggen"
     }
   },
   "register": {
@@ -1291,7 +1308,7 @@
             "copy": "Welcome to My Garden respecteert de intellectuele eigendomsrechten van anderen en verwacht dat gebruikers van dit platform ook deze voorgenoemde rechten respecteren. Welcome to My Garden behoudt zich het recht voor om inhoud te verwijderen die inbreuk pleegt op de intellectuele eigendomsrechten. Herhaalde inbreuken op welke intellectuele eigendomsrechten dan ook door een gebruiker zullen leiden tot de opschorting of verwijdering van het account door Welcome To my Garden."
           },
           "1": {
-            "copy": "Inbreuken op intellectuele eigendomsrechten kunnen worden gemeld via het volgende email adres: {support}."
+            "copy": "Inbreuken op intellectuele eigendomsrechten kunnen worden gemeld via het volgende emailadres: {support}."
           }
         }
       },

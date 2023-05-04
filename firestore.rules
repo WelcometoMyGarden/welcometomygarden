@@ -86,8 +86,8 @@ service cloud.firestore {
         && user.emailPreferences is map
         && user.emailPreferences.newChat is bool
         && user.emailPreferences.news is bool
-      // Don't allow stripe properties to be changed by clients
-        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['stripeCustomerId', 'stripeSubscription'])
+      // Don't allow sensitive indentifiers to be changed by clients
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['stripeCustomerId', 'stripeSubscription', 'sendgridId', 'oldEmail', 'newEmail'])
     }
 
     match /users-private/{userId} {

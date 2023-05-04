@@ -18,6 +18,8 @@
     }
   },
   "discourse": {
-    "connect_secret": null
+    "connect_secret": null,
+    "host": null,
+    "api_key": null
   }
 }

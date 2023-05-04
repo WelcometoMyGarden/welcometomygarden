@@ -14,7 +14,7 @@ const auth = admin.auth(app);
 
 /**
  * @param {import('firebase-admin/auth').CreateRequest} authProps
- * @param {import('../../src/lib/api/functions').CreateUserRequest} callableProps
+ * @param {import('../../src/lib/api/functions').CreateUserRequest & {superfan?: true}} callableProps
  */
 const createNewUser = async (authProps, callableProps) => {
   const user = await auth.createUser({
@@ -26,10 +26,14 @@ const createNewUser = async (authProps, callableProps) => {
 
   // based on auth.js -> createUser
 
-  await db.collection('users').doc(user.uid).set({
-    countryCode: callableProps.countryCode,
-    firstName: callableProps.firstName
-  });
+  await db
+    .collection('users')
+    .doc(user.uid)
+    .set({
+      countryCode: callableProps.countryCode,
+      firstName: callableProps.firstName,
+      ...(callableProps.superfan ? { superfan: callableProps.superfan } : {})
+    });
 
   await db
     .collection('users-private')
@@ -126,7 +130,7 @@ const seed = async () => {
 
   const user2 = await createNewUser(
     { email: 'user2@slowby.travel' },
-    { firstName: 'Urbain', lastName: 'Servranckx', countryCode: 'BE' }
+    { firstName: 'Urbain', lastName: 'Servranckx', countryCode: 'BE', superfan: true }
   );
 
   // Send chats
