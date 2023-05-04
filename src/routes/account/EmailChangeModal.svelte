@@ -10,6 +10,7 @@
   export let show = false;
   export let newEmail = '';
   export let success = false;
+  export let isLoading = false;
   let formError: null | string = null;
   $: isValidEmail = validateEmail(newEmail);
 
@@ -17,10 +18,13 @@
     if (isValidEmail && newEmail !== getUser().email) {
       // It's valid and new email address
       try {
+        isLoading = true;
         await requestEmailChange(newEmail);
         success = true;
       } catch (e) {
         formError = $_('account.change-email.modal.error.firebase-error');
+      } finally {
+        isLoading = false;
       }
     }
   };
@@ -67,8 +71,12 @@
   </div>
   <div slot="controls">
     {#if !success}
-      <Button disabled={!isValidEmail} uppercase small type="submit" on:click={submitEmailChange}
-        >{$_('account.change-email.modal.button-label')}</Button
+      <Button
+        disabled={!isValidEmail || isLoading}
+        uppercase
+        small
+        type="submit"
+        on:click={submitEmailChange}>{$_('account.change-email.modal.button-label')}</Button
       >
     {/if}
   </div>
