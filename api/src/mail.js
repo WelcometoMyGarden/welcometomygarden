@@ -30,8 +30,15 @@ const NO_API_KEY_WARNING =
  * @param {string} name
  * @param {string} verificationLink
  * @param {string} language
+ * @param {'creation' | 'change'} type
  */
-exports.sendAccountVerificationEmail = (email, name, verificationLink, language) => {
+exports.sendAccountVerificationEmail = (
+  email,
+  name,
+  verificationLink,
+  language,
+  type = 'creation'
+) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -51,7 +58,8 @@ exports.sendAccountVerificationEmail = (email, name, verificationLink, language)
     templateId,
     dynamic_template_data: {
       firstName: name,
-      verificationLink
+      verificationLink,
+      type
     }
   };
 

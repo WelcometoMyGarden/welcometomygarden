@@ -212,7 +212,8 @@ exports.requestEmailChange = async (newEmail, context) => {
     newEmail,
     authUser?.displayName,
     verifyAndChangeActionLink,
-    userPrivateData.communicationLanguage || 'en'
+    userPrivateData.communicationLanguage || 'en',
+    'change'
   );
 };
 
