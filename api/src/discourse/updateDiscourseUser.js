@@ -55,11 +55,12 @@ exports.updateDiscourseUser = async (user) => {
       console.info(
         `Tried to change the Discourse email of uid ${uid}, but this user is not in Discourse yet`
       );
+    } else {
+      console.warn(
+        `Unexpected error when trying to fetch a Discourse user by their external id (uid: ${uid})`,
+        await existingDiscourseUserResponse.text()
+      );
     }
-    console.warn(
-      `Unexpected error when trying to fetch a Discourse user by their external id (uid: ${uid})`,
-      await existingDiscourseUserResponse.text()
-    );
     // We don't have to perform an update.
     return false;
   }
