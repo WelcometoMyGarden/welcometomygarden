@@ -3,6 +3,7 @@ const { parseAsync } = require('json2csv');
 const sendgrid = require('@sendgrid/mail');
 const removeEndingSlash = require('./util/removeEndingSlash');
 const { auth, db } = require('./firebase');
+const { verifyAdminUser } = require('./auth');
 
 const API_KEY = functions.config().sendgrid.send_key;
 const FRONTEND_URL = removeEndingSlash(functions.config().frontend.url);
@@ -192,20 +193,8 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
   return send(msg);
 };
 
-const fail = (code, message = '') => {
-  throw new functions.https.HttpsError(code, message || code);
-};
-
 exports.exportNewsletterEmails = async (_, context) => {
-  if (!context.auth) {
-    return fail('unauthenticated');
-  }
-
-  const { uid } = context.auth;
-  const adminUser = await auth.getUser(uid);
-  if (!adminUser.customClaims || !adminUser.customClaims.admin) {
-    return fail('permission-denied');
-  }
+  await verifyAdminUser(context);
 
   const spliceIntoChunks = (arr, chunkSize) => {
     const res = [];

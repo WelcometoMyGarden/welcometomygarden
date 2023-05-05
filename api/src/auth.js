@@ -33,6 +33,32 @@ if (SG_KEY) {
 const frontendUrl = removeEndingSlash(functions.config().frontend.url);
 
 /**
+ * Checks whether the given context represents an admin user.
+ *
+ * @private
+ * @param {import("firebase-functions/v1/https").CallableContext} context
+ * @throws when the context is not representing an admin
+ * @returns {Promise<UserRecord>} adminUser
+ */
+async function verifyAdminUser(context) {
+  if (!context.auth) {
+    fail('unauthenticated');
+  }
+
+  const { uid } = context.auth;
+  if (!uid) {
+    fail('invalid-argument');
+  }
+  const adminUser = await auth.getUser(uid);
+  if (!adminUser.customClaims || !adminUser.customClaims.admin) {
+    fail('permission-denied');
+  }
+  return adminUser;
+}
+
+exports.verifyAdminUser = verifyAdminUser;
+
+/**
  * @param {string} email
  * @param {string} firstName
  * @param {string} language
@@ -68,6 +94,11 @@ exports.requestPasswordReset = async (email) => {
   }
 };
 
+/**
+ * @public
+ * @param {*} _
+ * @param {import("firebase-functions/v1/https").CallableContext} context
+ */
 exports.resendAccountVerification = async (_, context) => {
   if (!context.auth) {
     throw new functions.https.HttpsError('unauthenticated', '');
@@ -108,16 +139,15 @@ exports.resendAccountVerification = async (_, context) => {
   );
 };
 
+/**
+ * Admin function to set the admin status of the given email address.
+ *
+ * @public
+ * @param {{newStatus: boolean, email: string}} data
+ * @param {import("firebase-functions/v1/https").CallableContext} context
+ */
 exports.setAdminRole = async (data, context) => {
-  if (!context.auth) {
-    return fail('unauthenticated');
-  }
-
-  const { uid } = context.auth;
-  const adminUser = await auth.getUser(uid);
-  if (!adminUser.customClaims || !adminUser.customClaims.admin) {
-    return fail('permission-denied');
-  }
+  await verifyAdminUser(context);
 
   const { newStatus } = data;
   const user = await auth.getUserByEmail(data.email);
@@ -127,19 +157,15 @@ exports.setAdminRole = async (data, context) => {
 };
 
 /**
- * Function to force the verification of an email, only to be used by admins.
+ * Admin function to force the verification of an email.
  * The normal verification process starts in createUser.
+ *
+ * @public
+ * @param {{email: string}} data
+ * @param {import("firebase-functions/v1/https").CallableContext} context
  */
 exports.verifyEmail = async ({ email }, context) => {
-  if (!context.auth) {
-    return fail('unauthenticated');
-  }
-
-  const { uid } = context.auth;
-  const adminUser = await auth.getUser(uid);
-  if (!adminUser.customClaims || !adminUser.customClaims.admin) {
-    return fail('permission-denied');
-  }
+  await verifyAdminUser(context);
 
   const userToUpdate = await auth.getUserByEmail(email);
   await auth.updateUser(userToUpdate.uid, {
@@ -149,25 +175,15 @@ exports.verifyEmail = async ({ email }, context) => {
 };
 
 /**
- * User-callable function to request an email change. Will trigger a verification
- * email to be sent to the new email.
- *
- * @param {string} newEmail
- * @param {import("firebase-functions/v1/https").CallableContext} context
+ * Utility method. See requestEmailChange.
+ * @private
  */
-exports.requestEmailChange = async (newEmail, context) => {
-  if (!context.auth) {
-    fail('unauthenticated');
-  }
-
-  const currentEmail = context.auth?.token.email;
-
+async function requestEmailChangeForUser(authUser, newEmail) {
+  const currentEmail = authUser.email;
   const userPrivateRef = /** @type {DocumentReference<UserPrivate>} */ (
-    db.doc(`users-private/${context.auth.uid}`)
+    db.doc(`users-private/${authUser.uid}`)
   );
   const userPrivateData = (await userPrivateRef.get()).data();
-
-  const authUser = await auth.getUser(context.auth.uid);
 
   if (!currentEmail || !userPrivateData || !authUser || !authUser.displayName) {
     fail('failed-precondition');
@@ -215,33 +231,171 @@ exports.requestEmailChange = async (newEmail, context) => {
     userPrivateData.communicationLanguage || 'en',
     'change'
   );
+}
+
+/**
+ * User-callable function to request an email change. Will trigger a verification
+ * email to be sent to the new email. After the verification link is clicked, the
+ * change will be finalized, and Firebase will trigger a recovery email (in English)
+ * to be sent to the old email.
+ *
+ * @public
+ * @param {string} newEmail
+ * @param {import("firebase-functions/v1/https").CallableContext} context
+ */
+exports.requestEmailChange = async (newEmail, context) => {
+  if (!context.auth) {
+    fail('unauthenticated');
+  }
+  const authUser = await auth.getUser(context.auth.uid);
+
+  await requestEmailChangeForUser(authUser, newEmail);
 };
 
 /**
- * Admin function for updating an email address.
+ * Forces the Firebase email of the account of oldEmail to be updated to newEmail.
+ *
+ * In contrast to other methods, this does NOT send a verification email to newEmail,
+ * and it does also NOT send a recovery email to the oldEmail.
+ *
+ * @private
+ * @param {UserRecord} userToUpdate
+ * @param {string} newEmail
  */
-exports.updateEmail = async ({ oldEmail, newEmail }, context) => {
-  if (!context.auth) {
-    return fail('unauthenticated');
-  }
-
-  const { uid } = context.auth;
-  const adminUser = await auth.getUser(uid);
-  if (!adminUser.customClaims || !adminUser.customClaims.admin) {
-    return fail('permission-denied');
-  }
-
-  const userToUpdate = await auth.getUserByEmail(oldEmail);
+async function forceUpdateFirebaseEmail(userToUpdate, newEmail) {
   await auth.updateUser(userToUpdate.uid, {
     email: newEmail,
     emailVerified: true
   });
+}
+
+/**
+ * Forces email updates in services like SendGrid, Stripe and Discourse for the given user.
+ * The external user accounts to be updated are determined from the oldUserPrivateData (sendgridId), or targetAuthUser (uid)
+ * The email already needs to be changed (with its new value in targetAuthUser) when this method is called!
+ *
+ * @private
+ * @param {UserPrivate} userPrivateData
+ * @param {UserRecord} targetAuthUser
+ */
+async function syncUserEmailToExternalSystems(userPrivateData, targetAuthUser) {
+  const sendgridUpdatePromise = new Promise((resolve) => {
+    if (typeof userPrivateData.sendgridId === 'string') {
+      updateSendgridContactEmail(targetAuthUser, userPrivateData)
+        .then(() => resolve(true))
+        .catch((e) => {
+          console.error(e);
+          // Don't block other update operations on error
+          resolve(false);
+        });
+      return;
+    }
+    console.warn(
+      `UID ${targetAuthUser.uid}, who is changing their email address, does not have a SendGrid contact, we're leaving it that way, as this may be expected.`
+    );
+    resolve(true);
+  });
+
+  const stripeUpdatePromise = new Promise((resolve) => {
+    if (typeof userPrivateData.stripeCustomerId !== 'string') {
+      // This may very well be expected
+      console.warn(
+        `UID ${targetAuthUser.uid}, who is changing their email address, does not have a Stripe customer.`
+      );
+      resolve(false);
+      return;
+    }
+    stripe.customers
+      .update(userPrivateData.stripeCustomerId, { email: targetAuthUser.email })
+      .then(() => {
+        console.info(
+          `Stripe customer email for customer ${userPrivateData.stripeCustomerId} updated`
+        );
+        resolve(true);
+      })
+      .catch((e) => {
+        console.error(
+          `An error happened when trying to update the email address of uid ${targetAuthUser.uid} (stripe customer ${userPrivateData.stripeCustomerId}): `,
+          e
+        );
+        resolve(false);
+      });
+  });
+
+  const discourseUpdatePromise = new Promise((resolve) => {
+    updateDiscourseUser(targetAuthUser)
+      .then((v) => resolve(v))
+      .catch((e) => {
+        console.error(
+          `An error happened when trying to update the email address of Discourse uid ${targetAuthUser.uid}`,
+          e
+        );
+        resolve(false);
+      });
+  });
+
+  // Perform all updates
+  await Promise.all([sendgridUpdatePromise, stripeUpdatePromise, discourseUpdatePromise]);
+}
+
+/**
+ * Admin function for updating an email address.
+ * If oldEmail equals newEmail, the email will still be propagated in other systems than Firebase,
+ * this is useful when the email was previously changed in Firebase (manually), but this change was not propagated.
+ *
+ * @public
+ * @param {{oldEmail: string, newEmail: string, force?: boolean}} data
+ * @param {import("firebase-functions/v1/https").CallableContext} context
+ */
+exports.updateEmail = async ({ oldEmail, newEmail, force = false }, context) => {
+  await verifyAdminUser(context);
+
+  const userToChange = await auth.getUserByEmail(oldEmail);
+  if (force) {
+    const userPrivateRef =
+      /** @type {import("firebase-admin/firestore").DocumentReference<UserPrivate>} */ (
+        db.doc(`users-private/${userToChange.uid}`)
+      );
+    const oldUserPrivateData = (await userPrivateRef.get()).data();
+    if (!oldUserPrivateData) {
+      fail('failed-precondition');
+    }
+
+    /** @type {UserRecord} */
+    let userToPropagate;
+
+    if (oldEmail !== newEmail) {
+      console.log(`Force-updating ${oldEmail} to ${newEmail}`);
+      // Inequality means a proper, full, forced email update
+      // Apply the email change in Firebase
+      await forceUpdateFirebaseEmail(userToChange, newEmail);
+      // Refetch the auth details (incl. new email)
+      userToPropagate = await auth.getUser(userToChange.uid);
+    } else {
+      // The old and new emails are equal.
+      console.log(`Force-propagating ${oldEmail} to other systems`);
+      // We will not do a Firebase email change,
+      // but we will still propagate the email change.
+      // This method can be used to propagate the email change of a user that was
+      // manually updated in Firebase.
+      userToPropagate = userToChange;
+    }
+    // Propagate the change to other systems
+    await syncUserEmailToExternalSystems(oldUserPrivateData, userToPropagate);
+  } else {
+    console.log(`Manually requesting an email change from ${oldEmail} to ${newEmail}`);
+    // Don't force the change.
+    // Propagation will occur naturally when the user clicks the verification link
+    await requestEmailChangeForUser(userToChange, newEmail);
+  }
   return { message: `${oldEmail} was changed to ${newEmail}` };
 };
 
 /**
  * Propagate a changed (or recovered) email to services other than Firebase Auth: SendGrid, Stripe and Discourse.
  * The Firebase Auth email change should already have happened at this point.
+ *
+ * Verifies whether the request is valid using markers left in the targetEmail's users-private data
  *
  * @param {import('../../src/lib/api/functions').PropagateEmailChangeRequest} data
  * @param {string} data - object describing the email change, used for identifying the change to be propagated.
@@ -320,61 +474,5 @@ exports.propagateEmailChange = async (data) => {
   // Construct updaters that cross-reference the UID or saved external ID in external systems,
   // and then update the email of the external entities
 
-  const sendgridUpdatePromise = new Promise((resolve) => {
-    if (typeof oldUserPrivateData.sendgridId === 'string') {
-      updateSendgridContactEmail(targetAuthUser, oldUserPrivateData)
-        .then(() => resolve(true))
-        .catch((e) => {
-          console.error(e);
-          // Don't block other update operations on error
-          resolve(false);
-        });
-      return;
-    }
-    console.warn(
-      `UID ${targetAuthUser.uid}, who is changing their email address, does not have a SendGrid contact, we're leaving it that way, as this may be expected.`
-    );
-    resolve(true);
-  });
-
-  const stripeUpdatePromise = new Promise((resolve) => {
-    if (typeof oldUserPrivateData.stripeCustomerId !== 'string') {
-      // This may very well be expected
-      console.warn(
-        `UID ${targetAuthUser.uid}, who is changing their email address, does not have a Stripe customer.`
-      );
-      resolve(false);
-      return;
-    }
-    stripe.customers
-      .update(oldUserPrivateData.stripeCustomerId, { email: targetAuthUser.email })
-      .then(() => {
-        console.info(
-          `Stripe customer email for customer ${oldUserPrivateData.stripeCustomerId} updated`
-        );
-        resolve(true);
-      })
-      .catch((e) => {
-        console.error(
-          `An error happened when trying to update the email address of uid ${targetAuthUser.uid} (stripe customer ${oldUserPrivateData.stripeCustomerId}): `,
-          e
-        );
-        resolve(false);
-      });
-  });
-
-  const discourseUpdatePromise = new Promise((resolve) => {
-    updateDiscourseUser(targetAuthUser)
-      .then((v) => resolve(v))
-      .catch((e) => {
-        console.error(
-          `An error happened when trying to update the email address of Discourse uid ${targetAuthUser.uid}`,
-          e
-        );
-        resolve(false);
-      });
-  });
-
-  // Perform all updates
-  await Promise.all([sendgridUpdatePromise, stripeUpdatePromise, discourseUpdatePromise]);
+  await syncUserEmailToExternalSystems(oldUserPrivateData, targetAuthUser);
 };

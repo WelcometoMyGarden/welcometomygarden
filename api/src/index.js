@@ -65,7 +65,11 @@ exports.createCustomerPortalSession = euWest1.https.onCall(createCustomerPortalS
 // Callable functions: admin functions
 exports.setAdminRole = usCentral1.https.onCall(setAdminRole);
 exports.exportNewsletterEmails = usCentral1.https.onCall(exportNewsletterEmails);
-exports.updateEmail = usCentral1.https.onCall(updateEmail);
+exports.updateEmail = usCentral1
+  .runWith({
+    timeoutSeconds: SENDGRID_CONTACT_CREATION_TIMEOUT_S
+  })
+  .https.onCall(updateEmail);
 
 // HTTP function: Stripe webhook endpoint
 exports.stripeWebhooks = euWest1.https.onRequest(stripeWebhookHandler);
