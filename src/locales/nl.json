@@ -627,7 +627,6 @@
       },
       "last-name": "Voer jouw achternaam in. Dit zal niet worden gedeeld met andere gebruikers.",
       "country": {
-        "set": "Geef alstublieft jouw land in. Dit helpt ons om de kaart te focussen op waar je vandaan komt.",
         "from-list": "Kies een land uit de lijst. Dit helpt ons om de kaart te focussen op waar je vandaan komt."
       },
       "consent": "Je moet akkoord gaan met de voorwaarden van Welcome To My Garden als je gebruik wilt maken van het platform."

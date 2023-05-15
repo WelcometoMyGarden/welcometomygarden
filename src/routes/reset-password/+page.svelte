@@ -12,6 +12,8 @@
   const oobCode = $page.url.searchParams.get('oobCode');
   const email = $page.url.searchParams.get('email');
 
+  // Note: this page is the second stage of a flow starting on /auth/action.
+  // The query parameters here are filled by that page.
   if (!email || !oobCode) {
     notify.danger($_('auth.invalid-code'));
     goto(routes.HOME);
@@ -40,6 +42,8 @@
     isResetting = false;
   };
 </script>
+
+<!-- @component a page to fill in a new password after a password change request was verified via email -->
 
 <Progress active={isResetting} />
 

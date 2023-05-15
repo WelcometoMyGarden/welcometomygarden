@@ -1,7 +1,7 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
-  import { user } from '$lib/stores/auth';
+  import { formEmailValue, formPasswordValue, user } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
   import { login } from '$lib/api/auth';
   import routes from '$lib/routes';
@@ -12,18 +12,16 @@
   import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
   import { get } from 'svelte/store';
-
-  let email = {};
-  let password = {};
+  import isFirebaseError from '$lib/util/types/isFirebaseError';
 
   const continueUrl = $page.url.searchParams.get('continueUrl');
 
   let formError = '';
   const submit = async () => {
-    if (!email.value || !password.value) return;
+    if (!$formEmailValue || !$formPasswordValue) return;
     formError = '';
     try {
-      await login(email.value, password.value);
+      await login($formEmailValue, $formPasswordValue);
       const localUser = get(user);
       if (!localUser) {
         console.warn('User unexpectedly null in sign-in');
@@ -35,7 +33,10 @@
         goto(routes.MAP);
       }
     } catch (ex) {
-      if (ex.code === 'auth/user-not-found' || ex.code === 'auth/wrong-password')
+      if (
+        isFirebaseError(ex) &&
+        (ex.code === 'auth/user-not-found' || ex.code === 'auth/wrong-password')
+      )
         formError = $_('sign-in.notify.incorrect');
       else {
         formError = $_('sign-in.notify.login-issue', { values: { support: SUPPORT_EMAIL } });
@@ -61,7 +62,7 @@
         type="email"
         name="email"
         id="email"
-        bind:value={email.value}
+        bind:value={$formEmailValue}
       />
     </div>
     <div>
@@ -72,7 +73,7 @@
         name="password"
         id="password"
         autocomplete="new-password"
-        bind:value={password.value}
+        bind:value={$formPasswordValue}
       />
     </div>
     <div class="hint">
@@ -81,7 +82,7 @@
       {/if}
     </div>
     <div class="submit">
-      <Button type="submit" medium disabled={!email.value || !password.value}>
+      <Button type="submit" medium disabled={!$formEmailValue || !$formPasswordValue}>
         {$_('sign-in.button')}
       </Button>
     </div>

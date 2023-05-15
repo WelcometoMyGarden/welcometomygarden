@@ -4,10 +4,10 @@ import { get, writable, type Writable } from 'svelte/store';
 /**
  * Reflects whether when Firebase's services are fully loaded
  * Does not guarantee that the User state is fully loaded via snapshot listeners (see isUserLoading)
- * but guarantees for example that the snapshot listeners are set up, and that
+ * but guarantees that the auth observer is set up, and that
  * a persisted auth login happened if one was available.
  */
-export const isInitializing = writable(true);
+export const isInitializingFirebase = writable(true);
 export const isRegistering = writable(false);
 
 /** This helps the app to know when a user is fully loaded,
@@ -40,3 +40,8 @@ export const getUser = (): User => {
   if (!localUser || !localUser.id) throw new Error('User is not logged in.');
   return localUser;
 };
+
+// Sign-in values
+// To be shared between their common fields in the log-in and register pages
+export const formEmailValue = writable('');
+export const formPasswordValue = writable('');

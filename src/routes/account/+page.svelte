@@ -10,7 +10,6 @@
   import { Avatar, Icon, Button, LabeledCheckbox } from '$lib/components/UI';
   import AccountDeletionModal from './AccountDeletionModal.svelte';
   import { flagIcon, emailIcon, pencilIcon } from '$lib/images/icons';
-  import { countries } from '$lib/util';
   import routes from '$lib/routes';
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { createCustomerPortalSession } from '$lib/api/functions';
@@ -18,6 +17,7 @@
   import trackEvent from '$lib/util/track-event';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import EmailChangeModal from './EmailChangeModal.svelte';
+  import { countryNames } from '$lib/stores/countryNames';
 
   let showAccountDeletionModal = false;
   let showEmailChangeModal = false;
@@ -113,7 +113,7 @@
             <span class="icon">
               <Icon icon={flagIcon} />
             </span>
-            {countries[$user.countryCode]}
+            {$countryNames[$user.countryCode]}
           </div>
         </div>
       </section>
