@@ -98,6 +98,10 @@
   $: fields.email.value = $formEmailValue;
   $: fields.password.value = $formPasswordValue;
 
+  $: countryEntries = Object.entries($countryNames).sort(([, nameA], [, nameB]) =>
+    nameA.localeCompare(nameB)
+  );
+
   let formError = '';
 
   const submit = async () => {
@@ -226,7 +230,7 @@
     <div class="country-select">
       <label for="country">{$_('register.country')}</label>
       <Select name="country" bind:value={fields.country.value} fullBlock>
-        {#each Object.entries($countryNames) as [code, name]}
+        {#each countryEntries as [code, name]}
           <option value={code}>{name}</option>
         {/each}
       </Select>
