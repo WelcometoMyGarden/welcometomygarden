@@ -6,14 +6,14 @@
   import { emailIcon } from '$lib/images/icons';
   import { requestPasswordReset } from '$lib/api/functions';
   import { SUPPORT_EMAIL } from '$lib/constants';
+  import { formEmailValue } from '$lib/stores/auth';
 
-  let email: { value?: string } = {};
   let done = false;
   let isSending = false;
   const submit = async () => {
     isSending = true;
     try {
-      await requestPasswordReset(email.value);
+      await requestPasswordReset($formEmailValue);
       done = true;
       isSending = false;
     } catch (err) {
@@ -43,18 +43,18 @@
             type="email"
             name="email"
             id="email"
-            bind:value={email.value}
+            bind:value={$formEmailValue}
           />
         </div>
         <div class="submit">
-          <Button type="submit" medium disabled={!email.value || isSending}>
+          <Button type="submit" medium disabled={!$formEmailValue || isSending}>
             {$_('request-password-reset.button')}
           </Button>
         </div>
       </form>
     {:else}
       <div transition:fade>
-        <p>{$_('request-password-reset.set', { values: { email: email.value } })}</p>
+        <p>{$_('request-password-reset.set', { values: { email: $formEmailValue } })}</p>
         <p>
           {@html $_('request-password-reset.trouble', {
             values: {

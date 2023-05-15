@@ -249,7 +249,8 @@
     text-transform: uppercase;
   }
 
-  .button:not(.disabled):hover {
+  .button:not(.disabled):hover,
+  .button:not(.disabled):focus {
     border-color: var(--color-orange);
   }
 

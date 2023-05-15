@@ -1021,7 +1021,6 @@
       },
       "last-name": "Please enter your last name. This won't be shared with other users",
       "country": {
-        "set": "Please enter your country. This helps us focus the map on where you're from",
         "from-list": "Please choose a country from the list. This helps us focus the map on where you're from"
       },
       "consent": "You must consent to Welcome To My Garden's terms if you want to use the platform"

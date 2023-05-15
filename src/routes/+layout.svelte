@@ -10,20 +10,21 @@
   import { getCookie, setCookie } from '$lib/util';
   import { createAuthObserver } from '$lib/api/auth';
   import { initialize } from '$lib/api/firebase';
-  import { isInitializing, user, isUserLoading } from '$lib/stores/auth';
+  import { user } from '$lib/stores/auth';
   import { keyboardEvent } from '$lib/stores/keyboardEvent';
   import registerLocales from '$locales/register';
   import { onDestroy, onMount } from 'svelte';
-  import { init, isLoading as isLocaleLoading, locale } from 'svelte-i18n';
+  import { init, locale } from 'svelte-i18n';
   import { updateCommunicationLanguage } from '$lib/api/user';
   import MinimalFooter from '$lib/components/MinimalFooter.svelte';
   import { isActiveContains } from '$lib/util/isActive';
   import routes from '$lib/routes';
   import { page } from '$app/stores';
   import { resetChatStores } from '$lib/stores/chat';
-  import getBrowserLang, { coerceToSupportedLanguage } from '$lib/util/get-browser-lang';
+  import coercedBrowserLang, { coerceToSupportedLanguage } from '$lib/util/get-browser-lang';
   import type { SupportedLanguage } from '$lib/types/general';
   import { isFullscreen } from '$lib/stores/fullscreen';
+  import { appHasLoaded } from '$lib/stores/app';
 
   // React to locale initialization or changes
   const unsubscribeFromLocale = locale.subscribe((value) => {
@@ -32,7 +33,7 @@
       // Set a locale cookie if the browser/cookie locale is different from the requested locale,
       // so the setting will be remembered.
       const localeCookie = getCookie('locale');
-      if (value && (getBrowserLang() !== value || (localeCookie && localeCookie !== value))) {
+      if (value && (coercedBrowserLang() !== value || (localeCookie && localeCookie !== value))) {
         setCookie('locale', value, { path: '/' });
       }
       // Update the locale in Firebase, if we're logged in, and if it changed
@@ -66,7 +67,7 @@
       updateCommunicationLanguage($locale);
     }
 
-    // Use the set account communication language locally
+    // Use the user-configured account communication language locally, if present
     if (latestUser && latestUser.communicationLanguage) {
       locale.set(latestUser.communicationLanguage);
     }
@@ -81,11 +82,15 @@
       // Start from a cookie, if present.
       lang = coerceToSupportedLanguage(localeCookie);
     } else {
-      lang = getBrowserLang();
+      lang = coercedBrowserLang();
     }
 
     // Initialize svelte-i18n
     init({ fallbackLocale: 'en', initialLocale: lang });
+
+    // It's possible that a user account has a different language setting,
+    // this will then be updated in user.subscribe above. We're not waiting
+    // for the user load to initialize svelte-i18n.
   };
 
   onMount(async () => {
@@ -137,11 +142,11 @@
   style="--vh:{vh}"
 >
   {#if browser}
-    <Progress active={$isInitializing || $isLocaleLoading || $isUserLoading} />
+    <Progress active={!$appHasLoaded} />
     <Notifications />
   {/if}
 
-  {#if !$isInitializing && !$isLocaleLoading && !$isUserLoading}
+  {#if $appHasLoaded}
     <Nav />
     <main>
       <slot />

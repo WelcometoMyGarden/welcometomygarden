@@ -30,8 +30,9 @@ export const createUser: HttpsCallable<CreateUserRequest> = wrapCallable(() => c
 
 type email = string;
 type EmptyObject = Record<string, never>;
-let requestPasswordResetRef: HttpsCallable<EmptyObject> | null = null;
-export const requestPasswordReset: HttpsCallable<EmptyObject> = wrapCallable(
+
+let requestPasswordResetRef: HttpsCallable<email> | null = null;
+export const requestPasswordReset: HttpsCallable<email> = wrapCallable(
   () => requestPasswordResetRef
 );
 

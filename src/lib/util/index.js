@@ -1,4 +1,3 @@
-export { default as countries } from './countries';
 export { default as getCookie } from './get-cookie';
 export { default as isBrowser } from './is-browser';
 export { default as removeDiacritics } from './removeDiacritics';

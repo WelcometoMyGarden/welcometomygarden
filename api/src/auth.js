@@ -365,7 +365,7 @@ exports.updateEmail = async ({ oldEmail, newEmail, force = false }, context) => 
     let userToPropagate;
 
     if (oldEmail !== newEmail) {
-      console.log(`Force-updating ${oldEmail} to ${newEmail}`);
+      console.log(`Force-updating ${oldEmail} (${userToChange.uid}) to ${newEmail}`);
       // Inequality means a proper, full, forced email update
       // Apply the email change in Firebase
       await forceUpdateFirebaseEmail(userToChange, newEmail);

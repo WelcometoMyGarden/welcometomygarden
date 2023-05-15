@@ -3,13 +3,13 @@
   import { fade } from 'svelte/transition';
   import { goto } from '$lib/util/navigate';
   import { register } from '$lib/api/auth';
-  import { isRegistering } from '$lib/stores/auth';
+  import { formEmailValue, formPasswordValue, isRegistering } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
-  import { countries } from '$lib/util';
   import routes from '$lib/routes';
+  import { countryNames, guessCountryCode } from '$lib/stores/countryNames';
   import AuthContainer from '$lib/components/AuthContainer.svelte';
-  import { TextInput, Progress, Button } from '$lib/components/UI';
-  import { lockIcon, emailIcon, userIcon, flagIcon } from '$lib/images/icons';
+  import { TextInput, Progress, Button, Select } from '$lib/components/UI';
+  import { lockIcon, emailIcon, userIcon } from '$lib/images/icons';
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { AuthErrorCodes } from 'firebase/auth';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
@@ -51,6 +51,7 @@
       [fieldName in 'email' | 'password' | 'firstName' | 'lastName' | 'country']: TextInputField;
     } & { consent: CheckboxField }; // Checkbox fields
 
+  /** Field definitions with initial values */
   let fields: RegistrationFields = {
     email: {
       validate: (v) => {
@@ -78,8 +79,11 @@
       // TODO: why is there no max-length constraint on last-name?
     },
     country: {
-      validate: (v) => {
-        if (!v) return $_('register.validate.country.set');
+      value: guessCountryCode(),
+      validate: (v?: string) => {
+        if (!v || !$countryNames[v]) {
+          return $_('register.validate.country.from-list');
+        }
       }
     },
     consent: {
@@ -89,21 +93,10 @@
       }
     }
   };
-  let countryCode: string;
-  const countryCodes = Object.keys(countries) as (keyof typeof countries)[];
 
-  const validateCountry = (v?: string) => {
-    const value = v ? v.toLowerCase() : v;
-    const code = countryCodes.find((key) => countries[key].toLowerCase() === value);
-    if (!code) {
-      const error = $_('register.validate.country.from-list');
-      fields.country.error = error;
-      return error;
-    } else {
-      countryCode = code;
-      fields.country.error = '';
-    }
-  };
+  // Connect email & password stores to the data structure used for validation
+  $: fields.email.value = $formEmailValue;
+  $: fields.password.value = $formPasswordValue;
 
   let formError = '';
 
@@ -121,9 +114,6 @@
       if (error) errorCount++;
     });
 
-    const error = validateCountry(fields.country.value);
-    if (error) errorCount++;
-
     fields = fields;
     if (errorCount > 0) {
       // Cancel submission
@@ -133,11 +123,11 @@
     try {
       await register({
         // We know that these fields are validated.
-        email: fields.email.value as string,
-        password: fields.password.value as string,
+        email: $formEmailValue,
+        password: $formPasswordValue,
         firstName: fields.firstName.value as string,
         lastName: fields.lastName.value as string,
-        countryCode
+        countryCode: fields.country.value as string
       });
       notify.success($_('register.notify.successful'), 10000);
       goto(routes.MAP);
@@ -215,7 +205,7 @@
           fields.email.error = '';
         }}
         error={fields.email.error}
-        bind:value={fields.email.value}
+        bind:value={$formEmailValue}
       />
     </div>
 
@@ -229,26 +219,17 @@
         autocomplete="new-password"
         on:blur={() => (fields.password.error = '')}
         error={fields.password.error}
-        bind:value={fields.password.value}
+        bind:value={$formPasswordValue}
       />
     </div>
 
-    <div>
+    <div class="country-select">
       <label for="country">{$_('register.country')}</label>
-      <TextInput
-        autocomplete="country"
-        icon={flagIcon}
-        list="countries"
-        name="country-list"
-        on:blur={() => validateCountry(fields.country.value)}
-        error={fields.country.error}
-        bind:value={fields.country.value}
-      />
-      <datalist id="countries">
-        {#each countryCodes as code}
-          <option data-value={code}>{countries[code]}</option>
+      <Select name="country" bind:value={fields.country.value} fullBlock>
+        {#each Object.entries($countryNames) as [code, name]}
+          <option value={code}>{name}</option>
         {/each}
-      </datalist>
+      </Select>
     </div>
     <div class="consent">
       <div class="checkbox">
@@ -318,7 +299,33 @@
     align-items: center;
   }
 
+  input[type='checkbox'] {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 0.5rem;
+  }
+  @media screen and (max-width: 700px) {
+    input[type='checkbox'] {
+      width: 3rem;
+      height: 3rem;
+      margin-right: 1rem;
+    }
+  }
+
   .checkbox label {
     margin-left: 0.8rem;
+  }
+
+  label[for='country'] {
+    display: block;
+    margin-bottom: 0.8rem;
+  }
+
+  label[for='terms'] {
+    line-height: 1.5;
+  }
+
+  .country-select :global(select) {
+    margin-bottom: 2.5rem;
   }
 </style>

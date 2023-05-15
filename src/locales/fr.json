@@ -1017,7 +1017,6 @@
       "consent": "Vous devez accepter les conditions de Welcome To My Garden si vous souhaitez utiliser la plateforme.",
       "last-name": "Veuillez saisir votre nom de famille. Celui-ci ne sera pas partagé avec d'autres utilisateurs",
       "country": {
-        "set": "Veuillez saisir votre pays. Ceci nous aide à centrer la carte vers votre pays d'origine.",
         "from-list": "Veuillez choisir un pays dans la liste. Ceci nous aide à centrer la carte vers votre pays d'origine."
       }
     },

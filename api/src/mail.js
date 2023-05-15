@@ -27,6 +27,21 @@ const NO_API_KEY_WARNING =
   'No emails will be sent. Inspect the logs to see what would have been sent by email';
 
 /**
+ * To help debugging the /auth/action verification links in a realistic way,
+ * transform /emulator/action auth URLs to frontend /auth/action page URLs, which is the way they will be
+ * handled in production.
+ * @param {string} verificationLink
+ */
+function logActionLink(verificationLink) {
+  if (verificationLink.includes('/emulator/action')) {
+    console.info(
+      'Transformed /auth/action URL: ',
+      `"${verificationLink.replace(/http:\/\/[^/]+\/emulator/, `${FRONTEND_URL}/auth`)}"`
+    );
+  }
+}
+
+/**
  * @param {string} email
  * @param {string} name
  * @param {string} verificationLink
@@ -67,13 +82,7 @@ exports.sendAccountVerificationEmail = (
   if (!canSendMail) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
-    // To help debugging the /auth/action verification page, transform the local auth URL
-    if (verificationLink.includes('/emulator/action')) {
-      console.info(
-        'Transformed /auth/action URL: ',
-        `"${verificationLink.replace(/http:\/\/[^/]+\/emulator/, `${FRONTEND_URL}/auth`)}"`
-      );
-    }
+    logActionLink(verificationLink);
     return Promise.resolve();
   }
 
@@ -94,6 +103,7 @@ exports.sendPasswordResetEmail = (email, name, resetLink) => {
   if (!canSendMail) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
+    logActionLink(resetLink);
     return Promise.resolve();
   }
 

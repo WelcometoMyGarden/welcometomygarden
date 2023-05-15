@@ -13,7 +13,7 @@ import { auth, db } from './firebase';
 import {
   isRegistering,
   user,
-  isInitializing,
+  isInitializingFirebase,
   isUserLoading,
   resolveOnUserLoaded
 } from '$lib/stores/auth';
@@ -207,7 +207,7 @@ export const createAuthObserver = (): Unsubscribe => {
     }
 
     // Firebase auth has been initialized, regardless of status
-    isInitializing.set(false);
+    isInitializingFirebase.set(false);
 
     if (routeTo) {
       // Before navigating, ensure the user is fully loaded.
