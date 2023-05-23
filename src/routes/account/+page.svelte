@@ -37,12 +37,13 @@
   };
 
   let updatingListedStatus = false;
-  const changeGardenListed = async (event) => {
-    const newStatus = event.target.checked;
+  const hideGardenTemporarily = async (event: Event) => {
+    // "checked" means "take off the map" (opposite of listed)
+    const newListedStatus = !(event.target as HTMLInputElement)?.checked;
     updatingListedStatus = true;
     try {
-      await changeListedStatus(newStatus);
-      if (!newStatus) notify.success($_('account.notify.garden-no-show'), 7000);
+      await changeListedStatus(newListedStatus);
+      if (!newListedStatus) notify.success($_('account.notify.garden-no-show'), 7000);
       else notify.success($_('account.notify.garden-show'), 7000);
     } catch (ex) {
       console.log(ex);
@@ -171,15 +172,14 @@
             {$_('account.garden.unlisted.button')}
           </Button>
         {:else if $user.emailVerified && $user.garden}
-          <p class="mb-m">{$_('account.garden.listed.text')}</p>
           <LabeledCheckbox
             disabled={updatingListedStatus}
             name="listed"
-            checked={$user.garden.listed}
-            label="Shown on the map"
-            on:input={changeGardenListed}
+            checked={!$user.garden.listed}
+            label={$_('account.garden.listed.text')}
+            on:input={hideGardenTemporarily}
           />
-          <div class="mt-m">
+          <div class="mt-l">
             <Button href={routes.MANAGE_GARDEN} medium uppercase>
               {$_('account.garden.listed.button')}
             </Button>
