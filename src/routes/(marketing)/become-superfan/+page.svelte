@@ -15,6 +15,7 @@
   import SuperfanLevel from '../_components/SuperfanLevel.svelte';
   import Button from '$lib/components/UI/Button.svelte';
   import { getSubLevelBySlug } from './subscription-utils';
+  import authAndContinue from '$lib/util/auth-and-continue';
 
   // Default: normal / plant
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -78,9 +79,6 @@
   $: sliderPosition = sliderPositions[selectedLevel.slug as keyof typeof sliderPositions];
 
   const goToPaymentPage = async (level: SuperfanLevelData) => {
-    if (!user) {
-      return await goto(routes.SIGN_IN);
-    }
     return await goto(`${routes.SUPERFAN_PAYMENT}/${level.slug}`);
   };
 

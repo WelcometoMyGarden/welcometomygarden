@@ -17,7 +17,7 @@ import {
 import type { FirebaseChat, FirebaseMessage } from '$lib/types/Chat';
 import { getUser } from '$lib/stores/auth';
 
-export const initiateChat = async (partnerUid: string) => {
+export const fetchNewChatPartner = async (partnerUid: string) => {
   creatingNewChat.set(true);
   const partner = await getPublicUserProfile(partnerUid);
   creatingNewChat.set(false);

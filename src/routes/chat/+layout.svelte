@@ -5,41 +5,40 @@
   import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
   import { getUser, user } from '$lib/stores/auth';
-  import notify from '$lib/stores/notification';
-  import { chats, creatingNewChat, hasInitialized, getChatForUser } from '$lib/stores/chat';
+  import { chats, creatingNewChat, hasInitialized } from '$lib/stores/chat';
   import routes from '$lib/routes';
-  import { initiateChat } from '$lib/api/chat';
   import ConversationCard from '$lib/components/Chat/ConversationCard.svelte';
   import { Progress } from '$lib/components/UI';
   import { onMount } from 'svelte';
   import { checkAndHandleUnverified } from '$lib/api/auth';
-  import createSlug from '$lib/util/createSlug';
   import { onDestroy } from 'svelte';
   import nProgress from 'nprogress';
   import type { LocalChat } from '$lib/types/Chat';
+  import { getConvoRoute, newConversation } from './shared';
 
   let localPage = $page;
   // Subscribe to page is necessary to render the chat page of the selected chat (when the url changes) for mobile
   const unsubscribeFromPage = page.subscribe((currentPage) => (localPage = currentPage));
 
+  let selectedConversation: LocalChat | null = null;
   $: selectedConversation = $chats[localPage.params.chatId];
 
   $: conversations = Object.keys($chats)
     .map((id) => $chats[id])
     .sort(sortByLastActivity);
 
-  let newConversation: { name: string; partnerId: string } | null = null;
-
+  // Unmark a newConversation as new when it becomes the selected conversation
+  // TODO: change to "when it appears in $conversations" ?
   $: if (
-    newConversation &&
+    $newConversation &&
     selectedConversation &&
     selectedConversation.users &&
-    selectedConversation.users.includes(newConversation.partnerId)
+    selectedConversation.users.includes($newConversation.partnerId)
   ) {
-    newConversation = null;
+    newConversation.set(null);
   }
 
-  $: isOverview = localPage.url.pathname == '/chat';
+  $: isOverviewPage = localPage.url.pathname == routes.CHAT;
 
   // TODO: do this with css grids, not with separate html templates switched by JS
   // It is currently not responsive without reloading.
@@ -48,16 +47,11 @@
   $: typeof outerWidth === 'number' && outerWidth <= 700 ? (isMobile = true) : (isMobile = false);
 
   onMount(async () => {
-    if (!$user) {
-      notify.info($_('auth.unsigned'), 8000);
-      return goto(routes.SIGN_IN);
-    }
-    await checkAndHandleUnverified($_('chat.notify.unverified'));
+    // opening a chat : ?with is handled in +page.svelte
+    // new chat : /name/new?id= is handled in [name]/[chatId]/+page.svelte
 
-    let withQueryParam = localPage.url.searchParams.get('with');
-    if (withQueryParam) {
-      startChattingWith(withQueryParam);
-    }
+    // TODO: work with continueUrls in the verification link?
+    await checkAndHandleUnverified($_('chat.notify.unverified'));
   });
 
   onDestroy(() => {
@@ -72,34 +66,6 @@
   const sortByLastActivity = (c1: LocalChat, c2: LocalChat) =>
     c2.lastActivity.toMillis() - c1.lastActivity.toMillis();
 
-  /**
-   * Create a route for a specific chat with the slugified name or the chat partner (for aesthetic purposes),
-   * and their UID (for an actual lookup)
-   * @param partnerName
-   * @param chatId
-   */
-  const getConvoRoute = (partnerName: string, chatId: string) =>
-    `${routes.CHAT}/${createSlug(partnerName)}/${chatId}`;
-
-  const startChattingWith = async (partnerId: string) => {
-    if ($chats) {
-      const activeChatWithUser = getChatForUser(partnerId);
-      if (activeChatWithUser) {
-        return goto(
-          getConvoRoute($chats[activeChatWithUser].partner.firstName, activeChatWithUser)
-        );
-      }
-      try {
-        const newPartner = await initiateChat(partnerId);
-        newConversation = { name: newPartner.firstName, partnerId };
-        goto(getConvoRoute(newPartner.firstName, `new?id=${partnerId}`));
-      } catch (ex) {
-        // TODO: display error
-        goto(routes.CHAT);
-      }
-    }
-  };
-
   const isConversationSeen = (conversation: LocalChat) => {
     // Seen if you are the last sender, or otherwise, if lastMessageSeen is undefined/null, or true
     return (
@@ -108,8 +74,9 @@
   };
 
   const selectConversation = (id: string | null) => {
-    if (!id && newConversation) {
-      goto(getConvoRoute(newConversation.name, 'new'));
+    if (!id && $newConversation) {
+      // TODO: not supplying ?id= here could lead to the recipient UID being unknown?
+      goto(getConvoRoute($newConversation.name, `new?id=${$newConversation.partnerId}`));
     }
     if (id) {
       const chatName = $chats[id].partner.firstName.toLowerCase();
@@ -123,20 +90,22 @@
 
 {#if !localPage.url.searchParams.get('with') && $hasInitialized && $user && $user.emailVerified}
   <div class="container">
-    {#if outerWidth != null && (!isMobile || (isMobile && isOverview))}
+    <!-- Always show the conversation sidebar on desktop. 
+      On mobile, only if we're showing the overview page. -->
+    {#if outerWidth != null && (!isMobile || (isMobile && isOverviewPage))}
       <section class="conversations" in:fly={{ x: -outerWidth, duration: 400 }}>
         <h2>{$_('chat.all-conversations')}</h2>
-        {#if newConversation}
+        {#if $newConversation}
           <article>
             <ConversationCard
               on:click={() => selectConversation(null)}
-              recipient={newConversation.name}
+              recipient={$newConversation.name}
               lastMessage={''}
               selected={localPage.params.chatId === 'new'}
             />
           </article>
         {/if}
-        {#if $hasInitialized && conversations.length === 0 && !newConversation}
+        {#if $hasInitialized && conversations.length === 0 && !$newConversation}
           <div class="empty">
             {@html $_('chat.no-messages.text', {
               values: {
@@ -159,7 +128,7 @@
         {/if}
       </section>
     {/if}
-    {#if !isMobile || (isMobile && !isOverview)}
+    {#if !isMobile || (isMobile && !isOverviewPage)}
       <div class="messages" in:fly={{ x: outerWidth, duration: 400 }}>
         <slot />
       </div>

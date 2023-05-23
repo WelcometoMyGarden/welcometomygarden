@@ -29,6 +29,7 @@
   import Button from '$lib/components/UI/Button.svelte';
   import { emailAsLink, SUPPORT_EMAIL } from '$lib/constants';
   import LevelSummary from './LevelSummary.svelte';
+  import authAndContinue from '$lib/util/auth-and-continue';
 
   // TODO: if you subscribe & unsubscribe in 1 session without refreshing, no new sub will be auto-generated
   // we could fix this by detecting changes to the user (if we go from subscribed -> unsubscribed)
@@ -159,12 +160,15 @@
     // todo: validate priceID
     console.log('Running onMount');
     if (!$user) {
-      notify.warning($_('payment-superfan.not-logged-in-warning'), 10000);
-      // replaceState: replaces the state of the current page, which we want,
-      // because when a visitor click back on the Sign in page, they should go back to /become-superfan
-      // and not to /become-superfan/payment, which puts them in a redirect "loop"
-      // https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API#the_replacestate_method
-      return goto(routes.SIGN_IN, { replaceState: true });
+      return await authAndContinue({
+        continueUrl: `${routes.SUPERFAN_PAYMENT}/${data.params.id}`,
+        toastMessage: $_('payment-superfan.not-logged-in-warning'),
+        // replaceState: replaces the state of the current page, which we want,
+        // because when a visitor click back on the Sign in page, they should go back to /become-superfan
+        // and not to /become-superfan/payment/[id], which puts them in a redirect "loop"
+        // https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API#the_replacestate_method
+        gotoOpts: { replaceState: true }
+      });
     } else {
       // Check if we got redirected back from Stripe
       const processed = await processStripeSearchParams();

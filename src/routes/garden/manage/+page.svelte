@@ -11,10 +11,13 @@
   import { checkAndHandleUnverified } from '$lib/api/auth';
   import trackEvent from '$lib/util/track-event';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import authAndContinue from '$lib/util/auth-and-continue';
 
   if (!$user) {
-    notify.info($_('auth.unsigned'), 8000);
-    goto(routes.SIGN_IN);
+    authAndContinue({
+      continueUrl: routes.MANAGE_GARDEN,
+      toastMessage: $_('auth.unsigned')
+    });
   } else if (!$user.emailVerified) {
     checkAndHandleUnverified($_('auth.verification.unverified'), 8000);
   } else if (!$user.garden) {

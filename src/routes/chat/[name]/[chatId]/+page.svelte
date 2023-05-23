@@ -17,20 +17,49 @@
   import trackEvent from '$lib/util/track-event';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import type { LocalChat } from '$lib/types/Chat';
+  import authAndContinue from '$lib/util/auth-and-continue';
 
+  // we can assume the app has loaded here
+  if (!$user) {
+    // TODO: there should be some kind of reusable "not logged in, log in to do this" utility function
+    authAndContinue({
+      continueUrl: `${routes.CHAT}/${$page.params.name}/${$page.params.chatId}`
+    });
+  }
+
+  /**
+   * Chat ID of the currently selected chat, corresponding to the chat in the URL
+   */
   let chatId = $page.params.chatId;
-  // Subscribe to page is necessary to get the chat page of the selected chat (when the url changes) for desktop
+  // Subscribing to `page` is necessary to get the chat ID of the selected chat (when the url changes) for desktop
+  // TODO: try $: chatId = $page.params.chatId;
   const unsubscribeFromPage = page.subscribe((currentPage) => (chatId = currentPage.params.chatId));
 
+  /**
+   * Whether the chat partner of the currently selected chat has a garden.
+   * Is `null` when no chat partner was loaded yet.
+   */
   let partnerHasGarden: boolean | null = null;
+  /**
+   * The chat partner UID of the currently selected chat.
+   */
   let partnerId: string | undefined;
+  /**
+   * The currently selected chat
+   */
   let chat: LocalChat | null | undefined;
 
   $: chat = $chats[chatId];
 
-  // Initialize variables related to the chat partner,
-  // when the first chat is opened or when the selected chat has changed.
+  /**
+   * Records for which chat ID the partner data was loaded. Used to reload
+   * partner data in case the chat ID changes.
+   */
   let partnerInitializedForChatId: string | null = null;
+
+  // Initialize variables related to the chat partner,
+  // when the first chat is opened (`partnerHasGarden === null`) or when the selected chat has changed
+  // (`partnerInitializedForChatId !== chat.id`)
   $: if (chat && (partnerHasGarden === null || partnerInitializedForChatId !== chat.id)) {
     partnerId = chat.users.find((id) => $user?.id !== id);
     if (!partnerId) {
@@ -139,16 +168,18 @@
     hint = '';
     if (!chat) {
       try {
-        const newChatId = await createChat(
-          $page.url.searchParams.get('id') || '',
-          normalizeWhiteSpace(typedMessage)
-        );
+        const partnerId = $page.url.searchParams.get('id');
+        if (!partnerId) {
+          console.error("Couldn't retrieve partner ID from the URL when opening a new chat");
+          return;
+        }
+        const newChatId = await createChat(partnerId, normalizeWhiteSpace(typedMessage));
         trackEvent(PlausibleEvent.SEND_REQUEST);
         typedMessage = '';
         goto(`${routes.CHAT}/${$page.params.name}/${newChatId}`);
       } catch (ex) {
         // TODO: show error
-        console.log(ex);
+        console.error(ex);
       }
     } else {
       try {

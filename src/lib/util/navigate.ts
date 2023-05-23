@@ -1,6 +1,6 @@
 import { goto as svelteGoto } from '$app/navigation';
 
-export const goto = (
+export const goto = async (
   path: string,
   opts?: {
     replaceState?: boolean;
@@ -12,7 +12,7 @@ export const goto = (
     invalidateAll?: boolean;
   }
 ) => {
-  svelteGoto(path, opts).catch((e) => {
+  await svelteGoto(path, opts).catch((e) => {
     console.error('goto error: ', e);
     window.location.href = path;
   });

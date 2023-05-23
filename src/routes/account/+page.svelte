@@ -18,12 +18,13 @@
   import { PlausibleEvent } from '$lib/types/Plausible';
   import EmailChangeModal from './EmailChangeModal.svelte';
   import { countryNames } from '$lib/stores/countryNames';
+  import authAndContinue from '$lib/util/auth-and-continue';
 
   let showAccountDeletionModal = false;
   let showEmailChangeModal = false;
 
   if (!$user) {
-    goto(routes.SIGN_IN);
+    authAndContinue({ continueUrl: routes.ACCOUNT });
   }
 
   const onMailPreferenceChanged = async (event) => {
