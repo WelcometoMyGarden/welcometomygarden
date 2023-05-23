@@ -17,6 +17,7 @@
   import trackEvent from '$lib/util/track-event';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import type { LocalChat } from '$lib/types/Chat';
+  import MembershipModal from '$routes/chat/[name]/[chatId]/MembershipModal.svelte';
 
   let chatId = $page.params.chatId;
   // Subscribe to page is necessary to get the chat page of the selected chat (when the url changes) for desktop
@@ -25,6 +26,7 @@
   let partnerHasGarden: boolean | null = null;
   let partnerId: string | undefined;
   let chat: LocalChat | null | undefined;
+  let showMembershipModal = !$user?.superfan;
 
   $: chat = $chats[chatId];
 
@@ -249,6 +251,7 @@ CSS grids should do the job cleanly -->
     <Icon icon={chevronRight} greenStroke={sendButtonDisabled} whiteStroke={!sendButtonDisabled} />
   </button>
 </form>
+<MembershipModal bind:show={showMembershipModal} />
 
 <style>
   :root {
