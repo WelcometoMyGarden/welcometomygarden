@@ -13,7 +13,7 @@
   import Filter from '$lib/components/Garden/Filter.svelte';
   import { Progress, Icon } from '$lib/components/UI';
 
-  import { getCookie, setCookie } from '$lib/util';
+  import { getCookie } from '$lib/util';
   import { crossIcon } from '$lib/images/icons';
   import { ZOOM_LEVELS } from '$lib/constants';
   import LayersAndTools from '$lib/components/LayersAndTools/LayersAndTools.svelte';
@@ -26,6 +26,7 @@
   import TrainAndRails from '$lib/components/Map/TrainAndRails.svelte';
   import trackEvent from '$lib/util/track-event';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import { setExpiringCookie } from '$lib/util/set-cookie';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let geolocationIsLoaded = false;
@@ -96,10 +97,8 @@
   };
 
   const closeCarNotice = () => {
-    const date = new Date();
-    // one year
-    date.setTime(date.getTime() + 365 * 86400000); //24 * 60 * 60 * 1000
-    setCookie('car-notice-dismissed', true, { expires: date.toGMTString() });
+    // Set a cookie for one year
+    setExpiringCookie('car-notice-dismissed', true, 24 * 365);
     carNoticeShown = false;
   };
 

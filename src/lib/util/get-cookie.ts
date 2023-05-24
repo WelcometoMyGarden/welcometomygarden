@@ -1,10 +1,8 @@
-export default (name, cookies) => {
-  if (cookies == null) {
-    if (typeof window === 'undefined') {
-      return undefined;
-    }
-    cookies = document.cookie;
+export default (name: string) => {
+  if (typeof window === 'undefined') {
+    return undefined;
   }
+  const cookies = document.cookie;
 
   const kv = cookies.split(';').find((part) => part.trim().startsWith(name));
 

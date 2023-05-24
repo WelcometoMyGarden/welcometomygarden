@@ -5,7 +5,7 @@
   import { user } from '$lib/stores/auth';
   import Icon from '$lib/components/UI/Icon.svelte';
   import IconButton from '$lib/components/UI/IconButton.svelte';
-  import { getCookie, setCookie } from '$lib/util';
+  import { getCookie } from '$lib/util';
   import GardensTools from '$lib/components/LayersAndTools/GardensTools.svelte';
   import GardensModal from '$lib/components/LayersAndTools/GardensModal.svelte';
   import TrailsModal from '$lib/components/LayersAndTools/TrailsModal.svelte';
@@ -16,6 +16,7 @@
   import SuperfanNoticeBox from './notices/SuperfanNoticeBox.svelte';
   import trackEvent from '$lib/util/track-event';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import { setExpiringCookie } from '$lib/util/set-cookie';
 
   export let showHiking = false;
   export let showCycling = false;
@@ -55,10 +56,7 @@
   };
 
   const closeSuperfanInfo = () => {
-    const date = new Date();
-    const days = 30;
-    date.setTime(date.getTime() + days * 86400000); // 24 * 60 * 60 * 1000
-    setCookie('superfan-dismissed', true, { expires: date.toUTCString() });
+    setExpiringCookie('superfan-dismissed', true, 30 * 24);
     showSuperfanNotice = false;
   };
 </script>

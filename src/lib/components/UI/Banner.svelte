@@ -1,18 +1,15 @@
-<script>
-  import { _ } from 'svelte-i18n';
+<script lang="ts">
   import { Icon } from '../UI';
   import { crossIcon } from '$lib/images/icons';
-  import { getCookie, setCookie } from '$lib/util';
+  import { getCookie } from '$lib/util';
+  import { setExpiringCookie } from '$lib/util/set-cookie';
 
-  export let cookieName;
-  export let cookieTime = 31536000000; //365 * 24 * 60 * 60 * 1000
+  export let cookieName: string;
 
   let bannerShown = !getCookie(cookieName);
 
   const closeBanner = () => {
-    const date = new Date();
-    date.setTime(date.getTime() + cookieTime);
-    setCookie(cookieName, true, { expires: date.toUTCString() });
+    setExpiringCookie(cookieName, true, 365 * 24);
     bannerShown = false;
   };
 </script>
