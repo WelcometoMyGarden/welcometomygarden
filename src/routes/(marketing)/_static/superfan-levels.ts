@@ -1,4 +1,3 @@
-import { _ } from 'svelte-i18n';
 export type SuperfanLevelData = {
   copyKey: string;
   slug: string;
@@ -10,11 +9,7 @@ export type SuperfanLevelData = {
 };
 
 // Importing env variables inside the below array seems to cause compiler issues
-const {
-  VITE_STRIPE_PRICE_ID_REDUCED,
-  VITE_STRIPE_PRICE_ID_NORMAL,
-  VITE_STRIPE_PRICE_ID_SOLIDARITY
-} = import.meta.env;
+const { VITE_STRIPE_PRICE_ID_REDUCED, VITE_STRIPE_PRICE_ID_NORMAL } = import.meta.env;
 
 // TODO CLEANUP
 
@@ -38,15 +33,5 @@ export const superfanLevels: SuperfanLevelData[] = [
     // alt: 'Illustration of a plant in a pot',
     // description:
     //   'This is what we need each Superfan to pay on average. Can you pitch in so we can keep going?'
-  },
-  {
-    slug: 'grow',
-    value: 10,
-    stripePriceId: VITE_STRIPE_PRICE_ID_SOLIDARITY,
-    copyKey: '2'
-    // title: 'Solidarity price',
-    // alt: 'Illustration of a tree',
-    // description:
-    //   'Would you like to contribute a bit more so that others who need it can pay less? That’s brilliant! Thank you!'
   }
 ];

@@ -4,7 +4,7 @@
   import { cyclistIcon, hikerIcon, routesIcon, tentIcon, trainIcon } from '$lib/images/icons';
   import { user } from '$lib/stores/auth';
   import Icon from '$lib/components/UI/Icon.svelte';
-  import IconButton from '$lib/components/UI/IconButton.svelte';
+  import IconButton from '$lib/components/UI/IconButtonOld.svelte';
   import { getCookie } from '$lib/util';
   import GardensTools from '$lib/components/LayersAndTools/GardensTools.svelte';
   import GardensModal from '$lib/components/LayersAndTools/GardensModal.svelte';

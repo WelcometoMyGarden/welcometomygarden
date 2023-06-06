@@ -3,8 +3,12 @@
 
   export let type: null | string = null;
   export let href: null | string = null;
+  /**
+   * Dark foreground color
+   */
   export let inverse = false;
   export let uppercase = false;
+  export let initial = false;
   export let fit = true;
   export let target: null | string = null;
   export let medium = false;
@@ -17,8 +21,12 @@
   export let danger = false;
   export let arrow = false;
   export let centered = false;
+
   /** Whether this is a link-style button */
   export let link = false;
+  /** Apply an underline in the case of a link-style button*/
+  export let underline = true;
+  export let bold = true;
 
   import { createEventDispatcher } from 'svelte';
   import Icon from './Icon.svelte';
@@ -42,6 +50,7 @@
   <a
     class="button"
     class:uppercase
+    class:initial
     class:disabled
     class:fit
     class:small
@@ -55,6 +64,8 @@
     class:arrow
     class:link
     class:centered
+    class:bold
+    class:underline
     {href}
     on:click={(e) => {
       if (disabled) e.preventDefault();
@@ -72,6 +83,7 @@
 {:else}
   <button
     class="button"
+    class:initial
     class:disabled
     on:click={click}
     class:uppercase
@@ -87,6 +99,8 @@
     class:arrow
     class:link
     class:centered
+    class:bold
+    class:underline
     {type}
   >
     <Text is="span" weight="bold">
@@ -108,14 +122,23 @@
     border-radius: 0.6rem;
     border: 0.2rem solid var(--color-green);
     padding: 1.6rem 2.4rem;
-    text-align: center;
-    font-size: 1.8rem;
     font-weight: bold;
-    cursor: pointer;
     min-width: 25rem;
-    font-family: var(--fonts-copy);
     transition: all 300ms ease-in-out;
     outline: 0;
+  }
+
+  .initial {
+    /* Reset all styles, for example for icon buttons */
+    all: initial;
+  }
+
+  /* Apply to both reset buttons (.initial) and normal buttons */
+  .button {
+    text-align: center;
+    font-size: 1.8rem;
+    cursor: pointer;
+    font-family: var(--fonts-copy);
   }
 
   .orange {
@@ -179,9 +202,12 @@
     position: relative;
     display: inline-block;
     font-size: 1.5rem;
+    font-weight: 500;
+  }
+  .button.link.bold :global(span) {
     font-weight: 700;
   }
-  .button.link :global(span)::after {
+  .button.link.underline :global(span)::after {
     content: '';
     display: block;
     width: 100%;
@@ -189,6 +215,11 @@
     position: absolute;
     bottom: -0.4rem;
     background-color: var(--color-orange-light);
+  }
+
+  .button.link:not(.underline):hover :global(span) {
+    font-weight: 600;
+    transition: font-weight 0.3s;
   }
 
   .disabled,

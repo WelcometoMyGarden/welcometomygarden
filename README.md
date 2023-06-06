@@ -93,9 +93,10 @@ Some features are reserved for [Superfans](https://welcometomygarden.org/about-s
 
 ### What can you NOT immediately do?
 
+- Some static images will be missing. We started dynamically generating responsive images on build-time for some newer components, rather than using one-size static images hosted in a bucket. The source images for this process should be put in `src/lib/assets`, but are not checked into the Git repo. You can download this [Google Drive](https://drive.google.com/drive/folders/1OcaKJa9VoykflvKNv6nH13O0Ho_PcApF?usp=sharing) and manually drop the contents in the mentioned local folder. See the [additional notes](./docs/full-access.md) if you have full access to WTMG's systems to learn about syncing this folder.
 - Preview the email HTML, and test contact property syncing functionality - except if you create your own SendGrid account. It's a quick procedure to set up your own free account for testing.
 - Work on subscription features - except if you go through the hassle of setting up your own test company on Stripe!
-- Log into the Discourse community reserved for superfans - except if you set up your own Discourse server for testing, see [additional Discourse notes](./docs/discourse.md)
+- Log into the Discourse community reserved for Superfans - except if you set up your own Discourse server for testing, see [additional Discourse notes](./docs/discourse.md)
 
 If you have received access to our staging or production Firebase environment, see how to log in your Firebase account & access real API services with [these additional notes](./docs/full-access.md).
 

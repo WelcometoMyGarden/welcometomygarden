@@ -24,7 +24,8 @@
     "slowby-url": "https://www.slowby.travel/fr/accueil",
     "feature": "Fonctionnalité",
     "community": "Communauté",
-    "new": "Nouveau"
+    "new": "Nouveau",
+    "fair-model-blog-path": "/fr/vers-un-modele-juste-pour-assurer-le-futur-de-wtmg/"
   },
   "ui": {
     "card": {
@@ -676,7 +677,6 @@
       "title": "Choisissez le prix qui vous convient le mieux",
       "description": "Nous utilisons un prix différencié parce que nous voulons que WTMG soit accessible à tous et à toutes, et nous vous faisons confiance. Vous payez pour un an à la fois. Devenir Superfan est sans engagement : votre abonnement s'arrête automatiquement après un an, et vous recevrez un rappel par email pour le renouveler.",
       "per-month": "/mois",
-      "annual-amount": " facturés annuellement",
       "pricing-levels": {
         "0": {
           "slug": "Semer",
@@ -693,7 +693,8 @@
           "title": "Prix de solidarité",
           "description": "Votre contribution supplémentaire permettra d'équilibrer celles qui ne peuvent pas se le permettre. Merci ! Vous êtes fantastique."
         }
-      }
+      },
+      "per-year": "/année"
     }
   },
   "about-superfan": {

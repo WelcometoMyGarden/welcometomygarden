@@ -1,3 +1,4 @@
+export { default as Anchor } from './Anchor.svelte';
 export { default as Avatar } from './Avatar.svelte';
 export { default as Chip } from './Chip.svelte';
 export { default as Button } from './Button.svelte';
@@ -20,4 +21,4 @@ export { default as MultiActionLabel } from './MultiActionLabel.svelte';
 export { default as ToggleAble } from './ToggleAble.svelte';
 export { default as LabeledRadioButton } from './LabeledRadioButton.svelte';
 export { default as Select } from './Select.svelte';
-export { default as IconButton } from './IconButton.svelte';
+export { default as IconButton } from './IconButtonOld.svelte';

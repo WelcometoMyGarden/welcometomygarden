@@ -26,10 +26,12 @@
     "slowby": "Secret Trips",
     "about-us": "About Us",
     "become-superfan": "Become a Superfan",
+    "become-member": "Become a Member",
     "slowby-url": "https://slowby.travel/",
     "superfan": "Superfan",
     "feature": "Feature",
-    "new": "New"
+    "new": "New",
+    "fair-model-blog-path": "/towards-a-fair-model-to-make-wtmg-survive-and-thrive"
   },
   "ui": {
     "card": {
@@ -678,24 +680,24 @@
       "title": "Choose the price that fits you best",
       "description": "We use open pricing because we want WTMG to be available to everyone, and we trust your decision. You pay for one year at a time. Becoming a Superfan is commitment-free: your subscription stops automatically after one year, and you will receive a reminder email to renew it.",
       "per-month": "/month",
-      "annual-amount": " billed annually",
       "pricing-levels": {
         "0": {
           "slug": "Sow",
-          "title": "Reduced price",
-          "description": "Are you a student or do you have a low income? We get it. You can opt for this reduced fee and still support us. Thank you so much!"
+          "title": "Member",
+          "description": "Make use of WTMG & cover your part of the platform costs."
         },
         "1": {
           "slug": "Plant",
-          "title": "Normal price",
-          "description": "This is what we need each Superfan to pay on average. Can you pitch in so we can make WTMG future-proof? It means the world to us!"
+          "title": "Superfan 💚",
+          "description": "Make use of WTMG & cover your part of the platform costs."
         },
         "2": {
           "slug": "Grow",
           "title": "Solidarity price",
           "description": "Do you want to contribute more so that others who need it can pay less? That’s brilliant! Thank you!"
         }
-      }
+      },
+      "per-year": "/year"
     }
   },
   "about-superfan": {

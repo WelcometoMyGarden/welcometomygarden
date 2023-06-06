@@ -9,3 +9,7 @@ admin-credentials.json
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Large source assets to be processed by svelte-img
+# See the readme or docs/full-access.md for more info
+src/lib/assets

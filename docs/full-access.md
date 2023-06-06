@@ -30,9 +30,31 @@ For the backend, your `.runtimeconfig.json` will need:
 
 ## Static image assets
 
+**Google Cloud bucket assets**
+
 Some of our static assets live in a simple Google Cloud bucket.
 
 In the bucket file management API, it's possible to drag & drop in a second version of a file onto an existing one (e.g. with a rescaled resolution), and specify to "replace" it in the dialog that appears. However:
 
 - this will not actually create a second version in the bucket's object versioning history, for that the API probably needs to be used.
 - the authenticated URL will update quickly, but the public URL (which we use for the static site) will be plagued **by inexplicable old cached versions that randomly appear** for some time (1 day?), see [this StackOverflow comment too](https://stackoverflow.com/a/37671993/4973029), regardless of cache headers. Probably due to intermediary caches.
+
+**Dynamically generated responsive SvelteKit assets**
+
+For some newer components, we started dynamically generating responsive images on build-time, rather than using one-size static images hosted in a bucket, using [svelte-img](https://github.com/zerodevx/svelte-img).
+
+The source images for this process should be put in `src/lib/assets`, but are not checked into the Git repo.
+
+We keep them in this [Google Drive](https://drive.google.com/drive/folders/1OcaKJa9VoykflvKNv6nH13O0Ho_PcApF?usp=sharing).
+
+It's possible to sync your local version with the Google Drive, in both ways, with several tools. Here are some guidelines for [rclone](https://rclone.org/drive/):
+
+Uploading local files:
+
+```
+rclone sync src/lib/assets slowby-gdrive:Development/assets
+```
+
+`bisync` can be used to both download and upload.
+
+This assumes `slowby-gdrive` is configured as a Google Drive remote, and that "Development" is a shortcut to the Development folder in our team drive. Check with the team to receive a client ID & secret you can use for the configuration.

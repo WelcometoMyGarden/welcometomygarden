@@ -1,18 +1,23 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import Heading from '$routes/(marketing)/_components/Heading.svelte';
-  import SuperfanLevel from '$routes/(marketing)/_components/SuperfanLevel.svelte';
   import {
     superfanLevels,
     type SuperfanLevelData
   } from '$routes/(marketing)/_static/superfan-levels';
   import enterHandler from '$lib/util/keyhandlers';
-  import { getSubLevelBySlug } from '$routes/(marketing)/become-superfan/subscription-utils';
   import { Button } from '$lib/components/UI';
   import { user } from '$lib/stores/auth';
   import { goto } from '$app/navigation';
   import routes from '$lib/routes';
   import MembershipLevel from './MembershipLevel.svelte';
+  import { WTMG_BLOG_BASE_URL } from '$lib/constants';
+  import { Anchor } from '$lib/components/UI';
+
+  /**
+   * Whether this shows a condensed pricing levels on desktop
+   */
+  export let condensed = false;
+
   //   TODO: copied from become-superfan, refactor
 
   /**
@@ -46,34 +51,6 @@
 
   // TODO: extract slider into component
   let innerWidth: number;
-  // TODO: refactor to a `use` svelte expression?
-  $: isMobile = innerWidth <= 850;
-
-  // In percentages
-  const sliderPositions = {
-    sow: 15,
-    plant: 50,
-    grow: 83
-  };
-
-  $: borderColorOfSlug = (slug: string) => {
-    const slugs = Object.keys(sliderPositions);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const selectedPosition = slugs.indexOf(selectedLevel.slug)!;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const argPosition = slugs.indexOf(slug)!;
-    return selectedPosition > argPosition ? 'var(--color-green)' : 'var(--color-green-light)';
-  };
-
-  // TODO: the selectedLevels should be a keyed object, not an array.
-  // Array is more difficult to type.
-  $: sliderPosition = sliderPositions[selectedLevel.slug as keyof typeof sliderPositions];
-
-  // Array is more difficult to type.
-  const selectLevelBySlug = (level: string) => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    selectedLevel = getSubLevelBySlug(level)!;
-  };
 
   const goToPaymentPage = async (level: SuperfanLevelData) => {
     if (!$user) {
@@ -84,151 +61,103 @@
 </script>
 
 <!-- <p class="pricing-description">{$_('become-superfan.pricing-section.description')}</p> -->
-<div class="superfan-levels-container">
-  <div class="superfan-levels">
+<div class="container">
+  <div class="pricing-description">
+    <h3 id="pricing-title">Pick a membership level</h3>
+    <p id="pricing-description">Valid for one year. Not automatically recurring.</p>
+  </div>
+  <div
+    class="membership-levels"
+    class:condensed
+    role="radiogroup"
+    aria-labelledby="pricing-title"
+    aria-describedby="pricing-description"
+  >
     {#each superfanLevels as level}
       <MembershipLevel
         {...mapToSuperfanLevelProps(level)}
+        selected={level.slug === selectedLevel.slug}
+        embeddable={condensed}
         on:click={() => selectLevel(level)}
         on:keypress={(e) => handleKeyPress(e, level)}
-        selected={level.slug === selectedLevel.slug}
       />
     {/each}
   </div>
-  <div class="slider-bar">
-    <!-- 1.5 rem: half of the slider knob -->
-    <div
-      class="slider-bar-filled"
-      style:width={!isMobile ? `calc(${sliderPosition}% + 1.5rem)` : null}
-      style:height={isMobile ? `calc(${sliderPosition}% + 1.5rem)` : null}
-    />
-    {#each Object.entries(sliderPositions) as [slug, position]}
-      {#if slug}
-        <button
-          class="slider-position"
-          style:left={!isMobile ? `${position}%` : null}
-          style:top={isMobile ? `${position}%` : null}
-          style:border-color={borderColorOfSlug(slug)}
-          on:click={() => selectLevelBySlug(slug)}
-        />
+  <div class="select-level-button">
+    <!-- TODO: translate -->
+    <!-- {$_('generics.become-superfan')} -->
+    <Button uppercase orange arrow on:click={() => goToPaymentPage(selectedLevel)}>
+      Become a
+      {#if selectedLevel.slug === 'sow'}
+        member
+      {:else}
+        Superfan
       {/if}
-    {/each}
-    <div
-      class="slider"
-      style:left={!isMobile ? `${sliderPosition}%` : null}
-      style:top={isMobile ? `${sliderPosition}%` : null}
-    />
+    </Button>
   </div>
-</div>
-<div class="select-level-button">
-  <Button uppercase orange arrow on:click={() => goToPaymentPage(selectedLevel)}
-    >{$_('generics.become-superfan')}</Button
-  >
+  <p class="fineprint">
+    <!-- TODO: fix link -->
+    Questions? <Anchor href="{routes.ABOUT_SUPERFAN} newtab">See the FAQ.</Anchor> Blog post:
+    <Anchor href="{WTMG_BLOG_BASE_URL}{$_('generics.fair-model-blog-path')}" newtab
+      >Why a membership for WTMG?</Anchor
+    > By becoming a Member, you agree with <Anchor href={routes.RULES}>our rules.</Anchor>
+  </p>
 </div>
 
 <svelte:window bind:innerWidth />
 
 <style>
-  .superfan-levels {
+  .membership-levels {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     gap: 2rem;
     width: 100%;
   }
 
+  .container {
+    height: fit-content;
+  }
+
+  /* Condensed desktop modal styles & overrides */
+  .membership-levels.condensed {
+    border: 1px solid var(--color-green);
+    border-radius: var(--tile-border-radius);
+  }
+  .membership-levels.condensed :global(.membership-level) {
+    position: relative;
+  }
+  .membership-levels.condensed :global(.membership-level:first-child)::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    height: 1px;
+    background-color: var(--color-green);
+  }
+
+  h3 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
   .pricing-description {
     max-width: 82rem;
     text-align: center;
-    margin: 0 auto var(--section-inner-padding) auto;
+    margin: 0rem auto 2rem auto;
   }
 
   .select-level-button {
-    margin-top: 2rem;
+    margin: 2rem 0;
     display: flex;
     justify-content: center;
     width: 100%;
   }
 
-  .slider-bar,
-  .slider-bar-filled {
-    height: 1rem;
-    border-radius: 0.5rem;
-  }
-  .slider-bar {
-    margin: 3rem 0;
-    width: 100%;
-    background-color: var(--color-green-light);
-    position: relative;
-  }
-
-  .slider-bar-filled {
-    background-color: var(--color-green);
-    position: absolute;
-    left: 0;
-    transition: height 0.3s, width 0.3s;
-  }
-
-  .slider,
-  .slider-position {
-    width: 3rem;
-    height: 3rem;
-    position: absolute;
-    border-radius: 50%;
-    top: -100%;
-    transition: border-color 0.15s;
-  }
-
-  .slider {
-    transition: left 0.3s, top 0.3s;
-    background-color: var(--color-green);
-  }
-
-  .slider-position {
-    border: 2px solid var(--color-green-light);
-    background-color: white;
-  }
-
-  .superfan-levels-container {
-    display: grid;
-    grid-template-rows: auto auto;
-    grid-template-columns: auto;
-  }
-
-  @media screen and (max-width: 850px) {
-    .superfan-levels-container {
-      grid-template-columns: min-content auto;
-      grid-template-rows: auto;
-      gap: max(2rem, 7vw);
-    }
-
-    .slider-bar,
-    .slider-bar-filled {
-      width: 1rem;
-    }
-
-    .slider-bar {
-      /* 1.5rem: full knob away */
-      margin: 0 0 0 1.5rem;
-      grid-column: 1;
-      grid-row: 1;
-      height: 100%;
-    }
-
-    .slider,
-    .slider-position {
-      position: absolute;
-      border-radius: 50%;
-      left: -100%;
-    }
-
-    .superfan-levels {
-      grid-column: 2;
-    }
-  }
-
-  @media screen and (max-width: 850px) {
-    .superfan-levels {
-      flex-direction: column;
-    }
+  p.fineprint {
+    text-align: center;
+    font-size: 1.4rem;
   }
 </style>

@@ -74,7 +74,7 @@
       {#if !$user?.superfan}
         <li>
           <a class="highlighted" href={routes.ABOUT_SUPERFAN} on:click={toggleDrawer}>
-            {$_('generics.become-superfan')}
+            {$_('generics.become-member')}
           </a>
         </li>
       {/if}

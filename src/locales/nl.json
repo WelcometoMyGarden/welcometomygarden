@@ -22,7 +22,8 @@
     "about-us": "Over Ons",
     "become-superfan": "Word Superfan",
     "slowby-url": "https://www.slowby.travel/nl/start",
-    "new": "Nieuw"
+    "new": "Nieuw",
+    "fair-model-blog-path": "/nl/een-fair-model-om-de-toekomst-van-wtmg-te-verzekeren/"
   },
   "ui": {
     "card": {
@@ -285,7 +286,6 @@
       "title": "Open pricing: kies je tarief op basis van je budget",
       "description": "We passen open pricing toe omdat we willen dat WTMG toegankelijk is voor iedereen - en we vertrouwen jou. Je betaalt ineens voor een jaar. Je gaat geen verplichting aan door Superfan te worden: je abonnement stopt automatisch na een jaar, en je krijgt een herinnering per email om het te verlengen.",
       "per-month": "/ maand",
-      "annual-amount": ", betaald per jaar",
       "pricing-levels": {
         "0": {
           "slug": "Zaai",

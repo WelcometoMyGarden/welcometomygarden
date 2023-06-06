@@ -84,18 +84,22 @@
   const startChattingWith = async (partnerId: string) => {
     if ($chats) {
       const activeChatWithUser = getChatForUser(partnerId);
+      // When coming from the map and opening the specific chat route, ignore that we were on this /chat index page
+      const gotoOpts = { replaceState: true };
       if (activeChatWithUser) {
         return goto(
-          getConvoRoute($chats[activeChatWithUser].partner.firstName, activeChatWithUser)
+          getConvoRoute($chats[activeChatWithUser].partner.firstName, activeChatWithUser),
+          gotoOpts
         );
       }
       try {
         const newPartner = await initiateChat(partnerId);
         newConversation = { name: newPartner.firstName, partnerId };
-        goto(getConvoRoute(newPartner.firstName, `new?id=${partnerId}`));
+        goto(getConvoRoute(newPartner.firstName, `new?id=${partnerId}`), gotoOpts);
       } catch (ex) {
         // TODO: display error
-        goto(routes.CHAT);
+        console.error(ex);
+        goto(routes.CHAT, gotoOpts);
       }
     }
   };

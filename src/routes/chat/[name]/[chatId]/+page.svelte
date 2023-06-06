@@ -19,6 +19,10 @@
   import type { LocalChat } from '$lib/types/Chat';
   import MembershipModal from '$routes/chat/[name]/[chatId]/MembershipModal.svelte';
 
+  /**
+   * The chat ID of the currently selected chat.
+   * Equal to 'new' in case of a new chat. The UID of the recipient is then in the query param 'id'.
+   */
   let chatId = $page.params.chatId;
   // Subscribe to page is necessary to get the chat page of the selected chat (when the url changes) for desktop
   const unsubscribeFromPage = page.subscribe((currentPage) => (chatId = currentPage.params.chatId));
@@ -26,8 +30,12 @@
   let partnerHasGarden: boolean | null = null;
   let partnerId: string | undefined;
   let chat: LocalChat | null | undefined;
-  let showMembershipModal = !$user?.superfan;
 
+  $: showMembershipModal = !$user?.superfan && chatId === 'new';
+
+  /**
+   * The currently selected chat, if it exists
+   */
   $: chat = $chats[chatId];
 
   // Initialize variables related to the chat partner,
