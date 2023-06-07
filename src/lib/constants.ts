@@ -11,6 +11,7 @@ export const COMMUNITY_TRANSLATIONS_URL =
 export const COMMUNITY_FORUM_URL =
   (import.meta.env.VITE_DISCOURSE_HOST as string | undefined) ||
   'https://community.welcometomygarden.org';
+export const WTMG_BLOG_BASE_URL = 'https://blog.welcometomygarden.org';
 export const DEFAULT_MAP_STYLE = 'mapbox://styles/mapbox/streets-v8';
 export const ZOOM_LEVELS = {
   CITY: 11,

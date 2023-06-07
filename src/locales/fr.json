@@ -24,7 +24,8 @@
     "slowby-url": "https://www.slowby.travel/fr/accueil",
     "feature": "Fonctionnalité",
     "community": "Communauté",
-    "new": "Nouveau"
+    "new": "Nouveau",
+    "fair-model-blog-path": "/fr/vers-un-modele-juste-pour-assurer-le-futur-de-wtmg"
   },
   "ui": {
     "card": {
@@ -32,10 +33,10 @@
     }
   },
   "navigation": {
-    "slowby-notice": {
-      "prompt": "Envie que WTMG reste 100% indépendant ?",
-      "answer": "et rendez cela possible !",
-      "link-text": "Rejoignez nos"
+    "membership-notice": {
+      "prompt": "Bientôt : ",
+      "answer": "une adhésion WTMG pour tous les voyageurs lents. Pour en savoir plus, {linkText}.",
+      "link-text": "lisez ce blog post"
     }
   },
   "index": {

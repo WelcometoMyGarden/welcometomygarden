@@ -22,7 +22,8 @@
     "about-us": "Over Ons",
     "become-superfan": "Word Superfan",
     "slowby-url": "https://www.slowby.travel/nl/start",
-    "new": "Nieuw"
+    "new": "Nieuw",
+    "fair-model-blog-path": "/nl/een-fair-model-om-de-toekomst-van-wtmg-te-verzekeren"
   },
   "ui": {
     "card": {
@@ -30,10 +31,10 @@
     }
   },
   "navigation": {
-    "slowby-notice": {
-      "prompt": "Wil je dat WTMG 100% onafhankelijk blijft?",
-      "answer": "en maak het mee mogelijk.",
-      "link-text": "Sluit je aan bij onze"
+    "membership-notice": {
+      "prompt": "Binnenkort: ",
+      "answer": "een WTMG-lidmaatschap voor alle trage reizigers. Lees er meer over in {linkText}!",
+      "link-text": "deze blogpost"
     }
   },
   "index": {
