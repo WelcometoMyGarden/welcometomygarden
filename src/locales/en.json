@@ -29,7 +29,8 @@
     "slowby-url": "https://slowby.travel/",
     "superfan": "Superfan",
     "feature": "Feature",
-    "new": "New"
+    "new": "New",
+    "fair-model-blog-path": "/towards-a-fair-model-to-make-wtmg-survive-and-thrive"
   },
   "ui": {
     "card": {
@@ -37,10 +38,10 @@
     }
   },
   "navigation": {
-    "slowby-notice": {
-      "prompt": "Want WTMG to stay 100% independent?",
-      "answer": "and keep us going.",
-      "link-text": "Join our"
+    "membership-notice": {
+      "prompt": "Coming up: ",
+      "answer": "a WTMG membership for all slow travellers. Find out more in {linkText}!",
+      "link-text": "this blog post"
     }
   },
   "index": {
