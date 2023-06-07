@@ -10,9 +10,9 @@
   import { goto } from '$app/navigation';
   import { isActive } from '$lib/util/isActive';
   import { createEventDispatcher } from 'svelte';
-  import { COMMUNITY_FORUM_URL, DONATION_URL } from '$lib/constants';
-  import SuperfanCounter from '../../SuperfanCounter.svelte';
+  import { COMMUNITY_FORUM_URL, DONATION_URL, WTMG_BLOG_BASE_URL } from '$lib/constants';
   import NewBadge from '../../NewBadge.svelte';
+  import { anchorText } from '$lib/util/translation-helpers';
 
   const dispatch = createEventDispatcher();
   export let isOpen = false;
@@ -65,8 +65,20 @@
   </li>
   <li class="superfan-bar" class:show={!$user?.superfan}>
     {#if !$user?.superfan}
-      <span class="title">{$_('navigation.slowby-notice.prompt')}</span>
-      <SuperfanCounter />
+      <span class="title">{$_('navigation.membership-notice.prompt')}</span>
+      <span
+        >{@html $_('navigation.membership-notice.answer', {
+          values: {
+            linkText: anchorText({
+              href: `${WTMG_BLOG_BASE_URL}${$_(
+                'generics.fair-model-blog-path'
+              )}?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership_announcement_jun_23&utm_content=side_navbar`,
+              linkText: $_('navigation.membership-notice.link-text'),
+              style: 'text-decoration: underline; cursor: pointer;'
+            })
+          }
+        })}</span
+      >
     {/if}
   </li>
   <li class="main-links-container">
@@ -186,6 +198,9 @@
     width: 100%;
     background-color: var(--color-beige-light);
     padding: 1.5rem;
+    line-height: 1.4;
+    /* TODO: this one should be temporary, it is needed for the longer blog notice */
+    margin-bottom: 1rem;
   }
 
   ul > li.superfan-bar:not(.show) {

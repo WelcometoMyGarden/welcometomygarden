@@ -5,9 +5,9 @@
   import UserDropdown from './UserDropdown.svelte';
   import { user } from '$lib/stores/auth';
   import WtmgLogo from '../../UI/WTMGLogo.svelte';
-  import SuperfanCounter from '../SuperfanCounter.svelte';
-  import { COMMUNITY_FORUM_URL } from '$lib/constants';
+  import { COMMUNITY_FORUM_URL, WTMG_BLOG_BASE_URL } from '$lib/constants';
   import NewBadge from '../NewBadge.svelte';
+  import { anchorText } from '$lib/util/translation-helpers';
 
   $: firstName = $user ? $user.firstName : '';
 </script>
@@ -16,8 +16,18 @@
   {#if !$user?.superfan}
     <div class="nav-extra">
       <span
-        >{$_('navigation.slowby-notice.prompt')}
-        <SuperfanCounter />
+        ><strong style="font-weight: 500;">{$_('navigation.membership-notice.prompt')}</strong
+        >{@html $_('navigation.membership-notice.answer', {
+          values: {
+            linkText: anchorText({
+              href: `${WTMG_BLOG_BASE_URL}${$_(
+                'generics.fair-model-blog-path'
+              )}?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership_announcement_jun_23&utm_content=top_navbar`,
+              linkText: $_('navigation.membership-notice.link-text'),
+              style: 'text-decoration: underline; cursor: pointer;'
+            })
+          }
+        })}
       </span>
     </div>
   {/if}

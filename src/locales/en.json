@@ -39,10 +39,10 @@
     }
   },
   "navigation": {
-    "slowby-notice": {
-      "prompt": "Want WTMG to stay 100% independent?",
-      "answer": "and keep us going.",
-      "link-text": "Join our"
+    "membership-notice": {
+      "prompt": "Coming up: ",
+      "answer": "a WTMG membership for all slow travellers. Find out more in {linkText}!",
+      "link-text": "this blog post"
     }
   },
   "index": {
