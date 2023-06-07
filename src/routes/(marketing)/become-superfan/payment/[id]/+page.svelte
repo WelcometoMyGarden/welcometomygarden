@@ -63,6 +63,7 @@
       redirect: 'if_required',
       confirmParams: {
         // Redirect to the current page
+        // TODO: redirect to the continueUrl if applicable
         return_url: `${document.location.protocol}//${document.location.hostname}:${document.location.port}${document.location.pathname}`
       }
     });
