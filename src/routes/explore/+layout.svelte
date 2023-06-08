@@ -7,7 +7,7 @@
   import { allGardens, isFetchingGardens } from '$lib/stores/garden';
   import routes from '$lib/routes';
   import Map from '$lib/components/Map/Map.svelte';
-  import Drawer from '$lib/components/Garden/Drawer.svelte';
+  import Drawer from '$lib/components/Garden/GardenDrawer.svelte';
   import GardenLayer from '$lib/components/Map/GardenLayer.svelte';
   import WaymarkedTrails from '$lib/components/Map/WaymarkedTrails.svelte';
   import Filter from '$lib/components/Garden/Filter.svelte';
