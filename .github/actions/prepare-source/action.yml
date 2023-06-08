@@ -25,5 +25,5 @@ runs:
         version: '>= 363.0.0'
         project_id: 'wtmg-production'
     - name: Use gcloud CLI
-      run: gsutil cp -r gs://wtmg-static/assets ${{ github.workspace }}/src/lib
+      run: gsutil -m cp -r gs://wtmg-static/assets ${{ github.workspace }}/src/lib
       shell: bash
