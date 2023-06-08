@@ -45,16 +45,25 @@ For some newer components, we started dynamically generating responsive images o
 
 The source images for this process should be put in `src/lib/assets`, but are not checked into the Git repo.
 
-We keep them in this [Google Drive](https://drive.google.com/drive/folders/1OcaKJa9VoykflvKNv6nH13O0Ho_PcApF?usp=sharing).
+We keep them in a Google Cloud bucket (and maybe in [Google Drive](https://drive.google.com/drive/folders/1OcaKJa9VoykflvKNv6nH13O0Ho_PcApF?usp=sharing)).
 
 It's possible to sync your local version with the Google Drive, in both ways, with several tools. Here are some guidelines for [rclone](https://rclone.org/drive/):
 
 Uploading local files:
 
 ```
-rclone sync src/lib/assets slowby-gdrive:Development/assets
+rclone sync --exclude="**.DS_Store" src/lib/assets gcloud:wtmg-static/assets
+```
+
+```
+rclone sync --exclude="**.DS_Store" src/lib/assets slowby-gdrive:Development/assets
 ```
 
 `bisync` can be used to both download and upload.
 
-This assumes `slowby-gdrive` is configured as a Google Drive remote, and that "Development" is a shortcut to the Development folder in our team drive. Check with the team to receive a client ID & secret you can use for the configuration.
+This assumes:
+
+- `gcloud` is configured as a Google Cloud Storage remote. Check with the team to copy configuration.
+- `slowby-gdrive` is configured as a Google Drive remote, and that "Development" is a shortcut to the Development folder in our team drive. Check with the team to receive a client ID & secret you can use for the configuration.
+
+In the future, we should maybe consider blowing up our repository size to 10s to 100s of megabytes anyway, to get the benefits of version control for source images, and to not have to deal with an external storage system like now. See [this discussion](https://softwareengineering.stackexchange.com/questions/80962/should-images-be-stored-in-a-git-repository).

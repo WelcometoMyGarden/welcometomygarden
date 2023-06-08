@@ -13,7 +13,9 @@ runs:
         cache: 'yarn'
     - name: Install Dependencies
       # https://github.com/actions/setup-node/blob/main/docs/advanced-usage.md#caching-packages-data
-      run: yarn install --frozen-lockfile --immutable
+      # https://yarnpkg.com/cli/install
+      # --frozen-lockfile is deprecated
+      run: yarn install --immutable
       shell: bash
     - id: auth
       uses: google-github-actions/auth@v1
