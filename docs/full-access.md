@@ -52,11 +52,11 @@ It's possible to sync your local version with the Google Drive, in both ways, wi
 Uploading local files:
 
 ```
-rclone sync --exclude="**.DS_Store" src/lib/assets gcloud:wtmg-static/assets
+rclone copy --exclude="**.DS_Store" src/lib/assets gcloud:wtmg-static/assets
 ```
 
 ```
-rclone sync --exclude="**.DS_Store" src/lib/assets slowby-gdrive:Development/assets
+rclone copy --exclude="**.DS_Store" src/lib/assets slowby-gdrive:Development/assets
 ```
 
 `bisync` can be used to both download and upload.
