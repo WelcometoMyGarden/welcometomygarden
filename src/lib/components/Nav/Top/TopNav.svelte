@@ -51,7 +51,9 @@
       {/if}
       {#if !$user?.superfan}
         <li>
-          <NavLink href={routes.ABOUT_SUPERFAN} highlighted>{$_('generics.become-member')}</NavLink>
+          <NavLink href={routes.ABOUT_MEMBERSHIP} highlighted
+            >{$_('generics.become-member')}</NavLink
+          >
         </li>
       {/if}
       {#if firstName}

@@ -29,6 +29,7 @@
     "become-member": "Become a Member",
     "slowby-url": "https://slowby.travel/",
     "superfan": "Superfan",
+    "member": "Member",
     "feature": "Feature",
     "new": "New",
     "fair-model-blog-path": "/towards-a-fair-model-to-make-wtmg-survive-and-thrive"
@@ -560,6 +561,7 @@
       "guest": {
         "button": "Contact host",
         "login": "You must {signInLink} to contact hosts",
+        "become-member": "{becomeMember} to contact hosts",
         "sign-link-text": "sign in"
       },
       "save": "Save",
@@ -675,44 +677,69 @@
     "feature-section": {
       "title": "What's in it for you?"
     },
+    "modal": {
+      "subtitle": "Discover slow travel with WTMG",
+      "title": "Become a Member!",
+      "intro": "Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. Join us today!",
+      "features-title": "As a member, you can...",
+      "choose-membership": "Choose Membership"
+    },
     "pricing-section": {
       "slug": "Open Pricing",
-      "title": "Choose the price that fits you best",
-      "description": "We use open pricing because we want WTMG to be available to everyone, and we trust your decision. You pay for one year at a time. Becoming a Superfan is commitment-free: your subscription stops automatically after one year, and you will receive a reminder email to renew it.",
+      "title": "Pick your membership level",
+      "description": "Valid for one year. Does not renew automatically.",
       "per-month": "/month",
       "pricing-levels": {
         "0": {
-          "slug": "Sow",
           "title": "Member",
-          "description": "Make use of WTMG & cover your part of the platform costs."
+          "description": "You get full access to the WTMG platform and cover your part of the costs."
         },
         "1": {
-          "slug": "Plant",
           "title": "Superfan 💚",
-          "description": "Make use of WTMG & cover your part of the platform costs."
-        },
-        "2": {
-          "slug": "Grow",
-          "title": "Solidarity price",
-          "description": "Do you want to contribute more so that others who need it can pay less? That’s brilliant! Thank you!"
+          "description": "You’re truly passionate about slow travel and want to support WTMG’s mission."
         }
       },
-      "per-year": "/year"
+      "per-year": "/year",
+      "terms-label": "I use WTMG only as a slow traveller (never by car) and agree with all {termsLink}.",
+      "terms-link-text": "WTMG rules",
+      "questions": "Questions?",
+      "faq-link-text": "See our FAQ",
+      "blog-post": "Blog post:",
+      "blog-post-link-text": "Why a membership for WTMG?"
     }
   },
   "about-superfan": {
-    "top-section": {
-      "title": "Superfans keep us going",
-      "description": "As a Superfan, you help accomplish WTMG's mission of making slow travel more accessible for everyone. Your financial contribution will make it possible for WTMG to remain free for everyone to use. You will also get access to new features!"
-    },
+    "top-section": {},
     "video-section": {
       "title": "Why become a Superfan?",
-      "description": "<p>If you are truly passionate about slow travel and you want to support WTMG’s mission, then perhaps you should become a Superfan! With your financial support, we can make WTMG financially stable and keep it free for everyone to use! You choose the price that fits you best.</p><p>We’re a small team of four and have invested a lot of our personal time, energy and money in this initiative. We started off as a small citizen initiative in Belgium, but we are growing into something bigger. It’s clear that WTMG is here to stay, and we want to make sure we can survive as well as thrive. And that’s where you come in!</p>"
+      "description": "<p>Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Like any garden, WTMG needs nurturing in order to grow and stay healthy.</p><p>Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. Join us today!</p>"
     },
     "for-superfans-section": {
-      "slug": "What's in it for you?",
-      "title": "Our Superfans deserve a massive thank you",
-      "description": "We can’t do without your support! As a Superfan, you will get access to some great new slow travel tools! These will make planning your slow travel adventures even easier. This is our way to say thank you for believing in us."
+      "slug": "You make the magic happen ",
+      "title": "As a member, you can…",
+      "points": {
+        "0": {
+          "title": "<strong>Send free stay requests to all 5.000+ WTMG hosts</strong> on the map"
+        },
+        "1": {
+          "title": "<strong>Make arrangements with hosts</strong> through the chat and get to meet amazing new people."
+        },
+        "2": {
+          "title": "<strong>Use handy features:</strong> upload your route, save gardens, and see the rail network."
+        },
+        "3": {
+          "title": "<strong>Access the WTMG Community</strong> where members can meet, share experiences and ask questions."
+        },
+        "4": {
+          "title": "<strong>Cover your part of the costs:</strong> WTMG needs money in order to maintain a quality network."
+        },
+        "5": {
+          "title": "<strong>Keep WTMG ad-free, fully independent and member-supported:</strong> without the continued support of our community we cannot exist!"
+        },
+        "6": {
+          "title": "<strong>Support the work of a dedicated team</strong> of four slow travel enthusiasts"
+        }
+      }
     },
     "team-section": {
       "title": "Meet the team",
@@ -886,7 +913,8 @@
         "loading-error": "Something went wrong when loading our payments service. Please try reloading the page.",
         "systems-error": "Something went wrong in our systems. Please contact {supportEmail} and we'll help you asap! Sorry for the trouble.",
         "payment-error": "Something went wrong with your payment, please try again."
-      }
+      },
+      "sucesss": "We've successfully received your payment, welcome to the WTMG community! Here’s the chat you wanted to open."
     },
     "not-logged-in-warning": "To become Superfan, first log in or create an account"
   },

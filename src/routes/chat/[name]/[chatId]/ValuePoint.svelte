@@ -4,16 +4,15 @@
    */
   import Img from '@zerodevx/svelte-img';
   export let imgPath: Object[] | undefined;
-  export let titleBoldPart: string;
-  export let titleRest: string;
+  export let title: string;
+  export let border = false;
 </script>
 
-<li class="value-prop">
-  <div class="title">
-    <span class="checkmark">✅</span><span class="title-bold">{titleBoldPart}</span>{titleRest &&
-      ` ${titleRest}`}
-    <h4><slot /></h4>
-  </div>
+<li class="value-prop" class:border>
+  <p class="title">
+    <span class="checkmark">✅</span>
+    <span>{@html title}</span>
+  </p>
   <!-- TODO: define sizes & alt-->
   {#if imgPath}
     <Img src={imgPath} sizes="" />
@@ -28,6 +27,26 @@
     width: 100%;
   }
 
+  .border {
+    overflow: hidden;
+    border: 1px solid var(--color-green);
+    border-radius: 20px;
+    /* expand into the box (assumign a grid parent) */
+    align-self: stretch;
+  }
+
+  .border > :global(picture) {
+    flex-grow: 1;
+  }
+  .border > :global(picture > img) {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .border > p {
+    padding: 1.5rem 1.5rem 0 1.5rem;
+  }
+
   .title {
     line-height: 1.5;
   }
@@ -37,7 +56,7 @@
     margin-right: 1rem;
   }
 
-  span.title-bold {
+  p.title :global(strong) {
     font-weight: 600;
   }
 

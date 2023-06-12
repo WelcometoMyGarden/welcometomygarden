@@ -71,10 +71,10 @@
           {$_('index.superfan.financial-support')}
         </p>
         <div class="become-superfan-buttons">
-          <Button href={routes.BECOME_SUPERFAN} uppercase orange arrow
+          <Button href={routes.BECOME_MEMBER} uppercase orange arrow
             >{$_('index.superfan.become-superfan')}</Button
           >
-          <Button href={routes.ABOUT_SUPERFAN} uppercase inverse link
+          <Button href={routes.ABOUT_MEMBERSHIP} uppercase inverse link
             >{$_('index.superfan.learn-more')}</Button
           >
         </div>

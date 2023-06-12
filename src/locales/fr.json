@@ -25,7 +25,8 @@
     "feature": "Fonctionnalité",
     "community": "Communauté",
     "new": "Nouveau",
-    "fair-model-blog-path": "/fr/vers-un-modele-juste-pour-assurer-le-futur-de-wtmg"
+    "fair-model-blog-path": "/fr/vers-un-modele-juste-pour-assurer-le-futur-de-wtmg",
+    "become-member": "Devenez Membre"
   },
   "ui": {
     "card": {
@@ -674,43 +675,39 @@
     },
     "pricing-section": {
       "slug": "Prix différencié",
-      "title": "Choisissez le prix qui vous convient le mieux",
-      "description": "Nous utilisons un prix différencié parce que nous voulons que WTMG soit accessible à tous et à toutes, et nous vous faisons confiance. Vous payez pour un an à la fois. Devenir Superfan est sans engagement : votre abonnement s'arrête automatiquement après un an, et vous recevrez un rappel par email pour le renouveler.",
-      "per-month": "/mois",
+      "title": "Choisissez votre niveau d'adhésion",
+      "description": "Non renouvelé automatiquement. Valable pour un an.",
+      "per-month": "par mois",
       "pricing-levels": {
         "0": {
-          "slug": "Semer",
-          "title": "Prix réduit",
-          "description": "Vous êtes étudiant·e ou vous avez un budget limité ? Optez pour le tarif ‘Semer’. Grâce à votre financement, nous pouvons continuer à maintenir la plateforme. Merci d’avance !"
+          "title": "Membre",
+          "description": "Accèdez à l’ensemble de la plateforme de WTMG en couvrant les coûts de votre propre utilisation."
         },
         "1": {
-          "slug": "Planter",
-          "title": "Prix juste",
-          "description": "C’est le prix juste, celui qui nous permet de maintenir la plateforme et de continuer à la développer. Vous nous aidez à le faire ? Ça signifie tellement pour nous ! Merci !"
-        },
-        "2": {
-          "slug": "Pousser",
-          "title": "Prix de solidarité",
-          "description": "Votre contribution supplémentaire permettra d'équilibrer celles qui ne peuvent pas se le permettre. Merci ! Vous êtes fantastique."
+          "title": "Superfan 💚",
+          "description": "Vous êtes passionné.e par le voyage lent et voulez soutenir la mission de WTMG."
         }
       },
-      "per-year": "/année"
+      "per-year": "/an",
+      "terms-label": "J’utilise WTMG uniquement en tant que voyageur.se lent.e (jamais en voiture) et j'accepte toutes les {termsLink}.",
+      "terms-link-text": "règles de WTMG",
+      "faq-link-text": "Lisez nos FAQ.",
+      "blog-post": "Blog post: ",
+      "blog-post-link-text": "pourquoi une adhésion pour WTMG ?"
+    },
+    "modal": {
+      "intro": "Camper dans le jardin d’hôtes WTMG reste gratuit. Cependant, pour maintenir et développer WTMG, nous comptons sur une adhésion annuelle de tous les voyageur.ses lent.es afin de répartir les coûts équitablement. Rejoignez-nous dès aujourd'hui !",
+      "features-title": "En tant que membre, vous pouvez…",
+      "title": "Devenez Membre!"
     }
   },
   "about-superfan": {
-    "top-section": {
-      "title": "Les Superfans permettent à WTMG de continuer d'exister",
-      "description": "En tant que Superfan, vous aidez à accomplir la mission de WTMG qui est de rendre le slow travel plus accessible à tous et à toutes. Votre contribution financière permettra à WTMG de rester gratuit à utiliser pour tout le monde. Vous aurez également accès à de nouvelles fonctionnalités. Vous choisissez le prix qui vous convient le mieux."
-    },
+    "top-section": {},
     "video-section": {
       "title": "Pourquoi devenir un·e Superfan ?",
       "description": "<p>Vous êtes passionné·e par le slow travel et vous souhaitez soutenir la mission de WTMG ? Alors devenez un·e Superfan ! Grâce à votre soutien financier, WTMG peut se stabiliser, développer de nouvelles fonctionnalités et surtout rester gratuit et accessible pour tous·tes.</p><p>Notre petite équipe de quatre personnes a investi beaucoup de temps, d'énergie et d'argent dans ce projet. La petite initiative citoyenne belge est en train de devenir quelque chose de beaucoup plus grand et dépasse même nos frontières. WTMG est là pour rester, et nous avons besoin de vous pour continuer à le faire vivre et grandir !</p>"
     },
-    "for-superfans-section": {
-      "slug": "Quels sont les avantages à devenir Superfan ?",
-      "title": "Nos Superfans méritent un immense merci",
-      "description": "WTMG ne peut pas exister sans votre soutien ! Pour vous remercier, vous aurez accès à plus de fonctionnalités qui vous permettront de planifier vos prochains voyages plus facilement. C’est notre manière de vous remercier de croire en nous."
-    },
+    "for-superfans-section": {},
     "team-section": {
       "title": "Rencontrez l'équipe",
       "description": "Qui se cache derrière WTMG ? Nous sommes une petite équipe de quatre passionné·es de slow travel et nous voulons aider les autres à se lancer aussi dans l'aventure.",

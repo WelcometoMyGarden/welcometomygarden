@@ -1,53 +1,18 @@
 <script lang="ts">
+  import { _, t, locale } from 'svelte-i18n';
   import { Button, Modal } from '$lib/components/UI';
   import MembershipPricing from './MembershipPricing.svelte';
   import { arrowRightIcon } from '$lib/images/icons';
   import IconButton from '$lib/components/UI/IconButton.svelte';
   import Img from '@zerodevx/svelte-img';
   import velotourImg from '$lib/assets/velotour-group.jpeg?run';
-  import mapScreenImg from '$lib/assets/value-points/map-screenshot.png?run&width=480';
-  import chatScreenImg from '$lib/assets/value-points/chat-screenshot.png?run&width=480';
-  import communityScreenImg from '$lib/assets/value-points/community-screenshot.png?run&width=480';
-  import type { ComponentProps } from 'svelte';
   import ValuePoint from './ValuePoint.svelte';
-  type ValuePointProps = ComponentProps<ValuePoint>;
+  import { valuePoints } from '$routes/(marketing)/_static/membership-points';
 
   export let show = false;
   let showMobilePricing = false;
 
-  const valueProps: ValuePointProps[] = [
-    {
-      imgPath: mapScreenImg,
-      titleBoldPart: 'Send free stay requests',
-      titleRest: 'to all 5.000+ WTMG hosts on the map'
-    },
-    {
-      imgPath: chatScreenImg,
-      titleBoldPart: 'Make arrangements with hosts',
-      titleRest: 'through the chat and get to meet new fantastic people.'
-    },
-    {
-      imgPath: communityScreenImg,
-      titleBoldPart: 'Access the WTMG Community',
-      titleRest: 'where members can meet, share experiences and ask questions.'
-    },
-    {
-      imgPath: undefined,
-      titleBoldPart: 'Cover your part of the costs:',
-      titleRest:
-        'WTMG needs money in order to maintain a quality network and continue developing the platform.'
-    },
-    {
-      imgPath: undefined,
-      titleBoldPart: 'Keep WTMG ad-free, fully independent and member-supported:',
-      titleRest: 'without the continued support of our community we cannot exist!'
-    },
-    {
-      imgPath: undefined,
-      titleBoldPart: 'Support the work',
-      titleRest: 'of a dedicated team of four slow travel enthusiasts'
-    }
-  ];
+  $: valuePropsLocal = valuePoints($locale ?? 'en');
 </script>
 
 <Modal
@@ -80,8 +45,8 @@
       <div class="text-backdrop" />
       <!-- TODO translate both -->
 
-      <span class="subtitle">Slow Travel with WTMG</span>
-      <h2 class="main-title">Become a Member!</h2>
+      <span class="subtitle">{$t('become-superfan.modal.subtitle')}</span>
+      <h2 class="main-title">{$t('become-superfan.modal.title')}</h2>
     {/if}
   </div>
   <div slot="body" class="body" class:showMobilePricing>
@@ -90,19 +55,18 @@
       <div class="value-props">
         <div class="main-content">
           <p>
-            Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly
-            membership to split costs fairly among all slow travellers. Join us today!
+            {$_('become-superfan.modal.intro')}
           </p>
-          <h3>As a member you can...</h3>
+          <h3>{$t('become-superfan.modal.features-title')}</h3>
           <ul>
-            {#each valueProps as props}
+            {#each valuePropsLocal as props}
               <ValuePoint {...props} />
             {/each}
           </ul>
         </div>
         <div class="mobile-continue">
           <Button centered uppercase orange arrow on:click={() => (showMobilePricing = true)}
-            >Choose Membership</Button
+            >{$t('become-superfan.modal.choose-membership')}</Button
           >
         </div>
       </div>

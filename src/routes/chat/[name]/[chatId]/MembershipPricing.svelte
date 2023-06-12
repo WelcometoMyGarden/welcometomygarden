@@ -1,22 +1,28 @@
 <script lang="ts">
-  import { _ } from 'svelte-i18n';
+  import { _, t } from 'svelte-i18n';
   import {
     superfanLevels,
-    type SuperfanLevelData
+    type SuperfanLevelData,
+    DEFAULT_MEMBER_LEVEL,
+    SuperfanLevelSlug
   } from '$routes/(marketing)/_static/superfan-levels';
   import enterHandler from '$lib/util/keyhandlers';
-  import { Button } from '$lib/components/UI';
+  import { Button, LabeledCheckbox } from '$lib/components/UI';
   import { user } from '$lib/stores/auth';
   import { goto } from '$app/navigation';
   import routes from '$lib/routes';
   import MembershipLevel from './MembershipLevel.svelte';
   import { WTMG_BLOG_BASE_URL } from '$lib/constants';
   import { Anchor } from '$lib/components/UI';
+  import { page } from '$app/stores';
+  import { anchorText } from '$lib/util/translation-helpers';
 
   /**
    * Whether this shows a condensed pricing levels on desktop
    */
   export let condensed = false;
+
+  let acceptedTerms = false;
 
   //   TODO: copied from become-superfan, refactor
 
@@ -38,7 +44,7 @@
 
   // Default: normal / plant
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  let selectedLevel = superfanLevels.find((l) => l.slug === 'plant')!;
+  let selectedLevel = superfanLevels.find((l) => l.slug === DEFAULT_MEMBER_LEVEL)!;
 
   const selectLevel = (level: SuperfanLevelData) => {
     selectedLevel = level;
@@ -56,15 +62,29 @@
     if (!$user) {
       return await goto(routes.SIGN_IN);
     }
-    return await goto(`${routes.SUPERFAN_PAYMENT}/${level.slug}`);
+    let continueUrl = '';
+    // If the person was trying to open a chat, include it as a continueUrl
+    if (
+      $page.url.pathname.startsWith(routes.CHAT) &&
+      $page.url.pathname.includes('new') &&
+      $page.url.searchParams.get('id')
+    ) {
+      // Use a "with" link, because that one is used to trigger fetching partner details in an onMount
+      // TODO: simplify this...
+      continueUrl = `${routes.CHAT}?with=${$page.url.searchParams.get('id')}`;
+    }
+    return await goto(
+      `${routes.MEMBER_PAYMENT}/${level.slug}${
+        continueUrl ? `?continueUrl=${encodeURIComponent(continueUrl)}` : ''
+      }`
+    );
   };
 </script>
 
-<!-- <p class="pricing-description">{$_('become-superfan.pricing-section.description')}</p> -->
 <div class="container">
   <div class="pricing-description">
-    <h3 id="pricing-title">Pick a membership level</h3>
-    <p id="pricing-description">Valid for one year. Not automatically recurring.</p>
+    <h3 id="pricing-title">{$t('become-superfan.pricing-section.title')}</h3>
+    <p id="pricing-description">{$t('become-superfan.pricing-section.description')}</p>
   </div>
   <div
     class="membership-levels"
@@ -83,24 +103,47 @@
       />
     {/each}
   </div>
+  <LabeledCheckbox name="accept-terms" bind:checked={acceptedTerms}
+    >{@html $_('become-superfan.pricing-section.terms-label', {
+      values: {
+        termsLink: anchorText({
+          href: routes.RULES,
+          linkText: $_('become-superfan.pricing-section.terms-link-text'),
+          class: 'link'
+        })
+      }
+    })}</LabeledCheckbox
+  >
   <div class="select-level-button">
     <!-- TODO: translate -->
     <!-- {$_('generics.become-superfan')} -->
-    <Button uppercase orange arrow on:click={() => goToPaymentPage(selectedLevel)}>
-      Become a
-      {#if selectedLevel.slug === 'sow'}
-        member
+    <Button
+      uppercase
+      orange
+      disabled={!acceptedTerms}
+      arrow
+      on:click={() => goToPaymentPage(selectedLevel)}
+    >
+      {#if selectedLevel.slug === SuperfanLevelSlug.REDUCED}
+        {$_('generics.become-member')}
       {:else}
-        Superfan
+        {$_('generics.become-superfan')}
       {/if}
     </Button>
   </div>
   <p class="fineprint">
-    <!-- TODO: fix link -->
-    Questions? <Anchor href="{routes.ABOUT_SUPERFAN} newtab">See the FAQ.</Anchor> Blog post:
-    <Anchor href="{WTMG_BLOG_BASE_URL}{$_('generics.fair-model-blog-path')}" newtab
-      >Why a membership for WTMG?</Anchor
-    > By becoming a Member, you agree with <Anchor href={routes.RULES}>our rules.</Anchor>
+    <!-- TODO: fix FAQ link, immediately jump to FAQ -->
+    {$t('become-superfan.pricing-section.questions')}{' '}<Anchor
+      href={routes.ABOUT_MEMBERSHIP}
+      newtab>{$t('become-superfan.pricing-section.faq-link-text')}</Anchor
+    >
+    {$t('become-superfan.pricing-section.blog-post')}
+    <Anchor
+      href="{WTMG_BLOG_BASE_URL}{$_(
+        'generics.fair-model-blog-path'
+      )}?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=pricing_modal"
+      newtab>{$t('become-superfan.pricing-section.blog-post-link-text')}</Anchor
+    >
   </p>
 </div>
 
@@ -112,6 +155,7 @@
     flex-direction: column;
     justify-content: center;
     gap: 2rem;
+    margin-bottom: 1.5rem;
     width: 100%;
   }
 
@@ -154,6 +198,15 @@
     display: flex;
     justify-content: center;
     width: 100%;
+  }
+
+  .container :global(label[for='accept-terms']) {
+    line-height: 1.4;
+  }
+  .container :global(input[name='accept-terms']) {
+    width: 3.5rem;
+    height: 3.5rem;
+    margin-right: 1.3rem;
   }
 
   p.fineprint {

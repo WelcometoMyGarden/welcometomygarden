@@ -47,7 +47,9 @@
       <span class="price-value">€{value * 12}</span>
       <div class="per-year">
         <div>{$_('become-superfan.pricing-section.per-year')}</div>
-        <span class="per-month">(= €{value}{$_('become-superfan.pricing-section.per-month')})</span>
+        <span class="per-month"
+          >(= €{value}{' '}{$_('become-superfan.pricing-section.per-month')})</span
+        >
       </div>
     </div>
     <p class="description">{description}</p>

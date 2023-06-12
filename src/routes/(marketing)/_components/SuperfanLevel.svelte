@@ -27,7 +27,6 @@
   on:keypress={(e) => keyDispatch('keypress', e)}
 >
   <!-- TODO: fix alt -->
-  <img src="{IMAGES_PATH}/pricing/{slug}.png" alt="" />
   <span class="slug">{slugCopy.toLocaleUpperCase()}</span>
   <div>
     <h3>{title}</h3>

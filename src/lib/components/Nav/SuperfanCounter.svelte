@@ -11,7 +11,7 @@
 </script>
 
 <span>
-  <a class="link" style="color:inherit" href={routes.BECOME_SUPERFAN}>
+  <a class="link" style="color:inherit" href={routes.BECOME_MEMBER}>
     {$_('navigation.slowby-notice.link-text')}{' '}
     {#await getSuperfanCount()}
       {'...'}

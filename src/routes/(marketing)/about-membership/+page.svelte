@@ -1,25 +1,25 @@
 <script lang="ts">
-  import { _ } from 'svelte-i18n';
+  import { _, locale } from 'svelte-i18n';
   import Button from '$lib/components/UI/Button.svelte';
   import routes from '$lib/routes';
   import Heading from '../_components/Heading.svelte';
   import MarketingBlock from '../_components/MarketingBlock.svelte';
   import PaddedSection from '../_components/PaddedSection.svelte';
-  import Features from '../_sections/Features.svelte';
   import InnerVideoSection from '../_sections/VideoSection.svelte';
-  import SupportReasons from '../_sections/SupportReasons.svelte';
   import CollapsibleGroup from '$lib/components/CollapsibleGroup.svelte';
   import Testimonials from '../_components/Testimonials.svelte';
   import type { Slide } from '../_components/Testimonials.svelte';
   import { coreTeamProfiles } from '../_static/profiles';
   import ProfilePicture from '../_components/ProfilePicture.svelte';
-  import { SUPERFAN_PRICING_ROUTE, SUPPORT_EMAIL } from '$lib/constants';
+  import { PRICING_ROUTE, SUPPORT_EMAIL } from '$lib/constants';
   import { getNodeKeys } from '$lib/util/get-node-children';
   import { onDestroy } from 'svelte';
+  import { valuePoints } from '../_static/membership-points';
+  import ValuePoint from '$routes/chat/[name]/[chatId]/ValuePoint.svelte';
 
   let testimonials: Slide[];
 
-  const contentOf = (quoteNumber: string) => {
+  const contentOfQuote = (quoteNumber: string) => {
     const prefix = `about-superfan.superfan-quotes-section.quotes.${quoteNumber}`;
     return {
       name: $_(prefix + '.name'),
@@ -27,18 +27,20 @@
     };
   };
 
+  $: valuePointsLocal = valuePoints($locale ?? 'en');
+
   const setTestimonials = () => {
     testimonials = [
       {
-        ...contentOf('0'),
+        ...contentOfQuote('0'),
         imagePath: '/testimonials/boris.jpeg'
       },
       {
-        ...contentOf('1'),
+        ...contentOfQuote('1'),
         imagePath: '/testimonials/marie-marth.jpg'
       },
       {
-        ...contentOf('2'),
+        ...contentOfQuote('2'),
         imagePath: '/testimonials/benoit-helene.jpg'
       }
     ];
@@ -54,36 +56,33 @@
   });
 </script>
 
-<PaddedSection desktopOnly>
-  <MarketingBlock backgroundColor="var(--color-green-light)" centered>
-    <h1>{$_('about-superfan.top-section.title')}</h1>
-    <p>{$_('about-superfan.top-section.description')}</p>
-  </MarketingBlock>
-</PaddedSection>
-<PaddedSection>
+<PaddedSection backgroundColor="var(--color-beige-light)" vertical>
   <InnerVideoSection>
-    <h2 slot="heading">{$_('about-superfan.video-section.title')}</h2>
+    <h1 slot="heading">{$_('about-superfan.top-section.title')}</h1>
     <div slot="text" class="video-text">
       {@html $_('about-superfan.video-section.description')}
-      <Button href={SUPERFAN_PRICING_ROUTE} uppercase orange arrow
-        >{$_('generics.become-superfan')}</Button
-      >
+      <div class="become-superfan-buttons">
+        <Button href={PRICING_ROUTE} uppercase orange arrow>{$_('generics.become-member')}</Button>
+        <Button href={routes.ABOUT_MEMBERSHIP} uppercase inverse link
+          >{$_('index.superfan.learn-more')}</Button
+        >
+      </div>
     </div>
   </InnerVideoSection>
 </PaddedSection>
-<PaddedSection backgroundColor="var(--color-beige-light)" vertical>
+<PaddedSection vertical>
   <Heading caption={$_('about-superfan.for-superfans-section.slug')}
     >{$_('about-superfan.for-superfans-section.title')}</Heading
   >
-  <p>{$_('about-superfan.for-superfans-section.description')}</p>
-  <Features backgroundColor="white" />
-  <div style="width: 100%; padding-bottom: var(--section-inner-padding)" />
-  <Heading caption={$_('about-us.for-everyone')}
-    >{$_('superfan-shared.three-support-reasons.title')}</Heading
-  >
-  <SupportReasons backgroundColor="white" />
+  <div>
+    <ul class="value-points">
+      {#each valuePointsLocal as item}
+        <ValuePoint {...item} border />
+      {/each}
+    </ul>
+  </div>
   <div style="margin-bottom: var(--spacing-medium)" />
-  <Button href={SUPERFAN_PRICING_ROUTE} uppercase orange arrow centered
+  <Button href={PRICING_ROUTE} uppercase orange arrow centered
     >{$_('generics.become-superfan')}</Button
   >
 </PaddedSection>
@@ -131,6 +130,25 @@
 </PaddedSection>
 
 <style>
+  .become-superfan-buttons {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  ul.value-points {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+
+  @media only screen and (max-width: 500px) {
+    .become-superfan-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
   .more-questions {
     display: flex;
     flex-direction: column;

@@ -30,7 +30,7 @@
       <Text size="m" weight="thin">
         {@html $_('map.superfan-notice.description', {
           values: {
-            linkText: `<a class="underline" href="${routes.BECOME_SUPERFAN}">${$_(
+            linkText: `<a class="underline" href="${routes.BECOME_MEMBER}">${$_(
               'map.superfan-notice.linkText'
             )}`
           }

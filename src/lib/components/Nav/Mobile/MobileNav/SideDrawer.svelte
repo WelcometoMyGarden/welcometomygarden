@@ -85,7 +85,7 @@
     <ul class="main-links">
       {#if !$user?.superfan}
         <li>
-          <a class="highlighted" href={routes.ABOUT_SUPERFAN} on:click={toggleDrawer}>
+          <a class="highlighted" href={routes.ABOUT_MEMBERSHIP} on:click={toggleDrawer}>
             {$_('generics.become-member')}
           </a>
         </li>

@@ -25,6 +25,7 @@
   import Icon from '$lib/components/UI/Icon.svelte';
   import trackEvent from '$lib/util/track-event';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import { anchorText } from '$lib/util/translation-helpers';
 
   const dispatch = createEventDispatcher();
 
@@ -148,6 +149,8 @@
       console.log(err);
     }
   };
+
+  $: chatWithGardenLink = `${routes.CHAT}?with=${garden?.id}`;
 </script>
 
 <Progress active={isGettingMagnifiedPhoto} />
@@ -252,8 +255,22 @@
                 }
               })}
             </p>
+          {:else if !!$user && !$user.superfan}
+            <p class="cta-hint">
+              {@html $_('garden.drawer.guest.become-member', {
+                values: {
+                  becomeMember: anchorText({
+                    href: chatWithGardenLink,
+                    linkText: $_('generics.become-member'),
+                    newtab: false,
+                    class: 'link'
+                  })
+                }
+              })}
+            </p>
           {/if}
-          <Button href={`${routes.CHAT}?with=${garden.id}`} disabled={!$user} uppercase medium>
+          <!-- TODO: should non-paying people also be able to open an existing chat from here? -->
+          <Button href={chatWithGardenLink} disabled={!($user && $user.superfan)} uppercase medium>
             {$_('garden.drawer.guest.button')}
           </Button>
         {/if}
