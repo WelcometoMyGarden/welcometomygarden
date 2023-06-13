@@ -7,7 +7,7 @@
   import Img from '@zerodevx/svelte-img';
   import velotourImg from '$lib/assets/velotour-group.jpeg?run';
   import ValuePoint from './ValuePoint.svelte';
-  import { valuePoints } from '$routes/(marketing)/_static/membership-points';
+  import { valuePoints } from '$routes/(marketing)/(membership)/membership-points';
 
   export let show = false;
   let showMobilePricing = false;
@@ -86,13 +86,6 @@
     flex-direction: column;
     gap: 1.5rem;
     margin: 1.5rem 0;
-  }
-
-  .title {
-    /* TODO: maybe re-enable when the FAQ is selected? */
-    /* display: flex;
-    align-items: center;
-    gap: 1rem; */
   }
 
   .title {

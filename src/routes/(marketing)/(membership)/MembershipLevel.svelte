@@ -1,7 +1,21 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { createEventDispatcher } from 'svelte';
+  import Icon from '$lib/components/UI/Icon.svelte';
+  import { arrowRightIcon, checkIcon } from '$lib/images/icons';
+  import type { LocaleDictionary } from '$lib/util/get-node-children';
+  import type { HTMLLabelAttributes } from 'svelte/elements';
   export let selected = false;
+
+  /**
+   * Displays a card with more details
+   */
+  export let full = false;
+  /**
+   * Props only applicable for full cards
+   */
+  export let backref: string | undefined = undefined;
+  export let checkList: (string | LocaleDictionary | null)[] | undefined = undefined;
 
   // Svelte learning: don't do this! This code executes only once,
   // which means only the first prop values will be destructured.
@@ -13,25 +27,39 @@
   export let title: string;
   export let description: string;
   export let value: number;
-  export let alt: string | undefined = undefined;
-  export let slugCopy: string;
+
   /**
    * Whether the parent should apply border styles
    */
   export let embeddable = false;
   const clickDispatch = createEventDispatcher<{ click: MouseEvent }>();
   const keyDispatch = createEventDispatcher<{ keypress: KeyboardEvent }>();
+
+  /**
+   * Whether this element is seen as a label for another semantic HTML input,
+   * rather than having its own role="radio"
+   */
+  export let isLabelFor: string | undefined = undefined;
+
+  $: isLabel = !!isLabelFor;
+  $: is = isLabel ? 'label' : 'div';
 </script>
 
-<div
+<!-- TODO: report the for={} TS error
+ Similar problem: https://github.com/sveltejs/language-tools/issues/1576
+-->
+<svelte:element
+  this={is}
+  class:full
   class="membership-level"
   class:selected
   class:reduced={slug === 'sow'}
   class:embeddable
   on:click={(e) => clickDispatch('click', e)}
   on:keypress={(e) => keyDispatch('keypress', e)}
-  role="radio"
-  aria-checked={selected}
+  role={isLabel ? undefined : 'radio'}
+  aria-checked={isLabel ? undefined : selected}
+  for={isLabel ? isLabelFor : undefined}
 >
   <!-- https://stackoverflow.com/a/61812443 -->
 
@@ -47,14 +75,26 @@
       <span class="price-value">€{value * 12}</span>
       <div class="per-year">
         <div>{$_('become-superfan.pricing-section.per-year')}</div>
-        <span class="per-month"
-          >(= €{value}{' '}{$_('become-superfan.pricing-section.per-month')})</span
-        >
+        {#if value > 0}
+          <span class="per-month"
+            >(= €{value}{' '}{$_('become-superfan.pricing-section.per-month')})</span
+          >
+        {/if}
       </div>
     </div>
     <p class="description">{description}</p>
+    {#if full && checkList}
+      {#if backref}
+        <p class="backref"><Icon icon={arrowRightIcon} />{backref}</p>
+      {/if}
+      <ul class="checklist" class:noBackref={!backref}>
+        {#each checkList as item}
+          <li><Icon icon={checkIcon} /><span>{@html item}</span></li>
+        {/each}
+      </ul>
+    {/if}
   </div>
-</div>
+</svelte:element>
 
 <style>
   .membership-level {
@@ -104,6 +144,24 @@
     align-self: center;
   }
 
+  .full .radio {
+    display: none;
+  }
+
+  .checklist.noBackref {
+    margin-top: 1.5rem;
+  }
+
+  @media screen and (max-width: 850px) {
+    .full .radio {
+      display: flex;
+    }
+    .full .backref :global(i) {
+      transform: rotate(270deg);
+      font-size: 1.1rem;
+    }
+  }
+
   .radio-selected {
     background-color: var(--color-info);
     border-radius: 50%;
@@ -136,10 +194,9 @@
     margin-bottom: 0.5rem;
   }
 
-  div.membership-level h3 {
+  .membership-level h3 {
     font-size: inherit;
   }
-
   .per-year {
     font-size: 1.5rem;
     margin-left: 0.5rem;
@@ -162,5 +219,91 @@
   .price-value {
     font-size: 3.5rem;
     font-weight: 500;
+  }
+
+  .backref :global(i) {
+    display: inline-block;
+    vertical-align: middle;
+    height: 1.2em;
+    width: 1.2em;
+    margin-right: 1rem;
+  }
+
+  .backref :global(i) {
+    transform: rotate(180deg);
+  }
+
+  .backref {
+    margin-bottom: 1.5rem;
+  }
+
+  .checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .checklist > li :global(i svg g path) {
+    fill: #19ae13;
+  }
+  .checklist > li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+  .checklist > li :global(i) {
+    display: block;
+    width: 1.7rem;
+    height: 1.7rem;
+  }
+
+  .checklist > li > * {
+    flex: 1 0;
+  }
+
+  .checklist,
+  .backref {
+    font-size: 1.4rem;
+  }
+
+  .checklist :global(strong) {
+    font-weight: 600;
+  }
+
+  @media screen and (min-width: 851px) {
+    .checklist.noBackref {
+      margin-top: 4.5rem;
+    }
+    .membership-level.full {
+      /* flex: 1 0 0; */
+      display: flex;
+      flex-direction: column;
+    }
+
+    .membership-level.full:not(:first-child):not(:last-child) {
+      flex: 1 0;
+      width: 40%;
+    }
+
+    .membership-level.full:first-child,
+    .membership-level.full:last-child {
+      align-self: center;
+      min-height: 80%;
+      flex: 0 1 30%;
+    }
+    .membership-level.full:last-child {
+      background-color: var(--color-white);
+    }
+
+    .full > .title-section {
+      flex-grow: 1;
+    }
+    .full .description {
+      font-size: 1.6rem;
+      line-height: 1.4;
+      font-weight: 500;
+      /* height: 9rem; */
+      margin-bottom: 2rem;
+    }
   }
 </style>

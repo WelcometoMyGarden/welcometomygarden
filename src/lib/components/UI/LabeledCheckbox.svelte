@@ -15,7 +15,7 @@
 
 <!-- Just stop click propagation from here -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div on:click|stopPropagation class:compact>
+<div on:click|stopPropagation class:compact class="checkbox-container">
   <input id={name} type="checkbox" {disabled} {name} on:input bind:checked on:change />
   <LabelWithIcon {ellipsis} {compact} labelFor={name} {icon}>{label ?? ''}<slot /></LabelWithIcon>
 </div>

@@ -17,7 +17,7 @@
   import trackEvent from '$lib/util/track-event';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import type { LocalChat } from '$lib/types/Chat';
-  import MembershipModal from '$routes/chat/[name]/[chatId]/MembershipModal.svelte';
+  import MembershipModal from '$routes/(marketing)/(membership)/MembershipModal.svelte';
 
   /**
    * The chat ID of the currently selected chat.

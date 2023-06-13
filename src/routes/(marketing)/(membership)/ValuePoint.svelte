@@ -3,7 +3,7 @@
    * Link to local asset
    */
   import Img from '@zerodevx/svelte-img';
-  export let imgPath: Object[] | undefined;
+  export let imgPath: unknown[] | undefined;
   export let title: string;
   export let border = false;
 </script>
@@ -31,7 +31,7 @@
     overflow: hidden;
     border: 1px solid var(--color-green);
     border-radius: 20px;
-    /* expand into the box (assumign a grid parent) */
+    /* expand into the box (assuming a grid parent) */
     align-self: stretch;
   }
 

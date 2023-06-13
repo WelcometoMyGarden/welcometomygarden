@@ -111,12 +111,11 @@
       "title": "Nos partenaires"
     },
     "superfan": {
-      "support-mission": "Nouveau : soutenez notre mission",
-      "become-superfan-title": "Soutenez WTMG : devenez un·e Superfan !",
+      "become-superfan-title": "WTMG est une plateforme financée par ses membres",
       "mission": "Welcome To My Garden a pour mission de rendre le slow travel plus accessible à tous·tes. WTMG a besoin d’être entretenu, comme chaque jardin, pour pouvoir grandir et rester en bonne santé.",
       "financial-support": "Avec votre soutien financier, WTMG peut rester gratuit pour tous et toutes. Envie de nous aider à faire vivre et grandir WTMG ? Devenez Superfan et accédez à de nouvelles fonctionnalités !",
-      "become-superfan": "Devenir Superfan",
-      "learn-more": "En savoir plus"
+      "learn-more": "En savoir plus",
+      "subtitle": "Nouveauté : un modèle équitable pour WTMG"
     },
     "wtmg-quotes": {
       "0": {
@@ -674,18 +673,38 @@
       "title": "Quels sont les avantages à devenir Superfan ?"
     },
     "pricing-section": {
-      "slug": "Prix différencié",
       "title": "Choisissez votre niveau d'adhésion",
       "description": "Non renouvelé automatiquement. Valable pour un an.",
       "per-month": "par mois",
       "pricing-levels": {
         "0": {
-          "title": "Membre",
-          "description": "Accèdez à l’ensemble de la plateforme de WTMG en couvrant les coûts de votre propre utilisation."
+          "title": "Gratuit",
+          "description": "Explorez la carte, accueillez des voyageur.ses lent.es dans votre jardin et recevez la newsletter de WTMG.",
+          "checklist": {
+            "0": "<strong>Explorez la carte</strong> avec toutes les routes de voyage lent et les jardins",
+            "1": "<strong>Accueillez des voyageur.es lent.es</strong> dans votre jardin",
+            "2": "<strong>Recevoir la newsletter de WTMG</strong>"
+          }
         },
         "1": {
-          "title": "Superfan 💚",
-          "description": "Vous êtes passionné.e par le voyage lent et voulez soutenir la mission de WTMG."
+          "title": "Membre",
+          "description": "Accèdez à l’ensemble de la plateforme de WTMG en couvrant les coûts de votre propre utilisation.",
+          "backref": "La version gratuite, plus :",
+          "checklist": {
+            "0": "<strong>Envoyez des demandes à 5.000+ jardins</strong>",
+            "1": "<strong>Planifiez votre voyage :</strong> uploadez votre itinéraire, sauvegardez des jardins et consultez le réseau ferroviaire.",
+            "2": "<strong>Accédez à l'espace de communauté</strong>",
+            "3": "<strong>Gardez WTMG sans publicité, totalement indépendant et financé par ses membres.</strong>"
+          }
+        },
+        "2": {
+          "backref": "La version des membres, plus :",
+          "description": "Vous êtes passionné.e par le voyage lent et voulez soutenir la mission de WTMG.",
+          "checklist": {
+            "0": "<strong>Manifestez votre soutien et aidez-nous à améliorer WTMG</strong>",
+            "1": "<strong>Aidez-nous à promouvoir le mouvement slow travel et à ajouter plus de jardins sur la carte.</strong>"
+          },
+          "title": ""
         }
       },
       "per-year": "/an",
@@ -704,10 +723,34 @@
   "about-superfan": {
     "top-section": {},
     "video-section": {
-      "title": "Pourquoi devenir un·e Superfan ?",
-      "description": "<p>Vous êtes passionné·e par le slow travel et vous souhaitez soutenir la mission de WTMG ? Alors devenez un·e Superfan ! Grâce à votre soutien financier, WTMG peut se stabiliser, développer de nouvelles fonctionnalités et surtout rester gratuit et accessible pour tous·tes.</p><p>Notre petite équipe de quatre personnes a investi beaucoup de temps, d'énergie et d'argent dans ce projet. La petite initiative citoyenne belge est en train de devenir quelque chose de beaucoup plus grand et dépasse même nos frontières. WTMG est là pour rester, et nous avons besoin de vous pour continuer à le faire vivre et grandir !</p>"
+      "title": "Rejoignez la communauté WTMG",
+      "description": "<p>Welcome To My Garden a pour mission de rendre le voyage lent plus accessible. Comme chaque jardin, WTMG a besoin d’être entretenu pour grandir et rester en bonne santé.</p><p>Camper dans le jardin d’hôtes WTMG reste gratuit. Cependant, pour maintenir et développer WTMG, nous comptons sur une adhésion annuelle de tous les voyageur.ses lent.es afin de répartir les coûts équitablement. Rejoignez-nous dès aujourd'hui !</p>",
+      "blog-link-text": "Pourquoi WTMG a besoin de membres"
     },
-    "for-superfans-section": {},
+    "for-superfans-section": {
+      "title": "En tant que membre, vous pouvez…",
+      "slug": "Faites en sorte que la magie opère",
+      "points": {
+        "0": {
+          "title": "<strong>Envoyer des demandes à la communauté de plus de 5.000 hôtes WTMG</strong> sur la carte"
+        },
+        "1": {
+          "title": "<strong>Discuter avec les hôtes</strong> via le chat et rencontrer des nouvelles personnes fantastiques."
+        },
+        "2": {
+          "title": "<strong>Utiliser des fonctionnalités pratiques :</strong> uploader votre itinéraire, sauvegarder les jardins, et voir le réseau ferroviaire"
+        },
+        "3": {
+          "title": "<strong>Accéder à la communauté WTMG</strong> où les membres peuvent se rencontrer, partager leurs expériences et poser des questions."
+        },
+        "4": {
+          "title": "<strong>Couvrir vos coûts d’utilisation :</strong> WTMG a besoin de fonds pour maintenir un réseau de qualité et continuer à développer la plateforme."
+        },
+        "6": {
+          "title": "<strong>Soutenir le travail d'une équipe dévouée</strong> de quatre passionné.es de voyage lent."
+        }
+      }
+    },
     "team-section": {
       "title": "Rencontrez l'équipe",
       "description": "Qui se cache derrière WTMG ? Nous sommes une petite équipe de quatre passionné·es de slow travel et nous voulons aider les autres à se lancer aussi dans l'aventure.",
@@ -716,14 +759,17 @@
     "superfan-quotes-section": {
       "quotes": {
         "0": {
+          "quote": "Une initiative fantastique qui encourage la solidarité et le sens de communauté entre les voyageur.ses lent.es grâce à une technologie tip-top ? Count me in !"
+        },
+        "1": {
           "name": "Boris",
           "quote": "Commencer à voyager à vélo a cristallisé ce que je voulais devenir : libre, minimaliste, autonome et actif."
         },
-        "1": {
+        "2": {
           "name": "Marie Marth",
           "quote": "WTMG n'est pas seulement chouette, il s'agit de changer le monde, de changer la façon dont nous voyageons."
         },
-        "2": {
+        "3": {
           "name": "Benoit & Hélène",
           "quote": "Je suis heureux d'être entouré d'une communauté aussi incroyable de voyageurs lents qui joignent le geste à la parole !"
         }

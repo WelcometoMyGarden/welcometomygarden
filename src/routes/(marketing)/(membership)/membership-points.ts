@@ -3,7 +3,7 @@ import chatScreenImg from '$lib/assets/value-points/chat-screenshot.png?run&widt
 import featuresScreenImg from '$lib/assets/value-points/features-screenshot.png?run&width=840';
 import communityScreenImg from '$lib/assets/value-points/community-screenshot.png?run&width=840';
 import type { ComponentProps } from 'svelte';
-import type ValuePoint from '$routes/chat/[name]/[chatId]/ValuePoint.svelte';
+import type ValuePoint from '$routes/(marketing)/(membership)/ValuePoint.svelte';
 import { merge, zipWith } from 'lodash-es';
 import { getNodeArray } from '$lib/util/get-node-children';
 type ValuePointProps = ComponentProps<ValuePoint>;
@@ -31,4 +31,4 @@ export const valuePoints: (locale: string) => ValuePointProps[] = (locale) =>
     ],
     getNodeArray('about-superfan.for-superfans-section.points', locale),
     merge
-  );
+  ) as ValuePointProps[];

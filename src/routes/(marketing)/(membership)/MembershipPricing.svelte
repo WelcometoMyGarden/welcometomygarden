@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { _, t } from 'svelte-i18n';
+  import { _, t, locale, json } from 'svelte-i18n';
   import {
     superfanLevels,
     type SuperfanLevelData,
@@ -16,6 +16,14 @@
   import { Anchor } from '$lib/components/UI';
   import { page } from '$app/stores';
   import { anchorText } from '$lib/util/translation-helpers';
+  import SliderRadio from './SliderRadio.svelte';
+  import { mapValues } from 'lodash-es';
+  import { toArray, type LocaleDictionary } from '$lib/util/get-node-children';
+
+  /**
+   * Whether to show full cards with all info.
+   */
+  export let full = false;
 
   /**
    * Whether this shows a condensed pricing levels on desktop
@@ -24,21 +32,35 @@
 
   let acceptedTerms = false;
 
+  // Only allow continuing if the terms are accepted, display an error otherswise
+  let continueError: string | null = null;
+
   //   TODO: copied from become-superfan, refactor
 
   /**
    * Inserts localized copy.
    */
-  const mapToSuperfanLevelProps = (level: SuperfanLevelData) => {
+  const addPricingLevelCopy = (level: SuperfanLevelData) => {
     // remove copyKey & stripePriceId, of which the SuperfanLevel component needs no knowledge.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { copyKey, stripePriceId, ...rest } = level;
+    const prefix = `become-superfan.pricing-section.pricing-levels.${level.copyKey}.`;
 
+    const checkList = toArray($json(`${prefix}checklist`) as LocaleDictionary | undefined) ?? [];
     return {
       ...rest,
-      slugCopy: $_(`become-superfan.pricing-section.pricing-levels.${level.copyKey}.slug`),
-      title: $_(`become-superfan.pricing-section.pricing-levels.${level.copyKey}.title`),
-      description: $_(`become-superfan.pricing-section.pricing-levels.${level.copyKey}.description`)
+      // Pull in localized string properties
+      ...mapValues(
+        {
+          slugCopy: 'slug',
+          title: 'title',
+          description: 'description',
+          backref: 'backref'
+        },
+        (v) => $_(prefix + v, { default: '' })
+      ),
+      // Add the array property
+      checkList
     };
   };
 
@@ -46,9 +68,19 @@
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   let selectedLevel = superfanLevels.find((l) => l.slug === DEFAULT_MEMBER_LEVEL)!;
 
+  let selectedOption = 2;
+
+  $: selectedLevel = visibleLevels[selectedOption] ?? selectedLevel;
+
   const selectLevel = (level: SuperfanLevelData) => {
     selectedLevel = level;
+    selectedOption = visibleLevels.findIndex((l) => l.slug === selectedLevel.slug);
   };
+
+  let visibleLevels = superfanLevels;
+  $: if (full) {
+    visibleLevels = [freeLevelProps, ...superfanLevels];
+  }
 
   const handleKeyPress = (event: CustomEvent<KeyboardEvent>, item: SuperfanLevelData) => {
     const handler = enterHandler(() => selectLevel(item));
@@ -57,6 +89,15 @@
 
   // TODO: extract slider into component
   let innerWidth: number;
+
+  $: isMobile = innerWidth <= 850;
+
+  const freeLevelProps: SuperfanLevelData = {
+    slug: SuperfanLevelSlug.FREE,
+    value: 0,
+    copyKey: '0',
+    stripePriceId: null
+  };
 
   const goToPaymentPage = async (level: SuperfanLevelData) => {
     if (!$user) {
@@ -79,6 +120,8 @@
       }`
     );
   };
+
+  const optionIdPrefix = 'pricing-btn-';
 </script>
 
 <div class="container">
@@ -89,45 +132,62 @@
   <div
     class="membership-levels"
     class:condensed
-    role="radiogroup"
+    class:full
+    role={isMobile ? undefined : 'radiogroup'}
     aria-labelledby="pricing-title"
     aria-describedby="pricing-description"
   >
-    {#each superfanLevels as level}
+    {#each visibleLevels as level, index}
       <MembershipLevel
-        {...mapToSuperfanLevelProps(level)}
+        {full}
+        {...addPricingLevelCopy(level)}
         selected={level.slug === selectedLevel.slug}
         embeddable={condensed}
+        isLabelFor={isMobile ? undefined : optionIdPrefix + index}
         on:click={() => selectLevel(level)}
         on:keypress={(e) => handleKeyPress(e, level)}
       />
     {/each}
   </div>
-  <LabeledCheckbox name="accept-terms" bind:checked={acceptedTerms}
-    >{@html $_('become-superfan.pricing-section.terms-label', {
-      values: {
-        termsLink: anchorText({
-          href: routes.RULES,
-          linkText: $_('become-superfan.pricing-section.terms-link-text'),
-          class: 'link'
-        })
-      }
-    })}</LabeledCheckbox
-  >
+  {#if full && !isMobile}
+    <SliderRadio bind:selectedOption {optionIdPrefix} />
+  {/if}
+  <div class="terms-checkbox">
+    <LabeledCheckbox name="accept-terms" bind:checked={acceptedTerms}
+      >{@html $_('become-superfan.pricing-section.terms-label', {
+        values: {
+          termsLink: anchorText({
+            href: routes.RULES,
+            linkText: $_('become-superfan.pricing-section.terms-link-text'),
+            class: 'link'
+          })
+        }
+      })}</LabeledCheckbox
+    >
+    {#if continueError}
+      <p class="error">{continueError}</p>
+    {/if}
+  </div>
+
   <div class="select-level-button">
-    <!-- TODO: translate -->
-    <!-- {$_('generics.become-superfan')} -->
     <Button
       uppercase
       orange
-      disabled={!acceptedTerms}
       arrow
-      on:click={() => goToPaymentPage(selectedLevel)}
+      on:click={() => {
+        if (!acceptedTerms) {
+          continueError = $_('register.validate.consent');
+          return;
+        }
+        goToPaymentPage(selectedLevel);
+      }}
     >
       {#if selectedLevel.slug === SuperfanLevelSlug.REDUCED}
         {$_('generics.become-member')}
-      {:else}
+      {:else if selectedLevel.slug === SuperfanLevelSlug.NORMAL}
         {$_('generics.become-superfan')}
+      {:else}
+        {$_('garden.form.register-link-text')}
       {/if}
     </Button>
   </div>
@@ -150,6 +210,9 @@
 <svelte:window bind:innerWidth />
 
 <style>
+  .error {
+    color: var(--color-danger);
+  }
   .membership-levels {
     display: flex;
     flex-direction: column;
@@ -200,17 +263,37 @@
     width: 100%;
   }
 
-  .container :global(label[for='accept-terms']) {
+  .terms-checkbox :global(label[for='accept-terms']) {
     line-height: 1.4;
-  }
-  .container :global(input[name='accept-terms']) {
-    width: 3.5rem;
-    height: 3.5rem;
-    margin-right: 1.3rem;
   }
 
   p.fineprint {
     text-align: center;
     font-size: 1.4rem;
+  }
+
+  .terms-checkbox :global(input[name='accept-terms']) {
+    min-width: 2rem;
+    height: 2rem;
+    margin-right: 1.3rem;
+  }
+
+  .terms-checkbox {
+    max-width: 1000px;
+    margin: auto;
+  }
+  .terms-checkbox > .error {
+    margin-left: 3.5rem;
+    margin-top: 1rem;
+    line-height: 1.5;
+  }
+
+  @media screen and (min-width: 850px) {
+    .membership-levels.full {
+      flex-direction: row;
+    }
+    .membership-levels.full {
+      align-items: stretch;
+    }
   }
 </style>

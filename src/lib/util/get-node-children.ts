@@ -2,9 +2,12 @@ import { get } from 'svelte/store';
 import { dictionary } from 'svelte-i18n';
 
 // Copied from svelte-i18n types, because they don't export it.
-interface LocaleDictionary {
+export interface LocaleDictionary {
   [key: string]: LocaleDictionary | string | Array<string | LocaleDictionary> | null;
 }
+
+// TODO: probably much of these uses could be replaced with the JSON formatter?
+// https://github.com/kaisermann/svelte-i18n/blob/main/docs/Formatting.md#jsonmessageid-string
 
 /**
  *
@@ -55,10 +58,28 @@ export const getNodeKeys = (nodePath: string) => {
 };
 
 /**
+ * Gets the children of a keyed array-like translation node as a JS array.
+ * Example {"0": "trans1", "1": "trans2"} -> [trans1, trans2]
+ * This essentially changes the prototype of the object to the Array prototype.
+ */
+export const toArray = (
+  arrayLikeObject: LocaleDictionary | undefined
+): Array<LocaleDictionary | null | string> | undefined => {
+  if (arrayLikeObject instanceof Array) {
+    return arrayLikeObject;
+  }
+  if (arrayLikeObject && typeof arrayLikeObject != 'string') {
+    return Object.entries(arrayLikeObject)
+      .sort(([keyA], [keyB]) => +keyA - +keyB)
+      .map(([, v]) => v) as Array<LocaleDictionary | null | string>;
+  }
+
+  return undefined;
+};
+
+/**
  * Gets the children of a keyed array-like translation node as a JS array
  */
 export const getNodeArray = (nodePath: string, locale = 'en') => {
-  return Object.entries(getNode(nodePath, locale) ?? {})
-    .sort(([keyA], [keyB]) => +keyA - +keyB)
-    .map(([, v]) => v);
+  return toArray(getNode(nodePath, locale) ?? {});
 };

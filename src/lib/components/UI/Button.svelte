@@ -200,21 +200,23 @@
 
   .button.link :global(span) {
     position: relative;
-    display: inline-block;
+    /* Inline is required to make border-bottom wrap onto multiple lines */
+    display: inline;
     font-size: 1.5rem;
     font-weight: 500;
   }
   .button.link.bold :global(span) {
     font-weight: 700;
   }
-  .button.link.underline :global(span)::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 0.2rem;
-    position: absolute;
-    bottom: -0.4rem;
-    background-color: var(--color-orange-light);
+
+  .button.link.underline :global(span) {
+    border-bottom: 2px solid var(--color-orange-light);
+    transition: all 0.1s;
+  }
+
+  .button.link.underline:hover :global(span) {
+    border-bottom: 0px solid transparent;
+    transition: all 0.2s;
   }
 
   .button.link:not(.underline):hover :global(span) {

@@ -2,20 +2,26 @@
   import { _, locale } from 'svelte-i18n';
   import Button from '$lib/components/UI/Button.svelte';
   import routes from '$lib/routes';
-  import Heading from '../_components/Heading.svelte';
-  import MarketingBlock from '../_components/MarketingBlock.svelte';
-  import PaddedSection from '../_components/PaddedSection.svelte';
-  import InnerVideoSection from '../_sections/VideoSection.svelte';
+  import Heading from '../../_components/Heading.svelte';
+  import MarketingBlock from '../../_components/MarketingBlock.svelte';
+  import PaddedSection from '../../_components/PaddedSection.svelte';
+  import InnerVideoSection from '../../_sections/MediaSection.svelte';
   import CollapsibleGroup from '$lib/components/CollapsibleGroup.svelte';
-  import Testimonials from '../_components/Testimonials.svelte';
-  import type { Slide } from '../_components/Testimonials.svelte';
-  import { coreTeamProfiles } from '../_static/profiles';
-  import ProfilePicture from '../_components/ProfilePicture.svelte';
+  import Testimonials from '../../_components/Testimonials.svelte';
+  import type { Slide } from '../../_components/Testimonials.svelte';
+  import { coreTeamProfiles } from '../../_static/profiles';
+  import ProfilePicture from '../../_components/ProfilePicture.svelte';
   import { PRICING_ROUTE, SUPPORT_EMAIL } from '$lib/constants';
   import { getNodeKeys } from '$lib/util/get-node-children';
   import { onDestroy } from 'svelte';
-  import { valuePoints } from '../_static/membership-points';
-  import ValuePoint from '$routes/chat/[name]/[chatId]/ValuePoint.svelte';
+  import { valuePoints } from '../membership-points';
+  import ValuePoint from '$routes/(marketing)/(membership)/ValuePoint.svelte';
+  import MembershipPricing from '../MembershipPricing.svelte';
+
+  import lievenImg from '$lib/assets/testimonials/lieven.jpeg?run&width=1280';
+  import borisImg from '$lib/assets/testimonials/boris.jpeg?run&width=840';
+  import marieMarthImg from '$lib/assets/testimonials/marie-marth.jpg?run&width=1280';
+  import benoitHeleneImg from '$lib/assets/testimonials/benoit-helene.jpg?run&width=1600';
 
   let testimonials: Slide[];
 
@@ -33,15 +39,19 @@
     testimonials = [
       {
         ...contentOfQuote('0'),
-        imagePath: '/testimonials/boris.jpeg'
+        image: lievenImg
       },
       {
         ...contentOfQuote('1'),
-        imagePath: '/testimonials/marie-marth.jpg'
+        image: borisImg
       },
       {
         ...contentOfQuote('2'),
-        imagePath: '/testimonials/benoit-helene.jpg'
+        image: marieMarthImg
+      },
+      {
+        ...contentOfQuote('3'),
+        image: benoitHeleneImg
       }
     ];
   };
@@ -56,15 +66,15 @@
   });
 </script>
 
-<PaddedSection backgroundColor="var(--color-beige-light)" vertical>
-  <InnerVideoSection>
-    <h1 slot="heading">{$_('about-superfan.top-section.title')}</h1>
+<PaddedSection backgroundColor="var(--color-beige-light)" vertical topMargin={false}>
+  <InnerVideoSection decoration={true}>
+    <h1 slot="heading">{$_('about-superfan.video-section.title')}</h1>
     <div slot="text" class="video-text">
       {@html $_('about-superfan.video-section.description')}
       <div class="become-superfan-buttons">
         <Button href={PRICING_ROUTE} uppercase orange arrow>{$_('generics.become-member')}</Button>
-        <Button href={routes.ABOUT_MEMBERSHIP} uppercase inverse link
-          >{$_('index.superfan.learn-more')}</Button
+        <Button href={routes.ABOUT_MEMBERSHIP} uppercase inverse link xsmall
+          >{$_('about-superfan.video-section.blog-link-text')}</Button
         >
       </div>
     </div>
@@ -82,9 +92,9 @@
     </ul>
   </div>
   <div style="margin-bottom: var(--spacing-medium)" />
-  <Button href={PRICING_ROUTE} uppercase orange arrow centered
-    >{$_('generics.become-superfan')}</Button
-  >
+</PaddedSection>
+<PaddedSection backgroundColor="var(--color-beige-light" vertical>
+  <MembershipPricing full />
 </PaddedSection>
 <PaddedSection desktopOnly>
   <MarketingBlock centered backgroundColor="var(--color-beige-light">
@@ -133,6 +143,12 @@
   .become-superfan-buttons {
     display: flex;
     gap: 1.5rem;
+  }
+  .become-superfan-buttons :global(> *:first-child) {
+    flex: 1;
+  }
+  .become-superfan-buttons :global(> *:last-child) {
+    flex: 2;
   }
 
   ul.value-points {

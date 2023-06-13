@@ -114,12 +114,11 @@
       }
     },
     "superfan": {
-      "support-mission": "New: support our mission",
       "become-superfan-title": "Support WTMG: become a Superfan!",
       "mission": "Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Like any garden, WTMG needs nurturing in order to grow and stay healthy.",
       "financial-support": "With your financial support, WTMG can remain free for everyone to use! Will you help us make WTMG survive and thrive? Become a Superfan and get access to new features!",
-      "become-superfan": "Become a Superfan",
-      "learn-more": "Learn more"
+      "learn-more": "Learn more",
+      "subtitle": "New: support our mission"
     },
     "wtmg-quotes": {
       "0": {
@@ -685,18 +684,39 @@
       "choose-membership": "Choose Membership"
     },
     "pricing-section": {
-      "slug": "Open Pricing",
       "title": "Pick your membership level",
       "description": "Valid for one year. Does not renew automatically.",
-      "per-month": "/month",
+      "per-month": "per month",
       "pricing-levels": {
         "0": {
-          "title": "Member",
-          "description": "You get full access to the WTMG platform and cover your part of the costs."
+          "title": "Free",
+          "description": "You can explore the map, host slow travellers in your garden, and receive the WTMG newsletter.",
+          "backref": null,
+          "checklist": {
+            "0": "<strong>See all the gardens and trails</strong> on the map",
+            "1": "<strong>Host slow travellers</strong> in your garden",
+            "2": "<strong>Receive the WTMG newsletter</strong>"
+          }
         },
         "1": {
+          "title": "Member",
+          "description": "You get full access to the WTMG platform and cover your part of the costs.",
+          "backref": "Everything in Free, plus:",
+          "checklist": {
+            "0": "<strong>Send stay requests to 5000+ gardens.</strong>",
+            "1": "<strong>Plan your journey:</strong> upload your route, save gardens & see the rail network",
+            "2": "<strong>Access to the community space</strong>",
+            "3": "<strong>Keep WTMG ad-free, fully independent and member-supported</strong>"
+          }
+        },
+        "2": {
           "title": "Superfan 💚",
-          "description": "You’re truly passionate about slow travel and want to support WTMG’s mission."
+          "description": "You’re truly passionate about slow travel and want to support WTMG’s mission.",
+          "backref": "Includes all Member benefits, plus:",
+          "checklist": {
+            "0": "<strong>Show your support and help us improve WTMG</strong>",
+            "1": "<strong>Help us grow the slow travel movement and get more gardens on the map</strong>"
+          }
         }
       },
       "per-year": "/year",
@@ -709,10 +729,10 @@
     }
   },
   "about-superfan": {
-    "top-section": {},
     "video-section": {
-      "title": "Why become a Superfan?",
-      "description": "<p>Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Like any garden, WTMG needs nurturing in order to grow and stay healthy.</p><p>Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. Join us today!</p>"
+      "title": "Join the community",
+      "description": "<p>Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Like any garden, WTMG needs nurturing in order to grow and stay healthy.</p><p>Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. Join us today!</p>",
+      "blog-link-text": "Why WTMG needs members"
     },
     "for-superfans-section": {
       "slug": "You make the magic happen ",
@@ -749,14 +769,18 @@
     "superfan-quotes-section": {
       "quotes": {
         "0": {
+          "name": "Lieven",
+          "quote": "A great initiative that encourages solidarity and togetherness among slow travellers with state-of-the-art technology? I’m fully on board!"
+        },
+        "1": {
           "name": "Boris",
           "quote": "Starting to travel by bicycle crystallized what I wanted to become: free, minimalist, autonomous and active."
         },
-        "1": {
+        "2": {
           "name": "Marie Marth",
           "quote": "WTMG is not only fun, it’s about changing the world, changing the way we travel."
         },
-        "2": {
+        "3": {
           "name": "Benoit & Hélène",
           "quote": "I'm happy to be surrounded by such an amazing community of slow travellers who put their actions where their mouths are!"
         }
@@ -1442,6 +1466,5 @@
       },
       "donate": "Donate"
     }
-  },
-  "danger-zone": "Danger zone"
+  }
 }
