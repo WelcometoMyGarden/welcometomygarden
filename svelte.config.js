@@ -21,11 +21,14 @@ const config = {
 
     prerender: {
       crawl: true,
+      // Prevents: "The following routes were marked as prerenderable, but were not prerendered because they were not found while crawling your app:"
       entries: [
         '*',
         '/chat/[name]/[chatId]',
         '/explore/garden/[gardenId]',
-        '/become-superfan/payment/[id]'
+        '/become-superfan/[payment]',
+        '/become-superfan/[payment]/[id]',
+        '/become-member/payment/[id]'
       ]
     }
   },
