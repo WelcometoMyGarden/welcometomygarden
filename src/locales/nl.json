@@ -316,6 +316,7 @@
         },
         "2": {
           "backref": "Inclusief alle voordelen voor Leden, plus:",
+          "mobile-superfan-copy": "Alle voordelen als Lid, plus: je gelooft echt in wat we doen en wilt de missie van WTMG steunen.",
           "checklist": {
             "0": "<strong>Toon je steun en help ons WTMG te verbeteren</strong>",
             "1": "<strong>Help ons de slow travel-beweging te laten groeien en meer tuinen op de kaart te krijgen</strong>"
@@ -324,6 +325,9 @@
           "title": ""
         }
       }
+    },
+    "modal": {
+      "choose-membership": "Kies je lidmaatschap"
     }
   },
   "about-superfan": {

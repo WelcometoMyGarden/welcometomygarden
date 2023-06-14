@@ -51,9 +51,9 @@
       // Pull in localized string properties
       ...mapValues(
         {
-          slugCopy: 'slug',
           title: 'title',
           description: 'description',
+          mobileSuperfanCopy: 'mobile-superfan-copy',
           backref: 'backref'
         },
         (v) => $_(prefix + v, { default: '' })

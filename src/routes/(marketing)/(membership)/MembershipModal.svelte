@@ -198,6 +198,18 @@
   }
 
   @media screen and (max-width: 700px) {
+    .text-backdrop {
+      background: radial-gradient(
+        90.2% 65.33% at 50% 95%,
+        rgb(65 52 42 / 55%) 48.76%,
+        rgba(73, 87, 71, 0) 100%
+      );
+    }
+
+    .title :global(.header-img) {
+      object-position: 50% 72%;
+    }
+
     .membership-content {
       display: block;
     }

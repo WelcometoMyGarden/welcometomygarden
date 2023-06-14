@@ -4,6 +4,7 @@
   import Icon from '$lib/components/UI/Icon.svelte';
   import { arrowRightIcon, checkIcon } from '$lib/images/icons';
   import type { LocaleDictionary } from '$lib/util/get-node-children';
+  import { SuperfanLevelSlug } from '../_static/superfan-levels';
   export let selected = false;
 
   /**
@@ -14,6 +15,7 @@
    * Props only applicable for full cards
    */
   export let backref: string | undefined = undefined;
+  export let mobileSuperfanCopy: string | undefined = undefined;
   export let checkList: (string | LocaleDictionary | null)[] | undefined = undefined;
 
   // Svelte learning: don't do this! This code executes only once,
@@ -81,7 +83,14 @@
         {/if}
       </div>
     </div>
-    <p class="description">{description}</p>
+    <p class="description">
+      <!-- In the modal (= not full), provide a sentence to clarify that REDUCED benefits are included -->
+      {#if !full && slug === SuperfanLevelSlug.NORMAL}
+        {mobileSuperfanCopy}
+      {:else}
+        {description}
+      {/if}
+    </p>
     {#if full && checkList}
       {#if backref}
         <p class="backref"><Icon icon={arrowRightIcon} />{backref}</p>

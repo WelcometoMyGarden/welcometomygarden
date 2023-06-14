@@ -714,6 +714,7 @@
           "title": "Superfan 💚",
           "description": "You’re truly passionate about slow travel and want to support WTMG’s mission.",
           "backref": "Includes all Member benefits, plus:",
+          "mobile-superfan-copy": "Member benefits, plus you really believe in what we’re doing and want to support WTMG’s mission.",
           "checklist": {
             "0": "<strong>Show your support and help us improve WTMG</strong>",
             "1": "<strong>Help us grow the slow travel movement and get more gardens on the map</strong>"

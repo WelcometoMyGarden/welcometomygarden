@@ -700,6 +700,7 @@
         },
         "2": {
           "backref": "La version des membres, plus :",
+          "mobile-superfan-copy": "Avantages des membres, plus vous croyez dans ce que nous faisons et voulez soutenir la mission de WTMG.",
           "description": "Vous êtes passionné.e par le voyage lent et voulez soutenir la mission de WTMG.",
           "checklist": {
             "0": "<strong>Manifestez votre soutien et aidez-nous à améliorer WTMG</strong>",
@@ -718,7 +719,8 @@
     "modal": {
       "intro": "Camper dans le jardin d’hôtes WTMG reste gratuit. Cependant, pour maintenir et développer WTMG, nous comptons sur une adhésion annuelle de tous les voyageur.ses lent.es afin de répartir les coûts équitablement. Rejoignez-nous dès aujourd'hui !",
       "features-title": "En tant que membre, vous pouvez…",
-      "title": "Devenez Membre!"
+      "title": "Devenez Membre!",
+      "choose-membership": "Choissisez votre adhésion"
     }
   },
   "about-superfan": {

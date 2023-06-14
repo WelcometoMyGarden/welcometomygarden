@@ -269,8 +269,7 @@
               })}
             </p>
           {/if}
-          <!-- TODO: should non-paying people also be able to open an existing chat from here? -->
-          <Button href={chatWithGardenLink} disabled={!($user && $user.superfan)} uppercase medium>
+          <Button href={chatWithGardenLink} uppercase medium>
             {$_('garden.drawer.guest.button')}
           </Button>
         {/if}
