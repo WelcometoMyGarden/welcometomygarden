@@ -16,7 +16,7 @@
   import katlijnFrankImg from '$lib/assets/testimonials/katlijn-frank.jpg?run&width=1280';
   import carolienFamilyImg from '$lib/assets/testimonials/carolien-family.jpg?run&width=1280';
   import gardenImg from '$lib/assets/testimonials/garden.jpeg?run&width=1280';
-  import { WTMG_BLOG_BASE_URL } from '$lib/constants';
+  import { membershipBlogLink } from '$lib/util/translation-helpers';
 
   const contentOf = (quoteNumber: string) => {
     const prefix = `index.wtmg-quotes.${quoteNumber}`;
@@ -75,9 +75,9 @@
             >{$_('generics.become-member')}</Button
           >
           <Button
-            href={`${WTMG_BLOG_BASE_URL}${$_(
-              'generics.fair-model-blog-path'
-            )}?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=homepage`}
+            href={membershipBlogLink($_, {
+              utm_content: 'homepage'
+            })}
             uppercase
             inverse
             link>{$_('about-superfan.video-section.blog-link-text')}</Button

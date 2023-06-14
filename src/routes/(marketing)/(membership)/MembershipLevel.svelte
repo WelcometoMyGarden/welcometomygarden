@@ -4,7 +4,6 @@
   import Icon from '$lib/components/UI/Icon.svelte';
   import { arrowRightIcon, checkIcon } from '$lib/images/icons';
   import type { LocaleDictionary } from '$lib/util/get-node-children';
-  import type { HTMLLabelAttributes } from 'svelte/elements';
   export let selected = false;
 
   /**
@@ -178,14 +177,6 @@
     grid-area: title;
   }
 
-  h3 {
-    font-family: var(--fonts-copy);
-    font-weight: 500;
-    display: block;
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-  }
-
   .description {
     font-size: 1.4rem;
     line-height: 1.3;
@@ -196,7 +187,13 @@
 
   .membership-level h3 {
     font-size: inherit;
+    font-family: var(--fonts-copy);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
   }
+
   .per-year {
     font-size: 1.5rem;
     margin-left: 0.5rem;
@@ -235,6 +232,7 @@
 
   .backref {
     margin-bottom: 1.5rem;
+    font-style: italic;
   }
 
   .checklist {
@@ -271,6 +269,14 @@
   }
 
   @media screen and (min-width: 851px) {
+    .membership-level.full h3 {
+      text-transform: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .membership-level.full .price {
+      margin-bottom: 2rem;
+    }
     .checklist.noBackref {
       margin-top: 4.5rem;
     }

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { _, locale } from 'svelte-i18n';
+  import { _ } from 'svelte-i18n';
   import Button from '$lib/components/UI/Button.svelte';
   import routes from '$lib/routes';
   import Heading from '../../_components/Heading.svelte';
@@ -11,17 +11,18 @@
   import type { Slide } from '../../_components/Testimonials.svelte';
   import { coreTeamProfiles } from '../../_static/profiles';
   import ProfilePicture from '../../_components/ProfilePicture.svelte';
-  import { PRICING_ROUTE, SUPPORT_EMAIL } from '$lib/constants';
+  import { PRICING_ROUTE } from '$lib/constants';
   import { getNodeKeys } from '$lib/util/get-node-children';
   import { onDestroy } from 'svelte';
-  import { valuePoints } from '../membership-points';
-  import ValuePoint from '$routes/(marketing)/(membership)/ValuePoint.svelte';
   import MembershipPricing from '../MembershipPricing.svelte';
 
   import lievenImg from '$lib/assets/testimonials/lieven.jpeg?run&width=1280';
   import borisImg from '$lib/assets/testimonials/boris.jpeg?run&width=840';
   import marieMarthImg from '$lib/assets/testimonials/marie-marth.jpg?run&width=1280';
   import benoitHeleneImg from '$lib/assets/testimonials/benoit-helene.jpg?run&width=1600';
+  import ValuePoints from './ValuePoints.svelte';
+  import { membershipBlogLink } from '$lib/util/translation-helpers';
+  import capitalize from '$lib/util/capitalize';
 
   let testimonials: Slide[];
 
@@ -32,8 +33,6 @@
       quote: $_(prefix + '.quote')
     };
   };
-
-  $: valuePointsLocal = valuePoints($locale ?? 'en');
 
   const setTestimonials = () => {
     testimonials = [
@@ -73,24 +72,25 @@
       {@html $_('about-superfan.video-section.description')}
       <div class="become-superfan-buttons">
         <Button href={PRICING_ROUTE} uppercase orange arrow>{$_('generics.become-member')}</Button>
-        <Button href={routes.ABOUT_MEMBERSHIP} uppercase inverse link xsmall
-          >{$_('about-superfan.video-section.blog-link-text')}</Button
+        <Button
+          href={membershipBlogLink($_, {
+            utm_content: 'about_membership_header'
+          })}
+          target="_blank"
+          uppercase
+          inverse
+          link
+          xsmall>{$_('about-superfan.video-section.blog-link-text')}</Button
         >
       </div>
     </div>
   </InnerVideoSection>
 </PaddedSection>
-<PaddedSection vertical>
+<PaddedSection>
   <Heading caption={$_('about-superfan.for-superfans-section.slug')}
     >{$_('about-superfan.for-superfans-section.title')}</Heading
   >
-  <div>
-    <ul class="value-points">
-      {#each valuePointsLocal as item}
-        <ValuePoint {...item} border />
-      {/each}
-    </ul>
-  </div>
+  <ValuePoints />
   <div style="margin-bottom: var(--spacing-medium)" />
 </PaddedSection>
 <PaddedSection backgroundColor="var(--color-beige-light" vertical>
@@ -120,7 +120,7 @@
   {#each getNodeKeys('about-superfan.faq-section.faq-subsections') as sectionKey}
     <div class="faq-section">
       <h3 class="faq-title">
-        {$_(`about-superfan.faq-section.faq-subsections.${sectionKey}.title`)}
+        {$_(`about-superfan.faq-section.faq-subsections.${sectionKey}.title`, { default: '' })}
       </h3>
       <CollapsibleGroup
         collapsibleKey={`about-superfan.faq-section.faq-subsections.${sectionKey}.questions`}
@@ -130,10 +130,12 @@
 </PaddedSection>
 <PaddedSection>
   <div class="more-questions">
-    <h2>{$_('about-superfan.faq-section.contact-section.title')}</h2>
-    <!-- TODO: fix the mailto localization -->
+    <h2>{capitalize($_('become-superfan.pricing-section.blog-post-link-text'))}</h2>
     <Button
-      href="mailto:{SUPPORT_EMAIL}?subject={encodeURIComponent('WTMG, I have a question!')}"
+      href={membershipBlogLink($_, {
+        utm_campaign: 'membership',
+        utm_content: 'membership_faq'
+      })}
       uppercase>{$_('about-superfan.faq-section.contact-section.contact-button')}</Button
     >
   </div>
@@ -149,13 +151,6 @@
   }
   .become-superfan-buttons :global(> *:last-child) {
     flex: 2;
-  }
-
-  ul.value-points {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
   }
 
   @media only screen and (max-width: 500px) {

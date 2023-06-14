@@ -10,9 +10,9 @@
   import { goto } from '$app/navigation';
   import { isActive } from '$lib/util/isActive';
   import { createEventDispatcher } from 'svelte';
-  import { COMMUNITY_FORUM_URL, DONATION_URL, WTMG_BLOG_BASE_URL } from '$lib/constants';
+  import { COMMUNITY_FORUM_URL, DONATION_URL } from '$lib/constants';
   import NewBadge from '../../NewBadge.svelte';
-  import { anchorText } from '$lib/util/translation-helpers';
+  import { anchorText, membershipBlogLink } from '$lib/util/translation-helpers';
 
   const dispatch = createEventDispatcher();
   export let isOpen = false;
@@ -70,9 +70,10 @@
         >{@html $_('navigation.membership-notice.answer', {
           values: {
             linkText: anchorText({
-              href: `${WTMG_BLOG_BASE_URL}${$_(
-                'generics.fair-model-blog-path'
-              )}?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership_announcement_jun_23&utm_content=side_navbar`,
+              href: membershipBlogLink($_, {
+                utm_campaign: 'membership_announcement_jun_23',
+                utm_content: 'side_navbar'
+              }),
               linkText: $_('navigation.membership-notice.link-text'),
               style: 'text-decoration: underline; cursor: pointer;'
             })

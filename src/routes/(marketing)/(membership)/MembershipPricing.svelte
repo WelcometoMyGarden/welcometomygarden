@@ -12,10 +12,9 @@
   import { goto } from '$app/navigation';
   import routes from '$lib/routes';
   import MembershipLevel from './MembershipLevel.svelte';
-  import { WTMG_BLOG_BASE_URL } from '$lib/constants';
   import { Anchor } from '$lib/components/UI';
   import { page } from '$app/stores';
-  import { anchorText } from '$lib/util/translation-helpers';
+  import { anchorText, membershipBlogLink } from '$lib/util/translation-helpers';
   import SliderRadio from './SliderRadio.svelte';
   import { mapValues } from 'lodash-es';
   import { toArray, type LocaleDictionary } from '$lib/util/get-node-children';
@@ -68,13 +67,14 @@
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   let selectedLevel = superfanLevels.find((l) => l.slug === DEFAULT_MEMBER_LEVEL)!;
 
-  let selectedOption = 2;
+  // 0-indexed, radio options should always be 3
+  let selectedRadioOption = 1;
 
-  $: selectedLevel = visibleLevels[selectedOption] ?? selectedLevel;
+  $: selectedLevel = visibleLevels[selectedRadioOption] ?? selectedLevel;
 
   const selectLevel = (level: SuperfanLevelData) => {
     selectedLevel = level;
-    selectedOption = visibleLevels.findIndex((l) => l.slug === selectedLevel.slug);
+    selectedRadioOption = visibleLevels.findIndex((l) => l.slug === selectedLevel.slug);
   };
 
   let visibleLevels = superfanLevels;
@@ -150,7 +150,7 @@
     {/each}
   </div>
   {#if full && !isMobile}
-    <SliderRadio bind:selectedOption {optionIdPrefix} />
+    <SliderRadio bind:selectedOption={selectedRadioOption} {optionIdPrefix} />
   {/if}
   <div class="terms-checkbox">
     <LabeledCheckbox name="accept-terms" bind:checked={acceptedTerms}
@@ -172,7 +172,7 @@
   <div class="select-level-button">
     <Button
       uppercase
-      orange
+      orange={selectedLevel.slug != SuperfanLevelSlug.FREE}
       arrow
       on:click={() => {
         if (!acceptedTerms) {
@@ -199,9 +199,9 @@
     >
     {$t('become-superfan.pricing-section.blog-post')}
     <Anchor
-      href="{WTMG_BLOG_BASE_URL}{$_(
-        'generics.fair-model-blog-path'
-      )}?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=pricing_modal"
+      href={membershipBlogLink($_, {
+        utm_content: 'pricing_modal'
+      })}
       newtab>{$t('become-superfan.pricing-section.blog-post-link-text')}</Anchor
     >
   </p>
@@ -265,6 +265,10 @@
 
   .terms-checkbox :global(label[for='accept-terms']) {
     line-height: 1.4;
+  }
+
+  .terms-checkbox :global(.checkbox-container) {
+    justify-content: center;
   }
 
   p.fineprint {

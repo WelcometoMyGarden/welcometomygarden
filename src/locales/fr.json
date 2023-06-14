@@ -712,7 +712,7 @@
       "terms-label": "J’utilise WTMG uniquement en tant que voyageur.se lent.e (jamais en voiture) et j'accepte toutes les {termsLink}.",
       "terms-link-text": "règles de WTMG",
       "faq-link-text": "Lisez nos FAQ.",
-      "blog-post": "Blog post: ",
+      "blog-post": "Lisez notre blog post: ",
       "blog-post-link-text": "pourquoi une adhésion pour WTMG ?"
     },
     "modal": {
@@ -783,44 +783,48 @@
           "title": "Superfans",
           "questions": {
             "0": {
-              "title": "Qu'est-ce que cela signifie d'être un·e Superfan ?",
-              "copy": "En tant que Superfan, vous contribuez financièrement à Welcome To My Garden afin que nous puissions être un projet stable et que la plateforme puisse rester gratuite pour tous et toutes. Vous aurez également accès à des nouvelles fonctionnalités pour planifier plus facilement un voyage lent : visualisation du réseau ferroviaire pour partir en train, la possibilité d’ajouter votre itinéraire sur la carte et celle de sauvegarder des jardins."
+              "title": "Que signifie devenir membre ou Superfan ?",
+              "copy": "<p>Afin de maintenir et développer WTMG, WTMG a besoin d’une adhésion annuelle afin de couvrir les coûts de manière équitable entre tous les voyageurs.</p>\n<p>Quand vous devenez membre ou Superfan, vous pouvez :</p>\n<ul>\n<li>Envoyez des demandes à 5.000+ jardins.</li>\n<li>Planifiez votre voyage : uploadez votre itinéraire, sauvegardez des jardins et consultez le réseau ferroviaire.</li>\n<li>Accéder à l'espace de communauté</li>\n<li>Gardez WTMG sans publicité, totalement indépendant et financé par ses membres.</li>\n</ul>\n<p>Les adhésions sont valables pour un an et non renouvelées automatiquement.</p>"
             },
             "1": {
-              "title": "Pourquoi est-ce que WTMG a besoin de Superfans ?",
-              "copy": "Nous avons lancé WTMG comme une petite initiative citoyenne en Belgique, mais nous sommes en train de devenir quelque chose de plus grand. Nous sommes une petite équipe de quatre personnes et nous avons investi beaucoup de notre temps personnel, de notre énergie et de notre argent dans la plateforme, et le travail requis dépasse maintenant clairement le stade du bénévolat. Beaucoup de bonnes initiatives s'effondrent lorsqu'elles se développent, faute de financement, et nous ne voulons pas que cela arrive à notre belle communauté et à notre plateforme. Et c'est là que nos Superfans entrent en jeu. Grâce à votre contribution, nous pouvons faire en sorte que WTMG non seulement puisse survivre, mais aussi prospérer."
+              "title": "Quelle est la différence entre être membre et Superfan ?",
+              "copy": "Les Superfans sont très importants pour WTMG, car ils nous permettent d'améliorer la plateforme, de faire grandir le mouvement slow travel et de mettre plus de jardins sur la carte. Si vous êtes passionné.e par le voyage lent et que vous voulez soutenir la mission de WTMG, c'est pour vous !"
             },
             "2": {
-              "title": "À quoi servira mon argent ?",
-              "copy": "WTMG est gratuit à utiliser mais n’est pas gratuit à maintenir ni à développer. Nous avons des factures à payer : nos coûts techniques, qui augmentent au fur et à mesure que nous nous développons, notre équipe talentueuse, nos bureaux à l'Impact House. En coulisses, nous améliorons sans cesse la plateforme. Tant de belles rencontres ont déjà eu lieu grâce à WTMG, et nous voulons continuer à favoriser les belles rencontres qui ont lieu grâce à notre plateforme. Pour y parvenir, nous voulons créer un espace pour la communauté où les gens pourront se rencontrer et discuter, en ligne et hors ligne. De plus, nous nous engageons à garder WTMG sûr et convivial, et nous n'autorisons pas les publicités automatisées non pertinentes (de préférence aucune publicité du tout). Tout cela nécessite un travail assidu en coulisses. WTMG a maintenant besoin de notre attention à plein temps pour rester en vie et en pleine forme !"
+              "title": "Pourquoi est-ce que WTMG a besoin d’une contribution annuelle de la part des voyageur.ses lent.es ?",
+              "copy": "<p>Chaque mois, nous dépensons des milliers d’euros et nous travaillons des centaines d’heures pour garder WTMG en vie. C’est notre vie et notre travail. Nous devons nous rémunérer, payer nos bureaux et nos coûts d’hébergement.</p>\n<p>WTMG est un projet 100% indépendant qui a été entièrement financé par son équipe fondatrice, ce qui signifie qu’aucun investisseur n’a été impliqué. Pour nous assurer que WTMG puisse continuer à exister, un modèle juste permettra de répartir les coûts entre tous.tes les voyageur.ses l’utilisant.</p>"
             },
             "3": {
-              "title": "Qu'est-ce que je reçois en échange en devenant un Superfan ?",
-              "copy": "En tant que Superfan, vous aurez accès à de nouvelles fonctionnalités pour planifier votre voyage lent plus facilement. C'est notre façon de vous remercier de croire en nous. Les voici : <ul><li>Afficher le réseau ferroviaire : avec la couche train activée, vous pouvez facilement voir les gares et lignes de train. Idéal pour le multi-modal !</li> <li>Uploader votre itinéraire : téléchargez votre propre fichier GPX et trouvez facilement les jardins le long de votre itinéraire.</li> <li>Sauvegarde des jardins : gardez une trace de vos jardins préférés et restez en contact avec les hôtes fantastiqeus que vous avez rencontrés.</li> </ul>"
+              "title": "À quoi servira mon argent ?",
+              "copy": "<p>Comme la transparence est primordiale pour nous, voici un aperçu de ce à quoi serviront les contributions des membres :</p>\n<ul>\n<li>Maintenir la plateforme et les serveurs de WTMG</li>\n<li>Couvrir tous les coûts opérationnels tels que les coûts des logiciels, comptabilité et bureaux.</li>\n<li>Répondre aux nombreux emails sur le support et aux questions des hôtes et des voyageurs.</li>\n<li>Maintenir la qualité du réseau WTMG</li>\n<li>Fournir un espace de communauté où les membres peuvent se rencontrer et échanger en ligne.</li>\n<li>Améliorer la plateforme WTMG basée sur les retours des membres</li>\n<li>Communiquer sur WTMG et faire la promotion du voyage lent</li>\n<li>Mettre en place des collaborations avec d’autres initiatives de voyage lent.</li>\n</ul>"
             },
             "4": {
-              "title": "Combien dois-je contribuer pour devenir un·e Superfan ?",
-              "copy": "C'est vous qui décidez ! Nous avons décidé d'utiliser un prix ouvert, ce qui signifie que vous choisissez le prix qui correspond le mieux à votre budget. Nous voulons que WTMG soit accessible à tous et toutes, et nous faisons confiance à votre décision. Notre prix juste est de 5€/mois ; si vous êtes étudiant·e ou si vous avez un petit budget, vous pouvez opter pour notre prix réduit de 3€/mois. Si vous souhaitez contribuer plus pour que d'autres puissent payer moins, vous pouvez opter pour le prix solidaire de 10 €/mois. Vous payez pour une année à la fois."
+              "title": "Combien dois-je contribuer?",
+              "copy": "<p>C’est à vous de choisir ! Vous pouvez soit devenir Membre ou Superfan.</p>\n<p>Devenir membre coûte 36 euros par an, ce qui couvre essentiellement vos propres frais. Vous pouvez envoyer des demandes gratuites à 5000 jardins, accéder à des fonctionnalités pratiques pour planifier votre voyage lent et permettre à WTMG de rester sans publicité, totalement indépendant et financé par ses membres.</p>\n<p>Devenir Superfan coûte 60 euros par an. En plus de bénéficier de tous les avantages des membres, les Superfans aident WTMG à améliorer la plateforme, à développer le mouvement slow travel et à faire apparaître</p>"
             },
             "5": {
               "title": "Comment fonctionne le paiement ?",
-              "copy": "Une fois que vous avez choisi le montant que vous souhaitez payer, vous êtes redirigé·e vers la page de paiement. Vous payez pour une année à la fois. Devenir Superfan est sans engagement : votre abonnement s'arrête automatiquement au bout d'un an, et nous vous enverrons un email pour le renouveler."
+              "copy": "Une fois que vous avez choisi le montant que vous souhaitez payer, vous êtes redirigé·e vers la page de paiement. Vous payez pour une année à la fois. Devenir Membre Superfan est sans engagement : votre abonnement s'arrête automatiquement au bout d'un an, et nous vous enverrons un e-mail pour le renouveler."
             },
             "6": {
-              "title": "Est-il optionnel de devenir un·e Superfan ?",
-              "copy": "Oui, c'est totalement optionnel ! Nous tenons à souligner que nous voulons que WTMG reste gratuit pour tout le monde. Cependant, pour être en mesure de le faire, nous avons besoin du soutien financier de nos Superfans. De cette façon, nous pouvons rendre WTMG financièrement stable, viable pour le futur et le garder gratuit pour tout le monde. En tant que Superfan, vous aurez accès à des fonctionnalités supplémentaires, et vous soutiendrez la mission de WTMG en même temps."
+              "title": "Est-ce obligatoire de devenir membre ou Superfan ?",
+              "copy": "<p>Les voyageur.ses lent.es doivent apporter une contribution financière annuelle pour que le WTMG puisse continuer à exister. C'est ce que nous avons déjà demandé lorsque nous avons lancé notre appel aux Superfans. Aujourd'hui, nous étendons cette demande à l'ensemble de la communauté des voyageur.ses. En gros, si vous utilisez notre plateforme, nous attendons de vous une contribution. Il s'agira d'une contribution annuelle. Ainsi, en plus de la possibilité de devenir un Superfan, nous introduisons une adhésion basique pour tous les voyageurs.</p>\n<p>Nous ne demandons pas d'adhésion aux hôtes, car ils/elles contribuent déjà d'une autre manière - mais ils/elles sont bien sûr invités à contribuer financièrement s'ils le souhaitent.</p>"
             },
             "7": {
-              "title": "Si je ne deviens pas Superfan, qu'adviendra-t-il de mon compte gratuit ?",
-              "copy": "Rien ne changera pour vous si vous avez un compte gratuit. Nous voulons rendre le slow travel plus accessible à tous et toutes, c'est pourquoi nous nous engageons à conserver la version gratuite. L'impact sociétal auquel nous contribuons est très important pour nous : grâce à WTMG, des milliers de nouvelles rencontres ont été établies entre les gens ! La contribution financière de nos Superfans nous aidera à maintenir et à améliorer la plateforme."
+              "title": "N'avez-vous pas déjà lancé un appel à Superfan ?",
+              "copy": "Fin 2022, nous avons lancé un appel aux Superfans de la WTMG. Nous sommes très reconnaissant.es du soutien reçu par plus de 250 Superfans et du don généreux de 1000€ de la part d'un hôte. Grâce à ces premiers fidèles, nous sommes convaincus que nous pouvons parvenir à un modèle autosuffisant pour WTMG. Pour que la magie opère, nous avons calculé que nous devrions obtenir le soutien d’au moins 3 000 voyageur.ses."
             },
             "8": {
-              "title": "Pendant combien de temps vais-je devenir un Superfan ?",
-              "copy": "Si vous devenez un·e Superfan, vous payez pour un an à la fois. Votre abonnement s'arrête automatiquement après un an, et nous vous enverrons un email pour le renouveler."
+              "title": "Si je ne deviens pas membre ou Superfan, qu'adviendra-t-il de mon compte gratuit ?",
+              "copy": "En tant que membre gratuit, vous pouvez explorer la carte, accueillir des voyageur.ses lent.es dans votre jardin et recevoir la newsletter de WTMG."
             },
             "9": {
-              "title": "Puis-je cesser d'être un·e Superfan ?",
-              "copy": "Oui, quand vous le souhaitez. Dès que vous êtes devenu·e un·e Superfan, vous pouvez gérer votre abonnement annuel de Superfan dans <a href=\"/account\">votre compte WTMG</a>."
+              "title": "Pendant combien de temps vais-je devenir un Membre ou Superfan ?",
+              "copy": "Si vous devenez un·e Membre ou Superfan, vous payez pour un an à la fois. Votre abonnement s'arrête automatiquement après un an, et nous vous enverrons un e-mail pour le renouveler."
+            },
+            "10": {
+              "title": "Puis-je cesser d'être Membre ou Superfan ?",
+              "copy": "<p>Oui, quand vous le voulez. Dès que vous êtes deven·e membre ou Superfan, vous povuez le faire dans <a href=\"/account\" target=\"_blank\">votre compte WTMG</a>.</p>\n<p>Si vous voyez &quot;votre abonnement sera renouvelé à la date xx/xx/xxxx&quot; dans le portail de gestion, cela signifie seulement que nous vous enverrons une invitation à payer pour l'année suivante à cette date. Lorsque vous &quot;annulez&quot; votre &quot;abonnement&quot;, nous ne vous enverrons pas d’email.</p>\n<p>Nous utilisons uniquement le mécanisme d'abonnement de notre portail de paiement pour savoir quand nous devons envoyer ces invitations. Nous ne débiterons pas automatiquement votre mode de paiement sans vous le demander.</p>"
             }
           }
         },
@@ -828,8 +832,8 @@
           "title": "Hôtes",
           "questions": {
             "0": {
-              "title": "Je suis hôte. Dois-je devenir un·e Superfan ?",
-              "copy": "Tout d'abord, nous tenons à vous remercier profondéemment d’accueillir des voyageur·ses lent·es dans votre jardin ! WTMG n'existerait pas sans des citoyen·nes chaleureux·ses comme vous. Si vous voulez devenir un·e Superfan et nous soutenir dans notre mission de rendre le slow travel plus accessible, nous en serions très heureux. Mais nous tenons à souligner que vous apportez déjà une énorme contribution en tant qu'hôte !"
+              "title": "Je suis hôte. Dois-je devenir Membre ou Superfan ?",
+              "copy": "Tout d'abord, nous tenons à vous remercier profondéemment d’accueillir des voyageur·ses lent·es dans votre jardin ! WTMG n'existerait pas sans des citoyen·nes chaleureux·ses comme vous. Si vous voulez devenir un·e membre ou Superfan et nous soutenir dans notre mission de rendre le slow travel plus accessible, nous en serions très heureux. Mais nous tenons à souligner que vous apportez déjà une énorme contribution en tant qu'hôte !"
             }
           }
         },
@@ -838,7 +842,7 @@
           "questions": {
             "0": {
               "title": "Qui est derrière WTMG ?",
-              "copy": "Nous sommes une petite équipe de quatre passionné·es de slow travel et nous voulons aider les autres à se lancer eux aussi dans l'aventure du slow travel. Vous pouvez en savoir plus sur nous <a href=\"/about-us\" target=\"_blank\">ici</a>."
+              "copy": "Nous sommes une petite équipe de quatre passionné·es de slow travel et nous voulons aider les autres à se lancer eux aussi dans le slow travel. Vous pouvez en savoir plus sur nous <a href=\"/about-us\" target=\"_blank\">ici</a>."
             },
             "1": {
               "title": "Quelle est la structure légale derrière WTMG ?",
@@ -846,22 +850,34 @@
             },
             "2": {
               "title": "Combien coûte WTMG ?",
-              "copy": "WTMG est gratuit à utiliser mais n’est pas gratuit à maintenir et à développer. Nous avons des factures à payer : nos coûts techniques à eux seuls représentent quelques milliers d'euros par an, et ils augmentent au fur et à mesure que nous nous développons. Nous voulons également nous assurer que nous pouvons payer des salaires corrects à notre équipe talentueuse car nous avons à présent largement dépassé le stade du bénévolat. Nous devons aussi payer le loyer de nos bureaux à l'Impact House. Il est difficile de donner un chiffre précis pour l'instant, mais c'est beaucoup, beaucoup plus que ce que nous pouvons payer de notre poche ! Dès que nous le pourrons, nous publierons un rapport annuel sur l'impact qui vous donnera également une idée plus précise de nos coûts."
+              "copy": "<p>Chaque mois, nous dépensons des milliers d’euros et nous travaillons des centaines d’heures pour garder WTMG en vie. C’est notre vie et notre travail. Nous devons nous rémunérer, payer nos bureaux et nos coûts d’hébergement.</p>\n<p>WTMG est un projet 100% indépendant qui a été entièrement financé par son équipe fondatrice, ce qui signifie qu’aucun investisseur n’a été impliqué. Pour nous assurer que WTMG puisse continuer à exister, un modèle juste permettra de répartir les coûts entre tous.tes les voyageur.ses l’utilisant.</p>"
             },
             "3": {
-              "title": "Comment WTMG payait-il ses factures avant qu’il y ait des Superfans ?",
-              "copy": "Au cours de notre première année d'existence, nous avons reçu un soutien financier de la part de partenaires de la première heure comme GR Sentiers, Grote Routepaden vzw, Natuurpunt et Wikimedia Belgium. Plusieurs personnes généreuses ont également fait un don sur la page WTMG sur Open Collective.<br><br>Au cours des deux dernières années, le budget restant du Velotour Festival a été utilisé pour payer le salaire des étudiants travaillant sur le développement technique de WTMG.<br><br>Au début de 2022, nous avons lancé Slowby pour aider les débutant·es à commencer à voyager lentement. Les revenus des trips secrets nous ont permis de couvrir la plupart des factures de WTMG.<br><br>Enfin, notre équipe de bénévoles a également investi beaucoup de son temps personnel, de son énergie et de son argent dans cette initiative. Maintenant que la plateforme se développe, nous devons y investir plus de temps et d'argent. WTMG a maintenant besoin de notre attention à plein temps pour rester en vie et en pleine forme !"
+              "title": "Comment les factures de WTMG ont été payées jusqu'à présent",
+              "copy": "<p>Depuis le premier jour, 8 personnes talentueuses ont contribué au développement de la plateforme et ont été rémunérées pour leur travail. Jusqu’à présent, les coûts ont principalement été financés par l’équipe fondatrice.</p>\n<p>Voici comment nous avons couvert ces coûts :</p>\n<ul>\n<li>La grande majorité des factures ont été payées grâce aux revenus générés par l'organisation de trips secrets avec notre activité secondaire Slowby (30 000€) et aux droits de distribution du documentaire de Manon, “Women Don't Cycle” (25.000€).</li>\n<li>Au cours de sa première année d'existence, le WTMG a reçu un soutien financier de la part de fidèles de la première heure tels que Grote Routepaden, GR Sentiers et Natuurpunt.</li>\n<li>Fin 2022, nous avons lancé un appel aux Superfans de la WTMG. Nous sommes très reconnaissant.es du soutien reçu par plus de 250 Superfans et du don généreux de 1000€ de la part d'un hôte. Grâce à ces premiers fidèles, nous sommes convaincus que nous pouvons parvenir à un modèle autosuffisant pour WTMG. Pour que la magie opère, nous avons calculé que nous devrions obtenir le soutien d’au moins 3 000 voyageur.ses.</li>\n</ul>\n<p>Alors que les hôtes apportent déjà une contribution considérable en ouvrant leurs jardins aux voyageur.ses lent.es, seule une petite partie des utilisateur.ses contribue actuellement à payer les factures relatives aux nombreux utilisateurs qui l’utilisent gratuitement.</p>\n<p>Il serait beaucoup plus juste de répartir la facture entre tous les voyageur.ses. Être une communauté, c'est aussi répartir la charge plus équitablement.</p>"
             },
             "4": {
-              "title": "De combien de superfans WTMG a-t-il besoin pour survivre et prospérer ?",
-              "copy": "Notre objectif est de rassembler au moins 1.000 Superfans en 2023. Cependant, cela ne suffit pas à couvrir tous nos frais. Nous comblons la différence avec les revenus générés par le film de Manon, <a href=\"https://womendontcycle.com/fr.html?utm_source=welcometomygarden.org&utm_medium=web&utm_content=superfan_faq\" target=\"_blank\">Women Don’t Cycle</a>, et nos <a href=\"https://www.slowby.travel/fr/accueil?utm_source=welcometomygarden.org&utm_medium=web&utm_content=superfan_faq\" target=\"_blank\">voyages secrets Slowby</a>. Dès que nous le pourrons, nous publierons un rapport annuel sur l'impact qui vous donnera également une idée plus précise de nos coûts."
+              "title": "Avez-vous essayé d'autres moyens de générer des revenus, comme les dons, les sponsorships et les subventions ?",
+              "copy": "<p>Nous avons déjà expérimenté différentes manières de générer les revenus dont nous avons besoin pour continuer à fonctionner.</p>\n<p>Les points suivants se sont avérés non viables pour WTMG :</p>\n<ul>\n<li>Les dons. Il serait tentant de croire que nous pourrions fonctionner si tout le monde contribuait de manière volontaire. En réalité, les dons ne couvrent même pas les coûts techniques de WTMG. Au total, nous avons reçu moins de 500€ de dons/an.</li>\n<li>Développer et gérer des projets supplémentaires (comme nous l’avons fait avec les trips Slowby).</li>\n</ul>\n<p>Étant donné que WTMG exige notre investissement à plein temps, il est donc tout simplement impossible de gérer simultanément deux grandes initiatives avec une équipe de trois personnes. Quelqu’un nous a récemment fait remarquer que cette manière de travailler était <em>“une recette parfaite pour un burnout”</em> (pas d'inquiétude, nous avons encore de l’énergie, mais c’est la raison pour laquelle nous devons agir maintenant).</p>\n<ul>\n<li>Les subventions.</li>\n</ul>\n<p>Elles sont excellentes pour lancer un projet, mais ne le rendent pas financièrement autonome à long terme. Comme l'explique très bien Library of Things dans <a href=\"https://www.libraryofthings.co.uk/blog/purposebeforeprofit\">cet article</a>, monter des dossiers nous détournerait de notre véritable objectif : créer de la valeur pour notre communauté.</p>\n<p>Nous avons aussi choisi de ne pas afficher de publicités sur notre site. Pourquoi ? Nous ne voulons pas vendre vos données à des entreprises dont les valeurs ne correspondent pas aux nôtres. Encore une fois, la recherche de publicité nous détournerait de la création de valeur. Nous voulons être payés pour une plateforme de qualité.</p>\n<p>En résumé, nous pensons qu'il est juste et raisonnable de demander une contribution financière à nos voyageur.ses lent.es. Plusieurs utilisateur.ses nous l'ont suggéré lors de conversations récentes, et notre appel à nos Superfans nous a donné la première indication que cela pourrait fonctionner.</p>"
+            },
+            "5": {
+              "copy": "Pour maintenir un réseau de qualité et continuer à développer WTMG, nous aurons besoin du soutien d'au moins 3 000 voyageur.es qui deviendront membres.",
+              "title": "De combien de membres et de Superfans WTMG a-t-il besoin pour survivre et prospérer ?"
+            }
+          }
+        },
+        "why": {
+          "questions": {
+            "0": {
+              "title": "Pourquoi WTMG lance-t-elle une adhésion ?",
+              "copy": "Welcome To My Garden a pour mission de rendre le voyage lent plus accessible. Comme tout jardin, WTMG a besoin d'être entretenu pour grandir et rester en bonne santé. Camper dans le jardin d’hôtes WTMG est gratuit. Cependant, pour maintenir et développer le WTMG, nous comptons sur une adhésion annuelle afin de répartir les coûts équitablement entre tous les voyageurs lents. Pour en savoir plus, <a href=\"https://blog.welcometomygarden.org/fr/vers-un-modele-juste-pour-assurer-le-futur-de-wtmg/?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=membership_faq\" target=\"_blank\">lisez notre blog post ici</a>."
             }
           }
         }
       },
       "contact-section": {
         "title": "Vous avez encore une question ?",
-        "contact-button": "Contactez-nous !"
+        "contact-button": "lisez notre blog post"
       }
     }
   },
