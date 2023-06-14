@@ -13,8 +13,9 @@
   import ProfilePicture from '../../_components/ProfilePicture.svelte';
   import { PRICING_ROUTE } from '$lib/constants';
   import { getNodeKeys } from '$lib/util/get-node-children';
-  import { onDestroy } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
   import MembershipPricing from '../MembershipPricing.svelte';
+  import smoothscroll from 'smoothscroll-polyfill';
 
   import lievenImg from '$lib/assets/testimonials/lieven.jpeg?run&width=1280';
   import borisImg from '$lib/assets/testimonials/boris.jpeg?run&width=840';
@@ -23,6 +24,19 @@
   import ValuePoints from './ValuePoints.svelte';
   import { membershipBlogLink } from '$lib/util/translation-helpers';
   import capitalize from '$lib/util/capitalize';
+  import { page } from '$app/stores';
+
+  smoothscroll.polyfill();
+  onMount(() => {
+    // TODO: refactor, this kind of code is duplicated on the homepage
+    if ($page.url.hash.includes('pricing')) {
+      const pricingElem = document.getElementById('pricing');
+      if (pricingElem) {
+        const topOfPricingElem = pricingElem.offsetTop;
+        window.scroll({ top: topOfPricingElem, behavior: 'smooth' });
+      }
+    }
+  });
 
   let testimonials: Slide[];
 
@@ -93,7 +107,7 @@
   <ValuePoints />
   <div style="margin-bottom: var(--spacing-medium)" />
 </PaddedSection>
-<PaddedSection backgroundColor="var(--color-beige-light" vertical>
+<PaddedSection backgroundColor="var(--color-beige-light" vertical id="pricing">
   <MembershipPricing full />
 </PaddedSection>
 <PaddedSection desktopOnly>

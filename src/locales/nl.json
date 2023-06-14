@@ -277,13 +277,6 @@
     }
   },
   "become-superfan": {
-    "top-section": {
-      "title": "Steun WTMG: word Superfan!",
-      "description": "Welcome To My Garden wil slow travel toegankelijker maken voor iedereen. Jouw financiële bijdrage maakt het mogelijk om Welcome To My Garden gratis toegankelijk te houden voor iedereen. Als Superfan krijg je bovendien toegang tot nieuwe features!"
-    },
-    "feature-section": {
-      "title": "Wat krijg je ervoor terug?"
-    },
     "pricing-section": {
       "terms-label": "Ik gebruik WTMG uitsluitend als trage reiziger (nooit met de auto) en ga akkoord met alle {termsLink}.",
       "terms-link-text": "WTMG-regels",

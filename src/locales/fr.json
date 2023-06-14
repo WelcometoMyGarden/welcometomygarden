@@ -660,13 +660,6 @@
     }
   },
   "become-superfan": {
-    "top-section": {
-      "title": "Soutenez WTMG : devenez un·e Superfan !",
-      "description": "Welcome To My Garden a pour mission de rendre le slow travel plus accessible à tous et à toutes. Votre contribution financière permettra à Welcome To My Garden de rester gratuit pour tout le monde. En tant que Superfan, vous aurez également accès à de nouvelles fonctionnalités."
-    },
-    "feature-section": {
-      "title": "Quels sont les avantages à devenir Superfan ?"
-    },
     "pricing-section": {
       "title": "Choisissez votre niveau d'adhésion",
       "description": "Non renouvelé automatiquement. Valable pour un an.",

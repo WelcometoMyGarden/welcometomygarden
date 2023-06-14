@@ -663,13 +663,6 @@
     }
   },
   "become-superfan": {
-    "top-section": {
-      "title": "Support WTMG: become a Superfan!",
-      "description": "Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Your financial contribution will make it possible for Welcome To My Garden to remain free for everyone to use. As a Superfan, you also get access to new features!"
-    },
-    "feature-section": {
-      "title": "What's in it for you?"
-    },
     "modal": {
       "subtitle": "Discover slow travel with WTMG",
       "title": "Become a Member!",
