@@ -684,7 +684,7 @@
         },
         "4": {
           "title": "Kostet Welcome To My Garden etwas?",
-          "copy": "Die Nutzung von Welcome To My Garden ist völlig kostenlos. Als Plattform entstehen uns jedoch Kosten. Wenn Sie uns eine Spende zukommen lassen wollen, wird uns das ein großes Lächeln auf die Lippen zaubern! Wir sind eine gemeinnützige Initiative, wir verdienen also kein Geld damit."
+          "copy": "Der Aufenthalt bei einem WTMG-Gastgeber ist kostenlos. \nUm WTMG aufrechtzuerhalten und weiterzuentwickeln, sind wir jedoch auf eine jährliche Mitgliedschaft angewiesen, um die Kosten fair auf alle Langsamreisende aufzuteilen. Mitgliedschaften verlängern sich nicht automatisch und sind ein Jahr gültig. \nSie können Mitglied <a href=\"/about-membership?utm_source=welcometomygarden.org werden"
         }
       },
       "copy": "Hier sind die wichtigsten Dinge, die Sie über Ihr nächstes Abenteuer wissen müssen. Bitte lesen Sie diesen FAQ-Bereich gründlich durch, damit Sie wissen, worauf Sie sich einlassen. Noch mehr Fragen? Lesen Sie {faqLink}!",
@@ -696,7 +696,7 @@
     },
     "intro": {
       "explore-map": "Karte erkunden",
-      "copy": "Ein gemeinnütziges Netzwerk von Bürgern und Bürgerinnen, die Langsamreisenden kostenlose Campingplätze in ihren Gärten anbieten",
+      "copy": "Ein gemeinnütziges Netzwerk von Bürgern und Bürgerinnen, die Langsamreisenden Campingplätze in ihren Gärten anbieten",
       "add-garden": "Ihren Garten hinzufügen",
       "learn-more": "Mehr erfahren"
     },

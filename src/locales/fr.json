@@ -60,8 +60,8 @@
           "title": "Et les installations ?"
         },
         "4": {
-          "copy": "WTMG est gratuit à utiliser mais n’est pas gratuit à maintenir ni à développer. Nous avons des factures à payer : nos coûts techniques, qui augmentent au fur et à mesure que nous nous développons, notre équipe talentueuse, nos bureaux à l'Impact House. En coulisses, nous améliorons sans cesse la plateforme.  Pour nous soutenir, vous pouvez désormais <a href=\"/about-superfan\">devenir Superfan</a> et avoir accès à des fonctionnalités supplémentaires. Vous pouvez aussi <a href=\"https://donate.stripe.com/14k4kf26r2sjfLO3ce?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=donation_payment&utm_content=index_faq\">faire un don</a> ici !",
-          "title": "Est-ce que Welcome To My Garden a un coût ?"
+          "copy": "Camper dans le jardin d’hôtes de WTMG est gratuit. Cependant, pour maintenir et développer la plateforme, WTMG demande une adhésion annuelle afin de répartir les coûts équitablement entre tous les voyageurs lents. L’adhésion est valable pour un an et n’est pas renouvelée automatiquement. Vous pouvez devenir membre <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">ici</a>.",
+          "title": "Est-ce que Welcome To My Garden coûte quelque chose ?"
         }
       },
       "faq-link-text": "Consultez notre FAQ",
@@ -102,17 +102,18 @@
     },
     "intro": {
       "headline": "Votre aventure slow travel commence ici",
-      "copy": "Des jardins mis à disposition gratuitement pour les voyageur·ses lent·es. Une initiative rendue possible grâce à une communauté de citoyen·nes généreux·ses.",
+      "copy": "Des jardins mis à disposition pour les voyageur·ses lent·es. Une initiative rendue possible grâce à une communauté de citoyen·nes généreux·ses.",
       "add-garden": "Ajouter son jardin",
       "explore-map": "Explorer la carte",
-      "learn-more": "En savoir plus"
+      "learn-more": "En savoir plus",
+      "garden-count-before": "Découvrez les",
+      "garden-count-after": " sur la carte !"
     },
     "partners": {
       "title": "Nos partenaires"
     },
     "superfan": {
       "become-superfan-title": "WTMG est une plateforme financée par ses membres",
-      "mission": "Welcome To My Garden a pour mission de rendre le slow travel plus accessible à tous·tes. WTMG a besoin d’être entretenu, comme chaque jardin, pour pouvoir grandir et rester en bonne santé.",
       "financial-support": "Avec votre soutien financier, WTMG peut rester gratuit pour tous et toutes. Envie de nous aider à faire vivre et grandir WTMG ? Devenez Superfan et accédez à de nouvelles fonctionnalités !",
       "learn-more": "En savoir plus",
       "subtitle": "Nouveauté : un modèle équitable pour WTMG"

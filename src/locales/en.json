@@ -66,10 +66,12 @@
     },
     "intro": {
       "headline": "Your slow travel adventure starts here",
-      "copy": "Free camping spots in people’s gardens for slow travellers. Brought to you by a warm-hearted community of citizens.",
+      "copy": "Camping spots in people’s gardens for slow travellers. Brought to you by a warm-hearted community of citizens.",
       "add-garden": "Add your garden",
       "explore-map": "Explore map",
-      "learn-more": "Learn more"
+      "learn-more": "Learn more",
+      "garden-count-before": "Discover",
+      "garden-count-after": ", and counting!"
     },
     "steps": {
       "0": {
@@ -109,16 +111,15 @@
         },
         "4": {
           "title": "Does Welcome To My Garden cost anything?",
-          "copy": "WTMG is free for everyone to use, but not free to make. We have bills to pay: our technical costs, which increase as we grow; our talented team; our office space at the Impact House. Behind the scenes, we are continually improving the platform. To support us, you can now <a href=\"/about-superfan\">become a Superfan</a> and get access to extra features. You can also <a href=\"https://donate.stripe.com/14k4kf26r2sjfLO3ce?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=donation_payment&utm_content=index_faq\">make a single donation</a> instead!"
+          "copy": "Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. Memberships are not automatically renewed and are valid for a year. You can become a member <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">here</a>."
         }
       }
     },
     "superfan": {
-      "become-superfan-title": "Support WTMG: become a Superfan!",
-      "mission": "Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Like any garden, WTMG needs nurturing in order to grow and stay healthy.",
+      "become-superfan-title": "WTMG is member-supported",
       "financial-support": "With your financial support, WTMG can remain free for everyone to use! Will you help us make WTMG survive and thrive? Become a Superfan and get access to new features!",
       "learn-more": "Learn more",
-      "subtitle": "New: support our mission"
+      "subtitle": "New: a fair model for WTMG"
     },
     "wtmg-quotes": {
       "0": {

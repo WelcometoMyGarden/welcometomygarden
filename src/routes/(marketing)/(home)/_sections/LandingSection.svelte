@@ -4,8 +4,9 @@
   import welcomeMap from '$lib/images/welcome-map.svg';
   import { user } from '$lib/stores/auth';
   import routes from '$lib/routes';
-  import { _ } from 'svelte-i18n';
+  import { _, locale } from 'svelte-i18n';
   import PaddedSection from '../../_components/PaddedSection.svelte';
+  import GardenCounter from '../GardenCounter.svelte';
 </script>
 
 <PaddedSection id="landing">
@@ -17,7 +18,16 @@
     <h1 class="landing-headline heading-underline heading-underline--left">
       {$_('index.intro.headline')}
     </h1>
-    <p class="welcome-text">{$_('index.intro.copy')}</p>
+    <div class="welcome-text">
+      <p>{$_('index.intro.copy')}</p>
+      <p>
+        {$_('index.intro.garden-count-before')}{' '}<span class="garden-count"
+          ><GardenCounter />{' '}{$_('generics.garden').toLocaleLowerCase()}{$locale === 'nl'
+            ? 'en'
+            : 's'}</span
+        >{$_('index.intro.garden-count-after')}
+      </p>
+    </div>
     <div class="welcome-buttons">
       <!-- User is not logged in -->
       {#if !$user}
@@ -90,8 +100,16 @@
   }
 
   .welcome-text {
-    margin-bottom: 3.7rem;
     text-align: left;
+    margin-bottom: 3.7rem;
+  }
+
+  .welcome-text > p:last-child {
+    margin-bottom: 0;
+  }
+
+  .garden-count {
+    font-weight: 600;
   }
 
   .welcome-buttons {
