@@ -899,7 +899,7 @@
     "overview-section": {
       "duration": "1 an",
       "feature-overview": {
-        "title": "Vous avez accès à 3 nouvelles fonctionnalités :",
+        "title": "Accédez à l’ensemble de la plateforme de WTMG en couvrant les coûts de votre propre utilisation.",
         "features": {
           "0": {
             "feature-one": "Voir le réseau ferroviaire"
@@ -925,7 +925,9 @@
             "support-three": "Rassembler la communauté."
           }
         }
-      }
+      },
+      "product": "Adhésion WTMG",
+      "mode": "Non renouvelée automatiquement"
     },
     "payment-section": {
       "payment-method": "Mode de paiement",
@@ -940,7 +942,8 @@
         "payment-error": "Un problème est survenu lors de votre paiement, merci de réessayer."
       }
     },
-    "not-logged-in-warning": "Pour devenir Superfan, connectez-vous d'abord ou créez un compte"
+    "not-logged-in-warning": "Pour devenir Superfan, connectez-vous d'abord ou créez un compte",
+    "title": "Paiement"
   },
   "request-password-reset": {
     "trouble": "Vous avez des difficultés à vous connecter ? Contactez {support} et nous vous aiderons !",

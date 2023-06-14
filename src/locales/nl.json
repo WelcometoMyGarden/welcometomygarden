@@ -514,7 +514,7 @@
     "overview-section": {
       "duration": "1 jaar",
       "feature-overview": {
-        "title": "Je krijgt 3 extra features:",
+        "title": "Krijg volledige toegang tot het WTMG platform en dek jouw deel van de kosten.",
         "features": {
           "0": {
             "feature-one": "Bekijk het spoornetwerk"
@@ -540,7 +540,9 @@
             "support-three": "De WTMG community samen te brengen"
           }
         }
-      }
+      },
+      "product": "WTMG lidmaatschap",
+      "mode": "niet-herhalend"
     },
     "payment-section": {
       "payment-method": "Betaalmethode",
@@ -555,7 +557,8 @@
         "payment-error": "Er ging iets fout met je betaling, probeer alsjeblieft opnieuw."
       }
     },
-    "not-logged-in-warning": "Om Superfan te worden, moet je eerst inloggen of een account aanmaken"
+    "not-logged-in-warning": "Om Superfan te worden, moet je eerst inloggen of een account aanmaken",
+    "title": "Betaling"
   },
   "request-password-reset": {
     "title": "Stel een nieuw wachtwoord in",

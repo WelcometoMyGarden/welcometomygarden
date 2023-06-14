@@ -258,7 +258,7 @@
 </script>
 
 <svelte:head>
-  <title>{$_('account.title')} | {$_('generics.wtmg.explicit')}</title>
+  <title>{$_('payment-superfan.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
 {#if selectedLevel && $user && !hasActiveSubscription($user)}

@@ -908,9 +908,11 @@
   },
   "payment-superfan": {
     "overview-section": {
+      "product": "WTMG Membership",
       "duration": "1 year",
+      "mode": "non-recurring",
       "feature-overview": {
-        "title": "You get 3 new features:",
+        "title": "Get full access to the WTMG platform and cover your part of the costs.",
         "features": {
           "0": {
             "feature-one": "See train layer"
@@ -952,7 +954,8 @@
       },
       "sucesss": "We've successfully received your payment, welcome to the WTMG community! Here’s the chat you wanted to open."
     },
-    "not-logged-in-warning": "To become Superfan, first log in or create an account"
+    "not-logged-in-warning": "To become Superfan, first log in or create an account",
+    "title": "Payment"
   },
   "request-password-reset": {
     "title": "Set a new password",

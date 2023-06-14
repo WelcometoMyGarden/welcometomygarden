@@ -17,6 +17,7 @@
   import carolienFamilyImg from '$lib/assets/testimonials/carolien-family.jpg?run&width=1280';
   import gardenImg from '$lib/assets/testimonials/garden.jpeg?run&width=1280';
   import { membershipBlogLink } from '$lib/util/translation-helpers';
+  import { PRICING_ROUTE } from '$lib/constants';
 
   const contentOf = (quoteNumber: string) => {
     const prefix = `index.wtmg-quotes.${quoteNumber}`;
@@ -71,8 +72,7 @@
       <div slot="text">
         {@html $_('about-superfan.video-section.description')}
         <div class="become-superfan-buttons">
-          <Button href={routes.BECOME_MEMBER} uppercase orange arrow
-            >{$_('generics.become-member')}</Button
+          <Button href={PRICING_ROUTE} uppercase orange arrow>{$_('generics.become-member')}</Button
           >
           <Button
             href={membershipBlogLink($_, {
