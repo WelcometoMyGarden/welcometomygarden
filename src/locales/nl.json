@@ -63,7 +63,8 @@
       "explore-map": "Verken de kaart",
       "learn-more": "Ontdek meer",
       "garden-count-before": "Ontdek",
-      "garden-count-after": " op de kaart!"
+      "garden-count-after": " op de kaart!",
+      "garden-count-noun": "tuinen"
     },
     "steps": {
       "0": {
@@ -322,14 +323,18 @@
       }
     },
     "modal": {
-      "choose-membership": "Kies je lidmaatschap"
+      "choose-membership": "Kies je lidmaatschap",
+      "subtitle": "Slow travel met WTMG",
+      "intro": "Bij een WTMG host verblijven is gratis. Om WTMG te onderhouden en verder te ontwikkelen, vertrouwen we echter op een jaarlijks lidmaatschap om de kosten eerlijk te verdelen onder alle trage reizigers. Word nu lid!",
+      "title": "Word nu lid!",
+      "features-title": "Als lid kan je..."
     }
   },
   "about-superfan": {
     "top-section": {},
     "video-section": {
       "title": "Word lid van de WTMG-community",
-      "description": "<p>Welcome To My Garden wil traag reizen toegankelijker maken voor iedereen. Zoals iedere tuin heeft WTMG ook onderhoud nodig om te kunnen groeien en gezond te blijven.</p><p>Om WTMG te onderhouden en verder te ontwikkelen, vertrouwen we op een jaarlijks lidmaatschap om de kosten eerlijk te verdelen onder alle trage reizigers.\n</p>",
+      "description": "<p>Welcome To My Garden wil traag reizen toegankelijker maken voor iedereen. Zoals iedere tuin heeft WTMG ook onderhoud nodig om te kunnen groeien en gezond te blijven.</p><p>Bij een WTMG host verblijven is gratis. Om WTMG te onderhouden en verder te ontwikkelen, vertrouwen we op een jaarlijks lidmaatschap om de kosten eerlijk te verdelen onder alle trage reizigers.\n</p>",
       "blog-link-text": "Waarom WTMG leden nodig heeft"
     },
     "for-superfans-section": {
@@ -350,6 +355,9 @@
         },
         "4": {
           "title": "<strong>Dek jouw deel van de kosten:</strong> WTMG heeft geld nodig om een kwaliteitsnetwerk te onderhouden."
+        },
+        "5": {
+          "title": "<strong>Houd WTMG reclamevrij, volledig onafhankelijk en gesteund door leden:</strong> zonder de voortdurende steun van onze community kunnen we niet bestaan!"
         },
         "6": {
           "title": "<strong>Steun het werk van een gepassioneerd team</strong> van vier slow travel-enthousiastelingen "
@@ -488,15 +496,16 @@
   "thank-you-superfan": {
     "top-section": {
       "title": "Dankjewel om lid te worden van de WTMG community! 🌟",
-      "description": "<p>We zijn superblij dat je aan boord bent gestapt. 💚</p>",
-      "features": "<p>Je kunt nu:</p>\n<ul>\n<li>Overnachtingsverzoeken sturen naar 5000+ tuinen</li>\n<li>Je reis plannen: upload je route, sla tuinen op &amp; bekijk het spoornetwerk</li>\n<li>De communityruimte binnenstappen</li>\n</ul>"
+      "description": "<p>We zijn superblij dat je aan boord bent gestapt! 💚</p>",
+      "features": "<p>Je kunt nu:</p>\n<ul>\n<li>Overnachtingsverzoeken sturen naar 5000+ tuinen</li>\n<li>Je reis plannen: upload je route, sla tuinen op &amp; bekijk het spoornetwerk</li>\n<li>De communityruimte binnenstappen</li>\n</ul>",
+      "outro": "<p>Dankzij jou en andere leden kunnen we WTMG reclamevrij en 100% onafhankelijk houden.</p>"
     },
     "features-section": {
       "title": "Je kunt nu:",
       "explore-features-button": "Start met het plannen van je trip"
     },
     "closing-section": {
-      "text": "<p>Dankzij jou en andere leden kunnen we WTMG reclamevrij en 100% onafhankelijk houden.</p>\n<p><strong>Het hele team is jou superdankbaar!</strong></p>\n<p>Dries, Manon, Thor en Janneke</p>\n<p><em>PS Wil je meer weten over ons? <a class=\"link\" href=\"/about-us\">Lees hier ons verhaal!</a></em></p>"
+      "text": "<p><strong>Het hele team is jou superdankbaar!</strong></p>\n<p>Dries, Manon, Thor en Janneke</p>\n<p><em>PS: Wil je meer weten over ons? <a class=\"link\" href=\"/about-us\">Lees hier ons verhaal!</a></em></p>"
     }
   },
   "thank-you-donate": {
@@ -847,7 +856,7 @@
           },
           "cost": {
             "title": "Is Welcome To My Garden gratis?",
-            "copy": "Kamperen in een WTMG-tuin is gratis. Desondanks vragen we alle reizigers om betalend lid te worden, zodat we de kosten fair kunnen delen, en het platform kunnen onderhouden en verder ontwikkelen. Lidmaatschap is geldig voor één jaar, en wordt niet automatisch verlengd. Je kan <a href=\\\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\\\">hier</a> lid worden."
+            "copy": "Kamperen in een WTMG-tuin is gratis. Desondanks vragen we alle reizigers om betalend lid te worden, zodat we de kosten fair kunnen delen, en het platform kunnen onderhouden en verder ontwikkelen. Lidmaatschap is geldig voor één jaar, en wordt niet automatisch verlengd. Je kan <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">hier</a> lid worden."
           },
           "no-garden": {
             "title": "Ik heb geen tuin. Kan ik nog steeds naar de tuinen van anderen reizen?",

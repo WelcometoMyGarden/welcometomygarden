@@ -80,7 +80,8 @@
             })}
             uppercase
             inverse
-            link>{$_('about-superfan.video-section.blog-link-text')}</Button
+            link
+            target="_blank">{$_('about-superfan.video-section.blog-link-text')}</Button
           >
         </div>
       </div>

@@ -54,7 +54,7 @@
     <div class="membership-content">
       <div class="value-props">
         <div class="main-content">
-          <p>
+          <p class="intro">
             {$_('become-superfan.modal.intro')}
           </p>
           <h3>{$t('become-superfan.modal.features-title')}</h3>
@@ -80,6 +80,10 @@
 <style>
   p {
     line-height: 1.5;
+  }
+
+  .intro {
+    margin-bottom: 2rem;
   }
   ul {
     display: flex;
@@ -183,7 +187,7 @@
     font-size: 1.8rem;
     font-weight: 600;
     margin-top: 1rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 2rem;
   }
 
   .pricing {

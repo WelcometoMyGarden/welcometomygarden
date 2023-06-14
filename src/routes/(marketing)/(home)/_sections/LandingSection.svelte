@@ -22,9 +22,7 @@
       <p>{$_('index.intro.copy')}</p>
       <p>
         {$_('index.intro.garden-count-before')}{' '}<span class="garden-count"
-          ><GardenCounter />{' '}{$_('generics.garden').toLocaleLowerCase()}{$locale === 'nl'
-            ? 'en'
-            : 's'}</span
+          ><GardenCounter />{' '}{$_('index.intro.garden-count-noun')}</span
         >{$_('index.intro.garden-count-after')}
       </p>
     </div>

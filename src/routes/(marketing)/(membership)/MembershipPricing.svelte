@@ -67,8 +67,9 @@
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   let selectedLevel = superfanLevels.find((l) => l.slug === DEFAULT_MEMBER_LEVEL)!;
 
-  // 0-indexed, radio options should always be 3
-  let selectedRadioOption = 1;
+  // 0-indexed
+  // In case of full (= 3 options, incl free), member is 1. In case of non-full (2 options), it is 0
+  let selectedRadioOption = full ? 1 : 0;
 
   $: selectedLevel = visibleLevels[selectedRadioOption] ?? selectedLevel;
 
@@ -174,9 +175,14 @@
       uppercase
       orange={selectedLevel.slug != SuperfanLevelSlug.FREE}
       arrow
+      disabled={selectedLevel.slug === SuperfanLevelSlug.FREE && !!$user}
       on:click={() => {
         if (!acceptedTerms) {
           continueError = $_('register.validate.consent');
+          return;
+        }
+        if (selectedLevel.slug === SuperfanLevelSlug.FREE) {
+          goto(routes.REGISTER);
           return;
         }
         goToPaymentPage(selectedLevel);
@@ -192,10 +198,10 @@
     </Button>
   </div>
   <p class="fineprint">
-    <!-- TODO: fix FAQ link, immediately jump to FAQ -->
     {$t('become-superfan.pricing-section.questions')}{' '}<Anchor
-      href={routes.ABOUT_MEMBERSHIP}
-      newtab>{$t('become-superfan.pricing-section.faq-link-text')}</Anchor
+      href="{routes.ABOUT_MEMBERSHIP}#faq"
+      newtab={$page.url.pathname !== routes.ABOUT_MEMBERSHIP}
+      >{$t('become-superfan.pricing-section.faq-link-text')}</Anchor
     >
     {$t('become-superfan.pricing-section.blog-post')}
     <Anchor
@@ -267,10 +273,6 @@
     line-height: 1.4;
   }
 
-  .terms-checkbox :global(.checkbox-container) {
-    justify-content: center;
-  }
-
   p.fineprint {
     text-align: center;
     font-size: 1.4rem;
@@ -284,6 +286,7 @@
 
   .terms-checkbox {
     max-width: 1000px;
+    width: fit-content;
     margin: auto;
   }
   .terms-checkbox > .error {

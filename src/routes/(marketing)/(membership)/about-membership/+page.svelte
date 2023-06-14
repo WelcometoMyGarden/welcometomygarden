@@ -27,13 +27,19 @@
   import { page } from '$app/stores';
 
   smoothscroll.polyfill();
+
   onMount(() => {
-    // TODO: refactor, this kind of code is duplicated on the homepage
-    if ($page.url.hash.includes('pricing')) {
+    if ($page?.url.hash.includes('pricing')) {
       const pricingElem = document.getElementById('pricing');
       if (pricingElem) {
         const topOfPricingElem = pricingElem.offsetTop;
         window.scroll({ top: topOfPricingElem, behavior: 'smooth' });
+      }
+    } else if ($page?.url.hash.includes('faq')) {
+      const faqElem = document.getElementById('faq');
+      if (faqElem) {
+        const topOfFaqElem = faqElem.offsetTop;
+        window.scroll({ top: topOfFaqElem, behavior: 'smooth' });
       }
     }
   });
@@ -129,7 +135,7 @@
 <PaddedSection desktopOnly>
   <Testimonials slides={testimonials} />
 </PaddedSection>
-<PaddedSection desktopOnly>
+<PaddedSection desktopOnly id="faq">
   <h2 class="faq-heading">{$_('about-superfan.faq-section.title')}</h2>
   {#each getNodeKeys('about-superfan.faq-section.faq-subsections') as sectionKey}
     <div class="faq-section">
@@ -150,7 +156,8 @@
         utm_campaign: 'membership',
         utm_content: 'membership_faq'
       })}
-      uppercase>{$_('about-superfan.faq-section.contact-section.contact-button')}</Button
+      uppercase
+      target="_blank">{$_('about-superfan.faq-section.contact-section.contact-button')}</Button
     >
   </div>
 </PaddedSection>
