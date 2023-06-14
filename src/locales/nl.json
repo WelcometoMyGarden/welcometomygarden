@@ -1140,12 +1140,18 @@
     "last-updated": "Laatst bijgewerkt: 8 december 2022",
     "intro": {
       "0": {
-        "copy": "Welcome to My Garden is een netwerk zonder winstoogmerk van burgers die gratis kampeerplekken aanbieden aan trage reizigers. Deze Servicevoorwaarden (<span class=\"bold\">\"Voorwaarden\"</span>) zijn van toepassing op jouw toegang tot en gebruik van de website en het gebruik van het netwerk (gezamenlijk ons ​​<span class=\"bold\">\"Platform\"</span>) dat wordt aangeboden door Welcome to My Garden."
+        "copy": "Welcome To My Garden is een platform waar burgers hun tuin openstellen zodat trage reizigers (niet-gemotoriseerde reizigers die met de fiets of te voet reizen) er kunnen kamperen."
       },
       "1": {
-        "copy": "Het gebruik van dit platform is onderhevig aan een aantal regels. Hieronder vind je de algemene voorwaarden van ons platform, omdat we ervan overtuigd zijn dat duidelijke regels de beste garantie bieden voor een respectvolle gemeenschap. Door een account aan te maken of op een andere manier het platform te betreden, ga je akkoord met deze Voorwaarden."
+        "copy": "Welcome To My Garden, een project zonder winstoogmerk onder de legale entiteit Slowby, een sociale onderneming, opgericht en bestaand naar Belgisch recht, met maatschappelijke zetel te Henri Van Bortonnestraat 100, 1090 Jette, België, met ondernemingsnummer BE 0784.423.261."
       },
       "2": {
+        "copy": "Deze Servicevoorwaarden (\"Voorwaarden\") zijn van toepassing op uw toegang tot en gebruik van de website en het gebruik van het netwerk (gezamenlijk ons ​​\"Platform\") dat wordt aangeboden door Welcome to My Garden."
+      },
+      "3": {
+        "copy": "Het gebruik van dit platform is <strong>onderhevig aan een aantal regels</strong>. Hieronder vind je de algemene voorwaarden van ons platform, omdat we ervan overtuigd zijn dat <strong>duidelijke regels</strong> de beste garantie bieden voor een <strong>respectvolle gemeenschap</strong. Door een account aan te maken of op een andere manier het platform te betreden, ga je akkoord met deze Voorwaarden.</strong>"
+      },
+      "4": {
         "copy": "Omdat Welcome to My Garden de feedback van de gebruikers van hun platform op prijs stelt, verwelkomen we alle ideeën om het platform verder te verbeteren. Je kunt jouw suggesties e-mailen naar {support}."
       }
     },
@@ -1154,7 +1160,7 @@
         "title": "‍Wie kan registreren op het platform?",
         "descriptions": {
           "0": {
-            "copy": "Elke burger die een gratis kampeerplek in zijn tuin wil aanbieden aan trage reizigers en elke trage reiziger (fietsers en wandelaars) die gebruik wil maken van het netwerk. Als je jouw tuin wil toevoegen of contact wilt opnemen met een host, moet je een account aanmaken. Alleen geregistreerde deelnemers kunnen actieve gebruikers zijn. Je kan registreren met je e-mailadres."
+            "copy": "Elke burger die een gratis kampeerplek in zijn tuin wil aanbieden aan trage reizigers en elke trage reiziger (fietsers en wandelaars) die gebruik wil maken van het netwerk. Als je jouw tuin wil toevoegen, moet je een account aanmaken. Als je als trage reiziger contact wilt opnemen met een host, moet je lid worden van de WTMG. Alleen geregistreerde deelnemers kunnen actieve gebruikers zijn. Je kan registreren met je e-mailadres."
           },
           "1": {
             "copy": "Het aanmaken van een account door een gebruiker geeft deze gebruiker geen eigendom over het account. Welcome to My Garden heeft het recht om accounts te weigeren, op te schorten of te verwijderen, bijvoorbeeld als de gebruiker zich niet aan de volgende regels houdt of als er melding zou zijn van ongepast gedrag door een host of gast."
@@ -1192,11 +1198,11 @@
             "sections": {
               "0": {
                 "title": "Geen inkomen",
-                "copy": "Welcome to My Garden is een netwerk zonder winstoogmerk van burgers die gratis kampeerplekken in hun tuinen aanbieden aan trage reizigers. Daarom mag er geen inkomen uit worden verdiend. Het aanbieden van een tuin tegen betaling is ten strengste verboden en het platform heeft het recht om het account van een host permanent te verwijderen als dit gebeurt."
+                "copy": "Kamperen in een tuin is gratis. Daarom mag er geen inkomen uit worden verdiend. Het aanbieden van een tuin tegen betaling is ten strengste verboden en het platform heeft het recht om het account van een host permanent te verwijderen als dit gebeurt."
               },
               "1": {
                 "title": "Disclaimer",
-                "copy": "Het Welcome to My Garden-platform is een burgerinitiatief. Het team achter Welcome to My Garden is niet verantwoordelijk voor verlies, schade of letsel als gevolg van het gebruik van de website en/of tijdens een verblijf in de tuin van een andere burger."
+                "copy": "Het team achter Welcome to My Garden en Slowby is niet verantwoordelijk voor verlies, schade of letsel als gevolg van het gebruik van de website en/of tijdens een verblijf in de tuin van een andere burger."
               },
               "2": {
                 "title": "Geen discriminatie",
@@ -1251,17 +1257,17 @@
             }
           },
           "6": {
-            "title": "De optie om Superfan te worden",
+            "title": " Jaarlijks lidmaatschap: Member of Superfan worden",
             "copy": {
-              "0": "Welcome To My Garden biedt gebruikers de optie om Superfan te worden en het project financieel te steunen zodat het voor iedereen gratis te gebruiken blijft. Om Superfans te bedanken voor hun steun, krijgen ze toegang tot extra functies. De keuze om Superfan te worden is optioneel. Superfans mogen hun login niet overdragen aan derden. Superfans gaan akkoord met dezelfde voorwaarden van alle gebruikers en Welcome To My Garden behoudt zich het recht voor om accounts van Superfans die niet voldoen aan de voorwaarden te weigeren, op te schorten of te verwijderen.",
-              "1": "De beperkingen van aansprakelijkheid (zie hieronder) van Welcome To My Garden in het algemeen gelden ook voor het gebruik van de extra functies voor Superfans, wat betekent dat Welcome To My Garden niet verantwoordelijk kan worden gehouden voor enige schade of verlies dat zou ontstaan als gevolg van het gebruik van Welcome To My Garden.",
-              "2": "Superfan worden is gebaseerd op het principe van open pricing. Superfans kiezen de prijs die het beste bij hun budget past en betalen per jaar. De prijs is inclusief 6% BTW op het lidmaatschap. De bijdrage is vrijblijvend: het stopt automatisch na een jaar, en Superfans krijgen een e-mail om het te verlengen. De bijdrage als Superfan kan niet worden terugbetaald en kan niet aan derden worden overgedragen."
+              "0": "Welcome To My Garden is op een missie om slow travel toegankelijker te maken voor iedereen. Net als elke tuin heeft WTMG verzorging nodig om te groeien en gezond te blijven. Een verblijf bij een WTMG host is gratis. Maar om WTMG te onderhouden en te ontwikkelen, vertrouwen we op een jaarlijks lidmaatschap om de kosten eerlijk te verdelen onder alle trage reizigers. Trage reizigers hebben de keuze om lid of Superfan te worden. Litmaatschap is verplicht. Members of Superfans mogen hun login niet overdragen aan derden. Superfans gaan akkoord met dezelfde voorwaarden van alle gebruikers en Welcome To My Garden behoudt zich het recht voor om accounts van Members of Superfans die niet voldoen aan de voorwaarden te weigeren, op te schorten of te verwijderen.",
+              "1": "De beperkingen van aansprakelijkheid (zie hieronder) van Welcome To My Garden in het algemeen gelden ook voor het gebruik van de extra functies voor Members en Superfans, wat betekent dat Welcome To My Garden niet verantwoordelijk kan worden gehouden voor enige schade of verlies dat zou ontstaan als gevolg van het gebruik van Welcome To My Garden.",
+              "2": "De prijs is inclusief 6% BTW op het lidmaatschap. De bijdrage is vrijblijvend: het stopt automatisch na een jaar, en Superfans krijgen een e-mail om het te verlengen. De bijdrage als Superfan kan niet worden terugbetaald en kan niet aan derden worden overgedragen."
             }
           },
           "7": {
             "title": "Disclaimer",
             "copy": {
-              "0": "Het Welcome to My Garden-platform is een burgerinitiatief. Het team en de vrijwilligers achter Welcome to My Garden zijn niet verantwoordelijk voor verlies, schade of letsel als gevolg van het gebruik van de website en/of tijdens een verblijf in de tuin van een andere burger."
+              "0": "Het team en de vrijwilligers achter Welcome to My Garden zijn niet verantwoordelijk voor verlies, schade of letsel als gevolg van het gebruik van de website en/of tijdens een verblijf in de tuin van een andere burger."
             }
           }
         }

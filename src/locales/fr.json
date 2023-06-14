@@ -1144,12 +1144,18 @@
     "last-updated": "Dernière mise à jour : 08/12/2022",
     "intro": {
       "0": {
-        "copy": "Welcome to My Garden est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour les voyageurs et voyageuses lent.e.s. Ces conditions d’utilisation (\"Conditions\") s’appliquent quant à l’accès et l’utilisation de ce site ainsi qu’à l’utilisation du réseau (\"Plateforme\") fournie par Welcome to My Garden."
+        "copy": "Welcome to My Garden est une plateforme regroupant des citoyen.nes qui ouvrent leur jardin pour que des voyageur.ses lent.es non motorisés à pied ou à vélo puissent y camper gratuitement pour la nuit."
       },
       "1": {
-        "copy": "L'utilisation de cette plateforme est soumise à un nombre de règles. Vous trouverez ci-dessous les conditions d’utilisation générale de celle-ci. Nous sommes convaincus que des règles claires garantissent le développement d’une communauté respectueuse. <span class=\"bold\">En créant un compte ou en accédant à la plateforme, vous acceptez ces conditions.</span>"
+        "copy": "Welcome To My Garden, un projet sans but lucratif sous l'entité juridique de Slowby, une entreprise sociale, constituée et existant en vertu des lois de la Belgique, dont le siège social est situé Henri Van Bortonnestraat 100, 1090 Jette, Belgique, avec le numéro d'entreprise BE 0784.423.261."
       },
       "2": {
+        "copy": "Ces conditions d’utilisation (“Conditions”) s’appliquent quant à l’accès et l’utilisation de ce site ainsi qu’à l’utilisation du réseau (“Plateforme”) fournie par Welcome to My Garden."
+      },
+      "3": {
+        "copy": "L’utilisation de cette plateforme est soumise à un nombre de règles. Vous trouverez ci-dessous les conditions d’utilisation générale de celle-ci. Nous sommes convaincus que des règles claires garantissent le développement d’une communauté respectueuse. <strong>En créant un compte ou en accédant à la plateforme, vous acceptez ces conditions.</strong>"
+      },
+      "4": {
         "copy": "Welcome to My Garden apprécie les commentaires des utilisateurs de la plateforme. Vous pouvez envoyer vos suggestions par email à {support}."
       }
     },
@@ -1158,7 +1164,7 @@
         "title": "Qui peut s'enregistrer sur la plateforme ?",
         "descriptions": {
           "0": {
-            "copy": "Tout.e citoyen.ne qui souhaite mettre son jardin à disposition gratuitement comme espace de bivouac pour des voyageurs lents - strictement défini comme des voyageurs et voyageuses non-montorisés comme des cyclistes et randonneurs - qui souhaite utiliser le réseau. Si vous voulez ajouter votre jardin ou contacter un hôte, vous devez créer un compte. Seul.e.s les participant.e.s enregistré.e.s peuvent être des utilisateurs actifs. Vous pouvez vous inscrire avec votre adresse email."
+            "copy": "Tout.e citoyen.ne qui souhaite mettre son jardin à disposition gratuitement comme espace de bivouac pour des voyageurs lents - strictement défini comme des voyageurs et voyageuses non-montorisés comme des cyclistes et randonneurs - qui souhaite utiliser le réseau. Si vous voulez ajouter votre jardin, vous devez créer un compte. Si vous souhaitez contacter un.e hôte, vous devez devenir membre de WTMG. Seul.e.s les participant.e.s enregistré.e.s peuvent être des utilisateurs actifs. Vous pouvez vous inscrire avec votre adresse email."
           },
           "1": {
             "copy": "La création d’un compte par un utilisateur ne confère pas à cet utilisateur la propriété du compte. Welcome to My Garden se réserve le droit de refuser, suspendre ou supprimer des comptes, par exemple si l'utilisateur ne respecte pas les règles suivantes ou si un comportement inapproprié a été signalé par un hôte ou un voyageur."
@@ -1170,7 +1176,7 @@
             "sections": {
               "0": {
                 "title": "Chaque compte est strictement personnel",
-                "copy": "Chaque compte doit être unique et lié à une personne physique. Si vous vous inscrivez pour un compte, vous devez fournir des informations réelles et mettre à jour rapidement ces informations si elles changent. Chaque utilisateur a le droit de créer un seul compte. S'il est déterminé qu'une personne possède plusieurs comptes, Welcome to My Garden se réserve le droit de supprimer tous ces comptes. Chaque utilisateur doit avoir plus de 16 ans."
+                "copy": "Chaque compte doit être unique et lié à une personne physique. Si vous vous inscrivez pour un compte, vous devez fournir des informations réelles et mettre à jour rapidement ces informations si elles changent. Chaque utilisateur a le droit de créer un seul compte. S'il est déterminé qu'une personne possède plusieurs comptes, Welcome to My Garden se réserve le droit de supprimer tous ces comptes. Chaque utilisateur doit avoir plus de 18 ans."
               },
               "1": {
                 "title": "Un compte ne peut pas être transféré à une autre personne",
@@ -1196,11 +1202,11 @@
             "sections": {
               "0": {
                 "title": "Aucun revenu ne peut être généré",
-                "copy": "Welcome to My Garden est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour les voyageurs et voyageuses lent.e.s. Par conséquent, aucun revenu ne devrait en être tiré. Offrir un jardin contre un paiement ou une rémunération est strictement interdit et la plateforme se réserve le droit de supprimer définitivement le compte d'un hôte si cela se produit."
+                "copy": "Camper dans un jardin WTMG est gratuit. Par conséquent, aucun revenu ne devrait en être tiré. Offrir un jardin contre un paiement ou une rémunération est strictement interdit et la plateforme se réserve le droit de supprimer définitivement le compte d'un hôte si cela se produit."
               },
               "1": {
                 "title": "Avertissement",
-                "copy": "Welcome to My Garden est une initiative citoyenne. L’équipe derrière Welcome to My Garden ne prend aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."
+                "copy": "L’équipe derrière Welcome to My Garden et de Slowby ne prend aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."
               },
               "2": {
                 "title": "Aucune discrimination n’est autorisée",
@@ -1255,17 +1261,17 @@
             }
           },
           "6": {
-            "title": "Programme de Superfan",
+            "title": "Contribution annuelle en tant que membre ou Superfan",
             "copy": {
-              "0": "Welcome To My Garden offre aux utilisateurs la possibilité de devenir un Superfan et de soutenir financièrement le projet afin qu'il puisse rester libre d'utilisation pour tous et toutes. Pour remercier les Superfans de leur soutien, ils ont accès à des fonctionnalités supplémentaires. Le choix de devenir Superfan est optionnel. Les Superfans ne sont pas autorisés à transférer leur login à un tiers. Les Superfans acceptent les mêmes conditions que tous les utilisateurs et Welcome To My Garden se réserve le droit de refuser, suspendre ou supprimer les comptes des Superfans qui ne respectent pas ces conditions.",
-              "1": "Les limitations de responsabilité (voir ci-dessous) de Welcome To My Garden en général s'appliquent également à l'utilisation des fonctions supplémentaires pour les Superfans, ce qui signifie que Welcome To My Garden ne peut être tenu responsable de tout dommage ou perte qui se produirait en raison de l'utilisation de Welcome To My Garden.",
-              "2": "Devenir un Superfan est basé sur le principe de la tarification ouverte. Les Superfans choisissent le prix qui correspond le mieux à leur budget et paient pour une année à la fois. Le prix comprend la TVA de 6% appliquée aux abonnements. L'abonnement est sans engagement : il s'arrête automatiquement au bout d'un an, et les Superfans reçoivent un email pour le renouveler. L'abonnement Superfan est non remboursable et non transférable à un tiers."
+              "0": "Welcome To My Garden a pour mission de rendre le voyage lent plus accessible. Comme n’importe quel jardin, WTMG a besoin d’être entretenu pour pouvoir grandir et rester en bonne santé. Camper dans le jardin d’un.e hôte de WTMG est gratuit. Cependant, pour maintenir et développer WTMG, WTMG a besoin d’une contribution annuelle des voyageur.ses qui couvrent ainsi leur propre coût d’utilisation. Les voyageur.ses ont donc le choix de devenir soit membre, soit Superfans. Cet abonnement est obligatoire. Les membres ou superfans ne sont pas autorisés à transférer leur login à un tiers. Ils/Elles acceptent les mêmes conditions que tous les utilisateurs et Welcome To My Garden se réserve le droit de refuser, suspendre ou supprimer les comptes des Superfans qui ne respectent pas ces conditions.",
+              "1": "Les limitations de responsabilité (voir ci-dessous) de Welcome To My Garden en général s'appliquent également à l'utilisation des fonctions supplémentaires pour les membres ou Superfans, ce qui signifie que Welcome To My Garden ne peut être tenu responsable de tout dommage ou perte qui se produirait en raison de l'utilisation de Welcome To My Garden.",
+              "2": "Les abonnements se paient pour une année à la fois. Le prix comprend la TVA de 6% appliquée aux abonnements. L'abonnement est sans engagement : il s'arrête automatiquement au bout d'un an, et les membres reçoivent un e-mail pour le renouveler. L'abonnement est non remboursable et non transférable à un tiers."
             }
           },
           "7": {
             "title": "Avertissement",
             "copy": {
-              "0": "La plateforme Welcome to My Garden est une initiative citoyenne. Les membres de l’équipe derrière Welcome to My Garden ne prennent aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."
+              "0": "Les membres de l’équipe derrière Welcome to My Garden ne prennent aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."
             }
           }
         }
@@ -1318,7 +1324,7 @@
             "copy": "Welcome to My Garden, y compris son équipe et ses bénévoles, ne sera pas tenu responsable envers les voyageurs et/ou les hôtes en vertu de toute théorie de responsabilité - qu'elle soit fondée sur un contrat, un délit, une négligence, une responsabilité stricte, une garantie ou autre - pour tout dommage indirect, consécutif, exemplaire, accessoire, punitif ou dommages particuliers."
           },
           "1": {
-            "copy": "EN AUCUN CAS WELCOMETOMYGARDEN.ORG, UNE ORGANISATION BELGE À BUT NON LUCRATIF, OU SES BAILLEURS DE FONDS ET BÉNÉVOLES, NE POURRONT ÊTRE TENUS RESPONSABLES DE DOMMAGES INDIRECTS OU CONSÉCUTIFS, OU DE TOUT AUTRE DOMMAGE DE QUELQUE NATURE QUE CE SOIT, Y COMPRIS, MAIS SANS S'Y LIMITER, LA PERTE D'UTILISATION, LA PERTE DE BÉNÉFICES OU LA PERTE DE DONNÉES, QUE CE SOIT DANS LE CADRE D'UNE ACTION CONTRACTUELLE, DÉLICTUELLE (Y COMPRIS, MAIS SANS S'Y LIMITER, LA NÉGLIGENCE) OU AUTRE, MÊME SI NOUS AVONS ÉTÉ INFORMÉS DE LA POSSIBILITÉ DE TELS DOMMAGES, DÉCOULANT DE OU LIÉS À : (A) L'UTILISATION OU L'INCAPACITÉ D'UTILISER NOS SERVICES ; (B) LE COÛT DE REMPLACEMENT DE TOUT BIEN, SERVICE OU INFORMATION ACHETÉ OU OBTENU À LA SUITE DE TOUTE INFORMATION OBTENUE OU DE TRANSACTIONS CONCLUES PAR L'INTERMÉDIAIRE DE NOS SERVICES ; (C) LA DIVULGATION, L'ACCÈS NON AUTORISÉ OU L'ALTÉRATION DE VOTRE CONTENU ; (D) LES DOMMAGES POUR PERTE OU CORRUPTION DE DONNÉES OU DE PROGRAMMES, LES INTERRUPTIONS DE SERVICE OU L'OBTENTION DE SERVICES DE REMPLACEMENT, MÊME SI NOUS SAVONS OU AVONS ÉTÉ INFORMÉS DE LA POSSIBILITÉ DE TELS DOMMAGES ; (E) LES DÉCLARATIONS, LA CONDUITE OU LES OMISSIONS DE TOUT FOURNISSEUR DE SERVICES OU AUTRE TIERS SUR NOS SERVICES ; (F) VOTRE CONDUITE OU LES ACTES DE TOUTE AUTRE PERSONNE EN RELATION AVEC L'UTILISATION DES SERVICES, Y COMPRIS, MAIS SANS S'Y LIMITER, LES DOMMAGES CORPORELS, LA DÉTRESSE ÉMOTIONNELLE, LA MORT OU TOUT AUTRE DOMMAGE RÉSULTANT DE COMMUNICATIONS OU DE RÉUNIONS AVEC D'AUTRES MEMBRES ENREGISTRÉS DE NOS SERVICES OU DES PERSONNES QUI VOUS ONT ÉTÉ PRÉSENTÉES PAR NOS SERVICES, QUE CE SOIT EN LIGNE OU HORS LIGNE ; OU (G) TOUTE AUTRE QUESTION DÉCOULANT DE, RELATIVE À OU LIÉE À NOS SERVICES OU À CES CONDITIONS."
+            "copy": "EN AUCUN CAS WELCOMETOMYGARDEN.ORG OU SES BAILLEURS DE FONDS ET BÉNÉVOLES, NE POURRONT ÊTRE TENUS RESPONSABLES DE DOMMAGES INDIRECTS OU CONSÉCUTIFS, OU DE TOUT AUTRE DOMMAGE DE QUELQUE NATURE QUE CE SOIT, Y COMPRIS, MAIS SANS S'Y LIMITER, LA PERTE D'UTILISATION, LA PERTE DE BÉNÉFICES OU LA PERTE DE DONNÉES, QUE CE SOIT DANS LE CADRE D'UNE ACTION CONTRACTUELLE, DÉLICTUELLE (Y COMPRIS, MAIS SANS S'Y LIMITER, LA NÉGLIGENCE) OU AUTRE, MÊME SI NOUS AVONS ÉTÉ INFORMÉS DE LA POSSIBILITÉ DE TELS DOMMAGES, DÉCOULANT DE OU LIÉS À : (A) L'UTILISATION OU L'INCAPACITÉ D'UTILISER NOS SERVICES ; (B) LE COÛT DE REMPLACEMENT DE TOUT BIEN, SERVICE OU INFORMATION ACHETÉ OU OBTENU À LA SUITE DE TOUTE INFORMATION OBTENUE OU DE TRANSACTIONS CONCLUES PAR L'INTERMÉDIAIRE DE NOS SERVICES ; (C) LA DIVULGATION, L'ACCÈS NON AUTORISÉ OU L'ALTÉRATION DE VOTRE CONTENU ; (D) LES DOMMAGES POUR PERTE OU CORRUPTION DE DONNÉES OU DE PROGRAMMES, LES INTERRUPTIONS DE SERVICE OU L'OBTENTION DE SERVICES DE REMPLACEMENT, MÊME SI NOUS SAVONS OU AVONS ÉTÉ INFORMÉS DE LA POSSIBILITÉ DE TELS DOMMAGES ; (E) LES DÉCLARATIONS, LA CONDUITE OU LES OMISSIONS DE TOUT FOURNISSEUR DE SERVICES OU AUTRE TIERS SUR NOS SERVICES ; (F) VOTRE CONDUITE OU LES ACTES DE TOUTE AUTRE PERSONNE EN RELATION AVEC L'UTILISATION DES SERVICES, Y COMPRIS, MAIS SANS S'Y LIMITER, LES DOMMAGES CORPORELS, LA DÉTRESSE ÉMOTIONNELLE, LA MORT OU TOUT AUTRE DOMMAGE RÉSULTANT DE COMMUNICATIONS OU DE RÉUNIONS AVEC D'AUTRES MEMBRES ENREGISTRÉS DE NOS SERVICES OU DES PERSONNES QUI VOUS ONT ÉTÉ PRÉSENTÉES PAR NOS SERVICES, QUE CE SOIT EN LIGNE OU HORS LIGNE ; OU (G) TOUTE AUTRE QUESTION DÉCOULANT DE, RELATIVE À OU LIÉE À NOS SERVICES OU À CES CONDITIONS."
           }
         }
       },
