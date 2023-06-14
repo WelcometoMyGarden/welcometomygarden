@@ -542,21 +542,11 @@
             "copy": "Welcome To My Garden ist ein Netzwerk von Bürgern, die ihre Gärten für Langsamreisende öffnen, die einen Campingplatz brauchen. Es handelt sich um eine gemeinnützige Initiative, die von einer Gruppe von Bürgern gegründet wurde. Die Idee entstand während der Abriegelung von Covid-19 in Belgien im Jahr 2020."
           },
           "who": {
-            "copy": "Welcome To My Garden wurde für Wanderer und Radfahrer geschaffen, die am Ende des Tages einen Campingplatz auf ihrem Weg benötigen. Es ist kein Ersatz für einen vollwertigen Campingplatz, sondern nur ein sicherer Platz für die Nacht! Betrachten Sie ihn als Ergänzung zum belgischen Netz der Biwakierplätze.",
+            "copy": "Welcome To My Garden wurde für Wanderer und Radfahrer geschaffen, die am Ende des Tages einen Campingplatz auf ihrem Weg benötigen. Es ist kein Ersatz für einen vollwertigen Campingplatz, sondern nur ein sicherer Platz für die Nacht! Betrachten Sie ihn als Ergänzung zum Netz der Biwakierplätze.",
             "title": "Für wen ist Welcome To My Garden gedacht?"
           }
         },
         "title": "Allgemein"
-      },
-      "other": {
-        "questions": {
-          "become-volunteer": {
-            "title": "Kann ich ein Freiwilliger werden?"
-          },
-          "warmshowers": {
-            "title": "Wie unterscheidet sich Welcome to My Garden von anderen Plattformen wie Warmshowers?"
-          }
-        }
       }
     }
   },

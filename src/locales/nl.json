@@ -258,11 +258,11 @@
     "become-superfan-button": "Become a Superfan",
     "three-features": {
       "feature-one-title": "Bekijk het spoornetwerk",
-      "feature-one-description": "Als je de treinlaag inschakelt, kun je eenvoudig heel het spoornetwerk op de kaart zien!",
-      "feature-two-title": "Upload je route",
-      "feature-two-description": "Upload je eigen GPX file en vind tuinen in de buurt van jouw route!",
+      "feature-one-description": "Overnachtingsverzoeken sturen naar 5000+ tuinen.",
+      "feature-two-title": "Je reis plannen",
+      "feature-two-description": "upload je route, sla tuinen op & bekijk het spoornetwerk.",
       "feature-three-title": "Sla tuinen op",
-      "feature-three-description": "Houd je favoriete tuinen bij de hand door ze op te slaan, en houd contact met de fantastische hosts die je hebt ontmoet!"
+      "feature-three-description": "De communityruimte binnenstappen."
     },
     "three-support-reasons": {
       "title": "Dankzij jouw steun kunnen we…",
@@ -492,15 +492,16 @@
   },
   "thank-you-superfan": {
     "top-section": {
-      "title": "Dankjewel om Superfan te worden! 🌟",
-      "description": "<p>Jij bent onze held! Door Superfan te worden help je ons onze missie te realiseren: om slow travel toegankelijker te maken voor iedereen, duurzaam reizen aan te moedigen en waardevolle nieuwe connecties tussen mensen te bevorderen.</p><p>Superbedankt namens het hele team!</p>"
+      "title": "Dankjewel om lid te worden van de WTMG community! 🌟",
+      "description": "<p>We zijn superblij dat je aan boord bent gestapt. 💚</p>",
+      "features": "<p>Je kunt nu:</p>\n<ul>\n<li>Overnachtingsverzoeken sturen naar 5000+ tuinen</li>\n<li>Je reis plannen: upload je route, sla tuinen op &amp; bekijk het spoornetwerk</li>\n<li>De communityruimte binnenstappen</li>\n</ul>"
     },
     "features-section": {
-      "title": "Je hebt nu toegang tot nieuwe features",
-      "explore-features-button": "Verken de nieuwe features"
+      "title": "Je kunt nu:",
+      "explore-features-button": "Start met het plannen van je trip"
     },
     "closing-section": {
-      "text": "<p>Nogmaals bedankt om Superfan te worden!</p><p><strong>Het WTMG team,</strong><br/>Dries, Manon, Thor & Janneke</p>"
+      "text": "<p><strong>Het hele team is jou superdankbaar!</strong></p>\n<p>Dries, Manon, Thor en Janneke</p>\n<p><em>PS Wil je meer weten over ons? <a class=\"link\" href=\"/about-us\">Lees hier ons verhaal!</a></em></p>"
     }
   },
   "thank-you-donate": {
@@ -849,11 +850,11 @@
           },
           "who": {
             "title": "Voor wie is Welcome to My Garden?",
-            "copy": "Welcome To My Garden is gemaakt voor wandelaars en fietsers die aan het eind van de dag een kampeerplek nodig hebben. Het is niet bedoeld om volwaardige campings te vervangen; het gaat gewoon om een veilige plek voor de nacht! Beschouw het als een aanvulling op het Belgische netwerk van bivak sites."
+            "copy": "Welcome To My Garden is gemaakt voor wandelaars en fietsers die aan het eind van de dag een kampeerplek nodig hebben. Het is niet bedoeld om volwaardige campings te vervangen; het gaat gewoon om een veilige plek voor de nacht! Beschouw het als een aanvulling op het netwerk van bivak sites."
           },
           "how": {
             "title": "Hoe werkt Welcome to My Garden?",
-            "copy": "Mensen die hun tuin voor trage reizigers willen openen, kunnen deze toevoegen door het formulier op de website in te vullen (klik op de knop ‘Tuin toevoegen’). Kampeerders  kunnen vervolgens contact opnemen met de tuineigenaars om hun verblijf te regelen."
+            "copy": "Mensen die hun tuin voor trage reizigers willen openen, kunnen deze toevoegen door het formulier op de website in te vullen (klik op de knop ‘Tuin toevoegen’). Trage reizigers moeten eerst lid worden en nadien kunnen ze contact opnemen met de tuineigenaars om hun verblijf te regelen."
           }
         }
       },
@@ -870,7 +871,7 @@
           },
           "cost": {
             "title": "Is Welcome To My Garden gratis?",
-            "copy": "WTMG is gratis om te gebruiken, maar niet gratis om te maken. We moeten onze rekeningen betalen: onze technische kosten, die toenemen naarmate het platform groeit; ons getalenteerde team; onze kantoorruimte bij het Impact House. Achter de schermen zijn we continu bezig om het platform te verbeteren. Wil je WTMG steunen? <a href=\"/become-superfan\">Word dan Superfan</a> en krijg toegang tot geweldige extra features. Jouw financiële bijdrage zorgt ervoor dat WTMG gratis kan blijven voor iedereen. Je kunt ook <a href=\"https://donate.stripe.com/14k4kf26r2sjfLO3ce?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=donation_payment&utm_content=index_faq\" target=\"_blank\">een eenmalige donatie</a> doen."
+            "copy": "Kamperen in een WTMG-tuin is gratis. Desondanks vragen we alle reizigers om betalend lid te worden, zodat we de kosten fair kunnen delen, en het platform kunnen onderhouden en verder ontwikkelen. Lidmaatschap is geldig voor één jaar, en wordt niet automatisch verlengd. Je kan <a href=\\\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\\\">hier</a> lid worden."
           },
           "no-garden": {
             "title": "Ik heb geen tuin. Kan ik nog steeds naar de tuinen van anderen reizen?",
@@ -928,7 +929,7 @@
           },
           "update-email": {
             "title": "Ik wil mijn e-mailadres bijwerken of mijn account verwijderen. Hoe kan ik dit doen?",
-            "copy": "Wij nemen jouw gegevens zeer serieus. Als je jouw e-mailadres wilt bijwerken of jouw account volledig van het platform wilt verwijderen, neem dan contact op met onze support: {support}. Vergeet niet jouw e-mailadres te vermelden dat je wilt wijzigen of verwijderen."
+            "copy": "Wij nemen jouw gegevens zeer serieus. Als je jouw e-mailadres wilt bijwerken of jouw account volledig van het platform wilt verwijderen, neem dan contact op met onze support: {support}. Vergeet niet jouw e-mailadres te vermelden dat je wilt wijzigen.  Je kan je account volledig van het platform verwijderen via je <a href=\"/account\" target=\"_blank\">profielpagina</a>."
           },
           "newsletter": {
             "title": "Ik zou graag jouw volgende nieuwsbrief ontvangen! Wat moet ik doen?",
@@ -943,17 +944,9 @@
       "other": {
         "title": "Andere",
         "questions": {
-          "become-volunteer": {
-            "title": "Kan ik vrijwilliger worden?",
-            "copy": "We zijn momenteel op zoek naar vrijwilligers om Welcome To My Garden in andere talen te vertalen! Hoe meer tenten we op de kaart hebben, hoe meer traag reizen het nieuwe normaal wordt. Als je deel wilt uitmaken van het avontuur, stuur ons dan een e-mail naar {support} of word lid van onze Slack (link onderaan)."
-          },
           "fb-page": {
             "title": "Waarom is de Facebookpagina alleen in het Engels?",
             "copy": "Allereerst is er een heel praktische reden: Engels is de enige taal waarin het hele team vloeiend genoeg kan communiceren! We willen ook dat Welcome To My Garden voor iedereen openstaat, zodat mensen in andere landen het initiatief ook bij hen kunnen realiseren. Op de Facebookpagina houden we het bij Engels. Contacteer je ons liever in het Nederlands of Frans? Dat kan gerust!"
-          },
-          "warmshowers": {
-            "title": "Hoe verschilt Welcome To My Garden van andere platforms zoals Warmshowers?",
-            "copy": "Er zijn heel wat platforms die voorzien in de behoeften van (trage) reizigers. Warmshowers is bijvoorbeeld  alleen voor fietsers, terwijl Welcome To My Garden  voor zowel wandelaars als fietsers is. Bij Welcome To My Garden  draait het ook allemaal om tenten, niet om bedden. Je zou het kunnen beschouwen als de buitenversie van Couchsurfing. Er is een commercieel initiatief genaamd Campspace in Nederland dat min of meer hetzelfde doet als Welcome To My Garden, maar je moet wel je kampeerplek betalen. Welcome To My Garden is een gratis initiatief en je hoeft jouw host niet te betalen voor je verblijf."
           }
         }
       }

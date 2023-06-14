@@ -1,28 +1,59 @@
 <script>
   import { _ } from 'svelte-i18n';
-  import Button from '$lib/components/UI/Button.svelte';
-  import routes from '$lib/routes';
   import MarketingBlock from '../../../_components/MarketingBlock.svelte';
   import PaddedSection from '../../../_components/PaddedSection.svelte';
-  import Features from '../../../_sections/Features.svelte';
+  import { Button } from '$lib/components/UI';
+  import routes from '$lib/routes';
 </script>
 
-<PaddedSection>
-  <MarketingBlock backgroundColor="var(--color-green-light)" centered>
-    <h1>{$_('thank-you-superfan.top-section.title')}</h1>
-    {@html $_('thank-you-superfan.top-section.description')}
-  </MarketingBlock>
-</PaddedSection>
-<PaddedSection centered>
-  <h2>{$_('thank-you-superfan.features-section.title')}</h2>
-  <Features />
-  <div style="margin-bottom: var(--section-inner-padding)" />
-  <Button href={routes.MAP} uppercase orange arrow
-    >{$_('thank-you-superfan.features-section.explore-features-button')}</Button
-  >
-</PaddedSection>
-<PaddedSection>
-  <MarketingBlock backgroundColor="var(--color-beige-light)" centered>
-    {@html $_('thank-you-superfan.closing-section.text')}
-  </MarketingBlock>
-</PaddedSection>
+<div class="wrapper">
+  <PaddedSection desktopOnly>
+    <MarketingBlock backgroundColor="var(--color-beige-light)" centered>
+      <div class="inner">
+        <h1>{$_('thank-you-superfan.top-section.title')}</h1>
+        <div class="description">{@html $_('thank-you-superfan.top-section.description')}</div>
+        <div class="features">{@html $_('thank-you-superfan.top-section.features')}</div>
+        <div class="button">
+          <Button href={routes.MAP} uppercase orange arrow
+            >{$_('thank-you-superfan.features-section.explore-features-button')}</Button
+          >
+        </div>
+
+        <div class="closing-section">{@html $_('thank-you-superfan.closing-section.text')}</div>
+      </div>
+    </MarketingBlock>
+  </PaddedSection>
+</div>
+
+<style>
+  .inner {
+    /* font-size: 2rem;
+    line-height: 1.7; */
+    max-width: 500px;
+    margin: auto;
+  }
+
+  .wrapper .inner :global(p),
+  .wrapper .inner :global(ul) {
+    margin-bottom: 1rem;
+  }
+  .wrapper .inner .features,
+  .wrapper .inner .description {
+    text-align: left;
+  }
+  .button {
+    width: 100%;
+  }
+  .button > :global(*) {
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+  }
+  .wrapper .inner .features :global(ul) {
+    list-style-type: disc;
+  }
+
+  .closing-section :global(em) {
+    font-style: italic;
+  }
+</style>
