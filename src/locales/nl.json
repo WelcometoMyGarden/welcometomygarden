@@ -166,8 +166,10 @@
       },
       "guest": {
         "button": "Contact host",
-        "login": "Je moet {signInLink} om contact op te kunnen nemen met de gastheren",
-        "sign-link-text": "inloggen"
+        "login": "Je moet {signInLink} en lid zijn om contact op te kunnen nemen met hosts.",
+        "sign-link-text": "inloggen",
+        "become-member": "Om contact op te nemen met hosts moet je eerst {becomeMember}. Bedankt!",
+        "become-member-text": "lid worden"
       },
       "save": "Bewaar",
       "saved": "Bewaard"
@@ -514,34 +516,12 @@
     "overview-section": {
       "duration": "1 jaar",
       "feature-overview": {
-        "title": "Krijg volledige toegang tot het WTMG platform en dek jouw deel van de kosten.",
-        "features": {
-          "0": {
-            "feature-one": "Bekijk het spoornetwerk"
-          },
-          "1": {
-            "feature-two": "Upload je route"
-          },
-          "2": {
-            "feature-three": "Sla tuinen op"
-          }
-        }
+        "regular": "Krijg volledige toegang tot het WTMG platform en dek jouw deel van de kosten.",
+        "superfan": "Krijg volledige toegang tot het WTMG platform en steun onze missie om slow travel te promoten."
       },
-      "support-us-overview": {
-        "title": "Je helpt ons om:",
-        "support-reasons": {
-          "0": {
-            "support-one": "De WTMG vibe te behouden"
-          },
-          "1": {
-            "support-two": "De WTMG ervaring te verbeteren"
-          },
-          "2": {
-            "support-three": "De WTMG community samen te brengen"
-          }
-        }
+      "product": {
+        "regular": "WTMG lidmaatschap"
       },
-      "product": "WTMG lidmaatschap",
       "mode": "niet-herhalend"
     },
     "payment-section": {

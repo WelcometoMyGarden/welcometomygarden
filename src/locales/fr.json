@@ -603,8 +603,10 @@
       },
       "guest": {
         "sign-link-text": "vous connecter",
-        "login": "Vous devez {signInLink} pour contacter les hôtes.",
-        "button": "Contacter l'hôte"
+        "login": "Vous devez {signInLink} et être membre pour contacter les hôtes.",
+        "button": "Contacter l'hôte",
+        "become-member": "Pour contacter les hôtes, vous devez d'abord {becomeMember}. Merci !",
+        "become-member-text": "devenir membre"
       },
       "facilities": {
         "capacity": "Place pour {styleCapacity} {capacity, plural, one {tente} other {tentes}}"
@@ -899,34 +901,13 @@
     "overview-section": {
       "duration": "1 an",
       "feature-overview": {
-        "title": "Accédez à l’ensemble de la plateforme de WTMG en couvrant les coûts de votre propre utilisation.",
-        "features": {
-          "0": {
-            "feature-one": "Voir le réseau ferroviaire"
-          },
-          "1": {
-            "feature-two": "Uploader votre itinéraire"
-          },
-          "2": {
-            "feature-three": "Sauvegarder les jardins"
-          }
-        }
+        "regular": "Accédez à l’ensemble de la plateforme de WTMG en couvrant les coûts de votre propre utilisation.",
+        "superfan": "Accédez à l’ensemble de la plateforme de WTMG et aidez-nous à promouvoir le voyage lent !"
       },
-      "support-us-overview": {
-        "title": "Vous nous aidez à :",
-        "support-reasons": {
-          "0": {
-            "support-one": "Garder l'esprit WTMG vivant;"
-          },
-          "1": {
-            "support-two": "Améliorer l'expérience WTMG;"
-          },
-          "2": {
-            "support-three": "Rassembler la communauté."
-          }
-        }
+      "product": {
+        "regular": "Adhésion WTMG",
+        "superfan": "Superfan WTMG"
       },
-      "product": "Adhésion WTMG",
       "mode": "Non renouvelée automatiquement"
     },
     "payment-section": {

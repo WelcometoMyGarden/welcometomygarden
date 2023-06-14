@@ -261,7 +261,7 @@
                 values: {
                   becomeMember: anchorText({
                     href: chatWithGardenLink,
-                    linkText: $_('generics.become-member'),
+                    linkText: $_('garden.drawer.guest.become-member-text'),
                     newtab: false,
                     class: 'link'
                   })
@@ -269,7 +269,7 @@
               })}
             </p>
           {/if}
-          <Button href={chatWithGardenLink} uppercase medium>
+          <Button href={chatWithGardenLink} disabled={!$user || !$user.superfan} uppercase medium>
             {$_('garden.drawer.guest.button')}
           </Button>
         {/if}

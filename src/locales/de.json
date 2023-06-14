@@ -610,7 +610,7 @@
       "guest": {
         "sign-link-text": "anmelden",
         "button": "Gastgeber kontaktieren",
-        "login": "Sie müssen {signInLink}, um Gastgeber zu kontaktieren"
+        "login": "Sie müssen {signInLink} und Mitglied sein, um Gastgeber zu kontaktieren"
       },
       "facilities": {
         "capacity": "Platz für {styleCapacity} {capacity, plural, one {tent} other {tents}}"

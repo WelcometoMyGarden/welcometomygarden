@@ -552,9 +552,10 @@
       },
       "guest": {
         "button": "Contact host",
-        "login": "You must {signInLink} to contact hosts",
-        "become-member": "{becomeMember} to contact hosts",
-        "sign-link-text": "sign in"
+        "login": "You must {signInLink} and be a member to contact hosts",
+        "become-member": "To contact hosts, you should first {becomeMember}. Thank you!",
+        "sign-link-text": "sign in",
+        "become-member-text": "become a member"
       },
       "save": "Save",
       "saved": "Saved"
@@ -908,36 +909,15 @@
   },
   "payment-superfan": {
     "overview-section": {
-      "product": "WTMG Membership",
+      "product": {
+        "regular": "WTMG Membership",
+        "superfan": "WTMG Superfan"
+      },
       "duration": "1 year",
       "mode": "non-recurring",
       "feature-overview": {
-        "title": "Get full access to the WTMG platform and cover your part of the costs.",
-        "features": {
-          "0": {
-            "feature-one": "See train layer"
-          },
-          "1": {
-            "feature-two": "Upload your route"
-          },
-          "2": {
-            "feature-three": "Save gardens"
-          }
-        }
-      },
-      "support-us-overview": {
-        "title": "You help us:",
-        "support-reasons": {
-          "0": {
-            "support-one": "Keep the WTMG spirit alive"
-          },
-          "1": {
-            "support-two": "Improve the WTMG experience"
-          },
-          "2": {
-            "support-three": "Bring the community together"
-          }
-        }
+        "regular": "Get full access to the WTMG platform and cover your part of the costs.",
+        "superfan": "Get full access to the WTMG platform and support our mission to promote slow travel."
       }
     },
     "payment-section": {

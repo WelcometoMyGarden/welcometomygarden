@@ -22,7 +22,7 @@
     </div>
     <div class="summary-wrapper">
       <h1 class="mh3">
-        {$_('payment-superfan.overview-section.product')} · {$_(
+        {$_(`payment-superfan.overview-section.product.${level.slug}`)} · {$_(
           'payment-superfan.overview-section.duration'
         )} · {$_('payment-superfan.overview-section.mode')}
       </h1>
@@ -32,7 +32,9 @@
         <span class="to"><span class="arrow">→</span> {formatDate($locale ?? 'en', periodEnd)}</span
         >
       </div>
-      <p class="features">{$_('payment-superfan.overview-section.feature-overview.title')}</p>
+      <p class="features">
+        {$_(`payment-superfan.overview-section.feature-overview.${level.slug}`)}
+      </p>
     </div>
   </div>
 </MarketingBlock>
