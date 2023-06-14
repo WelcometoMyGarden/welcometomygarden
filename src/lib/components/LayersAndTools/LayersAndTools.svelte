@@ -5,18 +5,14 @@
   import { user } from '$lib/stores/auth';
   import Icon from '$lib/components/UI/Icon.svelte';
   import IconButton from '$lib/components/UI/IconButtonOld.svelte';
-  import { getCookie } from '$lib/util';
   import GardensTools from '$lib/components/LayersAndTools/GardensTools.svelte';
   import GardensModal from '$lib/components/LayersAndTools/GardensModal.svelte';
   import TrailsModal from '$lib/components/LayersAndTools/TrailsModal.svelte';
   import TransportModal from '$lib/components/LayersAndTools/TransportModal.svelte';
   import TrailsTool from '$lib/components/LayersAndTools/TrailsTool.svelte';
   import TransportTools from '$lib/components/LayersAndTools/TransportTools.svelte';
-  import SuperfanNoticeModal from './notices/SuperfanNoticeModal.svelte';
-  import SuperfanNoticeBox from './notices/SuperfanNoticeBox.svelte';
   import trackEvent from '$lib/util/track-event';
   import { PlausibleEvent } from '$lib/types/Plausible';
-  import { setExpiringCookie } from '$lib/util/set-cookie';
 
   export let showHiking = false;
   export let showCycling = false;
@@ -30,9 +26,6 @@
   let showGardensModal = false;
   let showTrailsModal = false;
   let showTransportModal = false;
-
-  // Only show the Superfan notice when the car notice was already shown
-  let showSuperfanNotice = !!getCookie('car-notice-dismissed') && !getCookie('superfan-dismissed');
 
   let innerWidth: number;
   $: isMobile = innerWidth <= 700;
@@ -48,16 +41,6 @@
     if (showFileTrailModal) {
       trackEvent(PlausibleEvent.START_ROUTE_UPLOAD_FLOW);
     }
-  };
-
-  const toggleSuperfanInfo = () => {
-    if (showSuperfanNotice) closeSuperfanInfo();
-    else showSuperfanNotice = true;
-  };
-
-  const closeSuperfanInfo = () => {
-    setExpiringCookie('superfan-dismissed', true, 30 * 24);
-    showSuperfanNotice = false;
   };
 </script>
 
@@ -160,14 +143,9 @@
           })}
         </span>
       </div>
-      <SuperfanNoticeBox {isMobile} isOpen={showSuperfanNotice} onToggle={toggleSuperfanInfo} />
     </div>
   {/if}
 </div>
-
-{#if showSuperfanNotice && isMobile}
-  <SuperfanNoticeModal onToggle={toggleSuperfanInfo} />
-{/if}
 
 <style>
   :root {

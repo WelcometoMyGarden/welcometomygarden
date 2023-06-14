@@ -603,7 +603,7 @@
       },
       "guest": {
         "sign-link-text": "vous connecter",
-        "login": "Vous devez {signInLink} et être membre pour contacter les hôtes.",
+        "login": "Vous devez {signInLink} et être membre pour contacter des hôtes.",
         "button": "Contacter l'hôte",
         "become-member": "Pour contacter les hôtes, vous devez d'abord {becomeMember}. Merci !",
         "become-member-text": "devenir membre"
