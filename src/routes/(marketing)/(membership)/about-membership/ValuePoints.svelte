@@ -1,7 +1,7 @@
 <script>
   import { locale } from 'svelte-i18n';
   import ValuePoint from '$routes/(marketing)/(membership)/ValuePoint.svelte';
-  import { valuePoints } from '../membership-points';
+  import { valuePoints } from '$routes/(marketing)/(membership)/membership-points';
   $: valuePointsLocal = valuePoints($locale ?? 'en');
 </script>
 
