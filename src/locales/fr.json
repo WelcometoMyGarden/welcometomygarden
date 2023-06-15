@@ -920,7 +920,8 @@
         "loading-error": "Un problème est survenu lors du chargement de notre module de paiement. Merci d'essayer de recharger la page.",
         "systems-error": "Un problème est survenu dans notre système. Merci de contacter {supportEmail} et nous reviendrons vers vous le plus vite possible. Nous sommes désolés pour ce problème.",
         "payment-error": "Un problème est survenu lors de votre paiement, merci de réessayer."
-      }
+      },
+      "success": "Nous avons bien reçu votre paiement. Bienvenue ! Vous pouvez à présent planifier votre slow travel."
     },
     "not-logged-in-warning": "Pour devenir Superfan, connectez-vous d'abord ou créez un compte",
     "title": "Paiement"

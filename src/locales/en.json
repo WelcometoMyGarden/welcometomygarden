@@ -927,7 +927,7 @@
         "systems-error": "Something went wrong in our systems. Please contact {supportEmail} and we'll help you asap! Sorry for the trouble.",
         "payment-error": "Something went wrong with your payment, please try again."
       },
-      "sucesss": "We've successfully received your payment, welcome to the WTMG community! Here’s the chat you wanted to open."
+      "success": "We've successfully received your payment, welcome to the WTMG community! Here’s the chat you wanted to open."
     },
     "not-logged-in-warning": "To become Superfan, first log in or create an account",
     "title": "Payment"

@@ -248,7 +248,7 @@
    */
   async function paymentSucceeded() {
     if (continueUrl) {
-      notify.success($_('payment-superfan.payment-section.success'), 10000);
+      notify.success($_('payment-superfan.payment-section.success'), 20000);
       await goto(continueUrl);
       return true;
     }

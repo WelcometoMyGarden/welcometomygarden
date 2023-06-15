@@ -537,7 +537,8 @@
         "loading-error": "Er ging iets fout tijdens het laden van ons betaalsysteem. Probeer de pagina te herladen.",
         "systems-error": "Er ging iets fout in ons systeem. Gelieve {supportEmail} te contacteren en we zullen je zo snel mogelijk helpen! Excuseer voor het ongemak.",
         "payment-error": "Er ging iets fout met je betaling, probeer alsjeblieft opnieuw."
-      }
+      },
+      "success": "We hebben je betaling goed ontvangen, welkom in de WTMG community! Hier is de chat die je wilde openen."
     },
     "not-logged-in-warning": "Om Superfan te worden, moet je eerst inloggen of een account aanmaken",
     "title": "Betaling"
