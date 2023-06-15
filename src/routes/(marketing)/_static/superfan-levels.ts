@@ -1,52 +1,35 @@
-import { _ } from 'svelte-i18n';
 export type SuperfanLevelData = {
   copyKey: string;
-  slug: string;
+  slug: SuperfanLevelSlug;
   value: number;
-  stripePriceId: string;
+  stripePriceId: string | null;
   // title: string;
   // alt: string;
   // description: string;
 };
 
 // Importing env variables inside the below array seems to cause compiler issues
-const {
-  VITE_STRIPE_PRICE_ID_REDUCED,
-  VITE_STRIPE_PRICE_ID_NORMAL,
-  VITE_STRIPE_PRICE_ID_SOLIDARITY
-} = import.meta.env;
+const { VITE_STRIPE_PRICE_ID_REDUCED, VITE_STRIPE_PRICE_ID_NORMAL } = import.meta.env;
 
-// TODO CLEANUP
+export enum SuperfanLevelSlug {
+  FREE = 'free',
+  REDUCED = 'regular',
+  NORMAL = 'superfan'
+}
+
+export const DEFAULT_MEMBER_LEVEL: SuperfanLevelSlug = SuperfanLevelSlug.REDUCED;
 
 export const superfanLevels: SuperfanLevelData[] = [
   {
-    slug: 'sow',
+    slug: SuperfanLevelSlug.REDUCED,
     value: 3,
     stripePriceId: VITE_STRIPE_PRICE_ID_REDUCED,
-    copyKey: '0'
-    // title: 'Reduced price',
-    // alt: 'Illustration of a seedling',
-    // description:
-    //   'Are you a student or do you have a low income? We get it. You can opt for this reduced fee and still support us!'
+    copyKey: '1'
   },
   {
-    slug: 'plant',
+    slug: SuperfanLevelSlug.NORMAL,
     value: 5,
     stripePriceId: VITE_STRIPE_PRICE_ID_NORMAL,
-    copyKey: '1'
-    // title: 'Normal price',
-    // alt: 'Illustration of a plant in a pot',
-    // description:
-    //   'This is what we need each Superfan to pay on average. Can you pitch in so we can keep going?'
-  },
-  {
-    slug: 'grow',
-    value: 10,
-    stripePriceId: VITE_STRIPE_PRICE_ID_SOLIDARITY,
     copyKey: '2'
-    // title: 'Solidarity price',
-    // alt: 'Illustration of a tree',
-    // description:
-    //   'Would you like to contribute a bit more so that others who need it can pay less? That’s brilliant! Thank you!'
   }
 ];

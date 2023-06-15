@@ -1,0 +1,31 @@
+name: Prepare WTMG source
+description: Prepare the WTMG source code for building
+inputs:
+  credentials_json:
+    description: 'GCP Service Account JSON Credentials'
+    required: true
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'yarn'
+    - name: Install Dependencies
+      # https://github.com/actions/setup-node/blob/main/docs/advanced-usage.md#caching-packages-data
+      # https://yarnpkg.com/cli/install
+      # --frozen-lockfile is deprecated
+      run: yarn install --immutable
+      shell: bash
+    - id: auth
+      uses: google-github-actions/auth@v1
+      with:
+        credentials_json: '${{ inputs.credentials_json }}'
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v1
+      with:
+        version: '>= 363.0.0'
+        project_id: 'wtmg-production'
+    - name: Use gcloud CLI
+      run: gsutil -m cp -r gs://wtmg-static/assets ${{ github.workspace }}/src/lib
+      shell: bash

@@ -13,8 +13,8 @@ const db = admin.firestore(app);
 const auth = admin.auth(app);
 
 /**
- * @param {import('firebase-admin/auth').CreateRequest} authProps
- * @param {import('../../src/lib/api/functions').CreateUserRequest & {superfan?: true}} callableProps
+ * @param {import('firebase-admin/auth').CreateRequest} authProps - passed to auth.createUser
+ * @param {import('../../src/lib/api/functions').CreateUserRequest & {superfan?: true}} callableProps - replicating what is passed to the createUser callable
  */
 const createNewUser = async (authProps, callableProps) => {
   const user = await auth.createUser({
@@ -53,6 +53,14 @@ const createNewUser = async (authProps, callableProps) => {
     .set({ count: FieldValue.increment(1) }, { merge: true });
 
   return user;
+};
+
+/**
+ * @param {string} uid
+ * @param {import('../../src/lib/types/Garden').Garden} data
+ */
+const createGarden = async (uid, data) => {
+  await db.collection('campsites').doc(uid).set(data);
 };
 
 /**
@@ -122,19 +130,57 @@ const sendMessage = async (currentUserId, chatId, message, useLastMessageSeen = 
 };
 
 const seed = async () => {
-  // Seed two users
-  const user1 = await createNewUser(
-    { email: 'user1@slowby.travel' },
-    { firstName: 'Bob', lastName: 'Dylan', countryCode: 'US' }
-  );
-
-  const user2 = await createNewUser(
-    { email: 'user2@slowby.travel' },
-    { firstName: 'Urbain', lastName: 'Servranckx', countryCode: 'BE', superfan: true }
-  );
+  // Create users
+  const [user1, user2, user3] = await Promise.all([
+    // First user: non-superfan, has a garden
+    createNewUser(
+      { email: 'user1@slowby.travel' },
+      { firstName: 'Bob', lastName: 'Dylan', countryCode: 'US' }
+    ).then(async (user1Inner) => {
+      await createGarden(user1Inner.uid, {
+        description: 'Hello, this is a test camping spot. You are welcome to stay!',
+        location: {
+          latitude: 50.952798579681854,
+          longitude: 4.763172541851901
+        },
+        facilities: {
+          capacity: 2,
+          toilets: true,
+          shower: false,
+          electricity: true,
+          water: false,
+          drinkableWater: true,
+          bonfire: true,
+          tent: true
+        },
+        photo: null,
+        listed: true
+      });
+      return user1Inner;
+    }),
+    // Second user: superfan, no garden
+    createNewUser(
+      { email: 'user2@slowby.travel' },
+      { firstName: 'Urbain', lastName: 'Servranckx', countryCode: 'BE', superfan: true }
+    ),
+    // Third user: no superfan, no garden, has past chats
+    createNewUser(
+      {
+        email: 'user3@slowby.travel'
+      },
+      { firstName: 'Maria Louise', lastName: 'from Austria', countryCode: 'AT' }
+    ),
+    // Fourth user: a non-superfan user without garden and without messages sent yet
+    createNewUser(
+      {
+        email: 'user4@slowby.travel'
+      },
+      { firstName: 'Laura', lastName: 'Verheyden', countryCode: 'BE' }
+    )
+  ]);
 
   // Send chats
-  // TODO messages are sent without gardens being created, this is not realistic
+  // TODO messages are sent to user 2 without that account having a garden, this is not realistic
   // initiated by 1 to 2
   const chatId = await createChat(user1.uid, user2.uid, 'Hey, can I stay in your garden?', false);
   for (let i = 0; i < 10; i += 1) {
@@ -142,13 +188,6 @@ const seed = async () => {
     // eslint-disable-next-line no-await-in-loop
     await sendMessage((even ? user2 : user1).uid, chatId, faker.lorem.sentences(), false);
   }
-
-  const user3 = await createNewUser(
-    {
-      email: 'user3@slowby.travel'
-    },
-    { firstName: 'Maria Louise', lastName: 'from Austria', countryCode: 'AT' }
-  );
 
   // from 3 to 1
   await createChat(user3.uid, user1.uid, 'I have a question');

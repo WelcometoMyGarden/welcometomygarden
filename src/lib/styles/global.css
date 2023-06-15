@@ -354,8 +354,7 @@ hr {
 
 /* For development, to mitigate the hindrance of the Firebase-injected warning */
 .firebase-emulator-warning {
-  opacity: 0.3;
-  pointer-events: none;
+  visibility: hidden;
 }
 
 /* Accessibility */

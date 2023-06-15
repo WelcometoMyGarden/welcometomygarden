@@ -165,7 +165,6 @@
   .filter-controls {
     display: flex;
     flex-wrap: nowrap;
-    margin-bottom: 5px;
   }
 
   .location-filter {

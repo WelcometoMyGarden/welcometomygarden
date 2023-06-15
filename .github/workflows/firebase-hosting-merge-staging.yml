@@ -27,12 +27,10 @@ jobs:
       VITE_STRIPE_PRICE_ID_SOLIDARITY: ${{secrets.STRIPE_PRICE_ID_SOLIDARITY}}
       VITE_DISCOURSE_HOST: ${{vars.DISCOURSE_HOST}}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/prepare-source
         with:
-          node-version: 16
-      - name: Install Dependencies
-        run: yarn
+          credentials_json: ${{secrets.GCP_CREDENTIALS}}
       - name: Build project
         run: yarn run build:staging
       - uses: FirebaseExtended/action-hosting-deploy@v0

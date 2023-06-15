@@ -17,7 +17,12 @@
   import trackEvent from '$lib/util/track-event';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import type { LocalChat } from '$lib/types/Chat';
+  import MembershipModal from '$routes/(marketing)/(membership)/MembershipModal.svelte';
 
+  /**
+   * The chat ID of the currently selected chat.
+   * Equal to 'new' in case of a new chat. The UID of the recipient is then in the query param 'id'.
+   */
   let chatId = $page.params.chatId;
   // Subscribe to page is necessary to get the chat page of the selected chat (when the url changes) for desktop
   const unsubscribeFromPage = page.subscribe((currentPage) => (chatId = currentPage.params.chatId));
@@ -26,6 +31,11 @@
   let partnerId: string | undefined;
   let chat: LocalChat | null | undefined;
 
+  $: showMembershipModal = !$user?.superfan && chatId === 'new';
+
+  /**
+   * The currently selected chat, if it exists
+   */
   $: chat = $chats[chatId];
 
   // Initialize variables related to the chat partner,
@@ -249,6 +259,7 @@ CSS grids should do the job cleanly -->
     <Icon icon={chevronRight} greenStroke={sendButtonDisabled} whiteStroke={!sendButtonDisabled} />
   </button>
 </form>
+<MembershipModal bind:show={showMembershipModal} />
 
 <style>
   :root {

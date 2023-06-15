@@ -47,7 +47,7 @@
         },
         {
           title: $_('footer.links.superfans'),
-          link: routes.ABOUT_SUPERFAN
+          link: routes.ABOUT_MEMBERSHIP
         },
         {
           title: $_('footer.links.donate'),

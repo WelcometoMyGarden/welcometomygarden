@@ -8,3 +8,8 @@ export const getSuperfanCount = async () => {
   return (await getDoc(doc(db(), STATS, 'superfans') as DocumentReference<CountStat>)).data()
     ?.count;
 };
+
+export const getGardenCount = async () => {
+  return (await getDoc(doc(db(), STATS, 'campsites') as DocumentReference<CountStat>)).data()
+    ?.count;
+};

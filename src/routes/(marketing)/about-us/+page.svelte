@@ -11,7 +11,6 @@
   const brentImg = staticAssetUrl('/profile-pictures/brent.jpg');
 
   import OurStorySection from './OurStorySection.svelte';
-  import ContributeSection from './ContributeSection.svelte';
   import Heading from '../_components/Heading.svelte';
   import Text from '$lib/components/UI/Text.svelte';
   import PartnersSection from './PartnersSection.svelte';
@@ -101,8 +100,7 @@
   </div>
 </PaddedSection>
 <OurStorySection />
-<ContributeSection />
-<PaddedSection vertical backgroundColor="var(--color-beige-light)">
+<PaddedSection vertical>
   <div class="contributors-header">
     <Heading caption={$_('about-us.contributors')}>
       {$_('about-us.amazing-people')}

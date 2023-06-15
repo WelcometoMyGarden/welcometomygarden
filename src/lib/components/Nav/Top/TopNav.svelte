@@ -5,9 +5,9 @@
   import UserDropdown from './UserDropdown.svelte';
   import { user } from '$lib/stores/auth';
   import WtmgLogo from '../../UI/WTMGLogo.svelte';
-  import { COMMUNITY_FORUM_URL, WTMG_BLOG_BASE_URL } from '$lib/constants';
+  import { COMMUNITY_FORUM_URL } from '$lib/constants';
   import NewBadge from '../NewBadge.svelte';
-  import { anchorText } from '$lib/util/translation-helpers';
+  import { anchorText, membershipBlogLink } from '$lib/util/translation-helpers';
 
   $: firstName = $user ? $user.firstName : '';
 </script>
@@ -20,9 +20,10 @@
         >{@html $_('navigation.membership-notice.answer', {
           values: {
             linkText: anchorText({
-              href: `${WTMG_BLOG_BASE_URL}${$_(
-                'generics.fair-model-blog-path'
-              )}?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership_announcement_jun_23&utm_content=top_navbar`,
+              href: membershipBlogLink($_, {
+                utm_campaign: 'membership_announcement_jun_23',
+                utm_content: 'top_navbar'
+              }),
               linkText: $_('navigation.membership-notice.link-text'),
               style: 'text-decoration: underline; cursor: pointer;'
             })
@@ -51,8 +52,8 @@
       {/if}
       {#if !$user?.superfan}
         <li>
-          <NavLink href={routes.ABOUT_SUPERFAN} highlighted
-            >{$_('generics.become-superfan')}</NavLink
+          <NavLink href={routes.ABOUT_MEMBERSHIP} highlighted
+            >{$_('generics.become-member')}</NavLink
           >
         </li>
       {/if}

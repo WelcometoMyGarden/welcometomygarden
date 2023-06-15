@@ -25,7 +25,8 @@
     "feature": "Fonctionnalité",
     "community": "Communauté",
     "new": "Nouveau",
-    "fair-model-blog-path": "/fr/vers-un-modele-juste-pour-assurer-le-futur-de-wtmg"
+    "fair-model-blog-path": "/fr/vers-un-modele-juste-pour-assurer-le-futur-de-wtmg",
+    "become-member": "Devenez Membre"
   },
   "ui": {
     "card": {
@@ -34,7 +35,7 @@
   },
   "navigation": {
     "membership-notice": {
-      "prompt": "Bientôt : ",
+      "prompt": "Nouveau : ",
       "answer": "une adhésion WTMG pour tous les voyageurs lents. Pour en savoir plus, {linkText}.",
       "link-text": "lisez ce blog post"
     }
@@ -59,8 +60,8 @@
           "title": "Et les installations ?"
         },
         "4": {
-          "copy": "WTMG est gratuit à utiliser mais n’est pas gratuit à maintenir ni à développer. Nous avons des factures à payer : nos coûts techniques, qui augmentent au fur et à mesure que nous nous développons, notre équipe talentueuse, nos bureaux à l'Impact House. En coulisses, nous améliorons sans cesse la plateforme.  Pour nous soutenir, vous pouvez désormais <a href=\"/about-superfan\">devenir Superfan</a> et avoir accès à des fonctionnalités supplémentaires. Vous pouvez aussi <a href=\"https://donate.stripe.com/14k4kf26r2sjfLO3ce?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=donation_payment&utm_content=index_faq\">faire un don</a> ici !",
-          "title": "Est-ce que Welcome To My Garden a un coût ?"
+          "copy": "Camper dans le jardin d’hôtes de WTMG est gratuit. Cependant, pour maintenir et développer la plateforme, WTMG demande une adhésion annuelle afin de répartir les coûts équitablement entre tous les voyageurs lents. L’adhésion est valable pour un an et n’est pas renouvelée automatiquement. Vous pouvez devenir membre <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">ici</a>.",
+          "title": "Est-ce que Welcome To My Garden coûte quelque chose ?"
         }
       },
       "faq-link-text": "Consultez notre FAQ",
@@ -101,21 +102,22 @@
     },
     "intro": {
       "headline": "Votre aventure slow travel commence ici",
-      "copy": "Des jardins mis à disposition gratuitement pour les voyageur·ses lent·es. Une initiative rendue possible grâce à une communauté de citoyen·nes généreux·ses.",
+      "copy": "Des jardins mis à disposition pour les voyageur·ses lent·es. Une initiative rendue possible grâce à une communauté de citoyen·nes généreux·ses.",
       "add-garden": "Ajouter son jardin",
       "explore-map": "Explorer la carte",
-      "learn-more": "En savoir plus"
+      "learn-more": "En savoir plus",
+      "garden-count-before": "Découvrez les",
+      "garden-count-after": " sur la carte !",
+      "garden-count-noun": "jardins"
     },
     "partners": {
       "title": "Nos partenaires"
     },
     "superfan": {
-      "support-mission": "Nouveau : soutenez notre mission",
-      "become-superfan-title": "Soutenez WTMG : devenez un·e Superfan !",
-      "mission": "Welcome To My Garden a pour mission de rendre le slow travel plus accessible à tous·tes. WTMG a besoin d’être entretenu, comme chaque jardin, pour pouvoir grandir et rester en bonne santé.",
+      "become-superfan-title": "Nos membres rendent WTMG possible",
       "financial-support": "Avec votre soutien financier, WTMG peut rester gratuit pour tous et toutes. Envie de nous aider à faire vivre et grandir WTMG ? Devenez Superfan et accédez à de nouvelles fonctionnalités !",
-      "become-superfan": "Devenir Superfan",
-      "learn-more": "En savoir plus"
+      "learn-more": "En savoir plus",
+      "subtitle": "Nouveauté : un modèle équitable pour WTMG"
     },
     "wtmg-quotes": {
       "0": {
@@ -228,11 +230,11 @@
           },
           "who": {
             "title": "Pour qui est Welcome To My Garden ?",
-            "copy": "Welcome To My Garden a été créé pour des randonneurs et cyclistes recherchant un endroit pour bivouaquer pour la nuit. L’initiative ne vise pas à remplacer des campings à part entière, simplement à offrir un endroit sécurisé pour la nuit ! Considérez-le comme une addition au réseau belge des sites de bivouac."
+            "copy": "Welcome To My Garden a été créé pour des randonneurs et cyclistes recherchant un endroit pour bivouaquer pour la nuit. L’initiative ne vise pas à remplacer des campings à part entière, simplement à offrir un endroit sécurisé pour la nuit ! Considérez-le comme une addition au réseau de bivouac."
           },
           "how": {
             "title": "Comment fonctionne Welcome To My Garden ?",
-            "copy": "Vous pouvez ajouter directement votre jardin sur le site. Les voyageurs et voyageuses peuvent alors contacter les propriétaires directement sur le site pour organiser leur séjour."
+            "copy": "Vous pouvez ajouter directement votre jardin sur le site. Les voyageurs et voyageuses doivent devenir membre afin de pouvoir contacter les propriétaires directement sur le site pour organiser leur séjour."
           }
         }
       },
@@ -249,7 +251,7 @@
           },
           "cost": {
             "title": "Est-ce que Welcome To My Garden a un coût ?",
-            "copy": "WTMG est gratuit à utiliser mais n’est pas gratuit à maintenir ni à développer. Nous avons des factures à payer : nos coûts techniques, qui augmentent au fur et à mesure que nous nous développons, notre équipe talentueuse, nos bureaux à l'Impact House. En coulisses, nous améliorons sans cesse la plateforme.  Pour nous soutenir, vous pouvez désormais <a href=\"/become-superfan\">devenir Superfan</a> et avoir accès à des fonctionnalités supplémentaires. Vous pouvez aussi <a href=\"https://donate.stripe.com/14k4kf26r2sjfLO3ce?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=donation_payment&utm_content=index_faq\">faire un don</a> ici !"
+            "copy": "<p>Camper dans le jardin d’hôtes de WTMG est gratuit. Cependant, pour maintenir et développer la plateforme, WTMG demande une adhésion annuelle afin de répartir les coûts équitablement entre tous les voyageurs lents. L’adhésion est valable pour un an et n’est pas renouvelée automatiquement. Vous pouvez devenir membre <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">ici</a>.</p>"
           },
           "no-garden": {
             "title": "Je n’ai pas de jardin. Est-ce que je peux quand même voyager dans les jardins d’autres personnes ?",
@@ -282,7 +284,7 @@
           },
           "messaging": {
             "title": "J'ai reçu un message d'un·e voyageur·se lent·e, où puis-je répondre ?",
-            "copy": "La conversation entre les hôtes et voyageur·se·ss se déroule via le chat de la plateforme. Si vous recevez un une notification par email indiquant que vous avez reçu un message, rendez-vous sur {chatLink} pour y répondre."
+            "copy": "La conversation entre les hôtes et voyageur·se·s se déroule via le chat de la plateforme. Si vous recevez un une notification par email indiquant que vous avez reçu un message, rendez-vous sur {chatLink} pour y répondre."
           },
           "suspend": {
             "title": "J'aimerais suspendre mon jardin pendant un moment mais je reviens bientôt ! Comment est-ce que je peux le faire ?",
@@ -307,7 +309,7 @@
           },
           "update-email": {
             "title": "Je souhaite mettre à jour mon adresse email ou supprimer mon compte. Comment dois-je procéder ?",
-            "copy": "Nous prenons vos données très au sérieux. Si vous souhaitez mettre à jour votre adresse email ou supprimer complètement votre compte de la plateforme, veuillez contacter notre support: {support}. N'oubliez pas de confirmer l'adresse email que vous souhaitez modifier ou supprimer."
+            "copy": "Nous prenons vos données très au sérieux. Si vous souhaitez mettre à jour votre adresse email ou supprimer complètement votre compte de la plateforme, veuillez contacter notre support: {support}. N'oubliez pas de confirmer l'adresse email que vous souhaitez modifier. Si vous voulez supprimer votre compte, vous pouvez le faire <a href=\"/account\" target=\"_blank\">dans votre page de profil</a>."
           },
           "newsletter": {
             "title": "J'aimerais recevoir votre prochaine lettre d'information ! Que dois-je faire ?",
@@ -322,17 +324,9 @@
       "other": {
         "title": "Autres",
         "questions": {
-          "become-volunteer": {
-            "title": "Est-ce que je peux devenir bénévole ?",
-            "copy": "Nous recherchons actuellement des volontaires pour traduire Welcome To My Garden dans d'autres langues ! Plus nous aurons d’icônes de tentes sur la carte, plus les voyages lents deviendront la nouvelle normalité. Si vous voulez faire partie de l'aventure, envoyez-nous un courriel à {support} ou rejoignez notre Slack (lien en bas de page)."
-          },
           "fb-page": {
             "title": "Pourquoi est-ce que votre page Facebook n’est qu’en anglais ?",
             "copy": "La première raison est toute simple : l’anglais est la seule langue commune de notre équipe ! Nous souhaitons aussi ouvrir Welcome To my Garden au plus grand nombre et donc permettre à des personnes ne parlant ni français ni néerlandais de l’utiliser. Nous continuerons à poster en anglais sur Facebook, mais n’hésitez pas à nous écrire en néerlandais ou français !"
-          },
-          "warmshowers": {
-            "title": "Comment est-ce que Welcome To My Garden diffère d’autres plateformes (p.ex : Warmshower)",
-            "copy": "Il existe de nombreuses autres plateformes qui répondent aux besoins des voyageurs et voyageuses adeptes du slow travel. Warmshowers (que beaucoup de nos bénévoles utilisent !) est exclusivement réservée aux cyclistes. Welcome To My Garden est utilisable par tous les voyageurs et voyageuses à vélo, à pied ou ceux qui se déplacent en transports en commun. De plus, sur cette plateforme, vous ne trouverez que des emplacements pour camper, pas de lits. C’est un peu le Couchsurfing de la tente si vous voulez. Aux Pays-Bas, il existe une initiative commerciale appelée Campspace qui fait plus ou moins la même chose que Welcome To My Garden, mais qui est payante. Welcome To My Garden est une initiative gratuite, vous ne devrez donc pas payer votre hôte."
           }
         }
       }
@@ -610,8 +604,10 @@
       },
       "guest": {
         "sign-link-text": "vous connecter",
-        "login": "Vous devez {signInLink} pour contacter les hôtes.",
-        "button": "Contacter l'hôte"
+        "login": "Vous devez {signInLink} et être membre pour contacter des hôtes.",
+        "button": "Contacter l'hôte",
+        "become-member": "Pour contacter les hôtes, vous devez d'abord {becomeMember}. Merci !",
+        "become-member-text": "devenir membre"
       },
       "facilities": {
         "capacity": "Place pour {styleCapacity} {capacity, plural, one {tente} other {tentes}}"
@@ -648,11 +644,11 @@
     "become-superfan-button": "FR Become a Superfan",
     "three-features": {
       "feature-one-title": "Voir le réseau ferroviaire",
-      "feature-one-description": "Activez l’option train et vous aurez accès au réseau ferroviaire sur la carte.",
-      "feature-two-title": "Uploader votre itinéraire",
-      "feature-two-description": "Uploadez votre propre fichier GPX et trouvez facilement des jardins le long de votre itinéraire.",
+      "feature-one-description": "Envoyez des demandes à 5.000+ jardins.",
+      "feature-two-title": "Planifiez votre voyage",
+      "feature-two-description": "uploadez votre itinéraire, sauvegardez des jardins et consultez le réseau ferroviaire.",
       "feature-three-title": "Sauvegarder les jardins",
-      "feature-three-description": "Enregistrez vos jardins préférés et restez en contact avec les hôtes extraordinaires que vous avez rencontrés."
+      "feature-three-description": "Accéder à l'espace de communauté."
     },
     "three-support-reasons": {
       "title": "Grâce à votre soutien, nous pouvons…",
@@ -665,51 +661,90 @@
     }
   },
   "become-superfan": {
-    "top-section": {
-      "title": "Soutenez WTMG : devenez un·e Superfan !",
-      "description": "Welcome To My Garden a pour mission de rendre le slow travel plus accessible à tous et à toutes. Votre contribution financière permettra à Welcome To My Garden de rester gratuit pour tout le monde. En tant que Superfan, vous aurez également accès à de nouvelles fonctionnalités."
-    },
-    "feature-section": {
-      "title": "Quels sont les avantages à devenir Superfan ?"
-    },
     "pricing-section": {
-      "slug": "Prix différencié",
-      "title": "Choisissez le prix qui vous convient le mieux",
-      "description": "Nous utilisons un prix différencié parce que nous voulons que WTMG soit accessible à tous et à toutes, et nous vous faisons confiance. Vous payez pour un an à la fois. Devenir Superfan est sans engagement : votre abonnement s'arrête automatiquement après un an, et vous recevrez un rappel par email pour le renouveler.",
-      "per-month": "/mois",
-      "annual-amount": " facturés annuellement",
+      "title": "Choisissez votre niveau d'adhésion",
+      "description": "Non renouvelé automatiquement. Valable pour un an.",
+      "per-month": "par mois",
       "pricing-levels": {
         "0": {
-          "slug": "Semer",
-          "title": "Prix réduit",
-          "description": "Vous êtes étudiant·e ou vous avez un budget limité ? Optez pour le tarif ‘Semer’. Grâce à votre financement, nous pouvons continuer à maintenir la plateforme. Merci d’avance !"
+          "title": "Gratuit",
+          "description": "Explorez la carte, accueillez des voyageur.ses lent.es dans votre jardin et recevez la newsletter de WTMG.",
+          "checklist": {
+            "0": "<strong>Explorez la carte</strong> avec toutes les routes de voyage lent et les jardins",
+            "1": "<strong>Accueillez des voyageur.es lent.es</strong> dans votre jardin",
+            "2": "<strong>Recevoir la newsletter de WTMG</strong>"
+          }
         },
         "1": {
-          "slug": "Planter",
-          "title": "Prix juste",
-          "description": "C’est le prix juste, celui qui nous permet de maintenir la plateforme et de continuer à la développer. Vous nous aidez à le faire ? Ça signifie tellement pour nous ! Merci !"
+          "title": "Membre",
+          "description": "Accédez à l’ensemble de la plateforme de WTMG en couvrant les coûts de votre propre utilisation.",
+          "backref": "La version gratuite, plus :",
+          "checklist": {
+            "0": "<strong>Envoyez des demandes à 5.000+ jardins</strong>",
+            "1": "<strong>Planifiez votre voyage :</strong> uploadez votre itinéraire, sauvegardez des jardins et consultez le réseau ferroviaire.",
+            "2": "<strong>Accédez à l'espace de communauté</strong>",
+            "3": "<strong>Gardez WTMG sans publicité, totalement indépendant et financé par ses membres.</strong>"
+          }
         },
         "2": {
-          "slug": "Pousser",
-          "title": "Prix de solidarité",
-          "description": "Votre contribution supplémentaire permettra d'équilibrer celles qui ne peuvent pas se le permettre. Merci ! Vous êtes fantastique."
+          "backref": "La version des membres, plus :",
+          "mobile-superfan-copy": "Avantages des membres, plus vous croyez dans ce que nous faisons et voulez soutenir la mission de WTMG.",
+          "description": "Vous êtes passionné.e par le voyage lent et voulez soutenir la mission de WTMG.",
+          "checklist": {
+            "0": "<strong>Manifestez votre soutien et aidez-nous à améliorer WTMG</strong>",
+            "1": "<strong>Aidez-nous à promouvoir le mouvement slow travel et à ajouter plus de jardins sur la carte.</strong>"
+          },
+          "title": ""
         }
-      }
+      },
+      "per-year": "/an",
+      "terms-label": "J’utilise WTMG uniquement en tant que voyageur.se lent.e (jamais en voiture) et j'accepte toutes les {termsLink}.",
+      "terms-link-text": "règles de WTMG",
+      "faq-link-text": "Lisez nos FAQ.",
+      "blog-post": "Lisez notre blog post: ",
+      "blog-post-link-text": "pourquoi une adhésion pour WTMG ?"
+    },
+    "modal": {
+      "intro": "Camper dans le jardin d’hôtes WTMG reste gratuit. Cependant, afin de répartir les coûts de maintenance et de développement de la plateforme entre tous les voyageur.ses, WTMG a besoin d’une adhésion annuelle.",
+      "features-title": "En tant que membre, vous pouvez…",
+      "title": "Devenez Membre !",
+      "choose-membership": "Choissisez votre adhésion",
+      "subtitle": "Voyagez lentement avec WTMG"
     }
   },
   "about-superfan": {
-    "top-section": {
-      "title": "Les Superfans permettent à WTMG de continuer d'exister",
-      "description": "En tant que Superfan, vous aidez à accomplir la mission de WTMG qui est de rendre le slow travel plus accessible à tous et à toutes. Votre contribution financière permettra à WTMG de rester gratuit à utiliser pour tout le monde. Vous aurez également accès à de nouvelles fonctionnalités. Vous choisissez le prix qui vous convient le mieux."
-    },
+    "top-section": {},
     "video-section": {
-      "title": "Pourquoi devenir un·e Superfan ?",
-      "description": "<p>Vous êtes passionné·e par le slow travel et vous souhaitez soutenir la mission de WTMG ? Alors devenez un·e Superfan ! Grâce à votre soutien financier, WTMG peut se stabiliser, développer de nouvelles fonctionnalités et surtout rester gratuit et accessible pour tous·tes.</p><p>Notre petite équipe de quatre personnes a investi beaucoup de temps, d'énergie et d'argent dans ce projet. La petite initiative citoyenne belge est en train de devenir quelque chose de beaucoup plus grand et dépasse même nos frontières. WTMG est là pour rester, et nous avons besoin de vous pour continuer à le faire vivre et grandir !</p>"
+      "title": "Rejoignez la communauté WTMG",
+      "description": "<p>Welcome To My Garden a pour mission de rendre le voyage lent plus accessible. Comme chaque jardin, WTMG a besoin d’être entretenu pour grandir et rester en bonne santé.</p><p>Camper dans le jardin d’hôtes WTMG reste gratuit. Cependant, pour maintenir et développer WTMG, nous comptons sur une adhésion annuelle de tous les voyageur.ses lent.es afin de répartir les coûts équitablement. Rejoignez-nous dès aujourd'hui !</p>",
+      "blog-link-text": "Pourquoi WTMG a besoin de membres"
     },
     "for-superfans-section": {
-      "slug": "Quels sont les avantages à devenir Superfan ?",
-      "title": "Nos Superfans méritent un immense merci",
-      "description": "WTMG ne peut pas exister sans votre soutien ! Pour vous remercier, vous aurez accès à plus de fonctionnalités qui vous permettront de planifier vos prochains voyages plus facilement. C’est notre manière de vous remercier de croire en nous."
+      "title": "En tant que membre, vous pouvez…",
+      "slug": "Faites en sorte que la magie opère",
+      "points": {
+        "0": {
+          "title": "<strong>Envoyez des demandes à 5.000+ jardins.</strong>"
+        },
+        "1": {
+          "title": "<strong>Discuter avec les hôtes</strong> via le chat et rencontrer des nouvelles personnes fantastiques."
+        },
+        "2": {
+          "title": "<strong>Utiliser des fonctionnalités pratiques :</strong> uploader votre itinéraire, sauvegarder les jardins, et voir le réseau ferroviaire"
+        },
+        "3": {
+          "title": "<strong>Accéder à la communauté WTMG</strong> où les membres peuvent se rencontrer, partager leurs expériences et poser des questions."
+        },
+        "4": {
+          "title": "<strong>Couvrir vos coûts d’utilisation :</strong> WTMG a besoin de fonds pour maintenir un réseau de qualité et continuer à développer la plateforme."
+        },
+        "5": {
+          "title": "<strong>Garder WTMG sans publicité, totalement indépendant et financé par ses membres :</strong> sans le soutien permanent de notre communauté, nous ne pouvons pas exister !"
+        },
+        "6": {
+          "title": "<strong>Soutenir le travail d'une équipe dévouée</strong> de quatre passionné.es de voyage lent."
+        }
+      }
     },
     "team-section": {
       "title": "Rencontrez l'équipe",
@@ -719,14 +754,17 @@
     "superfan-quotes-section": {
       "quotes": {
         "0": {
+          "quote": "Une initiative fantastique qui encourage la solidarité et le sens de communauté entre les voyageur.ses lent.es grâce à une technologie tip-top ? Count me in !"
+        },
+        "1": {
           "name": "Boris",
           "quote": "Commencer à voyager à vélo a cristallisé ce que je voulais devenir : libre, minimaliste, autonome et actif."
         },
-        "1": {
+        "2": {
           "name": "Marie Marth",
           "quote": "WTMG n'est pas seulement chouette, il s'agit de changer le monde, de changer la façon dont nous voyageons."
         },
-        "2": {
+        "3": {
           "name": "Benoit & Hélène",
           "quote": "Je suis heureux d'être entouré d'une communauté aussi incroyable de voyageurs lents qui joignent le geste à la parole !"
         }
@@ -739,44 +777,48 @@
           "title": "Superfans",
           "questions": {
             "0": {
-              "title": "Qu'est-ce que cela signifie d'être un·e Superfan ?",
-              "copy": "En tant que Superfan, vous contribuez financièrement à Welcome To My Garden afin que nous puissions être un projet stable et que la plateforme puisse rester gratuite pour tous et toutes. Vous aurez également accès à des nouvelles fonctionnalités pour planifier plus facilement un voyage lent : visualisation du réseau ferroviaire pour partir en train, la possibilité d’ajouter votre itinéraire sur la carte et celle de sauvegarder des jardins."
+              "title": "Que signifie devenir membre ou Superfan ?",
+              "copy": "<p>Afin de maintenir et développer WTMG, WTMG a besoin d’une adhésion annuelle afin de couvrir les coûts de manière équitable entre tous les voyageurs.</p>\n<p>Quand vous devenez membre ou Superfan, vous pouvez :</p>\n<ul>\n<li>Envoyez des demandes à 5.000+ jardins.</li>\n<li>Planifiez votre voyage : uploadez votre itinéraire, sauvegardez des jardins et consultez le réseau ferroviaire.</li>\n<li>Accéder à l'espace de communauté</li>\n<li>Gardez WTMG sans publicité, totalement indépendant et financé par ses membres.</li>\n</ul>\n<p>Les adhésions sont valables pour un an et non renouvelées automatiquement.</p>"
             },
             "1": {
-              "title": "Pourquoi est-ce que WTMG a besoin de Superfans ?",
-              "copy": "Nous avons lancé WTMG comme une petite initiative citoyenne en Belgique, mais nous sommes en train de devenir quelque chose de plus grand. Nous sommes une petite équipe de quatre personnes et nous avons investi beaucoup de notre temps personnel, de notre énergie et de notre argent dans la plateforme, et le travail requis dépasse maintenant clairement le stade du bénévolat. Beaucoup de bonnes initiatives s'effondrent lorsqu'elles se développent, faute de financement, et nous ne voulons pas que cela arrive à notre belle communauté et à notre plateforme. Et c'est là que nos Superfans entrent en jeu. Grâce à votre contribution, nous pouvons faire en sorte que WTMG non seulement puisse survivre, mais aussi prospérer."
+              "title": "Quelle est la différence entre être membre et Superfan ?",
+              "copy": "Les Superfans sont très importants pour WTMG, car ils nous permettent d'améliorer la plateforme, de faire grandir le mouvement slow travel et de mettre plus de jardins sur la carte. Si vous êtes passionné.e par le voyage lent et que vous voulez soutenir la mission de WTMG, c'est pour vous !"
             },
             "2": {
-              "title": "À quoi servira mon argent ?",
-              "copy": "WTMG est gratuit à utiliser mais n’est pas gratuit à maintenir ni à développer. Nous avons des factures à payer : nos coûts techniques, qui augmentent au fur et à mesure que nous nous développons, notre équipe talentueuse, nos bureaux à l'Impact House. En coulisses, nous améliorons sans cesse la plateforme. Tant de belles rencontres ont déjà eu lieu grâce à WTMG, et nous voulons continuer à favoriser les belles rencontres qui ont lieu grâce à notre plateforme. Pour y parvenir, nous voulons créer un espace pour la communauté où les gens pourront se rencontrer et discuter, en ligne et hors ligne. De plus, nous nous engageons à garder WTMG sûr et convivial, et nous n'autorisons pas les publicités automatisées non pertinentes (de préférence aucune publicité du tout). Tout cela nécessite un travail assidu en coulisses. WTMG a maintenant besoin de notre attention à plein temps pour rester en vie et en pleine forme !"
+              "title": "Pourquoi est-ce que WTMG a besoin d’une contribution annuelle de la part des voyageur.ses lent.es ?",
+              "copy": "<p>Chaque mois, nous dépensons des milliers d’euros et nous travaillons des centaines d’heures pour garder WTMG en vie. C’est notre vie et notre travail. Nous devons nous rémunérer, payer nos bureaux et nos coûts d’hébergement.</p>\n<p>WTMG est un projet 100% indépendant qui a été entièrement financé par son équipe fondatrice, ce qui signifie qu’aucun investisseur n’a été impliqué. Pour nous assurer que WTMG puisse continuer à exister, un modèle juste permettra de répartir les coûts entre tous.tes les voyageur.ses l’utilisant.</p>"
             },
             "3": {
-              "title": "Qu'est-ce que je reçois en échange en devenant un Superfan ?",
-              "copy": "En tant que Superfan, vous aurez accès à de nouvelles fonctionnalités pour planifier votre voyage lent plus facilement. C'est notre façon de vous remercier de croire en nous. Les voici : <ul><li>Afficher le réseau ferroviaire : avec la couche train activée, vous pouvez facilement voir les gares et lignes de train. Idéal pour le multi-modal !</li> <li>Uploader votre itinéraire : téléchargez votre propre fichier GPX et trouvez facilement les jardins le long de votre itinéraire.</li> <li>Sauvegarde des jardins : gardez une trace de vos jardins préférés et restez en contact avec les hôtes fantastiqeus que vous avez rencontrés.</li> </ul>"
+              "title": "À quoi servira mon argent ?",
+              "copy": "<p>Comme la transparence est primordiale pour nous, voici un aperçu de ce à quoi serviront les contributions des membres :</p>\n<ul>\n<li>Maintenir la plateforme et les serveurs de WTMG</li>\n<li>Couvrir tous les coûts opérationnels tels que les coûts des logiciels, comptabilité et bureaux.</li>\n<li>Répondre aux nombreux emails sur le support et aux questions des hôtes et des voyageurs.</li>\n<li>Maintenir la qualité du réseau WTMG</li>\n<li>Fournir un espace de communauté où les membres peuvent se rencontrer et échanger en ligne.</li>\n<li>Améliorer la plateforme WTMG basée sur les retours des membres</li>\n<li>Communiquer sur WTMG et faire la promotion du voyage lent</li>\n<li>Mettre en place des collaborations avec d’autres initiatives de voyage lent.</li>\n</ul>"
             },
             "4": {
-              "title": "Combien dois-je contribuer pour devenir un·e Superfan ?",
-              "copy": "C'est vous qui décidez ! Nous avons décidé d'utiliser un prix ouvert, ce qui signifie que vous choisissez le prix qui correspond le mieux à votre budget. Nous voulons que WTMG soit accessible à tous et toutes, et nous faisons confiance à votre décision. Notre prix juste est de 5€/mois ; si vous êtes étudiant·e ou si vous avez un petit budget, vous pouvez opter pour notre prix réduit de 3€/mois. Si vous souhaitez contribuer plus pour que d'autres puissent payer moins, vous pouvez opter pour le prix solidaire de 10 €/mois. Vous payez pour une année à la fois."
+              "title": "Combien dois-je contribuer?",
+              "copy": "<p>C’est à vous de choisir ! Vous pouvez soit devenir Membre ou Superfan.</p>\n<p>Devenir membre coûte 36 euros par an, ce qui couvre essentiellement vos propres frais. Vous pouvez envoyer des demandes gratuites à 5000 jardins, accéder à des fonctionnalités pratiques pour planifier votre voyage lent et permettre à WTMG de rester sans publicité, totalement indépendant et financé par ses membres.</p>\n<p>Devenir Superfan coûte 60 euros par an. En plus de bénéficier de tous les avantages des membres, les Superfans aident WTMG à améliorer la plateforme, à développer le mouvement slow travel et à faire apparaître</p>"
             },
             "5": {
               "title": "Comment fonctionne le paiement ?",
-              "copy": "Une fois que vous avez choisi le montant que vous souhaitez payer, vous êtes redirigé·e vers la page de paiement. Vous payez pour une année à la fois. Devenir Superfan est sans engagement : votre abonnement s'arrête automatiquement au bout d'un an, et nous vous enverrons un email pour le renouveler."
+              "copy": "Une fois que vous avez choisi le montant que vous souhaitez payer, vous êtes redirigé·e vers la page de paiement. Vous payez pour une année à la fois. Devenir Membre Superfan est sans engagement : votre abonnement s'arrête automatiquement au bout d'un an, et nous vous enverrons un e-mail pour le renouveler."
             },
             "6": {
-              "title": "Est-il optionnel de devenir un·e Superfan ?",
-              "copy": "Oui, c'est totalement optionnel ! Nous tenons à souligner que nous voulons que WTMG reste gratuit pour tout le monde. Cependant, pour être en mesure de le faire, nous avons besoin du soutien financier de nos Superfans. De cette façon, nous pouvons rendre WTMG financièrement stable, viable pour le futur et le garder gratuit pour tout le monde. En tant que Superfan, vous aurez accès à des fonctionnalités supplémentaires, et vous soutiendrez la mission de WTMG en même temps."
+              "title": "Est-ce obligatoire de devenir membre ou Superfan ?",
+              "copy": "<p>Les voyageur.ses lent.es doivent apporter une contribution financière annuelle pour que le WTMG puisse continuer à exister. C'est ce que nous avons déjà demandé lorsque nous avons lancé notre appel aux Superfans. Aujourd'hui, nous étendons cette demande à l'ensemble de la communauté des voyageur.ses. En gros, si vous utilisez notre plateforme, nous attendons de vous une contribution. Il s'agira d'une contribution annuelle. Ainsi, en plus de la possibilité de devenir un Superfan, nous introduisons une adhésion basique pour tous les voyageurs.</p>\n<p>Nous ne demandons pas d'adhésion aux hôtes, car ils/elles contribuent déjà d'une autre manière - mais ils/elles sont bien sûr invités à contribuer financièrement s'ils le souhaitent.</p>"
             },
             "7": {
-              "title": "Si je ne deviens pas Superfan, qu'adviendra-t-il de mon compte gratuit ?",
-              "copy": "Rien ne changera pour vous si vous avez un compte gratuit. Nous voulons rendre le slow travel plus accessible à tous et toutes, c'est pourquoi nous nous engageons à conserver la version gratuite. L'impact sociétal auquel nous contribuons est très important pour nous : grâce à WTMG, des milliers de nouvelles rencontres ont été établies entre les gens ! La contribution financière de nos Superfans nous aidera à maintenir et à améliorer la plateforme."
+              "title": "N'avez-vous pas déjà lancé un appel à Superfan ?",
+              "copy": "Fin 2022, nous avons lancé un appel aux Superfans de la WTMG. Nous sommes très reconnaissant.es du soutien reçu par plus de 250 Superfans et du don généreux de 1000€ de la part d'un hôte. Grâce à ces premiers fidèles, nous sommes convaincus que nous pouvons parvenir à un modèle autosuffisant pour WTMG. Pour que la magie opère, nous avons calculé que nous devrions obtenir le soutien d’au moins 3 000 voyageur.ses."
             },
             "8": {
-              "title": "Pendant combien de temps vais-je devenir un Superfan ?",
-              "copy": "Si vous devenez un·e Superfan, vous payez pour un an à la fois. Votre abonnement s'arrête automatiquement après un an, et nous vous enverrons un email pour le renouveler."
+              "title": "Si je ne deviens pas membre ou Superfan, qu'adviendra-t-il de mon compte gratuit ?",
+              "copy": "En tant que membre gratuit, vous pouvez explorer la carte, accueillir des voyageur.ses lent.es dans votre jardin et recevoir la newsletter de WTMG."
             },
             "9": {
-              "title": "Puis-je cesser d'être un·e Superfan ?",
-              "copy": "Oui, quand vous le souhaitez. Dès que vous êtes devenu·e un·e Superfan, vous pouvez gérer votre abonnement annuel de Superfan dans <a href=\"/account\">votre compte WTMG</a>."
+              "title": "Pendant combien de temps vais-je devenir un Membre ou Superfan ?",
+              "copy": "Si vous devenez un·e Membre ou Superfan, vous payez pour un an à la fois. Votre abonnement s'arrête automatiquement après un an, et nous vous enverrons un e-mail pour le renouveler."
+            },
+            "10": {
+              "title": "Puis-je cesser d'être Membre ou Superfan ?",
+              "copy": "<p>Oui, quand vous le voulez. Dès que vous êtes deven·e membre ou Superfan, vous povuez le faire dans <a href=\"/account\" target=\"_blank\">votre compte WTMG</a>.</p>\n<p>Si vous voyez &quot;votre abonnement sera renouvelé à la date xx/xx/xxxx&quot; dans le portail de gestion, cela signifie seulement que nous vous enverrons une invitation à payer pour l'année suivante à cette date. Lorsque vous &quot;annulez&quot; votre &quot;abonnement&quot;, nous ne vous enverrons pas d’email.</p>\n<p>Nous utilisons uniquement le mécanisme d'abonnement de notre portail de paiement pour savoir quand nous devons envoyer ces invitations. Nous ne débiterons pas automatiquement votre mode de paiement sans vous le demander.</p>"
             }
           }
         },
@@ -784,8 +826,8 @@
           "title": "Hôtes",
           "questions": {
             "0": {
-              "title": "Je suis hôte. Dois-je devenir un·e Superfan ?",
-              "copy": "Tout d'abord, nous tenons à vous remercier profondéemment d’accueillir des voyageur·ses lent·es dans votre jardin ! WTMG n'existerait pas sans des citoyen·nes chaleureux·ses comme vous. Si vous voulez devenir un·e Superfan et nous soutenir dans notre mission de rendre le slow travel plus accessible, nous en serions très heureux. Mais nous tenons à souligner que vous apportez déjà une énorme contribution en tant qu'hôte !"
+              "title": "Je suis hôte. Dois-je devenir Membre ou Superfan ?",
+              "copy": "Tout d'abord, nous tenons à vous remercier profondéemment d’accueillir des voyageur·ses lent·es dans votre jardin ! WTMG n'existerait pas sans des citoyen·nes chaleureux·ses comme vous. Si vous voulez devenir un·e membre ou Superfan et nous soutenir dans notre mission de rendre le slow travel plus accessible, nous en serions très heureux. Mais nous tenons à souligner que vous apportez déjà une énorme contribution en tant qu'hôte !"
             }
           }
         },
@@ -794,7 +836,7 @@
           "questions": {
             "0": {
               "title": "Qui est derrière WTMG ?",
-              "copy": "Nous sommes une petite équipe de quatre passionné·es de slow travel et nous voulons aider les autres à se lancer eux aussi dans l'aventure du slow travel. Vous pouvez en savoir plus sur nous <a href=\"/about-us\" target=\"_blank\">ici</a>."
+              "copy": "Nous sommes une petite équipe de quatre passionné·es de slow travel et nous voulons aider les autres à se lancer eux aussi dans le slow travel. Vous pouvez en savoir plus sur nous <a href=\"/about-us\" target=\"_blank\">ici</a>."
             },
             "1": {
               "title": "Quelle est la structure légale derrière WTMG ?",
@@ -802,36 +844,50 @@
             },
             "2": {
               "title": "Combien coûte WTMG ?",
-              "copy": "WTMG est gratuit à utiliser mais n’est pas gratuit à maintenir et à développer. Nous avons des factures à payer : nos coûts techniques à eux seuls représentent quelques milliers d'euros par an, et ils augmentent au fur et à mesure que nous nous développons. Nous voulons également nous assurer que nous pouvons payer des salaires corrects à notre équipe talentueuse car nous avons à présent largement dépassé le stade du bénévolat. Nous devons aussi payer le loyer de nos bureaux à l'Impact House. Il est difficile de donner un chiffre précis pour l'instant, mais c'est beaucoup, beaucoup plus que ce que nous pouvons payer de notre poche ! Dès que nous le pourrons, nous publierons un rapport annuel sur l'impact qui vous donnera également une idée plus précise de nos coûts."
+              "copy": "<p>Chaque mois, nous dépensons des milliers d’euros et nous travaillons des centaines d’heures pour garder WTMG en vie. C’est notre vie et notre travail. Nous devons nous rémunérer, payer nos bureaux et nos coûts d’hébergement.</p>\n<p>WTMG est un projet 100% indépendant qui a été entièrement financé par son équipe fondatrice, ce qui signifie qu’aucun investisseur n’a été impliqué. Pour nous assurer que WTMG puisse continuer à exister, un modèle juste permettra de répartir les coûts entre tous.tes les voyageur.ses l’utilisant.</p>"
             },
             "3": {
-              "title": "Comment WTMG payait-il ses factures avant qu’il y ait des Superfans ?",
-              "copy": "Au cours de notre première année d'existence, nous avons reçu un soutien financier de la part de partenaires de la première heure comme GR Sentiers, Grote Routepaden vzw, Natuurpunt et Wikimedia Belgium. Plusieurs personnes généreuses ont également fait un don sur la page WTMG sur Open Collective.<br><br>Au cours des deux dernières années, le budget restant du Velotour Festival a été utilisé pour payer le salaire des étudiants travaillant sur le développement technique de WTMG.<br><br>Au début de 2022, nous avons lancé Slowby pour aider les débutant·es à commencer à voyager lentement. Les revenus des trips secrets nous ont permis de couvrir la plupart des factures de WTMG.<br><br>Enfin, notre équipe de bénévoles a également investi beaucoup de son temps personnel, de son énergie et de son argent dans cette initiative. Maintenant que la plateforme se développe, nous devons y investir plus de temps et d'argent. WTMG a maintenant besoin de notre attention à plein temps pour rester en vie et en pleine forme !"
+              "title": "Comment les factures de WTMG ont été payées jusqu'à présent",
+              "copy": "<p>Depuis le premier jour, 8 personnes talentueuses ont contribué au développement de la plateforme et ont été rémunérées pour leur travail. Jusqu’à présent, les coûts ont principalement été financés par l’équipe fondatrice.</p>\n<p>Voici comment nous avons couvert ces coûts :</p>\n<ul>\n<li>La grande majorité des factures ont été payées grâce aux revenus générés par l'organisation de trips secrets avec notre activité secondaire Slowby (30 000€) et aux droits de distribution du documentaire de Manon, “Women Don't Cycle” (25.000€).</li>\n<li>Au cours de sa première année d'existence, le WTMG a reçu un soutien financier de la part de fidèles de la première heure tels que Grote Routepaden, GR Sentiers et Natuurpunt.</li>\n<li>Fin 2022, nous avons lancé un appel aux Superfans de la WTMG. Nous sommes très reconnaissant.es du soutien reçu par plus de 250 Superfans et du don généreux de 1000€ de la part d'un hôte. Grâce à ces premiers fidèles, nous sommes convaincus que nous pouvons parvenir à un modèle autosuffisant pour WTMG. Pour que la magie opère, nous avons calculé que nous devrions obtenir le soutien d’au moins 3 000 voyageur.ses.</li>\n</ul>\n<p>Alors que les hôtes apportent déjà une contribution considérable en ouvrant leurs jardins aux voyageur.ses lent.es, seule une petite partie des utilisateur.ses contribue actuellement à payer les factures relatives aux nombreux utilisateurs qui l’utilisent gratuitement.</p>\n<p>Il serait beaucoup plus juste de répartir la facture entre tous les voyageur.ses. Être une communauté, c'est aussi répartir la charge plus équitablement.</p>"
             },
             "4": {
-              "title": "De combien de superfans WTMG a-t-il besoin pour survivre et prospérer ?",
-              "copy": "Notre objectif est de rassembler au moins 1.000 Superfans en 2023. Cependant, cela ne suffit pas à couvrir tous nos frais. Nous comblons la différence avec les revenus générés par le film de Manon, <a href=\"https://womendontcycle.com/fr.html?utm_source=welcometomygarden.org&utm_medium=web&utm_content=superfan_faq\" target=\"_blank\">Women Don’t Cycle</a>, et nos <a href=\"https://www.slowby.travel/fr/accueil?utm_source=welcometomygarden.org&utm_medium=web&utm_content=superfan_faq\" target=\"_blank\">voyages secrets Slowby</a>. Dès que nous le pourrons, nous publierons un rapport annuel sur l'impact qui vous donnera également une idée plus précise de nos coûts."
+              "title": "Avez-vous essayé d'autres moyens de générer des revenus, comme les dons, les sponsorships et les subventions ?",
+              "copy": "<p>Nous avons déjà expérimenté différentes manières de générer les revenus dont nous avons besoin pour continuer à fonctionner.</p>\n<p>Les points suivants se sont avérés non viables pour WTMG :</p>\n<ul>\n<li>Les dons. Il serait tentant de croire que nous pourrions fonctionner si tout le monde contribuait de manière volontaire. En réalité, les dons ne couvrent même pas les coûts techniques de WTMG. Au total, nous avons reçu moins de 500€ de dons/an.</li>\n<li>Développer et gérer des projets supplémentaires (comme nous l’avons fait avec les trips Slowby).</li>\n</ul>\n<p>Étant donné que WTMG exige notre investissement à plein temps, il est donc tout simplement impossible de gérer simultanément deux grandes initiatives avec une équipe de trois personnes. Quelqu’un nous a récemment fait remarquer que cette manière de travailler était <em>“une recette parfaite pour un burnout”</em> (pas d'inquiétude, nous avons encore de l’énergie, mais c’est la raison pour laquelle nous devons agir maintenant).</p>\n<ul>\n<li>Les subventions.</li>\n</ul>\n<p>Elles sont excellentes pour lancer un projet, mais ne le rendent pas financièrement autonome à long terme. Comme l'explique très bien Library of Things dans <a href=\"https://www.libraryofthings.co.uk/blog/purposebeforeprofit\">cet article</a>, monter des dossiers nous détournerait de notre véritable objectif : créer de la valeur pour notre communauté.</p>\n<p>Nous avons aussi choisi de ne pas afficher de publicités sur notre site. Pourquoi ? Nous ne voulons pas vendre vos données à des entreprises dont les valeurs ne correspondent pas aux nôtres. Encore une fois, la recherche de publicité nous détournerait de la création de valeur. Nous voulons être payés pour une plateforme de qualité.</p>\n<p>En résumé, nous pensons qu'il est juste et raisonnable de demander une contribution financière à nos voyageur.ses lent.es. Plusieurs utilisateur.ses nous l'ont suggéré lors de conversations récentes, et notre appel à nos Superfans nous a donné la première indication que cela pourrait fonctionner.</p>"
+            },
+            "5": {
+              "copy": "Pour maintenir un réseau de qualité et continuer à développer WTMG, nous aurons besoin du soutien d'au moins 3 000 voyageur.es qui deviendront membres.",
+              "title": "De combien de membres et de Superfans WTMG a-t-il besoin pour survivre et prospérer ?"
+            }
+          }
+        },
+        "why": {
+          "questions": {
+            "0": {
+              "title": "Pourquoi WTMG lance-t-elle une adhésion ?",
+              "copy": "Welcome To My Garden a pour mission de rendre le voyage lent plus accessible. Comme tout jardin, WTMG a besoin d'être entretenu pour grandir et rester en bonne santé. Camper dans le jardin d’hôtes WTMG est gratuit. Cependant, pour maintenir et développer le WTMG, nous comptons sur une adhésion annuelle afin de répartir les coûts équitablement entre tous les voyageurs lents. Pour en savoir plus, <a href=\"https://blog.welcometomygarden.org/fr/vers-un-modele-juste-pour-assurer-le-futur-de-wtmg/?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=membership_faq\" target=\"_blank\">lisez notre blog post ici</a>."
             }
           }
         }
       },
       "contact-section": {
         "title": "Vous avez encore une question ?",
-        "contact-button": "Contactez-nous !"
+        "contact-button": "lisez notre blog post"
       }
     }
   },
   "thank-you-superfan": {
     "top-section": {
-      "title": "Merci d’être devenu·e un·e Superfan 🌟",
-      "description": "<p>Vous êtes incroyable ! En devenant un·e Superfan, vous nous aidez à accomplir notre mission : rendre le slow travel plus accessible à tous et à toutes, encourager le voyage durable et favoriser de nouvelles rencontres entre les gens.</p><p>Un immense merci au nom de toute l'équipe !</p>"
+      "title": "Merci d’avoir rejoint la communauté WTMG ! 🌟",
+      "description": "<p>Nous sommes très heureux que vous soyez parmi nous ! 💚</p>",
+      "features": "<p>Vous pouvez à présent :</p>\n<ul>\n<li>Envoyez des demandes à 5.000+ jardins.</li>\n<li>Planifiez votre voyage : uploadez votre itinéraire, sauvegardez des jardins et consultez le réseau ferroviaire.</li>\n<li>Accéder à l'espace de communauté</li>\n</ul>",
+      "outro": "<p>Grâce à vous, nous pouvons garder WTMG sans publicité, totalement indépendant et financé par ses membres.</p>"
     },
     "features-section": {
-      "title": "Vous avez maintenant accès à ces nouvelles fonctionnalités",
-      "explore-features-button": "Explorer les fonctionnalités"
+      "title": "Vous pouvez à présent :",
+      "explore-features-button": "Planifiez votre slow travel"
     },
     "closing-section": {
-      "text": "<p>Merci encore d’être devenu·e Superfan !</p><p><strong>L'équipe WTMG,</strong><br/>Dries, Manon, Thor & Janneke</p>"
+      "text": "<p><strong>Merci de la part de toute notre équipe !</strong></p>\n<p>Dries, Manon, Thor and Janneke</p>\n<p><em>PS : Vous voulez en savoir plus sur nous ? <a class=\"link\" href=\"/about-us\">Lisez notre histoire ici</a> !</em></p>"
     }
   },
   "thank-you-donate": {
@@ -844,33 +900,14 @@
     "overview-section": {
       "duration": "1 an",
       "feature-overview": {
-        "title": "Vous avez accès à 3 nouvelles fonctionnalités :",
-        "features": {
-          "0": {
-            "feature-one": "Voir le réseau ferroviaire"
-          },
-          "1": {
-            "feature-two": "Uploader votre itinéraire"
-          },
-          "2": {
-            "feature-three": "Sauvegarder les jardins"
-          }
-        }
+        "regular": "Accédez à l’ensemble de la plateforme de WTMG en couvrant les coûts de votre propre utilisation.",
+        "superfan": "Accédez à l’ensemble de la plateforme de WTMG et aidez-nous à promouvoir le voyage lent !"
       },
-      "support-us-overview": {
-        "title": "Vous nous aidez à :",
-        "support-reasons": {
-          "0": {
-            "support-one": "Garder l'esprit WTMG vivant;"
-          },
-          "1": {
-            "support-two": "Améliorer l'expérience WTMG;"
-          },
-          "2": {
-            "support-three": "Rassembler la communauté."
-          }
-        }
-      }
+      "product": {
+        "regular": "Adhésion WTMG",
+        "superfan": "Superfan WTMG"
+      },
+      "mode": "Non renouvelée automatiquement"
     },
     "payment-section": {
       "payment-method": "Mode de paiement",
@@ -885,7 +922,8 @@
         "payment-error": "Un problème est survenu lors de votre paiement, merci de réessayer."
       }
     },
-    "not-logged-in-warning": "Pour devenir Superfan, connectez-vous d'abord ou créez un compte"
+    "not-logged-in-warning": "Pour devenir Superfan, connectez-vous d'abord ou créez un compte",
+    "title": "Paiement"
   },
   "request-password-reset": {
     "trouble": "Vous avez des difficultés à vous connecter ? Contactez {support} et nous vous aiderons !",
@@ -1089,12 +1127,18 @@
     "last-updated": "Dernière mise à jour : 08/12/2022",
     "intro": {
       "0": {
-        "copy": "Welcome to My Garden est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour les voyageurs et voyageuses lent.e.s. Ces conditions d’utilisation (\"Conditions\") s’appliquent quant à l’accès et l’utilisation de ce site ainsi qu’à l’utilisation du réseau (\"Plateforme\") fournie par Welcome to My Garden."
+        "copy": "Welcome to My Garden est une plateforme regroupant des citoyen.nes qui ouvrent leur jardin pour que des voyageur.ses lent.es non motorisés à pied ou à vélo puissent y camper gratuitement pour la nuit."
       },
       "1": {
-        "copy": "L'utilisation de cette plateforme est soumise à un nombre de règles. Vous trouverez ci-dessous les conditions d’utilisation générale de celle-ci. Nous sommes convaincus que des règles claires garantissent le développement d’une communauté respectueuse. <span class=\"bold\">En créant un compte ou en accédant à la plateforme, vous acceptez ces conditions.</span>"
+        "copy": "Welcome To My Garden, un projet sans but lucratif sous l'entité juridique de Slowby, une entreprise sociale, constituée et existant en vertu des lois de la Belgique, dont le siège social est situé Henri Van Bortonnestraat 100, 1090 Jette, Belgique, avec le numéro d'entreprise BE 0784.423.261."
       },
       "2": {
+        "copy": "Ces conditions d’utilisation (“Conditions”) s’appliquent quant à l’accès et l’utilisation de ce site ainsi qu’à l’utilisation du réseau (“Plateforme”) fournie par Welcome to My Garden."
+      },
+      "3": {
+        "copy": "L’utilisation de cette plateforme est soumise à un nombre de règles. Vous trouverez ci-dessous les conditions d’utilisation générale de celle-ci. Nous sommes convaincus que des règles claires garantissent le développement d’une communauté respectueuse. <strong>En créant un compte ou en accédant à la plateforme, vous acceptez ces conditions.</strong>"
+      },
+      "4": {
         "copy": "Welcome to My Garden apprécie les commentaires des utilisateurs de la plateforme. Vous pouvez envoyer vos suggestions par email à {support}."
       }
     },
@@ -1103,7 +1147,7 @@
         "title": "Qui peut s'enregistrer sur la plateforme ?",
         "descriptions": {
           "0": {
-            "copy": "Tout.e citoyen.ne qui souhaite mettre son jardin à disposition gratuitement comme espace de bivouac pour des voyageurs lents - strictement défini comme des voyageurs et voyageuses non-montorisés comme des cyclistes et randonneurs - qui souhaite utiliser le réseau. Si vous voulez ajouter votre jardin ou contacter un hôte, vous devez créer un compte. Seul.e.s les participant.e.s enregistré.e.s peuvent être des utilisateurs actifs. Vous pouvez vous inscrire avec votre adresse email."
+            "copy": "Tout.e citoyen.ne qui souhaite mettre son jardin à disposition gratuitement comme espace de bivouac pour des voyageurs lents - strictement défini comme des voyageurs et voyageuses non-montorisés comme des cyclistes et randonneurs - qui souhaite utiliser le réseau. Si vous voulez ajouter votre jardin, vous devez créer un compte. Si vous souhaitez contacter un.e hôte, vous devez devenir membre de WTMG. Seul.e.s les participant.e.s enregistré.e.s peuvent être des utilisateurs actifs. Vous pouvez vous inscrire avec votre adresse email."
           },
           "1": {
             "copy": "La création d’un compte par un utilisateur ne confère pas à cet utilisateur la propriété du compte. Welcome to My Garden se réserve le droit de refuser, suspendre ou supprimer des comptes, par exemple si l'utilisateur ne respecte pas les règles suivantes ou si un comportement inapproprié a été signalé par un hôte ou un voyageur."
@@ -1115,7 +1159,7 @@
             "sections": {
               "0": {
                 "title": "Chaque compte est strictement personnel",
-                "copy": "Chaque compte doit être unique et lié à une personne physique. Si vous vous inscrivez pour un compte, vous devez fournir des informations réelles et mettre à jour rapidement ces informations si elles changent. Chaque utilisateur a le droit de créer un seul compte. S'il est déterminé qu'une personne possède plusieurs comptes, Welcome to My Garden se réserve le droit de supprimer tous ces comptes. Chaque utilisateur doit avoir plus de 16 ans."
+                "copy": "Chaque compte doit être unique et lié à une personne physique. Si vous vous inscrivez pour un compte, vous devez fournir des informations réelles et mettre à jour rapidement ces informations si elles changent. Chaque utilisateur a le droit de créer un seul compte. S'il est déterminé qu'une personne possède plusieurs comptes, Welcome to My Garden se réserve le droit de supprimer tous ces comptes. Chaque utilisateur doit avoir plus de 18 ans."
               },
               "1": {
                 "title": "Un compte ne peut pas être transféré à une autre personne",
@@ -1141,11 +1185,11 @@
             "sections": {
               "0": {
                 "title": "Aucun revenu ne peut être généré",
-                "copy": "Welcome to My Garden est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour les voyageurs et voyageuses lent.e.s. Par conséquent, aucun revenu ne devrait en être tiré. Offrir un jardin contre un paiement ou une rémunération est strictement interdit et la plateforme se réserve le droit de supprimer définitivement le compte d'un hôte si cela se produit."
+                "copy": "Camper dans un jardin WTMG est gratuit. Par conséquent, aucun revenu ne devrait en être tiré. Offrir un jardin contre un paiement ou une rémunération est strictement interdit et la plateforme se réserve le droit de supprimer définitivement le compte d'un hôte si cela se produit."
               },
               "1": {
                 "title": "Avertissement",
-                "copy": "Welcome to My Garden est une initiative citoyenne. L’équipe derrière Welcome to My Garden ne prend aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."
+                "copy": "L’équipe derrière Welcome to My Garden et de Slowby ne prend aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."
               },
               "2": {
                 "title": "Aucune discrimination n’est autorisée",
@@ -1200,17 +1244,17 @@
             }
           },
           "6": {
-            "title": "Programme de Superfan",
+            "title": "Contribution annuelle en tant que membre ou Superfan",
             "copy": {
-              "0": "Welcome To My Garden offre aux utilisateurs la possibilité de devenir un Superfan et de soutenir financièrement le projet afin qu'il puisse rester libre d'utilisation pour tous et toutes. Pour remercier les Superfans de leur soutien, ils ont accès à des fonctionnalités supplémentaires. Le choix de devenir Superfan est optionnel. Les Superfans ne sont pas autorisés à transférer leur login à un tiers. Les Superfans acceptent les mêmes conditions que tous les utilisateurs et Welcome To My Garden se réserve le droit de refuser, suspendre ou supprimer les comptes des Superfans qui ne respectent pas ces conditions.",
-              "1": "Les limitations de responsabilité (voir ci-dessous) de Welcome To My Garden en général s'appliquent également à l'utilisation des fonctions supplémentaires pour les Superfans, ce qui signifie que Welcome To My Garden ne peut être tenu responsable de tout dommage ou perte qui se produirait en raison de l'utilisation de Welcome To My Garden.",
-              "2": "Devenir un Superfan est basé sur le principe de la tarification ouverte. Les Superfans choisissent le prix qui correspond le mieux à leur budget et paient pour une année à la fois. Le prix comprend la TVA de 6% appliquée aux abonnements. L'abonnement est sans engagement : il s'arrête automatiquement au bout d'un an, et les Superfans reçoivent un email pour le renouveler. L'abonnement Superfan est non remboursable et non transférable à un tiers."
+              "0": "Welcome To My Garden a pour mission de rendre le voyage lent plus accessible. Comme n’importe quel jardin, WTMG a besoin d’être entretenu pour pouvoir grandir et rester en bonne santé. Camper dans le jardin d’un.e hôte de WTMG est gratuit. Cependant, pour maintenir et développer WTMG, WTMG a besoin d’une contribution annuelle des voyageur.ses qui couvrent ainsi leur propre coût d’utilisation. Les voyageur.ses ont donc le choix de devenir soit membre, soit Superfans. Cet abonnement est obligatoire. Les membres ou superfans ne sont pas autorisés à transférer leur login à un tiers. Ils/Elles acceptent les mêmes conditions que tous les utilisateurs et Welcome To My Garden se réserve le droit de refuser, suspendre ou supprimer les comptes des Superfans qui ne respectent pas ces conditions.",
+              "1": "Les limitations de responsabilité (voir ci-dessous) de Welcome To My Garden en général s'appliquent également à l'utilisation des fonctions supplémentaires pour les membres ou Superfans, ce qui signifie que Welcome To My Garden ne peut être tenu responsable de tout dommage ou perte qui se produirait en raison de l'utilisation de Welcome To My Garden.",
+              "2": "Les abonnements se paient pour une année à la fois. Le prix comprend la TVA de 6% appliquée aux abonnements. L'abonnement est sans engagement : il s'arrête automatiquement au bout d'un an, et les membres reçoivent un e-mail pour le renouveler. L'abonnement est non remboursable et non transférable à un tiers."
             }
           },
           "7": {
             "title": "Avertissement",
             "copy": {
-              "0": "La plateforme Welcome to My Garden est une initiative citoyenne. Les membres de l’équipe derrière Welcome to My Garden ne prennent aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."
+              "0": "Les membres de l’équipe derrière Welcome to My Garden ne prennent aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."
             }
           }
         }
@@ -1263,7 +1307,7 @@
             "copy": "Welcome to My Garden, y compris son équipe et ses bénévoles, ne sera pas tenu responsable envers les voyageurs et/ou les hôtes en vertu de toute théorie de responsabilité - qu'elle soit fondée sur un contrat, un délit, une négligence, une responsabilité stricte, une garantie ou autre - pour tout dommage indirect, consécutif, exemplaire, accessoire, punitif ou dommages particuliers."
           },
           "1": {
-            "copy": "EN AUCUN CAS WELCOMETOMYGARDEN.ORG, UNE ORGANISATION BELGE À BUT NON LUCRATIF, OU SES BAILLEURS DE FONDS ET BÉNÉVOLES, NE POURRONT ÊTRE TENUS RESPONSABLES DE DOMMAGES INDIRECTS OU CONSÉCUTIFS, OU DE TOUT AUTRE DOMMAGE DE QUELQUE NATURE QUE CE SOIT, Y COMPRIS, MAIS SANS S'Y LIMITER, LA PERTE D'UTILISATION, LA PERTE DE BÉNÉFICES OU LA PERTE DE DONNÉES, QUE CE SOIT DANS LE CADRE D'UNE ACTION CONTRACTUELLE, DÉLICTUELLE (Y COMPRIS, MAIS SANS S'Y LIMITER, LA NÉGLIGENCE) OU AUTRE, MÊME SI NOUS AVONS ÉTÉ INFORMÉS DE LA POSSIBILITÉ DE TELS DOMMAGES, DÉCOULANT DE OU LIÉS À : (A) L'UTILISATION OU L'INCAPACITÉ D'UTILISER NOS SERVICES ; (B) LE COÛT DE REMPLACEMENT DE TOUT BIEN, SERVICE OU INFORMATION ACHETÉ OU OBTENU À LA SUITE DE TOUTE INFORMATION OBTENUE OU DE TRANSACTIONS CONCLUES PAR L'INTERMÉDIAIRE DE NOS SERVICES ; (C) LA DIVULGATION, L'ACCÈS NON AUTORISÉ OU L'ALTÉRATION DE VOTRE CONTENU ; (D) LES DOMMAGES POUR PERTE OU CORRUPTION DE DONNÉES OU DE PROGRAMMES, LES INTERRUPTIONS DE SERVICE OU L'OBTENTION DE SERVICES DE REMPLACEMENT, MÊME SI NOUS SAVONS OU AVONS ÉTÉ INFORMÉS DE LA POSSIBILITÉ DE TELS DOMMAGES ; (E) LES DÉCLARATIONS, LA CONDUITE OU LES OMISSIONS DE TOUT FOURNISSEUR DE SERVICES OU AUTRE TIERS SUR NOS SERVICES ; (F) VOTRE CONDUITE OU LES ACTES DE TOUTE AUTRE PERSONNE EN RELATION AVEC L'UTILISATION DES SERVICES, Y COMPRIS, MAIS SANS S'Y LIMITER, LES DOMMAGES CORPORELS, LA DÉTRESSE ÉMOTIONNELLE, LA MORT OU TOUT AUTRE DOMMAGE RÉSULTANT DE COMMUNICATIONS OU DE RÉUNIONS AVEC D'AUTRES MEMBRES ENREGISTRÉS DE NOS SERVICES OU DES PERSONNES QUI VOUS ONT ÉTÉ PRÉSENTÉES PAR NOS SERVICES, QUE CE SOIT EN LIGNE OU HORS LIGNE ; OU (G) TOUTE AUTRE QUESTION DÉCOULANT DE, RELATIVE À OU LIÉE À NOS SERVICES OU À CES CONDITIONS."
+            "copy": "EN AUCUN CAS WELCOMETOMYGARDEN.ORG OU SES BAILLEURS DE FONDS ET BÉNÉVOLES, NE POURRONT ÊTRE TENUS RESPONSABLES DE DOMMAGES INDIRECTS OU CONSÉCUTIFS, OU DE TOUT AUTRE DOMMAGE DE QUELQUE NATURE QUE CE SOIT, Y COMPRIS, MAIS SANS S'Y LIMITER, LA PERTE D'UTILISATION, LA PERTE DE BÉNÉFICES OU LA PERTE DE DONNÉES, QUE CE SOIT DANS LE CADRE D'UNE ACTION CONTRACTUELLE, DÉLICTUELLE (Y COMPRIS, MAIS SANS S'Y LIMITER, LA NÉGLIGENCE) OU AUTRE, MÊME SI NOUS AVONS ÉTÉ INFORMÉS DE LA POSSIBILITÉ DE TELS DOMMAGES, DÉCOULANT DE OU LIÉS À : (A) L'UTILISATION OU L'INCAPACITÉ D'UTILISER NOS SERVICES ; (B) LE COÛT DE REMPLACEMENT DE TOUT BIEN, SERVICE OU INFORMATION ACHETÉ OU OBTENU À LA SUITE DE TOUTE INFORMATION OBTENUE OU DE TRANSACTIONS CONCLUES PAR L'INTERMÉDIAIRE DE NOS SERVICES ; (C) LA DIVULGATION, L'ACCÈS NON AUTORISÉ OU L'ALTÉRATION DE VOTRE CONTENU ; (D) LES DOMMAGES POUR PERTE OU CORRUPTION DE DONNÉES OU DE PROGRAMMES, LES INTERRUPTIONS DE SERVICE OU L'OBTENTION DE SERVICES DE REMPLACEMENT, MÊME SI NOUS SAVONS OU AVONS ÉTÉ INFORMÉS DE LA POSSIBILITÉ DE TELS DOMMAGES ; (E) LES DÉCLARATIONS, LA CONDUITE OU LES OMISSIONS DE TOUT FOURNISSEUR DE SERVICES OU AUTRE TIERS SUR NOS SERVICES ; (F) VOTRE CONDUITE OU LES ACTES DE TOUTE AUTRE PERSONNE EN RELATION AVEC L'UTILISATION DES SERVICES, Y COMPRIS, MAIS SANS S'Y LIMITER, LES DOMMAGES CORPORELS, LA DÉTRESSE ÉMOTIONNELLE, LA MORT OU TOUT AUTRE DOMMAGE RÉSULTANT DE COMMUNICATIONS OU DE RÉUNIONS AVEC D'AUTRES MEMBRES ENREGISTRÉS DE NOS SERVICES OU DES PERSONNES QUI VOUS ONT ÉTÉ PRÉSENTÉES PAR NOS SERVICES, QUE CE SOIT EN LIGNE OU HORS LIGNE ; OU (G) TOUTE AUTRE QUESTION DÉCOULANT DE, RELATIVE À OU LIÉE À NOS SERVICES OU À CES CONDITIONS."
           }
         }
       },

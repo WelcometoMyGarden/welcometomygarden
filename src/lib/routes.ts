@@ -9,11 +9,11 @@ type RouteDescription = {
 export const routeDescriptions = {
   ACCOUNT: { route: '/account', requiresAuth: true },
   ADD_GARDEN: { route: '/garden/add', requiresAuth: true },
-  ABOUT_SUPERFAN: { route: '/about-superfan', requiresAuth: false },
+  ABOUT_MEMBERSHIP: { route: '/about-membership', requiresAuth: false },
   ABOUT_US: { route: '/about-us', requiresAuth: false },
   AUTH_ACTION: { route: '/auth/action', requiresAuth: false },
   AUTH_DISCOURSE: { route: '/auth/discourse-connect', requiresAuth: true },
-  BECOME_SUPERFAN: { route: '/become-superfan', requiresAuth: false },
+  BECOME_MEMBER: { route: '/become-member', requiresAuth: false },
   CHAT: { route: '/chat', requiresAuth: false },
   COOKIE_POLICY: { route: '/terms/cookies', requiresAuth: false },
   FAQ: { route: '/info/faq', requiresAuth: false },
@@ -26,9 +26,9 @@ export const routeDescriptions = {
   RESET_PASSWORD: { route: '/reset-password', requiresAuth: false },
   RULES: { route: '/info/rules', requiresAuth: false },
   SIGN_IN: { route: '/sign-in', requiresAuth: false },
-  SUPERFAN_PAYMENT: { route: '/become-superfan/payment', requiresAuth: true },
+  MEMBER_PAYMENT: { route: '/become-member/payment', requiresAuth: true },
   TERMS_OF_USE: { route: '/terms/terms-of-use', requiresAuth: false },
-  SUPERFAN_THANK_YOU: { route: '/become-superfan/thank-you', requiresAuth: false }
+  MEMBER_THANK_YOU: { route: '/become-member/thank-you', requiresAuth: false }
 };
 
 // Note, this otherwise useless expression allows us to typecheck the above array.

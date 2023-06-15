@@ -4,9 +4,13 @@
   export let backgroundColor: string | undefined = undefined;
   export let id: string | undefined = undefined;
   export let centered: boolean | undefined = undefined;
+  /**
+   * Whether this is the topmost section (omit top)
+   */
+  export let topMargin = true;
 
   const elementOptions = ['section', 'footer'] as const;
-  type Option = typeof elementOptions[number];
+  type Option = (typeof elementOptions)[number];
   export let is: Option = 'section';
 </script>
 
@@ -15,6 +19,7 @@
   class="outer"
   class:desktopOnly
   class:vertical
+  class:topMargin
   style:background-color={backgroundColor}
   {id}
 >
@@ -32,6 +37,10 @@
     padding-right: var(--section-inner-padding);
     margin: auto;
     max-width: 1200px;
+  }
+
+  .outer:not(.topMargin) {
+    margin-top: 0;
   }
 
   .centered {

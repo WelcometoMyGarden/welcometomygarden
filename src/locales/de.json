@@ -104,7 +104,7 @@
             "sections": {
               "0": {
                 "title": "Jedes Konto ist streng persönlich",
-                "copy": "Jedes Konto muss eindeutig und mit einer natürlichen Person verknüpft sein. Wenn Sie sich für ein Konto registrieren, müssen Sie genaue Kontoinformationen angeben und diese Informationen umgehend aktualisieren, wenn sie sich ändern. Jeder Nutzer hat das Recht, ein Konto zu erstellen. Wenn festgestellt wird, dass eine Person mehrere Konten hat, behält sich Welcome To My Garden das Recht vor, alle diese Konten zu löschen. Jeder Nutzer muss über 16 Jahre alt sein."
+                "copy": "Jedes Konto muss eindeutig und mit einer natürlichen Person verknüpft sein. Wenn Sie sich für ein Konto registrieren, müssen Sie genaue Kontoinformationen angeben und diese Informationen umgehend aktualisieren, wenn sie sich ändern. Jeder Nutzer hat das Recht, ein Konto zu erstellen. Wenn festgestellt wird, dass eine Person mehrere Konten hat, behält sich Welcome To My Garden das Recht vor, alle diese Konten zu löschen. Jeder Nutzer muss über 18 Jahre alt sein."
               },
               "1": {
                 "copy": "Da jedes Konto streng an eine bestimmte Person gebunden ist, kann dieses Konto nicht ohne die Erlaubnis von Welcome To My Garden auf eine andere Person übertragen werden. Dieses Übertragungsverbot ist im weitesten Sinne zu verstehen. Welcome To My Garden behält sich das Recht vor, dieses Konto im Falle von Verstößen zu verweigern oder zu löschen.",
@@ -123,7 +123,7 @@
         },
         "descriptions": {
           "0": {
-            "copy": "<span class=\"bold\"> Jeder Bürger und jede Bürgerinnen, der oder die einen kostenlosen Stellplatz in seinem oder ihrem Garten für Langsamreisende anbieten möchte und alle Langsamreisenden (Radfahrer und Wanderer), die das Netzwerk nutzen möchten. </span> Wenn Sie Ihren Garten hinzufügen oder einen Gastgeber kontaktieren möchten, müssen Sie ein Konto erstellen. Nur registrierte Teilnehmer können aktive Nutzer sein. Sie können sich mit Ihrer E-Mail-Adresse registrieren."
+            "copy": ""
           },
           "1": {
             "copy": "Die Erstellung eines Kontos durch einen Benutzer gibt diesem Benutzer nicht das Eigentum an dem Konto. Welcome To My Garden behält sich das Recht vor, Konten zu verweigern, zu sperren oder zu löschen, zum Beispiel, wenn der Nutzer die folgenden Regeln nicht einhält oder unangemessenes Verhalten von einem Gastgeber oder Gast gemeldet wurde."
@@ -180,9 +180,9 @@
             "title": "Kein Auto"
           },
           "6": {
-            "title": "Haftungsausschluss",
+            "title": "",
             "copy": {
-              "0": "Die Plattform Welcome To My Garden ist eine Bürgerinitiative. Die Freiwilligen hinter Welcome To My Garden übernehmen keine Verantwortung für Verluste, Schäden oder Verletzungen, die durch die Nutzung der Website oder während des Aufenthalts im Garten eines anderen Bürgers entstehen."
+              "0": ""
             }
           }
         },
@@ -222,7 +222,7 @@
       "5": {
         "descriptions": {
           "1": {
-            "copy": "IN KEINEM FALL IST WELCOMETOMYGARDEN.ORG, EINE BELGISCHE GEMEINNÜTZIGE ORGANISATION, ODER SEINE GELDGEBER UND FREIWILLIGEN, INDIREKTE ODER FOLGESCHÄDEN ODER ANDERE SCHÄDEN JEGLICHER ART, EINSCHLIEẞLICH, ABER NICHT BESCHRÄNKT AUF NUTZUNGSAUSFALL, GEWINNAUSFALL ODER DATENVERLUST, OB IN EINER KLAGE AUS VERTRAG, UNERLAUBTER HANDLUNG (EINSCHLIEẞLICH, ABER NICHT BESCHRÄNKT AUF FAHRLÄSSIGKEIT) ODER ANDERWEITIG, SELBST WENN WIR AUF DIE MÖGLICHKEIT SOLCHER SCHÄDEN HINGEWIESEN WURDEN, DIE AUS ODER IN BEZUG AUF: (A) DIE NUTZUNG ODER DIE UNFÄHIGKEIT, UNSERE DIENSTE ZU NUTZEN; (B) DIE KOSTEN FÜR DEN ERSATZ VON WAREN, DIENSTLEISTUNGEN ODER INFORMATIONEN, DIE ALS ERGEBNIS VON INFORMATIONEN ODER TRANSAKTIONEN, DIE ÜBER ODER VON UNSEREN DIENSTEN AUS GETÄTIGT WURDEN, GEKAUFT ODER ERHALTEN WURDEN; (C) DIE OFFENLEGUNG, DER UNBEFUGTE ZUGRIFF AUF ODER DIE VERÄNDERUNG VON IHREN INHALTEN; (D) SCHÄDEN DURCH DEN VERLUST ODER DIE BESCHÄDIGUNG VON DATEN ODER PROGRAMMEN, DIENSTUNTERBRECHUNGEN ODER DIE BESCHAFFUNG VON ERSATZDIENSTEN, AUCH WENN WIR VON DER MÖGLICHKEIT SOLCHER SCHÄDEN WISSEN ODER DARAUF HINGEWIESEN WURDEN; (E) ÄUẞERUNGEN, VERHALTEN ODER UNTERLASSUNGEN VON DIENSTANBIETERN ODER ANDEREN DRITTEN AUF UNSEREN DIENSTEN; (F) IHR VERHALTEN ODER HANDLUNGEN VON DRITTEN IN VERBINDUNG MIT DER NUTZUNG DER DIENSTE, EINSCHLIEẞLICH, ABER NICHT BESCHRÄNKT AUF, KÖRPERVERLETZUNG, SEELISCHE BELASTUNG, TOD ODER ANDERE SCHÄDEN, DIE AUS DER KOMMUNIKATION ODER TREFFEN MIT ANDEREN REGISTRIERTEN MITGLIEDERN UNSERER DIENSTE ODER PERSONEN, DIE IHNEN DURCH UNSERE DIENSTE VORGESTELLT WURDEN, OB ONLINE ODER OFFLINE, ENTSTEHEN; ODER (G) JEDE ANDERE ANGELEGENHEIT, DIE SICH AUS UNSEREN DIENSTEN ODER DIESEN BEDINGUNGEN ERGIBT, SICH DARAUF BEZIEHT ODER DAMIT VERBUNDEN IST."
+            "copy": "IN KEINEM FALL IST WELCOMETOMYGARDEN.ORG ODER SEINE GELDGEBER UND FREIWILLIGEN, INDIREKTE ODER FOLGESCHÄDEN ODER ANDERE SCHÄDEN JEGLICHER ART, EINSCHLIEẞLICH, ABER NICHT BESCHRÄNKT AUF NUTZUNGSAUSFALL, GEWINNAUSFALL ODER DATENVERLUST, OB IN EINER KLAGE AUS VERTRAG, UNERLAUBTER HANDLUNG (EINSCHLIEẞLICH, ABER NICHT BESCHRÄNKT AUF FAHRLÄSSIGKEIT) ODER ANDERWEITIG, SELBST WENN WIR AUF DIE MÖGLICHKEIT SOLCHER SCHÄDEN HINGEWIESEN WURDEN, DIE AUS ODER IN BEZUG AUF: (A) DIE NUTZUNG ODER DIE UNFÄHIGKEIT, UNSERE DIENSTE ZU NUTZEN; (B) DIE KOSTEN FÜR DEN ERSATZ VON WAREN, DIENSTLEISTUNGEN ODER INFORMATIONEN, DIE ALS ERGEBNIS VON INFORMATIONEN ODER TRANSAKTIONEN, DIE ÜBER ODER VON UNSEREN DIENSTEN AUS GETÄTIGT WURDEN, GEKAUFT ODER ERHALTEN WURDEN; (C) DIE OFFENLEGUNG, DER UNBEFUGTE ZUGRIFF AUF ODER DIE VERÄNDERUNG VON IHREN INHALTEN; (D) SCHÄDEN DURCH DEN VERLUST ODER DIE BESCHÄDIGUNG VON DATEN ODER PROGRAMMEN, DIENSTUNTERBRECHUNGEN ODER DIE BESCHAFFUNG VON ERSATZDIENSTEN, AUCH WENN WIR VON DER MÖGLICHKEIT SOLCHER SCHÄDEN WISSEN ODER DARAUF HINGEWIESEN WURDEN; (E) ÄUẞERUNGEN, VERHALTEN ODER UNTERLASSUNGEN VON DIENSTANBIETERN ODER ANDEREN DRITTEN AUF UNSEREN DIENSTEN; (F) IHR VERHALTEN ODER HANDLUNGEN VON DRITTEN IN VERBINDUNG MIT DER NUTZUNG DER DIENSTE, EINSCHLIEẞLICH, ABER NICHT BESCHRÄNKT AUF, KÖRPERVERLETZUNG, SEELISCHE BELASTUNG, TOD ODER ANDERE SCHÄDEN, DIE AUS DER KOMMUNIKATION ODER TREFFEN MIT ANDEREN REGISTRIERTEN MITGLIEDERN UNSERER DIENSTE ODER PERSONEN, DIE IHNEN DURCH UNSERE DIENSTE VORGESTELLT WURDEN, OB ONLINE ODER OFFLINE, ENTSTEHEN; ODER (G) JEDE ANDERE ANGELEGENHEIT, DIE SICH AUS UNSEREN DIENSTEN ODER DIESEN BEDINGUNGEN ERGIBT, SICH DARAUF BEZIEHT ODER DAMIT VERBUNDEN IST."
           }
         },
         "title": "Begrenzung der Haftung"
@@ -283,9 +283,12 @@
     "last-updated": "Zuletzt aktualisiert: 30. Mai 2020",
     "intro": {
       "1": {
-        "copy": "Die Nutzung dieser Plattform unterliegt <span class=\"bold\">einer Reihe von Regeln</span>. Im Folgenden finden Sie die allgemeinen Bedingungen unserer Plattform, da wir davon überzeugt sind, dass <span class=\"bold\">klare Regeln</span> die beste Garantie für eine <span class=\"bold\">respektvolle Gemeinschaft</span> bieten. <span class=\"bold\">Indem Sie ein Konto erstellen oder anderweitig auf die Plattform zugreifen, stimmen Sie diesen Bedingungen zu.</span>"
+        "copy": ""
       },
       "2": {
+        "copy": ""
+      },
+      "4": {
         "copy": "Da Welcome To My Garden Rückmeldung und Kommentare der Nutzer ihrer Plattform schätzt, begrüßen wir alle Ideen zur weiteren Verbesserung der Plattform. Sie können Ihre Vorschläge per E-Mail an {support} senden."
       }
     },
@@ -542,21 +545,11 @@
             "copy": "Welcome To My Garden ist ein Netzwerk von Bürgern, die ihre Gärten für Langsamreisende öffnen, die einen Campingplatz brauchen. Es handelt sich um eine gemeinnützige Initiative, die von einer Gruppe von Bürgern gegründet wurde. Die Idee entstand während der Abriegelung von Covid-19 in Belgien im Jahr 2020."
           },
           "who": {
-            "copy": "Welcome To My Garden wurde für Wanderer und Radfahrer geschaffen, die am Ende des Tages einen Campingplatz auf ihrem Weg benötigen. Es ist kein Ersatz für einen vollwertigen Campingplatz, sondern nur ein sicherer Platz für die Nacht! Betrachten Sie ihn als Ergänzung zum belgischen Netz der Biwakierplätze.",
+            "copy": "Welcome To My Garden wurde für Wanderer und Radfahrer geschaffen, die am Ende des Tages einen Campingplatz auf ihrem Weg benötigen. Es ist kein Ersatz für einen vollwertigen Campingplatz, sondern nur ein sicherer Platz für die Nacht! Betrachten Sie ihn als Ergänzung zum Netz der Biwakierplätze.",
             "title": "Für wen ist Welcome To My Garden gedacht?"
           }
         },
         "title": "Allgemein"
-      },
-      "other": {
-        "questions": {
-          "become-volunteer": {
-            "title": "Kann ich ein Freiwilliger werden?"
-          },
-          "warmshowers": {
-            "title": "Wie unterscheidet sich Welcome to My Garden von anderen Plattformen wie Warmshowers?"
-          }
-        }
       }
     }
   },
@@ -617,7 +610,7 @@
       "guest": {
         "sign-link-text": "anmelden",
         "button": "Gastgeber kontaktieren",
-        "login": "Sie müssen {signInLink}, um Gastgeber zu kontaktieren"
+        "login": "Sie müssen {signInLink} und Mitglied sein, um Gastgeber zu kontaktieren"
       },
       "facilities": {
         "capacity": "Platz für {styleCapacity} {capacity, plural, one {tent} other {tents}}"
@@ -684,7 +677,7 @@
         },
         "4": {
           "title": "Kostet Welcome To My Garden etwas?",
-          "copy": "Die Nutzung von Welcome To My Garden ist völlig kostenlos. Als Plattform entstehen uns jedoch Kosten. Wenn Sie uns eine Spende zukommen lassen wollen, wird uns das ein großes Lächeln auf die Lippen zaubern! Wir sind eine gemeinnützige Initiative, wir verdienen also kein Geld damit."
+          "copy": "Der Aufenthalt bei einem WTMG-Gastgeber ist kostenlos. \nUm WTMG aufrechtzuerhalten und weiterzuentwickeln, sind wir jedoch auf eine jährliche Mitgliedschaft angewiesen, um die Kosten fair auf alle Langsamreisende aufzuteilen. Mitgliedschaften verlängern sich nicht automatisch und sind ein Jahr gültig. \nSie können Mitglied <a href=\"/about-membership?utm_source=welcometomygarden.org werden"
         }
       },
       "copy": "Hier sind die wichtigsten Dinge, die Sie über Ihr nächstes Abenteuer wissen müssen. Bitte lesen Sie diesen FAQ-Bereich gründlich durch, damit Sie wissen, worauf Sie sich einlassen. Noch mehr Fragen? Lesen Sie {faqLink}!",
@@ -696,7 +689,7 @@
     },
     "intro": {
       "explore-map": "Karte erkunden",
-      "copy": "Ein gemeinnütziges Netzwerk von Bürgern und Bürgerinnen, die Langsamreisenden kostenlose Campingplätze in ihren Gärten anbieten",
+      "copy": "Ein gemeinnütziges Netzwerk von Bürgern und Bürgerinnen, die Langsamreisenden Campingplätze in ihren Gärten anbieten",
       "add-garden": "Ihren Garten hinzufügen",
       "learn-more": "Mehr erfahren"
     },

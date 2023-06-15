@@ -1,7 +1,10 @@
 <script lang="ts">
   export let name: string;
   export let icon: undefined | string = undefined;
-  export let label: string;
+  /**
+   * Choose a label or a slot
+   */
+  export let label: string | undefined = undefined;
   export let checked = false;
   export let disabled = false;
   export let ellipsis = false;
@@ -12,9 +15,9 @@
 
 <!-- Just stop click propagation from here -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div on:click|stopPropagation class:compact>
+<div on:click|stopPropagation class:compact class="checkbox-container">
   <input id={name} type="checkbox" {disabled} {name} on:input bind:checked on:change />
-  <LabelWithIcon {ellipsis} {compact} labelFor={name} {icon}>{label}</LabelWithIcon>
+  <LabelWithIcon {ellipsis} {compact} labelFor={name} {icon}>{label ?? ''}<slot /></LabelWithIcon>
 </div>
 
 <style>

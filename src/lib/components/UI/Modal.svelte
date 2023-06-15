@@ -7,6 +7,9 @@
   const dispatch = createEventDispatcher();
 
   // a11y
+  /**
+   * Don't use together with ariaLabelledBy
+   */
   export let ariaLabel: string | null = null;
   export let ariaLabelledBy: string | null = null;
   export let ariaDescribedBy: string | null = null;
@@ -21,7 +24,16 @@
   export let radius = false;
   export let center = false;
   export let stickToBottom = false;
+  export let fullHeight = false;
+  export let shrinkableBody = false;
+  /**
+   * Outer padding of the modal inside the screen
+   */
   export let nopadding = false;
+  /**
+   * padding inside the modal
+   */
+  export let noInnerPadding = false;
   export let opacity = true;
 
   const close = () => {
@@ -46,17 +58,20 @@
 <svelte:window on:keydown={handleKeydown} />
 
 {#if show}
+  <!-- Modal backdrop -->
   <div
     class="modal"
     class:center
     class:opacity
     class:stick-to-bottom={stickToBottom}
     class:nopadding
+    class:noInnerPadding
     on:click|self={handleOuterClick}
     on:keypress={(e) => {
       if (e.key === 'Escape') handleOuterClick();
     }}
   >
+    <!-- Modal dialog -->
     <div
       bind:this={ref}
       aria-labelledby={ariaLabelledBy}
@@ -67,9 +82,15 @@
       style="max-width:{maxWidth};"
       use:focusTrap
       class:radius
+      class:fullHeight
       id="dialog"
     >
       <div class="modal-header">
+        <!-- 
+          {ariaLabelledBy} inserts an "arialabelledby" attribute (which is not a valid ARIA attribute) 
+          but it also propagates the given value of ariaLabelledBy back to the let:ariaLabelledBy property on the parent,
+          so it can be used within slots by component users without repeating the concrete value of ariaLabelledBy. 
+        -->
         <slot name="title" {ariaLabelledBy} class="modal-title" />
         {#if closeButton}
           <button class="close" type="button" on:click={close} aria-label="Close">
@@ -77,14 +98,14 @@
           </button>
         {/if}
       </div>
-      <div class="modal-body">
+      <div class="modal-body" class:shrinkableBody>
+        <!-- See note about ariaLabelledBy above -->
         <slot name="body" {ariaLabelledBy} {ariaDescribedBy} />
       </div>
       <div class="controls">
         {#if cancelButton}
           <Button type="button" uppercase inverse on:click={close}>Close</Button>
-        {/if}
-        <slot name="controls" />
+        {/if}<slot name="controls" />
       </div>
     </div>
   </div>
@@ -108,7 +129,8 @@
     background-color: rgba(0, 0, 0, 0.6);
   }
 
-  .nopadding {
+  .nopadding,
+  .noInnerPadding .modal-content {
     padding: 0;
   }
 
@@ -134,6 +156,16 @@
     padding: 2rem;
     background-color: var(--color-white);
     width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-content.fullHeight {
+    height: 100%;
+  }
+
+  .modal-content > * {
+    flex: 1;
   }
 
   .modal-header {
@@ -143,11 +175,14 @@
 
     display: flex;
     justify-content: space-between;
-
     margin-bottom: 1.5rem;
   }
 
-  .modal-title {
+  .noInnerPadding .modal-header {
+    margin-bottom: 0;
+  }
+
+  .modal-header .modal-title {
     margin-right: 1rem;
     text-transform: uppercase;
   }
@@ -155,6 +190,14 @@
   .modal-header :global(i) {
     height: 1.25rem;
     width: 1.25rem;
+  }
+
+  .modal-body {
+    flex: 1 1 auto;
+  }
+
+  .modal-body.shrinkableBody {
+    min-height: 0;
   }
 
   button.close {
@@ -182,7 +225,7 @@
     fill: var(--color-white);
   }
 
-  .controls {
+  .controls:not(:empty) {
     margin-top: 10px;
   }
 

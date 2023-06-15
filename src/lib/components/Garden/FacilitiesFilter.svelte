@@ -100,7 +100,7 @@
         </div>
         <div class="gardenFilterCapacityModifier">
           <p>{$_('garden.filter.min')}</p>
-          <button on:click={capacityMinReduce}>-</button>
+          <button on:click={capacityMinReduce}><span>&minus;</span></button>
           <input
             type="number"
             class="capacity-input"
@@ -109,7 +109,7 @@
             max="20"
             bind:value={filter.capacity.min}
           />
-          <button on:click={capacityMinIncrease}>+</button>
+          <button on:click={capacityMinIncrease}><span>&plus;</span></button>
         </div>
       </div>
     </div>
@@ -181,19 +181,23 @@
   }
 
   .gardenFilterCapacityModifier > button {
-    margin: 2px 1rem 0 1rem;
+    margin: 1px 1rem 0 1rem;
     padding: 0;
-
     border: 1.5px solid var(--color-green);
     border-radius: 50%;
-
     background-color: var(--color-white);
     cursor: pointer;
-    height: 2rem;
-    width: 2rem;
+    width: 2.1rem;
+    height: 2.1rem;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .gardenFilterCapacityModifier > button span {
+    /* padding-top: 1.5px; */
+    font-family: 'Courier', monospace;
+    font-weight: bold;
   }
 
   .gardenFilterCapacityModifier > button:hover {

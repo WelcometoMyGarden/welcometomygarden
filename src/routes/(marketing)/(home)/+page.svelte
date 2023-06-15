@@ -5,13 +5,19 @@
   import { Button } from '$lib/components/UI';
   import PaddedSection from '../_components/PaddedSection.svelte';
   import MarketingBlock from '../_components/MarketingBlock.svelte';
-  import VideoSection from '../_sections/VideoSection.svelte';
+  import VideoSection from '../_sections/MediaSection.svelte';
   import HeadingSection from '../_components/Heading.svelte';
   import LandingSection from './_sections/LandingSection.svelte';
   import StepsSection from './_sections/StepsSection.svelte';
   import LearnMoreArrow from './_sections/LearnMoreArrowSection.svelte';
   import Testimonials, { type Slide } from '../_components/Testimonials.svelte';
   import { onDestroy } from 'svelte';
+
+  import katlijnFrankImg from '$lib/assets/testimonials/katlijn-frank.jpg?run&width=1280';
+  import carolienFamilyImg from '$lib/assets/testimonials/carolien-family.jpg?run&width=1280';
+  import gardenImg from '$lib/assets/testimonials/garden.jpeg?run&width=1280';
+  import { membershipBlogLink } from '$lib/util/translation-helpers';
+  import { PRICING_ROUTE } from '$lib/constants';
 
   const contentOf = (quoteNumber: string) => {
     const prefix = `index.wtmg-quotes.${quoteNumber}`;
@@ -25,15 +31,15 @@
     testimonials = [
       {
         ...contentOf('0'),
-        imagePath: '/testimonials/katlijn-frank.jpg'
+        image: katlijnFrankImg
       },
       {
         ...contentOf('1'),
-        imagePath: '/testimonials/carolien-family.jpg'
+        image: carolienFamilyImg
       },
       {
         ...contentOf('2'),
-        imagePath: '/testimonials/garden.jpeg'
+        image: gardenImg
       }
     ];
   };
@@ -60,22 +66,23 @@
 <PaddedSection desktopOnly>
   <MarketingBlock backgroundColor="var(--color-beige-light)">
     <VideoSection>
-      <HeadingSection slot="heading" caption={$_('index.superfan.support-mission')}>
+      <HeadingSection slot="heading" caption={$_('index.superfan.subtitle')}>
         {$_('index.superfan.become-superfan-title')}
       </HeadingSection>
       <div slot="text">
-        <p>
-          {$_('index.superfan.mission')}
-        </p>
-        <p>
-          {$_('index.superfan.financial-support')}
-        </p>
+        {@html $_('about-superfan.video-section.description')}
         <div class="become-superfan-buttons">
-          <Button href={routes.BECOME_SUPERFAN} uppercase orange arrow
-            >{$_('index.superfan.become-superfan')}</Button
+          <Button href={PRICING_ROUTE} uppercase orange arrow>{$_('generics.become-member')}</Button
           >
-          <Button href={routes.ABOUT_SUPERFAN} uppercase inverse link
-            >{$_('index.superfan.learn-more')}</Button
+          <Button
+            href={membershipBlogLink($_, {
+              utm_content: 'homepage'
+            })}
+            uppercase
+            inverse
+            link
+            xsmall
+            target="_blank">{$_('about-superfan.video-section.blog-link-text')}</Button
           >
         </div>
       </div>
@@ -115,6 +122,13 @@
   .become-superfan-buttons {
     display: flex;
     gap: 1.5rem;
+  }
+
+  .become-superfan-buttons :global(> *:first-child) {
+    flex: 1;
+  }
+  .become-superfan-buttons :global(> *:last-child) {
+    flex: 1;
   }
 
   .card p {

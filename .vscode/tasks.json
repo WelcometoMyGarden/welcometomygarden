@@ -20,7 +20,7 @@
       "label": "Local Development",
       "dependsOn": [
         "copy-demo-env",
-        "npm: firebase:demo",
+        "npm: firebase:demo-seed",
         "npm: dev"
       ],
       "group": {

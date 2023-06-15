@@ -33,6 +33,6 @@ export const ICON_SIZE = [
   0.4
 ];
 
-export const SUPERFAN_PRICING_ROUTE = `${routes.BECOME_SUPERFAN}#pricing`;
+export const PRICING_ROUTE = `${routes.ABOUT_MEMBERSHIP}#pricing`;
 
 export const IMAGES_PATH = '/images';

@@ -1,3 +1,7 @@
+# Large source assets to be processed by svelte-img
+# See the readme or docs/full-access.md for more info
+src/lib/assets
+
 # Logs
 logs
 *.log
@@ -35,8 +39,6 @@ firestore-coverage.html
 !.vscode/extensions.json
 
 .DS_Store
-
-
 
 # Build & cache files
 

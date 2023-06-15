@@ -4,6 +4,7 @@
   export let description: string | undefined = undefined;
   export let backgroundColor: string | undefined = undefined;
   export let label: string | undefined = undefined;
+  export let largeDescription = false;
 </script>
 
 <div style:background-color={backgroundColor} class:labeled={label} style="">
@@ -17,7 +18,7 @@
     <span class="title">{title}</span>
   {/if}
   {#if description}
-    <p>{description}</p>
+    <p class:largeDescription>{description}</p>
   {/if}
 </div>
 
@@ -44,6 +45,11 @@
     background-color: var(--color-pink-light);
     letter-spacing: 0.06em;
     text-transform: uppercase;
+  }
+
+  .largeDescription {
+    font-size: 2rem;
+    line-height: 1.5;
   }
 
   span.icon {

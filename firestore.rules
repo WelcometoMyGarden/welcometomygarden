@@ -292,8 +292,11 @@ service cloud.firestore {
       allow write: if false;
     }
 
-    // Allow reading superfan stats on our public pages
+    // Allow reading superfan & campsite stats on our public pages
     match /stats/superfans {
+      allow read: if true;
+    }
+    match /stats/campsites {
       allow read: if true;
     }
   }

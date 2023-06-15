@@ -3,14 +3,17 @@
     quote: string;
     name: string;
     // Should not include the bucket prefix
-    imagePath: string;
+    /**
+     * svelte-img image
+     */
+    image: unknown[] | undefined;
   };
 </script>
 
 <script lang="ts">
   import { arrowRightIcon } from '$lib/images/icons';
 
-  import staticAssetUrl from '$lib/util/staticAssetUrl';
+  import Img from '@zerodevx/svelte-img';
   import { fade } from 'svelte/transition';
 
   export let slides: Slide[];
@@ -24,11 +27,11 @@
 </script>
 
 <div class="wrapper">
-  {#each slides as { name, imagePath, quote }, index}
+  {#each slides as { name, image, quote }, index}
     {#if activeSlide === index}
       <div class="slide" transition:fade>
         <div class="image">
-          <img src={staticAssetUrl(imagePath)} alt="Image of {name}" />
+          <Img src={image} alt="Image of {name}" />
         </div>
         <div class="text">
           <quote class="quote">〝{quote}〞</quote>
@@ -86,7 +89,7 @@
     font-weight: normal;
   }
 
-  img {
+  .image :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;

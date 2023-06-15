@@ -5,8 +5,9 @@
 
   type Feature = {
     icon: string;
-    title: string;
-    description: string;
+    description?: string;
+    title?: string;
+    largeDescription?: true;
   };
 
   // Optional param features override
