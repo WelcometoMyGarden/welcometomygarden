@@ -171,7 +171,7 @@
     flex: 1;
   }
   .become-superfan-buttons :global(> *:last-child) {
-    flex: 2;
+    flex: 1.2;
   }
 
   @media only screen and (max-width: 500px) {

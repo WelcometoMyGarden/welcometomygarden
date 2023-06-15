@@ -35,7 +35,7 @@
   },
   "navigation": {
     "membership-notice": {
-      "prompt": "Bientôt : ",
+      "prompt": "Nouveau : ",
       "answer": "une adhésion WTMG pour tous les voyageurs lents. Pour en savoir plus, {linkText}.",
       "link-text": "lisez ce blog post"
     }

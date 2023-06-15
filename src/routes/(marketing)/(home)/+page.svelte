@@ -81,6 +81,7 @@
             uppercase
             inverse
             link
+            xsmall
             target="_blank">{$_('about-superfan.video-section.blog-link-text')}</Button
           >
         </div>
@@ -121,6 +122,13 @@
   .become-superfan-buttons {
     display: flex;
     gap: 1.5rem;
+  }
+
+  .become-superfan-buttons :global(> *:first-child) {
+    flex: 1;
+  }
+  .become-superfan-buttons :global(> *:last-child) {
+    flex: 1;
   }
 
   .card p {

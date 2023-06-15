@@ -35,7 +35,7 @@
     align-items: center; */
     column-gap: 3rem;
     row-gap: 0.5rem;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.2fr 1fr;
     grid-template-rows: auto auto;
   }
 
@@ -48,7 +48,7 @@
     grid-column: 1;
     grid-row: 2;
     flex: 1;
-    max-width: 500px;
+    max-width: 550px;
     margin: 2rem 0;
   }
 
