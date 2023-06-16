@@ -4,6 +4,7 @@ import type { _ } from 'svelte-i18n';
 type Flatten<T> = T extends Readable<infer U> ? U : T;
 export type MessageFormatter = Flatten<typeof _>;
 import { WTMG_BLOG_BASE_URL } from '$lib/constants';
+import createUrl from './create-url';
 
 export const anchorText = (props: {
   href: string;
@@ -45,7 +46,6 @@ export const membershipBlogLink = (
     ...(utm_campaign ? { utm_campaign } : { utm_campaign: 'membership' }),
     ...(utm_content ? { utm_content } : undefined)
   };
-  return `${WTMG_BLOG_BASE_URL}${t('generics.fair-model-blog-path')}?${new URLSearchParams(
-    params
-  ).toString()}`;
+
+  return createUrl(`${WTMG_BLOG_BASE_URL}${t('generics.fair-model-blog-path')}`, params);
 };
