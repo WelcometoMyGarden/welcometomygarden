@@ -12,7 +12,8 @@
   import { createEventDispatcher } from 'svelte';
   import { COMMUNITY_FORUM_URL, DONATION_URL } from '$lib/constants';
   import NewBadge from '../../NewBadge.svelte';
-  import { anchorText, membershipBlogLink } from '$lib/util/translation-helpers';
+  import { anchorText } from '$lib/util/translation-helpers';
+  import createUrl from '$lib/util/create-url';
 
   const dispatch = createEventDispatcher();
   export let isOpen = false;
@@ -70,12 +71,13 @@
         >{@html $_('navigation.membership-notice.answer', {
           values: {
             linkText: anchorText({
-              href: membershipBlogLink($_, {
+              href: createUrl(routes.ABOUT_MEMBERSHIP, {
                 utm_campaign: 'membership_announcement_jun_23',
                 utm_content: 'side_navbar'
               }),
               linkText: $_('navigation.membership-notice.link-text'),
-              style: 'text-decoration: underline; cursor: pointer;'
+              style: 'text-decoration: underline; cursor: pointer;',
+              newtab: false
             })
           }
         })}</span

@@ -42,8 +42,8 @@
   "navigation": {
     "membership-notice": {
       "prompt": "New: ",
-      "answer": "a WTMG membership for all slow travellers. Find out more in {linkText}!",
-      "link-text": "this blog post"
+      "answer": "a WTMG membership for all slow travellers. Find out more {linkText}!",
+      "link-text": "here"
     }
   },
   "index": {
