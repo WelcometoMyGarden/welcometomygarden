@@ -25,6 +25,7 @@
   import { membershipBlogLink } from '$lib/util/translation-helpers';
   import capitalize from '$lib/util/capitalize';
   import { page } from '$app/stores';
+  import { user } from '$lib/stores/auth';
 
   smoothscroll.polyfill();
 
@@ -91,7 +92,10 @@
     <div slot="text" class="video-text">
       {@html $_('about-superfan.video-section.description')}
       <div class="become-superfan-buttons">
-        <Button href={PRICING_ROUTE} uppercase orange arrow>{$_('generics.become-member')}</Button>
+        {#if !$user?.superfan}
+          <Button href={PRICING_ROUTE} uppercase orange arrow>{$_('generics.become-member')}</Button
+          >
+        {/if}
         <Button
           href={membershipBlogLink($_, {
             utm_content: 'about_membership_header'
@@ -167,6 +171,7 @@
     display: flex;
     gap: 1.5rem;
   }
+
   .become-superfan-buttons :global(> *:first-child) {
     flex: 1;
   }

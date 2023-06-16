@@ -5,7 +5,7 @@
   import { Button } from '$lib/components/UI';
   import PaddedSection from '../_components/PaddedSection.svelte';
   import MarketingBlock from '../_components/MarketingBlock.svelte';
-  import VideoSection from '../_sections/MediaSection.svelte';
+  import MediaSection from '../_sections/MediaSection.svelte';
   import HeadingSection from '../_components/Heading.svelte';
   import LandingSection from './_sections/LandingSection.svelte';
   import StepsSection from './_sections/StepsSection.svelte';
@@ -18,6 +18,7 @@
   import gardenImg from '$lib/assets/testimonials/garden.jpeg?run&width=1280';
   import { membershipBlogLink } from '$lib/util/translation-helpers';
   import { PRICING_ROUTE } from '$lib/constants';
+  import { user } from '$lib/stores/auth';
 
   const contentOf = (quoteNumber: string) => {
     const prefix = `index.wtmg-quotes.${quoteNumber}`;
@@ -65,15 +66,26 @@
 <StepsSection />
 <PaddedSection desktopOnly>
   <MarketingBlock backgroundColor="var(--color-beige-light)">
-    <VideoSection>
+    <MediaSection>
       <HeadingSection slot="heading" caption={$_('index.superfan.subtitle')}>
         {$_('index.superfan.become-superfan-title')}
       </HeadingSection>
       <div slot="text">
         {@html $_('about-superfan.video-section.description')}
         <div class="become-superfan-buttons">
-          <Button href={PRICING_ROUTE} uppercase orange arrow>{$_('generics.become-member')}</Button
+          <!-- If the user is already a member, we don't use CTA copy (or links) that push to pay -->
+          <Button
+            href={$user?.superfan ? routes.ABOUT_MEMBERSHIP : PRICING_ROUTE}
+            uppercase
+            orange
+            arrow
           >
+            {#if $user?.superfan}
+              {$_('index.intro.learn-more')}
+            {:else}
+              {$_('generics.become-member')}
+            {/if}
+          </Button>
           <Button
             href={membershipBlogLink($_, {
               utm_content: 'homepage'
@@ -86,7 +98,7 @@
           >
         </div>
       </div>
-    </VideoSection>
+    </MediaSection>
   </MarketingBlock>
 </PaddedSection>
 <PaddedSection desktopOnly>

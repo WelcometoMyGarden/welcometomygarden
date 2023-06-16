@@ -714,7 +714,8 @@
       "questions": "Questions?",
       "faq-link-text": "See our FAQ.",
       "blog-post": "Read our blog post:",
-      "blog-post-link-text": "Why a membership for WTMG?"
+      "blog-post-link-text": "Why a membership for WTMG?",
+      "already-member": "You are already a {type}, thank you!"
     }
   },
   "about-superfan": {

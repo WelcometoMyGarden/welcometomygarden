@@ -702,7 +702,8 @@
       "terms-link-text": "règles de WTMG",
       "faq-link-text": "Lisez nos FAQ.",
       "blog-post": "Lisez notre blog post: ",
-      "blog-post-link-text": "pourquoi une adhésion pour WTMG ?"
+      "blog-post-link-text": "pourquoi une adhésion pour WTMG ?",
+      "already-member": "Vous êtes déjà {type}, merci!"
     },
     "modal": {
       "intro": "Camper dans le jardin d’hôtes WTMG reste gratuit. Cependant, afin de répartir les coûts de maintenance et de développement de la plateforme entre tous les voyageur.ses, WTMG a besoin d’une adhésion annuelle.",

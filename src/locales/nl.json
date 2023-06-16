@@ -320,7 +320,8 @@
           "description": "Je hebt een passie voor slow travel en wilt de missie van WTMG steunen.",
           "title": ""
         }
-      }
+      },
+      "already-member": "Je bent al een {type}, bedankt!"
     },
     "modal": {
       "choose-membership": "Kies je lidmaatschap",

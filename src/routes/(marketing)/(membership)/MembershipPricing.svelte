@@ -175,7 +175,7 @@
       uppercase
       orange={selectedLevel.slug != SuperfanLevelSlug.FREE}
       arrow
-      disabled={selectedLevel.slug === SuperfanLevelSlug.FREE && !!$user}
+      disabled={(selectedLevel.slug === SuperfanLevelSlug.FREE && !!$user) || $user?.superfan}
       on:click={() => {
         if (!acceptedTerms) {
           continueError = $_('register.validate.consent');
@@ -196,6 +196,20 @@
         {$_('garden.form.register-link-text')}
       {/if}
     </Button>
+    {#if $user?.superfan}
+      <p class="notice">
+        {$_('become-superfan.pricing-section.already-member', {
+          values: {
+            type:
+              $user.stripeSubscription?.priceId === import.meta.env.VITE_STRIPE_PRICE_ID_REDUCED
+                ? $_('generics.member')
+                : $user.stripeSubscription?.priceId === import.meta.env.VITE_STRIPE_PRICE_ID_NORMAL
+                ? $_('generics.superfan')
+                : 'member'
+          }
+        })}
+      </p>
+    {/if}
   </div>
   <p class="fineprint">
     {$t('become-superfan.pricing-section.questions')}{' '}<Anchor
@@ -216,6 +230,10 @@
 <svelte:window bind:innerWidth />
 
 <style>
+  p.notice {
+    display: block;
+    margin-top: 1rem;
+  }
   .error {
     color: var(--color-danger);
   }
@@ -265,7 +283,9 @@
   .select-level-button {
     margin: 2rem 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: 100%;
   }
 
