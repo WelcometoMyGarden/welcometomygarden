@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { _, t, locale, json } from 'svelte-i18n';
+  import { _, t, json } from 'svelte-i18n';
   import {
     superfanLevels,
     type SuperfanLevelData,

@@ -21,6 +21,7 @@
   closeOnEsc={false}
   closeOnOuterClick={false}
   maxWidth="992px"
+  maxHeight="912px"
   radius
   center
   fullHeight

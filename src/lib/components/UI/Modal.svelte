@@ -19,6 +19,7 @@
   export let closeOnEsc = true;
   export let closeOnOuterClick = true;
   export let maxWidth: string;
+  export let maxHeight: string | undefined = undefined;
   export let show = true;
 
   export let radius = false;
@@ -79,10 +80,11 @@
       aria-label={ariaLabel}
       role="dialog"
       class="modal-content"
-      style="max-width:{maxWidth};"
-      use:focusTrap
       class:radius
       class:fullHeight
+      style:max-width={maxWidth}
+      style:max-height={maxHeight}
+      use:focusTrap
       id="dialog"
     >
       <div class="modal-header">
