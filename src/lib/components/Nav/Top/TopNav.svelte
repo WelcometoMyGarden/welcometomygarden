@@ -8,7 +8,8 @@
   import { COMMUNITY_FORUM_URL } from '$lib/constants';
   import NewBadge from '../NewBadge.svelte';
   import { anchorText } from '$lib/util/translation-helpers';
-  import createUrl from '$lib/util/create-url';
+  import { PlausibleEvent } from '$lib/types/Plausible';
+  import trackEvent from '$lib/util/track-event';
 
   $: firstName = $user ? $user.firstName : '';
 </script>
@@ -21,10 +22,8 @@
         >{@html $_('navigation.membership-notice.answer', {
           values: {
             linkText: anchorText({
-              href: createUrl(routes.ABOUT_MEMBERSHIP, {
-                utm_campaign: 'membership_announcement_jun_23',
-                utm_content: 'top_navbar'
-              }),
+              href: routes.ABOUT_MEMBERSHIP,
+              track: [PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'top_navbar_announcement' }],
               linkText: $_('navigation.membership-notice.link-text'),
               style: 'text-decoration: underline; cursor: pointer;',
               newtab: false
@@ -41,7 +40,11 @@
         <NavLink href={routes.MAP}>{$_('generics.map')}</NavLink>
       </li>
       <li>
-        <NavLink href={routes.RULES}>{$_('generics.rules')}</NavLink>
+        <NavLink
+          href={routes.RULES}
+          on:click={() => trackEvent(PlausibleEvent.VISIT_RULES, { source: 'top_navbar' })}
+          >{$_('generics.rules')}</NavLink
+        >
       </li>
       <li>
         <NavLink href={routes.ABOUT_US}>{$_('generics.about-us')}</NavLink>
@@ -54,8 +57,11 @@
       {/if}
       {#if !$user?.superfan}
         <li>
-          <NavLink href={routes.ABOUT_MEMBERSHIP} highlighted
-            >{$_('generics.become-member')}</NavLink
+          <NavLink
+            href={routes.ABOUT_MEMBERSHIP}
+            on:click={() =>
+              trackEvent(PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'top_navbar' })}
+            highlighted>{$_('generics.become-member')}</NavLink
           >
         </li>
       {/if}

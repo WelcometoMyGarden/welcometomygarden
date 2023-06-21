@@ -33,6 +33,24 @@
 
   $: showMembershipModal = !$user?.superfan && chatId === 'new';
 
+  const backNavHandler = () => {
+    // Document contains the target. We're interested in detecting navigation back to the garden side drawer.
+    if (document.location.pathname.includes('/explore/garden')) {
+      trackEvent(PlausibleEvent.MEMBERSHIP_MODAL_BACK);
+    }
+
+    // Remove the handler
+    window.removeEventListener('popstate', backNavHandler);
+  };
+
+  $: if (showMembershipModal == true) {
+    trackEvent(PlausibleEvent.OPEN_MEMBERSHIP_MODAL, {
+      source: 'direct'
+    });
+
+    window.addEventListener('popstate', backNavHandler);
+  }
+
   /**
    * The currently selected chat, if it exists
    */
@@ -178,6 +196,9 @@
   onDestroy(() => {
     cleanupPage();
     unsubscribeFromPage();
+    // Has no effect if the handler was registered
+    // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener
+    window.removeEventListener('popstate', backNavHandler);
   });
 
   $: partnerName = chat && chat.partner ? chat.partner.firstName : '';

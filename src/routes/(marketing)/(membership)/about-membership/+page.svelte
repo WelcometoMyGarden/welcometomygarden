@@ -11,7 +11,6 @@
   import type { Slide } from '../../_components/Testimonials.svelte';
   import { coreTeamProfiles } from '../../_static/profiles';
   import ProfilePicture from '../../_components/ProfilePicture.svelte';
-  import { PRICING_ROUTE } from '$lib/constants';
   import { getNodeKeys } from '$lib/util/get-node-children';
   import { onDestroy, onMount } from 'svelte';
   import MembershipPricing from '../MembershipPricing.svelte';
@@ -93,7 +92,8 @@
       {@html $_('about-superfan.video-section.description')}
       <div class="become-superfan-buttons">
         {#if !$user?.superfan}
-          <Button href={PRICING_ROUTE} uppercase orange arrow>{$_('generics.become-member')}</Button
+          <Button href="{routes.ABOUT_MEMBERSHIP}#pricing" uppercase orange arrow
+            >{$_('generics.become-member')}</Button
           >
         {/if}
         <Button
@@ -118,7 +118,7 @@
   <div style="margin-bottom: var(--spacing-medium)" />
 </PaddedSection>
 <PaddedSection backgroundColor="var(--color-beige-light" vertical id="pricing">
-  <MembershipPricing full />
+  <MembershipPricing full analyticsSource="about_membership" />
 </PaddedSection>
 <PaddedSection desktopOnly>
   <MarketingBlock centered backgroundColor="var(--color-beige-light">

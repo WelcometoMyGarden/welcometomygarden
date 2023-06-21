@@ -68,7 +68,7 @@
     class:underline
     {href}
     on:click={(e) => {
-      if (disabled) e.preventDefault();
+      if (disabled || preventing) e.preventDefault();
       click(e);
     }}
     {target}

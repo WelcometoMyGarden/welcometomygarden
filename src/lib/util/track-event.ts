@@ -1,3 +1,4 @@
+import { dev } from '$app/environment';
 import { user } from '$lib/stores/auth';
 import {
   isNonsuperfanOnlyEvent,
@@ -6,7 +7,11 @@ import {
   type PlausibleCustomProperties,
   type PlausibleGardenVisibilityProperties,
   type PlausibleResponseRoleProperties,
-  type PlausibleSubscriptionProperties
+  type PlausibleSubscriptionProperties,
+  type PlausibleMembershipModalProperties,
+  type PlausibleVisitAboutMembershipProperties,
+  type PlausibleContinueWithPriceProperties,
+  type PlausiblePricingSectionSourceProperties
 } from '$lib/types/Plausible';
 import { debounce } from 'lodash-es';
 import { get } from 'svelte/store';
@@ -29,9 +34,21 @@ const logToPlausible = (
   const options = {
     props: { ...superfanProperty, ...customProperties }
   };
-  window.plausible(eventName, options);
+  if (dev) {
+    console.log(`Log attempt to Plausible: ${eventName} ${JSON.stringify(options)}`);
+  } else {
+    window.plausible(eventName, options);
+  }
 };
 
+/**
+ * @param name - the event name (type)
+ * @param props - props that should or can describe the event further
+ * @param trailing - whether the internal debouncer should send the first request,
+ *          and ignore similar events in the timeframe of 5 seconds (false, default),
+ *          or whether it should wait with sending and send the last received
+ *          event within the timeframe (true).
+ */
 function trackEvent(
   name: PlausibleEvent.SET_GARDEN_VISIBILITY,
   props: PlausibleGardenVisibilityProperties & PlausibleCustomProperties,
@@ -47,6 +64,24 @@ function trackEvent(
   props: PlausibleSubscriptionProperties & PlausibleCustomProperties
 ): void;
 function trackEvent(
+  name: PlausibleEvent.OPEN_MEMBERSHIP_MODAL,
+  props: PlausibleMembershipModalProperties & PlausibleCustomProperties
+): void;
+function trackEvent(
+  name: PlausibleEvent.CONTINUE_WITH_PRICE,
+  props: PlausibleContinueWithPriceProperties &
+    PlausiblePricingSectionSourceProperties &
+    PlausibleCustomProperties
+): void;
+function trackEvent(
+  name: PlausibleEvent.VISIT_ABOUT_MEMBERSHIP,
+  props: PlausibleVisitAboutMembershipProperties & PlausibleCustomProperties
+): void;
+function trackEvent(
+  name: PlausibleEvent.VISIT_MEMBERSHIP_FAQ | PlausibleEvent.VISIT_RULES,
+  props: PlausiblePricingSectionSourceProperties & PlausibleCustomProperties
+): void;
+function trackEvent(
   // Exclude all events that were handled above
   name: Exclude<
     PlausibleEvent,
@@ -54,6 +89,12 @@ function trackEvent(
     | PlausibleEvent.SEND_RESPONSE
     | PlausibleEvent.EMAIL_RESUBSCRIBE
     | PlausibleEvent.EMAIL_UNSUBSCRIBE
+    | PlausibleEvent.OPEN_MEMBERSHIP_MODAL
+    | PlausibleEvent.CONTINUE_WITH_PRICE
+    // Causes type issues in Footer, TopNav & SideDrawer :/
+    // | PlausibleEvent.VISIT_ABOUT_MEMBERSHIP
+    // | PlausibleEvent.VISIT_FAQ
+    // | PlausibleEvent.VISIT_RULES
   >,
   props?: PlausibleCustomProperties,
   trailing?: boolean

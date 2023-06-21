@@ -16,9 +16,12 @@
   import katlijnFrankImg from '$lib/assets/testimonials/katlijn-frank.jpg?run&width=1280';
   import carolienFamilyImg from '$lib/assets/testimonials/carolien-family.jpg?run&width=1280';
   import gardenImg from '$lib/assets/testimonials/garden.jpeg?run&width=1280';
-  import { membershipBlogLink } from '$lib/util/translation-helpers';
-  import { PRICING_ROUTE } from '$lib/constants';
+  import { anchorText, membershipBlogLink } from '$lib/util/translation-helpers';
   import { user } from '$lib/stores/auth';
+  import createUrl from '$lib/util/create-url';
+  import { goto } from '$lib/util/navigate';
+  import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   const contentOf = (quoteNumber: string) => {
     const prefix = `index.wtmg-quotes.${quoteNumber}`;
@@ -27,6 +30,12 @@
       quote: $_(prefix + '.quote')
     };
   };
+
+  $: membershipUrlWithParams = createUrl(
+    routes.ABOUT_MEMBERSHIP,
+    {},
+    $user?.superfan ? '' : 'pricing'
+  );
 
   const setTestimonials = () => {
     testimonials = [
@@ -75,7 +84,12 @@
         <div class="become-superfan-buttons">
           <!-- If the user is already a member, we don't use CTA copy (or links) that push to pay -->
           <Button
-            href={$user?.superfan ? routes.ABOUT_MEMBERSHIP : PRICING_ROUTE}
+            href={membershipUrlWithParams}
+            preventing
+            on:click={() => {
+              trackEvent(PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'home_section' });
+              goto(membershipUrlWithParams);
+            }}
             uppercase
             orange
             arrow
@@ -113,7 +127,11 @@
       <p>
         {@html $_('index.faq.copy', {
           values: {
-            faqLink: `<a href=${routes.FAQ}>${$_(`index.faq.faq-link-text`)}</a>`
+            faqLink: anchorText({
+              href: routes.FAQ,
+              linkText: $_(`index.faq.faq-link-text`),
+              newtab: false
+            })
           }
         })}
       </p>

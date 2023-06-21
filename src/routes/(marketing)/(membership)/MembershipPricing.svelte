@@ -18,6 +18,12 @@
   import SliderRadio from './SliderRadio.svelte';
   import { mapValues } from 'lodash-es';
   import { toArray, type LocaleDictionary } from '$lib/util/get-node-children';
+  import {
+    PlausibleEvent,
+    type PlausiblePricingSectionSourceProperties
+  } from '$lib/types/Plausible';
+  import trackEvent from '$lib/util/track-event';
+  import createUrl from '$lib/util/create-url';
 
   /**
    * Whether to show full cards with all info.
@@ -28,6 +34,11 @@
    * Whether this shows a condensed pricing levels on desktop
    */
   export let condensed = false;
+
+  /**
+   * Source used in Plausible analytics
+   */
+  export let analyticsSource: PlausiblePricingSectionSourceProperties['source'];
 
   let acceptedTerms = false;
 
@@ -115,6 +126,10 @@
       // TODO: simplify this...
       continueUrl = `${routes.CHAT}?with=${$page.url.searchParams.get('id')}`;
     }
+    trackEvent(PlausibleEvent.CONTINUE_WITH_PRICE, {
+      source: analyticsSource,
+      membership_type: level.slug
+    });
     return await goto(
       `${routes.MEMBER_PAYMENT}/${level.slug}${
         continueUrl ? `?continueUrl=${encodeURIComponent(continueUrl)}` : ''
@@ -159,6 +174,7 @@
         values: {
           termsLink: anchorText({
             href: routes.RULES,
+            track: [PlausibleEvent.VISIT_RULES, { source: analyticsSource }],
             linkText: $_('become-superfan.pricing-section.terms-link-text'),
             class: 'link'
           })
@@ -213,14 +229,16 @@
   </div>
   <p class="fineprint">
     {$t('become-superfan.pricing-section.questions')}{' '}<Anchor
-      href="{routes.ABOUT_MEMBERSHIP}#faq"
+      href={createUrl(routes.ABOUT_MEMBERSHIP, {}, 'faq')}
+      on:click={() => trackEvent(PlausibleEvent.VISIT_MEMBERSHIP_FAQ, { source: analyticsSource })}
       newtab={$page.url.pathname !== routes.ABOUT_MEMBERSHIP}
       >{$t('become-superfan.pricing-section.faq-link-text')}</Anchor
     >
     {$t('become-superfan.pricing-section.blog-post')}
     <Anchor
       href={membershipBlogLink($_, {
-        utm_content: 'pricing_modal'
+        // Old value: 'pricing_modal'
+        utm_content: analyticsSource
       })}
       newtab>{$t('become-superfan.pricing-section.blog-post-link-text')}</Anchor
     >

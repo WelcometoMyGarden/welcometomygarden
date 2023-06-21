@@ -1,12 +1,14 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import routes from '$lib/routes';
-  import { DONATION_URL, mailToSupportHref } from '$lib/constants';
+  import { DONATION_URL, WTMG_UTM_SOURCE, mailToSupportHref } from '$lib/constants';
   import Socials from './Socials.svelte';
   import LanguageSelector from './LanguageSelector.svelte';
   import WtmgLogo from './UI/WTMGLogo.svelte';
   import PaddedSection from '$routes/(marketing)/_components/PaddedSection.svelte';
   import { user } from '$lib/stores/auth';
+  import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   const donationUrlParams = new URLSearchParams({
     ...($user
@@ -15,7 +17,7 @@
           client_reference_id: $user.id
         }
       : {}),
-    utm_source: 'welcometomygarden.org',
+    utm_source: WTMG_UTM_SOURCE,
     utm_medium: 'web',
     utm_campaign: 'donation_payment',
     utm_content: 'footer'
@@ -25,6 +27,7 @@
     title: string;
     link: string;
     target?: '_blank';
+    track?: Parameters<typeof trackEvent>;
   };
 
   type Category = {
@@ -47,7 +50,8 @@
         },
         {
           title: $_('footer.links.superfans'),
-          link: routes.ABOUT_MEMBERSHIP
+          link: routes.ABOUT_MEMBERSHIP,
+          track: [PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'footer' }]
         },
         {
           title: $_('footer.links.donate'),
@@ -59,13 +63,6 @@
     {
       title: $_('footer.link-category-titles.our-projects'),
       links: [
-        {
-          title: $_('generics.slowby'),
-          link: `${$_(
-            'generics.slowby-url'
-          )}?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer`,
-          target: '_blank'
-        },
         {
           title: $_('footer.links.velotour.title'),
           link: $_('footer.links.velotour.url'),
@@ -83,7 +80,8 @@
       links: [
         {
           title: $_('generics.rules'),
-          link: routes.RULES
+          link: routes.RULES,
+          track: [PlausibleEvent.VISIT_RULES, { source: 'footer' }]
         },
         {
           title: $_('generics.faq.acronym'),
@@ -115,9 +113,14 @@
               {categoryTitle}
             </span>
             <ul class="links">
-              {#each links as { title: linkTitle, link, target }}
+              {#each links as { title: linkTitle, link, target, track: trackParams }}
                 <li>
-                  <a href={link} rel="noopener" {target}>{linkTitle}</a>
+                  <a
+                    href={link}
+                    on:click={() => (trackParams ? trackEvent.apply(null, trackParams) : undefined)}
+                    rel="noopener"
+                    {target}>{linkTitle}</a
+                  >
                 </li>
               {/each}
             </ul>

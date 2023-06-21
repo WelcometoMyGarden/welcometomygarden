@@ -13,7 +13,8 @@
   import { COMMUNITY_FORUM_URL, DONATION_URL } from '$lib/constants';
   import NewBadge from '../../NewBadge.svelte';
   import { anchorText } from '$lib/util/translation-helpers';
-  import createUrl from '$lib/util/create-url';
+  import { PlausibleEvent } from '$lib/types/Plausible';
+  import trackEvent from '$lib/util/track-event';
 
   const dispatch = createEventDispatcher();
   export let isOpen = false;
@@ -49,7 +50,7 @@
     utm_content: 'side_navbar'
   });
 
-  let sideLinks: { route: string; name: string }[];
+  let sideLinks: { route: string; name: string; track?: Parameters<typeof trackEvent> }[];
   $: sideLinks = [
     { route: routes.FAQ, name: $_('generics.faq.acronym') },
     { route: `${DONATION_URL}?${donationUrlParams.toString()}`, name: $_('footer.links.donate') },
@@ -71,10 +72,11 @@
         >{@html $_('navigation.membership-notice.answer', {
           values: {
             linkText: anchorText({
-              href: createUrl(routes.ABOUT_MEMBERSHIP, {
-                utm_campaign: 'membership_announcement_jun_23',
-                utm_content: 'side_navbar'
-              }),
+              href: routes.ABOUT_MEMBERSHIP,
+              track: [
+                PlausibleEvent.VISIT_ABOUT_MEMBERSHIP,
+                { source: 'side_navbar_announcement' }
+              ],
               linkText: $_('navigation.membership-notice.link-text'),
               style: 'text-decoration: underline; cursor: pointer;',
               newtab: false
@@ -88,7 +90,14 @@
     <ul class="main-links">
       {#if !$user?.superfan}
         <li>
-          <a class="highlighted" href={routes.ABOUT_MEMBERSHIP} on:click={toggleDrawer}>
+          <a
+            class="highlighted"
+            href={routes.ABOUT_MEMBERSHIP}
+            on:click={() => {
+              trackEvent(PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'side_navbar' });
+              toggleDrawer();
+            }}
+          >
             {$_('generics.become-member')}
           </a>
         </li>
@@ -97,7 +106,13 @@
         <a href={routes.ABOUT_US} on:click={toggleDrawer}>{$_('generics.about-us')}</a>
       </li>
       <li>
-        <a href={routes.RULES} on:click={toggleDrawer}>{$_('generics.rules')}</a>
+        <a
+          href={routes.RULES}
+          on:click={() => {
+            trackEvent(PlausibleEvent.VISIT_RULES, { source: 'side_navbar' });
+            toggleDrawer();
+          }}>{$_('generics.rules')}</a
+        >
       </li>
       {#if $user?.superfan}
         <li>
@@ -129,9 +144,16 @@
 
   <li>
     <ul class="side-links">
-      {#each sideLinks as { route, name } (route)}
+      {#each sideLinks as { route, name, track: trackParams } (route)}
         <li>
-          <a href={route} on:click={toggleDrawer} class:active={isActive($page, route)}>{name}</a>
+          <a
+            href={route}
+            on:click={() => {
+              if (trackParams) trackEvent(...trackParams);
+              toggleDrawer();
+            }}
+            class:active={isActive($page, route)}>{name}</a
+          >
         </li>
       {/each}
     </ul>

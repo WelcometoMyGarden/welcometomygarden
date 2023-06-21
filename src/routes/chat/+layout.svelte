@@ -17,6 +17,8 @@
   import { onDestroy } from 'svelte';
   import nProgress from 'nprogress';
   import type { LocalChat } from '$lib/types/Chat';
+  import trackEvent from '$lib/util/track-event';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   let localPage = $page;
   // Subscribe to page is necessary to render the chat page of the selected chat (when the url changes) for mobile
@@ -56,6 +58,14 @@
 
     let withQueryParam = localPage.url.searchParams.get('with');
     if (withQueryParam) {
+      if (!$user.superfan) {
+        // The ?with is only used when coming from the map
+        // We also log the "direct" source when opening the modal itself, but the leading debouncer
+        // should ignore that call.
+        trackEvent(PlausibleEvent.OPEN_MEMBERSHIP_MODAL, {
+          source: 'map_garden'
+        });
+      }
       startChattingWith(withQueryParam);
     }
   });

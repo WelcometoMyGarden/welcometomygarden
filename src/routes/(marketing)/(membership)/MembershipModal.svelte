@@ -72,7 +72,7 @@
         </div>
       </div>
       <div class="pricing">
-        <MembershipPricing condensed={true} />
+        <MembershipPricing condensed={true} analyticsSource="modal" />
       </div>
     </div>
   </div>
