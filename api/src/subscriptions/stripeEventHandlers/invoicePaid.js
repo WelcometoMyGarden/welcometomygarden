@@ -3,7 +3,7 @@ const { sendSubscriptionConfirmationEmail } = require('../../mail');
 const { stripeSubscriptionKeys } = require('../constants');
 const { db } = require('../../firebase');
 
-const { latestInvoiceStatusKey } = stripeSubscriptionKeys;
+const { latestInvoiceStatusKey, paymentProcessingKey } = stripeSubscriptionKeys;
 
 /**
  * Mark the user's last invoice as paid
@@ -21,19 +21,29 @@ module.exports = async (event, res) => {
   // Set the user's latest invoice state
   const privateUserProfileDocRef = db.doc(`users-private/${uid}`);
   const privateUserProfileData = (await privateUserProfileDocRef.get()).data();
+
+  const paymentWasProcessing =
+    privateUserProfileData.stripeSubscription?.paymentProcessing === true;
+
   await privateUserProfileDocRef.update({
-    [latestInvoiceStatusKey]: invoice.status
+    [latestInvoiceStatusKey]: invoice.status,
+    // If a payment was processing, mark it as processed.
+    ...(paymentWasProcessing ? { [paymentProcessingKey]: false } : {})
   });
 
   // Ensure the user is marked as a superfan.
-  // (pointless overwrite in case it was already set to true)
   const publicUserProfileDocRef = db.doc(`users/${uid}`);
   const publicUserProfileData = (await publicUserProfileDocRef.get()).data();
-  await publicUserProfileDocRef.update({ superfan: true });
+  if (publicUserProfileData.superfan !== true) {
+    await publicUserProfileDocRef.update({ superfan: true });
+  }
 
+  // Send a confirmation email in case it was not sent yet
+  // (we already send a confirmation email on paymentProcessing)
   if (
-    invoice.billing_reason === 'subscription_create' ||
-    invoice.metadata.billing_reason_override === 'subscription_create'
+    !paymentWasProcessing &&
+    (invoice.billing_reason === 'subscription_create' ||
+      invoice.metadata.billing_reason_override === 'subscription_create')
   ) {
     // this is the paid invoice for the first subscription
     sendSubscriptionConfirmationEmail(

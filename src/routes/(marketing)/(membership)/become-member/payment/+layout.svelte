@@ -26,14 +26,12 @@
   } from '../../subscription-utils';
   import PaddedSection from '$routes/(marketing)/_components/PaddedSection.svelte';
   import {
-    SuperfanLevelSlug,
     type SuperfanLevelData,
     DEFAULT_MEMBER_LEVEL
   } from '$routes/(marketing)/_static/superfan-levels';
   import Button from '$lib/components/UI/Button.svelte';
   import { emailAsLink, SUPPORT_EMAIL } from '$lib/constants';
   import LevelSummary from './LevelSummary.svelte';
-  import SuperfanLevel from '$routes/(marketing)/_components/SuperfanLevel.svelte';
   import { page } from '$app/stores';
 
   // TODO: if you subscribe & unsubscribe in 1 session without refreshing, no new sub will be auto-generated
@@ -144,15 +142,20 @@
       // Stripe seems to merge these with the possible continueUrl parameter.
       if (searchParams.get('redirect_status')) {
         const status = searchParams.get('redirect_status');
-        const clientSecretFromError = searchParams.get('payment_intent_client_secret');
+        const clientSecretFromUrl = searchParams.get('payment_intent_client_secret');
         // Clear search params, to not repeat an error on refresh
         // window.history.replaceState({}, document.title, document.location.pathname);
 
         switch (status) {
+          case 'pending':
+            // This happens when the payment is pending (e.g. Sofort). In this case, paymentProcessing will be set to
+            // true, and it will reactively make the user a superfan.
+            console.log('onMount: success with pending payment');
+            return paymentSucceeded();
           case 'failed':
             error = new Error($_('payment-superfan.payment-section.errors.payment-error'));
-            if (clientSecretFromError) {
-              clientSecret = clientSecretFromError;
+            if (clientSecretFromUrl) {
+              clientSecret = clientSecretFromUrl;
             }
             await reloadStripe();
             return true;
@@ -277,7 +280,9 @@
         <Elements {stripe} {clientSecret} bind:elements>
           <span class="method-title">{$_('payment-superfan.payment-section.payment-method')}</span>
           <PaymentElement
-            options={{ paymentMethodOrder: ['bancontact', 'card', 'sepa_debit', 'ideal'] }}
+            options={{
+              paymentMethodOrder: ['bancontact', 'card', 'ideal', 'sofort']
+            }}
           />
         </Elements>
         <div class="payment-button">

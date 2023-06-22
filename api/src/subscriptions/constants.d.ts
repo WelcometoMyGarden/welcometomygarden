@@ -1,4 +1,4 @@
-const stripeKeys = [
+type StripeSubscriptionKeys = readonly [
   'latestInvoiceStatus',
   'priceId',
   'status',
@@ -7,10 +7,11 @@ const stripeKeys = [
   'currentPeriodEnd',
   'startDate',
   'cancelAt',
-  'canceledAt'
-] as const;
-type StripeUpdateKeys = typeof stripeKeys[number];
-type StripeUpdateKeysWithKeySuffix = `${StripeUpdateKeys}Key`;
+  'canceledAt',
+  'paymentProcessing'
+];
+type StripeUpdateKey = StripeSubscriptionKeys[number];
+type StripeUpdateKeysWithKeySuffix = `${StripeUpdateKey}Key`;
 type StripeObjectUpdateKeys = { [key in StripeUpdateKeysWithKeySuffix]: string };
 
 // Types for autocomplete & type checking in VSCode.

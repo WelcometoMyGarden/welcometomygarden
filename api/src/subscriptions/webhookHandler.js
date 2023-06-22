@@ -5,6 +5,7 @@ const invoiceFinalized = require('./stripeEventHandlers/invoiceFinalized');
 const invoicePaid = require('./stripeEventHandlers/invoicePaid');
 const subscriptionUpdated = require('./stripeEventHandlers/subscriptionUpdated');
 const subscriptionDeleted = require('./stripeEventHandlers/subscriptionDeleted');
+const paymentIntentProcessing = require('./stripeEventHandlers/paymentIntentProcessing');
 
 // Imported in index
 // https://firebase.google.com/docs/functions/http-events
@@ -42,6 +43,8 @@ exports.stripeWebhookHandler = async (req, res) => {
     case 'invoice.finalization_failed':
       // TODO ?
       break;
+    case 'payment_intent.processing':
+      return paymentIntentProcessing(event, res);
     case 'invoice.paid':
       return invoicePaid(event, res);
     case 'invoice.upcoming':

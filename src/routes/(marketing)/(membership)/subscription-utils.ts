@@ -2,12 +2,21 @@ import type User from '$lib/models/User';
 import { superfanLevels } from '../_static/superfan-levels';
 
 export const hasActiveSubscription = (user: User) => {
-  return (
-    typeof user.stripeSubscription === 'object' &&
-    user.stripeSubscription != null &&
-    user.stripeSubscription.status === 'active' &&
-    user.stripeSubscription.latestInvoiceStatus === 'paid'
-  );
+  // Check object validity
+  if (typeof user.stripeSubscription !== 'object' || user.stripeSubscription === null) return false;
+
+  const {
+    stripeSubscription: { status: subscriptionStatus, latestInvoiceStatus, paymentProcessing }
+  } = user;
+
+  const normallyPaidInvoice = subscriptionStatus === 'active' && latestInvoiceStatus === 'paid';
+
+  const approvedPaymentPending =
+    paymentProcessing === true &&
+    latestInvoiceStatus === 'open' &&
+    (subscriptionStatus === 'past_due' || subscriptionStatus === 'active');
+
+  return normallyPaidInvoice || approvedPaymentPending;
 };
 
 export const getSubLevelFromUser = (user: User) => {

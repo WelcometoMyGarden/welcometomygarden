@@ -18,7 +18,10 @@ const stripeSubscriptionSubKeys = [
   // https://stripe.com/docs/api/subscriptions/object#subscription_object-canceled_at
   // Careful: if cancelAt is set to a date beyond canceledAt, canceledAt means that
   // the user requested the subscription to be canceled at this state.
-  'canceledAt'
+  'canceledAt',
+  // Whether the payment is approved, but still proccessing. To support immediately activating subscriptions for Sofort & other delayed notification payment methods.
+  // See paymentIntentProcessing
+  'paymentProcessing'
 ];
 
 // Keys that can be used in an .update command to a Firebase `users-private` doc

@@ -1,5 +1,3 @@
-import routes from './routes';
-
 export const SUPPORT_EMAIL = 'support@welcometomygarden.org';
 export const mailToSupportHref = `mailto:${SUPPORT_EMAIL}`;
 export const emailAsLink = `<a class="link" href="${mailToSupportHref}">${SUPPORT_EMAIL}</a>`;

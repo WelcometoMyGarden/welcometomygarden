@@ -31,6 +31,8 @@ type StripeSubscription = {
   cancelAt: number;
   /** Date since Unix epoch in seconds */
   canceledAt: number;
+  /** Whether the last invoice payment is approved, but still processing */
+  paymentProcessing?: boolean;
 };
 
 type EmailPreferences = {

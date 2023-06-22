@@ -48,7 +48,10 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
         bancontact: {
           preferred_language: preferredBancontactLanguage || 'en'
         }
-      }
+      },
+      // Make payment methods explicit, so both test mode & production can use different methods.
+      // The template applies to both test mode and production.
+      payment_method_types: ['bancontact', 'card', 'ideal', 'sofort']
     },
     // When using 'send_invoice', invoices are not immediately finalized by Stripe (see below)
     // Here we can only expand the invoice, and not `latest_invoice.payment_intent`.
@@ -165,7 +168,7 @@ const changeSubscriptionPrice = async (
     currency: priceObject.currency
   });
 
-  // Mark the invoice as a special changed invoice, so later events can now what happened here.
+  // Mark the invoice as a special changed invoice, so later events can know what happened here.
   await stripe.invoices.update(proratedInvoice.id, {
     metadata: {
       // the actual proratedInvoice.billing_reason will be 'subscription_update'
@@ -285,6 +288,11 @@ exports.createOrRetrieveUnpaidSubscription = async ({ priceId, locale }, context
 
   if (existingIncompleteSubscription) {
     if (priceId !== existingIncompleteSubscription.items.data[0].price.id) {
+      // TODO: pending/processing sofort payments will also have an "open" status invoice, and "processing" status PaymentIntent
+      // While the front-end tries to prevent it, there could be cases where we have retrieved a pending payment invoice,
+      // while the user tried to create one of another price. changeSubscriptionPrice() then would be destructive.
+      // We should probably disallow changing the subscription price of a pending payment invoice, or create a second, actually prorated invoice?
+      //
       // If the price id requested is different to the current subscription's price, then change the subscription
       subscription = await changeSubscriptionPrice(
         existingIncompleteSubscription,
