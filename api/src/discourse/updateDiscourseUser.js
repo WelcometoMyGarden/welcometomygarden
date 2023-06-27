@@ -13,7 +13,8 @@ const { host: HOST, api_key: API_KEY } = /** @type {{[key: string]: string}} */ 
 );
 
 /**
- * Updates the email of a connected Discourse user, if one exists.
+ * Updates the email and/or first name of a connected Discourse user, if one exists.
+ * The first name is taken from the `displayName` prop in user.
  *
  * Should only be called when the target email of the user is verified
  * @param {UserRecord} user - the user's new auth details
@@ -22,13 +23,15 @@ const { host: HOST, api_key: API_KEY } = /** @type {{[key: string]: string}} */ 
 exports.updateDiscourseUser = async (user) => {
   if (!HOST || !API_KEY) {
     console.warn(
-      'No Discourse HOST & API_KEY variables are configured. Skipping Discourse user email update.'
+      'No Discourse HOST & API_KEY variables are configured. Skipping Discourse user update.'
     );
     return false;
   }
-  const { uid, email } = user;
+  const { uid, email, displayName } = user;
   if (!email) {
-    console.error(`Discourse update asked for ${uid}, but email was falsy`);
+    console.error(
+      `Discourse update asked for ${uid}, but the given user's email or first name was falsy`
+    );
     return false;
   }
   //
@@ -53,7 +56,7 @@ exports.updateDiscourseUser = async (user) => {
     // We expect a 404 in this case.
     if (existingDiscourseUserResponse.status === 404) {
       console.info(
-        `Tried to change the Discourse email of uid ${uid}, but this user is not in Discourse yet`
+        `Tried to change the Discourse user data of uid ${uid}, but this user is not in Discourse yet`
       );
     } else {
       console.warn(
@@ -67,14 +70,17 @@ exports.updateDiscourseUser = async (user) => {
 
   // 2. Update the existing user
   // See https://meta.discourse.org/t/sync-discourseconnect-user-data-with-the-sync-sso-route-javascript/260841
+  // For other props; see https://github.com/discourse/discourse/blob/78d8bd7c81e0ba2830d267a10e4e283d1da304be/lib/discourse_connect_base.rb#L23C7-L23C7
 
-  console.log(`Updating the email of existing Discourse, uid ${uid}`);
+  console.log(`Updating the email and/or firstName of existing Discourse, uid ${uid}`);
 
   const ssoRecord = new URLSearchParams({
     external_id: uid,
-    email
-    // Don't change the username
-    // activation not required, this should only be called when the email is verified
+    email,
+    ...(displayName ? { name: displayName } : {})
+    // other props:
+    // - don't change the username
+    // - activation not required, this should only be called when the email is verified
   }).toString();
 
   const ssoPayload = Buffer.from(ssoRecord, 'utf8').toString('base64');

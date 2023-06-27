@@ -30,6 +30,7 @@ const { createUser } = require('./user/createUser');
 const { cleanupUserOnDelete } = require('./user/cleanupUserOnDelete');
 const { onUserWrite } = require('./user/onUserWrite');
 const { onUserPrivateWrite } = require('./user/onUserPrivateWrite');
+const { updateName } = require('./user/updateName');
 
 // Regions
 // This is in Belgium! All new functions should be deployed here.
@@ -70,6 +71,7 @@ exports.updateEmail = usCentral1
     timeoutSeconds: SENDGRID_CONTACT_CREATION_TIMEOUT_S
   })
   .https.onCall(updateEmail);
+exports.updateName = euWest1.https.onCall(updateName);
 
 // HTTP function: Stripe webhook endpoint
 exports.stripeWebhooks = euWest1.https.onRequest(stripeWebhookHandler);

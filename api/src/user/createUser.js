@@ -6,6 +6,7 @@ const countries = require('../countries');
 const fail = require('../util/fail');
 const { sendVerificationEmail } = require('../auth');
 const { auth, db } = require('../firebase');
+const { normalizeName, isValidFirstName, isValidLastName } = require('./util');
 
 /**
  * @typedef {import("../../../src/lib/models/User").UserPrivate} UserPrivate
@@ -34,29 +35,23 @@ exports.createUser = async (data, context) => {
     const existingUser = await db.collection('users').doc(context.auth.uid).get();
     if (existingUser.exists) fail('already-exists');
 
-    if (!data.firstName || !data.lastName) fail('invalid-argument');
-    if (
-      typeof data.firstName !== 'string' ||
-      typeof data.lastName !== 'string' ||
-      data.firstName.trim().length === 0 ||
-      data.lastName.trim().length === 0 ||
-      data.firstName.trim().length > 25 ||
-      data.lastName.trim().length > 50
-    ) {
+    // Make sure the input first name & last name can be processed further
+    if (typeof data.firstName !== 'string' || typeof data.lastName !== 'string')
       fail('invalid-argument');
-    }
-    if (!data.countryCode) fail('invalid-argument');
-    if (typeof data.countryCode !== 'string' || !Object.keys(countries).includes(data.countryCode))
-      fail('invalid-argument');
-
-    const normalizeName = (name) => {
-      const normalized = name.trim().toLowerCase();
-      // TODO remove diacritics
-      return normalized.replace(/\b(\w)/g, (s) => s.toUpperCase());
-    };
 
     const firstName = normalizeName(data.firstName);
     const lastName = normalizeName(data.lastName);
+
+    // Validate input data
+    if (
+      !isValidFirstName(firstName) ||
+      !isValidLastName(lastName) ||
+      !data.countryCode ||
+      typeof data.countryCode !== 'string' ||
+      !Object.keys(countries).includes(data.countryCode)
+    ) {
+      fail('invalid-argument');
+    }
 
     const user = await auth.getUser(context.auth.uid);
     const { email } = user;
