@@ -20,6 +20,7 @@
     "format": "prettier --plugin-search-dir . --write .",
     "firebase:demo": "firebase --project demo-test emulators:start",
     "firebase:demo-seed": "firebase --project demo-test emulators:exec --ui api/seeders/simple.js",
+    "firebase:demo-seed-debug": "firebase --project demo-test emulators:exec --ui api/seeders/simple.js --inspect-functions",
     "firebase:debug": "firebase --project demo-test emulators:start --inspect-functions",
     "firebase:staging": "firebase --project wtmg-dev emulators:start --only functions"
   },
