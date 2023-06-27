@@ -131,7 +131,7 @@ const sendMessage = async (currentUserId, chatId, message, useLastMessageSeen = 
 
 const seed = async () => {
   // Create users
-  const [user1, user2, user3] = await Promise.all([
+  const [user1, user2, user3, , user5Admin] = await Promise.all([
     // First user: non-superfan, has a garden
     createNewUser(
       { email: 'user1@slowby.travel' },
@@ -176,8 +176,18 @@ const seed = async () => {
         email: 'user4@slowby.travel'
       },
       { firstName: 'Laura', lastName: 'Verheyden', countryCode: 'BE' }
+    ),
+    // Fifth user: admin user
+    createNewUser(
+      {
+        email: 'admin@slowby.travel'
+      },
+      { firstName: 'Admin', lastName: 'Slowby', countryCode: 'BE' }
     )
   ]);
+
+  // Make user 5 admin, to test admin dashboard functionality
+  await auth.setCustomUserClaims(user5Admin.uid, { admin: true });
 
   // Send chats
   // TODO messages are sent to user 2 without that account having a garden, this is not realistic
