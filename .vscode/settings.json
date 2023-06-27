@@ -27,6 +27,7 @@
     "source.fixAll.eslint": true
   },
   "search.exclude": {
-    "**/.yarn": true
+    "**/.yarn": true,
+    "**/yarn.lock": true
   },
 }
