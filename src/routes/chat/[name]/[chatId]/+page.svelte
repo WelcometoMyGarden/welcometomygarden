@@ -18,6 +18,7 @@
   import { PlausibleEvent } from '$lib/types/Plausible';
   import type { LocalChat } from '$lib/types/Chat';
   import MembershipModal from '$routes/(marketing)/(membership)/MembershipModal.svelte';
+  import ErrorModal from '$lib/components/UI/ErrorModal.svelte';
 
   /**
    * The chat ID of the currently selected chat.
@@ -32,6 +33,33 @@
   let chat: LocalChat | null | undefined;
 
   $: showMembershipModal = !$user?.superfan && chatId === 'new';
+
+  let showErrorModal = false;
+  let error: unknown = null;
+  let errorDetails: string | undefined = undefined;
+  const showChatError = (exception: unknown, details?: string) => {
+    console.log(exception);
+    error = exception;
+    try {
+      // Catch errors, in case any of the data accessors fail
+      errorDetails =
+        details ??
+        JSON.stringify(
+          {
+            sender: $user?.uid,
+            chatId,
+            idParam: $page.url.searchParams.get('id'),
+            partnerId
+          },
+          null,
+          2
+        );
+    } catch (e) {
+      // do nothing
+      console.error(e);
+    }
+    showErrorModal = true;
+  };
 
   const backNavHandler = () => {
     // Document contains the target. We're interested in detecting navigation back to the garden side drawer.
@@ -52,7 +80,8 @@
   }
 
   /**
-   * The currently selected chat, if it exists
+   * The currently selected chat, if it exists.
+   * Undefined if chatId === 'new'
    */
   $: chat = $chats[chatId];
 
@@ -175,8 +204,7 @@
         typedMessage = '';
         goto(`${routes.CHAT}/${$page.params.name}/${newChatId}`);
       } catch (ex) {
-        // TODO: show error
-        console.log(ex);
+        showChatError(ex);
       }
     } else {
       try {
@@ -186,8 +214,7 @@
         trackEvent(PlausibleEvent.SEND_RESPONSE, { role });
         typedMessage = '';
       } catch (ex) {
-        // TODO: show error
-        console.log(ex);
+        showChatError(ex);
       }
     }
     isSending = false;
@@ -281,6 +308,7 @@ CSS grids should do the job cleanly -->
   </button>
 </form>
 <MembershipModal bind:show={showMembershipModal} />
+<ErrorModal bind:show={showErrorModal} details={errorDetails} {error} />
 
 <style>
   :root {

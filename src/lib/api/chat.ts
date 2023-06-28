@@ -16,6 +16,7 @@ import {
 } from 'firebase/firestore';
 import type { FirebaseChat, FirebaseMessage } from '$lib/types/Chat';
 import { getUser } from '$lib/stores/auth';
+import type { UserPublic } from '$lib/models/User';
 
 export const initiateChat = async (partnerUid: string) => {
   creatingNewChat.set(true);
@@ -45,7 +46,16 @@ export const createChatObserver = async () => {
               // Don't throw an error, to avoid breaking the other chat loads
               return null;
             }
-            const partner = await getPublicUserProfile(partnerId);
+            let partner: UserPublic;
+            try {
+              partner = await getPublicUserProfile(partnerId);
+            } catch (e) {
+              console.error(
+                `Error while getting the public profile of chat partner with uid "${partnerId}"`,
+                e
+              );
+              return null;
+            }
             const localChat = {
               ...chat,
               partner,
