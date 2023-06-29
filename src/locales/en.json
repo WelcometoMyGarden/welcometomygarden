@@ -1091,7 +1091,13 @@
       "empty-message": "Your message cannot be empty",
       "too-long": "Your message is {surplus} {surplus, plural, one {character} other {characters}} too long..."
     },
-    "go-to-garden": "Go to garden"
+    "go-to-garden": "Go to garden",
+    "error-modal": {
+      "title": "Something went wrong",
+      "description": "Something went wrong while sending your chat.",
+      "instruction": "If this keeps happening, please copy what you see below, and paste it in an email to",
+      "closing-line": "We'll try to help you as fast as we can!"
+    }
   },
   "map": {
     "vehicle-notice": {

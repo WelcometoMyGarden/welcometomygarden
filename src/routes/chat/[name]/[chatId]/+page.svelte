@@ -38,7 +38,7 @@
   let error: unknown = null;
   let errorDetails: string | undefined = undefined;
   const showChatError = (exception: unknown, details?: string) => {
-    console.log(exception);
+    console.error(exception);
     error = exception;
     try {
       // Catch errors, in case any of the data accessors fail
@@ -49,7 +49,8 @@
             sender: $user?.uid,
             chatId,
             idParam: $page.url.searchParams.get('id'),
-            partnerId
+            partnerId,
+            ua: typeof navigator !== 'undefined' && navigator.userAgent
           },
           null,
           2

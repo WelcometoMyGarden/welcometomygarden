@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { _ } from 'svelte-i18n';
   import { SUPPORT_EMAIL, mailToSupportHref } from '$lib/constants';
   import { Modal } from '.';
   import Anchor from './Anchor.svelte';
@@ -13,39 +14,50 @@ Modal to show a chat-sending error.
 
 <Modal radius maxWidth="648px" ariaLabel="Error Modal" bind:show closeOnOuterClick={false} center>
   <div slot="title" class="title">
-    <h2 id="Title">Something went wrong</h2>
+    <h2 id="Title">{$_('chat.error-modal.title')}</h2>
   </div>
   <div slot="body" class="body">
-    <p>Something went wrong while sending your chat.</p>
+    <p>{$_('chat.error-modal.description')}</p>
     <p>
-      <span>If this keeps happening, please copy what you see below</span><span
-        >, and paste it in an email to
+      <span>
+        {$_('chat.error-modal.instruction')}
         <Anchor href={mailToSupportHref}>{SUPPORT_EMAIL}</Anchor>.
       </span>
     </p>
-    <p>We'll try to help you as fast as we can!</p>
+    <p>{$_('chat.error-modal.closing-line')}</p>
     <p />
     {#if error}
-      <pre>
-Error:
-            <code>
-                {typeof error === 'object' && error !== null ? error.toString() : ''}
-            </code>
-Context:
-
-{#if details}{details}{/if}
-        </pre>
+      <div class="error-log">
+        <p class="section">Error:</p>
+        <code>
+          {typeof error === 'object' && error !== null ? error.toString() : 'Unknown'}
+        </code>
+        <p class="section">Context:</p>
+        {#if details}<p>{details}</p>{/if}
+      </div>
     {/if}
   </div>
 </Modal>
 
 <style>
-  pre {
+  .error-log {
     background-color: #eee;
     border-radius: 0.5rem;
     padding: 2rem;
     margin-top: 1rem;
     font-size: 1.4rem;
+  }
+
+  .error-log > * {
+    font-size: 1.4rem;
+  }
+
+  .error-log > p.section {
+    margin: 1rem 0;
+  }
+
+  .error-log > p.section:first-child {
+    margin-top: 0;
   }
 
   .body > p {

@@ -701,7 +701,13 @@
       "empty-message": "Jouw bericht kan niet leeg zijn",
       "too-long": "Jouw bericht is {surplus} {surplus, plural, one {karakter} other {karakters} te lang..."
     },
-    "go-to-garden": "Ga naar de tuin"
+    "go-to-garden": "Ga naar de tuin",
+    "error-modal": {
+      "title": "Er ging iets fout",
+      "description": "Er ging iets fout tijdens het versturen van je bericht.",
+      "instruction": "Als dit blijft gebeuren, kopiëer dan alsjeblieft wat je hieronder ziet, en stuur het naar ons door op  ",
+      "closing-line": "We proberen je zo snel mogelijk verder te helpen!"
+    }
   },
   "map": {
     "vehicle-notice": {
