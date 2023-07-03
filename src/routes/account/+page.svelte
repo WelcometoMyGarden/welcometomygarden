@@ -200,8 +200,9 @@
         </section>
       {/if}
       <section>
-        <h2>{$_('account.danger-zone')}</h2>
-        <Button xxsmall danger on:click={() => (showAccountDeletionModal = true)}
+        <h2>{$_('account.delete.button-action')}</h2>
+        <p class="description">{$_('account.delete.intro')}</p>
+        <Button xxsmall on:click={() => (showAccountDeletionModal = true)}
           >{$_('account.delete.button-action')}</Button
         >
       </section>

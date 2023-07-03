@@ -94,6 +94,7 @@
       <div>
         <!-- TODO: add verification icon? -->
         <!-- icon={emailIcon} -->
+        <p>{$_('account.delete.intro')}</p>
         {@html $_('account.delete.modal.are-you-sure', {
           values: {
             unlist: $_('account.garden.listed.text')

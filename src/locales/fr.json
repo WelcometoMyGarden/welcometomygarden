@@ -980,12 +980,11 @@
       "chat": "Je reçois un nouveau message de discussion"
     },
     "title": "Compte",
-    "danger-zone": "Zone de danger",
     "delete": {
       "button-action": "Supprimer votre compte",
       "modal": {
         "title": "Êtes-vous sûr·e ?",
-        "are-you-sure": "<p>Supprimer votre compte effacera également toutes les données associées, tels que votre adresse amil, votre nom et les informations relatives à votre jardin.</p>\n<p>Les messages que vous avez reçus ou envoyés sur le chat seront toujours visibles avec votre prénom pour les autres utilisateur·rices.</p><strong>Cette action ne peut pas être annulée!</strong></p>\n<p>Si vous souhaitez simplement retirer temporairement votre jardin de la carte, quittez cette fenêtre et cliquez sur \"{unlist}\".</p>",
+        "are-you-sure": "<p>Les messages que vous avez reçus ou envoyés sur le chat seront toujours visibles avec votre prénom pour les autres utilisateur·rices.</p><strong>Cette action ne peut pas être annulée!</strong></p>\n<p>Si vous souhaitez simplement retirer temporairement votre jardin de la carte, quittez cette fenêtre et cliquez sur \"{unlist}\".</p>",
         "delete-field-label": "Écrivez \"{prompt}\"",
         "deleted": "Votre compte a été supprimé",
         "prompt": "Tout effacer",
@@ -996,7 +995,8 @@
         "verification-ok": "✅ Vous pouvez maintenant supprimer votre compte !",
         "reauthentication-incorrect-password": "Le mot de passe introduit est incorrect, merci d'essayer à nouveau",
         "reauthentication-info": "<span style=\"color:var(--color-danger);\">⚠️ Il y a longtemps que vous vous êtes connecté·e.</span> Pour nous assurer qu'il s'agit bien de vous, introduisez votre mot de passe pour confirmer la suppression:"
-      }
+      },
+      "intro": "Supprimer votre compte effacera également toutes les données associées, tels que votre adresse amil, votre nom et les informations relatives à votre jardin."
     },
     "change-email": {
       "modal": {
