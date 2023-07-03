@@ -83,6 +83,10 @@ let createCustomerPortalSessionRef: HttpsCallable<
   unknown,
   CreateCustomerPortalSessionResponse
 > | null = null;
+/**
+ * @deprecated not to be used for now, as long as the portal mentions a "renewing" membership.
+ * @since July 3rd, 2023
+ */
 export const createCustomerPortalSession: HttpsCallable<
   unknown,
   CreateCustomerPortalSessionResponse

@@ -12,10 +12,7 @@
   import { flagIcon, emailIcon, pencilIcon } from '$lib/images/icons';
   import routes from '$lib/routes';
   import { SUPPORT_EMAIL } from '$lib/constants';
-  import { createCustomerPortalSession } from '$lib/api/functions';
   import ReloadSuggestion from '$lib/components/ReloadSuggestion.svelte';
-  import trackEvent from '$lib/util/track-event';
-  import { PlausibleEvent } from '$lib/types/Plausible';
   import EmailChangeModal from './EmailChangeModal.svelte';
   import { countryNames } from '$lib/stores/countryNames';
 
@@ -69,19 +66,6 @@
         );
       isResendingEmail = false;
       hasResentEmail = false;
-    }
-  };
-
-  let loadingPortal = false;
-  const openCustomerPortalSession = async () => {
-    loadingPortal = true;
-    trackEvent(PlausibleEvent.VISIT_MANAGE_SUBSCRIPTION);
-    try {
-      const { data } = await createCustomerPortalSession();
-      const { url } = data;
-      window.open(url, '_blank');
-    } finally {
-      loadingPortal = false;
     }
   };
 </script>
@@ -188,17 +172,6 @@
           <p class="mb-m">{$_('account.garden.unverified.text')}</p>
         {/if}
       </section>
-      {#if $user.superfan === true}
-        <section>
-          <h2>{$_('account.superfan.title')}</h2>
-          <Button uppercase medium on:click={openCustomerPortalSession}
-            >{$_('account.superfan.manage-button')}</Button
-          >
-          {#if loadingPortal}
-            <div class="loading">{$_('account.superfan.loading-portal')}</div>
-          {/if}
-        </section>
-      {/if}
       <section>
         <h2>{$_('account.delete.button-action')}</h2>
         <p class="description">{$_('account.delete.intro')}</p>

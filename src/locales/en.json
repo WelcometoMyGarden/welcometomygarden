@@ -833,7 +833,7 @@
             },
             "10": {
               "title": "Can I stop being a member or Superfan?",
-              "copy": "<p>Yes, any time you want. As soon as you’ve become a community member, you can manage your yearly subscription on <a href=\"/account\" target=\"_blank\">your WTMG account page</a>.</p>\n<p>If you see “your subscription will renew on date xx/xx/xxxx” in the management portal, that only means that we will send an invitation for you to pay for the next year around that date. When you “cancel” your “subscription”, we will not send such an invitation.</p>\n<p>We only use our payment portal’s “subscription” mechanism to keep track of when we should send these invitations. We will not automatically charge your payment method again without asking.</p>\n"
+              "copy": "<p>Yes! Our membership is valid for one year, and the payment is non-refundable. After one year, we will send you an invitation to renew for the next year. If you don’t wish to renew it, your membership will automatically stop.</p>\n"
             }
           }
         },
@@ -976,8 +976,6 @@
       }
     },
     "superfan": {
-      "title": "Your Superfan Subscription",
-      "manage-button": "Manage Subscription",
       "loading-portal": "Loading portal..."
     },
     "notify": {

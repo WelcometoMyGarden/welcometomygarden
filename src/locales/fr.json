@@ -819,7 +819,7 @@
             },
             "10": {
               "title": "Puis-je cesser d'être Membre ou Superfan ?",
-              "copy": "<p>Oui, quand vous le voulez. Dès que vous êtes deven·e membre ou Superfan, vous povuez le faire dans <a href=\"/account\" target=\"_blank\">votre compte WTMG</a>.</p>\n<p>Si vous voyez &quot;votre abonnement sera renouvelé à la date xx/xx/xxxx&quot; dans le portail de gestion, cela signifie seulement que nous vous enverrons une invitation à payer pour l'année suivante à cette date. Lorsque vous &quot;annulez&quot; votre &quot;abonnement&quot;, nous ne vous enverrons pas d’email.</p>\n<p>Nous utilisons uniquement le mécanisme d'abonnement de notre portail de paiement pour savoir quand nous devons envoyer ces invitations. Nous ne débiterons pas automatiquement votre mode de paiement sans vous le demander.</p>"
+              "copy": "<p>Bien sûr! L'adhésion pour un an et n'est pas remboursable. Après un an, nous vous enverrons un email pour renouveler votre abonnement. Si vous ne souhaitez pas la renouveler, votre adhésion s'arrêtera automatiquement.</p>"
             }
           }
         },
@@ -961,8 +961,6 @@
       }
     },
     "superfan": {
-      "title": "Votre abonnement Superfan",
-      "manage-button": "Gérer votre abonnement",
       "loading-portal": "Chargement du portail..."
     },
     "verify": {

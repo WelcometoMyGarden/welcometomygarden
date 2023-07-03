@@ -437,7 +437,7 @@
             },
             "10": {
               "title": "Kan ik stoppen met lid of Superfan zijn?",
-              "copy": "<p>Jazeker, wanneer je maar wilt. Zodra je Superfan bent geworden kun je je jaarlijkse Superfan abonnement beheren op <a href=\"/account\" target=\"_blank\">je WTMG accountpagina</a>.</p>\n<p>Als je &quot;je abonnement wordt verlengd op xx/xx/xxxx&quot; ziet in het beheerportaal, betekent dit alleen dat we je rond die datum een uitnodiging sturen om te betalen voor het volgende jaar. Als je jouw &quot;abonnement&quot; opzegt, sturen we geen uitnodiging.</p>\n<p>We gebruiken het abonnement&quot;-mechanisme van ons betalingsportaal alleen om bij te houden wanneer we deze uitnodigingen moeten versturen. We zullen je betaalmethode niet automatisch opnieuw belasten zonder het te vragen.</p>"
+              "copy": "<p>Jazker! Het lidmaatschap is geldig voor één jaar, en het lidgeld kan niet worden terugbetaald. Na één jaar sturen we je een uitnodiging om het lidmaatschap te hernieuwen. Indien je hier niet op ingaat, zal je lidmaatschap automatisch stopgezet worden.</p>"
             }
           }
         },
@@ -587,8 +587,6 @@
       }
     },
     "superfan": {
-      "title": "Jouw Superfan Abonnement",
-      "manage-button": "Beheer jouw Abonnement",
       "loading-portal": "Portaal aan het laden..."
     },
     "notify": {
