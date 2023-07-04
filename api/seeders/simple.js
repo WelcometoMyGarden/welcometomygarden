@@ -59,7 +59,7 @@ const createNewUser = async (authProps, callableProps) => {
  * @param {string} uid
  * @param {import('../../src/lib/types/Garden').Garden} data
  */
-const createGarden = async (uid, data) => {
+const createGardenDoc = async (uid, data) => {
   await db.collection('campsites').doc(uid).set(data);
 };
 
@@ -129,55 +129,77 @@ const sendMessage = async (currentUserId, chatId, message, useLastMessageSeen = 
   return msg.id;
 };
 
+const createGarden = async ({ latitude, longitude }, user) => {
+  await createGardenDoc(user.uid, {
+    description: 'Hello, this is a test camping spot. You are welcome to stay!',
+    location: {
+      latitude,
+      longitude
+    },
+    facilities: {
+      capacity: 2,
+      toilets: true,
+      shower: false,
+      electricity: true,
+      water: false,
+      drinkableWater: true,
+      bonfire: true,
+      tent: true
+    },
+    photo: null,
+    listed: true
+  });
+  return user;
+};
+
 const seed = async () => {
   // Create users
-  const [user1, user2, user3] = await Promise.all([
-    // First user: non-superfan, has a garden
+  const [user1, user2, user3, , , user6Admin] = await Promise.all([
+    // No superfan, has a garden
     createNewUser(
       { email: 'user1@slowby.travel' },
       { firstName: 'Bob', lastName: 'Dylan', countryCode: 'US' }
-    ).then(async (user1Inner) => {
-      await createGarden(user1Inner.uid, {
-        description: 'Hello, this is a test camping spot. You are welcome to stay!',
-        location: {
-          latitude: 50.952798579681854,
-          longitude: 4.763172541851901
-        },
-        facilities: {
-          capacity: 2,
-          toilets: true,
-          shower: false,
-          electricity: true,
-          water: false,
-          drinkableWater: true,
-          bonfire: true,
-          tent: true
-        },
-        photo: null,
-        listed: true
-      });
-      return user1Inner;
-    }),
-    // Second user: superfan, no garden
+    ).then(
+      createGarden.bind(null, {
+        latitude: 50.952798579681854,
+        longitude: 4.763172541851901
+      })
+    ),
+    // Superfan, no garden
     createNewUser(
       { email: 'user2@slowby.travel' },
       { firstName: 'Urbain', lastName: 'Servranckx', countryCode: 'BE', superfan: true }
     ),
-    // Third user: no superfan, no garden, has past chats
+    // Superfan, has garden
     createNewUser(
-      {
-        email: 'user3@slowby.travel'
-      },
-      { firstName: 'Maria Louise', lastName: 'from Austria', countryCode: 'AT' }
-    ),
-    // Fourth user: a non-superfan user without garden and without messages sent yet
+      { email: 'user3@slowby.travel' },
+      { firstName: 'Jospehine', lastName: 'Delafroid', countryCode: 'FR', superfan: true }
+    ).then(createGarden.bind(null, { latitude: 50.9427, longitude: 4.5124 })),
+    // No superfan, no garden, has past chats
     createNewUser(
       {
         email: 'user4@slowby.travel'
       },
+      { firstName: 'Maria Louise', lastName: 'from Austria', countryCode: 'AT' }
+    ),
+    // No superfan, no garden, no messages
+    createNewUser(
+      {
+        email: 'user5@slowby.travel'
+      },
       { firstName: 'Laura', lastName: 'Verheyden', countryCode: 'BE' }
+    ),
+    // Admin user
+    createNewUser(
+      {
+        email: 'admin@slowby.travel'
+      },
+      { firstName: 'Admin', lastName: 'Slowby', countryCode: 'BE' }
     )
   ]);
+
+  // Make user 5 admin, to test admin dashboard functionality
+  await auth.setCustomUserClaims(user6Admin.uid, { admin: true });
 
   // Send chats
   // TODO messages are sent to user 2 without that account having a garden, this is not realistic
