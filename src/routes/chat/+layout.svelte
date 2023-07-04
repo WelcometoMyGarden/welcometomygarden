@@ -19,6 +19,7 @@
   import type { LocalChat } from '$lib/types/Chat';
   import trackEvent from '$lib/util/track-event';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import createUrl from '$lib/util/create-url';
 
   let localPage = $page;
   // Subscribe to page is necessary to render the chat page of the selected chat (when the url changes) for mobile
@@ -121,13 +122,26 @@
     );
   };
 
-  const selectConversation = (id: string | null) => {
-    if (!id && newConversation) {
-      goto(getConvoRoute(newConversation.name, 'new'));
-    }
-    if (id) {
+  const selectConversation = (id: string) => {
+    // The 'new' chat ID is a special case
+    if (id === 'new' && newConversation) {
+      // Go back to the cached "new conversation".
+      // BE SURE TO INCLUDE THE ?id= QUERY PARAM BACK! Otherwise we don't know with whom to start a chat.
+      // TODO: this leads to the chat sending error modal now, but even without sending the chat,
+      // we know we are missing the chat partner.
+      // TODO: the design of this can be improved.
+      // - Maybe using /chat/bob/new/[partnerId] (as an alt to the query param)
+      // - Or just by checking every time with the backend whether the chat already exists or not: /chat/bob/[partnerId]
+      //   (1. check for conversation id existence, 2. check for partner id existence)
+      goto(
+        createUrl(getConvoRoute(newConversation.name, 'new'), { id: newConversation.partnerId })
+      );
+    } else if (id) {
       const chatName = $chats[id].partner.firstName.toLowerCase();
       goto(getConvoRoute(chatName, id));
+    } else {
+      // TODO: show this error
+      console.error('Something went wrong when selecting a chat');
     }
   };
 </script>
@@ -143,7 +157,7 @@
         {#if newConversation}
           <article>
             <ConversationCard
-              on:click={() => selectConversation(null)}
+              on:click={() => selectConversation('new')}
               recipient={newConversation.name}
               lastMessage={''}
               selected={localPage.params.chatId === 'new'}
