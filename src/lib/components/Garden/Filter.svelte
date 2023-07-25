@@ -12,7 +12,7 @@
     waterIcon,
     tentIcon
   } from '$lib/images/icons';
-  import trackEvent from '$lib/util/track-event';
+  import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
 
   export let filteredGardens;

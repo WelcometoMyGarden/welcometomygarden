@@ -1,3 +1,9 @@
+// NOTE: the filename of this file used to be "track-event.ts", but in some @sveltejs/kit@>1.0.0 version,
+// this started bundling to /_app/immutable/chunks/track-event.edc71b85.js (or similar), which is blocked by the EasyPrivacy rule "/track-event.":
+// https://github.com/easylist/easylist/blob/55a90a03050c5a278c1497d8443143dfd3d8810f/easyprivacy/easyprivacy_general.txt#L3150
+// Previously, the chuck would have been named /track-event-edc71b85.js, which doesn't match the rule due to the '-' instead of the '.'
+//
+// Do not name it track-event again.
 import { dev } from '$app/environment';
 import { user } from '$lib/stores/auth';
 import {

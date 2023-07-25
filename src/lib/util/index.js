@@ -10,3 +10,4 @@ export { parse, pick } from './accept-language-parser';
 export { slugify } from './slugify';
 export { default as getFileExtension } from './getFileExtension';
 export { default as fetchFrom } from './fetchFrom';
+export { default as trackEvent } from './track-plausible';

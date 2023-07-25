@@ -11,7 +11,7 @@
   import TransportModal from '$lib/components/LayersAndTools/TransportModal.svelte';
   import TrailsTool from '$lib/components/LayersAndTools/TrailsTool.svelte';
   import TransportTools from '$lib/components/LayersAndTools/TransportTools.svelte';
-  import trackEvent from '$lib/util/track-event';
+  import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
 
   export let showHiking = false;

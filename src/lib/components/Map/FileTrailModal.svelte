@@ -12,7 +12,7 @@
   import { cleanName } from '$lib/util/slugify';
   import { humanFileSize } from '$lib/util/humanFileSize';
   import notification from '$lib/stores/notification';
-  import trackEvent from '$lib/util/track-event';
+  import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
 
   export let show = false;

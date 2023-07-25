@@ -4,7 +4,7 @@ import { doc, DocumentReference, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from './firebase';
 
 import { getUser } from '$lib/stores/auth';
-import trackEvent from '$lib/util/track-event';
+import { trackEvent } from '$lib/util';
 import { PlausibleEvent } from '$lib/types/Plausible';
 import type { UserPublic } from '$lib/models/User';
 

@@ -20,7 +20,7 @@
   import { user } from '$lib/stores/auth';
   import createUrl from '$lib/util/create-url';
   import { goto } from '$lib/util/navigate';
-  import trackEvent from '$lib/util/track-event';
+  import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
 
   const contentOf = (quoteNumber: string) => {

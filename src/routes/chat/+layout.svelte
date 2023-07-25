@@ -17,7 +17,7 @@
   import { onDestroy } from 'svelte';
   import nProgress from 'nprogress';
   import type { LocalChat } from '$lib/types/Chat';
-  import trackEvent from '$lib/util/track-event';
+  import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import createUrl from '$lib/util/create-url';
 

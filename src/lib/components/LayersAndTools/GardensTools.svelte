@@ -2,7 +2,7 @@
   import { _ } from 'svelte-i18n';
   import { LabeledRadioButton } from '$lib/components/UI';
   import { bookmarkEmptyIcon, hideIcon, tentIcon } from '$lib/images/icons';
-  import trackEvent from '$lib/util/track-event';
+  import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   export let showGardens: boolean;
   export let showSavedGardens: boolean;

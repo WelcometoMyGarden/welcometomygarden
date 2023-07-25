@@ -28,7 +28,7 @@ import { page } from '$app/stores';
 import { isActiveContains } from '../util/isActive';
 import type { Garden } from '../types/Garden';
 import type { User as FirebaseUser } from 'firebase/auth';
-import trackEvent from '$lib/util/track-event';
+import { trackEvent } from '$lib/util';
 import { PlausibleEvent } from '$lib/types/Plausible';
 
 // These are not Svelte stores, because we do not wish to listen to updates on them.

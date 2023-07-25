@@ -1,5 +1,5 @@
 <script lang="ts">
-  import trackEvent from '$lib/util/track-event';
+  import trackEvent from '$lib/util/track-plausible';
   import { createEventDispatcher } from 'svelte';
 
   export let href: string;

@@ -22,7 +22,7 @@
     PlausibleEvent,
     type PlausiblePricingSectionSourceProperties
   } from '$lib/types/Plausible';
-  import trackEvent from '$lib/util/track-event';
+  import trackEvent from '$lib/util/track-plausible';
   import createUrl from '$lib/util/create-url';
 
   /**

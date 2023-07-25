@@ -5,7 +5,7 @@
   import { clickOutside } from '$lib/directives';
   import { TextInput } from '$lib/components/UI';
   import { markerIcon } from '$lib/images/icons';
-  import trackEvent from '$lib/util/track-event';
+  import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
 
   export let isSearching;

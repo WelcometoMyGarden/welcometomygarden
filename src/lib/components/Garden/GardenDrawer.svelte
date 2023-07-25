@@ -23,7 +23,7 @@
   import routes from '$lib/routes';
   import type { Garden } from '$lib/types/Garden';
   import Icon from '$lib/components/UI/Icon.svelte';
-  import trackEvent from '$lib/util/track-event';
+  import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { anchorText } from '$lib/util/translation-helpers';
 

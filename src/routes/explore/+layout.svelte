@@ -24,7 +24,7 @@
   import { savedGardens as savedGardenStore } from '$lib/stores/savedGardens';
   import TrainconnectionsLayer from '$lib/components/Map/TrainconnectionsLayer.svelte';
   import TrainAndRails from '$lib/components/Map/TrainAndRails.svelte';
-  import trackEvent from '$lib/util/track-event';
+  import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { setExpiringCookie } from '$lib/util/set-cookie';
 
