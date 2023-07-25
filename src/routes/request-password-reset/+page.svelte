@@ -21,6 +21,9 @@
       isSending = false;
     }
   };
+  // Coordinate the transition duration to prevent both stages to be visible at the same time.
+  // See below.
+  const transitionDuration = 300;
 </script>
 
 <svelte:head>
@@ -34,7 +37,7 @@
   <div slot="form">
     {#if !done}
       <p class="description">{$_('request-password-reset.description')}</p>
-      <form transition:fade on:submit|preventDefault={submit}>
+      <form transition:fade={{duration: transitionDuration}} on:submit|preventDefault={submit}>
         <div>
           <label for="email">{$_('generics.email')}</label>
           <TextInput
@@ -53,7 +56,7 @@
         </div>
       </form>
     {:else}
-      <div transition:fade>
+      <div in:fade={{delay: transitionDuration}}>
         <p>{$_('request-password-reset.set', { values: { email: $formEmailValue } })}</p>
         <p>
           {@html $_('request-password-reset.trouble', {
