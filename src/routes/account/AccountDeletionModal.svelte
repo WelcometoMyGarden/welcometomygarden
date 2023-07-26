@@ -8,7 +8,7 @@
   import { getUser } from '$lib/stores/auth';
   import { auth } from '$lib/api/firebase';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
-  import trackEvent from '$lib/util/track-event';
+  import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   export let show = false;
 

@@ -1414,15 +1414,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@google-cloud/firestore@npm:^6.5.0":
-  version: 6.5.0
-  resolution: "@google-cloud/firestore@npm:6.5.0"
+"@google-cloud/firestore@npm:^6.6.0":
+  version: 6.6.1
+  resolution: "@google-cloud/firestore@npm:6.6.1"
   dependencies:
     fast-deep-equal: ^3.1.1
     functional-red-black-tree: ^1.0.1
     google-gax: ^3.5.7
     protobufjs: ^7.0.0
-  checksum: dd9cf4eee263a976239232143d5caf213c34850a352c6b6cb15b7b17cfddc2c6bee5e72eed0d188f4317eb5cb6a898372d02c54be8a30bbdc7ffbd360e138cb7
+  checksum: 9f3838e07d74da34ba4cf322efd3f82e3b8f5b330ae01c0e51d717aacafe2a84caa2869989bbff87fe020086f5b8591baaaf8c643dc93c20fd3f6f2adfd67a24
   languageName: node
   linkType: hard
 
@@ -3103,14 +3103,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"firebase-admin@npm:^11.7.0":
-  version: 11.7.0
-  resolution: "firebase-admin@npm:11.7.0"
+"firebase-admin@npm:^11.9.0":
+  version: 11.9.0
+  resolution: "firebase-admin@npm:11.9.0"
   dependencies:
     "@fastify/busboy": ^1.2.1
     "@firebase/database-compat": ^0.3.4
     "@firebase/database-types": ^0.10.4
-    "@google-cloud/firestore": ^6.5.0
+    "@google-cloud/firestore": ^6.6.0
     "@google-cloud/storage": ^6.9.5
     "@types/node": ">=12.12.47"
     jsonwebtoken: ^9.0.0
@@ -3122,7 +3122,7 @@ __metadata:
       optional: true
     "@google-cloud/storage":
       optional: true
-  checksum: 796c7f80eeeaadb6fe9e31b942de99aaab926f5dd0b5eb7ba650c24c3bc6da3ff1f031976e99ecc9ae886f619c0d317345dd20b95c9041feb85c73112636feaa
+  checksum: c07ec5e9fb4242df904941d9def5bfca0633e6a2378d87a4857fff0d2349252c0f0fdaaa37221c327366a9284f3b44260d18ae94cefa202fbf514d680ccf4da4
   languageName: node
   linkType: hard
 
@@ -3141,9 +3141,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"firebase-functions@npm:^4.3.1":
-  version: 4.3.1
-  resolution: "firebase-functions@npm:4.3.1"
+"firebase-functions@npm:^4.4.1":
+  version: 4.4.1
+  resolution: "firebase-functions@npm:4.4.1"
   dependencies:
     "@types/cors": ^2.8.5
     "@types/express": 4.17.3
@@ -3155,7 +3155,7 @@ __metadata:
     firebase-admin: ^10.0.0 || ^11.0.0
   bin:
     firebase-functions: lib/bin/firebase-functions.js
-  checksum: 813ff6b43a00f65678f8e34160627a06de37bbf93f3f1d9f95be53d615aa341892449fd227acf7afebba3dfdd6dac136b27e31f5679c61c77ec834c009197a2c
+  checksum: 27e912228b7604de860abae071083af9531ef90ff5f14d3ff5559f1d8cc375d8ef77c85b65cb85ac2486a1f2fe61768172c8c8b21994bff3a05370646bfe46a0
   languageName: node
   linkType: hard
 
@@ -3265,8 +3265,8 @@ __metadata:
     eslint-config-prettier: ^8.5.0
     eslint-plugin-import: ^2.22.1
     eslint-plugin-prettier: ^4.2.1
-    firebase-admin: ^11.7.0
-    firebase-functions: ^4.3.1
+    firebase-admin: ^11.9.0
+    firebase-functions: ^4.4.1
     firebase-functions-test: ^3.0.0
     json2csv: ^5.0.6
     lodash.groupby: ^4.6.0

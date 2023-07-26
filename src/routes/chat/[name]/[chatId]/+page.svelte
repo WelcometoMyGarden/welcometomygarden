@@ -14,7 +14,7 @@
   import routes from '$lib/routes';
   import { formatDate } from '$lib/util';
   import chevronRight from '$lib/images/icons/chevron-right.svg';
-  import trackEvent from '$lib/util/track-event';
+  import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import type { LocalChat } from '$lib/types/Chat';
   import MembershipModal from '$routes/(marketing)/(membership)/MembershipModal.svelte';

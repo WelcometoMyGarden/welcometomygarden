@@ -9,7 +9,7 @@
   import Form from '$lib/components/Garden/Form.svelte';
   import routes from '$lib/routes';
   import { checkAndHandleUnverified } from '$lib/api/auth';
-  import trackEvent from '$lib/util/track-event';
+  import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
 
   if (!$user) {

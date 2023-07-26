@@ -9,7 +9,7 @@
   import Form from '$lib/components/Garden/Form.svelte';
   import routes from '$lib/routes';
   import type { Garden } from '$lib/types/Garden';
-  import trackEvent from '$lib/util/track-event';
+  import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
 
   if ($user && $user.garden) goto(routes.MANAGE_GARDEN);

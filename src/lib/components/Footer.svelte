@@ -7,7 +7,7 @@
   import WtmgLogo from './UI/WTMGLogo.svelte';
   import PaddedSection from '$routes/(marketing)/_components/PaddedSection.svelte';
   import { user } from '$lib/stores/auth';
-  import trackEvent from '$lib/util/track-event';
+  import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
 
   const donationUrlParams = new URLSearchParams({

@@ -6,7 +6,7 @@ export type MessageFormatter = Flatten<typeof _>;
 import { UTM_MEMBERSHIP_CAMPAIGN, WTMG_BLOG_BASE_URL } from '$lib/constants';
 import createUrl from './create-url';
 import { goto } from './navigate';
-import trackEvent from './track-event';
+import trackEvent from './track-plausible';
 
 if (window) {
   // This function is referenced below in the inline onclick handler.

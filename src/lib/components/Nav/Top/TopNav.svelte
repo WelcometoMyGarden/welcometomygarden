@@ -9,7 +9,7 @@
   import NewBadge from '../NewBadge.svelte';
   import { anchorText } from '$lib/util/translation-helpers';
   import { PlausibleEvent } from '$lib/types/Plausible';
-  import trackEvent from '$lib/util/track-event';
+  import trackEvent from '$lib/util/track-plausible';
 
   $: firstName = $user ? $user.firstName : '';
 </script>
