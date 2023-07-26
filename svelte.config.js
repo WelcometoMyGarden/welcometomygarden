@@ -1,4 +1,5 @@
-import adapter from '@sveltejs/adapter-static'; // https://www.npmjs.com/package/@sveltejs/adapter-static
+// https://kit.svelte.dev/docs/adapter-static
+import adapter from '@sveltejs/adapter-static';
 
 import preprocess from 'svelte-preprocess';
 
@@ -16,7 +17,8 @@ const config = {
     },
     adapter: adapter({
       pages: 'dist',
-      assets: 'dist'
+      assets: 'dist',
+      fallback: 'index.html'
     }),
 
     prerender: {
