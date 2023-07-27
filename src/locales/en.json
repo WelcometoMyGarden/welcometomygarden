@@ -559,7 +559,8 @@
         "become-member-text": "become a member"
       },
       "save": "Save",
-      "saved": "Saved"
+      "saved": "Saved",
+      "phone-notice": "Phone numbers are only visible for members"
     },
     "add": {
       "title": "Add your garden"

@@ -26,8 +26,12 @@
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { anchorText } from '$lib/util/translation-helpers';
+  import HiddenPhoneNumber from './HiddenPhoneNumber.svelte';
 
   const dispatch = createEventDispatcher();
+  const phoneRegex =
+    /\+?\d{1,4}?[-/\\.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/g;
+  let descriptionEl: unknown | undefined;
 
   $: gardenIsSelected = !!garden;
   $: facilities = [
@@ -151,6 +155,42 @@
   };
 
   $: chatWithGardenLink = `${routes.CHAT}?with=${garden?.id}`;
+
+  const createPhoneNumberPlaceHolder = (length: number) => {
+    const container = document.createElement('span');
+    new HiddenPhoneNumber({
+      target: container,
+      props: {
+        length
+      }
+    });
+    return container;
+  };
+
+  $: isPhoneNumberInDescription = garden?.description ? phoneRegex.test(garden.description) : false;
+
+  $: if (descriptionEl) {
+    // Replace hidden phone numbers with a component.
+    const el = descriptionEl.firstChild as HTMLParagraphElement;
+    const hiddenNumberRegex = /\[(\*+)\]/;
+    if (hiddenNumberRegex.test(el?.textContent)) {
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split#splitting_with_a_regexp_to_include_parts_of_the_separator_in_the_result
+      // We use groups in the regex to still have access to the length of the phone number.
+      // Returns an array like ['sms me at ', 8, ' or ', 9]
+      const newNodes = el.textContent
+        .split(hiddenNumberRegex)
+        .map((el) =>
+          el.match(/\*+/) ? createPhoneNumberPlaceHolder(el.length) : document.createTextNode(el)
+        );
+
+      // Remove the original text node of <p>
+      el.firstChild.remove();
+      // Re-insert new nodes
+      for (const node of newNodes) {
+        el.appendChild(node);
+      }
+    }
+  }
 </script>
 
 <Progress active={isGettingMagnifiedPhoto} />
@@ -212,8 +252,23 @@
         {/if}
       </header>
       <div class="drawer-content-area">
-        <div class="description">
-          <Text class="mb-l">{garden.description}</Text>
+        <div class="description" bind:this={descriptionEl}>
+          <Text class="mb-l"
+            >{$user?.superfan
+              ? garden?.description
+              : garden?.description.replaceAll(
+                  phoneRegex,
+                  // With client-side code, we replace this with more aesthetic HTML & CSS (see above).
+                  // We can not use the @html directive here, because of a high XSS injection risk.
+                  (match) => `[${'*'.repeat(match.length)}]`
+                )}</Text
+          >
+          {#if isPhoneNumberInDescription && !$user?.superfan}
+            <p class="phone-notice">
+              {$_('garden.drawer.phone-notice')}
+            </p>
+          {/if}
+          <p />
         </div>
         <div class="chips-container">
           {#each facilities as facility (facility.name)}
@@ -429,6 +484,12 @@
   .description {
     max-width: 45rem;
     word-wrap: break-word;
+  }
+
+  .phone-notice {
+    font-size: 1.2rem;
+    font-style: italic;
+    margin: 1rem 0;
   }
 
   .magnified-photo-wrapper {

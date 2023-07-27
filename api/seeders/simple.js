@@ -129,7 +129,7 @@ const sendMessage = async (currentUserId, chatId, message, useLastMessageSeen = 
   return msg.id;
 };
 
-const createGarden = async ({ latitude, longitude }, user) => {
+const createGarden = async ({ latitude, longitude }, user, extraProps) => {
   await createGardenDoc(user.uid, {
     description: 'Hello, this is a test camping spot. You are welcome to stay!',
     location: {
@@ -147,7 +147,8 @@ const createGarden = async ({ latitude, longitude }, user) => {
       tent: true
     },
     photo: null,
-    listed: true
+    listed: true,
+    ...extraProps
   });
   return user;
 };
@@ -159,11 +160,18 @@ const seed = async () => {
     createNewUser(
       { email: 'user1@slowby.travel' },
       { firstName: 'Bob', lastName: 'Dylan', countryCode: 'US' }
-    ).then(
-      createGarden.bind(null, {
-        latitude: 50.952798579681854,
-        longitude: 4.763172541851901
-      })
+    ).then((user) =>
+      createGarden(
+        {
+          latitude: 50.952798579681854,
+          longitude: 4.763172541851901
+        },
+        user,
+        {
+          description:
+            'Hello, this is a test garden. If you want to stay here, please send an SMS to 0679669739 or 0681483065.'
+        }
+      )
     ),
     // Superfan, no garden
     createNewUser(
@@ -174,7 +182,7 @@ const seed = async () => {
     createNewUser(
       { email: 'user3@slowby.travel' },
       { firstName: 'Jospehine', lastName: 'Delafroid', countryCode: 'FR', superfan: true }
-    ).then(createGarden.bind(null, { latitude: 50.9427, longitude: 4.5124 })),
+    ).then((user) => createGarden({ latitude: 50.9427, longitude: 4.5124 }, user)),
     // No superfan, no garden, has past chats
     createNewUser(
       {
