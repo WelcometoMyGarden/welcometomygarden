@@ -722,7 +722,8 @@
     "video-section": {
       "title": "Join the community",
       "description": "<p>Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Like any garden, WTMG needs nurturing in order to grow and stay healthy.</p><p>Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. Join us today!</p>",
-      "blog-link-text": "Why WTMG needs members"
+      "blog-link-text": "Why WTMG needs members",
+      "superfan-count": "slow travellers already joined!"
     },
     "for-superfans-section": {
       "slug": "You make the magic happen ",

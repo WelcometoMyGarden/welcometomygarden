@@ -22,6 +22,8 @@
   export let arrow = false;
   export let centered = false;
 
+  export let minWidth: undefined | string = undefined;
+
   /** Whether this is a link-style button */
   export let link = false;
   /** Apply an underline in the case of a link-style button*/
@@ -66,6 +68,7 @@
     class:centered
     class:bold
     class:underline
+    style:min-width={minWidth}
     {href}
     on:click={(e) => {
       if (disabled || preventing) e.preventDefault();
@@ -101,6 +104,7 @@
     class:centered
     class:bold
     class:underline
+    style:min-width={minWidth}
     {type}
   >
     <Text is="span" weight="bold">

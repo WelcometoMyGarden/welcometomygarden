@@ -25,6 +25,7 @@
   import capitalize from '$lib/util/capitalize';
   import { page } from '$app/stores';
   import { user } from '$lib/stores/auth';
+  import SocialProof from '$routes/(marketing)/_components/SocialProof.svelte';
 
   smoothscroll.polyfill();
 
@@ -92,9 +93,12 @@
       {@html $_('about-superfan.video-section.description')}
       <div class="become-superfan-buttons">
         {#if !$user?.superfan}
-          <Button href="{routes.ABOUT_MEMBERSHIP}#pricing" uppercase orange arrow
-            >{$_('generics.become-member')}</Button
-          >
+          <div>
+            <Button href="{routes.ABOUT_MEMBERSHIP}#pricing" uppercase orange arrow minWidth="20rem"
+              >{$_('generics.become-member')}</Button
+            >
+            <SocialProof centerRelative />
+          </div>
         {/if}
         <Button
           href={membershipBlogLink($_, {
@@ -173,7 +177,14 @@
   }
 
   .become-superfan-buttons :global(> *:first-child) {
-    flex: 1;
+    /* Constrains the container. Makes sure the superfan count text collapses to the size of the button
+    above it (which is of fixed size by the max-content below) */
+    width: min-content;
+  }
+  .become-superfan-buttons :global(> *:first-child .button) {
+    /* Forces the button content text to be on one line, 
+       but still constrains the size to the content*/
+    width: max-content;
   }
   .become-superfan-buttons :global(> *:last-child) {
     flex: 1.2;
@@ -232,12 +243,5 @@
     display: inline-block;
     margin-bottom: 2rem;
     padding: 0 var(--spacing-collapsible-item-hor);
-  }
-
-  @media screen and (max-width: 1050px) {
-    /* Center the video section button, only when it collapses */
-    .video-text :global(.button) {
-      margin: auto;
-    }
   }
 </style>

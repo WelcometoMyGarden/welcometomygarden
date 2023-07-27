@@ -24,6 +24,7 @@
   } from '$lib/types/Plausible';
   import trackEvent from '$lib/util/track-plausible';
   import createUrl from '$lib/util/create-url';
+  import SocialProof from '../_components/SocialProof.svelte';
 
   /**
    * Whether to show full cards with all info.
@@ -31,7 +32,8 @@
   export let full = false;
 
   /**
-   * Whether this shows a condensed pricing levels on desktop
+   * Whether this shows condensed pricing level blocks on both desktop and mobile.
+   * Used for the membership modal.
    */
   export let condensed = false;
 
@@ -192,6 +194,7 @@
       orange={selectedLevel.slug != SuperfanLevelSlug.FREE}
       arrow
       disabled={(selectedLevel.slug === SuperfanLevelSlug.FREE && !!$user) || $user?.superfan}
+      minWidth="20rem"
       on:click={() => {
         if (!acceptedTerms) {
           continueError = $_('register.validate.consent');
@@ -212,6 +215,9 @@
         {$_('garden.form.register-link-text')}
       {/if}
     </Button>
+    {#if condensed}
+      <SocialProof />
+    {/if}
     {#if $user?.superfan}
       <p class="notice">
         {$_('become-superfan.pricing-section.already-member', {

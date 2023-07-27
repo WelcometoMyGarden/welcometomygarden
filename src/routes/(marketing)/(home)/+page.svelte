@@ -22,6 +22,7 @@
   import { goto } from '$lib/util/navigate';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import SocialProof from '../_components/SocialProof.svelte';
 
   const contentOf = (quoteNumber: string) => {
     const prefix = `index.wtmg-quotes.${quoteNumber}`;
@@ -83,23 +84,27 @@
         {@html $_('about-superfan.video-section.description')}
         <div class="become-superfan-buttons">
           <!-- If the user is already a member, we don't use CTA copy (or links) that push to pay -->
-          <Button
-            href={membershipUrlWithParams}
-            preventing
-            on:click={() => {
-              trackEvent(PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'home_section' });
-              goto(membershipUrlWithParams);
-            }}
-            uppercase
-            orange
-            arrow
-          >
-            {#if $user?.superfan}
-              {$_('index.intro.learn-more')}
-            {:else}
-              {$_('generics.become-member')}
-            {/if}
-          </Button>
+          <div>
+            <Button
+              href={membershipUrlWithParams}
+              preventing
+              on:click={() => {
+                trackEvent(PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'home_section' });
+                goto(membershipUrlWithParams);
+              }}
+              uppercase
+              orange
+              arrow
+              minWidth="20rem"
+            >
+              {#if $user?.superfan}
+                {$_('index.intro.learn-more')}
+              {:else}
+                {$_('generics.become-member')}
+              {/if}
+            </Button>
+            <SocialProof centerRelative />
+          </div>
           <Button
             href={membershipBlogLink($_, {
               utm_content: 'homepage'
@@ -155,8 +160,16 @@
   }
 
   .become-superfan-buttons :global(> *:first-child) {
-    flex: 1;
+    /* Constrains the container. Makes sure the superfan count text collapses to the size of the button
+    above it (which is of fixed size by the max-content below) */
+    width: min-content;
   }
+  .become-superfan-buttons :global(> *:first-child .button) {
+    /* Forces the button content text to be on one line, 
+       but still constrains the size to the content*/
+    width: max-content;
+  }
+
   .become-superfan-buttons :global(> *:last-child) {
     flex: 1;
   }

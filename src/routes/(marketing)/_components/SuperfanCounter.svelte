@@ -7,7 +7,6 @@
   {#await getSuperfanCount()}
     {'...'}
   {:then count}
-    {count ?? '257'}
+    {typeof count === 'number' ? count.toLocaleString('nl-BE') : '1.312'}
   {/await}
-  {$_('generics.member').toLocaleLowerCase()}s
 </span>
