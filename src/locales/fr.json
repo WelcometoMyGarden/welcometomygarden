@@ -613,7 +613,8 @@
         "capacity": "Place pour {styleCapacity} {capacity, plural, one {tente} other {tentes}}"
       },
       "save": "Sauvegarder",
-      "saved": "Sauvegardé"
+      "saved": "Sauvegardé",
+      "phone-notice": "Les numéros de téléphone sont visibles uniquement par les membres."
     },
     "add": {
       "title": "Ajoutez votre jardin"
