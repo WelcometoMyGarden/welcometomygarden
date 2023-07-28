@@ -170,7 +170,7 @@
   $: isPhoneNumberInDescription = garden?.description ? phoneRegex.test(garden.description) : false;
 
   $: if (descriptionEl) {
-    // Replace hidden phone numbers with a component.
+    // Replace hidden phone number markers with a component.
     const el = descriptionEl.firstChild as HTMLParagraphElement;
     const hiddenNumberRegex = /\[(\*+)\]/;
     if (hiddenNumberRegex.test(el?.textContent)) {
@@ -265,7 +265,7 @@
           >
           {#if isPhoneNumberInDescription && !$user?.superfan}
             <p class="phone-notice">
-              {$_('garden.drawer.phone-notice')}
+              <span style="font-style: normal;">🔐 </span>{$_('garden.drawer.phone-notice')}
             </p>
           {/if}
           <p />
