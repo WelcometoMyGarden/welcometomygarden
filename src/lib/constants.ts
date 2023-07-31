@@ -34,3 +34,10 @@ export const ICON_SIZE = [
 ];
 
 export const IMAGES_PATH = '/images';
+
+/**
+ * MapBox max zoom level for non-members, in order to preserve privacy
+ */
+export const nonMemberMaxZoom = 12;
+// This is the MapBox default https://docs.mapbox.com/mapbox-gl-js/api/map/#map-parameters
+export const memberMaxZoom = 22;

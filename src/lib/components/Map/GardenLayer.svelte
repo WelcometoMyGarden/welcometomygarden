@@ -13,6 +13,8 @@
   import { getContext, createEventDispatcher } from 'svelte';
   import key from './mapbox-context.js';
   import { tentIcon } from '$lib/images/markers';
+  import { user } from '$lib/stores/auth';
+  import { memberMaxZoom, nonMemberMaxZoom } from '$lib/constants';
 
   type GardenFeatureCollection = {
     type: 'FeatureCollection';
@@ -209,9 +211,17 @@
         type: 'geojson',
         data: fcAllGardens,
         cluster: true,
-        clusterMaxZoom: 14,
+        /** Max zoom on which to cluster points if clustering is enabled.
+         * Defaults to one zoom less than maxzoom (so that last zoom features are not clustered).
+         * https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/#geojson-clusterMaxZoom
+         *
+         * Note: the non-member max zoom should be more zoomed out than the member max zoom.
+         */
+        clusterMaxZoom: nonMemberMaxZoom - 1,
         clusterRadius: 50
       });
+
+      map.on('zoomend', () => console.log('zoom level: ', map.getZoom()));
 
       map.addSource(savedGardenSourceId, {
         type: 'geojson',

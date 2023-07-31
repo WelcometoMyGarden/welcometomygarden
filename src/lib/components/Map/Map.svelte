@@ -8,9 +8,10 @@
   import key from './mapbox-context.js';
 
   import 'maplibre-gl/dist/maplibre-gl.css';
-  import { DEFAULT_MAP_STYLE } from '$lib/constants.js';
+  import { DEFAULT_MAP_STYLE, memberMaxZoom, nonMemberMaxZoom } from '$lib/constants.js';
   import FullscreenControl from './FullscreenControl.js';
   import { isFullscreen } from '$lib/stores/fullscreen.js';
+  import { user } from '$lib/stores/auth.js';
 
   export let lat: number;
   export let lon: number;
@@ -75,6 +76,8 @@
       style: DEFAULT_MAP_STYLE,
       center: [lon, lat],
       zoom,
+      /** https://docs.mapbox.com/mapbox-gl-js/api/map/#map-parameters */
+      maxZoom: $user?.superfan ? memberMaxZoom : nonMemberMaxZoom,
       attributionControl: false,
       hash: false // TODO: discuss if we want this or not
     });
