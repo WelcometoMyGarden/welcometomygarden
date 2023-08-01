@@ -80,9 +80,9 @@
   <!-- Applying this hack: https://github.com/sveltejs/svelte/issues/3105#issuecomment-584037243 -->
   <!-- TODO: Maybe replace later with: https://github.com/sveltejs/svelte/issues/3105#issuecomment-1440443254 -->
   <!-- !important is necessary because the svelte component-scoped CSS otherwise has higher CSS specificity -->
+  <!--  -->
+  <!-- Hide the extra bar vvvv (prettier duplicates this comment if put within the block on every save) -->
   {#if $user?.superfan}
-    <!-- Hide the extra bar -->
-    <!-- Hide the extra bar -->
     <style>
       .nav-extra {
         display: none !important;
