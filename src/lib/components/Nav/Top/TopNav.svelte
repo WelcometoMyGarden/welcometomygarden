@@ -106,6 +106,8 @@
     top: 0;
     left: 0;
     height: var(--height-nav);
+    /* z-index 0 results in the map overlapping the user dropdown nav menu on desktop */
+    z-index: 1;
     width: 100%;
     display: flex;
     flex-direction: column;
