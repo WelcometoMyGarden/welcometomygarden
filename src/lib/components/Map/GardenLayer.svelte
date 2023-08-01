@@ -220,8 +220,6 @@
         clusterRadius: 50
       });
 
-      map.on('zoomend', () => console.log('zoom level: ', map.getZoom()));
-
       map.addSource(savedGardenSourceId, {
         type: 'geojson',
         data: fcSavedGardens

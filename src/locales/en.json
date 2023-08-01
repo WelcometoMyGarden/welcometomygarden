@@ -1135,7 +1135,8 @@
       "drag-here": "Drag here or {selectFile}",
       "select-file": "select file",
       "added-to-map": "has been added to the map."
-    }
+    },
+    "zoom-restriction-notice": "to zoom in more"
   },
   "terms-of-use": {
     "title": "Terms of use",

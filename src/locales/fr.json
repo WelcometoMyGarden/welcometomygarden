@@ -1122,7 +1122,8 @@
       "drag-here": "Faites glisser ici ou {selectFile}",
       "select-file": "sélectionnez le fichier",
       "added-to-map": "a été ajouté sur la carte."
-    }
+    },
+    "zoom-restriction-notice": "pour zoomer plus"
   },
   "terms-of-use": {
     "title": "Conditions d'utilisation",
