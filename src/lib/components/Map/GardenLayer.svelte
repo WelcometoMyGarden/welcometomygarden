@@ -13,8 +13,7 @@
   import { getContext, createEventDispatcher } from 'svelte';
   import key from './mapbox-context.js';
   import { tentIcon } from '$lib/images/markers';
-  import { user } from '$lib/stores/auth';
-  import { memberMaxZoom, nonMemberMaxZoom } from '$lib/constants';
+  import { nonMemberMaxZoom } from '$lib/constants';
 
   type GardenFeatureCollection = {
     type: 'FeatureCollection';
@@ -258,6 +257,7 @@
         layout: {
           'text-field': '{point_count_abbreviated}',
           'text-size': 13
+          // 'text-allow-overlap': true
         }
       });
 
@@ -268,7 +268,10 @@
         filter: ['!', ['has', 'point_count']],
         layout: {
           'icon-image': ['get', 'icon'],
-          'icon-size': 0.4
+          'icon-size': 0.4,
+          // Needs to be true, otherwise a city/town name on the map will overlap a garden.
+          // http://localhost:5173/explore/garden/XFVhmDog6xQprHRJuy1UkThRUVh2 and the name "Spalbeek"
+          'icon-allow-overlap': true
         }
       });
 
