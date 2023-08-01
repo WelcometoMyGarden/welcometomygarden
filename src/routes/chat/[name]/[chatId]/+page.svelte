@@ -488,7 +488,7 @@ CSS grids should do the job cleanly -->
     padding: 1.7rem;
   }
 
-  @media (min-width: 700px) and (max-width: 850px) {
+  @media (min-width: 701px) and (max-width: 850px) {
     .message {
       max-width: 80%;
     }
