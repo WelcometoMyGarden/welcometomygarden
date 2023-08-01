@@ -184,8 +184,8 @@
     }
 
     main {
-      min-height: calc(100vh - var(--height-mobile-nav) - env(safe-area-inset-bottom));
-      padding-bottom: calc(var(--height-mobile-nav) + env(safe-area-inset-bottom));
+      min-height: calc(100vh - var(--height-mobile-nav));
+      padding-bottom: 0;
     }
   }
 </style>

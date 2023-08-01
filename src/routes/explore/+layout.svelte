@@ -198,9 +198,11 @@
 <style>
   .map-section {
     width: 100%;
-    height: calc(100% - var(--height-footer) - var(--height-nav));
-    position: fixed;
-    top: var(--height-nav);
+    /* position: fixed; */
+    /* height: calc(100% - var(--height-footer) - var(--height-nav)); */
+    /* top: var(--height-nav); */
+    height: 100%;
+    position: absolute;
     left: 0;
   }
 
@@ -283,7 +285,7 @@
 
   @media screen and (max-width: 700px) {
     .map-section {
-      height: calc(100% - var(--height-mobile-nav) - env(safe-area-inset-bottom));
+      height: 100%;
       top: 0;
     }
     .map-section :global(.mapboxgl-ctrl-top-left) {
