@@ -49,6 +49,7 @@
 
   let vw;
 
+  // Stick the modal to the bottom on mobile
   $: {
     if (vw < maxWidth) {
       stickToBottom = true;
@@ -68,9 +69,8 @@
   {stickToBottom}
   nopadding={stickToBottom}
   ariaLabelledBy="title"
-  let:ariaLabelledBy
 >
-  <div slot="title" class="gardenFilterTitleSection" id={ariaLabelledBy}>
+  <div slot="title" class="gardenFilterTitleSection" let:ariaLabelledBy id={ariaLabelledBy}>
     <h2 id="gardenFilterTitle">{$_('garden.filter.title')}</h2>
   </div>
   <div slot="body" class="gardenFilterBodySection">

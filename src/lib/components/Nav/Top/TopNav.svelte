@@ -82,6 +82,7 @@
   <!-- !important is necessary because the svelte component-scoped CSS otherwise has higher CSS specificity -->
   {#if $user?.superfan}
     <!-- Hide the extra bar -->
+    <!-- Hide the extra bar -->
     <style>
       .nav-extra {
         display: none !important;
@@ -108,7 +109,6 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    z-index: 110;
     background-color: var(--color-white);
     box-shadow: 0 0 3.3rem rgba(0, 0, 0, 0.1);
   }

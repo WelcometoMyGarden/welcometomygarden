@@ -92,6 +92,7 @@
           {ariaLabelledBy} inserts an "arialabelledby" attribute (which is not a valid ARIA attribute) 
           but it also propagates the given value of ariaLabelledBy back to the let:ariaLabelledBy property on the parent,
           so it can be used within slots by component users without repeating the concrete value of ariaLabelledBy. 
+          https://svelte.dev/docs/special-elements#slot-slot-key-value
         -->
         <slot name="title" {ariaLabelledBy} class="modal-title" />
         {#if closeButton}
