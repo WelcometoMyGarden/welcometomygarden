@@ -13,6 +13,7 @@
   import { getContext, createEventDispatcher } from 'svelte';
   import key from './mapbox-context.js';
   import { tentIcon } from '$lib/images/markers';
+  import { nonMemberMaxZoom } from '$lib/constants';
 
   type GardenFeatureCollection = {
     type: 'FeatureCollection';
@@ -209,7 +210,13 @@
         type: 'geojson',
         data: fcAllGardens,
         cluster: true,
-        clusterMaxZoom: 14,
+        /** Max zoom on which to cluster points if clustering is enabled.
+         * Defaults to one zoom less than maxzoom (so that last zoom features are not clustered).
+         * https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/#geojson-clusterMaxZoom
+         *
+         * Note: the non-member max zoom should be more zoomed out than the member max zoom.
+         */
+        clusterMaxZoom: nonMemberMaxZoom - 1,
         clusterRadius: 50
       });
 
@@ -248,6 +255,7 @@
         layout: {
           'text-field': '{point_count_abbreviated}',
           'text-size': 13
+          // 'text-allow-overlap': true
         }
       });
 
@@ -258,7 +266,10 @@
         filter: ['!', ['has', 'point_count']],
         layout: {
           'icon-image': ['get', 'icon'],
-          'icon-size': 0.4
+          'icon-size': 0.4,
+          // Needs to be true, otherwise a city/town name on the map will overlap a garden.
+          // http://localhost:5173/explore/garden/XFVhmDog6xQprHRJuy1UkThRUVh2 and the name "Spalbeek"
+          'icon-allow-overlap': true
         }
       });
 

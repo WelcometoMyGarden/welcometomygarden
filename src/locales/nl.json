@@ -745,7 +745,8 @@
       "drag-here": "Sleep hier of {selectFile}",
       "select-file": "selecteer een bestand",
       "added-to-map": "is toegevoegd aan de kaart."
-    }
+    },
+    "zoom-restriction-notice": "om meer in te zoomen"
   },
   "rules": {
     "title": "Regels",

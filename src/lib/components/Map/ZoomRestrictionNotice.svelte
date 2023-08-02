@@ -1,0 +1,112 @@
+<script lang="ts">
+  import { _ } from 'svelte-i18n';
+  import { user } from '$lib/stores/auth';
+  import { getContext, onDestroy } from 'svelte';
+  import type { ContextType } from './Map.svelte';
+  import key from './mapbox-context.js';
+  import type { Map, MapEventType, EventData } from 'maplibre-gl';
+  import { nonMemberMaxZoom } from '$lib/constants';
+  import { fade } from 'svelte/transition';
+  import { Anchor } from '../UI';
+  import createUrl from '$lib/util/create-url';
+  import routes from '$lib/routes';
+  import { PlausibleEvent } from '$lib/types/Plausible';
+  const { getMap } = getContext<ContextType>(key);
+  const map = getMap();
+
+  let showNotice = false;
+
+  /**
+   * Determines if the zoom restriciton notice should be shown for map instance in its current state,
+   * and displays it if so.
+   */
+  function toggleNoticeOnMapZoom(map: Map) {
+    if (map.getZoom() >= nonMemberMaxZoom) {
+      showNotice = true;
+    } else {
+      showNotice = false;
+    }
+  }
+
+  const zoomEventHandler = (e: MapEventType['zoom'] & EventData) => {
+    toggleNoticeOnMapZoom(e.target);
+  };
+
+  if (!$user?.superfan) {
+    // Show the notice on load time if needed.
+    toggleNoticeOnMapZoom(map);
+
+    // Using this event instead of 'zoomend' results in a more responsive appearance of the notice.
+    map.on('zoom', zoomEventHandler);
+  }
+
+  onDestroy(() => {
+    map.off('zoom', zoomEventHandler);
+  });
+</script>
+
+{#if showNotice}
+  <div transition:fade>
+    <p>
+      ℹ️{' '}
+      <Anchor
+        href={createUrl(routes.ABOUT_MEMBERSHIP)}
+        track={[PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'zoom_notice' }]}
+        newtab>{$_('generics.become-member')}</Anchor
+      >{' '}{$_('map.zoom-restriction-notice')}.
+    </p>
+  </div>
+{/if}
+
+<style>
+  div {
+    padding: 4px 8px;
+    border-radius: 10px;
+    /* Same as the layers & tools background */
+    background-color: rgba(255, 255, 255, 0.9);
+    position: absolute;
+    /* Same as the filter box */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+    /* Make it possible to drag the map below the notice. 
+       Should be complemented with an exception for the link inside (see below) */
+    pointer-events: none;
+  }
+
+  /* Make the link clickable */
+  div :global(a) {
+    pointer-events: auto;
+  }
+
+  /* TODO: the absolute positioning here is dependent on the sizing of other components overlaying the map.
+   * Some of those components are not <Map> children, but this component needs to be a child of Map's context to listen to map zoom events.
+   * This hacky approach of absolute positioning from different component parents is now deemed preferrable over refactoring the component structures 
+   * so that they are positioned relative to eachother with e.g. flexbox or such.
+   */
+
+  /* Mobile */
+  @media screen and (max-width: 700px) {
+    div {
+      left: 48px;
+      top: 65px;
+      font-size: 1.6rem;
+    }
+  }
+
+  @media screen and (max-width: 389px) {
+    div {
+      /* iPhone SE */
+      max-width: 252px;
+    }
+  }
+
+  /* Desktop */
+  @media screen and (min-width: 701px) {
+    div {
+      left: 394px;
+      top: 10px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+    }
+  }
+</style>

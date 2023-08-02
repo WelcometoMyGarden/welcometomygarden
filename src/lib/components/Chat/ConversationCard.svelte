@@ -72,7 +72,7 @@
     display: inline-flex;
   }
 
-  @media (min-width: 700px) and (max-width: 850px) {
+  @media (min-width: 701px) and (max-width: 850px) {
     .conversation {
       padding: 1rem 1.4rem;
     }

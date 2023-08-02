@@ -27,6 +27,7 @@
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { setExpiringCookie } from '$lib/util/set-cookie';
+  import ZoomRestrictionNotice from '$lib/components/Map/ZoomRestrictionNotice.svelte';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let geolocationIsLoaded = false;
@@ -178,6 +179,7 @@
     {/if}
     <FileTrails />
     <TrainconnectionsLayer />
+    <ZoomRestrictionNotice />
   </Map>
   <LayersAndTools
     bind:showHiking
