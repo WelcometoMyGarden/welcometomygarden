@@ -440,6 +440,10 @@
             "10": {
               "title": "Kan ik stoppen met lid of Superfan zijn?",
               "copy": "<p>Jazker! Het lidmaatschap is geldig voor één jaar, en het lidgeld kan niet worden terugbetaald. Na één jaar sturen we je een uitnodiging om het lidmaatschap te hernieuwen. Indien je hier niet op ingaat, zal je lidmaatschap automatisch stopgezet worden.</p>"
+            },
+            "11": {
+              "copy": "Nee, slechts één lidmaatschap is nodig om contact op te nemen met hosts wanneer je met vrienden of familie reist. Elk individueel account is echter strikt persoonlijk, dus iedereen die apart reist, heeft zijn eigen lidmaatschap nodig.",
+              "title": "Is een lidmaatschap per persoon nodig als ik met vrienden of familie reis?"
             }
           }
         },

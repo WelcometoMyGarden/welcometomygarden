@@ -836,6 +836,10 @@
             "10": {
               "title": "Can I stop being a member or Superfan?",
               "copy": "<p>Yes! Our membership is valid for one year, and the payment is non-refundable. After one year, we will send you an invitation to renew for the next year. If you don’t wish to renew it, your membership will automatically stop.</p>\n"
+            },
+            "11": {
+              "title": "Is a membership needed per person if I travel with friends or family?",
+              "copy": "No, only one membership is needed to contact hosts when travelling with friends or family. However, each individual account is strictly personal, so anyone traveling separately would need their own membership."
             }
           }
         },

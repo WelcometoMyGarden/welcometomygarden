@@ -822,6 +822,10 @@
             "10": {
               "title": "Puis-je cesser d'être Membre ou Superfan ?",
               "copy": "<p>Bien sûr! L'adhésion pour un an et n'est pas remboursable. Après un an, nous vous enverrons un email pour renouveler votre abonnement. Si vous ne souhaitez pas la renouveler, votre adhésion s'arrêtera automatiquement.</p>"
+            },
+            "11": {
+              "copy": "Non, seulement une adhésion est nécessaire pour contacter les hôtes lorsque vous voyagez avec des ami.es ou de la famille. Cependant, chaque compte est strictement personnel, donc toute personne voyageant séparément devra prendre sa propre adhésion.",
+              "title": "Est-ce qu'une adhésion est nécessaire par personne si je voyage avec des ami.es ou de la famille ?"
             }
           }
         },
