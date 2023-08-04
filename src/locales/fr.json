@@ -38,6 +38,11 @@
       "prompt": "Nouveau : ",
       "answer": "une adhésion WTMG pour tous les voyageurs lents. Pour en savoir plus, {linkText}",
       "link-text": "cliquez ici !"
+    },
+    "meetup-notice": {
+      "link": "https://meetup.welcometomygarden.org/fr",
+      "link-text": "ici",
+      "text": "Vous êtes invité·e au premier WTMG Meetup le samedi 26/08 ! 🏕️🎉 Plus d'infos et inscriptions {linkText}."
     }
   },
   "index": {

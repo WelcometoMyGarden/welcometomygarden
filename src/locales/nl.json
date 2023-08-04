@@ -36,6 +36,11 @@
       "prompt": "Nieuw: ",
       "answer": "een WTMG-lidmaatschap voor alle trage reizigers. Lees er {linkText} meer over!",
       "link-text": "hier"
+    },
+    "meetup-notice": {
+      "link": "https://meetup.welcometomygarden.org/nl",
+      "link-text": "hier",
+      "text": "Je bent uitgenodigd voor de eerste WTMG Meetup op zaterdag 26/8! 🏕️🎉 Meer info en inschrijvingen {linkText}."
     }
   },
   "index": {

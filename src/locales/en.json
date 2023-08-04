@@ -44,6 +44,11 @@
       "prompt": "New: ",
       "answer": "a WTMG membership for all slow travellers. Find out more {linkText}!",
       "link-text": "here"
+    },
+    "meetup-notice": {
+      "text": "You’re invited to the first WTMG Meetup on Saturday 26/8! 🏕️🎉 More info & registrations {linkText}.",
+      "link-text": "here",
+      "link": "https://meetup.welcometomygarden.org/"
     }
   },
   "index": {
