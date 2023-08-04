@@ -30,11 +30,6 @@
       name: 'GitHub',
       link: 'https://github.com/WelcometoMyGarden/welcometomygarden',
       iconFileName: 'github.svg'
-    },
-    {
-      name: 'Slack',
-      link: 'https://join.slack.com/t/welcometomygarden/shared_invite/zt-f31i37dj-_zFgnfe40B6EexJuB2f_~w',
-      iconFileName: 'slack.svg'
     }
   ];
 </script>
@@ -51,15 +46,6 @@
   <!-- <li>
     <a href="https://github.com/welcometomygarden" target="_blank" rel="noreferrer">
       <img src="/images/icons/github.svg" alt="GitHub" />
-    </a>
-  </li> -->
-  <!-- <li>
-    <a
-      href=""
-      target="_blank"
-      rel="noreferrer"
-    >
-      <img src="" alt="Slack" />
     </a>
   </li> -->
   <!-- Todo: remove mail icon? -->
