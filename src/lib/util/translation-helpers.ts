@@ -20,13 +20,27 @@ if (window) {
   window.wtmgAnchorNav = (e: MouseEvent, plausibleParams: Parameters<typeof trackEvent>) => {
     const ev = e || window.event;
     if (ev.target?.href) {
-      // Prevent the browser default nav
+      // Warning: AnchorHtml.href returns the full URL despite a relative URl attribute.
+      const rawHref = ev.target?.getAttribute('href');
+      // https://stackoverflow.com/questions/10687099/how-to-test-if-a-url-string-is-absolute-or-relative
+      const absUrlRegex = new RegExp('^(?:[a-z+]+:)?//', 'i');
+      const isRelative = !absUrlRegex.test(rawHref);
+
+      if (!isRelative) {
+        // TODO: support tracking here too?
+        // do nothing, allow native nav & newtab handling
+        return;
+      }
+
+      // Prevent the browser default nav on a local/relative URL nav
       ev.preventDefault();
+
       if (plausibleParams) {
         trackEvent(...plausibleParams);
       }
       // Override with Svelte programmatic navigation
-      goto(ev.target.href);
+      // TODO: support newtab behavior?
+      goto(rawHref);
     }
   };
 }
