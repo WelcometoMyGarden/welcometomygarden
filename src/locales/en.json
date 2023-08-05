@@ -928,11 +928,6 @@
       }
     },
     "payment-section": {
-      "bancontact-notice": {
-        "text": "⚠️ <strong>Bancontact</strong> may be experiencing some technical issues that are beyond our control. Please try a different payment method if your payment doesn't go through. Check {linkText} (opens in a new tab) to learn about the status of the issue. Thank you! - the WTMG team",
-        "link": "https://status.mollie.com/incidents/3xrd9fd1vpdf",
-        "link-text": "this page"
-      },
       "payment-method": "Payment method",
       "pay-button": "Pay now",
       "loading": "Loading...",
