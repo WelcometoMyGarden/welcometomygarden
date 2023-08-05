@@ -550,7 +550,11 @@
         "systems-error": "Er ging iets fout in ons systeem. Gelieve {supportEmail} te contacteren en we zullen je zo snel mogelijk helpen! Excuseer voor het ongemak.",
         "payment-error": "Er ging iets fout met je betaling, probeer alsjeblieft opnieuw."
       },
-      "success": "We hebben je betaling goed ontvangen, welkom in de WTMG community! Hier is de chat die je wilde openen."
+      "success": "We hebben je betaling goed ontvangen, welkom in de WTMG community! Hier is de chat die je wilde openen.",
+      "bancontact-notice": {
+        "text": "⚠️ <strong>Bancontact</strong> kampt op dit moment met techische problemen waar wij niets aan kunnen doen. Als uw Bancontact-betaling niet doorgaat, gelieve dan een andere betaalmethode te proberen. Bekijk {linkText} (opent in een nieuwe tab) voor meer info over de status van het probleem. Bedankt! - het WTMG team",
+        "link-text": "deze pagina"
+      }
     },
     "not-logged-in-warning": "Om Superfan te worden, moet je eerst inloggen of een account aanmaken",
     "title": "Betaling"

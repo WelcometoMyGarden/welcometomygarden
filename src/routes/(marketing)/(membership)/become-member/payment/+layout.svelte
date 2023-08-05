@@ -33,6 +33,7 @@
   import { emailAsLink, SUPPORT_EMAIL } from '$lib/constants';
   import LevelSummary from './LevelSummary.svelte';
   import { page } from '$app/stores';
+  import { anchorText } from '$lib/util/translation-helpers';
 
   // TODO: if you subscribe & unsubscribe in 1 session without refreshing, no new sub will be auto-generated
   // we could fix this by detecting changes to the user (if we go from subscribed -> unsubscribed)
@@ -272,6 +273,17 @@
 <PaddedSection>
   {#if $user && selectedLevel && !hasActiveSubscription($user)}
     <!-- Payment block - TODO: move into component -->
+    <p class="bancontact-issue">
+      {@html $_('payment-superfan.payment-section.bancontact-notice.text', {
+        values: {
+          linkText: anchorText({
+            href: $_('payment-superfan.payment-section.bancontact-notice.link'),
+            linkText: $_('payment-superfan.payment-section.bancontact-notice.link-text'),
+            class: 'link'
+          })
+        }
+      })}
+    </p>
     {#if error}
       <p class="error">{error.message}</p>
     {/if}
@@ -318,6 +330,11 @@
 </PaddedSection>
 
 <style>
+  .bancontact-issue {
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: #fff8ce;
+  }
   .method-title {
     /* Taken from Stripe's Payment element CSS */
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
