@@ -1,7 +1,8 @@
+import { getApps, initializeApp, type FirebaseApp } from 'firebase/app';
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 import { connectAuthEmulator, getAuth, type Auth } from 'firebase/auth';
 import { type Firestore, getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { connectStorageEmulator, getStorage, type FirebaseStorage } from 'firebase/storage';
-import { getApps, initializeApp, type FirebaseApp } from 'firebase/app';
 import { connectFunctionsEmulator, getFunctions, type Functions } from 'firebase/functions';
 import { initializeEuropeWest1Functions, initializeUsCentral1Functions } from './functions';
 import envIsTrue from '../util/env-is-true';
@@ -97,6 +98,18 @@ export async function initialize(): Promise<void> {
     return;
   }
   appRef = initializeApp(FIREBASE_CONFIG);
+
+  if (typeof import.meta.env.VITE_FIREBASE_APPCHECK_DEBUG_TOKEN !== 'undefined') {
+    (self as any).FIREBASE_APPCHECK_DEBUG_TOKEN =
+      import.meta.env.VITE_FIREBASE_APPCHECK_DEBUG_TOKEN;
+  }
+
+  if (typeof import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY !== 'undefined') {
+    initializeAppCheck(appRef, {
+      provider: new ReCaptchaV3Provider(import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY),
+      isTokenAutoRefreshEnabled: true
+    });
+  }
 
   dbRef = getFirestore(appRef);
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_FIRESTORE_EMULATOR))) {
