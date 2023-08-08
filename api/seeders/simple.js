@@ -183,7 +183,7 @@ const seed = async () => {
       { email: 'user3@slowby.travel' },
       { firstName: 'Jospehine', lastName: 'Delafroid', countryCode: 'FR', superfan: true }
     ).then((user) => createGarden({ latitude: 50.9427, longitude: 4.5124 }, user)),
-    // No superfan, no garden, has past chats
+    // No superfan, no garden, has past chats (TODO)
     createNewUser(
       {
         email: 'user4@slowby.travel'

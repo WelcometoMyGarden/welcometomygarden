@@ -211,7 +211,8 @@ service cloud.firestore {
       return get(/databases/$(database)/documents/chats/$(chatId)).data.users;
     }
 
-    // Function does not work on creation operations (existingData reference)
+    // Conditions for chat reads
+  // Note: this function will not work on *creation* operations (existingData reference)
     function canReadChat() {
       return isSignedIn() && isVerified() && requesterId() in existingData().users;
     }
@@ -220,13 +221,17 @@ service cloud.firestore {
     function isValidChatWrite() {
       return isSignedIn() && isVerified()
         && incomingData().keys().hasAll(['users', 'lastActivity', 'createdAt', 'lastMessage'])
+      // A chat can only exist between exactly two users
         && incomingData().users.size() == 2
+      // A user can not send a message to themself
         && incomingData().users[0] != incomingData().users[1]
         && incomingData().lastActivity is timestamp
         && incomingData().lastMessage is string
         && incomingData().lastMessage.size() >= 1
         && incomingData().lastMessage.size() <= 500
-      // The following keys are optional
+      // The following keys are optional.
+      // The client creates a chat before it has sent the first message in it, so these message-related properties may be empty.
+      // Some old chats with existing messages before these features were lauched, may also not have these keys, until someone sends a new message in the chat.
         && 
       (
       !incomingData().keys().hasAny(['lastMessageSeen', 'lastMessageSender'])
@@ -240,24 +245,35 @@ service cloud.firestore {
       )
     }
 
+    // Conditions for chat creations
     function canCreateChat() {
       return isValidChatWrite()
+      // The first user in the participating `users` array must be the chat creator (first message sender)
+        && incomingData().users[0] == requesterId()
+      // Only superfans (members) can create chats
+        && get(/databases/$(database)/documents/users/$(requesterId())).data.superfan == true
+      // Both participants exist
         && userExists(incomingData().users[0])
         && userExists(incomingData().users[1])
     }
 
 
+    // Conditions for chat updates
     function canUpdateChat() {
       return isValidChatWrite()
-      // Immutable properties didn't change
+      // Only chat participants can update the chat
+        && requesterId() in incomingData().users
+      // Participants can not change the creation timestamp 
         && incomingData().createdAt == existingData().createdAt
-        && incomingData().users[0] == existingData().users[0]
-        && incomingData().users[1] == existingData().users[1]
+      // Participants can not change the chat participants
+        && incomingData().users == existingData().users
     }
 
 
     function canReadMessage(chatId) {
-      return isSignedIn() && isVerified() && requesterId() in getChatUsers(chatId);
+      return isSignedIn() && isVerified() 
+      // this condition doubles as a "does the chat exist" check
+        && requesterId() in getChatUsers(chatId);
     }
 
     function canSendMessage(chatId) {
