@@ -6,6 +6,7 @@
   import bbox from '@turf/bbox';
   import key from './mapbox-context.js';
   import { ZOOM_LEVELS } from '$lib/constants.js';
+  import type { FileDataLayer } from '$lib/types/DataLayer';
 
   type SourceData =
     | string
@@ -24,23 +25,27 @@
     }
   };
 
-  const addTrail = (geoJson: SourceData, id: string) => {
-    try {
-      const bboxBounds = <[number, number, number, number]>bbox(geoJson).slice(0, 4);
-      map.fitBounds(bboxBounds, {
-        padding: {
-          top: 150,
-          bottom: 150,
-          left: 50,
-          right: 50
-        },
-        maxZoom: ZOOM_LEVELS.ROAD,
-        linear: true
-      });
-    } catch (error) {
-      console.error(error);
+  const addTrail = ({ geoJson, id, animate }: FileDataLayer) => {
+    // Zoom & pan the map to show the trail, but only if we added the route locally.
+    if (animate) {
+      try {
+        const bboxBounds = <[number, number, number, number]>bbox(geoJson).slice(0, 4);
+        map.fitBounds(bboxBounds, {
+          padding: {
+            top: 150,
+            bottom: 150,
+            left: 50,
+            right: 50
+          },
+          maxZoom: ZOOM_LEVELS.ROAD,
+          linear: true
+        });
+      } catch (error) {
+        console.error(error);
+      }
     }
 
+    // Add/update layer data
     if (map.getSource(id)) {
       map.getSource(id).setData(geoJson);
     } else {
@@ -50,6 +55,7 @@
       });
     }
 
+    // Add a presentation if not existing yet
     if (!map.getLayer(id)) {
       map.addLayer({
         id,
@@ -142,7 +148,7 @@
     // Add new layers
     idsToAdd.map((id) => {
       const fileDataLayer = fileDataLayers.find((fileDataLayer) => fileDataLayer.id === id);
-      if (fileDataLayer) addTrail(fileDataLayer.geoJson, id);
+      if (fileDataLayer) addTrail(fileDataLayer);
     });
 
     // Remove old layers

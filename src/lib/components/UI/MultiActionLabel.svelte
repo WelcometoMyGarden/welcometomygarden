@@ -13,7 +13,7 @@
 </script>
 
 <div class="multi-action-label">
-  <LabeledCheckbox ellipsis {icon} {name} {label} {disabled} on:input bind:checked on:change />
+  <LabeledCheckbox ellipsis {name} {label} {disabled} on:input bind:checked on:change />
   <button
     class="button-unstyle secondary"
     on:click|preventDefault|stopPropagation={(e) => dispatch('secondary', e)}
@@ -36,7 +36,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
+    min-width: 2rem;
     height: 2rem;
     color: var(--color-text);
   }

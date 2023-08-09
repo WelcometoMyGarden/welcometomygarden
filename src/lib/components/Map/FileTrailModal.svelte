@@ -5,7 +5,6 @@
   import { keyboardEvent } from '$lib/stores/keyboardEvent';
   import { VALID_FILETYPE_EXTENSIONS } from '$lib/constants';
   import { getFileExtension } from '$lib/util';
-  import { addFileDataLayers } from '$lib/stores/file';
   import Icon from '$lib/components/UI/Icon.svelte';
   import { crossIcon, uploadCloudIcon } from '$lib/images/icons';
   import Text from '$lib/components/UI/Text.svelte';
@@ -14,6 +13,7 @@
   import notification from '$lib/stores/notification';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import { createTrail } from '$lib/api/trail';
 
   export let show = false;
   let files: File[] = [];
@@ -43,10 +43,7 @@
         try {
           const geoJson = await fileToGeoJson(file);
 
-          addFileDataLayers({
-            name: file.name,
-            geoJson: geoJson
-          });
+          createTrail({ name: file.name, geoJson });
           return true;
         } catch (error) {
           notification.warning('Error while processing file', 5000);

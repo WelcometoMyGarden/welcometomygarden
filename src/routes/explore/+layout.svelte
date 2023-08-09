@@ -28,6 +28,10 @@
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { setExpiringCookie } from '$lib/util/set-cookie';
   import ZoomRestrictionNotice from '$lib/components/Map/ZoomRestrictionNotice.svelte';
+  import { createTrailObserver } from '$lib/api/trail';
+  import { user } from '$lib/stores/auth';
+  import type { Unsubscribe } from 'firebase/firestore';
+  import { fileDataLayers, removeTrailAnimations } from '$lib/stores/file';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let geolocationIsLoaded = false;
@@ -56,6 +60,23 @@
 
   $: if (showTransport) {
     trackEvent(PlausibleEvent.SHOW_TRAIN_NETWORK);
+  }
+
+  let unsubscribeFromTrailObserver: null | Unsubscribe = null;
+  $: if ($user && $user.superfan) {
+    // Combining this conditions with the above one somehow doesn't work.
+    if (!unsubscribeFromTrailObserver) {
+      unsubscribeFromTrailObserver = createTrailObserver();
+    }
+  }
+
+  // If the user is not a Superfan anymore, but trails are being listened for, then clear the trails + listener.
+  $: if ($user && !$user.superfan) {
+    if (unsubscribeFromTrailObserver) {
+      fileDataLayers.set([]);
+      unsubscribeFromTrailObserver();
+      unsubscribeFromTrailObserver = null;
+    }
   }
 
   // true when visiting the link to a garden directly, used to increase zoom level
@@ -110,7 +131,7 @@
       try {
         await getAllListedGardens();
       } catch (ex) {
-        console.log(ex);
+        console.error(ex);
         isFetchingGardens.set(false);
       }
     }
@@ -132,6 +153,11 @@
   onDestroy(() => {
     isFetchingGardens.set(false);
     unsubscribeFromSavedGardens();
+    if (unsubscribeFromTrailObserver) {
+      unsubscribeFromTrailObserver();
+    }
+    // On SPA navigation, when coming back, don't animate to an added trail anymore
+    removeTrailAnimations();
   });
 </script>
 

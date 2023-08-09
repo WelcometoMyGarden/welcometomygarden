@@ -32,6 +32,10 @@ service cloud.firestore {
       return request.auth.token.admin;
     }
 
+    function isMember() {
+      return get(/databases/$(database)/documents/users/$(requesterId())).data.superfan == true;
+    }
+
     function requesterId() {
       return request.auth.uid;
     }
@@ -90,6 +94,17 @@ service cloud.firestore {
         && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['stripeCustomerId', 'stripeSubscription', 'sendgridId', 'oldEmail', 'newEmail'])
     }
 
+    function validateTrailState(trail) {
+      return isNonEmptyString(trail.originalFileName) 
+        && isNonEmptyString(trail.md5Hash)
+        && trail.visible is bool
+    }
+
+    function isValidTrailAccess(userId) {
+      // Only superfans (members) can access trails
+      return isSignedIn() && isOwner(userId) && isMember()
+    }
+
     match /users-private/{userId} {
       // users-private documents are always created by firebase-admin.
       allow read: if isOwner(userId);
@@ -97,6 +112,16 @@ service cloud.firestore {
       if isSignedIn() &&
       isOwner(userId) &&
       validateUserPrivateState(request.resource.data)
+      match /trails/{trailId} {
+        allow read: if isValidTrailAccess(userId);
+        allow create: if isValidTrailAccess(userId)
+          && validateTrailState(incomingData())
+        allow update: if isValidTrailAccess(userId)
+        // Only the visibility should be updateable by the user, once the trail is created.
+          && incomingData().diff(existingData()).affectedKeys().hasOnly(['visible'])
+          && incomingData().visible is bool; 
+        allow delete: if isValidTrailAccess(userId);
+      }
     }
 
     // Garden functions
@@ -251,7 +276,7 @@ service cloud.firestore {
       // The first user in the participating `users` array must be the chat creator (first message sender)
         && incomingData().users[0] == requesterId()
       // Only superfans (members) can create chats
-        && get(/databases/$(database)/documents/users/$(requesterId())).data.superfan == true
+        && isMember()
       // Both participants exist
         && userExists(incomingData().users[0])
         && userExists(incomingData().users[1])
@@ -299,9 +324,7 @@ service cloud.firestore {
       }
     }
 
-    match /tmp-users/{userId} {
-      allow read, write: if false
-    }
+    // Stats
 
     match /stats/{type} {
       allow read: if isSignedIn() && isAdmin();
@@ -315,5 +338,6 @@ service cloud.firestore {
     match /stats/campsites {
       allow read: if true;
     }
+
   }
 }

@@ -3,13 +3,10 @@
 
   import { LabeledCheckbox, MultiActionLabel, Button, Icon } from '$lib/components/UI';
   import { cyclistIcon, hikerIcon, routesIcon } from '$lib/images/icons';
-  import {
-    fileDataLayers,
-    removeFileDataLayers,
-    toggleVisibilityFileDataLayers
-  } from '$lib/stores/file';
+  import { fileDataLayers } from '$lib/stores/file';
   import { cleanName } from '$lib/util/slugify';
   import { onDestroy } from 'svelte';
+  import { deleteTrail, toggleTrailVisibility } from '$lib/api/trail';
 
   export let showHiking: boolean;
   export let showCycling: boolean;
@@ -41,14 +38,10 @@
     <MultiActionLabel
       icon={routesIcon}
       name={layer.id}
-      label={cleanName(layer.name)}
+      label={cleanName(layer.originalFileName)}
       checked={layer.visible}
-      on:change={() => {
-        toggleVisibilityFileDataLayers(layer.id);
-      }}
-      on:secondary={() => {
-        removeFileDataLayers(layer.id);
-      }}
+      on:change={() => toggleTrailVisibility(layer.id)}
+      on:secondary={() => deleteTrail(layer.id)}
     />
   {/each}
 </div>
