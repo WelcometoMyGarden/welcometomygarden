@@ -167,5 +167,12 @@ firebase deploy --only functions:createStripeCustomer,functions:createOrRetrieve
 See [the docs](https://firebase.google.com/docs/rules/manage-deploy#deploy_your_updates).
 
 ```
+# For Firestore
 firebase deploy --only firestore:rules
+
+# For Storage
+firebase deploy --only storage
+
+# Both
+firebase deploy --only firestore:rules,storage
 ```

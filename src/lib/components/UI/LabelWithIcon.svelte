@@ -4,6 +4,9 @@
   export let labelFor: undefined | string = undefined;
   export let ellipsis = false;
   export let compact = false;
+  // Intended for hover states when ellipsis is enabled.
+  // TODO: This could be made more accessible.
+  export let title: undefined | string = undefined;
 </script>
 
 <label for={labelFor} class:compact>
@@ -12,7 +15,7 @@
       <Icon {icon} />
     </div>
   {/if}
-  <span class="label" class:ellipsis><slot /></span>
+  <span class="label" title={ellipsis ? title : undefined} class:ellipsis><slot /></span>
 </label>
 
 <style>
@@ -23,6 +26,7 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+    min-width: 0;
   }
 
   .label {
