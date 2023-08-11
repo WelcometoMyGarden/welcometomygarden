@@ -24,7 +24,8 @@
     "slowby-url": "https://www.slowby.travel/nl/start",
     "new": "Nieuw",
     "fair-model-blog-path": "/nl/een-fair-model-om-de-toekomst-van-wtmg-te-verzekeren",
-    "become-member": "Word lid"
+    "become-member": "Word lid",
+    "membership": "Lidmaatschap"
   },
   "ui": {
     "card": {
@@ -1452,14 +1453,13 @@
     }
   },
   "footer": {
-    "copyright": "© Met 💚 gemaakt door Welcome To My Garden 2022. Alle rechten voorbehouden.",
+    "copyright": "© Met 💚 gemaakt door Welcome To My Garden {year}. Alle rechten voorbehouden.",
     "link-category-titles": {
       "our-projects": "Onze projecten",
       "learn-more": "Lees meer"
     },
     "links": {
       "get-in-touch": "Contact",
-      "superfans": "Superfans",
       "velotour": {
         "title": "Velotour Festival",
         "url": "https://velotourfestival.be/nl.html?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer"

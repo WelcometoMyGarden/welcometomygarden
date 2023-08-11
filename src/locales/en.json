@@ -30,6 +30,7 @@
     "slowby-url": "https://slowby.travel/",
     "superfan": "Superfan",
     "member": "Member",
+    "membership": "Membership",
     "feature": "Feature",
     "new": "New",
     "fair-model-blog-path": "/towards-a-fair-model-to-make-wtmg-survive-and-thrive"
@@ -1461,14 +1462,13 @@
     }
   },
   "footer": {
-    "copyright": "© Made with 💚 by Welcome To My Garden 2022. All rights reserved.",
+    "copyright": "© Made with 💚 by Welcome To My Garden {year}. All rights reserved.",
     "link-category-titles": {
       "our-projects": "Our projects",
       "learn-more": "Learn more"
     },
     "links": {
       "get-in-touch": "Get in touch",
-      "superfans": "Superfans",
       "velotour": {
         "title": "Velotour Festival",
         "url": "https://velotourfestival.be/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer"

@@ -1,7 +1,12 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import routes from '$lib/routes';
-  import { DONATION_URL, WTMG_UTM_SOURCE, mailToSupportHref } from '$lib/constants';
+  import {
+    DONATION_URL,
+    WTMG_BLOG_BASE_URL,
+    WTMG_UTM_SOURCE,
+    mailToSupportHref
+  } from '$lib/constants';
   import Socials from './Socials.svelte';
   import LanguageSelector from './LanguageSelector.svelte';
   import WtmgLogo from './UI/WTMGLogo.svelte';
@@ -9,6 +14,7 @@
   import { user } from '$lib/stores/auth';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import createUrl from '$lib/util/create-url';
 
   const donationUrlParams = new URLSearchParams({
     ...($user
@@ -49,7 +55,7 @@
           link: routes.ABOUT_US
         },
         {
-          title: $_('footer.links.superfans'),
+          title: $_('generics.membership'),
           link: routes.ABOUT_MEMBERSHIP,
           track: [PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'footer' }]
         },
@@ -86,6 +92,17 @@
         {
           title: $_('generics.faq.acronym'),
           link: routes.FAQ
+        },
+        {
+          title: 'Updates',
+          // Note: there is also /category/updates; but for now all blog posts can be considered updates.
+          // And we don't want to give it the empty name "Blog".
+          link: createUrl(WTMG_BLOG_BASE_URL, {
+            utm_source: 'welcometomygarden.org',
+            utm_medium: 'web',
+            utm_content: 'footer'
+          }),
+          target: '_blank'
         },
         {
           title: $_('footer.links.get-in-touch'),
@@ -129,7 +146,13 @@
       </div>
     </div>
     <div class="bottom">
-      <p class="copyright">{$_('footer.copyright')}</p>
+      <p class="copyright">
+        {$_('footer.copyright', {
+          values: {
+            year: new Date().getFullYear().toString()
+          }
+        })}
+      </p>
       <ul class="terms">
         <li>
           <a href={routes.PRIVACY_POLICY}>{$_('generics.privacy-policy')}</a>

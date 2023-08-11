@@ -26,7 +26,8 @@
     "community": "Communauté",
     "new": "Nouveau",
     "fair-model-blog-path": "/fr/vers-un-modele-juste-pour-assurer-le-futur-de-wtmg",
-    "become-member": "Devenez Membre"
+    "become-member": "Devenez Membre",
+    "membership": "Adhésion"
   },
   "ui": {
     "card": {
@@ -1448,14 +1449,13 @@
     }
   },
   "footer": {
-    "copyright": "© Fait avec 💚 par Welcome To My Garden 2022. Tous droits réservés.",
+    "copyright": "© Fait avec 💚 par Welcome To My Garden {year}. Tous droits réservés.",
     "link-category-titles": {
       "our-projects": "Nos projets",
       "learn-more": "En savoir plus"
     },
     "links": {
       "get-in-touch": "Contact",
-      "superfans": "Superfans",
       "velotour": {
         "title": "Velotour Festival",
         "url": "https://velotourfestival.be/fr.html?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer"
