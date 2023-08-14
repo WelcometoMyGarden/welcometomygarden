@@ -2839,6 +2839,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/ua-parser-js@npm:^0.7.36":
+  version: 0.7.36
+  resolution: "@types/ua-parser-js@npm:0.7.36"
+  checksum: 8c24d4dc12ed1b8b98195838093391c358c81bf75e9cae0ecec8f7824b441e069daaa17b974a3e257172caddb671439f0c0b44bf43bfcf409b7a574a25aab948
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/eslint-plugin@npm:^5.27.0":
   version: 5.48.1
   resolution: "@typescript-eslint/eslint-plugin@npm:5.48.1"
@@ -7098,6 +7105,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ua-parser-js@https://github.com/faisalman/ua-parser-js.git#2.0.0-alpha.2":
+  version: 2.0.0-alpha.2
+  resolution: "ua-parser-js@https://github.com/faisalman/ua-parser-js.git#commit=5d2acd8fe7e8029f09afebf9c8afb5bcf4bcd951"
+  checksum: ff8a5cd8d824348ef49f5d7ab1609e14fc3703c3658be556f52b10db323ff598953d48363d13bd9ace743f541bbf5efa61fb08159b36058d99c8abf26cb19123
+  languageName: node
+  linkType: hard
+
 "ufo@npm:^1.1.2":
   version: 1.1.2
   resolution: "ufo@npm:1.1.2"
@@ -7394,6 +7408,7 @@ __metadata:
     "@types/md5": ^2.3.2
     "@types/nprogress": ^0.2.0
     "@types/smoothscroll-polyfill": ^0.3.1
+    "@types/ua-parser-js": ^0.7.36
     "@typescript-eslint/eslint-plugin": ^5.27.0
     "@typescript-eslint/parser": ^5.27.0
     "@zerodevx/svelte-img": ^1.2.10
@@ -7421,6 +7436,7 @@ __metadata:
     svg-inline-loader: ^0.8.2
     tslib: ^2.3.1
     typescript: ^5.0.0
+    ua-parser-js: "https://github.com/faisalman/ua-parser-js.git#2.0.0-alpha.2"
     vite: ^4.4.7
     vite-bundle-visualizer: 0.6.0
     vitest: ^0.33.0

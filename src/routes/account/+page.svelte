@@ -15,6 +15,7 @@
   import ReloadSuggestion from '$lib/components/ReloadSuggestion.svelte';
   import EmailChangeModal from './EmailChangeModal.svelte';
   import { countryNames } from '$lib/stores/countryNames';
+  import NotificationSection from './NotificationSection.svelte';
 
   let showAccountDeletionModal = false;
   let showEmailChangeModal = false;
@@ -147,6 +148,7 @@
             <label for="news">{$_('account.preferences.news')}</label>
           </li>
         </ul>
+        <NotificationSection />
       </section>
       <section>
         <h2>{$_('account.garden.title')}</h2>

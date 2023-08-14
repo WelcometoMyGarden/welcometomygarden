@@ -7,6 +7,8 @@ const removeDiacritics = require('./util/removeDiacritics');
 const { sendMessageReceivedEmail } = require('./mail');
 const removeEndingSlash = require('./util/removeEndingSlash');
 const { auth, db } = require('./firebase');
+const { sendNotification } = require('./push');
+const fail = require('./util/fail');
 
 /**
  * @typedef {import("../../src/lib/models/User").UserPrivate} UserPrivate
@@ -85,15 +87,39 @@ exports.onMessageCreate = async (snap, context) => {
     const nameParts = sender.displayName.split(/[^A-Za-z-]/);
     const messageUrl = `${baseUrl}/chat/${normalizeName(nameParts[0])}/${chatId}`;
 
-    await sendMessageReceivedEmail({
-      email: recipient.email,
-      firstName: recipient.displayName,
-      senderName: sender.displayName,
+    const commonPayload = {
+      senderName: sender.displayName ?? '',
       message: normalizeMessage(message.content),
       messageUrl,
       superfan: recipientUserPublicDocData.superfan ?? false,
       language: recipientUserPrivateDocData.communicationLanguage ?? 'en'
+    };
+
+    if (!recipient.email || !recipient.displayName) {
+      console.error(`Email or display name of ${recipientId} are not valid`);
+      fail('internal');
+    }
+
+    // Send email
+    await sendMessageReceivedEmail({
+      ...commonPayload,
+      email: recipient.email,
+      firstName: recipient.displayName
     });
+
+    // Send a notification to all registered devices via FCM
+    const pushRegistrations = (
+      await recipientUserPrivateDocRef.collection('push-registrations').get()
+    ).docs.map((d) => d.data());
+
+    await Promise.all(
+      pushRegistrations.map((pR) =>
+        sendNotification({
+          ...commonPayload,
+          fcmToken: pR.fcmToken
+        })
+      )
+    );
   } catch (ex) {
     console.log(ex);
   }

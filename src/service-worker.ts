@@ -2,6 +2,9 @@
 /// <reference no-default-lib="true"/>
 /// <reference lib="esnext" />
 /// <reference lib="webworker" />
+
+import { initializeApp } from 'firebase/app';
+import { getMessaging, onBackgroundMessage } from 'firebase/messaging/sw';
 // See https://kit.svelte.dev/docs/service-workers#type-safety
 const sw = self as unknown as ServiceWorkerGlobalScope;
 
@@ -110,3 +113,53 @@ sw.addEventListener('fetch', (event) => {
 
   event.respondWith(respondWithCachedAsset());
 });
+
+// FCM configuration
+// The guide (https://firebase.google.com/docs/cloud-messaging/js/client#access_the_registration_token) claims that a file named
+// "firebase-messaging-sw.js" is required, but that name would be confusing, since our SW also does other stuff.
+// It is actually possible to register our own service worker name
+// https://firebase.google.com/docs/reference/js/messaging_.gettokenoptions.md?authuser=0#properties
+
+// Initialize the Firebase app in the service worker by passing in
+// your app's Firebase config object.
+// https://firebase.google.com/docs/web/setup#config-object
+const FIREBASE_CONFIG = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN as string,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL as string,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID as string,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET as string,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID as string,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID as string
+};
+
+const firebaseApp = initializeApp(FIREBASE_CONFIG);
+
+// Retrieve an instance of Firebase Messaging so that it can handle background
+// messages.
+const messaging = getMessaging(firebaseApp);
+
+// Handle incoming messages. Called when:
+// - a message is received while the app has focus
+// - the user clicks on an app notification created by a service worker
+//   `messaging.onBackgroundMessage` handler.
+
+// Probably this internally does: self.addEventListener('push', ... ), and then
+// it check if the app is in the foreground or background. If it is in the foreground,
+// it will forward the data to the onMessage() handler on the main app instead.
+onBackgroundMessage(messaging, (payload) => {
+  console.log('[service worker] Received background message ', payload);
+  // Firebase will already send the notification.
+  //
+  // Customize notification here
+  // Note: be careful for double notifications.
+});
+
+// FCM will handle this with its own fcmOptions
+// sw.addEventListener('notificationclick', async function (event) {
+//   if (!event.action) return;
+
+//   // This always opens a new browser tab,
+//   // even if the URL happens to already be open in a tab.
+//   clients.openWindow(event.action);
+// });

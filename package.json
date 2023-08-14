@@ -21,7 +21,8 @@
     "firebase:demo": "firebase --project demo-test emulators:start",
     "firebase:demo-seed": "firebase --project demo-test emulators:exec --ui api/seeders/simple.js",
     "firebase:debug": "firebase --project demo-test emulators:start --inspect-functions",
-    "firebase:staging": "firebase --project wtmg-dev emulators:start --only functions"
+    "firebase:staging": "firebase --project wtmg-dev emulators:start --only functions",
+    "firebase:staging-all": "firebase --project wtmg-dev emulators:start"
   },
   "publishConfig": {
     "access": "public"
@@ -38,6 +39,7 @@
     "@types/md5": "^2.3.2",
     "@types/nprogress": "^0.2.0",
     "@types/smoothscroll-polyfill": "^0.3.1",
+    "@types/ua-parser-js": "^0.7.36",
     "@typescript-eslint/eslint-plugin": "^5.27.0",
     "@typescript-eslint/parser": "^5.27.0",
     "@zerodevx/svelte-img": "^1.2.10",
@@ -65,6 +67,7 @@
     "svg-inline-loader": "^0.8.2",
     "tslib": "^2.3.1",
     "typescript": "^5.0.0",
+    "ua-parser-js": "https://github.com/faisalman/ua-parser-js.git#2.0.0-alpha.2",
     "vite": "^4.4.7",
     "vite-bundle-visualizer": "0.6.0",
     "vitest": "^0.33.0"
