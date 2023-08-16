@@ -16,6 +16,7 @@ const sw = self as unknown as ServiceWorkerGlobalScope;
 // The docs of the `build` and `files` arrays are confusing. The "URLs" specified
 // are pathnames like `/images/icons/tent-white.svg`, not fully qualified URLs.
 import { build as buildPathnames, files as filePathnames, version } from '$service-worker';
+import { getFirestore } from 'firebase/firestore';
 
 const VERSIONED_CACHE_NAME = `cache-${version}`;
 
@@ -135,6 +136,8 @@ const FIREBASE_CONFIG = {
 
 const firebaseApp = initializeApp(FIREBASE_CONFIG);
 
+const firestore = getFirestore(firebaseApp);
+
 // Retrieve an instance of Firebase Messaging so that it can handle background
 // messages.
 const messaging = getMessaging(firebaseApp);
@@ -162,4 +165,40 @@ onBackgroundMessage(messaging, (payload) => {
 //   // This always opens a new browser tab,
 //   // even if the URL happens to already be open in a tab.
 //   clients.openWindow(event.action);
+// });
+
+// TODO: for the below to work, auth state should be synced with the service worker.
+// otherwise we don't know which doc to delete, or are not allowed to delete it.
+// https://firebase.google.com/docs/auth/web/service-worker-sessions
+// As a workaround, we have the localStorage frontend cache detection method (works after a refresh).
+
+// interface PushSubscriptionChangeEvent extends ExtendableEvent {
+//   readonly newSubscription: PushSubscription | null;
+//   readonly oldSubscription: PushSubscription | null;
+// }
+
+//
+// /**
+//  * Should also work in a service worker
+//  */
+// const deleteRemoteSubscriptionsByEndpoint = async (endpoint: string) => {
+//   const q = query(pushRegistrationsColRef(), where('subscription.endpoint', '==', endpoint));
+//   const snapshot = await getDocs(q);
+//   await Promise.all(snapshot.docs.map((s) => deletePushRegistrationDoc({ ...s.data(), id: s.id }));
+// };
+
+// /**
+//  * Modeled after https://github.com/firebase/firebase-js-sdk/blob/5dac8b37a974309398317c5231ca6a41af2a48a5/packages/messaging/src/listeners/sw-listeners.ts#L53C19-L53C19
+//  * this helps us clean up our own Firestore records _as a change happens_
+//  */
+// sw.addEventListener('pushsubscriptionchange', (event: Event) => {
+//   const ev = event as PushSubscriptionChangeEvent;
+//   const { oldSubscription, newSubscription } = ev;
+//   if (!newSubscription) {
+//     // Subscription revoked, delete token
+//     // Note: Firebase will handle its own internal deletion, and the Web Push subscription will already be gone.
+//     //
+//     deleteRemoteSubscriptionsByEndpoint()
+//     return;
+//   }
 // });
