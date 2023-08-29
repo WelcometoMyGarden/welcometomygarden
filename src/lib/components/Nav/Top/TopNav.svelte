@@ -15,20 +15,8 @@
 </script>
 
 <nav>
-  <div class="nav-extra">
-    {#if !!$user?.superfan}
-      <span
-        >{@html $_('navigation.meetup-notice.text', {
-          values: {
-            linkText: anchorText({
-              href: $_('navigation.meetup-notice.link'),
-              linkText: $_('navigation.meetup-notice.link-text'),
-              style: 'text-decoration: underline; cursor: pointer;'
-            })
-          }
-        })}</span
-      >
-    {:else}
+  {#if !$user?.superfan}
+    <div class="nav-extra">
       <span
         ><strong style="font-weight: 500;">{$_('navigation.membership-notice.prompt')}</strong
         >{@html $_('navigation.membership-notice.answer', {
@@ -43,8 +31,8 @@
           }
         })}
       </span>
-    {/if}
-  </div>
+    </div>
+  {/if}
   <div class="main-nav">
     <WtmgLogo />
     <ul>
@@ -87,6 +75,24 @@
     </ul>
   </div>
 </nav>
+
+<svelte:head>
+  <!-- Applying this hack: https://github.com/sveltejs/svelte/issues/3105#issuecomment-584037243 -->
+  <!-- TODO: Maybe replace later with: https://github.com/sveltejs/svelte/issues/3105#issuecomment-1440443254 -->
+  <!-- !important is necessary because the svelte component-scoped CSS otherwise has higher CSS specificity -->
+  <!--  -->
+  <!-- Hide the extra bar vvvv (prettier duplicates this comment if put within the block on every save) -->
+  {#if $user?.superfan}
+    <style>
+      .nav-extra {
+        display: none !important;
+      }
+      body {
+        --height-nav-extra: 0px !important;
+      }
+    </style>
+  {/if}
+</svelte:head>
 
 <style>
   :global(body) {

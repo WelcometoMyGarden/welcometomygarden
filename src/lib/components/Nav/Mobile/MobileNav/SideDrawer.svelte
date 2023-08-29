@@ -65,21 +65,8 @@
   <li class="socials">
     <Socials small />
   </li>
-  <!-- We should keep the notice bar here, because it balanced the distributed flexbox -->
-  <li class="superfan-bar show">
-    {#if !!$user?.superfan}
-      <span
-        >{@html $_('navigation.meetup-notice.text', {
-          values: {
-            linkText: anchorText({
-              href: $_('navigation.meetup-notice.link'),
-              linkText: $_('navigation.meetup-notice.link-text'),
-              style: 'text-decoration: underline; cursor: pointer;'
-            })
-          }
-        })}</span
-      >
-    {:else}
+  <li class="superfan-bar" class:show={!$user?.superfan}>
+    {#if !$user?.superfan}
       <span class="title">{$_('navigation.membership-notice.prompt')}</span>
       <span
         >{@html $_('navigation.membership-notice.answer', {
