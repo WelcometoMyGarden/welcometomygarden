@@ -49,10 +49,26 @@ exports.createUser = async (data, context) => {
     if (typeof data.countryCode !== 'string' || !Object.keys(countries).includes(data.countryCode))
       fail('invalid-argument');
 
+    /**
+     * @param {string} name
+     * @returns {string}
+     */
     const normalizeName = (name) => {
-      const normalized = name.trim().toLowerCase();
-      // TODO remove diacritics
-      return normalized.replace(/\b(\w)/g, (s) => s.toUpperCase());
+      // - We're not fully lowercasing input, because of names like McDonald
+      // - We're also not removing diacritics.
+      // - Caveat: the special character rule could lead to unintended effects, depending on the user's preference
+      //   (d'Hont, D'hont, ... will now all be D'Hont)
+      //
+      // Uppercase the non-space letter following a line start, spacing, or a special character
+      const specialChars = '[-_\\(\\)\'"]';
+      const capitalizerReg = new RegExp(`(?:^|\\s|${specialChars})(\\S)`, 'g');
+      return (
+        name
+          .trim()
+          .replace(capitalizerReg, (s) => s.toUpperCase())
+          // The above capitalizer will also capitalize "and" between spaces, reset this.
+          .replace(/\s(and|et|und|ve|e|i|en|y|och|og|in|für)\s/gi, (s) => s.toLowerCase())
+      );
     };
 
     const firstName = normalizeName(data.firstName);
