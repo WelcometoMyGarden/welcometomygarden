@@ -58,9 +58,10 @@ exports.createUser = async (data, context) => {
       // - We're also not removing diacritics.
       // - Caveat: the special character rule could lead to unintended effects, depending on the user's preference
       //   (d'Hont, D'hont, ... will now all be D'Hont)
+      //   However - the previous code also did this, so we're staying consistent this way.
       //
       // Uppercase the non-space letter following a line start, spacing, or a special character
-      const specialChars = '[-_\\(\\)\'"]';
+      const specialChars = '[-_\\(\\)\'"`´\\./]';
       const capitalizerReg = new RegExp(`(?:^|\\s|${specialChars})(\\S)`, 'g');
       return (
         name
