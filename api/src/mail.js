@@ -1,9 +1,6 @@
 const functions = require('firebase-functions');
-const { parseAsync } = require('json2csv');
 const sendgrid = require('@sendgrid/mail');
 const removeEndingSlash = require('./util/removeEndingSlash');
-const { auth, db } = require('./firebase');
-const { verifyAdminUser } = require('./auth');
 
 const API_KEY = functions.config().sendgrid.send_key;
 const FRONTEND_URL = removeEndingSlash(functions.config().frontend.url);
@@ -201,46 +198,4 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
   }
 
   return send(msg);
-};
-
-exports.exportNewsletterEmails = async (_, context) => {
-  await verifyAdminUser(context);
-
-  const spliceIntoChunks = (arr, chunkSize) => {
-    const res = [];
-    while (arr.length > 0) {
-      const chunk = arr.splice(0, chunkSize);
-      res.push(chunk);
-    }
-    return res;
-  };
-
-  const snapshot = await db.collection('users-private').get();
-  const ids = [];
-  snapshot.forEach((u) => {
-    const user = u.data();
-    if (user.emailPreferences.news) ids.push({ uid: u.id });
-  });
-
-  // Firebase has a limit on how many ids you can pass to getUsers at once, so we chunk operations.
-  // The limit is 100 identifiers per getUsers request.
-  // https://firebase.google.com/docs/auth/admin/manage-users#bulk_retrieve_user_data
-  const queue = [];
-  const chunks = spliceIntoChunks(ids, 90);
-  chunks.forEach((chunk) => {
-    queue.push(auth.getUsers(chunk));
-  });
-
-  const chunkedResolved = await Promise.all(queue);
-  const emails = [];
-  chunkedResolved.forEach((resolved) => {
-    resolved.users.forEach((user) => {
-      emails.push({ email: user.email });
-    });
-    resolved.notFound.forEach(() => {
-      // run delete
-    });
-  });
-
-  return parseAsync(emails, { fields: ['email'] });
 };
