@@ -36,8 +36,9 @@ Firebase [is not our dream ecosystem](https://github.com/WelcometoMyGarden/welco
 
   ```
   # For the frontend SvelteKit app
+  # This follows the way Vite env files are set up: https://vitejs.dev/guide/env-and-mode.html#modes
 
-  cp .env.example .env
+  cp .env.example .env.development.local
 
   # Create a .runtimeconfig.json file in /api, for Firebase Cloud Functions
 

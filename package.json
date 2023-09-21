@@ -7,7 +7,8 @@
     "node": "16"
   },
   "scripts": {
-    "dev": "vite dev --host",
+    "dev": "vite --host",
+    "dev:staging": "vite --mode staging --host",
     "build": "vite build",
     "build:prod": "vite build --mode production",
     "build:staging": "vite build --mode staging",
