@@ -18,11 +18,10 @@
   export let cancelButton = false;
   export let closeOnEsc = true;
   export let closeOnOuterClick = true;
-  export let maxWidth: string;
+  export let maxWidth: string = '900px';
   export let maxHeight: string | undefined = undefined;
   export let show = true;
 
-  export let radius = false;
   export let center = false;
   export let stickToBottom = false;
   export let fullHeight = false;
@@ -80,7 +79,6 @@
       aria-label={ariaLabel}
       role="dialog"
       class="modal-content"
-      class:radius
       class:fullHeight
       style:max-width={maxWidth}
       style:max-height={maxHeight}
@@ -88,10 +86,10 @@
       id="dialog"
     >
       <div class="modal-header">
-        <!-- 
-          {ariaLabelledBy} inserts an "arialabelledby" attribute (which is not a valid ARIA attribute) 
+        <!--
+          {ariaLabelledBy} inserts an "arialabelledby" attribute (which is not a valid ARIA attribute)
           but it also propagates the given value of ariaLabelledBy back to the let:ariaLabelledBy property on the parent,
-          so it can be used within slots by component users without repeating the concrete value of ariaLabelledBy. 
+          so it can be used within slots by component users without repeating the concrete value of ariaLabelledBy.
           https://svelte.dev/docs/special-elements#slot-slot-key-value
         -->
         <slot name="title" {ariaLabelledBy} class="modal-title" />
@@ -152,6 +150,7 @@
     justify-content: center;
   }
 
+  /* Default modal-content props */
   .modal-content {
     position: relative;
     overflow: auto;
@@ -161,6 +160,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    border-radius: var(--modal-border-radius);
   }
 
   .modal-content.fullHeight {
@@ -230,9 +230,5 @@
 
   .controls:not(:empty) {
     margin-top: 10px;
-  }
-
-  .radius {
-    border-radius: var(--modal-border-radius);
   }
 </style>

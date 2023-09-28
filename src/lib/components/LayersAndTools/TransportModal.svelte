@@ -14,14 +14,7 @@
   let maxWidth = 700;
 </script>
 
-<Modal
-  bind:show
-  maxWidth="{maxWidth}px"
-  radius
-  {stickToBottom}
-  nopadding={stickToBottom}
-  {ariaLabelledBy}
->
+<Modal bind:show maxWidth="{maxWidth}px" {stickToBottom} nopadding={stickToBottom} {ariaLabelledBy}>
   <div slot="title" class="TitleSection" id={ariaLabelledBy}>
     <h2 class="title-modal">{$_('map.railway.title-modal')}</h2>
   </div>

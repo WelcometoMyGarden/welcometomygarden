@@ -64,7 +64,6 @@
 <Modal
   bind:show
   maxWidth="{maxWidth}px"
-  radius={true}
   center={!stickToBottom}
   {stickToBottom}
   nopadding={stickToBottom}
