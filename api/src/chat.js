@@ -13,6 +13,10 @@ const fail = require('./util/fail');
 /**
  * @typedef {import("../../src/lib/models/User").UserPrivate} UserPrivate
  * @typedef {import("../../src/lib/models/User").UserPublic} UserPublic
+ * @typedef {import("../../src/lib/types/PushRegistration.ts").FirebasePushRegistration} FirebasePushRegistration
+ */
+/**
+ * @typedef {import("firebase-admin/firestore").CollectionReference<FirebasePushRegistration>} PushRegistrationColRef
  */
 
 const normalizeMessage = (str) => str.replace(/\n\s*\n\s*\n/g, '\n\n');
@@ -108,17 +112,21 @@ exports.onMessageCreate = async (snap, context) => {
     });
 
     // Send a notification to all registered devices via FCM
-    const pushRegistrations = (
-      await recipientUserPrivateDocRef.collection('push-registrations').get()
-    ).docs.map((d) => d.data());
+
+    const pushRegistrationRef = /** @type {PushRegistrationColRef} */ (
+      recipientUserPrivateDocRef.collection('push-registrations')
+    );
+    const pushRegistrations = (await pushRegistrationRef.get()).docs.map((d) => d.data());
 
     await Promise.all(
-      pushRegistrations.map((pR) =>
-        sendNotification({
-          ...commonPayload,
-          fcmToken: pR.fcmToken
-        })
-      )
+      pushRegistrations
+        .filter((pR) => pR.status === 'active')
+        .map((pR) =>
+          sendNotification({
+            ...commonPayload,
+            fcmToken: pR.fcmToken
+          })
+        )
     );
   } catch (ex) {
     console.log(ex);
