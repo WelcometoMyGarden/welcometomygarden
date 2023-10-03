@@ -20,17 +20,66 @@ import {
   type FirebasePushRegistration,
   type LocalPushRegistration
 } from '$lib/types/PushRegistration';
-import { UAParser } from 'ua-parser-js';
-import { pushRegistrations } from '$lib/stores/pushRegistrations';
+import { loadedPushRegistrations, pushRegistrations } from '$lib/stores/pushRegistrations';
 import removeUndefined from '$lib/util/remove-undefined';
 import { get } from 'svelte/store';
 import isFirebaseError from '$lib/util/types/isFirebaseError';
+import { iDeviceInfo, isMobileDevice, uaInfo } from '$lib/util/uaInfo';
+import { isEmpty } from 'lodash-es';
+import notification from '$lib/stores/notification';
+import { t } from 'svelte-i18n';
+import { HELP_CENTER_NOTIFICATIONS_URL } from '$lib/constants';
+import { rootModal } from '$lib/stores/app';
+import NotificationSetupGuideModal from '$lib/components/Notifications/NotificationSetupGuideModal.svelte';
 
-/** One week in ms */
-const MESSAGING_REFRESH_THRESHOLD = 1000 * 3600 * 24 * 7;
+const pushRegistrationLoadCheck = () => {
+  if (!get(loadedPushRegistrations)) {
+    console.warn(
+      "Trying to interact with push registrations that haven't loaded yet! This could lead to inconsistencies."
+    );
+  }
+};
+
+/** One day in ms */
+const MESSAGING_REFRESH_THRESHOLD = 1000 * 3600 * 24;
 export const LATEST_PUSH_REGISTRATION_KEY = 'latestPushRegistration';
 
 export type PushSubscriptionPOJO = PushSubscriptionJSON;
+
+/**
+ * Tries to unsubscribe the PushSubscription of the current device, if existing.
+ * This method should be used as a last resort to clean up a corrupted state, use
+ * deletePushRegistration if possible.
+ *
+ * @returns true on success, false on any kind of failure
+ */
+const unsubscribeNativePushRegistration = async () => {
+  try {
+    const fullNativeSub = await navigator.serviceWorker.ready.then((sW) =>
+      sW.pushManager.getSubscription()
+    );
+    if (!fullNativeSub) {
+      console.log("Couldn't get full native PushSubscription while trying to unsubscribe it.");
+    } else {
+      const success = await fullNativeSub?.unsubscribe();
+      if (success) {
+        console.log('Unregistered (in FB) local native PushSubscription sucessfully unsubscribed.');
+        return true;
+      } else {
+        console.warn(
+          'Unregistered (in FB) local native PushSubscription was not sucessfully unsubscribed.'
+        );
+        // Then we just ignore this one...
+      }
+    }
+    return false;
+  } catch (e) {
+    console.warn(
+      'Error while trying to unsubscribe an unregistered (in FB) local native PushSubscription',
+      e
+    );
+  }
+};
 
 export const createPushRegistrationObserver = () => {
   const q = query(
@@ -46,15 +95,16 @@ export const createPushRegistrationObserver = () => {
     let syncedPushRegistrations = querySnapshot.docs.map((registration) => ({
       ...registration.data({
         // Note that adding a doc with serverTimestamp() will call this listener already, before the server sees it.
-        // "By specifying 'estimate', pending server timestamps return an estimate based on the local clock.
-        // This estimate will differ from the final value and cause these values to change once the server result becomes available."
+        //
+        // > "By specifying 'estimate', pending server timestamps return an estimate based on the local clock.
+        //    This estimate will differ from the final value and cause these values to change once the server result becomes available."
         // https://firebase.google.com/docs/reference/js/firestore_.snapshotoptions.md#snapshotoptions_interface
         serverTimestamps: 'estimate'
       }),
       id: registration.id
     }));
 
-    const currentSub = await getCurrentSubscription();
+    const currentNativeSub = await getCurrentNativeSubscription();
     let cachedSub: SubscriptionCore | undefined;
     try {
       const latestPushRegistration = localStorage.getItem(LATEST_PUSH_REGISTRATION_KEY);
@@ -65,35 +115,41 @@ export const createPushRegistrationObserver = () => {
       console.warn('Corrupted cached subscription JSON data');
     }
 
-    if (currentSub) {
-      // If a current subscription is known
-      const currentRegistration = syncedPushRegistrations.find(
-        (registration) => registration.subscription.endpoint === currentSub?.endpoint
+    if (currentNativeSub) {
+      // If a current Firebase registration is known, linked to the current device
+      const linkedFirebaseRegistration = syncedPushRegistrations.find(
+        (registration) => registration.subscription.endpoint === currentNativeSub?.endpoint
       );
-      if (!currentRegistration) {
-        throw new Error('Current subscription was not saved in the Firestore');
+      if (!linkedFirebaseRegistration) {
+        // This might mean a deletion has gone badly
+        console.warn('Current native subscription was not saved in the Firestore');
+        // Since this native push registration is now useless, let's try to unregister it
+        await unsubscribeNativePushRegistration();
       }
-      if (currentRegistration?.status === PushRegistrationStatus.MARKED_FOR_DELETION) {
+      if (linkedFirebaseRegistration?.status === PushRegistrationStatus.MARKED_FOR_DELETION) {
         // Unsubscribe the current device's registration if it was marked for deletion.
-        await deletePushRegistration(currentRegistration);
+        await deletePushRegistration(linkedFirebaseRegistration);
         // Note: the deletePushRegistration method invokes onSnapshot again, hence we can skip a UI update of stale data.
         return;
       } else if (
-        new Date().valueOf() - (currentRegistration.refreshedAt as Timestamp).toDate().valueOf() >
-        // Weekly refresh of the ones that have not been active
-        MESSAGING_REFRESH_THRESHOLD
+        !!linkedFirebaseRegistration &&
+        new Date().valueOf() -
+          (linkedFirebaseRegistration.refreshedAt as Timestamp).toDate().valueOf() >
+          // Weekly refresh of the ones that have not been active
+          MESSAGING_REFRESH_THRESHOLD
       ) {
-        await refreshExistingSubscription(currentRegistration);
+        await refreshExistingSubscription(linkedFirebaseRegistration);
         // Note: the refreshExistingSubscription invokes onSnapshot again, hence we can skip a UI update of stale data.
         return;
       }
     }
 
+    // Handle external deletion in the past, on the current device only
     if (
       // A cached sub exists
       cachedSub &&
-      // and it is not equal to the current sub (which may be null or undefined)
-      cachedSub.subscription.endpoint !== currentSub?.endpoint
+      // and it is not equal to the current sub (which may also be null or undefined)
+      cachedSub.subscription.endpoint !== currentNativeSub?.endpoint
     ) {
       const pushRegistrationDocToDelete = syncedPushRegistrations.find(
         (pR) => cachedSub?.subscription.endpoint === pR.subscription.endpoint
@@ -117,6 +173,7 @@ export const createPushRegistrationObserver = () => {
 
     // Update UI
     pushRegistrations.set(syncedPushRegistrations);
+    loadedPushRegistrations.set(true);
   });
 };
 
@@ -132,15 +189,36 @@ const pushRegistrationsColRef = () =>
   ) as CollectionReference<FirebasePushRegistration>;
 
 /**
- * @returns {undefined} if there is no current subscription, or if the browser does not support Push Subscriptions
+ * Gets the current push subscription
+ * @returns the browser's native PushSubscriptionJSON if one exists.
+ *   - undefined or if the browser does not support Push Subscriptions
+ *   - null if there is no current subscription, but push subscriptions are supported
  */
-export const getCurrentSubscription = async () => {
-  if (!hasNotificationSupport()) {
+export const getCurrentNativeSubscription = async () => {
+  if (!hasNotificationSupportNow()) {
     return undefined;
   }
-  return navigator.serviceWorker.ready.then((serviceWorkerRegistration) =>
+  const sub = await navigator.serviceWorker.ready.then((serviceWorkerRegistration) =>
     getSubscriptionFromSW(serviceWorkerRegistration)
   );
+  // Empirically: iOS Safari may give an empty object, instead of null, when no registration exists.
+  if (isEmpty(sub)) {
+    return null;
+  }
+  return sub;
+};
+
+export const hasEnabledNotificationsOnCurrentDevice = async () => {
+  return !!(await getCurrentNativeSubscription());
+};
+
+/**
+ * Note: requires pushRegistrations to be loaded via the observer
+ * Also considers push registratrations marked for deletion as "enabled".
+ */
+export const hasOrHadEnabledNotificationsSomewhere = () => {
+  pushRegistrationLoadCheck();
+  return get(pushRegistrations).length > 0;
 };
 
 /**
@@ -150,13 +228,14 @@ export const findSubscriptionByEndpoint = (
   pushRegistrations: LocalPushRegistration[],
   endpoint: string
 ) => {
+  pushRegistrationLoadCheck();
   return pushRegistrations.find((pR) => pR.subscription.endpoint === endpoint);
 };
 
 /**
  * Synchronous (and probably more limited) version of Firebase Messaging's isSupported function
  */
-export const hasNotificationSupport = () => {
+export const hasNotificationSupportNow = () => {
   if (!('Notification' in window)) {
     console.warn('This browser does not support the Notification API.');
     return false;
@@ -165,6 +244,52 @@ export const hasNotificationSupport = () => {
     return false;
   }
   return true;
+};
+
+/**
+ * Does not have immediate support, but by changing some conditions, support can be achieved.
+ */
+export const canHaveNotificationSupport = () => {
+  const { isIDevice, isUpgradeable16IDevice, is_16_4_OrAboveIDevice } = iDeviceInfo!;
+  return (
+    !hasNotificationSupportNow() && isIDevice && (is_16_4_OrAboveIDevice || isUpgradeable16IDevice)
+  );
+};
+
+/** Convenience method. Whether we're _sure_ that this device can handle Web Push, now or with some intervention. */
+export const isNotificationEligible = () =>
+  hasNotificationSupportNow() || canHaveNotificationSupport();
+
+/**
+ * The caller should close any modals that this action affects.
+ * @returns true on a sucessful (expected) result.
+ */
+export const handleNotificationEnableAttempt = async () => {
+  if (!isMobileDevice) {
+    window.open(HELP_CENTER_NOTIFICATIONS_URL, '_blank');
+    return true;
+  } else if (hasNotificationSupportNow()) {
+    // Actually try to enable notifications
+    const success = await createPushRegistration();
+    if (success) {
+      return true;
+    } else {
+      // TODO: visible report error in modal?
+      console.warn('There was an error in enabling notifications');
+      return false;
+    }
+  } else if (canHaveNotificationSupport()) {
+    // TODO: set notification dismissal?
+    rootModal.set(NotificationSetupGuideModal);
+    return true;
+  } else {
+    // TODO: show some instructions here (for an unsupported device)?
+    // Probably not, because those can be delegated to the account page.
+    console.warn(
+      'Tried to enable notifications on a non-supported iDevice, this action should not have been shown.'
+    );
+    return false;
+  }
 };
 
 type SubscriptionCore = {
@@ -177,69 +302,59 @@ type SubscriptionCore = {
  * It will try to ask for permission if none was granted, and throw an error if permissions was denied/blocked.
  * @returns
  */
-const subscribeOrRefreshMessaging = () =>
-  new Promise<SubscriptionCore>((resolve, reject) => {
-    // TODO: the UI should prevent these calls if they can be prevented
-    //
-    if (!hasNotificationSupport()) {
-      throw new Error('Tried to register push subscription without notification support');
-    } else {
-      navigator.serviceWorker.ready.then((serviceWorkerRegistration) => {
-        // Internally, getToken() broadly:
-        // 1. Checks for Notification permissions, and **requests** them if not present (leads to a user prompt).
-        // 2. Runs `swRegistration.pushManager.getSubscription()` to get an existing sub, or `serviceWorkerRegistration.pushManager.subscribe(options)`
-        // 3. It then converts it to a FCM registration to identify this browser and uploads that to FCM;
-        //     or checks if a cached indexedDB FCM reg is compatible with the retrieved native sub. If not, it tries to the delete the old cached one, but that might fail https://github.com/firebase/firebase-js-sdk/issues/2364, then creates a new one
-        //     or if valid (up-to-date according to FCM idb cache), it will *update* the subscription weekly in FCM.
-        //      if this update fails will it unsubscribe the registration in the browser (https://github.com/firebase/firebase-js-sdk/blob/master/packages/messaging/src/internals/token-manager.ts#L104C4-L104C4)
-        //      Presumably, this update fails when the token has been deleted in FCM by deleteToken (or Firebase).
-        //
-        // If the user deactivates notifications via the browser UI, it will also result in an unsubscribe:
-        // https://github.com/firebase/firebase-js-sdk/blob/5dac8b37a974309398317c5231ca6a41af2a48a5/packages/messaging/src/listeners/sw-listeners.ts#L58
-        // TODO: Tap into this from our own SW as well, to be able to delete our own registration?
-        //
-        // Safari expects the options: { userVisibleOnly: true } to be set, the FCM implementation does this now:
-        // https://github.com/firebase/firebase-js-sdk/blob/5dac8b37a974309398317c5231ca6a41af2a48a5/packages/messaging/src/internals/token-manager.ts#L165C14-L165C14
+const subscribeOrRefreshMessaging = async () => {
+  if (!hasNotificationSupportNow()) {
+    throw new Error('Tried to register push subscription without notification support');
+  }
+  const serviceWorkerRegistration = await navigator.serviceWorker.ready;
 
-        getToken(messaging(), {
-          vapidKey: import.meta.env.VITE_FIREBASE_VAPID_PUBLIC_KEY,
-          serviceWorkerRegistration: serviceWorkerRegistration
-        })
-          .then(async (currentToken) => {
-            if (!currentToken) {
-              reject(
-                'No FCM token was received in a subscribe/refresh operation. This should not happen.'
-              );
-              return;
-            }
-            // Handle a current registration token (obtained earlier with the Notification.requestPermissions API)
-            //
-            // We also store the native underlying subscription object, so we might leverage it later.
-            // We use the endpoint to uniquely identify a subscription, because we can check its status without side-effects, unlike
-            // Messaging's getToken() (see above)
-            // Endpoints should uniquely identify a subscription.
-            // https://stackoverflow.com/questions/63767889/is-it-safe-to-use-the-p256dh-or-endpoint-keys-values-of-the-push-notificatio/63769192#63769192
-            const subscriptionObject = await getSubscriptionFromSW(serviceWorkerRegistration);
-            if (!subscriptionObject) {
-              reject(
-                'Could unexpectedly not retrieve the native Push Subscription object of an existing FCM registration'
-              );
-              return;
-            }
-            const subscriptionInfo = {
-              fcmToken: currentToken,
-              subscription: subscriptionObject
-            };
-
-            // Cache the current subscription
-            localStorage.setItem(LATEST_PUSH_REGISTRATION_KEY, JSON.stringify(subscriptionInfo));
-
-            resolve(subscriptionInfo);
-          })
-          .catch(reject);
-      });
-    }
+  // Internally, getToken() broadly:
+  // 1. Checks for Notification permissions, and **requests** them if not present (leads to a user prompt).
+  // 2. Runs `swRegistration.pushManager.getSubscription()` to get an existing sub, or `serviceWorkerRegistration.pushManager.subscribe(options)`
+  // 3. It then converts it to a FCM registration to identify this browser and uploads that to FCM;
+  //     or checks if a cached indexedDB FCM reg is compatible with the retrieved native sub. If not, it tries to the delete the old cached one, but that might fail https://github.com/firebase/firebase-js-sdk/issues/2364, then creates a new one
+  //     or if valid (up-to-date according to FCM idb cache), it will *update* the subscription weekly in FCM.
+  //      if this update fails will it unsubscribe the registration in the browser (https://github.com/firebase/firebase-js-sdk/blob/master/packages/messaging/src/internals/token-manager.ts#L104C4-L104C4)
+  //      Presumably, this update fails when the token has been deleted in FCM by deleteToken (or Firebase).
+  //
+  // If the user deactivates notifications via the browser UI, it will also result in an unsubscribe:
+  // https://github.com/firebase/firebase-js-sdk/blob/5dac8b37a974309398317c5231ca6a41af2a48a5/packages/messaging/src/listeners/sw-listeners.ts#L58
+  // TODO: Tap into this from our own SW as well, to be able to delete our own registration?
+  //
+  // Safari expects the options: { userVisibleOnly: true } to be set, the FCM implementation does this now:
+  // https://github.com/firebase/firebase-js-sdk/blob/5dac8b37a974309398317c5231ca6a41af2a48a5/packages/messaging/src/internals/token-manager.ts#L165C14-L165C14
+  const currentToken = await getToken(messaging(), {
+    vapidKey: import.meta.env.VITE_FIREBASE_VAPID_PUBLIC_KEY,
+    serviceWorkerRegistration: serviceWorkerRegistration
   });
+  if (!currentToken) {
+    throw new Error(
+      'No FCM token was received in a subscribe/refresh operation. This should not happen.'
+    );
+  }
+  // Handle a current registration token (obtained earlier with the Notification.requestPermissions API)
+  //
+  // We also store the native underlying subscription object, so we might leverage it later.
+  // We use the endpoint to uniquely identify a subscription, because we can check its status without side-effects, unlike
+  // Messaging's getToken() (see above)
+  // Endpoints should uniquely identify a subscription.
+  // https://stackoverflow.com/questions/63767889/is-it-safe-to-use-the-p256dh-or-endpoint-keys-values-of-the-push-notificatio/63769192#63769192
+  const subscriptionObject = await getSubscriptionFromSW(serviceWorkerRegistration);
+  if (!subscriptionObject) {
+    throw new Error(
+      'Could unexpectedly not retrieve the native Push Subscription object of an existing FCM registration'
+    );
+  }
+  const subscriptionInfo = {
+    fcmToken: currentToken,
+    subscription: subscriptionObject
+  };
+
+  // Cache the current subscription
+  localStorage.setItem(LATEST_PUSH_REGISTRATION_KEY, JSON.stringify(subscriptionInfo));
+
+  return subscriptionInfo;
+};
 
 /**
  * Creates, and subscribes to, a new push registration.
@@ -247,6 +362,10 @@ const subscribeOrRefreshMessaging = () =>
  * 1. the native Web Push/Service Worker/browser APIs & subscription objects
  * 2. the Firebase Cloud Messaging backend (kept in sync by messaging() & our SW)
  * 3. our own PushRegistration registry in Firestore
+ *
+ * @returns
+ * - true if the operation was succesful
+ * - undefined otherwise
  */
 export const createPushRegistration = async () => {
   let subscriptionCore: SubscriptionCore;
@@ -269,7 +388,7 @@ export const createPushRegistration = async () => {
   }
 
   // Add the registration to the Firestore
-  const { os, browser, device } = UAParser(navigator.userAgent);
+  const { os, browser, device } = uaInfo!;
   await addDoc(pushRegistrationsColRef(), {
     status: PushRegistrationStatus.ACTIVE,
     fcmToken,
@@ -284,6 +403,10 @@ export const createPushRegistration = async () => {
     createdAt: serverTimestamp(),
     refreshedAt: serverTimestamp()
   });
+
+  notification.success(get(t)('push-notifications.registration-success'));
+
+  return true;
 };
 
 /** Assumes an existing subscription exists locally. */
@@ -335,18 +458,23 @@ export const deletePushRegistration = async (pushRegistration: LocalPushRegistra
     subscription: { endpoint: endpointToDelete }
   } = pushRegistration;
 
-  let currentSub: PushSubscriptionPOJO | undefined;
-  if (hasNotificationSupport()) {
-    currentSub = await getCurrentSubscription();
+  let currentNativeSub: PushSubscriptionPOJO | undefined | null;
+  if (hasNotificationSupportNow()) {
+    currentNativeSub = await getCurrentNativeSubscription();
   }
 
-  if (currentSub && currentSub.endpoint === endpointToDelete) {
+  if (currentNativeSub && currentNativeSub.endpoint === endpointToDelete) {
     // We are currently in the browser/host that we want to delete
     //
     // This will handle:
     // - the purge of the FCM token from Firebase Messaging's internal IDB
     // - the deletion of the token from FCM's backend (maybe, might be bugged)
     // - the pushManager.unsubscribe() of the Web Push API
+    //
+    // TODO: this can fail because /firebase-messaging-sw.js isn't used?
+    //  (it tries to unregister that unused SW)
+    //  In that case, does it fail after having deleted all other relevant parts?
+    //  We could delete the doc in any case, also in case of failure.
     return deleteToken(messaging())
       .then(async (success) => {
         if (success) {
@@ -380,6 +508,11 @@ export const deletePushRegistration = async (pushRegistration: LocalPushRegistra
   }
 };
 
+/**
+ * @returns a PushRegistrationJSON object if one exists, null if none exists
+ */
 async function getSubscriptionFromSW(serviceWorkerRegistration: ServiceWorkerRegistration) {
-  return await serviceWorkerRegistration.pushManager.getSubscription().then((s) => s?.toJSON());
+  return await serviceWorkerRegistration.pushManager
+    .getSubscription()
+    .then((s) => s?.toJSON() || null);
 }

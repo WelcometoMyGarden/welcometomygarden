@@ -33,7 +33,8 @@
     "membership": "Membership",
     "feature": "Feature",
     "new": "New",
-    "fair-model-blog-path": "/towards-a-fair-model-to-make-wtmg-survive-and-thrive"
+    "fair-model-blog-path": "/towards-a-fair-model-to-make-wtmg-survive-and-thrive",
+    "on": "on"
   },
   "ui": {
     "card": {
@@ -1021,6 +1022,15 @@
         "success": "Your change request succeeded! Open the inbox of your new email address ({newEmail}), and click the verification link to finalize the process.",
         "button-label": "Change Email"
       }
+    },
+    "notifications": {
+      "manage": "You can manage your mobile notifications here.",
+      "title": "Mobile Notifications",
+      "delete": "Delete",
+      "turn-on": "Turn on notifications",
+      "unknown": "unknown",
+      "current": "Current",
+      "last-seen": "Last seen on"
     }
   },
   "auth": {
@@ -1473,6 +1483,48 @@
         "url": "https://womendontcycle.com/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer"
       },
       "donate": "Donate"
+    }
+  },
+  "banners": {
+    "notifications": {
+      "show-how": "Show me how",
+      "title": "Get a mobile notification when you receive a message",
+      "ios-installed": "<p>It looks like you added WTMG to your home screen, nice!</p><p>Now you can turn on notifications.</p>",
+      "btn-yes": "Yes, turn on notifications",
+      "btn-no": "No thanks"
+    },
+    "tip": "Tip from WTMG"
+  },
+  "push-notifications": {
+    "registration-success": "Notifications were successfully enabled!",
+    "prompt": {
+      "title": "Want to receive notifications on your phone?",
+      "garden-intro": "You will automatically receive an email for each new request to stay in your garden",
+      "garden-follow-up-desktop": ". Would you also like to receive <strong>mobile notifications</strong> for new chat messages?",
+      "garden-follow-up": ", and you can also get <strong>mobile notifications</strong>.",
+      "garden-enable": "Would you also like to receive <strong>mobile notifications</strong> for new chat messages?",
+      "garden-ios-home": "To turn on just <strong>add</strong> the <strong>WTMG</strong> website to your <strong>home screen</strong> in a few easy steps.",
+      "btn-show-me": "Show me how"
+    },
+    "how-to": {
+      "title": "How to turn on notifications",
+      "ios-upgrade": {
+        "copy": "<p>To turn on notifications, you first need to <strong>update to {os} 16.4 or higher</strong>.</p>\n<p><a class=\"link\" href=\"{link}\" target=\"_blank\">Learn how to update your {os} version.</a></p>\n<p>After updating, go to your {accountSettings} to turn on mobile notifications.</p>",
+        "help-link": "https://support.apple.com/en-us/HT204204",
+        "account-settings": "WTMG account settings",
+        "btn-show": "Show me how to update",
+        "btn-skip": "Skip for now"
+      },
+      "ios-browser-steps": {
+        "1": "Add WTMG to your Home Screen.",
+        "2": "Open the WTMG app.",
+        "3": "Log in to your account and turn on notifications.",
+        "1-chrome": "Click on “<em>Share</em>” {shareIcon} (top right) → “<em>Add to your Home Screen</em>” {plusSquareIcon}.",
+        "1-safari": "Click “Share” {shareIcon} in the menu bar below, then “Add to your Home Screen” {plusSquareIcon}.",
+        "1-firefox": "Click on the <em>menu</em> {burgerIcon} (the small icon from Firefox, <em>not</em> the bigger WTMG menu) → “<em>Share</em>” {shareIcon} → “<em>Add to your Home Screen</em>” {plusSquareIcon}."
+      },
+      "questions": "Any questions? Check our {guideLink}.",
+      "questions-link-text": "guide"
     }
   }
 }

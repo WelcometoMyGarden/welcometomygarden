@@ -10,6 +10,7 @@
   export let uppercase = false;
   export let initial = false;
   export let fit = true;
+  export let fullWidth = false;
   export let target: null | string = null;
   export let medium = false;
   export let small = false;
@@ -55,6 +56,7 @@
     class:initial
     class:disabled
     class:fit
+    class:fullWidth
     class:small
     class:xsmall
     class:xxsmall
@@ -91,6 +93,7 @@
     on:click={click}
     class:uppercase
     class:fit
+    class:fullWidth
     class:medium
     class:small
     class:xsmall
@@ -275,6 +278,10 @@
   .fit {
     width: fit-content;
     min-width: auto;
+  }
+
+  .fullWidth {
+    width: 100%;
   }
 
   .inverse {

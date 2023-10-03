@@ -165,7 +165,7 @@
     width: min-content;
   }
   .become-superfan-buttons :global(> *:first-child .button) {
-    /* Forces the button content text to be on one line, 
+    /* Forces the button content text to be on one line,
        but still constrains the size to the content*/
     width: max-content;
   }

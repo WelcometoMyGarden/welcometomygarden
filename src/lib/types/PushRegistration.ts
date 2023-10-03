@@ -7,12 +7,8 @@ export enum PushRegistrationStatus {
    */
   ACTIVE = 'active',
   /**
-   * Should not be used anymore, but should also not be deleted/unsubscribed.
-   */
-  PAUSED = 'paused',
-  /**
    * Marked for deletion, but couldn't be unsubscribed by the device deleting it.
-   * Should not be used anymore, and should be deleted by the device that can control it.
+   * This registration should not be targeted anymore, and should be deleted by the device that can control it.
    */
   MARKED_FOR_DELETION = 'marked_for_deletion'
 }

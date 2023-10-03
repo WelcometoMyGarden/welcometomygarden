@@ -12,6 +12,7 @@ import {
   type Messaging
 } from 'firebase/messaging';
 import envIsTrue from '../util/env-is-true';
+import { browser } from '$app/environment';
 
 const FIREBASE_CONFIG = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
@@ -63,6 +64,10 @@ export const guardNull = <T>(
   };
 };
 
+// Experimental: connect to a locally modified Firebase SDK client with support to connect to
+// HTTPS emulators. Hasn't worked so far.
+const SSL_DEV = false;
+
 // Throw warnings when trying to access uninitialized services.
 let appRef: FirebaseApp | null = null;
 export const app: () => FirebaseApp = guardNull<FirebaseApp>(() => appRef, 'app');
@@ -98,7 +103,7 @@ export const storage: () => FirebaseStorage = guardNull<FirebaseStorage>(
 // - Firebase Emulators CAN'T USE HTTPS
 //   https://github.com/firebase/firebase-tools/issues/1908#issuecomment-1677219899
 // - Requests will fail if HTTPS hosting is configured for Sveltekit, and it tries to fetch HTTP content from Firebase Emulators.
-const emulatorHostName = 'localhost';
+const emulatorHostName = browser ? window.location.hostname : 'localhost';
 
 let messagingRef: Messaging;
 export const messaging: () => Messaging = guardNull<Messaging>(() => messagingRef, 'messaging');
@@ -133,18 +138,21 @@ export async function initialize(): Promise<void> {
 
   dbRef = getFirestore(appRef);
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_FIRESTORE_EMULATOR))) {
-    connectFirestoreEmulator(dbRef, emulatorHostName, 8080);
+    connectFirestoreEmulator(dbRef, emulatorHostName, SSL_DEV ? 8081 : 8080);
   }
 
   authRef = getAuth(appRef);
   authRef.useDeviceLanguage();
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_AUTH_EMULATOR))) {
-    connectAuthEmulator(authRef, `http://${emulatorHostName}:9099`);
+    connectAuthEmulator(
+      authRef,
+      `http${SSL_DEV ? 's' : ''}://${emulatorHostName}:${SSL_DEV ? 9098 : 9099}`
+    );
   }
 
   storageRef = getStorage(appRef);
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_STORAGE_EMULATOR))) {
-    connectStorageEmulator(storageRef, emulatorHostName, 9199);
+    connectStorageEmulator(storageRef, emulatorHostName, SSL_DEV ? 9198 : 9199);
   }
 
   // The default functions ref is us-central1
@@ -157,14 +165,14 @@ export async function initialize(): Promise<void> {
   initializeEuropeWest1Functions(europeWest1FunctionsRef);
 
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_API_EMULATOR))) {
-    connectFunctionsEmulator(usCentral1FunctionsRef, emulatorHostName, 5001);
-    connectFunctionsEmulator(europeWest1FunctionsRef, emulatorHostName, 5001);
+    connectFunctionsEmulator(usCentral1FunctionsRef, emulatorHostName, SSL_DEV ? 5002 : 5001);
+    connectFunctionsEmulator(europeWest1FunctionsRef, emulatorHostName, SSL_DEV ? 5002 : 5001);
   }
 
   if (
     // Note: Safari 16.4 *in normal mode* does not support Web Push, but there IS support in Home Screen app mode
     // https://webkit.org/blog/13878/web-push-for-web-apps-on-ios-and-ipados/
-    // Be careful: service worker support is required, and that only works on localhost and HTTPS !
+    // Be careful: service worker support is required, and that only works on localhost and HTTPS!
     (await isWebPushSupported()) &&
     typeof import.meta.env.VITE_FIREBASE_VAPID_PUBLIC_KEY !== 'undefined'
   ) {

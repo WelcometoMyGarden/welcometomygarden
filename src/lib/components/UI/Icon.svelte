@@ -3,9 +3,10 @@
   export let whiteStroke = false;
   export let greenStroke = false;
   export let clickable = false;
+  export let inline = false;
 </script>
 
-<i class:white-stroke={whiteStroke} class:green-stroke={greenStroke} class:clickable>
+<i class:inline class:white-stroke={whiteStroke} class:green-stroke={greenStroke} class:clickable>
   {@html icon}
 </i>
 
@@ -13,9 +14,15 @@
   i {
     width: 100%;
     height: 100%;
-    display: flex;
     justify-content: center;
     align-items: center;
+    display: flex;
+  }
+
+  i.inline {
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
   }
 
   i.clickable {

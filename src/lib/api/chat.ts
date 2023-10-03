@@ -25,7 +25,7 @@ export const initiateChat = async (partnerUid: string) => {
   return partner;
 };
 
-export const createChatObserver = async () => {
+export const createChatObserver = () => {
   const q = query(
     collection(db(), CHATS) as CollectionReference<FirebaseChat>,
     where('users', 'array-contains', getUser().id)

@@ -12,13 +12,21 @@
   import { User } from '$lib/components/Chat';
   import { tentIcon } from '$lib/images/icons';
   import routes from '$lib/routes';
-  import { formatDate } from '$lib/util';
+  import { formatDate, getCookie } from '$lib/util';
   import chevronRight from '$lib/images/icons/chevron-right.svg';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import type { LocalChat } from '$lib/types/Chat';
   import MembershipModal from '$routes/(marketing)/(membership)/MembershipModal.svelte';
   import ErrorModal from '$lib/components/UI/ErrorModal.svelte';
+  import NotificationPrompt from './NotificationPrompt.svelte';
+  import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
+  import {
+    hasOrHadEnabledNotificationsSomewhere,
+    hasNotificationSupportNow,
+    canHaveNotificationSupport
+  } from '$lib/api/push-registrations';
+  import { isMobileDevice } from '$lib/util/uaInfo';
 
   /**
    * The chat ID of the currently selected chat.
@@ -33,6 +41,7 @@
   let chat: LocalChat | null | undefined;
 
   $: showMembershipModal = !$user?.superfan && chatId === 'new';
+  let showNotificationPrompt = false;
 
   let showErrorModal = false;
   let error: unknown = null;
@@ -218,6 +227,28 @@
         showChatError(ex);
       }
     }
+
+    const COOKIE_FIRST_REMINDER_DAYS = 30;
+    // TODO: test if this appears after a new message to a new person
+    // Show instructions notifications after sending message as a traveller
+    // TODO take into account existing notifs
+    const cookie = getCookie(NOTIFICATION_PROMPT_DISMISSED_COOKIE);
+    if (
+      // Only show if we haven't enabled notifications anywhere yet
+      !hasOrHadEnabledNotificationsSomewhere() &&
+      // Only show if we are on desktop, or we are on a mobile with potential support
+      (hasNotificationSupportNow() || canHaveNotificationSupport() || !isMobileDevice) &&
+      // Only show if the user hasn't just seen it
+      (!cookie ||
+        // The cookie == "true" means it was dismissed for 6 monthts
+        (cookie != 'true' &&
+          // Otherwise, it must hold a creation timestamp
+          new Date().getTime() - new Date(cookie).getTime() >
+            COOKIE_FIRST_REMINDER_DAYS * 24 * 60 * 60 * 1000))
+    ) {
+      showNotificationPrompt = true;
+    }
+
     isSending = false;
   };
 
@@ -273,6 +304,7 @@ CSS grids should do the job cleanly -->
 
 <div class="message-wrapper" bind:this={messageContainer}>
   <div class="messages">
+    <NotificationPrompt bind:show={showNotificationPrompt} />
     {#if chat && $messages[chat.id]}
       {#each $messages[chat.id] as message (message.id)}
         <div class="message" class:by-user={message.from === $user?.id}>
@@ -324,7 +356,7 @@ CSS grids should do the job cleanly -->
   }
 
   .messages {
-    padding: 0 2rem 0 1rem;
+    padding: 0 1rem;
     display: flex;
     /* column-reverse is useful to make the newly-sent messages appear on the bottom of an overflowed message container,
       without having JS that scrolls the overflowed container.
