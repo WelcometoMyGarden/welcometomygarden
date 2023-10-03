@@ -29,6 +29,11 @@ export default defineConfig(({ command, mode }): UserConfig => {
     server: {
       https: useHTTPS
     },
+    ssr: {
+      // https://vitejs.dev/guide/ssr.html#ssr-externals
+      // https://github.com/sveltekit-i18n/lib/issues/82
+      noExternal: ['@sveltekit-i18n/*', 'intl-messageformat', '@formatjs/*']
+    },
     test: {
       // Modified from
       // https://vitest.dev/config/#include
