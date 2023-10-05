@@ -18,7 +18,6 @@ const {
 const { doBackup } = require('./storage');
 const { onMessageCreate, onChatCreate } = require('./chat');
 const { onCampsiteCreate, onCampsiteDelete } = require('./campsites');
-const { exportNewsletterEmails } = require('./mail');
 const { stripeWebhookHandler } = require('./subscriptions/webhookHandler');
 const {
   createOrRetrieveUnpaidSubscription
@@ -64,7 +63,6 @@ exports.createCustomerPortalSession = euWest1.https.onCall(createCustomerPortalS
 
 // Callable functions: admin functions
 exports.setAdminRole = usCentral1.https.onCall(setAdminRole);
-exports.exportNewsletterEmails = usCentral1.https.onCall(exportNewsletterEmails);
 exports.updateEmail = usCentral1
   .runWith({
     timeoutSeconds: SENDGRID_CONTACT_CREATION_TIMEOUT_S
