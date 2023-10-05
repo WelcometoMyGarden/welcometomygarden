@@ -1497,7 +1497,8 @@
         "btn-show": "Toon hoe bij te werken",
         "btn-skip": "Sla voorlopig over",
         "help-link": "https://support.apple.com/nl-be/HT204204"
-      }
+      },
+      "title": "Zo zet je meldingen aan"
     },
     "prompt": {
       "btn-show-me": "Toon me hoe",

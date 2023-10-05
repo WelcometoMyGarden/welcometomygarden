@@ -1493,7 +1493,8 @@
         "btn-show": "Montrez-moi comment faire la mise à jour",
         "btn-skip": "Passer pour le moment",
         "help-link": "https://support.apple.com/fr-be/HT204204"
-      }
+      },
+      "title": "Comment activer les notifications"
     },
     "prompt": {
       "follow-up-desktop": "Voulez-vous recevoir des <strong>notifications mobiles</strong> lorsque vous recevez un nouveau message ?",
