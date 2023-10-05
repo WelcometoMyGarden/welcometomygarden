@@ -24,7 +24,7 @@
       <!-- If the device is not clearly a mobile or tablet device,
       show instructions on how to proceed -->
       <!-- https://github.com/faisalman/ua-parser-js/issues/182#issuecomment-263115448 -->
-      {@html $_('push-notifications.prompt.garden-follow-up-desktop')}
+      {@html $_('push-notifications.prompt.follow-up-desktop')}
     {:else if is_16_4_OrAboveIDevice && !hasNotificationSupportNow()}
       <!-- State that mobile notifications are definitely possible -->
       <IosBrowserSteps />
@@ -65,10 +65,6 @@
 </Modal>
 
 <style>
-  section {
-    padding: 4rem 2rem;
-  }
-
   .upgrade-btns > :global(*:first-child) {
     margin-top: 1rem;
     margin-bottom: 1rem;

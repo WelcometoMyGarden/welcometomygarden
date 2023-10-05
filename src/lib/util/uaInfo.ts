@@ -7,11 +7,13 @@ import { UAParser } from 'ua-parser-js';
 
 export const uaInfo = browser ? UAParser(navigator.userAgent) : undefined;
 
+export const isIDeviceF = (osName: string) => /iOS|iPadOS/.test(osName);
+
 export const iDeviceInfo = browser
   ? (() => {
       // TODO: wasn't the iPad Pro masquerading as a Mac?
       const ua = uaInfo!;
-      const isIDevice = /iOS|iPadOS/.test(ua.os.name ?? '');
+      const isIDevice = isIDeviceF(ua.os.name ?? '');
       const versionString = ua.os.version ?? ua.browser.version ?? null;
       const iDeviceVersion = versionString ? Number.parseFloat(versionString) : null;
       // note: os.name is not reliable

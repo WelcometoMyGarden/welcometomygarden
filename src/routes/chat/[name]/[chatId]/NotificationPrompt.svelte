@@ -15,6 +15,9 @@
   } from '$lib/api/push-registrations';
   import { bellIcon } from '$lib/images/icons';
 
+  /**
+   * Keep showing this notice, regardless of cookie state. Never close it.
+   */
   export let permanent: boolean = false;
   export let show: boolean = permanent ? true : false;
   const close = () => {
@@ -48,7 +51,7 @@
 
   const affirmativeAction = async () => {
     const success = await handleNotificationEnableAttempt();
-    if (success) {
+    if (success && !permanent) {
       // TODO close when sending to help center?
       // TODO: close when sending to howto screen?
       // see impl
@@ -59,11 +62,8 @@
 
 {#if show}
   <div class="prompt" in:slide={{ delay: 500, duration: 500 }} out:slide={{ duration: 500 }}>
-    <!-- <NewBadge>
-      <span class="tip">{$_('banners.tip')}</span>
-    </NewBadge> -->
     <div class="icon"><Icon icon={bellIcon} greenStroke /></div>
-    <Text is="span" size="l">{$_('banners.notifications.title')}</Text>
+    <Text is="span" size="l">{$_('push-notifications.prompt.title')}</Text>
     {#if !permanent}
       <button class="close" type="button" on:click={close} aria-label="Close">
         <Icon icon={crossIcon} />
@@ -72,10 +72,10 @@
     <Button xsmall on:click={affirmativeAction} fullWidth centered>
       {#if !isMobileDevice}
         <!-- "Show me how" copy-->
-        {$_('banners.notifications.show-how')}
+        {$_('push-notifications.prompt.btn-show-me')}
       {:else if canHaveNotificationSupport()}
         <!-- "Turn on" copy -->
-        {$_('banners.notifications.btn-yes')}
+        {$_('push-notifications.prompt.btn-turn-on')}
       {/if}
       <!-- TODO If notifs are not even potentially supported, this component should not be shown! -->
     </Button>

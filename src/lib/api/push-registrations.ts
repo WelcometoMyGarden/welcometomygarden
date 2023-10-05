@@ -20,7 +20,11 @@ import {
   type FirebasePushRegistration,
   type LocalPushRegistration
 } from '$lib/types/PushRegistration';
-import { loadedPushRegistrations, pushRegistrations } from '$lib/stores/pushRegistrations';
+import {
+  currentNativeSubStore,
+  loadedPushRegistrations,
+  pushRegistrations
+} from '$lib/stores/pushRegistrations';
 import removeUndefined from '$lib/util/remove-undefined';
 import { get } from 'svelte/store';
 import isFirebaseError from '$lib/util/types/isFirebaseError';
@@ -64,6 +68,7 @@ const unsubscribeNativePushRegistration = async () => {
       const success = await fullNativeSub?.unsubscribe();
       if (success) {
         console.log('Unregistered (in FB) local native PushSubscription sucessfully unsubscribed.');
+        currentNativeSubStore.set(null);
         return true;
       } else {
         console.warn(
@@ -203,8 +208,10 @@ export const getCurrentNativeSubscription = async () => {
   );
   // Empirically: iOS Safari may give an empty object, instead of null, when no registration exists.
   if (isEmpty(sub)) {
+    currentNativeSubStore.set(null);
     return null;
   }
+  currentNativeSubStore.set(sub);
   return sub;
 };
 
@@ -340,6 +347,7 @@ const subscribeOrRefreshMessaging = async () => {
   // Endpoints should uniquely identify a subscription.
   // https://stackoverflow.com/questions/63767889/is-it-safe-to-use-the-p256dh-or-endpoint-keys-values-of-the-push-notificatio/63769192#63769192
   const subscriptionObject = await getSubscriptionFromSW(serviceWorkerRegistration);
+  currentNativeSubStore.set(subscriptionObject);
   if (!subscriptionObject) {
     throw new Error(
       'Could unexpectedly not retrieve the native Push Subscription object of an existing FCM registration'
@@ -480,6 +488,7 @@ export const deletePushRegistration = async (pushRegistration: LocalPushRegistra
         if (success) {
           try {
             console.log('Successfully deleted/unsubscribed the current FCM registration.');
+            currentNativeSubStore.set(null);
             await deletePushRegistrationDoc(pushRegistration);
             return true;
           } catch (e) {
@@ -506,6 +515,12 @@ export const deletePushRegistration = async (pushRegistration: LocalPushRegistra
     });
     return true;
   }
+};
+
+export const isOnIDevicePWA = () => {
+  const { isIDevice, iDeviceVersion } = iDeviceInfo!;
+  // The last version check is probably redundant
+  return hasNotificationSupportNow() && isIDevice && iDeviceVersion! >= 16.4;
 };
 
 /**

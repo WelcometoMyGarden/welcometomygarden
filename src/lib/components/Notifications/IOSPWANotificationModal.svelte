@@ -26,11 +26,12 @@
   then we'd also get the fade-out effect
 -->
 <Modal center on:close={() => close()}>
+  <h3 slot="title">{$_('push-notifications.prompt.ios-installed-title')}</h3>
   <div slot="body">
-    <p>{@html $_('banners.notifications.ios-installed')}</p>
+    <p>{@html $_('push-notifications.prompt.ios-installed')}</p>
     <div class="buttons">
-      <Button xsmall on:click={action}>
-        {$_('banners.notifications.btn-yes')}
+      <Button small fullWidth on:click={action}>
+        {$_('push-notifications.prompt.btn-turn-on')}
       </Button>
     </div>
   </div>

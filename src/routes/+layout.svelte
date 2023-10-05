@@ -30,11 +30,11 @@
   import {
     createPushRegistrationObserver,
     getCurrentNativeSubscription,
-    hasNotificationSupportNow
+    isOnIDevicePWA
   } from '$lib/api/push-registrations';
-  import { iDeviceInfo } from '$lib/util/uaInfo';
   import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
   import { resetPushRegistrationStores } from '$lib/stores/pushRegistrations';
+  import { goto } from '$lib/util/navigate';
 
   type MaybeUnsubscriberFunc = (() => void) | undefined;
 
@@ -118,23 +118,18 @@
     // registrations
     // TODO: check if this loads after loading pre-existing push registrations?
     // TODO: make this influence dismissal somehow?
-    const { isIDevice, iDeviceVersion } = iDeviceInfo!;
     const notificationsDismissed = getCookie(NOTIFICATION_PROMPT_DISMISSED_COOKIE);
-    const currentNativeSub = await getCurrentNativeSubscription();
     if (
       // Prevent the modal from being shown twice in the same boot session (we might get multiple user updates)
       !hasShownIOSNotificationsModal &&
       // We're logged in...
       latestUser !== null &&
-      // ... Web Push is supported (redundant with getCurrentNativeSubscription, but just to protect against refactors...)
-      hasNotificationSupportNow() &&
       // ... the browser has no native sub registered (but support exists)
-      currentNativeSub === null &&
+      (await getCurrentNativeSubscription()) === null &&
       // ... the user hasn't dismissed notifications
       notificationsDismissed !== 'true' &&
-      // ... we're on a supporting iOS version (preventing this from appearing on Android/... browsers)
-      isIDevice &&
-      iDeviceVersion! >= 16.4
+      // ... we're on the PWA of a supporting iOS version (preventing this from appearing on Android/... browsers)
+      isOnIDevicePWA()
     ) {
       rootModal.set(IosNotificationPrompt);
       hasShownIOSNotificationsModal = true;
@@ -167,6 +162,9 @@
     await initialize();
     if (!unsubscribeFromAuthObserver) {
       unsubscribeFromAuthObserver = createAuthObserver();
+    }
+    if (isOnIDevicePWA()) {
+      goto(routes.SIGN_IN);
     }
 
     vh = `${window.innerHeight * 0.01}px`;

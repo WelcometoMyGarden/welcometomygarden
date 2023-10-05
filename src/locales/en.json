@@ -1029,8 +1029,11 @@
       "delete": "Delete",
       "turn-on": "Turn on notifications",
       "unknown": "unknown",
-      "current": "Current",
-      "last-seen": "Last seen on"
+      "current": "Current device",
+      "last-seen": "Last seen on",
+      "unsupported": "It looks like this device doesn't support Web Push, which is required for mobile WTMG notifications. On Android you can try a different or newer browser. On iOS you can check {link} to iOS/iPadOS 16.4 or higher.",
+      "ios16-check": "if you can update your device",
+      "ios16-link": "https://support.apple.com/en-us/HT213411"
     }
   },
   "auth": {
@@ -1485,26 +1488,19 @@
       "donate": "Donate"
     }
   },
-  "banners": {
-    "notifications": {
-      "show-how": "Show me how",
-      "title": "Get a mobile notification when you receive a message",
-      "ios-installed": "<p>It looks like you added WTMG to your home screen, nice!</p><p>Now you can turn on notifications.</p>",
-      "btn-yes": "Yes, turn on notifications",
-      "btn-no": "No thanks"
-    },
-    "tip": "Tip from WTMG"
-  },
   "push-notifications": {
-    "registration-success": "Notifications were successfully enabled!",
+    "registration-success": "Notifications were successfully turned on",
     "prompt": {
-      "title": "Want to receive notifications on your phone?",
+      "title": "Get a mobile notification when you receive a message",
       "garden-intro": "You will automatically receive an email for each new request to stay in your garden",
-      "garden-follow-up-desktop": ". Would you also like to receive <strong>mobile notifications</strong> for new chat messages?",
       "garden-follow-up": ", and you can also get <strong>mobile notifications</strong>.",
       "garden-enable": "Would you also like to receive <strong>mobile notifications</strong> for new chat messages?",
       "garden-ios-home": "To turn on just <strong>add</strong> the <strong>WTMG</strong> website to your <strong>home screen</strong> in a few easy steps.",
-      "btn-show-me": "Show me how"
+      "ios-installed": "<p>It looks like you added WTMG to your home screen, nice!</p><p>Now you can turn on notifications.</p>",
+      "ios-installed-title": "Almost there!",
+      "btn-show-me": "Show me how",
+      "btn-turn-on": "Turn on notifications",
+      "follow-up-desktop": "Would yo like to receive <strong>mobile notifications</strong> for new chat messages?"
     },
     "how-to": {
       "title": "How to turn on notifications",
@@ -1524,7 +1520,7 @@
         "1-firefox": "Click on the <em>menu</em> {burgerIcon} (the small icon from Firefox, <em>not</em> the bigger WTMG menu) → “<em>Share</em>” {shareIcon} → “<em>Add to your Home Screen</em>” {plusSquareIcon}."
       },
       "questions": "Any questions? Check our {guideLink}.",
-      "questions-link-text": "guide"
+      "questions-link-text": "full guide"
     }
   }
 }

@@ -1,49 +1,42 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import {
-    getCurrentNativeSubscription,
     createPushRegistration,
-    type PushSubscriptionPOJO,
     hasNotificationSupportNow,
     canHaveNotificationSupport,
     isNotificationEligible
   } from '$lib/api/push-registrations';
   import { Button } from '$lib/components/UI';
-  import { loadedPushRegistrations, pushRegistrations } from '$lib/stores/pushRegistrations';
-  import { onMount } from 'svelte';
+  import {
+    loadedPushRegistrations,
+    pushRegistrations,
+    currentNativeSubStore
+  } from '$lib/stores/pushRegistrations';
   import { isMobileDevice } from '$lib/util/uaInfo';
   import NotificationPrompt from '$routes/chat/[name]/[chatId]/NotificationPrompt.svelte';
   import PushRegistrationEntry from '$routes/chat/[name]/PushRegistrationEntry.svelte';
   import { PushRegistrationStatus } from '$lib/types/PushRegistration';
-
-  /**
-   * null if none found, undefined if loading
-   */
-  let currentSub: PushSubscriptionPOJO | undefined | null = undefined;
-
-  onMount(async () => {
-    currentSub = (await getCurrentNativeSubscription()) ?? null;
-  });
+  import { anchorText } from '$lib/util/translation-helpers';
 
   /** Note: this registration could be marked for deletion  */
   $: currentPushRegistration = $pushRegistrations.find(
-    (pR) => pR.subscription.endpoint === currentSub?.endpoint
+    (pR) => pR.subscription.endpoint === $currentNativeSubStore?.endpoint
   );
   $: currentActivePushRegistration = $pushRegistrations.find(
     (pR) =>
-      pR.subscription.endpoint === currentSub?.endpoint &&
+      pR.subscription.endpoint === $currentNativeSubStore?.endpoint &&
       pR.status === PushRegistrationStatus.ACTIVE
   );
   $: otherSubscriptions = $pushRegistrations.filter(
     (pR) =>
       pR.status === PushRegistrationStatus.ACTIVE &&
-      pR.subscription.endpoint !== currentSub?.endpoint
+      pR.subscription.endpoint !== $currentNativeSubStore?.endpoint
   );
 </script>
 
 <section>
   <h2>{$_('account.notifications.title')}</h2>
-  {#if !isMobileDevice && $loadedPushRegistrations && $pushRegistrations.length === 0 && currentSub === null}
+  {#if !isMobileDevice && $loadedPushRegistrations && $pushRegistrations.length === 0 && $currentNativeSubStore === null}
     <!-- Show desktop suggestion banner -->
     <NotificationPrompt permanent />
   {:else if ($loadedPushRegistrations && $pushRegistrations.length > 0) || (isMobileDevice && isNotificationEligible())}
@@ -51,22 +44,30 @@
       <!-- Show options for the current device if it supports notifications, including current sub options -->
       {#if $loadedPushRegistrations && isMobileDevice && isNotificationEligible()}
         <li>
-          <PushRegistrationEntry pushRegistration={currentActivePushRegistration} {currentSub} />
+          <PushRegistrationEntry
+            pushRegistration={currentActivePushRegistration}
+            currentSub={$currentNativeSubStore}
+          />
         </li>
       {/if}
       <!-- Show other push registrations if available (also on desktop)-->
       {#each otherSubscriptions as pushRegistration (pushRegistration.id)}
-        <li><PushRegistrationEntry {pushRegistration} {currentSub} /></li>
+        <li><PushRegistrationEntry {pushRegistration} currentSub={$currentNativeSubStore} /></li>
       {/each}
     </ul>
   {/if}
   {#if isMobileDevice && !hasNotificationSupportNow() && !canHaveNotificationSupport()}
     <p>
-      It looks like this mobile device doesn't support Web Push, which is required for WTMG
-      notifications. Maybe you can try a different browser (on Android), or updating your operating
-      system (on iOS).
+      {$_('account.notifications.unsupported', {
+        values: {
+          link: anchorText({
+            href: $_('account.notifications.ios16-link'),
+            linkText: $_('account.notifications.ios16-check')
+          })
+        }
+      })}
     </p>
-  {:else if $loadedPushRegistrations && currentSub != null && !currentPushRegistration}
+  {:else if $loadedPushRegistrations && $currentNativeSubStore != null && !currentPushRegistration}
     <!-- TODO: edge cases with restoring a marked for deletion PR? -->
     <!-- TODO: Test the below, push-registrations observer is now refactored to
       try to unsubscribe any remnant native subscriptions, if they are missing from Firebase

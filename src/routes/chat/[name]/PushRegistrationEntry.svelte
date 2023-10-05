@@ -9,7 +9,7 @@
   import IconButton from '$lib/components/UI/IconButton.svelte';
   import { androidIcon, appleIcon, mobileDeviceIcon, trashIcon } from '$lib/images/icons';
   import { PushRegistrationStatus, type LocalPushRegistration } from '$lib/types/PushRegistration';
-  import { iDeviceInfo, isMobileDevice, uaInfo } from '$lib/util/uaInfo';
+  import { isIDeviceF, isMobileDevice, uaInfo } from '$lib/util/uaInfo';
   import { locale, _ } from 'svelte-i18n';
   export let pushRegistration: LocalPushRegistration | undefined = undefined;
   export let currentSub: PushSubscriptionPOJO | undefined | null = undefined;
@@ -48,7 +48,8 @@
     // ... and hasn't been registered yet in Firebase
     !isRegisteredInFirebase;
 
-  const { isIDevice } = iDeviceInfo!;
+  // Note: this relies on the CURRENT device. It should accept
+  $: isIDevice = isIDeviceF(os ?? '');
 </script>
 
 <div class="entry">

@@ -632,6 +632,18 @@
         },
         "button-label": "Verander je emailadres"
       }
+    },
+    "notifications": {
+      "delete": "Verwijder",
+      "last-seen": "Laatst gezien op",
+      "unknown": "onbekend",
+      "unsupported": "Het lijkt erop dat dit apparaat geen Web Push ondersteunt, wat vereist is voor mobiele meldingen van WTMG. Op Android kan je een andere of nieuwere browser proberen. Op iOS kan je kijken {link} naar iOS/iPadOS 16.4 of hoger. ",
+      "ios16-link": "https://support.apple.com/nl-be/HT213411",
+      "ios16-check": "of je kan updaten",
+      "current": "Dit apparaat",
+      "title": "Mobiele meldingen",
+      "manage": "Je kan hier je mobiele meldingen beheren.",
+      "turn-on": "Zet meldingen aan"
     }
   },
   "auth": {
@@ -1464,6 +1476,36 @@
         "url": "https://womendontcycle.com/nl.html?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer"
       },
       "donate": "Doneer"
+    }
+  },
+  "push-notifications": {
+    "registration-success": "Meldingen zijn succesvol aangezet",
+    "how-to": {
+      "questions": "Vragen? Bekijk onze {guideLink}.",
+      "questions-link-text": "volledige gids",
+      "ios-browser-steps": {
+        "1": "Zet WTMG op je beginscherm.",
+        "2": "Open de WTMG app.",
+        "3": "Meld je aan en zet meldingen aan.",
+        "1-chrome": "Druk op “<em>Deel</em>” {shareIcon} (rechtsboven) → “<em>Zet op je Beginscherm</em>” {plusSquareIcon}.",
+        "1-firefox": "Druk op het <em>menu</em> {burgerIcon} (⚠️ het kleine icoontje van Firefox, <em>niet</em> het grotere menu van de WTMG site) → “<em>Deel</em>” {shareIcon} → “<em>Zet op je Beginscherm</em>” {plusSquareIcon}.",
+        "1-safari": "Druk op “Deel” {shareIcon} in de menubalk hieronder, en dan op “<em>Zet op je Beginscherm</em>” {plusSquareIcon}."
+      },
+      "ios-upgrade": {
+        "account-settings": "WTMG accountinstellingen",
+        "copy": "<p>Om meldingen aan te zetten moet je eerst <strong>updaten naar {os} 16.4 or hoger</strong>.</p>\n<p><a class=\"link\" href=\"{link}\" target=\"_blank\">Leer hoe je je {os} versie bijwerkt.</a></p>\n<p>Ga na de update naar je {accountSettings} om meldingen aan te zetten.</p>",
+        "btn-show": "Toon hoe bij te werken",
+        "btn-skip": "Sla voorlopig over",
+        "help-link": "https://support.apple.com/nl-be/HT204204"
+      }
+    },
+    "prompt": {
+      "btn-show-me": "Toon me hoe",
+      "btn-turn-on": "Zet meldingen aan",
+      "follow-up-desktop": "Wil je <strong>mobiele meldingen</strong> ontvangen voor nieuwe chatberichten?",
+      "ios-installed": "<p>Het lijkt erop dat je WTMG aan je startscherm hebt toegevoegd, leuk!</p><p>Nu kan je meldingen aanzetten.</p>",
+      "ios-installed-title": "Je bent er bijna!",
+      "title": "Krijg een mobiele melding wanneer je een bericht ontvangt"
     }
   }
 }
