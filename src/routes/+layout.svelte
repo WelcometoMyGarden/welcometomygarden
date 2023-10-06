@@ -34,7 +34,6 @@
   } from '$lib/api/push-registrations';
   import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
   import { resetPushRegistrationStores } from '$lib/stores/pushRegistrations';
-  import { goto } from '$lib/util/navigate';
 
   type MaybeUnsubscriberFunc = (() => void) | undefined;
 
@@ -163,10 +162,6 @@
     if (!unsubscribeFromAuthObserver) {
       unsubscribeFromAuthObserver = createAuthObserver();
     }
-    if (isOnIDevicePWA()) {
-      goto(routes.SIGN_IN);
-    }
-
     vh = `${window.innerHeight * 0.01}px`;
   });
 

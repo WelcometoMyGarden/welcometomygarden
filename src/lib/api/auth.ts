@@ -30,6 +30,7 @@ import type { Garden } from '../types/Garden';
 import type { User as FirebaseUser } from 'firebase/auth';
 import { trackEvent } from '$lib/util';
 import { PlausibleEvent } from '$lib/types/Plausible';
+import { isOnIDevicePWA } from './push-registrations';
 
 // These are not Svelte stores, because we do not wish to listen to updates on them.
 // They are abstracted away by the User store, and trigger updates on that store.
@@ -202,6 +203,15 @@ export const createAuthObserver = (): Unsubscribe => {
           routeTo = routes.SIGN_IN;
         }
       }
+
+      // If we're logged out, on an iDevice PWA, and opening the homepage
+      // then immediately redirect away from the homepage and skip to the
+      // sign-in screen (we assume the user has already seen the homepage)
+      // This gives it a more app-like feel.
+      if (getCurrentRoute()?.route === '/' && isOnIDevicePWA()) {
+        routeTo = routes.SIGN_IN;
+      }
+
       // If we know we are logged out, we are not loading anymore.
       isUserLoading.set(false);
     }
