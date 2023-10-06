@@ -121,12 +121,18 @@ exports.onMessageCreate = async (snap, context) => {
     await Promise.all(
       pushRegistrations
         .filter((pR) => pR.status === 'active')
-        .map((pR) =>
-          sendNotification({
+        .map(({ host, fcmToken }) => {
+          return sendNotification({
             ...commonPayload,
-            fcmToken: pR.fcmToken
-          })
-        )
+            // Override the messageUrl with the host from the push registration, so it also works for beta.welcometomygarden.org.
+            // Firebase's JS SDK filters out non-matching hosts on click events in their service worker code
+            // probably with reason, because: https://developer.mozilla.org/en-US/docs/Web/API/Clients/openWindow#parameters :
+            //   > A string representing the URL of the client you want to open in the window.
+            //   > **Generally this value must be a URL from the same origin as the calling script.**
+            messageUrl: `https://${host}/chat/${normalizeName(nameParts[0])}/${chatId}`,
+            fcmToken
+          });
+        })
     );
   } catch (ex) {
     console.log(ex);

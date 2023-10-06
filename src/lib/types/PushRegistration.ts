@@ -43,6 +43,7 @@ export type FirebasePushRegistration = {
   /** The host that this subscription was created for. This could be useful when we have multiple apps
    * connecting to the same Firestore. Format without protocol.
    * On localhost testing, it seems that the port matters for Web Push registrations.
+   * This does not include the protocol! Also, no trailing slash.
    */
   host: string;
   /**
