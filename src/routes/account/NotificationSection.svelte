@@ -17,6 +17,7 @@
   import PushRegistrationEntry from '$routes/chat/[name]/PushRegistrationEntry.svelte';
   import { PushRegistrationStatus } from '$lib/types/PushRegistration';
   import { anchorText } from '$lib/util/translation-helpers';
+  import NewBadge from '$lib/components/Nav/NewBadge.svelte';
 
   /** Note: this registration could be marked for deletion  */
   $: currentPushRegistration = $pushRegistrations.find(
@@ -35,7 +36,7 @@
 </script>
 
 <section>
-  <h2>{$_('account.notifications.title')}</h2>
+  <h2>{$_('account.notifications.title')}{' '}<NewBadge>Beta</NewBadge></h2>
   {#if !isMobileDevice && $loadedPushRegistrations && $pushRegistrations.length === 0 && $currentNativeSubStore === null}
     <!-- Show desktop suggestion banner -->
     <NotificationPrompt permanent />
@@ -87,7 +88,7 @@ This normally shouldn't happen, except when a database was wiped (in testing) --
 
 <style>
   section {
-    margin-top: 2rem;
+    margin: 2rem 0 4rem 0;
   }
   h2 {
     margin-bottom: 2rem;

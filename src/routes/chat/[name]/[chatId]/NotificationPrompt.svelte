@@ -11,9 +11,11 @@
   import { getCookie } from '$lib/util';
   import {
     canHaveNotificationSupport,
-    handleNotificationEnableAttempt
+    handleNotificationEnableAttempt,
+    hasNotificationSupportNow
   } from '$lib/api/push-registrations';
   import { bellIcon } from '$lib/images/icons';
+  import NewBadge from '$lib/components/Nav/NewBadge.svelte';
 
   /**
    * Keep showing this notice, regardless of cookie state. Never close it.
@@ -62,7 +64,10 @@
 
 {#if show}
   <div class="prompt" in:slide={{ delay: 500, duration: 500 }} out:slide={{ duration: 500 }}>
-    <div class="icon"><Icon icon={bellIcon} greenStroke /></div>
+    <div class="topline">
+      <div class="icon"><Icon icon={bellIcon} greenStroke /></div>
+      <NewBadge>Beta</NewBadge>
+    </div>
     <Text is="span" size="l">{$_('push-notifications.prompt.title')}</Text>
     {#if !permanent}
       <button class="close" type="button" on:click={close} aria-label="Close">
@@ -73,7 +78,7 @@
       {#if !isMobileDevice}
         <!-- "Show me how" copy-->
         {$_('push-notifications.prompt.btn-show-me')}
-      {:else if canHaveNotificationSupport()}
+      {:else if hasNotificationSupportNow() || canHaveNotificationSupport()}
         <!-- "Turn on" copy -->
         {$_('push-notifications.prompt.btn-turn-on')}
       {/if}
@@ -83,6 +88,11 @@
 {/if}
 
 <style>
+  .topline {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
   .icon :global(i) {
     width: 2em;
   }

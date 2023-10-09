@@ -148,8 +148,8 @@
             <label for="news">{$_('account.preferences.news')}</label>
           </li>
         </ul>
-        <NotificationSection />
       </section>
+      <NotificationSection />
       <section>
         <h2>{$_('account.garden.title')}</h2>
         {#if !$user.garden}

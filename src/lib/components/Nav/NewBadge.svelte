@@ -16,5 +16,8 @@ Badge (chip) to indicate in a menu item that it refers to a new feature.
     color: var(--color-white);
     height: min-content;
     width: fit-content;
+    line-height: 1;
+    /* relative to context */
+    padding: 0.4em 0.8rem;
   }
 </style>
