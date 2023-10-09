@@ -33,6 +33,9 @@
       <Button small fullWidth on:click={action}>
         {$_('push-notifications.prompt.btn-turn-on')}
       </Button>
+      <Button inverse fullWidth small={true} on:click={close}
+        >{$_('push-notifications.how-to.ios-upgrade.btn-skip')}</Button
+      >
     </div>
   </div>
 </Modal>
@@ -40,6 +43,7 @@
 <style>
   .buttons {
     display: flex;
+    flex-direction: column;
     margin: 0.75rem 0;
     gap: 1rem;
   }
