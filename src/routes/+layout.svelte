@@ -14,7 +14,7 @@
   import { keyboardEvent } from '$lib/stores/keyboardEvent';
   import registerLocales from '$locales/register';
   import { onDestroy, onMount } from 'svelte';
-  import { init, locale } from 'svelte-i18n';
+  import { init, isLoading, locale } from 'svelte-i18n';
   import { updateCommunicationLanguage } from '$lib/api/user';
   import MinimalFooter from '$lib/components/MinimalFooter.svelte';
   import { isActiveContains } from '$lib/util/isActive';
@@ -34,6 +34,7 @@
   } from '$lib/api/push-registrations';
   import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
   import { resetPushRegistrationStores } from '$lib/stores/pushRegistrations';
+  import { get } from 'svelte/store';
 
   type MaybeUnsubscriberFunc = (() => void) | undefined;
 
@@ -69,71 +70,74 @@
   let hasShownIOSNotificationsModal = false;
 
   // React to user changes
-  const unsubscribeFromUser = user.subscribe(async (latestUser) => {
-    // If the user logged in and has a verified email
-    if (!!latestUser && latestUser.emailVerified) {
-      // without verified email: no messages, no garden, no chats
-      firebaseObserverUnsubscribers = [
-        // Leave the auth observer as-is (the value that last reacted)
-        unsubscribeFromAuthObserver,
-        // Subscribe to the chat observer
-        createChatObserver(),
-        // Subscribe to the push registration observer
-        createPushRegistrationObserver()
-      ];
-    }
+  let unsubscribeFromUser: (() => void) | null = null;
 
-    // If the user logged
-    if (!latestUser) {
-      // Unsubscribe from the chat & push registration observers if the user logged out
-      if (unsubscribeFromChatObserver) {
-        console.log(`Unsubscribing from chat observer & resetting stores`);
-        unsubscribeFromChatObserver();
-        unsubscribeFromChatObserver = undefined;
-        resetChatStores();
+  const initializeUser = () =>
+    (unsubscribeFromUser = user.subscribe(async (latestUser) => {
+      // If the user logged in and has a verified email
+      if (!!latestUser && latestUser.emailVerified) {
+        // without verified email: no messages, no garden, no chats
+        firebaseObserverUnsubscribers = [
+          // Leave the auth observer as-is (the value that last reacted)
+          unsubscribeFromAuthObserver,
+          // Subscribe to the chat observer
+          createChatObserver(),
+          // Subscribe to the push registration observer
+          createPushRegistrationObserver()
+        ];
       }
 
-      if (unsubscribeFromPushRegistrationObserver) {
-        console.log(`Unsubscribing from push registrations & resetting stores`);
-        unsubscribeFromPushRegistrationObserver();
-        unsubscribeFromPushRegistrationObserver = undefined;
-        resetPushRegistrationStores();
-      }
-    }
+      // If the user logged out (or was never logged in)
+      if (!latestUser) {
+        // Unsubscribe from the chat & push registration observers if the user logged out
+        if (unsubscribeFromChatObserver) {
+          console.log(`Unsubscribing from chat observer & resetting stores`);
+          unsubscribeFromChatObserver();
+          unsubscribeFromChatObserver = undefined;
+          resetChatStores();
+        }
 
-    // For a logged in user generally
-    if (latestUser) {
-      // Set a communication language to the current locale, when there is none yet
-      if (!latestUser.communicationLanguage && $locale) {
-        updateCommunicationLanguage($locale);
+        if (unsubscribeFromPushRegistrationObserver) {
+          console.log(`Unsubscribing from push registrations & resetting stores`);
+          unsubscribeFromPushRegistrationObserver();
+          unsubscribeFromPushRegistrationObserver = undefined;
+          resetPushRegistrationStores();
+        }
       }
-      // Use the user-configured account communication language locally, if present
-      if (latestUser.communicationLanguage) {
-        locale.set(latestUser.communicationLanguage);
-      }
-    }
 
-    // After user login, detect startup on PWA iOS which doesn't have pre-existing push
-    // registrations
-    // TODO: check if this loads after loading pre-existing push registrations?
-    // TODO: make this influence dismissal somehow?
-    const notificationsDismissed = getCookie(NOTIFICATION_PROMPT_DISMISSED_COOKIE);
-    if (
-      // Prevent the modal from being shown twice in the same boot session (we might get multiple user updates)
-      !hasShownIOSNotificationsModal &&
-      // We're logged in...
-      latestUser !== null &&
-      // ... the browser has no native sub registered (but support exists)
-      (await getCurrentNativeSubscription()) === null &&
-      // ... the user hasn't dismissed notifications
-      notificationsDismissed !== 'true' &&
-      // ... we're on the PWA of a supporting iOS version (preventing this from appearing on Android/... browsers)
-      isOnIDevicePWA()
-    ) {
-      rootModal.set(IosNotificationPrompt);
-      hasShownIOSNotificationsModal = true;
-    }
-  });
+      // For a logged in user generally
+      if (latestUser) {
+        // Set a communication language to the current locale, when there is none yet
+        if (!latestUser.communicationLanguage && $locale) {
+          updateCommunicationLanguage($locale);
+        }
+        // Use the user-configured account communication language locally, if present
+        if (latestUser.communicationLanguage) {
+          locale.set(latestUser.communicationLanguage);
+        }
+      }
+
+      // After user login, detect startup on PWA iOS which doesn't have pre-existing push
+      // registrations
+      // TODO: check if this loads after loading pre-existing push registrations?
+      // TODO: make this influence dismissal somehow?
+      const notificationsDismissed = getCookie(NOTIFICATION_PROMPT_DISMISSED_COOKIE);
+      if (
+        // Prevent the modal from being shown twice in the same boot session (we might get multiple user updates)
+        !hasShownIOSNotificationsModal &&
+        // We're logged in...
+        latestUser !== null &&
+        // ... the browser has no native sub registered (but support exists)
+        (await getCurrentNativeSubscription()) === null &&
+        // ... the user hasn't dismissed notifications
+        notificationsDismissed !== 'true' &&
+        // ... we're on the PWA of a supporting iOS version (preventing this from appearing on Android/... browsers)
+        isOnIDevicePWA()
+      ) {
+        rootModal.set(IosNotificationPrompt);
+        hasShownIOSNotificationsModal = true;
+      }
+    }));
 
   const initializeSvelteI18n = async () => {
     registerLocales();
@@ -156,13 +160,16 @@
   };
 
   onMount(async () => {
+    vh = `${window.innerHeight * 0.01}px`;
+
     await initializeSvelteI18n();
     // Initialize Firebase
     await initialize();
     if (!unsubscribeFromAuthObserver) {
       unsubscribeFromAuthObserver = createAuthObserver();
     }
-    vh = `${window.innerHeight * 0.01}px`;
+    // Initialize the user data (dependent on Firebase auth)
+    initializeUser();
   });
 
   onDestroy(() => {

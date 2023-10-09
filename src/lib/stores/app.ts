@@ -16,3 +16,5 @@ export const appHasLoaded = derived(
 export const rootModal = writable<ComponentType | null>(null);
 
 export const close = () => rootModal.set(null);
+
+export const handledOpenFromIOSPWA = writable(false);

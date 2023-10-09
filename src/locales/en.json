@@ -28,6 +28,7 @@
     "become-superfan": "Become a Superfan",
     "become-member": "Become a Member",
     "slowby-url": "https://slowby.travel/",
+    "helpcenter-url": "https://help.welcometomygarden.org/",
     "superfan": "Superfan",
     "member": "Member",
     "membership": "Membership",
@@ -1513,7 +1514,7 @@
       },
       "ios-browser-steps": {
         "1": "Add WTMG to your Home Screen.",
-        "2": "Open the WTMG app.",
+        "2": "Open the WTMG app from your Home Screen.",
         "3": "Log in to your account and turn on notifications.",
         "1-chrome": "Click on “<em>Share</em>” {shareIcon} (top right) → “<em>Add to your Home Screen</em>” {plusSquareIcon}.",
         "1-safari": "Click “Share” {shareIcon} in the menu bar below, then “Add to your Home Screen” {plusSquareIcon}.",

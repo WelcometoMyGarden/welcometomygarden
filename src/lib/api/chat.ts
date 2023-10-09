@@ -1,7 +1,14 @@
 import { CHATS, MESSAGES } from './collections';
 import { db } from './firebase';
 import { getPublicUserProfile } from './user';
-import { creatingNewChat, addChat, addMessage, hasInitialized, removeChat } from '$lib/stores/chat';
+import {
+  creatingNewChat,
+  addChat,
+  addMessage,
+  hasInitialized,
+  removeChat,
+  chatsCountWithUnseenMessages
+} from '$lib/stores/chat';
 import {
   collection,
   query,
@@ -17,6 +24,11 @@ import {
 import type { FirebaseChat, FirebaseMessage } from '$lib/types/Chat';
 import { getUser } from '$lib/stores/auth';
 import type { UserPublic } from '$lib/models/User';
+import routes from '$lib/routes';
+import { isOnIDevicePWA } from './push-registrations';
+import { get } from 'svelte/store';
+import { goto } from '$lib/util/navigate';
+import { handledOpenFromIOSPWA } from '$lib/stores/app';
 
 export const initiateChat = async (partnerUid: string) => {
   creatingNewChat.set(true);
@@ -69,6 +81,20 @@ export const createChatObserver = () => {
         })
       );
       hasInitialized.set(true);
+
+      // Special check for iOS PWA on startup
+      if (
+        !get(handledOpenFromIOSPWA) &&
+        isOnIDevicePWA() &&
+        // The current user has an unread chat
+        get(chatsCountWithUnseenMessages) > 0
+      ) {
+        goto(routes.CHAT);
+        // Ensures that we don't open the chat twice in the same session, but only after the first time
+        // chats are loaded.
+      }
+      // In any case, complete iOS PWA open handling for this session after the first run
+      handledOpenFromIOSPWA.set(true);
     },
     (err) => {
       hasInitialized.set(true);

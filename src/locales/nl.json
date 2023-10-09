@@ -25,7 +25,9 @@
     "new": "Nieuw",
     "fair-model-blog-path": "/nl/een-fair-model-om-de-toekomst-van-wtmg-te-verzekeren",
     "become-member": "Word lid",
-    "membership": "Lidmaatschap"
+    "membership": "Lidmaatschap",
+    "on": "op",
+    "helpcenter-url": "https://hulp.welcometomygarden.org/"
   },
   "ui": {
     "card": {
@@ -1485,7 +1487,7 @@
       "questions-link-text": "volledige gids",
       "ios-browser-steps": {
         "1": "Zet WTMG op je beginscherm.",
-        "2": "Open de WTMG app.",
+        "2": "Open de WTMG app vanaf het beginscherm.",
         "3": "Meld je aan en zet meldingen aan.",
         "1-chrome": "Druk op “<em>Deel</em>” {shareIcon} (rechtsboven) → “<em>Zet op je Beginscherm</em>” {plusSquareIcon}.",
         "1-firefox": "Druk op het <em>menu</em> {burgerIcon} (⚠️ het kleine icoontje van Firefox, <em>niet</em> het grotere menu van de WTMG site) → “<em>Deel</em>” {shareIcon} → “<em>Zet op je Beginscherm</em>” {plusSquareIcon}.",

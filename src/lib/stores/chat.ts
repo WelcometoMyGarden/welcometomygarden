@@ -7,7 +7,8 @@ export const creatingNewChat = writable(false);
 
 export const chats = writable<{ [chatId: string]: LocalChat }>({});
 
-// Make sure the unseen message count also updates when the user changes
+// Make sure the unseen message count also updates when the user changes, for example, logs out.
+// TODO: although the chats should change: be cleared, be reinitialized, ... in that sense. Is this derivation necessary?
 export const chatsCountWithUnseenMessages = derived([chats, user], ([$chats, $user]) =>
   Object.entries($chats).reduce((chatsWithUnseenMessages, [, chat]) => {
     if (!$user) {

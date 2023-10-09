@@ -27,7 +27,9 @@
     "new": "Nouveau",
     "fair-model-blog-path": "/fr/vers-un-modele-juste-pour-assurer-le-futur-de-wtmg",
     "become-member": "Devenez Membre",
-    "membership": "Adhésion"
+    "membership": "Adhésion",
+    "on": "sur",
+    "helpcenter-url": "https://aide.welcometomygarden.org/"
   },
   "ui": {
     "card": {
@@ -1481,7 +1483,7 @@
       "questions-link-text": "guide",
       "ios-browser-steps": {
         "1": "Ajoutez WTMG sur votre Écran d'accueil.",
-        "2": "Ouvrez l’application WTMG.",
+        "2": "Ouvrez l’application WTMG depuis votre écran d'accueil.",
         "3": "Connectez-vous à votre compte et activez les notifications.",
         "1-chrome": "Cliquez sur “<em>Partager</em>” {shareIcon} (en haut à droite) → “<em>Ajouter sur Écran d'accueil</em>” {plusSquareIcon}.",
         "1-firefox": "Cliquez sur le <em>menu</em> {burgerIcon} (⚠️ la petite icône de Firefox, <em>pas</em> le menu de WTMG) → “<em>Partager</em>” {shareIcon} → “<em>Ajouter sur Écran d'accueil</em>” {plusSquareIcon}.",
