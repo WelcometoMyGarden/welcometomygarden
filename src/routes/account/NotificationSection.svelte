@@ -59,7 +59,7 @@
   {/if}
   {#if isMobileDevice && !hasNotificationSupportNow() && !canHaveNotificationSupport()}
     <p>
-      {$_('account.notifications.unsupported', {
+      {@html $_('account.notifications.unsupported', {
         values: {
           link: anchorText({
             href: $_('account.notifications.ios16-link'),

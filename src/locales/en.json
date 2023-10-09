@@ -1032,7 +1032,7 @@
       "unknown": "unknown",
       "current": "Current device",
       "last-seen": "Last seen on",
-      "unsupported": "It looks like this device doesn't support Web Push, which is required for mobile WTMG notifications. On Android you can try a different or newer browser. On iOS you can check {link} to iOS/iPadOS 16.4 or higher.",
+      "unsupported": "It looks like this device doesn't support Web Push, which is required for mobile WTMG notifications. On Android you can try a different browser (Chrome worked best in our tests!). On iOS (iPhone or iPad), you need an iPhone 8 or newer {link} with iOS/iPadOS 16.4 or higher.",
       "ios16-check": "if you can update your device",
       "ios16-link": "https://support.apple.com/en-us/HT213411"
     }
