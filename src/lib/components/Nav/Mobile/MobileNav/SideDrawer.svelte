@@ -117,9 +117,6 @@
       {#if $user?.superfan}
         <li>
           <a href={COMMUNITY_FORUM_URL} style="margin-right: 0.6rem;">{$_('generics.community')}</a>
-          <NewBadge>
-            {$_('generics.new')}
-          </NewBadge>
         </li>
       {/if}
       <li>

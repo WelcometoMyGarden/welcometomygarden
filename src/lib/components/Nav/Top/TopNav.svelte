@@ -51,9 +51,6 @@
       </li>
       {#if $user?.superfan}
         <li style="display: inline-flex; flex-direction: row; align-items: center;">
-          <NewBadge>
-            {$_('generics.new')}
-          </NewBadge>
           <NavLink href={COMMUNITY_FORUM_URL}>{$_('generics.community')}</NavLink>
         </li>
       {/if}
