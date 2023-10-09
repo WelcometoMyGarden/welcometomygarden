@@ -15,14 +15,16 @@ const { getMessaging } = require('firebase-admin/messaging');
  * @returns
  */
 exports.sendNotification = async (config) => {
-  const { fcmToken, senderName, message, messageUrl } = config;
+  const { fcmToken, senderName, message, messageUrl, language } = config;
+
+  const messageFrom = { en: 'Message from', nl: 'Bericht van', fr: 'Message de' }[language ?? 'en'];
 
   /**
    * @type {import('firebase-admin/messaging').Message}
    */
   const fcmPayload = {
     notification: {
-      title: `Message from ${senderName}`,
+      title: `${messageFrom} ${senderName}`,
       body: message
     },
     webpush: {
