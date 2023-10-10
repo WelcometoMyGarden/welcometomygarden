@@ -74,16 +74,18 @@
 
   const initializeUser = () =>
     (unsubscribeFromUser = user.subscribe(async (latestUser) => {
-      // If the user logged in and has a verified email
+      // If the user logged in and has a verified email, or if it has changed
       if (!!latestUser && latestUser.emailVerified) {
         // without verified email: no messages, no garden, no chats
         firebaseObserverUnsubscribers = [
-          // Leave the auth observer as-is (the value that last reacted)
+          // Leave the auth observer as-is, it should be initialized already
           unsubscribeFromAuthObserver,
-          // Subscribe to the chat observer
-          createChatObserver(),
-          // Subscribe to the push registration observer
-          createPushRegistrationObserver()
+          // Subscribe to the chat observer, if not initialized yet
+          unsubscribeFromChatObserver == null ? createChatObserver() : unsubscribeFromChatObserver,
+          // Subscribe to the push registration observer, if not initialized yet
+          unsubscribeFromPushRegistrationObserver == null
+            ? createPushRegistrationObserver()
+            : unsubscribeFromPushRegistrationObserver
         ];
       }
 

@@ -80,6 +80,8 @@ export const createChatObserver = () => {
           }
         })
       );
+
+      console.log('Chats initialized');
       hasInitialized.set(true);
 
       // Special check for iOS PWA on startup
