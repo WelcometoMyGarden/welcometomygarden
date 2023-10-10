@@ -71,7 +71,7 @@
         <NewBadge>Beta</NewBadge>
       {/if}
     </div>
-    <Text is="span" size="l">{$_('push-notifications.prompt.title')}</Text>
+    <Text className="description" is="span" size="l">{$_('push-notifications.prompt.title')}</Text>
     {#if !permanent}
       <button class="close" type="button" on:click={close} aria-label="Close">
         <Icon icon={crossIcon} />
@@ -91,14 +91,6 @@
 {/if}
 
 <style>
-  .topline {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .icon :global(i) {
-    width: 2em;
-  }
   .prompt {
     width: 100%;
     position: relative;
@@ -109,8 +101,30 @@
     padding: 1.5rem;
     border-radius: var(--modal-border-radius);
     margin: var(--spacing-small) 0;
+    grid-template-areas:
+      'header'
+      'description'
+      'button';
   }
 
+  .topline {
+    grid-area: header;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    align-self: center;
+  }
+
+  .prompt :global(.description) {
+    grid-area: description;
+  }
+
+  .prompt :global(.button) {
+    grid-area: button;
+  }
+  .icon :global(i) {
+    width: 2em;
+  }
   /* .tip {
     line-height: 1.5;
     font-size: 1.4rem;
@@ -130,11 +144,10 @@
   }
 
   @media screen and (min-width: 1000px) {
-    .prompt :global(.button) {
-      align-self: center;
-      grid-column-start: 2;
-      grid-row-start: 1;
-      grid-row-end: 4;
+    .prompt {
+      grid-template-areas:
+        'header header'
+        'description button';
     }
   }
 </style>
