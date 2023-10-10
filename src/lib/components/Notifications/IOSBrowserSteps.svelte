@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { HELP_CENTER_NOTIFICATIONS_URL } from '$lib/constants';
   import { shareIcon, burgerIcon, plusSquareIcon, threeDotsIcon } from '$lib/images/icons';
   import { uaInfo } from '$lib/util/uaInfo';
   import instantiateComponents, { ClientIcon } from '$lib/util/dynamicComponents';
@@ -43,7 +42,7 @@
   {@html $_('push-notifications.how-to.questions', {
     values: {
       guideLink: anchorText({
-        href: HELP_CENTER_NOTIFICATIONS_URL,
+        href: $_('generics.helpcenter-url'),
         linkText: $_('push-notifications.how-to.questions-link-text'),
         class: 'link'
       })

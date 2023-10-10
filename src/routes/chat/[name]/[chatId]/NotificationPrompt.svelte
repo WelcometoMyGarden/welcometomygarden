@@ -66,7 +66,10 @@
   <div class="prompt" in:slide={{ delay: 500, duration: 500 }} out:slide={{ duration: 500 }}>
     <div class="topline">
       <div class="icon"><Icon icon={bellIcon} greenStroke /></div>
-      <NewBadge>Beta</NewBadge>
+      {#if !permanent}
+        <!-- Because it is only permanent in the account settings, where another label exists -->
+        <NewBadge>Beta</NewBadge>
+      {/if}
     </div>
     <Text is="span" size="l">{$_('push-notifications.prompt.title')}</Text>
     {#if !permanent}

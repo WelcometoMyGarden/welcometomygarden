@@ -32,7 +32,6 @@ import { iDeviceInfo, isMobileDevice, uaInfo } from '$lib/util/uaInfo';
 import { isEmpty } from 'lodash-es';
 import notification from '$lib/stores/notification';
 import { t } from 'svelte-i18n';
-import { HELP_CENTER_NOTIFICATIONS_URL } from '$lib/constants';
 import { rootModal } from '$lib/stores/app';
 import NotificationSetupGuideModal from '$lib/components/Notifications/NotificationSetupGuideModal.svelte';
 
@@ -273,7 +272,7 @@ export const isNotificationEligible = () =>
  */
 export const handleNotificationEnableAttempt = async () => {
   if (!isMobileDevice) {
-    window.open(HELP_CENTER_NOTIFICATIONS_URL, '_blank');
+    window.open(get(t)('generics.helpcenter-url'), '_blank');
     return true;
   } else if (hasNotificationSupportNow()) {
     // Actually try to enable notifications
