@@ -1508,7 +1508,8 @@
       "follow-up-desktop": "Wil je <strong>mobiele meldingen</strong> ontvangen voor nieuwe chatberichten?",
       "ios-installed": "<p>Het lijkt erop dat je WTMG aan je startscherm hebt toegevoegd, leuk!</p><p>Nu kan je meldingen aanzetten.</p>",
       "ios-installed-title": "Je bent er bijna!",
-      "title": "Krijg een mobiele melding wanneer je een bericht ontvangt"
+      "title": "Krijg een mobiele melding wanneer je een bericht ontvangt",
+      "helpcenter-url": "https://hulp.welcometomygarden.org/master/1.-mobiele-meldingen"
     }
   }
 }

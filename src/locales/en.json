@@ -1501,7 +1501,8 @@
       "ios-installed-title": "Almost there!",
       "btn-show-me": "Show me how",
       "btn-turn-on": "Turn on notifications",
-      "follow-up-desktop": "Would yo like to receive <strong>mobile notifications</strong> for new chat messages?"
+      "follow-up-desktop": "Would yo like to receive <strong>mobile notifications</strong> for new chat messages?",
+      "helpcenter-url": "https://help.welcometomygarden.org/master/1.-mobile-notifications"
     },
     "how-to": {
       "title": "How to turn on notifications",

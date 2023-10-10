@@ -272,7 +272,7 @@ export const isNotificationEligible = () =>
  */
 export const handleNotificationEnableAttempt = async () => {
   if (!isMobileDevice) {
-    window.open(get(t)('generics.helpcenter-url'), '_blank');
+    window.open(get(t)('push-notifications.prompt.helpcenter-url'), '_blank');
     return true;
   } else if (hasNotificationSupportNow()) {
     // Actually try to enable notifications

@@ -1504,7 +1504,8 @@
       "btn-turn-on": "Activez les notifications",
       "ios-installed": "<p>Il semble que vous ayez ajouté WTMG sur votre écran d’accueil, génial !</p><p>Vous pouvez maintenant activer les notifications mobiles.</p>",
       "ios-installed-title": "Vous y êtes presque !",
-      "title": "Recevez une notification mobile lorsque vous recevez un message"
+      "title": "Recevez une notification mobile lorsque vous recevez un message",
+      "helpcenter-url": "https://aide.welcometomygarden.org/master/1.-notifications-mobiles"
     }
   }
 }

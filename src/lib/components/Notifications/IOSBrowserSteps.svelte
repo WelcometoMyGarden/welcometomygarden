@@ -42,7 +42,7 @@
   {@html $_('push-notifications.how-to.questions', {
     values: {
       guideLink: anchorText({
-        href: $_('generics.helpcenter-url'),
+        href: $_('push-notifications.prompt.helpcenter-url'),
         linkText: $_('push-notifications.how-to.questions-link-text'),
         class: 'link'
       })
