@@ -64,78 +64,97 @@ exports.onMessageCreate = async (snap, context) => {
 
   const recipientEmailPreferences = recipientUserPrivateDocData.emailPreferences;
 
-  let shouldNotify = recipientEmailPreferences.newChat || true;
-  if (shouldNotify && unreadDoc.exists) {
+  // Determine whether an email should be sent,
+  // based on user preferences + recency
+  /** @type {boolean} */
+  let shouldNotifyEmail = recipientEmailPreferences.newChat || true;
+  if (shouldNotifyEmail && unreadDoc.exists) {
     const unread = unreadDoc.data();
     const nowDate = new Date();
-    // Elapsed time since last notification in milliseconds
+    // Elapsed time since last email notification in milliseconds
     const elapsedTime = nowDate.getTime() - unread.notifiedAt.toMillis();
-    // user was notified in the last half hour
-    if (elapsedTime / 60000 <= 30) {
-      shouldNotify = false;
+    // user was notified in the last 15 mins
+    if (elapsedTime / 60000 <= 15) {
+      shouldNotifyEmail = false;
     }
   }
 
-  if (!shouldNotify) return;
-
+  // Send email and/or push notifications
   try {
-    const recipient = await auth.getUser(recipientId);
-    const sender = await auth.getUser(senderId);
+    const recipientAuthUser = await auth.getUser(recipientId);
 
-    await recipientUserPrivateDocRef.collection('unreads').doc(chatId).set({
-      notifiedAt: FieldValue.serverTimestamp(),
-      chatId
-    });
+    if (!recipientAuthUser.email || !recipientAuthUser.displayName) {
+      console.error(`Email or display name of ${recipientId} are not valid`);
+      fail('internal');
+    }
+
+    const senderAuthUser = await auth.getUser(senderId);
+
+    if (!senderAuthUser || !senderAuthUser.displayName) {
+      console.error(`Sender auth user ${senderId} or its displayName is undefined/null`);
+      fail('internal');
+    }
+
     const baseUrl = removeEndingSlash(functions.config().frontend.url);
 
-    const nameParts = sender.displayName.split(/[^A-Za-z-]/);
-    const messageUrl = `${baseUrl}/chat/${normalizeName(nameParts[0])}/${chatId}`;
+    const senderNameParts = senderAuthUser.displayName.split(/[^A-Za-z-]/);
+    const messageUrl = `${baseUrl}/chat/${normalizeName(senderNameParts[0])}/${chatId}`;
 
     const commonPayload = {
-      senderName: sender.displayName ?? '',
+      senderName: senderAuthUser.displayName ?? '',
       message: normalizeMessage(message.content),
       messageUrl,
       superfan: recipientUserPublicDocData.superfan ?? false,
       language: recipientUserPrivateDocData.communicationLanguage ?? 'en'
     };
+    //
+    // In any case: send a notification to all registered devices via FCM
+    try {
+      const pushRegistrationRef = /** @type {PushRegistrationColRef} */ (
+        recipientUserPrivateDocRef.collection('push-registrations')
+      );
+      const pushRegistrations = (await pushRegistrationRef.get()).docs.map((d) => d.data());
 
-    if (!recipient.email || !recipient.displayName) {
-      console.error(`Email or display name of ${recipientId} are not valid`);
-      fail('internal');
+      await Promise.all(
+        pushRegistrations
+          .filter((pR) => pR.status === 'active')
+          .map(({ host, fcmToken }) => {
+            return sendNotification({
+              ...commonPayload,
+              // Override the messageUrl with the host from the push registration, so it also works for beta.welcometomygarden.org.
+              // Firebase's JS SDK filters out non-matching hosts on click events in their service worker code
+              // probably with reason, because: https://developer.mozilla.org/en-US/docs/Web/API/Clients/openWindow#parameters :
+              //   > A string representing the URL of the client you want to open in the window.
+              //   > **Generally this value must be a URL from the same origin as the calling script.**
+              messageUrl: `https://${host}/chat/${normalizeName(senderNameParts[0])}/${chatId}`,
+              fcmToken
+            });
+          })
+      );
+    } catch (ex) {
+      console.error('Error while sending push notification: ', ex);
     }
 
-    // Send email
-    await sendMessageReceivedEmail({
-      ...commonPayload,
-      email: recipient.email,
-      firstName: recipient.displayName
-    });
+    // Send email, if the last email wasn't sent too recently
+    if (shouldNotifyEmail) {
+      try {
+        // Mark new email activity, to determine email recency next time
+        await recipientUserPrivateDocRef.collection('unreads').doc(chatId).set({
+          notifiedAt: FieldValue.serverTimestamp(),
+          chatId
+        });
 
-    // Send a notification to all registered devices via FCM
-
-    const pushRegistrationRef = /** @type {PushRegistrationColRef} */ (
-      recipientUserPrivateDocRef.collection('push-registrations')
-    );
-    const pushRegistrations = (await pushRegistrationRef.get()).docs.map((d) => d.data());
-
-    await Promise.all(
-      pushRegistrations
-        .filter((pR) => pR.status === 'active')
-        .map(({ host, fcmToken }) => {
-          return sendNotification({
-            ...commonPayload,
-            // Override the messageUrl with the host from the push registration, so it also works for beta.welcometomygarden.org.
-            // Firebase's JS SDK filters out non-matching hosts on click events in their service worker code
-            // probably with reason, because: https://developer.mozilla.org/en-US/docs/Web/API/Clients/openWindow#parameters :
-            //   > A string representing the URL of the client you want to open in the window.
-            //   > **Generally this value must be a URL from the same origin as the calling script.**
-            messageUrl: `https://${host}/chat/${normalizeName(nameParts[0])}/${chatId}`,
-            fcmToken
-          });
-        })
-    );
+        await sendMessageReceivedEmail({
+          ...commonPayload,
+          email: recipientAuthUser.email,
+          firstName: recipientAuthUser.displayName
+        });
+      } catch (ex) {
+        console.error('Error while sending email notification: ', ex);
+      }
+    }
   } catch (ex) {
-    console.log(ex);
+    console.error(ex);
   }
 };
 
