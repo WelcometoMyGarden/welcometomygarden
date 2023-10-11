@@ -1022,13 +1022,14 @@
       "delete": "Supprimer",
       "last-seen": "Dernière visite le",
       "unknown": "inconnu",
-      "unsupported": "Il semble que cet appareil ne soit pas compatible avec la technologie que nous utilisons pour les notifications WTMG. Sur Android, essayez un autre navigateur. Sur iOS (iPhone), mettez à jour votre iOS (16.4 ou plus) {link}.",
       "ios16-link": "https://support.apple.com/fr-be/HT213411",
       "ios16-check": "si votre appareil le permet",
       "current": "Cet appareil",
       "turn-on": "Activez les notifications",
       "title": "Notifications mobiles",
-      "manage": "Vous pouvez gérer vos notifications mobiles ici."
+      "manage": "Vous pouvez gérer vos notifications mobiles ici.",
+      "unsupported-ios": "<p>Oups ! Votre version iOS ne prend pas en charge les notifications mobiles. Pour les activer, <strong>mettez à jour votre</strong> version iOS (Réglages > Général > Mise à jour logicielle).</p><p>Si vous ne pouvez pas la mettre à jour vers la version <strong>16.4 ou plus</strong>, votre appareil ne prend alors pas en charge nos notifications mobiles.</p>",
+      "unsupported-android": "Oups ! Votre navigateur ne prend pas en charge les notifications mobiles. Ouvrez WTMG dans un <strong>autre navigateur</strong> pour les activer."
     }
   },
   "auth": {
@@ -1477,33 +1478,34 @@
     }
   },
   "push-notifications": {
-    "registration-success": "Les notifications ont été activées avec succès",
+    "registration-success": "Les notifications sont à présent activées",
     "how-to": {
-      "questions": "Des questions ? Consultez notre {guideLink}.",
-      "questions-link-text": "guide",
+      "questions": "Des explications plus détaillées ? Visitez notre {guideLink}.",
+      "questions-link-text": "centre d’aide",
       "ios-browser-steps": {
         "1": "Ajoutez WTMG sur votre Écran d'accueil.",
-        "2": "Ouvrez l’application WTMG depuis votre écran d'accueil.",
-        "3": "Connectez-vous à votre compte et activez les notifications.",
-        "1-chrome": "Cliquez sur “<em>Partager</em>” {shareIcon} (en haut à droite) → “<em>Ajouter sur Écran d'accueil</em>” {plusSquareIcon}.",
-        "1-firefox": "Cliquez sur le <em>menu</em> {burgerIcon} (⚠️ la petite icône de Firefox, <em>pas</em> le menu de WTMG) → “<em>Partager</em>” {shareIcon} → “<em>Ajouter sur Écran d'accueil</em>” {plusSquareIcon}.",
-        "1-safari": "Cliquez “Partager” {shareIcon} dans le menu ci-dessous, puis “<em>Ajouter sur Écran d'accueil</em>” {plusSquareIcon}."
+        "2": "Ouvrez WTMG sur votre Écran d'accueil",
+        "3": "Connectez-vous à votre compte",
+        "1-chrome": "<li>Cliquez sur {shareIcon} “<em>Partager</em>” (en haut à droite)</li>\n<li>Cliquez sur {plusSquareIcon} “<em>Ajouter sur Écran d'accueil</em>.</li>",
+        "1-firefox": "<li>Cliquez sur {burgerIcon} “Menu” ci-dessous (<em>pas</em> celui de WTMG).</li> \n<li>Cliquez sur {shareIcon} “<em>Partager</em>”</li> \n<li>Cliquez sur {plusSquareIcon} “<em>Ajouter sur Écran d'accueil</em>”</li>",
+        "1-safari": "<li>Cliquez sur {shareIcon} “<em>Partager</em>” en dessous</li>\n<li>Cliquez sur {plusSquareIcon} “<em>Ajouter sur Écran d'accueil</em>.</li>"
       },
       "ios-upgrade": {
-        "account-settings": "compte WTMG",
-        "copy": "<p>Pour activer les notifications, vous devez d’abord <strong>mettre à jour votre {os} à 16.4 ou plus </strong>.</p>\n<p><a class=\"link\" href=\"{link}\" target=\"_blank\"> Apprenez comment mettre à jour votre version {os}.</a></p>\n<p>Après avoir fait la mise à jour, allez dans votre {accountSettings} pour activer les notifications mobiles.</p>",
-        "btn-show": "Montrez-moi comment faire la mise à jour",
-        "btn-skip": "Passer pour le moment",
-        "help-link": "https://support.apple.com/fr-be/HT204204"
+        "account-settings": "compte",
+        "copy": "Pour recevoir des notifications mobiles, {link} ou plus, puis allez dans “{accountSettings}” pour les activer.",
+        "btn-show": "Comment mettre à jour",
+        "btn-skip": "Pas maintenant",
+        "help-link": "https://support.apple.com/fr-be/HT204204",
+        "help-link-copy": "mettez à jour votre iOS à 16.4."
       },
-      "title": "Comment activer les notifications"
+      "title": "Comment activer les notifications mobiles"
     },
     "prompt": {
       "follow-up-desktop": "Voulez-vous recevoir des <strong>notifications mobiles</strong> lorsque vous recevez un nouveau message ?",
       "btn-show-me": "Montrez-moi comment",
       "btn-turn-on": "Activez les notifications",
-      "ios-installed": "<p>Il semble que vous ayez ajouté WTMG sur votre écran d’accueil, génial !</p><p>Vous pouvez maintenant activer les notifications mobiles.</p>",
-      "ios-installed-title": "Vous y êtes presque !",
+      "ios-installed": "Ne ratez jamais un message en activant maintenant vos notifications mobiles !",
+      "ios-installed-title": "Nouveau : notifications mobiles",
       "title": "Recevez une notification mobile lorsque vous recevez un message",
       "helpcenter-url": "https://aide.welcometomygarden.org/master/1.-notifications-mobiles"
     }

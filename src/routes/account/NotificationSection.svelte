@@ -12,7 +12,7 @@
     pushRegistrations,
     currentNativeSubStore
   } from '$lib/stores/pushRegistrations';
-  import { isMobileDevice } from '$lib/util/uaInfo';
+  import { iDeviceInfo, isMobileDevice } from '$lib/util/uaInfo';
   import NotificationPrompt from '$routes/chat/[name]/[chatId]/NotificationPrompt.svelte';
   import PushRegistrationEntry from '$routes/chat/[name]/PushRegistrationEntry.svelte';
   import { PushRegistrationStatus } from '$lib/types/PushRegistration';
@@ -33,6 +33,8 @@
       pR.status === PushRegistrationStatus.ACTIVE &&
       pR.subscription.endpoint !== $currentNativeSubStore?.endpoint
   );
+
+  const { isIDevice } = iDeviceInfo!;
 </script>
 
 <section>
@@ -57,9 +59,9 @@
       {/each}
     </ul>
   {/if}
-  {#if isMobileDevice && !hasNotificationSupportNow() && !canHaveNotificationSupport()}
-    <p>
-      {@html $_('account.notifications.unsupported', {
+  {#if isMobileDevice && !isNotificationEligible()}
+    {#if isIDevice}
+      {@html $_('account.notifications.unsupported-ios', {
         values: {
           link: anchorText({
             href: $_('account.notifications.ios16-link'),
@@ -67,7 +69,9 @@
           })
         }
       })}
-    </p>
+    {:else}
+      <p>{@html $_('account.notifications.unsupported-android')}</p>
+    {/if}
   {:else if $loadedPushRegistrations && $currentNativeSubStore != null && !currentPushRegistration}
     <!-- TODO: edge cases with restoring a marked for deletion PR? -->
     <!-- TODO: Test the below, push-registrations observer is now refactored to

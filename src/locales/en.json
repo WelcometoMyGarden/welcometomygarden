@@ -1032,7 +1032,8 @@
       "unknown": "unknown",
       "current": "Current device",
       "last-seen": "Last seen on",
-      "unsupported": "It looks like this device doesn't support Web Push, which is required for mobile WTMG notifications. On Android you can try a different browser (Chrome worked best in our tests!). On iOS (iPhone or iPad), you need an iPhone 8 or newer {link} with iOS/iPadOS 16.4 or higher.",
+      "unsupported-ios": "<p>Oops! Your current iOS version doesn’t support mobile notifications. To turn them on, <strong>please update your iOS version</strong> (Settings > General > Software Update).</p><p>If you can’t update it to <strong>16.4 or higher</strong>, it means your device unfortunately doesn’t support our mobile notifications.</p>",
+      "unsupported-android": "Oops! This browser doesn’t support mobile notifications. Open WTMG in <strong>another browser</strong> to turn them on.",
       "ios16-check": "if you can update your device",
       "ios16-link": "https://support.apple.com/en-us/HT213411"
     }
@@ -1490,39 +1491,40 @@
     }
   },
   "push-notifications": {
-    "registration-success": "Notifications were successfully turned on",
+    "registration-success": "Notifications are successfully turned on",
     "prompt": {
       "title": "Get a mobile notification when you receive a message",
       "garden-intro": "You will automatically receive an email for each new request to stay in your garden",
       "garden-follow-up": ", and you can also get <strong>mobile notifications</strong>.",
       "garden-enable": "Would you also like to receive <strong>mobile notifications</strong> for new chat messages?",
       "garden-ios-home": "To turn on just <strong>add</strong> the <strong>WTMG</strong> website to your <strong>home screen</strong> in a few easy steps.",
-      "ios-installed": "<p>It looks like you added WTMG to your home screen, nice!</p><p>Now you can turn on notifications.</p>",
-      "ios-installed-title": "Almost there!",
+      "ios-installed": "Never miss a message by turning on mobile notifications!",
+      "ios-installed-title": "New: mobile notifications!",
       "btn-show-me": "Show me how",
       "btn-turn-on": "Turn on notifications",
       "follow-up-desktop": "Would yo like to receive <strong>mobile notifications</strong> for new chat messages?",
       "helpcenter-url": "https://help.welcometomygarden.org/master/1.-mobile-notifications"
     },
     "how-to": {
-      "title": "How to turn on notifications",
+      "title": "How to turn on mobile notifications",
       "ios-upgrade": {
-        "copy": "<p>To turn on notifications, you first need to <strong>update to {os} 16.4 or higher</strong>.</p>\n<p><a class=\"link\" href=\"{link}\" target=\"_blank\">Learn how to update your {os} version.</a></p>\n<p>After updating, go to your {accountSettings} to turn on mobile notifications.</p>",
+        "copy": "To receive mobile notifications, {link} or higher, then go to your {accountSettings} to turn them on.",
         "help-link": "https://support.apple.com/en-us/HT204204",
-        "account-settings": "WTMG account settings",
-        "btn-show": "Show me how to update",
-        "btn-skip": "Skip for now"
+        "help-link-copy": "update to iOS 16.4",
+        "account-settings": "Account",
+        "btn-show": "How to update",
+        "btn-skip": "Not now"
       },
       "ios-browser-steps": {
         "1": "Add WTMG to your Home Screen.",
-        "2": "Open the WTMG app from your Home Screen.",
-        "3": "Log in to your account and turn on notifications.",
-        "1-chrome": "Click on “<em>Share</em>” {shareIcon} (top right) → “<em>Add to your Home Screen</em>” {plusSquareIcon}.",
-        "1-safari": "Click “Share” {shareIcon} in the menu bar below, then “Add to your Home Screen” {plusSquareIcon}.",
-        "1-firefox": "Click on the <em>menu</em> {burgerIcon} (the small icon from Firefox, <em>not</em> the bigger WTMG menu) → “<em>Share</em>” {shareIcon} → “<em>Add to your Home Screen</em>” {plusSquareIcon}."
+        "2": "Open WTMG from your Home Screen",
+        "3": "Sign in to your account",
+        "1-chrome": "<li>Click on {shareIcon} “<em>Share</em>” (top right)</li>\n<li>Click on {plusSquareIcon} “<em>Add to your Home Screen</em>”</li>",
+        "1-safari": "<li>Click on {shareIcon} “<em>Share</em>” below</li>\n<li>Click on {plusSquareIcon} “<em>Add to your Home Screen</em>”</li>",
+        "1-firefox": "<li>Click on the {burgerIcon} small icon menu below (<em>not</em> the WTMG menu)</li> \n<li>Click on {shareIcon} “<em>Share</em>”</li> \n<li>Click on {plusSquareIcon}“<em>Add to your Home Screen</em>”</li>"
       },
-      "questions": "Any questions? Check our {guideLink}.",
-      "questions-link-text": "full guide"
+      "questions": "More detailed instructions? Visit our {guideLink}.",
+      "questions-link-text": "Help Center"
     }
   }
 }

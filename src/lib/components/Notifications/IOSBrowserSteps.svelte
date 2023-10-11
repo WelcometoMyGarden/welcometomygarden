@@ -21,10 +21,10 @@
   });
 </script>
 
-<ol>
+<ol class="outer">
   <li>
     <span>{$_('push-notifications.how-to.ios-browser-steps.1')}</span>
-    <p>
+    <ol class="inner">
       {@html $_(`push-notifications.how-to.ios-browser-steps.1-${lowerCaseBrowserName}`, {
         values: {
           burgerIcon: ClientIcon(burgerIcon),
@@ -33,7 +33,7 @@
           plusSquareIcon: ClientIcon(plusSquareIcon)
         }
       })}
-    </p>
+    </ol>
   </li>
   <li><span>{$_('push-notifications.how-to.ios-browser-steps.2')}</span></li>
   <li><span>{$_('push-notifications.how-to.ios-browser-steps.3')}</span></li>
@@ -51,10 +51,15 @@
 </p>
 
 <style>
-  ol {
+  ol.outer {
     list-style: decimal;
     margin-top: 1rem;
     margin-left: 2.2rem;
+  }
+
+  ol.inner {
+    list-style: lower-alpha;
+    list-style-position: inside;
   }
   li {
     margin-bottom: 1rem;
@@ -62,7 +67,7 @@
   li > span {
     font-weight: 600;
   }
-  ol :global(em) {
+  ol.outer :global(em) {
     font-weight: 500;
   }
 </style>

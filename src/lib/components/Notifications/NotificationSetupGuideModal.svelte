@@ -31,18 +31,24 @@
     {:else if isUpgradeable16IDevice}
       <div class="upgrade">
         <!-- iOS: can be upgraded to a compatible version -->
-        {@html $_('push-notifications.how-to.ios-upgrade.copy', {
-          values: {
-            os: iDeviceInfo?.currentAppleOS,
-            link: $_('push-notifications.how-to.ios-upgrade.help-link'),
-            accountSettings: anchorText({
-              href: routes.ACCOUNT,
-              linkText: $_('push-notifications.how-to.ios-upgrade.account-settings'),
-              newtab: false,
-              class: 'link'
-            })
-          }
-        })}
+        <p>
+          {@html $_('push-notifications.how-to.ios-upgrade.copy', {
+            values: {
+              os: iDeviceInfo?.currentAppleOS,
+              link: anchorText({
+                href: $_('push-notifications.how-to.ios-upgrade.help-link'),
+                linkText: $_('push-notifications.how-to.ios-upgrade.help-link-copy'),
+                class: 'link'
+              }),
+              accountSettings: anchorText({
+                href: routes.ACCOUNT,
+                linkText: $_('push-notifications.how-to.ios-upgrade.account-settings'),
+                newtab: false,
+                class: 'link'
+              })
+            }
+          })}
+        </p>
         <div class="upgrade-btns">
           <Button
             href={$_('push-notifications.how-to.ios-upgrade.help-link')}

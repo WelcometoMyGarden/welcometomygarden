@@ -7,6 +7,7 @@ import { UTM_MEMBERSHIP_CAMPAIGN, WTMG_BLOG_BASE_URL } from '$lib/constants';
 import createUrl from './create-url';
 import { goto } from './navigate';
 import trackEvent from './track-plausible';
+import { rootModal } from '$lib/stores/app';
 
 if (window) {
   // This function is referenced below in the inline onclick handler.
@@ -40,6 +41,12 @@ if (window) {
       }
       // Override with Svelte programmatic navigation
       // TODO: support newtab behavior?
+
+      // When navigating to an internal target from a modal, close the modal
+      // (otherwise the nav happens in the background)
+      // Example: "Account" link in /account notifications warnings
+      rootModal.set(null);
+
       goto(rawHref);
     }
   };
