@@ -1493,7 +1493,7 @@
   "push-notifications": {
     "registration-success": "Notifications are successfully turned on",
     "prompt": {
-      "title": "Get a mobile notification when you receive a message",
+      "title": "Get a mobile notification for new chat messages.",
       "garden-intro": "You will automatically receive an email for each new request to stay in your garden",
       "garden-follow-up": ", and you can also get <strong>mobile notifications</strong>.",
       "garden-enable": "Would you also like to receive <strong>mobile notifications</strong> for new chat messages?",
