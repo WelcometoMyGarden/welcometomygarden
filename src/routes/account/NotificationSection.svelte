@@ -42,22 +42,35 @@
   {#if !isMobileDevice && $loadedPushRegistrations && $pushRegistrations.length === 0 && $currentNativeSubStore === null}
     <!-- Show desktop suggestion banner -->
     <NotificationPrompt permanent />
-  {:else if ($loadedPushRegistrations && $pushRegistrations.length > 0) || (isMobileDevice && isNotificationEligible())}
-    <ul>
-      <!-- Show options for the current device if it supports notifications, including current sub options -->
-      {#if $loadedPushRegistrations && isMobileDevice && isNotificationEligible()}
-        <li>
-          <PushRegistrationEntry
-            pushRegistration={currentActivePushRegistration}
-            currentSub={$currentNativeSubStore}
-          />
-        </li>
-      {/if}
+  {:else if (isMobileDevice && isNotificationEligible()) || ($loadedPushRegistrations && otherSubscriptions.length > 0)}
+    <!-- Show options for the current device if it supports notifications, including current sub options -->
+
+    <!-- Show the current device on top, if it's not activated yet -->
+    {#if isMobileDevice && isNotificationEligible() && !currentActivePushRegistration}
+      <PushRegistrationEntry
+        pushRegistration={currentActivePushRegistration}
+        currentSub={$currentNativeSubStore}
+      />
+    {/if}
+    <!-- Show the title for managing active push registration, if any are active (current or not) -->
+    {#if otherSubscriptions.length > 0 || !!currentActivePushRegistration}
+      <h3>{$_('account.notifications.manage')}</h3>
       <!-- Show other push registrations if available (also on desktop)-->
-      {#each otherSubscriptions as pushRegistration (pushRegistration.id)}
-        <li><PushRegistrationEntry {pushRegistration} currentSub={$currentNativeSubStore} /></li>
-      {/each}
-    </ul>
+      <ul>
+        <!-- Show the current active push registration as part of the -->
+        {#if currentActivePushRegistration}
+          <li>
+            <PushRegistrationEntry
+              pushRegistration={currentActivePushRegistration}
+              currentSub={$currentNativeSubStore}
+            />
+          </li>
+        {/if}
+        {#each otherSubscriptions as pushRegistration (pushRegistration.id)}
+          <li><PushRegistrationEntry {pushRegistration} currentSub={$currentNativeSubStore} /></li>
+        {/each}
+      </ul>
+    {/if}
   {/if}
   {#if isMobileDevice && !isNotificationEligible()}
     {#if isIDevice}
@@ -94,10 +107,17 @@ This normally shouldn't happen, except when a database was wiped (in testing) --
   section {
     margin: 2rem 0 4rem 0;
   }
+
   h2 {
     margin-bottom: 2rem;
     font-weight: 500;
     font-size: 1.8rem;
+  }
+
+  h3 {
+    font-size: 1.6rem;
+    line-height: 1.4;
+    margin: 3rem 0 1rem 0;
   }
 
   /* dividers */

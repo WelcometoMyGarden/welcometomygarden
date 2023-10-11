@@ -643,7 +643,7 @@
       "ios16-check": "of je kan updaten",
       "current": "Dit apparaat",
       "title": "Mobiele meldingen",
-      "manage": "Je kan hier je mobiele meldingen beheren.",
+      "manage": "Beheer jouw actieve mobile meldingen",
       "turn-on": "Zet meldingen aan",
       "unsupported-ios": "<p>Oeps! Je huidige iOS-versie ondersteunt geen mobiele meldingen. Om ze aan te zetten, <strong>update je iOS-versie</strong> (Instellingen > Algemeen > Software-update).</p><p>Als je niet kan updaten naar versie <strong>16.4 of hoger</strong>, betekent dit helaas dat je toestel onze mobiele meldingen niet ondersteunt.</p>",
       "unsupported-android": "Oeps! Deze browser ondersteunt geen mobiele meldingen. Open WTMG in een <strong>andere browser</strong> om ze aan te zetten."
@@ -1509,7 +1509,7 @@
       "btn-turn-on": "Zet meldingen aan",
       "follow-up-desktop": "Wil je <strong>mobiele meldingen</strong> ontvangen voor nieuwe chatberichten?",
       "ios-installed": "Mis geen enkel bericht door je mobiele meldingen aan te zetten!",
-      "ios-installed-title": "Nieuw: mobiele meldingen!",
+      "ios-installed-title": "Mobiele meldingen",
       "title": "Krijg een mobiele melding voor nieuwe chatberichten.",
       "helpcenter-url": "https://hulp.welcometomygarden.org/master/1.-mobiele-meldingen"
     }

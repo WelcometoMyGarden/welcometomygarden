@@ -1025,7 +1025,7 @@
       }
     },
     "notifications": {
-      "manage": "You can manage your mobile notifications here.",
+      "manage": "Manage your active mobile notifications",
       "title": "Mobile Notifications",
       "delete": "Delete",
       "turn-on": "Turn on notifications",
@@ -1499,7 +1499,7 @@
       "garden-enable": "Would you also like to receive <strong>mobile notifications</strong> for new chat messages?",
       "garden-ios-home": "To turn on just <strong>add</strong> the <strong>WTMG</strong> website to your <strong>home screen</strong> in a few easy steps.",
       "ios-installed": "Never miss a message by turning on mobile notifications!",
-      "ios-installed-title": "New: mobile notifications!",
+      "ios-installed-title": "Mobile notifications",
       "btn-show-me": "Show me how",
       "btn-turn-on": "Turn on notifications",
       "follow-up-desktop": "Would yo like to receive <strong>mobile notifications</strong> for new chat messages?",

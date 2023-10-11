@@ -1027,7 +1027,7 @@
       "current": "Cet appareil",
       "turn-on": "Activez les notifications",
       "title": "Notifications mobiles",
-      "manage": "Vous pouvez gérer vos notifications mobiles ici.",
+      "manage": "Vous pouvez gérer vos notifications mobiles ici",
       "unsupported-ios": "<p>Oups ! Votre version iOS ne prend pas en charge les notifications mobiles. Pour les activer, <strong>mettez à jour votre</strong> version iOS (Réglages > Général > Mise à jour logicielle).</p><p>Si vous ne pouvez pas la mettre à jour vers la version <strong>16.4 ou plus</strong>, votre appareil ne prend alors pas en charge nos notifications mobiles.</p>",
       "unsupported-android": "Oups ! Votre navigateur ne prend pas en charge les notifications mobiles. Ouvrez WTMG dans un <strong>autre navigateur</strong> pour les activer."
     }
@@ -1505,7 +1505,7 @@
       "btn-show-me": "Montrez-moi comment",
       "btn-turn-on": "Activez les notifications",
       "ios-installed": "Ne ratez jamais un message en activant maintenant vos notifications mobiles !",
-      "ios-installed-title": "Nouveau : notifications mobiles",
+      "ios-installed-title": "Notifications mobiles",
       "title": "Recevez une notification mobile pour vos nouveaux messages.",
       "helpcenter-url": "https://aide.welcometomygarden.org/master/1.-notifications-mobiles"
     }
