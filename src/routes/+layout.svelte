@@ -14,7 +14,7 @@
   import { keyboardEvent } from '$lib/stores/keyboardEvent';
   import registerLocales from '$locales/register';
   import { onDestroy, onMount } from 'svelte';
-  import { init, isLoading, locale } from 'svelte-i18n';
+  import { init, locale } from 'svelte-i18n';
   import { updateCommunicationLanguage } from '$lib/api/user';
   import MinimalFooter from '$lib/components/MinimalFooter.svelte';
   import { isActiveContains } from '$lib/util/isActive';
@@ -162,6 +162,7 @@
   };
 
   onMount(async () => {
+    console.log('Mounting root layout');
     vh = `${window.innerHeight * 0.01}px`;
 
     await initializeSvelteI18n();

@@ -37,6 +37,7 @@ import { rootModal } from '$lib/stores/app';
 import NotificationSetupGuideModal from '$lib/components/Notifications/NotificationSetupGuideModal.svelte';
 import ErrorModal from '$lib/components/UI/ErrorModal.svelte';
 import { bind } from 'svelte-simple-modal';
+import { timeout } from '$lib/util/timeout';
 
 const pushRegistrationLoadCheck = () => {
   if (!get(loadedPushRegistrations)) {
@@ -398,14 +399,11 @@ export const createPushRegistration = async () => {
   // Try to enable the notifications
   try {
     const subscriptionPromise = subscribeOrRefreshMessaging();
-    const timeoutPromise = new Promise((_, rej) =>
-      setTimeout(() => rej('Registering web push timed out (15 sec)'), 15 * 1000)
-    );
-    // The race will reject on timeout, and end up in the error handler below
-    subscriptionCore = await (Promise.race([
+    subscriptionCore = await timeout(
       subscriptionPromise,
-      timeoutPromise
-    ]) as typeof subscriptionPromise);
+      15 * 1000,
+      'Registering web push timed out'
+    );
   } catch (e) {
     console.error(e);
     if (isFirebaseError(e) && e.code === 'messaging/permission-blocked') {

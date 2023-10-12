@@ -47,45 +47,53 @@ export const createChatObserver = () => {
     q,
     async (querySnapshot) => {
       const changes = querySnapshot.docChanges();
-      await Promise.all(
-        changes.map(async (change) => {
-          const chat = change.doc.data();
-          if (change.type === 'added' || change.type === 'modified') {
-            // Add partner info to the chat and store in the local chat model
-            const partnerId = chat.users.find((id: string) => getUser().id !== id);
-            if (!partnerId) {
-              console.error(`Couldn't find the chat partner for chat ${change.doc.id}`);
-              // Don't throw an error, to avoid breaking the other chat loads
-              return null;
+      try {
+        await Promise.all(
+          changes.map(async (change) => {
+            const chat = change.doc.data();
+            if (change.type === 'added' || change.type === 'modified') {
+              // Add partner info to the chat and store in the local chat model
+              const partnerId = chat.users.find((id: string) => getUser().id !== id);
+              if (!partnerId) {
+                console.error(`Couldn't find the chat partner for chat ${change.doc.id}`);
+                // Don't throw an error, to avoid breaking the other chat loads
+                return null;
+              }
+              let partner: UserPublic;
+              try {
+                partner = await getPublicUserProfile(partnerId);
+              } catch (e) {
+                console.error(
+                  `Error while getting the public profile of chat partner with uid "${partnerId}"`,
+                  e
+                );
+                return null;
+              }
+              const localChat = {
+                ...chat,
+                partner,
+                id: change.doc.id
+              };
+              addChat(localChat);
+            } else if (change.type === 'removed') {
+              // Remove chat (not possible yet by users)
+              removeChat(change.doc.id);
             }
-            let partner: UserPublic;
-            try {
-              partner = await getPublicUserProfile(partnerId);
-            } catch (e) {
-              console.error(
-                `Error while getting the public profile of chat partner with uid "${partnerId}"`,
-                e
-              );
-              return null;
-            }
-            const localChat = {
-              ...chat,
-              partner,
-              id: change.doc.id
-            };
-            addChat(localChat);
-          } else if (change.type === 'removed') {
-            // Remove chat (not possible yet by users)
-            removeChat(change.doc.id);
-          }
-        })
-      );
+          })
+        );
+      } catch (e) {
+        console.error('Uncaught error while handling a chat snapshot', e);
+      }
 
-      console.log('Chats initialized');
+      console.log('Chats initialized or updated');
       hasInitialized.set(true);
 
-      // Special check for iOS PWA on startup
+      // Special check for iOS PWA on startup: show the chat if a new chat has arrived when
+      // opening the app
       if (
+        // Prevent the UI from jumping automatically to the chat while you're doing something else
+        // TODO: maybe there is a better way to open the chat UI when someone just
+        // "opened" the iOS home app (and only then)
         !get(handledOpenFromIOSPWA) &&
         isOnIDevicePWA() &&
         // The current user has an unread chat

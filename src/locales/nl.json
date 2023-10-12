@@ -646,7 +646,7 @@
       "ios16-check": "of je kan updaten",
       "current": "Dit apparaat",
       "title": "Mobiele meldingen",
-      "manage": "Beheer jouw actieve mobile meldingen",
+      "manage": "Beheer jouw actieve mobiele meldingen",
       "turn-on": "Zet meldingen aan",
       "unsupported-ios": "<p>Oeps! Je huidige iOS-versie ondersteunt geen mobiele meldingen. Om ze aan te zetten, <strong>update je iOS-versie</strong> (Instellingen > Algemeen > Software-update).</p><p>Als je niet kan updaten naar versie <strong>16.4 of hoger</strong>, betekent dit helaas dat je toestel onze mobiele meldingen niet ondersteunt.</p>",
       "unsupported-android": "Oeps! Deze browser ondersteunt geen mobiele meldingen. Open WTMG in een <strong>andere browser</strong> om ze aan te zetten."
