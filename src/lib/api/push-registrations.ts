@@ -38,6 +38,7 @@ import NotificationSetupGuideModal from '$lib/components/Notifications/Notificat
 import ErrorModal from '$lib/components/UI/ErrorModal.svelte';
 import { bind } from 'svelte-simple-modal';
 import { timeout } from '$lib/util/timeout';
+import { UAParser } from 'ua-parser-js';
 
 const pushRegistrationLoadCheck = () => {
   if (!get(loadedPushRegistrations)) {
@@ -432,7 +433,16 @@ export const createPushRegistration = async () => {
 
   // Add the registration to the Firestore
   try {
-    const { os, browser, device } = uaInfo!;
+    // Get these synchronously for backwards compat
+    const { os, browser } = uaInfo!;
+    // Client Hints might help detect more about the device (in Chrome)
+    // for example: model = 'FP3' instead of 'K' on Dries' FairPhone 3
+    // https://docs.uaparser.js.org/v2/api/ua-parser-js/idata/with-client-hints.html
+    const uaP = new UAParser();
+    const deviceWithClientHints = await uaP.getDevice().withClientHints();
+    if (deviceWithClientHints.model === 'K') {
+      deviceWithClientHints.model = 'Android';
+    }
     await addDoc(pushRegistrationsColRef(), {
       status: PushRegistrationStatus.ACTIVE,
       fcmToken,
@@ -441,7 +451,7 @@ export const createPushRegistration = async () => {
         os: os.name,
         browser: browser.name,
         // Destructure helps to convert into POJO
-        device: removeUndefined({ ...device })
+        device: removeUndefined({ ...deviceWithClientHints })
       }),
       host: location.host,
       createdAt: serverTimestamp(),
