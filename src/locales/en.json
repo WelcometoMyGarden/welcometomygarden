@@ -35,7 +35,11 @@
     "feature": "Feature",
     "new": "New",
     "fair-model-blog-path": "/towards-a-fair-model-to-make-wtmg-survive-and-thrive",
-    "on": "on"
+    "on": "on",
+    "error": {
+      "start": "Something went wrong",
+      "push-beta": "Please send the info below to Dries, Manon or Thor. You can find them in the WhatsApp beta testing group. Thanks!"
+    }
   },
   "ui": {
     "card": {

@@ -1,41 +1,58 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
+  import { close } from '$lib/stores/app';
   import { SUPPORT_EMAIL, mailToSupportHref } from '$lib/constants';
   import { Modal } from '.';
   import Anchor from './Anchor.svelte';
-  export let show: boolean;
-  export let details: string | undefined = undefined;
+
+  /**
+   * Extra info to print in the user copy,
+   * for example: "Something went wrong [specifier]"
+   *
+   * Include a period, don't start with a space.
+   */
+  export let specifier: string = '';
+  /**
+   * Additional context to print
+   */
+  export let contextLog: string | undefined = undefined;
+  /**
+   * The caught error variable
+   */
   export let error: unknown;
 </script>
 
 <!-- @component
-Modal to show a chat-sending error.
+Modal to show a generic error.
  -->
 
-<Modal radius maxWidth="648px" ariaLabel="Error Modal" bind:show closeOnOuterClick={false} center>
+<Modal maxWidth="648px" ariaLabel="Error Modal" center on:close={() => close()}>
   <div slot="title" class="title">
-    <h2 id="Title">{$_('chat.error-modal.title')}</h2>
+    <h2 id="Title">{$_('chat.error-modal.title', { locale: 'en' })}</h2>
   </div>
   <div slot="body" class="body">
-    <p>{$_('chat.error-modal.description')}</p>
+    <p>{$_('generics.error.start', { locale: 'en' })}{specifier ? ' ' + specifier : '.'}</p>
     <p>
       <span>
-        {$_('chat.error-modal.instruction')}
-        <Anchor href={mailToSupportHref}>{SUPPORT_EMAIL}</Anchor>.
+        {$_('generics.error.push-beta', { locale: 'en' })}
+        <!-- <Anchor href={mailToSupportHref}>{SUPPORT_EMAIL}</Anchor>. -->
       </span>
     </p>
-    <p>{$_('chat.error-modal.closing-line')}</p>
+    <!-- <p>{$_('chat.error-modal.closing-line', { locale: 'en' })}</p> -->
     <p />
-    {#if error}
-      <div class="error-log">
-        <p class="section">Error:</p>
+    <div class="error-log">
+      {#if error}
         <code>
-          {typeof error === 'object' && error !== null ? error.toString() : 'Unknown'}
+          {typeof error === 'object' && error !== null
+            ? error.toString()
+            : typeof error === 'string'
+            ? error
+            : 'Unknown'}
         </code>
-        <p class="section">Context:</p>
-        {#if details}<p>{details}</p>{/if}
-      </div>
-    {/if}
+      {/if}
+      {#if contextLog}<p>{contextLog}</p>{/if}
+      <p>{navigator.userAgent}</p>
+    </div>
   </div>
 </Modal>
 

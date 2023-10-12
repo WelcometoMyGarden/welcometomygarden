@@ -27,7 +27,10 @@
     "become-member": "Word lid",
     "membership": "Lidmaatschap",
     "on": "op",
-    "helpcenter-url": "https://hulp.welcometomygarden.org/"
+    "helpcenter-url": "https://hulp.welcometomygarden.org/",
+    "error": {
+      "start": "Er ging iets fout"
+    }
   },
   "ui": {
     "card": {

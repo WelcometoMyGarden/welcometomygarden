@@ -8,6 +8,7 @@
   import { Button, Icon } from '$lib/components/UI';
   import IconButton from '$lib/components/UI/IconButton.svelte';
   import { androidIcon, appleIcon, mobileDeviceIcon, trashIcon } from '$lib/images/icons';
+  import { isEnablingLocalPushRegistration } from '$lib/stores/pushRegistrations';
   import { PushRegistrationStatus, type LocalPushRegistration } from '$lib/types/PushRegistration';
   import { isIDeviceF, isMobileDevice, uaInfo } from '$lib/util/uaInfo';
   import { locale, _ } from 'svelte-i18n';
@@ -88,7 +89,11 @@
       </div>
     {:else if canSuggestToTurnOnNotifsForCurrentDevice && isMobileDevice && currentSub === null}
       <!-- TODO: potential notification suppport action -->
-      <Button xsmall on:click={() => handleNotificationEnableAttempt()}>
+      <Button
+        xsmall
+        on:click={() => handleNotificationEnableAttempt()}
+        loading={$isEnablingLocalPushRegistration}
+      >
         {$_('account.notifications.turn-on')}
       </Button>
     {/if}

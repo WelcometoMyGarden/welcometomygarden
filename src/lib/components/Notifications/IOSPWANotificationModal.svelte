@@ -3,6 +3,7 @@
   import { Button } from '$lib/components/UI';
   import Modal from '$lib/components/UI/Modal.svelte';
   import { close } from '$lib/stores/app';
+  import { isEnablingLocalPushRegistration } from '$lib/stores/pushRegistrations';
 
   import { _ } from 'svelte-i18n';
 
@@ -30,7 +31,7 @@
   <div slot="body">
     <p>{@html $_('push-notifications.prompt.ios-installed')}</p>
     <div class="buttons">
-      <Button small fullWidth on:click={action}>
+      <Button small fullWidth on:click={action} loading={$isEnablingLocalPushRegistration}>
         {$_('push-notifications.prompt.btn-turn-on')}
       </Button>
       <Button inverse fullWidth small={true} on:click={close}

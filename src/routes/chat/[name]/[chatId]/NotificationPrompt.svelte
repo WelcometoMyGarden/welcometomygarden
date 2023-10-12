@@ -10,12 +10,12 @@
 
   import { getCookie } from '$lib/util';
   import {
-    canHaveNotificationSupport,
     handleNotificationEnableAttempt,
-    hasNotificationSupportNow
+    isNotificationEligible
   } from '$lib/api/push-registrations';
   import { bellIcon } from '$lib/images/icons';
   import NewBadge from '$lib/components/Nav/NewBadge.svelte';
+  import { isEnablingLocalPushRegistration } from '$lib/stores/pushRegistrations';
 
   /**
    * Keep showing this notice, regardless of cookie state. Never close it.
@@ -77,11 +77,17 @@
         <Icon icon={crossIcon} />
       </button>
     {/if}
-    <Button xsmall on:click={affirmativeAction} fullWidth centered>
+    <Button
+      xsmall
+      on:click={affirmativeAction}
+      fullWidth
+      centered
+      loading={$isEnablingLocalPushRegistration}
+    >
       {#if !isMobileDevice}
         <!-- "Show me how" copy-->
         {$_('push-notifications.prompt.btn-show-me')}
-      {:else if hasNotificationSupportNow() || canHaveNotificationSupport()}
+      {:else if isNotificationEligible()}
         <!-- "Turn on" copy -->
         {$_('push-notifications.prompt.btn-turn-on')}
       {/if}

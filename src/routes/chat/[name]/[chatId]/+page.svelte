@@ -18,7 +18,7 @@
   import { PlausibleEvent } from '$lib/types/Plausible';
   import type { LocalChat } from '$lib/types/Chat';
   import MembershipModal from '$routes/(marketing)/(membership)/MembershipModal.svelte';
-  import ErrorModal from '$lib/components/UI/ErrorModal.svelte';
+  import ChatErrorModal from '$lib/components/UI/ChatErrorModal.svelte';
   import NotificationPrompt from './NotificationPrompt.svelte';
   import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
   import {
@@ -341,7 +341,7 @@ CSS grids should do the job cleanly -->
   </button>
 </form>
 <MembershipModal bind:show={showMembershipModal} />
-<ErrorModal bind:show={showErrorModal} details={errorDetails} {error} />
+<ChatErrorModal bind:show={showErrorModal} details={errorDetails} {error} />
 
 <style>
   :root {

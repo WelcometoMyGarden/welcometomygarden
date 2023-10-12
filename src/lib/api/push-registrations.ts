@@ -22,6 +22,7 @@ import {
 } from '$lib/types/PushRegistration';
 import {
   currentNativeSubStore,
+  isEnablingLocalPushRegistration,
   loadedPushRegistrations,
   pushRegistrations
 } from '$lib/stores/pushRegistrations';
@@ -34,6 +35,8 @@ import notification from '$lib/stores/notification';
 import { t } from 'svelte-i18n';
 import { rootModal } from '$lib/stores/app';
 import NotificationSetupGuideModal from '$lib/components/Notifications/NotificationSetupGuideModal.svelte';
+import ErrorModal from '$lib/components/UI/ErrorModal.svelte';
+import { bind } from 'svelte-simple-modal';
 
 const pushRegistrationLoadCheck = () => {
   if (!get(loadedPushRegistrations)) {
@@ -214,6 +217,7 @@ export const getCurrentNativeSubscription = async () => {
   return sub;
 };
 
+// TODO: convert to using our store
 export const hasEnabledNotificationsOnCurrentDevice = async () => {
   return !!(await getCurrentNativeSubscription());
 };
@@ -375,45 +379,88 @@ const subscribeOrRefreshMessaging = async () => {
  * - undefined otherwise
  */
 export const createPushRegistration = async () => {
+  const handleError = (error: unknown, extraInfo?: string) => {
+    const errorModalSpecifier = 'while turning on notifications.';
+    rootModal.set(
+      bind(ErrorModal, {
+        error,
+        specifier: `${errorModalSpecifier}${extraInfo ? ` ${extraInfo}` : ''}`
+      })
+    );
+    isEnablingLocalPushRegistration.set(false);
+  };
+
+  // Start loading state indicator
+  isEnablingLocalPushRegistration.set(true);
+
   let subscriptionCore: SubscriptionCore;
+
+  // Try to enable the notifications
   try {
-    subscriptionCore = await subscribeOrRefreshMessaging();
+    const subscriptionPromise = subscribeOrRefreshMessaging();
+    const timeoutPromise = new Promise((_, rej) =>
+      setTimeout(() => rej('Registering web push timed out (15 sec)'), 15 * 1000)
+    );
+    // The race will reject on timeout, and end up in the error handler below
+    subscriptionCore = await (Promise.race([
+      subscriptionPromise,
+      timeoutPromise
+    ]) as typeof subscriptionPromise);
   } catch (e) {
     console.error(e);
     if (isFirebaseError(e) && e.code === 'messaging/permission-blocked') {
       // The user has disabled/blocked permission before, and they tried to enable notifications again now
       // TODO: Inform the user that they should allow permissions via their browser, or "Reset permissions" (Chrome)
+      handleError(
+        e,
+        'Your browser seems to have blocked Web Push permissions for WTMG. Maybe you can reset the permissions?'
+      );
+    } else {
+      handleError(e);
     }
     return;
   }
   const { fcmToken, subscription } = subscriptionCore;
 
-  // If this push registration was already stored, do not add it again.
+  // If the resulting push registration was already stored, do not add it again.
   if (get(pushRegistrations).find((pR) => pR.fcmToken === fcmToken)) {
     console.warn('Tried to add an already-known push registration; this should not happen.');
+    handleError(
+      undefined,
+      'It looks like you already had notifications activated on this browser.'
+    );
     return;
   }
 
   // Add the registration to the Firestore
-  const { os, browser, device } = uaInfo!;
-  await addDoc(pushRegistrationsColRef(), {
-    status: PushRegistrationStatus.ACTIVE,
-    fcmToken,
-    subscription,
-    ua: removeUndefined({
-      os: os.name,
-      browser: browser.name,
-      // Destructure helps to convert into POJO
-      device: removeUndefined({ ...device })
-    }),
-    host: location.host,
-    createdAt: serverTimestamp(),
-    refreshedAt: serverTimestamp()
-  });
+  try {
+    const { os, browser, device } = uaInfo!;
+    await addDoc(pushRegistrationsColRef(), {
+      status: PushRegistrationStatus.ACTIVE,
+      fcmToken,
+      subscription,
+      ua: removeUndefined({
+        os: os.name,
+        browser: browser.name,
+        // Destructure helps to convert into POJO
+        device: removeUndefined({ ...device })
+      }),
+      host: location.host,
+      createdAt: serverTimestamp(),
+      refreshedAt: serverTimestamp()
+    });
 
-  notification.success(get(t)('push-notifications.registration-success'));
-
-  return true;
+    // Success
+    isEnablingLocalPushRegistration.set(false);
+    notification.success(get(t)('push-notifications.registration-success'));
+    return true;
+  } catch (e) {
+    handleError(
+      e,
+      "Your push notifications were sucessfully enabled, but couldn't be added to the database."
+    );
+    return;
+  }
 };
 
 /** Assumes an existing subscription exists locally. */
