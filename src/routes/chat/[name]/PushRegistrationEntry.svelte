@@ -3,7 +3,8 @@
     deletePushRegistration,
     type PushSubscriptionPOJO,
     isNotificationEligible,
-    handleNotificationEnableAttempt
+    handleNotificationEnableAttempt,
+    getDeviceUAWithClientHints
   } from '$lib/api/push-registrations';
   import { Button, Icon } from '$lib/components/UI';
   import IconButton from '$lib/components/UI/IconButton.svelte';
@@ -11,6 +12,7 @@
   import { isEnablingLocalPushRegistration } from '$lib/stores/pushRegistrations';
   import { PushRegistrationStatus, type LocalPushRegistration } from '$lib/types/PushRegistration';
   import { isIDeviceF, isMobileDevice, uaInfo } from '$lib/util/uaInfo';
+  import { onMount } from 'svelte';
   import { locale, _ } from 'svelte-i18n';
   export let pushRegistration: LocalPushRegistration | undefined = undefined;
   export let currentSub: PushSubscriptionPOJO | undefined | null = undefined;
@@ -31,6 +33,14 @@
       device: uaInfo!.device
     },
     subscription: { endpoint: null }
+  });
+
+  onMount(async () => {
+    // If we're showing the local device
+    if (!pushRegistration) {
+      // ... override the device with client hints
+      device = await getDeviceUAWithClientHints();
+    }
   });
 
   $: pureBrowserName = browser?.replace('Mobile ', '');

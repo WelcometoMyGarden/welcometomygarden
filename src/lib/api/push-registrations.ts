@@ -369,6 +369,15 @@ const subscribeOrRefreshMessaging = async () => {
   return subscriptionInfo;
 };
 
+export const getDeviceUAWithClientHints = async () => {
+  const uaP = new UAParser();
+  const deviceWithClientHints = await uaP.getDevice().withClientHints();
+  if (deviceWithClientHints.model === 'K') {
+    deviceWithClientHints.model = 'Android';
+  }
+  return deviceWithClientHints;
+};
+
 /**
  * Creates, and subscribes to, a new push registration.
  * Affects three systems:
@@ -438,11 +447,7 @@ export const createPushRegistration = async () => {
     // Client Hints might help detect more about the device (in Chrome)
     // for example: model = 'FP3' instead of 'K' on Dries' FairPhone 3
     // https://docs.uaparser.js.org/v2/api/ua-parser-js/idata/with-client-hints.html
-    const uaP = new UAParser();
-    const deviceWithClientHints = await uaP.getDevice().withClientHints();
-    if (deviceWithClientHints.model === 'K') {
-      deviceWithClientHints.model = 'Android';
-    }
+
     await addDoc(pushRegistrationsColRef(), {
       status: PushRegistrationStatus.ACTIVE,
       fcmToken,
@@ -451,7 +456,7 @@ export const createPushRegistration = async () => {
         os: os.name,
         browser: browser.name,
         // Destructure helps to convert into POJO
-        device: removeUndefined({ ...deviceWithClientHints })
+        device: removeUndefined({ ...(await getDeviceUAWithClientHints()) })
       }),
       host: location.host,
       createdAt: serverTimestamp(),
