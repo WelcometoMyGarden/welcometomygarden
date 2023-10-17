@@ -83,8 +83,8 @@
       }
     },
     {
-      "type": "npm",
-      "script": "firebase:debug",
+      "type": "shell",
+      "command": "nvm use 16 && yarn run firebase:debug",
       "group": {
         "kind": "build"
       },
@@ -96,18 +96,20 @@
       }
     },
     {
-      "type": "npm",
-      "script": "firebase:demo-seed",
+      "type": "shell",
+      "command": "nvm use 16 && yarn run firebase:demo-seed",
       "problemMatcher": [],
       "label": "npm: firebase:demo-seed",
       "detail": "firebase --project demo-test emulators:exec api/seeders/simple.js"
     },
     {
-      "type": "npm",
-      "script": "firebase:staging",
+      "type": "shell",
+      // We need to spec the version here, because our root nvm is different from the /api one
+      // but these commands only exist in /api (probably should be run from API?)
+      "command": "nvm use 16 && yarn run firebase:staging",
       "problemMatcher": [],
       "label": "npm: firebase:staging",
       "detail": "Firebase staging, *with* the local functions emulator"
-    }
+    },
   ]
 }
