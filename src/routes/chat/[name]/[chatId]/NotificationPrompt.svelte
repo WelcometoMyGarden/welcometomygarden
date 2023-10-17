@@ -11,6 +11,7 @@
   import { getCookie } from '$lib/util';
   import {
     handleNotificationEnableAttempt,
+    isAndroidFirefox,
     isNotificationEligible
   } from '$lib/api/push-registrations';
   import { bellIcon } from '$lib/images/icons';
@@ -84,7 +85,7 @@
       centered
       loading={$isEnablingLocalPushRegistration}
     >
-      {#if !isMobileDevice}
+      {#if !isMobileDevice || isAndroidFirefox()}
         <!-- "Show me how" copy-->
         {$_('push-notifications.prompt.btn-show-me')}
       {:else if isNotificationEligible()}

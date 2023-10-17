@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
   import Modal from '$lib/components/UI/Modal.svelte';
 
-  import { hasNotificationSupportNow } from '$lib/api/push-registrations';
+  import { hasNotificationSupportNow, isAndroidFirefox } from '$lib/api/push-registrations';
   import { _ } from 'svelte-i18n';
   import { close } from '$lib/stores/app';
   import { iDeviceInfo, isMobileDevice } from '$lib/util/uaInfo';
@@ -25,6 +24,8 @@
       show instructions on how to proceed -->
       <!-- https://github.com/faisalman/ua-parser-js/issues/182#issuecomment-263115448 -->
       {@html $_('push-notifications.prompt.follow-up-desktop')}
+    {:else if isAndroidFirefox()}
+      {$_('account.notifications.unsupported-android')}
     {:else if is_16_4_OrAboveIDevice && !hasNotificationSupportNow()}
       <!-- State that mobile notifications are definitely possible -->
       <IosBrowserSteps />

@@ -268,6 +268,9 @@ export const canHaveNotificationSupport = () => {
   );
 };
 
+export const isAndroidFirefox = () =>
+  uaInfo?.os.is('Android') && uaInfo?.browser.name?.includes('Firefox');
+
 /** Convenience method. Whether we're _sure_ that this device can handle Web Push, now or with some intervention. */
 export const isNotificationEligible = () =>
   (hasNotificationSupportNow() || canHaveNotificationSupport()) &&
@@ -275,7 +278,7 @@ export const isNotificationEligible = () =>
   // - on a notification tap, Firefox may open a blank page or any last page from history
   // - PWA experience is "just a bookmark", not like Chrome
   // - unregistering doesn't work like in Chrome (PushSubscription stays active after programmatic unsub)
-  !(uaInfo?.os.is('Android') && uaInfo?.browser.name?.includes('Firefox'));
+  !isAndroidFirefox();
 
 /**
  * The caller should close any modals that this action affects.
@@ -285,7 +288,7 @@ export const handleNotificationEnableAttempt = async () => {
   if (!isMobileDevice) {
     window.open(get(t)('push-notifications.prompt.helpcenter-url'), '_blank');
     return true;
-  } else if (hasNotificationSupportNow()) {
+  } else if (hasNotificationSupportNow() && !isAndroidFirefox()) {
     // Actually try to enable notifications
     const success = await createPushRegistration();
     if (success) {
@@ -295,7 +298,7 @@ export const handleNotificationEnableAttempt = async () => {
       console.warn('There was an error in enabling notifications');
       return false;
     }
-  } else if (canHaveNotificationSupport()) {
+  } else if (canHaveNotificationSupport() || isAndroidFirefox()) {
     // TODO: set notification dismissal?
     rootModal.set(NotificationSetupGuideModal);
     return true;
