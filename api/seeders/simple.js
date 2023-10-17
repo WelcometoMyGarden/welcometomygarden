@@ -7,7 +7,7 @@ const { faker } = require('@faker-js/faker');
 const { FieldValue, Timestamp } = require('firebase-admin/firestore');
 
 const app = admin.initializeApp({
-  projectId: 'demo-test'
+  projectId: process.env.STAGING ? 'wtmg-dev' : 'demo-test'
 });
 const db = admin.firestore(app);
 const auth = admin.auth(app);
