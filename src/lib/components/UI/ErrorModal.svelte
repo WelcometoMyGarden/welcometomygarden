@@ -6,14 +6,13 @@
   import Anchor from './Anchor.svelte';
 
   /**
-   * Extra info to print in the user copy,
-   * for example: "Something went wrong [specifier]"
+   * Extra info to print in the user copy. Can include HTML, is already included in a <p>.
    *
    * Include a period, don't start with a space.
    */
   export let specifier: string = '';
   /**
-   * Additional context to print
+   * Additional context to print.
    */
   export let contextLog: string | undefined = undefined;
   /**
@@ -28,17 +27,12 @@ Modal to show a generic error.
 
 <Modal maxWidth="648px" ariaLabel="Error Modal" center on:close={() => close()}>
   <div slot="title" class="title">
-    <h2 id="Title">{$_('chat.error-modal.title', { locale: 'en' })}</h2>
+    <h2 id="Title">{$_('generics.error.start')}</h2>
   </div>
   <div slot="body" class="body">
-    <p>{$_('generics.error.start', { locale: 'en' })}{specifier ? ' ' + specifier : '.'}</p>
-    <p>
-      <span>
-        {$_('generics.error.push-beta', { locale: 'en' })}
-        <!-- <Anchor href={mailToSupportHref}>{SUPPORT_EMAIL}</Anchor>. -->
-      </span>
-    </p>
-    <!-- <p>{$_('chat.error-modal.closing-line', { locale: 'en' })}</p> -->
+    {#if specifier}
+      <p>{@html specifier}</p>
+    {/if}
     <p />
     <div class="error-log">
       {#if error}

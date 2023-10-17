@@ -3,8 +3,8 @@
   import {
     createPushRegistration,
     hasNotificationSupportNow,
-    canHaveNotificationSupport,
-    isNotificationEligible
+    isNotificationEligible,
+    hasDeniedNotifications
   } from '$lib/api/push-registrations';
   import { Button } from '$lib/components/UI';
   import {
@@ -34,12 +34,18 @@
       pR.subscription.endpoint !== $currentNativeSubStore?.endpoint
   );
 
+  $: leftoverNativeSub =
+    $loadedPushRegistrations && $currentNativeSubStore != null && !currentPushRegistration;
+
   const { isIDevice } = iDeviceInfo!;
 </script>
 
 <section>
   <h2>{$_('account.notifications.title')}{' '}<NewBadge>Beta</NewBadge></h2>
+  <!-- Error messages/warnings on top -->
+
   {#if isMobileDevice && !isNotificationEligible()}
+    <!-- Unsupported mobile device -->
     {#if isIDevice}
       {@html $_('account.notifications.unsupported-ios', {
         values: {
@@ -52,7 +58,7 @@
     {:else}
       <p>{@html $_('account.notifications.unsupported-android')}</p>
     {/if}
-  {:else if $loadedPushRegistrations && $currentNativeSubStore != null && !currentPushRegistration}
+  {:else if leftoverNativeSub}
     <!-- TODO: edge cases with restoring a marked for deletion PR? -->
     <!-- TODO: Test the below, push-registrations observer is now refactored to
       try to unsubscribe any remnant native subscriptions, if they are missing from Firebase
@@ -67,7 +73,22 @@ This normally shouldn't happen, except when a database was wiped (in testing) --
     <p>Your current browser already allows WTMG notifications, but WTMG will not send them.</p>
     <Button uppercase xsmall on:click={() => createPushRegistration()}>Restore notifications</Button
     >
+  {:else if isMobileDevice && hasNotificationSupportNow() && hasDeniedNotifications()}
+    <!-- Browser has already explicitly denied permissions -->
+    <p>
+      {@html $_('push-notifications.error.permission-denied', {
+        values: {
+          faqLink: anchorText({
+            href: $_('push-notifications.error.permission-denied-faq-link'),
+            linkText: $_('push-notifications.error.permission-denied-faq-text'),
+            class: 'link'
+          })
+        }
+      })}
+    </p>
   {/if}
+
+  <!-- Notification config -->
   {#if !isMobileDevice && $loadedPushRegistrations && $pushRegistrations.length === 0 && $currentNativeSubStore === null}
     <!-- Show desktop suggestion banner -->
     <NotificationPrompt permanent />
@@ -75,7 +96,7 @@ This normally shouldn't happen, except when a database was wiped (in testing) --
     <!-- Show options for the current device if it supports notifications, including current sub options -->
 
     <!-- Show the current device on top, if it's not activated yet -->
-    {#if isMobileDevice && isNotificationEligible() && !currentActivePushRegistration}
+    {#if isMobileDevice && isNotificationEligible() && !currentActivePushRegistration && !hasDeniedNotifications()}
       <PushRegistrationEntry
         pushRegistration={currentActivePushRegistration}
         currentSub={$currentNativeSubStore}
@@ -101,11 +122,34 @@ This normally shouldn't happen, except when a database was wiped (in testing) --
       </ul>
     {/if}
   {/if}
+
+  <!-- FAQ link -->
+  {#if isMobileDevice && !hasDeniedNotifications()}
+    <!-- Show with some exclusions:
+      - desktop will already have a link to the FAQ
+      - certain error messages also have a link to the FAQ already
+     -->
+    <p class="faqlink">
+      {@html $_('account.notifications.questions', {
+        values: {
+          faqLink: anchorText({
+            href: $_('push-notifications.prompt.helpcenter-url'),
+            linkText: $_('account.notifications.questions-faqlink-text'),
+            class: 'link'
+          })
+        }
+      })}
+    </p>
+  {/if}
 </section>
 
 <style>
   section {
     margin: 2rem 0 4rem 0;
+  }
+
+  .faqlink {
+    margin-top: 1rem;
   }
 
   h2 {

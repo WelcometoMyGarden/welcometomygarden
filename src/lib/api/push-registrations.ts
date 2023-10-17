@@ -39,6 +39,8 @@ import ErrorModal from '$lib/components/UI/ErrorModal.svelte';
 import { bind } from 'svelte-simple-modal';
 import { timeout } from '$lib/util/timeout';
 import { UAParser } from 'ua-parser-js';
+import { anchorText } from '$lib/util/translation-helpers';
+import { emailAsLink } from '$lib/constants';
 
 const pushRegistrationLoadCheck = () => {
   if (!get(loadedPushRegistrations)) {
@@ -280,6 +282,10 @@ export const isNotificationEligible = () =>
   // - unregistering doesn't work like in Chrome (PushSubscription stays active after programmatic unsub)
   !isAndroidFirefox();
 
+// https://developer.mozilla.org/en-US/docs/Web/API/Notification/permission_static
+export const hasDeniedNotifications = () =>
+  hasNotificationSupportNow() && Notification.permission === 'denied';
+
 /**
  * The caller should close any modals that this action affects.
  * @returns true on a sucessful (expected) result.
@@ -398,15 +404,24 @@ export const getDeviceUAWithClientHints = async () => {
  * - undefined otherwise
  */
 export const createPushRegistration = async () => {
-  const handleError = (error: unknown, extraInfo?: string) => {
-    const errorModalSpecifier = 'while turning on notifications.';
+  const handleErrorGeneric = (error: unknown, specifier: string) => {
     rootModal.set(
       bind(ErrorModal, {
         error,
-        specifier: `${errorModalSpecifier}${extraInfo ? ` ${extraInfo}` : ''}`
+        specifier
       })
     );
     isEnablingLocalPushRegistration.set(false);
+  };
+
+  // Optional extra info in English just for us
+  const handleError = (error: unknown, extraInfo?: string) => {
+    const errorModalSpecifier = get(t)('push-notifications.error.generic', {
+      values: {
+        emailLink: emailAsLink
+      }
+    });
+    handleErrorGeneric(error, `${errorModalSpecifier}${extraInfo ? `<br><br>${extraInfo}` : ''}`);
   };
 
   // Start loading state indicator
@@ -427,9 +442,17 @@ export const createPushRegistration = async () => {
     if (isFirebaseError(e) && e.code === 'messaging/permission-blocked') {
       // The user has disabled/blocked permission before, and they tried to enable notifications again now
       // TODO: Inform the user that they should allow permissions via their browser, or "Reset permissions" (Chrome)
-      handleError(
+      handleErrorGeneric(
         e,
-        'Your browser seems to have blocked Web Push permissions for WTMG. Maybe you can reset the permissions?'
+        get(t)('push-notifications.error.permission-denied', {
+          values: {
+            faqLink: anchorText({
+              href: get(t)('push-notifications.error.permission-denied-faq-link'),
+              linkText: get(t)('push-notifications.error.permission-denied-faq-text'),
+              class: 'link'
+            })
+          }
+        })
       );
     } else {
       handleError(e);

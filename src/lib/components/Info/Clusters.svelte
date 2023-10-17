@@ -4,6 +4,7 @@
   import Collapsible from '../../components/Collapsible.svelte';
   import { DONATION_URL, COMMUNITY_TRANSLATIONS_URL } from '$lib/constants';
   import routes from '$lib/routes';
+  import { anchorText } from '$lib/util/translation-helpers';
 
   export let clustersKey;
 
@@ -37,7 +38,11 @@
                 accountLink: `<a href="${routes.ACCOUNT}" target="_blank" class="link lowercase">
                   ${$_('generics.account')}</a>`,
                 communityTranslationsLink: `<a href="${COMMUNITY_TRANSLATIONS_URL}" target="_blank" rel="noreferrer" class="link lowercase">
-                  ${$_('faq.instruction-page')}</a>`
+                  ${$_('faq.instruction-page')}</a>`,
+                mobileFaqLink: anchorText({
+                  href: $_('push-notifications.prompt.helpcenter-url'),
+                  linkText: $_('faq.help-center-text')
+                })
               }
             })}
           </p>

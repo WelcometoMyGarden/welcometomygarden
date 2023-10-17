@@ -29,7 +29,10 @@
     "become-member": "Devenez Membre",
     "membership": "Adhésion",
     "on": "sur",
-    "helpcenter-url": "https://aide.welcometomygarden.org/"
+    "helpcenter-url": "https://aide.welcometomygarden.org/",
+    "error": {
+      "start": "Quelque chose n’a pas fonctionné"
+    }
   },
   "ui": {
     "card": {
@@ -312,7 +315,7 @@
           },
           "update-email": {
             "title": "Je souhaite mettre à jour mon adresse email ou supprimer mon compte. Comment dois-je procéder ?",
-            "copy": "Nous prenons vos données très au sérieux. Si vous souhaitez mettre à jour votre adresse email ou supprimer complètement votre compte de la plateforme, veuillez contacter notre support: {support}. N'oubliez pas de confirmer l'adresse email que vous souhaitez modifier. Si vous voulez supprimer votre compte, vous pouvez le faire <a href=\"/account\" target=\"_blank\">dans votre page de profil</a>."
+            "copy": "Si vous souhaitez changer votre adresse email ou supprimer votre compte, allez dans votre {accountLink}."
           },
           "newsletter": {
             "title": "J'aimerais recevoir votre prochaine lettre d'information ! Que dois-je faire ?",
@@ -320,7 +323,11 @@
           },
           "text-in-english": {
             "title": "Il y a du texte en anglais, alors que ce n’est pas ma langue préférée. Comment puis-je le modifier ?",
-            "copy": "Si un texte n’est pas encore traduit dans votre langue préférée, il apparaîtra en anglais. Vous pouvez nous aider à traduire Welcome To My Garden dans votre langue préférée. Allez {communityTranslationsLink} pour commencer."
+            "copy": "Sur votre ordinateur, allez en bas à gauche et choisissez la langue de votre choix. Sur votre téléphone, cliquez sur le menu. Si certains textes ne sont pas encore traduits dans la langue de votre choix, ils apparaissent alors en anglais."
+          },
+          "notifications": {
+            "title": "J'ai encore une question sur les notifications mobiles.",
+            "copy": "Vous trouverez tout ce que vous devez savoir sur les notifications mobiles dans {mobileFaqLink}."
           }
         }
       },
@@ -1029,7 +1036,9 @@
       "title": "Notifications mobiles",
       "manage": "Vous pouvez gérer vos notifications mobiles ici",
       "unsupported-ios": "<p>Oups ! Votre version iOS ne prend pas en charge les notifications mobiles. Pour les activer, <strong>mettez à jour votre</strong> version iOS (Réglages > Général > Mise à jour logicielle).</p><p>Si vous ne pouvez pas la mettre à jour vers la version <strong>16.4 ou plus</strong>, votre appareil ne prend alors pas en charge nos notifications mobiles.</p>",
-      "unsupported-android": "Oups ! Votre navigateur ne prend pas en charge les notifications mobiles. Ouvrez WTMG dans un <strong>autre navigateur</strong> pour les activer."
+      "unsupported-android": "Oups ! Votre navigateur ne prend pas en charge les notifications mobiles. Ouvrez WTMG dans un <strong>autre navigateur</strong> pour les activer.",
+      "questions": "Des questions ? Lisez {faqLink}.",
+      "questions-faqlink-text": "notre"
     }
   },
   "auth": {
@@ -1508,6 +1517,12 @@
       "ios-installed-title": "Notifications mobiles",
       "title": "Recevez une notification mobile pour vos nouveaux messages.",
       "helpcenter-url": "https://aide.welcometomygarden.org/master/1.-notifications-mobiles"
+    },
+    "error": {
+      "permission-denied-faq-link": "https://aide.welcometomygarden.org/master/1.-notifications-mobiles/1.1.-android#que-faire-si-mon-navigateur-bloque-les-notifications-uniquement-sur-wtmg",
+      "permission-denied-faq-text": "les instructions dans notre FAQ",
+      "permission-denied": "Votre navigateur bloque actuellement les notifications mobiles pour WTMG. Pour les activer, autorisez les notifications dans votre navigateur. Suivez {faqLink}. Cela ne prend que deux minutes !\"",
+      "generic": "Un problème s'est produit lors de l'activation des notifications mobiles. Envoyez les informations ci-dessous à {emailLink} pour que nous puissions résoudre le problème. Merci !"
     }
   }
 }

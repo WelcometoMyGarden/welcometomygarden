@@ -29,7 +29,7 @@
     "on": "op",
     "helpcenter-url": "https://hulp.welcometomygarden.org/",
     "error": {
-      "start": "Er ging iets fout"
+      "start": "Er ging iets mis"
     }
   },
   "ui": {
@@ -649,7 +649,9 @@
       "manage": "Beheer jouw actieve mobiele meldingen",
       "turn-on": "Zet meldingen aan",
       "unsupported-ios": "<p>Oeps! Je huidige iOS-versie ondersteunt geen mobiele meldingen. Om ze aan te zetten, <strong>update je iOS-versie</strong> (Instellingen > Algemeen > Software-update).</p><p>Als je niet kan updaten naar versie <strong>16.4 of hoger</strong>, betekent dit helaas dat je toestel onze mobiele meldingen niet ondersteunt.</p>",
-      "unsupported-android": "Oeps! Deze browser ondersteunt geen mobiele meldingen. Open WTMG in een <strong>andere browser</strong> om ze aan te zetten."
+      "unsupported-android": "Oeps! Deze browser ondersteunt geen mobiele meldingen. Open WTMG in een <strong>andere browser</strong> om ze aan te zetten.",
+      "questions": "Vragen? Bekijk {faqLink}.",
+      "questions-faqlink-text": "onze FAQ"
     }
   },
   "auth": {
@@ -946,7 +948,7 @@
           },
           "update-email": {
             "title": "Ik wil mijn e-mailadres bijwerken of mijn account verwijderen. Hoe kan ik dit doen?",
-            "copy": "Wij nemen jouw gegevens zeer serieus. Als je jouw e-mailadres wilt bijwerken of jouw account volledig van het platform wilt verwijderen, neem dan contact op met onze support: {support}. Vergeet niet jouw e-mailadres te vermelden dat je wilt wijzigen.  Je kan je account volledig van het platform verwijderen via je <a href=\"/account\" target=\"_blank\">profielpagina</a>."
+            "copy": "Als je je e-mailadres wilt veranderen of je account wilt verwijderen, ga dan naar je {accountLink}."
           },
           "newsletter": {
             "title": "Ik zou graag jouw volgende nieuwsbrief ontvangen! Wat moet ik doen?",
@@ -954,7 +956,11 @@
           },
           "text-in-english": {
             "title": "Er staat tekst in het Engels, terwijl dat niet mijn voorkeurstaal is. Hoe kan ik dit veranderen?",
-            "copy": "Indien bepaalde tekst nog niet vertaald is naar uw voorkeurstaal, dan zal het in het Engels verschijnen. Je kan ons helpen Welcome To My Garden te vertalen naar jouw voorkeurstaal. Ga naar {communityTranslationsLink} om van start te gaan."
+            "copy": "Ga op je computer naar linksonder en kies de taal van je keuze. Op je telefoon klik je op het hamburgermenu. Als sommige tekst nog niet vertaald is naar je voorkeurstaal, dan verschijnt het in het Engels."
+          },
+          "notifications": {
+            "title": "Ik heb nog een vraag over het ontvangen van mobiele meldingen.",
+            "copy": "Je vindt alles wat je moet weten over mobiele meldingen in {mobileFaqLink}."
           }
         }
       },
@@ -969,7 +975,8 @@
       }
     },
     "donation": "een donatie",
-    "instruction-page": "deze instructiepagina"
+    "instruction-page": "deze instructiepagina",
+    "help-center-text": "ons Helpcentrum"
   },
   "cookies": {
     "title": "Cookiebeleid"
@@ -1515,6 +1522,12 @@
       "ios-installed-title": "Mobiele meldingen",
       "title": "Krijg een mobiele melding voor nieuwe chatberichten.",
       "helpcenter-url": "https://hulp.welcometomygarden.org/master/1.-mobiele-meldingen"
+    },
+    "error": {
+      "permission-denied-faq-link": "https://hulp.welcometomygarden.org/master/1.-mobiele-meldingen/1.1.-android#wat-moet-ik-doen-als-mijn-browser-mobiele-meldingen-specifiek-voor-wtmg-blokkeert",
+      "permission-denied-faq-text": "de instructies in onze FAQ",
+      "permission-denied": "Jouw browser blokkeert momenteel mobiele meldingen voor WTMG. Werk de toestemmingen van jouw browser bij of reset ze om mobiele meldingen aan te zetten. Volg eenvoudigweg de {faqLink}. Het duurt slechts twee minuten!”",
+      "generic": "Er is iets misgegaan bij het aanzetten van mobiele meldingen. Stuur onderstaande informatie naar {emailLink} zodat we je verder kunnen helpen. Bedankt!"
     }
   }
 }
