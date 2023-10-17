@@ -10,7 +10,9 @@
   import IconButton from '$lib/components/UI/IconButton.svelte';
   import { androidIcon, appleIcon, mobileDeviceIcon, trashIcon } from '$lib/images/icons';
   import { isEnablingLocalPushRegistration } from '$lib/stores/pushRegistrations';
+  import { PlausibleEvent } from '$lib/types/Plausible';
   import { PushRegistrationStatus, type LocalPushRegistration } from '$lib/types/PushRegistration';
+  import { trackEvent } from '$lib/util';
   import { isIDeviceOS, isMobileDevice, uaInfo } from '$lib/util/uaInfo';
   import { onMount } from 'svelte';
   import { locale, _ } from 'svelte-i18n';
@@ -94,14 +96,22 @@
           icon={trashIcon}
           alt={$_('account.notifications.delete')}
           width="3rem"
-          on:click={() => pushRegistration && deletePushRegistration(pushRegistration)}
+          on:click={() => {
+            if (pushRegistration) {
+              deletePushRegistration(pushRegistration);
+              trackEvent(PlausibleEvent.REMOVE_NOTIFICATIONS);
+            }
+          }}
         />
       </div>
     {:else if canSuggestToTurnOnNotifsForCurrentDevice && isMobileDevice && currentSub === null}
       <!-- TODO: potential notification suppport action -->
       <Button
         xsmall
-        on:click={() => handleNotificationEnableAttempt()}
+        on:click={() => {
+          handleNotificationEnableAttempt();
+          trackEvent(PlausibleEvent.ENABLE_NOTIFICATIONS_ACCOUNT);
+        }}
         loading={$isEnablingLocalPushRegistration}
       >
         {$_('account.notifications.turn-on')}

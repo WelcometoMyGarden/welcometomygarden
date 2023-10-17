@@ -8,7 +8,7 @@
   import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
   import { isMobileDevice } from '$lib/util/uaInfo';
 
-  import { getCookie } from '$lib/util';
+  import { getCookie, trackEvent } from '$lib/util';
   import {
     handleNotificationEnableAttempt,
     isAndroidFirefox,
@@ -17,6 +17,7 @@
   import { bellIcon } from '$lib/images/icons';
   import NewBadge from '$lib/components/Nav/NewBadge.svelte';
   import { isEnablingLocalPushRegistration } from '$lib/stores/pushRegistrations';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   /**
    * Keep showing this notice, regardless of cookie state. Never close it.
@@ -55,11 +56,16 @@
   const affirmativeAction = async () => {
     const success = await handleNotificationEnableAttempt();
     if (success && !permanent) {
-      // TODO close when sending to help center?
-      // TODO: close when sending to howto screen?
-      // see impl
       close();
     }
+
+    // Only implies that the button was pressed on a mobile device
+    // "permanent" is only used on the desktop /account page
+    trackEvent(
+      permanent
+        ? PlausibleEvent.ENABLE_NOTIFICATIONS_ACCOUNT
+        : PlausibleEvent.ENABLE_NOTIFICATIONS_CHAT
+    );
   };
 </script>
 

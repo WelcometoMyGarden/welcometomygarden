@@ -36,7 +36,14 @@ export enum PlausibleEvent {
    * Only counts from the Pricing Section embeds (can still be done by non-superfans)
    */
   VISIT_RULES = 'Visit Rules',
-  VISIT_MEMBERSHIP_FAQ = 'Visit Membership FAQ'
+  VISIT_MEMBERSHIP_FAQ = 'Visit Membership FAQ',
+  /*
+   * Notifications
+   * Work around Plausible bug by not having subproperties
+   */
+  ENABLE_NOTIFICATIONS_CHAT = 'Turn on notifications (from chat)',
+  ENABLE_NOTIFICATIONS_ACCOUNT = 'Turn on notifications (from account)',
+  REMOVE_NOTIFICATIONS = 'Remove notifications'
 }
 
 const superfanOnlyEvents = [
