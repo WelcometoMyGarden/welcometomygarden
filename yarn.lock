@@ -7600,10 +7600,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ua-parser-js@https://github.com/faisalman/ua-parser-js.git#2.0.0-alpha.2":
-  version: 2.0.0-alpha.2
-  resolution: "ua-parser-js@https://github.com/faisalman/ua-parser-js.git#commit=5d2acd8fe7e8029f09afebf9c8afb5bcf4bcd951"
-  checksum: ff8a5cd8d824348ef49f5d7ab1609e14fc3703c3658be556f52b10db323ff598953d48363d13bd9ace743f541bbf5efa61fb08159b36058d99c8abf26cb19123
+"ua-parser-js@npm:2.0.0-beta.1":
+  version: 2.0.0-beta.1
+  resolution: "ua-parser-js@npm:2.0.0-beta.1"
+  checksum: 44f1b3d165d3d555e7aa160e5fb5102922c24595dc453a87186e6954657e3c24b6491156298e87d3a2f3d7d1687ccab9fb3f2df6195863ae3485bc4e42a69023
   languageName: node
   linkType: hard
 
@@ -7993,7 +7993,7 @@ __metadata:
     svg-inline-loader: ^0.8.2
     tslib: ^2.6.2
     typescript: ^5.2.2
-    ua-parser-js: "https://github.com/faisalman/ua-parser-js.git#2.0.0-alpha.2"
+    ua-parser-js: 2.0.0-beta.1
     vite: ^4.4.9
     vite-bundle-visualizer: 0.10.0
     vite-plugin-mkcert: ^1.16.0

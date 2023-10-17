@@ -5,15 +5,15 @@ import { UAParser } from 'ua-parser-js';
  * ua-parser-js object, only available in a browser context.
  */
 
-export const uaInfo = browser ? UAParser(navigator.userAgent) : undefined;
+export const uaInfo = browser ? UAParser(navigator.userAgent).withFeatureCheck() : undefined;
 
-export const isIDeviceF = (osName: string) => /iOS|iPadOS/.test(osName);
+export const isIDeviceOS = (osName: string) => /iOS|iPadOS/.test(osName);
 
 export const iDeviceInfo = browser
   ? (() => {
       // TODO: wasn't the iPad Pro masquerading as a Mac?
       const ua = uaInfo!;
-      const isIDevice = isIDeviceF(ua.os.name ?? '');
+      const isIDevice = isIDeviceOS(ua.os.name ?? '') || /iPad|iPhone/.test(ua.device.model ?? '');
       const versionString = ua.os.version ?? ua.browser.version ?? null;
       const iDeviceVersion = versionString ? Number.parseFloat(versionString) : null;
       // note: os.name is not reliable

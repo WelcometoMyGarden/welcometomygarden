@@ -11,7 +11,7 @@
   import { androidIcon, appleIcon, mobileDeviceIcon, trashIcon } from '$lib/images/icons';
   import { isEnablingLocalPushRegistration } from '$lib/stores/pushRegistrations';
   import { PushRegistrationStatus, type LocalPushRegistration } from '$lib/types/PushRegistration';
-  import { isIDeviceF, isMobileDevice, uaInfo } from '$lib/util/uaInfo';
+  import { isIDeviceOS, isMobileDevice, uaInfo } from '$lib/util/uaInfo';
   import { onMount } from 'svelte';
   import { locale, _ } from 'svelte-i18n';
   export let pushRegistration: LocalPushRegistration | undefined = undefined;
@@ -60,7 +60,7 @@
     !isRegisteredInFirebase;
 
   // Note: this relies on the CURRENT device. It should accept
-  $: isIDevice = isIDeviceF(os ?? '');
+  $: isIDevice = isIDeviceOS(os ?? '');
 </script>
 
 <div class="entry">

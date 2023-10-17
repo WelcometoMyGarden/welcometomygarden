@@ -270,7 +270,12 @@ export const canHaveNotificationSupport = () => {
 
 /** Convenience method. Whether we're _sure_ that this device can handle Web Push, now or with some intervention. */
 export const isNotificationEligible = () =>
-  hasNotificationSupportNow() || canHaveNotificationSupport();
+  (hasNotificationSupportNow() || canHaveNotificationSupport()) &&
+  // We decided to _not_ allow notifications on Firefox on Android, because
+  // - on a notification tap, Firefox may open a blank page or any last page from history
+  // - PWA experience is "just a bookmark", not like Chrome
+  // - unregistering doesn't work like in Chrome (PushSubscription stays active after programmatic unsub)
+  !(uaInfo?.os.is('Android') && uaInfo?.browser.name?.includes('Firefox'));
 
 /**
  * The caller should close any modals that this action affects.
@@ -371,7 +376,7 @@ const subscribeOrRefreshMessaging = async () => {
 
 export const getDeviceUAWithClientHints = async () => {
   const uaP = new UAParser();
-  const deviceWithClientHints = await uaP.getDevice().withClientHints();
+  const deviceWithClientHints = await uaP.getDevice().withFeatureCheck().withClientHints();
   if (deviceWithClientHints.model === 'K') {
     deviceWithClientHints.model = 'Android';
   }

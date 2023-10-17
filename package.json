@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "vite --host",
     "dev:staging": "vite --mode staging --host",
+    "dev:push": "vite --mode devpush --host",
     "build": "vite build",
     "build:prod": "vite build --mode production",
     "build:staging": "vite build --mode staging",
@@ -23,7 +24,8 @@
     "firebase:demo-seed": "firebase --project demo-test emulators:exec --ui api/seeders/simple.js",
     "firebase:debug": "firebase --project demo-test emulators:start --inspect-functions",
     "firebase:staging": "firebase --project wtmg-dev emulators:start --only functions",
-    "firebase:staging-all": "firebase --project wtmg-dev emulators:start"
+    "firebase:staging-all": "firebase --project wtmg-dev emulators:start",
+    "firebase:staging-push": "STAGING=true firebase --project wtmg-dev emulators:exec --ui api/seeders/simple.js"
   },
   "publishConfig": {
     "access": "public"
@@ -68,7 +70,7 @@
     "svg-inline-loader": "^0.8.2",
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
-    "ua-parser-js": "https://github.com/faisalman/ua-parser-js.git#2.0.0-alpha.2",
+    "ua-parser-js": "2.0.0-beta.1",
     "vite": "^4.4.9",
     "vite-bundle-visualizer": "0.10.0",
     "vite-plugin-mkcert": "^1.16.0",
