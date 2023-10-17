@@ -39,6 +39,35 @@
 
 <section>
   <h2>{$_('account.notifications.title')}{' '}<NewBadge>Beta</NewBadge></h2>
+  {#if isMobileDevice && !isNotificationEligible()}
+    {#if isIDevice}
+      {@html $_('account.notifications.unsupported-ios', {
+        values: {
+          link: anchorText({
+            href: $_('account.notifications.ios16-link'),
+            linkText: $_('account.notifications.ios16-check')
+          })
+        }
+      })}
+    {:else}
+      <p>{@html $_('account.notifications.unsupported-android')}</p>
+    {/if}
+  {:else if $loadedPushRegistrations && $currentNativeSubStore != null && !currentPushRegistration}
+    <!-- TODO: edge cases with restoring a marked for deletion PR? -->
+    <!-- TODO: Test the below, push-registrations observer is now refactored to
+      try to unsubscribe any remnant native subscriptions, if they are missing from Firebase
+      (test by force-deleting from the DB?)
+      In that works well,
+      If it fails, we should make sure that the normal registration procdure above can handle
+      an already-available PushSubscription.
+      With both these conditions, this case can be removed since it's already handled there.
+    -->
+    <!-- If we locally have a subscription that isn't available remotely, then add it.
+This normally shouldn't happen, except when a database was wiped (in testing) -->
+    <p>Your current browser already allows WTMG notifications, but WTMG will not send them.</p>
+    <Button uppercase xsmall on:click={() => createPushRegistration()}>Restore notifications</Button
+    >
+  {/if}
   {#if !isMobileDevice && $loadedPushRegistrations && $pushRegistrations.length === 0 && $currentNativeSubStore === null}
     <!-- Show desktop suggestion banner -->
     <NotificationPrompt permanent />
@@ -71,35 +100,6 @@
         {/each}
       </ul>
     {/if}
-  {/if}
-  {#if isMobileDevice && !isNotificationEligible()}
-    {#if isIDevice}
-      {@html $_('account.notifications.unsupported-ios', {
-        values: {
-          link: anchorText({
-            href: $_('account.notifications.ios16-link'),
-            linkText: $_('account.notifications.ios16-check')
-          })
-        }
-      })}
-    {:else}
-      <p>{@html $_('account.notifications.unsupported-android')}</p>
-    {/if}
-  {:else if $loadedPushRegistrations && $currentNativeSubStore != null && !currentPushRegistration}
-    <!-- TODO: edge cases with restoring a marked for deletion PR? -->
-    <!-- TODO: Test the below, push-registrations observer is now refactored to
-      try to unsubscribe any remnant native subscriptions, if they are missing from Firebase
-      (test by force-deleting from the DB?)
-      In that works well,
-      If it fails, we should make sure that the normal registration procdure above can handle
-      an already-available PushSubscription.
-      With both these conditions, this case can be removed since it's already handled there.
-    -->
-    <!-- If we locally have a subscription that isn't available remotely, then add it.
-This normally shouldn't happen, except when a database was wiped (in testing) -->
-    <p>Your current browser already allows WTMG notifications, but WTMG will not send them.</p>
-    <Button uppercase xsmall on:click={() => createPushRegistration()}>Restore notifications</Button
-    >
   {/if}
 </section>
 

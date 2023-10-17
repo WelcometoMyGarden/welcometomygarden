@@ -25,7 +25,7 @@
       <!-- https://github.com/faisalman/ua-parser-js/issues/182#issuecomment-263115448 -->
       {@html $_('push-notifications.prompt.follow-up-desktop')}
     {:else if isAndroidFirefox()}
-      {$_('account.notifications.unsupported-android')}
+      {@html $_('account.notifications.unsupported-android')}
     {:else if is_16_4_OrAboveIDevice && !hasNotificationSupportNow()}
       <!-- State that mobile notifications are definitely possible -->
       <IosBrowserSteps />
