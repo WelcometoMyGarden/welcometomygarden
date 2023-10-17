@@ -1526,7 +1526,7 @@
     "error": {
       "permission-denied-faq-link": "https://hulp.welcometomygarden.org/master/1.-mobiele-meldingen/1.1.-android#wat-moet-ik-doen-als-mijn-browser-mobiele-meldingen-specifiek-voor-wtmg-blokkeert",
       "permission-denied-faq-text": "de instructies in onze FAQ",
-      "permission-denied": "Jouw browser blokkeert momenteel mobiele meldingen voor WTMG. Werk de toestemmingen van jouw browser bij of reset ze om mobiele meldingen aan te zetten. Volg eenvoudigweg de {faqLink}. Het duurt slechts twee minuten!”",
+      "permission-denied": "Jouw browser blokkeert momenteel mobiele meldingen voor WTMG. Werk de toestemmingen van jouw browser bij of reset ze om mobiele meldingen aan te zetten. Volg eenvoudigweg {faqLink}. Het duurt slechts twee minuten!",
       "generic": "Er is iets misgegaan bij het aanzetten van mobiele meldingen. Stuur onderstaande informatie naar {emailLink} zodat we je verder kunnen helpen. Bedankt!"
     }
   }
