@@ -30,6 +30,8 @@ import type { Garden } from '../types/Garden';
 import type { User as FirebaseUser } from 'firebase/auth';
 import { trackEvent } from '$lib/util';
 import { PlausibleEvent } from '$lib/types/Plausible';
+import { isOnIDevicePWA } from './push-registrations';
+import { handledOpenFromIOSPWA } from '$lib/stores/app';
 
 // These are not Svelte stores, because we do not wish to listen to updates on them.
 // They are abstracted away by the User store, and trigger updates on that store.
@@ -115,8 +117,7 @@ export const createAuthObserver = (): Unsubscribe => {
       // and it is used to check whether the email was verified in
       // Firestore (the token gets passed to the Firestore in the backend)
       console.info('User email verified: ', firebaseUserEmailVerified);
-      const firebaseTokenEmailVerified: boolean =
-        (await firebaseUser.getIdTokenResult()).claims.email_verified ?? false;
+      const firebaseTokenEmailVerified: boolean = await isTokenEmailVerified(firebaseUser);
       console.info('Token email verified: ', firebaseTokenEmailVerified);
 
       // emailVerified signals that we have to consider this.
@@ -165,6 +166,7 @@ export const createAuthObserver = (): Unsubscribe => {
         console.log('Syncing Firebase user state to local state');
         await updateUserIfPossible();
       }
+
       if (latestAuthUserState) {
         // Subscribe to dependent observers, if they are missing.
         // This will eventually lead to an asynchronous full user login.
@@ -180,7 +182,15 @@ export const createAuthObserver = (): Unsubscribe => {
           unsubscribeFromCampsite = createCampsiteObserver(latestAuthUserState.uid);
         }
       }
-      if (justLoggedIn && getCurrentRoute()?.route === routes.SIGN_IN) {
+
+      // Redirect to the map on start/login, in some cases
+      if (
+        // In general, when we just logged in
+        (justLoggedIn && getCurrentRoute()?.route === routes.SIGN_IN) ||
+        // Specifically on iOS PWA, whenever we open the app with a valid auth state, and the
+        // opening process wasn't completed yet (completed by the chat observer)
+        (isOnIDevicePWA() && latestAuthUserState && !get(handledOpenFromIOSPWA))
+      ) {
         // might happen if you have the sign in page open on two different tabs
         routeTo = routes.MAP;
       }
@@ -202,6 +212,15 @@ export const createAuthObserver = (): Unsubscribe => {
           routeTo = routes.SIGN_IN;
         }
       }
+
+      // If we're logged out, on an iDevice PWA, and opening the homepage
+      // then immediately redirect away from the homepage and skip to the
+      // sign-in screen (we assume the user has already seen the homepage)
+      // This gives it a more app-like feel.
+      if (getCurrentRoute()?.route === '/' && isOnIDevicePWA()) {
+        routeTo = routes.SIGN_IN;
+      }
+
       // If we know we are logged out, we are not loading anymore.
       isUserLoading.set(false);
     }
@@ -247,14 +266,13 @@ export const checkAndHandleUnverified = async (message?: string, timeout = 8000)
   }
 };
 
+const isTokenEmailVerified = async (fbUser: FirebaseUser | null) =>
+  fbUser ? (await fbUser.getIdTokenResult()).claims.email_verified === true : false;
+
 export const isEmailVerifiedAndTokenSynced = async () => {
   const currentUser = auth().currentUser;
   const firebaseUserEmailVerified: boolean = currentUser?.emailVerified ?? false;
-  const firebaseTokenEmailVerified: boolean = currentUser
-    ? (await currentUser.getIdTokenResult()).claims.email_verified ?? false
-    : false;
-
-  return firebaseUserEmailVerified && firebaseTokenEmailVerified;
+  return firebaseUserEmailVerified && (await isTokenEmailVerified(currentUser));
 };
 
 /**

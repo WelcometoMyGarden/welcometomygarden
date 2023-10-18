@@ -32,6 +32,7 @@
   import { user } from '$lib/stores/auth';
   import type { Unsubscribe } from 'firebase/firestore';
   import { fileDataLayers, removeTrailAnimations } from '$lib/stores/file';
+  import { isOnIDevicePWA } from '$lib/api/push-registrations';
 
   let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
   let geolocationIsLoaded = false;
@@ -46,7 +47,7 @@
   let showTransport = false;
   let filteredGardens: { [id: string]: Garden };
   let savedGardens = [] as string[];
-  let carNoticeShown = !getCookie('car-notice-dismissed');
+  let carNoticeShown = !isOnIDevicePWA() && !getCookie('car-notice-dismissed');
 
   // TODO: this works for now, because the default state when loading the
   // page is that the checkboxes are unchecked. We may want to intercept actual
@@ -136,7 +137,7 @@
       }
     }
 
-    if (!geolocationIsLoaded && 'geolocation' in navigator) {
+    if (!isOnIDevicePWA() && !geolocationIsLoaded && 'geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           fallbackLocation = { longitude: pos.coords.longitude, latitude: pos.coords.latitude };

@@ -24,7 +24,19 @@
   import coercedBrowserLang, { coerceToSupportedLanguage } from '$lib/util/get-browser-lang';
   import type { SupportedLanguage } from '$lib/types/general';
   import { isFullscreen } from '$lib/stores/fullscreen';
-  import { appHasLoaded } from '$lib/stores/app';
+  import { appHasLoaded, rootModal } from '$lib/stores/app';
+  import Modal from 'svelte-simple-modal';
+  import IosNotificationPrompt from '../lib/components/Notifications/IOSPWANotificationModal.svelte';
+  import {
+    createPushRegistrationObserver,
+    getCurrentNativeSubscription,
+    isOnIDevicePWA
+  } from '$lib/api/push-registrations';
+  import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
+  import { resetPushRegistrationStores } from '$lib/stores/pushRegistrations';
+  import { get } from 'svelte/store';
+
+  type MaybeUnsubscriberFunc = (() => void) | undefined;
 
   // React to locale initialization or changes
   const unsubscribeFromLocale = locale.subscribe((value) => {
@@ -43,37 +55,93 @@
     }
   });
 
-  let unsubscribeFromAuthObserver: (() => void) | undefined;
-  let unsubscribeFromChatObserver: (() => void) | undefined;
+  let firebaseObserverUnsubscribers: MaybeUnsubscriberFunc[] = [undefined, undefined, undefined];
+
+  // FYI: assigning to destructured values also triggers Svelte reactivity
+  // https://svelte.dev/repl/e45c5d54a69d422f83de79f03d2d8a48
+  $: [
+    unsubscribeFromAuthObserver,
+    unsubscribeFromChatObserver,
+    unsubscribeFromPushRegistrationObserver
+  ] = firebaseObserverUnsubscribers;
 
   let vh = `0px`;
 
+  let hasShownIOSNotificationsModal = false;
+
   // React to user changes
-  const unsubscribeFromUser = user.subscribe(async (latestUser) => {
-    // Subscribe to the chat observer if the user logged in, and has a verified email
-    if (!unsubscribeFromChatObserver && latestUser && latestUser.emailVerified)
-      unsubscribeFromChatObserver = await createChatObserver();
+  let unsubscribeFromUser: (() => void) | null = null;
 
-    // Unsubscribe if the user logged out
-    if (unsubscribeFromChatObserver && !latestUser) {
-      console.log(`Unsubscribing from chat observer & resetting stores`);
-      unsubscribeFromChatObserver();
-      unsubscribeFromChatObserver = undefined;
-      resetChatStores();
-    }
+  const initializeUser = () =>
+    (unsubscribeFromUser = user.subscribe(async (latestUser) => {
+      // If the user logged in and has a verified email, or if it has changed
+      if (!!latestUser && latestUser.emailVerified) {
+        // without verified email: no messages, no garden, no chats
+        firebaseObserverUnsubscribers = [
+          // Leave the auth observer as-is, it should be initialized already
+          unsubscribeFromAuthObserver,
+          // Subscribe to the chat observer, if not initialized yet
+          unsubscribeFromChatObserver == null ? createChatObserver() : unsubscribeFromChatObserver,
+          // Subscribe to the push registration observer, if not initialized yet
+          unsubscribeFromPushRegistrationObserver == null
+            ? createPushRegistrationObserver()
+            : unsubscribeFromPushRegistrationObserver
+        ];
+      }
 
-    // Set a communication language to the current locale, when there is none yet
-    if (latestUser && !latestUser.communicationLanguage && $locale) {
-      updateCommunicationLanguage($locale);
-    }
+      // If the user logged out (or was never logged in)
+      if (!latestUser) {
+        // Unsubscribe from the chat & push registration observers if the user logged out
+        if (unsubscribeFromChatObserver) {
+          console.log(`Unsubscribing from chat observer & resetting stores`);
+          unsubscribeFromChatObserver();
+          unsubscribeFromChatObserver = undefined;
+          resetChatStores();
+        }
 
-    // Use the user-configured account communication language locally, if present
-    if (latestUser && latestUser.communicationLanguage) {
-      locale.set(latestUser.communicationLanguage);
-    }
-  });
+        if (unsubscribeFromPushRegistrationObserver) {
+          console.log(`Unsubscribing from push registrations & resetting stores`);
+          unsubscribeFromPushRegistrationObserver();
+          unsubscribeFromPushRegistrationObserver = undefined;
+          resetPushRegistrationStores();
+        }
+      }
 
-  const initializeSvelteI18n = () => {
+      // For a logged in user generally
+      if (latestUser) {
+        // Set a communication language to the current locale, when there is none yet
+        if (!latestUser.communicationLanguage && $locale) {
+          updateCommunicationLanguage($locale);
+        }
+        // Use the user-configured account communication language locally, if present
+        if (latestUser.communicationLanguage) {
+          locale.set(latestUser.communicationLanguage);
+        }
+      }
+
+      // After user login, detect startup on PWA iOS which doesn't have pre-existing push
+      // registrations
+      // TODO: check if this loads after loading pre-existing push registrations?
+      // TODO: make this influence dismissal somehow?
+      const notificationsDismissed = getCookie(NOTIFICATION_PROMPT_DISMISSED_COOKIE);
+      if (
+        // Prevent the modal from being shown twice in the same boot session (we might get multiple user updates)
+        !hasShownIOSNotificationsModal &&
+        // We're logged in...
+        latestUser !== null &&
+        // ... the browser has no native sub registered (but support exists)
+        (await getCurrentNativeSubscription()) === null &&
+        // ... the user hasn't dismissed notifications
+        notificationsDismissed !== 'true' &&
+        // ... we're on the PWA of a supporting iOS version (preventing this from appearing on Android/... browsers)
+        isOnIDevicePWA()
+      ) {
+        rootModal.set(IosNotificationPrompt);
+        hasShownIOSNotificationsModal = true;
+      }
+    }));
+
+  const initializeSvelteI18n = async () => {
     registerLocales();
 
     let lang: SupportedLanguage;
@@ -86,7 +154,7 @@
     }
 
     // Initialize svelte-i18n
-    init({ fallbackLocale: 'en', initialLocale: lang });
+    await init({ fallbackLocale: 'en', initialLocale: lang });
 
     // It's possible that a user account has a different language setting,
     // this will then be updated in user.subscribe above. We're not waiting
@@ -94,25 +162,28 @@
   };
 
   onMount(async () => {
-    initializeSvelteI18n();
+    console.log('Mounting root layout');
+    vh = `${window.innerHeight * 0.01}px`;
+
+    await initializeSvelteI18n();
     // Initialize Firebase
     await initialize();
     if (!unsubscribeFromAuthObserver) {
       unsubscribeFromAuthObserver = createAuthObserver();
     }
-
-    vh = `${window.innerHeight * 0.01}px`;
+    // Initialize the user data (dependent on Firebase auth)
+    initializeUser();
   });
 
   onDestroy(() => {
-    if (unsubscribeFromChatObserver) {
-      unsubscribeFromChatObserver();
-      unsubscribeFromChatObserver = undefined;
+    // In what case do we destroy the root layout though? 🤔
+    for (let observerUnsubscriber of firebaseObserverUnsubscribers) {
+      if (observerUnsubscriber) {
+        observerUnsubscriber();
+      }
     }
-    if (unsubscribeFromAuthObserver) {
-      unsubscribeFromAuthObserver();
-      unsubscribeFromAuthObserver = undefined;
-    }
+    firebaseObserverUnsubscribers = [undefined, undefined, undefined];
+
     if (unsubscribeFromUser) {
       unsubscribeFromUser();
     }
@@ -136,28 +207,29 @@
 
 <svelte:window on:resize={updateViewportHeight} on:keyup={onCustomPress} />
 
-<div
-  class="app active-{$page?.route?.id?.substring(1).split('/')[0]} locale-{$locale}"
-  class:fullscreen={$isFullscreen}
-  style="--vh:{vh}"
->
-  {#if browser}
-    <Progress active={!$appHasLoaded} />
-    <Notifications />
-  {/if}
-
-  {#if $appHasLoaded}
-    <Nav />
-    <main>
-      <slot />
-    </main>
-    {#if isActiveContains($page, routes.MAP)}
-      <MinimalFooter />
-    {:else}
-      <Footer />
+<Modal show={$rootModal} unstyled={true} closeButton={false}>
+  <div
+    class="app active-{$page?.route?.id?.substring(1).split('/')[0]} locale-{$locale}"
+    class:fullscreen={$isFullscreen}
+    style="--vh:{vh}"
+  >
+    {#if browser}
+      <Progress active={!$appHasLoaded} />
+      <Notifications />
     {/if}
-  {/if}
-</div>
+    {#if $appHasLoaded}
+      <Nav />
+      <main>
+        <slot />
+      </main>
+      {#if isActiveContains($page, routes.MAP)}
+        <MinimalFooter />
+      {:else}
+        <Footer />
+      {/if}
+    {/if}
+  </div>
+</Modal>
 
 <style>
   .app {

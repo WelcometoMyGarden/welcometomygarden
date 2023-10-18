@@ -122,6 +122,10 @@ service cloud.firestore {
           && incomingData().visible is bool; 
         allow delete: if isValidTrailAccess(userId);
       }
+      match /push-registrations/{registrationId} {
+        allow read: if isSignedIn() && isOwner(userId);
+        allow write: if isSignedIn() && isOwner(userId);
+      }
     }
 
     // Garden functions

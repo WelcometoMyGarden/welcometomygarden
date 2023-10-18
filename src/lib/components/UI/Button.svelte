@@ -10,6 +10,7 @@
   export let uppercase = false;
   export let initial = false;
   export let fit = true;
+  export let fullWidth = false;
   export let target: null | string = null;
   export let medium = false;
   export let small = false;
@@ -22,6 +23,16 @@
   export let arrow = false;
   export let centered = false;
 
+  /**
+   * Any loading button should also be disabled reactively
+   */
+  $: _disabled = disabled || loading;
+
+  /**
+   * Shows a loading indicator on the button, instead of the main content
+   */
+  export let loading = false;
+
   export let minWidth: undefined | string = undefined;
 
   /** Whether this is a link-style button */
@@ -33,6 +44,7 @@
   import { createEventDispatcher } from 'svelte';
   import Icon from './Icon.svelte';
   import chevron from '$lib/images/icons/chevron-right.svg';
+  import Spinner from './Spinner.svelte';
 
   const dispatch = createEventDispatcher();
 
@@ -44,7 +56,7 @@
     }
     clicked = true;
     setTimeout(() => (clicked = false), 100);
-    if (!disabled) return dispatch('click', e);
+    if (!_disabled) return dispatch('click', e);
   };
 </script>
 
@@ -53,8 +65,9 @@
     class="button"
     class:uppercase
     class:initial
-    class:disabled
+    class:disabled={_disabled}
     class:fit
+    class:fullWidth
     class:small
     class:xsmall
     class:xxsmall
@@ -68,29 +81,34 @@
     class:centered
     class:bold
     class:underline
+    class:loading
     style:min-width={minWidth}
     {href}
     on:click={(e) => {
-      if (disabled || preventing) e.preventDefault();
+      if (_disabled || preventing) e.preventDefault();
       click(e);
     }}
     {target}
   >
-    <Text is="span">
+    <Text className="btn-text" is="span">
       <slot />
     </Text>
     {#if arrow}
       <div class="arrow-icon"><Icon icon={chevron} /></div>
+    {/if}
+    {#if loading}
+      <Spinner />
     {/if}
   </a>
 {:else}
   <button
     class="button"
     class:initial
-    class:disabled
+    class:disabled={_disabled}
     on:click={click}
     class:uppercase
     class:fit
+    class:fullWidth
     class:medium
     class:small
     class:xsmall
@@ -104,14 +122,18 @@
     class:centered
     class:bold
     class:underline
+    class:loading
     style:min-width={minWidth}
     {type}
   >
-    <Text is="span" weight="bold">
+    <Text className="btn-text" is="span" weight="bold">
       <slot />
     </Text>
     {#if arrow}
       <div class="arrow-icon"><Icon icon={chevron} /></div>
+    {/if}
+    {#if loading}
+      <Spinner />
     {/if}
   </button>
 {/if}
@@ -228,6 +250,7 @@
     transition: font-weight 0.3s;
   }
 
+  .loading,
   .disabled,
   .disabled.danger,
   .disabled.orange {
@@ -277,6 +300,10 @@
     min-width: auto;
   }
 
+  .fullWidth {
+    width: 100%;
+  }
+
   .inverse {
     background-color: var(--color-white);
     color: var(--color-green);
@@ -324,5 +351,18 @@
     .button {
       font-size: 1.3rem;
     }
+  }
+
+  /* The idea behind these loading styles:
+    Use `visibility: hidden` to make sure that the button size remains the same
+    while loading (based on content length). The spinner tries to center itself
+    using absolute positioning, and it scales itself to the `em` existing font-size
+    of the button. */
+  .loading.button {
+    position: relative;
+  }
+  .loading :global(.btn-text),
+  .loading :global(.arrow-icon) {
+    visibility: hidden;
   }
 </style>

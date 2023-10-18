@@ -27,7 +27,12 @@
     "new": "Nouveau",
     "fair-model-blog-path": "/fr/vers-un-modele-juste-pour-assurer-le-futur-de-wtmg",
     "become-member": "Devenez Membre",
-    "membership": "Adhésion"
+    "membership": "Adhésion",
+    "on": "sur",
+    "helpcenter-url": "https://aide.welcometomygarden.org/",
+    "error": {
+      "start": "Quelque chose n’a pas fonctionné"
+    }
   },
   "ui": {
     "card": {
@@ -310,7 +315,7 @@
           },
           "update-email": {
             "title": "Je souhaite mettre à jour mon adresse email ou supprimer mon compte. Comment dois-je procéder ?",
-            "copy": "Nous prenons vos données très au sérieux. Si vous souhaitez mettre à jour votre adresse email ou supprimer complètement votre compte de la plateforme, veuillez contacter notre support: {support}. N'oubliez pas de confirmer l'adresse email que vous souhaitez modifier. Si vous voulez supprimer votre compte, vous pouvez le faire <a href=\"/account\" target=\"_blank\">dans votre page de profil</a>."
+            "copy": "Si vous souhaitez changer votre adresse email ou supprimer votre compte, allez dans votre {accountLink}."
           },
           "newsletter": {
             "title": "J'aimerais recevoir votre prochaine lettre d'information ! Que dois-je faire ?",
@@ -318,7 +323,11 @@
           },
           "text-in-english": {
             "title": "Il y a du texte en anglais, alors que ce n’est pas ma langue préférée. Comment puis-je le modifier ?",
-            "copy": "Si un texte n’est pas encore traduit dans votre langue préférée, il apparaîtra en anglais. Vous pouvez nous aider à traduire Welcome To My Garden dans votre langue préférée. Allez {communityTranslationsLink} pour commencer."
+            "copy": "Sur votre ordinateur, allez en bas à gauche et choisissez la langue de votre choix. Sur votre téléphone, cliquez sur le menu. Si certains textes ne sont pas encore traduits dans la langue de votre choix, ils apparaissent alors en anglais."
+          },
+          "notifications": {
+            "title": "J'ai encore une question sur les notifications mobiles.",
+            "copy": "Vous trouverez tout ce que vous devez savoir sur les notifications mobiles dans {mobileFaqLink}."
           }
         }
       },
@@ -1015,6 +1024,21 @@
         },
         "button-label": "Changer votre email"
       }
+    },
+    "notifications": {
+      "delete": "Supprimer",
+      "last-seen": "Dernière visite le",
+      "unknown": "inconnu",
+      "ios16-link": "https://support.apple.com/fr-be/HT213411",
+      "ios16-check": "si votre appareil le permet",
+      "current": "Cet appareil",
+      "turn-on": "Activez les notifications",
+      "title": "Notifications mobiles",
+      "manage": "Vous pouvez gérer vos notifications mobiles ici",
+      "unsupported-ios": "<p>Oups ! Votre version iOS ne prend pas en charge les notifications mobiles. Pour les activer, <strong>mettez à jour votre</strong> version iOS (Réglages > Général > Mise à jour logicielle).</p><p>Si vous ne pouvez pas la mettre à jour vers la version <strong>16.4 ou plus</strong>, votre appareil ne prend alors pas en charge nos notifications mobiles.</p>",
+      "unsupported-android": "Oups ! Votre navigateur ne prend pas en charge les notifications mobiles. Ouvrez WTMG dans un <strong>autre navigateur</strong> pour les activer.",
+      "questions": "Des questions ? Lisez {faqLink}.",
+      "questions-faqlink-text": "notre"
     }
   },
   "auth": {
@@ -1460,6 +1484,45 @@
         "url": "https://womendontcycle.com/fr.html?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer"
       },
       "donate": "Faire un don"
+    }
+  },
+  "push-notifications": {
+    "registration-success": "Les notifications sont à présent activées",
+    "how-to": {
+      "questions": "Des explications plus détaillées ? Visitez notre {guideLink}.",
+      "questions-link-text": "centre d’aide",
+      "ios-browser-steps": {
+        "1": "Ajoutez WTMG sur votre Écran d'accueil.",
+        "2": "Ouvrez WTMG sur votre Écran d'accueil",
+        "3": "Connectez-vous à votre compte",
+        "1-chrome": "<li>Cliquez sur {shareIcon} “<em>Partager</em>” (en haut à droite)</li>\n<li>Cliquez sur {plusSquareIcon} “<em>Ajouter sur Écran d'accueil</em>.</li>",
+        "1-firefox": "<li>Cliquez sur {burgerIcon} “Menu” ci-dessous (<em>pas</em> celui de WTMG).</li> \n<li>Cliquez sur {shareIcon} “<em>Partager</em>”</li> \n<li>Cliquez sur {plusSquareIcon} “<em>Ajouter sur Écran d'accueil</em>”</li>",
+        "1-safari": "<li>Cliquez sur {shareIcon} “<em>Partager</em>” en dessous</li>\n<li>Cliquez sur {plusSquareIcon} “<em>Ajouter sur Écran d'accueil</em>.</li>"
+      },
+      "ios-upgrade": {
+        "account-settings": "compte",
+        "copy": "Pour recevoir des notifications mobiles, {link} ou plus, puis allez dans “{accountSettings}” pour les activer.",
+        "btn-show": "Comment mettre à jour",
+        "btn-skip": "Pas maintenant",
+        "help-link": "https://support.apple.com/fr-be/HT204204",
+        "help-link-copy": "mettez à jour votre iOS à 16.4."
+      },
+      "title": "Comment activer les notifications mobiles"
+    },
+    "prompt": {
+      "follow-up-desktop": "Voulez-vous recevoir des <strong>notifications mobiles</strong> lorsque vous recevez un nouveau message ?",
+      "btn-show-me": "Montrez-moi comment",
+      "btn-turn-on": "Activez les notifications",
+      "ios-installed": "Ne ratez jamais un message en activant maintenant vos notifications mobiles !",
+      "ios-installed-title": "Notifications mobiles",
+      "title": "Recevez une notification mobile pour vos nouveaux messages.",
+      "helpcenter-url": "https://aide.welcometomygarden.org/master/1.-notifications-mobiles"
+    },
+    "error": {
+      "permission-denied-faq-link": "https://aide.welcometomygarden.org/master/1.-notifications-mobiles/1.1.-android#que-faire-si-mon-navigateur-bloque-les-notifications-uniquement-sur-wtmg",
+      "permission-denied-faq-text": "les instructions dans notre FAQ",
+      "permission-denied": "Votre navigateur bloque actuellement les notifications mobiles pour WTMG. Pour les activer, autorisez les notifications dans votre navigateur. Suivez {faqLink}. Cela ne prend que deux minutes !\"",
+      "generic": "Un problème s'est produit lors de l'activation des notifications mobiles. Envoyez les informations ci-dessous à {emailLink} pour que nous puissions résoudre le problème. Merci !"
     }
   }
 }

@@ -80,7 +80,6 @@
 <Modal
   bind:show
   maxWidth="700px"
-  radius={true}
   center={true}
   stickToBottom={false}
   nopadding={false}

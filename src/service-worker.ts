@@ -2,6 +2,9 @@
 /// <reference no-default-lib="true"/>
 /// <reference lib="esnext" />
 /// <reference lib="webworker" />
+
+import { initializeApp } from 'firebase/app';
+import { getMessaging, onBackgroundMessage } from 'firebase/messaging/sw';
 // See https://kit.svelte.dev/docs/service-workers#type-safety
 const sw = self as unknown as ServiceWorkerGlobalScope;
 
@@ -13,6 +16,7 @@ const sw = self as unknown as ServiceWorkerGlobalScope;
 // The docs of the `build` and `files` arrays are confusing. The "URLs" specified
 // are pathnames like `/images/icons/tent-white.svg`, not fully qualified URLs.
 import { build as buildPathnames, files as filePathnames, version } from '$service-worker';
+import { getFirestore } from 'firebase/firestore';
 
 const VERSIONED_CACHE_NAME = `cache-${version}`;
 
@@ -110,3 +114,96 @@ sw.addEventListener('fetch', (event) => {
 
   event.respondWith(respondWithCachedAsset());
 });
+
+// FCM configuration
+// The guide (https://firebase.google.com/docs/cloud-messaging/js/client#access_the_registration_token) claims that a file named
+// "firebase-messaging-sw.js" is required, but that name would be confusing, since our SW also does other stuff.
+// It is actually possible to register our own service worker name
+// https://firebase.google.com/docs/reference/js/messaging_.gettokenoptions.md?authuser=0#properties
+
+// Initialize the Firebase app in the service worker by passing in
+// your app's Firebase config object.
+// https://firebase.google.com/docs/web/setup#config-object
+const FIREBASE_CONFIG = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN as string,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL as string,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID as string,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET as string,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID as string,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID as string
+};
+
+const firebaseApp = initializeApp(FIREBASE_CONFIG);
+
+const firestore = getFirestore(firebaseApp);
+
+// Retrieve an instance of Firebase Messaging so that it can handle background
+// messages.
+const messaging = getMessaging(firebaseApp);
+
+// Handle incoming messages. Called when:
+// - a message is received while the app has focus
+// - the user clicks on an app notification created by a service worker
+//   `messaging.onBackgroundMessage` handler.
+
+// Probably this internally does: self.addEventListener('push', ... ), and then
+// it check if the app is in the foreground or background. If it is in the foreground,
+// it will forward the data to the onMessage() handler on the main app instead.
+//
+// NOTE: THIS TAKES OVER CERTAIN LISTENERS, AND BLOCKS THEM FROM BEING LISTENED TO HERE
+// If we register our own listeners above this (or possibly getMessaging()), then we can get the notificationclick event (tested).
+// https://github.com/firebase/quickstart-js/issues/194#issuecomment-361353318
+// https://github.com/firebase/firebase-js-sdk/blob/cbfd14cfb27cda8a6de74be5d138ea9e6de09fe9/packages/messaging/src/listeners/sw-listeners.ts#L128
+onBackgroundMessage(messaging, (payload) => {
+  console.log('[service worker] Received background message ', payload);
+  // Firebase will already send the notification.
+  //
+  // Customize notification here
+  // Note: be careful for double notifications.
+});
+
+// FCM will handle this with its own fcmOptions
+// sw.addEventListener('notificationclick', async function (event) {
+//   if (!event.action) return;
+
+//   // This always opens a new browser tab,
+//   // even if the URL happens to already be open in a tab.
+//   clients.openWindow(event.action);
+// });
+
+// TODO: for the below to work, auth state should be synced with the service worker.
+// otherwise we don't know which doc to delete, or are not allowed to delete it.
+// https://firebase.google.com/docs/auth/web/service-worker-sessions
+// As a workaround, we have the localStorage frontend cache detection method (works after a refresh).
+
+// interface PushSubscriptionChangeEvent extends ExtendableEvent {
+//   readonly newSubscription: PushSubscription | null;
+//   readonly oldSubscription: PushSubscription | null;
+// }
+
+//
+// /**
+//  * Should also work in a service worker
+//  */
+// const deleteRemoteSubscriptionsByEndpoint = async (endpoint: string) => {
+//   const q = query(pushRegistrationsColRef(), where('subscription.endpoint', '==', endpoint));
+//   const snapshot = await getDocs(q);
+//   await Promise.all(snapshot.docs.map((s) => deletePushRegistrationDoc({ ...s.data(), id: s.id }));
+// };
+
+// /**
+//  * Modeled after https://github.com/firebase/firebase-js-sdk/blob/5dac8b37a974309398317c5231ca6a41af2a48a5/packages/messaging/src/listeners/sw-listeners.ts#L53C19-L53C19
+//  * this helps us clean up our own Firestore records _as a change happens_
+//  */
+// sw.addEventListener('pushsubscriptionchange', (event: Event) => {
+//   const ev = event as PushSubscriptionChangeEvent;
+//   const { oldSubscription, newSubscription } = ev;
+//   if (!newSubscription) {
+//     // Subscription revoked, delete token
+//     // Note: Firebase will handle its own internal deletion, and the Web Push subscription will already be gone.
+//     //
+//     deleteRemoteSubscriptionsByEndpoint()
+//     return;
+//   }
+// });

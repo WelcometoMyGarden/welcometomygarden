@@ -41,3 +41,5 @@ export const IMAGES_PATH = '/images';
 export const nonMemberMaxZoom = 12;
 // This is the MapBox default https://docs.mapbox.com/mapbox-gl-js/api/map/#map-parameters
 export const memberMaxZoom = 22;
+
+export const NOTIFICATION_PROMPT_DISMISSED_COOKIE = 'notif_dismissed';

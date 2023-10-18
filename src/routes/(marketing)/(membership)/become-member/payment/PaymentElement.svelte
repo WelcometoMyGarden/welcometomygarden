@@ -6,7 +6,7 @@ This could break when we update the svelte-stripe dependency.
 
 This file is a combination of the following files, which are subject to the license below.
 
-- payment element https://github.com/joshnuss/svelte-stripe/blob/e1797a7a4b8ff688d3ced37f8386a349a3406f50/src/lib/PaymentElement.svelte
+- payment element https://github.com/joshnuss/svelte-stripe/blob/a367e09563223e7f34ae266fb14e7dc3fed41c50/src/lib/PaymentElement.svelte
 - mount function https://github.com/joshnuss/svelte-stripe/blob/e1797a7a4b8ff688d3ced37f8386a349a3406f50/src/lib/util.js
 - ElementsContext https://github.com/joshnuss/svelte-stripe/blob/e1797a7a4b8ff688d3ced37f8386a349a3406f50/src/lib/types.d.ts
 
@@ -81,7 +81,7 @@ SOFTWARE.
     // element = mount(wrapper, 'payment', elements, dispatch);
     // We want to be able to use these options
     element = mount(wrapper, 'payment', elements, dispatch, options);
-    return () => element.unmount();
+    return () => element.destroy();
   });
   export function blur() {
     element.blur();

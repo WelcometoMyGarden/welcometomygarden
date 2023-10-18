@@ -28,12 +28,17 @@
     "become-superfan": "Become a Superfan",
     "become-member": "Become a Member",
     "slowby-url": "https://slowby.travel/",
+    "helpcenter-url": "https://help.welcometomygarden.org/",
     "superfan": "Superfan",
     "member": "Member",
     "membership": "Membership",
     "feature": "Feature",
     "new": "New",
-    "fair-model-blog-path": "/towards-a-fair-model-to-make-wtmg-survive-and-thrive"
+    "fair-model-blog-path": "/towards-a-fair-model-to-make-wtmg-survive-and-thrive",
+    "on": "on",
+    "error": {
+      "start": "Something went wrong"
+    }
   },
   "ui": {
     "card": {
@@ -313,7 +318,7 @@
           },
           "update-email": {
             "title": "I would like to update my email address or delete my account. How do I do this?",
-            "copy": "We take your data very seriously. If you’d like to update your email or fully delete your account from the platform, please contact our support (support@welcometomygarden.org). Don’t forget to confirm your email address you’d like to change. If you’d like to delete your account, go to your <a href=\"/account\" target=\"_blank\">profile page here</a>."
+            "copy": "If you’d like to change your email or delete your account, please go to your {accountLink}."
           },
           "newsletter": {
             "title": "I would love to receive your next newsletter! What should I do?",
@@ -321,7 +326,11 @@
           },
           "text-in-english": {
             "title": "There’s text in English, whereas it’s not my preferred language. How can I change this?",
-            "copy": "If some text isn’t translated to your preferred language yet, then it will appear in English. You can help us translate Welcome To My Garden to your preferred language. Go to {communityTranslationsLink} to get started."
+            "copy": "On your computer, go to the bottom left and choose the language of your choice. On your phone, click on the burger menu. If some text isn’t translated to your preferred language yet, then it appears in English."
+          },
+          "notifications": {
+            "title": "I still have a question about receiving mobile notifications.",
+            "copy": "You can find everything you need to know about mobile notifications in {mobileFaqLink}."
           }
         }
       },
@@ -336,7 +345,8 @@
       }
     },
     "donation": "a donation",
-    "instruction-page": "this instructions page"
+    "instruction-page": "this instructions page",
+    "help-center-text": "our Help Center"
   },
   "cookies": {
     "title": "Cookie policy"
@@ -1021,6 +1031,21 @@
         "success": "Your change request succeeded! Open the inbox of your new email address ({newEmail}), and click the verification link to finalize the process.",
         "button-label": "Change Email"
       }
+    },
+    "notifications": {
+      "manage": "Manage your active mobile notifications",
+      "title": "Mobile Notifications",
+      "delete": "Delete",
+      "turn-on": "Turn on notifications",
+      "unknown": "unknown",
+      "current": "Current device",
+      "last-seen": "Last seen on",
+      "unsupported-ios": "<p>Oops! Your current iOS version doesn’t support mobile notifications. To turn them on, <strong>please update your iOS version</strong> (Settings > General > Software Update).</p><p>If you can’t update it to <strong>16.4 or higher</strong>, it means your device unfortunately doesn’t support our mobile notifications.</p>",
+      "unsupported-android": "Oops! This browser doesn’t support mobile notifications. Open WTMG in <strong>another browser</strong> to turn them on.",
+      "ios16-check": "if you can update your device",
+      "ios16-link": "https://support.apple.com/en-us/HT213411",
+      "questions": "Questions? Check out {faqLink}.",
+      "questions-faqlink-text": "our FAQ"
     }
   },
   "auth": {
@@ -1473,6 +1498,49 @@
         "url": "https://womendontcycle.com/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer"
       },
       "donate": "Donate"
+    }
+  },
+  "push-notifications": {
+    "registration-success": "Notifications are successfully turned on",
+    "prompt": {
+      "title": "Get a mobile notification for new chat messages.",
+      "garden-intro": "You will automatically receive an email for each new request to stay in your garden",
+      "garden-follow-up": ", and you can also get <strong>mobile notifications</strong>.",
+      "garden-enable": "Would you also like to receive <strong>mobile notifications</strong> for new chat messages?",
+      "garden-ios-home": "To turn on just <strong>add</strong> the <strong>WTMG</strong> website to your <strong>home screen</strong> in a few easy steps.",
+      "ios-installed": "Never miss a message by turning on mobile notifications!",
+      "ios-installed-title": "Mobile notifications",
+      "btn-show-me": "Show me how",
+      "btn-turn-on": "Turn on notifications",
+      "follow-up-desktop": "Would yo like to receive <strong>mobile notifications</strong> for new chat messages?",
+      "helpcenter-url": "https://help.welcometomygarden.org/master/1.-mobile-notifications"
+    },
+    "how-to": {
+      "title": "How to turn on mobile notifications",
+      "ios-upgrade": {
+        "copy": "To receive mobile notifications, {link} or higher, then go to your {accountSettings} to turn them on.",
+        "help-link": "https://support.apple.com/en-us/HT204204",
+        "help-link-copy": "update to iOS 16.4",
+        "account-settings": "Account",
+        "btn-show": "How to update",
+        "btn-skip": "Not now"
+      },
+      "ios-browser-steps": {
+        "1": "Add WTMG to your Home Screen.",
+        "2": "Open WTMG from your Home Screen",
+        "3": "Sign in to your account",
+        "1-chrome": "<li>Click on {shareIcon} “<em>Share</em>” (top right)</li>\n<li>Click on {plusSquareIcon} “<em>Add to your Home Screen</em>”</li>",
+        "1-safari": "<li>Click on {shareIcon} “<em>Share</em>” below</li>\n<li>Click on {plusSquareIcon} “<em>Add to your Home Screen</em>”</li>",
+        "1-firefox": "<li>Click on the {burgerIcon} small icon menu below (<em>not</em> the WTMG menu)</li> \n<li>Click on {shareIcon} “<em>Share</em>”</li> \n<li>Click on {plusSquareIcon}“<em>Add to your Home Screen</em>”</li>"
+      },
+      "questions": "More detailed instructions? Visit our {guideLink}.",
+      "questions-link-text": "Help Center"
+    },
+    "error": {
+      "permission-denied": "Your browser is currently blocking mobile notifications for WTMG. To turn on notifications, update or reset your browser permissions. Simply follow the {faqLink}. It only takes two minutes!",
+      "permission-denied-faq-link": "https://help.welcometomygarden.org/master/1.-mobile-notifications/1.1-android#what-if-my-browser-is-blocking-mobile-notifications-specifically-for-wtmg",
+      "permission-denied-faq-text": "instructions in our FAQ",
+      "generic": "Something went wrong while turning on mobile notifications. Please send the information below to {emailLink}, and we will help you further. Thank you!"
     }
   }
 }

@@ -15,6 +15,7 @@
   import ReloadSuggestion from '$lib/components/ReloadSuggestion.svelte';
   import EmailChangeModal from './EmailChangeModal.svelte';
   import { countryNames } from '$lib/stores/countryNames';
+  import NotificationSection from './NotificationSection.svelte';
 
   let showAccountDeletionModal = false;
   let showEmailChangeModal = false;
@@ -148,6 +149,7 @@
           </li>
         </ul>
       </section>
+      <NotificationSection />
       <section>
         <h2>{$_('account.garden.title')}</h2>
         {#if !$user.garden}

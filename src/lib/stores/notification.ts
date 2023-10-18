@@ -14,13 +14,13 @@ type NotificationType = 'danger' | 'warning' | 'info' | 'success';
  * @param timeout the timeout until the message disappears in milliseconds
  * @param options
  */
-type SendFunction = (message: string, timeout: number, options?: any) => void;
+type SendFunction = (message: string, timeout?: number, options?: any) => void;
 
 const createSendF: (
   type: NotificationType
   // TODO: type opts
 ) => SendFunction = (type) => {
-  return (msg, timeout, opts) => {
+  return (msg, timeout = 8000, opts) => {
     send(msg, type, timeout, opts);
   };
 };

@@ -8,7 +8,6 @@ const config = {
   // Consult https://github.com/sveltejs/svelte-preprocess
   // for more information about preprocessors
   preprocess: preprocess(),
-
   kit: {
     // https://stackoverflow.com/a/74222951/4973029
     alias: {
@@ -20,7 +19,6 @@ const config = {
       assets: 'dist',
       fallback: 'index.html'
     }),
-
     prerender: {
       crawl: true,
       // Prevents: "The following routes were marked as prerenderable, but were not prerendered because they were not found while crawling your app:"

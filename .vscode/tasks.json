@@ -4,7 +4,6 @@
     {
       "label": "Local Debugging",
       "dependsOn": [
-        "copy-demo-env",
         "npm: firebase:debug",
         "npm: dev"
       ],
@@ -19,9 +18,22 @@
     {
       "label": "Local Development",
       "dependsOn": [
-        "copy-demo-env",
         "npm: firebase:demo-seed",
         "npm: dev"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "group": "local-dev"
+      }
+    },
+    {
+      "label": "Local Development: Staging",
+      "dependsOn": [
+        "npm: firebase:staging",
+        "npm: dev:staging"
       ],
       "group": {
         "kind": "build",
@@ -58,19 +70,21 @@
       }
     },
     {
-      "type": "shell",
-      "label": "copy-demo-env",
-      "detail": "Copy Demo-test env",
-      "command": "if [[ -a .env.demo-test ]] then cp .env.demo-test .env; fi",
+      "type": "npm",
+      "script": "dev:staging",
+      "problemMatcher": [],
+      "label": "npm: dev:staging",
+      "detail": "vite --mode staging --host",
+      "group": {
+        "kind": "build"
+      },
       "presentation": {
-        "revealProblems": "onProblem",
-        "panel": "new",
-        "close": true
+        "group": "local-dev"
       }
     },
     {
-      "type": "npm",
-      "script": "firebase:debug",
+      "type": "shell",
+      "command": "nvm use 16 && yarn run firebase:debug",
       "group": {
         "kind": "build"
       },
@@ -82,11 +96,20 @@
       }
     },
     {
-      "type": "npm",
-      "script": "firebase:demo-seed",
+      "type": "shell",
+      "command": "nvm use 16 && yarn run firebase:demo-seed",
       "problemMatcher": [],
       "label": "npm: firebase:demo-seed",
       "detail": "firebase --project demo-test emulators:exec api/seeders/simple.js"
-    }
+    },
+    {
+      "type": "shell",
+      // We need to spec the version here, because our root nvm is different from the /api one
+      // but these commands only exist in /api (probably should be run from API?)
+      "command": "nvm use 16 && yarn run firebase:staging",
+      "problemMatcher": [],
+      "label": "npm: firebase:staging",
+      "detail": "Firebase staging, *with* the local functions emulator"
+    },
   ]
 }

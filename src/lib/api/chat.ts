@@ -1,7 +1,14 @@
 import { CHATS, MESSAGES } from './collections';
 import { db } from './firebase';
 import { getPublicUserProfile } from './user';
-import { creatingNewChat, addChat, addMessage, hasInitialized, removeChat } from '$lib/stores/chat';
+import {
+  creatingNewChat,
+  addChat,
+  addMessage,
+  hasInitialized,
+  removeChat,
+  chatsCountWithUnseenMessages
+} from '$lib/stores/chat';
 import {
   collection,
   query,
@@ -17,6 +24,11 @@ import {
 import type { FirebaseChat, FirebaseMessage } from '$lib/types/Chat';
 import { getUser } from '$lib/stores/auth';
 import type { UserPublic } from '$lib/models/User';
+import routes from '$lib/routes';
+import { isOnIDevicePWA } from './push-registrations';
+import { get } from 'svelte/store';
+import { goto } from '$lib/util/navigate';
+import { handledOpenFromIOSPWA } from '$lib/stores/app';
 
 export const initiateChat = async (partnerUid: string) => {
   creatingNewChat.set(true);
@@ -25,7 +37,7 @@ export const initiateChat = async (partnerUid: string) => {
   return partner;
 };
 
-export const createChatObserver = async () => {
+export const createChatObserver = () => {
   const q = query(
     collection(db(), CHATS) as CollectionReference<FirebaseChat>,
     where('users', 'array-contains', getUser().id)
@@ -35,40 +47,64 @@ export const createChatObserver = async () => {
     q,
     async (querySnapshot) => {
       const changes = querySnapshot.docChanges();
-      await Promise.all(
-        changes.map(async (change) => {
-          const chat = change.doc.data();
-          if (change.type === 'added' || change.type === 'modified') {
-            // Add partner info to the chat and store in the local chat model
-            const partnerId = chat.users.find((id: string) => getUser().id !== id);
-            if (!partnerId) {
-              console.error(`Couldn't find the chat partner for chat ${change.doc.id}`);
-              // Don't throw an error, to avoid breaking the other chat loads
-              return null;
+      try {
+        await Promise.all(
+          changes.map(async (change) => {
+            const chat = change.doc.data();
+            if (change.type === 'added' || change.type === 'modified') {
+              // Add partner info to the chat and store in the local chat model
+              const partnerId = chat.users.find((id: string) => getUser().id !== id);
+              if (!partnerId) {
+                console.error(`Couldn't find the chat partner for chat ${change.doc.id}`);
+                // Don't throw an error, to avoid breaking the other chat loads
+                return null;
+              }
+              let partner: UserPublic;
+              try {
+                partner = await getPublicUserProfile(partnerId);
+              } catch (e) {
+                console.error(
+                  `Error while getting the public profile of chat partner with uid "${partnerId}"`,
+                  e
+                );
+                return null;
+              }
+              const localChat = {
+                ...chat,
+                partner,
+                id: change.doc.id
+              };
+              addChat(localChat);
+            } else if (change.type === 'removed') {
+              // Remove chat (not possible yet by users)
+              removeChat(change.doc.id);
             }
-            let partner: UserPublic;
-            try {
-              partner = await getPublicUserProfile(partnerId);
-            } catch (e) {
-              console.error(
-                `Error while getting the public profile of chat partner with uid "${partnerId}"`,
-                e
-              );
-              return null;
-            }
-            const localChat = {
-              ...chat,
-              partner,
-              id: change.doc.id
-            };
-            addChat(localChat);
-          } else if (change.type === 'removed') {
-            // Remove chat (not possible yet by users)
-            removeChat(change.doc.id);
-          }
-        })
-      );
+          })
+        );
+      } catch (e) {
+        console.error('Uncaught error while handling a chat snapshot', e);
+      }
+
+      console.log('Chats initialized or updated');
       hasInitialized.set(true);
+
+      // Special check for iOS PWA on startup: show the chat if a new chat has arrived when
+      // opening the app
+      if (
+        // Prevent the UI from jumping automatically to the chat while you're doing something else
+        // TODO: maybe there is a better way to open the chat UI when someone just
+        // "opened" the iOS home app (and only then)
+        !get(handledOpenFromIOSPWA) &&
+        isOnIDevicePWA() &&
+        // The current user has an unread chat
+        get(chatsCountWithUnseenMessages) > 0
+      ) {
+        goto(routes.CHAT);
+        // Ensures that we don't open the chat twice in the same session, but only after the first time
+        // chats are loaded.
+      }
+      // In any case, complete iOS PWA open handling for this session after the first run
+      handledOpenFromIOSPWA.set(true);
     },
     (err) => {
       hasInitialized.set(true);
