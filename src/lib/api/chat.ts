@@ -88,20 +88,27 @@ export const createChatObserver = () => {
       console.log('Chats initialized or updated');
       hasInitialized.set(true);
 
-      // Special check for iOS PWA on startup: show the chat if a new chat has arrived when
-      // opening the app
-      if (
-        // Prevent the UI from jumping automatically to the chat while you're doing something else
-        // TODO: maybe there is a better way to open the chat UI when someone just
-        // "opened" the iOS home app (and only then)
-        !get(handledOpenFromIOSPWA) &&
-        isOnIDevicePWA() &&
-        // The current user has an unread chat
-        get(chatsCountWithUnseenMessages) > 0
-      ) {
-        goto(routes.CHAT);
-        // Ensures that we don't open the chat twice in the same session, but only after the first time
-        // chats are loaded.
+      // Special check for iOS PWA on startup
+      // Note: appHasLoaded doesn't resolve until handledOpenFromIOSPWA is true, in this case.
+      if (!get(handledOpenFromIOSPWA) && isOnIDevicePWA()) {
+        if (
+          // Prevent the UI from jumping automatically to the chat while you're doing something else
+          // TODO: maybe there is a better way to open the chat UI when someone just
+          // "opened" the iOS home app (and only then)
+          // The current user has an unread chat
+          get(chatsCountWithUnseenMessages) > 0
+        ) {
+          // show the chat if a new chat has arrived when
+          // opening the app
+          console.log('Routing iOS PWA to the chat op open because unread chat');
+          goto(routes.CHAT);
+          // Ensures that we don't open the chat twice in the same session, but only after the first time
+          // chats are loaded.
+        } else {
+          // Open the map if we opened the app without an unread chat
+          console.log('Routing iOS PWA to the map on app open, no unread chats');
+          goto(routes.MAP);
+        }
       }
       // In any case, complete iOS PWA open handling for this session after the first run
       handledOpenFromIOSPWA.set(true);

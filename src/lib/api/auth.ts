@@ -31,7 +31,6 @@ import type { User as FirebaseUser } from 'firebase/auth';
 import { trackEvent } from '$lib/util';
 import { PlausibleEvent } from '$lib/types/Plausible';
 import { isOnIDevicePWA } from './push-registrations';
-import { handledOpenFromIOSPWA } from '$lib/stores/app';
 
 // These are not Svelte stores, because we do not wish to listen to updates on them.
 // They are abstracted away by the User store, and trigger updates on that store.
@@ -186,10 +185,8 @@ export const createAuthObserver = (): Unsubscribe => {
       // Redirect to the map on start/login, in some cases
       if (
         // In general, when we just logged in
-        (justLoggedIn && getCurrentRoute()?.route === routes.SIGN_IN) ||
-        // Specifically on iOS PWA, whenever we open the app with a valid auth state, and the
-        // opening process wasn't completed yet (completed by the chat observer)
-        (isOnIDevicePWA() && latestAuthUserState && !get(handledOpenFromIOSPWA))
+        justLoggedIn &&
+        getCurrentRoute()?.route === routes.SIGN_IN
       ) {
         // might happen if you have the sign in page open on two different tabs
         routeTo = routes.MAP;

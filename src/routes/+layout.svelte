@@ -34,7 +34,6 @@
   } from '$lib/api/push-registrations';
   import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
   import { resetPushRegistrationStores } from '$lib/stores/pushRegistrations';
-  import { get } from 'svelte/store';
 
   type MaybeUnsubscriberFunc = (() => void) | undefined;
 
