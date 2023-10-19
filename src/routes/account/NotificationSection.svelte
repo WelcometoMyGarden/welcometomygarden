@@ -34,10 +34,35 @@
       pR.subscription.endpoint !== $currentNativeSubStore?.endpoint
   );
 
+  /**
+   * If the current browser SW has access to a native PushRegistration that isn't known in Firebase.
+   *
+   * This is an unexpected dirty state. It might happen in Firefox on Android, which doesn't seem to do
+   * cleanup in the same way as Chrome.
+   */
   $: leftoverNativeSub =
     $loadedPushRegistrations && $currentNativeSubStore != null && !currentPushRegistration;
 
-  const { isIDevice } = iDeviceInfo!;
+  const { isIDevice, currentAppleDevice } = iDeviceInfo!;
+
+  const hasActivePushRegistrationWithModel = (model: string) =>
+    !!otherSubscriptions.find(({ ua }) => ua.device?.model === model);
+
+  /**
+   * Since (1) iDevices can only enable Web Push in Home Screen apps, and (2) Home Screen apps
+   * don't share any state with their browser counterparts, we can get in the confusing UX situation of
+   * a user opening WTMG in their iDevice browser after going through the setup procedure,
+   * seeing that they have an "other" active iDevice, and that their current device is _still_ not enabled.
+   *
+   * !! We make an assumption here that most people only have 1 iPhone, and/or 1 iPad, and when the above situation occurs,
+   * we choose to hide the current browser in the account settings to prevent confusion.
+   */
+  $: isNonPWAIDeviceWithActivePWA =
+    !currentActivePushRegistration &&
+    isIDevice &&
+    !hasNotificationSupportNow() &&
+    ((currentAppleDevice === 'iPhone' && hasActivePushRegistrationWithModel('iPhone')) ||
+      (currentAppleDevice === 'iPad' && hasActivePushRegistrationWithModel('iPad')));
 </script>
 
 <section>
@@ -96,7 +121,7 @@ This normally shouldn't happen, except when a database was wiped (in testing) --
     <!-- Show options for the current device if it supports notifications, including current sub options -->
 
     <!-- Show the current device on top, if it's not activated yet -->
-    {#if isMobileDevice && isNotificationEligible() && !currentActivePushRegistration && !hasDeniedNotifications()}
+    {#if isMobileDevice && isNotificationEligible() && !currentActivePushRegistration && !hasDeniedNotifications() && !isNonPWAIDeviceWithActivePWA}
       <PushRegistrationEntry
         pushRegistration={currentActivePushRegistration}
         currentSub={$currentNativeSubStore}
@@ -107,7 +132,7 @@ This normally shouldn't happen, except when a database was wiped (in testing) --
       <h3>{$_('account.notifications.manage')}</h3>
       <!-- Show other push registrations if available (also on desktop)-->
       <ul>
-        <!-- Show the current active push registration as part of the -->
+        <!-- Show the current active push registration as part of the activated extensions -->
         {#if currentActivePushRegistration}
           <li>
             <PushRegistrationEntry
