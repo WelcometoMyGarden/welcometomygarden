@@ -75,7 +75,7 @@
       <div class="icon"><Icon icon={bellIcon} greenStroke /></div>
       {#if !permanent}
         <!-- Because it is only permanent in the account settings, where another label exists -->
-        <NewBadge>Beta</NewBadge>
+        <NewBadge>{$_('generics.new')}</NewBadge>
       {/if}
     </div>
     <Text className="description" is="span" size="l">{$_('push-notifications.prompt.title')}</Text>

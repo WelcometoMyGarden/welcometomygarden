@@ -41,7 +41,7 @@
 </script>
 
 <section>
-  <h2>{$_('account.notifications.title')}{' '}<NewBadge>Beta</NewBadge></h2>
+  <h2>{$_('account.notifications.title')}{' '}<NewBadge>{$_('generics.new')}</NewBadge></h2>
   <!-- Error messages/warnings on top -->
 
   {#if isMobileDevice && !isNotificationEligible()}
