@@ -1,4 +1,7 @@
 <script lang="ts">
+  /**
+   * Whether to only include padding on desktop
+   */
   export let desktopOnly: boolean | undefined = undefined;
   export let vertical: boolean | undefined = undefined;
   export let backgroundColor: string | undefined = undefined;
@@ -12,11 +15,13 @@
   const elementOptions = ['section', 'footer'] as const;
   type Option = (typeof elementOptions)[number];
   export let is: Option = 'section';
+
+  export let className: string | undefined = undefined;
 </script>
 
 <svelte:element
   this={is}
-  class="outer"
+  class="outer {className || ''}"
   class:desktopOnly
   class:vertical
   class:topMargin

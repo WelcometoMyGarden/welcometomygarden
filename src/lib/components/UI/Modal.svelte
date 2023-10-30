@@ -120,10 +120,16 @@
     flex-direction: column;
     align-items: center;
     width: 100vw;
-    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     left: 0;
     padding: 2rem;
     top: 0;
+  }
+
+  @supports (height: 100dvh) {
+    .modal {
+      height: 100dvh;
+    }
   }
 
   .opacity {
@@ -137,7 +143,6 @@
 
   .stick-to-bottom {
     top: unset;
-    bottom: calc(var(--height-mobile-nav));
     justify-content: flex-end;
   }
 
@@ -230,5 +235,18 @@
 
   .controls:not(:empty) {
     margin-top: 10px;
+  }
+
+  @media screen and (max-width: 700px) {
+    .stick-to-bottom {
+      bottom: calc(var(--height-mobile-nav));
+    }
+  }
+
+  /* Otherwise rotating the device doesn't update this */
+  @media (min-width: 701px) {
+    .stick-to-bottom {
+      bottom: 0;
+    }
   }
 </style>

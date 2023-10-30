@@ -1,8 +1,6 @@
 <script lang="ts">
   import { fromEvent, type FileWithPath } from 'file-selector';
   import {
-    allFilesAccepted,
-    composeEventHandlers,
     fileAccepted,
     fileMatchSize,
     isEvtWithFiles,
@@ -10,7 +8,7 @@
     isPropagationStopped,
     TOO_MANY_FILES_REJECTION
   } from '$lib/util/dropzone';
-  import { onMount, onDestroy, createEventDispatcher } from 'svelte';
+  import { onDestroy, createEventDispatcher } from 'svelte';
   //props
   /**
    * Set accepted file types.
@@ -341,8 +339,17 @@
 
   @media screen and (min-width: 701px) {
     .dropzone {
-      height: min(340px, calc(0.5 * (100vh - var(--height-nav))));
+      /* Why: make sure the dropzone scales so that its containing modal never exceeds
+      the vertical viewport bounds (in case of a vertically small screen),
+      however, keep it max 340px high on tall screens */
+      height: min(340px, calc(0.5 * (var(--vh, 1vh) * 100 - var(--height-nav))));
       flex-grow: 1;
+    }
+
+    @supports (height: 100dvh) {
+      .dropzone {
+        height: min(340px, calc(0.5 * (100dvh - var(--height-nav))));
+      }
     }
   }
 

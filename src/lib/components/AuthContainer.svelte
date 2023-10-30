@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper expand-70">
   <section>
     <h2 class="title">
       <slot name="title" />
@@ -14,10 +14,11 @@
   .wrapper {
     background-color: var(--color-white);
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
+    clip-path: inset(-3.3rem 0 0 0);
     padding-top: 4rem;
     padding-bottom: 4rem;
     width: 100%;
-    min-height: calc(calc(var(--vh, 1vh) * 100) - var(--height-footer) - var(--height-nav) - 10rem);
+    /* Clip the shadow so it only comes on top */
     margin-top: 10rem;
   }
 
@@ -38,16 +39,12 @@
 
   @media (max-width: 850px) {
     .wrapper {
-      min-height: calc(
-        calc(var(--vh, 1vh) * 100) - var(--height-footer) - var(--height-nav) - 8rem
-      );
       margin-top: 8rem;
     }
   }
 
   @media (max-width: 700px) {
     .wrapper {
-      min-height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav));
       margin-top: 0;
     }
   }

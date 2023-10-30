@@ -1,7 +1,7 @@
 <script lang="ts">
   import { shareIcon, burgerIcon, plusSquareIcon, threeDotsIcon } from '$lib/images/icons';
   import { uaInfo } from '$lib/util/uaInfo';
-  import instantiateComponents, { ClientIcon } from '$lib/util/dynamicComponents';
+  import { instantiateComponents, ClientIcon } from '$lib/util/dynamicComponents';
   import { anchorText } from '$lib/util/translation-helpers';
   import { onMount } from 'svelte';
   import { _ } from 'svelte-i18n';

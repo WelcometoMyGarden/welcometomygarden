@@ -65,7 +65,7 @@
   .welcome-map {
     position: absolute;
     right: 0;
-    top: -3vw;
+    top: 5vw;
     width: 35vw;
     max-width: 54rem;
   }
@@ -179,13 +179,19 @@
     .welcome-logo {
       margin-top: 21rem;
     }
+    /* div conatiner of the map svg */
     div.welcome-map {
       top: -4rem;
-      right: -5rem;
-    }
-    div.welcome-map {
       width: 29rem;
       right: -10rem;
+
+      /* Some hacky tuning for mobile*/
+      transform: rotate(20deg) scale(1.05);
+    }
+
+    div.welcome-map > :global(svg .pin) {
+      transform: rotate(-28deg) translate(-167px, -16px);
+      transform-origin: 57% 50%;
     }
   }
 </style>

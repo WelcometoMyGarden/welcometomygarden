@@ -227,8 +227,7 @@
 <style>
   .map-section {
     width: 100%;
-    height: calc(100% - var(--height-footer) - var(--height-nav));
-    position: fixed;
+    height: 100%;
     top: var(--height-nav);
     left: 0;
   }
@@ -312,7 +311,6 @@
 
   @media screen and (max-width: 700px) {
     .map-section {
-      height: calc(100% - var(--height-mobile-nav) - env(safe-area-inset-bottom));
       top: 0;
     }
     .map-section :global(.mapboxgl-ctrl-top-left) {

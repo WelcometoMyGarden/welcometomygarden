@@ -219,6 +219,11 @@
     gap: 0.4rem;
   }
 
+  /* In fullscreen on iOS PWA, this will touch the edge of the bottom */
+  :global(body div.app.fullscreen .layers-and-tools-visitors) {
+    padding-bottom: max(env(safe-area-inset-bottom, 0), 1rem);
+  }
+
   .layers-and-tools :global(a.underline) {
     text-decoration: underline;
     cursor: pointer;

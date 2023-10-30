@@ -77,7 +77,7 @@ function instantiateComponent(element: HTMLElement) {
 }
 
 // From: https://github.com/dimfeld/website/blob/master/src/dynamicComponents.ts
-export default function instantiateComponents() {
+export function instantiateComponents() {
   let elements = Array.from(document.querySelectorAll('[data-component]'));
   console.log(elements);
   let components: SvelteComponent[] = [];

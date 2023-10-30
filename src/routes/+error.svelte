@@ -5,7 +5,7 @@
   import { binocularsIcon } from '$lib/images/icons';
 </script>
 
-<div class="available-space-container">
+<div class="available-space-container expand-70">
   <div class="fallback-container">
     <div class="icon">
       <Icon icon={binocularsIcon} />
@@ -17,8 +17,9 @@
 
 <style>
   .available-space-container {
-    height: calc(100vh - var(--height-footer) - var(--height-nav));
+    height: 100%;
     display: flex;
+    padding: var(--section-inner-padding);
   }
 
   .fallback-container {
@@ -36,6 +37,7 @@
     font-weight: 700;
     text-transform: uppercase;
     font-family: var(--fonts-copy);
+    text-align: center;
   }
 
   .icon {
@@ -45,9 +47,6 @@
   @media only screen and (max-width: 700px) {
     .icon {
       width: 15rem;
-    }
-    .available-space-container {
-      height: calc(100vh - var(--height-nav));
     }
   }
 </style>

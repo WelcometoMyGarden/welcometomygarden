@@ -77,6 +77,22 @@ body,
   height: 100%;
 }
 
+/*
+ Set the main focus on the _first child wrapper of_ main content for these pages that might
+ otherwise have content smaller than the viewport (= immediately shows footer).
+
+ If applied directly to main, its flexbox parent causes overlap on small viewport heights. */
+
+.expand-70 {
+  min-height: calc(var(--vh, 1vh) * 70);
+}
+
+@supports (min-height: 70dvh) {
+  .expand-70 {
+    min-height: 70dvh;
+  }
+}
+
 html {
   box-sizing: border-box;
   font-size: 65%;

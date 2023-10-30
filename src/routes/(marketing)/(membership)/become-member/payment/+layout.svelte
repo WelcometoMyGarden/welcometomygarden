@@ -265,11 +265,11 @@
 </svelte:head>
 
 {#if selectedLevel && $user && !hasActiveSubscription($user)}
-  <PaddedSection desktopOnly>
+  <PaddedSection desktopOnly className="expand-70">
     <LevelSummary level={selectedLevel} />
   </PaddedSection>
 {/if}
-<PaddedSection>
+<PaddedSection className="expand-70">
   {#if $user && selectedLevel && !hasActiveSubscription($user)}
     <!-- Payment block - TODO: move into component -->
     {#if error}

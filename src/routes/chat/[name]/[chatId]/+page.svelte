@@ -1,6 +1,6 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { beforeUpdate, afterUpdate, onMount, onDestroy } from 'svelte';
+  import { beforeUpdate, afterUpdate, onMount, onDestroy, tick } from 'svelte';
   import { fade } from 'svelte/transition';
   import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
@@ -170,19 +170,26 @@
   let autoscroll: boolean | undefined;
 
   // Scroll to bottom of mesage container on new message
+  // only scroll down if we are already looking at the botom
   beforeUpdate(() => {
     autoscroll =
+      // Check if we're looking at the bottom of the list of chats (recentmost chat).
+      // If so, mark the view as eligible to auto-scroll to the next incoming chat.
       messageContainer &&
-      messageContainer.offsetHeight + messageContainer.scrollTop >
-        messageContainer.scrollHeight - 20;
-  });
-
-  afterUpdate(() => {
-    if (autoscroll && messageContainer) messageContainer.scrollTo(0, messageContainer.scrollHeight);
+      messageContainer.scrollTop >=
+        messageContainer.scrollHeight - messageContainer.clientHeight - 25;
   });
 
   onMount(() => {
-    messageContainer?.scrollTo(0, messageContainer.scrollHeight);
+    // Start off at the bottom
+    // TODO: will this apply when changing chats?
+    scrollDownMessages();
+  });
+
+  // When receiving a new chat
+  // TODO: hijacking scroll on an incoming chat might be intrusive?
+  afterUpdate(() => {
+    if (autoscroll) scrollDownMessages();
   });
 
   let hint = '';
@@ -222,7 +229,13 @@
         // The first uid in the users array is the requester/traveller
         const role = chat.users[0] === $user?.id ? 'traveller' : 'host';
         trackEvent(PlausibleEvent.SEND_RESPONSE, { role });
+        // Reset the text area
         typedMessage = '';
+        if (textArea) {
+          textArea.style.height = '0';
+        }
+        // Scroll down in the chats list
+        scrollDownMessages();
       } catch (ex) {
         showChatError(ex);
       }
@@ -263,6 +276,17 @@
   $: partnerName = chat && chat.partner ? chat.partner.firstName : '';
 
   $: sendButtonDisabled = isSending || !typedMessage || !!hint;
+
+  let textArea: HTMLTextAreaElement | undefined;
+
+  const scrollDownMessages = () => {
+    if (messageContainer) {
+      console.log('scrolling down');
+      messageContainer.scrollTo(0, messageContainer.scrollHeight - messageContainer.offsetHeight);
+    } else {
+      console.log('no container');
+    }
+  };
 </script>
 
 <svelte:head>
@@ -302,9 +326,8 @@ CSS grids should do the job cleanly -->
   {/if}
 </header>
 
-<div class="message-wrapper" bind:this={messageContainer}>
-  <div class="messages">
-    <NotificationPrompt bind:show={showNotificationPrompt} />
+<div class="message-wrapper">
+  <div class="messages" bind:this={messageContainer}>
     {#if chat && $messages[chat.id]}
       {#each $messages[chat.id] as message (message.id)}
         <div class="message" class:by-user={message.from === $user?.id}>
@@ -322,6 +345,7 @@ CSS grids should do the job cleanly -->
         </div>
       {/each}
     {/if}
+    <NotificationPrompt bind:show={showNotificationPrompt} />
   </div>
 </div>
 <form on:submit|preventDefault={send}>
@@ -332,7 +356,20 @@ CSS grids should do the job cleanly -->
     placeholder={$_('chat.type-message')}
     name="message"
     bind:value={typedMessage}
+    bind:this={textArea}
     disabled={isSending}
+    on:input={({ target }) => {
+      // @ts-ignore
+      if (target?.style) {
+        // Reset the height, which helps with scaling down when removing content
+        // https://stackoverflow.com/a/25621277/4973029
+        // @ts-ignore
+        target.style.height = 0;
+        // The 3px helps avoid showing a scrollbar when the content shouldn't be scrollable
+        // @ts-ignore
+        target.style.height = textArea?.scrollHeight + 3 + 'px';
+      }
+    }}
   />
   <!-- TODO: pressed state -->
   <button class="send" type="submit" disabled={sendButtonDisabled} aria-label="Send message">
@@ -347,25 +384,18 @@ CSS grids should do the job cleanly -->
   :root {
     --spacing-chat-header: 8rem;
   }
+
   .message-wrapper {
-    flex: 0.9;
     width: 100%;
     position: relative;
-    overflow-y: auto;
-    margin-bottom: 4rem;
+    overflow-y: hidden;
   }
 
   .messages {
-    padding: 0 1rem;
+    padding: 0 1rem 0 0;
     display: flex;
-    /* column-reverse is useful to make the newly-sent messages appear on the bottom of an overflowed message container,
-      without having JS that scrolls the overflowed container.
-      Be careful with other methods, they might block scrolling: https://codepen.io/th0rgall/pen/xxabORw
-    */
-    flex-direction: column-reverse;
-    height: calc(
-      100% - var(--spacing-chat-header) - var(--height-mobile-nav) - env(safe-area-inset-bottom)
-    );
+    flex-direction: column;
+    height: 100%;
     min-height: 100%;
     overflow-y: scroll;
   }
@@ -378,7 +408,8 @@ CSS grids should do the job cleanly -->
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
-    max-width: 70%;
+    /* The 500px is to constrain the max-width on desktop */
+    max-width: min(80%, 500px);
     word-break: break-word;
 
     align-items: flex-start;
@@ -399,6 +430,10 @@ CSS grids should do the job cleanly -->
   }
 
   .message-text {
+    /* `pre-wrap` renders the text more-or-less as the user has typed it,
+        also rendering duplicate whitespace characters.
+       `pre-line` would collapse white space between words like 'word1    word2',
+       but still respect actual line breaks. */
     white-space: pre-wrap;
     padding: 1.2rem;
 
@@ -437,6 +472,7 @@ CSS grids should do the job cleanly -->
     align-items: flex-end;
     width: 100%;
     position: relative;
+    padding-top: 1.2rem;
   }
 
   .hint {
@@ -449,14 +485,19 @@ CSS grids should do the job cleanly -->
   }
 
   textarea {
+    /* the 16px font size actually prevents iOS/Safari from zooming in on this box */
+    font-size: 16px;
     background-color: rgba(187, 187, 187, 0.23);
     padding: 1rem;
     border: 1px solid transparent;
     border-radius: 0.6rem;
     width: 100%;
-    height: 6rem;
-    margin-right: 2rem;
-    resize: vertical;
+    min-height: 6rem;
+    /* 26 rem for desktop, 38svh is intended for mobile */
+    max-height: min(26rem, 38svh);
+    margin-right: 1.2rem;
+    /* Disable manual resizing, since we adapt to the text automatically */
+    resize: none;
     transition: border 300ms ease-in-out;
   }
 
@@ -528,12 +569,12 @@ CSS grids should do the job cleanly -->
 
   @media (max-width: 700px) {
     .message-wrapper {
-      margin-bottom: 2rem;
+      margin-bottom: 0;
     }
 
     .message-wrapper :global(.avatar) {
-      width: 4rem;
-      height: 4rem;
+      width: 3rem;
+      height: 3rem;
     }
 
     .message-text {
@@ -548,11 +589,11 @@ CSS grids should do the job cleanly -->
     }
 
     .timestamp {
-      margin-left: 5rem;
+      margin-left: 4rem;
     }
 
     .message.by-user .timestamp {
-      margin-right: 5rem;
+      margin-right: 4rem;
     }
 
     .chat-header--md {
@@ -593,6 +634,15 @@ CSS grids should do the job cleanly -->
 
     .back :global(i) {
       transform: rotate(180deg);
+    }
+
+    /* Setting the padding here rather than on the parent ensures
+     that the scroll bar doesn't appear weirdly padded from the right */
+    .chat-header--sm,
+    .message-wrapper > .messages,
+    form {
+      padding-left: 1.2rem;
+      padding-right: 1.2rem;
     }
   }
 </style>

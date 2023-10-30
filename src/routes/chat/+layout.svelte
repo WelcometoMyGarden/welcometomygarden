@@ -188,7 +188,7 @@
       </section>
     {/if}
     {#if !isMobile || (isMobile && !isOverview)}
-      <div class="messages" in:fly={{ x: outerWidth, duration: 400 }}>
+      <div class="chat" in:fly={{ x: outerWidth, duration: 400 }}>
         <slot />
       </div>
     {/if}
@@ -206,10 +206,11 @@
   .container {
     max-width: 120rem;
     width: 100%;
-    padding: 5rem 2rem;
+    /* The bottom padding */
+    padding: 4rem 2rem;
     display: flex;
     margin: 0 auto;
-    height: calc(var(--vh, 1vh) * 72);
+    height: 100%;
   }
 
   .empty {
@@ -230,7 +231,7 @@
     width: 100%;
   }
 
-  .messages {
+  .chat {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -246,7 +247,7 @@
       font-size: 1.4rem;
       width: 30rem;
     }
-    .messages {
+    .chat {
       width: calc(100% - 32rem);
     }
   }
@@ -254,7 +255,6 @@
   @media screen and (max-width: 700px) {
     .container {
       width: 100%;
-      height: calc(100vh - var(--height-mobile-nav));
       padding: 0;
     }
 
@@ -268,11 +268,10 @@
       flex-direction: column;
     }
 
-    .messages {
-      /* TODO: env(safe-area-inset-bottom) behavior check on safari mobile */
-      height: calc(100% - env(safe-area-inset-bottom));
+    .chat {
+      height: 100%;
       width: 100%;
-      padding: 2rem;
+      padding-bottom: 1.2rem;
       padding-top: var(--spacing-chat-header);
       position: relative;
     }

@@ -64,6 +64,15 @@
     unsubscribeFromPushRegistrationObserver
   ] = firebaseObserverUnsubscribers;
 
+  /**
+   * This is a JS-based reimplementation of dvh
+   * https://developer.mozilla.org/en-US/docs/Web/CSS/length#dynamic
+   *
+   * It's main purspose today is compatibility, because dvh is badly supported on 1y+ old browsers.
+   * https://caniuse.com/viewport-unit-variants
+   *
+   * See also: https://codepen.io/th0rgall/pen/gOqrMdj
+   */
   let vh = `0px`;
 
   let hasShownIOSNotificationsModal = false;
@@ -206,12 +215,14 @@
 
 <svelte:window on:resize={updateViewportHeight} on:keyup={onCustomPress} />
 
-<Modal show={$rootModal} unstyled={true} closeButton={false}>
-  <div
-    class="app active-{$page?.route?.id?.substring(1).split('/')[0]} locale-{$locale}"
-    class:fullscreen={$isFullscreen}
-    style="--vh:{vh}"
-  >
+<div
+  class="app active-{$page?.url?.pathname?.substring(1).split('/')[0]} active-route-{$page?.route
+    ?.id} locale-{$locale}"
+  class:fullscreen={$isFullscreen}
+  style="--vh:{vh}"
+>
+  <!-- Make the modal a child of .app, so that it inherits its CSS -->
+  <Modal show={$rootModal} unstyled={true} closeButton={false}>
     {#if browser}
       <Progress active={!$appHasLoaded} />
       <Notifications />
@@ -227,36 +238,119 @@
         <Footer />
       {/if}
     {/if}
-  </div>
-</Modal>
+  </Modal>
+</div>
 
 <style>
   .app {
     width: 100%;
     height: 100%;
     position: relative;
+    /* Compensate for the desktop nav bar */
     padding-top: var(--height-nav);
+
+    /* The <footer> is not part of <main>,
+      so we don't want main to be scrollable
+      rather: the root above it should be scrollable
+       */
+    height: calc(var(--vh, 1vh) * 100);
+    height: 100dvh;
+    /* The home page for example overflows */
+    overflow: scroll;
+
+    /* Allows the <footer> to expand to the bottom when the screen is taller than the <main> content */
+    /* Note:
+          flex changes the behavior of `height` on its children: it isn't interpreted strictly
+          if their descendants are is smaller, and thus the child is shrinkable. Flexbox tries to
+          avoid overflow where it can.
+          `min-height` must be used to impose stricter limitations on the child's height  */
+    display: flex;
+    flex-direction: column;
   }
 
   main {
-    min-height: calc(100vh - var(--height-nav) - var(--height-footer));
     width: 100%;
-    overflow: hidden;
     /* Anchor overflow:hidden on descendants
     (there was a problem with .welcome-map in LandingSection with this before) */
     position: relative;
     max-width: 155rem;
     margin: 0 auto;
+
+    /* (min-)heights for <main> are configured per page below */
+    /* - They can not be configured here, since a (min-)height content that might overflow the viewport
+         like / or /info/rules needs to have unconstrained height.
+       - If it is constrained, then the parent flexbox will cause strange overlaps on low viewport heights.
+         In that case, it's better to contrain <main>'s descendants in terms of (d)vh to ensure the whole remains scrollable
+     */
+  }
+
+  .app.active-explore > main {
+    /* Make sure the map fills the entire space */
+    height: 100%;
+  }
+  /*
+    If the chat page is active, make sure it expands to the full available height.
+    It is designed to not overflow it. */
+  .app.active-chat > main {
+    /* 1060px: on very tall screens, don't fill the entire height with the chat  */
+    min-height: min(100%, 1060px);
+  }
+
+  .app.active-error > main {
+    /* Since <main> is a flex child, 100% helps it compete for space with the footer.
+    It won't actually reach 100%  */
+    height: min(100%, 800px);
+  }
+
+  .app.active-error > :global(footer) {
+    margin-top: 0;
   }
 
   @media screen and (max-width: 700px) {
     .app {
       padding-top: 0;
+      /* dvh is needed here to (dynamically) escape dynamic browser chrome UI */
+      /* The safe area inset is useful, among others, on
+       - iOS PWA: avoid overlapping with the bottom drawer
+       */
+      height: calc(var(--vh, 1vh) * 100 - var(--height-mobile-nav));
+      overflow-x: hidden;
+    }
+
+    /* On the iOS PWA, we bump the height of the nav (and entire app) with
+       the safe area inset. However, scrollable content is still visible in that inset, which looks weird.
+       This hides the content below the menu.*/
+    /* .app::after {
+      content: '';
+      display: block;
+      position: fixed;
+      width: 100%;
+      height: env(safe-area-inset-bottom, 0);
+      bottom: 0;
+      left: 0;
+      right: 0; */
+    /* opaque white */
+    /* background: #fff;
+    } */
+
+    @supports (height: 100dvh) {
+      .app {
+        height: calc(100dvh - var(--height-mobile-nav));
+      }
+    }
+
+    /*
+     Specific chat pages have scrollable message lists. On iOS, any scrollable ancestors
+     may take over from the message list, leading to weird scroll behavior.
+     Note: makes the footer invisible! But there is no footer on mobile.
+     TODO: might not fix it entirely yet... sometimes you need to pause after a nav to be able to scroll the main container.
+   */
+    .app.active-route-\/chat\/\[name\]\/\[chatId\] {
+      overflow: hidden;
     }
 
     main {
-      min-height: calc(100vh - var(--height-mobile-nav) - env(safe-area-inset-bottom));
-      padding-bottom: calc(var(--height-mobile-nav) + env(safe-area-inset-bottom));
+      height: 100%;
     }
   }
 </style>

@@ -172,6 +172,12 @@
   :global(body) {
     --height-footer: 18rem;
   }
+
+  :global(footer) {
+    /* Grows the footer in case the <main> content is smaller than the viewport height,
+      dependent on the .app wrapper having `display: flexbox` */
+    flex-grow: 1;
+  }
   .wrapper {
     width: 100%;
     display: flex;

@@ -41,12 +41,9 @@ export const removeChat = (chatId: string) => {
 };
 
 /**
- * Sorts chats in descending order. This might be unintuitive (we want to show them in ascending order!),
- * but it is necessary to use `flex-direction: column-reverse` in the UI.
- * See src/routes/chat/[name]/[chatId]/+page.svelte
- */
+ * Sorts chats in ascending order time-wise */
 const sortBySentDate = (m1: LocalMessage, m2: LocalMessage) =>
-  m2.createdAt.toMillis() - m1.createdAt.toMillis();
+  m1.createdAt.toMillis() - m2.createdAt.toMillis();
 
 export const messages = writable<{ [chatId: string]: LocalMessage[] }>({});
 
