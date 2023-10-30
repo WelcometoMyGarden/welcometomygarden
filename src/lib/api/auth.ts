@@ -31,6 +31,7 @@ import type { User as FirebaseUser } from 'firebase/auth';
 import { trackEvent } from '$lib/util';
 import { PlausibleEvent } from '$lib/types/Plausible';
 import { isOnIDevicePWA } from './push-registrations';
+import { handledOpenFromIOSPWA } from '$lib/stores/app';
 
 // These are not Svelte stores, because we do not wish to listen to updates on them.
 // They are abstracted away by the User store, and trigger updates on that store.
@@ -220,6 +221,8 @@ export const createAuthObserver = (): Unsubscribe => {
 
       // If we know we are logged out, we are not loading anymore.
       isUserLoading.set(false);
+      // If we don't have a user to load, we will also not load chats.
+      handledOpenFromIOSPWA.set(true);
     }
 
     // Firebase auth has been initialized, regardless of status
