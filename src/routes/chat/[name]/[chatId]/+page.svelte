@@ -28,6 +28,8 @@
   } from '$lib/api/push-registrations';
   import { isMobileDevice } from '$lib/util/uaInfo';
 
+  const MAX_MESSAGE_LENGTH = 800;
+
   /**
    * The chat ID of the currently selected chat.
    * Equal to 'new' in case of a new chat. The UID of the recipient is then in the query param 'id'.
@@ -102,8 +104,6 @@
     (chat || $newConversation) &&
     (partnerHasGarden === null || partnerInitializedForChatId !== chatId)
   ) {
-    console.log('id', partnerId);
-    console.log('id', $newConversation);
     // variables are initialized
     // 1. Partner ID
     partnerId = chat ? chat.users.find((id) => $user?.id !== id) : $newConversation!.partnerId;
@@ -117,7 +117,7 @@
       })
       .catch((err) => {
         // something went wrong just act like partner has no garden
-        console.log(err);
+        console.error(err);
         partnerHasGarden = false;
       })
       .finally(() => {
@@ -204,9 +204,11 @@
   });
 
   let hint = '';
-  $: if (typedMessage && typedMessage.length > 500) {
+  $: if (typedMessage && typedMessage.length > MAX_MESSAGE_LENGTH) {
     const len = typedMessage.length;
-    hint = $_('chat.notify.too-long', { values: { surplus: len - 500 } });
+    // This key uses ICU syntax https://formatjs.io/docs/core-concepts/icu-syntax/#plural-format
+    // Referenced from https://github.com/kaisermann/svelte-i18n/blob/main/docs/Formatting.md
+    hint = $_('chat.notify.too-long', { values: { surplus: len - MAX_MESSAGE_LENGTH } });
   } else {
     hint = '';
   }
@@ -240,17 +242,18 @@
         // The first uid in the users array is the requester/traveller
         const role = chat.users[0] === $user?.id ? 'traveller' : 'host';
         trackEvent(PlausibleEvent.SEND_RESPONSE, { role });
-        // Reset the text area
-        typedMessage = '';
-        if (textArea) {
-          textArea.style.height = '0';
-        }
-        // Scroll down in the chats list
-        scrollDownMessages();
       } catch (ex) {
         showChatError(ex);
       }
     }
+
+    // Reset the text area
+    typedMessage = '';
+    if (textArea) {
+      textArea.style.height = '0';
+    }
+    // Scroll down in the chats list
+    scrollDownMessages();
 
     const COOKIE_FIRST_REMINDER_DAYS = 30;
     // TODO: test if this appears after a new message to a new person
@@ -293,10 +296,7 @@
 
   const scrollDownMessages = () => {
     if (messageContainer) {
-      console.log('scrolling down');
       messageContainer.scrollTo(0, messageContainer.scrollHeight - messageContainer.offsetHeight);
-    } else {
-      console.log('no container');
     }
   };
 </script>
@@ -492,7 +492,11 @@ CSS grids should do the job cleanly -->
 
   form {
     flex: 0.08;
-    display: flex;
+    display: grid;
+    grid-template:
+      'hint hint'
+      'textarea sendbtn' / 1fr auto;
+    column-gap: 1.2rem;
     align-items: flex-end;
     width: 100%;
     position: relative;
@@ -500,15 +504,16 @@ CSS grids should do the job cleanly -->
   }
 
   .hint {
+    grid-area: hint;
     color: var(--color-danger);
     height: 3rem;
     font-size: 1.4rem;
-    position: absolute;
     top: -2.5rem;
     left: 0;
   }
 
   textarea {
+    grid-area: textarea;
     /* the 16px font size actually prevents iOS/Safari from zooming in on this box */
     font-size: 16px;
     background-color: rgba(187, 187, 187, 0.23);
@@ -519,7 +524,6 @@ CSS grids should do the job cleanly -->
     min-height: 6rem;
     /* 26 rem for desktop, 38svh is intended for mobile */
     max-height: min(26rem, 38svh);
-    margin-right: 1.2rem;
     /* Disable manual resizing, since we adapt to the text automatically */
     resize: none;
     transition: border 300ms ease-in-out;
@@ -530,6 +534,7 @@ CSS grids should do the job cleanly -->
   }
 
   form button {
+    grid-area: sendbtn;
     background-color: var(--color-green);
     font-size: 2.4rem;
     color: var(--color-white);

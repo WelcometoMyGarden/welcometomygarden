@@ -724,7 +724,7 @@
     "notify": {
       "unverified": "Verifieer jouw e-mail voordat je begint te chatten",
       "empty-message": "Jouw bericht kan niet leeg zijn",
-      "too-long": "Jouw bericht is {surplus} {surplus, plural, one {karakter} other {karakters} te lang..."
+      "too-long": "Jouw bericht is {surplus} {surplus, plural, one {karakter} other {karakters}} te lang..."
     },
     "go-to-garden": "Ga naar de tuin",
     "error-modal": {

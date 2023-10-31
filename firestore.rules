@@ -95,7 +95,7 @@ service cloud.firestore {
     }
 
     function validateTrailState(trail) {
-      return isNonEmptyString(trail.originalFileName) 
+      return isNonEmptyString(trail.originalFileName)
         && isNonEmptyString(trail.md5Hash)
         && trail.visible is bool
     }
@@ -119,7 +119,7 @@ service cloud.firestore {
         allow update: if isValidTrailAccess(userId)
         // Only the visibility should be updateable by the user, once the trail is created.
           && incomingData().diff(existingData()).affectedKeys().hasOnly(['visible'])
-          && incomingData().visible is bool; 
+          && incomingData().visible is bool;
         allow delete: if isValidTrailAccess(userId);
       }
       match /push-registrations/{registrationId} {
@@ -246,6 +246,11 @@ service cloud.firestore {
       return isSignedIn() && isVerified() && requesterId() in existingData().users;
     }
 
+    // Function that acts a global variable
+    function maxMessageLength() {
+      return 800;
+    }
+
     // Conditions common to chat creations and updates
     function isValidChatWrite() {
       return isSignedIn() && isVerified()
@@ -257,16 +262,16 @@ service cloud.firestore {
         && incomingData().lastActivity is timestamp
         && incomingData().lastMessage is string
         && incomingData().lastMessage.size() >= 1
-        && incomingData().lastMessage.size() <= 500
+        && incomingData().lastMessage.size() <= maxMessageLength()
       // The following keys are optional.
       // The client creates a chat before it has sent the first message in it, so these message-related properties may be empty.
       // Some old chats with existing messages before these features were lauched, may also not have these keys, until someone sends a new message in the chat.
-        && 
+        &&
       (
       !incomingData().keys().hasAny(['lastMessageSeen', 'lastMessageSender'])
-        || 
+        ||
       (
-      incomingData().keys().hasAll(['lastMessageSeen', 'lastMessageSender']) 
+      incomingData().keys().hasAll(['lastMessageSeen', 'lastMessageSender'])
         && incomingData().lastMessageSeen is bool
         && incomingData().lastMessageSender is string
         && incomingData().lastMessageSender in incomingData().users
@@ -292,7 +297,7 @@ service cloud.firestore {
       return isValidChatWrite()
       // Only chat participants can update the chat
         && requesterId() in incomingData().users
-      // Participants can not change the creation timestamp 
+      // Participants can not change the creation timestamp
         && incomingData().createdAt == existingData().createdAt
       // Participants can not change the chat participants
         && incomingData().users == existingData().users
@@ -300,7 +305,7 @@ service cloud.firestore {
 
 
     function canReadMessage(chatId) {
-      return isSignedIn() && isVerified() 
+      return isSignedIn() && isVerified()
       // this condition doubles as a "does the chat exist" check
         && requesterId() in getChatUsers(chatId);
     }
@@ -310,7 +315,7 @@ service cloud.firestore {
         && incomingData().keys().hasOnly(['content', 'createdAt', 'from'])
         && incomingData().content is string
         && incomingData().content.size() >= 1
-        && incomingData().content.size() <= 500
+        && incomingData().content.size() <= maxMessageLength()
         && incomingData().createdAt is timestamp
         && incomingData().from == requesterId()
     }
