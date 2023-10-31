@@ -217,6 +217,7 @@
 
   let typedMessage = '';
   let isSending = false;
+  let sendWasSuccessful = false;
   const send = async () => {
     if (!typedMessage) {
       hint = $_('chat.notify.empty-message');
@@ -230,8 +231,8 @@
           $page.url.searchParams.get('id') || '',
           normalizeWhiteSpace(typedMessage)
         );
+        sendWasSuccessful = true;
         trackEvent(PlausibleEvent.SEND_REQUEST);
-        typedMessage = '';
         goto(`${routes.CHAT}/${$page.params.name}/${newChatId}`);
       } catch (ex) {
         showChatError(ex);
@@ -239,6 +240,7 @@
     } else {
       try {
         await sendMessage(chat.id, normalizeWhiteSpace(typedMessage));
+        sendWasSuccessful = true;
         // The first uid in the users array is the requester/traveller
         const role = chat.users[0] === $user?.id ? 'traveller' : 'host';
         trackEvent(PlausibleEvent.SEND_RESPONSE, { role });
@@ -247,10 +249,18 @@
       }
     }
 
-    // Reset the text area
-    typedMessage = '';
-    if (textArea) {
-      textArea.style.height = '0';
+    // Reactivates the send button
+    isSending = false;
+
+    // Note: the below still run after a goto() from a new chat to an instantiated one, and,
+    // we're staying on the same template
+
+    // Reset the text area on success
+    if (sendWasSuccessful) {
+      typedMessage = '';
+      if (textArea) {
+        textArea.style.height = '0';
+      }
     }
     // Scroll down in the chats list
     scrollDownMessages();
@@ -275,8 +285,6 @@
     ) {
       showNotificationPrompt = true;
     }
-
-    isSending = false;
   };
 
   onDestroy(() => {
@@ -411,7 +419,8 @@ CSS grids should do the job cleanly -->
     flex-direction: column;
     height: 100%;
     min-height: 100%;
-    overflow-y: scroll;
+    /* Shows the scroll bar only when needed */
+    overflow-y: auto;
     overflow-x: hidden;
   }
 
@@ -420,12 +429,15 @@ CSS grids should do the job cleanly -->
   }
 
   /*
-    Pushes messages down in case their total height is less than the screen size.
-    Replacement for the pure css flex-direction: row-reverse; which lead to weird
-    negative scrolltop + reversed HTML etc.
+    Pushes messages down in case their total height is less than the screen size,
+    for example when there is only one message.
+    This method is a replacement for the pure css `flex-direction: row-reverse` method on .messages;
+    which lead to reversed HTML elements and an unintuitive negative scrollTop.
    */
   .pusher {
-    flex-grow: 1;
+    /* Why this value? Empirically, the value 1 seems to push the content 1px out of
+     its container, resulting in a pointless scroll bar being shown. */
+    flex-grow: 0.97;
   }
 
   .message {

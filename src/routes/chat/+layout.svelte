@@ -62,6 +62,8 @@
     await checkAndHandleUnverified($_('chat.notify.unverified'));
 
     let withQueryParam = localPage.url.searchParams.get('with');
+    let idQueryParam = localPage.url.searchParams.get('id');
+
     if (withQueryParam) {
       if (!$user.superfan) {
         // The ?with is only used when coming from the map
@@ -72,6 +74,10 @@
         });
       }
       startChattingWith(withQueryParam);
+    } else if (idQueryParam) {
+      // This doesn't goto(), which isn't needed, since in this case,
+      // we should already be on a specific chat page.
+      initiateNewChatWith(idQueryParam);
     }
   });
 
@@ -96,21 +102,35 @@
   const getConvoRoute = (partnerName: string, chatId: string) =>
     `${routes.CHAT}/${createSlug(partnerName)}/${chatId}`;
 
+  // When coming from the map and opening the specific chat route, ignore that we were on this /chat index page
+  const gotoOpts = { replaceState: true };
+
+  /**
+   * Fetches the profile of the partner and sets it as a new conversation
+   * @param partnerId
+   */
+  const initiateNewChatWith = async (partnerId: string) => {
+    const newPartner = await initiateChat(partnerId);
+    $newConversation = { name: newPartner.firstName, partnerId };
+  };
+
+  /**
+   * Opens a new or existing chat
+   */
   const startChattingWith = async (partnerId: string) => {
     if ($chats) {
-      const activeChatWithUser = getChatForUser(partnerId);
-      // When coming from the map and opening the specific chat route, ignore that we were on this /chat index page
-      const gotoOpts = { replaceState: true };
-      if (activeChatWithUser) {
+      const existingChatWithUser = getChatForUser(partnerId);
+      if (existingChatWithUser) {
         return goto(
-          getConvoRoute($chats[activeChatWithUser].partner.firstName, activeChatWithUser),
+          getConvoRoute($chats[existingChatWithUser].partner.firstName, existingChatWithUser),
           gotoOpts
         );
       }
+
+      // Otherwise: new chat case
       try {
-        const newPartner = await initiateChat(partnerId);
-        $newConversation = { name: newPartner.firstName, partnerId };
-        goto(getConvoRoute(newPartner.firstName, `new?id=${partnerId}`), gotoOpts);
+        await initiateNewChatWith(partnerId);
+        goto(getConvoRoute($newConversation?.name || '', `new?id=${partnerId}`), gotoOpts);
       } catch (ex) {
         // TODO: display error
         console.error(ex);
