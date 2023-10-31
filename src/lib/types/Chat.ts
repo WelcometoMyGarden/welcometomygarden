@@ -51,3 +51,14 @@ export type LocalMessage = FirebaseMessage & {
    */
   id: string;
 };
+
+/**
+ * Models a new conversation started locally
+ */
+export type NewConversation = {
+  /**
+   * The first name of the partner
+   */
+  name: string;
+  partnerId: string;
+} | null;

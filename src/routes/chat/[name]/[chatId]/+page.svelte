@@ -7,7 +7,7 @@
   import { observeMessagesForChat, createChat, sendMessage, markChatSeen } from '$lib/api/chat';
   import { hasGarden } from '$lib/api/garden';
   import { user } from '$lib/stores/auth';
-  import { chats, messages } from '$lib/stores/chat';
+  import { chats, messages, newConversation } from '$lib/stores/chat';
   import { Avatar, Icon } from '$lib/components/UI';
   import { User } from '$lib/components/Chat';
   import { tentIcon } from '$lib/images/icons';
@@ -38,7 +38,12 @@
 
   let partnerHasGarden: boolean | null = null;
   let partnerId: string | undefined;
+  /**
+   * The currently selected chat, if it exists.
+   * Undefined if chatId === 'new'
+   */
   let chat: LocalChat | null | undefined;
+  $: chat = $chats[chatId];
 
   $: showMembershipModal = !$user?.superfan && chatId === 'new';
   let showNotificationPrompt = false;
@@ -89,30 +94,36 @@
     window.addEventListener('popstate', backNavHandler);
   }
 
-  /**
-   * The currently selected chat, if it exists.
-   * Undefined if chatId === 'new'
-   */
-  $: chat = $chats[chatId];
-
   // Initialize variables related to the chat partner,
   // when the first chat is opened or when the selected chat has changed.
   let partnerInitializedForChatId: string | null = null;
-  $: if (chat && (partnerHasGarden === null || partnerInitializedForChatId !== chat.id)) {
-    partnerId = chat.users.find((id) => $user?.id !== id);
+  $: if (
+    // If a chat has been fully instantiated, or we're looking at a new chat
+    (chat || $newConversation) &&
+    (partnerHasGarden === null || partnerInitializedForChatId !== chatId)
+  ) {
+    console.log('id', partnerId);
+    console.log('id', $newConversation);
+    // variables are initialized
+    // 1. Partner ID
+    partnerId = chat ? chat.users.find((id) => $user?.id !== id) : $newConversation!.partnerId;
     if (!partnerId) {
       throw new Error('Unexpected error: no chat partner found. All chats must have two members.');
     }
+    // 2. Has garden?
     hasGarden(partnerId)
-      .then((res) => {
-        partnerHasGarden = res;
+      .then((response) => {
+        partnerHasGarden = response;
       })
       .catch((err) => {
         // something went wrong just act like partner has no garden
         console.log(err);
         partnerHasGarden = false;
+      })
+      .finally(() => {
+        // 3. Initialized state
+        partnerInitializedForChatId = chat ? chat.id : 'new';
       });
-    partnerInitializedForChatId = chat.id;
   }
 
   let unsubscribeFromMessageListener: (() => void) | null = null;
@@ -273,7 +284,8 @@
     window.removeEventListener('popstate', backNavHandler);
   });
 
-  $: partnerName = chat && chat.partner ? chat.partner.firstName : '';
+  $: partnerName =
+    chat && chat.partner ? chat.partner.firstName : $newConversation ? $newConversation.name : '';
 
   $: sendButtonDisabled = isSending || !typedMessage || !!hint;
 
@@ -329,6 +341,7 @@ CSS grids should do the job cleanly -->
 <div class="message-wrapper">
   <div class="messages" bind:this={messageContainer}>
     {#if chat && $messages[chat.id]}
+      <div class="pusher" />
       {#each $messages[chat.id] as message (message.id)}
         <div class="message" class:by-user={message.from === $user?.id}>
           <div class="holder">
@@ -386,6 +399,7 @@ CSS grids should do the job cleanly -->
   }
 
   .message-wrapper {
+    flex-grow: 1;
     width: 100%;
     position: relative;
     overflow-y: hidden;
@@ -398,10 +412,20 @@ CSS grids should do the job cleanly -->
     height: 100%;
     min-height: 100%;
     overflow-y: scroll;
+    overflow-x: hidden;
   }
 
   .avatar-box {
     align-self: flex-end;
+  }
+
+  /*
+    Pushes messages down in case their total height is less than the screen size.
+    Replacement for the pure css flex-direction: row-reverse; which lead to weird
+    negative scrolltop + reversed HTML etc.
+   */
+  .pusher {
+    flex-grow: 1;
   }
 
   .message {

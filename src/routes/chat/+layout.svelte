@@ -6,7 +6,13 @@
   import { page } from '$app/stores';
   import { getUser, user } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
-  import { chats, creatingNewChat, hasInitialized, getChatForUser } from '$lib/stores/chat';
+  import {
+    chats,
+    creatingNewChat,
+    hasInitialized,
+    getChatForUser,
+    newConversation
+  } from '$lib/stores/chat';
   import routes from '$lib/routes';
   import { initiateChat } from '$lib/api/chat';
   import ConversationCard from '$lib/components/Chat/ConversationCard.svelte';
@@ -31,15 +37,13 @@
     .map((id) => $chats[id])
     .sort(sortByLastActivity);
 
-  let newConversation: { name: string; partnerId: string } | null = null;
-
   $: if (
-    newConversation &&
+    $newConversation &&
     selectedConversation &&
     selectedConversation.users &&
-    selectedConversation.users.includes(newConversation.partnerId)
+    selectedConversation.users.includes($newConversation.partnerId)
   ) {
-    newConversation = null;
+    $newConversation = null;
   }
 
   $: isOverview = localPage.url.pathname == '/chat';
@@ -105,7 +109,7 @@
       }
       try {
         const newPartner = await initiateChat(partnerId);
-        newConversation = { name: newPartner.firstName, partnerId };
+        $newConversation = { name: newPartner.firstName, partnerId };
         goto(getConvoRoute(newPartner.firstName, `new?id=${partnerId}`), gotoOpts);
       } catch (ex) {
         // TODO: display error
@@ -124,7 +128,7 @@
 
   const selectConversation = (id: string) => {
     // The 'new' chat ID is a special case
-    if (id === 'new' && newConversation) {
+    if (id === 'new' && $newConversation) {
       // Go back to the cached "new conversation".
       // BE SURE TO INCLUDE THE ?id= QUERY PARAM BACK! Otherwise we don't know with whom to start a chat.
       // TODO: this leads to the chat sending error modal now, but even without sending the chat,
@@ -134,7 +138,7 @@
       // - Or just by checking every time with the backend whether the chat already exists or not: /chat/bob/[partnerId]
       //   (1. check for conversation id existence, 2. check for partner id existence)
       goto(
-        createUrl(getConvoRoute(newConversation.name, 'new'), { id: newConversation.partnerId })
+        createUrl(getConvoRoute($newConversation.name, 'new'), { id: $newConversation.partnerId })
       );
     } else if (id) {
       const chatName = $chats[id].partner.firstName.toLowerCase();
@@ -154,17 +158,17 @@
     {#if outerWidth != null && (!isMobile || (isMobile && isOverview))}
       <section class="conversations" in:fly={{ x: -outerWidth, duration: 400 }}>
         <h2>{$_('chat.all-conversations')}</h2>
-        {#if newConversation}
+        {#if $newConversation}
           <article>
             <ConversationCard
               on:click={() => selectConversation('new')}
-              recipient={newConversation.name}
+              recipient={$newConversation.name}
               lastMessage={''}
               selected={localPage.params.chatId === 'new'}
             />
           </article>
         {/if}
-        {#if $hasInitialized && conversations.length === 0 && !newConversation}
+        {#if $hasInitialized && conversations.length === 0 && !$newConversation}
           <div class="empty">
             {@html $_('chat.no-messages.text', {
               values: {

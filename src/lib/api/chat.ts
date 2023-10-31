@@ -30,6 +30,11 @@ import { get } from 'svelte/store';
 import { goto } from '$lib/util/navigate';
 import { handledOpenFromIOSPWA } from '$lib/stores/app';
 
+/**
+ * Fetches the chat partner's profile, setting the new chat loader.
+ * @param partnerUid
+ * @returns the partner's user pfolie
+ */
 export const initiateChat = async (partnerUid: string) => {
   creatingNewChat.set(true);
   const partner = await getPublicUserProfile(partnerUid);

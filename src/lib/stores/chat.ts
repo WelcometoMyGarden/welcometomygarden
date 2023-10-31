@@ -1,9 +1,14 @@
-import type { LocalChat, LocalMessage } from '$lib/types/Chat';
+import type { NewConversation, LocalChat, LocalMessage } from '$lib/types/Chat';
 import { user } from './auth.js';
 import { writable, get, derived } from 'svelte/store';
 
 export const hasInitialized = writable(false);
 export const creatingNewChat = writable(false);
+
+/**
+ * The new chat that is being created
+ */
+export const newConversation = writable<NewConversation>(null);
 
 export const chats = writable<{ [chatId: string]: LocalChat }>({});
 
