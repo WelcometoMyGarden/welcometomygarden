@@ -106,6 +106,31 @@
       map.resize();
     });
 
+    const geolocationControl = new maplibregl.GeolocateControl({
+      trackUserLocation: true,
+      fitBoundsOptions: {
+        // Member: zoom in more
+        ...($user?.superfan
+          ? {
+              // Mapbox default
+              maxZoom: 15
+            }
+          : {
+              maxZoom: nonMemberMaxZoom
+            })
+      },
+      // Member: ask the device for a higher-accuracy location
+      positionOptions: {
+        ...($user?.superfan
+          ? {
+              enableHighAccuracy: true
+            }
+          : {})
+      }
+    });
+
+    map.addControl(geolocationControl);
+
     map.on('load', () => {
       loaded = true;
     });
