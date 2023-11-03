@@ -13,10 +13,17 @@ export const WTMG_BLOG_BASE_URL = 'https://blog.welcometomygarden.org';
 export const WTMG_UTM_SOURCE = 'welcometomygarden.org';
 export const UTM_MEMBERSHIP_CAMPAIGN = 'membership';
 export const DEFAULT_MAP_STYLE = 'mapbox://styles/mapbox/streets-v8';
+
+export const LOCATION_BELGIUM = { longitude: 4.5, latitude: 50.5 };
+export const LOCATION_WESTERN_EUROPE = {
+  longitude: 4.818409187039379,
+  latitude: 50.43017609488834
+};
 export const ZOOM_LEVELS = {
   CITY: 11,
   ROAD: 14, // 14 or 15
-  SMALL_COUNTRY: 7
+  SMALL_COUNTRY: 7,
+  WESTERN_EUROPE: 5.2
 };
 export const VALID_FILETYPE_EXTENSIONS = ['gpx', 'geojson', 'kml', 'tcx'];
 export const ICON_SIZE = [

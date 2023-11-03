@@ -15,7 +15,7 @@
 
   import { getCookie } from '$lib/util';
   import { crossIcon } from '$lib/images/icons';
-  import { ZOOM_LEVELS } from '$lib/constants';
+  import { LOCATION_BELGIUM, LOCATION_WESTERN_EUROPE, ZOOM_LEVELS } from '$lib/constants';
   import LayersAndTools from '$lib/components/LayersAndTools/LayersAndTools.svelte';
   import FileTrailModal from '$lib/components/Map/FileTrailModal.svelte';
   import TrainConnectionsModal from '$lib/components/Map/TrainConnectionsModal.svelte';
@@ -34,8 +34,6 @@
   import { fileDataLayers, removeTrailAnimations } from '$lib/stores/file';
   import { isOnIDevicePWA } from '$lib/api/push-registrations';
 
-  // Defaults to Belgium; TODO: default to IP-based location
-  let belgiumFallback = { longitude: 4.5, latitude: 50.5 };
   let showHiking = false;
   let showCycling = false;
   let showFileTrailModal = false;
@@ -84,7 +82,7 @@
   // TODO check this: It looks like there is no need for a subscribe on page
   let isShowingGarden = !!$page.params.gardenId;
 
-  let zoom = isShowingGarden ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.SMALL_COUNTRY;
+  let zoom = isShowingGarden ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.WESTERN_EUROPE;
 
   $: applyZoom = isShowingGarden ? true : false;
   /**
@@ -95,7 +93,7 @@
   // This variable controls the location of the map.
   // Don't make it reactive based on its params, so that it can be imperatively controlled.
   // This is useful to not recenter the map after defocussing a selected garden
-  let centerLocation = selectedGarden?.location ?? belgiumFallback;
+  let centerLocation = selectedGarden?.location ?? LOCATION_WESTERN_EUROPE;
 
   const setMapToGardenLocation = (garden: Garden) => {
     centerLocation = garden.location!;
@@ -223,10 +221,12 @@
     bind:showFileTrailModal
     bind:showTrainConnectionsModal
   />
+  <!-- TODO: the $currentPosition should be based on IP
+    (if it isn't already by default) -->
   <Filter
     on:goToPlace={goToPlace}
     bind:filteredGardens
-    closeToLocation={$currentPosition ?? belgiumFallback}
+    closeToLocation={$currentPosition ?? LOCATION_BELGIUM}
   />
   <FileTrailModal bind:show={showFileTrailModal} />
   <TrainConnectionsModal bind:show={showTrainConnectionsModal} />

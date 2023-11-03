@@ -29,7 +29,9 @@
   export let lon: number;
   export let zoom: number;
   export let applyZoom = false; // make this true if the provided zoom level should be applied
+  // Recenter when the lat & long params change
   export let recenterOnUpdate = false;
+  export let enableGeolocation = true;
   export let isShowingGarden = false;
 
   // Was used to prevent an automatic jump to the GPS location after the initial map load.
@@ -77,11 +79,11 @@
     // We can reuse this code when showing the location indicator after initializing
     // on an IP-based location. We also don't want it to jump then.
     // --
-    // if (!isAutoloadingLocation) {
+    if (isAutoloadingLocation && isShowingGarden) {
+      console.log('Ignored geolocation camera update');
+      return;
+    }
     originalUpdateCamera.apply(this, args);
-    // } else {
-    //   console.log('Ignored geolocation camera update');
-    // }
   };
   const geolocationControl = new maplibregl.GeolocateControl({
     trackUserLocation: !!$user?.superfan,
@@ -140,21 +142,6 @@
     return map;
   };
 
-  type Unsubscriber = () => void;
-  const addMapBoundsListener = (listener: () => void): Unsubscriber => {
-    const events = ['zoom', 'drag', 'rotate', 'move'];
-    for (const ev of events) {
-      map.on(ev, listener);
-    }
-    // Return unsubscriber
-    return () => {
-      for (const ev of events) {
-        map.off(ev, listener);
-      }
-      console.log('Unsubscribed bounds listener');
-    };
-  };
-
   onMount(async () => {
     // Before loading the map, clear the mapbox.eventData.uuid:<token_piece>
     // So that Mapbox (Maplibre) GL JS v1.x will generate a new uuid, which prevents tracking our users.
@@ -180,9 +167,12 @@
 
     addMap();
 
-    // Set the initial map location to the current location,
-    // but only if we're NOT loading the map on a specific garden
-    if (geolocationPermission !== 'not-available' && geolocationPermission !== 'denied') {
+    // Initialize geolocation
+    if (
+      enableGeolocation &&
+      geolocationPermission !== 'not-available' &&
+      geolocationPermission !== 'denied'
+    ) {
       const canPromptForLocationPermissionOnLoad =
         (!isOnIDevicePWA() || hasEnabledNotificationsOnCurrentDevice()) && !isShowingGarden;
 
@@ -199,7 +189,6 @@
       }
 
       map.addControl(geolocationControl);
-      // if ($user?.superfan) {
 
       // Trigger geolocation
       if (shouldTriggerGeolocation) {
@@ -270,7 +259,6 @@
 
   // When the given lon/lat change (and other referenced params), this will recenter
   $: if (recenterOnUpdate && map) {
-    console.log('move to given center', 'init', 'center', lat, lon);
     const zoomLevel = applyZoom ? zoom : map.getZoom();
     const params = { center: [lon, lat], zoom: zoomLevel };
     if (!isShowingGarden) {
