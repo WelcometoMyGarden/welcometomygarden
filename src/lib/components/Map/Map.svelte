@@ -23,7 +23,6 @@
     hasEnabledNotificationsOnCurrentDevice,
     isOnIDevicePWA
   } from '$lib/api/push-registrations.js';
-  import GeolocationLoadingNotice from './GeolocationLoadingNotice.svelte';
   import { writable } from 'svelte/store';
 
   export let lat: number;
@@ -33,8 +32,9 @@
   export let recenterOnUpdate = false;
   export let isShowingGarden = false;
 
+  // Was used to prevent an automatic jump to the GPS location after the initial map load.
+  // TODO: reuse for IP-based geolocation
   let isAutoloadingLocation = false;
-  let showAutoloadingNotice = false;
 
   let container: HTMLElement;
   let map: maplibregl.Map;
@@ -69,13 +69,19 @@
 
   const originalUpdateCamera = maplibregl.GeolocateControl.prototype._updateCamera;
   maplibregl.GeolocateControl.prototype._updateCamera = function (...args: any[]) {
+    // -- Uncommented code: --
     // Don't update the camera if we're automatically loading the location on load
     // It might take 5+ seconds, resulting in weird jumps
-    if (!isAutoloadingLocation) {
-      originalUpdateCamera.apply(this, args);
-    } else {
-      console.log('Ignored geolocation camera update');
-    }
+    //
+    // TODO: executive decision to keep the jump-to-location behavior
+    // We can reuse this code when showing the location indicator after initializing
+    // on an IP-based location. We also don't want it to jump then.
+    // --
+    // if (!isAutoloadingLocation) {
+    originalUpdateCamera.apply(this, args);
+    // } else {
+    //   console.log('Ignored geolocation camera update');
+    // }
   };
   const geolocationControl = new maplibregl.GeolocateControl({
     trackUserLocation: !!$user?.superfan,
@@ -149,15 +155,6 @@
     };
   };
 
-  const goToCurrentLocation = () => {
-    if (geolocationControl._lastKnownPosition) {
-      geolocationControl._updateCamera(geolocationControl._lastKnownPosition);
-    } else if ($currentPosition) {
-      lon = $currentPosition.longitude;
-      lat = $currentPosition.latitude;
-    }
-  };
-
   onMount(async () => {
     // Before loading the map, clear the mapbox.eventData.uuid:<token_piece>
     // So that Mapbox (Maplibre) GL JS v1.x will generate a new uuid, which prevents tracking our users.
@@ -197,49 +194,24 @@
         (!!$user?.superfan || !isShowingGarden);
 
       if (geolocationPermission === 'granted' && shouldTriggerGeolocation) {
-        // Initialize autoloading if we have permission and should trigger geolocation
+        // Mark the map as autoloading if we have permission and should trigger geolocation
         isAutoloadingLocation = true;
-
-        // Initialize the autoloader notice
-        // Don't show the notice when mounting a garden page (but still show the location)
-        if (!isShowingGarden) {
-          showAutoloadingNotice = true;
-          // Hide the notice if we see the location
-          const unsubscribeBoundsListener = addMapBoundsListener(() => {
-            const bounds = map.getBounds();
-            const lastControlPosition = (geolocationControl as any)?._lastKnownPosition as
-              | GeolocationPosition
-              | undefined;
-
-            const lastPosition = lastControlPosition?.coords || $currentPosition;
-
-            if (!lastPosition) {
-              return;
-            }
-
-            const { latitude, longitude } = lastPosition;
-            if (bounds.contains(new maplibregl.LngLat(longitude, latitude))) {
-              showAutoloadingNotice = false;
-              unsubscribeBoundsListener();
-            }
-          });
-        }
       }
 
       map.addControl(geolocationControl);
       // if ($user?.superfan) {
 
-      // Handle autoloading
+      // Trigger geolocation
       if (shouldTriggerGeolocation) {
         map.on('load', () => {
           geolocationControl.trigger();
+
           if (isAutoloadingLocation) {
             geolocationControl.once('geolocate', () => {
               console.log('Geolocation autoloaded');
               // When we're watching
               if ((geolocationControl as any).options.trackUserLocation) {
                 console.log('Forcing background location tracking');
-                // Force the tracker to enter a
                 geolocationControl._watchState = 'BACKGROUND';
               }
               isAutoloadingLocation = false;
@@ -322,9 +294,6 @@
   <!-- Show map UI if the map is loaded -->
   {#if map && loaded}
     <slot />
-    {#if showAutoloadingNotice}
-      <GeolocationLoadingNotice {isAutoloadingLocation} {goToCurrentLocation} />
-    {/if}
   {/if}
 </div>
 
