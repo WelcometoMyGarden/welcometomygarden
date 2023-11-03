@@ -298,6 +298,19 @@
     height: 100%;
   }
 
+  /* Override the default pulsating dot animation, which is distracting */
+  :global(.mapboxgl-user-location-dot:before, .maplibregl-user-location-dot:before) {
+    animation: none;
+  }
+
+  /* If geolocation is not available, hide the Mapbox button */
+  :global(
+      .mapboxgl-ctrl button.mapboxgl-ctrl-geolocate:disabled,
+      .maplibregl-ctrl button.maplibregl-ctrl-geolocate:disabled
+    ) {
+    display: none;
+  }
+
   @media screen and (max-width: 700px) {
     /* Includes the FullscreenControl */
     :global(.maplibregl-ctrl-top-right) {
