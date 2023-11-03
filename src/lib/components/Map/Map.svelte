@@ -1,5 +1,7 @@
 <script context="module" lang="ts">
+  import type { LongLat } from '$lib/types/Garden.js';
   export type ContextType = { getMap: () => maplibregl.Map };
+  export const currentPosition = writable<LongLat | null>(null);
 </script>
 
 <script lang="ts">
@@ -8,19 +10,31 @@
   import key from './mapbox-context.js';
 
   import 'maplibre-gl/dist/maplibre-gl.css';
-  import { DEFAULT_MAP_STYLE, memberMaxZoom, nonMemberMaxZoom } from '$lib/constants.js';
+  import {
+    DEFAULT_MAP_STYLE,
+    ZOOM_LEVELS,
+    memberMaxZoom,
+    nonMemberMaxZoom
+  } from '$lib/constants.js';
   import FullscreenControl from './FullscreenControl.js';
   import { isFullscreen } from '$lib/stores/fullscreen.js';
   import { user } from '$lib/stores/auth.js';
+  import {
+    hasEnabledNotificationsOnCurrentDevice,
+    isOnIDevicePWA
+  } from '$lib/api/push-registrations.js';
+  import GeolocationLoadingNotice from './GeolocationLoadingNotice.svelte';
+  import { writable } from 'svelte/store';
 
   export let lat: number;
   export let lon: number;
   export let zoom: number;
   export let applyZoom = false; // make this true if the provided zoom level should be applied
   export let recenterOnUpdate = false;
-  export let initialLat = lat;
-  export let initialLon = lon;
-  export let jump = false;
+  export let isShowingGarden = false;
+
+  let isAutoloadingLocation = false;
+  let showAutoloadingNotice = false;
 
   let container: HTMLElement;
   let map: maplibregl.Map;
@@ -53,24 +67,35 @@
     container: document.querySelector('html')!
   });
 
-  onMount(() => {
-    // Before loading the map, clear the mapbox.eventData.uuid:<token_piece>
-    // So that Mapbox (Maplibre) GL JS v1.x will generate a new uuid, which prevents tracking our users.
-    for (let i = 0; i < localStorage.length; i++) {
-      const currentKey = localStorage.key(i);
-      if (currentKey && currentKey.startsWith('mapbox.eventData.uuid')) {
-        localStorage.removeItem(currentKey);
-        // also delete all other event data of the form mapbox.eventData:<token_piece>
-        const keyParts = currentKey.split(':');
-        if (keyParts.length > 1) {
-          let tokenPiece = keyParts[1];
-          if (tokenPiece) {
-            localStorage.removeItem(`mapbox.eventData:${tokenPiece}`);
-          }
-        }
-      }
+  const originalUpdateCamera = maplibregl.GeolocateControl.prototype._updateCamera;
+  maplibregl.GeolocateControl.prototype._updateCamera = function (...args: any[]) {
+    // Don't update the camera if we're automatically loading the location on load
+    // It might take 5+ seconds, resulting in weird jumps
+    if (!isAutoloadingLocation) {
+      originalUpdateCamera.apply(this, args);
+    } else {
+      console.log('Ignored geolocation camera update');
     }
+  };
+  const geolocationControl = new maplibregl.GeolocateControl({
+    trackUserLocation: !!$user?.superfan,
+    showUserLocation: !!$user?.superfan,
+    fitBoundsOptions: {
+      maxZoom: ZOOM_LEVELS.SMALL_COUNTRY
+    },
+    positionOptions: {
+      // Enable high accuracy when the location was not automatically activated on load
+      // but will be manually requested. Might be slower (so bad on load), but can give
+      // more accurate results.
+      enableHighAccuracy: true
+    }
+  });
 
+  /**
+   * Loads the map and inserts it into the DOM
+   */
+  const addMap = () => {
+    // Load map
     map = new maplibregl.Map({
       container,
       style: DEFAULT_MAP_STYLE,
@@ -79,7 +104,7 @@
       /** https://docs.mapbox.com/mapbox-gl-js/api/map/#map-parameters */
       maxZoom: $user?.superfan ? memberMaxZoom : nonMemberMaxZoom,
       attributionControl: false,
-      hash: false // TODO: discuss if we want this or not
+      hash: false // TODO: discuss if we want this or not,
     });
 
     map.addControl(
@@ -106,30 +131,130 @@
       map.resize();
     });
 
-    const geolocationControl = new maplibregl.GeolocateControl({
-      trackUserLocation: true,
-      fitBoundsOptions: {
-        // Member: zoom in more
-        ...($user?.superfan
-          ? {
-              // Mapbox default
-              maxZoom: 15
-            }
-          : {
-              maxZoom: nonMemberMaxZoom
-            })
-      },
-      // Member: ask the device for a higher-accuracy location
-      positionOptions: {
-        ...($user?.superfan
-          ? {
-              enableHighAccuracy: true
-            }
-          : {})
-      }
-    });
+    return map;
+  };
 
-    map.addControl(geolocationControl);
+  type Unsubscriber = () => void;
+  const addMapBoundsListener = (listener: () => void): Unsubscriber => {
+    const events = ['zoom', 'drag', 'rotate', 'move'];
+    for (const ev of events) {
+      map.on(ev, listener);
+    }
+    // Return unsubscriber
+    return () => {
+      for (const ev of events) {
+        map.off(ev, listener);
+      }
+      console.log('Unsubscribed bounds listener');
+    };
+  };
+
+  const goToCurrentLocation = () => {
+    if (geolocationControl._lastKnownPosition) {
+      geolocationControl._updateCamera(geolocationControl._lastKnownPosition);
+    } else if ($currentPosition) {
+      lon = $currentPosition.longitude;
+      lat = $currentPosition.latitude;
+    }
+  };
+
+  onMount(async () => {
+    // Before loading the map, clear the mapbox.eventData.uuid:<token_piece>
+    // So that Mapbox (Maplibre) GL JS v1.x will generate a new uuid, which prevents tracking our users.
+    for (let i = 0; i < localStorage.length; i++) {
+      const currentKey = localStorage.key(i);
+      if (currentKey && currentKey.startsWith('mapbox.eventData.uuid')) {
+        localStorage.removeItem(currentKey);
+        // also delete all other event data of the form mapbox.eventData:<token_piece>
+        const keyParts = currentKey.split(':');
+        if (keyParts.length > 1) {
+          let tokenPiece = keyParts[1];
+          if (tokenPiece) {
+            localStorage.removeItem(`mapbox.eventData:${tokenPiece}`);
+          }
+        }
+      }
+    }
+
+    const geolocationPermission =
+      'geolocation' in navigator
+        ? await navigator.permissions.query({ name: 'geolocation' }).then((result) => result.state)
+        : 'not-available';
+
+    addMap();
+
+    // Set the initial map location to the current location,
+    // but only if we're NOT loading the map on a specific garden
+    if (geolocationPermission !== 'not-available' && geolocationPermission !== 'denied') {
+      const canPromptForLocationPermissionOnLoad =
+        (!isOnIDevicePWA() || hasEnabledNotificationsOnCurrentDevice()) && !isShowingGarden;
+
+      let shouldTriggerGeolocation =
+        // It won't prompt if granted
+        (geolocationPermission === 'granted' ||
+          (geolocationPermission === 'prompt' && canPromptForLocationPermissionOnLoad)) &&
+        // Only trigger geolocation for non-members when a garden isn't being shown specifically
+        (!!$user?.superfan || !isShowingGarden);
+
+      if (geolocationPermission === 'granted' && shouldTriggerGeolocation) {
+        // Initialize autoloading if we have permission and should trigger geolocation
+        isAutoloadingLocation = true;
+
+        // Initialize the autoloader notice
+        // Don't show the notice when mounting a garden page (but still show the location)
+        if (!isShowingGarden) {
+          showAutoloadingNotice = true;
+          // Hide the notice if we see the location
+          const unsubscribeBoundsListener = addMapBoundsListener(() => {
+            const bounds = map.getBounds();
+            const lastControlPosition = (geolocationControl as any)?._lastKnownPosition as
+              | GeolocationPosition
+              | undefined;
+
+            const lastPosition = lastControlPosition?.coords || $currentPosition;
+
+            if (!lastPosition) {
+              return;
+            }
+
+            const { latitude, longitude } = lastPosition;
+            if (bounds.contains(new maplibregl.LngLat(longitude, latitude))) {
+              showAutoloadingNotice = false;
+              unsubscribeBoundsListener();
+            }
+          });
+        }
+      }
+
+      map.addControl(geolocationControl);
+      // if ($user?.superfan) {
+
+      // Handle autoloading
+      if (shouldTriggerGeolocation) {
+        map.on('load', () => {
+          geolocationControl.trigger();
+          if (isAutoloadingLocation) {
+            geolocationControl.once('geolocate', () => {
+              console.log('Geolocation autoloaded');
+              // When we're watching
+              if ((geolocationControl as any).options.trackUserLocation) {
+                console.log('Forcing background location tracking');
+                // Force the tracker to enter a
+                geolocationControl._watchState = 'BACKGROUND';
+              }
+              isAutoloadingLocation = false;
+            });
+          }
+        });
+      }
+
+      // Sync current position to app state
+      geolocationControl.on(
+        'geolocate',
+        ({ coords: { longitude, latitude } }: GeolocationPosition) =>
+          ($currentPosition = { longitude, latitude })
+      );
+    }
 
     map.on('load', () => {
       loaded = true;
@@ -155,11 +280,12 @@
   };
 
   afterUpdate(() => {
-    if (isMobile && !map.hasControl(compactAttribution) && map.hasControl(fullAttribution)) {
+    if (map && isMobile && !map.hasControl(compactAttribution) && map.hasControl(fullAttribution)) {
       map.removeControl(fullAttribution);
       map.addControl(compactAttribution);
       // The scale control is not removed here, and hence moves to the bottom.
     } else if (
+      map &&
       !isMobile &&
       map.hasControl(compactAttribution) &&
       !map.hasControl(fullAttribution)
@@ -170,16 +296,12 @@
     }
   });
 
-  $: if (map) {
-    map.jumpTo({
-      center: [initialLon, initialLat]
-    });
-  }
-
-  $: if (recenterOnUpdate && map && initialLat !== lat && initialLon !== lon) {
+  // When the given lon/lat change (and other referenced params), this will recenter
+  $: if (recenterOnUpdate && map) {
+    console.log('move to given center', 'init', 'center', lat, lon);
     const zoomLevel = applyZoom ? zoom : map.getZoom();
     const params = { center: [lon, lat], zoom: zoomLevel };
-    if (!jump) {
+    if (!isShowingGarden) {
       map.flyTo({
         ...params,
         bearing: 0,
@@ -188,6 +310,7 @@
         essential: true
       });
     } else {
+      // Immediately change params
       map.jumpTo(params);
     }
   }
@@ -196,8 +319,12 @@
 <svelte:window bind:innerWidth />
 
 <div bind:this={container}>
+  <!-- Show map UI if the map is loaded -->
   {#if map && loaded}
     <slot />
+    {#if showAutoloadingNotice}
+      <GeolocationLoadingNotice {isAutoloadingLocation} {goToCurrentLocation} />
+    {/if}
   {/if}
 </div>
 

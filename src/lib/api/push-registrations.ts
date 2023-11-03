@@ -221,9 +221,8 @@ export const getCurrentNativeSubscription = async () => {
   return sub;
 };
 
-// TODO: convert to using our store
-export const hasEnabledNotificationsOnCurrentDevice = async () => {
-  return !!(await getCurrentNativeSubscription());
+export const hasEnabledNotificationsOnCurrentDevice = () => {
+  return !!get(currentNativeSubStore);
 };
 
 /**

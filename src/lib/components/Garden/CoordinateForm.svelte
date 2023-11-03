@@ -67,7 +67,7 @@
 </script>
 
 <div class="map-container">
-  <Map lat={coordinates.latitude} lon={coordinates.longitude} recenterOnUpdate={true} zoom="6">
+  <Map lat={coordinates.latitude} lon={coordinates.longitude} recenterOnUpdate={true} zoom={6}>
     {#if isAddressConfirmShown}
       <Button type="button" small inverse={locationConfirmed} on:click={toggleLocationConfirmed}>
         {#if locationConfirmed}

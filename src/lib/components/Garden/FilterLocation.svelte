@@ -9,7 +9,7 @@
   import { PlausibleEvent } from '$lib/types/Plausible';
 
   export let isSearching;
-  export let fallbackLocation;
+  export let closeToLocation;
 
   const dispatch = createEventDispatcher();
 
@@ -47,8 +47,8 @@
       if (string.trim() !== '') {
         const placesReturnedFromGeocode = await geocodeExtensive(
           string,
-          fallbackLocation.longitude,
-          fallbackLocation.latitude,
+          closeToLocation.longitude,
+          closeToLocation.latitude,
           $locale,
           5
         );

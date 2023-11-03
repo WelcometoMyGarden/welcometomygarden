@@ -3,10 +3,10 @@
   import { onMount, onDestroy } from 'svelte';
   import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
-  import { getAllListedGardens } from '$lib/api/garden';
+  import { getAllListedGardens, getGarden } from '$lib/api/garden';
   import { allGardens, isFetchingGardens } from '$lib/stores/garden';
   import routes from '$lib/routes';
-  import Map from '$lib/components/Map/Map.svelte';
+  import Map, { currentPosition } from '$lib/components/Map/Map.svelte';
   import Drawer from '$lib/components/Garden/GardenDrawer.svelte';
   import GardenLayer from '$lib/components/Map/GardenLayer.svelte';
   import WaymarkedTrails from '$lib/components/Map/WaymarkedTrails.svelte';
@@ -34,8 +34,8 @@
   import { fileDataLayers, removeTrailAnimations } from '$lib/stores/file';
   import { isOnIDevicePWA } from '$lib/api/push-registrations';
 
-  let fallbackLocation = { longitude: 4.5, latitude: 50.5 };
-  let geolocationIsLoaded = false;
+  // Defaults to Belgium; TODO: default to IP-based location
+  let belgiumFallback = { longitude: 4.5, latitude: 50.5 };
   let showHiking = false;
   let showCycling = false;
   let showFileTrailModal = false;
@@ -82,15 +82,24 @@
 
   // true when visiting the link to a garden directly, used to increase zoom level
   // TODO check this: It looks like there is no need for a subscribe on page
-  let usingGardenLink = !!$page.params.gardenId;
+  let isShowingGarden = !!$page.params.gardenId;
 
-  let zoom = usingGardenLink ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.SMALL_COUNTRY;
+  let zoom = isShowingGarden ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.SMALL_COUNTRY;
 
-  $: applyZoom = usingGardenLink ? true : false;
-  $: selectedGarden = $isFetchingGardens ? null : $allGardens[$page.params.gardenId];
-  $: center = selectedGarden
-    ? { longitude: selectedGarden.location.longitude, latitude: selectedGarden.location.latitude }
-    : fallbackLocation;
+  $: applyZoom = isShowingGarden ? true : false;
+  /**
+   * @type {Garden | null}
+   */
+  $: selectedGarden = $isFetchingGardens ? null : $allGardens[$page.params.gardenId] ?? null;
+
+  // This variable controls the location of the map.
+  // Don't make it reactive based on its params, so that it can be imperatively controlled.
+  // This is useful to not recenter the map after defocussing a selected garden
+  let centerLocation = selectedGarden?.location ?? belgiumFallback;
+
+  const setMapToGardenLocation = (garden: Garden) => {
+    centerLocation = garden.location!;
+  };
 
   const unsubscribeFromSavedGardens = savedGardenStore.subscribe((gardens) => {
     if (Array.isArray(gardens)) savedGardens = gardens;
@@ -102,7 +111,7 @@
   const selectGarden = (garden) => {
     const newSelectedId = garden.id;
     const newGarden = $allGardens[newSelectedId];
-    center = { longitude: newGarden.location.longitude, latitude: newGarden.location.latitude };
+    setMapToGardenLocation(newGarden);
     applyZoom = false; // zoom level is not programatically changed when exploring a garden
     goto(`${routes.MAP}/garden/${newSelectedId}`);
   };
@@ -110,12 +119,11 @@
   const goToPlace = (event) => {
     zoom = ZOOM_LEVELS.CITY;
     applyZoom = true;
-    center = { longitude: event.detail.longitude, latitude: event.detail.latitude };
+    centerLocation = { longitude: event.detail.longitude, latitude: event.detail.latitude };
   };
 
   const closeDrawer = () => {
-    usingGardenLink = false;
-
+    isShowingGarden = false;
     goto(routes.MAP);
   };
 
@@ -128,26 +136,24 @@
   // LIFECYCLE HOOKS
 
   onMount(async () => {
+    // If the gardens didn't load yet
     if (Object.keys($allGardens).length === 0) {
+      // If we're loading the page of a garden, load that one immediately before all other gardens
+      if (isShowingGarden) {
+        const garden = await getGarden($page.params.gardenId);
+        if (garden) {
+          $allGardens = { [garden.id]: garden };
+          setMapToGardenLocation(garden);
+        }
+      }
+
+      // Fetch all gardens
       try {
         await getAllListedGardens();
       } catch (ex) {
         console.error(ex);
         isFetchingGardens.set(false);
       }
-    }
-
-    if (!isOnIDevicePWA() && !geolocationIsLoaded && 'geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          fallbackLocation = { longitude: pos.coords.longitude, latitude: pos.coords.latitude };
-          geolocationIsLoaded = true;
-        },
-        (err) => {
-          console.log(err);
-          geolocationIsLoaded = true;
-        }
-      );
     }
   });
 
@@ -162,16 +168,14 @@
   });
 </script>
 
-<Progress active={$isFetchingGardens && !geolocationIsLoaded} />
+<Progress active={$isFetchingGardens} />
 
 <div class="map-section">
   <Map
-    lon={center.longitude}
-    lat={center.latitude}
+    lon={centerLocation.longitude}
+    lat={centerLocation.latitude}
     recenterOnUpdate
-    initialLon={fallbackLocation.longitude}
-    initialLat={fallbackLocation.latitude}
-    jump={usingGardenLink}
+    {isShowingGarden}
     {zoom}
     {applyZoom}
   >
@@ -219,7 +223,11 @@
     bind:showFileTrailModal
     bind:showTrainConnectionsModal
   />
-  <Filter on:goToPlace={goToPlace} bind:filteredGardens {fallbackLocation} />
+  <Filter
+    on:goToPlace={goToPlace}
+    bind:filteredGardens
+    closeToLocation={$currentPosition ?? belgiumFallback}
+  />
   <FileTrailModal bind:show={showFileTrailModal} />
   <TrainConnectionsModal bind:show={showTrainConnectionsModal} />
 </div>
