@@ -25,8 +25,13 @@
 
 <style>
   /* Use CSS specificity to override the height */
-  :global(div.app.active-explore:not(.fullscreen)) {
+  :global(div.app.active-explore) {
     --height-footer: 4.5rem;
+  }
+
+  /* Hide the footer on a fullscreen desktop map, too */
+  :global(div.app.active-explore.fullscreen footer) {
+    display: none;
   }
 
   footer {

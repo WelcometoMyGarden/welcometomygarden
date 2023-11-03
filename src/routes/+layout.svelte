@@ -256,7 +256,7 @@
     height: calc(var(--vh, 1vh) * 100);
     height: 100dvh;
     /* The home page for example overflows */
-    overflow: scroll;
+    overflow-y: scroll;
 
     /* Allows the <footer> to expand to the bottom when the screen is taller than the <main> content */
     /* Note:
@@ -284,9 +284,15 @@
      */
   }
 
+  .app.active-explore {
+    /* Avoid scrollbars */
+    overflow-y: auto;
+  }
   .app.active-explore > main {
     /* Make sure the map fills the entire space */
     height: 100%;
+    /* No max-width on the explore page */
+    max-width: unset;
   }
   /*
     If the chat page is active, make sure it expands to the full available height.
