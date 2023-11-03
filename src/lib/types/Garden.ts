@@ -9,7 +9,10 @@ export type Garden = {
    */
   id?: string;
   description: string;
-  location: null | LatLong;
+  /**
+   * TODO: can this actually be null? Check if any such gardens exist. They shouldn't!
+   */
+  location: null | LongLat;
   facilities: GardenFacilities;
   photo:
     | {
@@ -31,9 +34,9 @@ export type Garden = {
   unclaimed?: false;
 };
 
-type LatLong = {
-  latitude: number;
+export type LongLat = {
   longitude: number;
+  latitude: number;
 };
 
 export type GardenFacilities = {

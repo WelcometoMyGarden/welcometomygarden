@@ -8,6 +8,7 @@
   import { TextInput, Button } from '$lib/components/UI';
   import Map from '$lib/components/Map/Map.svelte';
   import DraggableMarker from '$lib/components/Map/DraggableMarker.svelte';
+  import { LOCATION_BELGIUM } from '$lib/constants';
 
   const dispatch = createEventDispatcher();
 
@@ -19,10 +20,8 @@
     city: ''
   };
 
-  let coordinates = initialCoordinates || {
-    latitude: 50.5,
-    longitude: 4.5
-  };
+  // TODO: if we can, we should use geolocation here to help the host
+  let coordinates = initialCoordinates || LOCATION_BELGIUM;
 
   let address = {};
   let reverseGeocoded = false;
@@ -67,7 +66,13 @@
 </script>
 
 <div class="map-container">
-  <Map lat={coordinates.latitude} lon={coordinates.longitude} recenterOnUpdate={true} zoom="6">
+  <Map
+    lat={coordinates.latitude}
+    lon={coordinates.longitude}
+    recenterOnUpdate={true}
+    zoom={6}
+    enableGeolocation={false}
+  >
     {#if isAddressConfirmShown}
       <Button type="button" small inverse={locationConfirmed} on:click={toggleLocationConfirmed}>
         {#if locationConfirmed}

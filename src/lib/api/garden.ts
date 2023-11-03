@@ -9,13 +9,34 @@ import {
   setDoc,
   updateDoc,
   getDocFromCache,
-  getDocFromServer
+  getDocFromServer,
+  getDoc,
+  CollectionReference
 } from 'firebase/firestore';
 import { getUser } from '$lib/stores/auth';
 import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '$lib/stores/garden';
 import { db, storage } from './firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import type { Garden, GardenFacilities } from '$lib/types/Garden';
+
+/**
+ * Get a single garden, if it exists and is listed. Returns `null` otherwise.
+ * @param id  the garden id
+ */
+export const getGarden = async (id: string) => {
+  const gardenDoc = await getDoc(
+    doc(collection(db(), CAMPSITES) as CollectionReference<Garden>, id)
+  );
+  let data = gardenDoc.data()!;
+  if (gardenDoc.exists() && data.listed) {
+    return {
+      id: gardenDoc.id,
+      ...data
+    };
+  } else {
+    return null;
+  }
+};
 
 export const getAllListedGardens = async () => {
   isFetchingGardens.set(true);

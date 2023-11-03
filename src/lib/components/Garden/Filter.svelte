@@ -16,7 +16,10 @@
   import { PlausibleEvent } from '$lib/types/Plausible';
 
   export let filteredGardens;
-  export let fallbackLocation;
+  /**
+   * Prioritize location filter results close to this location.
+   */
+  export let closeToLocation;
 
   let showFilterModal = false;
 
@@ -80,7 +83,7 @@
 <div class="filter">
   <div class="filter-controls">
     <div class="location-filter">
-      <FilterLocation on:goToPlace bind:isSearching {fallbackLocation} />
+      <FilterLocation on:goToPlace bind:isSearching {closeToLocation} />
     </div>
     <div class="garden-filter">
       <Button
