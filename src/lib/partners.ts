@@ -3,8 +3,12 @@ import natuurpuntLogo from './images/natuurpunt_logo.svg';
 import groteRoutePadenLogo from './images/groteroutepaden-logo-vernieuwd.svg';
 import GRSentiers from './images/les-sentiers-de-grande-randonnee-logo.svg';
 import wikimediaBELogo from './images/wikimediabe_logo.svg';
+import SELogoSrc from './images/shifting-economy.png';
+import brusselsRegion from './images/hoofdstedelijk-gewest.svg';
 
 export default [
+  { name: 'Brussels Region', link: 'https://be.brussels/en', logo: brusselsRegion },
+  { name: 'Shifting Economy', link: 'https://shiftingeconomy.brussels/', src: SELogoSrc },
   {
     name: 'Grote Routepaden',
     link: 'https://www.groteroutepaden.be/',

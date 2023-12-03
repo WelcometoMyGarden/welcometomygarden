@@ -10,8 +10,8 @@
     <h2>{$_('about-us.partners-section.title')}</h2>
     <p>{$_('about-us.partners-section.description')}</p>
     <div class="partner-logos">
-      {#each partners as { name, logo, link } (name)}
-        <Partner {name} {logo} {link} />
+      {#each partners as { name, logo, link, src } (name)}
+        <Partner {name} {logo} {link} {src} />
       {/each}
     </div>
   </div>
