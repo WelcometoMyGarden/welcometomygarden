@@ -1,6 +1,6 @@
 /**
  * Handles the `invoice.finalized` event from Stripe
- * @param {*} invoice
+ * @param {*} event
  * @param {*} res
  */
 module.exports = async (event, res) => {

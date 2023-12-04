@@ -21,7 +21,9 @@ const stripeSubscriptionSubKeys = [
   'canceledAt',
   // Whether the payment is approved, but still proccessing. To support immediately activating subscriptions for Sofort & other delayed notification payment methods.
   // See paymentIntentProcessing
-  'paymentProcessing'
+  'paymentProcessing',
+  // Stripe-hosted invoice link
+  'renewalInvoiceLink'
 ];
 
 // Keys that can be used in an .update command to a Firebase `users-private` doc

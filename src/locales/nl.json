@@ -599,7 +599,9 @@
       }
     },
     "superfan": {
-      "loading-portal": "Portaal aan het laden..."
+      "loading-portal": "Portaal aan het laden...",
+      "valid": "Jouw lidmaatschap is geldig tot {date}",
+      "just-ended": "Je lidmaatschap is net afgelopen.<br>We hopen dat we op jouw steun kunnen blijven rekenen! 💚"
     },
     "notify": {
       "resend-error": "We konden geen accountverificatie e-mail sturen. Neem contact op met {support}",

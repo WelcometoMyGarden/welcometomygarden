@@ -977,7 +977,10 @@
       }
     },
     "superfan": {
-      "loading-portal": "Chargement du portail..."
+      "loading-portal": "Chargement du portail...",
+      "valid": "Votre adhésion est valable jusqu'au {date}",
+      "just-ended": "Votre adhésion vient de se terminer.<br>Nous espérons pouvoir continuer à compter sur votre soutien ! 💚",
+      "renew-btn-text": "Renouvelez maintenant"
     },
     "verify": {
       "title": "Confirmez votre adresse électronique",

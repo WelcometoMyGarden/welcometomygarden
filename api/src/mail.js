@@ -199,3 +199,51 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
 
   return send(msg);
 };
+
+/**
+ * @typedef {Object} SubscriptionRenewalConfig
+ * @property {string} email
+ * @property {string} firstName
+ * @property {number} price expected to be an integer
+ * @property {string} renewalLink
+ * @property {string} language
+ */
+
+/**
+ * @param {SubscriptionRenewalConfig} config
+ * @returns
+ */
+exports.sendSubscriptionRenewalEmail = (config) => {
+  const { email, firstName, price, renewalLink, language } = config;
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-97e7ad7457d14f348833cb32a6143e33';
+      break;
+    case 'nl':
+      templateId = 'd-8efa4a0675c14098b9acd2d747e4db74';
+      break;
+    default:
+      templateId = 'd-77f6b26edb374b4197bdd30e2aafda03';
+      break;
+  }
+
+  const msg = {
+    to: email,
+    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    templateId,
+    dynamic_template_data: {
+      firstName,
+      price,
+      renewalLink
+    }
+  };
+
+  if (!canSendMail) {
+    console.warn(NO_API_KEY_WARNING);
+    console.info(JSON.stringify(msg));
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};

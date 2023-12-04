@@ -102,10 +102,10 @@ If another live testing webhook listener is already active, disable it first, to
 2. Take over its events locally by running:
 
    ```
-   stripe listen --events customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.paid,payment_intent.processing --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/stripeWebhooks
+   stripe listen --events customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.created,invoice.paid,payment_intent.processing --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/stripeWebhooks
    ```
 
-3. Verify that `/wtmg-dev/` in the URL above matches your current Firebase emulator project (did you run `firebase use wtmg-dev` before running Firebase emulators?). Also verify that the API emulator is active, with .env (`VITE_USE_API_EMULATOR=true`);
+3. Verify that `/wtmg-dev/` in the URL above matches your current Firebase emulator project (did you run `firebase use wtmg-dev` before running Firebase emulators? Or are you using `/demo-test/`?). Also verify that the API emulator is active, with .env (`VITE_USE_API_EMULATOR=true`);
 
 If you get an api-key-expired error, you must likely log in again. The authentication expires after 90 days.
 

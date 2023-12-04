@@ -33,6 +33,11 @@ type StripeSubscription = {
   canceledAt: number;
   /** Whether the last invoice payment is approved, but still processing */
   paymentProcessing?: boolean;
+  /**
+   * The last (currently relevant)
+   * To be shown until 7 days after the currentPeriodStart, if the latest invoice status is not paid.
+   */
+  renewalInvoiceLink: string | undefined;
 };
 
 type EmailPreferences = {
@@ -105,7 +110,10 @@ export class User implements UserPrivate, UserPublic {
     this.emailVerified = user.emailVerified || false;
     this.countryCode = user.countryCode || '';
     this.garden = user.garden || null;
-    this.emailPreferences = user.emailPreferences || null;
+    this.emailPreferences = user.emailPreferences || {
+      newChat: true,
+      news: true
+    };
     this.consentedAt = user.consentedAt || null;
     this.communicationLanguage = user.communicationLanguage || '';
     this.superfan = user.superfan || false;

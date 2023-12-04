@@ -9,7 +9,8 @@ const {
   cancelAtKey,
   canceledAtKey,
   currentPeriodEndKey,
-  currentPeriodStartKey
+  currentPeriodStartKey,
+  latestInvoiceStatusKey
 } = stripeSubscriptionKeys;
 
 /**
@@ -33,7 +34,8 @@ module.exports = async (event, res) => {
       [cancelAtKey]: subscription.cancel_at,
       [canceledAtKey]: subscription.canceled_at,
       [currentPeriodStartKey]: subscription.current_period_start,
-      [currentPeriodEndKey]: subscription.current_period_end
+      [currentPeriodEndKey]: subscription.current_period_end,
+      [latestInvoiceStatusKey]: subscription.latest_invoice.status
       // startDate should not have changed
     })
   );

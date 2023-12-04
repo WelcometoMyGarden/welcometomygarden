@@ -993,7 +993,10 @@
       }
     },
     "superfan": {
-      "loading-portal": "Loading portal..."
+      "loading-portal": "Loading portal...",
+      "valid": "Your membership is valid until {date}",
+      "just-ended": "Your membership has just ended.<br>We hope we can continue to count on your support! 💚",
+      "renew-btn-text": "Renew now"
     },
     "notify": {
       "resend-error": "We couldn't resend an account verification email. Please contact {support}",
