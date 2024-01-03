@@ -8,7 +8,9 @@ const { db } = require('../../firebase');
 const { sendSubscriptionRenewalEmail } = require('../../mail');
 
 /**
- * Handles the `invoice.created` event from Stripe
+ * Handles the `invoice.created` event from Stripe.
+ * Only handles WTMG subscription renewal invoices, ignores other invoices.
+ *
  * @param {any} event
  * @param {import('firebase-functions/v1').Response} res
  *
@@ -26,6 +28,8 @@ module.exports = async (event, res) => {
   if (invoice.billing_reason !== 'subscription_cycle' || !isWtmgSubscriptionInvoice) {
     // Ignore invoices that were created for events not related
     // to WTMG subscription renewals
+    //
+    // NOTE: a subscription creation (first invoice) will have billing_reason `subscription_create`
     return res.sendStatus(200);
   }
 
@@ -44,7 +48,8 @@ module.exports = async (event, res) => {
   }
 
   //
-  // Save the renewal invoice URL in Firebase
+  // Set the user's latest invoice state
+  // + save the renewal invoice URL in Firebase
   const privateUserProfileDocRef = db.doc(`users-private/${uid}`);
   await privateUserProfileDocRef.update(
     removeUndefined({
@@ -54,7 +59,6 @@ module.exports = async (event, res) => {
     })
   );
 
-  // Set the user's latest invoice state
   // Get public & private data
   const publicUserProfileDocRef = db.doc(`users/${uid}`);
   const [publicUserProfileData, privateUserProfileData] = (

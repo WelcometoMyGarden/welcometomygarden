@@ -1,3 +1,4 @@
+// @ts-check
 const functions = require('firebase-functions');
 const sendgrid = require('@sendgrid/mail');
 const removeEndingSlash = require('./util/removeEndingSlash');
@@ -236,6 +237,44 @@ exports.sendSubscriptionRenewalEmail = (config) => {
       firstName,
       price,
       renewalLink
+    }
+  };
+
+  if (!canSendMail) {
+    console.warn(NO_API_KEY_WARNING);
+    console.info(JSON.stringify(msg));
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};
+
+/**
+ * @param {string} email
+ * @param {string} firstName
+ * @param {string} language
+ * @returns
+ */
+exports.sendSubscriptionEndedEmail = (email, firstName, language) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-78968e5eeec94a498c5e21cc70a7eedf';
+      break;
+    case 'nl':
+      templateId = 'd-195cdd1b8a92461c89595ea585b49b21';
+      break;
+    default:
+      templateId = 'd-029a0be7ca0e4a01821f6faa9c13e936';
+      break;
+  }
+
+  const msg = {
+    to: email,
+    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    templateId,
+    dynamic_template_data: {
+      firstName
     }
   };
 
