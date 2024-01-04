@@ -30,6 +30,8 @@ const { cleanupUserOnDelete } = require('./user/cleanupUserOnDelete');
 const { onUserWrite } = require('./user/onUserWrite');
 const { onUserPrivateWrite } = require('./user/onUserPrivateWrite');
 
+const cancelUnpaidRenewals = require('./subscriptions/cancelUnpaidRenewals');
+
 // Regions
 // This is in Belgium! All new functions should be deployed here.
 const euWest1 = functions.region('europe-west1');
@@ -104,3 +106,7 @@ exports.notifyOnChat = usCentral1.firestore
 
 // Scheduled tasks
 exports.scheduledFirestoreBackup = functions.pubsub.schedule('every 6 hours').onRun(doBackup);
+exports.cancelUnpaidRenewals = functions.pubsub.schedule('every hour').onRun(cancelUnpaidRenewals);
+
+// Only for testing the above cancellation function!
+// exports.cancelUnpaidRenewalsTest = euWest1.https.onRequest(cancelUnpaidRenewals);

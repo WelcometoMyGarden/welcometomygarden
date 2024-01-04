@@ -2773,6 +2773,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"es6-promise-pool@npm:^2.5.0":
+  version: 2.5.0
+  resolution: "es6-promise-pool@npm:2.5.0"
+  checksum: e472ec5959b022b28e678446674c78dd2d198dd50c537ef59916d32d2423fe4518c43f132d81f2e98249b8b8450c95f77b8d9aecc1fb15e8dcd224c5b98f0cce
+  languageName: node
+  linkType: hard
+
 "escalade@npm:^3.1.1":
   version: 3.1.1
   resolution: "escalade@npm:3.1.1"
@@ -3393,6 +3400,7 @@ __metadata:
     "@google-cloud/firestore": ^6.4.1
     "@sendgrid/client": ^7.7.0
     "@sendgrid/mail": ^7.1.1
+    es6-promise-pool: ^2.5.0
     eslint: ^8.29.0
     eslint-config-airbnb: ^19.0.4
     eslint-config-prettier: ^8.5.0
