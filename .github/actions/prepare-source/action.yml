@@ -9,7 +9,7 @@ runs:
   steps:
     - uses: actions/setup-node@v3
       with:
-        node-version: 16
+        node-version: 18
         cache: 'yarn'
     - name: Install Dependencies
       # https://github.com/actions/setup-node/blob/main/docs/advanced-usage.md#caching-packages-data
