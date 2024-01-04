@@ -16,6 +16,12 @@
   import EmailChangeModal from './EmailChangeModal.svelte';
   import { countryNames } from '$lib/stores/countryNames';
   import NotificationSection from './NotificationSection.svelte';
+  import {
+    hasOpenRenewalInvoice,
+    hasValidSubscription,
+    shouldPromptForNewSubscription,
+    subscriptionJustEnded
+  } from '$lib/stores/subscription';
 
   let showAccountDeletionModal = false;
   let showEmailChangeModal = false;
@@ -70,39 +76,6 @@
     }
   };
 
-  $: hasValidSubscription =
-    $user?.superfan &&
-    $user.stripeSubscription &&
-    $user.stripeSubscription.status === 'active' &&
-    $user.stripeSubscription.latestInvoiceStatus === 'paid';
-
-  const nowSeconds = () =>
-    // 1827649800 + 3600 * 24 * 7 + 3600;
-    new Date().valueOf() / 1000;
-
-  // nowSeconds just as a default value
-  $: sevenDayMarkSec =
-    ($user?.stripeSubscription?.currentPeriodStart || nowSeconds()) + 3600 * 24 * 7;
-  // Note: until after 7 days, the current subscription can be renewed.
-  // After that, a new one has to be completed.
-  $: subscriptionJustEnded =
-    $user?.stripeSubscription &&
-    $user.stripeSubscription.latestInvoiceStatus !== 'paid' &&
-    // This is not the initial invoice
-    $user.stripeSubscription.currentPeriodStart !== $user.stripeSubscription.startDate &&
-    // We are 30 days until the last cycle ended
-    nowSeconds() < $user.stripeSubscription.currentPeriodStart + 3600 * 24 * 30;
-
-  $: hasOpenRenewalInvoice =
-    $user?.superfan &&
-    $user.stripeSubscription &&
-    $user.stripeSubscription.latestInvoiceStatus === 'open' &&
-    $user.stripeSubscription.renewalInvoiceLink &&
-    // The current second epoch is less than 7 days from the current (= new/unpaid) period start
-    nowSeconds() < sevenDayMarkSec;
-
-  $: promptForNewSubscription = subscriptionJustEnded && nowSeconds() >= sevenDayMarkSec;
-
   const formatDate = (locale: string, date: Date) =>
     new Intl.DateTimeFormat(locale, { dateStyle: 'medium' }).format(date);
 </script>
@@ -138,7 +111,7 @@
             {$countryNames[$user.countryCode]}
           </div>
         </div>
-        {#if hasValidSubscription && $user.stripeSubscription}
+        {#if $hasValidSubscription && $user.stripeSubscription}
           <div class="superfan-validity">
             <p>
               ✅ {$_('account.superfan.valid', {
@@ -151,16 +124,16 @@
               })}
             </p>
           </div>
-        {:else if subscriptionJustEnded}
+        {:else if $subscriptionJustEnded}
           <div class="superfan-validity invalid">
             <p>{@html $_('account.superfan.just-ended')}</p>
             <Button
               xxsmall
               uppercase
               on:click={() => {
-                if (hasOpenRenewalInvoice) {
+                if ($hasOpenRenewalInvoice) {
                   window.open($user?.stripeSubscription?.renewalInvoiceLink, '_blank');
-                } else if (promptForNewSubscription) {
+                } else if ($shouldPromptForNewSubscription) {
                   window.location.href = `${routes.ABOUT_MEMBERSHIP}#pricing`;
                 }
               }}>{$_('account.superfan.renew-btn-text')}</Button

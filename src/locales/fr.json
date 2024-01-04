@@ -44,6 +44,11 @@
       "prompt": "Nouveau : ",
       "answer": "une adhésion WTMG pour tous les voyageurs lents. Pour en savoir plus, {linkText}",
       "link-text": "cliquez ici !"
+    },
+    "membership-expired-notice": {
+      "prompt": "Souhaitez-vous renouveler votre adhésion WTMG ({amount}/an) dès maintenant ?",
+      "answer": "{linkText}. Merci pour votre soutien !",
+      "link-text": "Cliquez ici"
     }
   },
   "index": {

@@ -50,6 +50,11 @@
       "prompt": "New: ",
       "answer": "a WTMG membership for all slow travellers. Find out more {linkText}!",
       "link-text": "here"
+    },
+    "membership-expired-notice": {
+      "prompt": "Want to renew your WTMG membership ({amount}/year) now?",
+      "answer": "Then click {linkText}. Thank you for your support!",
+      "link-text": "here"
     }
   },
   "index": {

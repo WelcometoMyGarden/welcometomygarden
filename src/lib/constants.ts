@@ -50,3 +50,10 @@ export const nonMemberMaxZoom = 12;
 export const memberMaxZoom = 22;
 
 export const NOTIFICATION_PROMPT_DISMISSED_COOKIE = 'notif_dismissed';
+
+// In EUR
+export const MEMBERSHIP_YEARLY_AMOUNTS: { [key: string]: number } = {
+  [import.meta.env.VITE_STRIPE_PRICE_ID_REDUCED]: 36,
+  [import.meta.env.VITE_STRIPE_PRICE_ID_NORMAL]: 60,
+  [import.meta.env.VITE_STRIPE_PRICE_ID_SOLIDARITY]: 120
+};

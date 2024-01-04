@@ -1,36 +1,72 @@
 <script>
-  import { _ } from 'svelte-i18n';
+  import { _, locale } from 'svelte-i18n';
   import routes from '$lib/routes';
   import NavLink from './NavLink.svelte';
   import UserDropdown from './UserDropdown.svelte';
   import { user } from '$lib/stores/auth';
   import WtmgLogo from '../../UI/WTMGLogo.svelte';
-  import { COMMUNITY_FORUM_URL } from '$lib/constants';
-  import NewBadge from '../NewBadge.svelte';
+  import { COMMUNITY_FORUM_URL, MEMBERSHIP_YEARLY_AMOUNTS } from '$lib/constants';
   import { anchorText } from '$lib/util/translation-helpers';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import trackEvent from '$lib/util/track-plausible';
+  import { hasOpenRenewalInvoice, subscriptionJustEnded } from '$lib/stores/subscription';
 
   $: firstName = $user ? $user.firstName : '';
+  $: shouldShowRenewalTopBar = $user && $user.stripeSubscription && $subscriptionJustEnded;
+  $: shouldShowTopBar = !$user?.superfan || shouldShowRenewalTopBar;
 </script>
 
 <nav>
-  {#if !$user?.superfan}
+  {#if shouldShowTopBar}
     <div class="nav-extra">
-      <span
-        ><strong style="font-weight: 500;">{$_('navigation.membership-notice.prompt')}</strong
-        >{@html $_('navigation.membership-notice.answer', {
-          values: {
-            linkText: anchorText({
-              href: routes.ABOUT_MEMBERSHIP,
-              track: [PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'top_navbar_announcement' }],
-              linkText: $_('navigation.membership-notice.link-text'),
-              style: 'text-decoration: underline; cursor: pointer;',
-              newtab: false
-            })
-          }
-        })}
-      </span>
+      <!-- Inform non-superfans of the membership offering -->
+      {#if !$user?.superfan}
+        <span
+          ><strong style="font-weight: 500;">{$_('navigation.membership-notice.prompt')}</strong
+          >{@html $_('navigation.membership-notice.answer', {
+            values: {
+              linkText: anchorText({
+                href: routes.ABOUT_MEMBERSHIP,
+                track: [
+                  PlausibleEvent.VISIT_ABOUT_MEMBERSHIP,
+                  { source: 'top_navbar_announcement' }
+                ],
+                linkText: $_('navigation.membership-notice.link-text'),
+                style: 'text-decoration: underline; cursor: pointer;',
+                newtab: false
+              })
+            }
+          })}
+        </span>
+      {:else if shouldShowRenewalTopBar && $user.stripeSubscription}
+        <!-- Inform renewal amount -->
+        <span
+          ><strong style="font-weight: 500;">
+            {$_('navigation.membership-expired-notice.prompt', {
+              values: {
+                amount:
+                  ($locale !== 'fr' ? '€ ' : '') +
+                  (MEMBERSHIP_YEARLY_AMOUNTS[$user.stripeSubscription.priceId] || 60) +
+                  ($locale === 'fr' ? '€' : '')
+              }
+            })}</strong
+          >{' '}{@html $_('navigation.membership-expired-notice.answer', {
+            values: {
+              linkText: anchorText({
+                href:
+                  $hasOpenRenewalInvoice && $user.stripeSubscription.renewalInvoiceLink
+                    ? $user.stripeSubscription.renewalInvoiceLink
+                    : `${routes.ABOUT_MEMBERSHIP}#pricing`,
+                // TODO: this isn't accurate, the hosted invoice page visitors aren't about_membership page visitors
+                track: [PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'top_navbar_renewal' }],
+                linkText: $_('navigation.membership-expired-notice.link-text'),
+                style: 'text-decoration: underline; cursor: pointer;',
+                newtab: false
+              })
+            }
+          })}
+        </span>
+      {/if}
     </div>
   {/if}
   <div class="main-nav">
@@ -81,7 +117,7 @@
   <!-- !important is necessary because the svelte component-scoped CSS otherwise has higher CSS specificity -->
   <!--  -->
   <!-- Hide the extra bar vvvv (prettier duplicates this comment if put within the block on every save) -->
-  {#if $user?.superfan}
+  {#if !shouldShowTopBar}
     <style>
       .nav-extra {
         display: none !important;

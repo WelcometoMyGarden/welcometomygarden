@@ -42,6 +42,11 @@
       "prompt": "Nieuw: ",
       "answer": "een WTMG-lidmaatschap voor alle trage reizigers. Lees er {linkText} meer over!",
       "link-text": "hier"
+    },
+    "membership-expired-notice": {
+      "prompt": "Wil je je WTMG-lidmaatschap ({amount}/jaar) nu verlengen?",
+      "answer": "Klik dan {linkText}. Bedankt voor je steun!",
+      "link-text": "hier"
     }
   },
   "index": {
