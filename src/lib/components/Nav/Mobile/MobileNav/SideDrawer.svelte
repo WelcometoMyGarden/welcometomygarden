@@ -11,10 +11,10 @@
   import { isActive } from '$lib/util/isActive';
   import { createEventDispatcher } from 'svelte';
   import { COMMUNITY_FORUM_URL, DONATION_URL } from '$lib/constants';
-  import NewBadge from '../../NewBadge.svelte';
   import { anchorText } from '$lib/util/translation-helpers';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import trackEvent from '$lib/util/track-plausible';
+  import { renewalNoticeContent, subscriptionJustEnded } from '$lib/stores/subscription';
 
   const dispatch = createEventDispatcher();
   export let isOpen = false;
@@ -58,6 +58,9 @@
     { route: routes.PRIVACY_POLICY, name: $_('generics.privacy-policy') },
     { route: routes.TERMS_OF_USE, name: $_('generics.terms-of-use') }
   ];
+
+  $: shouldRenewalNotice =
+    $user && $user.stripeSubscription && $subscriptionJustEnded && $user.stripeSubscription;
 </script>
 
 <div class:shown={isOpen} class="overlay" />
@@ -65,7 +68,7 @@
   <li class="socials">
     <Socials small />
   </li>
-  <li class="superfan-bar" class:show={!$user?.superfan}>
+  <li class="superfan-bar" class:show={!$user?.superfan || shouldRenewalNotice}>
     {#if !$user?.superfan}
       <span class="title">{$_('navigation.membership-notice.prompt')}</span>
       <span
@@ -84,6 +87,9 @@
           }
         })}</span
       >
+    {:else if shouldRenewalNotice}
+      <span class="title">{$renewalNoticeContent?.prompt}</span>
+      <span>{@html $renewalNoticeContent?.answerHtml}</span>
     {/if}
   </li>
   <li class="main-links-container">

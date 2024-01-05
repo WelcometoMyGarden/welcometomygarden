@@ -46,7 +46,7 @@
       "link-text": "cliquez ici !"
     },
     "membership-expired-notice": {
-      "prompt": "Souhaitez-vous renouveler votre adhésion WTMG ({amount}/an) dès maintenant ?",
+      "prompt": "Souhaitez-vous renouveler votre adhésion WTMG{amount} dès maintenant ?",
       "answer": "{linkText}. Merci pour votre soutien !",
       "link-text": "Cliquez ici"
     }

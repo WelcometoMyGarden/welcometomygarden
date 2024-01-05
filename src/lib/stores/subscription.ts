@@ -1,5 +1,10 @@
 import { derived } from 'svelte/store';
 import { user } from './auth';
+import { isLoading, locale, t } from 'svelte-i18n';
+import { MEMBERSHIP_YEARLY_AMOUNTS } from '$lib/constants';
+import { anchorText } from '$lib/util/translation-helpers';
+import routes from '$lib/routes';
+import { PlausibleEvent } from '$lib/types/Plausible';
 
 export const hasValidSubscription = derived(user, ($user) =>
   $user?.superfan
@@ -52,4 +57,48 @@ export const shouldPromptForNewSubscription = derived(
   [subscriptionJustEnded, sevenDayMarkSec],
   ([$subscriptionJustEnded, $sevenDayMarkSec]) =>
     $sevenDayMarkSec && $subscriptionJustEnded && nowSeconds() >= $sevenDayMarkSec
+);
+
+// This is extracted here because it's shared between the top navbar and the mobile side navbar
+// TODO: the downside is that here, it will always load and update, regardless of the page we're on.
+// Should we initialize a store per-page?
+export const renewalNoticeContent = derived(
+  [t, isLoading, shouldPromptForNewSubscription, hasOpenRenewalInvoice, locale, user],
+  ([$t, $isLoading, $shouldPromptForNewSubscription, $hasOpenRenewalInvoice, $locale, $user]) => {
+    if (!$isLoading && $user?.stripeSubscription) {
+      return {
+        prompt: $t('navigation.membership-expired-notice.prompt', {
+          values: {
+            // Only show the amount if we're still in the renewal window
+            // (for now, only the same price can be renewed)
+            // Afterwards, any pricing level can be picked for a new sub.
+            amount: $shouldPromptForNewSubscription
+              ? ''
+              : ` (${
+                  ($locale !== 'fr' ? '€ ' : '') +
+                  (MEMBERSHIP_YEARLY_AMOUNTS[$user.stripeSubscription.priceId] || 60) +
+                  ($locale === 'fr' ? '€' : '') +
+                  $t('become-superfan.pricing-section.per-year')
+                })`
+          }
+        }),
+        answerHtml: $t('navigation.membership-expired-notice.answer', {
+          values: {
+            linkText: anchorText({
+              href:
+                $hasOpenRenewalInvoice && $user.stripeSubscription.renewalInvoiceLink
+                  ? $user.stripeSubscription.renewalInvoiceLink
+                  : `${routes.ABOUT_MEMBERSHIP}#pricing`,
+              // TODO: this isn't accurate, the hosted invoice page visitors aren't about_membership page visitors
+              // also, no side_ or top_ navbar renewal distinction
+              track: [PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'navbar_renewal' }],
+              linkText: $t('navigation.membership-expired-notice.link-text'),
+              style: 'text-decoration: underline; cursor: pointer;',
+              newtab: false
+            })
+          }
+        })
+      };
+    }
+  }
 );

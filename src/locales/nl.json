@@ -44,7 +44,7 @@
       "link-text": "hier"
     },
     "membership-expired-notice": {
-      "prompt": "Wil je je WTMG-lidmaatschap ({amount}/jaar) nu verlengen?",
+      "prompt": "Wil je je WTMG-lidmaatschap{amount} nu verlengen?",
       "answer": "Klik dan {linkText}. Bedankt voor je steun!",
       "link-text": "hier"
     }
