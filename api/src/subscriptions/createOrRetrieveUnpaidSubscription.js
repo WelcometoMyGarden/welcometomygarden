@@ -75,6 +75,9 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
   await privateUserProfileDocRef.update(
     removeUndefined({
       [idKey]: subscription.id,
+      // Take the price ID from the subscription object.
+      // [one-off-invoice] Don't take the price ID from the invoice object, because if it was updated (first invoice voided),
+      // The invoice line item will have a custom one-off product ID and price ID
       [priceIdKey]: subscription.items.data[0].price.id,
       [statusKey]: subscription.status,
       [latestInvoiceStatusKey]: subscription.latest_invoice.status,
@@ -163,6 +166,9 @@ const changeSubscriptionPrice = async (
     // Can't do this, it's not allowed to directly set the recurring priceId
     // Unhandled error StripeInvalidRequestError: The price specified is set to `type=recurring` but this field only accepts prices with `type=one_time`.
     // TODO: add a description. Now it says: "No description" - however, description is a part of a product
+    // NOTE: This results in a **one-off product and price ID** to be created just for this invoice
+    //  TODO: this leads to annoying inconsistencies in transaction reporting. We should consider fully cancelling and recreating one,
+    //  rather than voiding the first invoice of the same subscription. Pros/cons?
     unit_amount: priceObject.unit_amount,
     quantity: 1,
     currency: priceObject.currency
@@ -188,6 +194,7 @@ const changeSubscriptionPrice = async (
   await privateUserProfileDocRef.update(
     removeUndefined({
       // Get the new price id from the source of truth, it should be equal to priceObject.id though.
+      // NOTE: don't get it from the invoice, see other note [one-off-invoice]
       [priceIdKey]: proratedSubscription.items.data[0].price.id,
       [statusKey]: proratedSubscription.status,
       [latestInvoiceStatusKey]: proratedSubscription.latest_invoice.status

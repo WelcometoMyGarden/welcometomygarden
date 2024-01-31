@@ -23,6 +23,8 @@ module.exports = async (event, res) => {
   const priceIdsObj = functions.config().stripe.price_ids;
   const wtmgPriceIds = Object.values(priceIdsObj);
 
+  // NOTE: we can only rely on this price ID being accurate because we only look for subscription_cycle invoices
+  // If we were to handle subscription_update invoices here, the price ID may be different, see [one-off-invoice]
   const price = invoice.lines.data[0]?.price;
   const isWtmgSubscriptionInvoice = wtmgPriceIds.includes(price?.id || '');
   if (invoice.billing_reason !== 'subscription_cycle' || !isWtmgSubscriptionInvoice) {
