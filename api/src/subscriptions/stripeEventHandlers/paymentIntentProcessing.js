@@ -1,7 +1,10 @@
 // @ts-check
 /* eslint-disable camelcase */
 const getFirebaseUserId = require('../getFirebaseUserId');
-const { sendSubscriptionConfirmationEmail } = require('../../mail');
+const {
+  sendSubscriptionConfirmationEmail,
+  sendSubscriptionRenewalThankYouEmail
+} = require('../../mail');
 const { stripeSubscriptionKeys } = require('../constants');
 const { db } = require('../../firebase');
 const stripe = require('../stripe');
@@ -9,7 +12,11 @@ const stripe = require('../stripe');
 const { latestInvoiceStatusKey, paymentProcessingKey } = stripeSubscriptionKeys;
 
 /**
- * Inform Firebase of an approved, processing payment + send membership email
+ *
+ * Inform Firebase of an approved, processing payment + send membership confirmation email
+ * Special case handlig of SOFORT, where we consider an "network approved" initiated payment
+ * already fully closed & settled.
+ * ("first thank you" email, or the "thank you for renewing" email)
  * @param {import('stripe').Stripe.Event} event
  * @returns
  */
@@ -51,8 +58,13 @@ module.exports = async (event, res) => {
   // Check if the invoice is related to subscription creation
   if (
     !(
-      invoice.billing_reason === 'subscription_create' ||
-      invoice.metadata?.billing_reason_override === 'subscription_create'
+      // when creating
+      (
+        invoice.billing_reason === 'subscription_create' ||
+        invoice.metadata?.billing_reason_override === 'subscription_create' ||
+        // when renewing
+        invoice.billing_reason === 'subscription_cycle'
+      )
     )
   ) {
     return res.sendStatus(200);
@@ -75,12 +87,23 @@ module.exports = async (event, res) => {
     return res.sendStatus(500);
   }
 
-  // Send a superfan email
-  sendSubscriptionConfirmationEmail(
-    invoice.customer_email,
-    publicUserProfileData.firstName,
-    privateUserProfileData.communicationLanguage
-  );
+  // Send a payment confirmation email
+  if (
+    invoice.billing_reason === 'subscription_create' ||
+    invoice.metadata?.billing_reason_override === 'subscription_create'
+  ) {
+    sendSubscriptionConfirmationEmail(
+      invoice.customer_email,
+      publicUserProfileData.firstName,
+      privateUserProfileData.communicationLanguage
+    );
+  } else if (invoice.billing_reason === 'subscription_cycle') {
+    sendSubscriptionRenewalThankYouEmail(
+      invoice.customer_email,
+      publicUserProfileData.firstName,
+      privateUserProfileData.communicationLanguage
+    );
+  }
 
   return res.sendStatus(200);
 };

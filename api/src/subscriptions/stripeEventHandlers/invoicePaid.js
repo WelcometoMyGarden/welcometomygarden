@@ -1,5 +1,8 @@
 const getFirebaseUserId = require('../getFirebaseUserId');
-const { sendSubscriptionConfirmationEmail } = require('../../mail');
+const {
+  sendSubscriptionConfirmationEmail,
+  sendSubscriptionRenewalThankYouEmail
+} = require('../../mail');
 const { stripeSubscriptionKeys } = require('../constants');
 const { db } = require('../../firebase');
 
@@ -39,18 +42,29 @@ module.exports = async (event, res) => {
   }
 
   // Send a confirmation email in case it was not sent yet
-  // (we already send a confirmation email on paymentProcessing)
-  if (
-    !paymentWasProcessing &&
-    (invoice.billing_reason === 'subscription_create' ||
-      invoice.metadata.billing_reason_override === 'subscription_create')
-  ) {
-    // this is the paid invoice for the first subscription
-    sendSubscriptionConfirmationEmail(
-      invoice.customer_email,
-      publicUserProfileData.firstName,
-      privateUserProfileData.communicationLanguage
-    );
+  // (we already send a confirmation email in paymentIntentProcessing.js when this flag is true)
+  if (!paymentWasProcessing) {
+    if (
+      invoice.billing_reason === 'subscription_create' ||
+      invoice.metadata.billing_reason_override === 'subscription_create'
+    ) {
+      // this is the paid invoice for the first subscription
+      sendSubscriptionConfirmationEmail(
+        invoice.customer_email,
+        publicUserProfileData.firstName,
+        privateUserProfileData.communicationLanguage
+      );
+    }
+
+    if (invoice.billing_reason === 'subscription_cycle') {
+      // Overrides of invoices should not be possible on subscription cycles (at the time of writing)
+      // But with SOFORT, paymetnProcessing on renewals is (or should be) possible.
+      sendSubscriptionRenewalThankYouEmail(
+        invoice.customer_email,
+        publicUserProfileData.firstName,
+        privateUserProfileDocRef.communicationLanguage
+      );
+    }
   }
 
   return res.sendStatus(200);

@@ -38,7 +38,17 @@ module.exports = async (event, res) => {
   const uid = await getFirebaseUserId(invoice.customer);
 
   // Finalize the invoice
-  const finalizedInvoice = await stripe.invoices.finalizeInvoice(invoice.id);
+  /** @type {import('stripe').Stripe.Invoice} */
+  let finalizedInvoice;
+  try {
+    finalizedInvoice = await stripe.invoices.finalizeInvoice(invoice.id);
+  } catch (e) {
+    // The invoice may already be finalized immediately after this event is sent when we're working with test clocks,
+    // but before this function executes.
+    // TODO: verify that this is indeed the error here. Via code?
+    // > Error: This invoice is already finalized, you can't re-finalize a non-draft invoice.
+    finalizedInvoice = await stripe.invoices.retrieve(invoice.id);
+  }
 
   const { renewalInvoiceLinkKey, latestInvoiceStatusKey } = stripeSubscriptionKeys;
 

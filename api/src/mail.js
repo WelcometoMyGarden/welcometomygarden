@@ -286,3 +286,41 @@ exports.sendSubscriptionEndedEmail = (email, firstName, language) => {
 
   return send(msg);
 };
+
+/**
+ * @param {string} email
+ * @param {string} firstName
+ * @param {string} language
+ * @returns
+ */
+exports.sendSubscriptionRenewalThankYouEmail = (email, firstName, language) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-180e7b9764c64552a5f9715606432858';
+      break;
+    case 'nl':
+      templateId = 'd-04a338e3ecee43a1bf2a941a9b39ffdb';
+      break;
+    default:
+      templateId = 'd-bda2656ade9a4efd97650ed9df43de39';
+      break;
+  }
+
+  const msg = {
+    to: email,
+    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    templateId,
+    dynamic_template_data: {
+      firstName
+    }
+  };
+
+  if (!canSendMail) {
+    console.warn(NO_API_KEY_WARNING);
+    console.info(JSON.stringify(msg));
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};
