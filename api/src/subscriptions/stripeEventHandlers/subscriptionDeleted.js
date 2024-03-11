@@ -4,6 +4,7 @@ const { sendSubscriptionEndedEmail } = require('../../mail');
 const removeUndefined = require('../../util/removeUndefined');
 const { stripeSubscriptionKeys } = require('../constants');
 const getFirebaseUserId = require('../getFirebaseUserId');
+const { isWTMGSubscription } = require('./util');
 
 const { statusKey, cancelAtKey, canceledAtKey } = stripeSubscriptionKeys;
 
@@ -20,6 +21,11 @@ module.exports = async (event, res) => {
   console.log('Handling customer.subscription.deleted');
   /** @type {import('stripe').Stripe.Subscription} */
   const subscription = event.data.object;
+  if (!isWTMGSubscription(subscription)) {
+    console.log('Ignoring non-WTMG subscription');
+    return res.sendStatus(200);
+  }
+
   const {
     customer,
     start_date: startDate,

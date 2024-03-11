@@ -1,7 +1,10 @@
+// @ts-check
+//
 const getFirebaseUserId = require('../getFirebaseUserId');
 const { stripeSubscriptionKeys } = require('../constants');
 const removeUndefined = require('../../util/removeUndefined');
 const { db } = require('../../firebase');
+const { isWTMGSubscription } = require('./util');
 
 const {
   priceIdKey,
@@ -23,6 +26,11 @@ module.exports = async (event, res) => {
   console.log('Handling subscription.updated');
   /** @type {import('stripe').Stripe.Subscription} */
   const subscription = event.data.object;
+  if (!isWTMGSubscription(subscription)) {
+    console.log('Ignoring non-WTMG subscription');
+    return res.sendStatus(200);
+  }
+
   const uid = await getFirebaseUserId(subscription.customer);
 
   // Save updated subscription state in Firebase
