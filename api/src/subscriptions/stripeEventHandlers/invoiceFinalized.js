@@ -10,7 +10,7 @@ const { isWTMGInvoice } = require('./util');
 module.exports = async (event, res) => {
   console.log('Handling invoice.finalized');
   const invoice = event.data.object;
-  if (!isWTMGInvoice(invoice)) {
+  if (!(await isWTMGInvoice(invoice))) {
     console.log('Ignoring non-WTMG invoice');
     return res.sendStatus(200);
   }

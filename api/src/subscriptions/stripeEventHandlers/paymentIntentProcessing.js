@@ -54,7 +54,7 @@ module.exports = async (event, res) => {
   const invoice = await stripe.invoices.retrieve(paymentIntent.invoice);
 
   // Check if the invoice is a WTMG invoice
-  if (!isWTMGInvoice(invoice)) {
+  if (!(await isWTMGInvoice(invoice))) {
     // Ignore invoices that were created for payment events not related to WTMG subscriptions
     console.log('Ignoring non-WTMG payment processing event');
     return res.sendStatus(200);

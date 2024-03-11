@@ -21,7 +21,7 @@ module.exports = async (event, res) => {
 
   // NOTE: we can only rely on this price ID being accurate because we only look for subscription_cycle invoices
   // If we were to handle subscription_update invoices here, the price ID may be different, see [one-off-invoice]
-  const isWtmgSubscriptionInvoice = isWTMGInvoice(invoice);
+  const isWtmgSubscriptionInvoice = await isWTMGInvoice(invoice);
   const price = invoice.lines.data[0]?.price;
   if (invoice.billing_reason !== 'subscription_cycle' || !isWtmgSubscriptionInvoice) {
     // Ignore invoices that were created for events not related

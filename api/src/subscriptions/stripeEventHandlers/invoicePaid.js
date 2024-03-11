@@ -20,7 +20,7 @@ const { latestInvoiceStatusKey, paymentProcessingKey } = stripeSubscriptionKeys;
 module.exports = async (event, res) => {
   console.log('Handling invoice.paid');
   const invoice = event.data.object;
-  if (!isWTMGInvoice(invoice)) {
+  if (!(await isWTMGInvoice(invoice))) {
     console.log('Ignoring non-WTMG invoice');
     return res.sendStatus(200);
   }
