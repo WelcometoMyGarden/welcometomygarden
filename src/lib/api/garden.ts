@@ -11,13 +11,16 @@ import {
   getDocFromCache,
   getDocFromServer,
   getDoc,
-  CollectionReference
+  CollectionReference,
+  limit,
+  startAfter
 } from 'firebase/firestore';
 import { getUser } from '$lib/stores/auth';
 import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '$lib/stores/garden';
 import { db, storage } from './firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import type { Garden, GardenFacilities } from '$lib/types/Garden';
+import { get } from 'svelte/store';
 
 /**
  * Get a single garden, if it exists and is listed. Returns `null` otherwise.
@@ -27,7 +30,7 @@ export const getGarden = async (id: string) => {
   const gardenDoc = await getDoc(
     doc(collection(db(), CAMPSITES) as CollectionReference<Garden>, id)
   );
-  let data = gardenDoc.data()!;
+  const data = gardenDoc.data()!;
   if (gardenDoc.exists() && data.listed) {
     return {
       id: gardenDoc.id,
@@ -39,17 +42,51 @@ export const getGarden = async (id: string) => {
 };
 
 export const getAllListedGardens = async () => {
-  isFetchingGardens.set(true);
-  const q = query(collection(db(), CAMPSITES), where('listed', '==', true));
-  const querySnapshot = await getDocs(q);
+  const CHUNK_SIZE = 5000;
+  // To prevent endless loops in case of unexpected problems or bugs
+  // Note: this leads to the loop breaking once this number of gardens is reached!
+  const LOOP_LIMIT_ITEMS = 100000;
 
-  const gardens: { [id: string]: Garden } = {};
-  querySnapshot.forEach((doc) => {
-    gardens[doc.id] = { id: doc.id, ...doc.data() };
-  });
-  allGardens.set(gardens);
+  isFetchingGardens.set(true);
+  let startAfterDoc = null;
+  let iteration = 1;
+  do {
+    iteration++;
+    // Query the chunk of gardens
+    const q = query.apply(null, [
+      collection(db(), CAMPSITES),
+      where('listed', '==', true),
+      limit(CHUNK_SIZE),
+      ...(startAfterDoc ? [startAfter(startAfterDoc)] : [])
+    ]);
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.size === CHUNK_SIZE) {
+      // If a full chunk was fetched, there might be more gardens to fetch
+      startAfterDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
+    } else {
+      // If the chunk was not full, there are no more gardens to fetch
+      startAfterDoc = null;
+    }
+
+    // Merge the map with the existing gardens
+    allGardens.update((existingGardens) => {
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        existingGardens.push({
+          id: doc.id,
+          ...data
+        });
+      });
+      return existingGardens;
+    });
+
+    // Wait 1000ms seconds before fetching the next chunk
+    // await new Promise<void>((resolve) => setTimeout(() => resolve()));
+  } while (startAfterDoc != null && iteration < LOOP_LIMIT_ITEMS / CHUNK_SIZE);
+
   isFetchingGardens.set(false);
-  return gardens;
+  return get(allGardens);
 };
 
 const doUploadGardenPhoto = async (photo: File, currentUser: User) => {

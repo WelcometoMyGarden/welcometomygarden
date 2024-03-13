@@ -33,6 +33,7 @@
   import type { Unsubscribe } from 'firebase/firestore';
   import { fileDataLayers, removeTrailAnimations } from '$lib/stores/file';
   import { isOnIDevicePWA } from '$lib/api/push-registrations';
+  import { isEmpty } from 'lodash-es';
 
   let showHiking = false;
   let showCycling = false;
@@ -88,7 +89,9 @@
   /**
    * @type {Garden | null}
    */
-  $: selectedGarden = $isFetchingGardens ? null : $allGardens[$page.params.gardenId] ?? null;
+  $: selectedGarden = $isFetchingGardens
+    ? null
+    : $allGardens.find((g) => g.id === $page.params.gardenId) ?? null;
 
   // This variable controls the location of the map.
   // Don't make it reactive based on its params, so that it can be imperatively controlled.
@@ -108,7 +111,7 @@
 
   const selectGarden = (garden) => {
     const newSelectedId = garden.id;
-    const newGarden = $allGardens[newSelectedId];
+    const newGarden = $allGardens.find((g) => g.id === newSelectedId);
     setMapToGardenLocation(newGarden);
     applyZoom = false; // zoom level is not programatically changed when exploring a garden
     goto(`${routes.MAP}/garden/${newSelectedId}`);
@@ -131,16 +134,18 @@
     carNoticeShown = false;
   };
 
+  let fetchError = '';
+
   // LIFECYCLE HOOKS
 
   onMount(async () => {
     // If the gardens didn't load yet
-    if (Object.keys($allGardens).length === 0) {
+    if ($allGardens.length === 0) {
       // If we're loading the page of a garden, load that one immediately before all other gardens
       if (isShowingGarden) {
         const garden = await getGarden($page.params.gardenId);
         if (garden) {
-          $allGardens = { [garden.id]: garden };
+          $allGardens = [garden];
           setMapToGardenLocation(garden);
         }
       }
@@ -150,6 +155,7 @@
         await getAllListedGardens();
       } catch (ex) {
         console.error(ex);
+        fetchError = 'Error' + ex;
         isFetchingGardens.set(false);
       }
     }
@@ -178,7 +184,7 @@
     {applyZoom}
   >
     <TrainAndRails {showStations} {showRails} {showTransport} />
-    {#if !$isFetchingGardens}
+    {#if !isEmpty($allGardens)}
       <GardenLayer
         {showGardens}
         {showSavedGardens}
@@ -209,6 +215,10 @@
     <FileTrails />
     <TrainconnectionsLayer />
     <ZoomRestrictionNotice />
+    <div class="garden-debug">
+      {$allGardens.length} gardens
+      {fetchError}
+    </div>
   </Map>
   <LayersAndTools
     bind:showHiking
@@ -233,6 +243,15 @@
 </div>
 
 <style>
+  .garden-debug {
+    font-size: 2rem;
+    position: absolute;
+    bottom: 50%;
+    right: 0;
+    background: white;
+    padding: 0.5rem;
+  }
+
   .map-section {
     width: 100%;
     height: 100%;

@@ -5,10 +5,11 @@ import type { Garden } from '../types/Garden';
 export const isUploading = writable(false);
 export const uploadProgress = writable(0);
 export const isFetchingGardens = writable(true);
-export const allGardens: Writable<{ [id: string]: Garden }> = writable({});
+export const allGardens: Writable<Garden[]> = writable([]);
 
 export const addToAllGardens = async (garden: Garden) => {
-  if (Object.keys(get(allGardens)).length === 0) {
+  // TODO: length 0 doesn't strictly  mean that the gardens are not fetched
+  if (get(allGardens).length === 0) {
     isFetchingGardens.set(true);
     try {
       await getAllListedGardens();
@@ -18,7 +19,15 @@ export const addToAllGardens = async (garden: Garden) => {
     }
     isFetchingGardens.set(false);
   } else {
-    allGardens.update((gardens) => ({ ...gardens, [garden.id]: garden }));
+    allGardens.update((gardens) => {
+      const index = gardens.findIndex((g) => g.id === garden.id);
+      if (index) {
+        gardens[index] = garden;
+      } else {
+        gardens.push(garden);
+      }
+      return gardens;
+    });
   }
 };
 export const addGardenLocally = (garden: Garden) => addToAllGardens(garden);
