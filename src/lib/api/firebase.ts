@@ -1,5 +1,5 @@
 import { getApps, initializeApp, type FirebaseApp } from 'firebase/app';
-import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
+import { initializeAppCheck, ReCaptchaV3Provider, type AppCheck } from 'firebase/app-check';
 import { connectAuthEmulator, getAuth, type Auth } from 'firebase/auth';
 import { type Firestore, getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { connectStorageEmulator, getStorage, type FirebaseStorage } from 'firebase/storage';
@@ -25,22 +25,19 @@ const FIREBASE_CONFIG = {
 };
 
 const messageFor = (str: string) => `Trying to use an uninitialized ${str}.`;
-type FirestoreWarning = {
-  app: string;
-  firestore: string;
-  auth: string;
-  storage: string;
-  functions: string;
-  messaging: string;
-};
-export const FIREBASE_WARNING: FirestoreWarning = [
+
+const firestoreWarningKeys = [
   'app',
   'firestore',
   'auth',
   'storage',
   'functions',
-  'messaging'
-].reduce(
+  'messaging',
+  'appCheck'
+] as const;
+type FirestoreWarning = { [key in (typeof firestoreWarningKeys)[number]]: string };
+
+export const FIREBASE_WARNING: FirestoreWarning = firestoreWarningKeys.reduce(
   (warningsObj, service) => ({ ...warningsObj, [service]: messageFor(service) }),
   {}
 ) as FirestoreWarning;
@@ -77,6 +74,9 @@ export const db: () => Firestore = guardNull<Firestore>(() => dbRef, 'firestore'
 
 let authRef: Auth | null = null;
 export const auth: () => Auth = guardNull<Auth>(() => authRef, 'auth');
+
+let appCheckRef: AppCheck | null = null;
+export const appCheck: () => AppCheck = guardNull<AppCheck>(() => appCheckRef, 'appCheck');
 
 let usCentral1FunctionsRef: Functions | null = null;
 export const functions: () => Functions = guardNull<Functions>(
@@ -130,7 +130,7 @@ export async function initialize(): Promise<void> {
   }
 
   if (typeof import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY !== 'undefined') {
-    initializeAppCheck(appRef, {
+    appCheckRef = initializeAppCheck(appRef, {
       provider: new ReCaptchaV3Provider(import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY),
       isTokenAutoRefreshEnabled: true
     });

@@ -19,6 +19,8 @@ export const isRegistering = writable(false);
 export const isUserLoading = writable(false);
 export const user: Writable<User | null> = writable(null);
 
+export const appCheckToken = writable<string | null>(null);
+
 export const resolveOnUserLoaded = async () => {
   // Guard is necesary, because if !isUserLoading, the reference
   // to unsubFromLoading won't be created

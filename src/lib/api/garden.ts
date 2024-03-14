@@ -17,10 +17,11 @@ import {
 } from 'firebase/firestore';
 import { getUser } from '$lib/stores/auth';
 import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '$lib/stores/garden';
-import { db, storage } from './firebase';
+import { appCheck, db, storage } from './firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import type { Garden, GardenFacilities } from '$lib/types/Garden';
 import { get } from 'svelte/store';
+import { getToken } from 'firebase/app-check';
 
 /**
  * Get a single garden, if it exists and is listed. Returns `null` otherwise.
@@ -41,49 +42,177 @@ export const getGarden = async (id: string) => {
   }
 };
 
+type DoubleValue = {
+  doubleValue: number;
+};
+
+type IntegerValue = {
+  integerValue: number;
+};
+
+type StringValue = {
+  stringValue: string;
+};
+
+type BooleanValue = {
+  booleanValue: boolean;
+};
+
+type MapValue = {
+  mapValue: {
+    fields: {
+      [key: string]: StringValue | BooleanValue | DoubleValue | IntegerValue;
+    };
+  };
+};
+
+type RESTGardenDoc = {
+  document: {
+    /**
+     * Path
+     */
+    name: string;
+    fields: {
+      name: StringValue;
+      description: StringValue;
+      location: MapValue;
+      listed: BooleanValue;
+      facilities: MapValue;
+      photo: StringValue;
+      owner: StringValue;
+      createTime: string;
+      updateTime: string;
+    };
+    createTime: string;
+    updateTime: string;
+  };
+  /**
+   * ISO string
+   */
+  readTime: string;
+};
+
+function mapRestToGarden(doc: RESTGardenDoc): Garden {
+  const { name, fields } = doc.document;
+  const { description, location, listed, facilities, photo } = fields;
+
+  return {
+    id: name.split('/').pop() as string,
+    description: description?.stringValue,
+    location: {
+      latitude: location.mapValue.fields.latitude?.doubleValue,
+      longitude: location.mapValue.fields.longitude?.doubleValue
+    },
+    listed: listed.booleanValue,
+    facilities: {
+      // Map facilities fields to boolean values
+      // Assuming all facilities are stored as boolean values or integer values
+      ...Object.fromEntries(
+        Object.entries(facilities.mapValue.fields).map(([key, value]) => [
+          key,
+          typeof value.booleanValue !== 'undefined' ? value.booleanValue : +value.integerValue
+        ])
+      )
+    },
+    photo: photo?.stringValue
+  };
+}
+
 export const getAllListedGardens = async () => {
   const CHUNK_SIZE = 5000;
   // To prevent endless loops in case of unexpected problems or bugs
   // Note: this leads to the loop breaking once this number of gardens is reached!
   const LOOP_LIMIT_ITEMS = 100000;
 
+  console.log('starting to fetch all gardens...');
+
   isFetchingGardens.set(true);
-  let startAfterDoc = null;
-  let iteration = 1;
-  do {
-    iteration++;
-    // Query the chunk of gardens
-    const q = query.apply(null, [
-      collection(db(), CAMPSITES),
-      where('listed', '==', true),
-      limit(CHUNK_SIZE),
-      ...(startAfterDoc ? [startAfter(startAfterDoc)] : [])
-    ]);
-    const querySnapshot = await getDocs(q);
 
-    if (querySnapshot.size === CHUNK_SIZE) {
-      // If a full chunk was fetched, there might be more gardens to fetch
-      startAfterDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
-    } else {
-      // If the chunk was not full, there are no more gardens to fetch
-      startAfterDoc = null;
+  let appCheckTokenResponse;
+  try {
+    appCheckTokenResponse = await getToken(appCheck(), /* forceRefresh= */ false);
+  } catch (err) {
+    // Handle any errors if the token was not retrieved.
+    return;
+  }
+
+  // Include the App Check token with requests to your server.
+  const apiResponse = (await fetch(
+    `https://firestore.googleapis.com/v1/projects/${
+      import.meta.env.VITE_FIREBASE_PROJECT_ID
+    }/databases/(default)/documents:runQuery`,
+    {
+      headers: {
+        'X-Firebase-AppCheck': appCheckTokenResponse.token
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        structuredQuery: {
+          from: [
+            {
+              collectionId: 'campsites',
+              allDescendants: false
+            }
+          ],
+          where: {
+            fieldFilter: {
+              field: {
+                fieldPath: 'listed'
+              },
+              op: 'EQUAL',
+              value: {
+                booleanValue: true
+              }
+            }
+          }
+          // limit: 100
+        }
+      })
     }
+  ).then((r) => r.json())) as { document: RESTGardenDoc }[];
 
-    // Merge the map with the existing gardens
-    allGardens.update((existingGardens) => {
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        existingGardens.push({
-          id: doc.id,
-          ...data
-        });
-      });
-      return existingGardens;
-    });
+  const gardens = apiResponse.map(mapRestToGarden);
+  // NOTE: not doing update anymore
+  allGardens.set(gardens);
 
-    // Wait 1000ms seconds before fetching the next chunk
-    // await new Promise<void>((resolve) => setTimeout(() => resolve()));
-  } while (startAfterDoc != null && iteration < LOOP_LIMIT_ITEMS / CHUNK_SIZE);
+  // let startAfterDoc = null;
+  // let iteration = 1;
+  // do {
+  //   iteration++;
+  //   // Query the chunk of gardens
+  //   const q = query.apply(null, [
+  //     collection(db(), CAMPSITES),
+  //     where('listed', '==', true),
+  //     limit(CHUNK_SIZE),
+  //     ...(startAfterDoc ? [startAfter(startAfterDoc)] : [])
+  //   ]);
+  //   const querySnapshot = await getDocs(q);
+
+  //   if (querySnapshot.size === CHUNK_SIZE) {
+  //     // If a full chunk was fetched, there might be more gardens to fetch
+  //     startAfterDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
+  //   } else {
+  //     // If the chunk was not full, there are no more gardens to fetch
+  //     startAfterDoc = null;
+  //   }
+
+  //   // Merge the map with the existing gardens
+  //   allGardens.update((existingGardens) => {
+  //     querySnapshot.forEach((doc) => {
+  //       const data = doc.data();
+  //       existingGardens.push({
+  //         id: doc.id,
+  //         ...data
+  //       });
+  //     });
+  //     return existingGardens;
+  //   });
+
+  //   // Wait 1000ms seconds before fetching the next chunk
+  //   // await new Promise<void>((resolve) => setTimeout(() => resolve()));
+  // } while (startAfterDoc != null && iteration < LOOP_LIMIT_ITEMS / CHUNK_SIZE);
+
+  // console.log('Fetched all gardens!');
 
   isFetchingGardens.set(false);
   return get(allGardens);
