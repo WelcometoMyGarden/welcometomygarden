@@ -124,9 +124,13 @@ export const getAllListedGardens = async () => {
 
   let appCheckTokenResponse;
   try {
-    appCheckTokenResponse = await getToken(appCheck(), /* forceRefresh= */ false);
+    // Use AppCheck if it is initialized (not on localhost development, for example)
+    if (typeof import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY !== 'undefined') {
+      appCheckTokenResponse = await getToken(appCheck(), /* forceRefresh= */ false);
+    }
   } catch (err) {
     // Handle any errors if the token was not retrieved.
+    console.error('Error fetching app check token:', err);
     return;
   }
 
@@ -135,55 +139,60 @@ export const getAllListedGardens = async () => {
   do {
     iteration++;
 
+    const url = `${
+      // Change the REST API base URL depending on the environment
+      import.meta.env.VITE_FIREBASE_PROJECT_ID === 'demo-test'
+        ? 'http://127.0.0.1:8080/v1/projects/'
+        : 'https://firestore.googleapis.com/v1/projects/'
+    }${import.meta.env.VITE_FIREBASE_PROJECT_ID}/databases/(default)/documents:runQuery`;
     // Query the chunk of gardens using the REST api
-    const gardensChunkResponse = (await fetch(
-      `https://firestore.googleapis.com/v1/projects/${
-        import.meta.env.VITE_FIREBASE_PROJECT_ID
-      }/databases/(default)/documents:runQuery`,
-      {
-        headers: {
-          'X-Firebase-AppCheck': appCheckTokenResponse.token
-        },
-        method: 'POST',
-        body: JSON.stringify({
-          structuredQuery: {
-            from: [
-              {
-                collectionId: 'campsites',
-                allDescendants: false
-              }
-            ],
-            where: {
-              fieldFilter: {
-                field: {
-                  fieldPath: 'listed'
-                },
-                op: 'EQUAL',
-                value: {
-                  booleanValue: true
-                }
-              }
-            },
-            limit: CHUNK_SIZE,
-            // https://stackoverflow.com/a/71812269/4973029
-            orderBy: [
-              {
-                direction: 'ASCENDING',
-                field: { fieldPath: '__name__' }
-              }
-            ],
-            ...(startAfterDocRef
-              ? {
-                  startAt: {
-                    before: false,
-                    values: [{ referenceValue: startAfterDocRef }]
-                  }
-                }
-              : {})
+    const gardensChunkResponse = (await fetch(url, {
+      ...(appCheckTokenResponse
+        ? {
+            headers: {
+              'X-Firebase-AppCheck': appCheckTokenResponse.token
+            }
           }
-        })
-      }
-    ).then((r) => r.json())) as RESTGardenDoc[];
+        : {}),
+      method: 'POST',
+      body: JSON.stringify({
+        structuredQuery: {
+          from: [
+            {
+              collectionId: 'campsites',
+              allDescendants: false
+            }
+          ],
+          where: {
+            fieldFilter: {
+              field: {
+                fieldPath: 'listed'
+              },
+              op: 'EQUAL',
+              value: {
+                booleanValue: true
+              }
+            }
+          },
+          limit: CHUNK_SIZE,
+          // https://stackoverflow.com/a/71812269/4973029
+          orderBy: [
+            {
+              direction: 'ASCENDING',
+              field: { fieldPath: '__name__' }
+            }
+          ],
+          ...(startAfterDocRef
+            ? {
+                startAt: {
+                  before: false,
+                  values: [{ referenceValue: startAfterDocRef }]
+                }
+              }
+            : {})
+        }
+      })
+    }).then((r) => r.json())) as RESTGardenDoc[];
 
     // Query the chunk of gardens
     if (gardensChunkResponse.length === CHUNK_SIZE) {
