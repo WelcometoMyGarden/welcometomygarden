@@ -2,18 +2,13 @@ import type { User } from '$lib/models/User';
 import { CAMPSITES } from './collections';
 import {
   collection,
-  query,
-  where,
-  getDocs,
   doc,
   setDoc,
   updateDoc,
   getDocFromCache,
   getDocFromServer,
   getDoc,
-  CollectionReference,
-  limit,
-  startAfter
+  CollectionReference
 } from 'firebase/firestore';
 import { getUser } from '$lib/stores/auth';
 import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '$lib/stores/garden';
@@ -119,13 +114,12 @@ function mapRestToGarden(doc: RESTGardenDoc): Garden {
 }
 
 export const getAllListedGardens = async () => {
-  const CHUNK_SIZE = 5000;
+  const CHUNK_SIZE = 1500;
   // To prevent endless loops in case of unexpected problems or bugs
   // Note: this leads to the loop breaking once this number of gardens is reached!
   const LOOP_LIMIT_ITEMS = 100000;
 
-  console.log('starting to fetch all gardens...');
-
+  console.log('Starting to fetch all gardens...');
   isFetchingGardens.set(true);
 
   let appCheckTokenResponse;
@@ -136,83 +130,82 @@ export const getAllListedGardens = async () => {
     return;
   }
 
-  // Include the App Check token with requests to your server.
-  const apiResponse = (await fetch(
-    `https://firestore.googleapis.com/v1/projects/${
-      import.meta.env.VITE_FIREBASE_PROJECT_ID
-    }/databases/(default)/documents:runQuery`,
-    {
-      headers: {
-        'X-Firebase-AppCheck': appCheckTokenResponse.token
-      },
-      method: 'POST',
-      body: JSON.stringify({
-        structuredQuery: {
-          from: [
-            {
-              collectionId: 'campsites',
-              allDescendants: false
-            }
-          ],
-          where: {
-            fieldFilter: {
-              field: {
-                fieldPath: 'listed'
-              },
-              op: 'EQUAL',
-              value: {
-                booleanValue: true
+  let startAfterDocRef = null;
+  let iteration = 1;
+  do {
+    iteration++;
+
+    // Query the chunk of gardens using the REST api
+    const gardensChunkResponse = (await fetch(
+      `https://firestore.googleapis.com/v1/projects/${
+        import.meta.env.VITE_FIREBASE_PROJECT_ID
+      }/databases/(default)/documents:runQuery`,
+      {
+        headers: {
+          'X-Firebase-AppCheck': appCheckTokenResponse.token
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          structuredQuery: {
+            from: [
+              {
+                collectionId: 'campsites',
+                allDescendants: false
               }
-            }
+            ],
+            where: {
+              fieldFilter: {
+                field: {
+                  fieldPath: 'listed'
+                },
+                op: 'EQUAL',
+                value: {
+                  booleanValue: true
+                }
+              }
+            },
+            limit: CHUNK_SIZE,
+            // https://stackoverflow.com/a/71812269/4973029
+            orderBy: [
+              {
+                direction: 'ASCENDING',
+                field: { fieldPath: '__name__' }
+              }
+            ],
+            ...(startAfterDocRef
+              ? {
+                  startAt: {
+                    before: false,
+                    values: [{ referenceValue: startAfterDocRef }]
+                  }
+                }
+              : {})
           }
-          // limit: 100
-        }
-      })
+        })
+      }
+    ).then((r) => r.json())) as RESTGardenDoc[];
+
+    // Query the chunk of gardens
+    if (gardensChunkResponse.length === CHUNK_SIZE) {
+      // If a full chunk was fetched, there might be more gardens to fetch
+      startAfterDocRef = gardensChunkResponse[gardensChunkResponse.length - 1].document.name;
+    } else {
+      // If the chunk was not full, there are no more gardens to fetch
+      startAfterDocRef = null;
     }
-  ).then((r) => r.json())) as { document: RESTGardenDoc }[];
 
-  const gardens = apiResponse.map(mapRestToGarden);
-  // NOTE: not doing update anymore
-  allGardens.set(gardens);
+    // Merge the map with the existing gardens, "in place"
+    allGardens.update((existingGardens) => {
+      // Merge the fetched gardens with the existing ones; without creating a new array in memory
+      // (attempt to reduce memory usage)
+      gardensChunkResponse.forEach((restDoc) => {
+        existingGardens.push(mapRestToGarden(restDoc));
+      });
+      return existingGardens;
+    });
+  } while (startAfterDocRef != null && iteration < LOOP_LIMIT_ITEMS / CHUNK_SIZE);
 
-  // let startAfterDoc = null;
-  // let iteration = 1;
-  // do {
-  //   iteration++;
-  //   // Query the chunk of gardens
-  //   const q = query.apply(null, [
-  //     collection(db(), CAMPSITES),
-  //     where('listed', '==', true),
-  //     limit(CHUNK_SIZE),
-  //     ...(startAfterDoc ? [startAfter(startAfterDoc)] : [])
-  //   ]);
-  //   const querySnapshot = await getDocs(q);
-
-  //   if (querySnapshot.size === CHUNK_SIZE) {
-  //     // If a full chunk was fetched, there might be more gardens to fetch
-  //     startAfterDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
-  //   } else {
-  //     // If the chunk was not full, there are no more gardens to fetch
-  //     startAfterDoc = null;
-  //   }
-
-  //   // Merge the map with the existing gardens
-  //   allGardens.update((existingGardens) => {
-  //     querySnapshot.forEach((doc) => {
-  //       const data = doc.data();
-  //       existingGardens.push({
-  //         id: doc.id,
-  //         ...data
-  //       });
-  //     });
-  //     return existingGardens;
-  //   });
-
-  //   // Wait 1000ms seconds before fetching the next chunk
-  //   // await new Promise<void>((resolve) => setTimeout(() => resolve()));
-  // } while (startAfterDoc != null && iteration < LOOP_LIMIT_ITEMS / CHUNK_SIZE);
-
-  // console.log('Fetched all gardens!');
+  console.log('Fetched all gardens');
 
   isFetchingGardens.set(false);
   return get(allGardens);

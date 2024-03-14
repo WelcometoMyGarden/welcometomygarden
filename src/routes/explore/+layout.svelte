@@ -86,12 +86,27 @@
   let zoom = isShowingGarden ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.WESTERN_EUROPE;
 
   $: applyZoom = isShowingGarden ? true : false;
+
+  // Garden to preload when we are loading the app on its permalink URL
+  let preloadedGarden: Garden | null = null;
+
   /**
    * @type {Garden | null}
    */
-  $: selectedGarden = $isFetchingGardens
-    ? null
-    : $allGardens.find((g) => g.id === $page.params.gardenId) ?? null;
+  let selectedGarden = null;
+
+  // Select the preloaded garden if it matches the current URL, but only if it was not selected yet.
+  $: if (
+    preloadedGarden?.id === $page.params.gardenId &&
+    selectedGarden?.id !== preloadedGarden?.id
+  ) {
+    selectedGarden = preloadedGarden;
+  }
+
+  // Select a garden when the URL changes, but only if all gardens are loaded and the garden is not selected yet.
+  $: if (!isEmpty($allGardens) && $page.params.gardenId !== selectedGarden?.id) {
+    selectedGarden = $allGardens.find((g) => g.id === $page.params.gardenId) ?? null;
+  }
 
   // This variable controls the location of the map.
   // Don't make it reactive based on its params, so that it can be imperatively controlled.
@@ -112,9 +127,13 @@
   const selectGarden = (garden) => {
     const newSelectedId = garden.id;
     const newGarden = $allGardens.find((g) => g.id === newSelectedId);
-    setMapToGardenLocation(newGarden);
-    applyZoom = false; // zoom level is not programatically changed when exploring a garden
-    goto(`${routes.MAP}/garden/${newSelectedId}`);
+    if (newGarden) {
+      setMapToGardenLocation(newGarden);
+      applyZoom = false; // zoom level is not programatically changed when exploring a garden
+      goto(`${routes.MAP}/garden/${newSelectedId}`);
+    } else {
+      console.warn(`Failed garden navigation to ${newSelectedId}`);
+    }
   };
 
   const goToPlace = (event) => {
@@ -139,25 +158,22 @@
   // LIFECYCLE HOOKS
 
   onMount(async () => {
-    // If the gardens didn't load yet
-    if ($allGardens.length === 0) {
-      // If we're loading the page of a garden, load that one immediately before all other gardens
-      if (isShowingGarden) {
-        const garden = await getGarden($page.params.gardenId);
-        if (garden) {
-          $allGardens = [garden];
-          setMapToGardenLocation(garden);
-        }
+    const gardensAreEmpty = $allGardens.length === 0;
+    if (gardensAreEmpty && !$isFetchingGardens && isShowingGarden) {
+      // If we're loading the page of a garden, load that one immediately *before* all other gardens
+      preloadedGarden = await getGarden($page.params.gardenId);
+      if (preloadedGarden) {
+        setMapToGardenLocation(preloadedGarden);
       }
+    }
 
-      // Fetch all gardens
-      try {
-        await getAllListedGardens();
-      } catch (ex) {
+    // Fetch all gardens if they are not loaded yet, every time the map opens
+    if (gardensAreEmpty && !$isFetchingGardens) {
+      await getAllListedGardens().catch((ex) => {
         console.error(ex);
         fetchError = 'Error' + ex;
         isFetchingGardens.set(false);
-      }
+      });
     }
   });
 
@@ -215,10 +231,6 @@
     <FileTrails />
     <TrainconnectionsLayer />
     <ZoomRestrictionNotice />
-    <div class="garden-debug">
-      {$allGardens.length} gardens
-      {fetchError}
-    </div>
   </Map>
   <LayersAndTools
     bind:showHiking
@@ -243,15 +255,6 @@
 </div>
 
 <style>
-  .garden-debug {
-    font-size: 2rem;
-    position: absolute;
-    bottom: 50%;
-    right: 0;
-    background: white;
-    padding: 0.5rem;
-  }
-
   .map-section {
     width: 100%;
     height: 100%;
