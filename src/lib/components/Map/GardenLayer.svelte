@@ -4,7 +4,7 @@
   import type maplibregl from 'maplibre-gl';
   import type GeoJSON from 'geojson';
 
-  export let allGardens: { [id: string]: Garden };
+  export let allGardens: Garden[];
   export let selectedGardenId: string | null = null;
   export let showGardens: boolean;
   export let showSavedGardens: boolean;
@@ -53,7 +53,7 @@
     fcSavedGardens.features = [];
     fcGardensWithoutSavedGardens.features = [];
 
-    Object.values(allGardens).map((garden: Garden) => {
+    allGardens.forEach((garden: Garden) => {
       if (!garden.id) return;
 
       const gardenId = garden.id;

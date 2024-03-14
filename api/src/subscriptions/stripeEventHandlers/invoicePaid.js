@@ -5,6 +5,7 @@ const {
 } = require('../../mail');
 const { stripeSubscriptionKeys } = require('../constants');
 const { db } = require('../../firebase');
+const { isWTMGInvoice } = require('./util');
 
 const { latestInvoiceStatusKey, paymentProcessingKey } = stripeSubscriptionKeys;
 
@@ -19,6 +20,10 @@ const { latestInvoiceStatusKey, paymentProcessingKey } = stripeSubscriptionKeys;
 module.exports = async (event, res) => {
   console.log('Handling invoice.paid');
   const invoice = event.data.object;
+  if (!(await isWTMGInvoice(invoice))) {
+    console.log('Ignoring non-WTMG invoice');
+    return res.sendStatus(200);
+  }
   const uid = await getFirebaseUserId(invoice.customer);
 
   // Set the user's latest invoice state

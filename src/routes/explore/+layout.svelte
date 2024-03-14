@@ -33,6 +33,7 @@
   import type { Unsubscribe } from 'firebase/firestore';
   import { fileDataLayers, removeTrailAnimations } from '$lib/stores/file';
   import { isOnIDevicePWA } from '$lib/api/push-registrations';
+  import { isEmpty } from 'lodash-es';
 
   let showHiking = false;
   let showCycling = false;
@@ -85,10 +86,27 @@
   let zoom = isShowingGarden ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.WESTERN_EUROPE;
 
   $: applyZoom = isShowingGarden ? true : false;
+
+  // Garden to preload when we are loading the app on its permalink URL
+  let preloadedGarden: Garden | null = null;
+
   /**
    * @type {Garden | null}
    */
-  $: selectedGarden = $isFetchingGardens ? null : $allGardens[$page.params.gardenId] ?? null;
+  let selectedGarden = null;
+
+  // Select the preloaded garden if it matches the current URL, but only if it was not selected yet.
+  $: if (
+    preloadedGarden?.id === $page.params.gardenId &&
+    selectedGarden?.id !== preloadedGarden?.id
+  ) {
+    selectedGarden = preloadedGarden;
+  }
+
+  // Select a garden when the URL changes, but only if all gardens are loaded and the garden is not selected yet.
+  $: if (!isEmpty($allGardens) && $page.params.gardenId !== selectedGarden?.id) {
+    selectedGarden = $allGardens.find((g) => g.id === $page.params.gardenId) ?? null;
+  }
 
   // This variable controls the location of the map.
   // Don't make it reactive based on its params, so that it can be imperatively controlled.
@@ -108,10 +126,14 @@
 
   const selectGarden = (garden) => {
     const newSelectedId = garden.id;
-    const newGarden = $allGardens[newSelectedId];
-    setMapToGardenLocation(newGarden);
-    applyZoom = false; // zoom level is not programatically changed when exploring a garden
-    goto(`${routes.MAP}/garden/${newSelectedId}`);
+    const newGarden = $allGardens.find((g) => g.id === newSelectedId);
+    if (newGarden) {
+      setMapToGardenLocation(newGarden);
+      applyZoom = false; // zoom level is not programatically changed when exploring a garden
+      goto(`${routes.MAP}/garden/${newSelectedId}`);
+    } else {
+      console.warn(`Failed garden navigation to ${newSelectedId}`);
+    }
   };
 
   const goToPlace = (event) => {
@@ -131,27 +153,27 @@
     carNoticeShown = false;
   };
 
+  let fetchError = '';
+
   // LIFECYCLE HOOKS
 
   onMount(async () => {
-    // If the gardens didn't load yet
-    if (Object.keys($allGardens).length === 0) {
-      // If we're loading the page of a garden, load that one immediately before all other gardens
-      if (isShowingGarden) {
-        const garden = await getGarden($page.params.gardenId);
-        if (garden) {
-          $allGardens = { [garden.id]: garden };
-          setMapToGardenLocation(garden);
-        }
+    const gardensAreEmpty = $allGardens.length === 0;
+    if (gardensAreEmpty && !$isFetchingGardens && isShowingGarden) {
+      // If we're loading the page of a garden, load that one immediately *before* all other gardens
+      preloadedGarden = await getGarden($page.params.gardenId);
+      if (preloadedGarden) {
+        setMapToGardenLocation(preloadedGarden);
       }
+    }
 
-      // Fetch all gardens
-      try {
-        await getAllListedGardens();
-      } catch (ex) {
+    // Fetch all gardens if they are not loaded yet, every time the map opens
+    if (gardensAreEmpty && !$isFetchingGardens) {
+      await getAllListedGardens().catch((ex) => {
         console.error(ex);
+        fetchError = 'Error' + ex;
         isFetchingGardens.set(false);
-      }
+      });
     }
   });
 
@@ -178,7 +200,7 @@
     {applyZoom}
   >
     <TrainAndRails {showStations} {showRails} {showTransport} />
-    {#if !$isFetchingGardens}
+    {#if !isEmpty($allGardens)}
       <GardenLayer
         {showGardens}
         {showSavedGardens}

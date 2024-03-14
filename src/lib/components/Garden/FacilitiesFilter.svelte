@@ -34,14 +34,9 @@
   }
 
   const returnFilteredGardens = () => {
-    const gardensFiltered = Object.values($allGardens)
+    return $allGardens
       .filter(gardenFilterFacilities, filter.facilities)
       .filter(gardenFilterCapacity, filter.capacity);
-    let gardens = {};
-    gardensFiltered.map((garden) => {
-      gardens[garden.id] = { ...garden };
-    });
-    return gardens;
   };
 
   let stickToBottom = false;
@@ -117,8 +112,8 @@
     <p class="controls-gardens-available">
       {@html $_('garden.filter.available', {
         values: {
-          amount: Object.values(filteredGardens).length,
-          styledAmount: `<strong>${Object.values(filteredGardens).length}</strong>`
+          amount: filteredGardens.length,
+          styledAmount: `<strong>${filteredGardens.length}</strong>`
         }
       })}
     </p>

@@ -1,3 +1,7 @@
+// @ts-check
+
+const { isWTMGInvoice } = require('./util');
+
 /**
  * Handles the `invoice.finalized` event from Stripe
  * @param {*} event
@@ -6,6 +10,10 @@
 module.exports = async (event, res) => {
   console.log('Handling invoice.finalized');
   const invoice = event.data.object;
+  if (!(await isWTMGInvoice(invoice))) {
+    console.log('Ignoring non-WTMG invoice');
+    return res.sendStatus(200);
+  }
   // TODO send email with the finalized invoice!?
   // see "hosted_invoice_url" and "invoice_pdf"
 

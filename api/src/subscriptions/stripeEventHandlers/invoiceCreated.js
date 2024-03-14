@@ -1,12 +1,11 @@
 // @ts-check
-const functions = require('firebase-functions');
 const stripe = require('../stripe');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const { stripeSubscriptionKeys } = require('../constants');
 const removeUndefined = require('../../util/removeUndefined');
 const { db } = require('../../firebase');
 const { sendSubscriptionRenewalEmail } = require('../../mail');
-
+const { isWTMGInvoice } = require('./util');
 /**
  * Handles the `invoice.created` event from Stripe.
  * Only handles WTMG subscription renewal invoices, ignores other invoices.
@@ -20,13 +19,10 @@ module.exports = async (event, res) => {
   /** @type {import('stripe').Stripe.Invoice} */
   const invoice = event.data.object;
 
-  const priceIdsObj = functions.config().stripe.price_ids;
-  const wtmgPriceIds = Object.values(priceIdsObj);
-
   // NOTE: we can only rely on this price ID being accurate because we only look for subscription_cycle invoices
   // If we were to handle subscription_update invoices here, the price ID may be different, see [one-off-invoice]
+  const isWtmgSubscriptionInvoice = await isWTMGInvoice(invoice);
   const price = invoice.lines.data[0]?.price;
-  const isWtmgSubscriptionInvoice = wtmgPriceIds.includes(price?.id || '');
   if (invoice.billing_reason !== 'subscription_cycle' || !isWtmgSubscriptionInvoice) {
     // Ignore invoices that were created for events not related
     // to WTMG subscription renewals
