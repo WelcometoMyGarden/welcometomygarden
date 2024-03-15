@@ -70,6 +70,15 @@
       title: $_('footer.link-category-titles.our-projects'),
       links: [
         {
+          title: $_('footer.links.slow-travel-pass.title'),
+          link: createUrl($_('footer.links.slow-travel-pass.url'), {
+            utm_source: WTMG_UTM_SOURCE,
+            utm_medium: 'web',
+            utm_content: 'footer'
+          }),
+          target: '_blank'
+        },
+        {
           title: $_('footer.links.velotour.title'),
           link: $_('footer.links.velotour.url'),
           target: '_blank'
