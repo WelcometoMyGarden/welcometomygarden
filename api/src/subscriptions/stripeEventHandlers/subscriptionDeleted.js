@@ -12,7 +12,6 @@ const { statusKey, cancelAtKey, canceledAtKey } = stripeSubscriptionKeys;
  * When a subscription is deleted, that means it's over. We configure it
  * so it only gets deleted at a period's end.
  * This event should lead to the un-provisioning of a superfan.
- * TODO: maybe also a transactional email?
  * https://stripe.com/docs/billing/subscriptions/cancel#events
  * @param {*} event
  * @param {*} res

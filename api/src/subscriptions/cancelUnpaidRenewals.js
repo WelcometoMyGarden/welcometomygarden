@@ -4,53 +4,39 @@
 // Suggested on: https://firebase.google.com/docs/functions/schedule-functions?gen=2nd
 const { logger } = require('firebase-functions');
 const PromisePool = require('es6-promise-pool');
-const { db } = require('../firebase');
 const { stripeSubscriptionKeys } = require('./constants');
 const stripe = require('./stripe');
+const { oneWeekAgoSecs, oneMonthAgoSecs } = require('../util/time');
 
 // Maximum concurrent cancellation operations.
 const MAX_CONCURRENT = 3;
 
-const { statusKey, latestInvoiceStatusKey, startDateKey } = stripeSubscriptionKeys;
+const { latestInvoiceStatusKey } = stripeSubscriptionKeys;
 
-module.exports = async () => {
+/**
+ * Note: this function only cancels the subscription of unpaid renewals after 7 days.
+ *
+ * A cancellation will trigger a subscription.deleted event, which will send an email to the user.
+ * This doesn't happen here.
+ *
+ * @param {import('firebase-admin').firestore.QueryDocumentSnapshot[]} docs candidate documents with an open last invoice and start date over 1 year
+ */
+module.exports = async (docs) => {
   // One year ago (365 days)
   // NOTE: this may cause some inconsistencies depending on how Stripe sees a year
-  const nowSecs = new Date().getTime() / 1000;
-  const oneYearAgoSecs = nowSecs - 365 * 24 * 60 * 60;
-  const oneMonthAgo = nowSecs - 31 * 24 * 60 * 60;
-  const oneWeekAgoSecs = nowSecs - 7 * 24 * 60 * 60;
-
-  // Get all users with a subscription that expired >= 7 days ago
-  //
-  // There are compound query limitations, so we can't use all combinations of conditions.
-  // Further filtering is done below on the downloaded data.
-  // https://firebase.google.com/docs/firestore/query-data/queries#limitations
-  const query = db
-    .collection('users-private')
-    // The subscription status is "past_due"
-    // based on the default settings we're using, it goes from 'active' to 'past_due' 24 hours
-    // after the creation of a (renewal) invoice
-    .where(statusKey, '==', 'past_due')
-    // UNUSED: The last invoice isn't paid
-    // .where(latestInvoiceStatusKey, '!=', 'paid')
-    // INSTEAD: The last invoice is open (avoid compound query limitations on '!=')
-    .where(latestInvoiceStatusKey, '==', 'open')
-    // The start date is over a year ago (to only get those invoices that are renewals)
-    .where(startDateKey, '<=', oneYearAgoSecs);
-
-  const { docs } = await query.get();
 
   // Further filtering
+  // After the actions are taken here, the invoice status won't be "past_due" anymore,
+  // so we should only get those that are still unpaid and not yet cancelled.
   const filteredDocs = docs.filter((doc) => {
     const sub = doc.data().stripeSubscription;
     // Renewal invoice link exists (it should be created only upon renewal, so must exist)
     return (
       !!sub.renewalInvoiceLink &&
       // last period started more than 7 days ago
-      sub.currentPeriodStart <= oneWeekAgoSecs &&
+      sub.currentPeriodStart <= oneWeekAgoSecs() &&
       // ... but also at most one month ago
-      sub.currentPeriodStart >= oneMonthAgo
+      sub.currentPeriodStart >= oneMonthAgoSecs()
     );
   });
 

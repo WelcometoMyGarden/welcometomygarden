@@ -24,13 +24,12 @@ const {
 } = require('./subscriptions/createOrRetrieveUnpaidSubscription');
 const { createStripeCustomer } = require('./subscriptions/createStripeCustomer');
 const { createCustomerPortalSession } = require('./subscriptions/createCustomerPortalSession');
+const handleRenewals = require('./subscriptions/handleRenewals');
 const { discourseConnectLogin } = require('./discourse/discourseConnectLogin');
 const { createUser } = require('./user/createUser');
 const { cleanupUserOnDelete } = require('./user/cleanupUserOnDelete');
 const { onUserWrite } = require('./user/onUserWrite');
 const { onUserPrivateWrite } = require('./user/onUserPrivateWrite');
-
-const cancelUnpaidRenewals = require('./subscriptions/cancelUnpaidRenewals');
 
 // Regions
 // This is in Belgium! All new functions should be deployed here.
@@ -106,7 +105,7 @@ exports.notifyOnChat = usCentral1.firestore
 
 // Scheduled tasks
 exports.scheduledFirestoreBackup = functions.pubsub.schedule('every day 03:30').onRun(doBackup);
-exports.cancelUnpaidRenewals = functions.pubsub.schedule('every hour').onRun(cancelUnpaidRenewals);
+exports.handleRenewals = functions.pubsub.schedule('every hour').onRun(handleRenewals);
 
 // Only for testing the above cancellation function!
 // exports.cancelUnpaidRenewalsTest = euWest1.https.onRequest(cancelUnpaidRenewals);
