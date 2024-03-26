@@ -38,6 +38,9 @@ exports.createNewUser = async (authProps, callableProps) => {
       },
       ...(callableProps.stripeSubscription
         ? { stripeSubscription: callableProps.stripeSubscription }
+        : {}),
+      ...(callableProps.communicationLanguage
+        ? { communicationLanguage: callableProps.communicationLanguage }
         : {})
     });
 

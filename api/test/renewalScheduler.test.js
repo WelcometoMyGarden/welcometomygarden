@@ -10,6 +10,8 @@ const sinon = require('sinon');
 // const test = require('firebase-functions-test')({
 //   projectId: 'demo-test'
 // });
+//
+// beforeEach really runs before each test, also before nested tests
 
 const { auth } = require('../seeders/app');
 const { createNewUser } = require('../seeders/util');
@@ -34,14 +36,18 @@ const threshold = DateTime.now()
   .startOf('hour')
   .minus({ days: 5 + 7 });
 
+const testEmail = 'fredtest@email.com';
+const testFirstName = 'Fred';
+const testLang = 'nl';
 const createUser = (subscriptionParams) =>
   createNewUser(
-    { email: 'fredtest@email.com' },
+    { email: testEmail },
     {
       countryCode: 'BE',
       superfan: true,
-      firstName: 'Fred',
+      firstName: testFirstName,
       lastName: 'Test',
+      communicationLanguage: testLang,
       stripeSubscription: {
         // should be something
         cancelAt: null,
@@ -81,7 +87,7 @@ describe('renewalScheduler', () => {
       startDate: threshold.minus({ year: 1 }).toSeconds()
     });
     await sendFeedback();
-    assert.equal(fakeEmail.callCount, 1);
+    sinon.assert.calledOnceWithMatch(fakeEmail, testEmail, testFirstName, testLang);
   });
 
   it('does not send the feedback email when the account was created outside the required window ', async () => {

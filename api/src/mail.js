@@ -258,13 +258,12 @@ exports.sendSubscriptionRenewalReminderEmail = (config) => {
   const { email, firstName, renewalLink, language } = config;
   let templateId;
   switch (language) {
-    // TODO
-    // case 'fr':
-    //   templateId = '';
-    //   break;
-    // case 'nl':
-    //   templateId = '';
-    //   break;
+    case 'fr':
+      templateId = 'd-8ea6f695b5614d8199aab6c0f42602f1';
+      break;
+    case 'nl':
+      templateId = 'd-f76d5ce57c6c48e3bf1db925f16d7a0b';
+      break;
     default:
       templateId = 'd-ff6078d95b984130ba2e2512f77cbdba';
       break;
@@ -374,13 +373,12 @@ exports.sendSubscriptionRenewalThankYouEmail = (email, firstName, language) => {
 exports.sendSubscriptionEndedFeedbackEmail = (email, firstName, language) => {
   let templateId;
   switch (language) {
-    // TODO!
-    // case 'fr':
-    //   templateId = '';
-    //   break;
-    // case 'nl':
-    //   templateId = '';
-    //   break;
+    case 'fr':
+      templateId = 'd-697222fe8ed84b73bcf23266133ac41a';
+      break;
+    case 'nl':
+      templateId = 'd-1e50ecaf26564d06b634c53dc60ab900';
+      break;
     default:
       templateId = 'd-67a50fcf0c394b779baa82c71cd21634';
       break;
