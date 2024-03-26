@@ -104,8 +104,8 @@ exports.notifyOnChat = usCentral1.firestore
   .onCreate(onMessageCreate);
 
 // Scheduled tasks
-exports.scheduledFirestoreBackup = functions.pubsub.schedule('every day 03:30').onRun(doBackup);
-exports.handleRenewals = functions.pubsub.schedule('every hour').onRun(handleRenewals);
+exports.scheduledFirestoreBackup = usCentral1.pubsub.schedule('every day 03:30').onRun(doBackup);
+exports.handleRenewals = euWest1.pubsub.schedule('every hour').onRun(handleRenewals);
 
 // Only for testing the above cancellation function!
 // exports.cancelUnpaidRenewalsTest = euWest1.https.onRequest(cancelUnpaidRenewals);
