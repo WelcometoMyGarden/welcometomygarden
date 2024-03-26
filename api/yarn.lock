@@ -1903,6 +1903,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/luxon@npm:^3.4.2":
+  version: 3.4.2
+  resolution: "@types/luxon@npm:3.4.2"
+  checksum: 6f92d5bd02e89f310395753506bcd9cef3a56f5940f7a50db2a2b9822bce753553ac767d143cb5b4f9ed5ddd4a84e64f89ff538082ceb4d18739af7781b56925
+  languageName: node
+  linkType: hard
+
 "@types/markdown-it@npm:^12.2.3":
   version: 12.2.3
   resolution: "@types/markdown-it@npm:12.2.3"
@@ -3400,6 +3407,7 @@ __metadata:
     "@google-cloud/firestore": ^6.4.1
     "@sendgrid/client": ^7.7.0
     "@sendgrid/mail": ^7.1.1
+    "@types/luxon": ^3.4.2
     es6-promise-pool: ^2.5.0
     eslint: ^8.29.0
     eslint-config-airbnb: ^19.0.4
@@ -3410,6 +3418,7 @@ __metadata:
     firebase-functions: ^4.6.0
     firebase-functions-test: ^3.0.0
     lodash.groupby: ^4.6.0
+    luxon: ^3.4.4
     node-fetch: ^2
     prettier: ^2.0.2
     stripe: ^11.1.0
@@ -4375,6 +4384,13 @@ __metadata:
     lodash.clonedeep: ^4.5.0
     lru-cache: ~4.0.0
   checksum: 555f672b3ff6b4fec63792ca1cda7b585fc54f5e8f0b73166e6d513cc4103032cd69f5d40b32700807c9ca94671728e9108a3fe0803fc3f1b08716946c5a6098
+  languageName: node
+  linkType: hard
+
+"luxon@npm:^3.4.4":
+  version: 3.4.4
+  resolution: "luxon@npm:3.4.4"
+  checksum: 36c1f99c4796ee4bfddf7dc94fa87815add43ebc44c8934c924946260a58512f0fd2743a629302885df7f35ccbd2d13f178c15df046d0e3b6eb71db178f1c60c
   languageName: node
   linkType: hard
 

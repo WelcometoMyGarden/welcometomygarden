@@ -2,11 +2,11 @@
 //
 const { logger } = require('firebase-functions');
 const { auth } = require('../firebase');
-const { nowSecs, oneDaySecs, oneHourSecs } = require('../util/time');
+const { lxHourStart } = require('../util/time');
 const { sendSubscriptionRenewalReminderEmail } = require('../mail');
 
 /**
- * @param {import('firebase-admin').firestore.QueryDocumentSnapshot[]} docs candidate documents with an open last invoice and start date over 1 year
+ * @param {import('firebase-admin').firestore.QueryDocumentSnapshot[]} docs candidate documents with an open last invoice and start date over 1 year ago
  */
 module.exports = async (docs) => {
   // Further filtering
@@ -14,15 +14,15 @@ module.exports = async (docs) => {
   // so we should only get those that are still unpaid and not yet cancelled.
   const filteredDocs = docs.filter((doc) => {
     const sub = doc.data().stripeSubscription;
-    const fiveDaysAgoSecs = nowSecs() - 5 * oneDaySecs();
+    const lxFiveDaysAgoSecs = lxHourStart.minus({ days: 5 });
     // Renewal invoice link exists (it should be created only upon renewal, so must exist)
     return (
       !!sub.renewalInvoiceLink &&
       // last period started EXACTLY 5 days ago (within a 1 hour margin)
       // We need the function to run hourly to prevent including the same users twice.
       // NOTE: the accuracy of this will kind of depend on the accuracy when the function runs (consistenly hourly!)
-      sub.currentPeriodStart <= fiveDaysAgoSecs &&
-      sub.currentPeriodStart > fiveDaysAgoSecs - oneHourSecs()
+      sub.currentPeriodStart <= lxFiveDaysAgoSecs.toSeconds() &&
+      sub.currentPeriodStart > lxFiveDaysAgoSecs.minus({ hour: 1 }).toSeconds()
     );
   });
 

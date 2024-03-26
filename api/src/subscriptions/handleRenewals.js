@@ -4,6 +4,7 @@ const { db } = require('../firebase');
 const { stripeSubscriptionKeys } = require('./constants');
 const { oneYearAgoSecs } = require('../util/time');
 const sendRenewalReminders = require('./sendRenewalReminders');
+const sendFeedbackEmails = require('./sendFeedbackEmails');
 
 const { statusKey, latestInvoiceStatusKey, startDateKey } = stripeSubscriptionKeys;
 
@@ -33,6 +34,7 @@ module.exports = async () => {
     // Send renewal reminders after 5 days
     sendRenewalReminders(docs),
     // Fully cancel the subscription in case of no renewal after 7 days
-    cancelUnpaidRenewals(docs)
+    cancelUnpaidRenewals(docs),
+    sendFeedbackEmails()
   ]);
 };

@@ -24,6 +24,7 @@
     "firebase-admin": "^11.9.0",
     "firebase-functions": "^4.6.0",
     "lodash.groupby": "^4.6.0",
+    "luxon": "^3.4.4",
     "node-fetch": "^2",
     "stripe": "^11.1.0"
   },
@@ -31,6 +32,7 @@
     "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.9.6",
     "@faker-js/faker": "^7.6.0",
+    "@types/luxon": "^3.4.2",
     "eslint": "^8.29.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",

@@ -19,7 +19,7 @@ const { latestInvoiceStatusKey } = stripeSubscriptionKeys;
  * A cancellation will trigger a subscription.deleted event, which will send an email to the user.
  * This doesn't happen here.
  *
- * @param {import('firebase-admin').firestore.QueryDocumentSnapshot[]} docs candidate documents with an open last invoice and start date over 1 year
+ * @param {import('firebase-admin').firestore.QueryDocumentSnapshot[]} docs candidate documents with an open last invoice and start date over 1 year ago
  */
 module.exports = async (docs) => {
   // One year ago (365 days)

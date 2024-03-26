@@ -257,16 +257,16 @@ exports.sendSubscriptionRenewalEmail = (config) => {
 exports.sendSubscriptionRenewalReminderEmail = (config) => {
   const { email, firstName, renewalLink, language } = config;
   let templateId;
-  // TODO FILL IN TEMPLATE ID
   switch (language) {
-    case 'fr':
-      templateId = 'd-97e7ad7457d14f348833cb32a6143e33';
-      break;
-    case 'nl':
-      templateId = 'd-8efa4a0675c14098b9acd2d747e4db74';
-      break;
+    // TODO
+    // case 'fr':
+    //   templateId = '';
+    //   break;
+    // case 'nl':
+    //   templateId = '';
+    //   break;
     default:
-      templateId = 'd-77f6b26edb374b4197bdd30e2aafda03';
+      templateId = 'd-ff6078d95b984130ba2e2512f77cbdba';
       break;
   }
 
@@ -344,6 +344,45 @@ exports.sendSubscriptionRenewalThankYouEmail = (email, firstName, language) => {
       break;
     default:
       templateId = 'd-bda2656ade9a4efd97650ed9df43de39';
+      break;
+  }
+
+  const msg = {
+    to: email,
+    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    templateId,
+    dynamic_template_data: {
+      firstName
+    }
+  };
+
+  if (!canSendMail) {
+    console.warn(NO_API_KEY_WARNING);
+    console.info(JSON.stringify(msg));
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};
+
+/**
+ * @param {string} email
+ * @param {string} firstName
+ * @param {string} language
+ * @returns
+ */
+exports.sendSubscriptionEndedFeedbackEmail = (email, firstName, language) => {
+  let templateId;
+  switch (language) {
+    // TODO!
+    // case 'fr':
+    //   templateId = '';
+    //   break;
+    // case 'nl':
+    //   templateId = '';
+    //   break;
+    default:
+      templateId = 'd-67a50fcf0c394b779baa82c71cd21634';
       break;
   }
 
