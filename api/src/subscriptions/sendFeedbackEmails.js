@@ -36,7 +36,7 @@ module.exports = async () => {
     );
   });
 
-  await Promise.all(
+  const entries = await Promise.all(
     filteredDocs.map(async (userPrivateDoc) => {
       const authUser = await auth.getUser(userPrivateDoc.id);
 
@@ -56,4 +56,6 @@ module.exports = async () => {
       );
     })
   );
+
+  logger.log(`Sent ${entries.length} feedback emails`);
 };
