@@ -4,9 +4,10 @@
 // Suggested on: https://firebase.google.com/docs/functions/schedule-functions?gen=2nd
 const { logger } = require('firebase-functions');
 const PromisePool = require('es6-promise-pool');
-const { stripeSubscriptionKeys } = require('./constants');
-const stripe = require('./stripe');
-const { oneWeekAgoSecs, oneMonthAgoSecs } = require('../util/time');
+const { stripeSubscriptionKeys } = require('../constants');
+const stripe = require('../stripe');
+const { oneWeekAgoSecs, oneMonthAgoSecs } = require('../../util/time');
+const { userPrivateDocIds } = require('./shared');
 
 // Maximum concurrent cancellation operations.
 const MAX_CONCURRENT = 3;
@@ -22,9 +23,6 @@ const { latestInvoiceStatusKey } = stripeSubscriptionKeys;
  * @param {import('firebase-admin').firestore.QueryDocumentSnapshot[]} docs candidate documents with an open last invoice and start date over 1 year ago
  */
 module.exports = async (docs) => {
-  // One year ago (365 days)
-  // NOTE: this may cause some inconsistencies depending on how Stripe sees a year
-
   // Further filtering
   // After the actions are taken here, the invoice status won't be "past_due" anymore,
   // so we should only get those that are still unpaid and not yet cancelled.
@@ -79,8 +77,13 @@ module.exports = async (docs) => {
 
   const promiseIterator = generatePromises();
   const pool = new PromisePool(promiseIterator, MAX_CONCURRENT);
+  const idList = userPrivateDocIds(
+    filteredDocs.map((d) => ({
+      id: d.id
+    }))
+  );
   await pool
     .start()
-    .then(() => logger.log(`Completed ${filteredDocs.length} cancellations`))
-    .catch(() => logger.error(`Couldn't finish ${filteredDocs.length} cancellations`));
+    .then(() => logger.log(`Completed cancellations for ${idList} `))
+    .catch(() => logger.error(`Couldn't finish ${idList} cancellations`));
 };

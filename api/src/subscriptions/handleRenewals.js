@@ -1,16 +1,16 @@
-// @ts-check
-const cancelUnpaidRenewals = require('./cancelUnpaidRenewals');
+const cancelUnpaidRenewals = require('./scheduled/cancelUnpaidRenewals');
 const { db } = require('../firebase');
 const { stripeSubscriptionKeys } = require('./constants');
 const { oneYearAgoSecs } = require('../util/time');
-const sendRenewalReminders = require('./sendRenewalReminders');
-const sendFeedbackEmails = require('./sendFeedbackEmails');
+const sendRenewalReminders = require('./scheduled/sendRenewalReminders');
+const sendFeedbackEmails = require('./scheduled/sendFeedbackEmails');
 
 const { statusKey, latestInvoiceStatusKey, startDateKey } = stripeSubscriptionKeys;
 
-module.exports = async () => {
+exports.handleRenewals = async () => {
   // Get all users with a subscription that expired, known from the status being "past_due"
-  // and the start date being over a year ago
+  // and the start date being over a year ago (365 days)
+  // NOTE: this may cause some inconsistencies depending on how Stripe sees a year
   //
   // Further filtering should be done to know exactly when the subscription expired.
   // We can't do that here because of compound query limitations.

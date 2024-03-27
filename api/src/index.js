@@ -24,7 +24,7 @@ const {
 } = require('./subscriptions/createOrRetrieveUnpaidSubscription');
 const { createStripeCustomer } = require('./subscriptions/createStripeCustomer');
 const { createCustomerPortalSession } = require('./subscriptions/createCustomerPortalSession');
-const handleRenewals = require('./subscriptions/handleRenewals');
+const { handleRenewals } = require('./subscriptions/handleRenewals');
 const { discourseConnectLogin } = require('./discourse/discourseConnectLogin');
 const { createUser } = require('./user/createUser');
 const { cleanupUserOnDelete } = require('./user/cleanupUserOnDelete');
@@ -105,7 +105,8 @@ exports.notifyOnChat = usCentral1.firestore
 
 // Scheduled tasks
 exports.scheduledFirestoreBackup = usCentral1.pubsub.schedule('every day 03:30').onRun(doBackup);
-exports.handleRenewals = euWest1.pubsub.schedule('every hour').onRun(handleRenewals);
+// Run every hour
+exports.handleRenewals = euWest1.pubsub.schedule('0 * * * *').onRun(handleRenewals);
 
 // Only for testing the above cancellation function!
 // exports.cancelUnpaidRenewalsTest = euWest1.https.onRequest(cancelUnpaidRenewals);

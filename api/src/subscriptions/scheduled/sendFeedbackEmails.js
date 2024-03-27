@@ -1,14 +1,14 @@
 // @ts-check
-const { logger } = require('firebase-functions');
-const { db, auth } = require('../firebase');
-const { stripeSubscriptionKeys } = require('./constants');
-const { lxHourStart } = require('../util/time');
-const { sendSubscriptionEndedFeedbackEmail } = require('../mail');
+const { db } = require('../../firebase');
+const { stripeSubscriptionKeys } = require('../constants');
+const { lxHourStart } = require('../../util/time');
+const { sendSubscriptionEndedFeedbackEmail } = require('../../mail');
+const { FEEDBACK_EMAIL_DAYS_AFTER_EXPIRY, processUserPrivateDocs } = require('./shared');
 
 const { statusKey, currentPeriodStartKey } = stripeSubscriptionKeys;
+
 module.exports = async () => {
-  const FEEDBACK_EMAIL_DELAY_DAYS = 5;
-  const lxFeedbackThreshold = lxHourStart.minus({ days: 7 + FEEDBACK_EMAIL_DELAY_DAYS });
+  const lxFeedbackThreshold = lxHourStart.minus({ days: FEEDBACK_EMAIL_DAYS_AFTER_EXPIRY });
   // We're looking for renewals that have auto-canceled with the scheduled function here
 
   const query = db
@@ -36,26 +36,16 @@ module.exports = async () => {
     );
   });
 
-  const entries = await Promise.all(
-    filteredDocs.map(async (userPrivateDoc) => {
-      const authUser = await auth.getUser(userPrivateDoc.id);
-
-      if (!authUser || !authUser.email || !authUser.displayName) {
-        logger.error(
-          `User with ID ${userPrivateDoc.id} not found, or doesn't have the required data for our email`
-        );
-        return;
-      }
-
-      const data = userPrivateDoc.data();
+  await processUserPrivateDocs(
+    filteredDocs,
+    async (combinedUser) => {
       // Send renewal invoice email
       await sendSubscriptionEndedFeedbackEmail(
-        authUser.email,
-        authUser.displayName,
-        data.communicationLanguage
+        combinedUser.email,
+        combinedUser.displayName,
+        combinedUser.communicationLanguage
       );
-    })
+    },
+    'Sending feedback emails'
   );
-
-  logger.log(`Sent ${entries.length} feedback emails`);
 };

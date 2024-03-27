@@ -1,9 +1,8 @@
 // @ts-check
 //
-const { logger } = require('firebase-functions');
-const { auth } = require('../firebase');
-const { lxHourStart } = require('../util/time');
-const { sendSubscriptionRenewalReminderEmail } = require('../mail');
+const { lxHourStart } = require('../../util/time');
+const { sendSubscriptionRenewalReminderEmail } = require('../../mail');
+const { FIRST_REMINDER_EMAIL_DELAY_DAYS, processUserPrivateDocs } = require('./shared');
 
 /**
  * @param {import('firebase-admin').firestore.QueryDocumentSnapshot[]} docs candidate documents with an open last invoice and start date over 1 year ago
@@ -14,7 +13,7 @@ module.exports = async (docs) => {
   // so we should only get those that are still unpaid and not yet cancelled.
   const filteredDocs = docs.filter((doc) => {
     const sub = doc.data().stripeSubscription;
-    const lxFiveDaysAgoSecs = lxHourStart.minus({ days: 5 });
+    const lxFiveDaysAgoSecs = lxHourStart.minus({ days: FIRST_REMINDER_EMAIL_DELAY_DAYS });
     // Renewal invoice link exists (it should be created only upon renewal, so must exist)
     return (
       !!sub.renewalInvoiceLink &&
@@ -26,25 +25,17 @@ module.exports = async (docs) => {
     );
   });
 
-  await Promise.all(
-    filteredDocs.map(async (userPrivateDoc) => {
-      const authUser = await auth.getUser(userPrivateDoc.id);
-
-      if (!authUser || !authUser.email || !authUser.displayName) {
-        logger.error(
-          `User with ID ${userPrivateDoc.id} not found, or doesn't have the required data for our email`
-        );
-        return;
-      }
-
-      const data = userPrivateDoc.data();
+  await processUserPrivateDocs(
+    filteredDocs,
+    async (combinedUser) => {
       // Send renewal invoice email
       await sendSubscriptionRenewalReminderEmail({
-        email: authUser.email,
-        firstName: authUser.displayName,
-        renewalLink: data.stripeSubscription.renewalInvoiceLink,
-        language: data.communicationLanguage
+        email: combinedUser.email,
+        firstName: combinedUser.displayName,
+        renewalLink: combinedUser.stripeSubscription.renewalInvoiceLink,
+        language: combinedUser.communicationLanguage
       });
-    })
+    },
+    'Sending renewal reminder emails'
   );
 };

@@ -66,10 +66,10 @@ describe('renewalScheduler', () => {
 
   beforeEach(() => {
     fakeEmail = sinon.fake();
-    sendFeedback = proxyquire('../src/subscriptions/sendFeedbackEmails.js', {
+    sendFeedback = proxyquire('../src/subscriptions/scheduled/sendFeedbackEmails.js', {
       // redirect auth to auth from the seeder utilities
-      '../firebase': { auth },
-      '../mail': {
+      '../../firebase': { auth },
+      '../../mail': {
         sendSubscriptionEndedFeedbackEmail: fakeEmail
       },
       'firebase-functions': { logger: loggerStub }
