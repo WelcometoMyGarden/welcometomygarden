@@ -41,5 +41,5 @@ exports.processUserPrivateDocs = async (userPrivateDocs, processFn, processDescr
     })
   );
 
-  logger.log(`${processDescription} succeeded on: ${this.userPrivateDocIds(results)}`);
+  logger.log(`${processDescription} succeeded for: ${this.userPrivateDocIds(results)}`);
 };

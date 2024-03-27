@@ -5,7 +5,7 @@ const { auth, db } = require('./app');
 
 /**
  * @param {import('firebase-admin/auth').CreateRequest} authProps - passed to auth.createUser
- * @param {import('../../src/lib/api/functions').CreateUserRequest & {superfan?: true}} callableProps - replicating what is passed to the createUser callable (and more)
+ * @param {import('../../src/lib/api/functions').CreateUserRequest & {superfan?: boolean}} callableProps - replicating what is passed to the createUser callable (and more)
  */
 exports.createNewUser = async (authProps, callableProps) => {
   const user = await auth.createUser({
