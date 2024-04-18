@@ -34,6 +34,7 @@
   } from '$lib/api/push-registrations';
   import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
   import { resetPushRegistrationStores } from '$lib/stores/pushRegistrations';
+  import { afterNavigate, beforeNavigate, onNavigate } from '$app/navigation';
 
   type MaybeUnsubscriberFunc = (() => void) | undefined;
 
@@ -211,6 +212,28 @@
       keyboardEvent.set(e);
     }
   };
+
+  let appContainer: HTMLDivElement;
+
+  // Scroll to 0,0 on every navigation
+  onNavigate(() => {
+    // Workaround for the issue that the scroll position is not resetting to 0,0 on <a> or goto() navigations.
+    // due to us scrolling on the inner app container, and not on the root <html>
+    // See this: https://github.com/sveltejs/kit/issues/2733#issuecomment-1543863772
+    // NOTE: this will probably kill the `noScroll` feature that goto() has, but we haven't used this anyway.
+    //
+    // We use onNavigate() instead of afterNavigate() to work around this problem that makes Kit alway scroll to 0,0 anyway
+    // https://github.com/sveltejs/kit/issues/10823
+    appContainer?.scrollTo(0, 0);
+  });
+
+  // Capture & restore on back-forward navigation
+  export const snapshot = {
+    capture: () => appContainer?.scrollTop,
+    restore: (y) => {
+      appContainer?.scrollTo(0, y);
+    }
+  };
 </script>
 
 <svelte:window on:resize={updateViewportHeight} on:keyup={onCustomPress} />
@@ -220,6 +243,7 @@
     ?.id} locale-{$locale}"
   class:fullscreen={$isFullscreen}
   style="--vh:{vh}"
+  bind:this={appContainer}
 >
   <!-- Make the modal a child of .app, so that it inherits its CSS -->
   <Modal show={$rootModal} unstyled={true} closeButton={false}>
