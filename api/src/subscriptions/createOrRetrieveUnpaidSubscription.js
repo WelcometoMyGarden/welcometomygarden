@@ -62,17 +62,19 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
     days_until_due: 1
   });
 
-  // Invoices are normally only finalized after one hour.
-  // Manually finalize the invoice, which will create a new related PaymentIntent
-  const openInvoice = await stripe.invoices.finalizeInvoice(subscription.latest_invoice.id, {
-    expand: ['payment_intent']
-  });
+  const getPaymentIntent = async () => {
+    // Invoices are normally only finalized after one hour.
+    // Manually finalize the invoice, which will create a new related PaymentIntent
+    const openInvoice = await stripe.invoices.finalizeInvoice(subscription.latest_invoice.id, {
+      expand: ['payment_intent']
+    });
 
-  // Update the payment intent in the locally stored subscription object
-  subscription.latest_invoice.payment_intent = openInvoice.payment_intent;
+    // Update the payment intent in the locally stored subscription object
+    subscription.latest_invoice.payment_intent = openInvoice.payment_intent;
+  };
 
   // Set initial subscription parameters in Firebase
-  await privateUserProfileDocRef.update(
+  const updateUserPrivateDocPromise = privateUserProfileDocRef.update(
     removeUndefined({
       [idKey]: subscription.id,
       // Take the price ID from the subscription object.
@@ -80,6 +82,8 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
       // The invoice line item will have a custom one-off product ID and price ID
       [priceIdKey]: subscription.items.data[0].price.id,
       [statusKey]: subscription.status,
+      // Note: this will be out-of-date because we're not waiting for getPaymentIntent to perform this update
+      // (trade-off with completion speed of the function)
       [latestInvoiceStatusKey]: subscription.latest_invoice.status,
       [currentPeriodStartKey]: subscription.current_period_start,
       [currentPeriodEndKey]: subscription.current_period_end,
@@ -88,6 +92,10 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
       [canceledAtKey]: subscription.canceled_at
     })
   );
+
+  await Promise.all([getPaymentIntent(), updateUserPrivateDocPromise]);
+
+  // Will include the new PaymentIntent
   return subscription;
 };
 
@@ -219,27 +227,37 @@ exports.createOrRetrieveUnpaidSubscription = async ({ priceId, locale }, context
 
   const { uid } = context.auth;
 
+  // Reused later, initialized concurrently below
   let requestedPrice;
-  try {
-    // Validate the price by checking if it exists in Stripe
-    // Store the object for later reference, it might be needed.
-    requestedPrice = await stripe.prices.retrieve(priceId);
-  } catch (e) {
-    console.error(`An invalid price_id was supplied`);
-    fail('invalid-argument');
-  }
 
+  const fetchStripePrice = async () => {
+    try {
+      // Validate the price by checking if it exists in Stripe
+      // Store the object for later reference, it might be needed.
+      requestedPrice = await stripe.prices.retrieve(priceId);
+    } catch (e) {
+      console.error(`An invalid price_id was supplied`);
+      fail('invalid-argument');
+    }
+  };
+
+  // Reused later, initialized concurrently below
   let customerId;
   const privateUserProfileDocRef = db.doc(`users-private/${uid}`);
 
-  const privateUserProfileData = (await privateUserProfileDocRef.get()).data();
-  if (!privateUserProfileData.stripeCustomerId) {
-    console.info(`User ${uid} does not yet have a Stripe customer linked to it, creating it.`);
-    const { id: createdCustomerId } = await createStripeCustomer(null, context);
-    customerId = createdCustomerId;
-  } else {
-    customerId = privateUserProfileData.stripeCustomerId;
-  }
+  const fetchUserData = async () => {
+    const privateUserProfileData = (await privateUserProfileDocRef.get()).data();
+    if (!privateUserProfileData.stripeCustomerId) {
+      console.info(`User ${uid} does not yet have a Stripe customer linked to it, creating it.`);
+      const { id: createdCustomerId } = await createStripeCustomer(null, context);
+      customerId = createdCustomerId;
+    } else {
+      customerId = privateUserProfileData.stripeCustomerId;
+    }
+  };
+
+  // Run initial initializers concurrently
+  await Promise.all([fetchStripePrice(), fetchUserData()]);
 
   const existingSubscriptions = await stripe.subscriptions.list({
     customer: customerId,

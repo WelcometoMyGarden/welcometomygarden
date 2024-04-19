@@ -13,9 +13,15 @@ exports.createStripeCustomer = async (_, context) => {
 
   const { email } = await auth.getUser(uid);
 
-  const publicUserProfileData = (await db.doc(`users/${uid}`).get()).data();
+  const fetchPublicUser = async () => (await db.doc(`users/${uid}`).get()).data();
   const privateUserProfileDocRef = db.doc(`users-private/${uid}`);
-  const privateUserProfileData = await (await privateUserProfileDocRef.get()).data();
+  const fetchPrivateUser = async () => (await privateUserProfileDocRef.get()).data();
+
+  // Fetch data concurrently to minimize time used
+  const [publicUserProfileData, privateUserProfileData] = await Promise.all([
+    fetchPublicUser(),
+    fetchPrivateUser()
+  ]);
 
   const fullName = `${publicUserProfileData.firstName} ${privateUserProfileData.lastName}`.trim();
 
