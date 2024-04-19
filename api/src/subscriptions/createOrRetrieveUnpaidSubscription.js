@@ -4,6 +4,8 @@ const { createStripeCustomer } = require('./createStripeCustomer');
 const { stripeSubscriptionKeys } = require('./constants');
 const removeUndefined = require('../util/removeUndefined');
 const { db } = require('../firebase');
+const { isWTMGSubscription } = require('./stripeEventHandlers/util');
+const { oneDayAgo } = require('../util/time');
 
 const {
   idKey,
@@ -274,9 +276,10 @@ exports.createOrRetrieveUnpaidSubscription = async ({ priceId, locale }, context
   // A variable to hold the subscription to be retrieved or created
   let subscription;
 
-  // Find an active subscription (if any) that is already paid
+  // Find an active WTMG subscription (if any) that is already paid
   const existingValidSubscription = existingSubscriptions.data.find((sub) => {
     return (
+      isWTMGSubscription(sub) &&
       sub.status === 'active' &&
       sub.latest_invoice != null &&
       typeof sub.latest_invoice !== 'string' &&
@@ -292,7 +295,7 @@ exports.createOrRetrieveUnpaidSubscription = async ({ priceId, locale }, context
     fail('already-exists');
   }
 
-  // Find the first (if any) subscription that has an open invoice that we should process futher.
+  // Find the first (if any) WTMG subscription that has an open invoice that we should process futher.
   const existingIncompleteSubscription = existingSubscriptions.data.find((sub) => {
     // Only retrieve subscriptions with a latest invoice that wasn't paid yet
     // https://stripe.com/docs/invoicing/overview#workflow-overview
@@ -308,24 +311,51 @@ exports.createOrRetrieveUnpaidSubscription = async ({ priceId, locale }, context
       typeof sub.latest_invoice.payment_intent === 'object' &&
       sub.latest_invoice.payment_intent != null;
 
-    return hasOpenInvoice && hasPaymentIntent;
+    return isWTMGSubscription(sub) && hasOpenInvoice && hasPaymentIntent;
   });
 
   if (existingIncompleteSubscription) {
-    if (priceId !== existingIncompleteSubscription.items.data[0].price.id) {
+    if (existingIncompleteSubscription.start_date < oneDayAgo()) {
+      // If this subscription was created more than 24 hours ago (user was on payment page, but didn't pay),
+      // DO NOT try to pay it, but cancel it and create a new one, so that the sub start date can only be max. 24h before
+      // the actual payment (and not earlier).
+      //
+      // Void the invoice explicitly, to avoid its expiry/state transition (-> uncollectible) triggering an unexpected side-effect later on
+      const voidExistingInvoice = async () =>
+        stripe.invoices.voidInvoice(existingIncompleteSubscription.latest_invoice.id);
+      // Cancel the subscription explicitly
+      const cancelExistingSubObject = async () =>
+        stripe.subscriptions.cancel(existingIncompleteSubscription.id);
+
+      // Perform cancellation-related actions concurrently
+      await Promise.all([voidExistingInvoice(), cancelExistingSubObject()]);
+
+      // Create a new subscription to return for payment
+      // NOTE: this can not be executed concurrently, because this might lead to a race condition where
+      // the webhook events triggered by cancellation overwrite data that was just inserted by the new subscription
+      // Sequentially, it might still be possible (depends on how Stripe functions), but it's less likely.
+      // NOTE 2: this gives us price-changing for free
+      // TODO: we should consider making this the default options for price-changing within 24 hours, too
+      subscription = await createNewSubscription(
+        customerId,
+        priceId,
+        privateUserProfileDocRef,
+        locale
+      );
+    } else if (priceId !== existingIncompleteSubscription.items.data[0].price.id) {
       // TODO: pending/processing sofort payments will also have an "open" status invoice, and "processing" status PaymentIntent
       // While the front-end tries to prevent it, there could be cases where we have retrieved a pending payment invoice,
       // while the user tried to create one of another price. changeSubscriptionPrice() then would be destructive.
       // We should probably disallow changing the subscription price of a pending payment invoice, or create a second, actually prorated invoice?
       //
-      // If the price id requested is different to the current subscription's price, then change the subscription
+      // If we're in the 24h window, and the price id requested is different to the current subscription's price, then change the subscription
       subscription = await changeSubscriptionPrice(
         existingIncompleteSubscription,
         requestedPrice,
         privateUserProfileDocRef
       );
     } else {
-      // If the price ID was the same, return the payment intent of the unpaid invoice
+      // If we're in the 24h window, and the price id was the same, return the payment intent of the existing unpaid invoice
       subscription = existingIncompleteSubscription;
     }
   } else {

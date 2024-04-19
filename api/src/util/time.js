@@ -9,6 +9,7 @@ const oneDaySecs = 24 * oneHourSecs;
 const lxHourStart = DateTime.now().startOf('hour');
 
 const nowSecs = () => new Date().getTime() / 1000;
+const oneDayAgo = () => nowSecs() - oneDaySecs;
 const oneMonthAgoSecs = () => nowSecs() - 31 * oneDaySecs;
 const oneWeekAgoSecs = () => nowSecs() - 7 * oneDaySecs;
 const oneYearAgoSecs = () => nowSecs() - 365 * oneDaySecs;
@@ -16,6 +17,7 @@ const oneYearAgoSecs = () => nowSecs() - 365 * oneDaySecs;
 module.exports = {
   nowSecs,
   oneMonthAgoSecs,
+  oneDayAgo,
   oneWeekAgoSecs,
   oneYearAgoSecs,
   oneDaySecs,
