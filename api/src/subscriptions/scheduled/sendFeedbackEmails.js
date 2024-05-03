@@ -19,6 +19,8 @@ module.exports = async () => {
     // 7 days: time until the subscription is canceled
     // 5 days: wait to ask for feedback
     .where(currentPeriodStartKey, '<=', lxFeedbackThreshold.toSeconds());
+  // TODO add a reasonable ">" here - we don't need all canceled subscriptions here, and we
+  // can two > < on the same field?
 
   const { docs } = await query.get();
 
@@ -29,6 +31,7 @@ module.exports = async () => {
       // Renewal invoice link exists (it should be created only upon renewal, so must exist)
       !!sub.renewalInvoiceLink &&
       // This is a renewal (2nd check)
+      // NOTE: this is not reliable, in case the cycle date was manually reset
       sub.currentPeriodStart !== sub.startDate &&
       // Extract a one-hour window
       sub.currentPeriodStart <= lxFeedbackThreshold.toSeconds() &&
