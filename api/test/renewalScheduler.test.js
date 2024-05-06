@@ -1,7 +1,7 @@
 // @ts-check
 // How to run:
 //  firebase --project demo-test emulators:exec --ui --only auth,firestore ./runtests.sh
-// This is an integration test that work with the Firestore emulator
+// This is an integration test that works with the Firestore emulator
 const proxyquire = require('proxyquire');
 const assert = require('node:assert');
 const { describe, it, afterEach, beforeEach } = require('mocha');
@@ -16,22 +16,7 @@ const sinon = require('sinon');
 const { auth } = require('../seeders/app');
 const { createNewUser } = require('../seeders/util');
 const mail = require('../src/mail');
-
-const PROJECT_NAME = 'demo-test';
-
-// eslint-disable-next-line no-unused-vars
-const logger = (_) => () => {};
-const loggerStub = { error: logger('error'), log: logger('log') };
-
-async function clearAuth() {
-  const deleteURL = `http://127.0.0.1:9099/emulator/v1/projects/${PROJECT_NAME}/accounts`;
-  return fetch(deleteURL, { method: 'DELETE' });
-}
-
-async function clearFirestore() {
-  const deleteURL = `http://127.0.0.1:8080/emulator/v1/projects/${PROJECT_NAME}/databases/(default)/documents`;
-  return fetch(deleteURL, { method: 'DELETE' });
-}
+const { loggerStub, clearAuth, clearFirestore } = require('./util');
 
 const testEmail = 'fredtest@email.com';
 const testFirstName = 'Fred';
