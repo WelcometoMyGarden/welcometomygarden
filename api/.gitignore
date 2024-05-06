@@ -9,3 +9,5 @@ admin-credentials.json
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+test/data
+runtests.sh

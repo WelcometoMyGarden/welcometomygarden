@@ -120,6 +120,24 @@ See here for fake payment details: https://stripe.com/docs/billing/subscriptions
 - In https://dashboard.stripe.com/settings/billing/automatic, we switched "Email finalised invoices to customers" OFF (default: ON), so we can create our own copy for this email
 - We changed the rules for overdue subscriptions and invoices.
 
+## Running tests
+
+This project uses the [mocha](https://mochajs.org/) test runner, and [sinon](https://sinonjs.org/releases/v17/) for mocking/inspecting objects for tests.
+
+To run all tests:
+
+```
+echo "node_modules/.bin/mocha -w" > runtests.sh && firebase --project demo-test emulators:exec --ui --only auth,firestore ./runtests.sh
+```
+
+This example (run from the `api` folder) runs tests in the group that includes the string `sendMessageFromEmail`:
+
+```
+echo "node_modules/.bin/mocha -f sendMessageFromEmail" > runtests.sh && firebase --project demo-test emulators:exec --only auth,firestore --ui ./runtests.sh
+```
+
+To prevent Firestore-triggered functions from running (and potentially slowly hitting SendGrid), this example adds `--only auth,firestore`. Remove this to run the functions anyway for more realistic side-effects.
+
 ## Deployment to Firebase
 
 Use the correct environment:

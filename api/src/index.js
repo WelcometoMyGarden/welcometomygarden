@@ -30,6 +30,7 @@ const { createUser } = require('./user/createUser');
 const { cleanupUserOnDelete } = require('./user/cleanupUserOnDelete');
 const { onUserWrite } = require('./user/onUserWrite');
 const { onUserPrivateWrite } = require('./user/onUserPrivateWrite');
+const { parseInboundEmail, dumpInboundEmail } = require('./sendgrid/parseInboundEmail');
 
 // Regions
 // This is in Belgium! All new functions should be deployed here.
@@ -70,8 +71,11 @@ exports.updateEmail = usCentral1
   })
   .https.onCall(updateEmail);
 
-// HTTP function: Stripe webhook endpoint
+// HTTP functions:
+//  Stripe webhook endpoint
 exports.stripeWebhooks = euWest1.https.onRequest(stripeWebhookHandler);
+//  Handle SendGrid Inbound Email
+exports.parseInboundEmail = euWest1.https.onRequest(parseInboundEmail);
 
 // Auth triggers
 exports.cleanupUserOnDelete = usCentral1.auth.user().onDelete(cleanupUserOnDelete);
@@ -108,5 +112,11 @@ exports.scheduledFirestoreBackup = usCentral1.pubsub.schedule('every day 03:30')
 // Run every hour
 exports.handleRenewals = euWest1.pubsub.schedule('0 * * * *').onRun(handleRenewals);
 
-// Only for testing the above cancellation function!
+// Testing
+//
+// Only for testing the above handleRenewals function!
+// Note: this is outdated, and was used before a (docs) param was added.
 // exports.cancelUnpaidRenewalsTest = euWest1.https.onRequest(cancelUnpaidRenewals);
+if (process.env.NODE_ENV !== 'production') {
+  exports.dumpInboundEmail = euWest1.https.onRequest(dumpInboundEmail);
+}

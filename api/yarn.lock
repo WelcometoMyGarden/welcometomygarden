@@ -2141,6 +2141,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"address-rfc2822@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "address-rfc2822@npm:2.2.2"
+  dependencies:
+    email-addresses: ^5.0.0
+  checksum: a501caaf06992119da6e1ed1aa004b882871475fbf31757dc6eac6d5b92f49e4b66bfd16708528a53c47169f9b834872c4442f69ef8c1ab0a0023247fc98cfb9
+  languageName: node
+  linkType: hard
+
 "agent-base@npm:6":
   version: 6.0.2
   resolution: "agent-base@npm:6.0.2"
@@ -2502,6 +2511,15 @@ __metadata:
   version: 1.0.1
   resolution: "buffer-equal-constant-time@npm:1.0.1"
   checksum: 80bb945f5d782a56f374b292770901065bad21420e34936ecbe949e57724b4a13874f735850dd1cc61f078773c4fb5493a41391e7bda40d1fa388d6bd80daaab
+  languageName: node
+  linkType: hard
+
+"busboy@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "busboy@npm:1.6.0"
+  dependencies:
+    streamsearch: ^1.1.0
+  checksum: 32801e2c0164e12106bf236291a00795c3c4e4b709ae02132883fe8478ba2ae23743b11c5735a0aae8afe65ac4b6ca4568b91f0d9fed1fdbc32ede824a73746e
   languageName: node
   linkType: hard
 
@@ -2929,6 +2947,22 @@ __metadata:
   version: 1.4.620
   resolution: "electron-to-chromium@npm:1.4.620"
   checksum: 99c213f6dc504e106acd2d7df02fd65f92e2e19c1e9163c6257247921d0afb68f50a30aa9a8ad76695ebc8572b76a9ff65af8145acf4e1f47d7a043706c3ce58
+  languageName: node
+  linkType: hard
+
+"email-addresses@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "email-addresses@npm:5.0.0"
+  checksum: e58a510e9caf105313025e1c81488d5391c6404f0bbd7874e8e36a4c14d1ced02ff271748146c13edfa3bd9ce9b25f1194f5369971d77087325f37ab193129bb
+  languageName: node
+  linkType: hard
+
+"email-reply-parser@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "email-reply-parser@npm:1.6.0"
+  dependencies:
+    re2: 1.20.7
+  checksum: 0d5c4c900739926746e49558656f034fa7b60e7b2dac8f846655b418979e82c02fbbd1fac0feaa337f3c44252c962e582c8f40e0ac2e4387ce33ffbee3e97f8a
   languageName: node
   linkType: hard
 
@@ -3787,6 +3821,9 @@ __metadata:
     "@sendgrid/client": ^7.7.0
     "@sendgrid/mail": ^7.1.1
     "@types/luxon": ^3.4.2
+    address-rfc2822: ^2.2.2
+    busboy: ^1.6.0
+    email-reply-parser: ^1.6.0
     es6-promise-pool: ^2.5.0
     eslint: ^8.29.0
     eslint-config-airbnb: ^19.0.4
@@ -4240,6 +4277,16 @@ __metadata:
   version: 2.0.4
   resolution: "inherits@npm:2.0.4"
   checksum: 4a48a733847879d6cf6691860a6b1e3f0f4754176e4d71494c41f3475553768b10f84b5ce1d40fbd0e34e6bfbb864ee35858ad4dd2cf31e02fc4a154b724d7f1
+  languageName: node
+  linkType: hard
+
+"install-artifact-from-github@npm:^1.3.3":
+  version: 1.3.5
+  resolution: "install-artifact-from-github@npm:1.3.5"
+  bin:
+    install-from-cache: bin/install-from-cache.js
+    save-to-github-cache: bin/save-to-github-cache.js
+  checksum: bd4fd78f2c51f59441e524994fd59ea2a293ef252e7eccf5c37cbe303b7bdf3b7278c4b49d27432b4bdfa48a463196745f932ed8037948876428dcc2b459f529
   languageName: node
   linkType: hard
 
@@ -5281,6 +5328,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nan@npm:^2.18.0":
+  version: 2.19.0
+  resolution: "nan@npm:2.19.0"
+  dependencies:
+    node-gyp: latest
+  checksum: 29a894a003c1954c250d690768c30e69cd91017e2e5eb21b294380f7cace425559508f5ffe3e329a751307140b0bd02f83af040740fa4def1a3869be6af39600
+  languageName: node
+  linkType: hard
+
 "natural-compare@npm:^1.4.0":
   version: 1.4.0
   resolution: "natural-compare@npm:1.4.0"
@@ -5329,7 +5385,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-gyp@npm:latest":
+"node-gyp@npm:^10.0.1, node-gyp@npm:latest":
   version: 10.1.0
   resolution: "node-gyp@npm:10.1.0"
   dependencies:
@@ -5823,6 +5879,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"re2@npm:1.20.7":
+  version: 1.20.7
+  resolution: "re2@npm:1.20.7"
+  dependencies:
+    install-artifact-from-github: ^1.3.3
+    nan: ^2.18.0
+    node-gyp: ^10.0.1
+  checksum: d4d287af1d1d58e8386c72898f4451042ede0a2558bd2ad6cd9f88478151d25adbce4893806c47a0cf27cf13cbc51275f1a2b1bc9beaf39acd57b389de69e3e0
+  languageName: node
+  linkType: hard
+
 "readable-stream@npm:^3.1.1":
   version: 3.6.2
   resolution: "readable-stream@npm:3.6.2"
@@ -6270,6 +6337,13 @@ __metadata:
   version: 1.0.1
   resolution: "stream-shift@npm:1.0.1"
   checksum: 59b82b44b29ec3699b5519a49b3cedcc6db58c72fb40c04e005525dfdcab1c75c4e0c180b923c380f204bed78211b9bad8faecc7b93dece4d004c3f6ec75737b
+  languageName: node
+  linkType: hard
+
+"streamsearch@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "streamsearch@npm:1.1.0"
+  checksum: 1cce16cea8405d7a233d32ca5e00a00169cc0e19fbc02aa839959985f267335d435c07f96e5e0edd0eadc6d39c98d5435fb5bbbdefc62c41834eadc5622ad942
   languageName: node
   linkType: hard
 

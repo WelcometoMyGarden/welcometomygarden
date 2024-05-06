@@ -4,7 +4,7 @@
   "description": "a platform allowing citizens to put their garden freely at disposal as a rudimentary campsite to travelers.",
   "version": "3.3.0",
   "engines": {
-    "node": "16"
+    "node": "20"
   },
   "scripts": {
     "dev": "vite --host",

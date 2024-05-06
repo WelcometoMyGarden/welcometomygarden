@@ -1,7 +1,7 @@
 // @ts-check
 // https://stackoverflow.com/a/69959606/4973029
 // eslint-disable-next-line import/no-unresolved
-const { FieldValue } = require('firebase-admin/firestore');
+const { FieldValue, Timestamp } = require('firebase-admin/firestore');
 const functions = require('firebase-functions');
 const removeDiacritics = require('./util/removeDiacritics');
 const { sendMessageReceivedEmail } = require('./mail');
@@ -9,6 +9,8 @@ const removeEndingSlash = require('./util/removeEndingSlash');
 const { auth, db } = require('./firebase');
 const { sendNotification } = require('./push');
 const fail = require('./util/fail');
+
+exports.MAX_MESSAGE_LENGTH = 800;
 
 /**
  * @typedef {import("../../src/lib/models/User").UserPrivate} UserPrivate
@@ -18,6 +20,15 @@ const fail = require('./util/fail');
 /**
  * @typedef {import("firebase-admin/firestore").CollectionReference<FirebasePushRegistration>} PushRegistrationColRef
  */
+
+const getChat = async (chatId) => {
+  const doc = await db.collection('chats').doc(chatId).get();
+  const chat = doc.data();
+  return {
+    id: doc.id,
+    ...chat
+  };
+};
 
 const normalizeMessage = (str) => str.replace(/\n\s*\n\s*\n/g, '\n\n');
 const normalizeName = (str) => removeDiacritics(str).toLowerCase();
@@ -32,8 +43,7 @@ exports.onMessageCreate = async (snap, context) => {
   const senderId = message.from;
   const { chatId } = context.params;
 
-  const doc = await db.collection('chats').doc(chatId).get();
-  const chat = doc.data();
+  const chat = await getChat(chatId);
 
   const recipientId = chat.users.find((uid) => senderId !== uid);
   const recipientUserPrivateDocRef = db.collection('users-private').doc(recipientId);
@@ -163,4 +173,53 @@ exports.onChatCreate = async () => {
     .collection('stats')
     .doc('chats')
     .set({ count: FieldValue.increment(1) }, { merge: true });
+};
+
+/**
+ * Server-side API for sending a new message. Emulates the client-side API, but can
+ * for now only be used to respond to existing chats
+ *
+ * Note: the fromEmail should be verified, message can't be undefined.
+ * @param {{chatId: string, message: string, fromEmail: string}} params
+ */
+exports.sendMessageFromEmail = async function (params) {
+  const { chatId, message, fromEmail } = params;
+
+  const chatRef = `chats/${chatId}`;
+
+  const getUser = async () => {
+    try {
+      return await auth.getUserByEmail(fromEmail);
+    } catch (e) {
+      console.error(`Couldn't find the user for email address ${fromEmail}, can't send message.`);
+      throw e;
+    }
+  };
+
+  // Fetch the user & chat concurrently
+  const [fromUser, chat] = await Promise.all([getUser(), getChat(chatId)]);
+
+  // Verify that the user is in the chat (to prevent maliciously spoofed/modified email)
+  const userIsInChat = chat.users.find((uid) => fromUser.uid === uid);
+  if (!userIsInChat) {
+    console.error(
+      `The user matching the 'from' email address ${fromEmail} is not part of the chat ${chatId}`
+    );
+    throw new Error('Not allowed');
+  }
+
+  // Send message
+  await db.collection(`${chatRef}/messages`).doc().create({
+    // TODO: check max message length?
+    content: message,
+    createdAt: Timestamp.now(),
+    from: fromUser.uid
+  });
+
+  await db.doc(chatRef).update({
+    lastActivity: Timestamp.now(),
+    lastMessage: message,
+    lastMessageSeen: false,
+    lastMessageSender: fromUser.uid
+  });
 };
