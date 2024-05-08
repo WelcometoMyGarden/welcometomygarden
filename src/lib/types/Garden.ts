@@ -41,7 +41,7 @@ export type LongLat = {
 
 export type GardenFacilities = {
   capacity: number;
-  toilets?: boolean;
+  toilet?: boolean;
   shower?: boolean;
   electricity?: boolean;
   water?: boolean;

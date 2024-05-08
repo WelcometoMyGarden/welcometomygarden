@@ -1,13 +1,15 @@
-<script>
+<script lang="ts">
   import { _ } from 'svelte-i18n';
   import { beforeUpdate } from 'svelte';
   import { LabeledCheckbox, Button, Modal } from '$lib/components/UI';
   import { allGardens } from '$lib/stores/garden';
+  import type { Garden } from '$lib/types/Garden';
+  import { facilities, type CapacityFilterType, type FacilitiesFilterType } from './Filter.svelte';
 
-  export let facilities;
-  export let filteredGardens;
+  // Will practically never be `undefined`, because it is initialized in beforeUpdate
+  export let filteredGardens: Garden[] | undefined;
   export let filter;
-  export let show;
+  export let show: boolean;
 
   // because filter has a 2 way binding, if filter is modified somewhere the fx is called
   beforeUpdate(() => {
@@ -21,14 +23,14 @@
     if (filter.capacity.min < 20) filter.capacity.min += 1;
   };
 
-  function gardenFilterFacilities(garden) {
+  function gardenFilterFacilities(this: FacilitiesFilterType, garden: Garden) {
     for (const [key, value] of Object.entries(this)) {
-      if (value && garden.facilities[key] !== value) return false;
+      if (value && garden.facilities[key as keyof FacilitiesFilterType] !== value) return false;
     }
     return true;
   }
 
-  function gardenFilterCapacity(garden) {
+  function gardenFilterCapacity(this: CapacityFilterType, garden: Garden) {
     const value = garden.facilities.capacity;
     return value >= this.min && value <= this.max;
   }
@@ -42,7 +44,7 @@
   let stickToBottom = false;
   let maxWidth = 700;
 
-  let vw;
+  let vw: number;
 
   // Stick the modal to the bottom on mobile
   $: {
@@ -112,8 +114,8 @@
     <p class="controls-gardens-available">
       {@html $_('garden.filter.available', {
         values: {
-          amount: filteredGardens.length,
-          styledAmount: `<strong>${filteredGardens.length}</strong>`
+          amount: filteredGardens?.length,
+          styledAmount: `<strong>${filteredGardens?.length}</strong>`
         }
       })}
     </p>

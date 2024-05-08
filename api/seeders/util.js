@@ -135,7 +135,7 @@ exports.createGarden = async ({ latitude, longitude }, user, extraProps) => {
     },
     facilities: {
       capacity: 2,
-      toilets: true,
+      toilet: true,
       shower: false,
       electricity: true,
       water: false,

@@ -1,9 +1,9 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { crossIcon } from '$lib/images/icons';
-  import { Icon, Button } from '../UI';
+  import { Icon } from '../UI';
   export let name;
-  export let icon = null;
+  export let icon: string | null = null;
   export let closeButton = true;
   export let pointer = false;
   export let invert = false;
