@@ -6,6 +6,9 @@ const removeEndingSlash = require('./util/removeEndingSlash');
 const API_KEY = functions.config().sendgrid.send_key;
 const FRONTEND_URL = removeEndingSlash(functions.config().frontend.url);
 
+/**
+ * See https://github.com/sendgrid/sendgrid-nodejs/tree/main/packages/mail
+ */
 const send = (msg) => sendgrid.send(msg);
 
 if (API_KEY != null) {
@@ -139,17 +142,49 @@ exports.sendMessageReceivedEmail = (config) => {
       break;
   }
 
+  /**
+   * @type {sendgrid.MailDataRequired}
+   */
   const msg = {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    replyTo: `Welcome To My Garden <${functions.config().sendgrid.inbound_parse_email}>`,
     templateId,
-    dynamic_template_data: {
+    dynamicTemplateData: {
       firstName,
       senderName,
       messageUrl,
       message,
       superfan
     }
+  };
+
+  if (!canSendMail) {
+    console.warn(NO_API_KEY_WARNING);
+    console.info(JSON.stringify(msg));
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};
+
+exports.sendEmailReplyError = (toEmail, language) => {
+  let templateId;
+  switch (language) {
+    case 'nl':
+      templateId = 'd-92fa096fb981407699057f091d3f9c8e';
+      break;
+    case 'fr':
+      templateId = 'd-54a45c1d6fb341898a83c3e157a38f91';
+      break;
+    default:
+      templateId = 'd-24c51c1b6e324edc9f79ee214eba1af6';
+  }
+
+  const msg = {
+    to: toEmail,
+    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    templateId
   };
 
   if (!canSendMail) {

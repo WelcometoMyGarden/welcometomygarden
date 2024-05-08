@@ -43,6 +43,7 @@ Your `.runtimeconfig.json` within the `api` directory will need:
 - `frontend.url`: the "callback URL" endpoint, typically where your frontend dev server is running (`http://localhost:5173`) if you're dveloping locally. In production, this will be `https://welcometomygarden.org`.
 - `stripe.secret_key` & `stripe.webhook_secret`: backend keys for Stripe. Use test keys when developing. - `sendgrid.send_key`: a SendGrid API key, only used to send email. We currently use these in both staging and production environments, so that we can reuse created Dynamic Templates. **This might result in hard-to-test scenarios regarding unsubscribe group emails** (production SendGrid groups will not affect the staging contacts)
 - `sendgrid.marketing_key`: a SendGrid API key, only used to perform operations with the SendGrid Marketing API (e.g. syncing contacts). This one differs between the production & staging environments.
+- `sendgrid.inbound_parse_email`: the email address to which chat response emails should be sent (see [SendGrid Inbound Parse](https://docs.sendgrid.com/ui/account-and-settings/inbound-parse))
 
 ## Static image assets
 

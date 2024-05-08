@@ -2,7 +2,7 @@
 // https://stackoverflow.com/a/69959606/4973029
 // eslint-disable-next-line import/no-unresolved
 const { FieldValue, Timestamp } = require('firebase-admin/firestore');
-const functions = require('firebase-functions');
+const { config, logger } = require('firebase-functions');
 const removeDiacritics = require('./util/removeDiacritics');
 const { sendMessageReceivedEmail } = require('./mail');
 const removeEndingSlash = require('./util/removeEndingSlash');
@@ -15,6 +15,7 @@ exports.MAX_MESSAGE_LENGTH = 800;
 /**
  * @typedef {import("../../src/lib/models/User").UserPrivate} UserPrivate
  * @typedef {import("../../src/lib/models/User").UserPublic} UserPublic
+ * @typedef {import("../../src/lib/types/Chat").LocalChat} LocalChat
  * @typedef {import("../../src/lib/types/PushRegistration.ts").FirebasePushRegistration} FirebasePushRegistration
  */
 /**
@@ -23,11 +24,14 @@ exports.MAX_MESSAGE_LENGTH = 800;
 
 const getChat = async (chatId) => {
   const doc = await db.collection('chats').doc(chatId).get();
+  if (!doc.exists) {
+    throw new Error(`Email error: the chat with ID ${chatId} doesn't exist`);
+  }
   const chat = doc.data();
-  return {
+  return /** @type {LocalChat} */ ({
     id: doc.id,
     ...chat
-  };
+  });
 };
 
 const normalizeMessage = (str) => str.replace(/\n\s*\n\s*\n/g, '\n\n');
@@ -37,6 +41,8 @@ const normalizeName = (str) => removeDiacritics(str).toLowerCase();
  * Sends an email notification of a new chat to a recipient, if the recipient
  * wishes to receive email notifications and has not received a notification about the
  * chat yet very recently.
+ * @param {import("@google-cloud/firestore").QueryDocumentSnapshot<import('../../src/lib/types/Chat').FirebaseMessage>} snap
+ * @returns {Promise<any>}
  */
 exports.onMessageCreate = async (snap, context) => {
   const message = snap.data();
@@ -46,6 +52,10 @@ exports.onMessageCreate = async (snap, context) => {
   const chat = await getChat(chatId);
 
   const recipientId = chat.users.find((uid) => senderId !== uid);
+  if (!recipientId) {
+    logger.error(`Couldn't find the UID of the recipient of message ${snap.id} in chat ${chat.id}`);
+    return;
+  }
   const recipientUserPrivateDocRef = db.collection('users-private').doc(recipientId);
   const unreadDoc = await recipientUserPrivateDocRef.collection('unreads').doc(chatId).get();
 
@@ -58,7 +68,7 @@ exports.onMessageCreate = async (snap, context) => {
     (await recipientUserPrivateDocRef.get()).data()
   );
   if (!recipientUserPrivateDocData) {
-    console.error(
+    logger.error(
       "Could not retrieve the recipient's private document data. The recipient is likely deleted, aborting."
     );
     return;
@@ -68,7 +78,7 @@ exports.onMessageCreate = async (snap, context) => {
     (await db.collection('users').doc(recipientId).get()).data()
   );
   if (!recipientUserPublicDocData) {
-    console.error("Could not retrieve the recipient's public document data. Aborting.");
+    logger.error("Could not retrieve the recipient's public document data. Aborting.");
     return;
   }
 
@@ -83,8 +93,8 @@ exports.onMessageCreate = async (snap, context) => {
     const nowDate = new Date();
     // Elapsed time since last email notification in milliseconds
     const elapsedTime = nowDate.getTime() - unread.notifiedAt.toMillis();
-    // user was notified in the last 15 mins
-    if (elapsedTime / 60000 <= 15) {
+    // user was notified in the last 5 mins
+    if (elapsedTime / 60000 <= 5) {
       shouldNotifyEmail = false;
     }
   }
@@ -94,18 +104,18 @@ exports.onMessageCreate = async (snap, context) => {
     const recipientAuthUser = await auth.getUser(recipientId);
 
     if (!recipientAuthUser.email || !recipientAuthUser.displayName) {
-      console.error(`Email or display name of ${recipientId} are not valid`);
+      logger.error(`Email or display name of ${recipientId} are not valid`);
       fail('internal');
     }
 
     const senderAuthUser = await auth.getUser(senderId);
 
     if (!senderAuthUser || !senderAuthUser.displayName) {
-      console.error(`Sender auth user ${senderId} or its displayName is undefined/null`);
+      logger.error(`Sender auth user ${senderId} or its displayName is undefined/null`);
       fail('internal');
     }
 
-    const baseUrl = removeEndingSlash(functions.config().frontend.url);
+    const baseUrl = removeEndingSlash(config().frontend.url);
 
     const senderNameParts = senderAuthUser.displayName.split(/[^A-Za-z-]/);
     const messageUrl = `${baseUrl}/chat/${normalizeName(senderNameParts[0])}/${chatId}`;
@@ -142,7 +152,7 @@ exports.onMessageCreate = async (snap, context) => {
           })
       );
     } catch (ex) {
-      console.error('Error while sending push notification: ', ex);
+      logger.error('Error while sending push notification: ', ex);
     }
 
     // Send email, if the last email wasn't sent too recently
@@ -160,11 +170,11 @@ exports.onMessageCreate = async (snap, context) => {
           firstName: recipientAuthUser.displayName
         });
       } catch (ex) {
-        console.error('Error while sending email notification: ', ex);
+        logger.error('Error while sending email notification: ', ex);
       }
     }
   } catch (ex) {
-    console.error(ex);
+    logger.error(ex);
   }
 };
 
@@ -177,7 +187,7 @@ exports.onChatCreate = async () => {
 
 /**
  * Server-side API for sending a new message. Emulates the client-side API, but can
- * for now only be used to respond to existing chats
+ * for now only be used to respond to existing chats. Assumes the message length is already checked.
  *
  * Note: the fromEmail should be verified, message can't be undefined.
  * @param {{chatId: string, message: string, fromEmail: string}} params
@@ -191,7 +201,9 @@ exports.sendMessageFromEmail = async function (params) {
     try {
       return await auth.getUserByEmail(fromEmail);
     } catch (e) {
-      console.error(`Couldn't find the user for email address ${fromEmail}, can't send message.`);
+      logger.error(
+        `Email error: couldn't find the user for email address ${fromEmail}, can't send message.`
+      );
       throw e;
     }
   };
@@ -202,15 +214,13 @@ exports.sendMessageFromEmail = async function (params) {
   // Verify that the user is in the chat (to prevent maliciously spoofed/modified email)
   const userIsInChat = chat.users.find((uid) => fromUser.uid === uid);
   if (!userIsInChat) {
-    console.error(
-      `The user matching the 'from' email address ${fromEmail} is not part of the chat ${chatId}`
+    throw new Error(
+      `Email error: The user matching the 'from' email address ${fromEmail} is not part of the chat ${chatId}`
     );
-    throw new Error('Not allowed');
   }
 
   // Send message
   await db.collection(`${chatRef}/messages`).doc().create({
-    // TODO: check max message length?
     content: message,
     createdAt: Timestamp.now(),
     from: fromUser.uid

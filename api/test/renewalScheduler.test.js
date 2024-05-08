@@ -1,6 +1,3 @@
-// @ts-check
-// How to run:
-//  firebase --project demo-test emulators:exec --ui --only auth,firestore ./runtests.sh
 // This is an integration test that works with the Firestore emulator
 const proxyquire = require('proxyquire');
 const assert = require('node:assert');

@@ -1,9 +1,13 @@
+const { logger } = require('firebase-functions');
 const fs = require('fs/promises');
 const busboy = require('busboy');
 const EmailReplyParser = require('email-reply-parser');
+
 // https://github.com/haraka/node-address-rfc2822
 const addrparser = require('address-rfc2822');
 const { MAX_MESSAGE_LENGTH, sendMessageFromEmail } = require('../chat');
+const { sendEmailReplyError } = require('../mail');
+const { auth, db } = require('../firebase');
 
 /**
  *
@@ -14,7 +18,7 @@ const { MAX_MESSAGE_LENGTH, sendMessageFromEmail } = require('../chat');
 const parseInboundEmailInner = async (req) => {
   let envelopeFromEmail;
   let headerFrom;
-  let dkimResult;
+  let dkimResult = {};
 
   // Plain-text email text
   let emailPlainText;
@@ -35,16 +39,25 @@ const parseInboundEmailInner = async (req) => {
     if (name === 'dkim') {
       // This format isn't really documented, so we can't know how multiple signatures will appear...
       // TODO: this will only support one signature, since the regex doesn't iterate
-      const [host, result] = /@([^\s]+?)\s:\s(pass|fail)/.exec(val);
+      logger.log('Email DKIM field:', val);
+      const [, host, result] = /@([^\s]+?)\s:\s(pass|fail)/.exec(val);
       dkimResult = {
         host,
         result
       };
     }
   });
-  bb.on('close', () => {
-    console.log('Done parsing form!');
+
+  bb.on('file', (name, info) => {
+    const { filename, encoding, mimeType } = info;
+    logger.warn(
+      `Ignoring attached file: [${name}]: filename: %j, encoding: %j, mimeType: %j`,
+      filename,
+      encoding,
+      mimeType
+    );
   });
+
   // Firebase already reads the stream and saves it into a buffer, which we pass here
   bb.end(req.rawBody);
 
@@ -69,26 +82,32 @@ const parseInboundEmailInner = async (req) => {
  */
 exports.parseInboundEmail = async (req, res) => {
   if (req.method !== 'POST') {
-    console.error('Not a POST');
+    logger.log('Not a POST');
     res.status('405').send('Method not allowed');
     return;
   }
 
+  let parsedEmail = {};
   try {
-    const { envelopeFromEmail, headerFrom, responseText, chatId, dkimResult } =
-      await parseInboundEmailInner(req);
+    try {
+      parsedEmail = await parseInboundEmailInner(req);
+    } catch (parseError) {
+      throw new Error('Email error: unknown parsing error');
+    }
 
-    console.log('envelope from: ', envelopeFromEmail);
-    console.log('header from: ', headerFrom.address);
-    console.log('dkim', dkimResult);
-    console.log('response: ', responseText);
-    console.log('chat ID: ', chatId);
+    const { envelopeFromEmail, headerFrom, responseText, chatId, dkimResult } = parsedEmail;
+    logger.log(`== Parsed email details ==
+Envelope from: ${envelopeFromEmail}
+Header from: ${headerFrom.address}
+DKIM: ${JSON.stringify(dkimResult)}
+Response text: ${responseText}
+Chat ID: ${chatId}`);
 
     // Verify details
     //
     if (!chatId) {
       // TODO: Couldn't parse the chat ID. Send an error to the sender
-      console.error("Couldn't parse the chat ID");
+      throw new Error("Email error: couldn't parse the chat ID");
     }
 
     const headerFromEmail = headerFrom.address;
@@ -96,14 +115,14 @@ exports.parseInboundEmail = async (req, res) => {
     // Check DKIM: host must be verified, header host must match verified host
     const headerFromHost = headerFrom.host();
     if (dkimResult.result !== 'pass' || headerFromHost !== dkimResult.host) {
-      console.error('DKIM verification error');
+      throw new Error('Email error: DKIM verification problem');
     }
 
-    // Check max message content
+    // Check & truncate max message content. Does not lead to an error.
     let message = responseText;
     if (responseText.length > MAX_MESSAGE_LENGTH) {
-      // TODO: inform that the message is truncated?
       message = responseText.substring(0, MAX_MESSAGE_LENGTH);
+      logger.warn(`Email length trucated from ${responseText.length}`);
     }
 
     // Send message
@@ -112,10 +131,40 @@ exports.parseInboundEmail = async (req, res) => {
       message,
       fromEmail: headerFromEmail
     });
+    logger.log('Reply email processed succcesfully');
   } catch (e) {
-    console.error(e);
+    // Log error
+    if (e instanceof Error) {
+      logger.error(e.message);
+    } else {
+      logger.error('Unknown email error:', e);
+    }
+
+    // Send a response if possible
+    const fromEmail =
+      parsedEmail && (parsedEmail.headerFrom?.address || parsedEmail.envelopeFromEmail);
+
+    if (fromEmail) {
+      // TODO: this code is likely reused elsewhere too...
+      let language;
+      try {
+        const user = await auth.getUserByEmail(fromEmail);
+        const privateUserProfileDocRef = db.doc(`users-private/${user.uid}`);
+        const privateUserProfileData = (await privateUserProfileDocRef.get()).data();
+        language = privateUserProfileData.communicationLanguage;
+      } catch (langFindError) {
+        logger.warn(
+          "Couldn't get the communicationLanguage for the user that (supposedly) replied",
+          langFindError
+        );
+      }
+      await sendEmailReplyError(fromEmail, language);
+    } else {
+      logger.warn("Couldn't parse an email to send an error message to");
+    }
   }
 
+  // Always reply OK to SendGrid
   res.send('OK');
 };
 
