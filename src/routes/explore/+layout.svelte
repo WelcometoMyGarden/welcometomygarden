@@ -44,7 +44,7 @@
   let showStations = false;
   let showRails = false;
   let showTransport = false;
-  let filteredGardens: { [id: string]: Garden };
+  let filteredGardens: Garden[];
   let savedGardens = [] as string[];
   let carNoticeShown = !isOnIDevicePWA() && !getCookie('car-notice-dismissed');
 
@@ -81,11 +81,11 @@
 
   // true when visiting the link to a garden directly, used to increase zoom level
   // TODO check this: It looks like there is no need for a subscribe on page
-  let isShowingGarden = !!$page.params.gardenId;
+  let hasGardenInURL = !!$page.params.gardenId;
 
-  let zoom = isShowingGarden ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.WESTERN_EUROPE;
+  let zoom = hasGardenInURL ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.WESTERN_EUROPE;
 
-  $: applyZoom = isShowingGarden ? true : false;
+  $: applyZoom = hasGardenInURL ? true : false;
 
   // Garden to preload when we are loading the app on its permalink URL
   let preloadedGarden: Garden | null = null;
@@ -143,7 +143,7 @@
   };
 
   const closeDrawer = () => {
-    isShowingGarden = false;
+    hasGardenInURL = false;
     goto(routes.MAP);
   };
 
@@ -158,12 +158,26 @@
   // LIFECYCLE HOOKS
 
   onMount(async () => {
+    // Called every time the page opens, but not when the selected garden changes (client-side navigation within this layout)
+
     const gardensAreEmpty = $allGardens.length === 0;
-    if (gardensAreEmpty && !$isFetchingGardens && isShowingGarden) {
-      // If we're loading the page of a garden, load that one immediately *before* all other gardens
+
+    // If we open the map with a garden in the URL, and gardens aren't loaded yet (or loading),
+    // load that one immediately *before* all other gardens.
+    //
+    // Note that all gardens are fetched at the end of this function on a fresh/hard navigation, but it may also be possible that
+    // onMount() is called in a soft client-side navigation, after gardens have already been loaded.
+    if (gardensAreEmpty && !$isFetchingGardens && hasGardenInURL) {
       preloadedGarden = await getGarden($page.params.gardenId);
-      if (preloadedGarden) {
-        setMapToGardenLocation(preloadedGarden);
+    }
+
+    // In any case where we open the map with a garden in the URL, move the map view to that garden
+    if (hasGardenInURL && (!gardensAreEmpty || preloadedGarden)) {
+      // In one case, all gardens are already loaded before the page mount. In another, we've preloaded the target here above.
+      const targetGarden =
+        $allGardens.find((g) => g.id === $page.params.gardenId) || preloadedGarden;
+      if (targetGarden) {
+        setMapToGardenLocation(targetGarden);
       }
     }
 
@@ -195,7 +209,7 @@
     lon={centerLocation.longitude}
     lat={centerLocation.latitude}
     recenterOnUpdate
-    {isShowingGarden}
+    {hasGardenInURL}
     {zoom}
     {applyZoom}
   >
@@ -209,10 +223,10 @@
         allGardens={filteredGardens || $allGardens}
         {savedGardens}
       />
-      <Drawer on:close={closeDrawer} garden={selectedGarden} />
-      <WaymarkedTrails {showHiking} {showCycling} />
-      <slot />
     {/if}
+    <Drawer on:close={closeDrawer} garden={selectedGarden} />
+    <WaymarkedTrails {showHiking} {showCycling} />
+    <slot />
     {#if carNoticeShown}
       <div class="vehicle-notice-wrapper">
         <button on:click={closeCarNotice} aria-label="Close notice" class="button-container close">

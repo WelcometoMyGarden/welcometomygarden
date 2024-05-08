@@ -32,7 +32,7 @@
   // Recenter when the lat & long params change
   export let recenterOnUpdate = false;
   export let enableGeolocation = true;
-  export let isShowingGarden = false;
+  export let hasGardenInURL = false;
 
   // Was used to prevent an automatic jump to the GPS location after the initial map load.
   // TODO: reuse for IP-based geolocation
@@ -79,7 +79,7 @@
     // We can reuse this code when showing the location indicator after initializing
     // on an IP-based location. We also don't want it to jump then.
     // --
-    if (isAutoloadingLocation && isShowingGarden) {
+    if (isAutoloadingLocation && hasGardenInURL) {
       console.log('Ignored geolocation camera update');
       return;
     }
@@ -196,14 +196,14 @@
       geolocationPermission !== 'denied'
     ) {
       const canPromptForLocationPermissionOnLoad =
-        (!isOnIDevicePWA() || hasEnabledNotificationsOnCurrentDevice()) && !isShowingGarden;
+        (!isOnIDevicePWA() || hasEnabledNotificationsOnCurrentDevice()) && !hasGardenInURL;
 
       let shouldTriggerGeolocation =
         // It won't prompt if granted
         (geolocationPermission === 'granted' ||
           (geolocationPermission === 'prompt' && canPromptForLocationPermissionOnLoad)) &&
         // Only trigger geolocation for non-members when a garden isn't being shown specifically
-        (!!$user?.superfan || !isShowingGarden);
+        (!!$user?.superfan || !hasGardenInURL);
 
       if (geolocationPermission === 'granted' && shouldTriggerGeolocation) {
         // Mark the map as autoloading if we have permission and should trigger geolocation
@@ -283,7 +283,7 @@
   $: if (recenterOnUpdate && map) {
     const zoomLevel = applyZoom ? zoom : map.getZoom();
     const params = { center: [lon, lat], zoom: zoomLevel };
-    if (!isShowingGarden) {
+    if (!hasGardenInURL) {
       map.flyTo({
         ...params,
         bearing: 0,
