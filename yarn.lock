@@ -1629,9 +1629,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sveltejs/kit@npm:^1.30.4":
-  version: 1.30.4
-  resolution: "@sveltejs/kit@npm:1.30.4"
+"@sveltejs/kit@npm:1.30.0":
+  version: 1.30.0
+  resolution: "@sveltejs/kit@npm:1.30.0"
   dependencies:
     "@sveltejs/vite-plugin-svelte": ^2.5.0
     "@types/cookie": ^0.5.1
@@ -1645,13 +1645,13 @@ __metadata:
     set-cookie-parser: ^2.6.0
     sirv: ^2.0.2
     tiny-glob: ^0.2.9
-    undici: ^5.28.3
+    undici: ~5.26.2
   peerDependencies:
     svelte: ^3.54.0 || ^4.0.0-next.0 || ^5.0.0-next.0
     vite: ^4.0.0
   bin:
     svelte-kit: svelte-kit.js
-  checksum: 82ec54fa213233a355655dbbcb84d12a44b57733610760b45a1fdb9d87f4d81d24d3c1de93a58f34e237738a1a3bcf52d4938451a80b539de9893bbd52d10886
+  checksum: 96f3a5814a32dcf4f4a0e4dd6b2405e3b76ed10cf940a377a4d9e8216f30e89bea5f0f48e255b10b565afd0801f9fa2219d5bb69f1fdba69c7ffd681137bea5e
   languageName: node
   linkType: hard
 
@@ -7620,12 +7620,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:^5.28.3":
-  version: 5.28.4
-  resolution: "undici@npm:5.28.4"
+"undici@npm:~5.26.2":
+  version: 5.26.5
+  resolution: "undici@npm:5.26.5"
   dependencies:
     "@fastify/busboy": ^2.0.0
-  checksum: a8193132d84540e4dc1895ecc8dbaa176e8a49d26084d6fbe48a292e28397cd19ec5d13bc13e604484e76f94f6e334b2bdc740d5f06a6e50c44072818d0c19f9
+  checksum: 79c95df5f22959ed578e90d853b31a741ac748fc3bf9a4af6af52de1d671a057eaaf7dcad6e1d261597a114bd56c7351cff7ce848befd9deb62ccec55cf92ac1
   languageName: node
   linkType: hard
 
@@ -7956,7 +7956,7 @@ __metadata:
     "@playwright/test": ^1.38.0
     "@stripe/stripe-js": ^1.54.2
     "@sveltejs/adapter-static": ^2.0.3
-    "@sveltejs/kit": ^1.30.4
+    "@sveltejs/kit": 1.30.0
     "@tmcw/togeojson": ^5.8.1
     "@turf/turf": ^6.5.0
     "@types/lodash-es": ^4.17.9

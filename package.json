@@ -37,7 +37,7 @@
     "@playwright/test": "^1.38.0",
     "@stripe/stripe-js": "^1.54.2",
     "@sveltejs/adapter-static": "^2.0.3",
-    "@sveltejs/kit": "^1.30.4",
+    "@sveltejs/kit": "1.30.0",
     "@tmcw/togeojson": "^5.8.1",
     "@turf/turf": "^6.5.0",
     "@types/lodash-es": "^4.17.9",
