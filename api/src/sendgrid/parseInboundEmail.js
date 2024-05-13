@@ -1,3 +1,4 @@
+// @ts-check
 const { logger } = require('firebase-functions');
 const fs = require('fs/promises');
 const busboy = require('busboy');
@@ -14,9 +15,22 @@ const { auth, db } = require('../firebase');
  * See https://docs.sendgrid.com/for-developers/parsing-email/setting-up-the-inbound-parse-webhook
  * We use the non-raw webhook.
  * @param {import('express').Request} req
+ * @returns {Promise<{
+ *  envelopeFromEmail?: string,
+ *  headerFrom?: addrparser.Address,
+ *  responseText?: string,
+ *  chatId?: string,
+ *  dkimResult: {
+ *    host?: string,
+ *    result?: string
+ *  }
+ * }>}
  */
 const parseInboundEmailInner = async (req) => {
   let envelopeFromEmail;
+  /**
+   * @type {addrparser.Address | undefined}
+   */
   let headerFrom;
   let dkimResult = {};
 
@@ -26,29 +40,42 @@ const parseInboundEmailInner = async (req) => {
   // Parse email text
   const bb = busboy({ headers: req.headers });
   bb.on('field', (name, val) => {
-    // Extract processed plain text
-    if (name === 'text') {
-      emailPlainText = val;
-    }
-    if (name === 'envelope') {
-      envelopeFromEmail = JSON.parse(val).from;
-    }
-    if (name === 'from') {
-      [headerFrom] = addrparser.parse(val) || [];
-    }
-    if (name === 'dkim') {
-      // This format isn't really documented, so we can't know how multiple signatures will appear...
-      // TODO: this will only support one signature, since the regex doesn't iterate
-      logger.log('Email DKIM field:', val);
-      const [, host, result] = /@([^\s]+?)\s:\s(pass|fail)/.exec(val);
-      dkimResult = {
-        host,
-        result
-      };
+    try {
+      // Extract processed plain text
+      if (name === 'text') {
+        emailPlainText = val;
+      }
+      if (name === 'envelope') {
+        envelopeFromEmail = JSON.parse(val).from;
+      }
+      if (name === 'from') {
+        [headerFrom] = addrparser.parse(val) || [];
+      }
+      if (name === 'dkim') {
+        // This format isn't really documented, so we can't know how multiple signatures will appear... Example observed values are (on each line):
+        // {@gmail.com : pass}
+        // none
+        //
+        logger.log('Email DKIM field:', val);
+        if (val.trim() === 'none') {
+          dkimResult = {};
+          return;
+        }
+        //
+        // TODO: this will only support one DKIM signature, since the regex doesn't iterate. There might be multiple.
+        const [, host, result] = /@([^\s]+?)\s:\s(pass|fail)/.exec(val) || [];
+        dkimResult = {
+          host,
+          result
+        };
+      }
+    } catch (e) {
+      logger.warn(`Error parsing field ${name} with value "${val}"`, e);
     }
   });
 
   bb.on('file', (name, info) => {
+    // @ts-ignore
     const { filename, encoding, mimeType } = info;
     logger.warn(
       `Ignoring attached file: [${name}]: filename: %j, encoding: %j, mimeType: %j`,
@@ -59,19 +86,39 @@ const parseInboundEmailInner = async (req) => {
   });
 
   // Firebase already reads the stream and saves it into a buffer, which we pass here
+  // @ts-ignore this is provided by Firebase functions
   bb.end(req.rawBody);
 
-  const parsedEmail = new EmailReplyParser().read(emailPlainText);
-  // Trim is not done automatically
-  const responseText = parsedEmail.getVisibleText().trim();
-  const quotedText = parsedEmail.getQuotedText();
+  let responseText;
+  let chatId;
+  try {
+    if (emailPlainText) {
+      const parsedEmail = new EmailReplyParser().read(emailPlainText);
+      // Trim is not done automatically
+      responseText = parsedEmail.getVisibleText().trim();
+      const quotedText = parsedEmail.getQuotedText();
+      // Find the chat ID from the quoted text
+      const chatRegex = /\/chat\/.+?\/([a-zA-Z0-9]+)>/.exec(quotedText);
+      chatId = chatRegex ? chatRegex[1] : undefined;
+    }
+  } catch (e) {
+    logger.warn('Error extracting response text from plain email text', e);
+  }
 
-  // Find the chat ID from the quoted text
-  const chatRegex = /\/chat\/.+?\/([a-zA-Z0-9]+)>/.exec(quotedText);
-  const chatId = chatRegex ? chatRegex[1] : undefined;
+  logger.log(`== Parsed email details ==
+Envelope from: ${envelopeFromEmail}
+Header from: ${headerFrom?.address}
+DKIM: ${JSON.stringify(dkimResult)}
+Response text: ${responseText}
+Chat ID: ${chatId}`);
 
   return { envelopeFromEmail, headerFrom, responseText, chatId, dkimResult };
 };
+
+/**
+ * @template T
+ * @typedef {T extends Promise<infer U> ? U : T} Unpacked
+ */
 
 /**
  *
@@ -83,25 +130,23 @@ const parseInboundEmailInner = async (req) => {
 exports.parseInboundEmail = async (req, res) => {
   if (req.method !== 'POST') {
     logger.log('Not a POST');
-    res.status('405').send('Method not allowed');
+    res.status(405).send('Method not allowed');
     return;
   }
 
-  let parsedEmail = {};
+  /**
+   * @type {Unpacked<ReturnType<typeof parseInboundEmailInner>>}
+   */
+  let parsedEmail = { dkimResult: {} };
   try {
     try {
       parsedEmail = await parseInboundEmailInner(req);
     } catch (parseError) {
+      logger.error(parseError);
       throw new Error('Email error: unknown parsing error');
     }
 
-    const { envelopeFromEmail, headerFrom, responseText, chatId, dkimResult } = parsedEmail;
-    logger.log(`== Parsed email details ==
-Envelope from: ${envelopeFromEmail}
-Header from: ${headerFrom.address}
-DKIM: ${JSON.stringify(dkimResult)}
-Response text: ${responseText}
-Chat ID: ${chatId}`);
+    const { headerFrom, responseText, chatId, dkimResult } = parsedEmail;
 
     // Verify details
     //
@@ -110,7 +155,12 @@ Chat ID: ${chatId}`);
       throw new Error("Email error: couldn't parse the chat ID");
     }
 
+    if (!headerFrom) {
+      throw new Error("Email error: couldn't parse a valid header rfc2822.from email address");
+    }
+
     const headerFromEmail = headerFrom.address;
+
     //
     // Check DKIM: host must be verified, header host must match verified host
     const headerFromHost = headerFrom.host();
@@ -119,6 +169,14 @@ Chat ID: ${chatId}`);
     }
 
     // Check & truncate max message content. Does not lead to an error.
+    if (!responseText) {
+      throw new Error("Email error: couldn't parse plain email text");
+    }
+
+    if (responseText.trim() === '') {
+      throw new Error('Email error: reply text is empty');
+    }
+
     let message = responseText;
     if (responseText.length > MAX_MESSAGE_LENGTH) {
       message = responseText.substring(0, MAX_MESSAGE_LENGTH);
@@ -151,7 +209,7 @@ Chat ID: ${chatId}`);
         const user = await auth.getUserByEmail(fromEmail);
         const privateUserProfileDocRef = db.doc(`users-private/${user.uid}`);
         const privateUserProfileData = (await privateUserProfileDocRef.get()).data();
-        language = privateUserProfileData.communicationLanguage;
+        language = privateUserProfileData?.communicationLanguage;
       } catch (langFindError) {
         logger.warn(
           "Couldn't get the communicationLanguage for the user that (supposedly) replied",
