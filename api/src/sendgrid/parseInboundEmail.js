@@ -9,6 +9,7 @@ const addrparser = require('address-rfc2822');
 const { MAX_MESSAGE_LENGTH, sendMessageFromEmail } = require('../chat');
 const { sendEmailReplyError } = require('../mail');
 const { auth, db } = require('../firebase');
+const { sendPlausibleEvent } = require('../util/plausible');
 
 /**
  *
@@ -24,6 +25,7 @@ const { auth, db } = require('../firebase');
  *    host?: string,
  *    result?: string
  *  }
+ *  senderIP?: string
  * }>}
  */
 const parseInboundEmailInner = async (req) => {
@@ -32,7 +34,9 @@ const parseInboundEmailInner = async (req) => {
    * @type {addrparser.Address | undefined}
    */
   let headerFrom;
+  let dkimRaw;
   let dkimResult = {};
+  let senderIP;
 
   // Plain-text email text
   let emailPlainText;
@@ -56,7 +60,7 @@ const parseInboundEmailInner = async (req) => {
         // {@gmail.com : pass}
         // none
         //
-        logger.log('Email DKIM field:', val);
+        dkimRaw = val;
         if (val.trim() === 'none') {
           dkimResult = {};
           return;
@@ -68,6 +72,9 @@ const parseInboundEmailInner = async (req) => {
           host,
           result
         };
+      }
+      if (name === 'sender_ip') {
+        senderIP = val;
       }
     } catch (e) {
       logger.warn(`Error parsing field ${name} with value "${val}"`, e);
@@ -108,11 +115,12 @@ const parseInboundEmailInner = async (req) => {
   logger.log(`== Parsed email details ==
 Envelope from: ${envelopeFromEmail}
 Header from: ${headerFrom?.address}
-DKIM: ${JSON.stringify(dkimResult)}
+DKIM: ${JSON.stringify(dkimResult)} (raw: ${dkimRaw})
 Response text: ${responseText}
-Chat ID: ${chatId}`);
+Chat ID: ${chatId}
+Sender IP: ${senderIP}`);
 
-  return { envelopeFromEmail, headerFrom, responseText, chatId, dkimResult };
+  return { envelopeFromEmail, headerFrom, responseText, chatId, dkimResult, senderIP };
 };
 
 /**
@@ -146,7 +154,7 @@ exports.parseInboundEmail = async (req, res) => {
       throw new Error('Email error: unknown parsing error');
     }
 
-    const { headerFrom, responseText, chatId, dkimResult } = parsedEmail;
+    const { headerFrom, responseText, chatId, dkimResult, senderIP } = parsedEmail;
 
     // Verify details
     //
@@ -189,7 +197,10 @@ exports.parseInboundEmail = async (req, res) => {
       message,
       fromEmail: headerFromEmail
     });
-    logger.log('Reply email processed succcesfully');
+    logger.log('Reply email processed succesfully');
+    // Note: sender IP is the email MTA sender IP, probably not the email client
+    // But it might still be helpful to distinguish "visitors" somewhat in Plausible
+    await sendPlausibleEvent('Send Email Reply', { senderIP });
   } catch (e) {
     // Log error
     if (e instanceof Error) {
@@ -216,10 +227,12 @@ exports.parseInboundEmail = async (req, res) => {
           langFindError
         );
       }
+      logger.log(`Sending error email to ${fromEmail} in language ${language}`);
       await sendEmailReplyError(fromEmail, language);
     } else {
-      logger.warn("Couldn't parse an email to send an error message to");
+      logger.warn("Couldn't parse an email to send an error message to, not sending error email");
     }
+    await sendPlausibleEvent('Email Reply Error', { senderIP: parsedEmail?.senderIP });
   }
 
   // Always reply OK to SendGrid
