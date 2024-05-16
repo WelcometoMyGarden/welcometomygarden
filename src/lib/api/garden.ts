@@ -37,6 +37,8 @@ export const getGarden = async (id: string) => {
   }
 };
 
+// Presumably, doubles and integers are the only numbers allowed:
+// https://firebase.google.com/docs/firestore/manage-data/data-types
 type DoubleValue = {
   doubleValue: number;
 };
@@ -95,8 +97,14 @@ function mapRestToGarden(doc: RESTGardenDoc): Garden {
     id: name.split('/').pop() as string,
     description: description?.stringValue,
     location: {
-      latitude: location.mapValue.fields.latitude?.doubleValue,
-      longitude: location.mapValue.fields.longitude?.doubleValue
+      // Integer values are rare, but we have one in the db at the time of writing
+      // It looks like a real location!
+      latitude:
+        location.mapValue.fields.latitude?.doubleValue ??
+        location.mapValue.fields.latitude?.integerValue,
+      longitude:
+        location.mapValue.fields.longitude?.doubleValue ??
+        location.mapValue.fields.longitude?.integerValue
     },
     listed: listed.booleanValue,
     facilities: {
