@@ -97,8 +97,12 @@ function mapRestToGarden(doc: RESTGardenDoc): Garden {
     id: name.split('/').pop() as string,
     description: description?.stringValue,
     location: {
-      // Integer values are rare, but we have one in the db at the time of writing
-      // It looks like a real location!
+      // Integer values are rare, but we have one in the db at the time of writing,
+      // with two integer values. It looks like a real location!
+      //
+      // The MapBox forward geocoding API we use indeed doesn't document its precision
+      // and only specifies "number", which could be floating-point or integer.
+      // https://docs.mapbox.com/api/search/geocoding/#geocoding-response-object
       latitude:
         location.mapValue.fields.latitude?.doubleValue ??
         location.mapValue.fields.latitude?.integerValue,
