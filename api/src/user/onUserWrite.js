@@ -1,4 +1,3 @@
-// @ts-check
 /* eslint-disable camelcase */
 // https://stackoverflow.com/a/69959606/4973029
 const { config } = require('firebase-functions');

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* eslint-disable camelcase */
-// @ts-check
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { faker } = require('@faker-js/faker');
 // eslint-disable-next-line import/no-unresolved

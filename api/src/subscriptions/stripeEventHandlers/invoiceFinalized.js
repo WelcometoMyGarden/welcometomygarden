@@ -1,5 +1,3 @@
-// @ts-check
-
 const { isWTMGInvoice } = require('./util');
 
 /**

@@ -1,4 +1,3 @@
-// @ts-check
 const functions = require('firebase-functions');
 const sendgrid = require('@sendgrid/mail');
 const removeEndingSlash = require('./util/removeEndingSlash');

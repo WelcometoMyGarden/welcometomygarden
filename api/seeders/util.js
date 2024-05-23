@@ -1,4 +1,3 @@
-// @ts-check
 // eslint-disable-next-line import/no-unresolved
 const { FieldValue, Timestamp } = require('firebase-admin/firestore');
 const { auth, db } = require('./app');

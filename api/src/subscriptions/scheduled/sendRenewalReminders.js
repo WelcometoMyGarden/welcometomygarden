@@ -1,4 +1,3 @@
-// @ts-check
 //
 const { lxHourStart } = require('../../util/time');
 const { sendSubscriptionRenewalReminderEmail } = require('../../mail');

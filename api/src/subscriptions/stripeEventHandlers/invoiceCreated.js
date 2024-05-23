@@ -1,4 +1,3 @@
-// @ts-check
 const stripe = require('../stripe');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const { stripeSubscriptionKeys } = require('../constants');

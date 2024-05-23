@@ -1,4 +1,3 @@
-// @ts-check
 const functions = require('firebase-functions');
 const stripe = require('../stripe');
 

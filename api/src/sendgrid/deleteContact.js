@@ -1,4 +1,3 @@
-// @ts-check
 const { sendgrid: sendgridClient } = require('./sendgrid');
 
 /**
