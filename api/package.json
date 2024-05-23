@@ -21,6 +21,7 @@
     "@google-cloud/firestore": "^6.4.1",
     "@sendgrid/client": "^7.7.0",
     "@sendgrid/mail": "^7.1.1",
+    "@supabase/supabase-js": "^2.43.2",
     "address-rfc2822": "^2.2.2",
     "busboy": "^1.6.0",
     "email-reply-parser": "^1.6.0",

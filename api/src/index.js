@@ -5,7 +5,7 @@ const { initializeApp } = require('firebase-admin/app');
 
 initializeApp();
 
-const functions = require('firebase-functions');
+const { region, config } = require('firebase-functions');
 const {
   requestPasswordReset,
   resendAccountVerification,
@@ -31,13 +31,22 @@ const { cleanupUserOnDelete } = require('./user/cleanupUserOnDelete');
 const { onUserWrite } = require('./user/onUserWrite');
 const { onUserPrivateWrite } = require('./user/onUserPrivateWrite');
 const { parseInboundEmail, dumpInboundEmail } = require('./sendgrid/parseInboundEmail');
+const onChatsWrite = require('./replication/onChatsWrite');
+const onCampsitesWrite = require('./replication/onCampsitesWrite');
+const { multiplexFirestoreTrigger } = require('./replication/shared');
+const onUsersWriteReplicate = require('./replication/onUsersWrite');
+const onUsersPrivateWriteReplicate = require('./replication/onUsersPrivateWrite');
+const onUserPrivateSubcollectionWrite = require('./replication/onUsersPrivateSubWrite');
+const onMessagesWriteReplicate = require('./replication/onMessagesWrite');
 
 // Regions
 // This is in Belgium! All new functions should be deployed here.
-const euWest1 = functions.region('europe-west1');
+const euWest1 = region('europe-west1');
 // Historically functions were hosted here. Most old ones still do, until we
 // migrate them safely.
-const usCentral1 = functions.region('us-central1');
+const usCentral1 = region('us-central1');
+
+const shouldReplicate = !config().supabase?.disable_replication;
 
 // Extended 5 minutes timeout for function that handle SendGrid account creation
 // https://firebase.google.com/docs/functions/manage-functions#set_timeout_and_memory_allocation
@@ -87,9 +96,18 @@ exports.onUserPrivateWrite = euWest1
   })
   .firestore.document('users-private/{userId}')
   // @ts-ignore
-  .onWrite(onUserPrivateWrite);
+  .onWrite(
+    multiplexFirestoreTrigger([
+      onUserPrivateWrite,
+      ...(shouldReplicate ? [onUsersPrivateWriteReplicate] : [])
+    ])
+  );
 // @ts-ignore
-exports.onUserWrite = euWest1.firestore.document('users/{userId}').onWrite(onUserWrite);
+exports.onUserWrite = euWest1.firestore
+  .document('users/{userId}')
+  .onWrite(
+    multiplexFirestoreTrigger([onUserWrite, ...(shouldReplicate ? [onUsersWriteReplicate] : [])])
+  );
 
 // Firestore triggers: campsites
 exports.onCampsiteCreate = usCentral1.firestore
@@ -106,6 +124,21 @@ exports.onChatCreate = usCentral1.firestore.document('chats/{chatId}').onCreate(
 exports.notifyOnChat = usCentral1.firestore
   .document('chats/{chatId}/{messages}/{messageId}')
   .onCreate(onMessageCreate);
+
+// Additional replication triggers not covered above
+if (shouldReplicate) {
+  exports.onCampsiteWrite = euWest1.firestore
+    .document('campsites/{campsiteId}')
+    .onWrite(onCampsitesWrite);
+  exports.onChatWrite = euWest1.firestore.document('chats/{chatId}').onWrite(onChatsWrite);
+  exports.onMessageWrite = euWest1.firestore
+    .document('chats/{chatId}/messages/{messageId}')
+    .onWrite(onMessagesWriteReplicate);
+  // for subcollections `push-registrations`, `unreads`, and `trails`
+  exports.onUserPrivateSubcollectionWrite = euWest1.firestore
+    .document('users-private/{userId}/{subcollection}/{documentId}')
+    .onWrite(onUserPrivateSubcollectionWrite);
+}
 
 // Scheduled tasks
 exports.scheduledFirestoreBackup = usCentral1.pubsub.schedule('every day 03:30').onRun(doBackup);

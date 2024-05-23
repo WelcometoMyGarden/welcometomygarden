@@ -1,5 +1,6 @@
 // @ts-check
 /* eslint-disable camelcase */
+const { disable_contacts } = require('firebase-functions').config().sendgrid;
 const {
   sendgrid: sendgridClient,
   SG_WTMG_NEWS_YES_ID,
@@ -71,8 +72,6 @@ exports.onUserPrivateWrite = async (change, context) => {
   if (!userPrivateAfter) {
     // Should not hapen, if after.exists it should have data.
     fail('internal');
-    // For TS type narrowing, actually unreachable code because fail always throws.
-    throw new Error('userPrivate does not have data, it should.');
   }
 
   /**
@@ -97,7 +96,7 @@ exports.onUserPrivateWrite = async (change, context) => {
   // NOTE: the following case is fully ignored
   // `sendgridId == null && userPrivateAfter.emailPreferences?.news === false`
   //
-  if (sendgridId == null && userPrivateAfter.emailPreferences?.news === true) {
+  if (sendgridId == null && userPrivateAfter.emailPreferences?.news === true && !disable_contacts) {
     // Only add this contact to SendGrid if they want to receive news, and are
     // not in SendGrid yet. This applies to all newly created contacts, and to existing contacts
     // that change a userPrivate property (e.g. communicationLanguage), while never having been added to SendGrid.
@@ -147,18 +146,20 @@ exports.onUserPrivateWrite = async (change, context) => {
     }
 
     // Perform the update in any case
-    try {
-      await sendgridClient.request({
-        url: '/v3/marketing/contacts',
-        method: 'PUT',
-        body: {
-          ...(list_ids ? { list_ids } : {}),
-          contacts: [sendgridContactUpdateFields]
-        }
-      });
-    } catch (e) {
-      console.error(JSON.stringify(e));
-      fail('internal');
+    if (!disable_contacts) {
+      try {
+        await sendgridClient.request({
+          url: '/v3/marketing/contacts',
+          method: 'PUT',
+          body: {
+            ...(list_ids ? { list_ids } : {}),
+            contacts: [sendgridContactUpdateFields]
+          }
+        });
+      } catch (e) {
+        console.error(JSON.stringify(e));
+        fail('internal');
+      }
     }
 
     const changedToNewsFalse =
@@ -190,7 +191,7 @@ exports.onUserPrivateWrite = async (change, context) => {
       userPrivateAfter.emailPreferences.news === false;
 
     // Check if we should do a newsletter list deletion
-    if (changedToNewsFalse || unsubscribedWhileAddingSendGridId) {
+    if ((changedToNewsFalse || unsubscribedWhileAddingSendGridId) && !disable_contacts) {
       await sendgridClient.request({
         url: `/v3/marketing/lists/${SG_WTMG_NEWS_YES_ID}/contacts`,
         method: 'DELETE',

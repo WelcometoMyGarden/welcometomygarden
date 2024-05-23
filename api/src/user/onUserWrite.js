@@ -1,5 +1,7 @@
 // @ts-check
+/* eslint-disable camelcase */
 // https://stackoverflow.com/a/69959606/4973029
+const { config } = require('firebase-functions');
 // eslint-disable-next-line import/no-unresolved
 const { FieldValue } = require('firebase-admin/firestore');
 const { auth, db } = require('../firebase');
@@ -68,27 +70,30 @@ exports.onUserWrite = async (change) => {
     superfanStatsDoc.set({ count: FieldValue.increment(1) }, { merge: true });
   }
 
-  //
-  // Update SendGrid contact info
-  //
-  const { firstName, superfan, countryCode } = userAfter;
+  const { disable_contacts } = config().sendgrid;
+  if (!disable_contacts) {
+    //
+    // Update SendGrid contact info
+    //
+    const { firstName, superfan, countryCode } = userAfter;
 
-  const authUser = await auth.getUser(after.id);
-  const sendgridContact = {
-    email: authUser.email,
-    first_name: firstName,
-    country: countryCode,
-    custom_fields: {
-      // Because only numbers & text are supported as data types, not
-      // (not sure how they appear in "JSON" data exports though)
-      [SENDGRID_SUPERFAN_FIELD_ID]: superfan ? 1 : 0
-    }
-  };
-  await sendgridClient.request({
-    url: '/v3/marketing/contacts',
-    method: 'PUT',
-    body: {
-      contacts: [sendgridContact]
-    }
-  });
+    const authUser = await auth.getUser(after.id);
+    const sendgridContact = {
+      email: authUser.email,
+      first_name: firstName,
+      country: countryCode,
+      custom_fields: {
+        // Because only numbers & text are supported as data types, not
+        // (not sure how they appear in "JSON" data exports though)
+        [SENDGRID_SUPERFAN_FIELD_ID]: superfan ? 1 : 0
+      }
+    };
+    await sendgridClient.request({
+      url: '/v3/marketing/contacts',
+      method: 'PUT',
+      body: {
+        contacts: [sendgridContact]
+      }
+    });
+  }
 };
