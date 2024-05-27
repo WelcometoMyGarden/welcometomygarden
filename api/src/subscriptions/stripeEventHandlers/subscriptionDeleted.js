@@ -1,4 +1,3 @@
-// @ts-check
 const { db, auth } = require('../../firebase');
 const { sendSubscriptionEndedEmail } = require('../../mail');
 const removeUndefined = require('../../util/removeUndefined');

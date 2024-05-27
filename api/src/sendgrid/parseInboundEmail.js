@@ -1,4 +1,3 @@
-// @ts-check
 const { logger } = require('firebase-functions');
 const fs = require('fs/promises');
 const busboy = require('busboy');

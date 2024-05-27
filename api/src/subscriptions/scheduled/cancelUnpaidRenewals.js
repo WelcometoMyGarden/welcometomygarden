@@ -1,4 +1,3 @@
-// @ts-check
 // The es6-promise-pool to limit the concurrency of promises.
 // Docs: https://www.npmjs.com/package/es6-promise-pool
 // Suggested on: https://firebase.google.com/docs/functions/schedule-functions?gen=2nd

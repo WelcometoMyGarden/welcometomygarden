@@ -1,4 +1,3 @@
-// @ts-check
 const { logger } = require('firebase-functions');
 const { default: fetch } = require('node-fetch');
 

@@ -1,4 +1,3 @@
-// @ts-check
 const sendgridClient = require('@sendgrid/client');
 const functions = require('firebase-functions');
 

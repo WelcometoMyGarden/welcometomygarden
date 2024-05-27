@@ -1,10 +1,12 @@
-// @ts-check
+/* eslint-disable camelcase */
 // https://stackoverflow.com/a/69959606/4973029
 // eslint-disable-next-line import/no-unresolved
 const { FieldValue } = require('firebase-admin/firestore');
+const { config } = require('firebase-functions');
 const { db } = require('../firebase');
 const stripe = require('../subscriptions/stripe');
 const { deleteContact } = require('../sendgrid/deleteContact');
+const supabase = require('../supabase');
 
 /**
  * @typedef {import("../../../src/lib/models/User").UserPrivate} UserPrivate
@@ -64,6 +66,16 @@ exports.cleanupUserOnDelete = async (user) => {
   // To be tested.
   batch.delete(db.doc(`campsites/${userId}`));
   batch.delete(db.doc(`users-private/${userId}`));
+
+  const { disable_replication } = config().supabase;
+
+  if (!disable_replication) {
+    try {
+      await supabase.from('auth').delete().eq('id', userId);
+    } catch (ex) {
+      console.error(ex);
+    }
+  }
 
   try {
     await batch.commit();

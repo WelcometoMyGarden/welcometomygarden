@@ -1,11 +1,14 @@
-// @ts-check
 // https://stackoverflow.com/a/69959606/4973029
 // eslint-disable-next-line import/no-unresolved
-const { initializeApp } = require('firebase-admin/app');
+const admin = require('firebase-admin');
+// eslint-disable-next-line import/no-extraneous-dependencies
 
-initializeApp();
+// Initialization conflicts may arise with seeders/app.js
+if (!admin.apps.length) {
+  admin.initializeApp();
+}
 
-const functions = require('firebase-functions');
+const { region, config } = require('firebase-functions');
 const {
   requestPasswordReset,
   resendAccountVerification,
@@ -31,13 +34,24 @@ const { cleanupUserOnDelete } = require('./user/cleanupUserOnDelete');
 const { onUserWrite } = require('./user/onUserWrite');
 const { onUserPrivateWrite } = require('./user/onUserPrivateWrite');
 const { parseInboundEmail, dumpInboundEmail } = require('./sendgrid/parseInboundEmail');
+const onChatsWrite = require('./replication/onChatsWrite');
+const onCampsitesWrite = require('./replication/onCampsitesWrite');
+const { multiplexFirestoreTrigger } = require('./replication/shared');
+const onUsersWriteReplicate = require('./replication/onUsersWrite');
+const onUsersPrivateWriteReplicate = require('./replication/onUsersPrivateWrite');
+const onUserPrivateSubcollectionWrite = require('./replication/onUsersPrivateSubWrite');
+const onMessagesWriteReplicate = require('./replication/onMessagesWrite');
+const onAuthUserCreate = require('./user/onAuthUserCreate');
+const refreshAuthTable = require('./replication/scheduled/refreshAuthTable');
 
 // Regions
 // This is in Belgium! All new functions should be deployed here.
-const euWest1 = functions.region('europe-west1');
+const euWest1 = region('europe-west1');
 // Historically functions were hosted here. Most old ones still do, until we
 // migrate them safely.
-const usCentral1 = functions.region('us-central1');
+const usCentral1 = region('us-central1');
+
+const shouldReplicate = !config().supabase?.disable_replication;
 
 // Extended 5 minutes timeout for function that handle SendGrid account creation
 // https://firebase.google.com/docs/functions/manage-functions#set_timeout_and_memory_allocation
@@ -77,8 +91,12 @@ exports.stripeWebhooks = euWest1.https.onRequest(stripeWebhookHandler);
 //  Handle SendGrid Inbound Email
 exports.parseInboundEmail = euWest1.https.onRequest(parseInboundEmail);
 
-// Auth triggers
+// Firebase Auth triggers
 exports.cleanupUserOnDelete = usCentral1.auth.user().onDelete(cleanupUserOnDelete);
+if (shouldReplicate) {
+  // Implementation only replicates now
+  exports.onAuthUserCreate = euWest1.auth.user().onCreate(onAuthUserCreate);
+}
 
 // Firestore triggers: users
 exports.onUserPrivateWrite = euWest1
@@ -87,9 +105,18 @@ exports.onUserPrivateWrite = euWest1
   })
   .firestore.document('users-private/{userId}')
   // @ts-ignore
-  .onWrite(onUserPrivateWrite);
+  .onWrite(
+    multiplexFirestoreTrigger([
+      onUserPrivateWrite,
+      ...(shouldReplicate ? [onUsersPrivateWriteReplicate] : [])
+    ])
+  );
 // @ts-ignore
-exports.onUserWrite = euWest1.firestore.document('users/{userId}').onWrite(onUserWrite);
+exports.onUserWrite = euWest1.firestore
+  .document('users/{userId}')
+  .onWrite(
+    multiplexFirestoreTrigger([onUserWrite, ...(shouldReplicate ? [onUsersWriteReplicate] : [])])
+  );
 
 // Firestore triggers: campsites
 exports.onCampsiteCreate = usCentral1.firestore
@@ -107,10 +134,30 @@ exports.notifyOnChat = usCentral1.firestore
   .document('chats/{chatId}/{messages}/{messageId}')
   .onCreate(onMessageCreate);
 
+// Additional replication triggers not covered above
+if (shouldReplicate) {
+  exports.onCampsiteWrite = euWest1.firestore
+    .document('campsites/{campsiteId}')
+    .onWrite(onCampsitesWrite);
+  exports.onChatWrite = euWest1.firestore.document('chats/{chatId}').onWrite(onChatsWrite);
+  exports.onMessageWrite = euWest1.firestore
+    .document('chats/{chatId}/messages/{messageId}')
+    .onWrite(onMessagesWriteReplicate);
+  // for subcollections `push-registrations`, `unreads`, and `trails`
+  exports.onUserPrivateSubcollectionWrite = euWest1.firestore
+    .document('users-private/{userId}/{subcollection}/{documentId}')
+    .onWrite(onUserPrivateSubcollectionWrite);
+}
+
+// Firebase Auth scheduled replication
+
 // Scheduled tasks
 exports.scheduledFirestoreBackup = usCentral1.pubsub.schedule('every day 03:30').onRun(doBackup);
 // Run every hour
 exports.handleRenewals = euWest1.pubsub.schedule('0 * * * *').onRun(handleRenewals);
+if (shouldReplicate) {
+  exports.refreshAuthTable = euWest1.pubsub.schedule('every 6 hours').onRun(refreshAuthTable);
+}
 
 // Testing
 //
@@ -119,4 +166,8 @@ exports.handleRenewals = euWest1.pubsub.schedule('0 * * * *').onRun(handleRenewa
 // exports.cancelUnpaidRenewalsTest = euWest1.https.onRequest(cancelUnpaidRenewals);
 if (process.env.NODE_ENV !== 'production') {
   exports.dumpInboundEmail = euWest1.https.onRequest(dumpInboundEmail);
+  exports.refreshAuthTableTest = euWest1.https.onRequest(async (_, res) => {
+    await refreshAuthTable();
+    res.send(200);
+  });
 }

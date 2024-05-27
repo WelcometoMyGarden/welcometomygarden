@@ -1,4 +1,3 @@
-// @ts-check
 const { db } = require('../../firebase');
 const { stripeSubscriptionKeys } = require('../constants');
 const { lxHourStart } = require('../../util/time');

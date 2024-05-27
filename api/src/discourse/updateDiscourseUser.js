@@ -1,4 +1,3 @@
-// @ts-check
 const functions = require('firebase-functions');
 // See https://stackoverflow.com/a/70139151/4973029
 const { default: fetch, Headers } = require('node-fetch');

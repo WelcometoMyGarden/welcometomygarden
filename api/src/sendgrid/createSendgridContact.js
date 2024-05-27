@@ -1,5 +1,5 @@
-// @ts-check
 /* eslint-disable camelcase */
+const { disable_contacts } = require('firebase-functions').config().sendgrid;
 const { setTimeout } = require('node:timers/promises');
 const {
   sendgrid: sendgridClient,
@@ -23,13 +23,17 @@ const { db } = require('../firebase');
  * @param {UserRecord} firebaseUser
  * @param {{custom_fields?: Record<string,string>, [key: string]: object | string}} extraContactDetails use the { custom_fields: {} } sub-property for custom fields
  * @param {boolean} addToNewsletter
- * @returns
  */
 const createSendgridContact = async (
   firebaseUser,
   extraContactDetails = {},
   addToNewsletter = false
 ) => {
+  if (disable_contacts) {
+    console.warn('Ignoring SendGrid contact creation');
+    return;
+  }
+
   if (!firebaseUser.email) {
     console.error('New Firebase users must always have an email address');
     fail('invalid-argument');
