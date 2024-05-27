@@ -3921,7 +3921,7 @@ __metadata:
     firebase-admin: ^11.9.0
     firebase-functions: ^4.6.0
     firebase-functions-test: ^3.0.0
-    lodash.groupby: ^4.6.0
+    lodash: ^4.17.21
     luxon: ^3.4.4
     mocha: ^10.3.0
     node-fetch: ^2
@@ -4957,13 +4957,6 @@ __metadata:
   version: 4.4.2
   resolution: "lodash.get@npm:4.4.2"
   checksum: e403047ddb03181c9d0e92df9556570e2b67e0f0a930fcbbbd779370972368f5568e914f913e93f3b08f6d492abc71e14d4e9b7a18916c31fa04bd2306efe545
-  languageName: node
-  linkType: hard
-
-"lodash.groupby@npm:^4.6.0":
-  version: 4.6.0
-  resolution: "lodash.groupby@npm:4.6.0"
-  checksum: e2d4d13d12790a1cacab3f5f120b7c072a792224e83b2f403218866d18efde76024b2579996dfebb230a61ce06469332e16639103669a35a605287e19ced6b9b
   languageName: node
   linkType: hard
 

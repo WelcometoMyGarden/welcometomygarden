@@ -41,9 +41,24 @@ SvelteKit uses Vite, and hence also [Vite env modes via dotenv](https://vitejs.d
 Your `.runtimeconfig.json` within the `api` directory will need:
 
 - `frontend.url`: the "callback URL" endpoint, typically where your frontend dev server is running (`http://localhost:5173`) if you're dveloping locally. In production, this will be `https://welcometomygarden.org`.
+
+**For Stripe (subscriptions integration)**
+
 - `stripe.secret_key` & `stripe.webhook_secret`: backend keys for Stripe. Use test keys when developing. - `sendgrid.send_key`: a SendGrid API key, only used to send email. We currently use these in both staging and production environments, so that we can reuse created Dynamic Templates. **This might result in hard-to-test scenarios regarding unsubscribe group emails** (production SendGrid groups will not affect the staging contacts)
-- `sendgrid.marketing_key`: a SendGrid API key, only used to perform operations with the SendGrid Marketing API (e.g. syncing contacts). This one differs between the production & staging environments.
+
+**For SendGrid (email sending & contact syncing)**
+
+- `sendgrid.send_key`: a SendGrid API key with permission to send mail. When added, it is used to send mail. Make sure the dynamic templates referenced in the codebase (mainly: `mail.js`) exist within the SendGrid workspace.
+- `sendgrid.disable_contacts`: set to `true` if you wish to disable integrations with the Marketing API, for example for local testing of unrelated features.
+- `sendgrid.marketing_key`: a SendGrid API key only used to perform operations with the SendGrid Marketing API (e.g. syncing contacts). This key differs between the production & staging environments.
+- `sendgrid.field_ids`: a map of SendGrid Custom Field IDs to be used with contact syncing.
 - `sendgrid.inbound_parse_email`: the email address to which chat response emails should be sent (see [SendGrid Inbound Parse](https://docs.sendgrid.com/ui/account-and-settings/inbound-parse))
+
+**For Supabase (read-only analytics replica)**
+
+- `supabase.disable_replication`: set to `true` if you wish to disable replication to a Supabase Postgres database, for example, for local testing of unrelated features.
+- `supabase.api_url`: the URL including protocol of the Supabase PostgREST API.
+- `supabase.service_role_key`: the key to authenticate with the API.
 
 ## Static image assets
 

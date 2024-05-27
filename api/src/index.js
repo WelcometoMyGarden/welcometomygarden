@@ -1,8 +1,12 @@
 // https://stackoverflow.com/a/69959606/4973029
 // eslint-disable-next-line import/no-unresolved
-const { initializeApp } = require('firebase-admin/app');
+const admin = require('firebase-admin');
+// eslint-disable-next-line import/no-extraneous-dependencies
 
-initializeApp();
+// Initialization conflicts may arise with seeders/app.js
+if (!admin.apps.length) {
+  admin.initializeApp();
+}
 
 const { region, config } = require('firebase-functions');
 const {
@@ -37,6 +41,8 @@ const onUsersWriteReplicate = require('./replication/onUsersWrite');
 const onUsersPrivateWriteReplicate = require('./replication/onUsersPrivateWrite');
 const onUserPrivateSubcollectionWrite = require('./replication/onUsersPrivateSubWrite');
 const onMessagesWriteReplicate = require('./replication/onMessagesWrite');
+const onAuthUserCreate = require('./user/onAuthUserCreate');
+const refreshAuthTable = require('./replication/scheduled/refreshAuthTable');
 
 // Regions
 // This is in Belgium! All new functions should be deployed here.
@@ -85,8 +91,12 @@ exports.stripeWebhooks = euWest1.https.onRequest(stripeWebhookHandler);
 //  Handle SendGrid Inbound Email
 exports.parseInboundEmail = euWest1.https.onRequest(parseInboundEmail);
 
-// Auth triggers
+// Firebase Auth triggers
 exports.cleanupUserOnDelete = usCentral1.auth.user().onDelete(cleanupUserOnDelete);
+if (shouldReplicate) {
+  // Implementation only replicates now
+  exports.onAuthUserCreate = euWest1.auth.user().onCreate(onAuthUserCreate);
+}
 
 // Firestore triggers: users
 exports.onUserPrivateWrite = euWest1
@@ -139,10 +149,15 @@ if (shouldReplicate) {
     .onWrite(onUserPrivateSubcollectionWrite);
 }
 
+// Firebase Auth scheduled replication
+
 // Scheduled tasks
 exports.scheduledFirestoreBackup = usCentral1.pubsub.schedule('every day 03:30').onRun(doBackup);
 // Run every hour
 exports.handleRenewals = euWest1.pubsub.schedule('0 * * * *').onRun(handleRenewals);
+if (shouldReplicate) {
+  exports.refreshAuthTable = euWest1.pubsub.schedule('every 6 hours').onRun(refreshAuthTable);
+}
 
 // Testing
 //
@@ -151,4 +166,8 @@ exports.handleRenewals = euWest1.pubsub.schedule('0 * * * *').onRun(handleRenewa
 // exports.cancelUnpaidRenewalsTest = euWest1.https.onRequest(cancelUnpaidRenewals);
 if (process.env.NODE_ENV !== 'production') {
   exports.dumpInboundEmail = euWest1.https.onRequest(dumpInboundEmail);
+  exports.refreshAuthTableTest = euWest1.https.onRequest(async (_, res) => {
+    await refreshAuthTable();
+    res.send(200);
+  });
 }

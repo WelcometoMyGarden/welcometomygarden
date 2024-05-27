@@ -2,6 +2,7 @@ const { logger } = require('firebase-functions');
 // eslint-disable-next-line import/no-unresolved
 const { Timestamp } = require('firebase-admin/firestore');
 const supabase = require('../supabase');
+const { pick } = require('lodash');
 
 /**
  * @typedef {(change: import("firebase-functions").Change<any>, context: import('firebase-functions').EventContext<any>) => Promise<any>} handler
@@ -25,6 +26,23 @@ exports.simpleTimeMapper = ([key, value]) => {
   }
   return [key, value];
 };
+
+const convertDate = (utcString) =>
+  utcString != null ? new Date(utcString).toISOString() : undefined;
+
+/**
+ * Maps auth user to its Postgres representation
+ * @param {import("firebase-admin/auth").UserRecord} user
+ */
+exports.mapAuthUser = (user) => ({
+  id: user.uid,
+  ...pick(user, 'email', 'emailVerified'),
+  name: user.displayName,
+  userCreationTime: convertDate(user.metadata.creationTime),
+  lastSignInTime: convertDate(user.metadata.lastSignInTime),
+  // Likely undefined on creation, at least in the emulator
+  lastRefreshTime: convertDate(user.metadata.lastRefreshTime)
+});
 
 /**
  * @param {(([key, value]) => [string, any] | [string, any][] | null)} mapper
