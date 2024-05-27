@@ -1,8 +1,8 @@
 const { logger } = require('firebase-functions');
 // eslint-disable-next-line import/no-unresolved
 const { Timestamp } = require('firebase-admin/firestore');
+const _ = require('lodash');
 const supabase = require('../supabase');
-const { pick } = require('lodash');
 
 /**
  * @typedef {(change: import("firebase-functions").Change<any>, context: import('firebase-functions').EventContext<any>) => Promise<any>} handler
@@ -36,7 +36,7 @@ const convertDate = (utcString) =>
  */
 exports.mapAuthUser = (user) => ({
   id: user.uid,
-  ...pick(user, 'email', 'emailVerified'),
+  ..._.pick(user, 'email', 'emailVerified'),
   name: user.displayName,
   userCreationTime: convertDate(user.metadata.creationTime),
   lastSignInTime: convertDate(user.metadata.lastSignInTime),
