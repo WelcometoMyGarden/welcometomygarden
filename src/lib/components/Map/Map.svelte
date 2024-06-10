@@ -112,8 +112,13 @@
       /** https://docs.mapbox.com/mapbox-gl-js/api/map/#map-parameters */
       maxZoom: $user?.superfan ? memberMaxZoom : nonMemberMaxZoom,
       attributionControl: false,
-      hash: false // TODO: discuss if we want this or not,
+      hash: false, // TODO: discuss if we want this or not,
+      // Disable rotating and changing pitch (tilt) on mobile & desktop
+      dragRotate: false,
+      touchPitch: false
     });
+
+    map.touchZoomRotate.disableRotation();
 
     map.addControl(
       new maplibregl.NavigationControl({ showCompass: false, showZoom: true }),
