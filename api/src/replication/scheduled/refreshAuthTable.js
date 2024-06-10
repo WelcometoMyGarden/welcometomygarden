@@ -3,7 +3,7 @@ const supabase = require('../../supabase');
 const { mapAuthUser } = require('../shared');
 
 /**
- * Regularly syncs `lastRefreshTime` to the Postgres replica's auth table.
+ * Regularly syncs `lastRefreshTime`, `displayName` and other properties to the Postgres replica's auth table.
  *
  * This property is not available if the firebase-tools auth:export output,
  * but seemingly only in the API.

@@ -152,6 +152,10 @@ if (shouldReplicate) {
 // Firebase Auth scheduled replication
 
 // Scheduled tasks
+// 03:30 CDT (Iowa, us-central1 location) time in CET is 10:30 AM
+// The schedule seems to be interpreted in Iowa time, but the timestamps on the output
+// filenames are in CET.
+// https://cloud.google.com/appengine/docs/legacy/standard/python/config/cronref#custom-interval
 exports.scheduledFirestoreBackup = usCentral1.pubsub.schedule('every day 03:30').onRun(doBackup);
 // Run every hour
 exports.handleRenewals = euWest1.pubsub.schedule('0 * * * *').onRun(handleRenewals);

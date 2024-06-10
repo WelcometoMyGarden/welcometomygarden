@@ -96,6 +96,7 @@ exports.replicate = async (options) => {
     // If an `after` exists, it's either an update or insert
     let result;
     let changeType;
+    const isUpdate = before.exists && after.exists;
     if (after.exists) {
       changeType = 'upsert';
       result = await supabase
@@ -106,6 +107,7 @@ exports.replicate = async (options) => {
           ...extraProps
         })
         .select();
+      logger.debug(`Replicated ${isUpdate ? 'update' : 'creation'}  in ${tableName}`, result.data);
     } else if (before.exists && !after.exists) {
       // If `before` exists and `after` not, a deletion happened
       changeType = 'deletion';
@@ -117,6 +119,7 @@ exports.replicate = async (options) => {
         }
       }
       result = await query;
+      logger.debug(`Replicated deletion in ${tableName}`, result.data);
     }
     if (result.error) {
       logger.warn(
@@ -126,8 +129,6 @@ exports.replicate = async (options) => {
         before.data(),
         after.data()
       );
-    } else if (result.data) {
-      logger.debug(`Replicated change in ${tableName}`, result.data);
     }
   } catch (e) {
     logger.warn(`Caught error while replicating change in ${tableName}`, e);

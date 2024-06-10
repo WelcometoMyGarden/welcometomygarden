@@ -11,5 +11,6 @@ const supabase = require('../supabase');
  * @param {UserRecord} user
  */
 module.exports = async (user) => {
+  // Note: in the auth user creation event, user.displayName will be null!
   await supabase.from('auth').upsert(mapAuthUser(user)).select();
 };

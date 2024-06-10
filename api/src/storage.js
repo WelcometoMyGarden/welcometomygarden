@@ -9,6 +9,8 @@ exports.doBackup = async () => {
   const databaseName = client.databasePath(projectId, '(default)');
 
   try {
+    // https://googleapis.dev/nodejs/firestore/latest/google.firestore.admin.v1.FirestoreAdmin.html#exportDocuments2
+    // Regarding long-running operations: https://github.com/googleapis/gax-nodejs/blob/main/client-libraries.md#long-running-operations
     const responses = await client.exportDocuments({
       name: databaseName,
       outputUriPrefix: bucket,
