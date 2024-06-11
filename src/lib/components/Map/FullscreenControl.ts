@@ -2,7 +2,7 @@
 // Dependencies were inlined
 // https://github.com/maplibre/maplibre-gl-js/blob/c03607bad8a0d6574e9738b23fa84f3620713df5/src/ui/control/fullscreen_control.ts
 //
-// The shipped old 1.x JS version, which is guaranteed compatible with our v1.x library, does not include this
+// The previously shipped the old 1.x JS version, which is guaranteed compatible with our v1.x library, but does not include this
 // https://github.com/maplibre/maplibre-gl-js/blob/c03607bad8a0d6574e9738b23fa84f3620713df5/src/ui/control/fullscreen_control.ts#L44
 //
 // import DOM from '../../util/dom';

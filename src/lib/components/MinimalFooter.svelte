@@ -5,7 +5,7 @@
   import LanguageSelector from './LanguageSelector.svelte';
 </script>
 
-<footer>
+<footer class="minimal-footer">
   <div class="socials">
     <Socials small />
   </div>
@@ -30,7 +30,7 @@
   }
 
   /* Hide the footer on a fullscreen desktop map, too */
-  :global(div.app.active-explore.fullscreen footer) {
+  :global(div.app.active-explore.fullscreen footer.minimal-footer) {
     display: none;
   }
 
