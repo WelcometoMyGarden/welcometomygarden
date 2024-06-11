@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { _ } from 'svelte-i18n';
+  import { _, locale } from 'svelte-i18n';
   import { page } from '$app/stores';
   import { logout } from '$lib/api/auth';
   import { clickOutside } from '$lib/directives';
@@ -10,11 +10,12 @@
   import { goto } from '$app/navigation';
   import { isActive } from '$lib/util/isActive';
   import { createEventDispatcher } from 'svelte';
-  import { COMMUNITY_FORUM_URL, DONATION_URL } from '$lib/constants';
+  import { COMMUNITY_FORUM_URL, SHOP_URL } from '$lib/constants';
   import { anchorText } from '$lib/util/translation-helpers';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import trackEvent from '$lib/util/track-plausible';
   import { renewalNoticeContent, subscriptionJustEnded } from '$lib/stores/subscription';
+  import { coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
 
   const dispatch = createEventDispatcher();
   export let isOpen = false;
@@ -37,23 +38,31 @@
     if (isOpen && !hamburger?.contains(clickEvent.target)) toggleDrawer();
   };
 
-  const donationUrlParams = new URLSearchParams({
+  const wtmgSignURLParams = new URLSearchParams({
     ...($user
       ? {
-          prefilled_email: $user.email,
-          client_reference_id: $user.id
+          // More fields could be prefilled too https://tally.so/help/pre-populate-form-fields#d145bec3bde2446b8ae17a4357494950
+          wtmg: $user.id
         }
       : {}),
-    utm_source: 'welcometomygarden.org',
-    utm_medium: 'web',
-    utm_campaign: 'donation_payment',
-    utm_content: 'side_navbar'
+    ref: 'wtmg_sidebar'
   });
 
-  let sideLinks: { route: string; name: string; track?: Parameters<typeof trackEvent> }[];
+  let sideLinks: {
+    route: string;
+    name: string;
+    track?: Parameters<typeof trackEvent>;
+    target?: string;
+  }[];
   $: sideLinks = [
     { route: routes.FAQ, name: $_('generics.faq.acronym') },
-    { route: `${DONATION_URL}?${donationUrlParams.toString()}`, name: $_('footer.links.donate') },
+    {
+      route: `${SHOP_URL}${coerceToMainLanguageENBlank(
+        $locale ?? undefined
+      )}?${wtmgSignURLParams.toString()}`,
+      name: $_('footer.links.wtmg-sign.title'),
+      target: '_blank'
+    },
     { route: routes.COOKIE_POLICY, name: $_('generics.cookie-policy') },
     { route: routes.PRIVACY_POLICY, name: $_('generics.privacy-policy') },
     { route: routes.TERMS_OF_USE, name: $_('generics.terms-of-use') }
@@ -149,7 +158,7 @@
 
   <li>
     <ul class="side-links">
-      {#each sideLinks as { route, name, track: trackParams } (route)}
+      {#each sideLinks as { route, name, track: trackParams, target } (route)}
         <li>
           <a
             href={route}
@@ -157,8 +166,10 @@
               if (trackParams) trackEvent(...trackParams);
               toggleDrawer();
             }}
-            class:active={isActive($page, route)}>{name}</a
-          >
+            {target}
+            class:active={isActive($page, route)}
+            >{name}
+          </a>
         </li>
       {/each}
     </ul>

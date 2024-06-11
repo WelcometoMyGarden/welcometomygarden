@@ -696,7 +696,7 @@
         "0": {
           "title": "Free",
           "description": "You can explore the map, host slow travellers in your garden, and receive the WTMG newsletter.",
-          "backref": null,
+          "backref": "",
           "checklist": {
             "0": "<strong>See all the gardens and trails</strong> on the map",
             "1": "<strong>Host slow travellers</strong> in your garden",
@@ -1509,7 +1509,9 @@
         "title": "Slow Travel Pass",
         "url": "https://slowtravelpass.com/en"
       },
-      "donate": "Donate"
+      "wtmg-sign": {
+        "title": "WTMG Sign"
+      }
     }
   },
   "push-notifications": {
@@ -1524,7 +1526,7 @@
       "ios-installed-title": "Mobile notifications",
       "btn-show-me": "Show me how",
       "btn-turn-on": "Turn on notifications",
-      "follow-up-desktop": "Would yo like to receive <strong>mobile notifications</strong> for new chat messages?",
+      "follow-up-desktop": "Would you like to receive <strong>mobile notifications</strong> for new chat messages?",
       "helpcenter-url": "https://help.welcometomygarden.org/master/1.-mobile-notifications"
     },
     "how-to": {

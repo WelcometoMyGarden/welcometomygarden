@@ -30,3 +30,11 @@ export const coerceToMainLanguage = (lang: string | undefined): MainLanguage => 
     return 'en';
   }
 };
+
+export const coerceToMainLanguageENBlank = (lang: string | undefined): string => {
+  const coercedLang = coerceToMainLanguage(lang);
+  if (coercedLang === 'en') {
+    return '';
+  }
+  return coercedLang;
+};

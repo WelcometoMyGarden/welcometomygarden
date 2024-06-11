@@ -1,12 +1,7 @@
 <script lang="ts">
-  import { _ } from 'svelte-i18n';
+  import { _, locale } from 'svelte-i18n';
   import routes from '$lib/routes';
-  import {
-    DONATION_URL,
-    WTMG_BLOG_BASE_URL,
-    WTMG_UTM_SOURCE,
-    mailToSupportHref
-  } from '$lib/constants';
+  import { SHOP_URL, WTMG_BLOG_BASE_URL, WTMG_UTM_SOURCE, mailToSupportHref } from '$lib/constants';
   import Socials from './Socials.svelte';
   import LanguageSelector from './LanguageSelector.svelte';
   import WtmgLogo from './UI/WTMGLogo.svelte';
@@ -15,18 +10,16 @@
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import createUrl from '$lib/util/create-url';
+  import { coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
 
-  const donationUrlParams = new URLSearchParams({
+  const wtmgSignURLParams = new URLSearchParams({
     ...($user
       ? {
-          prefilled_email: $user.email,
-          client_reference_id: $user.id
+          // More fields could be prefilled too https://tally.so/help/pre-populate-form-fields#d145bec3bde2446b8ae17a4357494950
+          wtmg: $user.id
         }
       : {}),
-    utm_source: WTMG_UTM_SOURCE,
-    utm_medium: 'web',
-    utm_campaign: 'donation_payment',
-    utm_content: 'footer'
+    ref: 'wtmg_footer'
   });
 
   type Link = {
@@ -60,8 +53,10 @@
           track: [PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'footer' }]
         },
         {
-          title: $_('footer.links.donate'),
-          link: `${DONATION_URL}?${donationUrlParams.toString()}`,
+          title: $_('footer.links.wtmg-sign.title'),
+          link: `${SHOP_URL}${coerceToMainLanguageENBlank(
+            $locale ?? undefined
+          )}?${wtmgSignURLParams.toString()}`,
           target: '_blank'
         }
       ]
