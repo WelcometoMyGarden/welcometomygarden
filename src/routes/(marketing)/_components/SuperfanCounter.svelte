@@ -1,12 +1,7 @@
 <script>
-  import { getSuperfanCount } from '$lib/api/stats';
-  import { _ } from 'svelte-i18n';
+  const count = 3000;
 </script>
 
 <span>
-  {#await getSuperfanCount()}
-    {'...'}
-  {:then count}
-    {typeof count === 'number' ? count.toLocaleString('nl-BE') : '1.312'}
-  {/await}
+  {count.toLocaleString('nl-BE')}+
 </span>
