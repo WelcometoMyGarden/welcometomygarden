@@ -25,6 +25,7 @@ const { sendPlausibleEvent } = require('../util/plausible');
  *    result?: string
  *  }
  *  senderIP?: string
+ *  html?: string
  * }>}
  */
 const parseInboundEmailInner = async (req) => {
@@ -36,6 +37,7 @@ const parseInboundEmailInner = async (req) => {
   let dkimRaw;
   let dkimResult = {};
   let senderIP;
+  let html;
 
   // Plain-text email text
   let emailPlainText;
@@ -47,6 +49,11 @@ const parseInboundEmailInner = async (req) => {
       // Extract processed plain text
       if (name === 'text') {
         emailPlainText = val;
+        logger.debug('Email plain text part: ', val);
+      }
+      if (name === 'html') {
+        html = val;
+        logger.debug('Email HTML part: ', val);
       }
       if (name === 'envelope') {
         envelopeFromEmail = JSON.parse(val).from;
@@ -96,6 +103,8 @@ const parseInboundEmailInner = async (req) => {
   bb.end(req.rawBody);
 
   let responseText;
+
+  // Attempt to parse the Chat ID from the email
   let chatId;
   try {
     if (emailPlainText) {
@@ -104,8 +113,26 @@ const parseInboundEmailInner = async (req) => {
       responseText = parsedEmail.getVisibleText().trim();
       const quotedText = parsedEmail.getQuotedText();
       // Find the chat ID from the quoted text
-      const chatRegex = /\/chat\/.+?\/([a-zA-Z0-9]+)>/.exec(quotedText);
-      chatId = chatRegex ? chatRegex[1] : undefined;
+      const chatIdRegex = /\/chat\/.+?\/([a-zA-Z0-9]+)>/;
+      let chatRegexResult;
+      const possibleSources = [
+        ['parsed quoted', quotedText],
+        ['full plain text', emailPlainText],
+        ['full html text', html]
+      ];
+
+      for (let i = 0; i < possibleSources.length; i += 1) {
+        const [currentSourceDescription, currentSource] = possibleSources[i];
+        chatRegexResult = chatIdRegex.exec(currentSource);
+        if (chatRegexResult) {
+          [, chatId] = chatRegexResult;
+          logger.debug(`Found chat ID ${chatId} in ${currentSourceDescription}`);
+          // Stop checking more sources
+          break;
+        } else {
+          chatId = undefined;
+        }
+      }
     }
   } catch (e) {
     logger.warn('Error extracting response text from plain email text', e);
@@ -119,7 +146,7 @@ Response text: ${responseText}
 Chat ID: ${chatId}
 Sender IP: ${senderIP}`);
 
-  return { envelopeFromEmail, headerFrom, responseText, chatId, dkimResult, senderIP };
+  return { envelopeFromEmail, headerFrom, responseText, chatId, dkimResult, senderIP, html };
 };
 
 /**

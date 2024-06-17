@@ -51,7 +51,7 @@ describe('the server-side message sending function `sendMessageFromEmail` ', () 
     );
   });
 
-  it('throws when a existing chat ID is used that the user is not part of ', async () => {
+  it('throws when an existing chat ID is used that the user is not part of ', async () => {
     let {
       users: [, user2, user3],
       chats: [firstChatId]
