@@ -34,6 +34,9 @@
   import { fileDataLayers, removeTrailAnimations } from '$lib/stores/file';
   import { isOnIDevicePWA } from '$lib/api/push-registrations';
   import { isEmpty } from 'lodash-es';
+  import MeetupLayer, { meetups } from '$lib/components/Map/MeetupLayer.svelte';
+  import { lnglatToObject } from '$lib/api/mapbox';
+  import MeetupDrawer from '$lib/components/Map/MeetupDrawer.svelte';
 
   let showHiking = false;
   let showCycling = false;
@@ -82,6 +85,10 @@
   // true when visiting the link to a garden directly, used to increase zoom level
   // TODO check this: It looks like there is no need for a subscribe on page
   let hasGardenInURL = !!$page.params.gardenId;
+
+  // reactivity seems to be necessary here!
+  $: selectedMeetupId = $page.params.meetupId;
+  $: selectedMeetup = meetups.find((m) => m.id === selectedMeetupId);
 
   let zoom = hasGardenInURL ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.WESTERN_EUROPE;
 
@@ -133,6 +140,14 @@
       goto(`${routes.MAP}/garden/${newSelectedId}`);
     } else {
       console.warn(`Failed garden navigation to ${newSelectedId}`);
+    }
+  };
+
+  const selectMeetup = (meetupId: string) => {
+    const meetup = meetups.find((m) => m.id === meetupId);
+    if (meetup) {
+      centerLocation = lnglatToObject(meetup.lnglat);
+      goto(`${routes.MAP}/meetup/${meetup.id}`);
     }
   };
 
@@ -225,7 +240,9 @@
       />
     {/if}
     <Drawer on:close={closeDrawer} garden={selectedGarden} />
+    <MeetupDrawer on:close={closeDrawer} meetup={selectedMeetup} />
     <WaymarkedTrails {showHiking} {showCycling} />
+    <MeetupLayer on:meetup-click={(e) => selectMeetup(e.detail)} {selectedMeetupId} />
     <slot />
     {#if carNoticeShown}
       <div class="vehicle-notice-wrapper">

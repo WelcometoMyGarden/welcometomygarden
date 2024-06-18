@@ -1160,7 +1160,12 @@
       "select-file": "sélectionnez le fichier",
       "added-to-map": "a été ajouté sur la carte."
     },
-    "zoom-restriction-notice": "pour zoomer plus"
+    "zoom-restriction-notice": "pour zoomer plus",
+    "meetups": {
+      "description": "Vous cherchez votre prochaine aventure slow travel ? Rejoignez-nous au meetup WTMG près de {location} le {date} ! L’idée est simple : nous nous retrouvons dans un jardin WTMG, partageons notre enthousiasme pour le slow travel et passons un bon moment ensemble. C'est gratuit, mais vous devez vous inscrire. Nous avons hâte de vous y voir !",
+      "btn-register": "S’inscrire",
+      "no-account": "Vous devez {signInLink} pour vous inscrire"
+    }
   },
   "terms-of-use": {
     "title": "Conditions d'utilisation",

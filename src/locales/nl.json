@@ -778,7 +778,15 @@
       "select-file": "selecteer een bestand",
       "added-to-map": "is toegevoegd aan de kaart."
     },
-    "zoom-restriction-notice": "om meer in te zoomen"
+    "zoom-restriction-notice": "om meer in te zoomen",
+    "meetups": {
+      "description": "Op zoek naar je volgende slow travel avontuur? Kom naar de WTMG meetup in de buurt van {location} op {date}! Het idee is simpel: we ontmoeten elkaar in een WTMG-tuin, delen ons enthousiasme over slow travel en hebben een geweldige tijd samen. Het is gratis, maar inschrijven is verplicht. Tot dan!",
+      "btn-register": "Schrijf je in",
+      "no-account": "Je moet {signInLink} om je in te schrijven",
+      "cities": {
+        "Arlon": "Aarlen"
+      }
+    }
   },
   "rules": {
     "title": "Regels",

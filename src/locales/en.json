@@ -1174,7 +1174,16 @@
       "select-file": "select file",
       "added-to-map": "has been added to the map."
     },
-    "zoom-restriction-notice": "to zoom in more"
+    "zoom-restriction-notice": "to zoom in more",
+    "meetups": {
+      "description": "Looking for your next slow travel adventure? Join us at the WTMG meetup near {location} on {date}! The idea is simple: we meet in a WTMG garden, share our excitement about slow travel and have a great time together. It’s free, but mandatory to register. See you there!",
+      "btn-register": "Register now",
+      "no-account": "You must {signInLink} to register",
+      "cities": {
+        "Lier": "Lier",
+        "Arlon": "Arlon"
+      }
+    }
   },
   "terms-of-use": {
     "title": "Terms of use",

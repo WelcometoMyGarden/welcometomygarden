@@ -26,6 +26,7 @@ const config = {
         '*',
         '/chat/[name]/[chatId]',
         '/explore/garden/[gardenId]',
+        '/explore/meetup/[meetupId]',
         '/become-superfan/[payment]',
         '/become-superfan/[payment]/[id]',
         '/become-member/payment/[id]'
