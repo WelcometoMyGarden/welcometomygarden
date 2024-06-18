@@ -19,6 +19,7 @@
   "svelte.plugin.svelte.compilerWarnings": {
     "security-anchor-rel-noreferrer": "ignore"
   },
+  "svelte.plugin.svelte.defaultScriptLanguage": "ts",
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
