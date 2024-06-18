@@ -214,7 +214,7 @@ exports.parseInboundEmail = async (req, res) => {
     let message = responseText;
     if (responseText.length > MAX_MESSAGE_LENGTH) {
       message = responseText.substring(0, MAX_MESSAGE_LENGTH);
-      logger.warn(`Email length trucated from ${responseText.length}`);
+      logger.warn(`Email length truncated from ${responseText.length}`);
     }
 
     // Send message

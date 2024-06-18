@@ -75,6 +75,8 @@ module.exports = async (event, res) => {
   if (
     !(
       publicUserProfileData &&
+      // Note: if a superfan has deleted their account during their active period, `privateUserProfileData` should be
+      // `undefined`, blocking the renewal email. This is important, because the rest of the data will likely still exist.
       privateUserProfileData &&
       finalizedInvoice.customer_email &&
       finalizedInvoice.hosted_invoice_url &&
