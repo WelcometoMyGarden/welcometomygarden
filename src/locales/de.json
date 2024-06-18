@@ -739,46 +739,42 @@
     "description": "So funktioniert Welcome To My Garden. Lesen Sie unbedingt die Regeln, bevor Sie Ihr Abenteuer beginnen! Schließlich wird diese Plattform nur dann gut funktionieren, wenn wir uns alle an die Regeln halten.",
     "rules": {
       "0": {
-        "title": "COVID-19-Warnung",
-        "copy": "Halten Sie sich jederzeit an die Maßnahmen der Regierung, um die Verbreitung von COVID-19 zu stoppen."
-      },
-      "1": {
         "title": "Netzwerk von Bürgern und Bürgerinnen",
         "copy": "Welcome To My Garden ist ein Netzwerk von Bürgern, die Langsamreisenden kostenlose Stellplätze in ihren Gärten anbieten. Es handelt sich um eine gemeinnützige Initiative, mit der keine Einnahmen erzielt werden sollen. Welcome To My Garden übernimmt keine Verantwortung für Verluste, Schäden oder Verletzungen, die während eines Aufenthalts entstehen."
       },
-      "2": {
+      "1": {
         "title": "Senden Sie eine Anfrage im Voraus an den Gartenbesitzer",
         "copy": "Die Gartenbesitzer sind möglicherweise nicht zu jeder Zeit zu Hause und bereit, Sie zu empfangen. Wir bitten die Benutzer, den Gartenbesitzer im Voraus zu kontaktieren, um die Verfügbarkeit direkt zu prüfen. Dies sollte geschehen, indem Sie eine Anfrage an den Gastgeber über sein Profil senden. Nachdem Sie die erste Verbindung hergestellt haben, können Sie Ihre Kontaktdaten austauschen, so dass Sie in Kontakt bleiben und den Gastgeber über Ihre Ankunftszeit per E-Mail oder Telefon informieren können, je nach dessen Präferenz. Wenn Sie eine Anfrage senden, geben Sie einige Informationen über sich selbst und über Ihre voraussichtliche Ankunftszeit an."
       },
-      "3": {
+      "2": {
         "title": "Kein Auto",
         "copy": "Welcome To My Garden respektiert die Umwelt und ist nur für langsame Reisende eingerichtet worden. Das bedeutet, dass Sie die Campingplätze nur zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln erreichen können. Die Anreise mit dem eigenen Auto ist untersagt. Sie dürfen mit dem Auto zum Startpunkt Ihrer Wander- oder Fahrradtour fahren - solange Sie nicht mit dem Auto auf den Campingplätzen auftauchen."
       },
-      "4": {
+      "3": {
         "copy": "Sie können maximal 48 Stunden auf einem Stellplatz bleiben. Erkundigen Sie sich immer bei dem Gartenbesitzer.",
         "title": "Maximale Dauer des Aufenthalts"
       },
-      "5": {
+      "4": {
         "copy": "Die Gartenbesitzer bestimmen, wie viele Zelte sie pro Nacht unterbringen können (dies ist kein Dour Festival). Bitte respektieren Sie deren Entscheidung.",
         "title": "Maximale Anzahl von Zelten"
       },
-      "6": {
+      "5": {
         "copy": "Die Einrichtungen können von einem Campingplatz zum anderen variieren. Einige Gartenbesitzer bieten vielleicht den Zugang zu ihren Badezimmern an, andere ziehen es vielleicht vor, dies nicht zu tun. Bitte respektieren Sie auch in dieser Hinsicht ihre Entscheidungen.",
         "title": "Einrichtungen"
       },
-      "7": {
+      "6": {
         "title": "Respekt vor der Natur",
         "copy": "Alle Ihre Abfälle müssen weggebracht werden. Dazu gehören auch Pisse und Kacke, wenn keine Toilette zur Verfügung steht: Suchen Sie sich einen Busch oder Baum außerhalb des Gartens für Nummer eins; tüten Sie Ihre Nummer zwei ein und werfen Sie sie am nächsten Tag in einen Mülleimer. Respektieren Sie die Natur und die Gartenbesitzer: Wenden Sie das „Keine Spuren hinterlassen“-Prinzip an, wie Sie es auch beim Biwakieren in der freien Natur tun würden."
       },
-      "8": {
+      "7": {
         "copy": "Bitte respektieren Sie die Privatsphäre der Stellplatzbesitzer. Singen Sie also nicht lauthals Céline Dion mit und machen Sie auch sonst keinen Lärm – schon gar nicht nach 22 Uhr!",
         "title": "Die Nachbarn respektieren"
       },
-      "9": {
+      "8": {
         "title": "Viel Spaß!",
         "copy": "Dies ist eine großartige Gelegenheit, andere Menschen zu treffen und Spaß zu haben! Lernen Sie ein paar Worte Französisch oder Niederländisch, wenn Sie in einer anderen Region als Ihrer eigenen unterwegs sind. Seien Sie neugierig, teilen Sie Geschichten und bauen Sie neue Freundschaften auf!"
       },
-      "10": {
+      "9": {
         "title": "Erzählen Sie es weiter",
         "copy": "Möchten Sie Ihren Garten öffnen oder kennen Sie jemanden, der das gerne tun würde? Verbreiten Sie die Nachricht über Welcome To My Garden! Sie können sie auch einladen, unserer Facebook-Seite zu folgen."
       }
