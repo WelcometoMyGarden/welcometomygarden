@@ -51,18 +51,21 @@
   };
   const meetupFeatureCollection: (_: any) => GeoJSON.FeatureCollection = () => ({
     type: 'FeatureCollection',
-    features: meetups.map((m) => ({
-      type: 'Feature',
-      properties: {
-        ...m,
-        // For easier serialization, arrays are serialized as strings.
-        icon: selectedMeetupId === m.id ? 'fireplace-selected' : 'fireplace'
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: m.lnglat
-      }
-    }))
+    features: meetups
+      // hide meetups, margin of 10 hours
+      .filter(({ date }) => new Date().getTime() < date.getTime() + 1000 * 3600 * 10)
+      .map((m) => ({
+        type: 'Feature',
+        properties: {
+          ...m,
+          // For easier serialization, arrays are serialized as strings.
+          icon: selectedMeetupId === m.id ? 'fireplace-selected' : 'fireplace'
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: m.lnglat
+        }
+      }))
   });
 
   async function loadLayer() {
