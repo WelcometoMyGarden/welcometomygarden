@@ -29,3 +29,9 @@ export const appHasLoaded = derived(
 export const rootModal = writable<ComponentType | null>(null);
 
 export const close = () => rootModal.set(null);
+
+/**
+ * The garden layer loads in an async way.
+ * This observable is useful to know when it is possible to add layers on top of it.
+ */
+export const gardenLayerLoaded = writable(false);

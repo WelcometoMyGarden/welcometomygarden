@@ -14,6 +14,8 @@
   import key from './mapbox-context.js';
   import { tentIcon } from '$lib/images/markers';
   import { nonMemberMaxZoom } from '$lib/constants';
+  import { loadImg } from '$lib/api/mapbox';
+  import { gardenLayerLoaded } from '$lib/stores/app';
 
   type GardenFeatureCollection = {
     type: 'FeatureCollection';
@@ -174,6 +176,15 @@
     await Promise.all(icons.map((icon) => addTentImageToMap(icon.id, icon.colors)));
   };
 
+  function addPointerOnHover(layerId: string) {
+    map.on('mouseenter', layerId, () => {
+      map.getCanvas().style.cursor = 'pointer';
+    });
+    map.on('mouseleave', layerId, () => {
+      map.getCanvas().style.cursor = '';
+    });
+  }
+
   const setupMarkers = async () => {
     // Catch all errors to avoid having to reload when working on this component in development
     try {
@@ -184,17 +195,7 @@
         { url: '/images/markers/tent-yellow.png', id: 'tent-saved' }
       ];
 
-      await Promise.all(
-        images.map(
-          (img) =>
-            new Promise((resolve) => {
-              map.loadImage(img.url, (error, res) => {
-                map.addImage(img.id, res);
-                resolve(true);
-              });
-            })
-        )
-      );
+      await Promise.all(images.map((img) => loadImg(map, img)));
 
       calculateData();
 
@@ -304,31 +305,13 @@
       map.on('click', unclusteredPointLayerId, onGardenClick);
       map.on('click', savedGardenLayerId, onGardenClick);
 
-      map.on('mouseenter', clustersLayerId, () => {
-        map.getCanvas().style.cursor = 'pointer';
-      });
-      map.on('mouseleave', clustersLayerId, () => {
-        map.getCanvas().style.cursor = '';
-      });
-
-      map.on('mouseenter', unclusteredPointLayerId, () => {
-        map.getCanvas().style.cursor = 'pointer';
-      });
-      map.on('mouseleave', unclusteredPointLayerId, () => {
-        map.getCanvas().style.cursor = '';
-      });
-
-      map.on('mouseenter', savedGardenLayerId, () => {
-        map.getCanvas().style.cursor = 'pointer';
-      });
-      map.on('mouseleave', savedGardenLayerId, () => {
-        map.getCanvas().style.cursor = '';
-      });
+      [clustersLayerId, unclusteredPointLayerId, savedGardenLayerId].forEach(addPointerOnHover);
     } catch (err) {
       // should not error in prod
       console.log(err);
     } finally {
       mapReady = true;
+      $gardenLayerLoaded = true;
     }
   };
 

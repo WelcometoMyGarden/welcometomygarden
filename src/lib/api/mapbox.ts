@@ -1,3 +1,5 @@
+import type maplibregl from 'maplibre-gl';
+
 const { VITE_MAPBOX_ACCESS_TOKEN } = import.meta.env;
 
 const headers = {
@@ -14,6 +16,19 @@ const parseAddressPiece = (address, piece) => {
   if (piece.id.includes('country')) address.country = piece.text;
   return address;
 };
+
+export const lnglatToObject = ([lng, lat]: [number, number]) => ({
+  longitude: lng,
+  latitude: lat
+});
+
+export const objectToLngLat = ({
+  longitude,
+  latitude
+}: {
+  longitude: number;
+  latitude: number;
+}) => [longitude, latitude];
 
 export const geocode = async (addressString: string) => {
   // See response format: https://docs.mapbox.com/api/search/geocoding/#geocoding-response-object
@@ -109,3 +124,11 @@ export const geocodeCountryCode = async (country_code: string) => {
     return;
   }
 };
+
+export const loadImg = (map: maplibregl.Map, { url, id }: { url: string; id: string }) =>
+  new Promise((resolve) => {
+    map.loadImage(url, (error, res) => {
+      map.addImage(id, res);
+      resolve(true);
+    });
+  });
