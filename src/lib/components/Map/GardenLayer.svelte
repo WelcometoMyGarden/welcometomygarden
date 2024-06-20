@@ -30,11 +30,8 @@
   let mapReady = false;
 
   const savedGardenSourceId = 'saved-gardens';
-  const gardensWithoutSavedGardensSourceId = 'gardens-without-saved-gardens';
   const gardensAllSourceId = 'gardens-all';
   const savedGardenLayerId = 'saved-gardens-layer';
-  const clustersLayerId = 'clusters';
-  const clusterCountLayerId = 'cluster-count';
   const unclusteredPointLayerId = 'unclustered-point';
 
   const fcAllGardens: GardenFeatureCollection = {
@@ -72,10 +69,10 @@
             isSaved && selectedGardenId === gardenId
               ? 'tent-saved-selected' // selected saved garden
               : selectedGardenId === gardenId
-              ? 'tent-filled' // selected garden
+              ? 'tent' // selected garden
               : isSaved
               ? 'tent-saved' // saved garden
-              : 'tent', // garden
+              : 'tent-filled', // garden
           lnglat: [garden.location?.longitude, garden.location?.latitude]
         },
         geometry: {
@@ -98,8 +95,19 @@
   };
 
   const onGardenClick = (e: maplibregl.MapMouseEvent) => {
-    const garden = e.features?.[0]?.properties;
-    dispatch('garden-click', garden);
+    const gardensClicked = e.features;
+    if (!Array.isArray(gardensClicked)) {
+      return;
+    }
+    if (gardensClicked.length > 1) {
+      map.flyTo({
+        zoom: map.getZoom() + 4,
+        center: e.lngLat
+      });
+    } else {
+      const garden = gardensClicked[0]?.properties;
+      dispatch('garden-click', garden);
+    }
   };
 
   const addTentImageToMap = async (
@@ -199,18 +207,9 @@
 
       calculateData();
 
-      // map.addSource('gardens', {
-      //   type: 'geojson',
-      //   data: data,
-      //   cluster: true,
-      //   clusterMaxZoom: 14,
-      //   clusterRadius: 50
-      // });
-
       map.addSource(gardensAllSourceId, {
         type: 'geojson',
         data: fcAllGardens,
-        cluster: true,
         /** Max zoom on which to cluster points if clustering is enabled.
          * Defaults to one zoom less than maxzoom (so that last zoom features are not clustered).
          * https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/#geojson-clusterMaxZoom
@@ -227,50 +226,29 @@
       });
 
       map.addLayer({
-        id: clustersLayerId,
-        type: 'circle',
-        source: gardensAllSourceId,
-        filter: ['has', 'point_count'],
-        paint: {
-          // https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step
-          //   * Blue, 20px circles when point count is less than 20
-          //   * Yellow, 30px circles when point count is between 30 and 40
-          //   * Pink, 40px circles when point count is greater than or equal to 40
-          // --color-0: '#EC9570'; --color-1: '#F6C4B7'; --color-2: '#F4E27E';
-          // --color-3: '#59C29D'; --color-4: '#A2D0D3'; --color-5: '#2E5F63';
-
-          // 'circle-color': ['step', ['get', 'point_count'], '#A2D0D3', 20, '#F6C4B7', 80, '#EC9570'],
-          // 'circle-radius': ['step', ['get', 'point_count'], 20, 20, 30, 40, 40]
-
-          // Original colors and sizes
-          'circle-color': ['step', ['get', 'point_count'], '#51bbd6', 20, '#f1f075', 40, '#f28cb1'],
-          'circle-radius': ['step', ['get', 'point_count'], 20, 20, 30, 40, 40]
-        }
-      });
-
-      map.addLayer({
-        id: clusterCountLayerId,
-        type: 'symbol',
-        source: gardensAllSourceId,
-        filter: ['has', 'point_count'],
-        layout: {
-          'text-field': '{point_count_abbreviated}',
-          'text-size': 13
-          // 'text-allow-overlap': true
-        }
-      });
-
-      map.addLayer({
         id: unclusteredPointLayerId,
         type: 'symbol',
         source: gardensAllSourceId,
-        filter: ['!', ['has', 'point_count']],
         layout: {
           'icon-image': ['get', 'icon'],
-          'icon-size': 0.4,
+          'icon-size': {
+            stops: [
+              [2, 0.05],
+              [5, 0.1],
+              [6, 0.05],
+              [9, 0.07],
+              [11, 0.2],
+              [12, 0.37],
+              [13, 0.4]
+            ]
+          },
           // Needs to be true, otherwise a city/town name on the map will overlap a garden.
           // http://localhost:5173/explore/garden/XFVhmDog6xQprHRJuy1UkThRUVh2 and the name "Spalbeek"
-          'icon-allow-overlap': true
+          // Docs summary: https://stackoverflow.com/a/74657063/4973029
+          'icon-allow-overlap': true,
+          // These two below allow text (city names etc) to be placed under icons
+          'icon-ignore-placement': true,
+          'text-optional': false
         }
       });
 
@@ -286,26 +264,10 @@
         }
       });
 
-      // inspect a cluster on click
-      map.on('click', clustersLayerId, (e) => {
-        const features = map.queryRenderedFeatures(e.point, {
-          layers: [clustersLayerId]
-        });
-        const clusterId = features[0].properties?.cluster_id;
-        map.getSource(gardensAllSourceId).getClusterExpansionZoom(clusterId, function (err, zoom) {
-          if (err) return console.log(err);
-
-          map.easeTo({
-            center: features[0].geometry.coordinates,
-            zoom: zoom
-          });
-        });
-      });
-
       map.on('click', unclusteredPointLayerId, onGardenClick);
       map.on('click', savedGardenLayerId, onGardenClick);
 
-      [clustersLayerId, unclusteredPointLayerId, savedGardenLayerId].forEach(addPointerOnHover);
+      [unclusteredPointLayerId, savedGardenLayerId].forEach(addPointerOnHover);
     } catch (err) {
       // should not error in prod
       console.log(err);
@@ -327,8 +289,6 @@
   };
 
   const updateGardensAllVisibility = (visible: boolean) => {
-    map.setLayoutProperty(clustersLayerId, 'visibility', visible ? 'visible' : 'none');
-    map.setLayoutProperty(clusterCountLayerId, 'visibility', visible ? 'visible' : 'none');
     map.setLayoutProperty(unclusteredPointLayerId, 'visibility', visible ? 'visible' : 'none');
   };
 
@@ -336,50 +296,10 @@
     map.setLayoutProperty(savedGardenLayerId, 'visibility', visible ? 'visible' : 'none');
   };
 
-  const updateSelectedMarker = (_?: any) => {
-    calculateData();
-    map.getSource(gardensAllSourceId).setData(fcAllGardens);
-    map.getSource(savedGardenSourceId).setData(fcSavedGardens);
-  };
-
-  const updateGardensWithoutSavedGardensVisibility = (visible: boolean) => {
-    map.setLayoutProperty(clustersLayerId, 'visibility', visible ? 'visible' : 'none');
-    map.setLayoutProperty(clusterCountLayerId, 'visibility', visible ? 'visible' : 'none');
-    map.setLayoutProperty(unclusteredPointLayerId, 'visibility', visible ? 'visible' : 'none');
-  };
-
   // update featurecollections when allGardens or savedGardens change and selectedGardenId
   $: if (mapReady) updateAll(selectedGardenId, savedGardens, allGardens);
   // Update visibility when showGardens or showSavedGardens change
   $: if (mapReady) updateVisibility(showGardens, showSavedGardens);
-
-  // $: if (mapReady) {
-  //   updateSavedGardensVisibility(showSavedGardens);
-  // }
-
-  // $: if (mapReady) updateSelectedMarker({ allGardens, savedGardens });
-  // Instead of recalculate the data every time, we could use a mapbox expression
-  // $: {
-  //   if (mapReady)
-  //     if (selectedGardenId) {
-  //       map.setLayoutProperty(unclusteredPointLayerId, 'icon-image', {
-  //         property: 'id',
-  //         type: 'categorical',
-  //         stops: [[selectedGardenId, 'tent-filled']],
-  //         default: 'tent'
-  //       });
-
-  //       map.setLayoutProperty(savedGardenLayerId, 'icon-image', {
-  //         property: 'id',
-  //         type: 'categorical',
-  //         stops: [[selectedGardenId, 'tent-filled']],
-  //         default: 'tent-saved'
-  //       });
-  //     } else {
-  //       map.setLayoutProperty(unclusteredPointLayerId, 'icon-image', 'tent');
-  //       map.setLayoutProperty(savedGardenLayerId, 'icon-image', 'tent-saved');
-  //     }
-  // }
 
   setupMarkers();
 </script>

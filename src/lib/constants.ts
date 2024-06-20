@@ -12,7 +12,7 @@ export const COMMUNITY_FORUM_URL =
 export const WTMG_BLOG_BASE_URL = 'https://blog.welcometomygarden.org';
 export const WTMG_UTM_SOURCE = 'welcometomygarden.org';
 export const UTM_MEMBERSHIP_CAMPAIGN = 'membership';
-export const DEFAULT_MAP_STYLE = 'mapbox://styles/mapbox/streets-v8';
+export const DEFAULT_MAP_STYLE = 'mapbox://styles/mapbox/streets-v12';
 
 export const LOCATION_BELGIUM = { longitude: 4.5, latitude: 50.5 };
 export const LOCATION_WESTERN_EUROPE = {
