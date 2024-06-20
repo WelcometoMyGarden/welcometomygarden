@@ -136,6 +136,12 @@ This example (run from the `api` folder) runs tests in the group that includes t
 echo "node_modules/.bin/mocha -f sendMessageFromEmail" > runtests.sh && firebase --project demo-test emulators:exec --only auth,firestore --ui ./runtests.sh
 ```
 
+Some unit tests can be run without starting firebase emulators, because they don't have Firebase dependencies, or their dependencies (like `logger` in from `functions-framework`) work standalone.
+
+```
+node_modules/.bin/mocha -w -f 'inbound email parser'
+```
+
 To prevent Firestore-triggered functions from running (and potentially slowly hitting SendGrid), this example adds `--only auth,firestore`. Remove this to run the functions anyway for more realistic side-effects.
 
 ## Deployment to Firebase

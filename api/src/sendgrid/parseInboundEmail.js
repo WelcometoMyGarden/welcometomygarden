@@ -5,6 +5,7 @@ const EmailReplyParser = require('email-reply-parser');
 
 // https://github.com/haraka/node-address-rfc2822
 const addrparser = require('address-rfc2822');
+const { htmlToText } = require('html-to-text');
 const { MAX_MESSAGE_LENGTH, sendMessageFromEmail } = require('../chat');
 const { sendEmailReplyError } = require('../mail');
 const { auth, db } = require('../firebase');
@@ -76,7 +77,7 @@ const unpackInboundEmailRequest = (req) => {
  * See https://docs.sendgrid.com/for-developers/parsing-email/setting-up-the-inbound-parse-webhook
  * We use the non-raw webhook.
  * @param {UnpackedInboundRequest} unpackedInboundRequest
- * @returns {Promise<{
+ * @returns {{
  *  envelopeFromEmail?: string,
  *  headerFrom?: addrparser.Address,
  *  responseText?: string,
@@ -87,9 +88,9 @@ const unpackInboundEmailRequest = (req) => {
  *  },
  *  senderIP?: string,
  *  html?: string
- * }>}
+ * }}
  */
-const parseUnpackedInboundEmail = async (unpackedInboundRequest) => {
+exports.parseUnpackedInboundEmail = (unpackedInboundRequest) => {
   const {
     text: emailPlainText,
     html,
@@ -147,20 +148,28 @@ const parseUnpackedInboundEmail = async (unpackedInboundRequest) => {
 
   // Attempt to parse the response text and Chat ID from the email
   let chatId;
+  function parsePlainTextEmail(text) {
+    const parsedEmail = new EmailReplyParser().read(text);
+    // Trim is not done automatically
+    return [parsedEmail.getVisibleText().trim(), parsedEmail.getQuotedText()];
+  }
   try {
     // Attempt parsing plain text if it exists
-    if (emailPlainText) {
-      const parsedEmail = new EmailReplyParser().read(emailPlainText);
-      // Trim is not done automatically
-      responsePlainText = parsedEmail.getVisibleText().trim();
-      quotedPlainText = parsedEmail.getQuotedText();
+    if (emailPlainText?.trim()) {
+      [responsePlainText, quotedPlainText] = parsePlainTextEmail(emailPlainText);
     } else if (html) {
-      // TODO: plain text doesn't exist, attempt deriving plain text from HTML text, if that exists
-      logger.debug('TODO: Deriving plain text from HTML');
+      logger.debug('Deriving plain text from HTML');
+      const convertedPlainText = htmlToText(html, { wordwrap: null });
+      [responsePlainText, quotedPlainText] = parsePlainTextEmail(convertedPlainText);
     }
 
     // Find the chat ID from the quoted text
-    const chatIdRegex = /\/chat\/.+?\/([a-zA-Z0-9]+)>/;
+    //
+    // This regex assumes a delimiter like > ] or " at the end
+    // > is used in Gmail plain text parts
+    // ] is used in html-to-text
+    // " is used in html
+    const chatIdRegex = /\/chat\/.+?\/([a-zA-Z0-9]+)/;
     let chatRegexResult;
     const possibleSources = [
       ['parsed quoted', quotedPlainText],
@@ -207,11 +216,6 @@ Sender IP: ${senderIP}`);
 };
 
 /**
- * @template T
- * @typedef {T extends Promise<infer U> ? U : T} Unpacked
- */
-
-/**
  *
  * See https://docs.sendgrid.com/for-developers/parsing-email/setting-up-the-inbound-parse-webhook
  * We use the non-raw webhook.
@@ -226,12 +230,12 @@ exports.parseInboundEmail = async (req, res) => {
   }
 
   /**
-   * @type {Unpacked<ReturnType<typeof parseUnpackedInboundEmail>>}
+   * @type {ReturnType<typeof exports.parseUnpackedInboundEmail>}
    */
   let parsedEmail = { dkimResult: {} };
   try {
     try {
-      parsedEmail = await parseUnpackedInboundEmail(unpackInboundEmailRequest(req));
+      parsedEmail = this.parseUnpackedInboundEmail(unpackInboundEmailRequest(req));
     } catch (parseError) {
       logger.error(parseError);
       throw new Error('Email error: unknown parsing error');
