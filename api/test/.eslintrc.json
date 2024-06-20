@@ -1,0 +1,7 @@
+{
+  // This is potentially an outdated format (https://eslint.org/docs/latest/use/configure/language-options-deprecated)
+  // but I'm not sure what the alternative is here https://eslint.org/docs/latest/use/configure/language-options
+  "env": {
+    "mocha": true
+  }
+}
