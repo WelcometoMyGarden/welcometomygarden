@@ -8,82 +8,49 @@ const addrparser = require('address-rfc2822');
 const { MAX_MESSAGE_LENGTH, sendMessageFromEmail } = require('../chat');
 const { sendEmailReplyError } = require('../mail');
 const { auth, db } = require('../firebase');
+
 const { sendPlausibleEvent } = require('../util/plausible');
+
+/**
+ * @typedef {{
+ *    text?: string,
+ *    html?: string,
+ *    envelope?: string,
+ *    from?: string,
+ *    dkim?: string,
+ *    sender_ip?: string
+ * }} UnpackedInboundRequest
+ */
 
 /**
  *
  * See https://docs.sendgrid.com/for-developers/parsing-email/setting-up-the-inbound-parse-webhook
  * We use the non-raw webhook.
  * @param {import('express').Request} req
- * @returns {Promise<{
- *  envelopeFromEmail?: string,
- *  headerFrom?: addrparser.Address,
- *  responseText?: string,
- *  chatId?: string,
- *  dkimResult: {
- *    host?: string,
- *    result?: string
- *  }
- *  senderIP?: string
- *  html?: string
- * }>}
+ * @returns {{
+ *    text?: string,
+ *    html?: string,
+ *    envelope?: string,
+ *    from?: string,
+ *    dkim?: string,
+ *    sender_ip?: string
+ * }}
  */
-const parseInboundEmailInner = async (req) => {
-  let envelopeFromEmail;
+const unpackInboundEmailRequest = (req) => {
+  const keysToUnpack = ['text', 'html', 'envelope', 'from', 'dkim', 'sender_ip'];
   /**
-   * @type {addrparser.Address | undefined}
+   * @type {UnpackedInboundRequest}
    */
-  let headerFrom;
-  let dkimRaw;
-  let dkimResult = {};
-  let senderIP;
-  let html;
-
-  // Plain-text email text
-  let emailPlainText;
-
+  const response = {};
   // Parse email text
   const bb = busboy({ headers: req.headers });
   bb.on('field', (name, val) => {
     try {
-      // Extract processed plain text
-      if (name === 'text') {
-        emailPlainText = val;
-        logger.debug('Email plain text part: ', val);
-      }
-      if (name === 'html') {
-        html = val;
-        logger.debug('Email HTML part: ', val);
-      }
-      if (name === 'envelope') {
-        envelopeFromEmail = JSON.parse(val).from;
-      }
-      if (name === 'from') {
-        [headerFrom] = addrparser.parse(val) || [];
-      }
-      if (name === 'dkim') {
-        // This format isn't really documented, so we can't know how multiple signatures will appear... Example observed values are (on each line):
-        // {@gmail.com : pass}
-        // none
-        //
-        dkimRaw = val;
-        if (val.trim() === 'none') {
-          dkimResult = {};
-          return;
-        }
-        //
-        // TODO: this will only support one DKIM signature, since the regex doesn't iterate. There might be multiple.
-        const [, host, result] = /@([^\s]+?)\s:\s(pass|fail)/.exec(val) || [];
-        dkimResult = {
-          host,
-          result
-        };
-      }
-      if (name === 'sender_ip') {
-        senderIP = val;
+      if (keysToUnpack.includes(name)) {
+        response[name] = val;
       }
     } catch (e) {
-      logger.warn(`Error parsing field ${name} with value "${val}"`, e);
+      logger.warn(`Error unpacking field ${name} with value "${val}"`, e);
     }
   });
 
@@ -102,27 +69,109 @@ const parseInboundEmailInner = async (req) => {
   // @ts-ignore this is provided by Firebase functions
   bb.end(req.rawBody);
 
-  let responseText;
+  return response;
+};
 
-  // Attempt to parse the Chat ID from the email
+/**
+ * See https://docs.sendgrid.com/for-developers/parsing-email/setting-up-the-inbound-parse-webhook
+ * We use the non-raw webhook.
+ * @param {UnpackedInboundRequest} unpackedInboundRequest
+ * @returns {Promise<{
+ *  envelopeFromEmail?: string,
+ *  headerFrom?: addrparser.Address,
+ *  responseText?: string,
+ *  chatId?: string,
+ *  dkimResult: {
+ *    host?: string,
+ *    result?: string
+ *  },
+ *  senderIP?: string,
+ *  html?: string
+ * }>}
+ */
+const parseUnpackedInboundEmail = async (unpackedInboundRequest) => {
+  const {
+    text: emailPlainText,
+    html,
+    envelope,
+    from,
+    dkim,
+    sender_ip: senderIP
+  } = unpackedInboundRequest;
+
+  if (emailPlainText) {
+    logger.debug('Email plain text part:\n', emailPlainText);
+  }
+  if (html) {
+    logger.debug('Email HTML part:\n', html);
+  }
+
+  // Parse email
+  let envelopeFromEmail;
+  /**
+   * @type {addrparser.Address | undefined}
+   */
+  let headerFrom;
+  let dkimResult = {};
+
+  // Pre-parse metadata
+  try {
+    if (envelope) {
+      envelopeFromEmail = JSON.parse(envelope).from;
+    }
+    if (from) {
+      [headerFrom] = addrparser.parse(from) || [];
+    }
+    if (dkim) {
+      // This format isn't really documented, so we can't know how multiple signatures will appear... Example observed values are (on each line):
+      // {@gmail.com : pass}
+      // none
+      //
+      if (dkim.trim() === 'none') {
+        dkimResult = {};
+      } else {
+        // TODO: this will only support one DKIM signature, since the regex doesn't iterate. There might be multiple.
+        const [, host, result] = /@([^\s]+?)\s:\s(pass|fail)/.exec(dkim) || [];
+        dkimResult = {
+          host,
+          result
+        };
+      }
+    }
+  } catch (e) {
+    logger.error('Error while parsing email values', e);
+  }
+
+  let responsePlainText;
+  let quotedPlainText;
+
+  // Attempt to parse the response text and Chat ID from the email
   let chatId;
   try {
+    // Attempt parsing plain text if it exists
     if (emailPlainText) {
       const parsedEmail = new EmailReplyParser().read(emailPlainText);
       // Trim is not done automatically
-      responseText = parsedEmail.getVisibleText().trim();
-      const quotedText = parsedEmail.getQuotedText();
-      // Find the chat ID from the quoted text
-      const chatIdRegex = /\/chat\/.+?\/([a-zA-Z0-9]+)>/;
-      let chatRegexResult;
-      const possibleSources = [
-        ['parsed quoted', quotedText],
-        ['full plain text', emailPlainText],
-        ['full html text', html]
-      ];
+      responsePlainText = parsedEmail.getVisibleText().trim();
+      quotedPlainText = parsedEmail.getQuotedText();
+    } else if (html) {
+      // TODO: plain text doesn't exist, attempt deriving plain text from HTML text, if that exists
+      logger.debug('TODO: Deriving plain text from HTML');
+    }
 
-      for (let i = 0; i < possibleSources.length; i += 1) {
-        const [currentSourceDescription, currentSource] = possibleSources[i];
+    // Find the chat ID from the quoted text
+    const chatIdRegex = /\/chat\/.+?\/([a-zA-Z0-9]+)>/;
+    let chatRegexResult;
+    const possibleSources = [
+      ['parsed quoted', quotedPlainText],
+      ['full plain text', emailPlainText],
+      ['full html text', html]
+    ];
+
+    // Try to parse the chat ID
+    for (let i = 0; i < possibleSources.length; i += 1) {
+      const [currentSourceDescription, currentSource] = possibleSources[i];
+      if (typeof currentSource === 'string') {
         chatRegexResult = chatIdRegex.exec(currentSource);
         if (chatRegexResult) {
           [, chatId] = chatRegexResult;
@@ -141,12 +190,20 @@ const parseInboundEmailInner = async (req) => {
   logger.log(`== Parsed email details ==
 Envelope from: ${envelopeFromEmail}
 Header from: ${headerFrom?.address}
-DKIM: ${JSON.stringify(dkimResult)} (raw: ${dkimRaw})
-Response text: ${responseText}
+DKIM: ${JSON.stringify(dkimResult)} (raw: ${dkim})
+Response text: ${responsePlainText}
 Chat ID: ${chatId}
 Sender IP: ${senderIP}`);
 
-  return { envelopeFromEmail, headerFrom, responseText, chatId, dkimResult, senderIP, html };
+  return {
+    envelopeFromEmail,
+    headerFrom,
+    responseText: responsePlainText,
+    chatId,
+    dkimResult,
+    senderIP,
+    html
+  };
 };
 
 /**
@@ -169,12 +226,12 @@ exports.parseInboundEmail = async (req, res) => {
   }
 
   /**
-   * @type {Unpacked<ReturnType<typeof parseInboundEmailInner>>}
+   * @type {Unpacked<ReturnType<typeof parseUnpackedInboundEmail>>}
    */
   let parsedEmail = { dkimResult: {} };
   try {
     try {
-      parsedEmail = await parseInboundEmailInner(req);
+      parsedEmail = await parseUnpackedInboundEmail(unpackInboundEmailRequest(req));
     } catch (parseError) {
       logger.error(parseError);
       throw new Error('Email error: unknown parsing error');
