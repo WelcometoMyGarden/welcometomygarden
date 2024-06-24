@@ -124,9 +124,18 @@ export async function initialize(): Promise<void> {
   }
   appRef = initializeApp(FIREBASE_CONFIG);
 
+  let appCheckDebugToken;
   if (typeof import.meta.env.VITE_FIREBASE_APPCHECK_DEBUG_TOKEN !== 'undefined') {
-    (self as any).FIREBASE_APPCHECK_DEBUG_TOKEN =
-      import.meta.env.VITE_FIREBASE_APPCHECK_DEBUG_TOKEN;
+    // Prioritize the static env debug token
+    appCheckDebugToken = import.meta.env.VITE_FIREBASE_APPCHECK_DEBUG_TOKEN;
+  } else if (browser && window) {
+    // But allow inserting a token via localStorage, for example for debugging in BrowserStack,
+    // which seems to be blocked by AppCheck.
+    appCheckDebugToken = window.localStorage.getItem('FIREBASE_APPCHECK_DEBUG_TOKEN');
+  }
+
+  if (appCheckDebugToken) {
+    (self as any).FIREBASE_APPCHECK_DEBUG_TOKEN = appCheckDebugToken;
   }
 
   if (typeof import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY !== 'undefined') {
