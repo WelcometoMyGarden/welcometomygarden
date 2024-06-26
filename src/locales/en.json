@@ -195,42 +195,6 @@
     },
     "message": "Happy camping!"
   },
-  "recommendations": {
-    "title": "Slow travel inspirations",
-    "description": "Planning to discover Belgium on foot or by bike? Here are some links and tools we can warmly recommend!",
-    "recommendations-groups": {
-      "0": {
-        "title": "Planning tools, apps & maps",
-        "recommendations": {
-          "0": "Route planner for cycling and hiking: BRouter",
-          "1": "Another great route planner: Komoot",
-          "2": "Great route finder and planner: OutdoorActive",
-          "3": "Great navigation app for cycling and hiking: OSMAnd",
-          "4": "Another great navigation app: ViewRanger",
-          "5": "Overview of the whole cycling network cycling layer of OpenStreetMap"
-        }
-      },
-      "1": {
-        "title": "Trail info",
-        "recommendations": {
-          "0": "Great collection of hiking trails: RouteYou",
-          "1": "Knooppunten network planner: Wandelknooppunt",
-          "2": "Long distance trails in Wallonia: le RAVeL",
-          "3": "Long distance biking trails in Flanders: LF network Flanders",
-          "4": "Long distance hiking trails in Flanders and Wallonia: Grote Routepaden"
-        }
-      },
-      "2": {
-        "title": "Other accomodation services",
-        "recommendations": {
-          "0": "Hospitality network for cyclists: WarmShowers",
-          "1": "More detailed information about all bivouac places: Bivakzone.be"
-        }
-      }
-    },
-    "message": "Enjoy!",
-    "contact": "Anything else we should add to this list? Drop us a line at {support} to let us know."
-  },
   "faq": {
     "title": "FAQ",
     "description": "Frequently asked questions",

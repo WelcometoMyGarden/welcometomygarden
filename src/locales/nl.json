@@ -835,42 +835,6 @@
     },
     "message": "Veel kampeerplezier!"
   },
-  "recommendations": {
-    "title": "Inspiratie voor de trage reiziger",
-    "description": "Plannen om België te voet of per fiets te ontdekken? Hieronder vind je enkele links en tools die wij warm aanbevelen.",
-    "recommendations-groups": {
-      "0": {
-        "title": "Tools, apps & maps",
-        "recommendations": {
-          "0": "Routeplanner voor fietsers en hikers: BRoute, Komoot , OutdoorActive",
-          "1": "Navigatie app voor hikers en fietsers: OSMAnd",
-          "2": "Overzicht van het volledig fietsnetwerk: OpenStreetMap",
-          "3": "Geweldige navigatie app voor fietsen en wandelen: OSMAnd",
-          "4": "Nog een geweldige navigatie app: ViewRanger",
-          "5": "Overzicht van het hele fietsnetwerk zichtbaar op OpenStreetMap"
-        }
-      },
-      "1": {
-        "title": "Wandelpaden info",
-        "recommendations": {
-          "0": "Verzameling van hiking trails: RouteYou",
-          "1": "Knooppunten network planner: Wandelknooppunt",
-          "2": "Langeafstandspaden in Wallonië: le RAVeL",
-          "3": "Langeafstandspaden in Vlaanderen: LF network Flanders",
-          "4": "Langeafstands hiking trails in Vlaanderen en Wallonië: Grote Routepaden"
-        }
-      },
-      "2": {
-        "title": "Aanraders accommodatie",
-        "recommendations": {
-          "0": "Hospitality netwerk voor fietsers: WarmShowers",
-          "1": "Meer gedetailleerde informatie over alle bivakplaatsen: Bivakzone.be"
-        }
-      }
-    },
-    "message": "Geniet!",
-    "contact": "Zouden we nog andere zaken moeten toevoegen aan deze lijst? Laat het ons gerust weten via {support}"
-  },
   "faq": {
     "title": "FAQ",
     "description": "Veelgestelde vragen",

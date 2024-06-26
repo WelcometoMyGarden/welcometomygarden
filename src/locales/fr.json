@@ -192,42 +192,6 @@
     },
     "message": "Bon bivouac !"
   },
-  "recommendations": {
-    "title": "Inspiration pour mieux planifier un voyage slow travel",
-    "description": "Vous êtes en train de planifier un voyage à pied ou à vélo en Belgique ? Voici quelques ressources que nous recommandons chaudement ! ",
-    "recommendations-groups": {
-      "0": {
-        "title": "Cartes et applications",
-        "recommendations": {
-          "0": "Faire un itinéraire pour vélo ou marche à pied : BRouter, Komoot, OutdoorActive",
-          "1": "Applications pour les itinéraires  : OSMAnd",
-          "2": "Sur OpenStreetMap, vous trouverez les réseaux de pistes cyclables.",
-          "3": "Excellente application de navigation pour le cyclisme et la randonnée : OSMAnd",
-          "4": "Une autre excellente application de navigation : ViewRanger",
-          "5": "Vue d'ensemble de toute la couche cyclable du réseau cyclable d'OpenStreetMap"
-        }
-      },
-      "1": {
-        "title": "D’autres ressources",
-        "recommendations": {
-          "0": "Collection de chemins de randonnées :  RouteYou",
-          "1": "Pour le réseau de Knooppunten : Wandelknooppunt",
-          "2": "Sentiers de longue distance en Wallonie : le RAVeL",
-          "3": "Réseau de longue distance cycliste en Flandres : LF network Flanders",
-          "4": "Réseau de longue distance de randonnée en Flandres : Grote Routepaden"
-        }
-      },
-      "2": {
-        "title": "D’autres recommandations pour se loger",
-        "recommendations": {
-          "0": "Réseau d’hospitalité pour cyclistes: WarmShowers",
-          "1": "More detailed information about all bivouac places: Bivakzone.be"
-        }
-      }
-    },
-    "message": "Enjoy!",
-    "contact": "Autre chose que nous devrions ajouter à cette liste ? Faites le nous savoir via welcometomygardennetwork[at]gmail.com"
-  },
   "faq": {
     "title": "FAQ",
     "description": "Questions fréquentes",
