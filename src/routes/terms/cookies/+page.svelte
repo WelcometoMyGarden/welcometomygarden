@@ -1,21 +1,16 @@
 <script lang="ts">
+  import { coerceToSupportedLanguage } from '$lib/util/get-browser-lang';
+  import { onMount, SvelteComponent } from 'svelte';
   import { locale, _ } from 'svelte-i18n';
-  import En from './cookie-pages/en.svelte';
-  import Nl from './cookie-pages/nl.svelte';
-  import Fr from './cookie-pages/fr.svelte';
 
-  const localeToCookiePageHTML = (loc?: string | null) => {
-    switch (loc) {
-      case 'fr':
-        return Fr;
-      case 'nl':
-        return Nl;
-      default:
-        return En;
-    }
-  };
-
-  $: pageComponent = localeToCookiePageHTML($locale);
+  let pageComponent: SvelteComponent | undefined;
+  onMount(() =>
+    locale.subscribe(
+      async (loc) =>
+        (pageComponent = (await import(`./cookie-pages/${coerceToSupportedLanguage(loc)}.svelte`))
+          .default)
+    )
+  );
 </script>
 
 <svelte:head>
@@ -23,4 +18,6 @@
   <title>{$_('cookies.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
-<svelte:component this={pageComponent} />
+{#if pageComponent}
+  <svelte:component this={pageComponent} />
+{/if}

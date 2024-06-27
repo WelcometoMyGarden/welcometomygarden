@@ -20,8 +20,7 @@
 </p>
 <p>
   If you are concerned about your online privacy, we recommend using a browser extension like <a
-    href="https://www.google.com/url?q=https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/&amp;sa=D&amp;ust=1592214262287000"
-    >Privacy Badger</a
+    href="https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/">Privacy Badger</a
   >
   (Firefox), <a href="https://www.ghostery.com/ghostery-ad-blocker">Ghostery</a> (many browsers) or
   <a href="https://ublockorigin.com/">uBlock Origin</a> (many browsers).
@@ -43,7 +42,7 @@
       <th>Cookie name</th>
       <th>When is it set?</th>
       <th>Purpose</th>
-      <th>Duration?</th>
+      <th>Duration</th>
     </tr>
   </thead>
   <tbody>
