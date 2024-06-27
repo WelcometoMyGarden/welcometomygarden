@@ -62,7 +62,7 @@
     },
     "shop": {
       "banner": {
-        "copy": "Welcome To My Garden ahora tiene su {título} con carteles de madera de WTMG y postales de agradecimiento para los anfitriones. ¡Ve a verlo en {link}!",
+        "copy": "Welcome To My Garden ahora tiene su {title} con carteles de madera de WTMG y postales de agradecimiento para los anfitriones. ¡Ve a verlo en {link}!",
         "title": "Tienda online"
       }
     },
@@ -322,7 +322,7 @@
     "last-updated": "Última actualización: 08 de diciembre de 2022",
     "subtitle": "Responsable del tratamiento de los Datos y Titular",
     "intro": "Welcome To My Garden, un proyecto sin ánimo de lucro bajo la entidad legal de Slowby, una empresa social, constituida y existente según las leyes de Bélgica, con domicilio social en Henri Van Bortonnestraat 100, 1090 Jette, Bélgica, con número de empresa BE. 0784.423.261.",
-    "email": "Soporte de correo electrónico}",
+    "email": "Correo electrónico: {support}",
     "scope": {
       "title": "Política de privacidad",
       "copy": "Esta &#39;Política de Privacidad&#39; se aplica a los &#39;Datos Personales&#39; recopilados por Welcome To My Garden a través de este sitio web."
@@ -517,12 +517,12 @@
       "search-city": "Buscar una ciudad",
       "all-filters": "Todos los filtros",
       "apply-filter": "Aplicar filtro",
-      "available": "{styledAmount} {cantidad, plural, one {jardín} other {jardines}} disponibles con los filtros activos.",
-      "min-capacity": "Mín. {capacidad} {capacidad, plural, una {tienda} otra {tiendas}}"
+      "available": "{styledAmount} {amount, plural, one {jardín} other {jardines}} disponibles con los filtros activos.",
+      "min-capacity": "Mín. {capacity} {capacity, plural, one {tienda} other {tiendas}}"
     },
     "drawer": {
       "facilities": {
-        "capacity": "Espacio para {styleCapacity} {capacidad, plural, one {tienda} other {tiendas}}"
+        "capacity": "Espacio para {styleCapacity} {capacity, plural, one {tienda} other {tiendas}}"
       },
       "owner": {
         "your-garden": "Su jardín",
@@ -571,8 +571,8 @@
         "title": "Describe tu lugar de acampada (requerido)",
         "notice": "Una breve descripción de tu jardín y del lugar de acampada que puedes ofrecer. Esta información es pública, así que no incluya ningún dato personal aquí.<br /> Su descripción debe tener entre 20 y 300 caracteres.",
         "hints": {
-          "too-short": "{restante} más {restante, plural, un {carácter} otros {caracteres}} necesarios...",
-          "too-long": "{excedente} {excedente, plural, un {carácter} otro {caracteres}} demasiado largo..."
+          "too-short": "{remaining} más {remaining, plural, one {carácter} other {caracteres}} necesarios...",
+          "too-long": "{surplus} {surplus, plural, one {carácter} other {caracteres}} demasiado largo..."
         },
         "placeholder": "Introduzca la descripción...",
         "label": "Descripción"
@@ -608,15 +608,15 @@
     "title": "Iniciar sesión",
     "button": "Iniciar sesión",
     "reset": {
-      "text": "¿Olvidaste tu contraseña? {enlace}",
+      "text": "¿Olvidaste tu contraseña? {link}",
       "link": "Reinicia tu contraseña"
     },
     "register": {
-      "text": "¿Aún no tienes una cuenta? {enlace}",
+      "text": "¿Aún no tienes una cuenta? {link}",
       "link": "Inscripción"
     },
     "notify": {
-      "welcome": "¡Bienvenido de nuevo, {usuario}!",
+      "welcome": "¡Bienvenido de nuevo, {user}!",
       "incorrect": "El correo electrónico o la contraseña proporcionados son incorrectos.",
       "login-issue": "No pudimos iniciar tu sesión. Si el problema persiste, comuníquese con {support}"
     }
@@ -693,7 +693,7 @@
       "faq-link-text": "Consulta nuestras preguntas frecuentes.",
       "blog-post": "Lée nuestra publicación de blog:",
       "blog-post-link-text": "¿Por qué ser miembro de WTMG?",
-      "already-member": "Ya eres un {tipo}, ¡gracias!"
+      "already-member": "Ya eres un {type}, ¡gracias!"
     }
   },
   "about-superfan": {
@@ -905,7 +905,7 @@
       "loading": "Cargando...",
       "processing-payment": "Procesando...",
       "youre-subscribed": "¡Estás suscrito como Superfan!",
-      "no-switching-here": "Actualmente no admitimos cambiar a un precio diferente desde aquí; infórmanos en {supportEmail} si desea cambiar. ¡Gracias!",
+      "no-switching-here": "Actualmente no podemos cambiar a un precio diferente desde aquí, háganoslo saber a {supportEmail} si desea cambiar. Gracias.",
       "errors": {
         "loading-error": "Algo salió mal al cargar nuestro servicio de pagos. Intenta recargar la página.",
         "systems-error": "Algo salió mal en nuestros sistemas. ¡Comunícate con {supportEmail} yte ayudaremos lo antes posible! Sentimos la molestia.",
@@ -935,7 +935,7 @@
       "text": "Debes verificar tu dirección de correo electrónico si deseas chatear o añadir un jardín.",
       "button": "Reenviar email",
       "sent": "¡Email enviado!",
-      "reload-suggestion": "¿Ya lo has verificado? Intenta {recargar} la página.",
+      "reload-suggestion": "¿Ya lo has verificado? Intenta {reloading} la página.",
       "reloading-text": "recargando"
     },
     "preferences": {
@@ -960,12 +960,12 @@
     },
     "superfan": {
       "loading-portal": "Cargando portal...",
-      "valid": "Tu aficiliación es válida hasta el {fecha}",
+      "valid": "Tu aficiliación es válida hasta el {date}",
       "just-ended": "Tu aficiliación acaba de finalizar.<br> ¡Esperamos poder seguir contando con tu apoyo! 💚",
       "renew-btn-text": "Renovar ahora"
     },
     "notify": {
-      "resend-error": "No pudimos reenviar un correo electrónico de verificación de cuenta. Por favor contacta con {soporte}",
+      "resend-error": "No pudimos reenviar un correo electrónico de verificación de cuenta. Por favor contacta con {support}",
       "garden-show": "Tu jardín volverá a aparecer en el mapa.",
       "garden-no-show": "Tu jardín no aparecerá en el mapa",
       "preferences-update": "¡Tus preferencias de correo electrónico han sido actualizadas!"
@@ -1051,7 +1051,7 @@
     "country": "País",
     "policies": "Acepto la {cookiePolicy}, la {privacyPolicy} y los {termsOfUse}",
     "registering": "Inscribiéndote...",
-    "registred": "¿Ya tienes una cuenta? {iniciar sesión}",
+    "registred": "¿Ya tienes una cuenta? {signIn}",
     "validate": {
       "email": "Por favor agrega una dirección de correo electrónico, esto es con lo que inicia sesión",
       "password": {
@@ -1072,7 +1072,7 @@
     "notify": {
       "successful": "¡Tu cuenta ha sido creada con éxito! Por favor revisa tu correo electrónico para verificar su cuenta.",
       "in-use": "Esta dirección de correo electrónico ya está en uso.",
-      "unexpected": "Ocurrió un error inesperado. Si el problema persiste, contacta con {soporte}"
+      "unexpected": "Ocurrió un error inesperado. Si el problema persiste, contacta con {support}"
     }
   },
   "chat": {
@@ -1080,7 +1080,7 @@
     "title-conversation": "Conversa con {partnerName}",
     "all-conversations": "Todas las conversaciones",
     "no-messages": {
-      "text": "Aún no tienes ningún mensaje. Selecciona un anfitrión {enlace} para contactarlo.",
+      "text": "Aún no tienes ningún mensaje. Selecciona un anfitrión {link} para contactarlo.",
       "link": "en el mapa"
     },
     "type-message": "Escribe tu mensaje...",

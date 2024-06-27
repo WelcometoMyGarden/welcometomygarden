@@ -517,11 +517,11 @@
       "all-filters": "Alle Filter",
       "apply-filter": "Filter andwenden",
       "available": "{styledAmount} {amount, plural, one {Garten} other {Gärten}} verfügbar mit den aktiven Filtern.",
-      "min-capacity": "Min. {capacity} {capacity, plural, one {tent} other {tents}}"
+      "min-capacity": "Min. {capacity} {capacity, plural, one {Zelt} other {Zelte}}"
     },
     "drawer": {
       "facilities": {
-        "capacity": "Platz für {styleCapacity} {capacity, plural, one {tent} other {tents}}"
+        "capacity": "Platz für {styleCapacity} {capacity, plural, one {Zelt} other {Zelte}}"
       },
       "owner": {
         "your-garden": "Ihr Garten",
@@ -570,8 +570,8 @@
         "title": "Beschreiben Sie die Stelle, an der ein Zelt aufgeschlagen werden darf. ",
         "notice": "Eine kurze Beschreibung Ihres Gartens und des Stellplatzes, den Sie anbieten können. Diese Informationen werden öffentlich angezeigt, daher sollten Sie hier keine persönlichen Angaben machen. <br />Ihre Beschreibung muss zwischen 20 und 300 Zeichen lang sein.",
         "hints": {
-          "too-short": "{remaining} mehr {remaining, plural, one {character} other {characters}} erforderlich …",
-          "too-long": "{surplus} {surplus, plural, one {character} other {characters}} zu lang …"
+          "too-short": "{remaining} mehr {remaining, plural, one {Zeichen} other {Zeichen}} erforderlich …",
+          "too-long": "{surplus} {surplus, plural, one {Zeichen} other {Zeichen}} zu lang …"
         },
         "placeholder": "Geben Sie eine Beschreibung ein …",
         "label": "Beschreibung"
@@ -934,7 +934,7 @@
       "text": "Sie müssen Ihre E-Mail-Adresse verifizieren, wenn Sie chatten oder einen Garten hinzufügen möchten.",
       "button": "E-Mail erneut senden",
       "sent": "E-Mail gesendet!",
-      "reload-suggestion": "Haben Sie die Überprüfung bereits durchgeführt? Versuchen Sie, die Seite {neu zu laden}.",
+      "reload-suggestion": "Haben Sie die Überprüfung bereits durchgeführt? Versuchen Sie, die Seite {reloading}.",
       "reloading-text": "Neuladen"
     },
     "preferences": {
@@ -1087,7 +1087,7 @@
     "notify": {
       "unverified": "Bitte bestätigen Sie Ihre E-Mail-Adresse, bevor Sie mit dem Chatten beginnen",
       "empty-message": "Ihre Nachricht kann nicht leer sein",
-      "too-long": "Ihre Nachricht ist {surplus} {surplus, plural, one {character} other {characters}} zu lang …"
+      "too-long": "Ihre Nachricht ist {surplus} {surplus, plural, one {Zeichen} other {Zeichen}} zu lang …"
     },
     "go-to-garden": "Gehe zu Garten",
     "error-modal": {
@@ -1136,7 +1136,7 @@
     },
     "zoom-restriction-notice": "zum Vergrößern",
     "meetups": {
-      "description": "Suchst du nach deinem nächsten Slow-Travel-Abenteuer? Mach mit beim WTMG-Treffen in der Nähe von {Ort} am {Datum}! Die Idee ist einfach: Wir treffen uns in einem WTMG-Garten, teilen unsere Begeisterung für langsames Reisen und haben eine tolle Zeit zusammen. Die Teilnahme ist kostenlos, aber eine Anmeldung ist erforderlich. Wir sehen uns dort!",
+      "description": "Suchst du nach deinem nächsten Slow-Travel-Abenteuer? Mach mit beim WTMG-Treffen in der Nähe von {location} am {date}! Die Idee ist einfach: Wir treffen uns in einem WTMG-Garten, teilen unsere Begeisterung für langsames Reisen und haben eine tolle Zeit zusammen. Die Teilnahme ist kostenlos, aber eine Anmeldung ist erforderlich. Wir sehen uns dort!",
       "btn-register": "Jetzt anmelden",
       "no-account": "Sie müssen {signInLink} zur Registrierung",
       "cities": {
@@ -1334,7 +1334,7 @@
         }
       },
       "6": {
-        "title": "",
+        "title": "Spam",
         "descriptions": {
           "0": {
             "copy": "Wir sind jederzeit bemüht, die Nutzer der Welcome To My Garden-Plattform vor technischem Missbrauch und Spam zu schützen. Konten, die zur Durchführung der unten aufgeführten Aktionen verwendet werden, können vorübergehend gesperrt oder dauerhaft gelöscht werden."
