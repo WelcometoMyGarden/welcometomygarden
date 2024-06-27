@@ -192,42 +192,6 @@
     },
     "message": "Bon bivouac !"
   },
-  "recommendations": {
-    "title": "Inspiration pour mieux planifier un voyage slow travel",
-    "description": "Vous êtes en train de planifier un voyage à pied ou à vélo en Belgique ? Voici quelques ressources que nous recommandons chaudement ! ",
-    "recommendations-groups": {
-      "0": {
-        "title": "Cartes et applications",
-        "recommendations": {
-          "0": "Faire un itinéraire pour vélo ou marche à pied : BRouter, Komoot, OutdoorActive",
-          "1": "Applications pour les itinéraires  : OSMAnd",
-          "2": "Sur OpenStreetMap, vous trouverez les réseaux de pistes cyclables.",
-          "3": "Excellente application de navigation pour le cyclisme et la randonnée : OSMAnd",
-          "4": "Une autre excellente application de navigation : ViewRanger",
-          "5": "Vue d'ensemble de toute la couche cyclable du réseau cyclable d'OpenStreetMap"
-        }
-      },
-      "1": {
-        "title": "D’autres ressources",
-        "recommendations": {
-          "0": "Collection de chemins de randonnées :  RouteYou",
-          "1": "Pour le réseau de Knooppunten : Wandelknooppunt",
-          "2": "Sentiers de longue distance en Wallonie : le RAVeL",
-          "3": "Réseau de longue distance cycliste en Flandres : LF network Flanders",
-          "4": "Réseau de longue distance de randonnée en Flandres : Grote Routepaden"
-        }
-      },
-      "2": {
-        "title": "D’autres recommandations pour se loger",
-        "recommendations": {
-          "0": "Réseau d’hospitalité pour cyclistes: WarmShowers",
-          "1": "More detailed information about all bivouac places: Bivakzone.be"
-        }
-      }
-    },
-    "message": "Enjoy!",
-    "contact": "Autre chose que nous devrions ajouter à cette liste ? Faites le nous savoir via welcometomygardennetwork[at]gmail.com"
-  },
   "faq": {
     "title": "FAQ",
     "description": "Questions fréquentes",
@@ -1458,20 +1422,6 @@
     "our-story-description": "<p>Bonjour ! Nous sommes Dries et Manon, les fondateurs de Welcome To My Garden. En 2019, nous avons fait un voyage à vélo de Bruxelles à Tokyo. Pendant 11 mois, nous avons traversé 21 pays et avons été accueillis par des dizaines de personnes incroyables en cours de route.</p><p>En rentrant en Belgique, alors que le covid venait d’arriver, nous nous sommes demandé comment nous pourrions faciliter le slow travel dans notre propre pays. Par un dimanche après-midi pluvieux de 2020, Dries a mis en place la première version de WTMG. En deux heures, la carte comptait 50 jardins, et deux semaines plus tard, il y en avait 500 !</p><p>Nous avons parcouru un long chemin depuis : aujourd'hui, WTMG compte plus de 30.000 utilisateur·rices et plus de 4000 jardins. C’est devenu clair, WTMG est là pour rester ! Et il est temps d'aller de l'avant. Nous avons écouté notre communauté, et nous nous investissons maintenant pour que WTMG réponde à vos besoins en matière de slow travel.</p><p>WTMG existe grâce au travail assidu d'un groupe de bénévoles passionnés, qui y ont investi de très nombreuses soirées et week-ends. Mais pour continuer, nous avons besoin de plus de temps et de personnes talentueuses. C'est pourquoi Thor et Janneke ont également rejoint le groupe. Nous nous donnons à 100% et nous espérons que vous nous rejoindrez dans cette aventure !</p>",
     "bigger-picture-title": "Le contexte",
     "bigger-picture-description": "<p>S'il y a une chose que nous avons apprise au cours des dernières années, c'est ceci : il est temps de ralentir. Cela vaut pour la vie en général, mais aussi pour les voyages en particulier. Plus nous voyageons vite, plus nous passons à côté de choses intéressantes. Les voyages rapides génèrent beaucoup d'émissions de CO2, déconnectent les gens de leur environnement et endommagent les communautés locales. Place donc au voyage lent !</p><p>Et voilà, c’est tout ça WTMG ! Nous sommes fiers de défendre le voyage lent et de contribuer à notre manière au défi mondial de réduction de CO2. En deux ans, WTMG a accompli beaucoup de choses :<ul><li>31 000 utilisateur·rices se sont lancé·es dans l'aventure du slow travel.</li><li>4 300 hôtes chaleureux·ses ont ouvert leur jardin aux voyageur·ses lent·es.</li><li>57.000 demandes de nuits ont été envoyées via la plateforme.</li><li>Nous avons commencé en Belgique, mais de plus en plus de jardins sont en train de voir le jour en Europe et au-delà.</li><li>Nous avons reçu le soutien financier de partenaires comme Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers, Natuurpunt et VGC Bruxelles.</li></ul></p><p>Les expériences qui ont le plus de sens et qui sont les plus mémorables se produisent lorsque nous prenons le temps d'explorer et de nous immerger dans notre environnement. Avec WTMG, nous voulons vous aider à faire cela. Ensemble, nous pouvons rendre le monde meilleur en voyageant plus lentement et plus durablement. Alors, vous nous rejoignez ?</p><p>Nous sommes toujours ouverts à de nouvelles idées et collaborations, n'hésitez pas à nous contacter !</p>",
-    "contribute-blocks": {
-      "1": {
-        "title": "Devenez un·e Superfan",
-        "text": "<a href=\"/about-superfan\">Devenez un·e Superfan</a> et accédez à des fonctionnalités supplémentaires (voir le réseau ferroviaire, uploader votre itinéraire et sauvegarder des jardins) ! Les Superfans sont très importants pour WTMG car ils permettent de garder le site gratuit pour tout le monde."
-      },
-      "2": {
-        "title": "Partez en trip secret",
-        "text": "Avec <a href=\"https://www.slowby.travel/fr/accueil?utm_source=welcometomygarden.org&utm_medium=web&utm_content=contribute_method\" target=\"_blank\">Slowby</a>, la petite sœur de WTMG, vous pouvez partir en trip secret à pied ou à vélo ! Nous nous occupons de toute l'organisation. Préparez simplement vos bagages et partez à l’aventure ! Vous pouvez aussi acheter <a href=\"https://gift.slowby.travel/fr?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=giftcard&utm_content=contribute_method\" target=\"_blank\">un bon cadeau</a> pour quelqu'un que vous aimez."
-      },
-      "3": {
-        "title": "Parlez-en autour de vous",
-        "text": "Parlez de WTMG à d'autres amateur·rices de slow travel et aux personnes possédant un jardin, et partagez WTMG sur les réseaux sociaux. Plus de voyageur·ses lent·es signifie un plus grand impact !"
-      }
-    },
     "contributors": "Contibuteur·rices",
     "amazing-people": "Pour terminer, nous voulons remercier ces personnes extraordinaires.",
     "cradle": "Sans elles, Welcome To My Garden n'existerait pas. Ils étaient là et y ont cru dès le début !",
@@ -1495,9 +1445,6 @@
       "women-dont-cycle": {
         "title": "Women Don't Cycle - Le Film",
         "url": "https://womendontcycle.com/fr?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer"
-      },
-      "slow-travel-pass": {
-        "url": "https://slowtravelpass.com/fr"
       },
       "wtmg-sign": {
         "title": "Panneau WTMG"

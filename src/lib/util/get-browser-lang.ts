@@ -15,7 +15,7 @@ const coercedBrowserLanguage = () =>
 
 export default coercedBrowserLanguage;
 
-export const coerceToSupportedLanguage = (lang: string | undefined): SupportedLanguage => {
+export const coerceToSupportedLanguage = (lang: string | undefined | null): SupportedLanguage => {
   if ((SUPPORTED_LANGUAGES as ReadonlyArray<string>).includes(lang ?? '')) {
     return lang as SupportedLanguage;
   } else {
@@ -23,7 +23,7 @@ export const coerceToSupportedLanguage = (lang: string | undefined): SupportedLa
   }
 };
 
-export const coerceToMainLanguage = (lang: string | undefined): MainLanguage => {
+export const coerceToMainLanguage = (lang: string | undefined | null): MainLanguage => {
   if ((MAIN_LANGUAGES as ReadonlyArray<string>).includes(lang ?? '')) {
     return lang as MainLanguage;
   } else {
@@ -31,7 +31,7 @@ export const coerceToMainLanguage = (lang: string | undefined): MainLanguage => 
   }
 };
 
-export const coerceToMainLanguageENBlank = (lang: string | undefined): string => {
+export const coerceToMainLanguageENBlank = (lang: string | undefined | null): string => {
   const coercedLang = coerceToMainLanguage(lang);
   if (coercedLang === 'en') {
     return '';

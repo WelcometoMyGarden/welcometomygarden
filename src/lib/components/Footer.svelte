@@ -1,7 +1,14 @@
 <script lang="ts">
   import { _, locale } from 'svelte-i18n';
   import routes from '$lib/routes';
-  import { SHOP_URL, WTMG_BLOG_BASE_URL, WTMG_UTM_SOURCE, mailToSupportHref } from '$lib/constants';
+  import {
+    SHOP_URL,
+    STP_TITLE,
+    STP_URL,
+    WTMG_BLOG_BASE_URL,
+    WTMG_UTM_SOURCE,
+    mailToSupportHref
+  } from '$lib/constants';
   import Socials from './Socials.svelte';
   import LanguageSelector from './LanguageSelector.svelte';
   import WtmgLogo from './UI/WTMGLogo.svelte';
@@ -10,7 +17,7 @@
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import createUrl from '$lib/util/create-url';
-  import { coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
+  import { coerceToMainLanguage, coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
 
   const wtmgSignURLParams = new URLSearchParams({
     ...($user
@@ -65,8 +72,8 @@
       title: $_('footer.link-category-titles.our-projects'),
       links: [
         {
-          title: $_('footer.links.slow-travel-pass.title'),
-          link: createUrl($_('footer.links.slow-travel-pass.url'), {
+          title: STP_TITLE,
+          link: createUrl(`${STP_URL}/${coerceToMainLanguage($locale ?? undefined)}`, {
             utm_source: WTMG_UTM_SOURCE,
             utm_medium: 'web',
             utm_content: 'footer'

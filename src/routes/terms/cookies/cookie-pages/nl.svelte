@@ -45,7 +45,7 @@
       <th>Cookie-naam</th>
       <th>Wanneer wordt deze ingesteld?</th>
       <th>Doel</th>
-      <th>Duur?</th>
+      <th>Duur</th>
     </tr>
   </thead>
   <tbody>
