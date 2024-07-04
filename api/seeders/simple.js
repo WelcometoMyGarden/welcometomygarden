@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/* eslint-disable camelcase */
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { faker } = require('@faker-js/faker');

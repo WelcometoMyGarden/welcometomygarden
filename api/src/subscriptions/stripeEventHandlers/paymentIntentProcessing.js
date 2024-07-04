@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const getFirebaseUserId = require('../getFirebaseUserId');
 const {
   sendSubscriptionConfirmationEmail,

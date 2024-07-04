@@ -14,8 +14,7 @@ exports.isWTMGPriceId = isWTMGPriceId;
 /**
  * @param {import('stripe').Stripe.Invoice} invoice
  */
-exports.isWTMGInvoice = async function (invoice) {
-  // eslint-disable-next-line camelcase
+exports.isWTMGInvoice = async (invoice) => {
   const { lines, subscription, amount_paid } = invoice;
   const lineOne = lines.data[0];
   let price = null;
@@ -31,7 +30,6 @@ exports.isWTMGInvoice = async function (invoice) {
     // The sub will contain the actual price ID of the sub plan.
     const sub = await stripe.subscriptions.retrieve(/** @type {string} */ (subscription));
     price = sub.items.data[0].price;
-    // eslint-disable-next-line camelcase
     if (price.unit_amount !== amount_paid) {
       // check if this person perhaps updated their sub two times?? :S
       // TODO 1: is the price ID info now used in an intergration? ARE THE FAKE ONES
@@ -54,7 +52,7 @@ exports.isWTMGInvoice = async function (invoice) {
 /**
  * @param {import('stripe').Stripe.Subscription} subscription
  */
-exports.isWTMGSubscription = function (subscription) {
+exports.isWTMGSubscription = (subscription) => {
   const priceId = subscription.items.data[0].price.id;
   if (isWTMGPriceId(priceId)) {
     return true;

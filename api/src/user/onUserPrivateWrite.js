@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const { disable_contacts } = require('firebase-functions').config().sendgrid;
 const {
   sendgrid: sendgridClient,

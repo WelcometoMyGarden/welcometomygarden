@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 // https://stackoverflow.com/a/69959606/4973029
 // eslint-disable-next-line import/no-unresolved
 const functions = require('firebase-functions');

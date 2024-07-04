@@ -59,6 +59,8 @@
         "selector": "WithStatement",
         "message": "`with` is disallowed in strict mode because it makes code impossible to predict and optimize."
       }
-    ]
+    ],
+    // It is often more convenient and clear to directly use snake-cased variables from API results such as SendGrid
+    "camelcase": "off"
   }
 }

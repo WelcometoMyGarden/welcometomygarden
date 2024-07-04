@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const { config } = require('firebase-functions');
 const { createClient } = require('@supabase/supabase-js');
 
