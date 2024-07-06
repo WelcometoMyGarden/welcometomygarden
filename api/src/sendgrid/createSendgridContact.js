@@ -125,13 +125,17 @@ const createSendgridContact = async (
     currentIteration += 1;
   }
 
+  const jobLogTrailer = `(job id ${contactCreationJobId} for uid ${firebaseUser.uid})`;
+
   if (currentIteration === MAX_ITERATIONS) {
-    logger.error(`SendGrid's contact creation job did not complete in a reasonable time`);
+    logger.error(
+      `SendGrid's contact creation job did not complete in a reasonable time ${jobLogTrailer}`
+    );
     fail('internal');
   }
 
   if (status !== 'completed') {
-    logger.error(`Unexpected SendGrid job status ${status}`);
+    logger.error(`Unexpected SendGrid job status "${status}" ${jobLogTrailer}`);
     fail('internal');
   }
 
