@@ -1,7 +1,7 @@
 // https://stackoverflow.com/a/69959606/4973029
 // eslint-disable-next-line import/no-unresolved
 const { FieldValue } = require('firebase-admin/firestore');
-const { config } = require('firebase-functions');
+const { config, logger } = require('firebase-functions');
 const { db } = require('../firebase');
 const stripe = require('../subscriptions/stripe');
 const { deleteContact } = require('../sendgrid/deleteContact');
@@ -36,22 +36,22 @@ exports.cleanupUserOnDelete = async (user) => {
       /** @type {UserPrivate} */
       ((await db.doc(`users-private/${userId}`).get()).data());
   } catch (e) {
-    console.error(`Couldn't fetch users-private data while cleaning up deleted user ${user.uid}`);
+    logger.error(`Couldn't fetch users-private data while cleaning up deleted user ${user.uid}`);
   }
 
   if (!userPrivate) {
-    console.error(`users-private data not existing for user ${user.uid}, this is unexpected`);
+    logger.error(`users-private data not existing for user ${user.uid}, this is unexpected`);
   }
 
   await deleteContact(user, userPrivate);
 
   if (userPrivate && !userPrivate.stripeCustomerId) {
-    console.warn(`No stripe customer ID recorded for the user to be deleted: ${user.uid}`);
+    logger.warn(`No stripe customer ID recorded for the user to be deleted: ${user.uid}`);
   } else if (userPrivate && userPrivate.stripeCustomerId) {
     try {
       await stripe.customers.del(userPrivate.stripeCustomerId);
     } catch (e) {
-      console.error(
+      logger.error(
         `Something went wrong while deleting the Stripe customer ${userPrivate.stripeCustomerId} of Firebase user ${user.uid}`
       );
     }
@@ -72,7 +72,7 @@ exports.cleanupUserOnDelete = async (user) => {
     try {
       await supabase.from('auth').delete().eq('id', userId);
     } catch (ex) {
-      console.error(ex);
+      logger.error(ex);
     }
   }
 
@@ -83,6 +83,6 @@ exports.cleanupUserOnDelete = async (user) => {
       .doc('users')
       .set({ count: FieldValue.increment(-1) }, { merge: true });
   } catch (ex) {
-    console.error(ex);
+    logger.error(ex);
   }
 };

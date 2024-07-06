@@ -1,6 +1,6 @@
-/* eslint-disable camelcase */
 const { disable_contacts } = require('firebase-functions').config().sendgrid;
 const { setTimeout } = require('node:timers/promises');
+const { logger } = require('firebase-functions');
 const {
   sendgrid: sendgridClient,
   SG_WTMG_NEWS_YES_ID,
@@ -9,6 +9,7 @@ const {
 } = require('./sendgrid');
 const fail = require('../util/fail');
 const { db } = require('../firebase');
+const getContactByEmail = require('./getContactByEmail');
 
 /**
  * @typedef {import("../../../src/lib/models/User").UserPrivate} UserPrivate
@@ -30,16 +31,16 @@ const createSendgridContact = async (
   addToNewsletter = false
 ) => {
   if (disable_contacts) {
-    console.warn('Ignoring SendGrid contact creation');
+    logger.warn('Ignoring SendGrid contact creation');
     return;
   }
 
   if (!firebaseUser.email) {
-    console.error('New Firebase users must always have an email address');
+    logger.error('New Firebase users must always have an email address');
     fail('invalid-argument');
   }
 
-  console.info(`Creating new SendGrid contact for uid ${firebaseUser.uid} / ${firebaseUser.email}`);
+  logger.info(`Creating new SendGrid contact for uid ${firebaseUser.uid} / ${firebaseUser.email}`);
   const sendgridContactCreationDetails = {
     email: firebaseUser.email,
     // Set to first name on creation
@@ -72,12 +73,12 @@ const createSendgridContact = async (
       }
     });
     if (statusCode !== 202) {
-      console.error('Unexpected non-erroring SendGrid response when creating a new contact');
+      logger.error('Unexpected non-erroring SendGrid response when creating a new contact');
       fail('internal');
     }
     contactCreationJobId = job_id;
   } catch (e) {
-    console.error(JSON.stringify(e));
+    logger.error(JSON.stringify(e));
     fail('internal');
   }
   // Poll for the status of the creation via its job_id
@@ -85,7 +86,7 @@ const createSendgridContact = async (
    * @type {string | undefined}
    */
   if (!contactCreationJobId) {
-    console.error('Missing SendGrid job ID when creating a new contact');
+    logger.error('Missing SendGrid job ID when creating a new contact');
     fail('internal');
   }
   /** @type {'pending'|'completed'|'errored'|'failed'} */
@@ -125,34 +126,33 @@ const createSendgridContact = async (
   }
 
   if (currentIteration === MAX_ITERATIONS) {
-    console.error(`SendGrid's contact creation job did not complete in a reasonable time`);
+    logger.error(`SendGrid's contact creation job did not complete in a reasonable time`);
     fail('internal');
   }
 
   if (status !== 'completed') {
-    console.error(`Unexpected SendGrid job status ${status}`);
+    logger.error(`Unexpected SendGrid job status ${status}`);
     fail('internal');
   }
 
-  const [{ statusCode: getIdStatusCode }, { result, errors }] = await sendgridClient.request({
-    url: '/v3/marketing/contacts/search/emails',
-    method: 'POST',
-    body: {
-      emails: [firebaseUser.email]
-    }
-  });
-
-  if (getIdStatusCode !== 200 || errors) {
-    console.error('Something went wrong while getting the SendGrid contact ID', errors);
+  if (!firebaseUser.email) {
+    logger.error("SendGrid contact creation: auth user didn't have an email");
     fail('internal');
   }
-  if (!result || !(firebaseUser.email && firebaseUser.email in result)) {
-    console.log('Contact not found in SendGrid!');
+
+  /** @type {SendGrid.ContactDetails} */
+  let contact;
+  try {
+    contact = await getContactByEmail(firebaseUser.email);
+  } catch (e) {
+    logger.error(
+      "Something went wrong while getting the SendGrid contact by email; can't update Firebase users-private doc with SG ID"
+    );
     fail('internal');
   }
 
   // Add the sendgrid contact ID to firebase
-  const { id: contactId } = result[firebaseUser.email].contact;
+  const { id: contactId } = contact;
 
   try {
     await db.doc(`users-private/${firebaseUser.uid}`).update({
@@ -162,7 +162,7 @@ const createSendgridContact = async (
     // NOTE: If the account is deleted < 30 secs after creation, this will
     // lead to an uncaught error (can't update non-existing doc).
     // We're not properly handling this yet, the SendGrid contact might linger due to this race condition.
-    console.error(
+    logger.error(
       "Couldn't update a users-private doc with an initial sendgridId set. Was the account deleted before sendgrid added the contact?",
       e
     );
