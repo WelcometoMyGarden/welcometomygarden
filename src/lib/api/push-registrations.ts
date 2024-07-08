@@ -403,6 +403,12 @@ export const getDeviceUAWithClientHints = async () => {
  * - undefined otherwise
  */
 export const createPushRegistration = async () => {
+
+  /**
+   * Shows an error in a modal with the given description. Also includes user agent information.
+   * @param error
+   * @param specifier HTML string
+   */
   const handleErrorGeneric = (error: unknown, specifier: string) => {
     rootModal.set(
       bind(ErrorModal, {
@@ -413,7 +419,11 @@ export const createPushRegistration = async () => {
     isEnablingLocalPushRegistration.set(false);
   };
 
-  // Optional extra info in English just for us
+  /**
+   * Displays a general-purpose error message related to notifications, with optional extra info.
+   * @param error
+   * @param extraInfo
+   */
   const handleError = (error: unknown, extraInfo?: string) => {
     const errorModalSpecifier = get(t)('push-notifications.error.generic', {
       values: {

@@ -27,7 +27,7 @@ nvm use 16 && yarn run firebase:staging-push
 
 ## Gotchas
 
-- Generally, **service workers** only allowed on HTTP on **localhost**. On other hosts, **HTTPS is required**.
+- Generally, **service workers** are only allowed on HTTP on **localhost**. On other hosts, **HTTPS is required**.
 - Firebase emulator limitations:
   1.  Firebase emulators do not support being served over HTTPS (all)
   2.  Firebase JS SDK emulator connectors do not support _connecting_ to HTTPS-based emulators (all except Auth)

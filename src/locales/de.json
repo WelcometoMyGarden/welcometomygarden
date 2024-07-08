@@ -1496,7 +1496,7 @@
     "error": {
       "permission-denied": "Ihr Browser blockiert derzeit mobile Benachrichtigungen für WTMG. Um Benachrichtigungen zu aktivieren, aktualisieren Sie oder setzen Sie Ihre Browserberechtigungen zurück. Folgen Sie einfach dem {faqLink}. Es dauert nur zwei Minuten!",
       "permission-denied-faq-text": "Anleitungen dazu finden Sie in unseren FAQ",
-      "generic": "Beim Aktivieren mobiler Benachrichtigungen ist ein Fehler aufgetreten. Bitte senden Sie die folgenden Informationen an {emailLink} und wir helfen Ihnen weiter. Vielen Dank!"
+      "generic": "Beim Aktivieren mobiler Benachrichtigungen ist ein Fehler aufgetreten. Können Sie diese Seite aktualisieren und dann erneut versuchen, sie zu aktivieren? Wenn dies nicht funktioniert, senden Sie bitte die folgenden Informationen an {emailLink} und wir helfen Ihnen weiter. Vielen Dank!"
     }
   }
 }

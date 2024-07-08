@@ -1494,7 +1494,7 @@
     "error": {
       "permission-denied": "Actualmente, su navegador está bloqueando las notificaciones móviles de WTMG. Para activar las notificaciones, actualice o restablezca los permisos de su navegador. Simplemente siga el {faqLink}. ¡Solo lleva dos minutos!",
       "permission-denied-faq-text": "instrucciones en nuestras preguntas frecuentes",
-      "generic": "Algo salió mal al activar las notificaciones móviles. Envíe la siguiente información a {emailLink} y le ayudaremos más. ¡Gracias!"
+      "generic": "Algo salió mal al activar las notificaciones móviles. ¿Puedes actualizar esta página e intentar activarlas de nuevo? Si esto no funciona, envíanos la siguiente información a {emailLink} para que podamos ayudarte mejor. ¡Gracias!"
     }
   }
 }

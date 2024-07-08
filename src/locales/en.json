@@ -1509,7 +1509,7 @@
       "permission-denied": "Your browser is currently blocking mobile notifications for WTMG. To turn on notifications, update or reset your browser permissions. Simply follow the {faqLink}. It only takes two minutes!",
       "permission-denied-faq-link": "https://help.welcometomygarden.org/master/1.-mobile-notifications/1.1-android#what-if-my-browser-is-blocking-mobile-notifications-specifically-for-wtmg",
       "permission-denied-faq-text": "instructions in our FAQ",
-      "generic": "Something went wrong while turning on mobile notifications. Please send the information below to {emailLink}, and we will help you further. Thank you!"
+      "generic": "Something went wrong when turning on your mobile notifications. Can you refresh this page and then try turning them on again? If this doesn't work, please send the information below to {emailLink} so we can help you further. Thanks!"
     }
   }
 }

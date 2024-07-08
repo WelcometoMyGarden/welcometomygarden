@@ -1487,7 +1487,7 @@
       "permission-denied-faq-link": "https://aide.welcometomygarden.org/master/1.-notifications-mobiles/1.1.-android#que-faire-si-mon-navigateur-bloque-les-notifications-uniquement-sur-wtmg",
       "permission-denied-faq-text": "les instructions dans notre FAQ",
       "permission-denied": "Votre navigateur bloque actuellement les notifications mobiles pour WTMG. Pour les activer, autorisez les notifications dans votre navigateur. Suivez {faqLink}. Cela ne prend que deux minutes !\"",
-      "generic": "Un problème s'est produit lors de l'activation des notifications mobiles. Envoyez les informations ci-dessous à {emailLink} pour que nous puissions résoudre le problème. Merci !"
+      "generic": "Un problème s’est produit lors de l’activation de vos notifications mobiles. Pouvez-vous actualiser cette page et réessayer de les activer ? Si cela ne fonctionne pas, merci d'envoyer les informations ci-dessous à {emailLink} afin que nous puissions vous aider. Merci !"
     }
   }
 }
