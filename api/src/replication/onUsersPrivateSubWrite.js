@@ -30,7 +30,18 @@ module.exports = async (change, context) => {
       },
       extraDeletionFilters: [['user_id', userId]]
     });
+  } else if (subcollectionTableName === 'trails') {
+    // Special case, because this one needs to explicitly include createTime and updateTime
+    await replicate({
+      change,
+      tableName: subcollectionTableName,
+      pick: ['originalFileName', 'md5Hash', 'visible', 'createTime', 'updateTime'],
+      extraProps: {
+        user_id: userId
+      }
+    });
   } else {
+    // push_registrations
     await replicate({
       change,
       tableName: subcollectionTableName,

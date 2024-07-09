@@ -7,6 +7,6 @@ module.exports = async (change) => {
   await replicate({
     change,
     tableName: 'users_public',
-    pick: ['firstName', 'countryCode', 'superfan', 'savedGardens']
+    pick: ['firstName', 'countryCode', 'superfan', 'savedGardens', 'createTime', 'updateTime']
   });
 };

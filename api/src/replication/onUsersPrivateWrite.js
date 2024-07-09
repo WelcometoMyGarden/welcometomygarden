@@ -16,7 +16,9 @@ module.exports = async (change) => {
       'creationLanguage',
       'sendgridId',
       'stripeCustomerId',
-      'stripeSubscription'
+      'stripeSubscription',
+      'createTime',
+      'updateTime'
     ]
   });
 };

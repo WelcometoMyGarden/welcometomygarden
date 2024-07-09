@@ -8,6 +8,6 @@ module.exports = async (change) => {
     change,
     tableName: 'campsites',
     // Omit photo-related props and legacy props
-    pick: ['description', 'location', 'facilities', 'listed']
+    pick: ['description', 'location', 'facilities', 'listed', 'createTime', 'updateTime']
   });
 };

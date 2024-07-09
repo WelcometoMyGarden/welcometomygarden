@@ -17,12 +17,23 @@ exports.multiplexFirestoreTrigger = (handlers) =>
   );
 
 /**
+ * @param {Timestamp} [t]
+ * @returns {string | null}
+ */
+const timestampToISOString = (t) => {
+  if (t) {
+    return t.toDate().toISOString();
+  }
+  return null;
+};
+
+/**
  * Mapper that converts Firebase timestamps to ISO date strings
  * @returns {[string, any]}
  */
 exports.simpleTimeMapper = ([key, value]) => {
   if (value instanceof Timestamp) {
-    return [key, value.toDate().toISOString()];
+    return [key, timestampToISOString(value)];
   }
   return [key, value];
 };
@@ -45,8 +56,16 @@ exports.mapAuthUser = (user) => ({
 });
 
 /**
+ * Creates a mapper that will convert a Firebase data record into a record suitable for a corresponding SQL table.
+ *
  * @param {(([key, value]) => [string, any] | [string, any][] | null)} mapper
- * @param pick
+ *    This mapper will receive the the raw .data() of a Firebase document, with the internal createTime and updateTime as a base, as key-value pairs.
+ *    - Returning a falsy value will omit the key-value pair from the final object
+ *    - A single key value pair can be mapped onto another key-value pair, for example to rename the
+ *    - A single key value pair can be mapped onto multiple key-value pairs, which will be flattened in the final object.
+ * @param {string[]} [pick] a subset of keys to consider from the original Firebase record.
+ *      Note that createTime and updateTime are by default NOT picked, and must be included in this array for them to end up
+ *      in the final object.
  * @returns
  */
 const createDataMapper = (mapper, pick) => (data) =>
@@ -54,8 +73,12 @@ const createDataMapper = (mapper, pick) => (data) =>
     Object.entries(data)
       .map((d) => {
         const [key] = d;
-        // Omit non-picked values when pick is specified
-        if (pick && Array.isArray(pick) && !pick.includes(key)) {
+        if (
+          // Omit non-picked values when pick is specified
+          (pick && Array.isArray(pick) && !pick.includes(key)) ||
+          // Always exclude createTime and updateTime when they are not explicitly picked
+          (!pick && (key === 'createTime' || key === 'updateTime'))
+        ) {
           return null;
         }
         return mapper(this.simpleTimeMapper(d));
@@ -73,9 +96,11 @@ exports.createDataMapper = createDataMapper;
  * @prop {string} tableName the target table name in Supabase
  * @prop {(([key, value]) => [string, any] | [string, any][])} [dataMapper] mapper to map the KV pairs of the source Firestore document,
  *  it should return a (collection of) equivalent KV pairs compatible with the schema of the Supabase db.
- * @prop {Record<string, any>} [extraProps] extra props to add to the inserted document
- * @prop {string[]} [pick] subset of Firestore document properties to preserve
- * @prop {string[][]} [extraDeletionFilters] extra filters that should be applied for deletion changes, when the `id` column alone does not
+ * @prop {Record<string, any>} [extraProps] extra contextual props to add to the inserted document. These are not passed to the mapper, and do not have to be picked.
+ * @prop {string[]} [pick] subset of Firestore document properties to preserve.
+ *  Does not have to include 'id', since that is taken automatically from the Firebase document ID.
+ *  Must be supplied with values for createTime and updateTime if these internal Firebase properties should be be synced with the SQL table
+ * @prop {string[][]} [extraDeletionFilters] extra identifying conditions that should be applied for deletion changes, when the `id` column alone does not
  *  uniquely represent the (composite) primary key of the table. These extra filters should "fill in" the primary key.
  */
 
@@ -103,7 +128,13 @@ exports.replicate = async (options) => {
         .from(tableName)
         .upsert({
           id: after.id,
-          ...createDataMapper(dataMapper, pick)(after.data()),
+          ...createDataMapper(
+            dataMapper,
+            pick
+          )({
+            ..._.mapValues(_.pick(after, 'createTime', 'updateTime'), timestampToISOString),
+            ...after.data()
+          }),
           ...extraProps
         })
         .select();
