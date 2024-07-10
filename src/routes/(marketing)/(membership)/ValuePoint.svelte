@@ -6,16 +6,20 @@
   export let imgPath: unknown[] | undefined;
   export let title: string;
   export let border = false;
+  /**
+   * Whether to contain the asset, or cover it
+   */
+  export let contain = false;
 </script>
 
-<li class="value-prop" class:border>
+<li class="value-prop" class:border class:contain>
   <p class="title">
     <span class="checkmark">✅</span>
     <span>{@html title}</span>
   </p>
   <!-- TODO: define sizes & alt-->
   {#if imgPath}
-    <Img src={imgPath} sizes="" />
+    <Img src={imgPath} sizes="" class="value-pic" />
   {/if}
 </li>
 
@@ -41,6 +45,10 @@
   .border > :global(picture > img) {
     height: 100%;
     object-fit: cover;
+  }
+
+  .value-prop.contain :global(picture > img.value-pic) {
+    object-fit: contain;
   }
 
   .border > p {
