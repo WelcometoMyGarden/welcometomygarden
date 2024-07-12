@@ -88,9 +88,12 @@ describe('the server-side message sending function `sendMessageFromEmail` ', () 
 });
 
 describe('the inbound email parser', () => {
-  it('correctly parses a well-formatted plaintext email without HTML text', async () => {
-    const parsed = parseUnpackedInboundEmail({
-      text: `All good. Im there already. Take your time
+  // An example of happy path multipart/formdata converted to parser json input
+  /**
+   * @type {SendGrid.UnpackedInboundRequest}
+   */
+  const validFields = {
+    text: `All good. Im there already. Take your time
 
 Welcome To My Garden <support@welcometomygarden.org> schrieb am Di., 18.
 Juni 2024, 18:56:
@@ -117,11 +120,13 @@ Juni 2024, 18:56:
 > Would you rather not receive emails from us? *Unsubscribe*
 > <https://welcometomygarden.org/account>.
 >`,
-      from: 'Alex Test <testemail@gmail.com>',
-      envelope: '{"to":["reply@parse.testparse"],"from":"testemail@gmail.com"}',
-      dkim: '{@gmail.com : pass}',
-      sender_ip: '209.85.208.46'
-    });
+    from: 'Alex Test <testemail@gmail.com>',
+    envelope: '{"to":["reply@parse.testparse"],"from":"testemail@gmail.com"}',
+    dkim: '{@gmail.com : pass}',
+    sender_ip: '209.85.208.46'
+  };
+  it('correctly parses a well-formatted plaintext email without HTML text', async () => {
+    const parsed = parseUnpackedInboundEmail(validFields);
 
     assert.strictEqual(
       // TODO: this pass actually shows a Crisp parser limitation
@@ -155,5 +160,14 @@ TestHost
 Verstuurd vanaf mijn iPhone`
     );
     assert.strictEqual(parsed.chatId, '59sd12zTmJJhDFSQfP');
+  });
+
+  it('is not case sensitive when comparing email addresses in DKIM verification results', () => {
+    assert.doesNotThrow(() =>
+      parseUnpackedInboundEmail({
+        ...validFields,
+        dkim: '{@GMAIL.COM : pass}'
+      })
+    );
   });
 });

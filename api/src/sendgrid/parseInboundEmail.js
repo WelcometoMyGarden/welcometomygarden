@@ -13,34 +13,16 @@ const { auth, db } = require('../firebase');
 const { sendPlausibleEvent } = require('../util/plausible');
 
 /**
- * @typedef {{
- *    text?: string,
- *    html?: string,
- *    envelope?: string,
- *    from?: string,
- *    dkim?: string,
- *    sender_ip?: string
- * }} UnpackedInboundRequest
- */
-
-/**
  *
  * See https://docs.sendgrid.com/for-developers/parsing-email/setting-up-the-inbound-parse-webhook
  * We use the non-raw webhook.
  * @param {import('express').Request} req
- * @returns {{
- *    text?: string,
- *    html?: string,
- *    envelope?: string,
- *    from?: string,
- *    dkim?: string,
- *    sender_ip?: string
- * }}
+ * @returns {SendGrid.UnpackedInboundRequest}
  */
 const unpackInboundEmailRequest = (req) => {
   const keysToUnpack = ['text', 'html', 'envelope', 'from', 'dkim', 'sender_ip'];
   /**
-   * @type {UnpackedInboundRequest}
+   * @type {SendGrid.UnpackedInboundRequest}
    */
   const response = {};
   // Parse email text
@@ -76,19 +58,8 @@ const unpackInboundEmailRequest = (req) => {
 /**
  * See https://docs.sendgrid.com/for-developers/parsing-email/setting-up-the-inbound-parse-webhook
  * We use the non-raw webhook.
- * @param {UnpackedInboundRequest} unpackedInboundRequest
- * @returns {{
- *  envelopeFromEmail?: string,
- *  headerFrom?: addrparser.Address,
- *  responseText?: string,
- *  chatId?: string,
- *  dkimResult: {
- *    host?: string,
- *    result?: string
- *  },
- *  senderIP?: string,
- *  html?: string
- * }}
+ * @param {SendGrid.UnpackedInboundRequest} unpackedInboundRequest
+ * @returns {SendGrid.ParsedInboundRequest}
  */
 exports.parseUnpackedInboundEmail = (unpackedInboundRequest) => {
   const {
@@ -113,6 +84,9 @@ exports.parseUnpackedInboundEmail = (unpackedInboundRequest) => {
    * @type {addrparser.Address | undefined}
    */
   let headerFrom;
+  /**
+   * @type {SendGrid.ParsedInboundRequest['dkimResult']}
+   */
   let dkimResult = {};
 
   // Pre-parse metadata
@@ -126,6 +100,7 @@ exports.parseUnpackedInboundEmail = (unpackedInboundRequest) => {
     if (dkim) {
       // This format isn't really documented, so we can't know how multiple signatures will appear... Example observed values are (on each line):
       // {@gmail.com : pass}
+      // {@HOTMAIL.BE : pass}
       // none
       //
       if (dkim.trim() === 'none') {
@@ -134,7 +109,7 @@ exports.parseUnpackedInboundEmail = (unpackedInboundRequest) => {
         // TODO: this will only support one DKIM signature, since the regex doesn't iterate. There might be multiple.
         const [, host, result] = /@([^\s]+?)\s:\s(pass|fail)/.exec(dkim) || [];
         dkimResult = {
-          host,
+          host: host.toLowerCase(),
           result
         };
       }
@@ -258,7 +233,8 @@ exports.parseInboundEmail = async (req, res) => {
 
     //
     // Check DKIM: host must be verified, header host must match verified host
-    const headerFromHost = headerFrom.host();
+    // Lowercase normalized for reliable matching with `dkimResult.host`
+    const headerFromHost = headerFrom.host()?.toLowerCase();
     if (dkimResult.result !== 'pass' || headerFromHost !== dkimResult.host) {
       throw new Error('Email error: DKIM verification problem');
     }
