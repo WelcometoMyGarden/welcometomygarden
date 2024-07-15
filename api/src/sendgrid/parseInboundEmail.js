@@ -129,15 +129,19 @@ exports.parseUnpackedInboundEmail = (unpackedInboundRequest) => {
     return [parsedEmail.getVisibleText().trim(), parsedEmail.getQuotedText()];
   }
   try {
-    // Attempt parsing plain text if it exists
-    if (emailPlainText?.trim()) {
-      [responsePlainText, quotedPlainText] = parsePlainTextEmail(emailPlainText);
-    } else if (html) {
-      logger.debug('Deriving plain text from HTML');
+    if (html) {
+      // First try converting HTML to plain text. This has proven to result in more sensible/readable/separated
+      // spacing and newlines between paragraphs compared to the "native" text/plain given by mail agents/clients,
+      // which also makes it more compatible with email-reply-parser.
+      // Example: native plain text tends to combine different quote header parts onto one line;
+      // like "--- Original message ---From abc <abc@abc.org> ..."
+      // which results in email-reply-parser detecting neither of the parts, which it would have detected if separated.
       const convertedPlainText = htmlToText(html, { wordwrap: null });
       [responsePlainText, quotedPlainText] = parsePlainTextEmail(convertedPlainText);
+    } else if (emailPlainText?.trim()) {
+      logger.debug('No HTML text, parsing plain text directly');
+      [responsePlainText, quotedPlainText] = parsePlainTextEmail(emailPlainText);
     }
-
     // Find the chat ID from the quoted text
     //
     // This regex assumes a delimiter like > ] or " at the end
