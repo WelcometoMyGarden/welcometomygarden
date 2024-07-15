@@ -3092,12 +3092,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"email-reply-parser@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "email-reply-parser@npm:1.6.0"
+"email-reply-parser@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "email-reply-parser@npm:1.8.0"
   dependencies:
-    re2: 1.20.7
-  checksum: 0d5c4c900739926746e49558656f034fa7b60e7b2dac8f846655b418979e82c02fbbd1fac0feaa337f3c44252c962e582c8f40e0ac2e4387ce33ffbee3e97f8a
+    re2: 1.21.3
+  checksum: 8d74cdfd068713789434b55a6f62370eee85cb811663f187277839bd908fe40212df6fcdac7529d76e4db403e68d26e9113792de8b370e221029c3ad16633794
   languageName: node
   linkType: hard
 
@@ -3966,7 +3966,7 @@ __metadata:
     "@types/luxon": ^3.4.2
     address-rfc2822: ^2.2.2
     busboy: ^1.6.0
-    email-reply-parser: ^1.6.0
+    email-reply-parser: ^1.8.0
     es6-promise-pool: ^2.5.0
     eslint: ^8.29.0
     eslint-config-airbnb: ^19.0.4
@@ -4449,7 +4449,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"install-artifact-from-github@npm:^1.3.3":
+"install-artifact-from-github@npm:^1.3.5":
   version: 1.3.5
   resolution: "install-artifact-from-github@npm:1.3.5"
   bin:
@@ -5497,12 +5497,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nan@npm:^2.18.0":
-  version: 2.19.0
-  resolution: "nan@npm:2.19.0"
+"nan@npm:^2.20.0":
+  version: 2.20.0
+  resolution: "nan@npm:2.20.0"
   dependencies:
     node-gyp: latest
-  checksum: 29a894a003c1954c250d690768c30e69cd91017e2e5eb21b294380f7cace425559508f5ffe3e329a751307140b0bd02f83af040740fa4def1a3869be6af39600
+  checksum: eb09286e6c238a3582db4d88c875db73e9b5ab35f60306090acd2f3acae21696c9b653368b4a0e32abcef64ee304a923d6223acaddd16169e5eaaf5c508fb533
   languageName: node
   linkType: hard
 
@@ -5554,7 +5554,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-gyp@npm:^10.0.1, node-gyp@npm:latest":
+"node-gyp@npm:^10.1.0":
+  version: 10.2.0
+  resolution: "node-gyp@npm:10.2.0"
+  dependencies:
+    env-paths: ^2.2.0
+    exponential-backoff: ^3.1.1
+    glob: ^10.3.10
+    graceful-fs: ^4.2.6
+    make-fetch-happen: ^13.0.0
+    nopt: ^7.0.0
+    proc-log: ^4.1.0
+    semver: ^7.3.5
+    tar: ^6.2.1
+    which: ^4.0.0
+  bin:
+    node-gyp: bin/node-gyp.js
+  checksum: 0233759d8c19765f7fdc259a35eb046ad86c3d09e22f7384613ae2b89647dd27fcf833fdf5293d9335041e91f9b1c539494225959cdb312a5c8080b7534b926f
+  languageName: node
+  linkType: hard
+
+"node-gyp@npm:latest":
   version: 10.1.0
   resolution: "node-gyp@npm:10.1.0"
   dependencies:
@@ -5895,6 +5915,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"proc-log@npm:^4.1.0":
+  version: 4.2.0
+  resolution: "proc-log@npm:4.2.0"
+  checksum: 98f6cd012d54b5334144c5255ecb941ee171744f45fca8b43b58ae5a0c1af07352475f481cadd9848e7f0250376ee584f6aa0951a856ff8f021bdfbff4eb33fc
+  languageName: node
+  linkType: hard
+
 "promise-retry@npm:^2.0.1":
   version: 2.0.1
   resolution: "promise-retry@npm:2.0.1"
@@ -6065,14 +6092,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"re2@npm:1.20.7":
-  version: 1.20.7
-  resolution: "re2@npm:1.20.7"
+"re2@npm:1.21.3":
+  version: 1.21.3
+  resolution: "re2@npm:1.21.3"
   dependencies:
-    install-artifact-from-github: ^1.3.3
-    nan: ^2.18.0
-    node-gyp: ^10.0.1
-  checksum: d4d287af1d1d58e8386c72898f4451042ede0a2558bd2ad6cd9f88478151d25adbce4893806c47a0cf27cf13cbc51275f1a2b1bc9beaf39acd57b389de69e3e0
+    install-artifact-from-github: ^1.3.5
+    nan: ^2.20.0
+    node-gyp: ^10.1.0
+  checksum: bb627d70e49902461029a070e4836ef0ec1b5fa875f3bf7d0e3308b8a2a04a3a4a34f9402f4e82d3285c80c54aa278b5f9d59f9b685790fae34ca4337cd31dd9
   languageName: node
   linkType: hard
 
@@ -6696,7 +6723,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tar@npm:^6.1.11, tar@npm:^6.1.2":
+"tar@npm:^6.1.11, tar@npm:^6.1.2, tar@npm:^6.2.1":
   version: 6.2.1
   resolution: "tar@npm:6.2.1"
   dependencies:
