@@ -2,10 +2,15 @@ const PROJECT_NAME = 'demo-test';
 
 exports.PROJECT_NAME = PROJECT_NAME;
 
-// eslint-disable-next-line no-unused-vars
-const logger = (_) => () => {};
+// eslint-disable-next-line no-unused-vars, no-console
+const logger = (type) => (msg) => console.log(`${type}: ${msg}`);
 exports.logger = logger;
-exports.loggerStub = { error: logger('error'), log: logger('log') };
+exports.loggerStub = {
+  error: logger('error'),
+  log: logger('log'),
+  info: logger('info'),
+  debug: logger('debug')
+};
 
 exports.clearAuth = async function () {
   const deleteURL = `http://127.0.0.1:9099/emulator/v1/projects/${PROJECT_NAME}/accounts`;

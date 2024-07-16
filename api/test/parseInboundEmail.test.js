@@ -1,11 +1,13 @@
 const assert = require('node:assert');
+const proxyquire = require('proxyquire');
 const { readFile } = require('node:fs/promises');
 const { resolve } = require('node:path');
+const sinon = require('sinon');
 const simpleSeed = require('../seeders/simple');
 const { db } = require('../seeders/app');
-const { createChat } = require('../seeders/util');
+const { createChat, createNewUser } = require('../seeders/util');
 const { sendMessageFromEmail } = require('../src/chat');
-const { clearAuth, clearFirestore } = require('./util');
+const { clearAuth, clearFirestore, loggerStub } = require('./util');
 const { parseUnpackedInboundEmail } = require('../src/sendgrid/parseInboundEmail');
 
 const pauseForManualCheck = async () => {
@@ -26,7 +28,7 @@ describe('the server-side message sending function `sendMessageFromEmail` ', () 
 
   const validTestMessage = 'This is an email response function test';
 
-  it('sends a valid message correctly', async function () {
+  it('sends a valid message correctly', async () => {
     await sendMessageFromEmail({
       chatId: secondChatId,
       fromEmail: 'user1@slowby.travel',
@@ -44,7 +46,7 @@ describe('the server-side message sending function `sendMessageFromEmail` ', () 
     // await pauseForManualCheck()
   });
 
-  it('throws when a non-existent email is used', async function () {
+  it('throws when a non-existent email is used', async () => {
     await assert.rejects(
       sendMessageFromEmail({
         chatId: secondChatId,
@@ -79,6 +81,67 @@ describe('the server-side message sending function `sendMessageFromEmail` ', () 
         message: validTestMessage
       })
     );
+  });
+
+  it('finds users by their equivalent gmail.com/googlemail.com address & sends a message', async () => {
+    const canonicalGmailEmail = 'testuser@gmail.com';
+    // 1. Create a user with gmail address (see renewal tests) & send a chat to them
+    const gmailUser = await createNewUser(
+      { email: canonicalGmailEmail },
+      {
+        countryCode: 'BE',
+        superfan: true,
+        firstName: 'Gmail',
+        lastName: 'Test',
+        communicationLanguage: 'en'
+      }
+    );
+    const {
+      users: [user1]
+    } = seedResult;
+    const chatId = await createChat(
+      user1.uid,
+      gmailUser.uid,
+      'This is a chat from user 1to gmailuser'
+    );
+
+    // 2. Override supabase.rpc using proxyquire to give a sample equivalent result
+    const supabaseRpcFake = sinon.fake.resolves({
+      error: null,
+      data: /** @type {Supabase.GetGmailNormalizedEmailResponse} */ ({
+        id: gmailUser.uid,
+        email: canonicalGmailEmail,
+        normalized_gmail_handle: 'testuser',
+        email_verified: true
+      })
+    });
+    const { sendMessageFromEmail: sendMessageFromEmailTest } = proxyquire('../src/chat.js', {
+      './supabase': {
+        rpc: supabaseRpcFake
+      },
+      // override config(). to force-enable replication
+      'firebase-functions': {
+        config: () => ({ supabase: { disable_replication: false } }),
+        logger: loggerStub
+      }
+    });
+
+    const testReply = 'Hello this is a test reply from gmailUser!';
+
+    // 3.Send a test message to an equivalent email
+    await sendMessageFromEmailTest({
+      chatId,
+      message: testReply,
+      // Send from an equivalent, but not equal mail
+      fromEmail: 't.est.user@gmail.com'
+    });
+
+    // 4. assert the method being called and the message being equal (see first)
+    sinon.assert.calledOnce(supabaseRpcFake);
+    const lastMessage = (
+      await db.collection(`chats/${chatId}/messages`).orderBy('createdAt', 'desc').get()
+    ).docs[0];
+    assert.strictEqual(lastMessage.data().content, testReply);
   });
 
   afterEach(async () => {

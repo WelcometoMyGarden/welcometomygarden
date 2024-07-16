@@ -8,6 +8,9 @@ const removeEndingSlash = require('./util/removeEndingSlash');
 const { auth, db } = require('./firebase');
 const { sendNotification } = require('./push');
 const fail = require('./util/fail');
+const supabase = require('./supabase');
+
+const shouldReplicate = !config().supabase?.disable_replication;
 
 exports.MAX_MESSAGE_LENGTH = 800;
 
@@ -191,30 +194,59 @@ exports.onChatCreate = async () => {
  * Note: the fromEmail should be verified, message can't be undefined.
  * @param {{chatId: string, message: string, fromEmail: string}} params
  */
-exports.sendMessageFromEmail = async function (params) {
-  const { chatId, message, fromEmail } = params;
+exports.sendMessageFromEmail = async function sendMessageFromEmail(params) {
+  const { chatId, message, fromEmail: fromEmailRaw } = params;
 
+  const fromEmail = fromEmailRaw.toLowerCase();
   const chatRef = `chats/${chatId}`;
 
-  const getUser = async () => {
+  const getUserId = async () => {
     try {
-      return await auth.getUserByEmail(fromEmail);
+      return (await auth.getUserByEmail(fromEmail)).uid;
     } catch (e) {
+      if (shouldReplicate && fromEmail.match(/@(?:gmail|googlemail)\.com$/)) {
+        /** @type {{error: import('@supabase/supabase-js').PostgrestError, data: Supabase.GetGmailNormalizedEmailResponse}} */
+        const {
+          error,
+          data: { id, email, email_verified }
+        } = await supabase.rpc('get_gmail_normalized_email', fromEmail);
+        if (error || id == null) {
+          logger.error(
+            `Email error: couldn't find the user for email address ${fromEmail} in Firebase Auth or Supabase equivalents.`
+          );
+          throw error;
+        }
+        // A match was found
+        if (!email_verified) {
+          // Note: maybe we should filter only for verified emails in the query.
+          // Stll, we shouldn't end up here, because hosts shouldn't be able to add a garden without verification,
+          // and travellers can't send an initial message without verification.
+          logger.error(
+            `Email error: found equivalent email match (input: ${fromEmail}, canonical: ${email}) but the email wasn't verified, this shouldn't happen.`
+          );
+          throw new Error('Unverified equivalent email');
+        }
+        logger.info(
+          `Found Gmail equivalent email via Supabase; input: ${fromEmail}, canonical: ${email}`
+        );
+        return id;
+      }
+      // No possibility to find equivalent emails, give up
       logger.error(
-        `Email error: couldn't find the user for email address ${fromEmail}, can't send message.`
+        `Email error: couldn't find the user for email address ${fromEmail} using Firebase Auth`
       );
       throw e;
     }
   };
 
   // Fetch the user & chat concurrently
-  const [fromUser, chat] = await Promise.all([getUser(), getChat(chatId)]);
+  const [fromUserId, chat] = await Promise.all([getUserId(), getChat(chatId)]);
 
   // Verify that the user is in the chat (to prevent maliciously spoofed/modified email)
-  const userIsInChat = chat.users.find((uid) => fromUser.uid === uid);
+  const userIsInChat = chat.users.find((uid) => fromUserId === uid);
   if (!userIsInChat) {
     throw new Error(
-      `Email error: The user matching the 'from' email address ${fromEmail} is not part of the chat ${chatId}`
+      `Email error: The user ${fromUserId} matching the 'from' email address ${fromEmail} is not part of the chat ${chatId}`
     );
   }
 
@@ -222,13 +254,13 @@ exports.sendMessageFromEmail = async function (params) {
   await db.collection(`${chatRef}/messages`).doc().create({
     content: message,
     createdAt: Timestamp.now(),
-    from: fromUser.uid
+    from: fromUserId
   });
 
   await db.doc(chatRef).update({
     lastActivity: Timestamp.now(),
     lastMessage: message,
     lastMessageSeen: false,
-    lastMessageSender: fromUser.uid
+    lastMessageSender: fromUserId
   });
 };
