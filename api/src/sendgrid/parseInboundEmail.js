@@ -136,7 +136,14 @@ exports.parseUnpackedInboundEmail = (unpackedInboundRequest) => {
       // Example: native plain text tends to combine different quote header parts onto one line;
       // like "--- Original message ---From abc <abc@abc.org> ..."
       // which results in email-reply-parser detecting neither of the parts, which it would have detected if separated.
-      const convertedPlainText = htmlToText(html, { wordwrap: null });
+      const convertedPlainText = htmlToText(html, {
+        wordwrap: null,
+        // Include &nbsp; \u00a0 in whitespace chars, so it gets converted to normal space. i
+        // It may appear in /Gmail 'écrit :'. The RE2's \s matcher in email-reply-parser
+        // doesn't match an un-normalized &nbsp; otherwise.
+        // Alternative fix would be a replace-all in email-reply-parser.
+        whitespaceCharacters: ' \t\r\n\f\u200b\u00a0'
+      });
       [responsePlainText, quotedPlainText] = parsePlainTextEmail(convertedPlainText);
     } else if (emailPlainText?.trim()) {
       logger.debug('No HTML text, parsing plain text directly');
