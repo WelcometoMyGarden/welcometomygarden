@@ -2,9 +2,10 @@
 const { lxHourStart } = require('../../util/time');
 const { sendSubscriptionRenewalReminderEmail } = require('../../mail');
 const { FIRST_REMINDER_EMAIL_DELAY_DAYS, processUserPrivateDocs } = require('./shared');
+const { wtmgPriceIdToPrice } = require('../stripeEventHandlers/util');
 
 /**
- * @param {import('firebase-admin').firestore.QueryDocumentSnapshot[]} docs candidate documents with an open last invoice and start date over 1 year ago
+ * @param {import('firebase-admin').firestore.QueryDocumentSnapshot<Firebase.UserPrivate>[]} docs candidate documents with an open last invoice and start date over 1 year ago
  */
 module.exports = async (docs) => {
   // Further filtering
@@ -27,12 +28,15 @@ module.exports = async (docs) => {
   await processUserPrivateDocs(
     filteredDocs,
     async (combinedUser) => {
+      // Rounded euro price of the price ID
+      const price = wtmgPriceIdToPrice[combinedUser.stripeSubscription?.priceId];
       // Send renewal invoice email
       await sendSubscriptionRenewalReminderEmail({
         email: combinedUser.email,
         firstName: combinedUser.displayName,
         renewalLink: combinedUser.stripeSubscription.renewalInvoiceLink,
-        language: combinedUser.communicationLanguage
+        language: combinedUser.communicationLanguage,
+        price
       });
     },
     'Sending renewal reminder emails'

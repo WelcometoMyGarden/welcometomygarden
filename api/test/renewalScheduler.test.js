@@ -10,6 +10,7 @@ const sinon = require('sinon');
 //
 // beforeEach really runs before each test, also before nested tests
 
+const { config } = require('firebase-functions');
 const { auth } = require('../seeders/app');
 const { createNewUser } = require('../seeders/util');
 const mail = require('../src/mail');
@@ -107,6 +108,8 @@ describe('renewal reminder email', () => {
   });
 
   it('sends the right reminder email', async () => {
+    // 36 eur price ID
+    const priceId = config().stripe.price_ids.reduced;
     const docProps = {
       countryCode: 'BE',
       superfan: true,
@@ -115,6 +118,7 @@ describe('renewal reminder email', () => {
       communicationLanguage: 'nl',
       stripeSubscription: {
         status: 'past_due',
+        priceId,
         latestInvoiceStatus: 'open',
         cancelAt: null,
         renewalInvoiceLink: 'https://welcometomygarden.org/testsubscriptionlink',
@@ -141,7 +145,8 @@ describe('renewal reminder email', () => {
       email: authProps.email,
       firstName: authProps.displayName,
       renewalLink: docProps.stripeSubscription.renewalInvoiceLink,
-      language: docProps.communicationLanguage
+      language: docProps.communicationLanguage,
+      price: 36
     });
   });
 });

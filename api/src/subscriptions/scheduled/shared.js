@@ -18,6 +18,16 @@ exports.userPrivateDocIds = (docs) => {
     .join(', ');
 };
 
+/**
+ * Processes the given users-private snapshot by first enriching them with Firebase Auth data,
+ * and then calling the user-provided function.
+ * Returns for the user when the combined user when the function call succeeds.
+ * Returns null for the user when the user Auth data can't be found, or the function call fails.
+ *
+ * @param {import('firebase-admin/firestore').DocumentSnapshot<Firebase.UserPrivate>[]} userPrivateDocs
+ * @param {(combinedUser: {id: string} & Omit<Firebase.UserRecord, 'toJSON'> & Firebase.UserPrivate ) => void} processFn
+ * @param {string} processDescription
+ */
 exports.processUserPrivateDocs = async (userPrivateDocs, processFn, processDescription) => {
   const results = await Promise.all(
     userPrivateDocs.map(async (userPrivateDoc) => {

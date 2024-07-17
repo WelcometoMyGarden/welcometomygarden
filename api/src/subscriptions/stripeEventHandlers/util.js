@@ -6,6 +6,16 @@ const wtmgPriceIds = Object.values(priceIdsObj);
 
 exports.wtmgPriceIds = wtmgPriceIds;
 
+/**
+ * @type {{[key: string]: number}}
+ */
+exports.wtmgPriceIdToPrice = Object.fromEntries(
+  Object.entries(priceIdsObj).map(([key, priceId]) => [
+    priceId,
+    { reduced: 36, normal: 60, solidarity: 120 }[key]
+  ])
+);
+
 function isWTMGPriceId(priceId) {
   return wtmgPriceIds.includes(priceId);
 }

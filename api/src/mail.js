@@ -284,12 +284,11 @@ exports.sendSubscriptionRenewalEmail = (config) => {
 };
 
 /**
- * This email doesn't mention a price, but is otherwise equal to the renewal email.
- * @param {Omit<SubscriptionRenewalConfig, 'price'>} config
+ * @param {SubscriptionRenewalConfig} config
  * @returns
  */
 exports.sendSubscriptionRenewalReminderEmail = (config) => {
-  const { email, firstName, renewalLink, language } = config;
+  const { email, firstName, renewalLink, language, price } = config;
   let templateId;
   switch (language) {
     case 'fr':
@@ -309,7 +308,8 @@ exports.sendSubscriptionRenewalReminderEmail = (config) => {
     templateId,
     dynamic_template_data: {
       firstName,
-      renewalLink
+      renewalLink,
+      price
     }
   };
 
