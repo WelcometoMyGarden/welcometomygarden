@@ -3,6 +3,12 @@ on:
   push:
     branches:
       - beta
+    paths-ignore:
+      - api/**
+      - docs/**
+      - README.md
+      - CONTRIBUTING.md
+      - SECURITY.md
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
@@ -37,8 +43,8 @@ jobs:
         run: yarn run build:prod
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_PRODUCTION }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_PRODUCTION }}"
           channelId: live
           projectId: wtmg-production
           target: beta

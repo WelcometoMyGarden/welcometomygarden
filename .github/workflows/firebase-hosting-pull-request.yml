@@ -1,8 +1,16 @@
 name: Deploy to Firebase Hosting on PR
-on: pull_request
+on:
+  pull_request:
+    # This might happen https://github.com/actions/runner/issues/2324
+    paths-ignore:
+      - api/**
+      - docs/**
+      - README.md
+      - CONTRIBUTING.md
+      - SECURITY.md
 jobs:
   build_and_preview:
-    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+    if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
     runs-on: ubuntu-latest
     environment: staging
     env:
@@ -33,7 +41,7 @@ jobs:
         run: yarn run build:staging
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_DEV }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_DEV }}"
           projectId: wtmg-dev
           target: beta
