@@ -7,7 +7,7 @@ module.exports = async (change) => {
   await replicate({
     change,
     tableName: 'campsites',
-    // Omit photo-related props and legacy props
-    pick: ['description', 'location', 'facilities', 'listed', 'createTime', 'updateTime']
+    // Omit legacy props
+    pick: ['description', 'location', 'facilities', 'listed', 'createTime', 'updateTime', 'photo']
   });
 };

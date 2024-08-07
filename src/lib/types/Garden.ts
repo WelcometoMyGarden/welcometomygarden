@@ -14,6 +14,9 @@ export type Garden = {
    */
   location: null | LongLat;
   facilities: GardenFacilities;
+  /**
+   * The data of this is most often: 'garden.jpg', 'garden.JPG', 'garden.JPEG', ...
+   */
   photo:
     | {
         files?: null | File | File[];
