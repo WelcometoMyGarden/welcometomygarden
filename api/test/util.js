@@ -12,6 +12,13 @@ exports.loggerStub = {
   debug: logger('debug')
 };
 
+exports.wait = (timeout = 1000) =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, timeout);
+  });
+
 exports.clearAuth = async function () {
   const deleteURL = `http://127.0.0.1:9099/emulator/v1/projects/${PROJECT_NAME}/accounts`;
   return fetch(deleteURL, { method: 'DELETE' });

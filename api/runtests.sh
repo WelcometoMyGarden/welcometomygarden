@@ -1,2 +1,1 @@
-# called from ./api
-node_modules/.bin/mocha -w
+node_modules/.bin/mocha -w -f onCampsitesWrite
