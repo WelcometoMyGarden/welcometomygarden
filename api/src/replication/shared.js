@@ -96,7 +96,7 @@ exports.createDataMapper = createDataMapper;
  * @prop {string} tableName the target table name in Supabase
  * @prop {(([key, value]) => [string, any] | [string, any][])} [dataMapper] mapper to map the KV pairs of the source Firestore document,
  *  it should return a (collection of) equivalent KV pairs compatible with the schema of the Supabase db.
- * @prop {Record<string, any>} [extraProps] extra contextual props to add to the inserted document. These are not passed to the mapper, and do not have to be picked.
+ * @prop {Record<string, any>} [extraProps] extra contextual props to add to the inserted document. These are not passed to the mapper, and do not have to be picked. They will overwrite mapped data.
  * @prop {string[]} [pick] subset of Firestore document properties to preserve.
  *  Does not have to include 'id', since that is taken automatically from the Firebase document ID.
  *  Must be supplied with values for createTime and updateTime if these internal Firebase properties should be be synced with the SQL table

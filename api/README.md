@@ -136,6 +136,12 @@ This example (run from the `api` folder) runs tests in the group that includes t
 echo "node_modules/.bin/mocha -f sendMessageFromEmail" > runtests.sh && firebase --project demo-test emulators:exec --only auth,firestore --ui ./runtests.sh
 ```
 
+Or, when functions or Firestore triggers should also be tested:
+
+```
+echo "node_modules/.bin/mocha -w -f onCampsitesWrite" > runtests.sh && firebase --project demo-test emulators:exec --only auth,firestore,functions --ui ./runtests.sh
+```
+
 Some unit tests can be run without starting firebase emulators, because they don't have Firebase dependencies, or their dependencies (like `logger` in from `functions-framework`) work standalone.
 
 ```

@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase/firestore';
+
 export type Garden = {
   /**
    * @deprecated Ignore this property, we should eventually remove it.
@@ -27,6 +29,24 @@ export type Garden = {
     | string[];
   previousPhotoId?: unknown;
   listed: boolean;
+  /**
+   * When the listed property boolean garden was last changed.
+   * Undefined or null when the garden was never changed (after creation it will always be "true").
+   * This thus shows the last time a garden was unlisted or relisted.
+   *
+   * Guaranteed to equal `latestRemovedAt` when the last unlisting was due to removal.
+   * @since 2024-08-11
+   */
+  latestListedChangeAt?: Timestamp;
+  /**
+   * When this campsite was last removed from the map by administration, or inactive cleanup processes.
+   * @since 2024-08-11
+   */
+  latestRemovedAt?: Timestamp;
+  /** When the host was last sent an email to remind them that being active is important.
+   * @since 2024-08-11
+   */
+  latestWarningForInactivityAt?: Timestamp;
   /**
    * @deprecated A property lingering around from the starting days of WTMG, we should remove it.
    * Gardens were first part of a Google Form/Sheet, which was displayed on a uMap.
