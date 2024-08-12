@@ -10,7 +10,7 @@ const { sendNotification } = require('./push');
 const fail = require('./util/fail');
 const supabase = require('./supabase');
 
-const shouldReplicate = !config().supabase?.disable_replication;
+const { shouldReplicate } = require('./sharedConfig');
 
 exports.MAX_MESSAGE_LENGTH = 800;
 

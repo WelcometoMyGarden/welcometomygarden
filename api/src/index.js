@@ -8,7 +8,7 @@ if (!admin.apps.length) {
   admin.initializeApp();
 }
 
-const { region, config } = require('firebase-functions');
+const { region } = require('firebase-functions');
 const {
   requestPasswordReset,
   resendAccountVerification,
@@ -44,14 +44,14 @@ const onMessagesWriteReplicate = require('./replication/onMessagesWrite');
 const onAuthUserCreate = require('./user/onAuthUserCreate');
 const refreshAuthTable = require('./replication/scheduled/refreshAuthTable');
 
+const { shouldReplicate } = require('./sharedConfig');
+
 // Regions
 // This is in Belgium! All new functions should be deployed here.
 const euWest1 = region('europe-west1');
 // Historically functions were hosted here. Most old ones still do, until we
 // migrate them safely.
 const usCentral1 = region('us-central1');
-
-const shouldReplicate = !config().supabase?.disable_replication;
 
 // Extended 5 minutes timeout for function that handle SendGrid account creation
 // https://firebase.google.com/docs/functions/manage-functions#set_timeout_and_memory_allocation
