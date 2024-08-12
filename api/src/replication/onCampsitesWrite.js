@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-unresolved
 const { Timestamp } = require('firebase-admin/firestore');
 const { replicate } = require('./shared');
 
