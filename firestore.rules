@@ -79,6 +79,7 @@ service cloud.firestore {
       isOwner(userId) &&
       validateUserState(request.resource.data) &&
       // Don't allow superfan status to be changed by clients
+      // Note: this also doesn't allow *creation* by clients, but that's OK, because the backend creates the doc.
       !request.resource.data.diff(resource.data).affectedKeys().hasAny(['superfan'])
     }
 
@@ -91,6 +92,7 @@ service cloud.firestore {
         && user.emailPreferences.newChat is bool
         && user.emailPreferences.news is bool
       // Don't allow sensitive indentifiers to be changed by clients
+      // Note: this also doesn't allow *creation* by clients, but that's OK, because the backend creates the doc.
         && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['stripeCustomerId', 'stripeSubscription', 'sendgridId', 'oldEmail', 'newEmail'])
     }
 
@@ -227,7 +229,9 @@ service cloud.firestore {
       if isSignedIn() &&
       validateGardenState(request.resource.data) &&
       isVerified() &&
-      isOwner(userId)
+      isOwner(userId) &&
+      // Don't allow garden change timestamps to be modified by clients
+      !incomingData().diff(existingData()).affectedKeys().hasAny(['latestRemovedAt', 'latestWarningForInactivityAt', 'latestListedChangeAt'])
       allow delete:
       if isSignedIn() &&
       isVerified() &&

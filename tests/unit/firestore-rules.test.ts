@@ -13,7 +13,14 @@ import {
   type RulesTestEnvironment
 } from '@firebase/rules-unit-testing';
 
-import { doc, serverTimestamp, setDoc, setLogLevel, updateDoc } from 'firebase/firestore';
+import {
+  doc,
+  serverTimestamp,
+  setDoc,
+  setLogLevel,
+  Timestamp,
+  updateDoc
+} from 'firebase/firestore';
 import type firebase from 'firebase/compat/app';
 import { afterAll, beforeAll, beforeEach, describe, it } from 'vitest';
 
@@ -67,9 +74,11 @@ beforeEach(async () => {
   await testEnv.clearFirestore();
 });
 
+const ALICE_TOKEN_OPTS = { email: 'alice@slowby.travel', email_verified: true };
+
 describe('registration', async () => {
   it('should not allow an authenticated user to create their own "user" or "user-private" docs', async () => {
-    const aliceDb = testEnv.authenticatedContext('alice').firestore();
+    const aliceDb = testEnv.authenticatedContext('alice', ALICE_TOKEN_OPTS).firestore();
 
     await assertFails(
       setDoc(doc(aliceDb, 'users/alice'), {
@@ -83,7 +92,7 @@ describe('registration', async () => {
 });
 
 const createAliceUser = async () => {
-  const aliceDb = testEnv.authenticatedContext('alice').firestore();
+  const aliceDb = testEnv.authenticatedContext('alice', ALICE_TOKEN_OPTS).firestore();
 
   await testEnv.withSecurityRulesDisabled(async (context) => {
     // This can only be called once.
@@ -152,6 +161,47 @@ describe('"user" data', async () => {
       updateDoc(doc(testDb, 'users/alice'), {
         firstName: null,
         countryCode: null
+      })
+    );
+  });
+});
+
+describe('"campsites" data', async () => {
+  let testDb: firebase.firestore.Firestore;
+  beforeEach(async () => {
+    testDb = await createAliceUser();
+  });
+  const validGarden = {
+    description: 'Hello, this is a test description with sufficient minimal length.',
+    location: { latitude: 50.1, longitude: 14.2 },
+    facilities: {
+      capacity: 2,
+      toilet: true,
+      shower: true,
+      electricity: false,
+      water: true,
+      drinkableWater: true,
+      bonfire: false,
+      tent: true
+    },
+    listed: true,
+    photo: 'garden.jpg'
+  };
+  it('succeeds when trying to add a valid garden, and update it', async () => {
+    await assertSucceeds(setDoc(doc(testDb, 'campsites/alice'), validGarden));
+    await assertSucceeds(
+      updateDoc(doc(testDb, 'campsites/alice'), {
+        description: 'here is another valid long description that I can change to'
+      })
+    );
+  });
+  it('fails when trying to update garden-listing related timestamps', async () => {
+    // First create
+    await setDoc(doc(testDb, 'campsites/alice'), validGarden);
+    // Try illegal update
+    await assertFails(
+      updateDoc(doc(testDb, 'campsites/alice'), {
+        latestRemovedAt: Timestamp.now()
       })
     );
   });

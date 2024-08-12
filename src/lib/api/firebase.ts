@@ -109,7 +109,8 @@ let messagingRef: Messaging;
 export const messaging: () => Messaging = guardNull<Messaging>(() => messagingRef, 'messaging');
 
 // TODO: window may not be available on server-side SvelteKit
-const isRunningLocally = window && window.location.hostname.match(`${emulatorHostName}|127.0.0.1`);
+const isRunningLocally =
+  typeof window !== 'undefined' && window.location.hostname.match(`${emulatorHostName}|127.0.0.1`);
 
 const shouldUseEmulator = (specificEmulatorOverride?: boolean | undefined | null) =>
   // If an override is defined, only look at that value.

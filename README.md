@@ -111,6 +111,14 @@ The [architecture docs](./docs/architecture.md) contain some notes on the archit
 
 There are some backend unit and integration tests. The test running procedure is described in [./api/README.md](./api/README.md) -> "Running tests".
 
+### Front-end unit & Firestore rules tests
+
+Some firestore rules unit tests live in `./tests/unit/firestore-rules.test.ts`. To run them from the root directory:
+
+```
+cd api && echo 'cd .. && yarn test:unit' > runtests.sh && firebase --project demo-test emulators:exec --ui --only auth,firestore ./runtests.sh; cd -
+```
+
 ### E2E tests
 
 [Playwright](https://playwright.dev/) is set up for e2e testing, but does not contain any tests at the moment.
