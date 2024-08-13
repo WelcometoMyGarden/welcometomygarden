@@ -53,12 +53,12 @@ describe('onCampsitesWrite', () => {
     await campsiteDocRef.update({ listed: true });
     await wait(waitForTriggersTimeout);
 
-    // Check if  updated again
+    // Check if updated again
     const { latestListedChangeAt: secondTimestamp } = (await campsiteDocRef.get()).data();
     assert(latestListedChangeAt.valueOf() < secondTimestamp.valueOf());
   }).timeout(totalTimeout * 2);
 
-  it('has a listed change time exactly equal to the removal time, when manually unlisted', async () => {
+  it('has a listed change time exactly equal to the removal time, when manually unlisted, afterwards, user-initiated relisting updates the change time.', async () => {
     // Remove by force
     await campsiteDocRef.update({ latestRemovedAt: Timestamp.now(), listed: false });
 
@@ -68,8 +68,17 @@ describe('onCampsitesWrite', () => {
     const data = /** @type{import('../../src/lib/types/Garden').Garden} */ (
       (await campsiteDocRef.get()).data()
     );
-    assert(data.latestRemovedAt.valueOf() === data.latestListedChangeAt.valueOf());
-  }).timeout(totalTimeout);
+    const { latestListedChangeAt } = data;
+    assert(data.latestRemovedAt.valueOf() === latestListedChangeAt.valueOf());
+
+    // Re-list
+    await campsiteDocRef.update({ listed: true });
+    await wait(waitForTriggersTimeout);
+
+    // Check if updated again
+    const { latestListedChangeAt: secondTimestamp } = (await campsiteDocRef.get()).data();
+    assert(latestListedChangeAt.valueOf() < secondTimestamp.valueOf());
+  }).timeout(totalTimeout * 2);
 
   afterEach(async () => {
     await clearAuth();
