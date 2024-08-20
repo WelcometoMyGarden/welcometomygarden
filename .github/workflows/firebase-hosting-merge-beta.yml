@@ -3,12 +3,20 @@ on:
   push:
     branches:
       - beta
+    # Since this action only deploys the front-end SvelteKit SPA
+    # backend resources can be ignored.
     paths-ignore:
+      # An updated backend shouldn't trigger deploys
       - api/**
+      # We don't have automated Firestore rules deploys yet.
+      - firestore*
+      # Updated docs shouldn't trigger deploys
       - docs/**
       - README.md
       - CONTRIBUTING.md
       - SECURITY.md
+      # We don't have automated front-end tests.
+      - tests
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
