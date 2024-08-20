@@ -3,6 +3,7 @@ const { logger } = require('firebase-functions');
 const { Timestamp } = require('firebase-admin/firestore');
 const _ = require('lodash');
 const supabase = require('../supabase');
+const { wait } = require('../util/time');
 
 /**
  * @typedef {(change: import("firebase-functions").Change<any>, context: import('firebase-functions').EventContext<any>) => Promise<any>} handler
@@ -104,6 +105,36 @@ exports.createDataMapper = createDataMapper;
  *  uniquely represent the (composite) primary key of the table. These extra filters should "fill in" the primary key.
  */
 
+const MAX_ATTEMPTS = 7;
+
+/**
+ * @param {(attempt: number) => Promise<boolean>} fn
+ * @param {number} attempt
+ * @returns {Promise<boolean>}
+ */
+const callWithRetries = async (fn, attempt = 1) => {
+  const success = await fn(attempt);
+  if (success) {
+    return success;
+  }
+  // Run this in a REPL to play with exponential backoff parameters:
+  // {
+  //   const progression = Array(7)
+  //     .fill(0)
+  //     .map((_, i) => 3 ** (i + 1) * 10);
+  //   console.log(progression.map((n,i) => `${i+1}. ${n}ms`));
+  //   const total = progression.reduce((acc, e, i) => acc + e, 0);
+  //   console.log(total/1000)
+  // }
+  if (attempt < MAX_ATTEMPTS) {
+    await wait(3 ** attempt * 10);
+
+    return callWithRetries(fn, attempt + 1);
+  }
+  // all failed
+  return false;
+};
+
 /**
  * @param {ReplicateOptions} options
  */
@@ -116,17 +147,34 @@ exports.replicate = async (options) => {
     pick,
     extraDeletionFilters = []
   } = options;
+
+  // Default firebase function max runtime is 60 seconds; we want ~max. 30 seconds of retries.
+
   const { before, after } = change;
-  try {
-    // If an `after` exists, it's either an update or insert
-    let result;
-    let changeType;
-    const isUpdate = before.exists && after.exists;
-    if (after.exists) {
-      changeType = 'upsert';
-      result = await supabase
-        .from(tableName)
-        .upsert({
+  let changeType;
+  /**
+   * @type {undefined | {id: string} & import('firebase/firestore').DocumentData}
+   */
+  let afterDocWithData;
+  if (after.exists) {
+    changeType = 'upsert';
+    afterDocWithData = { id: after.id, ...after.data() };
+  } else if (before.exists && !after.exists) {
+    // If `before` exists and `after` not, a deletion happened
+    changeType = 'deletion';
+  }
+  const isUpdate = before.exists && after.exists;
+
+  /**
+   * @param {number} attempt
+   * @returns {Promise<boolean>} true on success, false on error
+   */
+  async function attemptReplication(attempt) {
+    try {
+      // If an `after` exists, it's either an update or insert
+      let result;
+      if (changeType === 'upsert') {
+        result = await supabase.from(tableName).upsert({
           id: after.id,
           ...createDataMapper(
             dataMapper,
@@ -136,32 +184,55 @@ exports.replicate = async (options) => {
             ...after.data()
           }),
           ...extraProps
-        })
-        .select();
-      logger.debug(`Replicated ${isUpdate ? 'update' : 'creation'}  in ${tableName}`, result.data);
-    } else if (before.exists && !after.exists) {
-      // If `before` exists and `after` not, a deletion happened
-      changeType = 'deletion';
-      let query = supabase.from(tableName).delete().eq('id', before.id);
-      if (extraDeletionFilters.length > 0) {
-        for (let i = 0; i < extraDeletionFilters.length; i += 1) {
-          const filterPair = extraDeletionFilters[i];
-          query = query.eq.call(query, ...filterPair);
+        });
+
+        if (!result.error) {
+          // success
+          logger.debug(
+            `Replicated ${isUpdate ? 'update' : 'creation'} in ${tableName} on attempt ${attempt}`,
+            afterDocWithData
+          );
+          return true;
+        }
+      } else if (changeType === 'deletion') {
+        let query = supabase.from(tableName).delete().eq('id', before.id);
+        if (extraDeletionFilters.length > 0) {
+          for (let i = 0; i < extraDeletionFilters.length; i += 1) {
+            const filterPair = extraDeletionFilters[i];
+            query = query.eq.call(query, ...filterPair);
+          }
+        }
+        result = await query;
+        if (!result.error) {
+          // success
+          logger.debug(
+            `Replicated deletion in ${tableName} on attempt ${attempt}`,
+            afterDocWithData
+          );
+          return true;
         }
       }
-      result = await query;
-      logger.debug(`Replicated deletion in ${tableName}`, result.data);
+      if (result.error) {
+        logger.warn(
+          `Error while replicating ${changeType} in ${tableName} on attempt ${attempt}\n:`,
+          result,
+          '\nData:\n',
+          before.data(),
+          afterDocWithData
+        );
+        return false;
+      }
+      // We shouldn't reach here, but just in case
+      return true;
+    } catch (e) {
+      // Note: this doesn't seem to happen, it looks like the Supabase client catches all network errors.
+      logger.warn(`Caught error while replicating change in ${tableName}`, e);
+      return false;
     }
-    if (result.error) {
-      logger.warn(
-        `Error while replicating ${changeType} in ${tableName}\n:`,
-        result,
-        '\nData:\n',
-        before.data(),
-        after.data()
-      );
-    }
-  } catch (e) {
-    logger.warn(`Caught error while replicating change in ${tableName}`, e);
   }
+  const result = await callWithRetries(attemptReplication);
+  if (!result) {
+    logger.error(`All attempts failed while replicating ${changeType} in ${tableName}`);
+  }
+  return result;
 };

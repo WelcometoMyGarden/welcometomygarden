@@ -5,6 +5,9 @@ const { api_url, service_role_key } = config().supabase;
 
 const { shouldReplicate } = require('./sharedConfig');
 
+/**
+ * @type {import('@supabase/supabase-js').SupabaseClient<any, "public", any>}
+ */
 module.exports = shouldReplicate
   ? createClient(api_url, service_role_key)
   : new Proxy(

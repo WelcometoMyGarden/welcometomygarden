@@ -1,8 +1,10 @@
 const assert = require('node:assert');
+// eslint-disable-next-line import/no-unresolved
 const { Timestamp } = require('firebase-admin/firestore');
 const { db } = require('../seeders/app');
-const { clearAuth, clearFirestore, wait } = require('./util');
+const { clearAuth, clearFirestore } = require('./util');
 const { createNewUser, createGarden } = require('../seeders/util');
+const { wait } = require('../src/util/time');
 
 // Note: this behavior requires replication to be "on"
 describe('onCampsitesWrite', () => {

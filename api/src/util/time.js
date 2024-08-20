@@ -14,6 +14,13 @@ const oneMonthAgoSecs = () => nowSecs() - 31 * oneDaySecs;
 const oneWeekAgoSecs = () => nowSecs() - 7 * oneDaySecs;
 const oneYearAgoSecs = () => nowSecs() - 365 * oneDaySecs;
 
+const wait = async (timeout = 1000) =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, timeout);
+  });
+
 module.exports = {
   nowSecs,
   oneMonthAgoSecs,
@@ -22,5 +29,6 @@ module.exports = {
   oneYearAgoSecs,
   oneDaySecs,
   oneHourSecs,
-  lxHourStart
+  lxHourStart,
+  wait
 };
