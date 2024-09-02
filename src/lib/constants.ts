@@ -21,11 +21,15 @@ export const LOCATION_WESTERN_EUROPE = {
   longitude: 4.818409187039379,
   latitude: 50.43017609488834
 };
+// https://docs.mapbox.com/help/glossary/zoom-level/
 export const ZOOM_LEVELS = {
   CITY: 11,
   ROAD: 14, // 14 or 15
   SMALL_COUNTRY: 7,
-  WESTERN_EUROPE: 5.2
+  WESTERN_EUROPE: 5.2,
+  BUILDING: 19,
+  // This is the MapBox default https://docs.mapbox.com/mapbox-gl-js/api/map/#map-parameters
+  MAX: 22
 };
 export const VALID_FILETYPE_EXTENSIONS = ['gpx', 'geojson', 'kml', 'tcx'];
 export const ICON_SIZE = [
@@ -48,8 +52,7 @@ export const IMAGES_PATH = '/images';
  * MapBox max zoom level for non-members, in order to preserve privacy
  */
 export const nonMemberMaxZoom = 12;
-// This is the MapBox default https://docs.mapbox.com/mapbox-gl-js/api/map/#map-parameters
-export const memberMaxZoom = 22;
+export const memberMaxZoom = ZOOM_LEVELS.MAX;
 
 export const NOTIFICATION_PROMPT_DISMISSED_COOKIE = 'notif_dismissed';
 

@@ -8,7 +8,7 @@
   import { TextInput, Button } from '$lib/components/UI';
   import Map from '$lib/components/Map/Map.svelte';
   import DraggableMarker from '$lib/components/Map/DraggableMarker.svelte';
-  import { LOCATION_BELGIUM } from '$lib/constants';
+  import { LOCATION_BELGIUM, ZOOM_LEVELS } from '$lib/constants';
 
   const dispatch = createEventDispatcher();
 
@@ -69,6 +69,7 @@
   <Map
     lat={coordinates.latitude}
     lon={coordinates.longitude}
+    maxZoom={ZOOM_LEVELS.BUILDING}
     recenterOnUpdate={true}
     zoom={6}
     enableGeolocation={false}

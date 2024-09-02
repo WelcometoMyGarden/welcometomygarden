@@ -15,7 +15,13 @@
 
   import { getCookie } from '$lib/util';
   import { crossIcon } from '$lib/images/icons';
-  import { LOCATION_BELGIUM, LOCATION_WESTERN_EUROPE, ZOOM_LEVELS } from '$lib/constants';
+  import {
+    LOCATION_BELGIUM,
+    LOCATION_WESTERN_EUROPE,
+    memberMaxZoom,
+    nonMemberMaxZoom,
+    ZOOM_LEVELS
+  } from '$lib/constants';
   import LayersAndTools from '$lib/components/LayersAndTools/LayersAndTools.svelte';
   import FileTrailModal from '$lib/components/Map/FileTrailModal.svelte';
   import TrainConnectionsModal from '$lib/components/Map/TrainConnectionsModal.svelte';
@@ -223,6 +229,7 @@
   <Map
     lon={centerLocation.longitude}
     lat={centerLocation.latitude}
+    maxZoom={$user?.superfan ? memberMaxZoom : nonMemberMaxZoom}
     recenterOnUpdate
     {hasGardenInURL}
     {zoom}

@@ -4,18 +4,17 @@
   export const currentPosition = writable<LongLat | null>(null);
 </script>
 
+<!-- @component
+Component for maps. Shared between the main map, and the map in the Garden creation form.
+ -->
+
 <script lang="ts">
   import { setContext, onMount, tick, afterUpdate, onDestroy } from 'svelte';
   import maplibregl from 'maplibre-gl';
   import key from './mapbox-context.js';
 
   import 'maplibre-gl/dist/maplibre-gl.css';
-  import {
-    DEFAULT_MAP_STYLE,
-    ZOOM_LEVELS,
-    memberMaxZoom,
-    nonMemberMaxZoom
-  } from '$lib/constants.js';
+  import { DEFAULT_MAP_STYLE, ZOOM_LEVELS } from '$lib/constants.js';
   import FullscreenControl from './FullscreenControl.js';
   import { isFullscreen } from '$lib/stores/fullscreen.js';
   import { user } from '$lib/stores/auth.js';
@@ -33,6 +32,7 @@
   export let recenterOnUpdate = false;
   export let enableGeolocation = true;
   export let hasGardenInURL = false;
+  export let maxZoom = ZOOM_LEVELS.MAX;
 
   // Was used to prevent an automatic jump to the GPS location after the initial map load.
   // TODO: reuse for IP-based geolocation
@@ -110,7 +110,7 @@
       center: [lon, lat],
       zoom,
       /** https://docs.mapbox.com/mapbox-gl-js/api/map/#map-parameters */
-      maxZoom: $user?.superfan ? memberMaxZoom : nonMemberMaxZoom,
+      maxZoom,
       attributionControl: false,
       hash: false, // TODO: discuss if we want this or not,
       // Disable rotating and changing pitch (tilt) on mobile & desktop
