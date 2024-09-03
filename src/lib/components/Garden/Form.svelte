@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   export let garden;
   export let isSubmitting = false;
   export let isUpdate = false;
@@ -20,6 +20,7 @@
     tentIcon
   } from '$lib/images/icons';
   import ReloadSuggestion from '../ReloadSuggestion.svelte';
+  import type { LongLat } from '$lib/types/Garden';
 
   const dispatch = createEventDispatcher();
 
@@ -66,7 +67,7 @@
     coordinateHint.valid = true;
     return true;
   };
-  const setCoordinates = (event) => {
+  const setCoordinates = (event: { detail: LongLat | null }) => {
     validateLocation(event.detail);
     garden.location = event.detail;
   };

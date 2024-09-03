@@ -28,11 +28,11 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   export let lon: number;
   export let zoom: number;
   export let applyZoom = false; // make this true if the provided zoom level should be applied
+  export let maxZoom = ZOOM_LEVELS.MAX;
   // Recenter when the lat & long params change
   export let recenterOnUpdate = false;
   export let enableGeolocation = true;
   export let hasGardenInURL = false;
-  export let maxZoom = ZOOM_LEVELS.MAX;
 
   // Was used to prevent an automatic jump to the GPS location after the initial map load.
   // TODO: reuse for IP-based geolocation

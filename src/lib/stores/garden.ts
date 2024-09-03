@@ -2,6 +2,7 @@ import { writable, get, type Writable } from 'svelte/store';
 import { getAllListedGardens } from '$lib/api/garden';
 import type { Garden } from '../types/Garden';
 
+export const hasLoaded = writable(false);
 export const isUploading = writable(false);
 export const uploadProgress = writable(0);
 export const isFetchingGardens = writable(false);

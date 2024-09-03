@@ -1,7 +1,7 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { goto } from '$lib/util/navigate';
-  import { updateGardenLocally } from '$lib/stores/garden';
+  import { hasLoaded as gardenHasLoaded, updateGardenLocally } from '$lib/stores/garden';
   import { user } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
   import { Progress } from '$lib/components/UI';
@@ -12,12 +12,15 @@
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
 
-  if (!$user) {
+  // Due to the root layout guard, we can assume here that the app has loaded.
+  // This means user-public & user-private properties were also loaded,
+  // but it does not necessarily mean that the garden finished loading.
+  $: if (!$user) {
     notify.info($_('auth.unsigned'), 8000);
     goto(routes.SIGN_IN);
   } else if (!$user.emailVerified) {
     checkAndHandleUnverified($_('auth.verification.unverified'), 8000);
-  } else if (!$user.garden) {
+  } else if ($gardenHasLoaded && !$user.garden) {
     notify.warning($_('garden.manage.add-first'));
     goto(routes.ADD_GARDEN);
   }

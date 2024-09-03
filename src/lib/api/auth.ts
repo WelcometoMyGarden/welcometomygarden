@@ -32,6 +32,7 @@ import { trackEvent } from '$lib/util';
 import { PlausibleEvent } from '$lib/types/Plausible';
 import { isOnIDevicePWA } from './push-registrations';
 import { handledOpenFromIOSPWA } from '$lib/stores/app';
+import { hasLoaded as gardenHasLoaded } from '$lib/stores/garden';
 
 // These are not Svelte stores, because we do not wish to listen to updates on them.
 // They are abstracted away by the User store, and trigger updates on that store.
@@ -60,6 +61,7 @@ export const createAuthObserver = (): Unsubscribe => {
     if (unsubscribeFromCampsite) {
       unsubscribeFromCampsite();
       unsubscribeFromCampsite = null;
+      gardenHasLoaded.set(false);
     }
   };
 
@@ -201,6 +203,8 @@ export const createAuthObserver = (): Unsubscribe => {
         // Perform cleanup
         unsubscribeFromInnerObserversIfExisting();
         resetDocCaches();
+        // Unset the user. This triggers various cleanup operations in routes/+layout.svelte;
+        // TODO: these should perhaps be moved to their own code file(s)?
         user.set(null);
         // Send the user back to the sign in page, if they are not yet on a page where they can stay.
         // NOTE: This is also handled by individual pages. Should it? Probably yes, because
@@ -277,6 +281,7 @@ export const isEmailVerifiedAndTokenSynced = async () => {
 
 /**
  * Only updates the local User store if both its auth record, as well as users and users-private docs are available.
+ * Warning: does not wait on the garden to finish loading, but will merge in the latest garden state on a secondary update when it is available.
  * @returns the resulting state of the updated user (null if an update was not possible)
  */
 const updateUserIfPossible = async () => {
@@ -346,7 +351,10 @@ export const createCampsiteObserver = (currentUserId: string) => {
   return onSnapshot<Garden>(docRef, (doc) => {
     const newCampsiteData = doc.data();
     latestCampsiteState = newCampsiteData ?? null;
-    updateUserIfPossible();
+    updateUserIfPossible().then(() =>
+      // Notify that the garden is loaded after updating it in the $user store
+      gardenHasLoaded.set(true)
+    );
   });
 };
 

@@ -34,7 +34,7 @@
   } from '$lib/api/push-registrations';
   import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
   import { resetPushRegistrationStores } from '$lib/stores/pushRegistrations';
-  import { afterNavigate, beforeNavigate, onNavigate } from '$app/navigation';
+  import { onNavigate } from '$app/navigation';
 
   type MaybeUnsubscriberFunc = (() => void) | undefined;
 

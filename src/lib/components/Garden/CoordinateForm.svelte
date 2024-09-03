@@ -1,9 +1,12 @@
-<script>
+<script lang="ts">
+  /**
+   * Should be supplied if the location of the garden is already set and known.
+   */
   export let initialCoordinates = null;
 
   import { _ } from 'svelte-i18n';
   import { createEventDispatcher } from 'svelte';
-  import { reverseGeocode, geocode } from '$lib/api/mapbox';
+  import { reverseGeocode, geocode, type Address } from '$lib/api/mapbox';
   import { slide } from 'svelte/transition';
   import { TextInput, Button } from '$lib/components/UI';
   import Map from '$lib/components/Map/Map.svelte';
@@ -12,50 +15,71 @@
 
   const dispatch = createEventDispatcher();
 
-  const defaultAddressValues = {
+  const defaultAddressValues: Address = {
     street: '',
     postalCode: '',
     region: '',
     country: '',
-    city: ''
+    city: '',
+    houseNumber: ''
   };
 
   // TODO: if we can, we should use geolocation here to help the host
   let coordinates = initialCoordinates || LOCATION_BELGIUM;
+  let address: Partial<Address> = {};
 
-  let address = {};
-  let reverseGeocoded = false;
+  // Auto-confirm when initial coordinates are already known
   let locationConfirmed = !!initialCoordinates;
+  // Initial value: show if the initial coordinates are given
   let isAddressConfirmShown = !!initialCoordinates;
 
-  const setAddressField = async (event) => {
-    if (reverseGeocoded) {
-      address = { ...defaultAddressValues };
-      reverseGeocoded = false;
+  // Initial values
+  let zoom = ZOOM_LEVELS.WESTERN_EUROPE;
+  // Whether to adjust zoom when the marker coordinates changes
+  let applyZoom = false;
+
+  /**
+   * Called when one of the address fields is defocussed (blurred).
+   */
+  const setAddressField = async (event: FocusEvent) => {
+    let target = event.target as unknown as TextInput;
+    if (!target?.name) {
+      // Shouldn't happen
+      return;
     }
-    address[event.target.name] = event.target.value;
-    const addressString = Object.keys(address)
-      .map((key) => address[key])
-      .filter((v) => v)
+    // Update the address
+    address[target.name as keyof Address] = target.value;
+    const { street, postalCode, region, country, city, houseNumber } = address;
+    // Combine the address into a string for querying
+    // https://docs.mapbox.com/help/troubleshooting/address-geocoding-format-guide/#addresses-in-multiple-countries
+    // -> most granular to least granular, space-separated
+    const addressString = [houseNumber, street, postalCode, city, region, country]
+      .filter((v) => v != null && v !== '')
       .join(' ');
+
     try {
       coordinates = await geocode(addressString);
+      // Fly to the filled in address
+      // Between road & building
+      zoom = 16;
+      applyZoom = true;
       isAddressConfirmShown = true;
     } catch (ex) {
-      console.log(ex);
+      console.warn(ex);
     }
     dispatch('confirm', locationConfirmed ? coordinates : null);
   };
 
   const onMarkerDragged = async (event) => {
+    // Don't readjust zoom after the user adjusted the marker
+    applyZoom = false;
     coordinates = event.detail;
     isAddressConfirmShown = true;
     locationConfirmed = false;
     try {
       address = { ...defaultAddressValues, ...(await reverseGeocode(coordinates)) };
-      reverseGeocoded = true;
     } catch (ex) {
-      console.log(ex);
+      console.warn(ex);
     }
   };
 
@@ -69,9 +93,10 @@
   <Map
     lat={coordinates.latitude}
     lon={coordinates.longitude}
+    {zoom}
+    {applyZoom}
     maxZoom={ZOOM_LEVELS.BUILDING}
     recenterOnUpdate={true}
-    zoom={6}
     enableGeolocation={false}
   >
     {#if isAddressConfirmShown}
@@ -105,7 +130,13 @@
       </div>
       <div>
         <label for="house-number">{$_('garden.form.location.house-number')}</label>
-        <TextInput id="house-number" type="text" name="house-number" on:blur={setAddressField} />
+        <TextInput
+          id="house-number"
+          type="text"
+          name="houseNumber"
+          on:blur={setAddressField}
+          value={address.houseNumber}
+        />
       </div>
     </div>
 
