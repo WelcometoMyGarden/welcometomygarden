@@ -1,34 +1,6 @@
 <script lang="ts">
-  import { WTMG_BLOG_REST_BASE } from '$lib/constants';
-  import { onMount } from 'svelte';
-
-  type Post = {
-    id: string;
-    title: { rendered: string };
-    date: string;
-    /** author id */
-    author: string;
-    slug: string;
-    _embedded: {
-      author: {
-        name: string;
-      }[];
-    };
-  };
-
-  let posts: Post[] = [];
-
-  onMount(async () => {
-    posts = (await fetch(
-      `${WTMG_BLOG_REST_BASE}/posts?${new URLSearchParams({
-        // all en categories
-        categories: '11,23,30',
-        // embeds require link info
-        _fields: 'title,slug,date,_embedded,_links.author',
-        _embed: 'author'
-      })}`
-    ).then((r) => r.json())) as Post[];
-  });
+  export let data;
+  const { posts } = data;
 </script>
 
 <div class="wrapper">
