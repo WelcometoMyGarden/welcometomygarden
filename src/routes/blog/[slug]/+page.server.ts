@@ -10,11 +10,14 @@ export const load = async ({ params: { slug } }) => {
 };
 
 export const entries = async () => {
-  const posts = (await fetch(
-    `${WTMG_BLOG_REST_BASE}/posts?${new URLSearchParams({
-      _fields: 'slug'
-    })}`
-  ).then((r) => r.json())) as { slug: string; content: { rendered: string; protected: boolean } }[];
+  const posts = (
+    (await fetch(
+      `${WTMG_BLOG_REST_BASE}/posts?${new URLSearchParams({
+        categories: '11,23,30',
+        _fields: 'slug'
+      })}`
+    ).then((r) => r.json())) as { slug: string }[]
+  ).map(({ slug }) => ({ slug: decodeURIComponent(slug) }));
 
   return posts;
 };

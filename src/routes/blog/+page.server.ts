@@ -14,14 +14,17 @@ type Post = {
   };
 };
 export const load = async () => {
-  const posts = (await fetch(
-    `${WTMG_BLOG_REST_BASE}/posts?${new URLSearchParams({
-      // all en categories
-      categories: '11,23,30',
-      // embeds require link info
-      _fields: 'title,slug,date,_embedded,_links.author',
-      _embed: 'author'
-    })}`
-  ).then((r) => r.json())) as Post[];
+  const posts = (
+    (await fetch(
+      `${WTMG_BLOG_REST_BASE}/posts?${new URLSearchParams({
+        // all en categories
+        categories: '11,23,30',
+        // embeds require link info
+        _fields: 'title,slug,date,_embedded,_links.author',
+        _embed: 'author'
+      })}`
+    ).then((r) => r.json())) as Post[]
+  ).map(({ slug, ...rest }) => ({ slug: decodeURIComponent(slug), ...rest })) as Post[];
   return { posts };
+  console.log('posts', posts);
 };
