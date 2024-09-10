@@ -64,6 +64,9 @@
       <li>
         <NavLink href={routes.ABOUT_US}>{$_('generics.about-us')}</NavLink>
       </li>
+      <li>
+        <NavLink href={routes.BLOG}>Blog</NavLink>
+      </li>
       {#if $user?.superfan}
         <li style="display: inline-flex; flex-direction: row; align-items: center;">
           <NavLink href={COMMUNITY_FORUM_URL}>{$_('generics.community')}</NavLink>

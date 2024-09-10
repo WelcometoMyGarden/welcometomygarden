@@ -6,7 +6,7 @@ type RouteDescription = {
   requiresAuth: boolean;
 };
 
-export const routeDescriptions = {
+export const routeDescriptions: { [key: string]: { route: string; requiresAuth: boolean } } = {
   ACCOUNT: { route: '/account', requiresAuth: true },
   ADD_GARDEN: { route: '/garden/add', requiresAuth: true },
   ABOUT_MEMBERSHIP: { route: '/about-membership', requiresAuth: false },
@@ -14,6 +14,7 @@ export const routeDescriptions = {
   AUTH_ACTION: { route: '/auth/action', requiresAuth: false },
   AUTH_DISCOURSE: { route: '/auth/discourse-connect', requiresAuth: true },
   BECOME_MEMBER: { route: '/become-member', requiresAuth: false },
+  BLOG: { route: '/blog', requiresAuth: false },
   CHAT: { route: '/chat', requiresAuth: false },
   COOKIE_POLICY: { route: '/terms/cookies', requiresAuth: false },
   FAQ: { route: '/info/faq', requiresAuth: false },

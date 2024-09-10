@@ -1,0 +1,104 @@
+// Doing it in a scss file because the :global's are annoying in svelte on large hierarchies
+
+div.post {
+  // Paragraphs
+  p {
+    margin: 2rem 0;
+  }
+
+  h2,
+  h3,
+  h4 {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+  h3 {
+    font-size: 2rem;
+  }
+
+  h4 {
+    font-size: 2rem;
+  }
+
+  // Generic figcaption
+  figcaption {
+    font-size: 14px;
+    line-height: 1.3;
+  }
+
+  ul {
+    list-style: inside;
+    list-style-type: disc;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  // Standalone image
+  .wp-block-image {
+    > figure {
+      display: table;
+      margin-left: auto;
+      margin-right: auto;
+      > figcaption {
+        caption-side: bottom;
+        display: table-caption;
+        color: #555;
+        font-size: 13px;
+        text-align: center;
+        margin-bottom: 1em;
+        margin-top: 0.5em;
+      }
+    }
+  }
+
+  figure.wp-block-gallery {
+    display: grid;
+    margin: 2rem auto;
+    max-width: 100%;
+    gap: 1rem;
+    align-items: stretch;
+    justify-items: stretch;
+    &.columns-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    & > figure.wp-block-image {
+      position: relative;
+      &.size-large {
+        height: 40rem;
+      }
+      &.size-full {
+        height: auto;
+      }
+
+      > figcaption {
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3) 60%, transparent);
+        bottom: 0;
+        box-sizing: border-box;
+        color: #fff;
+        left: 0;
+        margin-bottom: 0;
+        max-height: 60%;
+        overflow: auto;
+        // some top padding for the shadow
+        padding: 2rem 8px 1rem;
+        position: absolute;
+        text-align: center;
+        width: 100%;
+      }
+    }
+    img {
+      object-fit: cover;
+      object-position: center;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+    }
+  }
+}
