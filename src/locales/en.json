@@ -1037,7 +1037,7 @@
     },
     "discourse": {
       "superfan": "Only Superfans have access to the community space.",
-      "logging-in": "Busy logging you into the community space...",
+      "logging-in": "Logging you into the community space...",
       "failed": "Login to the community space failed, contact support if this keeps happening."
     },
     "logged-out": "You have been logged out elsewhere. Please log in again.",

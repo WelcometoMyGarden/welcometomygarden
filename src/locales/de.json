@@ -1033,7 +1033,7 @@
     },
     "discourse": {
       "superfan": "Nur Superfans haben Zugriff auf den Community-Bereich.",
-      "logging-in": "Ich bin damit beschäftigt, Sie im Community-Bereich anzumelden …",
+      "logging-in": "Wir sind damit beschäftigt, Sie im Community-Bereich anzumelden …",
       "failed": "Die Anmeldung beim Community-Bereich ist fehlgeschlagen. Wenden Sie sich an den Support, wenn dies weiterhin passiert."
     },
     "logged-out": "Sie wurden an anderer Stelle abgemeldet. Bitte melden Sie sich erneut an.",

@@ -1034,7 +1034,7 @@
     },
     "discourse": {
       "superfan": "Sólo los Superfans tienen acceso al espacio comunitario.",
-      "logging-in": "Ocupado iniciando sesión en el espacio comunitario...",
+      "logging-in": "Iniciando sesión en el espacio comunitario...",
       "failed": "Error al iniciar sesión en el espacio comunitario; contacta con el servicio de asistencia si esto continúa sucediendo."
     },
     "logged-out": "Se ha cerrado sesión en otro lugar. Por favor inicia sesión nuevamente.",
