@@ -76,7 +76,7 @@
     "ua-parser-js": "2.0.0-beta.1",
     "vite": "^4.4.9",
     "vite-bundle-visualizer": "0.10.0",
-    "vite-plugin-mkcert": "^1.16.0",
+    "vite-plugin-mkcert": "^1.17.6",
     "vitest": "^0.34.4"
   },
   "type": "module",

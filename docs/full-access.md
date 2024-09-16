@@ -40,7 +40,7 @@ SvelteKit uses Vite, and hence also [Vite env modes via dotenv](https://vitejs.d
 
 Your `.runtimeconfig.json` within the `api` directory will need:
 
-- `frontend.url`: the "callback URL" endpoint, typically where your frontend dev server is running (`http://localhost:5173`) if you're dveloping locally. In production, this will be `https://welcometomygarden.org`.
+- `frontend.url`: the "callback URL" endpoint, typically where your frontend dev server is running (`http://localhost:5173`) if you're developing locally. In production, this will be `https://welcometomygarden.org`.
 
 **For Stripe (subscriptions integration)**
 
