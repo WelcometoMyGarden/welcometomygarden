@@ -32,6 +32,9 @@ export const ZOOM_LEVELS = {
   MAX: 22
 };
 export const VALID_FILETYPE_EXTENSIONS = ['gpx', 'geojson', 'kml', 'tcx'];
+// mimetypes
+// see https://stackoverflow.com/questions/74476589/what-is-gpx-mime-type
+export const EXTRA_ACCEPT_VALUES = ['application/gpx+xml', 'application/geo+json'];
 export const ICON_SIZE = [
   'interpolate',
   ['linear'],

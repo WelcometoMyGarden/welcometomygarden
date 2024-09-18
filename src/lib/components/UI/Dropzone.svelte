@@ -9,10 +9,11 @@
     TOO_MANY_FILES_REJECTION
   } from '$lib/util/dropzone';
   import { onDestroy, createEventDispatcher } from 'svelte';
+  import { iDeviceInfo } from '$lib/util/uaInfo';
   //props
   /**
    * Set accepted file types.
-   * See https://github.com/okonet/attr-accept for more information.
+   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept
    */
   export let accept: string | string[];
   export let disabled = false;
@@ -282,6 +283,8 @@
   function onInputElementClick(event: { stopPropagation: () => void }) {
     event.stopPropagation();
   }
+
+  const { isIDevice } = iDeviceInfo || {};
 </script>
 
 <!-- <Label {label}>
@@ -304,8 +307,11 @@
   on:dragleave={composeDragHandler(onDragLeaveCb)}
   on:drop={composeDragHandler(onDropCb)}
 >
+  <!-- Note: the accept attribute is ignored on iOS, because on some iPhones (e.g. 13, SE 2020, with iOS 17.6+)
+  The accept attribute doesn't work as intended, and makes it impossible to select gpx files.
+    -->
   <input
-    accept={Array.isArray(accept) ? accept.join(', ') : accept}
+    accept={isIDevice ? undefined : Array.isArray(accept) ? accept.join(',') : accept}
     {multiple}
     type="file"
     {name}

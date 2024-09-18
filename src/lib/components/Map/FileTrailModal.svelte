@@ -3,7 +3,7 @@
   import { Button, FileInput, Modal } from '$lib/components/UI';
   import fileToGeoJson from '$lib/util/map/fileToGeoJson';
   import { keyboardEvent } from '$lib/stores/keyboardEvent';
-  import { VALID_FILETYPE_EXTENSIONS } from '$lib/constants';
+  import { EXTRA_ACCEPT_VALUES, VALID_FILETYPE_EXTENSIONS } from '$lib/constants';
   import { getFileExtension } from '$lib/util';
   import Icon from '$lib/components/UI/Icon.svelte';
   import { crossIcon, uploadCloudIcon } from '$lib/images/icons';
@@ -116,7 +116,10 @@
               e.stopPropagation();
               addFiles(e.detail.files);
             }}
-            accept={VALID_FILETYPE_EXTENSIONS.map((ft) => '.' + ft).join(', ')}
+            accept={[
+              ...VALID_FILETYPE_EXTENSIONS.map((ft) => '.' + ft),
+              ...EXTRA_ACCEPT_VALUES
+            ].join(',')}
             multiple
           >
             <div class="dropzone-content">
