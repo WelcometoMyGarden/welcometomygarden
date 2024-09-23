@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^2.0.7",
-    "@playwright/test": "^1.38.0",
+    "@playwright/test": "^1.47.2",
     "@stripe/stripe-js": "^1.54.2",
     "@sveltejs/adapter-static": "^2.0.3",
     "@sveltejs/kit": "1.30.0",
