@@ -1,6 +1,7 @@
 const functions = require('firebase-functions');
 const sendgrid = require('@sendgrid/mail');
 const removeEndingSlash = require('./util/removeEndingSlash');
+const devSend = require('./util/devMail');
 
 const API_KEY = functions.config().sendgrid.send_key;
 const FRONTEND_URL = removeEndingSlash(functions.config().frontend.url);
@@ -27,6 +28,27 @@ const NO_API_KEY_WARNING =
   'No emails will be sent. Inspect the logs to see what would have been sent by email';
 
 /**
+ * @param {string} verificationLink
+ */
+function makeVerificationLinkLocal(verificationLink) {
+  return verificationLink.replace(/http:\/\/[^/]+\/emulator/, `${FRONTEND_URL}/auth`);
+}
+
+/**
+ *
+ * @param {import('@sendgrid/mail').MailDataRequired} msg
+ * @param {Record<string, any>} obj
+ */
+const insertInDynamicTemplateData = (msg, obj) => ({
+  ...msg,
+  dynamicTemplateData: {
+    ...msg.dynamicTemplateData,
+    // Make it retrievable in a local email
+    ...obj
+  }
+});
+
+/**
  * To help debugging the /auth/action verification links in a realistic way,
  * transform /emulator/action auth URLs to frontend /auth/action page URLs, which is the way they will be
  * handled in production.
@@ -36,7 +58,7 @@ function logActionLink(verificationLink) {
   if (verificationLink.includes('/emulator/action')) {
     console.info(
       'Transformed /auth/action URL: ',
-      `"${verificationLink.replace(/http:\/\/[^/]+\/emulator/, `${FRONTEND_URL}/auth`)}"`
+      `"${makeVerificationLinkLocal(verificationLink)}"`
     );
   }
 }
@@ -72,7 +94,7 @@ exports.sendAccountVerificationEmail = (
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
     templateId,
-    dynamic_template_data: {
+    dynamicTemplateData: {
       firstName: name,
       verificationLink,
       type
@@ -82,6 +104,14 @@ exports.sendAccountVerificationEmail = (
   if (!canSendMail) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
+    devSend(
+      insertInDynamicTemplateData(
+        msg,
+        // Make it retrievable in a local email
+        { actionLink: makeVerificationLinkLocal(verificationLink) }
+      ),
+      'accountVerificationEmail'
+    );
     logActionLink(verificationLink);
     return Promise.resolve();
   }
@@ -94,7 +124,7 @@ exports.sendPasswordResetEmail = (email, name, resetLink) => {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
     templateId: 'd-e30e97d29db9487aaea9b690c84ca7b0',
-    dynamic_template_data: {
+    dynamicTemplateData: {
       firstName: name,
       resetLink
     }
@@ -104,6 +134,14 @@ exports.sendPasswordResetEmail = (email, name, resetLink) => {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
     logActionLink(resetLink);
+    devSend(
+      insertInDynamicTemplateData(
+        msg,
+        // Make it retrievable in a local email
+        { actionLink: makeVerificationLinkLocal(resetLink) }
+      ),
+      'passwordResetEmail'
+    );
     return Promise.resolve();
   }
 
@@ -161,6 +199,7 @@ exports.sendMessageReceivedEmail = (config) => {
   if (!canSendMail) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
+    devSend(msg, 'messageReceivedEmail');
     return Promise.resolve();
   }
 
@@ -189,6 +228,7 @@ exports.sendEmailReplyError = (toEmail, language) => {
   if (!canSendMail) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
+    devSend(msg, 'emailReplyError');
     return Promise.resolve();
   }
 
@@ -220,7 +260,7 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
     templateId,
-    dynamic_template_data: {
+    dynamicTemplateData: {
       firstName,
       exploreFeaturesLink: `${FRONTEND_URL}/explore`
     }
@@ -229,6 +269,7 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
   if (!canSendMail) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
+    devSend(msg, 'subscriptionConfirmationEmail');
     return Promise.resolve();
   }
 
@@ -267,7 +308,7 @@ exports.sendSubscriptionRenewalEmail = (config) => {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
     templateId,
-    dynamic_template_data: {
+    dynamicTemplateData: {
       firstName,
       price,
       renewalLink
@@ -277,6 +318,7 @@ exports.sendSubscriptionRenewalEmail = (config) => {
   if (!canSendMail) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
+    devSend(msg, 'subscriptionRenewalEmail');
     return Promise.resolve();
   }
 
@@ -306,7 +348,7 @@ exports.sendSubscriptionRenewalReminderEmail = (config) => {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
     templateId,
-    dynamic_template_data: {
+    dynamicTemplateData: {
       firstName,
       renewalLink,
       price
@@ -316,6 +358,7 @@ exports.sendSubscriptionRenewalReminderEmail = (config) => {
   if (!canSendMail) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
+    devSend(msg, 'subscriptionRenewalReminderEmail');
     return Promise.resolve();
   }
 
@@ -346,7 +389,7 @@ exports.sendSubscriptionEndedEmail = (email, firstName, language) => {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
     templateId,
-    dynamic_template_data: {
+    dynamicTemplateData: {
       firstName
     }
   };
@@ -354,6 +397,7 @@ exports.sendSubscriptionEndedEmail = (email, firstName, language) => {
   if (!canSendMail) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
+    devSend(msg, 'subscriptionEndedEmail');
     return Promise.resolve();
   }
 
@@ -384,7 +428,7 @@ exports.sendSubscriptionRenewalThankYouEmail = (email, firstName, language) => {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
     templateId,
-    dynamic_template_data: {
+    dynamicTemplateData: {
       firstName
     }
   };
@@ -392,6 +436,7 @@ exports.sendSubscriptionRenewalThankYouEmail = (email, firstName, language) => {
   if (!canSendMail) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
+    devSend(msg, 'subscriptionRenewalThankYouEmail');
     return Promise.resolve();
   }
 
@@ -422,7 +467,7 @@ exports.sendSubscriptionEndedFeedbackEmail = (email, firstName, language) => {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
     templateId,
-    dynamic_template_data: {
+    dynamicTemplateData: {
       firstName
     }
   };
@@ -430,6 +475,7 @@ exports.sendSubscriptionEndedFeedbackEmail = (email, firstName, language) => {
   if (!canSendMail) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
+    devSend(msg, 'subscriptionEndedFeedbackEmail');
     return Promise.resolve();
   }
 

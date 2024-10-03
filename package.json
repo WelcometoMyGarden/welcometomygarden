@@ -12,6 +12,7 @@
     "dev:push": "vite --mode devpush --host",
     "dev:prod": "vite --mode production --host",
     "build": "vite build",
+    "build:demo": "vite build --mode development",
     "build:prod": "vite build --mode production",
     "build:staging": "vite build --mode staging",
     "preview": "vite preview",

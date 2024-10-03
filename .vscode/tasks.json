@@ -99,7 +99,7 @@
       "type": "shell",
       "command": "nvm use 18 && yarn run firebase:demo-seed",
       "problemMatcher": [],
-      "label": "npm: firebase:demo-seed",
+      "label": "npm: firebase:demo-seed (nvm 18)",
       "detail": "firebase --project demo-test emulators:exec api/seeders/simple.js"
     },
     {
