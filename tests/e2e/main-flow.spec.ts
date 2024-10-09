@@ -1,13 +1,26 @@
-import { Browser, test, type BrowserContext, type Page } from '@playwright/test';
+import { Browser, test as base, type BrowserContext, type Page } from '@playwright/test';
 import { clearAuth, clearFirestore } from '../util';
-import { makeSuperfan, openEmail } from './util';
+import { deleteAccount, makeSuperfan, openEmail, payOnStripe } from './util';
+import { defaultOptions, TestOptions, TestType } from '../../playwright.config';
 
-test.afterEach(async () => {
-  await Promise.all([clearFirestore(), clearAuth()]);
+export const test = base.extend<TestOptions>({
+  // Define an option and provide a default value.
+  // We can later override it in the config.
+  options: [defaultOptions, { option: true }]
+});
+
+test.afterEach(async ({ options: { type } }) => {
+  if (type === 'local') {
+    await Promise.all([clearFirestore(), clearAuth()]);
+  }
 });
 
 class MainFlowTest {
-  constructor(private browser: Browser, private baseURL: string) {}
+  emailPlatform: 'mailpit' | 'gmail';
+
+  constructor(private browser: Browser, private baseURL: string, private type: TestType = 'local') {
+    this.emailPlatform = type === 'local' ? 'mailpit' : 'gmail';
+  }
 
   async robot1({ page, context, email }: { page: Page; context: BrowserContext; email: string }) {
     await page.goto(this.baseURL);
@@ -31,8 +44,9 @@ class MainFlowTest {
     const { mailpitPage, openedLinkPage } = await openEmail({
       context,
       name: 'accountVerificationEmail',
-      email,
-      linkPrefix: `${this.baseURL}/auth/`
+      toEmail: email,
+      linkPrefix: `${this.baseURL}/auth/`,
+      platform: this.emailPlatform
     });
 
     // Add garden
@@ -91,11 +105,20 @@ class MainFlowTest {
     const { mailpitPage } = await openEmail({
       context,
       name: 'accountVerificationEmail',
-      email,
-      linkPrefix: `${this.baseURL}/auth/`
+      toEmail: email,
+      linkPrefix: `${this.baseURL}/auth/`,
+      platform: this.emailPlatform
     });
 
-    const { firebaseAdminPage } = await makeSuperfan({ context, firstName: 'Robot2' });
+    let firebaseAdminPage: Page | undefined = undefined;
+
+    // Ensure superfan
+    if (this.type === 'local') {
+      ({ firebaseAdminPage } = await makeSuperfan({ context, firstName: 'Robot2' }));
+    } else {
+      // TODO: go through the flow to become a member
+      await payOnStripe({ page: wtmgPage });
+    }
 
     // Get back to WTMG
     await wtmgPage.bringToFront();
@@ -137,8 +160,16 @@ class MainFlowTest {
   }
 
   async test() {
-    const robot1Email = 'test+robot1@slowby.travel';
-    const robot2Email = 'test+robot2@slowby.travel';
+    let robot1Email = '';
+    let robot2Email = '';
+    if (this.type === 'local') {
+      robot1Email = 'test+robot1@slowby.travel';
+      robot2Email = 'test+robot2@slowby.travel';
+    } else {
+      const timestamp = new Date().toISOString().substring(2, 19).replace(/:/g, '-');
+      robot1Email = `slowbytest+${timestamp}_1@gmail.com`;
+      robot2Email = `slowbytest+${timestamp}_2@gmail.com`;
+    }
 
     // Create robot 1 with a garden
     const robot1Context = await this.browser.newContext();
@@ -172,18 +203,29 @@ class MainFlowTest {
       context: robot2Context,
       existingMailpitPage: robot2Mailpit,
       name: 'messageReceivedEmail',
-      email: robot2Email,
-      linkPrefix: `${this.baseURL}/chat/`
+      toEmail: robot2Email,
+      linkPrefix: `${this.baseURL}/chat/`,
+      platform: this.emailPlatform
     });
 
     // Confirm that the response is visible
+    if (!robot2ChatPage) {
+      throw new Error('No chat page opened for robot 2');
+    }
     await robot2ChatPage.getByText('Yes, sure!');
+
+    // Delete accounts so that the exact map spot that we need will not have two gardens
+    if (this.type === 'staging') {
+      await deleteAccount({ page: wtmgPage1, firstName: 'Robot1' });
+      await deleteAccount({ page: robot2ChatPage, firstName: 'Robot2' });
+    }
+
     await Promise.all([robot1Context.close(), robot2Context.close()]);
   }
 }
 
-test('main flow', async ({ browser }) => {
-  const flow = new MainFlowTest(browser, 'http://localhost:5173');
+test('main flow', async ({ browser, options }) => {
+  const flow = new MainFlowTest(browser, options.baseURL, options.type);
   await flow.test();
 });
 

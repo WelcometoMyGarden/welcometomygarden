@@ -1,18 +1,48 @@
 import { defineConfig, devices } from '@playwright/test';
 
-export default defineConfig({
+const USE_SLOWMO = false;
+
+const slowMoChromium = USE_SLOWMO
+  ? {
+      ...devices['Desktop Chrome'],
+      launchOptions: {
+        slowMo: 100
+      }
+    }
+  : {};
+
+export const defaultOptions = { type: 'local', baseURL: 'http://localhost:5173' } as const;
+
+export type TestType = 'staging' | 'local';
+
+export type TestOptions = {
+  options: { type: TestType; baseURL: string };
+};
+
+export default defineConfig<TestOptions>({
   testDir: './tests/e2e',
   projects: [
     {
-      name: 'chromium',
+      name: 'local',
       use: {
-        ...devices['Desktop Chrome'],
-        launchOptions: {
-          slowMo: 100
-        }
+        options: defaultOptions,
+        ...slowMoChromium
+      }
+    },
+    {
+      name: 'staging',
+      use: {
+        options: {
+          type: 'staging',
+          baseURL: 'https://staging.welcometomygarden.org'
+        },
+        ...slowMoChromium
       }
     }
   ],
+  // TODO: this is not relevant for the 'staging' project, but it is not configurable per projects
+  // this should probably be refactored into a per-project "setup" (necessitating the reimplementation of
+  // health checks and timeouts?)
   webServer: [
     // Run compiled demo frontend (which is most similar to production)
     // {
@@ -48,7 +78,4 @@ export default defineConfig({
     }
   ],
   globalTeardown: './tests/e2e/global-teardown'
-  // use: {
-  //   baseURL: 'http://127.0.0.1:4173'
-  // }
 });

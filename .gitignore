@@ -21,6 +21,7 @@ vite.config.ts.timestamp*
 /coverage
 /.nyc_output
 firestore-coverage.html
+tests/e2e/credentials.json
 
 # IDEs and editors
 /.idea
