@@ -10,7 +10,7 @@ const localEmailHostParam = defineString('LOCAL_EMAIL_HOST', { default: '' });
 
 /**
  *
- * @param {import('@sendgrid/mail').MailDataRequired['from'] | import('@sendgrid/mail').MailDataRequired['to']} email
+ * @param {SendGrid.MailDataRequired['from'] | SendGrid.MailDataRequired['to']} email
  */
 const parseEmailSpec = (email) => {
   let address;
@@ -34,7 +34,7 @@ const parseEmailSpec = (email) => {
 /**
  * Only supports a single to/from address for now
  * See https://mailpit.axllent.org/docs/api-v1/view.html#post-/api/v1/send
- * @param {import('@sendgrid/mail').MailDataRequired} msg
+ * @param {SendGrid.MailDataRequired} msg
  * @param {string} emailTitle
  * @returns {Promise<[import('@sendgrid/mail').ClientResponse, {}]>}
  */

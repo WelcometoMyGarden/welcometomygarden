@@ -42,7 +42,7 @@ exports.handleRenewals = async () => {
     // SG email: "Renewal 2 days before [cancellation]"
     sendRenewalReminders(docs),
     // (3) Fully cancel the subscription in case of no renewal after 7 days
-    // `sendSubscriptionEndedEmail()` in `subscriptionDeleted.js` will a deletion notice email
+    // `sendSubscriptionEndedEmail()` in `subscriptionDeleted.js` will trigger a deletion notice email
     // SG email: "Membership ended"
     cancelUnpaidRenewals(docs),
     // (4) Send a feedback email after 7 + 5 days

@@ -21,7 +21,7 @@ function makeVerificationLinkLocal(verificationLink) {
 
 /**
  *
- * @param {import('@sendgrid/mail').MailDataRequired} msg
+ * @param {SendGrid.MailDataRequired} msg
  * @param {Record<string, any>} obj
  */
 const insertInDynamicTemplateData = (msg, obj) => ({
@@ -75,6 +75,9 @@ exports.sendAccountVerificationEmail = (
       break;
   }
 
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
   const msg = {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
@@ -83,7 +86,8 @@ exports.sendAccountVerificationEmail = (
       firstName: name,
       verificationLink,
       type
-    }
+    },
+    categories: ['Account verification email']
   };
 
   if (!canSendMail()) {
@@ -105,6 +109,10 @@ exports.sendAccountVerificationEmail = (
 };
 
 exports.sendPasswordResetEmail = (email, name, resetLink) => {
+  // TODO: we only have this one in English?
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
   const msg = {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
@@ -112,7 +120,8 @@ exports.sendPasswordResetEmail = (email, name, resetLink) => {
     dynamicTemplateData: {
       firstName: name,
       resetLink
-    }
+    },
+    categories: ['Password reset email']
   };
 
   if (!canSendMail()) {
@@ -167,7 +176,7 @@ exports.sendMessageReceivedEmail = (config) => {
   }
 
   /**
-   * @type {import("@sendgrid/mail").MailDataRequired}
+   * @satisfies {SendGrid.MailDataRequired}
    */
   const msg = {
     to: email,
@@ -180,7 +189,8 @@ exports.sendMessageReceivedEmail = (config) => {
       messageUrl,
       message,
       superfan
-    }
+    },
+    categories: ['New chat message notification email']
   };
 
   if (!canSendMail()) {
@@ -206,10 +216,14 @@ exports.sendEmailReplyError = (toEmail, language) => {
       templateId = 'd-24c51c1b6e324edc9f79ee214eba1af6';
   }
 
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
   const msg = {
     to: toEmail,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
-    templateId
+    templateId,
+    categories: ['Email reply error notification email']
   };
 
   if (!canSendMail()) {
@@ -243,6 +257,9 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
       break;
   }
 
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
   const msg = {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
@@ -250,7 +267,8 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
     dynamicTemplateData: {
       firstName,
       exploreFeaturesLink: `${frontendUrl()}/explore`
-    }
+    },
+    categories: ['Subscription confirmation email']
   };
 
   if (!canSendMail()) {
@@ -273,6 +291,7 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
  */
 
 /**
+ * This is the first email that informs members that they can renew.
  * @param {SubscriptionRenewalConfig} config
  * @returns
  */
@@ -291,6 +310,9 @@ exports.sendSubscriptionRenewalEmail = (config) => {
       break;
   }
 
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
   const msg = {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
@@ -299,7 +321,8 @@ exports.sendSubscriptionRenewalEmail = (config) => {
       firstName,
       price,
       renewalLink
-    }
+    },
+    categories: ['Subscription renewal email']
   };
 
   if (!canSendMail()) {
@@ -331,6 +354,9 @@ exports.sendSubscriptionRenewalReminderEmail = (config) => {
       break;
   }
 
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
   const msg = {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
@@ -339,7 +365,8 @@ exports.sendSubscriptionRenewalReminderEmail = (config) => {
       firstName,
       renewalLink,
       price
-    }
+    },
+    categories: ['Subscription renewal reminder email']
   };
 
   if (!canSendMail()) {
@@ -372,13 +399,17 @@ exports.sendSubscriptionEndedEmail = (email, firstName, language) => {
       break;
   }
 
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
   const msg = {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
     templateId,
     dynamicTemplateData: {
       firstName
-    }
+    },
+    categories: ['Subscription ended email']
   };
 
   if (!canSendMail()) {
@@ -411,13 +442,17 @@ exports.sendSubscriptionRenewalThankYouEmail = (email, firstName, language) => {
       break;
   }
 
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
   const msg = {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
     templateId,
     dynamicTemplateData: {
       firstName
-    }
+    },
+    categories: ['Subscription renewal Thank You email']
   };
 
   if (!canSendMail()) {
@@ -450,13 +485,17 @@ exports.sendSubscriptionEndedFeedbackEmail = (email, firstName, language) => {
       break;
   }
 
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
   const msg = {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
     templateId,
     dynamicTemplateData: {
       firstName
-    }
+    },
+    categories: ['Subscription ended feedback email']
   };
 
   if (!canSendMail()) {
