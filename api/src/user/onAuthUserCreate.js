@@ -3,7 +3,7 @@
  */
 
 const { mapAuthUser } = require('../replication/shared');
-const supabase = require('../supabase');
+const { supabase } = require('../supabase');
 
 /**
  * Cloud Function handler intended to run on a Firebase Auth user creation event:
@@ -12,5 +12,5 @@ const supabase = require('../supabase');
  */
 module.exports = async (user) => {
   // Note: in the auth user creation event, user.displayName will be null!
-  await supabase.from('auth').upsert(mapAuthUser(user)).select();
+  await supabase().from('auth').upsert(mapAuthUser(user)).select();
 };

@@ -10,7 +10,10 @@ const sinon = require('sinon');
 //
 // beforeEach really runs before each test, also before nested tests
 
-const { config } = require('firebase-functions');
+// load process.env vars
+const dotenv = require('dotenv');
+dotenv.config({ path: './.env.local' });
+
 const { auth } = require('../seeders/app');
 const { createNewUser } = require('../seeders/util');
 const mail = require('../src/mail');
@@ -102,14 +105,14 @@ describe('renewal reminder email', () => {
       '../../firebase': { auth },
       '../../mail': {
         sendSubscriptionRenewalReminderEmail: fakeEmail
-      },
-      'firebase-functions': { logger: loggerStub }
+      }
     });
   });
 
   it('sends the right reminder email', async () => {
     // 36 eur price ID
-    const priceId = config().stripe.price_ids.reduced;
+    // TODO not sure if this will be loaded
+    const priceId = process.env.STRIPE_PRICE_IDS_REDUCED;
     const docProps = {
       countryCode: 'BE',
       superfan: true,

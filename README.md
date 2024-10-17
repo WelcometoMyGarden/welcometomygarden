@@ -24,7 +24,7 @@ Firebase [is not our dream ecosystem](https://github.com/WelcometoMyGarden/welco
 - Install the [Firebase CLI](https://firebaseopensource.com/projects/firebase/firebase-tools/) globally.
 
   ```
-  yarn global add firebase-tools
+  npm i -g firebase-tools
   ```
 
 - Install project dependencies, in both the root and `/api` directory.

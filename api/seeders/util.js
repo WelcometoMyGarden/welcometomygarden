@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unresolved
 const { FieldValue, Timestamp } = require('firebase-admin/firestore');
 const { auth, db } = require('./app');
 
@@ -53,7 +52,7 @@ exports.createNewUser = async (authProps, callableProps) => {
 
 /**
  * @param {string} uid
- * @param {import('../../src/lib/types/Garden').Garden} data
+ * @param {Garden} data
  */
 const createGardenDoc = async (uid, data) => {
   await db.collection('campsites').doc(uid).set(data);

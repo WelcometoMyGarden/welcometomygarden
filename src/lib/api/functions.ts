@@ -138,12 +138,16 @@ export const discourseConnectLogin: HttpsCallable<
 > = wrapCallable(() => discourseConnectLoginRef);
 
 export const initializeUsCentral1Functions = (usCentral1Functions: Functions) => {
-  createUserRef = httpsCallable<CreateUserRequest>(usCentral1Functions, 'createUser');
-  requestPasswordResetRef = httpsCallable<EmptyObject>(usCentral1Functions, 'requestPasswordReset');
-  resendAccountVerificationRef = httpsCallable(usCentral1Functions, 'resendAccountVerification');
+  // TODO: remove, but align this with the production situation at all times
 };
 
 export const initializeEuropeWest1Functions = (europeWest1Functions: Functions) => {
+  createUserRef = httpsCallable<CreateUserRequest>(europeWest1Functions, 'createUser');
+  requestPasswordResetRef = httpsCallable<EmptyObject>(
+    europeWest1Functions,
+    'requestPasswordReset'
+  );
+  resendAccountVerificationRef = httpsCallable(europeWest1Functions, 'resendAccountVerification');
   createStripeCustomerRef = httpsCallable(europeWest1Functions, 'createStripeCustomer');
   createOrRetrieveUnpaidSubscriptionRef = httpsCallable(
     europeWest1Functions,

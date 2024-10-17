@@ -2,7 +2,8 @@
   "projects": {
     "default": "wtmg-dev",
     "prod": "wtmg-production",
-    "demo": "demo-test"
+    "demo": "demo-test",
+    "staging": "wtmg-dev"
   },
   "targets": {
     "wtmg-production": {

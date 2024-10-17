@@ -1,9 +1,9 @@
 const { replicate } = require('./shared');
 
 /**
- * @param {import("firebase-functions").Change<any>} change
+ * @param {FirestoreEvent<Change<DocumentSnapshot<UserPublic>>>} change
  */
-module.exports = async (change) => {
+module.exports = async ({ data: change }) => {
   await replicate({
     change,
     tableName: 'users_public',

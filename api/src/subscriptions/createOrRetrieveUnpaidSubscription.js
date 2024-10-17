@@ -22,7 +22,7 @@ const {
 /**
  * @param {string} customerId
  * @param {string} priceId
- * @param {import('@google-cloud/firestore').DocumentReference} privateUserProfileDocRef
+ * @param {DocumentReference} privateUserProfileDocRef
  * @param {string} locale
  * @returns
  */
@@ -107,7 +107,7 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
  * of the full amount of the new price.
  * @param {import('stripe').Stripe.Subscription} existingSubscription
  * @param {import('stripe').Stripe.Price} priceObject
- * @param {import('@google-cloud/firestore').DocumentReference} privateUserProfileDocRef
+ * @param {DocumentReference} privateUserProfileDocRef
  */
 const changeSubscriptionPrice = async (
   existingSubscription,
@@ -215,10 +215,18 @@ const changeSubscriptionPrice = async (
   return proratedSubscription;
 };
 
-exports.createOrRetrieveUnpaidSubscription = async ({ priceId, locale }, context) => {
-  if (!context.auth) {
+/**
+ *
+ * @param {FV2.CallableRequest<{priceId: string, locale:string}>} request
+ * @returns
+ */
+exports.createOrRetrieveUnpaidSubscription = async (request) => {
+  if (!request.auth) {
     fail('unauthenticated');
   }
+
+  const { priceId, locale } = request.data;
+
   if (
     typeof priceId !== 'string' ||
     // Allow undefined locales, or a string locale
@@ -227,7 +235,7 @@ exports.createOrRetrieveUnpaidSubscription = async ({ priceId, locale }, context
     fail('invalid-argument');
   }
 
-  const { uid } = context.auth;
+  const { uid } = request.auth;
 
   // Reused later, initialized concurrently below
   let requestedPrice;
@@ -251,7 +259,7 @@ exports.createOrRetrieveUnpaidSubscription = async ({ priceId, locale }, context
     const privateUserProfileData = (await privateUserProfileDocRef.get()).data();
     if (!privateUserProfileData.stripeCustomerId) {
       console.info(`User ${uid} does not yet have a Stripe customer linked to it, creating it.`);
-      const { id: createdCustomerId } = await createStripeCustomer(null, context);
+      const { id: createdCustomerId } = await createStripeCustomer(null, request);
       customerId = createdCustomerId;
     } else {
       customerId = privateUserProfileData.stripeCustomerId;

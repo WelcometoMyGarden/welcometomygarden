@@ -1,27 +1,20 @@
-// https://stackoverflow.com/a/69959606/4973029
-// eslint-disable-next-line import/no-unresolved
 const { FieldValue, Timestamp } = require('firebase-admin/firestore');
-const { config, logger } = require('firebase-functions');
+const { logger } = require('firebase-functions');
 const removeDiacritics = require('./util/removeDiacritics');
 const { sendMessageReceivedEmail } = require('./mail');
-const removeEndingSlash = require('./util/removeEndingSlash');
 const { auth, db } = require('./firebase');
 const { sendNotification } = require('./push');
 const fail = require('./util/fail');
-const supabase = require('./supabase');
-
-const { shouldReplicate } = require('./sharedConfig');
+const { supabase } = require('./supabase');
+const { frontendUrl, shouldReplicateRuntime } = require('./sharedConfig');
 
 exports.MAX_MESSAGE_LENGTH = 800;
 
 /**
- * @typedef {import("../../src/lib/models/User").UserPrivate} UserPrivate
- * @typedef {import("../../src/lib/models/User").UserPublic} UserPublic
- * @typedef {import("../../src/lib/types/Chat").LocalChat} LocalChat
  * @typedef {import("../../src/lib/types/PushRegistration.ts").FirebasePushRegistration} FirebasePushRegistration
  */
 /**
- * @typedef {import("firebase-admin/firestore").CollectionReference<FirebasePushRegistration>} PushRegistrationColRef
+ * @typedef {CollectionReference<FirebasePushRegistration>} PushRegistrationColRef
  */
 
 const getChat = async (chatId) => {
@@ -43,13 +36,15 @@ const normalizeName = (str) => removeDiacritics(str).toLowerCase();
  * Sends an email notification of a new chat to a recipient, if the recipient
  * wishes to receive email notifications and has not received a notification about the
  * chat yet very recently.
- * @param {import("@google-cloud/firestore").QueryDocumentSnapshot<import('../../src/lib/types/Chat').FirebaseMessage>} snap
+ *
+ * @param {FirestoreEvent<QueryDocumentSnapshot<import('../../src/lib/types/Chat').FirebaseMessage>,
+ * { chatId: string; messages: string; messageId: string; }>} snap
  * @returns {Promise<any>}
  */
-exports.onMessageCreate = async (snap, context) => {
+exports.onMessageCreate = async ({ data: snap, params }) => {
   const message = snap.data();
   const senderId = message.from;
-  const { chatId } = context.params;
+  const { chatId } = params;
 
   const chat = await getChat(chatId);
 
@@ -117,7 +112,7 @@ exports.onMessageCreate = async (snap, context) => {
       fail('internal');
     }
 
-    const baseUrl = removeEndingSlash(config().frontend.url);
+    const baseUrl = frontendUrl();
 
     const senderNameParts = senderAuthUser.displayName.split(/[^A-Za-z-]/);
     const messageUrl = `${baseUrl}/chat/${normalizeName(senderNameParts[0])}/${chatId}`;
@@ -204,12 +199,12 @@ exports.sendMessageFromEmail = async function sendMessageFromEmail(params) {
     try {
       return (await auth.getUserByEmail(fromEmail)).uid;
     } catch (e) {
-      if (shouldReplicate && fromEmail.match(/@(?:gmail|googlemail)\.com$/)) {
+      if (shouldReplicateRuntime() && fromEmail.match(/@(?:gmail|googlemail)\.com$/)) {
         /** @type {{error: import('@supabase/supabase-js').PostgrestError, data: Supabase.GetGmailNormalizedEmailResponse}} */
         const {
           error,
           data: { id, email, email_verified }
-        } = await supabase.rpc('get_gmail_normalized_email', fromEmail);
+        } = await supabase().rpc('get_gmail_normalized_email', fromEmail);
         if (error || id == null) {
           logger.error(
             `Email error: couldn't find the user for email address ${fromEmail} in Firebase Auth or Supabase equivalents.`

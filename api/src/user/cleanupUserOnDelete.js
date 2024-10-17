@@ -1,17 +1,10 @@
-// https://stackoverflow.com/a/69959606/4973029
-// eslint-disable-next-line import/no-unresolved
 const { FieldValue } = require('firebase-admin/firestore');
-const { config, logger } = require('firebase-functions');
+const { logger } = require('firebase-functions');
 const { db } = require('../firebase');
 const stripe = require('../subscriptions/stripe');
 const { deleteContact } = require('../sendgrid/deleteContact');
-const supabase = require('../supabase');
-
-/**
- * @typedef {import("../../../src/lib/models/User").UserPrivate} UserPrivate
- * @typedef {import("../../../src/lib/models/User").UserPublic} UserPublic
- * @typedef {import("firebase-admin/auth").UserRecord} UserRecord
- */
+const { supabase } = require('../supabase');
+const { isSupabaseReplicationDisabled } = require('../sharedConfig');
 
 /*
  * JSDOC TS types note: this won't work:
@@ -66,11 +59,9 @@ exports.cleanupUserOnDelete = async (user) => {
   batch.delete(db.doc(`campsites/${userId}`));
   batch.delete(db.doc(`users-private/${userId}`));
 
-  const { disable_replication } = config().supabase;
-
-  if (!disable_replication) {
+  if (!isSupabaseReplicationDisabled()) {
     try {
-      await supabase.from('auth').delete().eq('id', userId);
+      await supabase().from('auth').delete().eq('id', userId);
     } catch (ex) {
       logger.error(ex);
     }

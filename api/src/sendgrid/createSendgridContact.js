@@ -1,21 +1,15 @@
-const { disable_contacts } = require('firebase-functions').config().sendgrid;
 const { setTimeout } = require('node:timers/promises');
 const { logger } = require('firebase-functions');
-const {
-  sendgrid: sendgridClient,
-  SG_WTMG_NEWS_YES_ID,
-  SG_WTMG_ID_FIELD_ID,
-  SG_CREATION_TIME_FIELD_ID
-} = require('./sendgrid');
+const { sendgrid: sendgridClient } = require('./sendgrid');
 const fail = require('../util/fail');
 const { db } = require('../firebase');
 const getContactByEmail = require('./getContactByEmail');
-
-/**
- * @typedef {import("../../../src/lib/models/User").UserPrivate} UserPrivate
- * @typedef {import("../../../src/lib/models/User").UserPublic} UserPublic
- * @typedef {import("firebase-admin/auth").UserRecord} UserRecord
- */
+const {
+  sengridWtmgIdFieldIdParam,
+  sendgridCreationTimeFieldIdParam,
+  sendgridWtmgNewsletterListId,
+  isContactSyncDisabled
+} = require('../sharedConfig');
 
 /**
  * Add a contact for this user to SendGrid, and store its contact ID
@@ -30,7 +24,7 @@ const createSendgridContact = async (
   extraContactDetails = {},
   addToNewsletter = false
 ) => {
-  if (disable_contacts) {
+  if (isContactSyncDisabled()) {
     logger.warn('Ignoring SendGrid contact creation');
     return;
   }
@@ -47,8 +41,10 @@ const createSendgridContact = async (
     first_name: firebaseUser.displayName,
     ...extraContactDetails,
     custom_fields: {
-      [SG_WTMG_ID_FIELD_ID]: firebaseUser.uid,
-      [SG_CREATION_TIME_FIELD_ID]: new Date(firebaseUser.metadata.creationTime).toISOString(),
+      [sengridWtmgIdFieldIdParam.value()]: firebaseUser.uid,
+      [sendgridCreationTimeFieldIdParam.value()]: new Date(
+        firebaseUser.metadata.creationTime
+      ).toISOString(),
       ...(extraContactDetails.custom_fields ?? {})
     }
   };
@@ -60,7 +56,7 @@ const createSendgridContact = async (
   let contactCreationJobId;
   let list_ids;
   if (addToNewsletter) {
-    list_ids = [SG_WTMG_NEWS_YES_ID];
+    list_ids = [sendgridWtmgNewsletterListId.value()];
   }
   try {
     const [{ statusCode }, { job_id }] = await sendgridClient.request({

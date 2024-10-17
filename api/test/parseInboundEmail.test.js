@@ -7,7 +7,7 @@ const simpleSeed = require('../seeders/simple');
 const { db } = require('../seeders/app');
 const { createChat, createNewUser } = require('../seeders/util');
 const { sendMessageFromEmail } = require('../src/chat');
-const { clearAuth, clearFirestore, loggerStub } = require('./util');
+const { clearAuth, clearFirestore } = require('./util');
 const { parseUnpackedInboundEmail } = require('../src/sendgrid/parseInboundEmail');
 
 const pauseForManualCheck = async () => {
@@ -117,12 +117,13 @@ describe('the server-side message sending function `sendMessageFromEmail` ', () 
     });
     const { sendMessageFromEmail: sendMessageFromEmailTest } = proxyquire('../src/chat.js', {
       './supabase': {
-        rpc: supabaseRpcFake
+        supabase: () => ({
+          rpc: supabaseRpcFake
+        })
       },
-      // override config(). to force-enable replication
-      'firebase-functions': {
-        config: () => ({ supabase: { disable_replication: false } }),
-        logger: loggerStub
+      // override config to force-enable replication
+      './sharedConfig': {
+        shouldReplicateRuntime: () => true
       }
     });
 

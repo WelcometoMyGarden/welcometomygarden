@@ -1,5 +1,3 @@
-// https://stackoverflow.com/a/69959606/4973029
-// eslint-disable-next-line import/no-unresolved
 const { FieldValue } = require('firebase-admin/firestore');
 const countries = require('../countries');
 const fail = require('../util/fail');
@@ -7,30 +5,23 @@ const { sendVerificationEmail } = require('../auth');
 const { auth, db } = require('../firebase');
 
 /**
- * @typedef {import("../../../src/lib/models/User").UserPrivate} UserPrivate
- * @typedef {import("../../../src/lib/models/User").UserPublic} UserPublic
- * @typedef {import("firebase-admin/auth").UserRecord} UserRecord
- */
-
-/**
  * Callable function to create the required Firestore user documents for a newly created
  * account in Firebase Auth.
  *
- * @param {import('../../../src/lib/api/functions').CreateUserRequest} data
- * @param {import('firebase-functions/v1/https').CallableContext} context
+ * @param {FV2.CallableRequest<import('../../../src/lib/api/functions').CreateUserRequest>} request
  * @returns {Promise<object>}
  */
-exports.createUser = async (data, context) => {
-  if (!context.auth) {
+exports.createUser = async ({ data, auth: authContext }) => {
+  if (!authContext) {
     return fail('unauthenticated');
   }
 
-  if (!context.auth.uid) {
+  if (!authContext.uid) {
     return fail('internal');
   }
 
   try {
-    const existingUser = await db.collection('users').doc(context.auth.uid).get();
+    const existingUser = await db.collection('users').doc(authContext.uid).get();
     if (existingUser.exists) fail('already-exists');
 
     if (!data.firstName || !data.lastName) fail('invalid-argument');
@@ -74,7 +65,7 @@ exports.createUser = async (data, context) => {
     const firstName = normalizeName(data.firstName);
     const lastName = normalizeName(data.lastName);
 
-    const user = await auth.getUser(context.auth.uid);
+    const user = await auth.getUser(authContext.uid);
     const { email } = user;
 
     await auth.updateUser(user.uid, { displayName: firstName });
@@ -87,10 +78,9 @@ exports.createUser = async (data, context) => {
       // A data migration was run only for new existing accounts in November/December 2022.
     });
 
-    const userPrivateRef =
-      /** @type {import('firebase-admin/firestore').DocumentReference<UserPrivate>} */ (
-        db.collection('users-private').doc(user.uid)
-      );
+    const userPrivateRef = /** @type {DocumentReference<UserPrivate>} */ (
+      db.collection('users-private').doc(user.uid)
+    );
     await userPrivateRef.set({
       lastName,
       // Consent can be assumed here, because on the frontend, the registration form does not
@@ -128,7 +118,7 @@ exports.createUser = async (data, context) => {
       ex
     );
     // TODO: instead of deleting here, use a transaction that can be rolled back (if possible).
-    await auth.deleteUser(context.auth.uid);
+    await auth.deleteUser(authContext.uid);
     return ex;
   }
 };

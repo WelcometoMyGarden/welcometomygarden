@@ -1,5 +1,5 @@
 const { auth } = require('../../firebase');
-const supabase = require('../../supabase');
+const { supabase } = require('../../supabase');
 const { mapAuthUser } = require('../shared');
 
 /**

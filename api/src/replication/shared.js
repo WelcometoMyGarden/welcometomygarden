@@ -1,21 +1,47 @@
 const { logger } = require('firebase-functions');
-// eslint-disable-next-line import/no-unresolved
 const { Timestamp } = require('firebase-admin/firestore');
 const _ = require('lodash');
-const supabase = require('../supabase');
+const { supabase } = require('../supabase');
 const { wait } = require('../util/time');
 
 /**
- * @typedef {(change: import("firebase-functions").Change<any>, context: import('firebase-functions').EventContext<any>) => Promise<any>} handler
+ * Note: I'd prefer the path to be Record<string,string>, but it seems like
+ * TS needs a combination of all possible params here to not complain.
+ * Typescript gives errors for the one case (onUserPrivateWrite) where the parameters type is given.
+ *
+ * @typedef {<T extends Change<DocumentSnapshot<any>>>
+ *  (event: FirestoreEvent<T, {userId: string; campsiteId: string;}>) => Promise<any>} FirestoreEventHandler
  */
 
-exports.multiplexFirestoreTrigger = (handlers) =>
-  /**
-  @type {handler}
-   */ (
-    async (change, context) =>
-      Promise.allSettled(handlers.map((handler) => handler(change, context)))
-  );
+/**
+ * @type {(handlers: FirestoreEventHandler[]) => FirestoreEventHandler}
+ */
+exports.executeFirestoreTriggersConcurrently = (handlers) => async (event) =>
+  Promise.allSettled(handlers.map((handler) => handler(event)));
+
+/**
+ * @type {(handlers: FirestoreEventHandler[]) => FirestoreEventHandler}
+ */
+exports.seralizeFirestoreTriggers = (handlers) => async (event) => {
+  for (const handler of handlers) {
+    // eslint-ignore
+    await handler(event);
+  }
+};
+
+/**
+ * Only call the function if the guard is true, otherwise do nothing
+ * @type {WrappedFunction}
+}
+ */
+exports.guardOn = function wrappedFunc(guard, func) {
+  return (...args) => {
+    if (guard) {
+      return func(...args);
+    }
+    return null;
+  };
+};
 
 /**
  * @param {Timestamp} [t]
@@ -174,17 +200,19 @@ exports.replicate = async (options) => {
       // If an `after` exists, it's either an update or insert
       let result;
       if (changeType === 'upsert') {
-        result = await supabase.from(tableName).upsert({
-          id: after.id,
-          ...createDataMapper(
-            dataMapper,
-            pick
-          )({
-            ..._.mapValues(_.pick(after, 'createTime', 'updateTime'), timestampToISOString),
-            ...after.data()
-          }),
-          ...extraProps
-        });
+        result = await supabase()
+          .from(tableName)
+          .upsert({
+            id: after.id,
+            ...createDataMapper(
+              dataMapper,
+              pick
+            )({
+              ..._.mapValues(_.pick(after, 'createTime', 'updateTime'), timestampToISOString),
+              ...after.data()
+            }),
+            ...extraProps
+          });
 
         if (!result.error) {
           // success
@@ -195,7 +223,7 @@ exports.replicate = async (options) => {
           return true;
         }
       } else if (changeType === 'deletion') {
-        let query = supabase.from(tableName).delete().eq('id', before.id);
+        let query = supabase().from(tableName).delete().eq('id', before.id);
         if (extraDeletionFilters.length > 0) {
           for (let i = 0; i < extraDeletionFilters.length; i += 1) {
             const filterPair = extraDeletionFilters[i];

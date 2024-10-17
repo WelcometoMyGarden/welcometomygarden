@@ -1,13 +1,11 @@
 const { replicate } = require('./shared');
 
 /**
- * @typedef {import("@google-cloud/firestore").DocumentSnapshot<any>} DocumentSnapshot
- * @param {import("firebase-functions").Change<any>} change
- * @param {import('firebase-functions').EventContext<{userId: string, subcollection: string, documentId: string}>} context
+ * @param {FirestoreEvent<Change<DocumentSnapshot>, {userId: string, subcollection: string, documentId: string}>} change
  * @returns {Promise<any>}
  */
-module.exports = async (change, context) => {
-  const { userId, subcollection } = context.params;
+module.exports = async ({ data: change, params }) => {
+  const { userId, subcollection } = params;
   const subcollectionTableName = subcollection.replace('-', '_');
   if (!subcollectionTableName.match(/push_registrations|trails|unreads/)) {
     console.log(`Unsupported subcollection change: ${subcollection}`);

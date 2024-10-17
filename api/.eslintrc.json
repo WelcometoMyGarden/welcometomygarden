@@ -42,11 +42,13 @@
       }
     ],
     "no-restricted-syntax": [
-      "error",
+      "warn",
       {
         "selector": "ForInStatement",
         "message": "for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array."
       },
+      // TODO: is this only relevant for polyfilled browser JS? Or is there merit to this in Node v20 too? https://github.com/airbnb/javascript/issues/1271
+      // I like for...of loops
       {
         "selector": "ForOfStatement",
         "message": "iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations."
@@ -60,6 +62,11 @@
         "message": "`with` is disallowed in strict mode because it makes code impossible to predict and optimize."
       }
     ],
+    // Not sure how else to cleanly serialize promise execution...
+    "no-await-in-loop": "warn",
+    // This plugin is expected by the AirBNB base we're extending, but this specific rule has issues with Google packages
+    // https://github.com/import-js/eslint-plugin-import/issues/1810
+    "import/no-unresolved": "off",
     // It is often more convenient and clear to directly use snake-cased variables from API results such as SendGrid
     "camelcase": "off"
   }

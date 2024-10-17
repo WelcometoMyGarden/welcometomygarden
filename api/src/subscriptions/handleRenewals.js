@@ -15,7 +15,7 @@ exports.handleRenewals = async () => {
   // Further filtering should be done to know exactly when the subscription expired.
   // We can't do that here because of compound query limitations.
   // https://firebase.google.com/docs/firestore/query-data/queries#limitations
-  const query = /** @type {Firebase.Query<Firebase.UserPrivate>} */ (
+  const query = /** @type {Query<UserPrivate>} */ (
     db
       .collection('users-private')
       // The subscription status is "past_due"

@@ -10,7 +10,7 @@ const { isWTMGInvoice } = require('./util');
  * Only handles WTMG subscription renewal invoices, ignores other invoices.
  *
  * @param {any} event
- * @param {import('firebase-functions/v1').Response} res
+ * @param {import('express').Response} res
  *
  */
 module.exports = async (event, res) => {

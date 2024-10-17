@@ -1,15 +1,10 @@
-const functions = require('firebase-functions');
+const { defineString } = require('firebase-functions/params');
 // See https://stackoverflow.com/a/70139151/4973029
 const { default: fetch, Headers } = require('node-fetch');
 const { getHmacDigest } = require('./discourseConnectLogin');
-/**
- * @typedef {import("../../../src/lib/models/User").UserPrivate} UserPrivate
- * @typedef {import("firebase-admin/auth").UserRecord} UserRecord
- */
 
-const { host: HOST, api_key: API_KEY } = /** @type {{[key: string]: string}} */ (
-  functions.config().discourse ?? {}
-);
+const discourseHostParam = defineString('DISCOURSE_HOST', { default: '' });
+const discourseApiKeyParam = defineString('DISCOURSE_API_KEY', { default: '' });
 
 /**
  * Updates the email of a connected Discourse user, if one exists.
@@ -19,6 +14,9 @@ const { host: HOST, api_key: API_KEY } = /** @type {{[key: string]: string}} */ 
  * @returns {Promise<boolean>} - whether a change occurred
  */
 exports.updateDiscourseUser = async (user) => {
+  const HOST = discourseHostParam.value();
+  const API_KEY = discourseApiKeyParam.value();
+
   if (!HOST || !API_KEY) {
     console.warn(
       'No Discourse HOST & API_KEY variables are configured. Skipping Discourse user email update.'

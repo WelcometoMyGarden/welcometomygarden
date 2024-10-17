@@ -1,8 +1,8 @@
-const functions = require('firebase-functions');
 const { default: fetch } = require('node-fetch');
 const addrparser = require('address-rfc2822');
+const { defineString } = require('firebase-functions/params');
 
-const localEmailServerUrl = functions.config().localEmail;
+const localEmailHostParam = defineString('LOCAL_EMAIL_HOST', { default: '' });
 
 // Re-implement the SendGrid mail API for local development and testing
 // using Mailpit
@@ -39,7 +39,8 @@ const parseEmailSpec = (email) => {
  * @returns {Promise<[import('@sendgrid/mail').ClientResponse, {}]>}
  */
 module.exports = async function send({ to, from, dynamicTemplateData, templateId }, emailTitle) {
-  if (typeof localEmailServerUrl !== 'string' || !localEmailServerUrl) {
+  const localEmailServerUrl = localEmailHostParam.value();
+  if (!localEmailServerUrl) {
     console.warn('No local mailpit server configured');
     return [{ statusCode: 999, body: {}, headers: {} }, {}];
   }

@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unresolved
 const { getMessaging } = require('firebase-admin/messaging');
 /**
  * @typedef {Object} PushConfig

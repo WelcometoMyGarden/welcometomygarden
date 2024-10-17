@@ -24,8 +24,8 @@ exports.userPrivateDocIds = (docs) => {
  * Returns for the user when the combined user when the function call succeeds.
  * Returns null for the user when the user Auth data can't be found, or the function call fails.
  *
- * @param {import('firebase-admin/firestore').DocumentSnapshot<Firebase.UserPrivate>[]} userPrivateDocs
- * @param {(combinedUser: {id: string} & Omit<Firebase.UserRecord, 'toJSON'> & Firebase.UserPrivate ) => void} processFn
+ * @param {DocumentSnapshot<UserPrivate>[]} userPrivateDocs
+ * @param {(combinedUser: {id: string} & Omit<UserRecord, 'toJSON'> & UserPrivate ) => void} processFn
  * @param {string} processDescription
  */
 exports.processUserPrivateDocs = async (userPrivateDocs, processFn, processDescription) => {

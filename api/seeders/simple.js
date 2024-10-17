@@ -2,7 +2,6 @@
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { faker } = require('@faker-js/faker');
-// eslint-disable-next-line import/no-unresolved
 
 const { auth } = require('./app');
 const { createNewUser, createGarden, createChat, sendMessage } = require('./util');

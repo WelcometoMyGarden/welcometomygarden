@@ -1,30 +1,14 @@
-// https://stackoverflow.com/a/69959606/4973029
-const { config } = require('firebase-functions');
-// eslint-disable-next-line import/no-unresolved
 const { FieldValue } = require('firebase-admin/firestore');
 const { auth, db } = require('../firebase');
-const {
-  sendgrid: sendgridClient,
-  SENDGRID_SUPERFAN_FIELD_ID,
-  SG_KEY
-} = require('../sendgrid/sendgrid');
+const { sendgrid: sendgridClient } = require('../sendgrid/sendgrid');
 const fail = require('../util/fail');
+const { sendgridSuperfanFieldIdParam, isContactSyncDisabled } = require('../sharedConfig');
 
 /**
- * @typedef {import("../../../src/lib/models/User").UserPublic} UserPublic
- * @typedef {import("firebase-admin/auth").UserRecord} UserRecord
- */
-
-/**
- * @typedef {import("@google-cloud/firestore").DocumentSnapshot<UserPublic>} UserPublicDocumentSnapshot
- * @param {import("firebase-functions").Change<UserPublicDocumentSnapshot>} change
+ * @param {FirestoreEvent<Change<DocumentSnapshot<UserPublic>>>} change
  * @returns {Promise<any>}
  */
-exports.onUserWrite = async (change) => {
-  if (!SG_KEY) {
-    console.log('onUserWrite: No SG marketing key');
-  }
-
+exports.onUserWrite = async ({ data: change }) => {
   const { before, after } = change;
 
   if (!after.exists) {
@@ -68,8 +52,7 @@ exports.onUserWrite = async (change) => {
     superfanStatsDoc.set({ count: FieldValue.increment(1) }, { merge: true });
   }
 
-  const { disable_contacts } = config().sendgrid;
-  if (!disable_contacts) {
+  if (!isContactSyncDisabled()) {
     //
     // Update SendGrid contact info
     //
@@ -83,7 +66,7 @@ exports.onUserWrite = async (change) => {
       custom_fields: {
         // Because only numbers & text are supported as data types, not
         // (not sure how they appear in "JSON" data exports though)
-        [SENDGRID_SUPERFAN_FIELD_ID]: superfan ? 1 : 0
+        [sendgridSuperfanFieldIdParam.value()]: superfan ? 1 : 0
       }
     };
     await sendgridClient.request({

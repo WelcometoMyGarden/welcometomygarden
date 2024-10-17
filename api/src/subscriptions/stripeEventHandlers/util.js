@@ -1,25 +1,32 @@
-const functions = require('firebase-functions');
+const { defineString } = require('firebase-functions/params');
 const stripe = require('../stripe');
 
-const priceIdsObj = functions.config().stripe.price_ids;
-const wtmgPriceIds = Object.values(priceIdsObj);
+const stripePriceIdReduced = defineString('STRIPE_PRICE_IDS_REDUCED');
+const stripePriceIdNormal = defineString('STRIPE_PRICE_IDS_NORMAL');
+const stripePriceIdSolidarity = defineString('STRIPE_PRICE_IDS_SOLIDARITY');
 
-exports.wtmgPriceIds = wtmgPriceIds;
+const priceIdsObj = () => ({
+  reduced: stripePriceIdReduced.value(),
+  normal: stripePriceIdNormal.value(),
+  solidarity: stripePriceIdSolidarity.value()
+});
+
+exports.wtmgPriceIds = () => Object.values(priceIdsObj());
 
 /**
- * @type {{[key: string]: number}}
+ * @type {() => {[key: string]: number}}
  */
-exports.wtmgPriceIdToPrice = Object.fromEntries(
-  Object.entries(priceIdsObj).map(([key, priceId]) => [
-    priceId,
-    { reduced: 36, normal: 60, solidarity: 120 }[key]
-  ])
-);
+exports.wtmgPriceIdToPrice = () =>
+  Object.fromEntries(
+    Object.entries(priceIdsObj()).map(([key, priceId]) => [
+      priceId,
+      { reduced: 36, normal: 60, solidarity: 120 }[key]
+    ])
+  );
 
-function isWTMGPriceId(priceId) {
-  return wtmgPriceIds.includes(priceId);
-}
-exports.isWTMGPriceId = isWTMGPriceId;
+exports.isWTMGPriceId = function (priceId) {
+  return this.wtmgPriceIds().includes(priceId);
+};
 
 /**
  * @param {import('stripe').Stripe.Invoice} invoice
@@ -53,7 +60,7 @@ exports.isWTMGInvoice = async (invoice) => {
   }
 
   const priceId = price?.id;
-  if (isWTMGPriceId(priceId)) {
+  if (this.isWTMGPriceId(priceId)) {
     return true;
   }
   return false;
@@ -64,7 +71,7 @@ exports.isWTMGInvoice = async (invoice) => {
  */
 exports.isWTMGSubscription = (subscription) => {
   const priceId = subscription.items.data[0].price.id;
-  if (isWTMGPriceId(priceId)) {
+  if (this.isWTMGPriceId(priceId)) {
     return true;
   }
   return false;

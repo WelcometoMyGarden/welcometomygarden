@@ -21,6 +21,7 @@ export type TestOptions = {
 
 export default defineConfig<TestOptions>({
   testDir: './tests/e2e',
+  timeout: 80 * 1000,
   projects: [
     {
       name: 'local',
@@ -53,7 +54,7 @@ export default defineConfig<TestOptions>({
     // },
     // Reuse dev server
     {
-      command: 'npm run dev',
+      command: 'zsh -il -c "yarn dev"',
       // Health check URL
       url: 'http://127.0.0.1:5173',
       reuseExistingServer: !process.env.CI,
@@ -62,7 +63,7 @@ export default defineConfig<TestOptions>({
     // Run unseeded backend
     {
       // command: 'npx firebase --project demo-test emulators:exec --ui api/seeders/simple.js',
-      command: 'zsh -il -c "nvm use 18 && npm run firebase:demo"',
+      command: 'zsh -il -c "firebase --project demo-test emulators:start"',
       // Use Firebase Emulator Suite UI dashboard as a health check URL
       url: 'http://127.0.0.1:4001',
       reuseExistingServer: !process.env.CI,

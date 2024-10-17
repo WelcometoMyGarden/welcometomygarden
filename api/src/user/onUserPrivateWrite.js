@@ -1,33 +1,19 @@
-const { disable_contacts } = require('firebase-functions').config().sendgrid;
-const {
-  sendgrid: sendgridClient,
-  SG_WTMG_NEWS_YES_ID,
-  SG_KEY,
-  SG_CREATION_LANGUAGE_FIELD_ID,
-  SG_COMMUNICATION_LANG_FIELD_ID
-} = require('../sendgrid/sendgrid');
+const { sendgrid: sendgridClient } = require('../sendgrid/sendgrid');
 const fail = require('../util/fail');
 const { createSendgridContact } = require('../sendgrid/createSendgridContact');
 const { auth } = require('../firebase');
+const {
+  sendgridCommunicationLanguageFieldIdParam: sendgridCommuniationLanguageFieldIdParam,
+  sendgridCreationLanguageFieldIdParam,
+  sendgridWtmgNewsletterListId,
+  isContactSyncDisabled
+} = require('../sharedConfig');
 
 /**
- * @typedef {import("../../../src/lib/models/User").UserPrivate} UserPrivate
- * @typedef {import("../../../src/lib/models/User").UserPublic} UserPublic
- * @typedef {import("firebase-admin/auth").UserRecord} UserRecord
- */
-
-/**
- * @typedef {import("@google-cloud/firestore").DocumentSnapshot<UserPrivate>} UserPrivateDocumentSnapshot
- * @param {import("firebase-functions").Change<UserPrivateDocumentSnapshot>} change
- * @param {import("firebase-functions").EventContext<{ userId: string; }>} context
+ * @param {FirestoreEvent<Change<DocumentSnapshot<UserPrivate>>, { userId: string; }>} event
  * @returns {Promise<any>}
  */
-exports.onUserPrivateWrite = async (change, context) => {
-  if (!SG_KEY) {
-    console.log('onUserPrivateWrite: No SG marketing key');
-    return;
-  }
-
+exports.onUserPrivateWrite = async ({ data: change, params }) => {
   // TODO: current problematic situation
   // 1. the initial createUser call calls this first.
   // 2. This results in a call to createSendgridContact, which takes about 32 seconds
@@ -55,7 +41,8 @@ exports.onUserPrivateWrite = async (change, context) => {
   // console.log('after ', JSON.stringify(after.data(), null, 2));
   const isCreationWrite = !before.exists && after.exists;
 
-  // Note: context.auth?.uid is undefined on deletion
+  // Note when we used functions V1: context.auth?.uid is undefined on deletion
+  // In V2, a different handler needs to be used if auth info should be accessed.
   // We are only interested in:
   // - creation events (!before.exists)
   // - update event (before.exists)
@@ -81,20 +68,24 @@ exports.onUserPrivateWrite = async (change, context) => {
   }
 
   // Create or update a SendGrid contact for this user
-  const authUser = await auth.getUser(context.params.userId);
+  const authUser = await auth.getUser(params.userId);
   const { lastName, communicationLanguage, sendgridId } = userPrivateAfter;
   const sendgridContactUpdateFields = {
     email: authUser.email,
     last_name: lastName,
     custom_fields: {
-      [SG_COMMUNICATION_LANG_FIELD_ID]: communicationLanguage
+      [sendgridCommuniationLanguageFieldIdParam.value()]: communicationLanguage
     }
   };
 
   // NOTE: the following case is fully ignored
   // `sendgridId == null && userPrivateAfter.emailPreferences?.news === false`
   //
-  if (sendgridId == null && userPrivateAfter.emailPreferences?.news === true && !disable_contacts) {
+  if (
+    sendgridId == null &&
+    userPrivateAfter.emailPreferences?.news === true &&
+    !isContactSyncDisabled()
+  ) {
     // Only add this contact to SendGrid if they want to receive news, and are
     // not in SendGrid yet. This applies to all newly created contacts, and to existing contacts
     // that change a userPrivate property (e.g. communicationLanguage), while never having been added to SendGrid.
@@ -115,7 +106,7 @@ exports.onUserPrivateWrite = async (change, context) => {
           // of a users-private doc.
           ...(isCreationWrite && userPrivateAfter.creationLanguage != null
             ? {
-                [SG_CREATION_LANGUAGE_FIELD_ID]: userPrivateAfter.creationLanguage
+                [sendgridCreationLanguageFieldIdParam.value()]: userPrivateAfter.creationLanguage
               }
             : {})
         }
@@ -140,11 +131,11 @@ exports.onUserPrivateWrite = async (change, context) => {
       userPrivateAfter.emailPreferences.news === true;
 
     if (changedToNewsTrue) {
-      list_ids = [SG_WTMG_NEWS_YES_ID];
+      list_ids = [sendgridWtmgNewsletterListId.value()];
     }
 
     // Perform the update in any case
-    if (!disable_contacts) {
+    if (!isContactSyncDisabled()) {
       try {
         await sendgridClient.request({
           url: '/v3/marketing/contacts',
@@ -189,9 +180,9 @@ exports.onUserPrivateWrite = async (change, context) => {
       userPrivateAfter.emailPreferences.news === false;
 
     // Check if we should do a newsletter list deletion
-    if ((changedToNewsFalse || unsubscribedWhileAddingSendGridId) && !disable_contacts) {
+    if ((changedToNewsFalse || unsubscribedWhileAddingSendGridId) && !isContactSyncDisabled()) {
       await sendgridClient.request({
-        url: `/v3/marketing/lists/${SG_WTMG_NEWS_YES_ID}/contacts`,
+        url: `/v3/marketing/lists/${sendgridWtmgNewsletterListId.value()}/contacts`,
         method: 'DELETE',
         qs: {
           contact_ids: sendgridId

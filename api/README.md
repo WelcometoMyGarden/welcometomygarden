@@ -124,13 +124,15 @@ See here for fake payment details: https://stripe.com/docs/billing/subscriptions
 
 This project uses the [mocha](https://mochajs.org/) test runner, and [sinon](https://sinonjs.org/releases/v17/) for mocking/inspecting objects for tests.
 
+Run tests from the `api` folder.
+
 To run all tests:
 
 ```
-echo "node_modules/.bin/mocha -w" > runtests.sh && firebase --project demo-test emulators:exec --ui --only auth,firestore ./runtests.sh
+echo "node_modules/.bin/mocha"  > runtests.sh && firebase --project demo-test emulators:exec --ui ./runtests.sh
 ```
 
-This example (run from the `api` folder) runs tests in the group that includes the string `sendMessageFromEmail`:
+This example runs tests in the group that includes the string `sendMessageFromEmail`:
 
 ```
 echo "node_modules/.bin/mocha -f sendMessageFromEmail" > runtests.sh && firebase --project demo-test emulators:exec --only auth,firestore --ui ./runtests.sh
@@ -146,6 +148,12 @@ Some unit tests can be run without starting firebase emulators, because they don
 
 ```
 node_modules/.bin/mocha -w -f 'inbound email parser'
+```
+
+Running all tests from a single file:
+
+```
+echo "node_modules/.bin/mocha test/renewalScheduler.test.js" > runtests.sh && firebase --project demo-test emulators:exec --only auth,firestore --ui ./runtests.sh
 ```
 
 To prevent Firestore-triggered functions from running (and potentially slowly hitting SendGrid), this example adds `--only auth,firestore`. Remove this to run the functions anyway for more realistic side-effects.

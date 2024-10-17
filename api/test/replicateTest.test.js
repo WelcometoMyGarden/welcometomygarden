@@ -43,7 +43,7 @@ async function fakeSupabaseReplicate(succeedOnRequest) {
    * @type {{replicate: import('../src/replication/shared').replicate}}
    */
   const { replicate } = proxyquire('../src/replication/shared.js', {
-    '../supabase': fakeSupabase
+    '../supabase': { supabase: () => fakeSupabase }
   });
   return replicate({
     change: {

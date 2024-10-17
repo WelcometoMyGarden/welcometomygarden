@@ -1,14 +1,11 @@
 const { createSendgridContact } = require('./createSendgridContact');
 const { db } = require('../firebase');
-const { SG_COMMUNICATION_LANG_FIELD_ID, SG_HOST_FIELD_ID } = require('./sendgrid');
-const { SENDGRID_SUPERFAN_FIELD_ID } = require('./sendgrid');
 const { deleteContact } = require('./deleteContact');
-
-/**
- * @typedef {import("../../../src/lib/models/User").UserPrivate} UserPrivate
- * @typedef {import("../../../src/lib/models/User").UserPublic} UserPublic
- * @typedef {import("firebase-admin/auth").UserRecord} UserRecord
- */
+const {
+  sendgridSuperfanFieldIdParam,
+  sendgridCommunicationLanguageFieldIdParam,
+  sendgridHostFieldIdParam
+} = require('../sharedConfig');
 
 /**
  * Updates the email of a SendGrid contact. This also changes their SendGrid contact id,
@@ -39,9 +36,9 @@ exports.updateSendgridContactEmail = async (firebaseUser, oldUserPrivateData) =>
     country: userPublicData.countryCode,
     lastName: oldUserPrivateData.lastName,
     custom_fields: {
-      [SG_COMMUNICATION_LANG_FIELD_ID]: oldUserPrivateData.communicationLanguage,
-      [SENDGRID_SUPERFAN_FIELD_ID]: userPublicData.superfan ? 1 : 0,
-      [SG_HOST_FIELD_ID]: isHost ? 1 : 0
+      [sendgridCommunicationLanguageFieldIdParam.value()]: oldUserPrivateData.communicationLanguage,
+      [sendgridSuperfanFieldIdParam.value()]: userPublicData.superfan ? 1 : 0,
+      [sendgridHostFieldIdParam.value()]: isHost ? 1 : 0
       // We intentionally DO NOT include SG_CREATION_LANGUAGE_FIELD_ID
       // this prevents the user from re-entering (with the new contact)
       // automation lists, which all depend on this field

@@ -1,37 +1,22 @@
-const functions = require('firebase-functions');
-const sendgrid = require('@sendgrid/mail');
-const removeEndingSlash = require('./util/removeEndingSlash');
+const { defineString } = require('firebase-functions/params');
+const { sendgridMail } = require('./sendgrid/sendgrid');
 const devSend = require('./util/devMail');
-
-const API_KEY = functions.config().sendgrid.send_key;
-const FRONTEND_URL = removeEndingSlash(functions.config().frontend.url);
+const { frontendUrl, canSendMail } = require('./sharedConfig');
 
 /**
  * See https://github.com/sendgrid/sendgrid-nodejs/tree/main/packages/mail
  */
-const send = (msg) => sendgrid.send(msg);
-
-if (API_KEY != null) {
-  sendgrid.setApiKey(API_KEY);
-}
-
-/**
- * Don't allow sending email when there is no API key, or the API key is not the production key.
- * For now, we have only configured mail templates in the production environment.
- * @type {boolean}
- */
-const canSendMail = API_KEY != null;
+const send = (msg) => sendgridMail.send(msg);
 
 const NO_API_KEY_WARNING =
-  "You don't have an SendGrid API key set in your .runtimeconfig.json, " +
-  'or it is not the production key. ' +
+  "You don't have an SendGrid API key set in the environment. " +
   'No emails will be sent. Inspect the logs to see what would have been sent by email';
 
 /**
  * @param {string} verificationLink
  */
 function makeVerificationLinkLocal(verificationLink) {
-  return verificationLink.replace(/http:\/\/[^/]+\/emulator/, `${FRONTEND_URL}/auth`);
+  return verificationLink.replace(/http:\/\/[^/]+\/emulator/, `${frontendUrl()}/auth`);
 }
 
 /**
@@ -101,7 +86,7 @@ exports.sendAccountVerificationEmail = (
     }
   };
 
-  if (!canSendMail) {
+  if (!canSendMail()) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
     devSend(
@@ -130,7 +115,7 @@ exports.sendPasswordResetEmail = (email, name, resetLink) => {
     }
   };
 
-  if (!canSendMail) {
+  if (!canSendMail()) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
     logActionLink(resetLink);
@@ -159,6 +144,8 @@ exports.sendPasswordResetEmail = (email, name, resetLink) => {
  * @property {string} language
  */
 
+const inboundParseEmailParam = defineString('SENDGRID_INBOUND_PARSE_EMAIL');
+
 /**
  * @param {MessageReceivedConfig} config
  * @returns
@@ -180,12 +167,12 @@ exports.sendMessageReceivedEmail = (config) => {
   }
 
   /**
-   * @type {sendgrid.MailDataRequired}
+   * @type {import("@sendgrid/mail").MailDataRequired}
    */
   const msg = {
     to: email,
     from: 'Welcome To My Garden <support@welcometomygarden.org>',
-    replyTo: `Welcome To My Garden <${functions.config().sendgrid.inbound_parse_email}>`,
+    replyTo: `Welcome To My Garden <${inboundParseEmailParam.value()}>`,
     templateId,
     dynamicTemplateData: {
       firstName,
@@ -196,7 +183,7 @@ exports.sendMessageReceivedEmail = (config) => {
     }
   };
 
-  if (!canSendMail) {
+  if (!canSendMail()) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
     devSend(msg, 'messageReceivedEmail');
@@ -225,7 +212,7 @@ exports.sendEmailReplyError = (toEmail, language) => {
     templateId
   };
 
-  if (!canSendMail) {
+  if (!canSendMail()) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
     devSend(msg, 'emailReplyError');
@@ -262,11 +249,11 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
     templateId,
     dynamicTemplateData: {
       firstName,
-      exploreFeaturesLink: `${FRONTEND_URL}/explore`
+      exploreFeaturesLink: `${frontendUrl()}/explore`
     }
   };
 
-  if (!canSendMail) {
+  if (!canSendMail()) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
     devSend(msg, 'subscriptionConfirmationEmail');
@@ -315,7 +302,7 @@ exports.sendSubscriptionRenewalEmail = (config) => {
     }
   };
 
-  if (!canSendMail) {
+  if (!canSendMail()) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
     devSend(msg, 'subscriptionRenewalEmail');
@@ -355,7 +342,7 @@ exports.sendSubscriptionRenewalReminderEmail = (config) => {
     }
   };
 
-  if (!canSendMail) {
+  if (!canSendMail()) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
     devSend(msg, 'subscriptionRenewalReminderEmail');
@@ -394,7 +381,7 @@ exports.sendSubscriptionEndedEmail = (email, firstName, language) => {
     }
   };
 
-  if (!canSendMail) {
+  if (!canSendMail()) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
     devSend(msg, 'subscriptionEndedEmail');
@@ -433,7 +420,7 @@ exports.sendSubscriptionRenewalThankYouEmail = (email, firstName, language) => {
     }
   };
 
-  if (!canSendMail) {
+  if (!canSendMail()) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
     devSend(msg, 'subscriptionRenewalThankYouEmail');
@@ -472,7 +459,7 @@ exports.sendSubscriptionEndedFeedbackEmail = (email, firstName, language) => {
     }
   };
 
-  if (!canSendMail) {
+  if (!canSendMail()) {
     console.warn(NO_API_KEY_WARNING);
     console.info(JSON.stringify(msg));
     devSend(msg, 'subscriptionEndedFeedbackEmail');

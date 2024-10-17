@@ -1,5 +1,5 @@
+// This test requires the Auth, Firestore and Functions emulators
 const assert = require('node:assert');
-// eslint-disable-next-line import/no-unresolved
 const { Timestamp } = require('firebase-admin/firestore');
 const { db } = require('../seeders/app');
 const { clearAuth, clearFirestore } = require('./util');
@@ -67,9 +67,7 @@ describe('onCampsitesWrite', () => {
     await wait(waitForTriggersTimeout);
 
     // Check equality
-    const data = /** @type{import('../../src/lib/types/Garden').Garden} */ (
-      (await campsiteDocRef.get()).data()
-    );
+    const data = /** @type {Garden} */ ((await campsiteDocRef.get()).data());
     const { latestListedChangeAt } = data;
     assert(data.latestRemovedAt.valueOf() === latestListedChangeAt.valueOf());
 

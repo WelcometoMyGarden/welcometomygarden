@@ -1,13 +1,11 @@
 const { replicate } = require('./shared');
 
 /**
- * @typedef {import("@google-cloud/firestore").DocumentSnapshot<any>} MessageSnapshot
- * @param {import("firebase-functions").Change<any>} change
- * @param {import('firebase-functions').EventContext<{chatId: string, messageId: string}>} context
+ * @param {FirestoreEvent<Change<DocumentSnapshot>, { chatId: string; messageId: string }>} change
  * @returns {Promise<any>}
  */
-module.exports = async (change, context) => {
-  const { chatId } = context.params;
+module.exports = async ({ data: change, params }) => {
+  const { chatId } = params;
   await replicate({
     change,
     tableName: 'messages',

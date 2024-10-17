@@ -1,20 +1,14 @@
-// https://stackoverflow.com/a/69959606/4973029
-// eslint-disable-next-line import/no-unresolved
 const { FieldValue } = require('firebase-admin/firestore');
-const { sendgrid: sendgridClient, SG_HOST_FIELD_ID } = require('./sendgrid/sendgrid');
+const { sendgrid: sendgridClient } = require('./sendgrid/sendgrid');
 const fail = require('./util/fail');
 const { auth, db } = require('./firebase');
+const { sendgridHostFieldIdParam } = require('./sharedConfig');
 
 /**
- * @typedef {import("../../src/lib/types/Garden").Garden} Garden
- * @typedef {import("firebase-admin/auth").UserRecord} UserRecord
+ * @param {FirestoreEvent< QueryDocumentSnapshot, { campsiteId: string; }>} queryDocumentSnapshot
  */
-
-/**
- * @param {import("@google-cloud/firestore").QueryDocumentSnapshot<Garden>} queryDocumentSnapshot
- */
-exports.onCampsiteCreate = async (queryDocumentSnapshot) => {
-  const uid = queryDocumentSnapshot.id;
+exports.onCampsiteCreate = async ({ data }) => {
+  const uid = data.id;
 
   /**
    * @type {UserRecord | undefined}
@@ -32,7 +26,7 @@ exports.onCampsiteCreate = async (queryDocumentSnapshot) => {
     const sendgridContactUpdateDetails = {
       email: user.email,
       custom_fields: {
-        [SG_HOST_FIELD_ID]: 1
+        [sendgridHostFieldIdParam.value()]: 1
       }
     };
 
@@ -63,12 +57,12 @@ exports.onCampsiteCreate = async (queryDocumentSnapshot) => {
 };
 
 /**
- * @param {import("@google-cloud/firestore").QueryDocumentSnapshot<Garden>} queryDocumentSnapshot
+ * @param {FirestoreEvent<QueryDocumentSnapshot<Garden>, { campsiteId: string; }>} queryDocumentSnapshot
  */
-exports.onCampsiteDelete = async (queryDocumentSnapshot) => {
+exports.onCampsiteDelete = async ({ data }) => {
   // Mark the connected user as non-host in SendGrid
 
-  const uid = queryDocumentSnapshot.id;
+  const uid = data.id;
   /** @type {UserRecord | undefined} */
   let user;
   try {
@@ -88,7 +82,7 @@ exports.onCampsiteDelete = async (queryDocumentSnapshot) => {
     const sendgridContactUpdateDetails = {
       email: user.email,
       custom_fields: {
-        [SG_HOST_FIELD_ID]: 0
+        [sendgridHostFieldIdParam.value()]: 0
       }
     };
 

@@ -1,4 +1,5 @@
 const functions = require('firebase-functions');
+const { defineString } = require('firebase-functions/params');
 const stripe = require('./stripe');
 const fail = require('../util/fail');
 const invoiceFinalized = require('./stripeEventHandlers/invoiceFinalized');
@@ -7,6 +8,8 @@ const subscriptionUpdated = require('./stripeEventHandlers/subscriptionUpdated')
 const subscriptionDeleted = require('./stripeEventHandlers/subscriptionDeleted');
 const paymentIntentProcessing = require('./stripeEventHandlers/paymentIntentProcessing');
 const invoiceCreated = require('./stripeEventHandlers/invoiceCreated');
+
+const stripeWebhookSecretParam = defineString('STRIPE_WEBHOOK_SECRET');
 
 // Imported in index
 // https://firebase.google.com/docs/functions/http-events
@@ -24,7 +27,7 @@ exports.stripeWebhookHandler = async (req, res) => {
       // https://firebase.google.com/docs/functions/http-events#read_values_from_the_request
       req.rawBody,
       req.headers['stripe-signature'],
-      functions.config().stripe.webhook_secret
+      stripeWebhookSecretParam.value()
     );
   } catch (err) {
     functions.logger.log(err);

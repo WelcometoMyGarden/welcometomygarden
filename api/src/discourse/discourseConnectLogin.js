@@ -1,27 +1,16 @@
-// https://stackoverflow.com/a/69959606/4973029
-// eslint-disable-next-line import/no-unresolved
-const functions = require('firebase-functions');
+const { defineString } = require('firebase-functions/params');
 const { createHmac } = require('crypto');
 const { Buffer } = require('node:buffer');
 const fail = require('../util/fail');
 const { db } = require('../firebase');
 
-/**
- * @typedef {import("../../../src/lib/models/User").UserPrivate} UserPrivate
- * @typedef {import("../../../src/lib/models/User").UserPublic} UserPublic
- * @typedef {import("firebase-admin/auth").UserRecord} UserRecord
- */
-
-/** @type {string | null} */
-const DISCOURSE_CONNECT_SECRET = functions.config().discourse
-  ? functions.config().discourse.connect_secret
-  : null;
+const discourseConnectSecretParam = defineString('DISCOURSE_CONNECT_SECRET');
 
 /**
  * @param {string} payload
  */
 const getHmacDigest = (payload) => {
-  const hmac = createHmac('sha256', /** @type {string} */ (DISCOURSE_CONNECT_SECRET));
+  const hmac = createHmac('sha256', /** @type {string} */ (discourseConnectSecretParam.value()));
   return hmac.update(payload).digest('hex');
 };
 
@@ -30,20 +19,22 @@ exports.getHmacDigest = getHmacDigest;
 /**
  * See https://meta.discourse.org/t/setup-discourseconnect-official-single-sign-on-for-discourse-sso/13045
  * Note that the URL-decoding and encoding discussed in the guide will be handled by URLSearchParams on the frontend.
- * @param {import("../../../src/lib/api/functions").DiscourseConnectLoginRequest} data sso payload should NOT be URL encoded
- * @param {import('firebase-functions/v1/https').CallableContext} context
+ * sso payload should NOT be URL encoded
+ * @param {FV2.CallableRequest<
+ *  import("../../../src/lib/api/functions").DiscourseConnectLoginRequest>} request
  * @returns {Promise<import("../../../src/lib/api/functions").DiscourseConnectLoginResponse | undefined>} sso payload will not be URL-encoded
  */
-exports.discourseConnectLogin = async (data, context) => {
-  if (DISCOURSE_CONNECT_SECRET == null) {
+exports.discourseConnectLogin = async ({ data, auth }) => {
+  const DISCOURSE_CONNECT_SECRET = discourseConnectSecretParam.value();
+  if (typeof DISCOURSE_CONNECT_SECRET !== 'string' || DISCOURSE_CONNECT_SECRET === '') {
     fail('failed-precondition');
   }
   // Validation
-  if (!context.auth) {
+  if (!auth) {
     fail('unauthenticated');
   }
 
-  if (!(context && context.auth && context.auth.token)) {
+  if (!auth.token) {
     fail('internal');
   }
 
@@ -57,7 +48,7 @@ exports.discourseConnectLogin = async (data, context) => {
   const {
     uid,
     token: { email, email_verified }
-  } = context.auth;
+  } = auth;
 
   if (!(email_verified && email)) {
     console.warn(

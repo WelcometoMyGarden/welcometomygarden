@@ -5,7 +5,7 @@ const { FIRST_REMINDER_EMAIL_DELAY_DAYS, processUserPrivateDocs } = require('./s
 const { wtmgPriceIdToPrice } = require('../stripeEventHandlers/util');
 
 /**
- * @param {import('firebase-admin').firestore.QueryDocumentSnapshot<Firebase.UserPrivate>[]} docs candidate documents with an open last invoice and start date over 1 year ago
+ * @param {QueryDocumentSnapshot<UserPrivate>[]} docs candidate documents with an open last invoice and start date over 1 year ago
  */
 module.exports = async (docs) => {
   // Further filtering
@@ -29,7 +29,7 @@ module.exports = async (docs) => {
     filteredDocs,
     async (combinedUser) => {
       // Rounded euro price of the price ID
-      const price = wtmgPriceIdToPrice[combinedUser.stripeSubscription?.priceId];
+      const price = wtmgPriceIdToPrice()[combinedUser.stripeSubscription?.priceId];
       // Send renewal invoice email
       await sendSubscriptionRenewalReminderEmail({
         email: combinedUser.email,

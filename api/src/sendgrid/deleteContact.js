@@ -3,12 +3,6 @@ const getContactByEmail = require('./getContactByEmail');
 const { sendgrid: sendgridClient } = require('./sendgrid');
 
 /**
- * @typedef {import("../../../src/lib/models/User").UserPrivate} UserPrivate
- * @typedef {import("../../../src/lib/models/User").UserPublic} UserPublic
- * @typedef {import("firebase-admin/auth").UserRecord} UserRecord
- */
-
-/**
  * @package {string} email
  * @throws when there is no contact with this email; or when the deletion fails
  */

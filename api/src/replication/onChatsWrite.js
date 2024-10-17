@@ -1,13 +1,9 @@
-/**
- * @typedef {import("../../../src/lib/types/Chat").FirebaseChat} FirebaseChat
- */
-
 const { replicate } = require('./shared');
 
 /**
- * @param {import("firebase-functions").Change<any>} change
+ * @param {FirestoreEvent<Change<DocumentSnapshot<Garden>>>} change
  */
-module.exports = async (change) => {
+module.exports = async ({ data: change }) => {
   await replicate({
     change,
     tableName: 'chats',

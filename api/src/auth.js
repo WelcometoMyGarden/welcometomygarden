@@ -1,40 +1,19 @@
-// https://stackoverflow.com/a/69959606/4973029
-// eslint-disable-next-line import/no-unresolved
-const functions = require('firebase-functions');
-// eslint-disable-next-line import/no-unresolved
+const { HttpsError } = require('firebase-functions/v2/https');
 const { FieldValue } = require('firebase-admin/firestore');
-const { sendgrid: sendgridClient } = require('./sendgrid/sendgrid');
 const fail = require('./util/fail');
 const { sendAccountVerificationEmail, sendPasswordResetEmail } = require('./mail');
-const removeEndingSlash = require('./util/removeEndingSlash');
 const { db, auth } = require('./firebase');
 const { updateSendgridContactEmail } = require('./sendgrid/updateContactEmail');
 const stripe = require('./subscriptions/stripe');
 const { updateDiscourseUser } = require('./discourse/updateDiscourseUser');
-
-/**
- * @typedef {import("../../src/lib/models/User").UserPrivate} UserPrivate
- * @typedef {import("../../src/lib/models/User").UserPublic} UserPublic
- * @typedef {import("firebase-admin/auth").UserRecord} UserRecord
- */
-
-/**
- * @template T
- * @typedef {import("firebase-admin/firestore").DocumentReference} DocumentReference
- */
-
-const SG_KEY = functions.config().sendgrid.marketing_key;
-if (SG_KEY) {
-  sendgridClient.setApiKey(SG_KEY);
-}
-
-const frontendUrl = removeEndingSlash(functions.config().frontend.url);
+const { frontendUrl } = require('./sharedConfig');
 
 /**
  * Checks whether the given context represents an admin user.
  *
  * @private
- * @param {import("firebase-functions/v1/https").CallableContext} context
+ * TODO: is this going to be used in both v1 and v2 contexts?
+ * @param {FV1.CallableContext | FV2.CallableRequest } context
  * @throws when the context is not representing an admin
  * @returns {Promise<UserRecord>} adminUser
  */
@@ -65,7 +44,7 @@ const sendVerificationEmail = async (email, firstName, language) => {
   // https://firebase.google.com/docs/auth/admin/email-action-links#generate_email_verification_link
   // https://firebase.google.com/docs/auth/custom-email-handler
   const link = await auth.generateEmailVerificationLink(email, {
-    url: `${frontendUrl}/account`
+    url: `${frontendUrl()}/account`
   });
 
   await sendAccountVerificationEmail(email, firstName, link, language);
@@ -73,14 +52,21 @@ const sendVerificationEmail = async (email, firstName, language) => {
 exports.sendVerificationEmail = sendVerificationEmail;
 
 // eslint-disable-next-line consistent-return
-exports.requestPasswordReset = async (email) => {
+//
+/**
+ * @public
+ * @param {FV2.CallableRequest<string>} request
+ */
+// eslint-disable-next-line consistent-return
+exports.requestPasswordReset = async (request) => {
+  const email = request.data;
   if (!email) fail('invalid-argument');
 
   try {
     const exists = await auth.getUserByEmail(email);
     if (!exists) return { message: 'Password reset request received', success: true };
     const link = await auth.generatePasswordResetLink(email, {
-      url: `${frontendUrl}/reset-password`
+      url: `${frontendUrl()}/reset-password`
     });
 
     const user = await auth.getUserByEmail(email);
@@ -94,12 +80,11 @@ exports.requestPasswordReset = async (email) => {
 
 /**
  * @public
- * @param {*} _
- * @param {import("firebase-functions/v1/https").CallableContext} context
+ * @param {FV2.CallableRequest} request
  */
-exports.resendAccountVerification = async (_, context) => {
-  if (!context.auth) {
-    throw new functions.https.HttpsError('unauthenticated', '');
+exports.resendAccountVerification = async (request) => {
+  if (!request.auth) {
+    throw new HttpsError('unauthenticated', '');
   }
 
   /** @type {UserRecord} */
@@ -108,10 +93,10 @@ exports.resendAccountVerification = async (_, context) => {
   let userPrivate;
   try {
     const [userIn, userPrivateIn] = await Promise.all([
-      auth.getUser(context.auth.uid),
+      auth.getUser(request.auth.uid),
       /** @type {Promise<UserPrivate>} */ (
         db
-          .doc(`users-private/${context.auth.uid}`)
+          .doc(`users-private/${request.auth.uid}`)
           .get()
           .then((dS) => dS.data())
       )
@@ -123,11 +108,11 @@ exports.resendAccountVerification = async (_, context) => {
       'Exception while trying to get the user while resending the account verification email',
       ex
     );
-    throw new functions.https.HttpsError('permission-denied', '');
+    throw new HttpsError('permission-denied', '');
   }
 
-  if (!user || user.emailVerified) throw new functions.https.HttpsError('permission-denied', '');
-  if (!user.email) throw new functions.https.HttpsError('invalid-argument', '');
+  if (!user || user.emailVerified) throw new HttpsError('permission-denied', '');
+  if (!user.email) throw new HttpsError('invalid-argument', '');
 
   await sendVerificationEmail(
     user.email,
@@ -141,11 +126,11 @@ exports.resendAccountVerification = async (_, context) => {
  * Admin function to set the admin status of the given email address.
  *
  * @public
- * @param {{newStatus: boolean, email: string}} data
- * @param {import("firebase-functions/v1/https").CallableContext} context
+ * @param {FV2.CallableRequest<{newStatus: boolean, email: string}>} request
  */
-exports.setAdminRole = async (data, context) => {
-  await verifyAdminUser(context);
+exports.setAdminRole = async (request) => {
+  const { data } = request;
+  await verifyAdminUser(request);
 
   const { newStatus } = data;
   const user = await auth.getUserByEmail(data.email);
@@ -159,11 +144,11 @@ exports.setAdminRole = async (data, context) => {
  * The normal verification process starts in createUser.
  *
  * @public
- * @param {{email: string}} data
- * @param {import("firebase-functions/v1/https").CallableContext} context
+ * @param {FV2.CallableRequest} request
  */
-exports.verifyEmail = async ({ email }, context) => {
-  await verifyAdminUser(context);
+exports.verifyEmail = async (request) => {
+  await verifyAdminUser(request);
+  const { email } = request.data;
 
   const userToUpdate = await auth.getUserByEmail(email);
   await auth.updateUser(userToUpdate.uid, {
@@ -238,14 +223,14 @@ async function requestEmailChangeForUser(authUser, newEmail) {
  * to be sent to the old email.
  *
  * @public
- * @param {string} newEmail
- * @param {import("firebase-functions/v1/https").CallableContext} context
+ * @param {FV2.CallableRequest} request
  */
-exports.requestEmailChange = async (newEmail, context) => {
-  if (!context.auth) {
+exports.requestEmailChange = async (request) => {
+  if (!request.auth) {
     fail('unauthenticated');
   }
-  const authUser = await auth.getUser(context.auth.uid);
+  const newEmail = request.data;
+  const authUser = await auth.getUser(request.auth.uid);
 
   await requestEmailChangeForUser(authUser, newEmail);
 };
@@ -342,18 +327,17 @@ async function syncUserEmailToExternalSystems(userPrivateData, targetAuthUser) {
  * this is useful when the email was previously changed in Firebase (manually), but this change was not propagated.
  *
  * @public
- * @param {{oldEmail: string, newEmail: string, force?: boolean}} data
- * @param {import("firebase-functions/v1/https").CallableContext} context
+ * @param {FV2.CallableRequest<{oldEmail: string, newEmail: string, force?: boolean}>} request
  */
-exports.updateEmail = async ({ oldEmail, newEmail, force = false }, context) => {
-  await verifyAdminUser(context);
+exports.updateEmail = async (request) => {
+  await verifyAdminUser(request);
+  const { oldEmail, newEmail, force = false } = request.data;
 
   const userToChange = await auth.getUserByEmail(oldEmail);
   if (force) {
-    const userPrivateRef =
-      /** @type {import("firebase-admin/firestore").DocumentReference<UserPrivate>} */ (
-        db.doc(`users-private/${userToChange.uid}`)
-      );
+    const userPrivateRef = /** @type {DocumentReference<UserPrivate>} */ (
+      db.doc(`users-private/${userToChange.uid}`)
+    );
     const oldUserPrivateData = (await userPrivateRef.get()).data();
     if (!oldUserPrivateData) {
       fail('failed-precondition');
@@ -395,15 +379,15 @@ exports.updateEmail = async ({ oldEmail, newEmail, force = false }, context) => 
  *
  * Verifies whether the request is valid using markers left in the targetEmail's users-private data
  *
- * @param {import('../../src/lib/api/functions').PropagateEmailChangeRequest} data
- * @param {string} data - object describing the email change, used for identifying the change to be propagated.
+ * @param {FV2.CallableRequest<import('../../src/lib/api/functions').PropagateEmailChangeRequest>} request
  */
-exports.propagateEmailChange = async (data) => {
-  const { mode, email: targetEmail } = data;
+exports.propagateEmailChange = async (request) => {
+  const { mode, email: targetEmail } = request.data;
 
   if (
     typeof mode !== 'string' ||
-    !mode.match(/change|recover/ || typeof targetEmail !== 'string')
+    !mode.match(/change|recover/) ||
+    typeof targetEmail !== 'string'
   ) {
     fail('invalid-argument');
   }
@@ -426,10 +410,9 @@ exports.propagateEmailChange = async (data) => {
     fail('failed-precondition');
   }
 
-  const userPrivateRef =
-    /** @type {import("firebase-admin/firestore").DocumentReference<UserPrivate>} */ (
-      db.doc(`users-private/${targetAuthUser.uid}`)
-    );
+  const userPrivateRef = /** @type {DocumentReference<UserPrivate>} */ (
+    db.doc(`users-private/${targetAuthUser.uid}`)
+  );
   const oldUserPrivateData = (await userPrivateRef.get()).data();
 
   if (!oldUserPrivateData) {
