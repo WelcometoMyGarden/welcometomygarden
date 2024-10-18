@@ -73,7 +73,9 @@
     background-color: var(--color-green);
     position: absolute;
     left: 0;
-    transition: height 0.3s, width 0.3s;
+    transition:
+      height 0.3s,
+      width 0.3s;
   }
 
   .slider,
@@ -87,7 +89,9 @@
   }
 
   .slider {
-    transition: left 0.3s, top 0.3s;
+    transition:
+      left 0.3s,
+      top 0.3s;
     background-color: var(--color-green);
   }
 

@@ -22,8 +22,8 @@ export const iDeviceInfo = browser
         currentAppleDevice === 'iPhone'
           ? 'iOS'
           : currentAppleDevice === 'iPad'
-          ? 'iPadOS'
-          : 'iOS or iPadOS';
+            ? 'iPadOS'
+            : 'iOS or iPadOS';
       /**
        * Version 16 iDevices < 16.4 can surely be upgraded to 16.4, which support notifications, see below.
        */

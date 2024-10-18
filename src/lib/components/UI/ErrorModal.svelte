@@ -40,8 +40,8 @@ Modal to show a generic error.
           {typeof error === 'object' && error !== null
             ? error.toString()
             : typeof error === 'string'
-            ? error
-            : 'Unknown'}
+              ? error
+              : 'Unknown'}
         </code>
       {/if}
       {#if contextLog}<p>{contextLog}</p>{/if}

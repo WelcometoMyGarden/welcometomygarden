@@ -1,12 +1,7 @@
 {
   "root": true,
-  "extends": [
-    "airbnb/base",
-    "plugin:prettier/recommended"
-  ],
-  "plugins": [
-    "prettier"
-  ],
+  "extends": ["airbnb/base", "plugin:prettier/recommended"],
+  "plugins": ["prettier"],
   "parser": "@babel/eslint-parser",
   "parserOptions": {
     "requireConfigFile": false
@@ -16,13 +11,8 @@
     "node": true
   },
   "rules": {
-    "prettier/prettier": [
-      "error"
-    ],
-    "comma-dangle": [
-      "error",
-      "never"
-    ],
+    "prettier/prettier": ["error"],
+    "comma-dangle": ["error", "never"],
     "no-underscore-dangle": 0,
     "no-console": "warn",
     "no-unused-expressions": [
@@ -31,10 +21,7 @@
         "allowTernary": true
       }
     ],
-    "no-return-assign": [
-      2,
-      "except-parens"
-    ],
+    "no-return-assign": [2, "except-parens"],
     "no-param-reassign": [
       "error",
       {

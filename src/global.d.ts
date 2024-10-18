@@ -27,4 +27,3 @@ declare module '$lib/images/*' {
   const meta: Object[];
   export default meta;
 }
-

@@ -72,10 +72,10 @@
             isSaved && selectedGardenId === gardenId
               ? 'tent-saved-selected' // selected saved garden
               : selectedGardenId === gardenId
-              ? 'tent-filled' // selected garden
-              : isSaved
-              ? 'tent-saved' // saved garden
-              : 'tent', // garden
+                ? 'tent-filled' // selected garden
+                : isSaved
+                  ? 'tent-saved' // saved garden
+                  : 'tent', // garden
           lnglat: [garden.location?.longitude, garden.location?.latitude]
         },
         geometry: {

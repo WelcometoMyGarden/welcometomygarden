@@ -75,9 +75,15 @@
 
     background-color: var(--color-white);
     background-repeat: no-repeat;
-    background-size: 50% 50%, 50% 50%;
+    background-size:
+      50% 50%,
+      50% 50%;
     background-size: 100%;
-    background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+    background-position:
+      0 0,
+      100% 0,
+      100% 100%,
+      0 100%;
     background-image: conic-gradient(
       #ec9570 0deg 60deg,
       #a2d0d3 60deg 120deg,

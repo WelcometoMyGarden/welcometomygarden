@@ -226,8 +226,8 @@
               $user.stripeSubscription?.priceId === import.meta.env.VITE_STRIPE_PRICE_ID_REDUCED
                 ? $_('generics.member')
                 : $user.stripeSubscription?.priceId === import.meta.env.VITE_STRIPE_PRICE_ID_NORMAL
-                ? $_('generics.superfan')
-                : 'member'
+                  ? $_('generics.superfan')
+                  : 'member'
           }
         })}
       </p>

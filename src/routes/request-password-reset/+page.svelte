@@ -37,7 +37,7 @@
   <div slot="form">
     {#if !done}
       <p class="description">{$_('request-password-reset.description')}</p>
-      <form transition:fade={{duration: transitionDuration}} on:submit|preventDefault={submit}>
+      <form transition:fade={{ duration: transitionDuration }} on:submit|preventDefault={submit}>
         <div>
           <label for="email">{$_('generics.email')}</label>
           <TextInput
@@ -56,7 +56,7 @@
         </div>
       </form>
     {:else}
-      <div in:fade={{delay: transitionDuration}}>
+      <div in:fade={{ delay: transitionDuration }}>
         <p>{$_('request-password-reset.set', { values: { email: $formEmailValue } })}</p>
         <p>
           {@html $_('request-password-reset.trouble', {

@@ -18,7 +18,11 @@ test.afterEach(async ({ options: { type } }) => {
 class MainFlowTest {
   emailPlatform: 'mailpit' | 'gmail';
 
-  constructor(private browser: Browser, private baseURL: string, private type: TestType = 'local') {
+  constructor(
+    private browser: Browser,
+    private baseURL: string,
+    private type: TestType = 'local'
+  ) {
     this.emailPlatform = type === 'local' ? 'mailpit' : 'gmail';
   }
 

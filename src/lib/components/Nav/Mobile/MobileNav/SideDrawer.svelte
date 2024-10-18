@@ -189,7 +189,11 @@
     z-index: 100;
     overflow: hidden;
     text-align: center;
-    transition: top 0.3s, right 0.3s, bottom 0.3s, left 0.3s;
+    transition:
+      top 0.3s,
+      right 0.3s,
+      bottom 0.3s,
+      left 0.3s;
   }
 
   .overlay.shown {
@@ -291,7 +295,9 @@
     left: 50%;
     position: absolute;
     background: var(--color-green);
-    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    transition:
+      width 0.3s ease 0s,
+      left 0.3s ease 0s;
     width: 0;
   }
 

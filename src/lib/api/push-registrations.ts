@@ -403,7 +403,6 @@ export const getDeviceUAWithClientHints = async () => {
  * - undefined otherwise
  */
 export const createPushRegistration = async () => {
-
   /**
    * Shows an error in a modal with the given description. Also includes user agent information.
    * @param error

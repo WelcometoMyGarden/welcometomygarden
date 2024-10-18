@@ -27,14 +27,21 @@
     background-image: url(/images/icons/caret-down.svg);
     background-repeat: no-repeat;
     background-position: right 0.7rem top 50%;
-    background-size: 0.65em auto, 100%;
+    background-size:
+      0.65em auto,
+      100%;
   }
 
   /* Shows drop-down caret on the right, and globe on the left */
   .globe {
     background-image: url(/images/icons/globe.svg), url(/images/icons/caret-down.svg);
-    background-position: left center, right 0.7rem top 50%;
-    background-size: 2rem auto, 0.65em auto, 100%;
+    background-position:
+      left center,
+      right 0.7rem top 50%;
+    background-size:
+      2rem auto,
+      0.65em auto,
+      100%;
   }
 
   .transparent {

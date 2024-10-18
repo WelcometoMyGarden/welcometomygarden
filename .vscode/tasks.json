@@ -3,12 +3,9 @@
   "tasks": [
     {
       "label": "Local Debugging",
-      "dependsOn": [
-        "npm: firebase:debug",
-        "npm: dev"
-      ],
+      "dependsOn": ["npm: firebase:debug", "npm: dev"],
       "group": {
-        "kind": "build",
+        "kind": "build"
       },
       "presentation": {
         "group": "local-dev"
@@ -17,10 +14,7 @@
     },
     {
       "label": "Local Development",
-      "dependsOn": [
-        "npm: firebase:demo-seed",
-        "npm: dev"
-      ],
+      "dependsOn": ["npm: firebase:demo-seed", "npm: dev"],
       "group": {
         "kind": "build",
         "isDefault": true
@@ -31,10 +25,7 @@
     },
     {
       "label": "Local Development: Staging",
-      "dependsOn": [
-        "npm: firebase:staging",
-        "npm: dev:staging"
-      ],
+      "dependsOn": ["npm: firebase:staging", "npm: dev:staging"],
       "group": {
         "kind": "build",
         "isDefault": true
@@ -110,6 +101,6 @@
       "problemMatcher": [],
       "label": "npm: firebase:staging",
       "detail": "Firebase staging, *with* the local functions emulator"
-    },
+    }
   ]
 }
