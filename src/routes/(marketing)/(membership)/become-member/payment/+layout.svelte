@@ -14,9 +14,7 @@
     type StripeElements,
     type StripeError
   } from '@stripe/stripe-js';
-  import { Elements } from 'svelte-stripe';
-  // Custom alternative to svelte-stripe's paymentElement
-  import PaymentElement from './PaymentElement.svelte';
+  import { Elements, PaymentElement } from 'svelte-stripe';
   import { createOrRetrieveUnpaidSubscription } from '$lib/api/functions';
   import { timeout } from '$lib/util/timeout';
   import {
@@ -252,6 +250,7 @@
   async function paymentSucceeded() {
     if (continueUrl) {
       notify.success($_('payment-superfan.payment-section.success'), 20000);
+      // Note: this should be a relative continue URL only
       await goto(continueUrl);
       return true;
     }

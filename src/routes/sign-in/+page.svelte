@@ -9,7 +9,7 @@
   import { TextInput, Button } from '$lib/components/UI';
   import { lockIcon, emailIcon } from '$lib/images/icons';
   import { SUPPORT_EMAIL } from '$lib/constants';
-  import { goto } from '$lib/util/navigate';
+  import { goto, universalGoto } from '$lib/util/navigate';
   import { page } from '$app/stores';
   import { get } from 'svelte/store';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
@@ -28,7 +28,7 @@
       }
       notify.success($_('sign-in.notify.welcome', { values: { user: localUser?.firstName } }));
       if (continueUrl) {
-        goto(continueUrl);
+        universalGoto(continueUrl);
       } else {
         goto(routes.MAP);
       }

@@ -36,9 +36,10 @@
   "devDependencies": {
     "@firebase/rules-unit-testing": "^2.0.7",
     "@playwright/test": "^1.47.2",
-    "@stripe/stripe-js": "^1.54.2",
-    "@sveltejs/adapter-static": "^2.0.3",
-    "@sveltejs/kit": "1.30.0",
+    "@stripe/stripe-js": "^4.8.0",
+    "@sveltejs/adapter-static": "^3.0.0",
+    "@sveltejs/kit": "^2.0.0",
+    "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "@tmcw/togeojson": "^5.8.1",
     "@turf/turf": "^6.5.0",
     "@types/lodash-es": "^4.17.9",
@@ -71,16 +72,16 @@
     "svelte-i18n": "^3.7.4",
     "svelte-preprocess": "^5.0.4",
     "svelte-simple-modal": "^1.6.1",
-    "svelte-stripe": "^0.0.22",
+    "svelte-stripe": "^1.2.1",
     "svg-inline-loader": "^0.8.2",
     "tslib": "^2.6.2",
     "tsx": "^4.19.1",
     "typescript": "^5.2.2",
     "ua-parser-js": "2.0.0-beta.1",
-    "vite": "^4.4.9",
+    "vite": "^5.0.0",
     "vite-bundle-visualizer": "0.10.0",
     "vite-plugin-mkcert": "^1.17.6",
-    "vitest": "^0.34.4"
+    "vitest": "^1.0.0"
   },
   "type": "module",
   "packageManager": "yarn@3.5.0"

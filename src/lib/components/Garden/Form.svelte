@@ -147,7 +147,11 @@
   ];
 </script>
 
-<form>
+<!--
+  multipart/form-data is added here for futureproofing, in case we ever want to
+  progressively enhance this action, see https://kit.svelte.dev/docs/migrating-to-sveltekit-2#forms-containing-file-inputs-must-use-multipart-form-data
+  -->
+<form enctype="multipart/form-data">
   <section>
     <div class="sub-container">
       <h2>{$_('garden.form.title')}</h2>

@@ -5,7 +5,7 @@ type Flatten<T> = T extends Readable<infer U> ? U : T;
 export type MessageFormatter = Flatten<typeof _>;
 import { UTM_MEMBERSHIP_CAMPAIGN, WTMG_BLOG_BASE_URL } from '$lib/constants';
 import createUrl from './create-url';
-import { goto } from './navigate';
+import { goto, isRelativeURL } from './navigate';
 import trackEvent from './track-plausible';
 import { rootModal } from '$lib/stores/app';
 
@@ -23,13 +23,12 @@ if (window) {
     if (ev.target?.href) {
       // Warning: AnchorHtml.href returns the full URL despite a relative URl attribute.
       const rawHref = ev.target?.getAttribute('href');
-      // https://stackoverflow.com/questions/10687099/how-to-test-if-a-url-string-is-absolute-or-relative
-      const absUrlRegex = new RegExp('^(?:[a-z+]+:)?//', 'i');
-      const isRelative = !absUrlRegex.test(rawHref);
+      const isRelative = isRelativeURL(rawHref);
 
       if (!isRelative) {
         // TODO: support tracking here too?
-        // do nothing, allow native nav & newtab handling
+        // Do nothing, allow native nav & newtab handling
+        // This is needed, because since svelte v2, goto() should not be used for non-relative URLs.
         return;
       }
 

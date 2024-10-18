@@ -18,13 +18,12 @@ Firebase [is not our dream ecosystem](https://github.com/WelcometoMyGarden/welco
 
 ### First, set up your dev environment
 
-- We use the package manager [Yarn](https://yarnpkg.com/getting-started/install), install it if you haven't already.
-- Ensure you have [Node](https://nodejs.org/en/download/) 16 installed. Use [nvm](https://github.com/nvm-sh/nvm) if needed. Any version >= 14 should work too, but we are using 16 for development.
+- Ensure you have [Node](https://nodejs.org/en/download/) v20 installed. Using [nvm](https://github.com/nvm-sh/nvm) is recommended. At the time of writing, you need v20.11.0 specifically to prevent a https issue in the dev server. The project probably works with v18 still, and might work with other older or newer versions too, but these aren't tested.
 - Ensure you have Java >= v11 is installed, preferably the latest LTS version (17). This is required for Firebase's CLI. [Adoptium builds](https://adoptium.net/en-GB/) are helpful.
-- Install the [Firebase CLI](https://firebaseopensource.com/projects/firebase/firebase-tools/) globally.
+- Install the [Firebase CLI](https://firebaseopensource.com/projects/firebase/firebase-tools/) and [Yarn](https://yarnpkg.com/getting-started/install) globally. The global npm Yarn install will install a v1 ("Classic") version, but this version will replace itself with a locked version checked into this repository (3.5.0 at the time of writing) using the `.yarnrc.yml` configuration:
 
   ```
-  npm i -g firebase-tools
+  npm i -g firebase-tools yarn
   ```
 
 - Install project dependencies, in both the root and `/api` directory.

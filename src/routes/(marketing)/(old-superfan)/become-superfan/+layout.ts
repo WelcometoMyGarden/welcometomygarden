@@ -16,5 +16,5 @@ export const load: LayoutLoad = function load({ params }) {
     redirectUrl += '/payment';
   }
 
-  throw redirect(301, redirectUrl);
+  redirect(301, redirectUrl);
 };

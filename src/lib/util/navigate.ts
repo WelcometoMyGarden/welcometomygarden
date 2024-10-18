@@ -11,9 +11,21 @@ export const goto = (
     state?: any;
     invalidateAll?: boolean;
   }
-) => {
+) =>
   svelteGoto(path, opts).catch((e) => {
     console.error('goto error: ', e);
     window.location.href = path;
   });
+export const isRelativeURL = (url: string) => {
+  // https://stackoverflow.com/questions/10687099/how-to-test-if-a-url-string-is-absolute-or-relative
+  const absUrlRegex = new RegExp('^(?:[a-z+]+:)?//', 'i');
+  return !absUrlRegex.test(url);
+};
+
+export const universalGoto = async (url: string) => {
+  if (isRelativeURL(url)) {
+    return goto(url);
+  } else {
+    window.location.href = url;
+  }
 };

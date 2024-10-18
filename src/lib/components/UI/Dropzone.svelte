@@ -308,7 +308,9 @@
   on:drop={composeDragHandler(onDropCb)}
 >
   <!-- Note: the accept attribute is ignored on iOS, because on some iPhones (e.g. 13, SE 2020, with iOS 17.6+)
-  The accept attribute doesn't work as intended, and makes it impossible to select gpx files.
+        The accept attribute doesn't work as intended, and makes it impossible to select gpx files.
+       Note: multipart/form-data is added here for futureproofing, in case we ever want to
+        progressively enhance this action, see https://kit.svelte.dev/docs/migrating-to-sveltekit-2#forms-containing-file-inputs-must-use-multipart-form-data
     -->
   <input
     accept={isIDevice ? undefined : Array.isArray(accept) ? accept.join(',') : accept}
@@ -320,6 +322,7 @@
     on:click={onInputElementClick}
     bind:this={inputRef}
     style="display: none;"
+    enctype="multipart/form-data"
   />
   <slot>
     <slot />
