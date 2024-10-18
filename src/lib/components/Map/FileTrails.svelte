@@ -3,7 +3,7 @@
   import type GeoJSON from 'geojson';
   import { fileDataLayers, prefix } from '$lib/stores/file';
   import { getContext } from 'svelte';
-  import bbox from '@turf/bbox';
+  import { bbox } from '@turf/bbox';
   import key from './mapbox-context.js';
   import { ZOOM_LEVELS } from '$lib/constants.js';
   import type { FileDataLayer } from '$lib/types/DataLayer';
