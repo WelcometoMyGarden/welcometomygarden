@@ -10,7 +10,7 @@
   import type { Meetup } from './MeetupLayer.svelte';
   import createUrl from '$lib/util/create-url';
   import Img from '@zerodevx/svelte-img';
-  import meetupImg from '$lib/assets/wtmg-meetup.png?run';
+  import meetupImg from '$lib/assets/wtmg-meetup.png?as=run';
   import { coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
 
   export let meetup: Meetup | null = null;

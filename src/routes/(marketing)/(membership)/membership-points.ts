@@ -1,7 +1,7 @@
-import mapScreenImg from '$lib/assets/value-points/map-screenshot.png?run&width=840';
-import chatScreenImg from '$lib/assets/value-points/chat-screenshot.png?run&width=840';
-import featuresScreenImg from '$lib/assets/value-points/features-screenshot.png?run&width=840';
-import communityScreenImg from '$lib/assets/value-points/community-screenshot.png?run&width=840';
+import mapScreenImg from '$lib/assets/value-points/map-screenshot.png?as=run&w=840';
+import chatScreenImg from '$lib/assets/value-points/chat-screenshot.png?as=run&w=840';
+import featuresScreenImg from '$lib/assets/value-points/features-screenshot.png?as=run&w=840';
+import communityScreenImg from '$lib/assets/value-points/community-screenshot.png?as=run&w=840';
 import type { ComponentProps } from 'svelte';
 import type ValuePoint from '$routes/(marketing)/(membership)/ValuePoint.svelte';
 import { merge, zipWith } from 'lodash-es';

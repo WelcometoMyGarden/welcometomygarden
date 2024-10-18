@@ -18,8 +18,8 @@ import {
   onSnapshot,
   addDoc,
   Timestamp,
-  CollectionReference,
-  DocumentReference
+  type CollectionReference,
+  type DocumentReference
 } from 'firebase/firestore';
 import type { FirebaseChat, FirebaseMessage } from '$lib/types/Chat';
 import { getUser } from '$lib/stores/auth';

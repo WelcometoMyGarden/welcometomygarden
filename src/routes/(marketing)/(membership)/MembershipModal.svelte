@@ -5,7 +5,7 @@
   import { arrowRightIcon } from '$lib/images/icons';
   import IconButton from '$lib/components/UI/IconButton.svelte';
   import Img from '@zerodevx/svelte-img';
-  import velotourImg from '$lib/assets/velotour-group.jpeg?run';
+  import velotourImg from '$lib/assets/velotour-group.jpeg?as=run';
   import ValuePoint from './ValuePoint.svelte';
   import { valuePoints } from '$routes/(marketing)/(membership)/membership-points';
 

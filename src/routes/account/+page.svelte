@@ -353,6 +353,4 @@
     margin: 2rem 0 0 0;
     text-align: left;
   }
-  .superfan-validity.invalid button {
-  }
 </style>

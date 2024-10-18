@@ -8,7 +8,7 @@ import {
   getDocFromCache,
   getDocFromServer,
   getDoc,
-  CollectionReference
+  type CollectionReference
 } from 'firebase/firestore';
 import { getUser } from '$lib/stores/auth';
 import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '$lib/stores/garden';

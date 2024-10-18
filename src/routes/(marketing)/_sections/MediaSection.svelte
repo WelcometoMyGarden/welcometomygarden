@@ -1,9 +1,9 @@
 <script>
-  import velotourImg from '$lib/assets/velotour-group.jpeg?run&width=1280';
+  import velotourImg from '$lib/assets/velotour-group.jpeg?as=run&w=1280';
   export let decoration = false;
   import Img from '@zerodevx/svelte-img';
-  import sun from '$lib/images/sun.png?run&width=500&lqip=0';
-  import flowerRed from '$lib/images/flower-red.png?run&width=500&lqip=0';
+  import sun from '$lib/images/sun.png?as=run:0&w=500';
+  import flowerRed from '$lib/images/flower-red.png?as=run:0&w=500';
 </script>
 
 <!-- TODO: auto scroll to this id? No SSR, so it won't be immediately there -->

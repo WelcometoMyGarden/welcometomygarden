@@ -16,10 +16,10 @@
   import MembershipPricing from '../MembershipPricing.svelte';
   import smoothscroll from 'smoothscroll-polyfill';
 
-  import lievenImg from '$lib/assets/testimonials/lieven.jpeg?run&width=1280';
-  import borisImg from '$lib/assets/testimonials/boris.jpeg?run&width=840';
-  import marieMarthImg from '$lib/assets/testimonials/marie-marth.jpg?run&width=1280';
-  import benoitHeleneImg from '$lib/assets/testimonials/benoit-helene.jpg?run&width=1600';
+  import lievenImg from '$lib/assets/testimonials/lieven.jpeg?as=run&w=1280';
+  import borisImg from '$lib/assets/testimonials/boris.jpeg?as=run&w=840';
+  import marieMarthImg from '$lib/assets/testimonials/marie-marth.jpg?as=run&w=1280';
+  import benoitHeleneImg from '$lib/assets/testimonials/benoit-helene.jpg?as=run&w=1600';
   import ValuePoints from './ValuePoints.svelte';
   import { membershipBlogLink } from '$lib/util/translation-helpers';
   import capitalize from '$lib/util/capitalize';
@@ -182,7 +182,7 @@
     width: min-content;
   }
   .become-superfan-buttons :global(> *:first-child .button) {
-    /* Forces the button content text to be on one line, 
+    /* Forces the button content text to be on one line,
        but still constrains the size to the content*/
     width: max-content;
   }

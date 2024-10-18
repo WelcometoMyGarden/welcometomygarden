@@ -1,9 +1,9 @@
 import { deleteToken, getToken } from 'firebase/messaging';
 import { db, messaging } from './firebase';
 import {
-  CollectionReference,
-  DocumentReference,
-  Timestamp,
+  type CollectionReference,
+  type DocumentReference,
+  type Timestamp,
   addDoc,
   collection,
   deleteDoc,

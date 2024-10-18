@@ -1,4 +1,4 @@
-import { DocumentReference, doc, getDoc } from 'firebase/firestore';
+import { type DocumentReference, doc, getDoc } from 'firebase/firestore';
 import { db } from './firebase';
 import { STATS } from './collections';
 

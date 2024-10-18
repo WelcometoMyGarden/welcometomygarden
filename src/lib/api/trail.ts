@@ -3,8 +3,8 @@ import { db, storage } from './firebase';
 import { getUser } from '$lib/stores/auth';
 import type GeoJSON from 'geojson';
 import {
-  CollectionReference,
-  DocumentReference,
+  type CollectionReference,
+  type DocumentReference,
   collection,
   deleteDoc,
   doc,

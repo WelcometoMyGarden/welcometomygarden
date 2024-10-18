@@ -22,3 +22,9 @@ declare module '$lib/assets/*' {
   const meta: Object[];
   export default meta;
 }
+// We also import some images from the following folder, so we apply the same:
+declare module '$lib/images/*' {
+  const meta: Object[];
+  export default meta;
+}
+

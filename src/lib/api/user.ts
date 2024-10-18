@@ -1,5 +1,5 @@
 import { USERS, USERS_PRIVATE } from './collections';
-import { doc, DocumentReference, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, type DocumentReference, getDoc, updateDoc } from 'firebase/firestore';
 
 import { db } from './firebase';
 

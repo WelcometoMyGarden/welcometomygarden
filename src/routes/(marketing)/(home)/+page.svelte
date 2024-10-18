@@ -13,9 +13,9 @@
   import Testimonials, { type Slide } from '../_components/Testimonials.svelte';
   import { onDestroy } from 'svelte';
 
-  import katlijnFrankImg from '$lib/assets/testimonials/katlijn-frank.jpg?run&width=1280';
-  import carolienFamilyImg from '$lib/assets/testimonials/carolien-family.jpg?run&width=1280';
-  import gardenImg from '$lib/assets/testimonials/garden.jpeg?run&width=1280';
+  import katlijnFrankImg from '$lib/assets/testimonials/katlijn-frank.jpg?as=run&w=1280';
+  import carolienFamilyImg from '$lib/assets/testimonials/carolien-family.jpg?as=run&w=1280';
+  import gardenImg from '$lib/assets/testimonials/garden.jpeg?as=run&w=1280';
   import { anchorText, membershipBlogLink } from '$lib/util/translation-helpers';
   import { user } from '$lib/stores/auth';
   import createUrl from '$lib/util/create-url';

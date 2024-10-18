@@ -20,7 +20,7 @@ import {
 import User, { type UserPrivate, type UserPublic } from '$lib/models/User';
 import { createUser, resendAccountVerification as resendAccVerif } from '$lib/api/functions';
 import { CAMPSITES, USERS, USERS_PRIVATE } from './collections';
-import { doc, DocumentReference, DocumentSnapshot, onSnapshot } from 'firebase/firestore';
+import { doc, type DocumentReference, type DocumentSnapshot, onSnapshot } from 'firebase/firestore';
 import notify from '$lib/stores/notification';
 import { goto } from '$app/navigation';
 import routes, { getCurrentRoute } from '../routes';
