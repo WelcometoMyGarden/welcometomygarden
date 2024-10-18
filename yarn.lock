@@ -5409,12 +5409,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"file-selector@npm:^0.6.0":
-  version: 0.6.0
-  resolution: "file-selector@npm:0.6.0"
+"file-selector@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "file-selector@npm:1.1.0"
   dependencies:
-    tslib: ^2.4.0
-  checksum: 7d051b6e5d793f3c6e2ab287ba5e7c2c6a0971bccc9d56e044c8047ba483e18f60fc0b5771c951dc707c0d15f4f36ccb4f1f1aaf385d21ec8f7700dadf8325ba
+    tslib: ^2.7.0
+  checksum: bf11118a7152749d778b8c39bfe9818c6d8ce10f1d5ca710122b020c60c32b20d0f722c723fe459828bf2a26c784801e043b8c1dee65853e987fcb77208e9d3a
   languageName: node
   linkType: hard
 
@@ -8353,7 +8353,7 @@ __metadata:
     eslint: ^9.12.0
     eslint-config-prettier: ^9.1.0
     eslint-plugin-svelte: ^2.45.1
-    file-selector: ^0.6.0
+    file-selector: ^1.1.0
     firebase: ^10.14.1
     gmail-getter: ^2.1.0
     i18n-iso-countries: ^7.12.0
