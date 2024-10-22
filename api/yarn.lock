@@ -1280,10 +1280,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@faker-js/faker@npm:^7.6.0":
-  version: 7.6.0
-  resolution: "@faker-js/faker@npm:7.6.0"
-  checksum: 942af6221774e8c98a0eb6bc75265e05fb81a941170377666c3439aab9495dd321d6beedc5406f07e6ad44262b3e43c20961f666d116ad150b78e7437dd1bb2b
+"@faker-js/faker@npm:^9.0.3":
+  version: 9.0.3
+  resolution: "@faker-js/faker@npm:9.0.3"
+  checksum: 69e8af494117ec845de3ca740af105560fffffa4daa83ee0efc49026b0e44420b866987d664108957d49951fc5170adcbd4595770f91df1e18d776da32ddff8e
   languageName: node
   linkType: hard
 
@@ -4129,7 +4129,7 @@ __metadata:
     "@babel/core": ^7.25.9
     "@babel/eslint-parser": ^7.25.9
     "@babel/preset-env": ^7.25.9
-    "@faker-js/faker": ^7.6.0
+    "@faker-js/faker": ^9.0.3
     "@google-cloud/firestore": ^6.8.0
     "@sendgrid/client": ^7.7.0
     "@sendgrid/mail": ^7.7.0

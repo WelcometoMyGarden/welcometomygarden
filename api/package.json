@@ -38,7 +38,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.9",
     "@babel/preset-env": "^7.25.9",
-    "@faker-js/faker": "^7.6.0",
+    "@faker-js/faker": "^9.0.3",
     "@types/luxon": "^3.4.2",
     "@types/mocha": "^10.0.9",
     "eslint": "^8.57.1",
