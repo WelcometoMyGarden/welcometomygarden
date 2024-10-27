@@ -19,8 +19,8 @@
   "dependencies": {
     "@babel/eslint-parser": "^7.25.9",
     "@google-cloud/firestore": "^7.10.0",
-    "@sendgrid/client": "^7.7.0",
-    "@sendgrid/mail": "^7.7.0",
+    "@sendgrid/client": "^8.1.4",
+    "@sendgrid/mail": "^8.1.4",
     "@supabase/supabase-js": "^2.45.6",
     "address-rfc2822": "^2.2.2",
     "busboy": "^1.6.0",
