@@ -36,9 +36,9 @@
     "stripe": "^11.18.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.9",
-    "@babel/preset-env": "^7.25.9",
-    "@faker-js/faker": "^9.0.3",
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@faker-js/faker": "^9.1.0",
     "@types/luxon": "^3.4.2",
     "@types/mocha": "^10.0.9",
     "eslint": "^8.57.1",
