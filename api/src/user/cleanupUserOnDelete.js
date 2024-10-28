@@ -22,8 +22,8 @@ exports.cleanupUserOnDelete = async (user) => {
   const userId = user.uid;
 
   // Delete the connected SendGrid contact
-  /** @type {UserPrivate | undefined} */
-  let userPrivate;
+  /** @type {UserPrivate | null} */
+  let userPrivate = null;
   try {
     userPrivate =
       /** @type {UserPrivate} */

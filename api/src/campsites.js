@@ -11,9 +11,9 @@ exports.onCampsiteCreate = async ({ data }) => {
   const uid = data.id;
 
   /**
-   * @type {UserRecord | undefined}
+   * @type {UserRecord | null}
    */
-  let user;
+  let user = null;
   try {
     user = await auth.getUser(uid);
   } catch (e) {
@@ -63,8 +63,8 @@ exports.onCampsiteDelete = async ({ data }) => {
   // Mark the connected user as non-host in SendGrid
 
   const uid = data.id;
-  /** @type {UserRecord | undefined} */
-  let user;
+  /** @type {UserRecord | null} */
+  let user = null;
   try {
     // This case happens when we manually delete a garden document in Firebase. This is sometimes requested, as we don't
     // support a user-facing way of doing this yet.

@@ -43,16 +43,22 @@ module.exports = [
           allowTernary: true
         }
       ],
-
+      'no-unused-vars': [
+        'error',
+        {
+          // Sometimes it is needed to catch an error of client code to throw
+          // a more specific error to consumers. In this case, JS expects an
+          // error variable that may not be used.
+          caughtErrors: 'none'
+        }
+      ],
       'no-return-assign': [2, 'except-parens'],
-
       'no-param-reassign': [
         'error',
         {
           props: false
         }
       ],
-
       'no-restricted-syntax': [
         'warn',
         {

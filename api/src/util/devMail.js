@@ -9,14 +9,17 @@ const localEmailHostParam = defineString('LOCAL_EMAIL_HOST', { default: '' });
 // https://mailpit.axllent.org/docs/api-v1/view.html#post-/api/v1/send
 
 /**
- *
  * @param {SendGrid.MailDataRequired['from'] | SendGrid.MailDataRequired['to']} email
  */
 const parseEmailSpec = (email) => {
   let address;
-  let name;
+  /**
+   * @type {string | null}
+   */
+  let name = null;
   if (typeof email === 'string') {
     const [first] = addrparser.parse(email);
+    // eslint-disable-next-line prefer-const
     address = first?.address;
     name = first?.name();
   }

@@ -179,9 +179,9 @@ exports.replicate = async (options) => {
   const { before, after } = change;
   let changeType;
   /**
-   * @type {undefined | {id: string} & import('firebase/firestore').DocumentData}
+   * @type {null | ({id: string} & import('firebase/firestore').DocumentData)}
    */
-  let afterDocWithData;
+  let afterDocWithData = null;
   if (after.exists) {
     changeType = 'upsert';
     afterDocWithData = { id: after.id, ...after.data() };
@@ -197,7 +197,8 @@ exports.replicate = async (options) => {
    */
   async function attemptReplication(attempt) {
     try {
-      // If an `after` exists, it's either an update or insert
+      // If an `after` exists, we've received either an update or insert from Firebase.
+      // This translates to an upsert in Supabase.
       let result;
       if (changeType === 'upsert') {
         result = await supabase()

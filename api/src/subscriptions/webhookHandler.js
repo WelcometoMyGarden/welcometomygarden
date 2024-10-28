@@ -17,7 +17,7 @@ exports.stripeWebhookHandler = async (req, res) => {
   if (req.method !== 'POST') {
     fail('invalid-argument');
   }
-  let event;
+  let event = null;
 
   // https://stripe.com/docs/billing/subscriptions/build-subscriptions?ui=elements
   try {

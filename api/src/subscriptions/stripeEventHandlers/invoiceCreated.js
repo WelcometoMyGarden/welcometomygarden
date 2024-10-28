@@ -83,9 +83,8 @@ module.exports = async (event, res) => {
       typeof price?.unit_amount === 'number'
     )
   ) {
-    const errorMsg = 'Missing parameters to send a subscription renewal email';
     res.status(500);
-    return res.send(errorMsg);
+    return res.send('Missing parameters to send a subscription renewal email');
   }
 
   // Send renewal invoice email

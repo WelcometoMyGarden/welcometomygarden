@@ -20,6 +20,10 @@ const {
 } = stripeSubscriptionKeys;
 
 /**
+ * @typedef {import('stripe').Stripe.SubscriptionCreateParams.PaymentSettings.PaymentMethodOptions.Bancontact.PreferredLanguage} PreferredLanguage
+ */
+
+/**
  * @param {string} customerId
  * @param {string} priceId
  * @param {DocumentReference} privateUserProfileDocRef
@@ -29,7 +33,10 @@ const {
 const createNewSubscription = async (customerId, priceId, privateUserProfileDocRef, locale) => {
   // Check if we can set a preferred language for bancontact
   // https://stripe.com/docs/api/subscriptions/create#create_subscription-payment_settings-payment_method_options-bancontact-preferred_language
-  let preferredBancontactLanguage;
+  /**
+   * @type {PreferredLanguage | null}
+   */
+  let preferredBancontactLanguage = null;
   if (['en', 'de', 'nl', 'fr'].includes(locale)) {
     preferredBancontactLanguage = locale;
   }

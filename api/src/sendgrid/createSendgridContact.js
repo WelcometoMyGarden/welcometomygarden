@@ -51,10 +51,10 @@ const createSendgridContact = async (
 
   // Create the contact in SG
   /**
-   * @type {string | undefined}
+   * @type {string | null}
    */
-  let contactCreationJobId;
-  let list_ids;
+  let contactCreationJobId = null;
+  let list_ids = null;
   if (addToNewsletter) {
     list_ids = [sendgridWtmgNewsletterListId.value()];
   }
@@ -140,8 +140,8 @@ const createSendgridContact = async (
     fail('internal');
   }
 
-  /** @type {SendGrid.ContactDetails} */
-  let contact;
+  /** @type {SendGrid.ContactDetails | null} */
+  let contact = null;
   try {
     contact = await getContactByEmail(firebaseUser.email);
   } catch (e) {

@@ -92,9 +92,11 @@ exports.parseUnpackedInboundEmail = (unpackedInboundRequest) => {
   // Pre-parse metadata
   try {
     if (envelope) {
+      // eslint-disable-next-line prefer-const
       envelopeFromEmail = JSON.parse(envelope).from;
     }
     if (from) {
+      // eslint-disable-next-line prefer-const
       [headerFrom] = addrparser.parse(from) || [];
     }
     if (dkim) {
@@ -289,7 +291,7 @@ exports.parseInboundEmail = async (req, res) => {
 
     if (fromEmail) {
       // TODO: this code is likely reused elsewhere too...
-      let language;
+      let language = null;
       try {
         const user = await auth.getUserByEmail(fromEmail);
         const privateUserProfileDocRef = db.doc(`users-private/${user.uid}`);

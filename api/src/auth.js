@@ -51,7 +51,6 @@ const sendVerificationEmail = async (email, firstName, language) => {
 };
 exports.sendVerificationEmail = sendVerificationEmail;
 
-// eslint-disable-next-line consistent-return
 //
 /**
  * @public
@@ -73,7 +72,8 @@ exports.requestPasswordReset = async (request) => {
     await sendPasswordResetEmail(email, user.displayName, link);
 
     return { message: 'Password reset request received', success: true };
-  } catch (ex) {
+    // eslint-disable-next-line no-unused-vars
+  } catch (e) {
     fail('invalid-argument');
   }
 };
@@ -87,10 +87,10 @@ exports.resendAccountVerification = async (request) => {
     throw new HttpsError('unauthenticated', '');
   }
 
-  /** @type {UserRecord} */
-  let user;
-  /** @type {UserPrivate} */
-  let userPrivate;
+  /** @type {UserRecord | null} */
+  let user = null;
+  /** @type {UserPrivate | null} */
+  let userPrivate = null;
   try {
     const [userIn, userPrivateIn] = await Promise.all([
       auth.getUser(request.auth.uid),

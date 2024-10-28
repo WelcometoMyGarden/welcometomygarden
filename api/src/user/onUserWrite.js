@@ -28,9 +28,9 @@ exports.onUserWrite = async ({ data: change }) => {
   }
 
   /**
-   * @type {UserPublic | undefined}
+   * @type {UserPublic | null}
    */
-  let userBefore;
+  let userBefore = null;
   if (before.exists) {
     userBefore = before.data();
   }

@@ -60,9 +60,9 @@ exports.onUserPrivateWrite = async ({ data: change, params }) => {
   }
 
   /**
-   * @type {UserPrivate | undefined} userPrivateBefore
+   * @type {UserPrivate | null} userPrivateBefore
    */
-  let userPrivateBefore;
+  let userPrivateBefore = null;
   if (before.exists) {
     userPrivateBefore = before.data();
   }
@@ -118,9 +118,9 @@ exports.onUserPrivateWrite = async ({ data: change, params }) => {
     // Check if we should do a newsletter list addition
     // This could happen when someone unsubscribes, and then re-subscribes.
     /**
-     * @type {string[] | undefined}
+     * @type {string[] | null}
      */
-    let list_ids;
+    let list_ids = null;
 
     const changedToNewsTrue =
       userPrivateBefore &&

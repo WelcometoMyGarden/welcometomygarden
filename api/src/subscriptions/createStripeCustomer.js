@@ -5,6 +5,8 @@ const { auth, db } = require('../firebase');
 /**
  * Creates a customer in stripe
  */
+// The return is consistent. "return true" at the end fixes the ESLint error, but is not reachable.
+// eslint-disable-next-line consistent-return
 exports.createStripeCustomer = async (_, context) => {
   if (!context.auth) {
     return fail('unauthenticated');
@@ -30,7 +32,7 @@ exports.createStripeCustomer = async (_, context) => {
     fail('already-exists');
   }
 
-  let customer;
+  let customer = null;
   try {
     customer = await stripe.customers.create({
       email,
@@ -48,6 +50,4 @@ exports.createStripeCustomer = async (_, context) => {
     console.error("Couldn't create a Stripe customer", e);
     fail('internal');
   }
-  // To make ESLint happy
-  return true;
 };
