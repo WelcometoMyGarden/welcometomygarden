@@ -38,7 +38,7 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
    */
   let preferredBancontactLanguage = null;
   if (['en', 'de', 'nl', 'fr'].includes(locale)) {
-    preferredBancontactLanguage = locale;
+    preferredBancontactLanguage = /** @type {PreferredLanguage} */ (locale);
   }
 
   // Create the subscription in Sripe

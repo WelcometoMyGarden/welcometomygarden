@@ -8,7 +8,6 @@ const {
 } = require('firebase-functions/v2/firestore');
 
 const admin = require('firebase-admin');
-// eslint-disable-next-line import/no-extraneous-dependencies
 
 // Initialization conflicts may arise with seeders/app.js
 if (!admin.apps.length) {
@@ -74,7 +73,13 @@ const whenReplicating =
 const DEFAULT_REGION = 'europe-west1';
 const euWest1V1 = regionV1(DEFAULT_REGION);
 // v2 function defaults
-setGlobalOptions({ region: DEFAULT_REGION });
+setGlobalOptions({
+  region: DEFAULT_REGION,
+  // TEMPORARY FIX: remove concurrency
+  // https://firebase.google.com/docs/functions/2nd-gen-upgrade#audit_global_variable_usage
+  cpu: 'gcf_gen1',
+  concurrency: 1
+});
 
 // Extended 5 minutes timeout for function that handle SendGrid account creation
 // https://firebase.google.com/docs/functions/manage-functions#set_timeout_and_memory_allocation
