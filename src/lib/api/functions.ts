@@ -142,22 +142,23 @@ export const initializeUsCentral1Functions = (usCentral1Functions: Functions) =>
 };
 
 export const initializeEuropeWest1Functions = (europeWest1Functions: Functions) => {
-  createUserRef = httpsCallable<CreateUserRequest>(europeWest1Functions, 'createUser');
+  createUserRef = httpsCallable<CreateUserRequest>(europeWest1Functions, 'createUserV2');
   requestPasswordResetRef = httpsCallable<EmptyObject>(
     europeWest1Functions,
-    'requestPasswordReset'
+    'requestPasswordResetV2'
   );
-  resendAccountVerificationRef = httpsCallable(europeWest1Functions, 'resendAccountVerification');
-  createStripeCustomerRef = httpsCallable(europeWest1Functions, 'createStripeCustomer');
+  resendAccountVerificationRef = httpsCallable(europeWest1Functions, 'resendAccountVerificationV2');
+  createStripeCustomerRef = httpsCallable(europeWest1Functions, 'createStripeCustomerV2');
   createOrRetrieveUnpaidSubscriptionRef = httpsCallable(
     europeWest1Functions,
-    'createOrRetrieveUnpaidSubscription'
+    'createOrRetrieveUnpaidSubscriptionV2'
   );
-  createCustomerPortalSessionRef = httpsCallable(
-    europeWest1Functions,
-    'createCustomerPortalSession'
-  );
-  discourseConnectLoginRef = httpsCallable(europeWest1Functions, 'discourseConnectLogin');
-  requestEmailChangeRef = httpsCallable(europeWest1Functions, 'requestEmailChange');
-  propagateEmailChangeRef = httpsCallable(europeWest1Functions, 'propagateEmailChange');
+  // temporarily unused
+  // createCustomerPortalSessionRef = httpsCallable(
+  //   europeWest1Functions,
+  //   'createCustomerPortalSessionV2'
+  // );
+  discourseConnectLoginRef = httpsCallable(europeWest1Functions, 'discourseConnectLoginV2');
+  requestEmailChangeRef = httpsCallable(europeWest1Functions, 'requestEmailChangeV2');
+  propagateEmailChangeRef = httpsCallable(europeWest1Functions, 'propagateEmailChangeV2');
 };

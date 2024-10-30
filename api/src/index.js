@@ -32,7 +32,6 @@ const {
   createOrRetrieveUnpaidSubscription
 } = require('./subscriptions/createOrRetrieveUnpaidSubscription');
 const { createStripeCustomer } = require('./subscriptions/createStripeCustomer');
-const { createCustomerPortalSession } = require('./subscriptions/createCustomerPortalSession');
 const { handleRenewals } = require('./subscriptions/handleRenewals');
 const { discourseConnectLogin } = require('./discourse/discourseConnectLogin');
 const { createUser } = require('./user/createUser');
@@ -86,26 +85,27 @@ setGlobalOptions({
 const SENDGRID_CONTACT_CREATION_TIMEOUT_S = 60 * 5;
 
 // Callable functions: accounts
-exports.requestPasswordReset = onCall(requestPasswordReset);
-exports.resendAccountVerification = onCall(resendAccountVerification);
-exports.createUser = onCall(createUser);
-exports.verifyEmail = onCall(verifyEmail);
-exports.requestEmailChange = onCall(requestEmailChange);
-exports.propagateEmailChange = onCall(
+exports.requestPasswordResetV2 = onCall(requestPasswordReset);
+exports.resendAccountVerificationV2 = onCall(resendAccountVerification);
+exports.createUserV2 = onCall(createUser);
+exports.requestEmailChangeV2 = onCall(requestEmailChange);
+exports.propagateEmailChangeV2 = onCall(
   {
     timeoutSeconds: SENDGRID_CONTACT_CREATION_TIMEOUT_S
   },
   propagateEmailChange
 );
-exports.discourseConnectLogin = onCall(discourseConnectLogin);
+exports.discourseConnectLoginV2 = onCall(discourseConnectLogin);
 
 // Callable functions: subscriptions
-exports.createStripeCustomer = onCall(createStripeCustomer);
-exports.createOrRetrieveUnpaidSubscription = onCall(createOrRetrieveUnpaidSubscription);
-exports.createCustomerPortalSession = onCall(createCustomerPortalSession);
+exports.createStripeCustomerV2 = onCall(createStripeCustomer);
+exports.createOrRetrieveUnpaidSubscriptionV2 = onCall(createOrRetrieveUnpaidSubscription);
+// unused
+// exports.createCustomerPortalSession = onCall(createCustomerPortalSession);
 
 // Callable functions: admin functions
 exports.setAdminRole = onCall(setAdminRole);
+exports.verifyEmail = onCall(verifyEmail);
 exports.updateEmail = onCall(
   {
     timeoutSeconds: SENDGRID_CONTACT_CREATION_TIMEOUT_S
