@@ -1,7 +1,7 @@
-import { Browser, test as base, type BrowserContext, type Page } from '@playwright/test';
+import { type Browser, test as base, type BrowserContext, type Page } from '@playwright/test';
 import { clearAuth, clearFirestore } from '../util';
 import { deleteAccount, makeSuperfan, openEmail, payOnStripe } from './util';
-import { defaultOptions, TestOptions, TestType } from '../../playwright.config';
+import { defaultOptions, type TestOptions, type TestType } from '../../playwright.config';
 
 export const test = base.extend<TestOptions>({
   // Define an option and provide a default value.
