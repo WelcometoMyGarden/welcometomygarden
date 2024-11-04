@@ -1413,6 +1413,9 @@
       "rethink": "Rethink"
     }
   },
+  "rv": {
+    "ask": "We’ve been selected as <a style=\"font-style: italic;\" class=\"link--neutral\" href=\"https://www.radicalevernieuwers.be/inspiratie/welcome-to-my-garden\" target=\"_blank\" rel=\"noopener\"><em>Radicale Vernieuwer</em></a>! Can you <a href=\"https://www.radicalevernieuwers.be/publieksprijs\" target=\"_blank\" rel=\"noopener\" class=\"link--neutral\">please vote for WTMG</a> for the audience award? Thank you! 🎉💚"
+  },
   "fallback": {
     "404": "404 - page not found",
     "redirect": "back to home"

@@ -1496,5 +1496,8 @@
       "permission-denied": "Jouw browser blokkeert momenteel mobiele meldingen voor WTMG. Werk de toestemmingen van jouw browser bij of reset ze om mobiele meldingen aan te zetten. Volg eenvoudigweg {faqLink}. Het duurt slechts twee minuten!",
       "generic": "Er is iets misgegaan bij het aanzetten van je mobiele meldingen. Kan je deze pagina verversen en dan nogmaals proberen om ze aan te zetten? Als dit niet werkt, gelieve dan onderstaande informatie naar {emailLink} te sturen zodat we je verder kunnen helpen. Bedankt!"
     }
+  },
+  "rv": {
+    "ask": "We zijn geselecteerd als <a class=\"link--neutral\" href=\"https://www.radicalevernieuwers.be/inspiratie/welcome-to-my-garden\" target=\"_blank\" rel=\"noopener\"><em>Radicale Vernieuwer</em></a>! <a href=\"https://www.radicalevernieuwers.be/publieksprijs\" target=\"_blank\" rel=\"noopener\" class=\"link--neutral\">Stem je mee op WTMG</a> voor de publieksprijs? Bedankt! 🎉💚"
   }
 }

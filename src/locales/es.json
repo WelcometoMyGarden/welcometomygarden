@@ -1496,5 +1496,8 @@
       "permission-denied-faq-text": "instrucciones en nuestras preguntas frecuentes",
       "generic": "Algo salió mal al activar las notificaciones móviles. ¿Puedes actualizar esta página e intentar activarlas de nuevo? Si esto no funciona, envíanos la siguiente información a {emailLink} para que podamos ayudarte mejor. ¡Gracias!"
     }
+  },
+  "rv": {
+    "ask": "¡Hemos sido seleccionados como <a style=\"font-style: italic;\"  class=\"link--neutral\" href=\"https://www.radicalevernieuwers.be/inspiratie/welcome-to-my-garden\" target=\"_blank\" rel=\"noopener\"><em>Radicale Vernieuwer</em></a>! ¿Puede <a href=\"https://www.radicalevernieuwers.be/publieksprijs\" target=\"_blank\" rel=\"noopener\" class=\"link--neutral\">votar por WTMG</a> para el premio del público?"
   }
 }

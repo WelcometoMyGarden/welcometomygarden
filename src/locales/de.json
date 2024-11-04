@@ -1498,5 +1498,8 @@
       "permission-denied-faq-text": "Anleitungen dazu finden Sie in unseren FAQ",
       "generic": "Beim Aktivieren mobiler Benachrichtigungen ist ein Fehler aufgetreten. Können Sie diese Seite aktualisieren und dann erneut versuchen, sie zu aktivieren? Wenn dies nicht funktioniert, senden Sie bitte die folgenden Informationen an {emailLink} und wir helfen Ihnen weiter. Vielen Dank!"
     }
+  },
+  "rv": {
+    "ask": "Wir sind als <a style=\"font-style: italic;\"  class=\"link--neutral\" href=\"https://www.radicalevernieuwers.be/inspiratie/welcome-to-my-garden\" target=\"_blank\" rel=\"noopener\"><em>Radicale Vernieuwer</em></a> ausgewählt worden! <a href=\"https://www.radicalevernieuwers.be/publieksprijs\" target=\"_blank\" rel=\"noopener\" class=\"link--neutral\">Stimmen Sie mitt für WTMG</a> für den Publikumspreis? Vielen Dank! 🎉💚"
   }
 }

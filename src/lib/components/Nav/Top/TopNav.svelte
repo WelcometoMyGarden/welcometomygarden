@@ -6,48 +6,17 @@
   import { user } from '$lib/stores/auth';
   import WtmgLogo from '../../UI/WTMGLogo.svelte';
   import { COMMUNITY_FORUM_URL } from '$lib/constants';
-  import { anchorText } from '$lib/util/translation-helpers';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import trackEvent from '$lib/util/track-plausible';
-  import { renewalNoticeContent, subscriptionJustEnded } from '$lib/stores/subscription';
 
   $: firstName = $user ? $user.firstName : '';
-  $: shouldShowRenewalTopBar = $user && $user.stripeSubscription && $subscriptionJustEnded;
-  $: shouldShowTopBar = !$user?.superfan || shouldShowRenewalTopBar;
+  $: shouldShowTopBar = true;
 </script>
 
 <nav>
-  {#if shouldShowTopBar}
-    <div class="nav-extra">
-      <!-- Inform non-superfans of the membership offering -->
-      {#if !$user?.superfan}
-        <span
-          ><strong style="font-weight: 500;">{$_('navigation.membership-notice.prompt')}</strong
-          >{@html $_('navigation.membership-notice.answer', {
-            values: {
-              linkText: anchorText({
-                href: routes.ABOUT_MEMBERSHIP,
-                track: [
-                  PlausibleEvent.VISIT_ABOUT_MEMBERSHIP,
-                  { source: 'top_navbar_announcement' }
-                ],
-                linkText: $_('navigation.membership-notice.link-text'),
-                style: 'text-decoration: underline; cursor: pointer;',
-                newtab: false
-              })
-            }
-          })}
-        </span>
-      {:else if shouldShowRenewalTopBar && $user.stripeSubscription}
-        <!-- Inform renewal amount -->
-        <span
-          ><strong style="font-weight: 500;">
-            {$renewalNoticeContent?.prompt}</strong
-          >{' '}{@html $renewalNoticeContent?.answerHtml}
-        </span>
-      {/if}
-    </div>
-  {/if}
+  <div class="nav-extra">
+    <span>{@html $_('rv.ask')}</span>
+  </div>
   <div class="main-nav">
     <WtmgLogo />
     <ul>

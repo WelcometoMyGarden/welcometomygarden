@@ -1489,5 +1489,8 @@
       "permission-denied": "Votre navigateur bloque actuellement les notifications mobiles pour WTMG. Pour les activer, autorisez les notifications dans votre navigateur. Suivez {faqLink}. Cela ne prend que deux minutes !\"",
       "generic": "Un problème s’est produit lors de l’activation de vos notifications mobiles. Pouvez-vous actualiser cette page et réessayer de les activer ? Si cela ne fonctionne pas, merci d'envoyer les informations ci-dessous à {emailLink} afin que nous puissions vous aider. Merci !"
     }
+  },
+  "rv": {
+    "ask": "Nous avons été sélectionnés comme <a style=\"font-style: italic;\"  class=\"link--neutral\" href=\"https://www.radicalevernieuwers.be/inspiratie/welcome-to-my-garden\" target=\"_blank\" rel=\"noopener\"><em>Radicale Vernieuwer</em></a>! Pouvez-vous <a href=\"https://www.radicalevernieuwers.be/publieksprijs\" target=\"_blank\" rel=\"noopener\" class=\"link--neutral\">voter pour WTMG</a> pour le prix du public ? Merci ! 🎉💚"
   }
 }

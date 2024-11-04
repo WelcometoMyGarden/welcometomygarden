@@ -77,29 +77,8 @@
   <li class="socials">
     <Socials small />
   </li>
-  <li class="superfan-bar" class:show={!$user?.superfan || shouldRenewalNotice}>
-    {#if !$user?.superfan}
-      <span class="title">{$_('navigation.membership-notice.prompt')}</span>
-      <span
-        >{@html $_('navigation.membership-notice.answer', {
-          values: {
-            linkText: anchorText({
-              href: routes.ABOUT_MEMBERSHIP,
-              track: [
-                PlausibleEvent.VISIT_ABOUT_MEMBERSHIP,
-                { source: 'side_navbar_announcement' }
-              ],
-              linkText: $_('navigation.membership-notice.link-text'),
-              style: 'text-decoration: underline; cursor: pointer;',
-              newtab: false
-            })
-          }
-        })}</span
-      >
-    {:else if shouldRenewalNotice}
-      <span class="title">{$renewalNoticeContent?.prompt}</span>
-      <span>{@html $renewalNoticeContent?.answerHtml}</span>
-    {/if}
+  <li class="superfan-bar show">
+    <span>{@html $_('rv.ask')}</span>
   </li>
   <li class="main-links-container">
     <ul class="main-links">
