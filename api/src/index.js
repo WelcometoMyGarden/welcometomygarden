@@ -142,26 +142,30 @@ exports.onUserWrite = onDocumentWritten(
 );
 
 // Firestore triggers: campsites
-exports.onCampsiteCreate = onDocumentCreated('campsites/{campsiteId}', onCampsiteCreate);
-exports.onCampsiteDelete = onDocumentDeleted('campsites/{campsiteId}', onCampsiteDelete);
+exports.onCampsiteCreateV2 = onDocumentCreated('campsites/{campsiteId}', onCampsiteCreate);
+exports.onCampsiteDeleteV2 = onDocumentDeleted('campsites/{campsiteId}', onCampsiteDelete);
 
 // Firestore triggers: chats
-exports.onChatCreate = onDocumentCreated('chats/{chatId}', onChatCreate);
-exports.notifyOnChat = onDocumentCreated('chats/{chatId}/{messages}/{messageId}', onMessageCreate);
+exports.onChatCreateV2 = onDocumentCreated('chats/{chatId}', onChatCreate);
+exports.onMessageCreateV2 = onDocumentCreated(
+  'chats/{chatId}/{messages}/{messageId}',
+  onMessageCreate
+);
 
-// Additional replication triggers not covered above
+// Additional replication triggers not covered above.
+// *These do not exist in staging*
 // Note: this is not fully condition on replication
-exports.onCampsiteWrite = onDocumentWritten(
+exports.onCampsiteWriteV2 = onDocumentWritten(
   'campsites/{campsiteId}',
   seralizeFirestoreTriggers([whenReplicating(onCampsitesWriteReplicate), onCampsiteListedChange])
 );
-exports.onChatWrite = onDocumentWritten('chats/{chatId}', whenReplicating(onChatsWrite));
-exports.onMessageWrite = onDocumentWritten(
+exports.onChatWriteV2 = onDocumentWritten('chats/{chatId}', whenReplicating(onChatsWrite));
+exports.onMessageWriteV2 = onDocumentWritten(
   'chats/{chatId}/messages/{messageId}',
   whenReplicating(onMessagesWriteReplicate)
 );
 // for subcollections `push-registrations`, `unreads`, and `trails`
-exports.onUserPrivateSubcollectionWrite = onDocumentWritten(
+exports.onUserPrivateSubcollectionWriteV2 = onDocumentWritten(
   'users-private/{userId}/{subcollection}/{documentId}',
   whenReplicating(onUserPrivateSubcollectionWrite)
 );
