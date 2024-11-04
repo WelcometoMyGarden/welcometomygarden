@@ -221,6 +221,11 @@ a.link {
   text-decoration: underline;
 }
 
+a.link--neutral {
+  color: var(--color-green);
+  text-decoration: underline;
+}
+
 a.link:visited,
 a.link:active {
   color: var(--color-orange);
