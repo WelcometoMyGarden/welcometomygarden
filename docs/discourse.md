@@ -1,8 +1,8 @@
-# Discourse x WTMG
+# WTMG's SSO log-in integration with Discourse
 
-Superfans get access to a slow travel Discourse community, which is hosted in production at [https://community.welcometomygarden.org](https://community.welcometomygarden.org).
+WTMG Members get access to a slow travel Discourse community, which is hosted in production at [https://community.welcometomygarden.org](https://community.welcometomygarden.org).
 
-We seamlessly reuse WTMG's Firebase login using [Discourse Connect](https://meta.discourse.org/t/setup-discourseconnect-official-single-sign-on-for-discourse-sso/13045), and a combination of an intermediate sign-in portal `src/routes/auth/discourse-connect/+page.svelte` in the frontend and a cloud function (`api/src/discourseConnectLogin.js`) to handle the authentication in the backend.
+We reuse WTMG's Firebase login using [Discourse Connect](https://meta.discourse.org/t/setup-discourseconnect-official-single-sign-on-for-discourse-sso/13045), and a combination of an intermediate sign-in portal (`src/routes/auth/discourse-connect/+page.svelte`) in the frontend and a cloud function (`api/src/discourseConnectLogin.js`) to handle the authentication in the backend.
 
 ## Setting up the Discourse development environment
 

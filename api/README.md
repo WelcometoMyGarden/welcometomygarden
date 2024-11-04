@@ -2,7 +2,7 @@ This inner package houses the Firebase Cloud Functions of WTMG's Firebase backen
 
 ## Install
 
-Install the dependencies, if you haven't already while following the [main README](../api/):
+Install the dependencies, if you haven't already while following the [dev env README](../docs/dev-env.md):
 
 ```
 yarn install
@@ -10,39 +10,7 @@ yarn install
 
 ## Configure the Cloud Functions
 
-If you have [full access](../docs/full-access.md), set it up.
-
-See https://firebase.google.com/docs/functions/local-emulator#set_up_functions_configuration_optional
-
-Run this inside the `api` functions dir:
-
-```
-firebase functions:config:get > .runtimeconfig.json
-
-# If using Windows PowerShell, replace the above with:
-# firebase functions:config:get | ac .runtimeconfig.json
-```
-
-Will output a JSON file similar to the following (see .runtimeconfig-example.json), which will be picked up by the emulators:
-
-```
-
-{
-  "frontend": {
-    "url": "https://staging.welcometomygarden.org"
-  },
-  "sendgrid": {
-    "key": "<secret_sendgrid_key>"
-    ...
-  },
-  "stripe": {
-    "secret_key": "<secret_key>",
-    "webhook_secret": "<secret_key>"
-  },
-}
-```
-
-You can replace "frontend" with the localhost URL where you are currently running whe WTMG Svelte client app, if you want.
+If you have [full access](../docs/full-access.md), follow the configuration instructions there.
 
 ### Start dev servers
 
@@ -168,21 +136,9 @@ firebase use wtmg-dev
 
 ### Set (upload) the environment variables
 
-1. [Akwardly ensure, one-by-one](https://firebase.google.com/docs/functions/config-env#deploying_multiple_sets_of_environment_variables) that your target environment has all the needed files (we should probably migrate to the new parametrized config, or [hack around it another way](<](https://medium.com/@AllanHasegawa/setting-config-for-firebase-cloud-functions-with-json-136f455e7c69)>))
+Environment variables from the `.env.staging` or `.env.prod` files will be uploaded depending on the target, and will override currently set variables.
 
-   ```
-   # Check what is live now
-   firebase functions:config:get
-
-   # Make changes
-   firebase functions:config:set stripe.secret_key="API KEY" stripe.webh
-   ook_secret="SECRET"
-
-   # Check if you did well
-   firebase functions:config:get
-   ```
-
-2. ensure no stray `.env.*` files are around in the `/api` dir that might confuse Firebase.
+The currently used variables can be viewed in the Google Cloud Console -> Cloud Run Functions dashboard.
 
 Keep in mind that Stripe Webhook signing secrets are **unique to the webhook endpoint**. They will be different for local testing, staging and production environments.
 
