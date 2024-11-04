@@ -115,9 +115,9 @@ exports.updateEmail = onCall(
 
 // HTTP functions:
 //  Stripe webhook endpoint
-exports.stripeWebhooks = onRequest(stripeWebhookHandler);
+exports.handleStripeWebhookV2 = onRequest(stripeWebhookHandler);
 //  Handle SendGrid Inbound Email
-exports.parseInboundEmail = onRequest(parseInboundEmail);
+exports.parseInboundEmailV2 = onRequest(parseInboundEmail);
 
 // Firebase Auth triggers
 exports.cleanupUserOnDelete = euWest1V1.auth.user().onDelete(cleanupUserOnDelete);
