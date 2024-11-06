@@ -124,7 +124,7 @@ exports.onAuthUserDelete = euWest1V1.auth.user().onDelete(cleanupUserOnDelete);
 exports.onAuthUserCreate = euWest1V1.auth.user().onCreate(whenReplicating(onAuthUserCreate));
 
 // Firestore triggers: users
-exports.onUserPrivateWrite = onDocumentWritten(
+exports.onUserPrivateWriteV2 = onDocumentWritten(
   {
     document: 'users-private/{userId}',
     timeoutSeconds: SENDGRID_CONTACT_CREATION_TIMEOUT_S
@@ -135,8 +135,7 @@ exports.onUserPrivateWrite = onDocumentWritten(
   ])
 );
 
-// @ts-ignore
-exports.onUserWrite = onDocumentWritten(
+exports.onUserWriteV2 = onDocumentWritten(
   'users/{userId}',
   executeFirestoreTriggersConcurrently([onUserWrite, whenReplicating(onUsersWriteReplicate)])
 );
