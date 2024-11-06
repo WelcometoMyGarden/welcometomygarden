@@ -177,10 +177,10 @@ exports.onUserPrivateSubcollectionWriteV2 = onDocumentWritten(
 // filenames are in CET.
 // TODO what is the impact if we change the region to Brussels?
 // https://cloud.google.com/appengine/docs/legacy/standard/python/config/cronref#custom-interval
-exports.scheduledFirestoreBackup = onSchedule('every day 03:30', doBackup);
+exports.backupFirestoreV2 = onSchedule('every day 03:30', doBackup);
 // Run every hour
-exports.handleRenewals = onSchedule('0 * * * *', handleRenewals);
-exports.refreshAuthTable = onSchedule('every 6 hours', whenReplicating(refreshAuthTable));
+exports.handleRenewalsV2 = onSchedule('0 * * * *', handleRenewals);
+exports.refreshAuthTableV2 = onSchedule('every 6 hours', whenReplicating(refreshAuthTable));
 
 // Testing
 //
