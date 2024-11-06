@@ -120,7 +120,7 @@ exports.handleStripeWebhookV2 = onRequest(stripeWebhookHandler);
 exports.parseInboundEmailV2 = onRequest(parseInboundEmail);
 
 // Firebase Auth triggers
-exports.cleanupUserOnDelete = euWest1V1.auth.user().onDelete(cleanupUserOnDelete);
+exports.onAuthUserDelete = euWest1V1.auth.user().onDelete(cleanupUserOnDelete);
 exports.onAuthUserCreate = euWest1V1.auth.user().onCreate(whenReplicating(onAuthUserCreate));
 
 // Firestore triggers: users
