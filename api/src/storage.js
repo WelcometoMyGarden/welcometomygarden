@@ -1,3 +1,4 @@
+const { projectID } = require('firebase-functions/params');
 const firestore = require('@google-cloud/firestore');
 
 const client = new firestore.v1.FirestoreAdminClient();
@@ -5,8 +6,7 @@ const bucket = 'gs://wtmg-prod-backups';
 
 /* backs up the entire cloud firestore every 6 hours */
 exports.doBackup = async () => {
-  const projectId = process.env.GCP_PROJECT || process.env.GCLOUD_PROJECT;
-  const databaseName = client.databasePath(projectId, '(default)');
+  const databaseName = client.databasePath(projectID.value(), '(default)');
 
   try {
     // https://googleapis.dev/nodejs/firestore/latest/google.firestore.admin.v1.FirestoreAdmin.html#exportDocuments2
