@@ -28,7 +28,7 @@
     "firebase:staging": "firebase --project wtmg-dev emulators:start --only functions",
     "firebase:staging-all": "firebase --project wtmg-dev emulators:start",
     "firebase:staging-push": "STAGING=true firebase --project wtmg-dev emulators:exec --ui api/seeders/simple.js",
-    "stripe:staging": "stripe listen --events customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.created,invoice.paid,payment_intent.processing --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/stripeWebhooks"
+    "stripe:staging": "stripe listen --events customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.created,invoice.paid,payment_intent.processing --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/handleStripeWebhookV2"
   },
   "publishConfig": {
     "access": "public"

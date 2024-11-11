@@ -37,5 +37,16 @@
       }
     }
   },
-  "etags": {}
+  "etags": {
+    "wtmg-dev": {
+      "extensionInstances": {
+        "storage-resize-images": "cdf27799e119204f8a89fe7e03e29d6e9cd4d60ccf707b75896484ccd11ef8e4"
+      }
+    },
+    "wtmg-production": {
+      "extensionInstances": {
+        "storage-resize-images": "2d3ca5bfc78014d273df58d95d82267b4ac3fe518f089d2ded51ec593354c7f0"
+      }
+    }
+  }
 }

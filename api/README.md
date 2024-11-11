@@ -22,6 +22,10 @@ See package.json for alternative commands, as well as the `firebase` command its
 
 The Firebase CLI acts upon the `/api` folder as part of a bigger project.
 
+**Image resizing after garden upload**
+
+The `storage-resize-images` extension (see below) has limited functionality in emulator mode (demo-test), but it does seem to be functional enough for our purposes. Make sure that `IMG_BUCKET=demo-test.appspot.com` in `../extensions/storage-resize-images.env` when testing locally (and only then).
+
 **Dev server troubleshooting**
 
 Sometimes the dev servers don't quit properly, and remain handing. On a restart, they will complain that the port of a certain emulator is already taken.
@@ -34,6 +38,8 @@ lsof -ti tcp:8080 | xargs kill
 # Or, if we're desperate:
 lsof -ti tcp:8080 | xargs kill -9
 ```
+
+In the root, there is also a ./killemulators.sh script that will try to kill all Firebase-related processes.
 
 ## Running the Stripe dev environment
 
@@ -70,7 +76,7 @@ If another live testing webhook listener is already active, disable it first, to
 2. Take over its events locally by running:
 
    ```
-   stripe listen --events customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.created,invoice.paid,payment_intent.processing --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/stripeWebhooks
+   stripe listen --events customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.created,invoice.paid,payment_intent.processing --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/handleStripeWebhookV2
    ```
 
 3. Verify that `/wtmg-dev/` in the URL above matches your current Firebase emulator project (did you run `firebase use wtmg-dev` before running Firebase emulators? Or are you using `/demo-test/`?). Also verify that the API emulator is active, with .env (`VITE_USE_API_EMULATOR=true`);
@@ -153,7 +159,27 @@ firebase deploy --only functions
 This will deploy specific functions, for example, all new Stripe-related functions:
 
 ```
-firebase deploy --only functions:createStripeCustomer,functions:createOrRetrieveUnpaidSubscription,functions:createCustomerPortalSession,functions:stripeWebhooks
+firebase deploy --only functions:createStripeCustomerV2,functions:createOrRetrieveUnpaidSubscriptionV2,functions:createCustomerPortalSessionV2,functions:handleStripeWebhookV2
+```
+
+### Deploy extensions
+
+At the moment, we use only one Firebase Extension: storage-resize-images.
+
+It has already been installed and registered locally in `../firebase.json`. Its version can be updated (locally) using:
+
+```
+firebase --project staging ext:update storage-resize-images
+```
+
+Use `staging` or `prod` for the project when updating (not sure how relevant it is). This command does not immediately deploy. It might rewrite the `../extensions/storage-resize-images.env` configuration environment variables, check that these overwrites are not unexpected.
+
+**Actual deploy of the new version**
+
+**Before** deploying a new function, make sure the .env file is aligned with the target deploy environment. In particular, the `IMG_BUCKET` should point to the Firebase Storage bucket of the environment. AFAIK (untested), unlike general Firebase Functions, Extension .env files can not work with `.env.[environment-name]` files for overrides. The env values need to be manually switched before a deploy, because they will be uploaded to the resulting cloud functions that comprise the extension.
+
+```
+firebase --project staging ext:update storage-resize-images
 ```
 
 ### Deploy Firestore rules
