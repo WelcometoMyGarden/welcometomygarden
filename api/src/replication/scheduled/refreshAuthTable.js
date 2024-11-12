@@ -20,7 +20,7 @@ const syncUsersStartingFrom = async (nextPageToken) => {
     .then(async (listUsersResult) => {
       // Upsert details
       if (listUsersResult) {
-        await supabase
+        await supabase()
           .from('auth')
           .upsert(listUsersResult.users.map((user) => mapAuthUser(user)))
           .select();
