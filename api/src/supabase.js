@@ -1,4 +1,5 @@
 const { createClient } = require('@supabase/supabase-js');
+const { logger } = require('firebase-functions/v2');
 const { shouldReplicateRuntime } = require('./sharedConfig');
 
 /**
@@ -21,6 +22,8 @@ exports.initialize = () => {
           {},
           {
             get() {
+              const errorMsg = 'Trying to use a Supabase client while replication is disabled!';
+              logger.error(errorMsg);
               throw new Error('Trying to use a Supabase client while replication is disabled!');
             }
           }

@@ -175,12 +175,18 @@ exports.onUserPrivateSubcollectionWriteV2 = onDocumentWritten(
 // 03:30 CDT (Iowa, us-central1 location) time in CET is 10:30 AM
 // The schedule seems to be interpreted in Iowa time, but the timestamps on the output
 // filenames are in CET.
-// TODO what is the impact if we change the region to Brussels?
 // https://cloud.google.com/appengine/docs/legacy/standard/python/config/cronref#custom-interval
 exports.backupFirestoreV2 = onSchedule('every day 03:30', doBackup);
 // Run every hour
 exports.handleRenewalsV2 = onSchedule('0 * * * *', handleRenewals);
-exports.refreshAuthTableV2 = onSchedule('every 6 hours', whenReplicating(refreshAuthTable));
+exports.refreshAuthTableV2 = onSchedule(
+  {
+    schedule: 'every 6 hours',
+    // It takes a bit more than a second per 1000 users
+    timeoutSeconds: 60 * 5
+  },
+  whenReplicating(refreshAuthTable)
+);
 
 // Testing
 //
