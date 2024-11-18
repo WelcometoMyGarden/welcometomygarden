@@ -166,10 +166,16 @@ This will deploy all functions:
 firebase deploy --only functions
 ```
 
-This will deploy specific functions, for example, all new Stripe-related functions:
+This will deploy specific functions, for example, all currently used Stripe-related functions:
 
 ```
-firebase deploy --only functions:createStripeCustomerV2,functions:createOrRetrieveUnpaidSubscriptionV2,functions:createCustomerPortalSessionV2,functions:handleStripeWebhookV2
+firebase deploy --project prod --only \
+functions:createStripeCustomerV2,\
+functions:createOrRetrieveUnpaidSubscriptionV2,\
+functions:handleRenewalsV2,\
+functions:handleStripeWebhookV2,\
+functions:propagateEmailChangeV2,\
+functions:onAuthUserDelete
 ```
 
 ### Deploy extensions
