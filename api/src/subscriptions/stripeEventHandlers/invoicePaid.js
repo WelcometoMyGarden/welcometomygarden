@@ -63,7 +63,7 @@ module.exports = async (event, res) => {
 
     if (invoice.billing_reason === 'subscription_cycle') {
       // Overrides of invoices should not be possible on subscription cycles (at the time of writing)
-      // But with SOFORT, paymetnProcessing on renewals is (or should be) possible.
+      // But with SEPA Debit, paymentProcessing on renewals is (or should be) possible.
       sendSubscriptionRenewalThankYouEmail(
         invoice.customer_email,
         publicUserProfileData.firstName,

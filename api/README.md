@@ -76,14 +76,24 @@ If another live testing webhook listener is already active, disable it first, to
 2. Take over its events locally by running:
 
    ```
-   stripe listen --events customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.created,invoice.paid,payment_intent.processing --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/handleStripeWebhookV2
+   stripe listen --events customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.created,invoice.paid,payment_intent.processing,payment_intent.payment_failed --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/handleStripeWebhookV2
    ```
+
+   In case you want to test an (event) API version update, also pass -l for the latest events.
 
 3. Verify that `/wtmg-dev/` in the URL above matches your current Firebase emulator project (did you run `firebase use wtmg-dev` before running Firebase emulators? Or are you using `/demo-test/`?). Also verify that the API emulator is active, with .env (`VITE_USE_API_EMULATOR=true`);
 
 If you get an api-key-expired error, you must likely log in again. The authentication expires after 90 days.
 
 NOTE: I've had weird behavior with `--load-from-webhooks-api`, with or without an extra `--events` key specified. Sometimes events got forwarded to the local server, and sometimes not propery (no responses were being logged). It might also depend on the staging endpoint being disabled or not. The above works dependably.
+
+Re-triggering a specific event may be helpful for debugging, it's possible using
+
+```
+stripe events resend <event id>
+```
+
+(see [here](https://github.com/stripe/stripe-cli/wiki/events-resend-command))
 
 **Testing payment methods**
 

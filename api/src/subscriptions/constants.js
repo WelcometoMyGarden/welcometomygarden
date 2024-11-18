@@ -19,7 +19,7 @@ const stripeSubscriptionSubKeys = [
   // Careful: if cancelAt is set to a date beyond canceledAt, canceledAt means that
   // the user requested the subscription to be canceled at this state.
   'canceledAt',
-  // Whether the payment is approved, but still proccessing. To support immediately activating subscriptions for Sofort & other delayed notification payment methods.
+  // Whether the payment is approved, but still proccessing. To support immediately activating subscriptions for SEPA Debit & other delayed notification payment methods.
   // See paymentIntentProcessing
   'paymentProcessing',
   // Stripe-hosted invoice link

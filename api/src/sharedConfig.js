@@ -1,13 +1,10 @@
-// const dotenv = require('dotenv');
 const { defineString, defineBoolean } = require('firebase-functions/params');
 const removeEndingSlash = require('./util/removeEndingSlash');
-// /api seems to the cwd of the emulator
-// dotenv.config();
 
 const frontendUrlParam = defineString('FRONTEND_URL');
 exports.frontendUrl = () => removeEndingSlash(frontendUrlParam.value());
 
-//
+// SENDGRID
 // Required
 exports.sendgridMarketingKeyParam = defineString('SENDGRID_MARKETING_KEY');
 // Not required locally
@@ -42,6 +39,15 @@ exports.sendgridWtmgNewsletterListId = defineString('SENDGRID_NEWSLETTER_LIST_ID
 // last_sign_in_time: SG_LAST_SIGN_IN_TIME_FIELD_ID,
 //
 
+// STRIPE
+const stripeWebhookAcceptVersionParam = defineString('STRIPE_VERSION', {
+  description:
+    'The webhook events version name accepted by this deployment, taken from the ?version= query parameter',
+  default: ''
+});
+exports.getStripeVersion = () => stripeWebhookAcceptVersionParam.value();
+
+// SUPABASE
 const supabaseDisableReplicationParam = defineBoolean('SUPABASE_DISABLE_REPLICATION', {
   default: false
 });

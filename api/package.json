@@ -33,7 +33,7 @@
     "lodash": "^4.17.21",
     "luxon": "^3.5.0",
     "node-fetch": "^2.7.0",
-    "stripe": "^11.18.0"
+    "stripe": "^17.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",

@@ -75,13 +75,18 @@
       }
     });
 
-    // log results, for debugging
-    console.log({ result });
+    // This part of the code is only reached by payment methods that do not redirect!
+    console.log('Stripe confirmation result', { result });
     if (result.error) {
       // payment failed, notify user
       if (error?.message) error.message += ' Please try again.';
       error = result.error;
-    } else if (result.paymentIntent.status === 'succeeded') {
+    } else if (
+      result.paymentIntent.status === 'succeeded' ||
+      result.paymentIntent.status === 'processing'
+    ) {
+      // In case of "processing" (part of the SEPA flow), assumme provisional success
+      console.log('payment intent status:', result.paymentIntent.status);
       console.log('stripe.confirmPayment succeeded, redirecting to the Thank You page or next');
       await paymentSucceeded();
       // payment succeeded, wait for the user object to update

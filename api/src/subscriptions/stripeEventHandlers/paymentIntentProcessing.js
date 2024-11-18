@@ -1,3 +1,4 @@
+const { logger } = require('firebase-functions/v2');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const {
   sendSubscriptionConfirmationEmail,
@@ -7,43 +8,45 @@ const { stripeSubscriptionKeys } = require('../constants');
 const { db } = require('../../firebase');
 const stripe = require('../stripe');
 const { isWTMGInvoice } = require('./util');
+const { getLatestCharge } = require('./shared');
 
 const { latestInvoiceStatusKey, paymentProcessingKey } = stripeSubscriptionKeys;
 
 /**
  *
  * Inform Firebase of an approved, processing payment + send membership confirmation email
- * Special case handling of SOFORT, where we consider an "network approved" initiated payment
+ * Special case handling of SEPA Debit, where we consider an "network approved" initiated payment
  * already fully closed & settled.
  * ("first thank you" email, or the "thank you for renewing" email)
  * @param {import('stripe').Stripe.Event} event
  * @returns
  */
 module.exports = async (event, res) => {
-  console.log('Handling payment_intent.processing');
+  logger.log('Handling payment_intent.processing');
   const paymentIntent = /** @type {import('stripe').Stripe.PaymentIntent} */ (event.data.object);
 
-  // --- Do pre-checks for the usefulness of this event for WTMG ---
-  // Make sure charges are listed for the paymentIntent
-  // @ts-ignore
-  if (!(paymentIntent?.charges?.data instanceof Array)) {
-    return res.sendStatus(200);
-  }
-
   // Check if this payment was approved.
-  // By checking, we've seen that charges is part of the event object
-  const processingCharge = /** @type {import('stripe').Stripe.Charge[]} */ (
-    // @ts-ignore
-    paymentIntent.charges.data
-  ).find(
-    ({ outcome, payment_method_details, status }) =>
-      outcome?.network_status === 'approved_by_network' &&
-      payment_method_details?.type === 'sofort' &&
-      status === 'pending'
-  );
+  /**
+   * @type {import('stripe').Stripe.Charge}
+   */
+  const latestCharge = await getLatestCharge(event);
+  /**
+   *
+   * @param {import('stripe').Stripe.Charge} param0
+   * @returns
+   */
+  const isApprovedSepaCharge = ({ outcome, payment_method_details, status }) =>
+    outcome?.network_status === 'approved_by_network' &&
+    payment_method_details?.type === 'sepa_debit' &&
+    status === 'pending';
 
   // Check if an eligible charge exists, and a related invoice
-  if (!processingCharge || typeof paymentIntent.invoice !== 'string') {
+  if (
+    !latestCharge ||
+    !isApprovedSepaCharge(latestCharge) ||
+    typeof paymentIntent.invoice !== 'string' // shouldn't happen, helps narrow down the tiype
+  ) {
+    logger.log('Skpping non (SEPA + approved + pending) charge');
     return res.sendStatus(200);
   }
 
@@ -54,7 +57,7 @@ module.exports = async (event, res) => {
   // Check if the invoice is a WTMG invoice
   if (!(await isWTMGInvoice(invoice))) {
     // Ignore invoices that were created for payment events not related to WTMG subscriptions
-    console.log('Ignoring non-WTMG payment processing event');
+    logger.log('Ignoring non-WTMG payment processing event');
     return res.sendStatus(200);
   }
 
@@ -70,6 +73,7 @@ module.exports = async (event, res) => {
       )
     )
   ) {
+    logger.log('Ignoring SEPA charge unrelated to subscriptions');
     return res.sendStatus(200);
   }
 
@@ -81,6 +85,9 @@ module.exports = async (event, res) => {
   const privateUserProfileData = (await privateUserProfileDocRef.get()).data();
 
   // Ensure the user is marked as a superfan, with a payment processing indication.
+  logger.log(
+    `Marking ${uid} <${invoice.customer_email}> as a provisional superfan, awaiting final confirmation.`
+  );
   const publicUserProfileDocRef = db.doc(`users/${uid}`);
   const publicUserProfileData = (await publicUserProfileDocRef.get()).data();
   await publicUserProfileDocRef.update({
@@ -94,7 +101,7 @@ module.exports = async (event, res) => {
   });
 
   if (!(invoice.customer_email && publicUserProfileData && privateUserProfileData)) {
-    console.error('Unexpected falsy Firestore user data');
+    logger.error('Unexpected falsy Firestore user data');
     return res.sendStatus(500);
   }
 
@@ -103,12 +110,16 @@ module.exports = async (event, res) => {
     invoice.billing_reason === 'subscription_create' ||
     invoice.metadata?.billing_reason_override === 'subscription_create'
   ) {
+    logger.log(`Sending subscription confirmation email to ${uid} <${invoice.customer_email}>`);
     sendSubscriptionConfirmationEmail(
       invoice.customer_email,
       publicUserProfileData.firstName,
       privateUserProfileData.communicationLanguage
     );
   } else if (invoice.billing_reason === 'subscription_cycle') {
+    logger.log(
+      `Sending subscription renewal thank you email to ${uid} <${invoice.customer_email}>`
+    );
     sendSubscriptionRenewalThankYouEmail(
       invoice.customer_email,
       publicUserProfileData.firstName,

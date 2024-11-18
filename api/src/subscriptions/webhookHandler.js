@@ -1,4 +1,4 @@
-const functions = require('firebase-functions');
+const { logger } = require('firebase-functions');
 const { defineString } = require('firebase-functions/params');
 const stripe = require('./stripe');
 const fail = require('../util/fail');
@@ -7,16 +7,26 @@ const invoicePaid = require('./stripeEventHandlers/invoicePaid');
 const subscriptionUpdated = require('./stripeEventHandlers/subscriptionUpdated');
 const subscriptionDeleted = require('./stripeEventHandlers/subscriptionDeleted');
 const paymentIntentProcessing = require('./stripeEventHandlers/paymentIntentProcessing');
+const paymentIntentPaymentFailed = require('./stripeEventHandlers/paymentIntentPaymentFailed');
 const invoiceCreated = require('./stripeEventHandlers/invoiceCreated');
+const { getStripeVersion } = require('../sharedConfig');
 
 const stripeWebhookSecretParam = defineString('STRIPE_WEBHOOK_SECRET');
 
 // Imported in index
 // https://firebase.google.com/docs/functions/http-events
+/**
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.stripeWebhookHandler = async (req, res) => {
   if (req.method !== 'POST') {
     fail('invalid-argument');
   }
+
+  const acceptVersion = getStripeVersion();
+
   let event = null;
 
   // https://stripe.com/docs/billing/subscriptions/build-subscriptions?ui=elements
@@ -30,10 +40,44 @@ exports.stripeWebhookHandler = async (req, res) => {
       stripeWebhookSecretParam.value()
     );
   } catch (err) {
-    functions.logger.log(err);
-    functions.logger.log(`⚠️  Webhook signature verification failed.`);
-    functions.logger.log(`⚠️  Check the env file and enter the correct webhook secret.`);
+    logger.log(err);
+    logger.log(`⚠️  Webhook signature verification failed.`);
+    logger.log(`⚠️  Check the env file and enter the correct webhook secret.`);
     return res.sendStatus(400);
+  }
+
+  // Handle versioning according to https://docs.stripe.com/webhooks/versioning
+  // First try parsing a query parameter
+  let eventVersion = req.query.version;
+  if (!eventVersion) {
+    // Note: I'm not sure if this is the API version of the constructEvent Node framework here,
+    // or of the one configured for the endpoint.
+    // In any case, it is backup to the above.
+    eventVersion = event.api_version;
+  }
+
+  if (eventVersion !== acceptVersion) {
+    if (!acceptVersion) {
+      logger.error('No Stripe accept version set, or it could not be parsed');
+      fail('internal');
+    }
+
+    if (eventVersion != null) {
+      // lexicographical sorting should work on ISO dates plus suffixes
+      if (eventVersion > acceptVersion) {
+        // The version sent is newer than the accepted version, ignore and return 200
+        logger.log(`Skipping request with newer version ${eventVersion}, returning status 200`);
+        return res.sendStatus(200);
+      }
+      if (eventVersion < acceptVersion) {
+        // The version sent is older than the accepted version, ignore and return 400
+        logger.log(`Skipping request with older version ${eventVersion}, returning status 400`);
+        return res.sendStatus(400);
+      }
+    }
+
+    // If no event version is set, or if the event version is exactly equal to the accepted version,
+    // continue processing the event
   }
 
   // Handle the event
@@ -51,6 +95,8 @@ exports.stripeWebhookHandler = async (req, res) => {
       break;
     case 'payment_intent.processing':
       return paymentIntentProcessing(event, res);
+    case 'payment_intent.payment_failed':
+      return paymentIntentPaymentFailed(event, res);
     case 'invoice.paid':
       return invoicePaid(event, res);
     case 'invoice.upcoming':

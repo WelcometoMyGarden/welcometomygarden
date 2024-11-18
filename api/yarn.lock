@@ -4224,7 +4224,7 @@ __metadata:
     prettier: ^3.3.3
     proxyquire: ^2.1.3
     sinon: ^19.0.2
-    stripe: ^11.18.0
+    stripe: ^17.3.1
   languageName: unknown
   linkType: soft
 
@@ -6948,13 +6948,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"stripe@npm:^11.18.0":
-  version: 11.18.0
-  resolution: "stripe@npm:11.18.0"
+"stripe@npm:^17.3.1":
+  version: 17.3.1
+  resolution: "stripe@npm:17.3.1"
   dependencies:
     "@types/node": ">=8.1.0"
     qs: ^6.11.0
-  checksum: 7da0195730df921c983560f22820797c1a9f8bc200e89012a87180d65628506a98fe400dca2c6e78ea98b9b931fac62dd9c223920566e0aa71468ec6cc671695
+  checksum: 89446bc2a8112151e2dfde42e16d1949c41b06d2a5eb9e5b6e0fc77cdb7c6a719ddbab9b001d3a6c3b477e53a0a45d08e207739ecab44cad2e6332ec31a65ace
   languageName: node
   linkType: hard
 

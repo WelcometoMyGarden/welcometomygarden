@@ -60,7 +60,7 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
       },
       // Make payment methods explicit, so both test mode & production can use different methods.
       // The template applies to both test mode and production.
-      payment_method_types: ['bancontact', 'card', 'ideal', 'sofort']
+      payment_method_types: ['bancontact', 'card', 'ideal', 'paypal', 'sepa_debit']
     },
     // When using 'send_invoice', invoices are not immediately finalized by Stripe (see below)
     // Here we can only expand the invoice, and not `latest_invoice.payment_intent`.
@@ -358,7 +358,7 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
         locale
       );
     } else if (priceId !== existingIncompleteSubscription.items.data[0].price.id) {
-      // TODO: pending/processing sofort payments will also have an "open" status invoice, and "processing" status PaymentIntent
+      // TODO: pending/processing SEPA Debit payments will also have an "open" status invoice, and "processing" status PaymentIntent
       // While the front-end tries to prevent it, there could be cases where we have retrieved a pending payment invoice,
       // while the user tried to create one of another price. changeSubscriptionPrice() then would be destructive.
       // We should probably disallow changing the subscription price of a pending payment invoice, or create a second, actually prorated invoice?

@@ -47,6 +47,7 @@ You will need several environment files for the backend in the `api` directory: 
 **For Stripe (subscriptions integration)**
 
 - `STRIPE_SECRET_KEY` & `STRIPE_WEBHOOK_SECRET`: backend keys for Stripe. Use test keys when developing. - `sendgrid.send_key`: a SendGrid API key, only used to send email. We currently use these in both staging and production environments, so that we can reuse created Dynamic Templates. **This might result in hard-to-test scenarios regarding unsubscribe group emails** (production SendGrid groups will not affect the staging contacts)
+- `STRIPE_VERSION`: the Stripe API version number (including the plant suffix) to be used for both the Node.js API and the webhook event decoding. This is used in handling [updates to versions](https://docs.stripe.com/webhooks/versioning). Webhook event versions are parsed from the `?version` query parameter of a webhook
 
 **For SendGrid (email sending & contact syncing)**
 
