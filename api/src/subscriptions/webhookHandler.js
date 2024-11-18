@@ -27,34 +27,8 @@ exports.stripeWebhookHandler = async (req, res) => {
 
   const acceptVersion = getStripeVersion();
 
-  let event = null;
-
-  // https://stripe.com/docs/billing/subscriptions/build-subscriptions?ui=elements
-  try {
-    event = stripe.webhooks.constructEvent(
-      // We had to change this from req.body to req.rawBody
-      // https://github.com/stripe/stripe-node#webhook-signing
-      // https://firebase.google.com/docs/functions/http-events#read_values_from_the_request
-      req.rawBody,
-      req.headers['stripe-signature'],
-      stripeWebhookSecretParam.value()
-    );
-  } catch (err) {
-    logger.log(err);
-    logger.log(`⚠️  Webhook signature verification failed.`);
-    logger.log(`⚠️  Check the env file and enter the correct webhook secret.`);
-    return res.sendStatus(400);
-  }
-
   // Handle versioning according to https://docs.stripe.com/webhooks/versioning
-  // First try parsing a query parameter
-  let eventVersion = req.query.version;
-  if (!eventVersion) {
-    // Note: I'm not sure if this is the API version of the constructEvent Node framework here,
-    // or of the one configured for the endpoint.
-    // In any case, it is backup to the above.
-    eventVersion = event.api_version;
-  }
+  const eventVersion = req.query.version;
 
   if (eventVersion !== acceptVersion) {
     if (!acceptVersion) {
@@ -78,6 +52,25 @@ exports.stripeWebhookHandler = async (req, res) => {
 
     // If no event version is set, or if the event version is exactly equal to the accepted version,
     // continue processing the event
+  }
+
+  // Decode the event
+  let event = null;
+  // https://stripe.com/docs/billing/subscriptions/build-subscriptions?ui=elements
+  try {
+    event = stripe.webhooks.constructEvent(
+      // We had to change this from req.body to req.rawBody
+      // https://github.com/stripe/stripe-node#webhook-signing
+      // https://firebase.google.com/docs/functions/http-events#read_values_from_the_request
+      req.rawBody,
+      req.headers['stripe-signature'],
+      stripeWebhookSecretParam.value()
+    );
+  } catch (err) {
+    logger.log(err);
+    logger.log(`⚠️  Webhook signature verification failed.`);
+    logger.log(`⚠️  Check the env file and enter the correct webhook secret.`);
+    return res.sendStatus(400);
   }
 
   // Handle the event
