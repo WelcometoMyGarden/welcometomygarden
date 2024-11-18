@@ -1414,7 +1414,7 @@
     }
   },
   "rv": {
-    "ask": "We’ve been selected as <a style=\"font-style: italic;\" class=\"link--neutral\" href=\"https://www.radicalevernieuwers.be/inspiratie/welcome-to-my-garden\" target=\"_blank\" rel=\"noopener\"><em>Radicale Vernieuwer</em></a>! Can you <a href=\"https://www.radicalevernieuwers.be/publieksprijs\" target=\"_blank\" rel=\"noopener\" class=\"link--neutral\">please vote for WTMG</a> for the audience award? Thank you! 🎉💚"
+    "ask": "🥳 WTMG won the audience award as <a style=\"font-style: italic;\" class=\"link--neutral\" href=\"https://www.radicalevernieuwers.be/\" target=\"_blank\" rel=\"noopener\">‘Radicale Vernieuwer’</a>! Thank you for your support. 💚"
   },
   "fallback": {
     "404": "404 - page not found",
