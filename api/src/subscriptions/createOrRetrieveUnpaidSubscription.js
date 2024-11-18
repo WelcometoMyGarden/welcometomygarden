@@ -60,7 +60,8 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
       },
       // Make payment methods explicit, so both test mode & production can use different methods.
       // The template applies to both test mode and production.
-      payment_method_types: ['bancontact', 'card', 'ideal', 'paypal', 'sepa_debit']
+      // payment_method_types: ['bancontact', 'card', 'ideal', 'paypal', 'sepa_debit']
+      payment_method_types: ['bancontact', 'card', 'ideal', 'sepa_debit']
     },
     // When using 'send_invoice', invoices are not immediately finalized by Stripe (see below)
     // Here we can only expand the invoice, and not `latest_invoice.payment_intent`.
