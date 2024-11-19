@@ -78,7 +78,12 @@
     <Socials small />
   </li>
   <li class="superfan-bar show">
-    <span>{@html $_('rv.ask')}</span>
+    {#if shouldRenewalNotice}
+      <span class="title">{$renewalNoticeContent?.prompt}</span>
+      <span>{@html $renewalNoticeContent?.answerHtml}</span>
+    {:else}
+      <span>{@html $_('rv.ask')}</span>
+    {/if}
   </li>
   <li class="main-links-container">
     <ul class="main-links">

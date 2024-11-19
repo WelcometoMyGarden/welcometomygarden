@@ -8,14 +8,25 @@
   import { COMMUNITY_FORUM_URL } from '$lib/constants';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import trackEvent from '$lib/util/track-plausible';
+  import { renewalNoticeContent, subscriptionJustEnded } from '$lib/stores/subscription';
 
   $: firstName = $user ? $user.firstName : '';
+  $: shouldShowRenewalTopBar = $user && $user.stripeSubscription && $subscriptionJustEnded;
   $: shouldShowTopBar = true;
 </script>
 
 <nav>
   <div class="nav-extra">
-    <span>{@html $_('rv.ask')}</span>
+    {#if shouldShowRenewalTopBar && $user?.stripeSubscription}
+      <!-- Inform renewal amount -->
+      <span
+        ><strong style="font-weight: 500;">
+          {$renewalNoticeContent?.prompt}</strong
+        >{' '}{@html $renewalNoticeContent?.answerHtml}
+      </span>
+    {:else}
+      <span>{@html $_('rv.ask')}</span>
+    {/if}
   </div>
   <div class="main-nav">
     <WtmgLogo />
