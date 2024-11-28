@@ -1,5 +1,5 @@
 import { getApps, initializeApp, type FirebaseApp } from 'firebase/app';
-import { initializeAppCheck, ReCaptchaV3Provider, type AppCheck } from 'firebase/app-check';
+import { initializeAppCheck, ReCaptchaEnterpriseProvider, type AppCheck } from 'firebase/app-check';
 import { connectAuthEmulator, getAuth, type Auth } from 'firebase/auth';
 import { type Firestore, getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { connectStorageEmulator, getStorage, type FirebaseStorage } from 'firebase/storage';
@@ -141,7 +141,7 @@ export async function initialize(): Promise<void> {
 
   if (typeof import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY !== 'undefined') {
     appCheckRef = initializeAppCheck(appRef, {
-      provider: new ReCaptchaV3Provider(import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY),
+      provider: new ReCaptchaEnterpriseProvider(import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY),
       isTokenAutoRefreshEnabled: true
     });
   }
