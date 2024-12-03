@@ -1414,7 +1414,7 @@
     }
   },
   "rv": {
-    "ask": "🥳 WTMG won the audience award as <a class=\"link--neutral\" href=\"https://www.radicalevernieuwers.be/inspiratie/welcome-to-my-garden\" target=\"_blank\" rel=\"noopener\">'Radicale Vernieuwer'</a>! Thank you for your support. 💚"
+    "ask": "Registrations for the <a class=\"link--neutral\" href=\"https://velotourfestival.be/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=navbar\" target=\"_blank\" rel=\"noopener\">Velotour Festival 2025</a> are now open - we hope to see you there! 🎉🚴"
   },
   "fallback": {
     "404": "404 - page not found",
