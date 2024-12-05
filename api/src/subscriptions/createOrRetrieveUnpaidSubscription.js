@@ -41,7 +41,7 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
     preferredBancontactLanguage = /** @type {PreferredLanguage} */ (locale);
   }
 
-  // Create the subscription in Sripe
+  // Create the subscription in Stripe
   const subscription = await stripe.subscriptions.create({
     customer: customerId,
     items: [
