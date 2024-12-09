@@ -42,6 +42,9 @@ module.exports = async (event, res) => {
   );
   if (latestInvoice.status === 'void') {
     // Refetch this subscription to check if it changed since the receipt of this event.
+    // Note: This is under the assumption that the unsubscribe API call will have materialized *before* the handling of these lines
+    // (reasonable assumption given that the unsubscribe is called immediately after voiding the invoice, while code block incurs delays due to
+    //  1. the inherent Stripe event delay, 2. the above Firebase auth retrieval + the above stripe invoice retrieval)
     const refetchedSub = await stripe.subscriptions.retrieve(subscription.id);
     if (refetchedSub.status === 'canceled') {
       // We only want to ignore this specific situation.
