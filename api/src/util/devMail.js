@@ -63,12 +63,16 @@ module.exports = async function send({ to, from, dynamicTemplateData, templateId
     )
   };
   console.log('Sending local email', localEmailServerUrl, JSON.stringify(request));
-  const response = await fetch(`${localEmailServerUrl}/api/v1/send`, {
-    method: 'POST',
-    body: JSON.stringify(request)
-  });
+  try {
+    const response = await fetch(`${localEmailServerUrl}/api/v1/send`, {
+      method: 'POST',
+      body: JSON.stringify(request)
+    });
+    const body = await response.json();
 
-  const body = await response.json();
-
-  return [{ statusCode: response.status, body, headers: response.headers }, body];
+    return [{ statusCode: response.status, body, headers: response.headers }, body];
+  } catch (e) {
+    console.warn('Error while trying to send a dev env email, is mailpit running?');
+    return [{ statusCode: 500, body: null, headers: {} }, null];
+  }
 };
