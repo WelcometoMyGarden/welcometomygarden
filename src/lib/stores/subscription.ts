@@ -18,7 +18,8 @@ const nowSeconds = () =>
   // 1827649800 + 3600 * 24 * 7 + 3600;
   new Date().valueOf() / 1000;
 
-// nowSeconds just as a default value
+// 7 days after the expiry of the last period
+// NOTE: only valid for send_invoice subs
 const sevenDayMarkSec = derived(user, ($user) =>
   $user?.stripeSubscription?.currentPeriodStart != null
     ? $user.stripeSubscription.currentPeriodStart + 3600 * 24 * 7
@@ -47,7 +48,7 @@ export const hasAutoRenewingSubscription = derived(
     $user?.superfan && $user.stripeSubscription?.collectionMethod === 'charge_automatically'
 );
 
-export const hasOpenRenewalInvoice = derived(
+export const canPayRenewalInvoice = derived(
   [user, sevenDayMarkSec],
   ([$user, $sevenDayMarkSec]) =>
     $sevenDayMarkSec &&
@@ -68,9 +69,10 @@ export const shouldPromptForNewSubscription = derived(
 // This is extracted here because it's shared between the top navbar and the mobile side navbar
 // TODO: the downside is that here, it will always load and update, regardless of the page we're on.
 // Should we initialize a store per-page?
+// TODO: should the notice be shown for longer than 30 days?
 export const renewalNoticeContent = derived(
-  [t, isLoading, shouldPromptForNewSubscription, hasOpenRenewalInvoice, locale, user],
-  ([$t, $isLoading, $shouldPromptForNewSubscription, $hasOpenRenewalInvoice, $locale, $user]) => {
+  [t, isLoading, shouldPromptForNewSubscription, canPayRenewalInvoice, locale, user],
+  ([$t, $isLoading, $shouldPromptForNewSubscription, $canPayRenewalInvoice, $locale, $user]) => {
     if (!$isLoading && $user?.stripeSubscription) {
       return {
         prompt: $t('navigation.membership-expired-notice.prompt', {
@@ -92,7 +94,7 @@ export const renewalNoticeContent = derived(
           values: {
             linkText: anchorText({
               href:
-                $hasOpenRenewalInvoice && $user.stripeSubscription.renewalInvoiceLink
+                $canPayRenewalInvoice && $user.stripeSubscription.renewalInvoiceLink
                   ? $user.stripeSubscription.renewalInvoiceLink
                   : `${routes.ABOUT_MEMBERSHIP}#pricing`,
               // TODO: this isn't accurate, the hosted invoice page visitors aren't about_membership page visitors
