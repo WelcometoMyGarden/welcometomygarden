@@ -18,9 +18,8 @@
   import NotificationSection from './NotificationSection.svelte';
   import {
     hasAutoRenewingSubscription,
-    hasOpenRenewalInvoice,
-    hasValidSubscription,
-    shouldPromptForNewSubscription
+    canPayRenewalInvoice,
+    hasValidSubscription
   } from '$lib/stores/subscription';
   import { onMount } from 'svelte';
   import { createCustomerPortalSession } from '$lib/api/functions';
@@ -161,7 +160,6 @@
                 link
                 oneline
                 orange={false}
-                loading={typeof customerPortalLink === 'undefined'}
                 target="_blank"
                 href={customerPortalLink ?? ''}>Manage membership</Button
               >
@@ -177,9 +175,10 @@
               xxsmall
               uppercase
               on:click={() => {
-                if ($hasOpenRenewalInvoice) {
+                if ($canPayRenewalInvoice) {
+                  // Only valid for send_invoice
                   window.open($user?.stripeSubscription?.renewalInvoiceLink, '_blank');
-                } else if ($shouldPromptForNewSubscription) {
+                } else {
                   window.location.href = `${routes.ABOUT_MEMBERSHIP}#pricing`;
                 }
               }}>{$_('account.superfan.renew-btn-text')}</Button
