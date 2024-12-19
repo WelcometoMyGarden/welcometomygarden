@@ -2,6 +2,9 @@
   import { _, locale } from 'svelte-i18n';
   import MarketingBlock from '$routes/(marketing)/_components/MarketingBlock.svelte';
   import type { SuperfanLevelData } from '$routes/(marketing)/_static/superfan-levels';
+  import { checkIcon } from '$lib/images/icons';
+  import { getNodeArray } from '$lib/util/get-node-children';
+  import { Icon } from '$lib/components/UI';
 
   export let level: SuperfanLevelData;
 
@@ -24,7 +27,7 @@
       <h1 class="mh3">
         {$_(`payment-superfan.overview-section.product.${level.slug}`)} · {$_(
           'payment-superfan.overview-section.duration'
-        )} · {$_('payment-superfan.overview-section.mode')}
+        )}
       </h1>
       <p class="price">€{level.value * 12}</p>
       <div class="period">
@@ -32,9 +35,12 @@
         <span class="to"><span class="arrow">→</span> {formatDate($locale ?? 'en', periodEnd)}</span
         >
       </div>
-      <p class="features">
-        {$_(`payment-superfan.overview-section.feature-overview.${level.slug}`)}
-      </p>
+      <ul class="features checklist">
+        <!-- TODO TEST INSERT $LOCALE not hardcoded 'en' -->
+        {#each getNodeArray('payment-superfan.overview-section.features', 'en') as feature}
+          <li><Icon icon={checkIcon} /><span>{feature}</span></li>
+        {/each}
+      </ul>
     </div>
   </div>
 </MarketingBlock>
@@ -75,6 +81,29 @@
     line-height: 1.6;
   }
 
+  .checklist {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 1rem;
+    max-width: 530px;
+  }
+
+  .checklist > li :global(i svg g path) {
+    fill: #19ae13;
+  }
+
+  .checklist > li {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+  }
+
+  .checklist > li :global(i) {
+    display: block;
+    width: 2rem;
+    height: 2rem;
+  }
+
   @media screen and (max-width: 900px) {
     .icon {
       display: none;
@@ -84,6 +113,10 @@
   @media screen and (max-width: 700px) {
     .summary-wrapper {
       text-align: center;
+    }
+
+    .checklist {
+      margin: auto;
     }
   }
 
@@ -95,6 +128,11 @@
 
     .arrow {
       margin-left: 0;
+    }
+
+    .checklist {
+      grid-template-columns: auto;
+      gap: 0.5rem;
     }
   }
 </style>

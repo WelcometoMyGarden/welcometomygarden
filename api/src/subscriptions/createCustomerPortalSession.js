@@ -3,11 +3,15 @@ const { frontendUrl } = require('../sharedConfig');
 const fail = require('../util/fail');
 const stripe = require('./stripe');
 
-exports.createCustomerPortalSession = async (_, context) => {
-  if (!context.auth) {
+/**
+ * @param {FV2.CallableRequest<undefined>} request
+ * @returns {Promise<import("stripe").Stripe.BillingPortal.Session>}
+ */
+exports.createCustomerPortalSession = async (request) => {
+  if (!request.auth) {
     fail('unauthenticated');
   }
-  const { uid } = context.auth;
+  const { uid } = request.auth;
 
   const privateUserProfileDocRef = db.doc(`users-private/${uid}`);
   const privateUserProfileData = await (await privateUserProfileDocRef.get()).data();
@@ -16,7 +20,7 @@ exports.createCustomerPortalSession = async (_, context) => {
   }
   const portalSession = await stripe.billingPortal.sessions.create({
     customer: privateUserProfileData.stripeCustomerId,
-    return_url: `${frontendUrl()}${frontendUrl().endsWith('/') ? '' : '/'}account`
+    return_url: `${frontendUrl()}/account`
   });
 
   // https://stripe.com/docs/api/customer_portal/session

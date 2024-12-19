@@ -507,3 +507,48 @@ exports.sendSubscriptionEndedFeedbackEmail = (email, firstName, language) => {
 
   return send(msg);
 };
+
+/**
+ * @param {string} email
+ * @param {string} firstName
+ * @param {string} language
+ * @param {string} endDate
+ * @returns
+ */
+exports.sendSubscriptionCancellationFeedbackEmail = (email, firstName, language, endDate) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-168dfd45882a4e79825d94f3c54a5725';
+      break;
+    case 'nl':
+      templateId = 'd-f52bd15d8ab740f6adb2c3e2cbb6e476';
+      break;
+    default:
+      templateId = 'd-4ac312ec6c844a5eaf1f1cbb2a9d17f3';
+      break;
+  }
+
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
+  const msg = {
+    to: email,
+    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    templateId,
+    dynamicTemplateData: {
+      firstName,
+      endDate
+    },
+    categories: ['Subscription cancellation confirmation + feedback email']
+  };
+
+  if (!canSendMail()) {
+    console.warn(NO_API_KEY_WARNING);
+    console.info(JSON.stringify(msg));
+    devSend(msg, 'subscriptionCancellationFeedbackEmail');
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};

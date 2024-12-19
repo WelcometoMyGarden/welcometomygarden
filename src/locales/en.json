@@ -900,6 +900,12 @@
       "feature-overview": {
         "regular": "Get full access to the WTMG platform and cover your part of the costs.",
         "superfan": "Get full access to the WTMG platform and support our mission to promote slow travel."
+      },
+      "features": {
+        "0": "Unlimited requests",
+        "1": "Community space",
+        "2": "Planning features",
+        "3": "Keep WTMG independent"
       }
     },
     "payment-section": {

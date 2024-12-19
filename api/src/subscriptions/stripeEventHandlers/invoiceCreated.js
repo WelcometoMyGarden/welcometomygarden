@@ -1,3 +1,4 @@
+const { logger } = require('firebase-functions/v2');
 const stripe = require('../stripe');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const { stripeSubscriptionKeys } = require('../constants');
@@ -22,11 +23,12 @@ module.exports = async (event, res) => {
   // If we were to handle subscription_update invoices here, the price ID may be different, see [one-off-invoice]
   const isWtmgSubscriptionInvoice = await isWTMGInvoice(invoice);
   const price = invoice.lines.data[0]?.price;
-  if (invoice.billing_reason !== 'subscription_cycle' || !isWtmgSubscriptionInvoice) {
+  if (!(isWtmgSubscriptionInvoice && invoice.billing_reason === 'subscription_cycle')) {
     // Ignore invoices that were created for events not related
     // to WTMG subscription renewals
     //
     // NOTE: a subscription creation (first invoice) will have billing_reason `subscription_create`
+    logger.debug('Ignoring non-WTMG or non subscription-cycle invoice');
     return res.sendStatus(200);
   }
 
@@ -43,6 +45,24 @@ module.exports = async (event, res) => {
     // TODO: verify that this is indeed the error here. Via code?
     // > Error: This invoice is already finalized, you can't re-finalize a non-draft invoice.
     finalizedInvoice = await stripe.invoices.retrieve(invoice.id);
+  }
+  /**
+   * @type {import('stripe').Stripe.Subscription}
+   */
+  const subscription = await stripe.subscriptions.retrieve(
+    /** @type {string} */ (finalizedInvoice.subscription)
+  );
+
+  // In case the subscription is still has the type send_invoice, immediately set the current PaymentIntent up
+  // to collect off-session payments in the future, before sending the email.
+  // This is a necessary preparation step to be able to switch the subscription to charge_automatically for the invoice of next year.
+  if (subscription.collection_method === 'send_invoice') {
+    await stripe.paymentIntents.update(/** @type {string} */ (finalizedInvoice.payment_intent), {
+      setup_future_usage: 'off_session'
+    });
+    logger.log(
+      `Set up the next WTMG subscription payment of ${subscription.id} from ${subscription.customer} / ${invoice.customer_email} for future off_session usage`
+    );
   }
 
   const { renewalInvoiceLinkKey, latestInvoiceStatusKey } = stripeSubscriptionKeys;
@@ -88,13 +108,16 @@ module.exports = async (event, res) => {
   }
 
   // Send renewal invoice email
-  await sendSubscriptionRenewalEmail({
-    email: finalizedInvoice.customer_email,
-    firstName: publicUserProfileData.firstName,
-    renewalLink: finalizedInvoice.hosted_invoice_url,
-    price: price.unit_amount / 100,
-    language: privateUserProfileData.communicationLanguage
-  });
-
+  if (subscription.collection_method === 'send_invoice') {
+    await sendSubscriptionRenewalEmail({
+      email: finalizedInvoice.customer_email,
+      firstName: publicUserProfileData.firstName,
+      renewalLink: finalizedInvoice.hosted_invoice_url,
+      price: price.unit_amount / 100,
+      language: privateUserProfileData.communicationLanguage
+    });
+  } else {
+    // TODO: send a different email for charge_automatically renewals (without link)
+  }
   return res.sendStatus(200);
 };

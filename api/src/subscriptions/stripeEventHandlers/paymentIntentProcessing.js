@@ -5,7 +5,7 @@ const {
   sendSubscriptionRenewalThankYouEmail
 } = require('../../mail');
 const { stripeSubscriptionKeys } = require('../constants');
-const { db } = require('../../firebase');
+const { getUserDocRefsWithData } = require('../../firebase');
 const stripe = require('../stripe');
 const { isWTMGInvoice } = require('./util');
 const { getLatestCharge } = require('./shared');
@@ -46,7 +46,7 @@ module.exports = async (event, res) => {
     !isApprovedSepaCharge(latestCharge) ||
     typeof paymentIntent.invoice !== 'string' // shouldn't happen, helps narrow down the tiype
   ) {
-    logger.log('Skpping non (SEPA + approved + pending) charge');
+    logger.log('Skipping non (SEPA + approved + pending) charge');
     return res.sendStatus(200);
   }
 
@@ -64,16 +64,12 @@ module.exports = async (event, res) => {
   // Check if the invoice is related to subscription creation
   if (
     !(
-      // when creating
-      (
-        invoice.billing_reason === 'subscription_create' ||
-        invoice.metadata?.billing_reason_override === 'subscription_create' ||
-        // when renewing
-        invoice.billing_reason === 'subscription_cycle'
-      )
+      invoice.billing_reason === 'subscription_create' ||
+      invoice.metadata?.billing_reason_override === 'subscription_create' ||
+      invoice.billing_reason === 'subscription_cycle'
     )
   ) {
-    logger.log('Ignoring SEPA charge unrelated to subscriptions');
+    logger.log('Ignoring SEPA charge unrelated to a subscription');
     return res.sendStatus(200);
   }
 
@@ -81,24 +77,28 @@ module.exports = async (event, res) => {
 
   // Get the Firebase user
   const uid = await getFirebaseUserId(paymentIntent.customer);
-  const privateUserProfileDocRef = db.doc(`users-private/${uid}`);
-  const privateUserProfileData = (await privateUserProfileDocRef.get()).data();
+  const {
+    privateUserProfileDocRef,
+    privateUserProfileData,
+    publicUserProfileDocRef,
+    publicUserProfileData
+  } = await getUserDocRefsWithData(uid);
 
   // Ensure the user is marked as a superfan, with a payment processing indication.
   logger.log(
     `Marking ${uid} <${invoice.customer_email}> as a provisional superfan, awaiting final confirmation.`
   );
-  const publicUserProfileDocRef = db.doc(`users/${uid}`);
-  const publicUserProfileData = (await publicUserProfileDocRef.get()).data();
-  await publicUserProfileDocRef.update({
-    superfan: true
-  });
-  await privateUserProfileDocRef.update({
-    // Set the user's latest invoice state
-    // Empirically, we know that this status is "open"
-    [latestInvoiceStatusKey]: invoice.status,
-    [paymentProcessingKey]: true
-  });
+  await Promise.all([
+    publicUserProfileDocRef.update({
+      superfan: true
+    }),
+    privateUserProfileDocRef.update({
+      // Set the user's latest invoice state
+      // Empirically, we know that this status is "open"
+      [latestInvoiceStatusKey]: invoice.status,
+      [paymentProcessingKey]: true
+    })
+  ]);
 
   if (!(invoice.customer_email && publicUserProfileData && privateUserProfileData)) {
     logger.error('Unexpected falsy Firestore user data');
@@ -117,14 +117,18 @@ module.exports = async (event, res) => {
       privateUserProfileData.communicationLanguage
     );
   } else if (invoice.billing_reason === 'subscription_cycle') {
-    logger.log(
-      `Sending subscription renewal thank you email to ${uid} <${invoice.customer_email}>`
-    );
-    sendSubscriptionRenewalThankYouEmail(
-      invoice.customer_email,
-      publicUserProfileData.firstName,
-      privateUserProfileData.communicationLanguage
-    );
+    // TODO: charge_automatically SEPA renewal payments should also reach here.
+    // We probably want to send them a different email.
+    if (privateUserProfileData.stripeSubscription.collectionMethod !== 'charge_automatically') {
+      logger.log(
+        `Sending subscription renewal thank you email to ${uid} <${invoice.customer_email}>`
+      );
+      sendSubscriptionRenewalThankYouEmail(
+        invoice.customer_email,
+        publicUserProfileData.firstName,
+        privateUserProfileData.communicationLanguage
+      );
+    }
   }
 
   return res.sendStatus(200);
