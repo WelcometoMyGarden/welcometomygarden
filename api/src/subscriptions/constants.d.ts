@@ -9,7 +9,8 @@ type StripeSubscriptionKeys = readonly [
   'cancelAt',
   'canceledAt',
   'paymentProcessing',
-  'renewalInvoiceLink'
+  'renewalInvoiceLink',
+  'collectionMethod'
 ];
 type StripeUpdateKey = StripeSubscriptionKeys[number];
 type StripeUpdateKeysWithKeySuffix = `${StripeUpdateKey}Key`;

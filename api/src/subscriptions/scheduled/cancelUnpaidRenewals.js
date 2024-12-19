@@ -14,26 +14,34 @@ const MAX_CONCURRENT = 3;
 const { latestInvoiceStatusKey } = stripeSubscriptionKeys;
 
 /**
- * Note: this function only cancels the subscription of unpaid renewals after 7 days.
+ * Note: this function cancels the subscription of unpaid renewals after 7 days.
+ *
+ * Stripe's minimum term in the Dashboard settings was to wait for a payment was 30 days,
+ * while wanted to cap this at 7 days.
  *
  * A cancellation will trigger a subscription.deleted event, which will send an email to the user.
  * This doesn't happen here.
  *
- * @param {QueryDocumentSnapshot[]} docs candidate documents with an open last invoice and start date over 1 year ago
+ * @param {QueryDocumentSnapshot<UserPrivate>[]} docs candidate documents with an open last invoice and start date over 1 year ago
  */
 module.exports = async (docs) => {
   // Further filtering
-  // After the actions are taken here, the invoice status won't be "past_due" anymore,
-  // so we should only get those that are still unpaid and not yet cancelled.
   const filteredDocs = docs.filter((doc) => {
     const sub = doc.data().stripeSubscription;
-    // Renewal invoice link exists (it should be created only upon renewal, so must exist)
     return (
+      // *Fully ignore* charge_automatically subscriptions.
+      // These will be auto-handled and cancelled by Stripe dashboard settings in 7 days.
+      // Eventually, this entire function can be removed when all active subscriptions have migrated from
+      // 'send_invoice' to 'charge_automatically'
+      sub.collectionMethod !== 'charge_automatically' &&
+      // Renewal invoice link exists (it should be created only upon renewal, so must exist)
       !!sub.renewalInvoiceLink &&
       // last period started more than 7 days ago
       sub.currentPeriodStart <= oneWeekAgoSecs() &&
       // ... but also at most one month ago
-      sub.currentPeriodStart >= oneMonthAgoSecs()
+      sub.currentPeriodStart >= oneMonthAgoSecs() &&
+      // ... and there is no pending SEPA payment
+      !sub.paymentProcessing
     );
   });
 
@@ -75,6 +83,7 @@ module.exports = async (docs) => {
   };
 
   const promiseIterator = generatePromises();
+  // @ts-ignore the docs add `new` in all their examples.
   const pool = new PromisePool(promiseIterator, MAX_CONCURRENT);
   const idList = userPrivateDocIds(
     filteredDocs.map((d) => ({

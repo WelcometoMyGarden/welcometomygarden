@@ -1,5 +1,6 @@
 const { setTimeout } = require('node:timers/promises');
 const { logger } = require('firebase-functions/v2');
+const { log, warn } = require('firebase-functions/logger');
 const { db, auth } = require('../../firebase');
 const { sendSubscriptionEndedEmail } = require('../../mail');
 const removeUndefined = require('../../util/removeUndefined');
@@ -15,15 +16,16 @@ const { statusKey, cancelAtKey, canceledAtKey } = stripeSubscriptionKeys;
  * so it only gets deleted at a period's end.
  * This event should lead to the un-provisioning of a superfan.
  * https://stripe.com/docs/billing/subscriptions/cancel#events
- * @param {*} event
+ * @param {import('stripe').Stripe.Event} event
  * @param {*} res
  */
 module.exports = async (event, res) => {
-  console.log('Handling customer.subscription.deleted');
+  log('Handling customer.subscription.deleted');
   /** @type {import('stripe').Stripe.Subscription} */
+  // @ts-ignore
   const subscription = event.data.object;
   if (!isWTMGSubscription(subscription)) {
-    console.log('Ignoring non-WTMG subscription');
+    log('Ignoring non-WTMG subscription');
     return res.sendStatus(200);
   }
 
@@ -46,7 +48,7 @@ module.exports = async (event, res) => {
     const uid = await getFirebaseUserId(customerId);
 
     if (!uid) {
-      console.warn(
+      warn(
         `Could not find a Firebase UID for customer ${customerId}, the customer is likely deleted.`
       );
     } else {
@@ -91,10 +93,25 @@ module.exports = async (event, res) => {
         })
       )();
 
-      // If this cancellation occurs beyond the first period, it is likely a failed renewal
-      // rather than an unpaid first invoice.
-      // In this case, inform the user that their subscription has ended.
-      if (currentPeriodStart !== startDate) {
+      // If this cancellation occurs beyond the first period, it is most likely not caused by an
+      // unpaid first invoice (though we could aso check invoice.billing_reason and the metadata billing_reason_override to be more sure / TODO)
+      const latestInvoice = await stripe.invoices.retrieve(subscription.latest_invoice);
+
+      // Inform the user that their subscription has ended...
+      if (
+        // ... on a lapsed, unpaid renewal of a 'send_invoice' subscription.
+        // Here we need to specifically avoid sending this email on a .deleted event resulting from an unpaid first invoice.
+        // (in that case, the billing reason would be subscription_create, or subscription_update, and the periods should be aligned)
+        (subscription.collection_method === 'send_invoice' &&
+          currentPeriodStart !== startDate &&
+          latestInvoice.billing_reason === 'subscription_cycle') ||
+        // ... in any case on a charge_automatically subscription.
+        // There might only be one subscription_create invoice in this case, so we can not use the period_start & start_date comparison.
+        // Note: with our current setup, subscriptions are *never* created with charge_automatically (they are only converted after the first payment)
+        // So if no first payment comes in, none of the cases here will apply, which is what we want (no email).
+        // TODO: this will probably also be sent after failed automatic payments in one year, do we want this?
+        subscription.collection_method === 'charge_automatically'
+      ) {
         const user = await auth.getUser(uid);
         const publicUserProfileData = (await publicUserProfileDocRef.get()).data();
         const privateUserProfileData = (await privateUserProfileDocRef.get()).data();

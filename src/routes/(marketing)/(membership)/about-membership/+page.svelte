@@ -108,6 +108,7 @@
           uppercase
           inverse
           link
+          orange
           xsmall>{$_('about-superfan.video-section.blog-link-text')}</Button
         >
       </div>

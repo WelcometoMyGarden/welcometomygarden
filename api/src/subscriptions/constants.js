@@ -23,7 +23,8 @@ const stripeSubscriptionSubKeys = [
   // See paymentIntentProcessing
   'paymentProcessing',
   // Stripe-hosted invoice link
-  'renewalInvoiceLink'
+  'renewalInvoiceLink',
+  'collectionMethod'
 ];
 
 // Keys that can be used in an .update command to a Firebase `users-private` doc

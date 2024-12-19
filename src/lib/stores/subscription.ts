@@ -29,7 +29,7 @@ const sevenDayMarkSec = derived(user, ($user) =>
 // invoice wasn't paid
 //
 // Note: until after 7 days, the current subscription can be renewed.
-// After that, a new one has to be completed.
+// After that, a new one has to be completed. This logic isn't handled here.
 export const subscriptionJustEnded = derived(
   user,
   ($user) =>
@@ -39,6 +39,12 @@ export const subscriptionJustEnded = derived(
     $user.stripeSubscription.currentPeriodStart !== $user.stripeSubscription.startDate &&
     // It was at most 30 days since the last cycle ended
     nowSeconds() < $user.stripeSubscription.currentPeriodStart + 3600 * 24 * 30
+);
+
+export const hasAutoRenewingSubscription = derived(
+  user,
+  ($user) =>
+    $user?.superfan && $user.stripeSubscription?.collectionMethod === 'charge_automatically'
 );
 
 export const hasOpenRenewalInvoice = derived(

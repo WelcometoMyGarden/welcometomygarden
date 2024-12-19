@@ -71,7 +71,13 @@
           document.location.port
         }${document.location.pathname}${
           continueUrl ? `?continueUrl=${encodeURIComponent(continueUrl)}` : ''
-        }`
+        }`,
+        payment_method_data: {
+          billing_details: {
+            name: `${$user?.firstName} ${$user?.lastName}`,
+            email: $user?.email
+          }
+        }
       }
     });
 
@@ -285,19 +291,25 @@
           <span class="method-title">{$_('payment-superfan.payment-section.payment-method')}</span>
           <PaymentElement
             options={{
-              paymentMethodOrder: ['bancontact', 'card', 'ideal', 'sofort']
+              paymentMethodOrder: ['bancontact', 'card', 'ideal', 'sofort'],
+              // terms: { bancontact: 'never', sepaDebit: 'never', card: 'never', ideal: 'never' },
+              defaultValues: {
+                billingDetails: {
+                  name: `${$user?.firstName} ${$user?.lastName}`,
+                  email: $user?.email
+                }
+              }
             }}
           />
         </Elements>
         <div class="payment-button">
-          <div>
-            <Button type="submit" uppercase small orange arrow
-              >{$_('payment-superfan.payment-section.pay-button')}</Button
-            >
-            {#if processingPayment}
-              <p>{$_('payment-superfan.payment-section.processing-payment')}</p>
-            {/if}
-          </div>
+          <Button type="submit" uppercase medium orange arrow loading={processingPayment} fullWidth
+            >{$_('payment-superfan.payment-section.pay-button')}</Button
+          >
+          <p class="terms">
+            By becoming a member you agree to our Terms of use. Your membership will renew
+            automatically after one year, but you can cancel the renewal anytime.
+          </p>
         </div>
       </form>
     {:else if !error}
@@ -333,14 +345,25 @@
     width: 100%;
     padding: 2rem;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
   }
 
   .payment-button :global(button) {
-    width: 10rem;
+    max-width: 30rem;
   }
 
   .error {
     color: var(--color-danger);
+  }
+
+  .terms {
+    margin-top: 1.3rem;
+    text-align: center;
+    font-size: 1.4rem;
+    line-height: 1.4;
+    /* Aligns with Stripe payment element grey */
+    color: #6d6e78;
   }
 </style>

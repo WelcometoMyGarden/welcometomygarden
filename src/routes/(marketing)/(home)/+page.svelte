@@ -112,6 +112,7 @@
             uppercase
             inverse
             link
+            orange
             xsmall
             target="_blank">{$_('about-superfan.video-section.blog-link-text')}</Button
           >

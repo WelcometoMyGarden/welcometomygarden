@@ -29,7 +29,12 @@ type StripeSubscription = {
   currentPeriodEnd: number;
   /** When this subscription is scheduled to be canceled. Date since Unix epoch in seconds */
   cancelAt: number;
-  /** Date since Unix epoch in seconds */
+  /** Date since Unix epoch in seconds
+   * > If the subscription has been canceled, the date of that cancellation.
+   * > If the subscription was canceled with cancel_at_period_end,
+   * > canceled_at will reflect the time of the most recent update request,
+   * > not the end of the subscription period when the subscription is automatically moved to a canceled state.
+   */
   canceledAt: number;
   /** Whether the last invoice payment is approved, but still processing */
   paymentProcessing?: boolean;
@@ -38,6 +43,12 @@ type StripeSubscription = {
    * To be shown until 7 days after the currentPeriodStart, if the latest invoice status is not paid.
    */
   renewalInvoiceLink: string | undefined;
+  /**
+   * @since dec 2024
+   * If set, it should only be set to 'charge_automatically'. Undefined means that the old default
+   * 'send_invoice' is still in place.
+   */
+  collectionMethod: 'send_invoice' | 'charge_automatically' | undefined;
 };
 
 type EmailPreferences = {

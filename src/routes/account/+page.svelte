@@ -17,11 +17,13 @@
   import { countryNames } from '$lib/stores/countryNames';
   import NotificationSection from './NotificationSection.svelte';
   import {
+    hasAutoRenewingSubscription,
     hasOpenRenewalInvoice,
     hasValidSubscription,
-    shouldPromptForNewSubscription,
-    subscriptionJustEnded
+    shouldPromptForNewSubscription
   } from '$lib/stores/subscription';
+  import { onMount } from 'svelte';
+  import { createCustomerPortalSession } from '$lib/api/functions';
 
   let showAccountDeletionModal = false;
   let showEmailChangeModal = false;
@@ -76,8 +78,23 @@
     }
   };
 
+  // Proactively request a customer portal link if it may be used.
+  // This leads to it being immediately ready to be inserted as a simple anchor link, and prevents potential popup blockers
+  // with a JS-triggered redirect.
+  let customerPortalLink: string | undefined;
+  // TEST DO REPLACE AGAIN
+  // let customerPortalLink = 'https://stripe.com';
+  onMount(async () => {
+    if ($user?.superfan && $hasAutoRenewingSubscription) {
+      const { data } = await createCustomerPortalSession();
+      customerPortalLink = data.url;
+    }
+  });
+
   const formatDate = (locale: string, date: Date) =>
-    new Intl.DateTimeFormat(locale, { dateStyle: 'medium' }).format(date);
+    new Intl.DateTimeFormat(locale === 'en' ? 'en-GB' : locale, { dateStyle: 'medium' }).format(
+      date
+    );
 </script>
 
 <svelte:head>
@@ -112,19 +129,48 @@
           </div>
         </div>
         {#if $hasValidSubscription && $user.stripeSubscription}
-          <div class="superfan-validity">
+          <div class="superfan-validity" class:auto-renewing={$hasAutoRenewingSubscription}>
             <p>
-              ✅ {$_('account.superfan.valid', {
-                values: {
-                  date: formatDate(
-                    $locale || 'en',
-                    new Date($user.stripeSubscription?.currentPeriodEnd * 1000)
-                  )
-                }
-              })}
+              {#if $hasAutoRenewingSubscription && typeof $user.stripeSubscription?.canceledAt === 'number'}
+                <!-- The user scheduled the cancellation -->
+                ✅ Your membership ends on {formatDate(
+                  $locale || 'en',
+                  new Date($user.stripeSubscription?.canceledAt * 1000)
+                )}.<br />Automatic renewal deactivated.
+              {:else if $hasAutoRenewingSubscription}
+                ✅ Your membership is active.<br />Automatically renews on {formatDate(
+                  $locale || 'en',
+                  new Date($user.stripeSubscription.currentPeriodEnd * 1000)
+                )}.
+              {:else}
+                <!-- In the send_invoice case -->
+                ✅ {$_('account.superfan.valid', {
+                  values: {
+                    date: formatDate(
+                      $locale || 'en',
+                      new Date($user.stripeSubscription?.currentPeriodEnd * 1000)
+                    )
+                  }
+                })}
+              {/if}
             </p>
+            {#if $hasAutoRenewingSubscription}
+              <Button
+                small
+                inverse
+                link
+                oneline
+                orange={false}
+                loading={typeof customerPortalLink === 'undefined'}
+                target="_blank"
+                href={customerPortalLink ?? ''}>Manage membership</Button
+              >
+            {/if}
           </div>
-        {:else if $subscriptionJustEnded}
+        {:else if $user.stripeSubscription}
+          <!-- The invalid subscription state is assumed from the alternative of the case above -->
+          <!-- TODO: in charge_automatically we might need to show that some payment errors occurred
+               and a button to the management portal -->
           <div class="superfan-validity invalid">
             <p>{@html $_('account.superfan.just-ended')}</p>
             <Button
@@ -314,6 +360,36 @@
     font-weight: 500;
     font-size: 1.8rem;
   }
+  .description {
+    margin-bottom: 1rem;
+  }
+
+  .resend-verification {
+    margin-top: 1rem;
+    display: block;
+  }
+
+  .superfan-validity {
+    margin-top: 1rem;
+  }
+
+  .superfan-validity.invalid,
+  .superfan-validity.auto-renewing {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    gap: 2.5rem;
+    margin: 2rem 0 0 0;
+    text-align: left;
+  }
+
+  .superfan-validity.auto-renewing {
+    gap: 1.5rem;
+  }
+
+  .superfan-validity :global(.button) {
+    align-self: center;
+  }
 
   @media (max-width: 700px) {
     .wrapper {
@@ -332,25 +408,13 @@
     .user-information .details > div {
       margin-bottom: 1rem;
     }
-  }
 
-  .description {
-    margin-bottom: 1rem;
-  }
-
-  .resend-verification {
-    margin-top: 1rem;
-    display: block;
-  }
-
-  .superfan-validity {
-    margin-top: 1rem;
-  }
-
-  .superfan-validity.invalid {
-    display: flex;
-    gap: 2rem;
-    margin: 2rem 0 0 0;
-    text-align: left;
+    .superfan-validity.auto-renewing {
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
+      gap: 0rem;
+      margin-top: 0.5rem;
+    }
   }
 </style>

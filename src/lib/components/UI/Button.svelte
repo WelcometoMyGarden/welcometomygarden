@@ -22,24 +22,22 @@
   export let danger = false;
   export let arrow = false;
   export let centered = false;
-
-  /**
-   * Any loading button should also be disabled reactively
-   */
-  $: _disabled = disabled || loading;
-
+  export let oneline = false;
   /**
    * Shows a loading indicator on the button, instead of the main content
    */
   export let loading = false;
-
   export let minWidth: undefined | string = undefined;
-
   /** Whether this is a link-style button */
   export let link = false;
   /** Apply an underline in the case of a link-style button*/
   export let underline = true;
   export let bold = true;
+
+  /**
+   * Any loading button should also be disabled reactively
+   */
+  $: _disabled = disabled || loading;
 
   import { createEventDispatcher } from 'svelte';
   import Icon from './Icon.svelte';
@@ -82,6 +80,7 @@
     class:bold
     class:underline
     class:loading
+    class:oneline
     style:min-width={minWidth}
     {href}
     on:click={(e) => {
@@ -123,6 +122,7 @@
     class:bold
     class:underline
     class:loading
+    class:oneline
     style:min-width={minWidth}
     {type}
   >
@@ -140,6 +140,7 @@
 
 <style>
   .button {
+    position: relative;
     text-decoration: none;
     display: inline-block;
     background-color: var(--color-green);
@@ -219,28 +220,56 @@
   }
 
   .button.link {
-    background-color: unset;
     border: none;
     text-transform: none;
+  }
+
+  .button.link:not(.loading) {
+    background-color: unset;
   }
 
   .button.link :global(span) {
     position: relative;
     /* Inline is required to make border-bottom wrap onto multiple lines */
     display: inline;
-    font-size: 1.5rem;
     font-weight: 500;
   }
+
+  .button.link.xsmall :global(span) {
+    font-size: 1.5rem;
+  }
+  .button.link.small :global(span) {
+    font-size: 1.6rem;
+  }
+
+  .button.link.oneline :global(span) {
+    /* new css https://web-platform-dx.github.io/web-features-explorer/features/text-wrap-mode/ */
+    text-wrap-mode: nowrap;
+  }
+
   .button.link.bold :global(span) {
     font-weight: 700;
   }
 
-  .button.link.underline :global(span) {
+  .button.link.underline.orange :global(span) {
     border-bottom: 2px solid var(--color-orange-light);
     transition: all 0.1s;
   }
 
-  .button.link.underline:hover :global(span) {
+  .button.link.underline:not(.orange) {
+    /* Attempt to fit into text */
+    text-decoration: underline;
+    padding: 0 0.2rem;
+  }
+  .button.link.underline:not(.orange) > :global(span) {
+    font-weight: 400;
+  }
+
+  .button.link:not(.underline) :global(span) {
+    border-bottom: none;
+  }
+
+  .button.link.underline.orange:hover :global(span) {
     border-bottom: 0px solid transparent;
     transition: all 0.2s;
   }
@@ -248,6 +277,10 @@
   .button.link:not(.underline):hover :global(span) {
     font-weight: 600;
     transition: font-weight 0.3s;
+  }
+
+  .button.link.underline:not(.orange):hover {
+    text-decoration: none;
   }
 
   .loading,
@@ -304,7 +337,12 @@
     width: 100%;
   }
 
-  .inverse {
+  .fullWidth.arrow .arrow-icon {
+    position: absolute;
+    right: 1rem;
+  }
+
+  .inverse:not(.loading) {
     background-color: var(--color-white);
     color: var(--color-green);
   }
@@ -344,6 +382,9 @@
   @media only screen and (max-width: 700px) {
     .button {
       font-size: 1.4rem;
+    }
+    .button.link.small :global(span) {
+      font-size: var(--paragraph-font-size);
     }
   }
 
