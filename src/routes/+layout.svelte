@@ -35,6 +35,7 @@
   import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
   import { resetPushRegistrationStores } from '$lib/stores/pushRegistrations';
   import { onNavigate } from '$app/navigation';
+  import { registerCustomPropertyTracker } from '$lib/util/track-plausible';
 
   type MaybeUnsubscriberFunc = (() => void) | undefined;
 
@@ -174,6 +175,13 @@
     console.log('Mounting root layout');
     vh = `${window.innerHeight * 0.01}px`;
 
+    // Initialize page view property tracking via the Plausible script element/
+    // as soon as Svelte has mounted the root layout (including the script)
+    const plausibleScriptElement = document.querySelector('script#plausible');
+    if (plausibleScriptElement) {
+      registerCustomPropertyTracker(plausibleScriptElement);
+    }
+
     await initializeSvelteI18n();
     // Initialize Firebase
     await initialize();
@@ -182,6 +190,8 @@
     }
     // Initialize the user data (dependent on Firebase auth)
     initializeUser();
+
+    // No unsubscribers are used due to this being an async initializer
   });
 
   onDestroy(() => {

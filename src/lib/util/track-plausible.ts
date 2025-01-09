@@ -32,6 +32,10 @@ const logToPlausible = (
 ) => {
   const concreteUser = get(user);
   // Don't log the superfan custom property if it can be derived from the event.
+  // TODO: this distinction was made obsolete by the Plausible <script> property based `superfan`
+  // property tracking, which applies always. Normally it should be possible to remove the custom property here
+  // and remove the distinction in event types. If we still want to save a little bit of data by
+  // not logging obvious/implied event properties, we need to manually track page views.
   const superfanProperty: { superfan?: boolean } =
     isSuperfanOnlyEvent(eventName) || isNonsuperfanOnlyEvent(eventName)
       ? {}
@@ -136,5 +140,31 @@ function trackEvent(
     console.error('Error while logging to plausible:', e);
   }
 }
+
+/**
+ * Log custom properties on all page views
+// https://plausible.io/docs/custom-props/for-pageviews
+ * @param plausibleScriptElement
+ */
+export const registerCustomPropertyTracker = (
+  plausibleScriptElement: Element | null | undefined
+) => {
+  return user.subscribe(($user) => {
+    if (!plausibleScriptElement) {
+      return;
+    }
+    if ($user) {
+      plausibleScriptElement.setAttribute('event-logged_in', 'true');
+      if ($user.superfan) {
+        plausibleScriptElement.setAttribute('event-superfan', 'true');
+      } else {
+        plausibleScriptElement.setAttribute('event-superfan', 'false');
+      }
+    } else {
+      plausibleScriptElement.setAttribute('event-logged_in', 'false');
+      plausibleScriptElement.setAttribute('event-superfan', 'false');
+    }
+  });
+};
 
 export default trackEvent;
