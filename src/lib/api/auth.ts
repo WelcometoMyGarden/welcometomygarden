@@ -163,6 +163,25 @@ export const createAuthObserver = (): Unsubscribe => {
           // If we're not on a useful page, redirect to /account
           routeTo = routes.ACCOUNT;
         }
+
+        // Check if we need to redirect to a specific garden after verification
+        try {
+          const { garden: chatIntentionGardenId, ts } = JSON.parse(
+            localStorage.getItem('chatIntention') ?? '{}'
+          );
+          if (chatIntentionGardenId) {
+            const chatIntentionTs = new Date(ts);
+            // Only redirect within 10 minutes
+            if (Date.now() - chatIntentionTs.getTime() < 10 * 60 * 1000) {
+              console.log('Restoring chat intention after verification');
+              routeTo = `${routes.MAP}/garden/${chatIntentionGardenId}`;
+            }
+            // Remove the intention in any case
+            localStorage.removeItem('chatIntention');
+          }
+        } catch (e) {
+          console.error('Failed to restore the chat intention after verification', e);
+        }
       } else {
         // In any other case, sync the most recent firebaseUser data into app state
         console.log('Syncing Firebase user state to local state');

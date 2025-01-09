@@ -301,10 +301,25 @@
           </Button>
         {:else}
           {#if !$user}
-            <p class="cta-hint">
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+            <p
+              class="cta-hint"
+              on:click={() => {
+                // Store the intention to chat, in case the user will be interrupted by a verification link.
+                // We depend on the event bubbling bubble behavior here from the inner <a> link here
+                localStorage.setItem(
+                  'chatIntention',
+                  JSON.stringify({
+                    garden: garden?.id,
+                    ts: new Date()
+                  })
+                );
+              }}
+            >
               {@html $_('garden.drawer.guest.login', {
                 values: {
-                  signInLink: `<a class='link' href=${routes.SIGN_IN}>${$_(
+                  signInLink: `<a class='link' href=${routes.SIGN_IN}?continueUrl=${encodeURIComponent(`${routes.MAP}/garden/${garden?.id}`)}>${$_(
                     'garden.drawer.guest.sign-link-text'
                   )}</a>`
                 }

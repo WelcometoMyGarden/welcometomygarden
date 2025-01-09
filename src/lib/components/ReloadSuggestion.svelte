@@ -2,7 +2,7 @@
   import { _ } from 'svelte-i18n';
   import { auth } from '../api/firebase';
 
-  // Migitates https://github.com/WelcometoMyGarden/welcometomygarden/issues/297
+  // Mitigates https://github.com/WelcometoMyGarden/welcometomygarden/issues/297
   // NOTE: Might perform an unnecessary double reload when being redirected by
   // checkAndHandleUnverified
   auth().currentUser?.reload();

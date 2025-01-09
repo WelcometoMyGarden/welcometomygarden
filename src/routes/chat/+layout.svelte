@@ -57,7 +57,10 @@
   onMount(async () => {
     if (!$user) {
       notify.info($_('auth.unsigned'), 8000);
-      return goto(routes.SIGN_IN);
+      // Use continueUrl with all URL paramters restored after sign-in
+      return goto(
+        `${routes.SIGN_IN}?continueUrl=${document.location.pathname}${document.location.search}${document.location.hash}`
+      );
     }
     await checkAndHandleUnverified($_('chat.notify.unverified'));
 

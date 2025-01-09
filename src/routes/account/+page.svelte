@@ -27,7 +27,7 @@
   let showEmailChangeModal = false;
 
   if (!$user) {
-    goto(routes.SIGN_IN);
+    goto(`${routes.SIGN_IN}?continueUrl=${encodeURIComponent(routes.ACCOUNT)}`);
   }
 
   const onMailPreferenceChanged = async (event) => {
