@@ -1066,13 +1066,15 @@
       "country": {
         "from-list": "Bitte wählen Sie ein Land aus der Liste. Dies hilft uns, die Karte darauf zu fokussieren, woher Sie kommen"
       },
-      "consent": "Sie müssen den Bedingungen von Welcome To My Garden zustimmen, wenn Sie die Plattform nutzen möchten."
+      "consent": "Sie müssen den Bedingungen von Welcome To My Garden zustimmen, wenn Sie die Plattform nutzen möchten.",
+      "reference": "Bitte achten Sie darauf, dass Ihr Antwort maximal 3000 Zeichen lang ist"
     },
     "notify": {
       "successful": "Ihr Konto wurde erfolgreich erstellt! Bitte überprüfen Sie Ihre E-Mail, um Ihr Konto zu bestätigen.",
       "in-use": "Diese E-Mail-Adresse ist bereits in Gebrauch.",
       "unexpected": "Ein unerwarteter Fehler ist aufgetreten. Wenn das Problem weiterhin besteht, wenden Sie sich bitte an {support}"
-    }
+    },
+    "reference": "Wie haben Sie von WTMG gehört? (optional)"
   },
   "chat": {
     "title": "Chat",

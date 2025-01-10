@@ -1055,6 +1055,7 @@
     "policies": "I agree to the {cookiePolicy}, {privacyPolicy} and {termsOfUse}",
     "registering": "Signing you up...",
     "registred": "Already have an account? {signIn}",
+    "reference": "How did you hear about WTMG? (optional)",
     "validate": {
       "email": "Please add an email address, this is what you log in with",
       "password": {
@@ -1070,7 +1071,8 @@
       "country": {
         "from-list": "Please choose a country from the list. This helps us focus the map on where you're from"
       },
-      "consent": "You must consent to Welcome To My Garden's terms if you want to use the platform"
+      "consent": "You must consent to Welcome To My Garden's terms if you want to use the platform",
+      "reference": "Please make sure your answer is at most 100 characters long"
     },
     "notify": {
       "successful": "Your account was created successfully! Please check your email to verify your account.",

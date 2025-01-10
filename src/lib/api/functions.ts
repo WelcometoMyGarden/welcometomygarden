@@ -24,6 +24,7 @@ export type CreateUserRequest = {
   lastName: string;
   countryCode: string;
   communicationLanguage: string;
+  reference: string | null;
 };
 let createUserRef: HttpsCallable<CreateUserRequest> | null = null;
 export const createUser: HttpsCallable<CreateUserRequest> = wrapCallable(() => createUserRef);

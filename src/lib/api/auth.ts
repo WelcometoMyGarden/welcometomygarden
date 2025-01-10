@@ -388,13 +388,18 @@ export const register = async ({
   password,
   firstName,
   lastName,
-  countryCode
+  countryCode,
+  reference
 }: {
   email: string;
   password: string;
   firstName: string;
   lastName: string;
   countryCode: string;
+  /**
+   * The answer to the question "How did you hear about WTMG?"
+   */
+  reference: string | null;
 }) => {
   isRegistering.set(true);
   await createUserWithEmailAndPassword(auth(), email, password);
@@ -413,7 +418,8 @@ export const register = async ({
     firstName,
     lastName,
     countryCode,
-    communicationLanguage: get(locale) ?? 'en'
+    communicationLanguage: get(locale) ?? 'en',
+    reference
   });
   trackEvent(PlausibleEvent.CREATE_ACCOUNT);
   await resolveOnUserLoaded();

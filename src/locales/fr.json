@@ -1060,7 +1060,8 @@
       "last-name": "Veuillez saisir votre nom de famille. Celui-ci ne sera pas partagé avec d'autres utilisateurs",
       "country": {
         "from-list": "Veuillez choisir un pays dans la liste. Ceci nous aide à centrer la carte vers votre pays d'origine."
-      }
+      },
+      "reference": "Veillez à ce que votre réponse comporte au maximum 3000 caractères"
     },
     "title": "Inscription",
     "button": "S'inscrire",
@@ -1068,7 +1069,8 @@
     "last-name": "Nom",
     "policies": "J'accepte la {cookiePolicy}, la {privacyPolicy} et les {termsOfUse}",
     "first-name": "Prénom",
-    "country": "Pays"
+    "country": "Pays",
+    "reference": "Comment avez-vous entendu parler de WTMG ? (facultatif)"
   },
   "chat": {
     "all-conversations": "Toutes les conversations",

@@ -710,13 +710,15 @@
       "country": {
         "from-list": "Kies een land uit de lijst. Dit helpt ons om de kaart te focussen op waar je vandaan komt."
       },
-      "consent": "Je moet akkoord gaan met de voorwaarden van Welcome To My Garden als je gebruik wilt maken van het platform."
+      "consent": "Je moet akkoord gaan met de voorwaarden van Welcome To My Garden als je gebruik wilt maken van het platform.",
+      "reference": "Zorg ervoor dat jouw antwoord maximaal 3000 karakters lang is"
     },
     "notify": {
       "successful": "Jouw account is aangemaakt! Controleer jouw e-mail om jouw account te verifiëren.",
       "in-use": "Dit e-mailadres is al in gebruik.",
       "unexpected": "Er is een onverwachte fout opgetreden. Als het probleem aanhoudt, neem dan contact op met {support}"
-    }
+    },
+    "reference": "Hoe heb je van WTMG gehoord? (optioneel)"
   },
   "chat": {
     "title": "Chat",

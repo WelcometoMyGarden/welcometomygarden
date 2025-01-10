@@ -1067,13 +1067,15 @@
       "country": {
         "from-list": "Por favor elige un país de la lista. Esto nos ayuda a centrar el mapa en tu lugar de origen."
       },
-      "consent": "Debes aceptar los términos de Welcome To My Garden si deseas utilizar la plataforma."
+      "consent": "Debes aceptar los términos de Welcome To My Garden si deseas utilizar la plataforma.",
+      "reference": "Asegúrate de que tu respuesta tenga como máximo 3000 caracteres"
     },
     "notify": {
       "successful": "¡Tu cuenta ha sido creada con éxito! Por favor revisa tu correo electrónico para verificar su cuenta.",
       "in-use": "Esta dirección de correo electrónico ya está en uso.",
       "unexpected": "Ocurrió un error inesperado. Si el problema persiste, contacta con {support}"
-    }
+    },
+    "reference": "¿Cómo ha conocido WTMG? (opcional)"
   },
   "chat": {
     "title": "Conversar",

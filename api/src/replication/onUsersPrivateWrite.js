@@ -18,7 +18,8 @@ module.exports = async ({ data: change }) => {
       'stripeCustomerId',
       'stripeSubscription',
       'createTime',
-      'updateTime'
+      'updateTime',
+      'reference'
     ]
   });
 };

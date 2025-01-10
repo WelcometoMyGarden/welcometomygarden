@@ -48,7 +48,13 @@
   type RegistrationFields =
     // Text inputs
     {
-      [fieldName in 'email' | 'password' | 'firstName' | 'lastName' | 'country']: TextInputField;
+      [fieldName in
+        | 'email'
+        | 'password'
+        | 'firstName'
+        | 'lastName'
+        | 'country'
+        | 'reference']: TextInputField;
     } & { consent: CheckboxField }; // Checkbox fields
 
   /** Field definitions with initial values */
@@ -91,6 +97,17 @@
       validate: (v) => {
         if (!v) return $_('register.validate.consent');
       }
+    },
+    reference: {
+      validate: (v: any) => {
+        if (typeof v === 'string' && v.length > 3000) {
+          return $_('register.validate.reference');
+        }
+        if (typeof v !== 'string' && v != null) {
+          // Shouldn't happen
+          return 'Your answer must be text, or empty.';
+        }
+      }
     }
   };
 
@@ -131,7 +148,8 @@
         password: $formPasswordValue,
         firstName: fields.firstName.value as string,
         lastName: fields.lastName.value as string,
-        countryCode: fields.country.value as string
+        countryCode: fields.country.value as string,
+        reference: (fields.reference.value as string)?.trim() || null
       });
       notify.success($_('register.notify.successful'), 10000);
       goto(routes.MAP);
@@ -235,6 +253,21 @@
         {/each}
       </Select>
     </div>
+
+    <div class="reference">
+      <label for="reference">{$_('register.reference')}</label>
+      <TextInput
+        icon={null}
+        type="text"
+        name="reference"
+        id="reference"
+        maxLength={3000}
+        on:blur={() => (fields.reference.error = '')}
+        error={fields.reference.error}
+        bind:value={fields.reference.value}
+      />
+    </div>
+
     <div class="consent">
       <div class="checkbox">
         <input type="checkbox" id="terms" name="terms" bind:checked={fields.consent.value} />

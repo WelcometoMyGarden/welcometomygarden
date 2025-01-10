@@ -92,9 +92,15 @@ exports.createUser = async ({ data, auth: authContext }) => {
         news: true
       },
       creationLanguage: data.communicationLanguage,
-      communicationLanguage: data.communicationLanguage
+      communicationLanguage: data.communicationLanguage,
       // NOTE: there are several other properties that don't have defaults, see
       // src/lib/models/Users.ts -> UserPrivate
+      // Optional reference field
+      ...(data.reference && typeof data.reference === 'string' && data.reference.length > 0
+        ? {
+            reference: data.reference
+          }
+        : {})
     });
 
     await db
