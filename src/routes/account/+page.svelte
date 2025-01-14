@@ -91,7 +91,7 @@
   });
 
   const formatDate = (locale: string, date: Date) =>
-    new Intl.DateTimeFormat(locale === 'en' ? 'en-GB' : locale, { dateStyle: 'medium' }).format(
+    new Intl.DateTimeFormat(locale === 'en' ? 'en-GB' : locale, { dateStyle: 'short' }).format(
       date
     );
 </script>
@@ -135,7 +135,7 @@
                 ✅ Your membership ends on {formatDate(
                   $locale || 'en',
                   new Date($user.stripeSubscription?.canceledAt * 1000)
-                )}.<br />Automatic renewal deactivated.
+                )}.<br />Automatic renewal turned off.
               {:else if $hasAutoRenewingSubscription}
                 ✅ Your membership is active.<br />Automatically renews on {formatDate(
                   $locale || 'en',

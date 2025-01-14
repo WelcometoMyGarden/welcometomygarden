@@ -74,7 +74,6 @@
         }`,
         payment_method_data: {
           billing_details: {
-            name: `${$user?.firstName} ${$user?.lastName}`,
             email: $user?.email
           }
         }
@@ -292,11 +291,18 @@
           <PaymentElement
             options={{
               paymentMethodOrder: ['bancontact', 'card', 'ideal', 'sofort'],
-              // terms: { bancontact: 'never', sepaDebit: 'never', card: 'never', ideal: 'never' },
+              terms: { bancontact: 'never', sepaDebit: 'never', card: 'never', ideal: 'never' },
               defaultValues: {
                 billingDetails: {
                   name: `${$user?.firstName} ${$user?.lastName}`,
                   email: $user?.email
+                }
+              },
+              // Never show an email field, we always use the account email.
+              // TODO: check if this is appropriate for PayPal
+              fields: {
+                billingDetails: {
+                  email: 'never'
                 }
               }
             }}
