@@ -1064,7 +1064,7 @@
     "country": "Country",
     "policies": "I agree to the {cookiePolicy}, {privacyPolicy} and {termsOfUse}",
     "registering": "Signing you up...",
-    "registred": "Already have an account? {signIn}",
+    "registered": "Already have an account? {signIn}",
     "reference": "How did you hear about WTMG? (optional)",
     "validate": {
       "email": "Please add an email address, this is what you log in with",
@@ -1075,7 +1075,7 @@
       },
       "first-name": {
         "set": "Please enter a first name. This is how you're shown to other users",
-        "max": "Your first name can only be 25 characters long so we can display it properly. Feel free too abbreviate or choose a nickname."
+        "max": "Your first name can only be 25 characters long so we can display it properly. Feel free to abbreviate or choose a nickname."
       },
       "last-name": "Please enter your last name. This won't be shared with other users",
       "country": {

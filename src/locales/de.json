@@ -1050,7 +1050,7 @@
     "country": "Land",
     "policies": "Ich akzeptiere die {cookiePolicy}, {privacyPolicy} und {termsOfUse}",
     "registering": "Sie werden angemeldet …",
-    "registred": "Haben Sie bereits ein Konto? {signIn}",
+    "registered": "Haben Sie bereits ein Konto? {signIn}",
     "validate": {
       "email": "Bitte fügen Sie eine E-Mail-Adresse hinzu, mit der Sie sich anmelden",
       "password": {

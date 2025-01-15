@@ -694,7 +694,7 @@
     "country": "Land",
     "policies": "Ik ga akkoord met de {cookiePolicy}, {privacyPolicy} en {termsOfUse}",
     "registering": "Bezig met registratie...",
-    "registred": "Heb je al een account? {signIn}",
+    "registered": "Heb je al een account? {signIn}",
     "validate": {
       "email": "Voeg een e-mail adres toe, dit is waarmee je inlogt.",
       "password": {

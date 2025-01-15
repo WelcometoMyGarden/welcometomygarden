@@ -1051,7 +1051,7 @@
     "country": "País",
     "policies": "Acepto la {cookiePolicy}, la {privacyPolicy} y los {termsOfUse}",
     "registering": "Inscribiéndote...",
-    "registred": "¿Ya tienes una cuenta? {signIn}",
+    "registered": "¿Ya tienes una cuenta? {signIn}",
     "validate": {
       "email": "Por favor agrega una dirección de correo electrónico, esto es con lo que inicia sesión",
       "password": {

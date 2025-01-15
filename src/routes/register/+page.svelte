@@ -297,7 +297,7 @@
         <p class="mt-m mb-m">{$_('register.registering')}</p>
       {/if}
       <p>
-        {@html $_('register.registred', {
+        {@html $_('register.registered', {
           values: {
             signIn: `<a class="link" href=${routes.SIGN_IN}>${$_('generics.sign-in')}</a>`
           }

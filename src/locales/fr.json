@@ -1044,7 +1044,7 @@
       "in-use": "Cette adresse électronique est déjà utilisée.",
       "successful": "Votre compte a été créé avec succès ! Veuillez confirmer votre adresse électronique pour confirmer votre compte."
     },
-    "registred": "Vous avez déjà un compte ? {signIn}",
+    "registered": "Vous avez déjà un compte ? {signIn}",
     "validate": {
       "password": {
         "min": "Votre mot de passe doit comporter au moins 8 caractères",
