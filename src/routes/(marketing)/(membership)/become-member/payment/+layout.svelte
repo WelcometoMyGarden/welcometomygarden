@@ -288,9 +288,7 @@
     {#if stripe && clientSecret}
       <form on:submit|preventDefault={submit}>
         <Elements {stripe} {clientSecret} bind:elements>
-          <span class="method-title mh3"
-            >{$_('payment-superfan.payment-section.payment-method')}</span
-          >
+          <span class="method-title">{$_('payment-superfan.payment-section.payment-method')}</span>
           <PaymentElement
             options={{
               paymentMethodOrder: ['bancontact', 'card', 'ideal', 'sofort'],
@@ -311,7 +309,7 @@
             }}
           />
         </Elements>
-        <div class="payment-button">
+        <div class="payment-button-section">
           <Button type="submit" uppercase medium orange arrow loading={processingPayment} fullWidth
             >{$_('payment-superfan.payment-section.pay-button')}</Button
           >
@@ -350,10 +348,15 @@
 </PaddedSection>
 
 <style>
-  .method-title.mh3 {
-    display: block;
-    font-size: 2rem;
-    margin-bottom: 1.8rem;
+  .method-title {
+    /* Taken from Stripe's Payment element CSS */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+      'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 14.88px;
+    color: rgb(48, 49, 61);
+    line-height: 17.1167px;
+    display: inline-block;
+    margin-bottom: 0.8rem;
   }
 
   /* Exceptionally, less padding */
@@ -361,17 +364,18 @@
     margin-bottom: 4rem !important;
   }
 
-  .payment-button {
+  .payment-button-section {
     width: 100%;
-    padding: 2rem;
+    padding: 0 2rem 2rem 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
 
-  .payment-button :global(button) {
+  .payment-button-section :global(button) {
     max-width: 30rem;
+    margin: 3rem auto 2.7rem auto;
   }
 
   .error {
@@ -379,7 +383,7 @@
   }
 
   .terms {
-    margin-top: 1.3rem;
+    margin-bottom: 0;
     text-align: center;
     font-size: 1.4rem;
     line-height: 1.4;

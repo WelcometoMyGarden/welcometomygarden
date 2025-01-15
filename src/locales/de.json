@@ -707,7 +707,7 @@
       "title": "Als Mitglied können Sie…",
       "points": {
         "0": {
-          "title": "<strong>Senden Sie kostenlose Aufenthaltsanfragen an alle über 7.000 WTMG-Gastgeber</strong> auf der Karte"
+          "title": "<strong>Senden Sie kostenlose Aufenthaltsanfragen an alle über 5.000 WTMG-Gastgeber</strong> auf der Karte"
         },
         "1": {
           "title": "<strong>Treffen Sie über den Chat Vereinbarungen mit Gastgebern</strong> und lernen Sie tolle neue Leute kennen."
@@ -868,7 +868,7 @@
     "top-section": {
       "title": "Vielen Dank, dass Sie der WTMG-Community beigetreten sind! 🌟",
       "description": "<p>Wir freuen uns, dass Sie dabei sind! 💚</p>",
-      "features": "<p>Sie können jetzt:</p><ul><li> Senden Sie Aufenthaltsanfragen an über 7000 Gärten</li><li>Planen Sie Ihre Reise: Laden Sie Ihre Route hoch, speichern Sie Gärten und sehen Sie sich das Schienennetz an</li><li> Greifen Sie auf den Gemeinschaftsbereich zu</li></ul>",
+      "features": "<p>Sie können jetzt:</p><ul><li> Senden Sie Aufenthaltsanfragen an über 5000 Gärten</li><li>Planen Sie Ihre Reise: Laden Sie Ihre Route hoch, speichern Sie Gärten und sehen Sie sich das Schienennetz an</li><li> Greifen Sie auf den Gemeinschaftsbereich zu</li></ul>",
       "outro": "<p>Dank Ihnen können wir WTMG werbefrei, völlig unabhängig und von unseren Mitgliedern unterstützt halten.</p>"
     },
     "features-section": {

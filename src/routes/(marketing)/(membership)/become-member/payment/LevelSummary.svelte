@@ -34,9 +34,6 @@
         <span class="to"><span class="arrow">→</span> {formatDate($locale ?? 'en', periodEnd)}</span
         >
       </div>
-      <p class="feature-overview">
-        {$_(`payment-superfan.overview-section.feature-overview.${level.slug}`)}
-      </p>
       <ul class="features checklist">
         <!-- TODO TEST INSERT $LOCALE not hardcoded 'en' -->
         {#each getNodeArray('payment-superfan.overview-section.features', 'en') as feature}
@@ -78,10 +75,6 @@
   .arrow {
     margin-right: 0.5rem;
     line-height: 1.6;
-  }
-
-  .feature-overview {
-    margin-bottom: 1rem;
   }
 
   .checklist {

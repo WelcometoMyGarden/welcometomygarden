@@ -711,7 +711,7 @@
       "title": "As a member, you can…",
       "points": {
         "0": {
-          "title": "<strong>Send free stay requests to all 7.000+ WTMG hosts</strong> on the map"
+          "title": "<strong>Send free stay requests to all 5.000+ WTMG hosts</strong> on the map"
         },
         "1": {
           "title": "<strong>Make arrangements with hosts</strong> through the chat and get to meet amazing new people."
@@ -872,7 +872,7 @@
     "top-section": {
       "title": "Thank you for joining the WTMG community! 🌟",
       "description": "<p>We are so happy that you are joining the ride! 💚</p>",
-      "features": "<p>You can now:</p>\n<ul>\n<li>Send stay requests to 7000+ gardens</li>\n<li>Plan your journey: upload your route, save gardens &amp; see the rail network</li>\n<li>Access the community space</li>\n</ul>",
+      "features": "<p>You can now:</p>\n<ul>\n<li>Send stay requests to 5000+ gardens</li>\n<li>Plan your journey: upload your route, save gardens &amp; see the rail network</li>\n<li>Access the community space</li>\n</ul>",
       "outro": "<p>Thanks to you we can keep WTMG ad-free, fully independent and member-supported.</p>"
     },
     "features-section": {
@@ -909,7 +909,7 @@
       }
     },
     "payment-section": {
-      "payment-method": "Payment",
+      "payment-method": "Payment method",
       "pay-button": "Pay now",
       "loading": "Loading...",
       "processing-payment": "Processing...",

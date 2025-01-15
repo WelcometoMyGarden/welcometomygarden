@@ -147,9 +147,13 @@
 
 <div class="container">
   <div class="pricing-description">
-    <h3 id="pricing-title">{$t('become-superfan.pricing-section.title')}</h3>
+    <svelte:element this={condensed ? 'h3' : 'h2'} id="pricing-title" class:condensed
+      >{$t('become-superfan.pricing-section.title')}</svelte:element
+    >
     <p id="pricing-description">{$t('become-superfan.pricing-section.description')}</p>
-    <Img class="members-bar" src={membersBarImg} />
+    {#if !condensed || isMobile}
+      <Img class="members-bar" src={membersBarImg} />
+    {/if}
   </div>
   <div
     class="membership-levels"
@@ -281,6 +285,10 @@
     container-type: inline-size;
   }
 
+  #pricing-title:not(.condensed) {
+    margin-bottom: 1.2rem;
+  }
+
   /* Condensed desktop modal styles & overrides */
   .membership-levels.condensed {
     border: 1px solid var(--color-green);
@@ -328,8 +336,8 @@
       margin-bottom: 1rem;
     }
     .pricing-description :global(.members-bar) {
-      margin: 1rem auto;
-      max-width: 40rem;
+      margin: 1.2rem auto 1.5rem auto;
+      max-width: 34rem;
     }
   }
   .select-level-button {
