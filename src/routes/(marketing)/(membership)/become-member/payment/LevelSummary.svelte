@@ -27,14 +27,16 @@
       <h1 class="mh3">
         {$_(`payment-superfan.overview-section.product.${level.slug}`)} · {$_(
           'payment-superfan.overview-section.duration'
-        )}
+        )} · € {level.value * 12}
       </h1>
-      <p class="price">€{level.value * 12}</p>
       <div class="period">
         <span class="from">{formatDate($locale ?? 'en', now)}</span>
         <span class="to"><span class="arrow">→</span> {formatDate($locale ?? 'en', periodEnd)}</span
         >
       </div>
+      <p class="feature-overview">
+        {$_(`payment-superfan.overview-section.feature-overview.${level.slug}`)}
+      </p>
       <ul class="features checklist">
         <!-- TODO TEST INSERT $LOCALE not hardcoded 'en' -->
         {#each getNodeArray('payment-superfan.overview-section.features', 'en') as feature}
@@ -58,11 +60,8 @@
     line-height: 1.6;
   }
 
-  .summary-wrapper > .price {
-    font-family: var(--fonts-copy);
-    font-size: 3rem;
-    font-weight: 500;
-    margin: 2rem 0;
+  h1 {
+    margin-bottom: 0.5rem;
   }
 
   .summary-wrapper {
@@ -79,6 +78,10 @@
   .arrow {
     margin-right: 0.5rem;
     line-height: 1.6;
+  }
+
+  .feature-overview {
+    margin-bottom: 1rem;
   }
 
   .checklist {

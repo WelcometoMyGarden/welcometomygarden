@@ -123,7 +123,7 @@
         },
         "4": {
           "title": "Does Welcome To My Garden cost anything?",
-          "copy": "Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. Memberships are not automatically renewed and are valid for a year. You can become a member <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">here</a>."
+          "copy": "Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. Memberships are renewed automatically. You can cancel the renewal anytime on our {accountLink} page. You can become a member <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">here</a>."
         }
       }
     },
@@ -229,7 +229,7 @@
           },
           "cost": {
             "title": "Does Welcome To My Garden cost anything?",
-            "copy": "<p>Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. Memberships are not automatically renewed and are valid for a year. You can become a member <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">here</a>.</p>"
+            "copy": "<p>Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. Memberships are renewed automatically. You can cancel the renewal anytime on our {accountLink} page. You can become a member <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">here</a>.</p>"
           },
           "no-garden": {
             "title": "I don’t have a garden. Can I still travel to other people’s gardens?",
@@ -654,7 +654,7 @@
     },
     "pricing-section": {
       "title": "Pick your membership level",
-      "description": "Valid for one year. Does not renew automatically.",
+      "description": "Valid for one year. Join our community today!",
       "per-month": "per month",
       "pricing-levels": {
         "0": {
@@ -711,7 +711,7 @@
       "title": "As a member, you can…",
       "points": {
         "0": {
-          "title": "<strong>Send free stay requests to all 5.000+ WTMG hosts</strong> on the map"
+          "title": "<strong>Send free stay requests to all 7.000+ WTMG hosts</strong> on the map"
         },
         "1": {
           "title": "<strong>Make arrangements with hosts</strong> through the chat and get to meet amazing new people."
@@ -872,7 +872,7 @@
     "top-section": {
       "title": "Thank you for joining the WTMG community! 🌟",
       "description": "<p>We are so happy that you are joining the ride! 💚</p>",
-      "features": "<p>You can now:</p>\n<ul>\n<li>Send stay requests to 5000+ gardens</li>\n<li>Plan your journey: upload your route, save gardens &amp; see the rail network</li>\n<li>Access the community space</li>\n</ul>",
+      "features": "<p>You can now:</p>\n<ul>\n<li>Send stay requests to 7000+ gardens</li>\n<li>Plan your journey: upload your route, save gardens &amp; see the rail network</li>\n<li>Access the community space</li>\n</ul>",
       "outro": "<p>Thanks to you we can keep WTMG ad-free, fully independent and member-supported.</p>"
     },
     "features-section": {
@@ -880,7 +880,7 @@
       "explore-features-button": "Start planning your trip"
     },
     "closing-section": {
-      "text": "<p><strong>A huge thank you on behalf of the entire team!</strong></p>\n<p>Dries, Manon, Thor and Janneke</p>\n<p><em>PS: Want to find out more about who we are? <a class=\"link\" href=\"/about-us\">Read our story here!</a></em></p>"
+      "text": "<p><strong>A huge thank you on behalf of the entire team!</strong></p>\n<p>Dries, Manon and Thor</p>\n<p><em>PS: Want to find out more about who we are? <a class=\"link\" href=\"/about-us\">Read our story here!</a></em></p>"
     }
   },
   "thank-you-donate": {
@@ -902,14 +902,14 @@
         "superfan": "Get full access to the WTMG platform and support our mission to promote slow travel."
       },
       "features": {
-        "0": "Unlimited requests",
-        "1": "Community space",
-        "2": "Planning features",
+        "0": "Stay for free in gardens",
+        "1": "Meet fantastic people",
+        "2": "Easily plan your adventure",
         "3": "Keep WTMG independent"
       }
     },
     "payment-section": {
-      "payment-method": "Payment method",
+      "payment-method": "Payment",
       "pay-button": "Pay now",
       "loading": "Loading...",
       "processing-payment": "Processing...",
@@ -923,7 +923,8 @@
       "success": "We've successfully received your payment, welcome to the WTMG community! Here’s the chat you wanted to open."
     },
     "not-logged-in-warning": "To become Superfan, first log in or create an account",
-    "title": "Payment"
+    "title": "Payment",
+    "terms": "By becoming a member you agree to our {termsLink}. Your membership will renew automatically, but you can cancel anytime."
   },
   "request-password-reset": {
     "title": "Set a new password",
@@ -969,8 +970,11 @@
     },
     "superfan": {
       "loading-portal": "Loading portal...",
+      "btn-manage": "Manage membership",
       "valid": "Your membership is valid until {date}",
-      "just-ended": "Your membership has just ended.<br>We hope we can continue to count on your support! 💚",
+      "auto-active": "Your membership is active.<br>Automatically renews on {date}.",
+      "auto-canceled": "Your membership is valid until {date}.<br>Automatic renewal turned off.",
+      "just-ended": "Your membership has expired.<br>Renew now and activate automatic renewals for the future (cancellable at any time).",
       "renew-btn-text": "Renew now"
     },
     "notify": {

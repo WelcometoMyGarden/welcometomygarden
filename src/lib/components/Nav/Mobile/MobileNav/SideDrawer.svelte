@@ -11,7 +11,6 @@
   import { isActive } from '$lib/util/isActive';
   import { createEventDispatcher } from 'svelte';
   import { COMMUNITY_FORUM_URL, SHOP_URL } from '$lib/constants';
-  import { anchorText } from '$lib/util/translation-helpers';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import trackEvent from '$lib/util/track-plausible';
   import { renewalNoticeContent, subscriptionJustEnded } from '$lib/stores/subscription';

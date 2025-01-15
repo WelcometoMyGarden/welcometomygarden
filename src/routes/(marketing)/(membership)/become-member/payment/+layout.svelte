@@ -31,6 +31,7 @@
   import { emailAsLink, SUPPORT_EMAIL } from '$lib/constants';
   import LevelSummary from './LevelSummary.svelte';
   import { page } from '$app/stores';
+  import { anchorText } from '$lib/util/translation-helpers';
 
   // TODO: if you subscribe & unsubscribe in 1 session without refreshing, no new sub will be auto-generated
   // we could fix this by detecting changes to the user (if we go from subscribed -> unsubscribed)
@@ -274,11 +275,11 @@
 </svelte:head>
 
 {#if selectedLevel && $user && !hasActiveSubscription($user)}
-  <PaddedSection desktopOnly>
+  <PaddedSection className="summary-section" desktopOnly>
     <LevelSummary level={selectedLevel} />
   </PaddedSection>
 {/if}
-<PaddedSection>
+<PaddedSection topMargin={false}>
   {#if $user && selectedLevel && !hasActiveSubscription($user)}
     <!-- Payment block - TODO: move into component -->
     {#if error}
@@ -287,7 +288,9 @@
     {#if stripe && clientSecret}
       <form on:submit|preventDefault={submit}>
         <Elements {stripe} {clientSecret} bind:elements>
-          <span class="method-title">{$_('payment-superfan.payment-section.payment-method')}</span>
+          <span class="method-title mh3"
+            >{$_('payment-superfan.payment-section.payment-method')}</span
+          >
           <PaymentElement
             options={{
               paymentMethodOrder: ['bancontact', 'card', 'ideal', 'sofort'],
@@ -313,8 +316,15 @@
             >{$_('payment-superfan.payment-section.pay-button')}</Button
           >
           <p class="terms">
-            By becoming a member you agree to our Terms of use. Your membership will renew
-            automatically after one year, but you can cancel the renewal anytime.
+            {@html $_('payment-superfan.terms', {
+              values: {
+                termsLink: anchorText({
+                  href: '/terms/terms-of-use',
+                  class: 'link--neutral',
+                  linkText: ($_('generics.terms-of-use') ?? '').toLowerCase()
+                })
+              }
+            })}
           </p>
         </div>
       </form>
@@ -340,13 +350,17 @@
 </PaddedSection>
 
 <style>
-  .method-title {
-    /* Taken from Stripe's Payment element CSS */
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
-      'Open Sans', 'Helvetica Neue', sans-serif;
-    display: inline-block;
-    margin-bottom: 0.8rem;
+  .method-title.mh3 {
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 1.8rem;
   }
+
+  /* Exceptionally, less padding */
+  :global(.outer.summary-section) {
+    margin-bottom: 4rem !important;
+  }
+
   .payment-button {
     width: 100%;
     padding: 2rem;
@@ -371,6 +385,9 @@
     line-height: 1.4;
     max-width: 600px;
     /* Aligns with Stripe payment element grey */
+    color: #6d6e78;
+  }
+  .terms > :global(.link--neutral) {
     color: #6d6e78;
   }
 </style>

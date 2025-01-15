@@ -706,7 +706,7 @@
       "slug": "Faites en sorte que la magie opère",
       "points": {
         "0": {
-          "title": "<strong>Envoyez des demandes à 5.000+ jardins.</strong>"
+          "title": "<strong>Envoyez des demandes à 7.000+ jardins.</strong>"
         },
         "1": {
           "title": "<strong>Discuter avec les hôtes</strong> via le chat et rencontrer des nouvelles personnes fantastiques."
@@ -865,7 +865,7 @@
     "top-section": {
       "title": "Merci d’avoir rejoint la communauté WTMG ! 🌟",
       "description": "<p>Nous sommes très heureux que vous soyez parmi nous ! 💚</p>",
-      "features": "<p>Vous pouvez à présent :</p>\n<ul>\n<li>Envoyez des demandes à 5.000+ jardins.</li>\n<li>Planifiez votre voyage : uploadez votre itinéraire, sauvegardez des jardins et consultez le réseau ferroviaire.</li>\n<li>Accéder à l'espace de communauté</li>\n</ul>",
+      "features": "<p>Vous pouvez à présent :</p>\n<ul>\n<li>Envoyez des demandes à 7.000+ jardins.</li>\n<li>Planifiez votre voyage : uploadez votre itinéraire, sauvegardez des jardins et consultez le réseau ferroviaire.</li>\n<li>Accéder à l'espace de communauté</li>\n</ul>",
       "outro": "<p>Grâce à vous, nous pouvons garder WTMG sans publicité, totalement indépendant et financé par ses membres.</p>"
     },
     "features-section": {
@@ -873,7 +873,7 @@
       "explore-features-button": "Planifiez votre slow travel"
     },
     "closing-section": {
-      "text": "<p><strong>Merci de la part de toute notre équipe !</strong></p>\n<p>Dries, Manon, Thor and Janneke</p>\n<p><em>PS : Vous voulez en savoir plus sur nous ? <a class=\"link\" href=\"/about-us\">Lisez notre histoire ici</a> !</em></p>"
+      "text": "<p><strong>Merci de la part de toute notre équipe !</strong></p>\n<p>Dries, Manon and Thor</p>\n<p><em>PS : Vous voulez en savoir plus sur nous ? <a class=\"link\" href=\"/about-us\">Lisez notre histoire ici</a> !</em></p>"
     }
   },
   "thank-you-donate": {

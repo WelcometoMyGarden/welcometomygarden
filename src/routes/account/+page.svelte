@@ -117,7 +117,7 @@
             <button class="icon icon--right" on:click={() => (showEmailChangeModal = true)}>
               <Icon icon={pencilIcon} clickable />
               <!-- Text for accessibility -->
-              <span class="screen-reader">Change email address</span>
+              <span class="screen-reader">{$_('account.change-email.modal.title')}</span>
             </button>
           </div>
           <div>
@@ -132,15 +132,23 @@
             <p>
               {#if $hasAutoRenewingSubscription && typeof $user.stripeSubscription?.canceledAt === 'number'}
                 <!-- The user scheduled the cancellation -->
-                ✅ Your membership ends on {formatDate(
-                  $locale || 'en',
-                  new Date($user.stripeSubscription?.canceledAt * 1000)
-                )}.<br />Automatic renewal turned off.
+                ✅ {@html $_('account.superfan.auto-canceled', {
+                  values: {
+                    date: formatDate(
+                      $locale || 'en',
+                      new Date($user.stripeSubscription?.cancelAt * 1000)
+                    )
+                  }
+                })}
               {:else if $hasAutoRenewingSubscription}
-                ✅ Your membership is active.<br />Automatically renews on {formatDate(
-                  $locale || 'en',
-                  new Date($user.stripeSubscription.currentPeriodEnd * 1000)
-                )}.
+                ✅ {@html $_('account.superfan.auto-active', {
+                  values: {
+                    date: formatDate(
+                      $locale || 'en',
+                      new Date($user.stripeSubscription.currentPeriodEnd * 1000)
+                    )
+                  }
+                })}
               {:else}
                 <!-- In the send_invoice case -->
                 ✅ {$_('account.superfan.valid', {
@@ -158,10 +166,9 @@
                 small
                 inverse
                 link
-                oneline
                 orange={false}
                 target="_blank"
-                href={customerPortalLink ?? ''}>Manage membership</Button
+                href={customerPortalLink ?? ''}>{$_('account.superfan.btn-manage')}</Button
               >
             {/if}
           </div>
@@ -388,6 +395,7 @@
 
   .superfan-validity :global(.button) {
     align-self: center;
+    max-width: 12rem;
   }
 
   @media (max-width: 700px) {
@@ -414,6 +422,10 @@
       align-items: center;
       gap: 0rem;
       margin-top: 0.5rem;
+    }
+
+    .superfan-validity :global(.button) {
+      max-width: unset;
     }
   }
 </style>

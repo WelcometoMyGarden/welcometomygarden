@@ -356,7 +356,7 @@
       "slug": "Dankzij jou bloeit WTMG",
       "points": {
         "0": {
-          "title": "<strong>Gratis overnachtingsaanvragen sturen naar alle 5.000+ WTMG hosts</strong> op de kaart."
+          "title": "<strong>Gratis overnachtingsaanvragen sturen naar alle 7.000+ WTMG hosts</strong> op de kaart."
         },
         "1": {
           "title": "<strong>Afspraken maken met hosts</strong> via de chat en geweldige nieuwe mensen ontmoeten."
@@ -515,7 +515,7 @@
     "top-section": {
       "title": "Dankjewel om lid te worden van de WTMG community! 🌟",
       "description": "<p>We zijn superblij dat je aan boord bent gestapt! 💚</p>",
-      "features": "<p>Je kunt nu:</p>\n<ul>\n<li>Overnachtingsverzoeken sturen naar 5000+ tuinen</li>\n<li>Je reis plannen: upload je route, sla tuinen op &amp; bekijk het spoornetwerk</li>\n<li>De communityruimte binnenstappen</li>\n</ul>",
+      "features": "<p>Je kunt nu:</p>\n<ul>\n<li>Overnachtingsverzoeken sturen naar 7000+ tuinen</li>\n<li>Je reis plannen: upload je route, sla tuinen op &amp; bekijk het spoornetwerk</li>\n<li>De communityruimte binnenstappen</li>\n</ul>",
       "outro": "<p>Dankzij jou en andere leden kunnen we WTMG reclamevrij en 100% onafhankelijk houden.</p>"
     },
     "features-section": {
@@ -523,7 +523,7 @@
       "explore-features-button": "Start met het plannen van je trip"
     },
     "closing-section": {
-      "text": "<p><strong>Het hele team is jou superdankbaar!</strong></p>\n<p>Dries, Manon, Thor en Janneke</p>\n<p><em>PS: Wil je meer weten over ons? <a class=\"link\" href=\"/about-us\">Lees hier ons verhaal!</a></em></p>"
+      "text": "<p><strong>Het hele team is jou superdankbaar!</strong></p>\n<p>Dries, Manon en Thor</p>\n<p><em>PS: Wil je meer weten over ons? <a class=\"link\" href=\"/about-us\">Lees hier ons verhaal!</a></em></p>"
     }
   },
   "thank-you-donate": {

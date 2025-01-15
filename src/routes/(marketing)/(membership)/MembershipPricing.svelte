@@ -25,6 +25,9 @@
   import trackEvent from '$lib/util/track-plausible';
   import createUrl from '$lib/util/create-url';
   import SocialProof from '../_components/SocialProof.svelte';
+  import Img from '@zerodevx/svelte-img';
+  // Disabled LQIP because the background blur is visible through the transparent final png
+  import membersBarImg from '$lib/images/members-bar.png?as=run:0';
 
   /**
    * Whether to show full cards with all info.
@@ -146,6 +149,7 @@
   <div class="pricing-description">
     <h3 id="pricing-title">{$t('become-superfan.pricing-section.title')}</h3>
     <p id="pricing-description">{$t('become-superfan.pricing-section.description')}</p>
+    <Img class="members-bar" src={membersBarImg} />
   </div>
   <div
     class="membership-levels"
@@ -272,6 +276,9 @@
 
   .container {
     height: fit-content;
+    /* the container-type otherwise somehow resets this to 0 in FF */
+    width: 100%;
+    container-type: inline-size;
   }
 
   /* Condensed desktop modal styles & overrides */
@@ -298,12 +305,33 @@
     margin-bottom: 0.5rem;
   }
 
+  /* section */
   .pricing-description {
     max-width: 82rem;
     text-align: center;
     margin: 0rem auto 2rem auto;
   }
 
+  p#pricing-description {
+    margin-bottom: 1.4rem;
+  }
+
+  .pricing-description :global(.members-bar) {
+    width: 100%;
+    height: auto;
+    max-width: min(80%, 30rem);
+    margin: 0 auto;
+  }
+
+  @container (min-width: 700px) {
+    p#pricing-description {
+      margin-bottom: 1rem;
+    }
+    .pricing-description :global(.members-bar) {
+      margin: 1rem auto;
+      max-width: 40rem;
+    }
+  }
   .select-level-button {
     margin: 2rem 0;
     display: flex;
