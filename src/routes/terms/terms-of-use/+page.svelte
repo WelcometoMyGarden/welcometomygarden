@@ -2,6 +2,7 @@
   import { _ } from 'svelte-i18n';
   import { supportEmailLinkString, getNodeChildren } from '$lib/util';
   import { Ol } from '$lib/components/UI';
+  import routes from '$lib/routes';
 </script>
 
 <svelte:head>
@@ -62,7 +63,13 @@
             {#each getNodeChildren(`terms-of-use.articles.${articleKey}.paragraphs.${paragraphsKey}.copy`) as copyKey}
               <p>
                 {@html $_(
-                  `terms-of-use.articles.${articleKey}.paragraphs.${paragraphsKey}.copy.${copyKey}`
+                  `terms-of-use.articles.${articleKey}.paragraphs.${paragraphsKey}.copy.${copyKey}`,
+                  {
+                    values: {
+                      accountLink: `<a href="${routes.ACCOUNT}" target="_blank" class="link lowercase">
+                  ${$_('generics.account')}</a>`
+                    }
+                  }
                 )}
               </p>
             {/each}

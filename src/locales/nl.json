@@ -115,7 +115,7 @@
         },
         "4": {
           "title": "Moet ik bij Welcome To My Garden iets betalen?",
-          "copy": "Kamperen in een WTMG-tuin is gratis. Desondanks vragen we alle reizigers om betalend lid te worden, zodat we de kosten fair kunnen delen, en het platform kunnen onderhouden en verder ontwikkelen. Lidmaatschap is geldig voor één jaar, en wordt niet automatisch verlengd. Je kan <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">hier</a> lid worden."
+          "copy": "Kamperen in een WTMG-tuin is gratis. Desondanks vragen we alle reizigers om betalend lid te worden, zodat we de kosten fair kunnen delen, en het platform kunnen onderhouden en verder ontwikkelen. Je kan <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">hier</a> lid worden."
         }
       }
     },
@@ -293,7 +293,7 @@
     "pricing-section": {
       "terms-label": "Ik gebruik WTMG uitsluitend als trage reiziger (nooit met de auto) en ga akkoord met alle {termsLink}.",
       "terms-link-text": "WTMG-regels",
-      "description": "Geldig voor één jaar. Wordt niet automatisch verlengd.",
+      "description": "Geldig voor één jaar. Word vandaag lid van onze community!",
       "per-month": "per maand",
       "per-year": "/jaar",
       "questions": "Vragen?",
@@ -410,7 +410,7 @@
           "questions": {
             "0": {
               "title": "Wat houdt lid of Superfan zijn in?",
-              "copy": "<p>Om WTMG te onderhouden en verder te ontwikkelen, vertrouwen we op een jaarlijks lidmaatschap om de kosten eerlijk te verdelen onder alle trage reizigers.</p>\n<p>Als je lid of Superfan wordt, kan je:</p>\n<ul>\n<li>Gratis verzoeken sturen naar 5000+ tuinen</li>\n<li>Gebruik maken van handige functies: upload je route, sla tuinen op en bekijk het spoornetwerk.</li>\n<li>Toegang krijgen tot de online communityruimte.</li>\n<li>WTMG reclamevrij, volledig onafhankelijk en door leden ondersteund houden.</li>\n</ul>\n<p>Een lidmaatschap is geldig voor een jaar. Het wordt niet automatisch verlengd.</p>"
+              "copy": "<p>Om WTMG te onderhouden en verder te ontwikkelen, vertrouwen we op een jaarlijks lidmaatschap om de kosten eerlijk te verdelen onder alle trage reizigers.</p>\n<p>Als je lid of Superfan wordt, kan je:</p>\n<ul>\n<li>Gratis verzoeken sturen naar 5000+ tuinen</li>\n<li>Gebruik maken van handige functies: upload je route, sla tuinen op en bekijk het spoornetwerk.</li>\n<li>Toegang krijgen tot de online communityruimte.</li>\n<li>WTMG reclamevrij, volledig onafhankelijk en door leden ondersteund houden.</li>\n</ul>"
             },
             "1": {
               "title": "Wat is het verschil tussen \"lid\" en \"Superfan\" zijn?",
@@ -426,33 +426,41 @@
             },
             "4": {
               "title": "Hoeveel moet ik bijdragen?",
-              "copy": "<p>Het is helemaal aan jou! Je kan lid of Superfan worden, afhankelijk van hoeveel je gelooft in slow travel en hoeveel je ons wilt steunen.</p>\n<p>Lid worden kost €36 per jaar, wat in principe je eigen kosten dekt. Je kan dan gratis verzoeken sturen naar 5000 tuinen, krijgt toegang tot handige functies om je reis te plannen en zorgt ervoor dat WTMG advertentievrij, volledig onafhankelijk en door leden ondersteund blijft.</p>\n<p>Superfan worden kost €60 per jaar. Superfans krijgen niet alleen alle voordelen van een lidmaatschap, maar helpen ons ook om WTMG te verbeteren, de slow travel-beweging te laten groeien en meer tuinen op de kaart te krijgen.</p>\n<p>Beide lidmaatschappen zijn een jaar geldig. Ze worden niet automatisch verlengd.</p>"
+              "copy": "<p>Het is helemaal aan jou! Je kan lid of Superfan worden, afhankelijk van hoeveel je gelooft in slow travel en hoeveel je ons wilt steunen.</p>\n<p>Lid worden kost €36 per jaar, wat in principe je eigen kosten dekt. Je kan dan gratis verzoeken sturen naar 5000 tuinen, krijgt toegang tot handige functies om je reis te plannen en zorgt ervoor dat WTMG advertentievrij, volledig onafhankelijk en door leden ondersteund blijft.</p>\n<p>Superfan worden kost €60 per jaar. Superfans krijgen niet alleen alle voordelen van een lidmaatschap, maar helpen ons ook om WTMG te verbeteren, de slow travel-beweging te laten groeien en meer tuinen op de kaart te krijgen.</p>"
             },
             "5": {
               "title": "Hoe gaat de betaling in z’n werk?",
-              "copy": "Zodra je hebt besloten hoeveel je wilt betalen, word je naar de betalingspagina gestuurd. Je betaalt steeds per jaar. Je gaat geen verplichting aan door lid of Superfan te worden: je abonnement stopt automatisch na een jaar, en we sturen je een herinnering per email om het te verlengen."
+              "copy": "Zodra je hebt besloten hoeveel je wilt betalen, word je naar de betalingspagina gestuurd. Je betaalt steeds per jaar. Je lidmaatschap wordt automatisch verlengd, maar je kan de automatische verlenging op elk moment op je accountpagina annuleren. Twee dagen voor de verlengingsdatum informeren we je ook per e-mail over je aankomende verlenging."
             },
             "6": {
+              "title": "Hoe kan ik mijn lidmaatschap beheren, verlengen of annuleren?",
+              "copy": "Je kan je lidmaatschap op elk moment beheren, verlengen of annuleren op je {accountLink} pagina. Op deze pagina zie je de huidige status van je lidmaatschap, de verlengings- of vervaldatum en instructies over hoe je het kan annuleren of verlengen."
+            },
+            "7": {
               "title": "Is het verplicht om lid of Superfan te worden?",
               "copy": "<p>Trage reizigers leveren jaarlijks een financiële bijdrage zodat WTMG kan blijven bestaan. Hier vroegen we al om toen we onze oproep voor Superfans lanceerden. Nu breiden we dit verzoek uit naar onze hele slow travel community. In principe verwachten we dat je een bijdrage levert als je ons platform gebruikt. Dus, naast de mogelijkheid om Superfan te worden, introduceren we een lidmaatschap voor alle trage reizigers. Op deze manier dekt iedereen zijn deel van de kosten.</p>\n<p>We vragen hosts niet om bij te dragen, omdat ze al op een andere manier bijdragen – maar ze zijn natuurlijk van harte welkom om ook financieel bij te dragen als ze dat willen.</p>"
             },
-            "7": {
+            "8": {
               "title": "Hebben jullie niet al een oproep gelanceerd voor Superfans?",
               "copy": "Eind 2022 lanceerden we een oproep voor WTMG Superfans. We zijn ontzettend dankbaar voor de steun van de eerste 230+ Superfans en een gulle donatie van €1.000 van een host. Dankzij deze eerste believers zijn we ervan overtuigd dat we tot een zelfvoorzienend model voor WTMG kunnen komen. Maar om dat te bereiken, hebben we bredere steun nodig; niet alleen van een klein percentage van onze gebruikers: we hebben berekend dat we de steun van minstens 3.000 trage reizigers nodig hebben."
             },
-            "8": {
+            "9": {
               "title": "Wat gebeurt er met mijn gratis account als ik geen lid of Superfan word?",
               "copy": "Als gratis lid kan je de kaart verkennen, slow travellers ontvangen in je tuin en de WTMG-nieuwsbrief ontvangen."
             },
-            "9": {
-              "title": "Voor hoe lang word ik lid of Superfan?",
-              "copy": "Als je lid of Superfan wordt, betaal je voor een heel jaar. Je abonnement stopt automatisch na een jaar, en we sturen je een herinnering per email om het te verlengen."
-            },
             "10": {
-              "title": "Kan ik stoppen met lid of Superfan zijn?",
-              "copy": "<p>Jazker! Het lidmaatschap is geldig voor één jaar, en het lidgeld kan niet worden terugbetaald. Na één jaar sturen we je een uitnodiging om het lidmaatschap te hernieuwen. Indien je hier niet op ingaat, zal je lidmaatschap automatisch stopgezet worden.</p>"
+              "title": "Voor hoe lang word ik lid of Superfan?",
+              "copy": "Als je lid of Superfan wordt, betaal je voor een heel jaar. Je lidmaatschap wordt automatisch verlengd, maar je kan de automatische verlenging op elk moment op je accountpagina annuleren. Als je je lidmaatschap annuleert, wordt alleen de automatische verlenging geannuleerd. Dit betekent dat je lid blijft tot het einde van de periode waarvoor je al hebt betaald."
             },
             "11": {
+              "title": "Kan ik stoppen met lid of Superfan zijn?",
+              "copy": "<p>Jazeker, wanneer je maar wilt. Zodra je Superfan bent geworden kun je je jaarlijkse Superfan abonnement beheren op je WTMG {accountLink} pagina.</p>\n<p>Als op je accountpagina staat <strong>\"Je lidmaatschap is actief. Wordt automatisch verlengd op xx/xx/xxxx\"</strong>, wordt je lidmaatschap op die datum verlengd. Je kan de verlenging op elk moment annuleren door op <strong>“Beheer Lidmaatschap”</strong> te klikken. Als je je lidmaatschap annuleert, wordt alleen de automatische verlenging geannuleerd. Dit betekent dat je lid blijft tot het einde van de periode waarvoor je al hebt betaald.</p>\n<p>Als er op je accountpagina staat <strong>\"Je lidmaatschap is geldig tot xx/xx/xxxx. Automatische verlenging uitgeschakeld\"</strong>, verloopt je lidmaatschap op de opgegeven datum en wordt het niet automatisch verlengd.</p>"
+            },
+            "12": {
+              "title": "Wat gebeurt er als ik mijn lidmaatschap annuleer?",
+              "copy": "Als je je lidmaatschap annuleert, wordt alleen de automatische verlenging geannuleerd. Dit betekent dat je lid blijft tot het einde van de periode waarvoor je al hebt betaald. Als je je bedenkt, kan je de automatische verlenging op elk moment heractiveren op je {accountLink} pagina."
+            },
+            "13": {
               "copy": "Nee, slechts één lidmaatschap is nodig om contact op te nemen met hosts wanneer je met vrienden of familie reist. Elk individueel account is echter strikt persoonlijk, dus iedereen die apart reist, heeft zijn eigen lidmaatschap nodig.",
               "title": "Is een lidmaatschap per persoon nodig als ik met vrienden of familie reis?"
             }
@@ -542,7 +550,13 @@
       "product": {
         "regular": "WTMG lidmaatschap"
       },
-      "mode": "niet-herhalend"
+      "mode": "niet-herhalend",
+      "features": {
+        "0": "Kampeer gratis in tuinen",
+        "1": "Ontmoet fantastische mensen",
+        "2": "Plan eenvoudig je avontuur ",
+        "3": "Houd WTMG onafhankelijk"
+      }
     },
     "payment-section": {
       "payment-method": "Betaalmethode",
@@ -559,7 +573,8 @@
       "success": "We hebben je betaling goed ontvangen, welkom in de WTMG community! Hier is de chat die je wilde openen."
     },
     "not-logged-in-warning": "Om Superfan te worden, moet je eerst inloggen of een account aanmaken",
-    "title": "Betaling"
+    "title": "Betaling",
+    "terms": "Door lid te worden, ga je akkoord met onze {termsLink}. Je lidmaatschap wordt automatisch verlengd, maar je kan het op elk moment stopzetten."
   },
   "request-password-reset": {
     "title": "Stel een nieuw wachtwoord in",
@@ -606,7 +621,10 @@
     "superfan": {
       "loading-portal": "Portaal aan het laden...",
       "valid": "Jouw lidmaatschap is geldig tot {date}",
-      "just-ended": "Je lidmaatschap is net afgelopen.<br>We hopen dat we op jouw steun kunnen blijven rekenen! 💚"
+      "just-ended": "Je lidmaatschap is verlopen.<br>Hernieuw nu en activeer automatische verlengingen (op elk moment opzegbaar).",
+      "auto-active": "Je lidmaatschap is actief.<br>Verlengt automatisch op {date}.",
+      "btn-manage": "Beheer lidmaatschap",
+      "auto-canceled": "Je lidmaatschap is geldig tot {date}.<br>Automatische verlenging uitgeschakeld."
     },
     "notify": {
       "resend-error": "We konden geen accountverificatie e-mail sturen. Neem contact op met {support}",
@@ -871,7 +889,7 @@
           },
           "cost": {
             "title": "Is Welcome To My Garden gratis?",
-            "copy": "Kamperen in een WTMG-tuin is gratis. Desondanks vragen we alle reizigers om betalend lid te worden, zodat we de kosten fair kunnen delen, en het platform kunnen onderhouden en verder ontwikkelen. Lidmaatschap is geldig voor één jaar, en wordt niet automatisch verlengd. Je kan <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">hier</a> lid worden."
+            "copy": "Kamperen in een WTMG-tuin is gratis. Desondanks vragen we alle reizigers om betalend lid te worden, zodat we de kosten fair kunnen delen, en het platform kunnen onderhouden en verder ontwikkelen. Je kan <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">hier</a> lid worden."
           },
           "no-garden": {
             "title": "Ik heb geen tuin. Kan ik nog steeds naar de tuinen van anderen reizen?",
@@ -1142,7 +1160,7 @@
   },
   "terms-of-use": {
     "title": "Gebruiksvoorwaarden",
-    "last-updated": "Laatst bijgewerkt: 8 december 2022",
+    "last-updated": "Laatst bijgewerkt: 17 januari 2025",
     "intro": {
       "0": {
         "copy": "Welcome To My Garden is een platform waar burgers hun tuin openstellen zodat trage reizigers (niet-gemotoriseerde reizigers die met de fiets of te voet reizen) er kunnen kamperen."
@@ -1266,7 +1284,7 @@
             "copy": {
               "0": "Welcome To My Garden is op een missie om slow travel toegankelijker te maken voor iedereen. Net als elke tuin heeft WTMG verzorging nodig om te groeien en gezond te blijven. Een verblijf bij een WTMG host is gratis. Maar om WTMG te onderhouden en te ontwikkelen, vertrouwen we op een jaarlijks lidmaatschap om de kosten eerlijk te verdelen onder alle trage reizigers. Trage reizigers hebben de keuze om lid of Superfan te worden. Litmaatschap is verplicht. Members of Superfans mogen hun login niet overdragen aan derden. Superfans gaan akkoord met dezelfde voorwaarden van alle gebruikers en Welcome To My Garden behoudt zich het recht voor om accounts van Members of Superfans die niet voldoen aan de voorwaarden te weigeren, op te schorten of te verwijderen.",
               "1": "De beperkingen van aansprakelijkheid (zie hieronder) van Welcome To My Garden in het algemeen gelden ook voor het gebruik van de extra functies voor Members en Superfans, wat betekent dat Welcome To My Garden niet verantwoordelijk kan worden gehouden voor enige schade of verlies dat zou ontstaan als gevolg van het gebruik van Welcome To My Garden.",
-              "2": "De prijs is inclusief 6% BTW op het lidmaatschap. De bijdrage is vrijblijvend: het stopt automatisch na een jaar, en Superfans krijgen een e-mail om het te verlengen. De bijdrage als Superfan kan niet worden terugbetaald en kan niet aan derden worden overgedragen."
+              "2": "De prijs is inclusief 21% BTW op het lidmaatschap. Lidmaatschappen worden jaarlijks betaald en worden automatisch verlengd, tenzij ze worden geannuleerd door het lid of door WTMG. Leden kunnen de verlenging op elk moment op hun {accountLink} pagina annuleren. Wanneer een lid zijn lidmaatschap annuleert, wordt alleen de automatische verlenging geannuleerd. Dit betekent dat het lidmaatschap geldig blijft tot het einde van de al betaalde periode. Twee dagen voor de verlengingsdatum worden leden per e-mail geïnformeerd over de aankomende verlenging. Het WTMG-lidmaatschap kan niet worden terugbetaald en kan niet aan derden worden overgedragen."
             }
           },
           "7": {

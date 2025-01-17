@@ -119,7 +119,7 @@
         },
         "4": {
           "title": "Kostet Welcome To My Garden etwas?",
-          "copy": "Der Aufenthalt bei einem WTMG-Gastgeber ist kostenlos. \nUm WTMG aufrechtzuerhalten und weiterzuentwickeln, sind wir jedoch auf eine jährliche Mitgliedschaft angewiesen, um die Kosten fair auf alle Langsamreisende aufzuteilen. Mitgliedschaften verlängern sich nicht automatisch und sind ein Jahr gültig. \nSie können Mitglied <a href=\"/about-membership?utm_source=welcometomygarden.org werden"
+          "copy": "Der Aufenthalt bei einem WTMG-Gastgeber ist kostenlos. \nUm WTMG aufrechtzuerhalten und weiterzuentwickeln, sind wir jedoch auf eine jährliche Mitgliedschaft angewiesen, um die Kosten fair auf alle Langsamreisende aufzuteilen. Sie können Mitglied <a href=\"/about-membership?utm_source=welcometomygarden.org werden"
         }
       }
     },
@@ -225,7 +225,7 @@
           },
           "cost": {
             "title": "Kostet Welcome To My Garden etwas?",
-            "copy": "<p>Der Aufenthalt bei einem WTMG-Gastgeber ist kostenlos. Um WTMG zu erhalten und weiterzuentwickeln, sind wir jedoch auf eine jährliche Mitgliedschaft angewiesen, um die Kosten gerecht auf alle Slow Traveller aufzuteilen. Mitgliedschaften werden nicht automatisch verlängert und sind ein Jahr lang gültig. Sie können <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">hier</a> Mitglied werden.</p>"
+            "copy": "<p>Der Aufenthalt bei einem WTMG-Gastgeber ist kostenlos. Um WTMG zu erhalten und weiterzuentwickeln, sind wir jedoch auf eine jährliche Mitgliedschaft angewiesen, um die Kosten gerecht auf alle Slow Traveller aufzuteilen. Sie können <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">hier</a> Mitglied werden.</p>"
           },
           "no-garden": {
             "title": "Ich habe keinen Garten. Kann ich trotzdem in die Gärten anderer Leute reisen?",
@@ -771,7 +771,7 @@
           "questions": {
             "0": {
               "title": "Was bedeutet es, Mitglied oder Superfan zu sein?",
-              "copy": "<p>Um WTMG aufrechtzuerhalten und weiterzuentwickeln, sind wir auf eine jährliche Mitgliedschaft angewiesen, um die Kosten gerecht auf alle Slow Traveller aufzuteilen.</p><p> Wenn Sie Mitglied oder Superfan werden, können Sie:</p><ul><li> Senden Sie eine kostenlose Anfrage an über 5000 Gärten</li><li> Praktische Funktionen zur Reiseplanung: Route hochladen, Gärten speichern, Wegenetz einsehen</li><li> Greifen Sie auf den Online-Community-Bereich zu</li><li> Halten Sie WTMG werbefrei, völlig unabhängig und von seinen Mitgliedern unterstützt.</li></ul><p> Die Mitgliedschaft ist jeweils für ein Jahr gültig. Sie verlängert sich nicht automatisch.</p>"
+              "copy": "<p>Um WTMG aufrechtzuerhalten und weiterzuentwickeln, sind wir auf eine jährliche Mitgliedschaft angewiesen, um die Kosten gerecht auf alle Slow Traveller aufzuteilen.</p><p> Wenn Sie Mitglied oder Superfan werden, können Sie:</p><ul><li> Senden Sie eine kostenlose Anfrage an über 5000 Gärten</li><li> Praktische Funktionen zur Reiseplanung: Route hochladen, Gärten speichern, Wegenetz einsehen</li><li> Greifen Sie auf den Online-Community-Bereich zu</li><li> Halten Sie WTMG werbefrei, völlig unabhängig und von seinen Mitgliedern unterstützt.</li></ul>"
             },
             "1": {
               "title": "Was ist der Unterschied zwischen einer Mitgliedschaft und einer Superfan-Mitgliedschaft?",
@@ -787,33 +787,35 @@
             },
             "4": {
               "title": "Wie viel muss ich einzahlen?",
-              "copy": "<p>Es liegt an Ihnen! Sie können entweder Mitglied oder Superfan werden, je nachdem, wie sehr Sie an Slow Travel glauben und wie sehr Sie uns unterstützen möchten.</p><p> Die Mitgliedschaft kostet 36 € pro Jahr, was im Wesentlichen Ihre eigenen Kosten deckt. Sie können kostenlose Anfragen an 5000 Gärten senden, erhalten Zugriff auf praktische Funktionen zur Planung Ihrer Reise und können WTMG werbefrei, völlig unabhängig und von Mitgliedern unterstützt halten.</p><p> Die Mitgliedschaft als Superfan kostet 60 € pro Jahr. Zusätzlich zu allen Vorteilen einer Mitgliedschaft helfen uns Superfans auch, WTMG zu verbessern, die Slow-Travel-Bewegung zu fördern und mehr Gärten auf die Karte zu bringen.</p><p> Beide Mitgliedschaften sind jeweils für ein Jahr gültig. Sie verlängern sich nicht automatisch.</p>"
+              "copy": "<p>Es liegt an Ihnen! Sie können entweder Mitglied oder Superfan werden, je nachdem, wie sehr Sie an Slow Travel glauben und wie sehr Sie uns unterstützen möchten.</p><p> Die Mitgliedschaft kostet 36 € pro Jahr, was im Wesentlichen Ihre eigenen Kosten deckt. Sie können kostenlose Anfragen an 5000 Gärten senden, erhalten Zugriff auf praktische Funktionen zur Planung Ihrer Reise und können WTMG werbefrei, völlig unabhängig und von Mitgliedern unterstützt halten.</p><p> Die Mitgliedschaft als Superfan kostet 60 € pro Jahr. Zusätzlich zu allen Vorteilen einer Mitgliedschaft helfen uns Superfans auch, WTMG zu verbessern, die Slow-Travel-Bewegung zu fördern und mehr Gärten auf die Karte zu bringen.</p>"
             },
             "5": {
               "title": "Wie funktioniert die Bezahlung?",
               "copy": "Sobald Sie ausgewählt haben, ob Sie Mitglied oder Superfan werden möchten, werden Sie auf die Zahlungsseite weitergeleitet. Sie zahlen jeweils für ein Jahr. Die Mitgliedschaft oder Superfan-Mitgliedschaft ist unverbindlich: Ihr Abonnement endet automatisch nach einem Jahr und wir senden Ihnen eine E-Mail zur Verlängerung."
             },
-            "6": {
+            "6": {},
+            "7": {
               "title": "Ist eine Mitgliedschaft bzw. Superfan-Mitgliedschaft als Slow Traveller Pflicht?",
               "copy": "<p>Damit WTMG weiter bestehen kann, müssen Slow Traveller einen jährlichen finanziellen Beitrag leisten. Darum haben wir bereits gebeten, als wir unseren Aufruf für Superfans gestartet haben. Jetzt weiten wir diese Bitte auf unsere gesamte Slow Travel-Community aus. <strong>Grundsätzlich erwarten wir von Ihnen, dass Sie einen Beitrag leisten, wenn Sie unsere Plattform nutzen.</strong> Dies wird ein jährlicher Beitrag sein. Zusätzlich zur Möglichkeit, Superfan zu werden, führen wir also eine Mitgliedschaft ein, um unsere Bitte um Unterstützung von unseren ersten Anhängern auf die breitere Community auszudehnen.</p><p> Wir erwarten von den Gastgebern keinen Eigenanteil, da sie uns bereits auf andere Weise unterstützen. Aber natürlich ist jede und jeder herzlich eingeladen, sich auch finanziell zu beteiligen, wenn ihm oder ihr danach ist.</p>"
             },
-            "7": {
+            "8": {
               "title": "Haben Sie nicht bereits einen Aufruf für Superfans gestartet?",
               "copy": "<p>Ende 2022 haben wir einen Aufruf für WTMG-Superfans gestartet. Wir sind sehr dankbar für die Unterstützung der ersten 250+ Superfans und eine großzügige Spende von 1.000 € von einem Gastgeber. <strong>Dank dieser ersten Supporter sind wir überzeugt, dass wir ein autarkes Modell für WTMG erreichen können.</strong> Aber um dorthin zu gelangen, brauchen wir <strong>breite Unterstützung</strong> ; nicht nur von einem kleinen Prozentsatz unserer Benutzer: Wir haben berechnet, dass wir die Unterstützung von <strong>mindestens 3.000 Reisenden</strong> benötigen, um diese Magie möglich zu machen.</p>"
             },
-            "8": {
+            "9": {
               "title": "Was passiert mit meinem kostenlosen Konto, wenn ich kein Mitglied oder Superfan werde?",
               "copy": "Als kostenloses Mitglied können Sie die Karte erkunden, Slow Traveller in Ihrem Garten beherbergen und den WTMG-Newsletter erhalten."
             },
-            "9": {
+            "10": {
               "title": "Für wie lange bin ich Mitglied oder Superfan?",
               "copy": "Wenn Sie Mitglied oder Superfan werden, zahlen Sie für ein Jahr. Ihr Abonnement endet automatisch nach einem Jahr und wir senden Ihnen eine E-Mail zur Verlängerung."
             },
-            "10": {
+            "11": {
               "title": "Kann ich meine Mitgliedschaft oder meine Superfan-Mitgliedschaft beenden?",
               "copy": "<p>Ja! Unsere Mitgliedschaft ist ein Jahr lang gültig und die Zahlung wird nicht zurückerstattet. Nach einem Jahr senden wir Ihnen eine Einladung zur Verlängerung für das nächste Jahr. Wenn Sie die Mitgliedschaft nicht verlängern möchten, endet sie automatisch.</p>\n"
             },
-            "11": {
+            "12": {},
+            "13": {
               "title": "Ist eine Mitgliedschaft pro Person erforderlich, wenn ich mit Freunden oder Familie reise?",
               "copy": "Nein, Sie benötigen nur eine Mitgliedschaft, um Gastgeber zu kontaktieren, wenn Sie mit Freunden oder der Familie reisen. Allerdings ist jedes einzelne Konto streng persönlich, sodass jeder, der alleine reist, eine eigene Mitgliedschaft benötigt."
             }
@@ -1148,7 +1150,7 @@
   },
   "terms-of-use": {
     "title": "Nutzungsbedingungen",
-    "last-updated": "Zuletzt aktualisiert: 30. Mai 2020",
+    "last-updated": "Zuletzt aktualisiert: 17. Januar 2025",
     "intro": {
       "0": {
         "copy": "„Welcome To My Garden“ ist eine Plattform, auf der Bürger ihre Gärten öffnen, damit langsame Reisende (also nicht motorisierte Reisende, die mit dem Fahrrad oder zu Fuß unterwegs sind) dort über Nacht campen können."
@@ -1272,7 +1274,7 @@
             "copy": {
               "0": "Welcome To My Garden hat es sich zur Aufgabe gemacht, Slow Travel für alle zugänglicher zu machen. Wie jeder Garten muss WTMG gepflegt werden, um zu wachsen und gesund zu bleiben. Der Aufenthalt bei einem WTMG-Gastgeber ist kostenlos. Um WTMG zu erhalten und weiterzuentwickeln, sind wir jedoch auf eine jährliche Mitgliedschaft angewiesen, um die Kosten gerecht auf alle Slow Traveller aufzuteilen. Slow Traveller haben die Wahl, entweder Mitglied oder Superfan zu werden. Diese Mitgliedschaft ist obligatorisch. Mitglieder oder Superfans dürfen ihre Anmeldedaten nicht an Dritte übertragen. Superfans stimmen denselben Bedingungen wie alle Benutzer zu und Welcome To My Garden behält sich das Recht vor, Konten von Superfans, die die Bedingungen nicht einhalten, abzulehnen, zu sperren oder zu löschen.",
               "1": "Die Haftungsbeschränkungen (siehe unten) von Welcome To My Garden im Allgemeinen gelten auch für die Verwendung der Zusatzfunktionen für Superfans, was bedeutet, dass Welcome To My Garden nicht für Schäden oder Verluste verantwortlich gemacht werden kann, die durch die Verwendung von Welcome To My Garden entstehen.",
-              "2": "Slow Traveller können wählen, ob sie Mitglied (Mindestbeitrag) oder Superfan (zusätzlicher Beitrag) werden möchten. Der Preis beinhaltet 6 % Mehrwertsteuer auf Mitgliedschaften. Das Abonnement ist unverbindlich: Es endet automatisch nach einem Jahr und Slow Traveller erhalten eine E-Mail zur Verlängerung. Das Abonnement ist nicht erstattungsfähig und nicht auf Dritte übertragbar."
+              "2": "Slow Traveller können wählen, ob sie Mitglied (Mindestbeitrag) oder Superfan (zusätzlicher Beitrag) werden möchten. Der Preis beinhaltet 21 % Mehrwertsteuer auf Mitgliedschaften. Das Abonnement ist unverbindlich: Es endet automatisch nach einem Jahr und Slow Traveller erhalten eine E-Mail zur Verlängerung. Das Abonnement ist nicht erstattungsfähig und nicht auf Dritte übertragbar."
             }
           },
           "7": {

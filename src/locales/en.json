@@ -123,7 +123,7 @@
         },
         "4": {
           "title": "Does Welcome To My Garden cost anything?",
-          "copy": "Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. Memberships are renewed automatically. You can cancel the renewal anytime on our {accountLink} page. You can become a member <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">here</a>."
+          "copy": "Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. You can become a member <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">here</a>."
         }
       }
     },
@@ -229,7 +229,7 @@
           },
           "cost": {
             "title": "Does Welcome To My Garden cost anything?",
-            "copy": "<p>Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. Memberships are renewed automatically. You can cancel the renewal anytime on our {accountLink} page. You can become a member <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">here</a>.</p>"
+            "copy": "<p>Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. You can cancel the renewal anytime on our {accountLink} page. You can become a member <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">here</a>.</p>"
           },
           "no-garden": {
             "title": "I don’t have a garden. Can I still travel to other people’s gardens?",
@@ -775,7 +775,7 @@
           "questions": {
             "0": {
               "title": "What does it mean to be a member or a Superfan?",
-              "copy": "<p>To maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers.</p>\n<p>When you become a member or a Superfan, you can:</p>\n<ul>\n<li>Send free request to 5000+ gardens</li>\n<li>Handy features to plan your journey: upload your route, save gardens, see the trail network</li>\n<li>Access the online community space</li>\n<li>Keep WTMG ad-free, fully independent and member-supported.</li>\n</ul>\n<p>A membership is valid for one year. It does not renew automatically.</p>"
+              "copy": "<p>To maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers.</p>\n<p>When you become a member or a Superfan, you can:</p>\n<ul>\n<li>Send free request to 5000+ gardens</li>\n<li>Handy features to plan your journey: upload your route, save gardens, see the trail network</li>\n<li>Access the online community space</li>\n<li>Keep WTMG ad-free, fully independent and member-supported.</li>\n</ul>"
             },
             "1": {
               "title": "What’s the difference between being a member and a Superfan?",
@@ -791,33 +791,41 @@
             },
             "4": {
               "title": "How much do I need to contribute?",
-              "copy": "<p>It’s up to you! You can either become a member or a Superfan, depending how much you believe in slow travel and how much you want to support us.</p>\n<p>Becoming a member costs €36 per year, which basically covers your own cost. You can send free requests to 5000 gardens, get access to handy features to plan your journey and allow WTMG to stay ad-free, fully independent and member-supported.</p>\n<p>Becoming a Superfan costs €60 per year. On top of getting all the perks as members, Superfans also help us improve WTMG, help us grow the slow travel movement and get more gardens on the map</p>\n<p>Both memberships are valid for one year. It does not renew automatically.</p>"
+              "copy": "<p>It’s up to you! You can either become a member or a Superfan, depending how much you believe in slow travel and how much you want to support us.</p>\n<p>Becoming a member costs €36 per year, which basically covers your own cost. You can send free requests to 5000 gardens, get access to handy features to plan your journey and allow WTMG to stay ad-free, fully independent and member-supported.</p>\n<p>Becoming a Superfan costs €60 per year. On top of getting all the perks as members, Superfans also help us improve WTMG, help us grow the slow travel movement and get more gardens on the map</p>"
             },
             "5": {
               "title": "How does payment work?",
-              "copy": "Once you’ve chosen if you want to become a member or a Superfan, you will be redirected to the payment page. You pay for one year at a time. Becoming a member or Superfan is commitment-free: your subscription stops automatically after one year, and we’ll send you an email to renew it."
+              "copy": "Once you’ve chosen if you want to become a member or a Superfan, you will be redirected to the payment page. You pay for one year at a time. Your membership will renew automatically, but you can cancel the automatic renewal anytime on your account page. Two days before the renewal date, we’ll also notify you by email about your upcoming renewal."
             },
             "6": {
+              "title": "How can I manage, renew or cancel my membership?",
+              "copy": "You can manage, renew, or cancel your membership anytime on your {accountLink} page. On this page, you will see the current status of your membership, the renewal or expiration date, and instructions on how to cancel or renew it."
+            },
+            "7": {
               "title": "Is it mandatory to become a member or Superfan as a slow traveller?",
               "copy": "<p>Slow travellers need to make a yearly financial contribution so that WTMG can continue to exist. This is what we already asked for when we launched our call for Superfans. Now, we’re extending this request to our entire slow travel community. <strong>Basically, if you use our platform we expect you to contribute.</strong> This will be an annual contribution. So, in addition to the possibility of becoming a Superfan, we introduce a membership to extend our request for support from our first believers to the wider community.</p>\n<p>We’re not asking hosts to chip in, since they are already contributing in a different way - but of course they are totally welcome to contribute financially too if they feel like it.</p>"
             },
-            "7": {
+            "8": {
               "title": "Didn’t you launch a call for Superfans already?",
               "copy": "<p>At the end of 2022, we launched a call for WTMG Superfans. We’re very grateful for the support received from the first 250+ Superfans and a generous €1.000 donation from a host. <strong>Thanks to these first believers, we’re convinced that we can get to a self-sufficient model for WTMG.</strong> But to get there, we need <strong>wide support</strong>; not just from a small percentage of our users: we’ve calculated that we need the support from <strong>at least 3.000 travellers</strong> to make that magic happen.</p>"
             },
-            "8": {
+            "9": {
               "title": "If I don’t become a member or a Superfan, what will happen to my free account?",
               "copy": "As a free member, you can explore the map, host slow travellers in your garden, and receive the WTMG newsletter."
             },
-            "9": {
-              "title": "For how long will I become a member or Superfan?",
-              "copy": "When you become a member or Superfan, you will pay for one year. Your subscription stops automatically after one year, and we’ll send you an email to renew it."
-            },
             "10": {
-              "title": "Can I stop being a member or Superfan?",
-              "copy": "<p>Yes! Our membership is valid for one year, and the payment is non-refundable. After one year, we will send you an invitation to renew for the next year. If you don’t wish to renew it, your membership will automatically stop.</p>\n"
+              "title": "For how long will I become a member or Superfan?",
+              "copy": "When you become a member or Superfan, you will pay for one year. Your membership will renew automatically, but you can cancel the automatic renewal anytime on your account page. If you cancel your membership, only the automatic renewal will be cancelled. This means you will remain a member until the end of the period you have already paid for."
             },
             "11": {
+              "title": "Can I stop being a member or Superfan?",
+              "copy": "<p>Yes, any time you want. As soon as you’ve become a community member, you can manage your yearly subscription membership on your WTMG {accountLink} page.</p>\n<p>If your account page shows <strong>\"Your membership is active. Automatically renews on xx/xx/xxxx.\"</strong>, your membership will renew on that date. You can cancel the renewal anytime by clicking <strong>“Manage Membership”</strong>. If you cancel your membership, only the automatic renewal will be cancelled. This means you will remain a member until the end of the period you have already paid for.</p>\n<p>If your account page shows <strong>\"Your membership is valid until xx/xx/xxxx. Automatic renewal turned off.”</strong>, your membership will expire on the specified date and won't be renewed automatically.</p>"
+            },
+            "12": {
+              "title": "What happens if I cancel my membership?",
+              "copy": "In case you cancel your membership, only the automatic renewal will be cancelled. This means you will remain a member until the end of the period you have already paid for. However, if you change your mind, you can reactivate the automatic renewal anytime on your {accountLink} page."
+            },
+            "13": {
               "title": "Is a membership needed per person if I travel with friends or family?",
               "copy": "No, only one membership is needed to contact hosts when travelling with friends or family. However, each individual account is strictly personal, so anyone traveling separately would need their own membership."
             }
@@ -974,7 +982,7 @@
       "valid": "Your membership is valid until {date}",
       "auto-active": "Your membership is active.<br>Automatically renews on {date}.",
       "auto-canceled": "Your membership is valid until {date}.<br>Automatic renewal turned off.",
-      "just-ended": "Your membership has expired.<br>Renew now and activate automatic renewals for the future (cancellable at any time).",
+      "just-ended": "Your membership expired.<br>Renew now and activate automatic renewals (cancellable at any time).",
       "renew-btn-text": "Renew now"
     },
     "notify": {
@@ -1163,7 +1171,7 @@
   },
   "terms-of-use": {
     "title": "Terms of use",
-    "last-updated": "Last updated: 8 December 2022",
+    "last-updated": "Last updated: 17 January 2025",
     "intro": {
       "0": {
         "copy": "Welcome To My Garden is a platform where citizens open their gardens so that slow travellers (which means non motorized travellers who are travelling by bicycle or by foot) can camp there for the night."
@@ -1287,7 +1295,7 @@
             "copy": {
               "0": "Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Like any garden, WTMG needs nurturing in order to grow and stay healthy. Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. Slow travellers have the choice to either become Members or Superfans. This membership is mandatory. Members or Superfans are not allowed to transfer their login to a third party. Superfans agree with the same terms of all users and Welcome To My Garden reserves the right to refuse, suspend or delete accounts of Superfans who don’t comply with the terms.",
               "1": "The limitations of liability (see below) of Welcome To My Garden in general also apply for the use of the extra features for Superfans, which means that Welcome To My Garden cannot be held responsible for any damages or loss that would occur due to the use of Welcome To My Garden.",
-              "2": "Slow travellers chose if they want to become Members (minimum contribution) or Superfans (extra contribution). The price includes 6% VAT applied to memberships. The subscription is commitment-free: it stops automatically after one year, and slow travellers get an email to renew it. The subscription is non-refundable and non-transferable to a third party."
+              "2": "Slow travellers chose if they want to become Members (minimum contribution) or Superfans (extra contribution). The price includes 21% VAT applied to memberships. Memberships are paid yearly and renew automatically, unless they are cancelled by the member or by WTMG. Members can cancel the renewal at any time on their {accountLink} page. When a member cancels a membership, only the automatic renewal is cancelled. This means that the membership remains valid until the end of the period already paid for. Two days before the renewal date, members are notified by email about their upcoming renewal. The membership is non-refundable and non-transferable to a third party."
             }
           },
           "7": {

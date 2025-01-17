@@ -120,7 +120,7 @@
         },
         "4": {
           "title": "¿Tiene algún coste Welcome To My Garden?",
-          "copy": "Alojarse en un anfitrión WTMG es gratis. Sin embargo, para mantener y desarrollar WTMG, dependemos de una suscripción anual para dividir los costes de manera justa entre todos los viajeros sin prisa. Las suscripciones no se renuevan automáticamente y son válidas durante un año. Puede hacerse miembro <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">aquí</a> ."
+          "copy": "Alojarse en un anfitrión WTMG es gratis. Sin embargo, para mantener y desarrollar WTMG, dependemos de una suscripción anual para dividir los costes de manera justa entre todos los viajeros sin prisa. Puede hacerse miembro <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">aquí</a> ."
         }
       }
     },
@@ -226,7 +226,7 @@
           },
           "cost": {
             "title": "¿Tiene algún coste Welcome To My Garden?",
-            "copy": "<p>Alojarse en un anfitrión WTMG es gratis. Sin embargo, para mantener y desarrollar WTMG, dependemos de una suscripción anual para dividir los costes de manera justa entre todos los viajeros sin prisa. Las suscripciones no se renuevan automáticamente y son válidas durante un año. Puede hacerse miembro <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">aquí</a> .</p>"
+            "copy": "<p>Alojarse en un anfitrión WTMG es gratis. Sin embargo, para mantener y desarrollar WTMG, dependemos de una suscripción anual para dividir los costes de manera justa entre todos los viajeros sin prisa. Puede hacerse miembro <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">aquí</a> .</p>"
           },
           "no-garden": {
             "title": "No tengo jardín. ¿Puedo aún así viajar a jardines de otras personas?",
@@ -772,7 +772,7 @@
           "questions": {
             "0": {
               "title": "¿Qué significa ser miembro o Superfan?",
-              "copy": "<p>Para mantener y desarrollar WTMG, confiamos en una afiliación anual para dividir los costos de manera justa entre todos los viajeros lentos.</p><p> Cuando te conviertes en miembro o Superfan, puedes:</p><ul><li> Envía una solicitud gratuita a más de 5000 jardines</li><li> Funciones útiles para planificar tu viaje: sube  tu ruta, guarda jardines, consulta la red de senderos</li><li> Accede al espacio comunitario online</li><li> Mantén WTMG libre de publicidad, totalmente independiente y respaldado por sus miembros.</li></ul><p> Una afiliación es válida por un año. No se renueva automáticamente.</p>"
+              "copy": "<p>Para mantener y desarrollar WTMG, confiamos en una afiliación anual para dividir los costos de manera justa entre todos los viajeros lentos.</p><p> Cuando te conviertes en miembro o Superfan, puedes:</p><ul><li> Envía una solicitud gratuita a más de 5000 jardines</li><li> Funciones útiles para planificar tu viaje: sube  tu ruta, guarda jardines, consulta la red de senderos</li><li> Accede al espacio comunitario online</li><li> Mantén WTMG libre de publicidad, totalmente independiente y respaldado por sus miembros.</li></ul>"
             },
             "1": {
               "title": "¿Cuál es la diferencia entre ser miembro y Superfan?",
@@ -788,33 +788,35 @@
             },
             "4": {
               "title": "¿Cuánto necesito aportar?",
-              "copy": "<p>¡Tu decides! Puedes convertirte en miembro o Superfan, dependiendo de cuánto creas en los viajes lentos y cuánto quieras apoyarnos.</p><p> Convertirse en miembro cuesta 36 € al año, lo que básicamente cubre tus propios gastos. Puedes enviar solicitudes gratuitas a 5000 jardines, obtener acceso a funciones útiles para planificar su viaje y permitir que WTMG permanezca libre de publicidad, totalmente independiente y respaldado por sus miembros.</p><p> Convertirse en Superfan cuesta 60 € al año. Además de obtener todas las ventajas como miembros, los Superfans también nos ayudan a mejorar WTMG, nos ayudan a hacer crecer el movimiento de viajes lentos y a conseguir más jardines en el mapa.</p><p> Ambas afiliaciones son válidas por un año. No se renueva automáticamente.</p>"
+              "copy": "<p>¡Tu decides! Puedes convertirte en miembro o Superfan, dependiendo de cuánto creas en los viajes lentos y cuánto quieras apoyarnos.</p><p> Convertirse en miembro cuesta 36 € al año, lo que básicamente cubre tus propios gastos. Puedes enviar solicitudes gratuitas a 5000 jardines, obtener acceso a funciones útiles para planificar su viaje y permitir que WTMG permanezca libre de publicidad, totalmente independiente y respaldado por sus miembros.</p><p> Convertirse en Superfan cuesta 60 € al año. Además de obtener todas las ventajas como miembros, los Superfans también nos ayudan a mejorar WTMG, nos ayudan a hacer crecer el movimiento de viajes lentos y a conseguir más jardines en el mapa.</p>"
             },
             "5": {
               "title": "¿Cómo funciona el pago?",
               "copy": "Una vez que hayas elegido si quieres convertirte en miembro o Superfan, serás redirigido a la página de pago. Pagas por un año a la vez. Convertirse en miembro o Superfan no tiene compromiso: tu suscripción se detiene automáticamente después de un año y te enviaremos un correo electrónico para renovarla."
             },
-            "6": {
+            "6": {},
+            "7": {
               "title": "¿Es obligatorio hacerse socio o Superfan siendo slow traveller?",
               "copy": "<p>Los viajeros lentos necesitan hacer una contribución financiera anual para que WTMG pueda seguir existiendo. Esto es lo que ya pedimos cuando lanzamos nuestra convocatoria de Superfans. Ahora estamos extendiendo esta solicitud a toda nuestra comunidad de viajes lentos. <strong>Básicamente, si utiliza nuestra plataforma, esperamos que contribuya.</strong> Será una contribución anual. Entonces, además de la posibilidad de convertirte en Superfan, lanzamos una afiliación para extender nuestra solicitud de apoyo de nuestros primeros creyentes a la comunidad en general.</p><p> No estamos pidiendo a los anfitriones que contribuyan, ya que ya están contribuyendo de una manera diferente, pero, por supuesto, también pueden contribuir financieramente si así lo desean.</p>"
             },
-            "7": {
+            "8": {
               "title": "¿No lanzasteis ya una convocatoria para Superfans?",
               "copy": "<p>A finales de 2022, lanzamos una convocatoria para WTMG Superfans. Estamos muy agradecidos por el apoyo recibido de los primeros 250+ Superfans y una generosa donación de 1.000 € de un anfitrión. <strong>Gracias a estos primeros creyentes estamos convencidos de que podemos llegar a un modelo autosuficiente para WTMG.</strong> Pero para lograrlo necesitamos <strong>un amplio apoyo</strong> ; no sólo de un pequeño porcentaje de nuestros usuarios: hemos calculado que necesitamos el apoyo de <strong>al menos 3.000 viajeros</strong> para que esa magia suceda.</p>"
             },
-            "8": {
+            "9": {
               "title": "Si no me hago miembro o Superfan, ¿qué pasará con mi cuenta gratuita?",
               "copy": "Como miembro gratuito, puede explorar el mapa, alojar a viajeros lentos en su jardín y recibir el boletín de noticias WTMG."
             },
-            "9": {
+            "10": {
               "title": "¿Por cuánto tiempo seré miembro o Superfan?",
               "copy": "Cuando te conviertes en miembro o Superfan, pagas  por un año. Tu suscripción se detiene automáticamente después de un año y te enviaremos un correo electrónico para renovarla."
             },
-            "10": {
+            "11": {
               "title": "¿Puedo dejar de ser miembro o Superfan?",
               "copy": "<p>¡Sí! La suscripción es válida por un año y el pago no es reembolsable. Después de un año, te enviaremos una invitación para renovar para el próximo año. Si no deseas renovarla, tu suscripción se cancelará automáticamente.</p>\n"
             },
-            "11": {
+            "12": {},
+            "13": {
               "title": "¿Se necesita una suscripción por persona si viajo con amigos o familiares?",
               "copy": "No, solo se necesita una suscripción para contactar a los anfitriones cuando viajas con amigos o familiares. Sin embargo, cada cuenta individual es estrictamente personal, por lo que cualquiera que viaje por separado necesitará su propia suscripción."
             }
@@ -1146,7 +1148,7 @@
   },
   "terms-of-use": {
     "title": "Condiciones de uso",
-    "last-updated": "Última actualización: 8 de diciembre de 2022",
+    "last-updated": "Última actualización: 17 de enero de 2025",
     "intro": {
       "0": {
         "copy": "Welcome To My Garden es una plataforma donde los ciudadanos abren sus jardines para que los viajeros lentos (es decir, los viajeros no motorizados que viajan en bicicleta o a pie) puedan acampar allí para pasar la noche."
@@ -1270,7 +1272,7 @@
             "copy": {
               "0": "Welcome To My Garden tiene la misión de hacer que los viajes lentos sean más accesibles para todos. Como cualquier jardín, WTMG necesita cuidados para crecer y mantenerse saludable. Alojarse en un anfitrión WTMG es gratis. Sin embargo, para mantener y desarrollar WTMG, dependemos de una membresía anual para dividir los costos de manera justa entre todos los viajeros lentos. Los viajeros lentos tienen la opción de convertirse en miembros o superfans. Esta membresía es obligatoria. Los miembros o Superfans no pueden transferir su inicio de sesión a un tercero. Los Superfans aceptan los mismos términos de todos los usuarios y Welcome To My Garden se reserva el derecho de rechazar, suspender o eliminar cuentas de Superfans que no cumplan con los términos.",
               "1": "Las limitaciones de responsabilidad (ver más abajo) de Welcome To My Garden en general también se aplican al uso de funciones adicionales para Superfans, lo que significa que Welcome To My Garden no se hace responsable de ningún daño o pérdida que pudiera ocurrir debido al uso de Welcome to My Garden",
-              "2": "Los viajeros lentos eligen si quieren convertirse en Socios (aporte mínimo) o Superfans (aporte extra). El precio incluye el 6% de IVA aplicado a las membresías. La suscripción no tiene compromisos: se detiene automáticamente después de un año y los viajeros lentos reciben un correo electrónico para renovarla. La suscripción no es reembolsable ni transferible a un tercero."
+              "2": "Los viajeros lentos eligen si quieren convertirse en Socios (aporte mínimo) o Superfans (aporte extra). El precio incluye el 21% de IVA aplicado a las membresías. La suscripción no tiene compromisos: se detiene automáticamente después de un año y los viajeros lentos reciben un correo electrónico para renovarla. La suscripción no es reembolsable ni transferible a un tercero."
             }
           },
           "7": {
