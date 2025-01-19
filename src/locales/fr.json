@@ -724,13 +724,13 @@
           "title": "<strong>Garder WTMG sans publicité, totalement indépendant et financé par ses membres :</strong> sans le soutien permanent de notre communauté, nous ne pouvons pas exister !"
         },
         "6": {
-          "title": "<strong>Soutenir le travail d'une équipe dévouée</strong> de quatre passionné.es de voyage lent."
+          "title": "<strong>Soutenir le travail d'une équipe dévouée</strong> de trois passionné.es de voyage lent."
         }
       }
     },
     "team-section": {
       "title": "Rencontrez l'équipe",
-      "description": "Qui se cache derrière WTMG ? Nous sommes une petite équipe de quatre passionné·es de slow travel et nous voulons aider les autres à se lancer aussi dans l'aventure.",
+      "description": "Qui se cache derrière WTMG ? Nous sommes une petite équipe de trois passionné·es de slow travel et nous voulons aider les autres à se lancer aussi dans l'aventure.",
       "meet-team-button": "Rencontrez l'équipe"
     },
     "superfan-quotes-section": {
@@ -830,7 +830,7 @@
           "questions": {
             "0": {
               "title": "Qui est derrière WTMG ?",
-              "copy": "Nous sommes une petite équipe de quatre passionné·es de slow travel et nous voulons aider les autres à se lancer eux aussi dans le slow travel. Vous pouvez en savoir plus sur nous <a href=\"/about-us\" target=\"_blank\">ici</a>."
+              "copy": "Nous sommes une petite équipe de trois passionné·es de slow travel et nous voulons aider les autres à se lancer eux aussi dans le slow travel. Vous pouvez en savoir plus sur nous <a href=\"/about-us\" target=\"_blank\">ici</a>."
             },
             "1": {
               "title": "Quelle est la structure légale derrière WTMG ?",
@@ -887,7 +887,7 @@
   "thank-you-donate": {
     "top-section": {
       "title": "Merci d'avoir soutenu WTMG ! 💚",
-      "description": "<p>Vous nous aidez à accomplir notre mission : rendre le slow travel plus accessible à tous et à toutes, encourager le voyage durable et favoriser de nouvelles rencontres.</p><p><strong>Un immense merci de la part de toute l’équipe !</strong></p><p>L’équipe de WTMG,<br/>Dries, Manon, Thor & Janneke</p>"
+      "description": "<p>Vous nous aidez à accomplir notre mission : rendre le slow travel plus accessible à tous et à toutes, encourager le voyage durable et favoriser de nouvelles rencontres.</p><p><strong>Un immense merci de la part de toute l’équipe !</strong></p><p>L’équipe de WTMG,<br/>Dries, Manon & Thor</p>"
     }
   },
   "payment-superfan": {
@@ -1421,7 +1421,7 @@
   },
   "about-us": {
     "here-we-are": "On est là !",
-    "who-behind": "Qui est derrière WTMG ? Nous sommes une petite équipe de quatre passionné·es de slow travel et nous voulons aider les autres à se lancer dans l'aventure. Fun fact : nous sommes tous à la fois hôtes et voyageur·ses de WTMG !",
+    "who-behind": "Qui est derrière WTMG ? Nous sommes une petite équipe de trois passionné·es de slow travel et nous voulons aider les autres à se lancer dans l'aventure. Fun fact : nous sommes tous à la fois hôtes et voyageur·ses de WTMG !",
     "co-founder": "Cofondateur",
     "dev": "Développeur",
     "designer": "Designer",
@@ -1430,7 +1430,7 @@
     "manon": "Manon est une vraie multipotentialiste et a une solution pour tout. Elle a couru deux fois un marathon, a pédalé entre Bruxelles-Tokyo à vélo avec Dries et et en a fait un très beau film: <a href=\"https://womendontcycle.com/fr?utm_source=welcometomygarden.org&utm_medium=web&utm_content=about_profile\" target=\"_blank\">‘Women Don’t Cycle’</a>. Elle est la seule de l'équipe à avoir étudié le tourisme, ce qui est plutôt pratique. Étant donné qu'elle parle couramment quatre langues et qu'elle se sent très à l'aise devant une caméra fait d'elle notre porte-parole !",
     "thor": "Thor est le développeur de génie dont tout projet a besoin. Il a participé deux fois à l'Open Summer of Code, où il a rencontré Dries en 2017. Il a pédalé de Louvain à Helsinki. Il est maintenant un hôte WTMG là-bas. En plus d’être un fantastique développeur, il est aussi un excellent designer. Il aime cuisiner, coder et lire de longs articles intrigants !",
     "ward": "Ward a contribué à WTMG depuis le début !",
-    "janneke": "Janneke aime les mots et les manie de manière absolument incroyable. Dès qu'elle a entendu parler de WTMG, elle a immédiatement suggéré de créer une page Facebook et s'est occupée de notre communication depuis lors. Elle est follement amoureuse de la Roumanie ; elle a écrit un guide sur ce pays, y a acheté une maison et a fondé <a href=\"https://roamaniac.com/\" target=\"_blank\">Roamaniac</a>.",
+    "janneke": "La reine des mots, qui a lancé notre page Facebook.",
     "michiel": "Le premier développeur. Sans lui, WTMG n'existerait pas.",
     "marie": "La designer de génie. Grâce à elle, le design de WTMG est magnifique !",
     "ismaila": "Ismaila est le cerveau derrière les filtres sur la carte.",
@@ -1439,7 +1439,7 @@
     "how-contribute": "Comment nous soutenir?",
     "ways-support": "Voici toutes les façons dont vous pouvez nous soutenir.",
     "our-story-title": "Notre histoire",
-    "our-story-description": "<p>Bonjour ! Nous sommes Dries et Manon, les fondateurs de Welcome To My Garden. En 2019, nous avons fait un voyage à vélo de Bruxelles à Tokyo. Pendant 11 mois, nous avons traversé 21 pays et avons été accueillis par des dizaines de personnes incroyables en cours de route.</p><p>En rentrant en Belgique, alors que le covid venait d’arriver, nous nous sommes demandé comment nous pourrions faciliter le slow travel dans notre propre pays. Par un dimanche après-midi pluvieux de 2020, Dries a mis en place la première version de WTMG. En deux heures, la carte comptait 50 jardins, et deux semaines plus tard, il y en avait 500 !</p><p>Nous avons parcouru un long chemin depuis : aujourd'hui, WTMG compte plus de 30.000 utilisateur·rices et plus de 4000 jardins. C’est devenu clair, WTMG est là pour rester ! Et il est temps d'aller de l'avant. Nous avons écouté notre communauté, et nous nous investissons maintenant pour que WTMG réponde à vos besoins en matière de slow travel.</p><p>WTMG existe grâce au travail assidu d'un groupe de bénévoles passionnés, qui y ont investi de très nombreuses soirées et week-ends. Mais pour continuer, nous avons besoin de plus de temps et de personnes talentueuses. C'est pourquoi Thor et Janneke ont également rejoint le groupe. Nous nous donnons à 100% et nous espérons que vous nous rejoindrez dans cette aventure !</p>",
+    "our-story-description": "<p>Bonjour ! Nous sommes Dries et Manon, les fondateurs de Welcome To My Garden. En 2019, nous avons fait un voyage à vélo de Bruxelles à Tokyo. Pendant 11 mois, nous avons traversé 21 pays et avons été accueillis par des dizaines de personnes incroyables en cours de route.</p><p>En rentrant en Belgique, alors que le covid venait d’arriver, nous nous sommes demandé comment nous pourrions faciliter le slow travel dans notre propre pays. Par un dimanche après-midi pluvieux de 2020, Dries a mis en place la première version de WTMG. En deux heures, la carte comptait 50 jardins, et deux semaines plus tard, il y en avait 500 !</p><p>Nous avons parcouru un long chemin depuis : aujourd'hui, WTMG compte plus de 30.000 utilisateur·rices et plus de 4000 jardins. C’est devenu clair, WTMG est là pour rester ! Et il est temps d'aller de l'avant. Nous avons écouté notre communauté, et nous nous investissons maintenant pour que WTMG réponde à vos besoins en matière de slow travel.</p><p>WTMG existe grâce au travail assidu d'un groupe de bénévoles passionnés, qui y ont investi de très nombreuses soirées et week-ends. Mais pour continuer, nous avons besoin de plus de temps et de personnes talentueuses. C'est pourquoi Thor a également rejoint le groupe. Nous nous donnons à 100% et nous espérons que vous nous rejoindrez dans cette aventure !</p>",
     "bigger-picture-title": "Le contexte",
     "bigger-picture-description": "<p>S'il y a une chose que nous avons apprise au cours des dernières années, c'est ceci : il est temps de ralentir. Cela vaut pour la vie en général, mais aussi pour les voyages en particulier. Plus nous voyageons vite, plus nous passons à côté de choses intéressantes. Les voyages rapides génèrent beaucoup d'émissions de CO2, déconnectent les gens de leur environnement et endommagent les communautés locales. Place donc au voyage lent !</p><p>Et voilà, c’est tout ça WTMG ! Nous sommes fiers de défendre le voyage lent et de contribuer à notre manière au défi mondial de réduction de CO2. En deux ans, WTMG a accompli beaucoup de choses :<ul><li>31 000 utilisateur·rices se sont lancé·es dans l'aventure du slow travel.</li><li>4 300 hôtes chaleureux·ses ont ouvert leur jardin aux voyageur·ses lent·es.</li><li>57.000 demandes de nuits ont été envoyées via la plateforme.</li><li>Nous avons commencé en Belgique, mais de plus en plus de jardins sont en train de voir le jour en Europe et au-delà.</li><li>Nous avons reçu le soutien financier de partenaires comme Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers, Natuurpunt et VGC Bruxelles.</li></ul></p><p>Les expériences qui ont le plus de sens et qui sont les plus mémorables se produisent lorsque nous prenons le temps d'explorer et de nous immerger dans notre environnement. Avec WTMG, nous voulons vous aider à faire cela. Ensemble, nous pouvons rendre le monde meilleur en voyageant plus lentement et plus durablement. Alors, vous nous rejoignez ?</p><p>Nous sommes toujours ouverts à de nouvelles idées et collaborations, n'hésitez pas à nous contacter !</p>",
     "contributors": "Contibuteur·rices",
