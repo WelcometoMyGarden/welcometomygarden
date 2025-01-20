@@ -651,7 +651,7 @@
     },
     "pricing-section": {
       "title": "Elige su nivel de afiliciación",
-      "description": "Válido por un año. No se renueva automáticamente.",
+      "description": "Válido por un año. ¡Únete a nuestra comunidad hoy!",
       "per-month": "por mes",
       "pricing-levels": {
         "0": {
@@ -792,9 +792,12 @@
             },
             "5": {
               "title": "¿Cómo funciona el pago?",
-              "copy": "Una vez que hayas elegido si quieres convertirte en miembro o Superfan, serás redirigido a la página de pago. Pagas por un año a la vez. Convertirse en miembro o Superfan no tiene compromiso: tu suscripción se detiene automáticamente después de un año y te enviaremos un correo electrónico para renovarla."
+              "copy": "Una vez que hayas elegido si quieres convertirte en miembro o Superfan, serás redirigido a la página de pago. Pagas por un año a la vez. Tu membresía se renovará automáticamente, pero puedes cancelar la renovación automática en cualquier momento desde la página de tu {accountLink}. Dos días antes de la fecha de renovación, también te notificaremos por correo electrónico sobre tu próxima renovación."
             },
-            "6": {},
+            "6": {
+              "copy": "Du kannst deine Mitgliedschaft jederzeit auf deiner {accountLink} verwalten, erneuern oder kündigen. Auf dieser Seite siehst du den aktuellen Status deiner Mitgliedschaft, das Verlängerungs- oder Ablaufdatum sowie Anweisungen, wie du sie kündigen oder erneuern kannst.",
+              "title": "¿Cómo puedo gestionar, renovar o cancelar mi membresía?"
+            },
             "7": {
               "title": "¿Es obligatorio hacerse socio o Superfan siendo slow traveller?",
               "copy": "<p>Los viajeros lentos necesitan hacer una contribución financiera anual para que WTMG pueda seguir existiendo. Esto es lo que ya pedimos cuando lanzamos nuestra convocatoria de Superfans. Ahora estamos extendiendo esta solicitud a toda nuestra comunidad de viajes lentos. <strong>Básicamente, si utiliza nuestra plataforma, esperamos que contribuya.</strong> Será una contribución anual. Entonces, además de la posibilidad de convertirte en Superfan, lanzamos una afiliación para extender nuestra solicitud de apoyo de nuestros primeros creyentes a la comunidad en general.</p><p> No estamos pidiendo a los anfitriones que contribuyan, ya que ya están contribuyendo de una manera diferente, pero, por supuesto, también pueden contribuir financieramente si así lo desean.</p>"
@@ -809,13 +812,16 @@
             },
             "10": {
               "title": "¿Por cuánto tiempo seré miembro o Superfan?",
-              "copy": "Cuando te conviertes en miembro o Superfan, pagas  por un año. Tu suscripción se detiene automáticamente después de un año y te enviaremos un correo electrónico para renovarla."
+              "copy": "Cuando te conviertes en miembro o Superfan, pagas  por un año. Tu membresía se renovará automáticamente, pero puedes cancelar la renovación automática en cualquier momento desde la página de tu {accountLink}. Si cancelas tu membresía, solo se cancelará la renovación automática. Esto significa que seguirás siendo miembro hasta el final del período que ya has pagado. "
             },
             "11": {
               "title": "¿Puedo dejar de ser miembro o Superfan?",
-              "copy": "<p>¡Sí! La suscripción es válida por un año y el pago no es reembolsable. Después de un año, te enviaremos una invitación para renovar para el próximo año. Si no deseas renovarla, tu suscripción se cancelará automáticamente.</p>\n"
+              "copy": "<p>Sí, cuando quieras. Tan pronto como te conviertas en miembro de la comunidad, podrás gestionar tu membresía anual desde la {accountLink} en WTMG.</p>\n<p>Si en tu cuenta aparece: &quot;Tu membresía está activa. Se renovará automáticamente el xx/xx/xxxx.&quot;, tu membresía se renovará en esa fecha. Puedes cancelar la renovación en cualquier momento haciendo clic en &quot;Administrar membresía&quot;. Si cancelas tu membresía, solo se cancelará la renovación automática. Esto significa que seguirás siendo miembro hasta el final del período que ya has pagado.</p>\n<p>Si en tu cuenta aparece: &quot;Tu membresía es válida hasta el xx/xx/xxxx. Renovación automática desactivada.&quot;, tu membresía expirará en la fecha especificada y no se renovará automáticamente.</p>"
             },
-            "12": {},
+            "12": {
+              "copy": "En caso de que canceles tu membresía, solo se cancelará la renovación automática. Esto significa que seguirás siendo miembro hasta el final del período que ya has pagado. Sin embargo, si cambias de opinión, puedes reactivar la renovación automática en cualquier momento desde la página de tu {accountLink}.",
+              "title": "¿Qué ocurre si cancelo mi membresía?"
+            },
             "13": {
               "title": "¿Se necesita una suscripción por persona si viajo con amigos o familiares?",
               "copy": "No, solo se necesita una suscripción para contactar a los anfitriones cuando viajas con amigos o familiares. Sin embargo, cada cuenta individual es estrictamente personal, por lo que cualquiera que viaje por separado necesitará su propia suscripción."
@@ -899,6 +905,12 @@
       "feature-overview": {
         "regular": "Obtén acceso completo a la plataforma WTMG y cube tu parte de los costo",
         "superfan": "Obtén acceso completo a la plataforma WTMG y apoya nuestra misión de promover los viajes lentos."
+      },
+      "features": {
+        "0": "Acampa gratis en jardines",
+        "1": "Conoce a personas increíbles",
+        "2": "Planifica fácilmente tu aventura",
+        "3": "Mantén a WTMG independiente"
       }
     },
     "payment-section": {
@@ -916,7 +928,8 @@
       "success": "Hemos recibido tu pago con éxito, ¡bienvenido a la comunidad WTMG! Aquí está el chat que querías abrir."
     },
     "not-logged-in-warning": "Para convertirte en Superfan, primero inicia sesión o crea una cuenta",
-    "title": "Pago"
+    "title": "Pago",
+    "terms": "Al hacerte miembro, acepta nuestros {termsLink}. Tu membresía se renovará automáticamente, pero puedes cancelarla en cualquier momento desde la página de tu cuenta."
   },
   "request-password-reset": {
     "title": "Establecer una nueva contraseña",
@@ -963,8 +976,11 @@
     "superfan": {
       "loading-portal": "Cargando portal...",
       "valid": "Tu aficiliación es válida hasta el {date}",
-      "just-ended": "Tu aficiliación acaba de finalizar.<br> ¡Esperamos poder seguir contando con tu apoyo! 💚",
-      "renew-btn-text": "Renovar ahora"
+      "just-ended": "Tu membresía ha expirado.<br>Renueva ahora y activa la renovación automática (puedes cancelarla en cualquier momento).",
+      "renew-btn-text": "Renueva ahora",
+      "auto-active": "Tu membresía está activa.<br>Se renovará automáticamente el {date}.",
+      "auto-canceled": "Tu membresía es válida hasta el {date}.<br>Renovación automática desactivada.",
+      "btn-manage": "Administrar membresía"
     },
     "notify": {
       "resend-error": "No pudimos reenviar un correo electrónico de verificación de cuenta. Por favor contacta con {support}",

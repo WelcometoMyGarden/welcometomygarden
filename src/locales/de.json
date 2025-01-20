@@ -650,7 +650,7 @@
     },
     "pricing-section": {
       "title": "Wählen Sie Ihre Mitgliedschaftspaket",
-      "description": "Gültig für ein Jahr. Verlängert sich nicht automatisch.",
+      "description": "Gültig für ein Jahr. Werde noch heute Teil unserer Gemeinschaft!",
       "per-month": "pro Monat",
       "pricing-levels": {
         "0": {
@@ -791,9 +791,12 @@
             },
             "5": {
               "title": "Wie funktioniert die Bezahlung?",
-              "copy": "Sobald Sie ausgewählt haben, ob Sie Mitglied oder Superfan werden möchten, werden Sie auf die Zahlungsseite weitergeleitet. Sie zahlen jeweils für ein Jahr. Die Mitgliedschaft oder Superfan-Mitgliedschaft ist unverbindlich: Ihr Abonnement endet automatisch nach einem Jahr und wir senden Ihnen eine E-Mail zur Verlängerung."
+              "copy": "Sobald Sie ausgewählt haben, ob Sie Mitglied oder Superfan werden möchten, werden Sie auf die Zahlungsseite weitergeleitet. Sie zahlen jeweils für ein Jahr. Deine Mitgliedschaft wird automatisch verlängert, aber du kannst die automatische Verlängerung jederzeit auf deiner {accountLink} kündigen. Zwei Tage vor dem Verlängerungsdatum wirst du auch per E-Mail über die bevorstehende Verlängerung informiert."
             },
-            "6": {},
+            "6": {
+              "copy": "Puedes gestionar, renovar o cancelar tu membresía en cualquier momento desde la página de tu {accountLink}. En esta página, verás el estado actual de tu membresía, la fecha de renovación o expiración, y las instrucciones sobre cómo cancelarla o renovarla.",
+              "title": "Wie kann ich meine Mitgliedschaft verwalten, erneuern oder kündigen?"
+            },
             "7": {
               "title": "Ist eine Mitgliedschaft bzw. Superfan-Mitgliedschaft als Slow Traveller Pflicht?",
               "copy": "<p>Damit WTMG weiter bestehen kann, müssen Slow Traveller einen jährlichen finanziellen Beitrag leisten. Darum haben wir bereits gebeten, als wir unseren Aufruf für Superfans gestartet haben. Jetzt weiten wir diese Bitte auf unsere gesamte Slow Travel-Community aus. <strong>Grundsätzlich erwarten wir von Ihnen, dass Sie einen Beitrag leisten, wenn Sie unsere Plattform nutzen.</strong> Dies wird ein jährlicher Beitrag sein. Zusätzlich zur Möglichkeit, Superfan zu werden, führen wir also eine Mitgliedschaft ein, um unsere Bitte um Unterstützung von unseren ersten Anhängern auf die breitere Community auszudehnen.</p><p> Wir erwarten von den Gastgebern keinen Eigenanteil, da sie uns bereits auf andere Weise unterstützen. Aber natürlich ist jede und jeder herzlich eingeladen, sich auch finanziell zu beteiligen, wenn ihm oder ihr danach ist.</p>"
@@ -808,13 +811,16 @@
             },
             "10": {
               "title": "Für wie lange bin ich Mitglied oder Superfan?",
-              "copy": "Wenn Sie Mitglied oder Superfan werden, zahlen Sie für ein Jahr. Ihr Abonnement endet automatisch nach einem Jahr und wir senden Ihnen eine E-Mail zur Verlängerung."
+              "copy": "Wenn Sie Mitglied oder Superfan werden, zahlen Sie für ein Jahr. Deine Mitgliedschaft wird automatisch verlängert, aber du kannst die automatische Verlängerung jederzeit auf deiner {accountLink} kündigen. Wenn du deine Mitgliedschaft kündigst, wird nur die automatische Verlängerung storniert. Das bedeutet, dass du bis zum Ende des bereits bezahlten Zeitraums Mitglied bleibst."
             },
             "11": {
               "title": "Kann ich meine Mitgliedschaft oder meine Superfan-Mitgliedschaft beenden?",
-              "copy": "<p>Ja! Unsere Mitgliedschaft ist ein Jahr lang gültig und die Zahlung wird nicht zurückerstattet. Nach einem Jahr senden wir Ihnen eine Einladung zur Verlängerung für das nächste Jahr. Wenn Sie die Mitgliedschaft nicht verlängern möchten, endet sie automatisch.</p>\n"
+              "copy": "<p>Ja, jederzeit. Sobald du Mitglied der Community geworden bist, kannst du deine jährliche Mitgliedschaft auf deiner WTMG-{accountLink} verwalten.</p>\n<p>Wenn auf deinem Konto steht: „Deine Mitgliedschaft ist aktiv. Sie wird automatisch am xx/xx/xxxx verlängert.“, wird deine Mitgliedschaft an diesem Datum verlängert. Du kannst die Verlängerung jederzeit durch ein Klicken auf „Mitgliedschaft verwalten“ kündigen. Wenn du deine Mitgliedschaft kündigst, wird nur die automatische Verlängerung storniert. Das bedeutet, dass du bis zum Ende des bereits bezahlten Zeitraums Mitglied bleibst.</p>\n<p>Wenn auf deinem Konto steht: „Deine Mitgliedschaft ist gültig bis zum xx/xx/xxxx. Automatische Verlängerung deaktiviert.“, läuft deine Mitgliedschaft an dem angegebenen Datum ab und wird nicht automatisch verlängert.</p>"
             },
-            "12": {},
+            "12": {
+              "copy": "Falls du deine Mitgliedschaft kündigst, wird nur die automatische Verlängerung storniert. Das bedeutet, dass du bis zum Ende des bereits bezahlten Zeitraums Mitglied bleibst. Wenn du jedoch deine Meinung änderst, kannst du die automatische Verlängerung jederzeit auf deiner {accountLink} reaktivieren.",
+              "title": "Was passiert, wenn ich meine Mitgliedschaft kündige?"
+            },
             "13": {
               "title": "Ist eine Mitgliedschaft pro Person erforderlich, wenn ich mit Freunden oder Familie reise?",
               "copy": "Nein, Sie benötigen nur eine Mitgliedschaft, um Gastgeber zu kontaktieren, wenn Sie mit Freunden oder der Familie reisen. Allerdings ist jedes einzelne Konto streng persönlich, sodass jeder, der alleine reist, eine eigene Mitgliedschaft benötigt."
@@ -898,6 +904,12 @@
       "feature-overview": {
         "regular": "Erhalten Sie vollen Zugriff auf die WTMG-Plattform und decken Sie Ihren Teil der Kosten.",
         "superfan": "Erhalten Sie vollen Zugriff auf die WTMG-Plattform und unterstützen Sie unsere Mission, langsames Reisen zu fördern."
+      },
+      "features": {
+        "0": "Zelte kostenlos in Gärten",
+        "1": "Triff fantastische Menschen",
+        "2": "Plane dein Abenteuer ganz einfach",
+        "3": "Halte WTMG unabhängig"
       }
     },
     "payment-section": {
@@ -915,7 +927,8 @@
       "success": "Wir haben Ihre Zahlung erfolgreich erhalten. Willkommen in der WTMG-Community! Hier ist der Chat, den Sie öffnen wollten."
     },
     "not-logged-in-warning": "Um Superfan zu werden, melden Sie sich zuerst an oder erstellen Sie ein Konto",
-    "title": "Zahlung"
+    "title": "Zahlung",
+    "terms": "Durch deine Mitgliedschaft stimmst du unseren {termsLink} zu. Deine Mitgliedschaft wird automatisch verlängert, aber du kannst sie jederzeit auf deiner Kontoseite kündigen."
   },
   "request-password-reset": {
     "title": "Ein neues Passwort festlegen",
@@ -962,8 +975,11 @@
     "superfan": {
       "loading-portal": "Portal wird geladen...",
       "valid": "Ihre Mitgliedschaft ist gültig bis {date}",
-      "just-ended": "Ihre Mitgliedschaft ist gerade beendet worden.<br> Wir hoffen, dass wir auch weiterhin auf eure Unterstützung zählen können! 💚",
-      "renew-btn-text": "Jetzt erneuern"
+      "just-ended": "Deine Mitgliedschaft ist abgelaufen.<br>Erneuere sie jetzt und aktiviere die automatische Verlängerung (jederzeit kündbar).",
+      "renew-btn-text": "Jetzt erneuern",
+      "auto-active": "Deine Mitgliedschaft ist aktiv.<br>Sie wird automatisch am {date} verlängert.",
+      "auto-canceled": "Deine Mitgliedschaft ist gültig bis zum {date}.<br>Automatische Verlängerung deaktiviert.",
+      "btn-manage": "Mitgliedschaft verwalten"
     },
     "notify": {
       "resend-error": "Wir konnten keine E-Mail zur Kontobestätigung erneut senden. Bitte kontaktieren Sie {support}",

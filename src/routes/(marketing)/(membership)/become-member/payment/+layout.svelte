@@ -319,7 +319,10 @@
                 termsLink: anchorText({
                   href: '/terms/terms-of-use',
                   class: 'link--neutral',
-                  linkText: ($_('generics.terms-of-use') ?? '').toLowerCase()
+                  linkText:
+                    $locale === 'de'
+                      ? ($_('generics.terms-of-use') ?? '')
+                      : ($_('generics.terms-of-use') ?? '').toLowerCase()
                 })
               }
             })}

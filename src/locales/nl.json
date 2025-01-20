@@ -624,7 +624,8 @@
       "just-ended": "Je lidmaatschap is verlopen.<br>Hernieuw nu en activeer automatische verlengingen (op elk moment opzegbaar).",
       "auto-active": "Je lidmaatschap is actief.<br>Verlengt automatisch op {date}.",
       "btn-manage": "Beheer lidmaatschap",
-      "auto-canceled": "Je lidmaatschap is geldig tot {date}.<br>Automatische verlenging uitgeschakeld."
+      "auto-canceled": "Je lidmaatschap is geldig tot {date}.<br>Automatische verlenging uitgeschakeld.",
+      "renew-btn-text": "Hernieuw nu"
     },
     "notify": {
       "resend-error": "We konden geen accountverificatie e-mail sturen. Neem contact op met {support}",
