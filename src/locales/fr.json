@@ -32,7 +32,8 @@
     "helpcenter-url": "https://aide.welcometomygarden.org/",
     "error": {
       "start": "Quelque chose n’a pas fonctionné"
-    }
+    },
+    "account-page": "compte"
   },
   "ui": {
     "card": {
@@ -542,13 +543,12 @@
         "confirm-button": "Confirmer l'emplacement de l'épingle",
         "city": "Ville"
       },
-      "account-link-text": "votre profil",
-      "normal-notice": "En soumettant ce formulaire, votre jardin sera ajouté à la carte. Vous pouvez le gérer ou le supprimer à tout moment à partir de {accountLink}.",
+      "normal-notice": "En soumettant ce formulaire, votre jardin sera ajouté à la carte. Vous pouvez le gérer ou le supprimer à tout moment à partir de votre {accountLink}.",
       "register-link-text": "créer un compte",
       "title": "Ajoutez votre jardin à la carte",
       "sign-in-link-text": "vous connecter",
       "add-button": "Ajoutez votre jardin",
-      "email-confirm-notice": "Vous devez vérifier votre adresse électronique avant d'ajouter votre jardin à la carte. Nous vous avons envoyé un courriel lorsque vous avez créé votre compte. Vous pouvez renvoyer un lien de vérification à partir de {accountLink}.",
+      "email-confirm-notice": "Vous devez vérifier votre adresse électronique avant d'ajouter votre jardin à la carte. Nous vous avons envoyé un courriel lorsque vous avez créé votre compte. Vous pouvez renvoyer un lien de vérification à partir de votre {accountLink}.",
       "facilities": {
         "notice": "À quels types d'installations les voyageurs ont-ils accès ?",
         "capacity": {
@@ -881,7 +881,7 @@
       "explore-features-button": "Planifiez votre slow travel"
     },
     "closing-section": {
-      "text": "<p><strong>Merci de la part de toute notre équipe !</strong></p>\n<p>Dries, Manon and Thor</p>\n<p><em>PS : Vous voulez en savoir plus sur nous ? <a class=\"link\" href=\"/about-us\">Lisez notre histoire ici</a> !</em></p>"
+      "text": "<p><strong>Un grand merci de la part de toute notre équipe !</strong></p>\n<p>Dries, Manon and Thor</p>\n<p><em>PS : Vous voulez en savoir plus sur nous ? <a class=\"link\" href=\"/about-us\">Lisez notre histoire ici</a> !</em></p>"
     }
   },
   "thank-you-donate": {

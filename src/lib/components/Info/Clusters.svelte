@@ -36,7 +36,7 @@
                 chatLink: `<a href="${routes.CHAT}" target="_blank" class="link lowercase">
                   ${$_('generics.chat')}</a>`,
                 accountLink: `<a href="${routes.ACCOUNT}" target="_blank" class="link lowercase">
-                  ${$_('generics.account')}</a>`,
+                  ${$_('generics.account-page')}</a>`,
                 communityTranslationsLink: `<a href="${COMMUNITY_TRANSLATIONS_URL}" target="_blank" rel="noreferrer" class="link lowercase">
                   ${$_('faq.instruction-page')}</a>`,
                 mobileFaqLink: anchorText({

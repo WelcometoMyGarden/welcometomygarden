@@ -36,7 +36,8 @@
     "on": "en",
     "error": {
       "start": "Algo salió mal"
-    }
+    },
+    "account-page": "página de tu cuenta"
   },
   "ui": {
     "card": {
@@ -263,7 +264,7 @@
           },
           "suspend": {
             "title": "Me gustaría suspender mi jardín por un tiempo pero ¡volveré pronto! ¿Cómo hago esto?",
-            "copy": "Vaya a {accountLink}. En la categoría &#39;Tu jardín&#39;, desmarca la casilla &#39;Mostrado en el mapa&#39;. El jardín seguirá guardado en la plataforma pero no aparecerá en el mapa. Cuando regreses, simplemente marca la casilla nuevamente y podrás comenzar a recibir a los viajeros lentos nuevamente."
+            "copy": "Vaya a la {accountLink}. En la categoría &#39;Tu jardín&#39;, desmarca la casilla &#39;Mostrado en el mapa&#39;. El jardín seguirá guardado en la plataforma pero no aparecerá en el mapa. Cuando regreses, simplemente marca la casilla nuevamente y podrás comenzar a recibir a los viajeros lentos nuevamente."
           },
           "issue": {
             "title": "He tenido un problema con un huésped o un anfitrión. ¿Cómo lo reporto?",
@@ -284,11 +285,11 @@
           },
           "update-email": {
             "title": "Me gustaría actualizar mi dirección de correo electrónico o eliminar mi cuenta. ¿Cómo hago esto?",
-            "copy": "Si desea cambiar su correo electrónico o eliminar su cuenta, vaya a su {accountLink}."
+            "copy": "Si desea cambiar su correo electrónico o eliminar su cuenta, vaya a la {accountLink}."
           },
           "newsletter": {
             "title": "¡Me encantaría recibir su próximo boletín! ¿Qué tengo que hacer?",
-            "copy": "Para recibir nuestro próximo boletín, vaya a {accountLink} y marque la casilla &quot;Welcome To My Garden tiene noticias para compartir&quot;. Si quiere dejar de recibir noticias, desmarca la misma casilla."
+            "copy": "Para recibir nuestro próximo boletín, vaya a la {accountLink} y marque la casilla &quot;Welcome To My Garden tiene noticias para compartir&quot;. Si quiere dejar de recibir noticias, desmarca la misma casilla."
           },
           "text-in-english": {
             "title": "Hay texto en inglés, aunque no es mi idioma preferido. ¿Cómo puedo cambiar esto?",
@@ -552,8 +553,7 @@
       "sign-in-link-text": "iniciar sesión",
       "register-link-text": "crear una cuenta",
       "email-confirm-notice": "Debe verificar su correo electrónico antes de añadir su jardín al mapa. Le hemos enviado un correo electrónico cuando creó su cuenta. Puede reenviar un enlace de verificación desde {accountLink}.",
-      "normal-notice": "Al enviar este formulario, su jardín se añadirá al mapa. Puede administrarlo o eliminarlo en cualquier momento desde {accountLink}.",
-      "account-link-text": "tu perfil",
+      "normal-notice": "Al enviar este formulario, su jardín se añadirá al mapa. Puede administrarlo o eliminarlo en cualquier momento desde la {accountLink}.",
       "location": {
         "title": "Ubicación (requerido)",
         "notice": "Mueva el marcador para establecer la ubicación de su jardín. Puede completar los detalles de su dirección para acercar el marcador.<br /> No almacenamos la información de su dirección.",
@@ -792,10 +792,10 @@
             },
             "5": {
               "title": "¿Cómo funciona el pago?",
-              "copy": "Una vez que hayas elegido si quieres convertirte en miembro o Superfan, serás redirigido a la página de pago. Pagas por un año a la vez. Tu membresía se renovará automáticamente, pero puedes cancelar la renovación automática en cualquier momento desde la página de tu {accountLink}. Dos días antes de la fecha de renovación, también te notificaremos por correo electrónico sobre tu próxima renovación."
+              "copy": "Una vez que hayas elegido si quieres convertirte en miembro o Superfan, serás redirigido a la página de pago. Pagas por un año a la vez. Tu membresía se renovará automáticamente, pero puedes cancelar la renovación automática en cualquier momento desde la {accountLink}. Dos días antes de la fecha de renovación, también te notificaremos por correo electrónico sobre tu próxima renovación."
             },
             "6": {
-              "copy": "Du kannst deine Mitgliedschaft jederzeit auf deiner {accountLink} verwalten, erneuern oder kündigen. Auf dieser Seite siehst du den aktuellen Status deiner Mitgliedschaft, das Verlängerungs- oder Ablaufdatum sowie Anweisungen, wie du sie kündigen oder erneuern kannst.",
+              "copy": "Puedes gestionar, renovar o cancelar tu membresía en cualquier momento desde la {accountLink}. En esta página, verás el estado actual de tu membresía, la fecha de renovación o expiración, y las instrucciones sobre cómo cancelarla o renovarla.",
               "title": "¿Cómo puedo gestionar, renovar o cancelar mi membresía?"
             },
             "7": {
@@ -812,14 +812,14 @@
             },
             "10": {
               "title": "¿Por cuánto tiempo seré miembro o Superfan?",
-              "copy": "Cuando te conviertes en miembro o Superfan, pagas  por un año. Tu membresía se renovará automáticamente, pero puedes cancelar la renovación automática en cualquier momento desde la página de tu {accountLink}. Si cancelas tu membresía, solo se cancelará la renovación automática. Esto significa que seguirás siendo miembro hasta el final del período que ya has pagado. "
+              "copy": "Cuando te conviertes en miembro o Superfan, pagas  por un año. Tu membresía se renovará automáticamente, pero puedes cancelar la renovación automática en cualquier momento desde la {accountLink}. Si cancelas tu membresía, solo se cancelará la renovación automática. Esto significa que seguirás siendo miembro hasta el final del período que ya has pagado. "
             },
             "11": {
               "title": "¿Puedo dejar de ser miembro o Superfan?",
               "copy": "<p>Sí, cuando quieras. Tan pronto como te conviertas en miembro de la comunidad, podrás gestionar tu membresía anual desde la {accountLink} en WTMG.</p>\n<p>Si en tu cuenta aparece: &quot;Tu membresía está activa. Se renovará automáticamente el xx/xx/xxxx.&quot;, tu membresía se renovará en esa fecha. Puedes cancelar la renovación en cualquier momento haciendo clic en &quot;Administrar membresía&quot;. Si cancelas tu membresía, solo se cancelará la renovación automática. Esto significa que seguirás siendo miembro hasta el final del período que ya has pagado.</p>\n<p>Si en tu cuenta aparece: &quot;Tu membresía es válida hasta el xx/xx/xxxx. Renovación automática desactivada.&quot;, tu membresía expirará en la fecha especificada y no se renovará automáticamente.</p>"
             },
             "12": {
-              "copy": "En caso de que canceles tu membresía, solo se cancelará la renovación automática. Esto significa que seguirás siendo miembro hasta el final del período que ya has pagado. Sin embargo, si cambias de opinión, puedes reactivar la renovación automática en cualquier momento desde la página de tu {accountLink}.",
+              "copy": "En caso de que canceles tu membresía, solo se cancelará la renovación automática. Esto significa que seguirás siendo miembro hasta el final del período que ya has pagado. Sin embargo, si cambias de opinión, puedes reactivar la renovación automática en cualquier momento desde la {accountLink}.",
               "title": "¿Qué ocurre si cancelo mi membresía?"
             },
             "13": {
@@ -885,7 +885,7 @@
       "explore-features-button": "Comienza a planificar tu viaje"
     },
     "closing-section": {
-      "text": "<p><strong>¡Muchísimas gracias en nombre de todo el equipo!</strong></p><p> Dries, Manon y Thor</p><p> <em>PD: ¿Quieres saber más sobre quiénes somos? <a class=\"link\" href=\"/about-us\">¡Lee nuestra historia aquí!</a></em></p>"
+      "text": "<p><strong>¡Gracias de parte de nuestro equipo!</strong></p><p> Dries, Manon y Thor</p><p> <em>PD: ¿Quieres saber más sobre quiénes somos? <a class=\"link\" href=\"/about-us\">¡Lee nuestra historia aquí!</a></em></p>"
     }
   },
   "thank-you-donate": {

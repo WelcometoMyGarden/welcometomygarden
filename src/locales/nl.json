@@ -30,7 +30,8 @@
     "helpcenter-url": "https://hulp.welcometomygarden.org/",
     "error": {
       "start": "Er ging iets mis"
-    }
+    },
+    "account-page": "accountpagina"
   },
   "ui": {
     "card": {
@@ -199,9 +200,8 @@
       "auth-notice": "Je moet ingelogd zijn om jouw tuin aan de kaart toe te voegen. Ofwel {signInLink} of {registerLink}",
       "sign-in-link-text": "Log in",
       "register-link-text": "een account aanmaken",
-      "email-confirm-notice": "Je moet jouw e-mail controleren voordat je jouw tuin aan de kaart toevoegt. We hebben je een e-mail gestuurd toen je jouw account aanmaakte. Je kunt een verificatielink opnieuw versturen vanuit {accountLink}.",
-      "normal-notice": "Door het indienen van dit formulier wordt jouw tuin aan de kaart toegevoegd. Je kunt het te allen tijde beheren of verwijderen van {accountLink}.",
-      "account-link-text": "jouw account",
+      "email-confirm-notice": "Je moet jouw e-mail controleren voordat je jouw tuin aan de kaart toevoegt. We hebben je een e-mail gestuurd toen je jouw account aanmaakte. Je kunt een verificatielink opnieuw versturen vanuit je {accountLink}.",
+      "normal-notice": "Door het indienen van dit formulier wordt jouw tuin aan de kaart toegevoegd. Je kunt het te allen tijde beheren of verwijderen van je {accountLink}.",
       "location": {
         "title": "Locatie (verplicht)",
         "notice": "Verplaats de marker om de locatie van jouw tuin in te stellen. Je kunt de adresvelden invullen om de marker dichterbij te verplaatsen. <br /> Wij slaan jouw adresgegevens niet op.",
@@ -434,7 +434,7 @@
             },
             "6": {
               "title": "Hoe kan ik mijn lidmaatschap beheren, verlengen of annuleren?",
-              "copy": "Je kan je lidmaatschap op elk moment beheren, verlengen of annuleren op je {accountLink} pagina. Op deze pagina zie je de huidige status van je lidmaatschap, de verlengings- of vervaldatum en instructies over hoe je het kan annuleren of verlengen."
+              "copy": "Je kan je lidmaatschap op elk moment beheren, verlengen of annuleren op je {accountLink}. Op deze pagina zie je de huidige status van je lidmaatschap, de verlengings- of vervaldatum en instructies over hoe je het kan annuleren of verlengen."
             },
             "7": {
               "title": "Is het verplicht om lid of Superfan te worden?",
@@ -454,11 +454,11 @@
             },
             "11": {
               "title": "Kan ik stoppen met lid of Superfan zijn?",
-              "copy": "<p>Jazeker, wanneer je maar wilt. Zodra je Superfan bent geworden kun je je jaarlijkse Superfan abonnement beheren op je WTMG {accountLink} pagina.</p>\n<p>Als op je accountpagina staat <strong>\"Je lidmaatschap is actief. Wordt automatisch verlengd op xx/xx/xxxx\"</strong>, wordt je lidmaatschap op die datum verlengd. Je kan de verlenging op elk moment annuleren door op <strong>“Beheer Lidmaatschap”</strong> te klikken. Als je je lidmaatschap annuleert, wordt alleen de automatische verlenging geannuleerd. Dit betekent dat je lid blijft tot het einde van de periode waarvoor je al hebt betaald.</p>\n<p>Als er op je accountpagina staat <strong>\"Je lidmaatschap is geldig tot xx/xx/xxxx. Automatische verlenging uitgeschakeld\"</strong>, verloopt je lidmaatschap op de opgegeven datum en wordt het niet automatisch verlengd.</p>"
+              "copy": "<p>Jazeker, wanneer je maar wilt. Zodra je Superfan bent geworden kun je je jaarlijkse Superfan abonnement beheren op je {accountLink}.</p>\n<p>Als op je accountpagina staat <strong>\"Je lidmaatschap is actief. Wordt automatisch verlengd op xx/xx/xxxx\"</strong>, wordt je lidmaatschap op die datum verlengd. Je kan de verlenging op elk moment annuleren door op <strong>“Beheer Lidmaatschap”</strong> te klikken. Als je je lidmaatschap annuleert, wordt alleen de automatische verlenging geannuleerd. Dit betekent dat je lid blijft tot het einde van de periode waarvoor je al hebt betaald.</p>\n<p>Als er op je accountpagina staat <strong>\"Je lidmaatschap is geldig tot xx/xx/xxxx. Automatische verlenging uitgeschakeld\"</strong>, verloopt je lidmaatschap op de opgegeven datum en wordt het niet automatisch verlengd.</p>"
             },
             "12": {
               "title": "Wat gebeurt er als ik mijn lidmaatschap annuleer?",
-              "copy": "Als je je lidmaatschap annuleert, wordt alleen de automatische verlenging geannuleerd. Dit betekent dat je lid blijft tot het einde van de periode waarvoor je al hebt betaald. Als je je bedenkt, kan je de automatische verlenging op elk moment heractiveren op je {accountLink} pagina."
+              "copy": "Als je je lidmaatschap annuleert, wordt alleen de automatische verlenging geannuleerd. Dit betekent dat je lid blijft tot het einde van de periode waarvoor je al hebt betaald. Als je je bedenkt, kan je de automatische verlenging op elk moment heractiveren op je {accountLink}."
             },
             "13": {
               "copy": "Nee, slechts één lidmaatschap is nodig om contact op te nemen met hosts wanneer je met vrienden of familie reist. Elk individueel account is echter strikt persoonlijk, dus iedereen die apart reist, heeft zijn eigen lidmaatschap nodig.",
@@ -927,7 +927,7 @@
           },
           "suspend": {
             "title": "Ik wil mijn tuin een tijdje offline halen, maar binnenkort ben ik terug! Hoe doe ik dat?",
-            "copy": "Ga naar {accountLink}. In de sectie \"Beheer jouw tuin\", verwijder je het vinkje bij \"Weergeven op de kaart\". De tuin wordt nog steeds opgeslagen op het platform, maar verschijnt niet meer op de kaart. Van zodra je terug bent, klik je het vakje weer aan en kun je weer beginnen met het verwelkomen van trage reizigers!"
+            "copy": "Ga naar je {accountLink}. In de sectie \"Beheer jouw tuin\", verwijder je het vinkje bij \"Weergeven op de kaart\". De tuin wordt nog steeds opgeslagen op het platform, maar verschijnt niet meer op de kaart. Van zodra je terug bent, klik je het vakje weer aan en kun je weer beginnen met het verwelkomen van trage reizigers!"
           },
           "issue": {
             "title": "Ik heb een probleem gehad met een gast of een host. Hoe meld ik dit?",
@@ -952,7 +952,7 @@
           },
           "newsletter": {
             "title": "Ik zou graag jouw volgende nieuwsbrief ontvangen! Wat moet ik doen?",
-            "copy": "Om onze volgende nieuwsbrief te ontvangen, ga naar {accountLink} en vink het vakje \"Welcome To My Garden heeft nieuws te delen\" aan. Als je geen nieuws meer wilt ontvangen, verwijder je eenvoudigweg het vinkje in hetzelfde vakje."
+            "copy": "Om onze volgende nieuwsbrief te ontvangen, ga naar je {accountLink} en vink het vakje \"Welcome To My Garden heeft nieuws te delen\" aan. Als je geen nieuws meer wilt ontvangen, verwijder je eenvoudigweg het vinkje in hetzelfde vakje."
           },
           "text-in-english": {
             "title": "Er staat tekst in het Engels, terwijl dat niet mijn voorkeurstaal is. Hoe kan ik dit veranderen?",
@@ -1285,7 +1285,7 @@
             "copy": {
               "0": "Welcome To My Garden is op een missie om slow travel toegankelijker te maken voor iedereen. Net als elke tuin heeft WTMG verzorging nodig om te groeien en gezond te blijven. Een verblijf bij een WTMG host is gratis. Maar om WTMG te onderhouden en te ontwikkelen, vertrouwen we op een jaarlijks lidmaatschap om de kosten eerlijk te verdelen onder alle trage reizigers. Trage reizigers hebben de keuze om lid of Superfan te worden. Litmaatschap is verplicht. Members of Superfans mogen hun login niet overdragen aan derden. Superfans gaan akkoord met dezelfde voorwaarden van alle gebruikers en Welcome To My Garden behoudt zich het recht voor om accounts van Members of Superfans die niet voldoen aan de voorwaarden te weigeren, op te schorten of te verwijderen.",
               "1": "De beperkingen van aansprakelijkheid (zie hieronder) van Welcome To My Garden in het algemeen gelden ook voor het gebruik van de extra functies voor Members en Superfans, wat betekent dat Welcome To My Garden niet verantwoordelijk kan worden gehouden voor enige schade of verlies dat zou ontstaan als gevolg van het gebruik van Welcome To My Garden.",
-              "2": "De prijs is inclusief 21% BTW op het lidmaatschap. Lidmaatschappen worden jaarlijks betaald en worden automatisch verlengd, tenzij ze worden geannuleerd door het lid of door WTMG. Leden kunnen de verlenging op elk moment op hun {accountLink} pagina annuleren. Wanneer een lid zijn lidmaatschap annuleert, wordt alleen de automatische verlenging geannuleerd. Dit betekent dat het lidmaatschap geldig blijft tot het einde van de al betaalde periode. Twee dagen voor de verlengingsdatum worden leden per e-mail geïnformeerd over de aankomende verlenging. Het WTMG-lidmaatschap kan niet worden terugbetaald en kan niet aan derden worden overgedragen."
+              "2": "De prijs is inclusief 21% BTW op het lidmaatschap. Lidmaatschappen worden jaarlijks betaald en worden automatisch verlengd, tenzij ze worden geannuleerd door het lid of door WTMG. Leden kunnen de verlenging op elk moment op hun {accountLink} annuleren. Wanneer een lid zijn lidmaatschap annuleert, wordt alleen de automatische verlenging geannuleerd. Dit betekent dat het lidmaatschap geldig blijft tot het einde van de al betaalde periode. Twee dagen voor de verlengingsdatum worden leden per e-mail geïnformeerd over de aankomende verlenging. Het WTMG-lidmaatschap kan niet worden terugbetaald en kan niet aan derden worden overgedragen."
             }
           },
           "7": {

@@ -67,7 +67,7 @@
                   {
                     values: {
                       accountLink: `<a href="${routes.ACCOUNT}" target="_blank" class="link lowercase">
-                  ${$_('generics.account')}</a>`
+                  ${$_('generics.account-page')}</a>`
                     }
                   }
                 )}

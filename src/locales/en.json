@@ -20,6 +20,7 @@
     "chat": "Chat",
     "community": "Community",
     "account": "Account",
+    "account-page": "account page",
     "sign-out": "Sign out",
     "sign-in": "Sign in",
     "garden": "Garden",
@@ -229,7 +230,7 @@
           },
           "cost": {
             "title": "Does Welcome To My Garden cost anything?",
-            "copy": "<p>Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. You can cancel the renewal anytime on our {accountLink} page. You can become a member <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">here</a>.</p>"
+            "copy": "<p>Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. You can cancel the renewal anytime on your {accountLink}. You can become a member <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">here</a>.</p>"
           },
           "no-garden": {
             "title": "I don’t have a garden. Can I still travel to other people’s gardens?",
@@ -266,7 +267,7 @@
           },
           "suspend": {
             "title": "I would like to suspend my garden for a while but I will be back soon! How do I do this?",
-            "copy": "Go to {accountLink}. In the 'Your garden' category, untick the box 'Shown on the map'. The garden will still be saved in the platform but won’t appear on the map. When you’re back, just tick the box again and you can start welcoming slow travellers again!"
+            "copy": "Go to your {accountLink}. In the 'Your garden' category, untick the box 'Shown on the map'. The garden will still be saved in the platform but won’t appear on the map. When you’re back, just tick the box again and you can start welcoming slow travellers again!"
           },
           "issue": {
             "title": "I’ve had an issue with a guest or a host. How do I report it?",
@@ -291,7 +292,7 @@
           },
           "newsletter": {
             "title": "I would love to receive your next newsletter! What should I do?",
-            "copy": "To receive our next newsletter, go to {accountLink} and tick the box “Welcome To My Garden has news to share”. If you’d like to stop receiving news, untick the same box."
+            "copy": "To receive our next newsletter, go to your {accountLink} and tick the box “Welcome To My Garden has news to share”. If you’d like to stop receiving news, untick the same box."
           },
           "text-in-english": {
             "title": "There’s text in English, whereas it’s not my preferred language. How can I change this?",
@@ -554,9 +555,8 @@
       "auth-notice": "You must be signed in to add your garden to the map. Either {signInLink} or {registerLink}.",
       "sign-in-link-text": "sign in",
       "register-link-text": "create an account",
-      "email-confirm-notice": "You need to verify your email before you add your garden to the map. We sent you an email when you created your account. You can resend a verification link from {accountLink}.",
-      "normal-notice": "By submitting this form, your garden will be added to the map. You can manage or remove it at any time from {accountLink}.",
-      "account-link-text": "your profile",
+      "email-confirm-notice": "You need to verify your email before you add your garden to the map. We sent you an email when you created your account. You can resend a verification link from your {accountLink}.",
+      "normal-notice": "By submitting this form, your garden will be added to the map. You can manage or remove it at any time from your {accountLink}.",
       "location": {
         "title": "Location (required)",
         "notice": "Move the marker to set the location of your garden. You can fill in the address fields to move the marker closer to you. <br /> We don't store your address information.",
@@ -799,7 +799,7 @@
             },
             "6": {
               "title": "How can I manage, renew or cancel my membership?",
-              "copy": "You can manage, renew, or cancel your membership anytime on your {accountLink} page. On this page, you will see the current status of your membership, the renewal or expiration date, and instructions on how to cancel or renew it."
+              "copy": "You can manage, renew, or cancel your membership anytime on your {accountLink}. On this page, you will see the current status of your membership, the renewal or expiration date, and instructions on how to cancel or renew it."
             },
             "7": {
               "title": "Is it mandatory to become a member or Superfan as a slow traveller?",
@@ -819,11 +819,11 @@
             },
             "11": {
               "title": "Can I stop being a member or Superfan?",
-              "copy": "<p>Yes, any time you want. As soon as you’ve become a community member, you can manage your yearly subscription membership on your WTMG {accountLink} page.</p>\n<p>If your account page shows <strong>\"Your membership is active. Automatically renews on xx/xx/xxxx.\"</strong>, your membership will renew on that date. You can cancel the renewal anytime by clicking <strong>“Manage Membership”</strong>. If you cancel your membership, only the automatic renewal will be cancelled. This means you will remain a member until the end of the period you have already paid for.</p>\n<p>If your account page shows <strong>\"Your membership is valid until xx/xx/xxxx. Automatic renewal turned off.”</strong>, your membership will expire on the specified date and won't be renewed automatically.</p>"
+              "copy": "<p>Yes, any time you want. As soon as you’ve become a community member, you can manage your yearly subscription membership on your WTMG {accountLink}.</p>\n<p>If your account page shows <strong>\"Your membership is active. Automatically renews on xx/xx/xxxx.\"</strong>, your membership will renew on that date. You can cancel the renewal anytime by clicking <strong>“Manage Membership”</strong>. If you cancel your membership, only the automatic renewal will be cancelled. This means you will remain a member until the end of the period you have already paid for.</p>\n<p>If your account page shows <strong>\"Your membership is valid until xx/xx/xxxx. Automatic renewal turned off.”</strong>, your membership will expire on the specified date and won't be renewed automatically.</p>"
             },
             "12": {
               "title": "What happens if I cancel my membership?",
-              "copy": "In case you cancel your membership, only the automatic renewal will be cancelled. This means you will remain a member until the end of the period you have already paid for. However, if you change your mind, you can reactivate the automatic renewal anytime on your {accountLink} page."
+              "copy": "In case you cancel your membership, only the automatic renewal will be cancelled. This means you will remain a member until the end of the period you have already paid for. However, if you change your mind, you can reactivate the automatic renewal anytime on your {accountLink}."
             },
             "13": {
               "title": "Is a membership needed per person if I travel with friends or family?",
@@ -888,7 +888,7 @@
       "explore-features-button": "Start planning your trip"
     },
     "closing-section": {
-      "text": "<p><strong>A huge thank you on behalf of the entire team!</strong></p>\n<p>Dries, Manon and Thor</p>\n<p><em>PS: Want to find out more about who we are? <a class=\"link\" href=\"/about-us\">Read our story here!</a></em></p>"
+      "text": "<p><strong>A huge thank you from our team!</strong></p>\n<p>Dries, Manon and Thor</p>\n<p><em>PS: Want to find out more about who we are? <a class=\"link\" href=\"/about-us\">Read our story here!</a></em></p>"
     }
   },
   "thank-you-donate": {
@@ -1295,7 +1295,7 @@
             "copy": {
               "0": "Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Like any garden, WTMG needs nurturing in order to grow and stay healthy. Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. Slow travellers have the choice to either become Members or Superfans. This membership is mandatory. Members or Superfans are not allowed to transfer their login to a third party. Superfans agree with the same terms of all users and Welcome To My Garden reserves the right to refuse, suspend or delete accounts of Superfans who don’t comply with the terms.",
               "1": "The limitations of liability (see below) of Welcome To My Garden in general also apply for the use of the extra features for Superfans, which means that Welcome To My Garden cannot be held responsible for any damages or loss that would occur due to the use of Welcome To My Garden.",
-              "2": "Slow travellers chose if they want to become Members (minimum contribution) or Superfans (extra contribution). The price includes 21% VAT applied to memberships. Memberships are paid yearly and renew automatically, unless they are cancelled by the member or by WTMG. Members can cancel the renewal at any time on their {accountLink} page. When a member cancels a membership, only the automatic renewal is cancelled. This means that the membership remains valid until the end of the period already paid for. Two days before the renewal date, members are notified by email about their upcoming renewal. The membership is non-refundable and non-transferable to a third party."
+              "2": "Slow travellers chose if they want to become Members (minimum contribution) or Superfans (extra contribution). The price includes 21% VAT applied to memberships. Memberships are paid yearly and renew automatically, unless they are cancelled by the member or by WTMG. Members can cancel the renewal at any time on their {accountLink}. When a member cancels a membership, only the automatic renewal is cancelled. This means that the membership remains valid until the end of the period already paid for. Two days before the renewal date, members are notified by email about their upcoming renewal. The membership is non-refundable and non-transferable to a third party."
             }
           },
           "7": {

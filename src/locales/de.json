@@ -35,7 +35,8 @@
     "on": "An",
     "error": {
       "start": "Etwas ist schief gelaufen"
-    }
+    },
+    "account-page": "Kontoseite"
   },
   "ui": {
     "card": {
@@ -262,7 +263,7 @@
           },
           "suspend": {
             "title": "Ich möchte meinen Garten für eine Weile ruhen lassen, bin aber bald wieder da! Wie mache ich das?",
-            "copy": "Gehen Sie zu {accountLink}. Entfernen Sie in der Kategorie „Ihr Garten“ das Häkchen aus dem Kontrollkästchen „Auf der Karte angezeigt“. Der Garten bleibt weiterhin auf der Plattform gespeichert, erscheint aber nicht auf der Karte. Wenn Sie zurück sind, setzen Sie einfach erneut ein Häkchen und Sie können wieder damit beginnen, Slow Traveller willkommen zu heißen!"
+            "copy": "Gehen Sie zu Ihr {accountLink}. Entfernen Sie in der Kategorie „Ihr Garten“ das Häkchen aus dem Kontrollkästchen „Auf der Karte angezeigt“. Der Garten bleibt weiterhin auf der Plattform gespeichert, erscheint aber nicht auf der Karte. Wenn Sie zurück sind, setzen Sie einfach erneut ein Häkchen und Sie können wieder damit beginnen, Slow Traveller willkommen zu heißen!"
           },
           "issue": {
             "title": "Ich hatte ein Problem mit einem Gast oder Gastgeber. Wie melde ich es?",
@@ -283,11 +284,11 @@
           },
           "update-email": {
             "title": "Ich möchte meine E-Mail-Adresse aktualisieren oder mein Konto löschen. Wie mache ich das?",
-            "copy": "Wenn Sie Ihre E-Mail-Adresse ändern oder Ihr Konto löschen möchten, gehen Sie bitte zu Ihrem {accountLink}."
+            "copy": "Wenn Sie Ihre E-Mail-Adresse ändern oder Ihr Konto löschen möchten, gehen Sie bitte zu Ihr {accountLink} ."
           },
           "newsletter": {
             "title": "Ich möchte Ihren nächsten Newsletter sehr gern erhalten! Was muss ich tun?",
-            "copy": "Um unseren nächsten Newsletter zu erhalten, gehen Sie zu {accountLink} und aktivieren Sie das Kontrollkästchen „Welcome To My Garden hat Neuigkeiten zu teilen“. Wenn Sie keine Neuigkeiten mehr erhalten möchten, deaktivieren Sie dasselbe Kontrollkästchen."
+            "copy": "Um unseren nächsten Newsletter zu erhalten, gehen Sie zu Ihr {accountLink} und aktivieren Sie das Kontrollkästchen „Welcome To My Garden hat Neuigkeiten zu teilen“. Wenn Sie keine Neuigkeiten mehr erhalten möchten, deaktivieren Sie dasselbe Kontrollkästchen."
           },
           "text-in-english": {
             "title": "Es gibt Text auf Englisch, obwohl es nicht meine bevorzugte Sprache ist. Wie kann ich das ändern?",
@@ -550,9 +551,8 @@
       "auth-notice": "Sie müssen angemeldet sein, um Ihren Garten zur Karte hinzufügen zu können. Entweder {signInLink} oder {registerLink}.",
       "sign-in-link-text": "anmelden",
       "register-link-text": "ein Konto erstellen",
-      "email-confirm-notice": "Sie müssen Ihre E-Mail bestätigen, bevor Sie Ihren Garten zur Karte hinzufügen können. Bei der Erstellung Ihres Accounts haben wir Ihnen eine E-Mail geschickt. Sie können einen Verifizierungslink von {accountLink} erneut anfordern.",
-      "normal-notice": "Durch das Absenden dieses Formulars wird Ihr Garten zur Karte hinzugefügt. Sie können ihn jederzeit über {accountLink} verwalten oder entfernen.",
-      "account-link-text": "Ihr Profil",
+      "email-confirm-notice": "Sie müssen Ihre E-Mail bestätigen, bevor Sie Ihren Garten zur Karte hinzufügen können. Bei der Erstellung Ihres Accounts haben wir Ihnen eine E-Mail geschickt. Sie können einen Verifizierungslink von Ihr {accountLink} erneut anfordern.",
+      "normal-notice": "Durch das Absenden dieses Formulars wird Ihr Garten zur Karte hinzugefügt. Sie können ihn jederzeit über Ihr {accountLink} verwalten oder entfernen.",
       "location": {
         "title": "Standort (erforderlich)",
         "notice": "Verschieben Sie die Markierung, um den Standort Ihres Gartens festzulegen. Sie können die Adressfelder ausfüllen, um die Markierung näher zu Ihnen zu verschieben. <br /> Wir speichern Ihre Adressdaten nicht.",
@@ -794,7 +794,7 @@
               "copy": "Sobald Sie ausgewählt haben, ob Sie Mitglied oder Superfan werden möchten, werden Sie auf die Zahlungsseite weitergeleitet. Sie zahlen jeweils für ein Jahr. Deine Mitgliedschaft wird automatisch verlängert, aber du kannst die automatische Verlängerung jederzeit auf deiner {accountLink} kündigen. Zwei Tage vor dem Verlängerungsdatum wirst du auch per E-Mail über die bevorstehende Verlängerung informiert."
             },
             "6": {
-              "copy": "Puedes gestionar, renovar o cancelar tu membresía en cualquier momento desde la página de tu {accountLink}. En esta página, verás el estado actual de tu membresía, la fecha de renovación o expiración, y las instrucciones sobre cómo cancelarla o renovarla.",
+              "copy": "Du kannst deine Mitgliedschaft jederzeit auf deiner {accountLink} verwalten, erneuern oder kündigen. Auf dieser Seite siehst du den aktuellen Status deiner Mitgliedschaft, das Verlängerungs- oder Ablaufdatum sowie Anweisungen, wie du sie kündigen oder erneuern kannst.",
               "title": "Wie kann ich meine Mitgliedschaft verwalten, erneuern oder kündigen?"
             },
             "7": {
@@ -815,7 +815,7 @@
             },
             "11": {
               "title": "Kann ich meine Mitgliedschaft oder meine Superfan-Mitgliedschaft beenden?",
-              "copy": "<p>Ja, jederzeit. Sobald du Mitglied der Community geworden bist, kannst du deine jährliche Mitgliedschaft auf deiner WTMG-{accountLink} verwalten.</p>\n<p>Wenn auf deinem Konto steht: „Deine Mitgliedschaft ist aktiv. Sie wird automatisch am xx/xx/xxxx verlängert.“, wird deine Mitgliedschaft an diesem Datum verlängert. Du kannst die Verlängerung jederzeit durch ein Klicken auf „Mitgliedschaft verwalten“ kündigen. Wenn du deine Mitgliedschaft kündigst, wird nur die automatische Verlängerung storniert. Das bedeutet, dass du bis zum Ende des bereits bezahlten Zeitraums Mitglied bleibst.</p>\n<p>Wenn auf deinem Konto steht: „Deine Mitgliedschaft ist gültig bis zum xx/xx/xxxx. Automatische Verlängerung deaktiviert.“, läuft deine Mitgliedschaft an dem angegebenen Datum ab und wird nicht automatisch verlängert.</p>"
+              "copy": "<p>Ja, jederzeit. Sobald du Mitglied der Community geworden bist, kannst du deine jährliche Mitgliedschaft auf deiner {accountLink} verwalten.</p>\n<p>Wenn auf deinem Konto steht: „Deine Mitgliedschaft ist aktiv. Sie wird automatisch am xx/xx/xxxx verlängert.“, wird deine Mitgliedschaft an diesem Datum verlängert. Du kannst die Verlängerung jederzeit durch ein Klicken auf „Mitgliedschaft verwalten“ kündigen. Wenn du deine Mitgliedschaft kündigst, wird nur die automatische Verlängerung storniert. Das bedeutet, dass du bis zum Ende des bereits bezahlten Zeitraums Mitglied bleibst.</p>\n<p>Wenn auf deinem Konto steht: „Deine Mitgliedschaft ist gültig bis zum xx/xx/xxxx. Automatische Verlängerung deaktiviert.“, läuft deine Mitgliedschaft an dem angegebenen Datum ab und wird nicht automatisch verlängert.</p>"
             },
             "12": {
               "copy": "Falls du deine Mitgliedschaft kündigst, wird nur die automatische Verlängerung storniert. Das bedeutet, dass du bis zum Ende des bereits bezahlten Zeitraums Mitglied bleibst. Wenn du jedoch deine Meinung änderst, kannst du die automatische Verlängerung jederzeit auf deiner {accountLink} reaktivieren.",
@@ -884,7 +884,7 @@
       "explore-features-button": "Beginne mit deiner Reiseplanung"
     },
     "closing-section": {
-      "text": "<p><strong>Ein riesengroßes Dankeschön im Namen des gesamten Teams!</strong></p><p> Dries, Manon und Thor</p><p> <em>PS: Sie möchten mehr darüber erfahren, wer wir sind? <a class=\"link\" href=\"/about-us\">Lesen Sie hier unsere Geschichte!</a></em></p>"
+      "text": "<p><strong>Ein riesiges Dankeschön von unserem Team!</strong></p><p> Dries, Manon und Thor</p><p> <em>PS: Sie möchten mehr darüber erfahren, wer wir sind? <a class=\"link\" href=\"/about-us\">Lesen Sie hier unsere Geschichte!</a></em></p>"
     }
   },
   "thank-you-donate": {
