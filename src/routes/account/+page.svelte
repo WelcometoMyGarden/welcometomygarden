@@ -108,8 +108,13 @@
     <div class="content">
       <section class="user-information">
         <h2>{$user.firstName} {$user.lastName}</h2>
-        <div class="details">
-          <div>
+        <div
+          class="infogrid"
+          class:has-sub={!!$user.stripeSubscription}
+          class:auto-renewing={$hasAutoRenewingSubscription}
+          class:valid={$hasValidSubscription}
+        >
+          <div class="email-address">
             <span class="icon icon--left">
               <Icon icon={emailIcon} />
             </span>
@@ -120,16 +125,14 @@
               <span class="screen-reader">{$_('account.change-email.modal.title')}</span>
             </button>
           </div>
-          <div>
-            <span class="icon">
+          <div class="flag-container">
+            <span class="icon flag">
               <Icon icon={flagIcon} />
             </span>
             {$countryNames[$user.countryCode]}
           </div>
-        </div>
-        {#if $hasValidSubscription && $user.stripeSubscription}
-          <div class="superfan-validity" class:auto-renewing={$hasAutoRenewingSubscription}>
-            <p>
+          {#if $hasValidSubscription && $user.stripeSubscription}
+            <p class="superfan-validity">
               {#if $hasAutoRenewingSubscription && typeof $user.stripeSubscription?.canceledAt === 'number'}
                 <!-- The user scheduled the cancellation -->
                 ✅ {@html $_('account.superfan.auto-canceled', {
@@ -171,13 +174,11 @@
                 href={customerPortalLink ?? ''}>{$_('account.superfan.btn-manage')}</Button
               >
             {/if}
-          </div>
-        {:else if $user.stripeSubscription}
-          <!-- The invalid subscription state is assumed from the alternative of the case above -->
-          <!-- TODO: in charge_automatically we might need to show that some payment errors occurred
+          {:else if $user.stripeSubscription}
+            <!-- The invalid subscription state is assumed from the alternative of the case above -->
+            <!-- TODO: in charge_automatically we might need to show that some payment errors occurred
                and a button to the management portal -->
-          <div class="superfan-validity invalid">
-            <p>{@html $_('account.superfan.just-ended')}</p>
+            <p class="superfan-validity invalid">{@html $_('account.superfan.just-ended')}</p>
             <Button
               xxsmall
               uppercase
@@ -190,8 +191,8 @@
                 }
               }}>{$_('account.superfan.renew-btn-text')}</Button
             >
-          </div>
-        {/if}
+          {/if}
+        </div>
       </section>
       {#if !$user.emailVerified}
         <section>
@@ -314,28 +315,53 @@
   }
 
   .user-information {
-    text-align: center;
     padding-bottom: 2rem;
     border-bottom: 2px solid var(--color-gray);
     margin-bottom: 2rem;
   }
 
-  .user-information .details {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    margin-top: 2rem;
+  .user-information > h2 {
+    text-align: center;
   }
 
-  .user-information .details > div {
-    display: flex;
-    align-items: center;
+  .infogrid {
+    display: grid;
+    grid-template-columns: auto min-content;
+    /* Aligns with email pref checkbox */
+    gap: 1.2rem 1.5rem;
+    padding: 0 1rem 0 4rem;
   }
 
+  /* If the second row only has one element, or no elements  */
+  .infogrid.valid:not(.auto-renewing),
+  .infogrid:not(.has-sub) {
+    display: flex;
+    padding: 0;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .infogrid.valid:not(.auto-renewing) .superfan-validity {
+    width: 100%;
+    text-align: center;
+  }
+  .infogrid.valid:not(.auto-renewing) .email-address,
+  .infogrid:not(.has-sub) .email-address {
+    margin-right: 2rem;
+  }
+
+  .flag-container {
+    /* Ensure that the flag icon never collapses
+    despite a min-content in the parent grid
+     */
+    width: max-content;
+  }
   .icon {
     width: 2rem;
     height: 1.5rem;
     display: inline-block;
+  }
+  .icon.flag {
+    vertical-align: top;
   }
 
   .icon--left {
@@ -375,27 +401,12 @@
     display: block;
   }
 
-  .superfan-validity {
-    margin-top: 1rem;
-  }
-
-  .superfan-validity.invalid,
-  .superfan-validity.auto-renewing {
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    gap: 2.5rem;
-    margin: 2rem 0 0 0;
-    text-align: left;
-  }
-
-  .superfan-validity.auto-renewing {
-    gap: 1.5rem;
-  }
-
-  .superfan-validity :global(.button) {
+  .infogrid :global(.button) {
     align-self: center;
     max-width: 12rem;
+  }
+  .infogrid.auto-renewing :global(.button) {
+    text-align: left;
   }
 
   @media (max-width: 700px) {
@@ -409,23 +420,26 @@
   }
 
   @media (max-width: 550px) {
-    .user-information .details {
-      flex-direction: column;
+    .infogrid {
+      display: flex;
+      padding: 0;
+      justify-content: center;
+      flex-wrap: wrap;
+      text-align: center;
+      gap: 0 1rem;
     }
-    .user-information .details > div {
+    .infogrid :global(.button) {
+      max-width: unset;
+    }
+    .superfan-validity {
+      margin-top: 1.4rem;
       margin-bottom: 1rem;
     }
+  }
 
-    .superfan-validity.auto-renewing {
-      flex-direction: column;
-      text-align: center;
-      align-items: center;
-      gap: 0rem;
-      margin-top: 0.5rem;
-    }
-
-    .superfan-validity :global(.button) {
-      max-width: unset;
+  @media (max-width: 400px) {
+    .email-address {
+      margin-bottom: 1rem;
     }
   }
 </style>

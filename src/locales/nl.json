@@ -430,7 +430,7 @@
             },
             "5": {
               "title": "Hoe gaat de betaling in z’n werk?",
-              "copy": "Zodra je hebt besloten hoeveel je wilt betalen, word je naar de betalingspagina gestuurd. Je betaalt steeds per jaar. Je lidmaatschap wordt automatisch verlengd, maar je kan de automatische verlenging op elk moment op je accountpagina annuleren. Twee dagen voor de verlengingsdatum informeren we je ook per e-mail over je aankomende verlenging."
+              "copy": "Zodra je hebt besloten hoeveel je wilt betalen, word je naar de betalingspagina gestuurd. Je betaalt steeds per jaar. Je lidmaatschap wordt automatisch verlengd, maar je kan de automatische verlenging op elk moment op je {accountLink} annuleren. Twee dagen voor de verlengingsdatum informeren we je ook per e-mail over je aankomende verlenging."
             },
             "6": {
               "title": "Hoe kan ik mijn lidmaatschap beheren, verlengen of annuleren?",
@@ -450,7 +450,7 @@
             },
             "10": {
               "title": "Voor hoe lang word ik lid of Superfan?",
-              "copy": "Als je lid of Superfan wordt, betaal je voor een heel jaar. Je lidmaatschap wordt automatisch verlengd, maar je kan de automatische verlenging op elk moment op je accountpagina annuleren. Als je je lidmaatschap annuleert, wordt alleen de automatische verlenging geannuleerd. Dit betekent dat je lid blijft tot het einde van de periode waarvoor je al hebt betaald."
+              "copy": "Als je lid of Superfan wordt, betaal je voor een heel jaar. Je lidmaatschap wordt automatisch verlengd, maar je kan de automatische verlenging op elk moment op je {accountLink} annuleren. Als je je lidmaatschap annuleert, wordt alleen de automatische verlenging geannuleerd. Dit betekent dat je lid blijft tot het einde van de periode waarvoor je al hebt betaald."
             },
             "11": {
               "title": "Kan ik stoppen met lid of Superfan zijn?",
@@ -570,7 +570,7 @@
         "systems-error": "Er ging iets fout in ons systeem. Gelieve {supportEmail} te contacteren en we zullen je zo snel mogelijk helpen! Excuseer voor het ongemak.",
         "payment-error": "Er ging iets fout met je betaling, probeer alsjeblieft opnieuw."
       },
-      "success": "We hebben je betaling goed ontvangen, welkom in de WTMG community! Hier is de chat die je wilde openen."
+      "success": "Bedankt om lid te worden van WTMG!"
     },
     "not-logged-in-warning": "Om Superfan te worden, moet je eerst inloggen of een account aanmaken",
     "title": "Betaling",

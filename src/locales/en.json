@@ -795,7 +795,7 @@
             },
             "5": {
               "title": "How does payment work?",
-              "copy": "Once you’ve chosen if you want to become a member or a Superfan, you will be redirected to the payment page. You pay for one year at a time. Your membership will renew automatically, but you can cancel the automatic renewal anytime on your account page. Two days before the renewal date, we’ll also notify you by email about your upcoming renewal."
+              "copy": "Once you’ve chosen if you want to become a member or a Superfan, you will be redirected to the payment page. You pay for one year at a time. Your membership will renew automatically, but you can cancel the automatic renewal anytime on your {accountLink}. Two days before the renewal date, we’ll also notify you by email about your upcoming renewal."
             },
             "6": {
               "title": "How can I manage, renew or cancel my membership?",
@@ -815,7 +815,7 @@
             },
             "10": {
               "title": "For how long will I become a member or Superfan?",
-              "copy": "When you become a member or Superfan, you will pay for one year. Your membership will renew automatically, but you can cancel the automatic renewal anytime on your account page. If you cancel your membership, only the automatic renewal will be cancelled. This means you will remain a member until the end of the period you have already paid for."
+              "copy": "When you become a member or Superfan, you will pay for one year. Your membership will renew automatically, but you can cancel the automatic renewal anytime on your {accountLink}. If you cancel your membership, only the automatic renewal will be cancelled. This means you will remain a member until the end of the period you have already paid for."
             },
             "11": {
               "title": "Can I stop being a member or Superfan?",
@@ -928,7 +928,7 @@
         "systems-error": "Something went wrong in our systems. Please contact {supportEmail} and we'll help you asap! Sorry for the trouble.",
         "payment-error": "Something went wrong with your payment, please try again."
       },
-      "success": "We've successfully received your payment, welcome to the WTMG community! Here’s the chat you wanted to open."
+      "success": "Thank you for becoming a WTMG member!"
     },
     "not-logged-in-warning": "To become Superfan, first log in or create an account",
     "title": "Payment",

@@ -924,11 +924,11 @@
         "systems-error": "In unseren Systemen ist ein Fehler aufgetreten. Bitte kontaktieren Sie {supportEmail} und wir helfen Ihnen so schnell wie möglich! Entschuldigen Sie die Unannehmlichkeiten.",
         "payment-error": "Bei Ihrer Zahlung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
       },
-      "success": "Wir haben Ihre Zahlung erfolgreich erhalten. Willkommen in der WTMG-Community! Hier ist der Chat, den Sie öffnen wollten."
+      "success": "Vielen Dank, dass Sie WTMG-Mitglied geworden sind!"
     },
     "not-logged-in-warning": "Um Superfan zu werden, melden Sie sich zuerst an oder erstellen Sie ein Konto",
     "title": "Zahlung",
-    "terms": "Durch deine Mitgliedschaft stimmst du unseren {termsLink} zu. Deine Mitgliedschaft wird automatisch verlängert, aber du kannst sie jederzeit auf deiner Kontoseite kündigen."
+    "terms": "Durch deine Mitgliedschaft stimmst du unseren {termsLink} zu. Deine Mitgliedschaft wird automatisch verlängert, aber du kannst sie jederzeit kündigen."
   },
   "request-password-reset": {
     "title": "Ein neues Passwort festlegen",
@@ -1290,7 +1290,7 @@
             "copy": {
               "0": "Welcome To My Garden hat es sich zur Aufgabe gemacht, Slow Travel für alle zugänglicher zu machen. Wie jeder Garten muss WTMG gepflegt werden, um zu wachsen und gesund zu bleiben. Der Aufenthalt bei einem WTMG-Gastgeber ist kostenlos. Um WTMG zu erhalten und weiterzuentwickeln, sind wir jedoch auf eine jährliche Mitgliedschaft angewiesen, um die Kosten gerecht auf alle Slow Traveller aufzuteilen. Slow Traveller haben die Wahl, entweder Mitglied oder Superfan zu werden. Diese Mitgliedschaft ist obligatorisch. Mitglieder oder Superfans dürfen ihre Anmeldedaten nicht an Dritte übertragen. Superfans stimmen denselben Bedingungen wie alle Benutzer zu und Welcome To My Garden behält sich das Recht vor, Konten von Superfans, die die Bedingungen nicht einhalten, abzulehnen, zu sperren oder zu löschen.",
               "1": "Die Haftungsbeschränkungen (siehe unten) von Welcome To My Garden im Allgemeinen gelten auch für die Verwendung der Zusatzfunktionen für Superfans, was bedeutet, dass Welcome To My Garden nicht für Schäden oder Verluste verantwortlich gemacht werden kann, die durch die Verwendung von Welcome To My Garden entstehen.",
-              "2": "Slow Traveller können wählen, ob sie Mitglied (Mindestbeitrag) oder Superfan (zusätzlicher Beitrag) werden möchten. Der Preis beinhaltet 21 % Mehrwertsteuer auf Mitgliedschaften. Das Abonnement ist unverbindlich: Es endet automatisch nach einem Jahr und Slow Traveller erhalten eine E-Mail zur Verlängerung. Das Abonnement ist nicht erstattungsfähig und nicht auf Dritte übertragbar."
+              "2": "Slow travellers wählen, ob sie Mitglied (minimaler Beitrag) oder Superfan (zusätzlicher Beitrag) werden möchten. Der Preis beinhaltet 21% Mehrwertsteuer, die auf Mitgliedschaften angewendet wird. Mitgliedschaften werden jährlich bezahlt und automatisch erneuert, es sei denn, sie werden vom Mitglied oder von WTMG gekündigt. Mitglieder können die automatische Verlängerung jederzeit auf ihrer {accountLink} kündigen. Wenn ein Mitglied eine Mitgliedschaft kündigt, wird nur die automatische Verlängerung storniert. Das bedeutet, dass die Mitgliedschaft bis zum Ende des bereits bezahlten Zeitraums gültig bleibt. Zwei Tage vor dem Verlängerungsdatum werden Mitglieder per E-Mail über die bevorstehende Verlängerung informiert. Die Mitgliedschaft ist nicht erstattungsfähig und nicht auf Dritte übertragbar."
             }
           },
           "7": {

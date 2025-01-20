@@ -776,11 +776,11 @@
             },
             "4": {
               "title": "Combien dois-je contribuer?",
-              "copy": "<p>C’est à vous de choisir ! Vous pouvez soit devenir Membre ou Superfan.</p>\n<p>Devenir membre coûte 36 euros par an, ce qui couvre essentiellement vos propres frais. Vous pouvez envoyer des demandes gratuites à 5000 jardins, accéder à des fonctionnalités pratiques pour planifier votre voyage lent et permettre à WTMG de rester sans publicité, totalement indépendant et financé par ses membres.</p>\n<p>Devenir Superfan coûte 60 euros par an. En plus de bénéficier de tous les avantages des membres, les Superfans aident WTMG à améliorer la plateforme, à développer le mouvement slow travel et à faire apparaître</p>"
+              "copy": "<p>C’est à vous de choisir ! Vous pouvez soit devenir Membre ou Superfan.</p>\n<p>Devenir membre coûte 36 euros par an, ce qui couvre essentiellement vos propres frais. Vous pouvez envoyer des demandes gratuites à 5000 jardins, accéder à des fonctionnalités pratiques pour planifier votre voyage lent et permettre à WTMG de rester sans publicité, totalement indépendant et financé par ses membres.</p>\n<p>Devenir Superfan coûte 60 euros par an. En plus de bénéficier de tous les avantages des membres, les Superfans aident WTMG à améliorer la plateforme, à développer le mouvement slow travel et à faire apparaître davantage de jardins sur la carte.</p>"
             },
             "5": {
               "title": "Comment fonctionne le paiement ?",
-              "copy": "Une fois que vous avez choisi le montant que vous souhaitez payer, vous êtes redirigé·e vers la page de paiement. Vous payez pour une année à la fois. Votre abonnement se renouvellera automatiquement, mais vous pouvez annuler le renouvellement automatique à tout moment dans votre compte. Deux jours avant la date de renouvellement, nous vous notifierons aussi par e-mail de votre renouvellement à venir."
+              "copy": "Une fois que vous avez choisi le montant que vous souhaitez payer, vous êtes redirigé·e vers la page de paiement. Vous payez pour une année à la fois. Votre abonnement se renouvellera automatiquement, mais vous pouvez annuler le renouvellement automatique à tout moment dans votre {accountLink}. Deux jours avant la date de renouvellement, nous vous notifierons aussi par e-mail de votre renouvellement à venir."
             },
             "6": {
               "title": "Comment puis-je gérer, renouveler ou annuler mon adhésion ?",
@@ -800,7 +800,7 @@
             },
             "10": {
               "title": "Pendant combien de temps vais-je devenir un Membre ou Superfan ?",
-              "copy": "Si vous devenez un·e Membre ou Superfan, vous payez pour un an à la fois. Votre adhésion se renouvellera automatiquement, mais vous pouvez annuler le renouvellement automatique à tout moment dans votre compte. Si vous annulez votre adhésion, seul le renouvellement automatique sera annulé. Cela signifie que vous resterez membre jusqu'à la fin de la période déjà payée.\n"
+              "copy": "Si vous devenez un·e Membre ou Superfan, vous payez pour un an à la fois. Votre adhésion se renouvellera automatiquement, mais vous pouvez annuler le renouvellement automatique à tout moment dans votre {accountLink}. Si vous annulez votre adhésion, seul le renouvellement automatique sera annulé. Cela signifie que vous resterez membre jusqu'à la fin de la période déjà payée.\n"
             },
             "11": {
               "title": "Puis-je cesser d'être Membre ou Superfan ?",
@@ -921,11 +921,11 @@
         "systems-error": "Un problème est survenu dans notre système. Merci de contacter {supportEmail} et nous reviendrons vers vous le plus vite possible. Nous sommes désolés pour ce problème.",
         "payment-error": "Un problème est survenu lors de votre paiement, merci de réessayer."
       },
-      "success": "Nous avons bien reçu votre paiement. Bienvenue ! Vous pouvez à présent planifier votre slow travel."
+      "success": "Merci d’être devenu·e membre de WTMG !"
     },
     "not-logged-in-warning": "Pour devenir Superfan, connectez-vous d'abord ou créez un compte",
     "title": "Paiement",
-    "terms": "En devenant membre, vous acceptez nos {termsLink}. Votre adhésion sera renouvelée automatiquement, mais vous pouvez l'annuler à tout moment sur la page de votre compte."
+    "terms": "En devenant membre, vous acceptez nos {termsLink}. Votre adhésion sera renouvelée automatiquement, mais vous pouvez l'annuler à tout moment."
   },
   "request-password-reset": {
     "trouble": "Vous avez des difficultés à vous connecter ? Contactez {support} et nous vous aiderons !",
@@ -967,7 +967,7 @@
       "renew-btn-text": "Renouvelez maintenant",
       "auto-active": "Votre adhésion est active.<br>Renouvellement automatique le {date}.",
       "btn-manage": "Gérer l'adhésion",
-      "auto-canceled": "Votre adhésion est valable jusqu'au {date}<br>Renouvellement automatique désactivé."
+      "auto-canceled": "Votre adhésion est valable jusqu'au {date}.<br>Renouvellement automatique désactivé."
     },
     "verify": {
       "title": "Confirmez votre adresse électronique",

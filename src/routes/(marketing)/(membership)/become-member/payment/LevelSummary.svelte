@@ -99,6 +99,20 @@
     height: 2rem;
   }
 
+  @media screen and (min-width: 1000px) {
+    /*
+      On wider screens, ensure all features are on one line
+      with a 2-rem horizontal gap
+    */
+    .checklist {
+      grid-template-columns: min-content min-content;
+      column-gap: 2rem;
+    }
+    .checklist li {
+      white-space: nowrap;
+    }
+  }
+
   @media screen and (max-width: 900px) {
     .icon {
       display: none;

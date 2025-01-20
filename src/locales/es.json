@@ -650,7 +650,7 @@
       "choose-membership": "Elige tu tipo de afiliación"
     },
     "pricing-section": {
-      "title": "Elige su nivel de afiliciación",
+      "title": "Elige su nivel de membresía",
       "description": "Válido por un año. ¡Únete a nuestra comunidad hoy!",
       "per-month": "por mes",
       "pricing-levels": {
@@ -925,11 +925,11 @@
         "systems-error": "Algo salió mal en nuestros sistemas. ¡Comunícate con {supportEmail} yte ayudaremos lo antes posible! Sentimos la molestia.",
         "payment-error": "Algo salió mal con tu pago, inténtalo de nuevo."
       },
-      "success": "Hemos recibido tu pago con éxito, ¡bienvenido a la comunidad WTMG! Aquí está el chat que querías abrir."
+      "success": "¡Gracias por hacerte miembro de WTMG!"
     },
     "not-logged-in-warning": "Para convertirte en Superfan, primero inicia sesión o crea una cuenta",
     "title": "Pago",
-    "terms": "Al hacerte miembro, acepta nuestros {termsLink}. Tu membresía se renovará automáticamente, pero puedes cancelarla en cualquier momento desde la página de tu cuenta."
+    "terms": "Al hacerte miembro, acepta nuestros {termsLink}. Tu membresía se renovará automáticamente, pero puedes cancelarla en cualquier momento."
   },
   "request-password-reset": {
     "title": "Establecer una nueva contraseña",
@@ -1288,7 +1288,7 @@
             "copy": {
               "0": "Welcome To My Garden tiene la misión de hacer que los viajes lentos sean más accesibles para todos. Como cualquier jardín, WTMG necesita cuidados para crecer y mantenerse saludable. Alojarse en un anfitrión WTMG es gratis. Sin embargo, para mantener y desarrollar WTMG, dependemos de una membresía anual para dividir los costos de manera justa entre todos los viajeros lentos. Los viajeros lentos tienen la opción de convertirse en miembros o superfans. Esta membresía es obligatoria. Los miembros o Superfans no pueden transferir su inicio de sesión a un tercero. Los Superfans aceptan los mismos términos de todos los usuarios y Welcome To My Garden se reserva el derecho de rechazar, suspender o eliminar cuentas de Superfans que no cumplan con los términos.",
               "1": "Las limitaciones de responsabilidad (ver más abajo) de Welcome To My Garden en general también se aplican al uso de funciones adicionales para Superfans, lo que significa que Welcome To My Garden no se hace responsable de ningún daño o pérdida que pudiera ocurrir debido al uso de Welcome to My Garden",
-              "2": "Los viajeros lentos eligen si quieren convertirse en Socios (aporte mínimo) o Superfans (aporte extra). El precio incluye el 21% de IVA aplicado a las membresías. La suscripción no tiene compromisos: se detiene automáticamente después de un año y los viajeros lentos reciben un correo electrónico para renovarla. La suscripción no es reembolsable ni transferible a un tercero."
+              "2": "Los viajeros eligen si desean hacerse Miembros (contribución mínima) o Superfans (contribución adicional). El precio incluye el 21% de IVA aplicado a las membresías. Las membresías se pagan anualmente y se renuevan automáticamente, a menos que sean canceladas por el miembro o por WTMG. Los miembros pueden cancelar la renovación en cualquier momento desde la {accountLink}. Cuando un miembro cancela una membresía, solo se cancela la renovación automática. Esto significa que la membresía seguirá siendo válida hasta el final del período ya pagado. Dos días antes de la fecha de renovación, los miembros recibirán una notificación por correo electrónico sobre la próxima renovación. La membresía no es reembolsable ni transferible a un tercero."
             }
           },
           "7": {
