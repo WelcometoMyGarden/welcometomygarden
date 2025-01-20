@@ -390,7 +390,7 @@
     text-align: center;
     font-size: 1.4rem;
     line-height: 1.4;
-    max-width: 600px;
+    max-width: 720px;
     /* Aligns with Stripe payment element grey */
     color: #6d6e78;
   }

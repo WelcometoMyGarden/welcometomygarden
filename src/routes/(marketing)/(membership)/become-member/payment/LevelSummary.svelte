@@ -35,8 +35,7 @@
         >
       </div>
       <ul class="features checklist">
-        <!-- TODO TEST INSERT $LOCALE not hardcoded 'en' -->
-        {#each getNodeArray('payment-superfan.overview-section.features', 'en') as feature}
+        {#each getNodeArray('payment-superfan.overview-section.features', $locale) as feature}
           <li><Icon icon={checkIcon} /><span>{feature}</span></li>
         {/each}
       </ul>
