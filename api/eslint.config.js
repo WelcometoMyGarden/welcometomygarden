@@ -12,7 +12,7 @@ const compat = new FlatCompat({
 });
 
 module.exports = [
-  ...compat.extends('airbnb/base', 'plugin:prettier/recommended'),
+  ...compat.extends('plugin:prettier/recommended'),
   {
     plugins: {
       prettier
@@ -82,16 +82,7 @@ module.exports = [
             '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.'
         }
       ],
-
       'no-await-in-loop': 'warn',
-      'import/no-unresolved': 'off',
-      'import/no-extraneous-dependencies': [
-        'error',
-        {
-          // allow dev deps importing in the eslint config
-          devDependencies: ['**/eslint.config.*']
-        }
-      ],
       camelcase: 'off'
     }
   }
