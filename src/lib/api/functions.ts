@@ -84,10 +84,7 @@ let createCustomerPortalSessionRef: HttpsCallable<
   unknown,
   CreateCustomerPortalSessionResponse
 > | null = null;
-/**
- * @deprecated not to be used for now, as long as the portal mentions a "renewing" membership.
- * @since July 3rd, 2023
- */
+
 export const createCustomerPortalSession: HttpsCallable<
   unknown,
   CreateCustomerPortalSessionResponse
@@ -138,10 +135,6 @@ export const discourseConnectLogin: HttpsCallable<
   DiscourseConnectLoginResponse
 > = wrapCallable(() => discourseConnectLoginRef);
 
-export const initializeUsCentral1Functions = (usCentral1Functions: Functions) => {
-  // TODO: remove, but align this with the production situation at all times
-};
-
 export const initializeEuropeWest1Functions = (europeWest1Functions: Functions) => {
   createUserRef = httpsCallable<CreateUserRequest>(europeWest1Functions, 'createUserV2');
   requestPasswordResetRef = httpsCallable<EmptyObject>(
@@ -153,6 +146,10 @@ export const initializeEuropeWest1Functions = (europeWest1Functions: Functions) 
   createOrRetrieveUnpaidSubscriptionRef = httpsCallable(
     europeWest1Functions,
     'createOrRetrieveUnpaidSubscriptionV2'
+  );
+  createCustomerPortalSessionRef = httpsCallable(
+    europeWest1Functions,
+    'createCustomerPortalSessionV2'
   );
   // temporarily unused
   // createCustomerPortalSessionRef = httpsCallable(

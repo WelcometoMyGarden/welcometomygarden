@@ -17,11 +17,12 @@
   import { countryNames } from '$lib/stores/countryNames';
   import NotificationSection from './NotificationSection.svelte';
   import {
-    hasOpenRenewalInvoice,
-    hasValidSubscription,
-    shouldPromptForNewSubscription,
-    subscriptionJustEnded
+    hasAutoRenewingSubscription,
+    canPayRenewalInvoice,
+    hasValidSubscription
   } from '$lib/stores/subscription';
+  import { onMount } from 'svelte';
+  import { createCustomerPortalSession } from '$lib/api/functions';
 
   let showAccountDeletionModal = false;
   let showEmailChangeModal = false;
@@ -76,8 +77,23 @@
     }
   };
 
+  // Proactively request a customer portal link if it may be used.
+  // This leads to it being immediately ready to be inserted as a simple anchor link, and prevents potential popup blockers
+  // with a JS-triggered redirect.
+  let customerPortalLink: string | undefined;
+  // TEST DO REPLACE AGAIN
+  // let customerPortalLink = 'https://stripe.com';
+  onMount(async () => {
+    if ($user?.superfan && $hasAutoRenewingSubscription) {
+      const { data } = await createCustomerPortalSession();
+      customerPortalLink = data.url;
+    }
+  });
+
   const formatDate = (locale: string, date: Date) =>
-    new Intl.DateTimeFormat(locale, { dateStyle: 'medium' }).format(date);
+    new Intl.DateTimeFormat(locale === 'en' ? 'en-GB' : locale, { dateStyle: 'short' }).format(
+      date
+    );
 </script>
 
 <svelte:head>
@@ -92,8 +108,13 @@
     <div class="content">
       <section class="user-information">
         <h2>{$user.firstName} {$user.lastName}</h2>
-        <div class="details">
-          <div>
+        <div
+          class="infogrid"
+          class:has-sub={!!$user.stripeSubscription}
+          class:auto-renewing={$hasAutoRenewingSubscription}
+          class:valid={$hasValidSubscription}
+        >
+          <div class="email-address">
             <span class="icon icon--left">
               <Icon icon={emailIcon} />
             </span>
@@ -101,45 +122,77 @@
             <button class="icon icon--right" on:click={() => (showEmailChangeModal = true)}>
               <Icon icon={pencilIcon} clickable />
               <!-- Text for accessibility -->
-              <span class="screen-reader">Change email address</span>
+              <span class="screen-reader">{$_('account.change-email.modal.title')}</span>
             </button>
           </div>
-          <div>
-            <span class="icon">
+          <div class="flag-container">
+            <span class="icon flag">
               <Icon icon={flagIcon} />
             </span>
             {$countryNames[$user.countryCode]}
           </div>
-        </div>
-        {#if $hasValidSubscription && $user.stripeSubscription}
-          <div class="superfan-validity">
-            <p>
-              ✅ {$_('account.superfan.valid', {
-                values: {
-                  date: formatDate(
-                    $locale || 'en',
-                    new Date($user.stripeSubscription?.currentPeriodEnd * 1000)
-                  )
-                }
-              })}
+          {#if $hasValidSubscription && $user.stripeSubscription}
+            <p class="superfan-validity">
+              {#if $hasAutoRenewingSubscription && typeof $user.stripeSubscription?.canceledAt === 'number'}
+                <!-- The user scheduled the cancellation -->
+                ✅ {@html $_('account.superfan.auto-canceled', {
+                  values: {
+                    date: formatDate(
+                      $locale || 'en',
+                      new Date($user.stripeSubscription?.cancelAt * 1000)
+                    )
+                  }
+                })}
+              {:else if $hasAutoRenewingSubscription}
+                ✅ {@html $_('account.superfan.auto-active', {
+                  values: {
+                    date: formatDate(
+                      $locale || 'en',
+                      new Date($user.stripeSubscription.currentPeriodEnd * 1000)
+                    )
+                  }
+                })}
+              {:else}
+                <!-- In the send_invoice case -->
+                ✅ {$_('account.superfan.valid', {
+                  values: {
+                    date: formatDate(
+                      $locale || 'en',
+                      new Date($user.stripeSubscription?.currentPeriodEnd * 1000)
+                    )
+                  }
+                })}
+              {/if}
             </p>
-          </div>
-        {:else if $subscriptionJustEnded}
-          <div class="superfan-validity invalid">
-            <p>{@html $_('account.superfan.just-ended')}</p>
+            {#if $hasAutoRenewingSubscription}
+              <Button
+                small
+                inverse
+                link
+                orange={false}
+                target="_blank"
+                href={customerPortalLink ?? ''}>{$_('account.superfan.btn-manage')}</Button
+              >
+            {/if}
+          {:else if $user.stripeSubscription}
+            <!-- The invalid subscription state is assumed from the alternative of the case above -->
+            <!-- TODO: in charge_automatically we might need to show that some payment errors occurred
+               and a button to the management portal -->
+            <p class="superfan-validity invalid">{@html $_('account.superfan.just-ended')}</p>
             <Button
               xxsmall
               uppercase
               on:click={() => {
-                if ($hasOpenRenewalInvoice) {
+                if ($canPayRenewalInvoice) {
+                  // Only valid for send_invoice
                   window.open($user?.stripeSubscription?.renewalInvoiceLink, '_blank');
-                } else if ($shouldPromptForNewSubscription) {
+                } else {
                   window.location.href = `${routes.ABOUT_MEMBERSHIP}#pricing`;
                 }
               }}>{$_('account.superfan.renew-btn-text')}</Button
             >
-          </div>
-        {/if}
+          {/if}
+        </div>
       </section>
       {#if !$user.emailVerified}
         <section>
@@ -262,28 +315,53 @@
   }
 
   .user-information {
-    text-align: center;
     padding-bottom: 2rem;
     border-bottom: 2px solid var(--color-gray);
     margin-bottom: 2rem;
   }
 
-  .user-information .details {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    margin-top: 2rem;
+  .user-information > h2 {
+    text-align: center;
   }
 
-  .user-information .details > div {
-    display: flex;
-    align-items: center;
+  .infogrid {
+    display: grid;
+    grid-template-columns: auto min-content;
+    /* Aligns with email pref checkbox */
+    gap: 1.2rem 1.5rem;
+    padding: 0 1rem 0 4rem;
   }
 
+  /* If the second row only has one element, or no elements  */
+  .infogrid.valid:not(.auto-renewing),
+  .infogrid:not(.has-sub) {
+    display: flex;
+    padding: 0;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .infogrid.valid:not(.auto-renewing) .superfan-validity {
+    width: 100%;
+    text-align: center;
+  }
+  .infogrid.valid:not(.auto-renewing) .email-address,
+  .infogrid:not(.has-sub) .email-address {
+    margin-right: 2rem;
+  }
+
+  .flag-container {
+    /* Ensure that the flag icon never collapses
+    despite a min-content in the parent grid
+     */
+    width: max-content;
+  }
   .icon {
     width: 2rem;
     height: 1.5rem;
     display: inline-block;
+  }
+  .icon.flag {
+    vertical-align: top;
   }
 
   .icon--left {
@@ -314,6 +392,22 @@
     font-weight: 500;
     font-size: 1.8rem;
   }
+  .description {
+    margin-bottom: 1rem;
+  }
+
+  .resend-verification {
+    margin-top: 1rem;
+    display: block;
+  }
+
+  .infogrid :global(.button) {
+    align-self: center;
+    max-width: 12rem;
+  }
+  .infogrid.auto-renewing :global(.button) {
+    text-align: left;
+  }
 
   @media (max-width: 700px) {
     .wrapper {
@@ -326,31 +420,26 @@
   }
 
   @media (max-width: 550px) {
-    .user-information .details {
-      flex-direction: column;
+    .infogrid {
+      display: flex;
+      padding: 0;
+      justify-content: center;
+      flex-wrap: wrap;
+      text-align: center;
+      gap: 0 1rem;
     }
-    .user-information .details > div {
+    .infogrid :global(.button) {
+      max-width: unset;
+    }
+    .superfan-validity {
+      margin-top: 1.4rem;
       margin-bottom: 1rem;
     }
   }
 
-  .description {
-    margin-bottom: 1rem;
-  }
-
-  .resend-verification {
-    margin-top: 1rem;
-    display: block;
-  }
-
-  .superfan-validity {
-    margin-top: 1rem;
-  }
-
-  .superfan-validity.invalid {
-    display: flex;
-    gap: 2rem;
-    margin: 2rem 0 0 0;
-    text-align: left;
+  @media (max-width: 400px) {
+    .email-address {
+      margin-bottom: 1rem;
+    }
   }
 </style>

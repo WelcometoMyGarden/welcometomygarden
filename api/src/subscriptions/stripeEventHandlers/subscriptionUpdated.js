@@ -1,11 +1,14 @@
 //
 const { logger } = require('firebase-functions/v2');
+const { error, log } = require('firebase-functions/logger');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const { stripeSubscriptionKeys } = require('../constants');
 const removeUndefined = require('../../util/removeUndefined');
-const { db } = require('../../firebase');
+const { getUserDocRefsWithData } = require('../../firebase');
 const { isWTMGSubscription } = require('./util');
 const stripe = require('../stripe');
+const { nowSecs } = require('../../util/time');
+const { sendSubscriptionCancellationFeedbackEmail } = require('../../mail');
 
 const {
   priceIdKey,
@@ -14,25 +17,25 @@ const {
   canceledAtKey,
   currentPeriodEndKey,
   currentPeriodStartKey,
-  latestInvoiceStatusKey
+  latestInvoiceStatusKey,
+  collectionMethodKey
 } = stripeSubscriptionKeys;
 
 /**
  * Sent when the subscription is successfully started, after the payment is confirmed.
  * Also sent whenever a subscription is changed. For example, adding a coupon, applying a discount, adding an invoice item, and changing plans all trigger this event.
- * @param {*} event
- * @param {*} res
+ * @param {import('stripe').Stripe.Event} event
+ * @param {import('express').Response} res
  */
 module.exports = async (event, res) => {
   logger.log('Handling subscription.updated');
   /** @type {import('stripe').Stripe.Subscription} */
+  // @ts-ignore
   const subscription = event.data.object;
   if (!isWTMGSubscription(subscription)) {
     logger.log('Ignoring non-WTMG subscription');
     return res.sendStatus(200);
   }
-
-  const uid = await getFirebaseUserId(subscription.customer);
 
   // Double-check: this event may be caused by a voided invoice from someone coming back to pay after leaving this first sub invoice unpaid for 1+ day.
   // In this case, the subscription callable code will void the invoice (triggering this update), cancel the current sub, immediately start a new sub too,
@@ -57,8 +60,21 @@ module.exports = async (event, res) => {
     }
   }
 
+  // Get required data
+  const uid = await getFirebaseUserId(subscription.customer);
+  const { customer: customerId, current_period_end } = subscription;
+  if (!uid) {
+    error(`Could not find a Firebase UID for customer ${customerId}`);
+    return res.sendStatus(500);
+  }
+
+  const { privateUserProfileDocRef, publicUserProfileData, privateUserProfileData } =
+    await getUserDocRefsWithData(uid);
+
   // Save updated subscription state in Firebase
-  const privateUserProfileDocRef = db.doc(`users-private/${uid}`);
+  /**
+   * @type {DocumentReference<UserPrivate>}
+   */
   await privateUserProfileDocRef.update(
     removeUndefined({
       [statusKey]: subscription.status,
@@ -67,19 +83,55 @@ module.exports = async (event, res) => {
       [canceledAtKey]: subscription.canceled_at,
       [currentPeriodStartKey]: subscription.current_period_start,
       [currentPeriodEndKey]: subscription.current_period_end,
-      [latestInvoiceStatusKey]: subscription.latest_invoice.status
+      [latestInvoiceStatusKey]: latestInvoice.status,
+      [collectionMethodKey]: subscription.collection_method
       // startDate should not have changed
     })
   );
 
-  if (subscription.status === 'past_due') {
-    // NOTE there may a possibility here to send an email telling that a subscription will end if they don't renew
-    // check settings here https://stripe.com/docs/billing/revenue-recovery
-    // Careful however: subs may become past due when a payment fails a single time, also for the original/first period payment.
-    // The current approach of instead using invoice.created for this behavior is probably more appropriate.
-    logger.log(`${subscription.id} marked past_due`);
+  // If the subscription is going to be cancelled at the end of the period in the future,
+  // the customer must have made this change (or us in the dashboard, manually)
+  //
+  // Send the confirmation + feedback email
+  if (
+    subscription.collection_method === 'charge_automatically' &&
+    subscription.cancel_at_period_end &&
+    // @ts-ignore
+    event.data.previous_attributes.cancel_at_period_end === false &&
+    typeof subscription.cancel_at === 'number' &&
+    nowSecs() < subscription.cancel_at
+  ) {
+    // First double check that the customer wasn't deleted, and get the email address through Stripe.
+    const customerResponse = await stripe.customers.retrieve(/** @type {string} */ (customerId));
+
+    if (customerResponse.deleted) {
+      error(
+        `Unexpected situation: ${customerResponse.id} was deleted before handling a subscription.updated event`
+      );
+      return res.sendStatus(500);
+    }
+
+    // A workaround re-assign to get the typecast to work more easily...
+    const customer = /** @type {import('stripe').Stripe.Customer & {lastResponse: any}} */ (
+      customerResponse
+    );
+
+    const endDate = new Intl.DateTimeFormat(privateUserProfileData.communicationLanguage ?? 'en', {
+      // 17 december 2024
+      dateStyle: 'long'
+    }).format(current_period_end * 1000);
+
+    log(
+      `${customerId} cancelled ${subscription.id}, ending on ${endDate}. Sending a confirmation email.`
+    );
+
+    await sendSubscriptionCancellationFeedbackEmail(
+      customer.email,
+      publicUserProfileData.firstName,
+      privateUserProfileData.communicationLanguage,
+      endDate
+    );
   }
 
-  // Don't do anything for now.
   return res.sendStatus(200);
 };

@@ -174,7 +174,7 @@
             {@html $_('garden.form.email-confirm-notice', {
               values: {
                 accountLink: `<a class='link' href=${routes.ACCOUNT}>${$_(
-                  'garden.form.account-link-text'
+                  'generics.account-page'
                 )}</a>`
               }
             })}
@@ -185,7 +185,7 @@
             {@html $_('garden.form.normal-notice', {
               values: {
                 accountLink: `<a class='link' href=${routes.ACCOUNT}>${$_(
-                  'garden.form.account-link-text'
+                  'generics.account-page'
                 )}</a>`
               }
             })}

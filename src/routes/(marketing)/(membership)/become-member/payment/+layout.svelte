@@ -31,6 +31,7 @@
   import { emailAsLink, SUPPORT_EMAIL } from '$lib/constants';
   import LevelSummary from './LevelSummary.svelte';
   import { page } from '$app/stores';
+  import { anchorText } from '$lib/util/translation-helpers';
 
   // TODO: if you subscribe & unsubscribe in 1 session without refreshing, no new sub will be auto-generated
   // we could fix this by detecting changes to the user (if we go from subscribed -> unsubscribed)
@@ -71,7 +72,12 @@
           document.location.port
         }${document.location.pathname}${
           continueUrl ? `?continueUrl=${encodeURIComponent(continueUrl)}` : ''
-        }`
+        }`,
+        payment_method_data: {
+          billing_details: {
+            email: $user?.email
+          }
+        }
       }
     });
 
@@ -269,11 +275,11 @@
 </svelte:head>
 
 {#if selectedLevel && $user && !hasActiveSubscription($user)}
-  <PaddedSection desktopOnly>
+  <PaddedSection className="summary-section" desktopOnly>
     <LevelSummary level={selectedLevel} />
   </PaddedSection>
 {/if}
-<PaddedSection>
+<PaddedSection topMargin={false}>
   {#if $user && selectedLevel && !hasActiveSubscription($user)}
     <!-- Payment block - TODO: move into component -->
     {#if error}
@@ -285,19 +291,42 @@
           <span class="method-title">{$_('payment-superfan.payment-section.payment-method')}</span>
           <PaymentElement
             options={{
-              paymentMethodOrder: ['bancontact', 'card', 'ideal', 'sofort']
+              paymentMethodOrder: ['bancontact', 'card', 'ideal', 'sofort'],
+              terms: { bancontact: 'never', sepaDebit: 'never', card: 'never', ideal: 'never' },
+              defaultValues: {
+                billingDetails: {
+                  name: `${$user?.firstName} ${$user?.lastName}`,
+                  email: $user?.email
+                }
+              },
+              // Never show an email field, we always use the account email.
+              // TODO: check if this is appropriate for PayPal
+              fields: {
+                billingDetails: {
+                  email: 'never'
+                }
+              }
             }}
           />
         </Elements>
-        <div class="payment-button">
-          <div>
-            <Button type="submit" uppercase small orange arrow
-              >{$_('payment-superfan.payment-section.pay-button')}</Button
-            >
-            {#if processingPayment}
-              <p>{$_('payment-superfan.payment-section.processing-payment')}</p>
-            {/if}
-          </div>
+        <div class="payment-button-section">
+          <Button type="submit" uppercase medium orange arrow loading={processingPayment} fullWidth
+            >{$_('payment-superfan.payment-section.pay-button')}</Button
+          >
+          <p class="terms">
+            {@html $_('payment-superfan.terms', {
+              values: {
+                termsLink: anchorText({
+                  href: '/terms/terms-of-use',
+                  class: 'link--neutral',
+                  linkText:
+                    $locale === 'de'
+                      ? ($_('generics.terms-of-use') ?? '')
+                      : ($_('generics.terms-of-use') ?? '').toLowerCase()
+                })
+              }
+            })}
+          </p>
         </div>
       </form>
     {:else if !error}
@@ -326,21 +355,46 @@
     /* Taken from Stripe's Payment element CSS */
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
       'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 14.88px;
+    color: rgb(48, 49, 61);
+    line-height: 17.1167px;
     display: inline-block;
     margin-bottom: 0.8rem;
   }
-  .payment-button {
+
+  /* Exceptionally, less padding */
+  :global(.outer.summary-section) {
+    margin-bottom: 4rem !important;
+  }
+
+  .payment-button-section {
     width: 100%;
-    padding: 2rem;
+    padding: 0 2rem 2rem 2rem;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
   }
 
-  .payment-button :global(button) {
-    width: 10rem;
+  .payment-button-section :global(button) {
+    max-width: 30rem;
+    margin: 3rem auto 2.7rem auto;
   }
 
   .error {
     color: var(--color-danger);
+  }
+
+  .terms {
+    margin-bottom: 0;
+    text-align: center;
+    font-size: 1.4rem;
+    line-height: 1.4;
+    max-width: 720px;
+    /* Aligns with Stripe payment element grey */
+    color: #6d6e78;
+  }
+  .terms > :global(.link--neutral) {
+    color: #6d6e78;
   }
 </style>

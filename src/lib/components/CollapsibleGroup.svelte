@@ -1,7 +1,10 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { getNodeChildren } from '$lib/util';
+  import { getNodeChildren, supportEmailLinkString } from '$lib/util';
   import Collapsible from './Collapsible.svelte';
+  import { COMMUNITY_TRANSLATIONS_URL, DONATION_URL } from '$lib/constants';
+  import routes from '$lib/routes';
+  import { anchorText } from '$lib/util/translation-helpers';
 
   export let collapsibleKey: string;
 
@@ -19,7 +22,27 @@
   {#each getNodeChildren(collapsibleKey) as key, i}
     <Collapsible on:click={() => toggleCollapsible(i)} open={activeCollapsible === i}>
       <h3 class="oh3" slot="title">{$_(`${collapsibleKey}.${key}.title`)}</h3>
-      <p slot="content">{@html $_(`${collapsibleKey}.${key}.copy`)}</p>
+      <p slot="content">
+        {@html $_(`${collapsibleKey}.${key}.copy`, {
+          values: {
+            // Note: copy pasted from src/lib/components/Info/Clusters.svelte
+            // There might be an opportunity to refactor this
+            support: supportEmailLinkString,
+            donationLink: `<a href="${DONATION_URL}" target="_blank" class="link">
+                  ${$_('faq.donation')}</a>`,
+            chatLink: `<a href="${routes.CHAT}" target="_blank" class="link lowercase">
+                  ${$_('generics.chat')}</a>`,
+            accountLink: `<a href="${routes.ACCOUNT}" target="_blank" class="link lowercase">
+                  ${$_('generics.account-page')}</a>`,
+            communityTranslationsLink: `<a href="${COMMUNITY_TRANSLATIONS_URL}" target="_blank" rel="noreferrer" class="link lowercase">
+                  ${$_('faq.instruction-page')}</a>`,
+            mobileFaqLink: anchorText({
+              href: $_('push-notifications.prompt.helpcenter-url'),
+              linkText: $_('faq.help-center-text')
+            })
+          }
+        })}
+      </p>
     </Collapsible>
   {/each}
 </div>

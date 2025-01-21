@@ -25,6 +25,9 @@
   import trackEvent from '$lib/util/track-plausible';
   import createUrl from '$lib/util/create-url';
   import SocialProof from '../_components/SocialProof.svelte';
+  import Img from '@zerodevx/svelte-img';
+  // Disabled LQIP because the background blur is visible through the transparent final png
+  import membersBarImg from '$lib/images/members-bar.png?as=run:0';
 
   /**
    * Whether to show full cards with all info.
@@ -144,8 +147,13 @@
 
 <div class="container">
   <div class="pricing-description">
-    <h3 id="pricing-title">{$t('become-superfan.pricing-section.title')}</h3>
+    <svelte:element this={condensed ? 'h3' : 'h2'} id="pricing-title" class:condensed
+      >{$t('become-superfan.pricing-section.title')}</svelte:element
+    >
     <p id="pricing-description">{$t('become-superfan.pricing-section.description')}</p>
+    {#if !condensed || isMobile}
+      <Img class="members-bar" src={membersBarImg} />
+    {/if}
   </div>
   <div
     class="membership-levels"
@@ -272,6 +280,13 @@
 
   .container {
     height: fit-content;
+    /* the container-type otherwise somehow resets this to 0 in FF */
+    width: 100%;
+    container-type: inline-size;
+  }
+
+  #pricing-title:not(.condensed) {
+    margin-bottom: 1.2rem;
   }
 
   /* Condensed desktop modal styles & overrides */
@@ -298,12 +313,33 @@
     margin-bottom: 0.5rem;
   }
 
+  /* section */
   .pricing-description {
     max-width: 82rem;
     text-align: center;
     margin: 0rem auto 2rem auto;
   }
 
+  p#pricing-description {
+    margin-bottom: 1.4rem;
+  }
+
+  .pricing-description :global(.members-bar) {
+    width: 100%;
+    height: auto;
+    max-width: min(80%, 30rem);
+    margin: 0 auto;
+  }
+
+  @container (min-width: 700px) {
+    p#pricing-description {
+      margin-bottom: 1rem;
+    }
+    .pricing-description :global(.members-bar) {
+      margin: 1.2rem auto 1.5rem auto;
+      max-width: 34rem;
+    }
+  }
   .select-level-button {
     margin: 2rem 0;
     display: flex;

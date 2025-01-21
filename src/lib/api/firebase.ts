@@ -4,7 +4,7 @@ import { connectAuthEmulator, getAuth, type Auth } from 'firebase/auth';
 import { type Firestore, getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { connectStorageEmulator, getStorage, type FirebaseStorage } from 'firebase/storage';
 import { connectFunctionsEmulator, getFunctions, type Functions } from 'firebase/functions';
-import { initializeEuropeWest1Functions, initializeUsCentral1Functions } from './functions';
+import { initializeEuropeWest1Functions } from './functions';
 import {
   getMessaging,
   isSupported as isWebPushSupported,
@@ -77,12 +77,6 @@ export const auth: () => Auth = guardNull<Auth>(() => authRef, 'auth');
 
 let appCheckRef: AppCheck | null = null;
 export const appCheck: () => AppCheck = guardNull<AppCheck>(() => appCheckRef, 'appCheck');
-
-let usCentral1FunctionsRef: Functions | null = null;
-export const functions: () => Functions = guardNull<Functions>(
-  () => usCentral1FunctionsRef,
-  'functions'
-);
 
 let europeWest1FunctionsRef: Functions | null = null;
 export const europeWest1Functions: () => Functions = guardNull<Functions>(
@@ -166,8 +160,6 @@ export async function initialize(): Promise<void> {
   }
 
   // The default functions ref is us-central1
-  usCentral1FunctionsRef = getFunctions(appRef, 'us-central1');
-  initializeUsCentral1Functions(usCentral1FunctionsRef);
   // Surprise surprise, we need to explicitly create a new Functions
   // instance for any functions hosted on europe-west1
   // https://firebase.google.com/docs/functions/beta/callable#initialize_the_client_sdk
@@ -175,7 +167,6 @@ export async function initialize(): Promise<void> {
   initializeEuropeWest1Functions(europeWest1FunctionsRef);
 
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_API_EMULATOR))) {
-    connectFunctionsEmulator(usCentral1FunctionsRef, emulatorHostName, SSL_DEV ? 5002 : 5001);
     connectFunctionsEmulator(europeWest1FunctionsRef, emulatorHostName, SSL_DEV ? 5002 : 5001);
   }
 

@@ -1,19 +1,22 @@
 import type { FirestoreEvent as FE } from 'firebase-functions/firestore';
 import type { DocumentSnapshot as DS } from '@google-cloud/firestore';
-import type { CallableRequest as CR, Change as Ch } from 'firebase-functions';
+import type { CallableRequest as CR } from 'firebase-functions/https';
 import type { CallableContext as CC } from 'firebase-functions/v1/https';
-import type { DocumentData } from 'firebase-admin/firestore';
+import type { Change as Ch } from 'firebase-functions';
+import type { DocumentData } from '@google-cloud/firestore';
 import type { MailDataRequired as MDR } from '@sendgrid/mail';
 declare global {
   // Shortcuts to often-used types
   type FirestoreEvent<T, Params = Record<string, string>> = FE<T, Params>;
-  type DocumentSnapshot<T = DocumentData> = DS<T>;
-  type DocumentReference<T = DocumentData> =
-    import('firebase-admin/firestore').DocumentReference<T>;
+  type DocumentSnapshot<T = DocumentData> = DS<T, T>;
+  type DocumentReference<T = DocumentData> = import('firebase-admin/firestore').DocumentReference<
+    T,
+    T
+  >;
   type CollectionReference<T> = import('firebase-admin/firestore').CollectionReference<T>;
   type Query<T = DocumentData> = import('firebase-admin/firestore').Query<T>;
   type QueryDocumentSnapshot<T = DocumentData> =
-    import('firebase-functions/firestore').QueryDocumentSnapshot<T>;
+    import('@google-cloud/firestore').QueryDocumentSnapshot<T, T>;
   type Change<T> = Ch<T>;
 
   type UserPrivate = import('../../src/lib/models/User').UserPrivate;

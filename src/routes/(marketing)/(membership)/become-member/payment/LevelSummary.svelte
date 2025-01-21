@@ -2,6 +2,9 @@
   import { _, locale } from 'svelte-i18n';
   import MarketingBlock from '$routes/(marketing)/_components/MarketingBlock.svelte';
   import type { SuperfanLevelData } from '$routes/(marketing)/_static/superfan-levels';
+  import { checkIcon } from '$lib/images/icons';
+  import { getNodeArray } from '$lib/util/get-node-children';
+  import { Icon } from '$lib/components/UI';
 
   export let level: SuperfanLevelData;
 
@@ -24,17 +27,18 @@
       <h1 class="mh3">
         {$_(`payment-superfan.overview-section.product.${level.slug}`)} · {$_(
           'payment-superfan.overview-section.duration'
-        )} · {$_('payment-superfan.overview-section.mode')}
+        )} · € {level.value * 12}
       </h1>
-      <p class="price">€{level.value * 12}</p>
       <div class="period">
         <span class="from">{formatDate($locale ?? 'en', now)}</span>
         <span class="to"><span class="arrow">→</span> {formatDate($locale ?? 'en', periodEnd)}</span
         >
       </div>
-      <p class="features">
-        {$_(`payment-superfan.overview-section.feature-overview.${level.slug}`)}
-      </p>
+      <ul class="features checklist">
+        {#each getNodeArray('payment-superfan.overview-section.features', $locale) as feature}
+          <li><Icon icon={checkIcon} /><span>{feature}</span></li>
+        {/each}
+      </ul>
     </div>
   </div>
 </MarketingBlock>
@@ -52,11 +56,8 @@
     line-height: 1.6;
   }
 
-  .summary-wrapper > .price {
-    font-family: var(--fonts-copy);
-    font-size: 3rem;
-    font-weight: 500;
-    margin: 2rem 0;
+  h1 {
+    margin-bottom: 0.5rem;
   }
 
   .summary-wrapper {
@@ -75,6 +76,43 @@
     line-height: 1.6;
   }
 
+  .checklist {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 1rem;
+    max-width: 530px;
+  }
+
+  .checklist > li :global(i svg g path) {
+    fill: #19ae13;
+  }
+
+  .checklist > li {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+  }
+
+  .checklist > li :global(i) {
+    display: block;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  @media screen and (min-width: 1000px) {
+    /*
+      On wider screens, ensure all features are on one line
+      with a 2-rem horizontal gap
+    */
+    .checklist {
+      grid-template-columns: min-content min-content;
+      column-gap: 2rem;
+    }
+    .checklist li {
+      white-space: nowrap;
+    }
+  }
+
   @media screen and (max-width: 900px) {
     .icon {
       display: none;
@@ -84,6 +122,10 @@
   @media screen and (max-width: 700px) {
     .summary-wrapper {
       text-align: center;
+    }
+
+    .checklist {
+      margin: auto;
     }
   }
 
@@ -95,6 +137,11 @@
 
     .arrow {
       margin-left: 0;
+    }
+
+    .checklist {
+      grid-template-columns: auto;
+      gap: 0.5rem;
     }
   }
 </style>

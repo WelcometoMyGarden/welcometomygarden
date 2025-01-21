@@ -30,7 +30,8 @@
     "helpcenter-url": "https://hulp.welcometomygarden.org/",
     "error": {
       "start": "Er ging iets mis"
-    }
+    },
+    "account-page": "accountpagina"
   },
   "ui": {
     "card": {
@@ -115,7 +116,7 @@
         },
         "4": {
           "title": "Moet ik bij Welcome To My Garden iets betalen?",
-          "copy": "Kamperen in een WTMG-tuin is gratis. Desondanks vragen we alle reizigers om betalend lid te worden, zodat we de kosten fair kunnen delen, en het platform kunnen onderhouden en verder ontwikkelen. Lidmaatschap is geldig voor één jaar, en wordt niet automatisch verlengd. Je kan <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">hier</a> lid worden."
+          "copy": "Kamperen in een WTMG-tuin is gratis. Desondanks vragen we alle reizigers om betalend lid te worden, zodat we de kosten fair kunnen delen, en het platform kunnen onderhouden en verder ontwikkelen. Je kan <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">hier</a> lid worden."
         }
       }
     },
@@ -199,9 +200,8 @@
       "auth-notice": "Je moet ingelogd zijn om jouw tuin aan de kaart toe te voegen. Ofwel {signInLink} of {registerLink}",
       "sign-in-link-text": "Log in",
       "register-link-text": "een account aanmaken",
-      "email-confirm-notice": "Je moet jouw e-mail controleren voordat je jouw tuin aan de kaart toevoegt. We hebben je een e-mail gestuurd toen je jouw account aanmaakte. Je kunt een verificatielink opnieuw versturen vanuit {accountLink}.",
-      "normal-notice": "Door het indienen van dit formulier wordt jouw tuin aan de kaart toegevoegd. Je kunt het te allen tijde beheren of verwijderen van {accountLink}.",
-      "account-link-text": "jouw account",
+      "email-confirm-notice": "Je moet jouw e-mail controleren voordat je jouw tuin aan de kaart toevoegt. We hebben je een e-mail gestuurd toen je jouw account aanmaakte. Je kunt een verificatielink opnieuw versturen vanuit je {accountLink}.",
+      "normal-notice": "Door het indienen van dit formulier wordt jouw tuin aan de kaart toegevoegd. Je kunt het te allen tijde beheren of verwijderen van je {accountLink}.",
       "location": {
         "title": "Locatie (verplicht)",
         "notice": "Verplaats de marker om de locatie van jouw tuin in te stellen. Je kunt de adresvelden invullen om de marker dichterbij te verplaatsen. <br /> Wij slaan jouw adresgegevens niet op.",
@@ -293,7 +293,7 @@
     "pricing-section": {
       "terms-label": "Ik gebruik WTMG uitsluitend als trage reiziger (nooit met de auto) en ga akkoord met alle {termsLink}.",
       "terms-link-text": "WTMG-regels",
-      "description": "Geldig voor één jaar. Wordt niet automatisch verlengd.",
+      "description": "Geldig voor één jaar. Word vandaag lid van onze community!",
       "per-month": "per maand",
       "per-year": "/jaar",
       "questions": "Vragen?",
@@ -374,13 +374,13 @@
           "title": "<strong>Houd WTMG reclamevrij, volledig onafhankelijk en gesteund door leden:</strong> zonder de voortdurende steun van onze community kunnen we niet bestaan!"
         },
         "6": {
-          "title": "<strong>Steun het werk van een gepassioneerd team</strong> van vier slow travel-enthousiastelingen "
+          "title": "<strong>Steun het werk van een gepassioneerd team</strong> van drie slow travel-enthousiastelingen "
         }
       }
     },
     "team-section": {
       "title": "Maak kennis met het team",
-      "description": "Wie zit er achter WTMG? We zijn een klein team van vier slow travel enthousiastelingen en we willen graag anderen helpen om ook te beginnen aan hun trage reisavonturen!",
+      "description": "Wie zit er achter WTMG? We zijn een klein team van drie slow travel enthousiastelingen en we willen graag anderen helpen om ook te beginnen aan hun trage reisavonturen!",
       "meet-team-button": "Dit zijn wij"
     },
     "superfan-quotes-section": {
@@ -410,7 +410,7 @@
           "questions": {
             "0": {
               "title": "Wat houdt lid of Superfan zijn in?",
-              "copy": "<p>Om WTMG te onderhouden en verder te ontwikkelen, vertrouwen we op een jaarlijks lidmaatschap om de kosten eerlijk te verdelen onder alle trage reizigers.</p>\n<p>Als je lid of Superfan wordt, kan je:</p>\n<ul>\n<li>Gratis verzoeken sturen naar 5000+ tuinen</li>\n<li>Gebruik maken van handige functies: upload je route, sla tuinen op en bekijk het spoornetwerk.</li>\n<li>Toegang krijgen tot de online communityruimte.</li>\n<li>WTMG reclamevrij, volledig onafhankelijk en door leden ondersteund houden.</li>\n</ul>\n<p>Een lidmaatschap is geldig voor een jaar. Het wordt niet automatisch verlengd.</p>"
+              "copy": "<p>Om WTMG te onderhouden en verder te ontwikkelen, vertrouwen we op een jaarlijks lidmaatschap om de kosten eerlijk te verdelen onder alle trage reizigers.</p>\n<p>Als je lid of Superfan wordt, kan je:</p>\n<ul>\n<li>Gratis verzoeken sturen naar 5000+ tuinen</li>\n<li>Gebruik maken van handige functies: upload je route, sla tuinen op en bekijk het spoornetwerk.</li>\n<li>Toegang krijgen tot de online communityruimte.</li>\n<li>WTMG reclamevrij, volledig onafhankelijk en door leden ondersteund houden.</li>\n</ul>"
             },
             "1": {
               "title": "Wat is het verschil tussen \"lid\" en \"Superfan\" zijn?",
@@ -426,33 +426,41 @@
             },
             "4": {
               "title": "Hoeveel moet ik bijdragen?",
-              "copy": "<p>Het is helemaal aan jou! Je kan lid of Superfan worden, afhankelijk van hoeveel je gelooft in slow travel en hoeveel je ons wilt steunen.</p>\n<p>Lid worden kost €36 per jaar, wat in principe je eigen kosten dekt. Je kan dan gratis verzoeken sturen naar 5000 tuinen, krijgt toegang tot handige functies om je reis te plannen en zorgt ervoor dat WTMG advertentievrij, volledig onafhankelijk en door leden ondersteund blijft.</p>\n<p>Superfan worden kost €60 per jaar. Superfans krijgen niet alleen alle voordelen van een lidmaatschap, maar helpen ons ook om WTMG te verbeteren, de slow travel-beweging te laten groeien en meer tuinen op de kaart te krijgen.</p>\n<p>Beide lidmaatschappen zijn een jaar geldig. Ze worden niet automatisch verlengd.</p>"
+              "copy": "<p>Het is helemaal aan jou! Je kan lid of Superfan worden, afhankelijk van hoeveel je gelooft in slow travel en hoeveel je ons wilt steunen.</p>\n<p>Lid worden kost €36 per jaar, wat in principe je eigen kosten dekt. Je kan dan gratis verzoeken sturen naar 5000 tuinen, krijgt toegang tot handige functies om je reis te plannen en zorgt ervoor dat WTMG advertentievrij, volledig onafhankelijk en door leden ondersteund blijft.</p>\n<p>Superfan worden kost €60 per jaar. Superfans krijgen niet alleen alle voordelen van een lidmaatschap, maar helpen ons ook om WTMG te verbeteren, de slow travel-beweging te laten groeien en meer tuinen op de kaart te krijgen.</p>"
             },
             "5": {
               "title": "Hoe gaat de betaling in z’n werk?",
-              "copy": "Zodra je hebt besloten hoeveel je wilt betalen, word je naar de betalingspagina gestuurd. Je betaalt steeds per jaar. Je gaat geen verplichting aan door lid of Superfan te worden: je abonnement stopt automatisch na een jaar, en we sturen je een herinnering per email om het te verlengen."
+              "copy": "Zodra je hebt besloten hoeveel je wilt betalen, word je naar de betalingspagina gestuurd. Je betaalt steeds per jaar. Je lidmaatschap wordt automatisch verlengd, maar je kan de automatische verlenging op elk moment op je {accountLink} annuleren. Twee dagen voor de verlengingsdatum informeren we je ook per e-mail over je aankomende verlenging."
             },
             "6": {
+              "title": "Hoe kan ik mijn lidmaatschap beheren, verlengen of annuleren?",
+              "copy": "Je kan je lidmaatschap op elk moment beheren, verlengen of annuleren op je {accountLink}. Op deze pagina zie je de huidige status van je lidmaatschap, de verlengings- of vervaldatum en instructies over hoe je het kan annuleren of verlengen."
+            },
+            "7": {
               "title": "Is het verplicht om lid of Superfan te worden?",
               "copy": "<p>Trage reizigers leveren jaarlijks een financiële bijdrage zodat WTMG kan blijven bestaan. Hier vroegen we al om toen we onze oproep voor Superfans lanceerden. Nu breiden we dit verzoek uit naar onze hele slow travel community. In principe verwachten we dat je een bijdrage levert als je ons platform gebruikt. Dus, naast de mogelijkheid om Superfan te worden, introduceren we een lidmaatschap voor alle trage reizigers. Op deze manier dekt iedereen zijn deel van de kosten.</p>\n<p>We vragen hosts niet om bij te dragen, omdat ze al op een andere manier bijdragen – maar ze zijn natuurlijk van harte welkom om ook financieel bij te dragen als ze dat willen.</p>"
             },
-            "7": {
+            "8": {
               "title": "Hebben jullie niet al een oproep gelanceerd voor Superfans?",
               "copy": "Eind 2022 lanceerden we een oproep voor WTMG Superfans. We zijn ontzettend dankbaar voor de steun van de eerste 230+ Superfans en een gulle donatie van €1.000 van een host. Dankzij deze eerste believers zijn we ervan overtuigd dat we tot een zelfvoorzienend model voor WTMG kunnen komen. Maar om dat te bereiken, hebben we bredere steun nodig; niet alleen van een klein percentage van onze gebruikers: we hebben berekend dat we de steun van minstens 3.000 trage reizigers nodig hebben."
             },
-            "8": {
+            "9": {
               "title": "Wat gebeurt er met mijn gratis account als ik geen lid of Superfan word?",
               "copy": "Als gratis lid kan je de kaart verkennen, slow travellers ontvangen in je tuin en de WTMG-nieuwsbrief ontvangen."
             },
-            "9": {
-              "title": "Voor hoe lang word ik lid of Superfan?",
-              "copy": "Als je lid of Superfan wordt, betaal je voor een heel jaar. Je abonnement stopt automatisch na een jaar, en we sturen je een herinnering per email om het te verlengen."
-            },
             "10": {
-              "title": "Kan ik stoppen met lid of Superfan zijn?",
-              "copy": "<p>Jazker! Het lidmaatschap is geldig voor één jaar, en het lidgeld kan niet worden terugbetaald. Na één jaar sturen we je een uitnodiging om het lidmaatschap te hernieuwen. Indien je hier niet op ingaat, zal je lidmaatschap automatisch stopgezet worden.</p>"
+              "title": "Voor hoe lang word ik lid of Superfan?",
+              "copy": "Als je lid of Superfan wordt, betaal je voor een heel jaar. Je lidmaatschap wordt automatisch verlengd, maar je kan de automatische verlenging op elk moment op je {accountLink} annuleren. Als je je lidmaatschap annuleert, wordt alleen de automatische verlenging geannuleerd. Dit betekent dat je lid blijft tot het einde van de periode waarvoor je al hebt betaald."
             },
             "11": {
+              "title": "Kan ik stoppen met lid of Superfan zijn?",
+              "copy": "<p>Jazeker, wanneer je maar wilt. Zodra je Superfan bent geworden kun je je jaarlijkse Superfan abonnement beheren op je {accountLink}.</p>\n<p>Als op je accountpagina staat <strong>\"Je lidmaatschap is actief. Wordt automatisch verlengd op xx/xx/xxxx\"</strong>, wordt je lidmaatschap op die datum verlengd. Je kan de verlenging op elk moment annuleren door op <strong>“Beheer Lidmaatschap”</strong> te klikken. Als je je lidmaatschap annuleert, wordt alleen de automatische verlenging geannuleerd. Dit betekent dat je lid blijft tot het einde van de periode waarvoor je al hebt betaald.</p>\n<p>Als er op je accountpagina staat <strong>\"Je lidmaatschap is geldig tot xx/xx/xxxx. Automatische verlenging uitgeschakeld\"</strong>, verloopt je lidmaatschap op de opgegeven datum en wordt het niet automatisch verlengd.</p>"
+            },
+            "12": {
+              "title": "Wat gebeurt er als ik mijn lidmaatschap annuleer?",
+              "copy": "Als je je lidmaatschap annuleert, wordt alleen de automatische verlenging geannuleerd. Dit betekent dat je lid blijft tot het einde van de periode waarvoor je al hebt betaald. Als je je bedenkt, kan je de automatische verlenging op elk moment heractiveren op je {accountLink}."
+            },
+            "13": {
               "copy": "Nee, slechts één lidmaatschap is nodig om contact op te nemen met hosts wanneer je met vrienden of familie reist. Elk individueel account is echter strikt persoonlijk, dus iedereen die apart reist, heeft zijn eigen lidmaatschap nodig.",
               "title": "Is een lidmaatschap per persoon nodig als ik met vrienden of familie reis?"
             }
@@ -472,7 +480,7 @@
           "questions": {
             "0": {
               "title": "Wie zit er achter WTMG?",
-              "copy": "We zijn een klein team van vier slow travel enthousiastelingen en we willen graag anderen helpen om ook te beginnen aan hun trage reisavonturen! <a href=\"/about-us\" target=\"_blank\">Hier</a> lees je meer over ons."
+              "copy": "We zijn een klein team van drie slow travel enthousiastelingen en we willen graag anderen helpen om ook te beginnen aan hun trage reisavonturen! <a href=\"/about-us\" target=\"_blank\">Hier</a> lees je meer over ons."
             },
             "1": {
               "title": "Welke legale structuur gebruikt WTMG?",
@@ -523,13 +531,13 @@
       "explore-features-button": "Start met het plannen van je trip"
     },
     "closing-section": {
-      "text": "<p><strong>Het hele team is jou superdankbaar!</strong></p>\n<p>Dries, Manon, Thor en Janneke</p>\n<p><em>PS: Wil je meer weten over ons? <a class=\"link\" href=\"/about-us\">Lees hier ons verhaal!</a></em></p>"
+      "text": "<p><strong>Het hele team is jou superdankbaar!</strong></p>\n<p>Dries, Manon en Thor</p>\n<p><em>PS: Wil je meer weten over ons? <a class=\"link\" href=\"/about-us\">Lees hier ons verhaal!</a></em></p>"
     }
   },
   "thank-you-donate": {
     "top-section": {
       "title": "Bedankt voor je donatie! 💚",
-      "description": "<p>Met jouw donatie help je ons onze missie te realiseren: om slow travel toegankelijker te maken voor iedereen, duurzaam reizen aan te moedigen en waardevolle nieuwe connecties tussen mensen te bevorderen.</p><p><strong>Superbedankt namens het hele team!</strong></p><p>Het WTMG team,<br/>Dries, Manon, Thor & Janneke</p>"
+      "description": "<p>Met jouw donatie help je ons onze missie te realiseren: om slow travel toegankelijker te maken voor iedereen, duurzaam reizen aan te moedigen en waardevolle nieuwe connecties tussen mensen te bevorderen.</p><p><strong>Superbedankt namens het hele team!</strong></p><p>Het WTMG team,<br/>Dries, Manon & Thor</p>"
     }
   },
   "payment-superfan": {
@@ -542,7 +550,13 @@
       "product": {
         "regular": "WTMG lidmaatschap"
       },
-      "mode": "niet-herhalend"
+      "mode": "niet-herhalend",
+      "features": {
+        "0": "Kampeer gratis in tuinen",
+        "1": "Ontmoet fantastische mensen",
+        "2": "Plan eenvoudig je avontuur ",
+        "3": "Houd WTMG onafhankelijk"
+      }
     },
     "payment-section": {
       "payment-method": "Betaalmethode",
@@ -556,10 +570,11 @@
         "systems-error": "Er ging iets fout in ons systeem. Gelieve {supportEmail} te contacteren en we zullen je zo snel mogelijk helpen! Excuseer voor het ongemak.",
         "payment-error": "Er ging iets fout met je betaling, probeer alsjeblieft opnieuw."
       },
-      "success": "We hebben je betaling goed ontvangen, welkom in de WTMG community! Hier is de chat die je wilde openen."
+      "success": "Bedankt om lid te worden van WTMG!"
     },
     "not-logged-in-warning": "Om Superfan te worden, moet je eerst inloggen of een account aanmaken",
-    "title": "Betaling"
+    "title": "Betaling",
+    "terms": "Door lid te worden, ga je akkoord met onze {termsLink}. Je lidmaatschap wordt automatisch verlengd, maar je kan het op elk moment stopzetten."
   },
   "request-password-reset": {
     "title": "Stel een nieuw wachtwoord in",
@@ -606,7 +621,11 @@
     "superfan": {
       "loading-portal": "Portaal aan het laden...",
       "valid": "Jouw lidmaatschap is geldig tot {date}",
-      "just-ended": "Je lidmaatschap is net afgelopen.<br>We hopen dat we op jouw steun kunnen blijven rekenen! 💚"
+      "just-ended": "Je lidmaatschap is verlopen.<br>Hernieuw nu en activeer automatische verlengingen (op elk moment opzegbaar).",
+      "auto-active": "Je lidmaatschap is actief.<br>Verlengt automatisch op {date}.",
+      "btn-manage": "Beheer lidmaatschap",
+      "auto-canceled": "Je lidmaatschap is geldig tot {date}.<br>Automatische verlenging uitgeschakeld.",
+      "renew-btn-text": "Hernieuw nu"
     },
     "notify": {
       "resend-error": "We konden geen accountverificatie e-mail sturen. Neem contact op met {support}",
@@ -694,7 +713,7 @@
     "country": "Land",
     "policies": "Ik ga akkoord met de {cookiePolicy}, {privacyPolicy} en {termsOfUse}",
     "registering": "Bezig met registratie...",
-    "registred": "Heb je al een account? {signIn}",
+    "registered": "Heb je al een account? {signIn}",
     "validate": {
       "email": "Voeg een e-mail adres toe, dit is waarmee je inlogt.",
       "password": {
@@ -871,7 +890,7 @@
           },
           "cost": {
             "title": "Is Welcome To My Garden gratis?",
-            "copy": "Kamperen in een WTMG-tuin is gratis. Desondanks vragen we alle reizigers om betalend lid te worden, zodat we de kosten fair kunnen delen, en het platform kunnen onderhouden en verder ontwikkelen. Lidmaatschap is geldig voor één jaar, en wordt niet automatisch verlengd. Je kan <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">hier</a> lid worden."
+            "copy": "Kamperen in een WTMG-tuin is gratis. Desondanks vragen we alle reizigers om betalend lid te worden, zodat we de kosten fair kunnen delen, en het platform kunnen onderhouden en verder ontwikkelen. Je kan <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">hier</a> lid worden."
           },
           "no-garden": {
             "title": "Ik heb geen tuin. Kan ik nog steeds naar de tuinen van anderen reizen?",
@@ -908,7 +927,7 @@
           },
           "suspend": {
             "title": "Ik wil mijn tuin een tijdje offline halen, maar binnenkort ben ik terug! Hoe doe ik dat?",
-            "copy": "Ga naar {accountLink}. In de sectie \"Beheer jouw tuin\", verwijder je het vinkje bij \"Weergeven op de kaart\". De tuin wordt nog steeds opgeslagen op het platform, maar verschijnt niet meer op de kaart. Van zodra je terug bent, klik je het vakje weer aan en kun je weer beginnen met het verwelkomen van trage reizigers!"
+            "copy": "Ga naar je {accountLink}. In de sectie \"Beheer jouw tuin\", verwijder je het vinkje bij \"Weergeven op de kaart\". De tuin wordt nog steeds opgeslagen op het platform, maar verschijnt niet meer op de kaart. Van zodra je terug bent, klik je het vakje weer aan en kun je weer beginnen met het verwelkomen van trage reizigers!"
           },
           "issue": {
             "title": "Ik heb een probleem gehad met een gast of een host. Hoe meld ik dit?",
@@ -933,7 +952,7 @@
           },
           "newsletter": {
             "title": "Ik zou graag jouw volgende nieuwsbrief ontvangen! Wat moet ik doen?",
-            "copy": "Om onze volgende nieuwsbrief te ontvangen, ga naar {accountLink} en vink het vakje \"Welcome To My Garden heeft nieuws te delen\" aan. Als je geen nieuws meer wilt ontvangen, verwijder je eenvoudigweg het vinkje in hetzelfde vakje."
+            "copy": "Om onze volgende nieuwsbrief te ontvangen, ga naar je {accountLink} en vink het vakje \"Welcome To My Garden heeft nieuws te delen\" aan. Als je geen nieuws meer wilt ontvangen, verwijder je eenvoudigweg het vinkje in hetzelfde vakje."
           },
           "text-in-english": {
             "title": "Er staat tekst in het Engels, terwijl dat niet mijn voorkeurstaal is. Hoe kan ik dit veranderen?",
@@ -1142,7 +1161,7 @@
   },
   "terms-of-use": {
     "title": "Gebruiksvoorwaarden",
-    "last-updated": "Laatst bijgewerkt: 8 december 2022",
+    "last-updated": "Laatst bijgewerkt: 17 januari 2025",
     "intro": {
       "0": {
         "copy": "Welcome To My Garden is een platform waar burgers hun tuin openstellen zodat trage reizigers (niet-gemotoriseerde reizigers die met de fiets of te voet reizen) er kunnen kamperen."
@@ -1266,7 +1285,7 @@
             "copy": {
               "0": "Welcome To My Garden is op een missie om slow travel toegankelijker te maken voor iedereen. Net als elke tuin heeft WTMG verzorging nodig om te groeien en gezond te blijven. Een verblijf bij een WTMG host is gratis. Maar om WTMG te onderhouden en te ontwikkelen, vertrouwen we op een jaarlijks lidmaatschap om de kosten eerlijk te verdelen onder alle trage reizigers. Trage reizigers hebben de keuze om lid of Superfan te worden. Litmaatschap is verplicht. Members of Superfans mogen hun login niet overdragen aan derden. Superfans gaan akkoord met dezelfde voorwaarden van alle gebruikers en Welcome To My Garden behoudt zich het recht voor om accounts van Members of Superfans die niet voldoen aan de voorwaarden te weigeren, op te schorten of te verwijderen.",
               "1": "De beperkingen van aansprakelijkheid (zie hieronder) van Welcome To My Garden in het algemeen gelden ook voor het gebruik van de extra functies voor Members en Superfans, wat betekent dat Welcome To My Garden niet verantwoordelijk kan worden gehouden voor enige schade of verlies dat zou ontstaan als gevolg van het gebruik van Welcome To My Garden.",
-              "2": "De prijs is inclusief 6% BTW op het lidmaatschap. De bijdrage is vrijblijvend: het stopt automatisch na een jaar, en Superfans krijgen een e-mail om het te verlengen. De bijdrage als Superfan kan niet worden terugbetaald en kan niet aan derden worden overgedragen."
+              "2": "De prijs is inclusief 21% BTW op het lidmaatschap. Lidmaatschappen worden jaarlijks betaald en worden automatisch verlengd, tenzij ze worden geannuleerd door het lid of door WTMG. Leden kunnen de verlenging op elk moment op hun {accountLink} annuleren. Wanneer een lid zijn lidmaatschap annuleert, wordt alleen de automatische verlenging geannuleerd. Dit betekent dat het lidmaatschap geldig blijft tot het einde van de al betaalde periode. Twee dagen voor de verlengingsdatum worden leden per e-mail geïnformeerd over de aankomende verlenging. Het WTMG-lidmaatschap kan niet worden terugbetaald en kan niet aan derden worden overgedragen."
             }
           },
           "7": {
@@ -1410,7 +1429,7 @@
   },
   "about-us": {
     "here-we-are": "Hier zijn wij!",
-    "who-behind": "Wie zit er achter WTMG? We zijn een klein team van vier slow travel enthousiastelingen en we willen anderen graag helpen om ook aan hun trage reisavonturen te beginnen. Leuk weetje: we zijn allemaal zelf ook WTMG hosts en -reizigers!",
+    "who-behind": "Wie zit er achter WTMG? We zijn een klein team van drie slow travel enthousiastelingen en we willen anderen graag helpen om ook aan hun trage reisavonturen te beginnen. Leuk weetje: we zijn allemaal zelf ook WTMG hosts en -reizigers!",
     "co-founder": "Cofounder",
     "dev": "Developer",
     "designer": "Ontwerper",
@@ -1419,7 +1438,7 @@
     "manon": "Manon is een echte duizendpoot en heeft overal een oplossing voor. Ze heeft al twee keer een marathon gelopen, fietste met Dries van Brussel naar Tokyo, en maakte daar een schitterende film over: <a href=\"https://womendontcycle.com/nl?utm_source=welcometomygarden.org&utm_medium=web&utm_content=about_profile\" target=\"_blank\">‘Women Don’t Cycle’</a>. Ze is de enige binnen ons team die toerisme heeft gestudeerd (best handig). Het feit dat ze vier talen vloeiend spreekt én zich thuis voelt voor de camera maakt haar onze onofficiële woordvoerster!",
     "thor": "Thor is de ingenieuze technoloog die ieder project wil hebben. Hij nam twee keer deel aan Open Summer of Code, waar hij in 2017 Dries ontmoette. Dat jaar fietste hij ook van Leuven naar Helsinki, waar hij nu WTMG host is! Hij is niet alleen een fantastische developer, maar ook een geweldige designer. Hij houdt van koken en coderen en leest graag lange intrigerende artikelen.",
     "ward": "Ward droeg vanaf het begin bij aan WTMG!",
-    "janneke": "Janneke is dol op taal en weet wat ze ermee moet doen. Zodra ze van WTMG hoorde, suggereerde ze onmiddellijk dat er een facebookpagina moest komen - en sindsdien leidt ze onze communicatie in goede banen. Ze is verliefd op Roemenië, en schreef er een bergwandelgids over; ze kocht er ook een huis en deelt haar liefde voor het land via <a href=\"https://roamaniac.com/\" target=\"_blank\">Roamaniac.com</a>.",
+    "janneke": "De koningin van de woorden, die onze Facebookpagina startte.",
     "michiel": "De oorspronkelijke coder. Zonder hem zou WTMG niet bestaan.",
     "marie": "Onze geniale ontwerper, die WTMG supermooi heeft gemaakt!",
     "ismaila": "Ismaila is het brein achter de filters op de kaart.",
@@ -1428,7 +1447,7 @@
     "how-contribute": "Hoe kan jij bijdragen?",
     "ways-support": "Je kunt ons op allerlei manieren steunen. We hebben ze op een rijtje gezet:",
     "our-story-title": "Ons verhaal",
-    "our-story-description": "<p>Hey! Wij zijn Dries en Manon en wij zijn de trotse ouders van Welcome To My Garden. In 2019 fietsten we van Brussel naar Tokyo. Gedurende 11 maanden reisden we door 21 landen, en genoten we van de gastvrijheid van talloze geweldige mensen die we op onze route tegenkwamen.</p><p>Eenmaal terug in België vroegen we ons af hoe we slow travel eenvoudiger en leuker konden maken in ons eigen land. Op een regenachtige zondagnamiddag in 2020 zette Dries de eerste versie van WTMG in elkaar. Binnen twee uur tijd stonden er 50 tuinen op de kaart. Twee weken later waren dat er 500!</p><p>Sindsdien is er veel gebeurd. Vandaag maken 30.000+ mensen gebruik van WTMG en staan er 4000+ tuinen op de kaart. Het is duidelijk dat we geen eendagsvlieg zijn! En het is tijd om verder te denken. We hebben naar jullie, onze community, geluisterd en we zijn bezig om WTMG nog beter te laten aansluiten bij jullie trage reisbehoeften.</p><p>WTMG bestaat vandaag dankzij de inzet van een bevlogen vrijwilligersteam. Samen hebben we avonden en weekenden ingezet. Maar om WTMG gaande te houden hebben we meer tijd en menskracht nodig. Daarom maken Thor en Janneke nu ook onderdeel uit van het team. Wij zetten alles op alles en hopen dat jullie ons ook willen steunen!</p>",
+    "our-story-description": "<p>Hey! Wij zijn Dries en Manon en wij zijn de trotse ouders van Welcome To My Garden. In 2019 fietsten we van Brussel naar Tokyo. Gedurende 11 maanden reisden we door 21 landen, en genoten we van de gastvrijheid van talloze geweldige mensen die we op onze route tegenkwamen.</p><p>Eenmaal terug in België vroegen we ons af hoe we slow travel eenvoudiger en leuker konden maken in ons eigen land. Op een regenachtige zondagnamiddag in 2020 zette Dries de eerste versie van WTMG in elkaar. Binnen twee uur tijd stonden er 50 tuinen op de kaart. Twee weken later waren dat er 500!</p><p>Sindsdien is er veel gebeurd. Vandaag maken 30.000+ mensen gebruik van WTMG en staan er 4000+ tuinen op de kaart. Het is duidelijk dat we geen eendagsvlieg zijn! En het is tijd om verder te denken. We hebben naar jullie, onze community, geluisterd en we zijn bezig om WTMG nog beter te laten aansluiten bij jullie trage reisbehoeften.</p><p>WTMG bestaat vandaag dankzij de inzet van een bevlogen vrijwilligersteam. Samen hebben we avonden en weekenden ingezet. Maar om WTMG gaande te houden hebben we meer tijd en menskracht nodig. Daarom maakt Thor nu ook onderdeel uit van het team. Wij zetten alles op alles en hopen dat jullie ons ook willen steunen!</p>",
     "bigger-picture-title": "Het grotere plaatje",
     "bigger-picture-description": "<p>Als we één ding geleerd hebben de afgelopen jaren is het wel dit: het is tijd om te vertragen. Dit geldt voor het leven in het algemeen, maar zeker ook voor reizen. Hoe sneller we reizen, hoe minder we meemaken. Fast travel zorgt voor een hoop CO2-emissies, verbindt mensen niet met hun omgeving en beschadigt communities. De oplossing? Slow travel!</p><p>WTMG is trots om deel uit te maken van de oplossing voor deze uitdaging, die ons allemaal aangaat. Op twee jaar tijd heeft WTMG veel bereikt:<ul><li>Al 31.000 gebruikers zijn op een traag reisavontuur gegaan</li><li>Maar liefst 4.300 gastvrije hosts hebben hun tuin beschikbaar gesteld voor trage reizigers</li><li>Er zijn ruim 57.000 verblijfsverzoeken verstuurd via WTMG</li><li>We zijn begonnen in België, maar er verschijnen steeds meer tuinen elders in Europa - en verder - op de kaart!</li><li>We kregen financiële steun van partners als Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers en Natuurpunt</li></ul></p><p>De mooiste en meest betekenisvolle ervaringen gebeuren wanneer we echt de tijd nemen om onze omgeving te verkennen. WTMG helpt je op weg! Samen kunnen we de wereld mooier maken - door trager en duurzamer te reizen. Ga je mee?</p><p>We staan altijd open voor nieuwe ideeën en samenwerkingen, dus aarzel niet om contact met ons op te nemen!</p>",
     "contributors": "Bijdragers",

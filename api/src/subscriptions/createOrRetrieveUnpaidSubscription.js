@@ -16,7 +16,8 @@ const {
   currentPeriodEndKey,
   startDateKey,
   cancelAtKey,
-  canceledAtKey
+  canceledAtKey,
+  collectionMethodKey
 } = stripeSubscriptionKeys;
 
 /**
@@ -72,15 +73,23 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
     days_until_due: 1
   });
 
-  const getPaymentIntent = async () => {
+  // Note: this makes sure a payment intent is generated and set up for future usage
+  // (a preparation for switching collection_method to charge_automatically, which will happen immediately after
+  //  the first payment)
+  const insertPaymentIntent = async () => {
     // Invoices are normally only finalized after one hour.
     // Manually finalize the invoice, which will create a new related PaymentIntent
-    const openInvoice = await stripe.invoices.finalizeInvoice(subscription.latest_invoice.id, {
-      expand: ['payment_intent']
+    const openInvoice = await stripe.invoices.finalizeInvoice(subscription.latest_invoice.id);
+
+    // Automatic renewals: collect payment with the aim of future charges as well
+    // This influences the copy shown in Payment Elements.
+    // In case of Bancontact/iDEAL, the payment method details saved are SEPA details
+    const paymentIntent = await stripe.paymentIntents.update(openInvoice.payment_intent, {
+      setup_future_usage: 'off_session'
     });
 
     // Update the payment intent in the locally stored subscription object
-    subscription.latest_invoice.payment_intent = openInvoice.payment_intent;
+    subscription.latest_invoice.payment_intent = paymentIntent;
   };
 
   // Set initial subscription parameters in Firebase
@@ -99,11 +108,12 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
       [currentPeriodEndKey]: subscription.current_period_end,
       [startDateKey]: subscription.start_date,
       [cancelAtKey]: subscription.cancel_at,
-      [canceledAtKey]: subscription.canceled_at
+      [canceledAtKey]: subscription.canceled_at,
+      [collectionMethodKey]: subscription.collection_method
     })
   );
 
-  await Promise.all([getPaymentIntent(), updateUserPrivateDocPromise]);
+  await Promise.all([insertPaymentIntent(), updateUserPrivateDocPromise]);
 
   // Will include the new PaymentIntent
   return subscription;
@@ -224,7 +234,6 @@ const changeSubscriptionPrice = async (
 };
 
 /**
- *
  * @param {FV2.CallableRequest<{priceId: string, locale:string}>} request
  * @returns
  */

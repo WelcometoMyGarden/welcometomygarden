@@ -9,6 +9,7 @@
   const marieImg = staticAssetUrl('/profile-pictures/marie.jpg');
   const ismailaImg = staticAssetUrl('/profile-pictures/ismaila.jpg');
   const brentImg = staticAssetUrl('/profile-pictures/brent.jpg');
+  const jannekeImg = staticAssetUrl('/profile-pictures/janneke.png');
 
   import OurStorySection from './OurStorySection.svelte';
   import Heading from '../_components/Heading.svelte';
@@ -52,6 +53,12 @@
       role: $_('about-us.dev'),
       imageSrc: brentImg,
       introHtml: $_('about-us.brent')
+    },
+    {
+      name: 'Janneke',
+      role: $_('about-us.communications'),
+      imageSrc: jannekeImg,
+      introHtml: $_('about-us.janneke')
     }
   ];
 
@@ -73,11 +80,6 @@
       ...coreTeamProfilesStatic.thor,
       role: $_('about-us.co-founder'),
       introHtml: $_('about-us.thor')
-    },
-    janneke: {
-      ...coreTeamProfilesStatic.janneke,
-      role: $_('about-us.communications'),
-      introHtml: $_('about-us.janneke')
     }
   };
 </script>

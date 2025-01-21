@@ -56,6 +56,7 @@ const refreshAuthTable = require('./replication/scheduled/refreshAuthTable');
 const { shouldReplicateRuntime } = require('./sharedConfig');
 const { initialize: initSupabase } = require('./supabase');
 const onCampsiteListedChange = require('./user/onCampsiteListedChange');
+const { createCustomerPortalSession } = require('./subscriptions/createCustomerPortalSession');
 
 onInit(() => {
   initSendgrid();
@@ -100,8 +101,7 @@ exports.discourseConnectLoginV2 = onCall(discourseConnectLogin);
 // Callable functions: subscriptions
 exports.createStripeCustomerV2 = onCall(createStripeCustomer);
 exports.createOrRetrieveUnpaidSubscriptionV2 = onCall(createOrRetrieveUnpaidSubscription);
-// unused
-// exports.createCustomerPortalSession = onCall(createCustomerPortalSession);
+exports.createCustomerPortalSessionV2 = onCall(createCustomerPortalSession);
 
 // Callable functions: admin functions
 exports.setAdminRole = onCall(setAdminRole);

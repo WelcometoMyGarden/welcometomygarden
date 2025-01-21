@@ -25,7 +25,7 @@ if (window) {
       const rawHref = ev.target?.getAttribute('href');
       const isRelative = isRelativeURL(rawHref);
 
-      if (!isRelative) {
+      if (!isRelative || ev.target.target === '_blank') {
         // TODO: support tracking here too?
         // Do nothing, allow native nav & newtab handling
         // This is needed, because since svelte v2, goto() should not be used for non-relative URLs.
