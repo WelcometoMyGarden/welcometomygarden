@@ -135,10 +135,6 @@ export const discourseConnectLogin: HttpsCallable<
   DiscourseConnectLoginResponse
 > = wrapCallable(() => discourseConnectLoginRef);
 
-export const initializeUsCentral1Functions = (usCentral1Functions: Functions) => {
-  // TODO: remove, but align this with the production situation at all times
-};
-
 export const initializeEuropeWest1Functions = (europeWest1Functions: Functions) => {
   createUserRef = httpsCallable<CreateUserRequest>(europeWest1Functions, 'createUserV2');
   requestPasswordResetRef = httpsCallable<EmptyObject>(
