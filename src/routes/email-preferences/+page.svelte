@@ -48,6 +48,8 @@
       if (data.status === 'ok') {
         emailPreferences = data.emailPreferences;
       }
+    } else {
+      error = 'no-auth';
     }
     formIsLoading = false;
   });
@@ -114,10 +116,12 @@
 
 <AuthContainer>
   <span slot="title">
-    {#if emailPreferences?.news}
-      {$_('email-preferences.unsubscribe.title')}
-    {:else}
-      {$_('email-preferences.resubscribe.title')}
+    {#if !error}
+      {#if emailPreferences?.news}
+        {$_('email-preferences.unsubscribe.title')}
+      {:else}
+        {$_('email-preferences.resubscribe.title')}
+      {/if}
     {/if}
   </span>
   <div class="email-prefs" slot="form">
