@@ -1,5 +1,6 @@
 import { httpsCallable, type Functions, type HttpsCallable } from 'firebase/functions';
 import { FIREBASE_WARNING } from './firebase';
+import type { EmailPreferences } from '$lib/models/User';
 
 /**
  * Checks whether the Firebase function is initialized before calling it, while keeping
@@ -135,6 +136,36 @@ export const discourseConnectLogin: HttpsCallable<
   DiscourseConnectLoginResponse
 > = wrapCallable(() => discourseConnectLoginRef);
 
+// To manage SendGrid subscriptions
+export type ManageEmailPreferencesRequest = {
+  email: string;
+  secret?: string;
+} & (
+  | {
+      type: 'get';
+    }
+  | {
+      type: 'set';
+      // For now, this is whether the user should be subscribed to the newsletter or not
+      emailPreferences: EmailPreferences;
+    }
+);
+
+export type ManageEmailPreferencesResponse =
+  | {
+      status: 'ok';
+      emailPreferences: EmailPreferences;
+    }
+  | { status: 'error'; error: string };
+let manageEmailPreferencesRef: HttpsCallable<
+  ManageEmailPreferencesRequest,
+  ManageEmailPreferencesResponse
+> | null = null;
+export const manageEmailPreferences: HttpsCallable<
+  ManageEmailPreferencesRequest,
+  ManageEmailPreferencesResponse
+> = wrapCallable(() => manageEmailPreferencesRef);
+
 export const initializeEuropeWest1Functions = (europeWest1Functions: Functions) => {
   createUserRef = httpsCallable<CreateUserRequest>(europeWest1Functions, 'createUserV2');
   requestPasswordResetRef = httpsCallable<EmptyObject>(
@@ -159,4 +190,5 @@ export const initializeEuropeWest1Functions = (europeWest1Functions: Functions) 
   discourseConnectLoginRef = httpsCallable(europeWest1Functions, 'discourseConnectLoginV2');
   requestEmailChangeRef = httpsCallable(europeWest1Functions, 'requestEmailChangeV2');
   propagateEmailChangeRef = httpsCallable(europeWest1Functions, 'propagateEmailChangeV2');
+  manageEmailPreferencesRef = httpsCallable(europeWest1Functions, 'manageEmailPreferencesV2');
 };

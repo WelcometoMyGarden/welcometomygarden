@@ -159,7 +159,6 @@ export async function initialize(): Promise<void> {
     connectStorageEmulator(storageRef, emulatorHostName, SSL_DEV ? 9198 : 9199);
   }
 
-  // The default functions ref is us-central1
   // Surprise surprise, we need to explicitly create a new Functions
   // instance for any functions hosted on europe-west1
   // https://firebase.google.com/docs/functions/beta/callable#initialize_the_client_sdk

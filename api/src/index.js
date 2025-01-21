@@ -57,6 +57,7 @@ const { shouldReplicateRuntime } = require('./sharedConfig');
 const { initialize: initSupabase } = require('./supabase');
 const onCampsiteListedChange = require('./user/onCampsiteListedChange');
 const { createCustomerPortalSession } = require('./subscriptions/createCustomerPortalSession');
+const manageEmailPreferences = require('./sendgrid/manageEmailPreferences');
 
 onInit(() => {
   initSendgrid();
@@ -97,6 +98,7 @@ exports.propagateEmailChangeV2 = onCall(
   propagateEmailChange
 );
 exports.discourseConnectLoginV2 = onCall(discourseConnectLogin);
+exports.manageEmailPreferencesV2 = onCall(manageEmailPreferences);
 
 // Callable functions: subscriptions
 exports.createStripeCustomerV2 = onCall(createStripeCustomer);
@@ -114,9 +116,9 @@ exports.updateEmail = onCall(
 );
 
 // HTTP functions:
-//  Stripe webhook endpoint
+// Stripe webhook endpoint
 exports.handleStripeWebhookV2 = onRequest(stripeWebhookHandler);
-//  Handle SendGrid Inbound Email
+// Handle SendGrid Inbound Email
 exports.parseInboundEmailV2 = onRequest(parseInboundEmail);
 
 // Firebase Auth triggers

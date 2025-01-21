@@ -32,6 +32,7 @@
     "html-to-text": "^9.0.5",
     "lodash": "^4.17.21",
     "luxon": "^3.5.0",
+    "nanoid": "^5.0.9",
     "node-fetch": "^2.7.0",
     "stripe": "^17.3.1"
   },

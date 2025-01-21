@@ -1,5 +1,6 @@
 const { setTimeout } = require('node:timers/promises');
 const { logger } = require('firebase-functions');
+const { nanoid } = require('nanoid');
 const { sendgrid: sendgridClient } = require('./sendgrid');
 const fail = require('../util/fail');
 const { db } = require('../firebase');
@@ -8,7 +9,8 @@ const {
   sengridWtmgIdFieldIdParam,
   sendgridCreationTimeFieldIdParam,
   sendgridWtmgNewsletterListId,
-  isContactSyncDisabled
+  isContactSyncDisabled,
+  sendgridSecretFieldIdParam
 } = require('../sharedConfig');
 
 /**
@@ -45,6 +47,7 @@ const createSendgridContact = async (
       [sendgridCreationTimeFieldIdParam.value()]: new Date(
         firebaseUser.metadata.creationTime
       ).toISOString(),
+      [sendgridSecretFieldIdParam.value()]: nanoid(),
       ...(extraContactDetails.custom_fields ?? {})
     }
   };

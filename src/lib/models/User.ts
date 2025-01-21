@@ -51,9 +51,9 @@ type StripeSubscription = {
   collectionMethod: 'send_invoice' | 'charge_automatically' | undefined;
 };
 
-type EmailPreferences = {
-  newChat?: boolean;
-  news?: boolean;
+export type EmailPreferences = {
+  newChat: boolean;
+  news: boolean;
 };
 
 /**
@@ -77,6 +77,7 @@ export type UserPrivate = {
   newEmail?: string;
   /** Internal property to assist in the handling of an email recovery across systems. Only writable by the admin sdk. */
   oldEmail?: string;
+  reference?: string;
 };
 
 /**
