@@ -946,6 +946,19 @@
     "update": "Update password",
     "success": "Your password was reset succesfully"
   },
+  "email-preferences": {
+    "error": "Are you having trouble unsubscribing? Contact {support} and we'll help you out!",
+    "unsubscribe": {
+      "title": "Unsubscribe from WTMG news",
+      "description": "<p>If you click the unsubscribe button below, you will no longer receive news from WTMG at {email}.</p>",
+      "unsubscribe": "Unsubscribe"
+    },
+    "resubscribe": {
+      "title": "You’ve been unsubscribed from WTMG news",
+      "description": "<p>You will no longer receive news from WTMG at {email}.</p>\n<p>If you’d like to resubscribe, you can click the button below.</p>",
+      "resubscribe": "Resubscribe"
+    }
+  },
   "account": {
     "title": "Account",
     "verify": {

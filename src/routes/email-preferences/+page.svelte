@@ -8,11 +8,14 @@
   import { Button } from '$lib/components/UI';
   import { updateMailPreferences } from '$lib/api/user';
   import { logout } from '$lib/api/auth';
+  import AuthContainer from '$lib/components/AuthContainer.svelte';
+  import { supportEmailLinkString, trackEvent } from '$lib/util';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   let formIsLoading = true;
   let secretParam: string | null = null;
   let emailParam: string | null = null;
-  let originalEmailPreferences: EmailPreferences | null = null;
+  let error: string | null = null;
   let emailPreferences: EmailPreferences | null = null;
 
   $: hasAuthForEmail = ($user && !emailParam) || ($user && emailParam === $user.email);
@@ -21,13 +24,15 @@
     // Initialize
     // NOTE: this will not handle user switches well (log outs etc)
     const searchParams = new URLSearchParams(document.location.search);
-    emailParam = searchParams.get('email');
-    secretParam = searchParams.get('secret');
+    // TODO: Sendgrid doesn't seem to URL-encode Custom Unsubscribe links; at least for transactional ones
+    // Assume that a space in the email was meant to be a "+". There may be more issues coming from this...
+    // Maybe we can use the WTMG-ID instead?
+    emailParam = (searchParams.get('email') || searchParams.get('e'))?.replace(/\s/g, '+') ?? null;
+    secretParam = searchParams.get('secret') || searchParams.get('s');
     if (hasAuthForEmail) {
       // If there is a user, a reactive statement below will fill in emailPreferences
       emailParam = $user?.email!;
       emailPreferences = $user!.emailPreferences!;
-      originalEmailPreferences = { ...emailPreferences };
     } else if ($user && emailParam !== $user.email) {
       // TODO: if another email parameter is detected than the logged-in user's email, do log out and refresh?
       await logout();
@@ -42,16 +47,25 @@
       });
       if (data.status === 'ok') {
         emailPreferences = data.emailPreferences;
-        originalEmailPreferences = { ...emailPreferences };
       }
     }
     formIsLoading = false;
   });
 
-  let submittingPreferences = false;
+  // Sync live with the account page if possible
+  $: if ($user) {
+    emailPreferences = $user.emailPreferences;
+  }
+
+  let isSubmittingPreferences = false;
   async function submitPreferences() {
-    submittingPreferences = true;
-    let error;
+    isSubmittingPreferences = true;
+    if (!emailPreferences) {
+      // Shouldn't happen
+      error = 'loading-error';
+      return;
+    }
+    emailPreferences.news = !emailPreferences?.news;
     try {
       if (hasAuthForEmail) {
         await updateMailPreferences('news', emailPreferences!.news);
@@ -64,88 +78,88 @@
         });
         if (data.status === 'error') {
           error = data.error;
+        } else {
+          trackEvent(
+            emailPreferences.news
+              ? PlausibleEvent.EMAIL_RESUBSCRIBE
+              : PlausibleEvent.EMAIL_UNSUBSCRIBE,
+            {
+              list: 'newsletter'
+            }
+          );
         }
       }
     } catch (e) {
       error = 'Something went wrong';
     }
 
-    if (!error) {
-      // TODO notify of success
-    } else {
-      // TODO notify of error
-    }
-    submittingPreferences = false;
+    isSubmittingPreferences = false;
   }
 </script>
 
 <svelte:head>
   <meta name="robots" content="noindex" />
+  {#if formIsLoading}
+    <title>Email preferences</title>
+  {:else if emailPreferences?.news}
+    <title>
+      {$_('email-preferences.unsubscribe.title')}
+    </title>
+  {:else}
+    <title>
+      {$_('email-preferences.resubscribe.title')}
+    </title>
+  {/if}
 </svelte:head>
 
-<div class="wrapper">
-  <div class="content">
-    <h2 class="h2">{$_('account.preferences.title')} for {emailParam}</h2>
-    <p>{$_('account.preferences.text')}</p>
+<AuthContainer>
+  <span slot="title">
+    {#if emailPreferences?.news}
+      {$_('email-preferences.unsubscribe.title')}
+    {:else}
+      {$_('email-preferences.resubscribe.title')}
+    {/if}
+  </span>
+  <div class="email-prefs" slot="form">
     {#if formIsLoading}
-      Loading <Spinner />
-    {:else if !emailPreferences}
-      Something went wrong. Contact support if this keeps happening
+      <p>{$_('payment-superfan.payment-section.loading')} <Spinner /></p>
+    {:else if !emailPreferences || error}
+      <p>
+        {@html $_('email-preferences.error', {
+          values: {
+            support: supportEmailLinkString
+          }
+        })}
+      </p>
     {:else if emailPreferences}
-      <ul class="preference-list">
-        <li>
-          <input type="checkbox" id="news" name="news" bind:checked={emailPreferences.news} />
-          <label for="news">{$_('account.preferences.news')}</label>
-        </li>
-      </ul>
-      <Button
-        small
-        uppercase
-        fullWidth
-        on:click={submitPreferences}
-        disabled={submittingPreferences || originalEmailPreferences?.news === emailPreferences.news}
-        >Save</Button
-      >
+      {#if emailPreferences.news}
+        {@html $_('email-preferences.unsubscribe.description', {
+          values: { email: emailParam }
+        })}
+      {:else}
+        {@html $_('email-preferences.resubscribe.description', {
+          values: { email: emailParam }
+        })}
+      {/if}
+      <div class="submit">
+        <Button small uppercase on:click={submitPreferences} disabled={isSubmittingPreferences}
+          >{#if emailPreferences.news}
+            {$_('email-preferences.unsubscribe.unsubscribe')}
+          {:else}
+            {$_('email-preferences.resubscribe.resubscribe')}
+          {/if}</Button
+        >
+      </div>
     {/if}
   </div>
-</div>
+</AuthContainer>
 
 <style>
-  .wrapper {
-    min-height: calc(calc(var(--vh, 1vh) * 100) - var(--height-footer) - var(--height-nav) - 14rem);
-    margin: var(--height-nav) auto 8rem auto;
-    position: relative;
-  }
-
-  .content :global(.button) {
-    max-width: 20rem;
-    margin: auto;
-  }
-
-  .content {
-    width: 60%;
-    background-color: var(--color-white);
-    box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
-    padding: 4rem;
-    position: relative;
-    max-width: 60rem;
-    width: 100%;
-    margin: auto;
-  }
-
-  .intro {
-    margin-bottom: 1rem;
-  }
-
-  h2 {
+  .email-prefs :global(p) {
     margin-bottom: 2rem;
-    font-weight: 500;
-    font-size: 1.8rem;
   }
 
-  .preference-list {
-    margin-bottom: 2rem;
-    margin-top: 0.5rem;
-    padding-left: 4rem;
+  .submit {
+    text-align: center;
   }
 </style>

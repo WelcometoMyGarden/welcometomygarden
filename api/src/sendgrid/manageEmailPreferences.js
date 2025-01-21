@@ -75,8 +75,12 @@ module.exports = async function manageEmailPreferences({ data, auth: callAuth })
   const userPrivateRef = /** @type {DocumentReference<UserPrivate>} */ (
     db.collection('users-private').doc(uid)
   );
+  const docSnap = await userPrivateRef.get();
+  if (!docSnap.exists) {
+    fail('failed-precondition');
+  }
   if (type === 'get') {
-    const doc = (await userPrivateRef.get()).data();
+    const doc = docSnap.data();
     return {
       status: 'ok',
       emailPreferences: doc.emailPreferences

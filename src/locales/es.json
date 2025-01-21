@@ -1519,5 +1519,18 @@
   },
   "rv": {
     "ask": ""
+  },
+  "email-preferences": {
+    "error": "¿Tienes problemas para darte de baja? Contacta con {support} y te ayudaremos.",
+    "unsubscribe": {
+      "title": "Darse de baja de las noticias de WTMG",
+      "unsubscribe": "Darse de baja",
+      "description": "<p>Si haces clic en el botón de darse de baja a continuación, dejarás de recibir noticias de WTMG en la dirección {email}.</p>."
+    },
+    "resubscribe": {
+      "description": "<p>Ya no recibirás noticias de WTMG en la dirección {email}.</p>\n<p>Si deseas volver a suscribirte, haga clic en el botón de siguiente.</p>",
+      "resubscribe": "Volver a suscribirse",
+      "title": "Te has dado de baja de las noticias de WTMG."
+    }
   }
 }

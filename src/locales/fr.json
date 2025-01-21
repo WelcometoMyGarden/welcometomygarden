@@ -1512,5 +1512,18 @@
   },
   "rv": {
     "ask": "Les inscriptions pour le <a class=\"link--neutral\" href=\"https://velotourfestival.be/fr?utm_source=welcometomygarden.org&utm_medium=web&utm_content=navbar\">Velotour Festival 2025</a> sont ouvertes - nous espérons vous y voir ! 🎉🚴"
+  },
+  "email-preferences": {
+    "error": "Vous avez des difficultés pour vous désabonner ? Contactez {support} et nous vous aiderons !",
+    "unsubscribe": {
+      "title": "Se désabonner des nouvelles WTMG",
+      "unsubscribe": "Se désabonner",
+      "description": "<p>Si vous cliquez sur le bouton de désabonnement ci-dessous, vous ne recevrez plus de nouvelles de WTMG à l'adresse {email}.</p>"
+    },
+    "resubscribe": {
+      "description": "<p>Vous ne recevrez plus de nouvelles de WTMG à l'adresse {email}.</p>\n<p>Si vous souhaitez vous réabonner, cliquez sur le bouton ci-dessous.</p>",
+      "resubscribe": "Se réabonner",
+      "title": "Vous êtes désabonné des nouvelles de WTMG"
+    }
   }
 }

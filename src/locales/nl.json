@@ -1520,5 +1520,18 @@
   },
   "rv": {
     "ask": "Inschrijvingen voor het <a class=\"link--neutral\" href=\"https://velotourfestival.be/nl?utm_source=welcometomygarden.org&utm_medium=web&utm_content=navbar\">Velotour Festival 2025</a> zijn nu open - hopelijk tot dan! 🎉🚴"
+  },
+  "email-preferences": {
+    "error": "Heb je problemen met uitschrijven? Contacteer ons via {support} en we helpen je verder!",
+    "unsubscribe": {
+      "title": "Uitschrijven van WTMG-nieuws",
+      "unsubscribe": "Uitschrijven",
+      "description": "<p>Als je hieronder op de uitschrijfknop klikt, ontvang je geen nieuws meer van WTMG op {email}.</p>"
+    },
+    "resubscribe": {
+      "description": "<p>Je ontvangt geen nieuws meer van WTMG op {email}.</p>\n<p>Als je je opnieuw wilt inschrijven, kan je hieronder op de knop klikken.</p>",
+      "resubscribe": "Herinschrijven",
+      "title": "Je bent uitgeschreven van WTMG-nieuws"
+    }
   }
 }

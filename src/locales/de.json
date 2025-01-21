@@ -1521,5 +1521,18 @@
   },
   "rv": {
     "ask": ""
+  },
+  "email-preferences": {
+    "error": "Haben Sie Probleme, sich abzumelden? Kontaktieren Sie {support} und wir helfen Ihnen weiter!",
+    "unsubscribe": {
+      "title": "Abmeldung von WTMG-Neuigkeiten",
+      "unsubscribe": "Abmelden",
+      "description": "<p>Wenn Sie auf die Abmelde-Schaltfläche unten klicken, erhalten Sie keine Neuigkeiten mehr von WTMG an {email}.</p>"
+    },
+    "resubscribe": {
+      "description": "<p>Sie erhalten keine Neuigkeiten mehr von WTMG an {email}.</p>\n<p>Wenn Sie sich wieder anmelden möchten, können Sie unten auf die Schaltfläche klicken.</p>",
+      "resubscribe": "Wieder anmelden",
+      "title": "Sie sind abgemeldet von WTMG-Neuigkeiten"
+    }
   }
 }
