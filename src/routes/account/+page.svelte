@@ -110,7 +110,11 @@
         <h2>{$user.firstName} {$user.lastName}</h2>
         <div
           class="infogrid"
-          class:has-sub={!!$user.stripeSubscription}
+          class:has-sub-info={!!$user.stripeSubscription &&
+            !(
+              $user.stripeSubscription.currentPeriodStart === $user.stripeSubscription.startDate &&
+              $user.stripeSubscription.status === 'canceled'
+            )}
           class:auto-renewing={$hasAutoRenewingSubscription}
           class:valid={$hasValidSubscription}
         >
@@ -174,8 +178,9 @@
                 href={customerPortalLink ?? ''}>{$_('account.superfan.btn-manage')}</Button
               >
             {/if}
-          {:else if $user.stripeSubscription}
-            <!-- The invalid subscription state is assumed from the alternative of the case above -->
+          {:else if $user.stripeSubscription && $user.stripeSubscription.currentPeriodStart !== $user.stripeSubscription.startDate}
+            <!-- The invalid/expired subscription state is assumed from the alternative of the case above -->
+            <!-- Extra qualification: this is not the initial invoice, to exclude manual superfans etc -->
             <!-- TODO: in charge_automatically we might need to show that some payment errors occurred
                and a button to the management portal -->
             <p class="superfan-validity invalid">{@html $_('account.superfan.just-ended')}</p>
@@ -334,7 +339,7 @@
 
   /* If the second row only has one element, or no elements  */
   .infogrid.valid:not(.auto-renewing),
-  .infogrid:not(.has-sub) {
+  .infogrid:not(.has-sub-info) {
     display: flex;
     padding: 0;
     justify-content: center;
@@ -345,7 +350,7 @@
     text-align: center;
   }
   .infogrid.valid:not(.auto-renewing) .email-address,
-  .infogrid:not(.has-sub) .email-address {
+  .infogrid:not(.has-sub-info) .email-address {
     margin-right: 2rem;
   }
 
