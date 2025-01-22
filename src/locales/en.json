@@ -935,9 +935,9 @@
     "terms": "By becoming a member you agree to our {termsLink}. Your membership will renew automatically, but you can cancel anytime."
   },
   "request-password-reset": {
-    "title": "Set a new password",
-    "description": "If you submit the form below, we can send you a unique link with which you can reset your password.",
-    "button": "Email reset instructions",
+    "title": "Reset your password",
+    "description": "Enter the email address linked to your WTMG account, and we’ll send you a link to reset your password.",
+    "button": "Get reset link",
     "set": "If an account with the email {email} exists, an email will now be sent with instructions on how to reset the password.",
     "trouble": "Are you having trouble logging in? Contact {support} and we'll help you out!"
   },
@@ -945,6 +945,19 @@
     "title": "Set a new password",
     "update": "Update password",
     "success": "Your password was reset succesfully"
+  },
+  "email-preferences": {
+    "error": "Are you having trouble unsubscribing? Contact {support} and we'll help you out!",
+    "unsubscribe": {
+      "title": "Unsubscribe from WTMG news",
+      "description": "<p>If you click the unsubscribe button below, you will no longer receive news from WTMG at {email}.</p>",
+      "unsubscribe": "Unsubscribe"
+    },
+    "resubscribe": {
+      "title": "You’ve been unsubscribed from WTMG news",
+      "description": "<p>You will no longer receive news from WTMG at {email}.</p>\n<p>If you’d like to resubscribe, you can click the button below.</p>",
+      "resubscribe": "Resubscribe"
+    }
   },
   "account": {
     "title": "Account",

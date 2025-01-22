@@ -38,5 +38,6 @@
   },
   "terminal.integrated.env.osx": {
     "PATH": "${env:PATH}:${workspaceFolder}/node_modules/.bin:${workspaceFolder}/api/node_modules/.bin"
-  }
+  },
+  "npm.packageManager": "yarn"
 }

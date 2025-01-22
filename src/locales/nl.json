@@ -577,9 +577,9 @@
     "terms": "Door lid te worden, ga je akkoord met onze {termsLink}. Je lidmaatschap wordt automatisch verlengd, maar je kan het op elk moment stopzetten."
   },
   "request-password-reset": {
-    "title": "Stel een nieuw wachtwoord in",
-    "description": "Als je het onderstaande formulier indient, kunnen wij je een unieke link sturen waarmee je jouw wachtwoord kunt resetten.",
-    "button": "Instructies voor het herstellen van jouw e-mail",
+    "title": "Wachtwoord opnieuw instellen",
+    "description": "Voer het e-mailadres in dat is gekoppeld aan je WTMG-account en we sturen je een link om je wachtwoord opnieuw in te stellen.",
+    "button": "Ontvang resetlink",
     "set": "Als er een account bestaat met de e-mail {email}, wordt er nu een e-mail gestuurd met instructies voor het herstellen van het wachtwoord.",
     "trouble": "Heb je moeite met inloggen? contacteer ons via {support} en we helpen je verder!"
   },
@@ -1520,5 +1520,18 @@
   },
   "rv": {
     "ask": "Inschrijvingen voor het <a class=\"link--neutral\" href=\"https://velotourfestival.be/nl?utm_source=welcometomygarden.org&utm_medium=web&utm_content=navbar\">Velotour Festival 2025</a> zijn nu open - hopelijk tot dan! 🎉🚴"
+  },
+  "email-preferences": {
+    "error": "Heb je problemen met uitschrijven? Contacteer ons via {support} en we helpen je verder!",
+    "unsubscribe": {
+      "title": "Uitschrijven van WTMG-nieuws",
+      "unsubscribe": "Uitschrijven",
+      "description": "<p>Als je hieronder op de uitschrijfknop klikt, ontvang je geen nieuws meer van WTMG op {email}.</p>"
+    },
+    "resubscribe": {
+      "description": "<p>Je ontvangt geen nieuws meer van WTMG op {email}.</p>\n<p>Als je je opnieuw wilt inschrijven, kan je hieronder op de knop klikken.</p>",
+      "resubscribe": "Herinschrijven",
+      "title": "Je bent uitgeschreven van WTMG-nieuws"
+    }
   }
 }

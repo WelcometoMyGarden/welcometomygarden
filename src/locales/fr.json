@@ -930,9 +930,9 @@
   "request-password-reset": {
     "trouble": "Vous avez des difficultés à vous connecter ? Contactez {support} et nous vous aiderons !",
     "set": "Si un compte avec l'adresse électronique {email} existe, un courriel sera maintenant envoyé avec des instructions sur la façon de réinitialiser le mot de passe.",
-    "button": "Instructions de réinitialisation de l'adresse électronique",
-    "title": "Définir un nouveau mot de passe",
-    "description": "Si vous soumettez le formulaire ci-dessous, nous pouvons vous envoyer un lien unique avec lequel vous pourrez réinitialiser votre mot de passe."
+    "button": "Recevoir le lien de réinitialisation",
+    "title": "Réinitialiser votre mot de passe",
+    "description": "Introduisez l'adresse e-mail liée à votre compte WTMG, et nous vous enverrons un lien de réinitialisation."
   },
   "reset-password": {
     "success": "Votre mot de passe a été réinitialisé avec succès",
@@ -1512,5 +1512,18 @@
   },
   "rv": {
     "ask": "Les inscriptions pour le <a class=\"link--neutral\" href=\"https://velotourfestival.be/fr?utm_source=welcometomygarden.org&utm_medium=web&utm_content=navbar\">Velotour Festival 2025</a> sont ouvertes - nous espérons vous y voir ! 🎉🚴"
+  },
+  "email-preferences": {
+    "error": "Vous avez des difficultés pour vous désabonner ? Contactez {support} et nous vous aiderons !",
+    "unsubscribe": {
+      "title": "Se désabonner des nouvelles WTMG",
+      "unsubscribe": "Se désabonner",
+      "description": "<p>Si vous cliquez sur le bouton de désabonnement ci-dessous, vous ne recevrez plus de nouvelles de WTMG à l'adresse {email}.</p>"
+    },
+    "resubscribe": {
+      "description": "<p>Vous ne recevrez plus de nouvelles de WTMG à l'adresse {email}.</p>\n<p>Si vous souhaitez vous réabonner, cliquez sur le bouton ci-dessous.</p>",
+      "resubscribe": "Se réabonner",
+      "title": "Vous êtes désabonné des nouvelles de WTMG"
+    }
   }
 }
