@@ -164,6 +164,7 @@
   }
 
   .submit {
+    margin-top: 3.5rem;
     text-align: center;
   }
 </style>
