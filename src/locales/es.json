@@ -932,9 +932,9 @@
     "terms": "Al hacerte miembro, acepta nuestros {termsLink}. Tu membresía se renovará automáticamente, pero puedes cancelarla en cualquier momento."
   },
   "request-password-reset": {
-    "title": "Establecer una nueva contraseña",
-    "description": "Si envías el siguiente formulario, podemos enviarte un enlace único con el que podrás restablecer tu contraseña.",
-    "button": "Instrucciones para restablecer el correo electrónico",
+    "title": "Restablecer tu contraseña",
+    "description": "Introduzca la dirección de correo electrónico vinculada a tu cuenta de WTMG y te enviaremos un enlace para restablecer tu contraseña.",
+    "button": "Obtener enlace de restablecimiento",
     "set": "Si existe una cuenta con el correo electrónico {email}, ahora se enviará un correo electrónico con instrucciones sobre cómo restablecer la contraseña.",
     "trouble": "¿Tienes problemas para iniciar sesión? ¡Contacta con {support} y te ayudaremos!"
   },

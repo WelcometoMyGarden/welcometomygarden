@@ -577,9 +577,9 @@
     "terms": "Door lid te worden, ga je akkoord met onze {termsLink}. Je lidmaatschap wordt automatisch verlengd, maar je kan het op elk moment stopzetten."
   },
   "request-password-reset": {
-    "title": "Stel een nieuw wachtwoord in",
-    "description": "Als je het onderstaande formulier indient, kunnen wij je een unieke link sturen waarmee je jouw wachtwoord kunt resetten.",
-    "button": "Instructies voor het herstellen van jouw e-mail",
+    "title": "Wachtwoord opnieuw instellen",
+    "description": "Voer het e-mailadres in dat is gekoppeld aan je WTMG-account en we sturen je een link om je wachtwoord opnieuw in te stellen.",
+    "button": "Ontvang resetlink",
     "set": "Als er een account bestaat met de e-mail {email}, wordt er nu een e-mail gestuurd met instructies voor het herstellen van het wachtwoord.",
     "trouble": "Heb je moeite met inloggen? contacteer ons via {support} en we helpen je verder!"
   },

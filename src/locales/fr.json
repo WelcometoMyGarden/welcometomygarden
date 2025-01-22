@@ -930,9 +930,9 @@
   "request-password-reset": {
     "trouble": "Vous avez des difficultés à vous connecter ? Contactez {support} et nous vous aiderons !",
     "set": "Si un compte avec l'adresse électronique {email} existe, un courriel sera maintenant envoyé avec des instructions sur la façon de réinitialiser le mot de passe.",
-    "button": "Instructions de réinitialisation de l'adresse électronique",
-    "title": "Définir un nouveau mot de passe",
-    "description": "Si vous soumettez le formulaire ci-dessous, nous pouvons vous envoyer un lien unique avec lequel vous pourrez réinitialiser votre mot de passe."
+    "button": "Recevoir le lien de réinitialisation",
+    "title": "Réinitialiser votre mot de passe",
+    "description": "Introduisez l'adresse e-mail liée à votre compte WTMG, et nous vous enverrons un lien de réinitialisation."
   },
   "reset-password": {
     "success": "Votre mot de passe a été réinitialisé avec succès",

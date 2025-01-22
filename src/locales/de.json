@@ -931,9 +931,9 @@
     "terms": "Durch deine Mitgliedschaft stimmst du unseren {termsLink} zu. Deine Mitgliedschaft wird automatisch verlängert, aber du kannst sie jederzeit kündigen."
   },
   "request-password-reset": {
-    "title": "Ein neues Passwort festlegen",
-    "description": "Wenn Sie das untenstehende Formular abschicken, können wir Ihnen einen individuellenLink zusenden, mit dem Sie Ihr Passwort zurücksetzen können.",
-    "button": "Anweisungen zum Zurücksetzen der E-Mail",
+    "title": "Passwort zurücksetzen",
+    "description": "Gib die E-Mail-Adresse ein, die mit deinem WTMG-Konto verknüpft ist, und wir senden dir einen Link, um dein Passwort zurückzusetzen.",
+    "button": "Link zum Zurücksetzen erhalten",
     "set": "Wenn ein Konto mit der E-Mail {email} existiert, wird nun eine E-Mail mit Anweisungen zum Zurücksetzen des Passworts gesendet.",
     "trouble": "Haben Sie Probleme beim Anmelden? Kontaktieren Sie {support} und wir helfen Ihnen weiter!"
   },

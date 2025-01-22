@@ -935,9 +935,9 @@
     "terms": "By becoming a member you agree to our {termsLink}. Your membership will renew automatically, but you can cancel anytime."
   },
   "request-password-reset": {
-    "title": "Set a new password",
-    "description": "If you submit the form below, we can send you a unique link with which you can reset your password.",
-    "button": "Email reset instructions",
+    "title": "Reset your password",
+    "description": "Enter the email address linked to your WTMG account, and we’ll send you a link to reset your password.",
+    "button": "Get reset link",
     "set": "If an account with the email {email} exists, an email will now be sent with instructions on how to reset the password.",
     "trouble": "Are you having trouble logging in? Contact {support} and we'll help you out!"
   },
