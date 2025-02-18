@@ -100,7 +100,7 @@
   <p>
     {@html $_('sign-in.register.text', {
       values: {
-        link: `<a class="link" href="${routes.REGISTER}">${$_('sign-in.register.link')}</a>`
+        link: `<a class="link" href="${routes.REGISTER}${continueUrl ? `?continueUrl=${encodeURIComponent(continueUrl)}` : ''}">${$_('sign-in.register.link')}</a>`
       }
     })}
   </p>

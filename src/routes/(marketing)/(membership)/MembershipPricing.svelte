@@ -117,11 +117,15 @@
   };
 
   const goToPaymentPage = async (level: SuperfanLevelData) => {
-    if (!$user) {
-      return await goto(routes.SIGN_IN);
-    }
-    let continueUrl = '';
+    // Track the event regardless of login state
+    trackEvent(PlausibleEvent.CONTINUE_WITH_PRICE, {
+      source: analyticsSource,
+      membership_type: level.slug
+    });
+
+    // Build the target payment link
     // If the person was trying to open a chat, include it as a continueUrl
+    let afterPaymentContinueUrl = '';
     if (
       $page.url.pathname.startsWith(routes.CHAT) &&
       $page.url.pathname.includes('new') &&
@@ -129,17 +133,18 @@
     ) {
       // Use a "with" link, because that one is used to trigger fetching partner details in an onMount
       // TODO: simplify this...
-      continueUrl = `${routes.CHAT}?with=${$page.url.searchParams.get('id')}`;
+      afterPaymentContinueUrl = `${routes.CHAT}?with=${$page.url.searchParams.get('id')}`;
     }
-    trackEvent(PlausibleEvent.CONTINUE_WITH_PRICE, {
-      source: analyticsSource,
-      membership_type: level.slug
-    });
-    return await goto(
-      `${routes.MEMBER_PAYMENT}/${level.slug}${
-        continueUrl ? `?continueUrl=${encodeURIComponent(continueUrl)}` : ''
-      }`
-    );
+
+    const targetPaymentLink = `${routes.MEMBER_PAYMENT}/${level.slug}${
+      afterPaymentContinueUrl ? `?continueUrl=${encodeURIComponent(afterPaymentContinueUrl)}` : ''
+    }`;
+
+    const targetLink = !$user
+      ? `${routes.SIGN_IN}?continueUrl=${encodeURIComponent(targetPaymentLink)}`
+      : targetPaymentLink;
+
+    return await goto(targetLink);
   };
 
   const optionIdPrefix = 'pricing-btn-';

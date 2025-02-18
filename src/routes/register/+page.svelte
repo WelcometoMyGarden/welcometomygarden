@@ -1,7 +1,7 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
-  import { goto } from '$lib/util/navigate';
+  import { goto, universalGoto } from '$lib/util/navigate';
   import { register } from '$lib/api/auth';
   import { formEmailValue, formPasswordValue, isRegistering } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
@@ -14,6 +14,9 @@
   import { AuthErrorCodes } from 'firebase/auth';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
   import validateEmail from '$lib/util/validate-email';
+  import { page } from '$app/stores';
+
+  const continueUrl = $page.url.searchParams.get('continueUrl');
 
   type FieldCommon = {
     /**
@@ -152,7 +155,11 @@
         reference: (fields.reference.value as string)?.trim() || null
       });
       notify.success($_('register.notify.successful'), 10000);
-      goto(routes.MAP);
+      if (continueUrl) {
+        universalGoto(continueUrl);
+      } else {
+        goto(routes.MAP);
+      }
     } catch (err: unknown) {
       isRegistering.set(false);
       if (isFirebaseError(err) && err.code === AuthErrorCodes.EMAIL_EXISTS)
@@ -299,7 +306,7 @@
       <p>
         {@html $_('register.registered', {
           values: {
-            signIn: `<a class="link" href=${routes.SIGN_IN}>${$_('generics.sign-in')}</a>`
+            signIn: `<a class="link" href="${routes.SIGN_IN}}${continueUrl ? `?continueUrl=${encodeURIComponent(continueUrl)}` : ''}">${$_('generics.sign-in')}</a>`
           }
         })}
       </p>
