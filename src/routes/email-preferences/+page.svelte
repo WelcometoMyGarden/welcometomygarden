@@ -117,11 +117,13 @@
 <AuthContainer>
   <span slot="title">
     {#if !error}
-      {#if emailPreferences?.news}
+      {#if formIsLoading || emailPreferences?.news}
         {$_('email-preferences.unsubscribe.title')}
       {:else}
         {$_('email-preferences.resubscribe.title')}
       {/if}
+    {:else}
+      {$_('generics.error.start')}
     {/if}
   </span>
   <div class="email-prefs" slot="form">
