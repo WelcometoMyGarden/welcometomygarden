@@ -10,7 +10,8 @@ const {
   sendgridCreationTimeFieldIdParam,
   sendgridWtmgNewsletterListId,
   isContactSyncDisabled,
-  sendgridSecretFieldIdParam
+  sendgridSecretFieldIdParam,
+  sendgridNewsletterFieldIdParam
 } = require('../sharedConfig');
 
 /**
@@ -48,6 +49,11 @@ const createSendgridContact = async (
         firebaseUser.metadata.creationTime
       ).toISOString(),
       [sendgridSecretFieldIdParam.value()]: nanoid(),
+      ...(addToNewsletter
+        ? {
+            [sendgridNewsletterFieldIdParam.value()]: 1
+          }
+        : {}),
       ...(extraContactDetails.custom_fields ?? {})
     }
   };

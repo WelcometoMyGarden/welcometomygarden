@@ -6,7 +6,9 @@ const {
   sendgridCommunicationLanguageFieldIdParam: sendgridCommuniationLanguageFieldIdParam,
   sendgridCreationLanguageFieldIdParam,
   sendgridWtmgNewsletterListId,
-  isContactSyncDisabled
+  isContactSyncDisabled,
+  sendgridHostFieldIdParam,
+  sendgridNewsletterFieldIdParam
 } = require('../sharedConfig');
 
 /**
@@ -106,7 +108,9 @@ exports.onUserPrivateWrite = async ({ data: change, params }) => {
           // of a users-private doc.
           ...(isCreationWrite && userPrivateAfter.creationLanguage != null
             ? {
-                [sendgridCreationLanguageFieldIdParam.value()]: userPrivateAfter.creationLanguage
+                [sendgridCreationLanguageFieldIdParam.value()]: userPrivateAfter.creationLanguage,
+                // A new user will always start by not being a host
+                [sendgridHostFieldIdParam.value()]: 0
               }
             : {})
         }
@@ -130,27 +134,6 @@ exports.onUserPrivateWrite = async ({ data: change, params }) => {
       userPrivateAfter.emailPreferences &&
       userPrivateAfter.emailPreferences.news === true;
 
-    if (changedToNewsTrue) {
-      list_ids = [sendgridWtmgNewsletterListId.value()];
-    }
-
-    // Perform the update in any case
-    if (!isContactSyncDisabled()) {
-      try {
-        await sendgridClient.request({
-          url: '/v3/marketing/contacts',
-          method: 'PUT',
-          body: {
-            ...(list_ids ? { list_ids } : {}),
-            contacts: [sendgridContactUpdateFields]
-          }
-        });
-      } catch (e) {
-        console.error(JSON.stringify(e));
-        fail('internal');
-      }
-    }
-
     const changedToNewsFalse =
       userPrivateBefore &&
       userPrivateBefore.emailPreferences &&
@@ -166,9 +149,11 @@ exports.onUserPrivateWrite = async ({ data: change, params }) => {
       userPrivateAfter.sendgridId != null;
 
     /**
-     * This catches a race condition where news was set to false while the SendGrid was being set.
+     * The "false to false" case.
+     * This catches a race condition where news was set to false while the SendGrid id was being set.
      * In that case, the userPrivateBefore news state will already be false when the sendgridId is being set,
-     * but the change won't have synced yet to SendGrid, because deletions are dependent on the sendgridId.
+     * but the change won't have synced yet to SendGrid, because list deletions (below) are
+     * dependent on the sendgridId being present.
      */
     const unsubscribedWhileAddingSendGridId =
       addedSendgridId &&
@@ -179,6 +164,36 @@ exports.onUserPrivateWrite = async ({ data: change, params }) => {
       userPrivateAfter.emailPreferences &&
       userPrivateAfter.emailPreferences.news === false;
 
+    if (changedToNewsTrue) {
+      list_ids = [sendgridWtmgNewsletterListId.value()];
+    }
+
+    // Perform the update in any case
+    if (!isContactSyncDisabled()) {
+      try {
+        await sendgridClient.request({
+          url: '/v3/marketing/contacts',
+          method: 'PUT',
+          body: {
+            ...(list_ids ? { list_ids } : {}),
+            contacts: [
+              {
+                ...sendgridContactUpdateFields,
+                custom_fields: {
+                  // 2nd way of representing newsletter membership
+                  [sendgridNewsletterFieldIdParam.value()]: userPrivateAfter?.emailPreferences.news
+                    ? 1
+                    : 0
+                }
+              }
+            ]
+          }
+        });
+      } catch (e) {
+        console.error(JSON.stringify(e));
+        fail('internal');
+      }
+    }
     // Check if we should do a newsletter list deletion
     if ((changedToNewsFalse || unsubscribedWhileAddingSendGridId) && !isContactSyncDisabled()) {
       await sendgridClient.request({
