@@ -25,9 +25,9 @@ const collectSendgridContactData = async (uid) => {
   // Combine all fields that are not set in the createSendgridContact function
   // they are expected in the argument context
   const contactUpdateFields = {
-    firstName: firstName,
+    first_name: firstName,
     country: countryCode,
-    lastName: lastName,
+    last_name: lastName,
     custom_fields: {
       [sendgridCommunicationLanguageFieldIdParam.value()]: communicationLanguage,
       [sendgridSuperfanFieldIdParam.value()]: superfan ? 1 : 0,
