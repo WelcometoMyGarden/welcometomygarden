@@ -1,11 +1,5 @@
 const { createSendgridContact } = require('./createSendgridContact');
-const { db } = require('../firebase');
 const { deleteContact } = require('./deleteContact');
-const {
-  sendgridSuperfanFieldIdParam,
-  sendgridCommunicationLanguageFieldIdParam,
-  sendgridHostFieldIdParam
-} = require('../sharedConfig');
 
 /**
  * Updates the email of a SendGrid contact. This also changes their SendGrid contact id,
@@ -23,37 +17,9 @@ exports.updateSendgridContactEmail = async (firebaseUser, oldUserPrivateData) =>
     `Updating the SendGrid email of uid ${firebaseUser.uid} (contact id ${oldUserPrivateData.sendgridId}) to ${firebaseUser.email}`
   );
 
-  // Fetch missing info from Firebase to construct the new contact
-  const userPublicData = /** @type {UserPublic | undefined} */ (
-    (await db.doc(`users/${firebaseUser.uid}`).get()).data()
-  );
-  const campsiteRef = await db.doc(`campsites/${firebaseUser.uid}`).get();
-  const isHost = campsiteRef.exists;
-
-  // Combine all fields that are not set in the SG contact creation function
-  const contactUpdateFields = {
-    firstName: userPublicData.firstName,
-    country: userPublicData.countryCode,
-    lastName: oldUserPrivateData.lastName,
-    custom_fields: {
-      [sendgridCommunicationLanguageFieldIdParam.value()]: oldUserPrivateData.communicationLanguage,
-      [sendgridSuperfanFieldIdParam.value()]: userPublicData.superfan ? 1 : 0,
-      [sendgridHostFieldIdParam.value()]: isHost ? 1 : 0
-      // We intentionally DO NOT include SG_CREATION_LANGUAGE_FIELD_ID
-      // this prevents the user from re-entering (with the new contact)
-      // automation lists, which all depend on this field
-    }
-  };
-
   // Create the new contact
-  await createSendgridContact(
-    firebaseUser,
-    contactUpdateFields,
-    oldUserPrivateData.emailPreferences.news
-  );
+  await createSendgridContact(firebaseUser.uid);
 
-  //
-  //
   // Delete the old contact (if it exists)
   //
   // Why do this after creating the new contact?

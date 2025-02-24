@@ -1,55 +1,40 @@
 const { sendgrid: sendgridClient } = require('../sendgrid/sendgrid');
 const fail = require('../util/fail');
 const { createSendgridContact } = require('../sendgrid/createSendgridContact');
-const { auth } = require('../firebase');
 const {
-  sendgridCommunicationLanguageFieldIdParam: sendgridCommuniationLanguageFieldIdParam,
+  sendgridCommunicationLanguageFieldIdParam,
   sendgridCreationLanguageFieldIdParam,
   sendgridWtmgNewsletterListId,
   isContactSyncDisabled,
   sendgridHostFieldIdParam,
   sendgridNewsletterFieldIdParam
 } = require('../sharedConfig');
+const logger = require('firebase-functions/logger');
+const { auth } = require('../firebase');
 
 /**
  * @param {FirestoreEvent<Change<DocumentSnapshot<UserPrivate>>, { userId: string; }>} event
  * @returns {Promise<any>}
  */
 exports.onUserPrivateWrite = async ({ data: change, params }) => {
-  // TODO: current problematic situation
-  // 1. the initial createUser call calls this first.
-  // 2. This results in a call to createSendgridContact, which takes about 32 seconds
-  // 3. Any update to user private within this window (e.g. comm language change, newsletter pref update)
-  //    will restart createSendGridContact (another 32 sec), because sendGridId is not defined yet.
-  // 4. createSendGridContact itself triggers another onUserPrivateWrite (we need this one! see comment on the call)
-  // To avoid the (3) situation, we need a way to make sure that whichever changes DO happen in those 30 seconds, won't cause a redundant update.
-  // - create the sendgrid account in the createUser function: unacceptable, because it would delay account creation (already slow) with 30 sec
-  //    we have to await the polling, because the function thread might be force-terminated after returning https://stackoverflow.com/a/51802305/4973029
-  // - ! calling another cloud function from createUser, that can complete on its own, and just does the update?
-  //    https://stackoverflow.com/questions/58362694/how-to-call-cloud-function-inside-another-cloud-function-and-pass-some-input-par
-  //    pubsub or http? not oncall?
-  //     pubsub looks promising, because the publisher is just that (publisher), and not a caller that needs to await a response
-  //      - -> simple demo: https://blog.minimacode.com/publish-message-to-pubsub-emulator/
-  //      - https://firebase.google.com/docs/functions/pubsub-events
-  //      - https://cloud.google.com/pubsub/docs/publish-receive-messages-client-library#node.js_1
-  //      - https://medium.com/@r_dev/using-pub-sub-in-firebase-emulator-3d4b897d2441
-  //      - https://www.reddit.com/r/Firebase/comments/mfu8k6/how_do_i_publish_messages_with_the_pubsub/
-  // - webhooks? don't exist for contact creation
-  //   https://docs.sendgrid.com/for-developers/tracking-events/getting-started-event-webhook
-  // - using another firestore collection's doc to track whether we are polling for this uid or not...
   const { before, after } = change;
 
-  // console.log('before ', JSON.stringify(before.data(), null, 2));
-  // console.log('after ', JSON.stringify(after.data(), null, 2));
+  const uid = params.userId;
+
   const isCreationWrite = !before.exists && after.exists;
 
   // Note when we used functions V1: context.auth?.uid is undefined on deletion
   // In V2, a different handler needs to be used if auth info should be accessed.
+
   // We are only interested in:
   // - creation events (!before.exists)
   // - update event (before.exists)
   // In both cases, after.exists should be true
+  // In case of deletion, do nothing. cleanupUserOnDelete handles this.
   if (!after.exists) {
+    logger.info(
+      `Aborting onUserPrivateWrite for ${uid} because the "after" doc does not exist. This is normal in case of a deletion.`
+    );
     return;
   }
 
@@ -58,6 +43,7 @@ exports.onUserPrivateWrite = async ({ data: change, params }) => {
 
   if (!userPrivateAfter) {
     // Should not hapen, if after.exists it should have data.
+    logger.error('After data did not exist');
     fail('internal');
   }
 
@@ -69,58 +55,65 @@ exports.onUserPrivateWrite = async ({ data: change, params }) => {
     userPrivateBefore = before.data();
   }
 
-  // Create or update a SendGrid contact for this user
-  const authUser = await auth.getUser(params.userId);
+  // Prepare to create or update a SendGrid contact for this user
   const { lastName, communicationLanguage, sendgridId } = userPrivateAfter;
   const sendgridContactUpdateFields = {
-    email: authUser.email,
     last_name: lastName,
     custom_fields: {
-      [sendgridCommuniationLanguageFieldIdParam.value()]: communicationLanguage
+      [sendgridCommunicationLanguageFieldIdParam.value()]: communicationLanguage
     }
   };
 
-  // NOTE: the following case is fully ignored
-  // `sendgridId == null && userPrivateAfter.emailPreferences?.news === false`
-  //
   if (
-    sendgridId == null &&
-    userPrivateAfter.emailPreferences?.news === true &&
-    !isContactSyncDisabled()
+    !isContactSyncDisabled() &&
+    !sendgridId &&
+    (isCreationWrite ||
+      (!isCreationWrite && Date.now() - before.createTime.toMillis() > 15 * 60 * 1000))
   ) {
-    // Only add this contact to SendGrid if they want to receive news, and are
-    // not in SendGrid yet. This applies to all newly created contacts, and to existing contacts
-    // that change a userPrivate property (e.g. communicationLanguage), while never having been added to SendGrid.
+    // - always create a contact on a creation write
+    // - OR try to create a contact when sendgridId is missing from the after document, it is an update,
+    //   and the private doc was created at least 15 minutes ago. This is meant to capture old users
+    //   who re-subscribe, and who were never had a contact in SendGrid. Updates within 15 minutes will
+    //   enter the normal "update" clause which doesn't trigger SendGrid ID checks.
     //
-    // This will "recursively" trigger another userPrivate write event when the sendgridId is written.
-    // This other runthrough is useful, because it is possible that within the 30 secs
+    // Contact creation will "recursively" trigger another userPrivate write event when the sendgridId is written,
+    // through checkContactCreation. This other runthrough is useful, because it is possible that within the 30+ secs
     // it takes SendGrid to acknowledge the new contact ID, the new user has unsubscribed
-    // from SendGrid. Syncing that unsubscribe would then *have been ignored* by the code below, because
-    // the sendgridId is not yet available. It's a race condition, which is mitigated by the second runthrough
-    // that does the final sync. See `unsubscribedWhileAddingSendGridId`
-    await createSendgridContact(
-      authUser,
-      {
-        ...sendgridContactUpdateFields,
-        custom_fields: {
-          ...sendgridContactUpdateFields.custom_fields,
-          // The creation language will be updated only one time, upon the creation
-          // of a users-private doc.
-          ...(isCreationWrite && userPrivateAfter.creationLanguage != null
-            ? {
-                [sendgridCreationLanguageFieldIdParam.value()]: userPrivateAfter.creationLanguage,
-                // A new user will always start by not being a host
-                [sendgridHostFieldIdParam.value()]: 0
-              }
-            : {})
-        }
-      },
-      true
-    );
-  } else if (sendgridId != null) {
+    // from SendGrid. See `unsubscribedWhileAddingSendGridId` below.
+    if (isCreationWrite) {
+      // For new accounts
+      await createSendgridContact(uid, {
+        extraContactDetails: {
+          ...sendgridContactUpdateFields,
+          custom_fields: {
+            ...sendgridContactUpdateFields.custom_fields,
+            // A new account will always start by not being a host
+            [sendgridHostFieldIdParam.value()]: 0,
+            // The creation language will be updated only one time, upon the creation
+            // of a users-private doc. It is intentionally not set if an older user
+            // triggers a contact creation, to prevent being enrolled in unwanted SendGrid automations.
+            //
+            ...(userPrivateAfter.creationLanguage != null
+              ? {
+                  [sendgridCreationLanguageFieldIdParam.value()]: userPrivateAfter.creationLanguage
+                }
+              : {})
+          }
+        },
+        addToNewsletter: userPrivateAfter.emailPreferences.news,
+        fetchContactDetails: false
+      });
+    } else if (userPrivateAfter.emailPreferences.news) {
+      // If it is not a creation write (but an old re-subscribed contact), make sure all
+      // relevant info is fetched (including host status), because we can't make new-account
+      // assumptions here.
+      await createSendgridContact(uid);
+    }
+  } else if (!isContactSyncDisabled()) {
     // Otherwise, this is an update of changed information
+
     // Check if we should do a newsletter list addition
-    // This could happen when someone unsubscribes, and then re-subscribes.
+    // This could happen when someone unsubscribes, re-subscribes, or another users-private change happens.
     /**
      * @type {string[] | null}
      */
@@ -142,7 +135,7 @@ exports.onUserPrivateWrite = async ({ data: change, params }) => {
       userPrivateAfter.emailPreferences &&
       userPrivateAfter.emailPreferences.news === false;
 
-    const addedSendgridId =
+    const isSendgridIdAdditionWrite =
       userPrivateBefore &&
       userPrivateAfter &&
       userPrivateBefore.sendgridId == null &&
@@ -156,7 +149,7 @@ exports.onUserPrivateWrite = async ({ data: change, params }) => {
      * dependent on the sendgridId being present.
      */
     const unsubscribedWhileAddingSendGridId =
-      addedSendgridId &&
+      isSendgridIdAdditionWrite &&
       userPrivateAfter &&
       userPrivateBefore &&
       userPrivateBefore.emailPreferences &&
@@ -168,44 +161,50 @@ exports.onUserPrivateWrite = async ({ data: change, params }) => {
       list_ids = [sendgridWtmgNewsletterListId.value()];
     }
 
-    // Perform the update in any case
-    if (!isContactSyncDisabled()) {
-      try {
-        await sendgridClient.request({
-          url: '/v3/marketing/contacts',
-          method: 'PUT',
-          body: {
-            ...(list_ids ? { list_ids } : {}),
-            contacts: [
-              {
-                ...sendgridContactUpdateFields,
-                custom_fields: {
-                  // 2nd way of representing newsletter membership
-                  [sendgridNewsletterFieldIdParam.value()]: userPrivateAfter?.emailPreferences.news
-                    ? 1
-                    : 0
-                }
-              }
-            ]
-          }
-        });
-      } catch (e) {
-        console.error(JSON.stringify(e));
-        fail('internal');
-      }
-    }
-    // Check if we should do a newsletter list deletion
-    if ((changedToNewsFalse || unsubscribedWhileAddingSendGridId) && !isContactSyncDisabled()) {
+    // Perform the contact details update in any case
+    try {
+      const { email } = await auth.getUser(uid);
       await sendgridClient.request({
-        url: `/v3/marketing/lists/${sendgridWtmgNewsletterListId.value()}/contacts`,
-        method: 'DELETE',
-        qs: {
-          contact_ids: sendgridId
+        url: '/v3/marketing/contacts',
+        method: 'PUT',
+        body: {
+          ...(list_ids ? { list_ids } : {}),
+          contacts: [
+            {
+              email: email,
+              ...sendgridContactUpdateFields,
+              custom_fields: {
+                // 2nd way of representing newsletter membership
+                [sendgridNewsletterFieldIdParam.value()]: userPrivateAfter?.emailPreferences.news
+                  ? 1
+                  : 0
+              }
+            }
+          ]
         }
       });
+    } catch (e) {
+      logger.error(JSON.stringify(e));
+      fail('internal');
+    }
+
+    // Check if we should delete the contact from the newsletter list (unsubscribed)
+    if (changedToNewsFalse || unsubscribedWhileAddingSendGridId) {
+      // Do we have the sendgridId available?
+      if (sendgridId) {
+        logger.info(`Unsubscribing ${uid} from the newsletter`);
+        await sendgridClient.request({
+          url: `/v3/marketing/lists/${sendgridWtmgNewsletterListId.value()}/contacts`,
+          method: 'DELETE',
+          qs: {
+            contact_ids: sendgridId
+          }
+        });
+      } else {
+        logger.warn(
+          `${uid} unsubscribed before their sendgridId was resolved. The unsubscribe should be picked up as soon as the ID is resolved.`
+        );
+      }
     }
   }
-
-  // In case of deletion, do nothing.
-  // cleanupUserOnDelete handles this.
 };

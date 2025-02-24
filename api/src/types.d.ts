@@ -31,6 +31,23 @@ declare global {
     func: T
   ) => (...args: Arguments<T>) => ReturnType<T> | undefined;
 
+  type ContactCreationCheckData = {
+    uid: string;
+    /**
+     * The SendGrid contact upsert job ID
+     */
+    jobId: string;
+    /**
+     * Denotes how many attempts have been made to create this contact, including the ongoing attempt.
+     * Used to cap retries in case of a contact creation failure.
+     */
+    attempt: number;
+    /**
+     * Which creationLanguage to add on a retry, if any.
+     */
+    creationLanguage: string | null;
+  };
+
   declare namespace FV1 {
     type CallableContext = CC;
   }
@@ -118,6 +135,28 @@ ISO date strings
       };
       senderIP?: string;
       html?: string;
+    };
+
+    type CreateSendgridContactOpts = {
+      /**
+       * Use the { custom_fields: {} } sub-property for custom fields. If left empty, some extra requests will be made to collect the required details.
+       */
+      extraContactDetails?: null | {
+        custom_fields?: Record<string, string | number>;
+        [key: string]: object | string;
+      };
+      /**
+       * The contact creation attempt number of this creation
+       */
+      attempt?: number;
+      /**
+       * defaults to false, may be set by setting this boolean, or the newsletter custom field to a 1 | 0 value. The latter takes precedence.
+       */
+      addToNewsletter?: boolean;
+      /**
+       * Whether the function should fetch contact details. defaults to true.
+       */
+      fetchContactDetails?: boolean;
     };
   }
 }

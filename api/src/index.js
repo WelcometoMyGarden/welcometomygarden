@@ -58,6 +58,8 @@ const { initialize: initSupabase } = require('./supabase');
 const onCampsiteListedChange = require('./user/onCampsiteListedChange');
 const { createCustomerPortalSession } = require('./subscriptions/createCustomerPortalSession');
 const manageEmailPreferences = require('./sendgrid/manageEmailPreferences');
+const { onTaskDispatched } = require('firebase-functions/tasks');
+const checkContactCreation = require('./sendgrid/checkContactCreation');
 
 onInit(() => {
   initSendgrid();
@@ -82,21 +84,12 @@ setGlobalOptions({
   concurrency: 1
 });
 
-// Extended 5 minutes timeout for function that handle SendGrid account creation
-// https://firebase.google.com/docs/functions/manage-functions#set_timeout_and_memory_allocation
-const SENDGRID_CONTACT_CREATION_TIMEOUT_S = 60 * 5;
-
 // Callable functions: accounts
 exports.requestPasswordResetV2 = onCall(requestPasswordReset);
 exports.resendAccountVerificationV2 = onCall(resendAccountVerification);
 exports.createUserV2 = onCall(createUser);
 exports.requestEmailChangeV2 = onCall(requestEmailChange);
-exports.propagateEmailChangeV2 = onCall(
-  {
-    timeoutSeconds: SENDGRID_CONTACT_CREATION_TIMEOUT_S
-  },
-  propagateEmailChange
-);
+exports.propagateEmailChangeV2 = onCall(propagateEmailChange);
 exports.discourseConnectLoginV2 = onCall(discourseConnectLogin);
 exports.manageEmailPreferencesV2 = onCall(manageEmailPreferences);
 
@@ -108,12 +101,7 @@ exports.createCustomerPortalSessionV2 = onCall(createCustomerPortalSession);
 // Callable functions: admin functions
 exports.setAdminRole = onCall(setAdminRole);
 exports.verifyEmail = onCall(verifyEmail);
-exports.updateEmail = onCall(
-  {
-    timeoutSeconds: SENDGRID_CONTACT_CREATION_TIMEOUT_S
-  },
-  updateEmail
-);
+exports.updateEmail = onCall(updateEmail);
 
 // HTTP functions:
 // Stripe webhook endpoint
@@ -128,8 +116,7 @@ exports.onAuthUserCreate = euWest1V1.auth.user().onCreate(whenReplicating(onAuth
 // Firestore triggers: users
 exports.onUserPrivateWriteV2 = onDocumentWritten(
   {
-    document: 'users-private/{userId}',
-    timeoutSeconds: SENDGRID_CONTACT_CREATION_TIMEOUT_S
+    document: 'users-private/{userId}'
   },
   executeFirestoreTriggersConcurrently([
     onUserPrivateWrite,
@@ -169,6 +156,25 @@ exports.onMessageWriteV2 = onDocumentWritten(
 exports.onUserPrivateSubcollectionWriteV2 = onDocumentWritten(
   'users-private/{userId}/{subcollection}/{documentId}',
   whenReplicating(onUserPrivateSubcollectionWrite)
+);
+
+// Queuable Cloud Tasks
+exports.checkContactCreation = onTaskDispatched(
+  {
+    // It typically takes 30 seconds to 6 minutes to create a contact
+    retryConfig: {
+      maxAttempts: 15,
+      minBackoffSeconds: 60
+    },
+    rateLimits: {
+      // Not sure if we need this, it's arbitrary
+      maxConcurrentDispatches: 6
+    },
+    // I don't think this respects the global v2 function options
+    region: 'europe-west1',
+    cpu: 1
+  },
+  checkContactCreation
 );
 
 // Firebase Auth scheduled replication
