@@ -78,6 +78,10 @@ export type UserPrivate = {
   /** Internal property to assist in the handling of an email recovery across systems. Only writable by the admin sdk. */
   oldEmail?: string;
   reference?: string;
+  /**
+   * When the last alert was triggered on whether this user was starting many chats in a short timeframe.
+   */
+  latestSpamAlertAt?: Timestamp;
 };
 
 /**

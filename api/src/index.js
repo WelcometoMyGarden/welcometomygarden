@@ -4,7 +4,8 @@ const { onSchedule } = require('firebase-functions/v2/scheduler');
 const {
   onDocumentCreated,
   onDocumentWritten,
-  onDocumentDeleted
+  onDocumentDeleted,
+  onDocumentCreatedWithAuthContext
 } = require('firebase-functions/v2/firestore');
 
 const admin = require('firebase-admin');
@@ -134,7 +135,7 @@ exports.onCampsiteCreateV2 = onDocumentCreated('campsites/{campsiteId}', onCamps
 exports.onCampsiteDeleteV2 = onDocumentDeleted('campsites/{campsiteId}', onCampsiteDelete);
 
 // Firestore triggers: chats
-exports.onChatCreateV2 = onDocumentCreated('chats/{chatId}', onChatCreate);
+exports.onChatCreateV2 = onDocumentCreatedWithAuthContext('chats/{chatId}', onChatCreate);
 exports.onMessageCreateV2 = onDocumentCreated(
   'chats/{chatId}/{messages}/{messageId}',
   onMessageCreate

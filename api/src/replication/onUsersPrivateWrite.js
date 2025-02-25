@@ -19,7 +19,8 @@ module.exports = async ({ data: change }) => {
       'stripeSubscription',
       'createTime',
       'updateTime',
-      'reference'
+      'reference',
+      'latestSpamAlertAt'
     ]
   });
 };

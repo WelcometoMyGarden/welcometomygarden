@@ -1,16 +1,22 @@
 const { defineString } = require('firebase-functions/params');
 const { sendgridMail } = require('./sendgrid/sendgrid');
 const devSend = require('./util/devMail');
-const { frontendUrl, canSendMail } = require('./sharedConfig');
+const { frontendUrl, canSendMail, dashboardUrl } = require('./sharedConfig');
 
 /**
  * See https://github.com/sendgrid/sendgrid-nodejs/tree/main/packages/mail
+ * @param {SendGrid.MailDataRequired} msg
  */
 const send = (msg) => sendgridMail.send(msg);
 
-const NO_API_KEY_WARNING =
-  "You don't have an SendGrid API key set in the environment. " +
-  'No emails will be sent. Inspect the logs to see what would have been sent by email';
+/**
+ * Since this code is public, trump simplistic email scrapers.
+ * @returns
+ */
+const buildEmail = (handle, domain) => `${handle}@${domain}`;
+const WTMG_DOMAIN = 'welcometomygarden.org';
+
+const SUPPORT_FROM = `Welcome To My Garden <${buildEmail('support', WTMG_DOMAIN)}>`;
 
 /**
  * @param {string} verificationLink
@@ -41,6 +47,7 @@ const insertInDynamicTemplateData = (msg, obj) => ({
  */
 function logActionLink(verificationLink) {
   if (verificationLink.includes('/emulator/action')) {
+    // eslint-disable-next-line no-console
     console.info(
       'Transformed /auth/action URL: ',
       `"${makeVerificationLinkLocal(verificationLink)}"`
@@ -80,7 +87,7 @@ exports.sendAccountVerificationEmail = (
    */
   const msg = {
     to: email,
-    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
       firstName: name,
@@ -91,8 +98,6 @@ exports.sendAccountVerificationEmail = (
   };
 
   if (!canSendMail()) {
-    console.warn(NO_API_KEY_WARNING);
-    console.info(JSON.stringify(msg));
     devSend(
       insertInDynamicTemplateData(
         msg,
@@ -115,7 +120,7 @@ exports.sendPasswordResetEmail = (email, name, resetLink) => {
    */
   const msg = {
     to: email,
-    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    from: SUPPORT_FROM,
     templateId: 'd-e30e97d29db9487aaea9b690c84ca7b0',
     dynamicTemplateData: {
       firstName: name,
@@ -125,8 +130,6 @@ exports.sendPasswordResetEmail = (email, name, resetLink) => {
   };
 
   if (!canSendMail()) {
-    console.warn(NO_API_KEY_WARNING);
-    console.info(JSON.stringify(msg));
     logActionLink(resetLink);
     devSend(
       insertInDynamicTemplateData(
@@ -180,7 +183,7 @@ exports.sendMessageReceivedEmail = (config) => {
    */
   const msg = {
     to: email,
-    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    from: SUPPORT_FROM,
     replyTo: `Welcome To My Garden <${inboundParseEmailParam.value()}>`,
     templateId,
     dynamicTemplateData: {
@@ -194,8 +197,6 @@ exports.sendMessageReceivedEmail = (config) => {
   };
 
   if (!canSendMail()) {
-    console.warn(NO_API_KEY_WARNING);
-    console.info(JSON.stringify(msg));
     devSend(msg, 'messageReceivedEmail');
     return Promise.resolve();
   }
@@ -221,14 +222,12 @@ exports.sendEmailReplyError = (toEmail, language) => {
    */
   const msg = {
     to: toEmail,
-    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    from: SUPPORT_FROM,
     templateId,
     categories: ['Email reply error notification email']
   };
 
   if (!canSendMail()) {
-    console.warn(NO_API_KEY_WARNING);
-    console.info(JSON.stringify(msg));
     devSend(msg, 'emailReplyError');
     return Promise.resolve();
   }
@@ -262,7 +261,7 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
    */
   const msg = {
     to: email,
-    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
       firstName,
@@ -272,8 +271,6 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
   };
 
   if (!canSendMail()) {
-    console.warn(NO_API_KEY_WARNING);
-    console.info(JSON.stringify(msg));
     devSend(msg, 'subscriptionConfirmationEmail');
     return Promise.resolve();
   }
@@ -315,7 +312,7 @@ exports.sendSubscriptionRenewalEmail = (config) => {
    */
   const msg = {
     to: email,
-    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
       firstName,
@@ -326,8 +323,6 @@ exports.sendSubscriptionRenewalEmail = (config) => {
   };
 
   if (!canSendMail()) {
-    console.warn(NO_API_KEY_WARNING);
-    console.info(JSON.stringify(msg));
     devSend(msg, 'subscriptionRenewalEmail');
     return Promise.resolve();
   }
@@ -359,7 +354,7 @@ exports.sendSubscriptionRenewalReminderEmail = (config) => {
    */
   const msg = {
     to: email,
-    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
       firstName,
@@ -370,8 +365,6 @@ exports.sendSubscriptionRenewalReminderEmail = (config) => {
   };
 
   if (!canSendMail()) {
-    console.warn(NO_API_KEY_WARNING);
-    console.info(JSON.stringify(msg));
     devSend(msg, 'subscriptionRenewalReminderEmail');
     return Promise.resolve();
   }
@@ -404,7 +397,7 @@ exports.sendSubscriptionEndedEmail = (email, firstName, language) => {
    */
   const msg = {
     to: email,
-    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
       firstName
@@ -413,8 +406,6 @@ exports.sendSubscriptionEndedEmail = (email, firstName, language) => {
   };
 
   if (!canSendMail()) {
-    console.warn(NO_API_KEY_WARNING);
-    console.info(JSON.stringify(msg));
     devSend(msg, 'subscriptionEndedEmail');
     return Promise.resolve();
   }
@@ -447,7 +438,7 @@ exports.sendSubscriptionRenewalThankYouEmail = (email, firstName, language) => {
    */
   const msg = {
     to: email,
-    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
       firstName
@@ -456,8 +447,6 @@ exports.sendSubscriptionRenewalThankYouEmail = (email, firstName, language) => {
   };
 
   if (!canSendMail()) {
-    console.warn(NO_API_KEY_WARNING);
-    console.info(JSON.stringify(msg));
     devSend(msg, 'subscriptionRenewalThankYouEmail');
     return Promise.resolve();
   }
@@ -490,7 +479,7 @@ exports.sendSubscriptionEndedFeedbackEmail = (email, firstName, language) => {
    */
   const msg = {
     to: email,
-    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
       firstName
@@ -499,8 +488,6 @@ exports.sendSubscriptionEndedFeedbackEmail = (email, firstName, language) => {
   };
 
   if (!canSendMail()) {
-    console.warn(NO_API_KEY_WARNING);
-    console.info(JSON.stringify(msg));
     devSend(msg, 'subscriptionEndedFeedbackEmail');
     return Promise.resolve();
   }
@@ -534,7 +521,7 @@ exports.sendSubscriptionCancellationFeedbackEmail = (email, firstName, language,
    */
   const msg = {
     to: email,
-    from: 'Welcome To My Garden <support@welcometomygarden.org>',
+    from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
       firstName,
@@ -544,11 +531,63 @@ exports.sendSubscriptionCancellationFeedbackEmail = (email, firstName, language,
   };
 
   if (!canSendMail()) {
-    console.warn(NO_API_KEY_WARNING);
-    console.info(JSON.stringify(msg));
     devSend(msg, 'subscriptionCancellationFeedbackEmail');
     return Promise.resolve();
   }
 
+  return send(msg);
+};
+
+/**
+ *
+ * @param {{
+ *  firstName: string,
+ *  lastName: string,
+ *  lastMessage: string,
+ *  email: string,
+ *  uid: string
+ * }} params
+ */
+exports.sendSpamAlertEmail = ({ firstName, lastName, lastMessage, email }) => {
+  const msg = {
+    subject: `Notification: ${firstName} sent 10 messages in the last 24 hours`,
+    from: SUPPORT_FROM,
+    to: [
+      buildEmail('manon', WTMG_DOMAIN),
+      buildEmail('dries', WTMG_DOMAIN),
+      buildEmail('support', WTMG_DOMAIN)
+    ],
+    content: [
+      {
+        type: 'text/html',
+        value: `<p>Hello,</p>
+
+<p>The user "${firstName} ${lastName}" &lt;${email}&gt; has just started a 10th chat after starting 9 other chats in the last 24 hours. Maybe this user is spamming?</p>
+<p>Their last message was:</p>
+
+<blockquote style="font-style:italic;">
+  <pre>
+  ${lastMessage}
+  </pre>
+</blockquote>
+
+<p>You can inspect their <a href="${dashboardUrl()}/action/inspect-chats?userId=${encodeURIComponent(email)}">full chat history</a>
+or their <a href="${dashboardUrl()}/action/user-info?userId=${encodeURIComponent(email)}">user details</a> in the dashboard.</p>
+
+<p>If this user keeps on sending a lot of messages, I will only notify you again in 72 hours</p>
+
+<p>Yours truly,</p>
+
+<p>WTMG Notifier</p>`
+      }
+    ]
+  };
+
+  if (!canSendMail()) {
+    devSend(msg, 'spamAlertEmail');
+    return Promise.resolve();
+  }
+
+  // @ts-ignore
   return send(msg);
 };

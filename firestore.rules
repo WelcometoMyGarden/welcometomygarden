@@ -93,7 +93,7 @@ service cloud.firestore {
         && user.emailPreferences.news is bool
       // Don't allow sensitive indentifiers to be changed by clients
       // Note: this also doesn't allow *creation* by clients, but that's OK, because the backend creates the doc.
-        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['stripeCustomerId', 'stripeSubscription', 'sendgridId', 'oldEmail', 'newEmail'])
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['stripeCustomerId', 'stripeSubscription', 'sendgridId', 'oldEmail', 'newEmail', 'latestSpamAlertAt'])
     }
 
     function validateTrailState(trail) {

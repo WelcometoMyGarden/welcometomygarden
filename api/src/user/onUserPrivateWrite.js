@@ -32,7 +32,7 @@ exports.onUserPrivateWrite = async ({ data: change, params }) => {
   // In both cases, after.exists should be true
   // In case of deletion, do nothing. cleanupUserOnDelete handles this.
   if (!after.exists) {
-    logger.info(
+    logger.debug(
       `Aborting onUserPrivateWrite for ${uid} because the "after" doc does not exist. This is normal in case of a deletion.`
     );
     return;

@@ -1,9 +1,10 @@
 const { FieldValue, Timestamp } = require('firebase-admin/firestore');
 const { auth, db } = require('./app');
+const { pick } = require('lodash');
 
 /**
  * @param {import('firebase-admin/auth').CreateRequest} authProps - passed to auth.createUser
- * @param {import('../../src/lib/api/functions').CreateUserRequest & {superfan?: boolean}} callableProps - replicating what is passed to the createUser callable (and more)
+ * @param {Partial<import('../../src/lib/api/functions').CreateUserRequest> & {superfan?: boolean}} callableProps - replicating what is passed to the createUser callable (and more)
  */
 exports.createNewUser = async (authProps, callableProps) => {
   const user = await auth.createUser({
@@ -15,31 +16,43 @@ exports.createNewUser = async (authProps, callableProps) => {
 
   // based on auth.js -> createUser
 
+  const publicProps = pick(callableProps, ['countryCode', 'firstName', 'savedGardens', 'superfan']);
+
   await db
     .collection('users')
     .doc(user.uid)
     .set({
+      ...publicProps,
       countryCode: callableProps.countryCode,
-      firstName: callableProps.firstName,
-      ...(callableProps.superfan ? { superfan: callableProps.superfan } : {})
+      firstName: callableProps.firstName
     });
+
+  const privateProps = pick(callableProps, [
+    'lastName',
+    'consentedAt',
+    'emailPreferences',
+    'sendgridId',
+    'communicationLanguage',
+    'creationLanguage',
+    'stripeCustomerId',
+    'stripeSubscription',
+    'newEmail',
+    'oldEmail',
+    'reference',
+    'latestSpamAlertAt'
+  ]);
 
   await db
     .collection('users-private')
     .doc(user.uid)
     .set({
+      ...privateProps,
       lastName: callableProps.lastName,
       consentedAt: FieldValue.serverTimestamp(),
       emailPreferences: {
         newChat: true,
         news: true
-      },
-      ...(callableProps.stripeSubscription
-        ? { stripeSubscription: callableProps.stripeSubscription }
-        : {}),
-      ...(callableProps.communicationLanguage
-        ? { communicationLanguage: callableProps.communicationLanguage }
-        : {})
+      }
     });
 
   await db
@@ -124,6 +137,13 @@ exports.sendMessage = async (currentUserId, chatId, message, useLastMessageSeen 
   return msg.id;
 };
 
+/**
+ * Creates the garden for the user, and returns the user back.
+ * @param {*} param0
+ * @param {*} user
+ * @param {*} extraProps
+ * @returns
+ */
 exports.createGarden = async ({ latitude, longitude }, user, extraProps) => {
   await createGardenDoc(user.uid, {
     description: 'Hello, this is a test camping spot. You are welcome to stay!',

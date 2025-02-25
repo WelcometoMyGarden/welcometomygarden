@@ -19,9 +19,13 @@ const parseEmailSpec = (email) => {
   let name = null;
   if (typeof email === 'string') {
     const [first] = addrparser.parse(email);
-    // eslint-disable-next-line prefer-const
+
     address = first?.address;
     name = first?.name();
+  } else {
+    // Assume object form
+    address = email.email;
+    name = email.name;
   }
 
   return {
@@ -35,32 +39,51 @@ const parseEmailSpec = (email) => {
 };
 
 /**
- * Only supports a single to/from address for now
+ * Does not support personalizations for now
  * See https://mailpit.axllent.org/docs/api-v1/view.html#post-/api/v1/send
  * @param {SendGrid.MailDataRequired} msg
  * @param {string} emailTitle
  * @returns {Promise<[import('@sendgrid/mail').ClientResponse, {}]>}
  */
-module.exports = async function send({ to, from, dynamicTemplateData, templateId }, emailTitle) {
+module.exports = async function send(msg, emailTitle) {
+  const { to, from, dynamicTemplateData, templateId, content } = msg;
   const localEmailServerUrl = localEmailHostParam.value();
   if (!localEmailServerUrl) {
     console.warn('No local mailpit server configured');
     return [{ statusCode: 999, body: {}, headers: {} }, {}];
   }
-  const toMail = parseEmailSpec(to);
+  let msgText;
+  let msgHtml;
+  if (content) {
+    msgText = content.find((c) => c.type === 'text/plain')?.value;
+    msgHtml = content.find((c) => c.type === 'text/html')?.value;
+  }
+  let toAddresses;
+  if (Array.isArray(to)) {
+    toAddresses = to.map(parseEmailSpec);
+  } else {
+    toAddresses = [parseEmailSpec(to)];
+  }
   const request = {
-    To: [toMail],
+    To: toAddresses,
     From: parseEmailSpec(from),
     // These would usually come from the dynamic template ID
-    Subject: `${emailTitle} to ${toMail.Email}`,
-    Text: JSON.stringify(
-      {
-        templateId,
-        dynamicTemplateData
-      },
-      null,
-      2
-    )
+    Subject: `${emailTitle} to ${toAddresses.map((t) => t.Email).join(', ')}`,
+    ...(msgHtml
+      ? {
+          HTML: msgHtml
+        }
+      : {}),
+    Text:
+      msgText ??
+      JSON.stringify(
+        {
+          templateId,
+          dynamicTemplateData
+        },
+        null,
+        2
+      )
   };
   console.log('Sending local email', localEmailServerUrl, JSON.stringify(request));
   try {
@@ -70,9 +93,17 @@ module.exports = async function send({ to, from, dynamicTemplateData, templateId
     });
     const body = await response.json();
 
-    return [{ statusCode: response.status, body, headers: response.headers }, body];
+    /**
+     * @type {[import('@sendgrid/mail').ClientResponse, {}]}
+     */
+    const result = [{ statusCode: response.status, body, headers: response.headers }, body];
+    if (response.status < 200 || response.status >= 300) {
+      console.warn('Something may have gone wrong while trying to send a dev email: ', body);
+    }
+    return result;
   } catch (e) {
     console.warn('Error while trying to send a dev env email, is mailpit running?');
+    console.info(emailTitle, JSON.stringify(msg));
     return [{ statusCode: 500, body: null, headers: {} }, null];
   }
 };

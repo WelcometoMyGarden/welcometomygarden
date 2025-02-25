@@ -4,6 +4,9 @@ const removeEndingSlash = require('./util/removeEndingSlash');
 const frontendUrlParam = defineString('FRONTEND_URL');
 exports.frontendUrl = () => removeEndingSlash(frontendUrlParam.value());
 
+const dashboardUrlParam = defineString('DASHBOARD_URL');
+exports.dashboardUrl = () => removeEndingSlash(dashboardUrlParam.value());
+
 // SENDGRID
 // Required
 exports.sendgridMarketingKeyParam = defineString('SENDGRID_MARKETING_KEY');

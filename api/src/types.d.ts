@@ -1,4 +1,4 @@
-import type { FirestoreEvent as FE } from 'firebase-functions/firestore';
+import type { FirestoreEvent as FE, FirestoreAuthEvent as FAE } from 'firebase-functions/firestore';
 import type { DocumentSnapshot as DS } from '@google-cloud/firestore';
 import type { CallableRequest as CR } from 'firebase-functions/https';
 import type { CallableContext as CC } from 'firebase-functions/v1/https';
@@ -8,6 +8,7 @@ import type { MailDataRequired as MDR } from '@sendgrid/mail';
 declare global {
   // Shortcuts to often-used types
   type FirestoreEvent<T, Params = Record<string, string>> = FE<T, Params>;
+  type FirestoreAuthEvent<T, Params = Record<string, string>> = FAE<T, Params>;
   type DocumentSnapshot<T = DocumentData> = DS<T, T>;
   type DocumentReference<T = DocumentData> = import('firebase-admin/firestore').DocumentReference<
     T,

@@ -1,7 +1,7 @@
 const { FieldValue, Timestamp } = require('firebase-admin/firestore');
 const { logger } = require('firebase-functions');
 const removeDiacritics = require('./util/removeDiacritics');
-const { sendMessageReceivedEmail } = require('./mail');
+const { sendMessageReceivedEmail, sendSpamAlertEmail } = require('./mail');
 const { auth, db } = require('./firebase');
 const { sendNotification } = require('./push');
 const fail = require('./util/fail');
@@ -175,11 +175,69 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
   }
 };
 
-exports.onChatCreate = async () => {
+/**
+ * @param {FirestoreAuthEvent<QueryDocumentSnapshot<Chat>, { chatId: string; }>} event
+ */
+exports.onChatCreate = async ({ data: chatSnapshot }) => {
   await db
     .collection('stats')
     .doc('chats')
     .set({ count: FieldValue.increment(1) }, { merge: true });
+
+  // To continue processing, a chat has to be created by a user
+  // (always true, at least in our current system)
+  //
+  // TODO: authId as a param ot the event probably exists in production (and would be better to use),
+  // but it is not testable https://github.com/firebase/firebase-tools/issues/7450
+  const authId = chatSnapshot.data().users[0];
+  if (typeof authId !== 'string') {
+    fail('not-found');
+  }
+
+  const now = Date.now();
+  const userPrivateDocRef = /** @type {DocumentReference<UserPrivate>} */ (
+    db.collection('users-private').doc(authId)
+  );
+  const usersPrivateDoc = await userPrivateDocRef.get();
+  const usersPrivateDocData = usersPrivateDoc.data();
+  const canCheckForSpamActivity =
+    !usersPrivateDocData.latestSpamAlertAt ||
+    now - usersPrivateDocData.latestSpamAlertAt.toMillis() > 72 * 3600 * 1000;
+
+  if (!canCheckForSpamActivity) {
+    return;
+  }
+
+  // Get all the chats involving the user
+  const chatsOfLast24Hours = await /** @type {CollectionReference<Chat>} */ (
+    db
+      .collection('chats')
+      .where('createdAt', '>', Timestamp.fromMillis(now - 24 * 3600 * 1000))
+      .where('users', 'array-contains', authId)
+  ).get();
+  const chatsCreatedByUser = chatsOfLast24Hours.docs
+    .map((d) => d.data())
+    .filter((d) => d.users[0] === authId);
+
+  if (chatsCreatedByUser.length < 10) {
+    return;
+  }
+
+  logger.info(`Sending spam alert for ${authId}, last message: ${chatSnapshot.data().lastMessage}`);
+
+  const { email, displayName } = await auth.getUser(authId);
+
+  await await Promise.all([
+    sendSpamAlertEmail({
+      uid: authId,
+      email: email,
+      firstName: displayName,
+      lastName: usersPrivateDocData.lastName,
+      lastMessage: chatSnapshot.data().lastMessage
+    }),
+    // Update the last alert timestamp
+    userPrivateDocRef.update({ latestSpamAlertAt: Timestamp.now() })
+  ]);
 };
 
 /**
