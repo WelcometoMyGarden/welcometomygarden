@@ -126,6 +126,9 @@ const createSendgridContact = async (
 
   try {
     const [resourceName, targetUri] = await getFunctionUrl('checkContactCreation');
+    /**
+     * @type {TaskQueue<ContactCreationCheckData>}
+     */
     const checkContactCreationQueue = getFunctions().taskQueue(resourceName);
     // Extract the creationLanguage from the custom fields, if it exists
     const creationLanguage =

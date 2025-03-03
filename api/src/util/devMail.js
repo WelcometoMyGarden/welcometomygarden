@@ -22,10 +22,16 @@ const parseEmailSpec = (email) => {
 
     address = first?.address;
     name = first?.name();
-  } else {
+  } else if (
+    email != null &&
+    typeof email === 'object' &&
+    (typeof email['email'] !== 'undefined' || typeof email['name'] !== 'undefined')
+  ) {
     // Assume object form
-    address = email.email;
-    name = email.name;
+    address = email['email'];
+    name = email['name'];
+  } else {
+    console.warn('Email argument passed to devMail without parseable properties', email);
   }
 
   return {

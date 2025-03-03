@@ -2,6 +2,10 @@ const { defineString } = require('firebase-functions/params');
 const { sendgridMail } = require('./sendgrid/sendgrid');
 const devSend = require('./util/devMail');
 const { frontendUrl, canSendMail, dashboardUrl } = require('./sharedConfig');
+const { logger } = require('firebase-functions/v2');
+const getContactById = require('./sendgrid/getContactById');
+const { auth } = require('./firebase');
+const getContactByEmail = require('./sendgrid/getContactByEmail');
 
 /**
  * See https://github.com/sendgrid/sendgrid-nodejs/tree/main/packages/mail
@@ -52,6 +56,54 @@ function logActionLink(verificationLink) {
       'Transformed /auth/action URL: ',
       `"${makeVerificationLinkLocal(verificationLink)}"`
     );
+  }
+}
+
+/**
+ * @typedef {Object} ContactIdentifiers
+ * @property {string} email
+ * @property {string} [sendgridId]
+ * @property {string} [uid]
+ */
+
+/**
+ * Identify the user by one of several methods, then fetch the contact's
+ * secret, if it exists.
+ * (sendgridId: fastest, email: faster, uid: slowest)
+ * @param {ContactIdentifiers} identifiers
+ * @returns return null in case of failure.
+ */
+async function getSendGridSecretFor({ sendgridId, uid, email }) {
+  let contact;
+  try {
+    if (sendgridId) {
+      contact = await getContactById(sendgridId);
+    } else if (email) {
+      contact = await getContactByEmail(email);
+    } else if (uid) {
+      const user = await auth.getUser(uid);
+      contact = await getContactByEmail(user.email);
+    }
+    if (contact.custom_fields?.secret) {
+      return contact.custom_fields.secret;
+    }
+    return null;
+  } catch (e) {
+    logger.warn("Error while trying to fetch a SendGrid contact's secret", e);
+    return null;
+  }
+}
+
+/**
+ * @param {ContactIdentifiers} identifiers
+ */
+async function createUnsubscribeLinkFor(identifiers) {
+  const secret = await getSendGridSecretFor(identifiers);
+  if (secret) {
+    return `${frontendUrl()}/email-preferences?e=${identifiers.email}&s=${secret}`;
+  } else {
+    // Fall back
+    return `${frontendUrl()}/account`;
   }
 }
 
@@ -204,6 +256,52 @@ exports.sendMessageReceivedEmail = (config) => {
   return send(msg);
 };
 
+/**
+ *
+ * @param {Omit<MessageReceivedConfig, 'superfan'>} config
+ * @returns
+ */
+exports.sendMessageReminderEmail = (config) => {
+  const { email, firstName, senderName, message, messageUrl, language } = config;
+
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-c84de1e31a02475895db0c4f5cb5728e';
+      break;
+    case 'nl':
+      templateId = 'd-99b7729b9b5545e49fddb1dd9915ea25';
+      break;
+    default:
+      templateId = 'd-21616b12e97f4bb38a61b4a762f907a8';
+      break;
+  }
+
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
+  const msg = {
+    to: email,
+    from: SUPPORT_FROM,
+    replyTo: `Welcome To My Garden <${inboundParseEmailParam.value()}>`,
+    templateId,
+    dynamicTemplateData: {
+      firstName,
+      senderName,
+      messageUrl,
+      message
+    },
+    categories: ['Chat message reminder email']
+  };
+
+  if (!canSendMail()) {
+    devSend(msg, 'messageReminderEmail');
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};
+
 exports.sendEmailReplyError = (toEmail, language) => {
   let templateId;
   switch (language) {
@@ -279,6 +377,48 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
 };
 
 /**
+ *
+ * @param {string} email
+ * @param {string} language
+ * @param {string} firstName
+ * @returns
+ */
+exports.sendAbandonedCartReminderEmail = async (email, firstName, language) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-fb0c0ce07e204c76b61cfa2e1adb5534';
+      break;
+    case 'nl':
+      templateId = 'd-15dd743516ef48d2a2dce09db0ea7a18';
+      break;
+    default:
+      templateId = 'd-f2d51fe4165a46328b32c30aa8b279ef';
+      break;
+  }
+
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
+  const msg = {
+    to: email,
+    from: SUPPORT_FROM,
+    templateId,
+    dynamicTemplateData: {
+      firstName
+    },
+    categories: ['Abandoned cart reminder email']
+  };
+
+  if (!canSendMail()) {
+    devSend(msg, 'abandonedCartReminderEmail');
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};
+
+/**
  * @typedef {Object} SubscriptionRenewalConfig
  * @property {string} email
  * @property {string} firstName
@@ -292,7 +432,7 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
  * @param {SubscriptionRenewalConfig} config
  * @returns
  */
-exports.sendSubscriptionRenewalEmail = (config) => {
+exports.sendSubscriptionRenewalEmail = async (config) => {
   const { email, firstName, price, renewalLink, language } = config;
   let templateId;
   switch (language) {
@@ -334,7 +474,7 @@ exports.sendSubscriptionRenewalEmail = (config) => {
  * @param {SubscriptionRenewalConfig} config
  * @returns
  */
-exports.sendSubscriptionRenewalReminderEmail = (config) => {
+exports.sendSubscriptionRenewalReminderEmail = async (config) => {
   const { email, firstName, renewalLink, language, price } = config;
   let templateId;
   switch (language) {
@@ -378,7 +518,7 @@ exports.sendSubscriptionRenewalReminderEmail = (config) => {
  * @param {string} language
  * @returns
  */
-exports.sendSubscriptionEndedEmail = (email, firstName, language) => {
+exports.sendSubscriptionEndedEmail = async (email, firstName, language) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -419,7 +559,7 @@ exports.sendSubscriptionEndedEmail = (email, firstName, language) => {
  * @param {string} language
  * @returns
  */
-exports.sendSubscriptionRenewalThankYouEmail = (email, firstName, language) => {
+exports.sendSubscriptionRenewalThankYouEmail = async (email, firstName, language) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -460,7 +600,7 @@ exports.sendSubscriptionRenewalThankYouEmail = (email, firstName, language) => {
  * @param {string} language
  * @returns
  */
-exports.sendSubscriptionEndedFeedbackEmail = (email, firstName, language) => {
+exports.sendSubscriptionEndedFeedbackEmail = async (email, firstName, language) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -502,7 +642,7 @@ exports.sendSubscriptionEndedFeedbackEmail = (email, firstName, language) => {
  * @param {string} endDate
  * @returns
  */
-exports.sendSubscriptionCancellationFeedbackEmail = (email, firstName, language, endDate) => {
+exports.sendSubscriptionCancellationFeedbackEmail = async (email, firstName, language, endDate) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -584,6 +724,7 @@ or their <a href="${dashboardUrl()}/action/user-info?userId=${encodeURIComponent
   };
 
   if (!canSendMail()) {
+    // @ts-ignore
     devSend(msg, 'spamAlertEmail');
     return Promise.resolve();
   }

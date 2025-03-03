@@ -2,6 +2,7 @@ import type { FirestoreEvent as FE, FirestoreAuthEvent as FAE } from 'firebase-f
 import type { DocumentSnapshot as DS } from '@google-cloud/firestore';
 import type { CallableRequest as CR } from 'firebase-functions/https';
 import type { CallableContext as CC } from 'firebase-functions/v1/https';
+import type { TaskQueue as TQ } from 'firebase-admin/functions';
 import type { Change as Ch } from 'firebase-functions';
 import type { DocumentData } from '@google-cloud/firestore';
 import type { MailDataRequired as MDR } from '@sendgrid/mail';
@@ -19,6 +20,7 @@ declare global {
   type QueryDocumentSnapshot<T = DocumentData> =
     import('@google-cloud/firestore').QueryDocumentSnapshot<T, T>;
   type Change<T> = Ch<T>;
+  type TaskQueue<T> = TQ<T>;
 
   type UserPrivate = import('../../src/lib/models/User').UserPrivate;
   type UserPublic = import('../../src/lib/models/User').UserPublic;
@@ -26,6 +28,7 @@ declare global {
   type Garden = import('../../src/lib/types/Garden').Garden;
   type Chat = import('../../src/lib/types/Chat').FirebaseChat;
   type LocalChat = import('../../src/lib/types/Chat').LocalChat;
+  type Message = import('../../src/lib/types/chat').FirebaseMessage;
 
   type WrappedFunction = <T extends (...args: any[]) => any>(
     guard: boolean,
@@ -47,6 +50,11 @@ declare global {
      * Which creationLanguage to add on a retry, if any.
      */
     creationLanguage: string | null;
+  };
+
+  type SendMessageReminderData = {
+    chatId: string;
+    senderUid: string;
   };
 
   declare namespace FV1 {

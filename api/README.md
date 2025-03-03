@@ -142,6 +142,14 @@ echo "node_modules/.bin/mocha test/renewalScheduler.test.js" > runtests.sh && fi
 
 To prevent Firestore-triggered functions from running (and potentially slowly hitting SendGrid), this example adds `--only auth,firestore`. Remove this to run the functions anyway for more realistic side-effects.
 
+### Testing SendGrid Inbound Parse
+
+Inbound Parse endpoints are configured in our production SendGrid because they require an authenticated domain (we could look into having a separate authenticated separate domain for staging). `parse.staging.welcometomygarden.org` points to the staging parser function.
+
+To test SendGrid's Inbound Parse logic _locally_ (which sends `multipart/form-data`), I have in the past run the `parseInboundEmail` HTTP function locally, and created an SSH tunnel to it via a VPS which was reachable on the internet. The Inbound Parse endpoint then needs to be temporarily configured in the SendGrid Dashboard.
+
+To not have to repeat this procedure, but still test email parsing, [./test/parseInboundEmail.test.js](./test/parseInboundEmail.test.js) references some realistic saved HTML and plain text email content, along with realistic parsed multipart parameters. This content can be gathered by using "dumpInboundEmail" as the SendGrid endpoint.
+
 ## Deployment to Firebase
 
 Use the correct environment:

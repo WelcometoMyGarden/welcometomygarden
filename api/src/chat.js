@@ -1,12 +1,17 @@
 const { FieldValue, Timestamp } = require('firebase-admin/firestore');
 const { logger } = require('firebase-functions');
 const removeDiacritics = require('./util/removeDiacritics');
-const { sendMessageReceivedEmail, sendSpamAlertEmail } = require('./mail');
-const { auth, db } = require('./firebase');
+const {
+  sendMessageReceivedEmail,
+  sendSpamAlertEmail,
+  sendMessageReminderEmail
+} = require('./mail');
+const { auth, db, getUserDocRefsWithData, getFunctionUrl } = require('./firebase');
 const { sendNotification } = require('./push');
 const fail = require('./util/fail');
 const { supabase } = require('./supabase');
 const { frontendUrl, shouldReplicateRuntime } = require('./sharedConfig');
+const { getFunctions } = require('firebase-admin/functions');
 
 exports.MAX_MESSAGE_LENGTH = 800;
 
@@ -31,6 +36,20 @@ const getChat = async (chatId) => {
 
 const normalizeMessage = (str) => str.replace(/\n\s*\n\s*\n/g, '\n\n');
 const normalizeName = (str) => removeDiacritics(str).toLowerCase();
+/**
+ *
+ * @param {string} displayName
+ * @param {string} chatId
+ * @param {string} [host] the host, which will be the frontendUrl by default
+ * @returns
+ */
+const buildMessageUrl = (displayName, chatId, host) => {
+  const baseUrl = host ?? frontendUrl();
+  // TODO: this will also split as soon as it sees something non-ASCI/diacritic
+  // so it might chop up a name weirdly. Luckily it's a vanity URL. Adjust?
+  const senderNameParts = displayName.split(/[^A-Za-z-]/);
+  return `${baseUrl}/chat/${normalizeName(senderNameParts[0])}/${chatId}`;
+};
 
 /**
  * Sends an email notification of a new chat to a recipient, if the recipient
@@ -112,15 +131,10 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
       fail('internal');
     }
 
-    const baseUrl = frontendUrl();
-
-    const senderNameParts = senderAuthUser.displayName.split(/[^A-Za-z-]/);
-    const messageUrl = `${baseUrl}/chat/${normalizeName(senderNameParts[0])}/${chatId}`;
-
     const commonPayload = {
       senderName: senderAuthUser.displayName ?? '',
       message: normalizeMessage(message.content),
-      messageUrl,
+      messageUrl: buildMessageUrl(senderAuthUser.displayName, chatId),
       superfan: recipientUserPublicDocData.superfan ?? false,
       language: recipientUserPrivateDocData.communicationLanguage ?? 'en'
     };
@@ -143,7 +157,7 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
               // probably with reason, because: https://developer.mozilla.org/en-US/docs/Web/API/Clients/openWindow#parameters :
               //   > A string representing the URL of the client you want to open in the window.
               //   > **Generally this value must be a URL from the same origin as the calling script.**
-              messageUrl: `https://${host}/chat/${normalizeName(senderNameParts[0])}/${chatId}`,
+              messageUrl: buildMessageUrl(senderAuthUser.displayName, chatId, host),
               fcmToken
             });
           })
@@ -176,6 +190,93 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
 };
 
 /**
+ * @param {import('firebase-functions/v2/tasks').Request<SendMessageReminderData>} req
+ * @returns {Promise<void>}
+ */
+exports.sendMessageReminder = async function (req) {
+  const { chatId, senderUid } = req.data;
+  const messagesCol = /** @type {CollectionReference<Message>} */ (
+    db.collection(`chats/${chatId}/messages`)
+  ).orderBy('createdAt', 'asc');
+
+  // First check if the sender is not deleted or disabled
+  /**
+   * @type {UserRecord}
+   */
+  let sender;
+  try {
+    sender = await auth.getUser(senderUid);
+  } catch (e) {
+    logger.info(`Sender ${senderUid} is likely deleted, skipping the reminder email.`);
+    return;
+  }
+  if (sender.disabled) {
+    logger.info(`Sender ${senderUid} is disabled, skipping the reminder email.`);
+    return;
+  }
+
+  // Fetch all messages of the chat
+  const messages = (await messagesCol.get()).docs.map((d) => d.data());
+
+  // Sanity check: the first message should have been sent by the sender, at least 23 hours ago
+  if (
+    // if no first message
+    !messages[0] ||
+    // if not from the sender
+    messages[0].from !== senderUid ||
+    // if the first message was created less than 23 hours ago
+    messages[0].createdAt.toMillis() > Date.now() - 23 * 3600 * 1000
+  ) {
+    throw new Error(`Sanity check for the message reminder email of ${chatId} failed, skipping`);
+  }
+
+  // Find a message from the host (= any message in the chat, not from the sender)
+  /**
+   * @type {Message | undefined}
+   */
+  const answerFromHost = messages.find((m) => m.from !== senderUid);
+
+  // The chat was answered, nothing further to do
+  if (answerFromHost) {
+    logger.info(
+      `Chat ${chatId} sent by ${senderUid} was answered by ${answerFromHost.from}, skipping reminder email.`
+    );
+    return;
+  }
+
+  // The chat was not answered: send the reminder email
+  const chat = (
+    await /** @type {DocumentReference<Chat>} */ (db.doc(`chats/${chatId}`)).get()
+  ).data();
+  const hostUid = chat.users.find((id) => id !== senderUid);
+  if (!hostUid) {
+    fail('internal');
+  }
+  const host = await auth.getUser(hostUid);
+  const {
+    privateUserProfileData: hostPrivateUserProfileData,
+    publicUserProfileData: hostPublicUserProfileData
+  } = await getUserDocRefsWithData(hostUid);
+
+  // Combine messages with a newline, because we know that only the sender has sent messages yet.
+  const combinedSenderMessage = messages
+    .slice(1)
+    .reduce((acc, { content }) => `${acc}\n\n${content}`, messages[0]?.content ?? '');
+
+  logger.info(
+    `Sending message reminder email for chat ${chatId} by traveller ${senderUid} to host ${host.uid}`
+  );
+  await sendMessageReminderEmail({
+    email: host.email,
+    firstName: hostPublicUserProfileData.firstName,
+    language: hostPrivateUserProfileData.communicationLanguage,
+    senderName: sender.displayName,
+    message: normalizeMessage(combinedSenderMessage),
+    messageUrl: buildMessageUrl(sender.displayName, chatId)
+  });
+};
+
+/**
  * @param {FirestoreAuthEvent<QueryDocumentSnapshot<Chat>, { chatId: string; }>} event
  */
 exports.onChatCreate = async ({ data: chatSnapshot }) => {
@@ -184,19 +285,43 @@ exports.onChatCreate = async ({ data: chatSnapshot }) => {
     .doc('chats')
     .set({ count: FieldValue.increment(1) }, { merge: true });
 
+  const chatId = chatSnapshot.id;
+
+  //
   // To continue processing, a chat has to be created by a user
   // (always true, at least in our current system)
   //
   // TODO: authId as a param ot the event probably exists in production (and would be better to use),
   // but it is not testable https://github.com/firebase/firebase-tools/issues/7450
-  const authId = chatSnapshot.data().users[0];
-  if (typeof authId !== 'string') {
+  const senderAuthId = chatSnapshot.data().users[0];
+  if (typeof senderAuthId !== 'string') {
     fail('not-found');
   }
 
+  // Enqueue reminder email
+  const [resourceName, targetUri] = await getFunctionUrl('sendMessage');
+  /**
+   * @type {TaskQueue<SendMessageReminderData>}
+   */
+  const sendMessageQueue = getFunctions().taskQueue(resourceName);
+  await sendMessageQueue.enqueue(
+    {
+      chatId: chatId,
+      senderUid: senderAuthId
+    },
+    {
+      scheduleDelaySeconds: 24 * 3600,
+      ...(targetUri
+        ? {
+            uri: targetUri
+          }
+        : {})
+    }
+  );
+
   const now = Date.now();
   const userPrivateDocRef = /** @type {DocumentReference<UserPrivate>} */ (
-    db.collection('users-private').doc(authId)
+    db.collection('users-private').doc(senderAuthId)
   );
   const usersPrivateDoc = await userPrivateDocRef.get();
   const usersPrivateDocData = usersPrivateDoc.data();
@@ -213,23 +338,25 @@ exports.onChatCreate = async ({ data: chatSnapshot }) => {
     db
       .collection('chats')
       .where('createdAt', '>', Timestamp.fromMillis(now - 24 * 3600 * 1000))
-      .where('users', 'array-contains', authId)
+      .where('users', 'array-contains', senderAuthId)
   ).get();
   const chatsCreatedByUser = chatsOfLast24Hours.docs
     .map((d) => d.data())
-    .filter((d) => d.users[0] === authId);
+    .filter((d) => d.users[0] === senderAuthId);
 
   if (chatsCreatedByUser.length < 10) {
     return;
   }
 
-  logger.info(`Sending spam alert for ${authId}, last message: ${chatSnapshot.data().lastMessage}`);
+  logger.info(
+    `Sending spam alert for ${senderAuthId}, last message: ${chatSnapshot.data().lastMessage}`
+  );
 
-  const { email, displayName } = await auth.getUser(authId);
+  const { email, displayName } = await auth.getUser(senderAuthId);
 
   await await Promise.all([
     sendSpamAlertEmail({
-      uid: authId,
+      uid: senderAuthId,
       email: email,
       firstName: displayName,
       lastName: usersPrivateDocData.lastName,

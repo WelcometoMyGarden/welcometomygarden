@@ -77,9 +77,10 @@ const createGardenDoc = async (uid, data) => {
  * @param {string} uid2
  * @param {string} message
  * @param {boolean} [useLastMessageSeen]
+ * @param {Partial<Chat>} [extraProps]
  * @returns {Promise<string>} chatId
  */
-exports.createChat = async (uid1, uid2, message, useLastMessageSeen = true) => {
+exports.createChat = async (uid1, uid2, message, useLastMessageSeen = true, extraProps = {}) => {
   const chatCollection = db.collection('chats');
 
   const docRef = await chatCollection.add({
@@ -92,14 +93,20 @@ exports.createChat = async (uid1, uid2, message, useLastMessageSeen = true) => {
           lastMessageSeen: false,
           lastMessageSender: uid1
         }
-      : {})
+      : {}),
+    ...extraProps
   });
 
   const chatMessagesCollection = db.collection(`chats/${docRef.id}/messages`);
 
   await chatMessagesCollection.add({
     content: message,
-    createdAt: Timestamp.now(),
+    // Take into account a possible override in extraProps
+    ...(extraProps?.createdAt
+      ? {
+          createdAt: extraProps.createdAt
+        }
+      : { createdAt: Timestamp.now() }),
     from: uid1
   });
 

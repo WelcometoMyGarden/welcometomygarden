@@ -26,7 +26,7 @@ const {
   propagateEmailChange
 } = require('./auth');
 const { doBackup } = require('./storage');
-const { onMessageCreate, onChatCreate } = require('./chat');
+const { onMessageCreate, onChatCreate, sendMessageReminder } = require('./chat');
 const { onCampsiteCreate, onCampsiteDelete } = require('./campsites');
 const { stripeWebhookHandler } = require('./subscriptions/webhookHandler');
 const {
@@ -176,6 +176,18 @@ exports.checkContactCreation = onTaskDispatched(
     cpu: 1
   },
   checkContactCreation
+);
+
+exports.sendMessage = onTaskDispatched(
+  {
+    retryConfig: {
+      // We don't want to risk double emails, even in case of errors
+      maxAttempts: 1
+    },
+    region: 'europe-west1',
+    cpu: 1
+  },
+  sendMessageReminder
 );
 
 // Firebase Auth scheduled replication
