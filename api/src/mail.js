@@ -2,10 +2,6 @@ const { defineString } = require('firebase-functions/params');
 const { sendgridMail } = require('./sendgrid/sendgrid');
 const devSend = require('./util/devMail');
 const { frontendUrl, canSendMail, dashboardUrl } = require('./sharedConfig');
-const { logger } = require('firebase-functions/v2');
-const getContactById = require('./sendgrid/getContactById');
-const { auth } = require('./firebase');
-const getContactByEmail = require('./sendgrid/getContactByEmail');
 
 /**
  * See https://github.com/sendgrid/sendgrid-nodejs/tree/main/packages/mail
@@ -56,54 +52,6 @@ function logActionLink(verificationLink) {
       'Transformed /auth/action URL: ',
       `"${makeVerificationLinkLocal(verificationLink)}"`
     );
-  }
-}
-
-/**
- * @typedef {Object} ContactIdentifiers
- * @property {string} email
- * @property {string} [sendgridId]
- * @property {string} [uid]
- */
-
-/**
- * Identify the user by one of several methods, then fetch the contact's
- * secret, if it exists.
- * (sendgridId: fastest, email: faster, uid: slowest)
- * @param {ContactIdentifiers} identifiers
- * @returns return null in case of failure.
- */
-async function getSendGridSecretFor({ sendgridId, uid, email }) {
-  let contact;
-  try {
-    if (sendgridId) {
-      contact = await getContactById(sendgridId);
-    } else if (email) {
-      contact = await getContactByEmail(email);
-    } else if (uid) {
-      const user = await auth.getUser(uid);
-      contact = await getContactByEmail(user.email);
-    }
-    if (contact.custom_fields?.secret) {
-      return contact.custom_fields.secret;
-    }
-    return null;
-  } catch (e) {
-    logger.warn("Error while trying to fetch a SendGrid contact's secret", e);
-    return null;
-  }
-}
-
-/**
- * @param {ContactIdentifiers} identifiers
- */
-async function createUnsubscribeLinkFor(identifiers) {
-  const secret = await getSendGridSecretFor(identifiers);
-  if (secret) {
-    return `${frontendUrl()}/email-preferences?e=${identifiers.email}&s=${secret}`;
-  } else {
-    // Fall back
-    return `${frontendUrl()}/account`;
   }
 }
 

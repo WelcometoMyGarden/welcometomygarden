@@ -4,7 +4,7 @@ const stripe = require('./stripe');
 
 /**
  * Return the Firebase UID related to a Stripe customer.
- * First tries to retreive this information from metadata in Stripe.
+ * First tries to retrieve this information from metadata in Stripe.
  * If that fails, this function searches for the customer in Firebase.
  * @param customerId a stripe customer ID
  * @returns {Promise<string | null>} null if no uid was found

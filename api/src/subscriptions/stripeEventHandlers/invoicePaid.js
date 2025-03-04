@@ -83,10 +83,10 @@ module.exports = async (event, res) => {
         // Overrides of invoices should not be possible on subscription cycles (at the time of writing)
         // But with SEPA Debit, paymentProcessing on renewals is (or should be) possible.
         if (subscription.collection_method === 'send_invoice') {
-          sendSubscriptionRenewalThankYouEmail(
+          await sendSubscriptionRenewalThankYouEmail(
             invoice.customer_email,
             publicUserProfileData.firstName,
-            privateUserProfileDocRef.communicationLanguage
+            privateUserProfileData.communicationLanguage
           );
         } else {
           // TODO: send email with confirmation of the automatic charge
@@ -104,6 +104,8 @@ module.exports = async (event, res) => {
   // update it if possible.
   if (subscription.collection_method === 'send_invoice') {
     // Find a reusable saved payment method
+    // NOTE/TODO: it seems that upon the setup_future_usage subscription payment, the reusable payment method is also referred to
+    // in the default_payment_method property on the subscription, so that could be used too (as a first preference).
     const paymentMethod = (await stripe.customers.listPaymentMethods(invoice.customer)).data.find(
       (pm) => pm.type === 'sepa_debit' || pm.type === 'card'
     );

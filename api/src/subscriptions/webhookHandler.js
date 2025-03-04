@@ -10,6 +10,7 @@ const paymentIntentProcessing = require('./stripeEventHandlers/paymentIntentProc
 const paymentIntentPaymentFailed = require('./stripeEventHandlers/paymentIntentPaymentFailed');
 const invoiceCreated = require('./stripeEventHandlers/invoiceCreated');
 const { getStripeVersion } = require('../sharedConfig');
+const subscriptionCreated = require('./stripeEventHandlers/subscriptionCreated');
 
 const stripeWebhookSecretParam = defineString('STRIPE_WEBHOOK_SECRET');
 
@@ -107,8 +108,10 @@ exports.stripeWebhookHandler = async (req, res) => {
       break;
     case 'customer.subscription.deleted':
       return subscriptionDeleted(event, res);
+    case 'customer.subscription.created':
+      return subscriptionCreated(event, res);
     case 'customer.subscription.updated':
-      // handle subscription change (tier etc)
+      // Handle subscription change (tier etc)
       return subscriptionUpdated(event, res);
     default:
     // Unexpected event type

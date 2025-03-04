@@ -95,6 +95,7 @@ module.exports = async (event, res) => {
 
       // If this cancellation occurs beyond the first period, it is most likely not caused by an
       // unpaid first invoice (though we could aso check invoice.billing_reason and the metadata billing_reason_override to be more sure / TODO)
+      // @ts-ignore
       const latestInvoice = await stripe.invoices.retrieve(subscription.latest_invoice);
 
       // Inform the user that their subscription has ended...

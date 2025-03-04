@@ -123,7 +123,7 @@ module.exports = async (event, res) => {
       logger.log(
         `Sending subscription renewal thank you email to ${uid} <${invoice.customer_email}>`
       );
-      sendSubscriptionRenewalThankYouEmail(
+      await sendSubscriptionRenewalThankYouEmail(
         invoice.customer_email,
         publicUserProfileData.firstName,
         privateUserProfileData.communicationLanguage

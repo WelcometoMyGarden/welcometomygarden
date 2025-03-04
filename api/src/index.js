@@ -26,7 +26,7 @@ const {
   propagateEmailChange
 } = require('./auth');
 const { doBackup } = require('./storage');
-const { onMessageCreate, onChatCreate, sendMessageReminder } = require('./chat');
+const { onMessageCreate, onChatCreate, sendQueuedMessage } = require('./chat');
 const { onCampsiteCreate, onCampsiteDelete } = require('./campsites');
 const { stripeWebhookHandler } = require('./subscriptions/webhookHandler');
 const {
@@ -187,7 +187,7 @@ exports.sendMessage = onTaskDispatched(
     region: 'europe-west1',
     cpu: 1
   },
-  sendMessageReminder
+  sendQueuedMessage
 );
 
 // Firebase Auth scheduled replication

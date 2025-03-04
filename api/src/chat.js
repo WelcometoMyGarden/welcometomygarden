@@ -4,7 +4,8 @@ const removeDiacritics = require('./util/removeDiacritics');
 const {
   sendMessageReceivedEmail,
   sendSpamAlertEmail,
-  sendMessageReminderEmail
+  sendMessageReminderEmail,
+  sendAbandonedCartReminderEmail
 } = require('./mail');
 const { auth, db, getUserDocRefsWithData, getFunctionUrl } = require('./firebase');
 const { sendNotification } = require('./push');
@@ -12,6 +13,10 @@ const fail = require('./util/fail');
 const { supabase } = require('./supabase');
 const { frontendUrl, shouldReplicateRuntime } = require('./sharedConfig');
 const { getFunctions } = require('firebase-admin/functions');
+const stripe = require('./subscriptions/stripe');
+const { isWTMGSubscription } = require('./subscriptions/stripeEventHandlers/util');
+const { DateTime } = require('luxon');
+const { sendPlausibleEvent } = require('./util/plausible');
 
 exports.MAX_MESSAGE_LENGTH = 800;
 
@@ -277,6 +282,92 @@ exports.sendMessageReminder = async function (req) {
 };
 
 /**
+ * TODO: considering the fixed 7am,11am,6pm schedule, this would probably be better
+ * implemented as a cron function; rather than a queue task.
+ * @param {import('firebase-functions/v2/tasks').Request<SendAbandonedCartReminderData>} req
+ * @returns {Promise<void>}
+ */
+exports.sendAbandonedCartReminder = async (req) => {
+  const { uid, customerId } = req.data;
+  // First check if the sender is not deleted or disabled
+  /**
+   * @type {UserRecord}
+   */
+  let user;
+  try {
+    user = await auth.getUser(uid);
+  } catch (e) {
+    logger.info(`User ${uid} is likely deleted, skipping the abandoned cart reminder email.`);
+    return;
+  }
+  if (user.disabled) {
+    logger.info(`User ${uid} is disabled, skipping the abandoned cart email.`);
+    return;
+  }
+
+  // Check if the user subscribed by now
+  const { publicUserProfileData, privateUserProfileData } = await getUserDocRefsWithData(uid);
+  if (publicUserProfileData.superfan) {
+    logger.info(`User ${uid} became a member before this abandoned cart check, skipping email`);
+    return;
+  }
+
+  // Check the customer's Stripe subscriptions
+  // We don't want to send the email more than once per two weeks, and this check should be scheduled
+  // at every new subscription creation
+  const { data: allStripeSubscriptions } = await stripe.subscriptions.list({
+    customer: customerId,
+    status: 'all'
+  });
+  const twoWeeksAgo = DateTime.now().minus({ weeks: 2 }).toSeconds();
+  const numberOfWTMGSubsInTheLastTwoWeeks = allStripeSubscriptions.filter(
+    (s) => isWTMGSubscription(s) && s.start_date >= twoWeeksAgo
+  ).length;
+  if (numberOfWTMGSubsInTheLastTwoWeeks > 1) {
+    logger.info(
+      `User ${uid} had more than 1 subscription created in the last 2 weeks, skipping abandoned cart email`
+    );
+    return;
+  }
+
+  const hour = DateTime.now().setZone('Europe/Brussels').hour.toString();
+  await sendPlausibleEvent('Send Abandoned Cart Email', {
+    functionName: 'sendAbandonedCartReminder',
+    props: {
+      hour
+    }
+  });
+  logger.info(
+    `Sending abandoned cart reminder email to ${uid} / ${customerId} at ${DateTime.now().setZone('Europe/Brussels').toISO()}`
+  );
+  await sendAbandonedCartReminderEmail(
+    user.email,
+    publicUserProfileData.firstName,
+    privateUserProfileData.communicationLanguage
+  );
+};
+
+/**
+ * @param {import('firebase-functions/v2/tasks').Request<QueuedMessage>} req
+ * @returns {Promise<void>}
+ */
+exports.sendQueuedMessage = async (req) => {
+  const { type, data } = req.data;
+  // No type or inner data is present, which means this is an old scheduled message_reminder event
+  // before we had types on this handler or enqueues
+  // @TODO: this should become irrelevant in 24 hours after the morning of March 4th
+  if (!type && !data) {
+    // @ts-ignore
+    return this.sendMessageReminder(req);
+  }
+  if (type === 'message_reminder') {
+    return this.sendMessageReminder({ ...req, data });
+  } else {
+    return this.sendAbandonedCartReminder({ ...req, data });
+  }
+};
+
+/**
  * @param {FirestoreAuthEvent<QueryDocumentSnapshot<Chat>, { chatId: string; }>} event
  */
 exports.onChatCreate = async ({ data: chatSnapshot }) => {
@@ -301,13 +392,16 @@ exports.onChatCreate = async ({ data: chatSnapshot }) => {
   // Enqueue reminder email
   const [resourceName, targetUri] = await getFunctionUrl('sendMessage');
   /**
-   * @type {TaskQueue<SendMessageReminderData>}
+   * @type {TaskQueue<QueuedMessage>}
    */
   const sendMessageQueue = getFunctions().taskQueue(resourceName);
   await sendMessageQueue.enqueue(
     {
-      chatId: chatId,
-      senderUid: senderAuthId
+      type: 'message_reminder',
+      data: {
+        chatId: chatId,
+        senderUid: senderAuthId
+      }
     },
     {
       scheduleDelaySeconds: 24 * 3600,

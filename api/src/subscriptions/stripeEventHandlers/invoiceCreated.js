@@ -3,7 +3,7 @@ const stripe = require('../stripe');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const { stripeSubscriptionKeys } = require('../constants');
 const removeUndefined = require('../../util/removeUndefined');
-const { db } = require('../../firebase');
+const { getUserDocRefsWithData } = require('../../firebase');
 const { sendSubscriptionRenewalEmail } = require('../../mail');
 const { isWTMGInvoice } = require('./util');
 /**
@@ -15,7 +15,7 @@ const { isWTMGInvoice } = require('./util');
  *
  */
 module.exports = async (event, res) => {
-  console.log('Handling invoice.created');
+  logger.log('Handling invoice.created');
   /** @type {import('stripe').Stripe.Invoice} */
   const invoice = event.data.object;
 
@@ -69,15 +69,18 @@ module.exports = async (event, res) => {
 
   if (!finalizedInvoice.hosted_invoice_url) {
     const errorMsg = 'Could not correctly finalize the renewal invoice';
-    console.error(errorMsg);
+    logger.error(errorMsg);
     res.status(500);
     return res.send(errorMsg);
   }
 
+  // Get public & private data
+  const { privateUserProfileDocRef, privateUserProfileData, publicUserProfileData } =
+    await getUserDocRefsWithData(uid);
+
   //
   // Set the user's latest invoice state
   // + save the renewal invoice URL in Firebase
-  const privateUserProfileDocRef = db.doc(`users-private/${uid}`);
   await privateUserProfileDocRef.update(
     removeUndefined({
       [renewalInvoiceLinkKey]: finalizedInvoice.hosted_invoice_url,
@@ -85,12 +88,6 @@ module.exports = async (event, res) => {
       // startDate should not have changed
     })
   );
-
-  // Get public & private data
-  const publicUserProfileDocRef = db.doc(`users/${uid}`);
-  const [publicUserProfileData, privateUserProfileData] = (
-    await Promise.all([publicUserProfileDocRef.get(), privateUserProfileDocRef.get()])
-  ).map((s) => s.data());
 
   if (
     !(

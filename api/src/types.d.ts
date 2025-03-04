@@ -15,8 +15,8 @@ declare global {
     T,
     T
   >;
-  type CollectionReference<T> = import('firebase-admin/firestore').CollectionReference<T>;
-  type Query<T = DocumentData> = import('firebase-admin/firestore').Query<T>;
+  type CollectionReference<T> = import('firebase-admin/firestore').CollectionReference<T, T>;
+  type Query<T = DocumentData> = import('firebase-admin/firestore').Query<T, T>;
   type QueryDocumentSnapshot<T = DocumentData> =
     import('@google-cloud/firestore').QueryDocumentSnapshot<T, T>;
   type Change<T> = Ch<T>;
@@ -56,6 +56,18 @@ declare global {
     chatId: string;
     senderUid: string;
   };
+
+  type SendAbandonedCartReminderData = {
+    uid: string;
+    customerId: string;
+  };
+
+  type QueuedMessage =
+    | {
+        type: 'message_reminder';
+        data: SendMessageReminderData;
+      }
+    | { type: 'abandoned_cart'; data: SendAbandonedCartReminderData };
 
   declare namespace FV1 {
     type CallableContext = CC;

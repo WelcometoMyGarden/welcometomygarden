@@ -10,8 +10,9 @@ module.exports = async () => {
   const lxFeedbackThreshold = lxHourStart.minus({ days: FEEDBACK_EMAIL_DAYS_AFTER_EXPIRY });
   // We're looking for renewals that have auto-canceled with the scheduled function here
 
-  const query = db
-    .collection('users-private')
+  const query = /**
+   * @type {CollectionReference<UserPrivate>}
+   */ (db.collection('users-private'))
     // The subscription status is "canceled"
     .where(statusKey, '==', 'canceled')
     // The current period started 7 + 5 days ago

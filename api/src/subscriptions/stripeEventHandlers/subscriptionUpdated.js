@@ -22,13 +22,17 @@ const {
 } = stripeSubscriptionKeys;
 
 /**
- * Sent when the subscription is successfully started, after the payment is confirmed.
+ * Sent when the subscription status or details change.
+ * Generally sent for Bancontact & iDEAL payments when:
+ *   1) the payment is initiated (will always result in a payment_intent.requires_action + invoice.payment_failed + invoice.payment_action_required for async verification), it's counterintuitive because nothing actually fails,
+ *   but that action_required makes the subscription status turn to "past_due"
+ *   2) again when the payment is confirmed, because the status went back to "active" and now with setup_future_usage the default payment method is also set up.
  * Also sent whenever a subscription is changed. For example, adding a coupon, applying a discount, adding an invoice item, and changing plans all trigger this event.
  * @param {import('stripe').Stripe.Event} event
  * @param {import('express').Response} res
  */
 module.exports = async (event, res) => {
-  logger.log('Handling subscription.updated');
+  logger.log('Handling customer.subscription.updated');
   /** @type {import('stripe').Stripe.Subscription} */
   // @ts-ignore
   const subscription = event.data.object;

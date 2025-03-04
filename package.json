@@ -25,7 +25,7 @@
     "firebase:demo": "firebase --project demo-test emulators:start",
     "firebase:demo-seed": "firebase --project demo-test emulators:exec --ui api/seeders/simple.js",
     "firebase:debug": "firebase --project demo-test emulators:start --inspect-functions",
-    "firebase:staging": "firebase --project staging emulators:start --only functions",
+    "firebase:staging": "firebase --project staging emulators:start --only functions,tasks",
     "firebase:staging-all": "firebase --project staging emulators:start",
     "firebase:staging-push": "STAGING=true firebase --project staging emulators:exec --ui api/seeders/simple.js",
     "stripe:staging": "stripe listen --events customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.created,invoice.paid,payment_intent.processing --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/handleStripeWebhookV2"

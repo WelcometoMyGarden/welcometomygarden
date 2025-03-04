@@ -67,7 +67,11 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
     // When using 'send_invoice', invoices are not immediately finalized by Stripe (see below)
     // Here we can only expand the invoice, and not `latest_invoice.payment_intent`.
     expand: ['latest_invoice'],
-    // The 'send_invoice' method is required for Bancontact, ideal, ...
+    // Since mid Jan., 2025, we're converting all subscriptions (renewals or new payments) to charge_automatically
+    // - Many users created before mid Jan. 2025 are on 'send_invoice' until they pay their next invoice.
+    // - The 'send_invoice' method is REQUIRED to show Bancontact & iDEAL as payment options, and hence we
+    // still need to start all new subs on 'send_invoice' too. However, these will be converted immediately
+    // into 'charge_automatically' with derived SEPA mandates as soon as the first invoice payment comes in, see invoicePaid.js
     // https://stripe.com/docs/api/subscriptions/create#create_subscription-collection_method
     collection_method: 'send_invoice',
     days_until_due: 1
@@ -101,8 +105,9 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
       // The invoice line item will have a custom one-off product ID and price ID
       [priceIdKey]: subscription.items.data[0].price.id,
       [statusKey]: subscription.status,
-      // Note: this will be out-of-date because we're not waiting for getPaymentIntent to perform this update
-      // (trade-off with completion speed of the function)
+      // NOTE: speed hack: the latestInvoiceStatus be out-of-date (with status === 'draft', while it should be 'open')
+      // because we're NOT waiting for insertPaymentIntent to finish to perform this userPrivate doc update
+      // This allows both requests to work concurrently rather than serially, shaving off a bit of time in this long-running operation.
       [latestInvoiceStatusKey]: subscription.latest_invoice.status,
       [currentPeriodStartKey]: subscription.current_period_start,
       [currentPeriodEndKey]: subscription.current_period_end,
