@@ -13,13 +13,20 @@
   let showMobilePricing = false;
 
   $: valuePropsLocal = valuePoints($locale ?? 'en');
+
+  function handleClose() {
+    // Exit the modal by going back
+    window.history.back();
+  }
 </script>
 
 <Modal
   bind:show
-  closeButton={false}
-  closeOnEsc={false}
-  closeOnOuterClick={false}
+  className="membership-modal"
+  closeButton={true}
+  closeOnEsc={true}
+  closeOnOuterClick={true}
+  on:close={handleClose}
   maxWidth="992px"
   maxHeight="912px"
   center
@@ -137,6 +144,34 @@
     /* warning by Figma: gradient uses a rotation that is not supported by CSS and may not behave as expected */
   }
 
+  /* Invert the colors of the close button and position it absolutely */
+  :global(.membership-modal .modal-content button.close) {
+    /* Hide the button on desktop */
+    display: none;
+
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    border-color: var(--color-white);
+    background-color: var(--color-green);
+  }
+  :global(.membership-modal .modal-content button.close i > svg) {
+    fill: var(--color-white);
+  }
+  :global(.membership-modal .modal-content button.close i > svg) {
+    fill: var(--color-white);
+  }
+  :global(.membership-modal .modal-content button.close:hover) {
+    background-color: var(--color-white);
+  }
+  :global(.membership-modal .modal-content button.close:hover i > svg) {
+    fill: var(--color-green);
+  }
+  /* Hide the close button when .showMobilePricing is active on the sibling */
+  :global(.membership-modal .modal-content .showMobilePricing + button.close) {
+    display: none;
+  }
+
   .title > span,
   h2 {
     z-index: 1;
@@ -162,7 +197,6 @@
 
   .membership-content {
     height: 100%;
-    /* overflow-y: scroll; */
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
@@ -283,6 +317,13 @@
     }
     h2.main-title {
       font-size: 2.5rem;
+    }
+
+    :global(.membership-modal .modal-content button.close) {
+      display: flex;
+      left: 1rem;
+      top: 1rem;
+      right: unset;
     }
   }
 </style>

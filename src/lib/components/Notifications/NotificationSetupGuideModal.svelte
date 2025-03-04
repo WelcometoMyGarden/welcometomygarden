@@ -13,7 +13,7 @@
   let { is_16_4_OrAboveIDevice, isUpgradeable16IDevice } = iDeviceInfo!;
 </script>
 
-<Modal center closeButton on:close={() => close()}>
+<Modal className="notification-setup-guide-modal" center closeButton on:close={() => close()}>
   <Text slot="title" is="h1" weight="w600" size="l" className="title"
     >{$_('push-notifications.how-to.title')}</Text
   >
@@ -78,11 +78,11 @@
   }
 
   /* TODO Design System: WHY does this have to be specified here. */
-  :global(.title) {
+  :global(.notification-setup-guide-modal .title) {
     font-family: var(--fonts-copy);
     margin-bottom: 1rem;
   }
-  :global(.upgrade p) {
+  :global(.notification-setup-guide-modal .upgrade p) {
     margin-bottom: 1rem;
   }
 </style>

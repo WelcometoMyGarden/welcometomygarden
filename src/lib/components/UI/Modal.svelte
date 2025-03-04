@@ -14,6 +14,8 @@
   export let ariaLabelledBy: string | null = null;
   export let ariaDescribedBy: string | null = null;
 
+  export let className: string = '';
+
   export let closeButton = true;
   export let cancelButton = false;
   export let closeOnEsc = true;
@@ -26,12 +28,13 @@
   export let stickToBottom = false;
   export let fullHeight = false;
   export let shrinkableBody = false;
+
   /**
    * Outer padding of the modal inside the screen
    */
   export let nopadding = false;
   /**
-   * padding inside the modal
+   * Padding inside the modal
    */
   export let noInnerPadding = false;
   export let opacity = true;
@@ -48,7 +51,7 @@
     close();
   };
 
-  const handleKeydown = (e) => {
+  const handleKeydown = (e: KeyboardEvent) => {
     if (!show) return;
     if (!closeOnEsc) return;
     if (e.key === 'Escape' || e.keyCode === 27) close();
@@ -59,8 +62,10 @@
 
 {#if show}
   <!-- Modal backdrop -->
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <!-- TODO: refactor this to be a <dialog>, but be careful, because it's used in many places -->
   <div
-    class="modal"
+    class="modal {className}"
     class:center
     class:opacity
     class:stick-to-bottom={stickToBottom}
@@ -92,7 +97,7 @@
           so it can be used within slots by component users without repeating the concrete value of ariaLabelledBy.
           https://svelte.dev/docs/special-elements#slot-slot-key-value
         -->
-        <slot name="title" {ariaLabelledBy} class="modal-title" />
+        <slot name="title" {ariaLabelledBy} />
         {#if closeButton}
           <button class="close" type="button" on:click={close} aria-label="Close">
             <Icon icon={crossIcon} />
@@ -158,6 +163,13 @@
   /* Default modal-content props */
   .modal-content {
     position: relative;
+    /*
+      This is probably mostly used for the MembershipModal to clip
+      its content with background fills to the border radius of this element.
+      It's possible to make this opt-out if an element needs to be positioned
+      aside from the modal content (and then override the radius overrides
+      on the membership modal content itself)
+    */
     overflow: auto;
     box-shadow: 0px 0px 21.5877px rgba(0, 0, 0, 0.1);
     padding: 2rem;
@@ -188,11 +200,6 @@
 
   .noInnerPadding .modal-header {
     margin-bottom: 0;
-  }
-
-  .modal-header .modal-title {
-    margin-right: 1rem;
-    text-transform: uppercase;
   }
 
   .modal-header :global(i) {
