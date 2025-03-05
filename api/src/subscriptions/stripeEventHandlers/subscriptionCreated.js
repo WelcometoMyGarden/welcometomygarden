@@ -4,6 +4,7 @@ const { DateTime } = require('luxon');
 const { getFunctionUrl } = require('../../firebase');
 const { getFunctions } = require('firebase-admin/functions');
 const getFirebaseUserId = require('../getFirebaseUserId');
+const fail = require('../../util/fail');
 
 /**
  * Only sent when the subscription is created.
@@ -28,18 +29,23 @@ module.exports = async (event, res) => {
   const startOfDay = subCreationTime.startOf('day');
   const { hour } = subCreationTime;
   let scheduledTime;
-  if (hour > 17) {
-    // abandoned after 5pm -> send at 7am the next day
+  if (hour >= 17) {
+    // abandoned after or on 17:00 (>= 17:00) -> send at 7am the next day
     scheduledTime = startOfDay.plus({ day: 1, hours: 7 });
-  } else if (hour <= 6) {
-    // abandoned before incl 6am -> send at 7am
+  } else if (hour <= 5) {
+    // abandoned before 6:00am (<= 5:59) -> send at 7am
     scheduledTime = startOfDay.plus({ hours: 7 });
-  } else if (hour > 6 && hour <= 10) {
-    // abandoned after 6am, but before incl 10am -> send at 11am
+  } else if (hour <= 9) {
+    // abandoned after & incl 6:00am, but before 10am (<= 9:59) -> send at 11am
     scheduledTime = startOfDay.plus({ hours: 11 });
-  } else if (hour > 10 && hour <= 17) {
-    // abandoned after 10am, but before incl 5pm -> send at 6pm
+  } else if (hour <= 16) {
+    // abandoned after & incl 10:00am, but before 5pm (<= 16:59) -> send at 6pm
     scheduledTime = startOfDay.plus({ hours: 18 });
+  } else {
+    logger.error(
+      `Failed to schedule abandoned cart check for sub created at ${subCreationTime.toISO()} / ${subscription.customer}, the logic should cover all options.`
+    );
+    fail('internal');
   }
 
   logger.info(
