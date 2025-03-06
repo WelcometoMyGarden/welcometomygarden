@@ -17,7 +17,8 @@ import {
   type PlausibleMembershipModalProperties,
   type PlausibleVisitAboutMembershipProperties,
   type PlausibleContinueWithPriceProperties,
-  type PlausiblePricingSectionSourceProperties
+  type PlausiblePricingSectionSourceProperties,
+  type PlausibleMembershipModalBackNavSource
 } from '$lib/types/Plausible';
 import { debounce } from 'lodash-es';
 import { get } from 'svelte/store';
@@ -78,6 +79,10 @@ function trackEvent(
   props: PlausibleMembershipModalProperties & PlausibleCustomProperties
 ): void;
 function trackEvent(
+  name: PlausibleEvent.MEMBERSHIP_MODAL_BACK,
+  props: PlausibleMembershipModalBackNavSource & PlausibleCustomProperties
+): void;
+function trackEvent(
   name: PlausibleEvent.CONTINUE_WITH_PRICE,
   props: PlausibleContinueWithPriceProperties &
     PlausiblePricingSectionSourceProperties &
@@ -99,12 +104,13 @@ function trackEvent(
     | PlausibleEvent.SEND_RESPONSE
     | PlausibleEvent.EMAIL_RESUBSCRIBE
     | PlausibleEvent.EMAIL_UNSUBSCRIBE
-    | PlausibleEvent.OPEN_MEMBERSHIP_MODAL
     | PlausibleEvent.CONTINUE_WITH_PRICE
     // Causes type issues in Footer, TopNav & SideDrawer :/
     // | PlausibleEvent.VISIT_ABOUT_MEMBERSHIP
     // | PlausibleEvent.VISIT_FAQ
     // | PlausibleEvent.VISIT_RULES
+    // Causes type issues in ZoomRestrictionNotice
+    // | PlausibleEvent.OPEN_MEMBERSHIP_MODAL
   >,
   props?: PlausibleCustomProperties,
   trailing?: boolean

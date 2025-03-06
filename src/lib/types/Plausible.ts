@@ -86,7 +86,22 @@ export type PlausibleSubscriptionProperties = {
 };
 
 export type PlausibleMembershipModalProperties = {
-  source: 'map_garden' | 'direct';
+  /**
+   * zoom_notice: in 2025/03 it got since we started showing the modal instead of navigating to /about-membership.
+   */
+  source: 'map_garden' | 'direct' | 'zoom_notice';
+};
+
+export type PlausibleMembershipModalBackNavSource = {
+  /**
+   * chat_browser: when the modal was exited using the navbar
+   *   Before 2025/03/06 this was the only event that was tracked, without properties.
+   * chat_close: when the modal was closed by clicking on the close button on mobile
+   *   or outside the frame. This is possible since early 2025/03.
+   * map_close: when the modal was closed by clicking on the close button on moile
+   *   or outside the frame, and the modal was spawned on the map.
+   */
+  source: 'chat_browser' | 'chat_close' | 'map_close';
 };
 
 export type PlausibleContinueWithPriceProperties = {
@@ -94,12 +109,17 @@ export type PlausibleContinueWithPriceProperties = {
 };
 
 export type PlausibleVisitAboutMembershipProperties = {
+  /**
+   * The zoom_notice source exited since 2023/11,
+   * In 2025/03 it got removed since we started showing the modal instead (see PlausibleMembershipModalProperties)
+   */
   source:
     | 'home_section'
     | 'top_navbar'
     | 'top_navbar_announcement'
     | 'side_navbar'
-    | 'side_navbar_announcement';
+    | 'side_navbar_announcement'
+    | 'zoom_notice';
 };
 
 export type PlausiblePricingSectionSourceProperties = {

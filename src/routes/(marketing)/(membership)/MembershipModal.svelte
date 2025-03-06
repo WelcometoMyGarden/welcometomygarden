@@ -13,11 +13,6 @@
   let showMobilePricing = false;
 
   $: valuePropsLocal = valuePoints($locale ?? 'en');
-
-  function handleClose() {
-    // Exit the modal by going back
-    window.history.back();
-  }
 </script>
 
 <Modal
@@ -26,7 +21,7 @@
   closeButton={true}
   closeOnEsc={true}
   closeOnOuterClick={true}
-  on:close={handleClose}
+  on:close
   maxWidth="992px"
   maxHeight="912px"
   center

@@ -43,6 +43,7 @@
   import MeetupLayer, { meetups } from '$lib/components/Map/MeetupLayer.svelte';
   import { lnglatToObject } from '$lib/api/mapbox';
   import MeetupDrawer from '$lib/components/Map/MeetupDrawer.svelte';
+  import MembershipModal from '$routes/(marketing)/(membership)/MembershipModal.svelte';
 
   let showHiking = false;
   let showCycling = false;
@@ -56,6 +57,7 @@
   let filteredGardens: Garden[];
   let savedGardens = [] as string[];
   let carNoticeShown = !isOnIDevicePWA() && !getCookie('car-notice-dismissed');
+  let showMembershipModal = false;
 
   // TODO: this works for now, because the default state when loading the
   // page is that the checkboxes are unchecked. We may want to intercept actual
@@ -268,7 +270,7 @@
     {/if}
     <FileTrails />
     <TrainconnectionsLayer />
-    <ZoomRestrictionNotice />
+    <ZoomRestrictionNotice on:click={() => (showMembershipModal = true)} />
   </Map>
   <LayersAndTools
     bind:showHiking
@@ -290,6 +292,13 @@
   />
   <FileTrailModal bind:show={showFileTrailModal} />
   <TrainConnectionsModal bind:show={showTrainConnectionsModal} />
+  <MembershipModal
+    bind:show={showMembershipModal}
+    on:close={() =>
+      trackEvent(PlausibleEvent.MEMBERSHIP_MODAL_BACK, {
+        source: 'map_close'
+      })}
+  />
 </div>
 
 <style>

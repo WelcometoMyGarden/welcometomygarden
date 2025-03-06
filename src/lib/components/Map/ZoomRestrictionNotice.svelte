@@ -47,9 +47,12 @@
 
 <MapNotice bind:show={showNotice}>
   ℹ️{' '}
+  <!-- Note: this will still track the 'zoom_notice' event despite not opening the link -->
   <Anchor
     href={createUrl(routes.ABOUT_MEMBERSHIP)}
-    track={[PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'zoom_notice' }]}
+    preventing
+    track={[PlausibleEvent.OPEN_MEMBERSHIP_MODAL, { source: 'zoom_notice' }]}
+    on:click
     newtab>{$_('generics.become-member')}</Anchor
   >{' '}{$_('map.zoom-restriction-notice')}.
 </MapNotice>

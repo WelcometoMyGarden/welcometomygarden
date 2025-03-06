@@ -4,7 +4,7 @@
   import { crossIcon } from '$lib/images/icons';
   import { focusTrap } from '$lib/directives';
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{ close: never }>();
 
   // a11y
   /**
@@ -41,6 +41,7 @@
 
   const close = () => {
     show = false;
+    // @ts-ignore 'never' details mean no arguments should be supplied
     dispatch('close');
   };
 

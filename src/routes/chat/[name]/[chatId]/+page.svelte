@@ -53,6 +53,9 @@
   let showErrorModal = false;
   let error: unknown = null;
   let errorDetails: string | undefined = undefined;
+
+  let membershipModalClosedByOutsideClick = false;
+
   const showChatError = (exception: unknown, details?: string) => {
     console.error(exception);
     error = exception;
@@ -79,9 +82,14 @@
   };
 
   const backNavHandler = () => {
+    // Detect if the user uses the browser's back nav button
     // Document contains the target. We're interested in detecting navigation back to the garden side drawer.
     if (document.location.pathname.includes('/explore/garden')) {
-      trackEvent(PlausibleEvent.MEMBERSHIP_MODAL_BACK);
+      trackEvent(PlausibleEvent.MEMBERSHIP_MODAL_BACK, {
+        // The "outside click" will also trigger window.history.back(), which will also run this code
+        // We can differentiate a browser back button and the modal outside click by marking the outside click.
+        source: membershipModalClosedByOutsideClick ? 'chat_close' : 'chat_browser'
+      });
     }
 
     // Remove the handler
@@ -290,7 +298,7 @@
   onDestroy(() => {
     cleanupPage();
     unsubscribeFromPage();
-    // Has no effect if the handler was registered
+    // Has no effect if the handler was not registered
     // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener
     window.removeEventListener('popstate', backNavHandler);
   });
@@ -398,7 +406,15 @@ CSS grids should do the job cleanly -->
     <Icon icon={chevronRight} greenStroke={sendButtonDisabled} whiteStroke={!sendButtonDisabled} />
   </button>
 </form>
-<MembershipModal bind:show={showMembershipModal} />
+<MembershipModal
+  bind:show={showMembershipModal}
+  on:close={() => {
+    // If we can't chat, then move back to whatever the previous location was
+    // Usually, this would be the garden from which the chat was attempted to be opened.
+    membershipModalClosedByOutsideClick = true;
+    window.history.back();
+  }}
+/>
 <ChatErrorModal bind:show={showErrorModal} details={errorDetails} {error} />
 
 <style>
