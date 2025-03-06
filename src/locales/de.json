@@ -1519,9 +1519,6 @@
       "generic": "Beim Aktivieren mobiler Benachrichtigungen ist ein Fehler aufgetreten. Können Sie diese Seite aktualisieren und dann erneut versuchen, sie zu aktivieren? Wenn dies nicht funktioniert, senden Sie bitte die folgenden Informationen an {emailLink} und wir helfen Ihnen weiter. Vielen Dank!"
     }
   },
-  "rv": {
-    "ask": ""
-  },
   "email-preferences": {
     "error": "Haben Sie Probleme, sich abzumelden? Kontaktieren Sie {support} und wir helfen Ihnen weiter!",
     "unsubscribe": {

@@ -67,7 +67,7 @@
     { route: routes.TERMS_OF_USE, name: $_('generics.terms-of-use') }
   ];
 
-  $: shouldRenewalNotice =
+  $: shouldShowRenewalNotice =
     $user && $user.stripeSubscription && $subscriptionJustEnded && $user.stripeSubscription;
 </script>
 
@@ -76,12 +76,10 @@
   <li class="socials">
     <Socials small />
   </li>
-  <li class="superfan-bar show">
-    {#if shouldRenewalNotice}
+  <li class="superfan-bar" class:show={shouldShowRenewalNotice}>
+    {#if shouldShowRenewalNotice}
       <span class="title">{$renewalNoticeContent?.prompt}</span>
       <span>{@html $renewalNoticeContent?.answerHtml}</span>
-    {:else}
-      <span>{@html $_('rv.ask')}</span>
     {/if}
   </li>
   <li class="main-links-container">

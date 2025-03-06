@@ -1510,9 +1510,6 @@
       "generic": "Un problème s’est produit lors de l’activation de vos notifications mobiles. Pouvez-vous actualiser cette page et réessayer de les activer ? Si cela ne fonctionne pas, merci d'envoyer les informations ci-dessous à {emailLink} afin que nous puissions vous aider. Merci !"
     }
   },
-  "rv": {
-    "ask": "Les inscriptions pour le <a class=\"link--neutral\" href=\"https://velotourfestival.be/fr?utm_source=welcometomygarden.org&utm_medium=web&utm_content=navbar\">Velotour Festival 2025</a> sont ouvertes - nous espérons vous y voir ! 🎉🚴"
-  },
   "email-preferences": {
     "error": "Vous avez des difficultés pour vous désabonner ? Contactez {support} et nous vous aiderons !",
     "unsubscribe": {

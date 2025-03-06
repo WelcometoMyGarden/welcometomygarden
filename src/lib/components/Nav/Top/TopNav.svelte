@@ -12,22 +12,22 @@
 
   $: firstName = $user ? $user.firstName : '';
   $: shouldShowRenewalTopBar = $user && $user.stripeSubscription && $subscriptionJustEnded;
-  $: shouldShowTopBar = true;
+  // This controls a workaround to adjust the height reserved for the top notice (see below)
+  // We keep it as a separate property because the condition here changes frequently.
+  $: shouldShowTopBar = shouldShowRenewalTopBar;
 </script>
 
 <nav>
-  <div class="nav-extra">
-    {#if shouldShowRenewalTopBar && $user?.stripeSubscription}
+  {#if shouldShowRenewalTopBar && $user?.stripeSubscription}
+    <div class="nav-extra">
       <!-- Inform renewal amount -->
       <span
         ><strong style="font-weight: 500;">
           {$renewalNoticeContent?.prompt}</strong
         >{' '}{@html $renewalNoticeContent?.answerHtml}
       </span>
-    {:else}
-      <span>{@html $_('rv.ask')}</span>
-    {/if}
-  </div>
+    </div>
+  {/if}
   <div class="main-nav">
     <WtmgLogo />
     <ul>

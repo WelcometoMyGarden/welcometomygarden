@@ -1517,9 +1517,6 @@
       "generic": "Algo salió mal al activar las notificaciones móviles. ¿Puedes actualizar esta página e intentar activarlas de nuevo? Si esto no funciona, envíanos la siguiente información a {emailLink} para que podamos ayudarte mejor. ¡Gracias!"
     }
   },
-  "rv": {
-    "ask": ""
-  },
   "email-preferences": {
     "error": "¿Tienes problemas para darte de baja? Contacta con {support} y te ayudaremos.",
     "unsubscribe": {
