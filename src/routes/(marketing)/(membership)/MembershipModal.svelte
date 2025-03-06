@@ -153,23 +153,22 @@
     top: 1rem;
     right: 1rem;
     border-color: var(--color-white);
-    background-color: var(--color-green);
+    background-color: transparent;
   }
+  /* Hide the close button when .showMobilePricing is active on the sibling */
+  :global(.membership-modal .modal-content .showMobilePricing + button.close) {
+    display: none;
+  }
+  /* Inner cross */
   :global(.membership-modal .modal-content button.close i > svg) {
     fill: var(--color-white);
   }
-  :global(.membership-modal .modal-content button.close i > svg) {
-    fill: var(--color-white);
-  }
+  /* Button hover styles */
   :global(.membership-modal .modal-content button.close:hover) {
     background-color: var(--color-white);
   }
   :global(.membership-modal .modal-content button.close:hover i > svg) {
     fill: var(--color-green);
-  }
-  /* Hide the close button when .showMobilePricing is active on the sibling */
-  :global(.membership-modal .modal-content .showMobilePricing + button.close) {
-    display: none;
   }
 
   .title > span,
