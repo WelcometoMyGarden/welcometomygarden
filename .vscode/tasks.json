@@ -13,8 +13,19 @@
       "problemMatcher": []
     },
     {
-      "label": "Local Development",
+      "label": "Local Development (seeded)",
       "dependsOn": ["npm: firebase:demo-seed", "npm: dev"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "group": "local-dev"
+      }
+    },
+    {
+      "label": "Local Development (empty)",
+      "dependsOn": ["npm: firebase:demo", "npm: dev"],
       "group": {
         "kind": "build",
         "isDefault": true
