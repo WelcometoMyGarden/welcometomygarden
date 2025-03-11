@@ -17,14 +17,12 @@ const stripe = require('./subscriptions/stripe');
 const { isWTMGSubscription } = require('./subscriptions/stripeEventHandlers/util');
 const { DateTime } = require('luxon');
 const { sendPlausibleEvent } = require('./util/plausible');
+const { FirebaseMessagingError } = require('firebase-admin/messaging');
 
 exports.MAX_MESSAGE_LENGTH = 800;
 
 /**
- * @typedef {import("../../src/lib/types/PushRegistration.ts").FirebasePushRegistration} FirebasePushRegistration
- */
-/**
- * @typedef {CollectionReference<FirebasePushRegistration>} PushRegistrationColRef
+ * @typedef {CollectionReference<PushRegistration>} PushRegistrationColRef
  */
 
 const getChat = async (chatId) => {
@@ -149,22 +147,68 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
       const pushRegistrationRef = /** @type {PushRegistrationColRef} */ (
         recipientUserPrivateDocRef.collection('push-registrations')
       );
-      const pushRegistrations = (await pushRegistrationRef.get()).docs.map((d) => d.data());
+      const pushRegistrations = (await pushRegistrationRef.get()).docs.map((d) => ({
+        id: d.id,
+        ...d.data()
+      }));
 
       await Promise.all(
         pushRegistrations
           .filter((pR) => pR.status === 'active')
-          .map(({ host, fcmToken }) => {
-            return sendNotification({
-              ...commonPayload,
-              // Override the messageUrl with the host from the push registration, so it also works for beta.welcometomygarden.org.
-              // Firebase's JS SDK filters out non-matching hosts on click events in their service worker code
-              // probably with reason, because: https://developer.mozilla.org/en-US/docs/Web/API/Clients/openWindow#parameters :
-              //   > A string representing the URL of the client you want to open in the window.
-              //   > **Generally this value must be a URL from the same origin as the calling script.**
-              messageUrl: buildMessageUrl(senderAuthUser.displayName, chatId, host),
-              fcmToken
-            });
+          .map(async ({ id, host, fcmToken }) => {
+            try {
+              return await sendNotification({
+                ...commonPayload,
+                // Override the messageUrl with the host from the push registration, so it also works for beta.welcometomygarden.org.
+                // Firebase's JS SDK filters out non-matching hosts on click events in their service worker code
+                // probably with reason, because: https://developer.mozilla.org/en-US/docs/Web/API/Clients/openWindow#parameters :
+                //   > A string representing the URL of the client you want to open in the window.
+                //   > **Generally this value must be a URL from the same origin as the calling script.**
+                messageUrl: buildMessageUrl(senderAuthUser.displayName, chatId, host),
+                fcmToken
+              });
+            } catch (pushNotificationError) {
+              if (
+                pushNotificationError instanceof FirebaseMessagingError &&
+                pushNotificationError.code === 'messaging/registration-token-not-registered'
+              ) {
+                // https://firebase.google.com/docs/cloud-messaging/manage-tokens#detect-invalid-token-responses-from-the-fcm-backend
+                logger.error(
+                  'FCM token registration error after trying to send a push notification',
+                  {
+                    id,
+                    recipientId: recipientAuthUser.uid,
+                    fcmToken
+                  }
+                );
+                // TODO: remove this registration? Let's try to see if we can leverage the endpoint directly?
+                try {
+                  // Mark this registration as errored
+                  /** @type {DocumentReference<PushRegistration>} */ (
+                    await db
+                      .collection('users-private')
+                      .doc(recipientAuthUser.uid)
+                      .collection('push-registrations')
+                      .doc(id)
+                  ).update({
+                    status: /** @type {PushRegistrationStatus} */ ('fcm_errored'),
+                    erroredAt: Timestamp.now()
+                  });
+                } catch (registrationUpdateError) {
+                  logger.error(
+                    'Error updating a push registration to an errored status',
+                    registrationUpdateError,
+                    {
+                      id,
+                      recipientId: recipientAuthUser.uid,
+                      fcmToken
+                    }
+                  );
+                }
+              } else {
+                logger.error('Unknown push registration error', pushNotificationError);
+              }
+            }
           })
       );
     } catch (ex) {

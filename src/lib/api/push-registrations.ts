@@ -41,6 +41,8 @@ import { timeout } from '$lib/util/timeout';
 import { UAParser } from 'ua-parser-js';
 import { anchorText } from '$lib/util/translation-helpers';
 import { emailAsLink } from '$lib/constants';
+import { trackEvent } from '$lib/util';
+import { PlausibleEvent } from '$lib/types/Plausible';
 
 const pushRegistrationLoadCheck = () => {
   if (!get(loadedPushRegistrations)) {
@@ -135,10 +137,12 @@ export const createPushRegistrationObserver = () => {
         // This might mean a deletion has gone badly
         console.warn('Current native subscription was not saved in the Firestore');
         // Since this native push registration is now useless, let's try to unregister it
+        trackEvent(PlausibleEvent.DELETED_PUSH_REGISTRATION, { type: 'detached' });
         await unsubscribeNativePushRegistration();
       }
       if (linkedFirebaseRegistration?.status === PushRegistrationStatus.MARKED_FOR_DELETION) {
         // Unsubscribe the current device's registration if it was marked for deletion.
+        trackEvent(PlausibleEvent.DELETED_PUSH_REGISTRATION, { type: 'other' });
         await deletePushRegistration(linkedFirebaseRegistration);
         // Note: the deletePushRegistration method invokes onSnapshot again, hence we can skip a UI update of stale data.
         return;
@@ -149,6 +153,7 @@ export const createPushRegistrationObserver = () => {
           // Weekly refresh of the ones that have not been active
           MESSAGING_REFRESH_THRESHOLD
       ) {
+        trackEvent(PlausibleEvent.REFRESHED_PUSH_REGISTRATION);
         await refreshExistingSubscription(linkedFirebaseRegistration);
         // Note: the refreshExistingSubscription invokes onSnapshot again, hence we can skip a UI update of stale data.
         return;
@@ -515,23 +520,36 @@ export const createPushRegistration = async () => {
   }
 };
 
-/** Assumes an existing subscription exists locally. */
+/**
+ * Assumes an existing subscription exists locally.
+ * Remote Firestore info is linked to local (FCM) push registration by cross-referencing the subscription.endpoint URL
+ */
 const refreshExistingSubscription = async (registration: LocalPushRegistration) => {
   // Refresh the FCM token, get latest native subscription (should be unchanged)
   const { fcmToken, subscription } = await subscribeOrRefreshMessaging();
   await updateDoc(
-    doc(
-      db(),
-      `${pushRegistrationsColRef().path}/${registration.id}`
-    ) as DocumentReference<FirebasePushRegistration>,
+    doc(db(), `${pushRegistrationsColRef().path}/${registration.id}`) as DocumentReference<
+      FirebasePushRegistration,
+      FirebasePushRegistration
+    >,
     {
       // Update the refresh timestamp
       refreshedAt: serverTimestamp(),
-      // These two should not have changed, but maybe they can!
+      // These two should not have changed in happy path cases, but it is possible they can.
+      // https://firebase.google.com/docs/cloud-messaging/manage-tokens#stale-and-expired-tokens
+      // > However, FCM issues a new token for the app instance in the rare case that the device connects again and the app is opened.
+      // NOTE: I'm not sure if the endpoint will in that case be the same, and if we tie both "PushRegistrations" from the same device
+      // (one stale and one not) to eachother.
+      //
       fcmToken,
-      subscription: { ...subscription }
+      subscription: { ...subscription },
+      // In case we are able to refresh a registration, we should be able to assume that this registration is still active, or active _again_
+      // after erroring. NOTE: not tested.
+      // In other cases (deleted here or on another device), this method should not have been called.
+      status: PushRegistrationStatus.ACTIVE
     }
   );
+  trackEvent(PlausibleEvent.REFRESHED_PUSH_REGISTRATION);
 };
 
 const _pushRegistrationDocRef = (id: string) =>
@@ -581,6 +599,10 @@ export const deletePushRegistration = async (pushRegistration: LocalPushRegistra
     //  (it tries to unregister that unused SW)
     //  In that case, does it fail after having deleted all other relevant parts?
     //  We could delete the doc in any case, also in case of failure.
+    trackEvent(PlausibleEvent.DELETED_PUSH_REGISTRATION, {
+      type: 'own'
+    });
+
     return deleteToken(messaging())
       .then(async (success) => {
         if (success) {
@@ -608,6 +630,7 @@ export const deletePushRegistration = async (pushRegistration: LocalPushRegistra
     console.log(
       `Marking the subscription with ID ${id} on ${browser} ${vendor} ${model} for deletion.`
     );
+
     await updateDoc(_pushRegistrationDocRef(id), {
       status: PushRegistrationStatus.MARKED_FOR_DELETION
     });

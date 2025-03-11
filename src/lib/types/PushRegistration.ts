@@ -10,7 +10,13 @@ export enum PushRegistrationStatus {
    * Marked for deletion, but couldn't be unsubscribed by the device deleting it.
    * This registration should not be targeted anymore, and should be deleted by the device that can control it.
    */
-  MARKED_FOR_DELETION = 'marked_for_deletion'
+  MARKED_FOR_DELETION = 'marked_for_deletion',
+  /**
+   * We tried to send a push notification to this registration, but FCM backend returned an error.
+   * This most likely means that the FCM token is expired and can not be used anymore. In any case, this push registration should not be targeted.
+   * @since 2025-03-11
+   */
+  FCM_ERRORED = 'fcm_errored'
 }
 
 export type FirebasePushRegistration = {
@@ -20,6 +26,7 @@ export type FirebasePushRegistration = {
   status: PushRegistrationStatus | undefined;
   /**
    * The Firebase Cloud Messaging registration token.
+   * These will expire within 270 days if they are not explicitly unregistered.
    */
   fcmToken: string;
   /**
@@ -59,6 +66,11 @@ export type FirebasePushRegistration = {
    * but I'm not sure.
    */
   refreshedAt: Timestamp | FieldValue;
+  /**
+   * The time at which this registration errored in the FCM backend
+   * @since 2025-03-11
+   */
+  erroredAt: Timestamp | FieldValue | undefined;
 };
 
 export type LocalPushRegistration = FirebasePushRegistration & { id: string };

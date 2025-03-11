@@ -39,11 +39,21 @@ export enum PlausibleEvent {
   VISIT_MEMBERSHIP_FAQ = 'Visit Membership FAQ',
   /*
    * Notifications
-   * Work around Plausible bug by not having subproperties
+   * Legacy: worked around Plausible bug by not having subproperties
+   * (bug was solved in 2025/03)
    */
   ENABLE_NOTIFICATIONS_CHAT = 'Turn on notifications (from chat)',
   ENABLE_NOTIFICATIONS_ACCOUNT = 'Turn on notifications (from account)',
-  REMOVE_NOTIFICATIONS = 'Remove notifications'
+  REMOVE_NOTIFICATIONS = 'Remove notifications',
+  /**
+   * Internal/background notification operations, triggered on the *actual* deletion of a Push Registration
+   * (not the user's intent, for that, see REMOVE_NOTIFICATIONS)
+   */
+  DELETED_PUSH_REGISTRATION = 'Deleted push registration',
+  /**
+   * Internal/background notification operations
+   */
+  REFRESHED_PUSH_REGISTRATION = 'Refreshed push registration'
 }
 
 const superfanOnlyEvents = [
@@ -124,4 +134,14 @@ export type PlausibleVisitAboutMembershipProperties = {
 
 export type PlausiblePricingSectionSourceProperties = {
   source: 'modal' | 'about_membership';
+};
+
+export type PlausibleNotificationsInternalDeletionProperties = {
+  /**
+   * detached: we're deleting a push registration on a device,
+   *   where there was no linked Firebase Push Registration found
+   * other: we're deleting the push registration because another device marked it for deletion
+   * own: we're deleting the push registration registered to the device/browser itself
+   */
+  type: 'detached' | 'own' | 'other';
 };
