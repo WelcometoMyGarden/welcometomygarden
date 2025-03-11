@@ -88,7 +88,11 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
   );
   if (!recipientUserPrivateDocData) {
     logger.error(
-      "Could not retrieve the recipient's private document data. The recipient is likely deleted, aborting."
+      "Could not retrieve the recipient's private document data. The recipient is likely deleted, aborting.",
+      {
+        messageId: snap.id,
+        recipientId
+      }
     );
     return;
   }
