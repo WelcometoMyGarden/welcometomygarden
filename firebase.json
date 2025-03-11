@@ -71,6 +71,6 @@
     "rules": "storage.rules"
   },
   "extensions": {
-    "storage-resize-images": "firebase/storage-resize-images@0.2.6"
+    "storage-resize-images": "firebase/storage-resize-images@0.2.8"
   }
 }

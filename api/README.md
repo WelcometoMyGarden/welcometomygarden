@@ -196,15 +196,21 @@ It has already been installed and registered locally in `../firebase.json`. Its 
 firebase --project staging ext:update storage-resize-images
 ```
 
-Use `staging` or `prod` for the project when updating (not sure how relevant it is). This command does not immediately deploy. It might rewrite the `../extensions/storage-resize-images.env` configuration environment variables, check that these overwrites are not unexpected.
+Use `staging` or `prod` for the project when updating (not sure how relevant it is). This command does not immediately deploy. It will rewrite the [`../extensions/storage-resize-images.env`](../extensions/storage-resize-images.env) configuration environment variables (delete comments and such), check that these overwrites/changes are not unexpected (this .env file is indexed in git). For notes related to our configuration, see [the extension readme](../extensions/readme.md).
 
 **Actual deploy of the new version**
 
-**Before** deploying a new function, make sure the .env file is aligned with the target deploy environment. In particular, the `IMG_BUCKET` should point to the Firebase Storage bucket of the environment. AFAIK (untested), unlike general Firebase Functions, Extension .env files can not work with `.env.[environment-name]` files for overrides. The env values need to be manually switched before a deploy, because they will be uploaded to the resulting cloud functions that comprise the extension.
+**Before** deploying a new function, make sure the [.env file](../extensions/storage-resize-images.env) is aligned with the target deploy environment. In particular, the `IMG_BUCKET` should point to the Firebase Storage bucket of the environment. For possible values, see [our extension readme](../extensions/readme.md).
+
+AFAIK (untested), unlike general Firebase Functions, Extension .env files can not work with `.env.[environment-name]` files for overrides. The env values need to be manually switched before a deploy, because they will be uploaded to the resulting cloud functions that comprise the extension.
+
+Afterwards (fill in the right project):
 
 ```
-firebase --project staging ext:update storage-resize-images
+firebase --project staging deploy --only extensions
 ```
+
+I don't think it's possible (yet) to only deploy one extension, which is OK since at the moment we only have one extension active.
 
 ### Deploy Firestore rules
 

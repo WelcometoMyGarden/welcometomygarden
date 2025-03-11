@@ -40,12 +40,12 @@
   "etags": {
     "wtmg-dev": {
       "extensionInstances": {
-        "storage-resize-images": "cdf27799e119204f8a89fe7e03e29d6e9cd4d60ccf707b75896484ccd11ef8e4"
+        "storage-resize-images": "f4cabde38054d9c41c1d0aba615d35ccff1a90201814e3476c3925d9bc36650d"
       }
     },
     "wtmg-production": {
       "extensionInstances": {
-        "storage-resize-images": "2d3ca5bfc78014d273df58d95d82267b4ac3fe518f089d2ded51ec593354c7f0"
+        "storage-resize-images": "d66ca362ba1db3f98a8004a3ad608e3052a4b2e889da6a676e36158d63fb30e5"
       }
     }
   }
