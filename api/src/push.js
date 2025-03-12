@@ -1,4 +1,5 @@
 const { getMessaging } = require('firebase-admin/messaging');
+const { logger } = require('firebase-functions/v2');
 /**
  * @typedef {Object} PushConfig
  * @property {string} fcmToken
@@ -11,6 +12,7 @@ const { getMessaging } = require('firebase-admin/messaging');
 
 /**
  * @param {PushConfig} config
+ * @throws when the sending fails
  * @returns
  */
 exports.sendNotification = async (config) => {
@@ -37,10 +39,10 @@ exports.sendNotification = async (config) => {
   return getMessaging()
     .send(fcmPayload)
     .then((response) => {
-      // Response is a message ID string.
-      console.log('Successfully sent message notification:', response);
-    })
-    .catch((error) => {
-      console.log('Error sending message notification:', error);
+      logger.log('Successfully sent new message push notification', {
+        // Response is a message ID string.
+        messageId: response,
+        fcmToken
+      });
     });
 };

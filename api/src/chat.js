@@ -43,11 +43,11 @@ const normalizeName = (str) => removeDiacritics(str).toLowerCase();
  *
  * @param {string} displayName
  * @param {string} chatId
- * @param {string} [host] the host, which will be the frontendUrl by default
+ * @param {string} [host] the URL host. Does not include the protocol, but does include the port (location.host)
  * @returns
  */
 const buildMessageUrl = (displayName, chatId, host) => {
-  const baseUrl = host ?? frontendUrl();
+  const baseUrl = host ? `https://${host}` : frontendUrl();
   // TODO: this will also split as soon as it sees something non-ASCI/diacritic
   // so it might chop up a name weirdly. Luckily it's a vanity URL. Adjust?
   const senderNameParts = displayName.split(/[^A-Za-z-]/);
