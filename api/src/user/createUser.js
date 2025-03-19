@@ -3,6 +3,7 @@ const countries = require('../countries');
 const fail = require('../util/fail');
 const { sendVerificationEmail } = require('../auth');
 const { auth, db } = require('../firebase');
+const { logger } = require('firebase-functions/v2');
 
 /**
  * Callable function to create the required Firestore user documents for a newly created
@@ -13,18 +14,35 @@ const { auth, db } = require('../firebase');
  */
 exports.createUser = async ({ data, auth: authContext }) => {
   if (!authContext) {
-    return fail('unauthenticated');
+    logger.error('Failed to create a user, no auth context present');
+    fail('unauthenticated');
   }
 
   if (!authContext.uid) {
-    return fail('internal');
+    logger.error('Failed to create a user, no uid present in the auth context');
+    fail('internal');
   }
+
+  const { uid } = authContext;
 
   try {
     const existingUser = await db.collection('users').doc(authContext.uid).get();
-    if (existingUser.exists) fail('already-exists');
+    if (existingUser.exists) {
+      logger.error('The user that we tried to create already as a public doc', {
+        uid
+      });
+      fail('already-exists');
+    }
 
-    if (!data.firstName || !data.lastName) fail('invalid-argument');
+    if (!data.firstName || !data.lastName) {
+      logger.error('Missing first name or last name to create a new user', {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        uid
+      });
+      fail('invalid-argument');
+    }
+
     if (
       typeof data.firstName !== 'string' ||
       typeof data.lastName !== 'string' ||
@@ -33,11 +51,30 @@ exports.createUser = async ({ data, auth: authContext }) => {
       data.firstName.trim().length > 25 ||
       data.lastName.trim().length > 50
     ) {
+      logger.error('First name or last name data does not pass validations', {
+        uid,
+        firstName: data.firstName,
+        lastName: data.lastName
+      });
       fail('invalid-argument');
     }
-    if (!data.countryCode) fail('invalid-argument');
-    if (typeof data.countryCode !== 'string' || !Object.keys(countries).includes(data.countryCode))
+
+    if (!data.countryCode) {
+      logger.error('Missing countryCode', {
+        uid
+      });
       fail('invalid-argument');
+    }
+
+    if (
+      typeof data.countryCode !== 'string' ||
+      !Object.keys(countries).includes(data.countryCode)
+    ) {
+      logger.error('Country code does not pass validations', {
+        countryCode: data.countryCode
+      });
+      fail('invalid-argument');
+    }
 
     /**
      * @param {string} name
@@ -65,7 +102,7 @@ exports.createUser = async ({ data, auth: authContext }) => {
     const firstName = normalizeName(data.firstName);
     const lastName = normalizeName(data.lastName);
 
-    const user = await auth.getUser(authContext.uid);
+    const user = await auth.getUser(uid);
     const { email } = user;
 
     await auth.updateUser(user.uid, { displayName: firstName });
@@ -109,7 +146,7 @@ exports.createUser = async ({ data, auth: authContext }) => {
       .set({ count: FieldValue.increment(1) }, { merge: true });
 
     if (!email) {
-      console.error(
+      logger.error(
         `The email for UID ${user.uid} was not set when trying to send its verification email.`
       );
     } else {
@@ -118,13 +155,16 @@ exports.createUser = async ({ data, auth: authContext }) => {
 
     return { message: 'Your account was created successfully,', success: true };
   } catch (ex) {
-    console.error(
-      'Something went wrong while creating the user, or sending the verification email. ' +
+    logger.error(
+      `Something went wrong while creating the user ${uid}, or sending the verification email. ` +
         'The user will be deleted',
       ex
     );
     // TODO: instead of deleting here, use a transaction that can be rolled back (if possible).
-    await auth.deleteUser(authContext.uid);
+    await auth.deleteUser(uid);
+    // TODO: the **return** here (and not throw) will always make the callable succeed
+    // (except if no auth context is present, see the first fail conditions)
+    // Probably this leads to no error being logged or shown in the frontend, but just endless waiting.
     return ex;
   }
 };

@@ -9,6 +9,7 @@ const { sendgrid: sendgridClient } = require('./sendgrid');
 exports.deleteContactByEmail = async (email) => {
   // Get the contact, if it exists
   const { id } = await getContactByEmail(email);
+  logger.debug(`Found the SendGrid contact to be deleted by email`, { email, contact_id: id });
   // Delete it
   await sendgridClient.request({
     url: '/v3/marketing/contacts',

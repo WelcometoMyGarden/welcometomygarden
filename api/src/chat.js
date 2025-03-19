@@ -87,7 +87,7 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
     (await recipientUserPrivateDocRef.get()).data()
   );
   if (!recipientUserPrivateDocData) {
-    logger.error(
+    logger.warn(
       "Could not retrieve the recipient's private document data. The recipient is likely deleted, aborting.",
       {
         messageId: snap.id,
@@ -177,7 +177,8 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
                 pushNotificationError.code === 'messaging/registration-token-not-registered'
               ) {
                 // https://firebase.google.com/docs/cloud-messaging/manage-tokens#detect-invalid-token-responses-from-the-fcm-backend
-                logger.error(
+                // "warn" because this is an expected, fairly normal error condition
+                logger.warn(
                   'FCM token registration error after trying to send a push notification',
                   {
                     id,
@@ -523,6 +524,7 @@ exports.sendMessageFromEmail = async function sendMessageFromEmail(params) {
   const chatRef = `chats/${chatId}`;
 
   const getUserId = async () => {
+    const noValidUserFound = new Error('no-valid-user-found');
     try {
       return (await auth.getUserByEmail(fromEmail)).uid;
     } catch (e) {
@@ -533,20 +535,20 @@ exports.sendMessageFromEmail = async function sendMessageFromEmail(params) {
           data: { id, email, email_verified }
         } = await supabase().rpc('get_gmail_normalized_email', fromEmail);
         if (error || id == null) {
-          logger.error(
+          logger.warn(
             `Email error: couldn't find the user for email address ${fromEmail} in Firebase Auth or Supabase equivalents.`
           );
-          throw error;
+          throw noValidUserFound;
         }
         // A match was found
         if (!email_verified) {
           // Note: maybe we should filter only for verified emails in the query.
           // Stll, we shouldn't end up here, because hosts shouldn't be able to add a garden without verification,
           // and travellers can't send an initial message without verification.
-          logger.error(
+          logger.warn(
             `Email error: found equivalent email match (input: ${fromEmail}, canonical: ${email}) but the email wasn't verified, this shouldn't happen.`
           );
-          throw new Error('Unverified equivalent email');
+          throw noValidUserFound;
         }
         logger.info(
           `Found Gmail equivalent email via Supabase; input: ${fromEmail}, canonical: ${email}`
@@ -554,10 +556,10 @@ exports.sendMessageFromEmail = async function sendMessageFromEmail(params) {
         return id;
       }
       // No possibility to find equivalent emails, give up
-      logger.error(
+      logger.warn(
         `Email error: couldn't find the user for email address ${fromEmail} using Firebase Auth`
       );
-      throw e;
+      throw noValidUserFound;
     }
   };
 

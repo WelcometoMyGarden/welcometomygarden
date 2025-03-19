@@ -58,6 +58,24 @@ module.exports = async function checkContactCreation(req) {
     fail('not-found');
   }
 
+  // The job completed, and it either succeeded, errored or failed
+
+  // First, check if we still want to do anything with the result
+  /**
+   * @type {UserRecord}
+   */
+  let firebaseUser;
+  try {
+    firebaseUser = await auth.getUser(uid);
+  } catch (e) {
+    // This means a SendGrid Contact deletion call should have happened in the cleanup function too
+    logger.warn(
+      'The user was deleted while checking for its SendGrid Contact creation, finishing this task.',
+      { uid }
+    );
+    return;
+  }
+
   // The job errored or failed
   if (status !== 'completed') {
     if (attempt === 3) {
@@ -92,10 +110,10 @@ module.exports = async function checkContactCreation(req) {
     return;
   }
 
-  // In case of completion
+  // The job completed successfully
+  //
   /** @type {SendGrid.ContactDetails | null} */
   let contact = null;
-  const firebaseUser = await auth.getUser(uid);
   try {
     contact = await getContactByEmail(firebaseUser.email);
   } catch (e) {

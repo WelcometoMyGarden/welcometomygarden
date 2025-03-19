@@ -1,3 +1,4 @@
+const { logger } = require('firebase-functions/v2');
 const { createSendgridContact } = require('./createSendgridContact');
 const { deleteContact } = require('./deleteContact');
 
@@ -13,7 +14,7 @@ const { deleteContact } = require('./deleteContact');
  * @returns {Promise<void>}
  */
 exports.updateSendgridContactEmail = async (firebaseUser, oldUserPrivateData) => {
-  console.info(
+  logger.info(
     `Updating the SendGrid email of uid ${firebaseUser.uid} (contact id ${oldUserPrivateData.sendgridId}) to ${firebaseUser.email}`
   );
 

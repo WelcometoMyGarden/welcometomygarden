@@ -74,24 +74,53 @@ module.exports = async (event, res) => {
       // immediately recreate a subscription. We don't listen to customer.subscription.created and order is not guaranteed,
       // so this event has in the past overriden the data of the new subscription.
       // Another way to avoid this issue is to not keep data of only 1 sub per user, but to record all the subs of a user by ID.
-      await (
-        await setTimeout(2000, async () => {
-          // Search for active subscriptions (does not list canceled by default)
-          const subs = (await stripe.subscriptions.list({ customer: customerId })).data;
-          // Find a sub that was created 10 seconds around this event (regardless of its status)
-          const recentNewSub = subs.find((sub) => Math.abs(sub.created - Date.now() / 1000) < 10);
-          if (!recentNewSub) {
-            await syncDeletedSubscription();
-            logger.log(
-              `Synced info from deleted sub ${subscription.id} to Firebase (no new recent subs were found)`
-            );
-          } else {
-            logger.log(
-              `Ignored Firebase info sync of deleted sub ${subscription.id} because a recently created new subscription ${recentNewSub.id} was found with status ${recentNewSub.status}`
-            );
-          }
-        })
-      )();
+      try {
+        // The below await awaits an expression that will evaluate to an async function in some time
+        // The async function is also immediately called.
+        await (
+          await setTimeout(2000, async () => {
+            // Search for active subscriptions (does not list canceled by default)
+            const subs = (await stripe.subscriptions.list({ customer: customerId })).data;
+            // Find a sub that was created 10 seconds around this event (regardless of its status)
+            const recentNewSub = subs.find((sub) => Math.abs(sub.created - Date.now() / 1000) < 10);
+            if (!recentNewSub) {
+              try {
+                await syncDeletedSubscription();
+              } catch (firestoreUpdateError) {
+                if (
+                  typeof firestoreUpdateError !== 'undefined' &&
+                  firestoreUpdateError &&
+                  firestoreUpdateError.code === 5
+                ) {
+                  // We empirically know that code 5 errors are of the following form:
+                  // Error: 5 NOT_FOUND: No document to update: projects/wtmg-dev/databases/(default)/documents/users/<some id>
+                  throw new Error('update-failed-not-found');
+                } else {
+                  // Still throw the original error
+                  throw firestoreUpdateError;
+                }
+              }
+              logger.log(
+                `Synced info from deleted sub ${subscription.id} to Firebase (no new recent subs were found)`
+              );
+            } else {
+              logger.log(
+                `Ignored Firebase info sync of deleted sub ${subscription.id} because a recently created new subscription ${recentNewSub.id} was found with status ${recentNewSub.status}`
+              );
+            }
+          })
+        )();
+      } catch (innerError) {
+        if (innerError instanceof Error && innerError.message === 'update-failed-not-found') {
+          logger.warn(
+            `Could not sync info from a deleted sub because its connected users-private doc was deleted.` +
+              `The user is probably deleted, aborting.`,
+            { subscription: subscription.id, uid }
+          );
+          return res.sendStatus(200);
+        }
+        throw innerError;
+      }
 
       // If this cancellation occurs beyond the first period, it is most likely not caused by an
       // unpaid first invoice (though we could aso check invoice.billing_reason and the metadata billing_reason_override to be more sure / TODO)

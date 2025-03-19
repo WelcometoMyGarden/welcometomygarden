@@ -92,11 +92,9 @@ exports.parseUnpackedInboundEmail = (unpackedInboundRequest) => {
   // Pre-parse metadata
   try {
     if (envelope) {
-      // eslint-disable-next-line prefer-const
       envelopeFromEmail = JSON.parse(envelope).from;
     }
     if (from) {
-      // eslint-disable-next-line prefer-const
       [headerFrom] = addrparser.parse(from) || [];
     }
     if (dkim) {
@@ -279,7 +277,11 @@ exports.parseInboundEmail = async (req, res) => {
     await sendPlausibleEvent('Send Email Reply', { senderIP });
   } catch (e) {
     // Log error
-    if (e instanceof Error) {
+    if (e instanceof Error && e.message === 'no-valid-user-found') {
+      logger.warn(
+        'No valid user found to send a message from based on this email reply, for more details, see previous log entries'
+      );
+    } else if (e instanceof Error) {
       logger.error(e.message);
     } else {
       logger.error('Unknown email error:', e);

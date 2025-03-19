@@ -51,12 +51,10 @@ const sendVerificationEmail = async (email, firstName, language) => {
 };
 exports.sendVerificationEmail = sendVerificationEmail;
 
-//
 /**
  * @public
  * @param {FV2.CallableRequest<string>} request
  */
-// eslint-disable-next-line consistent-return
 exports.requestPasswordReset = async (request) => {
   const email = request.data;
   if (!email) fail('invalid-argument');
@@ -72,7 +70,6 @@ exports.requestPasswordReset = async (request) => {
     await sendPasswordResetEmail(email, user.displayName, link);
 
     return { message: 'Password reset request received', success: true };
-    // eslint-disable-next-line no-unused-vars
   } catch (e) {
     fail('invalid-argument');
   }
