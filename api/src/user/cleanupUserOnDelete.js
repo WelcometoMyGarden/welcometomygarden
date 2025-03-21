@@ -61,9 +61,12 @@ exports.cleanupUserOnDelete = async (user) => {
 
   if (!isSupabaseReplicationDisabled()) {
     try {
-      await supabase().from('auth').delete().eq('id', userId);
+      const { error } = await supabase().from('auth').delete().eq('id', userId);
+      if (error) {
+        logger.error('Failed to sync a user deletion to Supabase', { uid: userId, error });
+      }
     } catch (ex) {
-      logger.error(ex);
+      logger.error('Failed to sync a user deletion to Supabase', { uid: userId, error: ex });
     }
   }
 
