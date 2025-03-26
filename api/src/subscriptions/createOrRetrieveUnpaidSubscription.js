@@ -25,6 +25,28 @@ const {
  */
 
 /**
+ * Makes sure a payment intent is generated and set up for future usage.
+ * This is a preparation for switching collection_method to charge_automatically, which will happen immediately after the first payment (see invoice.paid)
+ * Inserts the new payment intent in-place in the argument param object.
+ * @param {Stripe.Subscription} subscription
+ */
+const insertPaymentIntent = async (subscription) => {
+  // Invoices are normally only finalized after one hour.
+  // Manually finalize the invoice, which will create a new related PaymentIntent
+  const openInvoice = await stripe.invoices.finalizeInvoice(subscription.latest_invoice.id);
+
+  // Automatic renewals: collect payment with the aim of future charges as well
+  // This influences the copy shown in Payment Elements.
+  // In case of Bancontact/iDEAL, the payment method details saved are SEPA details
+  const paymentIntent = await stripe.paymentIntents.update(openInvoice.payment_intent, {
+    setup_future_usage: 'off_session'
+  });
+
+  // Update the payment intent in the locally stored subscription object
+  subscription.latest_invoice.payment_intent = paymentIntent;
+};
+
+/**
  * @param {string} customerId
  * @param {string} priceId
  * @param {DocumentReference} privateUserProfileDocRef
@@ -77,25 +99,6 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
     days_until_due: 1
   });
 
-  // Note: this makes sure a payment intent is generated and set up for future usage
-  // (a preparation for switching collection_method to charge_automatically, which will happen immediately after
-  //  the first payment)
-  const insertPaymentIntent = async () => {
-    // Invoices are normally only finalized after one hour.
-    // Manually finalize the invoice, which will create a new related PaymentIntent
-    const openInvoice = await stripe.invoices.finalizeInvoice(subscription.latest_invoice.id);
-
-    // Automatic renewals: collect payment with the aim of future charges as well
-    // This influences the copy shown in Payment Elements.
-    // In case of Bancontact/iDEAL, the payment method details saved are SEPA details
-    const paymentIntent = await stripe.paymentIntents.update(openInvoice.payment_intent, {
-      setup_future_usage: 'off_session'
-    });
-
-    // Update the payment intent in the locally stored subscription object
-    subscription.latest_invoice.payment_intent = paymentIntent;
-  };
-
   // Set initial subscription parameters in Firebase
   const updateUserPrivateDocPromise = privateUserProfileDocRef.update(
     removeUndefined({
@@ -105,7 +108,7 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
       // The invoice line item will have a custom one-off product ID and price ID
       [priceIdKey]: subscription.items.data[0].price.id,
       [statusKey]: subscription.status,
-      // NOTE: speed hack: the latestInvoiceStatus be out-of-date (with status === 'draft', while it should be 'open')
+      // NOTE: [insert-payment-intent-speedhack]: the latestInvoiceStatus be out-of-date (with status === 'draft', while it should be 'open')
       // because we're NOT waiting for insertPaymentIntent to finish to perform this userPrivate doc update
       // This allows both requests to work concurrently rather than serially, shaving off a bit of time in this long-running operation.
       [latestInvoiceStatusKey]: subscription.latest_invoice.status,
@@ -118,7 +121,7 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
     })
   );
 
-  await Promise.all([insertPaymentIntent(), updateUserPrivateDocPromise]);
+  await Promise.all([insertPaymentIntent(subscription), updateUserPrivateDocPromise]);
 
   // Will include the new PaymentIntent
   return subscription;
@@ -215,27 +218,21 @@ const changeSubscriptionPrice = async (
     }
   });
 
-  // Finalize the changed invoice, ensure a payment intent exists
-  const finalizedProratedInvoice = await stripe.invoices.finalizeInvoice(proratedInvoice.id, {
-    expand: ['payment_intent']
-  });
-
-  // TODO: setup future usage is missing here!
-
-  // Overwrite the the latest invoice/payment intent in the subscription to return
-  proratedSubscription.latest_invoice = finalizedProratedInvoice;
-
   // Save the updated info in Firebase
-  await privateUserProfileDocRef.update(
-    removeUndefined({
-      // Get the new price id from the source of truth, it should be equal to priceObject.id though.
-      // NOTE: don't get it from the invoice, see other note [one-off-invoice]
-      [priceIdKey]: proratedSubscription.items.data[0].price.id,
-      [statusKey]: proratedSubscription.status,
-      [latestInvoiceStatusKey]: proratedSubscription.latest_invoice.status
-      // id, startDate, currentPeriodStart & currentPeriodEnd should not have altered
-    })
-  );
+  await Promise.all([
+    insertPaymentIntent(proratedSubscription),
+    privateUserProfileDocRef.update(
+      removeUndefined({
+        // Get the new price id from the source of truth, it should be equal to priceObject.id though.
+        // NOTE: don't get it from the invoice, see other note [one-off-invoice]
+        [priceIdKey]: proratedSubscription.items.data[0].price.id,
+        [statusKey]: proratedSubscription.status,
+        // NOTE: this will be outdated, see [insert-payment-intent-speedhack]
+        [latestInvoiceStatusKey]: proratedSubscription.latest_invoice.status
+        // id, startDate, currentPeriodStart & currentPeriodEnd should not have altered
+      })
+    )
+  ]);
 
   return proratedSubscription;
 };

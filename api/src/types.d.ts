@@ -6,6 +6,7 @@ import type { TaskQueue as TQ } from 'firebase-admin/functions';
 import type { Change as Ch } from 'firebase-functions';
 import type { DocumentData } from '@google-cloud/firestore';
 import type { MailDataRequired as MDR } from '@sendgrid/mail';
+
 declare global {
   // Shortcuts to often-used types
   type FirestoreEvent<T, Params = Record<string, string>> = FE<T, Params>;
@@ -183,5 +184,9 @@ ISO date strings
        */
       fetchContactDetails?: boolean;
     };
+  }
+
+  declare namespace Stripe {
+    type Subscription = import('stripe').Stripe.Subscription;
   }
 }

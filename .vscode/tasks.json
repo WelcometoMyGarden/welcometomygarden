@@ -35,8 +35,23 @@
       }
     },
     {
-      "label": "Local Development: Staging",
+      "label": "Local Development: Staging (API emulator only)",
       "dependsOn": ["npm: firebase:staging", "npm: dev:staging"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "group": "local-dev"
+      }
+    },
+    {
+      "label": "Local Development: Staging (all emulators)",
+      "dependsOn": [
+        "npm: firebase:staging-all",
+        "npm: dev:staging",
+        "Forward Stripe CLI events to local"
+      ],
       "group": {
         "kind": "build",
         "isDefault": true
@@ -111,7 +126,21 @@
       "command": "yarn run firebase:staging",
       "problemMatcher": [],
       "label": "npm: firebase:staging",
-      "detail": "Firebase staging, *with* the local functions emulator"
+      "detail": "Firebase staging, *with* the local functions & tasks emulator"
+    },
+    {
+      "type": "shell",
+      "command": "yarn run firebase:staging-all",
+      "problemMatcher": [],
+      "label": "npm: firebase:staging-all",
+      "detail": "Firebase staging, with ALL emulators (connect local to staging/Test mode Stripe)"
+    },
+    {
+      "type": "shell",
+      "command": "stripe listen --events customer.subscription.created,customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.created,invoice.paid,payment_intent.processing,payment_intent.payment_failed --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/handleStripeWebhookV2",
+      "problemMatcher": [],
+      "label": "Forward Stripe CLI events to local",
+      "detail": "Don't forget to disable the remote staging events at https://dashboard.stripe.com/test/settings"
     }
   ]
 }
