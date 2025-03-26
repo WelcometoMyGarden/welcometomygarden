@@ -61,6 +61,8 @@
   let carNoticeShown = !isOnIDevicePWA() && !getCookie('car-notice-dismissed');
   let showMembershipModal = false;
 
+  let npsSurveySubmitted = false;
+
   // TODO: this works for now, because the default state when loading the
   // page is that the checkboxes are unchecked. We may want to intercept actual
   // clicks/actions on the button.
@@ -233,8 +235,15 @@
           // For now!
           showOnce: true,
           doNotShowAfterSubmit: true,
-          onClose: () => trackEvent(PlausibleEvent.CLOSE_NPS_SURVEY),
+          onClose: () => {
+            if (!npsSurveySubmitted) {
+              trackEvent(PlausibleEvent.CLOSE_NPS_SURVEY);
+            }
+          },
           onOpen: () => trackEvent(PlausibleEvent.SHOW_NPS_SURVEY),
+          onSubmit: () => {
+            npsSurveySubmitted = true;
+          },
           hiddenFields: {
             name: userData?.firstName,
             wtmg: userData?.id
