@@ -14,7 +14,7 @@ const { mapAuthUser } = require('../shared');
  * @param {*} nextPageToken
  */
 const syncUsersStartingFrom = async (nextPageToken) => {
-  // List batch of users, 1000 at a time.
+  // Process batch of users, 1000 at a time.
   await auth
     .listUsers(1000, nextPageToken)
     .then(async (listUsersResult) => {

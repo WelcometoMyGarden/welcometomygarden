@@ -66,6 +66,8 @@ exports.createUser = async ({ data, auth: authContext }) => {
       fail('invalid-argument');
     }
 
+    // TODO: validate communicationLanguage
+
     if (
       typeof data.countryCode !== 'string' ||
       !Object.keys(countries).includes(data.countryCode)

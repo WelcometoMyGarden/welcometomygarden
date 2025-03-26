@@ -163,6 +163,7 @@ exports.onUserPrivateSubcollectionWriteV2 = onDocumentWritten(
 exports.checkContactCreation = onTaskDispatched(
   {
     // It typically takes 30 seconds to 6 minutes to create a contact
+    // https://firebase.google.com/docs/reference/functions/2nd-gen/node/firebase-functions.tasks.retrypolicy#properties
     retryConfig: {
       maxAttempts: 15,
       minBackoffSeconds: 60

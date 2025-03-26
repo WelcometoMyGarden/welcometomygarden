@@ -155,6 +155,8 @@ const messaging = getMessaging(firebaseApp);
 // If we register our own listeners above this (or possibly getMessaging()), then we can get the notificationclick event (tested).
 // https://github.com/firebase/quickstart-js/issues/194#issuecomment-361353318
 // https://github.com/firebase/firebase-js-sdk/blob/cbfd14cfb27cda8a6de74be5d138ea9e6de09fe9/packages/messaging/src/listeners/sw-listeners.ts#L128
+// We do get a message here if we manually send a push notif, but the payload is
+// {collapseKey: undefined, from: undefined, messageId: undefined, data: {url: "what was filled in"}}
 onBackgroundMessage(messaging, (payload) => {
   console.log('[service worker] Received background message ', payload);
   // Firebase will already send the notification.

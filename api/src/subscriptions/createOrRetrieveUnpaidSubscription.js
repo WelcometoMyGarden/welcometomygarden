@@ -220,6 +220,8 @@ const changeSubscriptionPrice = async (
     expand: ['payment_intent']
   });
 
+  // TODO: setup future usage is missing here!
+
   // Overwrite the the latest invoice/payment intent in the subscription to return
   proratedSubscription.latest_invoice = finalizedProratedInvoice;
 
