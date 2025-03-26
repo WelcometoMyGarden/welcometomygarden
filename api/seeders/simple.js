@@ -4,9 +4,13 @@
 const { faker } = require('@faker-js/faker');
 const { auth } = require('./app');
 const { createNewUser, createGarden, createChat, sendMessage } = require('./util');
+const { config } = require('dotenv');
+
+config({ path: 'api/.env.local' });
 
 const seed = async () => {
   // Create users
+  const oneMonthAgoEpoch = Math.floor(Date.now() / 1000) - 31 * 24 * 1000;
   const users = await Promise.all([
     // No superfan, has a garden
     createNewUser(
@@ -33,7 +37,26 @@ const seed = async () => {
     // Superfan, has garden
     createNewUser(
       { email: 'user3@slowby.travel' },
-      { firstName: 'Jospehine', lastName: 'Delafroid', countryCode: 'FR', superfan: true }
+      /** @satisfies {Partial<User>}*/
+      ({
+        firstName: 'Jospehine',
+        lastName: 'Delafroid',
+        countryCode: 'FR',
+        superfan: true,
+        stripeSubscription: {
+          startDate: oneMonthAgoEpoch,
+          currentPeriodStart: oneMonthAgoEpoch,
+          currentPeriodEnd: oneMonthAgoEpoch + 365 * 24 * 1000,
+          id: 'sample-stripe-subscription',
+          priceId: process.env.STRIPE_PRICE_IDS_NORMAL,
+          status: 'active',
+          latestInvoiceStatus: 'paid',
+          cancelAt: null,
+          canceledAt: null,
+          renewalInvoiceLink: null,
+          collectionMethod: 'charge_automatically'
+        }
+      })
     ).then((user) => createGarden({ latitude: 50.9427, longitude: 4.5124 }, user)),
     // No superfan, no garden, has past chats (TODO)
     createNewUser(

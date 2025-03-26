@@ -25,6 +25,7 @@ declare global {
   type UserPrivate = import('../../src/lib/models/User').UserPrivate;
   type UserPublic = import('../../src/lib/models/User').UserPublic;
   type UserRecord = import('firebase-admin/auth').UserRecord;
+  type User = import('../../src/lib/models/User').User;
   type Garden = import('../../src/lib/types/Garden').Garden;
   type Chat = import('../../src/lib/types/Chat').FirebaseChat;
   type LocalChat = import('../../src/lib/types/Chat').LocalChat;

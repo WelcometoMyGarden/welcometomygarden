@@ -53,7 +53,12 @@ export enum PlausibleEvent {
   /**
    * Internal/background notification operations
    */
-  REFRESHED_PUSH_REGISTRATION = 'Refreshed push registration'
+  REFRESHED_PUSH_REGISTRATION = 'Refreshed push registration',
+  /*
+   * NPS survey
+   */
+  SHOW_NPS_SURVEY = 'Show NPS Survey',
+  CLOSE_NPS_SURVEY = 'Close NPS Survey'
 }
 
 const superfanOnlyEvents = [

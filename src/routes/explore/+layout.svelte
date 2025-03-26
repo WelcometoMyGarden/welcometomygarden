@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { _ } from 'svelte-i18n';
+  import { _, locale } from 'svelte-i18n';
   import { onMount, onDestroy } from 'svelte';
   import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
@@ -35,7 +35,7 @@
   import { setExpiringCookie } from '$lib/util/set-cookie';
   import ZoomRestrictionNotice from '$lib/components/Map/ZoomRestrictionNotice.svelte';
   import { createTrailObserver } from '$lib/api/trail';
-  import { user } from '$lib/stores/auth';
+  import { resolveOnUserLoaded, user } from '$lib/stores/auth';
   import type { Unsubscribe } from 'firebase/firestore';
   import { fileDataLayers, removeTrailAnimations } from '$lib/stores/file';
   import { isOnIDevicePWA } from '$lib/api/push-registrations';
@@ -44,6 +44,8 @@
   import { lnglatToObject } from '$lib/api/mapbox';
   import MeetupDrawer from '$lib/components/Map/MeetupDrawer.svelte';
   import MembershipModal from '$routes/(marketing)/(membership)/MembershipModal.svelte';
+  import { coerceToMainLanguage } from '$lib/util/get-browser-lang';
+  import { get } from 'svelte/store';
 
   let showHiking = false;
   let showCycling = false;
@@ -212,6 +214,47 @@
         isFetchingGardens.set(false);
       });
     }
+
+    const openTally = () => {
+      const formId = { fr: '3lvpaV', nl: 'wLkrP1', en: 'wAyX5B' }[coerceToMainLanguage($locale)];
+      let userData = get(user);
+      if (
+        userData &&
+        userData.superfan &&
+        userData.stripeSubscription &&
+        userData.stripeSubscription.startDate * 1000 < Date.now() - 24 * 3600 * 1000
+      ) {
+        console.log('Opening Tally');
+        window.Tally.openPopup(formId, {
+          // width: { fr: 570, nl: 550, en: 550 }[coerceToMainLanguage($locale)],
+          // this blows up the 1-10 size responsively
+          width: 580,
+          hideTitle: true,
+          // For now!
+          showOnce: true,
+          doNotShowAfterSubmit: true,
+          onClose: () => trackEvent(PlausibleEvent.CLOSE_NPS_SURVEY),
+          onOpen: () => trackEvent(PlausibleEvent.SHOW_NPS_SURVEY),
+          hiddenFields: {
+            name: userData?.firstName,
+            wtmg: userData?.id
+          }
+        });
+      } else {
+        console.log('Tally: not a older superfan');
+      }
+    };
+
+    resolveOnUserLoaded().then((u) => {
+      // Open the survey if needed
+      if (window.Tally) {
+      } else {
+        console.warn('Tally not loaded on /explore mount, adding listener');
+        document.addEventListener('tally-loaded', openTally);
+      }
+    });
+
+    return () => document.removeEventListener('tally-loaded', openTally);
   });
 
   onDestroy(() => {
@@ -425,6 +468,14 @@
   @media screen and (max-width: 400px) {
     .vehicle-notice-wrapper {
       height: 28rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    :global(.tally-popup) {
+      max-width: calc(100% - 20px) !important;
+      right: 10px !important;
+      bottom: 10px !important;
     }
   }
 </style>

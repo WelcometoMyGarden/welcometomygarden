@@ -4,7 +4,7 @@ const { pick } = require('lodash');
 
 /**
  * @param {import('firebase-admin/auth').CreateRequest} authProps - passed to auth.createUser
- * @param {Partial<import('../../src/lib/api/functions').CreateUserRequest> & {superfan?: boolean}} callableProps - replicating what is passed to the createUser callable (and more)
+ * @param {Partial<import('../../src/lib/api/functions').CreateUserRequest>} callableProps - replicating what is passed to the createUser callable (and more)
  */
 exports.createNewUser = async (authProps, callableProps) => {
   const user = await auth.createUser({
