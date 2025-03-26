@@ -65,7 +65,6 @@ const createSendgridContact = async (
     fail('invalid-argument');
   }
 
-  logger.info(`Creating new SendGrid contact for uid ${firebaseUser.uid} / ${firebaseUser.email}`);
   const sendgridContactCreationDetails = {
     email: firebaseUser.email,
     // Set to first name on creation
@@ -99,6 +98,10 @@ const createSendgridContact = async (
   if (shouldAddToNewsletter) {
     list_ids = [sendgridWtmgNewsletterListId.value()];
   }
+  logger.info(`Creating new SendGrid contact for uid ${firebaseUser.uid} / ${firebaseUser.email}`, {
+    creationDetails: sendgridContactCreationDetails,
+    list_ids
+  });
   try {
     const [{ statusCode }, { job_id }] = await sendgridClient.request({
       url: '/v3/marketing/contacts',

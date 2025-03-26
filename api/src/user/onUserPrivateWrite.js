@@ -103,6 +103,14 @@ exports.onUserPrivateWrite = async ({ data: change, params }) => {
         addToNewsletter: userPrivateAfter.emailPreferences.news,
         fetchContactDetails: false
       });
+      if (userPrivateAfter.creationLanguage == null) {
+        // Bug investigation: https://www.notion.so/slowby/Some-SendGrid-contacts-get-created-without-creation-language-in-1c14f49e318e80e8a610ec95e36b07fd?pvs=4
+        logger.error(`Creating a new SG contact without creationLanguage, this is unexpected`, {
+          uid,
+          creationLanguage: userPrivateAfter.creationLanguage,
+          communicationLanguage: userPrivateAfter.communicationLanguage
+        });
+      }
     } else if (userPrivateAfter.emailPreferences.news) {
       // If it is not a creation write (but an old re-subscribed contact), make sure all
       // relevant info is fetched (including host status), because we can't make new-account
