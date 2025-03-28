@@ -2,6 +2,7 @@ const { defineString } = require('firebase-functions/params');
 const { sendgridMail } = require('./sendgrid/sendgrid');
 const devSend = require('./util/devMail');
 const { frontendUrl, canSendMail, dashboardUrl } = require('./sharedConfig');
+const { coerceToMainLanguage } = require('./util/mail');
 
 /**
  * See https://github.com/sendgrid/sendgrid-nodejs/tree/main/packages/mail
@@ -17,6 +18,12 @@ const buildEmail = (handle, domain) => `${handle}@${domain}`;
 const WTMG_DOMAIN = 'welcometomygarden.org';
 
 const SUPPORT_FROM = `Welcome To My Garden <${buildEmail('support', WTMG_DOMAIN)}>`;
+const manonFrom = (lang) => ({
+  email: 'news@welcometomygarden.org',
+  name: `Manon ${{ en: 'from', nl: 'van', fr: 'de' }[coerceToMainLanguage(lang)]} WTMG`
+});
+
+const WELCOME_FLOW_CATEGORY = 'Welcome flow - March 2025';
 
 /**
  * @param {string} verificationLink
@@ -107,6 +114,87 @@ exports.sendAccountVerificationEmail = (
       'accountVerificationEmail'
     );
     logActionLink(verificationLink);
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};
+
+/**
+ * First welcome flow email
+ * @param {string} email
+ * @param {string} name
+ * @param {string} language
+ */
+exports.sendWelcomeEmail = (email, name, language) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-42bf200286244fdc9b711ec76ed5da83';
+      break;
+    case 'nl':
+      templateId = 'd-a54082a700a542d3b4c670548aa738a9';
+      break;
+    default:
+      templateId = 'd-9dcd73d8a12b4b898e94672dcc06dcd4';
+      break;
+  }
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
+  const msg = {
+    to: email,
+    from: manonFrom(language),
+    templateId,
+    dynamicTemplateData: {
+      // first_name is the SG contact, but it may not be ready yet
+      firstName: name,
+      first_name: name
+    },
+    categories: [WELCOME_FLOW_CATEGORY]
+  };
+
+  if (!canSendMail()) {
+    devSend(msg, 'welcomeEmail');
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};
+
+/**
+ * Fourth welcome flow email
+ */
+exports.sendBecomeMemberEmail = (email, name, language) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-48634647feb5440e8529aff60b399b27';
+      break;
+    case 'nl':
+      templateId = 'd-6447239cc18d427c84aa0bc3e305be89';
+      break;
+    default:
+      templateId = 'd-f772a5b1a28648aca5b4745765faeef5';
+      break;
+  }
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
+  const msg = {
+    to: email,
+    from: manonFrom(language),
+    templateId,
+    dynamicTemplateData: {
+      // first_name is the SG contact, but it may not be ready yet
+      firstName: name,
+      first_name: name
+    },
+    categories: [WELCOME_FLOW_CATEGORY]
+  };
+
+  if (!canSendMail()) {
+    devSend(msg, 'becomeMemberEmail');
     return Promise.resolve();
   }
 

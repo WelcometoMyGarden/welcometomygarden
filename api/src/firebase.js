@@ -10,6 +10,7 @@ exports.auth = auth;
 let googleAuth;
 
 /**
+ * Does not include ID => does not contain data when the doc is empty
  * @template T
  * @param {DocumentSnapshot<T>} d
  * @returns {T}
@@ -49,6 +50,13 @@ exports.getUserDocRefsWithData = async (uid) => {
   };
 };
 
+exports.getGardenWithData = async (uid) => {
+  const gardenDocRef = /** @type {DocumentReference<Garden>} */ (db.doc(`campsites/${uid}`));
+  const gardenSnapshot = await gardenDocRef.get();
+  const gardenData = gardenSnapshot.data();
+  return { gardenDocRef, gardenSnapshot, gardenData, exists: gardenSnapshot.exists };
+};
+
 /**
  * Get the URL of a given v2 cloud function.
  * Based on https://firebase.google.com/docs/functions/task-functions?gen=2nd#retrieve-and
@@ -62,7 +70,9 @@ exports.getFunctionUrl = async function (name, location = 'europe-west1') {
   // googleAuth doesn't seem to work locally in the DEMO emulator firebase-tools@13.28.0 & firebase-admin@^13
   // So in case of the demo- projects, just return the name as the full resource name, this seems to work for queues
   // despite not being documented as such.
-  // Other emulator are untested.
+  // TODO: if we run all staging or prod emulators, they should get into this clause, but we don't (the URI is the real remote one)
+  //   This makes us target production queues when running with all local emalators.
+  //   How to detect that we're running in local emulator mode?
   // https://github.com/firebase/firebase-tools/issues/4884#issuecomment-2396998732
   // Also, making regions match - https://github.com/firebase/firebase-tools/issues/8102
   if (projectID.value().startsWith('demo-')) {

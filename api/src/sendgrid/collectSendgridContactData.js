@@ -1,4 +1,4 @@
-const { getUserDocRefsWithData, db } = require('../firebase');
+const { getUserDocRefsWithData, getGardenWithData } = require('../firebase');
 const {
   sendgridCommunicationLanguageFieldIdParam,
   sendgridSuperfanFieldIdParam,
@@ -17,10 +17,10 @@ const collectSendgridContactData = async (uid) => {
         emailPreferences: { news }
       }
     },
-    campsiteRef
-  ] = await Promise.all([getUserDocRefsWithData(uid), db.doc(`campsites/${uid}`).get()]);
+    garden
+  ] = await Promise.all([getUserDocRefsWithData(uid), getGardenWithData(uid)]);
 
-  const isHost = campsiteRef.exists;
+  const isHost = garden.exists;
 
   // Combine all fields that are not set in the createSendgridContact function
   // they are expected in the argument context

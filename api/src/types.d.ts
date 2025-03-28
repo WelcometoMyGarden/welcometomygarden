@@ -67,12 +67,29 @@ declare global {
     customerId: string;
   };
 
+  type EmailTargetData = {
+    uid: string;
+  };
+
   type QueuedMessage =
     | {
         type: 'message_reminder';
         data: SendMessageReminderData;
       }
-    | { type: 'abandoned_cart'; data: SendAbandonedCartReminderData };
+    | { type: 'abandoned_cart'; data: SendAbandonedCartReminderData }
+    // First welcome flow email
+    | {
+        type: 'welcome';
+        data: EmailTargetData;
+      }
+    // Last welcome flow email
+    | {
+        type: 'become_member';
+        data: EmailTargetData;
+      };
+
+  type SupportedLanguage = import('../../src/lib/types/general').SupportedLanguage;
+  type MainLanguage = import('../../src/lib/types/general').MainLanguage;
 
   declare namespace FV1 {
     type CallableContext = CC;

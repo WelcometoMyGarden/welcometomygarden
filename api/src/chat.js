@@ -1,23 +1,14 @@
 const { FieldValue, Timestamp } = require('firebase-admin/firestore');
 const { logger } = require('firebase-functions');
-const removeDiacritics = require('./util/removeDiacritics');
-const {
-  sendMessageReceivedEmail,
-  sendSpamAlertEmail,
-  sendMessageReminderEmail,
-  sendAbandonedCartReminderEmail
-} = require('./mail');
-const { auth, db, getUserDocRefsWithData, getFunctionUrl } = require('./firebase');
+const { sendMessageReceivedEmail, sendSpamAlertEmail } = require('./mail');
+const { auth, db, getFunctionUrl } = require('./firebase');
 const { sendNotification } = require('./push');
 const fail = require('./util/fail');
 const { supabase } = require('./supabase');
-const { frontendUrl, shouldReplicateRuntime } = require('./sharedConfig');
 const { getFunctions } = require('firebase-admin/functions');
-const stripe = require('./subscriptions/stripe');
-const { isWTMGSubscription } = require('./subscriptions/stripeEventHandlers/util');
-const { DateTime } = require('luxon');
-const { sendPlausibleEvent } = require('./util/plausible');
 const { FirebaseMessagingError } = require('firebase-admin/messaging');
+const { normalizeMessage, buildMessageUrl } = require('./util/mail');
+const { shouldReplicateRuntime } = require('./sharedConfig');
 
 exports.MAX_MESSAGE_LENGTH = 800;
 
@@ -35,23 +26,6 @@ const getChat = async (chatId) => {
     id: doc.id,
     ...chat
   });
-};
-
-const normalizeMessage = (str) => str.replace(/\n\s*\n\s*\n/g, '\n\n');
-const normalizeName = (str) => removeDiacritics(str).toLowerCase();
-/**
- *
- * @param {string} displayName
- * @param {string} chatId
- * @param {string} [host] the URL host. Does not include the protocol, but does include the port (location.host)
- * @returns
- */
-const buildMessageUrl = (displayName, chatId, host) => {
-  const baseUrl = host ? `https://${host}` : frontendUrl();
-  // TODO: this will also split as soon as it sees something non-ASCI/diacritic
-  // so it might chop up a name weirdly. Luckily it's a vanity URL. Adjust?
-  const senderNameParts = displayName.split(/[^A-Za-z-]/);
-  return `${baseUrl}/chat/${normalizeName(senderNameParts[0])}/${chatId}`;
 };
 
 /**
@@ -240,179 +214,6 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
     }
   } catch (ex) {
     logger.error(ex);
-  }
-};
-
-/**
- * @param {import('firebase-functions/v2/tasks').Request<SendMessageReminderData>} req
- * @returns {Promise<void>}
- */
-exports.sendMessageReminder = async function (req) {
-  const { chatId, senderUid } = req.data;
-  const messagesCol = /** @type {CollectionReference<Message>} */ (
-    db.collection(`chats/${chatId}/messages`)
-  ).orderBy('createdAt', 'asc');
-
-  // First check if the sender is not deleted or disabled
-  /**
-   * @type {UserRecord}
-   */
-  let sender;
-  try {
-    sender = await auth.getUser(senderUid);
-  } catch (e) {
-    logger.info(`Sender ${senderUid} is likely deleted, skipping the reminder email.`);
-    return;
-  }
-  if (sender.disabled) {
-    logger.info(`Sender ${senderUid} is disabled, skipping the reminder email.`);
-    return;
-  }
-
-  // Fetch all messages of the chat
-  const messages = (await messagesCol.get()).docs.map((d) => d.data());
-
-  // Sanity check: the first message should have been sent by the sender, at least 23 hours ago
-  if (
-    // if no first message
-    !messages[0] ||
-    // if not from the sender
-    messages[0].from !== senderUid ||
-    // if the first message was created less than 23 hours ago
-    messages[0].createdAt.toMillis() > Date.now() - 23 * 3600 * 1000
-  ) {
-    throw new Error(`Sanity check for the message reminder email of ${chatId} failed, skipping`);
-  }
-
-  // Find a message from the host (= any message in the chat, not from the sender)
-  /**
-   * @type {Message | undefined}
-   */
-  const answerFromHost = messages.find((m) => m.from !== senderUid);
-
-  // The chat was answered, nothing further to do
-  if (answerFromHost) {
-    logger.info(
-      `Chat ${chatId} sent by ${senderUid} was answered by ${answerFromHost.from}, skipping reminder email.`
-    );
-    return;
-  }
-
-  // The chat was not answered: send the reminder email
-  const chat = (
-    await /** @type {DocumentReference<Chat>} */ (db.doc(`chats/${chatId}`)).get()
-  ).data();
-  const hostUid = chat.users.find((id) => id !== senderUid);
-  if (!hostUid) {
-    fail('internal');
-  }
-  const host = await auth.getUser(hostUid);
-  const {
-    privateUserProfileData: hostPrivateUserProfileData,
-    publicUserProfileData: hostPublicUserProfileData
-  } = await getUserDocRefsWithData(hostUid);
-
-  // Combine messages with a newline, because we know that only the sender has sent messages yet.
-  const combinedSenderMessage = messages
-    .slice(1)
-    .reduce((acc, { content }) => `${acc}\n\n${content}`, messages[0]?.content ?? '');
-
-  logger.info(
-    `Sending message reminder email for chat ${chatId} by traveller ${senderUid} to host ${host.uid}`
-  );
-  await sendMessageReminderEmail({
-    email: host.email,
-    firstName: hostPublicUserProfileData.firstName,
-    language: hostPrivateUserProfileData.communicationLanguage,
-    senderName: sender.displayName,
-    message: normalizeMessage(combinedSenderMessage),
-    messageUrl: buildMessageUrl(sender.displayName, chatId)
-  });
-};
-
-/**
- * TODO: considering the fixed 7am,11am,6pm schedule, this would probably be better
- * implemented as a cron function; rather than a queue task.
- * @param {import('firebase-functions/v2/tasks').Request<SendAbandonedCartReminderData>} req
- * @returns {Promise<void>}
- */
-exports.sendAbandonedCartReminder = async (req) => {
-  const { uid, customerId } = req.data;
-  // First check if the sender is not deleted or disabled
-  /**
-   * @type {UserRecord}
-   */
-  let user;
-  try {
-    user = await auth.getUser(uid);
-  } catch (e) {
-    logger.info(`User ${uid} is likely deleted, skipping the abandoned cart reminder email.`);
-    return;
-  }
-  if (user.disabled) {
-    logger.info(`User ${uid} is disabled, skipping the abandoned cart email.`);
-    return;
-  }
-
-  // Check if the user subscribed by now
-  const { publicUserProfileData, privateUserProfileData } = await getUserDocRefsWithData(uid);
-  if (publicUserProfileData.superfan) {
-    logger.info(`User ${uid} became a member before this abandoned cart check, skipping email`);
-    return;
-  }
-
-  // Check the customer's Stripe subscriptions
-  // We don't want to send the email more than once per two weeks, and this check should be scheduled
-  // at every new subscription creation
-  const { data: allStripeSubscriptions } = await stripe.subscriptions.list({
-    customer: customerId,
-    status: 'all'
-  });
-  const twoWeeksAgo = DateTime.now().minus({ weeks: 2 }).toSeconds();
-  const numberOfWTMGSubsInTheLastTwoWeeks = allStripeSubscriptions.filter(
-    (s) => isWTMGSubscription(s) && s.start_date >= twoWeeksAgo
-  ).length;
-  if (numberOfWTMGSubsInTheLastTwoWeeks > 1) {
-    logger.info(
-      `User ${uid} had more than 1 subscription created in the last 2 weeks, skipping abandoned cart email`
-    );
-    return;
-  }
-
-  const hour = DateTime.now().setZone('Europe/Brussels').hour.toString();
-  await sendPlausibleEvent('Send Abandoned Cart Email', {
-    functionName: 'sendAbandonedCartReminder',
-    props: {
-      hour
-    }
-  });
-  logger.info(
-    `Sending abandoned cart reminder email to ${uid} / ${customerId} at ${DateTime.now().setZone('Europe/Brussels').toISO()}`
-  );
-  await sendAbandonedCartReminderEmail(
-    user.email,
-    publicUserProfileData.firstName,
-    privateUserProfileData.communicationLanguage
-  );
-};
-
-/**
- * @param {import('firebase-functions/v2/tasks').Request<QueuedMessage>} req
- * @returns {Promise<void>}
- */
-exports.sendQueuedMessage = async (req) => {
-  const { type, data } = req.data;
-  // No type or inner data is present, which means this is an old scheduled message_reminder event
-  // before we had types on this handler or enqueues
-  // @TODO: this should become irrelevant in 24 hours after the morning of March 4th
-  if (!type && !data) {
-    // @ts-ignore
-    return this.sendMessageReminder(req);
-  }
-  if (type === 'message_reminder') {
-    return this.sendMessageReminder({ ...req, data });
-  } else {
-    return this.sendAbandonedCartReminder({ ...req, data });
   }
 };
 

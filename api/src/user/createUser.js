@@ -2,8 +2,10 @@ const { FieldValue } = require('firebase-admin/firestore');
 const countries = require('../countries');
 const fail = require('../util/fail');
 const { sendVerificationEmail } = require('../auth');
-const { auth, db } = require('../firebase');
+const { auth, db, getFunctionUrl } = require('../firebase');
 const { logger } = require('firebase-functions/v2');
+const { getFunctions } = require('firebase-admin/functions');
+const { DateTime } = require('luxon');
 
 /**
  * Callable function to create the required Firestore user documents for a newly created
@@ -151,9 +153,60 @@ exports.createUser = async ({ data, auth: authContext }) => {
       logger.error(
         `The email for UID ${user.uid} was not set when trying to send its verification email.`
       );
-    } else {
-      await sendVerificationEmail(email, firstName, data.communicationLanguage);
     }
+
+    const [resourceName, targetUri] = await getFunctionUrl('sendMessage');
+    /**
+     * @type {TaskQueue<QueuedMessage>}
+     */
+    const sendMessageQueue = getFunctions().taskQueue(resourceName);
+    await Promise.all([
+      // Send the verification email
+      sendVerificationEmail(email, firstName, data.communicationLanguage),
+      // Enqueue the first welcome flow email
+      (async () => {
+        try {
+          await sendMessageQueue.enqueue(
+            {
+              type: 'welcome',
+              data: { uid }
+            },
+            {
+              // 10 minutes later
+              scheduleDelaySeconds: 10 * 60,
+              ...(targetUri
+                ? {
+                    uri: targetUri
+                  }
+                : {})
+            }
+          );
+        } catch (e) {
+          logger.error(`Error while queueing the first welcome email`, { uid, error: e });
+        }
+      })(),
+      // Enqueue the last welcome flow email
+      (async () => {
+        try {
+          await sendMessageQueue.enqueue(
+            { type: 'become_member', data: { uid } },
+            {
+              scheduleTime: DateTime.now().plus({ days: 7 }).toJSDate(),
+              ...(targetUri
+                ? {
+                    uri: targetUri
+                  }
+                : {})
+            }
+          );
+        } catch (e) {
+          logger.error(`Error while queueing the "become a member" last welcome flow email`, {
+            uid,
+            error: e
+          });
+        }
+      })()
+    ]);
 
     return { message: 'Your account was created successfully,', success: true };
   } catch (ex) {

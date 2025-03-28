@@ -26,7 +26,7 @@ const {
   propagateEmailChange
 } = require('./auth');
 const { doBackup } = require('./storage');
-const { onMessageCreate, onChatCreate, sendQueuedMessage } = require('./chat');
+const { onMessageCreate, onChatCreate } = require('./chat');
 const { onCampsiteCreate, onCampsiteDelete } = require('./campsites');
 const { stripeWebhookHandler } = require('./subscriptions/webhookHandler');
 const {
@@ -61,6 +61,7 @@ const { createCustomerPortalSession } = require('./subscriptions/createCustomerP
 const manageEmailPreferences = require('./sendgrid/manageEmailPreferences');
 const { onTaskDispatched } = require('firebase-functions/tasks');
 const checkContactCreation = require('./sendgrid/checkContactCreation');
+const { sendQueuedMessage } = require('./queued/sendQueuedMessage');
 
 onInit(() => {
   initSendgrid();
