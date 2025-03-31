@@ -1,20 +1,12 @@
 const { Timestamp } = require('firebase-admin/firestore');
+const { changeData } = require('../firebase');
 /**
  * @param {FirestoreEvent<Change<DocumentSnapshot<Garden>>>} change
  */
-module.exports = async ({ data: change }) => {
+module.exports = async ({ data }) => {
   // Prepare input for change detection
-  const { before, after } = change;
-  let beforeData = null;
-  let afterData = null;
-  if (before.exists) {
-    beforeData = before.data();
-  }
-  if (after.exists) {
-    afterData = after.data();
-  }
-  const isCreation = !before.exists;
-  const isDeletion = !after.exists;
+  const { after, beforeData, afterData, isCreation, isDeletion } = changeData(data);
+
   const listedChanged = beforeData?.listed !== afterData?.listed;
 
   if (isCreation || isDeletion || !listedChanged) {
@@ -36,6 +28,6 @@ module.exports = async ({ data: change }) => {
   }
 
   // Update the document
-  // This should result in a new listener call that will just replicate.
+  // This should result in new listener calls that will just replicate (SendGrid and Supabase).
   await after.ref.update({ latestListedChangeAt });
 };

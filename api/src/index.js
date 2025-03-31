@@ -54,7 +54,7 @@ const onUserPrivateSubcollectionWrite = require('./replication/onUsersPrivateSub
 const onMessagesWriteReplicate = require('./replication/onMessagesWrite');
 const onAuthUserCreate = require('./user/onAuthUserCreate');
 const refreshAuthTable = require('./replication/scheduled/refreshAuthTable');
-const { shouldReplicateRuntime } = require('./sharedConfig');
+const { shouldReplicateRuntime, isContactSyncDisabled } = require('./sharedConfig');
 const { initialize: initSupabase } = require('./supabase');
 const onCampsiteListedChange = require('./user/onCampsiteListedChange');
 const { createCustomerPortalSession } = require('./subscriptions/createCustomerPortalSession');
@@ -62,16 +62,22 @@ const manageEmailPreferences = require('./sendgrid/manageEmailPreferences');
 const { onTaskDispatched } = require('firebase-functions/tasks');
 const checkContactCreation = require('./sendgrid/checkContactCreation');
 const { sendQueuedMessage } = require('./queued/sendQueuedMessage');
+const syncCampsiteStatus = require('./sendgrid/syncCampsiteStatus');
 
 onInit(() => {
   initSendgrid();
   initSupabase();
 });
 
-const whenReplicating =
+const whenSupabaseReplicating =
   (func) =>
   (...args) =>
     guardOn(shouldReplicateRuntime(), func)(...args);
+
+const whenSendGridSyncing =
+  (func) =>
+  (...args) =>
+    guardOn(!isContactSyncDisabled(), func)(...args);
 
 // Firebase functions v1 regions; still required for auth trigger functions.
 // This is in Belgium! All new functions should be deployed here.
@@ -113,7 +119,9 @@ exports.parseInboundEmailV2 = onRequest(parseInboundEmail);
 
 // Firebase Auth triggers
 exports.onAuthUserDelete = euWest1V1.auth.user().onDelete(cleanupUserOnDelete);
-exports.onAuthUserCreate = euWest1V1.auth.user().onCreate(whenReplicating(onAuthUserCreate));
+exports.onAuthUserCreate = euWest1V1.auth
+  .user()
+  .onCreate(whenSupabaseReplicating(onAuthUserCreate));
 
 // Firestore triggers: users
 exports.onUserPrivateWriteV2 = onDocumentWritten(
@@ -122,13 +130,16 @@ exports.onUserPrivateWriteV2 = onDocumentWritten(
   },
   executeFirestoreTriggersConcurrently([
     onUserPrivateWrite,
-    whenReplicating(onUsersPrivateWriteReplicate)
+    whenSupabaseReplicating(onUsersPrivateWriteReplicate)
   ])
 );
 
 exports.onUserWriteV2 = onDocumentWritten(
   'users/{userId}',
-  executeFirestoreTriggersConcurrently([onUserWrite, whenReplicating(onUsersWriteReplicate)])
+  executeFirestoreTriggersConcurrently([
+    onUserWrite,
+    whenSupabaseReplicating(onUsersWriteReplicate)
+  ])
 );
 
 // Firestore triggers: campsites
@@ -143,21 +154,25 @@ exports.onMessageCreateV2 = onDocumentCreated(
 );
 
 // Additional replication triggers not covered above.
-// *These do not exist in staging*
-// Note: this is not fully condition on replication
 exports.onCampsiteWriteV2 = onDocumentWritten(
   'campsites/{campsiteId}',
-  seralizeFirestoreTriggers([whenReplicating(onCampsitesWriteReplicate), onCampsiteListedChange])
+  executeFirestoreTriggersConcurrently([
+    seralizeFirestoreTriggers([
+      whenSupabaseReplicating(onCampsitesWriteReplicate),
+      onCampsiteListedChange
+    ]),
+    whenSendGridSyncing(syncCampsiteStatus)
+  ])
 );
-exports.onChatWriteV2 = onDocumentWritten('chats/{chatId}', whenReplicating(onChatsWrite));
+exports.onChatWriteV2 = onDocumentWritten('chats/{chatId}', whenSupabaseReplicating(onChatsWrite));
 exports.onMessageWriteV2 = onDocumentWritten(
   'chats/{chatId}/messages/{messageId}',
-  whenReplicating(onMessagesWriteReplicate)
+  whenSupabaseReplicating(onMessagesWriteReplicate)
 );
 // for subcollections `push-registrations`, `unreads`, and `trails`
 exports.onUserPrivateSubcollectionWriteV2 = onDocumentWritten(
   'users-private/{userId}/{subcollection}/{documentId}',
-  whenReplicating(onUserPrivateSubcollectionWrite)
+  whenSupabaseReplicating(onUserPrivateSubcollectionWrite)
 );
 
 // Queuable Cloud Tasks
@@ -208,7 +223,7 @@ exports.refreshAuthTableV2 = onSchedule(
     // It takes a bit more than a second per 1000 users
     timeoutSeconds: 60 * 5
   },
-  whenReplicating(refreshAuthTable)
+  whenSupabaseReplicating(refreshAuthTable)
 );
 
 // Testing

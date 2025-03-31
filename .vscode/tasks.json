@@ -14,7 +14,7 @@
     },
     {
       "label": "Local Development (seeded)",
-      "dependsOn": ["npm: firebase:demo-seed", "npm: dev"],
+      "dependsOn": ["npm: firebase:demo-seed", "npm: dev", "Run mailpit"],
       "group": {
         "kind": "build",
         "isDefault": true
@@ -25,7 +25,7 @@
     },
     {
       "label": "Local Development (empty)",
-      "dependsOn": ["npm: firebase:demo", "npm: dev"],
+      "dependsOn": ["npm: firebase:demo", "npm: dev", "Run mailpit"],
       "group": {
         "kind": "build",
         "isDefault": true
@@ -141,6 +141,12 @@
       "problemMatcher": [],
       "label": "Forward Stripe CLI events to local",
       "detail": "Don't forget to disable the remote staging events at https://dashboard.stripe.com/test/settings"
+    },
+    {
+      "type": "shell",
+      "command": "mailpit",
+      "problemMatcher": [],
+      "label": "Run mailpit"
     }
   ]
 }

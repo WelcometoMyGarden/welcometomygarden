@@ -35,6 +35,8 @@ exports.sendgridCreationLanguageFieldIdParam = defineString('SENDGRID_FIELD_IDS_
 exports.sendgridCreationTimeFieldIdParam = defineString('SENDGRID_FIELD_IDS_CREATION_TIME');
 exports.sendgridSecretFieldIdParam = defineString('SENDGRID_FIELD_IDS_SECRET');
 exports.sendgridNewsletterFieldIdParam = defineString('SENDGRID_FIELD_IDS_NEWSLETTER');
+exports.sendgridListedFieldIdParam = defineString('SENDGRID_FIELD_IDS_LISTED');
+exports.sendgridGardenPhotoFieldIdParam = defineString('SENDGRID_FIELD_IDS_GARDEN_PHOTO');
 
 exports.sendgridWtmgNewsletterListId = defineString('SENDGRID_NEWSLETTER_LIST_ID');
 //

@@ -98,3 +98,31 @@ exports.getFunctionUrl = async function (name, location = 'europe-west1') {
   }
   return [resourceName, uri];
 };
+
+/**
+ * @template T
+ * @param {Change<DocumentSnapshot<T>>} data
+ */
+exports.changeData = (data) => {
+  const { before, after } = data;
+  let beforeData = null;
+  let afterData = null;
+  if (before.exists) {
+    beforeData = before.data();
+  }
+  if (after.exists) {
+    afterData = after.data();
+  }
+  const isCreation = !before.exists;
+  const isDeletion = !after.exists;
+  const isUpdate = before.exists && after.exists;
+  return {
+    before,
+    after,
+    beforeData,
+    afterData,
+    isCreation,
+    isDeletion,
+    isUpdate
+  };
+};

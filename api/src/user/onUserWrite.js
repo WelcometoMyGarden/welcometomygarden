@@ -1,8 +1,8 @@
 const { FieldValue } = require('firebase-admin/firestore');
 const { auth, db } = require('../firebase');
-const { sendgrid: sendgridClient } = require('../sendgrid/sendgrid');
 const fail = require('../util/fail');
 const { sendgridSuperfanFieldIdParam, isContactSyncDisabled } = require('../sharedConfig');
+const { updateSendgridContact } = require('../sendgrid/updateSendgridContact');
 
 /**
  * @param {FirestoreEvent<Change<DocumentSnapshot<UserPublic>>>} change
@@ -69,12 +69,6 @@ exports.onUserWrite = async ({ data: change }) => {
         [sendgridSuperfanFieldIdParam.value()]: superfan ? 1 : 0
       }
     };
-    await sendgridClient.request({
-      url: '/v3/marketing/contacts',
-      method: 'PUT',
-      body: {
-        contacts: [sendgridContact]
-      }
-    });
+    await updateSendgridContact(sendgridContact, 'updated user-public');
   }
 };

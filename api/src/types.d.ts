@@ -152,6 +152,8 @@ ISO date strings
       updated_at: string;
     };
 
+    type ContactUpsertDetails = { email: string } & Partial<ContactDetails>;
+
     type UnpackedInboundRequest = {
       text?: string;
       html?: string;
