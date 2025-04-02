@@ -234,34 +234,36 @@ exports.onChatCreate = async ({ data: chatSnapshot }) => {
   //
   // TODO: authId as a param ot the event probably exists in production (and would be better to use),
   // but it is not testable https://github.com/firebase/firebase-tools/issues/7450
-  const senderAuthId = chatSnapshot.data().users[0];
+  const [senderAuthId, recipientAuthId] = chatSnapshot.data().users;
   if (typeof senderAuthId !== 'string') {
     fail('not-found');
   }
 
-  // Enqueue reminder email
-  const [resourceName, targetUri] = await getFunctionUrl('sendMessage');
-  /**
-   * @type {TaskQueue<QueuedMessage>}
-   */
-  const sendMessageQueue = getFunctions().taskQueue(resourceName);
-  await sendMessageQueue.enqueue(
-    {
-      type: 'message_reminder',
-      data: {
-        chatId: chatId,
-        senderUid: senderAuthId
+  // Enqueue message reminder email, if the recipient has not opted out manually (hardcoded for now)
+  if (!['tgnSZm4dzpX24DZBHfIYzAvNGH02'].includes(recipientAuthId)) {
+    const [resourceName, targetUri] = await getFunctionUrl('sendMessage');
+    /**
+     * @type {TaskQueue<QueuedMessage>}
+     */
+    const sendMessageQueue = getFunctions().taskQueue(resourceName);
+    await sendMessageQueue.enqueue(
+      {
+        type: 'message_reminder',
+        data: {
+          chatId: chatId,
+          senderUid: senderAuthId
+        }
+      },
+      {
+        scheduleDelaySeconds: 24 * 3600,
+        ...(targetUri
+          ? {
+              uri: targetUri
+            }
+          : {})
       }
-    },
-    {
-      scheduleDelaySeconds: 24 * 3600,
-      ...(targetUri
-        ? {
-            uri: targetUri
-          }
-        : {})
-    }
-  );
+    );
+  }
 
   const now = Date.now();
   const userPrivateDocRef = /** @type {DocumentReference<UserPrivate>} */ (
