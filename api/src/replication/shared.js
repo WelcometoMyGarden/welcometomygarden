@@ -74,7 +74,7 @@ const convertDate = (utcString) =>
  */
 exports.mapAuthUser = (user) => ({
   id: user.uid,
-  ..._.pick(user, 'email', 'emailVerified'),
+  ..._.pick(user, 'email', 'emailVerified', 'disabled'),
   name: user.displayName,
   userCreationTime: convertDate(user.metadata.creationTime),
   lastSignInTime: convertDate(user.metadata.lastSignInTime),
