@@ -33,7 +33,10 @@ exports.cleanupUserOnDelete = async (user) => {
   }
 
   if (!userPrivate) {
-    logger.error(`users-private data not existing for user ${user.uid}, this is unexpected`);
+    logger.error(`users-private data not existing for user ${user.uid}, this is unexpected`, {
+      uid: user?.uid,
+      email: user.email
+    });
   }
 
   await deleteContact(user, userPrivate);

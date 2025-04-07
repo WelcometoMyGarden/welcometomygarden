@@ -43,6 +43,11 @@ declare global {
   type ContactCreationCheckData = {
     uid: string;
     /**
+     * The email for the contact to be created.
+     * This is required to pass here to delete the contact after the user was deleted (and the auth.email info is gone), and for reporting.
+     */
+    email: string;
+    /**
      * The SendGrid contact upsert job ID
      */
     jobId: string;

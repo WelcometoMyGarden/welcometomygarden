@@ -139,6 +139,7 @@ const createSendgridContact = async (
     await checkContactCreationQueue.enqueue(
       {
         uid: firebaseUser.uid,
+        email: firebaseUser.email,
         jobId: contactCreationJobId,
         attempt: attempt ?? 1,
         creationLanguage
