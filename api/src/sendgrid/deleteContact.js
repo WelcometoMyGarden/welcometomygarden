@@ -15,7 +15,7 @@ exports.deleteContactByEmail = async (email) => {
     url: '/v3/marketing/contacts',
     method: 'DELETE',
     qs: {
-      ids: [id]
+      ids: id
     }
   });
 };
