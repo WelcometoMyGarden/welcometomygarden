@@ -55,6 +55,9 @@ If you use VSCode (recommended), you can also execute both commands at the same 
 
 There are several other development scripts available in `package.json`, for example, `yarn firebase:demo-seed` will add some testing data to the dev env upon startup.
 
+⚠️ **To test some features locally, you will need to use the Firebase Hosting servers instead.** `yarn dev` will use Vite's (fast) development server based on native ES modules. This will always run the latest code, and is sufficient for nearly all development. However, at the moment of writing, there is one feature (handleUnsubscribe) which requires the use of the dynamic rewrite capabilities of Firebase Hosting's servers. If you need to debug a production error, it might also be good to work with a built app via Hosting rather than the Vite development server, because it is closer to the production code. When you run the Firebase emulators at the same time, you will start up the Firebase Hosting emulator, which is configured in [firebase.json](../firebase.json). It hosts files from [dist](../dist/) and runs a separate server for each Firebase target. The front-end codebase **has to be built manually** (for which Vite uses rollup) to overwrite the dist build, for example using `yarn build:demo`. There might be some slight behavioral differences between a Vite development server and production build.
+.
+
 ## What can you do now?
 
 Assuming that you did the above, you now have a partially functioning development environment!

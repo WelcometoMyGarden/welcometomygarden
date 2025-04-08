@@ -2,6 +2,44 @@ const { logger } = require('firebase-functions');
 const fail = require('../util/fail');
 const getContactByEmail = require('./getContactByEmail');
 const { db } = require('../firebase');
+const querystring = require('node:querystring');
+
+/**
+ *
+ * @param {string} email
+ * @param {string} secret
+ * @param {string} [ source ]
+ * @returns the uid of the user in case of success
+ */
+async function verifyBySecret(email, secret, source) {
+  // Check for anonymous verification auth by SendGrid contact secret
+  // (expected to be common)
+  let logMetadata = { email, secret, source };
+  /** @type {SendGrid.ContactDetails | null} */
+  let contact = null;
+  // This might throw when FB auth missing or invalid, and no contact exists
+  // Some WTMG users don't have contacts, namely, those who have:
+  // - `news === false` since before the auto-syncing release && who didn't change any profile data after that
+  // (+ some rare error cases)
+  // (Some users DO have contacts, but their sendgridIds aren't linked in FB: we take SG as the source of truth for the secret; irrelevant here)
+  // commit bf57442b0485ae1209d4155206339b8099843844 at 2023-02-03T03:46:00+5:30 auto syncing to SendGrid
+  // Possible cases of transactional email that may reach a news===false without a contact:
+  // - "your garden has been unlisted" email
+  // Essential service notification relating to your user agreement.
+  contact = await getContactByEmail(email);
+  if (typeof contact.custom_fields.secret !== 'string') {
+    logger.error(`Unexpected missing 'secret' custom field for ${email}`, logMetadata);
+    // Shouldn't happen
+    throw new Error('invalid_state');
+  }
+
+  if (contact.custom_fields.secret !== secret) {
+    logger.warn('Secret mismatch', logMetadata);
+    throw new Error('secret_mismatch');
+  }
+
+  return contact.custom_fields.wtmg_id.toString();
+}
 
 /**
  * See https://meta.discourse.org/t/setup-discourseconnect-official-single-sign-on-for-discourse-sso/13045
@@ -10,14 +48,13 @@ const { db } = require('../firebase');
  * @param {FV2.CallableRequest<import("../../../src/lib/api/functions").ManageEmailPreferencesRequest>} request
  * @returns {Promise<import("../../../src/lib/api/functions").ManageEmailPreferencesResponse>} sso payload will not be URL-encoded
  */
-// eslint-disable-next-line consistent-return
-module.exports = async function manageEmailPreferences({ data, auth: callAuth }) {
+
+async function manageEmailPreferences({ data, auth: callAuth }) {
   const { type, email, secret } = data;
   if (!email) {
     return fail('invalid-argument');
   }
 
-  let error = null;
   let uid = null;
 
   // -- Authenticate
@@ -29,47 +66,18 @@ module.exports = async function manageEmailPreferences({ data, auth: callAuth })
     // The target email is authenticated, allow all operations
     uid = callAuth.uid;
   } else {
-    // No auth exists, or the auth is from another account.
-
-    // Check for anonymous verification auth by SendGrid contact secret
-    // (expected to be common)
-    /** @type {SendGrid.ContactDetails | null} */
-    let contact = null;
     try {
-      contact = await getContactByEmail(email);
-      if (typeof contact.custom_fields.secret !== 'string') {
-        logger.error(`Unexpected missing 'secret' custom field for ${email}`);
-        // Shouldn't happen
-        error = 'invalid_state';
-      }
-
-      if (contact.custom_fields.secret !== secret) {
-        error = 'secret_mismatch';
-      }
-
-      // Success case
-      uid = contact.custom_fields.wtmg_id.toString();
+      uid = await verifyBySecret(email, secret, 'manual');
     } catch (e) {
-      // FB auth missing or invalid, and no contact exists
-      // Some WTMG users don't have contacts, namely, those who have:
-      // - `news === false` since before the auto-syncing release && who didn't change any profile data after that
-      // (+ some rare error cases)
-      // (Some users DO have contacts, but their sendgridIds aren't linked in FB: we take SG as the source of truth for the secret; irrelevant here)
-      //
-      // commit bf57442b0485ae1209d4155206339b8099843844 at 2023-02-03T03:46:00+5:30 auto syncing to SendGrid
-      //
-      // Possible cases of transactional email that may reach a news===false without a contact:
-      // - "your garden has been unlisted" email
-      // Essential service notification relating to your user agreement.
-      error = 'no_contact';
+      let errorMessage = 'unknown';
+      if (e instanceof Error) {
+        errorMessage = e.message;
+      }
+      return {
+        status: 'error',
+        error: errorMessage
+      };
     }
-  }
-
-  if (error) {
-    return {
-      status: 'error',
-      error
-    };
   }
 
   const userPrivateRef = /** @type {DocumentReference<UserPrivate>} */ (
@@ -120,4 +128,79 @@ module.exports = async function manageEmailPreferences({ data, auth: callAuth })
   }
   logger.error('No valid operation given');
   fail('invalid-argument');
-};
+}
+
+const express = require('express');
+const { sendPlausibleEvent } = require('../util/plausible');
+const handleUnsubscribeRouter = express();
+
+/**
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
+async function handleUnsubscribePost(req, res) {
+  // https://expressjs.com/en/api.html#express.urlencoded
+  // Parse expected properties and their
+  const { email: inEmail, e, secret: inSecret, s } = req.query;
+  const secret = s ?? inSecret;
+  const email = e ?? inEmail;
+
+  if (typeof email !== 'string' || typeof secret !== 'string') {
+    return res.sendStatus(400);
+  }
+
+  let uid;
+  try {
+    uid = await verifyBySecret(email, secret, 'list-unsubscribe-post');
+  } catch (e) {
+    return res.sendStatus(400);
+  }
+
+  // Apply the unsubscribe
+  const userPrivateRef = /** @type {DocumentReference<UserPrivate>} */ (
+    db.collection('users-private').doc(uid)
+  );
+  const docSnap = await userPrivateRef.get();
+  if (!docSnap.exists) {
+    logger.warn(`Trying to unsubscribe an account without users-private data`, {
+      email,
+      secret,
+      uid
+    });
+    return res.sendStatus(500);
+  }
+
+  logger.info('Unsubscribing a user from the newsletter using List-Unsubscribe-Post', {
+    uid,
+    email,
+    alreadyUnsubscribed: !docSnap.data()?.emailPreferences.news
+  });
+
+  await Promise.allSettled([
+    userPrivateRef.update({ 'emailPreferences.news': false }),
+    sendPlausibleEvent('Email Unsubscribe', {
+      functionName: 'handleUnsubscribePost',
+      props: {
+        source: 'list-unsubscribe-post'
+      }
+    })
+  ]);
+
+  return res.sendStatus(200);
+}
+
+// Handles List-Unsubscribe-Post: List-Unsubscribe=One-Click
+// Redirect
+//
+// Make sure that HEAD etc also get handled by using express directly
+// https://github.com/expressjs/expressjs.com/issues/748
+// node querystring is used by default for query parsing, so we also use it for parsing back
+// https://expressjs.com/en/5x/api.html#req.query
+// https://expressjs.com/en/5x/api.html#app.settings.table
+handleUnsubscribeRouter.get('/email-preferences', (req, res) =>
+  res.redirect(`/my-email-preferences?${querystring.encode(req.query ?? {})}`)
+);
+handleUnsubscribeRouter.post('/email-preferences', handleUnsubscribePost);
+
+module.exports = { manageEmailPreferences, handleUnsubscribeRouter };

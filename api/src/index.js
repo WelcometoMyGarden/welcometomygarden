@@ -58,7 +58,10 @@ const { shouldReplicateRuntime, isContactSyncDisabled } = require('./sharedConfi
 const { initialize: initSupabase } = require('./supabase');
 const onCampsiteListedChange = require('./user/onCampsiteListedChange');
 const { createCustomerPortalSession } = require('./subscriptions/createCustomerPortalSession');
-const manageEmailPreferences = require('./sendgrid/manageEmailPreferences');
+const {
+  manageEmailPreferences,
+  handleUnsubscribeRouter
+} = require('./sendgrid/manageEmailPreferences');
 const { onTaskDispatched } = require('firebase-functions/tasks');
 const checkContactCreation = require('./sendgrid/checkContactCreation');
 const { sendQueuedMessage } = require('./queued/sendQueuedMessage');
@@ -116,6 +119,9 @@ exports.updateEmail = onCall(updateEmail);
 exports.handleStripeWebhookV2 = onRequest(stripeWebhookHandler);
 // Handle SendGrid Inbound Email
 exports.parseInboundEmailV2 = onRequest(parseInboundEmail);
+// To handle List-Unsubscribe=One-Click calls
+// To test this, use Firebase Hosting's dynamic rewrite function. See dev-env.md.
+exports.handleUnsubscribe = onRequest(handleUnsubscribeRouter);
 
 // Firebase Auth triggers
 exports.onAuthUserDelete = euWest1V1.auth.user().onDelete(cleanupUserOnDelete);

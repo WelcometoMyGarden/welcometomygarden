@@ -3,12 +3,16 @@
     {
       "target": "production",
       "public": "dist",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
+        {
+          "source": "/email-preferences",
+          "function": {
+            "functionId": "handleUnsubscribe",
+            "region": "europe-west1",
+            "pinTag": true
+          }
+        },
         {
           "source": "**",
           "destination": "/index.html"
@@ -18,11 +22,7 @@
     {
       "target": "beta",
       "public": "dist",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
           "source": "**",
@@ -33,9 +33,7 @@
   ],
   "functions": {
     "source": "api",
-    "predeploy": [
-      "npm --prefix \"$RESOURCE_DIR\" run lint"
-    ]
+    "predeploy": ["npm --prefix \"$RESOURCE_DIR\" run lint"]
   },
   "emulators": {
     "functions": {
