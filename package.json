@@ -64,7 +64,7 @@
     "maplibre-gl": "^1.15.3",
     "md5": "^2.3.0",
     "nprogress": "^0.2.0",
-    "prettier": "^3.3.3",
+    "prettier": "^3.5.3",
     "prettier-plugin-svelte": "^3.2.8",
     "smoothscroll-polyfill": "^0.4.4",
     "svelte": "^4.2.19",

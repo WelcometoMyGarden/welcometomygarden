@@ -10,7 +10,7 @@
           "function": {
             "functionId": "handleUnsubscribe",
             "region": "europe-west1",
-            "pinTag": true
+            "pinTag": false
           }
         },
         {
@@ -25,6 +25,14 @@
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
+          "source": "/email-preferences",
+          "function": {
+            "functionId": "handleUnsubscribe",
+            "region": "europe-west1",
+            "pinTag": true
+          }
+        },
+        {
           "source": "**",
           "destination": "/index.html"
         }
@@ -33,7 +41,7 @@
   ],
   "functions": {
     "source": "api",
-    "predeploy": ["npm --prefix \"$RESOURCE_DIR\" run lint"]
+    "predeploy": ["yarn --cwd \"$RESOURCE_DIR\" lint"]
   },
   "emulators": {
     "functions": {
