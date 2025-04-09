@@ -147,6 +147,10 @@ async function handleUnsubscribePost(req, res) {
   const email = e ?? inEmail;
 
   if (typeof email !== 'string' || typeof secret !== 'string') {
+    logger.warn(
+      'Attempted to unsubscribe a user with a POST request, but the email or secret are missing',
+      { email, secret }
+    );
     return res.sendStatus(400);
   }
 
@@ -154,6 +158,10 @@ async function handleUnsubscribePost(req, res) {
   try {
     uid = await verifyBySecret(email, secret, 'list-unsubscribe-post');
   } catch (e) {
+    logger.error(
+      'Attempted to unsubscribe a user with a POST request, but the secret can not be verified',
+      { email, secret }
+    );
     return res.sendStatus(400);
   }
 
