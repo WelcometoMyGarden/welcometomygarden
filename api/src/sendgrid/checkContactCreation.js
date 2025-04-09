@@ -73,19 +73,29 @@ module.exports = async function checkContactCreation(req) {
     firebaseUserWasDeleted = true;
   }
 
+  let firebaseUserEmailChanged = false;
+  if (firebaseUser && typeof email !== 'undefined' && firebaseUser.email !== email) {
+    // Users could update the email their accounts within seconds or minutes after creation (for example if they notice a mistake),
+    // while these checks are still running on the old contact creation.
+    // In this case, it is possible that the old contact deletion failed in the deletion process (if this wasn't done yet).
+    firebaseUserEmailChanged = true;
+  }
+
   // The job errored or failed
   if (status !== 'completed') {
-    if (firebaseUserWasDeleted) {
+    if (firebaseUserWasDeleted || firebaseUserEmailChanged) {
       // This should be rare (a rare user-intended super quick delete together with a rare random SendGrid job failure)
       logger.warn(
-        'The contact creation failed, but the user was also deleted during the contact creation checks. Attempting a deletion to be sure.',
+        `The contact creation failed, but the ${firebaseUserWasDeleted ? 'user was also deleted' : "users's email changed"} during the contact creation checks.` +
+          `Attempting a deletion to be sure.`,
         { uid, email }
       );
       try {
         await deleteContact({ uid, email });
       } catch (e) {
         logger.warn(
-          'Error while deleting a contact after a quick Firebase Auth deletion with an error creation job, probably this nothing to worry about.',
+          'Error while deleting a contact after a quick Firebase Auth deletion/email change with an error creation job.' +
+            'probably this nothing to worry about because the deletion already succeeded.',
           {
             uid,
             email,
@@ -150,9 +160,9 @@ module.exports = async function checkContactCreation(req) {
 
   const { id: contactId } = contact;
 
-  if (firebaseUserWasDeleted) {
+  if (firebaseUserWasDeleted || firebaseUserEmailChanged) {
     logger.warn(
-      'A contact was created, but the originating Firebase user was deleted while the contact was being created. Deleting the contact.',
+      `A contact was created, but the originating Firebase user${firebaseUserWasDeleted ? ' was deleted' : "'s email was changed "} while the contact was being created. Deleting the contact.`,
       {
         uid,
         email,
