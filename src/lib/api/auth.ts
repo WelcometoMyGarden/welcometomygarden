@@ -15,7 +15,8 @@ import {
   user,
   isInitializingFirebase,
   isUserLoading,
-  resolveOnUserLoaded
+  resolveOnUserLoaded,
+  supabase
 } from '$lib/stores/auth';
 import User, { type UserPrivate, type UserPublic } from '$lib/models/User';
 import { createUser, resendAccountVerification as resendAccVerif } from '$lib/api/functions';
@@ -33,6 +34,8 @@ import { PlausibleEvent } from '$lib/types/Plausible';
 import { isOnIDevicePWA } from './push-registrations';
 import { handledOpenFromIOSPWA } from '$lib/stores/app';
 import { hasLoaded as gardenHasLoaded } from '$lib/stores/garden';
+import { createClient } from '@supabase/supabase-js';
+import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_API_URL } from '$env/static/public';
 
 // These are not Svelte stores, because we do not wish to listen to updates on them.
 // They are abstracted away by the User store, and trigger updates on that store.
@@ -212,6 +215,14 @@ export const createAuthObserver = (): Unsubscribe => {
       ) {
         // might happen if you have the sign in page open on two different tabs
         routeTo = routes.MAP;
+      }
+
+      if ((await firebaseUser.getIdTokenResult()).claims.role === 'service_role') {
+        supabase.set(
+          createClient(PUBLIC_SUPABASE_API_URL, PUBLIC_SUPABASE_ANON_KEY, {
+            accessToken: async () => (await firebaseUser.getIdToken()) ?? null
+          })
+        );
       }
     } else {
       console.log('Received a null Firebase user update');

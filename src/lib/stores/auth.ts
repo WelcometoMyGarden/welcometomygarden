@@ -1,5 +1,6 @@
 import type { User } from '$lib/models/User';
 import { get, writable, type Writable } from 'svelte/store';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 /**
  * Reflects whether when Firebase's services are fully loaded
@@ -51,3 +52,5 @@ export const getUser = (): User => {
 // To be shared between their common fields in the log-in and register pages
 export const formEmailValue = writable('');
 export const formPasswordValue = writable('');
+
+export const supabase = writable<SupabaseClient | undefined>();

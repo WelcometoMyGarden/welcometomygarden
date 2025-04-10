@@ -7,7 +7,7 @@
   import SkeletonDrawer from './SkeletonDrawer.svelte';
   import { addSavedGarden, getPublicUserProfile, removeSavedGarden } from '$lib/api/user';
   import { getGardenPhotoSmall, getGardenPhotoBig } from '$lib/api/garden';
-  import { user } from '$lib/stores/auth';
+  import { supabase, user } from '$lib/stores/auth';
   import { clickOutside } from '$lib/directives';
   import { Text, Chip, Image, Button, Progress } from '../UI';
   import {
@@ -18,7 +18,8 @@
     tentIcon,
     toiletIcon,
     bookmarkEmptyIcon,
-    bookmarkYellowIcon
+    bookmarkYellowIcon,
+    questionMarkIcon
   } from '$lib/images/icons';
   import routes from '$lib/routes';
   import type { Garden } from '$lib/types/Garden';
@@ -27,6 +28,7 @@
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { anchorText } from '$lib/util/translation-helpers';
   import HiddenPhoneNumber from './HiddenPhoneNumber.svelte';
+  import NewBadge from '../Nav/NewBadge.svelte';
 
   const dispatch = createEventDispatcher();
   const phoneRegex =
@@ -60,12 +62,69 @@
   let infoHasLoaded = false;
   let gardenCapacity = 1;
 
+  type ResponseRateTime = {
+    requests_count: number;
+    last_10_responded_count_7d: number;
+    median_response_time: number;
+  };
+
+  let noRequests: boolean | null = null;
+  let responseRateTimeData: {
+    moreThan10Requests: boolean;
+    requestsCount: number;
+    responseRate: number;
+    last10RespondedCount: number;
+    responseTime: number;
+  } | null = null;
+
   const setAllGardenInfo = async () => {
     try {
       userInfo = await getPublicUserProfile(garden.id);
       if (garden.photo) {
         const id = garden.previousPhotoId || garden.id;
         photoUrl = await getGardenPhotoSmall({ ...garden, id });
+      }
+      if ($supabase) {
+        // https://supabase.com/docs/reference/javascript/typescript-support#helper-types-for-tables-and-joins
+        const { error, data } = await $supabase
+          .from('response_rate_time')
+          .select('requests_count,last_10_responded_count_7d,median_response_time')
+          .eq('host', garden.id)
+          .overrideTypes<Array<ResponseRateTime>>();
+        if (error) {
+          console.error(error);
+        } else {
+          const rrTResult = (data ?? [])[0];
+          if (!rrTResult) {
+            noRequests = true;
+            responseRateTimeData = null;
+          } else {
+            noRequests = false;
+            const {
+              requests_count: requestsCount,
+              last_10_responded_count_7d: last10RespondedCount,
+              median_response_time
+            } = rrTResult;
+            const moreThan10Requests = requestsCount > 10;
+            let responseRate;
+            if (requestsCount >= 3) {
+              responseRate = last10RespondedCount / (moreThan10Requests ? 10 : requestsCount);
+            } else {
+              // virtual replies
+              // e.g.
+              // if the host got 1 request and did not respond, it will be 3 - 1 = 2 virtual positives + 1 real negative (0) / 3 = 2/3
+              // if the host got 2 requests and did respond to one, it will be 3-2 = 1 virtual positive + 1 real positive (1) / 3 = 1/3
+              responseRate = (3 - requestsCount + last10RespondedCount) / 3;
+            }
+            responseRateTimeData = {
+              requestsCount,
+              moreThan10Requests,
+              last10RespondedCount,
+              responseTime: Math.round(median_response_time / 3600),
+              responseRate
+            };
+          }
+        }
       }
     } catch (ex) {
       console.log(ex);
@@ -231,6 +290,9 @@
             {#if ownedByLoggedInUser}
               {$_('garden.drawer.owner.your-garden')}
             {:else}{userInfo.firstName}{/if}
+            {#if noRequests === true || responseRateTimeData?.last10RespondedCount === 0}
+              <NewBadge><span class="new-badge">{$_('generics.new')}</span></NewBadge>
+            {/if}
           </Text>
           {#if $user?.superfan}
             <button class="button-container" on:click={saveGarden}>
@@ -286,6 +348,33 @@
               }
             })}
           </p>
+        {/if}
+        {#if responseRateTimeData}
+          <div class="response-rate-time">
+            <div aria-describedby={noRequests === false ? 'response-rate-info' : ''}>
+              Response rate: {responseRateTimeData.responseRate.toLocaleString('en-US', {
+                style: 'percent'
+              })}
+              {#if noRequests === false}
+                <span class="question-mark-icon"
+                  ><Icon greenStroke inline icon={questionMarkIcon} /></span
+                >
+              {/if}
+              <div role="tooltip" id="response-rate-info">
+                {responseRateTimeData.last10RespondedCount} responses to {responseRateTimeData.moreThan10Requests
+                  ? 'the last 10 requests'
+                  : `${responseRateTimeData.requestsCount} requests`}
+              </div>
+            </div>
+            {#if responseRateTimeData.responseTime != null}
+              <div>
+                Reponse time: typically ~{responseRateTimeData.responseTime} hour{responseRateTimeData.responseTime >
+                  1 || responseRateTimeData.responseTime === 0
+                  ? 's'
+                  : ''}
+              </div>
+            {/if}
+          </div>
         {/if}
       </div>
       <footer class="footer mt-m">
@@ -532,13 +621,44 @@
     max-height: 100%;
   }
 
-  .capacity {
+  .capacity,
+  .response-rate-time {
     font-size: 1.4rem;
+    line-height: 1.6;
   }
 
   .cta-hint {
     text-align: center;
     margin-bottom: 1rem;
+    font-size: 1.4rem;
+  }
+
+  .question-mark-icon :global(i) {
+    vertical-align: middle;
+  }
+
+  /* TODO: hide tooltip with JS on esc button press
+  https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tooltip_role*/
+  [role='tooltip'],
+  .hide-tooltip + [role='tooltip'] {
+    visibility: hidden;
+    position: absolute;
+    top: -2.8rem;
+    left: 3rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.6rem;
+    background: black;
+    color: white;
+  }
+  [aria-describedby]:hover,
+  [aria-describedby]:focus {
+    position: relative;
+  }
+  .question-mark-icon:hover + [role='tooltip'],
+  .question-mark-icon:focus + [role='tooltip'] {
+    visibility: visible;
+  }
+  .new-badge {
     font-size: 1.4rem;
   }
 </style>
