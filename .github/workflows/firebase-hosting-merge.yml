@@ -44,7 +44,7 @@ jobs:
       VITE_STRIPE_PRICE_ID_SOLIDARITY: ${{secrets.STRIPE_PRICE_ID_SOLIDARITY}}
       VITE_DISCOURSE_HOST: ${{vars.DISCOURSE_HOST}}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/prepare-source
         with:
           credentials_json: ${{secrets.GCP_CREDENTIALS}}
@@ -52,8 +52,8 @@ jobs:
         run: yarn run build:prod
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_PRODUCTION }}"
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_PRODUCTION }}'
           channelId: live
           projectId: wtmg-production
           target: production

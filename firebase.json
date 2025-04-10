@@ -29,7 +29,7 @@
           "function": {
             "functionId": "handleUnsubscribe",
             "region": "europe-west1",
-            "pinTag": true
+            "pinTag": false
           }
         },
         {
