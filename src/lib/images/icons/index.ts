@@ -30,6 +30,7 @@ export { default as markerIcon } from './marker.svg';
 export { default as mobileDeviceIcon } from './device-mobile.svg';
 export { default as pencilIcon } from './pencil.svg';
 export { default as plusSquareIcon } from './plus-square.svg';
+export { default as questionMarkIcon } from './question-mark.svg';
 export { default as routesIcon } from './routes.svg';
 export { default as shareIcon } from './share.svg';
 export { default as showerIcon } from './shower.svg';
