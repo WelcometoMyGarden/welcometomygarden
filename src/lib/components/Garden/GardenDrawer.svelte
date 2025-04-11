@@ -66,6 +66,11 @@
     requests_count: number;
     last_10_responded_count_7d: number;
     median_response_time: number;
+    average_response_time: number;
+  };
+  type ResponseTime = {
+    responseTime: number;
+    unit: 'hour' | 'day';
   };
 
   let noRequests: boolean | null = null;
@@ -74,7 +79,8 @@
     requestsCount: number;
     responseRate: number;
     last10RespondedCount: number;
-    responseTime: number;
+    medianResponseTime: ResponseTime;
+    averageResponseTime: ResponseTime;
   } | null = null;
 
   const setAllGardenInfo = async () => {
@@ -88,7 +94,9 @@
         // https://supabase.com/docs/reference/javascript/typescript-support#helper-types-for-tables-and-joins
         const { error, data } = await $supabase
           .from('response_rate_time')
-          .select('requests_count,last_10_responded_count_7d,median_response_time')
+          .select(
+            'requests_count,last_10_responded_count_7d,median_response_time,average_response_time'
+          )
           .eq('host', garden.id)
           .overrideTypes<Array<ResponseRateTime>>();
         if (error) {
@@ -103,9 +111,11 @@
             const {
               requests_count: requestsCount,
               last_10_responded_count_7d: last10RespondedCount,
-              median_response_time
+              median_response_time: medianResponseTime,
+              average_response_time: averageResponseTime
             } = rrTResult;
             const moreThan10Requests = requestsCount > 10;
+            // Calc response rate
             let responseRate;
             if (requestsCount >= 3) {
               responseRate = last10RespondedCount / (moreThan10Requests ? 10 : requestsCount);
@@ -116,12 +126,23 @@
               // if the host got 2 requests and did respond to one, it will be 3-2 = 1 virtual positive + 1 real positive (1) / 3 = 1/3
               responseRate = (3 - requestsCount + last10RespondedCount) / 3;
             }
+
+            function calcResponseTime(seconds: number): ResponseTime {
+              // Calc response time
+              if (seconds < 1800) {
+                return { responseTime: 1, unit: 'hour' };
+              } else if (seconds < 24 * 3600) {
+                return { responseTime: Math.round(seconds / 3600), unit: 'hour' };
+              }
+              return { responseTime: Math.round(seconds / (24 * 3600)), unit: 'day' };
+            }
             responseRateTimeData = {
               requestsCount,
               moreThan10Requests,
               last10RespondedCount,
-              responseTime: Math.round(median_response_time / 3600),
-              responseRate
+              responseRate,
+              medianResponseTime: calcResponseTime(medianResponseTime),
+              averageResponseTime: calcResponseTime(averageResponseTime)
             };
           }
         }
@@ -250,6 +271,9 @@
       }
     }
   }
+
+  // TODO: temporary, use ICU
+  const formatPlural = (str: string, num: number) => `${str}${num > 1 || num === 0 ? 's' : ''}`;
 </script>
 
 <Progress active={isGettingMagnifiedPhoto} />
@@ -349,33 +373,43 @@
             })}
           </p>
         {/if}
-        {#if responseRateTimeData}
-          <div class="response-rate-time">
-            <div aria-describedby={noRequests === false ? 'response-rate-info' : ''}>
-              Response rate: {responseRateTimeData.responseRate.toLocaleString('en-US', {
-                style: 'percent'
-              })}
-              {#if noRequests === false}
-                <span class="question-mark-icon"
-                  ><Icon greenStroke inline icon={questionMarkIcon} /></span
-                >
-              {/if}
+        <div class="response-rate-time">
+          <div aria-describedby={noRequests === false ? 'response-rate-info' : ''}>
+            Response rate: {(noRequests === true || !responseRateTimeData
+              ? 1
+              : responseRateTimeData?.responseRate
+            ).toLocaleString('en-US', {
+              style: 'percent'
+            })}
+            {#if noRequests === false && responseRateTimeData}
+              <span class="question-mark-icon"
+                ><Icon greenStroke inline icon={questionMarkIcon} /></span
+              >
               <div role="tooltip" id="response-rate-info">
                 {responseRateTimeData.last10RespondedCount} responses to {responseRateTimeData.moreThan10Requests
                   ? 'the last 10 requests'
                   : `${responseRateTimeData.requestsCount} requests`}
               </div>
-            </div>
-            {#if responseRateTimeData.responseTime != null}
-              <div>
-                Reponse time: typically ~{responseRateTimeData.responseTime} hour{responseRateTimeData.responseTime >
-                  1 || responseRateTimeData.responseTime === 0
-                  ? 's'
-                  : ''}
-              </div>
             {/if}
           </div>
-        {/if}
+          {#if responseRateTimeData?.medianResponseTime != null}
+            <div>
+              Response time: typically within {responseRateTimeData.medianResponseTime.responseTime}
+              {formatPlural(
+                responseRateTimeData.medianResponseTime.unit,
+                responseRateTimeData.medianResponseTime.responseTime
+              )} (med)
+            </div>
+            <div>
+              Response time: typically within {responseRateTimeData.averageResponseTime
+                .responseTime}
+              {formatPlural(
+                responseRateTimeData.averageResponseTime.unit,
+                responseRateTimeData.averageResponseTime.responseTime
+              )} (avg)
+            </div>
+          {/if}
+        </div>
       </div>
       <footer class="footer mt-m">
         {#if userInfo.languages}
@@ -449,7 +483,7 @@
     right: 0;
     background-color: white;
     width: 38rem;
-    max-height: 80%;
+    max-height: 85%;
     z-index: 200;
     padding: 3rem 2rem 0;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
