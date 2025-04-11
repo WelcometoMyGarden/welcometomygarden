@@ -33,6 +33,8 @@
     position: relative;
     overflow: hidden;
     height: 40rem;
+    /* Compensate for the parent drawer not having a bottom padding */
+    padding-bottom: 3rem;
   }
 
   header {
