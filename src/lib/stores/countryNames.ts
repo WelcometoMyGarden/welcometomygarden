@@ -25,7 +25,7 @@ localizedCountryNames.forEach((dataset) => countries.registerLocale(dataset));
 export const countryNames = derived(locale, ($locale) => {
   const lang = coerceToSupportedLanguage($locale || 'en');
   //  https://github.com/michaelwittig/node-i18n-iso-countries#get-all-names-by-their-iso-3166-1-alpha-2-code
-  return countries.getNames(lang, { select: 'official' });
+  return countries.getNames(lang, { select: 'alias' });
 });
 
 /**
