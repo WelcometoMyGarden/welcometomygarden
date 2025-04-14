@@ -12,9 +12,10 @@ import {
 } from 'firebase/firestore';
 import { getUser } from '$lib/stores/auth';
 import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '$lib/stores/garden';
+import { supabase } from '$lib/stores/auth';
 import { appCheck, db, storage } from './firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import type { Garden, GardenFacilities } from '$lib/types/Garden';
+import type { Garden, GardenFacilities, GardenWithPhoto } from '$lib/types/Garden';
 import { get } from 'svelte/store';
 import { getToken } from 'firebase/app-check';
 
@@ -320,18 +321,18 @@ export const changeListedStatus = async (shouldBeListed: boolean) => {
   await updateDoc(docRef, { listed: shouldBeListed });
 };
 
-const getPhotoBySize = async (size: string, garden: Garden & { photo: string }) => {
+const getPhotoBySize = async (size: string, garden: GardenWithPhoto) => {
   const photoLocation = `gardens/${garden.id}/garden_${size}.${garden.photo.split('.').pop()}`;
   const photoRef = ref(storage(), photoLocation);
 
   return await getDownloadURL(photoRef);
 };
 
-export const getGardenPhotoSmall = async (garden: Garden & { photo: string }) => {
+export const getGardenPhotoSmall = async (garden: GardenWithPhoto) => {
   return await getPhotoBySize('360x360', garden);
 };
 
-export const getGardenPhotoBig = async (garden: Garden & { photo: string }) => {
+export const getGardenPhotoBig = async (garden: GardenWithPhoto) => {
   return await getPhotoBySize('1920x1080', garden);
 };
 
@@ -345,4 +346,93 @@ export const hasGarden = async (userId: string) => {
     snapshot = await getDocFromServer(docRef);
   }
   return snapshot ? snapshot.exists() && snapshot.data().listed : false;
+};
+
+type ResponseRateTimeResponse = {
+  requests_count: number;
+  last_10_responded_count_7d: number;
+  median_response_time: number;
+  average_response_time: number;
+};
+
+export type ResponseTime = {
+  responseTime: number;
+  unit: 'hour' | 'day';
+};
+
+export type ResponseRateTime =
+  | { hasRequests: false; requestsCount: 0 }
+  | {
+      hasRequests: true;
+      requestsCount: number;
+      moreThan10Requests: boolean;
+      last10RespondedCount: number;
+      /**
+       * Response rate as a fraction
+       */
+      responseRate: number;
+      medianResponseTime: ResponseTime;
+      averageResponseTime: ResponseTime;
+    };
+
+export const getGardenResponseRate = async (gardenId: string) => {
+  let responseRateTimeData: ResponseRateTime;
+  if (get(supabase)) {
+    // https://supabase.com/docs/reference/javascript/typescript-support#helper-types-for-tables-and-joins
+    const { error, data } = await get(supabase)!
+      .from('response_rate_time')
+      .select(
+        'requests_count,last_10_responded_count_7d,median_response_time,average_response_time'
+      )
+      .eq('host', gardenId)
+      .overrideTypes<Array<ResponseRateTimeResponse>>();
+    if (error) {
+      console.error(error);
+    } else {
+      const rrTResult = (data ?? [])[0];
+      if (!rrTResult) {
+        responseRateTimeData = { requestsCount: 0, hasRequests: false };
+      } else {
+        const {
+          requests_count: requestsCount,
+          last_10_responded_count_7d: last10RespondedCount,
+          median_response_time: medianResponseTime,
+          average_response_time: averageResponseTime
+        } = rrTResult;
+        const moreThan10Requests = requestsCount > 10;
+        // Calc response rate
+        let responseRate;
+        if (requestsCount >= 3) {
+          responseRate = last10RespondedCount / (moreThan10Requests ? 10 : requestsCount);
+        } else {
+          // virtual replies
+          // e.g.
+          // if the host got 1 request and did not respond, it will be 3 - 1 = 2 virtual positives + 1 real negative (0) / 3 = 2/3
+          // if the host got 2 requests and did respond to one, it will be 3-2 = 1 virtual positive + 1 real positive (1) / 3 = 1/3
+          responseRate = (3 - requestsCount + last10RespondedCount) / 3;
+        }
+
+        function calcResponseTime(seconds: number): ResponseTime {
+          // Calc response time
+          if (seconds < 1800) {
+            return { responseTime: 1, unit: 'hour' };
+          } else if (seconds < 24 * 3600) {
+            return { responseTime: Math.round(seconds / 3600), unit: 'hour' };
+          }
+          return { responseTime: Math.round(seconds / (24 * 3600)), unit: 'day' };
+        }
+        responseRateTimeData = {
+          hasRequests: true,
+          requestsCount,
+          moreThan10Requests,
+          last10RespondedCount,
+          responseRate,
+          medianResponseTime: calcResponseTime(medianResponseTime),
+          averageResponseTime: calcResponseTime(averageResponseTime)
+        };
+        return responseRateTimeData;
+      }
+    }
+  }
+  return null;
 };

@@ -14,7 +14,9 @@ export const doesPublicUserExist = async (uid: string) => {
 };
 
 /**
- * Get the public user profile of a user. Used, for example, to fetch information about a chat partner.
+ * Get the public user profile of a user.
+ * Used, for example, to fetch information about a chat partner, or
+ * to fetch info about a garden owner.
  */
 export const getPublicUserProfile = async (uid: string) => {
   const docRef = doc(db(), USERS, uid) as DocumentReference<UserPublic>;

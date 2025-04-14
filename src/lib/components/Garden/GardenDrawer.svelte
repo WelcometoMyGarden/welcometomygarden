@@ -6,8 +6,13 @@
   import { _ } from 'svelte-i18n';
   import SkeletonDrawer from './SkeletonDrawer.svelte';
   import { addSavedGarden, getPublicUserProfile, removeSavedGarden } from '$lib/api/user';
-  import { getGardenPhotoSmall, getGardenPhotoBig } from '$lib/api/garden';
-  import { supabase, user } from '$lib/stores/auth';
+  import {
+    getGardenPhotoSmall,
+    getGardenPhotoBig,
+    type ResponseRateTime,
+    getGardenResponseRate
+  } from '$lib/api/garden';
+  import { user } from '$lib/stores/auth';
   import { clickOutside } from '$lib/directives';
   import { Text, Chip, Image, Button, Progress } from '../UI';
   import {
@@ -22,15 +27,16 @@
     questionMarkIcon
   } from '$lib/images/icons';
   import routes from '$lib/routes';
-  import type { Garden } from '$lib/types/Garden';
+  import type { Garden, GardenWithPhoto } from '$lib/types/Garden';
   import Icon from '$lib/components/UI/Icon.svelte';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { anchorText } from '$lib/util/translation-helpers';
   import HiddenPhoneNumber from './HiddenPhoneNumber.svelte';
   import NewBadge from '../Nav/NewBadge.svelte';
+  import type { UserPublic } from '$lib/models/User';
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{ close: null }>();
   const phoneRegex =
     /\+?\d{1,4}?[-/\\.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/g;
   let descriptionEl: unknown | undefined;
@@ -56,116 +62,60 @@
 
   let drawerElement;
   let photoWrapper: HTMLElement | undefined;
-  let userInfo = null;
+  let userInfo: UserPublic | null = null;
   let photoUrl: string | null = null;
   let biggerPhotoUrl: string | null = null;
-  let infoHasLoaded = false;
+  let initialGardenInfoLoaded = false;
   let gardenCapacity = 1;
 
-  type ResponseRateTime = {
-    requests_count: number;
-    last_10_responded_count_7d: number;
-    median_response_time: number;
-    average_response_time: number;
-  };
-  type ResponseTime = {
-    responseTime: number;
-    unit: 'hour' | 'day';
-  };
+  let responseRateTimeDataLoaded = false;
+  let responseRateTimeData: ResponseRateTime | null = null;
 
-  let noRequests: boolean | null = null;
-  let responseRateTimeData: {
-    moreThan10Requests: boolean;
-    requestsCount: number;
-    responseRate: number;
-    last10RespondedCount: number;
-    medianResponseTime: ResponseTime;
-    averageResponseTime: ResponseTime;
-  } | null = null;
-
-  const setAllGardenInfo = async () => {
+  /**
+   * Should only be called when garden has a value.
+   * Loads the garden owner and image thumbnail URL.
+   */
+  const loadInitialGardenInfo = async () => {
     try {
-      userInfo = await getPublicUserProfile(garden.id);
-      if (garden.photo) {
-        const id = garden.previousPhotoId || garden.id;
-        photoUrl = await getGardenPhotoSmall({ ...garden, id });
-      }
-      if ($supabase) {
-        // https://supabase.com/docs/reference/javascript/typescript-support#helper-types-for-tables-and-joins
-        const { error, data } = await $supabase
-          .from('response_rate_time')
-          .select(
-            'requests_count,last_10_responded_count_7d,median_response_time,average_response_time'
-          )
-          .eq('host', garden.id)
-          .overrideTypes<Array<ResponseRateTime>>();
-        if (error) {
-          console.error(error);
-        } else {
-          const rrTResult = (data ?? [])[0];
-          if (!rrTResult) {
-            noRequests = true;
-            responseRateTimeData = null;
-          } else {
-            noRequests = false;
-            const {
-              requests_count: requestsCount,
-              last_10_responded_count_7d: last10RespondedCount,
-              median_response_time: medianResponseTime,
-              average_response_time: averageResponseTime
-            } = rrTResult;
-            const moreThan10Requests = requestsCount > 10;
-            // Calc response rate
-            let responseRate;
-            if (requestsCount >= 3) {
-              responseRate = last10RespondedCount / (moreThan10Requests ? 10 : requestsCount);
-            } else {
-              // virtual replies
-              // e.g.
-              // if the host got 1 request and did not respond, it will be 3 - 1 = 2 virtual positives + 1 real negative (0) / 3 = 2/3
-              // if the host got 2 requests and did respond to one, it will be 3-2 = 1 virtual positive + 1 real positive (1) / 3 = 1/3
-              responseRate = (3 - requestsCount + last10RespondedCount) / 3;
-            }
-
-            function calcResponseTime(seconds: number): ResponseTime {
-              // Calc response time
-              if (seconds < 1800) {
-                return { responseTime: 1, unit: 'hour' };
-              } else if (seconds < 24 * 3600) {
-                return { responseTime: Math.round(seconds / 3600), unit: 'hour' };
-              }
-              return { responseTime: Math.round(seconds / (24 * 3600)), unit: 'day' };
-            }
-            responseRateTimeData = {
-              requestsCount,
-              moreThan10Requests,
-              last10RespondedCount,
-              responseRate,
-              medianResponseTime: calcResponseTime(medianResponseTime),
-              averageResponseTime: calcResponseTime(averageResponseTime)
-            };
-          }
-        }
+      userInfo = await getPublicUserProfile(garden!.id!);
+      if (garden!.photo) {
+        // NOTE: I'm not sure what previousPhotoId means here, this is a remnant from a very old migration,
+        // probably not relevant anymore.
+        const id = garden!.previousPhotoId ?? (garden!.id as string);
+        photoUrl = await getGardenPhotoSmall({ ...(garden as GardenWithPhoto), id });
       }
     } catch (ex) {
       console.log(ex);
     }
   };
 
+  const loadResponseRateTime = async () => {
+    try {
+      responseRateTimeData = await getGardenResponseRate(garden!.id!);
+    } catch (e) {
+      console.warn("Couldn't load response rate/time data");
+    }
+  };
+
   let previousGarden = {};
+
+  // Set the previous garden if it changed
   $: if (garden && garden.id !== previousGarden.id) {
-    infoHasLoaded = false;
-    userInfo = null;
     previousGarden = garden;
   }
 
+  // Reset garden info if the garden changed
   $: if (garden) {
-    infoHasLoaded = false;
+    initialGardenInfoLoaded = false;
+    responseRateTimeDataLoaded = false;
     userInfo = null;
     photoUrl = null;
     biggerPhotoUrl = null;
-    setAllGardenInfo().then(() => {
-      infoHasLoaded = true;
+    loadInitialGardenInfo().then(() => {
+      initialGardenInfoLoaded = true;
+    });
+    loadResponseRateTime().then(() => {
+      responseRateTimeDataLoaded = true;
     });
     // Converting the capacity field to a number prevents XSS attacks where
     // the capacity field could be set to some HTML.
@@ -178,12 +128,16 @@
 
   let isShowingMagnifiedPhoto = false;
   let isGettingMagnifiedPhoto = false;
+
   const magnifyPhoto = async () => {
+    if (!garden?.photo) {
+      return;
+    }
     isGettingMagnifiedPhoto = true;
     try {
-      if (garden.photo) {
-        const id = garden.previousPhotoId || garden.id;
-        biggerPhotoUrl = await getGardenPhotoBig({ ...garden, id });
+      if (garden?.photo) {
+        const id = garden.previousPhotoId ?? (garden!.id as string);
+        biggerPhotoUrl = await getGardenPhotoBig({ ...garden, id } as GardenWithPhoto);
       }
     } catch (ex) {
       console.log(ex);
@@ -196,7 +150,7 @@
     photoWrapper?.focus();
   };
 
-  const handleClickOutsideDrawer = (event) => {
+  const handleClickOutsideDrawer = (event: CustomEvent) => {
     const { clickEvent } = event.detail;
     // If the drawer is not open, don't try to close it
     // (this might mess with focus elsewhere on the page)
@@ -306,7 +260,7 @@
   use:clickOutside
   on:click-outside={handleClickOutsideDrawer}
 >
-  {#if gardenIsSelected && infoHasLoaded}
+  {#if gardenIsSelected && initialGardenInfoLoaded && userInfo}
     <section class="main">
       <header>
         <div class="mb-l garden-title">
@@ -314,7 +268,7 @@
             {#if ownedByLoggedInUser}
               {$_('garden.drawer.owner.your-garden')}
             {:else}{userInfo.firstName}{/if}
-            {#if noRequests === true || responseRateTimeData?.last10RespondedCount === 0}
+            {#if responseRateTimeData?.hasRequests === false || responseRateTimeData?.last10RespondedCount === 0}
               <NewBadge><span class="new-badge">{$_('generics.new')}</span></NewBadge>
             {/if}
           </Text>
@@ -373,43 +327,49 @@
             })}
           </p>
         {/if}
-        <div class="response-rate-time">
-          <div aria-describedby={noRequests === false ? 'response-rate-info' : ''}>
-            Response rate: {(noRequests === true || !responseRateTimeData
-              ? 1
-              : responseRateTimeData?.responseRate
-            ).toLocaleString('en-US', {
-              style: 'percent'
-            })}
-            {#if noRequests === false && responseRateTimeData}
-              <span class="question-mark-icon"
-                ><Icon greenStroke inline icon={questionMarkIcon} /></span
-              >
-              <div role="tooltip" id="response-rate-info">
-                {responseRateTimeData.last10RespondedCount} responses to {responseRateTimeData.moreThan10Requests
-                  ? 'the last 10 requests'
-                  : `${responseRateTimeData.requestsCount} requests`}
+        {#if responseRateTimeDataLoaded && responseRateTimeData}
+          <div class="response-rate-time">
+            <div aria-describedby={responseRateTimeData.hasRequests ? 'response-rate-info' : ''}>
+              Response rate: {(!responseRateTimeData.hasRequests
+                ? 1
+                : responseRateTimeData.responseRate
+              ).toLocaleString('en-US', {
+                style: 'percent'
+              })}
+              {#if responseRateTimeData.hasRequests}
+                <span class="question-mark-icon"
+                  ><Icon greenStroke inline icon={questionMarkIcon} /></span
+                >
+                <div role="tooltip" id="response-rate-info">
+                  {responseRateTimeData.last10RespondedCount} responses to {responseRateTimeData.moreThan10Requests
+                    ? 'the last 10 requests'
+                    : `${responseRateTimeData.requestsCount} requests`}
+                </div>
+              {/if}
+            </div>
+            {#if responseRateTimeData?.hasRequests}
+              <div>
+                Response time: typically within {responseRateTimeData.medianResponseTime
+                  .responseTime}
+                {formatPlural(
+                  responseRateTimeData.medianResponseTime.unit,
+                  responseRateTimeData.medianResponseTime.responseTime
+                )} (med)
+              </div>
+              <div>
+                Response time: typically within {responseRateTimeData.averageResponseTime
+                  .responseTime}
+                {formatPlural(
+                  responseRateTimeData.averageResponseTime.unit,
+                  responseRateTimeData.averageResponseTime.responseTime
+                )} (avg)
               </div>
             {/if}
           </div>
-          {#if responseRateTimeData?.medianResponseTime != null}
-            <div>
-              Response time: typically within {responseRateTimeData.medianResponseTime.responseTime}
-              {formatPlural(
-                responseRateTimeData.medianResponseTime.unit,
-                responseRateTimeData.medianResponseTime.responseTime
-              )} (med)
-            </div>
-            <div>
-              Response time: typically within {responseRateTimeData.averageResponseTime
-                .responseTime}
-              {formatPlural(
-                responseRateTimeData.averageResponseTime.unit,
-                responseRateTimeData.averageResponseTime.responseTime
-              )} (avg)
-            </div>
-          {/if}
-        </div>
+        {:else if !responseRateTimeDataLoaded}
+          <Chip isSkeleton />
+          <Chip isSkeleton />
+        {/if}
       </div>
       <footer class="footer mt-m">
         {#if userInfo.languages}
@@ -468,7 +428,7 @@
         {/if}
       </footer>
     </section>
-  {:else if !infoHasLoaded}
+  {:else if !initialGardenInfoLoaded}
     <SkeletonDrawer />
   {/if}
 </div>

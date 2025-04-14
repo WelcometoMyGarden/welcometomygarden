@@ -4,7 +4,7 @@
   import { crossIcon } from '$lib/images/icons';
   import { focusTrap } from '$lib/directives';
 
-  const dispatch = createEventDispatcher<{ close: never }>();
+  const dispatch = createEventDispatcher<{ close: null }>();
 
   // a11y
   /**
