@@ -254,16 +254,19 @@
       }
     };
 
-    resolveOnUserLoaded().then((u) => {
-      // Open the survey if needed
-      if (window.Tally) {
-      } else {
-        console.warn('Tally not loaded on /explore mount, adding listener');
-        document.addEventListener('tally-loaded', openTally);
-      }
-    });
-
-    return () => document.removeEventListener('tally-loaded', openTally);
+    // NOTE: to re-enable the NPS survey, also re-add
+    // the script in src/routes/explore/+page.svelte
+    //
+    // resolveOnUserLoaded().then(() => {
+    //   // Open the survey if needed
+    //   if (window.Tally) {
+    //     openTally();
+    //   } else {
+    //     console.warn('Tally not loaded on /explore mount, adding listener');
+    //     document.addEventListener('tally-loaded', openTally);
+    //   }
+    // });
+    // return () => document.removeEventListener('tally-loaded', openTally);
   });
 
   onDestroy(() => {
