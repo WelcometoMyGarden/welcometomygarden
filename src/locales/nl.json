@@ -239,7 +239,7 @@
         "img-alt": "jouw tuin",
         "hints": {
           "wrong-format": "Jouw foto moet een JPEG-, PNG- of TIFF-bestand zijn.",
-          "too-large": "Je foto is te groot. De bestandsgrootte van een foto moet 5MB of kleiner zijn."
+          "too-large": "Je foto is te groot. De bestandsgrootte van een foto moet 30MB of kleiner zijn."
         }
       },
       "add-button": "Voeg jouw tuin toe",

@@ -80,8 +80,8 @@
       photoHint.valid = false;
       return false;
     }
-    // Should be no bigger than 5MB
-    if (file.size / 1024 / 1024 > 5) {
+    // Should be no bigger than 30 MB
+    if (file.size / 1024 / 1024 > 30) {
       photoHint.message = $_('garden.form.photo.hints.too-large');
       photoHint.valid = false;
       return false;

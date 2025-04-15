@@ -15,7 +15,9 @@ service firebase.storage {
     }
     match /gardens/{userId}/{allPaths=**} {
       allow read;
-      allow write: if request.auth != null && request.auth.uid == userId;
+      allow write: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.size <= 30 * 1024 * 1024;
     }
 
     function isValidTrailAccess(userId) {
@@ -26,7 +28,7 @@ service firebase.storage {
     match /trails/{userId}/{singlePath} {
       // Only superfans (members) can upload and see trails
       allow read: if isValidTrailAccess(userId);
-      allow create: if isValidTrailAccess(userId);      
+      allow create: if isValidTrailAccess(userId);
       allow delete: if isValidTrailAccess(userId);
       // Updates are NOT allowed
     }

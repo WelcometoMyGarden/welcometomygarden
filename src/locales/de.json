@@ -590,7 +590,7 @@
         "img-alt": "Ihr Garten",
         "hints": {
           "wrong-format": "Ihr Foto muss eine JPEG-, PNG- oder TIFF-Datei sein.",
-          "too-large": "Ihr Bild ist zu groß. Die Dateigröße eines Bildes sollte 5 MB oder weniger betragen."
+          "too-large": "Ihr Bild ist zu groß. Die Dateigröße eines Bildes sollte 30 MB oder weniger betragen."
         }
       },
       "add-button": "Ihren Garten hinzufügen",

@@ -591,7 +591,7 @@
         "img-alt": "Tu jardín",
         "hints": {
           "wrong-format": "Tu foto debe ser un archivo JPEG, PNG o TIFF.",
-          "too-large": "Tu imagen es demasiado grande. El tamaño del archivo de una imagen debe ser de 5 MB o menos."
+          "too-large": "Tu imagen es demasiado grande. El tamaño del archivo de una imagen debe ser de 30 MB o menos."
         }
       },
       "add-button": "Añade tu jardín",

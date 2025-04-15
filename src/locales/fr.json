@@ -515,7 +515,7 @@
         "title": "Photo",
         "hints": {
           "wrong-format": "Votre photo doit être un fichier JPEG, PNG ou TIFF.",
-          "too-large": "Votre image est trop grande. La taille du fichier d'une image doit être inférieure ou égale à 5 Mo."
+          "too-large": "Votre image est trop grande. La taille du fichier d'une image doit être nférieure ou égale à 30 Mo."
         },
         "img-alt": "Votre jardin"
       },

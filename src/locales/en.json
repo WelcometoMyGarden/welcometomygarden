@@ -594,7 +594,7 @@
         "img-alt": "Your garden",
         "hints": {
           "wrong-format": "Your photo must be a JPEG, PNG, or TIFF file.",
-          "too-large": "Your image is too large. An image's file size should be 5MB or smaller."
+          "too-large": "Your image is too large. An image's file size should be 30 MB or smaller."
         }
       },
       "add-button": "Add your garden",
