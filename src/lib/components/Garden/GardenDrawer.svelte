@@ -268,7 +268,7 @@
             {#if ownedByLoggedInUser}
               {$_('garden.drawer.owner.your-garden')}
             {:else}{userInfo.firstName}{/if}
-            {#if responseRateTimeData?.hasRequests === false || responseRateTimeData?.last10RespondedCount === 0}
+            {#if responseRateTimeDataLoaded && (responseRateTimeData?.hasRequests === false || responseRateTimeData?.last10RespondedCount === 0)}
               <NewBadge><span class="new-badge">{$_('generics.new')}</span></NewBadge>
             {/if}
           </Text>

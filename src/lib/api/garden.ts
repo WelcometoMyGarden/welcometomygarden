@@ -375,8 +375,11 @@ export type ResponseRateTime =
       averageResponseTime: ResponseTime;
     };
 
-export const getGardenResponseRate = async (gardenId: string) => {
-  let responseRateTimeData: ResponseRateTime;
+/**
+ * @param gardenId
+ * @returns null if supabase is not loaded
+ */
+export const getGardenResponseRate = async (gardenId: string): Promise<ResponseRateTime | null> => {
   if (get(supabase)) {
     // https://supabase.com/docs/reference/javascript/typescript-support#helper-types-for-tables-and-joins
     const { error, data } = await get(supabase)!
@@ -391,7 +394,7 @@ export const getGardenResponseRate = async (gardenId: string) => {
     } else {
       const rrTResult = (data ?? [])[0];
       if (!rrTResult) {
-        responseRateTimeData = { requestsCount: 0, hasRequests: false };
+        return { requestsCount: 0, hasRequests: false };
       } else {
         const {
           requests_count: requestsCount,
@@ -421,7 +424,7 @@ export const getGardenResponseRate = async (gardenId: string) => {
           }
           return { responseTime: Math.round(seconds / (24 * 3600)), unit: 'day' };
         }
-        responseRateTimeData = {
+        return {
           hasRequests: true,
           requestsCount,
           moreThan10Requests,
@@ -430,7 +433,6 @@ export const getGardenResponseRate = async (gardenId: string) => {
           medianResponseTime: calcResponseTime(medianResponseTime),
           averageResponseTime: calcResponseTime(averageResponseTime)
         };
-        return responseRateTimeData;
       }
     }
   }
