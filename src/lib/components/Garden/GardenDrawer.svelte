@@ -9,8 +9,8 @@
   import {
     getGardenPhotoSmall,
     getGardenPhotoBig,
-    type ResponseRateTime,
-    getGardenResponseRate
+    getGardenResponseRate,
+    type DisplayResponseRateTime
   } from '$lib/api/garden';
   import { user } from '$lib/stores/auth';
   import { clickOutside } from '$lib/directives';
@@ -23,8 +23,7 @@
     tentIcon,
     toiletIcon,
     bookmarkEmptyIcon,
-    bookmarkYellowIcon,
-    questionMarkIcon
+    bookmarkYellowIcon
   } from '$lib/images/icons';
   import routes from '$lib/routes';
   import type { Garden, GardenWithPhoto } from '$lib/types/Garden';
@@ -35,6 +34,7 @@
   import HiddenPhoneNumber from './HiddenPhoneNumber.svelte';
   import NewBadge from '../Nav/NewBadge.svelte';
   import type { UserPublic } from '$lib/models/User';
+  import ResponseRateTimeLines from './ResponseRateTimeLines.svelte';
 
   const dispatch = createEventDispatcher<{ close: null }>();
   const phoneRegex =
@@ -69,7 +69,7 @@
   let gardenCapacity = 1;
 
   let responseRateTimeDataLoaded = false;
-  let responseRateTimeData: ResponseRateTime | null = null;
+  let responseRateTimeData: DisplayResponseRateTime | null = null;
 
   /**
    * Should only be called when garden has a value.
@@ -225,9 +225,6 @@
       }
     }
   }
-
-  // TODO: temporary, use ICU
-  const formatPlural = (str: string, num: number) => `${str}${num > 1 || num === 0 ? 's' : ''}`;
 </script>
 
 <Progress active={isGettingMagnifiedPhoto} />
@@ -268,7 +265,7 @@
             {#if ownedByLoggedInUser}
               {$_('garden.drawer.owner.your-garden')}
             {:else}{userInfo.firstName}{/if}
-            {#if responseRateTimeDataLoaded && (responseRateTimeData?.hasRequests === false || responseRateTimeData?.last10RespondedCount === 0)}
+            {#if responseRateTimeDataLoaded && responseRateTimeData?.hasRequests === false}
               <NewBadge><span class="new-badge">{$_('generics.new')}</span></NewBadge>
             {/if}
           </Text>
@@ -328,44 +325,7 @@
           </p>
         {/if}
         {#if responseRateTimeDataLoaded && responseRateTimeData}
-          <div class="response-rate-time">
-            <div aria-describedby={responseRateTimeData.hasRequests ? 'response-rate-info' : ''}>
-              Response rate: {(!responseRateTimeData.hasRequests
-                ? 1
-                : responseRateTimeData.responseRate
-              ).toLocaleString('en-US', {
-                style: 'percent'
-              })}
-              {#if responseRateTimeData.hasRequests}
-                <span class="question-mark-icon"
-                  ><Icon greenStroke inline icon={questionMarkIcon} /></span
-                >
-                <div role="tooltip" id="response-rate-info">
-                  {responseRateTimeData.last10RespondedCount} responses to {responseRateTimeData.moreThan10Requests
-                    ? 'the last 10 requests'
-                    : `${responseRateTimeData.requestsCount} requests`}
-                </div>
-              {/if}
-            </div>
-            {#if responseRateTimeData?.hasRequests}
-              <div>
-                Response time: typically within {responseRateTimeData.medianResponseTime
-                  .responseTime}
-                {formatPlural(
-                  responseRateTimeData.medianResponseTime.unit,
-                  responseRateTimeData.medianResponseTime.responseTime
-                )} (med)
-              </div>
-              <div>
-                Response time: typically within {responseRateTimeData.averageResponseTime
-                  .responseTime}
-                {formatPlural(
-                  responseRateTimeData.averageResponseTime.unit,
-                  responseRateTimeData.averageResponseTime.responseTime
-                )} (avg)
-              </div>
-            {/if}
-          </div>
+          <ResponseRateTimeLines data={responseRateTimeData} />
         {:else if !responseRateTimeDataLoaded}
           <Chip isSkeleton />
           <Chip isSkeleton />
@@ -615,8 +575,7 @@
     max-height: 100%;
   }
 
-  .capacity,
-  .response-rate-time {
+  .capacity {
     font-size: 1.4rem;
     line-height: 1.6;
   }
@@ -627,31 +586,6 @@
     font-size: 1.4rem;
   }
 
-  .question-mark-icon :global(i) {
-    vertical-align: middle;
-  }
-
-  /* TODO: hide tooltip with JS on esc button press
-  https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tooltip_role*/
-  [role='tooltip'],
-  .hide-tooltip + [role='tooltip'] {
-    visibility: hidden;
-    position: absolute;
-    top: -2.8rem;
-    left: 3rem;
-    padding: 0.3rem 0.6rem;
-    border-radius: 0.6rem;
-    background: black;
-    color: white;
-  }
-  [aria-describedby]:hover,
-  [aria-describedby]:focus {
-    position: relative;
-  }
-  .question-mark-icon:hover + [role='tooltip'],
-  .question-mark-icon:focus + [role='tooltip'] {
-    visibility: visible;
-  }
   .new-badge {
     font-size: 1.4rem;
   }

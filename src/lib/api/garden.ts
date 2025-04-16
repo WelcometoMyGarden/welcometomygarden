@@ -348,90 +348,135 @@ export const hasGarden = async (userId: string) => {
   return snapshot ? snapshot.exists() && snapshot.data().listed : false;
 };
 
+/**
+ * Completely null when the host has not received any chats yet
+ */
 type ResponseRateTimeResponse = {
-  requests_count: number;
-  last_10_responded_count_7d: number;
-  median_response_time: number;
-  average_response_time: number;
+  host: string;
+  respondedUnder7d: number;
+  respondedOver7d: number;
+  totalRequestsOver7d: number;
+  /**
+   * May be null if never responded
+   */
+  medianResponseTime: number | null;
+  /**
+   * May be null if never responded
+   */
+  averageResponseTime: number | null;
+  /**
+   * May be null if never responded
+   */
+  maxResponseTime: number | null;
 };
 
-export type ResponseTime = {
-  responseTime: number;
-  unit: 'hour' | 'day';
-};
-
-export type ResponseRateTime =
-  | { hasRequests: false; requestsCount: 0 }
+export type ResponseTime =
+  // for special cases
+  | { key: 'few_hours' | 'within_week' | 'over_week' }
+  // for cases between 1 & 6 days
   | {
+      key: 'days';
+      days: number;
+    };
+
+export type DisplayResponseRateTime =
+  | {
+      /**
+       * The host has no requests, or none that should be counted (unanswered < 7 days)
+       */
+      hasRequests: false;
+      requestsCount: 0;
+    }
+  | {
+      /**
+       * Whether this host has any requests that should be counted
+       */
       hasRequests: true;
-      requestsCount: number;
-      moreThan10Requests: boolean;
+      /**
+       * Responded requests among the last 10 that should be considered
+       */
       last10RespondedCount: number;
+      /**
+       * Count of requests that should be considered, max 10 back.
+       */
+      requestsCount: number;
+      /**
+       * Whether the host has more than 10 requests in reality
+       */
+      moreThan10Requests: boolean;
       /**
        * Response rate as a fraction
        */
       responseRate: number;
-      medianResponseTime: ResponseTime;
-      averageResponseTime: ResponseTime;
+      responseTime: ResponseTime | null;
     };
 
 /**
  * @param gardenId
  * @returns null if supabase is not loaded
  */
-export const getGardenResponseRate = async (gardenId: string): Promise<ResponseRateTime | null> => {
+export const getGardenResponseRate = async (
+  gardenId: string
+): Promise<DisplayResponseRateTime | null> => {
   if (get(supabase)) {
     // https://supabase.com/docs/reference/javascript/typescript-support#helper-types-for-tables-and-joins
     const { error, data } = await get(supabase)!
       .from('response_rate_time')
-      .select(
-        'requests_count,last_10_responded_count_7d,median_response_time,average_response_time'
-      )
+      .select()
       .eq('host', gardenId)
       .overrideTypes<Array<ResponseRateTimeResponse>>();
     if (error) {
       console.error(error);
     } else {
       const rrTResult = (data ?? [])[0];
-      if (!rrTResult) {
+      if (!rrTResult || (rrTResult.respondedUnder7d === 0 && rrTResult.totalRequestsOver7d === 0)) {
+        // requests: none if actually none, or if no <7d reqs were answered yet
         return { requestsCount: 0, hasRequests: false };
       } else {
         const {
-          requests_count: requestsCount,
-          last_10_responded_count_7d: last10RespondedCount,
-          median_response_time: medianResponseTime,
-          average_response_time: averageResponseTime
+          respondedUnder7d,
+          respondedOver7d,
+          totalRequestsOver7d,
+          medianResponseTime,
+          averageResponseTime,
+          maxResponseTime
         } = rrTResult;
+        const lookbackNumber = 10 - respondedUnder7d;
+        const requestsCount = respondedUnder7d + totalRequestsOver7d;
         const moreThan10Requests = requestsCount > 10;
+        const last10RespondedCount = respondedUnder7d + respondedOver7d;
         // Calc response rate
-        let responseRate;
-        if (requestsCount >= 3) {
-          responseRate = last10RespondedCount / (moreThan10Requests ? 10 : requestsCount);
-        } else {
-          // virtual replies
-          // e.g.
-          // if the host got 1 request and did not respond, it will be 3 - 1 = 2 virtual positives + 1 real negative (0) / 3 = 2/3
-          // if the host got 2 requests and did respond to one, it will be 3-2 = 1 virtual positive + 1 real positive (1) / 3 = 1/3
-          responseRate = (3 - requestsCount + last10RespondedCount) / 3;
-        }
+        const responseRate =
+          last10RespondedCount / (respondedUnder7d + Math.min(lookbackNumber, totalRequestsOver7d));
+
+        let responseTime =
+          maxResponseTime == null
+            ? null
+            : Math.round(maxResponseTime / (3600 * 24)) > 7
+              ? calcResponseTime(medianResponseTime!)
+              : calcResponseTime(averageResponseTime!);
 
         function calcResponseTime(seconds: number): ResponseTime {
           // Calc response time
-          if (seconds < 1800) {
-            return { responseTime: 1, unit: 'hour' };
-          } else if (seconds < 24 * 3600) {
-            return { responseTime: Math.round(seconds / 3600), unit: 'hour' };
+          const hours = Math.round(seconds / 3600);
+          const days = Math.round(seconds / (3600 * 24));
+          if (hours <= 4) {
+            return { key: 'few_hours' };
+          } else if (days < 7) {
+            return { key: 'days', days };
+          } else if (days === 7) {
+            return { key: 'within_week' };
+          } else {
+            return { key: 'over_week' };
           }
-          return { responseTime: Math.round(seconds / (24 * 3600)), unit: 'day' };
         }
         return {
           hasRequests: true,
-          requestsCount,
+          requestsCount: Math.min(requestsCount, 10),
           moreThan10Requests,
           last10RespondedCount,
           responseRate,
-          medianResponseTime: calcResponseTime(medianResponseTime),
-          averageResponseTime: calcResponseTime(averageResponseTime)
+          responseTime
         };
       }
     }
