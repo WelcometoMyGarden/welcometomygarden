@@ -15,6 +15,9 @@
   import trackEvent from '$lib/util/track-plausible';
   import { renewalNoticeContent, subscriptionJustEnded } from '$lib/stores/subscription';
   import { coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
+  import { bannerLink, shouldShowBanner } from '$lib/stores/app';
+  import { transKeyExists } from '$lib/util';
+  import { anchorText } from '$lib/util/translation-helpers';
 
   const dispatch = createEventDispatcher();
   export let isOpen = false;
@@ -67,8 +70,7 @@
     { route: routes.TERMS_OF_USE, name: $_('generics.terms-of-use') }
   ];
 
-  $: shouldShowRenewalNotice =
-    $user && $user.stripeSubscription && $subscriptionJustEnded && $user.stripeSubscription;
+  $: shouldShowRenewalNotice = $user && $user.stripeSubscription && $subscriptionJustEnded;
 </script>
 
 <div class:shown={isOpen} class="overlay" />
@@ -76,10 +78,26 @@
   <li class="socials">
     <Socials small />
   </li>
-  <li class="superfan-bar" class:show={shouldShowRenewalNotice}>
+  <li class="superfan-bar" class:show={$shouldShowBanner}>
     {#if shouldShowRenewalNotice}
       <span class="title">{$renewalNoticeContent?.prompt}</span>
       <span>{@html $renewalNoticeContent?.answerHtml}</span>
+    {:else if $shouldShowBanner}
+      {#if transKeyExists('navigation.banner.prompt')}
+        <span class="title">{$_('navigation.banner.prompt')}</span>
+      {/if}
+      <span
+        >{@html $_('navigation.banner.answer', {
+          values: {
+            link: anchorText({
+              href: $bannerLink,
+              linkText: $_('navigation.banner.link-text'),
+              style: 'text-decoration: underline; cursor: pointer;',
+              newtab: true
+            })
+          }
+        })}
+      </span>
     {/if}
   </li>
   <li class="main-links-container">

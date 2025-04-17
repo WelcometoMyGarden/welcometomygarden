@@ -9,23 +9,41 @@
   import { PlausibleEvent } from '$lib/types/Plausible';
   import trackEvent from '$lib/util/track-plausible';
   import { renewalNoticeContent, subscriptionJustEnded } from '$lib/stores/subscription';
+  import { anchorText } from '$lib/util/translation-helpers';
+  import { bannerLink, shouldShowBanner } from '$lib/stores/app';
+  import { transKeyExists } from '$lib/util';
 
   $: firstName = $user ? $user.firstName : '';
-  $: shouldShowRenewalTopBar = $user && $user.stripeSubscription && $subscriptionJustEnded;
-  // This controls a workaround to adjust the height reserved for the top notice (see below)
-  // We keep it as a separate property because the condition here changes frequently.
-  $: shouldShowTopBar = shouldShowRenewalTopBar;
 </script>
 
 <nav>
-  {#if shouldShowRenewalTopBar && $user?.stripeSubscription}
+  {#if $shouldShowBanner}
     <div class="nav-extra">
-      <!-- Inform renewal amount -->
-      <span
-        ><strong style="font-weight: 500;">
-          {$renewalNoticeContent?.prompt}</strong
-        >{' '}{@html $renewalNoticeContent?.answerHtml}
-      </span>
+      {#if $subscriptionJustEnded && $user?.stripeSubscription}
+        <!-- renewal sub-case -->
+        <span
+          ><strong style="font-weight: 500;">
+            {$renewalNoticeContent?.prompt}</strong
+          >{' '}{@html $renewalNoticeContent?.answerHtml}
+        </span>
+      {:else}
+        <!-- generic banner, logic is configurable via $shouldShowBanner (don't exclude the renewal case there) -->
+        <span>
+          {#if transKeyExists('navigation.banner.prompt')}
+            <strong style="font-weight: 500;">{$_('navigation.banner.prompt')}</strong>
+            {' '}
+          {/if}{@html $_('navigation.banner.answer', {
+            values: {
+              link: anchorText({
+                href: $bannerLink,
+                linkText: $_('navigation.banner.link-text'),
+                style: 'text-decoration: underline; cursor: pointer;',
+                newtab: true
+              })
+            }
+          })}
+        </span>
+      {/if}
     </div>
   {/if}
   <div class="main-nav">
@@ -76,7 +94,7 @@
   <!-- !important is necessary because the svelte component-scoped CSS otherwise has higher CSS specificity -->
   <!--  -->
   <!-- Hide the extra bar vvvv (prettier duplicates this comment if put within the block on every save) -->
-  {#if !shouldShowTopBar}
+  {#if !$shouldShowBanner}
     <style>
       .nav-extra {
         display: none !important;

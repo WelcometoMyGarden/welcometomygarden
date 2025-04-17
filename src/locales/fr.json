@@ -41,10 +41,10 @@
     }
   },
   "navigation": {
-    "membership-notice": {
-      "prompt": "Nouveau : ",
-      "answer": "une adhésion WTMG pour tous les voyageurs lents. Pour en savoir plus, {linkText}",
-      "link-text": "cliquez ici !"
+    "banner": {
+      "prompt": "",
+      "answer": "Nous aimerions que vous fassiez partie de notre vidéo WTMG — {link} ! 💚",
+      "link-text": "partagez votre photo ou vidéo"
     },
     "membership-expired-notice": {
       "prompt": "Souhaitez-vous renouveler votre adhésion WTMG{amount} dès maintenant ?",

@@ -34,7 +34,7 @@ const sevenDayMarkSec = derived(user, ($user) =>
 export const subscriptionJustEnded = derived(
   user,
   ($user) =>
-    $user?.stripeSubscription &&
+    $user?.stripeSubscription != null &&
     $user.stripeSubscription.latestInvoiceStatus !== 'paid' &&
     // This is not the initial invoice
     $user.stripeSubscription.currentPeriodStart !== $user.stripeSubscription.startDate &&

@@ -47,10 +47,10 @@
     }
   },
   "navigation": {
-    "membership-notice": {
-      "prompt": "New: ",
-      "answer": "a WTMG membership for all slow travellers. Find out more {linkText}!",
-      "link-text": "here"
+    "banner": {
+      "prompt": "",
+      "answer": "We want you to be part of our WTMG video — {link}! 💚",
+      "link-text": "share your picture or video"
     },
     "membership-expired-notice": {
       "prompt": "Want to renew your WTMG membership{amount} now?",

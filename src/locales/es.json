@@ -45,10 +45,10 @@
     }
   },
   "navigation": {
-    "membership-notice": {
-      "prompt": "Nuevo:",
-      "answer": "una suscripción WTMG para todos los viajeros sin prisa. ¡Descubre más {linkText}!",
-      "link-text": "aquí"
+    "banner": {
+      "prompt": "",
+      "answer": "",
+      "link-text": ""
     },
     "membership-expired-notice": {
       "prompt": "¿Quiere renovar su suscripción de WTMG {amount} ahora?",

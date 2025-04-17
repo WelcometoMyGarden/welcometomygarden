@@ -1,8 +1,11 @@
 import { derived, writable } from 'svelte/store';
-import { isInitializingFirebase, isUserLoading } from './auth';
+import { isInitializingFirebase, isUserLoading, user } from './auth';
 import { isLoading as isLocaleLoading } from 'svelte-i18n';
 import type { ComponentType } from 'svelte';
 import { isOnIDevicePWA } from '$lib/api/push-registrations';
+import { subscriptionJustEnded } from './subscription';
+import createUrl from '$lib/util/create-url';
+import { coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
 
 export const handledOpenFromIOSPWA = writable(false);
 
@@ -35,3 +38,25 @@ export const close = () => rootModal.set(null);
  * This observable is useful to know when it is possible to add layers on top of it.
  */
 export const gardenLayerLoaded = writable(false);
+//
+// Whether the top banner should be shown, logic to be defined
+// Show when the user is a superfan or host
+// subscriptionJustEnded should probably remain in the logic
+export const shouldShowBanner = derived(
+  [user, subscriptionJustEnded],
+  ([$user, $subscriptionJustEnded]) =>
+    // NOTE: if we want to disable this, it is probably best to just keep $subscriptionJustEnded in the condition
+    $subscriptionJustEnded || $user?.superfan === true || $user?.garden != null
+);
+
+export const bannerLink = derived(user, ($user) =>
+  !$user
+    ? ''
+    : createUrl(
+        `https://share.welcometomygarden.org/${coerceToMainLanguageENBlank($user?.communicationLanguage)}`,
+        {
+          wtmg: $user.id,
+          ref: 'wtmgbanner'
+        }
+      )
+);

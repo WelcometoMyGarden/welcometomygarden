@@ -44,10 +44,10 @@
     }
   },
   "navigation": {
-    "membership-notice": {
-      "prompt": "Neu:",
-      "answer": "eine WTMG-Mitgliedschaft für alle Slow Traveller. Erfahre mehr {linkText}!",
-      "link-text": "Hier"
+    "banner": {
+      "prompt": "",
+      "answer": "",
+      "link-text": ""
     },
     "membership-expired-notice": {
       "prompt": "Möchten Sie Ihre WTMG-Mitgliedschaft{amount} jetzt erneuern?",
