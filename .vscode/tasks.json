@@ -147,6 +147,13 @@
       "command": "mailpit",
       "problemMatcher": [],
       "label": "Run mailpit"
+    },
+    {
+      "type": "npm",
+      "script": "dev:prod",
+      "problemMatcher": [],
+      "label": "npm: dev:prod",
+      "detail": "vite --mode production --host"
     }
   ]
 }
