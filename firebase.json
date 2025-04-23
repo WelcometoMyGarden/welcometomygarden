@@ -41,7 +41,7 @@
   ],
   "functions": {
     "source": "api",
-    "predeploy": ["yarn --cwd \"$RESOURCE_DIR\" lint"]
+    "predeploy": ["cd \"$RESOURCE_DIR\" && yarn lint"]
   },
   "emulators": {
     "functions": {
