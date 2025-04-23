@@ -125,9 +125,7 @@ exports.handleUnsubscribe = onRequest(handleUnsubscribeRouter);
 
 // Firebase Auth triggers
 exports.onAuthUserDelete = euWest1V1.auth.user().onDelete(cleanupUserOnDelete);
-exports.onAuthUserCreate = euWest1V1.auth
-  .user()
-  .onCreate(whenSupabaseReplicating(onAuthUserCreate));
+exports.onAuthUserCreate = euWest1V1.auth.user().onCreate(onAuthUserCreate);
 
 // Firestore triggers: users
 exports.onUserPrivateWriteV2 = onDocumentWritten(

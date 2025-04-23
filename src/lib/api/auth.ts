@@ -116,6 +116,7 @@ export const createAuthObserver = (): Unsubscribe => {
         justLoggedIn = true;
       }
       // Other cases: the current user was updated with new auth info
+      // or the user was manually reloaded (currentUser.reload())
 
       const firebaseUserEmailVerified: boolean = firebaseUser.emailVerified;
       // The token email_verified field is undocumented, but it gets set,
@@ -217,7 +218,9 @@ export const createAuthObserver = (): Unsubscribe => {
         routeTo = routes.MAP;
       }
 
-      if ((await firebaseUser.getIdTokenResult()).claims.role === 'service_role') {
+      // Check if a Supabase role is set
+      if ((await firebaseUser.getIdTokenResult()).claims.role) {
+        // load the Supabase client
         supabase.set(
           createClient(PUBLIC_SUPABASE_API_URL, PUBLIC_SUPABASE_ANON_KEY, {
             accessToken: async () => (await firebaseUser.getIdToken()) ?? null
@@ -242,6 +245,14 @@ export const createAuthObserver = (): Unsubscribe => {
         if (getCurrentRoute()?.requiresAuth) {
           notify.info(get(_)('auth.logged-out'), 8000);
           routeTo = routes.SIGN_IN;
+        }
+        try {
+          if (get(supabase)) {
+            await get(supabase)!.auth.signOut();
+            supabase.set(undefined);
+          }
+        } catch (e) {
+          console.error('Failed to sign out from Supabase', e);
         }
       }
 
@@ -434,7 +445,10 @@ export const register = async ({
   });
   trackEvent(PlausibleEvent.CREATE_ACCOUNT);
   await resolveOnUserLoaded();
-
+  // Refresh the token to ensure that the async backend claims are set.
+  // NOTE: using the blocking functions of Identity Toolkit can make this more reliable.
+  console.log('Force-refreshing the token after account creation for claims sync');
+  await auth().currentUser?.getIdToken(true);
   isRegistering.set(false);
 };
 

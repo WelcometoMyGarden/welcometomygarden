@@ -4,44 +4,44 @@
   import { Icon } from '../UI';
 
   export let data: DisplayResponseRateTime;
-  $: ({ hasRequests, requestsCount } = data);
+  $: ({ has_requests, requests_count } = data);
   // TODO: temporary, use ICU
   const formatPlural = (str: string, num: number) => `${str}${num > 1 || num === 0 ? 's' : ''}`;
 </script>
 
 {#if data != null}
   <div class="response-rate-time">
-    <div aria-describedby={hasRequests ? 'response-rate-info' : ''}>
-      Response rate: {(!data.hasRequests ? 1 : data.responseRate).toLocaleString('en-US', {
+    <div aria-describedby={has_requests ? 'response-rate-info' : ''}>
+      Response rate: {(!data.has_requests ? 1 : data.response_rate).toLocaleString('en-US', {
         style: 'percent'
       })}
       <!-- Whether to show the question mark overlay -->
-      {#if data.hasRequests}
+      {#if data.has_requests}
         <span class="question-mark-icon"><Icon greenStroke inline icon={questionMarkIcon} /></span>
         <div role="tooltip" id="response-rate-info">
-          {data.last10RespondedCount}
-          {formatPlural('response', data.last10RespondedCount)} to {data.moreThan10Requests
+          {data.last_10_responded_count}
+          {formatPlural('response', data.last_10_responded_count)} to {data.more_than_10_requests
             ? ' the last '
             : ''}
-          {requestsCount}
-          {formatPlural('request', requestsCount)}
+          {requests_count}
+          {formatPlural('request', requests_count)}
         </div>
       {/if}
     </div>
     <!-- When to show the response time -->
-    {#if data.hasRequests && data.responseTime}
+    {#if data.has_requests && data.response_time_key}
       <div>
         Response time: typically
-        {#if data.responseTime.key === 'few_hours'}
+        {#if data.response_time_key === 'few_hours'}
           within a few hours
-        {:else if data.responseTime.key === 'days' && data.responseTime.days === 0}
+        {:else if data.response_time_key === 'days' && data.response_time_days === 0}
           <!-- May happen with a round-down above 4 hours -->
           within 1 day
-        {:else if data.responseTime.key === 'days'}
-          within {data.responseTime.days} {formatPlural('day', data.responseTime.days)}
-        {:else if data.responseTime.key === 'within_week'}
+        {:else if data.response_time_key === 'days'}
+          within {data.response_time_days} {formatPlural('day', data.response_time_days)}
+        {:else if data.response_time_key === 'within_week'}
           within a week
-        {:else if data.responseTime.key === 'over_week'}
+        {:else if data.response_time_key === 'over_week'}
           within a week or more
         {/if}
       </div>

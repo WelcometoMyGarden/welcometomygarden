@@ -348,68 +348,51 @@ export const hasGarden = async (userId: string) => {
   return snapshot ? snapshot.exists() && snapshot.data().listed : false;
 };
 
+export type ResponseTime =
+  | {
+      response_time_days: null;
+      response_time_key: 'few_hours' | 'within_week' | 'over_week';
+    }
+  | {
+      // filled for cases between 1 & 6 days
+      response_time_days: number;
+      response_time_key: 'days';
+    };
 /**
  * Completely null when the host has not received any chats yet
  */
 type ResponseRateTimeResponse = {
-  host: string;
-  respondedUnder7d: number;
-  respondedOver7d: number;
-  totalRequestsOver7d: number;
   /**
-   * May be null if never responded
+   * Whether this host has any requests that should be counted
    */
-  medianResponseTime: number | null;
+  has_requests: true;
   /**
-   * May be null if never responded
+   * Responded requests among the last 10 that should be considered
    */
-  averageResponseTime: number | null;
+  last_10_responded_count: number;
   /**
-   * May be null if never responded
+   * Whether the host has more than 10 requests in reality
    */
-  maxResponseTime: number | null;
-};
-
-export type ResponseTime =
-  // for special cases
-  | { key: 'few_hours' | 'within_week' | 'over_week' }
-  // for cases between 1 & 6 days
-  | {
-      key: 'days';
-      days: number;
-    };
+  more_than_10_requests: boolean;
+  /**
+   * Count of requests that should be considered, max 10 back.
+   */
+  requests_count: number;
+  /**
+   * Response rate as a fraction
+   */
+  response_rate: number;
+} & ResponseTime;
 
 export type DisplayResponseRateTime =
   | {
       /**
        * The host has no requests, or none that should be counted (unanswered < 7 days)
        */
-      hasRequests: false;
-      requestsCount: 0;
+      has_requests: false;
+      requests_count: 0;
     }
-  | {
-      /**
-       * Whether this host has any requests that should be counted
-       */
-      hasRequests: true;
-      /**
-       * Responded requests among the last 10 that should be considered
-       */
-      last10RespondedCount: number;
-      /**
-       * Count of requests that should be considered, max 10 back.
-       */
-      requestsCount: number;
-      /**
-       * Whether the host has more than 10 requests in reality
-       */
-      moreThan10Requests: boolean;
-      /**
-       * Response rate as a fraction
-       */
-      responseRate: number;
-      responseTime: ResponseTime | null;
-    };
+  | ResponseRateTimeResponse;
 
 /**
  * @param gardenId
@@ -421,63 +404,18 @@ export const getGardenResponseRate = async (
   if (get(supabase)) {
     // https://supabase.com/docs/reference/javascript/typescript-support#helper-types-for-tables-and-joins
     const { error, data } = await get(supabase)!
-      .from('response_rate_time')
-      .select()
-      .eq('host', gardenId)
-      .overrideTypes<Array<ResponseRateTimeResponse>>();
+      .rpc('get_response_rate_time', { p_host: gardenId })
+      .single()
+      .overrideTypes<ResponseRateTimeResponse>();
     if (error) {
       console.error(error);
     } else {
-      const rrTResult = (data ?? [])[0];
-      if (!rrTResult || (rrTResult.respondedUnder7d === 0 && rrTResult.totalRequestsOver7d === 0)) {
+      if (!data) {
         // requests: none if actually none, or if no <7d reqs were answered yet
-        return { requestsCount: 0, hasRequests: false };
+        // shouldn't happen, as the function should always return something
+        return { requests_count: 0, has_requests: false };
       } else {
-        const {
-          respondedUnder7d,
-          respondedOver7d,
-          totalRequestsOver7d,
-          medianResponseTime,
-          averageResponseTime,
-          maxResponseTime
-        } = rrTResult;
-        const lookbackNumber = 10 - respondedUnder7d;
-        const requestsCount = respondedUnder7d + totalRequestsOver7d;
-        const moreThan10Requests = requestsCount > 10;
-        const last10RespondedCount = respondedUnder7d + respondedOver7d;
-        // Calc response rate
-        const responseRate =
-          last10RespondedCount / (respondedUnder7d + Math.min(lookbackNumber, totalRequestsOver7d));
-
-        let responseTime =
-          maxResponseTime == null
-            ? null
-            : Math.round(maxResponseTime / (3600 * 24)) > 7
-              ? calcResponseTime(medianResponseTime!)
-              : calcResponseTime(averageResponseTime!);
-
-        function calcResponseTime(seconds: number): ResponseTime {
-          // Calc response time
-          const hours = Math.round(seconds / 3600);
-          const days = Math.round(seconds / (3600 * 24));
-          if (hours <= 4) {
-            return { key: 'few_hours' };
-          } else if (days < 7) {
-            return { key: 'days', days };
-          } else if (days === 7) {
-            return { key: 'within_week' };
-          } else {
-            return { key: 'over_week' };
-          }
-        }
-        return {
-          hasRequests: true,
-          requestsCount: Math.min(requestsCount, 10),
-          moreThan10Requests,
-          last10RespondedCount,
-          responseRate,
-          responseTime
-        };
+        return data as ResponseRateTimeResponse;
       }
     }
   }
