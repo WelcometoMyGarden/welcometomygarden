@@ -239,11 +239,17 @@
     on:click={() => {
       isShowingMagnifiedPhoto = false;
     }}
-    on:keypress={(e) => {
-      // keypress handler to satisfy svelte linter for a11y
+    on:keyup={(e) => {
+      // Keypress was not fired in my FF environment.
+      // It might be an extension (https://stackoverflow.com/a/78872316/4973029)
+      // In any case, keyup works.
       switch (e.key) {
         case 'Enter':
-        // Don't do anything: the on:click will also be called when Enter is pressed
+          // Don't do anything: the on:click will also be called when Enter is pressed
+          break;
+        case 'Escape':
+          isShowingMagnifiedPhoto = false;
+          break;
       }
     }}
   >
@@ -556,8 +562,10 @@
   }
 
   .magnified-photo-wrapper {
+    border: none;
     width: 100vw;
     height: calc(var(--vh, 1vh) * 100);
+    padding: 0;
     left: 0;
     top: 0;
     background-color: rgba(0, 0, 0, 0.6);
