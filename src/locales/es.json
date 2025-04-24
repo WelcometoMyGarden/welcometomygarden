@@ -538,7 +538,21 @@
       },
       "save": "Ahorrar",
       "saved": "Guardado",
-      "phone-notice": "Los números de teléfono solo son visibles para los miembros."
+      "phone-notice": "Los números de teléfono solo son visibles para los miembros.",
+      "response-rate-time": {
+        "typically-responds": "Responde generalmente",
+        "a-few-hours": "pocas horas",
+        "a-week": "una semana",
+        "day": "{days, plural, one {día} other {días}}",
+        "response": "{responses, plural, one {respuesta} other {respuestas}}",
+        "in": "en",
+        "or-more": "o más",
+        "request": "{requests, plural, one {solicitud} other {solicitudes}}",
+        "response-rate": "Tasa de respuesta",
+        "the-last": "las últimas",
+        "to": "a",
+        "within": "en"
+      }
     },
     "add": {
       "title": "Añadir su jardín"

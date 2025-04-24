@@ -1,7 +1,7 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { LabeledRadioButton } from '$lib/components/UI';
-  import { bookmarkEmptyIcon, hideIcon, tentIcon } from '$lib/images/icons';
+  import { heartIcon, hideIcon, tentPhosphor } from '$lib/images/icons';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   export let showGardens: boolean;
@@ -47,7 +47,7 @@
   bind:group={gardensGroup}
   label={$_('map.gardens.show-all')}
   value="ALL"
-  icon={tentIcon}
+  icon={tentPhosphor}
 />
 <LabeledRadioButton
   id="saved-gardens"
@@ -55,7 +55,7 @@
   bind:group={gardensGroup}
   label={$_('map.gardens.show-saved')}
   value="SAVED"
-  icon={bookmarkEmptyIcon}
+  icon={heartIcon}
 />
 <LabeledRadioButton
   id="hide-gardens"

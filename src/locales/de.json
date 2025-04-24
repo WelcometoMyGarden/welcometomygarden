@@ -537,7 +537,21 @@
       },
       "save": "Speichern",
       "saved": "Gerettet",
-      "phone-notice": "Telefonnummern sind nur für Mitglieder sichtbar."
+      "phone-notice": "Telefonnummern sind nur für Mitglieder sichtbar.",
+      "response-rate-time": {
+        "typically-responds": "Antwortet meist",
+        "a-few-hours": "weniger Stunden",
+        "a-week": "einer Woche",
+        "day": "{days, plural, one {Tag} other {Tagen}}",
+        "response": "{responses, plural, one {Antwort} other {Antworten}}",
+        "in": "in",
+        "or-more": "oder mehr",
+        "request": "{requests, plural, one {Anfrage} other {Anfragen}}",
+        "response-rate": "Antwortrate",
+        "the-last": "die letzten",
+        "to": "auf",
+        "within": "innerhalb"
+      }
     },
     "add": {
       "title": "Fügen Sie Ihren Garten hinzu"

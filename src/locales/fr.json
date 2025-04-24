@@ -593,7 +593,21 @@
       },
       "save": "Sauvegarder",
       "saved": "Sauvegardé",
-      "phone-notice": "Les numéros de téléphone sont visibles uniquement par les membres."
+      "phone-notice": "Les numéros de téléphone sont visibles uniquement par les membres.",
+      "response-rate-time": {
+        "typically-responds": "Répond généralement",
+        "a-few-hours": "quelques heures",
+        "a-week": "une semaine",
+        "day": "{days, plural, one {jour} other {jours}}",
+        "in": "en",
+        "or-more": "ou plus",
+        "request": "{requests, plural, one {demande} other {demandes}}",
+        "response": "{responses, plural, one {réponse} other {réponses}}",
+        "response-rate": "Taux de réponse",
+        "the-last": "les {requests} dernières",
+        "to": "sur",
+        "within": "en"
+      }
     },
     "add": {
       "title": "Ajoutez votre jardin"

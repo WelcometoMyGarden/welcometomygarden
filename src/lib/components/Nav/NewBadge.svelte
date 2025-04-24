@@ -1,7 +1,11 @@
+<script lang="ts">
+  export let gardenStyle: boolean = false;
+</script>
+
 <!-- @component
 Badge (chip) to indicate in a menu item that it refers to a new feature.
  -->
-<div class="badge">
+<div class="badge" class:gardenStyle>
   <slot />
 </div>
 
@@ -19,5 +23,14 @@ Badge (chip) to indicate in a menu item that it refers to a new feature.
     line-height: 1;
     /* relative to context */
     padding: 0.4em 0.8rem;
+  }
+
+  .gardenStyle {
+    margin-left: 0.4rem;
+    background-color: rgb(from var(--color-orange-light) r g b / 0.2);
+    color: var(--color-orange-light);
+    font-weight: 500;
+    border-radius: 100px;
+    padding: 8px 10px;
   }
 </style>

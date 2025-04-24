@@ -11,6 +11,7 @@
   --color-danger: #ff4444;
   --color-darker-gray: #828b80;
   --color-gray: #e5e5e5;
+  --color-gray-bg: #f4f4f4;
   --color-green-light: #cfe3d4;
   --color-green: #495747;
   --color-green-2: #59c29d;
@@ -31,10 +32,12 @@
   /*
   * Typography
   */
-  --fonts-copy: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  --fonts-titles: 'Inknut Antiqua', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --fonts-copy:
+    'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --fonts-titles:
+    'Inknut Antiqua', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 
   /* Font sizes */
   --controls-font-size: 1.7rem;

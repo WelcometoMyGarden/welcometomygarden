@@ -7,13 +7,13 @@
       icon: electricityIcon,
       transKey: 'garden.facilities.labels.electricity'
     },
-    { name: 'tent', icon: tentIcon, transKey: 'garden.facilities.labels.tent' },
+    { name: 'tent', icon: tentPhosphorLight, transKey: 'garden.facilities.labels.tent' },
     { name: 'bonfire', icon: bonfireIcon, transKey: 'garden.facilities.labels.bonfire' },
 
     { name: 'water', icon: waterIcon, transKey: 'garden.facilities.labels.water' },
     {
       name: 'drinkableWater',
-      icon: waterIcon,
+      icon: glassIcon,
       transKey: 'garden.facilities.labels.drinkable-water'
     }
   ] as const;
@@ -56,7 +56,9 @@
     showerIcon,
     toiletIcon,
     waterIcon,
-    tentIcon
+    tentIcon,
+    glassIcon,
+    tentPhosphorLight
   } from '$lib/images/icons';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';

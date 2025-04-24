@@ -44,21 +44,8 @@
   }
 
   .skeleton-photo {
-    width: 6rem;
-    height: 6rem;
-  }
-
-  @media screen and (max-width: 700px) {
-    .main {
-      height: 35rem;
-    }
-
-    header {
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 2rem;
-    }
+    width: 7.5rem;
+    height: 7.5rem;
   }
 
   .skeleton-name {
@@ -77,7 +64,7 @@
   }
   .skeleton-cta {
     height: 5rem;
-    width: 12rem;
+    width: 100%;
     align-self: center;
   }
 
@@ -89,7 +76,21 @@
   .chips-container {
     display: flex;
     flex-wrap: wrap;
-    /* Negative margin compensate the Badge components margins */
-    margin-left: calc(0.8rem * -1);
+    gap: 1.1rem;
+    row-gap: 1.1rem;
+  }
+
+  @media screen and (max-width: 700px) {
+    .main {
+      height: 35rem;
+    }
+
+    header {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
   }
 </style>

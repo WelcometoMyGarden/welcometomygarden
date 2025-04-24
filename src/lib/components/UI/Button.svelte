@@ -35,6 +35,11 @@
   export let bold = true;
 
   /**
+   * A new style used in the garden drawer.
+   */
+  export let gardenStyle = false;
+
+  /**
    * Any loading button should also be disabled reactively
    */
   $: _disabled = disabled || loading;
@@ -81,6 +86,7 @@
     class:underline
     class:loading
     class:oneline
+    class:gardenStyle
     style:min-width={minWidth}
     {href}
     on:click={(e) => {
@@ -123,6 +129,7 @@
     class:underline
     class:loading
     class:oneline
+    class:gardenStyle
     style:min-width={minWidth}
     {type}
   >
@@ -354,6 +361,12 @@
   .button:not(.disabled):hover,
   .button:not(.disabled):focus {
     border-color: var(--color-orange);
+  }
+
+  .gardenStyle {
+    border-radius: 4px;
+    font-weight: 500;
+    padding: 0.9rem 2.4rem;
   }
 
   @keyframes shake {

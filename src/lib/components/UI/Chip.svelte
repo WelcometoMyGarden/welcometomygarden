@@ -19,11 +19,9 @@
     display: inline-flex;
     align-items: center;
     background-color: var(--color-green-light);
-    border-radius: 4rem;
+    border-radius: 4px;
     box-sizing: border-box;
-    padding: 0.5rem 1rem;
-    margin-top: 0.8rem;
-    margin-right: 0.8rem;
+    padding: 0.4rem 0.6rem;
     font-size: 1.4rem;
   }
 

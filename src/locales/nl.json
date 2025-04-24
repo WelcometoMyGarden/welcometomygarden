@@ -174,7 +174,7 @@
         "capacity": "Ruimte voor {styleCapacity} {capacity, plural, one {tent} other {tenten}}"
       },
       "owner": {
-        "your-garden": "jouw tuin",
+        "your-garden": "Jouw tuin",
         "button": "Tuin beheren"
       },
       "guest": {
@@ -186,7 +186,21 @@
       },
       "save": "Bewaar",
       "saved": "Bewaard",
-      "phone-notice": "Telefoonnummers zijn alleen zichtbaar voor leden."
+      "phone-notice": "Telefoonnummers zijn alleen zichtbaar voor leden.",
+      "response-rate-time": {
+        "typically-responds": "Antwoordt meestal",
+        "a-few-hours": "een paar uur",
+        "a-week": "een week",
+        "day": "{days, plural, one {dag} other {dagen}}",
+        "in": "binnen",
+        "or-more": "of langer",
+        "request": "{requests, plural, one {aanvraag} other {aanvragen}}",
+        "response": "{responses, plural, one {antwoord} other {antwoorden}}",
+        "response-rate": "Antwoordpercentage",
+        "the-last": "de laatste",
+        "to": "op",
+        "within": "binnen"
+      }
     },
     "add": {
       "title": "Voeg jouw tuin toe"

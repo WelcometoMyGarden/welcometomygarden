@@ -1,48 +1,70 @@
 <script lang="ts">
+  import { _, locale } from 'svelte-i18n';
   import type { DisplayResponseRateTime } from '$lib/api/garden';
   import { questionMarkIcon } from '$lib/images/icons';
   import { Icon } from '../UI';
 
   export let data: DisplayResponseRateTime;
   $: ({ has_requests, requests_count } = data);
-  // TODO: temporary, use ICU
-  const formatPlural = (str: string, num: number) => `${str}${num > 1 || num === 0 ? 's' : ''}`;
 </script>
 
 {#if data != null}
   <div class="response-rate-time">
     <div aria-describedby={has_requests ? 'response-rate-info' : ''}>
-      Response rate: {(!data.has_requests ? 1 : data.response_rate).toLocaleString('en-US', {
+      {$_('garden.drawer.response-rate-time.response-rate')}: {(!data.has_requests
+        ? 1
+        : data.response_rate
+      ).toLocaleString('en-US', {
         style: 'percent'
       })}
       <!-- Whether to show the question mark overlay -->
       {#if data.has_requests}
-        <span class="question-mark-icon"><Icon greenStroke inline icon={questionMarkIcon} /></span>
-        <div role="tooltip" id="response-rate-info">
-          {data.last_10_responded_count}
-          {formatPlural('response', data.last_10_responded_count)} to {data.more_than_10_requests
-            ? ' the last '
-            : ''}
-          {requests_count}
-          {formatPlural('request', requests_count)}
-        </div>
+        <button class="question-mark-icon">
+          <Icon greenStroke inline icon={questionMarkIcon} />
+          <div role="tooltip" id="response-rate-info">
+            {data.last_10_responded_count}
+            {$_('garden.drawer.response-rate-time.response', {
+              values: { responses: data.last_10_responded_count }
+            })}
+            {$_('garden.drawer.response-rate-time.to')}
+            {data.more_than_10_requests
+              ? $_('garden.drawer.response-rate-time.the-last', {
+                  // for French
+                  values: { requests: requests_count }
+                })
+              : ''}
+            {#if $locale !== 'fr'}
+              <!-- For French, it is inserted in betwene "the last", see above -->
+              {data.requests_count}
+            {/if}
+            {$_('garden.drawer.response-rate-time.request', {
+              values: { requests: requests_count }
+            })}
+          </div>
+        </button>
       {/if}
     </div>
     <!-- When to show the response time -->
     {#if data.has_requests && data.response_time_key}
       <div>
-        Response time: typically
+        {$_('garden.drawer.response-rate-time.typically-responds')}
         {#if data.response_time_key === 'few_hours'}
-          within a few hours
-        {:else if data.response_time_key === 'days' && data.response_time_days === 0}
-          <!-- May happen with a round-down above 4 hours -->
-          within 1 day
+          {$_('garden.drawer.response-rate-time.within')}
+          {$_('garden.drawer.response-rate-time.a-few-hours')}
         {:else if data.response_time_key === 'days'}
-          within {data.response_time_days} {formatPlural('day', data.response_time_days)}
+          <!-- May happen with a round-down above 4 hours -->
+          {$_('garden.drawer.response-rate-time.within')}
+          {Math.min(1, data.response_time_days)}
+          {$_('garden.drawer.response-rate-time.day', {
+            values: { days: Math.min(1, data.response_time_days) }
+          })}
         {:else if data.response_time_key === 'within_week'}
-          within a week
+          {$_('garden.drawer.response-rate-time.within')}
+          {$_('garden.drawer.response-rate-time.a-week')}
         {:else if data.response_time_key === 'over_week'}
-          within a week or more
+          {$_('garden.drawer.response-rate-time.in')}
+          {$_('garden.drawer.response-rate-time.a-week')}
+          {$_('garden.drawer.response-rate-time.or-more')}
         {/if}
       </div>
     {/if}
@@ -54,29 +76,90 @@
     font-size: 1.4rem;
     line-height: 1.6;
   }
+  .response-rate-time::before {
+    content: '';
+    display: block;
+    margin: 0.8rem 0 1.2rem 0;
+    border-bottom: 1px solid var(--color-gray);
+  }
+  .question-mark-icon {
+    /* block helps with centering */
+    display: inline-block;
+    position: relative;
+    margin-left: 0.1rem;
+
+    /* reset button styles */
+    border: none;
+    background: none;
+    padding: 0;
+    transform: translateY(-1.5px);
+  }
   .question-mark-icon :global(i) {
     vertical-align: middle;
+  }
+  .question-mark-icon :global(i svg) {
+    fill: var(--color-green);
   }
 
   /* TODO: hide tooltip with JS on esc button press
   https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tooltip_role*/
+  /* button is only used to reliably capture the 'focus' state */
   [role='tooltip'],
   .hide-tooltip + [role='tooltip'] {
     visibility: hidden;
     position: absolute;
-    top: -2.8rem;
-    left: 3rem;
-    padding: 0.3rem 0.6rem;
-    border-radius: 0.6rem;
-    background: black;
+    bottom: 3.1rem;
+    left: 50%;
+    transform: translate(-50%);
+    padding: 0.9rem 1.3rem;
+    border-radius: 8px;
+    background: var(--color-black);
     color: white;
+    width: max-content;
   }
+  @supports (clip-path: inset(50%)) {
+    /* Triangle with rounded edge */
+    /* https://codyhouse.co/blog/post/css-rounded-triangles-with-clip-path */
+    [role='tooltip']::after {
+      visibility: hidden;
+      content: '';
+      position: absolute;
+      top: 66%;
+      display: block;
+      height: 20px;
+      width: 20px;
+      background-color: inherit;
+      left: calc(50% - 10px);
+      clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+      transform: rotate(-45deg);
+      border-radius: 0 0 0 0.25em;
+    }
+  }
+  @supports not (clip-path: inset(50%)) {
+    /* Triangle with the "border hack" */
+    [role='tooltip']::after {
+      visibility: hidden;
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%);
+      border-left: 0.7rem solid transparent;
+      border-right: 0.7rem solid transparent;
+      border-top: 0.7rem solid var(--color-black);
+    }
+  }
+
   [aria-describedby]:hover,
   [aria-describedby]:focus {
     position: relative;
   }
-  .question-mark-icon:hover + [role='tooltip'],
-  .question-mark-icon:focus + [role='tooltip'] {
+  .question-mark-icon:hover > [role='tooltip'],
+  .question-mark-icon:focus > [role='tooltip'] {
+    visibility: visible;
+  }
+  .question-mark-icon:hover > [role='tooltip']::after,
+  .question-mark-icon:focus > [role='tooltip']::after {
     visibility: visible;
   }
 </style>

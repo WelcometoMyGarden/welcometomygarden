@@ -6,7 +6,13 @@
   export let inline = false;
 </script>
 
-<i class:inline class:white-stroke={whiteStroke} class:green-stroke={greenStroke} class:clickable>
+<i
+  class:inline
+  class:white-stroke={whiteStroke}
+  class:green-stroke={greenStroke}
+  class:clickable
+  class={$$props.class}
+>
   {@html icon}
 </i>
 

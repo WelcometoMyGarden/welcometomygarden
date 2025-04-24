@@ -541,7 +541,21 @@
       },
       "save": "Save",
       "saved": "Saved",
-      "phone-notice": "Phone numbers are only visible to members."
+      "phone-notice": "Phone numbers are only visible to members.",
+      "response-rate-time": {
+        "response-rate": "Response rate",
+        "response": "{responses, plural, one {response} other {responses}}",
+        "request": "{requests, plural, one {request} other {requests}}",
+        "day": "{days, plural, one {day} other {days}}",
+        "to": "to",
+        "within": "within",
+        "in": "in",
+        "the-last": "the last",
+        "typically-responds": "Typically responds",
+        "a-few-hours": "a few hours",
+        "a-week": "a week",
+        "or-more": "or more"
+      }
     },
     "add": {
       "title": "Add your garden"

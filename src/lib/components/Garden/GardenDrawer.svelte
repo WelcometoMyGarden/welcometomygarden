@@ -20,10 +20,13 @@
     waterIcon,
     electricityIcon,
     showerIcon,
-    tentIcon,
     toiletIcon,
-    bookmarkEmptyIcon,
-    bookmarkYellowIcon
+    tentPhosphor,
+    heartIcon,
+    heartIconFill,
+    tentPhosphorLight,
+    glassIcon,
+    crossIcon
   } from '$lib/images/icons';
   import routes from '$lib/routes';
   import type { Garden, GardenWithPhoto } from '$lib/types/Garden';
@@ -46,7 +49,7 @@
     { name: 'water', icon: waterIcon, label: $_('garden.facilities.labels.water') },
     {
       name: 'drinkableWater',
-      icon: waterIcon,
+      icon: glassIcon,
       label: $_('garden.facilities.labels.drinkable-water')
     },
     { name: 'toilet', icon: toiletIcon, label: $_('garden.facilities.labels.toilet') },
@@ -57,7 +60,7 @@
       label: $_('garden.facilities.labels.electricity')
     },
     { name: 'shower', icon: showerIcon, label: $_('garden.facilities.labels.shower') },
-    { name: 'tent', icon: tentIcon, label: $_('garden.facilities.labels.tent') }
+    { name: 'tent', icon: tentPhosphorLight, label: $_('garden.facilities.labels.tent') }
   ];
 
   let drawerElement;
@@ -260,25 +263,28 @@
   {#if gardenIsSelected && initialGardenInfoLoaded && userInfo}
     <section class="main">
       <header>
-        <div class="mb-l garden-title">
+        <div class="garden-title">
           <Text weight="w600" size="l" className="garden-title-text">
             {#if ownedByLoggedInUser}
               {$_('garden.drawer.owner.your-garden')}
             {:else}{userInfo.firstName}{/if}
             {#if responseRateTimeDataLoaded && responseRateTimeData?.has_requests === false}
-              <NewBadge><span class="new-badge">{$_('generics.new')}</span></NewBadge>
+              <NewBadge gardenStyle><span class="new-badge">{$_('generics.new')}</span></NewBadge>
             {/if}
           </Text>
-          {#if $user?.superfan}
-            <button class="button-container" on:click={saveGarden}>
-              <div class="button-save">
-                <Icon icon={isSaved ? bookmarkYellowIcon : bookmarkEmptyIcon} />
-                <Text weight="inherit"
+          <div class="top-buttons">
+            {#if $user?.superfan}
+              <button class="button-save" class:is-saved={isSaved} on:click={saveGarden}>
+                <Icon icon={isSaved ? heartIconFill : heartIcon} />
+                <Text className="button-save__text" weight="inherit"
                   >{isSaved ? $_('garden.drawer.saved') : $_('garden.drawer.save')}</Text
                 >
-              </div>
+              </button>
+            {/if}
+            <button class="close-button" on:click={() => dispatch('close')}>
+              <Icon icon={crossIcon} />
             </button>
-          {/if}
+          </div>
         </div>
         {#if garden?.photo}
           <button on:click={magnifyPhoto} class="mb-l button-container image-wrapper">
@@ -290,7 +296,7 @@
       </header>
       <div class="drawer-content-area">
         <div class="description" bind:this={descriptionEl}>
-          <Text class="mb-l"
+          <Text
             >{$user?.superfan
               ? garden?.description
               : garden?.description.replaceAll(
@@ -316,10 +322,11 @@
         </div>
         {#if garden.facilities.capacity}
           <p class="mt-m capacity">
-            {@html $_('garden.drawer.facilities.capacity', {
+            <Icon icon={tentPhosphor} inline class="tent-icon"></Icon>
+            {$_('garden.drawer.facilities.capacity', {
               values: {
                 capacity: gardenCapacity,
-                styleCapacity: `<strong>${gardenCapacity}</strong>`
+                styleCapacity: gardenCapacity
               }
             })}
           </p>
@@ -331,7 +338,7 @@
           <Chip isSkeleton />
         {/if}
       </div>
-      <footer class="footer mt-m">
+      <footer class="footer">
         {#if userInfo.languages}
           <Text class="mb-m">
             {userInfo.firstName} speaks
@@ -382,7 +389,12 @@
               })}
             </p>
           {/if}
-          <Button href={chatWithGardenLink} disabled={!$user || !$user.superfan} uppercase medium>
+          <Button
+            href={chatWithGardenLink}
+            disabled={!$user || !$user.superfan}
+            fullWidth
+            gardenStyle
+          >
             {$_('garden.drawer.guest.button')}
           </Button>
         {/if}
@@ -402,10 +414,10 @@
     top: 50%;
     right: 0;
     background-color: white;
-    width: 38rem;
+    width: 402px;
     max-height: 85%;
     z-index: 200;
-    padding: 3rem 2rem 0;
+    padding: 3rem 3rem 0;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
     border-top-left-radius: 1rem;
     border-bottom-left-radius: 1rem;
@@ -414,15 +426,18 @@
   }
 
   .drawer.hidden {
-    right: -38rem;
+    right: -39rem;
     min-height: 30rem;
+    box-shadow: none;
   }
 
   .main {
     display: flex;
     flex-direction: column;
     height: 100%;
-    overflow: hidden;
+    /* In practice, an alternative for overflow: hidden for some reason
+    Ensures the .image-wrapper outline is not clipped on the left side */
+    min-height: 0;
   }
 
   .drawer-content-area {
@@ -434,114 +449,104 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+
+    /* Almost 2, but take away some that is compensated by line-height */
+    margin-bottom: 1.8rem;
   }
 
-  .garden-title .button-container {
-    /* Override the 100% width that causes
-       the paragraph on the left to collapse on desktop drawers. */
-    width: auto;
+  .capacity :global(.tent-icon) {
+    width: 1.55rem;
+    height: 1.55rem;
+    margin-left: 0.2rem;
+    margin-right: 0.2rem;
+    vertical-align: text-top;
+  }
+
+  .top-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+  }
+  .top-buttons button {
+    background: none;
+    border: none;
     margin-left: 1rem;
+    padding: 5px;
   }
 
-  .button-save {
+  .garden-title .top-buttons > button:hover {
+    cursor: pointer;
+    background-color: var(--color-gray-bg);
+  }
+  .garden-title .top-buttons > button:active {
+    background-color: var(--color-gray);
+  }
+
+  .top-buttons button.button-save {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
     font-weight: 500;
+    color: var(--color-green);
+    border-radius: 4px;
   }
 
+  .top-buttons button.close-button {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    background: var(--color-gray-bg);
+    border-radius: 50%;
+  }
+  .top-buttons button.close-button:hover {
+    background: var(--color-gray);
+  }
   .button-save :global(i) {
     width: 1.5rem;
     height: 1.5rem;
     margin-right: 0.5rem;
+  }
+  .button-save :global(svg) {
+    fill: var(--color-green);
+  }
+  .button-save.is-saved :global(svg) {
+    fill: var(--color-orange-light);
   }
 
   .footer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 2rem 0;
+    margin: 2rem 0 3rem 0;
   }
 
   .image-wrapper {
-    width: 6rem;
-    height: 6rem;
+    width: 7.5rem;
+    height: 7.5rem;
     background-color: var(--color-beige);
     border-radius: 1rem;
     margin-bottom: 2rem;
   }
 
-  .image-wrapper:hover {
+  button.image-wrapper {
     cursor: zoom-in;
-  }
-
-  @media screen and (max-height: 800px) {
-    .drawer {
-      max-height: 70%;
-    }
-    .drawer-content-area {
-      margin-top: 1.2rem;
-    }
-
-    .drawer :global(.mb-l) {
-      margin-bottom: 0.4rem;
-    }
-
-    /* .image-wrapper {
-      position: absolute;
-      top: 1.5rem;
-      right: 3rem;
-      margin-bottom: 0;
-    } */
-  }
-
-  @media screen and (max-width: 700px) {
-    .drawer {
-      min-height: auto;
-      max-height: calc(var(--vh, 1vh) * 70);
-      top: auto;
-      right: auto;
-      bottom: 0;
-      transform: none;
-      width: 100%;
-      border-top-right-radius: 2rem;
-      border-top-left-radius: 2rem;
-      border-bottom-right-radius: 0;
-      border-bottom-left-radius: 0;
-      transition: transform 250ms;
-    }
-    .drawer.hidden {
-      right: 0;
-      transform: translateY(100rem);
-    }
-
-    .drawer-content-area {
-      margin-top: 1.2rem;
-    }
-
-    /* .image-wrapper {
-      position: absolute;
-      top: 1.5rem;
-      right: 3rem;
-      margin-bottom: 0;
-    } */
-
-    .drawer :global(.mb-l) {
-      margin-bottom: 0.4rem;
-    }
   }
 
   .chips-container {
     display: flex;
     flex-wrap: wrap;
-    /* Negative margin compensate the Badge components margins */
-    margin-top: calc(0.8rem * -1);
+
+    gap: 1.1rem;
+    row-gap: 1.1rem;
   }
 
   .description {
     max-width: 45rem;
     word-wrap: break-word;
+    margin-bottom: 1.9rem;
   }
 
   .phone-notice {
@@ -576,6 +581,7 @@
   }
 
   .capacity {
+    margin-top: 1.3rem;
     font-size: 1.4rem;
     line-height: 1.6;
   }
@@ -588,5 +594,84 @@
 
   .new-badge {
     font-size: 1.4rem;
+  }
+
+  /* Styles for when the screen is not that *tall*, or mobile */
+  @media screen and (max-height: 800px), (max-width: 700px) {
+    .drawer {
+      max-height: 80%;
+    }
+    .garden-title {
+      margin-bottom: 1.2rem;
+    }
+    .image-wrapper {
+      margin-bottom: 1.1rem;
+    }
+    .image-wrapper:hover {
+      outline: 4px solid var(--color-gray);
+    }
+    .drawer-content-area {
+      margin-top: 0.5rem;
+    }
+
+    .description {
+      margin-bottom: 1.3rem;
+    }
+    .chips-container {
+      gap: 0.9rem;
+      row-gap: 0.9rem;
+    }
+
+    .footer {
+      margin: 1.3rem 0 3rem 0;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    .drawer {
+      padding: 2.7rem 2.7rem 0 2.7rem;
+      min-height: auto;
+      max-height: calc(var(--vh, 1vh) * 70);
+      top: auto;
+      right: auto;
+      bottom: 0;
+      transform: none;
+      width: 100%;
+      border-top-right-radius: 2rem;
+      border-top-left-radius: 2rem;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+      transition: transform 250ms;
+    }
+    .drawer.hidden {
+      right: 0;
+      transform: translateY(100rem);
+    }
+
+    .image-wrapper {
+      margin-top: 0.3rem;
+    }
+
+    .drawer :global(.mb-l) {
+      margin-bottom: 0.4rem;
+    }
+    .footer {
+      margin: 1.3rem 0 1.5rem 0;
+    }
+    .top-buttons button.button-save {
+      justify-content: center;
+      margin-right: 0;
+    }
+    .button-save :global(i) {
+      width: 2rem;
+      height: 2rem;
+      margin-right: 0;
+    }
+    .button-save :global(.button-save__text) {
+      display: none;
+    }
+    .top-buttons button.close-button {
+      display: flex;
+    }
   }
 </style>
