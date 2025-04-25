@@ -498,18 +498,6 @@
     border-radius: 4px;
   }
 
-  .top-buttons button.close-button {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 2.4rem;
-    height: 2.4rem;
-    background: var(--color-gray-bg);
-    border-radius: 50%;
-  }
-  .top-buttons button.close-button:hover {
-    background: var(--color-gray);
-  }
   .button-save :global(i) {
     width: 1.5rem;
     height: 1.5rem;
@@ -522,6 +510,20 @@
     fill: var(--color-orange-light);
   }
 
+  .top-buttons button.close-button {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-gray-bg);
+    border-radius: 50%;
+  }
+  .top-buttons button.close-button :global(i) {
+    width: 2rem;
+    height: 2rem;
+  }
+  .top-buttons button.close-button:hover {
+    background: var(--color-gray);
+  }
   .footer {
     display: flex;
     flex-direction: column;
@@ -668,11 +670,11 @@
     }
     .top-buttons button.button-save {
       justify-content: center;
-      margin-right: 0;
+      margin-right: 0.1rem;
     }
     .button-save :global(i) {
-      width: 2rem;
-      height: 2rem;
+      width: 2.3rem;
+      height: 2.3rem;
       margin-right: 0;
     }
     .button-save :global(.button-save__text) {
@@ -680,6 +682,10 @@
     }
     .top-buttons button.close-button {
       display: flex;
+    }
+    .top-buttons button.close-button :global(i) {
+      width: 2.2rem;
+      height: 2.2rem;
     }
   }
 </style>
