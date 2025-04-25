@@ -10,7 +10,7 @@ import {
   getDoc,
   type CollectionReference
 } from 'firebase/firestore';
-import { getUser } from '$lib/stores/auth';
+import { getUser, user } from '$lib/stores/auth';
 import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '$lib/stores/garden';
 import { supabase } from '$lib/stores/auth';
 import { appCheck, db, storage } from './firebase';
@@ -396,12 +396,14 @@ export type DisplayResponseRateTime =
 
 /**
  * @param gardenId
- * @returns null if supabase is not loaded
+ * @returns null if Supabase is not loaded,
+ *  the loaded user is not qualified for the request, or if an error occurred
  */
 export const getGardenResponseRate = async (
   gardenId: string
 ): Promise<DisplayResponseRateTime | null> => {
-  if (get(supabase)) {
+  const _user = get(user);
+  if (get(supabase) && (_user?.superfan || gardenId === _user?.id)) {
     // https://supabase.com/docs/reference/javascript/typescript-support#helper-types-for-tables-and-joins
     const { error, data } = await get(supabase)!
       .rpc('get_response_rate_time', { p_host: gardenId })

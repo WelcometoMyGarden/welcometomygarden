@@ -117,9 +117,14 @@
     loadInitialGardenInfo().then(() => {
       initialGardenInfoLoaded = true;
     });
-    loadResponseRateTime().then(() => {
-      responseRateTimeDataLoaded = true;
-    });
+    loadResponseRateTime()
+      .then(() => {
+        responseRateTimeDataLoaded = true;
+      })
+      .catch((e) => {
+        console.warn('Internal error while loading response rate/time data', e);
+        responseRateTimeDataLoaded = true;
+      });
     // Converting the capacity field to a number prevents XSS attacks where
     // the capacity field could be set to some HTML.
     gardenCapacity = Number(garden.facilities.capacity) || 1;

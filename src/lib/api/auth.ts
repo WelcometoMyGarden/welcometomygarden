@@ -51,6 +51,7 @@ export const createAuthObserver = (): Unsubscribe => {
   let unsubscribeFromUserPrivate: (() => void) | null = null;
   let unsubscribeFromUserPublic: (() => void) | null = null;
   let unsubscribeFromCampsite: (() => void) | null = null;
+  let unsubFromDerivedUser: (() => void) | null = null;
 
   const unsubscribeFromInnerObserversIfExisting = () => {
     if (unsubscribeFromUserPrivate) {
@@ -65,6 +66,10 @@ export const createAuthObserver = (): Unsubscribe => {
       unsubscribeFromCampsite();
       unsubscribeFromCampsite = null;
       gardenHasLoaded.set(false);
+    }
+    if (unsubFromDerivedUser) {
+      unsubFromDerivedUser();
+      unsubFromDerivedUser = null;
     }
   };
 
@@ -206,6 +211,14 @@ export const createAuthObserver = (): Unsubscribe => {
         if (!unsubscribeFromCampsite) {
           unsubscribeFromCampsite = createCampsiteObserver(latestAuthUserState.uid);
         }
+        if (!unsubFromDerivedUser) {
+          unsubFromDerivedUser = user.subscribe((user) => {
+            if (!user) {
+              return;
+            }
+            signInToSupabaseIfNeeded();
+          });
+        }
       }
 
       // Redirect to the map on start/login, in some cases
@@ -219,14 +232,6 @@ export const createAuthObserver = (): Unsubscribe => {
       }
 
       // Check if a Supabase role is set
-      if ((await firebaseUser.getIdTokenResult()).claims.role) {
-        // load the Supabase client
-        supabase.set(
-          createClient(PUBLIC_SUPABASE_API_URL, PUBLIC_SUPABASE_ANON_KEY, {
-            accessToken: async () => (await firebaseUser.getIdToken()) ?? null
-          })
-        );
-      }
     } else {
       console.log('Received a null Firebase user update');
       // If the user somehow got logged out by Firebase, sync this change to the app.
@@ -403,6 +408,33 @@ export const login = async (email: string, password: string): Promise<void> => {
   await signInWithEmailAndPassword(auth(), email, password);
   trackEvent(PlausibleEvent.SIGN_IN);
   return await resolveOnUserLoaded();
+};
+
+/**
+ * This may be invoked multiple times, when the user is first loaded
+ * or later when the garden is loaded, or even when the user
+ * becomes a member or host.
+ */
+const signInToSupabaseIfNeeded = async () => {
+  if (get(supabase)) {
+    // Skip if the Supabase client is already set
+    return;
+  }
+  const firebaseUser = auth().currentUser;
+  if (!firebaseUser) {
+    return;
+  }
+  const supaRole = (await firebaseUser.getIdTokenResult()).claims.role;
+  const _user = get(user);
+  // Only set the Supabase client if the user is a member or garden owner
+  if (supaRole != null && (_user?.garden || _user?.superfan)) {
+    console.log('Setting up Supabase client for host/member');
+    supabase.set(
+      createClient(PUBLIC_SUPABASE_API_URL, PUBLIC_SUPABASE_ANON_KEY, {
+        accessToken: async () => (await firebaseUser.getIdToken()) ?? null
+      })
+    );
+  }
 };
 
 export const register = async ({
