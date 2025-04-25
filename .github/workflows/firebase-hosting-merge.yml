@@ -43,6 +43,8 @@ jobs:
       VITE_STRIPE_PRICE_ID_NORMAL: ${{secrets.STRIPE_PRICE_ID_NORMAL}}
       VITE_STRIPE_PRICE_ID_SOLIDARITY: ${{secrets.STRIPE_PRICE_ID_SOLIDARITY}}
       VITE_DISCOURSE_HOST: ${{vars.DISCOURSE_HOST}}
+      PUBLIC_SUPABASE_ANON_KEY: ${{vars.SUPABASE_ANON_KEY}}
+      PUBLIC_SUPABASE_API_URL: ${{vars.SUPABASE_API_URL}}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/prepare-source
