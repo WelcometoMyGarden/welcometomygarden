@@ -253,7 +253,9 @@ export const createAuthObserver = (): Unsubscribe => {
         }
         try {
           if (get(supabase)) {
-            await get(supabase)!.auth.signOut();
+            // This is not allowed with the accessToken option, it will lead to an error
+            // get(supabase)!.auth.signOut({ scope: 'local' });
+            // It seems to work to just re-login on the client with a different access token.
             supabase.set(undefined);
           }
         } catch (e) {
