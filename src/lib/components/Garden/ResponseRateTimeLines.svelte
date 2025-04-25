@@ -54,9 +54,9 @@
         {:else if data.response_time_key === 'days'}
           <!-- May happen with a round-down above 4 hours -->
           {$_('garden.drawer.response-rate-time.within')}
-          {Math.min(1, data.response_time_days)}
+          {Math.max(1, data.response_time_days)}
           {$_('garden.drawer.response-rate-time.day', {
-            values: { days: Math.min(1, data.response_time_days) }
+            values: { days: Math.max(1, data.response_time_days) }
           })}
         {:else if data.response_time_key === 'within_week'}
           {$_('garden.drawer.response-rate-time.within')}
@@ -96,6 +96,8 @@
   }
   .question-mark-icon :global(i) {
     vertical-align: middle;
+    width: 1.7rem;
+    height: 1.7rem;
   }
   .question-mark-icon :global(i svg) {
     fill: var(--color-green);
@@ -161,5 +163,24 @@
   .question-mark-icon:hover > [role='tooltip']::after,
   .question-mark-icon:focus > [role='tooltip']::after {
     visibility: visible;
+  }
+
+  @media screen and (max-width: 700px) {
+    #response-rate-info {
+      /*
+        Hardcoded, because rem sizes don't seem to work well in Safari .
+        May be related to the mess of the responsive scaling of root font sizes.
+      */
+      font-size: 14.55px;
+      bottom: 3.3rem;
+    }
+
+    .question-mark-icon {
+      margin-left: 0.2rem;
+    }
+    .question-mark-icon :global(i) {
+      width: 2.1rem;
+      height: 2.1rem;
+    }
   }
 </style>

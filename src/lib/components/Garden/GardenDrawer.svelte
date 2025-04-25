@@ -540,6 +540,9 @@
   button.image-wrapper {
     cursor: zoom-in;
   }
+  .image-wrapper:hover {
+    outline: 4px solid var(--color-gray);
+  }
 
   .chips-container {
     display: flex;
@@ -614,9 +617,6 @@
     }
     .image-wrapper {
       margin-bottom: 1.1rem;
-    }
-    .image-wrapper:hover {
-      outline: 4px solid var(--color-gray);
     }
     .drawer-content-area {
       margin-top: 0.5rem;
