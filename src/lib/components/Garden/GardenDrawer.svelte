@@ -453,6 +453,8 @@
 
   .drawer-content-area {
     overflow-y: auto;
+    /* To be extra sure that the horizontal scrollbar won't appear, see [role='tooltip'] styles */
+    overflow-x: hidden;
   }
 
   .garden-title {

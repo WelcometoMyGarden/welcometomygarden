@@ -118,6 +118,24 @@
     background: var(--color-black);
     color: white;
     width: max-content;
+    /* TODO: this a quick and partial fix for a horizontal scroll bar appearing on popular gardens when using Dutch.
+        "Antwoordpercentage" is a long name
+        "5 antwoorden op de laatste 10 aanvragen" is long, and is attached to the (?) after the long name
+        -> the result extends the padded frame, and extends the padded .drawer-content-area container.
+
+        Currently, we use "width: max-content" to ensure the content is displayed on one line,
+        and a max-width for this specific case, to put the long string on two lines if needed,
+        but it also affects other languages that have a less long "name".
+
+        One solution would be to perform language-dependent styling
+        of that.
+        - like changing the max-width depending on lang
+        - or applying another left: prop, but then the triangle should be decoupled from
+          the tooltip and coupled to the question mark separately somehow, so that it hovers over it
+        - or some JS solution?
+        See also .drawer-content-area styles
+     */
+    max-width: 250px;
   }
   @supports (clip-path: inset(50%)) {
     /* Triangle with rounded edge */
