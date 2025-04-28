@@ -11,20 +11,6 @@
   import type { Garden } from '$lib/types/Garden';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
-  import { checkAndHandleUnverified } from '$lib/api/auth';
-
-  // Due to the root layout guard, we can assume here that the app has loaded.
-  // This means user-public & user-private properties were also loaded,
-  // but it does not necessarily mean that the garden finished loading.
-  $: if (!$user) {
-    notify.info($_('auth.unsigned'), 8000);
-    goto(routes.SIGN_IN);
-  } else if (!$user.emailVerified) {
-    checkAndHandleUnverified($_('auth.verification.unverified'), 8000);
-  } else if ($gardenHasLoaded && !!$user.garden) {
-    // Garden already exists, silently go to the "Manage garden" page
-    goto(routes.MANAGE_GARDEN);
-  }
 
   let addingGarden = false;
 

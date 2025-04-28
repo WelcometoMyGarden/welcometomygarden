@@ -8,22 +8,9 @@
   import { updateGarden } from '$lib/api/garden';
   import Form from '$lib/components/Garden/Form.svelte';
   import routes from '$lib/routes';
-  import { checkAndHandleUnverified } from '$lib/api/auth';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
 
-  // Due to the root layout guard, we can assume here that the app has loaded.
-  // This means user-public & user-private properties were also loaded,
-  // but it does not necessarily mean that the garden finished loading.
-  $: if (!$user) {
-    notify.info($_('auth.unsigned'), 8000);
-    goto(routes.SIGN_IN);
-  } else if (!$user.emailVerified) {
-    checkAndHandleUnverified($_('auth.verification.unverified'), 8000);
-  } else if ($gardenHasLoaded && !$user.garden) {
-    notify.warning($_('garden.manage.add-first'));
-    goto(routes.ADD_GARDEN);
-  }
   let updatingGarden = false;
 
   const submit = async (e) => {

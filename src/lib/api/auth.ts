@@ -227,8 +227,15 @@ export const createAuthObserver = (): Unsubscribe => {
         justLoggedIn &&
         getCurrentRoute()?.route === routes.SIGN_IN
       ) {
-        // might happen if you have the sign in page open on two different tabs
-        routeTo = routes.MAP;
+        let continueUrl = get(page).url.searchParams.get('continueUrl');
+        if (continueUrl) {
+          // Might happen if you open the /sign-in link with a continueUrl directly,
+          // but you were already logged in
+          routeTo = continueUrl;
+        } else {
+          // Might happen if you have the sign in page open on two different tabs
+          routeTo = routes.MAP;
+        }
       }
 
       // Check if a Supabase role is set
