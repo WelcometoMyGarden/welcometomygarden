@@ -543,11 +543,8 @@
         "confirm-button": "Confirmer l'emplacement de l'épingle",
         "city": "Ville"
       },
-      "normal-notice": "En soumettant ce formulaire, votre jardin sera ajouté à la carte. Vous pouvez le gérer ou le supprimer à tout moment à partir de votre {accountLink}.",
       "register-link-text": "créer un compte",
-      "title": "Ajoutez votre jardin à la carte",
       "sign-in-link-text": "vous connecter",
-      "add-button": "Ajoutez votre jardin",
       "email-confirm-notice": "Vous devez vérifier votre adresse électronique avant d'ajouter votre jardin à la carte. Nous vous avons envoyé un courriel lorsque vous avez créé votre compte. Vous pouvez renvoyer un lien de vérification à partir de votre {accountLink}.",
       "facilities": {
         "notice": "À quels types d'installations les voyageurs ont-ils accès ?",
@@ -557,8 +554,17 @@
         },
         "title": "Installations"
       },
-      "update-button": "Mettre à jour le jardin",
-      "invalid": "Certaines informations n'étaient pas valides. Veuillez vérifier que les informations que vous avez soumises ne contiennent pas d'erreurs."
+      "invalid": "Certaines informations n'étaient pas valides. Veuillez vérifier que les informations que vous avez soumises ne contiennent pas d'erreurs.",
+      "manage": {
+        "title": "Gérer votre jardin",
+        "button": "Mettre à jour le jardin",
+        "normal-notice": "Sur cette page, vous pouvez mettre à jour les informations de votre jardin. Vous pouvez le retirer de la carte à tout moment en allant dans votre {accountLink}."
+      },
+      "add": {
+        "normal-notice": "En soumettant ce formulaire, votre jardin sera ajouté à la carte. Vous pouvez le gérer ou le supprimer à tout moment à partir de votre {accountLink}.",
+        "button": "Ajoutez votre jardin",
+        "title": "Ajoutez votre jardin à la carte"
+      }
     },
     "facilities": {
       "labels": {

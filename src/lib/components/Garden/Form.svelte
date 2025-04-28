@@ -154,7 +154,7 @@
 <form enctype="multipart/form-data">
   <section>
     <div class="sub-container">
-      <h2>{$_('garden.form.title')}</h2>
+      <h2>{isUpdate ? $_('garden.form.manage.title') : $_('garden.form.add.title')}</h2>
       <div class="section-description">
         {#if !$user}
           <p class="notice">
@@ -182,13 +182,21 @@
           </p>
         {:else}
           <p>
-            {@html $_('garden.form.normal-notice', {
-              values: {
-                accountLink: `<a class='link' href=${routes.ACCOUNT}>${$_(
-                  'generics.account-page'
-                )}</a>`
-              }
-            })}
+            {@html isUpdate
+              ? $_('garden.form.manage.normal-notice', {
+                  values: {
+                    accountLink: `<a class='link' href=${routes.ACCOUNT}>${$_(
+                      'generics.account-page'
+                    )}</a>`
+                  }
+                })
+              : $_('garden.form.add.normal-notice', {
+                  values: {
+                    accountLink: `<a class='link' href=${routes.ACCOUNT}>${$_(
+                      'generics.account-page'
+                    )}</a>`
+                  }
+                })}
           </p>
         {/if}
       </div>
@@ -289,7 +297,7 @@
   <section class="section-submit" class:is-not-fillable={!isFillable}>
     <div class="sub-container">
       <Button type="button" disabled={isSubmitting} on:click={handleSubmit} uppercase medium>
-        {#if isUpdate}{$_('garden.form.update-button')}{:else}{$_('garden.form.add-button')}{/if}
+        {$_(`garden.form.${isUpdate ? 'manage' : 'add'}.button`)}
       </Button>
       {#if !formValid}
         <p class="hint invalid" transition:slide>{$_('garden.form.invalid')}</p>

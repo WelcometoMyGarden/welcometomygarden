@@ -562,12 +562,10 @@
       "add-first": "Primero añadir un jardín."
     },
     "form": {
-      "title": "Añada su jardín al mapa",
       "auth-notice": "Debe iniciar sesión para añadir su jardín en el mapa. Ya sea {signInLink} o {registerLink}.",
       "sign-in-link-text": "iniciar sesión",
       "register-link-text": "crear una cuenta",
       "email-confirm-notice": "Debe verificar su correo electrónico antes de añadir su jardín al mapa. Le hemos enviado un correo electrónico cuando creó su cuenta. Puede reenviar un enlace de verificación desde {accountLink}.",
-      "normal-notice": "Al enviar este formulario, su jardín se añadirá al mapa. Puede administrarlo o eliminarlo en cualquier momento desde la {accountLink}.",
       "location": {
         "title": "Ubicación (requerido)",
         "notice": "Mueva el marcador para establecer la ubicación de su jardín. Puede completar los detalles de su dirección para acercar el marcador.<br /> No almacenamos la información de su dirección.",
@@ -608,9 +606,17 @@
           "too-large": "Tu imagen es demasiado grande. El tamaño del archivo de una imagen debe ser de 30 MB o menos."
         }
       },
-      "add-button": "Añade tu jardín",
-      "update-button": "Actualiza tu jardín",
-      "invalid": "Alguna información no es válida. Por favor revisa la información enviada para ver si hay errores."
+      "invalid": "Alguna información no es válida. Por favor revisa la información enviada para ver si hay errores.",
+      "manage": {
+        "title": "Gestiona tu jardín",
+        "button": "Actualiza tu jardín",
+        "normal-notice": "En esta página puedes actualizar la información de tu jardín. Puedes retirarlo de la mapa en cualquier momento desde la {accountLink}."
+      },
+      "add": {
+        "normal-notice": "Al enviar este formulario, su jardín se añadirá al mapa. Puede administrarlo o eliminarlo en cualquier momento desde la {accountLink}.",
+        "button": "Añade tu jardín",
+        "title": "Añada su jardín al mapa"
+      }
     },
     "notify": {
       "success": "¡Tu jardín fue añadido con éxito!",

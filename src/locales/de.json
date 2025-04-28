@@ -561,12 +561,10 @@
       "add-first": "Bitte fügen Sie zuerst einen Garten hinzu."
     },
     "form": {
-      "title": "Fügen Sie Ihren Garten zur Karte hinzu",
       "auth-notice": "Sie müssen angemeldet sein, um Ihren Garten zur Karte hinzufügen zu können. Entweder {signInLink} oder {registerLink}.",
       "sign-in-link-text": "anmelden",
       "register-link-text": "ein Konto erstellen",
       "email-confirm-notice": "Sie müssen Ihre E-Mail bestätigen, bevor Sie Ihren Garten zur Karte hinzufügen können. Bei der Erstellung Ihres Accounts haben wir Ihnen eine E-Mail geschickt. Sie können einen Verifizierungslink von Ihr {accountLink} erneut anfordern.",
-      "normal-notice": "Durch das Absenden dieses Formulars wird Ihr Garten zur Karte hinzugefügt. Sie können ihn jederzeit über Ihr {accountLink} verwalten oder entfernen.",
       "location": {
         "title": "Standort (erforderlich)",
         "notice": "Verschieben Sie die Markierung, um den Standort Ihres Gartens festzulegen. Sie können die Adressfelder ausfüllen, um die Markierung näher zu Ihnen zu verschieben. <br /> Wir speichern Ihre Adressdaten nicht.",
@@ -607,9 +605,17 @@
           "too-large": "Ihr Bild ist zu groß. Die Dateigröße eines Bildes sollte 30 MB oder weniger betragen."
         }
       },
-      "add-button": "Ihren Garten hinzufügen",
-      "update-button": "Ihren Garten aktualisieren",
-      "invalid": "Einige Informationen waren nicht gültig. Bitte überprüfen Sie Ihre übermittelten Informationen auf Fehler."
+      "invalid": "Einige Informationen waren nicht gültig. Bitte überprüfen Sie Ihre übermittelten Informationen auf Fehler.",
+      "manage": {
+        "title": "Verwalten Sie Ihren Garten",
+        "button": "Ihren Garten aktualisieren",
+        "normal-notice": "Auf dieser Seite können Sie die Informationen zu Ihrem Garten aktualisieren. Sie können Ihren Garten jederzeit abmelden auf Ihrer {accountLink}."
+      },
+      "add": {
+        "normal-notice": "Durch das Absenden dieses Formulars wird Ihr Garten zur Karte hinzugefügt. Sie können ihn jederzeit über Ihr {accountLink} verwalten oder entfernen.",
+        "button": "Ihren Garten hinzufügen",
+        "title": "Fügen Sie Ihren Garten zur Karte hinzu"
+      }
     },
     "notify": {
       "success": "Ihr Garten wurde erfolgreich hinzugefügt!",

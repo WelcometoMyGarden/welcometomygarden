@@ -210,12 +210,10 @@
       "add-first": "Voeg eerst jouw tuin toe."
     },
     "form": {
-      "title": "Voeg jouw tuin toe aan de kaart",
       "auth-notice": "Je moet ingelogd zijn om jouw tuin aan de kaart toe te voegen. Ofwel {signInLink} of {registerLink}",
       "sign-in-link-text": "Log in",
       "register-link-text": "een account aanmaken",
       "email-confirm-notice": "Je moet jouw e-mail controleren voordat je jouw tuin aan de kaart toevoegt. We hebben je een e-mail gestuurd toen je jouw account aanmaakte. Je kunt een verificatielink opnieuw versturen vanuit je {accountLink}.",
-      "normal-notice": "Door het indienen van dit formulier wordt jouw tuin aan de kaart toegevoegd. Je kunt het te allen tijde beheren of verwijderen van je {accountLink}.",
       "location": {
         "title": "Locatie (verplicht)",
         "notice": "Verplaats de marker om de locatie van jouw tuin in te stellen. Je kunt de adresvelden invullen om de marker dichterbij te verplaatsen. <br /> Wij slaan jouw adresgegevens niet op.",
@@ -256,9 +254,17 @@
           "too-large": "Je foto is te groot. De bestandsgrootte van een foto moet 30MB of kleiner zijn."
         }
       },
-      "add-button": "Voeg jouw tuin toe",
-      "update-button": "Actualiseer jouw tuin",
-      "invalid": "Sommige informatie was niet geldig. Controleer de door je verstrekte informatie op fouten."
+      "invalid": "Sommige informatie was niet geldig. Controleer de door je verstrekte informatie op fouten.",
+      "manage": {
+        "title": "Beheer jouw tuin",
+        "button": "Update jouw tuin",
+        "normal-notice": "Op deze pagina kan je de informatie over jouw tuin bijwerken. Je kan jouw tuin op elk moment van de kaart halen op je {accountLink}."
+      },
+      "add": {
+        "normal-notice": "Door het indienen van dit formulier wordt jouw tuin aan de kaart toegevoegd. Je kunt het te allen tijde beheren of verwijderen van je {accountLink}.",
+        "button": "Voeg jouw tuin toe",
+        "title": "Voeg jouw tuin toe aan de kaart"
+      }
     },
     "notify": {
       "success": "Jouw tuin is succesvol toegevoegd!",
