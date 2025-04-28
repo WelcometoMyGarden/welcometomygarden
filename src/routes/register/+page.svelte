@@ -306,7 +306,7 @@
       <p>
         {@html $_('register.registered', {
           values: {
-            signIn: `<a class="link" href="${routes.SIGN_IN}}${continueUrl ? `?continueUrl=${encodeURIComponent(continueUrl)}` : ''}">${$_('generics.sign-in')}</a>`
+            signIn: `<a class="link" href="${routes.SIGN_IN}${continueUrl ? `?continueUrl=${encodeURIComponent(continueUrl)}` : ''}">${$_('generics.sign-in')}</a>`
           }
         })}
       </p>
