@@ -1,5 +1,5 @@
 <script>
-  const count = 3000;
+  const count = 3500;
 </script>
 
 <span>
