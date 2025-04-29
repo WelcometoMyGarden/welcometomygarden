@@ -31,7 +31,7 @@
     if (!!$user.garden && route === routes.ADD_GARDEN) {
       // Garden already exists, silently go to the "Manage garden" page
       goto(routes.MANAGE_GARDEN);
-    } else if (!!$user.garden && route === routes.MANAGE_GARDEN) {
+    } else if (!$user.garden && route === routes.MANAGE_GARDEN) {
       // Garden does not yet exist, go to the "Add garden" page
       notify.warning($_('garden.manage.add-first'));
       goto(routes.ADD_GARDEN);
