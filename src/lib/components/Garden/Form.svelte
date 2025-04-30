@@ -19,12 +19,9 @@
     waterIcon,
     tentIcon
   } from '$lib/images/icons';
-  import ReloadSuggestion from '../ReloadSuggestion.svelte';
   import type { LongLat } from '$lib/types/Garden';
 
   const dispatch = createEventDispatcher();
-
-  $: isFillable = $user && $user.emailVerified;
 
   let formValid = true;
 
@@ -111,7 +108,6 @@
   };
 
   const handleSubmit = async () => {
-    if (!isFillable) return;
     if (
       [validateDescription(garden.description), validateLocation(garden.location)].includes(false)
     ) {
@@ -156,54 +152,28 @@
     <div class="sub-container">
       <h2>{isUpdate ? $_('garden.form.manage.title') : $_('garden.form.add.title')}</h2>
       <div class="section-description">
-        {#if !$user}
-          <p class="notice">
-            {@html $_('garden.form.auth-notice', {
-              values: {
-                signInLink: `<a class='link' href=${routes.SIGN_IN}>${$_(
-                  'garden.form.sign-in-link-text'
-                )}</a>`,
-                registerLink: `<a class='link' href=${routes.REGISTER}>${$_(
-                  'garden.form.register-link-text'
-                )}</a>`
-              }
-            })}
-          </p>
-        {:else if !$user.emailVerified}
-          <p class="notice">
-            {@html $_('garden.form.email-confirm-notice', {
-              values: {
-                accountLink: `<a class='link' href=${routes.ACCOUNT}>${$_(
-                  'generics.account-page'
-                )}</a>`
-              }
-            })}
-            <ReloadSuggestion />
-          </p>
-        {:else}
-          <p>
-            {@html isUpdate
-              ? $_('garden.form.manage.normal-notice', {
-                  values: {
-                    accountLink: `<a class='link' href=${routes.ACCOUNT}>${$_(
-                      'generics.account-page'
-                    )}</a>`
-                  }
-                })
-              : $_('garden.form.add.normal-notice', {
-                  values: {
-                    accountLink: `<a class='link' href=${routes.ACCOUNT}>${$_(
-                      'generics.account-page'
-                    )}</a>`
-                  }
-                })}
-          </p>
-        {/if}
+        <p>
+          {@html isUpdate
+            ? $_('garden.form.manage.normal-notice', {
+                values: {
+                  accountLink: `<a class='link' href=${routes.ACCOUNT}>${$_(
+                    'generics.account-page'
+                  )}</a>`
+                }
+              })
+            : $_('garden.form.add.normal-notice', {
+                values: {
+                  accountLink: `<a class='link' href=${routes.ACCOUNT}>${$_(
+                    'generics.account-page'
+                  )}</a>`
+                }
+              })}
+        </p>
       </div>
     </div>
   </section>
 
-  <section class:is-not-fillable={!isFillable}>
+  <section>
     <fieldset>
       <h3>{$_('garden.form.location.title')}</h3>
       <p class="section-description">
@@ -214,7 +184,7 @@
     </fieldset>
   </section>
 
-  <section class:is-not-fillable={!isFillable}>
+  <section>
     <fieldset>
       <h3>{$_('garden.form.description.title')}</h3>
       <p class="section-description">
@@ -239,7 +209,7 @@
     </fieldset>
   </section>
 
-  <section class:is-not-fillable={!isFillable}>
+  <section>
     <fieldset>
       <h3>{$_('garden.form.facilities.title')}</h3>
       <p class="section-description">{$_('garden.form.facilities.notice')}</p>
@@ -263,7 +233,7 @@
       </div>
     </fieldset>
   </section>
-  <section class:is-not-fillable={!isFillable}>
+  <section>
     <fieldset>
       <h3>{$_('garden.form.photo.title')}</h3>
       <p class="section-description">
@@ -294,7 +264,7 @@
       <p class="hint" class:invalid={!photoHint.valid}>{photoHint.message}</p>
     </fieldset>
   </section>
-  <section class="section-submit" class:is-not-fillable={!isFillable}>
+  <section class="section-submit">
     <div class="sub-container">
       <Button type="button" disabled={isSubmitting} on:click={handleSubmit} uppercase medium>
         {$_(`garden.form.${isUpdate ? 'manage' : 'add'}.button`)}
@@ -419,21 +389,5 @@
   .photo img {
     max-width: 100%;
     max-height: 100%;
-  }
-
-  .is-not-fillable {
-    margin-bottom: 0;
-  }
-
-  .is-not-fillable:after {
-    display: block;
-    position: absolute;
-    content: '';
-    z-index: 10;
-    background-color: rgba(0, 0, 0, 0.6);
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
   }
 </style>

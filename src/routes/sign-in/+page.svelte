@@ -28,7 +28,15 @@
       }
       notify.success($_('sign-in.notify.welcome', { values: { user: localUser?.firstName } }));
       if (continueUrl) {
-        universalGoto(continueUrl);
+        if (continueUrl === routes.ADD_GARDEN && !localUser?.emailVerified) {
+          // If the intention is to add a garden, but the user is not verified, redirect to the account page
+          console.log(
+            'Redirecting to /account upon unverified email sign-in with a garden add intention'
+          );
+          universalGoto(routes.ACCOUNT);
+        } else {
+          universalGoto(continueUrl);
+        }
       } else {
         goto(routes.MAP);
       }

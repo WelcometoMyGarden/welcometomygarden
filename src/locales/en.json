@@ -565,10 +565,8 @@
       "add-first": "Please add a garden first."
     },
     "form": {
-      "auth-notice": "You must be signed in to add your garden to the map. Either {signInLink} or {registerLink}.",
       "sign-in-link-text": "sign in",
       "register-link-text": "create an account",
-      "email-confirm-notice": "You need to verify your email before you add your garden to the map. We sent you an email when you created your account. You can resend a verification link from your {accountLink}.",
       "location": {
         "title": "Location (required)",
         "notice": "Move the marker to set the location of your garden. You can fill in the address fields to move the marker closer to you. <br /> We don't store your address information.",

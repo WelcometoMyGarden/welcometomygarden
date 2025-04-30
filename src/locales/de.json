@@ -561,10 +561,8 @@
       "add-first": "Bitte fügen Sie zuerst einen Garten hinzu."
     },
     "form": {
-      "auth-notice": "Sie müssen angemeldet sein, um Ihren Garten zur Karte hinzufügen zu können. Entweder {signInLink} oder {registerLink}.",
       "sign-in-link-text": "anmelden",
       "register-link-text": "ein Konto erstellen",
-      "email-confirm-notice": "Sie müssen Ihre E-Mail bestätigen, bevor Sie Ihren Garten zur Karte hinzufügen können. Bei der Erstellung Ihres Accounts haben wir Ihnen eine E-Mail geschickt. Sie können einen Verifizierungslink von Ihr {accountLink} erneut anfordern.",
       "location": {
         "title": "Standort (erforderlich)",
         "notice": "Verschieben Sie die Markierung, um den Standort Ihres Gartens festzulegen. Sie können die Adressfelder ausfüllen, um die Markierung näher zu Ihnen zu verschieben. <br /> Wir speichern Ihre Adressdaten nicht.",

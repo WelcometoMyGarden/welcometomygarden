@@ -413,6 +413,9 @@ export const createCampsiteObserver = (currentUserId: string) => {
   });
 };
 
+/**
+ * Logs in, waits until the main user data is loaded (does not wait on the garden)
+ */
 export const login = async (email: string, password: string): Promise<void> => {
   await signInWithEmailAndPassword(auth(), email, password);
   trackEvent(PlausibleEvent.SIGN_IN);
@@ -446,6 +449,9 @@ const signInToSupabaseIfNeeded = async () => {
   }
 };
 
+/**
+ * Waits on the main user data (not garden) to be loaded.
+ */
 export const register = async ({
   email,
   password,
@@ -486,8 +492,9 @@ export const register = async ({
   });
   trackEvent(PlausibleEvent.CREATE_ACCOUNT);
   await resolveOnUserLoaded();
-  // Refresh the token to ensure that the async backend claims are set.
-  // NOTE: using the blocking functions of Identity Toolkit can make this more reliable.
+  // Refresh the token to ensure that the Firebase Auth claims set by the backend upon creation are set.
+  // NOTE: using the blocking functions of Identity Toolkit can make this more reliable,
+  // Now there is a risk that this runs before the backend listener completes.
   console.log('Force-refreshing the token after account creation for claims sync');
   await auth().currentUser?.getIdToken(true);
   isRegistering.set(false);

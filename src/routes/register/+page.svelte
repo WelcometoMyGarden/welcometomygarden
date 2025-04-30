@@ -3,7 +3,7 @@
   import { fade } from 'svelte/transition';
   import { goto, universalGoto } from '$lib/util/navigate';
   import { register } from '$lib/api/auth';
-  import { formEmailValue, formPasswordValue, isRegistering } from '$lib/stores/auth';
+  import { formEmailValue, formPasswordValue, isRegistering, user } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
   import routes from '$lib/routes';
   import { countryNames, guessCountryCode } from '$lib/stores/countryNames';
@@ -15,6 +15,7 @@
   import isFirebaseError from '$lib/util/types/isFirebaseError';
   import validateEmail from '$lib/util/validate-email';
   import { page } from '$app/stores';
+  import { get } from 'svelte/store';
 
   const continueUrl = $page.url.searchParams.get('continueUrl');
 
@@ -156,7 +157,15 @@
       });
       notify.success($_('register.notify.successful'), 10000);
       if (continueUrl) {
-        universalGoto(continueUrl);
+        if (continueUrl === routes.ADD_GARDEN && !get(user)?.emailVerified) {
+          // If the intention is to add a garden, but the user is not verified, redirect to the account page
+          console.log(
+            'Redirecting to /account upon unverified email sign-up with a garden add intention'
+          );
+          universalGoto(routes.ACCOUNT);
+        } else {
+          universalGoto(continueUrl);
+        }
       } else {
         goto(routes.MAP);
       }

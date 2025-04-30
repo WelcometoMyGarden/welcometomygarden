@@ -210,10 +210,8 @@
       "add-first": "Voeg eerst jouw tuin toe."
     },
     "form": {
-      "auth-notice": "Je moet ingelogd zijn om jouw tuin aan de kaart toe te voegen. Ofwel {signInLink} of {registerLink}",
       "sign-in-link-text": "Log in",
       "register-link-text": "een account aanmaken",
-      "email-confirm-notice": "Je moet jouw e-mail controleren voordat je jouw tuin aan de kaart toevoegt. We hebben je een e-mail gestuurd toen je jouw account aanmaakte. Je kunt een verificatielink opnieuw versturen vanuit je {accountLink}.",
       "location": {
         "title": "Locatie (verplicht)",
         "notice": "Verplaats de marker om de locatie van jouw tuin in te stellen. Je kunt de adresvelden invullen om de marker dichterbij te verplaatsen. <br /> Wij slaan jouw adresgegevens niet op.",

@@ -13,11 +13,16 @@
 
   const route = $page.route.id;
 
+  /** SvelteKit's own $navigating does not work well here
+   * A "goto" somehow triggers a rerun of this code with $navigating still being null
+   */
+  let navigating = false;
   let reloadedOnce = false;
-  $: if (!$user) {
+  $: if (navigating) {
+    // Don't do anything, prevent reruns of the code below while navigating
+  } else if (!$user) {
     notify.info($_('auth.unsigned'), 8000);
-    // Defauls to REGISTER because it is the most common case for new users
-    goto(`${routes.REGISTER}?continueUrl=${encodeURIComponent(route ?? '')}`);
+    goto(`${routes.SIGN_IN}?continueUrl=${encodeURIComponent(route ?? '')}`);
   } else if (!$user.emailVerified && !reloadedOnce) {
     // TODO: leverage the top notice to not take the user out of the flow?
     // Alternatively, also implement the verification thing continue URL (but
@@ -27,6 +32,11 @@
     // Prevent an infinite loop; reload will always update the reactive $user
     reloadedOnce = true;
     auth().currentUser?.reload();
+  } else if (!$user.emailVerified && reloadedOnce && !navigating) {
+    // Intended for when this page is loaded directly as a logged-in, email-unverified user
+    notify.info($_('auth.verification.unverified'), 8000);
+    navigating = true;
+    goto(routes.ACCOUNT);
   } else if ($gardenHasLoaded) {
     if (!!$user.garden && route === routes.ADD_GARDEN) {
       // Garden already exists, silently go to the "Manage garden" page

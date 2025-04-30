@@ -562,10 +562,8 @@
       "add-first": "Primero añadir un jardín."
     },
     "form": {
-      "auth-notice": "Debe iniciar sesión para añadir su jardín en el mapa. Ya sea {signInLink} o {registerLink}.",
       "sign-in-link-text": "iniciar sesión",
       "register-link-text": "crear una cuenta",
-      "email-confirm-notice": "Debe verificar su correo electrónico antes de añadir su jardín al mapa. Le hemos enviado un correo electrónico cuando creó su cuenta. Puede reenviar un enlace de verificación desde {accountLink}.",
       "location": {
         "title": "Ubicación (requerido)",
         "notice": "Mueva el marcador para establecer la ubicación de su jardín. Puede completar los detalles de su dirección para acercar el marcador.<br /> No almacenamos la información de su dirección.",

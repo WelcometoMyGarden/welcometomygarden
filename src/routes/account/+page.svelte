@@ -250,9 +250,21 @@
         <h2>{$_('account.garden.title')}</h2>
         {#if !$user.garden}
           <p class="description">{$_('account.garden.unlisted.text')}</p>
-          <Button uppercase medium href={routes.ADD_GARDEN}>
-            {$_('account.garden.unlisted.button')}
-          </Button>
+          {#if !$user.emailVerified}
+            <Button
+              uppercase
+              medium
+              on:click={() => {
+                notify.info($_('auth.verification.unverified'), 4000);
+              }}
+            >
+              {$_('account.garden.unlisted.button')}
+            </Button>
+          {:else}
+            <Button uppercase medium href={routes.ADD_GARDEN}>
+              {$_('account.garden.unlisted.button')}
+            </Button>
+          {/if}
         {:else if $user.emailVerified && $user.garden}
           <LabeledCheckbox
             disabled={updatingListedStatus}
@@ -267,6 +279,7 @@
             </Button>
           </div>
         {:else if $user.garden && !$user.emailVerified}
+          <!-- This situation should never be possible today -->
           <p class="mb-m">{$_('account.garden.unverified.text')}</p>
         {/if}
       </section>
