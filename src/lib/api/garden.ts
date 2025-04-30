@@ -221,7 +221,11 @@ export const getAllListedGardens = async () => {
       // Merge the fetched gardens with the existing ones; without creating a new array in memory
       // (attempt to reduce memory usage)
       gardensChunkResponse.forEach((restDoc) => {
-        existingGardens.push(mapRestToGarden(restDoc));
+        if (restDoc.document) {
+          // If the document has contents. This is normally the case, but on an empty
+          // local dev env, it might not be (there may be one document with only a read time, but no contents then).
+          existingGardens.push(mapRestToGarden(restDoc));
+        }
       });
       return existingGardens;
     });
