@@ -1171,7 +1171,7 @@
   },
   "terms-of-use": {
     "title": "Conditions d'utilisation",
-    "last-updated": "Dernière mise à jour : 17/01/2025",
+    "last-updated": "Dernière mise à jour : 30/04/2025",
     "intro": {
       "0": {
         "copy": "Welcome to My Garden est une plateforme regroupant des citoyen.nes qui ouvrent leur jardin pour que des voyageur.ses lent.es non motorisés à pied ou à vélo puissent y camper gratuitement pour la nuit."
@@ -1293,12 +1293,21 @@
           "6": {
             "title": "Contribution annuelle en tant que membre ou Superfan",
             "copy": {
-              "0": "Welcome To My Garden a pour mission de rendre le voyage lent plus accessible. Comme n’importe quel jardin, WTMG a besoin d’être entretenu pour pouvoir grandir et rester en bonne santé. Camper dans le jardin d’un.e hôte de WTMG est gratuit. Cependant, pour maintenir et développer WTMG, WTMG a besoin d’une contribution annuelle des voyageur.ses qui couvrent ainsi leur propre coût d’utilisation. Les voyageur.ses ont donc le choix de devenir soit membre, soit Superfans. Cet abonnement est obligatoire. Les membres ou superfans ne sont pas autorisés à transférer leur login à un tiers. Ils/Elles acceptent les mêmes conditions que tous les utilisateurs et Welcome To My Garden se réserve le droit de refuser, suspendre ou supprimer les comptes des Superfans qui ne respectent pas ces conditions.",
+              "0": "Welcome To My Garden a pour mission de rendre le voyage lent plus accessible. Comme n’importe quel jardin, WTMG a besoin d’être entretenu pour pouvoir grandir et rester en bonne santé. Camper dans le jardin d’un.e hôte de WTMG est gratuit. Cependant, pour maintenir et développer WTMG, WTMG a besoin d’une contribution annuelle des voyageur.ses qui couvrent ainsi leur propre coût d’utilisation. Les voyageur.ses ont donc le choix de devenir soit membre, soit Superfans. Cet abonnement est obligatoire. Les membres ou superfans ne sont pas autorisés à transférer leur login à un tiers. Ils/Elles acceptent les mêmes conditions que tous les utilisateurs et Welcome To My Garden se réserve le droit de refuser, suspendre ou supprimer les comptes des Membres ou Superfans qui ne respectent pas ces conditions.",
               "1": "Les limitations de responsabilité (voir ci-dessous) de Welcome To My Garden en général s'appliquent également à l'utilisation des fonctions supplémentaires pour les membres ou Superfans, ce qui signifie que Welcome To My Garden ne peut être tenu responsable de tout dommage ou perte qui se produirait en raison de l'utilisation de Welcome To My Garden.",
               "2": "Les abonnements se paient pour une année à la fois. Le prix comprend la TVA de 21% appliquée aux abonnements. Les abonnements sont payés annuellement et se renouvellent automatiquement, sauf s'ils sont annulés par le membre ou par WTMG. Les membres peuvent annuler le renouvellement à tout moment sur leur {accountLink}. Lorsqu'un membre annule un abonnement, seul le renouvellement automatique est annulé. Cela signifie que l'abonnement reste valide jusqu'à la fin de la période déjà payée. Deux jours avant la date de renouvellement, les membres sont informés par e-mail de leur renouvellement à venir. L'abonnement est non remboursable et non transférable à un tiers."
             }
           },
           "7": {
+            "copy": {
+              "0": "<span style=\"text-decoration: underline;\">Par un Member ou Superfan</span><br/>\n<p>Conformément à la législation belge et aux réglementations européennes de protection des consommateurs, les Membres et Superfans résidant dans l'Union Européenne ont le droit de se rétracter de leur achat dans un délai de quatorze (14) jours à compter de leur adhésion en tant que Membre ou Superfan.</p>\n<p>Ce droit ne s'applique que si les conditions suivantes sont remplies :</p>",
+              "1": "<ol class=\"terms-html\">\n<li>Aucune demande de séjour n’a été envoyée via la plateforme WTMG ; et</li>\n<li>Le Membre ou Superfan n’a pas enfreint les Conditions d'Utilisation ni les règles de WTMG.</li>\n</ol>",
+              "2": "Si ces conditions sont remplies, le délai de rétractation prend fin quatorze (14) jours ouverts après la date du paiement initial ou, pour les renouvellements, quatorze (14) jours après la date de renouvellement. Passé ce délai, aucun remboursement ne pourra avoir lieu, en totalité ou en partie. Ce droit d’annulation s'applique également à chaque renouvellement annuel, dans les mêmes conditions. Pour annuler une adhésion, les Membres et Superfans doivent informer WTMG par email à <a href=\"mailto:support@welcometomygarden.org\">support@welcometomygarden.org</a> dans le délai de 14 jours applicable.",
+              "3": "<span style=\"text-decoration: underline;\">Par Welcome To My Garden</span>\n<p>WTMG est destiné exclusivement à l’usage prévu tel que décrit dans ces Conditions et les règles de la plateforme. Toute autre utilisation — y compris les activités commerciales, les promotions tierces, les sollicitations personnelles ou la collecte et l’utilisation de données personnelles — est strictement interdite. WTMG ne soutient ni ne tolère aucune forme de communication non sollicitée (“SPAM”). Si un Membre ou Superfan se livre à une telle activité, WTMG se réserve le droit de suspendre ou de supprimer immédiatement son compte sans remboursement. Toute violation de ces Conditions peut entraîner de graves conséquences, y compris des actions en justice, des demandes de réparation de préjudices et le remboursement des frais juridiques. En utilisant la plateforme, vous acceptez également de dégager WTMG de toute responsabilité découlant de votre violation de ces Conditions, y compris toute réclamation de tiers qui pourrait en résulter.</p>"
+            },
+            "title": "Droit d’annulation de l’adhésion"
+          },
+          "8": {
             "title": "Avertissement",
             "copy": {
               "0": "Les membres de l’équipe derrière Welcome to My Garden ne prennent aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."

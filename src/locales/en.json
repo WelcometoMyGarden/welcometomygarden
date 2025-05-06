@@ -1202,7 +1202,7 @@
   },
   "terms-of-use": {
     "title": "Terms of use",
-    "last-updated": "Last updated: 17 January 2025",
+    "last-updated": "Last updated: 30 April 2025",
     "intro": {
       "0": {
         "copy": "Welcome To My Garden is a platform where citizens open their gardens so that slow travellers (which means non motorized travellers who are travelling by bicycle or by foot) can camp there for the night."
@@ -1324,12 +1324,21 @@
           "6": {
             "title": "Yearly membership: becoming a Member or Superfan",
             "copy": {
-              "0": "Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Like any garden, WTMG needs nurturing in order to grow and stay healthy. Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. Slow travellers have the choice to either become Members or Superfans. This membership is mandatory. Members or Superfans are not allowed to transfer their login to a third party. Superfans agree with the same terms of all users and Welcome To My Garden reserves the right to refuse, suspend or delete accounts of Superfans who don’t comply with the terms.",
-              "1": "The limitations of liability (see below) of Welcome To My Garden in general also apply for the use of the extra features for Superfans, which means that Welcome To My Garden cannot be held responsible for any damages or loss that would occur due to the use of Welcome To My Garden.",
-              "2": "Slow travellers chose if they want to become Members (minimum contribution) or Superfans (extra contribution). The price includes 21% VAT applied to memberships. Memberships are paid yearly and renew automatically, unless they are cancelled by the member or by WTMG. Members can cancel the renewal at any time on their {accountLink}. When a member cancels a membership, only the automatic renewal is cancelled. This means that the membership remains valid until the end of the period already paid for. Two days before the renewal date, members are notified by email about their upcoming renewal. The membership is non-refundable and non-transferable to a third party."
+              "0": "Welcome To My Garden is on a mission to make slow travel more accessible for everyone. Like any garden, WTMG needs nurturing in order to grow and stay healthy. Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. Slow travellers have the choice to either become Members or Superfans. This membership is mandatory. Members or Superfans are not allowed to transfer their login to a third party. Superfans agree with the same terms of all users and Welcome To My Garden reserves the right to refuse, suspend or delete accounts of Members or Superfans who don’t comply with the terms.",
+              "1": "The limitations of liability (see below) of Welcome To My Garden in general also apply for the use of the extra features for Members or Superfans, which means that Welcome To My Garden cannot be held responsible for any damages or loss that would occur due to the use of Welcome To My Garden.",
+              "2": "Slow travellers chose if they want to become Members (minimum contribution) or Superfans (extra contribution). The price includes 21% VAT applied to memberships. Memberships are paid yearly and renew automatically, unless they are cancelled by the member or by WTMG. Members or Superfans can cancel the renewal at any time on their {accountLink}. When a Member or Superfan cancels a membership, only the automatic renewal is cancelled. This means that the membership remains valid until the end of the period already paid for. Two days before the renewal date, members are notified by email about their upcoming renewal. The membership is non-refundable and non-transferable to a third party."
             }
           },
           "7": {
+            "title": "Right of Cancellation of the Yearly Membership",
+            "copy": {
+              "0": "<span style=\"text-decoration: underline;\">By a Member or Superfan</span><br/>\n<p>In line with Belgian law and EU consumer protection regulations, Members and Superfans residing in the European Union have the right to withdraw from their purchase within fourteen (14) days of becoming a paid Member or Superfan.</p>\n<p>This right applies only if the following conditions are met:</p>",
+              "1": "<ol class=\"terms-html\">\n<li>No stay requests have been sent via the WTMG platform; and</li>\n<li>The Member or Superfan has not violated these Terms of Use or the WTMG rules.</li>\n</ol>",
+              "2": "If these conditions are met, the withdrawal period ends fourteen (14) calendar days after the date of the initial payment or, for renewals, fourteen (14) days after the renewal date. After this period, no refunds will be granted, in full or in part. This right of withdrawal also applies at each annual renewal, under the same conditions. To cancel a membership, Members and Superfans must notify us clearly via email at <a href=\"mailto:support@welcometomygarden.org\">support@welcometomygarden.org</a> within the applicable 14-day period.",
+              "3": "<span style=\"text-decoration: underline;\">By Welcome To My Garden</span>\n<p>WTMG is intended solely for its designated purpose, as described in these Terms and the platform rules. Any other use—including commercial activities, third-party promotions, personal solicitations, or the collection and use of personal data—is strictly prohibited. WTMG does not support or tolerate any form of unsolicited communication (“SPAM”). If a Member or Superfan engages in such activity, WTMG reserves the right to immediately suspend or delete their account without refund. Any violation of these Terms may result in serious consequences, including legal action, claims for damages, and reimbursement of legal costs. By using the platform, you also agree to release WTMG from any liability resulting from your violation of these Terms, including any third-party claims that may arise.</p>"
+            }
+          },
+          "8": {
             "title": "Disclaimer",
             "copy": {
               "0": "The team and volunteers behind Welcome To My Garden will not take any responsibility for any loss, damage or injury incurred as a result of using the website and/or while staying in another citizen’s garden."

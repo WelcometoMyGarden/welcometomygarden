@@ -3,6 +3,7 @@
   import { supportEmailLinkString, getNodeChildren } from '$lib/util';
   import { Ol } from '$lib/components/UI';
   import routes from '$lib/routes';
+  import RenderDefaultP from './RenderDefaultP.svelte';
 </script>
 
 <svelte:head>
@@ -61,8 +62,8 @@
               {@html $_(`terms-of-use.articles.${articleKey}.paragraphs.${paragraphsKey}.title`)}
             </h4>
             {#each getNodeChildren(`terms-of-use.articles.${articleKey}.paragraphs.${paragraphsKey}.copy`) as copyKey}
-              <p>
-                {@html $_(
+              <RenderDefaultP
+                content={$_(
                   `terms-of-use.articles.${articleKey}.paragraphs.${paragraphsKey}.copy.${copyKey}`,
                   {
                     values: {
@@ -71,7 +72,7 @@
                     }
                   }
                 )}
-              </p>
+              ></RenderDefaultP>
             {/each}
           </li>
         {/each}
