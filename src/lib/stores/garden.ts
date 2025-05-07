@@ -22,7 +22,7 @@ export const addToAllGardens = async (garden: Garden) => {
     // Update the the specific garden in the local store of gardens
     allGardens.update((gardens) => {
       const index = gardens.findIndex((g) => g.id === garden.id);
-      if (typeof index === 'number') {
+      if (index > -1) {
         gardens[index] = garden;
       } else {
         gardens.push(garden);
