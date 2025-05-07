@@ -103,8 +103,7 @@
   };
 
   const getExistingPhoto = () => {
-    const id = garden && garden.previousPhotoId ? garden.previousPhotoId : $user.id;
-    return getGardenPhotoBig({ photo: existingPhoto, id });
+    return getGardenPhotoBig({ photo: existingPhoto, id: $user.id });
   };
 
   const handleSubmit = async () => {

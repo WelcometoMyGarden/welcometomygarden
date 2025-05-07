@@ -82,9 +82,7 @@
     try {
       userInfo = await getPublicUserProfile(garden!.id!);
       if (garden!.photo) {
-        // NOTE: I'm not sure what previousPhotoId means here, this is a remnant from a very old migration,
-        // probably not relevant anymore.
-        const id = garden!.previousPhotoId ?? (garden!.id as string);
+        const id = garden!.id as string;
         photoUrl = await getGardenPhotoSmall({ ...(garden as GardenWithPhoto), id });
       }
     } catch (ex) {
@@ -144,8 +142,7 @@
     isGettingMagnifiedPhoto = true;
     try {
       if (garden?.photo) {
-        const id = garden.previousPhotoId ?? (garden!.id as string);
-        biggerPhotoUrl = await getGardenPhotoBig({ ...garden, id } as GardenWithPhoto);
+        biggerPhotoUrl = await getGardenPhotoBig({ ...garden, id: garden!.id } as GardenWithPhoto);
       }
     } catch (ex) {
       console.log(ex);
