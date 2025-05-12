@@ -441,11 +441,15 @@ const signInToSupabaseIfNeeded = async () => {
   // Only set the Supabase client if the user is a member or garden owner
   if (supaRole != null && (_user?.garden || _user?.superfan)) {
     console.log('Setting up Supabase client for host/member');
-    supabase.set(
-      createClient(PUBLIC_SUPABASE_API_URL, PUBLIC_SUPABASE_ANON_KEY, {
-        accessToken: async () => (await firebaseUser.getIdToken()) ?? null
-      })
-    );
+    if (typeof PUBLIC_SUPABASE_API_URL === 'string' && PUBLIC_SUPABASE_API_URL.length > 0) {
+      supabase.set(
+        createClient(PUBLIC_SUPABASE_API_URL, PUBLIC_SUPABASE_ANON_KEY, {
+          accessToken: async () => (await firebaseUser.getIdToken()) ?? null
+        })
+      );
+    } else {
+      console.warn('PUBLIC_SUPABASE_API_URL not set, skip Supabase init');
+    }
   }
 };
 
