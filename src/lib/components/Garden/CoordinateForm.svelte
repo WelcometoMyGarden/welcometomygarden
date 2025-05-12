@@ -2,7 +2,7 @@
   /**
    * Should be supplied if the location of the garden is already set and known.
    */
-  export let initialCoordinates = null;
+  export let initialCoordinates: LongLat | null = null;
 
   import { _ } from 'svelte-i18n';
   import { createEventDispatcher } from 'svelte';
@@ -12,6 +12,7 @@
   import Map from '$lib/components/Map/Map.svelte';
   import DraggableMarker from '$lib/components/Map/DraggableMarker.svelte';
   import { LOCATION_BELGIUM, ZOOM_LEVELS } from '$lib/constants';
+  import type { LongLat } from '$lib/types/Garden';
 
   const dispatch = createEventDispatcher();
 

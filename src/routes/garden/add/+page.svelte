@@ -2,19 +2,19 @@
   import { _ } from 'svelte-i18n';
   import { goto } from '$lib/util/navigate';
   import { addGardenLocally, hasLoaded as gardenHasLoaded } from '$lib/stores/garden';
-  import { user } from '$lib/stores/auth';
+  import { getUser, user } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
   import { Progress } from '$lib/components/UI';
   import { addGarden } from '$lib/api/garden';
   import Form from '$lib/components/Garden/Form.svelte';
   import routes from '$lib/routes';
-  import type { Garden } from '$lib/types/Garden';
+  import type { Garden, GardenToAdd } from '$lib/types/Garden';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
 
   let addingGarden = false;
 
-  const submit = async (e) => {
+  const submit = async (e: CustomEvent<GardenToAdd>) => {
     const garden = e.detail;
     addingGarden = true;
     try {
@@ -37,7 +37,7 @@
     }
   };
 
-  const initialGarden: Garden = {
+  const initialGarden = {
     description: '',
     location: null,
     facilities: {
@@ -48,7 +48,7 @@
       data: null
     },
     listed: true
-  };
+  } satisfies GardenToAdd;
 </script>
 
 <svelte:head>

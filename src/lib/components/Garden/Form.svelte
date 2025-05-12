@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let garden;
+  export let garden: Garden | GardenToAdd;
   export let isSubmitting = false;
   export let isUpdate = false;
 
@@ -19,14 +19,15 @@
     waterIcon,
     tentIcon
   } from '$lib/images/icons';
-  import type { LongLat } from '$lib/types/Garden';
+  import type { Garden, GardenToAdd, LongLat } from '$lib/types/Garden';
+  import type { FormEventHandler } from 'svelte/elements';
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{ submit: GardenToAdd }>();
 
   let formValid = true;
 
   let descriptionHint = { message: '', valid: true };
-  const validateDescription = (description) => {
+  const validateDescription = (description: string) => {
     const len = description.length;
     if (len < 20) {
       descriptionHint.valid = false;
@@ -47,14 +48,14 @@
     return true;
   };
 
-  const updateDescription = (event) => {
-    const description = event.target.value;
+  const updateDescription = ((event) => {
+    const description = (event.target as HTMLTextAreaElement).value;
     validateDescription(description);
     garden.description = description;
-  };
+  }) satisfies FormEventHandler<HTMLTextAreaElement>;
 
   let coordinateHint = { message: '', valid: true };
-  const validateLocation = (location) => {
+  const validateLocation = (location: LongLat | null) => {
     if (!location) {
       coordinateHint.message = $_('garden.form.location.coordinate-hint');
       coordinateHint.valid = false;
@@ -71,7 +72,7 @@
 
   const validFileTypes = ['image/jpeg', 'image/png', 'image/tiff'];
   let photoHint = { message: '', valid: true };
-  const validatePhoto = (file) => {
+  const validatePhoto = (file: File) => {
     if (!validFileTypes.includes(file.type)) {
       photoHint.message = $_('garden.form.photo.hints.wrong-format');
       photoHint.valid = false;
@@ -88,17 +89,29 @@
     return true;
   };
 
-  let existingPhoto = garden.photo;
-  garden.photo = {};
+  let existingPhoto: GardenToAdd['photo'] | null | string = garden.photo;
+  // Note that the old photo reference is saved above here before being overwritten/reset here
+  garden.photo = { files: undefined, data: null };
+
   const choosePhoto = () => {
-    if (!garden.photo.files) return;
+    // The garden.photo property must have been reset before executing this function.
+    if (typeof garden.photo === 'string' || !garden.photo?.files || garden.photo.files.length === 0)
+      return;
     existingPhoto = null;
     const file = garden.photo.files[0];
     if (!validatePhoto(file)) return;
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (e) => {
-      garden.photo.data = e.target.result;
+      if (e.target && typeof garden.photo !== 'string' && garden.photo != null) {
+        // It should be a base64-encoded string
+        // https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL
+        garden.photo.data = e.target.result as string;
+      } else {
+        console.warn(
+          'Uploaded photo reader, or target object are unexpectedly falsy when reading it'
+        );
+      }
     };
   };
 
@@ -114,7 +127,12 @@
       return;
     }
 
-    if (garden.photo && garden.photo.files && !validatePhoto(garden.photo.files[0])) {
+    if (
+      garden.photo &&
+      typeof garden.photo !== 'string' &&
+      garden.photo.files &&
+      !validatePhoto(garden.photo.files[0])
+    ) {
       formValid = false;
       return;
     }
@@ -248,7 +266,7 @@
         accept={validFileTypes.join(',')}
       />
 
-      {#if garden.photo && garden.photo.data}
+      {#if garden.photo && typeof garden.photo !== 'string' && garden.photo.data}
         <div class="photo" transition:slide>
           <img src={garden.photo.data} alt={$_('garden.form.photo.img-alt')} />
         </div>

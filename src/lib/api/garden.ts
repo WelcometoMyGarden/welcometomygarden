@@ -15,7 +15,7 @@ import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '$lib
 import { supabase } from '$lib/stores/auth';
 import { appCheck, db, storage } from './firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import type { Garden, GardenFacilities, GardenWithPhoto } from '$lib/types/Garden';
+import type { FirebaseGarden, Garden, GardenFacilities, GardenWithPhoto } from '$lib/types/Garden';
 import { get } from 'svelte/store';
 import { getToken } from 'firebase/app-check';
 
@@ -25,14 +25,14 @@ import { getToken } from 'firebase/app-check';
  */
 export const getGarden = async (id: string) => {
   const gardenDoc = await getDoc(
-    doc(collection(db(), CAMPSITES) as CollectionReference<Garden>, id)
+    doc(collection(db(), CAMPSITES) as CollectionReference<FirebaseGarden>, id)
   );
   const data = gardenDoc.data()!;
   if (gardenDoc.exists() && data.listed) {
     return {
       id: gardenDoc.id,
       ...data
-    };
+    } satisfies Garden;
   } else {
     return null;
   }
@@ -259,9 +259,8 @@ export const addGarden = async ({
   photo,
   facilities,
   ...rest
-}: {
-  photo: File;
-  facilities: GardenFacilities;
+}: Omit<FirebaseGarden, 'photo'> & {
+  photo: File | null;
 }) => {
   const currentUser = getUser();
 
@@ -276,14 +275,14 @@ export const addGarden = async ({
 
   const garden = {
     ...rest,
-    facilities: facilitiesCopy,
+    facilities: facilitiesCopy as GardenFacilities,
     listed: true,
     photo: uploadedName
   };
 
   await setDoc(doc(db(), CAMPSITES, currentUser.id), garden);
 
-  const gardenWithId = { ...garden, id: currentUser.id };
+  const gardenWithId = { ...garden, id: currentUser.id } satisfies Garden;
   currentUser.setGarden(gardenWithId);
   return gardenWithId;
 };
@@ -302,8 +301,7 @@ export const updateGarden = async ({ photo, ...rest }: { photo: File; facilities
 
   const garden = {
     ...rest,
-    facilities,
-    previousPhotoId: null
+    facilities
   };
 
   if (uploadedName || rest.photo) garden.photo = uploadedName || rest.photo;

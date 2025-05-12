@@ -1,15 +1,6 @@
 import { Timestamp } from 'firebase/firestore';
 
-export type Garden = {
-  /**
-   * TODO: we should inspect this property, eventually remove it from Firestore.
-   * This is used to identify the garden locally, to merge it in the local store
-   * but it seems redundant information, as it is only set to the Firebase UID/document ID,
-   * which can already be merged into our local representation (see the way chats are stored).
-   * There are some 2865+- campsites that don't have this property (accounts since commit 6ad2864822a6a6cce4c88a02a2e1e68365cb66d9).
-   * For all others, this property is exactly equal to the uid.
-   */
-  id?: string;
+export type FirebaseGarden = {
   description: string;
   /**
    * TODO: can this actually be null? Check if any such gardens exist. They shouldn't!
@@ -41,7 +32,15 @@ export type Garden = {
   latestWarningForInactivityAt?: Timestamp;
 };
 
+export type Garden = {
+  id?: string;
+} & FirebaseGarden;
+
 export type GardenWithPhoto = Omit<Garden, 'photo'> & { photo: string };
+
+export type GardenToAdd = Omit<Garden, 'photo'> & {
+  photo: { files: FileList | undefined | null; data: string | null };
+};
 
 export type LongLat = {
   longitude: number;
