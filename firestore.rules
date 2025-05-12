@@ -193,13 +193,6 @@ service cloud.firestore {
       return photo == null || photo is string
     }
 
-    function validatePreviousPhotoId(garden) {
-      // Allowed values are: undefined | null | string
-      // previousPhotoId is undefined for 1480 gardens
-      // Map.get is needed to check undefined safely: https://stackoverflow.com/a/67138054/4973029
-      return garden.get('previousPhotoId', null) == null || garden.previousPhotoId is string
-    }
-
     function validateGardenState(garden) {
       return garden.keys().hasAll([
       'description',
@@ -212,7 +205,6 @@ service cloud.firestore {
       validateDescription(garden.description) &&
       validatePhoto(garden.photo) &&
       validateLocation(garden.location) &&
-      validatePreviousPhotoId(garden) &&
       garden.listed is bool
     }
 
