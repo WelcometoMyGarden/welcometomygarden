@@ -77,3 +77,5 @@ export type GardenFacilities = {
   bonfire?: boolean;
   tent?: boolean;
 };
+
+export type BooleanGardenFacilities = Omit<GardenFacilities, 'capacity'>;

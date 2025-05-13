@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
   import Icon from './Icon.svelte';
 
   export let isSkeleton = false;
-  export let icon = null;
+  export let icon: string | null = null;
 </script>
 
 <div class="chip" class:skeleton={isSkeleton} class:is-skeleton={isSkeleton}>

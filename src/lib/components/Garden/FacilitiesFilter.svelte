@@ -4,7 +4,8 @@
   import { LabeledCheckbox, Button, Modal } from '$lib/components/UI';
   import { allListedGardens } from '$lib/stores/garden';
   import type { Garden } from '$lib/types/Garden';
-  import { facilities, type CapacityFilterType, type FacilitiesFilterType } from './Filter.svelte';
+  import { type CapacityFilterType, type FacilitiesFilterType } from './Filter.svelte';
+  import { facilities } from '$lib/stores/facilities';
 
   // Will practically never be `undefined`, because it is initialized in beforeUpdate
   export let filteredGardens: Garden[] | undefined;
@@ -74,12 +75,12 @@
     <div id="gardenFacilities" class="gardenFilterSection">
       <h3 class="gardenFilterSubtitle">{$_('garden.filter.garden-facilities')}</h3>
       <div class="gardenFilterCheckboxes">
-        {#each facilities as facility (facility.name)}
+        {#each $facilities as facility (facility.name)}
           <div class="gardenFilterCheckbox">
             <LabeledCheckbox
               name={facility.name}
               icon={facility.icon}
-              label={$_(facility.transKey)}
+              label={facility.label}
               bind:checked={filter.facilities[facility.name]}
               compact
             />

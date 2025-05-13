@@ -15,19 +15,7 @@
   import { user } from '$lib/stores/auth';
   import { clickOutside } from '$lib/directives';
   import { Text, Chip, Image, Button, Progress } from '../UI';
-  import {
-    bonfireIcon,
-    waterIcon,
-    electricityIcon,
-    showerIcon,
-    toiletIcon,
-    tentPhosphor,
-    heartIcon,
-    heartIconFill,
-    tentPhosphorLight,
-    glassIcon,
-    crossIcon
-  } from '$lib/images/icons';
+  import { tentPhosphor, heartIcon, heartIconFill, crossIcon } from '$lib/images/icons';
   import routes from '$lib/routes';
   import type { Garden, GardenPhoto } from '$lib/types/Garden';
   import Icon from '$lib/components/UI/Icon.svelte';
@@ -38,6 +26,7 @@
   import NewBadge from '../Nav/NewBadge.svelte';
   import type { UserPublic } from '$lib/models/User';
   import ResponseRateTimeLines from './ResponseRateTimeLines.svelte';
+  import { facilities } from '$lib/stores/facilities';
 
   const dispatch = createEventDispatcher<{ close: null }>();
   const phoneRegex =
@@ -45,23 +34,6 @@
   let descriptionEl: unknown | undefined;
 
   $: gardenIsSelected = !!garden;
-  $: facilities = [
-    { name: 'water', icon: waterIcon, label: $_('garden.facilities.labels.water') },
-    {
-      name: 'drinkableWater',
-      icon: glassIcon,
-      label: $_('garden.facilities.labels.drinkable-water')
-    },
-    { name: 'toilet', icon: toiletIcon, label: $_('garden.facilities.labels.toilet') },
-    { name: 'bonfire', icon: bonfireIcon, label: $_('garden.facilities.labels.bonfire') },
-    {
-      name: 'electricity',
-      icon: electricityIcon,
-      label: $_('garden.facilities.labels.electricity')
-    },
-    { name: 'shower', icon: showerIcon, label: $_('garden.facilities.labels.shower') },
-    { name: 'tent', icon: tentPhosphorLight, label: $_('garden.facilities.labels.tent') }
-  ];
 
   let drawerElement;
   let photoWrapper: HTMLElement | undefined;
@@ -268,7 +240,7 @@
   use:clickOutside
   on:click-outside={handleClickOutsideDrawer}
 >
-  {#if gardenIsSelected && initialGardenInfoLoaded && userInfo}
+  {#if gardenIsSelected && initialGardenInfoLoaded && userInfo && garden}
     <section class="main">
       <header>
         <div class="garden-title">
@@ -322,7 +294,7 @@
           <p />
         </div>
         <div class="chips-container">
-          {#each facilities as facility (facility.name)}
+          {#each $facilities as facility (facility.name)}
             {#if garden.facilities[facility.name]}
               <Chip icon={facility.icon}>{facility.label}</Chip>
             {/if}

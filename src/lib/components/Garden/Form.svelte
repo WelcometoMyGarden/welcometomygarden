@@ -10,16 +10,9 @@
   import { user } from '$lib/stores/auth';
   import { LabeledCheckbox, Button } from '$lib/components/UI';
   import { getGardenPhotoBig } from '$lib/api/garden';
-  import {
-    bonfireIcon,
-    electricityIcon,
-    showerIcon,
-    toiletIcon,
-    waterIcon,
-    tentIcon
-  } from '$lib/images/icons';
   import type { FirebaseGarden, GardenDraft, LongLat } from '$lib/types/Garden';
   import type { FormEventHandler } from 'svelte/elements';
+  import { facilities } from '$lib/stores/facilities';
 
   // Note: this component should only be loaded if the garden is loaded.
   const existingGarden: FirebaseGarden | null = $user?.garden ?? null;
@@ -158,24 +151,6 @@
     formValid = true;
     dispatch('submit', garden);
   };
-
-  $: facilities = [
-    { name: 'water', icon: waterIcon, label: $_('garden.facilities.labels.water') },
-    {
-      name: 'drinkableWater',
-      icon: waterIcon,
-      label: $_('garden.facilities.labels.drinkable-water')
-    },
-    { name: 'toilet', icon: toiletIcon, label: $_('garden.facilities.labels.toilet') },
-    { name: 'bonfire', icon: bonfireIcon, label: $_('garden.facilities.labels.bonfire') },
-    {
-      name: 'electricity',
-      icon: electricityIcon,
-      label: $_('garden.facilities.labels.electricity')
-    },
-    { name: 'shower', icon: showerIcon, label: $_('garden.facilities.labels.shower') },
-    { name: 'tent', icon: tentIcon, label: $_('garden.facilities.labels.tent') }
-  ];
 </script>
 
 <!--
@@ -249,7 +224,7 @@
       <h3>{$_('garden.form.facilities.title')}</h3>
       <p class="section-description">{$_('garden.form.facilities.notice')}</p>
       <div class="checkboxes">
-        {#each facilities as facility (facility.name)}
+        {#each $facilities as facility (facility.name)}
           <LabeledCheckbox {...facility} bind:checked={garden.facilities[facility.name]} compact />
         {/each}
       </div>

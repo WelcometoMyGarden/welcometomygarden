@@ -1,23 +1,4 @@
 <script context="module" lang="ts">
-  export const facilities = [
-    { name: 'toilet', icon: toiletIcon, transKey: 'garden.facilities.labels.toilet' },
-    { name: 'shower', icon: showerIcon, transKey: 'garden.facilities.labels.shower' },
-    {
-      name: 'electricity',
-      icon: electricityIcon,
-      transKey: 'garden.facilities.labels.electricity'
-    },
-    { name: 'tent', icon: tentPhosphorLight, transKey: 'garden.facilities.labels.tent' },
-    { name: 'bonfire', icon: bonfireIcon, transKey: 'garden.facilities.labels.bonfire' },
-
-    { name: 'water', icon: waterIcon, transKey: 'garden.facilities.labels.water' },
-    {
-      name: 'drinkableWater',
-      icon: glassIcon,
-      transKey: 'garden.facilities.labels.drinkable-water'
-    }
-  ] as const;
-
   export type CapacityFilterType = {
     min: number;
     max: number;
@@ -26,13 +7,25 @@
    * If a value is not included, it will not be shown as a filter.
    * A false value may still be shown.
    */
-  export type FacilitiesFilterType = {
-    [key in (typeof facilities)[number]['name']]: boolean;
-  };
-  export type FilterType = {
-    facilities: FacilitiesFilterType;
-    capacity: CapacityFilterType;
-  };
+  export type FacilitiesFilterType = BooleanGardenFacilities;
+</script>
+
+<script lang="ts">
+  import { _ } from 'svelte-i18n';
+  import { Button, Tag } from '$lib/components/UI';
+  import FacilitiesFilter from '$lib/components/Garden/FacilitiesFilter.svelte';
+  import FilterLocation from '$lib/components/Garden/FilterLocation.svelte';
+  import { filterIcon } from '$lib/images/icons';
+  import trackEvent from '$lib/util/track-plausible';
+  import { PlausibleEvent } from '$lib/types/Plausible';
+  import type { BooleanGardenFacilities, Garden } from '$lib/types/Garden';
+  import { facilities } from '$lib/stores/facilities';
+
+  export let filteredGardens: Garden[] | undefined;
+  /**
+   * Prioritize location filter results close to this location.
+   */
+  export let closeToLocation;
 
   /**
    * Generates a default (unfiltered) facility filter configuration.
@@ -41,36 +34,14 @@
    * behave unexpectedly (it wouldn't reset filters).
    */
   const unfilteredFacilities = () =>
-    Object.fromEntries(facilities.map((f) => [f.name, false])) as FacilitiesFilterType;
-</script>
-
-<script lang="ts">
-  import { _ } from 'svelte-i18n';
-  import { Button, Tag } from '$lib/components/UI';
-  import FacilitiesFilter from '$lib/components/Garden/FacilitiesFilter.svelte';
-  import FilterLocation from '$lib/components/Garden/FilterLocation.svelte';
-  import {
-    filterIcon,
-    bonfireIcon,
-    electricityIcon,
-    showerIcon,
-    toiletIcon,
-    waterIcon,
-    tentIcon,
-    glassIcon,
-    tentPhosphorLight
-  } from '$lib/images/icons';
-  import trackEvent from '$lib/util/track-plausible';
-  import { PlausibleEvent } from '$lib/types/Plausible';
-  import type { Garden } from '$lib/types/Garden';
-
-  export let filteredGardens: Garden[] | undefined;
-  /**
-   * Prioritize location filter results close to this location.
-   */
-  export let closeToLocation;
+    Object.fromEntries($facilities.map((f) => [f.name, false])) as FacilitiesFilterType;
 
   let showFilterModal = false;
+
+  type FilterType = {
+    facilities: FacilitiesFilterType;
+    capacity: CapacityFilterType;
+  };
 
   let filter: FilterType = {
     facilities: unfilteredFacilities(),
@@ -87,7 +58,7 @@
   let vw: number;
 
   const activeFacilities = (currentWidth: number) => {
-    let activeFacilitiesFiltered = facilities.filter(
+    let activeFacilitiesFiltered = $facilities.filter(
       (facility) => filter.facilities[facility.name] === true
     );
 
@@ -137,7 +108,7 @@
           icon={facility.icon}
           on:close={() => (filter.facilities[facility.name] = false)}
         >
-          {$_(facility.transKey)}
+          {facility.label}
         </Tag>
       {/each}
       {#if filter.capacity.min > 1}
