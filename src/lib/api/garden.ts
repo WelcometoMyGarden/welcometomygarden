@@ -15,7 +15,13 @@ import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '$lib
 import { supabase } from '$lib/stores/auth';
 import { appCheck, db, storage } from './firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import type { FirebaseGarden, Garden, GardenFacilities, GardenWithPhoto } from '$lib/types/Garden';
+import type {
+  FirebaseGarden,
+  Garden,
+  GardenFacilities,
+  GardenPhoto,
+  GardenToAdd
+} from '$lib/types/Garden';
 import { get } from 'svelte/store';
 import { getToken } from 'firebase/app-check';
 
@@ -255,13 +261,7 @@ const doUploadGardenPhoto = async (photo: File, currentUser: User) => {
   return `garden.${extension}`;
 };
 
-export const addGarden = async ({
-  photo,
-  facilities,
-  ...rest
-}: Omit<FirebaseGarden, 'photo'> & {
-  photo: File | null;
-}) => {
+export const addGarden = async ({ photo, facilities, ...rest }: GardenToAdd) => {
   const currentUser = getUser();
 
   let uploadedName = null;
@@ -283,34 +283,58 @@ export const addGarden = async ({
   await setDoc(doc(db(), CAMPSITES, currentUser.id), garden);
 
   const gardenWithId = { ...garden, id: currentUser.id } satisfies Garden;
+  // Optimistic update before the update streams back in
+  // Note that the caller of this function will add the garden to the allGardens store
   currentUser.setGarden(gardenWithId);
   return gardenWithId;
 };
 
-export const updateGarden = async ({ photo, ...rest }: { photo: File; facilities }) => {
+/**
+ * If a new garden photo should be uploaded, pass a File reference to the photo prop
+ * In any other case, this will ignore photo prop and not overwrite it.
+ * @returns
+ */
+export const updateGarden = async ({ photo: newPhotoFile, ...rest }: GardenToAdd) => {
   const currentUser = getUser();
   if (!currentUser.id) throw new Error('User is not logged in.');
+  const previousGarden = currentUser.garden!;
 
-  let uploadedName = null;
-  if (photo) uploadedName = await doUploadGardenPhoto(photo, currentUser);
+  // Only include the photo prop if the photo changed, that is, if it is not null and was successfully uploaded
+  let photoProp: { photo?: string } = {};
+  if (newPhotoFile) {
+    const uploadedName = await doUploadGardenPhoto(newPhotoFile, currentUser);
+    photoProp = {
+      // In this case, uploadedName should be the uploaded new photo (or changed photo)
+      // Include it in the update
+      photo: uploadedName
+    };
+  }
 
-  const facilities = Object.keys(rest.facilities).reduce((all, facility) => {
-    all[facility] = rest.facilities[facility] || false;
-    return all;
-  }, {});
+  // Copy the facilities object, converting any falsy value to false
+  // TODO: is this conversion necessary?
+  const facilitiesCopy = Object.fromEntries(
+    Object.entries(rest.facilities).map(([k, v]) => [k, v || false])
+  );
 
-  const garden = {
+  const updatedGarden = {
     ...rest,
-    facilities
+    facilities: facilitiesCopy as GardenFacilities,
+    ...photoProp
   };
-
-  if (uploadedName || rest.photo) garden.photo = uploadedName || rest.photo;
 
   const docRef = doc(db(), CAMPSITES, currentUser.id);
 
-  await updateDoc(docRef, garden);
+  await updateDoc(docRef, updatedGarden);
 
-  const gardenWithId = { ...garden, id: currentUser.id };
+  const gardenWithId = {
+    ...updatedGarden,
+    id: currentUser.id,
+    // Reuse the old photo name if it was not changed (the extension may be different)
+    photo: updatedGarden.photo ?? previousGarden.photo ?? null
+  };
+  // Optimistic update before the update streams back in
+  // TODO: this might not be necessary anymore, depends on whether the updateDoc
+  // snaphost listeners handle the update synchronously
   getUser().setGarden(gardenWithId);
   return gardenWithId;
 };
@@ -323,18 +347,18 @@ export const changeListedStatus = async (shouldBeListed: boolean) => {
   await updateDoc(docRef, { listed: shouldBeListed });
 };
 
-const getPhotoBySize = async (size: string, garden: GardenWithPhoto) => {
+const getPhotoBySize = async (size: string, garden: GardenPhoto) => {
   const photoLocation = `gardens/${garden.id}/garden_${size}.${garden.photo.split('.').pop()}`;
   const photoRef = ref(storage(), photoLocation);
 
   return await getDownloadURL(photoRef);
 };
 
-export const getGardenPhotoSmall = async (garden: GardenWithPhoto) => {
+export const getGardenPhotoSmall = async (garden: GardenPhoto) => {
   return await getPhotoBySize('360x360', garden);
 };
 
-export const getGardenPhotoBig = async (garden: GardenWithPhoto) => {
+export const getGardenPhotoBig = async (garden: GardenPhoto) => {
   return await getPhotoBySize('1920x1080', garden);
 };
 

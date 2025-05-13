@@ -1,5 +1,8 @@
 import { Timestamp } from 'firebase/firestore';
 
+/**
+ * The possible Firebase document data of a campsite/garden
+ */
 export type FirebaseGarden = {
   description: string;
   /**
@@ -32,14 +35,31 @@ export type FirebaseGarden = {
   latestWarningForInactivityAt?: Timestamp;
 };
 
+/**
+ * A garden document with its Firebase doc id embedded in the object,
+ * derived from a FirebaseGarden for local use.
+ */
 export type Garden = {
-  id?: string;
+  id: string;
 } & FirebaseGarden;
 
-export type GardenWithPhoto = Omit<Garden, 'photo'> & { photo: string };
+/**
+ * Subset of fields of a Garden that has a photo
+ */
+export type GardenPhoto = { id: string; photo: string };
 
-export type GardenToAdd = Omit<Garden, 'photo'> & {
+/**
+ * A work-in-progress garden that is edited by the garden add/manage form
+ */
+export type GardenDraft = Omit<FirebaseGarden, 'photo'> & {
   photo: { files: FileList | undefined | null; data: string | null };
+};
+
+/**
+ * A garden to add or update. It has a File reference in case the garden photo should be changed.
+ */
+export type GardenToAdd = Omit<FirebaseGarden, 'photo'> & {
+  photo: File | null;
 };
 
 export type LongLat = {

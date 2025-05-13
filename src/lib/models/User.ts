@@ -1,4 +1,4 @@
-import type { Garden } from '$lib/types/Garden';
+import type { FirebaseGarden, Garden } from '$lib/types/Garden';
 import type { Timestamp } from 'firebase/firestore';
 
 type UserOverwritableProps = {
@@ -107,7 +107,7 @@ export class User implements UserPrivate, UserPublic {
   email: string;
   emailVerified: boolean;
   countryCode: string;
-  garden: Garden | null;
+  garden: FirebaseGarden | null;
   emailPreferences: EmailPreferences;
   consentedAt: Timestamp | null;
   communicationLanguage?: string;

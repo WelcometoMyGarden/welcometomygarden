@@ -1,5 +1,4 @@
 <script lang="ts">
-  export let garden: Garden | GardenToAdd;
   export let isSubmitting = false;
   export let isUpdate = false;
 
@@ -19,10 +18,33 @@
     waterIcon,
     tentIcon
   } from '$lib/images/icons';
-  import type { Garden, GardenToAdd, LongLat } from '$lib/types/Garden';
+  import type { FirebaseGarden, GardenDraft, LongLat } from '$lib/types/Garden';
   import type { FormEventHandler } from 'svelte/elements';
 
-  const dispatch = createEventDispatcher<{ submit: GardenToAdd }>();
+  // Note: this component should only be loaded if the garden is loaded.
+  const existingGarden: FirebaseGarden | null = $user?.garden ?? null;
+  const initialGarden: GardenDraft = {
+    description: '',
+    location: null,
+    facilities: {
+      capacity: 1
+    },
+    photo: {
+      files: null,
+      data: null
+    },
+    listed: true
+  };
+
+  /**
+   * The current garden draft to be edited by the form
+   */
+  const garden: GardenDraft = {
+    ...(existingGarden ? { ...existingGarden } : { ...initialGarden }),
+    photo: { files: undefined, data: null }
+  };
+
+  const dispatch = createEventDispatcher<{ submit: GardenDraft }>();
 
   let formValid = true;
 
@@ -89,9 +111,7 @@
     return true;
   };
 
-  let existingPhoto: GardenToAdd['photo'] | null | string = garden.photo;
-  // Note that the old photo reference is saved above here before being overwritten/reset here
-  garden.photo = { files: undefined, data: null };
+  let existingPhoto: null | string = existingGarden ? existingGarden.photo : null;
 
   const choosePhoto = () => {
     // The garden.photo property must have been reset before executing this function.
@@ -115,8 +135,11 @@
     };
   };
 
+  /**
+   * Should only be called when photo & user.id are instantiated
+   */
   const getExistingPhoto = () => {
-    return getGardenPhotoBig({ photo: existingPhoto, id: $user.id });
+    return getGardenPhotoBig({ photo: existingPhoto as string, id: $user?.id as string });
   };
 
   const handleSubmit = async () => {
@@ -127,12 +150,7 @@
       return;
     }
 
-    if (
-      garden.photo &&
-      typeof garden.photo !== 'string' &&
-      garden.photo.files &&
-      !validatePhoto(garden.photo.files[0])
-    ) {
+    if (garden.photo && garden.photo.files && !validatePhoto(garden.photo.files[0])) {
       formValid = false;
       return;
     }

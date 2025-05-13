@@ -11,7 +11,7 @@
   // This means user-public & user-private properties were also loaded,
   // but it does not necessarily mean that the garden finished loading.
 
-  const route = $page.route.id;
+  $: route = $page.route.id;
 
   /** SvelteKit's own $navigating does not work well here
    * A "goto" somehow triggers a rerun of this code with $navigating still being null
@@ -49,4 +49,6 @@
   }
 </script>
 
-<slot />
+{#if $gardenHasLoaded}
+  <slot />
+{/if}

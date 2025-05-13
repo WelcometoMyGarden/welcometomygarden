@@ -27,7 +27,7 @@ import { goto } from '$app/navigation';
 import routes, { getCurrentRoute } from '../routes';
 import { page } from '$app/stores';
 import { isActiveContains } from '../util/isActive';
-import type { Garden } from '../types/Garden';
+import type { FirebaseGarden, Garden } from '../types/Garden';
 import type { User as FirebaseUser } from 'firebase/auth';
 import { trackEvent } from '$lib/util';
 import { PlausibleEvent } from '$lib/types/Plausible';
@@ -358,6 +358,11 @@ const updateUserIfPossible = async () => {
       id: uid
     };
 
+    // Note: we are not updating the garden in the local allGardens store here, because
+    // that function now triggers a full fetch of all gardens in case the store is empty.
+    // It may then also fetch all gardens from the home page if a user has a garden,
+    // which would cause more loading than we want.
+
     const currentUser = get(user);
     let newUser: User;
     if (!currentUser) {
@@ -380,8 +385,8 @@ const updateUserIfPossible = async () => {
 };
 
 export const createUserPublicObserver = (currentUserId: string) => {
-  const docRef = doc(db(), USERS, currentUserId) as DocumentReference<UserPublic>;
-  return onSnapshot<UserPublic>(docRef, (doc: DocumentSnapshot<UserPublic>) => {
+  const docRef = doc(db(), USERS, currentUserId) as DocumentReference<UserPublic, UserPublic>;
+  return onSnapshot(docRef, (doc: DocumentSnapshot<UserPublic>) => {
     const newUserData = doc.data();
     if (newUserData) {
       latestUserPublicState = newUserData;
@@ -391,8 +396,11 @@ export const createUserPublicObserver = (currentUserId: string) => {
 };
 
 export const createUserPrivateObserver = (currentUserId: string) => {
-  const docRef = doc(db(), USERS_PRIVATE, currentUserId) as DocumentReference<UserPrivate>;
-  return onSnapshot<UserPrivate>(docRef, (doc: DocumentSnapshot<UserPrivate>) => {
+  const docRef = doc(db(), USERS_PRIVATE, currentUserId) as DocumentReference<
+    UserPrivate,
+    UserPrivate
+  >;
+  return onSnapshot(docRef, (doc: DocumentSnapshot<UserPrivate>) => {
     const newUserPrivateData = doc.data();
     if (newUserPrivateData) {
       latestUserPrivateState = newUserPrivateData;
@@ -402,8 +410,11 @@ export const createUserPrivateObserver = (currentUserId: string) => {
 };
 
 export const createCampsiteObserver = (currentUserId: string) => {
-  const docRef = doc(db(), CAMPSITES, currentUserId) as DocumentReference<Garden>;
-  return onSnapshot<Garden>(docRef, (doc) => {
+  const docRef = doc(db(), CAMPSITES, currentUserId) as DocumentReference<
+    FirebaseGarden,
+    FirebaseGarden
+  >;
+  return onSnapshot(docRef, (doc) => {
     const newCampsiteData = doc.data();
     latestCampsiteState = newCampsiteData ?? null;
     updateUserIfPossible().then(() =>

@@ -29,7 +29,7 @@
     crossIcon
   } from '$lib/images/icons';
   import routes from '$lib/routes';
-  import type { Garden, GardenWithPhoto } from '$lib/types/Garden';
+  import type { Garden, GardenPhoto } from '$lib/types/Garden';
   import Icon from '$lib/components/UI/Icon.svelte';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
@@ -83,7 +83,7 @@
       userInfo = await getPublicUserProfile(garden!.id!);
       if (garden!.photo) {
         const id = garden!.id as string;
-        photoUrl = await getGardenPhotoSmall({ ...(garden as GardenWithPhoto), id });
+        photoUrl = await getGardenPhotoSmall({ ...(garden as GardenPhoto), id });
       }
     } catch (ex) {
       console.log(ex);
@@ -142,7 +142,7 @@
     isGettingMagnifiedPhoto = true;
     try {
       if (garden?.photo) {
-        biggerPhotoUrl = await getGardenPhotoBig({ ...garden, id: garden!.id } as GardenWithPhoto);
+        biggerPhotoUrl = await getGardenPhotoBig({ ...garden, id: garden!.id } as GardenPhoto);
       }
     } catch (ex) {
       console.log(ex);
