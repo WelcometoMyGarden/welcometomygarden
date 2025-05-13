@@ -23,6 +23,7 @@
   } from '$lib/stores/subscription';
   import { onMount } from 'svelte';
   import { createCustomerPortalSession } from '$lib/api/functions';
+  import { updateGardenLocally } from '$lib/stores/garden';
 
   let showAccountDeletionModal = false;
   let showEmailChangeModal = false;
@@ -50,6 +51,12 @@
       await changeListedStatus(newListedStatus);
       if (!newListedStatus) notify.success($_('account.notify.garden-no-show'), 7000);
       else notify.success($_('account.notify.garden-show'), 7000);
+      // The update will stream back to the currentUser.garden, but this happens async
+      // (in two updates actually, since the backend also sets the latestListedChangedAt property)
+      //
+      // Perform an optimistic update that will immediately update the local listed gardens array,
+      // so the map stays in sync (also fetches all gardens if we didn't load them in this session yet)
+      await updateGardenLocally({ id: $user!.id, ...$user!.garden!, listed: newListedStatus });
     } catch (ex) {
       console.log(ex);
     }

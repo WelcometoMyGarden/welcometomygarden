@@ -2,7 +2,7 @@
   import { _ } from 'svelte-i18n';
   import { beforeUpdate } from 'svelte';
   import { LabeledCheckbox, Button, Modal } from '$lib/components/UI';
-  import { allGardens } from '$lib/stores/garden';
+  import { allListedGardens } from '$lib/stores/garden';
   import type { Garden } from '$lib/types/Garden';
   import { facilities, type CapacityFilterType, type FacilitiesFilterType } from './Filter.svelte';
 
@@ -36,7 +36,7 @@
   }
 
   const returnFilteredGardens = () => {
-    return $allGardens
+    return $allListedGardens
       .filter(gardenFilterFacilities, filter.facilities)
       .filter(gardenFilterCapacity, filter.capacity);
   };

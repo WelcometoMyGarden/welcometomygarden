@@ -42,7 +42,7 @@ import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_API_URL } from '$env/static/p
 let latestUserPrivateState: UserPrivate | null = null;
 let latestUserPublicState: UserPublic | null = null;
 let latestAuthUserState: FirebaseUser | null = null;
-let latestCampsiteState: Garden | null = null;
+let latestCampsiteState: FirebaseGarden | null = null;
 
 /**
  * Creates Firebase observers that manage the app's User model.
@@ -216,7 +216,7 @@ export const createAuthObserver = (): Unsubscribe => {
             if (!user) {
               return;
             }
-            signInToSupabaseIfNeeded();
+            signInToSupabaseIfNeeded(user);
           });
         }
       }
@@ -388,6 +388,7 @@ export const createUserPublicObserver = (currentUserId: string) => {
   const docRef = doc(db(), USERS, currentUserId) as DocumentReference<UserPublic, UserPublic>;
   return onSnapshot(docRef, (doc: DocumentSnapshot<UserPublic>) => {
     const newUserData = doc.data();
+    console.log('New user public doc');
     if (newUserData) {
       latestUserPublicState = newUserData;
       updateUserIfPossible();
@@ -402,6 +403,7 @@ export const createUserPrivateObserver = (currentUserId: string) => {
   >;
   return onSnapshot(docRef, (doc: DocumentSnapshot<UserPrivate>) => {
     const newUserPrivateData = doc.data();
+    console.log('New user private doc');
     if (newUserPrivateData) {
       latestUserPrivateState = newUserPrivateData;
       updateUserIfPossible();
@@ -417,6 +419,7 @@ export const createCampsiteObserver = (currentUserId: string) => {
   return onSnapshot(docRef, (doc) => {
     const newCampsiteData = doc.data();
     latestCampsiteState = newCampsiteData ?? null;
+    console.log('New campsite doc');
     updateUserIfPossible().then(() =>
       // Notify that the garden is loaded after updating it in the $user store
       gardenHasLoaded.set(true)
@@ -438,7 +441,7 @@ export const login = async (email: string, password: string): Promise<void> => {
  * or later when the garden is loaded, or even when the user
  * becomes a member or host.
  */
-const signInToSupabaseIfNeeded = async () => {
+const signInToSupabaseIfNeeded = async (user: User) => {
   if (get(supabase)) {
     // Skip if the Supabase client is already set
     return;
@@ -448,19 +451,19 @@ const signInToSupabaseIfNeeded = async () => {
     return;
   }
   const supaRole = (await firebaseUser.getIdTokenResult()).claims.role;
-  const _user = get(user);
+
   // Only set the Supabase client if the user is a member or garden owner
-  if (supaRole != null && (_user?.garden || _user?.superfan)) {
-    console.log('Setting up Supabase client for host/member');
-    if (typeof PUBLIC_SUPABASE_API_URL === 'string' && PUBLIC_SUPABASE_API_URL.length > 0) {
-      supabase.set(
-        createClient(PUBLIC_SUPABASE_API_URL, PUBLIC_SUPABASE_ANON_KEY, {
-          accessToken: async () => (await firebaseUser.getIdToken()) ?? null
-        })
-      );
-    } else {
+  if (supaRole != null && (user?.garden || user?.superfan)) {
+    if (typeof PUBLIC_SUPABASE_API_URL !== 'string' || PUBLIC_SUPABASE_API_URL.length === 0) {
       console.warn('PUBLIC_SUPABASE_API_URL not set, skip Supabase init');
+      return;
     }
+    console.log('Setting up Supabase client for host/member');
+    supabase.set(
+      createClient(PUBLIC_SUPABASE_API_URL, PUBLIC_SUPABASE_ANON_KEY, {
+        accessToken: async () => (await firebaseUser.getIdToken()) ?? null
+      })
+    );
   }
 };
 

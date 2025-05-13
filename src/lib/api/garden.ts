@@ -11,7 +11,12 @@ import {
   type CollectionReference
 } from 'firebase/firestore';
 import { getUser, user } from '$lib/stores/auth';
-import { isUploading, uploadProgress, allGardens, isFetchingGardens } from '$lib/stores/garden';
+import {
+  isUploading,
+  uploadProgress,
+  allListedGardens,
+  isFetchingGardens
+} from '$lib/stores/garden';
 import { supabase } from '$lib/stores/auth';
 import { appCheck, db, storage } from './firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
@@ -223,7 +228,7 @@ export const getAllListedGardens = async () => {
     }
 
     // Merge the map with the existing gardens, "in place"
-    allGardens.update((existingGardens) => {
+    allListedGardens.update((existingGardens) => {
       // Merge the fetched gardens with the existing ones; without creating a new array in memory
       // (attempt to reduce memory usage)
       gardensChunkResponse.forEach((restDoc) => {
@@ -240,7 +245,7 @@ export const getAllListedGardens = async () => {
   console.log('Fetched all gardens');
 
   isFetchingGardens.set(false);
-  return get(allGardens);
+  return get(allListedGardens);
 };
 
 const doUploadGardenPhoto = async (photo: File, currentUser: User) => {
@@ -339,6 +344,10 @@ export const updateGarden = async ({ photo: newPhotoFile, ...rest }: GardenToAdd
   return gardenWithId;
 };
 
+/**
+ * Changes the listed status of the garden in Firebase
+ * @param shouldBeListed
+ */
 export const changeListedStatus = async (shouldBeListed: boolean) => {
   const currentUser = getUser();
   if (!currentUser.id) throw new Error('User is not logged in.');

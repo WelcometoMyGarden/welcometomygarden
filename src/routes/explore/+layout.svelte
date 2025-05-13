@@ -4,7 +4,7 @@
   import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
   import { getAllListedGardens, getGarden } from '$lib/api/garden';
-  import { allGardens, isFetchingGardens } from '$lib/stores/garden';
+  import { allListedGardens, isFetchingGardens } from '$lib/stores/garden';
   import routes from '$lib/routes';
   import Map, { currentPosition } from '$lib/components/Map/Map.svelte';
   import Drawer from '$lib/components/Garden/GardenDrawer.svelte';
@@ -123,8 +123,8 @@
   }
 
   // Select a garden when the URL changes, but only if all gardens are loaded and the garden is not selected yet.
-  $: if (!isEmpty($allGardens) && $page.params.gardenId !== selectedGarden?.id) {
-    selectedGarden = $allGardens.find((g) => g.id === $page.params.gardenId) ?? null;
+  $: if (!isEmpty($allListedGardens) && $page.params.gardenId !== selectedGarden?.id) {
+    selectedGarden = $allListedGardens.find((g) => g.id === $page.params.gardenId) ?? null;
   }
 
   // This variable controls the location of the map.
@@ -145,7 +145,7 @@
 
   const selectGarden = (garden) => {
     const newSelectedId = garden.id;
-    const newGarden = $allGardens.find((g) => g.id === newSelectedId);
+    const newGarden = $allListedGardens.find((g) => g.id === newSelectedId);
     if (newGarden) {
       setMapToGardenLocation(newGarden);
       applyZoom = false; // zoom level is not programatically changed when exploring a garden
@@ -187,7 +187,7 @@
   onMount(async () => {
     // Called every time the page opens, but not when the selected garden changes (client-side navigation within this layout)
 
-    const gardensAreEmpty = $allGardens.length === 0;
+    const gardensAreEmpty = $allListedGardens.length === 0;
 
     // If we open the map with a garden in the URL, and gardens aren't loaded yet (or loading),
     // load that one immediately *before* all other gardens.
@@ -202,7 +202,7 @@
     if (hasGardenInURL && (!gardensAreEmpty || preloadedGarden)) {
       // In one case, all gardens are already loaded before the page mount. In another, we've preloaded the target here above.
       const targetGarden =
-        $allGardens.find((g) => g.id === $page.params.gardenId) || preloadedGarden;
+        $allListedGardens.find((g) => g.id === $page.params.gardenId) || preloadedGarden;
       if (targetGarden) {
         setMapToGardenLocation(targetGarden);
       }
@@ -293,13 +293,13 @@
     {applyZoom}
   >
     <TrainAndRails {showStations} {showRails} {showTransport} />
-    {#if !isEmpty($allGardens)}
+    {#if !isEmpty($allListedGardens)}
       <GardenLayer
         {showGardens}
         {showSavedGardens}
         on:garden-click={(e) => selectGarden(e.detail)}
         selectedGardenId={selectedGarden ? selectedGarden.id : null}
-        allGardens={filteredGardens || $allGardens}
+        allGardens={filteredGardens || $allListedGardens}
         {savedGardens}
       />
     {/if}
