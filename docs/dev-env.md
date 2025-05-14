@@ -120,6 +120,12 @@ After running `yarn install`, also install the testing browsers:
 yarn dlx playwright install
 ```
 
+To run the tests, use the VSCode Playwright Extension, or `yarn test:e2e`.
+
+To change whether the tests should start a local dev env or target staging, change the TEST_ENV variable in .env.test.local.
+
+See [playwright.config.json](../playwright.config.ts) & [main-flow.spec.ts](./../tests/e2e/main-flow.spec.ts) for more details.
+
 ### Production builds
 
 To check if your code won't have compilation issues in production, do a production build locally and preview the result:

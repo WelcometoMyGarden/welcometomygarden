@@ -4,12 +4,10 @@ import { deleteAccount, makeSuperfan, openEmail, payOnStripe } from './util';
 import { defaultOptions, type TestOptions, type TestType } from '../../playwright.config';
 
 export const test = base.extend<TestOptions>({
-  // Define an option and provide a default value.
-  // We can later override it in the config.
-  options: [defaultOptions, { option: true }]
+  type: ['local', { option: true }]
 });
 
-test.afterEach(async ({ options: { type } }) => {
+test.afterEach(async ({ type }) => {
   if (type === 'local') {
     await Promise.all([clearFirestore(), clearAuth()]);
   }
@@ -59,9 +57,11 @@ class MainFlowTest {
     // await page2.locator('.marker').click();
     // Fill address
     await openedLinkPage.getByLabel('Street', { exact: true }).click();
-    await openedLinkPage.getByLabel('Street', { exact: true }).fill('Manneken Pis');
+    await openedLinkPage.getByLabel('Street', { exact: true }).fill("Rue de l'Étuve - Stoofstraat");
     // This will change the field and activate the confirmation button
     await openedLinkPage.getByLabel('Street', { exact: true }).press('Tab');
+    await openedLinkPage.getByLabel('House number', { exact: true }).fill('46');
+    await openedLinkPage.getByLabel('House number', { exact: true }).press('Tab');
     await openedLinkPage.getByRole('button', { name: 'Confirm pin location' }).click();
     await openedLinkPage.getByPlaceholder('Enter description...').click();
     await openedLinkPage
@@ -228,8 +228,8 @@ class MainFlowTest {
   }
 }
 
-test('main flow', async ({ browser, options }) => {
-  const flow = new MainFlowTest(browser, options.baseURL, options.type);
+test('main flow', async ({ browser, baseURL, type }) => {
+  const flow = new MainFlowTest(browser, baseURL!, type);
   await flow.test();
 });
 

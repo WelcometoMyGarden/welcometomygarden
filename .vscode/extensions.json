@@ -1,10 +1,11 @@
 {
   "recommendations": [
     "chflick.firecode",
-    "svelte.svelte-vscode",
     "esbenp.prettier-vscode",
+    "lokalise.i18n-ally",
     "mikestead.dotenv",
-    "vitest.explorer",
-    "lokalise.i18n-ally"
+    "ms-playwright.playwright",
+    "svelte.svelte-vscode",
+    "vitest.explorer"
   ]
 }
