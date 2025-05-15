@@ -74,7 +74,8 @@
 <LandingSection />
 <LearnMoreArrow />
 <StepsSection />
-<PaddedSection desktopOnly>
+<!-- Membership section -->
+<PaddedSection desktopOnly nosnippet>
   <MarketingBlock backgroundColor="var(--color-beige-light)">
     <MediaSection>
       <HeadingSection slot="heading" caption={$_('index.superfan.subtitle')}>
