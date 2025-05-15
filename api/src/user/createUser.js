@@ -171,7 +171,6 @@ exports.createUser = async ({ data: inputData, auth: authContext }) => {
       (async () => {
         try {
           // Set custom user claims on this newly created user.
-          // TODO: this is now atomic, so remove the token reload from the front-end
           await auth.setCustomUserClaims(uid, {
             role: 'authenticated'
           });
