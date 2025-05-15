@@ -2,7 +2,6 @@ import { get } from 'svelte/store';
 import { locale, _ } from 'svelte-i18n';
 import {
   applyActionCode as firebaseApplyActionCode,
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   verifyPasswordResetCode as firebaseVerifyPasswordResetCode,
   type Unsubscribe,
@@ -489,32 +488,18 @@ export const register = async ({
   reference: string | null;
 }) => {
   isRegistering.set(true);
-  await createUserWithEmailAndPassword(auth(), email, password);
-  // TODO Refactor note
-  // Now, between these two lines, we are in a state that:
-  // 1. triggers an idTokenChanged event (because of the account creation above)
-  // 2. has no user and users-private docs yet (partially created account).
-  // This is error-prone & confusing.
-  // Idea:
-  // createUser() creates the user and users-private Firestrore docs in the backend.
-  // Is it possible to run createUserWithEmailAndPassword in the backend in createUser too?
-  // Then we can atomically say that after createUser() is called, the new user is guaranteed to
-  // have a public user and private user doc (remotely).
-  //
   await createUser({
+    email,
+    password,
     firstName,
     lastName,
     countryCode,
     communicationLanguage: get(locale) ?? 'en',
     reference
   });
-  trackEvent(PlausibleEvent.CREATE_ACCOUNT);
+  await signInWithEmailAndPassword(auth(), email, password);
   await resolveOnUserLoaded();
-  // Refresh the token to ensure that the Firebase Auth claims set by the backend upon creation are set.
-  // NOTE: using the blocking functions of Identity Toolkit can make this more reliable,
-  // Now there is a risk that this runs before the backend listener completes.
-  console.log('Force-refreshing the token after account creation for claims sync');
-  await auth().currentUser?.getIdToken(true);
+  trackEvent(PlausibleEvent.CREATE_ACCOUNT);
   isRegistering.set(false);
 };
 

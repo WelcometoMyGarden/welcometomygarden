@@ -77,6 +77,10 @@ export type UserPrivate = {
   newEmail?: string;
   /** Internal property to assist in the handling of an email recovery across systems. Only writable by the admin sdk. */
   oldEmail?: string;
+  /**
+   * This was not set before the reference field was added, for those accounts it will be undefined.
+   * It should not be null in storage. Either not defined, or a proper string.
+   */
   reference?: string;
   /**
    * When the last alert was triggered on whether this user was starting many chats in a short timeframe.

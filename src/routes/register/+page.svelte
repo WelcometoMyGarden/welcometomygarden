@@ -11,7 +11,7 @@
   import { TextInput, Progress, Button, Select } from '$lib/components/UI';
   import { lockIcon, emailIcon, userIcon } from '$lib/images/icons';
   import { SUPPORT_EMAIL } from '$lib/constants';
-  import { AuthErrorCodes } from 'firebase/auth';
+  import type { FunctionsErrorCode } from 'firebase/functions';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
   import validateEmail from '$lib/util/validate-email';
   import { page } from '$app/stores';
@@ -171,7 +171,10 @@
       }
     } catch (err: unknown) {
       isRegistering.set(false);
-      if (isFirebaseError(err) && err.code === AuthErrorCodes.EMAIL_EXISTS)
+      if (
+        isFirebaseError(err) &&
+        err.code === ('functions/already-exists' satisfies FunctionsErrorCode)
+      )
         formError = $_('register.notify.in-use');
       else formError = $_('register.notify.unexpected', { values: { support: SUPPORT_EMAIL } });
       console.log(err);

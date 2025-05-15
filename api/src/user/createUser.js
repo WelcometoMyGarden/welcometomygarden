@@ -2,224 +2,293 @@ const { FieldValue } = require('firebase-admin/firestore');
 const countries = require('../countries');
 const fail = require('../util/fail');
 const { sendVerificationEmail } = require('../auth');
-const { auth, db, getFunctionUrl } = require('../firebase');
+const { auth, db, getFunctionUrl, getUserDocRefs } = require('../firebase');
 const { logger } = require('firebase-functions/v2');
 const { getFunctions } = require('firebase-admin/functions');
 const { DateTime } = require('luxon');
+const { FirebaseAuthError } = require('firebase-admin/auth');
+
+/**
+ * Throws upon invalid data
+ * @param {CreateUserRequest} data
+ * @returns {{email: string, password: string, firstName: string, lastName: string, countryCode: string, communicationLanguage: string, reference: string | null }}
+ */
+function validateUserData(data) {
+  const { email, password, firstName, lastName, countryCode, reference, communicationLanguage } =
+    data;
+  if (typeof email !== 'string' || email.length < 3) {
+    fail('invalid-argument');
+  }
+
+  if (typeof password !== 'string' || password.length < 8 || password.length > 100) {
+    logger.error('Password did not pass validations', {
+      email
+    });
+    fail('invalid-argument');
+  }
+
+  if (!firstName || !lastName) {
+    logger.error('Missing first name or last name to create a new user', {
+      firstName: firstName,
+      lastName: lastName,
+      email
+    });
+    fail('invalid-argument');
+  }
+
+  if (typeof communicationLanguage !== 'string') {
+    logger.error('Wrong communicationLanguage type');
+    // TODO: is it feasible and reliable to validate the actual set of communication languages?
+    fail('invalid-argument');
+  }
+
+  if (
+    typeof firstName !== 'string' ||
+    typeof lastName !== 'string' ||
+    firstName.trim().length === 0 ||
+    lastName.trim().length === 0 ||
+    firstName.trim().length > 25 ||
+    lastName.trim().length > 50
+  ) {
+    logger.error('First name or last name data does not pass validations', {
+      email,
+      firstName: firstName,
+      lastName: lastName
+    });
+    fail('invalid-argument');
+  }
+
+  if (!countryCode) {
+    logger.error('Missing countryCode', {
+      email
+    });
+    fail('invalid-argument');
+  }
+
+  if (typeof countryCode !== 'string' || !Object.keys(countries).includes(countryCode)) {
+    logger.error('Country code does not pass validations', {
+      countryCode: countryCode,
+      email
+    });
+    fail('invalid-argument');
+  }
+
+  return { email, password, firstName, lastName, countryCode, reference, communicationLanguage };
+}
+
+/**
+ * @param {string} name
+ * @returns {string}
+ */
+const normalizeName = (name) => {
+  // - We're not fully lowercasing input, because of names like McDonald
+  // - We're also not removing diacritics.
+  // - Caveat: the special character rule could lead to unintended effects, depending on the user's preference
+  //   (d'Hont, D'hont, ... will now all be D'Hont)
+  //   However - the previous code also did this, so we're staying consistent this way.
+  //
+  // Uppercase the non-space letter following a line start, spacing, or a special character
+  const specialChars = '[-_\\(\\)\'"`´\\./]';
+  const capitalizerReg = new RegExp(`(?:^|\\s|${specialChars})(\\S)`, 'g');
+  return (
+    name
+      .trim()
+      .replace(capitalizerReg, (s) => s.toUpperCase())
+      // The above capitalizer will also capitalize "and" between spaces, reset this.
+      .replace(/\s(and|et|und|ve|e|i|en|y|och|og|in|für)\s/gi, (s) => s.toLowerCase())
+  );
+};
+
+/**
+ * @typedef {import('../../../src/lib/api/functions').CreateUserRequest} CRR
+ */
 
 /**
  * Callable function to create the required Firestore user documents for a newly created
  * account in Firebase Auth.
  *
- * @param {FV2.CallableRequest<import('../../../src/lib/api/functions').CreateUserRequest>} request
+ * @param {FV2.CallableRequest<CreateUserRequest>} request
  * @returns {Promise<object>}
  */
-exports.createUser = async ({ data, auth: authContext }) => {
-  if (!authContext) {
-    logger.error('Failed to create a user, no auth context present');
-    fail('unauthenticated');
+exports.createUser = async ({ data: inputData, auth: authContext }) => {
+  if (authContext) {
+    logger.warn('createUser should not be called with pre-existing auth state');
+    fail('failed-precondition');
   }
 
-  if (!authContext.uid) {
-    logger.error('Failed to create a user, no uid present in the auth context');
+  const data = validateUserData(inputData);
+
+  let { password, reference, communicationLanguage, countryCode } = data;
+
+  // Normalize name parts
+  const firstName = normalizeName(data.firstName);
+  const lastName = normalizeName(data.lastName);
+
+  /**
+   * @type {UserRecord}
+   */
+  let user;
+  /**
+   * @type {string | undefined}
+   */
+  let uid;
+  /**
+   * @type {string | undefined}
+   */
+  let email;
+
+  try {
+    // Create a Firebase user
+    user = await auth.createUser({
+      email: data.email,
+      emailVerified: false,
+      disabled: false,
+      password,
+      displayName: firstName
+    });
+
+    // Use the email as stored by Firebase for the next part of the function
+    // Firebase will have performed lowercasing
+    ({ uid, email } = user);
+  } catch (e) {
+    logger.error("Couldn't create a user", {
+      data: inputData,
+      code: e.code
+    });
+    // If the account already exists, transform 'auth/email-already-exists' to 'functions/already-exists'
+    if (e instanceof FirebaseAuthError && e.code == 'auth/email-already-exists') {
+      fail('already-exists');
+    }
     fail('internal');
   }
 
-  const { uid } = authContext;
-
   try {
-    const existingUser = await db.collection('users').doc(authContext.uid).get();
-    if (existingUser.exists) {
-      logger.error('The user that we tried to create already as a public doc', {
-        uid
-      });
-      fail('already-exists');
-    }
+    const { publicUserProfileDocRef: userPublicRef, privateUserProfileDocRef: userPrivateRef } =
+      getUserDocRefs(user.uid);
 
-    if (!data.firstName || !data.lastName) {
-      logger.error('Missing first name or last name to create a new user', {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        uid
-      });
-      fail('invalid-argument');
-    }
-
-    if (
-      typeof data.firstName !== 'string' ||
-      typeof data.lastName !== 'string' ||
-      data.firstName.trim().length === 0 ||
-      data.lastName.trim().length === 0 ||
-      data.firstName.trim().length > 25 ||
-      data.lastName.trim().length > 50
-    ) {
-      logger.error('First name or last name data does not pass validations', {
-        uid,
-        firstName: data.firstName,
-        lastName: data.lastName
-      });
-      fail('invalid-argument');
-    }
-
-    if (!data.countryCode) {
-      logger.error('Missing countryCode', {
-        uid
-      });
-      fail('invalid-argument');
-    }
-
-    // TODO: validate communicationLanguage
-
-    if (
-      typeof data.countryCode !== 'string' ||
-      !Object.keys(countries).includes(data.countryCode)
-    ) {
-      logger.error('Country code does not pass validations', {
-        countryCode: data.countryCode
-      });
-      fail('invalid-argument');
-    }
-
-    /**
-     * @param {string} name
-     * @returns {string}
-     */
-    const normalizeName = (name) => {
-      // - We're not fully lowercasing input, because of names like McDonald
-      // - We're also not removing diacritics.
-      // - Caveat: the special character rule could lead to unintended effects, depending on the user's preference
-      //   (d'Hont, D'hont, ... will now all be D'Hont)
-      //   However - the previous code also did this, so we're staying consistent this way.
-      //
-      // Uppercase the non-space letter following a line start, spacing, or a special character
-      const specialChars = '[-_\\(\\)\'"`´\\./]';
-      const capitalizerReg = new RegExp(`(?:^|\\s|${specialChars})(\\S)`, 'g');
-      return (
-        name
-          .trim()
-          .replace(capitalizerReg, (s) => s.toUpperCase())
-          // The above capitalizer will also capitalize "and" between spaces, reset this.
-          .replace(/\s(and|et|und|ve|e|i|en|y|och|og|in|für)\s/gi, (s) => s.toLowerCase())
-      );
-    };
-
-    const firstName = normalizeName(data.firstName);
-    const lastName = normalizeName(data.lastName);
-
-    const user = await auth.getUser(uid);
-    const { email } = user;
-
-    await auth.updateUser(user.uid, { displayName: firstName });
-
-    await db.collection('users').doc(user.uid).set({
-      countryCode: data.countryCode,
-      firstName
-      // NOTE: for new accounts, we are not setting defaults for `superfan` (false) here
-      // or other properties defined in src/lib/models/Users.ts -> UserPublic
-      // A data migration was run only for new existing accounts in November/December 2022.
-    });
-
-    const userPrivateRef = /** @type {DocumentReference<UserPrivate>} */ (
-      db.collection('users-private').doc(user.uid)
-    );
-    await userPrivateRef.set({
-      lastName,
-      // Consent can be assumed here, because on the frontend, the registration form does not
-      // submit without the consent checkbox being set.
-      // This is essentially a mirror the creation timestamp of the users-private doc
-      consentedAt: FieldValue.serverTimestamp(),
-      emailPreferences: {
-        newChat: true,
-        news: true
-      },
-      creationLanguage: data.communicationLanguage,
-      communicationLanguage: data.communicationLanguage,
-      // NOTE: there are several other properties that don't have defaults, see
-      // src/lib/models/Users.ts -> UserPrivate
-      // Optional reference field
-      ...(data.reference && typeof data.reference === 'string' && data.reference.length > 0
-        ? {
-            reference: data.reference
-          }
-        : {})
-    });
-
-    await db
-      .collection('stats')
-      .doc('users')
-      .set({ count: FieldValue.increment(1) }, { merge: true });
-
-    if (!email) {
-      logger.error(
-        `The email for UID ${user.uid} was not set when trying to send its verification email.`
-      );
-    }
-
-    const [resourceName, targetUri] = await getFunctionUrl('sendMessage');
-    /**
-     * @type {TaskQueue<QueuedMessage>}
-     */
-    const sendMessageQueue = getFunctions().taskQueue(resourceName);
     await Promise.all([
-      // Send the verification email
-      sendVerificationEmail(email, firstName, data.communicationLanguage),
-      // Enqueue the first welcome flow email
+      // Set the Supabase user claim on the user
       (async () => {
         try {
-          await sendMessageQueue.enqueue(
-            {
-              type: 'welcome',
-              data: { uid }
-            },
-            {
-              // 10 minutes later
-              scheduleDelaySeconds: 10 * 60,
-              ...(targetUri
-                ? {
-                    uri: targetUri
-                  }
-                : {})
-            }
-          );
-        } catch (e) {
-          logger.error(`Error while queueing the first welcome email`, { uid, error: e });
-        }
-      })(),
-      // Enqueue the last welcome flow email
-      (async () => {
-        try {
-          await sendMessageQueue.enqueue(
-            { type: 'become_member', data: { uid } },
-            {
-              scheduleTime: DateTime.now().plus({ days: 7 }).toJSDate(),
-              ...(targetUri
-                ? {
-                    uri: targetUri
-                  }
-                : {})
-            }
-          );
-        } catch (e) {
-          logger.error(`Error while queueing the "become a member" last welcome flow email`, {
-            uid,
-            error: e
+          // Set custom user claims on this newly created user.
+          // TODO: this is now atomic, so remove the token reload from the front-end
+          await auth.setCustomUserClaims(uid, {
+            role: 'authenticated'
+          });
+        } catch (error) {
+          logger.error('Error setting custom claims for a new user', {
+            user: user.toJSON(),
+            error
           });
         }
-      })()
+      })(),
+      // Create the public user doc
+      userPublicRef.set({
+        countryCode,
+        firstName
+        // NOTE: for new accounts, we are not setting defaults for `superfan` (false) here
+        // or other properties defined in src/lib/models/Users.ts -> UserPublic
+        // A data migration was run only for new existing accounts in November/December 2022.
+      }),
+      // Create the private user doc
+      userPrivateRef.set({
+        lastName,
+        // Consent can be assumed here, because on the frontend, the registration form does not
+        // submit without the consent checkbox being set.
+        // This is essentially a mirror the creation timestamp of the users-private doc
+        consentedAt: FieldValue.serverTimestamp(),
+        emailPreferences: {
+          newChat: true,
+          news: true
+        },
+        creationLanguage: communicationLanguage,
+        communicationLanguage,
+        //
+        // Optional reference field. Don't include it if it does not have a valid value
+        ...(typeof reference === 'string' && reference.length > 0
+          ? {
+              reference
+            }
+          : {})
+        // NOTE: there are several other properties that don't have defaults, see
+        // src/lib/models/Users.ts -> UserPrivate
+      })
     ]);
-
-    return { message: 'Your account was created successfully,', success: true };
   } catch (ex) {
     logger.error(
-      `Something went wrong while creating the user ${uid}, or sending the verification email. ` +
+      `Something went wrong while creating the Firestore user documents for ${data.email}, or sending the verification email. ` +
         'The user will be deleted',
-      ex
+      { error: ex, data, user }
     );
-    // TODO: instead of deleting here, use a transaction that can be rolled back (if possible).
-    await auth.deleteUser(uid);
-    // TODO: the **return** here (and not throw) will always make the callable succeed
-    // (except if no auth context is present, see the first fail conditions)
-    // Probably this leads to no error being logged or shown in the frontend, but just endless waiting.
-    return ex;
+    if (uid) {
+      await auth.deleteUser(uid);
+    }
+    fail('internal');
   }
+
+  if (!email) {
+    logger.error(
+      `The email for UID ${uid} was not set when trying to send its verification email.`
+    );
+  }
+
+  const [resourceName, targetUri] = await getFunctionUrl('sendMessage');
+  /**
+   * @type {TaskQueue<QueuedMessage>}
+   */
+  const sendMessageQueue = getFunctions().taskQueue(resourceName);
+  await Promise.all([
+    // Add one to the stats
+    db
+      .collection('stats')
+      .doc('users')
+      .set({ count: FieldValue.increment(1) }, { merge: true }),
+    // Send the verification email
+    sendVerificationEmail(email, firstName, communicationLanguage),
+    // Enqueue the first welcome flow email
+    (async () => {
+      try {
+        await sendMessageQueue.enqueue(
+          {
+            type: 'welcome',
+            data: { uid }
+          },
+          {
+            // 10 minutes later
+            scheduleDelaySeconds: 10 * 60,
+            ...(targetUri
+              ? {
+                  uri: targetUri
+                }
+              : {})
+          }
+        );
+      } catch (e) {
+        logger.error(`Error while queueing the first welcome email`, { uid, error: e });
+      }
+    })(),
+    // Enqueue the last welcome flow email
+    (async () => {
+      try {
+        await sendMessageQueue.enqueue(
+          { type: 'become_member', data: { uid } },
+          {
+            scheduleTime: DateTime.now().plus({ days: 7 }).toJSDate(),
+            ...(targetUri
+              ? {
+                  uri: targetUri
+                }
+              : {})
+          }
+        );
+      } catch (e) {
+        logger.error(`Error while queueing the "become a member" last welcome flow email`, {
+          uid,
+          error: e
+        });
+      }
+    })()
+  ]);
+
+  return { message: 'Your account was created successfully,', success: true };
 };

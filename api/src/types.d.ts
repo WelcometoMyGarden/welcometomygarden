@@ -107,6 +107,18 @@ declare global {
     type CallableRequest<T = any> = CR<T>;
   }
 
+  // Importing this from the canonical front-end definition leads to an "any" value, not sure why
+  // Hence, we duplicate it here.
+  type CreateUserRequest = {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    countryCode: string;
+    communicationLanguage: string;
+    reference: string | null;
+  };
+
   declare namespace Supabase {
     /**
      * Multi-value single (non-set) responses return a null value for every column when no result is returned.

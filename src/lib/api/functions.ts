@@ -20,7 +20,15 @@ const wrapCallable = <R, S>(callableAccessor: () => HttpsCallable<R, S> | null) 
   };
 };
 
-export type CreateUserRequest = Partial<User>;
+export type CreateUserRequest = {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  countryCode: string;
+  communicationLanguage: string;
+  reference: string | null;
+};
 let createUserRef: HttpsCallable<CreateUserRequest> | null = null;
 export const createUser: HttpsCallable<CreateUserRequest> = wrapCallable(() => createUserRef);
 
@@ -162,6 +170,7 @@ export const manageEmailPreferences: HttpsCallable<
 
 export const initializeEuropeWest1Functions = (europeWest1Functions: Functions) => {
   createUserRef = httpsCallable<CreateUserRequest>(europeWest1Functions, 'createUserV2');
+  //@ts-ignore
   requestPasswordResetRef = httpsCallable<EmptyObject>(
     europeWest1Functions,
     'requestPasswordResetV2'
