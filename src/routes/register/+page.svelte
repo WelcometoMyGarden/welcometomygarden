@@ -3,7 +3,13 @@
   import { fade } from 'svelte/transition';
   import { goto, universalGoto } from '$lib/util/navigate';
   import { register } from '$lib/api/auth';
-  import { formEmailValue, formPasswordValue, isRegistering, user } from '$lib/stores/auth';
+  import {
+    formEmailValue,
+    formPasswordValue,
+    isRegistering,
+    resolveOnUserLoaded,
+    user
+  } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
   import routes from '$lib/routes';
   import { countryNames, guessCountryCode } from '$lib/stores/countryNames';
@@ -16,6 +22,7 @@
   import validateEmail from '$lib/util/validate-email';
   import { page } from '$app/stores';
   import { get } from 'svelte/store';
+  import { onMount } from 'svelte';
 
   const continueUrl = $page.url.searchParams.get('continueUrl');
 
@@ -190,6 +197,14 @@
   const termsOfUse = `<a class="link" href=${routes.TERMS_OF_USE} target="_blank">${$_(
     'generics.terms-of-use'
   ).toLocaleLowerCase()}</a>`;
+
+  onMount(async () => {
+    await resolveOnUserLoaded();
+    if (get(user)) {
+      // If a user is already logged in, redirect to /account
+      goto(routes.ACCOUNT);
+    }
+  });
 </script>
 
 <svelte:head>
