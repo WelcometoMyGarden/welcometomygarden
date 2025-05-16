@@ -7,6 +7,7 @@ const { logger } = require('firebase-functions/v2');
 const { getFunctions } = require('firebase-admin/functions');
 const { DateTime } = require('luxon');
 const { FirebaseAuthError } = require('firebase-admin/auth');
+const { omit } = require('lodash');
 
 /**
  * Throws upon invalid data
@@ -151,14 +152,19 @@ exports.createUser = async ({ data: inputData, auth: authContext }) => {
     // Firebase will have performed lowercasing
     ({ uid, email } = user);
   } catch (e) {
-    logger.error("Couldn't create a user", {
-      data: inputData,
-      code: e.code
-    });
+    const dataWithoutPassword = omit(inputData, 'password');
     // If the account already exists, transform 'auth/email-already-exists' to 'functions/already-exists'
     if (e instanceof FirebaseAuthError && e.code == 'auth/email-already-exists') {
+      logger.warn("Couldn't create a new user because the email already existed", {
+        data: dataWithoutPassword,
+        code: e.code
+      });
       fail('already-exists');
     }
+    logger.error("Couldn't create a new Firebase user due to an unknown issue", {
+      data: dataWithoutPassword,
+      code: e.code
+    });
     fail('internal');
   }
 
