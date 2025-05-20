@@ -44,9 +44,10 @@ export const gardenLayerLoaded = writable(false);
 // subscriptionJustEnded should probably remain in the logic
 export const shouldShowBanner = derived(
   [user, subscriptionJustEnded],
-  ([$user, $subscriptionJustEnded]) =>
-    // NOTE: if we want to disable this, it is probably best to just keep $subscriptionJustEnded in the condition
-    $subscriptionJustEnded || $user?.superfan === true || $user?.garden != null
+  // NOTE: if we want to not show the "general" banner, it is probably best to just keep $subscriptionJustEnded in the condition
+  // ([$user, $subscriptionJustEnded]) =>
+  //   $subscriptionJustEnded || $user?.superfan === true || $user?.garden != null
+  ([_, $subscriptionJustEnded]) => $subscriptionJustEnded
 );
 
 export const bannerLink = derived(user, ($user) =>
