@@ -199,11 +199,11 @@
   ).toLocaleLowerCase()}</a>`;
 
   onMount(async () => {
-    await resolveOnUserLoaded();
-    if (get(user)) {
-      // If a user is already logged in, redirect to /account
-      goto(routes.ACCOUNT);
-    }
+    // await resolveOnUserLoaded();
+    // if (get(user)) {
+    //   // If a user is already logged in, redirect to /account
+    //   goto(routes.ACCOUNT);
+    // }
   });
 </script>
 
