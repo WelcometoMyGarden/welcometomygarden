@@ -142,19 +142,15 @@ export async function makeSuperfan({
   return { firebaseAdminPage };
 }
 
-export async function payOnStripe({
+export async function payOnStripeWithBancontactRedirect({
   page
 }: {
   /**
-   * WTMG page with the top nav visible
+   * WTMG payment page
    */
   page: Page;
 }) {
-  await page.bringToFront();
-  await page.getByRole('link', { name: 'Become a Member' }).click();
-  await page.locator('#media').getByRole('link', { name: 'Become a Member' }).click();
-  await page.getByLabel('I use WTMG only as a slow').check();
-  await page.getByRole('button', { name: 'Become a Member', exact: true }).click();
+  // Fill in the Stripe payment details
   await page
     .locator('iframe[src^="https://js.stripe.com/v3/elements-inner-payment"]')
     .contentFrame()
@@ -162,8 +158,29 @@ export async function payOnStripe({
     .fill('Test ga');
   await page.getByRole('button', { name: 'Pay now' }).click();
   await page.getByRole('link', { name: 'Authorize Test Payment' }).click();
-  // Wait on confirmation
-  await page.getByRole('heading', { name: 'Thank you for joining the' });
+}
+
+export async function pretendToHavePaidWithRedirect({ page }: { page: Page }) {
+  // last *: this will include a continueUrl in this case for chatting with
+
+  await page.waitForURL('**/become-member/payment/regular*');
+  // TODO: this page will still call the Stripe test mode API with the current user's parameters
+  // We could:
+  // 1. Intercept this call using Playwright browser tools http://localhost:5001/demo-test/europe-west1/createOrRetrieveUnpaidSubscriptionV2
+  //  and return a sample response with the correct type, but old/bogus values. This will probably crash/error the Stripe client iframe, but that's fine
+  // 2. We can inject better mock data (put local dev env Firebase vars into .env.test.local, and use the admin API here as an alternative to the "make superfan" emulator workaround ?)
+
+  // Test hack: pretend like the payment worked fine
+  const url = new URL(page.url());
+  const succeededPaymentURL = `http://${url.host}${url.pathname}?${new URLSearchParams({
+    // preserve the continueUrl or other url params if they exist
+    ...Object.fromEntries(url.searchParams.entries()),
+    // this intent is used to check whether the redirect status should be parsed
+    payment_intent: 'bogus_intent',
+    redirect_status: 'succeeded'
+  })}${url.hash}`;
+  // Load the page as if the payment succeeded
+  await page.goto(succeededPaymentURL);
 }
 
 export async function deleteAccount({ page, firstName }: { page: Page; firstName: string }) {

@@ -124,6 +124,8 @@ To run the tests, use the VSCode Playwright Extension, or `yarn test:e2e`.
 
 To change whether the tests should start a local dev env or target staging, change the TEST_ENV variable in .env.test.local.
 
+To develop new tests, you can make use of the [codegen features](https://playwright.dev/docs/codegen#record-at-cursor) and [debugging inspector](https://playwright.dev/docs/debug#playwright-inspector). It's convenient to first start a local (empty) dev environment, and then start debug runs or use "Record at cursor" using the Playwright extension in VSCode, since booting up the dev env takes some time, and Playwright will reuse the existing environment.
+
 See [playwright.config.json](../playwright.config.ts) & [main-flow.spec.ts](./../tests/e2e/main-flow.spec.ts) for more details.
 
 ### Production builds

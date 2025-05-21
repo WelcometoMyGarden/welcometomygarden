@@ -1,9 +1,4 @@
-import {
-  defineConfig,
-  devices,
-  type FullConfig,
-  type PlaywrightTestConfig
-} from '@playwright/test';
+import { defineConfig, type PlaywrightTestConfig } from '@playwright/test';
 import { config } from 'dotenv';
 import { resolve } from 'path';
 
