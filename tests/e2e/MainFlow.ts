@@ -1,36 +1,13 @@
-import {
-  type Browser,
-  test as base,
-  type BrowserContext,
-  type Page,
-  expect
-} from '@playwright/test';
-import { clearAuth, clearFirestore } from '../util';
+import { type Browser, type BrowserContext, type Page, expect } from '@playwright/test';
 import {
   deleteAccount,
   makeSuperfan,
   openEmail,
+  pay,
   payOnStripeWithBancontactRedirect,
   pretendToHavePaidWithRedirect
 } from './util';
-import { type TestOptions, type TestType } from '../../playwright.config';
-
-export const test = base.extend<TestOptions>({
-  type: ['local', { option: true }]
-});
-
-test.beforeEach(async ({ type }) => {
-  // useful in case the test was manually stopped
-  if (type === 'local') {
-    await Promise.all([clearFirestore(), clearAuth()]);
-  }
-});
-
-test.afterEach(async ({ type }) => {
-  if (type === 'local') {
-    await Promise.all([clearFirestore(), clearAuth()]);
-  }
-});
+import { type TestType } from '../../playwright.config';
 
 /**
  * A test flow that tests the main, including some detailed redirect handling.
@@ -46,7 +23,7 @@ test.afterEach(async ({ type }) => {
  *    c) It checks that the robot 2 is immediately redirected to the chat with robot 1 after paying.
  *    d) It performs a chat between the two robots, and exits if this works.
  */
-class MainFlowTest {
+export class MainFlowTest {
   emailPlatform: 'mailpit' | 'gmail';
 
   constructor(
@@ -202,15 +179,7 @@ class MainFlowTest {
     // Go to the payment page
     await page.getByRole('button', { name: 'Become a Member' }).click();
 
-    if (this.type === 'local') {
-      [, { firebaseAdminPage }] = await Promise.all([
-        pretendToHavePaidWithRedirect({ page }),
-        makeSuperfan({ context, firstName: 'Robot2' })
-      ]);
-      await page.bringToFront();
-    } else {
-      await payOnStripeWithBancontactRedirect({ page });
-    }
+    await pay({ page, context, type: this.type, firstName: 'Robot2' });
 
     // Wait until the original chat loads
     await page.waitForURL('**/chat/**');
@@ -220,43 +189,8 @@ class MainFlowTest {
       .getByPlaceholder('Type your message...')
       .fill('Hello, what a nice garden you have! Can I stay?');
     await page.getByLabel('Send message').click();
-    //
-    // Close firebase admin
-    if (firebaseAdminPage) {
-      await firebaseAdminPage.close();
-    }
 
     return { mailpitPage: mailpitPage };
-  }
-
-  async robot3({
-    page: page,
-    context,
-    email
-  }: {
-    page: Page;
-    context: BrowserContext;
-    email: string;
-  }) {
-    await page.goto(this.baseURL);
-    // Go to the /sign-in page, fill in details
-    await page.getByRole('link', { name: 'Sign in' }).click();
-    await page.getByLabel('Email').click();
-    await page.getByLabel('Email').fill(email);
-    await page.getByLabel('Password').click();
-    await page.getByLabel('Password').fill('12345678');
-    // Switch to the /register page, fill in details
-    await page.getByRole('link', { name: 'Register' }).click();
-    await page.getByLabel('First Name').click();
-    await page.getByLabel('First Name').fill('Robot1');
-    await page.getByLabel('First Name').press('Tab');
-    await page.getByLabel('Last name').fill('Robot1L');
-    await page.getByLabel('Country').selectOption('FR');
-    await page.getByLabel('I agree to the cookie policy').check();
-    await page.getByRole('button', { name: 'Sign up' }).click();
-    // Go to the account page
-    await page.getByRole('button', { name: 'R Robot1' }).click();
-    await page.getByRole('link', { name: 'Account' }).click();
   }
 
   async test() {
@@ -323,12 +257,3 @@ class MainFlowTest {
     await Promise.all([robot1Context.close(), robot2Context.close()]);
   }
 }
-
-test('main flow', async ({ browser, baseURL, type }) => {
-  const flow = new MainFlowTest(browser, baseURL!, type);
-  await flow.test();
-});
-
-test.afterAll(async ({ browser }) => {
-  browser.close();
-});

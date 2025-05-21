@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import type { TestType } from '../../playwright.config';
 // import credentials from './credentials.json' assert { type: 'json' };
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const credentials = JSON.parse(await readFile(resolve(__dirname, 'credentials.json'), 'utf8'));
@@ -139,7 +140,6 @@ export async function makeSuperfan({
   await firebaseAdminPage.getByRole('button', { name: 'Save' }).click();
   // Wait for the change to take effect
   await firebaseAdminPage.waitForTimeout(100);
-  return { firebaseAdminPage };
 }
 
 export async function payOnStripeWithBancontactRedirect({
@@ -163,7 +163,7 @@ export async function payOnStripeWithBancontactRedirect({
 export async function pretendToHavePaidWithRedirect({ page }: { page: Page }) {
   // last *: this will include a continueUrl in this case for chatting with
 
-  await page.waitForURL('**/become-member/payment/regular*');
+  await page.waitForURL('**/become-member/payment/**');
   // TODO: this page will still call the Stripe test mode API with the current user's parameters
   // We could:
   // 1. Intercept this call using Playwright browser tools http://localhost:5001/demo-test/europe-west1/createOrRetrieveUnpaidSubscriptionV2
@@ -181,6 +181,26 @@ export async function pretendToHavePaidWithRedirect({ page }: { page: Page }) {
   })}${url.hash}`;
   // Load the page as if the payment succeeded
   await page.goto(succeededPaymentURL);
+}
+
+export async function pay({
+  page,
+  context,
+  type,
+  firstName
+}: {
+  context: BrowserContext;
+  page: Page;
+  type: TestType;
+  firstName: string;
+}) {
+  if (type === 'local') {
+    await makeSuperfan({ context, firstName });
+    await pretendToHavePaidWithRedirect({ page });
+    await page.bringToFront();
+  } else {
+    await payOnStripeWithBancontactRedirect({ page });
+  }
 }
 
 export async function deleteAccount({ page, firstName }: { page: Page; firstName: string }) {
