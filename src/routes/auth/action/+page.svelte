@@ -46,6 +46,8 @@
   // Determine the path of the continueUrl
   // It must be on the same host as this page.
   // So far, this is not used, but this adds support for when we want to use it.
+  // TODO: this might conflict with the localStorage-based facilities in auth.ts
+  // for redirecting after chat intents
   const continueUrl = $page.url.searchParams.get('continueUrl');
   const continueUrlPathMatch = /https?:\/\/[^/]+(\/.*$)/.exec(continueUrl ?? '');
   let gotoPath: string | null = null;

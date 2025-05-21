@@ -9,14 +9,22 @@ import { SupabaseClient } from '@supabase/supabase-js';
  * a persisted auth login happened if one was available.
  */
 export const isInitializingFirebase = writable(true);
-export const isRegistering = writable(false);
+
+/**
+ * Whether the user took an explicit action of signing in or registering.
+ * Should only be set back to false once a) the user is loaded ($isUserLoading = false),
+ * or if the sign-in or registration failed, when $isUserLoading is still false
+ * This is important to make $appHasLoaded not cycle while logging in.
+ */
+export const isSigningIn = writable(false);
 
 /** This helps the app to know when a user is fully loaded,
  * `!get(user) && !get(userIsLoading)` *in pages below the root layout*
  * means that we are sure that the user is logged out (and not just still loading)
  * since we only update the user when all parts are loaded.
  *
- * Starts as false, because onIdTokenChanged sets it to true.
+ * Starts as false, because onIdTokenChanged sets it to true when a Firebase auth
+ * user is logged in, and it is loading the data of that user.
  */
 export const isUserLoading = writable(false);
 export const user: Writable<User | null> = writable(null);

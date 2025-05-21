@@ -10,7 +10,7 @@ import {
 } from 'firebase/auth';
 import { auth, db } from './firebase';
 import {
-  isRegistering,
+  isSigningIn,
   user,
   isInitializingFirebase,
   isUserLoading,
@@ -430,9 +430,16 @@ export const createCampsiteObserver = (currentUserId: string) => {
  * Logs in, waits until the main user data is loaded (does not wait on the garden)
  */
 export const login = async (email: string, password: string): Promise<void> => {
-  await signInWithEmailAndPassword(auth(), email, password);
-  trackEvent(PlausibleEvent.SIGN_IN);
-  return await resolveOnUserLoaded();
+  isSigningIn.set(true);
+  try {
+    await signInWithEmailAndPassword(auth(), email, password);
+    trackEvent(PlausibleEvent.SIGN_IN);
+    await resolveOnUserLoaded();
+  } catch (e) {
+    throw e;
+  } finally {
+    isSigningIn.set(false);
+  }
 };
 
 /**
@@ -487,20 +494,25 @@ export const register = async ({
    */
   reference: string | null;
 }) => {
-  isRegistering.set(true);
-  await createUser({
-    email,
-    password,
-    firstName,
-    lastName,
-    countryCode,
-    communicationLanguage: get(locale) ?? 'en',
-    reference
-  });
-  await signInWithEmailAndPassword(auth(), email, password);
-  await resolveOnUserLoaded();
-  trackEvent(PlausibleEvent.CREATE_ACCOUNT);
-  isRegistering.set(false);
+  isSigningIn.set(true);
+  try {
+    await createUser({
+      email,
+      password,
+      firstName,
+      lastName,
+      countryCode,
+      communicationLanguage: get(locale) ?? 'en',
+      reference
+    });
+    await signInWithEmailAndPassword(auth(), email, password);
+    await resolveOnUserLoaded();
+    trackEvent(PlausibleEvent.CREATE_ACCOUNT);
+  } catch (e) {
+    throw e;
+  } finally {
+    isSigningIn.set(false);
+  }
 };
 
 export const logout = async () => {

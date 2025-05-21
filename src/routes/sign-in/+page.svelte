@@ -1,12 +1,12 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
-  import { formEmailValue, formPasswordValue, user } from '$lib/stores/auth';
+  import { formEmailValue, formPasswordValue, isSigningIn, user } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
   import { login } from '$lib/api/auth';
   import routes from '$lib/routes';
   import AuthContainer from '$lib/components/AuthContainer.svelte';
-  import { TextInput, Button } from '$lib/components/UI';
+  import { TextInput, Button, Progress } from '$lib/components/UI';
   import { lockIcon, emailIcon } from '$lib/images/icons';
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { goto, universalGoto } from '$lib/util/navigate';
@@ -57,6 +57,8 @@
 <svelte:head>
   <title>{$_('sign-in.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
+
+<Progress active={$isSigningIn} />
 
 <AuthContainer>
   <span slot="title">{$_('sign-in.title')}</span>

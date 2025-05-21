@@ -6,7 +6,7 @@
   import {
     formEmailValue,
     formPasswordValue,
-    isRegistering,
+    isSigningIn,
     resolveOnUserLoaded,
     user
   } from '$lib/stores/auth';
@@ -177,7 +177,7 @@
         goto(routes.MAP);
       }
     } catch (err: unknown) {
-      isRegistering.set(false);
+      isSigningIn.set(false);
       if (
         isFirebaseError(err) &&
         err.code === ('functions/already-exists' satisfies FunctionsErrorCode)
@@ -199,11 +199,11 @@
   ).toLocaleLowerCase()}</a>`;
 
   onMount(async () => {
-    // await resolveOnUserLoaded();
-    // if (get(user)) {
-    //   // If a user is already logged in, redirect to /account
-    //   goto(routes.ACCOUNT);
-    // }
+    await resolveOnUserLoaded();
+    if (get(user)) {
+      // If a user is already logged in, redirect to /account
+      goto(routes.ACCOUNT);
+    }
   });
 </script>
 
@@ -211,7 +211,7 @@
   <title>{$_('register.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
-<Progress active={$isRegistering} />
+<Progress active={$isSigningIn} />
 
 <AuthContainer>
   <span slot="title">{$_('register.title')}</span>
@@ -326,8 +326,8 @@
           <p transition:fade class="hint danger">{formError}</p>
         {/if}
       </div>
-      <Button type="submit" medium disabled={$isRegistering}>{$_('register.button')}</Button>
-      {#if $isRegistering}
+      <Button type="submit" medium disabled={$isSigningIn}>{$_('register.button')}</Button>
+      {#if $isSigningIn}
         <p class="mt-m mb-m">{$_('register.registering')}</p>
       {/if}
       <p>
