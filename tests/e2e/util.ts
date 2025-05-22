@@ -89,6 +89,8 @@ export async function openEmail({
     .first();
   await link.click();
   const openedLinkPage = await popupPromise;
+  // Wait for the verification JS to start and finalize, by waiting for a redirect to another page
+  await openedLinkPage.waitForURL((url) => !url.pathname.includes('/auth/action'));
   return { mailpitPage: emailPage, openedLinkPage };
 }
 

@@ -2,6 +2,10 @@ import type { Browser, BrowserContext, Page } from '@playwright/test';
 import type { TestType } from '../../playwright.config';
 import { pay } from './util';
 
+/**
+ * Test a robot that immediately tries to become a member, before having an account.
+ * Check that the continueUrls continue to work as expected.
+ */
 export class StraightToMemberTest {
   emailPlatform: 'mailpit' | 'gmail';
   constructor(

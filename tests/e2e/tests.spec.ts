@@ -3,6 +3,7 @@ import { clearAuth, clearFirestore } from '../util';
 import { type TestOptions } from '../../playwright.config';
 import { MainFlowTest } from './MainFlow';
 import { StraightToMemberTest } from './StraightToMember';
+import { GardenManageTest } from './GardenManage';
 
 export const test = base.extend<TestOptions>({
   type: ['local', { option: true }]
@@ -28,6 +29,11 @@ test('main flow', async ({ browser, baseURL, type }) => {
 
 test('straight to member', async ({ browser, baseURL, type }) => {
   const flow = new StraightToMemberTest(browser, baseURL!, type);
+  await flow.test();
+});
+
+test('garden manage', async ({ browser, baseURL, type }) => {
+  const flow = new GardenManageTest(browser, baseURL!, type);
   await flow.test();
 });
 
