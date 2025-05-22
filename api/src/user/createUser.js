@@ -138,6 +138,8 @@ exports.createUser = async ({ data: inputData, auth: authContext }) => {
    */
   let email;
 
+  const dataWithoutPassword = omit(inputData, 'password');
+
   try {
     // Create a Firebase user
     user = await auth.createUser({
@@ -152,7 +154,6 @@ exports.createUser = async ({ data: inputData, auth: authContext }) => {
     // Firebase will have performed lowercasing
     ({ uid, email } = user);
   } catch (e) {
-    const dataWithoutPassword = omit(inputData, 'password');
     // If the account already exists, transform 'auth/email-already-exists' to 'functions/already-exists'
     if (e instanceof FirebaseAuthError && e.code == 'auth/email-already-exists') {
       logger.warn("Couldn't create a new user because the email already existed", {
@@ -294,6 +295,8 @@ exports.createUser = async ({ data: inputData, auth: authContext }) => {
       }
     })()
   ]);
+
+  logger.info(`New account created for ${data.email} / ${uid}`, { data: dataWithoutPassword });
 
   return { message: 'Your account was created successfully,', success: true };
 };
