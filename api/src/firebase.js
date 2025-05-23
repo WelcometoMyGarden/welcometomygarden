@@ -1,5 +1,6 @@
 const { getFirestore } = require('firebase-admin/firestore');
 const { getAuth } = require('firebase-admin/auth');
+const { getStorage } = require('firebase-admin/storage');
 const { GoogleAuth } = require('google-auth-library');
 const { projectID } = require('firebase-functions/params');
 
@@ -7,6 +8,8 @@ const db = getFirestore();
 exports.db = db;
 const auth = getAuth();
 exports.auth = auth;
+const storage = getStorage();
+exports.storage = storage;
 let googleAuth;
 
 /**

@@ -27,10 +27,11 @@ declare global {
   type UserPublic = import('../../src/lib/models/User').UserPublic;
   type UserRecord = import('firebase-admin/auth').UserRecord;
   type User = import('../../src/lib/models/User').User;
-  type Garden = import('../../src/lib/types/Garden').Garden;
+  type Garden = import('../../src/lib/types/Garden').FirebaseGarden;
   type Chat = import('../../src/lib/types/Chat').FirebaseChat;
   type LocalChat = import('../../src/lib/types/Chat').LocalChat;
   type Message = import('../../src/lib/types/chat').FirebaseMessage;
+  type Trail = import('../../src/lib/types/Trail').FirebaseTrail;
   type PushRegistration = import('../../src/lib/types/PushRegistration').FirebasePushRegistration;
   type PushRegistrationStatus =
     import('../../src/lib/types/PushRegistration').PushRegistrationStatus;

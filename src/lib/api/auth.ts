@@ -26,13 +26,13 @@ import { goto } from '$app/navigation';
 import routes, { getCurrentRoute } from '../routes';
 import { page } from '$app/stores';
 import { isActiveContains } from '../util/isActive';
-import type { FirebaseGarden, Garden } from '../types/Garden';
+import type { FirebaseGarden } from '../types/Garden';
 import type { User as FirebaseUser } from 'firebase/auth';
 import { trackEvent } from '$lib/util';
 import { PlausibleEvent } from '$lib/types/Plausible';
 import { isOnIDevicePWA } from './push-registrations';
 import { handledOpenFromIOSPWA } from '$lib/stores/app';
-import { hasLoaded as gardenHasLoaded } from '$lib/stores/garden';
+import { allListedGardens, hasLoaded as gardenHasLoaded } from '$lib/stores/garden';
 import { createClient } from '@supabase/supabase-js';
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_API_URL } from '$env/static/public';
 
@@ -547,9 +547,15 @@ export const confirmPasswordReset = (code: string, password: string) => {
  * https://firebase.google.com/docs/auth/web/manage-users#re-authenticate_a_user
  */
 export const deleteAccount = async () => {
-  const user = auth().currentUser;
-  if (user) {
-    await deleteUser(user);
+  const authUser = auth().currentUser;
+  const $user = get(user);
+  if (authUser) {
+    await deleteUser(authUser);
+    // Delete the garden from the local gardens store, so it doesn't seem like it still
+    // exists if the user navigates back to the map
+    if ($user?.garden) {
+      allListedGardens.update((gardens) => gardens.filter(({ id }) => id !== $user.id));
+    }
   } else {
     throw new Error('unauthenticated');
   }
