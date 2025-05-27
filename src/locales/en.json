@@ -1195,8 +1195,7 @@
       "btn-register": "Register now",
       "no-account": "You must {signInLink} to register",
       "cities": {
-        "Lier": "Lier",
-        "Arlon": "Arlon"
+        "Bruges": "Bruges"
       }
     }
   },

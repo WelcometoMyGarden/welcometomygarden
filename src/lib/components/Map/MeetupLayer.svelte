@@ -12,18 +12,12 @@
 
   export const meetups: Meetup[] = [
     {
-      id: 'lier-6-2024',
-      date: new Date(2024, 6 - 1, 22),
-      place: 'Lier',
-      lnglat: [4.56194, 51.13584],
-      registrationLink: `https://meetup.welcometomygarden.org/lier`
-    },
-    {
-      id: 'arlon-7-2024',
-      date: new Date(2024, 7 - 1, 13),
-      place: 'Arlon',
-      lnglat: [5.8095, 49.6803],
-      registrationLink: `https://meetup.welcometomygarden.org/arlon`
+      id: 'bruges-2025',
+      // Use local time
+      date: new Date(2025, 6 - 1, 26),
+      place: 'Bruges',
+      lnglat: [3.244532, 51.2070776],
+      registrationLink: `https://meetup.welcometomygarden.org/brugge`
     }
   ];
 </script>
@@ -49,7 +43,7 @@
     const meetup = e.features?.[0]?.properties;
     dispatch('meetup-click', meetup.id);
   };
-  const meetupFeatureCollection: (_: any) => GeoJSON.FeatureCollection = () => ({
+  const meetupFeatureCollection: () => GeoJSON.FeatureCollection = () => ({
     type: 'FeatureCollection',
     features: meetups
       // hide meetups, margin of 10 hours

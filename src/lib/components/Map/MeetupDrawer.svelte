@@ -5,13 +5,14 @@
   import { _, locale } from 'svelte-i18n';
   import { user } from '$lib/stores/auth';
   import { clickOutside } from '$lib/directives';
-  import { Text, Button, Progress } from '../UI';
+  import { Text, Button, Progress, Icon } from '../UI';
   import routes from '$lib/routes';
   import type { Meetup } from './MeetupLayer.svelte';
   import createUrl from '$lib/util/create-url';
   import Img from '@zerodevx/svelte-img';
   import meetupImg from '$lib/assets/wtmg-meetup.png?as=run';
-  import { coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
+  import { coerceToMainLanguage } from '$lib/util/get-browser-lang';
+  import { crossIcon } from '$lib/images/icons';
 
   export let meetup: Meetup | null = null;
 
@@ -97,6 +98,11 @@
           <Text weight="w600" size="l" className="garden-title-text"
             >WTMG meetup - {meetupDateStr}</Text
           >
+          <div class="top-buttons">
+            <button class="close-button" on:click={() => dispatch('close')}>
+              <Icon icon={crossIcon} />
+            </button>
+          </div>
         </div>
         <button on:click={magnifyPhoto} class="mb-l button-container image-wrapper">
           <Img class="meetup-img" src={meetupImg} alt="Invitational poster for a WTMG meetup" />
@@ -118,19 +124,15 @@
         {#if $user}
           <Button
             href={createUrl(
-              `${meetup?.registrationLink}${
-                coerceToMainLanguageENBlank($locale || undefined)
-                  ? '/' + coerceToMainLanguageENBlank($locale || undefined)
-                  : ''
-              }`,
+              `${meetup?.registrationLink}/${coerceToMainLanguage($locale || undefined)}`,
               {
                 ref: 'map',
                 wtmg: $user?.id
               }
             )}
             target="_blank"
-            uppercase
-            medium
+            fullWidth
+            gardenStyle
           >
             {$_('map.meetups.btn-register')}
           </Button>
@@ -186,6 +188,44 @@
     overflow-y: auto;
   }
 
+  .top-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+  }
+  .top-buttons button {
+    background: none;
+    border: none;
+    margin-left: 1rem;
+    padding: 5px;
+  }
+
+  .garden-title {
+    margin-bottom: 0;
+  }
+  .garden-title .top-buttons > button:hover {
+    cursor: pointer;
+    background-color: var(--color-gray-bg);
+  }
+  .garden-title .top-buttons > button:active {
+    background-color: var(--color-gray);
+  }
+
+  .top-buttons button.close-button {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-gray-bg);
+    border-radius: 50%;
+  }
+  .top-buttons button.close-button :global(i) {
+    width: 2rem;
+    height: 2rem;
+  }
+  .top-buttons button.close-button:hover {
+    background: var(--color-gray);
+  }
+
   .garden-title {
     display: flex;
     flex-direction: row;
@@ -206,6 +246,7 @@
     background-color: var(--color-beige);
     border-radius: 1rem;
     margin-bottom: 2rem;
+    margin-top: 1.4rem;
   }
 
   .image-wrapper:hover {
@@ -223,20 +264,10 @@
     .drawer {
       max-height: 70%;
     }
-    .drawer-content-area {
-      margin-top: 1.2rem;
-    }
 
     .drawer :global(.mb-l) {
       margin-bottom: 0.4rem;
     }
-
-    /* .image-wrapper {
-      position: absolute;
-      top: 1.5rem;
-      right: 3rem;
-      margin-bottom: 0;
-    } */
   }
 
   @media screen and (max-width: 700px) {
@@ -260,18 +291,24 @@
     }
 
     .drawer-content-area {
-      margin-top: 1.2rem;
+      margin-top: 0.6rem;
     }
 
-    /* .image-wrapper {
-      position: absolute;
-      top: 1.5rem;
-      right: 3rem;
+    .image-wrapper {
+      margin-top: 0.5rem;
       margin-bottom: 0;
-    } */
+    }
 
     .drawer :global(.mb-l) {
       margin-bottom: 0.4rem;
+    }
+
+    .top-buttons button.close-button {
+      display: flex;
+    }
+    .top-buttons button.close-button :global(i) {
+      width: 2.2rem;
+      height: 2.2rem;
     }
   }
 

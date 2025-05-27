@@ -1177,7 +1177,10 @@
     "meetups": {
       "description": "¿Buscas tu próxima aventura slow travel? ¡Únete a nosotros en el WTMG meetup cerca de {location} en {date}! La idea es sencilla: nos reunimos en un jardín WTMG, compartimos nuestro entusiasmo por el slow travel y lo pasamos muy bien juntos. Es gratis, pero es obligatorio inscribirse. ¡Nos vemos allí!",
       "btn-register": "Regístrese ahora",
-      "no-account": "Debe {signInLink} para registrarse"
+      "no-account": "Debe {signInLink} para registrarse",
+      "cities": {
+        "Bruges": "Brujas"
+      }
     }
   },
   "terms-of-use": {
