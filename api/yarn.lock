@@ -2218,9 +2218,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@supabase/supabase-js@npm:^2.45.6":
-  version: 2.49.4
-  resolution: "@supabase/supabase-js@npm:2.49.4"
+"@supabase/supabase-js@npm:^2.49.8":
+  version: 2.49.8
+  resolution: "@supabase/supabase-js@npm:2.49.8"
   dependencies:
     "@supabase/auth-js": 2.69.1
     "@supabase/functions-js": 2.4.4
@@ -2228,7 +2228,7 @@ __metadata:
     "@supabase/postgrest-js": 1.19.4
     "@supabase/realtime-js": 2.11.2
     "@supabase/storage-js": 2.7.1
-  checksum: 1f8b8a04abb662eee61d13ea7841b1f689002317d168312a1de31d8b4bc22867841708e7f7b8e9cc87ae36e99fd334fd1f0baf56ecae5ec83b593a0b5502bb0c
+  checksum: add77eb4be43675741bc5140288e5eeabc1736476ac72bdfc5d41d2afae1690801df6415a311f0a23788a8d675c11ac3b12fcce59739360d5820d75ff1b7edc3
   languageName: node
   linkType: hard
 
@@ -4774,7 +4774,7 @@ __metadata:
     "@google-cloud/firestore": ^7.10.0
     "@sendgrid/client": ^8.1.4
     "@sendgrid/mail": ^8.1.4
-    "@supabase/supabase-js": ^2.45.6
+    "@supabase/supabase-js": ^2.49.8
     "@types/luxon": ^3.4.2
     "@types/mocha": ^10.0.9
     address-rfc2822: ^2.2.2

@@ -12,9 +12,12 @@ const { isSupabaseReplicationDisabled } = require('../sharedConfig');
 async function deleteFromSupabaseAuth(userId) {
   if (!isSupabaseReplicationDisabled()) {
     try {
-      const { error } = await supabase().from('auth').delete().eq('id', userId);
+      logger.info(`Deleting user ${userId} from Supabase's public.auth table`);
+      const { error, status, statusText } = await supabase().from('auth').delete().eq('id', userId);
       if (error) {
         logger.error('Failed to sync a user deletion to Supabase', { uid: userId, error });
+      } else if (status !== 204) {
+        logger.info(`Unexpected status while deleting user ${userId}: ${status} ${statusText}`);
       }
     } catch (ex) {
       logger.error('Failed to sync a user deletion to Supabase', { uid: userId, error: ex });
@@ -99,10 +102,12 @@ async function deleteFirebaseData(user, userPrivate) {
   try {
     await Promise.all([
       // Delete the campsite
-      db
-        .doc(`campsites/${userId}`)
-        .delete()
-        .catch((ex) => logger.error('Failure to delete a campsite', { userId, error: ex })),
+      gardenExists
+        ? db
+            .doc(`campsites/${userId}`)
+            .delete()
+            .catch((ex) => logger.error('Failure to delete a campsite', { userId, error: ex }))
+        : Promise.resolve(),
       // Decrease the user count stat
       db
         .collection('stats')
@@ -151,6 +156,7 @@ async function deleteFirebaseData(user, userPrivate) {
  */
 exports.cleanupUserOnDelete = async (user) => {
   const userId = user.uid;
+  logger.log(`Cleaning up data of deleted user ${userId}`);
 
   // Fetch the main user data that is needed to find other linked resources to delete
   let userPrivateSnapshot = null;
