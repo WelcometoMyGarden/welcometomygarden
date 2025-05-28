@@ -31,6 +31,8 @@
   import type maplibregl from 'maplibre-gl';
   import { gardenLayerLoaded } from '$lib/stores/app';
   import { loadImg } from '$lib/api/mapbox';
+  import { isUserLoading, user } from '$lib/stores/auth';
+  import { hasLoaded } from '$lib/stores/garden';
 
   export let selectedMeetupId: undefined | string;
   let loaded = false;
@@ -97,7 +99,13 @@
   }
 
   // Only load the meetup layer after the garden layer, to ensure it layered on top.
-  $: if ($gardenLayerLoaded) {
+  $: if (
+    !loaded &&
+    $gardenLayerLoaded &&
+    !$isUserLoading &&
+    $hasLoaded &&
+    (!!$user?.garden || $user?.superfan)
+  ) {
     Promise.all(
       [
         {
