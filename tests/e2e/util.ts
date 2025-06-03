@@ -1,7 +1,7 @@
-import { Page, type BrowserContext } from '@playwright/test';
+import { type Page, type BrowserContext } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { getAccessToken, checkInbox, parseHtmlFromEmail, Email } from 'gmail-getter';
+import { getAccessToken, checkInbox, parseHtmlFromEmail, type Email } from 'gmail-getter';
 import dotenv from 'dotenv';
 import path from 'path';
 import { dirname } from 'node:path';
