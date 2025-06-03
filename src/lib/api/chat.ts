@@ -25,10 +25,10 @@ import type { FirebaseChat, FirebaseMessage } from '$lib/types/Chat';
 import { getUser } from '$lib/stores/auth';
 import type { UserPublic } from '$lib/models/User';
 import routes from '$lib/routes';
-import { isOnIDevicePWA } from './push-registrations';
 import { get } from 'svelte/store';
 import { goto } from '$lib/util/navigate';
 import { handledOpenFromIOSPWA } from '$lib/stores/app';
+import { isOnIDevicePWA } from '$lib/util/push-registrations';
 
 /**
  * Fetches the chat partner's profile, setting the new chat loader.

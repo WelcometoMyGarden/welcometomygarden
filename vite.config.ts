@@ -6,6 +6,7 @@ import { createAvailableLocales } from './plugins/available-locales';
 import { customSvgLoader } from './plugins/svg-loader';
 import mkcert from 'vite-plugin-mkcert';
 import envIsTrue from './src/lib/util/env-is-true';
+import { sentrySvelteKit } from '@sentry/sveltekit';
 
 /* eslint-env node */
 export default defineConfig(({ command, mode }): UserConfig => {
@@ -15,6 +16,11 @@ export default defineConfig(({ command, mode }): UserConfig => {
   const isProductionBuild = command === 'build' && (mode === 'production' || mode === 'staging');
   const useHTTPS = envIsTrue(process.env.VITE_USE_DEV_HTTPS) ?? false;
 
+  const sentryUrl =
+    typeof process.env.PUBLIC_SENTRY_DSN === 'string' && process.env.PUBLIC_SENTRY_DSN.length > 0
+      ? new URL(process.env.PUBLIC_SENTRY_DSN)
+      : null;
+
   return {
     build: {
       minify: isProductionBuild ? 'esbuild' : false
@@ -22,6 +28,18 @@ export default defineConfig(({ command, mode }): UserConfig => {
     plugins: [
       createAvailableLocales(),
       customSvgLoader({ removeSVGTagAttrs: false }),
+      ...(sentryUrl && process.env.SENTRY_AUTH_TOKEN
+        ? [
+            sentrySvelteKit({
+              sourceMapsUploadOptions: {
+                org: 'sentry',
+                project: 'welcome-to-my-garden',
+                url: `${sentryUrl.protocol}//${sentryUrl.host}/`,
+                authToken: process.env.SENTRY_AUTH_TOKEN
+              }
+            })
+          ]
+        : []),
       sveltekit(),
       imagetools(),
       ...(useHTTPS

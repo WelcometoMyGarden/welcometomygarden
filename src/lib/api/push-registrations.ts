@@ -29,7 +29,7 @@ import {
 import removeUndefined from '$lib/util/remove-undefined';
 import { get } from 'svelte/store';
 import isFirebaseError from '$lib/util/types/isFirebaseError';
-import { iDeviceInfo, isMobileDevice, uaInfo } from '$lib/util/uaInfo';
+import { isMobileDevice, uaInfo } from '$lib/util/uaInfo';
 import { isEmpty } from 'lodash-es';
 import notification from '$lib/stores/notification';
 import { t } from 'svelte-i18n';
@@ -43,6 +43,10 @@ import { anchorText } from '$lib/util/translation-helpers';
 import { emailAsLink } from '$lib/constants';
 import { trackEvent } from '$lib/util';
 import { PlausibleEvent } from '$lib/types/Plausible';
+import {
+  canHaveNotificationSupport,
+  hasNotificationSupportNow
+} from '$lib/util/push-registrations';
 
 const pushRegistrationLoadCheck = () => {
   if (!get(loadedPushRegistrations)) {
@@ -248,30 +252,6 @@ export const findSubscriptionByEndpoint = (
 ) => {
   pushRegistrationLoadCheck();
   return pushRegistrations.find((pR) => pR.subscription.endpoint === endpoint);
-};
-
-/**
- * Synchronous (and probably more limited) version of Firebase Messaging's isSupported function
- */
-export const hasNotificationSupportNow = () => {
-  if (!('Notification' in window)) {
-    console.warn('This browser does not support the Notification API.');
-    return false;
-  } else if (typeof navigator === 'undefined' || !('serviceWorker' in navigator)) {
-    console.warn('This browser does not support service workers.');
-    return false;
-  }
-  return true;
-};
-
-/**
- * Does not have immediate support, but by changing some conditions, support can be achieved.
- */
-export const canHaveNotificationSupport = () => {
-  const { isIDevice, isUpgradeable16IDevice, is_16_4_OrAboveIDevice } = iDeviceInfo!;
-  return (
-    !hasNotificationSupportNow() && isIDevice && (is_16_4_OrAboveIDevice || isUpgradeable16IDevice)
-  );
 };
 
 export const isAndroidFirefox = () =>
@@ -636,12 +616,6 @@ export const deletePushRegistration = async (pushRegistration: LocalPushRegistra
     });
     return true;
   }
-};
-
-export const isOnIDevicePWA = () => {
-  const { isIDevice, iDeviceVersion } = iDeviceInfo!;
-  // The last version check is probably redundant
-  return hasNotificationSupportNow() && isIDevice && iDeviceVersion! >= 16.4;
 };
 
 /**

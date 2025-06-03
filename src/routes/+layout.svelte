@@ -1,6 +1,7 @@
 <script lang="ts">
   import '$lib/styles/reset.css';
   import '$lib/styles/global.css';
+  import * as Sentry from '@sentry/sveltekit';
 
   import { browser } from '$app/environment';
   import { createChatObserver } from '$lib/api/chat';
@@ -29,9 +30,9 @@
   import IosNotificationPrompt from '../lib/components/Notifications/IOSPWANotificationModal.svelte';
   import {
     createPushRegistrationObserver,
-    getCurrentNativeSubscription,
-    isOnIDevicePWA
+    getCurrentNativeSubscription
   } from '$lib/api/push-registrations';
+  import { isOnIDevicePWA } from '$lib/util/push-registrations';
   import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
   import { resetPushRegistrationStores } from '$lib/stores/pushRegistrations';
   import { onNavigate } from '$app/navigation';
@@ -171,28 +172,30 @@
     // for the user load to initialize svelte-i18n.
   };
 
-  onMount(async () => {
-    console.log('Mounting root layout');
-    vh = `${window.innerHeight * 0.01}px`;
+  onMount(() =>
+    Sentry.startSpan({ name: 'Root Layout Load', op: 'app.load' }, async () => {
+      console.log('Mounting root layout');
+      vh = `${window.innerHeight * 0.01}px`;
 
-    // Initialize page view property tracking via the Plausible script element/
-    // as soon as Svelte has mounted the root layout (including the script)
-    const plausibleScriptElement = document.querySelector('script#plausible');
-    if (plausibleScriptElement) {
-      registerCustomPropertyTracker(plausibleScriptElement);
-    }
+      // Initialize page view property tracking via the Plausible script element/
+      // as soon as Svelte has mounted the root layout (including the script)
+      const plausibleScriptElement = document.querySelector('script#plausible');
+      if (plausibleScriptElement) {
+        registerCustomPropertyTracker(plausibleScriptElement);
+      }
 
-    await initializeSvelteI18n();
-    // Initialize Firebase
-    await initialize();
-    if (!unsubscribeFromAuthObserver) {
-      unsubscribeFromAuthObserver = createAuthObserver();
-    }
-    // Initialize the user data (dependent on Firebase auth)
-    initializeUser();
+      await initializeSvelteI18n();
+      // Initialize Firebase
+      await initialize();
+      if (!unsubscribeFromAuthObserver) {
+        unsubscribeFromAuthObserver = createAuthObserver();
+      }
+      // Initialize the user data (dependent on Firebase auth)
+      initializeUser();
 
-    // No unsubscribers are used due to this being an async initializer
-  });
+      // No unsubscribers are used due to this being an async initializer
+    })
+  );
 
   onDestroy(() => {
     // In what case do we destroy the root layout though? 🤔

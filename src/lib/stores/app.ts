@@ -1,11 +1,12 @@
+import * as Sentry from '@sentry/sveltekit';
 import { derived, writable } from 'svelte/store';
 import { isInitializingFirebase, isSigningIn, isUserLoading, user } from './auth';
 import { isLoading as isLocaleLoading } from 'svelte-i18n';
 import type { ComponentType } from 'svelte';
-import { isOnIDevicePWA } from '$lib/api/push-registrations';
 import { subscriptionJustEnded } from './subscription';
 import createUrl from '$lib/util/create-url';
 import { coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
+import { isOnIDevicePWA } from '$lib/util/push-registrations';
 
 export const handledOpenFromIOSPWA = writable(false);
 
@@ -33,6 +34,22 @@ export const appHasLoaded = derived(
       (!_isOnIDevicePWA || (_isOnIDevicePWA && $handledOpenFromIOSPWA))
     );
   }
+);
+
+Sentry.startSpan(
+  {
+    name: 'App Load',
+    op: 'app.load'
+  },
+  () =>
+    new Promise((resolve) => {
+      const unsub = appHasLoaded.subscribe((v) => {
+        if (v) {
+          unsub();
+          resolve(true);
+        }
+      });
+    })
 );
 
 /**

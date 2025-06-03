@@ -41,9 +41,11 @@ jobs:
       VITE_STRIPE_PRICE_ID_REDUCED: ${{secrets.STRIPE_PRICE_ID_REDUCED}}
       VITE_STRIPE_PRICE_ID_NORMAL: ${{secrets.STRIPE_PRICE_ID_NORMAL}}
       VITE_STRIPE_PRICE_ID_SOLIDARITY: ${{secrets.STRIPE_PRICE_ID_SOLIDARITY}}
+      SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
       VITE_DISCOURSE_HOST: ${{vars.DISCOURSE_HOST}}
       PUBLIC_SUPABASE_ANON_KEY: ${{vars.SUPABASE_ANON_KEY}}
       PUBLIC_SUPABASE_API_URL: ${{vars.SUPABASE_API_URL}}
+      PUBLIC_SENTRY_DSN: ${{vars.SENTRY_DSN}}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/prepare-source

@@ -1,6 +1,6 @@
 import type { User } from '$lib/models/User';
 import { get, writable, type Writable } from 'svelte/store';
-import { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
 /**
  * Reflects whether when Firebase's services are fully loaded

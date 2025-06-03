@@ -1,7 +1,8 @@
 <script lang="ts">
   import Modal from '$lib/components/UI/Modal.svelte';
 
-  import { hasNotificationSupportNow, isAndroidFirefox } from '$lib/api/push-registrations';
+  import { isAndroidFirefox } from '$lib/api/push-registrations';
+  import { hasNotificationSupportNow } from '$lib/util/push-registrations';
   import { _ } from 'svelte-i18n';
   import { close } from '$lib/stores/app';
   import { iDeviceInfo, isMobileDevice } from '$lib/util/uaInfo';

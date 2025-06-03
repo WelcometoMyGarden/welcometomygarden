@@ -35,10 +35,10 @@
   import { setExpiringCookie } from '$lib/util/set-cookie';
   import ZoomRestrictionNotice from '$lib/components/Map/ZoomRestrictionNotice.svelte';
   import { createTrailObserver } from '$lib/api/trail';
-  import { resolveOnUserLoaded, user } from '$lib/stores/auth';
+  import { user } from '$lib/stores/auth';
+  import { isOnIDevicePWA } from '$lib/util/push-registrations';
   import type { Unsubscribe } from 'firebase/firestore';
   import { fileDataLayers, removeTrailAnimations } from '$lib/stores/file';
-  import { isOnIDevicePWA } from '$lib/api/push-registrations';
   import { isEmpty } from 'lodash-es';
   import MeetupLayer, { meetups } from '$lib/components/Map/MeetupLayer.svelte';
   import { lnglatToObject } from '$lib/api/mapbox';

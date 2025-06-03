@@ -2,10 +2,10 @@
   import { _ } from 'svelte-i18n';
   import {
     createPushRegistration,
-    hasNotificationSupportNow,
     isNotificationEligible,
     hasDeniedNotifications
   } from '$lib/api/push-registrations';
+  import { hasNotificationSupportNow } from '$lib/util/push-registrations';
   import { Button } from '$lib/components/UI';
   import {
     loadedPushRegistrations,

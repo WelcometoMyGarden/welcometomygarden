@@ -18,11 +18,9 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   import FullscreenControl from './FullscreenControl.js';
   import { isFullscreen } from '$lib/stores/fullscreen.js';
   import { user } from '$lib/stores/auth.js';
-  import {
-    hasEnabledNotificationsOnCurrentDevice,
-    isOnIDevicePWA
-  } from '$lib/api/push-registrations.js';
+  import { hasEnabledNotificationsOnCurrentDevice } from '$lib/api/push-registrations.js';
   import { writable } from 'svelte/store';
+  import { isOnIDevicePWA } from '$lib/util/push-registrations.js';
 
   export let lat: number;
   export let lon: number;
@@ -332,9 +330,9 @@ Component for maps. Shared between the main map, and the map in the Garden creat
 
   /* If geolocation is not available, hide the Mapbox button */
   :global(
-      .mapboxgl-ctrl button.mapboxgl-ctrl-geolocate:disabled,
-      .maplibregl-ctrl button.maplibregl-ctrl-geolocate:disabled
-    ) {
+    .mapboxgl-ctrl button.mapboxgl-ctrl-geolocate:disabled,
+    .maplibregl-ctrl button.maplibregl-ctrl-geolocate:disabled
+  ) {
     display: none;
   }
 
