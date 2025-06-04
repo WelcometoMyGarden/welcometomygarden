@@ -902,12 +902,6 @@
       "text": "<p><strong>Un grand merci de la part de toute notre équipe !</strong></p>\n<p>Dries, Manon and Thor</p>\n<p><em>PS : Vous voulez en savoir plus sur nous ? <a class=\"link\" href=\"/about-us\">Lisez notre histoire ici</a> !</em></p>"
     }
   },
-  "thank-you-donate": {
-    "top-section": {
-      "title": "Merci d'avoir soutenu WTMG ! 💚",
-      "description": "<p>Vous nous aidez à accomplir notre mission : rendre le slow travel plus accessible à tous et à toutes, encourager le voyage durable et favoriser de nouvelles rencontres.</p><p><strong>Un immense merci de la part de toute l’équipe !</strong></p><p>L’équipe de WTMG,<br/>Dries, Manon & Thor</p>"
-    }
-  },
   "payment-superfan": {
     "overview-section": {
       "duration": "1 an",
