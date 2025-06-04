@@ -1,0 +1,241 @@
+<script lang="ts">
+  // This page is set up according to the instructions here:
+  // https://firebase.google.com/docs/auth/custom-email-handler#link_to_your_custom_handler_in_your_email_templates
+  //
+  // It does NOT yet seem to be possible to set a custom handler URL for the local auth emulator: that one handles verifications internally with URLs of the form:
+  // http://127.0.0.1:9099/emulator/action?mode=verifyEmail&lang=en&oobCode=EkpfDbT1x6s2Odi2hwAzJtW6dmoWX9BXjRWE96VWUrxXxgmbW7H-CW&apiKey=fake-api-key&continueUrl=http%3A%2F%2Flocalhost%3A5173%2Faccount
+  // At the time of writing, someone submitted a PR for this though: https://github.com/firebase/firebase-tools/pull/5360
+  // It IS possible to test this page locally  by taking local auth email verification URLs of the form
+  // pasting the query string ?... bit of the above URL after http://localhost:5173/auth/action manually.
+  //
+  // In the demo, when the page /account continueUrl is loaded:
+  // The onIdTokenChanged in auth.ts will get notified that the email address was verified, but only when it is
+  // in a tab on the same window (https://github.com/WelcometoMyGarden/welcometomygarden/issues/297).
+  // It will detect that email_verified is not yet true as a token claim, and will force-reset the token.
+  // The force-reset triggers idTokenChanged everywhere.
+  //
+  // TODO: it would be best if we could handle these action links on the backend
+  // but support for this seems to be limited: https://stackoverflow.com/a/63224156/4973029
+  // Some oobcodes can be verified & confirmed using the Firebase REST API, Admin SDK support seems non-existent.
+  // Possibly this https://firebase.google.com/docs/auth/web/service-worker-sessions could be combined with a server-side Client SDK...
+  import { _ } from 'svelte-i18n';
+  import { resolveOnUserLoaded, user } from '$lib/stores/auth';
+  import { goto } from '$lib/util/navigate';
+  import { page } from '$app/stores';
+  import routes from '$lib/routes';
+  import notify from '$lib/stores/notification';
+  import {
+    verifyPasswordResetCode,
+    applyActionCode,
+    isEmailVerifiedAndTokenSynced,
+    logout
+  } from '$lib/api/auth';
+  import { auth } from '$lib/api/firebase';
+  import { get } from 'svelte/store';
+  import { propagateEmailChange } from '$lib/api/functions';
+  import { checkActionCode } from 'firebase/auth';
+  import PaddedSection from '$lib/components/Marketing/PaddedSection.svelte';
+  import MarketingStyleWrapper from '$lib/components/Marketing/MarketingStyleWrapper.svelte';
+
+  let loadingState = '';
+
+  const mode = $page.url.searchParams.get('mode');
+  // https://firebase.google.com/docs/auth/custom-email-handler
+  // oobCode = "A one-time code, used to identify and verify a request"
+  const actionCode = $page.url.searchParams.get('oobCode');
+
+  // Determine the path of the continueUrl
+  // It must be on the same host as this page.
+  // So far, this is not used, but this adds support for when we want to use it.
+  // TODO: this might conflict with the localStorage-based facilities in auth.ts
+  // for redirecting after chat intents
+  const continueUrl = $page.url.searchParams.get('continueUrl');
+  const continueUrlPathMatch = /https?:\/\/[^/]+(\/.*$)/.exec(continueUrl ?? '');
+  let gotoPath: string | null = null;
+  if (continueUrlPathMatch) {
+    gotoPath = continueUrlPathMatch[1];
+  }
+
+  if (!mode || !actionCode) {
+    notify.danger($_('auth.invalid-code'));
+    goto(routes.HOME);
+  }
+
+  const forceLogout = async () => {
+    try {
+      await logout();
+    } catch (e) {
+      console.log('Logout failed, opening sign-in page anyway');
+      // do nothing
+    } finally {
+      goto(routes.SIGN_IN);
+    }
+  };
+
+  const handleAction = async () => {
+    if (!mode || !actionCode) {
+      throw new Error('Invalid code');
+    }
+    if (mode === 'resetPassword') {
+      try {
+        const email = await verifyPasswordResetCode(actionCode);
+        let query = new URLSearchParams();
+        query.set('mode', mode);
+        query.set('oobCode', actionCode);
+        query.set('email', email);
+        goto(routes.RESET_PASSWORD + `?${query.toString()}`);
+      } catch (ex) {
+        notify.danger($_('auth.password.expired'), 15000);
+        goto(routes.REQUEST_PASSWORD_RESET);
+      }
+    }
+
+    if (mode === 'verifyEmail') {
+      try {
+        // Try verifying the email
+        console.log('Verification: applying oobCode');
+
+        loadingState = $_('auth.verification.verifying');
+        // applyActionCode DOES NOT trigger idTokenChanged
+        await applyActionCode(actionCode);
+
+        // Wait until the user is fully loaded, if it is not yet.
+        await resolveOnUserLoaded();
+        console.log('Verification: Reloading user to trigger idTokenChanged');
+        if (get(user)) {
+          loadingState = $_('auth.verification.reloading');
+          // TODO: an edge case we're not handling here:
+          // if you're logged in into a different account from the
+          // account that you are verifying.
+
+          // If we're logged in, reload the user.
+          //
+          // The .reload() call triggers an idTokenChanged event.
+          // We don't need to force-reload the token here, idTokenChanged
+          // will take care of that.
+          await auth().currentUser?.reload();
+
+          // Success handling is done by idTokenChanged in auth.ts
+
+          // Note: it is not guaranteed here that the verification was fully synced to the token yet.
+          // In that case, we consider the account email as unverified locally.
+          // Thus, to prevent confusion with the "Resend Verification" button,
+          // we don't immediately redirect to /account here
+          // idTokenChanged will do the redirection.
+          if (gotoPath && gotoPath !== routes.ACCOUNT) {
+            console.log('Verification: Redirecting to continueUrl');
+            goto(gotoPath);
+          }
+        } else {
+          notify.success(`${$_('auth.verification.success')} ${$_('auth.verification.sign-in')}`);
+          goto(routes.SIGN_IN);
+        }
+      } catch (ex) {
+        if (get(user) && (await isEmailVerifiedAndTokenSynced())) {
+          notify.success($_('auth.verification.refresh'), 12000);
+          return goto(routes.ACCOUNT);
+        } else {
+          console.error('Error during email action/auth email verification ', ex);
+          notify.danger($_('auth.verification.expired'), 15000);
+          return goto(routes.ACCOUNT);
+        }
+      }
+    }
+
+    if (mode === 'verifyAndChangeEmail') {
+      // This action hard to find in the documentation.
+      //
+      // It is mentioned partially in:
+      // - https://firebase.google.com/docs/reference/admin/node/firebase-admin.auth.baseauth.md#baseauthgenerateverifyandchangeemaillink
+      // - ActionCodeInfo https://firebase.google.com/docs/reference/js/auth.actioncodeinfo#actioncodeinfodata
+      //
+      // It is not mentioned in the main action code guide:
+      // - https://firebase.google.com/docs/auth/custom-email-handler
+      //
+      // This method should work regardless of auth status, so it can be called opened on a different (non-logged-in) device too.
+      console.log('Email change: applying oobCode');
+
+      loadingState = $_('auth.email-change.in-progress');
+
+      // See https://firebase.google.com/docs/reference/js/auth.actioncodeinfo#actioncodeinfodata
+      const { data } = await checkActionCode(auth(), actionCode);
+      const newEmail = data.email;
+
+      if (!newEmail) {
+        console.error('Invalid action code for an email change');
+        return;
+      }
+
+      // Execute the verification & change
+      // applyActionCode DOES NOT trigger idTokenChanged
+      await applyActionCode(actionCode);
+
+      // Use the old token to propagate the email
+      // Is the process interrupted if you navigate away?
+      console.log('Email change: propagating the email change');
+      propagateEmailChange({ mode: 'change', email: newEmail });
+
+      // Calling auth().currentUser?.reload() results in a null token update, which is equivalent to a logout
+      notify.success($_('auth.email-change.success'));
+
+      // Logout & navigate away, whether logged in or not
+      forceLogout();
+
+      // idTokenChanged does not cause a redirect because this route does not "require" auth
+      return;
+    }
+
+    // This allows the user to recover their old email address (in case the change was accidental, or a hacker performed it)
+    // Documented here: https://firebase.google.com/docs/auth/custom-email-handler#create_the_email_action_handler_page
+    if (mode === 'recoverEmail') {
+      console.log('Email change: recovering email');
+      // Localize the UI to the selected language as determined by the lang
+      // parameter.
+      let emailToRecover: string | null = null;
+      // Confirm the action code is valid.
+
+      loadingState = $_('auth.email-change.in-progress');
+
+      console.log('Email change: checking email recovery code');
+      const info = await checkActionCode(auth(), actionCode);
+      // Get the restored email address.
+      emailToRecover = info['data']['email'] ?? null;
+
+      if (!emailToRecover) {
+        console.error('Invalid action code for an email recovery');
+        return;
+      }
+      console.log('Email change: recovery code valid, resetting email');
+      // Revert to the old email.
+      await applyActionCode(actionCode);
+
+      console.log('Email change: propagating email recovery');
+      // Propagate change back to the old email (using the current/old token)
+      propagateEmailChange({ mode: 'recover', email: emailToRecover });
+      // Account email reverted to restoredEmail (at least partially, propagation may still be in progress)
+
+      notify.success($_('auth.email-change.success'));
+
+      // TODO: might also want to give the user the option to reset their password
+      // in case the account was compromised: (use our backend instead)
+      // pop up a model instead of the above notification?
+
+      forceLogout();
+
+      return;
+    }
+  };
+
+  // TODO: the async actions here are not awaited.
+  // it would probably be safer to do so in an an onMount
+  // to be sure that initialization is completed before component
+  // internals are modified
+  // https://github.com/sveltejs/svelte/issues/5501
+  handleAction();
+</script>
+
+<MarketingStyleWrapper>
+  <PaddedSection>
+    <p>{loadingState}</p>
+  </PaddedSection>
+</MarketingStyleWrapper>

@@ -1,28 +1,33 @@
 import * as Sentry from '@sentry/sveltekit';
 import { derived, writable } from 'svelte/store';
 import { isInitializingFirebase, isSigningIn, isUserLoading, user } from './auth';
-import { isLoading as isLocaleLoading } from 'svelte-i18n';
+import { isLoading as isLocaleLoading, locale } from 'svelte-i18n';
 import type { ComponentType } from 'svelte';
-import { subscriptionJustEnded } from './subscription';
 import createUrl from '$lib/util/create-url';
 import { coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
 import { isOnIDevicePWA } from '$lib/util/push-registrations';
 
 export const handledOpenFromIOSPWA = writable(false);
 
+// isLocaleLoading start off with false, then true, then false again when loaded
+export const staticAppHasLoaded = derived(
+  [isLocaleLoading, locale],
+  ([$isLocaleLoading, $locale]) => !$isLocaleLoading && typeof $locale === 'string'
+);
+
 export const appHasLoaded = derived(
-  [isInitializingFirebase, isLocaleLoading, isUserLoading, isSigningIn, handledOpenFromIOSPWA],
+  [staticAppHasLoaded, isInitializingFirebase, isUserLoading, isSigningIn, handledOpenFromIOSPWA],
   ([
+    $staticAppHasLoaded,
     $isInitializingFirebase,
-    $isLocaleLoading,
     $isUserLoading,
     $isSigningIn,
     $handledOpenFromIOSPWA
   ]) => {
     const _isOnIDevicePWA = isOnIDevicePWA();
     return (
+      $staticAppHasLoaded &&
       !$isInitializingFirebase &&
-      !$isLocaleLoading &&
       // While signing in, the user will be loaded or reloaded. This will set $isUserLoading to false, and then back to true
       // Since this derived store controls the root layout, this cycle from true -> false -> true will destroy, and then re-mount, the current page we are on
       // (probably /sign-in or /register). This is unintuitive, and may break assumptions elsewhere on the lifecycle of pages or layouts.
@@ -65,18 +70,6 @@ export const close = () => rootModal.set(null);
  * This observable is useful to know when it is possible to add layers on top of it.
  */
 export const gardenLayerLoaded = writable(false);
-//
-// Whether the top banner should be shown, logic to be defined
-// Show when the user is a superfan or host
-// subscriptionJustEnded should probably remain in the logic
-export const shouldShowBanner = derived(
-  [user, subscriptionJustEnded],
-  // NOTE: if we want to not show the "general" banner, it is probably best to just keep $subscriptionJustEnded in the condition
-  // ([$user, $subscriptionJustEnded]) =>
-  //   $subscriptionJustEnded || $user?.superfan === true || $user?.garden != null
-  ([_, $subscriptionJustEnded]) => $subscriptionJustEnded
-);
-
 export const bannerLink = derived(user, ($user) =>
   !$user
     ? ''

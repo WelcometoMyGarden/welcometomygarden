@@ -12,12 +12,12 @@
   import Socials from './Socials.svelte';
   import LanguageSelector from './LanguageSelector.svelte';
   import WtmgLogo from './UI/WTMGLogo.svelte';
-  import PaddedSection from '$routes/(marketing)/_components/PaddedSection.svelte';
   import { user } from '$lib/stores/auth';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import createUrl from '$lib/util/create-url';
   import { coerceToMainLanguage, coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
+  import PaddedSection from './Marketing/PaddedSection.svelte';
 
   const wtmgSignURLParams = new URLSearchParams({
     ...($user

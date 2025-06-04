@@ -44,17 +44,22 @@ type RouteDescriptions = {
 
 /**
  * Gets the currently active route from the set of constant routeDescriptions maintained in this file.
+ * Note that the routes here are not exhaustive. In reality, routes such as /explore/garden/<id> exist, while those are not mentioned here.
+ * The routeDescription only mentions a subset of the possible routes.
  */
 export const getCurrentRoute = () => {
   const localPage = get(page);
+  // Note that route.id also includes named groups, such as /(stateful)/become-member/payment
   if (localPage && localPage.route.id) {
     // We will have several candidates for routes, because all routes match '/', and
-    // /become-superfan/payment matches /become-superfan as well
+    // /become-member/payment matches /become-member as well
+    //
+    // Find the route descriptions that appear in the current SvelteKit route id
     const candidates = Object.entries(routeDescriptions).filter(([, v]) =>
       localPage.route.id?.includes(v.route)
     );
 
-    // Pick the longest matching candidate
+    // Pick the longest matching candidate route description
     const finalCandidate = candidates.reduce(
       (finalRoute, currentRoute) =>
         currentRoute[1].route.length > finalRoute[1].route.length ? currentRoute : finalRoute,

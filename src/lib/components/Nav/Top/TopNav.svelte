@@ -8,9 +8,13 @@
   import { COMMUNITY_FORUM_URL } from '$lib/constants';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import trackEvent from '$lib/util/track-plausible';
-  import { renewalNoticeContent, subscriptionJustEnded } from '$lib/stores/subscription';
+  import {
+    renewalNoticeContent,
+    shouldShowBanner,
+    subscriptionJustEnded
+  } from '$lib/stores/subscription';
   import { anchorText } from '$lib/util/translation-helpers';
-  import { bannerLink, shouldShowBanner } from '$lib/stores/app';
+  import { bannerLink } from '$lib/stores/app';
   import { transKeyExists } from '$lib/util';
 
   $: firstName = $user ? $user.firstName : '';

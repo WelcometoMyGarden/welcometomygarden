@@ -7,6 +7,8 @@ import type { SupabaseClient } from '@supabase/supabase-js';
  * Does not guarantee that the User state is fully loaded via snapshot listeners (see isUserLoading)
  * but guarantees that the auth observer is set up, and that
  * a persisted auth login happened if one was available.
+ *
+ * Starts at true.
  */
 export const isInitializingFirebase = writable(true);
 
