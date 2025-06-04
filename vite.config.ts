@@ -2,7 +2,6 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig, loadEnv, type UserConfig } from 'vite';
 import { imagetools } from '@zerodevx/svelte-img/vite';
-import { createAvailableLocales } from './plugins/available-locales';
 import { customSvgLoader } from './plugins/svg-loader';
 import mkcert from 'vite-plugin-mkcert';
 import envIsTrue from './src/lib/util/env-is-true';
@@ -26,7 +25,6 @@ export default defineConfig(({ command, mode }): UserConfig => {
       minify: isProductionBuild ? 'esbuild' : false
     },
     plugins: [
-      createAvailableLocales(),
       customSvgLoader({ removeSVGTagAttrs: false }),
       ...(sentryUrl && process.env.SENTRY_AUTH_TOKEN
         ? [
