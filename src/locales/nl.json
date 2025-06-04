@@ -552,12 +552,6 @@
       "text": "<p><strong>Het hele team is jou superdankbaar!</strong></p>\n<p>Dries, Manon en Thor</p>\n<p><em>PS: Wil je meer weten over ons? <a class=\"link\" href=\"/about-us\">Lees hier ons verhaal!</a></em></p>"
     }
   },
-  "thank-you-donate": {
-    "top-section": {
-      "title": "Bedankt voor je donatie! 💚",
-      "description": "<p>Met jouw donatie help je ons onze missie te realiseren: om slow travel toegankelijker te maken voor iedereen, duurzaam reizen aan te moedigen en waardevolle nieuwe connecties tussen mensen te bevorderen.</p><p><strong>Superbedankt namens het hele team!</strong></p><p>Het WTMG team,<br/>Dries, Manon & Thor</p>"
-    }
-  },
   "payment-superfan": {
     "overview-section": {
       "duration": "1 jaar",
