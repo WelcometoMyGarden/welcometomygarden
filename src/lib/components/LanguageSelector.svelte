@@ -1,11 +1,11 @@
 <script>
   import { locale } from 'svelte-i18n';
-  import availableLocales from 'app-available-locales';
 
   import ISO6391 from 'iso-639-1';
   import { Select } from './UI';
+  import { SUPPORTED_LANGUAGES } from '$lib/types/general';
 
-  let allAvailableLocales = ISO6391.getLanguages(availableLocales);
+  let allAvailableLocales = ISO6391.getLanguages([...SUPPORTED_LANGUAGES]);
 </script>
 
 <Select bind:value={$locale} name="language-selector" transparent globe>
