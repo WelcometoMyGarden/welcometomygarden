@@ -3,29 +3,20 @@
   import '$lib/styles/global.css';
   import * as Sentry from '@sentry/sveltekit';
 
-  import { browser } from '$app/environment';
   import { createChatObserver } from '$lib/api/chat';
-  import Footer from '$lib/components/Footer.svelte';
-  import Nav from '$lib/components/Nav/Navigation.svelte';
-  import { Notifications, Progress } from '$lib/components/UI';
   import { getCookie, setCookie } from '$lib/util';
   import { createAuthObserver } from '$lib/api/auth';
   import { initialize } from '$lib/api/firebase';
   import { user } from '$lib/stores/auth';
   import { keyboardEvent } from '$lib/stores/keyboardEvent';
-  import registerLocales from '$locales/register';
   import { onDestroy, onMount } from 'svelte';
-  import { init, locale } from 'svelte-i18n';
+  import { locale } from 'svelte-i18n';
   import { updateCommunicationLanguage } from '$lib/api/user';
-  import MinimalFooter from '$lib/components/MinimalFooter.svelte';
-  import { isActiveContains } from '$lib/util/isActive';
-  import routes from '$lib/routes';
   import { page } from '$app/stores';
   import { resetChatStores } from '$lib/stores/chat';
-  import coercedBrowserLang, { coerceToSupportedLanguage } from '$lib/util/get-browser-lang';
-  import type { SupportedLanguage } from '$lib/types/general';
+  import coercedBrowserLang from '$lib/util/get-browser-lang';
   import { isFullscreen } from '$lib/stores/fullscreen';
-  import { appHasLoaded, rootModal } from '$lib/stores/app';
+  import { rootModal } from '$lib/stores/app';
   import Modal from 'svelte-simple-modal';
   import IosNotificationPrompt from '../lib/components/Notifications/IOSPWANotificationModal.svelte';
   import {
@@ -37,6 +28,8 @@
   import { resetPushRegistrationStores } from '$lib/stores/pushRegistrations';
   import { onNavigate } from '$app/navigation';
   import { registerCustomPropertyTracker } from '$lib/util/track-plausible';
+  import { Notifications } from '$lib/components/UI';
+  import { browser } from '$app/environment';
 
   type MaybeUnsubscriberFunc = (() => void) | undefined;
 
@@ -152,26 +145,6 @@
       }
     }));
 
-  const initializeSvelteI18n = async () => {
-    registerLocales();
-
-    let lang: SupportedLanguage;
-    const localeCookie = getCookie('locale');
-    if (localeCookie) {
-      // Start from a cookie, if present.
-      lang = coerceToSupportedLanguage(localeCookie);
-    } else {
-      lang = coercedBrowserLang();
-    }
-
-    // Initialize svelte-i18n
-    await init({ fallbackLocale: 'en', initialLocale: lang });
-
-    // It's possible that a user account has a different language setting,
-    // this will then be updated in user.subscribe above. We're not waiting
-    // for the user load to initialize svelte-i18n.
-  };
-
   onMount(() =>
     Sentry.startSpan({ name: 'Root Layout Load', op: 'app.load' }, async () => {
       console.log('Mounting root layout');
@@ -184,7 +157,8 @@
         registerCustomPropertyTracker(plausibleScriptElement);
       }
 
-      await initializeSvelteI18n();
+      // await initializeSvelteI18n();
+
       // Initialize Firebase
       await initialize();
       if (!unsubscribeFromAuthObserver) {
@@ -261,20 +235,9 @@
   <!-- Make the modal a child of .app, so that it inherits its CSS -->
   <Modal show={$rootModal} unstyled={true} closeButton={false}>
     {#if browser}
-      <Progress active={!$appHasLoaded} />
       <Notifications />
     {/if}
-    {#if $appHasLoaded}
-      <Nav />
-      <main>
-        <slot />
-      </main>
-      {#if isActiveContains($page, routes.MAP)}
-        <MinimalFooter />
-      {:else}
-        <Footer />
-      {/if}
-    {/if}
+    <slot />
   </Modal>
 </div>
 
@@ -305,7 +268,7 @@
     flex-direction: column;
   }
 
-  main {
+  .app > :global(main) {
     width: 100%;
     /* Anchor overflow:hidden on descendants
     (there was a problem with .welcome-map in LandingSection with this before) */
@@ -325,7 +288,7 @@
     /* Avoid scrollbars */
     overflow-y: auto;
   }
-  .app.active-explore > main {
+  .app.active-explore > :global(main) {
     /* Make sure the map fills the entire space */
     height: 100%;
     /* No max-width on the explore page */
@@ -334,12 +297,12 @@
   /*
     If the chat page is active, make sure it expands to the full available height.
     It is designed to not overflow it. */
-  .app.active-chat > main {
+  .app.active-chat > :global(main) {
     /* 1060px: on very tall screens, don't fill the entire height with the chat  */
     min-height: min(100%, 1060px);
   }
 
-  .app.active-error > main {
+  .app.active-error > :global(main) {
     /* Since <main> is a flex child, 100% helps it compete for space with the footer.
     It won't actually reach 100%  */
     height: min(100%, 800px);
@@ -392,7 +355,7 @@
       overflow: hidden;
     }
 
-    main {
+    .app > :global(main) {
       height: 100%;
     }
   }

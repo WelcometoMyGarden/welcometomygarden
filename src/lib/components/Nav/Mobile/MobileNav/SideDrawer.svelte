@@ -13,9 +13,13 @@
   import { COMMUNITY_FORUM_URL, SHOP_URL } from '$lib/constants';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import trackEvent from '$lib/util/track-plausible';
-  import { renewalNoticeContent, subscriptionJustEnded } from '$lib/stores/subscription';
+  import {
+    renewalNoticeContent,
+    shouldShowBanner,
+    subscriptionJustEnded
+  } from '$lib/stores/subscription';
   import { coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
-  import { bannerLink, shouldShowBanner } from '$lib/stores/app';
+  import { bannerLink } from '$lib/stores/app';
   import { transKeyExists } from '$lib/util';
   import { anchorText } from '$lib/util/translation-helpers';
 
