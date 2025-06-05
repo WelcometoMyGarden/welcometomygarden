@@ -14,7 +14,7 @@ import { isOnIDevicePWA } from '$lib/util/push-registrations';
 import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
 import { resetPushRegistrationStores } from '$lib/stores/pushRegistrations';
 import { locale } from 'svelte-i18n';
-import { rootModal } from './app';
+import { handledOpenFromIOSPWA, rootModal } from './app';
 import { createAuthObserver } from '$lib/api/auth';
 
 export const updatingMailPreferences = writable(false);
@@ -48,15 +48,21 @@ export const initializeUser = async () => {
   user.subscribe(async (latestUser) => {
     // Initialize chat & push registrations observers if needed, that is
     // if the user logged in and has a verified email, or if the user has changed
-    if (!!latestUser && latestUser.emailVerified) {
-      // Without a verified email: no access to messages, no garden, no chats
-      // Subscribe to the chat observer, if not initialized yet
-      unsubscribeFromChatObserver = unsubscribeFromChatObserver ?? createChatObserver();
-      // Subscribe to the push registration observer, if not initialized yet
-      unsubscribeFromPushRegistrationObserver =
-        unsubscribeFromPushRegistrationObserver ?? createPushRegistrationObserver();
+    if (!!latestUser) {
+      if (latestUser.emailVerified) {
+        // Without a verified email: no access to messages, no garden, no chats
+        // Subscribe to the chat observer, if not initialized yet
+        unsubscribeFromChatObserver = unsubscribeFromChatObserver ?? createChatObserver();
+        // Subscribe to the push registration observer, if not initialized yet
+        unsubscribeFromPushRegistrationObserver =
+          unsubscribeFromPushRegistrationObserver ?? createPushRegistrationObserver();
+      } else if (isOnIDevicePWA()) {
+        // If the user does not have a verified email, we unblock the loading of the page
+        // by marking the open from iOS PWA as handled, since they can not do anything
+        // with chats anyway. In other cases, this would be unblocked by the chat observer.
+        handledOpenFromIOSPWA.set(true);
+      }
     }
-
     // If the user logged out (or was never logged in)
     if (!latestUser) {
       // Unsubscribe from the chat & push registration observers if they still existed,
