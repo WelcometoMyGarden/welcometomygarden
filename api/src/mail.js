@@ -768,3 +768,44 @@ or their <a href="${dashboardUrl()}/action/user-info?userId=${encodeURIComponent
   // @ts-ignore
   return send(msg);
 };
+
+/**
+ * @param {string} email
+ * @param {string} firstName
+ * @param {string} language
+ */
+exports.sendPhotoReminderEmail = (email, firstName, language) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-edf4a4e0455b4ffb85fb8f4704583f4b';
+      break;
+    case 'nl':
+      templateId = 'd-8db6a5a30edd414d80074e653b3b56b7';
+      break;
+    default:
+      templateId = 'd-b2b9a85c60c04534a97a643e64cba21d';
+      break;
+  }
+
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
+  const msg = {
+    to: email,
+    from: SUPPORT_FROM,
+    templateId,
+    dynamicTemplateData: {
+      firstName,
+      first_name: firstName
+    },
+    categories: ['Photo reminder email']
+  };
+
+  if (!canSendMail()) {
+    devSend(msg, 'photoReminderEmail');
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};

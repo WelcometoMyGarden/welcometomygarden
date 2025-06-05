@@ -5,6 +5,7 @@ const { sendAbandonedCartReminder } = require('./sendAbandonedCartReminder');
 const { sendBecomeMemberEmail } = require('./sendBecomeMemberEmail');
 const { sendMessageReminder } = require('./sendMessageReminder');
 const { getUser } = require('./util');
+const { sendPhotoReminderEmail } = require('./sendPhotoReminderEmail');
 
 /**
  * @param {import('firebase-functions/v2/tasks').Request<QueuedMessage>} req
@@ -31,7 +32,11 @@ exports.sendQueuedMessage = async (req) => {
     }
   } else if (type === 'become_member') {
     return sendBecomeMemberEmail({ ...req, data });
-  } else {
+  } else if (type === 'photo_reminder') {
+    return sendPhotoReminderEmail({ ...req, data });
+  } else if (type === 'abandoned_cart') {
     return sendAbandonedCartReminder({ ...req, data });
+  } else {
+    logger.error(`Unhandled queued message type: ${type}`);
   }
 };

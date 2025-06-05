@@ -83,14 +83,11 @@ declare global {
         data: SendMessageReminderData;
       }
     | { type: 'abandoned_cart'; data: SendAbandonedCartReminderData }
-    // First welcome flow email
+    // - welcome: first welcome flow email
+    // - become_member: last welcome flow email
+    // - photo_reminder: reminder for new hosts to upload a picture
     | {
-        type: 'welcome';
-        data: EmailTargetData;
-      }
-    // Last welcome flow email
-    | {
-        type: 'become_member';
+        type: 'welcome' | 'become_member' | 'photo_reminder';
         data: EmailTargetData;
       };
 

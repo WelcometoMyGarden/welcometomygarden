@@ -1,5 +1,5 @@
 const { FieldValue } = require('firebase-admin/firestore');
-const { auth, db } = require('./firebase');
+const { auth, db, getFunctionUrl } = require('./firebase');
 const {
   sendgridHostFieldIdParam,
   sendgridListedFieldIdParam,
@@ -7,6 +7,7 @@ const {
 } = require('./sharedConfig');
 const { updateSendgridContact } = require('./sendgrid/updateSendgridContact');
 const { logger } = require('firebase-functions/v2');
+const { getFunctions } = require('firebase-admin/functions');
 
 /**
  * TODO: this could be refactored to the onCampsiteWriteV2 handler, to reduce our number of functions
@@ -47,6 +48,30 @@ exports.onCampsiteCreate = async ({ data }) => {
     .collection('stats')
     .doc('campsites')
     .set({ count: FieldValue.increment(1) }, { merge: true });
+
+  // Schedule the photo reminder email
+  const [resourceName, targetUri] = await getFunctionUrl('sendMessage');
+  /**
+   * @type {TaskQueue<QueuedMessage>}
+   */
+  const sendMessageQueue = getFunctions().taskQueue(resourceName);
+  await sendMessageQueue.enqueue(
+    {
+      type: 'photo_reminder',
+      data: {
+        uid: user.uid
+      }
+    },
+    {
+      // 7 days
+      scheduleDelaySeconds: 7 * 24 * 3600,
+      ...(targetUri
+        ? {
+            uri: targetUri
+          }
+        : {})
+    }
+  );
 };
 
 /**
