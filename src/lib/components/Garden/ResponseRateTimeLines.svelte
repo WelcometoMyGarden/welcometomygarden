@@ -34,7 +34,9 @@
                 })
               : ''}
             {#if $locale !== 'fr'}
-              <!-- For French, it is inserted in betwene "the last", see above -->
+              <!--
+              Only for French, it is inserted in between "the last" as a string values: interpolation, see above.
+               For other languages we are inserting it here. -->
               {data.requests_count}
             {/if}
             {$_('garden.drawer.response-rate-time.request', {

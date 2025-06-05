@@ -9,13 +9,14 @@
   import { Button, Icon } from '$lib/components/UI';
   import IconButton from '$lib/components/UI/IconButton.svelte';
   import { androidIcon, appleIcon, mobileDeviceIcon, trashIcon } from '$lib/images/icons';
+  import { coercedLocale } from '$lib/stores/app';
   import { isEnablingLocalPushRegistration } from '$lib/stores/pushRegistrations';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { PushRegistrationStatus, type LocalPushRegistration } from '$lib/types/PushRegistration';
   import { trackEvent } from '$lib/util';
   import { isIDeviceOS, isMobileDevice, uaInfo } from '$lib/util/uaInfo';
   import { onMount } from 'svelte';
-  import { locale, _ } from 'svelte-i18n';
+  import { _ } from 'svelte-i18n';
   export let pushRegistration: LocalPushRegistration | undefined = undefined;
   export let currentSub: PushSubscriptionPOJO | undefined | null = undefined;
 
@@ -82,7 +83,7 @@
           {$_('account.notifications.current')}
         {:else if refreshedAt}
           {$_('account.notifications.last-seen')}
-          {new Intl.DateTimeFormat($locale, {
+          {new Intl.DateTimeFormat($coercedLocale, {
             dateStyle: 'medium'
           }).format(refreshedAt.toDate())}
         {/if}
