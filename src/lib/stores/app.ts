@@ -9,10 +9,17 @@ import { isOnIDevicePWA } from '$lib/util/push-registrations';
 
 export const handledOpenFromIOSPWA = writable(false);
 
-// isLocaleLoading start off with false, then true, then false again when loaded
 export const staticAppHasLoaded = derived(
-  [isLocaleLoading, locale],
-  ([$isLocaleLoading, $locale]) => !$isLocaleLoading && typeof $locale === 'string'
+  [isLocaleLoading, locale, handledOpenFromIOSPWA],
+  ([$isLocaleLoading, $locale, $handledOpenFromIOSPWA]) => {
+    const _isOnIDevicePWA = isOnIDevicePWA();
+    // Don't show iOS PWA app UI until we are ready handling it, and on the right route.
+    // this avoids a potential seconds-long flash of the homescreen (or other screen) before
+    // being redirected to the chats page, when the user has unread chats.
+    const isIDevicePWAReady = !_isOnIDevicePWA || $handledOpenFromIOSPWA;
+    // isLocaleLoading start off with false, then true, then false again when loaded
+    return !$isLocaleLoading && typeof $locale === 'string' && isIDevicePWAReady;
+  }
 );
 
 /**
@@ -21,15 +28,8 @@ export const staticAppHasLoaded = derived(
 export const coercedLocale = derived(locale, ($locale) => coerceToSupportedLanguage($locale));
 
 export const appHasLoaded = derived(
-  [staticAppHasLoaded, isInitializingFirebase, isUserLoading, isSigningIn, handledOpenFromIOSPWA],
-  ([
-    $staticAppHasLoaded,
-    $isInitializingFirebase,
-    $isUserLoading,
-    $isSigningIn,
-    $handledOpenFromIOSPWA
-  ]) => {
-    const _isOnIDevicePWA = isOnIDevicePWA();
+  [staticAppHasLoaded, isInitializingFirebase, isUserLoading, isSigningIn],
+  ([$staticAppHasLoaded, $isInitializingFirebase, $isUserLoading, $isSigningIn]) => {
     return (
       $staticAppHasLoaded &&
       !$isInitializingFirebase &&
@@ -37,11 +37,7 @@ export const appHasLoaded = derived(
       // Since this derived store controls the root layout, this cycle from true -> false -> true will destroy, and then re-mount, the current page we are on
       // (probably /sign-in or /register). This is unintuitive, and may break assumptions elsewhere on the lifecycle of pages or layouts.
       // By allowing the user to not be loaded while signing in, we prevent this cycle from occurring.
-      (!$isUserLoading || $isSigningIn) &&
-      // Don't show iOS PWA app UI until we are ready handling it, and on the right route.
-      // this avoids a potential seconds-long flash of the homescreen (or other screen) before
-      // being redirected to the chats page, when the user has unread chats.
-      (!_isOnIDevicePWA || (_isOnIDevicePWA && $handledOpenFromIOSPWA))
+      (!$isUserLoading || $isSigningIn)
     );
   }
 );
