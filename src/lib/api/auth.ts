@@ -417,10 +417,21 @@ export const createCampsiteObserver = (currentUserId: string) => {
   >;
   return onSnapshot(docRef, (doc) => {
     const newCampsiteData = doc.data();
+    const previousCampsiteState = latestCampsiteState;
     latestCampsiteState = newCampsiteData ?? null;
-    console.log('New campsite doc');
-    updateUserIfPossible().then(() =>
-      // Notify that the garden is loaded after updating it in the $user store
+    console.log(`New campsite doc${!latestCampsiteState ? ' (null)' : ''}`);
+    // Trigger a $user update, but only if the campsite state didn't transition from null to null
+    // This is the case if the user doesn't have a garden, and the snapshot returned without result.
+    // By updating the $user store, it would trigger subscribers needlessly with a new user object
+    // that has exactly the same data as before.
+    // TODO: maybe the updateUserIfPossible() should do equality checks, and ignore updates if they
+    // result in equal users. That would be more generally applicable.
+    (previousCampsiteState == null && latestCampsiteState == null
+      ? Promise.resolve()
+      : updateUserIfPossible()
+    ).then(() =>
+      // In any case, even if the latest state is null (non-existent),
+      // notify that the garden is loaded after updating it in the $user store
       gardenHasLoaded.set(true)
     );
   });
