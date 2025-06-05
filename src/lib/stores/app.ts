@@ -4,7 +4,7 @@ import { isInitializingFirebase, isSigningIn, isUserLoading, user } from './auth
 import { isLoading as isLocaleLoading, locale } from 'svelte-i18n';
 import type { ComponentType } from 'svelte';
 import createUrl from '$lib/util/create-url';
-import { coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
+import { coerceToMainLanguageENBlank, coerceToSupportedLanguage } from '$lib/util/get-browser-lang';
 import { isOnIDevicePWA } from '$lib/util/push-registrations';
 
 export const handledOpenFromIOSPWA = writable(false);
@@ -14,6 +14,11 @@ export const staticAppHasLoaded = derived(
   [isLocaleLoading, locale],
   ([$isLocaleLoading, $locale]) => !$isLocaleLoading && typeof $locale === 'string'
 );
+
+/**
+ * Always has a value, will start with 'en' because $locale starts with null
+ */
+export const coercedLocale = derived(locale, ($locale) => coerceToSupportedLanguage($locale));
 
 export const appHasLoaded = derived(
   [staticAppHasLoaded, isInitializingFirebase, isUserLoading, isSigningIn, handledOpenFromIOSPWA],

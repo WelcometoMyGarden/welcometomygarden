@@ -117,6 +117,7 @@
     // TODO: can we fix this TS locale `as` hack? Verify that our input locales are always valid?
     console.log('Reloading stripe');
     stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY, {
+      // Note: this will use e.g. Polish if it were set, not just supported languages
       locale: ($locale as StripeElementLocale | CheckoutLocale) || 'auto'
     });
   };
@@ -215,6 +216,7 @@
         const { data } = await timeout(
           createOrRetrieveUnpaidSubscription({
             priceId: selectedLevel.stripePriceId,
+            // Note: this may not be a supported locale
             locale: $locale || 'en'
           }),
           // In case an invoice is changed, it takes longer than 4 seconds

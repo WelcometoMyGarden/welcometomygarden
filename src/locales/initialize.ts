@@ -1,26 +1,25 @@
 import { init, register } from 'svelte-i18n';
-import { SUPPORTED_LANGUAGES, type SupportedLanguage } from '$lib/types/general';
+import { SUPPORTED_LANGUAGES } from '$lib/types/general';
 import { getCookie } from '$lib/util';
-import coercedBrowserLang, { coerceToSupportedLanguage } from '$lib/util/get-browser-lang';
+import { coerceToValidLangCode, getBrowserLanguage } from '$lib/util/get-browser-lang';
 
 export const initializeSvelteI18n = async () => {
   SUPPORTED_LANGUAGES.forEach((lang: string) => {
     register(lang, () => import(`../locales/${lang}.json`));
   });
 
-  let lang: SupportedLanguage;
+  let lang: string;
+
   const localeCookie = getCookie('locale');
   if (localeCookie) {
     // Start from a cookie, if present.
-    lang = coerceToSupportedLanguage(localeCookie);
+    lang = coerceToValidLangCode(localeCookie);
   } else {
-    lang = coercedBrowserLang();
+    lang = getBrowserLanguage();
   }
 
   // Initialize svelte-i18n
+  // The language may or may not be supported, but it should be an iso-639-1 lowercase string.
+  // It will be reported back through $locale, not the fallback.
   await init({ fallbackLocale: 'en', initialLocale: lang });
-
-  // It's possible that a user account has a different language setting,
-  // this will then be updated in user.subscribe above. We're not waiting
-  // for the user load to initialize svelte-i18n.
 };

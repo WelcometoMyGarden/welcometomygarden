@@ -50,7 +50,7 @@ type RouteDescriptions = {
 export const getCurrentRoute = () => {
   const localPage = get(page);
   // Note that route.id also includes named groups, such as /(stateful)/become-member/payment
-  if (localPage && localPage.route.id) {
+  if (localPage && localPage.route && localPage.route.id) {
     // We will have several candidates for routes, because all routes match '/', and
     // /become-member/payment matches /become-member as well
     //

@@ -24,6 +24,7 @@
   import { onMount } from 'svelte';
   import { createCustomerPortalSession } from '$lib/api/functions';
   import { updateGardenLocally } from '$lib/stores/garden';
+  import { coercedLocale } from '$lib/stores/app';
 
   let showAccountDeletionModal = false;
   let showEmailChangeModal = false;
@@ -149,7 +150,7 @@
                 ✅ {@html $_('account.superfan.auto-canceled', {
                   values: {
                     date: formatDate(
-                      $locale || 'en',
+                      $coercedLocale,
                       new Date($user.stripeSubscription?.cancelAt * 1000)
                     )
                   }
@@ -158,7 +159,7 @@
                 ✅ {@html $_('account.superfan.auto-active', {
                   values: {
                     date: formatDate(
-                      $locale || 'en',
+                      $coercedLocale,
                       new Date($user.stripeSubscription.currentPeriodEnd * 1000)
                     )
                   }
@@ -168,7 +169,7 @@
                 ✅ {$_('account.superfan.valid', {
                   values: {
                     date: formatDate(
-                      $locale || 'en',
+                      $coercedLocale,
                       new Date($user.stripeSubscription?.currentPeriodEnd * 1000)
                     )
                   }

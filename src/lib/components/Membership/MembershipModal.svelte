@@ -8,11 +8,12 @@
   import velotourImg from '$lib/assets/velotour-group.jpeg?as=run';
   import ValuePoint from './ValuePoint.svelte';
   import { valuePoints } from './membership-points';
+  import { coercedLocale } from '$lib/stores/app';
 
   export let show = false;
   let showMobilePricing = false;
 
-  $: valuePropsLocal = valuePoints($locale ?? 'en');
+  $: valuePropsLocal = valuePoints($coercedLocale);
 </script>
 
 <Modal

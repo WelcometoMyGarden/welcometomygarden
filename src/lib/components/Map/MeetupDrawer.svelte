@@ -13,6 +13,7 @@
   import meetupImg from '$lib/assets/wtmg-meetup.png?as=run';
   import { coerceToMainLanguage } from '$lib/util/get-browser-lang';
   import { crossIcon } from '$lib/images/icons';
+  import { coercedLocale } from '$lib/stores/app';
 
   export let meetup: Meetup | null = null;
 
@@ -32,7 +33,8 @@
     photoWrapper?.focus();
   };
 
-  $: meetupDateStr = Intl.DateTimeFormat($locale || 'nl-BE', {
+  // TODO: should we force the UK date format here for English
+  $: meetupDateStr = Intl.DateTimeFormat($coercedLocale, {
     weekday: 'long',
     day: 'numeric',
     month: 'long'

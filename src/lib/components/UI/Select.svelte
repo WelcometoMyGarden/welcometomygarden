@@ -7,7 +7,9 @@
   export let fullBlock = false;
 </script>
 
-<select {name} id={name} bind:value class:transparent class:globe class:fullBlock><slot /></select>
+<select {name} id={name} bind:value on:change class:transparent class:globe class:fullBlock
+  ><slot /></select
+>
 
 <style>
   select {

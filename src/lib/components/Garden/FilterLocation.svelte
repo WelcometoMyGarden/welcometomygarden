@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { _, locale } from 'svelte-i18n';
+  import { _ } from 'svelte-i18n';
   import { createEventDispatcher } from 'svelte';
   import { geocodeExtensive } from '$lib/api/mapbox';
   import { clickOutside } from '$lib/directives';
@@ -7,6 +7,7 @@
   import { markerIcon } from '$lib/images/icons';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import { coercedLocale } from '$lib/stores/app';
 
   export let isSearching;
   export let closeToLocation;
@@ -42,14 +43,15 @@
   //if the input is valuable, query the input, biased results based on proximity paramater and locale (language)
   //if search result is successful, hide no places found warning message
   let showNoPlacesBool = false;
-  const getlocation = async (string) => {
+
+  const getlocation = async (str: string) => {
     try {
-      if (string.trim() !== '') {
+      if (str.trim() !== '') {
         const placesReturnedFromGeocode = await geocodeExtensive(
-          string,
+          str,
           closeToLocation.longitude,
           closeToLocation.latitude,
-          $locale,
+          $coercedLocale,
           5
         );
         if (placesReturnedFromGeocode.type == 'succes') {
