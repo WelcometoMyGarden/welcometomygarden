@@ -12,12 +12,15 @@ export interface LocaleDictionary {
 /**
  *
  * @param nodePath path inside the language directory, example: 'index.faq.questions'
- * @returns The reqruested node object. If the node does not exist, null
+ * @returns The requested node object. If the node does not exist, null
  */
 export const getNode = (nodePath: string, locale = 'en') => {
   // TODO: https://trello.com/c/bpULmQeT/2884-refactor-getnodechildren
+  //
+  // TODO: check if locale should be a supported one in the dictionary, and
+  // what happens if it is not 'en' or not supported
 
-  // Retrieve the key structure from the canonical `en` library
+  // Retrieve the key structure from the canonical `en` library (TODO: is this doing that?)
   const englishDict = get(dictionary)[locale];
 
   const pathComponents = nodePath.split('.');

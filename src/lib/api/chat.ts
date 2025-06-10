@@ -48,11 +48,13 @@ export const createChatObserver = () => {
     where('users', 'array-contains', getUser().id)
   );
 
+  console.debug('Initializing chat observer');
   return onSnapshot(
     q,
     async (querySnapshot) => {
       const changes = querySnapshot.docChanges();
       try {
+        console.debug('Handling chats snapshot');
         await Promise.all(
           changes.map(async (change) => {
             const chat = change.doc.data();
@@ -112,7 +114,9 @@ export const createChatObserver = () => {
         } else {
           // Open the map if we opened the app without an unread chat
           console.log('Routing iOS PWA to the map on app open, no unread chats');
-          goto(routes.MAP);
+          // Await the goto, to make sure the home page doesn't flash
+          // because handledOpenFromIOSPWA would be set to true before the map nav completes
+          await goto(routes.MAP);
         }
       }
       // In any case, complete iOS PWA open handling for this session after the first run

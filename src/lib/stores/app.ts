@@ -1,37 +1,43 @@
 import * as Sentry from '@sentry/sveltekit';
 import { derived, writable } from 'svelte/store';
 import { isInitializingFirebase, isSigningIn, isUserLoading, user } from './auth';
-import { isLoading as isLocaleLoading } from 'svelte-i18n';
+import { isLoading as isLocaleLoading, locale } from 'svelte-i18n';
 import type { ComponentType } from 'svelte';
-import { subscriptionJustEnded } from './subscription';
 import createUrl from '$lib/util/create-url';
-import { coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
+import { coerceToMainLanguageENBlank, coerceToSupportedLanguage } from '$lib/util/get-browser-lang';
 import { isOnIDevicePWA } from '$lib/util/push-registrations';
 
 export const handledOpenFromIOSPWA = writable(false);
 
-export const appHasLoaded = derived(
-  [isInitializingFirebase, isLocaleLoading, isUserLoading, isSigningIn, handledOpenFromIOSPWA],
-  ([
-    $isInitializingFirebase,
-    $isLocaleLoading,
-    $isUserLoading,
-    $isSigningIn,
-    $handledOpenFromIOSPWA
-  ]) => {
+export const staticAppHasLoaded = derived(
+  [isLocaleLoading, locale, handledOpenFromIOSPWA],
+  ([$isLocaleLoading, $locale, $handledOpenFromIOSPWA]) => {
     const _isOnIDevicePWA = isOnIDevicePWA();
+    // Don't show iOS PWA app UI until we are ready handling it, and on the right route.
+    // this avoids a potential seconds-long flash of the homescreen (or other screen) before
+    // being redirected to the chats page, when the user has unread chats.
+    const isIDevicePWAReady = !_isOnIDevicePWA || $handledOpenFromIOSPWA;
+    // isLocaleLoading start off with false, then true, then false again when loaded
+    return !$isLocaleLoading && typeof $locale === 'string' && isIDevicePWAReady;
+  }
+);
+
+/**
+ * Always has a value, will start with 'en' because $locale starts with null
+ */
+export const coercedLocale = derived(locale, ($locale) => coerceToSupportedLanguage($locale));
+
+export const appHasLoaded = derived(
+  [staticAppHasLoaded, isInitializingFirebase, isUserLoading, isSigningIn],
+  ([$staticAppHasLoaded, $isInitializingFirebase, $isUserLoading, $isSigningIn]) => {
     return (
+      $staticAppHasLoaded &&
       !$isInitializingFirebase &&
-      !$isLocaleLoading &&
       // While signing in, the user will be loaded or reloaded. This will set $isUserLoading to false, and then back to true
       // Since this derived store controls the root layout, this cycle from true -> false -> true will destroy, and then re-mount, the current page we are on
       // (probably /sign-in or /register). This is unintuitive, and may break assumptions elsewhere on the lifecycle of pages or layouts.
       // By allowing the user to not be loaded while signing in, we prevent this cycle from occurring.
-      (!$isUserLoading || $isSigningIn) &&
-      // Don't show iOS PWA app UI until we are ready handling it, and on the right route.
-      // this avoids a potential seconds-long flash of the homescreen (or other screen) before
-      // being redirected to the chats page, when the user has unread chats.
-      (!_isOnIDevicePWA || (_isOnIDevicePWA && $handledOpenFromIOSPWA))
+      (!$isUserLoading || $isSigningIn)
     );
   }
 );
@@ -65,18 +71,6 @@ export const close = () => rootModal.set(null);
  * This observable is useful to know when it is possible to add layers on top of it.
  */
 export const gardenLayerLoaded = writable(false);
-//
-// Whether the top banner should be shown, logic to be defined
-// Show when the user is a superfan or host
-// subscriptionJustEnded should probably remain in the logic
-export const shouldShowBanner = derived(
-  [user, subscriptionJustEnded],
-  // NOTE: if we want to not show the "general" banner, it is probably best to just keep $subscriptionJustEnded in the condition
-  // ([$user, $subscriptionJustEnded]) =>
-  //   $subscriptionJustEnded || $user?.superfan === true || $user?.garden != null
-  ([_, $subscriptionJustEnded]) => $subscriptionJustEnded
-);
-
 export const bannerLink = derived(user, ($user) =>
   !$user
     ? ''

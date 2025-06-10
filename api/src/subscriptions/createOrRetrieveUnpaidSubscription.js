@@ -50,7 +50,7 @@ const insertPaymentIntent = async (subscription) => {
  * @param {string} customerId
  * @param {string} priceId
  * @param {DocumentReference} privateUserProfileDocRef
- * @param {string} locale
+ * @param {string} locale may or may not be a supported locale
  * @returns
  */
 const createNewSubscription = async (customerId, priceId, privateUserProfileDocRef, locale) => {

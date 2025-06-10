@@ -7,6 +7,7 @@ import de from 'i18n-iso-countries/langs/de.json';
 import es from 'i18n-iso-countries/langs/es.json';
 import { locale } from 'svelte-i18n';
 import { coerceToSupportedLanguage } from '$lib/util/get-browser-lang';
+import { DEFAULT_LANGUAGE } from '$lib/types/general';
 const localizedCountryNames = [en, nl, fr, de, es];
 // Despite comments in https://github.com/michaelwittig/node-i18n-iso-countries/issues/136
 // with https://github.com/KusStar/vite-bundle-visualizer, it seems like rollup preserves
@@ -23,7 +24,7 @@ localizedCountryNames.forEach((dataset) => countries.registerLocale(dataset));
  * Defaults to English when no locale is set yet.
  */
 export const countryNames = derived(locale, ($locale) => {
-  const lang = coerceToSupportedLanguage($locale || 'en');
+  const lang = coerceToSupportedLanguage($locale || DEFAULT_LANGUAGE);
   //  https://github.com/michaelwittig/node-i18n-iso-countries#get-all-names-by-their-iso-3166-1-alpha-2-code
   return countries.getNames(lang, { select: 'alias' });
 });

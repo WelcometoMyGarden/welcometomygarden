@@ -1,6 +1,7 @@
 import { derived } from 'svelte/store';
 import { user } from './auth';
-import { isLoading, locale, t } from 'svelte-i18n';
+import { locale, t } from 'svelte-i18n';
+import { staticAppHasLoaded } from './app';
 import { MEMBERSHIP_YEARLY_AMOUNTS } from '$lib/constants';
 import { anchorText } from '$lib/util/translation-helpers';
 import routes from '$lib/routes';
@@ -71,9 +72,16 @@ export const shouldPromptForNewSubscription = derived(
 // Should we initialize a store per-page?
 // TODO: should the notice be shown for longer than 30 days?
 export const renewalNoticeContent = derived(
-  [t, isLoading, shouldPromptForNewSubscription, canPayRenewalInvoice, locale, user],
-  ([$t, $isLoading, $shouldPromptForNewSubscription, $canPayRenewalInvoice, $locale, $user]) => {
-    if (!$isLoading && $user?.stripeSubscription) {
+  [t, staticAppHasLoaded, shouldPromptForNewSubscription, canPayRenewalInvoice, locale, user],
+  ([
+    $t,
+    $staticAppHasLoaded,
+    $shouldPromptForNewSubscription,
+    $canPayRenewalInvoice,
+    $locale,
+    $user
+  ]) => {
+    if (!$staticAppHasLoaded && $user?.stripeSubscription) {
       return {
         prompt: $t('navigation.membership-expired-notice.prompt', {
           values: {
@@ -109,4 +117,15 @@ export const renewalNoticeContent = derived(
       };
     }
   }
+);
+//
+// Whether the top banner should be shown, logic to be defined
+// Show when the user is a superfan or host
+// subscriptionJustEnded should probably remain in the logic
+export const shouldShowBanner = derived(
+  [user, subscriptionJustEnded],
+  // NOTE: if we want to not show the "general" banner, it is probably best to just keep $subscriptionJustEnded in the condition
+  // ([$user, $subscriptionJustEnded]) =>
+  //   $subscriptionJustEnded || $user?.superfan === true || $user?.garden != null
+  ([_, $subscriptionJustEnded]) => $subscriptionJustEnded
 );
