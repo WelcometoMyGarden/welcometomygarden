@@ -12,7 +12,10 @@
   import { onNavigate } from '$app/navigation';
   import { registerCustomPropertyTracker } from '$lib/util/track-plausible';
   import { Notifications } from '$lib/components/UI';
-  import { browser } from '$app/environment';
+  import { browser, dev } from '$app/environment';
+  import { PUBLIC_SENTRY_DSN } from '$env/static/public';
+  import { capitalize } from 'lodash-es';
+  import envIsTrue from '$lib/util/env-is-true.js';
 
   /**
    * This is a JS-based reimplementation of dvh
@@ -25,8 +28,14 @@
    */
   let vh = `0px`;
 
-  onMount(() =>
-    Sentry.startSpan({ name: 'Root Layout Load', op: 'app.load' }, async () => {
+  onMount(() => {
+    Sentry.init({
+      dsn: PUBLIC_SENTRY_DSN,
+      tracesSampleRate: 1,
+      environment: dev ? 'Development' : capitalize(import.meta.env.MODE),
+      enabled: !envIsTrue(import.meta.env.VITE_SENTRY_DISABLE)
+    });
+    return Sentry.startSpan({ name: 'Root Layout Load', op: 'app.load' }, async () => {
       console.log('Mounting root layout');
       vh = `${window.innerHeight * 0.01}px`;
 
@@ -38,8 +47,8 @@
       }
 
       // No unsubscribers are used due to this being an async initializer
-    })
-  );
+    });
+  });
 
   const updateViewportHeight = () => {
     vh = `${window.innerHeight * 0.01}px`;
