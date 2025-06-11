@@ -32,7 +32,7 @@ export default defineConfig(({ command, mode }): UserConfig => {
               sourceMapsUploadOptions: {
                 org: 'sentry',
                 project: 'welcome-to-my-garden',
-                url: `${sentryUrl.protocol}//${sentryUrl.host}/`,
+                url: `${sentryUrl.protocol}//${sentryUrl.host}`,
                 authToken: process.env.SENTRY_AUTH_TOKEN
               }
             })
