@@ -28,13 +28,14 @@
    */
   let vh = `0px`;
 
+  Sentry.init({
+    dsn: PUBLIC_SENTRY_DSN,
+    tracesSampleRate: 1,
+    environment: dev ? 'Development' : capitalize(import.meta.env.MODE),
+    enabled: !envIsTrue(import.meta.env.VITE_SENTRY_DISABLE)
+  });
+
   onMount(() => {
-    Sentry.init({
-      dsn: PUBLIC_SENTRY_DSN,
-      tracesSampleRate: 1,
-      environment: dev ? 'Development' : capitalize(import.meta.env.MODE),
-      enabled: !envIsTrue(import.meta.env.VITE_SENTRY_DISABLE)
-    });
     return Sentry.startSpan({ name: 'Root Layout Load', op: 'app.load' }, async () => {
       console.log('Mounting root layout');
       vh = `${window.innerHeight * 0.01}px`;
