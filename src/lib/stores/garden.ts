@@ -1,6 +1,7 @@
 import { writable, get, type Writable } from 'svelte/store';
 import { getAllListedGardens } from '$lib/api/garden';
 import type { Garden } from '../types/Garden';
+import * as Sentry from '@sentry/sveltekit';
 
 export const hasLoaded = writable(false);
 export const isUploading = writable(false);
@@ -24,7 +25,10 @@ export const upsertInAllListedGardens = async (garden: Garden) => {
     try {
       await getAllListedGardens();
     } catch (ex) {
-      console.log(ex);
+      console.error(ex);
+      Sentry.captureException(ex, {
+        extra: { context: 'Fetching all listed gardens' }
+      });
       isFetchingGardens.set(false);
     }
     isFetchingGardens.set(false);

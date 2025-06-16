@@ -36,6 +36,7 @@
   import { checkActionCode } from 'firebase/auth';
   import PaddedSection from '$lib/components/Marketing/PaddedSection.svelte';
   import MarketingStyleWrapper from '$lib/components/Marketing/MarketingStyleWrapper.svelte';
+  import * as Sentry from '@sentry/sveltekit';
 
   let loadingState = '';
 
@@ -66,6 +67,7 @@
       await logout();
     } catch (e) {
       console.log('Logout failed, opening sign-in page anyway');
+      Sentry.captureException(e, { extra: { context: 'Logout failed' } });
       // do nothing
     } finally {
       goto(routes.SIGN_IN);
@@ -86,6 +88,11 @@
         goto(routes.RESET_PASSWORD + `?${query.toString()}`);
       } catch (ex) {
         notify.danger($_('auth.password.expired'), 15000);
+        Sentry.captureException(ex, {
+          level: 'warning',
+          extra: { context: 'Likely: expired password reset link used' }
+        });
+
         goto(routes.REQUEST_PASSWORD_RESET);
       }
     }
@@ -137,6 +144,10 @@
         } else {
           console.error('Error during email action/auth email verification ', ex);
           notify.danger($_('auth.verification.expired'), 15000);
+          Sentry.captureException(ex, {
+            level: 'warning',
+            extra: { context: 'Likely: expired verify email reset link used' }
+          });
           return goto(routes.ACCOUNT);
         }
       }

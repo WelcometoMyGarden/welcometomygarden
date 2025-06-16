@@ -7,6 +7,7 @@
   import key from './mapbox-context.js';
   import { ZOOM_LEVELS } from '$lib/constants.js';
   import type { FileDataLayer } from '$lib/types/DataLayer';
+  import * as Sentry from '@sentry/sveltekit';
 
   type SourceData =
     | string
@@ -42,6 +43,7 @@
         });
       } catch (error) {
         console.error(error);
+        Sentry.captureException(error, { extra: { context: 'Adding trail' } });
       }
     }
 

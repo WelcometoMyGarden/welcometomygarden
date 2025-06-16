@@ -47,6 +47,7 @@ import {
   canHaveNotificationSupport,
   hasNotificationSupportNow
 } from '$lib/util/push-registrations';
+import * as Sentry from '@sentry/sveltekit';
 
 const pushRegistrationLoadCheck = () => {
   if (!get(loadedPushRegistrations)) {
@@ -95,6 +96,7 @@ const unsubscribeNativePushRegistration = async () => {
       'Error while trying to unsubscribe an unregistered (in FB) local native PushSubscription',
       e
     );
+    Sentry.captureException(e);
   }
 };
 
@@ -130,6 +132,7 @@ export const createPushRegistrationObserver = () => {
       }
     } catch (e) {
       console.warn('Corrupted cached subscription JSON data');
+      Sentry.captureException(e);
     }
 
     if (currentNativeSub) {
@@ -447,8 +450,10 @@ export const createPushRegistration = async () => {
           }
         })
       );
+      Sentry.captureMessage('messaging/permission-blocked');
     } else {
       handleError(e);
+      Sentry.captureException(e);
     }
     return;
   }
@@ -492,10 +497,11 @@ export const createPushRegistration = async () => {
     notification.success(get(t)('push-notifications.registration-success'));
     return true;
   } catch (e) {
-    handleError(
-      e,
-      "Your push notifications were sucessfully enabled, but couldn't be added to the database."
-    );
+    const msg =
+      "Your push notifications were sucessfully enabled, but couldn't be added to the database.";
+    handleError(e, msg);
+    console.error(msg);
+    Sentry.captureException(e);
     return;
   }
 };
@@ -593,6 +599,7 @@ export const deletePushRegistration = async (pushRegistration: LocalPushRegistra
             return true;
           } catch (e) {
             console.error(e);
+            Sentry.captureException(e);
             return false;
           }
         } else {

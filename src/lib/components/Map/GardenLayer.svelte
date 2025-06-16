@@ -16,6 +16,7 @@
   import { nonMemberMaxZoom } from '$lib/constants';
   import { loadImg } from '$lib/api/mapbox';
   import { gardenLayerLoaded } from '$lib/stores/app';
+  import * as Sentry from '@sentry/sveltekit';
 
   type GardenFeatureCollection = {
     type: 'FeatureCollection';
@@ -308,7 +309,10 @@
       [clustersLayerId, unclusteredPointLayerId, savedGardenLayerId].forEach(addPointerOnHover);
     } catch (err) {
       // should not error in prod
-      console.log(err);
+      console.error(err);
+      Sentry.captureException(err, {
+        extra: { context: 'Setting up garden map markers' }
+      });
     } finally {
       mapReady = true;
       $gardenLayerLoaded = true;

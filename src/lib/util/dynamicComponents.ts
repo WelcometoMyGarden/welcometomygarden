@@ -5,6 +5,7 @@
 import { Icon } from '$lib/components/UI';
 import { camelCase, kebabCase } from 'lodash-es';
 import type { ComponentType, SvelteComponent } from 'svelte';
+import * as Sentry from '@sentry/sveltekit';
 
 const catalog = {
   Icon: Icon
@@ -95,6 +96,7 @@ export function instantiateComponents() {
         component.$destroy();
       } catch (e) {
         console.error(e);
+        Sentry.captureException(e, { extra: { context: 'Destroying dynamic components' } });
       }
     }
   };

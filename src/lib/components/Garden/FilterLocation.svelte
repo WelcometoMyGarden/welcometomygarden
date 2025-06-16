@@ -8,6 +8,7 @@
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { coercedLocale } from '$lib/stores/app';
+  import * as Sentry from '@sentry/sveltekit';
 
   export let isSearching;
   export let closeToLocation;
@@ -65,7 +66,8 @@
       }
     } catch (err) {
       places = [];
-      console.log(err);
+      console.error(err);
+      Sentry.captureException(err, { extra: { context: 'Extensive-geocoding' } });
     }
   };
 

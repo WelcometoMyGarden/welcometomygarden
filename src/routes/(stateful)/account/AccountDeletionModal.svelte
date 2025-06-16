@@ -10,6 +10,7 @@
   import isFirebaseError from '$lib/util/types/isFirebaseError';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import * as Sentry from '@sentry/sveltekit';
   export let show = false;
 
   let formError: null | string = null;
@@ -33,6 +34,9 @@
           prompt: verificationPrompt
         }
       });
+      Sentry.captureMessage('Account deletion verification failed', {
+        level: 'warning'
+      });
       return;
     }
 
@@ -49,8 +53,17 @@
         } catch (e) {
           if (isFirebaseError(e) && e.code === 'auth/wrong-password') {
             formError = $_('account.delete.modal.reauthentication-incorrect-password');
+            Sentry.captureMessage('Account deletion reauthentication failed - wrong password', {
+              level: 'warning'
+            });
           } else {
             formError = $_('sign-in.notify.login-issue');
+            Sentry.captureException(e, {
+              extra: {
+                isFirebaseError: isFirebaseError(e),
+                errorCode: isFirebaseError(e) ? e.code : undefined
+              }
+            });
           }
         }
       }
@@ -72,6 +85,14 @@
       // https://stackoverflow.com/a/44247399/4973029
       if (isFirebaseError(e) && e.code === 'auth/requires-recent-login') {
         shouldReauthenticate = true;
+        Sentry.addBreadcrumb({ level: 'info', message: 'Account deletion - re-login required' });
+      } else {
+        Sentry.captureException(e, {
+          extra: {
+            isFirebaseError: isFirebaseError(e),
+            errorCode: isFirebaseError(e) ? e.code : undefined
+          }
+        });
       }
     }
   };

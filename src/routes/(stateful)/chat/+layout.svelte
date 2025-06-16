@@ -26,6 +26,7 @@
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import createUrl from '$lib/util/create-url';
+  import * as Sentry from '@sentry/sveltekit';
 
   let localPage = $page;
   // Subscribe to page is necessary to render the chat page of the selected chat (when the url changes) for mobile
@@ -137,6 +138,9 @@
       } catch (ex) {
         // TODO: display error
         console.error(ex);
+        Sentry.captureException(ex, {
+          extra: { context: 'Initiating new chat' }
+        });
         goto(routes.CHAT, gotoOpts);
       }
     }

@@ -11,6 +11,7 @@
   import AuthContainer from '$lib/components/AuthContainer.svelte';
   import { supportEmailLinkString, trackEvent } from '$lib/util';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import * as Sentry from '@sentry/sveltekit';
 
   let formIsLoading = true;
   let secretParam: string | null = null;
@@ -93,6 +94,7 @@
       }
     } catch (e) {
       error = 'Something went wrong';
+      Sentry.captureException(e, { extra: { context: 'Updating email prefs (dedicated page)' } });
     }
 
     isSubmittingPreferences = false;

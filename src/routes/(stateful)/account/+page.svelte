@@ -25,6 +25,8 @@
   import { createCustomerPortalSession } from '$lib/api/functions';
   import { updateGardenLocally } from '$lib/stores/garden';
   import { coercedLocale } from '$lib/stores/app';
+  import * as Sentry from '@sentry/sveltekit';
+  import isFirebaseError from '$lib/util/types/isFirebaseError';
 
   let showAccountDeletionModal = false;
   let showEmailChangeModal = false;
@@ -40,6 +42,7 @@
       notify.success($_('account.notify.preferences-update'), 3500);
     } catch (ex) {
       console.log(ex);
+      Sentry.captureException(ex, { extra: { context: 'Error while updating mail prefs' } });
     }
   };
 
@@ -59,7 +62,10 @@
       // so the map stays in sync (also fetches all gardens if we didn't load them in this session yet)
       await updateGardenLocally({ id: $user!.id, ...$user!.garden!, listed: newListedStatus });
     } catch (ex) {
-      console.log(ex);
+      console.error(ex);
+      Sentry.captureException(ex, {
+        extra: { context: 'Error while updating the garden listed status' }
+      });
     }
     updatingListedStatus = false;
   };
@@ -73,13 +79,18 @@
       hasResentEmail = true;
       isResendingEmail = false;
     } catch (ex) {
-      console.log(ex);
-      if (!ex.code) notify.danger(ex, 15000);
-      else
+      console.error(ex);
+      if (isFirebaseError(ex)) {
         notify.danger(
           $_('account.notify.resend-error', { values: { support: SUPPORT_EMAIL } }),
           12000
         );
+      } else {
+        notify.danger(ex, 15000);
+      }
+      Sentry.captureException(ex, {
+        extra: { context: 'Resending account verification email' }
+      });
       isResendingEmail = false;
       hasResentEmail = false;
     }

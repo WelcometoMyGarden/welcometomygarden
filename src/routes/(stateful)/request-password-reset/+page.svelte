@@ -7,6 +7,7 @@
   import { requestPasswordReset } from '$lib/api/functions';
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { formEmailValue } from '$lib/stores/auth';
+  import * as Sentry from '@sentry/sveltekit';
 
   let done = false;
   let isSending = false;
@@ -17,6 +18,7 @@
       done = true;
       isSending = false;
     } catch (err) {
+      Sentry.captureException(err, { extra: { context: 'Requesting password reset' } });
       done = true;
       isSending = false;
     }

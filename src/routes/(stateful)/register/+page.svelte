@@ -23,6 +23,7 @@
   import { page } from '$app/stores';
   import { get } from 'svelte/store';
   import { onMount } from 'svelte';
+  import * as Sentry from '@sentry/sveltekit';
 
   const continueUrl = $page.url.searchParams.get('continueUrl');
 
@@ -133,6 +134,7 @@
   let formError = '';
 
   const submit = async () => {
+    Sentry.addBreadcrumb({ message: 'Attempt to register', level: 'info' });
     // Validate all fields
     let errorCount = 0;
     (Object.keys(fields) as (keyof typeof fields)[]).forEach((fieldName) => {
@@ -149,6 +151,16 @@
     fields = fields;
     if (errorCount > 0) {
       // Cancel submission
+      Sentry.captureMessage('Registration form validation failed', {
+        level: 'info',
+        extra: {
+          errors: Object.fromEntries(
+            Object.entries(fields)
+              .filter(([, field]) => field.error)
+              .map(([name, field]) => [name, field.error])
+          )
+        }
+      });
       return;
     }
 
@@ -181,9 +193,15 @@
       if (
         isFirebaseError(err) &&
         err.code === ('functions/already-exists' satisfies FunctionsErrorCode)
-      )
+      ) {
         formError = $_('register.notify.in-use');
-      else formError = $_('register.notify.unexpected', { values: { support: SUPPORT_EMAIL } });
+        Sentry.captureMessage('Registration failed - email in use', {
+          level: 'info' // This is an expected error case
+        });
+      } else {
+        formError = $_('register.notify.unexpected', { values: { support: SUPPORT_EMAIL } });
+        Sentry.captureException(err);
+      }
       console.log(err);
     }
   };

@@ -5,6 +5,7 @@
   import { getContext } from 'svelte';
   import type { ContextType } from './Map.svelte';
   import key from './mapbox-context.js';
+  import * as Sentry from '@sentry/sveltekit';
 
   const { getMap } = getContext<ContextType>(key);
   const map = getMap();
@@ -56,6 +57,9 @@
     } catch (err) {
       // should not error in prod
       console.log(err);
+      Sentry.captureException(err, {
+        extra: { context: 'Setting up Waymarked Trails layers' }
+      });
     } finally {
       toggleable = true;
     }

@@ -29,6 +29,7 @@ import type {
 } from '$lib/types/Garden';
 import { get } from 'svelte/store';
 import { getToken } from 'firebase/app-check';
+import * as Sentry from '@sentry/sveltekit';
 
 /**
  * Get a single garden, if it exists and is listed. Returns `null` otherwise.
@@ -155,6 +156,7 @@ export const getAllListedGardens = async () => {
   } catch (err) {
     // Handle any errors if the token was not retrieved.
     console.error('Error fetching app check token:', err);
+    Sentry.captureException(err);
     return;
   }
 

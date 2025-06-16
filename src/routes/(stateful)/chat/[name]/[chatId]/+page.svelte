@@ -27,6 +27,7 @@
     hasNotificationSupportNow
   } from '$lib/util/push-registrations';
   import MembershipModal from '$lib/components/Membership/MembershipModal.svelte';
+  import * as Sentry from '@sentry/sveltekit';
 
   const MAX_MESSAGE_LENGTH = 800;
 
@@ -75,8 +76,13 @@
           2
         );
     } catch (e) {
-      // do nothing
       console.error(e);
+      Sentry.captureException(e, {
+        extra: {
+          context: 'Error while formatting chat error details',
+          originalError: exception
+        }
+      });
     }
     showErrorModal = true;
   };
@@ -243,6 +249,11 @@
         trackEvent(PlausibleEvent.SEND_REQUEST);
         goto(`${routes.CHAT}/${$page.params.name}/${newChatId}`);
       } catch (ex) {
+        Sentry.captureException(ex, {
+          extra: {
+            context: 'Creating new chat'
+          }
+        });
         showChatError(ex);
       }
     } else {
@@ -253,6 +264,11 @@
         const role = chat.users[0] === $user?.id ? 'traveller' : 'host';
         trackEvent(PlausibleEvent.SEND_RESPONSE, { role });
       } catch (ex) {
+        Sentry.captureException(ex, {
+          extra: {
+            context: 'Sending message in existing chat'
+          }
+        });
         showChatError(ex);
       }
     }

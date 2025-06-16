@@ -13,6 +13,7 @@
   import { page } from '$app/stores';
   import { get } from 'svelte/store';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
+  import * as Sentry from '@sentry/sveltekit';
 
   const continueUrl = $page.url.searchParams.get('continueUrl');
 
@@ -21,10 +22,14 @@
     if (!$formEmailValue || !$formPasswordValue) return;
     formError = '';
     try {
+      Sentry.addBreadcrumb({ message: 'Attempt to log in', level: 'info' });
       await login($formEmailValue, $formPasswordValue);
       const localUser = get(user);
       if (!localUser) {
         console.warn('User unexpectedly null in sign-in');
+        Sentry.captureMessage('User unexpectedly null after login', {
+          level: 'warning'
+        });
       }
       notify.success($_('sign-in.notify.welcome', { values: { user: localUser?.firstName } }));
       if (continueUrl) {
@@ -44,10 +49,19 @@
       if (
         isFirebaseError(ex) &&
         (ex.code === 'auth/user-not-found' || ex.code === 'auth/wrong-password')
-      )
+      ) {
         formError = $_('sign-in.notify.incorrect');
-      else {
+        Sentry.captureMessage('Sign in failed - incorrect credentials', {
+          level: 'info' // This is an expected error case
+        });
+      } else {
         formError = $_('sign-in.notify.login-issue', { values: { support: SUPPORT_EMAIL } });
+        Sentry.captureException(ex, {
+          extra: {
+            isFirebaseError: isFirebaseError(ex),
+            errorCode: isFirebaseError(ex) ? ex.code : undefined
+          }
+        });
       }
       // TODO: Handle network errors and response errors
     }

@@ -11,6 +11,7 @@
   import type { GardenDraft } from '$lib/types/Garden';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import * as Sentry from '@sentry/sveltekit';
 
   let addingGarden = false;
 
@@ -32,7 +33,16 @@
       notify.success(notifyMsg, 10000);
       goto(`${routes.MAP}/garden/${$user!.id}`);
     } catch (ex) {
-      console.log(ex);
+      console.error(ex);
+      Sentry.captureException(ex, {
+        extra: {
+          context: 'Adding garden',
+          garden: {
+            hasPhoto: !!(garden.photo && garden.photo.files && garden.photo.files[0])
+          }
+        }
+      });
+      // TODO: add a user-visible error message?
       addingGarden = false;
     }
   };

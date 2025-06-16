@@ -29,6 +29,7 @@ import { get } from 'svelte/store';
 import { goto } from '$lib/util/navigate';
 import { handledOpenFromIOSPWA } from '$lib/stores/app';
 import { isOnIDevicePWA } from '$lib/util/push-registrations';
+import * as Sentry from '@sentry/sveltekit';
 
 /**
  * Fetches the chat partner's profile, setting the new chat loader.
@@ -74,6 +75,7 @@ export const createChatObserver = () => {
                   `Error while getting the public profile of chat partner with uid "${partnerId}"`,
                   e
                 );
+                Sentry.captureException(e);
                 return null;
               }
               const localChat = {
@@ -90,6 +92,7 @@ export const createChatObserver = () => {
         );
       } catch (e) {
         console.error('Uncaught error while handling a chat snapshot', e);
+        Sentry.captureException(e);
       }
 
       console.log('Chats initialized or updated');

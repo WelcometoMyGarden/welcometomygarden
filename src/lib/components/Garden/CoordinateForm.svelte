@@ -13,6 +13,7 @@
   import DraggableMarker from '$lib/components/Map/DraggableMarker.svelte';
   import { LOCATION_BELGIUM, ZOOM_LEVELS } from '$lib/constants';
   import type { LongLat } from '$lib/types/Garden';
+  import * as Sentry from '@sentry/sveltekit';
 
   const dispatch = createEventDispatcher();
 
@@ -66,6 +67,9 @@
       applyZoom = true;
       isAddressConfirmShown = true;
     } catch (ex) {
+      Sentry.captureException(ex, {
+        extra: { context: `Geocoding an address (len ${addressString.length})` }
+      });
       console.warn(ex);
     }
     dispatch('confirm', locationConfirmed ? coordinates : null);
@@ -80,6 +84,7 @@
     try {
       address = { ...defaultAddressValues, ...(await reverseGeocode(coordinates)) };
     } catch (ex) {
+      Sentry.captureException(ex, { extra: { context: 'Reverse-geocoding an address' } });
       console.warn(ex);
     }
   };

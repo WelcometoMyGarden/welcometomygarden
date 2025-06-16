@@ -14,6 +14,7 @@
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { createTrail } from '$lib/api/trail';
+  import * as Sentry from '@sentry/sveltekit';
 
   export let show = false;
   let files: File[] = [];
@@ -48,6 +49,7 @@
         } catch (error) {
           notification.warning('Error while processing file', 5000);
           console.log(error);
+          Sentry.captureException(error);
           return false;
         }
       }

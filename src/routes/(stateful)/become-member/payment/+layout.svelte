@@ -33,6 +33,7 @@
   } from '$lib/components/Membership/superfan-levels';
   import PaddedSection from '$lib/components/Marketing/PaddedSection.svelte';
   import * as Sentry from '@sentry/sveltekit';
+  import isFirebaseError from '$lib/util/types/isFirebaseError';
 
   // TODO: if you subscribe & unsubscribe in 1 session without refreshing, no new sub will be auto-generated
   // we could fix this by detecting changes to the user (if we go from subscribed -> unsubscribed)
@@ -231,7 +232,7 @@
         );
         clientSecret = data.clientSecret;
       } catch (firebaseError: any) {
-        if (firebaseError && firebaseError.code === 'functions/already-exists') {
+        if (isFirebaseError(firebaseError) && firebaseError.code === 'functions/already-exists') {
           processingPayment = true;
           // This means, in the best case, that we're already subscribed and no payment is due.
           // Wait until the User state gets updated (there might be an issue there).
@@ -252,6 +253,12 @@
           console.error(firebaseError);
           error = new Error($_('payment-superfan.payment-section.errors.loading-error'));
         }
+        Sentry.captureException(firebaseError, {
+          extra: {
+            context: 'Error while creating a subscription',
+            isFirebaseError: isFirebaseError(firebaseError)
+          }
+        });
       }
 
       await reloadStripe();

@@ -10,6 +10,7 @@
   import { onMount } from 'svelte';
   import MarketingStyleWrapper from '$lib/components/Marketing/MarketingStyleWrapper.svelte';
   import PaddedSection from '$lib/components/Marketing/PaddedSection.svelte';
+  import * as Sentry from '@sentry/sveltekit';
 
   // Note: searchParams values will already be URL-decoded
   const sso = $page.url.searchParams.get('sso');
@@ -58,6 +59,7 @@
       } catch (e) {
         console.error(e);
         notify.danger($_('auth.discourse.failed'));
+        Sentry.captureException(e);
         goto(routes.HOME);
         return;
       }

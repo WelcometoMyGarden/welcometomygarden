@@ -11,6 +11,7 @@
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import type { GardenDraft } from '$lib/types/Garden';
+  import * as Sentry from '@sentry/sveltekit';
 
   let updatingGarden = false;
 
@@ -37,6 +38,14 @@
       goto(`${routes.MAP}/garden/${$user!.id}`);
     } catch (ex) {
       console.log(ex);
+      Sentry.captureException(ex, {
+        extra: {
+          context: 'Error managing garden',
+          garden: {
+            hasPhoto: !!(garden.photo && garden.photo.files && garden.photo.files[0])
+          }
+        }
+      });
       updatingGarden = false;
     }
   };

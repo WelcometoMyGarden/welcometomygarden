@@ -35,6 +35,7 @@ import { allListedGardens, hasLoaded as gardenHasLoaded } from '$lib/stores/gard
 import { createClient } from '@supabase/supabase-js';
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_API_URL } from '$env/static/public';
 import { isOnIDevicePWA } from '$lib/util/push-registrations';
+import * as Sentry from '@sentry/sveltekit';
 
 // These are not Svelte stores, because we do not wish to listen to updates on them.
 // They are abstracted away by the User store, and trigger updates on that store.
@@ -189,6 +190,7 @@ export const createAuthObserver = (): Unsubscribe => {
           }
         } catch (e) {
           console.error('Failed to restore the chat intention after verification', e);
+          Sentry.captureException(e);
         }
       } else {
         // In any other case, sync the most recent firebaseUser data into app state
@@ -266,6 +268,7 @@ export const createAuthObserver = (): Unsubscribe => {
           }
         } catch (e) {
           console.error('Failed to sign out from Supabase', e);
+          Sentry.captureException(e);
         }
       }
 

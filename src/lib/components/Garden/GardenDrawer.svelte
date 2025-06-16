@@ -27,6 +27,7 @@
   import type { UserPublic } from '$lib/models/User';
   import ResponseRateTimeLines from './ResponseRateTimeLines.svelte';
   import { facilities } from '$lib/stores/facilities';
+  import * as Sentry from '@sentry/sveltekit';
 
   const dispatch = createEventDispatcher<{ close: null }>();
   const phoneRegex =
@@ -59,6 +60,7 @@
       }
     } catch (ex) {
       console.log(ex);
+      Sentry.captureException(ex);
     }
   };
 
@@ -67,6 +69,7 @@
       responseRateTimeData = await getGardenResponseRate(garden!.id!);
     } catch (e) {
       console.warn("Couldn't load response rate/time data");
+      Sentry.captureException(e);
     }
   };
 
@@ -117,7 +120,8 @@
         biggerPhotoUrl = await getGardenPhotoBig({ ...garden, id: garden!.id } as GardenPhoto);
       }
     } catch (ex) {
-      console.log(ex);
+      console.error(ex);
+      Sentry.captureException(ex);
     }
     isShowingMagnifiedPhoto = true;
     isGettingMagnifiedPhoto = false;
@@ -162,6 +166,7 @@
       }
     } catch (err) {
       console.log(err);
+      Sentry.captureException(err);
     }
   };
 

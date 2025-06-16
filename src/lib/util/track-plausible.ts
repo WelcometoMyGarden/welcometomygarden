@@ -23,6 +23,7 @@ import {
 } from '$lib/types/Plausible';
 import { debounce } from 'lodash-es';
 import { get } from 'svelte/store';
+import * as Sentry from '@sentry/sveltekit';
 
 type Callable = (eventName: PlausibleEvent, customProperties?: PlausibleCustomProperties) => void;
 
@@ -148,7 +149,9 @@ function trackEvent(
       return debouncedLoggers[eventName]!(eventName, customProperties);
     }
   } catch (e) {
-    console.error('Error while logging to plausible:', e);
+    const ctx = 'Error while logging to plausible';
+    Sentry.captureException(e, { extra: { context: ctx } });
+    console.error(`${ctx}:`, e);
   }
 }
 
