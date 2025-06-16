@@ -32,6 +32,7 @@
     type SuperfanLevelData
   } from '$lib/components/Membership/superfan-levels';
   import PaddedSection from '$lib/components/Marketing/PaddedSection.svelte';
+  import * as Sentry from '@sentry/sveltekit';
 
   // TODO: if you subscribe & unsubscribe in 1 session without refreshing, no new sub will be auto-generated
   // we could fix this by detecting changes to the user (if we go from subscribed -> unsubscribed)
@@ -43,6 +44,8 @@
   let stripe: Stripe | null = null;
 
   let elements: StripeElements;
+
+  let elementsSpan: Sentry.Span | null = null;
 
   // payment intent client secret
   let clientSecret: string | null = null;
@@ -181,7 +184,11 @@
   };
 
   onMount(async () => {
-    // todo: validate priceID
+    elementsSpan = Sentry.startSpanManual(
+      { name: 'Stripe Elements Load', op: 'stripe.elements.load' },
+      (span) => (elementsSpan = span)
+    );
+
     console.log('Running onMount');
     if (!$user) {
       notify.warning($_('payment-superfan.not-logged-in-warning'), 10000);
@@ -292,6 +299,7 @@
         <Elements {stripe} {clientSecret} bind:elements>
           <span class="method-title">{$_('payment-superfan.payment-section.payment-method')}</span>
           <PaymentElement
+            on:ready={() => elementsSpan?.end()}
             options={{
               paymentMethodOrder: ['bancontact', 'card', 'ideal', 'sofort'],
               terms: { bancontact: 'never', sepaDebit: 'never', card: 'never', ideal: 'never' },
