@@ -7186,15 +7186,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-uic-location-code@npm:^0.0.1":
-  version: 0.0.1
-  resolution: "is-uic-location-code@npm:0.0.1"
-  dependencies:
-    uic-codes: "npm:^0.3.0"
-  checksum: 10/33eaab78715e777b65dd0837959ea066160f80f73bb5561ca3bda01c21ef56b2c72f76d8d57f60e1a1e1855c8b1057384aed5767c944cb7f8d2aac6b27972518
-  languageName: node
-  linkType: hard
-
 "is-wsl@npm:^2.1.1, is-wsl@npm:^2.2.0":
   version: 2.2.0
   resolution: "is-wsl@npm:2.2.0"
@@ -9392,13 +9383,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uic-codes@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "uic-codes@npm:0.3.0"
-  checksum: 10/6ebe2446b3db6b1253d40ff112b979b50f2c9fce9736ec03f552c179e690fb1addf1b65066f38dded1f223ca227fafbbb9ded061d775f03710c759e8e061e90a
-  languageName: node
-  linkType: hard
-
 "undici-types@npm:~6.21.0":
   version: 6.21.0
   resolution: "undici-types@npm:6.21.0"
@@ -9762,7 +9746,6 @@ __metadata:
     firebase: "npm:^10.14.1"
     gmail-getter: "npm:^2.2.0"
     i18n-iso-countries: "npm:^7.14.0"
-    is-uic-location-code: "npm:^0.0.1"
     iso-639-1: "npm:^3.1.5"
     lodash-es: "npm:^4.17.21"
     maplibre-gl: "npm:^1.15.3"

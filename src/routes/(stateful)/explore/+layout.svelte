@@ -24,11 +24,9 @@
   } from '$lib/constants';
   import LayersAndTools from '$lib/components/LayersAndTools/LayersAndTools.svelte';
   import FileTrailModal from '$lib/components/Map/FileTrailModal.svelte';
-  import TrainConnectionsModal from '$lib/components/Map/TrainConnectionsModal.svelte';
   import FileTrails from '$lib/components/Map/FileTrails.svelte';
   import type { Garden } from '$lib/types/Garden';
   import { savedGardens as savedGardenStore } from '$lib/stores/savedGardens';
-  import TrainconnectionsLayer from '$lib/components/Map/TrainconnectionsLayer.svelte';
   import TrainAndRails from '$lib/components/Map/TrainAndRails.svelte';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
@@ -50,11 +48,8 @@
   let showHiking = false;
   let showCycling = false;
   let showFileTrailModal = false;
-  let showTrainConnectionsModal = false;
   let showGardens = true;
   let showSavedGardens = true;
-  let showStations = false;
-  let showRails = false;
   let showTransport = false;
   let filteredGardens: Garden[];
   let savedGardens = [] as string[];
@@ -292,7 +287,7 @@
     {zoom}
     {applyZoom}
   >
-    <TrainAndRails {showStations} {showRails} {showTransport} />
+    <TrainAndRails {showTransport} />
     {#if !isEmpty($allListedGardens)}
       <GardenLayer
         {showGardens}
@@ -324,7 +319,6 @@
       </div>
     {/if}
     <FileTrails />
-    <TrainconnectionsLayer />
     <ZoomRestrictionNotice on:click={() => (showMembershipModal = true)} />
   </Map>
   <LayersAndTools
@@ -332,11 +326,8 @@
     bind:showCycling
     bind:showGardens
     bind:showSavedGardens
-    bind:showStations
-    bind:showRails
     bind:showTransport
     bind:showFileTrailModal
-    bind:showTrainConnectionsModal
   />
   <!-- TODO: the $currentPosition should be based on IP
     (if it isn't already by default) -->
@@ -346,7 +337,6 @@
     closeToLocation={$currentPosition ?? LOCATION_BELGIUM}
   />
   <FileTrailModal bind:show={showFileTrailModal} />
-  <TrainConnectionsModal bind:show={showTrainConnectionsModal} />
   <MembershipModal
     bind:show={showMembershipModal}
     on:close={() =>

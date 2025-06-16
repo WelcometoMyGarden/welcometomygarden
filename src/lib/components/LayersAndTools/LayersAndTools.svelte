@@ -18,11 +18,8 @@
   export let showCycling = false;
   export let showGardens: boolean;
   export let showSavedGardens: boolean;
-  export let showRails: boolean;
-  export let showStations: boolean;
   export let showTransport: boolean;
   export let showFileTrailModal: boolean;
-  export let showTrainConnectionsModal: boolean;
   let showGardensModal = false;
   let showTrailsModal = false;
   let showTransportModal = false;
@@ -31,10 +28,6 @@
   $: isMobile = innerWidth <= 700;
 
   $: superfan = $user?.superfan;
-
-  const toggleTrainConnectionsModal = (e: Event) => {
-    showTrainConnectionsModal = !showTrainConnectionsModal;
-  };
 
   const toggleFileTrailModal = (e: Event) => {
     showFileTrailModal = !showFileTrailModal;
@@ -65,12 +58,7 @@
       <ToggleAble>
         <span slot="title">{$_('map.railway.title')}</span>
         <div slot="content">
-          <TransportTools
-            bind:showRails
-            bind:showStations
-            bind:showTransport
-            on:click={toggleTrainConnectionsModal}
-          />
+          <TransportTools bind:showTransport />
         </div>
       </ToggleAble>
     </div>
@@ -106,13 +94,7 @@
         bind:showHiking
         on:click={toggleFileTrailModal}
       />
-      <TransportModal
-        bind:show={showTransportModal}
-        bind:showRails
-        bind:showStations
-        bind:showTransport
-        on:click={toggleTrainConnectionsModal}
-      />
+      <TransportModal bind:show={showTransportModal} bind:showTransport />
     {/if}
   {:else}
     <div class="layers-and-tools-visitors-container">

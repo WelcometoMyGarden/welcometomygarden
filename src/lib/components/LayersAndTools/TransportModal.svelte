@@ -5,8 +5,6 @@
 
   export let show = false;
   export let showTransport: boolean;
-  export let showRails: boolean;
-  export let showStations: boolean;
 
   // MODAL
   let ariaLabelledBy = 'tent-modal-title';
@@ -21,7 +19,7 @@
   <div slot="body" class="BodySection">
     <hr />
     <div class="modal-content">
-      <TransportTools bind:showRails bind:showStations bind:showTransport on:click />
+      <TransportTools bind:showTransport on:click />
     </div>
   </div>
 </Modal>

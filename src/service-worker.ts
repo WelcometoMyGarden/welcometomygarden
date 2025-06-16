@@ -17,7 +17,9 @@ const sw = self as unknown as ServiceWorkerGlobalScope;
 // are pathnames like `/images/icons/tent-white.svg`, not fully qualified URLs.
 import { build as buildPathnames, files as filePathnames, version } from '$service-worker';
 import { getFirestore } from 'firebase/firestore';
-import * as Sentry from '@sentry/sveltekit';
+// NOTE: sveltekit's Sentry integration can't be imported here
+// Error: Cannot import app/stores into service-worker code. Only the modules $service-worker and $env/static/public are available in service workers.
+// TODO: add the vanilla JS integration here?
 
 const VERSIONED_CACHE_NAME = `cache-${version}`;
 
@@ -68,7 +70,6 @@ sw.addEventListener('install', (event) => {
       await cache.addAll(ASSETS_TO_CACHE_FULL_HREF);
     } catch (e) {
       console.error('Error on sw install pre-caching', e);
-      Sentry.captureException(e);
     }
   }
 
