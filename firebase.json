@@ -14,6 +14,14 @@
           }
         },
         {
+          "source": "/error-log-tunnel",
+          "function": {
+            "functionId": "errorLogTunnel",
+            "region": "europe-west1",
+            "pinTag": false
+          }
+        },
+        {
           "source": "**",
           "destination": "/index.html"
         }
@@ -28,6 +36,14 @@
           "source": "/email-preferences",
           "function": {
             "functionId": "handleUnsubscribe",
+            "region": "europe-west1",
+            "pinTag": false
+          }
+        },
+        {
+          "source": "/error-log-tunnel",
+          "function": {
+            "functionId": "errorLogTunnel",
             "region": "europe-west1",
             "pinTag": false
           }

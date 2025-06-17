@@ -66,6 +66,7 @@ const { onTaskDispatched } = require('firebase-functions/tasks');
 const checkContactCreation = require('./sendgrid/checkContactCreation');
 const { sendQueuedMessage } = require('./queued/sendQueuedMessage');
 const syncCampsiteStatus = require('./sendgrid/syncCampsiteStatus');
+const { errorLogTunnel } = require('./errorLogTunnel');
 
 onInit(() => {
   initSendgrid();
@@ -122,6 +123,13 @@ exports.parseInboundEmailV2 = onRequest(parseInboundEmail);
 // To handle List-Unsubscribe=One-Click calls
 // To test this, use Firebase Hosting's dynamic rewrite function. See dev-env.md.
 exports.handleUnsubscribe = onRequest(handleUnsubscribeRouter);
+exports.errorLogTunnel = onRequest(
+  {
+    concurrency: null,
+    cpu: 1
+  },
+  errorLogTunnel
+);
 
 // Firebase Auth triggers
 exports.onAuthUserDelete = euWest1V1.auth.user().onDelete(cleanupUserOnDelete);
