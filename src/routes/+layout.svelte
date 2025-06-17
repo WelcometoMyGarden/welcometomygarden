@@ -32,6 +32,7 @@
     dsn: PUBLIC_SENTRY_DSN,
     tracesSampleRate: 1,
     environment: dev ? 'Development' : capitalize(import.meta.env.MODE),
+    tunnel: '/error-log-tunnel',
     enabled: !envIsTrue(import.meta.env.VITE_SENTRY_DISABLE)
   });
 

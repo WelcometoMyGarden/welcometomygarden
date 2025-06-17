@@ -60,3 +60,6 @@ const supabaseDisableReplicationParam = defineBoolean('SUPABASE_DISABLE_REPLICAT
 });
 exports.isSupabaseReplicationDisabled = () => supabaseDisableReplicationParam.value();
 exports.shouldReplicateRuntime = () => !supabaseDisableReplicationParam.value();
+
+// SENTRY
+exports.sentryHost = defineString('SENTRY_HOST');
