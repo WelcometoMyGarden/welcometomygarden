@@ -34,6 +34,7 @@
   import PaddedSection from '$lib/components/Marketing/PaddedSection.svelte';
   import * as Sentry from '@sentry/sveltekit';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
+  import { Progress } from '$lib/components/UI';
 
   // TODO: if you subscribe & unsubscribe in 1 session without refreshing, no new sub will be auto-generated
   // we could fix this by detecting changes to the user (if we go from subscribed -> unsubscribed)
@@ -47,6 +48,7 @@
   let elements: StripeElements;
 
   let elementsSpan: Sentry.Span | null = null;
+  let paymentElementReady = false;
 
   // payment intent client secret
   let clientSecret: string | null = null;
@@ -290,6 +292,7 @@
   <title>{$_('payment-superfan.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
+<Progress active={!paymentElementReady} />
 {#if selectedLevel && $user && !hasActiveSubscription($user)}
   <PaddedSection className="summary-section" desktopOnly>
     <LevelSummary level={selectedLevel} />
@@ -306,7 +309,10 @@
         <Elements {stripe} {clientSecret} bind:elements>
           <span class="method-title">{$_('payment-superfan.payment-section.payment-method')}</span>
           <PaymentElement
-            on:ready={() => elementsSpan?.end()}
+            on:ready={() => {
+              elementsSpan?.end();
+              paymentElementReady = true;
+            }}
             options={{
               paymentMethodOrder: ['bancontact', 'card', 'ideal', 'sofort'],
               terms: { bancontact: 'never', sepaDebit: 'never', card: 'never', ideal: 'never' },
