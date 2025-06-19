@@ -7,11 +7,11 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { isFullscreen } from '$lib/stores/fullscreen';
-  import { coercedLocale, rootModal } from '$lib/stores/app';
+  import { appHasLoaded, coercedLocale, rootModal } from '$lib/stores/app';
   import Modal from 'svelte-simple-modal';
   import { onNavigate } from '$app/navigation';
   import { registerCustomPropertyTracker } from '$lib/util/track-plausible';
-  import { Notifications } from '$lib/components/UI';
+  import { Notifications, Progress } from '$lib/components/UI';
   import { browser, dev } from '$app/environment';
   import { PUBLIC_SENTRY_DSN } from '$env/static/public';
   import { capitalize } from 'lodash-es';
@@ -89,6 +89,9 @@
 
 <svelte:window on:resize={updateViewportHeight} on:keyup={onCustomPress} />
 
+{#if browser}
+  <Progress active={!$appHasLoaded} />
+{/if}
 <div
   class="app active-{$page?.url?.pathname?.substring(1).split('/')[0]} active-route-{$page?.route
     ?.id} locale-{$coercedLocale}"
