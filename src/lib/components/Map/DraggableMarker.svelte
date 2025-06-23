@@ -7,7 +7,7 @@
   export let filled = false;
 
   import { getContext, createEventDispatcher, onMount } from 'svelte';
-  import maplibregl from 'maplibre-gl';
+  import mapboxgl from 'mapbox-gl';
   import key from './mapbox-context.js';
 
   const dispatch = createEventDispatcher();
@@ -18,14 +18,14 @@
   let markerElement;
   let marker;
   onMount(() => {
-    const popup = new maplibregl.Popup({
+    const popup = new mapboxgl.Popup({
       offset: 25,
       closeButton: false,
       closeOnClick: false,
       className: 'popup'
     }).setText(label);
 
-    marker = new maplibregl.Marker({
+    marker = new mapboxgl.Marker({
       draggable: true,
       element: markerElement
     })
