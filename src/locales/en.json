@@ -38,7 +38,11 @@
     "fair-model-blog-path": "/towards-a-fair-model-to-make-wtmg-survive-and-thrive",
     "on": "on",
     "error": {
-      "start": "Something went wrong"
+      "start": "Something went wrong",
+      "app-check": {
+        "message": "WTMG may not work well in this browser. Check {linkText} for solutions.",
+        "link-text": "our help center"
+      }
     }
   },
   "ui": {

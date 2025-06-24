@@ -29,7 +29,11 @@
     "on": "op",
     "helpcenter-url": "https://hulp.welcometomygarden.org/",
     "error": {
-      "start": "Er ging iets mis"
+      "start": "Er ging iets mis",
+      "app-check": {
+        "message": "WTMG werkt mogelijk niet goed in deze browser. Bekijk {linkText} voor oplossingen.",
+        "link-text": "ons helpcentrum"
+      }
     },
     "account-page": "accountpagina"
   },

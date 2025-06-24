@@ -187,4 +187,5 @@ export const initializeUser = async () => {
       }
     }
   });
+  console.debug('User init setup done');
 };

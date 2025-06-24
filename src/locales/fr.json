@@ -31,7 +31,11 @@
     "on": "sur",
     "helpcenter-url": "https://aide.welcometomygarden.org/",
     "error": {
-      "start": "Quelque chose n’a pas fonctionné"
+      "start": "Quelque chose n’a pas fonctionné",
+      "app-check": {
+        "message": "WTMG peut ne pas bien fonctionner avec ce navigateur. Consultez {linkText} pour trouver des solutions.",
+        "link-text": "notre centre d’aide"
+      }
     },
     "account-page": "compte"
   },

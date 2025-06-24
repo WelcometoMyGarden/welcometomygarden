@@ -131,6 +131,11 @@
     box-shadow: 0 0 3.3rem rgba(0, 0, 0, 0.1);
   }
 
+  /* Dodge the error banner if it is shown */
+  :global(.app.error-banner) nav {
+    top: var(--height-error-banner);
+  }
+
   nav > .main-nav {
     flex: 1;
     padding: 0 0 0 5rem;

@@ -7,7 +7,7 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { isFullscreen } from '$lib/stores/fullscreen';
-  import { appHasLoaded, coercedLocale, rootModal } from '$lib/stores/app';
+  import { appHasLoaded, coercedLocale, isAppCheckRejected, rootModal } from '$lib/stores/app';
   import Modal from 'svelte-simple-modal';
   import { onNavigate } from '$app/navigation';
   import { registerCustomPropertyTracker } from '$lib/util/track-plausible';
@@ -16,6 +16,9 @@
   import { PUBLIC_SENTRY_DSN } from '$env/static/public';
   import { capitalize } from 'lodash-es';
   import envIsTrue from '$lib/util/env-is-true.js';
+  import { _, locale } from 'svelte-i18n';
+  import { anchorText } from '$lib/util/translation-helpers.js';
+  import { coerceToMainLanguage } from '$lib/util/get-browser-lang.js';
 
   /**
    * This is a JS-based reimplementation of dvh
@@ -90,12 +93,28 @@
 <svelte:window on:resize={updateViewportHeight} on:keyup={onCustomPress} />
 
 {#if browser}
-  <Progress active={!$appHasLoaded} />
+  <Progress active={!$appHasLoaded && !$isAppCheckRejected} />
+{/if}
+{#if $isAppCheckRejected && typeof $locale == 'string'}
+  <div class="permanent-error">
+    <div>
+      {@html $_('generics.error.app-check.message', {
+        values: {
+          linkText: anchorText({
+            href: `${$_('generics.helpcenter-url')}master/${{ en: '2.-to-use-wtmg-on-firefox', nl: '2.-wtmg-gebruiken-in-firefox', fr: '2.-pour-utiliser-wtmg-sur-firefox' }[coerceToMainLanguage($locale)]}`,
+            class: 'error-link',
+            linkText: $_('generics.error.app-check.link-text')
+          })
+        }
+      })}
+    </div>
+  </div>
 {/if}
 <div
   class="app active-{$page?.url?.pathname?.substring(1).split('/')[0]} active-route-{$page?.route
     ?.id} locale-{$coercedLocale}"
   class:fullscreen={$isFullscreen}
+  class:error-banner={$isAppCheckRejected}
   style="--vh:{vh}"
   bind:this={appContainer}
 >
@@ -179,6 +198,29 @@
     margin-top: 0;
   }
 
+  :global(body) {
+    /* A variable, so it can be reused when the nav bar has to dodge this */
+    --height-error-banner: 4rem;
+  }
+
+  .permanent-error {
+    height: var(--height-error-banner);
+    background-color: #fbf2f5;
+    color: #931c1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    width: 100%;
+  }
+  .permanent-error > div {
+    padding: 1.4rem;
+    line-height: 1.3;
+  }
+  .permanent-error :global(.error-link) {
+    text-decoration: underline;
+  }
+
   @media screen and (max-width: 700px) {
     .app {
       padding-top: 0;
@@ -205,6 +247,11 @@
     /* opaque white */
     /* background: #fff;
     } */
+
+    /* On mobile there is no top nav to take into account */
+    .permanent-error {
+      height: auto;
+    }
 
     @supports (height: 100dvh) {
       .app {

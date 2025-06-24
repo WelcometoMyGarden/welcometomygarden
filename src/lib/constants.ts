@@ -2,6 +2,7 @@ export const SUPPORT_EMAIL = 'support@welcometomygarden.org';
 export const mailToSupportHref = `mailto:${SUPPORT_EMAIL}`;
 export const emailAsLink = `<a class="link" href="${mailToSupportHref}">${SUPPORT_EMAIL}</a>`;
 export const SHOP_URL = 'https://shop.welcometomygarden.org/';
+// Note: the help center URL is not here, since it is localized
 export const SLOWBY_URL = 'https://slowby.travel';
 export const DONATION_URL = 'https://donate.stripe.com/14k4kf26r2sjfLO3ce';
 export const COMMUNITY_TRANSLATIONS_URL =

@@ -20,7 +20,13 @@ import {
 import User, { type UserPrivate, type UserPublic } from '$lib/models/User';
 import { createUser, resendAccountVerification as resendAccVerif } from '$lib/api/functions';
 import { CAMPSITES, USERS, USERS_PRIVATE } from './collections';
-import { doc, type DocumentReference, type DocumentSnapshot, onSnapshot } from 'firebase/firestore';
+import {
+  doc,
+  type DocumentReference,
+  type DocumentSnapshot,
+  FirestoreError,
+  onSnapshot
+} from 'firebase/firestore';
 import notify from '$lib/stores/notification';
 import { goto } from '$app/navigation';
 import routes, { getCurrentRoute } from '../routes';
@@ -30,7 +36,7 @@ import type { FirebaseGarden } from '../types/Garden';
 import type { User as FirebaseUser } from 'firebase/auth';
 import { trackEvent } from '$lib/util';
 import { PlausibleEvent } from '$lib/types/Plausible';
-import { handledOpenFromIOSPWA } from '$lib/stores/app';
+import { handledOpenFromIOSPWA, isAppCheckRejected } from '$lib/stores/app';
 import { allListedGardens, hasLoaded as gardenHasLoaded } from '$lib/stores/garden';
 import { createClient } from '@supabase/supabase-js';
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_API_URL } from '$env/static/public';
@@ -93,7 +99,7 @@ export const createAuthObserver = (): Unsubscribe => {
   // re-login. See code below.
   // https://firebase.google.com/docs/reference/node/firebase.auth.Auth#onidtokenchanged
   const unsubscribeFromAuthObserver = auth().onIdTokenChanged(async (firebaseUser) => {
-    console.info('auth/token changed');
+    console.info(`auth/token changed (${!!firebaseUser ? 'truthy' : 'falsy'})`);
 
     // Update the auth state cache
     latestAuthUserState = firebaseUser;
@@ -327,6 +333,17 @@ export const checkAndHandleUnverified = async (message?: string, timeout = 8000)
   }
 };
 
+const handleSnapshotListenerError = (err: FirestoreError) => {
+  if (err.code === 'permission-denied') {
+    // The link is not 100% this, but in normal cases, there
+    // should be no "permission-denied" without an App Check failure
+    console.warn(
+      'User data snapshot failed due to missing permissions, likely caused by an App Check failure.'
+    );
+    isAppCheckRejected.set(true);
+  }
+};
+
 const isTokenEmailVerified = async (fbUser: FirebaseUser | null) =>
   fbUser ? (await fbUser.getIdTokenResult()).claims.email_verified === true : false;
 
@@ -388,14 +405,18 @@ const updateUserIfPossible = async () => {
 
 export const createUserPublicObserver = (currentUserId: string) => {
   const docRef = doc(db(), USERS, currentUserId) as DocumentReference<UserPublic, UserPublic>;
-  return onSnapshot(docRef, (doc: DocumentSnapshot<UserPublic>) => {
-    const newUserData = doc.data();
-    console.log('New user public doc');
-    if (newUserData) {
-      latestUserPublicState = newUserData;
-      updateUserIfPossible();
-    }
-  });
+  return onSnapshot(
+    docRef,
+    (doc: DocumentSnapshot<UserPublic>) => {
+      const newUserData = doc.data();
+      console.log('New user public doc');
+      if (newUserData) {
+        latestUserPublicState = newUserData;
+        updateUserIfPossible();
+      }
+    },
+    handleSnapshotListenerError
+  );
 };
 
 export const createUserPrivateObserver = (currentUserId: string) => {
@@ -403,14 +424,18 @@ export const createUserPrivateObserver = (currentUserId: string) => {
     UserPrivate,
     UserPrivate
   >;
-  return onSnapshot(docRef, (doc: DocumentSnapshot<UserPrivate>) => {
-    const newUserPrivateData = doc.data();
-    console.log('New user private doc');
-    if (newUserPrivateData) {
-      latestUserPrivateState = newUserPrivateData;
-      updateUserIfPossible();
-    }
-  });
+  return onSnapshot(
+    docRef,
+    (doc: DocumentSnapshot<UserPrivate>) => {
+      const newUserPrivateData = doc.data();
+      console.log('New user private doc');
+      if (newUserPrivateData) {
+        latestUserPrivateState = newUserPrivateData;
+        updateUserIfPossible();
+      }
+    },
+    handleSnapshotListenerError
+  );
 };
 
 export const createCampsiteObserver = (currentUserId: string) => {
@@ -418,26 +443,30 @@ export const createCampsiteObserver = (currentUserId: string) => {
     FirebaseGarden,
     FirebaseGarden
   >;
-  return onSnapshot(docRef, (doc) => {
-    const newCampsiteData = doc.data();
-    const previousCampsiteState = latestCampsiteState;
-    latestCampsiteState = newCampsiteData ?? null;
-    console.log(`New campsite doc${!latestCampsiteState ? ' (null)' : ''}`);
-    // Trigger a $user update, but only if the campsite state didn't transition from null to null
-    // This is the case if the user doesn't have a garden, and the snapshot returned without result.
-    // By updating the $user store, it would trigger subscribers needlessly with a new user object
-    // that has exactly the same data as before.
-    // TODO: maybe the updateUserIfPossible() should do equality checks, and ignore updates if they
-    // result in equal users. That would be more generally applicable.
-    (previousCampsiteState == null && latestCampsiteState == null
-      ? Promise.resolve()
-      : updateUserIfPossible()
-    ).then(() =>
-      // In any case, even if the latest state is null (non-existent),
-      // notify that the garden is loaded after updating it in the $user store
-      gardenHasLoaded.set(true)
-    );
-  });
+  return onSnapshot(
+    docRef,
+    (doc) => {
+      const newCampsiteData = doc.data();
+      const previousCampsiteState = latestCampsiteState;
+      latestCampsiteState = newCampsiteData ?? null;
+      console.log(`New campsite doc${!latestCampsiteState ? ' (null)' : ''}`);
+      // Trigger a $user update, but only if the campsite state didn't transition from null to null
+      // This is the case if the user doesn't have a garden, and the snapshot returned without result.
+      // By updating the $user store, it would trigger subscribers needlessly with a new user object
+      // that has exactly the same data as before.
+      // TODO: maybe the updateUserIfPossible() should do equality checks, and ignore updates if they
+      // result in equal users. That would be more generally applicable.
+      (previousCampsiteState == null && latestCampsiteState == null
+        ? Promise.resolve()
+        : updateUserIfPossible()
+      ).then(() =>
+        // In any case, even if the latest state is null (non-existent),
+        // notify that the garden is loaded after updating it in the $user store
+        gardenHasLoaded.set(true)
+      );
+    },
+    handleSnapshotListenerError
+  );
 };
 
 /**
