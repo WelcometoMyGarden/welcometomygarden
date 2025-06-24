@@ -124,8 +124,13 @@ export async function initialize(): Promise<void> {
     // Prioritize the static env debug token
     appCheckDebugToken = import.meta.env.VITE_FIREBASE_APPCHECK_DEBUG_TOKEN;
   } else if (browser && window) {
-    // But allow inserting a token via localStorage, for example for debugging in BrowserStack,
-    // which seems to be blocked by AppCheck.
+    // But allow to insert a token via the URL or directly via localStorage
+    // for example for debugging in BrowserStack, which seems to be blocked by AppCheck.
+    let urlParams = new URL(window.location.toString()).searchParams;
+    if (urlParams.has('debug_token')) {
+      // Prioritize the URL entry, and write it to localstorage
+      window.localStorage.setItem('FIREBASE_APPCHECK_DEBUG_TOKEN', urlParams.get('debug_token')!);
+    }
     appCheckDebugToken = window.localStorage.getItem('FIREBASE_APPCHECK_DEBUG_TOKEN');
   }
 
@@ -134,6 +139,7 @@ export async function initialize(): Promise<void> {
   }
 
   if (typeof import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY !== 'undefined') {
+    // Note: it seems this will not throw errors when App Check encounters some
     appCheckRef = initializeAppCheck(appRef, {
       provider: new ReCaptchaEnterpriseProvider(import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY),
       isTokenAutoRefreshEnabled: true
@@ -183,4 +189,5 @@ export async function initialize(): Promise<void> {
       // ...
     });
   }
+  console.debug('Firebase init done');
 }

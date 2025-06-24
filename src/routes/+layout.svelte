@@ -7,7 +7,7 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { isFullscreen } from '$lib/stores/fullscreen';
-  import { appHasLoaded, coercedLocale, rootModal } from '$lib/stores/app';
+  import { appHasLoaded, coercedLocale, isAppCheckRejected, rootModal } from '$lib/stores/app';
   import Modal from 'svelte-simple-modal';
   import { onNavigate } from '$app/navigation';
   import { registerCustomPropertyTracker } from '$lib/util/track-plausible';
@@ -90,12 +90,22 @@
 <svelte:window on:resize={updateViewportHeight} on:keyup={onCustomPress} />
 
 {#if browser}
-  <Progress active={!$appHasLoaded} />
+  <Progress active={!$appHasLoaded && !$isAppCheckRejected} />
+{/if}
+{#if $isAppCheckRejected}
+  <div class="permanent-error">
+    <div>
+      ⚠ WTMG does not seem to work well in this browser. <a class="error-link" href=""
+        >Check our Help Center</a
+      > for solutions.
+    </div>
+  </div>
 {/if}
 <div
   class="app active-{$page?.url?.pathname?.substring(1).split('/')[0]} active-route-{$page?.route
     ?.id} locale-{$coercedLocale}"
   class:fullscreen={$isFullscreen}
+  class:error-banner={$isAppCheckRejected}
   style="--vh:{vh}"
   bind:this={appContainer}
 >
@@ -179,6 +189,29 @@
     margin-top: 0;
   }
 
+  :global(body) {
+    /* A variable, so it can be reused when the nav bar has to dodge this */
+    --height-error-banner: 4rem;
+  }
+
+  .permanent-error {
+    height: var(--height-error-banner);
+    background-color: var(--color-danger);
+    color: var(--color-white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    width: 100%;
+  }
+  .permanent-error > div {
+    padding: 1.4rem;
+    line-height: 1.3;
+  }
+  .error-link {
+    text-decoration: underline;
+  }
+
   @media screen and (max-width: 700px) {
     .app {
       padding-top: 0;
@@ -205,6 +238,11 @@
     /* opaque white */
     /* background: #fff;
     } */
+
+    /* On mobile there is no top nav to take into account */
+    .permanent-error {
+      height: auto;
+    }
 
     @supports (height: 100dvh) {
       .app {
