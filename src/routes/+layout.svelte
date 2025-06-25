@@ -132,6 +132,7 @@
     width: 100%;
     height: 100%;
     position: relative;
+    padding-top: var(--height-nav);
     /* Compensate for the desktop nav bar */
     /* TODO: this hides the scrollbar ov overflow-y: scroll below
        under the navbar.
