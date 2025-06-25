@@ -20,7 +20,7 @@
   $: firstName = $user ? $user.firstName : '';
 </script>
 
-<nav>
+<nav id="top-nav">
   {#if $shouldShowBanner}
     <div class="nav-extra">
       {#if $subscriptionJustEnded && $user?.stripeSubscription}

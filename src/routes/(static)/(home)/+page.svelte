@@ -12,7 +12,6 @@
   import LearnMoreArrow from './_sections/LearnMoreArrowSection.svelte';
   import Testimonials, { type Slide } from '$lib/components/Marketing/Testimonials.svelte';
   import { onDestroy } from 'svelte';
-
   import katlijnFrankImg from '$lib/assets/testimonials/katlijn-frank.jpg?as=run&w=1280';
   import carolienFamilyImg from '$lib/assets/testimonials/carolien-family.jpg?as=run&w=1280';
   import gardenImg from '$lib/assets/testimonials/garden.jpeg?as=run&w=1280';
@@ -24,6 +23,7 @@
   import { PlausibleEvent } from '$lib/types/Plausible';
   import SocialProof from '$lib/components/Marketing/SocialProof.svelte';
   import MarketingStyleWrapper from '$lib/components/Marketing/MarketingStyleWrapper.svelte';
+  import CommunityVideo from '$lib/components/Marketing/CommunityVideo.svelte';
 
   const contentOf = (quoteNumber: string) => {
     const prefix = `index.wtmg-quotes.${quoteNumber}`;
@@ -124,6 +124,7 @@
       </MediaSection>
     </MarketingBlock>
   </PaddedSection>
+  <CommunityVideo />
   <PaddedSection desktopOnly>
     <Testimonials slides={testimonials} />
   </PaddedSection>

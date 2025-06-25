@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, onDestroy, onMount } from 'svelte';
   import { Icon, Button } from '$lib/components/UI';
   import { crossIcon } from '$lib/images/icons';
   import { focusTrap } from '$lib/directives';
@@ -37,11 +37,26 @@
    * Padding inside the modal
    */
   export let noInnerPadding = false;
-  export let opacity = true;
+  /**
+   * Whether the background should be opaque
+   */
+  export let opaqueBackground = true;
+  /**
+   * Override background-color
+   */
+  export let backgroundColor: string | undefined = opaqueBackground
+    ? 'rgba(0, 0, 0, 0.6)'
+    : undefined;
+  export let transitionBackground = false;
+  let effectiveBgColor = backgroundColor && transitionBackground ? 'transparent' : backgroundColor;
+
+  /**
+   * Whether the modal content should be transparent
+   */
+  export let transparent = false;
 
   const close = () => {
     show = false;
-    // @ts-ignore 'never' details mean no arguments should be supplied
     dispatch('close');
   };
 
@@ -57,6 +72,19 @@
     if (!closeOnEsc) return;
     if (e.key === 'Escape' || e.keyCode === 27) close();
   };
+
+  onMount(() => {
+    //  Trigger CSS background transition
+    effectiveBgColor = backgroundColor;
+  });
+
+  // Note: this may not be relevant; unmount does not seem to happen.
+  // But the effect does always replay. Debug by checking the initial value on onMount.
+  onDestroy(() => {
+    if (backgroundColor && transitionBackground) {
+      effectiveBgColor = 'transparent';
+    }
+  });
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
@@ -68,7 +96,8 @@
   <div
     class="modal {className}"
     class:center
-    class:opacity
+    class:transitionBackground
+    style:background-color={effectiveBgColor}
     class:stick-to-bottom={stickToBottom}
     class:nopadding
     class:noInnerPadding
@@ -86,6 +115,7 @@
       role="dialog"
       class="modal-content"
       class:fullHeight
+      class:transparent
       style:max-width={maxWidth}
       style:max-height={maxHeight}
       use:focusTrap
@@ -138,8 +168,8 @@
     }
   }
 
-  .opacity {
-    background-color: rgba(0, 0, 0, 0.6);
+  .transitionBackground {
+    transition: background-color 0.4s ease-in;
   }
 
   .nopadding,
@@ -172,13 +202,16 @@
       on the membership modal content itself)
     */
     overflow: auto;
-    box-shadow: 0px 0px 21.5877px rgba(0, 0, 0, 0.1);
     padding: 2rem;
-    background-color: var(--color-white);
     width: 100%;
     display: flex;
     flex-direction: column;
+  }
+
+  .modal-content:not(.transparent) {
     border-radius: var(--modal-border-radius);
+    box-shadow: 0px 0px 21.5877px rgba(0, 0, 0, 0.1);
+    background-color: var(--color-white);
   }
 
   .modal-content.fullHeight {

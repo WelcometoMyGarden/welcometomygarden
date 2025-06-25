@@ -58,7 +58,8 @@ export enum PlausibleEvent {
    * NPS survey
    */
   SHOW_NPS_SURVEY = 'Show NPS Survey',
-  CLOSE_NPS_SURVEY = 'Close NPS Survey'
+  CLOSE_NPS_SURVEY = 'Close NPS Survey',
+  SHOW_COMMUNITY_VIDEO = 'Show Community Video'
 }
 
 const superfanOnlyEvents = [
