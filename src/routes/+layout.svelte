@@ -133,7 +133,12 @@
     height: 100%;
     position: relative;
     /* Compensate for the desktop nav bar */
-    padding-top: var(--height-nav);
+    /* TODO: this hides the scrollbar ov overflow-y: scroll below
+       under the navbar.
+       possible solution
+       - margin-top instead here AND - var(--height-nav)) in the height calc below AND overflow: hidden on the div that is a child of <body>
+       - remove overflow-y: scroll below
+       But I'm not sure what the repercussions of that are elsewhere */
 
     /* The <footer> is not part of <main>,
       so we don't want main to be scrollable
