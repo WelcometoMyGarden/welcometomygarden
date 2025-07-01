@@ -27,15 +27,18 @@
               values: { responses: data.last_10_responded_count }
             })}
             {$_('garden.drawer.response-rate-time.to')}
+            <!-- Copy in between in case of > 10 requests.
+                 In the special case of French, the count (10) is inserted here too.
+              -->
             {data.more_than_10_requests
               ? $_('garden.drawer.response-rate-time.the-last', {
                   // for French
                   values: { requests: requests_count }
                 })
               : ''}
-            {#if $locale !== 'fr'}
+            {#if !($locale === 'fr' && data.more_than_10_requests)}
               <!--
-              Only for French, it is inserted in between "the last" as a string values: interpolation, see above.
+              Only for French in the case of > 10 requests, it was already inserted in between "the last" as a string {values: ... } interpolation, see above.
                For other languages we are inserting it here. -->
               {data.requests_count}
             {/if}
