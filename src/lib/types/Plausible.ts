@@ -59,7 +59,8 @@ export enum PlausibleEvent {
    */
   SHOW_NPS_SURVEY = 'Show NPS Survey',
   CLOSE_NPS_SURVEY = 'Close NPS Survey',
-  SHOW_COMMUNITY_VIDEO = 'Show Community Video'
+  SHOW_COMMUNITY_VIDEO = 'Show Community Video',
+  APP_CHECK_ERROR = 'App Check Error'
 }
 
 const superfanOnlyEvents = [
@@ -150,4 +151,8 @@ export type PlausibleNotificationsInternalDeletionProperties = {
    * own: we're deleting the push registration registered to the device/browser itself
    */
   type: 'detached' | 'own' | 'other';
+};
+
+export type PlausibleAppCheckErrorProperties = {
+  type: string;
 };
