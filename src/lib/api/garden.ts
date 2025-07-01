@@ -157,7 +157,7 @@ export const getAllListedGardens = async () => {
     // Handle any errors if the token was not retrieved.
     console.error('Error fetching app check token:', err);
     Sentry.captureException(err);
-    return;
+    // return;
   }
 
   let startAfterDocRef = null;

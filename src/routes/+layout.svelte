@@ -10,15 +10,48 @@
   import { appHasLoaded, coercedLocale, isAppCheckRejected, rootModal } from '$lib/stores/app';
   import Modal from 'svelte-simple-modal';
   import { onNavigate } from '$app/navigation';
-  import { registerCustomPropertyTracker } from '$lib/util/track-plausible';
+  import trackEvent, { registerCustomPropertyTracker } from '$lib/util/track-plausible';
   import { Notifications, Progress } from '$lib/components/UI';
-  import { browser, dev } from '$app/environment';
-  import { PUBLIC_SENTRY_DSN } from '$env/static/public';
-  import { capitalize } from 'lodash-es';
-  import envIsTrue from '$lib/util/env-is-true.js';
+  import { browser } from '$app/environment';
   import { _, locale } from 'svelte-i18n';
   import { anchorText } from '$lib/util/translation-helpers.js';
   import { coerceToMainLanguage } from '$lib/util/get-browser-lang.js';
+  import { initializeSvelteI18n } from '$locales/initialize.js';
+  import { appCheck, initialize as initializeFirebase } from '$lib/api/firebase';
+  import { getToken } from 'firebase/app-check';
+  import isFirebaseError from '$lib/util/types/isFirebaseError.js';
+  import { PlausibleEvent } from '$lib/types/Plausible.js';
+  import { initializeUser } from '$lib/stores/user.js';
+
+  // Both are not awaited, and run concurrently
+  initializeSvelteI18n().catch((e) => console.error('Error during svelte-i18n init', e));
+  initializeFirebase()
+    .then(async () => {
+      try {
+        // Use AppCheck if it is initialized (not on localhost development, for example)
+        if (typeof import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY !== 'undefined') {
+          await getToken(appCheck(), /* forceRefresh= */ false);
+          console.debug('App Check token retrieved successfully');
+        }
+      } catch (err) {
+        // Handle any errors if the token was not retrieved.
+        if (isFirebaseError(err) && err.code.startsWith('appCheck')) {
+          // Seen:
+          // - 'appCheck/recaptcha-error' (when loading in local dev)
+          // - 'appCheck/throttled' (when loading on Firefox on Android)
+          console.warn('Known appCheck error: ', err);
+          trackEvent(PlausibleEvent.APP_CHECK_ERROR, { type: err.code });
+        } else {
+          console.warn('Unexpected App Check error: ', err);
+          trackEvent(PlausibleEvent.APP_CHECK_ERROR);
+        }
+        // isAppCheckRejected.set(true);
+        // isInitializingFirebase.set(false);
+        // throw new Error('App Check error after Firebase init, aborting init.');
+      }
+    })
+    .then(initializeUser)
+    .catch((e) => console.error('Error during init', e));
 
   /**
    * This is a JS-based reimplementation of dvh
@@ -30,14 +63,6 @@
    * See also: https://codepen.io/th0rgall/pen/gOqrMdj
    */
   let vh = `0px`;
-
-  Sentry.init({
-    dsn: PUBLIC_SENTRY_DSN,
-    tracesSampleRate: 1,
-    environment: dev ? 'Development' : capitalize(import.meta.env.MODE),
-    tunnel: '/error-log-tunnel',
-    enabled: !envIsTrue(import.meta.env.VITE_SENTRY_DISABLE)
-  });
 
   onMount(() => {
     return Sentry.startSpan({ name: 'Root Layout Load', op: 'app.load' }, async () => {
