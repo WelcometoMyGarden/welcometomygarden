@@ -29,6 +29,7 @@ export class StraightToMemberTest {
     await page.goto(this.baseURL);
     // Go to the About membership page
     await page.getByRole('navigation').getByRole('link', { name: 'Become a Member' }).click();
+    await page.waitForURL('**/about-membership*');
     // Click on the button on top, which jumps to the section on the bottom
     await page.locator('#media').getByRole('link', { name: 'Become a Member' }).click();
     // Try to become a member (should not work)
