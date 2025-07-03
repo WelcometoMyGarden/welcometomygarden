@@ -34,6 +34,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@cloudflare/turnstile-firebase-app-check": "^0.0.5",
     "@firebase/rules-unit-testing": "^3.0.4",
     "@playwright/test": "^1.52.0",
     "@sentry/sveltekit": "^9.33.0",

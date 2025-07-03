@@ -1,5 +1,6 @@
 import { getApps, initializeApp, type FirebaseApp } from 'firebase/app';
-import { initializeAppCheck, ReCaptchaEnterpriseProvider, type AppCheck } from 'firebase/app-check';
+import { CustomProvider, initializeAppCheck, type AppCheck } from 'firebase/app-check';
+import { CloudflareProviderOptions } from '@cloudflare/turnstile-firebase-app-check';
 import { connectAuthEmulator, getAuth, type Auth } from 'firebase/auth';
 import { type Firestore, getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { connectStorageEmulator, getStorage, type FirebaseStorage } from 'firebase/storage';
@@ -13,6 +14,7 @@ import {
 } from 'firebase/messaging';
 import envIsTrue from '../util/env-is-true';
 import { browser } from '$app/environment';
+import * as Sentry from '@sentry/sveltekit';
 
 const FIREBASE_CONFIG = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
@@ -120,6 +122,9 @@ export async function initialize(): Promise<void> {
   }
   appRef = initializeApp(FIREBASE_CONFIG);
 
+  const httpEndpoint = isRunningLocally
+    ? `http${SSL_DEV ? 's' : ''}://${hostName}:${SSL_DEV ? 5002 : 5001}/${import.meta.env.VITE_FIREBASE_PROJECT_ID}/europe-west1/ext-cloudflare-turnstile-app-check-provider-tokenExchange`
+    : `https://europe-west1-${import.meta.env.VITE_FIREBASE_PROJECT_ID}.cloudfunctions.net/ext-cloudflare-turnstile-app-check-provider-tokenExchange`;
   let appCheckDebugToken;
   if (typeof import.meta.env.VITE_FIREBASE_APPCHECK_DEBUG_TOKEN !== 'undefined') {
     // Prioritize the static env debug token
@@ -140,11 +145,30 @@ export async function initialize(): Promise<void> {
   }
 
   if (typeof import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY !== 'undefined') {
-    // Note: it seems this will not throw errors when App Check encounters some
+    // See https://developers.cloudflare.com/turnstile/extensions/google-firebase/
+    const cpo = new CloudflareProviderOptions(
+      httpEndpoint,
+      import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY
+    );
     appCheckRef = initializeAppCheck(appRef, {
-      provider: new ReCaptchaEnterpriseProvider(import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY),
+      provider: new CustomProvider(cpo),
       isTokenAutoRefreshEnabled: true
     });
+    cpo
+      .getToken()
+      .then(({ token }) => {
+        if (browser && document) {
+          let appCheckTokenElement = document.getElementById('app-check-token');
+          if (appCheckTokenElement) {
+            appCheckTokenElement.innerHTML = token;
+          } else {
+            Sentry.captureMessage('App Check token element not found during init', 'fatal');
+          }
+        }
+      })
+      .catch((e) => {
+        Sentry.captureException(e, { extra: { context: 'Cloudflare getToken' } });
+      });
   }
 
   dbRef = getFirestore(appRef);
