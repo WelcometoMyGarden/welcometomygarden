@@ -91,21 +91,22 @@ export const storage: () => FirebaseStorage = guardNull<FirebaseStorage>(
 );
 
 // TODO: configure via env var?
-// Note: can be changed to an internal IP
-// Warnng: setting to another setting than 'localhost' has implications on the testability of services.
+// Get the hostname of the web server serving the current page.
+// Warning: setting to a hostname other than 'localhost' has implications on the testability of services.
 // - Service Workers (web push) only work on localhost OR HTTPS
 // - Firebase Emulators CAN'T USE HTTPS
 //   https://github.com/firebase/firebase-tools/issues/1908#issuecomment-1677219899
 // - Requests will fail if HTTPS hosting is configured for Sveltekit, and it tries to fetch HTTP content from Firebase Emulators.
-const emulatorHostName = browser ? window.location.hostname : 'localhost';
+const hostName = browser ? window.location.hostname : 'localhost';
 
 let messagingRef: Messaging;
 export const messaging: () => Messaging = guardNull<Messaging>(() => messagingRef, 'messaging');
 
-// TODO: window may not be available on server-side SvelteKit
+// Basic & naive test to see if the hostname is a local address, defined as localhost or any IP
+// Ideally, this should be constrained to private IP ranges: https://en.wikipedia.org/wiki/Reserved_IP_addresses
 const isRunningLocally =
-  typeof window !== 'undefined' && window.location.hostname.match(`${emulatorHostName}|127.0.0.1`);
-
+  browser &&
+  window.location.hostname.toLocaleLowerCase().match(/^(?:\d{1,3}\.){3}\d{1,3}|localhost$/);
 const shouldUseEmulator = (specificEmulatorOverride?: boolean | undefined | null) =>
   // If an override is defined, only look at that value.
   // Otherwise, look at the generic ALL_EMULATORS setting.
@@ -148,7 +149,7 @@ export async function initialize(): Promise<void> {
 
   dbRef = getFirestore(appRef);
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_FIRESTORE_EMULATOR))) {
-    connectFirestoreEmulator(dbRef, emulatorHostName, SSL_DEV ? 8081 : 8080);
+    connectFirestoreEmulator(dbRef, hostName, SSL_DEV ? 8081 : 8080);
   }
 
   authRef = getAuth(appRef);
@@ -156,13 +157,13 @@ export async function initialize(): Promise<void> {
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_AUTH_EMULATOR))) {
     connectAuthEmulator(
       authRef,
-      `http${SSL_DEV ? 's' : ''}://${emulatorHostName}:${SSL_DEV ? 9098 : 9099}`
+      `http${SSL_DEV ? 's' : ''}://${hostName}:${SSL_DEV ? 9098 : 9099}`
     );
   }
 
   storageRef = getStorage(appRef);
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_STORAGE_EMULATOR))) {
-    connectStorageEmulator(storageRef, emulatorHostName, SSL_DEV ? 9198 : 9199);
+    connectStorageEmulator(storageRef, hostName, SSL_DEV ? 9198 : 9199);
   }
 
   // Surprise surprise, we need to explicitly create a new Functions
@@ -172,7 +173,7 @@ export async function initialize(): Promise<void> {
   initializeEuropeWest1Functions(europeWest1FunctionsRef);
 
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_API_EMULATOR))) {
-    connectFunctionsEmulator(europeWest1FunctionsRef, emulatorHostName, SSL_DEV ? 5002 : 5001);
+    connectFunctionsEmulator(europeWest1FunctionsRef, hostName, SSL_DEV ? 5002 : 5001);
   }
 
   if (
