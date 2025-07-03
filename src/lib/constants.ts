@@ -1,17 +1,19 @@
 export const SUPPORT_EMAIL = 'support@welcometomygarden.org';
 export const mailToSupportHref = `mailto:${SUPPORT_EMAIL}`;
 export const emailAsLink = `<a class="link" href="${mailToSupportHref}">${SUPPORT_EMAIL}</a>`;
-export const SHOP_URL = 'https://shop.welcometomygarden.org/';
 // Note: the help center URL is not here, since it is localized
+export const WTMG_PRODUCTION_DOMAIN = 'welcometomygarden.org';
+export const WTMG_UTM_SOURCE = WTMG_PRODUCTION_DOMAIN;
 export const SLOWBY_URL = 'https://slowby.travel';
 export const DONATION_URL = 'https://donate.stripe.com/14k4kf26r2sjfLO3ce';
 export const COMMUNITY_TRANSLATIONS_URL =
   'https://github.com/WelcometoMyGarden/welcometomygarden#translations';
+export const WTMG_PRODUCTION_URL = `https://${WTMG_PRODUCTION_DOMAIN}`;
 export const COMMUNITY_FORUM_URL =
   (import.meta.env.VITE_DISCOURSE_HOST as string | undefined) ||
-  'https://community.welcometomygarden.org';
-export const WTMG_BLOG_BASE_URL = 'https://blog.welcometomygarden.org';
-export const WTMG_UTM_SOURCE = 'welcometomygarden.org';
+  `https://community.${WTMG_PRODUCTION_DOMAIN}`;
+export const WTMG_BLOG_BASE_URL = `https://blog.${WTMG_PRODUCTION_DOMAIN}`;
+export const SHOP_URL = `https://shop.${WTMG_PRODUCTION_DOMAIN}/`;
 export const UTM_MEMBERSHIP_CAMPAIGN = 'membership';
 export const DEFAULT_MAP_STYLE = 'mapbox://styles/mapbox/streets-v8';
 export const STP_URL = 'https://slowtravelpass.com';
