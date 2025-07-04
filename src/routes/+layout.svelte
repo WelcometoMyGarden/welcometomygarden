@@ -10,48 +10,16 @@
   import { appHasLoaded, coercedLocale, isAppCheckRejected, rootModal } from '$lib/stores/app';
   import Modal from 'svelte-simple-modal';
   import { onNavigate } from '$app/navigation';
-  import trackEvent, { registerCustomPropertyTracker } from '$lib/util/track-plausible';
+  import { registerCustomPropertyTracker } from '$lib/util/track-plausible';
   import { Notifications, Progress } from '$lib/components/UI';
   import { browser } from '$app/environment';
   import { _, locale } from 'svelte-i18n';
   import { anchorText } from '$lib/util/translation-helpers.js';
   import { coerceToMainLanguage } from '$lib/util/get-browser-lang.js';
   import { initializeSvelteI18n } from '$locales/initialize.js';
-  import { appCheck, initialize as initializeFirebase } from '$lib/api/firebase';
-  import { getToken } from 'firebase/app-check';
-  import isFirebaseError from '$lib/util/types/isFirebaseError.js';
-  import { PlausibleEvent } from '$lib/types/Plausible.js';
+  import { initialize as initializeFirebase } from '$lib/api/firebase';
   import { initializeUser } from '$lib/stores/user.js';
-
-  // Both are not awaited, and run concurrently
-  initializeSvelteI18n().catch((e) => console.error('Error during svelte-i18n init', e));
-  initializeFirebase()
-    .then(async () => {
-      try {
-        // Use AppCheck if it is initialized (not on localhost development, for example)
-        if (typeof import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY !== 'undefined') {
-          await getToken(appCheck(), /* forceRefresh= */ false);
-          console.debug('App Check token retrieved successfully');
-        }
-      } catch (err) {
-        // Handle any errors if the token was not retrieved.
-        if (isFirebaseError(err) && err.code.startsWith('appCheck')) {
-          // Seen:
-          // - 'appCheck/recaptcha-error' (when loading in local dev)
-          // - 'appCheck/throttled' (when loading on Firefox on Android)
-          console.warn('Known appCheck error: ', err);
-          trackEvent(PlausibleEvent.APP_CHECK_ERROR, { type: err.code });
-        } else {
-          console.warn('Unexpected App Check error: ', err);
-          trackEvent(PlausibleEvent.APP_CHECK_ERROR);
-        }
-        // isAppCheckRejected.set(true);
-        // isInitializingFirebase.set(false);
-        // throw new Error('App Check error after Firebase init, aborting init.');
-      }
-    })
-    .then(initializeUser)
-    .catch((e) => console.error('Error during init', e));
+  import { readyTurnstile } from '$lib/api/turnstile';
 
   /**
    * This is a JS-based reimplementation of dvh
@@ -65,6 +33,13 @@
   let vh = `0px`;
 
   onMount(() => {
+    // Both are not awaited, and run concurrently
+    initializeSvelteI18n().catch((e) => console.error('Error during svelte-i18n init', e));
+    readyTurnstile
+      .then(initializeFirebase)
+      .then(initializeUser)
+      .catch((e) => console.error('Error during init', e));
+
     return Sentry.startSpan({ name: 'Root Layout Load', op: 'app.load' }, async () => {
       console.log('Mounting root layout');
       vh = `${window.innerHeight * 0.01}px`;
@@ -143,6 +118,13 @@
   style="--vh:{vh}"
   bind:this={appContainer}
 >
+  <div
+    id="turnstile-widget"
+    class="cf-turnstile"
+    data-sitekey={import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY}
+    data-callback="onloadTurnstileCallback"
+  ></div>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <!-- Make the modal a child of .app, so that it inherits its CSS -->
   <Modal show={$rootModal} unstyled={true} closeButton={false}>
     {#if browser}
@@ -183,6 +165,11 @@
           `min-height` must be used to impose stricter limitations on the child's height  */
     display: flex;
     flex-direction: column;
+  }
+
+  .cf-turnstile {
+    position: absolute;
+    top: 1rem;
   }
 
   .app > :global(main) {
