@@ -7,11 +7,10 @@ import { capitalize } from 'lodash-es';
 
 Sentry.init({
   dsn: PUBLIC_SENTRY_DSN,
-  tracesSampleRate: 0,
+  tracesSampleRate: 1,
   environment: dev ? 'Development' : capitalize(import.meta.env.MODE),
   tunnel: '/error-log-tunnel',
-  // enabled: !envIsTrue(import.meta.env.VITE_SENTRY_DISABLE)
-  enabled: false
+  enabled: !envIsTrue(import.meta.env.VITE_SENTRY_DISABLE)
 });
 
 export const handleError = handleErrorWithSentry();
