@@ -24,6 +24,7 @@
   import { get } from 'svelte/store';
   import { onMount } from 'svelte';
   import * as Sentry from '@sentry/sveltekit';
+  import { debounce } from 'lodash-es';
 
   const continueUrl = $page.url.searchParams.get('continueUrl');
 
@@ -134,6 +135,9 @@
   let formError = '';
 
   const submit = async () => {
+    // Already set this now, to transition the form submit button to "disabled"
+    // as soon as possible, even before field evaluations.
+    isSigningIn.set(true);
     Sentry.addBreadcrumb({ message: 'Attempt to register', level: 'info' });
     // Validate all fields
     let errorCount = 0;
@@ -161,6 +165,7 @@
           )
         }
       });
+      isSigningIn.set(false);
       return;
     }
 
@@ -206,6 +211,13 @@
     }
   };
 
+  // Avoids duplicate accounts being created. We only want this to be called once.
+  // It seems like `trailing: false` should be specified to avoid a calling a second time at the trailing end
+  // if more than 1 call came within the 1000 ms wait
+  // Note: 1000ms: we should be careful to not block the method when people don't agree to the terms at first,
+  // and are able to re-click the submit button within 1000ms. Maybe we could issue a cancel/reset when the checkbox is clicked?
+  const debouncedSubmit = debounce(submit, 1000, { leading: true, trailing: false });
+
   const cookiePolicy = `<a class="link" href=${routes.COOKIE_POLICY} target="_blank" >${$_(
     'generics.cookie-policy'
   ).toLocaleLowerCase()}</a>`;
@@ -237,7 +249,7 @@
     Switch off built-in form validation (we implement our own)
     https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation#a_more_detailed_example
   -->
-  <form novalidate on:submit|preventDefault={submit} slot="form">
+  <form novalidate on:submit|preventDefault={debouncedSubmit} slot="form">
     <div>
       <label for="first-name">{$_('register.first-name')}</label>
       <TextInput

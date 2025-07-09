@@ -537,7 +537,6 @@ export const register = async ({
    */
   reference: string | null;
 }) => {
-  isSigningIn.set(true);
   try {
     await createUser({
       email,
