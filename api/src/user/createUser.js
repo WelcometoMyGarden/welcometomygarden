@@ -169,25 +169,23 @@ exports.createUser = async ({ data: inputData, auth: authContext }) => {
     fail('internal');
   }
 
+  // Set essential user data
   try {
     const { publicUserProfileDocRef: userPublicRef, privateUserProfileDocRef: userPrivateRef } =
       getUserDocRefs(user.uid);
 
     await Promise.all([
       // Set the Supabase user claim on the user
-      (async () => {
-        try {
-          // Set custom user claims on this newly created user.
-          await auth.setCustomUserClaims(uid, {
-            role: 'authenticated'
-          });
-        } catch (error) {
+      auth
+        .setCustomUserClaims(uid, {
+          role: 'authenticated'
+        })
+        .catch((error) =>
           logger.error('Error setting custom claims for a new user', {
             user: user.toJSON(),
             error
-          });
-        }
-      })(),
+          })
+        ),
       // Create the public user doc
       userPublicRef.set({
         countryCode,
@@ -250,50 +248,53 @@ exports.createUser = async ({ data: inputData, auth: authContext }) => {
       .doc('users')
       .set({ count: FieldValue.increment(1) }, { merge: true }),
     // Send the verification email
-    sendVerificationEmail(email, firstName, communicationLanguage),
+    sendVerificationEmail(email, firstName, communicationLanguage).catch((e) => {
+      // If this occurs here, the most likely reason is that a duplicate account was created
+      // (or we're over the 20QPS quota for link generation, which is unlikely. Or a SG error.)
+      logger.error(
+        "Couldn't send the initial verification email. Is this a duplicate account creation?",
+        { error: e, email, uid }
+      );
+    }),
     // Enqueue the first welcome flow email
-    (async () => {
-      try {
-        await sendMessageQueue.enqueue(
-          {
-            type: 'welcome',
-            data: { uid }
-          },
-          {
-            // 10 minutes later
-            scheduleDelaySeconds: 10 * 60,
-            ...(targetUri
-              ? {
-                  uri: targetUri
-                }
-              : {})
-          }
-        );
-      } catch (e) {
-        logger.error(`Error while queueing the first welcome email`, { uid, error: e });
-      }
-    })(),
+    sendMessageQueue
+      .enqueue(
+        {
+          type: 'welcome',
+          data: { uid }
+        },
+        {
+          // 10 minutes later
+          scheduleDelaySeconds: 10 * 60,
+          ...(targetUri
+            ? {
+                uri: targetUri
+              }
+            : {})
+        }
+      )
+      .catch((e) =>
+        logger.error(`Error while enqueueing the first welcome email`, { uid, error: e })
+      ),
     // Enqueue the last welcome flow email
-    (async () => {
-      try {
-        await sendMessageQueue.enqueue(
-          { type: 'become_member', data: { uid } },
-          {
-            scheduleTime: DateTime.now().plus({ days: 7 }).toJSDate(),
-            ...(targetUri
-              ? {
-                  uri: targetUri
-                }
-              : {})
-          }
-        );
-      } catch (e) {
-        logger.error(`Error while queueing the "become a member" last welcome flow email`, {
+    sendMessageQueue
+      .enqueue(
+        { type: 'become_member', data: { uid } },
+        {
+          scheduleTime: DateTime.now().plus({ days: 7 }).toJSDate(),
+          ...(targetUri
+            ? {
+                uri: targetUri
+              }
+            : {})
+        }
+      )
+      .catch((e) =>
+        logger.error(`Error while enqueueing the "become a member" last welcome flow email`, {
           uid,
           error: e
-        });
-      }
-    })()
+        })
+      )
   ]);
 
   logger.info(`New account created for ${data.email} / ${uid}`, { data: dataWithoutPassword });
