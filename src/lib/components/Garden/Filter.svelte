@@ -20,6 +20,7 @@
   import { PlausibleEvent } from '$lib/types/Plausible';
   import type { BooleanGardenFacilities, Garden } from '$lib/types/Garden';
   import { facilities } from '$lib/stores/facilities';
+  import { MAX_GARDEN_CAPACITY } from '$lib/constants';
 
   export let filteredGardens: Garden[] | undefined;
   /**
@@ -47,7 +48,7 @@
     facilities: unfilteredFacilities(),
     capacity: {
       min: 1,
-      max: 20
+      max: MAX_GARDEN_CAPACITY
     }
   };
 
@@ -134,7 +135,7 @@
               facilities: unfilteredFacilities(),
               capacity: {
                 min: 1,
-                max: 20
+                max: MAX_GARDEN_CAPACITY
               }
             };
           }}

@@ -58,6 +58,8 @@ export const IMAGES_PATH = '/images';
 export const nonMemberMaxZoom = 12;
 export const memberMaxZoom = ZOOM_LEVELS.MAX;
 
+export const MAX_GARDEN_CAPACITY = 100;
+
 export const NOTIFICATION_PROMPT_DISMISSED_COOKIE = 'notif_dismissed';
 
 // In EUR

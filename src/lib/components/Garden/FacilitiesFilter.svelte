@@ -6,6 +6,7 @@
   import type { Garden } from '$lib/types/Garden';
   import { type CapacityFilterType, type FacilitiesFilterType } from './Filter.svelte';
   import { facilities } from '$lib/stores/facilities';
+  import { MAX_GARDEN_CAPACITY } from '$lib/constants';
 
   // Will practically never be `undefined`, because it is initialized in beforeUpdate
   export let filteredGardens: Garden[] | undefined;
@@ -21,7 +22,7 @@
     if (filter.capacity.min > 1) filter.capacity.min -= 1;
   };
   const capacityMinIncrease = () => {
-    if (filter.capacity.min < 20) filter.capacity.min += 1;
+    if (filter.capacity.min < MAX_GARDEN_CAPACITY) filter.capacity.min += 1;
   };
 
   function gardenFilterFacilities(this: FacilitiesFilterType, garden: Garden) {
@@ -103,7 +104,7 @@
             class="capacity-input"
             name="capacity"
             min="1"
-            max="20"
+            max={MAX_GARDEN_CAPACITY}
             bind:value={filter.capacity.min}
           />
           <button on:click={capacityMinIncrease}><span>&plus;</span></button>

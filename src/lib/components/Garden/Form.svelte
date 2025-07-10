@@ -13,6 +13,7 @@
   import type { FirebaseGarden, GardenDraft, LongLat } from '$lib/types/Garden';
   import type { FormEventHandler } from 'svelte/elements';
   import { facilities } from '$lib/stores/facilities';
+  import { MAX_GARDEN_CAPACITY } from '$lib/constants';
 
   // Note: this component should only be loaded if the garden is loaded.
   const existingGarden: FirebaseGarden | null = $user?.garden ?? null;
@@ -236,7 +237,7 @@
           name="capacity"
           min="1"
           id="capacity"
-          max="20"
+          max={MAX_GARDEN_CAPACITY}
           bind:value={garden.facilities.capacity}
           required
         />
