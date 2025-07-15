@@ -2868,9 +2868,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sveltejs/kit@npm:^2.22.2":
-  version: 2.22.2
-  resolution: "@sveltejs/kit@npm:2.22.2"
+"@sveltejs/kit@npm:2.21.2":
+  version: 2.21.2
+  resolution: "@sveltejs/kit@npm:2.21.2"
   dependencies:
     "@sveltejs/acorn-typescript": "npm:^1.0.5"
     "@types/cookie": "npm:^0.6.0"
@@ -2884,14 +2884,13 @@ __metadata:
     sade: "npm:^1.8.1"
     set-cookie-parser: "npm:^2.6.0"
     sirv: "npm:^3.0.0"
-    vitefu: "npm:^1.0.6"
   peerDependencies:
-    "@sveltejs/vite-plugin-svelte": ^3.0.0 || ^4.0.0-next.1 || ^5.0.0 || ^6.0.0-next.0
+    "@sveltejs/vite-plugin-svelte": ^3.0.0 || ^4.0.0-next.1 || ^5.0.0
     svelte: ^4.0.0 || ^5.0.0-next.0
-    vite: ^5.0.3 || ^6.0.0 || ^7.0.0-beta.0
+    vite: ^5.0.3 || ^6.0.0
   bin:
     svelte-kit: svelte-kit.js
-  checksum: 10/316d0395d96e26a82f57cf0540b1465ea166a1b8afb05b4e52fb7648afe7523c0df816e9280dacd046547635643e6416e782d825e4fae6053f120b150d31cff6
+  checksum: 10/db3422bb912bb9a44ba4d4e1a85a24a0bcba5409a949f5597c5d32a66950bb6ac4aa6baa4ef93fd460a3c28268b0fb58bc6753530b7b19febe023a00af31b803
   languageName: node
   linkType: hard
 
@@ -9647,18 +9646,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vitefu@npm:^1.0.6":
-  version: 1.0.7
-  resolution: "vitefu@npm:1.0.7"
-  peerDependencies:
-    vite: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0-beta.0
-  peerDependenciesMeta:
-    vite:
-      optional: true
-  checksum: 10/f780b754d859819c0a6e10f890e2519479194e34692b580f89fb864fa169d9df012622a2b4a4d5e3f1c524117ee7ba2a3555acf89e3bc98445251b7af328e3c0
-  languageName: node
-  linkType: hard
-
 "vitest@npm:^2.1.9":
   version: 2.1.9
   resolution: "vitest@npm:2.1.9"
@@ -9776,7 +9763,7 @@ __metadata:
     "@stripe/stripe-js": "npm:^4.10.0"
     "@supabase/supabase-js": "npm:^2.50.2"
     "@sveltejs/adapter-static": "npm:^3.0.8"
-    "@sveltejs/kit": "npm:^2.22.2"
+    "@sveltejs/kit": "npm:2.21.2"
     "@sveltejs/vite-plugin-svelte": "npm:^3.1.2"
     "@tmcw/togeojson": "npm:^5.8.1"
     "@turf/turf": "npm:^7.1.0"
