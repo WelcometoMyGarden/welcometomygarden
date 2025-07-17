@@ -1,7 +1,7 @@
 // Based on https://github.com/firebase/quickstart-testing/blob/master/unit-test-security-rules-v9/test/firestore.spec.js
 // Guide: https://firebase.google.com/docs/rules/unit-tests
 
-// Start emulators before executing tests.
+// Start empty emulators before executing tests.
 
 import { readFileSync, createWriteStream } from 'fs';
 import http from 'http';
@@ -261,5 +261,77 @@ describe('"user-private" data', async () => {
         }
       })
     );
+  });
+});
+
+describe('chat', async () => {
+  let testDb: firebase.firestore.Firestore;
+  beforeEach(async () => {
+    // Create alice
+    testDb = await createAliceUser();
+    // Test-specific prep
+    await testEnv.withSecurityRulesDisabled(async (context) => {
+      const firestore = context.firestore();
+      // Make Alice a superfan
+      await updateDoc(doc(firestore, 'users/alice'), { superfan: true });
+      // Create the "bob" user
+      await setDoc(doc(firestore, 'users/bob'), {
+        firstName: 'Bob',
+        countryCode: 'BE',
+        superfan: false
+      });
+      await setDoc(doc(firestore, 'users-private/bob'), {
+        lastName: 'Dylan',
+        consentedAt: serverTimestamp(),
+        emailPreferences: {
+          newChat: true,
+          news: true
+        }
+      });
+    });
+  });
+  describe('chat creation', async () => {
+    // TODO: it will fail because of another rule now
+    const createChatFromAlice = async () => {
+      const now = Timestamp.now();
+      await setDoc(doc(testDb, 'chats/testchat'), {
+        users: ['alice', 'bob'],
+        createdAt: now,
+        lastActivity: now,
+        lastMessage: 'Hello there'
+      });
+    };
+
+    it('a superfan can start a new chat if it has no users-meta doc', () =>
+      assertSucceeds(createChatFromAlice()));
+
+    it('a superfan can start a new chat if it has an existing users-meta doc without chatBlockedAt prop', async () => {
+      // Set alice to chat-blocked by the system
+      await testEnv.withSecurityRulesDisabled(async (context) => {
+        const firestore = context.firestore();
+
+        // Pretend one chat was sent already
+        await setDoc(doc(firestore, 'users-meta/alice'), {
+          chatWindowStartAt: Timestamp.fromMillis(Date.now() - 3600 * 1000),
+          chatCount: 1
+        });
+      });
+
+      // Alice should still be able to create the chat
+      await assertSucceeds(createChatFromAlice());
+    });
+
+    it('disallows start a new chat when the user is blocked', async () => {
+      // Set alice to chat-blocked by the system
+      await testEnv.withSecurityRulesDisabled(async (context) => {
+        const firestore = context.firestore();
+        await setDoc(doc(firestore, 'users-meta/alice'), {
+          chatBlockedAt: Timestamp.now()
+        });
+      });
+
+      // Alice should not be able to create the chat
+      await assertFails(createChatFromAlice());
+    });
   });
 });

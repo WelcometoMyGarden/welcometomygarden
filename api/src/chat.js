@@ -1,6 +1,6 @@
 const { FieldValue, Timestamp } = require('firebase-admin/firestore');
 const { logger } = require('firebase-functions');
-const { sendMessageReceivedEmail, sendSpamAlertEmail } = require('./mail');
+const { sendMessageReceivedEmail, sendSpamAlertEmail, sendChatBlockedEmail } = require('./mail');
 const { auth, db, getFunctionUrl } = require('./firebase');
 const { sendNotification } = require('./push');
 const fail = require('./util/fail');
@@ -11,6 +11,8 @@ const { normalizeMessage, buildMessageUrl } = require('./util/mail');
 const { shouldReplicateRuntime } = require('./sharedConfig');
 
 exports.MAX_MESSAGE_LENGTH = 800;
+
+const MAX_CHATS_PER_DAY = 100;
 
 /**
  * @typedef {CollectionReference<PushRegistration>} PushRegistrationColRef
@@ -221,14 +223,8 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
  * @param {FirestoreAuthEvent<QueryDocumentSnapshot<Chat>, { chatId: string; }>} event
  */
 exports.onChatCreate = async ({ data: chatSnapshot }) => {
-  await db
-    .collection('stats')
-    .doc('chats')
-    .set({ count: FieldValue.increment(1) }, { merge: true });
-
   const chatId = chatSnapshot.id;
 
-  //
   // To continue processing, a chat has to be created by a user
   // (always true, at least in our current system)
   //
@@ -238,6 +234,28 @@ exports.onChatCreate = async ({ data: chatSnapshot }) => {
   if (typeof senderAuthId !== 'string') {
     fail('not-found');
   }
+
+  const senderMetaRef = /** @type {DocumentReference<UserMeta>} */ (
+    db.collection('users-meta').doc(senderAuthId)
+  );
+  const { chatWindowStartAt, chatWindowCount, chatBlockedAt } =
+    (await senderMetaRef.get()).data() ?? {};
+  if (chatBlockedAt) {
+    logger.error(
+      'Handling a new chat after the sender was blocked from new chats. Firestore rules should prevent this.',
+      {
+        chatId,
+        senderAuthId,
+        recipientAuthId
+      }
+    );
+    fail('permission-denied');
+  }
+
+  await db
+    .collection('stats')
+    .doc('chats')
+    .set({ count: FieldValue.increment(1) }, { merge: true });
 
   // Enqueue message reminder email, if the recipient has not opted out manually (hardcoded for now)
   if (!['tgnSZm4dzpX24DZBHfIYzAvNGH02'].includes(recipientAuthId)) {
@@ -265,6 +283,7 @@ exports.onChatCreate = async ({ data: chatSnapshot }) => {
     );
   }
 
+  // TODO: refactor the spam alert to be managed in users-meta
   const now = Date.now();
   const userPrivateDocRef = /** @type {DocumentReference<UserPrivate>} */ (
     db.collection('users-private').doc(senderAuthId)
@@ -275,42 +294,78 @@ exports.onChatCreate = async ({ data: chatSnapshot }) => {
     !usersPrivateDocData.latestSpamAlertAt ||
     now - usersPrivateDocData.latestSpamAlertAt.toMillis() > 72 * 3600 * 1000;
 
-  if (!canCheckForSpamActivity) {
-    return;
-  }
-
-  // Get all the chats involving the user
-  const chatsOfLast24Hours = await /** @type {CollectionReference<Chat>} */ (
-    db
-      .collection('chats')
-      .where('createdAt', '>', Timestamp.fromMillis(now - 24 * 3600 * 1000))
-      .where('users', 'array-contains', senderAuthId)
-  ).get();
-  const chatsCreatedByUser = chatsOfLast24Hours.docs
-    .map((d) => d.data())
-    .filter((d) => d.users[0] === senderAuthId);
-
-  if (chatsCreatedByUser.length < 10) {
-    return;
-  }
-
-  logger.info(
-    `Sending spam alert for ${senderAuthId}, last message: ${chatSnapshot.data().lastMessage}`
-  );
-
-  const { email, displayName } = await auth.getUser(senderAuthId);
-
-  await await Promise.all([
-    sendSpamAlertEmail({
+  async function getChatNotificationParamsForSender() {
+    const { email, displayName } = await auth.getUser(senderAuthId);
+    return {
       uid: senderAuthId,
-      email: email,
+      email,
       firstName: displayName,
       lastName: usersPrivateDocData.lastName,
       lastMessage: chatSnapshot.data().lastMessage
-    }),
-    // Update the last alert timestamp
-    userPrivateDocRef.update({ latestSpamAlertAt: Timestamp.now() })
-  ]);
+    };
+  }
+
+  async function checkForSpamActivity() {
+    // Get all the chats involving the user
+    const chatsOfLast24Hours = await /** @type {CollectionReference<Chat>} */ (
+      db
+        .collection('chats')
+        .where('createdAt', '>', Timestamp.fromMillis(now - 24 * 3600 * 1000))
+        .where('users', 'array-contains', senderAuthId)
+    ).get();
+    const chatsCreatedByUser = chatsOfLast24Hours.docs
+      .map((d) => d.data())
+      .filter((d) => d.users[0] === senderAuthId);
+
+    if (chatsCreatedByUser.length < 10) {
+      return;
+    }
+
+    logger.info(
+      `Sending spam alert for ${senderAuthId}, last message: ${chatSnapshot.data().lastMessage}`
+    );
+
+    await Promise.all([
+      sendSpamAlertEmail(await getChatNotificationParamsForSender()),
+      // Update the last alert timestamp
+      userPrivateDocRef.update({ latestSpamAlertAt: Timestamp.now() })
+    ]);
+  }
+
+  if (canCheckForSpamActivity) {
+    await checkForSpamActivity();
+  }
+
+  async function checkChatBlock() {
+    if (chatWindowStartAt && Date.now() - chatWindowStartAt.toMillis() < 24 * 3600 * 1000) {
+      // We're in an existing window
+      let updateData = {
+        chatWindowCount: FieldValue.increment(1)
+      };
+
+      if (chatWindowCount > MAX_CHATS_PER_DAY - 2) {
+        // Block the user from new chats
+        // why -2: e.g. 98 means the *previous* message was 99 or higher, which means the just-sent message was the 100th one or higher.
+        // why >: uses > and not === to make sure that a race condition due to many concurrent updates which makes the count past the exact max - 1
+        // is also blocked. Maybe transactions are an alternative.
+        //
+        updateData.chatBlockedAt = Timestamp.now();
+        await sendChatBlockedEmail(await getChatNotificationParamsForSender());
+      }
+
+      // Apply updates in any case
+      await senderMetaRef.set(updateData, { merge: true });
+      return;
+    }
+
+    // Create a new window in case a current window did not exist
+    await senderMetaRef.set(
+      { chatWindowStartAt: Timestamp.now(), chatWindowCount: 1 },
+      { merge: true }
+    );
+  }
+
+  await checkChatBlock();
 };
 
 /**

@@ -34,7 +34,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@firebase/rules-unit-testing": "^3.0.4",
+    "@firebase/rules-unit-testing": "^4.0.1",
     "@playwright/test": "^1.52.0",
     "@sentry/sveltekit": "^9.33.0",
     "@stripe/stripe-js": "^4.10.0",

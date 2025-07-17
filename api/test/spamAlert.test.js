@@ -64,7 +64,7 @@ describe('spamAlert', () => {
     await clearFirestore();
   });
 
-  it('the server sends a message when a user sends more than 10 messages within 24 hours', async () => {
+  it('the server sends a message when a user sends more 10 or more messages within 24 hours', async () => {
     // send 10 messages
     for (let i = 0; i < 11; i++) {
       await createChat(sender.uid, hosts[i].uid, faker.lorem.sentences(2));

@@ -189,7 +189,7 @@ service cloud.firestore {
     }
 
     function validatePhoto(photo) {
-      // photo can not be undefined
+      // Note: `photo` being undefined will fail this condition.
       return photo == null || photo is string
     }
 
@@ -275,6 +275,16 @@ service cloud.firestore {
       )
     }
 
+    function isNotChatBlocked() {
+      // Either there is no user metadata,
+      return !exists(/databases/$(database)/documents/users-meta/$(requesterId()))
+      // or the metadata does not have a block field
+        || !("chatBlockedAt" in get(/databases/$(database)/documents/users-meta/$(requesterId())).data)
+      // or the block field is null
+        || get(/databases/$(database)/documents/users-meta/$(requesterId())).data.chatBlockedAt == null
+    }
+
+
     // Conditions for chat creations
     function canCreateChat() {
       return isValidChatWrite()
@@ -285,6 +295,8 @@ service cloud.firestore {
       // Both participants exist
         && userExists(incomingData().users[0])
         && userExists(incomingData().users[1])
+      // The sender is not blocked from sending chats
+        && isNotChatBlocked()
     }
 
 

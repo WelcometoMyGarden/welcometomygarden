@@ -715,14 +715,18 @@ exports.sendSubscriptionCancellationFeedbackEmail = async (email, firstName, lan
 };
 
 /**
- *
- * @param {{
+ * @typedef {{
  *  firstName: string,
  *  lastName: string,
  *  lastMessage: string,
  *  email: string,
  *  uid: string
- * }} params
+ * }} ChatNotificationEmailParams
+ */
+
+/**
+ *
+ * @param {ChatNotificationEmailParams} params
  */
 exports.sendSpamAlertEmail = ({ firstName, lastName, lastMessage, email }) => {
   const msg = {
@@ -733,6 +737,7 @@ exports.sendSpamAlertEmail = ({ firstName, lastName, lastMessage, email }) => {
       buildEmail('dries', WTMG_DOMAIN),
       buildEmail('support', WTMG_DOMAIN)
     ],
+    categories: ['10 messages notification email'],
     content: [
       {
         type: 'text/html',
@@ -762,6 +767,58 @@ or their <a href="${dashboardUrl()}/action/user-info?userId=${encodeURIComponent
   if (!canSendMail()) {
     // @ts-ignore
     devSend(msg, 'spamAlertEmail');
+    return Promise.resolve();
+  }
+
+  // @ts-ignore
+  return send(msg);
+};
+
+/**
+ *
+ * @param {ChatNotificationEmailParams} params
+ */
+exports.sendChatBlockedEmail = ({ firstName, lastName, lastMessage, email }) => {
+  const msg = {
+    subject: `Warning: ${firstName} blocked because of 100 messages in the last 24 hours`,
+    from: SUPPORT_FROM,
+    to: [
+      buildEmail('manon', WTMG_DOMAIN),
+      buildEmail('dries', WTMG_DOMAIN),
+      buildEmail('thor', WTMG_DOMAIN),
+      buildEmail('support', WTMG_DOMAIN)
+    ],
+    categories: ['Chat blocked notification email'],
+    content: [
+      {
+        type: 'text/html',
+        value: `<p>Hello,</p>
+
+<p>The user "${firstName} ${lastName}" &lt;${email}&gt; has just started a <strong>100th</strong> chat in the last 24 hours.</p>
+<p>The system has <strong>automatically blocked them</strong> from starting more chats.</p>
+<p>Their last message was:</p>
+
+<blockquote style="font-style:italic;">
+  <pre>
+  ${lastMessage}
+  </pre>
+</blockquote>
+
+<p>You can inspect their <a href="${dashboardUrl()}/action/inspect-chats?userId=${encodeURIComponent(email)}">full chat history</a>
+or their <a href="${dashboardUrl()}/action/user-info?userId=${encodeURIComponent(email)}">user details</a> in the dashboard.</p>
+
+<p><strong>In case we want to unblock this user, it has to be done manually in the database.</strong></p>
+
+<p>Yours truly,</p>
+
+<p>WTMG Notifier</p>`
+      }
+    ]
+  };
+
+  if (!canSendMail()) {
+    // @ts-ignore
+    devSend(msg, 'chatBlockedEmail');
     return Promise.resolve();
   }
 

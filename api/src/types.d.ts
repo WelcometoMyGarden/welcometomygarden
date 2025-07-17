@@ -1,5 +1,5 @@
 import type { FirestoreEvent as FE, FirestoreAuthEvent as FAE } from 'firebase-functions/firestore';
-import type { DocumentSnapshot as DS } from '@google-cloud/firestore';
+import type { DocumentSnapshot as DS, Timestamp } from '@google-cloud/firestore';
 import type { CallableRequest as CR } from 'firebase-functions/https';
 import type { CallableContext as CC } from 'firebase-functions/v1/https';
 import type { TaskQueue as TQ } from 'firebase-admin/functions';
@@ -35,6 +35,21 @@ declare global {
   type PushRegistration = import('../../src/lib/types/PushRegistration').FirebasePushRegistration;
   type PushRegistrationStatus =
     import('../../src/lib/types/PushRegistration').PushRegistrationStatus;
+
+  type UserMeta = {
+    /**
+     * The start of the last 24 hour chat analysis window
+     */
+    chatWindowStartAt?: Timestamp;
+    /**
+     * The count of the chats within the last chat analysis window
+     */
+    chatWindowCount?: number;
+    /**
+     * When the user was blocked from sending more chats
+     */
+    chatBlockedAt?: Timestamp | null;
+  };
 
   type WrappedFunction = <T extends (...args: any[]) => any>(
     guard: boolean,
