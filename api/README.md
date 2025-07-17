@@ -4,7 +4,7 @@ This inner package houses the Firebase Cloud Functions of WTMG's Firebase backen
 
 Install the dependencies, if you haven't already while following the [dev env README](../docs/dev-env.md):
 
-```
+```bash
 yarn install
 ```
 
@@ -14,7 +14,7 @@ If you have [full access](../docs/full-access.md), follow the configuration inst
 
 ### Start dev servers
 
-```
+```bash
 yarn serve
 ```
 
@@ -32,7 +32,7 @@ Sometimes the dev servers don't quit properly, and remain handing. On a restart,
 
 On macOS/Linux, you can kill the process listening on that port with:
 
-```
+```bash
 lsof -ti tcp:8080 | xargs kill
 
 # Or, if we're desperate:
@@ -62,7 +62,7 @@ o.
 
 First, [install the CLI](https://stripe.com/docs/stripe-cli) & log in.
 
-```
+```bash
 stripe login
 ```
 
@@ -75,7 +75,7 @@ If another live testing webhook listener is already active, disable it first, to
 1. Disable the main live test endpoint of the (temporarily) at https://dashboard.stripe.com/test/webhooks
 2. Take over its events locally by running:
 
-   ```
+   ```bash
    stripe listen --events customer.subscription.created,customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.created,invoice.paid,payment_intent.processing,payment_intent.payment_failed --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/handleStripeWebhookV2
    ```
 
@@ -89,7 +89,7 @@ NOTE: I've had weird behavior with `--load-from-webhooks-api`, with or without a
 
 Re-triggering a specific event may be helpful for debugging, it's possible using
 
-```
+```bash
 stripe events resend <event id>
 ```
 
@@ -106,41 +106,59 @@ See here for fake payment details: https://stripe.com/docs/billing/subscriptions
 
 ## Running tests
 
-This project uses the [mocha](https://mochajs.org/) test runner, and [sinon](https://sinonjs.org/releases/v17/) for mocking/inspecting objects for tests.
+This project uses the [mocha](https://mochajs.org/) test runner, and [sinon](https://sinonjs.org/releases/v17/) for mocking/inspecting objects for tests. Most tests depend on (parts of) a Firebase Emulator environment.
 
-Run tests from the `api` folder.
+Run the following example commands from the `api` folder.
+
+### Emulator-independent
+
+Some unit tests can be run without starting Firebase emulators, because they don't have Firebase dependencies, or their dependencies (like `logger` in from `functions-framework`) work standalone.
+
+```bash
+node_modules/.bin/mocha -w -f 'inbound email parser'
+```
+
+### Emulator-dependent
+
+**Emulator calling the tests**
+
+Tests can be run in a single command by using `emulators:exec` to let Firebase Emulators call/fork the tests against its environment.
 
 To run all tests:
 
-```
+```bash
 echo "node_modules/.bin/mocha"  > runtests.sh && firebase --project demo-test emulators:exec --ui ./runtests.sh
 ```
 
-This example runs tests in the group that includes the string `sendMessageFromEmail`:
+This example runs tests in the group that includes the string `sendMessageFromEmail`.
+To prevent Firestore-triggered functions from running (and potentially slowly hitting SendGrid), this example adds `--only auth,firestore`. Remove this to run the functions anyway for more realistic side-effects.
 
-```
+```bash
 echo "node_modules/.bin/mocha -f sendMessageFromEmail" > runtests.sh && firebase --project demo-test emulators:exec --only auth,firestore --ui ./runtests.sh
 ```
 
 Or, when functions or Firestore triggers should also be tested:
 
-```
+```bash
 echo "node_modules/.bin/mocha -w -f onCampsitesWrite" > runtests.sh && firebase --project demo-test emulators:exec --only auth,firestore,functions --ui ./runtests.sh
-```
-
-Some unit tests can be run without starting firebase emulators, because they don't have Firebase dependencies, or their dependencies (like `logger` in from `functions-framework`) work standalone.
-
-```
-node_modules/.bin/mocha -w -f 'inbound email parser'
 ```
 
 Running all tests from a single file:
 
-```
+```bash
 echo "node_modules/.bin/mocha test/renewalScheduler.test.js" > runtests.sh && firebase --project demo-test emulators:exec --only auth,firestore --ui ./runtests.sh
 ```
 
-To prevent Firestore-triggered functions from running (and potentially slowly hitting SendGrid), this example adds `--only auth,firestore`. Remove this to run the functions anyway for more realistic side-effects.
+**Detached emulator**
+
+It is also possible to start a Emulator dev environment independently in a separate shell, for example with `yarn firebase:demo`. This can be useful to develop tests, since the same emulator environment can be preserved while changing application and test code.
+
+Tests can then be run in another shell using `mocha`. Unlike the forked shell, you will still need to prepare the mocha shell environment to connect to the local emulators, for example with:
+
+```bash
+export FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099
+export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080
+```
 
 ### Testing SendGrid Inbound Parse
 
@@ -154,7 +172,7 @@ To not have to repeat this procedure, but still test email parsing, [./test/pars
 
 Use the correct environment:
 
-```
+```bash
 firebase use wtmg-dev
 ```
 
@@ -170,13 +188,13 @@ Keep in mind that Stripe Webhook signing secrets are **unique to the webhook end
 
 This will deploy all functions:
 
-```
+```bash
 firebase deploy --only functions
 ```
 
 This will deploy specific functions, for example, all currently used Stripe-related functions:
 
-```
+```bash
 firebase deploy --project prod --only \
 functions:createStripeCustomerV2,\
 functions:createOrRetrieveUnpaidSubscriptionV2,\
@@ -192,7 +210,7 @@ At the moment, we use only one Firebase Extension: storage-resize-images.
 
 It has already been installed and registered locally in `../firebase.json`. Its version can be updated (locally) using:
 
-```
+```bash
 firebase --project staging ext:update storage-resize-images
 ```
 
@@ -206,7 +224,7 @@ AFAIK (untested), unlike general Firebase Functions, Extension .env files can no
 
 Afterwards (fill in the right project):
 
-```
+```bash
 firebase --project staging deploy --only extensions
 ```
 
@@ -216,7 +234,7 @@ I don't think it's possible (yet) to only deploy one extension, which is OK sinc
 
 See [the docs](https://firebase.google.com/docs/rules/manage-deploy#deploy_your_updates).
 
-```
+```bash
 # For Firestore
 firebase deploy --only firestore:rules
 
