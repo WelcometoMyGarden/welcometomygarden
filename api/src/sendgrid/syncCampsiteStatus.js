@@ -5,6 +5,7 @@ const { sendgridListedFieldIdParam, sendgridGardenPhotoFieldIdParam } = require(
 const { affectedKeys } = require('../util/diff');
 
 /**
+ * Note: this entire function should only run if SendGrid Contact syncing is enabled.
  * @param {FirestoreEvent<Change<DocumentSnapshot<Garden>>>} change
  */
 module.exports = async ({ data, params: { campsiteId } }) => {

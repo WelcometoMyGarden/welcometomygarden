@@ -3,7 +3,8 @@ const { auth, db, getFunctionUrl } = require('./firebase');
 const {
   sendgridHostFieldIdParam,
   sendgridListedFieldIdParam,
-  sendgridGardenPhotoFieldIdParam
+  sendgridGardenPhotoFieldIdParam,
+  isContactSyncDisabled
 } = require('./sharedConfig');
 const { updateSendgridContact } = require('./sendgrid/updateSendgridContact');
 const { logger } = require('firebase-functions/v2');
@@ -28,7 +29,7 @@ exports.onCampsiteCreate = async ({ data }) => {
     // Probably gardens of deleted users! This error not happen on create, but better to handle it.
     logger.error("Couldn't fetch the user connected to a garden");
   }
-  if (user) {
+  if (user && !isContactSyncDisabled()) {
     // Sync the host status to SendGrid
     const sendgridContactUpdateDetails = {
       email: user.email,
@@ -95,7 +96,7 @@ exports.onCampsiteDelete = async ({ data }) => {
       { uid }
     );
   }
-  if (user) {
+  if (user && !isContactSyncDisabled()) {
     // Sync the host status to SendGrid
     const sendgridContactUpdateDetails = {
       email: user.email,
