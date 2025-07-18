@@ -1,12 +1,5 @@
 import { type Browser, type BrowserContext, type Page, expect } from '@playwright/test';
-import {
-  deleteAccount,
-  makeSuperfan,
-  openEmail,
-  pay,
-  payOnStripeWithBancontactRedirect,
-  pretendToHavePaidWithRedirect
-} from './util';
+import { deleteAccount, openEmail, pay } from './util';
 import { type TestType } from '../../playwright.config';
 
 /**
@@ -169,8 +162,6 @@ export class MainFlowTest {
     // The opened page should redirect to the garden we wanted to open
     // using the localStorage chatIntent measures
     await page.waitForURL('**/explore/garden/*');
-
-    let firebaseAdminPage: Page | undefined = undefined;
 
     // Wait for the garden card to appear, click the become member link
     await page.getByRole('link', { name: 'become a member', exact: true }).click();
