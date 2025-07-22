@@ -123,23 +123,6 @@ exports.resendAccountVerification = async (request) => {
 };
 
 /**
- * Admin function to set the admin status of the given email address.
- *
- * @public
- * @param {FV2.CallableRequest<{newStatus: boolean, email: string}>} request
- */
-exports.setAdminRole = async (request) => {
-  const { data } = request;
-  await verifyAdminUser(request);
-
-  const { newStatus } = data;
-  const user = await auth.getUserByEmail(data.email);
-  await auth.setCustomUserClaims(user.uid, { admin: newStatus });
-
-  return { message: `${data.email} admin status set successfully.` };
-};
-
-/**
  * Admin function to force the verification of an email.
  * The normal verification process starts in createUser.
  *
