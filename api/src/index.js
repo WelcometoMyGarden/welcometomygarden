@@ -19,7 +19,6 @@ const { region: regionV1 } = require('firebase-functions/v1');
 const {
   requestPasswordReset,
   resendAccountVerification,
-  verifyEmail,
   updateEmail,
   requestEmailChange,
   propagateEmailChange
@@ -110,7 +109,6 @@ exports.createOrRetrieveUnpaidSubscriptionV2 = onCall(createOrRetrieveUnpaidSubs
 exports.createCustomerPortalSessionV2 = onCall(createCustomerPortalSession);
 
 // Callable functions: admin functions
-exports.verifyEmail = onCall(verifyEmail);
 exports.updateEmail = onCall(updateEmail);
 
 // HTTP functions:

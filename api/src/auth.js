@@ -123,24 +123,6 @@ exports.resendAccountVerification = async (request) => {
 };
 
 /**
- * Admin function to force the verification of an email.
- * The normal verification process starts in createUser.
- *
- * @public
- * @param {FV2.CallableRequest} request
- */
-exports.verifyEmail = async (request) => {
-  await verifyAdminUser(request);
-  const { email } = request.data;
-
-  const userToUpdate = await auth.getUserByEmail(email);
-  await auth.updateUser(userToUpdate.uid, {
-    emailVerified: true
-  });
-  return { message: `${email} was verified` };
-};
-
-/**
  * Utility method. See requestEmailChange.
  * @private
  */
