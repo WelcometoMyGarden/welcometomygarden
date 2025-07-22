@@ -251,7 +251,7 @@
   }
 
   .socials {
-    width: 18rem;
+    width: 12rem;
   }
 
   .socials :global(ul.socials) {

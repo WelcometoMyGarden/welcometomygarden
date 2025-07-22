@@ -63,7 +63,7 @@
   }
 
   .socials {
-    width: 25rem;
+    width: 20rem;
   }
 
   @media screen and (max-width: 850px) {

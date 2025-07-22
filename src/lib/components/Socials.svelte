@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { SUPPORT_EMAIL } from '../constants';
-
   export let medium = true;
   export let small = false;
 
@@ -25,11 +23,6 @@
       name: 'Instagram',
       link: 'https://www.instagram.com/welcometomygarden_org/',
       iconFileName: 'instagram.svg'
-    },
-    {
-      name: 'GitHub',
-      link: 'https://github.com/WelcometoMyGarden/welcometomygarden',
-      iconFileName: 'github.svg'
     }
   ];
 </script>
@@ -42,12 +35,6 @@
       </a>
     </li>
   {/each}
-  <!-- TODO: totally remove these? -->
-  <!-- <li>
-    <a href="https://github.com/welcometomygarden" target="_blank" rel="noreferrer">
-      <img src="/images/icons/github.svg" alt="GitHub" />
-    </a>
-  </li> -->
   <!-- Todo: remove mail icon? -->
 </ul>
 
