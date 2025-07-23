@@ -18,8 +18,12 @@ import {
   serverTimestamp,
   setDoc,
   setLogLevel,
+  collection,
   Timestamp,
-  updateDoc
+  updateDoc,
+  getDoc,
+  query,
+  getDocs
 } from 'firebase/firestore';
 import type firebase from 'firebase/compat/app';
 import { afterAll, beforeAll, beforeEach, describe, it } from 'vitest';
@@ -121,6 +125,25 @@ describe('"user" data', async () => {
   beforeEach(async () => {
     testDb = await createAliceUser();
   });
+  it('allows reading your own public user data', async () => {
+    await assertSucceeds(getDoc(doc(testDb, 'users/alice')));
+  });
+  it('allows reading public user data of any individual user', async () => {
+    // Create the "bob" user
+    await testEnv.withSecurityRulesDisabled(async (context) => {
+      await setDoc(doc(context.firestore(), 'users/bob'), {
+        firstName: 'Bob',
+        countryCode: 'BE',
+        superfan: false
+      });
+    });
+
+    // Get bob's data
+    await assertSucceeds(getDoc(doc(testDb, 'users/bob')));
+  });
+  it('disallows listing users data', async () => {
+    await assertFails(getDocs(query(collection(testDb, 'users'))));
+  });
   it('should allow ONLY signed in users to update their users document with (a) required field', async () => {
     await assertSucceeds(
       updateDoc(doc(testDb, 'users/alice'), {
@@ -211,6 +234,12 @@ describe('"user-private" data', async () => {
   let testDb: firebase.firestore.Firestore;
   beforeEach(async () => {
     testDb = await createAliceUser();
+  });
+  it('allows getting your own users-private data', async () => {
+    await assertSucceeds(getDoc(doc(testDb, 'users-private/alice')));
+  });
+  it('disallows listing users-private data in general', async () => {
+    await assertFails(getDocs(query(collection(testDb, 'users-private'))));
   });
   it('fails when trying to create a document (firebase-admin required) ', async () => {
     await assertFails(setDoc(doc(testDb, 'users-private/bob'), {}));
