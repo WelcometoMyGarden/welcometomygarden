@@ -9,16 +9,21 @@ import { isOnIDevicePWA } from '$lib/util/push-registrations';
 
 export const handledOpenFromIOSPWA = writable(false);
 
+export const localeIsLoaded = derived(
+  // isLocaleLoading start off with false, then true, then false again when loaded
+  [isLocaleLoading, locale],
+  ([$isLocaleLoading, $locale]) => !$isLocaleLoading && typeof $locale === 'string'
+);
+
 export const staticAppHasLoaded = derived(
-  [isLocaleLoading, locale, handledOpenFromIOSPWA],
-  ([$isLocaleLoading, $locale, $handledOpenFromIOSPWA]) => {
+  [localeIsLoaded, handledOpenFromIOSPWA],
+  ([$localeIsLoaded, $handledOpenFromIOSPWA]) => {
     const _isOnIDevicePWA = isOnIDevicePWA();
     // Don't show iOS PWA app UI until we are ready handling it, and on the right route.
     // this avoids a potential seconds-long flash of the homescreen (or other screen) before
     // being redirected to the chats page, when the user has unread chats.
     const isIDevicePWAReady = !_isOnIDevicePWA || $handledOpenFromIOSPWA;
-    // isLocaleLoading start off with false, then true, then false again when loaded
-    return !$isLocaleLoading && typeof $locale === 'string' && isIDevicePWAReady;
+    return $localeIsLoaded && isIDevicePWAReady;
   }
 );
 //

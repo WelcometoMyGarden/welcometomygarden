@@ -3,15 +3,27 @@
   import routes from '$lib/routes';
   import { Icon, Button } from '$lib/components/UI';
   import { binocularsIcon } from '$lib/images/icons';
+  import { page } from '$app/stores';
+  import { localeIsLoaded } from '$lib/stores/app';
+  import Navigation from '$lib/components/Nav/Navigation.svelte';
 </script>
 
+{#if $localeIsLoaded}
+  <Navigation />
+{/if}
 <div class="available-space-container expand-70">
   <div class="fallback-container">
     <div class="icon">
       <Icon icon={binocularsIcon} />
     </div>
-    <h1>{$_('fallback.404')}</h1>
-    <Button href={routes.HOME} uppercase medium>{$_('fallback.redirect')}</Button>
+    <h1>
+      {$page.error?.message === 'Not Found' && $localeIsLoaded
+        ? $_('fallback.404')
+        : ($page.error?.message ?? 'Something went wrong')}
+    </h1>
+    <Button href={routes.HOME} uppercase medium>
+      {$localeIsLoaded ? $_('fallback.redirect') : 'Back to home'}
+    </Button>
   </div>
 </div>
 
