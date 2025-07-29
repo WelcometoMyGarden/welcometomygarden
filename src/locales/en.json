@@ -512,8 +512,7 @@
         "toilet": "Toilet",
         "bonfire": "Bonfire",
         "electricity": "Electricity",
-        "shower": "Shower",
-        "tent": "Tent"
+        "shower": "Shower"
       }
     },
     "filter": {

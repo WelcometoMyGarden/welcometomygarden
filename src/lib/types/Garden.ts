@@ -75,7 +75,6 @@ export type GardenFacilities = {
   water?: boolean;
   drinkableWater?: boolean;
   bonfire?: boolean;
-  tent?: boolean;
 };
 
 export type BooleanGardenFacilities = Omit<GardenFacilities, 'capacity'>;

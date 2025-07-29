@@ -174,8 +174,7 @@ service cloud.firestore {
       'electricity',
       'water',
       'drinkableWater',
-      'bonfire',
-      'tent'
+      'bonfire'
       ]) &&
       facilities.capacity is number &&
       facilities.capacity >= 1 &&
@@ -184,8 +183,7 @@ service cloud.firestore {
       facilities.electricity is bool &&
       facilities.water is bool &&
       facilities.drinkableWater is bool &&
-      facilities.bonfire is bool &&
-      facilities.tent is bool
+      facilities.bonfire is bool
     }
 
     function validatePhoto(photo) {

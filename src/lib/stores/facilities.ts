@@ -3,7 +3,6 @@ import {
   electricityIcon,
   glassIcon,
   showerIcon,
-  tentPhosphorLight,
   toiletIcon,
   waterIcon
 } from '$lib/images/icons';
@@ -26,7 +25,6 @@ export const facilities = derived(t, ($_) => {
       icon: electricityIcon,
       label: $_('garden.facilities.labels.electricity')
     },
-    { name: 'shower', icon: showerIcon, label: $_('garden.facilities.labels.shower') },
-    { name: 'tent', icon: tentPhosphorLight, label: $_('garden.facilities.labels.tent') }
+    { name: 'shower', icon: showerIcon, label: $_('garden.facilities.labels.shower') }
   ] satisfies { name: keyof Omit<GardenFacilities, 'capacity'>; icon: string; label: string }[];
 });

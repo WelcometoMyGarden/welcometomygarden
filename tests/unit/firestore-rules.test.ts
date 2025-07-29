@@ -218,6 +218,12 @@ describe('"campsites" data', async () => {
       })
     );
   });
+  it('succeeds when trying to add a garden without a tent facility too (legacy, got removed)', async () => {
+    const { tent, ...reducedFacilities } = validGarden.facilities;
+    await assertSucceeds(
+      setDoc(doc(testDb, 'campsites/alice'), { ...validGarden, facilities: reducedFacilities })
+    );
+  });
   it('fails when trying to update garden-listing related timestamps', async () => {
     // First create
     await setDoc(doc(testDb, 'campsites/alice'), validGarden);

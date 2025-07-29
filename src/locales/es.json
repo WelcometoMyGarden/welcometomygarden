@@ -505,8 +505,7 @@
         "toilet": "Baño",
         "bonfire": "Hoguera",
         "electricity": "Electricidad",
-        "shower": "Ducha",
-        "tent": "Tienda de campaña"
+        "shower": "Ducha"
       }
     },
     "filter": {
