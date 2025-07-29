@@ -292,7 +292,7 @@ exports.onChatCreate = async ({ data: chatSnapshot }) => {
   const usersPrivateDocData = usersPrivateDoc.data();
   const canCheckForSpamActivity =
     !usersPrivateDocData.latestSpamAlertAt ||
-    now - usersPrivateDocData.latestSpamAlertAt.toMillis() > 72 * 3600 * 1000;
+    now - usersPrivateDocData.latestSpamAlertAt.toMillis() > 24 * 3600 * 1000;
 
   async function getChatNotificationParamsForSender() {
     const { email, displayName } = await auth.getUser(senderAuthId);
