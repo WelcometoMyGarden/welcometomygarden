@@ -41,6 +41,11 @@ export type FirebaseGarden = {
  */
 export type Garden = {
   id: string;
+  /**
+   * base64 encoded version of the garden photo.
+   * This is only set if this garden was just added, or just updated, with a new photo.
+   */
+  localPhotoData?: string;
 } & FirebaseGarden;
 
 /**
@@ -52,7 +57,16 @@ export type GardenPhoto = { id: string; photo: string };
  * A work-in-progress garden that is edited by the garden add/manage form
  */
 export type GardenDraft = Omit<FirebaseGarden, 'photo'> & {
-  photo: { files: FileList | undefined | null; data: string | null };
+  photo: {
+    /**
+     * Should contain a File reference to the only selected photo in the first array position.
+     */
+    files: FileList | undefined | null;
+    /**
+     * After the selection of a photo, a base64 version will be loaded in the browser for immediate display.
+     */
+    data: string | null;
+  };
 };
 
 /**

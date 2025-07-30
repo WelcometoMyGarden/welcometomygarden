@@ -625,8 +625,7 @@
     },
     "notify": {
       "success": "Your garden was added successfully!",
-      "update": "Your garden was updated successfully!",
-      "photo": "It may take a minute for its photo to show up."
+      "update": "Your garden was updated successfully!"
     }
   },
   "sign-in": {

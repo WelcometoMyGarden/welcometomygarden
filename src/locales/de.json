@@ -617,8 +617,7 @@
     },
     "notify": {
       "success": "Ihr Garten wurde erfolgreich hinzugefügt!",
-      "update": "Ihr Garten wurde erfolgreich aktualisiert!",
-      "photo": "Es kann eine Minute dauern, bis das Foto angezeigt wird."
+      "update": "Ihr Garten wurde erfolgreich aktualisiert!"
     }
   },
   "sign-in": {

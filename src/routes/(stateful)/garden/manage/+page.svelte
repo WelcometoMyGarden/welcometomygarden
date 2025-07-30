@@ -27,11 +27,14 @@
         photo: garden.photo && garden.photo.files ? garden.photo.files[0] : null
       });
       updatingGarden = false;
-      await updateGardenLocally(newGarden);
+      await updateGardenLocally({
+        ...newGarden,
+        ...(garden.photo?.data ? { localPhotoData: garden.photo.data } : {})
+      });
 
       let notifyMsg;
       newGarden.photo
-        ? (notifyMsg = $_('garden.notify.update') + ' ' + $_('garden.notify.photo'))
+        ? (notifyMsg = $_('garden.notify.update'))
         : (notifyMsg = $_('garden.notify.update'));
       notify.success(notifyMsg, 10000);
       trackEvent(PlausibleEvent.UPDATE_GARDEN);

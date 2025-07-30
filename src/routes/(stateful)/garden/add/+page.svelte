@@ -23,12 +23,15 @@
         ...garden,
         photo: garden.photo && garden.photo.files ? garden.photo.files[0] : null
       });
-      await addGardenLocally(newGarden);
+      await addGardenLocally({
+        ...newGarden,
+        ...(garden.photo?.data ? { localPhotoData: garden.photo.data } : {})
+      });
       addingGarden = false;
       trackEvent(PlausibleEvent.ADD_GARDEN);
       let notifyMsg;
       newGarden.photo
-        ? (notifyMsg = $_('garden.notify.success') + ' ' + $_('garden.notify.photo'))
+        ? (notifyMsg = $_('garden.notify.success'))
         : (notifyMsg = $_('garden.notify.success'));
       notify.success(notifyMsg, 10000);
       goto(`${routes.MAP}/garden/${$user!.id}`);

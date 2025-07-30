@@ -52,9 +52,17 @@
    * Loads the garden owner and image thumbnail URL.
    */
   const loadInitialGardenInfo = async () => {
+    if (!garden) {
+      const msg = 'Garden unexpectedly falsy during initial load';
+      console.warn(msg);
+      Sentry.captureMessage(msg);
+      return;
+    }
     try {
       userInfo = await getPublicUserProfile(garden!.id!);
-      if (garden!.photo) {
+      if (garden!.localPhotoData) {
+        photoUrl = garden.localPhotoData;
+      } else if (garden!.photo) {
         const id = garden!.id as string;
         photoUrl = await getGardenPhotoSmall({ ...(garden as GardenPhoto), id });
       }
@@ -116,7 +124,9 @@
     }
     isGettingMagnifiedPhoto = true;
     try {
-      if (garden?.photo) {
+      if (garden?.localPhotoData) {
+        biggerPhotoUrl = garden?.localPhotoData;
+      } else if (garden?.photo) {
         biggerPhotoUrl = await getGardenPhotoBig({ ...garden, id: garden!.id } as GardenPhoto);
       }
     } catch (ex) {

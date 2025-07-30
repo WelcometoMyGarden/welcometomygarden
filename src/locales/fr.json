@@ -581,8 +581,7 @@
     },
     "notify": {
       "update": "Votre jardin a bien été mis à jour !",
-      "success": "Votre jardin a bien été ajouté !",
-      "photo": "Ça peut prendre une minute pour que sa photo apparaisse."
+      "success": "Votre jardin a bien été ajouté !"
     },
     "drawer": {
       "owner": {

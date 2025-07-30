@@ -270,8 +270,7 @@
     },
     "notify": {
       "success": "Jouw tuin is succesvol toegevoegd!",
-      "update": "Jouw tuin werd succesvol geüpdatet!",
-      "photo": "Het kan een minuut duren voordat de foto verschijnt."
+      "update": "Jouw tuin werd succesvol geüpdatet!"
     }
   },
   "sign-in": {

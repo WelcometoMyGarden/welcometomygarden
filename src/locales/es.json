@@ -618,8 +618,7 @@
     },
     "notify": {
       "success": "¡Tu jardín fue añadido con éxito!",
-      "update": "¡Tu jardín se actualizó con éxito!",
-      "photo": "Es posible que la foto tarde un minuto en aparecer."
+      "update": "¡Tu jardín se actualizó con éxito!"
     }
   },
   "sign-in": {
