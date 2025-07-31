@@ -23,7 +23,7 @@
 <li class="user" use:clickOutside on:click-outside={handleClickOutsideDropdown}>
   <button class="button-container user-button" on:click={toggleOpen}>
     <div class="user-avatar">{name.charAt(0).toUpperCase()}</div>
-    <span>{name}</span>
+    <span class="notranslate">{name}</span>
     <Badge count={$chatsCountWithUnseenMessages} />
   </button>
   {#if isOpen}

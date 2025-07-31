@@ -9,7 +9,7 @@
 
 <button class="button-container conversation" class:selected on:click>
   <User name={recipient} {seen}>
-    <p class="last-message" class:seen>
+    <p class="last-message" class:notranslate={true} class:seen>
       {#if lastMessage}
         {lastMessage}
       {:else}

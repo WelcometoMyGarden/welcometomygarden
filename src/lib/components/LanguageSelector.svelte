@@ -42,6 +42,6 @@
 
 <Select value={localeValue} on:change={onChange} name="language-selector" transparent globe>
   {#each allAvailableLocales as { code, name, nativeName } (name)}
-    <option value={code}>{nativeName}</option>
+    <option class="notranslate" value={code}>{nativeName}</option>
   {/each}
 </Select>

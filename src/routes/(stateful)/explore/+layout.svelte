@@ -313,8 +313,8 @@
           <div class="image-container">
             <img src="/images/no-car.svg" alt="No vehicle allowed" />
           </div>
-          <h3>{$_('map.vehicle-notice.title')}</h3>
-          <p class="mt-m">{$_('map.vehicle-notice.text')}</p>
+          <h3>{@html $_('map.vehicle-notice.title')}</h3>
+          <p class="mt-m">{@html $_('map.vehicle-notice.text')}</p>
         </div>
       </div>
     {/if}

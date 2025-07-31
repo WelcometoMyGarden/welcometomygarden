@@ -355,7 +355,7 @@
         </label>
       </div>
       <div class="error">
-        {#if fields.consent.error}{fields.consent.error}{/if}
+        {#if fields.consent.error}{@html fields.consent.error}{/if}
       </div>
     </div>
 

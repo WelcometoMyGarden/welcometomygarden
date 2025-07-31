@@ -158,7 +158,7 @@
     </div>
     <div class="bottom">
       <p class="copyright">
-        {$_('footer.copyright', {
+        {@html $_('footer.copyright', {
           values: {
             year: new Date().getFullYear().toString()
           }

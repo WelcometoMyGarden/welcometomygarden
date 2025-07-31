@@ -26,7 +26,7 @@
   });
 </script>
 
-<div class="container">
+<div class="container notranslate">
   <input
     bind:this={inputElement}
     bind:value

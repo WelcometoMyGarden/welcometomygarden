@@ -259,7 +259,7 @@
     <section class="main">
       <header>
         <div class="garden-title">
-          <Text weight="w600" size="l" className="garden-title-text">
+          <Text weight="w600" size="l" className="garden-title-text notranslate">
             {#if ownedByLoggedInUser}
               {$_('garden.drawer.owner.your-garden')}
             {:else}{userInfo.firstName}{/if}
@@ -335,7 +335,7 @@
       </div>
       <footer class="footer">
         {#if userInfo.languages}
-          <Text class="mb-m">
+          <Text class="mb-m notranslate">
             {userInfo.firstName} speaks
             <Text is="span" weight="bold">Dutch & English</Text>
           </Text>

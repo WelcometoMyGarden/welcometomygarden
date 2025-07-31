@@ -197,7 +197,7 @@
       })}</LabeledCheckbox
     >
     {#if continueError}
-      <p class="error">{continueError}</p>
+      <p class="error">{@html continueError}</p>
     {/if}
   </div>
 

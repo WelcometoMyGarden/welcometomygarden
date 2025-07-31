@@ -60,11 +60,11 @@
     "faq": {
       "questions": {
         "0": {
-          "copy": "Welcome To My Garden a été créé pour les randonneurs/randonneuses pédestres ou les cyclistes ayant besoin d'un coin d'herbe pour poser leur tente à la fin d'une longue journée. Le but n'est pas de remplacer les campings mais de simplement d’offrir un endroit en sécurité pour la nuit. Considérez le comme une addition au réseau des zones de bivouacs référencées en Belgique. Welcome To My Garden est une initiative sans but lucratif : aucun argent ne peut être échangé lors de son utilisation. En tant qu'hôte, vous ne pouvez donc pas demander aux voyageurs de payer pour la nuit.",
-          "title": "Pour qui est Welcome To My Garden ?"
+          "copy": "<span class=\"notranslate\">Welcome To My Garden</span> a été créé pour les randonneurs/randonneuses pédestres ou les cyclistes ayant besoin d'un coin d'herbe pour poser leur tente à la fin d'une longue journée. Le but n'est pas de remplacer les campings mais de simplement d’offrir un endroit en sécurité pour la nuit. Considérez le comme une addition au réseau des zones de bivouacs référencées en Belgique. <span class=\"notranslate\">Welcome To My Garden</span> est une initiative sans but lucratif : aucun argent ne peut être échangé lors de son utilisation. En tant qu'hôte, vous ne pouvez donc pas demander aux voyageurs de payer pour la nuit.",
+          "title": "Pour qui est <span class=\"notranslate\">Welcome To My Garden</span> ?"
         },
         "1": {
-          "copy": "Welcome To My Garden est destiné aux voyageurs et voyageuses adeptes du slow travel, c’est à dire à celles et ceux qui arriveront au jardin à pied ou en vélo. Vous pouvez bien sûr utiliser les transports en commun ou votre voiture pour arriver au début de votre randonnée - mais vous ne pouvez pas arriver chez votre hôte directement en voiture.",
+          "copy": "<span class=\"notranslate\">Welcome To My Garden</span> est destiné aux voyageurs et voyageuses adeptes du slow travel, c’est à dire à celles et ceux qui arriveront au jardin à pied ou en vélo. Vous pouvez bien sûr utiliser les transports en commun ou votre voiture pour arriver au début de votre randonnée - mais vous ne pouvez pas arriver chez votre hôte directement en voiture.",
           "title": "Comment puis-je arriver au jardin ?"
         },
         "2": {
@@ -77,7 +77,7 @@
         },
         "4": {
           "copy": "Camper dans le jardin d’hôtes de WTMG est gratuit. Cependant, pour maintenir et développer la plateforme, WTMG demande une adhésion annuelle afin de répartir les coûts équitablement entre tous les voyageurs lents. Vous pouvez devenir membre <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">ici</a>.",
-          "title": "Est-ce que Welcome To My Garden coûte quelque chose ?"
+          "title": "Est-ce que <span class=\"notranslate\">Welcome To My Garden</span> coûte quelque chose ?"
         }
       },
       "faq-link-text": "Consultez notre FAQ",
@@ -100,12 +100,12 @@
       }
     },
     "banner-stmf": {
-      "copy": "Vous voulez préparer votre prochain voyage lent tout en soutenant Welcome To My Garden ? Découvrez notre {stmfLink} (du 3 au 29 juin) !",
+      "copy": "Vous voulez préparer votre prochain voyage lent tout en soutenant <span class=\"notranslate\">Welcome To My Garden</span> ? Découvrez notre {stmfLink} (du 3 au 29 juin) !",
       "link": "Slow Travel Mini Festival"
     },
     "shop": {
       "banner": {
-        "copy": "Welcome To My Garden a désormais {title} avec des panneaux en bois WTMG et des cartes postales pour remercier vos hôtes. Rendez-vous sur {link} !",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> a désormais {title} avec des panneaux en bois WTMG et des cartes postales pour remercier vos hôtes. Rendez-vous sur {link} !",
         "title": "son shop"
       }
     },
@@ -153,11 +153,11 @@
   },
   "rules": {
     "title": "Les règles à suivre",
-    "description": "Vous trouverez ci-dessous comment Welcome To My Garden fonctionne. Assurez-vous de lire ces règles avant de commencer votre aventure ! Après tout, la plateforme ne pourra fonctionner que si nous respectons tou.te.s les règles.",
+    "description": "Vous trouverez ci-dessous comment <span class=\"notranslate\">Welcome To My Garden</span> fonctionne. Assurez-vous de lire ces règles avant de commencer votre aventure ! Après tout, la plateforme ne pourra fonctionner que si nous respectons tou.te.s les règles.",
     "rules": {
       "0": {
         "title": "Réseau de citoyen.ne.s",
-        "copy": "Welcome To My Garden est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour de voyageurs et voyageuses adeptes du slow travel. Il s’agit d’une initiative sans but lucratif et en conséquence, aucun bénéfice, ni de la part de la plateforme ni de la part des hôtes, ne peut être fait. Welcome To My Garden ne prendra aucune responsabilité pour toute perte, dommage ou blessure encourue pendant un séjour. Les comportements offensants et l'utilisation abusive de la plateforme entraîneront la suspension des comptes (veuillez vous référer à nos conditions d'utilisation)."
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour de voyageurs et voyageuses adeptes du slow travel. Il s’agit d’une initiative sans but lucratif et en conséquence, aucun bénéfice, ni de la part de la plateforme ni de la <span class=\"notranslate\">Welcome To My Garden</span>eut être fait. <span class=\"notranslate\">Welcome To My Garden</span> ne prendra aucune responsabilité pour toute perte, dommage ou blessure encourue pendant un séjour. Les comportements offensants et l'utilisation abusive de la plateforme entraîneront la suspension des comptes (veuillez vous référer à nos conditions d'utilisation)."
       },
       "1": {
         "title": "Envoyez une demande à l’avance au propriétaire du jardin",
@@ -165,7 +165,7 @@
       },
       "2": {
         "title": "Seulement pour les voyageur.ses lent.es (pas de voiture)",
-        "copy": "Welcome To My Garden respecte l’environnement et est une initiative à destination des voyageurs et voyageuses adeptes du slow travel, c’est à dire pour ceux et celles qui se déplacent à pied, à vélo ou en transport en commun. Arriver directement à un jardin en voiture est interdit. Vous pouvez bien sûr vous déplacer en voiture pour vous rendre au point de départ de votre randonnée pédestre ou cycliste."
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respecte l’environnement et est une initiative à destination des voyageurs et voyageuses adeptes du slow travel, c’est à dire pour ceux et celles qui se déplacent à pied, à vélo ou en transport en commun. Arriver directement à un jardin en voiture est interdit. Vous pouvez bien sûr vous déplacer en voiture pour vous rendre au point de départ de votre randonnée pédestre ou cycliste."
       },
       "3": {
         "title": "Durée maximum",
@@ -192,7 +192,7 @@
         "copy": "Ceci est une excellente opportunité de rencontrer d’autres personnes ! Apprenez quelques mots dans la langue de vos hôtes si vous voyagez dans une autre région que la vôtre. Soyez curieux, partagez des histoires et faites des nouvelles amitiés !"
       },
       "9": {
-        "title": "Partagez Welcome To My Garden autour de vous",
+        "title": "Partagez <span class=\"notranslate\">Welcome To My Garden</span> autour de vous",
         "copy": "Connaissez-vous quelqu’un qui pourrait ouvrir son jardin ? Partagez les informations à propos de l’initiative ! Vous pouvez également les inviter à suivre notre page Facebook."
       }
     },
@@ -206,15 +206,15 @@
         "title": "Général",
         "questions": {
           "what": {
-            "title": "Welcome To My Garden, c’est quoi ?",
-            "copy": "Welcome to My Garden est un réseau de citoyen.nes qui ouvrent leurs jardins aux voyageur.ses lent.es qui cherchent un espace pour camper pour la nuit. Il s'agit d'une initiative à but non lucratif lancée par un groupe de citoyens lors du premier confinement du Covid-19. Welcome To My Garden est désormais une entreprise sociale dont la mission est de rendre le slow travel plus accessible à tous et à toutes."
+            "title": "<span class=\"notranslate\">Welcome To My Garden</span>, c’est quoi ?",
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> est un réseau de citoyen.nes qui ouvrent leurs jardins aux voyageur.ses lent.es qui cherchent un espace pour camper pour la nuit. Il s'agit d'une initiative à but non lucratif lancée par un groupe de citoyens lors d<span class=\"notranslate\">Welcome To My Garden</span>t du Covid-19. <span class=\"notranslate\">Welcome To My Garden</span> est désormais une entreprise sociale dont la mission est de rendre le slow travel plus accessible à tous et à toutes."
           },
           "who": {
-            "title": "Pour qui est Welcome To My Garden ?",
-            "copy": "Welcome To My Garden a été créé pour des randonneurs et cyclistes recherchant un endroit pour bivouaquer pour la nuit. L’initiative ne vise pas à remplacer des campings à part entière, simplement à offrir un endroit sécurisé pour la nuit ! Considérez-le comme une addition au réseau de bivouac."
+            "title": "Pour qui est <span class=\"notranslate\">Welcome To My Garden</span> ?",
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> a été créé pour des randonneurs et cyclistes recherchant un endroit pour bivouaquer pour la nuit. L’initiative ne vise pas à remplacer des campings à part entière, simplement à offrir un endroit sécurisé pour la nuit ! Considérez-le comme une addition au réseau de bivouac."
           },
           "how": {
-            "title": "Comment fonctionne Welcome To My Garden ?",
+            "title": "Comment fonctionne <span class=\"notranslate\">Welcome To My Garden</span> ?",
             "copy": "Vous pouvez ajouter directement votre jardin sur le site. Les voyageurs et voyageuses doivent devenir membre afin de pouvoir contacter les propriétaires directement sur le site pour organiser leur séjour."
           }
         }
@@ -224,19 +224,19 @@
         "questions": {
           "how-camping": {
             "title": "Comment accéder au bivouac ?",
-            "copy": "Welcome To My Garden a été mis en place pour répondre aux besoins des voyageurs et voyageuses lent.e.s adeptes du slow travel, c’est à dire des randonneurs et cyclistes qui auraient besoin d’un endroit où poser leur tente pour la nuit. Nous vous demandons donc d’accéder au bivouac de cette manière et non pas par voiture. Vous pouvez bien sûr conduire jusqu’au début du sentier de randonnée, mais vous ne pouvez pas arriver directement chez votre hôte en voiture !"
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> a été mis en place pour répondre aux besoins des voyageurs et voyageuses lent.e.s adeptes du slow travel, c’est à dire des randonneurs et cyclistes qui auraient besoin d’un endroit où poser leur tente pour la nuit. Nous vous demandons donc d’accéder au bivouac de cette manière et non pas par voiture. Vous pouvez bien sûr conduire jusqu’au début du sentier de randonnée, mais vous ne pouvez pas arriver directement chez votre hôte en voiture !"
           },
           "what-facilities": {
             "title": "Quelles installations pourrez-vous trouver dans les jardins ?",
             "copy": "Les jardins mis à disposition sont des coins d’herbe pour poser votre tente. Selon le choix des propriétaires, vous pourriez également avoir accès - ou non - à de l'eau potable, aux sanitaires et à l'électricité. Ils ne sont toutefois pas obligés de le faire : c’est un bonus. Considérez les jardins comme des zones de bivouacs ; il ne s’agit en aucun cas d’espaces de campings à part entière. "
           },
           "cost": {
-            "title": "Est-ce que Welcome To My Garden a un coût ?",
+            "title": "Est-ce que <span class=\"notranslate\">Welcome To My Garden</span> a un coût ?",
             "copy": "<p>Camper dans le jardin d’hôtes de WTMG est gratuit. Cependant, pour maintenir et développer la plateforme, WTMG demande une adhésion annuelle afin de répartir les coûts équitablement entre tous les voyageurs lents. Vous pouvez devenir membre <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">ici</a>.</p>"
           },
           "no-garden": {
             "title": "Je n’ai pas de jardin. Est-ce que je peux quand même voyager dans les jardins d’autres personnes ?",
-            "copy": "Bien sûr ! Vous n’avez pas besoin d’offrir un jardin pour pouvoir utiliser Welcome To My Garden."
+            "copy": "Bien sûr ! Vous n’avez pas besoin d’offrir un jardin pour pouvoir utiliser <span class=\"notranslate\">Welcome To My Garden</span>."
           },
           "how-long": {
             "title": "Combien de temps puis-je rester dans un jardin ?",
@@ -252,7 +252,7 @@
           },
           "tent-type": {
             "title": "Quel type de tente puis-je apporter ?",
-            "copy": "Etant donné que Welcome To My Garden est destiné aux cyclistes et randonneurs, apportez une tente trek qui rentre facilement dans votre sac. Si vous n’êtes pas sûr que votre tente rentre dans le jardin de votre hôte, vérifiez avec lui/elle avant de partir !"
+            "copy": "Etant donné que <span class=\"notranslate\">Welcome To My Garden</span> est destiné aux cyclistes et randonneurs, apportez une tente trek qui rentre facilement dans votre sac. Si vous n’êtes pas sûr que votre tente rentre dans le jardin de votre hôte, vérifiez avec lui/elle avant de partir !"
           }
         }
       },
@@ -260,7 +260,7 @@
         "title": "Hôtes",
         "questions": {
           "privacy": {
-            "title": "Comment Welcome To My Garden garantit la confidentialité des hôtes ?",
+            "title": "Comment <span class=\"notranslate\">Welcome To My Garden</span> garantit la confidentialité des hôtes ?",
             "copy": "Toutes vos données personnelles sont protégées grâce au système d’identification mis en place. Si vous êtes un hôte, nous ne publierons pas le numéro de votre maison et les voyageurs ne pourront pas zoomer exactement sur votre habitation. Vous pourrez donner toutes ces informations aux voyageurs quand vous serez en contact avec eux. À vous de dire comment vous souhaitez communiquer avec eux. "
           },
           "messaging": {
@@ -273,7 +273,7 @@
           },
           "issue": {
             "title": "J’ai eu un problème avec un.e hôte, comment vous le faire savoir ?",
-            "copy": "Tout problème ou mauvais comportement de la part d’un.e hôte ou d’un.e voyageur/voyageuse doit être reporté à Welcome To My Garden par email: {support}. En cas de comportement inadapté, nous nous réservons le droit de suspendre de manière unilatérale le compte de la personne en question (voir les conditions d’utilisations)."
+            "copy": "Tout problème ou mauvais comportement de la part d’un.e hôte ou d’un.e voyageur/voyageuse doit être reporté à <span class=\"notranslate\">Welcome To My Garden</span> par email: {support}. En cas de comportement inadapté, nous nous réservons le droit de suspendre de manière unilatérale le compte de la personne en question (voir les conditions d’utilisations)."
           }
         }
       },
@@ -294,7 +294,7 @@
           },
           "newsletter": {
             "title": "J'aimerais recevoir votre prochaine lettre d'information ! Que dois-je faire ?",
-            "copy": "Pour recevoir notre prochaine lettre d'information, rendez-vous sur votre {accountLink} et cochez la case \"Welcome To My Garden a des nouvelles à partager\". Si vous ne souhaitez plus recevoir de nouvelles, décochez la même case."
+            "copy": "Pour recevoir notre prochaine lettre d'information, rendez-vous sur votre {accountLink} et cochez la case \"<span class=\"notranslate\">Welcome To My Garden</span> a des nouvelles à partager\". Si vous ne souhaitez plus recevoir de nouvelles, décochez la même case."
           },
           "text-in-english": {
             "title": "Il y a du texte en anglais, alors que ce n’est pas ma langue préférée. Comment puis-je le modifier ?",
@@ -311,7 +311,7 @@
         "questions": {
           "fb-page": {
             "title": "Pourquoi est-ce que votre page Facebook n’est qu’en anglais ?",
-            "copy": "La première raison est toute simple : l’anglais est la seule langue commune de notre équipe ! Nous souhaitons aussi ouvrir Welcome To my Garden au plus grand nombre et donc permettre à des personnes ne parlant ni français ni néerlandais de l’utiliser. Nous continuerons à poster en anglais sur Facebook, mais n’hésitez pas à nous écrire en néerlandais ou français !"
+            "copy": "La première raison est toute simple : l’anglais est la seule langue commune de notre équipe ! Nous souhaitons aussi ouvrir <span class=\"notranslate\">Welcome To My Garden</span> au plus grand nombre et donc permettre à des personnes ne parlant ni français ni néerlandais de l’utiliser. Nous continuerons à poster en anglais sur Facebook, mais n’hésitez pas à nous écrire en néerlandais ou français !"
           }
         }
       }
@@ -326,11 +326,11 @@
     "title": "Politique de confidentialité",
     "last-updated": "Dernière mise à jour: 08/12/2022",
     "subtitle": "Responsabilité par rapport au traitement des données et du propriétaire de celles-ci",
-    "intro": "Welcome To My Garden, un projet sans but lucratif sous l'entité juridique de Slowby, une entreprise sociale, constituée et existant en vertu des lois de la Belgique, dont le siège social est situé Henri Van Bortonnestraat 100, 1090 Jette, Belgique, avec le numéro d'entreprise BE 0784.423.261.",
+    "intro": "<span class=\"notranslate\">Welcome To My Garden</span>, un projet sans but lucratif sous l'entité juridique de Slowby, une entreprise sociale, constituée et existant en vertu des lois de la Belgique, dont le siège social est situé Henri Van Bortonnestraat 100, 1090 Jette, Belgique, avec le numéro d'entreprise BE 0784.423.261.",
     "email": "Email : {support}",
     "scope": {
       "title": "Politique de confidentialité",
-      "copy": "Cette 'politique de confidentialité' s'applique aux 'données personnelles' collectées par Welcome To My Garden via ce site web."
+      "copy": "Cette 'politique de confidentialité' s'applique aux 'données personnelles' collectées par <span class=\"notranslate\">Welcome To My Garden</span> via ce site web."
     },
     "personal-data": {
       "meaning": {
@@ -367,7 +367,7 @@
           "3": {
             "title": "Localisation de l'utilisateur",
             "list": {
-              "0": "Dans le cas où vous acceptez de partager votre localisation avec Welcome To My Garden, la carte de Welcome To My Garden sera centrée sur la localisation fournie par votre navigateur. Welcome To My Garden ne stocke votre localisation d'aucune manière, ni dans un cookie ni dans un stockage local. La localisation de l'utilisateur sert uniquement à améliorer votre expérience utilisateur en centrant la carte."
+              "0": "Dans le cas où vous acceptez de partager votre localisation avec <span class=\"notranslate\">Welcom<span class=\"notranslate\">Welcome To My Garden</span>>, la carte de Welcome To My <span class=\"notranslate\">Welcome To My Garden</span>sur la localisation fournie par votre navigateur. <span class=\"notranslate\">Welcome To My Garden</span> ne stocke votre localisation d'aucune manière, ni dans un cookie ni dans un stockage local. La localisation de l'utilisateur sert uniquement à améliorer votre expérience utilisateur en centrant la carte."
             }
           }
         }
@@ -383,11 +383,11 @@
           "4": "Pour vous avertir des mises à jour de la plate-forme ;",
           "5": "Pour vous avertir lorsque des activités sur la plate-forme sont susceptibles de vous intéresser."
         },
-        "copy": "Les données personnelles ne sont stockées et traitées que pendant la période nécessaire aux fins du traitement. Après cela, les données seront supprimées ou anonymisées. Welcome To My Garden s'appuie sur Firebase, qui est certifié selon les principales normes de confidentialité et de sécurité. Les services Firebase sont conformes au Règlement général de protection des données. Toutes les informations relatives à Firebase peuvent être trouvées <a href=\"https://firebase.google.com/support/privacy\">ici</a>."
+        "copy": "Les données personnelles ne sont stockées et traitées que pendant la période nécessaire aux fins du traitement. Après cela, les données seront supprimées ou anonymisées. <span class=\"notranslate\">Welcome To My Garden</span> s'appuie sur Firebase, qui est certifié selon les principales normes de confidentialité et de sécurité. Les services Firebase sont conformes au Règlement général de protection des données. Toutes les informations relatives à Firebase peuvent être trouvées <a href=\"https://firebase.google.com/support/privacy\">ici</a>."
       },
       "backups": {
         "title": "Back-ups",
-        "copy": "Welcome To My Garden effectue un back-up, c'est à dire une sauvegarde, de toutes ses données toutes les 6 heures et stocke les données pendant 30 jours. Si vous demandez la suppression de votre compte, les données seront conservées en back-up pendant cette durée. Aucune de ces données ne sera jamais utilisée, sauf en cas de corruption des données de production."
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> effectue un back-up, c'est à dire une sauvegarde, de toutes ses données toutes les 6 heures et stocke les données pendant 30 jours. Si vous demandez la suppression de votre compte, les données seront conservées en back-up pendant cette durée. Aucune de ces données ne sera jamais utilisée, sauf en cas de corruption des données de production."
       },
       "extra": {
         "0": {
@@ -400,17 +400,17 @@
         },
         "2": {
           "title": "Prise de décision et profilage automatisés",
-          "copy": "Le traitement de vos données personnelles n'inclut pas le profilage et ne sera pas soumis à une prise de décision automatisée par Welcome To My Garden."
+          "copy": "Le traitement de vos données personnelles n'inclut pas le profilage et ne sera pas soumis à une prise de décision automatisée par <span class=\"notranslate\">Welcome To My Garden</span>."
         }
       }
     },
     "rights": {
       "title": "Quels droits avez-vous?",
-      "copy": "Vous avez le droit de consulter vos données personnelles à tout moment, ainsi que le droit d'être informé de l'utilisation que Welcome To My Garden fait de vos données personnelles.",
+      "copy": "<span>Vous avez le droit de consulter vos données personnelles à tout moment, ainsi que le droit d'être informé de l'utilisation que <span class=\"notranslate\">Welcome To My Garden</span> fait de vos données personnelles.</span>",
       "list": {
         "0": {
           "title": "Droit de rectification, de suppression et de restriction du traitement",
-          "copy": "Vous êtes libre de décider de fournir ou non vos données personnelles à Welcome To My Garden. De plus, vous avez toujours le droit de modifier, compléter ou supprimer vos données personnelles sur Welcome To My Garden. Vous reconnaissez qu'un refus de fournir ou une demande de suppression de données personnelles signifie que certains services ne pourront vous être fournis."
+          "copy": "Vous êtes libre de décider de fournir ou non vos données personnelles à <span class=\"notranslate\">Welcome To My Garden</span>. De plus, vous avez toujours le droit de modifier, compléter ou supp<span class=\"notranslate\">Welcome To My Garden</span>rsonnelles sur <span class=\"notranslate\">Welcome To My Garden</span>. Vous reconnaissez qu'un refus de fournir ou une demande de suppression de données personnelles signifie que certains services ne pourront vous être fournis."
         },
         "1": {
           "title": "Droit d'opposition",
@@ -418,7 +418,7 @@
         },
         "2": {
           "title": "Droit à la portabilité des données",
-          "copy": "Vous avez le droit d'obtenir les données personnelles que vous avez fournies à Welcome To My Garden sous une forme structurée et lisible par machine et/ou de les transférer vers des contrôleurs différents."
+          "copy": "Vous avez le droit d'obtenir les données personnelles que vous avez fournies à <span class=\"notranslate\">Welcome To My Garden</span> sous une forme structurée et lisible par machine et/ou de les transférer vers des contrôleurs différents."
         },
         "3": {
           "title": "Droit de retirer son consentement",
@@ -431,7 +431,7 @@
       },
       "exercise-rights": {
         "title": "Exercice de vos droits",
-        "copy": "Vous pouvez exercer vos droits en contactant Welcome To My Garden par email à {support}, à condition que l'adresse email utilisée pour la demande soit identique à celle utilisée pour l’inscription sur la plateforme."
+        "copy": "Vous pouvez exercer vos droits en contactant <span class=\"notranslate\">Welcome To My Garden</span> par email à {support}, à condition que l'adresse email utilisée pour la demande soit identique à celle utilisée pour l’inscription sur la plateforme."
       }
     },
     "additional-info": {
@@ -447,8 +447,8 @@
         "1": {
           "title": "Mesures de sécurité",
           "copy": {
-            "0": "Welcome To My Garden a développé des mesures de sécurité qui ont été ajustées au niveau technologique et organisationnel pour empêcher la destruction, la perte, la falsification, la modification, l'accès interdit ou la divulgation erronée de données personnelles à des tiers  ainsi que tout autre traitement interdit de ces données.",
-            "1": "Welcome To My Garden ne peut en aucun cas être tenu responsable de toute perte directe ou indirecte résultant d'une utilisation incorrecte ou illégale de vos données personnelles par un tiers.",
+            "0": "<span class=\"notranslate\">Welcome To My Garden</span> a développé des mesures de sécurité qui ont été ajustées au niveau technologique et organisationnel pour empêcher la destruction, la perte, la falsification, la modification, l'accès interdit ou la divulgation erronée de données personnelles à des tiers  ainsi que tout autre traitement interdit de ces données.",
+            "1": "<span class=\"notranslate\">Welcome To My Garden</span> ne peut en aucun cas être tenu responsable de toute perte directe ou indirecte résultant d'une utilisation incorrecte ou illégale de vos données personnelles par un tiers.",
             "2": "Vous devez à tout moment respecter les consignes de sécurité, ce qui implique d'empêcher tout accès interdit à vos données de connexion, y compris votre mot de passe. Vous êtes seul responsable de l'utilisation du site sur votre ordinateur, à partir de votre adresse IP et avec vos données d'identification, ainsi que de leur confidentialité."
           }
         }
@@ -718,7 +718,7 @@
     "top-section": {},
     "video-section": {
       "title": "Rejoignez la communauté WTMG",
-      "description": "<p>Welcome To My Garden a pour mission de rendre le voyage lent plus accessible. Comme chaque jardin, WTMG a besoin d’être entretenu pour grandir et rester en bonne santé.</p><p>Camper dans le jardin d’hôtes WTMG reste gratuit. Cependant, pour maintenir et développer WTMG, nous comptons sur une adhésion annuelle de tous les voyageur.ses lent.es afin de répartir les coûts équitablement. Rejoignez-nous dès aujourd'hui !</p>",
+      "description": "<p><span class=\"notranslate\">Welcome To My Garden</span> a pour mission de rendre le voyage lent plus accessible. Comme chaque jardin, WTMG a besoin d’être entretenu pour grandir et rester en bonne santé.</p><p>Camper dans le jardin d’hôtes WTMG reste gratuit. Cependant, pour maintenir et développer WTMG, nous comptons sur une adhésion annuelle de tous les voyageur.ses lent.es afin de répartir les coûts équitablement. Rejoignez-nous dès aujourd'hui !</p>",
       "blog-link-text": "Pourquoi WTMG a besoin de membres",
       "superfan-count": "voyageur·euses lent·es sont déjà membres !"
     },
@@ -855,7 +855,7 @@
             },
             "1": {
               "title": "Quelle est la structure légale derrière WTMG ?",
-              "copy": "Welcome To My Garden est un projet à but non lucratif sous l'entité légale de Slowby, une <a href=\"https://1819.brussels/infotheque/entreprendre-durablement/lagrement-comme-entreprise-sociale-qui-pourquoi-quels-avantages\" target=\"_blank\">enterprise sociale</a>, ce qui signifie que nous sommes une initiative visant un impact social. Les cinq principes du <a href=\"https://www.codesocialeondernemingen.nl/application/files/2615/5491/1784/Principles_Code_Social_Enterprises_English_version.pdf\" target=\"_blank\">Code des Enterprises Sociale</a> constituent notre ligne directrice pour la prise de décision. Dans le futur, afin de préserver au mieux la mission de WTMG, nous envisageons de devenir une coopérative ou de mettre en place un <a href=\"https://purpose-economy.org/en/whats-steward-ownership/\" target=\"_blank\">modèle de steward ownership</a>. Cependant, nous devons d'abord nous assurer que nous pouvons arriver à un modèle viable qui rende WTMG financièrement stable."
+              "copy": "<span class=\"notranslate\">Welcome To My Garden</span> est un projet à but non lucratif sous l'entité légale de Slowby, une <a href=\"https://1819.brussels/infotheque/entreprendre-durablement/lagrement-comme-entreprise-sociale-qui-pourquoi-quels-avantages\" target=\"_blank\">enterprise sociale</a>, ce qui signifie que nous sommes une initiative visant un impact social. Les cinq principes du <a href=\"https://www.codesocialeondernemingen.nl/application/files/2615/5491/1784/Principles_Code_Social_Enterprises_English_version.pdf\" target=\"_blank\">Code des Enterprises Sociale</a> constituent notre ligne directrice pour la prise de décision. Dans le futur, afin de préserver au mieux la mission de WTMG, nous envisageons de devenir une coopérative ou de mettre en place un <a href=\"https://purpose-economy.org/en/whats-steward-ownership/\" target=\"_blank\">modèle de steward ownership</a>. Cependant, nous devons d'abord nous assurer que nous pouvons arriver à un modèle viable qui rende WTMG financièrement stable."
             },
             "2": {
               "title": "Combien coûte WTMG ?",
@@ -879,7 +879,7 @@
           "questions": {
             "0": {
               "title": "Pourquoi WTMG lance-t-elle une adhésion ?",
-              "copy": "Welcome To My Garden a pour mission de rendre le voyage lent plus accessible. Comme tout jardin, WTMG a besoin d'être entretenu pour grandir et rester en bonne santé. Camper dans le jardin d’hôtes WTMG est gratuit. Cependant, pour maintenir et développer le WTMG, nous comptons sur une adhésion annuelle afin de répartir les coûts équitablement entre tous les voyageurs lents. Pour en savoir plus, <a href=\"https://blog.welcometomygarden.org/fr/vers-un-modele-juste-pour-assurer-le-futur-de-wtmg/?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=membership_faq\" target=\"_blank\">lisez notre blog post ici</a>."
+              "copy": "<span class=\"notranslate\">Welcome To My Garden</span> a pour mission de rendre le voyage lent plus accessible. Comme tout jardin, WTMG a besoin d'être entretenu pour grandir et rester en bonne santé. Camper dans le jardin d’hôtes WTMG est gratuit. Cependant, pour maintenir et développer le WTMG, nous comptons sur une adhésion annuelle afin de répartir les coûts équitablement entre tous les voyageurs lents. Pour en savoir plus, <a href=\"https://blog.welcometomygarden.org/fr/vers-un-modele-juste-pour-assurer-le-futur-de-wtmg/?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=membership_faq\" target=\"_blank\">lisez notre blog post ici</a>."
             }
           }
         }
@@ -995,7 +995,7 @@
     "preferences": {
       "text": "M'envoyer des courriels quand :",
       "title": "Préférences de courriel",
-      "news": "Welcome To My Garden a des nouvelles à partager",
+      "news": "<span class=\"notranslate\">Welcome To My Garden</span> a des nouvelles à partager",
       "chat": "Je reçois un nouveau message de discussion"
     },
     "title": "Compte",
@@ -1090,7 +1090,7 @@
         "max": "Votre prénom ne peut comporter que 25 caractères afin que nous puissions l'afficher correctement. N'hésitez pas à l'abréger ou à choisir un surnom.",
         "set": "Veuillez saisir un prénom. C'est ainsi que les autres utilisateurs vous verront."
       },
-      "consent": "Vous devez accepter les conditions de Welcome To My Garden si vous souhaitez utiliser la plateforme.",
+      "consent": "Vous devez accepter les conditions de <span class=\"notranslate\">Welcome To My Garden</span> si vous souhaitez utiliser la plateforme.",
       "last-name": "Veuillez saisir votre nom de famille. Celui-ci ne sera pas partagé avec d'autres utilisateurs",
       "country": {
         "from-list": "Veuillez choisir un pays dans la liste. Ceci nous aide à centrer la carte vers votre pays d'origine."
@@ -1125,7 +1125,7 @@
   },
   "map": {
     "vehicle-notice": {
-      "title": "Welcome To My Garden est réservé aux voyageurs lents.",
+      "title": "<span class=\"notranslate\">Welcome To My Garden</span> est réservé aux voyageurs lents.",
       "text": "Si vous prévoyez de voyager en véhicule motorisé, veuillez ne pas contacter les hôtes via cette plateforme. Merci de votre compréhension !"
     },
     "trails": {
@@ -1175,19 +1175,19 @@
     "last-updated": "Dernière mise à jour : 30/04/2025",
     "intro": {
       "0": {
-        "copy": "Welcome to My Garden est une plateforme regroupant des citoyen.nes qui ouvrent leur jardin pour que des voyageur.ses lent.es non motorisés à pied ou à vélo puissent y camper gratuitement pour la nuit."
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> est une plateforme regroupant des citoyen.nes qui ouvrent leur jardin pour que des voyageur.ses lent.es non motorisés à pied ou à vélo puissent y camper gratuitement pour la nuit."
       },
       "1": {
-        "copy": "Welcome To My Garden, un projet sans but lucratif sous l'entité juridique de Slowby, une entreprise sociale, constituée et existant en vertu des lois de la Belgique, dont le siège social est situé Henri Van Bortonnestraat 100, 1090 Jette, Belgique, avec le numéro d'entreprise BE 0784.423.261."
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span>, un projet sans but lucratif sous l'entité juridique de Slowby, une entreprise sociale, constituée et existant en vertu des lois de la Belgique, dont le siège social est situé Henri Van Bortonnestraat 100, 1090 Jette, Belgique, avec le numéro d'entreprise BE 0784.423.261."
       },
       "2": {
-        "copy": "Ces conditions d’utilisation (“Conditions”) s’appliquent quant à l’accès et l’utilisation de ce site ainsi qu’à l’utilisation du réseau (“Plateforme”) fournie par Welcome to My Garden."
+        "copy": "Ces conditions d’utilisation (“Conditions”) s’appliquent quant à l’accès et l’utilisation de ce site ainsi qu’à l’utilisation du réseau (“Plateforme”) fournie par <span class=\"notranslate\">Welcome To My Garden</span>."
       },
       "3": {
         "copy": "L’utilisation de cette plateforme est soumise à un nombre de règles. Vous trouverez ci-dessous les conditions d’utilisation générale de celle-ci. Nous sommes convaincus que des règles claires garantissent le développement d’une communauté respectueuse. <strong>En créant un compte ou en accédant à la plateforme, vous acceptez ces conditions.</strong>"
       },
       "4": {
-        "copy": "Welcome to My Garden apprécie les commentaires des utilisateurs de la plateforme. Vous pouvez envoyer vos suggestions par email à {support}."
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> apprécie les commentaires des utilisateurs de la plateforme. Vous pouvez envoyer vos suggestions par email à {support}."
       }
     },
     "articles": {
@@ -1198,7 +1198,7 @@
             "copy": "Tout.e citoyen.ne qui souhaite mettre son jardin à disposition gratuitement comme espace de bivouac pour des voyageurs lents - strictement défini comme des voyageurs et voyageuses non-montorisés comme des cyclistes et randonneurs - qui souhaite utiliser le réseau. Si vous voulez ajouter votre jardin, vous devez créer un compte. Si vous souhaitez contacter un.e hôte, vous devez devenir membre de WTMG. Seul.e.s les participant.e.s enregistré.e.s peuvent être des utilisateurs actifs. Vous pouvez vous inscrire avec votre adresse email."
           },
           "1": {
-            "copy": "La création d’un compte par un utilisateur ne confère pas à cet utilisateur la propriété du compte. Welcome to My Garden se réserve le droit de refuser, suspendre ou supprimer des comptes, par exemple si l'utilisateur ne respecte pas les règles suivantes ou si un comportement inapproprié a été signalé par un hôte ou un voyageur."
+            "copy": "La création d’un compte par un utilisateur ne confère pas à cet utilisateur la propriété du compte. <span class=\"notranslate\">Welcome To My Garden</span> se réserve le droit de refuser, suspendre ou supprimer des comptes, par exemple si l'utilisateur ne respecte pas les règles suivantes ou si un comportement inapproprié a été signalé par un hôte ou un voyageur."
           }
         },
         "info": {
@@ -1207,19 +1207,19 @@
             "sections": {
               "0": {
                 "title": "Chaque compte est strictement personnel",
-                "copy": "Chaque compte doit être unique et lié à une personne physique. Si vous vous inscrivez pour un compte, vous devez fournir des informations réelles et mettre à jour rapidement ces informations si elles changent. Chaque utilisateur a le droit de créer un seul compte. S'il est déterminé qu'une personne possède plusieurs comptes, Welcome to My Garden se réserve le droit de supprimer tous ces comptes. Chaque utilisateur doit avoir plus de 18 ans."
+                "copy": "Chaque compte doit être unique et lié à une personne physique. Si vous vous inscrivez pour un compte, vous devez fournir des informations réelles et mettre à jour rapidement ces informations si elles changent. Chaque utilisateur a le droit de créer un seul compte. S'il est déterminé qu'une personne possède plusieurs comptes, <span class=\"notranslate\">Welcome To My Garden</span> se réserve le droit de supprimer tous ces comptes. Chaque utilisateur doit avoir plus de 18 ans."
               },
               "1": {
                 "title": "Un compte ne peut pas être transféré à une autre personne",
-                "copy": "Étant donné que chaque compte est strictement lié à une personne spécifique, ce compte ne peut pas être transféré à une autre personne sans l'autorisation de Welcome to My Garden. Cette interdiction de transfert doit être considérée dans le sens le plus large. Welcome to My Garden se réserve le droit de refuser ou de supprimer ce compte en cas d'infraction."
+                "copy": "Étant donné que chaque compte est strictement lié à une personne spécifique, ce compte ne peut pas être transféré à une autre personne sans l'autorisation de <span class=\"notranslate\">Welcome To My Garden</span>. Cette interdiction de transfert doit être cons<span class=\"notranslate\">Welcome To My Garden</span>le plus large. <span class=\"notranslate\">Welcome To My Garden</span> se réserve le droit de refuser ou de supprimer ce compte en cas d'infraction."
               },
               "2": {
                 "title": "Un compte ne peut pas être utilisé à des fins commerciales",
-                "copy": "La plateforme Welcome to My Garden est destinée à permettre aux citoyens de mettre leurs jardins gratuitement à disposition aux voyageurs lents d'utiliser le réseau lorsqu'ils voyagent. Un compte ne peut donc être utilisé qu'à ces fins. Toute utilisation du compte dans un but commercial est strictement interdite."
+                "copy": "La plateforme <span class=\"notranslate\">Welcome To My Garden</span> est destinée à permettre aux citoyens de mettre leurs jardins gratuitement à disposition aux voyageurs lents d'utiliser le réseau lorsqu'ils voyagent. Un compte ne peut donc être utilisé qu'à ces fins. Toute utilisation du compte dans un but commercial est strictement interdite."
               },
               "3": {
                 "title": "Les informations du compte doivent toujours rester confidentielles",
-                "copy": "Il est interdit à toute autre personne que la personne ayant créé le compte de l’utiliser. La personne qui a créé le compte doit s'assurer qu'il conserve le mot de passe et les informations de connexion en toute sécurité. Nous vous conseillons fortement d'utiliser un mot de passe \"fort\" (un mot de passe avec une combinaison de lettres minuscules, de majuscules et de chiffres). Nous vous conseillons d'utiliser un gestionnaire de mots de passe. Welcome to My Garden ne peut en aucun cas être tenu responsable de toute perte ou dommage subi sur le compte si les conditions ci-dessus ne sont pas remplies par l'utilisateur. Welcome to My Garden ne peut pas non plus être tenu responsable du vol de votre compte, par exemple par «phishing». Welcome to My Garden ne demandera jamais à ses utilisateurs des données personnelles telles qu'un identifiant ou un mot de passe par email. Si des données personnelles sont demandées, l'utilisateur sera toujours redirigé vers la plateforme de Welcome to My Garden. Vous êtes responsable de toutes les activités qui se produisent en relation avec votre compte et acceptez tous les risques d'accès non autorisé."
+                "copy": "Il est interdit à toute autre personne que la personne ayant créé le compte de l’utiliser. La personne qui a créé le compte doit s'assurer qu'il conserve le mot de passe et les informations de connexion en toute sécurité. Nous vous conseillons fortement d'utiliser un mot de passe \"fort\" (un mot de passe avec une combinaison de lettres minuscules, de majuscules et de chiffres). Nous vous conseillons d'utiliser un gestionnaire de mots de passe. <span class=\"notranslate\">Welcome To My Garden</span> ne peut en aucun cas être tenu responsable de toute perte ou dommage subi sur le compte si les conditions ci-dessus ne so<span class=\"notranslate\">Welcome To My Garden</span>l'utilisateur. <span class=\"notranslate\">Welcome To My Garden</span> ne peut pas non plus être<span class=\"notranslate\">Welcome To My Garden</span> vol de votre c<span class=\"notranslate\">Welcome To My Garden</span>ar «phishing». <span class=\"notranslate\">Welcome To My Garden</span> ne demandera jamais à ses utilisateurs des données personnelles telles qu'un identifiant ou un mot de passe par email<span class=\"notranslate\">Welcome To My Garden</span>sonnelles sont <span class=\"notranslate\">Welcome To My Garden</span>teur sera toujo<span class=\"notranslate\">Welcome To My Garden</span> plateforme de <span class=\"notranslate\">Welcome To My Garden</span>. Vous êtes responsable de toutes les activités qui se produisent en relation avec votre compte et acceptez tous les risques d'accès non autorisé."
               }
             }
           }
@@ -1237,11 +1237,11 @@
               },
               "1": {
                 "title": "Avertissement",
-                "copy": "L’équipe derrière Welcome to My Garden et de Slowby ne prend aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."
+                "copy": "L’équipe derrière <span class=\"notranslate\">Welcome To My Garden</span> et de Slowby ne prend aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."
               },
               "2": {
                 "title": "Aucune discrimination n’est autorisée",
-                "copy": "Welcome to My Garden ne tolère aucune forme de discrimination. Les hôtes doivent agir conformément à cela. Les hôtes ne peuvent pas discriminer sur la base du sexe, de l'origine ethnique, de l'âge, de l'orientation sexuelle, du statut socioéconomique, de l'apparence physique, des capacités et de la religion (ou de l’absence de celle-ci)."
+                "copy": "<span class=\"notranslate\">Welcome To My Garden</span> ne tolère aucune forme de discrimination. Les hôtes doivent agir conformément à cela. Les hôtes ne peuvent pas discriminer sur la base du sexe, de l'origine ethnique, de l'âge, de l'orientation sexuelle, du statut socioéconomique, de l'apparence physique, des capacités et de la religion (ou de l’absence de celle-ci)."
               }
             }
           }
@@ -1251,7 +1251,7 @@
         "title": "Conditions d’utilisation pour les voyageurs",
         "descriptions": {
           "0": {
-            "copy": "Les utilisateurs doivent avoir au moins 18 ans pour utiliser la plateforme. En créant un compte, les utilisateurs acceptent immédiatement les conditions d'utilisation de Welcome To My Garden."
+            "copy": "Les utilisateurs doivent avoir au moins 18 ans pour utiliser la plateforme. En créant un compte, les utilisateurs acceptent immédiatement les conditions d'utilisation de <span class=\"notranslate\">Welcome To My Garden</span>."
           }
         },
         "paragraphs": {
@@ -1288,14 +1288,14 @@
           "5": {
             "title": "Pas de voiture autorisée",
             "copy": {
-              "0": "La plateforme Welcome to My Garden respecte l'environnement et ne répond qu'aux besoins des voyageurs lents. Cela signifie que les utilisateurs ne peuvent se rendre dans les jardins qu'à pied, à vélo ou en transports en commun. Si vous prévoyez de voyager en véhicule motorisé, veuillez ne pas contacter les hôtes via cette plateforme. L'utilisation de véhicules motorisés est interdite."
+              "0": "La plateforme <span class=\"notranslate\">Welcome To My Garden</span> respecte l'environnement et ne répond qu'aux besoins des voyageurs lents. Cela signifie que les utilisateurs ne peuvent se rendre dans les jardins qu'à pied, à vélo ou en transports en commun. Si vous prévoyez de voyager en véhicule motorisé, veuillez ne pas contacter les hôtes via cette plateforme. L'utilisation de véhicules motorisés est interdite."
             }
           },
           "6": {
             "title": "Contribution annuelle en tant que membre ou Superfan",
             "copy": {
-              "0": "Welcome To My Garden a pour mission de rendre le voyage lent plus accessible. Comme n’importe quel jardin, WTMG a besoin d’être entretenu pour pouvoir grandir et rester en bonne santé. Camper dans le jardin d’un.e hôte de WTMG est gratuit. Cependant, pour maintenir et développer WTMG, WTMG a besoin d’une contribution annuelle des voyageur.ses qui couvrent ainsi leur propre coût d’utilisation. Les voyageur.ses ont donc le choix de devenir soit membre, soit Superfans. Cet abonnement est obligatoire. Les membres ou superfans ne sont pas autorisés à transférer leur login à un tiers. Ils/Elles acceptent les mêmes conditions que tous les utilisateurs et Welcome To My Garden se réserve le droit de refuser, suspendre ou supprimer les comptes des Membres ou Superfans qui ne respectent pas ces conditions.",
-              "1": "Les limitations de responsabilité (voir ci-dessous) de Welcome To My Garden en général s'appliquent également à l'utilisation des fonctions supplémentaires pour les membres ou Superfans, ce qui signifie que Welcome To My Garden ne peut être tenu responsable de tout dommage ou perte qui se produirait en raison de l'utilisation de Welcome To My Garden.",
+              "0": "<span class=\"notranslate\">Welcome To My Garden</span> a pour mission de rendre le voyage lent plus accessible. Comme n’importe quel jardin, WTMG a besoin d’être entretenu pour pouvoir grandir et rester en bonne santé. Camper dans le jardin d’un.e hôte de WTMG est gratuit. Cependant, pour maintenir et développer WTMG, WTMG a besoin d’une contribution annuelle des voyageur.ses qui couvrent ainsi leur propre coût d’utilisation. Les voyageur.ses ont donc le choix de devenir soit membre, soit Superfans. Cet abonnement est obligatoire. Les membres ou superfans ne sont pas autorisés à transférer leur login à un tiers. Ils/Elles acceptent les mêmes conditions que tous les utilisateurs et <span class=\"notranslate\">Welcome To My Garden</span> se réserve le droit de refuser, suspendre ou supprimer les comptes des Membres ou Superfans qui ne respectent pas ces conditions.",
+              "1": "Les limitations de responsabilité (voir ci-dessous) de <span class=\"notranslate\">Welcome To My Garden</span> en général s'appliquent également à l'utilisation des fonctions supplémentaires pour les membres<span class=\"notranslate\">Welcome To My Garden</span>i signifie que <span class=\"notranslate\">Welcome To My Garden</span> ne peut être tenu responsable de <span class=\"notranslate\">Welcome To My Garden</span>e qui se produi<span class=\"notranslate\">Welcome To My Garden</span>utilisation de <span class=\"notranslate\">Welcome To My Garden</span>.",
               "2": "Les abonnements se paient pour une année à la fois. Le prix comprend la TVA de 21% appliquée aux abonnements. Les abonnements sont payés annuellement et se renouvellent automatiquement, sauf s'ils sont annulés par le membre ou par WTMG. Les membres peuvent annuler le renouvellement à tout moment sur leur {accountLink}. Lorsqu'un membre annule un abonnement, seul le renouvellement automatique est annulé. Cela signifie que l'abonnement reste valide jusqu'à la fin de la période déjà payée. Deux jours avant la date de renouvellement, les membres sont informés par e-mail de leur renouvellement à venir. L'abonnement est non remboursable et non transférable à un tiers."
             }
           },
@@ -1304,14 +1304,14 @@
               "0": "<span style=\"text-decoration: underline;\">Par un Member ou Superfan</span><br/>\n<p>Conformément à la législation belge et aux réglementations européennes de protection des consommateurs, les Membres et Superfans résidant dans l'Union Européenne ont le droit de se rétracter de leur achat dans un délai de quatorze (14) jours à compter de leur adhésion en tant que Membre ou Superfan.</p>\n<p>Ce droit ne s'applique que si les conditions suivantes sont remplies :</p>",
               "1": "<ol class=\"terms-html\">\n<li>Aucune demande de séjour n’a été envoyée via la plateforme WTMG ; et</li>\n<li>Le Membre ou Superfan n’a pas enfreint les Conditions d'Utilisation ni les règles de WTMG.</li>\n</ol>",
               "2": "Si ces conditions sont remplies, le délai de rétractation prend fin quatorze (14) jours ouverts après la date du paiement initial ou, pour les renouvellements, quatorze (14) jours après la date de renouvellement. Passé ce délai, aucun remboursement ne pourra avoir lieu, en totalité ou en partie. Ce droit d’annulation s'applique également à chaque renouvellement annuel, dans les mêmes conditions. Pour annuler une adhésion, les Membres et Superfans doivent informer WTMG par email à <a href=\"mailto:support@welcometomygarden.org\">support@welcometomygarden.org</a> dans le délai de 14 jours applicable.",
-              "3": "<span style=\"text-decoration: underline;\">Par Welcome To My Garden</span>\n<p>WTMG est destiné exclusivement à l’usage prévu tel que décrit dans ces Conditions et les règles de la plateforme. Toute autre utilisation — y compris les activités commerciales, les promotions tierces, les sollicitations personnelles ou la collecte et l’utilisation de données personnelles — est strictement interdite. WTMG ne soutient ni ne tolère aucune forme de communication non sollicitée (“SPAM”). Si un Membre ou Superfan se livre à une telle activité, WTMG se réserve le droit de suspendre ou de supprimer immédiatement son compte sans remboursement. Toute violation de ces Conditions peut entraîner de graves conséquences, y compris des actions en justice, des demandes de réparation de préjudices et le remboursement des frais juridiques. En utilisant la plateforme, vous acceptez également de dégager WTMG de toute responsabilité découlant de votre violation de ces Conditions, y compris toute réclamation de tiers qui pourrait en résulter.</p>"
+              "3": "<span style=\"text-decoration: underline;\">Par <span class=\"notranslate\">Welcome To My Garden</span></span>\n<p>WTMG est destiné exclusivement à l’usage prévu tel que décrit dans ces Conditions et les règles de la plateforme. Toute autre utilisation — y compris les activités commerciales, les promotions tierces, les sollicitations personnelles ou la collecte et l’utilisation de données personnelles — est strictement interdite. WTMG ne soutient ni ne tolère aucune forme de communication non sollicitée (“SPAM”). Si un Membre ou Superfan se livre à une telle activité, WTMG se réserve le droit de suspendre ou de supprimer immédiatement son compte sans remboursement. Toute violation de ces Conditions peut entraîner de graves conséquences, y compris des actions en justice, des demandes de réparation de préjudices et le remboursement des frais juridiques. En utilisant la plateforme, vous acceptez également de dégager WTMG de toute responsabilité découlant de votre violation de ces Conditions, y compris toute réclamation de tiers qui pourrait en résulter.</p>"
             },
             "title": "Droit d’annulation de l’adhésion"
           },
           "8": {
             "title": "Avertissement",
             "copy": {
-              "0": "Les membres de l’équipe derrière Welcome to My Garden ne prennent aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."
+              "0": "Les membres de l’équipe derrière <span class=\"notranslate\">Welcome To My Garden</span> ne prennent aucune responsabilité pour toute perte, dommage ou blessure résultant de l'utilisation du site Web et/ou lors de votre séjour dans le jardin d'un autre citoyen."
             }
           }
         }
@@ -1322,13 +1322,13 @@
           "0": {
             "title": "Vous avez l'entière responsabilité lorsque vous interagissez avec d'autres membres.",
             "copy": {
-              "0": "Welcome To My Garden est une plateforme permettant aux hôtes de mettre librement leur jardin à disposition, aux voyageurs de demander de camper dans un jardin et de communiquer entre eux pour réaliser cette utilisation. Les utilisateurs sont seuls responsables de toute interaction avec d'autres utilisateurs de la plateforme. Welcome To My Garden ne prend aucune responsabilité ni obligation en ce qui concerne les communications ou les différends entre deux utilisateurs. Pour être très clair: Welcome To My Garden est une plateforme permettant aux hôtes de mettre librement leur jardin à disposition, aux utilisateurs d'utiliser le jardin de quelqu'un pour camper et un endroit pour communiquer entre les utilisateurs. Welcome to My Garden ne sera pas et ne pourra être tenu responsable des interactions ou conséquences des interactions entre utilisateurs. Les utilisateurs libèrent Welcome To My Garden (ainsi que son équipe et ses bénévoles) de réclamations, demandes et dommages (réels et consécutifs) de toute nature, connus et inconnus, soupçonnés et insoupçonnés, divulgués et non divulgués, découlant de ou liés de quelque manière que ce soit à ces des disputes. Gardez toujours à l'esprit la sécurité et votre bon jugement lorsque vous utilisez la plateforme."
+              "0": "<span class=\"notranslate\">Welcome To My Garden</span> est une plateforme permettant aux hôtes de mettre librement leur jardin à disposition, aux voyageurs de demander de camper dans un jardin et de communiquer entre eux pour réaliser cette utilisation. Les utilisateurs sont seuls responsables de toute interaction avec d'aut<span class=\"notranslate\">Welcome To My Garden</span>la plateforme. <span class=\"notranslate\">Welcome To My Garden</span> ne prend aucune responsabilité ni obligation en ce qui concerne les communicat<span class=\"notranslate\">Welcome To My Garden</span>ds entre deux u<span class=\"notranslate\">Welcome To My Garden</span>re très clair: <span class=\"notranslate\">Welcome To My Garden</span> est une plateforme permettant aux hôtes de mettre librement leur jardin à disposition, aux utilisate<span class=\"notranslate\">Welcome To My Garden</span>rdin de quelqu'<span class=\"notranslate\">Welcome To My Garden</span> endroit pour c<span class=\"notranslate\">Welcome To My Garden</span> utilisateurs. <span class=\"notranslate\">Welcome To My Garden</span> ne <span class=\"notranslate\">Welcome To My Garden</span>a être tenu res<span class=\"notranslate\">Welcome To My Garden</span>tions ou conséq<span class=\"notranslate\">Welcome To My Garden</span>ons entre utili<span class=\"notranslate\">Welcome To My Garden</span>teurs libèrent <span class=\"notranslate\">Welcome To My Garden</span> (ainsi que son équipe et ses bénévoles) de réclamations, demandes et dommages (réels et consécutifs) de toute nature, connus et inconnus, soupçonnés et insoupçonnés, divulgués et non divulgués, découlant de ou liés de quelque manière que ce soit à ces des disputes. Gardez toujours à l'esprit la sécurité et votre bon jugement lorsque vous utilisez la plateforme."
             }
           },
           "1": {
             "title": "Vérification d'identité",
             "copy": {
-              "0": "Les utilisateurs sont seuls responsables de la détermination de l'identité et de l'adéquation des autres utilisateurs. En tant qu'hôte, vous pouvez toujours refuser des utilisateurs. En tant que voyageur, vous pouvez décider où vous souhaitez séjourner. Welcome To My Garden ne peut pas et ne confirme pas l'identité de chaque utilisateur. La plateforme ne détient ni n’est au courant d’aucune information sur les antécédents criminels ou la moralité de l'utilisateur. Gardez toujours à l'esprit la sécurité et le bon jugement lorsque vous utilisez la plateforme."
+              "0": "Les utilisateurs sont seuls responsables de la détermination de l'identité et de l'adéquation des autres utilisateurs. En tant qu'hôte, vous pouvez toujours refuser des utilisateurs. En tant que voyageur, vous pouvez décider où vous souhaitez séjourner. <span class=\"notranslate\">Welcome To My Garden</span> ne peut pas et ne confirme pas l'identité de chaque utilisateur. La plateforme ne détient ni n’est au courant d’aucune information sur les antécédents criminels ou la moralité de l'utilisateur. Gardez toujours à l'esprit la sécurité et le bon jugement lorsque vous utilisez la plateforme."
             }
           }
         }
@@ -1337,7 +1337,7 @@
         "title": "Limitations du contenu et de l’utilisation de la plateforme",
         "descriptions": {
           "0": {
-            "copy": "Pour vous assurer que la plateforme Welcome to My Garden fonctionne correctement, que vous pouvez communiquer et vous connecter avec d'autres personnes, il existe certaines restrictions quant au type de contenu pouvant être publié via la plateforme."
+            "copy": "Pour vous assurer que la plateforme <span class=\"notranslate\">Welcome To My Garden</span> fonctionne correctement, que vous pouvez communiquer et vous connecter avec d'autres personnes, il existe certaines restrictions quant au type de contenu pouvant être publié via la plateforme."
           }
         },
         "paragraphs": {
@@ -1352,7 +1352,7 @@
           "1": {
             "title": "Indemnités",
             "copy": {
-              "0": "Vous dégagez Welcome To My Garden - et ces bénévoles - de toute réclamation, demande, action, dommage, perte, coût ou dépense, y compris, sans limitation, les honoraires d'avocat, découlant ou liés à (a) votre utilisation de nos services; (b) tout contenu des membres ou soumissions que vous fournissez; (c) votre violation de ces conditions; (d) votre violation des droits d'autrui; ou (e) votre conduite en relation avec les services. En outre, si vous utilisez les services au nom d'une entité, vous déclarez et garantissez que cette entité accepte de vous indemniser, vous et Welcome To My Garden, pour toute violation de ces conditions conformément à cette section. Si vous êtes obligé de nous indemniser, nous aurons le droit, à notre seule et entière discrétion, de contrôler toute action ou procédure et de déterminer si nous souhaitons le régler, et si oui, à quelles conditions."
+              "0": "Vous dégagez <span class=\"notranslate\">Welcome To My Garden</span> - et ces bénévoles - de toute réclamation, demande, action, dommage, perte, coût ou dépense, y compris, sans limitation, les honoraires d'avocat, découlant ou liés à (a) votre utilisation de nos services; (b) tout contenu des membres ou soumissions que vous fournissez; (c) votre violation de ces conditions; (d) votre violation des droits d'autrui; ou (e) votre conduite en relation avec les services. En outre, si vous utilisez les services au nom d'une entité, vous déclarez et garantissez que cette entité accepte de vous indemniser, vous et <span class=\"notranslate\">Welcome To My Garden</span>, pour toute violation de ces conditions conformément à cette section. Si vous êtes obligé de nous indemniser, nous aurons le droit, à notre seule et entière discrétion, de contrôler toute action ou procédure et de déterminer si nous souhaitons le régler, et si oui, à quelles conditions."
             }
           }
         }
@@ -1361,7 +1361,7 @@
         "title": "Limitation des responsabilités",
         "descriptions": {
           "0": {
-            "copy": "Welcome to My Garden, y compris son équipe et ses bénévoles, ne sera pas tenu responsable envers les voyageurs et/ou les hôtes en vertu de toute théorie de responsabilité - qu'elle soit fondée sur un contrat, un délit, une négligence, une responsabilité stricte, une garantie ou autre - pour tout dommage indirect, consécutif, exemplaire, accessoire, punitif ou dommages particuliers."
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span>, y compris son équipe et ses bénévoles, ne sera pas tenu responsable envers les voyageurs et/ou les hôtes en vertu de toute théorie de responsabilité - qu'elle soit fondée sur un contrat, un délit, une négligence, une responsabilité stricte, une garantie ou autre - pour tout dommage indirect, consécutif, exemplaire, accessoire, punitif ou dommages particuliers."
           },
           "1": {
             "copy": "EN AUCUN CAS WELCOMETOMYGARDEN.ORG OU SES BAILLEURS DE FONDS ET BÉNÉVOLES, NE POURRONT ÊTRE TENUS RESPONSABLES DE DOMMAGES INDIRECTS OU CONSÉCUTIFS, OU DE TOUT AUTRE DOMMAGE DE QUELQUE NATURE QUE CE SOIT, Y COMPRIS, MAIS SANS S'Y LIMITER, LA PERTE D'UTILISATION, LA PERTE DE BÉNÉFICES OU LA PERTE DE DONNÉES, QUE CE SOIT DANS LE CADRE D'UNE ACTION CONTRACTUELLE, DÉLICTUELLE (Y COMPRIS, MAIS SANS S'Y LIMITER, LA NÉGLIGENCE) OU AUTRE, MÊME SI NOUS AVONS ÉTÉ INFORMÉS DE LA POSSIBILITÉ DE TELS DOMMAGES, DÉCOULANT DE OU LIÉS À : (A) L'UTILISATION OU L'INCAPACITÉ D'UTILISER NOS SERVICES ; (B) LE COÛT DE REMPLACEMENT DE TOUT BIEN, SERVICE OU INFORMATION ACHETÉ OU OBTENU À LA SUITE DE TOUTE INFORMATION OBTENUE OU DE TRANSACTIONS CONCLUES PAR L'INTERMÉDIAIRE DE NOS SERVICES ; (C) LA DIVULGATION, L'ACCÈS NON AUTORISÉ OU L'ALTÉRATION DE VOTRE CONTENU ; (D) LES DOMMAGES POUR PERTE OU CORRUPTION DE DONNÉES OU DE PROGRAMMES, LES INTERRUPTIONS DE SERVICE OU L'OBTENTION DE SERVICES DE REMPLACEMENT, MÊME SI NOUS SAVONS OU AVONS ÉTÉ INFORMÉS DE LA POSSIBILITÉ DE TELS DOMMAGES ; (E) LES DÉCLARATIONS, LA CONDUITE OU LES OMISSIONS DE TOUT FOURNISSEUR DE SERVICES OU AUTRE TIERS SUR NOS SERVICES ; (F) VOTRE CONDUITE OU LES ACTES DE TOUTE AUTRE PERSONNE EN RELATION AVEC L'UTILISATION DES SERVICES, Y COMPRIS, MAIS SANS S'Y LIMITER, LES DOMMAGES CORPORELS, LA DÉTRESSE ÉMOTIONNELLE, LA MORT OU TOUT AUTRE DOMMAGE RÉSULTANT DE COMMUNICATIONS OU DE RÉUNIONS AVEC D'AUTRES MEMBRES ENREGISTRÉS DE NOS SERVICES OU DES PERSONNES QUI VOUS ONT ÉTÉ PRÉSENTÉES PAR NOS SERVICES, QUE CE SOIT EN LIGNE OU HORS LIGNE ; OU (G) TOUTE AUTRE QUESTION DÉCOULANT DE, RELATIVE À OU LIÉE À NOS SERVICES OU À CES CONDITIONS."
@@ -1372,10 +1372,10 @@
         "title": "Spam",
         "descriptions": {
           "0": {
-            "copy": "Nous nous efforçons à tout moment de protéger l'utilisateur de la plateforme Welcome to My Garden contre les abus techniques et le spam. Les comptes utilisés pour effectuer les actions répertoriées ci-dessus peuvent être temporairement bloqués ou supprimés définitivement."
+            "copy": "Nous nous efforçons à tout moment de protéger l'utilisateur de la plateforme <span class=\"notranslate\">Welcome To My Garden</span> contre les abus techniques et le spam. Les comptes utilisés pour effectuer les actions répertoriées ci-dessus peuvent être temporairement bloqués ou supprimés définitivement."
           },
           "1": {
-            "copy": "Logiciels malveillants / hameçonnage / virus / vers / chevaux de Troie : vous n'avez pas le droit de poster du contenu malveillant ou des liens vers un tel contenu dans le but d'endommager ou de perturber les navigateurs ou les ordinateurs de quelqu'un d'autre, ou de violer la vie privée de quelqu'un. Spam : vous n'avez pas le droit d'utiliser la plateforme Welcome To My Garden pour spammer des personnes."
+            "copy": "Logiciels malveillants / hameçonnage / virus / vers / chevaux de Troie : vous n'avez pas le droit de poster du contenu malveillant ou des liens vers un tel contenu dans le but d'endommager ou de perturber les navigateurs ou les ordinateurs de quelqu'un d'autre, ou de violer la vie privée de quelqu'un. Spam : vous n'avez pas le droit d'utiliser la plateforme <span class=\"notranslate\">Welcome To My Garden</span> pour spammer des personnes."
           }
         }
       },
@@ -1394,10 +1394,10 @@
         "title": "En cas de violation des règles susmentionnées",
         "descriptions": {
           "0": {
-            "copy": "Welcome to My Garden se réserve le droit de supprimer les messages s'il détecte des infractions aux règles susmentionnées, et peut suspendre ou supprimer définitivement les comptes d'utilisateurs."
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> se réserve le droit de supprimer les messages s'il détecte des infractions aux règles susmentionnées, et peut suspendre ou supprimer définitivement les comptes d'utilisateurs."
           },
           "1": {
-            "copy": "Welcome to My Garden ne peut en aucun cas être tenu responsable des messages postés par des utilisateurs ou des tiers, qui enfreignent les règles précisées ci-dessus. Si un utilisateur détecte une infraction, veuillez le signaler à l'adresse email suivante: {support}"
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> ne peut en aucun cas être tenu responsable des messages postés par des utilisateurs ou des tiers, qui enfreignent les règles précisées ci-dessus. Si un utilisateur détecte une infraction, veuillez le signaler à l'adresse email suivante: {support}"
           },
           "2": {
             "copy": "Il peut arriver que des fichiers nuisibles puissent être téléchargés via la plateforme, qu'ils soient ou non dus à un utilisateur, ou que les utilisateurs placent des hyperliens nuisibles. Tout téléchargement par un utilisateur ou clic sur un lien hypertexte, placé par un utilisateur, se fait aux risques et périls de l'utilisateur. Tout dommage subi est entièrement et uniquement la responsabilité de cet utilisateur.‍"
@@ -1408,7 +1408,7 @@
         "title": "Droits de propriété intellectuelle",
         "descriptions": {
           "0": {
-            "copy": "Welcome to My Garden respecte les droits de propriété intellectuelle d'autrui et attend des utilisateurs de cette plateforme qu'ils respectent également ces droits. Welcome to My Garden se réserve le droit de supprimer le contenu qui viole les droits de propriété intellectuelle. Les violations répétées des droits de propriété intellectuelle de toute nature par un utilisateur entraîneront la suspension ou la suppression du compte par Welcome to My Garden."
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respecte les droits de propriété intellectuelle d'autrui et attend des utilisateurs de cette plateforme qu'il<span class=\"notranslate\">Welcome To My Garden</span>nt ces droits. <span class=\"notranslate\">Welcome To My Garden</span> se réserve le droit de supprimer le contenu qui viole les droits de propriété intellectuelle. Les violations répétées des droits de propriété intellectuelle de toute nature par un u<span class=\"notranslate\">Welcome To My Garden</span>ont la suspensi<span class=\"notranslate\">Welcome To My Garden</span> du compte par <span class=\"notranslate\">Welcome To My Garden</span>."
           },
           "1": {
             "copy": "Les atteintes aux droits de propriété intellectuelle peuvent être signalées via l'adresse email suivante: {support}"
@@ -1416,10 +1416,10 @@
         }
       },
       "10": {
-        "title": "Droits de propriété de Welcome to My Garden",
+        "title": "Droits de propriété de <span class=\"notranslate\">Welcome To My Garden</span>",
         "descriptions": {
           "0": {
-            "copy": "Le code source de Welcome To My Garden est un logiciel libre. Vous acceptez d'être lié par et de vous conformer à tout accord de licence qui s'applique à ce logiciel open source. L'identité visuelle, y compris le logo et les couleurs, et le nom ne peuvent être utilisés ou reproduits pour toute autre plateforme sans l'autorisation préalable de Welcome To My Garden."
+            "copy": "Le code source de <span class=\"notranslate\">Welcome To My Garden</span> est un logiciel libre. Vous acceptez d'être lié par et de vous conformer à tout accord de licence qui s'applique à ce logiciel open source. L'identité visuelle, y compris le logo et les couleurs, et le nom ne peuvent être utilisés ou reproduits pour toute autre plateform<span class=\"notranslate\">Welcome To My Garden</span>n préalable de <span class=\"notranslate\">Welcome To My Garden</span>."
           }
         }
       },
@@ -1467,19 +1467,19 @@
     "how-contribute": "Comment nous soutenir?",
     "ways-support": "Voici toutes les façons dont vous pouvez nous soutenir.",
     "our-story-title": "Notre histoire",
-    "our-story-description": "<p>Bonjour ! Nous sommes Dries et Manon, les fondateurs de Welcome To My Garden. En 2019, nous avons fait un voyage à vélo de Bruxelles à Tokyo. Pendant 11 mois, nous avons traversé 21 pays et avons été accueillis par des dizaines de personnes incroyables en cours de route.</p><p>En rentrant en Belgique, alors que le covid venait d’arriver, nous nous sommes demandé comment nous pourrions faciliter le slow travel dans notre propre pays. Par un dimanche après-midi pluvieux de 2020, Dries a mis en place la première version de WTMG. En deux heures, la carte comptait 50 jardins, et deux semaines plus tard, il y en avait 500 !</p><p>Nous avons parcouru un long chemin depuis : aujourd'hui, WTMG compte plus de 30.000 utilisateur·rices et plus de 4000 jardins. C’est devenu clair, WTMG est là pour rester ! Et il est temps d'aller de l'avant. Nous avons écouté notre communauté, et nous nous investissons maintenant pour que WTMG réponde à vos besoins en matière de slow travel.</p><p>WTMG existe grâce au travail assidu d'un groupe de bénévoles passionnés, qui y ont investi de très nombreuses soirées et week-ends. Mais pour continuer, nous avons besoin de plus de temps et de personnes talentueuses. C'est pourquoi Thor a également rejoint le groupe. Nous nous donnons à 100% et nous espérons que vous nous rejoindrez dans cette aventure !</p>",
+    "our-story-description": "<p>Bonjour ! Nous sommes Dries et Manon, les fondateurs de <span class=\"notranslate\">Welcome To My Garden</span>. En 2019, nous avons fait un voyage à vélo de Bruxelles à Tokyo. Pendant 11 mois, nous avons traversé 21 pays et avons été accueillis par des dizaines de personnes incroyables en cours de route.</p><p>En rentrant en Belgique, alors que le covid venait d’arriver, nous nous sommes demandé comment nous pourrions faciliter le slow travel dans notre propre pays. Par un dimanche après-midi pluvieux de 2020, Dries a mis en place la première version de WTMG. En deux heures, la carte comptait 50 jardins, et deux semaines plus tard, il y en avait 500 !</p><p>Nous avons parcouru un long chemin depuis : aujourd'hui, WTMG compte plus de 30.000 utilisateur·rices et plus de 4000 jardins. C’est devenu clair, WTMG est là pour rester ! Et il est temps d'aller de l'avant. Nous avons écouté notre communauté, et nous nous investissons maintenant pour que WTMG réponde à vos besoins en matière de slow travel.</p><p>WTMG existe grâce au travail assidu d'un groupe de bénévoles passionnés, qui y ont investi de très nombreuses soirées et week-ends. Mais pour continuer, nous avons besoin de plus de temps et de personnes talentueuses. C'est pourquoi Thor a également rejoint le groupe. Nous nous donnons à 100% et nous espérons que vous nous rejoindrez dans cette aventure !</p>",
     "bigger-picture-title": "Le contexte",
     "bigger-picture-description": "<p>S'il y a une chose que nous avons apprise au cours des dernières années, c'est ceci : il est temps de ralentir. Cela vaut pour la vie en général, mais aussi pour les voyages en particulier. Plus nous voyageons vite, plus nous passons à côté de choses intéressantes. Les voyages rapides génèrent beaucoup d'émissions de CO2, déconnectent les gens de leur environnement et endommagent les communautés locales. Place donc au voyage lent !</p><p>Et voilà, c’est tout ça WTMG ! Nous sommes fiers de défendre le voyage lent et de contribuer à notre manière au défi mondial de réduction de CO2. En deux ans, WTMG a accompli beaucoup de choses :<ul><li>31 000 utilisateur·rices se sont lancé·es dans l'aventure du slow travel.</li><li>4 300 hôtes chaleureux·ses ont ouvert leur jardin aux voyageur·ses lent·es.</li><li>57.000 demandes de nuits ont été envoyées via la plateforme.</li><li>Nous avons commencé en Belgique, mais de plus en plus de jardins sont en train de voir le jour en Europe et au-delà.</li><li>Nous avons reçu le soutien financier de partenaires comme Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers, Natuurpunt et VGC Bruxelles.</li></ul></p><p>Les expériences qui ont le plus de sens et qui sont les plus mémorables se produisent lorsque nous prenons le temps d'explorer et de nous immerger dans notre environnement. Avec WTMG, nous voulons vous aider à faire cela. Ensemble, nous pouvons rendre le monde meilleur en voyageant plus lentement et plus durablement. Alors, vous nous rejoignez ?</p><p>Nous sommes toujours ouverts à de nouvelles idées et collaborations, n'hésitez pas à nous contacter !</p>",
     "contributors": "Contibuteur·rices",
     "amazing-people": "Pour terminer, nous voulons remercier ces personnes extraordinaires.",
-    "cradle": "Sans elles, Welcome To My Garden n'existerait pas. Ils étaient là et y ont cru dès le début !",
+    "cradle": "Sans elles, <span class=\"notranslate\">Welcome To My Garden</span> n'existerait pas. Ils étaient là et y ont cru dès le début !",
     "partners-section": {
       "title": "Ceux qui ont cru immédiatement en nous",
-      "description": "Ces partenaires nous ont aidés à démarrer et ont cru en Welcome To My Garden dès le début."
+      "description": "Ces partenaires nous ont aidés à démarrer et ont cru en <span class=\"notranslate\">Welcome To My Garden</span> dès le début."
     }
   },
   "footer": {
-    "copyright": "© Fait avec 💚 par Welcome To My Garden {year}. Tous droits réservés.",
+    "copyright": "© Fait avec 💚 par <span class=\"notranslate\">Welcome To My Garden</span> {year}. Tous droits réservés.",
     "link-category-titles": {
       "our-projects": "Nos projets",
       "learn-more": "En savoir plus"
@@ -1543,10 +1543,10 @@
     "unsubscribe": {
       "title": "Se désabonner des nouvelles WTMG",
       "unsubscribe": "Se désabonner",
-      "description": "<p>Si vous cliquez sur le bouton de désabonnement ci-dessous, vous ne recevrez plus de nouvelles de WTMG à l'adresse {email}.</p>"
+      "description": "<p>Si vous cliquez sur le bouton de désabonnement ci-dessous, vous ne recevrez plus de nouvelles de WTMG à l'adresse <span class=\"notranslate\">{email}</span>.</p>"
     },
     "resubscribe": {
-      "description": "<p>Vous ne recevrez plus de nouvelles de WTMG à l'adresse {email}.</p>\n<p>Si vous souhaitez vous réabonner, cliquez sur le bouton ci-dessous.</p>",
+      "description": "<p>Vous ne recevrez plus de nouvelles de WTMG à l'adresse <span class=\"notranslate\">{email}</span>.</p>\n<p>Si vous souhaitez vous réabonner, cliquez sur le bouton ci-dessous.</p>",
       "resubscribe": "Se réabonner",
       "title": "Vous êtes désabonné des nouvelles de WTMG"
     }

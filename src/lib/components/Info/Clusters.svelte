@@ -26,7 +26,9 @@
           on:click={() => setActiveCollapsible(`${clusterKey}-${questionKey}`)}
           open={activeCollapsible === `${clusterKey}-${questionKey}`}
         >
-          <h4 slot="title">{$_(`${clustersKey}.${clusterKey}.questions.${questionKey}.title`)}</h4>
+          <h4 slot="title">
+            {@html $_(`${clustersKey}.${clusterKey}.questions.${questionKey}.title`)}
+          </h4>
           <p slot="content">
             {@html $_(`${clustersKey}.${clusterKey}.questions.${questionKey}.copy`, {
               values: {

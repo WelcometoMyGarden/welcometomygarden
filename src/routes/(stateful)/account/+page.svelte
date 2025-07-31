@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { _, locale } from 'svelte-i18n';
+  import { _ } from 'svelte-i18n';
   import { goto } from '$lib/util/navigate';
   import notify from '$lib/stores/notification';
   import { updateMailPreferences } from '$lib/api/user';
@@ -126,7 +126,7 @@
     </div>
     <div class="content">
       <section class="user-information">
-        <h2>{$user.firstName} {$user.lastName}</h2>
+        <h2 class="notranslate">{$user.firstName} {$user.lastName}</h2>
         <div
           class="infogrid"
           class:has-sub-info={!!$user.stripeSubscription &&
@@ -141,7 +141,7 @@
             <span class="icon icon--left">
               <Icon icon={emailIcon} />
             </span>
-            {$user.email}
+            <span class="notranslate">{$user.email}</span>
             <button class="icon icon--right" on:click={() => (showEmailChangeModal = true)}>
               <Icon icon={pencilIcon} clickable />
               <!-- Text for accessibility -->
@@ -260,7 +260,7 @@
               checked={$user.emailPreferences.news}
               on:change={onMailPreferenceChanged}
             />
-            <label for="news">{$_('account.preferences.news')}</label>
+            <label for="news">{@html $_('account.preferences.news')}</label>
           </li>
         </ul>
       </section>

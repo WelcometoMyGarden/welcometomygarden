@@ -29,9 +29,10 @@
 <h3>3. Las cookies que establecemos</h3>
 <p>
   Cuando es un nuevo visitante en nuestro sitio web, tratamos de establecer solo las cookies
-  estrictamente necesarias para proporcionar los servicios de Welcome To My Garden. Cuando es
-  posible, utilizamos cookies de sesión: cookies que expiran automáticamente después de cerrar su
-  navegador.
+  estrictamente necesarias para proporcionar los servicios de <span class="notranslate"
+    >Welcome To My Garden</span
+  >. Cuando es posible, utilizamos cookies de sesión: cookies que expiran automáticamente después de
+  cerrar su navegador.
 </p>
 <p>
   <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies">Las cookies HTTP</a>

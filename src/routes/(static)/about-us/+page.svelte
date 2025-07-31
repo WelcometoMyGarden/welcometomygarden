@@ -110,7 +110,7 @@
         {$_('about-us.amazing-people')}
       </Heading>
       <Text>
-        {$_('about-us.cradle')}
+        {@html $_('about-us.cradle')}
       </Text>
     </div>
     <div class="profiles contributors">

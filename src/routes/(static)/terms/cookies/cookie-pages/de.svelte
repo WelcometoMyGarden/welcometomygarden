@@ -33,9 +33,10 @@
 <h3>3. Die von uns gesetzten Cookies</h3>
 <p>
   Wenn Sie ein neuer Besucher auf unserer Website sind, versuchen wir, nur die Cookies zu setzen,
-  die unbedingt erforderlich sind, um die Dienste von Welcome To My Garden bereitzustellen. Wenn
-  möglich, verwenden wir Sitzungscookies: Cookies, die automatisch ablaufen, nachdem Sie Ihren
-  Browser geschlossen haben.
+  die unbedingt erforderlich sind, um die Dienste von <span class="notranslate"
+    >Welcome To My Garden</span
+  > bereitzustellen. Wenn möglich, verwenden wir Sitzungscookies: Cookies, die automatisch ablaufen,
+  nachdem Sie Ihren Browser geschlossen haben.
 </p>
 <p>
   <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies">HTTP-Cookies</a>
@@ -122,10 +123,10 @@ Here is the translation of the provided content into German:
 <h3>4. Datenschutzfreundliche Analysen</h3>
 <p>
   Wir verwenden <a href="https://plausible.io/">Plausible</a>, ein datenschutzorientiertes
-  Analysetool, um anonym zu verstehen, wie unsere Besucher Welcome To My Garden nutzen. Plausible
-  ermöglicht es uns, die Anzahl der Besucher auf unserer Website zu zählen, zu verstehen, welche
-  Seiten am meisten besucht werden, woher sie kommen und welche Aktionen die Benutzer auf unserer
-  Seite ausführen.
+  Analysetool, um anonym zu verstehen, wie unsere Besucher
+  <span class="notranslate">Welcome To My Garden</span> nutzen. Plausible ermöglicht es uns, die Anzahl
+  der Besucher auf unserer Website zu zählen, zu verstehen, welche Seiten am meisten besucht werden,
+  woher sie kommen und welche Aktionen die Benutzer auf unserer Seite ausführen.
 </p>
 <p>
   Im Gegensatz zu vielen anderen Analyselösungen speichert Plausible

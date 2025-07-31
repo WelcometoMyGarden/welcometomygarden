@@ -31,9 +31,10 @@
 <h3>3. Onze cookies</h3>
 <p>
   Als je een nieuwe bezoeker bent van onze website, proberen we alleen strikt noodzakelijke cookies
-  te gebruiken die nodig zijn om de diensten van Welcome To My Garden aan te bieden. Indien mogelijk
-  maken we gebruik van sessiecookies: cookies die automatisch verlopen nadat je je browser hebt
-  gesloten.
+  te gebruiken die nodig zijn om de diensten van <span class="notranslate"
+    >Welcome To My Garden</span
+  > aan te bieden. Indien mogelijk maken we gebruik van sessiecookies: cookies die automatisch verlopen
+  nadat je je browser hebt gesloten.
 </p>
 <p>
   <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies">HTTP Cookies</a> zijn het belangrijkste
@@ -133,9 +134,10 @@
 <h3>4. Privacyvriendelijke analyses</h3>
 <p>
   We gebruiken <a href="https://plausible.io/">Plausible</a>, een op privacy gerichte analysetool,
-  om te begrijpen hoe onze bezoekers Welcome To My Garden gebruiken. Plausible stelt ons in staat om
-  anoniem het aantal bezoekers op onze website te tellen, te begrijpen welke pagina's het meest
-  worden bezocht, waar ze vandaan komen en welke acties mensen ondernemen op onze site.
+  om te begrijpen hoe onze bezoekers <span class="notranslate">Welcome To My Garden</span> gebruiken.
+  Plausible stelt ons in staat om anoniem het aantal bezoekers op onze website te tellen, te begrijpen
+  welke pagina's het meest worden bezocht, waar ze vandaan komen en welke acties mensen ondernemen op
+  onze site.
 </p>
 <p>
   In tegenstelling tot veel andere analytische oplossingen slaat Plausible

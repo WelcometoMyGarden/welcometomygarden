@@ -9,7 +9,7 @@
 </script>
 
 <a href={routes.HOME} class="title" class:hide={hideTitleWhenOnHome}>
-  <svelte:element this={is} class="inner">
+  <svelte:element this={is} class="inner notranslate">
     {#if !hideTitleWhenOnHome || !isActive($page, '/')}Welcome To My Garden{/if}
   </svelte:element>
 </a>

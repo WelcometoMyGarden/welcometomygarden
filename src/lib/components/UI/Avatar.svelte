@@ -30,7 +30,7 @@
   <div class="avatar-border-multi">
     <div class="avatar-border-white" />
   </div>
-  <span class="avatar-text">
+  <span class="avatar-text notranslate">
     {name ? name.charAt(0).toUpperCase() : '...'}
   </span>
 </div>

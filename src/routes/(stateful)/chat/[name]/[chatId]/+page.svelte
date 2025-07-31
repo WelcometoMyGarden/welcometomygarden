@@ -382,7 +382,7 @@ CSS grids should do the job cleanly -->
                 name={message.from === $user?.id ? $user.firstName : chat.partner.firstName}
               />
             </div>
-            <p class="message-text">{normalizeWhiteSpace(message.content)}</p>
+            <p class="message-text notranslate">{normalizeWhiteSpace(message.content)}</p>
           </div>
           <div class="timestamp">
             {formatDate(message.createdAt.seconds * 1000)}
