@@ -24,6 +24,7 @@ import {
 import { debounce } from 'lodash-es';
 import { get } from 'svelte/store';
 import * as Sentry from '@sentry/sveltekit';
+import { locale } from 'svelte-i18n';
 
 type Callable = (eventName: PlausibleEvent, customProperties?: PlausibleCustomProperties) => void;
 
@@ -163,7 +164,16 @@ function trackEvent(
 export const registerCustomPropertyTracker = (
   plausibleScriptElement: Element | null | undefined
 ) => {
-  return user.subscribe(($user) => {
+  const localeUnsub = locale.subscribe(($locale) => {
+    if (!plausibleScriptElement) {
+      return;
+    }
+    if ($locale) {
+      plausibleScriptElement.setAttribute('event-locale', $locale);
+    }
+  });
+
+  const userUnsub = user.subscribe(($user) => {
     if (!plausibleScriptElement) {
       return;
     }
@@ -179,6 +189,11 @@ export const registerCustomPropertyTracker = (
       plausibleScriptElement.setAttribute('event-superfan', 'false');
     }
   });
+
+  return () => {
+    userUnsub();
+    localeUnsub();
+  };
 };
 
 export default trackEvent;
