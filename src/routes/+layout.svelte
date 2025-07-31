@@ -76,6 +76,21 @@
         registerCustomPropertyTracker(plausibleScriptElement);
       }
 
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') {
+          // https://www.ctrl.blog/entry/detect-machine-translated-webpages.html
+          // I can't observe x-bergamot-translated anymore though
+          let translationSignalsPresent = !!document.querySelector(
+            'html.translated-ltr, html.translated-rtl, ya-tr-span, *[_msttexthash], *[x-bergamot-translated]'
+          );
+          // Firefox Bergamot switches this to the target language
+          let htmlLangChanged = document.documentElement.getAttribute('lang') !== $locale;
+          if (translationSignalsPresent || htmlLangChanged) {
+            trackEvent(PlausibleEvent.USED_BROWSER_TRANSLATION);
+          }
+        }
+      });
+
       // No unsubscribers are used due to this being an async initializer
     });
   });

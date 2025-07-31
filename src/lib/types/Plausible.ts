@@ -60,7 +60,8 @@ export enum PlausibleEvent {
   SHOW_NPS_SURVEY = 'Show NPS Survey',
   CLOSE_NPS_SURVEY = 'Close NPS Survey',
   SHOW_COMMUNITY_VIDEO = 'Show Community Video',
-  APP_CHECK_ERROR = 'App Check Error'
+  APP_CHECK_ERROR = 'App Check Error',
+  USED_BROWSER_TRANSLATION = 'Used Browser Translation'
 }
 
 const superfanOnlyEvents = [
