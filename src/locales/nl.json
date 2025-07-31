@@ -750,7 +750,8 @@
     "notify": {
       "successful": "Jouw account is aangemaakt! Controleer jouw e-mail om jouw account te verifiëren.",
       "in-use": "Dit e-mailadres is al in gebruik.",
-      "unexpected": "Er is een onverwachte fout opgetreden. Als het probleem aanhoudt, neem dan contact op met {support}"
+      "unexpected": "Er is een onverwachte fout opgetreden. Als het probleem aanhoudt, neem dan contact op met {support}",
+      "invalid": "Dit lijkt geen geldig e-mailadres. Misschien zit er een typfout in?"
     },
     "reference": "Hoe heb je van WTMG gehoord? (optioneel)"
   },

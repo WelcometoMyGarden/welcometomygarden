@@ -155,12 +155,21 @@ exports.createUser = async ({ data: inputData, auth: authContext }) => {
     ({ uid, email } = user);
   } catch (e) {
     // If the account already exists, transform 'auth/email-already-exists' to 'functions/already-exists'
-    if (e instanceof FirebaseAuthError && e.code == 'auth/email-already-exists') {
-      logger.warn("Couldn't create a new user because the email already existed", {
-        data: dataWithoutPassword,
-        code: e.code
-      });
-      fail('already-exists');
+    if (e instanceof FirebaseAuthError) {
+      // Possible errors: https://firebase.google.com/docs/auth/admin/errors
+      if (e.code == 'auth/email-already-exists') {
+        logger.warn("Couldn't create a new user because the email already existed", {
+          data: dataWithoutPassword,
+          code: e.code
+        });
+        fail('already-exists');
+      } else if (e.code === 'auth/invalid-email') {
+        logger.warn('Account creation attempted with an invalid email', {
+          data: dataWithoutPassword,
+          code: e.code
+        });
+        fail('invalid-argument', e.code);
+      }
     }
     logger.error("Couldn't create a new Firebase user due to an unknown issue", {
       data: dataWithoutPassword,

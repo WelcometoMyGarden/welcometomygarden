@@ -1075,7 +1075,8 @@
     "notify": {
       "unexpected": "Une erreur inattendue s'est produite. Si le problème persiste, veuillez contacter {support}.",
       "in-use": "Cette adresse électronique est déjà utilisée.",
-      "successful": "Votre compte a été créé avec succès ! Veuillez confirmer votre adresse électronique pour confirmer votre compte."
+      "successful": "Votre compte a été créé avec succès ! Veuillez confirmer votre adresse électronique pour confirmer votre compte.",
+      "invalid": "Cette adresse e-mail ne semble pas valide. Y a-t-il peut-être une faute de frappe ?"
     },
     "registered": "Vous avez déjà un compte ? {signIn}",
     "validate": {

@@ -1101,7 +1101,8 @@
     "notify": {
       "successful": "Ihr Konto wurde erfolgreich erstellt! Bitte überprüfen Sie Ihre E-Mail, um Ihr Konto zu bestätigen.",
       "in-use": "Diese E-Mail-Adresse ist bereits in Gebrauch.",
-      "unexpected": "Ein unerwarteter Fehler ist aufgetreten. Wenn das Problem weiterhin besteht, wenden Sie sich bitte an {support}"
+      "unexpected": "Ein unerwarteter Fehler ist aufgetreten. Wenn das Problem weiterhin besteht, wenden Sie sich bitte an {support}",
+      "invalid": "Diese E-Mail-Adresse scheint ungültig zu sein. Vielleicht ist da ein Tippfehler?"
     },
     "reference": "Wie haben Sie von WTMG gehört? (optional)"
   },

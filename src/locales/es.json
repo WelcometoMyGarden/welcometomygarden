@@ -1102,7 +1102,8 @@
     "notify": {
       "successful": "¡Tu cuenta ha sido creada con éxito! Por favor revisa tu correo electrónico para verificar su cuenta.",
       "in-use": "Esta dirección de correo electrónico ya está en uso.",
-      "unexpected": "Ocurrió un error inesperado. Si el problema persiste, contacta con {support}"
+      "unexpected": "Ocurrió un error inesperado. Si el problema persiste, contacta con {support}",
+      "invalid": "Parece que esta dirección de correo no es válida. ¿Puede que haya un error de escritura?"
     },
     "reference": "¿Cómo ha conocido WTMG? (opcional)"
   },

@@ -203,6 +203,15 @@
         Sentry.captureMessage('Registration failed - email in use', {
           level: 'info' // This is an expected error case
         });
+      } else if (
+        isFirebaseError(err) &&
+        err.code === ('functions/invalid-argument' satisfies FunctionsErrorCode) &&
+        err.message === 'auth/invalid-email'
+      ) {
+        formError = $_('register.notify.invalid');
+        Sentry.captureMessage('Registration failed - invalid email', {
+          level: 'info' // This is an expected error case
+        });
       } else {
         formError = $_('register.notify.unexpected', { values: { support: SUPPORT_EMAIL } });
         Sentry.captureException(err);

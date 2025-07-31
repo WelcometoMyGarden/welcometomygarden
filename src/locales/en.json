@@ -1123,6 +1123,7 @@
     "notify": {
       "successful": "Your account was created successfully! Please check your email to verify your account.",
       "in-use": "This email address is already in use.",
+      "invalid": "This doesn’t look like a valid email address. Maybe there’s a typo?",
       "unexpected": "An unexpected error occurred. If the problem persists, please contact {support}"
     }
   },
