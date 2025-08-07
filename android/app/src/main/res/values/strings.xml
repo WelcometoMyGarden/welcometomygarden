@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Welcome To My Garden</string>
+    <string name="title_activity_main">Welcome To My Garden</string>
+    <string name="package_name">org.welcometomygarden.app</string>
+    <string name="custom_url_scheme">org.welcometomygarden.app</string>
+</resources>
