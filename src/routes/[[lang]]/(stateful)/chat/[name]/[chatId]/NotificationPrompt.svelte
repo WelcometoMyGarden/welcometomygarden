@@ -11,13 +11,13 @@
   import { getCookie, trackEvent } from '$lib/util';
   import {
     handleNotificationEnableAttempt,
-    isAndroidFirefox,
     isNotificationEligible
-  } from '$lib/api/push-registrations';
+  } from '$lib/api/push-registrations/index';
   import { bellIcon } from '$lib/images/icons';
   import NewBadge from '$lib/components/Nav/NewBadge.svelte';
   import { isEnablingLocalPushRegistration } from '$lib/stores/pushRegistrations';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import { isAndroidFirefox } from '$lib/util/push-registrations';
 
   interface Props {
     /**

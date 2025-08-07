@@ -20,6 +20,8 @@ exports.sendNotification = async (config) => {
 
   const messageFrom = { en: 'Message from', nl: 'Bericht van', fr: 'Message de' }[language ?? 'en'];
 
+  // General FCM concept guidance:
+  // https://firebase.google.com/docs/cloud-messaging/concept-options
   /**
    * @type {import('firebase-admin/messaging').Message}
    */

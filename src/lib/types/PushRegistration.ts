@@ -19,7 +19,7 @@ export enum PushRegistrationStatus {
   FCM_ERRORED = 'fcm_errored'
 }
 
-export type FirebasePushRegistration = {
+type FirebasePushRegistrationCommon = {
   /**
    * Can be undefined only in pre-release staging environments.
    */
@@ -30,29 +30,23 @@ export type FirebasePushRegistration = {
    */
   fcmToken: string;
   /**
-   * The Web Push Subscription underlying the FCM registration.
-   * I'm 100% not sure if we can ever leverage this directly without going through FCM,
-   * but keeping it gives us a chance, and might help with the identification/refreshing of a registration.
-   */
-  subscription: PushSubscriptionJSON;
-  /**
-   * Processed user agent details from the USParser.js v2 library.
+   * On web, these are  processed user agent details from the USParser.js v2 library.
    * https://faisalman.github.io/ua-parser-js-docs/v2/intro/why-ua-parser-js.html
    *
    * The goal of this information is to help the user (and us) identify the browser of the registration.
    * We therefore don't store browser/OS versions, or other hard-to-see technical details.
+   *
+   * In native clients, this is coming from the Capacitor getInfo API (except the "type")
+   * https://capacitorjs.com/docs/apis/device#getinfo
    */
   ua: {
     os: IOS['name'];
-    browser: IBrowser['name'];
+    /**
+     * Null in the case of a native device
+     */
+    browser: IBrowser['name'] | null;
     device: IDevice;
   };
-  /** The host that this subscription was created for. This could be useful when we have multiple apps
-   * connecting to the same Firestore. Format without protocol.
-   * On localhost testing, it seems that the port matters for Web Push registrations.
-   * This does not include the protocol! Also, no trailing slash.
-   */
-  host: string;
   /**
    * The time that this registration was *first* registered.
    * Should be set initially as a server-side timestamp (FieldValue)
@@ -70,7 +64,38 @@ export type FirebasePushRegistration = {
    * The time at which this registration errored in the FCM backend
    * @since 2025-03-11
    */
-  erroredAt: Timestamp | FieldValue | undefined;
+  erroredAt?: Timestamp | FieldValue;
 };
 
+export type FirebaseWebPushRegistration = FirebasePushRegistrationCommon & {
+  /**
+   * The Web Push Subscription underlying the FCM registration.
+   * I'm 100% not sure if we can ever leverage this directly without going through FCM,
+   * but keeping it gives us a chance, and might help with the identification/refreshing of a registration.
+   */
+  subscription: PushSubscriptionJSON;
+  /** The host that this subscription was created for. This could be useful when we have multiple apps
+   * connecting to the same Firestore. Format without protocol.
+   * On localhost testing, it seems that the port matters for Web Push registrations.
+   * This does not include the protocol! Also, no trailing slash.
+   */
+  host: string;
+};
+
+export type FirebaseNativePushRegistration = FirebasePushRegistrationCommon & {
+  /**
+   * The identifier provided by https://capacitorjs.com/docs/apis/device#getid
+   */
+  deviceId: string | null;
+};
+
+export type FirebasePushRegistration = FirebaseWebPushRegistration | FirebaseNativePushRegistration;
+
 export type LocalPushRegistration = FirebasePushRegistration & { id: string };
+
+export type PushSubscriptionPOJO = PushSubscriptionJSON;
+
+export type WebPushSubscriptionCore = {
+  fcmToken: string;
+  subscription: PushSubscriptionJSON;
+};

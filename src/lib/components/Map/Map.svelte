@@ -29,7 +29,6 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   import { setContext, onMount, tick, onDestroy, type Snippet } from 'svelte';
   import maplibregl from 'maplibre-gl';
   import key from './mapbox-context.js';
-
   import 'maplibre-gl/dist/maplibre-gl.css';
   import { DEFAULT_MAP_STYLE, MOBILE_BREAKPOINT, ZOOM_LEVELS } from '$lib/constants';
   import FullscreenControl from './FullscreenControl';

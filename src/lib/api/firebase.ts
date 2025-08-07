@@ -1,5 +1,11 @@
 import { getApps, initializeApp, type FirebaseApp } from 'firebase/app';
-import { connectAuthEmulator, getAuth, type Auth } from 'firebase/auth';
+import {
+  connectAuthEmulator,
+  getAuth,
+  type Auth,
+  indexedDBLocalPersistence,
+  initializeAuth
+} from 'firebase/auth';
 import { type Firestore, getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { connectStorageEmulator, getStorage, type FirebaseStorage } from 'firebase/storage';
 import { connectFunctionsEmulator, getFunctions, type Functions } from 'firebase/functions';
@@ -13,6 +19,7 @@ import {
 import envIsTrue from '../util/env-is-true';
 import { browser } from '$app/environment';
 import logger from '$lib/util/logger';
+import { Capacitor } from '@capacitor/core';
 
 const FIREBASE_CONFIG = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
@@ -32,8 +39,7 @@ const firestoreWarningKeys = [
   'auth',
   'storage',
   'functions',
-  'messaging',
-  'appCheck'
+  'messaging'
 ] as const;
 type FirestoreWarning = { [key in (typeof firestoreWarningKeys)[number]]: string };
 
@@ -117,17 +123,30 @@ export async function initialize(): Promise<void> {
   appRef = initializeApp(FIREBASE_CONFIG);
 
   dbRef = getFirestore(appRef);
+
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_FIRESTORE_EMULATOR))) {
     connectFirestoreEmulator(dbRef, emulatorHostName, SSL_DEV ? 8081 : 8080);
   }
 
+  if (Capacitor.isNativePlatform()) {
+    logger.debug('Initializing auth for Capacitor');
+    // https://github.com/apache/cordova-ios/issues/1318#issuecomment-2853605880
+    initializeAuth(appRef, { persistence: indexedDBLocalPersistence });
+  }
+
   authRef = getAuth(appRef);
   authRef.useDeviceLanguage();
+
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_AUTH_EMULATOR))) {
     connectAuthEmulator(
       authRef,
       `http${SSL_DEV ? 's' : ''}://${emulatorHostName}:${SSL_DEV ? 9098 : 9099}`
     );
+  }
+
+  dbRef = getFirestore(appRef);
+  if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_FIRESTORE_EMULATOR))) {
+    connectFirestoreEmulator(dbRef, emulatorHostName, SSL_DEV ? 8081 : 8080);
   }
 
   storageRef = getStorage(appRef);

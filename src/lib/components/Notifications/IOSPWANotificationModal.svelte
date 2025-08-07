@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { handleNotificationEnableAttempt } from '$lib/api/push-registrations';
+  import { handleNotificationEnableAttempt } from '$lib/api/push-registrations/index';
   import { Button } from '$lib/components/UI';
   import Modal from '$lib/components/UI/Modal.svelte';
   import { close } from '$lib/stores/app';
