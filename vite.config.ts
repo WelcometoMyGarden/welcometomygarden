@@ -46,7 +46,7 @@ export default defineConfig(({ command, mode }): UserConfig => {
               // Edit your hostfile to map wtmg.dev to 127.0.0.1
               // We are not using .local here, request that domain may attempt a multicast
               // https://en.wikipedia.org/wiki/.local and take long to resolve.
-              hosts: ['localhost', '127.0.0.1', 'wtmg.dev']
+              hosts: ['localhost', '127.0.0.1', 'wtmg.dev', 'wtmg.staging']
             })
           ]
         : [])

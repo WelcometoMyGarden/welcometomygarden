@@ -1,0 +1,13 @@
+{
+  "appId": "org.welcometomygarden.app",
+  "appName": "Welcome To My Garden",
+  "webDir": "../dist",
+  "server": {
+    "url": "https://wtmg.staging:5173"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": true
+    }
+  }
+}

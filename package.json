@@ -1,6 +1,6 @@
 {
   "name": "welcome-to-my-garden",
-  "license": "GPL-3.0-or-later",
+  "license": "AGPL-3.0-only",
   "description": "a platform allowing citizens to put their garden freely at disposal as a rudimentary campsite to travelers.",
   "version": "3.3.0",
   "engines": {
@@ -34,6 +34,13 @@
     "access": "public"
   },
   "devDependencies": {
+    "@capacitor/android": "^7.4.2",
+    "@capacitor/cli": "^7.4.2",
+    "@capacitor/core": "^7.4.2",
+    "@capacitor/device": "^7.0.2",
+    "@capacitor/ios": "^7.4.2",
+    "@capacitor/push-notifications": "^7.0.2",
+    "@capacitor/splash-screen": "^7.0.2",
     "@firebase/rules-unit-testing": "^4.0.1",
     "@playwright/test": "^1.52.0",
     "@sentry/sveltekit": "^9.33.0",

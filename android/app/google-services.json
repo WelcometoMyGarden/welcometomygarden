@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "929312739793",
+    "firebase_url": "https://wtmg-dev.firebaseio.com",
+    "project_id": "wtmg-dev",
+    "storage_bucket": "wtmg-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:929312739793:android:365069f91edf8fc9f990f0",
+        "android_client_info": {
+          "package_name": "org.welcometomygarden.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6myWfaZWLLR_4llvlGA6XI98h0goGCNI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
