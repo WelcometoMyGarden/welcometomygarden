@@ -1,6 +1,6 @@
 {
   "name": "welcome-to-my-garden",
-  "license": "GPL-3.0-or-later",
+  "license": "AGPL-3.0-only",
   "description": "Welcome To My Garden is a network of citizens offering camping spots in their gardens to slow travellers.",
   "homepage": "https://welcometomygarden.org",
   "bugs": {
@@ -35,6 +35,13 @@
     "stripe:staging": "stripe listen --events customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.created,invoice.paid,payment_intent.processing --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/handleStripeWebhookV2"
   },
   "devDependencies": {
+    "@capacitor/android": "^7.4.2",
+    "@capacitor/cli": "^7.4.2",
+    "@capacitor/core": "^7.4.2",
+    "@capacitor/device": "^7.0.2",
+    "@capacitor/ios": "^7.4.2",
+    "@capacitor/push-notifications": "^7.0.2",
+    "@capacitor/splash-screen": "^7.0.2",
     "@firebase/rules-unit-testing": "^5.0.0",
     "@playwright/test": "^1.58.0",
     "@sentry/sveltekit": "^10.37.0",
