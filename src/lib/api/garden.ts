@@ -18,7 +18,7 @@ import {
   isFetchingGardens
 } from '$lib/stores/garden';
 import { supabase } from '$lib/stores/auth';
-import { appCheck, db, storage } from './firebase';
+import { db, storage } from './firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import type {
   FirebaseGarden,
@@ -147,19 +147,6 @@ export const getAllListedGardens = async () => {
   console.log('Starting to fetch all gardens...');
   isFetchingGardens.set(true);
 
-  let appCheckTokenResponse;
-  try {
-    // Use AppCheck if it is initialized (not on localhost development, for example)
-    if (typeof import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY !== 'undefined') {
-      appCheckTokenResponse = await getToken(appCheck(), /* forceRefresh= */ false);
-    }
-  } catch (err) {
-    // Handle any errors if the token was not retrieved.
-    console.error('Error fetching app check token:', err);
-    Sentry.captureException(err);
-    // return;
-  }
-
   let startAfterDocRef = null;
   let iteration = 1;
   do {
@@ -173,13 +160,6 @@ export const getAllListedGardens = async () => {
     }${import.meta.env.VITE_FIREBASE_PROJECT_ID}/databases/(default)/documents:runQuery`;
     // Query the chunk of gardens using the REST api
     const gardensChunkResponse = (await fetch(url, {
-      ...(appCheckTokenResponse
-        ? {
-            headers: {
-              'X-Firebase-AppCheck': appCheckTokenResponse.token
-            }
-          }
-        : {}),
       method: 'POST',
       body: JSON.stringify({
         structuredQuery: {

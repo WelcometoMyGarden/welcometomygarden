@@ -20,6 +20,8 @@ exports.sendNotification = async (config) => {
 
   const messageFrom = { en: 'Message from', nl: 'Bericht van', fr: 'Message de' }[language ?? 'en'];
 
+  // General FCM concept guidance:
+  // https://firebase.google.com/docs/cloud-messaging/concept-options
   /**
    * @type {import('firebase-admin/messaging').Message}
    */
@@ -27,6 +29,10 @@ exports.sendNotification = async (config) => {
     notification: {
       title: `${messageFrom} ${senderName}`,
       body: message
+    },
+    // https://firebase.google.com/docs/cloud-messaging/js/receive#setting_notification_options_in_the_send_request
+    data: {
+      link: messageUrl
     },
     webpush: {
       fcmOptions: { link: messageUrl }

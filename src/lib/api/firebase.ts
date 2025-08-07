@@ -1,6 +1,11 @@
 import { getApps, initializeApp, type FirebaseApp } from 'firebase/app';
-import { initializeAppCheck, ReCaptchaEnterpriseProvider, type AppCheck } from 'firebase/app-check';
-import { connectAuthEmulator, getAuth, type Auth } from 'firebase/auth';
+import {
+  connectAuthEmulator,
+  getAuth,
+  type Auth,
+  indexedDBLocalPersistence,
+  initializeAuth
+} from 'firebase/auth';
 import { type Firestore, getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { connectStorageEmulator, getStorage, type FirebaseStorage } from 'firebase/storage';
 import { connectFunctionsEmulator, getFunctions, type Functions } from 'firebase/functions';
@@ -13,6 +18,7 @@ import {
 } from 'firebase/messaging';
 import envIsTrue from '../util/env-is-true';
 import { browser } from '$app/environment';
+import { Capacitor } from '@capacitor/core';
 
 const FIREBASE_CONFIG = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
@@ -32,8 +38,7 @@ const firestoreWarningKeys = [
   'auth',
   'storage',
   'functions',
-  'messaging',
-  'appCheck'
+  'messaging'
 ] as const;
 type FirestoreWarning = { [key in (typeof firestoreWarningKeys)[number]]: string };
 
@@ -74,9 +79,6 @@ export const db: () => Firestore = guardNull<Firestore>(() => dbRef, 'firestore'
 
 let authRef: Auth | null = null;
 export const auth: () => Auth = guardNull<Auth>(() => authRef, 'auth');
-
-let appCheckRef: AppCheck | null = null;
-export const appCheck: () => AppCheck = guardNull<AppCheck>(() => appCheckRef, 'appCheck');
 
 let europeWest1FunctionsRef: Functions | null = null;
 export const europeWest1Functions: () => Functions = guardNull<Functions>(
@@ -119,45 +121,25 @@ export async function initialize(): Promise<void> {
   }
   appRef = initializeApp(FIREBASE_CONFIG);
 
-  let appCheckDebugToken;
-  if (typeof import.meta.env.VITE_FIREBASE_APPCHECK_DEBUG_TOKEN !== 'undefined') {
-    // Prioritize the static env debug token
-    appCheckDebugToken = import.meta.env.VITE_FIREBASE_APPCHECK_DEBUG_TOKEN;
-  } else if (browser && window) {
-    // But allow to insert a token via the URL or directly via localStorage
-    // for example for debugging in BrowserStack, which seems to be blocked by AppCheck.
-    let urlParams = new URL(window.location.toString()).searchParams;
-    if (urlParams.has('debug_token')) {
-      // Prioritize the URL entry, and write it to localstorage
-      window.localStorage.setItem('FIREBASE_APPCHECK_DEBUG_TOKEN', urlParams.get('debug_token')!);
-    }
-    appCheckDebugToken = window.localStorage.getItem('FIREBASE_APPCHECK_DEBUG_TOKEN');
-  }
-
-  if (appCheckDebugToken) {
-    (self as any).FIREBASE_APPCHECK_DEBUG_TOKEN = appCheckDebugToken;
-  }
-
-  if (typeof import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY !== 'undefined') {
-    // Note: it seems this will not throw errors when App Check encounters some
-    appCheckRef = initializeAppCheck(appRef, {
-      provider: new ReCaptchaEnterpriseProvider(import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY),
-      isTokenAutoRefreshEnabled: true
-    });
-  }
-
-  dbRef = getFirestore(appRef);
-  if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_FIRESTORE_EMULATOR))) {
-    connectFirestoreEmulator(dbRef, emulatorHostName, SSL_DEV ? 8081 : 8080);
+  if (Capacitor.isNativePlatform()) {
+    console.debug('Initializing auth for Capacitor');
+    // https://github.com/apache/cordova-ios/issues/1318#issuecomment-2853605880
+    initializeAuth(appRef, { persistence: indexedDBLocalPersistence });
   }
 
   authRef = getAuth(appRef);
   authRef.useDeviceLanguage();
+
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_AUTH_EMULATOR))) {
     connectAuthEmulator(
       authRef,
       `http${SSL_DEV ? 's' : ''}://${emulatorHostName}:${SSL_DEV ? 9098 : 9099}`
     );
+  }
+
+  dbRef = getFirestore(appRef);
+  if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_FIRESTORE_EMULATOR))) {
+    connectFirestoreEmulator(dbRef, emulatorHostName, SSL_DEV ? 8081 : 8080);
   }
 
   storageRef = getStorage(appRef);

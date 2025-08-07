@@ -17,39 +17,19 @@
   import { anchorText } from '$lib/util/translation-helpers.js';
   import { coerceToMainLanguage } from '$lib/util/get-browser-lang.js';
   import { initializeSvelteI18n } from '$locales/initialize.js';
-  import { appCheck, initialize as initializeFirebase } from '$lib/api/firebase';
-  import { getToken } from 'firebase/app-check';
-  import isFirebaseError from '$lib/util/types/isFirebaseError.js';
+  import { initialize as initializeFirebase } from '$lib/api/firebase';
   import { PlausibleEvent } from '$lib/types/Plausible.js';
   import { initializeUser } from '$lib/stores/user.js';
+  import { Capacitor } from '@capacitor/core';
+  import { initializeNativePush } from '$lib/api/push-registrations/native.js';
+
+  if (Capacitor.isNativePlatform()) {
+    initializeNativePush();
+  }
 
   // Both are not awaited, and run concurrently
   initializeSvelteI18n().catch((e) => console.error('Error during svelte-i18n init', e));
   initializeFirebase()
-    .then(async () => {
-      try {
-        // Use AppCheck if it is initialized (not on localhost development, for example)
-        if (typeof import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY !== 'undefined') {
-          await getToken(appCheck(), /* forceRefresh= */ false);
-          console.debug('App Check token retrieved successfully');
-        }
-      } catch (err) {
-        // Handle any errors if the token was not retrieved.
-        if (isFirebaseError(err) && err.code.startsWith('appCheck')) {
-          // Seen:
-          // - 'appCheck/recaptcha-error' (when loading in local dev)
-          // - 'appCheck/throttled' (when loading on Firefox on Android)
-          console.warn('Known appCheck error: ', err);
-          trackEvent(PlausibleEvent.APP_CHECK_ERROR, { type: err.code });
-        } else {
-          console.warn('Unexpected App Check error: ', err);
-          trackEvent(PlausibleEvent.APP_CHECK_ERROR);
-        }
-        // isAppCheckRejected.set(true);
-        // isInitializingFirebase.set(false);
-        // throw new Error('App Check error after Firebase init, aborting init.');
-      }
-    })
     .then(initializeUser)
     .catch((e) => console.error('Error during init', e));
 

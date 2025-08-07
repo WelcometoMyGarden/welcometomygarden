@@ -18,7 +18,7 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   import FullscreenControl from './FullscreenControl.js';
   import { isFullscreen } from '$lib/stores/fullscreen.js';
   import { user } from '$lib/stores/auth.js';
-  import { hasEnabledNotificationsOnCurrentDevice } from '$lib/api/push-registrations.js';
+  import { hasEnabledNotificationsOnCurrentDevice } from '$lib/api/push-registrations/index.js';
   import { writable } from 'svelte/store';
   import { isOnIDevicePWA } from '$lib/util/push-registrations.js';
 

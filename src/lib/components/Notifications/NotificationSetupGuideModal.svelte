@@ -1,8 +1,7 @@
 <script lang="ts">
   import Modal from '$lib/components/UI/Modal.svelte';
 
-  import { isAndroidFirefox } from '$lib/api/push-registrations';
-  import { hasNotificationSupportNow } from '$lib/util/push-registrations';
+  import { hasWebPushNotificationSupportNow, isAndroidFirefox } from '$lib/util/push-registrations';
   import { _ } from 'svelte-i18n';
   import { close } from '$lib/stores/app';
   import { iDeviceInfo, isMobileDevice } from '$lib/util/uaInfo';
@@ -27,7 +26,7 @@
       {@html $_('push-notifications.prompt.follow-up-desktop')}
     {:else if isAndroidFirefox()}
       {@html $_('account.notifications.unsupported-android')}
-    {:else if is_16_4_OrAboveIDevice && !hasNotificationSupportNow()}
+    {:else if is_16_4_OrAboveIDevice && !hasWebPushNotificationSupportNow()}
       <!-- State that mobile notifications are definitely possible -->
       <IosBrowserSteps />
     {:else if isUpgradeable16IDevice}
@@ -64,7 +63,7 @@
           >
         </div>
       </div>
-    {:else if hasNotificationSupportNow()}
+    {:else if hasWebPushNotificationSupportNow()}
       <!-- TODO: should we show an error message here? or just ignore this? -->
       <!-- .. or immediately enable notifications & close the modal? -->
       <!-- This case shouldn't occur, we shouln't get directed here in this case-->

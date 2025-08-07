@@ -20,14 +20,11 @@
   import ChatErrorModal from '$lib/components/UI/ChatErrorModal.svelte';
   import NotificationPrompt from './NotificationPrompt.svelte';
   import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
-  import { hasOrHadEnabledNotificationsSomewhere } from '$lib/api/push-registrations';
   import { isMobileDevice } from '$lib/util/uaInfo';
-  import {
-    canHaveNotificationSupport,
-    hasNotificationSupportNow
-  } from '$lib/util/push-registrations';
+  import { canHaveWebPushSupport, hasNotificationSupportNow } from '$lib/util/push-registrations';
   import MembershipModal from '$lib/components/Membership/MembershipModal.svelte';
   import * as Sentry from '@sentry/sveltekit';
+  import { hasOrHadEnabledNotificationsSomewhere } from '$lib/api/push-registrations';
 
   const MAX_MESSAGE_LENGTH = 800;
 
@@ -298,7 +295,7 @@
       // Only show if we haven't enabled notifications anywhere yet
       !hasOrHadEnabledNotificationsSomewhere() &&
       // Only show if we are on desktop, or we are on a mobile with potential support
-      (hasNotificationSupportNow() || canHaveNotificationSupport() || !isMobileDevice) &&
+      (hasNotificationSupportNow() || canHaveWebPushSupport() || !isMobileDevice) &&
       // Only show if the user hasn't just seen it
       (!cookie ||
         // The cookie == "true" means it was dismissed for 6 monthts

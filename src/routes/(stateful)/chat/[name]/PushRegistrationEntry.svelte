@@ -1,31 +1,40 @@
 <script lang="ts">
   import {
     deletePushRegistration,
-    type PushSubscriptionPOJO,
     isNotificationEligible,
-    handleNotificationEnableAttempt,
-    getDeviceUAWithClientHints
+    handleNotificationEnableAttempt
   } from '$lib/api/push-registrations';
   import { Button, Icon } from '$lib/components/UI';
   import IconButton from '$lib/components/UI/IconButton.svelte';
   import { androidIcon, appleIcon, mobileDeviceIcon, trashIcon } from '$lib/images/icons';
   import { coercedLocale } from '$lib/stores/app';
-  import { isEnablingLocalPushRegistration } from '$lib/stores/pushRegistrations';
+  import {
+    currentWebPushSubStore,
+    deviceId,
+    isEnablingLocalPushRegistration
+  } from '$lib/stores/pushRegistrations';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { PushRegistrationStatus, type LocalPushRegistration } from '$lib/types/PushRegistration';
   import { trackEvent } from '$lib/util';
-  import { isIDeviceOS, isMobileDevice, uaInfo } from '$lib/util/uaInfo';
+  import {
+    getDeviceUAWithClientHints,
+    isNativePushRegistration,
+    isWebPushRegistration
+  } from '$lib/util/push-registrations';
+  import { isIDeviceOS, isMobileDevice, isNative, uaInfo } from '$lib/util/uaInfo';
+  import { capitalize } from 'lodash-es';
   import { onMount } from 'svelte';
   import { _ } from 'svelte-i18n';
   export let pushRegistration: LocalPushRegistration | undefined = undefined;
-  export let currentSub: PushSubscriptionPOJO | undefined | null = undefined;
+
+  $: currentWebSub = $currentWebPushSubStore;
+  $: isNativePR = pushRegistration && isNativePushRegistration(pushRegistration);
 
   // if the pushRegistration prop is undefined, fill destructured properties with null (except ua)
   $: ({
     id,
     refreshedAt,
-    ua: { os, browser, device },
-    subscription: { endpoint }
+    ua: { os, browser, device }
   } = pushRegistration || {
     id: null,
     createdAt: null,
@@ -37,6 +46,10 @@
     },
     subscription: { endpoint: null }
   });
+
+  $: pRWebPushEndpoint =
+    pushRegistration &&
+    (isWebPushRegistration(pushRegistration) ? pushRegistration.subscription.endpoint : undefined);
 
   onMount(async () => {
     // If we're showing the local device
@@ -53,14 +66,17 @@
    */
   $: isRegisteredInFirebase = !!id;
   $: canSuggestToTurnOnNotifsForCurrentDevice =
-    // ... we're on a mobile device
-    isMobileDevice! &&
-    // ... that currently doesn't have a sub
-    currentSub === null &&
-    // ... and could have notifications
-    isNotificationEligible() &&
-    // ... and hasn't been registered yet in Firebase
-    !isRegisteredInFirebase;
+    // TODO Revise this?
+    // native or
+    isNative ||
+    // ... we're on a mobile device browser
+    (isMobileDevice! &&
+      // ... that currently doesn't have a sub
+      currentWebSub === null &&
+      // ... and could have notifications
+      isNotificationEligible() &&
+      // ... and hasn't been registered yet in Firebase
+      !isRegisteredInFirebase);
 
   // Note: this relies on the CURRENT device. It should accept
   $: isIDevice = isIDeviceOS(os ?? '');
@@ -68,18 +84,25 @@
 
 <div class="entry">
   <div class="header">
-    <Icon icon={isIDevice ? appleIcon : os === 'Android' ? androidIcon : mobileDeviceIcon} />
+    <Icon
+      icon={isIDevice
+        ? appleIcon
+        : capitalize(os ?? '') === 'Android'
+          ? androidIcon
+          : mobileDeviceIcon}
+    />
     <div class="copy">
-      <!-- Don't show "Safari on" on iDevices, since people might be confused if they added with Chrome/FF on iOS -->
-      {#if !isIDevice}
+      <!-- Don't show "Safari on" on iDevices or native devices,
+       since people might be confused if they added with Chrome/FF on iOS + people are not interested in webview browsers -->
+      {#if !isNativePR && !isIDevice}
         {pureBrowserName}
         {$_('generics.on')}
       {/if}
-      {device.vendor && device.vendor !== 'Apple' ? `${device.vendor} ` : ''}{device.model ??
+      {device?.vendor !== 'Apple' ? `${device.vendor} ` : ''}{device.model ??
         os ??
         $_('account.notifications.unknown')}
       <div class="extra-info">
-        {#if !isRegisteredInFirebase || currentSub?.endpoint === endpoint}
+        {#if !isRegisteredInFirebase || (pushRegistration && isNativePushRegistration(pushRegistration) && pushRegistration.deviceId === $deviceId) || currentWebSub?.endpoint === pRWebPushEndpoint}
           {$_('account.notifications.current')}
         {:else if refreshedAt}
           {$_('account.notifications.last-seen')}
@@ -105,7 +128,7 @@
           }}
         />
       </div>
-    {:else if canSuggestToTurnOnNotifsForCurrentDevice && isMobileDevice && currentSub === null}
+    {:else if isNative || (canSuggestToTurnOnNotifsForCurrentDevice && isMobileDevice && currentWebSub === null)}
       <!-- TODO: potential notification suppport action -->
       <Button
         xsmall
