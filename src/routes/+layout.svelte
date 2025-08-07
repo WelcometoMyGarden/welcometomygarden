@@ -22,9 +22,16 @@
   import { staticAppHasLoaded, appHasLoaded, coercedLocale, rootModal } from '$lib/stores/app';
   import { keyboardEvent } from '$lib/stores/keyboardEvent';
   import { isFullscreen } from '$lib/stores/fullscreen';
+  import { Capacitor } from '@capacitor/core';
+  import { initializeNativePush } from '$lib/api/push-registrations/native.js';
   import logger from '$lib/util/logger.js';
+
   interface Props {
     children?: import('svelte').Snippet;
+  }
+
+  if (Capacitor.isNativePlatform()) {
+    initializeNativePush();
   }
 
   let { children }: Props = $props();

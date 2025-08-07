@@ -1,4 +1,4 @@
-import { derived, writable } from 'svelte/store';
+import { derived, get, writable } from 'svelte/store';
 import { createChatObserver } from '$lib/api/chat';
 import { getCookie, setCookie } from '$lib/util';
 import { resolveOnUserLoaded, user } from '$lib/stores/auth';
@@ -7,22 +7,27 @@ import { coerceToValidLangCode } from '$lib/util/get-browser-lang';
 import { updateCommunicationLanguage } from '$lib/api/user';
 import IosNotificationPrompt from '$lib/components/Notifications/IOSPWANotificationModal.svelte';
 import {
-  createPushRegistrationObserver,
-  getCurrentNativeSubscription
+  createFirebasePushRegistrationObserver,
+  hasEnabledNotificationsOnCurrentDevice
 } from '$lib/api/push-registrations';
 import { isOnIDevicePWA } from '$lib/util/push-registrations';
 import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
-import { resetPushRegistrationStores } from '$lib/stores/pushRegistrations';
+import {
+  loadedPushRegistrations,
+  resetPushRegistrationStores
+} from '$lib/stores/pushRegistrations';
 import { locale } from 'svelte-i18n';
 import { handledOpenFromIOSPWA, rootModal } from './app';
 import { createAuthObserver } from '$lib/api/auth';
 import { invalidateAll } from '$app/navigation';
 import logger from '$lib/util/logger';
+import { getCurrentWebPushSubscription } from '$lib/api/push-registrations/webpush';
+import { isNative } from '$lib/util/uaInfo';
 
 export const updatingMailPreferences = writable(false);
 export const updatingSavedGardens = writable(false);
 
-let hasShownIOSNotificationsModal = false;
+let hasShownInitNotificationsModal = false;
 
 type MaybeUnsubscriberFunc = (() => void) | undefined;
 
@@ -57,7 +62,7 @@ export const initializeUser = async () => {
         unsubscribeFromChatObserver = unsubscribeFromChatObserver ?? createChatObserver();
         // Subscribe to the push registration observer, if not initialized yet
         unsubscribeFromPushRegistrationObserver =
-          unsubscribeFromPushRegistrationObserver ?? createPushRegistrationObserver();
+          unsubscribeFromPushRegistrationObserver ?? createFirebasePushRegistrationObserver();
       } else if (isOnIDevicePWA()) {
         // If the user does not have a verified email, we unblock the loading of the page
         // by marking the open from iOS PWA as handled, since they can not do anything
@@ -83,26 +88,34 @@ export const initializeUser = async () => {
         resetPushRegistrationStores();
       }
     }
+  });
 
-    // After user login, detect startup on PWA iOS which doesn't have pre-existing push
+  loadedPushRegistrations.subscribe(async (loaded) => {
+    // Push registrations can only be loaded after user data is available (see above)
+    if (!loaded) {
+      return;
+    }
+
+    // After user login, detect startup on PWA iOS or native which doesn't have pre-existing push
     // registrations
     // TODO: check if this loads after loading pre-existing push registrations?
     // TODO: make this influence dismissal somehow?
     const notificationsDismissed = getCookie(NOTIFICATION_PROMPT_DISMISSED_COOKIE);
     if (
       // Prevent the modal from being shown twice in the same boot session (we might get multiple user updates)
-      !hasShownIOSNotificationsModal &&
+      !hasShownInitNotificationsModal &&
       // We're logged in...
-      latestUser !== null &&
-      // ... the browser has no native sub registered (but support exists)
-      (await getCurrentNativeSubscription()) === null &&
+      get(user) !== null &&
       // ... the user hasn't dismissed notifications
       notificationsDismissed !== 'true' &&
+      // ... the browser has no native sub registered (but support exists)
       // ... we're on the PWA of a supporting iOS version (preventing this from appearing on Android/... browsers)
-      isOnIDevicePWA()
+      ((isOnIDevicePWA() && (await getCurrentWebPushSubscription()) === null) ||
+        //  or we're on native, without push registrations enabled yet
+        (isNative && !hasEnabledNotificationsOnCurrentDevice()))
     ) {
       rootModal.set(IosNotificationPrompt);
-      hasShownIOSNotificationsModal = true;
+      hasShownInitNotificationsModal = true;
     }
   });
 

@@ -276,6 +276,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@capacitor/local-notifications@npm:^7.0.2":
+  version: 7.0.2
+  resolution: "@capacitor/local-notifications@npm:7.0.2"
+  peerDependencies:
+    "@capacitor/core": ">=7.0.0"
+  checksum: 10/f1cc774d29b5df99806de9c143b130cfab41c7baa562235e782d683ae7631c7021a52e90e91361467e6e144b7d196f58d0c7389699a127d64e0b860850a10170
+  languageName: node
+  linkType: hard
+
 "@capacitor/push-notifications@npm:^7.0.2":
   version: 7.0.4
   resolution: "@capacitor/push-notifications@npm:7.0.4"
@@ -10872,6 +10881,7 @@ __metadata:
     "@capacitor/core": "npm:^7.4.2"
     "@capacitor/device": "npm:^7.0.2"
     "@capacitor/ios": "npm:^7.4.2"
+    "@capacitor/local-notifications": "npm:^7.0.2"
     "@capacitor/push-notifications": "npm:^7.0.2"
     "@capacitor/splash-screen": "npm:^7.0.2"
     "@firebase/rules-unit-testing": "npm:^5.0.0"

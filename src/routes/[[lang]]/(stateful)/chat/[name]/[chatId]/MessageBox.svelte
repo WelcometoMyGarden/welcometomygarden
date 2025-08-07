@@ -10,10 +10,7 @@
   import { get } from 'svelte/store';
   import * as Sentry from '@sentry/sveltekit';
   import { user } from '$lib/stores/auth';
-  import {
-    canHaveNotificationSupport,
-    hasNotificationSupportNow
-  } from '$lib/util/push-registrations';
+  import { canHaveWebPushSupport, hasNotificationSupportNow } from '$lib/util/push-registrations';
   import { hasOrHadEnabledNotificationsSomewhere } from '$lib/api/push-registrations';
   import { isMobileDevice, uaInfo } from '$lib/util/uaInfo';
   import { chat as sharedChat, role, scrollDownMessages, partner } from './_shared.svelte';
@@ -144,7 +141,7 @@
       // Only show if we haven't enabled notifications anywhere yet
       !hasOrHadEnabledNotificationsSomewhere() &&
       // Only show if we are on desktop, or we are on a mobile with potential support
-      (hasNotificationSupportNow() || canHaveNotificationSupport() || !isMobileDevice) &&
+      (hasNotificationSupportNow() || canHaveWebPushSupport() || !isMobileDevice) &&
       // Only show if the user hasn't just seen it
       (!cookie ||
         // The cookie == "true" means it was dismissed for 6 monthts

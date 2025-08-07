@@ -23,7 +23,7 @@ See the gotchas below too: the easiest is to do this on a computer's **localhost
 
 ## Setting up a backend dev env
 
-Hence, you need to use a _real project's_ FCM instance; our staging instance, for example. Emulators can still be used for all other services (needed to experiment with new Functions code locally that sends notifications), but emulators themselves have limitations regarding testing on non-localhost devices (see later).
+Hence, you need to use a _real project's_ FCM instance; our staging instance, for example. Emulators can still be used for all other services (for example to experiment with new Functions code locally that sends notifications), but emulators themselves have limitations regarding testing on non-localhost devices (see later).
 
 To set up a frontend with mixed emulators and staging FCM:
 

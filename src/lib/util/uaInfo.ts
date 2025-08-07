@@ -1,4 +1,5 @@
 import { browser } from '$app/environment';
+import { Capacitor } from '@capacitor/core';
 import { UAParser } from 'ua-parser-js';
 
 /**
@@ -55,3 +56,5 @@ export const isMobileDevice = uaInfo
       uaInfo!.device
     )
   : undefined;
+
+export const isNative = Capacitor.isNativePlatform();
