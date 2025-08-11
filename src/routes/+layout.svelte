@@ -23,15 +23,27 @@
   import { keyboardEvent } from '$lib/stores/keyboardEvent';
   import { isFullscreen } from '$lib/stores/fullscreen';
   import { Capacitor } from '@capacitor/core';
+  import { SplashScreen } from '@capacitor/splash-screen';
   import { initializeNativePush } from '$lib/api/push-registrations/native.js';
   import logger from '$lib/util/logger.js';
-
+  import { SafeArea } from '@capacitor-community/safe-area';
   interface Props {
     children?: import('svelte').Snippet;
   }
 
   if (Capacitor.isNativePlatform()) {
     initializeNativePush();
+    SafeArea.enable({
+      config: {
+        // TODO: not working for now
+        // https://github.com/capacitor-community/safe-area/issues/55
+        customColorsForSystemBars: false,
+        statusBarColor: '#00000000', // transparent
+        statusBarContent: 'light',
+        navigationBarColor: '#00000000', // transparent
+        navigationBarContent: 'light'
+      }
+    }).then(() => console.debug('Capacitor: safe area values set'));
   }
 
   let { children }: Props = $props();
@@ -66,6 +78,9 @@
   let localEnvString: string | null = $state(null);
 
   onMount(() => {
+    if (Capacitor.isNativePlatform()) {
+      SplashScreen.hide();
+    }
     return Sentry.startSpan({ name: 'Root Layout Load', op: 'app.load' }, async () => {
       logger.log('Mounting root layout');
 
@@ -221,6 +236,7 @@
   class="app active-{$activeRootPath} active-route-{page?.route?.id} locale-{$coercedLocale}"
   class:fullscreen={$isFullscreen}
   class:error-banner={false}
+  class:native={Capacitor.isNativePlatform()}
   style="--vh:{vh}"
   bind:this={appContainer}
 >
@@ -359,6 +375,11 @@
        */
       height: calc(var(--vh, 1vh) * 100 - var(--height-mobile-nav));
       overflow-x: hidden;
+    }
+
+    /* Add a general safe inset padding on native, except on the map */
+    .app.native:not(.active-explore) {
+      padding-top: env(safe-area-inset-top);
     }
 
     /* On the iOS PWA, we bump the height of the nav (and entire app) with

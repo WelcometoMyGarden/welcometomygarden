@@ -249,4 +249,10 @@
       margin-right: var(--mapbox-zoom-ctrl-padding);
     }
   }
+
+  /* Allow the map to be edge-to-edge under unsafe top elements
+     while dodging these lements for the search filter. */
+  :global(.app.native .filter) {
+    top: calc(env(safe-area-inset-top));
+  }
 </style>
