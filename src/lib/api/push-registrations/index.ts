@@ -93,7 +93,7 @@ const refreshExistingSubscription = async (registration: LocalPushRegistration) 
       //
       fcmToken,
       subscription: subscription ? { ...subscription } : null,
-      deviceId: deviceId ?? null,
+      deviceId: get(deviceId) ?? null,
       // In case we are able to refresh a registration, we should be able to assume that this registration is still active, or active _again_
       // after erroring. NOTE: not tested.
       // In other cases (deleted here or on another device), this method should not have been called.
