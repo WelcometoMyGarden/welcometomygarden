@@ -194,6 +194,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@capacitor-community/safe-area@npm:^7.0.0-alpha.1":
+  version: 7.0.0-alpha.1
+  resolution: "@capacitor-community/safe-area@npm:7.0.0-alpha.1"
+  peerDependencies:
+    "@capacitor/core": ">=7.0.0"
+  checksum: 10/b5824fa4e148a6464ce0401e72e7e0f592ff817b8515669fda5a6436f4d34429e506aac42d973286af16953ec2a99b9cd989cef36e2bfbeecaca568f5881a3df
+  languageName: node
+  linkType: hard
+
 "@capacitor/android@npm:^7.4.2":
   version: 7.4.2
   resolution: "@capacitor/android@npm:7.4.2"
@@ -10333,6 +10342,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "welcome-to-my-garden@workspace:."
   dependencies:
+    "@capacitor-community/safe-area": "npm:^7.0.0-alpha.1"
     "@capacitor/android": "npm:^7.4.2"
     "@capacitor/cli": "npm:^7.4.2"
     "@capacitor/core": "npm:^7.4.2"

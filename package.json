@@ -34,6 +34,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@capacitor-community/safe-area": "^7.0.0-alpha.1",
     "@capacitor/android": "^7.4.2",
     "@capacitor/cli": "^7.4.2",
     "@capacitor/core": "^7.4.2",

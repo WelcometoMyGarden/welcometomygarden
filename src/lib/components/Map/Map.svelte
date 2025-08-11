@@ -21,6 +21,7 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   import { hasEnabledNotificationsOnCurrentDevice } from '$lib/api/push-registrations/index.js';
   import { writable } from 'svelte/store';
   import { isOnIDevicePWA } from '$lib/util/push-registrations.js';
+  import { Capacitor } from '@capacitor/core';
 
   export let lat: number;
   export let lon: number;
@@ -127,20 +128,22 @@ Component for maps. Shared between the main map, and the map in the Garden creat
     map.addControl(scaleControl, 'bottom-right');
 
     // Add full screen control
-    map.addControl(fullscreenControl);
-    fullscreenControl.on('fullscreenstart', async () => {
-      isFullscreen.set(true);
-      document.body.style.cssText = '--height-footer: 0px; --height-nav: 0px';
-      await tick();
-      // The above did not always lead to a resize event on mobile
-      map.resize();
-    });
-    fullscreenControl.on('fullscreenend', async () => {
-      isFullscreen.set(false);
-      document.body.style.cssText = '';
-      await tick();
-      map.resize();
-    });
+    if (!Capacitor.isNativePlatform()) {
+      map.addControl(fullscreenControl);
+      fullscreenControl.on('fullscreenstart', async () => {
+        isFullscreen.set(true);
+        document.body.style.cssText = '--height-footer: 0px; --height-nav: 0px';
+        await tick();
+        // The above did not always lead to a resize event on mobile
+        map.resize();
+      });
+      fullscreenControl.on('fullscreenend', async () => {
+        isFullscreen.set(false);
+        document.body.style.cssText = '';
+        await tick();
+        map.resize();
+      });
+    }
 
     return map;
   };
@@ -342,5 +345,9 @@ Component for maps. Shared between the main map, and the map in the Garden creat
       top: 5.5rem;
       right: 0.2rem;
     }
+  }
+
+  :global(.app.native .maplibregl-ctrl-top-right) {
+    top: 10rem;
   }
 </style>

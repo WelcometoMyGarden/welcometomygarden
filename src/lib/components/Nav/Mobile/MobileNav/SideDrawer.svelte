@@ -314,4 +314,8 @@
   .sign-out {
     color: var(--color-orange);
   }
+
+  :global(.app.native .drawer) {
+    padding-top: env(safe-area-inset-top);
+  }
 </style>

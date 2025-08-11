@@ -3,11 +3,12 @@
   "appName": "Welcome To My Garden",
   "webDir": "../dist",
   "server": {
-    "url": "https://wtmg.staging:5173"
+    "url": "https://wtmg.staging:5173",
+    "cleartext": true
   },
   "plugins": {
     "SplashScreen": {
-      "launchAutoHide": true
+      "launchAutoHide": false
     }
   }
 }
