@@ -114,8 +114,7 @@ export const pushRegistrationDocRef = (id: string) =>
 
 export const isWebPushRegistration = (
   pr: LocalPushRegistration
-): pr is FirebaseWebPushRegistration & { id: string } =>
-  typeof (pr as any)['subscription'] !== 'undefined';
+): pr is FirebaseWebPushRegistration & { id: string } => (pr as any)['subscription'] != null;
 
 export const isNativePushRegistration = (
   pr: LocalPushRegistration
