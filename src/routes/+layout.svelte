@@ -27,23 +27,34 @@
   import { initializeNativePush } from '$lib/api/push-registrations/native.js';
   import logger from '$lib/util/logger.js';
   import { SafeArea } from '@capacitor-community/safe-area';
+  import { CapacitorSwipeBackPlugin } from 'capacitor-swipe-back-plugin';
+  import { App as CapacitorApp, type URLOpenListenerEvent } from '@capacitor/app';
   interface Props {
     children?: import('svelte').Snippet;
   }
 
   if (Capacitor.isNativePlatform()) {
     initializeNativePush();
-    SafeArea.enable({
-      config: {
-        // TODO: not working for now
-        // https://github.com/capacitor-community/safe-area/issues/55
-        customColorsForSystemBars: false,
-        statusBarColor: '#00000000', // transparent
-        statusBarContent: 'light',
-        navigationBarColor: '#00000000', // transparent
-        navigationBarContent: 'light'
-      }
-    }).then(() => console.debug('Capacitor: safe area values set'));
+    if (Capacitor.getPlatform() === 'android') {
+      // TODO: remove listener on cleanup? CapacitorApp.removeAllListeners("backButton")
+      CapacitorApp.addListener('backButton', ({ canGoBack }) => {
+        if (!canGoBack) {
+          CapacitorApp.exitApp();
+        } else {
+          window.history.back();
+        }
+      });
+    } else {
+      // iOS Back Swipe Plugin
+      // Android (support in this plugin doesn't seem to exist for Android? https://github.com/KrzysztofKostecki/capacitor-plugin-swipe-back/tree/capacitor_v7)
+      CapacitorSwipeBackPlugin.enable().then(() => console.debug('Swipe Back plugin enabled'));
+    }
+
+    CapacitorApp.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+      // Example url: https://beerswift.app/tabs/tab2
+      // slug = /tabs/tab2
+      console.log(`Routing event received: ${event.url}`);
+    });
   }
 
   let { children }: Props = $props();
@@ -78,11 +89,26 @@
   let localEnvString: string | null = $state(null);
 
   onMount(() => {
-    if (Capacitor.isNativePlatform()) {
-      SplashScreen.hide();
-    }
     return Sentry.startSpan({ name: 'Root Layout Load', op: 'app.load' }, async () => {
       logger.log('Mounting root layout');
+      if (Capacitor.isNativePlatform()) {
+        await SplashScreen.hide();
+        // for (let i = 0; i < 6; i++) {
+        // await StatusBar.setOverlaysWebView({ overlay: true })
+        await SafeArea.enable({
+          config: {
+            // TODO: not working for now
+            // https://github.com/capacitor-community/safe-area/issues/55
+            customColorsForSystemBars: true,
+            // statusBarColor: '#00000000', // transparent
+            statusBarContent: 'dark',
+            // navigationBarColor: '#00000000', // transparent
+            navigationBarContent: 'dark'
+          }
+        }).then(() => console.debug('Capacitor: safe area values set'));
+        // await (new Promise(resolve => setTimeout(resolve, 50)));
+        // }
+      }
 
       vh = `${window.innerHeight * 0.01}px`;
 
