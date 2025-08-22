@@ -6,6 +6,7 @@ import { customSvgLoader } from './plugins/svg-loader';
 import mkcert from 'vite-plugin-mkcert';
 import envIsTrue from './src/lib/util/env-is-true';
 import { sentrySvelteKit } from '@sentry/sveltekit';
+import { readFileSync } from 'node:fs';
 
 /* eslint-env node */
 export default defineConfig(({ command, mode }): UserConfig => {
@@ -24,6 +25,16 @@ export default defineConfig(({ command, mode }): UserConfig => {
     build: {
       minify: isProductionBuild ? 'esbuild' : false
     },
+    ...(useHTTPS && process.env.VITE_HTTPS_CERT_PATH
+      ? {
+          server: {
+            https: {
+              cert: readFileSync(process.env.VITE_HTTPS_CERT_PATH),
+              key: readFileSync(process.env.VITE_HTTPS_KEY_PATH)
+            }
+          }
+        }
+      : {}),
     plugins: [
       customSvgLoader({ removeSVGTagAttrs: false }),
       ...(sentryUrl && process.env.SENTRY_AUTH_TOKEN
@@ -40,7 +51,7 @@ export default defineConfig(({ command, mode }): UserConfig => {
         : []),
       sveltekit(),
       imagetools(),
-      ...(useHTTPS
+      ...(useHTTPS && !process.env.VITE_HTTPS_CERT_PATH
         ? [
             mkcert({
               // Edit your hostfile to map wtmg.dev to 127.0.0.1

@@ -35,6 +35,8 @@
   import * as Sentry from '@sentry/sveltekit';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
   import { Progress } from '$lib/components/UI';
+  import { Capacitor } from '@capacitor/core';
+  import { DefaultWebViewOptions, InAppBrowser } from '@capacitor/inappbrowser';
 
   // TODO: if you subscribe & unsubscribe in 1 session without refreshing, no new sub will be auto-generated
   // we could fix this by detecting changes to the user (if we go from subscribed -> unsubscribed)
@@ -232,7 +234,26 @@
           // In case an invoice is changed, it takes longer than 4 seconds
           15000
         );
-        clientSecret = data.clientSecret;
+        if (data?.clientSecret && Capacitor.isNativePlatform()) {
+          const loc = window.location;
+          const inAppPaymentPage = `${loc.protocol}//${loc.host}/app-payment?${new URLSearchParams({
+            clientSecret: data?.clientSecret,
+            name: `${$user?.firstName} ${$user?.lastName}`,
+            email: $user?.email
+          }).toString()}`;
+          console.debug(`Opening ${inAppPaymentPage} in a webview`);
+          await InAppBrowser.openInWebView({
+            url: inAppPaymentPage,
+            options: DefaultWebViewOptions
+          });
+          return;
+        } else if (clientSecret) {
+          clientSecret = data.clientSecret;
+        } else {
+          console.error(
+            'Unexpected: no client secret returned by an non-erroring createOrRetrieveUnpaidSubscription'
+          );
+        }
       } catch (firebaseError: any) {
         if (isFirebaseError(firebaseError) && firebaseError.code === 'functions/already-exists') {
           processingPayment = true;

@@ -1,4 +1,4 @@
-package org.welcometomygarden.app;
+package org.welcometomygarden.app2;
 
 import com.getcapacitor.BridgeActivity;
 

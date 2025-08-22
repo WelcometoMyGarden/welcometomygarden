@@ -52,6 +52,8 @@ captures/
 # Comment next line if keeping position of elements in Navigation Editor is relevant for you
 .idea/navEditor.xml
 
+.idea/deploymentTargetSelector.xml
+
 # Keystore files
 # Uncomment the following lines if you do not want to check your keystore files in.
 #*.jks
@@ -100,5 +102,11 @@ app/src/main/assets/capacitor.config.json
 app/src/main/assets/capacitor.plugins.json
 app/src/main/res/xml/config.xml
 
+# Network security config
+app/src/main/res/xml/network_security_config.xml
+
 # Custom root certs
 *.pem
+
+google-services.json
+
