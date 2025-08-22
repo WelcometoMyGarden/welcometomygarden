@@ -12,15 +12,19 @@ def capacitor_pods
   pod 'Capacitor', :path => '../../node_modules/@capacitor/ios'
   pod 'CapacitorCordova', :path => '../../node_modules/@capacitor/ios'
   pod 'CapacitorCommunitySafeArea', :path => '../../node_modules/@capacitor-community/safe-area'
+  pod 'CapacitorApp', :path => '../../node_modules/@capacitor/app'
   pod 'CapacitorDevice', :path => '../../node_modules/@capacitor/device'
+  pod 'CapacitorInappbrowser', :path => '../../node_modules/@capacitor/inappbrowser'
   pod 'CapacitorLocalNotifications', :path => '../../node_modules/@capacitor/local-notifications'
   pod 'CapacitorPushNotifications', :path => '../../node_modules/@capacitor/push-notifications'
   pod 'CapacitorSplashScreen', :path => '../../node_modules/@capacitor/splash-screen'
+  pod 'CapacitorSwipeBackPlugin', :path => '../../node_modules/capacitor-swipe-back-plugin'
 end
 
 target 'App' do
   capacitor_pods
   # Add your Pods here
+  pod 'FirebaseMessaging' # Add this line
 end
 
 post_install do |installer|

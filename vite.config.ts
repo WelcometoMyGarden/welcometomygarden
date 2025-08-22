@@ -7,6 +7,7 @@ import envIsTrue from './src/lib/util/env-is-true';
 import { sentrySvelteKit } from '@sentry/sveltekit';
 import dynamicBuildTarget from './plugins/dynamicBuildTarget';
 import stripCSSWhereSelectors from './plugins/stripCSSWhereSelectors';
+import { readFileSync } from 'node:fs';
 import os from 'os';
 
 /* eslint-env node */
@@ -26,6 +27,16 @@ export default defineConfig(({ command, mode }): UserConfig => {
     build: {
       minify: isProductionBuild ? 'esbuild' : false
     },
+    ...(useHTTPS && process.env.VITE_HTTPS_CERT_PATH
+      ? {
+          server: {
+            https: {
+              cert: readFileSync(process.env.VITE_HTTPS_CERT_PATH),
+              key: readFileSync(process.env.VITE_HTTPS_KEY_PATH)
+            }
+          }
+        }
+      : {}),
     plugins: [
       ...(sentryUrl && process.env.SENTRY_AUTH_TOKEN
         ? [
@@ -43,7 +54,7 @@ export default defineConfig(({ command, mode }): UserConfig => {
       dynamicBuildTarget,
       stripCSSWhereSelectors,
       imagetools(),
-      ...(useHTTPS
+      ...(useHTTPS && !process.env.VITE_HTTPS_CERT_PATH
         ? [
             mkcert({
               // Edit your hostfile to map wtmg.dev to 127.0.0.1

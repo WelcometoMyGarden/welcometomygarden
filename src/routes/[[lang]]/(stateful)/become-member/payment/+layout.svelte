@@ -37,6 +37,8 @@
   import { Progress } from '$lib/components/UI';
   import { trackEvent } from '$lib/util';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import { Capacitor } from '@capacitor/core';
+  import { DefaultWebViewOptions, InAppBrowser } from '@capacitor/inappbrowser';
   import logger from '$lib/util/logger';
 
   // TODO: the Svelte 5 upgrade of svelte-stripe is not complete yet
@@ -249,7 +251,26 @@
           // In case an invoice is changed, it takes longer than 4 seconds
           15000
         );
-        clientSecret = data.clientSecret;
+        if (data?.clientSecret && Capacitor.isNativePlatform()) {
+          const loc = window.location;
+          const inAppPaymentPage = `${loc.protocol}//${loc.host}/app-payment?${new URLSearchParams({
+            clientSecret: data?.clientSecret,
+            name: `${$user?.firstName} ${$user?.lastName}`,
+            email: $user?.email
+          }).toString()}`;
+          console.debug(`Opening ${inAppPaymentPage} in a webview`);
+          await InAppBrowser.openInWebView({
+            url: inAppPaymentPage,
+            options: DefaultWebViewOptions
+          });
+          return;
+        } else if (clientSecret) {
+          clientSecret = data.clientSecret;
+        } else {
+          console.error(
+            'Unexpected: no client secret returned by an non-erroring createOrRetrieveUnpaidSubscription'
+          );
+        }
       } catch (firebaseError: any) {
         if (isFirebaseError(firebaseError) && firebaseError.code === 'functions/already-exists') {
           processingPayment = true;

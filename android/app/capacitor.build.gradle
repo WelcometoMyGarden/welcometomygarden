@@ -10,10 +10,13 @@ android {
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
     implementation project(':capacitor-community-safe-area')
+    implementation project(':capacitor-app')
     implementation project(':capacitor-device')
+    implementation project(':capacitor-inappbrowser')
     implementation project(':capacitor-local-notifications')
     implementation project(':capacitor-push-notifications')
     implementation project(':capacitor-splash-screen')
+    implementation project(':capacitor-swipe-back-plugin')
 
 }
 
