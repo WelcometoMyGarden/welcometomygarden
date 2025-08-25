@@ -1,3 +1,4 @@
+# Kills all the processes that use ports intended
 
 # Path to the JSON file containing emulator ports
 json_file="firebase.json"
