@@ -222,6 +222,10 @@
       "slow-travellers": {
         "title": "Viajeros sin prisa",
         "questions": {
+          "request-tips": {
+            "title": "¿Qué debería incluir en mi solicitud de estancia a los host?",
+            "copy": "<p>Al enviar una solicitud, por favor respeta las siguientes pautas. Esto ayudará a los hosts a entender tu solicitud y facilitará que puedan responderte.</p>\n<ul>\n<li>Preséntate<br/>Cuéntale a tu host quién eres, qué tipo de viaje estás haciendo y cuándo te gustaría quedarte.</li>\n<li>Comunica claramente<br/>Mantén a tu host informado. ¿Cambio de planes? Avísale lo antes posible.</li>\n<li>Sé amable y respetuoso<br/>Todos los anfitriones de WTMG son voluntarios. ¡Un mensaje amable es el comienzo de una gran aventura!</li>\n</ul>"
+          },
           "how-camping": {
             "title": "¿Cómo llego a mi lugar de acampada?",
             "copy": "<span class=\"notranslate\">Welcome To My Garden</span> ha sido creado para satisfacer las necesidades de los viajeros sin prisa: excursionistas y ciclistas que necesitan un lugar para acampar al final del día. Por este motivo, se debe llegar al lugar de acampada a pie, en bicicleta o en transporte público (en ningún caso en coche)."

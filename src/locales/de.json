@@ -221,6 +221,10 @@
       "slow-travellers": {
         "title": "Langsame Reisende",
         "questions": {
+          "request-tips": {
+            "title": "Was sollte ich in meiner Anfrage an Gastgeber angeben?",
+            "copy": "<p>Beim Senden einer Anfrage bitten wir dich, die folgenden Richtlinien zu beachten. Das hilft den Gastgebern, deine Anfrage zu verstehen und erleichtert ihnen die Antwort.</p>\n<ul>\n<li>Stelle dich vor<br/>Sag deinem Gastgeber, wer du bist, welche Art von Reise du machst und wann du gerne bleiben möchtest.</li>\n<li>Kommuniziere klar<br/>Halte deinen Gastgeber auf dem Laufenden. Planänderung? Informiere deinen Gastgeber so früh wie möglich.</li>\n<li>Sei freundlich und respektvoll<br/>Alle WTMG-Gastgeber sind freiwillig tätig. Eine freundliche Nachricht ist der Beginn eines großartigen Abenteuers!</li>\n</ul>"
+          },
           "how-camping": {
             "title": "Wie komme ich zu meinem Stellplatz?",
             "copy": "<span class=\"notranslate\">Welcome To My Garden</span> wurde für die Bedürfnisse von Slow Travellern eingerichtet: Wanderer und Radfahrer, die am Ende des Tages einen Campingplatz brauchen. Aus diesem Grund sollten Sie Ihren Campingplatz zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln erreichen – auf keinen Fall mit dem Auto."

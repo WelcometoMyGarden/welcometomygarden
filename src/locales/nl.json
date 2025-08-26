@@ -900,6 +900,10 @@
       "slow-travellers": {
         "title": "Trage reizigers",
         "questions": {
+          "request-tips": {
+            "title": "Wat moet ik vermelden in mijn overnachtingsverzoek aan hosts?",
+            "copy": "<p>Wanneer je een aanvraag verstuurt, houd dan rekening met de volgende richtlijnen. Dit helpt hosts jouw verzoek te begrijpen en maakt het voor hen gemakkelijker om te reageren.</p>\n<ul>\n<li>Stel jezelf voor<br/>Vertel je host wie je bent, wat voor trage reis je maakt en wanneer je in hun tuin wilt overnachten.</li>\n<li>Communiceer duidelijk<br/>Houd je host op de hoogte. Veranderen je plannen? Laat het je host zo snel mogelijk weten.</li>\n<li>Wees vriendelijk en respectvol<br/>Alle WTMG-hosts zijn vrijwilligers. Een vriendelijk bericht is het begin van een geweldig avontuur!</li>\n</ul>"
+          },
           "how-camping": {
             "title": "Hoe kom ik bij mijn kampeerplek?",
             "copy": "<span class=\"notranslate\">Welcome To My Garden</span> is opgezet om te voldoen aan de behoeften van trage reizigers: wandelaars en fietsers die aan het eind van de dag een kampeerplek nodig hebben. Het is daarom de bedoeling dat je te voet, met de fiets of met het openbaar vervoer op de kampeerplek aankomt - zeker niet met de auto. Natuurlijk kun je wel naar het begin van je route rijden - zolang je maar niet bij je host komt opdagen in je auto!"

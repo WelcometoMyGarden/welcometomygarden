@@ -90,4 +90,12 @@
   .cluster-collapsible p :global(a:hover) {
     text-decoration: none;
   }
+  .cluster-collapsible :global(ul) {
+    list-style-type: disc;
+    list-style-position: outside;
+  }
+  /* Similar to the style in src/routes/(static)/info/rules/+page.svelte */
+  .cluster-collapsible :global(li) {
+    margin: 0.5rem 0 0 1.5rem;
+  }
 </style>
