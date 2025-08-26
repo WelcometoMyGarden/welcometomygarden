@@ -160,38 +160,42 @@
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour de voyageurs et voyageuses adeptes du slow travel. Il s’agit d’une initiative sans but lucratif et en conséquence, aucun bénéfice, ni de la part de la plateforme ni de la <span class=\"notranslate\">Welcome To My Garden</span>eut être fait. <span class=\"notranslate\">Welcome To My Garden</span> ne prendra aucune responsabilité pour toute perte, dommage ou blessure encourue pendant un séjour. Les comportements offensants et l'utilisation abusive de la plateforme entraîneront la suspension des comptes (veuillez vous référer à nos conditions d'utilisation)."
       },
       "1": {
-        "title": "Envoyez une demande à l’avance au propriétaire du jardin",
-        "copy": "Les propriétaires de jardins ne sont pas toujours disponibles pour vous accueillir. Contactez-les à l’avance via leur profil et vérifiez leurs disponibilités directement. Après avoir établi un premier contact, vous pourrez échanger vos coordonnées afin de rester en contact et les informer de votre heure d’arrivée, soit par email, soit par téléphone selon leur préférence. Lorsque vous envoyez une demande, n'hésitez pas à donner quelques informations sur vous et votre voyage !"
-      },
-      "2": {
         "title": "Seulement pour les voyageur.ses lent.es (pas de voiture)",
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respecte l’environnement et est une initiative à destination des voyageurs et voyageuses adeptes du slow travel, c’est à dire pour ceux et celles qui se déplacent à pied, à vélo ou en transport en commun. Arriver directement à un jardin en voiture est interdit. Vous pouvez bien sûr vous déplacer en voiture pour vous rendre au point de départ de votre randonnée pédestre ou cycliste."
+      },
+      "2": {
+        "title": "Envoyez une demande à l’avance au propriétaire du jardin",
+        "copy": "Les propriétaires de jardins ne sont pas toujours disponibles pour vous accueillir. Contactez-les à l’avance via leur profil et vérifiez leurs disponibilités directement. Après avoir établi un premier contact, vous pourrez échanger vos coordonnées afin de rester en contact et les informer de votre heure d’arrivée, soit par email, soit par téléphone selon leur préférence. Lorsque vous envoyez une demande, n'hésitez pas à donner quelques informations sur vous et votre voyage !"
       },
       "3": {
         "title": "Durée maximum",
         "copy": "Vous ne pouvez rester dans les jardins pour une durée maximale de 48 heures. Néanmoins, confirmez toujours à l'avance la durée de votre séjour avec le/la propriétaire du jardin."
       },
       "4": {
+        "copy": "<p>Lorsque vous envoyez une demande, respectez les consignes suivantes. Cela aidera les hôtes à comprendre votre demande et leur permettra de vous répondre plus facilement. </p>\n<ul>\n<li>Présentez-vous<br>Dites qui vous êtes, quel type de voyage vous faites et quand vous souhaitez camper dans leur jardin.</li>\n<li>Communiquez clairement<br>Tenez vos hôtes informé.es. Changement de plans ? Prévenez-les dès que possible.</li>\n<li>Soyez aimable et respectueux<br>Tous les hôtes WTMG sont bénévoles. Un message respectueux est le début d’une belle rencontre !</li>\n</ul>",
+        "title": "Demandes envoyées par les voyageur.euses lent.es"
+      },
+      "5": {
         "title": "Nombre maximum de tentes",
         "copy": "Les propriétaires de jardin définissent le nombre de tentes qu’ils/elles peuvent accueillir chaque nuit (ce n’est pas le festival de Dour !). Merci de respecter leur choix."
       },
-      "5": {
+      "6": {
         "title": "Installations",
         "copy": "Les installations peuvent varier d’un jardin à un autre. Certains propriétaires décident de mettre leurs sanitaires à disposition; d’autres décideront de ne pas le faire. Merci de respecter leur choix."
       },
-      "6": {
+      "7": {
         "title": "Respect de la nature",
         "copy": "Emportez avec vous tous vos déchets en respectant le principe de Leave No Trace. Ce principe inclut les besoins naturels lorsqu’il n’y a pas de toilettes disponibles : trouvez un buisson ou un arbre en dehors du jardin pour le besoin numéro 1 ; en cas de besoin numéro 2, emballez-le et jetez-le dans une poubelle le jour suivant. Respectez la nature et le jardin de vos hôtes en agissant comme lorsque vous faites un bivouac en pleine nature."
       },
-      "7": {
+      "8": {
         "title": "Respect du voisinage",
         "copy": "Respectez l’intimité des propriétaires et le voisinage. Pas question de chanter Céline Dion à toute voix ou de faire trop de bruit - en tout cas pas après 22h !"
       },
-      "8": {
+      "9": {
         "title": "Profitez, profitez, profitez !",
         "copy": "Ceci est une excellente opportunité de rencontrer d’autres personnes ! Apprenez quelques mots dans la langue de vos hôtes si vous voyagez dans une autre région que la vôtre. Soyez curieux, partagez des histoires et faites des nouvelles amitiés !"
       },
-      "9": {
+      "10": {
         "title": "Partagez <span class=\"notranslate\">Welcome To My Garden</span> autour de vous",
         "copy": "Connaissez-vous quelqu’un qui pourrait ouvrir son jardin ? Partagez les informations à propos de l’initiative ! Vous pouvez également les inviter à suivre notre page Facebook."
       }

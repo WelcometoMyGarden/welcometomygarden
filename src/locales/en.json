@@ -163,38 +163,42 @@
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> is a network of citizens offering free camping spots in their gardens to slow travellers. It is a not-for-profit initiative and no income should be made from it. <span class=\"notranslate\">Welcome To My Garden</span> will not take any responsibility for any loss, damage or injury incurred during a stay."
       },
       "1": {
-        "title": "Send a request in advance to the garden owner",
-        "copy": "Garden owners might not be home and ready to welcome you at all times. We ask users to contact the garden owner in advance to check availability directly. This should be done by sending a request to the host through their profile. After establishing the initial connection you can exchange contact details, so that you can stay in touch and update your host about your arrival time by email or phone, depending on their preference. When you send a request, provide some information about yourself and about your expected arrival time. Offensive behaviours and misuse of the platform will lead to accounts suspension (please see our terms of use)."
-      },
-      "2": {
         "title": "Only for slow travellers (no car rule)",
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respects the environment and has been set up for slow travellers only. This means you can only reach the camping spots on foot, by bicycle or public transport. Getting there with your private car is forbidden. You are allowed to drive to the start of your hiking or biking trail – as long as you don’t turn up at the camping spots in your car."
+      },
+      "2": {
+        "title": "Send a request in advance to the garden owner",
+        "copy": "Garden owners might not be home and ready to welcome you at all times. We ask users to contact the garden owner in advance to check availability directly. This should be done by sending a request to the host through their profile. After establishing the initial connection you can exchange contact details, so that you can stay in touch and update your host about your arrival time by email or phone, depending on their preference. When you send a request, provide some information about yourself and about your expected arrival time. Offensive behaviours and misuse of the platform will lead to accounts suspension (please see our terms of use)."
       },
       "3": {
         "title": "Maximum duration of stay",
         "copy": "You can stay at a camping spot for a maximum of 48 hours. Always check with the garden owner."
       },
       "4": {
+        "title": "Stay request guidelines for slow travellers",
+        "copy": "<p>When sending a request, please respect the following guidelines. This will help hosts understand your request and make it easier for them to respond.</p>\n<ul>\n<li>Introduce yourself<br/>Tell your host who you are, what kind of trip you’re on, and when you'd like to stay in their garden.</li>\n<li>Communicate clearly<br/>Keep your host informed. Change of plans? Let your host know as soon as possible.</li>\n<li>Be kind and respectful<br/>All WTMG hosts are volunteers. A kind message is the start of a great adventure!</li>\n</ul>"
+      },
+      "5": {
         "title": "Maximum amount of tents",
         "copy": "Garden owners define how many tents they can accommodate each night (this is not Dour Festival). Please respect their choice."
       },
-      "5": {
+      "6": {
         "title": "Facilities",
         "copy": "Facilities may vary from one camping spot to another. Some garden owners might offer access to their bathrooms; others might prefer not to. Please respect their choices in these matters as well."
       },
-      "6": {
+      "7": {
         "title": "Respect for nature",
         "copy": "All your waste has to be taken away. This includes pee and poo if there’s no toilet available: find a bush or tree outside the garden for Number One; bag your Number Two and throw it in a bin the next day. Respect nature and the garden owners: apply the Leave No Trace principle as you would if bivouacking out in the wild."
       },
-      "7": {
+      "8": {
         "title": "No noise policy",
         "copy": "Please respect the camping spot owners’ privacy. So don’t sing along with Celine Dion at the top of your voice or generate any other type of noise – definitely not after 10pm!"
       },
-      "8": {
+      "9": {
         "title": "Have fun!",
         "copy": "This is a great opportunity to meet other people and have fun! Learn a few words of your host's language if you’re travelling in a different region than your own. Be curious, share stories and build new friendships!"
       },
-      "9": {
+      "10": {
         "title": "Spread the word",
         "copy": "Would you like to open up your garden or do you know someone who would be happy to? Spread the word about <span class=\"notranslate\">Welcome To My Garden</span>! You can invite them to like our <a href=\"https://www.facebook.com/Welcome2mygarden\">Facebook Page</a> too."
       }

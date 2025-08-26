@@ -156,38 +156,42 @@
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> es una red de ciudadanos que ofrecen lugares gratuitos para acampar en sus jardines a los viajeros sin prisa. Es una iniciativa sin ánimo de lucro y no <span class=\"notranslate\">Welcome To My Garden</span>resos de ella. <span class=\"notranslate\">Welcome To My Garden</span> no asumirá ninguna responsabilidad por ninguna pérdida, daño o lesión sufrida durante una estancia."
       },
       "1": {
-        "title": "Enviar una solicitud por adelantado al propietario del jardín.",
-        "copy": "Es posible que los propietarios de jardines no estén en casa y no estén listos para darle la bienvenida en todo momento. Solicitamos a los usuarios que se pongan en contacto con el propietario del jardín con antelación para comprobar la disponibilidad directamente. Esto debe hacerse enviando una solicitud al anfitrión a través de su perfil. Después de establecer la conexión inicial, puede intercambiar datos de contacto para poder mantenerse en contacto y actualizar a su anfitrión sobre su hora de llegada por correo electrónico o por teléfono, según sus preferencias. Cuando envíe una solicitud, proporcione cierta información sobre usted y sobre su hora prevista de llegada. Los comportamientos ofensivos y el mal uso de la plataforma darán lugar a la suspensión de la cuenta (consulte nuestras condiciones de uso)."
-      },
-      "2": {
         "title": "Sólo para viajeros sin prisa (coches no permitidos)",
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respeta el medio ambiente y ha sido creado únicamente para viajeros sin prisa. Esto significa que sólo se puede llegar a los lugares de acampada a pie, en bicicleta o en transporte público. Está prohibido llegar con vehículo particular. Se le permite conducir hasta el inicio de su ruta de senderismo o ciclismo, siempre y cuando no se presente en los lugares para acampar en su coche."
+      },
+      "2": {
+        "title": "Enviar una solicitud por adelantado al propietario del jardín.",
+        "copy": "Es posible que los propietarios de jardines no estén en casa y no estén listos para darle la bienvenida en todo momento. Solicitamos a los usuarios que se pongan en contacto con el propietario del jardín con antelación para comprobar la disponibilidad directamente. Esto debe hacerse enviando una solicitud al anfitrión a través de su perfil. Después de establecer la conexión inicial, puede intercambiar datos de contacto para poder mantenerse en contacto y actualizar a su anfitrión sobre su hora de llegada por correo electrónico o por teléfono, según sus preferencias. Cuando envíe una solicitud, proporcione cierta información sobre usted y sobre su hora prevista de llegada. Los comportamientos ofensivos y el mal uso de la plataforma darán lugar a la suspensión de la cuenta (consulte nuestras condiciones de uso)."
       },
       "3": {
         "title": "Duración máxima de la estancia",
         "copy": "Podrás permanecer en un lugar de acampada un máximo de 48 horas. Consulte siempre con el propietario del jardín."
       },
       "4": {
+        "copy": "<p>Al enviar una solicitud, por favor respeta las siguientes pautas. Esto ayudará a los hosts a entender tu solicitud y facilitará que puedan responderte.</p>\n<ul>\n<li>Preséntate<br/>Cuéntale a tu host quién eres, qué tipo de viaje estás haciendo y cuándo te gustaría quedarte.</li>\n<li>Comunica claramente<br/>Mantén a tu host informado. ¿Cambio de planes? Avísale lo antes posible.</li>\n<li>Sé amable y respetuoso<br/>Todos los anfitriones de WTMG son voluntarios. ¡Un mensaje amable es el comienzo de una gran aventura!</li>\n</ul>",
+        "title": "Solicitudes de estancia para slow travellers"
+      },
+      "5": {
         "title": "Cantidad máxima de tiendas de campaña",
         "copy": "Los propietarios de jardines definen cuántas tiendas de campaña pueden acomodar cada noche (esto no es el Sonar). Por favor respete su elección."
       },
-      "5": {
+      "6": {
         "title": "Instalaciones",
         "copy": "Las instalaciones pueden variar de un lugar de acampada a otro. Algunos propietarios de jardines pueden ofrecer acceso a sus baños; otros tal vez prefieran no hacerlo. Por favor respete sus decisiones también en estos asuntos."
       },
-      "6": {
+      "7": {
         "title": "Respeto por la naturaleza",
         "copy": "Todos tus desechos deben ser eliminados. Esto incluye orinar y defecar si no hay un baño disponible: busque un arbusto o árbol fuera del jardín para el Número Uno; Guarde su número dos y tírelo a la basura al día siguiente. Respete la naturaleza y a los propietarios de los jardines: aplique el principio de no dejar rastro como lo haría si acampara en la naturaleza."
       },
-      "7": {
+      "8": {
         "title": "Política sin ruido",
         "copy": "Respete la privacidad de los propietarios del lugar de acampada. Así que no cante con Celine Dion a todo pulmón ni genere ningún otro tipo de ruido, ¡definitivamente no después de las 22:00 horas!"
       },
-      "8": {
+      "9": {
         "title": "¡Diviértase!",
         "copy": "¡Esta es una gran oportunidad para conocer otras personas y divertirse! Aprenda algunas palabras del idioma de su anfitrión si viaja a una región diferente a la suya. ¡Sea curioso, comparta historias y construya nuevas amistades!"
       },
-      "9": {
+      "10": {
         "title": "Corra la voz",
         "copy": "¿Le gustaría abrir su jardín o conoce a alguien a quien le encantaría hacerlo? ¡Corra la voz sobre <span class=\"notranslate\">Welcome To My Garden</span>! También puedes invitarlos a que le den Me gusta a nuestra <a href=\"https://www.facebook.com/Welcome2mygarden\">página de Facebook</a> ."
       }

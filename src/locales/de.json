@@ -155,38 +155,42 @@
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> ist ein Netzwerk von Bürgern, die Langsamreisenden kostenlose Stellplätze in ihren Gärten anbieten. Es handelt sich um eine gemeinnützige Initiative, mit der keine Einnahmen erzielt werden sollen. <span class=\"notranslate\">Welcome To My Garden</span> übernimmt keine Verantwortung für Verluste, Schäden oder Verletzungen, die während eines Aufenthalts entstehen."
       },
       "1": {
-        "title": "Senden Sie eine Anfrage im Voraus an den Gartenbesitzer",
-        "copy": "Die Gartenbesitzer sind möglicherweise nicht zu jeder Zeit zu Hause und bereit, Sie zu empfangen. Wir bitten die Benutzer, den Gartenbesitzer im Voraus zu kontaktieren, um die Verfügbarkeit direkt zu prüfen. Dies sollte geschehen, indem Sie eine Anfrage an den Gastgeber über sein Profil senden. Nachdem Sie die erste Verbindung hergestellt haben, können Sie Ihre Kontaktdaten austauschen, so dass Sie in Kontakt bleiben und den Gastgeber über Ihre Ankunftszeit per E-Mail oder Telefon informieren können, je nach dessen Präferenz. Wenn Sie eine Anfrage senden, geben Sie einige Informationen über sich selbst und über Ihre voraussichtliche Ankunftszeit an."
-      },
-      "2": {
         "title": " Nur für langsame Reisende (kein Auto)",
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respektiert die Umwelt und ist nur für langsame Reisende eingerichtet worden. Das bedeutet, dass Sie die Campingplätze nur zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln erreichen können. Die Anreise mit dem eigenen Auto ist untersagt. Sie dürfen mit dem Auto zum Startpunkt Ihrer Wander- oder Fahrradtour fahren - solange Sie nicht mit dem Auto auf den Campingplätzen auftauchen."
+      },
+      "2": {
+        "title": "Senden Sie eine Anfrage im Voraus an den Gartenbesitzer",
+        "copy": "Die Gartenbesitzer sind möglicherweise nicht zu jeder Zeit zu Hause und bereit, Sie zu empfangen. Wir bitten die Benutzer, den Gartenbesitzer im Voraus zu kontaktieren, um die Verfügbarkeit direkt zu prüfen. Dies sollte geschehen, indem Sie eine Anfrage an den Gastgeber über sein Profil senden. Nachdem Sie die erste Verbindung hergestellt haben, können Sie Ihre Kontaktdaten austauschen, so dass Sie in Kontakt bleiben und den Gastgeber über Ihre Ankunftszeit per E-Mail oder Telefon informieren können, je nach dessen Präferenz. Wenn Sie eine Anfrage senden, geben Sie einige Informationen über sich selbst und über Ihre voraussichtliche Ankunftszeit an."
       },
       "3": {
         "title": "Maximale Dauer des Aufenthalts",
         "copy": "Sie können maximal 48 Stunden auf einem Stellplatz bleiben. Erkundigen Sie sich immer bei dem Gartenbesitzer."
       },
       "4": {
+        "copy": "<p>Beim Senden einer Anfrage bitten wir dich, die folgenden Richtlinien zu beachten. Das hilft den Gastgebern, deine Anfrage zu verstehen und erleichtert ihnen die Antwort.</p>\n<ul>\n<li>Stelle dich vor<br/>Sag deinem Gastgeber, wer du bist, welche Art von Reise du machst und wann du gerne bleiben möchtest.</li>\n<li>Kommuniziere klar<br/>Halte deinen Gastgeber auf dem Laufenden. Planänderung? Informiere deinen Gastgeber so früh wie möglich.</li>\n<li>Sei freundlich und respektvoll<br/>Alle WTMG-Gastgeber sind freiwillig tätig. Eine freundliche Nachricht ist der Beginn eines großartigen Abenteuers!</li>\n</ul>",
+        "title": "Anfragen für Aufenthalte von slow travellers"
+      },
+      "5": {
         "title": "Maximale Anzahl von Zelten",
         "copy": "Die Gartenbesitzer bestimmen, wie viele Zelte sie pro Nacht unterbringen können (dies ist kein Dour Festival). Bitte respektieren Sie deren Entscheidung."
       },
-      "5": {
+      "6": {
         "title": "Einrichtungen",
         "copy": "Die Einrichtungen können von einem Garten zum anderen variieren. Einige Gartenbesitzer bieten vielleicht den Zugang zu ihren Badezimmern an, andere ziehen es vielleicht vor, dies nicht zu tun. Bitte respektieren Sie auch in dieser Hinsicht ihre Entscheidungen."
       },
-      "6": {
+      "7": {
         "title": "Respekt vor der Natur",
         "copy": "Alle Ihre Abfälle müssen weggebracht werden. Dazu gehören auch Pisse und Kacke, wenn keine Toilette zur Verfügung steht: Suchen Sie sich einen Busch oder Baum außerhalb des Gartens für Nummer eins; tüten Sie Ihre Nummer zwei ein und werfen Sie sie am nächsten Tag in einen Mülleimer. Respektieren Sie die Natur und die Gartenbesitzer: Wenden Sie das „Keine Spuren hinterlassen“-Prinzip an, wie Sie es auch beim Biwakieren in der freien Natur tun würden."
       },
-      "7": {
+      "8": {
         "title": "Die Nachbarn respektieren",
         "copy": "Bitte respektieren Sie die Privatsphäre der Stellplatzbesitzer. Singen Sie also nicht lauthals Céline Dion mit und machen Sie auch sonst keinen Lärm – schon gar nicht nach 22 Uhr!"
       },
-      "8": {
+      "9": {
         "title": "Viel Spaß!",
         "copy": "Dies ist eine großartige Gelegenheit, andere Menschen zu treffen und Spaß zu haben! Lernen Sie ein paar Worte Französisch oder Niederländisch, wenn Sie in einer anderen Region als Ihrer eigenen unterwegs sind. Seien Sie neugierig, teilen Sie Geschichten und bauen Sie neue Freundschaften auf!"
       },
-      "9": {
+      "10": {
         "title": "Verbreiten Sie die gut Nachricht",
         "copy": "Möchten Sie Ihren Garten öffnen oder kennen Sie jemanden, der das gerne tun würde? Verbreiten Sie die Nachricht über <span class=\"notranslate\">Welcome To My Garden</span>! Sie können sie auch einladen, unserer <a href=\"https://www.facebook.com/Welcome2mygarden\">Facebook-Seite</a> zu folgen."
       }

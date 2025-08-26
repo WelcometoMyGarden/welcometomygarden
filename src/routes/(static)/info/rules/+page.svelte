@@ -12,4 +12,13 @@
   <p>{@html $_('rules.description')}</p>
 </div>
 
-<CollapsibleGroup collapsibleKey={'rules.rules'} />
+<div class="rules-content"><CollapsibleGroup collapsibleKey={'rules.rules'} /></div>
+
+<style>
+  .rules-content :global(ul) {
+    list-style-position: outside;
+  }
+  .rules-content :global(li) {
+    margin: 0.5rem 0 0 1.5rem;
+  }
+</style>
