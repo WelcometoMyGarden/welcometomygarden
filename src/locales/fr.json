@@ -332,7 +332,7 @@
   },
   "privacy-policy": {
     "title": "Politique de confidentialité",
-    "last-updated": "Dernière mise à jour: 08/12/2022",
+    "last-updated": "Dernière mise à jour: 26/08/2025",
     "subtitle": "Responsabilité par rapport au traitement des données et du propriétaire de celles-ci",
     "intro": "<span class=\"notranslate\">Welcome To My Garden</span>, un projet sans but lucratif sous l'entité juridique de Slowby, une entreprise sociale, constituée et existant en vertu des lois de la Belgique, dont le siège social est situé Henri Van Bortonnestraat 100, 1090 Jette, Belgique, avec le numéro d'entreprise BE 0784.423.261.",
     "email": "Email : {support}",
@@ -391,7 +391,7 @@
           "4": "Pour vous avertir des mises à jour de la plate-forme ;",
           "5": "Pour vous avertir lorsque des activités sur la plate-forme sont susceptibles de vous intéresser."
         },
-        "copy": "Les données personnelles ne sont stockées et traitées que pendant la période nécessaire aux fins du traitement. Après cela, les données seront supprimées ou anonymisées. <span class=\"notranslate\">Welcome To My Garden</span> s'appuie sur Firebase, qui est certifié selon les principales normes de confidentialité et de sécurité. Les services Firebase sont conformes au Règlement général de protection des données. Toutes les informations relatives à Firebase peuvent être trouvées <a href=\"https://firebase.google.com/support/privacy\">ici</a>."
+        "copy": "Les données personnelles ne sont stockées et traitées que pendant la période nécessaire aux fins du traitement. Après cela, les données seront supprimées ou anonymisées. <span class=\"notranslate\">Welcome To My Garden</span> utilise Firebase pour le stockage et la gestion des données, Stripe pour le traitement des paiements et SendGrid pour la communication par email. Ces services sont certifiés selon les principales normes de sécurité et de protection de la vie privée, et sont conformes au RGPD. Leurs politiques de confidentialité sont disponibles ici : <a href=\"https://firebase.google.com/support/privacy?hl=fr\" target=\"_blank\">Firebase</a>, <a href=\"https://stripe.com/privacy\" target=\"_blank\">Stripe</a> et <a href=\"https://www.twilio.com/legal/privacy\" target=\"_blank\">SendGrid</a>."
       },
       "backups": {
         "title": "Back-ups",

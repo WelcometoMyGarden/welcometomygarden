@@ -328,7 +328,7 @@
   },
   "privacy-policy": {
     "title": "Datenschutz",
-    "last-updated": "Zuletzt aktualisiert: 30. Mai 2020",
+    "last-updated": "Zuletzt aktualisiert: 26. August 2025",
     "subtitle": "Verantwortlich für die Verarbeitung der Daten und Eigentümer",
     "intro": "<span class=\"notranslate\">Welcome To My Garden</span> mit Open Collective Europe ASBL als juristische Person, einer gemeinnützigen Organisation, gegründet und bestehend nach belgischem Recht, mit eingetragenem Sitz in Cantersteen 12, 1000 Brüssel, Belgien, mit der Firmennummer 0680.493.996.",
     "email": "E-Mail: {support}",
@@ -387,7 +387,7 @@
           "4": "Um Sie zu benachrichtigen, wenn Aktualisierungen auf der Plattform stattfinden;",
           "5": "Um Sie zu benachrichtigen, wenn Aktivitäten auf der Plattform für Sie von Interesse sein könnten."
         },
-        "copy": "Die personenbezogenen Daten werden nur für den Zeitraum gespeichert und verarbeitet, der für den Zweck der Verarbeitung erforderlich ist. Danach werden die Daten gelöscht oder anonymisiert. <span class=\"notranslate\">Welcome To My Garden</span> setzt auf Firebase, das nach wichtigen Datenschutz- und Sicherheitsstandards zertifiziert ist. Die Firebase-Dienste sind DSGVO-konform. Alle Informationen zu Firebase finden Sie <a href=\"https://firebase.google.com/support/privacy\">hier</a>."
+        "copy": "Die personenbezogenen Daten werden nur für den Zeitraum gespeichert und verarbeitet, der für den Zweck der Verarbeitung erforderlich ist. Danach werden die Daten gelöscht oder anonymisiert. <span class=\"notranslate\">Welcome To My Garden</span> nutzt Firebase für zur Speicherung und Verwaltung von Daten, Stripe für die Zahlungsabwicklung und SendGrid für die E-Mail-Kommunikation. Diese Dienste sind nach wichtigen Datenschutz- und Sicherheitsstandards zertifiziert und DSGVO-konform. Ihre Datenschutzrichtlinien sind hier verfügbar: <a href=\"https://firebase.google.com/support/privacy?hl=de\" target=\"_blank\">Firebase</a>, <a href=\"https://stripe.com/privacy\" target=\"_blank\">Stripe</a> und <a href=\"https://www.twilio.com/legal/privacy\" target=\"_blank\">SendGrid</a>."
       },
       "backups": {
         "title": "Back-ups",

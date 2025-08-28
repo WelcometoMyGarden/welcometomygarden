@@ -336,7 +336,7 @@
   },
   "privacy-policy": {
     "title": "Privacy policy",
-    "last-updated": "Last updated: 08 December 2022",
+    "last-updated": "Last updated: 26 August 2025",
     "subtitle": "Responsible for the processing of the Data and Owner",
     "intro": "<span class=\"notranslate\">Welcome To My Garden</span>, a not-for-profit project under the legal entity of Slowby, a social enterprise, incorporated and existing under the laws of Belgium, with registered office at Henri Van Bortonnestraat 100, 1090 Jette, Belgium, with company number BE 0784.423.261.",
     "email": "Email: {support}",
@@ -395,7 +395,7 @@
           "4": "To alert you when updates are taking place on the platform;",
           "5": "To alert you when activities on the platform may interest you."
         },
-        "copy": "The personal data is only stored and processed for the period required for the purpose of the processing. After that, the data will be deleted or anonymized. <span class=\"notranslate\">Welcome To My Garden</span> relies on Firebase which is certified under major privacy and security standards. Firebase services are GDPR compliant. All information related to Firebase can be found <a href=\"https://firebase.google.com/support/privacy\">here</a>."
+        "copy": "The personal data is only stored and processed for the period required for the purpose of the processing. After that, the data will be deleted or anonymized. <span class=\"notranslate\">Welcome To My Garden</span> relies on Firebase for data storage and management, on Stripe for payment processing and SendGrid for email communication. These services are certified under major privacy and security standards and are GDPR compliant. Their privacy policies are available here: <a href=\"https://firebase.google.com/support/privacy?hl=en\" target=\"_blank\">Firebase</a>, <a href=\"https://stripe.com/privacy\" target=\"_blank\">Stripe</a>, and <a href=\"https://www.twilio.com/legal/privacy\" target=\"_blank\">SendGrid</a>."
       },
       "backups": {
         "title": "Back-ups",
