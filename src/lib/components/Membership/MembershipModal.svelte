@@ -11,6 +11,7 @@
   import { coercedLocale } from '$lib/stores/app';
 
   export let show = false;
+  export let continueUrl: undefined | string = undefined;
   let showMobilePricing = false;
 
   $: valuePropsLocal = valuePoints($coercedLocale);
@@ -74,7 +75,7 @@
         </div>
       </div>
       <div class="pricing">
-        <MembershipPricing condensed={true} analyticsSource="modal" />
+        <MembershipPricing condensed={true} analyticsSource="modal" {continueUrl} />
       </div>
     </div>
   </div>

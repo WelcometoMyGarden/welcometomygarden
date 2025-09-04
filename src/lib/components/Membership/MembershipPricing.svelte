@@ -45,6 +45,8 @@
    */
   export let analyticsSource: PlausiblePricingSectionSourceProperties['source'];
 
+  export let continueUrl: undefined | string;
+
   let acceptedTerms = false;
 
   // Only allow continuing if the terms are accepted, display an error otherswise
@@ -134,7 +136,9 @@
       // Use a "with" link, because that one is used to trigger fetching partner details in an onMount
       // TODO: simplify this...
       afterPaymentContinueUrl = `${routes.CHAT}?with=${$page.url.searchParams.get('id')}`;
-    }
+    } else if (continueUrl)
+      // If a continueUrl was manually given
+      afterPaymentContinueUrl = continueUrl;
 
     const targetPaymentLink = `${routes.MEMBER_PAYMENT}/${level.slug}${
       afterPaymentContinueUrl ? `?continueUrl=${encodeURIComponent(afterPaymentContinueUrl)}` : ''

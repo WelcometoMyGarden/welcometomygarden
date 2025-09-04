@@ -216,6 +216,10 @@
      */
   }
 
+  .app.active-routeplanner {
+    padding-top: 0;
+  }
+
   .app.active-explore {
     /* Avoid scrollbars */
     overflow-y: auto;
