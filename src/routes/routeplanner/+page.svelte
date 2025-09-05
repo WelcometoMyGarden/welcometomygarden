@@ -7,6 +7,8 @@
   import { onDestroy, onMount } from 'svelte';
   import { derived, type Readable } from 'svelte/store';
   import LoginModal from './LoginModal.svelte';
+  import { afterNavigate } from '$app/navigation';
+  import { page } from '$app/stores';
 
   let gardenUnsubscriber: () => void;
 
@@ -31,6 +33,7 @@
   }
 
   onMount(async () => {
+    console.log('Mounting');
     // Load gardens in the background
     getAllListedGardens();
 
@@ -59,10 +62,36 @@
             // goto(`${routes.SIGN_IN}?continueUrl=/routeplanner`);
             showLoginModal = true;
           }
+        } else if (typeof event.data !== 'string' && event.data != null) {
+          if (event.data.type === 'hash-update' && event.data.hash !== '') {
+            // replaceState matches mostly the behavior of location.replace() used by the hash router
+            window.history.replaceState({}, '', `/routeplanner${event.data.hash}`);
+          }
         }
       },
       false
     );
+  });
+
+  afterNavigate(async (navigation) => {
+    // It is possible that we return here after coming from /login
+    // onMount is not called
+    if (navigation.to?.route?.id !== '/routeplanner') {
+      return;
+    }
+    // This URL parameter tells that we should show the membership modal if needed
+    if ($page.url.searchParams.get('m') === '1') {
+      // Make sure the user is loaded first
+      await resolveOnUserLoaded();
+      if ($user?.superfan) {
+        return;
+      }
+      showMembershipModal = true;
+      // Remove the URL param
+      const { searchParams, hash } = $page.url;
+      searchParams.delete('m');
+      window.history.replaceState({}, '', `/routeplanner?${searchParams.toString()}${hash}`);
+    }
   });
 
   onDestroy(() => {
@@ -75,7 +104,7 @@
 <iframe
   bind:this={iframe}
   title="WTMG Route Planner"
-  src={import.meta.env.VITE_ROUTEPLANNER_HOST}
+  src={`${import.meta.env.VITE_ROUTEPLANNER_HOST}${window.location.hash}`}
   frameborder="0"
   on:load={onload}
 ></iframe>
