@@ -36,7 +36,7 @@ import type { FirebaseGarden } from '../types/Garden';
 import type { User as FirebaseUser } from 'firebase/auth';
 import { trackEvent } from '$lib/util';
 import { PlausibleEvent } from '$lib/types/Plausible';
-import { handledOpenFromIOSPWA, isAppCheckRejected } from '$lib/stores/app';
+import { handledOpenFromIOSPWA } from '$lib/stores/app';
 import { allListedGardens, hasLoaded as gardenHasLoaded } from '$lib/stores/garden';
 import { createClient } from '@supabase/supabase-js';
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_API_URL } from '$env/static/public';
@@ -340,7 +340,6 @@ const handleSnapshotListenerError = (err: FirestoreError) => {
     console.warn(
       'User data snapshot failed due to missing permissions, likely caused by an App Check failure.'
     );
-    isAppCheckRejected.set(true);
   }
 };
 

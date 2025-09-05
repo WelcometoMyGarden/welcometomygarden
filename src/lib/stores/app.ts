@@ -26,10 +26,6 @@ export const staticAppHasLoaded = derived(
     return $localeIsLoaded && isIDevicePWAReady;
   }
 );
-//
-// Note: could be renamed to "fatal error" perhaps, in case more general error conditions
-// beyond App Check occur
-export const isAppCheckRejected = writable(false);
 
 /**
  * Always has a value, will start with 'en' because $locale starts with null
@@ -37,14 +33,8 @@ export const isAppCheckRejected = writable(false);
 export const coercedLocale = derived(locale, ($locale) => coerceToSupportedLanguage($locale));
 
 export const appHasLoaded = derived(
-  [staticAppHasLoaded, isInitializingFirebase, isUserLoading, isSigningIn, isAppCheckRejected],
-  ([
-    $staticAppHasLoaded,
-    $isInitializingFirebase,
-    $isUserLoading,
-    $isSigningIn,
-    $isAppCheckRejected
-  ]) => {
+  [staticAppHasLoaded, isInitializingFirebase, isUserLoading, isSigningIn],
+  ([$staticAppHasLoaded, $isInitializingFirebase, $isUserLoading, $isSigningIn]) => {
     return (
       $staticAppHasLoaded &&
       !$isInitializingFirebase &&
@@ -54,7 +44,7 @@ export const appHasLoaded = derived(
       // By allowing the user to not be loaded while signing in, we prevent this cycle from occurring.
       // 2. We also pretend that the app is loaded when a fatal error occurs, to make sure there is no white/empty screen on stateful pages.
       //    This might not be a good idea, but I think it leaves a better impression on the sign-in page etc.
-      (!$isUserLoading || $isSigningIn || $isAppCheckRejected)
+      (!$isUserLoading || $isSigningIn)
     );
   }
 );

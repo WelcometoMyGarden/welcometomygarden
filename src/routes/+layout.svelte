@@ -7,49 +7,21 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { isFullscreen } from '$lib/stores/fullscreen';
-  import { appHasLoaded, coercedLocale, isAppCheckRejected, rootModal } from '$lib/stores/app';
+  import { appHasLoaded, coercedLocale, rootModal } from '$lib/stores/app';
   import Modal from 'svelte-simple-modal';
   import { onNavigate } from '$app/navigation';
   import trackEvent, { registerCustomPropertyTracker } from '$lib/util/track-plausible';
   import { Notifications, Progress } from '$lib/components/UI';
   import { browser } from '$app/environment';
   import { _, locale } from 'svelte-i18n';
-  import { anchorText } from '$lib/util/translation-helpers.js';
-  import { coerceToMainLanguage } from '$lib/util/get-browser-lang.js';
   import { initializeSvelteI18n } from '$locales/initialize.js';
-  import { appCheck, initialize as initializeFirebase } from '$lib/api/firebase';
-  import { getToken } from 'firebase/app-check';
-  import isFirebaseError from '$lib/util/types/isFirebaseError.js';
+  import { initialize as initializeFirebase } from '$lib/api/firebase';
   import { PlausibleEvent } from '$lib/types/Plausible.js';
   import { initializeUser } from '$lib/stores/user.js';
 
   // Both are not awaited, and run concurrently
   initializeSvelteI18n().catch((e) => console.error('Error during svelte-i18n init', e));
   initializeFirebase()
-    .then(async () => {
-      try {
-        // Use AppCheck if it is initialized (not on localhost development, for example)
-        if (typeof import.meta.env.VITE_FIREBASE_APP_CHECK_PUBLIC_KEY !== 'undefined') {
-          await getToken(appCheck(), /* forceRefresh= */ false);
-          console.debug('App Check token retrieved successfully');
-        }
-      } catch (err) {
-        // Handle any errors if the token was not retrieved.
-        if (isFirebaseError(err) && err.code.startsWith('appCheck')) {
-          // Seen:
-          // - 'appCheck/recaptcha-error' (when loading in local dev)
-          // - 'appCheck/throttled' (when loading on Firefox on Android)
-          console.warn('Known appCheck error: ', err);
-          trackEvent(PlausibleEvent.APP_CHECK_ERROR, { type: err.code });
-        } else {
-          console.warn('Unexpected App Check error: ', err);
-          trackEvent(PlausibleEvent.APP_CHECK_ERROR);
-        }
-        // isAppCheckRejected.set(true);
-        // isInitializingFirebase.set(false);
-        // throw new Error('App Check error after Firebase init, aborting init.');
-      }
-    })
     .then(initializeUser)
     .catch((e) => console.error('Error during init', e));
 
@@ -133,9 +105,11 @@
 <svelte:window on:resize={updateViewportHeight} on:keyup={onCustomPress} />
 
 {#if browser}
-  <Progress active={!$appHasLoaded && !$isAppCheckRejected} />
+  <Progress active={!$appHasLoaded} />
 {/if}
-{#if $isAppCheckRejected && typeof $locale == 'string'}
+<!-- This specific error banner may be useful for another case, or if we restore some
+      kind of app check -->
+<!-- {#if typeof $locale == 'string'}
   <div class="permanent-error">
     <div>
       {@html $_('generics.error.app-check.message', {
@@ -149,12 +123,12 @@
       })}
     </div>
   </div>
-{/if}
+{/if} -->
 <div
   class="app active-{$page?.url?.pathname?.substring(1).split('/')[0]} active-route-{$page?.route
     ?.id} locale-{$coercedLocale}"
   class:fullscreen={$isFullscreen}
-  class:error-banner={$isAppCheckRejected}
+  class:error-banner={false}
   style="--vh:{vh}"
   bind:this={appContainer}
 >
