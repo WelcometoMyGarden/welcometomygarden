@@ -5,7 +5,7 @@
   import { resolveOnUserLoaded, user } from '$lib/stores/auth';
   import { allListedGardens } from '$lib/stores/garden';
   import { onDestroy, onMount } from 'svelte';
-  import { derived } from 'svelte/store';
+  import { derived, type Readable } from 'svelte/store';
   import LoginModal from './LoginModal.svelte';
 
   let gardenUnsubscriber: () => void;
@@ -21,11 +21,13 @@
 
   let iframe: HTMLIFrameElement;
 
+  const sendDataUpdate = (data: typeof combinedStore extends Readable<infer D> ? D : never) => {
+    console.log('new data update');
+    iframe.contentWindow?.postMessage(data, import.meta.env.VITE_ROUTEPLANNER_HOST);
+  };
+
   function onload() {
-    gardenUnsubscriber = combinedStore.subscribe((data) => {
-      console.log('new data update');
-      iframe.contentWindow?.postMessage(data, import.meta.env.VITE_ROUTEPLANNER_HOST);
-    });
+    gardenUnsubscriber = combinedStore.subscribe(sendDataUpdate);
   }
 
   onMount(async () => {

@@ -5,7 +5,7 @@
   export let show: boolean;
 </script>
 
-<Modal maxWidth="520px" ariaLabel="" bind:show closeOnOuterClick={false} center>
+<Modal maxWidth="460px" ariaLabel="" bind:show center>
   <div slot="title" class="title">
     <h2 id="Title">Member features</h2>
   </div>
