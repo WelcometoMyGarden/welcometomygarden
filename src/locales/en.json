@@ -1576,5 +1576,13 @@
       "permission-denied-faq-text": "instructions in our FAQ",
       "generic": "Something went wrong when turning on your mobile notifications. Can you refresh this page and then try turning them on again? If this doesn't work, please send the information below to {emailLink} so we can help you further. Thanks!"
     }
+  },
+  "routeplanner": {
+    "modal": {
+      "title": "Show WTMG gardens",
+      "description": "To see the gardens along your route, you must {signIn} and be a WTMG member.",
+      "sign-in-label": "sign in",
+      "button-label": "Sign in or become a member"
+    }
   }
 }

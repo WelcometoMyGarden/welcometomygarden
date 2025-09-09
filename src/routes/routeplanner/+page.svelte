@@ -9,9 +9,11 @@
   import LoginModal from './LoginModal.svelte';
   import { afterNavigate } from '$app/navigation';
   import { page } from '$app/stores';
+  import { t } from 'svelte-i18n';
 
   let gardenUnsubscriber: () => void;
 
+  let continueUrl = '/routeplanner';
   let showMembershipModal = false;
   let showLoginModal = false;
 
@@ -23,8 +25,21 @@
 
   let iframe: HTMLIFrameElement;
 
-  const sendDataUpdate = (data: typeof combinedStore extends Readable<infer D> ? D : never) => {
+  const sendDataUpdate = (
+    data: typeof combinedStore extends Readable<infer D> ? D : never,
+    attempts = 0
+  ) => {
     console.log('new data update');
+    if (attempts > 2) {
+      console.log('too many attempts to send to a non-existent iframe');
+      return;
+    }
+    if (!iframe) {
+      // infinite recursion danger
+      console.log('postponing data send');
+      setTimeout(() => sendDataUpdate(data, attempts + 1), 200);
+      return;
+    }
     iframe.contentWindow?.postMessage(data, import.meta.env.VITE_ROUTEPLANNER_HOST);
   };
 
@@ -57,6 +72,8 @@
         } else if (event.data === 'login-member') {
           await resolveOnUserLoaded();
           if ($user && !$user.superfan) {
+            const { hash, search } = window.location;
+            continueUrl = `/routeplanner${search}${hash}`;
             showMembershipModal = true;
           } else if (!$user) {
             // goto(`${routes.SIGN_IN}?continueUrl=/routeplanner`);
@@ -101,6 +118,11 @@
   });
 </script>
 
+<svelte:head>
+  {#if $appHasLoaded}
+    <title>Routeplanner | {$t('generics.wtmg.explicit')}</title>
+  {/if}
+</svelte:head>
 <iframe
   bind:this={iframe}
   title="WTMG Route Planner"
@@ -110,7 +132,7 @@
 ></iframe>
 
 {#if $appHasLoaded}
-  <MembershipModal bind:show={showMembershipModal} continueUrl="/routeplanner" />
+  <MembershipModal bind:show={showMembershipModal} {continueUrl} />
   <LoginModal bind:show={showLoginModal} />
 {/if}
 
@@ -118,5 +140,9 @@
   iframe {
     width: 100%;
     height: 100%;
+  }
+
+  :global(body div.app.active-routeplanner) {
+    --height-mobile-nav: 0rem !important;
   }
 </style>

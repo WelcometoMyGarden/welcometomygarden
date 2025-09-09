@@ -1563,5 +1563,11 @@
       "resubscribe": "Herinschrijven",
       "title": "Je bent uitgeschreven van WTMG-nieuws"
     }
+  },
+  "routeplanner": {
+    "modal": {
+      "description": "Om de tuinen langs je route te bekijken, moet je {signIn} en lid van WTMG zijn.",
+      "sign-in-label": "inloggen"
+    }
   }
 }

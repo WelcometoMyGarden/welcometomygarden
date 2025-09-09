@@ -1558,5 +1558,11 @@
       "resubscribe": "Se réabonner",
       "title": "Vous êtes désabonné des nouvelles de WTMG"
     }
+  },
+  "routeplanner": {
+    "modal": {
+      "description": "Pour voir les jardins le long de votre itinéraire, vous devez {signIn} et être membre de WTMG.",
+      "sign-in-label": "vous connecter"
+    }
   }
 }
