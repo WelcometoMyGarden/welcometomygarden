@@ -1562,7 +1562,9 @@
   "routeplanner": {
     "modal": {
       "description": "Pour voir les jardins le long de votre itinéraire, vous devez {signIn} et être membre de WTMG.",
-      "sign-in-label": "vous connecter"
+      "sign-in-label": "vous connecter",
+      "title": "Afficher les jardins WTMG",
+      "button-label": "Se connecter ou devenir membre"
     }
   }
 }

@@ -45,23 +45,33 @@
         }
       })}
     </p>
-    <video src={staticAssetUrl('/routeplanner/routeplanner-gardens-demo.mp4')} autoplay muted loop
+    <video
+      src={staticAssetUrl('/routeplanner/routeplanner-gardens-demo.mp4')}
+      autoplay
+      muted
+      loop
+      playsinline
     ></video>
     <!-- If already logged in, show the membership modal -->
-    {#if !!$user}
-      <Button
-        medium
-        on:click={() => {
-          show = false;
-          showMembershipModal = true;
-          trackEvent(PlausibleEvent.OPEN_MEMBERSHIP_MODAL, {
-            source: 'routeplanner'
-          });
-        }}>{$t('routeplanner.modal.button-label')}</Button
-      >
-    {:else}
-      <Button medium href={createSignInURL()}>{$t('routeplanner.modal.button-label')}</Button>
-    {/if}
+    <div class="btn-container">
+      {#if !!$user}
+        <Button
+          medium
+          centered
+          on:click={() => {
+            show = false;
+            showMembershipModal = true;
+            trackEvent(PlausibleEvent.OPEN_MEMBERSHIP_MODAL, {
+              source: 'routeplanner'
+            });
+          }}>{$t('routeplanner.modal.button-label')}</Button
+        >
+      {:else}
+        <Button medium centered href={createSignInURL()}
+          >{$t('routeplanner.modal.button-label')}</Button
+        >
+      {/if}
+    </div>
   </div>
 </Modal>
 
@@ -72,5 +82,11 @@
   video {
     width: 100%;
     margin: 1rem auto 2rem auto;
+  }
+
+  .btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 </style>
