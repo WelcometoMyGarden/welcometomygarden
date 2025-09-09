@@ -61,7 +61,8 @@ export enum PlausibleEvent {
   CLOSE_NPS_SURVEY = 'Close NPS Survey',
   SHOW_COMMUNITY_VIDEO = 'Show Community Video',
   APP_CHECK_ERROR = 'App Check Error',
-  USED_BROWSER_TRANSLATION = 'Used Browser Translation'
+  USED_BROWSER_TRANSLATION = 'Used Browser Translation',
+  MEMBER_CONVERSION = 'Member Conversion'
 }
 
 const superfanOnlyEvents = [
@@ -107,7 +108,10 @@ export type PlausibleMembershipModalProperties = {
   /**
    * zoom_notice: in 2025/03 it got since we started showing the modal instead of navigating to /about-membership.
    */
-  source: 'map_garden' | 'direct' | 'zoom_notice';
+  source: 'map_garden' | 'direct' | 'zoom_notice' | 'routeplanner';
+};
+export type PlausibleMembershipGoalProperties = {
+  source: 'map_garden' | 'direct' | 'routeplanner';
 };
 
 export type PlausibleMembershipModalBackNavSource = {

@@ -35,6 +35,8 @@
   import * as Sentry from '@sentry/sveltekit';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
   import { Progress } from '$lib/components/UI';
+  import { trackEvent } from '$lib/util';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   // TODO: if you subscribe & unsubscribe in 1 session without refreshing, no new sub will be auto-generated
   // we could fix this by detecting changes to the user (if we go from subscribed -> unsubscribed)
@@ -279,10 +281,17 @@
   async function paymentSucceeded() {
     if (continueUrl) {
       notify.success($_('payment-superfan.payment-section.success'), 20000);
+      // Tracking default given continueUrl: from trying to chat with someone
+      let source = 'map_garden';
+      if (continueUrl.startsWith('/routeplanner')) {
+        source = 'routeplanner';
+      }
+      trackEvent(PlausibleEvent.MEMBER_CONVERSION, { source });
       // Note: this should be a relative continue URL only
       await goto(continueUrl);
       return true;
     }
+    trackEvent(PlausibleEvent.MEMBER_CONVERSION, { source: 'direct' });
     await goto(routes.MEMBER_THANK_YOU);
     return true;
   }

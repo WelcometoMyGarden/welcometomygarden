@@ -10,6 +10,8 @@
   import { afterNavigate } from '$app/navigation';
   import { page } from '$app/stores';
   import { t } from 'svelte-i18n';
+  import trackEvent from '$lib/util/track-plausible';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   let gardenUnsubscriber: () => void;
 
@@ -20,7 +22,8 @@
   const combinedStore = derived([allListedGardens, user], ([_gardens, _user]) => ({
     gardens: _gardens,
     savedGardens: _user?.savedGardens ?? [],
-    member: !!_user?.superfan
+    member: !!_user?.superfan,
+    userId: _user?.id ?? null
   }));
 
   let iframe: HTMLIFrameElement;
@@ -74,11 +77,8 @@
           if ($user && !$user.superfan) {
             const { hash, search } = window.location;
             continueUrl = `/routeplanner${search}${hash}`;
-            showMembershipModal = true;
-          } else if (!$user) {
-            // goto(`${routes.SIGN_IN}?continueUrl=/routeplanner`);
-            showLoginModal = true;
           }
+          showLoginModal = true;
         } else if (typeof event.data !== 'string' && event.data != null) {
           if (event.data.type === 'hash-update' && event.data.hash !== '') {
             // replaceState matches mostly the behavior of location.replace() used by the hash router
@@ -104,6 +104,9 @@
         return;
       }
       showMembershipModal = true;
+      trackEvent(PlausibleEvent.OPEN_MEMBERSHIP_MODAL, {
+        source: 'routeplanner'
+      });
       // Remove the URL param
       const { searchParams, hash } = $page.url;
       searchParams.delete('m');
@@ -133,7 +136,7 @@
 
 {#if $appHasLoaded}
   <MembershipModal bind:show={showMembershipModal} {continueUrl} />
-  <LoginModal bind:show={showLoginModal} />
+  <LoginModal bind:show={showLoginModal} bind:showMembershipModal />
 {/if}
 
 <style>

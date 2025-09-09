@@ -4,8 +4,12 @@
   import createUrl from '$lib/util/create-url';
   import { anchorText } from '$lib/util/translation-helpers';
   import staticAssetUrl from '$lib/util/staticAssetUrl';
+  import { user } from '$lib/stores/auth';
+  import { trackEvent } from '$lib/util';
+  import { PlausibleEvent } from '$lib/types/Plausible';
 
   export let show: boolean;
+  export let showMembershipModal: boolean;
 
   function createSignInURL() {
     // window.location should be used, since it looks like
@@ -29,19 +33,35 @@
     <p>
       {@html $t('routeplanner.modal.description', {
         values: {
-          signIn: anchorText({
-            linkText: $t('routeplanner.modal.sign-in-label'),
-            href: createSignInURL(),
-            class: 'link',
-            style: 'color: var(--color-green);',
-            newtab: false
-          })
+          signIn: !!$user
+            ? $t('routeplanner.modal.sign-in-label')
+            : anchorText({
+                linkText: $t('routeplanner.modal.sign-in-label'),
+                href: createSignInURL(),
+                class: 'link',
+                style: 'color: var(--color-green);',
+                newtab: false
+              })
         }
       })}
     </p>
     <video src={staticAssetUrl('/routeplanner/routeplanner-gardens-demo.mp4')} autoplay muted loop
     ></video>
-    <Button medium href={createSignInURL()}>{$t('routeplanner.modal.button-label')}</Button>
+    <!-- If already logged in, show the membership modal -->
+    {#if !!$user}
+      <Button
+        medium
+        on:click={() => {
+          show = false;
+          showMembershipModal = true;
+          trackEvent(PlausibleEvent.OPEN_MEMBERSHIP_MODAL, {
+            source: 'routeplanner'
+          });
+        }}>{$t('routeplanner.modal.button-label')}</Button
+      >
+    {:else}
+      <Button medium href={createSignInURL()}>{$t('routeplanner.modal.button-label')}</Button>
+    {/if}
   </div>
 </Modal>
 

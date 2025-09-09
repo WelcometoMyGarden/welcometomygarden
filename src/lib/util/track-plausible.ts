@@ -19,7 +19,8 @@ import {
   type PlausibleContinueWithPriceProperties,
   type PlausiblePricingSectionSourceProperties,
   type PlausibleMembershipModalBackNavSource,
-  type PlausibleNotificationsInternalDeletionProperties
+  type PlausibleNotificationsInternalDeletionProperties,
+  type PlausibleMembershipGoalProperties
 } from '$lib/types/Plausible';
 import { debounce } from 'lodash-es';
 import { get } from 'svelte/store';
@@ -102,6 +103,10 @@ function trackEvent(
 function trackEvent(
   name: PlausibleEvent.DELETED_PUSH_REGISTRATION,
   props: PlausibleNotificationsInternalDeletionProperties
+): void;
+function trackEvent(
+  name: PlausibleEvent.MEMBER_CONVERSION,
+  props: PlausibleMembershipGoalProperties
 ): void;
 function trackEvent(
   // Exclude all events that were handled above
