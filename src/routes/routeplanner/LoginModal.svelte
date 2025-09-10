@@ -7,15 +7,14 @@
   import { user } from '$lib/stores/auth';
   import { trackEvent } from '$lib/util';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import { page } from '$app/stores';
 
   export let show: boolean;
   export let showMembershipModal: boolean;
 
   function createSignInURL() {
-    // window.location should be used, since it looks like
-    // Svelte $page does not track history.replaceState() changes
-    const { hash } = window.location;
-    const searchParams = new URLSearchParams(window.location.search);
+    const { hash, search } = $page.url;
+    const searchParams = new URLSearchParams(search);
     // Designates a "member check"
     searchParams.append('m', '1');
     return createUrl('/sign-in', {

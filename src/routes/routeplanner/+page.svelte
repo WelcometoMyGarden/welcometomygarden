@@ -1,13 +1,13 @@
 <script lang="ts">
   import { getAllListedGardens } from '$lib/api/garden';
   import MembershipModal from '$lib/components/Membership/MembershipModal.svelte';
-  import { appHasLoaded } from '$lib/stores/app';
+  import { appHasLoaded, staticAppHasLoaded } from '$lib/stores/app';
   import { resolveOnUserLoaded, user } from '$lib/stores/auth';
   import { allListedGardens } from '$lib/stores/garden';
   import { onDestroy, onMount } from 'svelte';
   import { derived, type Readable } from 'svelte/store';
   import LoginModal from './LoginModal.svelte';
-  import { afterNavigate } from '$app/navigation';
+  import { afterNavigate, goto } from '$app/navigation';
   import { page } from '$app/stores';
   import { t } from 'svelte-i18n';
   import trackEvent from '$lib/util/track-plausible';
@@ -58,13 +58,14 @@
     await resolveOnUserLoaded();
 
     // Start sending messages when the scripts have loaded
-    if (!iframe.contentWindow) {
-      console.error('IFRAME NOT LOADED YET');
+    if (!iframe?.contentWindow) {
+      console.error('iframe not loaded yet in onmount');
+    } else {
+      iframe.contentWindow?.status;
+      iframe.contentWindow?.addEventListener('load', () => {
+        console.log('iframe domcontentloaded');
+      });
     }
-    iframe.contentWindow?.status;
-    iframe.contentWindow?.addEventListener('load', () => {
-      console.log('iframe domcontentloaded');
-    });
 
     window.addEventListener(
       'message',
@@ -75,14 +76,14 @@
         } else if (event.data === 'login-member') {
           await resolveOnUserLoaded();
           if ($user && !$user.superfan) {
-            const { hash, search } = window.location;
+            const { hash, search } = $page.url;
             continueUrl = `/routeplanner${search}${hash}`;
           }
           showLoginModal = true;
         } else if (typeof event.data !== 'string' && event.data != null) {
           if (event.data.type === 'hash-update' && event.data.hash !== '') {
-            // replaceState matches mostly the behavior of location.replace() used by the hash router
-            window.history.replaceState({}, '', `/routeplanner${event.data.hash}`);
+            // Using goto and not replaceState, because https://github.com/sveltejs/kit/issues/10661
+            goto(`/routeplanner${event.data.hash}`, { keepFocus: true, replaceState: true });
           }
         }
       },
@@ -110,7 +111,11 @@
       // Remove the URL param
       const { searchParams, hash } = $page.url;
       searchParams.delete('m');
-      window.history.replaceState({}, '', `/routeplanner?${searchParams.toString()}${hash}`);
+      // Using goto and not replaceState, because https://github.com/sveltejs/kit/issues/10661
+      goto(`/routeplanner?${searchParams.toString()}${hash}`, {
+        keepFocus: true,
+        replaceState: true
+      });
     }
   });
 
@@ -129,7 +134,7 @@
 <iframe
   bind:this={iframe}
   title="WTMG Route Planner"
-  src={`${import.meta.env.VITE_ROUTEPLANNER_HOST}${window.location.hash}`}
+  src={`${import.meta.env.VITE_ROUTEPLANNER_HOST}${$page.url.search}${$page.url.hash}`}
   frameborder="0"
   on:load={onload}
 ></iframe>
