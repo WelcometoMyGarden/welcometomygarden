@@ -1579,7 +1579,7 @@
   },
   "routeplanner": {
     "modal": {
-      "title": "Show WTMG gardens",
+      "title": "Show WTMG gardens along your route",
       "description": "To see the gardens along your route, you must {signIn} and be a WTMG member.",
       "sign-in-label": "sign in",
       "button-label": "Sign in or become a member"
