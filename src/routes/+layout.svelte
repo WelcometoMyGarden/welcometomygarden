@@ -7,7 +7,7 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { isFullscreen } from '$lib/stores/fullscreen';
-  import { appHasLoaded, coercedLocale, rootModal } from '$lib/stores/app';
+  import { appHasLoaded, coercedLocale, rootModal, staticAppHasLoaded } from '$lib/stores/app';
   import Modal from 'svelte-simple-modal';
   import { onNavigate } from '$app/navigation';
   import trackEvent, { registerCustomPropertyTracker } from '$lib/util/track-plausible';
@@ -18,6 +18,11 @@
   import { initialize as initializeFirebase } from '$lib/api/firebase';
   import { PlausibleEvent } from '$lib/types/Plausible.js';
   import { initializeUser } from '$lib/stores/user.js';
+  import Meta from '$lib/components/SEO/Meta.svelte';
+  // import { PUBLIC_WTMG_HOST } from '$env/static/public';
+  const PUBLIC_WTMG_HOST = 'https://welcometomygarden.org';
+
+  $: activeRootPath = $page?.url?.pathname?.substring(1).split('/')[0];
 
   // Both are not awaited, and run concurrently
   initializeSvelteI18n().catch((e) => console.error('Error during svelte-i18n init', e));
@@ -104,6 +109,50 @@
 
 <svelte:window on:resize={updateViewportHeight} on:keyup={onCustomPress} />
 
+<svelte:head>
+  {#if $staticAppHasLoaded}
+    <!-- Static tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Welcome To My Garden" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- URL tags -->
+    <meta property="og:url" content={PUBLIC_WTMG_HOST} />
+    <meta name="twitter:url" content={PUBLIC_WTMG_HOST} />
+    <!-- Title tag -->
+    <Meta property="og:title" itemKey="title" fallbackContent="Welcome To My Garden" />
+    <Meta name="twitter:title" itemKey="title" fallbackContent="Welcome To My Garden" />
+    <!-- Description tags -->
+    <Meta
+      name="description"
+      fallbackContent="Welcome To My Garden: Free camping spots in people’s gardens for slow travellers. Brought to you by a warm-hearted community of citizens."
+    />
+    <Meta
+      property="og:description"
+      itemKey="description"
+      fallbackContent="Welcome To My Garden: Free camping spots in people’s gardens for slow travellers. Brought to you by a warm-hearted community of citizens."
+    />
+    <Meta
+      name="twitter:description"
+      itemKey="description"
+      fallbackContent="Welcome To My Garden: Free camping spots in people’s gardens for slow travellers. Brought to you by a warm-hearted community of citizens."
+    />
+    <!-- Image tags -->
+    <meta property="og:image" content="%sveltekit.assets%/images/card-social.jpg" />
+    <meta property="og:image:secure_url" content="%sveltekit.assets%/images/card-social.jpg" />
+    <meta name="twitter:image" content="%sveltekit.assets%/images/card-social.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Welcome To My Garden tent and map" />
+    <!-- Keywords tags -->
+    <Meta
+      property="og:keywords"
+      itemKey="keywords"
+      fallbackContent="camping, Belgium, traveling, discovering, exploring, garden"
+    />
+  {/if}
+</svelte:head>
+
 {#if browser}
   <Progress active={!$appHasLoaded} />
 {/if}
@@ -125,8 +174,7 @@
   </div>
 {/if} -->
 <div
-  class="app active-{$page?.url?.pathname?.substring(1).split('/')[0]} active-route-{$page?.route
-    ?.id} locale-{$coercedLocale}"
+  class="app active-{activeRootPath} active-route-{$page?.route?.id} locale-{$coercedLocale}"
   class:fullscreen={$isFullscreen}
   class:error-banner={false}
   style="--vh:{vh}"

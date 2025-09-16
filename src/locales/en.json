@@ -1580,6 +1580,13 @@
       "generic": "Something went wrong when turning on your mobile notifications. Can you refresh this page and then try turning them on again? If this doesn't work, please send the information below to {emailLink} so we can help you further. Thanks!"
     }
   },
+  "seo": {
+    "routeplanner": {
+      "title": "Route Planner WTMG",
+      "description": "Free online route planner for cycling and hiking trips with Welcome To My Garden.",
+      "keywords": "route planner, slow travel, itinerary, hiking routes, cycling routes, WTMG, gardens, camping"
+    }
+  },
   "routeplanner": {
     "modal": {
       "title": "WTMG gardens along your route",
