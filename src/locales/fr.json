@@ -47,8 +47,8 @@
   "navigation": {
     "banner": {
       "prompt": "",
-      "answer": "Nous aimerions que vous fassiez partie de notre vidéo WTMG — {link} ! 💚",
-      "link-text": "partagez votre photo ou vidéo"
+      "answer": "Nouveau : vous pouvez maintenant planifier vos itinéraires vélo et rando avec WTMG. {link} ! 🌱",
+      "link-text": "Essayez-le"
     },
     "membership-expired-notice": {
       "prompt": "Souhaitez-vous renouveler votre adhésion WTMG{amount} dès maintenant ?",

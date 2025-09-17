@@ -45,8 +45,8 @@
   "navigation": {
     "banner": {
       "prompt": "",
-      "answer": "We willen dat jij deel uitmaakt van onze WTMG-video — {link}! 💚",
-      "link-text": "deel jouw foto of video"
+      "answer": "Nieuw: je kunt nu je fiets- en wandelroutes plannen met WTMG. {link}! 🌱",
+      "link-text": "Probeer het uit"
     },
     "membership-expired-notice": {
       "prompt": "Wil je je WTMG-lidmaatschap{amount} nu verlengen?",
@@ -1509,6 +1509,9 @@
       },
       "wtmg-sign": {
         "title": "WTMG-bordje"
+      },
+      "route-planner": {
+        "title": "Routeplanner"
       }
     }
   },

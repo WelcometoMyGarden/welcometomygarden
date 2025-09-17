@@ -72,6 +72,13 @@
       title: $_('footer.link-category-titles.our-projects'),
       links: [
         {
+          title: $_('footer.links.route-planner.title'),
+          link: createUrl('/routeplanner', {
+            lng: coerceToMainLanguage($user?.communicationLanguage)
+          }),
+          target: '_blank'
+        },
+        {
           title: STP_TITLE,
           link: createUrl(`${STP_URL}/${coerceToMainLanguage($locale ?? undefined)}`, {
             utm_source: WTMG_UTM_SOURCE,

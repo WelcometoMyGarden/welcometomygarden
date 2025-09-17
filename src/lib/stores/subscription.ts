@@ -125,7 +125,12 @@ export const renewalNoticeContent = derived(
 export const shouldShowBanner = derived(
   [user, subscriptionJustEnded],
   // NOTE: if we want to not show the "general" banner, it is probably best to just keep $subscriptionJustEnded in the condition
-  // ([$user, $subscriptionJustEnded]) =>
-  //   $subscriptionJustEnded || $user?.superfan === true || $user?.garden != null
-  ([_, $subscriptionJustEnded]) => $subscriptionJustEnded
+  // A
+  ([$user, $subscriptionJustEnded]) =>
+    // A1: for members only
+    $subscriptionJustEnded || $user?.superfan === true
+  // A2: also for hosts
+  // $subscriptionJustEnded || $user?.superfan === true || $user?.garden != null
+  // B
+  // ([_, $subscriptionJustEnded]) => $subscriptionJustEnded
 );

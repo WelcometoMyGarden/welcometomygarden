@@ -4,7 +4,7 @@ import { isInitializingFirebase, isSigningIn, isUserLoading, user } from './auth
 import { isLoading as isLocaleLoading, locale } from 'svelte-i18n';
 import type { ComponentType } from 'svelte';
 import createUrl from '$lib/util/create-url';
-import { coerceToMainLanguageENBlank, coerceToSupportedLanguage } from '$lib/util/get-browser-lang';
+import { coerceToMainLanguage, coerceToSupportedLanguage } from '$lib/util/get-browser-lang';
 import { isOnIDevicePWA } from '$lib/util/push-registrations';
 
 export const handledOpenFromIOSPWA = writable(false);
@@ -81,11 +81,7 @@ export const gardenLayerLoaded = writable(false);
 export const bannerLink = derived(user, ($user) =>
   !$user
     ? ''
-    : createUrl(
-        `https://share.welcometomygarden.org/${coerceToMainLanguageENBlank($user?.communicationLanguage)}`,
-        {
-          wtmg: $user.id,
-          ref: 'wtmgbanner'
-        }
-      )
+    : createUrl('/routeplanner', {
+        lng: coerceToMainLanguage($user?.communicationLanguage)
+      })
 );
