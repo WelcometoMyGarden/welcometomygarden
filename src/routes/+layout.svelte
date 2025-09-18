@@ -14,7 +14,6 @@
   import { Notifications, Progress } from '$lib/components/UI';
   import { browser } from '$app/environment';
   import { _, locale } from 'svelte-i18n';
-  import { initializeSvelteI18n } from '$locales/initialize.js';
   import { initialize as initializeFirebase } from '$lib/api/firebase';
   import { PlausibleEvent } from '$lib/types/Plausible.js';
   import { initializeUser } from '$lib/stores/user.js';
@@ -24,11 +23,11 @@
 
   $: activeRootPath = $page?.url?.pathname?.substring(1).split('/')[0];
 
-  // Both are not awaited, and run concurrently
-  initializeSvelteI18n().catch((e) => console.error('Error during svelte-i18n init', e));
-  initializeFirebase()
-    .then(initializeUser)
-    .catch((e) => console.error('Error during init', e));
+  if (browser) {
+    initializeFirebase()
+      .then(initializeUser)
+      .catch((e) => console.error('Error during init', e));
+  }
 
   /**
    * This is a JS-based reimplementation of dvh
@@ -137,13 +136,29 @@
       fallbackContent="Welcome To My Garden: Free camping spots in people’s gardens for slow travellers. Brought to you by a warm-hearted community of citizens."
     />
     <!-- Image tags -->
-    <meta property="og:image" content="%sveltekit.assets%/images/card-social.jpg" />
-    <meta property="og:image:secure_url" content="%sveltekit.assets%/images/card-social.jpg" />
-    <meta name="twitter:image" content="%sveltekit.assets%/images/card-social.jpg" />
+    <Meta
+      property="og:image"
+      itemKey="image-url"
+      fallbackContent="{PUBLIC_WTMG_HOST}/images/card-social.jpg"
+    />
+    <Meta
+      property="og:image:secure_url"
+      itemKey="image-url"
+      fallbackContent="{PUBLIC_WTMG_HOST}/images/card-social.jpg"
+    />
+    <Meta
+      property="twitter:image"
+      itemKey="image-url"
+      fallbackContent="{PUBLIC_WTMG_HOST}/images/card-social.jpg"
+    />
+    <Meta
+      property="og:image:alt"
+      itemKey="image-alt"
+      fallbackContent="Welcome To My Garden tent and map"
+    />
     <meta property="og:image:type" content="image/jpeg" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Welcome To My Garden tent and map" />
+    <!-- <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" /> -->
     <!-- Keywords tags -->
     <Meta
       property="og:keywords"

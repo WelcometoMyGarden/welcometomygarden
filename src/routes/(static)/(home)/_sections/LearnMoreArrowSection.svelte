@@ -3,6 +3,7 @@
   import smoothscroll from 'smoothscroll-polyfill';
   import ArrowDown from '$lib/images/arrow-down.svg';
   import enterHandler from '$lib/util/keyhandlers';
+  import { browser } from '$app/environment';
 
   const handleLearnMoreClick = () => {
     const navBarHeightElem = document.getElementById('top-nav');
@@ -18,7 +19,9 @@
     }
   };
 
-  smoothscroll.polyfill();
+  if (browser) {
+    smoothscroll.polyfill();
+  }
 </script>
 
 <button

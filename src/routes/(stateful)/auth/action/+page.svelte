@@ -248,6 +248,10 @@
   handleAction();
 </script>
 
+<svelte:head>
+  <title>{$_('generics.wtmg.explicit')}</title>
+</svelte:head>
+
 <MarketingStyleWrapper>
   <PaddedSection>
     <p>{loadingState}</p>

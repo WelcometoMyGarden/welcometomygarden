@@ -1,3 +1,4 @@
+import { browser } from '$app/environment';
 import { iDeviceInfo } from './uaInfo';
 
 /**
@@ -18,6 +19,9 @@ export const hasNotificationSupportNow = () => {
  * Does not have immediate support, but by changing some conditions, support can be achieved.
  */
 export const canHaveNotificationSupport = () => {
+  if (!browser) {
+    return false;
+  }
   const { isIDevice, isUpgradeable16IDevice, is_16_4_OrAboveIDevice } = iDeviceInfo!;
   return (
     !hasNotificationSupportNow() && isIDevice && (is_16_4_OrAboveIDevice || isUpgradeable16IDevice)
@@ -25,6 +29,9 @@ export const canHaveNotificationSupport = () => {
 };
 
 export const isOnIDevicePWA = () => {
+  if (!browser) {
+    return false;
+  }
   const { isIDevice, iDeviceVersion } = iDeviceInfo!;
   // The last version check is probably redundant
   return hasNotificationSupportNow() && isIDevice && iDeviceVersion! >= 16.4;

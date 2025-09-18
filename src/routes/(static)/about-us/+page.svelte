@@ -85,6 +85,10 @@
   };
 </script>
 
+<svelte:head>
+  <title>{$_('generics.about-us')} | {$_('generics.wtmg.explicit')}</title>
+</svelte:head>
+
 <MarketingStyleWrapper>
   <PaddedSection>
     <MarketingBlock centered>

@@ -17,7 +17,8 @@ const config = {
     adapter: adapter({
       pages: 'dist',
       assets: 'dist',
-      fallback: 'index.html'
+      precompress: false,
+      fallback: '200.html'
     }),
     prerender: {
       crawl: true,
