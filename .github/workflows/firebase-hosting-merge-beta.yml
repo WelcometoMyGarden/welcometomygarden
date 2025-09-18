@@ -47,6 +47,7 @@ jobs:
       PUBLIC_SUPABASE_ANON_KEY: ${{vars.SUPABASE_ANON_KEY}}
       PUBLIC_SUPABASE_API_URL: ${{vars.SUPABASE_API_URL}}
       PUBLIC_SENTRY_DSN: ${{vars.SENTRY_DSN}}
+      PUBLIC_WTMG_HOST: ${{vars.WTMG_HOST}}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/prepare-source

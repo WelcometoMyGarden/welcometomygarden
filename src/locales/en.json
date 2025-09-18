@@ -1584,7 +1584,9 @@
     "routeplanner": {
       "title": "Route Planner WTMG",
       "description": "Free online route planner for cycling and hiking trips with Welcome To My Garden.",
-      "keywords": "route planner, slow travel, itinerary, hiking routes, cycling routes, WTMG, gardens, camping"
+      "keywords": "route planner, slow travel, itinerary, hiking routes, cycling routes, WTMG, gardens, camping",
+      "image-url": "https://storage.googleapis.com/wtmg-static/routeplanner/preview/route-planner-en.jpg",
+      "image-alt": "Poster for the WTMG route planner with a map background"
     }
   },
   "routeplanner": {

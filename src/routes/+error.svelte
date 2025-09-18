@@ -8,6 +8,18 @@
   import Navigation from '$lib/components/Nav/Navigation.svelte';
 </script>
 
+<svelte:head>
+  {#if $localeIsLoaded}
+    {#if $page.error?.message === 'Not Found'}
+      <title>{$_('fallback.404')} | {$_('generics.wtmg.explicit')}</title>
+    {:else}
+      <title>Error | {$_('generics.wtmg.explicit')}</title>
+    {/if}
+  {:else}
+    <title>Error | Welcome To My Garden</title>
+  {/if}
+</svelte:head>
+
 {#if $localeIsLoaded}
   <Navigation />
 {/if}

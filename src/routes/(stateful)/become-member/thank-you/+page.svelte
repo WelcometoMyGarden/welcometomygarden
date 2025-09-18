@@ -8,6 +8,7 @@
 
 <svelte:head>
   <meta name="robots" content="noindex" />
+  <title>{$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
 <div class="wrapper">

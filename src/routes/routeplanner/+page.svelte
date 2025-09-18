@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getAllListedGardens } from '$lib/api/garden';
   import MembershipModal from '$lib/components/Membership/MembershipModal.svelte';
-  import { appHasLoaded, staticAppHasLoaded } from '$lib/stores/app';
+  import { appHasLoaded } from '$lib/stores/app';
   import { resolveOnUserLoaded, user } from '$lib/stores/auth';
   import { allListedGardens } from '$lib/stores/garden';
   import { onDestroy, onMount } from 'svelte';
@@ -12,6 +12,7 @@
   import { t } from 'svelte-i18n';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import { browser } from '$app/environment';
 
   let gardenUnsubscriber: () => void;
 
@@ -127,17 +128,19 @@
 </script>
 
 <svelte:head>
-  {#if $appHasLoaded}
-    <title>Routeplanner | {$t('generics.wtmg.explicit')}</title>
-  {/if}
+  <title>{$t('footer.links.route-planner.title')} | {$t('generics.wtmg.explicit')}</title>
 </svelte:head>
-<iframe
-  bind:this={iframe}
-  title="WTMG Route Planner"
-  src={`${import.meta.env.VITE_ROUTEPLANNER_HOST}${$page.url.search}${$page.url.hash}`}
-  frameborder="0"
-  on:load={onload}
-></iframe>
+
+{#if browser}
+  <!-- Guard access to $page.url based on browser env -->
+  <iframe
+    bind:this={iframe}
+    title="WTMG Route Planner"
+    src={`${import.meta.env.VITE_ROUTEPLANNER_HOST}${$page.url.search}${$page.url.hash}`}
+    frameborder="0"
+    on:load={onload}
+  ></iframe>
+{/if}
 
 {#if $appHasLoaded}
   <MembershipModal bind:show={showMembershipModal} {continueUrl} />

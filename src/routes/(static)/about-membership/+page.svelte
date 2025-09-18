@@ -27,8 +27,11 @@
   import { coreTeamProfiles } from '$lib/components/Marketing/static/profiles';
   import MembershipPricing from '$lib/components/Membership/MembershipPricing.svelte';
   import SocialProof from '$lib/components/Marketing/SocialProof.svelte';
+  import { browser } from '$app/environment';
 
-  smoothscroll.polyfill();
+  if (browser) {
+    smoothscroll.polyfill();
+  }
 
   onMount(() => {
     if ($page?.url.hash.includes('pricing')) {

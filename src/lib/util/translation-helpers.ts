@@ -8,8 +8,9 @@ import createUrl from './create-url';
 import { goto, isRelativeURL } from './navigate';
 import trackEvent from './track-plausible';
 import { rootModal } from '$lib/stores/app';
+import { browser } from '$app/environment';
 
-if (window) {
+if (browser) {
   // This function is referenced below in the inline onclick handler.
   //
   // We need to override the default href with a programmatic Svelte goto,

@@ -1574,5 +1574,12 @@
       "title": "WTMG-tuinen langs je route",
       "button-label": "Log in of word lid"
     }
+  },
+  "seo": {
+    "routeplanner": {
+      "image-url": "https://storage.googleapis.com/wtmg-static/routeplanner/preview/route-planner-nl.jpg",
+      "keywords": "routeplanner, slow travel, route, wandelroutes, fietsroutes, WTMG, tuinen, kamperen",
+      "title": "Routeplanner WTMG"
+    }
   }
 }

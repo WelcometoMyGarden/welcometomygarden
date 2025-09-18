@@ -1566,5 +1566,13 @@
       "title": "Les jardins WTMG le long de votre itinéraire",
       "button-label": "Se connecter ou devenir membre"
     }
+  },
+  "seo": {
+    "routeplanner": {
+      "title": "Planificateur d’itinéraire WTMG",
+      "description": "Planificateur d’itinéraire gratuit pour des voyages à vélo ou à pied avec Welcome To My Garden.",
+      "keywords": "planificateur d’itinéraire, voyage lent, itinéraires vélo, itinéraires randonnée, WTMG, jardins, camping",
+      "image-url": "https://storage.googleapis.com/wtmg-static/routeplanner/preview/route-planner-fr.jpg"
+    }
   }
 }

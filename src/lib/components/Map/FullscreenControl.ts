@@ -59,9 +59,8 @@ function warnOnce(message: string) {
   console.warn(message);
 }
 
-///
-
-import { Evented } from 'maplibre-gl';
+import pkg from 'maplibre-gl';
+const { Evented } = pkg;
 import type { IControl, Map } from 'maplibre-gl';
 
 // https://github.com/maplibre/maplibre-gl-js/blob/c03607bad8a0d6574e9738b23fa84f3620713df5/src/ui/map.ts#L128
