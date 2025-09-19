@@ -6,15 +6,17 @@ export const trailingSlash = 'never';
 // ssr = true is the default assumed here
 
 // +layout.ts
-import { browser } from '$app/environment';
-import { initializeSvelteI18n } from '$locales/initialize';
-import { locale, waitLocale } from 'svelte-i18n';
+import { init, register, waitLocale } from 'svelte-i18n';
 import type { LayoutLoad } from './$types';
+import { SUPPORTED_LANGUAGES } from '$lib/types/general';
 
 export const load: LayoutLoad = async () => {
-  if (browser) {
-    locale.set(window.navigator.language);
-  }
-  await initializeSvelteI18n();
+  // Initialize svelte-i18n
+  // The language may or may not be supported, but it should be an iso-639-1 lowercase string.
+  // It will be reported back through $locale, not the fallback.
+  SUPPORTED_LANGUAGES.forEach((lang: string) => {
+    register(lang, () => import(`../locales/${lang}.json`));
+  });
+  await init({ fallbackLocale: 'en', initialLocale: 'en' });
   await waitLocale();
 };

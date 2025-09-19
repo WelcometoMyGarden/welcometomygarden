@@ -18,6 +18,7 @@
   import { PlausibleEvent } from '$lib/types/Plausible.js';
   import { initializeUser } from '$lib/stores/user.js';
   import Meta from '$lib/components/SEO/Meta.svelte';
+  import { loadBrowserI18n } from '$locales/initialize.js';
   // import { PUBLIC_WTMG_HOST } from '$env/static/public';
   const PUBLIC_WTMG_HOST = 'https://welcometomygarden.org';
 
@@ -43,6 +44,8 @@
   onMount(() => {
     return Sentry.startSpan({ name: 'Root Layout Load', op: 'app.load' }, async () => {
       console.log('Mounting root layout');
+      await loadBrowserI18n();
+
       vh = `${window.innerHeight * 0.01}px`;
 
       // Initialize page view property tracking via the Plausible script element/
