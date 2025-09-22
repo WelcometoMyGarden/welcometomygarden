@@ -50,7 +50,7 @@ export const hasNotificationSupportNow = () => {
 /**
  * Does not have immediate support, but by changing some conditions, support can be achieved.
  */
-export const canHaveNotificationSupport = () => {
+export const canHaveWebPushSupport = () => {
   if (!browser) {
     return false;
   }
