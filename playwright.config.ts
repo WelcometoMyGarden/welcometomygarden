@@ -9,6 +9,9 @@ const USE_SLOWMO = process.env.USE_SLOWMO ?? false;
 // Edit in .env.test.local
 const IS_STAGING = process.env.TEST_ENV === 'staging';
 
+// Whether to use the preview server
+const LOCAL_BASE_URL = process.env.LOCAL_BASE_URL;
+
 const slowMoChromium = USE_SLOWMO
   ? // ...devices['Desktop Chrome'],
     {
@@ -19,21 +22,35 @@ const slowMoChromium = USE_SLOWMO
   : {};
 
 const localWebServers = [
-  // Run compiled demo frontend (which is most similar to production)
-  // {
-  //   command: 'npm run build:demo && npm run preview',
-  //   // Health check URL
-  //   url: 'http://127.0.0.1:4173',
-  //   reuseExistingServer: !process.env.CI
-  // },
-  // Reuse dev server
-  {
-    command: 'zsh -il -c "yarn dev"',
-    // Health check URL
-    url: 'http://127.0.0.1:5173',
-    reuseExistingServer: !process.env.CI,
-    stdout: 'pipe'
-  },
+  ...(process.env.USE_PREVIEW === 'true'
+    ? // Run compiled demo frontend (which is most similar to production)
+      [
+        {
+          // Option A
+          // Firebase Hosting is more likely to reflect the production server behavior
+          command: 'zsh -il -c "yarn build:demo"',
+          // [ ] Also change when testing this:
+          //  - FRONTEND_URL in api/.env.local
+          //  - PUBLIC_WTMG_HOST in .env.local
+          url: LOCAL_BASE_URL,
+          // Option B
+          // Vite preview server
+          // command: 'npm run build:demo && npm run preview',
+          // url: 'http://localhost:4173',
+          reuseExistingServer: !process.env.CI,
+          stdout: 'pipe' as const
+        }
+      ]
+    : // Run dev server
+      [
+        {
+          command: 'zsh -il -c "yarn dev"',
+          // Health check URL
+          url: LOCAL_BASE_URL,
+          reuseExistingServer: !process.env.CI,
+          stdout: 'pipe' as const
+        }
+      ]),
   // Run unseeded backend
   {
     command: 'zsh -il -c "firebase --project demo-test emulators:start"',
@@ -61,7 +78,7 @@ export type TestOptions = {
 };
 export const defaultOptions = {
   type: 'local' as TestType,
-  baseURL: 'http://localhost:5173'
+  baseURL: LOCAL_BASE_URL
 } as const;
 
 export default defineConfig<TestOptions>({
