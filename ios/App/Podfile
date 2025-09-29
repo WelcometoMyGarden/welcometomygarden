@@ -23,8 +23,12 @@ end
 
 target 'App' do
   capacitor_pods
-  # Add your Pods here
-  pod 'FirebaseMessaging' # Add this line
+  pod 'FirebaseMessaging'
+end
+
+target 'App Staging' do
+  capacitor_pods
+  pod 'FirebaseMessaging'
 end
 
 post_install do |installer|
