@@ -138,7 +138,9 @@ export const createPushRegistrationObserver = () => {
     if (currentNativeSub) {
       // If a current Firebase registration is known, linked to the current device
       const linkedFirebaseRegistration = syncedPushRegistrations.find(
-        (registration) => registration.subscription.endpoint === currentNativeSub?.endpoint
+        (registration) =>
+          registration.subscription != null &&
+          registration.subscription.endpoint === currentNativeSub?.endpoint
       );
       if (!linkedFirebaseRegistration) {
         // This might mean a deletion has gone badly
@@ -175,7 +177,9 @@ export const createPushRegistrationObserver = () => {
       cachedSub.subscription.endpoint !== currentNativeSub?.endpoint
     ) {
       const pushRegistrationDocToDelete = syncedPushRegistrations.find(
-        (pR) => cachedSub?.subscription.endpoint === pR.subscription.endpoint
+        (pR) =>
+          // TODO: check when merging mobile notifs
+          pR.subscription != null && cachedSub?.subscription.endpoint === pR.subscription.endpoint
       );
       if (pushRegistrationDocToDelete) {
         // If the cached sub can still be found in the remote registrations,
@@ -221,6 +225,10 @@ export const getCurrentNativeSubscription = async () => {
   if (!hasNotificationSupportNow()) {
     return undefined;
   }
+  // NOTE: this will fail on Vite development in Firefox
+  // It should be possible to detect this rejection on the syntax error if we manually register the
+  // service worker, see https://svelte.dev/docs/kit/service-workers
+  // In Firefox dev, the service worker will never be ready.
   const sub = await navigator.serviceWorker.ready.then((serviceWorkerRegistration) =>
     getSubscriptionFromSW(serviceWorkerRegistration)
   );
@@ -254,7 +262,7 @@ export const findSubscriptionByEndpoint = (
   endpoint: string
 ) => {
   pushRegistrationLoadCheck();
-  return pushRegistrations.find((pR) => pR.subscription.endpoint === endpoint);
+  return pushRegistrations.find((pR) => pR.subscription?.endpoint === endpoint);
 };
 
 export const isAndroidFirefox = () =>

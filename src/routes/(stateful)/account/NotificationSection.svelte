@@ -19,18 +19,21 @@
   import { anchorText } from '$lib/util/translation-helpers';
   import NewBadge from '$lib/components/Nav/NewBadge.svelte';
 
+  // TODO: reassess when merging with mobile notifs
   /** Note: this registration could be marked for deletion  */
   $: currentPushRegistration = $pushRegistrations.find(
-    (pR) => pR.subscription.endpoint === $currentNativeSubStore?.endpoint
+    (pR) => pR.subscription != null && pR.subscription.endpoint === $currentNativeSubStore?.endpoint
   );
   $: currentActivePushRegistration = $pushRegistrations.find(
     (pR) =>
+      pR.subscription != null &&
       pR.subscription.endpoint === $currentNativeSubStore?.endpoint &&
       pR.status === PushRegistrationStatus.ACTIVE
   );
   $: otherSubscriptions = $pushRegistrations.filter(
     (pR) =>
       pR.status === PushRegistrationStatus.ACTIVE &&
+      pR.subscription != null &&
       pR.subscription.endpoint !== $currentNativeSubStore?.endpoint
   );
 
