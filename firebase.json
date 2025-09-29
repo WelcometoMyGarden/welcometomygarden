@@ -4,6 +4,8 @@
       "target": "production",
       "public": "dist",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "cleanUrls": true,
+      "trailingSlash": false,
       "rewrites": [
         {
           "source": "/email-preferences",
@@ -23,7 +25,7 @@
         },
         {
           "source": "**",
-          "destination": "/index.html"
+          "destination": "/200.html"
         }
       ]
     },
