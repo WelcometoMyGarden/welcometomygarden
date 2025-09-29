@@ -1,21 +1,21 @@
 PODS:
-  - Capacitor (7.4.2):
+  - Capacitor (7.4.3):
     - CapacitorCordova
-  - CapacitorApp (7.0.2):
+  - CapacitorApp (7.1.0):
     - Capacitor
   - CapacitorCommunitySafeArea (7.0.0-alpha.1):
     - Capacitor
-  - CapacitorCordova (7.4.2)
+  - CapacitorCordova (7.4.3)
   - CapacitorDevice (7.0.2):
     - Capacitor
-  - CapacitorInappbrowser (2.3.1):
+  - CapacitorInappbrowser (2.5.0):
     - Capacitor
-    - OSInAppBrowserLib (~> 2.1.0)
-  - CapacitorLocalNotifications (7.0.2):
+    - OSInAppBrowserLib (~> 2.2.1)
+  - CapacitorLocalNotifications (7.0.3):
     - Capacitor
-  - CapacitorPushNotifications (7.0.2):
+  - CapacitorPushNotifications (7.0.3):
     - Capacitor
-  - CapacitorSplashScreen (7.0.2):
+  - CapacitorSplashScreen (7.0.3):
     - Capacitor
   - CapacitorSwipeBackPlugin (3.0.0):
     - Capacitor
@@ -71,7 +71,7 @@ PODS:
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
-  - OSInAppBrowserLib (2.1.0)
+  - OSInAppBrowserLib (2.2.1)
   - PromisesObjC (2.1.0)
 
 DEPENDENCIES:
@@ -123,16 +123,16 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/capacitor-swipe-back-plugin"
 
 SPEC CHECKSUMS:
-  Capacitor: 156d98aba46ec01dde72c4bbb92fa626837cad29
-  CapacitorApp: efc1e9748a8ea5d3e789cd82a4f451341cc7ac93
-  CapacitorCommunitySafeArea: cc370b4f8d4aa340e4616acef9b73eda41ba0914
-  CapacitorCordova: 5e58d04631bc5094894ac106e2bf1da18a9e6151
-  CapacitorDevice: a50a45f0d075e55e2392c7a4be5404d4f69515de
-  CapacitorInappbrowser: e837e82db2e09ac70adff175f1aaa1eb021039e8
-  CapacitorLocalNotifications: 0964df8c14ec51aadf2bb4fd6d55fdb1ccfd6721
-  CapacitorPushNotifications: 6ffcf5df95f17d71a1b02893549bc4727f80540c
-  CapacitorSplashScreen: 8d6c8cb0542a8e81585c593815db8785ed8ce454
-  CapacitorSwipeBackPlugin: 6b0bb23410731b7b401bd89078fc384a67530276
+  Capacitor: 28d6c01026a9a3f7156529498ec1f389a2a28dbc
+  CapacitorApp: 26587c2ce485d88ddb39adb21cac64f8e481afe3
+  CapacitorCommunitySafeArea: 3f049619072ab5d0da2529bcb05b358ff6c13dc1
+  CapacitorCordova: 435121e81a2df4d0034f0fb11fcefab5104cfdb5
+  CapacitorDevice: 81ae78d5d1942707caad79276badd458bf6ec603
+  CapacitorInappbrowser: 7aeffa02075b6da460a84e59a8f69f748411ad7f
+  CapacitorLocalNotifications: 0811aef56ab2e5f7f9ae72f47d3473ab50c29038
+  CapacitorPushNotifications: bdd621fbd562be34a41f4a7b1750efa000447d5a
+  CapacitorSplashScreen: e388b8e0ed0e982a9d3a40417f478e7a018a8763
+  CapacitorSwipeBackPlugin: acc6e006e9c550e1b5abf20a4bb534b595409d87
   FirebaseCore: e4c0b5d9727eaee0b43f9ed00baff7500c188d7b
   FirebaseCoreDiagnostics: 54410e5d156bf406a764c2722d9f77d682723b4c
   FirebaseCoreInternal: bca76517fe1ed381e989f5e7d8abb0da8d85bed3
@@ -141,9 +141,9 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 5fffe35792f8b96ec8d6775f5eccd83c998d5a3b
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
-  OSInAppBrowserLib: 02111d866ad1bf19c663cd9b268bb22c7d41df4f
+  OSInAppBrowserLib: 65563bae1c068972f1848a403dacbea2860ac88e
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
 
-PODFILE CHECKSUM: 661f521754fa4dfcd8a92b1a45eb795f74f9b9c6
+PODFILE CHECKSUM: 52a57be0e1628c4573063970ff7a068c235358f6
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
