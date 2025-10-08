@@ -2,6 +2,20 @@
   import type { LongLat } from '$lib/types/Garden.js';
   export type ContextType = { getMap: () => maplibregl.Map };
   export const currentPosition = writable<LongLat | null>(null);
+  export const mapState = writable<{
+    zoom: number;
+    center: maplibregl.LngLat;
+    gardenId?: string;
+  } | null>(null);
+
+  export const signInLinkWithGarden = derived([page, mapState], ([$page]) => {
+    if (typeof $page.params.gardenId === 'string') {
+      return createUrl(routes.SIGN_IN, {
+        continueUrl: `${routes.MAP}/garden/${$page.params.gardenId}`
+      });
+    }
+    return routes.SIGN_IN;
+  });
 </script>
 
 <!-- @component
@@ -19,8 +33,12 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   import { isFullscreen } from '$lib/stores/fullscreen.js';
   import { user } from '$lib/stores/auth.js';
   import { hasEnabledNotificationsOnCurrentDevice } from '$lib/api/push-registrations.js';
-  import { writable } from 'svelte/store';
+  import { derived, writable } from 'svelte/store';
   import { isOnIDevicePWA } from '$lib/util/push-registrations.js';
+  import { beforeNavigate } from '$app/navigation';
+  import { page } from '$app/stores';
+  import routes from '$lib/routes.js';
+  import createUrl from '$lib/util/create-url.js';
 
   export let lat: number;
   export let lon: number;
@@ -299,6 +317,16 @@ Component for maps. Shared between the main map, and the map in the Garden creat
       map.jumpTo(params);
     }
   }
+
+  beforeNavigate(() => {
+    // Save map state
+    if (!map) return;
+    $mapState = {
+      zoom: map.getZoom(),
+      center: map.getCenter(),
+      gardenId: $page.params.gardenId
+    };
+  });
 </script>
 
 <svelte:window bind:innerWidth />

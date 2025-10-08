@@ -16,6 +16,7 @@
   import { anchorText } from '$lib/util/translation-helpers';
   import { bannerLink } from '$lib/stores/app';
   import { transKeyExists } from '$lib/util';
+  import { signInLinkWithGarden } from '$lib/components/Map/Map.svelte';
 
   $: firstName = $user ? $user.firstName : '';
 </script>
@@ -85,7 +86,7 @@
         <UserDropdown name={firstName || ''} />
       {:else}
         <li>
-          <NavLink href={routes.SIGN_IN}>{$_('generics.sign-in')}</NavLink>
+          <NavLink href={$signInLinkWithGarden}>{$_('generics.sign-in')}</NavLink>
         </li>
       {/if}
     </ul>

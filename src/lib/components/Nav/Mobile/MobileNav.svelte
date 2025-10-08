@@ -10,6 +10,7 @@
   import SideDrawer from './MobileNav/SideDrawer.svelte';
   import { chatsCountWithUnseenMessages } from '$lib/stores/chat';
   import Badge from '../Badge.svelte';
+  import { signInLinkWithGarden } from '$lib/components/Map/Map.svelte';
 
   let hamburger: HTMLButtonElement | null = null;
   let drawerIsShown = false;
@@ -47,7 +48,7 @@
       </li>
     {:else}
       <li>
-        <a href={routes.SIGN_IN} class:active={isActive($page, routes.SIGN_IN)}>
+        <a href={$signInLinkWithGarden} class:active={isActive($page, routes.SIGN_IN)}>
           <Icon icon={signInIcon} />
           {$_('generics.sign-in')}
         </a>

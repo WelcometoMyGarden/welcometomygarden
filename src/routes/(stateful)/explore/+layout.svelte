@@ -6,7 +6,7 @@
   import { getAllListedGardens, getGarden } from '$lib/api/garden';
   import { allListedGardens, isFetchingGardens } from '$lib/stores/garden';
   import routes from '$lib/routes';
-  import Map, { currentPosition } from '$lib/components/Map/Map.svelte';
+  import Map, { currentPosition, mapState } from '$lib/components/Map/Map.svelte';
   import Drawer from '$lib/components/Garden/GardenDrawer.svelte';
   import GardenLayer from '$lib/components/Map/GardenLayer.svelte';
   import WaymarkedTrails from '$lib/components/Map/WaymarkedTrails.svelte';
@@ -199,8 +199,20 @@
       const targetGarden =
         $allListedGardens.find((g) => g.id === $page.params.gardenId) || preloadedGarden;
       if (targetGarden) {
-        setMapToGardenLocation(targetGarden);
+        // the target garden exists
+        if (typeof $mapState?.zoom === 'number' && $mapState?.gardenId === $page.params.gardenId) {
+          // Restore the zoom level & position in case we're returning to the same garden we left before
+          // in the session
+          zoom = $mapState.zoom;
+          centerLocation = lnglatToObject($mapState.center.toArray() as [number, number]);
+        } else {
+          setMapToGardenLocation(targetGarden);
+        }
       }
+    } else if (!hasGardenInURL && $mapState) {
+      // No garden in the URL, restore state if it exists
+      zoom = $mapState.zoom;
+      centerLocation = lnglatToObject($mapState.center.toArray() as [number, number]);
     }
 
     // Fetch all gardens if they are not loaded yet, every time the map opens
