@@ -9,10 +9,11 @@
   import LoginModal from './LoginModal.svelte';
   import { afterNavigate, goto } from '$app/navigation';
   import { page } from '$app/stores';
-  import { t } from 'svelte-i18n';
+  import { t, locale } from 'svelte-i18n';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { browser } from '$app/environment';
+  import { coerceToMainLanguage } from '$lib/util/get-browser-lang';
 
   let gardenUnsubscriber: () => void;
 
@@ -125,6 +126,18 @@
       gardenUnsubscriber();
     }
   });
+
+  function injectParams(params: URLSearchParams) {
+    const cloned = new URLSearchParams(params);
+
+    // Insert a main language lng parameter, but only if one was not explicitly provided.
+    // This is to avoid issues with a half-translated brouter-web, since our modifications
+    // are at the moment only made in en/fr/nl.
+    if (!cloned.has('lng')) {
+      cloned.set('lng', coerceToMainLanguage($locale));
+    }
+    return cloned;
+  }
 </script>
 
 <svelte:head>
@@ -136,7 +149,7 @@
   <iframe
     bind:this={iframe}
     title="WTMG Route Planner"
-    src={`${import.meta.env.VITE_ROUTEPLANNER_HOST}${$page.url.search}${$page.url.hash}`}
+    src={`${import.meta.env.VITE_ROUTEPLANNER_HOST}?${injectParams($page.url.searchParams).toString()}${$page.url.hash}`}
     frameborder="0"
     on:load={onload}
   ></iframe>
