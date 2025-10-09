@@ -11,6 +11,7 @@
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import * as Sentry from '@sentry/sveltekit';
+  import { openTally } from '$lib/api/tally';
   export let show = false;
 
   let formError: null | string = null;
@@ -25,6 +26,20 @@
     await deleteAccount();
     trackEvent(PlausibleEvent.DELETE_ACCOUNT);
     notify.success($_('account.delete.modal.deleted'));
+    setTimeout(
+      () =>
+        openTally(
+          { en: 'nWx84R', nl: 'w4eoW5', fr: '3xOPkk' },
+          {
+            hideTitle: false,
+            width: 500,
+            layout: 'modal',
+            emoji: undefined,
+            showOnce: false
+          }
+        ),
+      400
+    );
   };
 
   const onConfirmDeletion = async () => {

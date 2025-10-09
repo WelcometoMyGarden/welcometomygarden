@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { _, locale } from 'svelte-i18n';
+  import { _ } from 'svelte-i18n';
   import { onMount, onDestroy } from 'svelte';
   import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
@@ -41,8 +41,6 @@
   import MeetupLayer, { meetups } from '$lib/components/Map/MeetupLayer.svelte';
   import { lnglatToObject } from '$lib/api/mapbox';
   import MeetupDrawer from '$lib/components/Map/MeetupDrawer.svelte';
-  import { coerceToMainLanguage } from '$lib/util/get-browser-lang';
-  import { get } from 'svelte/store';
   import MembershipModal from '$lib/components/Membership/MembershipModal.svelte';
 
   let showHiking = false;
@@ -55,8 +53,6 @@
   let savedGardens = [] as string[];
   let carNoticeShown = !isOnIDevicePWA() && !getCookie('car-notice-dismissed');
   let showMembershipModal = false;
-
-  let npsSurveySubmitted = false;
 
   // TODO: this works for now, because the default state when loading the
   // page is that the checkboxes are unchecked. We may want to intercept actual
@@ -104,10 +100,7 @@
   // Garden to preload when we are loading the app on its permalink URL
   let preloadedGarden: Garden | null = null;
 
-  /**
-   * @type {Garden | null}
-   */
-  let selectedGarden = null;
+  let selectedGarden: Garden | null = null;
 
   // Select the preloaded garden if it matches the current URL, but only if it was not selected yet.
   $: if (
@@ -138,7 +131,7 @@
 
   // FUNCTIONS
 
-  const selectGarden = (garden) => {
+  const selectGarden = (garden: Garden) => {
     const newSelectedId = garden.id;
     const newGarden = $allListedGardens.find((g) => g.id === newSelectedId);
     if (newGarden) {
@@ -223,57 +216,6 @@
         isFetchingGardens.set(false);
       });
     }
-
-    const openTally = () => {
-      const formId = { fr: '3lvpaV', nl: 'wLkrP1', en: 'wAyX5B' }[coerceToMainLanguage($locale)];
-      let userData = get(user);
-      if (
-        userData &&
-        userData.superfan &&
-        userData.stripeSubscription &&
-        userData.stripeSubscription.startDate * 1000 < Date.now() - 24 * 3600 * 1000
-      ) {
-        console.log('Opening Tally');
-        window.Tally.openPopup(formId, {
-          // width: { fr: 570, nl: 550, en: 550 }[coerceToMainLanguage($locale)],
-          // this blows up the 1-10 size responsively
-          width: 580,
-          hideTitle: true,
-          // For now!
-          showOnce: true,
-          doNotShowAfterSubmit: true,
-          onClose: () => {
-            if (!npsSurveySubmitted) {
-              trackEvent(PlausibleEvent.CLOSE_NPS_SURVEY);
-            }
-          },
-          onOpen: () => trackEvent(PlausibleEvent.SHOW_NPS_SURVEY),
-          onSubmit: () => {
-            npsSurveySubmitted = true;
-          },
-          hiddenFields: {
-            name: userData?.firstName,
-            wtmg: userData?.id
-          }
-        });
-      } else {
-        console.log('Tally: not a older superfan');
-      }
-    };
-
-    // NOTE: to re-enable the NPS survey, also re-add
-    // the script in src/routes/explore/+page.svelte
-    //
-    // resolveOnUserLoaded().then(() => {
-    //   // Open the survey if needed
-    //   if (window.Tally) {
-    //     openTally();
-    //   } else {
-    //     console.warn('Tally not loaded on /explore mount, adding listener');
-    //     document.addEventListener('tally-loaded', openTally);
-    //   }
-    // });
-    // return () => document.removeEventListener('tally-loaded', openTally);
   });
 
   onDestroy(() => {
@@ -482,14 +424,6 @@
   @media screen and (max-width: 400px) {
     .vehicle-notice-wrapper {
       height: 28rem;
-    }
-  }
-
-  @media (max-width: 576px) {
-    :global(.tally-popup) {
-      max-width: calc(100% - 20px) !important;
-      right: 10px !important;
-      bottom: 10px !important;
     }
   }
 </style>
