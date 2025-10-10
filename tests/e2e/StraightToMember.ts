@@ -32,10 +32,12 @@ export class StraightToMemberTest {
     await page.waitForURL('**/about-membership*');
     // Click on the button on top, which jumps to the section on the bottom
     await page.locator('#media').getByRole('link', { name: 'Become a Member' }).click();
+    // Allow Svelte to hydrate before attempting the rest, otherwise hydration unchecks the checkbox
+    await page.waitForLoadState('networkidle');
     // Try to become a member (should not work)
     await page.getByRole('button', { name: 'Become a Member', exact: true }).click();
     // Check the box
-    await page.getByText('I use WTMG only as a slow').click();
+    await page.getByRole('checkbox', { name: 'I use WTMG only as a slow' }).check();
     // Become a member (try again)
     await page.getByRole('button', { name: 'Become a Member', exact: true }).click();
     // Check that it redirects (it should also have a continueUrl)
