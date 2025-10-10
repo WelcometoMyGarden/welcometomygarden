@@ -1,6 +1,6 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { beforeUpdate, afterUpdate, onMount, onDestroy, tick } from 'svelte';
+  import { beforeUpdate, afterUpdate, onMount, onDestroy } from 'svelte';
   import { fade } from 'svelte/transition';
   import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
@@ -28,6 +28,7 @@
   } from '$lib/util/push-registrations';
   import MembershipModal from '$lib/components/Membership/MembershipModal.svelte';
   import * as Sentry from '@sentry/sveltekit';
+  import ChatGuidelines from './ChatGuidelines.svelte';
 
   const MAX_MESSAGE_LENGTH = 800;
 
@@ -153,6 +154,7 @@
 
   // Register the message listener if it has not been registered yet,
   // or change it if the chat has changed.
+  // This loads the chat messages for the current chat.
   $: if ($user && chat) {
     if (!unsubscribeFromMessageListener && !messageListenerRegisteredForChatId) {
       // Registering first message observer
@@ -168,7 +170,7 @@
   // Mark the last message as seen if this is the first time the user opens it
   $: if (
     chat &&
-    $messages[chat.id] instanceof Array &&
+    Array.isArray($messages[chat.id]) &&
     // The last message is from the partner
     chat.lastMessageSender === partnerId &&
     // The message was not seen yet
@@ -389,6 +391,9 @@ CSS grids should do the job cleanly -->
           </div>
         </div>
       {/each}
+    {:else if !chat}
+      <!-- Show the guidelines, but only if is a new chat -->
+      <ChatGuidelines hostName={partnerName} />
     {/if}
     <NotificationPrompt bind:show={showNotificationPrompt} />
   </div>

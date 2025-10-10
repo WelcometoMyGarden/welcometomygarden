@@ -1129,7 +1129,24 @@
     "new": "nouveau",
     "title-conversation": "Discuter avec {partnerName}",
     "title": "Discussion",
-    "go-to-garden": "Aller au jardin"
+    "go-to-garden": "Aller au jardin",
+    "guidelines": {
+      "points": {
+        "0": {
+          "title": "Présentez-vous",
+          "description": "Dites à {hostName} qui vous êtes, quel voyage vous faites et quand vous souhaitez rester."
+        },
+        "1": {
+          "description": "Tous les hôtes sont bénévoles. Si possible, contactez-les à temps pour qu’ils puissent s’organiser.",
+          "title": "Contactez les hôtes à temps"
+        },
+        "2": {
+          "description": "Tenez vos hôtes au courant. Prévenez-les si vous changez vos plans.",
+          "title": "Soyez gentil et respectueux"
+        }
+      },
+      "title": "Consignes pour les demandes"
+    }
   },
   "map": {
     "vehicle-notice": {

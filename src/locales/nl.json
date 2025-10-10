@@ -776,6 +776,23 @@
       "description": "Er ging iets fout tijdens het versturen van je bericht.",
       "instruction": "Als dit blijft gebeuren, kopiëer dan alsjeblieft wat je hieronder ziet, en stuur het naar ons door op  ",
       "closing-line": "We proberen je zo snel mogelijk verder te helpen!"
+    },
+    "guidelines": {
+      "points": {
+        "0": {
+          "title": "Stel jezelf voor",
+          "description": "Vertel {hostName} wie je bent, wat voor reis je maakt en wanneer je wilt verblijven."
+        },
+        "1": {
+          "description": "Alle hosts zijn vrijwilligers. Neem, als het kan, op tijd contact op zodat ze zich kunnen organiseren.",
+          "title": "Contacteer hosts op tijd"
+        },
+        "2": {
+          "description": "Houd je hosts op de hoogte. Laat hen weten als je plannen veranderen.",
+          "title": "Wees vriendelijk en respectvol"
+        }
+      },
+      "title": "Richtlijnen voor verzoeken"
     }
   },
   "map": {

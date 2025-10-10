@@ -1156,6 +1156,23 @@
       "description": "Something went wrong while sending your chat.",
       "instruction": "If this keeps happening, please copy what you see below, and paste it in an email to",
       "closing-line": "We'll try to help you as fast as we can!"
+    },
+    "guidelines": {
+      "title": "Guidelines for stay requests",
+      "points": {
+        "0": {
+          "title": "Introduce yourself",
+          "description": "Tell {hostName} who you are, what kind of trip you're on, and when you'd like to stay."
+        },
+        "1": {
+          "title": "Contact hosts in time",
+          "description": "All hosts are volunteers. When possible, contact them in time so they can organize themselves."
+        },
+        "2": {
+          "title": "Be kind and respectful",
+          "description": "Keep your host informed. Let them know if your plans change."
+        }
+      }
     }
   },
   "map": {
