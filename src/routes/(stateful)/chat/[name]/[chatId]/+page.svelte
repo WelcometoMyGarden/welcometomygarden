@@ -313,6 +313,13 @@
     }
   };
 
+  const keydownHandler = (evt: KeyboardEvent) => {
+    if (!evt.ctrlKey) return;
+    if (evt.code === 'Enter') {
+      send();
+    }
+  }
+
   onDestroy(() => {
     cleanupPage();
     unsubscribeFromPage();
@@ -408,6 +415,7 @@ CSS grids should do the job cleanly -->
     bind:value={typedMessage}
     bind:this={textArea}
     disabled={isSending}
+    on:keydown={keydownHandler}
     on:input={({ target }) => {
       // @ts-ignore
       if (target?.style) {
