@@ -21,7 +21,8 @@
   import NotificationPrompt from './NotificationPrompt.svelte';
   import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
   import { hasOrHadEnabledNotificationsSomewhere } from '$lib/api/push-registrations';
-  import { isMobileDevice } from '$lib/util/uaInfo';
+  import { isMobileDevice, uaInfo } from '$lib/util/uaInfo';
+  import { OS } from 'ua-parser-js/enums'
   import {
     canHaveNotificationSupport,
     hasNotificationSupportNow
@@ -314,11 +315,13 @@
   };
 
   const keydownHandler = (evt: KeyboardEvent) => {
-    if (!evt.ctrlKey) return;
+    const os = uaInfo.os;
+    const modKey = [OS.MACOS, OS.IOS].includes(os.name) ? evt.metaKey : evt.ctrlKey;
+    if (!modKey) return;
     if (evt.code === 'Enter') {
       send();
     }
-  }
+  };
 
   onDestroy(() => {
     cleanupPage();
