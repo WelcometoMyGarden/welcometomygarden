@@ -6,6 +6,7 @@ import { customSvgLoader } from './plugins/svg-loader';
 import mkcert from 'vite-plugin-mkcert';
 import envIsTrue from './src/lib/util/env-is-true';
 import { sentrySvelteKit } from '@sentry/sveltekit';
+import os from 'os';
 
 /* eslint-env node */
 export default defineConfig(({ command, mode }): UserConfig => {
@@ -51,6 +52,10 @@ export default defineConfig(({ command, mode }): UserConfig => {
           ]
         : [])
     ],
+    server: {
+      // Includes localhost by default, check is skipped when HTTPS is used (see above)
+      allowedHosts: [os.hostname().toLocaleLowerCase()]
+    },
     ssr: {
       // https://vitejs.dev/guide/ssr.html#ssr-externals
       // https://github.com/sveltekit-i18n/lib/issues/82
