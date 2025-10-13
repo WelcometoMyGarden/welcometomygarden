@@ -10,7 +10,7 @@
   import { chats, messages, newConversation } from '$lib/stores/chat';
   import { Avatar, Icon } from '$lib/components/UI';
   import { User } from '$lib/components/Chat';
-  import { tentIcon } from '$lib/images/icons';
+  import { markerIconPhosphor, tentIcon, tentPhosphorLight } from '$lib/images/icons';
   import routes from '$lib/routes';
   import { formatDate, getCookie } from '$lib/util';
   import chevronRight from '$lib/images/icons/chevron-right.svg';
@@ -30,6 +30,7 @@
   import MembershipModal from '$lib/components/Membership/MembershipModal.svelte';
   import * as Sentry from '@sentry/sveltekit';
   import ChatGuidelines from './ChatGuidelines.svelte';
+  import { countryNames } from '$lib/stores/countryNames';
 
   const MAX_MESSAGE_LENGTH = 800;
 
@@ -49,6 +50,8 @@
    */
   let chat: LocalChat | null | undefined;
   $: chat = $chats[chatId];
+  let role: 'traveller' | 'host';
+  $: role = (chat?.users[0] ?? 'invalid') === $user?.id ? 'traveller' : 'host';
 
   $: showMembershipModal = !$user?.superfan && chatId === 'new';
   let showNotificationPrompt = false;
@@ -264,7 +267,6 @@
         await sendMessage(chat.id, normalizeWhiteSpace(typedMessage));
         sendWasSuccessful = true;
         // The first uid in the users array is the requester/traveller
-        const role = chat.users[0] === $user?.id ? 'traveller' : 'host';
         trackEvent(PlausibleEvent.SEND_RESPONSE, { role });
       } catch (ex) {
         Sentry.captureException(ex, {
@@ -359,9 +361,15 @@
 <!-- TODO: probably no need to have two different sets of markup here,
 CSS grids should do the job cleanly -->
 
-<header class="chat-header chat-header--sm">
+<header class="chat-header chat-header--sm chat-header__bot">
   <a class="back" href={routes.CHAT}><Icon greenStroke icon={chevronRight} /></a>
   <h2 class="title">{partnerName}</h2>
+  {#if role === 'host' && chat}
+    <div class="country-name">
+      <Icon icon={markerIconPhosphor} />
+      {$countryNames[chat.partner.countryCode]}
+    </div>
+  {/if}
   {#if partnerHasGarden}
     <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link" in:fade>
       <Icon icon={tentIcon} />
@@ -373,12 +381,20 @@ CSS grids should do the job cleanly -->
 <header class="chat-header chat-header--md">
   {#if partnerName}
     <User name={partnerName}>
-      {#if partnerHasGarden}
-        <div class="chat-header--md__bot" in:fade>
-          <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link">
-            <Icon icon={tentIcon} />
-            <span>{$_('chat.go-to-garden')}</span>
-          </a>
+      {#if partnerHasGarden || (role === 'host' && chat)}
+        <div class="chat-header--md__bot chat-header__bot" in:fade>
+          {#if role === 'host' && chat}
+            <span class="country-name">
+              <Icon icon={markerIconPhosphor} />
+              {$countryNames[chat.partner.countryCode]}
+            </span>
+          {/if}
+          {#if partnerHasGarden}
+            <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link">
+              <Icon icon={tentPhosphorLight} />
+              <span>{$_('chat.go-to-garden')}</span>
+            </a>
+          {/if}
         </div>
       {/if}
     </User>
@@ -636,18 +652,36 @@ CSS grids should do the job cleanly -->
     height: 2rem;
   }
 
-  .garden-link {
+  .chat-header__bot {
+    color: var(--color-green-3);
+  }
+
+  .country-name {
+    margin-right: 6px;
+  }
+  .garden-link,
+  .country-name {
     display: inline-flex;
     align-items: center;
-    color: var(--color-green);
+    color: var(--color-green-3);
   }
 
+  .country-name :global(i),
   .garden-link :global(i) {
-    width: 2.5rem;
-    margin-right: 5px;
+    width: 1.8rem;
+    transform: translateY(1px);
     display: inline-block;
   }
-
+  .garden-link :global(i svg),
+  .country-name :global(i svg) {
+    fill: var(--color-green-3);
+  }
+  .garden-link :global(i) {
+    margin-right: 6px;
+  }
+  .country-name :global(i) {
+    margin-right: 3px;
+  }
   .send {
     width: 6rem;
     padding: 1.7rem;

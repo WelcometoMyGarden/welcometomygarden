@@ -30,6 +30,7 @@ export { default as lineIcon } from './line.svg';
 export { default as lockIcon } from './lock.svg';
 export { default as mapIcon } from './map.svg';
 export { default as markerIcon } from './marker.svg';
+export { default as markerIconPhosphor } from './marker-phosphor-light.svg';
 export { default as mobileDeviceIcon } from './device-mobile.svg';
 export { default as pencilIcon } from './pencil.svg';
 export { default as playIcon } from './play.svg';
