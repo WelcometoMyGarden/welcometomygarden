@@ -21,7 +21,8 @@
   import NotificationPrompt from './NotificationPrompt.svelte';
   import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
   import { hasOrHadEnabledNotificationsSomewhere } from '$lib/api/push-registrations';
-  import { isMobileDevice } from '$lib/util/uaInfo';
+  import { isMobileDevice, uaInfo } from '$lib/util/uaInfo';
+  import { OS } from 'ua-parser-js/enums';
   import {
     canHaveNotificationSupport,
     hasNotificationSupportNow
@@ -313,6 +314,18 @@
     }
   };
 
+  const keydownHandler = async (evt: KeyboardEvent) => {
+    const os = uaInfo.os;
+    const modKey = [OS.MACOS, OS.IOS].includes(os.name) ? evt.metaKey : evt.ctrlKey;
+    if (!modKey) return;
+    if (evt.code === 'Enter') {
+      await send();
+      // Disabled text areas can not be focused.
+      // Wait until the textArea is re-enabled at the end of send(), before trying to refocus it.
+      textArea?.focus();
+    }
+  };
+
   onDestroy(() => {
     cleanupPage();
     unsubscribeFromPage();
@@ -408,6 +421,7 @@ CSS grids should do the job cleanly -->
     bind:value={typedMessage}
     bind:this={textArea}
     disabled={isSending}
+    on:keydown={keydownHandler}
     on:input={({ target }) => {
       // @ts-ignore
       if (target?.style) {
