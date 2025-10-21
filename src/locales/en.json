@@ -43,7 +43,9 @@
         "message": "WTMG may not work well in this browser. Check {linkText} for solutions.",
         "link-text": "our help center"
       }
-    }
+    },
+    "here": "here",
+    "lang-prefix": ""
   },
   "ui": {
     "card": {
@@ -58,8 +60,7 @@
     },
     "membership-expired-notice": {
       "prompt": "Want to renew your WTMG membership{amount} now?",
-      "answer": "Then click {linkText}. Thank you for your support!",
-      "link-text": "here"
+      "answer": "Then click {linkText}. Thank you for your support!"
     }
   },
   "index": {
@@ -128,7 +129,7 @@
         },
         "4": {
           "title": "Does <span class=\"notranslate\">Welcome To My Garden</span> cost anything?",
-          "copy": "Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. You can become a member <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">here</a>."
+          "copy": "Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. You can become a member <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">here</a>."
         }
       }
     },
@@ -243,7 +244,7 @@
           },
           "cost": {
             "title": "Does <span class=\"notranslate\">Welcome To My Garden</span> cost anything?",
-            "copy": "<p>Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. You can cancel the renewal anytime on your {accountLink}. You can become a member <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">here</a>.</p>"
+            "copy": "<p>Staying at a WTMG host is free. Yet, to maintain and develop WTMG, we rely on a yearly membership to split costs fairly among all slow travellers. You can cancel the renewal anytime on your {accountLink}. You can become a member <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">here</a>.</p>"
           },
           "no-garden": {
             "title": "I don’t have a garden. Can I still travel to other people’s gardens?",
@@ -874,7 +875,7 @@
           "questions": {
             "0": {
               "title": "Who’s behind WTMG?",
-              "copy": "We’re a small team of three slow travel enthusiasts (Dries, Manon & Thor) working full time on making WTMG possible. You can read more about us <a href=\"/about-us\" target=\"_blank\">here</a>."
+              "copy": "We’re a small team of three slow travel enthusiasts (Dries, Manon & Thor) working full time on making WTMG possible. You can read more about us <a href=\"{langPrefix}/about-us\" target=\"_blank\">here</a>."
             },
             "1": {
               "title": "What’s the legal structure behind WTMG?",
@@ -917,7 +918,7 @@
       "explore-features-button": "Start planning your trip"
     },
     "closing-section": {
-      "text": "<p><strong>A huge thank you from our team!</strong></p>\n<p>Dries, Manon and Thor</p>\n<p><em>PS: Want to find out more about who we are? <a class=\"link\" href=\"/about-us\">Read our story here!</a></em></p>"
+      "text": "<p><strong>A huge thank you from our team!</strong></p>\n<p>Dries, Manon and Thor</p>\n<p><em>PS: Want to find out more about who we are? <a class=\"link\" href=\"{langPrefix}/about-us\">Read our story here!</a></em></p>"
     }
   },
   "payment-superfan": {

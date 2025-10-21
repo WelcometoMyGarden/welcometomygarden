@@ -5,6 +5,7 @@
   import Step1 from '$lib/images/home-steps/step-register.svg';
   import Step2 from '$lib/images/home-steps/step-map.svg';
   import Step3 from '$lib/images/home-steps/step-tent.svg';
+  import { lr } from '$lib/util/translation-helpers';
   const stepGraphics = [Step1, Step2, Step3];
 </script>
 
@@ -19,7 +20,7 @@
     <p class="step-text">
       {@html $_(`index.steps.${i}.copy`, {
         values: {
-          addGardenLink: `<a href=${routes.ADD_GARDEN}>${$_(
+          addGardenLink: `<a href=${$lr(routes.ADD_GARDEN)}>${$_(
             `index.steps.${i}.add-garden-link-text`
           )}</a>`
         }

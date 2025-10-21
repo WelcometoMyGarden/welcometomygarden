@@ -13,11 +13,24 @@ export type UTMParameters = {
  */
 export default (
   base: string,
-  queryParams: Record<string, string | number | boolean> = {},
+  queryParams: URLSearchParams | Record<string, string | number | boolean> = {},
   hash?: string
 ) => {
-  const searchParams = new URLSearchParams(mapValues(queryParams, (v) => v.toString()));
+  let searchParams;
+  if (queryParams instanceof URLSearchParams) {
+    searchParams = queryParams;
+  } else {
+    searchParams = new URLSearchParams(mapValues(queryParams, (v) => v.toString()));
+  }
+
+  let processedHash;
+  if (typeof hash === 'string' && hash[0] === '#') {
+    processedHash = hash;
+  } else if (typeof hash === 'string') {
+    processedHash = `#${hash}`;
+  }
+
   return `${base}${isEmpty(queryParams) ? '' : `?${searchParams.toString()}`}${
-    hash ? `#${hash}` : ''
+    hash ? processedHash : ''
   }`;
 };

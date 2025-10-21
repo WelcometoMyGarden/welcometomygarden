@@ -14,6 +14,7 @@
   import { coerceToMainLanguage } from '$lib/util/get-browser-lang';
   import { crossIcon } from '$lib/images/icons';
   import { coercedLocale } from '$lib/stores/app';
+  import { lr } from '$lib/util/translation-helpers';
 
   export let meetup: Meetup | null = null;
 
@@ -142,7 +143,7 @@
           <p class="cta-hint">
             {@html $_('map.meetups.no-account', {
               values: {
-                signInLink: `<a class='link' href=${routes.SIGN_IN}>${$_(
+                signInLink: `<a class='link' href=${$lr(routes.SIGN_IN)}>${$_(
                   'garden.drawer.guest.sign-link-text'
                 )}</a>`
               }

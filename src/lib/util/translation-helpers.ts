@@ -1,5 +1,5 @@
-import type { Readable } from 'svelte/store';
-import type { _ } from 'svelte-i18n';
+import { derived, type Readable } from 'svelte/store';
+import { locale, type _ } from 'svelte-i18n';
 // Conditional inference, to extract the MessageFormatter type of the formatter store
 type Flatten<T> = T extends Readable<infer U> ? U : T;
 export type MessageFormatter = Flatten<typeof _>;
@@ -9,6 +9,9 @@ import { goto, isRelativeURL } from './navigate';
 import trackEvent from './track-plausible';
 import { rootModal } from '$lib/stores/app';
 import { browser } from '$app/environment';
+import { coerceToMainLanguage, coerceToSupportedLanguage } from './get-browser-lang';
+import { user } from '$lib/stores/auth';
+import routes from '$lib/routes';
 
 if (browser) {
   // This function is referenced below in the inline onclick handler.
@@ -22,7 +25,7 @@ if (browser) {
   window.wtmgAnchorNav = (e: MouseEvent, plausibleParams: Parameters<typeof trackEvent>) => {
     const ev = e || window.event;
     if (ev.target?.href) {
-      // Warning: AnchorHtml.href returns the full URL despite a relative URl attribute.
+      // Warning: AnchorHtml.href returns the full URL despite a relative URL attribute.
       const rawHref = ev.target?.getAttribute('href');
       const isRelative = isRelativeURL(rawHref);
 
@@ -51,6 +54,19 @@ if (browser) {
     }
   };
 }
+
+export const urlPathPrefix = (locale: string | null | undefined) => {
+  let supportedLocale = coerceToSupportedLanguage(locale);
+  if (supportedLocale === 'en') {
+    return '';
+  }
+  return `/${supportedLocale}`;
+};
+
+/**
+ * A store that delivers a function that will localize a route to the current locale
+ */
+export const lr = derived(locale, ($locale) => (route: string) => urlPathPrefix($locale) + route);
 
 export const anchorText = (props: {
   href: string;
@@ -117,3 +133,11 @@ export const membershipBlogLink = (
 
   return createUrl(`${WTMG_BLOG_BASE_URL}${t('generics.fair-model-blog-path')}`, params);
 };
+
+export const bannerLink = derived([user, lr], ([$user, $lr]) =>
+  !$user
+    ? ''
+    : createUrl($lr(routes.ROUTE_PLANNER), {
+        lng: coerceToMainLanguage($user?.communicationLanguage)
+      })
+);

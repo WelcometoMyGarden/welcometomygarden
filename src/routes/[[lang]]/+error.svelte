@@ -6,6 +6,7 @@
   import { page } from '$app/stores';
   import { localeIsLoaded } from '$lib/stores/app';
   import Navigation from '$lib/components/Nav/Navigation.svelte';
+  import { lr } from '$lib/util/translation-helpers';
 </script>
 
 <svelte:head>
@@ -33,7 +34,7 @@
         ? $_('fallback.404')
         : ($page.error?.message ?? 'Something went wrong')}
     </h1>
-    <Button href={routes.HOME} uppercase medium>
+    <Button href={$lr(routes.HOME)} uppercase medium>
       {$localeIsLoaded ? $_('fallback.redirect') : 'Back to home'}
     </Button>
   </div>

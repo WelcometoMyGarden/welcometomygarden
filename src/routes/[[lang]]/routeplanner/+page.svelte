@@ -14,6 +14,8 @@
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { browser } from '$app/environment';
   import { coerceToMainLanguage } from '$lib/util/get-browser-lang';
+  import { lr } from '$lib/util/translation-helpers';
+  import routes, { getBaseRouteIn } from '$lib/routes';
 
   let gardenUnsubscriber: () => void;
 
@@ -85,7 +87,7 @@
         } else if (typeof event.data !== 'string' && event.data != null) {
           if (event.data.type === 'hash-update' && event.data.hash !== '') {
             // Using goto and not replaceState, because https://github.com/sveltejs/kit/issues/10661
-            goto(`/routeplanner${event.data.hash}`, { keepFocus: true, replaceState: true });
+            goto($lr(`/routeplanner${event.data.hash}`), { keepFocus: true, replaceState: true });
           }
         }
       },
@@ -96,7 +98,10 @@
   afterNavigate(async (navigation) => {
     // It is possible that we return here after coming from /login
     // onMount is not called
-    if (navigation.to?.route?.id !== '/routeplanner') {
+    if (
+      !navigation.to?.route?.id ||
+      getBaseRouteIn(navigation.to?.route?.id) !== routes.ROUTE_PLANNER
+    ) {
       return;
     }
     // This URL parameter tells that we should show the membership modal if needed

@@ -12,6 +12,7 @@
   import { PlausibleEvent } from '$lib/types/Plausible';
   import type { GardenDraft } from '$lib/types/Garden';
   import * as Sentry from '@sentry/sveltekit';
+  import { lr } from '$lib/util/translation-helpers';
 
   let updatingGarden = false;
 
@@ -38,7 +39,7 @@
         : (notifyMsg = $_('garden.notify.update'));
       notify.success(notifyMsg, 10000);
       trackEvent(PlausibleEvent.UPDATE_GARDEN);
-      goto(`${routes.MAP}/garden/${$user!.id}`);
+      goto($lr(`${routes.MAP}/garden/${$user!.id}`));
     } catch (ex) {
       console.log(ex);
       Sentry.captureException(ex, {

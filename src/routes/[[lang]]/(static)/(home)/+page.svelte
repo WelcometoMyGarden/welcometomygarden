@@ -15,7 +15,7 @@
   import katlijnFrankImg from '$lib/assets/testimonials/katlijn-frank.jpg?as=run&w=1280';
   import carolienFamilyImg from '$lib/assets/testimonials/carolien-family.jpg?as=run&w=1280';
   import gardenImg from '$lib/assets/testimonials/garden.jpeg?as=run&w=1280';
-  import { anchorText, membershipBlogLink } from '$lib/util/translation-helpers';
+  import { anchorText, lr, membershipBlogLink } from '$lib/util/translation-helpers';
   import { user } from '$lib/stores/auth';
   import createUrl from '$lib/util/create-url';
   import { goto } from '$lib/util/navigate';
@@ -34,7 +34,7 @@
   };
 
   $: membershipUrlWithParams = createUrl(
-    routes.ABOUT_MEMBERSHIP,
+    $lr(routes.ABOUT_MEMBERSHIP),
     {},
     $user?.superfan ? '' : 'pricing'
   );
@@ -138,7 +138,7 @@
           {@html $_('index.faq.copy', {
             values: {
               faqLink: anchorText({
-                href: routes.FAQ,
+                href: $lr(routes.FAQ),
                 linkText: $_(`index.faq.faq-link-text`),
                 newtab: false
               })

@@ -1,10 +1,7 @@
-import {
-  SUPPORTED_LANGUAGES,
-  type MainLanguage,
-  type SupportedLanguage,
-  MAIN_LANGUAGES,
-  DEFAULT_LANGUAGE
-} from '$lib/types/general';
+import { type MainLanguage, MAIN_LANGUAGES, DEFAULT_LANGUAGE } from '$lib/types/general';
+
+import { coerceToSupportedLanguage } from './translation-shared';
+export { coerceToSupportedLanguage, urlPathPrefix } from './translation-shared';
 
 import ISO6391 from 'iso-639-1';
 
@@ -24,14 +21,6 @@ export const getBrowserLanguage = () =>
 const coercedBrowserLanguage = () => coerceToSupportedLanguage(getBrowserLanguage());
 
 export default coercedBrowserLanguage;
-
-export const coerceToSupportedLanguage = (lang: string | undefined | null): SupportedLanguage => {
-  if ((SUPPORTED_LANGUAGES as ReadonlyArray<string>).includes(lang ?? '')) {
-    return lang as SupportedLanguage;
-  } else {
-    return DEFAULT_LANGUAGE;
-  }
-};
 
 export const coerceToMainLanguage = (lang: string | undefined | null): MainLanguage => {
   if ((MAIN_LANGUAGES as ReadonlyArray<string>).includes(lang ?? '')) {

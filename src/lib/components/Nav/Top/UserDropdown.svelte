@@ -10,6 +10,7 @@
   import { goto } from '$lib/util/navigate';
   import { chatsCountWithUnseenMessages } from '$lib/stores/chat';
   import Badge from '../Badge.svelte';
+  import { lr } from '$lib/util/translation-helpers';
 
   let isOpen = false;
 
@@ -29,7 +30,7 @@
   {#if isOpen}
     <ul transition:slide={{ duration: 300 }} class="user-dropdown">
       <li>
-        <a href={routes.CHAT} on:click={toggleOpen}>
+        <a href={$lr(routes.CHAT)} on:click={toggleOpen}>
           <i style="position: relative">
             {@html chatIcon}
             <Badge count={$chatsCountWithUnseenMessages} />
@@ -38,7 +39,7 @@
         </a>
       </li>
       <li>
-        <a href={routes.ACCOUNT} on:click={toggleOpen}>
+        <a href={$lr(routes.ACCOUNT)} on:click={toggleOpen}>
           <i>
             {@html userIcon}
           </i>
@@ -47,11 +48,11 @@
       </li>
       <li class="separated">
         <a
-          href={routes.HOME}
+          href={$lr(routes.HOME)}
           on:click|preventDefault={async () => {
             toggleOpen();
             await logout();
-            goto(routes.HOME);
+            goto($lr(routes.HOME));
           }}
         >
           <i>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { page } from '$app/stores';
+  import { activeRootPath } from '$lib/routes';
   import { transKeyExists } from '$lib/util';
   import { t } from 'svelte-i18n';
 
@@ -9,8 +9,7 @@
   export let pageKey: string | undefined = undefined;
   export let itemKey: string | undefined = undefined;
 
-  $: activeRootPath = $page?.url?.pathname?.substring(1).split('/')[0];
-  $: fPageKey = pageKey ?? activeRootPath;
+  $: fPageKey = pageKey ?? $activeRootPath;
   $: fItemKey = itemKey ?? name ?? property ?? '';
 </script>
 

@@ -4,6 +4,7 @@
   import MarketingBlock from '$lib/components/Marketing/MarketingBlock.svelte';
   import { Button } from '$lib/components/UI';
   import routes from '$lib/routes';
+  import { lr } from '$lib/util/translation-helpers';
 </script>
 
 <svelte:head>
@@ -20,11 +21,20 @@
         <div class="features">{@html $_('thank-you-superfan.top-section.features')}</div>
         <div class="outro">{@html $_('thank-you-superfan.top-section.outro')}</div>
         <div class="button">
-          <Button href={routes.MAP} uppercase orange arrow
+          <Button href={$lr(routes.MAP)} uppercase orange arrow
             >{$_('thank-you-superfan.features-section.explore-features-button')}</Button
           >
         </div>
-        <div class="closing-section">{@html $_('thank-you-superfan.closing-section.text')}</div>
+        <div class="closing-section">
+          {@html $_('thank-you-superfan.closing-section.text', {
+            values: {
+              langPrefix: $_('generics.lang-prefix', {
+                // the empty string prefix is valid here
+                default: ''
+              })
+            }
+          })}
+        </div>
       </div>
     </MarketingBlock>
   </PaddedSection>

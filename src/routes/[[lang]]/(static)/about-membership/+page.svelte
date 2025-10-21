@@ -19,7 +19,7 @@
   import marieMarthImg from '$lib/assets/testimonials/marie-marth.jpg?as=run&w=1280';
   import benoitHeleneImg from '$lib/assets/testimonials/benoit-helene.jpg?as=run&w=1600';
   import ValuePoints from './ValuePoints.svelte';
-  import { membershipBlogLink } from '$lib/util/translation-helpers';
+  import { lr, membershipBlogLink } from '$lib/util/translation-helpers';
   import capitalize from '$lib/util/capitalize';
   import { page } from '$app/stores';
   import { user } from '$lib/stores/auth';
@@ -100,7 +100,7 @@
           {#if !$user?.superfan}
             <div>
               <Button
-                href="{routes.ABOUT_MEMBERSHIP}#pricing"
+                href="{$lr(routes.ABOUT_MEMBERSHIP)}#pricing"
                 uppercase
                 orange
                 arrow
@@ -145,7 +145,7 @@
       </div>
       <h2 class="team-title">{$_('about-superfan.team-section.title')}</h2>
       <p class="team-text">{$_('about-superfan.team-section.description')}</p>
-      <Button href={routes.ABOUT_US} uppercase orange arrow centered
+      <Button href={$lr(routes.ABOUT_US)} uppercase orange arrow centered
         >{$_('about-superfan.team-section.meet-team-button')}</Button
       >
     </MarketingBlock>

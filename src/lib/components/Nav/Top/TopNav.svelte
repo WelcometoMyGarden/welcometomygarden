@@ -13,8 +13,7 @@
     shouldShowBanner,
     subscriptionJustEnded
   } from '$lib/stores/subscription';
-  import { anchorText } from '$lib/util/translation-helpers';
-  import { bannerLink } from '$lib/stores/app';
+  import { anchorText, bannerLink, lr } from '$lib/util/translation-helpers';
   import { transKeyExists } from '$lib/util';
   import { signInLinkWithGarden } from '$lib/components/Map/Map.svelte';
 
@@ -55,17 +54,17 @@
     <WtmgLogo />
     <ul>
       <li>
-        <NavLink href={routes.MAP}>{$_('generics.map')}</NavLink>
+        <NavLink href={$lr(routes.MAP)}>{$_('generics.map')}</NavLink>
       </li>
       <li>
         <NavLink
-          href={routes.RULES}
+          href={$lr(routes.RULES)}
           on:click={() => trackEvent(PlausibleEvent.VISIT_RULES, { source: 'top_navbar' })}
           >{$_('generics.rules')}</NavLink
         >
       </li>
       <li>
-        <NavLink href={routes.ABOUT_US}>{$_('generics.about-us')}</NavLink>
+        <NavLink href={$lr(routes.ABOUT_US)}>{$_('generics.about-us')}</NavLink>
       </li>
       {#if $user?.superfan}
         <li style="display: inline-flex; flex-direction: row; align-items: center;">
@@ -75,7 +74,7 @@
       {#if !$user?.superfan}
         <li>
           <NavLink
-            href={routes.ABOUT_MEMBERSHIP}
+            href={$lr(routes.ABOUT_MEMBERSHIP)}
             on:click={() =>
               trackEvent(PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'top_navbar' })}
             highlighted>{$_('generics.become-member')}</NavLink

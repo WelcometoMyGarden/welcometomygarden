@@ -1,5 +1,6 @@
 import { page } from '$app/stores';
-import { get } from 'svelte/store';
+import { derived, get, type Readable } from 'svelte/store';
+import { isRelativeURL } from './util/navigate';
 
 type RouteDescription = {
   route: string;
@@ -28,7 +29,8 @@ export const routeDescriptions = {
   SIGN_IN: { route: '/sign-in', requiresAuth: false },
   MEMBER_PAYMENT: { route: '/become-member/payment', requiresAuth: true },
   TERMS_OF_USE: { route: '/terms/terms-of-use', requiresAuth: false },
-  MEMBER_THANK_YOU: { route: '/become-member/thank-you', requiresAuth: false }
+  MEMBER_THANK_YOU: { route: '/become-member/thank-you', requiresAuth: false },
+  ROUTE_PLANNER: { route: '/routeplanner', requiresAuth: false }
 };
 
 // Note, this otherwise useless expression allows us to typecheck the above array.
@@ -43,35 +45,92 @@ type RouteDescriptions = {
 };
 
 /**
+ *
+ * Converts a SvelteKit route ID to a form that removes optional route segments, and route groups.
+ * @param routeId
+ */
+export const visibleRoute = (routeId: string) =>
+  routeId
+    .split('/')
+    .filter((s) => !/^\[.*\]$|^\(.*\)$/.test(s))
+    .join('/');
+
+/**
+ * Finds the longest recorded base route (description) that is included in the given path
+ * Examples:
+ *   /become-member/payment   is included in      /[[lang]]/(stateful)/become-member/payment
+ *   /explore/garden/         is included in      /es/explore/garden/128dsafd8sdasegea
+ * @param path
+ * @returns
+ */
+const findRouteMatch = (path: string) => {
+  // Find the route descriptions that appear in the given route
+
+  const candidates = Object.entries(routeDescriptions).filter(([, v]) => path.includes(v.route));
+
+  // Pick the longest matching candidate route description
+  const finalCandidate = candidates.reduce(
+    (finalRoute, currentRoute) =>
+      currentRoute[1].route.length > finalRoute[1].route.length ? currentRoute : finalRoute,
+    ['', { route: '', requiresAuth: false }] as [string, RouteDescription]
+  );
+  // If it has a route name, we found a candidate
+  if (finalCandidate[0]) {
+    return finalCandidate[1];
+  }
+  return null;
+};
+
+/**
  * Gets the currently active route from the set of constant routeDescriptions maintained in this file.
  * Note that the routes here are not exhaustive. In reality, routes such as /explore/garden/<id> exist, while those are not mentioned here.
  * The routeDescription only mentions a subset of the possible routes.
  */
-export const getCurrentRoute = () => {
-  const localPage = get(page);
-  // Note that route.id also includes named groups, such as /(stateful)/become-member/payment
+const getCurrentRouteDescriptionInner = (
+  localPage: typeof page extends Readable<infer Y> ? Y : never
+) => {
+  // Note that route.id also includes named groups and optional parameters,
+  // such as /[[lang]]/(stateful)/become-member/payment
   if (localPage && localPage.route && localPage.route.id) {
     // We will have several candidates for routes, because all routes match '/', and
     // /become-member/payment matches /become-member as well
     //
     // Find the route descriptions that appear in the current SvelteKit route id
-    const candidates = Object.entries(routeDescriptions).filter(([, v]) =>
-      localPage.route.id?.includes(v.route)
-    );
-
-    // Pick the longest matching candidate route description
-    const finalCandidate = candidates.reduce(
-      (finalRoute, currentRoute) =>
-        currentRoute[1].route.length > finalRoute[1].route.length ? currentRoute : finalRoute,
-      ['', { route: '', requiresAuth: false }] as [string, RouteDescription]
-    );
-    // If it has a route name, we found a candidate
-    if (finalCandidate[0]) {
-      return finalCandidate[1];
-    }
+    return findRouteMatch(visibleRoute(localPage.route.id));
   }
   return null;
 };
+
+/**
+ * Get the non-localized base route of the given SvelteKit route ID or concrete pathname
+ */
+export const getBaseRouteIn = (path: string) => findRouteMatch(visibleRoute(path))?.route;
+
+export const getCurrentRouteDescription = () => getCurrentRouteDescriptionInner(get(page));
+
+/**
+ * Convenience method that gets a current route string without access information
+ */
+export const getCurrentRoute = () => getCurrentRouteDescription()?.route;
+
+export const currentRouteDescription = derived(page, ($page) =>
+  getCurrentRouteDescriptionInner($page)
+);
+export const currentRoute = derived(page, ($page) => getCurrentRouteDescriptionInner($page)?.route);
+
+export const activeUnlocalizedPath = derived(page, ($page) =>
+  $page?.url?.pathname?.substring($page.params.lang ? 3 : 0)
+);
+
+/**
+ * Selects the root path segment without localization and leading slash
+ */
+// In case of a non-default lang parameter, a 2-char iso code will be present (/nl/)
+// in the path => strip the first 4 chars.
+export const activeRootPath = derived(
+  page,
+  ($page) => $page?.url?.pathname?.substring($page.params.lang ? 4 : 1).split('/')[0]
+);
 
 export const routeNames = Object.fromEntries(
   Object.entries(routeDescriptions).map(([k, v]) => [k, v.route])

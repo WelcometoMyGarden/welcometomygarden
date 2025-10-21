@@ -1,4 +1,4 @@
-import type { SuperfanLevelSlug } from '$routes/(marketing)/_static/superfan-levels';
+import type { SuperfanLevelSlug } from '$lib/components/Membership/superfan-levels';
 
 export enum PlausibleEvent {
   CREATE_ACCOUNT = 'Create Account',

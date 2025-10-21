@@ -8,6 +8,7 @@
   import { TextInput, Progress, Button } from '$lib/components/UI';
   import { lockIcon } from '$lib/images/icons';
   import routes from '$lib/routes';
+  import { lr } from '$lib/util/translation-helpers';
 
   const oobCode = $page.url.searchParams.get('oobCode');
   const email = $page.url.searchParams.get('email');
@@ -16,7 +17,7 @@
   // The query parameters here are filled by that page.
   if (!email || !oobCode) {
     notify.danger($_('auth.invalid-code'));
-    goto(routes.HOME);
+    goto($lr(routes.HOME));
   }
 
   let password = {};
@@ -35,7 +36,7 @@
       await logout();
       await login(email, password.value);
       notify.success($_('reset-password.success'));
-      goto(routes.MAP);
+      goto($lr(routes.MAP));
     } catch (err) {
       console.log(err);
     }

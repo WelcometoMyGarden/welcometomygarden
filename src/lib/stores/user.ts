@@ -16,6 +16,7 @@ import { resetPushRegistrationStores } from '$lib/stores/pushRegistrations';
 import { locale } from 'svelte-i18n';
 import { handledOpenFromIOSPWA, rootModal } from './app';
 import { createAuthObserver } from '$lib/api/auth';
+import { invalidateAll } from '$app/navigation';
 
 export const updatingMailPreferences = writable(false);
 export const updatingSavedGardens = writable(false);
@@ -117,19 +118,18 @@ export const initializeUser = async () => {
    *   and locale updates may influence the user depending on each of their states.
    *
    *
-   * It gets its first value in initializeSvelteI18N as follows:
-   *   (so its initial value is not dependent on user state)
-   *   1. from the cookie cache
-   *   2. from the browser accept language
+   * The locale is initialized in the universal root layout.ts loader
+   * according to the following priority order:
+   *   1. Browser-side: from the cookie cache ()
+   *   2. Universal: from the URL path's language parameter
    *   3. default (en)
+   * Its initial value is not dependent on user state.
    *
-   * If more information becomes available, the locale loading priority is:
-   *   1. User data (always wins and sets the cookie)
-   *   2. Cookie
-   *   3. Browser accept language
+   * Once pre-existing user communcationLanguage data becomes available here,
+   * then it is loaded. It overrides all other language signals, and sets the locale cookie.
    *
-   * This works on some assumptions: if the locale is manually set by the user, the locale cookie
-   * and user data (if applicable) should be set
+   * If the locale is manually set by the user, the locale cookie
+   * and user data (if applicable) are set (by the locale switcher).
    */
   userLocale.subscribe(async ([latestUser, latestLocale]) => {
     // $locale starts off with null
@@ -149,6 +149,8 @@ export const initializeUser = async () => {
             'Cookie locale was not equal to latest locale after locale init, this should not occur'
           );
           locale.set(localeCookie);
+          // Redirect using the root layout loader
+          invalidateAll();
         }
       }
       // If there is no cookie and no user: carry on. Retain the current locale as initialized.
@@ -169,6 +171,8 @@ export const initializeUser = async () => {
           // change it to match the user's language (load the user)
           console.debug(`Loading locale ${latestUser.communicationLanguage} from the user's data`);
           locale.set(latestUser.communicationLanguage);
+          // Redirect if needed
+          invalidateAll();
         }
       } else {
         // The comm language does not exist yet
@@ -179,11 +183,6 @@ export const initializeUser = async () => {
           `Initializing the empty locale in the user data to the current locale ${latestLocale}`
         );
         await updateCommunicationLanguage(latestLocale);
-      }
-
-      // Use the user-configured account communication language locally, if present and different from the current locale
-      if (latestUser.communicationLanguage && latestLocale !== latestUser.communicationLanguage) {
-        locale.set(latestUser.communicationLanguage);
       }
     }
   });

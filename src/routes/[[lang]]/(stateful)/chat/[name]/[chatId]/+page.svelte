@@ -31,6 +31,7 @@
   import * as Sentry from '@sentry/sveltekit';
   import ChatGuidelines from './ChatGuidelines.svelte';
   import { countryNames } from '$lib/stores/countryNames';
+  import { lr } from '$lib/util/translation-helpers';
 
   const MAX_MESSAGE_LENGTH = 800;
 
@@ -253,7 +254,7 @@
         );
         sendWasSuccessful = true;
         trackEvent(PlausibleEvent.SEND_REQUEST);
-        goto(`${routes.CHAT}/${$page.params.name}/${newChatId}`);
+        goto($lr(`${routes.CHAT}/${$page.params.name}/${newChatId}`));
       } catch (ex) {
         Sentry.captureException(ex, {
           extra: {
@@ -362,7 +363,7 @@
 CSS grids should do the job cleanly -->
 
 <header class="chat-header chat-header--sm chat-header__bot">
-  <a class="back" href={routes.CHAT}><Icon greenStroke icon={chevronRight} /></a>
+  <a class="back" href={$lr(routes.CHAT)}><Icon greenStroke icon={chevronRight} /></a>
   <h2 class="title">{partnerName}</h2>
   {#if role === 'host' && chat}
     <div class="country-name">
@@ -371,7 +372,7 @@ CSS grids should do the job cleanly -->
     </div>
   {/if}
   {#if partnerHasGarden}
-    <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link" in:fade>
+    <a href={`${$lr(routes.MAP)}/garden/${partnerId}`} class="garden-link link" in:fade>
       <Icon icon={tentIcon} />
       <span>{$_('chat.go-to-garden')}</span>
     </a>
@@ -390,7 +391,7 @@ CSS grids should do the job cleanly -->
             </span>
           {/if}
           {#if partnerHasGarden}
-            <a href={`${routes.MAP}/garden/${partnerId}`} class="garden-link link">
+            <a href={`${$lr(routes.MAP)}/garden/${partnerId}`} class="garden-link link">
               <Icon icon={tentPhosphorLight} />
               <span>{$_('chat.go-to-garden')}</span>
             </a>

@@ -1,10 +1,9 @@
 import * as Sentry from '@sentry/sveltekit';
 import { derived, writable } from 'svelte/store';
-import { isInitializingFirebase, isSigningIn, isUserLoading, user } from './auth';
+import { isInitializingFirebase, isSigningIn, isUserLoading } from './auth';
 import { isLoading as isLocaleLoading, locale } from 'svelte-i18n';
 import type { ComponentType } from 'svelte';
-import createUrl from '$lib/util/create-url';
-import { coerceToMainLanguage, coerceToSupportedLanguage } from '$lib/util/get-browser-lang';
+import { coerceToSupportedLanguage } from '$lib/util/get-browser-lang';
 import { isOnIDevicePWA } from '$lib/util/push-registrations';
 
 export const handledOpenFromIOSPWA = writable(false);
@@ -78,10 +77,3 @@ export const close = () => rootModal.set(null);
  * This observable is useful to know when it is possible to add layers on top of it.
  */
 export const gardenLayerLoaded = writable(false);
-export const bannerLink = derived(user, ($user) =>
-  !$user
-    ? ''
-    : createUrl('/routeplanner', {
-        lng: coerceToMainLanguage($user?.communicationLanguage)
-      })
-);

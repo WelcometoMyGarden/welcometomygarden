@@ -29,9 +29,8 @@ import {
 } from 'firebase/firestore';
 import notify from '$lib/stores/notification';
 import { goto } from '$app/navigation';
-import routes, { getCurrentRoute } from '../routes';
+import routes, { getCurrentRoute, getCurrentRouteDescription } from '../routes';
 import { page } from '$app/stores';
-import { isActiveContains } from '../util/isActive';
 import type { FirebaseGarden } from '../types/Garden';
 import type { User as FirebaseUser } from 'firebase/auth';
 import { trackEvent } from '$lib/util';
@@ -42,6 +41,8 @@ import { createClient } from '@supabase/supabase-js';
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_API_URL } from '$env/static/public';
 import { isOnIDevicePWA } from '$lib/util/push-registrations';
 import * as Sentry from '@sentry/sveltekit';
+import { lr } from '$lib/util/translation-helpers';
+import { DEFAULT_LANGUAGE } from '$lib/types/general';
 
 // These are not Svelte stores, because we do not wish to listen to updates on them.
 // They are abstracted away by the User store, and trigger updates on that store.
@@ -100,6 +101,8 @@ export const createAuthObserver = (): Unsubscribe => {
   // https://firebase.google.com/docs/reference/node/firebase.auth.Auth#onidtokenchanged
   const unsubscribeFromAuthObserver = auth().onIdTokenChanged(async (firebaseUser) => {
     console.info(`auth/token changed (${!!firebaseUser ? 'truthy' : 'falsy'})`);
+
+    const $lr = get(lr);
 
     // Update the auth state cache
     latestAuthUserState = firebaseUser;
@@ -174,9 +177,9 @@ export const createAuthObserver = (): Unsubscribe => {
         console.log('Email verification full sync success - syncing auth state to user');
         isVerifying = false;
         await updateUserIfPossible();
-        if (isActiveContains(get(page), routes.AUTH_ACTION)) {
+        if (getCurrentRoute() === routes.AUTH_ACTION) {
           // If we're not on a useful page, redirect to /account
-          routeTo = routes.ACCOUNT;
+          routeTo = $lr(routes.ACCOUNT);
         }
 
         // Check if we need to redirect to a specific garden after verification
@@ -189,7 +192,7 @@ export const createAuthObserver = (): Unsubscribe => {
             // Only redirect within 10 minutes
             if (Date.now() - chatIntentionTs.getTime() < 10 * 60 * 1000) {
               console.log('Restoring chat intention after verification');
-              routeTo = `${routes.MAP}/garden/${chatIntentionGardenId}`;
+              routeTo = $lr(`${routes.MAP}/garden/${chatIntentionGardenId}`);
             }
             // Remove the intention in any case
             localStorage.removeItem('chatIntention');
@@ -232,7 +235,7 @@ export const createAuthObserver = (): Unsubscribe => {
       if (
         // In general, when we just logged in
         justLoggedIn &&
-        getCurrentRoute()?.route === routes.SIGN_IN
+        getCurrentRoute() === routes.SIGN_IN
       ) {
         let continueUrl = get(page).url.searchParams.get('continueUrl');
         if (continueUrl) {
@@ -241,7 +244,7 @@ export const createAuthObserver = (): Unsubscribe => {
           routeTo = continueUrl;
         } else {
           // Might happen if you have the sign in page open on two different tabs
-          routeTo = routes.MAP;
+          routeTo = $lr(routes.MAP);
         }
       }
 
@@ -261,9 +264,9 @@ export const createAuthObserver = (): Unsubscribe => {
         // Send the user back to the sign in page, if they are not yet on a page where they can stay.
         // NOTE: This is also handled by individual pages. Should it? Probably yes, because
         // individual pages don't only trigger on logout and can include specific messages
-        if (getCurrentRoute()?.requiresAuth) {
+        if (getCurrentRouteDescription()?.requiresAuth) {
           notify.info(get(_)('auth.logged-out'), 8000);
-          routeTo = routes.SIGN_IN;
+          routeTo = $lr(routes.SIGN_IN);
         }
         try {
           if (get(supabase)) {
@@ -282,8 +285,8 @@ export const createAuthObserver = (): Unsubscribe => {
       // then immediately redirect away from the homepage and skip to the
       // sign-in screen (we assume the user has already seen the homepage)
       // This gives it a more app-like feel.
-      if (getCurrentRoute()?.route === '/' && isOnIDevicePWA()) {
-        routeTo = routes.SIGN_IN;
+      if (getCurrentRoute() === routes.HOME && isOnIDevicePWA()) {
+        routeTo = $lr(routes.SIGN_IN);
       }
 
       // If we know we are logged out, we are not loading anymore.
@@ -328,7 +331,7 @@ export const checkAndHandleUnverified = async (message?: string, timeout = 8000)
     // or taking actions that require full token verification.
     if (!auth().currentUser?.emailVerified) {
       notify.warning(message ?? get(_)('auth.verification.unverified'), timeout);
-      return goto(routes.ACCOUNT);
+      return goto(get(lr)(routes.ACCOUNT));
     }
   }
 };
@@ -543,7 +546,7 @@ export const register = async ({
       firstName,
       lastName,
       countryCode,
-      communicationLanguage: get(locale) ?? 'en',
+      communicationLanguage: get(locale) ?? DEFAULT_LANGUAGE,
       reference
     });
     await signInWithEmailAndPassword(auth(), email, password);

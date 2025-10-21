@@ -18,11 +18,11 @@
   import { PlausibleEvent } from '$lib/types/Plausible.js';
   import { initializeUser } from '$lib/stores/user.js';
   import Meta from '$lib/components/SEO/Meta.svelte';
-  import { loadBrowserI18n } from '$locales/initialize.js';
-  // import { PUBLIC_WTMG_HOST } from '$env/static/public';
-  const PUBLIC_WTMG_HOST = 'https://welcometomygarden.org';
-
-  $: activeRootPath = $page?.url?.pathname?.substring(1).split('/')[0];
+  import { SUPPORTED_LANGUAGES } from '$lib/types/general.js';
+  import { urlPathPrefix } from '$lib/util/translation-helpers.js';
+  import { activeUnlocalizedPath } from '$lib/routes.js';
+  import { PUBLIC_WTMG_HOST } from '$env/static/public';
+  import { activeRootPath } from '$lib/routes.js';
 
   if (browser) {
     initializeFirebase()
@@ -44,7 +44,6 @@
   onMount(() => {
     return Sentry.startSpan({ name: 'Root Layout Load', op: 'app.load' }, async () => {
       console.log('Mounting root layout');
-      await loadBrowserI18n();
 
       vh = `${window.innerHeight * 0.01}px`;
 
@@ -95,7 +94,7 @@
     // See this: https://github.com/sveltejs/kit/issues/2733#issuecomment-1543863772
     // NOTE: this will probably kill the `noScroll` feature that goto() has, but we haven't used this anyway.
     //
-    // We use onNavigate() instead of afterNavigate() to work around this problem that makes Kit alway scroll to 0,0 anyway
+    // We use onNavigate() instead of afterNavigate() to work around this problem that makes Kit always scroll to 0,0 anyway
     // https://github.com/sveltejs/kit/issues/10823
     appContainer?.scrollTo(0, 0);
   });
@@ -169,6 +168,17 @@
       fallbackContent="camping, Belgium, traveling, discovering, exploring, garden"
     />
   {/if}
+  <!-- Alternate languages
+      https://developers.google.com/search/docs/specialty/international/localized-versions
+    -->
+  {#each SUPPORTED_LANGUAGES as lang}
+    <link
+      rel="alternate"
+      hreflang={lang}
+      href="{PUBLIC_WTMG_HOST}{urlPathPrefix(lang)}{$activeUnlocalizedPath}"
+    />
+  {/each}
+  <link rel="alternate" hreflang="x-default" href="{PUBLIC_WTMG_HOST}{$activeUnlocalizedPath}" />
 </svelte:head>
 
 {#if browser}
@@ -192,7 +202,7 @@
   </div>
 {/if} -->
 <div
-  class="app active-{activeRootPath} active-route-{$page?.route?.id} locale-{$coercedLocale}"
+  class="app active-{$activeRootPath} active-route-{$page?.route?.id} locale-{$coercedLocale}"
   class:fullscreen={$isFullscreen}
   class:error-banner={false}
   style="--vh:{vh}"
@@ -355,7 +365,7 @@
      Note: makes the footer invisible! But there is no footer on mobile.
      TODO: might not fix it entirely yet... sometimes you need to pause after a nav to be able to scroll the main container.
    */
-    .app.active-route-\/chat\/\[name\]\/\[chatId\] {
+    :global(.app.active-route-\/\[\[lang\]\]\/\(stateful\)\/chat\/\[name\]\/\[chatId\]) {
       overflow: hidden;
     }
 

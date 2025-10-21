@@ -9,6 +9,7 @@
   import { hasLoaded as gardenHasLoaded } from '$lib/stores/garden';
   import PaddedSection from '$lib/components/Marketing/PaddedSection.svelte';
   import { appHasLoaded } from '$lib/stores/app';
+  import { lr } from '$lib/util/translation-helpers';
 </script>
 
 <PaddedSection id="landing">
@@ -33,11 +34,11 @@
     <div class="welcome-buttons">
       <!-- User is not logged in, or the user does not have a garden yet -->
       {#if $appHasLoaded && (!$user || ($gardenHasLoaded && !$user.garden))}
-        <Button href={routes.ADD_GARDEN} fit={false} uppercase inverse>
+        <Button href={$lr(routes.ADD_GARDEN)} fit={false} uppercase inverse>
           {$_('index.intro.add-garden')}
         </Button>
       {/if}
-      <Button href={routes.MAP} fit={false} uppercase>{$_('index.intro.explore-map')}</Button>
+      <Button href={$lr(routes.MAP)} fit={false} uppercase>{$_('index.intro.explore-map')}</Button>
     </div>
     <div class="welcome-map">
       {@html welcomeMap}

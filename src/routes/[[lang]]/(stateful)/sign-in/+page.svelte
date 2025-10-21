@@ -4,7 +4,7 @@
   import { formEmailValue, formPasswordValue, isSigningIn, user } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
   import { login } from '$lib/api/auth';
-  import routes from '$lib/routes';
+  import routes, { getBaseRouteIn } from '$lib/routes';
   import AuthContainer from '$lib/components/AuthContainer.svelte';
   import { TextInput, Button, Progress } from '$lib/components/UI';
   import { lockIcon, emailIcon } from '$lib/images/icons';
@@ -14,6 +14,7 @@
   import { get } from 'svelte/store';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
   import * as Sentry from '@sentry/sveltekit';
+  import { lr } from '$lib/util/translation-helpers';
 
   const continueUrl = $page.url.searchParams.get('continueUrl');
 
@@ -33,17 +34,17 @@
       }
       notify.success($_('sign-in.notify.welcome', { values: { user: localUser?.firstName } }));
       if (continueUrl) {
-        if (continueUrl === routes.ADD_GARDEN && !localUser?.emailVerified) {
+        if (getBaseRouteIn(continueUrl) === routes.ADD_GARDEN && !localUser?.emailVerified) {
           // If the intention is to add a garden, but the user is not verified, redirect to the account page
           console.log(
             'Redirecting to /account upon unverified email sign-in with a garden add intention'
           );
-          universalGoto(routes.ACCOUNT);
+          universalGoto($lr(routes.ACCOUNT));
         } else {
           universalGoto(continueUrl);
         }
       } else {
-        goto(routes.MAP);
+        goto($lr(routes.MAP));
       }
     } catch (ex) {
       if (
@@ -115,7 +116,7 @@
   <p>
     {@html $_('sign-in.reset.text', {
       values: {
-        link: `<a class="link" href="${routes.REQUEST_PASSWORD_RESET}">${$_(
+        link: `<a class="link" href="${$lr(routes.REQUEST_PASSWORD_RESET)}">${$_(
           'sign-in.reset.link'
         )}</a>`
       }
@@ -124,7 +125,7 @@
   <p>
     {@html $_('sign-in.register.text', {
       values: {
-        link: `<a class="link" href="${routes.REGISTER}${continueUrl ? `?continueUrl=${encodeURIComponent(continueUrl)}` : ''}">${$_('sign-in.register.link')}</a>`
+        link: `<a class="link" href="${$lr(routes.REGISTER)}${continueUrl ? `?continueUrl=${encodeURIComponent(continueUrl)}` : ''}">${$_('sign-in.register.link')}</a>`
       }
     })}
   </p>

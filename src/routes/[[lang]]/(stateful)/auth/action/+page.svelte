@@ -22,7 +22,7 @@
   import { resolveOnUserLoaded, user } from '$lib/stores/auth';
   import { goto } from '$lib/util/navigate';
   import { page } from '$app/stores';
-  import routes from '$lib/routes';
+  import routes, { getBaseRouteIn } from '$lib/routes';
   import notify from '$lib/stores/notification';
   import {
     verifyPasswordResetCode,
@@ -37,6 +37,7 @@
   import PaddedSection from '$lib/components/Marketing/PaddedSection.svelte';
   import MarketingStyleWrapper from '$lib/components/Marketing/MarketingStyleWrapper.svelte';
   import * as Sentry from '@sentry/sveltekit';
+  import { lr } from '$lib/util/translation-helpers';
 
   let loadingState = '';
 
@@ -54,12 +55,13 @@
   const continueUrlPathMatch = /https?:\/\/[^/]+(\/.*$)/.exec(continueUrl ?? '');
   let gotoPath: string | null = null;
   if (continueUrlPathMatch) {
+    // Includes lang param
     gotoPath = continueUrlPathMatch[1];
   }
 
   if (!mode || !actionCode) {
     notify.danger($_('auth.invalid-code'));
-    goto(routes.HOME);
+    goto($lr(routes.HOME));
   }
 
   const forceLogout = async () => {
@@ -70,7 +72,7 @@
       Sentry.captureException(e, { extra: { context: 'Logout failed' } });
       // do nothing
     } finally {
-      goto(routes.SIGN_IN);
+      goto($lr(routes.SIGN_IN));
     }
   };
 
@@ -85,7 +87,7 @@
         query.set('mode', mode);
         query.set('oobCode', actionCode);
         query.set('email', email);
-        goto(routes.RESET_PASSWORD + `?${query.toString()}`);
+        goto($lr(routes.RESET_PASSWORD + `?${query.toString()}`));
       } catch (ex) {
         notify.danger($_('auth.password.expired'), 15000);
         Sentry.captureException(ex, {
@@ -93,7 +95,7 @@
           extra: { context: 'Likely: expired password reset link used' }
         });
 
-        goto(routes.REQUEST_PASSWORD_RESET);
+        goto($lr(routes.REQUEST_PASSWORD_RESET));
       }
     }
 
@@ -132,18 +134,18 @@
           // Thus, to prevent confusion with the "Resend Verification" button,
           // we don't immediately redirect to /account here
           // idTokenChanged will do the redirection.
-          if (gotoPath && gotoPath !== routes.ACCOUNT) {
+          if (gotoPath && getBaseRouteIn(gotoPath) !== routes.ACCOUNT) {
             console.log('Verification: Redirecting to continueUrl');
-            goto(gotoPath);
+            goto($lr(gotoPath));
           }
         } else {
           notify.success(`${$_('auth.verification.success')} ${$_('auth.verification.sign-in')}`);
-          goto(routes.SIGN_IN);
+          goto($lr(routes.SIGN_IN));
         }
       } catch (ex) {
         if (get(user) && (await isEmailVerifiedAndTokenSynced())) {
           notify.success($_('auth.verification.refresh'), 12000);
-          return goto(routes.ACCOUNT);
+          return goto($lr(routes.ACCOUNT));
         } else {
           console.error('Error during email action/auth email verification ', ex);
           notify.danger($_('auth.verification.expired'), 15000);
@@ -151,7 +153,7 @@
             level: 'warning',
             extra: { context: 'Likely: expired verify email reset link used' }
           });
-          return goto(routes.ACCOUNT);
+          return goto($lr(routes.ACCOUNT));
         }
       }
     }

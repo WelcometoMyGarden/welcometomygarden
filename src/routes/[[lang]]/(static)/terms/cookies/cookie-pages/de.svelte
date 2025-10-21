@@ -1,3 +1,8 @@
+<script lang="ts">
+  import routes from '$lib/routes';
+  import { lr } from '$lib/util/translation-helpers';
+</script>
+
 <h2>Cookie-Richtlinie</h2>
 <h3>1. Was sind Cookies</h3>
 <p>
@@ -120,6 +125,22 @@ Here is the translation of the provided content into German:
     </tr>
   </tbody>
 </table>
+<p>
+  Wenn du ein Konto bei uns erstellst oder Zugriff auf unsere Karte erhältst, verwendet unser
+  Dienstanbieter Firebase Websitedaten wie lokalen Speicher oder IndexedDB, um den
+  Registrierungsprozess zu verwalten, dich angemeldet zu halten und sicherzustellen, dass die
+  Anwendung ordnungsgemäß funktioniert. Firebase hat eine Seite, auf der
+  <a
+    href="https://firebase.google.com/support/privacy/#examples-end-user-data-processed-by-firebase"
+    >beschrieben wird, welche Arten von Daten gespeichert werden</a
+  >. Bitte beachte, dass wir von Firebase nur die Dienste &quot;Cloud Functions for Firebase&quot;,
+  &quot;Firebase Authentication&quot; und &quot;Cloud Firestore&quot; verwenden. Alle anderen
+  Dienste haben wir deaktiviert oder nutzen sie nicht.
+</p>
+<p>
+  Lies unsere <a href={$lr(routes.PRIVACY_POLICY)}>Datenschutzerklärung</a>, um mehr darüber zu
+  erfahren, welche Informationen wir erfassen, wenn du ein Konto erstellst.
+</p>
 <h3>4. Datenschutzfreundliche Analysen</h3>
 <p>
   Wir verwenden <a href="https://plausible.io/">Plausible</a>, ein datenschutzorientiertes

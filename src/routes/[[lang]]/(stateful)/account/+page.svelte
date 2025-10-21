@@ -28,12 +28,13 @@
   import * as Sentry from '@sentry/sveltekit';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
   import { openTally } from '$lib/api/tally';
+  import { lr } from '$lib/util/translation-helpers';
 
   let showAccountDeletionModal = false;
   let showEmailChangeModal = false;
 
   if (!$user) {
-    goto(`${routes.SIGN_IN}?continueUrl=${encodeURIComponent(routes.ACCOUNT)}`);
+    goto($lr(`${routes.SIGN_IN}?continueUrl=${encodeURIComponent($lr(routes.ACCOUNT))}`));
   }
 
   const onMailPreferenceChanged = async (event) => {
@@ -235,7 +236,7 @@
                   // Only valid for send_invoice
                   window.open($user?.stripeSubscription?.renewalInvoiceLink, '_blank');
                 } else {
-                  window.location.href = `${routes.ABOUT_MEMBERSHIP}#pricing`;
+                  window.location.href = `${$lr(routes.ABOUT_MEMBERSHIP)}#pricing`;
                 }
               }}>{$_('account.superfan.renew-btn-text')}</Button
             >
@@ -304,7 +305,7 @@
               {$_('account.garden.unlisted.button')}
             </Button>
           {:else}
-            <Button uppercase medium href={routes.ADD_GARDEN}>
+            <Button uppercase medium href={$lr(routes.ADD_GARDEN)}>
               {$_('account.garden.unlisted.button')}
             </Button>
           {/if}
@@ -317,7 +318,7 @@
             on:input={hideGardenTemporarily}
           />
           <div class="mt-l">
-            <Button href={routes.MANAGE_GARDEN} medium uppercase>
+            <Button href={$lr(routes.MANAGE_GARDEN)} medium uppercase>
               {$_('account.garden.listed.button')}
             </Button>
           </div>

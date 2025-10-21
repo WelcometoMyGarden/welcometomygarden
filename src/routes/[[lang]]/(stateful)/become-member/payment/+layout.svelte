@@ -26,7 +26,7 @@
   import { emailAsLink, SUPPORT_EMAIL } from '$lib/constants';
   import LevelSummary from './LevelSummary.svelte';
   import { page } from '$app/stores';
-  import { anchorText } from '$lib/util/translation-helpers';
+  import { anchorText, lr } from '$lib/util/translation-helpers';
   import {
     DEFAULT_MEMBER_LEVEL,
     type SuperfanLevelData
@@ -65,6 +65,20 @@
 
   const continueUrl = $page.url.searchParams.get('continueUrl');
 
+  /**
+   * Gets the current fully-qualified URL of the current page,
+   * stripping all query paramters, except continue URL, if it exists
+   */
+  function currentUrlWithContinueUrlOnly() {
+    const newURL = new URL(document.location.href);
+    const newParams = new URLSearchParams();
+    if (continueUrl) {
+      newParams.set('continueUrl', continueUrl);
+    }
+    newURL.search = `${newParams.size > 0 ? '?' : ''}${newParams.toString()}`;
+    return newURL.toString();
+  }
+
   const submit = async () => {
     if (!stripe || !clientSecret) return;
     // avoid processing duplicates
@@ -76,11 +90,7 @@
       redirect: 'if_required',
       confirmParams: {
         // Redirect to the current page, passing on the continueUrl
-        return_url: `${document.location.protocol}//${document.location.hostname}:${
-          document.location.port
-        }${document.location.pathname}${
-          continueUrl ? `?continueUrl=${encodeURIComponent(continueUrl)}` : ''
-        }`,
+        return_url: currentUrlWithContinueUrlOnly(),
         payment_method_data: {
           billing_details: {
             email: $user?.email
@@ -201,7 +211,7 @@
       // because when a visitor click back on the Sign in page, they should go back to /become-superfan
       // and not to /become-superfan/payment, which puts them in a redirect "loop"
       // https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API#the_replacestate_method
-      return goto(routes.SIGN_IN, { replaceState: true });
+      return goto($lr(routes.SIGN_IN), { replaceState: true });
     } else {
       // Check if we got redirected back from Stripe
       const processed = await processStripeSearchParams();
@@ -283,16 +293,16 @@
       notify.success($_('payment-superfan.payment-section.success'), 20000);
       // Tracking default given continueUrl: from trying to chat with someone
       let source = 'map_garden';
-      if (continueUrl.startsWith('/routeplanner')) {
+      if (continueUrl.includes(routes.ROUTE_PLANNER)) {
         source = 'routeplanner';
       }
       trackEvent(PlausibleEvent.MEMBER_CONVERSION, { source });
       // Note: this should be a relative continue URL only
-      await goto(continueUrl);
+      await goto($lr(continueUrl));
       return true;
     }
     trackEvent(PlausibleEvent.MEMBER_CONVERSION, { source: 'direct' });
-    await goto(routes.MEMBER_THANK_YOU);
+    await goto($lr(routes.MEMBER_THANK_YOU));
     return true;
   }
 </script>
@@ -349,7 +359,7 @@
             {@html $_('payment-superfan.terms', {
               values: {
                 termsLink: anchorText({
-                  href: '/terms/terms-of-use',
+                  href: $lr(routes.TERMS_OF_USE),
                   class: 'link--neutral',
                   linkText:
                     $locale === 'de'

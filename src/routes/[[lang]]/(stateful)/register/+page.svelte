@@ -11,7 +11,7 @@
     user
   } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
-  import routes from '$lib/routes';
+  import routes, { getBaseRouteIn } from '$lib/routes';
   import { countryNames, guessCountryCode } from '$lib/stores/countryNames';
   import AuthContainer from '$lib/components/AuthContainer.svelte';
   import { TextInput, Progress, Button, Select } from '$lib/components/UI';
@@ -25,6 +25,7 @@
   import { onMount } from 'svelte';
   import * as Sentry from '@sentry/sveltekit';
   import { debounce } from 'lodash-es';
+  import { lr } from '$lib/util/translation-helpers';
 
   const continueUrl = $page.url.searchParams.get('continueUrl');
 
@@ -181,17 +182,17 @@
       });
       notify.success($_('register.notify.successful'), 10000);
       if (continueUrl) {
-        if (continueUrl === routes.ADD_GARDEN && !get(user)?.emailVerified) {
+        if (getBaseRouteIn(continueUrl) === routes.ADD_GARDEN && !get(user)?.emailVerified) {
           // If the intention is to add a garden, but the user is not verified, redirect to the account page
           console.log(
             'Redirecting to /account upon unverified email sign-up with a garden add intention'
           );
-          universalGoto(routes.ACCOUNT);
+          universalGoto($lr(routes.ACCOUNT));
         } else {
           universalGoto(continueUrl);
         }
       } else {
-        goto(routes.MAP);
+        goto($lr(routes.MAP));
       }
     } catch (err: unknown) {
       isSigningIn.set(false);
@@ -227,13 +228,13 @@
   // and are able to re-click the submit button within 1000ms. Maybe we could issue a cancel/reset when the checkbox is clicked?
   const debouncedSubmit = debounce(submit, 1000, { leading: true, trailing: false });
 
-  const cookiePolicy = `<a class="link" href=${routes.COOKIE_POLICY} target="_blank" >${$_(
+  const cookiePolicy = `<a class="link" href=${$lr(routes.COOKIE_POLICY)} target="_blank" >${$_(
     'generics.cookie-policy'
   ).toLocaleLowerCase()}</a>`;
-  const privacyPolicy = `<a class="link" href=${routes.PRIVACY_POLICY} target="_blank">${$_(
+  const privacyPolicy = `<a class="link" href=${$lr(routes.PRIVACY_POLICY)} target="_blank">${$_(
     'generics.privacy-policy'
   ).toLocaleLowerCase()}</a>`;
-  const termsOfUse = `<a class="link" href=${routes.TERMS_OF_USE} target="_blank">${$_(
+  const termsOfUse = `<a class="link" href=${$lr(routes.TERMS_OF_USE)} target="_blank">${$_(
     'generics.terms-of-use'
   ).toLocaleLowerCase()}</a>`;
 
@@ -241,7 +242,7 @@
     await resolveOnUserLoaded();
     if (get(user)) {
       // If a user is already logged in, redirect to /account
-      goto(routes.ACCOUNT);
+      goto($lr(routes.ACCOUNT));
     }
   });
 </script>
@@ -372,7 +373,7 @@
       <p>
         {@html $_('register.registered', {
           values: {
-            signIn: `<a class="link" href="${routes.SIGN_IN}${continueUrl ? `?continueUrl=${encodeURIComponent(continueUrl)}` : ''}">${$_('generics.sign-in')}</a>`
+            signIn: `<a class="link" href="${$lr(routes.SIGN_IN)}${continueUrl ? `?continueUrl=${encodeURIComponent(continueUrl)}` : ''}">${$_('generics.sign-in')}</a>`
           }
         })}
       </p>

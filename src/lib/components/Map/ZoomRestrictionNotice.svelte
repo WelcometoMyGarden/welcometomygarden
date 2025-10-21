@@ -11,6 +11,7 @@
   import routes from '$lib/routes';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import MapNotice from './MapNotice.svelte';
+  import { lr } from '$lib/util/translation-helpers';
   const { getMap } = getContext<ContextType>(key);
   const map = getMap();
 
@@ -49,7 +50,7 @@
   ℹ️{' '}
   <!-- Note: this will still track the 'zoom_notice' event despite not opening the link -->
   <Anchor
-    href={createUrl(routes.ABOUT_MEMBERSHIP)}
+    href={createUrl($lr(routes.ABOUT_MEMBERSHIP))}
     preventing
     track={[PlausibleEvent.OPEN_MEMBERSHIP_MODAL, { source: 'zoom_notice' }]}
     on:click

@@ -1,14 +1,12 @@
 <script lang="ts">
   import { _, locale } from 'svelte-i18n';
-  import { page } from '$app/stores';
   import { logout } from '$lib/api/auth';
   import { clickOutside } from '$lib/directives';
   import Socials from '$lib/components/Socials.svelte';
   import LanguageSelector from '$lib/components/LanguageSelector.svelte';
-  import routes from '$lib/routes';
+  import routes, { currentRoute, routeNames } from '$lib/routes';
   import { user } from '$lib/stores/auth';
   import { goto } from '$app/navigation';
-  import { isActive } from '$lib/util/isActive';
   import { createEventDispatcher } from 'svelte';
   import { COMMUNITY_FORUM_URL, SHOP_URL } from '$lib/constants';
   import { PlausibleEvent } from '$lib/types/Plausible';
@@ -19,9 +17,8 @@
     subscriptionJustEnded
   } from '$lib/stores/subscription';
   import { coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
-  import { bannerLink } from '$lib/stores/app';
   import { transKeyExists } from '$lib/util';
-  import { anchorText } from '$lib/util/translation-helpers';
+  import { anchorText, bannerLink, lr } from '$lib/util/translation-helpers';
 
   const dispatch = createEventDispatcher();
   export let isOpen = false;
@@ -60,6 +57,8 @@
     track?: Parameters<typeof trackEvent>;
     target?: string;
   }[];
+
+  // Internal routes are localized in the render step
   $: sideLinks = [
     { route: routes.FAQ, name: $_('generics.faq.acronym') },
     {
@@ -110,7 +109,7 @@
         <li>
           <a
             class="highlighted"
-            href={routes.ABOUT_MEMBERSHIP}
+            href={$lr(routes.ABOUT_MEMBERSHIP)}
             on:click={() => {
               trackEvent(PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'side_navbar' });
               toggleDrawer();
@@ -121,11 +120,11 @@
         </li>
       {/if}
       <li>
-        <a href={routes.ABOUT_US} on:click={toggleDrawer}>{$_('generics.about-us')}</a>
+        <a href={$lr(routes.ABOUT_US)} on:click={toggleDrawer}>{$_('generics.about-us')}</a>
       </li>
       <li>
         <a
-          href={routes.RULES}
+          href={$lr(routes.RULES)}
           on:click={() => {
             trackEvent(PlausibleEvent.VISIT_RULES, { source: 'side_navbar' });
             toggleDrawer();
@@ -144,14 +143,14 @@
         {#if $user}
           <li class="separated sign-out">
             <a
-              href="/"
+              href={$lr(routes.HOME)}
               on:click|preventDefault={async () => {
                 toggleDrawer();
                 await logout();
-                goto(routes.HOME);
+                goto($lr(routes.HOME));
               }}
             >
-              Sign out
+              {$_('generics.sign-out')}
             </a>
           </li>
         {/if}
@@ -164,13 +163,13 @@
       {#each sideLinks as { route, name, track: trackParams, target } (route)}
         <li>
           <a
-            href={route}
+            href={Object.values(routeNames).includes(route) ? $lr(route) : route}
             on:click={() => {
               if (trackParams) trackEvent(...trackParams);
               toggleDrawer();
             }}
             {target}
-            class:active={isActive($page, route)}
+            class:active={$currentRoute === route}
             >{name}
           </a>
         </li>

@@ -14,6 +14,7 @@
   import type { FormEventHandler } from 'svelte/elements';
   import { facilities } from '$lib/stores/facilities';
   import { MAX_GARDEN_CAPACITY } from '$lib/constants';
+  import { lr } from '$lib/util/translation-helpers';
 
   // Note: this component should only be loaded if the garden is loaded.
   const existingGarden: FirebaseGarden | null = $user?.garden ?? null;
@@ -167,14 +168,14 @@
           {@html isUpdate
             ? $_('garden.form.manage.normal-notice', {
                 values: {
-                  accountLink: `<a class='link' href=${routes.ACCOUNT}>${$_(
+                  accountLink: `<a class='link' href=${$lr(routes.ACCOUNT)}>${$_(
                     'generics.account-page'
                   )}</a>`
                 }
               })
             : $_('garden.form.add.normal-notice', {
                 values: {
-                  accountLink: `<a class='link' href=${routes.ACCOUNT}>${$_(
+                  accountLink: `<a class='link' href=${$lr(routes.ACCOUNT)}>${$_(
                     'generics.account-page'
                   )}</a>`
                 }

@@ -10,11 +10,11 @@
   import { Button, LabeledCheckbox } from '$lib/components/UI';
   import { user } from '$lib/stores/auth';
   import { goto } from '$app/navigation';
-  import routes from '$lib/routes';
+  import routes, { currentRoute } from '$lib/routes';
   import MembershipLevel from './MembershipLevel.svelte';
   import { Anchor } from '$lib/components/UI';
   import { page } from '$app/stores';
-  import { anchorText, membershipBlogLink } from '$lib/util/translation-helpers';
+  import { anchorText, lr, membershipBlogLink } from '$lib/util/translation-helpers';
   import SliderRadio from './SliderRadio.svelte';
   import { mapValues } from 'lodash-es';
   import { toArray, type LocaleDictionary } from '$lib/util/get-node-children';
@@ -129,17 +129,18 @@
     // If the person was trying to open a chat, include it as a continueUrl
     let afterPaymentContinueUrl = '';
     if (
-      $page.url.pathname.startsWith(routes.CHAT) &&
+      $currentRoute === routes.CHAT &&
       $page.url.pathname.includes('new') &&
       $page.url.searchParams.get('id')
     ) {
       // Use a "with" link, because that one is used to trigger fetching partner details in an onMount
       // TODO: simplify this...
-      afterPaymentContinueUrl = `${routes.CHAT}?with=${$page.url.searchParams.get('id')}`;
+      afterPaymentContinueUrl = `${$lr(routes.CHAT)}?with=${$page.url.searchParams.get('id')}`;
     } else if (continueUrl)
       // If a continueUrl was manually given
       afterPaymentContinueUrl = continueUrl;
 
+    // target link localization is handled in the below goto()
     const targetPaymentLink = `${routes.MEMBER_PAYMENT}/${level.slug}${
       afterPaymentContinueUrl ? `?continueUrl=${encodeURIComponent(afterPaymentContinueUrl)}` : ''
     }`;
@@ -148,7 +149,7 @@
       ? `${routes.SIGN_IN}?continueUrl=${encodeURIComponent(targetPaymentLink)}`
       : targetPaymentLink;
 
-    return await goto(targetLink);
+    return await goto($lr(targetLink));
   };
 
   const optionIdPrefix = 'pricing-btn-';
@@ -192,7 +193,7 @@
       >{@html $_('become-superfan.pricing-section.terms-label', {
         values: {
           termsLink: anchorText({
-            href: routes.RULES,
+            href: $lr(routes.RULES),
             track: [PlausibleEvent.VISIT_RULES, { source: analyticsSource }],
             linkText: $_('become-superfan.pricing-section.terms-link-text'),
             class: 'link'
@@ -218,7 +219,7 @@
           return;
         }
         if (selectedLevel.slug === SuperfanLevelSlug.FREE) {
-          goto(routes.REGISTER);
+          goto($lr(routes.REGISTER));
           return;
         }
         goToPaymentPage(selectedLevel);
@@ -252,9 +253,9 @@
   </div>
   <p class="fineprint">
     {$t('become-superfan.pricing-section.questions')}{' '}<Anchor
-      href={createUrl(routes.ABOUT_MEMBERSHIP, {}, 'faq')}
+      href={createUrl($lr(routes.ABOUT_MEMBERSHIP), {}, 'faq')}
       on:click={() => trackEvent(PlausibleEvent.VISIT_MEMBERSHIP_FAQ, { source: analyticsSource })}
-      newtab={$page.url.pathname !== routes.ABOUT_MEMBERSHIP}
+      newtab={$currentRoute !== routes.ABOUT_MEMBERSHIP}
       >{$t('become-superfan.pricing-section.faq-link-text')}</Anchor
     >
     {$t('become-superfan.pricing-section.blog-post')}

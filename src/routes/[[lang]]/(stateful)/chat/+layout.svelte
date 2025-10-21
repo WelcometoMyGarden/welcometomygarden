@@ -13,7 +13,7 @@
     getChatForUser,
     newConversation
   } from '$lib/stores/chat';
-  import routes from '$lib/routes';
+  import routes, { currentRoute } from '$lib/routes';
   import { initiateChat } from '$lib/api/chat';
   import ConversationCard from '$lib/components/Chat/ConversationCard.svelte';
   import { Progress } from '$lib/components/UI';
@@ -27,6 +27,7 @@
   import { PlausibleEvent } from '$lib/types/Plausible';
   import createUrl from '$lib/util/create-url';
   import * as Sentry from '@sentry/sveltekit';
+  import { lr } from '$lib/util/translation-helpers';
 
   let localPage = $page;
   // Subscribe to page is necessary to render the chat page of the selected chat (when the url changes) for mobile
@@ -47,7 +48,7 @@
     $newConversation = null;
   }
 
-  $: isOverview = localPage.url.pathname == '/chat';
+  $: isOverview = $currentRoute === routes.CHAT;
 
   // TODO: do this with css grids, not with separate html templates switched by JS
   // It is currently not responsive without reloading.
@@ -60,7 +61,7 @@
       notify.info($_('auth.unsigned'), 8000);
       // Use continueUrl with all URL paramters restored after sign-in
       return goto(
-        `${routes.SIGN_IN}?continueUrl=${document.location.pathname}${document.location.search}${document.location.hash}`
+        `${$lr(routes.SIGN_IN)}?continueUrl=${document.location.pathname}${document.location.search}${document.location.hash}`
       );
     }
     await checkAndHandleUnverified($_('chat.notify.unverified'));
@@ -100,6 +101,7 @@
   /**
    * Create a route for a specific chat with the slugified name or the chat partner (for aesthetic purposes),
    * and their UID (for an actual lookup)
+   * ! Does NOT localize its output, this is the responsibility of the calling function.
    * @param partnerName
    * @param chatId
    */
@@ -126,7 +128,7 @@
       const existingChatWithUser = getChatForUser(partnerId);
       if (existingChatWithUser) {
         return goto(
-          getConvoRoute($chats[existingChatWithUser].partner.firstName, existingChatWithUser),
+          $lr(getConvoRoute($chats[existingChatWithUser].partner.firstName, existingChatWithUser)),
           gotoOpts
         );
       }
@@ -134,14 +136,14 @@
       // Otherwise: new chat case
       try {
         await initiateNewChatWith(partnerId);
-        goto(getConvoRoute($newConversation?.name || '', `new?id=${partnerId}`), gotoOpts);
+        goto($lr(getConvoRoute($newConversation?.name || '', `new?id=${partnerId}`)), gotoOpts);
       } catch (ex) {
         // TODO: display error
         console.error(ex);
         Sentry.captureException(ex, {
           extra: { context: 'Initiating new chat' }
         });
-        goto(routes.CHAT, gotoOpts);
+        goto($lr(routes.CHAT), gotoOpts);
       }
     }
   };
@@ -165,11 +167,13 @@
       // - Or just by checking every time with the backend whether the chat already exists or not: /chat/bob/[partnerId]
       //   (1. check for conversation id existence, 2. check for partner id existence)
       goto(
-        createUrl(getConvoRoute($newConversation.name, 'new'), { id: $newConversation.partnerId })
+        createUrl($lr(getConvoRoute($newConversation.name, 'new')), {
+          id: $newConversation.partnerId
+        })
       );
     } else if (id) {
       const chatName = $chats[id].partner.firstName.toLowerCase();
-      goto(getConvoRoute(chatName, id));
+      goto($lr(getConvoRoute(chatName, id)));
     } else {
       // TODO: show this error
       console.error('Something went wrong when selecting a chat');
@@ -199,7 +203,7 @@
           <div class="empty">
             {@html $_('chat.no-messages.text', {
               values: {
-                link: `<a class="link" href="${routes.MAP}">${$_('chat.no-messages.link')}</a>`
+                link: `<a class="link" href="${$lr(routes.MAP)}">${$_('chat.no-messages.link')}</a>`
               }
             })}
           </div>

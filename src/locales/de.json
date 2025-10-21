@@ -36,7 +36,9 @@
     "error": {
       "start": "Etwas ist schief gelaufen"
     },
-    "account-page": "Kontoseite"
+    "account-page": "Kontoseite",
+    "here": "Hier",
+    "lang-prefix": "/de"
   },
   "ui": {
     "card": {
@@ -51,8 +53,7 @@
     },
     "membership-expired-notice": {
       "prompt": "Möchten Sie Ihre WTMG-Mitgliedschaft{amount} jetzt erneuern?",
-      "answer": "Klicken Sie dann auf {linkText}. Vielen Dank für Ihre Unterstützung!",
-      "link-text": "Hier"
+      "answer": "Klicken Sie dann auf {linkText}. Vielen Dank für Ihre Unterstützung!"
     }
   },
   "index": {
@@ -120,7 +121,7 @@
         },
         "4": {
           "title": "Kostet <span class=\"notranslate\">Welcome To My Garden</span> etwas?",
-          "copy": "Der Aufenthalt bei einem WTMG-Gastgeber ist kostenlos. \nUm WTMG aufrechtzuerhalten und weiterzuentwickeln, sind wir jedoch auf eine jährliche Mitgliedschaft angewiesen, um die Kosten fair auf alle Langsamreisende aufzuteilen. Sie können Mitglied <a href=\"/about-membership?utm_source=welcometomygarden.org werden"
+          "copy": "Der Aufenthalt bei einem WTMG-Gastgeber ist kostenlos. \nUm WTMG aufrechtzuerhalten und weiterzuentwickeln, sind wir jedoch auf eine jährliche Mitgliedschaft angewiesen, um die Kosten fair auf alle Langsamreisende aufzuteilen. <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">Hier</a> können Sie Mitglied werden."
         }
       }
     },
@@ -235,7 +236,7 @@
           },
           "cost": {
             "title": "Kostet <span class=\"notranslate\">Welcome To My Garden</span> etwas?",
-            "copy": "<p>Der Aufenthalt bei einem WTMG-Gastgeber ist kostenlos. Um WTMG zu erhalten und weiterzuentwickeln, sind wir jedoch auf eine jährliche Mitgliedschaft angewiesen, um die Kosten gerecht auf alle Slow Traveller aufzuteilen. Sie können <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">hier</a> Mitglied werden.</p>"
+            "copy": "<p>Der Aufenthalt bei einem WTMG-Gastgeber ist kostenlos. Um WTMG zu erhalten und weiterzuentwickeln, sind wir jedoch auf eine jährliche Mitgliedschaft angewiesen, um die Kosten gerecht auf alle Slow Traveller aufzuteilen. Sie können <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">hier</a> Mitglied werden.</p>"
           },
           "no-garden": {
             "title": "Ich habe keinen Garten. Kann ich trotzdem in die Gärten anderer Leute reisen?",
@@ -866,7 +867,7 @@
           "questions": {
             "0": {
               "title": "Wer steckt hinter WTMG?",
-              "copy": "Wir sind ein kleines Team von drei Slow-Travel-Enthusiasten (Dries, Manon und Thor), die Vollzeit daran arbeiten, WTMG möglich zu machen. Mehr über uns können Sie <a href=\"/about-us\" target=\"_blank\">hier</a> lesen."
+              "copy": "Wir sind ein kleines Team von drei Slow-Travel-Enthusiasten (Dries, Manon und Thor), die Vollzeit daran arbeiten, WTMG möglich zu machen. Mehr über uns können Sie <a href=\"{langPrefix}/about-us\" target=\"_blank\">hier</a> lesen."
             },
             "1": {
               "title": "Welche Rechtsstruktur steckt hinter WTMG?",
@@ -909,7 +910,7 @@
       "explore-features-button": "Beginne mit deiner Reiseplanung"
     },
     "closing-section": {
-      "text": "<p><strong>Ein riesiges Dankeschön von unserem Team!</strong></p><p> Dries, Manon und Thor</p><p> <em>PS: Sie möchten mehr darüber erfahren, wer wir sind? <a class=\"link\" href=\"/about-us\">Lesen Sie hier unsere Geschichte!</a></em></p>"
+      "text": "<p><strong>Ein riesiges Dankeschön von unserem Team!</strong></p><p> Dries, Manon und Thor</p><p> <em>PS: Sie möchten mehr darüber erfahren, wer wir sind? <a class=\"link\" href=\"{langPrefix}/about-us\">Lesen Sie hier unsere Geschichte!</a></em></p>"
     }
   },
   "payment-superfan": {

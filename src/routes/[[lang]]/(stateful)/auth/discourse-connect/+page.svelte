@@ -11,6 +11,7 @@
   import MarketingStyleWrapper from '$lib/components/Marketing/MarketingStyleWrapper.svelte';
   import PaddedSection from '$lib/components/Marketing/PaddedSection.svelte';
   import * as Sentry from '@sentry/sveltekit';
+  import { lr } from '$lib/util/translation-helpers';
 
   // Note: searchParams values will already be URL-decoded
   const sso = $page.url.searchParams.get('sso');
@@ -60,18 +61,18 @@
         console.error(e);
         notify.danger($_('auth.discourse.failed'));
         Sentry.captureException(e);
-        goto(routes.HOME);
+        goto($lr(routes.HOME));
         return;
       }
     } else if (!$user) {
       // not logged in: redirect to sign in with continueUrl
       const continueUrl = `${routes.AUTH_DISCOURSE}?${$page.url.searchParams.toString()}`;
-      goto(`${routes.SIGN_IN}?continueUrl=${encodeURIComponent(continueUrl)}`);
+      goto($lr(`${routes.SIGN_IN}?continueUrl=${encodeURIComponent(continueUrl)}`));
     } else {
       console.log(
         'Entered the discourse-connect page without valid parameters, redirecting to home.'
       );
-      goto(routes.HOME);
+      goto($lr(routes.HOME));
     }
   });
 </script>

@@ -8,7 +8,7 @@
   import { iDeviceInfo, isMobileDevice } from '$lib/util/uaInfo';
   import IosBrowserSteps from './IOSBrowserSteps.svelte';
   import { Button, Text } from '$lib/components/UI';
-  import { anchorText } from '$lib/util/translation-helpers';
+  import { anchorText, lr } from '$lib/util/translation-helpers';
   import routes from '$lib/routes';
 
   let { is_16_4_OrAboveIDevice, isUpgradeable16IDevice } = iDeviceInfo!;
@@ -43,7 +43,7 @@
                 class: 'link'
               }),
               accountSettings: anchorText({
-                href: routes.ACCOUNT,
+                href: $lr(routes.ACCOUNT),
                 linkText: $_('push-notifications.how-to.ios-upgrade.account-settings'),
                 newtab: false,
                 class: 'link'

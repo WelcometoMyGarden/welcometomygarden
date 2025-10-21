@@ -108,7 +108,7 @@ export const renewalNoticeContent = derived(
               // TODO: this isn't accurate, the hosted invoice page visitors aren't about_membership page visitors
               // also, no side_ or top_ navbar renewal distinction
               track: [PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'navbar_renewal' }],
-              linkText: $t('navigation.membership-expired-notice.link-text'),
+              linkText: $t('generics.here'),
               style: 'text-decoration: underline; cursor: pointer;',
               newtab: false
             })

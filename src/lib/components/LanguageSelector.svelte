@@ -3,12 +3,13 @@
 
   import ISO6391 from 'iso-639-1';
   import { Select } from './UI';
-  import { SUPPORTED_LANGUAGES } from '$lib/types/general';
+  import { SUPPORTED_LANGUAGES } from '$lib/types/general.js';
   import type { ChangeEventHandler } from 'svelte/elements';
   import { user } from '$lib/stores/auth';
   import { updateCommunicationLanguage } from '$lib/api/user';
   import setCookie from '$lib/util/set-cookie';
   import { coercedLocale } from '$lib/stores/app';
+  import { invalidate, invalidateAll } from '$app/navigation';
 
   let allAvailableLocales = ISO6391.getLanguages([...SUPPORTED_LANGUAGES]);
 
@@ -37,6 +38,8 @@
       // Set the locale locally
       locale.set(selectedLocale);
     }
+    // Rerun the root load function to redirect to the right locale route
+    invalidateAll();
   } satisfies ChangeEventHandler<HTMLSelectElement>;
 </script>
 

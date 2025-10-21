@@ -1,16 +1,15 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import routes from '$lib/routes';
+  import routes, { currentRoute } from '$lib/routes';
   import { user } from '$lib/stores/auth';
   import { tentIcon, mapIcon, chatIcon, signInIcon, userIcon } from '$lib/images/icons';
   import Hamburger from './Hamburger.svelte';
   import { Icon } from '$lib/components/UI';
-  import { isActive, isActiveContains } from '$lib/util/isActive';
-  import { page } from '$app/stores';
   import SideDrawer from './MobileNav/SideDrawer.svelte';
   import { chatsCountWithUnseenMessages } from '$lib/stores/chat';
   import Badge from '../Badge.svelte';
   import { signInLinkWithGarden } from '$lib/components/Map/Map.svelte';
+  import { lr } from '$lib/util/translation-helpers';
 
   let hamburger: HTMLButtonElement | null = null;
   let drawerIsShown = false;
@@ -21,34 +20,34 @@
   <ul class="main">
     <!-- TODO: render this from data with a component rather than repeating code -->
     <li>
-      <a href={routes.HOME} class:active={isActive($page, '/')}>
+      <a href={$lr(routes.HOME)} class:active={$currentRoute === routes.HOME}>
         <Icon icon={tentIcon} />
         <span>{$_('generics.home')}</span>
       </a>
     </li>
     <li>
-      <a href={routes.MAP} class:active={isActiveContains($page, routes.MAP)}>
+      <a href={$lr(routes.MAP)} class:active={$currentRoute === routes.MAP}>
         <Icon icon={mapIcon} />
         {$_('generics.map')}
       </a>
     </li>
     {#if $user}
       <li>
-        <a href={routes.CHAT} class:active={isActiveContains($page, routes.CHAT)}>
+        <a href={$lr(routes.CHAT)} class:active={$currentRoute === routes.CHAT}>
           <Icon icon={chatIcon} />
           {$_('generics.chat')}
           <Badge count={$chatsCountWithUnseenMessages} />
         </a>
       </li>
       <li>
-        <a href={routes.ACCOUNT} class:active={isActive($page, routes.ACCOUNT)}>
+        <a href={$lr(routes.ACCOUNT)} class:active={$currentRoute === routes.ACCOUNT}>
           <Icon icon={userIcon} />
           {$_('generics.account')}
         </a>
       </li>
     {:else}
       <li>
-        <a href={$signInLinkWithGarden} class:active={isActive($page, routes.SIGN_IN)}>
+        <a href={$signInLinkWithGarden} class:active={$currentRoute === routes.SIGN_IN}>
           <Icon icon={signInIcon} />
           {$_('generics.sign-in')}
         </a>

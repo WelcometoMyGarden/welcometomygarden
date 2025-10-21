@@ -18,6 +18,7 @@
   import createUrl from '$lib/util/create-url';
   import { coerceToMainLanguage, coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
   import PaddedSection from './Marketing/PaddedSection.svelte';
+  import { lr } from '$lib/util/translation-helpers';
 
   const wtmgSignURLParams = new URLSearchParams({
     ...($user
@@ -48,15 +49,15 @@
       links: [
         {
           title: $_('generics.map'),
-          link: routes.MAP
+          link: $lr(routes.MAP)
         },
         {
           title: $_('generics.about-us'),
-          link: routes.ABOUT_US
+          link: $lr(routes.ABOUT_US)
         },
         {
           title: $_('generics.membership'),
-          link: routes.ABOUT_MEMBERSHIP,
+          link: $lr(routes.ABOUT_MEMBERSHIP),
           track: [PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'footer' }]
         },
         {
@@ -73,9 +74,7 @@
       links: [
         {
           title: $_('footer.links.route-planner.title'),
-          link: createUrl('/routeplanner', {
-            lng: coerceToMainLanguage($user?.communicationLanguage)
-          }),
+          link: $lr(routes.ROUTE_PLANNER),
           target: '_blank'
         },
         {
@@ -104,12 +103,12 @@
       links: [
         {
           title: $_('generics.rules'),
-          link: routes.RULES,
+          link: $lr(routes.RULES),
           track: [PlausibleEvent.VISIT_RULES, { source: 'footer' }]
         },
         {
           title: $_('generics.faq.acronym'),
-          link: routes.FAQ
+          link: $lr(routes.FAQ)
         },
         {
           title: 'Updates',
@@ -173,13 +172,13 @@
       </p>
       <ul class="terms">
         <li>
-          <a href={routes.PRIVACY_POLICY}>{$_('generics.privacy-policy')}</a>
+          <a href={$lr(routes.PRIVACY_POLICY)}>{$_('generics.privacy-policy')}</a>
         </li>
         <li>
-          <a href={routes.TERMS_OF_USE}>{$_('generics.terms-of-use')}</a>
+          <a href={$lr(routes.TERMS_OF_USE)}>{$_('generics.terms-of-use')}</a>
         </li>
         <li>
-          <a href={routes.COOKIE_POLICY}>{$_('generics.cookie-policy')}</a>
+          <a href={$lr(routes.COOKIE_POLICY)}>{$_('generics.cookie-policy')}</a>
         </li>
       </ul>
     </div>

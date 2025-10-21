@@ -4,7 +4,8 @@
   import Collapsible from '../../components/Collapsible.svelte';
   import { DONATION_URL, COMMUNITY_TRANSLATIONS_URL } from '$lib/constants';
   import routes from '$lib/routes';
-  import { anchorText } from '$lib/util/translation-helpers';
+  import { anchorText, lr } from '$lib/util/translation-helpers';
+  import createUrl from '$lib/util/create-url';
 
   export let clustersKey;
 
@@ -35,15 +36,19 @@
                 support: supportEmailLinkString,
                 donationLink: `<a href="${DONATION_URL}" target="_blank" class="link">
                   ${$_('faq.donation')}</a>`,
-                chatLink: `<a href="${routes.CHAT}" target="_blank" class="link lowercase">
+                chatLink: `<a href="${$lr(routes.CHAT)}" target="_blank" class="link lowercase">
                   ${$_('generics.chat')}</a>`,
-                accountLink: `<a href="${routes.ACCOUNT}" target="_blank" class="link lowercase">
+                accountLink: `<a href="${$lr(routes.ACCOUNT)}" target="_blank" class="link lowercase">
                   ${$_('generics.account-page')}</a>`,
                 communityTranslationsLink: `<a href="${COMMUNITY_TRANSLATIONS_URL}" target="_blank" rel="noreferrer" class="link lowercase">
                   ${$_('faq.instruction-page')}</a>`,
                 mobileFaqLink: anchorText({
                   href: $_('push-notifications.prompt.helpcenter-url'),
                   linkText: $_('faq.help-center-text')
+                }),
+                langPrefix: $_('generics.lang-prefix', {
+                  // the empty string prefix is valid here
+                  default: ''
                 })
               }
             })}

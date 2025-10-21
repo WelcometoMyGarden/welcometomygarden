@@ -35,7 +35,9 @@
         "link-text": "ons helpcentrum"
       }
     },
-    "account-page": "accountpagina"
+    "account-page": "accountpagina",
+    "here": "hier",
+    "lang-prefix": "/nl"
   },
   "ui": {
     "card": {
@@ -50,8 +52,7 @@
     },
     "membership-expired-notice": {
       "prompt": "Wil je je WTMG-lidmaatschap{amount} nu verlengen?",
-      "answer": "Klik dan {linkText}. Bedankt voor je steun!",
-      "link-text": "hier"
+      "answer": "Klik dan {linkText}. Bedankt voor je steun!"
     }
   },
   "index": {
@@ -120,7 +121,7 @@
         },
         "4": {
           "title": "Moet ik bij <span class=\"notranslate\">Welcome To My Garden</span> iets betalen?",
-          "copy": "Kamperen in een WTMG-tuin is gratis. Desondanks vragen we alle reizigers om betalend lid te worden, zodat we de kosten fair kunnen delen, en het platform kunnen onderhouden en verder ontwikkelen. Je kan <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">hier</a> lid worden."
+          "copy": "Kamperen in een WTMG-tuin is gratis. Desondanks vragen we alle reizigers om betalend lid te worden, zodat we de kosten fair kunnen delen, en het platform kunnen onderhouden en verder ontwikkelen. Je kan <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">hier</a> lid worden."
         }
       }
     },
@@ -501,7 +502,7 @@
           "questions": {
             "0": {
               "title": "Wie zit er achter WTMG?",
-              "copy": "We zijn een klein team van drie slow travel enthousiastelingen en we willen graag anderen helpen om ook te beginnen aan hun trage reisavonturen! <a href=\"/about-us\" target=\"_blank\">Hier</a> lees je meer over ons."
+              "copy": "We zijn een klein team van drie slow travel enthousiastelingen en we willen graag anderen helpen om ook te beginnen aan hun trage reisavonturen! <a href=\"{langPrefix}/about-us\" target=\"_blank\">Hier</a> lees je meer over ons."
             },
             "1": {
               "title": "Welke legale structuur gebruikt WTMG?",
@@ -931,7 +932,7 @@
           },
           "cost": {
             "title": "Is <span class=\"notranslate\">Welcome To My Garden</span> gratis?",
-            "copy": "Kamperen in een WTMG-tuin is gratis. Desondanks vragen we alle reizigers om betalend lid te worden, zodat we de kosten fair kunnen delen, en het platform kunnen onderhouden en verder ontwikkelen. Je kan <a href=\"/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">hier</a> lid worden."
+            "copy": "Kamperen in een WTMG-tuin is gratis. Desondanks vragen we alle reizigers om betalend lid te worden, zodat we de kosten fair kunnen delen, en het platform kunnen onderhouden en verder ontwikkelen. Je kan <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">hier</a> lid worden."
           },
           "no-garden": {
             "title": "Ik heb geen tuin. Kan ik nog steeds naar de tuinen van anderen reizen?",

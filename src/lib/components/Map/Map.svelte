@@ -1,5 +1,7 @@
 <script context="module" lang="ts">
   import type { LongLat } from '$lib/types/Garden.js';
+  import { lr } from '$lib/util/translation-helpers.js';
+  import { page } from '$app/stores';
   export type ContextType = { getMap: () => maplibregl.Map };
   export const currentPosition = writable<LongLat | null>(null);
   export const mapState = writable<{
@@ -8,13 +10,13 @@
     gardenId?: string;
   } | null>(null);
 
-  export const signInLinkWithGarden = derived([page, mapState], ([$page]) => {
+  export const signInLinkWithGarden = derived([page, mapState, lr], ([$page, _, $lr]) => {
     if (typeof $page.params.gardenId === 'string') {
-      return createUrl(routes.SIGN_IN, {
-        continueUrl: `${routes.MAP}/garden/${$page.params.gardenId}`
+      return createUrl($lr(routes.SIGN_IN), {
+        continueUrl: `${$lr(routes.MAP)}/garden/${$page.params.gardenId}`
       });
     }
-    return routes.SIGN_IN;
+    return $lr(routes.SIGN_IN);
   });
 </script>
 
@@ -36,7 +38,6 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   import { derived, writable } from 'svelte/store';
   import { isOnIDevicePWA } from '$lib/util/push-registrations.js';
   import { beforeNavigate } from '$app/navigation';
-  import { page } from '$app/stores';
   import routes from '$lib/routes.js';
   import createUrl from '$lib/util/create-url.js';
 

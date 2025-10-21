@@ -1,3 +1,8 @@
+<script lang="ts">
+  import routes from '$lib/routes';
+  import { lr } from '$lib/util/translation-helpers';
+</script>
+
 <h2>Cookie policy</h2>
 <h3>1. What Are Cookies</h3>
 <p>
@@ -125,7 +130,7 @@
 </p>
 <p>
   To learn more about the information we gather when you make an account, read our
-  <a href="https://welcometomygarden.org/terms/privacy-policy">privacy policy</a>.
+  <a href={$lr(routes.PRIVACY_POLICY)}>privacy policy</a>.
 </p>
 <h3>4. Privacy-friendly analytics</h3>
 <p>

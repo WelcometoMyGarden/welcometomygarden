@@ -21,7 +21,7 @@
   import Icon from '$lib/components/UI/Icon.svelte';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
-  import { anchorText } from '$lib/util/translation-helpers';
+  import { anchorText, lr } from '$lib/util/translation-helpers';
   import HiddenPhoneNumber from './HiddenPhoneNumber.svelte';
   import NewBadge from '../Nav/NewBadge.svelte';
   import type { UserPublic } from '$lib/models/User';
@@ -180,7 +180,7 @@
     }
   };
 
-  $: chatWithGardenLink = `${routes.CHAT}?with=${garden?.id}`;
+  $: chatWithGardenLink = `${$lr(routes.CHAT)}?with=${garden?.id}`;
 
   const createPhoneNumberPlaceHolder = (length: number) => {
     const container = document.createElement('span');
@@ -341,7 +341,7 @@
           </Text>
         {/if}
         {#if ownedByLoggedInUser}
-          <Button href={routes.MANAGE_GARDEN} uppercase medium>
+          <Button href={$lr(routes.MANAGE_GARDEN)} uppercase medium>
             {$_('garden.drawer.owner.button')}
           </Button>
         {:else}
@@ -364,7 +364,7 @@
             >
               {@html $_('garden.drawer.guest.login', {
                 values: {
-                  signInLink: `<a class='link' href=${routes.SIGN_IN}?continueUrl=${encodeURIComponent(`${routes.MAP}/garden/${garden?.id}`)}>${$_(
+                  signInLink: `<a class='link' href=${$lr(routes.SIGN_IN)}?continueUrl=${encodeURIComponent(`${$lr(routes.MAP)}/garden/${garden?.id}`)}>${$_(
                     'garden.drawer.guest.sign-link-text'
                   )}</a>`
                 }

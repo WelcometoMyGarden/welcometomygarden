@@ -12,6 +12,7 @@
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import * as Sentry from '@sentry/sveltekit';
+  import { lr } from '$lib/util/translation-helpers';
 
   let addingGarden = false;
 
@@ -34,7 +35,7 @@
         ? (notifyMsg = $_('garden.notify.success'))
         : (notifyMsg = $_('garden.notify.success'));
       notify.success(notifyMsg, 10000);
-      goto(`${routes.MAP}/garden/${$user!.id}`);
+      goto($lr(`${routes.MAP}/garden/${$user!.id}`));
     } catch (ex) {
       console.error(ex);
       Sentry.captureException(ex, {

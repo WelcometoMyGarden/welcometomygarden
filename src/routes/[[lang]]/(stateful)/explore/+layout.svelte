@@ -42,6 +42,7 @@
   import { lnglatToObject } from '$lib/api/mapbox';
   import MeetupDrawer from '$lib/components/Map/MeetupDrawer.svelte';
   import MembershipModal from '$lib/components/Membership/MembershipModal.svelte';
+  import { lr } from '$lib/util/translation-helpers';
 
   let showHiking = false;
   let showCycling = false;
@@ -137,7 +138,7 @@
     if (newGarden) {
       setMapToGardenLocation(newGarden);
       applyZoom = false; // zoom level is not programatically changed when exploring a garden
-      goto(`${routes.MAP}/garden/${newSelectedId}`);
+      goto($lr(`${routes.MAP}/garden/${newSelectedId}`));
     } else {
       console.warn(`Failed garden navigation to ${newSelectedId}`);
     }
@@ -147,7 +148,7 @@
     const meetup = meetups.find((m) => m.id === meetupId);
     if (meetup) {
       centerLocation = lnglatToObject(meetup.lnglat);
-      goto(`${routes.MAP}/meetup/${meetup.id}`);
+      goto($lr(`${routes.MAP}/meetup/${meetup.id}`));
     }
   };
 
@@ -159,7 +160,7 @@
 
   const closeDrawer = () => {
     hasGardenInURL = false;
-    goto(routes.MAP);
+    goto($lr(routes.MAP));
   };
 
   const closeCarNotice = () => {

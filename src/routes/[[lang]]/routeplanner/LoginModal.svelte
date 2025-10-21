@@ -2,12 +2,13 @@
   import { t } from 'svelte-i18n';
   import { Button, Modal } from '$lib/components/UI';
   import createUrl from '$lib/util/create-url';
-  import { anchorText } from '$lib/util/translation-helpers';
+  import { anchorText, lr } from '$lib/util/translation-helpers';
   import staticAssetUrl from '$lib/util/staticAssetUrl';
   import { user } from '$lib/stores/auth';
   import { trackEvent } from '$lib/util';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { page } from '$app/stores';
+  import routes from '$lib/routes';
 
   export let show: boolean;
   export let showMembershipModal: boolean;
@@ -17,9 +18,9 @@
     const searchParams = new URLSearchParams(search);
     // Designates a "member check"
     searchParams.append('m', '1');
-    return createUrl('/sign-in', {
+    return createUrl($lr(routes.SIGN_IN), {
       // Retain hash, but add a "member check" parameter
-      continueUrl: `/routeplanner?${searchParams.toString()}${hash}`
+      continueUrl: createUrl($lr(routes.ROUTE_PLANNER), searchParams, hash)
     });
   }
 </script>

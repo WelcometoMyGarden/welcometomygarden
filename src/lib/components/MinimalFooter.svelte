@@ -3,6 +3,7 @@
   import routes from '$lib/routes';
   import Socials from './Socials.svelte';
   import LanguageSelector from './LanguageSelector.svelte';
+  import { lr } from '$lib/util/translation-helpers';
 </script>
 
 <footer class="minimal-footer">
@@ -11,13 +12,13 @@
   </div>
   <ul class="terms">
     <li>
-      <a href={routes.COOKIE_POLICY}>{$_('generics.cookie-policy')}</a>
+      <a href={$lr(routes.COOKIE_POLICY)}>{$_('generics.cookie-policy')}</a>
     </li>
     <li>
-      <a href={routes.PRIVACY_POLICY}>{$_('generics.privacy-policy')}</a>
+      <a href={$lr(routes.PRIVACY_POLICY)}>{$_('generics.privacy-policy')}</a>
     </li>
     <li>
-      <a href={routes.TERMS_OF_USE}>{$_('generics.terms-of-use')}</a>
+      <a href={$lr(routes.TERMS_OF_USE)}>{$_('generics.terms-of-use')}</a>
     </li>
   </ul>
   <LanguageSelector />

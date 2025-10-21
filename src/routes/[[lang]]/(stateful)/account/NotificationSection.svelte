@@ -13,8 +13,8 @@
     currentNativeSubStore
   } from '$lib/stores/pushRegistrations';
   import { iDeviceInfo, isMobileDevice } from '$lib/util/uaInfo';
-  import NotificationPrompt from '$routes/(stateful)/chat/[name]/[chatId]/NotificationPrompt.svelte';
-  import PushRegistrationEntry from '$routes/(stateful)/chat/[name]/PushRegistrationEntry.svelte';
+  import NotificationPrompt from '$routes/[[lang]]/(stateful)/chat/[name]/[chatId]/NotificationPrompt.svelte';
+  import PushRegistrationEntry from '$routes/[[lang]]/(stateful)/chat/[name]/PushRegistrationEntry.svelte';
   import { PushRegistrationStatus } from '$lib/types/PushRegistration';
   import { anchorText } from '$lib/util/translation-helpers';
   import NewBadge from '$lib/components/Nav/NewBadge.svelte';

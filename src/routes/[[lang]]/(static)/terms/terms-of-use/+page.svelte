@@ -4,6 +4,7 @@
   import { Ol } from '$lib/components/UI';
   import routes from '$lib/routes';
   import RenderDefaultP from './RenderDefaultP.svelte';
+  import { lr } from '$lib/util/translation-helpers';
 </script>
 
 <svelte:head>
@@ -67,7 +68,7 @@
                   `terms-of-use.articles.${articleKey}.paragraphs.${paragraphsKey}.copy.${copyKey}`,
                   {
                     values: {
-                      accountLink: `<a href="${routes.ACCOUNT}" target="_blank" class="link lowercase">
+                      accountLink: `<a href="${$lr(routes.ACCOUNT)}" target="_blank" class="link lowercase">
                   ${$_('generics.account-page')}</a>`
                     }
                   }

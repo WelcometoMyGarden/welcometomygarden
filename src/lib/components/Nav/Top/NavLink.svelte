@@ -1,20 +1,18 @@
 <script lang="ts">
-  import { page } from '$app/stores';
-  import { isActive, isActiveContains } from '$lib/util/isActive';
+  import { currentRoute } from '$lib/routes';
 
   export let href: string;
-  // is this a little nasty? yes
-  // until routify handles index routes a little more consistently, it's here to stay
-  export let isHome = false;
   export let target: string | undefined = undefined;
   export let rel: string | undefined = undefined;
   export let highlighted: boolean | undefined = undefined;
 </script>
 
+<!-- The href check below works because internal href links
+ in the top navbar always correspond to a their $currentRoute -->
 <a
   {href}
   {rel}
-  class:active={isHome ? isActive($page, '/') : isActiveContains($page, href)}
+  class:active={href.endsWith($currentRoute ?? 'never')}
   class:highlighted={!!highlighted}
   {target}
   on:click

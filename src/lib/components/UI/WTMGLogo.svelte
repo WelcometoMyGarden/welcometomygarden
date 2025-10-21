@@ -1,17 +1,13 @@
 <script lang="ts">
   import routes from '$lib/routes';
-  import { isActive } from '$lib/util/isActive';
-  import { page } from '$app/stores';
+  import { lr } from '$lib/util/translation-helpers';
   const elementOptions = ['h1', 'h2', 'span'] as const;
   type Option = (typeof elementOptions)[number];
   export let is: Option = 'h1';
-  export let hideTitleWhenOnHome = false;
 </script>
 
-<a href={routes.HOME} class="title" class:hide={hideTitleWhenOnHome}>
-  <svelte:element this={is} class="inner notranslate">
-    {#if !hideTitleWhenOnHome || !isActive($page, '/')}Welcome To My Garden{/if}
-  </svelte:element>
+<a href={$lr(routes.HOME)} class="title">
+  <svelte:element this={is} class="inner notranslate">Welcome To My Garden</svelte:element>
 </a>
 
 <style>
