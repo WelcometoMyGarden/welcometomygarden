@@ -298,7 +298,8 @@
       }
       trackEvent(PlausibleEvent.MEMBER_CONVERSION, { source });
       // Note: this should be a relative continue URL only
-      await goto($lr(continueUrl));
+      // Note: this continueUrl is already localized
+      await goto(continueUrl);
       return true;
     }
     trackEvent(PlausibleEvent.MEMBER_CONVERSION, { source: 'direct' });

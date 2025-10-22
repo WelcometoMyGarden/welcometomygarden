@@ -23,6 +23,7 @@
     // Don't do anything, prevent reruns of the code below while navigating
   } else if (!$user) {
     notify.info($_('auth.unsigned'), 8000);
+    // Note: the pathname will be localized already
     goto($lr(`${routes.SIGN_IN}?continueUrl=${encodeURIComponent(pathname ?? '')}`));
   } else if (!$user.emailVerified && !reloadedOnce) {
     // TODO: leverage the top notice to not take the user out of the flow?
