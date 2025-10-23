@@ -7325,6 +7325,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsonc-parser@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "jsonc-parser@npm:3.3.1"
+  checksum: 10/9b0dc391f20b47378f843ef1e877e73ec652a5bdc3c5fa1f36af0f119a55091d147a86c1ee86a232296f55c929bba174538c2bf0312610e0817a22de131cc3f4
+  languageName: node
+  linkType: hard
+
 "jsts@npm:2.7.1":
   version: 2.7.1
   resolution: "jsts@npm:2.7.1"
@@ -9745,6 +9752,7 @@ __metadata:
     gmail-getter: "npm:^2.2.0"
     i18n-iso-countries: "npm:^7.14.0"
     iso-639-1: "npm:^3.1.5"
+    jsonc-parser: "npm:^3.3.1"
     lodash-es: "npm:^4.17.21"
     maplibre-gl: "npm:^1.15.3"
     md5: "npm:^2.3.0"

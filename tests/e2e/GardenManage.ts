@@ -15,12 +15,16 @@ import { openEmail } from './util';
 export class GardenManageTest {
   emailPlatform: 'mailpit' | 'gmail';
 
+  l: (key: string) => string;
+
   constructor(
     private browser: Browser,
     private baseURL: string,
-    private type: TestType = 'local'
+    private type: TestType = 'local',
+    localize?: (key: string) => string
   ) {
     this.emailPlatform = type === 'local' ? 'mailpit' : 'gmail';
+    this.l = localize ?? ((k: string) => k);
   }
 
   async robot({
@@ -35,20 +39,20 @@ export class GardenManageTest {
     let page = inPage;
     await page.goto(this.baseURL);
     // Go to the /sign-in page, fill in details
-    await page.getByRole('link', { name: 'Sign in' }).click();
+    await page.getByRole('link', { name: this.l('sign-in') }).click();
     // Switch to register, immediately
-    await page.getByRole('link', { name: 'Register' }).click();
+    await page.getByRole('link', { name: this.l('register') }).click();
     // Create an account
-    await page.getByRole('textbox', { name: 'First Name' }).click();
-    await page.getByRole('textbox', { name: 'First Name' }).fill('Robot');
-    await page.getByRole('textbox', { name: 'First Name' }).press('Tab');
-    await page.getByRole('textbox', { name: 'Last name' }).fill('RobotL');
-    await page.getByRole('textbox', { name: 'Last name' }).press('Tab');
-    await page.getByRole('textbox', { name: 'Email' }).fill('robot@slowby.travel');
-    await page.getByRole('textbox', { name: 'Email' }).press('Tab');
-    await page.getByRole('textbox', { name: 'Password' }).fill('12345678');
-    await page.getByRole('checkbox', { name: 'I agree to the cookie policy' }).click();
-    await page.getByRole('button', { name: 'Sign up' }).click();
+    await page.getByRole('textbox', { name: this.l('first-name') }).click();
+    await page.getByRole('textbox', { name: this.l('first-name') }).fill('Robot');
+    await page.getByRole('textbox', { name: this.l('first-name') }).press('Tab');
+    await page.getByRole('textbox', { name: this.l('last-name'), exact: true }).fill('RobotL');
+    await page.getByRole('textbox', { name: this.l('last-name'), exact: true }).press('Tab');
+    await page.getByRole('textbox', { name: this.l('email-label') }).fill('robot@slowby.travel');
+    await page.getByRole('textbox', { name: this.l('email-label') }).press('Tab');
+    await page.getByRole('textbox', { name: this.l('password-label') }).fill('12345678');
+    await page.getByRole('checkbox', { name: this.l('cookie-policy') }).click();
+    await page.getByRole('button', { name: this.l('sign-up') }).click();
 
     // Wait for the redirect to /explore
     await page.waitForURL('**/explore');
@@ -60,9 +64,9 @@ export class GardenManageTest {
     page = await context.newPage();
     await page.goto(`${this.baseURL}/garden/manage`);
     // Wait for the redirect to /account, because we're not verified yet
-    await page.waitForURL('/account');
+    await page.waitForURL('**/account');
     // Check that the verification toast appears
-    await expect(page.locator('body')).toContainText('Please verify your email first.');
+    await expect(page.locator('body')).toContainText(this.l('verification-toast'));
     await page.close();
 
     // Verify
@@ -86,31 +90,33 @@ export class GardenManageTest {
     await page.waitForURL('**/garden/add');
 
     // Fill address
-    await openedLinkPage.getByLabel('Street', { exact: true }).click();
-    await openedLinkPage.getByLabel('Street', { exact: true }).fill("Rue de l'Étuve - Stoofstraat");
-    // This will change the field and activate the confirmation button
-    await openedLinkPage.getByLabel('Street', { exact: true }).press('Tab');
-    await openedLinkPage.getByLabel('House number', { exact: true }).fill('46');
-    await openedLinkPage.getByLabel('House number', { exact: true }).press('Tab');
-    await openedLinkPage.getByRole('button', { name: 'Confirm pin location' }).click();
-    await openedLinkPage.getByPlaceholder('Enter description...').click();
+    await openedLinkPage.getByLabel(this.l('street-label'), { exact: true }).click();
     await openedLinkPage
-      .getByPlaceholder('Enter description...')
+      .getByLabel(this.l('street-label'), { exact: true })
+      .fill("Rue de l'Étuve - Stoofstraat");
+    // This will change the field and activate the confirmation button
+    await openedLinkPage.getByLabel(this.l('street-label'), { exact: true }).press('Tab');
+    await openedLinkPage.getByLabel(this.l('house-number-label'), { exact: true }).fill('46');
+    await openedLinkPage.getByLabel(this.l('house-number-label'), { exact: true }).press('Tab');
+    await openedLinkPage.getByRole('button', { name: this.l('confirm-pin') }).click();
+    await openedLinkPage.getByPlaceholder(this.l('description-placeholder')).click();
+    await openedLinkPage
+      .getByPlaceholder(this.l('description-placeholder'))
       .fill(
         'I have a nice garden next to the touristic hotspot of Manneken Pis, feel free to come visit!'
       );
-    await openedLinkPage.getByText('Water', { exact: true }).click();
-    await openedLinkPage.getByText('Shower').click();
-    await openedLinkPage.getByText('Electricity').click();
-    await openedLinkPage.getByLabel('Capacity (required)').click();
-    await openedLinkPage.getByLabel('Capacity (required)').fill('4');
+    await openedLinkPage.getByText(this.l('water'), { exact: true }).click();
+    await openedLinkPage.getByText(this.l('shower')).click();
+    await openedLinkPage.getByText(this.l('electricity')).click();
+    await openedLinkPage.getByLabel(this.l('capacity-label')).click();
+    await openedLinkPage.getByLabel(this.l('capacity-label')).fill('4');
     // Confirm creation
-    await openedLinkPage.getByRole('button', { name: 'Add your garden' }).click();
+    await openedLinkPage.getByRole('button', { name: this.l('add-your-garden-page') }).click();
 
     // Wait for redirect to to the explore page
     await openedLinkPage.waitForURL('**/explore/**');
     // Check that the "Your Garden copy is visible"
-    await expect(page.getByText('Your Garden', { exact: true })).toHaveCount(1);
+    await expect(page.getByText(this.l('your-garden'), { exact: true })).toHaveCount(1);
 
     await page.close();
     page = await context.newPage();
@@ -120,40 +126,44 @@ export class GardenManageTest {
     await page.waitForURL('**/garden/manage');
 
     //
-    await page.getByRole('button', { name: 'Adjust pin location' }).click();
-    await page.getByRole('textbox', { name: 'Street' }).click();
-    await page.getByRole('textbox', { name: 'Street' }).fill('Avenue Anatole France');
-    await page.getByRole('textbox', { name: 'Street' }).press('Tab');
-    await page.getByRole('textbox', { name: 'House number' }).fill('5');
-    await page.getByRole('textbox', { name: 'House number' }).press('Tab');
-    await page.getByRole('textbox', { name: 'Province or State' }).press('Tab');
-    await page.getByRole('textbox', { name: 'Postal/ZIP Code' }).fill('75007');
-    await page.getByRole('textbox', { name: 'Postal/ZIP Code' }).press('Tab');
-    await page.getByRole('textbox', { name: 'City' }).fill('Paris');
-    await page.getByRole('textbox', { name: 'City' }).press('Tab');
-    await page.getByRole('button', { name: 'Confirm pin location' }).click();
-    await page.getByRole('textbox', { name: 'Description' }).click();
+    await page.getByRole('button', { name: this.l('adjust-pin-location') }).click();
+    await page.getByRole('textbox', { name: this.l('street-label') }).click();
+    await page.getByRole('textbox', { name: this.l('street-label') }).fill('Avenue Anatole France');
+    await page.getByRole('textbox', { name: this.l('street-label') }).press('Tab');
+    await page.getByRole('textbox', { name: this.l('house-number-label') }).fill('5');
+    await page.getByRole('textbox', { name: this.l('house-number-label') }).press('Tab');
+    await page.getByRole('textbox', { name: this.l('province') }).press('Tab');
+    await page.getByRole('textbox', { name: this.l('zip') }).fill('75007');
+    await page.getByRole('textbox', { name: this.l('zip') }).press('Tab');
+    await page.getByRole('textbox', { name: this.l('city') }).fill('Paris');
+    await page.getByRole('textbox', { name: this.l('city') }).press('Tab');
+    await page.getByRole('button', { name: this.l('confirm-pin') }).click();
+    await page.getByRole('textbox', { name: this.l('description') }).click();
     await page
-      .getByRole('textbox', { name: 'Description' })
+      .getByRole('textbox', { name: this.l('description') })
       .fill('This is my new description, I hope you like it.');
     // Disable electricity
-    await page.locator('div').filter({ hasText: 'Electricity' }).nth(3).click();
+    await page
+      .locator('div')
+      .filter({ hasText: this.l('electricity') })
+      .nth(3)
+      .click();
     // Enable Bonfire
-    await page.getByRole('checkbox', { name: 'Bonfire' }).check();
-    await page.getByRole('spinbutton', { name: 'Capacity (required)' }).click();
-    await page.getByRole('spinbutton', { name: 'Capacity (required)' }).fill('1');
-    await page.getByRole('button', { name: 'Update your garden' }).click();
+    await page.getByRole('checkbox', { name: this.l('bonfire') }).check();
+    await page.getByRole('spinbutton', { name: this.l('capacity-label') }).click();
+    await page.getByRole('spinbutton', { name: this.l('capacity-label') }).fill('1');
+    await page.getByRole('button', { name: this.l('update-garden') }).click();
 
     // Wait for redirect to to the explore page
     await openedLinkPage.waitForURL(`**/explore/**`);
     // Check that the "Your Garden copy is visible"
-    await expect(page.getByText('Your Garden', { exact: true })).toHaveCount(1);
+    await expect(page.getByText(this.l('your-garden'), { exact: true })).toHaveCount(1);
     await expect(page.getByText('This is my new description, I')).toHaveCount(1);
-    await expect(page.getByText('Bonfire')).toBeVisible();
+    await expect(page.getByText(this.l('bonfire'))).toBeVisible();
     // Check that electricity is gone
-    await expect(page.getByText('Electricity')).toHaveCount(0);
-    // Check that the capacity has changed
-    await expect(page.getByText('Space for 1 tent')).toHaveCount(1);
+    await expect(page.getByText(this.l('electricity'))).toHaveCount(0);
+    // Check that the capacity has change
+    await expect(page.getByText(this.l('space-for-tent'))).toHaveCount(1);
   }
 
   async test() {

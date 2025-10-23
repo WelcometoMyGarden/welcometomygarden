@@ -1,6 +1,8 @@
 import { type Page, type BrowserContext } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { parse } from 'jsonc-parser';
 import { getAccessToken, checkInbox, parseHtmlFromEmail, type Email } from 'gmail-getter';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -78,6 +80,21 @@ export async function openEmail({
     await emailPage.setContent(parseHtmlFromEmail(email as Email));
   }
 
+  // The server sends unlocalized (English) URLs as of now
+  const unlocalize = (url: string) => {
+    let Url;
+    try {
+      Url = new URL(url);
+    } catch (_) {
+      console.error('Not a valid link prefix', url);
+      return '';
+    }
+    // Strip the language parameter, if one exists
+    // (any 2-character leading segment is assumed to be one)
+    Url.pathname = Url.pathname.replace(/^\/\w\w(?:[?#\/]|$)/i, '/');
+    return Url.toString();
+  };
+
   // Find plain text activation link inside the email (it can do that!)
   // NOTE: this is local-dev dependent
   //
@@ -85,13 +102,32 @@ export async function openEmail({
   // Open the link with the desired prefix
   // do not include the protocol, gmail rewrites https to http for example
   const link = await emailPage
-    .locator(`[href*="${linkPrefix.replace(/https?:\/\//, '')}"]`)
+    .locator(`[href*="${unlocalize(linkPrefix).replace(/https?:\/\//, '')}"]`)
     .first();
   await link.click();
   const openedLinkPage = await popupPromise;
   // Wait for the verification JS to start and finalize, by waiting for a redirect to another page
   await openedLinkPage.waitForURL((url) => !url.pathname.includes('/auth/action'));
   return { mailpitPage: emailPage, openedLinkPage };
+}
+
+// --- Localization helper for tests (synchronous) ---
+const localeCache: Record<string, Record<string, string>> = {};
+export function t(locale: string, key: string, vars?: Record<string, string>) {
+  if (!localeCache[locale]) {
+    const localePath = resolve(__dirname, 'locales', `${locale}.jsonc`);
+    const raw = readFileSync(localePath, 'utf8');
+    // use jsonc-parser to be robust to comments
+    const parsed = parse(raw) as Record<string, string> | undefined;
+    localeCache[locale] = parsed || {};
+  }
+  const val = localeCache[locale][key];
+  if (!val) {
+    console.warn(`No value in ${locale} for ${key}`);
+    return key;
+  }
+  if (!vars) return val;
+  return Object.keys(vars).reduce((s, k) => s.replace(new RegExp(`{${k}}`, 'g'), vars[k]), val);
 }
 
 export async function makeSuperfan({
@@ -205,13 +241,24 @@ export async function pay({
   }
 }
 
-export async function deleteAccount({ page, firstName }: { page: Page; firstName: string }) {
+export async function deleteAccount({
+  page,
+  firstName,
+  l
+}: {
+  page: Page;
+  firstName: string;
+  l: (key: string) => string;
+}) {
   await page.bringToFront();
   await page.getByRole('button', { name: firstName }).click();
-  await page.getByRole('link', { name: 'Account' }).click();
-  await page.getByRole('button', { name: 'Delete your account' }).click();
-  await page.getByPlaceholder('d...').fill('delete everything');
-  await page.locator('#dialog').getByRole('button', { name: 'Delete your account' }).click();
+  await page.getByRole('link', { name: l('account') }).click();
+  await page.getByRole('button', { name: l('delete-account') }).click();
+  await page.getByPlaceholder(l('delete-placeholder')).fill(l('delete-everything'));
+  await page
+    .locator('#dialog')
+    .getByRole('button', { name: l('delete-account') })
+    .click();
   // confirm
-  await page.getByRole('heading', { name: 'Sign in' }).locator('span');
+  await page.getByRole('heading', { name: l('sign-in') }).locator('span');
 }

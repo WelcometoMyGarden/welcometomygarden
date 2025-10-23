@@ -72,13 +72,18 @@ const localWebServers = [
 ] satisfies PlaywrightTestConfig['webServer'][];
 
 export type TestType = 'staging' | 'local';
+export type TestLocale = 'en' | 'fr';
 
 export type TestOptions = {
   type: TestType;
 };
 export const defaultOptions = {
+  // custom option
   type: 'local' as TestType,
-  baseURL: LOCAL_BASE_URL
+  // built-in option https://playwright.dev/docs/api/class-testoptions#test-options-base-url
+  baseURL: LOCAL_BASE_URL,
+  // built-in option https://playwright.dev/docs/api/class-testoptions#test-options-locale
+  locale: (process.env.TEST_LOCALE || 'en') as TestLocale
 } as const;
 
 export default defineConfig<TestOptions>({
@@ -101,7 +106,7 @@ export default defineConfig<TestOptions>({
           ...slowMoChromium
         }
       } satisfies PlaywrightTestConfig)),
-  // We're making this a property independent of the env var, so it can be statitically
+  // We're making this a property independent of the env var, so it can be statically
   // detected by the VSCode extension
   globalTeardown: './tests/e2e/global-teardown',
   projects: [
@@ -111,7 +116,9 @@ export default defineConfig<TestOptions>({
       // projects can be parameterized with custom options.
       // So, we define a single project here.
       // See https://playwright.dev/docs/test-parameterize#parameterized-projects
-      use: { type: IS_STAGING ? 'staging' : 'local' }
+      use: {
+        type: IS_STAGING ? 'staging' : 'local'
+      }
     }
   ]
 });

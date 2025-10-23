@@ -1,0 +1,53 @@
+{
+  // Main flow
+  // Some inconsistency here...
+  "add-your-garden": "Ajouter son jardin",
+  "add-your-garden-account": "Ajouter votre jardin",
+  "add-your-garden-page": "Ajoutez votre jardin",
+  "sign-in": "Connexion",
+  "register": "S'inscrire",
+  "chat": "Discussion",
+  "first-name": "Prénom",
+  "last-name": "Nom",
+  "country": "Pays",
+  "cookie-policy": "J'accepte la politique des cookies",
+  "sign-up": "S'inscrire",
+  "account": "Compte",
+  "add-your-garden-button": "Ajouter votre jardin",
+  "street-label": "Rue",
+  "house-number-label": "Numéro de la maison",
+  "confirm-pin": "Confirmer l'emplacement de l'épingle",
+  "description-placeholder": "Entrez la description…",
+  "water": "Eau",
+  "shower": "Douche",
+  "electricity": "Électricité",
+  "bonfire": "Feu de camp",
+  "capacity-label": "Capacité (obligatoire)",
+  "map-link-text": "Carte",
+  "search-city-placeholder": "Chercher une ville",
+  // Search results are localized!
+  "brussels-button": "Bruxelles,  Région de Bruxelles-Capitale",
+  "sign-in-lower": "vous connecter",
+  "email-label": "Courriel",
+  "password-label": "Mot de passe",
+  "become-member": "devenir membre",
+  "become-member-button": "Devenez Membre",
+  "type-message-placeholder": "Tapez votre message…",
+  "send-message-label": "Send message",
+  // Delete Account
+  "delete-account": "Supprimer votre compte",
+  "delete-placeholder": "t...",
+  "delete-everything": "tout effacer",
+  // Straight to member
+  "i-use-wtmg-only": "J’utilise WTMG uniquement en tant que voyageur",
+  // Garden Manage
+  "verification-toast": "Veuillez vérifier voter adresse électronique d'abord.",
+  "your-garden": "Votre jardin",
+  "adjust-pin-location": "Ajuster l'emplacement de l'épingle",
+  "province": "Province ou État",
+  "zip": "Code postal",
+  "city": "Ville",
+  "description": "Description",
+  "update-garden": "Mettre à jour le jardin",
+  "space-for-tent": "Place pour 1 tente"
+}

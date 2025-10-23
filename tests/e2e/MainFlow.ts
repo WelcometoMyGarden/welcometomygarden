@@ -18,38 +18,42 @@ import { type TestType } from '../../playwright.config';
  */
 export class MainFlowTest {
   emailPlatform: 'mailpit' | 'gmail';
+  l: (key: string) => string;
 
   constructor(
     private browser: Browser,
     private baseURL: string,
-    private type: TestType = 'local'
+    private type: TestType = 'local',
+    localize?: (key: string) => string
   ) {
     this.emailPlatform = type === 'local' ? 'mailpit' : 'gmail';
+    this.l = localize ?? ((k: string) => k);
   }
 
   async robot1({ page, context, email }: { page: Page; context: BrowserContext; email: string }) {
     // Open the home page
     await page.goto(this.baseURL);
 
-    // Click the "Add you garden" button
-    await page.getByRole('link', { name: 'Add your garden' }).click();
-    // Expects a redirect to the /sign-in page
+    // Click the "Add your garden" button in the top menu
+    await page.getByRole('link', { name: this.l('add-your-garden') }).click();
     await page.waitForURL('**/sign-in*');
     await expect(page.url()).toContain('/sign-in');
+
     // Fill in sign-in details
-    await page.getByLabel('Email').click();
-    await page.getByLabel('Email').fill(email);
-    await page.getByLabel('Password').click();
-    await page.getByLabel('Password').fill('12345678');
+    await page.getByLabel(this.l('email-label')).click();
+    await page.getByLabel(this.l('email-label')).fill(email);
+    await page.getByLabel(this.l('password-label')).click();
+    await page.getByLabel(this.l('password-label')).fill('12345678');
+
     // Switch to the /register page, fill in details
-    await page.getByRole('link', { name: 'Register' }).click();
-    await page.getByLabel('First Name').click();
-    await page.getByLabel('First Name').fill('Robot1');
-    await page.getByLabel('First Name').press('Tab');
-    await page.getByLabel('Last name').fill('Robot1L');
-    await page.getByLabel('Country').selectOption('FR');
-    await page.getByLabel('I agree to the cookie policy').check();
-    await page.getByRole('button', { name: 'Sign up' }).click();
+    await page.getByRole('link', { name: this.l('register') }).click();
+    await page.getByLabel(this.l('first-name')).click();
+    await page.getByLabel(this.l('first-name')).fill('Robot1');
+    await page.getByLabel(this.l('first-name')).press('Tab');
+    await page.getByLabel(this.l('last-name'), { exact: true }).fill('Robot1L');
+    await page.getByLabel(this.l('country')).selectOption('FR');
+    await page.getByLabel(this.l('cookie-policy')).check();
+    await page.getByRole('button', { name: this.l('sign-up') }).click();
     // Expect to automatically get redirected to the /account page via the garden-adding continueUrl
     await page.waitForURL('**/account*');
     await expect(page.url()).toContain('/account');
@@ -64,31 +68,35 @@ export class MainFlowTest {
 
     // Wait for the successful verification & redirect to the /account page,
     await openedLinkPage.waitForURL('**/account*');
+
     // Then start adding a garden
-    await openedLinkPage.getByRole('link', { name: 'Add your garden' }).click();
     // NOTE: we can not move the marker with playwright
-    // await page2.locator('.marker').click();
+    await openedLinkPage.getByRole('link', { name: this.l('add-your-garden-account') }).click();
+
     // Fill address
-    await openedLinkPage.getByLabel('Street', { exact: true }).click();
-    await openedLinkPage.getByLabel('Street', { exact: true }).fill("Rue de l'Étuve - Stoofstraat");
-    // This will change the field and activate the confirmation button
-    await openedLinkPage.getByLabel('Street', { exact: true }).press('Tab');
-    await openedLinkPage.getByLabel('House number', { exact: true }).fill('46');
-    await openedLinkPage.getByLabel('House number', { exact: true }).press('Tab');
-    await openedLinkPage.getByRole('button', { name: 'Confirm pin location' }).click();
-    await openedLinkPage.getByPlaceholder('Enter description...').click();
+    await openedLinkPage.getByLabel(this.l('street-label'), { exact: true }).click();
     await openedLinkPage
-      .getByPlaceholder('Enter description...')
+      .getByLabel(this.l('street-label'), { exact: true })
+      .fill("Rue de l'Étuve - Stoofstraat");
+    // This will change the field and activate the confirmation button
+    await openedLinkPage.getByLabel(this.l('street-label'), { exact: true }).press('Tab');
+    await openedLinkPage.getByLabel(this.l('house-number-label'), { exact: true }).fill('46');
+    await openedLinkPage.getByLabel(this.l('house-number-label'), { exact: true }).press('Tab');
+    await openedLinkPage.getByRole('button', { name: this.l('confirm-pin') }).click();
+    await openedLinkPage.getByPlaceholder(this.l('description-placeholder')).click();
+    await openedLinkPage
+      .getByPlaceholder(this.l('description-placeholder'))
       .fill(
         'I have a nice garden next to the touristic hotspot of Manneken Pis, feel free to come visit!'
       );
-    await openedLinkPage.getByText('Water', { exact: true }).click();
-    await openedLinkPage.getByText('Shower').click();
-    await openedLinkPage.getByText('Electricity').click();
-    await openedLinkPage.getByLabel('Capacity (required)').click();
-    await openedLinkPage.getByLabel('Capacity (required)').fill('4');
+
+    await openedLinkPage.getByText(this.l('water'), { exact: true }).click();
+    await openedLinkPage.getByText(this.l('shower')).click();
+    await openedLinkPage.getByText(this.l('electricity')).click();
+    await openedLinkPage.getByLabel(this.l('capacity-label')).click();
+    await openedLinkPage.getByLabel(this.l('capacity-label')).fill('4');
     // Confirm
-    await openedLinkPage.getByRole('button', { name: 'Add your garden' }).click();
+    await openedLinkPage.getByRole('button', { name: this.l('add-your-garden-page') }).click();
     // Wait for redirect to confirm addition
     // TODO: check for the copy "Your garden" to appear
     await openedLinkPage.waitForURL(`${this.baseURL}/explore/**`);
@@ -96,47 +104,38 @@ export class MainFlowTest {
     await Promise.all([openedLinkPage.close(), mailpitPage.close()]);
   }
 
-  async robot2({
-    page: inputPage,
-    context,
-    email
-  }: {
-    page: Page;
-    context: BrowserContext;
-    email: string;
-  }) {
-    let page = inputPage;
+  async robot2({ page, context, email }: { page: Page; context: BrowserContext; email: string }) {
+    let page = page;
     await page.goto(this.baseURL);
     // Go to the map
-    await page.getByRole('navigation').getByRole('link', { name: 'Map' }).click();
+    await page
+      .getByRole('navigation')
+      .getByRole('link', { name: this.l('map-link-text') })
+      .click();
     // Search for & click the existing added garden
-    await page.getByPlaceholder('Search for a city').fill('brussel');
-    await page.getByPlaceholder('Search for a city').press('Enter');
-    await page.getByRole('button', { name: 'Brussels, Brussels-Capital', exact: true }).click();
+    await page.getByPlaceholder(this.l('search-city-placeholder')).fill('brussel');
+    await page.getByPlaceholder(this.l('search-city-placeholder')).press('Enter');
+    await page.getByRole('button', { name: this.l('brussels-button'), exact: true }).click();
+
     // Probably assumes the default context: {viewport: { <size> }}
     // Wait for the zoom
     await page.waitForTimeout(5000);
-    await page.getByRole('region', { name: 'Map' }).click({
-      position: {
-        x: 635,
-        y: 345
-      }
-    });
-    // Wait until the "sign-in" link becomes available on the garden card (todo: this may be a bit flaky, we could wait on the
-    // name of the card appearing? and select in the card? The top-right link is "Sign in" with a captical letter)
-    await page.getByRole('link', { name: 'sign in', exact: true }).click();
+    await page.getByRole('region', { name: 'Map' }).click({ position: { x: 635, y: 345 } });
+    // This is maybe a bit flaky, and might select the top-right "connexion" in other languages
+    // We want the inline sign in link in the garden card here
+    await page.getByRole('link', { name: this.l('sign-in-lower'), exact: true }).click();
     // Switch to register, immediately
-    await page.getByRole('link', { name: 'Register' }).click();
-    await page.getByLabel('First Name').click();
-    await page.getByLabel('First Name').fill('Robot2');
-    await page.getByLabel('First Name').press('Tab');
-    await page.getByLabel('Last name').fill('Robot2L');
-    await page.getByLabel('Email').click();
-    await page.getByLabel('Email').fill(email);
-    await page.getByLabel('Email').press('Tab');
-    await page.getByLabel('Password').fill('12345678');
-    await page.getByLabel('I agree to the cookie policy').check();
-    await page.getByRole('button', { name: 'Sign up' }).click();
+    await page.getByRole('link', { name: this.l('register') }).click();
+    await page.getByLabel(this.l('first-name')).click();
+    await page.getByLabel(this.l('first-name')).fill('Robot2');
+    await page.getByLabel(this.l('first-name')).press('Tab');
+    await page.getByLabel(this.l('last-name'), { exact: true }).fill('Robot2L');
+    await page.getByLabel(this.l('email-label')).click();
+    await page.getByLabel(this.l('email-label')).fill(email);
+    await page.getByLabel(this.l('email-label')).press('Tab');
+    await page.getByLabel(this.l('password-label')).fill('12345678');
+    await page.getByLabel(this.l('cookie-policy')).check();
+    await page.getByRole('button', { name: this.l('sign-up') }).click();
     // Wait until the original page redirects back to the garden that we wanted to chat with
     // (using continueUrl)
     await page.waitForURL('**/explore/garden/*');
@@ -159,32 +158,33 @@ export class MainFlowTest {
     // Continue with the opened verification link page
     page = openedLinkPage;
     await page.bringToFront();
+    await page.waitForURL('**/explore/garden/*');
     // The opened page should redirect to the garden we wanted to open
     // using the localStorage chatIntent measures
     await page.waitForURL('**/explore/garden/*');
 
     // Wait for the garden card to appear, click the become member link
-    await page.getByRole('link', { name: 'become a member', exact: true }).click();
+    await page.getByRole('link', { name: this.l('become-member'), exact: true }).click();
     // Wait for the chat modal to load, click "I use WTMG only"...
-    await page.getByRole('checkbox', { name: 'I use WTMG only as a slow' }).check();
+    await page.getByRole('checkbox', { name: this.l('i-use-wtmg-only') }).check();
     // Go to the payment page
-    await page.getByRole('button', { name: 'Become a Member' }).click();
+    await page.getByRole('button', { name: this.l('become-member-button') }).click();
 
-    await pay({ page, context, type: this.type, firstName: 'Robot2' });
+    await pay({ page: page, context, type: this.type, firstName: 'Robot2' });
 
     // Wait until the original chat loads
     await page.waitForURL('**/chat/**');
     // Type a message
-    await page.getByPlaceholder('Type your message...').click();
+    await page.getByPlaceholder(this.l('type-message-placeholder')).click();
     await page
-      .getByPlaceholder('Type your message...')
+      .getByPlaceholder(this.l('type-message-placeholder'))
       .fill('Hello, what a nice garden you have! Can I stay?');
-    await page.getByLabel('Send message').click();
+    await page.getByLabel(this.l('send-message-label')).click();
 
-    return { mailpitPage: mailpitPage };
+    return { mailpitPage };
   }
 
-  async test() {
+  async test({ locale = 'en' }: { locale?: 'en' | 'fr' } = {}) {
     let robot1Email = '';
     let robot2Email = '';
     if (this.type === 'local') {
@@ -199,7 +199,7 @@ export class MainFlowTest {
     // Create robot 1 with a garden
     const robot1Context = await this.browser.newContext();
     const wtmgPage1 = await robot1Context.newPage();
-    await this.robot1({ page: wtmgPage1, context: robot1Context, email: robot1Email });
+    await this.robot1({ page: wtmgPage1, context: robot1Context, email: robot1Email, locale });
 
     // Create robot 2 as a superfan traveller and send a message to robot 1
     const robot2Context = await this.browser.newContext();
@@ -213,13 +213,13 @@ export class MainFlowTest {
 
     // Open the chat as robot 1
     await wtmgPage1.getByRole('button', { name: 'R Robot1' }).click();
-    await wtmgPage1.getByRole('link', { name: 'Chat' }).click();
+    await wtmgPage1.getByRole('link', { name: this.l('chat') }).click();
     await wtmgPage1.getByRole('button', { name: 'R Robot2 Hello, what a nice' }).click();
 
     // Respond
-    await wtmgPage1.getByPlaceholder('Type your message...').click();
-    await wtmgPage1.getByPlaceholder('Type your message...').fill('Yes, sure!');
-    await wtmgPage1.getByLabel('Send message').click();
+    await wtmgPage1.getByPlaceholder(this.l('type-message-placeholder')).click();
+    await wtmgPage1.getByPlaceholder(this.l('type-message-placeholder')).fill('Yes, sure!');
+    await wtmgPage1.getByLabel(this.l('send-message-label')).click();
 
     // Check for a response email as robot 2
     await robot2Mailpit.bringToFront();
@@ -241,8 +241,8 @@ export class MainFlowTest {
 
     // Delete accounts so that the exact map spot that we need will not have two gardens
     if (this.type === 'staging') {
-      await deleteAccount({ page: wtmgPage1, firstName: 'Robot1' });
-      await deleteAccount({ page: robot2ChatPage, firstName: 'Robot2' });
+      await deleteAccount({ page: wtmgPage1, firstName: 'Robot1', l: this.l.bind(this) });
+      await deleteAccount({ page: robot2ChatPage, firstName: 'Robot2', l: this.l.bind(this) });
     }
 
     await Promise.all([robot1Context.close(), robot2Context.close()]);
