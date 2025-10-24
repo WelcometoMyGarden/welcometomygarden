@@ -10,6 +10,13 @@ export const coerceToValidLangCode = (lang: string) => {
   return foundLocale ?? DEFAULT_LANGUAGE;
 };
 
+/**
+ * Get the language of the current browser
+ *
+ * svelte-i18n also has `getLocaleFromNavigator`, but we don't want to take into account regional differences
+ * for languages in our logic yet, therefore we drop eventual region suffixes with this implementation.
+ * https://github.com/kaisermann/svelte-i18n/blob/5afd1f8677c8371dcbec5b5b9a7175500f17591b/src/runtime/modules/localeGetters.ts#L35
+ */
 export const getBrowserLanguage = () =>
   // TODO: should we use getLocaleFromNavigator from svelte-i18n?
   coerceToValidLangCode(window.navigator.language?.split('-')[0].toLowerCase());

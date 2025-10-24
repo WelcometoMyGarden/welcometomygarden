@@ -105,7 +105,6 @@ export class MainFlowTest {
   }
 
   async robot2({ page, context, email }: { page: Page; context: BrowserContext; email: string }) {
-    let page = page;
     await page.goto(this.baseURL);
     // Go to the map
     await page

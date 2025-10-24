@@ -11,8 +11,13 @@ import type { LayoutLoad } from './$types';
 import { DEFAULT_LANGUAGE } from '$lib/types/general';
 import { browser } from '$app/environment';
 import { getCookie } from '$lib/util';
-import { coerceToSupportedLanguage, coerceToValidLangCode } from '$lib/util/get-browser-lang';
+import {
+  coerceToSupportedLanguage,
+  coerceToValidLangCode,
+  getBrowserLanguage
+} from '$lib/util/get-browser-lang';
 import { redirect } from '@sveltejs/kit';
+import { isBot } from 'ua-parser-js/helpers';
 
 export const load: LayoutLoad = async ({ params: { lang: pathLang }, url }) => {
   // TODO: maybe we want to init this with the browser lang like before?
@@ -25,14 +30,28 @@ export const load: LayoutLoad = async ({ params: { lang: pathLang }, url }) => {
     let targetPathLang = coerceToSupportedLanguage(pathLang);
 
     const localeCookie = getCookie('locale');
+    const browserLang = getBrowserLanguage();
+
+    // https://docs.uaparser.dev/api/submodules/helpers/is-bot.html
+    // https://github.com/faisalman/ua-parser-js/blob/d84ba1888b500ce2ba345f05885d5beef4d259c6/src/helpers/ua-parser-helpers.js#L163
+    let canRedirectBasedOnBrowserLang = !isBot(navigator.userAgent);
+    let candidateLangOverride;
     if (localeCookie) {
-      // Override target locale based on cookies
-      const validatedCookieLocale = coerceToValidLangCode(localeCookie);
-      newStoreLocale = validatedCookieLocale;
-      targetPathLang = coerceToSupportedLanguage(validatedCookieLocale);
+      // First priority, override target locale based on cookies
+      candidateLangOverride = localeCookie;
+    } else if (browserLang && canRedirectBasedOnBrowserLang) {
+      // Second priority, use the browser language, except if this is a
+      // known crawler with JS support
+      candidateLangOverride = browserLang;
     }
 
-    // Redirect based on the setcookie
+    if (candidateLangOverride) {
+      const validatedTargetLocale = coerceToValidLangCode(candidateLangOverride);
+      newStoreLocale = validatedTargetLocale;
+      targetPathLang = coerceToSupportedLanguage(validatedTargetLocale);
+    }
+
+    // Determine the redirection path based on the target language
     if (!!pathLang && targetPathLang === DEFAULT_LANGUAGE) {
       // If there is a path (any lang), but the target through cookies is English
       // then remove the lang path
@@ -56,7 +75,7 @@ export const load: LayoutLoad = async ({ params: { lang: pathLang }, url }) => {
 
   console.log(`Initialized locale ${newStoreLocale} (${browser ? 'browser' : 'server'})`);
 
-  if (newPath) {
+  if (newPath != null) {
     const newUrl = new URL(url);
     newUrl.pathname = newPath;
     console.log(`Redirecting ${url.pathname} to ${newPath}`);

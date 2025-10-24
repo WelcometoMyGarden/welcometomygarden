@@ -5,7 +5,11 @@ import { UAParser } from 'ua-parser-js';
  * ua-parser-js object, only available in a browser context.
  */
 
-export const uaInfo = browser ? UAParser(navigator.userAgent).withFeatureCheck() : undefined;
+// The feature check extension does seem to only result in synchronous results
+// https://docs.uaparser.dev/api/main/idata/with-feature-check.html
+export const uaInfo = browser
+  ? (UAParser(navigator.userAgent).withFeatureCheck() as UAParser.IResult)
+  : undefined;
 
 export const isIDeviceOS = (osName: string) => /iOS|iPadOS/.test(osName);
 

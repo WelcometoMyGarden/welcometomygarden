@@ -4769,13 +4769,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ua-parser-js@npm:^0.7.39":
-  version: 0.7.39
-  resolution: "@types/ua-parser-js@npm:0.7.39"
-  checksum: 10/8d173a79b37f9404cda49e848d82694c4854828ff20d94ddfba53bf9ccd9b4df16bf28f72786cf253a73305e9a54d2f2bb54ebfc144fca2496d3f3f025a79cb5
-  languageName: node
-  linkType: hard
-
 "@types/ws@npm:^8.18.1":
   version: 8.18.1
   resolution: "@types/ws@npm:8.18.1"
@@ -5638,6 +5631,13 @@ __metadata:
   version: 1.0.0
   resolution: "delayed-stream@npm:1.0.0"
   checksum: 10/46fe6e83e2cb1d85ba50bd52803c68be9bd953282fa7096f51fc29edd5d67ff84ff753c51966061e5ba7cb5e47ef6d36a91924eddb7f3f3483b1c560f77a0020
+  languageName: node
+  linkType: hard
+
+"detect-europe-js@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "detect-europe-js@npm:0.1.2"
+  checksum: 10/3d6dcf6ac451baa3050ff00e05cf1841e208bc4f27c69ec2c8df5fdf2375403cf2911f8059c9c18f258d7e176c8d308e4e0e8552500d0e30a9e95a514366ef13
   languageName: node
   linkType: hard
 
@@ -7179,6 +7179,13 @@ __metadata:
   dependencies:
     "@types/estree": "npm:^1.0.6"
   checksum: 10/11371fb2669a8144bffb2ae9bd11b0342b7dc384c3c0f8d5996566b071614282a3a0d306fd2fd1c6b4c9078d0e2703d191b47f4f78f9ce08f464c44a3a412412
+  languageName: node
+  linkType: hard
+
+"is-standalone-pwa@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "is-standalone-pwa@npm:0.1.1"
+  checksum: 10/bbd2ee7cbea985139f66fe8785e7699f52311e9c14d74190659885222b79dd1e8845b02f69b9221a23a2b4b00e8d4bea0a5a2603b2f26cb6d2071d46093ccf84
   languageName: node
   linkType: hard
 
@@ -9381,10 +9388,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ua-parser-js@npm:2.0.0-beta.1":
-  version: 2.0.0-beta.1
-  resolution: "ua-parser-js@npm:2.0.0-beta.1"
-  checksum: 10/f2af44c2956d2524c1e01a32f66ecc1fc4fd0c2037889eb3935b2dee855a62fd18da96980f4441faae69869dd57c515b1113de08f2f0ddec170ff994f432952d
+"ua-is-frozen@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "ua-is-frozen@npm:0.1.2"
+  checksum: 10/0113bed77d437a3752323175f01057dd01911506225e9d33799799188a89a230ab63d2445b096d4399ea8eb94e3163608f7ac2425fb8edd0844d891490607e14
+  languageName: node
+  linkType: hard
+
+"ua-parser-js@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "ua-parser-js@npm:2.0.6"
+  dependencies:
+    detect-europe-js: "npm:^0.1.2"
+    is-standalone-pwa: "npm:^0.1.1"
+    ua-is-frozen: "npm:^0.1.2"
+  bin:
+    ua-parser-js: script/cli.js
+  checksum: 10/b0049d3b272979049c7df6af2ec2ce032e4351316b10c33699f6e3f0bec701336f67530cc3ccb363c554b1bb5047b75d2f46575699afacd6e541762ca3861f4d
   languageName: node
   linkType: hard
 
@@ -9739,7 +9759,6 @@ __metadata:
     "@types/md5": "npm:^2.3.5"
     "@types/nprogress": "npm:^0.2.3"
     "@types/smoothscroll-polyfill": "npm:^0.3.4"
-    "@types/ua-parser-js": "npm:^0.7.39"
     "@typescript-eslint/eslint-plugin": "npm:^8.29.1"
     "@typescript-eslint/parser": "npm:^8.29.1"
     "@zerodevx/svelte-img": "npm:^2.1.2"
@@ -9770,7 +9789,7 @@ __metadata:
     tslib: "npm:^2.8.1"
     tsx: "npm:^4.19.3"
     typescript: "npm:^5.8.3"
-    ua-parser-js: "npm:2.0.0-beta.1"
+    ua-parser-js: "npm:^2.0.6"
     vite: "npm:^5.4.18"
     vite-bundle-visualizer: "npm:^1.2.1"
     vite-plugin-mkcert: "npm:^1.17.8"

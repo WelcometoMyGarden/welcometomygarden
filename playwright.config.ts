@@ -83,6 +83,7 @@ export const defaultOptions = {
   // built-in option https://playwright.dev/docs/api/class-testoptions#test-options-base-url
   baseURL: LOCAL_BASE_URL,
   // built-in option https://playwright.dev/docs/api/class-testoptions#test-options-locale
+  // also sets the built-in browser locale
   locale: (process.env.TEST_LOCALE || 'en') as TestLocale
 } as const;
 
