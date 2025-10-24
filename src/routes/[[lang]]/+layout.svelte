@@ -123,20 +123,9 @@
     <Meta property="og:title" itemKey="title" fallbackContent="Welcome To My Garden" />
     <Meta name="twitter:title" itemKey="title" fallbackContent="Welcome To My Garden" />
     <!-- Description tags -->
-    <Meta
-      name="description"
-      fallbackContent="Welcome To My Garden: Free camping spots in people’s gardens for slow travellers. Brought to you by a warm-hearted community of citizens."
-    />
-    <Meta
-      property="og:description"
-      itemKey="description"
-      fallbackContent="Welcome To My Garden: Free camping spots in people’s gardens for slow travellers. Brought to you by a warm-hearted community of citizens."
-    />
-    <Meta
-      name="twitter:description"
-      itemKey="description"
-      fallbackContent="Welcome To My Garden: Free camping spots in people’s gardens for slow travellers. Brought to you by a warm-hearted community of citizens."
-    />
+    <Meta name="description" pageKey="general" />
+    <Meta property="og:description" itemKey="description" pageKey="general" />
+    <Meta name="twitter:description" itemKey="description" pageKey="general" />
     <!-- Image tags -->
     <Meta
       property="og:image"
@@ -162,11 +151,7 @@
     <!-- <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" /> -->
     <!-- Keywords tags -->
-    <Meta
-      property="og:keywords"
-      itemKey="keywords"
-      fallbackContent="camping, Belgium, traveling, discovering, exploring, garden"
-    />
+    <Meta property="og:keywords" pageKey="general" itemKey="keywords" />
   {/if}
   <!-- Alternate languages
       https://developers.google.com/search/docs/specialty/international/localized-versions

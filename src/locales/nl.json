@@ -1598,6 +1598,10 @@
       "image-url": "https://storage.googleapis.com/wtmg-static/routeplanner/preview/route-planner-nl.jpg",
       "keywords": "routeplanner, slow travel, route, wandelroutes, fietsroutes, WTMG, tuinen, kamperen",
       "title": "Routeplanner WTMG"
+    },
+    "general": {
+      "keywords": "kamperen, Europa, slow travel, traag reizen, fietsen, wandelen, tent, community, kamperen in een tuin, gratis kamperen, avontuur",
+      "description": "Welcome To My Garden: Gratis kampeerplekjes voor trage reizigers, bij mensen in de tuin. Met dank aan een warm netwerk van betrokken burgers."
     }
   }
 }

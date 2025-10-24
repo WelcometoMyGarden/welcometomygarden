@@ -1599,6 +1599,10 @@
     }
   },
   "seo": {
+    "general": {
+      "description": "Welcome To My Garden: Free camping spots in people’s gardens for slow travellers. Brought to you by a warm-hearted community of citizens.",
+      "keywords": "camping, Europe, slow travel, cycling, hiking, tent, community, camping in garden, free camping, adventure"
+    },
     "routeplanner": {
       "title": "Route Planner WTMG",
       "description": "Free online route planner for cycling and hiking trips with Welcome To My Garden.",

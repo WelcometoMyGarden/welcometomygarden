@@ -119,7 +119,7 @@
     },
     "intro": {
       "headline": "Votre aventure slow travel commence ici",
-      "copy": "Des jardins mis à disposition pour les voyageur·ses lent·es. Une initiative rendue possible grâce à une communauté de citoyen·nes généreux·ses.",
+      "copy": "Un réseau de citoyen·nes qui ouvrent leur jardin pour que les voyageur·ses lent·es puissent y camper gratuitement pour la nuit.",
       "add-garden": "Ajouter son jardin",
       "explore-map": "Explorer la carte",
       "learn-more": "En savoir plus",
@@ -1591,6 +1591,10 @@
       "description": "Planificateur d’itinéraire gratuit pour des voyages à vélo ou à pied avec Welcome To My Garden.",
       "keywords": "planificateur d’itinéraire, voyage lent, itinéraires vélo, itinéraires randonnée, WTMG, jardins, camping",
       "image-url": "https://storage.googleapis.com/wtmg-static/routeplanner/preview/route-planner-fr.jpg"
+    },
+    "general": {
+      "keywords": "camping, Europe, slow travel, voyage lent, voyage à vélo, randonnée, tente, communauté, camping dans les jardins, camping gratuit, aventure",
+      "description": "Welcome To My Garden: Un réseau de citoyen·nes qui ouvrent leur jardin pour que les voyageur·ses lent·es puissent y camper gratuitement pour la nuit."
     }
   }
 }
