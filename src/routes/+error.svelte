@@ -30,7 +30,8 @@
       <Icon icon={binocularsIcon} />
     </div>
     <h1>
-      {$page.error?.message === 'Not Found' && $localeIsLoaded
+      {($page.error?.message === 'Not Found' || $page.error?.message === 'Error: 404') &&
+      $localeIsLoaded
         ? $_('fallback.404')
         : ($page.error?.message ?? 'Something went wrong')}
     </h1>

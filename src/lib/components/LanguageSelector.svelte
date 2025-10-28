@@ -10,6 +10,7 @@
   import setCookie from '$lib/util/set-cookie';
   import { coercedLocale } from '$lib/stores/app';
   import { invalidate, invalidateAll } from '$app/navigation';
+  import { isValidLocale } from '$lib/util/get-browser-lang';
 
   let allAvailableLocales = ISO6391.getLanguages([...SUPPORTED_LANGUAGES]);
 
@@ -17,11 +18,7 @@
 
   const onChange = async function (event) {
     const selectedLocale = event.currentTarget.value;
-    if (
-      !selectedLocale ||
-      typeof selectedLocale !== 'string' ||
-      !ISO6391.getAllCodes().find((c) => c === selectedLocale)
-    ) {
+    if (!selectedLocale || typeof selectedLocale !== 'string' || !isValidLocale(selectedLocale)) {
       console.warn('Invalid selected locale');
       return;
     }

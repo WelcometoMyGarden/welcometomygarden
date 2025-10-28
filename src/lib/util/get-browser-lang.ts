@@ -5,11 +5,12 @@ export { coerceToSupportedLanguage, urlPathPrefix } from './translation-shared';
 
 import ISO6391 from 'iso-639-1';
 
-export const coerceToValidLangCode = (lang: string) => {
-  const foundLocale = ISO6391.getAllCodes().find((c) => c === lang?.toLocaleLowerCase());
-  return foundLocale ?? DEFAULT_LANGUAGE;
-};
+const findValidLocale = (lang: string) =>
+  ISO6391.getAllCodes().find((c) => c === lang?.toLocaleLowerCase());
 
+export const isValidLocale = (lang: string) => !!findValidLocale(lang);
+
+export const coerceToValidLangCode = (lang: string) => findValidLocale(lang) ?? DEFAULT_LANGUAGE;
 /**
  * Get the language of the current browser
  *
