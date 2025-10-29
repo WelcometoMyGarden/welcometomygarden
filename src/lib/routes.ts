@@ -52,7 +52,7 @@ type RouteDescriptions = {
 export const visibleRoute = (routeId: string) =>
   routeId
     .split('/')
-    .filter((s) => !/^\[.*\]$|^\(.*\)$/.test(s))
+    .filter((s) => !/^\[\[.*\]\]$|^\(.*\)$/.test(s))
     .join('/');
 
 /**

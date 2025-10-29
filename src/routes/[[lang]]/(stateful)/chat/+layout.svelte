@@ -13,7 +13,7 @@
     getChatForUser,
     newConversation
   } from '$lib/stores/chat';
-  import routes, { currentRoute } from '$lib/routes';
+  import routes, { visibleRoute } from '$lib/routes';
   import { initiateChat } from '$lib/api/chat';
   import ConversationCard from '$lib/components/Chat/ConversationCard.svelte';
   import { Progress } from '$lib/components/UI';
@@ -48,7 +48,10 @@
     $newConversation = null;
   }
 
-  $: isOverview = $currentRoute === routes.CHAT;
+  /**
+   * Whether we are on the overview page (/chat), but not on as specific chat URL
+   */
+  $: isOverview = visibleRoute($page.route.id ?? '') === routes.CHAT;
 
   // TODO: do this with css grids, not with separate html templates switched by JS
   // It is currently not responsive without reloading.
