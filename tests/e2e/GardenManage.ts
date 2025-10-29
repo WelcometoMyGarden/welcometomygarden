@@ -1,6 +1,7 @@
 import { expect, type Browser, type BrowserContext, type Page } from '@playwright/test';
 import type { TestType } from '../../playwright.config';
 import { openEmail } from './util';
+import { GenericFlow } from './GenericFlow';
 
 /**
  * 1. Create an account without any shortcuts
@@ -12,21 +13,7 @@ import { openEmail } from './util';
  *    and change the garden description, location, and facilities
  * 7. Expect auto-redirect to your garden, verify the changed description and facilities
  */
-export class GardenManageTest {
-  emailPlatform: 'mailpit' | 'gmail';
-
-  l: (key: string) => string;
-
-  constructor(
-    private browser: Browser,
-    private baseURL: string,
-    private type: TestType = 'local',
-    localize?: (key: string) => string
-  ) {
-    this.emailPlatform = type === 'local' ? 'mailpit' : 'gmail';
-    this.l = localize ?? ((k: string) => k);
-  }
-
+export class GardenManageTest extends GenericFlow {
   async robot({
     page: inPage,
     context,

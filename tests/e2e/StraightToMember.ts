@@ -1,24 +1,12 @@
-import type { Browser, BrowserContext, Page } from '@playwright/test';
-import type { TestType } from '../../playwright.config';
+import type { BrowserContext, Page } from '@playwright/test';
 import { pay } from './util';
+import { GenericFlow } from './GenericFlow';
 
 /**
  * Test a robot that immediately tries to become a member, before having an account.
  * Check that the continueUrls continue to work as expected.
  */
-export class StraightToMemberTest {
-  emailPlatform: 'mailpit' | 'gmail';
-  l: (key: string) => string;
-  constructor(
-    private browser: Browser,
-    private baseURL: string,
-    private type: TestType = 'local',
-    localize?: (key: string) => string
-  ) {
-    this.emailPlatform = type === 'local' ? 'mailpit' : 'gmail';
-    this.l = localize ?? ((k: string) => k);
-  }
-
+export class StraightToMemberTest extends GenericFlow {
   async robot({
     page: page,
     context,

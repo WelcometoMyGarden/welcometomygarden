@@ -1,4 +1,12 @@
-import { type Page, type BrowserContext } from '@playwright/test';
+import {
+  type Page,
+  type BrowserContext,
+  type Browser,
+  type PlaywrightTestArgs,
+  type PlaywrightTestOptions,
+  type PlaywrightWorkerArgs,
+  type PlaywrightWorkerOptions
+} from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -8,7 +16,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { TestType } from '../../playwright.config';
+import type { TestOptions, TestType } from '../../playwright.config';
 // import credentials from './credentials.json' assert { type: 'json' };
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const credentials = JSON.parse(await readFile(resolve(__dirname, 'credentials.json'), 'utf8'));
@@ -16,6 +24,20 @@ const credentials = JSON.parse(await readFile(resolve(__dirname, 'credentials.js
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 let accessToken: string;
+
+export type TestParameters = {
+  browser: Browser;
+  baseURL: string;
+  type: TestType;
+  isMobile: boolean;
+  localize?: (key: string) => string;
+};
+
+export type TestContext = PlaywrightTestArgs &
+  PlaywrightTestOptions &
+  TestOptions &
+  PlaywrightWorkerArgs &
+  PlaywrightWorkerOptions;
 
 export async function openEmail({
   context,

@@ -1,6 +1,7 @@
 import { type Browser, type BrowserContext, type Page, expect } from '@playwright/test';
 import { deleteAccount, openEmail, pay } from './util';
 import { type TestType } from '../../playwright.config';
+import { GenericFlow } from './GenericFlow';
 
 /**
  * A test flow that tests the main, including some detailed redirect handling.
@@ -16,20 +17,7 @@ import { type TestType } from '../../playwright.config';
  *    c) It checks that the robot 2 is immediately redirected to the chat with robot 1 after paying.
  *    d) It performs a chat between the two robots, and exits if this works.
  */
-export class MainFlowTest {
-  emailPlatform: 'mailpit' | 'gmail';
-  l: (key: string) => string;
-
-  constructor(
-    private browser: Browser,
-    private baseURL: string,
-    private type: TestType = 'local',
-    localize?: (key: string) => string
-  ) {
-    this.emailPlatform = type === 'local' ? 'mailpit' : 'gmail';
-    this.l = localize ?? ((k: string) => k);
-  }
-
+export class MainFlowTest extends GenericFlow {
   async robot1({ page, context, email }: { page: Page; context: BrowserContext; email: string }) {
     // Open the home page
     await page.goto(this.baseURL);
@@ -183,7 +171,7 @@ export class MainFlowTest {
     return { mailpitPage };
   }
 
-  async test({ locale = 'en' }: { locale?: 'en' | 'fr' } = {}) {
+  async test() {
     let robot1Email = '';
     let robot2Email = '';
     if (this.type === 'local') {
@@ -198,7 +186,7 @@ export class MainFlowTest {
     // Create robot 1 with a garden
     const robot1Context = await this.browser.newContext();
     const wtmgPage1 = await robot1Context.newPage();
-    await this.robot1({ page: wtmgPage1, context: robot1Context, email: robot1Email, locale });
+    await this.robot1({ page: wtmgPage1, context: robot1Context, email: robot1Email });
 
     // Create robot 2 as a superfan traveller and send a message to robot 1
     const robot2Context = await this.browser.newContext();
