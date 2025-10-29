@@ -1,4 +1,4 @@
-import { defineConfig, type PlaywrightTestConfig } from '@playwright/test';
+import { defineConfig, devices, type PlaywrightTestConfig } from '@playwright/test';
 import { config } from 'dotenv';
 import { resolve } from 'path';
 
@@ -111,14 +111,20 @@ export default defineConfig<TestOptions>({
   // detected by the VSCode extension
   globalTeardown: './tests/e2e/global-teardown',
   projects: [
+    // `type` is a custom option, and it looks like only
+    // projects can be parameterized with custom options.
+    // See https://playwright.dev/docs/test-parameterize#parameterized-projects
     {
-      name: 'Test project',
-      // `type` is a custom option, and it looks like only
-      // projects can be parameterized with custom options.
-      // So, we define a single project here.
-      // See https://playwright.dev/docs/test-parameterize#parameterized-projects
+      name: 'Desktop',
       use: {
         type: IS_STAGING ? 'staging' : 'local'
+      }
+    },
+    {
+      name: 'Mobile',
+      use: {
+        type: IS_STAGING ? 'staging' : 'local',
+        ...devices['Pixel 4']
       }
     }
   ]

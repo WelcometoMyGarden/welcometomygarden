@@ -94,6 +94,8 @@ export class MainFlowTest extends GenericFlow {
 
   async robot2({ page, context, email }: { page: Page; context: BrowserContext; email: string }) {
     await page.goto(this.baseURL);
+    // Might be necessary to avoid a random block here
+    await page.waitForLoadState();
     // Go to the map
     await page
       .getByRole('navigation')
@@ -102,12 +104,20 @@ export class MainFlowTest extends GenericFlow {
     // Search for & click the existing added garden
     await page.getByPlaceholder(this.l('search-city-placeholder')).fill('brussel');
     await page.getByPlaceholder(this.l('search-city-placeholder')).press('Enter');
+
+    if (this.isMobile) {
+      // It's in the way to see what is going on
+      await page.getByRole('button', { name: 'Close notice' }).click();
+    }
+
     await page.getByRole('button', { name: this.l('brussels-button'), exact: true }).click();
 
     // Probably assumes the default context: {viewport: { <size> }}
     // Wait for the zoom
     await page.waitForTimeout(5000);
-    await page.getByRole('region', { name: 'Map' }).click({ position: { x: 635, y: 345 } });
+    await page
+      .getByRole('region', { name: 'Map' })
+      .click({ position: this.isMobile ? { x: 172, y: 382 } : { x: 635, y: 345 } });
     // This is maybe a bit flaky, and might select the top-right "connexion" in other languages
     // We want the inline sign in link in the garden card here
     await page.getByRole('link', { name: this.l('sign-in-lower'), exact: true }).click();
@@ -152,12 +162,24 @@ export class MainFlowTest extends GenericFlow {
 
     // Wait for the garden card to appear, click the become member link
     await page.getByRole('link', { name: this.l('become-member'), exact: true }).click();
+
+    if (this.isMobile) {
+      // On mobile, go to the next screen to become a member
+      await page.getByRole('button', { name: this.l('choose-membership') }).click();
+    }
+
     // Wait for the chat modal to load, click "I use WTMG only"...
     await page.getByRole('checkbox', { name: this.l('i-use-wtmg-only') }).check();
     // Go to the payment page
     await page.getByRole('button', { name: this.l('become-member-button') }).click();
 
-    await pay({ page: page, context, type: this.type, firstName: 'Robot2' });
+    await pay({
+      page: page,
+      context,
+      type: this.type,
+      firstName: 'Robot2',
+      isMobile: this.isMobile
+    });
 
     // Wait until the original chat loads
     await page.waitForURL('**/chat/**');
@@ -199,8 +221,14 @@ export class MainFlowTest extends GenericFlow {
     });
 
     // Open the chat as robot 1
-    await wtmgPage1.getByRole('button', { name: 'R Robot1' }).click();
-    await wtmgPage1.getByRole('link', { name: this.l('chat') }).click();
+    if (this.isMobile) {
+      // on mobile, this button is in the bottom menu bar
+      await wtmgPage1.getByRole('link', { name: 'Discussion' }).click();
+    } else {
+      // on destkop, the top-right menu must first be opened
+      await wtmgPage1.getByRole('button', { name: 'R Robot1' }).click();
+      await wtmgPage1.getByRole('link', { name: this.l('chat') }).click();
+    }
     await wtmgPage1.getByRole('button', { name: 'R Robot2 Hello, what a nice' }).click();
 
     // Respond

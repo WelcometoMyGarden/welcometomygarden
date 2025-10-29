@@ -24,21 +24,21 @@ test.afterEach(async ({ type }) => {
 
 // Destructuring of the test arguments is mandatory in Playwright
 
-test('main flow', async ({ browser, baseURL, type, locale }) => {
-  const context = { browser, baseURL, type, locale };
+test('main flow', async ({ browser, baseURL, type, locale, isMobile }) => {
+  const context = { browser, baseURL, type, locale, isMobile };
   const flow = new MainFlowTest(context);
   await flow.test();
 });
 
-test('straight to member', async ({ browser, baseURL, type, locale }) => {
-  const context = { browser, baseURL, type, locale };
+test('straight to member', async ({ browser, baseURL, type, locale, isMobile }) => {
+  const context = { browser, baseURL, type, locale, isMobile };
 
   const flow = new StraightToMemberTest(context);
   await flow.test();
 });
 
-test('garden manage', async ({ browser, baseURL, type, locale }) => {
-  const context = { browser, baseURL, type, locale };
+test('garden manage', async ({ browser, baseURL, type, locale, isMobile }) => {
+  const context = { browser, baseURL, type, locale, isMobile };
   const flow = new GardenManageTest(context);
   await flow.test();
 });

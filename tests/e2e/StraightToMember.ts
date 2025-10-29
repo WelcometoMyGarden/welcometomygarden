@@ -18,7 +18,11 @@ export class StraightToMemberTest extends GenericFlow {
   }) {
     // Go to the home page
     await page.goto(this.baseURL);
-    // Go to the About membership page
+    // Go to the About membership page in the navbar
+    if (this.isMobile) {
+      // on mobile, the side navbar must first be opened
+      await page.locator('#navigation').getByRole('button').click();
+    }
     await page
       .getByRole('navigation')
       .getByRole('link', { name: this.l('become-member-button') })
@@ -30,7 +34,7 @@ export class StraightToMemberTest extends GenericFlow {
       .getByRole('link', { name: this.l('become-member-button') })
       .click();
     // Allow Svelte to hydrate before attempting the rest, otherwise hydration unchecks the checkbox
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState();
     // Try to become a member (should not work)
     await page.getByRole('button', { name: this.l('become-member-button'), exact: true }).click();
     // Check the box
@@ -56,7 +60,7 @@ export class StraightToMemberTest extends GenericFlow {
 
     // Check that the page auto-redirects to the payment page
     await page.waitForURL('**/become-member/payment/**');
-    await pay({ page, context, type: this.type, firstName: 'Robot' });
+    await pay({ page, context, type: this.type, firstName: 'Robot', isMobile: this.isMobile });
     // Check that you are redirected to the Thank You page
     await page.waitForURL('**/become-member/thank-you');
   }

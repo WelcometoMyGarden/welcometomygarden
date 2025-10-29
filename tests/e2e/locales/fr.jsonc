@@ -32,6 +32,8 @@
   "password-label": "Mot de passe",
   "become-member": "devenir membre",
   "become-member-button": "Devenez Membre",
+  // Mobile-only
+  "choose-membership": "Choissisez votre adhésion",
   "type-message-placeholder": "Tapez votre message…",
   "send-message-label": "Send message",
   // Delete Account

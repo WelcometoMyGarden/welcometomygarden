@@ -10,6 +10,7 @@ export type TestContext = {
   baseURL: string | undefined;
   type: TestType;
   locale: string | undefined;
+  isMobile: boolean;
 };
 
 const localizeUrl = (locale: string, url: string) => `${url}${locale === 'en' ? '' : `/${locale}`}`;
@@ -23,6 +24,7 @@ export class GenericFlow {
    * String localizer
    */
   protected l: (key: string) => string;
+  protected isMobile: boolean;
 
   constructor(args: TestContext) {
     this.browser = args.browser;
@@ -30,5 +32,6 @@ export class GenericFlow {
     this.type = args.type;
     this.l = (key: string) => (args.locale ? t(args.locale, key) : key);
     this.emailPlatform = this.type === 'local' ? 'mailpit' : 'gmail';
+    this.isMobile = args.isMobile;
   }
 }

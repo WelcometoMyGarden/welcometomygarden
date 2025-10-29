@@ -154,10 +154,12 @@ export function t(locale: string, key: string, vars?: Record<string, string>) {
 
 export async function makeSuperfan({
   context,
-  firstName
+  firstName,
+  isMobile
 }: {
   context: BrowserContext;
   firstName: string;
+  isMobile: boolean;
 }) {
   // open firebase admin to make this one a superfan
   const firebaseAdminPage = await context.newPage();
@@ -181,8 +183,13 @@ export async function makeSuperfan({
   await firebaseAdminPage.getByRole('link', { name: 'Firestore' }).click();
   // Users
   await firebaseAdminPage.getByLabel('View contents of collection with id: "users"').click();
-  // Focuses the path field (I tried other methods from codegen, but they don't work and probably rely on some JS hover somewhere)
-  await firebaseAdminPage.getByText('homeusers').click();
+  if (isMobile) {
+    await firebaseAdminPage.getByRole('button', { name: 'home' }).hover();
+    await firebaseAdminPage.getByRole('button', { name: 'edit', exact: true }).click();
+  } else {
+    // Focuses the path field (I tried other methods from codegen, but they don't work and probably rely on some JS hover somewhere)
+    await firebaseAdminPage.getByText('homeusers').click();
+  }
   // Grant clipboard permissions to browser context
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   const handle = await firebaseAdminPage.evaluateHandle(() => navigator.clipboard.readText());
@@ -247,15 +254,17 @@ export async function pay({
   page,
   context,
   type,
-  firstName
+  firstName,
+  isMobile
 }: {
   context: BrowserContext;
   page: Page;
   type: TestType;
   firstName: string;
+  isMobile: boolean;
 }) {
   if (type === 'local') {
-    await makeSuperfan({ context, firstName });
+    await makeSuperfan({ context, firstName, isMobile });
     await pretendToHavePaidWithRedirect({ page });
     await page.bringToFront();
   } else {
