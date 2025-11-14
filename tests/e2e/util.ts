@@ -16,7 +16,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { TestOptions, TestType } from '../../playwright.config';
+import type { TestOptions } from '../../playwright.config';
 // import credentials from './credentials.json' assert { type: 'json' };
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const credentials = JSON.parse(await readFile(resolve(__dirname, 'credentials.json'), 'utf8'));
@@ -24,20 +24,6 @@ const credentials = JSON.parse(await readFile(resolve(__dirname, 'credentials.js
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 let accessToken: string;
-
-export type TestParameters = {
-  browser: Browser;
-  baseURL: string;
-  type: TestType;
-  isMobile: boolean;
-  localize?: (key: string) => string;
-};
-
-export type TestContext = PlaywrightTestArgs &
-  PlaywrightTestOptions &
-  TestOptions &
-  PlaywrightWorkerArgs &
-  PlaywrightWorkerOptions;
 
 export async function openEmail({
   context,
@@ -152,6 +138,10 @@ export function t(locale: string, key: string, vars?: Record<string, string>) {
   return Object.keys(vars).reduce((s, k) => s.replace(new RegExp(`{${k}}`, 'g'), vars[k]), val);
 }
 
+/**
+ * TODO: refactor using direct firebase admin APIs (./api/firebase.ts)
+ * @param param0
+ */
 export async function makeSuperfan({
   context,
   firstName,
@@ -210,20 +200,24 @@ export async function makeSuperfan({
 }
 
 export async function payOnStripeWithBancontactRedirect({
-  page
+  page,
+  l
 }: {
   /**
    * WTMG payment page
    */
   page: Page;
+  l: (key: string) => string;
 }) {
   // Fill in the Stripe payment details
   await page
     .locator('iframe[src^="https://js.stripe.com/v3/elements-inner-payment"]')
     .contentFrame()
-    .getByPlaceholder('First and last name')
-    .fill('Test ga');
-  await page.getByRole('button', { name: 'Pay now' }).click();
+    // .getByPlaceholder(l('first-and-last')) // it seems Stripe changed this?
+    .getByRole('textbox', { name: l('first-and-last') })
+    // .fill('Test ga'); // note: this should be properly prefilled now
+    .click();
+  await page.getByRole('button', { name: l('pay-now') }).click();
   await page.getByRole('link', { name: 'Authorize Test Payment' }).click();
 }
 
@@ -253,22 +247,24 @@ export async function pretendToHavePaidWithRedirect({ page }: { page: Page }) {
 export async function pay({
   page,
   context,
-  type,
+  useStripe,
   firstName,
-  isMobile
+  isMobile,
+  l
 }: {
   context: BrowserContext;
   page: Page;
-  type: TestType;
+  useStripe: boolean;
   firstName: string;
   isMobile: boolean;
+  l: (key: string) => string;
 }) {
-  if (type === 'local') {
+  if (!useStripe) {
     await makeSuperfan({ context, firstName, isMobile });
     await pretendToHavePaidWithRedirect({ page });
     await page.bringToFront();
   } else {
-    await payOnStripeWithBancontactRedirect({ page });
+    await payOnStripeWithBancontactRedirect({ page, l });
   }
 }
 

@@ -1,5 +1,4 @@
-import { expect, type Browser, type BrowserContext, type Page } from '@playwright/test';
-import type { TestType } from '../../playwright.config';
+import { expect, type BrowserContext, type Page } from '@playwright/test';
 import { openEmail } from './util';
 import { GenericFlow } from './GenericFlow';
 

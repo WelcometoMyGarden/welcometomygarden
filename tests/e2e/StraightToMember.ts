@@ -1,4 +1,4 @@
-import type { BrowserContext, Page } from '@playwright/test';
+import { expect, type BrowserContext, type Page } from '@playwright/test';
 import { pay } from './util';
 import { GenericFlow } from './GenericFlow';
 
@@ -18,6 +18,14 @@ export class StraightToMemberTest extends GenericFlow {
   }) {
     // Go to the home page
     await page.goto(this.baseURL);
+    // Allow Svelte to hydrate before attempting the rest, otherwise
+    // - the click handler for the sidebar menu will not have any effect yet
+    // - hydration unchecks the membership terms consent checkbox later
+    // wait for "add your garden" to be visible as a proxy for full script load... it's a little flaky
+    // but the "load" event fires too soon
+    await expect(page.getByRole('link', { name: this.l('add-your-garden') })).toBeVisible();
+    // await page.waitForLoadState();
+    //
     // Go to the About membership page in the navbar
     if (this.isMobile) {
       // on mobile, the side navbar must first be opened
@@ -33,8 +41,6 @@ export class StraightToMemberTest extends GenericFlow {
       .locator('#media')
       .getByRole('link', { name: this.l('become-member-button') })
       .click();
-    // Allow Svelte to hydrate before attempting the rest, otherwise hydration unchecks the checkbox
-    await page.waitForLoadState();
     // Try to become a member (should not work)
     await page.getByRole('button', { name: this.l('become-member-button'), exact: true }).click();
     // Check the box
@@ -60,7 +66,14 @@ export class StraightToMemberTest extends GenericFlow {
 
     // Check that the page auto-redirects to the payment page
     await page.waitForURL('**/become-member/payment/**');
-    await pay({ page, context, type: this.type, firstName: 'Robot', isMobile: this.isMobile });
+    await pay({
+      page,
+      context,
+      useStripe: this.useStripe,
+      firstName: 'Robot',
+      isMobile: this.isMobile,
+      l: this.l.bind(this)
+    });
     // Check that you are redirected to the Thank You page
     await page.waitForURL('**/become-member/thank-you');
   }

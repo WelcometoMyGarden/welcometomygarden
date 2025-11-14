@@ -1,3 +1,4 @@
+import envIsTrue from '$lib/util/env-is-true';
 import { defineConfig, devices, type PlaywrightTestConfig } from '@playwright/test';
 import { config } from 'dotenv';
 import { resolve } from 'path';
@@ -6,11 +7,7 @@ config({ path: resolve(process.cwd(), '.env.test.local') });
 
 const USE_SLOWMO = process.env.USE_SLOWMO ?? false;
 
-// Edit in .env.test.local
-const IS_STAGING = process.env.TEST_ENV === 'staging';
-
-// Whether to use the preview server
-const LOCAL_BASE_URL = process.env.LOCAL_BASE_URL;
+const BASE_URL = process.env.BASE_URL;
 
 const slowMoChromium = USE_SLOWMO
   ? // ...devices['Desktop Chrome'],
@@ -32,7 +29,7 @@ const localWebServers = [
           // [ ] Also change when testing this:
           //  - FRONTEND_URL in api/.env.local
           //  - PUBLIC_WTMG_HOST in .env.local
-          url: LOCAL_BASE_URL,
+          url: BASE_URL,
           // Option B
           // Vite preview server
           // command: 'npm run build:demo && npm run preview',
@@ -46,7 +43,7 @@ const localWebServers = [
         {
           command: 'zsh -il -c "yarn dev"',
           // Health check URL
-          url: LOCAL_BASE_URL,
+          url: BASE_URL,
           reuseExistingServer: !process.env.CI,
           stdout: 'pipe' as const
         }
@@ -71,17 +68,18 @@ const localWebServers = [
   }
 ] satisfies PlaywrightTestConfig['webServer'][];
 
-export type TestType = 'staging' | 'local';
 export type TestLocale = 'en' | 'fr';
 
 export type TestOptions = {
-  type: TestType;
+  useStripe: boolean;
+  useDemoProject: boolean;
 };
 export const defaultOptions = {
-  // custom option
-  type: 'local' as TestType,
+  // custom options
+  useStripe: envIsTrue(process.env.USE_STRIPE) ?? false,
+  useDemoProject: envIsTrue(process.env.USE_DEMO_PROJECT) ?? true,
   // built-in option https://playwright.dev/docs/api/class-testoptions#test-options-base-url
-  baseURL: LOCAL_BASE_URL,
+  baseURL: BASE_URL,
   // built-in option https://playwright.dev/docs/api/class-testoptions#test-options-locale
   // also sets the built-in browser locale
   locale: (process.env.TEST_LOCALE || 'en') as TestLocale
@@ -90,40 +88,22 @@ export const defaultOptions = {
 export default defineConfig<TestOptions>({
   testDir: './tests/e2e',
   timeout: 80 * 1000,
-  // Ideally we would use a "local" and a "staging " project, but the webServer is not changeable per project
-  // see https://github.com/microsoft/playwright/issues/22496
-  // Thus, we use an env-var dependent setup. Change the env var in .env.test.local
-  ...(IS_STAGING
-    ? ({
-        use: {
-          baseURL: 'https://staging.welcometomygarden.org',
-          ...slowMoChromium
-        }
-      } satisfies PlaywrightTestConfig)
-    : ({
-        webServer: localWebServers,
-        use: {
-          ...defaultOptions,
-          ...slowMoChromium
-        }
-      } satisfies PlaywrightTestConfig)),
-  // We're making this a property independent of the env var, so it can be statically
-  // detected by the VSCode extension
+  webServer: localWebServers,
+  use: {
+    ...defaultOptions,
+    ...slowMoChromium
+  },
   globalTeardown: './tests/e2e/global-teardown',
   projects: [
     // `type` is a custom option, and it looks like only
     // projects can be parameterized with custom options.
     // See https://playwright.dev/docs/test-parameterize#parameterized-projects
     {
-      name: 'Desktop',
-      use: {
-        type: IS_STAGING ? 'staging' : 'local'
-      }
+      name: 'Desktop'
     },
     {
       name: 'Mobile',
       use: {
-        type: IS_STAGING ? 'staging' : 'local',
         ...devices['Pixel 4']
       }
     }

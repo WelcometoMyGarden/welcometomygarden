@@ -51,5 +51,8 @@
   "city": "Ville",
   "description": "Description",
   "update-garden": "Mettre à jour le jardin",
-  "space-for-tent": "Place pour 1 tente"
+  "space-for-tent": "Place pour 1 tente",
+  // Payment page
+  "first-and-last": "Nom complet",
+  "pay-now": "Payer maintenant"
 }

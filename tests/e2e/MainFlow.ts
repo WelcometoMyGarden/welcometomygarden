@@ -1,7 +1,10 @@
-import { type Browser, type BrowserContext, type Page, expect } from '@playwright/test';
+import { type BrowserContext, type Page, expect } from '@playwright/test';
 import { deleteAccount, openEmail, pay } from './util';
-import { type TestType } from '../../playwright.config';
 import { GenericFlow } from './GenericFlow';
+import stripe from './api/stripe';
+import { auth, db } from './api/firebase';
+import type { DocumentReference } from 'firebase-admin/firestore';
+import type { UserPrivate } from '$lib/models/User';
 
 /**
  * A test flow that tests the main, including some detailed redirect handling.
@@ -176,13 +179,41 @@ export class MainFlowTest extends GenericFlow {
     await pay({
       page: page,
       context,
-      type: this.type,
+      useStripe: this.useStripe,
       firstName: 'Robot2',
-      isMobile: this.isMobile
+      isMobile: this.isMobile,
+      l: this.l.bind(this)
     });
 
     // Wait until the original chat loads
     await page.waitForURL('**/chat/**');
+
+    // Run internal assertions
+    if (this.useStripe) {
+      // allow Stripe some time to process the customer creation
+      // await page.waitForTimeout(5000);
+      const authUser = await auth.getUserByEmail(email);
+      const userPrivateData = (
+        await (
+          db.collection('users-private').doc(authUser.uid) as DocumentReference<
+            UserPrivate,
+            UserPrivate
+          >
+        ).get()
+      ).data();
+      if (!userPrivateData) {
+        console.error("Couldn't get auth data");
+      }
+      const customerId = userPrivateData?.stripeCustomerId!;
+      const customer = await stripe.customers.retrieve(customerId);
+      // const customer = (await stripe.customers.list({ email })).data[0];
+      if (!customer) {
+        console.error('Stripe Customer not found in staging mode');
+      } else {
+        expect(customer.preferred_locales[0]).toEqual(this.locale);
+      }
+    }
+
     // Type a message
     await page.getByPlaceholder(this.l('type-message-placeholder')).click();
     await page
@@ -196,7 +227,7 @@ export class MainFlowTest extends GenericFlow {
   async test() {
     let robot1Email = '';
     let robot2Email = '';
-    if (this.type === 'local') {
+    if (!this.useStripe) {
       robot1Email = 'test+robot1@slowby.travel';
       robot2Email = 'test+robot2@slowby.travel';
     } else {
@@ -255,7 +286,7 @@ export class MainFlowTest extends GenericFlow {
     await robot2ChatPage.getByText('Yes, sure!');
 
     // Delete accounts so that the exact map spot that we need will not have two gardens
-    if (this.type === 'staging') {
+    if (!this.useDemoProject) {
       await deleteAccount({ page: wtmgPage1, firstName: 'Robot1', l: this.l.bind(this) });
       await deleteAccount({ page: robot2ChatPage, firstName: 'Robot2', l: this.l.bind(this) });
     }

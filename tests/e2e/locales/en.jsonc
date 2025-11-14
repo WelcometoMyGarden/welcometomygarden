@@ -48,5 +48,8 @@
   "city": "City",
   "description": "Description",
   "update-garden": "Update your garden",
-  "space-for-tent": "Space for 1 tent"
+  "space-for-tent": "Space for 1 tent",
+  // Payment page
+  "first-and-last": "First and last name",
+  "pay-now": "Pay now"
 }

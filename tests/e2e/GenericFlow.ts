@@ -1,5 +1,4 @@
 import type { Browser } from '@playwright/test';
-import type { TestType } from '../../playwright.config';
 import { t } from './util';
 
 /**
@@ -8,7 +7,8 @@ import { t } from './util';
 export type TestContext = {
   browser: Browser;
   baseURL: string | undefined;
-  type: TestType;
+  useStripe: boolean;
+  useDemoProject: boolean;
   locale: string | undefined;
   isMobile: boolean;
 };
@@ -18,20 +18,25 @@ const localizeUrl = (locale: string, url: string) => `${url}${locale === 'en' ? 
 export class GenericFlow {
   protected browser: Browser;
   protected baseURL: string;
-  protected type: TestType = 'local';
+  protected useStripe: boolean;
+  protected useDemoProject: boolean;
   protected emailPlatform: 'mailpit' | 'gmail';
   /**
    * String localizer
    */
   protected l: (key: string) => string;
+  protected locale: string;
   protected isMobile: boolean;
 
   constructor(args: TestContext) {
     this.browser = args.browser;
     this.baseURL = localizeUrl(args.locale!, args.baseURL!);
-    this.type = args.type;
+    this.useStripe = args.useStripe;
+    this.useDemoProject = args.useDemoProject;
+    this.locale = args.locale ?? 'en';
     this.l = (key: string) => (args.locale ? t(args.locale, key) : key);
-    this.emailPlatform = this.type === 'local' ? 'mailpit' : 'gmail';
+    // this.emailPlatform = this.type === 'local' ? 'mailpit' : 'gmail';
+    this.emailPlatform = 'mailpit';
     this.isMobile = args.isMobile;
   }
 }
