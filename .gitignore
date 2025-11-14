@@ -13,7 +13,7 @@ lerna-debug.log*
 # Config
 package-lock.json
 .env*
-!.env.example
+!.env*.example
 wtmg.config.json
 vite.config.ts.timestamp*
 
@@ -63,3 +63,6 @@ node_modules
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+android
+ios

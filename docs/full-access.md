@@ -18,21 +18,31 @@ firebase login:add
 firebase login:use <your_wtmg_email>
 ```
 
-### Switching between staging & production
+### Switching between, local, staging & production environments
+
+In Firebase, a "project" is roughly the equivalent of an "environment". Projects starting with `demo-` names are special local-only projects.
 
 ```bash
-# Check if you have the right projects available
+# Check the available project.
 firebase projects:list
 
-# Specify the project you want to target ("wtmg-dev" a.k.a. "staging" or "wtmg-production" a.k.a. "prod")
+# Specify the default project you want to target with Firebase commands ("wtmg-dev" a.k.a. "staging" or "wtmg-production" a.k.a. "prod")
 firebase use wtmg-dev
 ```
+
+You may pass the `--project` flag to switch the target project per command individually.
+
+[.firebaserc](../.firebaserc) defines [aliases](https://firebase.google.com/docs/cli/#project_aliases) for our local (demo), staging and production projects. Note that the alias you use determines the env variables that are loaded for emulators. If you have an env var called `.env.staging`, you must use `--project staging` (which is an alias to wtmg-dev) and not `--project wtmg-dev`.
+
+## Integrating with Stripe
+
+See the separate [./stripe.md](./stripe.md) notes.
 
 ## Environment variables explained
 
 ### Frontend (SvelteKit)
 
-Create a `.env.development.local` file and make sure it has the values specified in [`.env.example`](https://github.com/WelcometoMyGarden/welcometomygarden/blob/master/.env.example). This allows you to develop with the local Firebase "demo" project.
+Create a `.env.development.local` file in the root and make sure it has the values specified in [`.env.example`](https://github.com/WelcometoMyGarden/welcometomygarden/blob/master/.env.example). This allows you to develop with the local Firebase "demo" project.
 
 SvelteKit uses Vite, and hence also [Vite env modes via dotenv](https://vitejs.dev/guide/env-and-mode.html#modes) behind the scenes. To test/debug cloud messaging via FCM, you need to connect to the remote `wtmg-dev` staging environment, and have the right values set up in `.env.staging.local`. This will be used by the `dev:staging` in NPM.
 
@@ -46,7 +56,8 @@ You will need several environment files for the backend in the `api` directory: 
 
 **For Stripe (subscriptions integration)**
 
-- `STRIPE_SECRET_KEY` & `STRIPE_WEBHOOK_SECRET`: backend keys for Stripe. Use test keys when developing. - `sendgrid.send_key`: a SendGrid API key, only used to send email. We currently use these in both staging and production environments, so that we can reuse created Dynamic Templates. **This might result in hard-to-test scenarios regarding unsubscribe group emails** (production SendGrid groups will not affect the staging contacts)
+- `STRIPE_SECRET_KEY` & `STRIPE_WEBHOOK_SECRET`: backend keys for Stripe. Use test or sandbox keys when developing.
+- `sendgrid.send_key`: a SendGrid API key, only used to send email. We currently use these in both staging and production environments, so that we can reuse created Dynamic Templates. **This might result in hard-to-test scenarios regarding unsubscribe group emails** (production SendGrid groups will not affect the staging contacts)
 - `STRIPE_VERSION`: the Stripe API version number (including the plant suffix) to be used for both the Node.js API and the webhook event decoding. This is used in handling [updates to versions](https://docs.stripe.com/webhooks/versioning). Webhook event versions are parsed from the `?version` query parameter of a webhook
 
 **For SendGrid (email sending & contact syncing)**

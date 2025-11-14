@@ -104,15 +104,18 @@ There are some backend unit and integration tests. The test running procedure is
 
 ### Front-end unit & Firestore rules tests
 
-Some firestore rules unit tests live in `./tests/unit/firestore-rules.test.ts`. To run them from the root directory:
+Some Firestore rules unit tests live in `./tests/unit/firestore-rules.test.ts`.
+
+To run them individually from the root directory with a command that first starts up Firebase auth & firestore emulators:
 
 ```
-cd api && echo 'cd .. && yarn test:unit' > runtests.sh && firebase --project demo-test emulators:exec --ui --only auth,firestore ./runtests.sh; cd -
+echo 'yarn test:unit' > runtests.sh && chmod u+x runtests.sh;
+firebase --project demo-test emulators:exec --ui --only auth,firestore ./runtests.sh;
 ```
 
-### E2E tests
+### End-to-end tests
 
-[Playwright](https://playwright.dev/) is set up for e2e testing, and contains a few tests for core functionality.
+[Playwright](https://playwright.dev/) is set up for end-to-end (e2e) testing, and contains a few tests for core functionality.
 
 After running `yarn install`, also install the testing browsers:
 
@@ -120,9 +123,14 @@ After running `yarn install`, also install the testing browsers:
 yarn dlx playwright install
 ```
 
-To run the tests, use the VSCode Playwright Extension, or `yarn test:e2e`.
+And, set up the test configuration `.env.test.local` in the root based on `.env.test.local.example`.
 
-To change whether the tests should start a local dev env or target staging, change the TEST_ENV variable in .env.test.local.
+The most convenient procedure to run tests locally is:
+
+1. Start demo Firebase emulators (`yarn firebase:demo`) and the default Vite dev server (`yarn dev`). These two are also the default VSCode Build Task.
+2. Run (selected) tests using the VSCode Playwright Extension
+
+Alternatively, the CLI command `yarn test:e2e` can be used too. If demo/dev servers are not running, and tests are configured to use them, then the Playwright config will try to start up these environments first before starting tests.
 
 To develop new tests, you can make use of the [codegen features](https://playwright.dev/docs/codegen#record-at-cursor) and [debugging inspector](https://playwright.dev/docs/debug#playwright-inspector). It's convenient to first start a local (empty) dev environment, and then start debug runs or use "Record at cursor" using the Playwright extension in VSCode, since booting up the dev env takes some time, and Playwright will reuse the existing environment.
 

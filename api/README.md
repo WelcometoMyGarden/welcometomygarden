@@ -1,4 +1,4 @@
-This inner package houses the Firebase Cloud Functions of WTMG's Firebase backend.
+This subproject houses the Firebase Cloud Functions of WTMG's Firebase backend.
 
 ## Install
 
@@ -28,136 +28,59 @@ The `storage-resize-images` extension (see below) has limited functionality in e
 
 **Dev server troubleshooting**
 
-Sometimes the dev servers don't quit properly, and remain handing. On a restart, they will complain that the port of a certain emulator is already taken.
+Sometimes the Firebase emulators don't quit properly, and cause "port already in use" issues when you try to start them again.
 
-On macOS/Linux, you can kill the process listening on that port with:
-
-```bash
-lsof -ti tcp:8080 | xargs kill
-
-# Or, if we're desperate:
-lsof -ti tcp:8080 | xargs kill -9
-```
-
-In the root, there is also a ./killemulators.sh script that will try to kill all Firebase-related processes.
-
-## Running the Stripe dev environment
-
-The Stripe integration was set up with the core ideas from this guide: [https://stripe.com/docs/billing/subscriptions/build-subscriptions?ui=elements](https://stripe.com/docs/billing/subscriptions/build-subscriptions?ui=elements), however, we're using `collection_method: 'send_invoice'` when creating subscriptions instead, and not the default auto-charge method.
-
-This changes the way that Stripe operates on subscriptions & invoices significantly, so the real code differs from the guide.
-
-Documentation is detailed and extensive, but also scattered. These additional resource may help:
-
-### Testing the integration
-
-**Test config**
-
-Ensure the testing private secret and webhook secret are filled in `./.runtimeconfig.json`, and that the frontend has access to the publishable test key.
-
-**Set up local webhooks**
-
-Refer to the Stripe guide to set up local Stripe webhook triggers: https://stripe.com/docs/webhooks/test
-o.
-
-First, [install the CLI](https://stripe.com/docs/stripe-cli) & log in.
-
-```bash
-stripe login
-```
-
-Then, refer webhook events to your local function emulators.
-
-If another live testing webhook listener is already active, disable it first, to avoid having duplicate handlers for events:
-
-(the HTTP endpoint will be printed when starting the firebase dev servers)
-
-1. Disable the main live test endpoint of the (temporarily) at https://dashboard.stripe.com/test/webhooks
-2. Take over its events locally by running:
-
-   ```bash
-   stripe listen --events customer.subscription.created,customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.created,invoice.paid,payment_intent.processing,payment_intent.payment_failed --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/handleStripeWebhookV2
-   ```
-
-   In case you want to test an (event) API version update, also pass -l for the latest events.
-
-3. Verify that `/wtmg-dev/` in the URL above matches your current Firebase emulator project (did you run `firebase use wtmg-dev` before running Firebase emulators? Or are you using `/demo-test/`?). Also verify that the API emulator is active, with .env (`VITE_USE_API_EMULATOR=true`);
-
-If you get an api-key-expired error, you must likely log in again. The authentication expires after 90 days.
-
-NOTE: I've had weird behavior with `--load-from-webhooks-api`, with or without an extra `--events` key specified. Sometimes events got forwarded to the local server, and sometimes not propery (no responses were being logged). It might also depend on the staging endpoint being disabled or not. The above works dependably.
-
-Re-triggering a specific event may be helpful for debugging, it's possible using
-
-```bash
-stripe events resend <event id>
-```
-
-(see [here](https://github.com/stripe/stripe-cli/wiki/events-resend-command))
-
-**Testing payment methods**
-
-See here for fake payment details: https://stripe.com/docs/billing/subscriptions/build-subscriptions?ui=elements&element=payment#test
-
-**Stripe config notes**
-
-- In https://dashboard.stripe.com/settings/billing/automatic, we switched "Email finalised invoices to customers" OFF (default: ON), so we can create our own copy for this email
-- We changed the rules for overdue subscriptions and invoices.
+In the root, there is `./killemulators.sh` script that will try to kill all Firebase-related processes.
 
 ## Running tests
 
-This project uses the [mocha](https://mochajs.org/) test runner, and [sinon](https://sinonjs.org/releases/v17/) for mocking/inspecting objects for tests. Most tests depend on (parts of) a Firebase Emulator environment.
+This project uses the [mocha](https://mochajs.org/) test runner, and [sinon](https://sinonjs.org/releases/v17/) for mocking/inspecting objects for tests.
 
-Run the following example commands from the `api` folder.
+Most tests depend on (parts of) a Firebase Emulator environment, therefore it is convenient to first start a Firebase emulator dev environment independently in a shell, for example with `yarn firebase:demo`. This is useful to develop tests, since the same emulator environment can be preserved while changing application and test code, and no lengthy emulator restarts are required.
 
-### Emulator-independent
+Tests can then be run in another shell using `mocha`. You will need to prepare the mocha shell environment to connect to the local emulators, for example with:
 
-Some unit tests can be run without starting Firebase emulators, because they don't have Firebase dependencies, or their dependencies (like `logger` in from `functions-framework`) work standalone.
-
-```bash
-node_modules/.bin/mocha -w -f 'inbound email parser'
+```sh
+cd api
+export FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099
+export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080
 ```
 
-### Emulator-dependent
+Next, here are some test examples:
+
+```sh
+# Run all tests
+mocha
+
+# To run all the tests from a single file
+mocha test/renewalScheduler.test.js
+
+# Runs tests from the describe() or it() groups that include `onCampsitesWrite`.
+# Use `-w` to watch the tests = re-run on file changes.
+mocha -w -f onCampsitesWrite
+```
+
+**Good to know**
+
+- Disable features you don't need to test in the demo project `.env.local`. For example, SendGrid and Supabase sync are not required and slow down the emulator's operations.
+- `sendInvoice.test.js` and `chargeAutomatically.test.js` only make sense with a Stripe sandbox connected to the local emulator, and are `.skip()`ped by default.
+
+**Starting only selected emulators**
+
+Some tests don't depend on the entire suite of emulators. It is possible to only start a subset. Some examples:
+
+- `mocha -w -f 'inbound email parser'` works completely without emulators, since `logger` in from `functions-framework` works standalone too.
+- `mocha -f sendMessageFromEmail` only needs `auth` & `firestore`, functions/firestore triggers are not required.
+
+It is however safest to start all emulators if you're not sure.
 
 **Emulator calling the tests**
 
-Tests can be run in a single command by using `emulators:exec` to let Firebase Emulators call/fork the tests against its environment.
+Tests can be run in a single command by using `emulators:exec` to let Firebase Emulators call/fork the tests against its environment. In this case, the emulator exports the right emulator env variables (see above). This requires an ad-hoc script file to be created which `emulators:exec` can execute. An example:
 
-To run all tests:
-
-```bash
-echo "node_modules/.bin/mocha"  > runtests.sh && firebase --project demo-test emulators:exec --ui ./runtests.sh
-```
-
-This example runs tests in the group that includes the string `sendMessageFromEmail`.
-To prevent Firestore-triggered functions from running (and potentially slowly hitting SendGrid), this example adds `--only auth,firestore`. Remove this to run the functions anyway for more realistic side-effects.
-
-```bash
-echo "node_modules/.bin/mocha -f sendMessageFromEmail" > runtests.sh && firebase --project demo-test emulators:exec --only auth,firestore --ui ./runtests.sh
-```
-
-Or, when functions or Firestore triggers should also be tested:
-
-```bash
-echo "node_modules/.bin/mocha -w -f onCampsitesWrite" > runtests.sh && firebase --project demo-test emulators:exec --only auth,firestore,functions --ui ./runtests.sh
-```
-
-Running all tests from a single file:
-
-```bash
-echo "node_modules/.bin/mocha test/renewalScheduler.test.js" > runtests.sh && firebase --project demo-test emulators:exec --only auth,firestore --ui ./runtests.sh
-```
-
-**Detached emulator**
-
-It is also possible to start a Emulator dev environment independently in a separate shell, for example with `yarn firebase:demo`. This can be useful to develop tests, since the same emulator environment can be preserved while changing application and test code.
-
-Tests can then be run in another shell using `mocha`. Unlike the forked shell, you will still need to prepare the mocha shell environment to connect to the local emulators, for example with:
-
-```bash
-export FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099
-export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080
+```sh
+echo "node_modules/.bin/mocha" > runtests.sh && chmod u+x runtests.sh &&\
+firebase --project demo-test emulators:exec --ui ./runtests.sh
 ```
 
 ### Testing SendGrid Inbound Parse
