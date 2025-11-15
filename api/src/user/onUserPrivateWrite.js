@@ -12,6 +12,7 @@ const {
 const logger = require('firebase-functions/logger');
 const { auth } = require('../firebase');
 const stripe = require('../subscriptions/stripe');
+const { coerceToSupportedLanguage } = require('../util/mail');
 
 /**
  * @param {FirestoreEvent<Change<DocumentSnapshot<UserPrivate>>, { userId: string; }>} event
@@ -69,13 +70,14 @@ exports.onUserPrivateWrite = async ({ data: change, params }) => {
   if (
     isUpdate &&
     userPrivateAfter.stripeCustomerId &&
-    userPrivateBefore.communicationLanguage !== userPrivateAfter.communicationLanguage &&
+    coerceToSupportedLanguage(userPrivateBefore.communicationLanguage) !==
+      coerceToSupportedLanguage(userPrivateAfter.communicationLanguage) &&
     typeof userPrivateAfter.communicationLanguage === 'string'
   ) {
     // TODO: refactor this to be happening concurrently with the below SendGrid syncing
     try {
       await stripe.customers.update(userPrivateAfter.stripeCustomerId, {
-        preferred_locales: [userPrivateAfter.communicationLanguage]
+        preferred_locales: [coerceToSupportedLanguage(userPrivateAfter.communicationLanguage)]
       });
     } catch (e) {
       logger.warn('Sync of changed communicationLanguage to Stripe failed', {
