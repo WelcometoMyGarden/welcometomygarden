@@ -810,7 +810,7 @@
             },
             "5": {
               "title": "Comment fonctionne le paiement ?",
-              "copy": "Une fois que vous avez choisi le montant que vous souhaitez payer, vous êtes redirigé·e vers la page de paiement. Vous payez pour une année à la fois. Votre abonnement se renouvellera automatiquement, mais vous pouvez annuler le renouvellement automatique à tout moment dans votre {accountLink}. Deux jours avant la date de renouvellement, nous vous notifierons aussi par e-mail de votre renouvellement à venir."
+              "copy": "Une fois que vous avez choisi le montant que vous souhaitez payer, vous êtes redirigé·e vers la page de paiement. Vous payez pour une année à la fois. Votre abonnement se renouvellera automatiquement, mais vous pouvez annuler le renouvellement automatique à tout moment dans votre {accountLink}. Sept jours avant la date de renouvellement, nous vous notifierons aussi par e-mail de votre renouvellement à venir."
             },
             "6": {
               "title": "Comment puis-je gérer, renouveler ou annuler mon adhésion ?",
@@ -987,11 +987,16 @@
     "superfan": {
       "loading-portal": "Chargement du portail...",
       "valid": "Votre adhésion est valable jusqu'au {date}",
-      "just-ended": "Votre adhésion a expiré.<br>Renouvelez-la maintenant et activez le renouvellement automatique (annulable à tout moment).",
       "renew-btn-text": "Renouvelez maintenant",
       "auto-active": "Votre adhésion est active.<br>Renouvellement automatique le {date}.",
       "btn-manage": "Gérer l'adhésion",
-      "auto-canceled": "Votre adhésion est valable jusqu'au {date}.<br>Renouvellement automatique désactivé."
+      "auto-canceled": "Votre adhésion est valable jusqu'au {date}.<br>Renouvellement automatique désactivé.",
+      "send-invoice-just-ended": "Votre adhésion a expiré.<br>Renouvelez-la maintenant et activez le renouvellement automatique (annulable à tout moment).",
+      "charge-automatically": {
+        "update-payment-method": "Mettre à jour le mode de paiement",
+        "expired": "Votre adhésion a expiré.<br>Nous espérons pouvoir continuer à compter sur votre soutien ! 💚",
+        "payment-failed": "Votre adhésion a expirée.<br>Mettez à jour votre mode de paiement pour la renouveler."
+      }
     },
     "verify": {
       "title": "Confirmez votre adresse électronique",
@@ -1322,7 +1327,7 @@
             "copy": {
               "0": "<span class=\"notranslate\">Welcome To My Garden</span> a pour mission de rendre le voyage lent plus accessible. Comme n’importe quel jardin, WTMG a besoin d’être entretenu pour pouvoir grandir et rester en bonne santé. Camper dans le jardin d’un.e hôte de WTMG est gratuit. Cependant, pour maintenir et développer WTMG, WTMG a besoin d’une contribution annuelle des voyageur.ses qui couvrent ainsi leur propre coût d’utilisation. Les voyageur.ses ont donc le choix de devenir soit membre, soit Superfans. Cet abonnement est obligatoire. Les membres ou superfans ne sont pas autorisés à transférer leur login à un tiers. Ils/Elles acceptent les mêmes conditions que tous les utilisateurs et <span class=\"notranslate\">Welcome To My Garden</span> se réserve le droit de refuser, suspendre ou supprimer les comptes des Membres ou Superfans qui ne respectent pas ces conditions.",
               "1": "Les limitations de responsabilité (voir ci-dessous) de <span class=\"notranslate\">Welcome To My Garden</span> en général s'appliquent également à l'utilisation des fonctions supplémentaires pour les membres ou Superfans, ce qui signifie que <span class=\"notranslate\">Welcome To My Garden</span> ne peut être tenu responsable de tout dommage ou perte qui se produirait en raison de l'utilisation de <span class=\"notranslate\">Welcome To My Garden</span>.",
-              "2": "Les abonnements se paient pour une année à la fois. Le prix comprend la TVA de 21% appliquée aux abonnements. Les abonnements sont payés annuellement et se renouvellent automatiquement, sauf s'ils sont annulés par le membre ou par WTMG. Les membres peuvent annuler le renouvellement à tout moment sur leur {accountLink}. Lorsqu'un membre annule un abonnement, seul le renouvellement automatique est annulé. Cela signifie que l'abonnement reste valide jusqu'à la fin de la période déjà payée. Deux jours avant la date de renouvellement, les membres sont informés par e-mail de leur renouvellement à venir. L'abonnement est non remboursable et non transférable à un tiers."
+              "2": "Les abonnements se paient pour une année à la fois. Le prix comprend la TVA de 21% appliquée aux abonnements. Les abonnements sont payés annuellement et se renouvellent automatiquement, sauf s'ils sont annulés par le membre ou par WTMG. Les membres peuvent annuler le renouvellement à tout moment sur leur {accountLink}. Lorsqu'un membre annule un abonnement, seul le renouvellement automatique est annulé. Cela signifie que l'abonnement reste valide jusqu'à la fin de la période déjà payée. Sept jours avant la date de renouvellement, les membres sont informés par e-mail de leur renouvellement à venir. L'abonnement est non remboursable et non transférable à un tiers."
             }
           },
           "7": {

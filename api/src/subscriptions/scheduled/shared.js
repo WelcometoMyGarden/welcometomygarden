@@ -21,8 +21,8 @@ exports.userPrivateDocIds = (docs) => {
 /**
  * Processes the given users-private snapshot by first enriching them with Firebase Auth data,
  * and then calling the user-provided function.
- * Returns for the user when the combined user when the function call succeeds.
- * Returns null for the user when the user Auth data can't be found, or the function call fails.
+ * Returns the combined user data when the function call succeeds.
+ * Returns null when the user Auth data can't be found, or the function call fails.
  *
  * @param {DocumentSnapshot<UserPrivate>[]} userPrivateDocs
  * @param {(combinedUser: {id: string} & Omit<UserRecord, 'toJSON'> & UserPrivate ) => void} processFn

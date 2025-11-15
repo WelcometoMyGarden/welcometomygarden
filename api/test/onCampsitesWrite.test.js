@@ -2,7 +2,7 @@
 const assert = require('node:assert');
 const { Timestamp } = require('firebase-admin/firestore');
 const { db } = require('../seeders/app');
-const { clearAuth, clearFirestore } = require('./util');
+const { clearAuth, clearFirestore } = require('./util/util');
 const { createNewUser, createGarden } = require('../seeders/util');
 const { wait } = require('../src/util/time');
 

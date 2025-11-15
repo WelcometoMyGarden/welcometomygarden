@@ -43,6 +43,10 @@ export const subscriptionJustEnded = derived(
     nowSeconds() < $user.stripeSubscription.currentPeriodStart + 3600 * 24 * 30
 );
 
+/**
+ * Whether the user has a charge_automatically subscription, that is either active
+ * or has not been deleted yet (unpaid last invoice, grace period, superfan = true still)
+ */
 export const hasAutoRenewingSubscription = derived(
   user,
   ($user) =>
@@ -57,7 +61,10 @@ export const canPayRenewalInvoice = derived(
     $user.stripeSubscription &&
     $user.stripeSubscription.latestInvoiceStatus === 'open' &&
     $user.stripeSubscription.renewalInvoiceLink &&
-    // The current second epoch is less than 7 days from the current (= new/unpaid) period start
+    // For send_invoice, this is a double check that we're not past the 7 day grace period
+    // for manual cancellation.
+    // ! The double check matters becuase the === 'open' check is not reliable, see comments on the User model.
+    // The current epoch in seconds is less than 7 days from the current (= new/unpaid) period start
     nowSeconds() < $sevenDayMarkSec
 );
 

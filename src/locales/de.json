@@ -817,7 +817,7 @@
             },
             "5": {
               "title": "Wie funktioniert die Bezahlung?",
-              "copy": "Sobald Sie ausgewählt haben, ob Sie Mitglied oder Superfan werden möchten, werden Sie auf die Zahlungsseite weitergeleitet. Sie zahlen jeweils für ein Jahr. Deine Mitgliedschaft wird automatisch verlängert, aber du kannst die automatische Verlängerung jederzeit auf deiner {accountLink} kündigen. Zwei Tage vor dem Verlängerungsdatum wirst du auch per E-Mail über die bevorstehende Verlängerung informiert."
+              "copy": "Sobald Sie ausgewählt haben, ob Sie Mitglied oder Superfan werden möchten, werden Sie auf die Zahlungsseite weitergeleitet. Sie zahlen jeweils für ein Jahr. Deine Mitgliedschaft wird automatisch verlängert, aber du kannst die automatische Verlängerung jederzeit auf deiner {accountLink} kündigen. Sieben Tage vor dem Verlängerungsdatum wirst du auch per E-Mail über die bevorstehende Verlängerung informiert."
             },
             "6": {
               "copy": "Du kannst deine Mitgliedschaft jederzeit auf deiner {accountLink} verwalten, erneuern oder kündigen. Auf dieser Seite siehst du den aktuellen Status deiner Mitgliedschaft, das Verlängerungs- oder Ablaufdatum sowie Anweisungen, wie du sie kündigen oder erneuern kannst.",
@@ -995,11 +995,16 @@
     "superfan": {
       "loading-portal": "Portal wird geladen...",
       "valid": "Ihre Mitgliedschaft ist gültig bis {date}",
-      "just-ended": "Deine Mitgliedschaft ist abgelaufen.<br>Erneuere sie jetzt und aktiviere die automatische Verlängerung (jederzeit kündbar).",
       "renew-btn-text": "Jetzt erneuern",
       "auto-active": "Deine Mitgliedschaft ist aktiv.<br>Sie wird automatisch am {date} verlängert.",
       "auto-canceled": "Deine Mitgliedschaft ist gültig bis zum {date}.<br>Automatische Verlängerung deaktiviert.",
-      "btn-manage": "Mitgliedschaft verwalten"
+      "btn-manage": "Mitgliedschaft verwalten",
+      "send-invoice-just-ended": "Deine Mitgliedschaft ist abgelaufen.<br>Erneuere sie jetzt und aktiviere die automatische Verlängerung (jederzeit kündbar).",
+      "charge-automatically": {
+        "update-payment-method": "Zahlungsmethode aktualisieren",
+        "expired": "Ihre Mitgliedschaft ist abgelaufen.<br>Wir hoffen, weiterhin auf Ihre Unterstützung zählen zu können! 💚",
+        "payment-failed": "Ihre Mitgliedschaft ist abgelaufen.<br>Aktualisieren Sie Ihre Zahlungsmethode, um sie zu verlängern."
+      }
     },
     "notify": {
       "resend-error": "Wir konnten keine E-Mail zur Kontobestätigung erneut senden. Bitte kontaktieren Sie {support}",
@@ -1311,7 +1316,7 @@
             "copy": {
               "0": "<span class=\"notranslate\">Welcome To My Garden</span> hat es sich zur Aufgabe gemacht, Slow Travel für alle zugänglicher zu machen. Wie jeder Garten muss WTMG gepflegt werden, um zu wachsen und gesund zu bleiben. Der Aufenthalt bei einem WTMG-Gastgeber ist kostenlos. Um WTMG zu erhalten und weiterzuentwickeln, sind wir jedoch auf eine jährliche Mitgliedschaft angewiesen, um die Kosten gerecht auf alle Slow Traveller aufzuteilen. Slow Traveller haben die Wahl, entweder Mitglied oder Superfan zu werden. Diese Mitgliedschaft ist obligatorisch. Mitglieder oder Superfans dürfen ihre Anmeldedaten nicht an Dritte übertragen. Mitglied oder Superfans stimmen denselben Bedingungen wie alle Benutzer zu und <span class=\"notranslate\">Welcome To My Garden</span> behält sich das Recht vor, Konten von Mitglied oder Superfans, die die Bedingungen nicht einhalten, abzulehnen, zu sperren oder zu löschen.",
               "1": "Die Haftungsbeschränkungen (siehe unten) von <span class=\"notranslate\">Welcome To My Garden</span> im Allgemeinen gelten auch für die Verwendung der Zusatzfunktionen für Mitglied oder Superfans, was bedeutet, dass <span class=\"notranslate\">Welcome To My Garden</span> nicht für Schäden oder Verluste verantwortlich gemacht werden kann, die durch die Verwendung von <span class=\"notranslate\">Welcome To My Garden</span> entstehen.",
-              "2": "Slow travellers wählen, ob sie Mitglied (minimaler Beitrag) oder Superfan (zusätzlicher Beitrag) werden möchten. Der Preis beinhaltet 21% Mehrwertsteuer, die auf Mitgliedschaften angewendet wird. Mitgliedschaften werden jährlich bezahlt und automatisch erneuert, es sei denn, sie werden vom Mitglied oder von WTMG gekündigt. Mitglieder können die automatische Verlängerung jederzeit auf ihrer {accountLink} kündigen. Wenn ein Mitglied eine Mitgliedschaft kündigt, wird nur die automatische Verlängerung storniert. Das bedeutet, dass die Mitgliedschaft bis zum Ende des bereits bezahlten Zeitraums gültig bleibt. Zwei Tage vor dem Verlängerungsdatum werden Mitglieder per E-Mail über die bevorstehende Verlängerung informiert. Die Mitgliedschaft ist nicht erstattungsfähig und nicht auf Dritte übertragbar."
+              "2": "Slow travellers wählen, ob sie Mitglied (minimaler Beitrag) oder Superfan (zusätzlicher Beitrag) werden möchten. Der Preis beinhaltet 21% Mehrwertsteuer, die auf Mitgliedschaften angewendet wird. Mitgliedschaften werden jährlich bezahlt und automatisch erneuert, es sei denn, sie werden vom Mitglied oder von WTMG gekündigt. Mitglieder können die automatische Verlängerung jederzeit auf ihrer {accountLink} kündigen. Wenn ein Mitglied eine Mitgliedschaft kündigt, wird nur die automatische Verlängerung storniert. Das bedeutet, dass die Mitgliedschaft bis zum Ende des bereits bezahlten Zeitraums gültig bleibt. Sieben Tage vor dem Verlängerungsdatum werden Mitglieder per E-Mail über die bevorstehende Verlängerung informiert. Die Mitgliedschaft ist nicht erstattungsfähig und nicht auf Dritte übertragbar."
             }
           },
           "7": {

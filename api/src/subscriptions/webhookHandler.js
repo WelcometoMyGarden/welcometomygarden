@@ -11,6 +11,7 @@ const paymentIntentPaymentFailed = require('./stripeEventHandlers/paymentIntentP
 const invoiceCreated = require('./stripeEventHandlers/invoiceCreated');
 const { getStripeVersion } = require('../sharedConfig');
 const subscriptionCreated = require('./stripeEventHandlers/subscriptionCreated');
+const invoiceUpcoming = require('./stripeEventHandlers/invoiceUpcoming');
 
 const stripeWebhookSecretParam = defineString('STRIPE_WEBHOOK_SECRET');
 
@@ -94,9 +95,9 @@ exports.stripeWebhookHandler = async (req, res) => {
     case 'invoice.paid':
       return invoicePaid(event, res);
     case 'invoice.upcoming':
-      // Sent a few days prior to the renewal of the subscription. The number of days is based on the number set for Upcoming renewal events in the Dashboard. You can still add extra invoice items, if needed.
-      // TODO send reminder/announcement email?
-      break;
+      // Sent a few days prior to the renewal of the subscription.
+      // The number of days is based on the number set for Upcoming renewal events in the Dashboard. You can still add extra invoice items, if needed.
+      return invoiceUpcoming(event, res);
     case 'invoice.payment_failed':
       // TODO: does this apply to send_invoice? Don't think so
       // If the payment fails or the customer does not have a valid payment method,

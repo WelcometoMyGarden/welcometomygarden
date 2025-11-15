@@ -2,6 +2,7 @@ const { DateTime } = require('luxon');
 
 const oneHourSecs = 60 * 60;
 const oneDaySecs = 24 * oneHourSecs;
+const oneWeekSecs = 7 * oneDaySecs;
 
 /**
  * The round hour on which this function started (Luxon dateTime)
@@ -29,6 +30,7 @@ module.exports = {
   oneYearAgoSecs,
   oneDaySecs,
   oneHourSecs,
+  oneWeekSecs,
   lxHourStart,
   wait
 };

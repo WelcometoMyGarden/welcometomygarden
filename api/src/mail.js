@@ -463,8 +463,14 @@ exports.sendAbandonedCartReminderEmail = async (email, firstName, language) => {
  * @property {string} language
  */
 
+/** @typedef {Omit<SubscriptionRenewalConfig, "renewalLink"> & {portalLink: string}} AutomaticRenewalConfig */
+
 /**
  * This is the first email that informs members that they can renew.
+ *
+ * In SendGrid: [WTMG] Renewal 7 days before - Manual
+ * (called as such because we give send_invoice renewals 7 days leeway for manual ren)
+ *
  * @param {SubscriptionRenewalConfig} config
  * @returns
  */
@@ -500,6 +506,57 @@ exports.sendSubscriptionRenewalEmail = async (config) => {
 
   if (!canSendMail()) {
     devSend(msg, 'subscriptionRenewalEmail');
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};
+
+/**
+ * This is the first email that informs members on charge_automatically that a renewal is upcoming.
+ * The timing is set in Stripe's dashboard.
+ *
+ * In SendGrid: [WTMG] Renewal 7 days before - Automatic
+ * (called as such because we give send_invoice renewals 7 days leeway for manual ren)
+ *
+ * @param {AutomaticRenewalConfig & {isSEPA: boolean, last4?: string, mandateReference?: string}} config
+ * @returns
+ */
+exports.sendSubscriptionUpcomingRenewalEmail = async (config) => {
+  const { email, firstName, price, portalLink, language, isSEPA, last4, mandateReference } = config;
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-3af2337427784cdfae2eca2842f761f3';
+      break;
+    case 'nl':
+      templateId = 'd-77fb798c3ed54aa9b310b340561648ce';
+      break;
+    default:
+      templateId = 'd-2885dbd9ff094816a1124b739614e9dd';
+      break;
+  }
+
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
+  const msg = {
+    to: email,
+    from: SUPPORT_FROM,
+    templateId,
+    dynamicTemplateData: {
+      firstName,
+      price,
+      portalLink,
+      isSEPA,
+      last4,
+      mandateReference
+    },
+    categories: ['Subscription upcoming renewal email (automatic)']
+  };
+
+  if (!canSendMail()) {
+    devSend(msg, 'subscriptionUpcomingRenewalEmail');
     return Promise.resolve();
   }
 
@@ -549,6 +606,11 @@ exports.sendSubscriptionRenewalReminderEmail = async (config) => {
 };
 
 /**
+ * In SendGrid: [WTMG] Membership ended
+ *
+ * To be used when a send_invoice subscription ends, and when
+ * a charge_automatically subscription ends naturally due to prior cancellation.
+ *
  * @param {string} email
  * @param {string} firstName
  * @param {string} language
@@ -590,12 +652,60 @@ exports.sendSubscriptionEndedEmail = async (email, firstName, language) => {
 };
 
 /**
+ * In SendGrid: [WTMG] Cancellation failed payment
+ *
+ * To be used when a send_invoice subscription ends, and when
+ * a charge_automatically subscription ends naturally due to prior cancellation.
+ *
  * @param {string} email
  * @param {string} firstName
  * @param {string} language
  * @returns
  */
-exports.sendSubscriptionRenewalThankYouEmail = async (email, firstName, language) => {
+exports.sendSubscriptionAllPaymentsFailedEmail = async (email, firstName, language) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-cb1d00d44f8a498496bedf14ff466cf5';
+      break;
+    case 'nl':
+      templateId = 'd-c9a423828faa4ef9b87eedbd620ef23a';
+      break;
+    default:
+      templateId = 'd-dcd0fe5072a14294a66b74768ca2850d';
+      break;
+  }
+
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
+  const msg = {
+    to: email,
+    from: SUPPORT_FROM,
+    templateId,
+    dynamicTemplateData: {
+      firstName,
+      renewalLink: `${frontendUrl()}/about-membership#pricing`
+    },
+    categories: ['Subscription ended email - payments failed (automatic)']
+  };
+
+  if (!canSendMail()) {
+    devSend(msg, 'subscriptionEndedPaymentsFailedEmail');
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};
+
+/**
+ * In SendGrid: [WTMG] Renewal Thank You - Manual
+ * @param {string} email
+ * @param {string} firstName
+ * @param {string} language
+ * @returns
+ */
+exports.sendSubscriptionManualRenewalThankYouEmail = async (email, firstName, language) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -624,6 +734,48 @@ exports.sendSubscriptionRenewalThankYouEmail = async (email, firstName, language
 
   if (!canSendMail()) {
     devSend(msg, 'subscriptionRenewalThankYouEmail');
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};
+
+/**
+ * In SendGrid: [WTMG] Renewal Thank You - Automatic
+ * @param {string} email
+ * @param {string} firstName
+ * @param {string} language
+ * @returns
+ */
+exports.sendSubscriptionAutomaticRenewalThankYouEmail = async (email, firstName, language) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-dddfc8742bcb41b9aeeb7a4bae363070';
+      break;
+    case 'nl':
+      templateId = 'd-60902d1e2ea14100afeb11f7ddfcaee1';
+      break;
+    default:
+      templateId = 'd-485c5a95e3114fd08c4ae8338d50ae66';
+      break;
+  }
+
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
+  const msg = {
+    to: email,
+    from: SUPPORT_FROM,
+    templateId,
+    dynamicTemplateData: {
+      firstName
+    },
+    categories: ['Subscription renewal Thank You email (automatic)']
+  };
+
+  if (!canSendMail()) {
+    devSend(msg, 'subscriptionRenewalAutomaticThankYouEmail');
     return Promise.resolve();
   }
 
@@ -708,6 +860,91 @@ exports.sendSubscriptionCancellationFeedbackEmail = async (email, firstName, lan
 
   if (!canSendMail()) {
     devSend(msg, 'subscriptionCancellationFeedbackEmail');
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};
+
+/**
+
+/**
+ *
+ * @param {Omit<AutomaticRenewalConfig, 'price'>} config does not include/need the price
+ */
+exports.sendCancelledRenewalReminderEmail2DaysEmail = async function (config) {
+  const { email, firstName, portalLink, language } = config;
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-074781163ccb49dd912308adac8c0801';
+      break;
+    case 'nl':
+      templateId = 'd-a8024029914d490b96d9d1a72d94c4fd';
+      break;
+    default:
+      templateId = 'd-8170aba104644efe8f9db5d91d1d7734';
+      break;
+  }
+
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
+  const msg = {
+    to: email,
+    from: SUPPORT_FROM,
+    templateId,
+    dynamicTemplateData: {
+      firstName,
+      portalLink
+    },
+    categories: ['Subscription cancelled renewal reminder 2 days (automatic)']
+  };
+
+  if (!canSendMail()) {
+    devSend(msg, 'subscriptionCancelledRenewalReminderEmail2Days');
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};
+
+/**
+ *
+ * @param {AutomaticRenewalConfig} config
+ */
+exports.sendCancelledRenewalReminderEmail7DaysEmail = async function (config) {
+  const { email, firstName, price, portalLink, language } = config;
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-0f85d6590a8b45abbc91211b81662be1';
+      break;
+    case 'nl':
+      templateId = 'd-24986e98357844e08bcb13eb03e71462';
+      break;
+    default:
+      templateId = 'd-5596675ab31d44d0b80c2b1ca68ef6c7';
+      break;
+  }
+
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
+  const msg = {
+    to: email,
+    from: SUPPORT_FROM,
+    templateId,
+    dynamicTemplateData: {
+      firstName,
+      price,
+      portalLink
+    },
+    categories: ['Subscription cancelled renewal reminder 7 days (automatic)']
+  };
+
+  if (!canSendMail()) {
+    devSend(msg, 'subscriptionCancelledRenewalReminderEmail7Days');
     return Promise.resolve();
   }
 

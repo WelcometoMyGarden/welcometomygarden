@@ -2,7 +2,8 @@ const { logger } = require('firebase-functions/v2');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const {
   sendSubscriptionConfirmationEmail,
-  sendSubscriptionRenewalThankYouEmail
+  sendSubscriptionManualRenewalThankYouEmail,
+  sendSubscriptionAutomaticRenewalThankYouEmail
 } = require('../../mail');
 const { stripeSubscriptionKeys } = require('../constants');
 const { getUserDocRefsWithData } = require('../../firebase');
@@ -13,7 +14,7 @@ const { latestInvoiceStatusKey, paymentProcessingKey, collectionMethodKey } =
   stripeSubscriptionKeys;
 
 /**
- * Mark the user's last invoice as paid
+ * Mark the user's last invoice as paid, sends new subscription or renewal confirmation/thank you emails as needed.
  * Triggers in all cases:
  * 'billing_reason': 'subscription_create', 'subscription_cycle', 'subscription_update', 'subscription_threshold'
  * TODO: Should we check that this _is_ indeed the user's last invoice?
@@ -37,8 +38,12 @@ module.exports = async (event, res) => {
     publicUserProfileData
   } = await getUserDocRefsWithData(uid);
 
-  // Set the user's latest invoice state
+  // Update the user's latest invoice state in Firestore
 
+  // Whether the subscription had a last SEPA payment that was processing
+  // TODO: maybe we can also inspect the change in this Stripe event.
+  // via event.data.previous_attributes.object
+  // Normally the old status should be indicated. Then we don't need this Firestore persistence.
   const paymentWasProcessing =
     privateUserProfileData.stripeSubscription?.paymentProcessing === true;
 
@@ -55,10 +60,12 @@ module.exports = async (event, res) => {
       : Promise.resolve()
   ]);
 
-  // TODO: we should be able to optimize out this call by checking for
+  // NOTE: we should be able to optimize out this call for extra details by checking instead for
   // privateUserProfileData.stripeSubscription.collectionMethod === 'charge_automatically' (or not) below
-  // note that send_invoice will mostly not be set there
-  const subscription = await stripe.subscriptions.retrieve(invoice.subscription);
+  // NOTE: send_invoice will mostly not be set there, it will be undefined in many cases
+  const subscription = await stripe.subscriptions.retrieve(
+    /** @type {string} */ (invoice.subscription)
+  );
 
   // Send confirmation or thank you emails
   // (we already sent these in paymentIntentProcessing.js when `paymentWasProcessing` flag is true)
@@ -72,24 +79,24 @@ module.exports = async (event, res) => {
         invoice.metadata.billing_reason_override === 'subscription_create'
       ) {
         // this is the paid invoice for the first subscription
-        sendSubscriptionConfirmationEmail(
+        await sendSubscriptionConfirmationEmail(
           invoice.customer_email,
           publicUserProfileData.firstName,
           privateUserProfileData.communicationLanguage
         );
-      }
-
-      if (invoice.billing_reason === 'subscription_cycle') {
+      } else if (invoice.billing_reason === 'subscription_cycle') {
         // Overrides of invoices should not be possible on subscription cycles (at the time of writing)
         // But with SEPA Debit, paymentProcessing on renewals is (or should be) possible.
+        const params = /** @type {const} */ ([
+          invoice.customer_email,
+          publicUserProfileData.firstName,
+          privateUserProfileData.communicationLanguage
+        ]);
         if (subscription.collection_method === 'send_invoice') {
-          await sendSubscriptionRenewalThankYouEmail(
-            invoice.customer_email,
-            publicUserProfileData.firstName,
-            privateUserProfileData.communicationLanguage
-          );
+          await sendSubscriptionManualRenewalThankYouEmail(...params);
         } else {
-          // TODO: send email with confirmation of the automatic charge
+          // for a charge_automatically renewal
+          await sendSubscriptionAutomaticRenewalThankYouEmail(...params);
         }
       }
     } catch (e) {
@@ -105,16 +112,20 @@ module.exports = async (event, res) => {
   if (subscription.collection_method === 'send_invoice') {
     // Find a reusable saved payment method
     // NOTE/TODO: it seems that upon the setup_future_usage subscription payment, the reusable payment method is also referred to
-    // in the default_payment_method property on the subscription, so that could be used too (as a first preference).
-    const paymentMethod = (await stripe.customers.listPaymentMethods(invoice.customer)).data.find(
-      (pm) => pm.type === 'sepa_debit' || pm.type === 'card'
-    );
+    // in `subscription.default_payment_method`, so that could be used too (as a first preference).
+    // NOTE 2: if a SEPA subscription payment method is replaced after the first period, using the dashboard, it will
+    // be stored in `customer.invoice_settings.default_payment_method` and `subscription.default_payment_method` will be set to null
+    //
+    // In any case, the payment methods should still be attached to the customer and findable this way?
+    const paymentMethod = (
+      await stripe.customers.listPaymentMethods(/** @type {string} */ (invoice.customer))
+    ).data.find((pm) => pm.type === 'sepa_debit' || pm.type === 'card');
 
     if (paymentMethod) {
-      await stripe.subscriptions.update(invoice.subscription, {
+      await stripe.subscriptions.update(/** @type {string} */ (invoice.subscription), {
         collection_method: 'charge_automatically',
         payment_settings: {
-          // From trial and error, I noticed it is required that the bacontact options (currently only preferred language)
+          // From trial and error, I noticed it is required that the bancontact options (currently only preferred language)
           // are reset to null, otherwise bancontact is somehow assumed to be still present, blocking the change to charge_automatically
           // There are no iDEAL options AFAICS.
           payment_method_options: {

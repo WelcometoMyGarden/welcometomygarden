@@ -74,6 +74,7 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
     ],
     payment_behavior: 'default_incomplete',
     payment_settings: {
+      // TODO: I'm not sure if this is/was wanted here.
       save_default_payment_method: 'on_subscription',
       payment_method_options: {
         // https://stripe.com/docs/api/subscriptions/create#create_subscription-payment_settings-payment_method_options-bancontact-preferred_language
@@ -177,7 +178,9 @@ const changeSubscriptionPrice = async (
     // Expand, so we can immediately edit the invoice
     expand: ['latest_invoice']
   });
-  const proratedInvoice = proratedSubscription.latest_invoice;
+  const proratedInvoice = /** @type {import('stripe').Stripe.Invoice} */ (
+    proratedSubscription.latest_invoice
+  );
   // This will auto-generate a new invoice with prorations, based on the price previous invoice
   // The prorations assume that the previous invoice will still be paid (whether that one was voided or not!)
   // Remove all prorated line items
@@ -193,7 +196,7 @@ const changeSubscriptionPrice = async (
     // Note: these two are connected to an existing subscription.
     invoice: proratedInvoice.id,
     // Required
-    customer: existingSubscription.customer,
+    customer: /** @type {string} */ (existingSubscription.customer),
     subscription: existingSubscription.id,
     // Reuse the same period as the original invoice
     period,
@@ -251,7 +254,7 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
   if (
     typeof priceId !== 'string' ||
     // Allow undefined locales, or a string locale
-    !(locale === null || locale === undefined || typeof locale === 'string')
+    !(locale == null || typeof locale === 'string')
   ) {
     fail('invalid-argument');
   }
@@ -267,7 +270,7 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
       // Store the object for later reference, it might be needed.
       requestedPrice = await stripe.prices.retrieve(priceId);
     } catch (e) {
-      console.error(`An invalid price_id was supplied`);
+      console.error(`An invalid price_id was supplied: ${priceId}`);
       fail('invalid-argument');
     }
   };
@@ -280,7 +283,10 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
     const privateUserProfileData = (await privateUserProfileDocRef.get()).data();
     if (!privateUserProfileData.stripeCustomerId) {
       console.info(`User ${uid} does not yet have a Stripe customer linked to it, creating it.`);
-      const { id: createdCustomerId } = await createStripeCustomer(null, request);
+      const { id: createdCustomerId } = await createStripeCustomer({
+        data: { locale },
+        auth: request.auth
+      });
       customerId = createdCustomerId;
     } else {
       customerId = privateUserProfileData.stripeCustomerId;

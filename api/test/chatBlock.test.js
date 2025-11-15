@@ -5,7 +5,7 @@
 const { faker } = require('@faker-js/faker');
 const assert = require('node:assert');
 const { createNewUser, createGarden, createChat } = require('../seeders/util');
-const { clearAuth, clearFirestore, clearEmails } = require('./util');
+const { clearAuth, clearFirestore, clearEmails } = require('./util/util');
 const { default: fetch } = require('node-fetch');
 const { wait } = require('../src/util/time');
 const { db } = require('../seeders/app');

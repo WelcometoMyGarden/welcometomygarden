@@ -29,7 +29,7 @@ exports.isWTMGPriceId = function (priceId) {
 };
 
 /**
- * @param {import('stripe').Stripe.Invoice} invoice
+ * @param {Omit<import('stripe').Stripe.Invoice, "id">} invoice
  */
 exports.isWTMGInvoice = async (invoice) => {
   const { lines, subscription, amount_paid } = invoice;

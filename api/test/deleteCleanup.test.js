@@ -5,7 +5,7 @@
 // echo "node_modules/.bin/mocha -f deleteCleanup" > runtests.sh && firebase --project demo-test emulators:exec --only auth,functions,firestore,storage --ui ./runtests.sh
 const assert = require('node:assert');
 const { db, auth, storage } = require('../seeders/app');
-const { clearAuth, clearFirestore } = require('./util');
+const { clearAuth, clearFirestore } = require('./util/util');
 const { createNewUser, createChat, createGarden } = require('../seeders/util');
 const { wait } = require('../src/util/time');
 const { faker } = require('@faker-js/faker');

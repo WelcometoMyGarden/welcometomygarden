@@ -452,7 +452,7 @@
             },
             "5": {
               "title": "Hoe gaat de betaling in z’n werk?",
-              "copy": "Zodra je hebt besloten hoeveel je wilt betalen, word je naar de betalingspagina gestuurd. Je betaalt steeds per jaar. Je lidmaatschap wordt automatisch verlengd, maar je kan de automatische verlenging op elk moment op je {accountLink} annuleren. Twee dagen voor de verlengingsdatum informeren we je ook per e-mail over je aankomende verlenging."
+              "copy": "Zodra je hebt besloten hoeveel je wilt betalen, word je naar de betalingspagina gestuurd. Je betaalt steeds per jaar. Je lidmaatschap wordt automatisch verlengd, maar je kan de automatische verlenging op elk moment op je {accountLink} annuleren. Zeven dagen voor de verlengingsdatum informeren we je ook per e-mail over je aankomende verlenging."
             },
             "6": {
               "title": "Hoe kan ik mijn lidmaatschap beheren, verlengen of annuleren?",
@@ -637,11 +637,16 @@
     "superfan": {
       "loading-portal": "Portaal aan het laden...",
       "valid": "Jouw lidmaatschap is geldig tot {date}",
-      "just-ended": "Je lidmaatschap is verlopen.<br>Hernieuw nu en activeer automatische verlengingen (op elk moment opzegbaar).",
       "auto-active": "Je lidmaatschap is actief.<br>Verlengt automatisch op {date}.",
       "btn-manage": "Beheer lidmaatschap",
       "auto-canceled": "Je lidmaatschap is geldig tot {date}.<br>Automatische verlenging uitgeschakeld.",
-      "renew-btn-text": "Hernieuw nu"
+      "renew-btn-text": "Hernieuw nu",
+      "send-invoice-just-ended": "Je lidmaatschap is verlopen.<br>Hernieuw nu en activeer automatische verlengingen (op elk moment opzegbaar).",
+      "charge-automatically": {
+        "update-payment-method": "Betaalmethode bijwerken",
+        "expired": "Je lidmaatschap is afgelopen.<br>We hopen dat we op je steun kunnen blijven rekenen! 💚",
+        "payment-failed": "Je lidmaatschap is verlopen.<br>Werk je betaalmethode bij om het te verlengen."
+      }
     },
     "notify": {
       "resend-error": "We konden geen accountverificatie e-mail sturen. Neem contact op met {support}",
@@ -1327,7 +1332,7 @@
             "copy": {
               "0": "<span class=\"notranslate\">Welcome To My Garden</span> is op een missie om slow travel toegankelijker te maken voor iedereen. Net als elke tuin heeft WTMG verzorging nodig om te groeien en gezond te blijven. Een verblijf bij een WTMG host is gratis. Maar om WTMG te onderhouden en te ontwikkelen, vertrouwen we op een jaarlijks lidmaatschap om de kosten eerlijk te verdelen onder alle trage reizigers. Trage reizigers hebben de keuze om lid of Superfan te worden. Litmaatschap is verplicht. Members of Superfans mogen hun login niet overdragen aan derden. Members of Superfans gaan akkoord met dezelfde <span class=\"notranslate\">Welcome To My Garden</span> gebruikers en <span class=\"notranslate\">Welcome To My Garden</span> behoudt zich het recht voor om accounts van Members of Superfans die niet voldoen aan de voorwaarden te weigeren, op te schorten of te verwijderen.",
               "1": "De beperkingen van aansprakelijkheid (zie hieronder) van <span class=\"notranslate\">Welcome To My Garden</span> in het algemeen gelden ook voor het gebruik van de extra functies voor Members en Superfans, wat betekent dat <span class=\"notranslate\">Welcome To My Garden</span> niet verantwoordelijk kan worden gehouden voor enige schade of verlies dat zou ontstaan als gevolg van het gebruik van <span class=\"notranslate\">Welcome To My Garden</span>.",
-              "2": "De prijs is inclusief 21% BTW op het lidmaatschap. Lidmaatschappen worden jaarlijks betaald en worden automatisch verlengd, tenzij ze worden geannuleerd door het lid of door WTMG. Leden kunnen de verlenging op elk moment op hun {accountLink} annuleren. Wanneer een lid zijn lidmaatschap annuleert, wordt alleen de automatische verlenging geannuleerd. Dit betekent dat het lidmaatschap geldig blijft tot het einde van de al betaalde periode. Twee dagen voor de verlengingsdatum worden leden per e-mail geïnformeerd over de aankomende verlenging. Het WTMG-lidmaatschap kan niet worden terugbetaald en kan niet aan derden worden overgedragen."
+              "2": "De prijs is inclusief 21% BTW op het lidmaatschap. Lidmaatschappen worden jaarlijks betaald en worden automatisch verlengd, tenzij ze worden geannuleerd door het lid of door WTMG. Leden kunnen de verlenging op elk moment op hun {accountLink} annuleren. Wanneer een lid zijn lidmaatschap annuleert, wordt alleen de automatische verlenging geannuleerd. Dit betekent dat het lidmaatschap geldig blijft tot het einde van de al betaalde periode. Zeven dagen voor de verlengingsdatum worden leden per e-mail geïnformeerd over de aankomende verlenging. Het WTMG-lidmaatschap kan niet worden terugbetaald en kan niet aan derden worden overgedragen."
             }
           },
           "7": {

@@ -2,7 +2,8 @@ const { logger } = require('firebase-functions/v2');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const {
   sendSubscriptionConfirmationEmail,
-  sendSubscriptionRenewalThankYouEmail
+  sendSubscriptionManualRenewalThankYouEmail,
+  sendSubscriptionAutomaticRenewalThankYouEmail
 } = require('../../mail');
 const { stripeSubscriptionKeys } = require('../constants');
 const { getUserDocRefsWithData } = require('../../firebase');
@@ -111,7 +112,7 @@ module.exports = async (event, res) => {
     invoice.metadata?.billing_reason_override === 'subscription_create'
   ) {
     logger.log(`Sending subscription confirmation email to ${uid} <${invoice.customer_email}>`);
-    sendSubscriptionConfirmationEmail(
+    await sendSubscriptionConfirmationEmail(
       invoice.customer_email,
       publicUserProfileData.firstName,
       privateUserProfileData.communicationLanguage
@@ -119,15 +120,21 @@ module.exports = async (event, res) => {
   } else if (invoice.billing_reason === 'subscription_cycle') {
     // TODO: charge_automatically SEPA renewal payments should also reach here.
     // We probably want to send them a different email.
+    const params = /** @type {const} */ ([
+      invoice.customer_email,
+      publicUserProfileData.firstName,
+      privateUserProfileData.communicationLanguage
+    ]);
     if (privateUserProfileData.stripeSubscription.collectionMethod !== 'charge_automatically') {
       logger.log(
-        `Sending subscription renewal thank you email to ${uid} <${invoice.customer_email}>`
+        `Sending subscription manual renewal thank you email to ${uid} <${invoice.customer_email}>`
       );
-      await sendSubscriptionRenewalThankYouEmail(
-        invoice.customer_email,
-        publicUserProfileData.firstName,
-        privateUserProfileData.communicationLanguage
+      await sendSubscriptionManualRenewalThankYouEmail(...params);
+    } else {
+      logger.log(
+        `Sending subscription automatic renewal thank you email to ${uid} <${invoice.customer_email}>`
       );
+      await sendSubscriptionAutomaticRenewalThankYouEmail(...params);
     }
   }
 

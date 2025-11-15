@@ -122,7 +122,7 @@
   // TEST DO REPLACE AGAIN
   // let customerPortalLink = 'https://stripe.com';
   onMount(async () => {
-    if ($user?.superfan && $hasAutoRenewingSubscription) {
+    if ($hasAutoRenewingSubscription) {
       const { data } = await createCustomerPortalSession();
       customerPortalLink = data.url;
     }
@@ -132,6 +132,36 @@
     new Intl.DateTimeFormat(locale === 'en' ? 'en-GB' : locale, { dateStyle: 'short' }).format(
       date
     );
+
+  /**
+   * Only call with a loaded member
+   */
+  function invalidMembershipAction() {
+    if (
+      $user!.stripeSubscription?.collectionMethod !== 'charge_automatically' &&
+      $canPayRenewalInvoice
+    ) {
+      // For send_invoice subs that are still in their renewal window.
+      //
+      // this could technically be used in charge_automatically too,
+      // but we want to offer people the option of cancelling their
+      // charge_automatically sub in the portal
+      window.open($user?.stripeSubscription?.renewalInvoiceLink, '_blank');
+    } else if (
+      $user!.stripeSubscription?.collectionMethod === 'charge_automatically' &&
+      $user!.stripeSubscription.latestInvoiceStatus === 'open'
+    ) {
+      // For charge_automatically subs that are still in their renewal window
+      if (customerPortalLink) {
+        window.open(customerPortalLink, '_blank');
+      } else {
+        // portal not loaded yet, do nothing...
+      }
+    } else {
+      // Really expired
+      window.location.href = `${$lr(routes.ABOUT_MEMBERSHIP)}#pricing`;
+    }
+  }
 </script>
 
 <svelte:head>
@@ -225,21 +255,27 @@
           {:else if $user.stripeSubscription && $user.stripeSubscription.currentPeriodStart !== $user.stripeSubscription.startDate}
             <!-- The invalid/expired subscription state is assumed from the alternative of the case above -->
             <!-- Extra qualification: this is not the initial invoice, to exclude manual superfans etc -->
-            <!-- TODO: in charge_automatically we might need to show that some payment errors occurred
-               and a button to the management portal -->
-            <p class="superfan-validity invalid">{@html $_('account.superfan.just-ended')}</p>
-            <Button
-              xxsmall
-              uppercase
-              on:click={() => {
-                if ($canPayRenewalInvoice) {
-                  // Only valid for send_invoice
-                  window.open($user?.stripeSubscription?.renewalInvoiceLink, '_blank');
-                } else {
-                  window.location.href = `${$lr(routes.ABOUT_MEMBERSHIP)}#pricing`;
-                }
-              }}>{$_('account.superfan.renew-btn-text')}</Button
-            >
+            <p class="superfan-validity invalid">
+              {#if $user.stripeSubscription.collectionMethod === 'charge_automatically'}
+                {#if $user.stripeSubscription.latestInvoiceStatus === 'open'}
+                  <!-- If the invoice is still open, we're still in the renewal window
+                        of the current sub
+                  -->
+                  {@html $_('account.superfan.charge-automatically.payment-failed')}
+                {:else}
+                  {@html $_('account.superfan.charge-automatically.expired')}
+                {/if}
+              {:else}
+                {@html $_('account.superfan.send-invoice-just-ended')}
+              {/if}
+            </p>
+            <Button xxsmall uppercase on:click={invalidMembershipAction}>
+              {#if $user.stripeSubscription.collectionMethod === 'charge_automatically' && $user.stripeSubscription.latestInvoiceStatus === 'open'}
+                {$_('account.superfan.charge-automatically.update-payment-method')}
+              {:else}
+                {$_('account.superfan.renew-btn-text')}
+              {/if}
+            </Button>
           {/if}
         </div>
       </section>

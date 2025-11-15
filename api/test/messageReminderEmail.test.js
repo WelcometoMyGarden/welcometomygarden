@@ -1,7 +1,7 @@
 // This test requires the Auth, Firestore and Functions emulators
 const assert = require('node:assert');
 const { Timestamp } = require('firebase-admin/firestore');
-const { clearAuth, clearFirestore } = require('./util');
+const { clearAuth, clearFirestore } = require('./util/util');
 const { createNewUser, createGarden, createChat, sendMessage } = require('../seeders/util');
 const { faker } = require('@faker-js/faker');
 const { setTimeout } = require('node:timers/promises');

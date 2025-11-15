@@ -34,9 +34,8 @@ const MAIN_LANGUAGES = ['en', 'nl', 'fr'];
 exports.coerceToSupportedLanguage = (lang) => {
   if (SUPPORTED_LANGUAGES.includes(lang ?? '')) {
     return lang;
-  } else {
-    return 'en';
   }
+  return 'en';
 };
 
 /**
@@ -47,7 +46,6 @@ exports.coerceToSupportedLanguage = (lang) => {
 exports.coerceToMainLanguage = (lang) => {
   if (MAIN_LANGUAGES.includes(lang ?? '')) {
     return lang;
-  } else {
-    return 'en';
   }
+  return 'en';
 };

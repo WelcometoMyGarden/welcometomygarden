@@ -1,17 +1,19 @@
 const fail = require('../util/fail');
 const stripe = require('./stripe');
 const { auth, db } = require('../firebase');
+const { coerceToSupportedLanguage } = require('../util/mail');
 
 /**
  * Creates a customer in stripe
+ * @param {{data: {locale: string}, auth?: FV2.CallableRequest<any>['auth']}} request
  */
 // The return is consistent. "return true" at the end fixes the ESLint error, but is not reachable.
 // eslint-disable-next-line consistent-return
-exports.createStripeCustomer = async (_, context) => {
-  if (!context.auth) {
+exports.createStripeCustomer = async ({ data: { locale }, auth: authData }) => {
+  if (!auth) {
     return fail('unauthenticated');
   }
-  const { uid } = context.auth;
+  const { uid } = authData;
 
   const { email } = await auth.getUser(uid);
 
@@ -39,7 +41,12 @@ exports.createStripeCustomer = async (_, context) => {
       name: fullName,
       metadata: {
         wtmg_id: uid
-      }
+      },
+      ...(typeof locale === 'string'
+        ? {
+            preferred_locales: [coerceToSupportedLanguage(locale)]
+          }
+        : {})
     });
 
     // Set customer ID

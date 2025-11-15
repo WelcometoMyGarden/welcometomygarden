@@ -1,5 +1,6 @@
 import type { FirebaseGarden, Garden } from '$lib/types/Garden';
 import type { Timestamp } from 'firebase/firestore';
+import type Stripe from 'stripe';
 
 type UserOverwritableProps = {
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -10,17 +11,12 @@ type UserProps = Partial<UserOverwritableProps> & { displayName?: string };
 type StripeSubscription = {
   id: string;
   priceId: string;
-  // https://stripe.com/docs/api/subscriptions/object#subscription_object-status
-  status:
-    | 'active'
-    | 'past_due'
-    | 'unpaid'
-    | 'canceled'
-    | 'incomplete'
-    | 'incomplete_expired'
-    | 'trialing';
-  // https://stripe.com/docs/api/invoices/object#invoice_object-status
-  latestInvoiceStatus: 'draft' | 'open' | 'paid' | 'uncollectible' | 'void';
+  status: Stripe.Subscription.Status;
+  // Note: only since the automic renewal deploy in nov 2025, are latest invoices statuses of
+  // subscription deletions synced. For older cancelled subs, they seem "open", but are actually
+  // "uncollectible" or "void". For invoices with collection_method === 'charge_automatically', it
+  // should always properly set.
+  latestInvoiceStatus: Stripe.Invoice.Status;
   /** Date when the subscription was first created. Date since Unix epoch in seconds */
   startDate: number;
   /** Date since Unix epoch in seconds */
@@ -30,9 +26,12 @@ type StripeSubscription = {
   /** When this subscription is scheduled to be canceled. Date since Unix epoch in seconds */
   cancelAt: number;
   /** Date since Unix epoch in seconds
-   * > If the subscription has been canceled, the date of that cancellation.
+   * > If the subscription has been deleted, then canceled_at inside `customer.subscription.deleted` will be
+   *   reflect the date of that deletion. This does generally not end with the subscription period end.
+   *   - This could be the time that a forced "now" cancellation happened, e.g. due to customer deletion
+   *   - This could be the time that a subscription is automatically deleted due to an unpaid (first) invoice
    * > If the subscription was canceled with cancel_at_period_end,
-   * > canceled_at will reflect the time of the most recent update request,
+   * > canceled_at inside `customer.subscription.updated` will reflect the time of the most recent update request,
    * > not the end of the subscription period when the subscription is automatically moved to a canceled state.
    */
   canceledAt: number;
@@ -48,7 +47,7 @@ type StripeSubscription = {
    * If set, it should only be set to 'charge_automatically'. Undefined means that the old default
    * 'send_invoice' is still in place.
    */
-  collectionMethod: 'send_invoice' | 'charge_automatically' | undefined;
+  collectionMethod: Stripe.Subscription.CollectionMethod | undefined;
 };
 
 export type EmailPreferences = {

@@ -8,6 +8,7 @@ const { getFunctions } = require('firebase-admin/functions');
 const { DateTime } = require('luxon');
 const { FirebaseAuthError } = require('firebase-admin/auth');
 const { omit } = require('lodash');
+const isRandomMixedCase = require('./util/isRandomMixedCase');
 
 /**
  * Throws upon invalid data
@@ -34,6 +35,14 @@ function validateUserData(data) {
       lastName: lastName,
       email
     });
+    fail('invalid-argument');
+  }
+
+  // We've observed that bots fill all three fields
+  if (isRandomMixedCase(firstName) && isRandomMixedCase(lastName) && isRandomMixedCase(reference)) {
+    logger.log(
+      `Considered to be a fake account:\nfirstName: ${firstName}, lastName: ${lastName}, reference: ${reference}`
+    );
     fail('invalid-argument');
   }
 

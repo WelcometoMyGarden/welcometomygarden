@@ -53,7 +53,7 @@ module.exports = async (event, res) => {
     /** @type {string} */ (finalizedInvoice.subscription)
   );
 
-  // In case the subscription is still has the type send_invoice, immediately set the current PaymentIntent up
+  // In case the subscription still has the type send_invoice, immediately set the current PaymentIntent up
   // to collect off-session payments in the future, before sending the email.
   // This is a necessary preparation step to be able to switch the subscription to charge_automatically for the invoice of next year.
   if (subscription.collection_method === 'send_invoice') {

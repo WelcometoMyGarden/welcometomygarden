@@ -7,7 +7,7 @@ const simpleSeed = require('../seeders/simple');
 const { db } = require('../seeders/app');
 const { createChat, createNewUser } = require('../seeders/util');
 const { sendMessageFromEmail } = require('../src/chat');
-const { clearAuth, clearFirestore } = require('./util');
+const { clearAuth, clearFirestore } = require('./util/util');
 const { parseUnpackedInboundEmail } = require('../src/sendgrid/parseInboundEmail');
 
 const pauseForManualCheck = async () => {

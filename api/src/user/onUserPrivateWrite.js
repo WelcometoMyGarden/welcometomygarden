@@ -11,6 +11,7 @@ const {
 } = require('../sharedConfig');
 const logger = require('firebase-functions/logger');
 const { auth } = require('../firebase');
+const stripe = require('../subscriptions/stripe');
 
 /**
  * @param {FirestoreEvent<Change<DocumentSnapshot<UserPrivate>>, { userId: string; }>} event
@@ -22,6 +23,7 @@ exports.onUserPrivateWrite = async ({ data: change, params }) => {
   const uid = params.userId;
 
   const isCreationWrite = !before.exists && after.exists;
+  const isUpdate = before.exists && after.exists;
 
   // Note when we used functions V1: context.auth?.uid is undefined on deletion
   // In V2, a different handler needs to be used if auth info should be accessed.
@@ -63,6 +65,25 @@ exports.onUserPrivateWrite = async ({ data: change, params }) => {
       [sendgridCommunicationLanguageFieldIdParam.value()]: communicationLanguage
     }
   };
+
+  if (
+    isUpdate &&
+    userPrivateAfter.stripeCustomerId &&
+    userPrivateBefore.communicationLanguage !== userPrivateAfter.communicationLanguage &&
+    typeof userPrivateAfter.communicationLanguage === 'string'
+  ) {
+    // TODO: refactor this to be happening concurrently with the below SendGrid syncing
+    try {
+      await stripe.customers.update(userPrivateAfter.stripeCustomerId, {
+        preferred_locales: [userPrivateAfter.communicationLanguage]
+      });
+    } catch (e) {
+      logger.warn('Sync of changed communicationLanguage to Stripe failed', {
+        stripeCustomerId: userPrivateAfter.stripeCustomerId,
+        error: e
+      });
+    }
+  }
 
   if (
     !isContactSyncDisabled() &&

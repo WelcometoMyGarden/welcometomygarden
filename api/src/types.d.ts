@@ -6,6 +6,7 @@ import type { TaskQueue as TQ } from 'firebase-admin/functions';
 import type { Change as Ch } from 'firebase-functions';
 import type { DocumentData } from '@google-cloud/firestore';
 import type { MailDataRequired as MDR } from '@sendgrid/mail';
+import type { ScheduledEvent as SE } from 'firebase-functions/v2/scheduler';
 
 declare global {
   // Shortcuts to often-used types
@@ -118,6 +119,7 @@ declare global {
    */
   declare namespace FV2 {
     type CallableRequest<T = any> = CR<T>;
+    type ScheduledEvent = SE;
   }
 
   // Importing this from the canonical front-end definition leads to an "any" value, not sure why

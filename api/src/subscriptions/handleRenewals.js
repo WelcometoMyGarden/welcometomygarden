@@ -1,14 +1,22 @@
-const cancelUnpaidRenewals = require('./scheduled/cancelUnpaidRenewals');
+const cancelUnpaidManualRenewals = require('./scheduled/cancelUnpaidManualRenewals');
 const { db } = require('../firebase');
 const { stripeSubscriptionKeys } = require('./constants');
-const { oneYearAgoSecs } = require('../util/time');
-const sendRenewalReminders = require('./scheduled/sendRenewalReminders');
-const sendFeedbackEmails = require('./scheduled/sendFeedbackEmails');
+const { oneYearAgoSecs, lxHourStart } = require('../util/time');
+const sendManualRenewalReminders = require('./scheduled/sendManualRenewalReminders');
+const {
+  sendManualRenewalFeedbackEmails,
+  sendAutomaticRenewalFeedbackEmails
+} = require('./scheduled/sendFeedbackEmails');
+const {
+  sendCancelledRenewalReminderEmail7Days,
+  sendCancelledRenewalReminderEmail2Days
+} = require('./scheduled/sendCancelledRenewalReminders');
 
-const { statusKey, latestInvoiceStatusKey, startDateKey } = stripeSubscriptionKeys;
+const { statusKey, latestInvoiceStatusKey, startDateKey, collectionMethodKey, cancelAtKey } =
+  stripeSubscriptionKeys;
 
-exports.handleRenewals = async () => {
-  // Get all users with a subscription that expired, known from the status being "past_due"
+exports.handleManualRenewals = async () => {
+  // Get all users with a send_invoice subscription that expired, known from the status being "past_due"
   // and the start date being over a year ago (365 days).
   // NOTE: this may cause some inconsistencies depending on how Stripe sees a year
   //
@@ -16,7 +24,7 @@ exports.handleRenewals = async () => {
   // We can't do that here because of compound query limitations
   // (e.g. can't combine an == condition with a != condition)
   // https://firebase.google.com/docs/firestore/query-data/queries#limitations
-  const query = /** @type {Query<UserPrivate>} */ (
+  const sendInvoiceQuery = /** @type {Query<UserPrivate>} */ (
     db
       .collection('users-private')
       // The subscription status is "past_due"
@@ -31,9 +39,14 @@ exports.handleRenewals = async () => {
       .where(startDateKey, '<=', oneYearAgoSecs())
   );
 
-  const { docs } = await query.get();
+  const sendInvoiceDocs = (await sendInvoiceQuery.get()).docs.filter(
+    (d) =>
+      // undefined is the expected for value all legacy send_invoice subscriptions
+      d.data().stripeSubscription?.collectionMethod == null ||
+      d.data().stripeSubscription?.collectionMethod !== 'charge_automatically'
+  );
 
-  // Comments here document the renewal process that this function is a part of.
+  // Comments here document the send_invoice renewal process that this function is a part of.
   // (1) the first renewal prompt email is sent when renewal invoice is created
   // for the new period (when the first period ended),
   // `sendSubscriptionRenewalEmail()` in `./stripeEventHandlers/invoiceCreated.js`
@@ -41,13 +54,50 @@ exports.handleRenewals = async () => {
   await Promise.all([
     // (2) Send renewal reminders 5 days after the period ended
     // SG email: "Renewal 2 days before [cancellation]"
-    sendRenewalReminders(docs),
+    sendManualRenewalReminders(sendInvoiceDocs),
     // (3) Fully cancel the subscription in case of no renewal after 7 days
     // `sendSubscriptionEndedEmail()` in `subscriptionDeleted.js` will trigger a deletion notice email
     // SG email: "Membership ended"
-    cancelUnpaidRenewals(docs),
+    cancelUnpaidManualRenewals(sendInvoiceDocs),
     // (4) Send a feedback email after 7 + 5 days
     // SG Email: "Feedback after 5 days [from cancellation]"
-    sendFeedbackEmails()
+    sendManualRenewalFeedbackEmails()
   ]);
+};
+
+/**
+ * The goals of this is to send custom reminders to automatic-renewal users
+ * who still have a cancelled, but still active, subscription that is in its last stages.
+ *
+ * We send an email 7 days before expiration, and one 2 days before.
+ */
+exports.handleAutomaticRenewals = async () => {
+  const chargeAutomaticallyQuery = /** @type {Query<UserPrivate>} */ (
+    db
+      .collection('users-private')
+      // In both cases, the subscription must be active still
+      .where(statusKey, '==', 'active')
+      .where(collectionMethodKey, '==', 'charge_automatically')
+      // cancelAt must have a concrete timestamp in both cases,
+      // which must be at most one week in the future, and not in the past
+      .where(cancelAtKey, '>', lxHourStart.toSeconds())
+      .where(cancelAtKey, '<=', lxHourStart.plus({ week: 1 }).toSeconds())
+  );
+
+  const docs = (await chargeAutomaticallyQuery.get()).docs;
+
+  await Promise.all([
+    sendCancelledRenewalReminderEmail7Days(docs),
+    sendCancelledRenewalReminderEmail2Days(docs),
+    sendAutomaticRenewalFeedbackEmails()
+  ]);
+};
+
+/**
+ * @param {FV2.ScheduledEvent} [_]
+ * @returns {Promise<void>}
+ */
+// eslint-disable-next-line no-unused-vars
+exports.handleRenewals = async (_) => {
+  await Promise.all([this.handleManualRenewals(), this.handleAutomaticRenewals()]);
 };

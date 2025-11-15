@@ -818,7 +818,7 @@
             },
             "5": {
               "title": "¿Cómo funciona el pago?",
-              "copy": "Una vez que hayas elegido si quieres convertirte en miembro o Superfan, serás redirigido a la página de pago. Pagas por un año a la vez. Tu membresía se renovará automáticamente, pero puedes cancelar la renovación automática en cualquier momento desde la {accountLink}. Dos días antes de la fecha de renovación, también te notificaremos por correo electrónico sobre tu próxima renovación."
+              "copy": "Una vez que hayas elegido si quieres convertirte en miembro o Superfan, serás redirigido a la página de pago. Pagas por un año a la vez. Tu membresía se renovará automáticamente, pero puedes cancelar la renovación automática en cualquier momento desde la {accountLink}. Siete días antes de la fecha de renovación, también te notificaremos por correo electrónico sobre tu próxima renovación."
             },
             "6": {
               "copy": "Puedes gestionar, renovar o cancelar tu membresía en cualquier momento desde la {accountLink}. En esta página, verás el estado actual de tu membresía, la fecha de renovación o expiración, y las instrucciones sobre cómo cancelarla o renovarla.",
@@ -996,11 +996,16 @@
     "superfan": {
       "loading-portal": "Cargando portal...",
       "valid": "Tu aficiliación es válida hasta el {date}",
-      "just-ended": "Tu membresía ha expirado.<br>Renueva ahora y activa la renovación automática (puedes cancelarla en cualquier momento).",
       "renew-btn-text": "Renueva ahora",
       "auto-active": "Tu membresía está activa.<br>Se renovará automáticamente el {date}.",
       "auto-canceled": "Tu membresía es válida hasta el {date}.<br>Renovación automática desactivada.",
-      "btn-manage": "Administrar membresía"
+      "btn-manage": "Administrar membresía",
+      "send-invoice-just-ended": "Tu membresía ha expirado.<br>Renueva ahora y activa la renovación automática (puedes cancelarla en cualquier momento).",
+      "charge-automatically": {
+        "update-payment-method": "Actualizar método de pago",
+        "expired": "Su membresía ha expirado.<br>¡Esperamos poder seguir contando con su apoyo! 💚",
+        "payment-failed": "Su membresía ha expirado.<br>Actualice su método de pago para renovarla."
+      }
     },
     "notify": {
       "resend-error": "No pudimos reenviar un correo electrónico de verificación de cuenta. Por favor contacta con {support}",
@@ -1312,7 +1317,7 @@
             "copy": {
               "0": "<span class=\"notranslate\">Welcome To My Garden</span> tiene la misión de hacer que los viajes lentos sean más accesibles para todos. Como cualquier jardín, WTMG necesita cuidados para crecer y mantenerse saludable. Alojarse en un anfitrión WTMG es gratis. Sin embargo, para mantener y desarrollar WTMG, dependemos de una membresía anual para dividir los costos de manera justa entre todos los viajeros lentos. Los viajeros lentos tienen la opción de convertirse en miembros o superfans. Esta membresía es obligatoria. Los miembros o Superfans no pueden transferir su inicio de sesión a un tercero. Los miembros o Superfans aceptan los mismos términos de todos los usuarios y <span class=\"notranslate\">Welcome To My Garden</span> se reserva el derecho de rechazar, suspender o eliminar cuentas de miembros o Superfans que no cumplan con los términos.",
               "1": "Las limitaciones de responsabilidad (ver más abajo) de <span class=\"notranslate\">Welcome To My Garden</span> en general también se aplican al uso de funciones adicionales para miembros o Superfans significa que <span class=\"notranslate\">Welcome To My Garden</span> no se hace responsable de ningún daño o pérdida que pudiera ocurrir debido al uso de <span class=\"notranslate\">Welcome To My Garden</span>",
-              "2": "Los viajeros eligen si desean hacerse Miembros (contribución mínima) o Superfans (contribución adicional). El precio incluye el 21% de IVA aplicado a las membresías. Las membresías se pagan anualmente y se renuevan automáticamente, a menos que sean canceladas por el miembro o por WTMG. Los miembros pueden cancelar la renovación en cualquier momento desde la {accountLink}. Cuando un miembro cancela una membresía, solo se cancela la renovación automática. Esto significa que la membresía seguirá siendo válida hasta el final del período ya pagado. Dos días antes de la fecha de renovación, los miembros recibirán una notificación por correo electrónico sobre la próxima renovación. La membresía no es reembolsable ni transferible a un tercero."
+              "2": "Los viajeros eligen si desean hacerse Miembros (contribución mínima) o Superfans (contribución adicional). El precio incluye el 21% de IVA aplicado a las membresías. Las membresías se pagan anualmente y se renuevan automáticamente, a menos que sean canceladas por el miembro o por WTMG. Los miembros pueden cancelar la renovación en cualquier momento desde la {accountLink}. Cuando un miembro cancela una membresía, solo se cancela la renovación automática. Esto significa que la membresía seguirá siendo válida hasta el final del período ya pagado. Siete días antes de la fecha de renovación, los miembros recibirán una notificación por correo electrónico sobre la próxima renovación. La membresía no es reembolsable ni transferible a un tercero."
             }
           },
           "7": {
