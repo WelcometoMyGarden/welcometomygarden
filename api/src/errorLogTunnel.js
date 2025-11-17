@@ -1,6 +1,6 @@
 const { logger } = require('firebase-functions/v2');
 const { default: fetch } = require('node-fetch');
-const { sentryHost } = require('./sharedConfig');
+const { sentryHost, glitchtipKey } = require('./sharedConfig');
 
 /**
  * See https://docs.sentry.io/platforms/javascript/troubleshooting/#using-the-tunnel-option
@@ -29,7 +29,7 @@ exports.errorLogTunnel = async (req, res) => {
       throw new Error(`Invalid sentry hostname: ${dsn.hostname}`);
     }
 
-    const upstream_sentry_url = `https://${SENTRY_HOST}/api/${project_id}/envelope/`;
+    const upstream_sentry_url = `https://${SENTRY_HOST}/api/${project_id}/envelope/?glitchtip_key=${glitchtipKey.value()}`;
 
     // See https://forum.sentry.io/t/real-client-ip-with-sentry-nextjs-tunnel/15438/2
     const forwardedEnvelope = [

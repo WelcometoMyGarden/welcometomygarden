@@ -63,3 +63,4 @@ exports.shouldReplicateRuntime = () => !supabaseDisableReplicationParam.value();
 
 // SENTRY
 exports.sentryHost = defineString('SENTRY_HOST');
+exports.glitchtipKey = defineString('GLITCHTIP_KEY', { default: '' });
