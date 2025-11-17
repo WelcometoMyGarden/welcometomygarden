@@ -31,8 +31,8 @@ export default defineConfig(({ command, mode }): UserConfig => {
         ? [
             sentrySvelteKit({
               sourceMapsUploadOptions: {
-                org: 'sentry',
-                project: 'welcome-to-my-garden',
+                org: 'Welcome To My Garden',
+                project: 'WTMG Front-end',
                 url: `${sentryUrl.protocol}//${sentryUrl.host}`,
                 authToken: process.env.SENTRY_AUTH_TOKEN
               }
