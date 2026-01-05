@@ -63,16 +63,18 @@ exports.requestPasswordReset = async (request) => {
   if (!email) fail('invalid-argument');
 
   try {
-    const exists = await auth.getUserByEmail(email);
-    if (!exists) return { message: 'Password reset request received', success: true };
+    const user = await auth.getUserByEmail(email);
+    const successResponse = { message: 'Password reset request received', success: true };
+
+    // Even if there is no user with this email, pretend like the request was successfully handled,
+    // to prevent email enumeration attacks
+    if (!user) return successResponse;
+
     const link = await auth.generatePasswordResetLink(email, {
       url: `${frontendUrl()}/reset-password`
     });
-
-    const user = await auth.getUserByEmail(email);
     await sendPasswordResetEmail(email, user.displayName, link);
-
-    return { message: 'Password reset request received', success: true };
+    return successResponse;
   } catch (e) {
     fail('invalid-argument');
   }
