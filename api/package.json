@@ -61,5 +61,5 @@
     "sinon": "^19.0.2"
   },
   "private": true,
-  "packageManager": "yarn@3.5.0"
+  "packageManager": "yarn@4.9.0"
 }
