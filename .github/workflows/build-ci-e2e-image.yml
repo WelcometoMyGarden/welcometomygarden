@@ -5,9 +5,11 @@ name: Build CI E2E test image
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - ci/Dockerfile.ci
+      # Self-referential, to ensure updates work
+      - .github/workflows/build-ci-e2e-image.yml
 
 env:
   IMAGE_NAME: wtmg-e2e-ci
@@ -31,6 +33,8 @@ jobs:
       - name: Push image
         run: |
           IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
+          # Change to lowercase, everything incl. the repository_owner name has to be lowercase
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
           VERSION=latest
           echo IMAGE_ID=$IMAGE_ID
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
