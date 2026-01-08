@@ -1,3 +1,7 @@
+import pkg from 'maplibre-gl';
+import type { IControl, Map } from 'maplibre-gl';
+const { Evented } = pkg;
+
 // This is the  v2.x TS FullscreenControl version, which includes a `fullscreenstart` and `fullscreenend` event.
 // Dependencies were inlined
 // https://github.com/maplibre/maplibre-gl-js/blob/c03607bad8a0d6574e9738b23fa84f3620713df5/src/ui/control/fullscreen_control.ts
@@ -58,10 +62,6 @@ function warnOnce(message: string) {
   // Not once, but OK
   console.warn(message);
 }
-
-import pkg from 'maplibre-gl';
-const { Evented } = pkg;
-import type { IControl, Map } from 'maplibre-gl';
 
 // https://github.com/maplibre/maplibre-gl-js/blob/c03607bad8a0d6574e9738b23fa84f3620713df5/src/ui/map.ts#L128
 /**

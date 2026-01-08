@@ -5,7 +5,7 @@
   import { getContext } from 'svelte';
   import { bbox } from '@turf/bbox';
   import key from './mapbox-context.js';
-  import { ZOOM_LEVELS } from '$lib/constants.js';
+  import { ZOOM_LEVELS } from '$lib/constants';
   import type { FileDataLayer } from '$lib/types/DataLayer';
   import * as Sentry from '@sentry/sveltekit';
 

@@ -9,7 +9,7 @@ import {
 import { browser } from '$app/environment';
 import { getCookie } from '$lib/util';
 import { isBot } from 'ua-parser-js/helpers';
-import { redirect } from '@sveltejs/kit';
+
 //
 // Prerender on the root layout: default SSG for the whole app.
 export const prerender = true;

@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
-  import type { LongLat } from '$lib/types/Garden.js';
-  import { lr } from '$lib/util/translation-helpers.js';
+  import type { LongLat } from '$lib/types/Garden';
+  import { writable, derived } from 'svelte/store';
+  import { lr } from '$lib/util/translation-helpers';
   import { page } from '$app/stores';
   export type ContextType = { getMap: () => maplibregl.Map };
   export const currentPosition = writable<LongLat | null>(null);
@@ -30,16 +31,15 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   import key from './mapbox-context.js';
 
   import 'maplibre-gl/dist/maplibre-gl.css';
-  import { DEFAULT_MAP_STYLE, ZOOM_LEVELS } from '$lib/constants.js';
-  import FullscreenControl from './FullscreenControl.js';
-  import { isFullscreen } from '$lib/stores/fullscreen.js';
-  import { user } from '$lib/stores/auth.js';
-  import { hasEnabledNotificationsOnCurrentDevice } from '$lib/api/push-registrations.js';
-  import { derived, writable } from 'svelte/store';
-  import { isOnIDevicePWA } from '$lib/util/push-registrations.js';
+  import { DEFAULT_MAP_STYLE, ZOOM_LEVELS } from '$lib/constants';
+  import FullscreenControl from './FullscreenControl';
+  import { isFullscreen } from '$lib/stores/fullscreen';
+  import { user } from '$lib/stores/auth';
+  import { hasEnabledNotificationsOnCurrentDevice } from '$lib/api/push-registrations';
+  import { isOnIDevicePWA } from '$lib/util/push-registrations';
   import { beforeNavigate } from '$app/navigation';
-  import routes from '$lib/routes.js';
-  import createUrl from '$lib/util/create-url.js';
+  import routes from '$lib/routes';
+  import createUrl from '$lib/util/create-url';
 
   export let lat: number;
   export let lon: number;

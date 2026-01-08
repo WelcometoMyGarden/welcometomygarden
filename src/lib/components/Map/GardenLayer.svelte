@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Garden } from '$lib/types/Garden.js';
+  import type { Garden } from '$lib/types/Garden';
   import type { ContextType } from './Map.svelte';
   import type maplibregl from 'maplibre-gl';
   import type GeoJSON from 'geojson';

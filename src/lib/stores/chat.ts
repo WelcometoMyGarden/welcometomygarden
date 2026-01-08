@@ -1,5 +1,5 @@
 import type { NewConversation, LocalChat, LocalMessage } from '$lib/types/Chat';
-import { user } from './auth.js';
+import { user } from './auth';
 import { writable, get, derived } from 'svelte/store';
 
 export const hasInitialized = writable(false);

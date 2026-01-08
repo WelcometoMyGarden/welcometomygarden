@@ -3,11 +3,8 @@
   import '$lib/styles/global.css';
   import * as Sentry from '@sentry/sveltekit';
 
-  import { keyboardEvent } from '$lib/stores/keyboardEvent';
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
-  import { isFullscreen } from '$lib/stores/fullscreen';
-  import { appHasLoaded, coercedLocale, rootModal, staticAppHasLoaded } from '$lib/stores/app';
   import Modal from 'svelte-simple-modal';
   import { onNavigate } from '$app/navigation';
   import trackEvent, { registerCustomPropertyTracker } from '$lib/util/track-plausible';
@@ -16,13 +13,15 @@
   import { _, locale } from 'svelte-i18n';
   import { initialize as initializeFirebase } from '$lib/api/firebase';
   import { PlausibleEvent } from '$lib/types/Plausible.js';
-  import { initializeUser } from '$lib/stores/user.js';
   import Meta from '$lib/components/SEO/Meta.svelte';
   import { SUPPORTED_LANGUAGES } from '$lib/types/general.js';
-  import { urlPathPrefix } from '$lib/util/translation-helpers.js';
-  import { activeUnlocalizedPath } from '$lib/routes.js';
+  import { urlPathPrefix } from '$lib/util/translation-helpers';
+  import { activeUnlocalizedPath, activeRootPath } from '$lib/routes';
   import { PUBLIC_WTMG_HOST } from '$env/static/public';
-  import { activeRootPath } from '$lib/routes.js';
+  import { initializeUser } from '$lib/stores/user';
+  import { staticAppHasLoaded, appHasLoaded, coercedLocale, rootModal } from '$lib/stores/app';
+  import { keyboardEvent } from '$lib/stores/keyboardEvent';
+  import { isFullscreen } from '$lib/stores/fullscreen';
 
   if (browser) {
     initializeFirebase()
