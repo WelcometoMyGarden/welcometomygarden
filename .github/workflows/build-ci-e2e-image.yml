@@ -5,9 +5,11 @@ name: Build CI E2E test image
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - ci/Dockerfile.ci
+      # Self-referential, to ensure updates work
+      - .github/workflows/build-ci-e2e-image.yml
 
 env:
   IMAGE_NAME: wtmg-e2e-ci
