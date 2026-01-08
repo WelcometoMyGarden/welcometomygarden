@@ -1,0 +1,19 @@
+# This helps simulating/testing Github Action Runner's steps after the ci container
+# without reinstalling dependencies inside the container for code change.
+FROM wtmgci:latest
+
+COPY package.json yarn.lock .yarnrc.yml firebase.json  ./
+COPY api/package.json api/yarn.lock ./api/
+
+# We are copying firebase.json above because we need to modify it.
+# Non-logged in emulator projects do not support extensions
+# see https://github.com/firebase/firebase-tools/issues/5510
+RUN sed -i -z 's/,\n[[:space:]]*"extensions": {\n[[:space:]]*"storage-resize-images": "firebase\/storage-resize-images@[0-9]\+\.[0-9]\+\.[0-9]\+"\n[[:space:]]*}\n//g' firebase.json
+
+RUN yarn install --immutable \
+  && cd api && yarn install --immutable && cd ..
+
+# node
+# Installing with root and running with the 'node' user doesn't work locally
+# especially if we map files into it
+# USER 1000

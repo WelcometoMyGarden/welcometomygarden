@@ -7,12 +7,20 @@ const {
   onDocumentDeleted,
   onDocumentCreatedWithAuthContext
 } = require('firebase-functions/v2/firestore');
+const { projectID } = require('firebase-functions/params');
 
 const admin = require('firebase-admin');
 
 // Initialization conflicts may arise with seeders/app.js
 if (!admin.apps.length) {
-  admin.initializeApp();
+  if (projectID.value().startsWith('demo-')) {
+    // This is used as a potentially hacky way to make getFunctions.taskQueue(...).enqueue(...)
+    // work locally in an emulator (or in CI) _without_ requiring a log-in to Firebase/Google
+    // The admin SDK also does this internally, but still hangs on an auth attempt.
+    admin.initializeApp({ serviceAccountId: 'emulated-service-acct@email.com' });
+  } else {
+    admin.initializeApp();
+  }
 }
 
 const { region: regionV1 } = require('firebase-functions/v1');

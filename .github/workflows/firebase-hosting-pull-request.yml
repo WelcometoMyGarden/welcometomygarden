@@ -15,7 +15,8 @@ on:
       - CONTRIBUTING.md
       - SECURITY.md
       # We don't have automated front-end tests.
-      - tests
+      - tests/**
+      - ci/**
 jobs:
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'

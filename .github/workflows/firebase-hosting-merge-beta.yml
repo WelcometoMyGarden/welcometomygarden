@@ -16,7 +16,8 @@ on:
       - CONTRIBUTING.md
       - SECURITY.md
       # We don't have automated front-end tests.
-      - tests
+      - tests/**
+      - ci/**
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest

@@ -17,7 +17,11 @@ on:
       - CONTRIBUTING.md
       - SECURITY.md
       # We don't have automated front-end tests.
-      - tests
+      - tests/**
+      - ci/**
+      # Changes to build & test workflows should not run prod deployments
+      - .github/workflows/test*
+      - .github/workflows/build*
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest

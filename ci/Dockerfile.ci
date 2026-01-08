@@ -1,0 +1,28 @@
+# This image sets up the dependencies to run e2e tests with the emulator.
+# At the moment of writing, Playwright does not support Debian Trixie
+FROM node:20.11.0-bookworm
+
+# openjdk-21-jdk is only available in Debian Trixie, not in Bookwork.
+# but the latest firebase-tools requires it. So, we install adoptium builds
+# https://firebase.google.com/docs/emulator-suite/install_and_configure#install_the_local_emulator_suite
+# https://adoptium.net/installation/linux/#deb-installation-on-debian-or-ubuntu
+RUN apt-get update && apt-get install -y wget apt-transport-https gpg \
+  && wget -qO - https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor | tee /etc/apt/trusted.gpg.d/adoptium.gpg > /dev/null \
+  && echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | tee /etc/apt/sources.list.d/adoptium.list \
+  && apt-get update && apt-get install -y temurin-21-jdk \
+  # Install mailpit
+  && curl -fsSL https://raw.githubusercontent.com/axllent/mailpit/develop/install.sh | sh
+
+WORKDIR /app
+
+# Install playwright, deps & the Chromium browser
+# https://playwright.dev/docs/browsers#install-system-dependencies
+RUN npx -y playwright@1.52.0 install --with-deps chromium
+
+# Install dependencies: corepack for yarn & global firebase tools
+RUN corepack enable \
+  && npm i -g firebase-tools@15.1.0 \
+  # the pubsub emulator is used for scheduled functions and is not required here
+  && firebase setup:emulators:firestore \
+  && firebase setup:emulators:storage \
+  && firebase setup:emulators:ui
