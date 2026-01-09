@@ -4,6 +4,8 @@ on:
     branches:
       - master
     paths-ignore:
+      # Because the build of this Dockerfile will always need to precede this workflow
+      - ci/Dockerfile.ci
       - .gitignore
       - docs/**
       - '*.md'
@@ -11,6 +13,8 @@ on:
     branches:
       - master
     paths-ignore:
+      # Because the build of this Dockerfile will always need to precede this workflow
+      - ci/Dockerfile.ci
       - .gitignore
       - docs/**
       - docs/**

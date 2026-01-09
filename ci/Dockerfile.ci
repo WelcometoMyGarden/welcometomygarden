@@ -38,10 +38,7 @@ RUN npm i -g firebase-tools@15.1.0
 # Allow node to create files in /app (like .yarn, otherwise this will fail)
 RUN chown -R node:node /app
 
-# Switch to 'node'
-USER 1000
-
-# Download & install Firebase emulators (they will be installed for the node (1000) user)
+# Download & install Firebase emulators (they will be installed for the root user)
 # The pubsub emulator is used for scheduled functions and is not required here
 RUN firebase setup:emulators:firestore \
   && firebase setup:emulators:storage \
