@@ -26,7 +26,6 @@ jobs:
     environment: e2e-test-emulators
     container:
       image: ghcr.io/welcometomygarden/wtmg-e2e-ci:latest
-      options: --user 1000
       env:
         SENTRY_DSN: ${{vars.SENTRY_DSN}}
         SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
