@@ -4873,7 +4873,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/geojson@npm:^7946.0.10, @types/geojson@npm:^7946.0.14":
+"@types/geojson@npm:^7946.0.10, @types/geojson@npm:^7946.0.14, @types/geojson@npm:^7946.0.16":
   version: 7946.0.16
   resolution: "@types/geojson@npm:7946.0.16"
   checksum: 10/34d07421bdd60e7b99fa265441d17ac6e9aef48e3ce22d04324127d0de1daf7fbaa0bd3be1cece2092eb6995f21da84afa5231e24621a2910ff7340bc98f496f
@@ -10692,6 +10692,7 @@ __metadata:
     "@sveltejs/vite-plugin-svelte": "npm:^3.1.2"
     "@tmcw/togeojson": "npm:^5.8.1"
     "@turf/turf": "npm:^7.1.0"
+    "@types/geojson": "npm:^7946.0.16"
     "@types/lodash-es": "npm:^4.17.12"
     "@types/md5": "npm:^2.3.5"
     "@types/nprogress": "npm:^0.2.3"

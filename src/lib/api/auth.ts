@@ -24,7 +24,7 @@ import {
   doc,
   type DocumentReference,
   type DocumentSnapshot,
-  FirestoreError,
+  type FirestoreError,
   onSnapshot
 } from 'firebase/firestore';
 import notify from '$lib/stores/notification';

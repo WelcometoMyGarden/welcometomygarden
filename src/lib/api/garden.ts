@@ -28,8 +28,6 @@ import type {
   GardenToAdd
 } from '$lib/types/Garden';
 import { get } from 'svelte/store';
-import { getToken } from 'firebase/app-check';
-import * as Sentry from '@sentry/sveltekit';
 
 /**
  * Get a single garden, if it exists and is listed. Returns `null` otherwise.

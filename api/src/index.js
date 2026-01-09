@@ -13,6 +13,8 @@ const admin = require('firebase-admin');
 
 // Initialization conflicts may arise with seeders/app.js
 if (!admin.apps.length) {
+  // this will warn: params.PROJECT_ID.value() invoked during function deployment, instead of during runtime
+  // This is usually a mistake. In configs, use Params directly without calling .value().
   if (projectID.value().startsWith('demo-')) {
     // This is used as a potentially hacky way to make getFunctions.taskQueue(...).enqueue(...)
     // work locally in an emulator (or in CI) _without_ requiring a log-in to Firebase/Google

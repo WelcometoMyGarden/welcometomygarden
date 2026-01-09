@@ -391,6 +391,8 @@
   {:else}
     No user!
   {/if}
+  <!-- Unused slot, just to get rid of a compile-time warning -->
+  <slot />
 </PaddedSection>
 
 <style>
