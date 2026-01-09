@@ -104,16 +104,20 @@ export class MainFlowTest extends GenericFlow {
       .getByRole('navigation')
       .getByRole('link', { name: this.l('map-link-text') })
       .click();
-    // Search for & click the existing added garden
-    await page.getByPlaceholder(this.l('search-city-placeholder')).fill('brussel');
-    await page.getByPlaceholder(this.l('search-city-placeholder')).press('Enter');
 
     if (this.isMobile) {
-      // It's in the way to see what is going on
+      // Close the notice, because it's in the way to see what is going on
+      // this needs to be closed BEFORE searching. On CI, it is is otherwise taking focus away from
+      // the search results -> they are never found. Not sure why this only happened on CI.
       await page.getByRole('button', { name: 'Close notice' }).click();
     }
 
-    await page.getByRole('button', { name: this.l('brussels-button'), exact: true }).click();
+    // Search for & click the existing added garden, this will auto-search (typeahead)
+    await page.getByPlaceholder(this.l('search-city-placeholder')).fill('brussel');
+
+    const topResult = page.getByRole('button', { name: this.l('brussels-button'), exact: true });
+    await expect(topResult).toBeVisible({ timeout: 3000 });
+    await topResult.click();
 
     // Probably assumes the default context: {viewport: { <size> }}
     // Wait for the zoom

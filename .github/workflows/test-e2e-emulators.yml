@@ -1,0 +1,49 @@
+name: Run Playwright Tests
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - .gitignore
+      - docs/**
+      - '*.md'
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - .gitignore
+      - docs/**
+      - docs/**
+      - '*.md'
+jobs:
+  playwright:
+    name: 'Playwright Tests'
+    runs-on: ubuntu-24.04
+    environment: e2e-test-emulators
+    container:
+      image: ghcr.io/welcometomygarden/wtmg-e2e-ci:latest
+      options: --user 1000
+      env:
+        SENTRY_DSN: ${{vars.SENTRY_DSN}}
+        SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
+        MAPBOX_ACCESS_TOKEN: ${{secrets.MAPBOX_ACCESS_TOKEN}}
+        THUNDERFOREST_API_KEY: ${{secrets.THUNDERFOREST_API_KEY}}
+        STRIPE_PUBLISHABLE_KEY: ${{secrets.STRIPE_PUBLISHABLE_KEY}}
+    # Gotchas: https://docs.github.com/en/actions/reference/workflows-and-actions/dockerfile-support
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          # We don't supply a node version here, because we want to use the one in wtmg-e2e-ci
+          # We do want the caching though
+          cache: yarn
+      - name: Install dependencies
+        run: yarn install --immutable && cd api && yarn install --immutable && cd ..
+      - name: Setup environment
+        run: |
+          sed -i -z \
+            's/,\n[[:space:]]*"extensions": {\n[[:space:]]*"storage-resize-images": "firebase\/storage-resize-images@[0-9]\+\.[0-9]\+\.[0-9]\+"\n[[:space:]]*}\n//g' \
+            firebase.json && \
+          ./ci/fill-envs.sh
+      - name: Run your tests
+        run: npx playwright test --project Mobile

@@ -1,4 +1,4 @@
-import type { Browser } from '@playwright/test';
+import type { Browser, TestInfo } from '@playwright/test';
 import { t } from './util';
 
 /**
@@ -11,6 +11,7 @@ export type TestContext = {
   useDemoProject: boolean;
   locale: string | undefined;
   isMobile: boolean;
+  testInfo: TestInfo;
 };
 
 const localizeUrl = (locale: string, url: string) => `${url}${locale === 'en' ? '' : `/${locale}`}`;
@@ -27,6 +28,7 @@ export class GenericFlow {
   protected l: (key: string) => string;
   protected locale: string;
   protected isMobile: boolean;
+  protected testInfo: TestInfo;
 
   constructor(args: TestContext) {
     this.browser = args.browser;
@@ -38,5 +40,6 @@ export class GenericFlow {
     // this.emailPlatform = this.type === 'local' ? 'mailpit' : 'gmail';
     this.emailPlatform = 'mailpit';
     this.isMobile = args.isMobile;
+    this.testInfo = args.testInfo;
   }
 }

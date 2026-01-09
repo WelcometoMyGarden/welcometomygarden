@@ -4,7 +4,6 @@ import { type TestOptions } from '../../playwright.config';
 import { MainFlowTest } from './MainFlow';
 import { StraightToMemberTest } from './StraightToMember';
 import { GardenManageTest } from './GardenManage';
-import { auth } from './api/firebase';
 
 const test = base.extend<TestOptions>({
   useStripe: [false, { option: true }],
@@ -26,8 +25,15 @@ test.afterEach(async ({ useDemoProject }) => {
 
 // Destructuring of the test arguments is mandatory in Playwright
 
-test('main flow', async ({ browser, baseURL, useStripe, useDemoProject, locale, isMobile }) => {
-  const context = { browser, baseURL, useStripe, useDemoProject, locale, isMobile };
+test('main flow', async ({
+  browser,
+  baseURL,
+  useStripe,
+  useDemoProject,
+  locale,
+  isMobile
+}, testInfo) => {
+  const context = { browser, baseURL, useStripe, useDemoProject, locale, isMobile, testInfo };
   const flow = new MainFlowTest(context);
   await flow.test();
 });

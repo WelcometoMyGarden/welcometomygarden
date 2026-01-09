@@ -7,6 +7,8 @@ on:
     # Since this action only deploys the front-end SvelteKit SPA
     # backend resources can be ignored.
     paths-ignore:
+      - .gitignore
+      - playwright.config.ts
       # An updated backend shouldn't trigger deploys
       - api/**
       # We don't have automated Firestore rules deploys yet.
@@ -16,7 +18,7 @@ on:
       - README.md
       - CONTRIBUTING.md
       - SECURITY.md
-      # We don't have automated front-end tests.
+      # We don't block a deploy on failed tests yet
       - tests/**
       - ci/**
       # Changes to build & test workflows should not run prod deployments

@@ -1,0 +1,45 @@
+# This sets up E2E tests with emulators in a contained environment, based on the wtmg-e2e-ci container
+# The idea is to locally test the required steps that would need to be taken in a Github Action Runner VM on each new deploy/CI run
+
+FROM wtmg-e2e-ci:latest
+
+# Simulate the "Checkout step"
+
+# Ensure the directories & files are writable by node (1000)
+# >>>>>> FRONTEND
+COPY --chown=1000:1000 \
+  # Package manager
+  package.json yarn.lock .yarnrc.yml \
+  # Firebase-related
+  firebase.json .firebaserc storage.rules firestore.rules  \
+  # Project config
+  svelte.config.js tsconfig.json vite.config.ts playwright.config.ts \
+  # Target
+  ./
+COPY --chown=1000:1000 src src/
+COPY --chown=1000:1000 static static/
+COPY --chown=1000:1000 tests tests/
+COPY --chown=1000:1000 plugins plugins/
+# >>>>>> BACKEND
+COPY --chown=1000:1000 \
+  # Package manager
+  api/package.json api/yarn.lock api/.yarnrc.yml \
+  # Project config
+  api/eslint.config.js api/.eslintrc.json api/jsconfig.json \
+  # Target
+  ./api/
+# Source (note: excludes test & seeders folders for now)
+COPY --chown=1000:1000 api/src ./api/src/
+
+# Install dependencies
+RUN yarn install --immutable && cd api && yarn install --immutable && cd ..
+
+# Prepare runtime environment
+# We are copying firebase.json above because we need to modify it.
+# Non-logged in emulator projects do not support extensions, see https://github.com/firebase/firebase-tools/issues/5510
+RUN sed -i -z 's/,\n[[:space:]]*"extensions": {\n[[:space:]]*"storage-resize-images": "firebase\/storage-resize-images@[0-9]\+\.[0-9]\+\.[0-9]\+"\n[[:space:]]*}\n//g' firebase.json
+# Copy env templates
+COPY --chown=1000:1000 ci ci/
+
+ENTRYPOINT [ "/bin/bash", "-c" ]
+CMD [ "./ci/fill-envs.sh && npx playwright test --project Mobile"]
