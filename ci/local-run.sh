@@ -8,7 +8,6 @@ cd $(dirname $0)/..
 docker run --rm -it  \
 -p 9323:9323 \
 --env-file ci/.env.local \
---user 1000 \
 wtmg-e2e-local:latest "$@"
 cd -
 

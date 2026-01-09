@@ -42,11 +42,30 @@ jobs:
           cache: yarn
       - name: Install dependencies
         run: yarn install --immutable && cd api && yarn install --immutable && cd ..
-      - name: Setup environment
+      ###### TODO: replace this, and its prepare-source equivalent, by GIT-LFS
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: '>= 363.0.0'
+          project_id: 'wtmg-production'
+      - name: Use gcloud CLI
+        run: gsutil -m cp -r gs://wtmg-static/assets src/lib
+        shell: bash
+      ######
+      - name: Set up environment
         run: |
           sed -i -z \
             's/,\n[[:space:]]*"extensions": {\n[[:space:]]*"storage-resize-images": "firebase\/storage-resize-images@[0-9]\+\.[0-9]\+\.[0-9]\+"\n[[:space:]]*}\n//g' \
             firebase.json && \
           ./ci/fill-envs.sh
+      - name: Build emulator frontend
+        run: yarn build:demo
       - name: Run your tests
         run: npx playwright test --project Mobile
+      - name: Upload Playwright artifacts
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30

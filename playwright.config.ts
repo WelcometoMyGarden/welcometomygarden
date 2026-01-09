@@ -18,16 +18,16 @@ const slowMoChromium = USE_SLOWMO
     }
   : {};
 
-const localViteWebServers = [
+const localwebServers = [
   ...(envIsTrue(process.env.USE_PREVIEW) && BASE_URL?.endsWith(':4173')
     ? // Run compiled demo frontend (which is most similar to production) as a Vite Preview server
       // the alternative is the built-in preview server
       [
         {
           // Vite preview server
-          command: `${!envIsTrue(process.env.SKIP_BUILD) ? 'npm run build:demo && ' : ''} npm run preview`,
+          command: `${!envIsTrue(process.env.SKIP_BUILD) ? 'yarn build:demo && ' : ''} yarn preview`,
           url: BASE_URL,
-          reuseExistingServer: !process.env.CI,
+          reuseExistingServer: !envIsTrue(process.env.CI),
           stdout: 'pipe' as const
         }
       ]
@@ -38,7 +38,7 @@ const localViteWebServers = [
             command: 'yarn dev',
             // Health check URL
             url: BASE_URL,
-            reuseExistingServer: !process.env.CI,
+            reuseExistingServer: !envIsTrue(process.env.CI),
             stdout: 'pipe' as const
           }
         ]
@@ -52,24 +52,25 @@ const localViteWebServers = [
       envIsTrue(process.env.USE_PREVIEW) &&
       BASE_URL?.endsWith(':4005') &&
       !envIsTrue(process.env.SKIP_BUILD)
-        ? 'npm run build:demo && '
+        ? 'yarn build:demo && '
         : ''
     }firebase --project demo-test emulators:start`,
     // "URL of your http server that is expected to return a 2xx, 3xx, 400, 401, 402, or 403 status code when the server is ready to accept connections."
     // Empirically, we observered that sendMessage (a Cloud Task function) is the last function to be intitialized (it returns a 400 then),
     // Luckily, it also is a http function.
     url: 'http://127.0.0.1:5001/demo-test/europe-west1/sendMessage',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !envIsTrue(process.env.CI),
     stdout: 'pipe',
-    // 40 seconds for the frontend build, 40 seconds for the Firebase backend
-    timeout: (40 + (!envIsTrue(process.env.SKIP_BUILD) ? 40 : 0)) * 1000
+    // 80/40 seconds for the Firebase backend, 40 seconds for the frontend build,
+    timeout:
+      ((envIsTrue(process.env.CI) ? 80 : 40) + (!envIsTrue(process.env.SKIP_BUILD) ? 40 : 0)) * 1000
   },
   {
     command: 'mailpit',
     url: 'http://127.0.0.1:8025',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !envIsTrue(process.env.CI),
     stdout: 'pipe',
-    timeout: 2000
+    timeout: 5 * 1000
   }
 ] satisfies PlaywrightTestConfig['webServer'][];
 
@@ -95,11 +96,13 @@ export default defineConfig<TestOptions>({
   // https://playwright.dev/docs/ci#workers
   workers: process.env.WORKERS != null ? parseInt(process.env.WORKERS) : undefined,
   testDir: './tests/e2e',
+  retries: envIsTrue(process.env.CI) ? 1 : 0,
   timeout: 80 * 1000,
-  webServer: localViteWebServers,
+  webServer: localwebServers,
   use: {
     ...defaultOptions,
-    ...slowMoChromium
+    ...slowMoChromium,
+    trace: 'on-first-retry'
   },
   globalTeardown: './tests/e2e/global-teardown',
   projects: [
