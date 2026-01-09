@@ -1481,18 +1481,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@google-cloud/local-auth@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "@google-cloud/local-auth@npm:3.0.1"
-  dependencies:
-    arrify: "npm:^2.0.1"
-    google-auth-library: "npm:^9.0.0"
-    open: "npm:^7.0.3"
-    server-destroy: "npm:^1.0.1"
-  checksum: 10/041f6d5e033c578f8cf92ace59c84624366fac88a10f18b21b69fc27865291c9c66cb4a13936577eb93bb82d771dfd1007e07f14a2452ccc67d0779fe038b935
-  languageName: node
-  linkType: hard
-
 "@google-cloud/paginator@npm:^5.0.0":
   version: 5.0.2
   resolution: "@google-cloud/paginator@npm:5.0.2"
@@ -5462,7 +5450,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"arrify@npm:^2.0.0, arrify@npm:^2.0.1":
+"arrify@npm:^2.0.0":
   version: 2.0.1
   resolution: "arrify@npm:2.0.1"
   checksum: 10/067c4c1afd182806a82e4c1cb8acee16ab8b5284fbca1ce29408e6e91281c36bb5b612f6ddfbd40a0f7a7e0c75bf2696eb94c027f6e328d6e9c52465c98e4209
@@ -5515,7 +5503,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.7.2, axios@npm:^1.8.3":
+"axios@npm:^1.8.3":
   version: 1.8.4
   resolution: "axios@npm:1.8.4"
   dependencies:
@@ -7329,19 +7317,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gmail-getter@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "gmail-getter@npm:2.2.0"
-  dependencies:
-    "@google-cloud/local-auth": "npm:^3.0.1"
-    axios: "npm:^1.7.2"
-  bin:
-    get-refresh-token: dist/get-token-script.js
-  checksum: 10/a00a9aded06421b805e9e6a1ac3aef990bbeec81bba815b3fd6159748a999739a0cc14d13b659a854dfd52d60a301a7c892538d5c6363da164e30dd51ba506a9
-  languageName: node
-  linkType: hard
-
-"google-auth-library@npm:^9.0.0, google-auth-library@npm:^9.14.2, google-auth-library@npm:^9.3.0, google-auth-library@npm:^9.6.3":
+"google-auth-library@npm:^9.14.2, google-auth-library@npm:^9.3.0, google-auth-library@npm:^9.6.3":
   version: 9.15.1
   resolution: "google-auth-library@npm:9.15.1"
   dependencies:
@@ -7750,7 +7726,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-wsl@npm:^2.1.1, is-wsl@npm:^2.2.0":
+"is-wsl@npm:^2.2.0":
   version: 2.2.0
   resolution: "is-wsl@npm:2.2.0"
   dependencies:
@@ -8658,16 +8634,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"open@npm:^7.0.3":
-  version: 7.4.2
-  resolution: "open@npm:7.4.2"
-  dependencies:
-    is-docker: "npm:^2.0.0"
-    is-wsl: "npm:^2.1.1"
-  checksum: 10/4fc02ed3368dcd5d7247ad3566433ea2695b0713b041ebc0eeb2f0f9e5d4e29fc2068f5cdd500976b3464e77fe8b61662b1b059c73233ccc601fe8b16d6c1cd6
-  languageName: node
-  linkType: hard
-
 "open@npm:^8.4.0":
   version: 8.4.2
   resolution: "open@npm:8.4.2"
@@ -9475,13 +9441,6 @@ __metadata:
   bin:
     semver: bin/semver.js
   checksum: 10/7a24cffcaa13f53c09ce55e05efe25cd41328730b2308678624f8b9f5fc3093fc4d189f47950f0b811ff8f3c3039c24a2c36717ba7961615c682045bf03e1dda
-  languageName: node
-  linkType: hard
-
-"server-destroy@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "server-destroy@npm:1.0.1"
-  checksum: 10/cbc19d4f92d25a0a34430c6a09faccbea77d1a69563560eefe883feb67c14c3fb3a1c5af1affae0e82d537886ea0f91d317e39e46b5d6425de3acf57a3ab13e3
   languageName: node
   linkType: hard
 
@@ -10707,7 +10666,6 @@ __metadata:
     file-selector: "npm:^1.1.0"
     firebase: "npm:^11.10.0"
     firebase-admin: "npm:^13.1.0"
-    gmail-getter: "npm:^2.2.0"
     i18n-iso-countries: "npm:^7.14.0"
     iso-639-1: "npm:^3.1.5"
     jsonc-parser: "npm:^3.3.1"

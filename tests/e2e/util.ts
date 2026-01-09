@@ -1,25 +1,12 @@
-import {
-  type Page,
-  type BrowserContext,
-  type Browser,
-  type PlaywrightTestArgs,
-  type PlaywrightTestOptions,
-  type PlaywrightWorkerArgs,
-  type PlaywrightWorkerOptions
-} from '@playwright/test';
-import { readFile } from 'node:fs/promises';
+import { type Page, type BrowserContext } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { parse } from 'jsonc-parser';
-import { getAccessToken, checkInbox, parseHtmlFromEmail, type Email } from 'gmail-getter';
 import dotenv from 'dotenv';
 import path from 'path';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { TestOptions } from '../../playwright.config';
-// import credentials from './credentials.json' assert { type: 'json' };
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const credentials = JSON.parse(await readFile(resolve(__dirname, 'credentials.json'), 'utf8'));
 // Read from ".env" file.
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
@@ -58,34 +45,9 @@ export async function openEmail({
       .first()
       .click();
   } else {
-    if (!accessToken) {
-      // Note: this is a slightly messy way of reusing an access token, won't work well if multiple accounts should be consulted
-      const {
-        installed: { client_id, client_secret }
-      } = credentials;
-      accessToken = await getAccessToken(
-        client_id,
-        client_secret,
-        process.env.GMAIL_GETTER_REFRESH_TOKEN!
-      );
-    }
-
-    // See Sendgrid for subjects
-    const subjectMap = {
-      messageReceivedEmail: 'has sent you a message!',
-      accountVerificationEmail: 'Verify your email - Welcome To My Garden'
-    };
-
-    const email = await checkInbox({
-      token: accessToken,
-      all: false,
-      // https://support.google.com/mail/answer/7190
-      query: `to:${toEmail} subject:${subjectMap[name as keyof typeof subjectMap] || ''}`
-    });
-
-    // https://hackernoon.com/how-to-read-gmail-emails-with-playwright
-    emailPage = await context.newPage();
-    await emailPage.setContent(parseHtmlFromEmail(email as Email));
+    throw new Error(
+      "GMail test account emails are deprecated and unsupported, let's find another solution."
+    );
   }
 
   // The server sends unlocalized (English) URLs as of now
