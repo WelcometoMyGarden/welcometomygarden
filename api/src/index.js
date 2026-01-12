@@ -144,7 +144,10 @@ exports.onAuthUserCreate = euWest1V1.auth.user().onCreate(onAuthUserCreate);
 // Firestore triggers: users
 exports.onUserPrivateWriteV2 = onDocumentWritten(
   {
-    document: 'users-private/{userId}'
+    document: 'users-private/{userId}',
+    // restore to v2 defaults
+    cpu: 1,
+    concurrency: null
   },
   executeFirestoreTriggersConcurrently([
     onUserPrivateWrite,
