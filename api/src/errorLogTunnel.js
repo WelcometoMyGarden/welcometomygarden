@@ -4,7 +4,7 @@ const { sentryHost, glitchtipKey } = require('./sharedConfig');
 
 /**
  * See https://docs.sentry.io/platforms/javascript/troubleshooting/#using-the-tunnel-option
- * @param {import('express').Request} req
+ * @param {FV2.Request} req
  * @param {import('express').Response} res
  */
 exports.errorLogTunnel = async (req, res) => {

@@ -16,7 +16,7 @@ const { sendPlausibleEvent } = require('../util/plausible');
  *
  * See https://docs.sendgrid.com/for-developers/parsing-email/setting-up-the-inbound-parse-webhook
  * We use the non-raw webhook.
- * @param {import('express').Request} req
+ * @param {FV2.Request} req
  * @returns {SendGrid.UnpackedInboundRequest}
  */
 const unpackInboundEmailRequest = (req) => {
@@ -205,7 +205,7 @@ Sender IP: ${senderIP}`);
  *
  * See https://docs.sendgrid.com/for-developers/parsing-email/setting-up-the-inbound-parse-webhook
  * We use the non-raw webhook.
- * @param {import('express').Request} req
+ * @param {FV2.Request} req
  * @param {import('express').Response} res
  */
 exports.parseInboundEmail = async (req, res) => {
@@ -319,7 +319,7 @@ exports.parseInboundEmail = async (req, res) => {
 
 /**
  * Only for testing purposes
- * @param {import('express').Request} req
+ * @param {FV2.Request} req
  * @param {import('express').Response} res
  */
 exports.dumpInboundEmail = async (req, res) => {

@@ -19,8 +19,9 @@ const stripeWebhookSecretParam = defineString('STRIPE_WEBHOOK_SECRET');
 // https://firebase.google.com/docs/functions/http-events
 /**
  *
- * @param {import('express').Request} req
+ * @param {FV2.Request} req
  * @param {import('express').Response} res
+ * @returns {Promise<void>}
  */
 exports.stripeWebhookHandler = async (req, res) => {
   if (req.method !== 'POST') {
@@ -43,12 +44,14 @@ exports.stripeWebhookHandler = async (req, res) => {
       if (eventVersion > acceptVersion) {
         // The version sent is newer than the accepted version, ignore and return 200
         logger.log(`Skipping request with newer version ${eventVersion}, returning status 200`);
-        return res.sendStatus(200);
+        res.sendStatus(200);
+        return;
       }
       if (eventVersion < acceptVersion) {
         // The version sent is older than the accepted version, ignore and return 400
         logger.log(`Skipping request with older version ${eventVersion}, returning status 400`);
-        return res.sendStatus(400);
+        res.sendStatus(400);
+        return;
       }
     }
 
@@ -57,6 +60,7 @@ exports.stripeWebhookHandler = async (req, res) => {
   }
 
   // Decode the event
+  /** @type {Stripe.Event} */
   let event = null;
   // https://stripe.com/docs/billing/subscriptions/build-subscriptions?ui=elements
   try {
@@ -72,7 +76,8 @@ exports.stripeWebhookHandler = async (req, res) => {
     logger.log(err);
     logger.log(`⚠️  Webhook signature verification failed.`);
     logger.log(`⚠️  Check the env file and enter the correct webhook secret.`);
-    return res.sendStatus(400);
+    res.sendStatus(400);
+    return;
   }
 
   // Handle the event
@@ -82,22 +87,28 @@ exports.stripeWebhookHandler = async (req, res) => {
   // Remove comment to see the various objects sent for this sample
   switch (event.type) {
     case 'invoice.finalized':
-      return invoiceFinalized(event, res);
+      await invoiceFinalized(event, res);
+      return;
     case 'invoice.created':
-      return invoiceCreated(event, res);
+      await invoiceCreated(event, res);
+      return;
     case 'invoice.finalization_failed':
       // TODO ?
       break;
     case 'payment_intent.processing':
-      return paymentIntentProcessing(event, res);
+      await paymentIntentProcessing(event, res);
+      return;
     case 'payment_intent.payment_failed':
-      return paymentIntentPaymentFailed(event, res);
+      await paymentIntentPaymentFailed(event, res);
+      return;
     case 'invoice.paid':
-      return invoicePaid(event, res);
+      await invoicePaid(event, res);
+      return;
     case 'invoice.upcoming':
       // Sent a few days prior to the renewal of the subscription.
       // The number of days is based on the number set for Upcoming renewal events in the Dashboard. You can still add extra invoice items, if needed.
-      return invoiceUpcoming(event, res);
+      await invoiceUpcoming(event, res);
+      return;
     case 'invoice.payment_failed':
       // TODO: does this apply to send_invoice? Don't think so
       // If the payment fails or the customer does not have a valid payment method,
@@ -108,14 +119,18 @@ exports.stripeWebhookHandler = async (req, res) => {
       // TODO: also handle marked_uncollectible?
       break;
     case 'customer.subscription.deleted':
-      return subscriptionDeleted(event, res);
+      await subscriptionDeleted(event, res);
+      return;
     case 'customer.subscription.created':
-      return subscriptionCreated(event, res);
+      await subscriptionCreated(event, res);
+      return;
     case 'customer.subscription.updated':
       // Handle subscription change (tier etc)
-      return subscriptionUpdated(event, res);
+      await subscriptionUpdated(event, res);
+      return;
     default:
     // Unexpected event type
   }
-  return res.sendStatus(200);
+  res.sendStatus(200);
+  return;
 };

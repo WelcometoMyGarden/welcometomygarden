@@ -122,6 +122,7 @@ declare global {
   declare namespace FV2 {
     type CallableRequest<T = any> = CR<T>;
     type ScheduledEvent = SE;
+    type Request = import('firebase-functions/https').Request;
   }
 
   // Importing this from the canonical front-end definition leads to an "any" value, not sure why

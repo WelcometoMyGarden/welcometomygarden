@@ -136,7 +136,7 @@ const handleUnsubscribeRouter = express();
 
 /**
  *
- * @param {import('express').Request} req
+ * @param {FV2.Request} req
  * @param {import('express').Response} res
  */
 async function handleUnsubscribePost(req, res) {
