@@ -20,10 +20,11 @@ const { latestInvoiceStatusKey, paymentProcessingKey, collectionMethodKey } =
  * TODO: Should we check that this _is_ indeed the user's last invoice?
  * TODO: should we include the link to a receipt?
  * @returns
+ * @param {import('stripe').Stripe.InvoicePaidEvent} event
+ * @param {EResponse} res
  */
 module.exports = async (event, res) => {
-  logger.log('Handling invoice.paid');
-  /** @type {import('stripe').Stripe.Invoice} */
+  logger.log('Handling invoice.paid', { eventId: event.id });
   const invoice = event.data.object;
   if (!(await isWTMGInvoice(invoice))) {
     logger.log('Ignoring non-WTMG invoice');

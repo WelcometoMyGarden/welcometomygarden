@@ -1,15 +1,16 @@
+const { logger } = require('firebase-functions/v2');
 const { isWTMGInvoice } = require('./util');
 
 /**
  * Handles the `invoice.finalized` event from Stripe
- * @param {import('stripe').Stripe.Event} event
- * @param {*} res
+ * @param {import('stripe').Stripe.InvoiceFinalizedEvent} event
+ * @param {EResponse} res
  */
 module.exports = async (event, res) => {
-  console.log('Handling invoice.finalized');
+  logger.log('Handling invoice.finalized', { eventId: event.id });
   const invoice = event.data.object;
   if (!(await isWTMGInvoice(invoice))) {
-    console.log('Ignoring non-WTMG invoice');
+    logger.log('Ignoring non-WTMG invoice');
     return res.sendStatus(200);
   }
   // TODO send email with the finalized invoice!?

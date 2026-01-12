@@ -19,12 +19,13 @@ const { latestInvoiceStatusKey, paymentProcessingKey } = stripeSubscriptionKeys;
  * Special case handling of SEPA Debit, where we consider an "network approved" initiated payment
  * already fully closed & settled.
  * ("first thank you" email, or the "thank you for renewing" email)
- * @param {import('stripe').Stripe.Event} event
+ * @param {import('stripe').Stripe.PaymentIntentProcessingEvent} event
+ * @param {EResponse} res
  * @returns
  */
 module.exports = async (event, res) => {
-  logger.log('Handling payment_intent.processing');
-  const paymentIntent = /** @type {import('stripe').Stripe.PaymentIntent} */ (event.data.object);
+  logger.log('Handling payment_intent.processing', { eventId: event.id });
+  const paymentIntent = event.data.object;
 
   // Check if this payment was approved.
   /**

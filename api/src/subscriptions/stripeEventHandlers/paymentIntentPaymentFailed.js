@@ -14,12 +14,13 @@ const { latestInvoiceStatusKey, paymentProcessingKey } = stripeSubscriptionKeys;
  * after a "paymentProcessing" state to be a failure to finalize the original payment. The tentative membership
  * should then immediately be rescinded (before the subscription is deleted, since it may still be repaid again)
  * TODO: maybe an email should go out here, since we've already sent a thank you email at this point
- * @param {import('stripe').Stripe.Event} event
+ * @param {import('stripe').Stripe.PaymentIntentPaymentFailedEvent} event
+ * @param {EResponse} res
  * @returns
  */
 module.exports = async (event, res) => {
-  logger.log('Handling payment_intent.payment_failed');
-  const paymentIntent = /** @type {import('stripe').Stripe.PaymentIntent} */ (event.data.object);
+  logger.log('Handling payment_intent.payment_failed', { eventId: event.id });
+  const paymentIntent = event.data.object;
 
   // Check if this payment was approved.
   /**

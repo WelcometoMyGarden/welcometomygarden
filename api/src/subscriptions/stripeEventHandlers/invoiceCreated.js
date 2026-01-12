@@ -10,13 +10,14 @@ const { isWTMGInvoice } = require('./util');
  * Handles the `invoice.created` event from Stripe.
  * Only handles WTMG subscription renewal invoices, ignores other invoices.
  *
- * @param {any} event
- * @param {import('express').Response} res
+ * @param {import('stripe').Stripe.InvoiceCreatedEvent} event
+ * @param {EResponse} res
  *
  */
 module.exports = async (event, res) => {
-  logger.log('Handling invoice.created');
-  /** @type {import('stripe').Stripe.Invoice} */
+  logger.log('Handling invoice.created', {
+    eventId: event.id
+  });
   const invoice = event.data.object;
 
   // NOTE: we can only rely on this price ID being accurate because we only look for subscription_cycle invoices

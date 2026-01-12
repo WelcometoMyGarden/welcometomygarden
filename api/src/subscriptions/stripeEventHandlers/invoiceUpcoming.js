@@ -12,12 +12,12 @@ const { getUserDocRefsWithData } = require('../../firebase');
  * Current only purpose handles sending the [WTMG] Renewal 7 days before - Automatic email
  * for WTMG (charge automatically)
  *
- * @param {any} event
- * @param {import('express').Response} res
+ * @param {import('stripe').Stripe.InvoiceUpcomingEvent} event
+ * @param {EResponse} res
  * @returns
  */
 module.exports = async (event, res) => {
-  logger.log('Handling invoice.upcoming');
+  logger.log('Handling invoice.upcoming', { eventId: event.id });
 
   // Note: The received Invoice object will not have an invoice ID.
   /** @type {Omit<import('stripe').Stripe.Invoice, "id">} */

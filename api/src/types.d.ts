@@ -9,6 +9,8 @@ import type { MailDataRequired as MDR } from '@sendgrid/mail';
 import type { ScheduledEvent as SE } from 'firebase-functions/v2/scheduler';
 
 declare global {
+  type EResponse = import('express').Response;
+
   // Shortcuts to often-used types
   type FirestoreEvent<T, Params = Record<string, string>> = FE<T, Params>;
   type FirestoreAuthEvent<T, Params = Record<string, string>> = FAE<T, Params>;
@@ -239,5 +241,6 @@ ISO date strings
 
   declare namespace Stripe {
     type Subscription = import('stripe').Stripe.Subscription;
+    type Event = import('stripe').Stripe.Event;
   }
 }

@@ -1,6 +1,5 @@
 const { setTimeout } = require('node:timers/promises');
 const { logger } = require('firebase-functions/v2');
-const { log, warn } = require('firebase-functions/logger');
 const { auth, getUserDocRefs, getUserDocRefsWithData } = require('../../firebase');
 const {
   sendSubscriptionEndedEmail,
@@ -27,16 +26,14 @@ const {
  * so it only gets deleted at a period's end.
  * This event should lead to the un-provisioning of a superfan.
  * https://stripe.com/docs/billing/subscriptions/cancel#events
- * @param {import('stripe').Stripe.Event} event
- * @param {*} res
+ * @param {import('stripe').Stripe.CustomerSubscriptionDeletedEvent} event
+ * @param {EResponse} res
  */
 module.exports = async (event, res) => {
-  log('Handling customer.subscription.deleted');
-  /** @type {import('stripe').Stripe.Subscription} */
-  // @ts-ignore
+  logger.log('Handling customer.subscription.deleted', { eventId: event.id });
   const subscription = event.data.object;
   if (!isWTMGSubscription(subscription)) {
-    log('Ignoring non-WTMG subscription');
+    logger.log('Ignoring non-WTMG subscription');
     return res.sendStatus(200);
   }
 
@@ -66,7 +63,7 @@ module.exports = async (event, res) => {
   const uid = await getFirebaseUserId(customerId);
 
   if (!uid) {
-    warn(
+    logger.warn(
       `Could not find a Firebase UID for customer ${customerId}, the customer is likely deleted.`
     );
     return res.sendStatus(200);

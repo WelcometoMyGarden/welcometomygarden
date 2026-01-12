@@ -1,6 +1,4 @@
-//
 const { logger } = require('firebase-functions/v2');
-const { error, log } = require('firebase-functions/logger');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const { stripeSubscriptionKeys } = require('../constants');
 const removeUndefined = require('../../util/removeUndefined');
@@ -28,13 +26,11 @@ const {
  *   but that action_required makes the subscription status turn to "past_due"
  *   2) again when the payment is confirmed, because the status went back to "active" and now with setup_future_usage the default payment method is also set up.
  * Also sent whenever a subscription is changed. For example, adding a coupon, applying a discount, adding an invoice item, and changing plans all trigger this event.
- * @param {import('stripe').Stripe.Event} event
- * @param {import('express').Response} res
+ * @param {import('stripe').Stripe.CustomerSubscriptionUpdatedEvent} event
+ * @param {EResponse} res
  */
 module.exports = async (event, res) => {
-  logger.log('Handling customer.subscription.updated');
-  /** @type {import('stripe').Stripe.Subscription} */
-  // @ts-ignore
+  logger.log('Handling customer.subscription.updated', { eventId: event.id });
   const subscription = event.data.object;
   if (!isWTMGSubscription(subscription)) {
     logger.log('Ignoring non-WTMG subscription');
@@ -68,7 +64,7 @@ module.exports = async (event, res) => {
   const uid = await getFirebaseUserId(subscription.customer);
   const { customer: customerId, current_period_end } = subscription;
   if (!uid) {
-    error(`Could not find a Firebase UID for customer ${customerId}`);
+    logger.error(`Could not find a Firebase UID for customer ${customerId}`);
     return res.sendStatus(500);
   }
 
@@ -109,7 +105,7 @@ module.exports = async (event, res) => {
     const customerResponse = await stripe.customers.retrieve(/** @type {string} */ (customerId));
 
     if (customerResponse.deleted) {
-      error(
+      logger.error(
         `Unexpected situation: ${customerResponse.id} was deleted before handling a subscription.updated event`
       );
       return res.sendStatus(500);
@@ -125,7 +121,7 @@ module.exports = async (event, res) => {
       dateStyle: 'long'
     }).format(current_period_end * 1000);
 
-    log(
+    logger.log(
       `${customerId} cancelled ${subscription.id}, ending on ${endDate}. Sending a confirmation email.`
     );
 

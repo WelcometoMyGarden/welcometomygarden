@@ -8,13 +8,11 @@ const fail = require('../../util/fail');
 
 /**
  * Only sent when the subscription is created.
- * @param {import('stripe').Stripe.Event} event
- * @param {import('express').Response} res
+ * @param {import('stripe').Stripe.CustomerSubscriptionCreatedEvent} event
+ * @param {EResponse} res
  */
 module.exports = async (event, res) => {
-  logger.log('Handling customer.subscription.created');
-  /** @type {import('stripe').Stripe.Subscription} */
-  // @ts-ignore
+  logger.log('Handling customer.subscription.created', { eventId: event.id });
   const subscription = event.data.object;
   if (!isWTMGSubscription(subscription)) {
     logger.log('Ignoring non-WTMG subscription');
