@@ -3,7 +3,7 @@ import { defineConfig, devices, type PlaywrightTestConfig } from '@playwright/te
 import { config } from 'dotenv';
 import { resolve } from 'path';
 
-config({ path: resolve(process.cwd(), '.env.test.local') });
+config({ path: resolve(process.cwd(), '.env.test.local'), quiet: true });
 
 const USE_SLOWMO = process.env.USE_SLOWMO ?? false;
 
