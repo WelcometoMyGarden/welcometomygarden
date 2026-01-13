@@ -9,6 +9,8 @@ on:
       - .gitignore
       - docs/**
       - '*.md'
+      # This does not run backend test code
+      - api/test/**
   pull_request:
     branches:
       - master
@@ -17,8 +19,9 @@ on:
       - ci/Dockerfile.ci
       - .gitignore
       - docs/**
-      - docs/**
       - '*.md'
+      # This does not run backend test code
+      - api/test/**
 jobs:
   playwright:
     name: 'Playwright Tests'

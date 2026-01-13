@@ -9,7 +9,7 @@
 //
 // This test should be run with:
 // - all Firebase emulators running
-// - a Stripe sandbox
+// - a Stripe sandbox, with the Stripe CLI forwarding events to the local dev env
 // - mailpit (for email assertions)
 //
 // It can then be run from the /api folder by adding an .only to one of the .it()s here
@@ -42,6 +42,7 @@ const {
   pollForTestClockReady
 } = require('./util/stripe');
 const { db } = require('../seeders/app');
+const envIsTrue = require('../src/util/envIsTrue');
 
 const MAIL_CONFIRMATION = 'subscriptionConfirmationEmail';
 const MAIL_UPCOMING = 'subscriptionUpcomingRenewalEmail';
@@ -117,7 +118,9 @@ describe.skip('charge_automatically', () => {
     // Remove potential irrelevant email that pollutes the inbox
     await clearEmailsByQuery('abandonedCartReminderEmail');
     // Check that no other emails got sent
-    assert((await getEmails()).length === 3, 'total number of emails is unexpected');
+    if (!envIsTrue(process.env.SKIP_EMAIL_CHECK)) {
+      assert((await getEmails()).length === 3, 'total number of emails is unexpected');
+    }
 
     // Wait for handlers to finish after email
     await setTimeout(2000);

@@ -22,6 +22,7 @@ stripe login
 ```
 
 Then, refer webhook events to your local function emulators.
+**Note:** you need to run `stripe login` again to **switch the local listener to a different sandbox** (the CLI only supports one environment at a time).
 
 **⚠️ In case of taking over events from deployed webhook listeners**
 

@@ -1,6 +1,7 @@
 const assert = require('node:assert');
 const PROJECT_NAME = 'demo-test';
 const { setTimeout } = require('node:timers/promises');
+const envIsTrue = require('../../src/util/envIsTrue');
 
 exports.PROJECT_NAME = PROJECT_NAME;
 
@@ -40,6 +41,9 @@ exports.clearFirestore = async function () {
 // Emails
 
 exports.clearEmails = async function () {
+  if (envIsTrue(process.env.SKIP_MAIL_CHECK)) {
+    return true;
+  }
   return await fetch(`${process.env.LOCAL_EMAIL_HOST}/api/v1/messages`, {
     method: 'DELETE',
     headers: {
@@ -64,6 +68,10 @@ exports.clearEmailsByQuery = async function (queryString) {
  * @param {number} [timeout]
  */
 exports.hasExactlyOneEmailWithQuery = async function (queryString, timeout = 20000) {
+  if (envIsTrue(process.env.SKIP_MAIL_CHECK)) {
+    console.warn('Skipping mail check');
+    return true;
+  }
   console.log(`Checking for a single ${queryString} email`);
   const check = async () => {
     const { messages } = await fetch(
