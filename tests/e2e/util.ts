@@ -176,7 +176,8 @@ export async function payOnStripeWithBancontactRedirect({
     .locator('iframe[src^="https://js.stripe.com/v3/elements-inner-payment"]')
     .contentFrame()
     // .getByPlaceholder(l('first-and-last')) // it seems Stripe changed this?
-    .getByRole('textbox', { name: l('first-and-last') })
+    // .getByRole('textbox', { name: l('first-and-last') }) // it seems they changd it again
+    .getByRole('button', { name: 'Bancontact' })
     // .fill('Test ga'); // note: this should be properly prefilled now
     .click();
   await page.getByRole('button', { name: l('pay-now') }).click();
