@@ -2938,10 +2938,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stripe/stripe-js@npm:^4.10.0":
-  version: 4.10.0
-  resolution: "@stripe/stripe-js@npm:4.10.0"
-  checksum: 10/ded525327670bedff63590a49631dca05b063bc01fe1ee660a4c8969c95d29dcd9267217eabba9f71af5aa339837ecb1ddf5a8b9b4244a622c1ad2746fbe4851
+"@stripe/stripe-js@npm:^8.6.1":
+  version: 8.6.1
+  resolution: "@stripe/stripe-js@npm:8.6.1"
+  checksum: 10/d218b904c0ae22c06f4068c6da4080774d27498b4ea16680727baec4a49dd9a31e5c04c7dac5d08afb950c20ff5615f97b15ddecf875c9134db4a81e7b844e0b
   languageName: node
   linkType: hard
 
@@ -10614,7 +10614,7 @@ __metadata:
     "@firebase/rules-unit-testing": "npm:^5.0.0"
     "@playwright/test": "npm:^1.57.0"
     "@sentry/sveltekit": "npm:^10.33.0"
-    "@stripe/stripe-js": "npm:^4.10.0"
+    "@stripe/stripe-js": "npm:^8.6.1"
     "@supabase/supabase-js": "npm:^2.90.1"
     "@sveltejs/adapter-static": "npm:^3.0.10"
     "@sveltejs/kit": "npm:2.49.4"
