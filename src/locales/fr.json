@@ -49,8 +49,8 @@
   "navigation": {
     "banner": {
       "prompt": "",
-      "answer": "Nouveau : vous pouvez maintenant planifier vos itinéraires vélo et rando avec WTMG. {link} ! 🌱",
-      "link-text": "Essayez-le"
+      "answer": "Les inscriptions pour notre {link} sont ouvertes - nous espérons vous y voir ! 🎉🚴",
+      "link-text": "Velotour Festival"
     },
     "membership-expired-notice": {
       "prompt": "Souhaitez-vous renouveler votre adhésion WTMG{amount} dès maintenant ?",

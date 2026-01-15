@@ -1,4 +1,4 @@
-import { derived } from 'svelte/store';
+import { derived, writable } from 'svelte/store';
 import { user } from './auth';
 import { locale, t } from 'svelte-i18n';
 import { staticAppHasLoaded } from './app';
@@ -128,16 +128,17 @@ export const renewalNoticeContent = derived(
 //
 // Whether the top banner should be shown, logic to be defined
 // Show when the user is a superfan or host
-// subscriptionJustEnded should probably remain in the logic
-export const shouldShowBanner = derived(
-  [user, subscriptionJustEnded],
-  // NOTE: if we want to not show the "general" banner, it is probably best to just keep $subscriptionJustEnded in the condition
-  // A
-  ([$user, $subscriptionJustEnded]) =>
-    // A1: for members only
-    $subscriptionJustEnded || $user?.superfan === true
-  // A2: also for hosts
-  // $subscriptionJustEnded || $user?.superfan === true || $user?.garden != null
-  // B
-  // ([_, $subscriptionJustEnded]) => $subscriptionJustEnded
-);
+// subscriptionJustEnded should probably remain in the logic, since its content overrides the general content
+// export const shouldShowBanner = derived(
+//   [user, subscriptionJustEnded],
+//   // A: The default, only show in case of subscription ended
+//   // ([_, $subscriptionJustEnded]) => $subscriptionJustEnded
+//   // B: in case of a conditional general announcement
+//   ([$user, $subscriptionJustEnded]) =>
+//   // B1: for members only
+//   // $subscriptionJustEnded || $user?.superfan === true
+//   // B2: also for hosts
+//   // $subscriptionJustEnded || $user?.superfan === true || $user?.garden != null
+// );
+// C: General announcement, also for visitors (does not exclude $subscriptionJustEnded)
+export const shouldShowBanner = writable(true)

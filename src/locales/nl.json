@@ -30,7 +30,7 @@
     "helpcenter-url": "https://hulp.welcometomygarden.org/",
     "error": {
       "start": "Er ging iets mis",
-      "app-check": {
+    "app-check": {
         "message": "WTMG werkt mogelijk niet goed in deze browser. Bekijk {linkText} voor oplossingen.",
         "link-text": "ons helpcentrum"
       }
@@ -47,8 +47,8 @@
   "navigation": {
     "banner": {
       "prompt": "",
-      "answer": "Nieuw: je kunt nu je fiets- en wandelroutes plannen met WTMG. {link}! 🌱",
-      "link-text": "Probeer het uit"
+      "answer": "Inschrijvingen voor ons {link} zijn nu open - hopelijk tot dan! 🎉🚴",
+      "link-text": "Velotour Festival"
     },
     "membership-expired-notice": {
       "prompt": "Wil je je WTMG-lidmaatschap{amount} nu verlengen?",

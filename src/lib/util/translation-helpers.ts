@@ -10,8 +10,6 @@ import trackEvent from './track-plausible';
 import { rootModal } from '$lib/stores/app';
 import { browser } from '$app/environment';
 import { coerceToMainLanguage, coerceToSupportedLanguage } from './get-browser-lang';
-import { user } from '$lib/stores/auth';
-import routes from '$lib/routes';
 
 if (browser) {
   // This function is referenced below in the inline onclick handler.
@@ -134,10 +132,7 @@ export const membershipBlogLink = (
   return createUrl(`${WTMG_BLOG_BASE_URL}${t('generics.fair-model-blog-path')}`, params);
 };
 
-export const bannerLink = derived([user, lr], ([$user, $lr]) =>
-  !$user
-    ? ''
-    : createUrl($lr(routes.ROUTE_PLANNER), {
-        lng: coerceToMainLanguage($user?.communicationLanguage)
-      })
-);
+export const bannerLink = derived(locale, ($locale) => {
+  const mainLang = coerceToMainLanguage($locale);
+  return `https://velotourfestival.be/${mainLang === 'en' ? '' : `${mainLang}.html`}`;
+});
