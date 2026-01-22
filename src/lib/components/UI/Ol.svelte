@@ -1,12 +1,18 @@
-<script>
-  // TODO make this dynamic
-  export let type = 'decimal';
+<script lang="ts">
+  
 
-  export let position = 'inside';
+  interface Props {
+    // TODO make this dynamic
+    type?: string;
+    position?: string;
+    children?: import('svelte').Snippet;
+  }
+
+  let { type = 'decimal', position = 'inside', children }: Props = $props();
 </script>
 
 <ol style="list-style: {type} {position};">
-  <slot />
+  {@render children?.()}
 </ol>
 
 <style>

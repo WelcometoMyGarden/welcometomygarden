@@ -1,14 +1,19 @@
 <script lang="ts">
   import { Avatar } from '$lib/components/UI';
-  export let name: string;
-  export let seen = true;
+  interface Props {
+    name: string;
+    seen?: boolean;
+    children?: import('svelte').Snippet;
+  }
+
+  let { name, seen = true, children }: Props = $props();
 </script>
 
 <div class="user">
   <Avatar {name} />
   <div class="details">
     <span class="name" class:seen>{name}</span>
-    <slot />
+    {@render children?.()}
   </div>
 </div>
 

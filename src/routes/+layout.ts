@@ -9,6 +9,7 @@ import {
 import { browser } from '$app/environment';
 import { getCookie } from '$lib/util';
 import { isBot } from 'ua-parser-js/helpers';
+import logger from '$lib/util/logger';
 
 //
 // Prerender on the root layout: default SSG for the whole app.
@@ -19,7 +20,7 @@ export const trailingSlash = 'never';
 // ssr = true is the default assumed here
 
 export const load: LayoutLoad = async ({ params: { lang: pathLang }, url }) => {
-  console.debug('Outer layout load started');
+  logger.debug('Outer layout load started');
   // Register languages for svelte-i18n
   // The language may or may not be supported, but it should be an iso-639-1 lowercase string.
   // It will be reported back through $locale, not the fallback.
@@ -77,7 +78,7 @@ export const load: LayoutLoad = async ({ params: { lang: pathLang }, url }) => {
     initialLocale: newStoreLocale ?? DEFAULT_LANGUAGE
   });
 
-  console.log(`Initialized locale ${newStoreLocale} (${browser ? 'browser' : 'server'})`);
+  logger.debug(`Initialized locale ${newStoreLocale} (${browser ? 'browser' : 'server'})`);
 
   // Necessary to avoid an SSR/CSR mismatch
   // the locale is only set inside [[lang]]/+layout.ts, because we need

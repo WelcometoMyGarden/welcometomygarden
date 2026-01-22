@@ -43,6 +43,7 @@ import { isOnIDevicePWA } from '$lib/util/push-registrations';
 import * as Sentry from '@sentry/sveltekit';
 import { lr } from '$lib/util/translation-helpers';
 import { DEFAULT_LANGUAGE } from '$lib/types/general';
+import logger from '$lib/util/logger';
 
 // These are not Svelte stores, because we do not wish to listen to updates on them.
 // They are abstracted away by the User store, and trigger updates on that store.
@@ -100,7 +101,7 @@ export const createAuthObserver = (): Unsubscribe => {
   // re-login. See code below.
   // https://firebase.google.com/docs/reference/node/firebase.auth.Auth#onidtokenchanged
   const unsubscribeFromAuthObserver = auth().onIdTokenChanged(async (firebaseUser) => {
-    console.info(`auth/token changed (${!!firebaseUser ? 'truthy' : 'falsy'})`);
+    logger.info(`auth/token changed (${!!firebaseUser ? 'truthy' : 'falsy'})`);
 
     const $lr = get(lr);
 
@@ -109,7 +110,7 @@ export const createAuthObserver = (): Unsubscribe => {
 
     const oldStoredUser = get(user);
     if (oldStoredUser == null) {
-      console.info('Previous user was null');
+      logger.info('Previous user was null');
     }
     let routeTo: string | null = null;
 
@@ -124,7 +125,7 @@ export const createAuthObserver = (): Unsubscribe => {
         justLoggedIn = true;
       }
       if (oldStoredUser && oldStoredUser.uid !== firebaseUser.uid) {
-        console.info('The Firebase account was changed.');
+        logger.info('The Firebase account was changed.');
         // A new user is loading if the user was changed.
         startLoadingNewUser();
         justLoggedIn = true;
@@ -136,9 +137,9 @@ export const createAuthObserver = (): Unsubscribe => {
       // The token email_verified field is undocumented, but it gets set,
       // and it is used to check whether the email was verified in
       // Firestore (the token gets passed to the Firestore in the backend)
-      console.info('User email verified: ', firebaseUserEmailVerified);
+      logger.info('User email verified: ', firebaseUserEmailVerified);
       const firebaseTokenEmailVerified: boolean = await isTokenEmailVerified(firebaseUser);
-      console.info('Token email verified: ', firebaseTokenEmailVerified);
+      logger.info('Token email verified: ', firebaseTokenEmailVerified);
 
       // emailVerified signals that we have to consider this.
       if (
@@ -154,7 +155,7 @@ export const createAuthObserver = (): Unsubscribe => {
         // This is counterintuitive, but Firebase does not refresh the auth token (including its emailVerified claims)
         // when a user verifies their email. It is also problematic, because this version of the token is used by
         // Firestore backend checks (see above).
-        console.log('Email verified: force refresh token for full sync');
+        logger.log('Email verified: force refresh token for full sync');
         isVerifying = true;
         // To set firebaseTokenEmailVerified to true, we force-refresh the token.
         // This should re-trigger onIdTokenChanged with true & true
@@ -174,7 +175,7 @@ export const createAuthObserver = (): Unsubscribe => {
       ) {
         // The email is fully verified, and this change has synced to the token too.
         notify.success(get(_)('auth.verification.success'), 8000);
-        console.log('Email verification full sync success - syncing auth state to user');
+        logger.log('Email verification full sync success - syncing auth state to user');
         isVerifying = false;
         await updateUserIfPossible();
         if (getCurrentRoute() === routes.AUTH_ACTION) {
@@ -191,19 +192,19 @@ export const createAuthObserver = (): Unsubscribe => {
             const chatIntentionTs = new Date(ts);
             // Only redirect within 10 minutes
             if (Date.now() - chatIntentionTs.getTime() < 10 * 60 * 1000) {
-              console.log('Restoring chat intention after verification');
+              logger.log('Restoring chat intention after verification');
               routeTo = $lr(`${routes.MAP}/garden/${chatIntentionGardenId}`);
             }
             // Remove the intention in any case
             localStorage.removeItem('chatIntention');
           }
         } catch (e) {
-          console.error('Failed to restore the chat intention after verification', e);
+          logger.error('Failed to restore the chat intention after verification', e);
           Sentry.captureException(e);
         }
       } else {
         // In any other case, sync the most recent firebaseUser data into app state
-        console.log('Syncing Firebase user state to local state');
+        logger.log('Syncing Firebase user state to local state');
         await updateUserIfPossible();
       }
 
@@ -250,11 +251,11 @@ export const createAuthObserver = (): Unsubscribe => {
 
       // Check if a Supabase role is set
     } else {
-      console.log('Received a null Firebase user update');
+      logger.log('Received a null Firebase user update');
       // If the user somehow got logged out by Firebase, sync this change to the app.
       // (e.g. their password was reset elsewhere)
       if (oldStoredUser) {
-        console.log('User is/has been logged out');
+        logger.log('User is/has been logged out');
         // Perform cleanup
         unsubscribeFromInnerObserversIfExisting();
         resetDocCaches();
@@ -276,7 +277,7 @@ export const createAuthObserver = (): Unsubscribe => {
             supabase.set(undefined);
           }
         } catch (e) {
-          console.error('Failed to sign out from Supabase', e);
+          logger.error('Failed to sign out from Supabase', e);
           Sentry.captureException(e);
         }
       }
@@ -340,7 +341,7 @@ const handleSnapshotListenerError = (err: FirestoreError) => {
   if (err.code === 'permission-denied') {
     // The link is not 100% this, but in normal cases, there
     // should be no "permission-denied" without an App Check failure
-    console.warn(
+    logger.warn(
       'User data snapshot failed due to missing permissions, likely caused by an App Check failure.'
     );
   }
@@ -396,7 +397,7 @@ const updateUserIfPossible = async () => {
 
     // User initialization is done
     if (get(isUserLoading)) {
-      console.log(`User fully loaded: ${newUser.uid}`);
+      logger.log(`User fully loaded: ${newUser.uid}`);
       isUserLoading.set(false);
     }
 
@@ -411,7 +412,7 @@ export const createUserPublicObserver = (currentUserId: string) => {
     docRef,
     (doc: DocumentSnapshot<UserPublic>) => {
       const newUserData = doc.data();
-      console.log('New user public doc');
+      logger.log('New user public doc');
       if (newUserData) {
         latestUserPublicState = newUserData;
         updateUserIfPossible();
@@ -430,7 +431,7 @@ export const createUserPrivateObserver = (currentUserId: string) => {
     docRef,
     (doc: DocumentSnapshot<UserPrivate>) => {
       const newUserPrivateData = doc.data();
-      console.log('New user private doc');
+      logger.log('New user private doc');
       if (newUserPrivateData) {
         latestUserPrivateState = newUserPrivateData;
         updateUserIfPossible();
@@ -451,7 +452,7 @@ export const createCampsiteObserver = (currentUserId: string) => {
       const newCampsiteData = doc.data();
       const previousCampsiteState = latestCampsiteState;
       latestCampsiteState = newCampsiteData ?? null;
-      console.log(`New campsite doc${!latestCampsiteState ? ' (null)' : ''}`);
+      logger.log(`New campsite doc${!latestCampsiteState ? ' (null)' : ''}`);
       // Trigger a $user update, but only if the campsite state didn't transition from null to null
       // This is the case if the user doesn't have a garden, and the snapshot returned without result.
       // By updating the $user store, it would trigger subscribers needlessly with a new user object
@@ -506,10 +507,10 @@ const signInToSupabaseIfNeeded = async (user: User) => {
   // Only set the Supabase client if the user is a member or garden owner
   if (supaRole != null && (user?.garden || user?.superfan)) {
     if (typeof PUBLIC_SUPABASE_API_URL !== 'string' || PUBLIC_SUPABASE_API_URL.length === 0) {
-      console.warn('PUBLIC_SUPABASE_API_URL not set, skip Supabase init');
+      logger.warn('PUBLIC_SUPABASE_API_URL not set, skip Supabase init');
       return;
     }
-    console.log('Setting up Supabase client for host/member');
+    logger.log('Setting up Supabase client for host/member');
     supabase.set(
       createClient(PUBLIC_SUPABASE_API_URL, PUBLIC_SUPABASE_ANON_KEY, {
         accessToken: async () => (await firebaseUser.getIdToken()) ?? null

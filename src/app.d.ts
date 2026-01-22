@@ -5,6 +5,6 @@ declare namespace App {}
 
 declare namespace svelteHTML {
   interface HTMLAttributes {
-    'on:click-outside'?: (event: CustomEvent) => void;
+    onclickoutside?: (event: CustomEvent) => void;
   }
 }

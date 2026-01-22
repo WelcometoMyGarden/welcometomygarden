@@ -1,25 +1,54 @@
 <script lang="ts">
-  export let name: string;
-  export let icon: undefined | string = undefined;
-  /**
-   * Choose a label or a slot
-   */
-  export let label: string | undefined = undefined;
-  export let checked = false;
-  export let disabled = false;
-  export let ellipsis = false;
-  export let compact = false;
-  export let title: undefined | string = undefined;
-
   import LabelWithIcon from './LabelWithIcon.svelte';
+  interface Props {
+    name: string;
+    icon?: undefined | string;
+    /**
+     * Choose a label or a slot
+     */
+    label?: string | undefined;
+    checked?: boolean;
+    disabled?: boolean;
+    ellipsis?: boolean;
+    compact?: boolean;
+    title?: undefined | string;
+    onclick?: (e: MouseEvent) => void;
+    oninput?: (e: Event) => void;
+    onchange?: (e: Event) => void;
+    children?: import('svelte').Snippet;
+  }
+
+  let {
+    name,
+    icon = undefined,
+    label = undefined,
+    // Can't have a default value because some component users
+    // initialize it with undefined
+    checked = $bindable(),
+    disabled = false,
+    ellipsis = false,
+    compact = false,
+    title = undefined,
+    onclick,
+    onchange,
+    oninput,
+    children
+  }: Props = $props();
 </script>
 
 <!-- Just stop click propagation from here -->
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<div on:click|stopPropagation class:compact class="checkbox-container">
-  <input id={name} type="checkbox" {disabled} {name} on:input bind:checked on:change />
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<div
+  onclick={(e) => {
+    e.stopPropagation();
+    onclick?.(e);
+  }}
+  class:compact
+  class="checkbox-container"
+>
+  <input id={name} type="checkbox" {disabled} {name} {oninput} bind:checked {onchange} />
   <LabelWithIcon {ellipsis} {compact} title={label} labelFor={name} {icon}
-    >{label ?? ''}<slot /></LabelWithIcon
+    >{label ?? ''}{@render children?.()}</LabelWithIcon
   >
 </div>
 

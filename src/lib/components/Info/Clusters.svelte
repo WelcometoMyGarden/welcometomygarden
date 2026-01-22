@@ -1,15 +1,14 @@
-<script>
+<script lang="ts">
   import { _ } from 'svelte-i18n';
   import { supportEmailLinkString, getNodeChildren } from '$lib/util';
   import Collapsible from '../../components/Collapsible.svelte';
   import { DONATION_URL, COMMUNITY_TRANSLATIONS_URL } from '$lib/constants';
   import routes from '$lib/routes';
   import { anchorText, lr } from '$lib/util/translation-helpers';
-  import createUrl from '$lib/util/create-url';
 
-  export let clustersKey;
+  let { clustersKey } = $props();
 
-  let activeCollapsible = null;
+  let activeCollapsible = $state(null);
   const setActiveCollapsible = (id) => {
     activeCollapsible === id ? (activeCollapsible = null) : (activeCollapsible = id);
   };
@@ -24,35 +23,39 @@
     <div class="cluster-collapsible">
       {#each getNodeChildren(`${clustersKey}.${clusterKey}.questions`) as questionKey}
         <Collapsible
-          on:click={() => setActiveCollapsible(`${clusterKey}-${questionKey}`)}
+          onclick={() => setActiveCollapsible(`${clusterKey}-${questionKey}`)}
           open={activeCollapsible === `${clusterKey}-${questionKey}`}
         >
-          <h4 slot="title">
-            {@html $_(`${clustersKey}.${clusterKey}.questions.${questionKey}.title`)}
-          </h4>
-          <p slot="content">
-            {@html $_(`${clustersKey}.${clusterKey}.questions.${questionKey}.copy`, {
-              values: {
-                support: supportEmailLinkString,
-                donationLink: `<a href="${DONATION_URL}" target="_blank" class="link">
-                  ${$_('faq.donation')}</a>`,
-                chatLink: `<a href="${$lr(routes.CHAT)}" target="_blank" class="link lowercase">
-                  ${$_('generics.chat')}</a>`,
-                accountLink: `<a href="${$lr(routes.ACCOUNT)}" target="_blank" class="link lowercase">
-                  ${$_('generics.account-page')}</a>`,
-                communityTranslationsLink: `<a href="${COMMUNITY_TRANSLATIONS_URL}" target="_blank" rel="noreferrer" class="link lowercase">
-                  ${$_('faq.instruction-page')}</a>`,
-                mobileFaqLink: anchorText({
-                  href: $_('push-notifications.prompt.helpcenter-url'),
-                  linkText: $_('faq.help-center-text')
-                }),
-                langPrefix: $_('generics.lang-prefix', {
-                  // the empty string prefix is valid here
-                  default: ''
-                })
-              }
-            })}
-          </p>
+          {#snippet title()}
+            <h4>
+              {@html $_(`${clustersKey}.${clusterKey}.questions.${questionKey}.title`)}
+            </h4>
+          {/snippet}
+          {#snippet content()}
+            <p>
+              {@html $_(`${clustersKey}.${clusterKey}.questions.${questionKey}.copy`, {
+                values: {
+                  support: supportEmailLinkString,
+                  donationLink: `<a href="${DONATION_URL}" target="_blank" class="link">
+                    ${$_('faq.donation')}</a>`,
+                  chatLink: `<a href="${$lr(routes.CHAT)}" target="_blank" class="link lowercase">
+                    ${$_('generics.chat')}</a>`,
+                  accountLink: `<a href="${$lr(routes.ACCOUNT)}" target="_blank" class="link lowercase">
+                    ${$_('generics.account-page')}</a>`,
+                  communityTranslationsLink: `<a href="${COMMUNITY_TRANSLATIONS_URL}" target="_blank" rel="noreferrer" class="link lowercase">
+                    ${$_('faq.instruction-page')}</a>`,
+                  mobileFaqLink: anchorText({
+                    href: $_('push-notifications.prompt.helpcenter-url'),
+                    linkText: $_('faq.help-center-text')
+                  }),
+                  langPrefix: $_('generics.lang-prefix', {
+                    // the empty string prefix is valid here
+                    default: ''
+                  })
+                }
+              })}
+            </p>
+          {/snippet}
         </Collapsible>
       {/each}
     </div>

@@ -1,7 +1,11 @@
-<script>
+<script lang="ts">
   import { fade } from 'svelte/transition';
 
-  export let count = 0;
+  interface Props {
+    count?: number;
+  }
+
+  let { count = 0 }: Props = $props();
 </script>
 
 {#if count > 0}

@@ -1,9 +1,25 @@
 <script lang="ts">
-  export let icon: string;
-  export let whiteStroke = false;
-  export let greenStroke = false;
-  export let clickable = false;
-  export let inline = false;
+  import ViteSVG from './ViteSVG.svelte';
+
+  type Props = {
+    /**
+     * .svg are seen as a string, .jpg as an Object[] ?
+     */
+    icon: Object[] | string;
+    whiteStroke?: boolean;
+    greenStroke?: boolean;
+    clickable?: boolean;
+    inline?: boolean;
+    class?: string;
+  };
+  let {
+    icon,
+    whiteStroke = false,
+    greenStroke = false,
+    clickable = false,
+    inline = false,
+    class: className
+  }: Props = $props();
 </script>
 
 <i
@@ -11,9 +27,9 @@
   class:white-stroke={whiteStroke}
   class:green-stroke={greenStroke}
   class:clickable
-  class={$$props.class}
+  class={className}
 >
-  {@html icon}
+  <ViteSVG {icon}></ViteSVG>
 </i>
 
 <style>

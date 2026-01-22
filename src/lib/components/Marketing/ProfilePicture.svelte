@@ -1,7 +1,11 @@
 <script lang="ts">
   import ResponsiveSquare from '$lib/components/UI/ResponsiveSquare.svelte';
-  export let imageSrc: string;
-  export let name: string;
+  interface Props {
+    imageSrc: string;
+    name: string;
+  }
+
+  let { imageSrc, name }: Props = $props();
 </script>
 
 <ResponsiveSquare>

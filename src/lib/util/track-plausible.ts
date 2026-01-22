@@ -26,6 +26,7 @@ import { debounce } from 'lodash-es';
 import { get } from 'svelte/store';
 import * as Sentry from '@sentry/sveltekit';
 import { locale } from 'svelte-i18n';
+import logger from './logger';
 
 type Callable = (eventName: PlausibleEvent, customProperties?: PlausibleCustomProperties) => void;
 
@@ -50,7 +51,7 @@ const logToPlausible = (
     props: { ...superfanProperty, ...customProperties }
   };
   if (dev) {
-    console.log(`Log attempt to Plausible: ${eventName} ${JSON.stringify(options)}`);
+    logger.log(`Log attempt to Plausible: ${eventName} ${JSON.stringify(options)}`);
   } else {
     window.plausible(eventName, options);
   }
@@ -157,7 +158,7 @@ function trackEvent(
   } catch (e) {
     const ctx = 'Error while logging to plausible';
     Sentry.captureException(e, { extra: { context: ctx } });
-    console.error(`${ctx}:`, e);
+    logger.error(`${ctx}:`, e);
   }
 }
 

@@ -31,6 +31,7 @@ import { handledOpenFromIOSPWA } from '$lib/stores/app';
 import { isOnIDevicePWA } from '$lib/util/push-registrations';
 import * as Sentry from '@sentry/sveltekit';
 import { lr } from '$lib/util/translation-helpers';
+import logger from '$lib/util/logger';
 
 /**
  * Fetches the chat partner's profile, setting the new chat loader.
@@ -50,13 +51,13 @@ export const createChatObserver = () => {
     where('users', 'array-contains', getUser().id)
   );
 
-  console.debug('Initializing chat observer');
+  logger.debug('Initializing chat observer');
   return onSnapshot(
     q,
     async (querySnapshot) => {
       const changes = querySnapshot.docChanges();
       try {
-        console.debug('Handling chats snapshot');
+        logger.debug('Handling chats snapshot');
         await Promise.all(
           changes.map(async (change) => {
             const chat = change.doc.data();
@@ -64,7 +65,7 @@ export const createChatObserver = () => {
               // Add partner info to the chat and store in the local chat model
               const partnerId = chat.users.find((id: string) => getUser().id !== id);
               if (!partnerId) {
-                console.error(`Couldn't find the chat partner for chat ${change.doc.id}`);
+                logger.error(`Couldn't find the chat partner for chat ${change.doc.id}`);
                 // Don't throw an error, to avoid breaking the other chat loads
                 return null;
               }
@@ -72,7 +73,7 @@ export const createChatObserver = () => {
               try {
                 partner = await getPublicUserProfile(partnerId);
               } catch (e) {
-                console.error(
+                logger.error(
                   `Error while getting the public profile of chat partner with uid "${partnerId}"`,
                   e
                 );
@@ -92,11 +93,11 @@ export const createChatObserver = () => {
           })
         );
       } catch (e) {
-        console.error('Uncaught error while handling a chat snapshot', e);
+        logger.error('Uncaught error while handling a chat snapshot', e);
         Sentry.captureException(e);
       }
 
-      console.log('Chats initialized or updated');
+      logger.log('Chats initialized or updated');
       hasInitialized.set(true);
 
       // Special check for iOS PWA on startup
@@ -111,13 +112,13 @@ export const createChatObserver = () => {
         ) {
           // show the chat if a new chat has arrived when
           // opening the app
-          console.log('Routing iOS PWA to the chat op open because unread chat');
+          logger.log('Routing iOS PWA to the chat op open because unread chat');
           goto(get(lr)(routes.CHAT));
           // Ensures that we don't open the chat twice in the same session, but only after the first time
           // chats are loaded.
         } else {
           // Open the map if we opened the app without an unread chat
-          console.log('Routing iOS PWA to the map on app open, no unread chats');
+          logger.log('Routing iOS PWA to the map on app open, no unread chats');
           // Await the goto, to make sure the home page doesn't flash
           // because handledOpenFromIOSPWA would be set to true before the map nav completes
           await goto(get(lr)(routes.MAP));
@@ -128,7 +129,7 @@ export const createChatObserver = () => {
     },
     (err) => {
       hasInitialized.set(true);
-      console.error(err);
+      logger.error(err);
       throw err;
     }
   );
@@ -150,7 +151,7 @@ export const observeMessagesForChat = (chatId: string) => {
       });
     },
     (err) => {
-      console.error(err);
+      logger.error(err);
       throw err;
     }
   );

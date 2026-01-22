@@ -746,7 +746,10 @@
         "set": "Voer een voornaam in. Zo word je aan andere gebruikers getoond.",
         "max": "Je voornaam kan maar 25 karakters lang zijn, zodat we hem goed kunnen weergeven. Voel je vrij om deze te verkorten of kies een bijnaam"
       },
-      "last-name": "Voer jouw achternaam in. Dit zal niet worden gedeeld met andere gebruikers.",
+      "last-name": {
+        "set": "Voer jouw achternaam in. Dit zal niet worden gedeeld met andere gebruikers.",
+        "max": "Je achternaam mag maximaal 50 tekens lang zijn."
+      },
       "country": {
         "from-list": "Kies een land uit de lijst. Dit helpt ons om de kaart te focussen op waar je vandaan komt."
       },

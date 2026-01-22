@@ -1,9 +1,14 @@
 <script lang="ts">
-  export let name: string;
-  export let role: string;
-  export let imageSrc: string;
   import Text from '$lib/components/UI/Text.svelte';
   import ProfilePicture from './ProfilePicture.svelte';
+  interface Props {
+    name: string;
+    role: string;
+    imageSrc: string;
+    children?: import('svelte').Snippet;
+  }
+
+  let { name, role, imageSrc, children }: Props = $props();
 </script>
 
 <div class="profile">
@@ -15,7 +20,7 @@
   <Text is="span" size="l" class="role"
     >{role === 'Cofondateur' && name == 'Manon' ? 'Cofondatrice' : role}</Text
   >
-  <Text is="p" class="intro"><slot /></Text>
+  <Text is="p" class="intro">{@render children?.()}</Text>
 </div>
 
 <style>

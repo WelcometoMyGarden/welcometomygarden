@@ -1,18 +1,23 @@
-<script>
+<script lang="ts">
   import velotourImg from '$lib/assets/velotour-group.jpeg?as=run&w=1280';
-  export let decoration = false;
   import Img from '@zerodevx/svelte-img';
   import sun from '$lib/images/sun.png?as=run:0&w=500';
   import flowerRed from '$lib/images/flower-red.png?as=run:0&w=500';
+  interface Props {
+    decoration?: boolean;
+    heading?: import('svelte').Snippet;
+    text?: import('svelte').Snippet;
+  }
+
+  let { decoration = false, heading, text }: Props = $props();
 </script>
 
-<!-- TODO: auto scroll to this id? No SSR, so it won't be immediately there -->
 <div class="wrapper" id="media">
   <div class="heading">
-    <slot name="heading" />
+    {@render heading?.()}
   </div>
   <div class="text">
-    <slot name="text" />
+    {@render text?.()}
   </div>
   <div class="media" class:decoration>
     <Img src={velotourImg} />

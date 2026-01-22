@@ -1,9 +1,15 @@
 <script lang="ts">
-  /**
-   * Starts from 0
-   */
-  export let selectedOption = 2;
-  export let optionIdPrefix = 'button';
+  import { innerWidth } from 'svelte/reactivity/window';
+
+  interface Props {
+    /**
+     * Starts from 0
+     */
+    selectedOption?: number;
+    optionIdPrefix?: string;
+  }
+
+  let { selectedOption = $bindable(2), optionIdPrefix = 'button' }: Props = $props();
 
   // In percentages
   // only works for 3 options
@@ -11,15 +17,13 @@
 
   // array is more difficult to type.
 
-  let innerWidth: number;
-  // TODO: refactor to a `use` svelte expression?
-  $: isMobile = innerWidth <= 850;
+  let isMobile = $derived(innerWidth.current && innerWidth.current <= 850);
 
-  $: sliderPosition = sliderPositions[selectedOption];
+  let sliderPosition = $derived(sliderPositions[selectedOption]);
 
-  $: borderColorOfIndex = (index: number) => {
+  let borderColorOfIndex = $derived((index: number) => {
     return selectedOption > index ? 'var(--color-green)' : 'var(--color-green-light)';
-  };
+  });
 </script>
 
 <div class="slider-bar">
@@ -28,7 +32,7 @@
     class="slider-bar-filled"
     style:width={!isMobile ? `calc(${sliderPosition}% + 1.5rem)` : null}
     style:height={isMobile ? `calc(${sliderPosition}% + 1.5rem)` : null}
-  />
+  ></div>
   {#each sliderPositions as position, index (position)}
     <input
       type="radio"
@@ -46,7 +50,7 @@
     class="slider"
     style:left={!isMobile ? `${sliderPosition}%` : null}
     style:top={isMobile ? `${sliderPosition}%` : null}
-  />
+  ></div>
 </div>
 
 <style>

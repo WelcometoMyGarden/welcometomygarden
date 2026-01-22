@@ -1,12 +1,17 @@
-<script>
+<script lang="ts">
   import { fade } from 'svelte/transition';
-  export let show = false;
+  interface Props {
+    show?: boolean;
+    children?: import('svelte').Snippet;
+  }
+
+  let { show = $bindable(false), children }: Props = $props();
 </script>
 
 {#if show}
   <div transition:fade>
     <p>
-      <slot />
+      {@render children?.()}
     </p>
   </div>
 {/if}

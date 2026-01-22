@@ -3,7 +3,11 @@
   import { lr } from '$lib/util/translation-helpers';
   const elementOptions = ['h1', 'h2', 'span'] as const;
   type Option = (typeof elementOptions)[number];
-  export let is: Option = 'h1';
+  interface Props {
+    is?: Option;
+  }
+
+  let { is = 'h1' }: Props = $props();
 </script>
 
 <a href={$lr(routes.HOME)} class="title">

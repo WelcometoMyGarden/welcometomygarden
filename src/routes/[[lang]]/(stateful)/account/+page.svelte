@@ -29,9 +29,10 @@
   import isFirebaseError from '$lib/util/types/isFirebaseError';
   import { openTally } from '$lib/api/tally';
   import { lr } from '$lib/util/translation-helpers';
+  import logger from '$lib/util/logger';
 
-  let showAccountDeletionModal = false;
-  let showEmailChangeModal = false;
+  let showAccountDeletionModal = $state(false);
+  let showEmailChangeModal = $state(false);
 
   if (!$user) {
     goto($lr(`${routes.SIGN_IN}?continueUrl=${encodeURIComponent($lr(routes.ACCOUNT))}`));
@@ -43,12 +44,12 @@
       await updateMailPreferences(name, checked);
       notify.success($_('account.notify.preferences-update'), 3500);
     } catch (ex) {
-      console.log(ex);
+      logger.log(ex);
       Sentry.captureException(ex, { extra: { context: 'Error while updating mail prefs' } });
     }
   };
 
-  let updatingListedStatus = false;
+  let updatingListedStatus = $state(false);
   const hideGardenTemporarily = async (event: Event) => {
     // "checked" means "take off the map" (opposite of listed)
     const newListedStatus = !(event.target as HTMLInputElement)?.checked;
@@ -81,7 +82,7 @@
         );
       }
     } catch (ex) {
-      console.error(ex);
+      logger.error(ex);
       Sentry.captureException(ex, {
         extra: { context: 'Error while updating the garden listed status' }
       });
@@ -89,8 +90,8 @@
     updatingListedStatus = false;
   };
 
-  let isResendingEmail: boolean;
-  let hasResentEmail = false;
+  let isResendingEmail: boolean = $state();
+  let hasResentEmail = $state(false);
   const doResendEmail = async () => {
     try {
       isResendingEmail = true;
@@ -98,7 +99,7 @@
       hasResentEmail = true;
       isResendingEmail = false;
     } catch (ex) {
-      console.error(ex);
+      logger.error(ex);
       if (isFirebaseError(ex)) {
         notify.danger(
           $_('account.notify.resend-error', { values: { support: SUPPORT_EMAIL } }),
@@ -118,7 +119,7 @@
   // Proactively request a customer portal link if it may be used.
   // This leads to it being immediately ready to be inserted as a simple anchor link, and prevents potential popup blockers
   // with a JS-triggered redirect.
-  let customerPortalLink: string | undefined;
+  let customerPortalLink: string | undefined = $state();
   // TEST DO REPLACE AGAIN
   // let customerPortalLink = 'https://stripe.com';
   onMount(async () => {
@@ -168,7 +169,7 @@
   <title>{$_('account.title')} | {$_('generics.wtmg.explicit')}</title>
   <script
     src="https://tally.so/widgets/embed.js"
-    on:load={() => {
+    onload={() => {
       document.dispatchEvent(new CustomEvent('tally-loaded'));
     }}
   ></script>
@@ -197,7 +198,7 @@
               <Icon icon={emailIcon} />
             </span>
             <span class="notranslate">{$user.email}</span>
-            <button class="icon icon--right" on:click={() => (showEmailChangeModal = true)}>
+            <button class="icon icon--right" onclick={() => (showEmailChangeModal = true)}>
               <Icon icon={pencilIcon} clickable />
               <!-- Text for accessibility -->
               <span class="screen-reader">{$_('account.change-email.modal.title')}</span>
@@ -269,7 +270,7 @@
                 {@html $_('account.superfan.send-invoice-just-ended')}
               {/if}
             </p>
-            <Button xxsmall uppercase on:click={invalidMembershipAction}>
+            <Button xxsmall uppercase onclick={invalidMembershipAction}>
               {#if $user.stripeSubscription.collectionMethod === 'charge_automatically' && $user.stripeSubscription.latestInvoiceStatus === 'open'}
                 {$_('account.superfan.charge-automatically.update-payment-method')}
               {:else}
@@ -286,7 +287,7 @@
             <p>{$_('account.verify.text')}</p>
             {#if !hasResentEmail}
               <div class="resend-verification">
-                <Button uppercase xsmall disabled={isResendingEmail} on:click={doResendEmail}>
+                <Button uppercase xsmall disabled={isResendingEmail} onclick={doResendEmail}>
                   {$_('account.verify.button')}
                 </Button>
               </div>
@@ -308,7 +309,7 @@
               id="new-chat"
               name="newChat"
               checked={$user.emailPreferences.newChat}
-              on:change={onMailPreferenceChanged}
+              onchange={onMailPreferenceChanged}
             />
             <label for="new-chat">{$_('account.preferences.chat')}</label>
           </li>
@@ -319,7 +320,7 @@
               id="news"
               name="news"
               checked={$user.emailPreferences.news}
-              on:change={onMailPreferenceChanged}
+              onchange={onMailPreferenceChanged}
             />
             <label for="news">{@html $_('account.preferences.news')}</label>
           </li>
@@ -334,7 +335,7 @@
             <Button
               uppercase
               medium
-              on:click={() => {
+              onclick={() => {
                 notify.info($_('auth.verification.unverified'), 4000);
               }}
             >
@@ -351,7 +352,7 @@
             name="listed"
             checked={!$user.garden.listed}
             label={$_('account.garden.listed.text')}
-            on:input={hideGardenTemporarily}
+            oninput={hideGardenTemporarily}
           />
           <div class="mt-l">
             <Button href={$lr(routes.MANAGE_GARDEN)} medium uppercase>
@@ -366,7 +367,7 @@
       <section>
         <h2>{$_('account.delete.button-action')}</h2>
         <p class="description">{$_('account.delete.intro')}</p>
-        <Button xxsmall on:click={() => (showAccountDeletionModal = true)}
+        <Button xxsmall onclick={() => (showAccountDeletionModal = true)}
           >{$_('account.delete.button-action')}</Button
         >
       </section>

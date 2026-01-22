@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { _, t, locale } from 'svelte-i18n';
+  import { _, t } from 'svelte-i18n';
   import { Button, Modal } from '$lib/components/UI';
   import MembershipPricing from './MembershipPricing.svelte';
   import { arrowRightIcon } from '$lib/images/icons';
@@ -10,11 +10,16 @@
   import { valuePoints } from './membership-points';
   import { coercedLocale } from '$lib/stores/app';
 
-  export let show = false;
-  export let continueUrl: undefined | string = undefined;
-  let showMobilePricing = false;
+  interface Props {
+    show?: boolean;
+    continueUrl?: undefined | string;
+    onclose?: () => void;
+  }
 
-  $: valuePropsLocal = valuePoints($coercedLocale);
+  let { show = $bindable(false), continueUrl = undefined, onclose }: Props = $props();
+  let showMobilePricing = $state(false);
+
+  let valuePropsLocal = $derived(valuePoints($coercedLocale));
 </script>
 
 <Modal
@@ -23,7 +28,7 @@
   closeButton={true}
   closeOnEsc={true}
   closeOnOuterClick={true}
-  on:close
+  {onclose}
   maxWidth="992px"
   maxHeight="912px"
   center
@@ -34,51 +39,55 @@
   noInnerPadding
   ariaLabelledBy="subtitle title"
 >
-  <div slot="title" class="title" class:showMobilePricing>
-    {#if showMobilePricing}
-      <div class="back-arrow">
-        <IconButton
-          icon={arrowRightIcon}
-          on:click={() => (showMobilePricing = false)}
-          alt="Back to membership info"
-        />
-      </div>
-    {:else}
-      <!-- TODO: translate alt -->
-      <Img class="header-img" src={velotourImg} alt="" />
-      <div class="text-backdrop" />
-      <!-- TODO translate both -->
+  {#snippet title()}
+    <div class="title" class:showMobilePricing>
+      {#if showMobilePricing}
+        <div class="back-arrow">
+          <IconButton
+            icon={arrowRightIcon}
+            onclick={() => (showMobilePricing = false)}
+            alt="Back to membership info"
+          />
+        </div>
+      {:else}
+        <!-- TODO: translate alt -->
+        <Img class="header-img" src={velotourImg} alt="" />
+        <div class="text-backdrop"></div>
+        <!-- TODO translate both -->
 
-      <span class="subtitle">{$t('become-superfan.modal.subtitle')}</span>
-      <h2 class="main-title">{$t('become-superfan.modal.title')}</h2>
-    {/if}
-  </div>
-  <div slot="body" class="body" class:showMobilePricing>
-    <!-- TODO alt -->
-    <div class="membership-content">
-      <div class="value-props">
-        <div class="main-content">
-          <p class="intro">
-            {$_('become-superfan.modal.intro')}
-          </p>
-          <h3>{$t('become-superfan.modal.features-title')}</h3>
-          <ul>
-            {#each valuePropsLocal as props}
-              <ValuePoint {...props} />
-            {/each}
-          </ul>
+        <span class="subtitle">{$t('become-superfan.modal.subtitle')}</span>
+        <h2 class="main-title">{$t('become-superfan.modal.title')}</h2>
+      {/if}
+    </div>
+  {/snippet}
+  {#snippet body()}
+    <div class="body" class:showMobilePricing>
+      <!-- TODO alt -->
+      <div class="membership-content">
+        <div class="value-props">
+          <div class="main-content">
+            <p class="intro">
+              {$_('become-superfan.modal.intro')}
+            </p>
+            <h3>{$t('become-superfan.modal.features-title')}</h3>
+            <ul>
+              {#each valuePropsLocal as props}
+                <ValuePoint {...props} />
+              {/each}
+            </ul>
+          </div>
+          <div class="mobile-continue">
+            <Button centered uppercase orange arrow onclick={() => (showMobilePricing = true)}
+              >{$t('become-superfan.modal.choose-membership')}</Button
+            >
+          </div>
         </div>
-        <div class="mobile-continue">
-          <Button centered uppercase orange arrow on:click={() => (showMobilePricing = true)}
-            >{$t('become-superfan.modal.choose-membership')}</Button
-          >
+        <div class="pricing">
+          <MembershipPricing condensed={true} analyticsSource="modal" {continueUrl} />
         </div>
-      </div>
-      <div class="pricing">
-        <MembershipPricing condensed={true} analyticsSource="modal" {continueUrl} />
       </div>
     </div>
-  </div>
+  {/snippet}
 </Modal>
 
 <style>

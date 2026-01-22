@@ -28,7 +28,7 @@ export type LocalChat = FirebaseChat & {
   id: string;
   /**
    * The UserPublic document of the
-   * Not stored in Firebase, but fetched client-side.
+   * Not stored in Firebase, but fetched client-side before storing.
    */
   partner: UserPublic;
 };

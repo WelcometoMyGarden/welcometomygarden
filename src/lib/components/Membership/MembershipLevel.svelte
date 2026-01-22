@@ -1,49 +1,64 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { createEventDispatcher } from 'svelte';
   import Icon from '$lib/components/UI/Icon.svelte';
   import { arrowRightIcon, checkIcon } from '$lib/images/icons';
   import type { LocaleDictionary } from '$lib/util/get-node-children';
   import { SuperfanLevelSlug } from './superfan-levels';
-  export let selected = false;
-
-  /**
-   * Displays a card with more details
-   */
-  export let full = false;
-  /**
-   * Props only applicable for full cards
-   */
-  export let backref: string | undefined = undefined;
-  export let mobileSuperfanCopy: string | undefined = undefined;
-  export let checkList: (string | LocaleDictionary | null)[] | undefined = undefined;
 
   // Svelte learning: don't do this! This code executes only once,
   // which means only the first prop values will be destructured.
   // Subsequent updates don't get destructured, and the template doesn't react
   // when they change
   // export let level;
-  // const { slug, title, description, value, alt, slugCopy } = level;
-  export let slug: string;
-  export let title: string;
-  export let description: string;
-  export let value: number;
 
-  /**
-   * Whether the parent should apply border styles
-   */
-  export let embeddable = false;
-  const clickDispatch = createEventDispatcher<{ click: MouseEvent }>();
-  const keyDispatch = createEventDispatcher<{ keypress: KeyboardEvent }>();
+  interface Props {
+    selected?: boolean;
+    /**
+     * Displays a card with more details
+     */
+    full?: boolean;
+    /**
+     * Props only applicable for full cards
+     */
+    backref?: string | undefined;
+    mobileSuperfanCopy?: string | undefined;
+    checkList?: (string | LocaleDictionary | null)[] | undefined;
+    // const { slug, title, description, value, alt, slugCopy } = level;
+    slug: string;
+    title: string;
+    description: string;
+    value: number;
+    /**
+     * Whether the parent should apply border styles
+     */
+    embeddable?: boolean;
+    /**
+     * Whether this element is seen as a label for another semantic HTML input,
+     * rather than having its own role="radio"
+     */
+    isLabelFor?: string | undefined;
+    onclick: (event: MouseEvent) => void;
+    onkeypress: (event: KeyboardEvent) => void;
+  }
 
-  /**
-   * Whether this element is seen as a label for another semantic HTML input,
-   * rather than having its own role="radio"
-   */
-  export let isLabelFor: string | undefined = undefined;
+  let {
+    selected = false,
+    full = false,
+    backref = undefined,
+    mobileSuperfanCopy = undefined,
+    checkList = undefined,
+    slug,
+    title,
+    description,
+    value,
+    embeddable = false,
+    isLabelFor = undefined,
+    onclick,
+    onkeypress
+  }: Props = $props();
 
-  $: isLabel = !!isLabelFor;
-  $: is = isLabel ? 'label' : 'div';
+  let isLabel = $derived(!!isLabelFor);
+  let is = $derived(isLabel ? 'label' : 'div');
 </script>
 
 <!-- TODO: report the for={} TS error
@@ -56,8 +71,8 @@
   class:selected
   class:reduced={slug === 'sow'}
   class:embeddable
-  on:click={(e) => clickDispatch('click', e)}
-  on:keypress={(e) => keyDispatch('keypress', e)}
+  {onclick}
+  {onkeypress}
   role={isLabel ? undefined : 'radio'}
   aria-checked={isLabel ? undefined : selected}
   for={isLabel ? isLabelFor : undefined}
@@ -67,7 +82,7 @@
   <!-- TODO: fix alt -->
   <div class="radio">
     {#if selected}
-      <div class="radio-selected" />
+      <div class="radio-selected"></div>
     {/if}
   </div>
   <div class="title-section">

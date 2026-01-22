@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
   import type { LongLat } from '$lib/types/Garden';
   import { writable, derived } from 'svelte/store';
   import { lr } from '$lib/util/translation-helpers';
@@ -26,12 +26,12 @@ Component for maps. Shared between the main map, and the map in the Garden creat
  -->
 
 <script lang="ts">
-  import { setContext, onMount, tick, afterUpdate, onDestroy } from 'svelte';
+  import { setContext, onMount, tick, onDestroy, type Snippet } from 'svelte';
   import maplibregl from 'maplibre-gl';
   import key from './mapbox-context.js';
 
   import 'maplibre-gl/dist/maplibre-gl.css';
-  import { DEFAULT_MAP_STYLE, ZOOM_LEVELS } from '$lib/constants';
+  import { DEFAULT_MAP_STYLE, MOBILE_BREAKPOINT, ZOOM_LEVELS } from '$lib/constants';
   import FullscreenControl from './FullscreenControl';
   import { isFullscreen } from '$lib/stores/fullscreen';
   import { user } from '$lib/stores/auth';
@@ -40,34 +40,54 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   import { beforeNavigate } from '$app/navigation';
   import routes from '$lib/routes';
   import createUrl from '$lib/util/create-url';
+  import { innerWidth } from 'svelte/reactivity/window';
+  import logger from '$lib/util/logger.js';
 
-  export let lat: number;
-  export let lon: number;
-  export let zoom: number;
-  export let applyZoom = false; // make this true if the provided zoom level should be applied
-  export let maxZoom = ZOOM_LEVELS.MAX;
-  // Recenter when the lat & long params change
-  export let recenterOnUpdate = false;
-  export let enableGeolocation = true;
-  export let hasGardenInURL = false;
+  type Props = {
+    lat: number;
+    lon: number;
+    zoom: number;
+    applyZoom: boolean; // make this true if the provided zoom level should be applied
+    maxZoom: number;
+    // Recenter when the lat & long params change
+    recenterOnUpdate: boolean;
+    enableGeolocation?: boolean;
+    isShowingGardenOnInit?: boolean;
+    children: Snippet;
+  };
+
+  let {
+    lat,
+    lon,
+    zoom,
+    applyZoom = false, // make this true if the provided zoom level should be applied
+    maxZoom = ZOOM_LEVELS.MAX,
+    // Recenter when the lat & long params change
+    recenterOnUpdate = false,
+    enableGeolocation = true,
+    isShowingGardenOnInit = false,
+    children
+  }: Props = $props();
 
   // Was used to prevent an automatic jump to the GPS location after the initial map load.
   // TODO: reuse for IP-based geolocation
   let isAutoloadingLocation = false;
 
   let container: HTMLElement;
-  let map: maplibregl.Map;
-  let loaded = false;
+  let map: maplibregl.Map | undefined = $state();
+  let loaded = $state(false);
 
-  let innerWidth: number;
-  $: isMobile = innerWidth != null && innerWidth <= 700;
+  const isMobile = $derived(innerWidth.current != null && innerWidth.current <= MOBILE_BREAKPOINT);
+
   const customAttribution = [
     `<a href="https://waymarkedtrails.org/" target="_blank" title="WaymarkedTrails">© Waymarked Trails</a>`,
     `<a href="https://www.thunderforest.com" target="_blank" title="Thunderforest">© Thunderforest</a>`
   ];
 
+  // We only render the child components when the map is loaded,
+  // hence it can be considered defined
   setContext<ContextType>(key, {
-    getMap: () => map
+    getMap: () => map!
   });
 
   maplibregl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
@@ -96,8 +116,8 @@ Component for maps. Shared between the main map, and the map in the Garden creat
     // We can reuse this code when showing the location indicator after initializing
     // on an IP-based location. We also don't want it to jump then.
     // --
-    if (isAutoloadingLocation && hasGardenInURL) {
-      console.log('Ignored geolocation camera update');
+    if (isAutoloadingLocation && isShowingGardenOnInit) {
+      logger.log('Ignored geolocation camera update');
       return;
     }
     originalUpdateCamera.apply(this, args);
@@ -147,18 +167,20 @@ Component for maps. Shared between the main map, and the map in the Garden creat
 
     // Add full screen control
     map.addControl(fullscreenControl);
+
     fullscreenControl.on('fullscreenstart', async () => {
       isFullscreen.set(true);
       document.body.style.cssText = '--height-footer: 0px; --height-nav: 0px';
       await tick();
       // The above did not always lead to a resize event on mobile
-      map.resize();
+      map!.resize();
     });
+
     fullscreenControl.on('fullscreenend', async () => {
       isFullscreen.set(false);
       document.body.style.cssText = '';
       await tick();
-      map.resize();
+      map!.resize();
     });
 
     return map;
@@ -218,33 +240,33 @@ Component for maps. Shared between the main map, and the map in the Garden creat
       geolocationPermission !== 'denied'
     ) {
       const canPromptForLocationPermissionOnLoad =
-        (!isOnIDevicePWA() || hasEnabledNotificationsOnCurrentDevice()) && !hasGardenInURL;
+        (!isOnIDevicePWA() || hasEnabledNotificationsOnCurrentDevice()) && !isShowingGardenOnInit;
 
       let shouldTriggerGeolocation =
         // It won't prompt if granted
         (geolocationPermission === 'granted' ||
           (geolocationPermission === 'prompt' && canPromptForLocationPermissionOnLoad)) &&
         // Only trigger geolocation for non-members when a garden isn't being shown specifically
-        (!!$user?.superfan || !hasGardenInURL);
+        (!!$user?.superfan || !isShowingGardenOnInit);
 
       if (geolocationPermission === 'granted' && shouldTriggerGeolocation) {
         // Mark the map as autoloading if we have permission and should trigger geolocation
         isAutoloadingLocation = true;
       }
 
-      map.addControl(geolocationControl);
+      map!.addControl(geolocationControl);
 
       // Trigger geolocation
       if (shouldTriggerGeolocation) {
-        map.on('load', () => {
+        map!.on('load', () => {
           geolocationControl.trigger();
 
           if (isAutoloadingLocation) {
             geolocationControl.once('geolocate', () => {
-              console.log('Geolocation autoloaded');
+              logger.log('Geolocation autoloaded');
               // When we're watching
               if ((geolocationControl as any).options.trackUserLocation) {
-                console.log('Forcing background location tracking');
+                logger.log('Forcing background location tracking');
                 geolocationControl._watchState = 'BACKGROUND';
               }
               isAutoloadingLocation = false;
@@ -261,12 +283,12 @@ Component for maps. Shared between the main map, and the map in the Garden creat
       );
     }
 
-    map.on('load', () => {
+    map!.on('load', () => {
       loaded = true;
     });
 
     tick().then(() => {
-      map.resize();
+      map!.resize();
     });
   });
 
@@ -280,11 +302,11 @@ Component for maps. Shared between the main map, and the map in the Garden creat
    * Ensures the scale control is always added last, which positions it on top.
    */
   const readdScaleControl = () => {
-    map.removeControl(scaleControl);
-    map.addControl(scaleControl, 'bottom-right');
+    map!.removeControl(scaleControl);
+    map!.addControl(scaleControl, 'bottom-right');
   };
 
-  afterUpdate(() => {
+  $effect(() => {
     if (map && isMobile && !map.hasControl(compactAttribution) && map.hasControl(fullAttribution)) {
       map.removeControl(fullAttribution);
       map.addControl(compactAttribution);
@@ -302,22 +324,24 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   });
 
   // When the given lon/lat change (and other referenced params), this will recenter
-  $: if (recenterOnUpdate && map) {
-    const zoomLevel = applyZoom ? zoom : map.getZoom();
-    const params = { center: [lon, lat], zoom: zoomLevel };
-    if (!hasGardenInURL) {
-      map.flyTo({
-        ...params,
-        bearing: 0,
-        speed: 1,
-        curve: 1,
-        essential: true
-      });
-    } else {
-      // Immediately change params
-      map.jumpTo(params);
+  $effect(() => {
+    if (recenterOnUpdate && map) {
+      const zoomLevel = applyZoom ? zoom : map.getZoom();
+      const params = { center: [lon, lat], zoom: zoomLevel };
+      if (!isShowingGardenOnInit) {
+        map.flyTo({
+          ...params,
+          bearing: 0,
+          speed: 1,
+          curve: 1,
+          essential: true
+        });
+      } else {
+        // Immediately change params
+        map.jumpTo(params);
+      }
     }
-  }
+  });
 
   beforeNavigate(() => {
     // Save map state
@@ -330,12 +354,10 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   });
 </script>
 
-<svelte:window bind:innerWidth />
-
 <div bind:this={container}>
   <!-- Show map UI if the map is loaded -->
   {#if map && loaded}
-    <slot />
+    {@render children?.()}
   {/if}
 </div>
 

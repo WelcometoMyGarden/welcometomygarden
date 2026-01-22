@@ -1,27 +1,30 @@
 <script lang="ts">
   import Dropzone from '$lib/components/UI/Dropzone.svelte';
-  import { createEventDispatcher } from 'svelte';
+  import type { Snippet } from 'svelte';
+  interface Props {
+    name: string;
+    disabled?: boolean;
+    accept: string;
+    multiple?: boolean;
+    ondrop: (e: { files: any[] }) => void;
+    children?: Snippet;
+  }
 
-  export let name: string;
-  export let disabled = false;
-  export let accept: string;
-  export let multiple = false;
-
-  const dispatch = createEventDispatcher();
+  let { name, disabled = false, accept, multiple = false, ondrop, children }: Props = $props();
 
   let localFiles: { accepted: File[]; rejected: File[] } = {
     accepted: [],
     rejected: []
   };
 
-  const handleFilesSelect = (e: { detail: { acceptedFiles: any; fileRejections: any } }) => {
-    const { acceptedFiles, fileRejections } = e.detail;
+  const handleFilesSelect = (e: { acceptedFiles: any; fileRejections: any; event: Event }) => {
+    const { acceptedFiles, fileRejections } = e;
     localFiles.accepted = [...localFiles.accepted, ...acceptedFiles];
     localFiles.rejected = [...localFiles.rejected, ...fileRejections];
-    dispatch('drop', { files: [...acceptedFiles] });
+    ondrop({ files: [...acceptedFiles] });
   };
 </script>
 
-<Dropzone {name} {accept} on:drop={handleFilesSelect} {multiple} {disabled}>
-  <slot />
+<Dropzone {name} {accept} ondrop={handleFilesSelect} {multiple} {disabled}>
+  {@render children?.()}
 </Dropzone>

@@ -1106,7 +1106,10 @@
         "set": "Por favor indica tu nombre. Así es como aparecerás para otros usuarios.",
         "max": "Tu nombre solo puede tener 25 caracteres para que podamos mostrarlo correctamente. Puedes abreviarlo o elegir un apodo."
       },
-      "last-name": "Por favor indica tu apellido. Esto no se compartirá con otros usuarios.",
+      "last-name": {
+        "set": "Por favor indica tu apellido. Esto no se compartirá con otros usuarios.",
+        "max": "Su apellido puede tener como máximo 50 caracteres."
+      },
       "country": {
         "from-list": "Por favor elige un país de la lista. Esto nos ayuda a centrar el mapa en tu lugar de origen."
       },

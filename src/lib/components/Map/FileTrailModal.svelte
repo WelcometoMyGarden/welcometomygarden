@@ -3,7 +3,11 @@
   import { Button, FileInput, Modal } from '$lib/components/UI';
   import fileToGeoJson from '$lib/util/map/fileToGeoJson';
   import { keyboardEvent } from '$lib/stores/keyboardEvent';
-  import { EXTRA_ACCEPT_VALUES, VALID_FILETYPE_EXTENSIONS } from '$lib/constants';
+  import {
+    EXTRA_ACCEPT_VALUES,
+    MOBILE_BREAKPOINT,
+    VALID_FILETYPE_EXTENSIONS
+  } from '$lib/constants';
   import { getFileExtension } from '$lib/util';
   import Icon from '$lib/components/UI/Icon.svelte';
   import { crossIcon, uploadCloudIcon } from '$lib/images/icons';
@@ -14,27 +18,30 @@
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { createTrail } from '$lib/api/trail';
+  import { innerWidth } from 'svelte/reactivity/window';
   import * as Sentry from '@sentry/sveltekit';
+  import logger from '$lib/util/logger';
 
-  export let show = false;
-  let files: File[] = [];
+  interface Props {
+    show?: boolean;
+  }
+
+  let { show = $bindable(false) }: Props = $props();
+  let files: File[] = $state([]);
 
   // MODAL
   let ariaLabelledBy = 'route-modal-title';
-  let stickToBottom = false;
-  let maxWidth = 700;
-  let vw: number;
-  let phase: 'SELECTING' | 'DONE' = 'SELECTING';
+  let stickToBottom = $state(false);
+  let phase: 'SELECTING' | 'DONE' = $state('SELECTING');
 
-  $: buttonText = phase !== 'DONE' ? 'Next' : 'Show Route';
-  $: buttonDisabled = phase !== 'DONE' ? files.length === 0 : false;
+  let buttonText = $derived(phase !== 'DONE' ? 'Next' : 'Show Route');
+  let buttonDisabled = $derived(phase !== 'DONE' ? files.length === 0 : false);
 
-  $: if (!show) phase = 'SELECTING';
-
-  $: {
-    if (vw < maxWidth) stickToBottom = true;
+  $effect(() => {
+    if (!show) phase = 'SELECTING';
+    if (innerWidth.current && innerWidth.current < MOBILE_BREAKPOINT) stickToBottom = true;
     else stickToBottom = false;
-  }
+  });
 
   const handleFiles = async (files: File[]): Promise<boolean> => {
     for (let i = 0; i < files.length; i++) {
@@ -48,7 +55,7 @@
           return true;
         } catch (error) {
           notification.warning('Error while processing file', 5000);
-          console.log(error);
+          logger.log(error);
           Sentry.captureException(error);
           return false;
         }
@@ -94,101 +101,99 @@
   };
 </script>
 
-<svelte:window bind:innerWidth={vw} />
-
 <Modal
   bind:show
-  maxWidth="{maxWidth}px"
+  maxWidth="{MOBILE_BREAKPOINT}px"
   center={!stickToBottom}
   {stickToBottom}
   nopadding={stickToBottom}
   ariaLabelledBy="title"
 >
-  <div slot="title" class="TitleSection" id={ariaLabelledBy}>
-    <h2 id="Title">{$_('map.upload-route.title')}</h2>
-  </div>
-  <div slot="body" class="BodySection">
-    <div class="modal-content">
-      {#if phase === 'SELECTING'}
-        <div class="file-input">
-          <FileInput
-            name="uploadTrailFileInput"
-            on:drop={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              addFiles(e.detail.files);
-            }}
-            accept={[
-              ...VALID_FILETYPE_EXTENSIONS.map((ft) => '.' + ft),
-              ...EXTRA_ACCEPT_VALUES
-            ].join(',')}
-            multiple
-          >
-            <div class="dropzone-content">
-              {#if files.length > 0}
-                <div class="fileList">
-                  {#each files as file, i}
-                    <button class="button-unstyle file" on:click={(e) => onFileClick(e, i)}>
-                      <div class="file-left">
-                        <div class="file-icon">
-                          <Icon icon={crossIcon} />
+  {#snippet title()}
+    <div class="TitleSection" id={ariaLabelledBy}>
+      <h2 id="Title">{$_('map.upload-route.title')}</h2>
+    </div>
+  {/snippet}
+  {#snippet body()}
+    <div class="BodySection">
+      <div class="modal-content">
+        {#if phase === 'SELECTING'}
+          <div class="file-input">
+            <FileInput
+              name="uploadTrailFileInput"
+              ondrop={(e) => addFiles(e.files)}
+              accept={[
+                ...VALID_FILETYPE_EXTENSIONS.map((ft) => '.' + ft),
+                ...EXTRA_ACCEPT_VALUES
+              ].join(',')}
+              multiple
+            >
+              <div class="dropzone-content">
+                {#if files.length > 0}
+                  <div class="fileList">
+                    {#each files as file, i}
+                      <button class="button-unstyle file" onclick={(e) => onFileClick(e, i)}>
+                        <div class="file-left">
+                          <div class="file-icon">
+                            <Icon icon={crossIcon} />
+                          </div>
+                          <div class="file-name">
+                            {cleanName(file.name)}
+                          </div>
                         </div>
-                        <div class="file-name">
-                          {cleanName(file.name)}
-                        </div>
-                      </div>
 
-                      <div class="file-size">{humanFileSize(file.size)}</div>
-                    </button>
-                  {/each}
-                </div>
-              {/if}
-              <div class="upload-prompt">
-                <div class="icon">
-                  <Icon icon={uploadCloudIcon} />
-                </div>
-                <div class="drag-here">
-                  <Text size="l" weight="w600">
-                    {@html $_('map.upload-route.drag-here', {
-                      values: {
-                        selectFile: `<span class="select-highlight">${$_(
-                          'map.upload-route.select-file'
-                        )}</span>`
-                      }
-                    })}
-                  </Text>
-                </div>
-                <div class="sub-text">
-                  <Text>
-                    {VALID_FILETYPE_EXTENSIONS.map((ft) => '.' + ft).join(' | ')}
-                  </Text>
+                        <div class="file-size">{humanFileSize(file.size)}</div>
+                      </button>
+                    {/each}
+                  </div>
+                {/if}
+                <div class="upload-prompt">
+                  <div class="icon">
+                    <Icon icon={uploadCloudIcon} />
+                  </div>
+                  <div class="drag-here">
+                    <Text size="l" weight="w600">
+                      {@html $_('map.upload-route.drag-here', {
+                        values: {
+                          selectFile: `<span class="select-highlight">${$_(
+                            'map.upload-route.select-file'
+                          )}</span>`
+                        }
+                      })}
+                    </Text>
+                  </div>
+                  <div class="sub-text">
+                    <Text>
+                      {VALID_FILETYPE_EXTENSIONS.map((ft) => '.' + ft).join(' | ')}
+                    </Text>
+                  </div>
                 </div>
               </div>
-            </div>
-          </FileInput>
-        </div>
-      {:else}
-        <div class="file-confirmation">
-          <div class="content">
-            <div class="icon">
-              <Icon icon={uploadCloudIcon} />
-            </div>
-            <div class="drag-here">
-              <Text size="l" weight="bold">{files.map((f) => cleanName(f.name)).join(', ')}</Text>
-            </div>
-            <div class="sub-text">
-              <Text>{$_('map.upload-route.added-to-map')}</Text>
+            </FileInput>
+          </div>
+        {:else}
+          <div class="file-confirmation">
+            <div class="content">
+              <div class="icon">
+                <Icon icon={uploadCloudIcon} />
+              </div>
+              <div class="drag-here">
+                <Text size="l" weight="bold">{files.map((f) => cleanName(f.name)).join(', ')}</Text>
+              </div>
+              <div class="sub-text">
+                <Text>{$_('map.upload-route.added-to-map')}</Text>
+              </div>
             </div>
           </div>
-        </div>
-      {/if}
+        {/if}
+      </div>
     </div>
-
-    <!-- <hr /> -->
-  </div>
-  <div slot="controls" class="modal-controls">
-    <Button uppercase small disabled={buttonDisabled} on:click={clicked}>{buttonText}</Button>
-  </div>
+  {/snippet}
+  {#snippet controls()}
+    <div class="modal-controls">
+      <Button uppercase small disabled={buttonDisabled} onclick={clicked}>{buttonText}</Button>
+    </div>
+  {/snippet}
 </Modal>
 
 <style>

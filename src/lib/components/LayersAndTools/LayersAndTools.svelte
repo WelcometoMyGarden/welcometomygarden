@@ -13,23 +13,35 @@
   import TransportTools from '$lib/components/LayersAndTools/TransportTools.svelte';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import { MOBILE_BREAKPOINT } from '$lib/constants';
+  import { innerWidth } from 'svelte/reactivity/window';
 
-  export let showHiking = false;
-  export let showCycling = false;
-  export let showGardens: boolean;
-  export let showSavedGardens: boolean;
-  export let showTransport: boolean;
-  export let showFileTrailModal: boolean;
-  let showGardensModal = false;
-  let showTrailsModal = false;
-  let showTransportModal = false;
+  interface Props {
+    showHiking?: boolean;
+    showCycling?: boolean;
+    showGardens: boolean;
+    showSavedGardens: boolean;
+    showTransport: boolean;
+    showFileTrailModal: boolean;
+  }
 
-  let innerWidth: number;
-  $: isMobile = innerWidth <= 700;
+  let {
+    showHiking = $bindable(false),
+    showCycling = $bindable(false),
+    showGardens = $bindable(),
+    showSavedGardens = $bindable(),
+    showTransport = $bindable(),
+    showFileTrailModal = $bindable()
+  }: Props = $props();
+  let showGardensModal = $state(false);
+  let showTrailsModal = $state(false);
+  let showTransportModal = $state(false);
 
-  $: superfan = $user?.superfan;
+  let isMobile = $derived(innerWidth.current && innerWidth.current <= MOBILE_BREAKPOINT);
 
-  const toggleFileTrailModal = (e: Event) => {
+  let superfan = $derived($user?.superfan);
+
+  const toggleFileTrailModal = (_: Event) => {
     showFileTrailModal = !showFileTrailModal;
     if (showFileTrailModal) {
       trackEvent(PlausibleEvent.START_ROUTE_UPLOAD_FLOW);
@@ -37,54 +49,68 @@
   };
 </script>
 
-<svelte:window bind:innerWidth />
 <div class="layers-and-tools">
   {#if superfan}
-    <div class="layers-and-tools-superfan">
-      <ToggleAble>
-        <span slot="title">{$_('map.gardens.title')}</span>
-        <div slot="content">
-          <GardensTools bind:showGardens bind:showSavedGardens />
-        </div>
-      </ToggleAble>
+    {#if !isMobile}
+      <div class="layers-and-tools-superfan">
+        <ToggleAble>
+          {#snippet title()}
+            <span>{$_('map.gardens.title')}</span>
+          {/snippet}
+          {#snippet content()}
+            <div>
+              <GardensTools bind:showGardens bind:showSavedGardens />
+            </div>
+          {/snippet}
+        </ToggleAble>
 
-      <ToggleAble>
-        <span slot="title">{$_('map.routes.title')}</span>
-        <div slot="content">
-          <TrailsTool bind:showCycling bind:showHiking on:click={toggleFileTrailModal} />
-        </div>
-      </ToggleAble>
+        <ToggleAble>
+          {#snippet title()}
+            <span>{$_('map.routes.title')}</span>
+          {/snippet}
+          {#snippet content()}
+            <div>
+              <TrailsTool bind:showCycling bind:showHiking onclick={toggleFileTrailModal} />
+            </div>
+          {/snippet}
+        </ToggleAble>
 
-      <ToggleAble>
-        <span slot="title">{$_('map.railway.title')}</span>
-        <div slot="content">
-          <TransportTools bind:showTransport />
+        <ToggleAble>
+          {#snippet title()}
+            <span>{$_('map.railway.title')}</span>
+          {/snippet}
+          {#snippet content()}
+            <div>
+              <TransportTools bind:showTransport />
+            </div>
+          {/snippet}
+        </ToggleAble>
+      </div>
+    {:else}
+      <div class="layers-and-tools-superfan-mobile">
+        <div class="fab">
+          <IconButton xsmall onclick={() => (showGardensModal = !showGardensModal)}>
+            <div class="fab-icon">
+              <Icon icon={tentIcon} whiteStroke />
+            </div>
+          </IconButton>
         </div>
-      </ToggleAble>
-    </div>
-    <div class="layers-and-tools-superfan-mobile">
-      <div class="fab">
-        <IconButton xsmall on:click={() => (showGardensModal = !showGardensModal)}>
-          <div class="fab-icon">
-            <Icon icon={tentIcon} whiteStroke />
-          </div>
-        </IconButton>
+        <div class="fab">
+          <IconButton xsmall onclick={() => (showTrailsModal = !showTrailsModal)}>
+            <div class="fab-icon">
+              <Icon icon={routesIcon} whiteStroke />
+            </div>
+          </IconButton>
+        </div>
+        <div class="fab">
+          <IconButton xsmall onclick={() => (showTransportModal = !showTransportModal)}>
+            <div class="fab-icon">
+              <Icon icon={trainIcon} whiteStroke />
+            </div>
+          </IconButton>
+        </div>
       </div>
-      <div class="fab">
-        <IconButton xsmall on:click={() => (showTrailsModal = !showTrailsModal)}>
-          <div class="fab-icon">
-            <Icon icon={routesIcon} whiteStroke />
-          </div>
-        </IconButton>
-      </div>
-      <div class="fab">
-        <IconButton xsmall on:click={() => (showTransportModal = !showTransportModal)}>
-          <div class="fab-icon">
-            <Icon icon={trainIcon} whiteStroke />
-          </div>
-        </IconButton>
-      </div>
-    </div>
+    {/if}
 
     {#if isMobile}
       <GardensModal bind:show={showGardensModal} bind:showGardens bind:showSavedGardens />
@@ -92,7 +118,7 @@
         bind:show={showTrailsModal}
         bind:showCycling
         bind:showHiking
-        on:click={toggleFileTrailModal}
+        onclick={toggleFileTrailModal}
       />
       <TransportModal bind:show={showTransportModal} bind:showTransport />
     {/if}
@@ -148,7 +174,7 @@
   }
 
   .layers-and-tools-superfan-mobile {
-    display: none;
+    display: flex;
     flex-direction: column;
     position: absolute;
     bottom: 0;
@@ -222,15 +248,6 @@
 
     :global(div.locale-fr) .layers-and-tools-visitors-container {
       max-width: 82%;
-    }
-    /* Quick fix end */
-
-    .layers-and-tools-superfan {
-      display: none;
-    }
-
-    .layers-and-tools-superfan-mobile {
-      display: flex;
     }
 
     .layers-and-tools-visitors {

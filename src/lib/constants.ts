@@ -68,3 +68,5 @@ export const MEMBERSHIP_YEARLY_AMOUNTS: { [key: string]: number } = {
   [import.meta.env.VITE_STRIPE_PRICE_ID_NORMAL]: 60,
   [import.meta.env.VITE_STRIPE_PRICE_ID_SOLIDARITY]: 120
 };
+
+export const MOBILE_BREAKPOINT = 700;

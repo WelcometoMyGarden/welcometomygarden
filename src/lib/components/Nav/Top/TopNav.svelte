@@ -17,7 +17,7 @@
   import { transKeyExists } from '$lib/util';
   import { signInLinkWithGarden } from '$lib/components/Map/Map.svelte';
 
-  $: firstName = $user ? $user.firstName : '';
+  let firstName = $derived($user ? $user.firstName : '');
 </script>
 
 <nav id="top-nav">
@@ -59,7 +59,7 @@
       <li>
         <NavLink
           href={$lr(routes.RULES)}
-          on:click={() => trackEvent(PlausibleEvent.VISIT_RULES, { source: 'top_navbar' })}
+          onclick={() => trackEvent(PlausibleEvent.VISIT_RULES, { source: 'top_navbar' })}
           >{$_('generics.rules')}</NavLink
         >
       </li>
@@ -75,7 +75,7 @@
         <li>
           <NavLink
             href={$lr(routes.ABOUT_MEMBERSHIP)}
-            on:click={() =>
+            onclick={() =>
               trackEvent(PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'top_navbar' })}
             highlighted>{$_('generics.become-member')}</NavLink
           >

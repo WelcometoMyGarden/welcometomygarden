@@ -17,6 +17,7 @@ import { locale } from 'svelte-i18n';
 import { handledOpenFromIOSPWA, rootModal } from './app';
 import { createAuthObserver } from '$lib/api/auth';
 import { invalidateAll } from '$app/navigation';
+import logger from '$lib/util/logger';
 
 export const updatingMailPreferences = writable(false);
 export const updatingSavedGardens = writable(false);
@@ -69,14 +70,14 @@ export const initializeUser = async () => {
       // Unsubscribe from the chat & push registration observers if they still existed,
       // which means that the user logged out
       if (unsubscribeFromChatObserver) {
-        console.log(`Unsubscribing from chat observer & resetting stores`);
+        logger.log(`Unsubscribing from chat observer & resetting stores`);
         unsubscribeFromChatObserver();
         unsubscribeFromChatObserver = undefined;
         resetChatStores();
       }
 
       if (unsubscribeFromPushRegistrationObserver) {
-        console.log(`Unsubscribing from push registrations & resetting stores`);
+        logger.log(`Unsubscribing from push registrations & resetting stores`);
         unsubscribeFromPushRegistrationObserver();
         unsubscribeFromPushRegistrationObserver = undefined;
         resetPushRegistrationStores();
@@ -144,7 +145,7 @@ export const initializeUser = async () => {
         const validatedCookieLocale = coerceToValidLangCode(localeCookie);
         // Update the locale to match the cookie, when the user is not logged in
         if (validatedCookieLocale !== latestLocale) {
-          console.warn(
+          logger.warn(
             // This should happened in locales/initialize.ts
             'Cookie locale was not equal to latest locale after locale init, this should not occur'
           );
@@ -169,7 +170,7 @@ export const initializeUser = async () => {
         if (latestLocale !== latestUser.communicationLanguage) {
           // If the locale store isn't up-to-date with the user's data,
           // change it to match the user's language (load the user)
-          console.debug(`Loading locale ${latestUser.communicationLanguage} from the user's data`);
+          logger.debug(`Loading locale ${latestUser.communicationLanguage} from the user's data`);
           locale.set(latestUser.communicationLanguage);
           // Redirect if needed
           invalidateAll();
@@ -179,12 +180,12 @@ export const initializeUser = async () => {
         // Set the user's communication language to the current locale, if there is none set yet
         // This will trigger another `userLocale` update, which will set the related cookie.
         // but for the rest it should be a no-op.
-        console.debug(
+        logger.debug(
           `Initializing the empty locale in the user data to the current locale ${latestLocale}`
         );
         await updateCommunicationLanguage(latestLocale);
       }
     }
   });
-  console.debug('User init setup done');
+  logger.debug('User init setup done');
 };

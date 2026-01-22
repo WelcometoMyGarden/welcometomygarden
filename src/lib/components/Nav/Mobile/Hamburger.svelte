@@ -1,10 +1,22 @@
 <script lang="ts">
-  export let isOpen = false;
-  export let hamburger: HTMLButtonElement | null = null;
+  interface Props {
+    isOpen?: boolean;
+    hamburger?: HTMLButtonElement | null;
+    onclick: (event: MouseEvent) => void;
+  }
+
+  let { isOpen = false, hamburger = $bindable(null), onclick }: Props = $props();
 </script>
 
-<button bind:this={hamburger} class="button-container" on:click class:open={isOpen}>
-  <span />
+<!-- TODO: translate a11y title content -->
+<button
+  bind:this={hamburger}
+  class="button-container"
+  {onclick}
+  class:open={isOpen}
+  title="Show menu"
+>
+  <span></span>
 </button>
 
 <style>

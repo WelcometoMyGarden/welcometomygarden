@@ -3,14 +3,24 @@
   import { transKeyExists } from '$lib/util';
   import { t } from 'svelte-i18n';
 
-  export let name: string | undefined = undefined;
-  export let property: string | undefined = undefined;
-  export let fallbackContent: string | undefined = undefined;
-  export let pageKey: string | undefined = undefined;
-  export let itemKey: string | undefined = undefined;
+  interface Props {
+    name?: string | undefined;
+    property?: string | undefined;
+    fallbackContent?: string | undefined;
+    pageKey?: string | undefined;
+    itemKey?: string | undefined;
+  }
 
-  $: fPageKey = pageKey ?? $activeRootPath;
-  $: fItemKey = itemKey ?? name ?? property ?? '';
+  let {
+    name = undefined,
+    property = undefined,
+    fallbackContent = undefined,
+    pageKey = undefined,
+    itemKey = undefined
+  }: Props = $props();
+
+  let fPageKey = $derived(pageKey ?? $activeRootPath);
+  let fItemKey = $derived(itemKey ?? name ?? property ?? '');
 </script>
 
 <!-- @component requires localization to be loaded -->

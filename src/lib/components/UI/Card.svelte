@@ -1,24 +1,36 @@
-<script>
+<script lang="ts">
   import { _ } from 'svelte-i18n';
   import Text from './Text.svelte';
   import Icon from './Icon.svelte';
   import Image from './Image.svelte';
   import { calendarIcon, clockIcon, arrowIcon } from '$lib/images/icons';
 
-  export let languageAbbreviation = 'EN';
-  export let title = '';
-  export let src = '';
-  export let date = '';
-  export let time = '';
-  export let href = '';
-  export let group = null;
+  interface Props {
+    languageAbbreviation?: string;
+    title?: string;
+    src?: string;
+    date?: string;
+    time?: string;
+    href?: string;
+    group?: any;
+  }
+
+  let {
+    languageAbbreviation = 'EN',
+    title = '',
+    src = '',
+    date = '',
+    time = '',
+    href = '',
+    group = null
+  }: Props = $props();
 
   const openLinkInNewTab = () => {
     window.open(href, '_blank');
   };
 </script>
 
-<button class="button-container card-container fixed-height" on:click={openLinkInNewTab}>
+<button class="button-container card-container fixed-height" onclick={openLinkInNewTab}>
   <article class="card fixed-height">
     <div class="badges">
       <div class="badge">{languageAbbreviation}</div>

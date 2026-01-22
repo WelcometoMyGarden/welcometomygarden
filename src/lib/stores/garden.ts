@@ -2,12 +2,14 @@ import { writable, get, type Writable } from 'svelte/store';
 import { getAllListedGardens } from '$lib/api/garden';
 import type { Garden } from '../types/Garden';
 import * as Sentry from '@sentry/sveltekit';
+import logger from '$lib/util/logger';
 
 export const hasLoaded = writable(false);
 export const isUploading = writable(false);
 export const uploadProgress = writable(0);
 export const isFetchingGardens = writable(false);
 export const allListedGardens: Writable<Garden[]> = writable([]);
+export const filteredGardens: Writable<Garden[]> = writable([]);
 
 export const upsertInAllListedGardens = async (garden: Garden) => {
   // If the garden passed in is unlisted, and it is found in the listed gardens store
@@ -25,7 +27,7 @@ export const upsertInAllListedGardens = async (garden: Garden) => {
     try {
       await getAllListedGardens();
     } catch (ex) {
-      console.error(ex);
+      logger.error(ex);
       Sentry.captureException(ex, {
         extra: { context: 'Fetching all listed gardens' }
       });

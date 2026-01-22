@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/sveltekit';
 import { derived, writable } from 'svelte/store';
 import { isInitializingFirebase, isSigningIn, isUserLoading } from './auth';
 import { isLoading as isLocaleLoading, locale } from 'svelte-i18n';
-import type { ComponentType } from 'svelte';
+import type { Component } from 'svelte';
 import { coerceToSupportedLanguage } from '$lib/util/get-browser-lang';
 import { isOnIDevicePWA } from '$lib/util/push-registrations';
 
@@ -68,7 +68,7 @@ Sentry.startSpan(
  * A modal to be shown in the root. Children can use getContext('simple-modal')
  * to overwrite this modal.
  */
-export const rootModal = writable<ComponentType | null>(null);
+export const rootModal = writable<Component | null>(null);
 
 export const close = () => rootModal.set(null);
 

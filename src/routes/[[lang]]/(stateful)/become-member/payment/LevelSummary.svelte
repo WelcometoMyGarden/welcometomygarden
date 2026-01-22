@@ -6,7 +6,11 @@
   import { getNodeArray } from '$lib/util/get-node-children';
   import { Icon } from '$lib/components/UI';
 
-  export let level: SuperfanLevelData;
+  interface Props {
+    level: SuperfanLevelData;
+  }
+
+  let { level }: Props = $props();
 
   // TODO: base this on actual Stripe data, not self-calculated
   const now = new Date();

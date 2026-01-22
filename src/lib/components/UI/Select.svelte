@@ -1,14 +1,30 @@
 <script lang="ts">
-  // your script goes here
-  export let name: string;
-  export let value: string | null | undefined;
-  export let transparent = false;
-  export let globe = false;
-  export let fullBlock = false;
+  interface Props {
+    // your script goes here
+    name: string;
+    value: string | null | undefined;
+    transparent?: boolean;
+    globe?: boolean;
+    fullBlock?: boolean;
+    children?: import('svelte').Snippet;
+    onchange?: (
+      e: Event & { currentTarget: EventTarget & HTMLSelectElement }
+    ) => void | Promise<void>;
+  }
+
+  let {
+    name,
+    value = $bindable(),
+    transparent = false,
+    globe = false,
+    fullBlock = false,
+    children,
+    onchange
+  }: Props = $props();
 </script>
 
-<select {name} id={name} bind:value on:change class:transparent class:globe class:fullBlock
-  ><slot /></select
+<select {name} id={name} bind:value {onchange} class:transparent class:globe class:fullBlock
+  >{@render children?.()}</select
 >
 
 <style>

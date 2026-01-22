@@ -12,15 +12,20 @@
   import { PlausibleEvent } from '$lib/types/Plausible';
   import * as Sentry from '@sentry/sveltekit';
   import { openTally } from '$lib/api/tally';
-  export let show = false;
+  import { MOBILE_BREAKPOINT } from '$lib/constants';
+  interface Props {
+    show?: boolean;
+  }
 
-  let formError: null | string = null;
-  let shouldReauthenticate = false;
-  $: verificationPrompt = $_('account.delete.modal.prompt').toLowerCase();
+  let { show = $bindable(false) }: Props = $props();
 
-  let verificationField = '';
-  $: processedVerificationField = verificationField.toLowerCase().trim();
-  let password = '';
+  let formError: null | string = $state(null);
+  let shouldReauthenticate = $state(false);
+  let verificationPrompt = $derived($_('account.delete.modal.prompt').toLowerCase());
+
+  let verificationField = $state('');
+  let processedVerificationField = $derived(verificationField.toLowerCase().trim());
+  let password = $state('');
 
   const executeDeletion = async () => {
     await deleteAccount();
@@ -115,79 +120,90 @@
 
 <Modal
   bind:show
-  maxWidth="700px"
+  maxWidth="{MOBILE_BREAKPOINT}px"
   center={true}
   stickToBottom={false}
   nopadding={false}
   ariaLabelledBy="title"
 >
-  <div slot="title" class="title-section">
-    <h2>{$_('account.delete.modal.title')}</h2>
-  </div>
-  <div slot="body" class="main-section">
-    <form on:submit|preventDefault={onConfirmDeletion}>
-      <div>
-        <!-- TODO: add verification icon? -->
-        <!-- icon={emailIcon} -->
-        <p>{$_('account.delete.intro')}</p>
-        {@html $_('account.delete.modal.are-you-sure', {
-          values: {
-            unlist: $_('account.garden.listed.text')
-          }
-        })}
+  {#snippet title()}
+    <div class="title-section">
+      <h2>{$_('account.delete.modal.title')}</h2>
+    </div>
+  {/snippet}
+  {#snippet body()}
+    <div class="main-section">
+      <form
+        onsubmit={(e) => {
+          e.preventDefault();
+          onConfirmDeletion();
+        }}
+      >
+        <div>
+          <!-- TODO: add verification icon? -->
+          <!-- icon={emailIcon} -->
+          <p>{$_('account.delete.intro')}</p>
+          {@html $_('account.delete.modal.are-you-sure', {
+            values: {
+              unlist: $_('account.garden.listed.text')
+            }
+          })}
 
-        {#if processedVerificationField !== verificationPrompt}
-          <div class="verification">
-            {@html $_('account.delete.modal.verification-info', {
-              values: {
-                prompt: verificationPrompt
-              }
-            })}
-            <label for="verification"
-              >{$_('account.delete.modal.delete-field-label', {
+          {#if processedVerificationField !== verificationPrompt}
+            <div class="verification">
+              {@html $_('account.delete.modal.verification-info', {
                 values: {
                   prompt: verificationPrompt
                 }
-              })}</label
-            >
-            <TextInput
-              name="verification"
-              id="verification"
-              placeholder={`${verificationPrompt.substring(0, 1)}...`}
-              bind:value={verificationField}
-            />
-          </div>
-        {:else if !shouldReauthenticate}
-          <div class="verification">
-            <p>{$_('account.delete.modal.verification-ok')}</p>
-          </div>
-        {/if}
-        {#if shouldReauthenticate}
-          <div class="verification">
-            <p class="reauthentication-info">
-              {@html $_('account.delete.modal.reauthentication-info')}
-            </p>
-            <label for="password">{$_('generics.password')}</label>
-            <TextInput type="password" name="password" id="password" bind:value={password} />
-          </div>
-        {/if}
-      </div>
-      <div class="hint">
-        {#if formError}
-          <p transition:fade class="hint danger">{formError}</p>
-        {/if}
-      </div>
-    </form>
-  </div>
-  <div slot="controls">
-    <Button
-      disabled={processedVerificationField !== verificationPrompt}
-      danger
-      uppercase
-      small
-      on:click={onConfirmDeletion}>{$_('account.delete.button-action')}</Button
-    >
-  </div>
+              })}
+              <label for="verification"
+                >{$_('account.delete.modal.delete-field-label', {
+                  values: {
+                    prompt: verificationPrompt
+                  }
+                })}</label
+              >
+              <TextInput
+                name="verification"
+                id="verification"
+                placeholder={`${verificationPrompt.substring(0, 1)}...`}
+                bind:value={verificationField}
+              />
+            </div>
+          {:else if !shouldReauthenticate}
+            <div class="verification">
+              <p>{$_('account.delete.modal.verification-ok')}</p>
+            </div>
+          {/if}
+          {#if shouldReauthenticate}
+            <div class="verification">
+              <p class="reauthentication-info">
+                {@html $_('account.delete.modal.reauthentication-info')}
+              </p>
+              <label for="password">{$_('generics.password')}</label>
+              <TextInput type="password" name="password" id="password" bind:value={password} />
+            </div>
+          {/if}
+        </div>
+        <div class="hint">
+          {#if formError}
+            <p transition:fade class="hint danger">{formError}</p>
+          {/if}
+        </div>
+      </form>
+    </div>
+  {/snippet}
+  {#snippet controls()}
+    <div>
+      <Button
+        disabled={processedVerificationField !== verificationPrompt}
+        danger
+        uppercase
+        small
+        onclick={onConfirmDeletion}>{$_('account.delete.button-action')}</Button
+      >
+    </div>
+  {/snippet}
 </Modal>
 
 <style>

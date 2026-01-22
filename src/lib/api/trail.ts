@@ -23,6 +23,7 @@ import {
   removeFileDataLayers,
   updateFileDataLayers
 } from '$lib/stores/file';
+import logger from '$lib/util/logger';
 
 const getFileRef = (fileId: string) => ref(storage(), `trails/${getUser().uid}/${fileId}`);
 
@@ -88,7 +89,7 @@ export const createTrail = async ({
   // Check if the file already exists
   const existingFile = findFileDataLayerByMD5Hash(md5Hash);
   if (existingFile) {
-    console.error('This file already exists');
+    logger.error('This file already exists');
     return;
   }
 
@@ -129,7 +130,7 @@ export const createTrail = async ({
 export const toggleTrailVisibility = async (id: string) => {
   const existingFile = findFileDataLayer(id);
   if (!existingFile) {
-    console.error('The visibility of this trail can not be changed');
+    logger.error('The visibility of this trail can not be changed');
     return;
   }
   const ref = doc(db(), USERS_PRIVATE, getUser().id, TRAILS, id);
@@ -139,7 +140,7 @@ export const toggleTrailVisibility = async (id: string) => {
 export const deleteTrail = async (id: string) => {
   const existingFile = findFileDataLayer(id);
   if (!existingFile) {
-    console.error('This trail does not exist');
+    logger.error('This trail does not exist');
     return;
   }
 

@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
   export type CapacityFilterType = {
     min: number;
     max: number;
@@ -18,15 +18,21 @@
   import { filterIcon } from '$lib/images/icons';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
-  import type { BooleanGardenFacilities, Garden } from '$lib/types/Garden';
+  import type { BooleanGardenFacilities, Garden, LongLat } from '$lib/types/Garden';
   import { facilities } from '$lib/stores/facilities';
-  import { MAX_GARDEN_CAPACITY } from '$lib/constants';
+  import { MAX_GARDEN_CAPACITY, MOBILE_BREAKPOINT } from '$lib/constants';
+  import { innerWidth } from 'svelte/reactivity/window';
+  import ViteSVG from '../UI/ViteSVG.svelte';
 
-  export let filteredGardens: Garden[] | undefined;
-  /**
-   * Prioritize location filter results close to this location.
-   */
-  export let closeToLocation;
+  interface Props {
+    /**
+     * Prioritize location filter results close to this location.
+     */
+    closeToLocation: any;
+    onGoToPlace: (ll: LongLat) => void;
+  }
+
+  let { closeToLocation, onGoToPlace }: Props = $props();
 
   /**
    * Generates a default (unfiltered) facility filter configuration.
@@ -37,83 +43,86 @@
   const unfilteredFacilities = () =>
     Object.fromEntries($facilities.map((f) => [f.name, false])) as FacilitiesFilterType;
 
-  let showFilterModal = false;
+  let showFilterModal = $state(false);
 
   type FilterType = {
     facilities: FacilitiesFilterType;
     capacity: CapacityFilterType;
   };
 
-  let filter: FilterType = {
+  let filter: FilterType = $state({
     facilities: unfilteredFacilities(),
     capacity: {
       min: 1,
       max: MAX_GARDEN_CAPACITY
     }
-  };
+  });
 
-  let isSearching = false;
+  let isSearching = $state(false);
 
-  let allFiltersTag = false;
-
-  let vw: number;
-
-  const activeFacilities = (currentWidth: number) => {
+  let allFiltersTag = $derived.by(() => {
     let activeFacilitiesFiltered = $facilities.filter(
       (facility) => filter.facilities[facility.name] === true
     );
 
-    let maxWidth = 700;
-
-    allFiltersTag = false;
-
-    if (currentWidth < maxWidth) {
+    if (!innerWidth.current || innerWidth.current < MOBILE_BREAKPOINT) {
       if (activeFacilitiesFiltered.length > 2 && filter.capacity.min > 1) {
-        activeFacilitiesFiltered = activeFacilitiesFiltered.slice(0, 2);
-        allFiltersTag = true;
+        return true;
       } else if (activeFacilitiesFiltered.length > 3) {
         activeFacilitiesFiltered = activeFacilitiesFiltered.slice(0, 3);
-        allFiltersTag = true;
+        return true;
+      }
+    }
+    return false;
+  });
+
+  const activeFacilities = $derived.by(() => {
+    let activeFacilitiesFiltered = $facilities.filter(
+      (facility) => filter.facilities[facility.name] === true
+    );
+    if (!innerWidth.current || innerWidth.current < MOBILE_BREAKPOINT) {
+      if (activeFacilitiesFiltered.length > 2 && filter.capacity.min > 1) {
+        return activeFacilitiesFiltered.slice(0, 2);
+      } else if (activeFacilitiesFiltered.length > 3) {
+        return activeFacilitiesFiltered.slice(0, 3);
       }
     }
     return activeFacilitiesFiltered;
-  };
+  });
 </script>
-
-<svelte:window bind:innerWidth={vw} />
 
 <div class="filter">
   <div class="filter-controls">
     <div class="location-filter">
-      <FilterLocation on:goToPlace bind:isSearching {closeToLocation} />
+      <FilterLocation {onGoToPlace} bind:isSearching {closeToLocation} />
     </div>
     <div class="garden-filter">
       <Button
         type="button"
         uppercase
         small
-        on:click={() => {
+        onclick={() => {
           showFilterModal = true;
           trackEvent(PlausibleEvent.SHOW_GARDEN_FILTER);
         }}
       >
-        {@html filterIcon}
+        <ViteSVG icon={filterIcon}></ViteSVG>
       </Button>
     </div>
   </div>
   {#if !isSearching}
     <div class="filter-tags">
-      {#each activeFacilities(vw) as facility (facility.name)}
+      {#each activeFacilities as facility (facility.name)}
         <Tag
           name={facility.name}
           icon={facility.icon}
-          on:close={() => (filter.facilities[facility.name] = false)}
+          onclose={() => (filter.facilities[facility.name] = false)}
         >
           {facility.label}
         </Tag>
       {/each}
       {#if filter.capacity.min > 1}
-        <Tag name="min-capacity" on:close={() => (filter.capacity.min = 1)}>
+        <Tag name="min-capacity" onclose={() => (filter.capacity.min = 1)}>
           {$_('garden.filter.min-capacity', {
             values: {
               capacity: filter.capacity.min
@@ -126,10 +135,10 @@
           name="all-filters"
           pointer={true}
           invert={true}
-          on:click={() => {
+          onclick={() => {
             showFilterModal = true;
           }}
-          on:close={() => {
+          onclose={() => {
             // Reset filters
             filter = {
               facilities: unfilteredFacilities(),
@@ -148,7 +157,7 @@
   {/if}
 </div>
 
-<FacilitiesFilter bind:show={showFilterModal} bind:filteredGardens bind:filter />
+<FacilitiesFilter bind:show={showFilterModal} bind:filter />
 
 <style>
   :root {

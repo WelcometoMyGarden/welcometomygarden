@@ -2,11 +2,12 @@ import type { LayoutLoad } from './$types';
 import { browser } from '$app/environment';
 import { isValidLocale } from '$lib/util/get-browser-lang';
 import { error, redirect } from '@sveltejs/kit';
+import logger from '$lib/util/logger';
 
 export const load: LayoutLoad = async ({ params: { lang: pathLang }, url, parent }) => {
   // TODO: maybe we want to init this with the browser lang like before?
   // To be able to use the right lang later if needed.
-  console.debug('Inner layout load started');
+  logger.debug('Inner layout load started');
 
   const { newPath } = await parent();
 
@@ -14,7 +15,7 @@ export const load: LayoutLoad = async ({ params: { lang: pathLang }, url, parent
     // If an invalid language is given as a language path param, show an error.
     // Only do this client-side, since it doesn't make sense on SSR with SSG
     if (typeof pathLang === 'string' && pathLang.length > 0 && !isValidLocale(pathLang)) {
-      console.warn(
+      logger.warn(
         `${pathLang} is not a valid language path, and SvelteKit found no other matching routes.`
       );
       error(404);
@@ -34,7 +35,7 @@ export const load: LayoutLoad = async ({ params: { lang: pathLang }, url, parent
   if (newPath != null) {
     const newUrl = new URL(url);
     newUrl.pathname = newPath;
-    console.log(`Redirecting ${url.pathname} to ${newPath}`);
+    logger.log(`Redirecting ${url.pathname} to ${newPath}`);
     redirect(303, newUrl.toString());
   }
 };

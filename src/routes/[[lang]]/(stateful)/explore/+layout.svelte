@@ -2,9 +2,9 @@
   import { _ } from 'svelte-i18n';
   import { onMount, onDestroy } from 'svelte';
   import { goto } from '$lib/util/navigate';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { getAllListedGardens, getGarden } from '$lib/api/garden';
-  import { allListedGardens, isFetchingGardens } from '$lib/stores/garden';
+  import { allListedGardens, filteredGardens, isFetchingGardens } from '$lib/stores/garden';
   import routes from '$lib/routes';
   import Map, { currentPosition, mapState } from '$lib/components/Map/Map.svelte';
   import Drawer from '$lib/components/Garden/GardenDrawer.svelte';
@@ -25,7 +25,7 @@
   import LayersAndTools from '$lib/components/LayersAndTools/LayersAndTools.svelte';
   import FileTrailModal from '$lib/components/Map/FileTrailModal.svelte';
   import FileTrails from '$lib/components/Map/FileTrails.svelte';
-  import type { Garden } from '$lib/types/Garden';
+  import type { Garden, LongLat } from '$lib/types/Garden';
   import { savedGardens as savedGardenStore } from '$lib/stores/savedGardens';
   import TrainAndRails from '$lib/components/Map/TrainAndRails.svelte';
   import trackEvent from '$lib/util/track-plausible';
@@ -43,83 +43,86 @@
   import MeetupDrawer from '$lib/components/Map/MeetupDrawer.svelte';
   import MembershipModal from '$lib/components/Membership/MembershipModal.svelte';
   import { lr } from '$lib/util/translation-helpers';
+  import logger from '$lib/util/logger';
+  interface Props {
+    children?: import('svelte').Snippet;
+  }
 
-  let showHiking = false;
-  let showCycling = false;
-  let showFileTrailModal = false;
-  let showGardens = true;
-  let showSavedGardens = true;
-  let showTransport = false;
-  let filteredGardens: Garden[];
-  let savedGardens = [] as string[];
-  let carNoticeShown = !isOnIDevicePWA() && !getCookie('car-notice-dismissed');
-  let showMembershipModal = false;
+  let { children }: Props = $props();
+
+  let showHiking = $state(false);
+  let showCycling = $state(false);
+  let showFileTrailModal = $state(false);
+  let showGardens = $state(true);
+  let showSavedGardens = $state(true);
+  let showTransport = $state(false);
+  let savedGardens = $state([] as string[]);
+  let carNoticeShown = $state(!isOnIDevicePWA() && !getCookie('car-notice-dismissed'));
+  let showMembershipModal = $state(false);
+
+  let unsubscribeFromTrailObserver: null | Unsubscribe = $state(null);
 
   // TODO: this works for now, because the default state when loading the
   // page is that the checkboxes are unchecked. We may want to intercept actual
   // clicks/actions on the button.
-  $: if (showHiking) {
-    trackEvent(PlausibleEvent.SHOW_HIKING_ROUTES);
-  }
-  $: if (showCycling) {
-    trackEvent(PlausibleEvent.SHOW_CYCLING_ROUTES);
-  }
-
-  $: if (showTransport) {
-    trackEvent(PlausibleEvent.SHOW_TRAIN_NETWORK);
-  }
-
-  let unsubscribeFromTrailObserver: null | Unsubscribe = null;
-  $: if ($user && $user.superfan) {
-    // Combining this conditions with the above one somehow doesn't work.
-    if (!unsubscribeFromTrailObserver) {
-      unsubscribeFromTrailObserver = createTrailObserver();
+  $effect(() => {
+    if (showHiking) {
+      trackEvent(PlausibleEvent.SHOW_HIKING_ROUTES);
     }
-  }
-
-  // If the user is not a Superfan anymore, but trails are being listened for, then clear the trails + listener.
-  $: if ($user && !$user.superfan) {
-    if (unsubscribeFromTrailObserver) {
-      fileDataLayers.set([]);
-      unsubscribeFromTrailObserver();
-      unsubscribeFromTrailObserver = null;
+    if (showCycling) {
+      trackEvent(PlausibleEvent.SHOW_CYCLING_ROUTES);
     }
-  }
+    if (showTransport) {
+      trackEvent(PlausibleEvent.SHOW_TRAIN_NETWORK);
+    }
 
-  // true when visiting the link to a garden directly, used to increase zoom level
-  // TODO check this: It looks like there is no need for a subscribe on page
-  let hasGardenInURL = !!$page.params.gardenId;
+    if ($user && $user.superfan) {
+      // Combining this conditions with the above one somehow doesn't work.
+      if (!unsubscribeFromTrailObserver) {
+        unsubscribeFromTrailObserver = createTrailObserver();
+      }
+    }
+    // If the user is not a Superfan anymore, but trails are being listened for, then clear the trails + listener.
+    if ($user && !$user.superfan) {
+      if (unsubscribeFromTrailObserver) {
+        fileDataLayers.set([]);
+        unsubscribeFromTrailObserver();
+        unsubscribeFromTrailObserver = null;
+      }
+    }
+  });
+
+  /**
+   * Whether this page was loaded from a URL with a garden in it
+   */
+  let isShowingGardenOnInit = $state(!!page.params.gardenId);
 
   // reactivity seems to be necessary here!
-  $: selectedMeetupId = $page.params.meetupId;
-  $: selectedMeetup = meetups.find((m) => m.id === selectedMeetupId);
+  let selectedMeetupId = $derived(page.params.meetupId);
+  let selectedMeetup = $derived(meetups.find((m) => m.id === selectedMeetupId));
 
-  let zoom = hasGardenInURL ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.WESTERN_EUROPE;
-
-  $: applyZoom = hasGardenInURL ? true : false;
+  let zoom = $state(isShowingGardenOnInit ? ZOOM_LEVELS.ROAD : ZOOM_LEVELS.WESTERN_EUROPE);
+  let applyZoom = $state(isShowingGardenOnInit ? true : false);
 
   // Garden to preload when we are loading the app on its permalink URL
-  let preloadedGarden: Garden | null = null;
+  let preloadedGarden: Garden | null = $state(null);
 
-  let selectedGarden: Garden | null = null;
-
-  // Select the preloaded garden if it matches the current URL, but only if it was not selected yet.
-  $: if (
-    preloadedGarden?.id === $page.params.gardenId &&
-    selectedGarden?.id !== preloadedGarden?.id
-  ) {
-    selectedGarden = preloadedGarden;
-  }
-
-  // Select a garden when the URL changes, but only if all gardens are loaded and the garden is not selected yet.
-  $: if (!isEmpty($allListedGardens) && $page.params.gardenId !== selectedGarden?.id) {
-    selectedGarden = $allListedGardens.find((g) => g.id === $page.params.gardenId) ?? null;
-  }
+  let selectedGarden: Garden | null = $derived.by(() => {
+    // Select the preloaded garden if it matches the current URL
+    if (preloadedGarden?.id === page.params.gardenId) {
+      return preloadedGarden;
+    }
+    // Select a garden when the URL changes, but only if all gardens are loaded and the garden is not selected yet.
+    if (!isEmpty($allListedGardens)) {
+      return $allListedGardens.find((g) => g.id === page.params.gardenId) ?? null;
+    }
+    return null;
+  });
 
   // This variable controls the location of the map.
   // Don't make it reactive based on its params, so that it can be imperatively controlled.
   // This is useful to not recenter the map after defocussing a selected garden
-  let centerLocation = selectedGarden?.location ?? LOCATION_WESTERN_EUROPE;
+  let centerLocation = $state(LOCATION_WESTERN_EUROPE);
 
   const setMapToGardenLocation = (garden: Garden) => {
     centerLocation = garden.location!;
@@ -133,6 +136,9 @@
   // FUNCTIONS
 
   const selectGarden = (garden: Garden) => {
+    // We're switching to non-direct loading by clicking a garden on the map
+    isShowingGardenOnInit = false;
+
     const newSelectedId = garden.id;
     const newGarden = $allListedGardens.find((g) => g.id === newSelectedId);
     if (newGarden) {
@@ -140,7 +146,7 @@
       applyZoom = false; // zoom level is not programatically changed when exploring a garden
       goto($lr(`${routes.MAP}/garden/${newSelectedId}`));
     } else {
-      console.warn(`Failed garden navigation to ${newSelectedId}`);
+      logger.warn(`Failed garden navigation to ${newSelectedId}`);
     }
   };
 
@@ -152,14 +158,13 @@
     }
   };
 
-  const goToPlace = (event) => {
+  const goToPlace = (event: LongLat) => {
     zoom = ZOOM_LEVELS.CITY;
     applyZoom = true;
-    centerLocation = { longitude: event.detail.longitude, latitude: event.detail.latitude };
+    centerLocation = { longitude: event.longitude, latitude: event.latitude };
   };
 
   const closeDrawer = () => {
-    hasGardenInURL = false;
     goto($lr(routes.MAP));
   };
 
@@ -183,18 +188,18 @@
     //
     // Note that all gardens are fetched at the end of this function on a fresh/hard navigation, but it may also be possible that
     // onMount() is called in a soft client-side navigation, after gardens have already been loaded.
-    if (gardensAreEmpty && !$isFetchingGardens && hasGardenInURL) {
-      preloadedGarden = await getGarden($page.params.gardenId);
+    if (gardensAreEmpty && !$isFetchingGardens && isShowingGardenOnInit) {
+      preloadedGarden = await getGarden(page.params.gardenId);
     }
 
     // In any case where we open the map with a garden in the URL, move the map view to that garden
-    if (hasGardenInURL && (!gardensAreEmpty || preloadedGarden)) {
+    if (isShowingGardenOnInit && (!gardensAreEmpty || preloadedGarden)) {
       // In one case, all gardens are already loaded before the page mount. In another, we've preloaded the target here above.
       const targetGarden =
-        $allListedGardens.find((g) => g.id === $page.params.gardenId) || preloadedGarden;
+        $allListedGardens.find((g) => g.id === page.params.gardenId) || preloadedGarden;
       if (targetGarden) {
         // the target garden exists
-        if (typeof $mapState?.zoom === 'number' && $mapState?.gardenId === $page.params.gardenId) {
+        if (typeof $mapState?.zoom === 'number' && $mapState?.gardenId === page.params.gardenId) {
           // Restore the zoom level & position in case we're returning to the same garden we left before
           // in the session
           zoom = $mapState.zoom;
@@ -203,7 +208,7 @@
           setMapToGardenLocation(targetGarden);
         }
       }
-    } else if (!hasGardenInURL && $mapState) {
+    } else if (!isShowingGardenOnInit && $mapState) {
       // No garden in the URL, restore state if it exists
       zoom = $mapState.zoom;
       centerLocation = lnglatToObject($mapState.center.toArray() as [number, number]);
@@ -212,7 +217,7 @@
     // Fetch all gardens if they are not loaded yet, every time the map opens
     if (gardensAreEmpty && !$isFetchingGardens) {
       await getAllListedGardens().catch((ex) => {
-        console.error(ex);
+        logger.error(ex);
         fetchError = 'Error' + ex;
         isFetchingGardens.set(false);
       });
@@ -238,7 +243,7 @@
     lat={centerLocation.latitude}
     maxZoom={$user?.superfan ? memberMaxZoom : nonMemberMaxZoom}
     recenterOnUpdate
-    {hasGardenInURL}
+    {isShowingGardenOnInit}
     {zoom}
     {applyZoom}
   >
@@ -247,20 +252,20 @@
       <GardenLayer
         {showGardens}
         {showSavedGardens}
-        on:garden-click={(e) => selectGarden(e.detail)}
+        onGardenClick={selectGarden}
         selectedGardenId={selectedGarden ? selectedGarden.id : null}
-        allGardens={filteredGardens || $allListedGardens}
+        allGardens={$filteredGardens}
         {savedGardens}
       />
     {/if}
-    <Drawer on:close={closeDrawer} garden={selectedGarden} />
-    <MeetupDrawer on:close={closeDrawer} meetup={selectedMeetup} />
+    <Drawer onclose={closeDrawer} garden={selectedGarden} />
+    <MeetupDrawer onclose={closeDrawer} meetup={selectedMeetup} />
     <WaymarkedTrails {showHiking} {showCycling} />
-    <MeetupLayer on:meetup-click={(e) => selectMeetup(e.detail)} {selectedMeetupId} />
-    <slot />
+    <MeetupLayer onMeetupClick={selectMeetup} {selectedMeetupId} />
+    {@render children?.()}
     {#if carNoticeShown}
       <div class="vehicle-notice-wrapper">
-        <button on:click={closeCarNotice} aria-label="Close notice" class="button-container close">
+        <button onclick={closeCarNotice} aria-label="Close notice" class="button-container close">
           <Icon icon={crossIcon} />
         </button>
 
@@ -274,7 +279,7 @@
       </div>
     {/if}
     <FileTrails />
-    <ZoomRestrictionNotice on:click={() => (showMembershipModal = true)} />
+    <ZoomRestrictionNotice onclick={() => (showMembershipModal = true)} />
   </Map>
   <LayersAndTools
     bind:showHiking
@@ -286,15 +291,11 @@
   />
   <!-- TODO: the $currentPosition should be based on IP
     (if it isn't already by default) -->
-  <Filter
-    on:goToPlace={goToPlace}
-    bind:filteredGardens
-    closeToLocation={$currentPosition ?? LOCATION_BELGIUM}
-  />
+  <Filter onGoToPlace={goToPlace} closeToLocation={$currentPosition ?? LOCATION_BELGIUM} />
   <FileTrailModal bind:show={showFileTrailModal} />
   <MembershipModal
     bind:show={showMembershipModal}
-    on:close={() =>
+    onclose={() =>
       trackEvent(PlausibleEvent.MEMBERSHIP_MODAL_BACK, {
         source: 'map_close'
       })}

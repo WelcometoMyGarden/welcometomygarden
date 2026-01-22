@@ -1,13 +1,12 @@
 <script lang="ts">
   import { _, locale } from 'svelte-i18n';
   import { logout } from '$lib/api/auth';
-  import { clickOutside } from '$lib/directives';
+  import { clickOutside } from '$lib/attachments';
   import Socials from '$lib/components/Socials.svelte';
   import LanguageSelector from '$lib/components/LanguageSelector.svelte';
   import routes, { currentRoute, routeNames } from '$lib/routes';
   import { user } from '$lib/stores/auth';
   import { goto } from '$app/navigation';
-  import { createEventDispatcher } from 'svelte';
   import { COMMUNITY_FORUM_URL, SHOP_URL } from '$lib/constants';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import trackEvent from '$lib/util/track-plausible';
@@ -19,26 +18,27 @@
   import { coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
   import { transKeyExists } from '$lib/util';
   import { anchorText, bannerLink, lr } from '$lib/util/translation-helpers';
+  import type { ClickOutsideEvent } from '$lib/attachments/click-outside';
 
-  const dispatch = createEventDispatcher();
-  export let isOpen = false;
-  const toggleDrawer = () => {
-    dispatch('toggle');
-  };
+  interface Props {
+    isOpen?: boolean;
+    hamburger: HTMLButtonElement | null;
+    ontoggle: () => void;
+  }
 
-  export let hamburger: HTMLButtonElement | null;
+  let { isOpen = false, hamburger, ontoggle }: Props = $props();
 
-  const handleClickOutsideDrawer = (event) => {
+  const handleClickOutsideDrawer = (event: ClickOutsideEvent) => {
     const { clickEvent } = event.detail;
     // The main menu is liften on top of (= outside of) this drawer.
     // A tap on the main menu close button is hence considered as an "outside click"
     // Toggling it here would lead to a double-toggle (actual click handler + this one): no result.
 
     // It also seems that :
-    // 1. this toggleDrawer results in a state change in the parent custom event listener first
+    // 1. this ontoggle results in a state change in the parent custom event listener first
     // 2. the actual onclick event on the close button somehow receives old isDrawerOpen state
     // This makes the following detection the only way to deal with this situation.
-    if (isOpen && !hamburger?.contains(clickEvent.target)) toggleDrawer();
+    if (isOpen && !hamburger?.contains(clickEvent.target)) ontoggle();
   };
 
   const wtmgSignURLParams = new URLSearchParams({
@@ -56,10 +56,7 @@
     name: string;
     track?: Parameters<typeof trackEvent>;
     target?: string;
-  }[];
-
-  // Internal routes are localized in the render step
-  $: sideLinks = [
+  }[] = $derived([
     { route: routes.FAQ, name: $_('generics.faq.acronym') },
     {
       route: `${SHOP_URL}${coerceToMainLanguageENBlank(
@@ -71,13 +68,22 @@
     { route: routes.COOKIE_POLICY, name: $_('generics.cookie-policy') },
     { route: routes.PRIVACY_POLICY, name: $_('generics.privacy-policy') },
     { route: routes.TERMS_OF_USE, name: $_('generics.terms-of-use') }
-  ];
+  ]);
 
-  $: shouldShowRenewalNotice = $user && $user.stripeSubscription && $subscriptionJustEnded;
+  // Internal routes are localized in the render step
+
+  let shouldShowRenewalNotice = $derived(
+    $user && $user.stripeSubscription && $subscriptionJustEnded
+  );
 </script>
 
-<div class:shown={isOpen} class="overlay" />
-<ul class="drawer" class:open={isOpen} use:clickOutside on:click-outside={handleClickOutsideDrawer}>
+<div class:shown={isOpen} class="overlay"></div>
+<ul
+  class="drawer"
+  class:open={isOpen}
+  {@attach clickOutside}
+  onclickoutside={handleClickOutsideDrawer}
+>
   <li class="socials">
     <Socials small />
   </li>
@@ -110,9 +116,9 @@
           <a
             class="highlighted"
             href={$lr(routes.ABOUT_MEMBERSHIP)}
-            on:click={() => {
+            onclick={() => {
               trackEvent(PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'side_navbar' });
-              toggleDrawer();
+              ontoggle();
             }}
           >
             {$_('generics.become-member')}
@@ -120,14 +126,14 @@
         </li>
       {/if}
       <li>
-        <a href={$lr(routes.ABOUT_US)} on:click={toggleDrawer}>{$_('generics.about-us')}</a>
+        <a href={$lr(routes.ABOUT_US)} onclick={ontoggle}>{$_('generics.about-us')}</a>
       </li>
       <li>
         <a
           href={$lr(routes.RULES)}
-          on:click={() => {
+          onclick={() => {
             trackEvent(PlausibleEvent.VISIT_RULES, { source: 'side_navbar' });
-            toggleDrawer();
+            ontoggle();
           }}>{$_('generics.rules')}</a
         >
       </li>
@@ -139,22 +145,21 @@
       <li>
         <LanguageSelector />
       </li>
-      <li>
-        {#if $user}
-          <li class="separated sign-out">
-            <a
-              href={$lr(routes.HOME)}
-              on:click|preventDefault={async () => {
-                toggleDrawer();
-                await logout();
-                goto($lr(routes.HOME));
-              }}
-            >
-              {$_('generics.sign-out')}
-            </a>
-          </li>
-        {/if}
-      </li>
+      {#if $user}
+        <li class="separated sign-out">
+          <a
+            href={$lr(routes.HOME)}
+            onclick={async (e) => {
+              e.preventDefault();
+              ontoggle();
+              await logout();
+              goto($lr(routes.HOME));
+            }}
+          >
+            {$_('generics.sign-out')}
+          </a>
+        </li>
+      {/if}
     </ul>
   </li>
 
@@ -164,9 +169,9 @@
         <li>
           <a
             href={Object.values(routeNames).includes(route) ? $lr(route) : route}
-            on:click={() => {
+            onclick={() => {
               if (trackParams) trackEvent(...trackParams);
-              toggleDrawer();
+              ontoggle();
             }}
             {target}
             class:active={$currentRoute === route}

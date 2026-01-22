@@ -4,8 +4,12 @@
   import { questionMarkIcon } from '$lib/images/icons';
   import { Icon } from '../UI';
 
-  export let data: DisplayResponseRateTime;
-  $: ({ has_requests, requests_count } = data);
+  interface Props {
+    data: DisplayResponseRateTime;
+  }
+
+  let { data }: Props = $props();
+  let { has_requests, requests_count } = $derived(data);
 </script>
 
 {#if data != null}

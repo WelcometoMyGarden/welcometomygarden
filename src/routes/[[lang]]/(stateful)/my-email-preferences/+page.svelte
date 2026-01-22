@@ -13,13 +13,13 @@
   import { PlausibleEvent } from '$lib/types/Plausible';
   import * as Sentry from '@sentry/sveltekit';
 
-  let formIsLoading = true;
+  let formIsLoading = $state(true);
   let secretParam: string | null = null;
-  let emailParam: string | null = null;
-  let error: string | null = null;
-  let emailPreferences: EmailPreferences | null = null;
+  let emailParam: string | null = $state(null);
+  let error: string | null = $state(null);
+  let emailPreferences: EmailPreferences | null = $state(null);
 
-  $: hasAuthForEmail = ($user && !emailParam) || ($user && emailParam === $user.email);
+  let hasAuthForEmail = $derived(($user && !emailParam) || ($user && emailParam === $user.email));
 
   onMount(async () => {
     // Initialize
@@ -56,11 +56,13 @@
   });
 
   // Sync live with the account page if possible
-  $: if ($user) {
-    emailPreferences = $user.emailPreferences;
-  }
+  $effect(() => {
+    if ($user) {
+      emailPreferences = $user.emailPreferences;
+    }
+  });
 
-  let isSubmittingPreferences = false;
+  let isSubmittingPreferences = $state(false);
   async function submitPreferences() {
     isSubmittingPreferences = true;
     if (!emailPreferences) {
@@ -117,49 +119,53 @@
 </svelte:head>
 
 <AuthContainer>
-  <span slot="title">
-    {#if !error}
-      {#if formIsLoading || emailPreferences?.news}
-        {$_('email-preferences.unsubscribe.title')}
+  {#snippet title()}
+    <span>
+      {#if !error}
+        {#if formIsLoading || emailPreferences?.news}
+          {$_('email-preferences.unsubscribe.title')}
+        {:else}
+          {$_('email-preferences.resubscribe.title')}
+        {/if}
       {:else}
-        {$_('email-preferences.resubscribe.title')}
+        {$_('generics.error.start')}
       {/if}
-    {:else}
-      {$_('generics.error.start')}
-    {/if}
-  </span>
-  <div class="email-prefs" slot="form">
-    {#if formIsLoading}
-      <p>{$_('payment-superfan.payment-section.loading')} <Spinner /></p>
-    {:else if !emailPreferences || error}
-      <p>
-        {@html $_('email-preferences.error', {
-          values: {
-            support: supportEmailLinkString
-          }
-        })}
-      </p>
-    {:else if emailPreferences}
-      {#if emailPreferences.news}
-        {@html $_('email-preferences.unsubscribe.description', {
-          values: { email: emailParam }
-        })}
-      {:else}
-        {@html $_('email-preferences.resubscribe.description', {
-          values: { email: emailParam }
-        })}
+    </span>
+  {/snippet}
+  {#snippet form()}
+    <div class="email-prefs">
+      {#if formIsLoading}
+        <p>{$_('payment-superfan.payment-section.loading')} <Spinner /></p>
+      {:else if !emailPreferences || error}
+        <p>
+          {@html $_('email-preferences.error', {
+            values: {
+              support: supportEmailLinkString
+            }
+          })}
+        </p>
+      {:else if emailPreferences}
+        {#if emailPreferences.news}
+          {@html $_('email-preferences.unsubscribe.description', {
+            values: { email: emailParam }
+          })}
+        {:else}
+          {@html $_('email-preferences.resubscribe.description', {
+            values: { email: emailParam }
+          })}
+        {/if}
+        <div class="submit">
+          <Button small uppercase onclick={submitPreferences} disabled={isSubmittingPreferences}
+            >{#if emailPreferences.news}
+              {$_('email-preferences.unsubscribe.unsubscribe')}
+            {:else}
+              {$_('email-preferences.resubscribe.resubscribe')}
+            {/if}</Button
+          >
+        </div>
       {/if}
-      <div class="submit">
-        <Button small uppercase on:click={submitPreferences} disabled={isSubmittingPreferences}
-          >{#if emailPreferences.news}
-            {$_('email-preferences.unsubscribe.unsubscribe')}
-          {:else}
-            {$_('email-preferences.resubscribe.resubscribe')}
-          {/if}</Button
-        >
-      </div>
-    {/if}
-  </div>
+    </div>
+  {/snippet}
 </AuthContainer>
 
 <style>

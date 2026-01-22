@@ -8,7 +8,7 @@
   import { derived, type Readable } from 'svelte/store';
   import LoginModal from './LoginModal.svelte';
   import { afterNavigate, goto } from '$app/navigation';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { t, locale } from 'svelte-i18n';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
@@ -16,12 +16,13 @@
   import { coerceToMainLanguage } from '$lib/util/get-browser-lang';
   import { lr } from '$lib/util/translation-helpers';
   import routes, { getBaseRouteIn } from '$lib/routes';
+  import logger from '$lib/util/logger';
 
   let gardenUnsubscriber: () => void;
 
-  let continueUrl = '/routeplanner';
-  let showMembershipModal = false;
-  let showLoginModal = false;
+  let continueUrl = $state('/routeplanner');
+  let showMembershipModal = $state(false);
+  let showLoginModal = $state(false);
 
   const combinedStore = derived([allListedGardens, user], ([_gardens, _user]) => ({
     gardens: _gardens,
@@ -30,20 +31,20 @@
     userId: _user?.id ?? null
   }));
 
-  let iframe: HTMLIFrameElement;
+  let iframe: HTMLIFrameElement = $state();
 
   const sendDataUpdate = (
     data: typeof combinedStore extends Readable<infer D> ? D : never,
     attempts = 0
   ) => {
-    console.log('new data update');
+    logger.log('new data update');
     if (attempts > 2) {
-      console.log('too many attempts to send to a non-existent iframe');
+      logger.log('too many attempts to send to a non-existent iframe');
       return;
     }
     if (!iframe) {
       // infinite recursion danger
-      console.log('postponing data send');
+      logger.log('postponing data send');
       setTimeout(() => sendDataUpdate(data, attempts + 1), 200);
       return;
     }
@@ -55,7 +56,7 @@
   }
 
   onMount(async () => {
-    console.log('Mounting');
+    logger.log('Mounting');
     // Load gardens in the background
     getAllListedGardens();
 
@@ -63,24 +64,24 @@
 
     // Start sending messages when the scripts have loaded
     if (!iframe?.contentWindow) {
-      console.error('iframe not loaded yet in onmount');
+      logger.error('iframe not loaded yet in onmount');
     } else {
       iframe.contentWindow?.status;
       iframe.contentWindow?.addEventListener('load', () => {
-        console.log('iframe domcontentloaded');
+        logger.log('iframe domcontentloaded');
       });
     }
 
     window.addEventListener(
       'message',
       async (event) => {
-        console.log('wtmg: new event!', event);
+        logger.log('wtmg: new event!', event);
         if (event.origin !== import.meta.env.VITE_ROUTEPLANNER_HOST) return;
         if (event.data === 'ready') {
         } else if (event.data === 'login-member') {
           await resolveOnUserLoaded();
           if ($user && !$user.superfan) {
-            const { hash, search } = $page.url;
+            const { hash, search } = page.url;
             continueUrl = `/routeplanner${search}${hash}`;
           }
           showLoginModal = true;
@@ -105,7 +106,7 @@
       return;
     }
     // This URL parameter tells that we should show the membership modal if needed
-    if ($page.url.searchParams.get('m') === '1') {
+    if (page.url.searchParams.get('m') === '1') {
       // Make sure the user is loaded first
       await resolveOnUserLoaded();
       if ($user?.superfan) {
@@ -116,7 +117,7 @@
         source: 'routeplanner'
       });
       // Remove the URL param
-      const { searchParams, hash } = $page.url;
+      const { searchParams, hash } = page.url;
       searchParams.delete('m');
       // Using goto and not replaceState, because https://github.com/sveltejs/kit/issues/10661
       goto(`/routeplanner?${searchParams.toString()}${hash}`, {
@@ -150,13 +151,13 @@
 </svelte:head>
 
 {#if browser}
-  <!-- Guard access to $page.url based on browser env -->
+  <!-- Guard access to page.url based on browser env -->
   <iframe
     bind:this={iframe}
     title="WTMG Route Planner"
-    src={`${import.meta.env.VITE_ROUTEPLANNER_HOST}?${injectParams($page.url.searchParams).toString()}${$page.url.hash}`}
+    src={`${import.meta.env.VITE_ROUTEPLANNER_HOST}?${injectParams(page.url.searchParams).toString()}${page.url.hash}`}
     frameborder="0"
-    on:load={onload}
+    {onload}
   ></iframe>
 {/if}
 

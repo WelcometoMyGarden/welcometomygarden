@@ -7,8 +7,12 @@
   const { getMap } = getContext(key);
   const map: mapboxgl.Map = getMap();
 
-  export let showTransport: boolean;
-  let mapReady = false;
+  interface Props {
+    showTransport: boolean;
+  }
+
+  let { showTransport }: Props = $props();
+  let mapReady = $state(false);
   const transportSourceAndLayerId = 'transport-source';
 
   const transportLayerSource = `https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=${
@@ -37,7 +41,9 @@
     });
   };
 
-  $: if (mapReady) updateVisibility(transportSourceAndLayerId, showTransport);
+  $effect(() => {
+    if (mapReady) updateVisibility(transportSourceAndLayerId, showTransport);
+  });
 
   const setup = async () => {
     // Create the transport layer from thunderforest

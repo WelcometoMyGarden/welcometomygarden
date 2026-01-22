@@ -12,6 +12,7 @@ import {
 } from 'firebase/messaging';
 import envIsTrue from '../util/env-is-true';
 import { browser } from '$app/environment';
+import logger from '$lib/util/logger';
 
 const FIREBASE_CONFIG = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
@@ -110,7 +111,7 @@ const shouldUseEmulator = (specificEmulatorOverride?: boolean | undefined | null
 
 export async function initialize(): Promise<void> {
   if (getApps().length !== 0) {
-    console.log('Firebase app already initialized');
+    logger.log('Firebase app already initialized');
     return;
   }
   appRef = initializeApp(FIREBASE_CONFIG);
@@ -154,9 +155,9 @@ export async function initialize(): Promise<void> {
     messagingRef = getMessaging(appRef);
 
     onMessage(messagingRef, (payload) => {
-      console.log('Message received. ', payload);
+      logger.log('Message received. ', payload);
       // ...
     });
   }
-  console.debug('Firebase init done');
+  logger.debug('Firebase init done');
 }

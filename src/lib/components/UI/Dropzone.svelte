@@ -8,31 +8,55 @@
     isPropagationStopped,
     TOO_MANY_FILES_REJECTION
   } from '$lib/util/dropzone';
-  import { onDestroy, createEventDispatcher } from 'svelte';
+  import { onDestroy, type Snippet } from 'svelte';
   import { iDeviceInfo } from '$lib/util/uaInfo';
-  //props
-  /**
-   * Set accepted file types.
-   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept
-   */
-  export let accept: string | string[];
-  export let disabled = false;
-  export let getFilesFromEvent = fromEvent;
-  export let maxSize = Infinity;
-  export let minSize = 0;
-  export let multiple = true;
-  export let preventDropOnDocument = true;
-  export let noClick = false;
-  export let noKeyboard = false;
-  export let noDrag = false;
-  export let noDragEventsBubbling = false;
-  export let containerClasses = '';
-  export let containerStyles = '';
-  export let disableDefaultStyles = false;
-  export let name = '';
-  const dispatch = createEventDispatcher();
-  //state
-  let state = {
+  import type { DragEventHandler } from 'svelte/elements';
+
+  type Props = {
+    /**
+     * Set accepted file types.
+     * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept
+     */
+    accept: string | string[];
+    disabled: boolean;
+    getFilesFromEvent?: (evt: Event | any) => Promise<(FileWithPath | DataTransferItem)[]>;
+    maxSize?: number;
+    minSize?: number;
+    multiple: boolean;
+    preventDropOnDocument?: boolean;
+    noClick?: boolean;
+    noKeyboard?: boolean;
+    noDrag?: boolean;
+    noDragEventsBubbling?: boolean;
+    containerClasses?: string;
+    containerStyles?: string;
+    disableDefaultStyles?: boolean;
+    name?: string;
+    ondrop: (e: { acceptedFiles: any; fileRejections: any; event: Event }) => void;
+    children: Snippet;
+  };
+
+  let {
+    accept,
+    disabled = false,
+    getFilesFromEvent = fromEvent,
+    maxSize = Infinity,
+    minSize = 0,
+    multiple = true,
+    preventDropOnDocument = true,
+    noClick = false,
+    noKeyboard = false,
+    noDrag = false,
+    noDragEventsBubbling = false,
+    containerClasses = '',
+    containerStyles = '',
+    disableDefaultStyles = false,
+    name = '',
+    ondrop,
+    children
+  }: Props = $props();
+
+  let state = $state({
     isFocused: false,
     isFileDialogActive: false,
     isDragActive: false,
@@ -41,9 +65,11 @@
     draggedFiles: [],
     acceptedFiles: [],
     fileRejections: []
-  };
+  });
+
   let rootRef: HTMLDivElement;
   let inputRef: HTMLInputElement | null;
+
   function resetState() {
     state.isFileDialogActive = false;
     state.isDragActive = false;
@@ -51,6 +77,7 @@
     state.acceptedFiles = [];
     state.fileRejections = [];
   }
+
   // Fn for opening the file dialog programmatically
   function openFileDialog() {
     if (inputRef) {
@@ -59,6 +86,7 @@
       inputRef.click();
     }
   }
+
   // Cb to open the file dialog when SPACE/ENTER occurs on the dropzone
   function onKeyDownCb(event: {
     target: Node | null;
@@ -74,13 +102,16 @@
       openFileDialog();
     }
   }
+
   // Update focus state for the dropzone
   function onFocusCb() {
     state.isFocused = true;
   }
+
   function onBlurCb() {
     state.isFocused = false;
   }
+
   // Cb to open the file dialog when click occurs on the dropzone
   function onClickCb() {
     if (noClick) {
@@ -95,6 +126,7 @@
       openFileDialog();
     }
   }
+
   function onDragEnterCb(event: { preventDefault?: any; target?: any }) {
     event.preventDefault();
     stopPropagation(event);
@@ -106,12 +138,10 @@
         }
         state.draggedFiles = draggedFiles;
         state.isDragActive = true;
-        dispatch('dragenter', {
-          dragEvent: event
-        });
       });
     }
   }
+
   function onDragOverCb(event: {
     preventDefault?: any;
     dataTransfer?: any;
@@ -124,13 +154,9 @@
         event.dataTransfer.dropEffect = 'copy';
       } catch {} /* eslint-disable-line no-empty */
     }
-    if (isEvtWithFiles(event)) {
-      dispatch('dragover', {
-        dragEvent: event
-      });
-    }
     return false;
   }
+
   function onDragLeaveCb(event: {
     preventDefault?: any;
     target?: any;
@@ -152,20 +178,13 @@
     }
     state.isDragActive = false;
     state.draggedFiles = [];
-    if (isEvtWithFiles(event)) {
-      dispatch('dragleave', {
-        dragEvent: event
-      });
-    }
   }
+
   function onDropCb(event: { preventDefault?: any; stopPropagation?: () => void }) {
     event.preventDefault();
     stopPropagation(event);
     dragTargetsRef = [];
     if (isEvtWithFiles(event)) {
-      dispatch('filedropped', {
-        event
-      });
       Promise.resolve(getFilesFromEvent(event)).then((files) => {
         if (isPropagationStopped(event) && !noDragEventsBubbling) {
           return;
@@ -194,27 +213,16 @@
         }
         state.acceptedFiles = acceptedFiles;
         state.fileRejections = fileRejections;
-        dispatch('drop', {
+        ondrop({
           acceptedFiles,
           fileRejections,
           event
         });
-        if (fileRejections.length > 0) {
-          dispatch('droprejected', {
-            fileRejections,
-            event
-          });
-        }
-        if (acceptedFiles.length > 0) {
-          dispatch('dropaccepted', {
-            acceptedFiles,
-            event
-          });
-        }
       });
     }
     resetState();
   }
+
   function composeHandler(fn: {
     (event: any): void;
     (): void;
@@ -227,9 +235,11 @@
   }) {
     return disabled ? null : fn;
   }
+
   function composeKeyboardHandler(fn: { (event: any): void; (): void; (): void }) {
     return noKeyboard ? null : composeHandler(fn);
   }
+
   function composeDragHandler(fn: {
     (event: any): void;
     (event: any): boolean;
@@ -238,29 +248,34 @@
   }) {
     return noDrag ? null : composeHandler(fn);
   }
+
   function stopPropagation(event: { stopPropagation: () => void }) {
     if (noDragEventsBubbling) {
       event.stopPropagation();
     }
   }
+
   // allow the entire document to be a drag target
   function onDocumentDragOver(event: { preventDefault: () => void }) {
     if (preventDropOnDocument) {
       event.preventDefault();
     }
   }
+
   let dragTargetsRef: any[] = [];
-  function onDocumentDrop(event: { target: Node | null; preventDefault: () => void }) {
-    if (!preventDropOnDocument) {
+
+  const onDocumentDrop = ((event) => {
+    if (!preventDropOnDocument || !event.target) {
       return;
     }
-    if (rootRef && rootRef.contains(event.target)) {
+    if (rootRef && rootRef.contains(event.target as HTMLElement)) {
       // If we intercepted an event for our instance, let it propagate down to the instance's onDrop handler
       return;
     }
     event.preventDefault();
     dragTargetsRef = [];
-  }
+  }) satisfies DragEventHandler<Window>;
+
   // Update file dialog active state when the window is focused on
   function onWindowFocus() {
     // Execute the timeout only if the file dialog is opened in the browser
@@ -270,16 +285,17 @@
           const { files } = inputRef;
           if (files && !files.length) {
             state.isFileDialogActive = false;
-            dispatch('filedialogcancel');
           }
         }
       }, 300);
     }
   }
+
   onDestroy(() => {
     // This is critical for canceling the timeout behaviour on `onWindowFocus()`
     inputRef = null;
   });
+
   function onInputElementClick(event: { stopPropagation: () => void }) {
     event.stopPropagation();
   }
@@ -287,25 +303,24 @@
   const { isIDevice } = iDeviceInfo || {};
 </script>
 
-<!-- <Label {label}>
-  <input {disabled} type="file" {accept} bind:files on:change {multiple} />
-</Label> -->
-
-<svelte:window on:focus={onWindowFocus} on:dragover={onDocumentDragOver} on:drop={onDocumentDrop} />
+<svelte:window onfocus={onWindowFocus} ondragover={onDocumentDragOver} ondrop={onDocumentDrop} />
 
 <div
   bind:this={rootRef}
   class="{disableDefaultStyles ? '' : 'dropzone'}
   {containerClasses}"
   style={containerStyles}
-  on:keydown={composeKeyboardHandler(onKeyDownCb)}
-  on:focus={composeKeyboardHandler(onFocusCb)}
-  on:blur={composeKeyboardHandler(onBlurCb)}
-  on:click={composeHandler(onClickCb)}
-  on:dragenter={composeDragHandler(onDragEnterCb)}
-  on:dragover={composeDragHandler(onDragOverCb)}
-  on:dragleave={composeDragHandler(onDragLeaveCb)}
-  on:drop={composeDragHandler(onDropCb)}
+  onkeydown={composeKeyboardHandler(onKeyDownCb)}
+  onfocus={composeKeyboardHandler(onFocusCb)}
+  onblur={composeKeyboardHandler(onBlurCb)}
+  onclick={composeHandler(onClickCb)}
+  ondragenter={composeDragHandler(onDragEnterCb)}
+  ondragover={composeDragHandler(onDragOverCb)}
+  ondragleave={composeDragHandler(onDragLeaveCb)}
+  ondrop={composeDragHandler(onDropCb)}
+  role="button"
+  aria-dropeffect="execute"
+  tabindex="0"
 >
   <!-- Note: the accept attribute is ignored on iOS, because on some iPhones (e.g. 13, SE 2020, with iOS 17.6+)
         The accept attribute doesn't work as intended, and makes it impossible to select gpx files.
@@ -318,15 +333,13 @@
     type="file"
     {name}
     autocomplete="off"
-    on:change={onDropCb}
-    on:click={onInputElementClick}
+    onchange={onDropCb}
+    onclick={onInputElementClick}
     bind:this={inputRef}
     style="display: none;"
-    enctype="multipart/form-data"
+    formenctype="multipart/form-data"
   />
-  <slot>
-    <slot />
-  </slot>
+  {@render children?.()}
 </div>
 
 <style>

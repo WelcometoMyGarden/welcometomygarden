@@ -5,10 +5,7 @@ import { Timestamp } from 'firebase/firestore';
  */
 export type FirebaseGarden = {
   description: string;
-  /**
-   * TODO: can this actually be null? Check if any such gardens exist. They shouldn't!
-   */
-  location: null | LongLat;
+  location: LongLat;
   facilities: GardenFacilities;
   /**
    * This looks like: 'garden.jpg', 'garden.JPG', 'garden.JPEG', ... or null. Never undefined.

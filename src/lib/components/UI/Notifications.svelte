@@ -3,10 +3,14 @@
   import { notification } from '$lib/stores/notification';
   import { onDestroy } from 'svelte';
 
-  export let timeout = 5000;
+  interface Props {
+    timeout?: number;
+  }
+
+  let { timeout = 5000 }: Props = $props();
 
   let count = 0;
-  let toasts: any[] = [];
+  let toasts: any[] = $state([]);
   let unsubscribe;
 
   const animateOut = (_node, { delay = 0, duration = 300 }) => ({
@@ -49,11 +53,11 @@
     <li
       class="toast {toast.intent}"
       out:animateOut
-      on:click={() => {
+      onclick={() => {
         if (toast.click) toast.click();
         removeToast(toast.id);
       }}
-      on:keypress={(e) => {
+      onkeypress={(e) => {
         if (e.key === 'Enter') {
           if (toast.click) toast.click();
           removeToast(toast.id);
@@ -64,8 +68,8 @@
       <div
         class="time"
         style="animation-duration: {toast.timeout}ms;"
-        on:animationend={() => removeToast(toast.id)}
-      />
+        onanimationend={() => removeToast(toast.id)}
+></div>
     </li>
   {/each}
 </ul>

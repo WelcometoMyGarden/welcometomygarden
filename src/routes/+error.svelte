@@ -3,7 +3,7 @@
   import routes from '$lib/routes';
   import { Icon, Button } from '$lib/components/UI';
   import { binocularsIcon } from '$lib/images/icons';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { localeIsLoaded } from '$lib/stores/app';
   import Navigation from '$lib/components/Nav/Navigation.svelte';
   import { lr } from '$lib/util/translation-helpers';
@@ -11,7 +11,7 @@
 
 <svelte:head>
   {#if $localeIsLoaded}
-    {#if $page.error?.message === 'Not Found'}
+    {#if page.error?.message === 'Not Found'}
       <title>{$_('fallback.404')} | {$_('generics.wtmg.explicit')}</title>
     {:else}
       <title>Error | {$_('generics.wtmg.explicit')}</title>
@@ -30,10 +30,10 @@
       <Icon icon={binocularsIcon} />
     </div>
     <h1>
-      {($page.error?.message === 'Not Found' || $page.error?.message === 'Error: 404') &&
+      {(page.error?.message === 'Not Found' || page.error?.message === 'Error: 404') &&
       $localeIsLoaded
         ? $_('fallback.404')
-        : ($page.error?.message ?? 'Something went wrong')}
+        : (page.error?.message ?? 'Something went wrong')}
     </h1>
     <Button href={$lr(routes.HOME)} uppercase medium>
       {$localeIsLoaded ? $_('fallback.redirect') : 'Back to home'}

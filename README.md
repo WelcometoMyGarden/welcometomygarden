@@ -2,9 +2,20 @@
 
 This repository houses the front-end and back-end application code of [Welcome To My Garden](https://welcometomygarden.org).
 
-WTMG has a frontend (./) built with [SvelteKit](https://kit.svelte.dev/), and a backend (./api) largely built on [Firebase](https://firebase.google.com/docs).
+Welcome To My Garden is a network of citizens offering camping spots in their gardens to slow travellers.
 
-The backend integrates with SendGrid (email), Stripe (subscriptions for our membership program), and with a Supabase PostgreSQL replica (for more advanced queries that Firestore can't handle).
+## Overview
+
+The frontend (./) is a static site/SPA hybrid built with [SvelteKit](https://kit.svelte.dev/) and [Firebase](https://firebase.google.com/docs).
+
+The backend (./api) is largely built on Firebase Cloud Functions.
+
+The system is integrated with third-party services for several important features:
+
+- Mapbox: for our maps on the front-end.
+- SendGrid: for transactional emails & newsletter contact lists.
+- Stripe: for our membership program.
+- Supabase PostgreSQL replica: for more advanced queries and features that Firestore can't handle.
 
 ## Contributing
 

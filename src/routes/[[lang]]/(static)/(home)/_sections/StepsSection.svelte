@@ -2,17 +2,18 @@
   import routes from '$lib/routes';
   import { _ } from 'svelte-i18n';
   import { getNodeKeys } from '$lib/util/get-node-children';
-  import Step1 from '$lib/images/home-steps/step-register.svg';
-  import Step2 from '$lib/images/home-steps/step-map.svg';
-  import Step3 from '$lib/images/home-steps/step-tent.svg';
+  import Step1 from '$lib/images/home-steps/step-register.svg?inline';
+  import Step2 from '$lib/images/home-steps/step-map.svg?inline';
+  import Step3 from '$lib/images/home-steps/step-tent.svg?inline';
   import { lr } from '$lib/util/translation-helpers';
+  import ViteSVG from '$lib/components/UI/ViteSVG.svelte';
   const stepGraphics = [Step1, Step2, Step3];
 </script>
 
 <section class="steps" id="steps-section">
   {#each getNodeKeys('index.steps') as key, i}
     <div class="step-logo">
-      {@html stepGraphics[i]}
+      <ViteSVG icon={stepGraphics[i]}></ViteSVG>
     </div>
     <h2 class="oh2 step-header">
       {$_(`index.steps.${key}.title`)}

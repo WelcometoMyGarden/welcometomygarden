@@ -3,9 +3,13 @@
   import { SUPPORT_EMAIL, mailToSupportHref } from '$lib/constants';
   import { Modal } from '.';
   import Anchor from './Anchor.svelte';
-  export let show: boolean;
-  export let details: string | undefined = undefined;
-  export let error: unknown;
+  interface Props {
+    show: boolean;
+    details?: string | undefined;
+    error: unknown;
+  }
+
+  let { show = $bindable(), details = undefined, error }: Props = $props();
 </script>
 
 <!-- @component
@@ -13,30 +17,34 @@ Modal to show a chat-sending error.
  -->
 
 <Modal maxWidth="648px" ariaLabel="Error Modal" bind:show closeOnOuterClick={false} center>
-  <div slot="title" class="title">
-    <h2 id="Title">{$_('chat.error-modal.title')}</h2>
-  </div>
-  <div slot="body" class="body">
-    <p>{$_('chat.error-modal.description')}</p>
-    <p>
-      <span>
-        {$_('chat.error-modal.instruction')}
-        <Anchor href={mailToSupportHref}>{SUPPORT_EMAIL}</Anchor>.
-      </span>
-    </p>
-    <p>{$_('chat.error-modal.closing-line')}</p>
-    <p />
-    {#if error}
-      <div class="error-log">
-        <p class="section">Error:</p>
-        <code>
-          {typeof error === 'object' && error !== null ? error.toString() : 'Unknown'}
-        </code>
-        <p class="section">Context:</p>
-        {#if details}<p>{details}</p>{/if}
-      </div>
-    {/if}
-  </div>
+  {#snippet title()}
+    <div  class="title">
+      <h2 id="Title">{$_('chat.error-modal.title')}</h2>
+    </div>
+  {/snippet}
+  {#snippet body()}
+    <div  class="body">
+      <p>{$_('chat.error-modal.description')}</p>
+      <p>
+        <span>
+          {$_('chat.error-modal.instruction')}
+          <Anchor href={mailToSupportHref}>{SUPPORT_EMAIL}</Anchor>.
+        </span>
+      </p>
+      <p>{$_('chat.error-modal.closing-line')}</p>
+      <p></p>
+      {#if error}
+        <div class="error-log">
+          <p class="section">Error:</p>
+          <code>
+            {typeof error === 'object' && error !== null ? error.toString() : 'Unknown'}
+          </code>
+          <p class="section">Context:</p>
+          {#if details}<p>{details}</p>{/if}
+        </div>
+      {/if}
+    </div>
+  {/snippet}
 </Modal>
 
 <style>

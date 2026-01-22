@@ -4,13 +4,22 @@
   import { heartIcon, hideIcon, tentPhosphor } from '$lib/images/icons';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
-  export let showGardens: boolean;
-  export let showSavedGardens: boolean;
-  type VisibilityStates = 'ALL' | 'SAVED' | 'HIDE';
-  let gardensGroup: VisibilityStates = 'ALL';
-  let previousGardensGroup: VisibilityStates = gardensGroup;
+  interface Props {
+    showGardens: boolean;
+    showSavedGardens: boolean;
+  }
 
-  $: {
+  let { showGardens = $bindable(), showSavedGardens = $bindable() }: Props = $props();
+
+  type VisibilityStates = 'ALL' | 'SAVED' | 'HIDE';
+
+  // Initialize from the bindable properties
+  let gardensGroup: VisibilityStates = $state(
+    showGardens ? 'ALL' : showSavedGardens ? 'SAVED' : 'HIDE'
+  );
+  let previousGardensGroup: VisibilityStates = $state(gardensGroup);
+
+  $effect(() => {
     if (previousGardensGroup !== gardensGroup) {
       // Remember the last event that was clicked
       trackEvent(
@@ -38,7 +47,7 @@
         break;
     }
     previousGardensGroup = gardensGroup;
-  }
+  });
 </script>
 
 <LabeledRadioButton

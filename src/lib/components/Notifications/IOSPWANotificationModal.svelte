@@ -26,19 +26,23 @@
   TODO: leverage svelte-simple-modal more directly, & make our wrapper thinner?
   then we'd also get the fade-out effect
 -->
-<Modal center on:close={() => close()}>
-  <h3 slot="title">{$_('push-notifications.prompt.ios-installed-title')}</h3>
-  <div slot="body">
-    <p>{@html $_('push-notifications.prompt.ios-installed')}</p>
-    <div class="buttons">
-      <Button small fullWidth on:click={action} loading={$isEnablingLocalPushRegistration}>
-        {$_('push-notifications.prompt.btn-turn-on')}
-      </Button>
-      <Button inverse fullWidth small={true} on:click={close}
-        >{$_('push-notifications.how-to.ios-upgrade.btn-skip')}</Button
-      >
+<Modal center onclose={close}>
+  {#snippet title()}
+    <h3>{$_('push-notifications.prompt.ios-installed-title')}</h3>
+  {/snippet}
+  {#snippet body()}
+    <div>
+      <p>{@html $_('push-notifications.prompt.ios-installed')}</p>
+      <div class="buttons">
+        <Button small fullWidth onclick={action} loading={$isEnablingLocalPushRegistration}>
+          {$_('push-notifications.prompt.btn-turn-on')}
+        </Button>
+        <Button inverse fullWidth small={true} onclick={close}
+          >{$_('push-notifications.how-to.ios-upgrade.btn-skip')}</Button
+        >
+      </div>
     </div>
-  </div>
+  {/snippet}
 </Modal>
 
 <style>

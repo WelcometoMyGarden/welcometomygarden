@@ -1105,7 +1105,10 @@
         "set": "Veuillez saisir un prénom. C'est ainsi que les autres utilisateurs vous verront."
       },
       "consent": "Vous devez accepter les conditions de <span class=\"notranslate\">Welcome To My Garden</span> si vous souhaitez utiliser la plateforme.",
-      "last-name": "Veuillez saisir votre nom de famille. Celui-ci ne sera pas partagé avec d'autres utilisateurs",
+      "last-name": {
+        "set": "Veuillez saisir votre nom de famille. Celui-ci ne sera pas partagé avec d'autres utilisateurs",
+        "max": "Votre nom de famille peut comporter au maximum 50 caractères."
+      },
       "country": {
         "from-list": "Veuillez choisir un pays dans la liste. Ceci nous aide à centrer la carte vers votre pays d'origine."
       },

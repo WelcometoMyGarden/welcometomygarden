@@ -1,13 +1,16 @@
-<script>
-  export let active = false;
-  export let speed = 0;
-
+<script lang="ts">
   import NProgress from 'nprogress';
+  interface Props {
+    active?: boolean;
+    speed?: number;
+  }
 
-  $: if (speed) NProgress.configure({ trickleSpeed: speed });
+  let { active = false, speed = 0 }: Props = $props();
 
-  $: {
+  $effect(() => {
+    if (speed) NProgress.configure({ trickleSpeed: speed });
+
     if (active) NProgress.start();
     else NProgress.done();
-  }
+  });
 </script>

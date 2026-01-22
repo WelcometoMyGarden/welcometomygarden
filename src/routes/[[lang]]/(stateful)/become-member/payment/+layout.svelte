@@ -37,6 +37,10 @@
   import { Progress } from '$lib/components/UI';
   import { trackEvent } from '$lib/util';
   import { PlausibleEvent } from '$lib/types/Plausible';
+  import logger from '$lib/util/logger';
+
+  // TODO: the Svelte 5 upgrade of svelte-stripe is not complete yet
+  // at the time of writing, see https://github.com/joshnuss/svelte-stripe/pull/131
 
   // TODO: if you subscribe & unsubscribe in 1 session without refreshing, no new sub will be auto-generated
   // we could fix this by detecting changes to the user (if we go from subscribed -> unsubscribed)
@@ -100,7 +104,7 @@
     });
 
     // This part of the code is only reached by payment methods that do not redirect!
-    console.log('Stripe confirmation result', { result });
+    logger.log('Stripe confirmation result', { result });
     if (result.error) {
       // payment failed, notify user
       if (error?.message) error.message += ' Please try again.';
@@ -110,8 +114,8 @@
       result.paymentIntent.status === 'processing'
     ) {
       // In case of "processing" (part of the SEPA flow), assumme provisional success
-      console.log('payment intent status:', result.paymentIntent.status);
-      console.log('stripe.confirmPayment succeeded, redirecting to the Thank You page or next');
+      logger.log('payment intent status:', result.paymentIntent.status);
+      logger.log('stripe.confirmPayment succeeded, redirecting to the Thank You page or next');
       await paymentSucceeded();
       // payment succeeded, wait for the user object to update
     }
@@ -121,19 +125,19 @@
 
   // Subscribe to user state changes
   let unsubscribeFromUser = user.subscribe((newUserData) => {
-    console.log('Receiving new user state');
+    logger.log('Receiving new user state');
     if (newUserData && hasActiveSubscription(newUserData)) {
-      console.log('The received user is subscribed');
+      logger.log('The received user is subscribed');
       selectedLevel = getSubLevelFromUser(newUserData);
       return;
     }
-    console.log('The received user is not subscribed');
+    logger.log('The received user is not subscribed');
   });
 
   const reloadStripe = async () => {
     // Load the Stripe payment elements
     // TODO: can we fix this TS locale `as` hack? Verify that our input locales are always valid?
-    console.log('Reloading stripe');
+    logger.log('Reloading stripe');
     stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY, {
       // Note: this will use e.g. Polish if it were set, not just supported languages
       locale: ($locale as StripeElementLocale | CheckoutLocale) || 'auto'
@@ -155,7 +159,7 @@
     // Relevant for bancontact and other redirect methods.
     const searchParams = new URLSearchParams(document.location.search);
     if (searchParams.get('payment_intent')) {
-      console.log('onMount: redirect params were found');
+      logger.log('onMount: redirect params were found');
       // I couldn't find proper docs of these query parameters,
       // https://stripe.com/docs/js/setup_intents/confirm_setup
       // > If they fail to authorize the payment, they will be redirected back to your return_url
@@ -178,7 +182,7 @@
           case 'pending':
             // This happens when the payment is pending (e.g. Sofort). In this case, paymentProcessing will be set to
             // true, and it will reactively make the user a superfan.
-            console.log('onMount: success with pending payment');
+            logger.log('onMount: success with pending payment');
             return paymentSucceeded();
           case 'failed':
             error = new Error($_('payment-superfan.payment-section.errors.payment-error'));
@@ -188,7 +192,7 @@
             await reloadStripe();
             return true;
           case 'succeeded':
-            console.log(
+            logger.log(
               'onMount: redirect_status param was "succeeded", redirecting to the continueUrl or Thank You page'
             );
             return paymentSucceeded();
@@ -204,7 +208,7 @@
       (span) => (elementsSpan = span)
     );
 
-    console.log('Running onMount');
+    logger.log('Running onMount');
     if (!$user) {
       notify.warning($_('payment-superfan.not-logged-in-warning'), 10000);
       // replaceState: replaces the state of the current page, which we want,
@@ -221,16 +225,16 @@
       }
 
       if (hasActiveSubscription($user)) {
-        console.log('onMount: $user is subscribed, selecting level');
+        logger.log('onMount: $user is subscribed, selecting level');
         // Make sure the correct price is shown, even if the user re-entered another price page
         selectedLevel = getSubLevelFromUser($user);
         return;
       }
 
-      console.log('onMount: $user is not subscribed');
+      logger.log('onMount: $user is not subscribed');
 
       if (!selectedLevel) {
-        console.error("Didn't select, or couldn't find, a price level");
+        logger.error("Didn't select, or couldn't find, a price level");
         return;
       }
 
@@ -250,7 +254,7 @@
           processingPayment = true;
           // This means, in the best case, that we're already subscribed and no payment is due.
           // Wait until the User state gets updated (there might be an issue there).
-          console.warn(
+          logger.warn(
             'Tried to recreate an existing, paid subscription.' +
               ' Are our Stripe backend webhooks working & syncing data to Firebase?'
           );
@@ -264,7 +268,7 @@
           return;
         } else {
           processingPayment = false;
-          console.error(firebaseError);
+          logger.error(firebaseError);
           error = new Error($_('payment-superfan.payment-section.errors.loading-error'));
         }
         Sentry.captureException(firebaseError, {

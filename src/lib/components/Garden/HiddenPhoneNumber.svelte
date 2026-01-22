@@ -1,5 +1,9 @@
 <script lang="ts">
-  export let length = 6;
+  interface Props {
+    length?: number;
+  }
+
+  let { length = 6 }: Props = $props();
 </script>
 
 <span title="Hidden phone number">🔐 {'⋆'.repeat(length)}</span>

@@ -37,7 +37,7 @@ export default (
     reader.addEventListener('progress', (event) => {
       if (event.loaded && event.total) {
         const percent = (event.loaded / event.total) * 100;
-        //console.log(`File is ${Math.round(percent)}% loaded`);
+        //logger.log(`File is ${Math.round(percent)}% loaded`);
       }
     });
 

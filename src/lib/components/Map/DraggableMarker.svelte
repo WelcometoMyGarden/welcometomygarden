@@ -1,22 +1,25 @@
 <script lang="ts">
   import type { ContextType } from './Map.svelte';
 
-  export let lat;
-  export let lon;
-  export let label;
-  export let filled = false;
-
-  import { getContext, createEventDispatcher, onMount } from 'svelte';
+  import { getContext, onMount } from 'svelte';
   import maplibregl from 'maplibre-gl';
   import key from './mapbox-context.js';
+  import type { LongLat } from '$lib/types/Garden';
+  interface Props {
+    lat: any;
+    lon: any;
+    label: any;
+    filled?: boolean;
+    ondragged: (ll: LongLat) => void;
+  }
 
-  const dispatch = createEventDispatcher();
+  let { lat, lon, label, filled = false, ondragged }: Props = $props();
 
   const { getMap } = getContext<ContextType>(key);
   const map = getMap();
 
-  let markerElement;
-  let marker;
+  let markerElement = $state();
+  let marker = $state();
   onMount(() => {
     const popup = new maplibregl.Popup({
       offset: 25,
@@ -38,7 +41,7 @@
     const onDragEnd = () => {
       const lngLat = marker.getLngLat();
 
-      dispatch('dragged', {
+      ondragged({
         latitude: lngLat.lat,
         longitude: lngLat.lng
       });
@@ -48,10 +51,12 @@
     marker.on('dragend', onDragEnd);
   });
 
-  $: if (marker && lat && lon) marker.setLngLat([lon, lat]);
+  $effect(() => {
+    if (marker && lat && lon) marker.setLngLat([lon, lat]);
+  });
 </script>
 
-<div bind:this={markerElement} class="marker" class:filled />
+<div bind:this={markerElement} class="marker" class:filled></div>
 
 <style>
   .marker {

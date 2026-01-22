@@ -7,14 +7,18 @@
   import { user } from '$lib/stores/auth';
   import { trackEvent } from '$lib/util';
   import { PlausibleEvent } from '$lib/types/Plausible';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import routes from '$lib/routes';
 
-  export let show: boolean;
-  export let showMembershipModal: boolean;
+  interface Props {
+    show: boolean;
+    showMembershipModal: boolean;
+  }
+
+  let { show = $bindable(), showMembershipModal = $bindable() }: Props = $props();
 
   function createSignInURL() {
-    const { hash, search } = $page.url;
+    const { hash, search } = page.url;
     const searchParams = new URLSearchParams(search);
     // Designates a "member check"
     searchParams.append('m', '1');
@@ -26,53 +30,57 @@
 </script>
 
 <Modal maxWidth="560px" ariaLabel="" bind:show center>
-  <div slot="title" class="title">
-    <h2 id="Title">{$t('routeplanner.modal.title')}</h2>
-  </div>
-  <div slot="body" class="body">
-    <p>
-      {@html $t('routeplanner.modal.description', {
-        values: {
-          signIn: !!$user
-            ? $t('routeplanner.modal.sign-in-label')
-            : anchorText({
-                linkText: $t('routeplanner.modal.sign-in-label'),
-                href: createSignInURL(),
-                class: 'link',
-                style: 'color: var(--color-green);',
-                newtab: false
-              })
-        }
-      })}
-    </p>
-    <video
-      src={staticAssetUrl('/routeplanner/routeplanner-gardens-demo.mp4')}
-      autoplay
-      muted
-      loop
-      playsinline
-    ></video>
-    <!-- If already logged in, show the membership modal -->
-    <div class="btn-container">
-      {#if !!$user}
-        <Button
-          medium
-          centered
-          on:click={() => {
-            show = false;
-            showMembershipModal = true;
-            trackEvent(PlausibleEvent.OPEN_MEMBERSHIP_MODAL, {
-              source: 'routeplanner'
-            });
-          }}>{$t('routeplanner.modal.button-label')}</Button
-        >
-      {:else}
-        <Button medium centered href={createSignInURL()}
-          >{$t('routeplanner.modal.button-label')}</Button
-        >
-      {/if}
+  {#snippet title()}
+    <div class="title">
+      <h2 id="Title">{$t('routeplanner.modal.title')}</h2>
     </div>
-  </div>
+  {/snippet}
+  {#snippet body()}
+    <div class="body">
+      <p>
+        {@html $t('routeplanner.modal.description', {
+          values: {
+            signIn: !!$user
+              ? $t('routeplanner.modal.sign-in-label')
+              : anchorText({
+                  linkText: $t('routeplanner.modal.sign-in-label'),
+                  href: createSignInURL(),
+                  class: 'link',
+                  style: 'color: var(--color-green);',
+                  newtab: false
+                })
+          }
+        })}
+      </p>
+      <video
+        src={staticAssetUrl('/routeplanner/routeplanner-gardens-demo.mp4')}
+        autoplay
+        muted
+        loop
+        playsinline
+      ></video>
+      <!-- If already logged in, show the membership modal -->
+      <div class="btn-container">
+        {#if !!$user}
+          <Button
+            medium
+            centered
+            onclick={() => {
+              show = false;
+              showMembershipModal = true;
+              trackEvent(PlausibleEvent.OPEN_MEMBERSHIP_MODAL, {
+                source: 'routeplanner'
+              });
+            }}>{$t('routeplanner.modal.button-label')}</Button
+          >
+        {:else}
+          <Button medium centered href={createSignInURL()}
+            >{$t('routeplanner.modal.button-label')}</Button
+          >
+        {/if}
+      </div>
+    </div>
+  {/snippet}
 </Modal>
 
 <style>

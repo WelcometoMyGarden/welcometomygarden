@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { _ } from 'svelte-i18n';
   import notify from '$lib/stores/notification';
   import { checkAndHandleUnverified } from '$lib/api/auth';
@@ -12,12 +12,13 @@
   import PaddedSection from '$lib/components/Marketing/PaddedSection.svelte';
   import * as Sentry from '@sentry/sveltekit';
   import { lr } from '$lib/util/translation-helpers';
+  import logger from '$lib/util/logger';
 
   // Note: searchParams values will already be URL-decoded
-  const sso = $page.url.searchParams.get('sso');
-  const sig = $page.url.searchParams.get('sig');
+  const sso = $derived(page.url.searchParams.get('sso'));
+  const sig = $derived(page.url.searchParams.get('sig'));
 
-  let displayMessage = '';
+  let displayMessage = $state('');
 
   onMount(async () => {
     if (typeof sso === 'string' && typeof sig === 'string' && !!$user) {
@@ -29,7 +30,7 @@
       if (!$user.emailVerified) {
         return checkAndHandleUnverified();
       }
-      console.log('Attempting Discourse login');
+      logger.log('Attempting Discourse login');
       displayMessage = $_('auth.discourse.logging-in');
       // attempt login
       try {
@@ -58,7 +59,7 @@
 
         window.location.href = redirectUrl;
       } catch (e) {
-        console.error(e);
+        logger.error(e);
         notify.danger($_('auth.discourse.failed'));
         Sentry.captureException(e);
         goto($lr(routes.HOME));
@@ -66,10 +67,10 @@
       }
     } else if (!$user) {
       // not logged in: redirect to sign in with continueUrl
-      const continueUrl = `${routes.AUTH_DISCOURSE}?${$page.url.searchParams.toString()}`;
+      const continueUrl = `${routes.AUTH_DISCOURSE}?${page.url.searchParams.toString()}`;
       goto($lr(`${routes.SIGN_IN}?continueUrl=${encodeURIComponent(continueUrl)}`));
     } else {
-      console.log(
+      logger.log(
         'Entered the discourse-connect page without valid parameters, redirecting to home.'
       );
       goto($lr(routes.HOME));

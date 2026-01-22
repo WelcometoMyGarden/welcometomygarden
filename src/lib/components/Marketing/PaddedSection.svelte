@@ -1,25 +1,41 @@
 <script lang="ts">
-  /**
-   * Whether to only include padding on desktop
-   */
-  export let desktopOnly: boolean | undefined = undefined;
-  export let vertical: boolean | undefined = undefined;
-  export let backgroundColor: string | undefined = undefined;
-  export let id: string | undefined = undefined;
-  export let centered: boolean | undefined = undefined;
-  /**
-   * Whether to wrap this section in a nosnippet section, see https://developers.google.com/search/docs/crawling-indexing/special-tags#data-nosnippet
-   * Note: any value, truthy or falsy, enables the "nosnippet" behavior.
-   */
-  export let nosnippet: boolean = false;
-  /**
-   * Whether this is the topmost section (omit top)
-   */
-  export let topMargin = true;
   const elementOptions = ['section', 'footer'] as const;
   type Option = (typeof elementOptions)[number];
-  export let is: Option = 'section';
-  export let className: string | undefined = undefined;
+  interface Props {
+    /**
+     * Whether to only include padding on desktop
+     */
+    desktopOnly?: boolean | undefined;
+    vertical?: boolean | undefined;
+    backgroundColor?: string | undefined;
+    id?: string | undefined;
+    centered?: boolean | undefined;
+    /**
+     * Whether to wrap this section in a nosnippet section, see https://developers.google.com/search/docs/crawling-indexing/special-tags#data-nosnippet
+     * Note: any value, truthy or falsy, enables the "nosnippet" behavior.
+     */
+    nosnippet?: boolean;
+    /**
+     * Whether this is the topmost section (omit top)
+     */
+    topMargin?: boolean;
+    is?: Option;
+    className?: string | undefined;
+    children?: import('svelte').Snippet;
+  }
+
+  let {
+    desktopOnly = undefined,
+    vertical = undefined,
+    backgroundColor = undefined,
+    id = undefined,
+    centered = undefined,
+    nosnippet = false,
+    topMargin = true,
+    is = 'section',
+    className = undefined,
+    children
+  }: Props = $props();
 </script>
 
 <svelte:element
@@ -33,7 +49,7 @@
   {...nosnippet ? { 'data-nosnippet': true } : {}}
 >
   <div class="inner" class:centered>
-    <slot />
+    {@render children?.()}
   </div>
 </svelte:element>
 

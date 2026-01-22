@@ -33,10 +33,8 @@
     };
   };
 
-  $: membershipUrlWithParams = createUrl(
-    $lr(routes.ABOUT_MEMBERSHIP),
-    {},
-    $user?.superfan ? '' : 'pricing'
+  let membershipUrlWithParams = $derived(
+    createUrl($lr(routes.ABOUT_MEMBERSHIP), {}, $user?.superfan ? '' : 'pricing')
   );
 
   const setTestimonials = () => {
@@ -57,7 +55,7 @@
   };
 
   // TODO: we're repeating this code
-  let testimonials: Slide[];
+  let testimonials: Slide[] = $state();
   setTestimonials();
 
   const unsubscribeLocalization = _.subscribe(() => {
@@ -80,47 +78,51 @@
   <PaddedSection desktopOnly nosnippet>
     <MarketingBlock backgroundColor="var(--color-beige-light)">
       <MediaSection>
-        <HeadingSection slot="heading" caption={$_('index.superfan.subtitle')}>
-          {$_('index.superfan.become-superfan-title')}
-        </HeadingSection>
-        <div slot="text">
-          {@html $_('about-superfan.video-section.description')}
-          <div class="become-superfan-buttons">
-            <!-- If the user is already a member, we don't use CTA copy (or links) that push to pay -->
-            <div>
+        {#snippet heading()}
+          <HeadingSection caption={$_('index.superfan.subtitle')}>
+            {$_('index.superfan.become-superfan-title')}
+          </HeadingSection>
+        {/snippet}
+        {#snippet text()}
+          <div>
+            {@html $_('about-superfan.video-section.description')}
+            <div class="become-superfan-buttons">
+              <!-- If the user is already a member, we don't use CTA copy (or links) that push to pay -->
+              <div>
+                <Button
+                  href={membershipUrlWithParams}
+                  preventing
+                  onclick={() => {
+                    trackEvent(PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'home_section' });
+                    goto(membershipUrlWithParams);
+                  }}
+                  uppercase
+                  orange
+                  arrow
+                  minWidth="20rem"
+                >
+                  {#if $user?.superfan}
+                    {$_('index.intro.learn-more')}
+                  {:else}
+                    {$_('generics.become-member')}
+                  {/if}
+                </Button>
+                <SocialProof centerRelative />
+              </div>
               <Button
-                href={membershipUrlWithParams}
-                preventing
-                on:click={() => {
-                  trackEvent(PlausibleEvent.VISIT_ABOUT_MEMBERSHIP, { source: 'home_section' });
-                  goto(membershipUrlWithParams);
-                }}
+                href={membershipBlogLink($_, {
+                  utm_content: 'homepage'
+                })}
                 uppercase
+                inverse
+                link
                 orange
-                arrow
-                minWidth="20rem"
+                xsmall
+                target="_blank">{$_('about-superfan.video-section.blog-link-text')}</Button
               >
-                {#if $user?.superfan}
-                  {$_('index.intro.learn-more')}
-                {:else}
-                  {$_('generics.become-member')}
-                {/if}
-              </Button>
-              <SocialProof centerRelative />
             </div>
-            <Button
-              href={membershipBlogLink($_, {
-                utm_content: 'homepage'
-              })}
-              uppercase
-              inverse
-              link
-              orange
-              xsmall
-              target="_blank">{$_('about-superfan.video-section.blog-link-text')}</Button
-            >
           </div>
-        </div>
+        {/snippet}
       </MediaSection>
     </MarketingBlock>
   </PaddedSection>

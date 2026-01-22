@@ -1,14 +1,20 @@
 <script lang="ts">
   import { Icon } from '.';
-  export let icon: string;
-  /** Description of the action for accessibility */
-  export let alt: string;
-  export let width = '2rem';
+
+  interface Props {
+    icon: string;
+    /** Description of the action for accessibility */
+    alt: string;
+    width?: string;
+    onclick: (e: MouseEvent) => void;
+  }
+
+  let { icon, alt, width = '2rem', onclick }: Props = $props();
 </script>
 
 <!-- @component Button that only shows an icon -->
 
-<button on:click style:width title={alt}>
+<button {onclick} style:width title={alt}>
   <Icon {icon} clickable />
   <!-- Text for accessibility -->
   <span class="screen-reader icon">{alt}</span>

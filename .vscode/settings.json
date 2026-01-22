@@ -2,7 +2,6 @@
   "i18n-ally.localesPaths": ["src/locales"],
   "i18n-ally.sourceLanguage": "en",
   "i18n-ally.keystyle": "nested",
-  "svg.preview.background": "transparent",
   "eslint.lintTask.enable": true,
   "eslint.validate": ["svelte"],
   "editor.defaultFormatter": "esbenp.prettier-vscode",

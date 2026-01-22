@@ -10,12 +10,13 @@
   import PaddedSection from '$lib/components/Marketing/PaddedSection.svelte';
   import { appHasLoaded } from '$lib/stores/app';
   import { lr } from '$lib/util/translation-helpers';
+  import ViteSVG from '$lib/components/UI/ViteSVG.svelte';
 </script>
 
 <PaddedSection id="landing">
   <div class="welcome">
     <div class="welcome-logo">
-      {@html Logo}
+      <ViteSVG icon={Logo}></ViteSVG>
     </div>
     <span class="mobile-heading oh1">{$_('generics.wtmg.explicit')}</span>
     <h1 class="landing-headline heading-underline heading-underline--left">
@@ -41,7 +42,7 @@
       <Button href={$lr(routes.MAP)} fit={false} uppercase>{$_('index.intro.explore-map')}</Button>
     </div>
     <div class="welcome-map">
-      {@html welcomeMap}
+      <ViteSVG icon={welcomeMap}></ViteSVG>
     </div>
   </div>
 </PaddedSection>

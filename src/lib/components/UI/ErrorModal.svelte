@@ -1,53 +1,59 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import { close } from '$lib/stores/app';
-  import { SUPPORT_EMAIL, mailToSupportHref } from '$lib/constants';
   import { Modal } from '.';
-  import Anchor from './Anchor.svelte';
 
-  /**
-   * Extra info to print in the user copy. Can include HTML, is already included in a <p>.
-   *
-   * Include a period, don't start with a space.
-   */
-  export let specifier: string = '';
-  /**
-   * Additional context to print.
-   */
-  export let contextLog: string | undefined = undefined;
-  /**
-   * The caught error variable
-   */
-  export let error: unknown;
+  export interface Props {
+    /**
+     * Extra info to print in the user copy. Can include HTML, is already included in a <p>.
+     *
+     * Include a period, don't start with a space.
+     */
+    specifier?: string;
+    /**
+     * Additional context to print.
+     */
+    contextLog?: string | undefined;
+    /**
+     * The caught error variable
+     */
+    error: unknown;
+  }
+
+  let { specifier = '', contextLog = undefined, error }: Props = $props();
 </script>
 
 <!-- @component
 Modal to show a generic error.
  -->
 
-<Modal maxWidth="648px" ariaLabel="Error Modal" center on:close={() => close()}>
-  <div slot="title" class="title">
-    <h2 id="Title">{$_('generics.error.start')}</h2>
-  </div>
-  <div slot="body" class="body">
-    {#if specifier}
-      <p>{@html specifier}</p>
-    {/if}
-    <p />
-    <div class="error-log">
-      {#if error}
-        <code>
-          {typeof error === 'object' && error !== null
-            ? error.toString()
-            : typeof error === 'string'
-              ? error
-              : 'Unknown'}
-        </code>
-      {/if}
-      {#if contextLog}<p>{contextLog}</p>{/if}
-      <p>{navigator.userAgent}</p>
+<Modal maxWidth="648px" ariaLabel="Error Modal" center onclose={close}>
+  {#snippet title()}
+    <div class="title">
+      <h2 id="Title">{$_('generics.error.start')}</h2>
     </div>
-  </div>
+  {/snippet}
+  {#snippet body()}
+    <div class="body">
+      {#if specifier}
+        <p>{@html specifier}</p>
+      {/if}
+      <p></p>
+      <div class="error-log">
+        {#if error}
+          <code>
+            {typeof error === 'object' && error !== null
+              ? error.toString()
+              : typeof error === 'string'
+                ? error
+                : 'Unknown'}
+          </code>
+        {/if}
+        {#if contextLog}<p>{contextLog}</p>{/if}
+        <p>{navigator.userAgent}</p>
+      </div>
+    </div>
+  {/snippet}
 </Modal>
 
 <style>
@@ -61,14 +67,6 @@ Modal to show a generic error.
 
   .error-log > * {
     font-size: 1.4rem;
-  }
-
-  .error-log > p.section {
-    margin: 1rem 0;
-  }
-
-  .error-log > p.section:first-child {
-    margin-top: 0;
   }
 
   .body > p {

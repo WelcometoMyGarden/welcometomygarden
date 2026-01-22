@@ -1,9 +1,5 @@
 <script lang="ts">
-  export let isSubmitting = false;
-  export let isUpdate = false;
-
   import { _ } from 'svelte-i18n';
-  import { createEventDispatcher } from 'svelte';
   import { slide } from 'svelte/transition';
   import CoordinateForm from '$lib/components/Garden/CoordinateForm.svelte';
   import routes from '$lib/routes';
@@ -15,6 +11,14 @@
   import { facilities } from '$lib/stores/facilities';
   import { MAX_GARDEN_CAPACITY } from '$lib/constants';
   import { lr } from '$lib/util/translation-helpers';
+  import logger from '$lib/util/logger';
+  interface Props {
+    isSubmitting?: boolean;
+    isUpdate?: boolean;
+    onsubmit: (garden: GardenDraft) => void;
+  }
+
+  let { isSubmitting = false, isUpdate = false, onsubmit }: Props = $props();
 
   // Note: this component should only be loaded if the garden is loaded.
   const existingGarden: FirebaseGarden | null = $user?.garden ?? null;
@@ -34,16 +38,14 @@
   /**
    * The current garden draft to be edited by the form
    */
-  const garden: GardenDraft = {
+  const garden: GardenDraft = $state({
     ...(existingGarden ? { ...existingGarden } : { ...initialGarden }),
     photo: { files: undefined, data: null }
-  };
+  });
 
-  const dispatch = createEventDispatcher<{ submit: GardenDraft }>();
+  let formValid = $state(true);
 
-  let formValid = true;
-
-  let descriptionHint = { message: '', valid: true };
+  let descriptionHint = $state({ message: '', valid: true });
   const validateDescription = (description: string) => {
     const len = description.length;
     if (len < 20) {
@@ -71,7 +73,7 @@
     garden.description = description;
   }) satisfies FormEventHandler<HTMLTextAreaElement>;
 
-  let coordinateHint = { message: '', valid: true };
+  let coordinateHint = $state({ message: '', valid: true });
   const validateLocation = (location: LongLat | null) => {
     if (!location) {
       coordinateHint.message = $_('garden.form.location.coordinate-hint');
@@ -82,13 +84,13 @@
     coordinateHint.valid = true;
     return true;
   };
-  const setCoordinates = (event: { detail: LongLat | null }) => {
-    validateLocation(event.detail);
-    garden.location = event.detail;
+  const setCoordinates = (event: LongLat | null) => {
+    validateLocation(event);
+    garden.location = event;
   };
 
   const validFileTypes = ['image/jpeg', 'image/png', 'image/tiff'];
-  let photoHint = { message: '', valid: true };
+  let photoHint = $state({ message: '', valid: true });
   const validatePhoto = (file: File) => {
     if (!validFileTypes.includes(file.type)) {
       photoHint.message = $_('garden.form.photo.hints.wrong-format');
@@ -106,7 +108,7 @@
     return true;
   };
 
-  let existingPhoto: null | string = existingGarden ? existingGarden.photo : null;
+  let existingPhoto: null | string = $state(existingGarden ? existingGarden.photo : null);
 
   const choosePhoto = () => {
     // The garden.photo property must have been reset before executing this function.
@@ -123,7 +125,7 @@
         // https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL
         garden.photo.data = e.target.result as string;
       } else {
-        console.warn(
+        logger.warn(
           'Uploaded photo reader, or target object are unexpectedly falsy when reading it'
         );
       }
@@ -151,7 +153,7 @@
     }
 
     formValid = true;
-    dispatch('submit', garden);
+    onsubmit(garden);
   };
 </script>
 
@@ -191,7 +193,7 @@
       <p class="section-description">
         {@html $_('garden.form.location.notice')}
       </p>
-      <CoordinateForm initialCoordinates={garden.location} on:confirm={setCoordinates} />
+      <CoordinateForm initialCoordinates={garden.location} onconfirm={setCoordinates} />
       <p class="hint" class:invalid={!coordinateHint.valid}>{coordinateHint.message}</p>
     </fieldset>
   </section>
@@ -209,13 +211,13 @@
           id="description"
           name="description"
           value={garden.description}
-          on:input={updateDescription}
-          on:keypress={(e) => {
+          oninput={updateDescription}
+          onkeypress={(e) => {
             if ((e.keyCode || e.which) == 13) {
               e.preventDefault();
             }
           }}
-        />
+        ></textarea>
         <p class="hint" class:invalid={!descriptionHint.valid}>{descriptionHint.message}</p>
       </div>
     </fieldset>
@@ -256,7 +258,7 @@
         id="photo"
         name="photo"
         bind:files={garden.photo.files}
-        on:change={choosePhoto}
+        onchange={choosePhoto}
         multiple={false}
         accept={validFileTypes.join(',')}
       />
@@ -278,7 +280,7 @@
   </section>
   <section class="section-submit">
     <div class="sub-container">
-      <Button type="button" disabled={isSubmitting} on:click={handleSubmit} uppercase medium>
+      <Button type="button" disabled={isSubmitting} onclick={handleSubmit} uppercase medium>
         {$_(`garden.form.${isUpdate ? 'manage' : 'add'}.button`)}
       </Button>
       {#if !formValid}
@@ -390,6 +392,12 @@
 
   .hint.invalid {
     color: var(--color-danger);
+  }
+
+  /* Protect against long filenames */
+  input#photo {
+    width: 90%;
+    word-break: break-all;
   }
 
   .photo {

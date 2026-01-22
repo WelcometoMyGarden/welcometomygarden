@@ -1,57 +1,82 @@
 <script lang="ts">
   import Text from './Text.svelte';
 
-  export let type: null | string = null;
-  export let href: null | string = null;
-  /**
-   * Dark foreground color
-   */
-  export let inverse = false;
-  export let uppercase = false;
-  export let initial = false;
-  export let fit = true;
-  export let fullWidth = false;
-  export let target: null | string = null;
-  export let medium = false;
-  export let small = false;
-  export let xsmall = false;
-  export let xxsmall = false;
-  export let disabled = false;
-  export let preventing = false;
-  export let orange = false;
-  export let danger = false;
-  export let arrow = false;
-  export let centered = false;
-  export let oneline = false;
-  /**
-   * Shows a loading indicator on the button, instead of the main content
-   */
-  export let loading = false;
-  export let minWidth: undefined | string = undefined;
-  /** Whether this is a link-style button */
-  export let link = false;
-  /** Apply an underline in the case of a link-style button*/
-  export let underline = true;
-  export let bold = true;
-
-  /**
-   * A new style used in the garden drawer.
-   */
-  export let gardenStyle = false;
-
-  /**
-   * Any loading button should also be disabled reactively
-   */
-  $: _disabled = disabled || loading;
-
-  import { createEventDispatcher } from 'svelte';
   import Icon from './Icon.svelte';
-  import chevron from '$lib/images/icons/chevron-right.svg';
+  import chevron from '$lib/images/icons/chevron-right.svg?inline';
   import Spinner from './Spinner.svelte';
+  interface Props {
+    type?: null | string;
+    href?: null | string;
+    /**
+     * Dark foreground color
+     */
+    inverse?: boolean;
+    uppercase?: boolean;
+    initial?: boolean;
+    fit?: boolean;
+    fullWidth?: boolean;
+    target?: null | string;
+    medium?: boolean;
+    small?: boolean;
+    xsmall?: boolean;
+    xxsmall?: boolean;
+    disabled?: boolean;
+    preventing?: boolean;
+    orange?: boolean;
+    danger?: boolean;
+    arrow?: boolean;
+    centered?: boolean;
+    oneline?: boolean;
+    /**
+     * Shows a loading indicator on the button, instead of the main content
+     */
+    loading?: boolean;
+    minWidth?: undefined | string;
+    /** Whether this is a link-style button */
+    link?: boolean;
+    /** Apply an underline in the case of a link-style button*/
+    underline?: boolean;
+    bold?: boolean;
+    /**
+     * A new style used in the garden drawer.
+     */
+    gardenStyle?: boolean;
+    onclick?: (e: MouseEvent) => void;
+    children?: import('svelte').Snippet;
+  }
 
-  const dispatch = createEventDispatcher();
+  let {
+    type = null,
+    href = null,
+    inverse = false,
+    uppercase = false,
+    initial = false,
+    fit = true,
+    fullWidth = false,
+    target = null,
+    medium = false,
+    small = false,
+    xsmall = false,
+    xxsmall = false,
+    disabled = false,
+    preventing = false,
+    orange = false,
+    danger = false,
+    arrow = false,
+    centered = false,
+    oneline = false,
+    loading = false,
+    minWidth = undefined,
+    link = false,
+    underline = true,
+    bold = true,
+    gardenStyle = false,
+    onclick,
+    children
+  }: Props = $props();
 
-  let clicked: boolean;
+  let clicked: boolean | undefined = $state();
+
   const click = (e: MouseEvent) => {
     if (preventing) {
       e.preventDefault();
@@ -59,8 +84,12 @@
     }
     clicked = true;
     setTimeout(() => (clicked = false), 100);
-    if (!_disabled) return dispatch('click', e);
+    if (!_disabled) return onclick?.(e);
   };
+  /**
+   * Any loading button should also be disabled reactively
+   */
+  let _disabled = $derived(disabled || loading);
 </script>
 
 {#if href}
@@ -89,14 +118,14 @@
     class:gardenStyle
     style:min-width={minWidth}
     {href}
-    on:click={(e) => {
+    onclick={(e) => {
       if (_disabled || preventing) e.preventDefault();
-      click(e);
+      onclick?.(e);
     }}
     {target}
   >
-    <Text className="btn-text" is="span">
-      <slot />
+    <Text class="btn-text" is="span">
+      {@render children?.()}
     </Text>
     {#if arrow}
       <div class="arrow-icon"><Icon icon={chevron} /></div>
@@ -110,7 +139,7 @@
     class="button"
     class:initial
     class:disabled={_disabled}
-    on:click={click}
+    onclick={click}
     class:uppercase
     class:fit
     class:fullWidth
@@ -133,8 +162,8 @@
     style:min-width={minWidth}
     {type}
   >
-    <Text className="btn-text" is="span" weight="bold">
-      <slot />
+    <Text class="btn-text" is="span" weight="bold">
+      {@render children?.()}
     </Text>
     {#if arrow}
       <div class="arrow-icon"><Icon icon={chevron} /></div>

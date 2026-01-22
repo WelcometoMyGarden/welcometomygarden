@@ -4,7 +4,7 @@
   import * as Sentry from '@sentry/sveltekit';
 
   import { onMount } from 'svelte';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import Modal from 'svelte-simple-modal';
   import { onNavigate } from '$app/navigation';
   import trackEvent, { registerCustomPropertyTracker } from '$lib/util/track-plausible';
@@ -22,11 +22,17 @@
   import { staticAppHasLoaded, appHasLoaded, coercedLocale, rootModal } from '$lib/stores/app';
   import { keyboardEvent } from '$lib/stores/keyboardEvent';
   import { isFullscreen } from '$lib/stores/fullscreen';
+  import logger from '$lib/util/logger.js';
+  interface Props {
+    children?: import('svelte').Snippet;
+  }
+
+  let { children }: Props = $props();
 
   if (browser) {
     initializeFirebase()
       .then(initializeUser)
-      .catch((e) => console.error('Error during init', e));
+      .catch((e) => logger.error('Error during init', e));
   }
 
   /**
@@ -38,11 +44,11 @@
    *
    * See also: https://codepen.io/th0rgall/pen/gOqrMdj
    */
-  let vh = `0px`;
+  let vh = $state(`0px`);
 
   onMount(() => {
     return Sentry.startSpan({ name: 'Root Layout Load', op: 'app.load' }, async () => {
-      console.log('Mounting root layout');
+      logger.log('Mounting root layout');
 
       vh = `${window.innerHeight * 0.01}px`;
 
@@ -84,7 +90,7 @@
     }
   };
 
-  let appContainer: HTMLDivElement;
+  let appContainer: HTMLDivElement = $state();
 
   // Scroll to 0,0 on every navigation
   onNavigate(() => {
@@ -107,7 +113,7 @@
   };
 </script>
 
-<svelte:window on:resize={updateViewportHeight} on:keyup={onCustomPress} />
+<svelte:window onresize={updateViewportHeight} onkeyup={onCustomPress} />
 
 <svelte:head>
   {#if $staticAppHasLoaded}
@@ -186,7 +192,7 @@
   </div>
 {/if} -->
 <div
-  class="app active-{$activeRootPath} active-route-{$page?.route?.id} locale-{$coercedLocale}"
+  class="app active-{$activeRootPath} active-route-{page?.route?.id} locale-{$coercedLocale}"
   class:fullscreen={$isFullscreen}
   class:error-banner={false}
   style="--vh:{vh}"
@@ -197,7 +203,7 @@
     {#if browser}
       <Notifications />
     {/if}
-    <slot />
+    {@render children?.()}
   </Modal>
 </div>
 

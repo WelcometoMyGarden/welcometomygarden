@@ -10,15 +10,16 @@
   import { lockIcon, emailIcon } from '$lib/images/icons';
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { goto, universalGoto } from '$lib/util/navigate';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { get } from 'svelte/store';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
   import * as Sentry from '@sentry/sveltekit';
   import { lr } from '$lib/util/translation-helpers';
+  import logger from '$lib/util/logger';
 
-  const continueUrl = $page.url.searchParams.get('continueUrl');
+  const continueUrl = $derived(page.url.searchParams.get('continueUrl'));
 
-  let formError = '';
+  let formError = $state('');
   const submit = async () => {
     if (!$formEmailValue || !$formPasswordValue) return;
     formError = '';
@@ -27,7 +28,7 @@
       await login($formEmailValue, $formPasswordValue);
       const localUser = get(user);
       if (!localUser) {
-        console.warn('User unexpectedly null in sign-in');
+        logger.warn('User unexpectedly null in sign-in');
         Sentry.captureMessage('User unexpectedly null after login', {
           level: 'warning'
         });
@@ -36,7 +37,7 @@
       if (continueUrl) {
         if (getBaseRouteIn(continueUrl) === routes.ADD_GARDEN && !localUser?.emailVerified) {
           // If the intention is to add a garden, but the user is not verified, redirect to the account page
-          console.log(
+          logger.log(
             'Redirecting to /account upon unverified email sign-in with a garden add intention'
           );
           universalGoto($lr(routes.ACCOUNT));
@@ -76,42 +77,51 @@
 <Progress active={$isSigningIn} />
 
 <AuthContainer>
-  <span slot="title">{$_('sign-in.title')}</span>
+  {#snippet title()}
+    <span>{$_('sign-in.title')}</span>
+  {/snippet}
 
-  <form slot="form" on:submit|preventDefault={submit}>
-    <div>
-      <label for="email">{$_('generics.email')}</label>
-      <TextInput
-        icon={emailIcon}
-        autocomplete="email"
-        type="email"
-        name="email"
-        id="email"
-        bind:value={$formEmailValue}
-      />
-    </div>
-    <div>
-      <label for="password">{$_('generics.password')}</label>
-      <TextInput
-        icon={lockIcon}
-        type="password"
-        name="password"
-        id="password"
-        autocomplete="new-password"
-        bind:value={$formPasswordValue}
-      />
-    </div>
-    <div class="hint">
-      {#if formError}
-        <p transition:fade class="hint danger">{formError}</p>
-      {/if}
-    </div>
-    <div class="submit">
-      <Button type="submit" medium disabled={!$formEmailValue || !$formPasswordValue}>
-        {$_('sign-in.button')}
-      </Button>
-    </div>
-  </form>
+  {#snippet form()}
+    <form
+      onsubmit={(e) => {
+        e.preventDefault();
+        submit();
+      }}
+    >
+      <div>
+        <label for="email">{$_('generics.email')}</label>
+        <TextInput
+          icon={emailIcon}
+          autocomplete="email"
+          type="email"
+          name="email"
+          id="email"
+          bind:value={$formEmailValue}
+        />
+      </div>
+      <div>
+        <label for="password">{$_('generics.password')}</label>
+        <TextInput
+          icon={lockIcon}
+          type="password"
+          name="password"
+          id="password"
+          autocomplete="new-password"
+          bind:value={$formPasswordValue}
+        />
+      </div>
+      <div class="hint">
+        {#if formError}
+          <p transition:fade class="hint danger">{formError}</p>
+        {/if}
+      </div>
+      <div class="submit">
+        <Button type="submit" medium disabled={!$formEmailValue || !$formPasswordValue}>
+          {$_('sign-in.button')}
+        </Button>
+      </div>
+    </form>
+  {/snippet}
 
   <p>
     {@html $_('sign-in.reset.text', {

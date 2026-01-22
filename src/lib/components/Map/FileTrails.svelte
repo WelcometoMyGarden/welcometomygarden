@@ -8,6 +8,7 @@
   import { ZOOM_LEVELS } from '$lib/constants';
   import type { FileDataLayer } from '$lib/types/DataLayer';
   import * as Sentry from '@sentry/sveltekit';
+  import logger from '$lib/util/logger';
 
   type SourceData =
     | string
@@ -42,7 +43,7 @@
           linear: true
         });
       } catch (error) {
-        console.error(error);
+        logger.error(error);
         Sentry.captureException(error, { extra: { context: 'Adding trail' } });
       }
     }

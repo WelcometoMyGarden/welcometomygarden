@@ -28,6 +28,7 @@ import type {
   GardenToAdd
 } from '$lib/types/Garden';
 import { get } from 'svelte/store';
+import logger from '$lib/util/logger';
 
 /**
  * Get a single garden, if it exists and is listed. Returns `null` otherwise.
@@ -142,7 +143,7 @@ export const getAllListedGardens = async () => {
   // Note: this leads to the loop breaking once this number of gardens is reached!
   const LOOP_LIMIT_ITEMS = 100000;
 
-  console.log('Starting to fetch all gardens...');
+  logger.log('Starting to fetch all gardens...');
   isFetchingGardens.set(true);
 
   let startAfterDocRef = null;
@@ -156,6 +157,7 @@ export const getAllListedGardens = async () => {
         ? 'http://127.0.0.1:8080/v1/projects/'
         : 'https://firestore.googleapis.com/v1/projects/'
     }${import.meta.env.VITE_FIREBASE_PROJECT_ID}/databases/(default)/documents:runQuery`;
+
     // Query the chunk of gardens using the REST api
     const gardensChunkResponse = (await fetch(url, {
       method: 'POST',
@@ -222,7 +224,7 @@ export const getAllListedGardens = async () => {
     });
   } while (startAfterDocRef != null && iteration < LOOP_LIMIT_ITEMS / CHUNK_SIZE);
 
-  console.log('Fetched all gardens');
+  logger.log('Fetched all gardens');
 
   isFetchingGardens.set(false);
   return get(allListedGardens);
@@ -425,7 +427,7 @@ export const getGardenResponseRate = async (
       .single()
       .overrideTypes<ResponseRateTimeResponse>();
     if (error) {
-      console.error(error);
+      logger.error(error);
     } else {
       if (!data) {
         // requests: none if actually none, or if no <7d reqs were answered yet

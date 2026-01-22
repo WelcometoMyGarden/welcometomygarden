@@ -23,8 +23,7 @@
   import Heading from '$lib/components/Marketing/Heading.svelte';
 
   // https://stackoverflow.com/a/67830849
-  let contributorProfiles: ProfileData[];
-  $: contributorProfiles = [
+  let contributorProfiles: ProfileData[] = $derived([
     {
       name: 'Michiel',
       role: $_('about-us.dev'),
@@ -61,12 +60,12 @@
       imageSrc: jannekeImg,
       introHtml: $_('about-us.janneke')
     }
-  ];
+  ]);
+  
 
   // https://stackoverflow.com/a/67830849
   // coreTeamProfiles is structured like this for the sake of i18n
-  let coreTeamProfiles: { [name: string]: ProfileData };
-  $: coreTeamProfiles = {
+  let coreTeamProfiles: { [name: string]: ProfileData } = $derived({
     dries: {
       ...coreTeamProfilesStatic.dries,
       role: $_('about-us.co-founder'),
@@ -82,7 +81,8 @@
       role: $_('about-us.co-founder'),
       introHtml: $_('about-us.thor')
     }
-  };
+  });
+  
 </script>
 
 <svelte:head>

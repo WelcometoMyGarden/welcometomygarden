@@ -16,5 +16,7 @@
   transitionBackground={true}
   noInnerPadding={true}
 >
-  <Video slot="body" />
+  {#snippet body()}
+    <Video  />
+  {/snippet}
 </Modal>
