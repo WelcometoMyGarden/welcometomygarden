@@ -6,7 +6,7 @@ const { auth } = require('./app');
 const { createNewUser, createGarden, createChat, sendMessage } = require('./util');
 const { config } = require('dotenv');
 
-config({ path: 'api/.env.local' });
+config({ path: 'api/.env.local', quiet: true });
 
 const seed = async () => {
   // Create users

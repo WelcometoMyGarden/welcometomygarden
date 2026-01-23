@@ -21,7 +21,7 @@
 const assert = require('node:assert');
 const dotenv = require('dotenv');
 const { resolve } = require('node:path');
-dotenv.config({ path: resolve(__dirname, '../.env.local') });
+dotenv.config({ path: resolve(__dirname, '../.env.local'), quiet: true });
 
 const {
   clearAuth,
