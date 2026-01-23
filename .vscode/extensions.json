@@ -6,6 +6,7 @@
     "mikestead.dotenv",
     "ms-playwright.playwright",
     "svelte.svelte-vscode",
-    "vitest.explorer"
+    "vitest.explorer",
+    "hbenl.vscode-mocha-test-adapter"
   ]
 }

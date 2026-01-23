@@ -44,9 +44,10 @@ Tests can then be run in another shell using `mocha`. You will need to prepare t
 cd api
 export FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099
 export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080
+export FIREBASE_STORAGE_EMULATOR_HOST=127.0.0.1:9199
 ```
 
-Next, here are some test examples:
+Here are some test examples:
 
 ```sh
 # Run all tests
@@ -59,6 +60,8 @@ mocha test/renewalScheduler.test.js
 # Use `-w` to watch the tests = re-run on file changes.
 mocha -w -f onCampsitesWrite
 ```
+
+Alternatively, you can use the recommended "Mocha Test Explorer" VSCode extension to run tests. The above env variables are already set up there via `settings.json`.
 
 **Good to know**
 
