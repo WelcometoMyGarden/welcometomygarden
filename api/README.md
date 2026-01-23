@@ -4,7 +4,7 @@ This subproject houses the Firebase Cloud Functions of WTMG's Firebase backend.
 
 Install the dependencies, if you haven't already while following the [dev env README](../docs/dev-env.md):
 
-```bash
+```sh
 yarn install
 ```
 
@@ -14,7 +14,7 @@ If you have [full access](../docs/full-access.md), follow the configuration inst
 
 ### Start dev servers
 
-```bash
+```sh
 yarn serve
 ```
 
@@ -98,7 +98,7 @@ To not have to repeat this procedure, but still test email parsing, [./test/pars
 
 Use the correct environment:
 
-```bash
+```sh
 firebase use wtmg-dev
 ```
 
@@ -112,15 +112,11 @@ Keep in mind that Stripe Webhook signing secrets are **unique to the webhook end
 
 ### Deploy functions
 
-This will deploy all functions:
-
-```bash
-firebase deploy --only functions
-```
+**Selective production deploy (most common)**
 
 This will deploy specific functions, for example, all currently used Stripe-related functions:
 
-```bash
+```sh
 firebase deploy --project prod --only \
 functions:createStripeCustomerV2,\
 functions:createOrRetrieveUnpaidSubscriptionV2,\
@@ -130,13 +126,69 @@ functions:propagateEmailChangeV2,\
 functions:onAuthUserDelete
 ```
 
+**Full production deploy**
+
+This will deploy **ALL** functions **in production**:
+
+```sh
+firebase deploy --project prod --only functions
+```
+
+⚠️ Only do this when necessary, i.e. there is an Node engine update that affects all functions. Make sure all functions were tested on their latest versions, and verify/manually test whether the prod-only functions (see below) still work.
+
+**Don't** do this in staging, since you'll deploy irrelevant functions there.
+
+**Full staging deploy**
+
+In staging (wtmg-dev), not all functions are relevant. These are relevant functions (sorted alphabetically, v1 functions on the bottom):
+
+```sh
+firebase deploy --project staging --only \
+functions:checkContactCreation,\
+functions:createCustomerPortalSessionV2,\
+functions:createOrRetrieveUnpaidSubscriptionV2,\
+functions:createStripeCustomerV2,\
+functions:createUserV2,\
+functions:discourseConnectLoginV2,\
+functions:handleStripeWebhookV2,\
+functions:onCampsiteCreateV2,\
+functions:onCampsiteDeleteV2,\
+functions:onCampsiteWriteV2,\
+functions:onChatCreateV2,\
+functions:onMessageCreateV2,\
+functions:onUserPrivateWriteV2,\
+functions:onUserWriteV2,\
+functions:parseInboundEmailV2,\
+functions:propagateEmailChangeV2,\
+functions:requestEmailChangeV2,\
+functions:requestPasswordResetV2,\
+functions:resendAccountVerificationV2,\
+functions:sendMessage,\
+functions:updateEmail,\
+functions:onAuthUserCreate,\
+functions:onAuthUserDelete
+```
+
+These are the functions omitted from staging:
+
+```sh
+- backupFirestore # we don't need staging data backups
+- handleRenewals # to test schedule renewal handling, local api tests with backdated (simulated) data is more helpful than waiting 1 year on events
+- errorLogTunnel # this just proxies into our single Glitchtip instance, we use prod the prod function
+- handleUnsubscribe # this is dependent on our production SendGrid
+- functions depending on Supabase:
+  - refreshAuthTableV2 # we currently don't have a staging Supabase
+  - onChatWriteV2
+  - onMessageWriteV2
+```
+
 ### Deploy extensions
 
 At the moment, we use only one Firebase Extension: storage-resize-images.
 
 It has already been installed and registered locally in `../firebase.json`. Its version can be updated (locally) using:
 
-```bash
+```sh
 firebase --project staging ext:update storage-resize-images
 ```
 
@@ -150,7 +202,7 @@ AFAIK (untested), unlike general Firebase Functions, Extension .env files can no
 
 Afterwards (fill in the right project):
 
-```bash
+```sh
 firebase --project staging deploy --only extensions
 ```
 
@@ -160,7 +212,7 @@ I don't think it's possible (yet) to only deploy one extension, which is OK sinc
 
 See [the docs](https://firebase.google.com/docs/rules/manage-deploy#deploy_your_updates).
 
-```bash
+```sh
 # For Firestore
 firebase deploy --only firestore:rules
 
