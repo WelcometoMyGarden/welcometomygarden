@@ -258,7 +258,7 @@ export class MainFlowTest extends GenericFlow {
     // Open the chat as robot 1
     if (this.isMobile) {
       // on mobile, this button is in the bottom menu bar
-      await wtmgPage1.getByRole('link', { name: 'Discussion' }).click();
+      await wtmgPage1.getByRole('link', { name: this.l('chat') }).click();
     } else {
       // on destkop, the top-right menu must first be opened
       await wtmgPage1.getByRole('button', { name: 'R Robot1' }).click();
