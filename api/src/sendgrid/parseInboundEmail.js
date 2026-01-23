@@ -9,8 +9,10 @@ const { htmlToText } = require('html-to-text');
 const { MAX_MESSAGE_LENGTH, sendMessageFromEmail } = require('../chat');
 const { sendEmailReplyError } = require('../mail');
 const { auth, db } = require('../firebase');
-
 const { sendPlausibleEvent } = require('../util/plausible');
+
+// Our sample email is 12 094 chars long, so 30K should be reasonable.
+const MAX_EMAIL_LENGTH_CHARS = 30000;
 
 /**
  *
@@ -124,7 +126,14 @@ exports.parseUnpackedInboundEmail = (unpackedInboundRequest) => {
   // Attempt to parse the response text and Chat ID from the email
   let chatId;
   function parsePlainTextEmail(text) {
-    const parsedEmail = new EmailReplyParser().read(text);
+    // Poor man's ReDOS protection without setting up native re2 binaries, limit max email length.
+    // https://github.com/crisp-oss/email-reply-parser/issues/39
+    if (text.length > MAX_EMAIL_LENGTH_CHARS) {
+      const warning = `Inbound email length exceeded (${MAX_EMAIL_LENGTH_CHARS.toLocaleString('nl-BE')} chars)`;
+      logger.warn(warning);
+      throw new Error(warning);
+    }
+    const parsedEmail = new EmailReplyParser.default().read(text);
     // Trim is not done automatically
     return [parsedEmail.getVisibleText().trim(), parsedEmail.getQuotedText()];
   }

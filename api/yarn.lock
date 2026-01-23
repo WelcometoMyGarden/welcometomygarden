@@ -2817,15 +2817,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"email-reply-parser@npm:^1.8.1":
-  version: 1.9.4
-  resolution: "email-reply-parser@npm:1.9.4"
+"email-reply-parser@npm:^2.3.5":
+  version: 2.3.5
+  resolution: "email-reply-parser@npm:2.3.5"
   peerDependencies:
-    re2: 1.21.4
+    re2: 1.22.1
   peerDependenciesMeta:
     re2:
       optional: true
-  checksum: 10/cc3a3c2bb5878bae068a4351985bc8e39a0c386a0f64693a8409f205da5d8f4bf8ac0a8dfb001efcbfef14259f4c7e449360df89c5790b7ea67d6bbba70bd6b6
+  checksum: 10/6a3d5cbc3dce65f07bdddeb764337b1853a08b13821e94cb7106b4cbefec6373aacf5bbd94cf1b715499da61b0afd4a2dafc6ac35807c36b4a99a1f56bdf6b7e
   languageName: node
   linkType: hard
 
@@ -3499,7 +3499,7 @@ __metadata:
     address-rfc2822: "npm:^2.2.3"
     busboy: "npm:^1.6.0"
     dotenv: "npm:^17.2.3"
-    email-reply-parser: "npm:^1.8.1"
+    email-reply-parser: "npm:^2.3.5"
     es6-promise-pool: "npm:^2.5.0"
     eslint: "npm:^9.39.2"
     eslint-config-prettier: "npm:^10.1.8"
