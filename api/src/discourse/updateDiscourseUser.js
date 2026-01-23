@@ -1,6 +1,5 @@
 const { defineString } = require('firebase-functions/params');
 // See https://stackoverflow.com/a/70139151/4973029
-const { default: fetch, Headers } = require('node-fetch');
 const { getHmacDigest } = require('./discourseConnectLogin');
 
 const discourseHostParam = defineString('DISCOURSE_HOST', { default: '' });

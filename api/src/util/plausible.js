@@ -1,5 +1,4 @@
 const { logger } = require('firebase-functions');
-const { default: fetch } = require('node-fetch');
 const { projectID } = require('firebase-functions/params');
 
 /**

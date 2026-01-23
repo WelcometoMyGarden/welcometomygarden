@@ -3670,7 +3670,6 @@ __metadata:
     luxon: "npm:^3.7.2"
     mocha: "npm:^10.8.2"
     nanoid: "npm:^3.3.11"
-    node-fetch: "npm:^2.7.0"
     prettier: "npm:^3.8.1"
     proxyquire: "npm:^2.1.3"
     sinon: "npm:^19.0.5"
