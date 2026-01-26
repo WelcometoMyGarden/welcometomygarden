@@ -1,6 +1,6 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { onMount, onDestroy } from 'svelte';
+  import { onDestroy } from 'svelte';
   import { fade } from 'svelte/transition';
   import { page } from '$app/state';
   import { markChatSeen } from '$lib/api/chat';
@@ -38,6 +38,7 @@
   } from './MessageBox.svelte';
   import { isMobile } from '$lib/stores/ui.svelte';
   import Fragment from '$lib/components/UI/Fragment.svelte';
+  import { afterNavigate } from '$app/navigation';
 
   /**
    * See $sharedChat for docs
@@ -68,7 +69,7 @@
     if (chat && Array.isArray($messages[chat.id])) {
       const msgCont = sharedState.messageContainer;
       autoscroll =
-        // Check if we're looking at the bottom of the list of chats (recentmost chat).
+        // Check if we're looking at the bottom of the list of chat messages (recentmost chat).
         // If so, mark the view as eligible to auto-scroll to the next incoming chat.
         msgCont && msgCont.scrollTop >= msgCont.scrollHeight - msgCont.clientHeight - 25;
     }
@@ -128,9 +129,11 @@
     }
   });
 
-  onMount(() => {
+  // Note: whenever we switch chats, this ensures we scroll to the latest message
+  // Otherwise, opening another (long) will keep it at the first message.
+  // TODO: remembering your scroll position might make more sense?
+  afterNavigate(() => {
     // Start off at the bottom
-    // TODO: will this apply when changing chats?
     scrollDownMessages();
   });
 
