@@ -5,6 +5,8 @@ import { imagetools } from '@zerodevx/svelte-img/vite';
 import mkcert from 'vite-plugin-mkcert';
 import envIsTrue from './src/lib/util/env-is-true';
 import { sentrySvelteKit } from '@sentry/sveltekit';
+import dynamicBuildTarget from './plugins/dynamicBuildTarget';
+import stripCSSWhereSelectors from './plugins/stripCSSWhereSelectors';
 import os from 'os';
 
 /* eslint-env node */
@@ -38,6 +40,8 @@ export default defineConfig(({ command, mode }): UserConfig => {
           ]
         : []),
       sveltekit(),
+      dynamicBuildTarget,
+      stripCSSWhereSelectors,
       imagetools(),
       ...(useHTTPS
         ? [

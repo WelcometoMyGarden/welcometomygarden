@@ -42,9 +42,21 @@
    * It's main purspose today is compatibility, because dvh is badly supported on 1y+ old browsers.
    * https://caniuse.com/viewport-unit-variants
    *
+   * It does rely on calc() and viewport units (vh) etc (Chrome 26+, Safari 6+)
+   *
+   * Note: if the JS here fails in unsupported browsers (e.g. Chrome <84),
+   * this will make the page look weirdly narrow in height, because of the
+   * default 0px value of vh below. src/browser-support.js implements
+   * a workaround for this.
+   *
    * See also: https://codepen.io/th0rgall/pen/gOqrMdj
    */
   let vh = $state(`0px`);
+
+  /**
+   * Helps us know which Firebase environment we're targetting
+   */
+  let localEnvString: string | null = $state(null);
 
   onMount(() => {
     return Sentry.startSpan({ name: 'Root Layout Load', op: 'app.load' }, async () => {
@@ -73,6 +85,12 @@
           }
         }
       });
+
+      // Display an indicator in localhost or direct-IP (if accessing a local IP on another device)
+      // testing environment
+      localEnvString = page.url.hostname.match('^localhost|\d\.\d\.\d\.\d')
+        ? `local project: ${import.meta.env.VITE_FIREBASE_PROJECT_ID}`
+        : null;
 
       // No unsubscribers are used due to this being an async initializer
     });
@@ -192,6 +210,7 @@
   </div>
 {/if} -->
 <div
+  id="wtmg-app"
   class="app active-{$activeRootPath} active-route-{page?.route?.id} locale-{$coercedLocale}"
   class:fullscreen={$isFullscreen}
   class:error-banner={false}
@@ -205,6 +224,9 @@
     {/if}
     {@render children?.()}
   </Modal>
+  {#if localEnvString}
+    <div class="local-env-string">{localEnvString}</div>
+  {/if}
 </div>
 
 <style>
@@ -309,6 +331,16 @@
   }
   .permanent-error :global(.error-link) {
     text-decoration: underline;
+  }
+
+  .local-env-string {
+    z-index: 9999;
+    display: block;
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+    background-color: yellow;
+    color: black;
   }
 
   @media screen and (max-width: 700px) {
