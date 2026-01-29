@@ -94,10 +94,10 @@
   <PaddedSection backgroundColor="var(--color-beige-light)" vertical topMargin={false}>
     <InnerVideoSection decoration={true}>
       {#snippet heading()}
-            <h1 >{$_('about-superfan.video-section.title')}</h1>
-          {/snippet}
+        <h1>{$_('about-superfan.video-section.title')}</h1>
+      {/snippet}
       {#snippet text()}
-            <div  class="video-text">
+        <div class="video-text">
           {@html $_('about-superfan.video-section.description')}
           <div class="become-superfan-buttons">
             {#if !$user?.superfan}
@@ -125,7 +125,7 @@
             >
           </div>
         </div>
-          {/snippet}
+      {/snippet}
     </InnerVideoSection>
   </PaddedSection>
   <PaddedSection>
@@ -170,7 +170,7 @@
       </div>
     {/each}
   </PaddedSection>
-  <PaddedSection>
+  <PaddedSection className="reset-last-section-margin">
     <div class="more-questions">
       <h2>{capitalize($_('become-superfan.pricing-section.blog-post-link-text'))}</h2>
       <Button

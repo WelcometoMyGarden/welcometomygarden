@@ -110,6 +110,14 @@
   }
 
   @media only screen and (max-width: 700px) {
+    div {
+      /*
+       This is a hack to make the margin-bottom of child components take effect.
+       Without specifying a padding on this container, whatever the bottom margin is
+       on the last child component, it will be ignored.
+       */
+      padding-bottom: 0.1px;
+    }
     div :global(.oh2) {
       font-size: 1.6rem;
     }
@@ -169,7 +177,7 @@
     margin-bottom: 9rem;
   }
 
-  div :global(section:last-child) {
+  div :global(section:last-child:not(.reset-last-section-margin)) {
     margin-bottom: 0;
   }
 
