@@ -336,7 +336,7 @@
   .local-env-string {
     z-index: 9999;
     display: block;
-    position: absolute;
+    position: fixed;
     bottom: 3px;
     right: 3px;
     background-color: yellow;

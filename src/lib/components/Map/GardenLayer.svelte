@@ -42,14 +42,14 @@
   const { getMap } = getContext<ContextType>(key);
   const map = getMap();
 
-  let mapReady = $state(false);
-
   const savedGardenSourceId = 'saved-gardens';
   const gardensAllSourceId = 'gardens-all';
   const savedGardenLayerId = 'saved-gardens-layer';
   const clustersLayerId = 'clusters';
   const clusterCountLayerId = 'cluster-count';
   const unclusteredPointLayerId = 'unclustered-point';
+
+  let mapReady = $state(false);
 
   const fcAllGardens: GardenFeatureCollection = {
     type: 'FeatureCollection',
@@ -61,15 +61,9 @@
     features: []
   };
 
-  const fcGardensWithoutSavedGardens: GardenFeatureCollection = {
-    type: 'FeatureCollection',
-    features: []
-  };
-
   const constructMapFeatures = () => {
     fcAllGardens.features = [];
     fcSavedGardens.features = [];
-    fcGardensWithoutSavedGardens.features = [];
 
     allGardens.forEach((garden: Garden) => {
       if (!garden.id) return;
@@ -101,12 +95,9 @@
         }
       };
 
-      // Add garden to allGardens feature collection
       fcAllGardens.features.push(gardenFeature);
 
-      // if garden is saved, add to savedGardens feature collection and if garden is not saved, add to gardensWithoutSavedGardens feature collection
       if (isSaved) fcSavedGardens.features.push(gardenFeature);
-      else fcGardensWithoutSavedGardens.features.push(gardenFeature);
     });
   };
 
@@ -124,7 +115,7 @@
     });
   }
 
-  const setupMarkers = async () => {
+  const initializeMap = async () => {
     // Catch all errors to avoid having to reload when working on this component in development
     try {
       const images = [
@@ -137,6 +128,8 @@
       await Promise.all(images.map((img) => loadImg(map, img)));
 
       constructMapFeatures();
+
+      // Add map data sources based on constructed feature sets
 
       map.addSource(gardensAllSourceId, {
         type: 'geojson',
@@ -157,6 +150,9 @@
         data: fcSavedGardens
       });
 
+      // Add layers based on map sources
+
+      // > Layers based on the "all gardens" source
       map.addLayer({
         id: clustersLayerId,
         type: 'circle',
@@ -205,6 +201,7 @@
         }
       });
 
+      // > Layers based on the "saved gardens" source
       map.addLayer({
         id: savedGardenLayerId,
         type: 'symbol',
@@ -217,7 +214,9 @@
         }
       });
 
-      // inspect a cluster on click
+      // Add behavior
+
+      // Inspect a cluster on click
       map.on('click', clustersLayerId, (e) => {
         const features = map.queryRenderedFeatures(e.point, {
           layers: [clustersLayerId]
@@ -241,7 +240,7 @@
       // should not error in prod
       logger.error(err);
       Sentry.captureException(err, {
-        extra: { context: 'Setting up garden map markers' }
+        extra: { context: 'Initializing the map layers and behavior' }
       });
     } finally {
       mapReady = true;
@@ -272,6 +271,6 @@
   });
 
   onMount(() => {
-    setupMarkers();
+    initializeMap();
   });
 </script>
