@@ -255,7 +255,7 @@
   }
 
   .modal-content > * {
-    flex: 1;
+    flex: 1 auto;
   }
 
   .modal-header {
