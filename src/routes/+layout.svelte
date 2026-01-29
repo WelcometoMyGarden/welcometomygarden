@@ -86,9 +86,9 @@
         }
       });
 
-      // Display an indicator in localhost or direct-IP (if accessing a local IP on another device)
-      // testing environment
-      localEnvString = page.url.hostname.match('^localhost|\d\.\d\.\d\.\d')
+      // Display an indicator on test hosts to see which project is active
+      // for example on localhost, a local network IP, bs-local.com (Browserstack), ...
+      localEnvString = !page.url.hostname.endsWith('welcometomygarden.org')
         ? `local project: ${import.meta.env.VITE_FIREBASE_PROJECT_ID}`
         : null;
 

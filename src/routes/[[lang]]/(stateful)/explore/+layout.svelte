@@ -54,7 +54,8 @@
   let showCycling = $state(false);
   let showFileTrailModal = $state(false);
   let showGardens = $state(true);
-  let showSavedGardens = $state(true);
+  // By default, don't show saved gardens
+  let showSavedGardens = $state(false);
   let showTransport = $state(false);
   let savedGardens = $state([] as string[]);
   let carNoticeShown = $state(!isOnIDevicePWA() && !getCookie('car-notice-dismissed'));
