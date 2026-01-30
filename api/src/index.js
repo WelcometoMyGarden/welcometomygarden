@@ -128,7 +128,14 @@ exports.updateEmail = onCall(updateEmail);
 
 // HTTP functions:
 // Stripe webhook endpoint
-exports.handleStripeWebhookV2 = onRequest(stripeWebhookHandler);
+exports.handleStripeWebhookV2 = onRequest(
+  {
+    // restore to v2 defaults
+    cpu: 1,
+    concurrency: null
+  },
+  stripeWebhookHandler
+);
 // Handle SendGrid Inbound Email
 exports.parseInboundEmailV2 = onRequest(parseInboundEmail);
 // To handle List-Unsubscribe=One-Click calls
