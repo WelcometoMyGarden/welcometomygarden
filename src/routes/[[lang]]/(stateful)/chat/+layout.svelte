@@ -44,6 +44,8 @@
         `${$lr(routes.SIGN_IN)}?continueUrl=${document.location.pathname}${document.location.search}${document.location.hash}`
       );
     }
+
+    // Note: this takes unverified (new) users away to /account when they come from the map
     await checkAndHandleUnverified($_('chat.notify.unverified'));
 
     let withQueryParam = $page.url.searchParams.get('with');

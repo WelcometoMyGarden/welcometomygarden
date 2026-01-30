@@ -18,6 +18,7 @@
 
 <style>
   div {
+    z-index: 1;
     padding: 4px 8px;
     border-radius: 10px;
     /* Same as the layers & tools background */

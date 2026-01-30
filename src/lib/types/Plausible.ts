@@ -120,7 +120,7 @@ export type PlausibleMembershipModalBackNavSource = {
    *   Before 2025/03/06 this was the only event that was tracked, without properties.
    * chat_close: when the modal was closed by clicking on the close button on mobile
    *   or outside the frame. This is possible since early 2025/03.
-   * map_close: when the modal was closed by clicking on the close button on moile
+   * map_close: when the modal was closed by clicking on the close button on mobile
    *   or outside the frame, and the modal was spawned on the map.
    */
   source: 'chat_browser' | 'chat_close' | 'map_close';

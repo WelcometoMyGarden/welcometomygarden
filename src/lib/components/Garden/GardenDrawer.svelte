@@ -28,12 +28,20 @@
   import * as Sentry from '@sentry/sveltekit';
   import type { ClickOutsideEvent } from '$lib/attachments/click-outside';
   import logger from '$lib/util/logger';
+  import { goto } from '$lib/util/navigate';
   interface Props {
     garden?: Garden | null;
+    isShowingMembershipModal?: boolean;
     onclose: () => void;
+    onOpenMembershipModal: (continueUrl: string) => void;
   }
 
-  let { garden = null, onclose }: Props = $props();
+  let {
+    garden = null,
+    isShowingMembershipModal = false,
+    onclose,
+    onOpenMembershipModal
+  }: Props = $props();
 
   const phoneRegex =
     /\+?\d{1,4}?[-/\\.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/g;
@@ -156,6 +164,9 @@
     if (!gardenIsSelected) {
       return;
     }
+    if (isShowingMembershipModal) {
+      return;
+    }
     // If closing maginified photo view, don't close drawer
     if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) {
       return;
@@ -229,6 +240,20 @@
       }
     }
   });
+
+  /**
+   * Store the intention to chat, in case the user will be interrupted by a verification link.
+   * We depend on the event bubbling bubble behavior here from the inner <a> link here
+   */
+  function storeChatIntention() {
+    localStorage.setItem(
+      'chatIntention',
+      JSON.stringify({
+        garden: garden?.id,
+        ts: new Date()
+      })
+    );
+  }
 </script>
 
 <Progress active={isGettingMagnifiedPhoto} />
@@ -358,32 +383,31 @@
           </Button>
         {:else}
           {#if !$user}
-            <!-- svelte-ignore a11y_click_events_have_key_events -->
-            <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-            <p
-              class="cta-hint"
-              onclick={() => {
-                // Store the intention to chat, in case the user will be interrupted by a verification link.
-                // We depend on the event bubbling bubble behavior here from the inner <a> link here
-                localStorage.setItem(
-                  'chatIntention',
-                  JSON.stringify({
-                    garden: garden?.id,
-                    ts: new Date()
-                  })
-                );
-              }}
-            >
+            <p class="cta-hint">
               {@html $_('garden.drawer.guest.login', {
                 values: {
-                  signInLink: `<a class='link' href=${$lr(routes.SIGN_IN)}?continueUrl=${encodeURIComponent(`${$lr(routes.MAP)}/garden/${garden?.id}`)}>${$_(
-                    'garden.drawer.guest.sign-link-text'
-                  )}</a>`
+                  signInLink: anchorText({
+                    href: `${$lr(routes.SIGN_IN)}?continueUrl=${encodeURIComponent(`${$lr(routes.MAP)}/garden/${garden?.id}`)}`,
+                    linkText: $_('garden.drawer.guest.sign-link-text'),
+                    newtab: false,
+                    class: 'link'
+                  })
                 }
               })}
             </p>
           {:else if !!$user && !$user.superfan}
-            <p class="cta-hint">
+            <p
+              class="cta-hint"
+              onclickcapture={(ev) => {
+                // @ts-ignore
+                if (ev.target?.tagName === 'A') {
+                  // prevent the navigation from happening when the link is clicked
+                  ev.preventDefault();
+                  ev.stopPropagation();
+                  onOpenMembershipModal(`${$lr(routes.MAP)}/garden/${garden?.id}`);
+                }
+              }}
+            >
               {@html $_('garden.drawer.guest.become-member', {
                 values: {
                   becomeMember: anchorText({
@@ -398,6 +422,16 @@
           {/if}
           <Button
             href={chatWithGardenLink}
+            preventing
+            onclick={() => {
+              if (!$user?.emailVerified) {
+                storeChatIntention();
+              }
+              // In case of a user with an unverified email
+              // the chat page will redirect to the /account page
+              // with a verification notice
+              goto(chatWithGardenLink);
+            }}
             disabled={!$user || !$user.superfan}
             fullWidth
             gardenStyle

@@ -7,7 +7,7 @@
   import { allListedGardens, filteredGardens, isFetchingGardens } from '$lib/stores/garden';
   import routes from '$lib/routes';
   import Map, { currentPosition, mapState } from '$lib/components/Map/Map.svelte';
-  import Drawer from '$lib/components/Garden/GardenDrawer.svelte';
+  import GardenDrawer from '$lib/components/Garden/GardenDrawer.svelte';
   import GardenLayer from '$lib/components/Map/GardenLayer.svelte';
   import WaymarkedTrails from '$lib/components/Map/WaymarkedTrails.svelte';
   import Filter from '$lib/components/Garden/Filter.svelte';
@@ -44,6 +44,8 @@
   import MembershipModal from '$lib/components/Membership/MembershipModal.svelte';
   import { lr } from '$lib/util/translation-helpers';
   import logger from '$lib/util/logger';
+  import { pushState } from '$app/navigation';
+  import createUrl from '$lib/util/create-url';
   interface Props {
     children?: import('svelte').Snippet;
   }
@@ -59,7 +61,19 @@
   let showTransport = $state(false);
   let savedGardens = $state([] as string[]);
   let carNoticeShown = $state(!isOnIDevicePWA() && !getCookie('car-notice-dismissed'));
-  let showMembershipModal = $state(false);
+
+  function showMembershipModal(gardenUrl?: string) {
+    if (gardenUrl) {
+      membershipModalContinueUrl = gardenUrl;
+    }
+    pushState(createUrl($lr(routes.ABOUT_MEMBERSHIP), {}, 'pricing'), {
+      showMembershipModal: true
+    });
+  }
+
+  let isShowingMembershipModal = $derived(page.state.showMembershipModal ?? false);
+
+  let membershipModalContinueUrl: undefined | string = $state();
 
   let unsubscribeFromTrailObserver: null | Unsubscribe = $state(null);
 
@@ -259,7 +273,12 @@
         {savedGardens}
       />
     {/if}
-    <Drawer onclose={closeDrawer} garden={selectedGarden} />
+    <GardenDrawer
+      onclose={closeDrawer}
+      onOpenMembershipModal={(gardenUrl) => showMembershipModal(gardenUrl)}
+      {isShowingMembershipModal}
+      garden={selectedGarden}
+    />
     <MeetupDrawer onclose={closeDrawer} meetup={selectedMeetup} />
     <WaymarkedTrails {showHiking} {showCycling} />
     <MeetupLayer onMeetupClick={selectMeetup} {selectedMeetupId} />
@@ -280,7 +299,7 @@
       </div>
     {/if}
     <FileTrails />
-    <ZoomRestrictionNotice onclick={() => (showMembershipModal = true)} />
+    <ZoomRestrictionNotice onclick={() => showMembershipModal()} />
   </Map>
   <LayersAndTools
     bind:showHiking
@@ -295,11 +314,19 @@
   <Filter onGoToPlace={goToPlace} closeToLocation={$currentPosition ?? LOCATION_BELGIUM} />
   <FileTrailModal bind:show={showFileTrailModal} />
   <MembershipModal
-    bind:show={showMembershipModal}
-    onclose={() =>
+    bind:show={isShowingMembershipModal}
+    continueUrl={membershipModalContinueUrl}
+    onclose={() => {
+      if (membershipModalContinueUrl) {
+        // reset the continue URL (in case we later click on
+        // the zoom notice in the same session)
+        membershipModalContinueUrl = undefined;
+      }
       trackEvent(PlausibleEvent.MEMBERSHIP_MODAL_BACK, {
         source: 'map_close'
-      })}
+      });
+      history.back();
+    }}
   />
 </div>
 
