@@ -8,6 +8,7 @@ cd $(dirname $0)/..
 docker run --rm -it  \
 -p 9323:9323 \
 --env-file ci/.env.local \
-wtmg-e2e-local:latest "$@"
+-v $(readlink -f $(dirname $0)/../test-results):/app/test-results \
+-t wtmg-e2e-local:latest "$@"
 cd -
 

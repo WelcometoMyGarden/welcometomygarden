@@ -1,7 +1,7 @@
 # This sets up E2E tests with emulators in a contained environment, based on the wtmg-e2e-ci container
 # The idea is to locally test the required steps that would need to be taken in a Github Action Runner VM on each new deploy/CI run
 
-FROM wtmg-e2e-ci:latest
+FROM wtmg-e2e-ci:24
 
 # Simulate the "Checkout step"
 
@@ -42,4 +42,4 @@ RUN sed -i -z 's/,\n[[:space:]]*"extensions": {\n[[:space:]]*"storage-resize-ima
 COPY ci ci/
 
 ENTRYPOINT [ "/bin/bash", "-c" ]
-CMD [ "./ci/fill-envs.sh && npx playwright test --project Mobile"]
+CMD [ "./ci/fill-envs.sh && yarn build:demo && npx playwright test --project Mobile"]

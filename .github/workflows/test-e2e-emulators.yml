@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-24.04
     environment: e2e-test-emulators
     container:
-      image: ghcr.io/welcometomygarden/wtmg-e2e-ci:latest
+      image: ghcr.io/welcometomygarden/wtmg-e2e-ci:24
       env:
         SENTRY_DSN: ${{vars.SENTRY_DSN}}
         SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}

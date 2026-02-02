@@ -13,6 +13,7 @@ on:
 
 env:
   IMAGE_NAME: wtmg-e2e-ci
+  VERSION: 24
 
 jobs:
   push:
@@ -26,7 +27,7 @@ jobs:
         run: |
           docker build . \
           --file ci/Dockerfile.ci \
-          --tag $IMAGE_NAME \
+          --tag $IMAGE_NAME:$IMAGE_VERSION \
           --label "runnumber=${GITHUB_RUN_ID}"
       - name: Log in to registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
@@ -35,7 +36,6 @@ jobs:
           IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
           # Change to lowercase, everything incl. the repository_owner name has to be lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-          VERSION=latest
           echo IMAGE_ID=$IMAGE_ID
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
