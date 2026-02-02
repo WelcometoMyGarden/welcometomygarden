@@ -1,11 +1,12 @@
-/// <reference types="vitest" />
+/// <reference types="vitest/config" />
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig, loadEnv, type UserConfig } from 'vite';
 import { imagetools } from '@zerodevx/svelte-img/vite';
-import { customSvgLoader } from './plugins/svg-loader';
 import mkcert from 'vite-plugin-mkcert';
 import envIsTrue from './src/lib/util/env-is-true';
 import { sentrySvelteKit } from '@sentry/sveltekit';
+import dynamicBuildTarget from './plugins/dynamicBuildTarget';
+import stripCSSWhereSelectors from './plugins/stripCSSWhereSelectors';
 import os from 'os';
 
 /* eslint-env node */
@@ -26,7 +27,6 @@ export default defineConfig(({ command, mode }): UserConfig => {
       minify: isProductionBuild ? 'esbuild' : false
     },
     plugins: [
-      customSvgLoader({ removeSVGTagAttrs: false }),
       ...(sentryUrl && process.env.SENTRY_AUTH_TOKEN
         ? [
             sentrySvelteKit({
@@ -40,6 +40,8 @@ export default defineConfig(({ command, mode }): UserConfig => {
           ]
         : []),
       sveltekit(),
+      dynamicBuildTarget,
+      stripCSSWhereSelectors,
       imagetools(),
       ...(useHTTPS
         ? [
@@ -60,6 +62,10 @@ export default defineConfig(({ command, mode }): UserConfig => {
       // https://vitejs.dev/guide/ssr.html#ssr-externals
       // https://github.com/sveltekit-i18n/lib/issues/82
       noExternal: ['@sveltekit-i18n/*', 'intl-messageformat', '@formatjs/*']
+    },
+    resolve: {
+      // https://github.com/flekschas/svelte-simple-modal?tab=readme-ov-file#rollup-setup
+      dedupe: ['svelte', 'svelte/transition', 'svelte/internal']
     },
     test: {
       // Modified from

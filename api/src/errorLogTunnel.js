@@ -1,5 +1,4 @@
 const { logger } = require('firebase-functions/v2');
-const { default: fetch } = require('node-fetch');
 const { sentryHost, glitchtipKey } = require('./sharedConfig');
 
 /**

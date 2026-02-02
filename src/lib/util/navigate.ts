@@ -1,4 +1,5 @@
 import { goto as svelteGoto } from '$app/navigation';
+import logger from './logger';
 
 export const goto = (
   path: string,
@@ -13,7 +14,7 @@ export const goto = (
   }
 ) =>
   svelteGoto(path, opts).catch((e) => {
-    console.error('goto error: ', e);
+    logger.error('goto error: ', e);
     window.location.href = path;
   });
 export const isRelativeURL = (url: string) => {

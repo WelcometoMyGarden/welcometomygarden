@@ -42,8 +42,7 @@
     links: Link[];
   };
 
-  let categories: Category[];
-  $: categories = [
+  let categories: Category[] = $derived([
     {
       title: $_('generics.wtmg.acronym'),
       links: [
@@ -127,7 +126,8 @@
         }
       ]
     }
-  ];
+  ]);
+  
 </script>
 
 <PaddedSection is="footer" vertical backgroundColor="var(--color-beige-light)">
@@ -151,7 +151,7 @@
                 <li>
                   <a
                     href={link}
-                    on:click={() => (trackParams ? trackEvent.apply(null, trackParams) : undefined)}
+                    onclick={() => (trackParams ? trackEvent.apply(null, trackParams) : undefined)}
                     rel="noopener"
                     {target}>{linkTitle}</a
                   >

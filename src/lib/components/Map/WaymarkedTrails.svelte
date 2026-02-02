@@ -1,11 +1,15 @@
 <script lang="ts">
-  export let showHiking = false;
-  export let showCycling = true;
-
   import { getContext } from 'svelte';
   import type { ContextType } from './Map.svelte';
   import key from './mapbox-context.js';
   import * as Sentry from '@sentry/sveltekit';
+  import logger from '$lib/util/logger';
+  interface Props {
+    showHiking?: boolean;
+    showCycling?: boolean;
+  }
+
+  let { showHiking = false, showCycling = true }: Props = $props();
 
   const { getMap } = getContext<ContextType>(key);
   const map = getMap();
@@ -20,7 +24,7 @@
     map.setLayoutProperty('cycling-trails', 'visibility', getVisibilityProperty(visible));
   };
 
-  let toggleable = false;
+  let toggleable = $state(false);
 
   const setupTrails = () => {
     // Catch all errors to avoid having to reload when working on this component in development
@@ -56,7 +60,7 @@
       });
     } catch (err) {
       // should not error in prod
-      console.log(err);
+      logger.log(err);
       Sentry.captureException(err, {
         extra: { context: 'Setting up Waymarked Trails layers' }
       });
@@ -65,8 +69,12 @@
     }
   };
 
-  $: if (toggleable) toggleHikingVisibility(showHiking);
-  $: if (toggleable) toggleCyclingVisibility(showCycling);
+  $effect(() => {
+    if (toggleable) {
+      toggleHikingVisibility(showHiking);
+      toggleCyclingVisibility(showCycling);
+    }
+  });
 
   setupTrails();
 </script>

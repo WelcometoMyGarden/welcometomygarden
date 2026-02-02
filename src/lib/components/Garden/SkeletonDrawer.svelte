@@ -4,14 +4,14 @@
 
 <section class="main">
   <header>
-    <div class="skeleton mb-l skeleton-name" />
-    <div class="skeleton skeleton-photo" />
+    <div class="skeleton mb-l skeleton-name"></div>
+    <div class="skeleton skeleton-photo"></div>
   </header>
   <div>
     <div class="description">
-      <div class="skeleton skeleton-description" />
-      <div class="skeleton skeleton-description" />
-      <div class="skeleton skeleton-description" />
+      <div class="skeleton skeleton-description"></div>
+      <div class="skeleton skeleton-description"></div>
+      <div class="skeleton skeleton-description"></div>
     </div>
     <div class="chips-container skeleton-chips">
       <Chip isSkeleton />
@@ -22,7 +22,7 @@
       <Chip isSkeleton />
     </div>
   </div>
-  <footer class="skeleton footer mt-ms skeleton-cta" />
+  <footer class="skeleton footer mt-ms skeleton-cta"></footer>
 </section>
 
 <style>

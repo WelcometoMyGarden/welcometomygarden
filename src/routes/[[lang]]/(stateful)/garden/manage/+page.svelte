@@ -13,11 +13,11 @@
   import type { GardenDraft } from '$lib/types/Garden';
   import * as Sentry from '@sentry/sveltekit';
   import { lr } from '$lib/util/translation-helpers';
+  import logger from '$lib/util/logger';
 
-  let updatingGarden = false;
+  let updatingGarden = $state(false);
 
-  const submit = async (e: CustomEvent<GardenDraft>) => {
-    const garden = e.detail;
+  const submit = async (garden: GardenDraft) => {
     updatingGarden = true;
 
     try {
@@ -41,7 +41,7 @@
       trackEvent(PlausibleEvent.UPDATE_GARDEN);
       goto($lr(`${routes.MAP}/garden/${$user!.id}`));
     } catch (ex) {
-      console.log(ex);
+      logger.log(ex);
       Sentry.captureException(ex, {
         extra: {
           context: 'Error managing garden',
@@ -62,5 +62,5 @@
 <Progress active={updatingGarden} />
 
 {#if $user?.garden}
-  <Form on:submit={submit} isUpdate isSubmitting={updatingGarden} />
+  <Form onsubmit={submit} isUpdate isSubmitting={updatingGarden} />
 {/if}

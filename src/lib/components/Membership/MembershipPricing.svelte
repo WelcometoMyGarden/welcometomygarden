@@ -13,7 +13,7 @@
   import routes, { currentRoute } from '$lib/routes';
   import MembershipLevel from './MembershipLevel.svelte';
   import { Anchor } from '$lib/components/UI';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { anchorText, lr, membershipBlogLink } from '$lib/util/translation-helpers';
   import SliderRadio from './SliderRadio.svelte';
   import { mapValues } from 'lodash-es';
@@ -28,29 +28,33 @@
   // Disabled LQIP because the background blur is visible through the transparent final png
   import membersBarImg from '$lib/images/members-bar.png?as=run:0';
   import SocialProof from '../Marketing/SocialProof.svelte';
+  import { innerWidth } from 'svelte/reactivity/window';
 
-  /**
-   * Whether to show full cards with all info.
-   */
-  export let full = false;
+  let isMobile = $derived(innerWidth.current && innerWidth.current <= 850);
 
-  /**
-   * Whether this shows condensed pricing level blocks on both desktop and mobile.
-   * Used for the membership modal.
-   */
-  export let condensed = false;
+  interface Props {
+    /**
+     * Whether to show full cards with all info.
+     */
+    full?: boolean;
+    /**
+     * Whether this shows condensed pricing level blocks on both desktop and mobile.
+     * Used for the membership modal.
+     */
+    condensed?: boolean;
+    /**
+     * Source used in Plausible analytics
+     */
+    analyticsSource: PlausiblePricingSectionSourceProperties['source'];
+    continueUrl?: undefined | string;
+  }
 
-  /**
-   * Source used in Plausible analytics
-   */
-  export let analyticsSource: PlausiblePricingSectionSourceProperties['source'];
+  let { full = false, condensed = false, analyticsSource, continueUrl }: Props = $props();
 
-  export let continueUrl: undefined | string;
-
-  let acceptedTerms = false;
+  let acceptedTerms = $state(false);
 
   // Only allow continuing if the terms are accepted, display an error otherswise
-  let continueError: string | null = null;
+  let continueError: string | null = $state(null);
 
   //   TODO: copied from become-superfan, refactor
 
@@ -83,39 +87,29 @@
 
   // Default: normal / plant
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  let selectedLevel = superfanLevels.find((l) => l.slug === DEFAULT_MEMBER_LEVEL)!;
+  let selectedLevel = $state(superfanLevels.find((l) => l.slug === DEFAULT_MEMBER_LEVEL)!);
 
   // 0-indexed
   // In case of full (= 3 options, incl free), member is 1. In case of non-full (2 options), it is 0
-  let selectedRadioOption = full ? 1 : 0;
-
-  $: selectedLevel = visibleLevels[selectedRadioOption] ?? selectedLevel;
-
-  const selectLevel = (level: SuperfanLevelData) => {
-    selectedLevel = level;
-    selectedRadioOption = visibleLevels.findIndex((l) => l.slug === selectedLevel.slug);
-  };
-
-  let visibleLevels = superfanLevels;
-  $: if (full) {
-    visibleLevels = [freeLevelProps, ...superfanLevels];
-  }
-
-  const handleKeyPress = (event: CustomEvent<KeyboardEvent>, item: SuperfanLevelData) => {
-    const handler = enterHandler(() => selectLevel(item));
-    handler(event.detail);
-  };
-
-  // TODO: extract slider into component
-  let innerWidth: number;
-
-  $: isMobile = innerWidth <= 850;
+  let selectedRadioOption = $state(full ? 1 : 0);
 
   const freeLevelProps: SuperfanLevelData = {
     slug: SuperfanLevelSlug.FREE,
     value: 0,
     copyKey: '0',
     stripePriceId: null
+  };
+
+  const selectLevel = (level: SuperfanLevelData) => {
+    selectedLevel = level;
+    selectedRadioOption = visibleLevels.findIndex((l) => l.slug === selectedLevel.slug);
+  };
+
+  let visibleLevels = $derived([...(full ? [freeLevelProps] : []), ...superfanLevels]);
+
+  const handleKeyPress = (event: KeyboardEvent, item: SuperfanLevelData) => {
+    const handler = enterHandler(() => selectLevel(item));
+    handler(event);
   };
 
   const goToPaymentPage = async (level: SuperfanLevelData) => {
@@ -130,12 +124,12 @@
     let afterPaymentContinueUrl = '';
     if (
       $currentRoute === routes.CHAT &&
-      $page.url.pathname.includes('new') &&
-      $page.url.searchParams.get('id')
+      page.url.pathname.includes('new') &&
+      page.url.searchParams.get('id')
     ) {
       // Use a "with" link, because that one is used to trigger fetching partner details in an onMount
       // TODO: simplify this...
-      afterPaymentContinueUrl = `${$lr(routes.CHAT)}?with=${$page.url.searchParams.get('id')}`;
+      afterPaymentContinueUrl = `${$lr(routes.CHAT)}?with=${page.url.searchParams.get('id')}`;
     } else if (continueUrl)
       // If a continueUrl was manually given
       afterPaymentContinueUrl = continueUrl;
@@ -153,6 +147,10 @@
   };
 
   const optionIdPrefix = 'pricing-btn-';
+
+  $effect(() => {
+    selectedLevel = visibleLevels[selectedRadioOption] ?? selectedLevel;
+  });
 </script>
 
 <div class="container">
@@ -180,8 +178,8 @@
         selected={level.slug === selectedLevel.slug}
         embeddable={condensed}
         isLabelFor={isMobile ? undefined : optionIdPrefix + index}
-        on:click={() => selectLevel(level)}
-        on:keypress={(e) => handleKeyPress(e, level)}
+        onclick={() => selectLevel(level)}
+        onkeypress={(e) => handleKeyPress(e, level)}
       />
     {/each}
   </div>
@@ -213,7 +211,7 @@
       arrow
       disabled={(selectedLevel.slug === SuperfanLevelSlug.FREE && !!$user) || $user?.superfan}
       minWidth="20rem"
-      on:click={() => {
+      onclick={() => {
         if (!acceptedTerms) {
           continueError = $_('register.validate.consent');
           return;
@@ -254,7 +252,7 @@
   <p class="fineprint">
     {$t('become-superfan.pricing-section.questions')}{' '}<Anchor
       href={createUrl($lr(routes.ABOUT_MEMBERSHIP), {}, 'faq')}
-      on:click={() => trackEvent(PlausibleEvent.VISIT_MEMBERSHIP_FAQ, { source: analyticsSource })}
+      onclick={() => trackEvent(PlausibleEvent.VISIT_MEMBERSHIP_FAQ, { source: analyticsSource })}
       newtab={$currentRoute !== routes.ABOUT_MEMBERSHIP}
       >{$t('become-superfan.pricing-section.faq-link-text')}</Anchor
     >
@@ -268,8 +266,6 @@
     >
   </p>
 </div>
-
-<svelte:window bind:innerWidth />
 
 <style>
   p.notice {

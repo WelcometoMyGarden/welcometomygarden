@@ -21,20 +21,27 @@
 
   // TODO: reassess when merging with mobile notifs
   /** Note: this registration could be marked for deletion  */
-  $: currentPushRegistration = $pushRegistrations.find(
-    (pR) => pR.subscription != null && pR.subscription.endpoint === $currentNativeSubStore?.endpoint
+  let currentPushRegistration = $derived(
+    $pushRegistrations.find(
+      (pR) =>
+        pR.subscription != null && pR.subscription.endpoint === $currentNativeSubStore?.endpoint
+    )
   );
-  $: currentActivePushRegistration = $pushRegistrations.find(
-    (pR) =>
-      pR.subscription != null &&
-      pR.subscription.endpoint === $currentNativeSubStore?.endpoint &&
-      pR.status === PushRegistrationStatus.ACTIVE
+  let currentActivePushRegistration = $derived(
+    $pushRegistrations.find(
+      (pR) =>
+        pR.subscription != null &&
+        pR.subscription.endpoint === $currentNativeSubStore?.endpoint &&
+        pR.status === PushRegistrationStatus.ACTIVE
+    )
   );
-  $: otherSubscriptions = $pushRegistrations.filter(
-    (pR) =>
-      pR.status === PushRegistrationStatus.ACTIVE &&
-      pR.subscription != null &&
-      pR.subscription.endpoint !== $currentNativeSubStore?.endpoint
+  let otherSubscriptions = $derived(
+    $pushRegistrations.filter(
+      (pR) =>
+        pR.status === PushRegistrationStatus.ACTIVE &&
+        pR.subscription != null &&
+        pR.subscription.endpoint !== $currentNativeSubStore?.endpoint
+    )
   );
 
   /**
@@ -43,8 +50,9 @@
    * This is an unexpected dirty state. It might happen in Firefox on Android, which doesn't seem to do
    * cleanup in the same way as Chrome.
    */
-  $: leftoverNativeSub =
-    $loadedPushRegistrations && $currentNativeSubStore != null && !currentPushRegistration;
+  let leftoverNativeSub = $derived(
+    $loadedPushRegistrations && $currentNativeSubStore != null && !currentPushRegistration
+  );
 
   const { isIDevice, currentAppleDevice } = iDeviceInfo!;
 
@@ -60,12 +68,13 @@
    * !! We make an assumption here that most people only have 1 iPhone, and/or 1 iPad, and when the above situation occurs,
    * we choose to hide the current browser in the account settings to prevent confusion.
    */
-  $: isNonPWAIDeviceWithActivePWA =
+  let isNonPWAIDeviceWithActivePWA = $derived(
     !currentActivePushRegistration &&
-    isIDevice &&
-    !hasNotificationSupportNow() &&
-    ((currentAppleDevice === 'iPhone' && hasActivePushRegistrationWithModel('iPhone')) ||
-      (currentAppleDevice === 'iPad' && hasActivePushRegistrationWithModel('iPad')));
+      isIDevice &&
+      !hasNotificationSupportNow() &&
+      ((currentAppleDevice === 'iPhone' && hasActivePushRegistrationWithModel('iPhone')) ||
+        (currentAppleDevice === 'iPad' && hasActivePushRegistrationWithModel('iPad')))
+  );
 </script>
 
 <section>
@@ -99,8 +108,7 @@
     <!-- If we locally have a subscription that isn't available remotely, then add it.
 This normally shouldn't happen, except when a database was wiped (in testing) -->
     <p>Your current browser already allows WTMG notifications, but WTMG will not send them.</p>
-    <Button uppercase xsmall on:click={() => createPushRegistration()}>Restore notifications</Button
-    >
+    <Button uppercase xsmall onclick={createPushRegistration}>Restore notifications</Button>
   {:else if isMobileDevice && hasNotificationSupportNow() && hasDeniedNotifications()}
     <!-- Browser has already explicitly denied permissions -->
     <p>

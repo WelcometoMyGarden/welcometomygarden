@@ -19,7 +19,12 @@ if (!admin.apps.length) {
     // This is used as a potentially hacky way to make getFunctions.taskQueue(...).enqueue(...)
     // work locally in an emulator (or in CI) _without_ requiring a log-in to Firebase/Google
     // The admin SDK also does this internally, but still hangs on an auth attempt.
-    admin.initializeApp({ serviceAccountId: 'emulated-service-acct@email.com' });
+    admin.initializeApp({
+      serviceAccountId: 'emulated-service-acct@email.com',
+      // both below properties have to be made explicit if the serviceAccountId option is given
+      projectId: 'demo-test',
+      storageBucket: 'demo-test.appspot.com'
+    });
   } else {
     admin.initializeApp();
   }
@@ -123,7 +128,14 @@ exports.updateEmail = onCall(updateEmail);
 
 // HTTP functions:
 // Stripe webhook endpoint
-exports.handleStripeWebhookV2 = onRequest(stripeWebhookHandler);
+exports.handleStripeWebhookV2 = onRequest(
+  {
+    // restore to v2 defaults
+    cpu: 1,
+    concurrency: null
+  },
+  stripeWebhookHandler
+);
 // Handle SendGrid Inbound Email
 exports.parseInboundEmailV2 = onRequest(parseInboundEmail);
 // To handle List-Unsubscribe=One-Click calls

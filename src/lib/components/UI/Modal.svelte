@@ -1,66 +1,96 @@
 <script lang="ts">
-  import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
   import { Icon, Button } from '$lib/components/UI';
   import { crossIcon } from '$lib/images/icons';
-  import { focusTrap } from '$lib/directives';
+  import { focusTrap } from '$lib/attachments';
 
-  const dispatch = createEventDispatcher<{ close: null }>();
+  interface Props {
+    /**
+     * Don't use together with ariaLabelledBy
+     */
+    ariaLabel?: string | null;
+    ariaLabelledBy?: string | null;
+    ariaDescribedBy?: string | null;
+    className?: string;
+    closeButton?: boolean;
+    cancelButton?: boolean;
+    closeOnEsc?: boolean;
+    closeOnOuterClick?: boolean;
+    maxWidth?: string;
+    maxHeight?: string | undefined;
+    show?: boolean;
+    center?: boolean;
+    stickToBottom?: boolean;
+    fullHeight?: boolean;
+    shrinkableBody?: boolean;
+    /**
+     * Outer padding of the modal inside the screen
+     */
+    nopadding?: boolean;
+    /**
+     * Padding inside the modal
+     */
+    noInnerPadding?: boolean;
+    /**
+     * Whether the background should be opaque
+     */
+    opaqueBackground?: boolean;
+    /**
+     * Override background-color
+     */
+    backgroundColor?: string | undefined;
+    transitionBackground?: boolean;
+    /**
+     * Whether the modal content should be transparent
+     */
+    transparent?: boolean;
+    onclose?: () => void;
+    title?: import('svelte').Snippet<[any]>;
+    body?: import('svelte').Snippet<[any]>;
+    controls?: import('svelte').Snippet;
+  }
+
+  let {
+    ariaLabel = null,
+    ariaLabelledBy = null,
+    ariaDescribedBy = null,
+    className = '',
+    closeButton = true,
+    cancelButton = false,
+    closeOnEsc = true,
+    closeOnOuterClick = true,
+    maxWidth = '900px',
+    maxHeight = undefined,
+    show = $bindable(true),
+    center = false,
+    stickToBottom = false,
+    fullHeight = false,
+    shrinkableBody = false,
+    nopadding = false,
+    noInnerPadding = false,
+    opaqueBackground = true,
+    backgroundColor = opaqueBackground ? 'rgba(0, 0, 0, 0.6)' : undefined,
+    transitionBackground = false,
+    transparent = false,
+    title,
+    body,
+    controls,
+    onclose
+  }: Props = $props();
+
+  let outerDiv: HTMLDivElement | undefined = $state();
 
   // a11y
-  /**
-   * Don't use together with ariaLabelledBy
-   */
-  export let ariaLabel: string | null = null;
-  export let ariaLabelledBy: string | null = null;
-  export let ariaDescribedBy: string | null = null;
-
-  export let className: string = '';
-
-  export let closeButton = true;
-  export let cancelButton = false;
-  export let closeOnEsc = true;
-  export let closeOnOuterClick = true;
-  export let maxWidth: string = '900px';
-  export let maxHeight: string | undefined = undefined;
-  export let show = true;
-
-  export let center = false;
-  export let stickToBottom = false;
-  export let fullHeight = false;
-  export let shrinkableBody = false;
-
-  /**
-   * Outer padding of the modal inside the screen
-   */
-  export let nopadding = false;
-  /**
-   * Padding inside the modal
-   */
-  export let noInnerPadding = false;
-  /**
-   * Whether the background should be opaque
-   */
-  export let opaqueBackground = true;
-  /**
-   * Override background-color
-   */
-  export let backgroundColor: string | undefined = opaqueBackground
-    ? 'rgba(0, 0, 0, 0.6)'
-    : undefined;
-  export let transitionBackground = false;
-  let effectiveBgColor = backgroundColor && transitionBackground ? 'transparent' : backgroundColor;
-
-  /**
-   * Whether the modal content should be transparent
-   */
-  export let transparent = false;
+  let effectiveBgColor = $derived(
+    backgroundColor && transitionBackground ? 'transparent' : backgroundColor
+  );
 
   const close = () => {
     show = false;
-    dispatch('close');
+    onclose?.();
   };
 
-  let ref = null;
+  let ref = $state(null);
 
   const handleOuterClick = () => {
     if (!closeOnOuterClick) return;
@@ -87,13 +117,14 @@
   });
 </script>
 
-<svelte:window on:keydown={handleKeydown} />
+<svelte:window onkeydown={handleKeydown} />
 
 {#if show}
   <!-- Modal backdrop -->
-  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
   <!-- TODO: refactor this to be a <dialog>, but be careful, because it's used in many places -->
   <div
+    bind:this={outerDiv}
     class="modal {className}"
     class:center
     class:transitionBackground
@@ -101,8 +132,13 @@
     class:stick-to-bottom={stickToBottom}
     class:nopadding
     class:noInnerPadding
-    on:click|self={handleOuterClick}
-    on:keypress={(e) => {
+    onclick={(e) => {
+      if (e.target === outerDiv) {
+        // Only trigger when we click on outer element itself
+        handleOuterClick();
+      }
+    }}
+    onkeypress={(e) => {
       if (e.key === 'Escape') handleOuterClick();
     }}
   >
@@ -118,7 +154,7 @@
       class:transparent
       style:max-width={maxWidth}
       style:max-height={maxHeight}
-      use:focusTrap
+      {@attach focusTrap}
       id="dialog"
     >
       <div class="modal-header">
@@ -128,21 +164,21 @@
           so it can be used within slots by component users without repeating the concrete value of ariaLabelledBy.
           https://svelte.dev/docs/special-elements#slot-slot-key-value
         -->
-        <slot name="title" {ariaLabelledBy} />
+        {@render title?.({ ariaLabelledBy })}
         {#if closeButton}
-          <button class="close" type="button" on:click={close} aria-label="Close">
+          <button class="close" type="button" onclick={close} aria-label="Close">
             <Icon icon={crossIcon} />
           </button>
         {/if}
       </div>
       <div class="modal-body" class:shrinkableBody>
         <!-- See note about ariaLabelledBy above -->
-        <slot name="body" {ariaLabelledBy} {ariaDescribedBy} />
+        {@render body?.({ ariaLabelledBy, ariaDescribedBy })}
       </div>
       <div class="controls">
         {#if cancelButton}
-          <Button type="button" uppercase inverse on:click={close}>Close</Button>
-        {/if}<slot name="controls" />
+          <Button type="button" uppercase inverse onclick={close}>Close</Button>
+        {/if}{@render controls?.()}
       </div>
     </div>
   </div>
@@ -219,7 +255,7 @@
   }
 
   .modal-content > * {
-    flex: 1;
+    flex: 1 auto;
   }
 
   .modal-header {

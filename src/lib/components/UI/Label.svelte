@@ -1,11 +1,16 @@
 <script lang="ts">
-  export let label: string;
-  export let labelFor: string | null = null;
+  interface Props {
+    label: string;
+    labelFor?: string | null;
+    children?: import('svelte').Snippet;
+  }
+
+  let { label, labelFor = null, children }: Props = $props();
 </script>
 
 <label for={labelFor}>
   <span class="label-span">{label}</span>
-  <slot />
+  {@render children?.()}
 </label>
 
 <style>

@@ -3,7 +3,11 @@
   import { LabeledCheckbox } from '$lib/components/UI';
   import { flagIcon, trainIcon } from '$lib/images/icons';
 
-  export let showTransport: boolean;
+  interface Props {
+    showTransport: boolean;
+  }
+
+  let { showTransport = $bindable() }: Props = $props();
 </script>
 
 <LabeledCheckbox

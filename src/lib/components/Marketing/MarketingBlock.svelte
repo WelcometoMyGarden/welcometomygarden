@@ -1,10 +1,15 @@
 <script lang="ts">
-  export let backgroundColor: string | undefined = undefined;
-  export let centered: boolean | undefined = undefined;
+  interface Props {
+    backgroundColor?: string | undefined;
+    centered?: boolean | undefined;
+    children?: import('svelte').Snippet;
+  }
+
+  let { backgroundColor = undefined, centered = undefined, children }: Props = $props();
 </script>
 
 <div style:background-color={backgroundColor} class:centered>
-  <slot />
+  {@render children?.()}
 </div>
 
 <style>

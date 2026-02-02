@@ -6,9 +6,13 @@
   import routes from '$lib/routes';
   import { anchorText, lr } from '$lib/util/translation-helpers';
 
-  export let collapsibleKey: string;
+  interface Props {
+    collapsibleKey: string;
+  }
 
-  let activeCollapsible: number | null = null;
+  let { collapsibleKey }: Props = $props();
+
+  let activeCollapsible: number | null = $state(null);
 
   /**
    * If the given collapsible is already active, deactivate it. Otherwise, activate it.
@@ -20,33 +24,37 @@
 
 <div>
   {#each getNodeChildren(collapsibleKey) as key, i}
-    <Collapsible on:click={() => toggleCollapsible(i)} open={activeCollapsible === i}>
-      <h3 class="oh3" slot="title">{@html $_(`${collapsibleKey}.${key}.title`)}</h3>
-      <p slot="content">
-        {@html $_(`${collapsibleKey}.${key}.copy`, {
-          values: {
-            // Note: copy pasted from src/lib/components/Info/Clusters.svelte
-            // There might be an opportunity to refactor this
-            support: supportEmailLinkString,
-            donationLink: `<a href="${DONATION_URL}" target="_blank" class="link">
-                  ${$_('faq.donation')}</a>`,
-            chatLink: `<a href="${$lr(routes.CHAT)}" target="_blank" class="link lowercase">
-                  ${$_('generics.chat')}</a>`,
-            accountLink: `<a href="${$lr(routes.ACCOUNT)}" target="_blank" class="link lowercase">
-                  ${$_('generics.account-page')}</a>`,
-            communityTranslationsLink: `<a href="${COMMUNITY_TRANSLATIONS_URL}" target="_blank" rel="noreferrer" class="link lowercase">
-                  ${$_('faq.instruction-page')}</a>`,
-            mobileFaqLink: anchorText({
-              href: $_('push-notifications.prompt.helpcenter-url'),
-              linkText: $_('faq.help-center-text')
-            }),
-            langPrefix: $_('generics.lang-prefix', {
-              // the empty string prefix is valid here
-              default: ''
-            })
-          }
-        })}
-      </p>
+    <Collapsible onclick={() => toggleCollapsible(i)} open={activeCollapsible === i}>
+      {#snippet title()}
+        <h3 class="oh3">{@html $_(`${collapsibleKey}.${key}.title`)}</h3>
+      {/snippet}
+      {#snippet content()}
+        <p>
+          {@html $_(`${collapsibleKey}.${key}.copy`, {
+            values: {
+              // Note: copy pasted from src/lib/components/Info/Clusters.svelte
+              // There might be an opportunity to refactor this
+              support: supportEmailLinkString,
+              donationLink: `<a href="${DONATION_URL}" target="_blank" class="link">
+                    ${$_('faq.donation')}</a>`,
+              chatLink: `<a href="${$lr(routes.CHAT)}" target="_blank" class="link lowercase">
+                    ${$_('generics.chat')}</a>`,
+              accountLink: `<a href="${$lr(routes.ACCOUNT)}" target="_blank" class="link lowercase">
+                    ${$_('generics.account-page')}</a>`,
+              communityTranslationsLink: `<a href="${COMMUNITY_TRANSLATIONS_URL}" target="_blank" rel="noreferrer" class="link lowercase">
+                    ${$_('faq.instruction-page')}</a>`,
+              mobileFaqLink: anchorText({
+                href: $_('push-notifications.prompt.helpcenter-url'),
+                linkText: $_('faq.help-center-text')
+              }),
+              langPrefix: $_('generics.lang-prefix', {
+                // the empty string prefix is valid here
+                default: ''
+              })
+            }
+          })}
+        </p>
+      {/snippet}
     </Collapsible>
   {/each}
 </div>

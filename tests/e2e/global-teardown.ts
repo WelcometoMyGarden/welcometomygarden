@@ -2,7 +2,7 @@ import { exec as cbExec } from 'node:child_process';
 import { promisify } from 'node:util';
 import { config } from 'dotenv';
 import { resolve } from 'path';
-config({ path: resolve(process.cwd(), '.env.test.local') });
+config({ path: resolve(process.cwd(), '.env.test.local'), quiet: true });
 
 const exec = promisify(cbExec);
 export default async function () {

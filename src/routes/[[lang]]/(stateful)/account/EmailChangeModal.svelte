@@ -2,17 +2,27 @@
   import { requestEmailChange } from '$lib/api/functions';
   import { Modal, TextInput } from '$lib/components/UI';
   import Button from '$lib/components/UI/Button.svelte';
+  import { MOBILE_BREAKPOINT } from '$lib/constants';
   import { getUser } from '$lib/stores/auth';
   import validateEmail from '$lib/util/validate-email';
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
 
-  export let show = false;
-  export let newEmail = '';
-  export let success = false;
-  export let isLoading = false;
-  let formError: null | string = null;
-  $: isValidEmail = validateEmail(newEmail);
+  interface Props {
+    show?: boolean;
+    newEmail?: string;
+    success?: boolean;
+    isLoading?: boolean;
+  }
+
+  let {
+    show = $bindable(false),
+    newEmail = $bindable(''),
+    success = $bindable(false),
+    isLoading = $bindable(false)
+  }: Props = $props();
+  let formError: null | string = $state(null);
+  let isValidEmail = $derived(validateEmail(newEmail));
 
   const submitEmailChange = async () => {
     if (isValidEmail && newEmail !== getUser().email) {
@@ -34,51 +44,57 @@
 
 <Modal
   bind:show
-  maxWidth="700px"
+  maxWidth="{MOBILE_BREAKPOINT}px"
   center={true}
   stickToBottom={false}
   nopadding={false}
   ariaLabelledBy="title"
 >
-  <div slot="title" class="title-section">
-    <h2>{$_('account.change-email.modal.title')}</h2>
-  </div>
-  <div slot="body">
-    {#if !success}
-      <p>{$_('account.change-email.modal.info')}</p>
-      <label for="new-email">{$_('account.change-email.modal.new-email-label')}</label>
-      <TextInput
-        name="new-email"
-        id="new-email"
-        placeholder={$_('account.change-email.modal.new-email-placeholder')}
-        bind:value={newEmail}
-      />
-      <div class="hint">
-        {#if formError}
-          <p transition:fade class="hint danger">{formError}</p>
-        {/if}
-      </div>
-    {:else}
-      <p>
-        {$_('account.change-email.modal.success', {
-          values: {
-            newEmail
-          }
-        })}
-      </p>
-    {/if}
-  </div>
-  <div slot="controls">
-    {#if !success}
-      <Button
-        disabled={!isValidEmail || isLoading}
-        uppercase
-        small
-        type="submit"
-        on:click={submitEmailChange}>{$_('account.change-email.modal.button-label')}</Button
-      >
-    {/if}
-  </div>
+  {#snippet title()}
+    <div class="title-section">
+      <h2>{$_('account.change-email.modal.title')}</h2>
+    </div>
+  {/snippet}
+  {#snippet body()}
+    <div>
+      {#if !success}
+        <p>{$_('account.change-email.modal.info')}</p>
+        <label for="new-email">{$_('account.change-email.modal.new-email-label')}</label>
+        <TextInput
+          name="new-email"
+          id="new-email"
+          placeholder={$_('account.change-email.modal.new-email-placeholder')}
+          bind:value={newEmail}
+        />
+        <div class="hint">
+          {#if formError}
+            <p transition:fade class="hint danger">{formError}</p>
+          {/if}
+        </div>
+      {:else}
+        <p>
+          {$_('account.change-email.modal.success', {
+            values: {
+              newEmail
+            }
+          })}
+        </p>
+      {/if}
+    </div>
+  {/snippet}
+  {#snippet controls()}
+    <div>
+      {#if !success}
+        <Button
+          disabled={!isValidEmail || isLoading}
+          uppercase
+          small
+          type="submit"
+          onclick={submitEmailChange}>{$_('account.change-email.modal.button-label')}</Button
+        >
+      {/if}
+    </div>
+  {/snippet}
 </Modal>
 
 <style>

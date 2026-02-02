@@ -13,11 +13,11 @@
   import { PlausibleEvent } from '$lib/types/Plausible';
   import * as Sentry from '@sentry/sveltekit';
   import { lr } from '$lib/util/translation-helpers';
+  import logger from '$lib/util/logger';
 
-  let addingGarden = false;
+  let addingGarden = $state(false);
 
-  const submit = async (e: CustomEvent<GardenDraft>) => {
-    const garden = e.detail;
+  const submit = async (garden: GardenDraft) => {
     addingGarden = true;
     try {
       const newGarden = await addGarden({
@@ -37,7 +37,7 @@
       notify.success(notifyMsg, 10000);
       goto($lr(`${routes.MAP}/garden/${$user!.id}`));
     } catch (ex) {
-      console.error(ex);
+      logger.error(ex);
       Sentry.captureException(ex, {
         extra: {
           context: 'Adding garden',
@@ -58,4 +58,4 @@
 
 <Progress active={addingGarden} />
 
-<Form on:submit={submit} isSubmitting={addingGarden} />
+<Form onsubmit={submit} isSubmitting={addingGarden} />

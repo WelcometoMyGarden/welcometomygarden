@@ -52,10 +52,6 @@ service cloud.firestore {
       return exists(/databases/$(database)/documents/users/$(uid))
     }
 
-    function requestHas(field) {
-      return field in request.resource.data;
-    }
-
     // General validation functions
 
     function isNonEmptyString(str) {
@@ -78,9 +74,13 @@ service cloud.firestore {
       if isSignedIn() &&
       isOwner(userId) &&
       validateUserState(request.resource.data) &&
-      // Don't allow superfan status to be changed by clients
+      // Don't allow some fields to be changed by clients
       // Note: this also doesn't allow *creation* by clients, but that's OK, because the backend creates the doc.
-      !request.resource.data.diff(resource.data).affectedKeys().hasAny(['superfan'])
+      !request.resource.data.diff(resource.data).affectedKeys().hasAny([
+      'firstName',
+      'superfan',
+      'countryCode'
+      ])
     }
 
     // Private user collection
@@ -93,7 +93,17 @@ service cloud.firestore {
         && user.emailPreferences.news is bool
       // Don't allow sensitive indentifiers to be changed by clients
       // Note: this also doesn't allow *creation* by clients, but that's OK, because the backend creates the doc.
-        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['stripeCustomerId', 'stripeSubscription', 'sendgridId', 'oldEmail', 'newEmail', 'latestSpamAlertAt'])
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny([
+      'lastName',
+      'consentedAt',
+      'creationLanguage',
+      'stripeCustomerId',
+      'stripeSubscription',
+      'sendgridId',
+      'oldEmail',
+      'newEmail',
+      'latestSpamAlertAt'
+      ])
     }
 
     function validateTrailState(trail) {
@@ -141,13 +151,6 @@ service cloud.firestore {
       // description.size() >= 20 &&
       description.size() >= 11 &&
       description.size() <= 300
-    }
-
-    // TODO unused
-    function validateContactLanguages(languages) {
-      // TODO: verify firestore enum security rule?
-      // return languages in ['Dutch', 'French', 'German', 'English']
-      return true;
     }
 
     function validateLocation(location) {

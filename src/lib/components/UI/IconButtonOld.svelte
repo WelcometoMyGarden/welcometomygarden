@@ -1,19 +1,33 @@
 <script lang="ts">
-  export let type: null | string = null;
-  export let inverse = false;
-  export let fit = true;
-  export let medium = false;
-  export let small = false;
-  export let xsmall = false;
-  export let xxsmall = false;
-  export let disabled = false;
-  export let preventing = false;
+  interface Props {
+    type?: null | string;
+    inverse?: boolean;
+    fit?: boolean;
+    medium?: boolean;
+    small?: boolean;
+    xsmall?: boolean;
+    xxsmall?: boolean;
+    disabled?: boolean;
+    preventing?: boolean;
+    onclick?: (e: MouseEvent) => void;
+    children?: import('svelte').Snippet;
+  }
 
-  import { createEventDispatcher } from 'svelte';
+  let {
+    type = null,
+    inverse = false,
+    fit = true,
+    medium = false,
+    small = false,
+    xsmall = false,
+    xxsmall = false,
+    disabled = false,
+    preventing = false,
+    onclick,
+    children
+  }: Props = $props();
 
-  const dispatch = createEventDispatcher();
-
-  let clicked: boolean;
+  let clicked: boolean | undefined = $state();
   const click = (e: MouseEvent) => {
     if (preventing) {
       e.preventDefault();
@@ -21,14 +35,14 @@
     }
     clicked = true;
     setTimeout(() => (clicked = false), 100);
-    if (!disabled) return dispatch('click', e);
+    if (!disabled) return onclick?.(e);
   };
 </script>
 
 <button
   class="button"
   class:disabled
-  on:click={click}
+  onclick={click}
   class:fit
   class:medium
   class:small
@@ -38,7 +52,7 @@
   class:clicked
   {type}
 >
-  <slot />
+  {@render children?.()}
 </button>
 
 <style>

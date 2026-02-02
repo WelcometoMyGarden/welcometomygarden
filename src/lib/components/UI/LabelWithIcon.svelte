@@ -1,12 +1,25 @@
 <script lang="ts">
   import { Icon } from '.';
-  export let icon: undefined | string = undefined;
-  export let labelFor: undefined | string = undefined;
-  export let ellipsis = false;
-  export let compact = false;
   // Intended for hover states when ellipsis is enabled.
-  // TODO: This could be made more accessible.
-  export let title: undefined | string = undefined;
+  
+  interface Props {
+    icon?: undefined | string;
+    labelFor?: undefined | string;
+    ellipsis?: boolean;
+    compact?: boolean;
+    // TODO: This could be made more accessible.
+    title?: undefined | string;
+    children?: import('svelte').Snippet;
+  }
+
+  let {
+    icon = undefined,
+    labelFor = undefined,
+    ellipsis = false,
+    compact = false,
+    title = undefined,
+    children
+  }: Props = $props();
 </script>
 
 <label for={labelFor} class:compact>
@@ -15,7 +28,7 @@
       <Icon {icon} />
     </div>
   {/if}
-  <span class="label" title={ellipsis ? title : undefined} class:ellipsis><slot /></span>
+  <span class="label" title={ellipsis ? title : undefined} class:ellipsis>{@render children?.()}</span>
 </label>
 
 <style>

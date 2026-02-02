@@ -1,12 +1,17 @@
 <script lang="ts">
-  export let title: string;
-  export let number: string;
+  interface Props {
+    title: string;
+    number: string;
+    children?: import('svelte').Snippet;
+  }
+
+  let { title, number, children }: Props = $props();
 </script>
 
 <div class="block">
   <h3 class="title">{title}</h3>
   <span class="number">{number}</span>
-  <span class="description"><slot /></span>
+  <span class="description">{@render children?.()}</span>
 </div>
 
 <style>

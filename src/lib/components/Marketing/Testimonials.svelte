@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
   export type Slide = {
     quote: string;
     name: string;
@@ -15,9 +15,14 @@
 
   import Img from '@zerodevx/svelte-img';
   import { fade } from 'svelte/transition';
+  import ViteSVG from '../UI/ViteSVG.svelte';
 
-  export let slides: Slide[];
-  let activeSlide = 0;
+  interface Props {
+    slides: Slide[];
+  }
+
+  let { slides }: Props = $props();
+  let activeSlide = $state(0);
   const previous = () => {
     activeSlide = (activeSlide == 0 ? slides.length : activeSlide) - 1;
   };
@@ -37,8 +42,10 @@
           <quote class="quote">〝{quote}〞</quote>
           <span class="name">{name}</span>
           <div class="controls">
-            <button class="previous" on:click={previous}>{@html arrowRightIcon}</button>
-            <button class="next" on:click={next}>{@html arrowRightIcon}</button>
+            <button class="previous" onclick={previous}
+              ><ViteSVG icon={arrowRightIcon}></ViteSVG></button
+            >
+            <button class="next" onclick={next}><ViteSVG icon={arrowRightIcon}></ViteSVG></button>
           </div>
         </div>
       </div>

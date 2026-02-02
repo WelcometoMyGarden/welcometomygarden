@@ -1,6 +1,10 @@
 <script lang="ts">
-  export let medium = true;
-  export let small = false;
+  interface Props {
+    medium?: boolean;
+    small?: boolean;
+  }
+
+  let { medium = true, small = false }: Props = $props();
 
   type SocialLink = {
     name: string;

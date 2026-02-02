@@ -1,19 +1,25 @@
-<script>
+<script lang="ts">
   import { slide } from 'svelte/transition';
-  export let open = true;
+  interface Props {
+    open?: boolean;
+    title?: import('svelte').Snippet;
+    content?: import('svelte').Snippet;
+  }
+
+  let { open = $bindable(true), title, content }: Props = $props();
 </script>
 
-<button class="button button-container" on:click={() => (open = !open)}>
+<button class="button button-container" onclick={() => (open = !open)}>
   <div class="toggle-item">
     <span class="sign">{open ? '−' : '+'}</span>
     <div class="title">
-      <slot name="title" />
+      {@render title?.()}
     </div>
   </div>
   {#if open}
     <div transition:slide={{ duration: 300 }} class="green-border-bottom">
       <div class="content">
-        <slot name="content" />
+        {@render content?.()}
       </div>
     </div>
   {/if}

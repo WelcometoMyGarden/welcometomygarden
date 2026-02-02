@@ -3,9 +3,13 @@
    * Link to local asset
    */
   import Img from '@zerodevx/svelte-img';
-  export let imgPath: unknown[] | undefined;
-  export let title: string;
-  export let border = false;
+  interface Props {
+    imgPath: unknown[] | undefined;
+    title: string;
+    border?: boolean;
+  }
+
+  let { imgPath, title, border = false }: Props = $props();
 </script>
 
 <li class="value-prop" class:border>

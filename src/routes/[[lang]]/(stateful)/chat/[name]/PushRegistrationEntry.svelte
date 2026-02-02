@@ -17,26 +17,32 @@
   import { isIDeviceOS, isMobileDevice, uaInfo } from '$lib/util/uaInfo';
   import { onMount } from 'svelte';
   import { _ } from 'svelte-i18n';
-  export let pushRegistration: LocalPushRegistration | undefined = undefined;
-  export let currentSub: PushSubscriptionPOJO | undefined | null = undefined;
+  interface Props {
+    pushRegistration?: LocalPushRegistration | undefined;
+    currentSub?: PushSubscriptionPOJO | undefined | null;
+  }
+
+  let { pushRegistration = undefined, currentSub = undefined }: Props = $props();
 
   // if the pushRegistration prop is undefined, fill destructured properties with null (except ua)
-  $: ({
+  let {
     id,
     refreshedAt,
     ua: { os, browser, device },
     subscription: { endpoint }
-  } = pushRegistration || {
-    id: null,
-    createdAt: null,
-    refreshedAt: null,
-    ua: {
-      os: uaInfo!.os.name,
-      browser: uaInfo!.browser.name,
-      device: uaInfo!.device
-    },
-    subscription: { endpoint: null }
-  });
+  } = $derived(
+    pushRegistration || {
+      id: null,
+      createdAt: null,
+      refreshedAt: null,
+      ua: {
+        os: uaInfo!.os.name,
+        browser: uaInfo!.browser.name,
+        device: uaInfo!.device
+      },
+      subscription: { endpoint: null }
+    }
+  );
 
   onMount(async () => {
     // If we're showing the local device
@@ -46,24 +52,26 @@
     }
   });
 
-  $: pureBrowserName = browser?.replace('Mobile ', '');
+  let pureBrowserName = $derived(browser?.replace('Mobile ', ''));
 
   /**
    * Whether this registration exists in Firebase
    */
-  $: isRegisteredInFirebase = !!id;
-  $: canSuggestToTurnOnNotifsForCurrentDevice =
+  let isRegisteredInFirebase = $derived(!!id);
+  let canSuggestToTurnOnNotifsForCurrentDevice =
     // ... we're on a mobile device
-    isMobileDevice! &&
-    // ... that currently doesn't have a sub
-    currentSub === null &&
-    // ... and could have notifications
-    isNotificationEligible() &&
-    // ... and hasn't been registered yet in Firebase
-    !isRegisteredInFirebase;
+    $derived(
+      isMobileDevice! &&
+        // ... that currently doesn't have a sub
+        currentSub === null &&
+        // ... and could have notifications
+        isNotificationEligible() &&
+        // ... and hasn't been registered yet in Firebase
+        !isRegisteredInFirebase
+    );
 
   // Note: this relies on the CURRENT device. It should accept
-  $: isIDevice = isIDeviceOS(os ?? '');
+  let isIDevice = $derived(isIDeviceOS(os ?? ''));
 </script>
 
 <div class="entry">
@@ -97,7 +105,7 @@
           icon={trashIcon}
           alt={$_('account.notifications.delete')}
           width="3rem"
-          on:click={() => {
+          onclick={() => {
             if (pushRegistration) {
               deletePushRegistration(pushRegistration);
               trackEvent(PlausibleEvent.REMOVE_NOTIFICATIONS);
@@ -109,7 +117,7 @@
       <!-- TODO: potential notification suppport action -->
       <Button
         xsmall
-        on:click={() => {
+        onclick={() => {
           handleNotificationEnableAttempt();
           trackEvent(PlausibleEvent.ENABLE_NOTIFICATIONS_ACCOUNT);
         }}

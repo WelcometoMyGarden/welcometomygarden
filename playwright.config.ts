@@ -3,7 +3,7 @@ import { defineConfig, devices, type PlaywrightTestConfig } from '@playwright/te
 import { config } from 'dotenv';
 import { resolve } from 'path';
 
-config({ path: resolve(process.cwd(), '.env.test.local') });
+config({ path: resolve(process.cwd(), '.env.test.local'), quiet: true });
 
 const USE_SLOWMO = process.env.USE_SLOWMO ?? false;
 
@@ -71,7 +71,16 @@ const localwebServers = [
     reuseExistingServer: !envIsTrue(process.env.CI),
     stdout: 'pipe',
     timeout: 5 * 1000
-  }
+  },
+  ...(envIsTrue(process.env.USE_STRIPE)
+    ? [
+        {
+          command:
+            'stripe listen --events customer.subscription.created,customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.created,invoice.paid,invoice.upcoming,payment_intent.processing,payment_intent.payment_failed --forward-to http://127.0.0.1:5001/demo-test/europe-west1/handleStripeWebhookV2',
+          timeout: 10 * 1000
+        }
+      ]
+    : [])
 ] satisfies PlaywrightTestConfig['webServer'][];
 
 export type TestLocale = 'en' | 'fr';

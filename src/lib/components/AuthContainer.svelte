@@ -1,12 +1,22 @@
+<script lang="ts">
+  interface Props {
+    title?: import('svelte').Snippet;
+    form?: import('svelte').Snippet;
+    children?: import('svelte').Snippet;
+  }
+
+  let { title, form, children }: Props = $props();
+</script>
+
 <div class="wrapper expand-70">
   <section>
     <h2 class="title">
-      <slot name="title" />
+      {@render title?.()}
     </h2>
     <div class="form">
-      <slot name="form" />
+      {@render form?.()}
     </div>
-    <slot />
+    {@render children?.()}
   </section>
 </div>
 

@@ -2,21 +2,39 @@
   import { LabeledCheckbox } from '$lib/components/UI';
   import Icon from '$lib/components/UI/Icon.svelte';
   import { crossIcon } from '$lib/images/icons';
-  import { createEventDispatcher } from 'svelte';
-  const dispatch = createEventDispatcher();
 
-  export let name: string;
-  export let icon: null | string = null;
-  export let label: string;
-  export let checked = false;
-  export let disabled = false;
+  interface Props {
+    name: string;
+    icon?: null | string;
+    label: string;
+    checked?: boolean;
+    disabled?: boolean;
+    oninput?: (e: Event) => void;
+    onchange: (e: Event) => void;
+    onsecondary: (e: MouseEvent) => void;
+  }
+
+  let {
+    name,
+    icon = null,
+    label,
+    checked = $bindable(false),
+    disabled = false,
+    oninput,
+    onchange,
+    onsecondary
+  }: Props = $props();
 </script>
 
 <div class="multi-action-label">
-  <LabeledCheckbox ellipsis {name} {label} {disabled} on:input bind:checked on:change />
+  <LabeledCheckbox ellipsis {name} {label} {disabled} {oninput} bind:checked {onchange} />
   <button
     class="button-unstyle secondary"
-    on:click|preventDefault|stopPropagation={(e) => dispatch('secondary', e)}
+    onclick={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      onsecondary(e);
+    }}
   >
     <Icon icon={crossIcon} />
   </button>

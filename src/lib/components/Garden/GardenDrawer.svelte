@@ -1,7 +1,5 @@
 <script lang="ts">
-  export let garden: Garden | null = null;
-
-  import { createEventDispatcher, tick } from 'svelte';
+  import { tick, mount } from 'svelte';
   import { scale } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
   import SkeletonDrawer from './SkeletonDrawer.svelte';
@@ -13,7 +11,7 @@
     type DisplayResponseRateTime
   } from '$lib/api/garden';
   import { user } from '$lib/stores/auth';
-  import { clickOutside } from '$lib/directives';
+  import { clickOutside } from '$lib/attachments';
   import { Text, Chip, Image, Button, Progress } from '../UI';
   import { tentPhosphor, heartIcon, heartIconFill, crossIcon } from '$lib/images/icons';
   import routes from '$lib/routes';
@@ -28,24 +26,39 @@
   import ResponseRateTimeLines from './ResponseRateTimeLines.svelte';
   import { facilities } from '$lib/stores/facilities';
   import * as Sentry from '@sentry/sveltekit';
+  import type { ClickOutsideEvent } from '$lib/attachments/click-outside';
+  import logger from '$lib/util/logger';
+  import { goto } from '$lib/util/navigate';
+  interface Props {
+    garden?: Garden | null;
+    isShowingMembershipModal?: boolean;
+    onclose: () => void;
+    onOpenMembershipModal: (continueUrl: string) => void;
+  }
 
-  const dispatch = createEventDispatcher<{ close: null }>();
+  let {
+    garden = null,
+    isShowingMembershipModal = false,
+    onclose,
+    onOpenMembershipModal
+  }: Props = $props();
+
   const phoneRegex =
     /\+?\d{1,4}?[-/\\.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/g;
-  let descriptionEl: unknown | undefined;
+  let descriptionEl: unknown | undefined = $state();
 
-  $: gardenIsSelected = !!garden;
+  let gardenIsSelected = $derived(!!garden);
 
-  let drawerElement;
-  let photoWrapper: HTMLElement | undefined;
-  let userInfo: UserPublic | null = null;
-  let photoUrl: string | null = null;
-  let biggerPhotoUrl: string | null = null;
-  let initialGardenInfoLoaded = false;
-  let gardenCapacity = 1;
+  let drawerElement = $state();
+  let photoWrapper: HTMLElement | undefined = $state();
+  let userInfo: UserPublic | null = $state(null);
+  let photoUrl: string | null = $state(null);
+  let biggerPhotoUrl: string | null = $state(null);
+  let initialGardenInfoLoaded = $state(false);
+  let gardenCapacity = $state(1);
 
-  let responseRateTimeDataLoaded = false;
-  let responseRateTimeData: DisplayResponseRateTime | null = null;
+  let responseRateTimeDataLoaded = $state(false);
+  let responseRateTimeData: DisplayResponseRateTime | null = $state(null);
 
   /**
    * Should only be called when garden has a value.
@@ -54,7 +67,7 @@
   const loadInitialGardenInfo = async () => {
     if (!garden) {
       const msg = 'Garden unexpectedly falsy during initial load';
-      console.warn(msg);
+      logger.warn(msg);
       Sentry.captureMessage(msg);
       return;
     }
@@ -67,7 +80,7 @@
         photoUrl = await getGardenPhotoSmall({ ...(garden as GardenPhoto), id });
       }
     } catch (ex) {
-      console.log(ex);
+      logger.log(ex);
       Sentry.captureException(ex);
     }
   };
@@ -76,47 +89,50 @@
     try {
       responseRateTimeData = await getGardenResponseRate(garden!.id!);
     } catch (e) {
-      console.warn("Couldn't load response rate/time data");
+      logger.warn("Couldn't load response rate/time data");
       Sentry.captureException(e);
     }
   };
 
-  let previousGarden = {};
+  let previousGarden = $state({});
 
-  // Set the previous garden if it changed
-  $: if (garden && garden.id !== previousGarden.id) {
-    previousGarden = garden;
-  }
+  $effect(() => {
+    // Set the previous garden if it changed
+    if (garden && garden.id !== previousGarden.id) {
+      previousGarden = garden;
+    }
 
-  // Reset garden info if the garden changed
-  $: if (garden) {
-    initialGardenInfoLoaded = false;
-    responseRateTimeDataLoaded = false;
-    userInfo = null;
-    photoUrl = null;
-    biggerPhotoUrl = null;
-    loadInitialGardenInfo().then(() => {
-      initialGardenInfoLoaded = true;
-    });
-    loadResponseRateTime()
-      .then(() => {
-        responseRateTimeDataLoaded = true;
-      })
-      .catch((e) => {
-        console.warn('Internal error while loading response rate/time data', e);
-        responseRateTimeDataLoaded = true;
+    // Reset garden info if the garden changed
+    if (garden) {
+      initialGardenInfoLoaded = false;
+      responseRateTimeDataLoaded = false;
+      userInfo = null;
+      photoUrl = null;
+      biggerPhotoUrl = null;
+      loadInitialGardenInfo().then(() => {
+        initialGardenInfoLoaded = true;
       });
-    // Converting the capacity field to a number prevents XSS attacks where
-    // the capacity field could be set to some HTML.
-    gardenCapacity = Number(garden.facilities.capacity) || 1;
-  }
+      loadResponseRateTime()
+        .then(() => {
+          responseRateTimeDataLoaded = true;
+        })
+        .catch((e) => {
+          logger.warn('Internal error while loading response rate/time data', e);
+          responseRateTimeDataLoaded = true;
+        });
+      // Converting the capacity field to a number prevents XSS attacks where
+      // the capacity field could be set to some HTML.
+      gardenCapacity = Number(garden.facilities.capacity) || 1;
+    }
+  });
 
-  $: ownedByLoggedInUser = $user && garden && $user.id === garden.id;
-  $: isSaved =
-    ($user && garden?.id && $user.savedGardens && $user.savedGardens.includes(garden.id)) || false;
+  let ownedByLoggedInUser = $derived($user && garden && $user.id === garden.id);
+  let isSaved = $derived(
+    ($user && garden?.id && $user.savedGardens && $user.savedGardens.includes(garden.id)) || false
+  );
 
-  let isShowingMagnifiedPhoto = false;
-  let isGettingMagnifiedPhoto = false;
+  let isShowingMagnifiedPhoto = $state(false);
+  let isGettingMagnifiedPhoto = $state(false);
 
   const magnifyPhoto = async () => {
     if (!garden?.photo) {
@@ -130,7 +146,7 @@
         biggerPhotoUrl = await getGardenPhotoBig({ ...garden, id: garden!.id } as GardenPhoto);
       }
     } catch (ex) {
-      console.error(ex);
+      logger.error(ex);
       Sentry.captureException(ex);
     }
     isShowingMagnifiedPhoto = true;
@@ -141,11 +157,14 @@
     photoWrapper?.focus();
   };
 
-  const handleClickOutsideDrawer = (event: CustomEvent) => {
+  const handleClickOutsideDrawer = (event: ClickOutsideEvent) => {
     const { clickEvent } = event.detail;
     // If the drawer is not open, don't try to close it
     // (this might mess with focus elsewhere on the page)
     if (!gardenIsSelected) {
+      return;
+    }
+    if (isShowingMembershipModal) {
       return;
     }
     // If closing maginified photo view, don't close drawer
@@ -159,7 +178,7 @@
     ) {
       return;
     } else if (!drawerElement.contains(clickEvent.target)) {
-      dispatch('close');
+      onclose();
     }
   };
 
@@ -175,16 +194,16 @@
         trackEvent(PlausibleEvent.SAVE_GARDEN);
       }
     } catch (err) {
-      console.log(err);
+      logger.log(err);
       Sentry.captureException(err);
     }
   };
 
-  $: chatWithGardenLink = `${$lr(routes.CHAT)}?with=${garden?.id}`;
+  let chatWithGardenLink = $derived(`${$lr(routes.CHAT)}?with=${garden?.id}`);
 
   const createPhoneNumberPlaceHolder = (length: number) => {
     const container = document.createElement('span');
-    new HiddenPhoneNumber({
+    mount(HiddenPhoneNumber, {
       target: container,
       props: {
         length
@@ -193,29 +212,47 @@
     return container;
   };
 
-  $: isPhoneNumberInDescription = garden?.description ? phoneRegex.test(garden.description) : false;
+  let isPhoneNumberInDescription = $derived(
+    garden?.description ? phoneRegex.test(garden.description) : false
+  );
 
-  $: if (descriptionEl) {
-    // Replace hidden phone number markers with a component.
-    const el = descriptionEl.firstChild as HTMLParagraphElement;
-    const hiddenNumberRegex = /\[(\*+)\]/;
-    if (hiddenNumberRegex.test(el?.textContent)) {
-      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split#splitting_with_a_regexp_to_include_parts_of_the_separator_in_the_result
-      // We use groups in the regex to still have access to the length of the phone number.
-      // Returns an array like ['sms me at ', 8, ' or ', 9]
-      const newNodes = el.textContent
-        .split(hiddenNumberRegex)
-        .map((el) =>
-          el.match(/\*+/) ? createPhoneNumberPlaceHolder(el.length) : document.createTextNode(el)
-        );
+  $effect(() => {
+    if (descriptionEl) {
+      // Replace hidden phone number markers with a component.
+      const el = descriptionEl.firstChild as HTMLParagraphElement;
+      const hiddenNumberRegex = /\[(\*+)\]/;
+      if (hiddenNumberRegex.test(el?.textContent)) {
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split#splitting_with_a_regexp_to_include_parts_of_the_separator_in_the_result
+        // We use groups in the regex to still have access to the length of the phone number.
+        // Returns an array like ['sms me at ', 8, ' or ', 9]
+        const newNodes = el.textContent
+          .split(hiddenNumberRegex)
+          .map((el) =>
+            el.match(/\*+/) ? createPhoneNumberPlaceHolder(el.length) : document.createTextNode(el)
+          );
 
-      // Remove the original text node of <p>
-      el.firstChild.remove();
-      // Re-insert new nodes
-      for (const node of newNodes) {
-        el.appendChild(node);
+        // Remove the original text node of <p>
+        el.firstChild.remove();
+        // Re-insert new nodes
+        for (const node of newNodes) {
+          el.appendChild(node);
+        }
       }
     }
+  });
+
+  /**
+   * Store the intention to chat, in case the user will be interrupted by a verification link.
+   * We depend on the event bubbling bubble behavior here from the inner <a> link here
+   */
+  function storeChatIntention() {
+    localStorage.setItem(
+      'chatIntention',
+      JSON.stringify({
+        garden: garden?.id,
+        ts: new Date()
+      })
+    );
   }
 </script>
 
@@ -225,16 +262,16 @@
     class="magnified-photo-wrapper"
     transition:scale
     bind:this={photoWrapper}
-    on:click={() => {
+    onclick={() => {
       isShowingMagnifiedPhoto = false;
     }}
-    on:keyup={(e) => {
+    onkeyup={(e) => {
       // Keypress was not fired in my FF environment.
       // It might be an extension (https://stackoverflow.com/a/78872316/4973029)
       // In any case, keyup works.
       switch (e.key) {
         case 'Enter':
-          // Don't do anything: the on:click will also be called when Enter is pressed
+          // Don't do anything: the onclick will also be called when Enter is pressed
           break;
         case 'Escape':
           isShowingMagnifiedPhoto = false;
@@ -252,14 +289,14 @@
   class="drawer"
   class:hidden={!gardenIsSelected}
   bind:this={drawerElement}
-  use:clickOutside
-  on:click-outside={handleClickOutsideDrawer}
+  {@attach clickOutside}
+  onclickoutside={handleClickOutsideDrawer}
 >
   {#if gardenIsSelected && initialGardenInfoLoaded && userInfo && garden}
     <section class="main">
       <header>
         <div class="garden-title">
-          <Text weight="w600" size="l" className="garden-title-text notranslate">
+          <Text weight="w600" size="l" class="garden-title-text notranslate">
             {#if ownedByLoggedInUser}
               {$_('garden.drawer.owner.your-garden')}
             {:else}{userInfo.firstName}{/if}
@@ -269,20 +306,20 @@
           </Text>
           <div class="top-buttons">
             {#if $user?.superfan}
-              <button class="button-save" class:is-saved={isSaved} on:click={saveGarden}>
+              <button class="button-save" class:is-saved={isSaved} onclick={saveGarden}>
                 <Icon icon={isSaved ? heartIconFill : heartIcon} />
-                <Text className="button-save__text" weight="inherit"
+                <Text class="button-save__text" weight="inherit"
                   >{isSaved ? $_('garden.drawer.saved') : $_('garden.drawer.save')}</Text
                 >
               </button>
             {/if}
-            <button class="close-button" on:click={() => dispatch('close')}>
+            <button class="close-button" onclick={onclose}>
               <Icon icon={crossIcon} />
             </button>
           </div>
         </div>
         {#if garden?.photo}
-          <button on:click={magnifyPhoto} class="mb-l button-container image-wrapper">
+          <button onclick={magnifyPhoto} class="mb-l button-container image-wrapper">
             {#if photoUrl}
               <Image src={photoUrl} />
             {/if}
@@ -306,7 +343,7 @@
               <span style="font-style: normal;">🔐 </span>{$_('garden.drawer.phone-notice')}
             </p>
           {/if}
-          <p />
+          <p></p>
         </div>
         <div class="chips-container">
           {#each $facilities as facility (facility.name)}
@@ -346,32 +383,43 @@
           </Button>
         {:else}
           {#if !$user}
-            <!-- svelte-ignore a11y-click-events-have-key-events -->
-            <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-            <p
-              class="cta-hint"
-              on:click={() => {
-                // Store the intention to chat, in case the user will be interrupted by a verification link.
-                // We depend on the event bubbling bubble behavior here from the inner <a> link here
-                localStorage.setItem(
-                  'chatIntention',
-                  JSON.stringify({
-                    garden: garden?.id,
-                    ts: new Date()
-                  })
-                );
-              }}
-            >
+            <!--
+             In case a user signs in through a garden card, store a chat intention just in case the user isn't verified yet.
+             If they verify after signing in here, but before clicking "become member" below, within 10min
+             (very unlikely but possible, and tested in our e2e test) then they will still be taken to the intended garden.
+            -->
+            <p class="cta-hint" onclickcapture={storeChatIntention}>
               {@html $_('garden.drawer.guest.login', {
                 values: {
-                  signInLink: `<a class='link' href=${$lr(routes.SIGN_IN)}?continueUrl=${encodeURIComponent(`${$lr(routes.MAP)}/garden/${garden?.id}`)}>${$_(
-                    'garden.drawer.guest.sign-link-text'
-                  )}</a>`
+                  signInLink: anchorText({
+                    href: `${$lr(routes.SIGN_IN)}?continueUrl=${encodeURIComponent(`${$lr(routes.MAP)}/garden/${garden?.id}`)}`,
+                    linkText: $_('garden.drawer.guest.sign-link-text'),
+                    newtab: false,
+                    class: 'link'
+                  })
                 }
               })}
             </p>
           {:else if !!$user && !$user.superfan}
-            <p class="cta-hint">
+            <p
+              class="cta-hint"
+              onclickcapture={(ev) => {
+                // @ts-ignore
+                if (ev.target?.tagName === 'A') {
+                  // Prevent the navigation to chatWithGardenLink while still showing that URL.
+                  // from happening when the link is clicked, and just open the modal here.
+                  // A navigation would either
+                  // - in case of a verified user: open the chat with the modal on top, which takes more time to load
+                  // - in case of an unverified user: go to /chat and get redirect to /account due to being verified
+                  //   = breaking the membership flow
+                  // We're handling the modal here client-side with shallow routing, because the alternative of
+                  // /about-membership#pricing is less ergonomic
+                  ev.preventDefault();
+                  ev.stopPropagation();
+                  onOpenMembershipModal(`${$lr(routes.MAP)}/garden/${garden?.id}`);
+                }
+              }}
+            >
               {@html $_('garden.drawer.guest.become-member', {
                 values: {
                   becomeMember: anchorText({
@@ -386,6 +434,16 @@
           {/if}
           <Button
             href={chatWithGardenLink}
+            preventing
+            onclick={() => {
+              if (!$user?.emailVerified) {
+                storeChatIntention();
+              }
+              // In case of a user with an unverified email
+              // the chat page will redirect to the /account page
+              // with a verification notice
+              goto(chatWithGardenLink);
+            }}
             disabled={!$user || !$user.superfan}
             fullWidth
             gardenStyle

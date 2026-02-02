@@ -4,9 +4,14 @@
   import { getCookie } from '$lib/util';
   import { setExpiringCookie } from '$lib/util/set-cookie';
 
-  export let cookieName: string;
+  interface Props {
+    cookieName: string;
+    children?: import('svelte').Snippet;
+  }
 
-  let bannerShown = !getCookie(cookieName);
+  let { cookieName, children }: Props = $props();
+
+  let bannerShown = $state(!getCookie(cookieName));
 
   const closeBanner = () => {
     setExpiringCookie(cookieName, true, 365 * 24);
@@ -18,10 +23,10 @@
   <header class="banner">
     <div class="banner-content">
       <p>
-        <slot />
+        {@render children?.()}
       </p>
       <button
-        on:click={closeBanner}
+        onclick={closeBanner}
         aria-label="Close banner"
         class="button-container close-banner"
       >

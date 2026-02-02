@@ -7,6 +7,8 @@ const { updateSendgridContactEmail } = require('./sendgrid/updateContactEmail');
 const stripe = require('./subscriptions/stripe');
 const { updateDiscourseUser } = require('./discourse/updateDiscourseUser');
 const { frontendUrl } = require('./sharedConfig');
+const { logger } = require('firebase-functions/logger');
+const { FirebaseAuthError } = require('firebase-admin/auth');
 
 /**
  * Checks whether the given context represents an admin user.
@@ -59,8 +61,14 @@ exports.sendVerificationEmail = sendVerificationEmail;
  * @param {FV2.CallableRequest<string>} request
  */
 exports.requestPasswordReset = async (request) => {
+  logger.log('Password reset request', request.data);
   const email = request.data;
-  if (!email) fail('invalid-argument');
+  if (!email) {
+    logger.warn('No email supplied to the password reset function');
+    fail('invalid-argument');
+  }
+
+  logger.info('Password request for', email);
 
   try {
     const user = await auth.getUserByEmail(email);
@@ -76,6 +84,11 @@ exports.requestPasswordReset = async (request) => {
     await sendPasswordResetEmail(email, user.displayName, link);
     return successResponse;
   } catch (e) {
+    if (e instanceof FirebaseAuthError && e.code == 'auth/user-not-found') {
+      logger.warn('No user found for email in Firebase:', email);
+    } else {
+      logger.error('Something went wrong while resetting a password', { email, error: e });
+    }
     fail('invalid-argument');
   }
 };
@@ -106,7 +119,7 @@ exports.resendAccountVerification = async (request) => {
     user = userIn;
     userPrivate = userPrivateIn;
   } catch (ex) {
-    console.log(
+    logger.log(
       'Exception while trying to get the user while resending the account verification email',
       ex
     );
@@ -169,7 +182,7 @@ async function requestEmailChangeForUser(authUser, newEmail) {
   });
 
   if (userPrivateData.oldEmail) {
-    console.warn(
+    logger.warn(
       `uid ${authUser.uid} already had a saved oldEmail while changing to a new email address. It is possible that something will break here.`
     );
   }
@@ -234,13 +247,13 @@ async function syncUserEmailToExternalSystems(userPrivateData, targetAuthUser) {
       updateSendgridContactEmail(targetAuthUser, userPrivateData)
         .then(() => resolve(true))
         .catch((e) => {
-          console.error(e);
+          logger.error(e);
           // Don't block other update operations on error
           resolve(false);
         });
       return;
     }
-    console.warn(
+    logger.warn(
       `UID ${targetAuthUser.uid}, who is changing their email address, does not have a SendGrid contact, we're leaving it that way, as this may be expected.`
     );
     resolve(true);
@@ -249,7 +262,7 @@ async function syncUserEmailToExternalSystems(userPrivateData, targetAuthUser) {
   const stripeUpdatePromise = new Promise((resolve) => {
     if (typeof userPrivateData.stripeCustomerId !== 'string') {
       // This may very well be expected
-      console.warn(
+      logger.warn(
         `UID ${targetAuthUser.uid}, who is changing their email address, does not have a Stripe customer.`
       );
       resolve(false);
@@ -258,13 +271,13 @@ async function syncUserEmailToExternalSystems(userPrivateData, targetAuthUser) {
     stripe.customers
       .update(userPrivateData.stripeCustomerId, { email: targetAuthUser.email })
       .then(() => {
-        console.info(
+        logger.info(
           `Stripe customer email for customer ${userPrivateData.stripeCustomerId} updated`
         );
         resolve(true);
       })
       .catch((e) => {
-        console.error(
+        logger.error(
           `An error happened when trying to update the email address of uid ${targetAuthUser.uid} (stripe customer ${userPrivateData.stripeCustomerId}): `,
           e
         );
@@ -276,7 +289,7 @@ async function syncUserEmailToExternalSystems(userPrivateData, targetAuthUser) {
     updateDiscourseUser(targetAuthUser)
       .then((v) => resolve(v))
       .catch((e) => {
-        console.error(
+        logger.error(
           `An error happened when trying to update the email address of Discourse uid ${targetAuthUser.uid}`,
           e
         );
@@ -314,7 +327,7 @@ exports.updateEmail = async (request) => {
     let userToPropagate;
 
     if (oldEmail !== newEmail) {
-      console.log(`Force-updating ${oldEmail} (${userToChange.uid}) to ${newEmail}`);
+      logger.log(`Force-updating ${oldEmail} (${userToChange.uid}) to ${newEmail}`);
       // Inequality means a proper, full, forced email update
       // Apply the email change in Firebase
       await forceUpdateFirebaseEmail(userToChange, newEmail);
@@ -322,7 +335,7 @@ exports.updateEmail = async (request) => {
       userToPropagate = await auth.getUser(userToChange.uid);
     } else {
       // The old and new emails are equal.
-      console.log(`Force-propagating ${oldEmail} to other systems`);
+      logger.log(`Force-propagating ${oldEmail} to other systems`);
       // We will not do a Firebase email change,
       // but we will still propagate the email change.
       // This method can be used to propagate the email change of a user that was
@@ -332,7 +345,7 @@ exports.updateEmail = async (request) => {
     // Propagate the change to other systems
     await syncUserEmailToExternalSystems(oldUserPrivateData, userToPropagate);
   } else {
-    console.log(`Manually requesting an email change from ${oldEmail} to ${newEmail}`);
+    logger.log(`Manually requesting an email change from ${oldEmail} to ${newEmail}`);
     // Don't force the change.
     // Propagation will occur naturally when the user clicks the verification link
     await requestEmailChangeForUser(userToChange, newEmail);
@@ -371,7 +384,7 @@ exports.propagateEmailChange = async (request) => {
   const targetAuthUser = await auth.getUserByEmail(targetEmail);
 
   if (!targetAuthUser.emailVerified) {
-    console.error(
+    logger.error(
       'The new (now current) email, or old recovery email, was not verified. This should not be possible in any case when this method is called.'
     );
     fail('failed-precondition');
@@ -397,21 +410,21 @@ exports.propagateEmailChange = async (request) => {
   if (mode === 'change' && targetEmail === savedNewEmail) {
     // It is now verified that this user just verified a new email, and needs a propagation
     isValidRequest = true;
-    console.log('Valid email change propagation request');
+    logger.log('Valid email change propagation request');
     // Delete the marker for an email change before fully completing the change,
     // in an attempt to prevent other calls to this function from being verified (prevent race conditions).
     await userPrivateRef.update({ newEmail: FieldValue.delete() });
   } else if (mode === 'recover' && targetEmail === savedOldEmail) {
     // It is now verified this user did a verification recently (or multiple) (= proven by the existence of the savedOldEmail),
     // and that this user tried to recover the first old email
-    console.log('Valid email recovery propagation request');
+    logger.log('Valid email recovery propagation request');
     isValidRequest = true;
     // Delete the marker for an email recovery before fully completing the change,
     await userPrivateRef.update({ oldEmail: FieldValue.delete() });
   }
 
   if (!isValidRequest) {
-    console.error(
+    logger.error(
       'Invald propagation request: trying to propagate a new email address that was not changed in' +
         ' Firebase Auth before the propagation, or is missing from the users-private data.' +
         `\n provided auth email: ${targetAuthUser.email} - provided "${mode}" email: ${targetEmail}`

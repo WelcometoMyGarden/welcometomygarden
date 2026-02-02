@@ -9,8 +9,8 @@
   import { formEmailValue } from '$lib/stores/auth';
   import * as Sentry from '@sentry/sveltekit';
 
-  let done = false;
-  let isSending = false;
+  let done = $state(false);
+  let isSending = $state(false);
   const submit = async () => {
     isSending = true;
     try {
@@ -35,41 +35,51 @@
 <Progress active={isSending} />
 
 <AuthContainer>
-  <span slot="title">{$_('request-password-reset.title')}</span>
-  <div slot="form">
-    {#if !done}
-      <p class="description">{$_('request-password-reset.description')}</p>
-      <form transition:fade={{ duration: transitionDuration }} on:submit|preventDefault={submit}>
-        <div>
-          <label for="email">{$_('generics.email')}</label>
-          <TextInput
-            icon={emailIcon}
-            autocomplete="off"
-            type="email"
-            name="email"
-            id="email"
-            bind:value={$formEmailValue}
-          />
+  {#snippet title()}
+    <span>{$_('request-password-reset.title')}</span>
+  {/snippet}
+  {#snippet form()}
+    <div>
+      {#if !done}
+        <p class="description">{$_('request-password-reset.description')}</p>
+        <form
+          transition:fade={{ duration: transitionDuration }}
+          onsubmit={(e) => {
+            e.preventDefault();
+            submit();
+          }}
+        >
+          <div>
+            <label for="email">{$_('generics.email')}</label>
+            <TextInput
+              icon={emailIcon}
+              autocomplete="off"
+              type="email"
+              name="email"
+              id="email"
+              bind:value={$formEmailValue}
+            />
+          </div>
+          <div class="submit">
+            <Button type="submit" medium disabled={!$formEmailValue || isSending}>
+              {$_('request-password-reset.button')}
+            </Button>
+          </div>
+        </form>
+      {:else}
+        <div in:fade={{ delay: transitionDuration }}>
+          <p>{$_('request-password-reset.set', { values: { email: $formEmailValue } })}</p>
+          <p>
+            {@html $_('request-password-reset.trouble', {
+              values: {
+                support: `<a class="link" href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a>`
+              }
+            })}
+          </p>
         </div>
-        <div class="submit">
-          <Button type="submit" medium disabled={!$formEmailValue || isSending}>
-            {$_('request-password-reset.button')}
-          </Button>
-        </div>
-      </form>
-    {:else}
-      <div in:fade={{ delay: transitionDuration }}>
-        <p>{$_('request-password-reset.set', { values: { email: $formEmailValue } })}</p>
-        <p>
-          {@html $_('request-password-reset.trouble', {
-            values: {
-              support: `<a class="link" href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a>`
-            }
-          })}
-        </p>
-      </div>
-    {/if}
-  </div>
+      {/if}
+    </div>
+  {/snippet}
 </AuthContainer>
 
 <style>

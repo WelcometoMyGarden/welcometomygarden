@@ -8,10 +8,15 @@
   import { onDestroy } from 'svelte';
   import { deleteTrail, toggleTrailVisibility } from '$lib/api/trail';
 
-  export let showHiking: boolean;
-  export let showCycling: boolean;
+  interface Props {
+    showHiking: boolean;
+    showCycling: boolean;
+    onclick: (e: MouseEvent) => void;
+  }
 
-  let localFileDataLayers = $fileDataLayers;
+  let { showHiking = $bindable(), showCycling = $bindable(), onclick }: Props = $props();
+
+  let localFileDataLayers = $state($fileDataLayers);
   const fileDataLayersUnsubscribe = fileDataLayers.subscribe((value) => {
     localFileDataLayers = value;
   });
@@ -40,14 +45,14 @@
       name={layer.id}
       label={cleanName(layer.originalFileName)}
       checked={layer.visible}
-      on:change={() => toggleTrailVisibility(layer.id)}
-      on:secondary={() => deleteTrail(layer.id)}
+      onchange={() => toggleTrailVisibility(layer.id)}
+      onsecondary={() => deleteTrail(layer.id)}
     />
   {/each}
 </div>
 
 <div class="layers-and-tools-button">
-  <Button preventing inverse xxsmall on:click>
+  <Button preventing inverse xxsmall {onclick}>
     <span class="button-text-container">
       <span class="button-icon">
         <Icon icon={routesIcon} />

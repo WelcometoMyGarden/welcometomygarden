@@ -213,15 +213,12 @@ Juni 2024, 18:56:`
       sender_ip: '209.85.208.46'
     });
 
-    // TODO: shows a Crisp parser limitation
     assert.strictEqual(
       parsed.responseText,
       `Hoi
 Ik ben nu in IJsland. We moeten even afstemmen wat jullie willen. Sanitair en zo.
 Ik ben ook niet zo vaak thuis dan. Want TAZ 😀
-TestHost
-
-Verstuurd vanaf mijn iPhone`
+TestHost`
     );
     assert.strictEqual(parsed.chatId, '59sd12zTmJJhDFSQfP');
   });

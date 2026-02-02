@@ -1,18 +1,24 @@
-<script>
+<script lang="ts">
   import { fade } from 'svelte/transition';
-  export let show = false;
+  interface Props {
+    show?: boolean;
+    children?: import('svelte').Snippet;
+  }
+
+  let { show = $bindable(false), children }: Props = $props();
 </script>
 
 {#if show}
   <div transition:fade>
     <p>
-      <slot />
+      {@render children?.()}
     </p>
   </div>
 {/if}
 
 <style>
   div {
+    z-index: 1;
     padding: 4px 8px;
     border-radius: 10px;
     /* Same as the layers & tools background */

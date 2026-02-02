@@ -20,14 +20,15 @@
   import type { FunctionsErrorCode } from 'firebase/functions';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
   import validateEmail from '$lib/util/validate-email';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { get } from 'svelte/store';
   import { onMount } from 'svelte';
   import * as Sentry from '@sentry/sveltekit';
   import { debounce } from 'lodash-es';
   import { lr } from '$lib/util/translation-helpers';
+  import logger from '$lib/util/logger';
 
-  const continueUrl = $page.url.searchParams.get('continueUrl');
+  const continueUrl = $derived(page.url.searchParams.get('continueUrl'));
 
   type FieldCommon = {
     /**
@@ -72,7 +73,7 @@
     } & { consent: CheckboxField }; // Checkbox fields
 
   /** Field definitions with initial values */
-  let fields: RegistrationFields = {
+  let fields: RegistrationFields = $state({
     email: {
       validate: (v) => {
         if (!v || !validateEmail(v)) return $_('register.validate.email');
@@ -94,9 +95,9 @@
     },
     lastName: {
       validate: (v) => {
-        if (!v || v.trim() === '') return $_('register.validate.last-name');
+        if (!v || v.trim() === '') return $_('register.validate.last-name.set');
+        if (v.length > 50) return $_('register.validate.last-name.max');
       }
-      // TODO: why is there no max-length constraint on last-name?
     },
     country: {
       value: guessCountryCode(),
@@ -123,17 +124,19 @@
         }
       }
     }
-  };
+  });
 
   // Connect email & password stores to the data structure used for validation
-  $: fields.email.value = $formEmailValue;
-  $: fields.password.value = $formPasswordValue;
+  $effect(() => {
+    fields.email.value = $formEmailValue;
+    fields.password.value = $formPasswordValue;
+  });
 
-  $: countryEntries = Object.entries($countryNames).sort(([, nameA], [, nameB]) =>
-    nameA.localeCompare(nameB)
+  let countryEntries = $derived(
+    Object.entries($countryNames).sort(([, nameA], [, nameB]) => nameA.localeCompare(nameB))
   );
 
-  let formError = '';
+  let formError = $state('');
 
   const submit = async () => {
     // Already set this now, to transition the form submit button to "disabled"
@@ -184,7 +187,7 @@
       if (continueUrl) {
         if (getBaseRouteIn(continueUrl) === routes.ADD_GARDEN && !get(user)?.emailVerified) {
           // If the intention is to add a garden, but the user is not verified, redirect to the account page
-          console.log(
+          logger.log(
             'Redirecting to /account upon unverified email sign-up with a garden add intention'
           );
           universalGoto($lr(routes.ACCOUNT));
@@ -217,7 +220,7 @@
         formError = $_('register.notify.unexpected', { values: { support: SUPPORT_EMAIL } });
         Sentry.captureException(err);
       }
-      console.log(err);
+      logger.log(err);
     }
   };
 
@@ -254,131 +257,141 @@
 <Progress active={$isSigningIn} />
 
 <AuthContainer>
-  <span slot="title">{$_('register.title')}</span>
+  {#snippet title()}
+    <span>{$_('register.title')}</span>
+  {/snippet}
   <!--
     Switch off built-in form validation (we implement our own)
     https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation#a_more_detailed_example
   -->
-  <form novalidate on:submit|preventDefault={debouncedSubmit} slot="form">
-    <div>
-      <label for="first-name">{$_('register.first-name')}</label>
-      <TextInput
-        icon={userIcon}
-        type="text"
-        name="first-name"
-        id="first-name"
-        autocomplete="given-name"
-        on:blur={() => (fields.firstName.error = '')}
-        error={fields.firstName.error}
-        bind:value={fields.firstName.value}
-      />
-    </div>
+  {#snippet form()}
+    <form
+      novalidate
+      onsubmit={(e) => {
+        e.preventDefault();
+        debouncedSubmit();
+      }}
+    >
+      <div>
+        <label for="first-name">{$_('register.first-name')}</label>
+        <TextInput
+          icon={userIcon}
+          type="text"
+          name="first-name"
+          id="first-name"
+          autocomplete="given-name"
+          onblur={() => (fields.firstName.error = '')}
+          error={fields.firstName.error}
+          bind:value={fields.firstName.value}
+        />
+      </div>
 
-    <div>
-      <label for="last-name">{$_('register.last-name')}</label>
-      <TextInput
-        icon={userIcon}
-        autocomplete="family-name"
-        type="text"
-        name="last-name"
-        id="last-name"
-        on:blur={() => (fields.lastName.error = '')}
-        error={fields.lastName.error}
-        bind:value={fields.lastName.value}
-      />
-    </div>
+      <div>
+        <label for="last-name">{$_('register.last-name')}</label>
+        <TextInput
+          icon={userIcon}
+          autocomplete="family-name"
+          type="text"
+          name="last-name"
+          id="last-name"
+          onblur={() => (fields.lastName.error = '')}
+          error={fields.lastName.error}
+          bind:value={fields.lastName.value}
+        />
+      </div>
 
-    <div>
-      <label for="email">{$_('generics.email')}</label>
-      <TextInput
-        icon={emailIcon}
-        autocomplete="email"
-        type="email"
-        name="email"
-        id="email"
-        required
-        on:blur={() => {
-          fields.email.error = '';
-        }}
-        error={fields.email.error}
-        bind:value={$formEmailValue}
-      />
-    </div>
+      <div>
+        <label for="email">{$_('generics.email')}</label>
+        <TextInput
+          icon={emailIcon}
+          autocomplete="email"
+          type="email"
+          name="email"
+          id="email"
+          required
+          onblur={() => {
+            fields.email.error = '';
+          }}
+          error={fields.email.error}
+          bind:value={$formEmailValue}
+        />
+      </div>
 
-    <div>
-      <label for="password">{$_('generics.password')}</label>
-      <TextInput
-        icon={lockIcon}
-        type="password"
-        name="password"
-        id="password"
-        autocomplete="new-password"
-        on:blur={() => (fields.password.error = '')}
-        error={fields.password.error}
-        bind:value={$formPasswordValue}
-      />
-    </div>
+      <div>
+        <label for="password">{$_('generics.password')}</label>
+        <TextInput
+          icon={lockIcon}
+          type="password"
+          name="password"
+          id="password"
+          autocomplete="new-password"
+          onblur={() => (fields.password.error = '')}
+          error={fields.password.error}
+          bind:value={$formPasswordValue}
+        />
+      </div>
 
-    <div class="country-select">
-      <label for="country">{$_('register.country')}</label>
-      <Select name="country" bind:value={fields.country.value} fullBlock>
-        {#each countryEntries as [code, name]}
-          <option value={code}>{name}</option>
-        {/each}
-      </Select>
-    </div>
+      <div class="country-select">
+        <label for="country">{$_('register.country')}</label>
+        <Select name="country" bind:value={fields.country.value} fullBlock>
+          {#each countryEntries as [code, name]}
+            <option value={code}>{name}</option>
+          {/each}
+        </Select>
+      </div>
 
-    <div class="reference">
-      <label for="reference">{$_('register.reference')}</label>
-      <TextInput
-        icon={null}
-        type="text"
-        name="reference"
-        id="reference"
-        maxLength={3000}
-        on:blur={() => (fields.reference.error = '')}
-        error={fields.reference.error}
-        bind:value={fields.reference.value}
-      />
-    </div>
+      <div class="reference">
+        <label for="reference">{$_('register.reference')}</label>
+        <TextInput
+          icon={null}
+          type="text"
+          name="reference"
+          id="reference"
+          maxLength={3000}
+          onblur={() => (fields.reference.error = '')}
+          error={fields.reference.error}
+          bind:value={fields.reference.value}
+        />
+      </div>
 
-    <div class="consent">
-      <div class="checkbox">
-        <input type="checkbox" id="terms" name="terms" bind:checked={fields.consent.value} />
-        <label for="terms">
-          {@html $_('register.policies', {
+      <div class="consent">
+        <div class="checkbox">
+          <input type="checkbox" id="terms" name="terms" bind:checked={fields.consent.value} />
+          <label for="terms">
+            {@html $_('register.policies', {
+              values: {
+                cookiePolicy: cookiePolicy,
+                privacyPolicy: privacyPolicy,
+                termsOfUse: termsOfUse
+              }
+            })}
+          </label>
+        </div>
+        <div class="error">
+          {#if fields.consent.error}{@html fields.consent.error}{/if}
+        </div>
+      </div>
+
+      <div class="submit">
+        <div class="hint">
+          {#if formError}
+            <p transition:fade class="hint danger">{formError}</p>
+          {/if}
+        </div>
+        <Button type="submit" medium disabled={$isSigningIn}>{$_('register.button')}</Button>
+        {#if $isSigningIn}
+          <p class="mt-m mb-m">{$_('register.registering')}</p>
+        {/if}
+        <p>
+          {@html $_('register.registered', {
             values: {
-              cookiePolicy: cookiePolicy,
-              privacyPolicy: privacyPolicy,
-              termsOfUse: termsOfUse
+              signIn: `<a class="link" href="${$lr(routes.SIGN_IN)}${continueUrl ? `?continueUrl=${encodeURIComponent(continueUrl)}` : ''}">${$_('generics.sign-in')}</a>`
             }
           })}
-        </label>
+        </p>
       </div>
-      <div class="error">
-        {#if fields.consent.error}{@html fields.consent.error}{/if}
-      </div>
-    </div>
-
-    <div class="submit">
-      <div class="hint">
-        {#if formError}
-          <p transition:fade class="hint danger">{formError}</p>
-        {/if}
-      </div>
-      <Button type="submit" medium disabled={$isSigningIn}>{$_('register.button')}</Button>
-      {#if $isSigningIn}
-        <p class="mt-m mb-m">{$_('register.registering')}</p>
-      {/if}
-      <p>
-        {@html $_('register.registered', {
-          values: {
-            signIn: `<a class="link" href="${$lr(routes.SIGN_IN)}${continueUrl ? `?continueUrl=${encodeURIComponent(continueUrl)}` : ''}">${$_('generics.sign-in')}</a>`
-          }
-        })}
-      </p>
-    </div>
-  </form>
+    </form>
+  {/snippet}
 </AuthContainer>
 
 <style>

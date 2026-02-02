@@ -1,10 +1,23 @@
 <script lang="ts">
   import { currentRoute } from '$lib/routes';
 
-  export let href: string;
-  export let target: string | undefined = undefined;
-  export let rel: string | undefined = undefined;
-  export let highlighted: boolean | undefined = undefined;
+  interface Props {
+    href: string;
+    target?: string | undefined;
+    rel?: string | undefined;
+    highlighted?: boolean | undefined;
+    onclick?: (e: MouseEvent) => void;
+    children?: import('svelte').Snippet;
+  }
+
+  let {
+    href,
+    target = undefined,
+    rel = undefined,
+    highlighted = undefined,
+    children,
+    onclick
+  }: Props = $props();
 </script>
 
 <!-- The href check below works because internal href links
@@ -15,9 +28,9 @@
   class:active={href.endsWith($currentRoute ?? 'never')}
   class:highlighted={!!highlighted}
   {target}
-  on:click
+  {onclick}
 >
-  <slot />
+  {@render children?.()}
 </a>
 
 <style>

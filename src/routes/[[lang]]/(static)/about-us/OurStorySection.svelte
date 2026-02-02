@@ -134,6 +134,10 @@
       padding: 0 var(--spacing-small);
     }
 
+    h2 {
+      text-align: center;
+    }
+
     img {
       aspect-ratio: unset;
     }

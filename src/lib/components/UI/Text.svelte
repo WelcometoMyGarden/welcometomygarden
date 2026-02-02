@@ -1,25 +1,29 @@
 <script lang="ts">
-  // This temporarily allows us both static checking and runtime checking,
-  // until we transferred everything to TypeScript, and we don't need runimte checking anymore.
-  // https://stackoverflow.com/questions/40863488/how-can-i-iterate-over-a-custom-literal-type-in-typescript
-  const allowedSize = ['s', 'm', 'l'] as const;
-  const allowedWeight = ['inherit', 'thin', 'bold', 'w600'] as const;
-  type AllowedSize = (typeof allowedSize)[number];
-  type AllowedWeight = (typeof allowedWeight)[number];
+  import type { Snippet } from 'svelte';
+  type AllowedSize = 's' | 'm' | 'l';
+  type AllowedWeight = 'inherit' | 'thin' | 'bold' | 'w600';
 
-  export let is: 'p' | 'span' | 'h1' | 'h2' | 'h3' = 'p';
-  export let size: AllowedSize = 'm';
-  export let weight: AllowedWeight = 'inherit';
-  export let className = $$props.class || '';
+  type Props = {
+    is?: 'p' | 'span' | 'h1' | 'h2' | 'h3';
+    size?: AllowedSize;
+    weight?: AllowedWeight;
+    class?: string;
+    children: Snippet;
+  };
 
-  if (!allowedSize.includes(size)) throw new Error('Size props is invalid');
-  if (!allowedWeight.includes(weight)) throw new Error('Weight props is invalid');
+  let {
+    is = 'p',
+    size = 'm',
+    weight = 'inherit',
+    class: className = '',
+    children
+  }: Props = $props();
 
-  let classNames = `text ${className} ${size} ${weight}`;
+  let classNames = $derived(`text ${className} ${size} ${weight}`);
 </script>
 
 <svelte:element this={is} class={classNames}>
-  <slot />
+  {@render children?.()}
 </svelte:element>
 
 <style>

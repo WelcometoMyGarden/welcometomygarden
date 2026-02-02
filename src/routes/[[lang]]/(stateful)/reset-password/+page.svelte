@@ -1,7 +1,7 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { goto } from '$lib/util/navigate';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import AuthContainer from '$lib/components/AuthContainer.svelte';
   import notify from '$lib/stores/notification';
   import { confirmPasswordReset, login, logout } from '$lib/api/auth';
@@ -9,9 +9,10 @@
   import { lockIcon } from '$lib/images/icons';
   import routes from '$lib/routes';
   import { lr } from '$lib/util/translation-helpers';
+  import logger from '$lib/util/logger';
 
-  const oobCode = $page.url.searchParams.get('oobCode');
-  const email = $page.url.searchParams.get('email');
+  const oobCode = page.url.searchParams.get('oobCode');
+  const email = page.url.searchParams.get('email');
 
   // Note: this page is the second stage of a flow starting on /auth/action.
   // The query parameters here are filled by that page.
@@ -20,9 +21,9 @@
     goto($lr(routes.HOME));
   }
 
-  let password = {};
+  let password = $state({});
 
-  let isResetting = false;
+  let isResetting = $state(false);
   const submit = async () => {
     isResetting = true;
     try {
@@ -38,7 +39,7 @@
       notify.success($_('reset-password.success'));
       goto($lr(routes.MAP));
     } catch (err) {
-      console.log(err);
+      logger.log(err);
     }
     isResetting = false;
   };
@@ -53,20 +54,29 @@
 </svelte:head>
 
 <AuthContainer>
-  <span slot="title">{$_('reset-password.title')}</span>
+  {#snippet title()}
+    <span>{$_('reset-password.title')}</span>
+  {/snippet}
 
-  <form slot="form" on:submit|preventDefault={submit}>
-    <label for="password">{$_('generics.password')}</label>
-    <TextInput
-      icon={lockIcon}
-      type="password"
-      name="password"
-      id="password"
-      autocomplete="new-password"
-      bind:value={password.value}
-    />
-    <Button type="submit" medium>{$_('reset-password.update')}</Button>
-  </form>
+  {#snippet form()}
+    <form
+      onsubmit={(e) => {
+        e.preventDefault();
+        submit();
+      }}
+    >
+      <label for="password">{$_('generics.password')}</label>
+      <TextInput
+        icon={lockIcon}
+        type="password"
+        name="password"
+        id="password"
+        autocomplete="new-password"
+        bind:value={password.value}
+      />
+      <Button type="submit" medium>{$_('reset-password.update')}</Button>
+    </form>
+  {/snippet}
 </AuthContainer>
 
 <style>

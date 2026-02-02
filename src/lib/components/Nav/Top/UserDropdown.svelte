@@ -1,9 +1,7 @@
 <script lang="ts">
-  export let name: string;
-
   import { _ } from 'svelte-i18n';
   import { slide } from 'svelte/transition';
-  import { clickOutside } from '$lib/directives';
+  import { clickOutside } from '$lib/attachments';
   import { logout } from '$lib/api/auth';
   import { chatIcon, signOutIcon, userIcon } from '$lib/images/icons';
   import routes from '$lib/routes';
@@ -11,8 +9,14 @@
   import { chatsCountWithUnseenMessages } from '$lib/stores/chat';
   import Badge from '../Badge.svelte';
   import { lr } from '$lib/util/translation-helpers';
+  import ViteSVG from '$lib/components/UI/ViteSVG.svelte';
+  interface Props {
+    name: string;
+  }
 
-  let isOpen = false;
+  let { name }: Props = $props();
+
+  let isOpen = $state(false);
 
   const toggleOpen = () => (isOpen = !isOpen);
 
@@ -21,8 +25,8 @@
   };
 </script>
 
-<li class="user" use:clickOutside on:click-outside={handleClickOutsideDropdown}>
-  <button class="button-container user-button" on:click={toggleOpen}>
+<li class="user" {@attach clickOutside} onclickoutside={handleClickOutsideDropdown}>
+  <button class="button-container user-button" onclick={toggleOpen}>
     <div class="user-avatar">{name.charAt(0).toUpperCase()}</div>
     <span class="notranslate">{name}</span>
     <Badge count={$chatsCountWithUnseenMessages} />
@@ -30,18 +34,18 @@
   {#if isOpen}
     <ul transition:slide={{ duration: 300 }} class="user-dropdown">
       <li>
-        <a href={$lr(routes.CHAT)} on:click={toggleOpen}>
+        <a href={$lr(routes.CHAT)} onclick={toggleOpen}>
           <i style="position: relative">
-            {@html chatIcon}
+            <ViteSVG icon={chatIcon}></ViteSVG>
             <Badge count={$chatsCountWithUnseenMessages} />
           </i>
           {$_('generics.chat')}
         </a>
       </li>
       <li>
-        <a href={$lr(routes.ACCOUNT)} on:click={toggleOpen}>
+        <a href={$lr(routes.ACCOUNT)} onclick={toggleOpen}>
           <i>
-            {@html userIcon}
+            <ViteSVG icon={userIcon}></ViteSVG>
           </i>
           {$_('generics.account')}
         </a>
@@ -49,14 +53,15 @@
       <li class="separated">
         <a
           href={$lr(routes.HOME)}
-          on:click|preventDefault={async () => {
+          onclick={async (e) => {
+            e.preventDefault();
             toggleOpen();
             await logout();
             goto($lr(routes.HOME));
           }}
         >
           <i>
-            {@html signOutIcon}
+            <ViteSVG icon={signOutIcon}></ViteSVG>
           </i>
           {$_('generics.sign-out')}
         </a>

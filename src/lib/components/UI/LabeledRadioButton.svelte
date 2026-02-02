@@ -1,21 +1,38 @@
 <script lang="ts">
-  export let id: string;
-  export let name: string;
-  export let icon: undefined | string = undefined;
-  export let label: string;
-  export let group: string;
-  export let value: string;
-  export let disabled = false;
-  export let ellipsis = false;
-  export let compact = false;
-
   import LabelWithIcon from './LabelWithIcon.svelte';
+  interface Props {
+    id: string;
+    name: string;
+    icon?: undefined | string;
+    label: string;
+    group: string;
+    value: string;
+    disabled?: boolean;
+    ellipsis?: boolean;
+    compact?: boolean;
+  }
+
+  let {
+    id,
+    name,
+    icon = undefined,
+    label,
+    group = $bindable(),
+    value,
+    disabled = false,
+    ellipsis = false,
+    compact = false
+  }: Props = $props();
 </script>
 
 <!-- Just stop click propagation from here -->
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<div on:click|stopPropagation>
-  <input {id} type="radio" {disabled} {name} {value} bind:group on:input on:change />
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<div
+  onclick={(e) => {
+    e.stopPropagation();
+  }}
+>
+  <input {id} type="radio" {disabled} {name} {value} bind:group />
   <LabelWithIcon {ellipsis} {compact} labelFor={id} {icon}>{label}</LabelWithIcon>
 </div>
 

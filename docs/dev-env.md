@@ -4,26 +4,24 @@
 
 ## Prerequisites
 
-- [Node](https://nodejs.org/en/download/) v20. Using [nvm](https://github.com/nvm-sh/nvm) is recommended. At the time of writing, you need v20.11.0 specifically to prevent a https issue in the dev server. The project probably works with v18 still, and might work with other older or newer versions too, but these aren't tested.
-- Java runtime environment >= v11, preferably the latest LTS version (17). This is required for Firebase's CLI. [Adoptium builds](https://adoptium.net/en-GB/) are helpful.
-- The [Firebase CLI](https://firebaseopensource.com/projects/firebase/firebase-tools/) and [Yarn](https://yarnpkg.com/getting-started/install), installed globally via npm. The global npm Yarn install will install a v1 ("Classic") version, but this version will replace itself with a locked version checked into this repository (3.5.0 at the time of writing) using the `.yarnrc.yml` configuration:
-  ```bash
-  npm i -g firebase-tools yarn
-  ```
-- Optional: [Mailpit](https://mailpit.axllent.org/) for testing emails locally (to some extent)
+- [Node](https://nodejs.org/en/download/) v24. Using [nvm](https://github.com/nvm-sh/nvm) is recommended. This codebase might work with other older or newer node versions too, but these aren't tested.
+- Java runtime environment (JRE) >= v21. This is required for Firebase's CLI. [Adoptium builds](https://adoptium.net/en-GB/) are helpful.
+- The Yarn package manager version which is defined in [package.json](../package.json), which should be installed [via Corepack](https://yarnpkg.com/corepack#installation).
+- The [Firebase CLI](https://firebaseopensource.com/projects/firebase/firebase-tools/), installed globally via npm (`npm i -g firebase-tools`). Make sure globally installed node binaries are added to your path.
+- Optional: [Mailpit](https://mailpit.axllent.org/) for testing emails locally.
 
 ## Project setup
 
 1. Install project dependencies, in both the root and `/api` directory.
 
-   ```bash
-   yarn
-   cd api && yarn && cd -
+   ```sh
+   yarn install --immutable
+   cd api && yarn install --immutable && cd -
    ```
 
 2. Create environment files from their examples.
 
-   ```bash
+   ```sh
    # For the frontend SvelteKit app. This follows the way Vite env files are set up: https://vitejs.dev/guide/env-and-mode.html#modes
 
    cp .env.example .env.development.local
@@ -37,7 +35,7 @@
 
 Start all Firebase emulators:
 
-```
+```sh
 yarn firebase:demo
 ```
 
@@ -45,7 +43,7 @@ This will locally emulate our "backend": Firebase's [Auth](https://firebase.goog
 
 In a new terminal, run:
 
-```
+```sh
 yarn dev
 ```
 
@@ -104,6 +102,10 @@ There are some backend unit and integration tests. The test running procedure is
 
 ### Front-end unit & Firestore rules tests
 
+A very limited number of front-end unit tests & Firestore rules tests are located in `/tests/unit`.
+
+They are run via [Vitest](https://vitest.dev/guide/features.html).
+
 Some Firestore rules unit tests live in `./tests/unit/firestore-rules.test.ts`.
 
 To run them individually from the root directory with a command that first starts up Firebase auth & firestore emulators:
@@ -113,6 +115,10 @@ echo 'yarn test:unit' > runtests.sh && chmod u+x runtests.sh;
 firebase --project demo-test emulators:exec --ui --only auth,firestore ./runtests.sh;
 ```
 
+Alternatively, run `firebase --project demo-test emulators:start --only auth,firestore` in one shell, and use `vitest` in another, or via the VSCode Vitest extension.
+
+Note: when using the VSCode Vitest extension to run tests, I've noticed Vite will use your default node version. Make sure it aligns with the current `.nvmrc` version using `nvm alias default $(cat .nvmrc)`.
+
 ### End-to-end tests
 
 [Playwright](https://playwright.dev/) is set up for end-to-end (e2e) testing, and contains a few tests for core functionality.
@@ -120,7 +126,8 @@ firebase --project demo-test emulators:exec --ui --only auth,firestore ./runtest
 After running `yarn install`, also install the testing browsers:
 
 ```
-yarn dlx playwright install
+npx playwright install
+# Use npx, because `yarn dlx` does not respect/execute the currently installed version, but rather downloads the last one
 ```
 
 And, set up the test configuration `.env.test.local` in the root based on `.env.test.local.example`.
@@ -140,9 +147,18 @@ See [playwright.config.json](../playwright.config.ts) & [main-flow.spec.ts](./..
 
 To check if your code won't have compilation issues in production, do a production build locally and preview the result:
 
-```
+```sh
 yarn build:prod
+
+# For a quick check of a non-dynamic page, the vite preview server can be used (at localhost:4173)
+# note: `vite preview` does not accurately reflect production
+# it will return 404s when static page aren't found for a given URL
 yarn preview
+
+# For more accurate checks, use the Firebase Hosting emulator (at localhost:4005).
+# This uses 200.html for non-found pages, which loads their content client side
+# note: it still does not emulate production functions, which is required for rewrite functions
+firebase --project prod emulators:start --only hosting
 ```
 
 You will need the right environment variables for this.

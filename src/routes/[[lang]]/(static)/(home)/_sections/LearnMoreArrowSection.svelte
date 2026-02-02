@@ -1,9 +1,10 @@
 <script>
   import { _ } from 'svelte-i18n';
   import smoothscroll from 'smoothscroll-polyfill';
-  import ArrowDown from '$lib/images/arrow-down.svg';
+  import ArrowDown from '$lib/images/arrow-down.svg?inline';
   import enterHandler from '$lib/util/keyhandlers';
   import { browser } from '$app/environment';
+  import ViteSVG from '$lib/components/UI/ViteSVG.svelte';
 
   const handleLearnMoreClick = () => {
     const navBarHeightElem = document.getElementById('top-nav');
@@ -27,14 +28,14 @@
 <button
   class="learn-more"
   id="learn-more"
-  on:click={handleLearnMoreClick}
-  on:keypress={enterHandler(handleLearnMoreClick)}
+  onclick={handleLearnMoreClick}
+  onkeypress={enterHandler(handleLearnMoreClick)}
 >
   <span class="learn-more-text" aria-hidden>{$_('index.intro.learn-more')}</span>
   <div class="learn-more-button">
     <span class="screen-reader-only">{$_('index.intro.learn-more')}</span>
     <div>
-      {@html ArrowDown}
+      <ViteSVG icon={ArrowDown} />
     </div>
   </div>
 </button>

@@ -1,5 +1,9 @@
 <script lang="ts">
-  export let content: string | undefined;
+  interface Props {
+    content: string | undefined;
+  }
+
+  let { content }: Props = $props();
 </script>
 
 <!-- @component render a <p> by default, otherwise the content as HTLM if it starts with a HTML tag -->

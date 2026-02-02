@@ -21,7 +21,7 @@
     })}
   </p>
 {/each}
-<div class="line-break" />
+<div class="line-break"></div>
 <Ol>
   {#each getNodeChildren('terms-of-use.articles') as articleKey}
     <li class="h3">
@@ -79,7 +79,7 @@
         {/each}
       </Ol>
     </li>
-    <div class="line-break" />
+    <div class="line-break"></div>
   {/each}
 </Ol>
 

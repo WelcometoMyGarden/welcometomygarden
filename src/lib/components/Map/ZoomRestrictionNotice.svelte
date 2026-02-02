@@ -15,7 +15,9 @@
   const { getMap } = getContext<ContextType>(key);
   const map = getMap();
 
-  let showNotice = false;
+  let { onclick }: { onclick: (e: MouseEvent) => void } = $props();
+
+  let showNotice = $state(false);
 
   /**
    * Determines if the zoom restriciton notice should be shown for map instance in its current state,
@@ -53,7 +55,7 @@
     href={createUrl($lr(routes.ABOUT_MEMBERSHIP))}
     preventing
     track={[PlausibleEvent.OPEN_MEMBERSHIP_MODAL, { source: 'zoom_notice' }]}
-    on:click
+    {onclick}
     newtab>{$_('generics.become-member')}</Anchor
   >{' '}{$_('map.zoom-restriction-notice')}.
 </MapNotice>

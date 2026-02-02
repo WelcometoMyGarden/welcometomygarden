@@ -1,16 +1,26 @@
 <script lang="ts">
   import trackEvent from '$lib/util/track-plausible';
-  import { createEventDispatcher } from 'svelte';
 
-  export let href: string;
-  /**
-   * Whether this should prevent the default href nav
-   */
-  export let preventing = false;
-  export let newtab: boolean | undefined = undefined;
-  export let track: Parameters<typeof trackEvent> | undefined = undefined;
+  interface Props {
+    href: string;
+    /**
+     * Whether this should prevent the default href nav
+     */
+    preventing?: boolean;
+    newtab?: boolean | undefined;
+    track?: Parameters<typeof trackEvent> | undefined;
+    onclick?: (event: MouseEvent) => void;
+    children?: import('svelte').Snippet;
+  }
 
-  const dispatch = createEventDispatcher<{ click: MouseEvent }>();
+  let {
+    href,
+    preventing = false,
+    newtab = undefined,
+    track = undefined,
+    onclick,
+    children
+  }: Props = $props();
 
   const handleClick = (e: MouseEvent) => {
     if (preventing) {
@@ -19,13 +29,15 @@
     if (track) {
       trackEvent(...track);
     }
-    dispatch('click', e);
+    onclick?.(e);
   };
 </script>
 
 <!-- @component
 Simple anchor link component, mostly to avoid repeated styling -->
-<a {href} on:click={handleClick} target={newtab ? '_blank' : undefined} rel="noopener"><slot /></a>
+<a {href} onclick={handleClick} target={newtab ? '_blank' : undefined} rel="noopener"
+  >{@render children?.()}</a
+>
 
 <style>
   a,

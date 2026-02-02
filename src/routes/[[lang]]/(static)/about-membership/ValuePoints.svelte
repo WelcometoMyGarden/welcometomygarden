@@ -2,7 +2,7 @@
   import { valuePoints } from '$lib/components/Membership/membership-points';
   import ValuePoint from '$lib/components/Membership/ValuePoint.svelte';
   import { locale } from 'svelte-i18n';
-  $: valuePointsLocal = valuePoints($locale ?? 'en');
+  let valuePointsLocal = $derived(valuePoints($locale ?? 'en'));
 </script>
 
 <ul class="value-points">

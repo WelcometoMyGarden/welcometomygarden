@@ -1,3 +1,4 @@
+import logger from '$lib/util/logger';
 import pkg from 'maplibre-gl';
 import type { IControl, Map } from 'maplibre-gl';
 const { Evented } = pkg;
@@ -60,7 +61,7 @@ class Event {
 
 function warnOnce(message: string) {
   // Not once, but OK
-  console.warn(message);
+  logger.warn(message);
 }
 
 // https://github.com/maplibre/maplibre-gl-js/blob/c03607bad8a0d6574e9738b23fa84f3620713df5/src/ui/map.ts#L128

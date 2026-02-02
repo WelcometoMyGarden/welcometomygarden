@@ -1,8 +1,12 @@
 # This image sets up the dependencies to run e2e tests with the emulator.
 # At the moment of writing, Playwright does not support Debian Trixie
-FROM node:20.11.0-bookworm
+FROM node:24-bookworm
 
-ARG PLAYWRIGHT_VERSION=1.52.0
+LABEL org.opencontainers.image.source=https://github.com/WelcometoMyGarden/welcometomygarden
+LABEL org.opencontainers.image.description="WTMG E2E Demo Tests Base"
+LABEL org.opencontainers.image.licenses=GPL-3.0-or-later
+
+ARG PLAYWRIGHT_VERSION=1.58.0
 
 # openjdk-21-jdk is only available in Debian Trixie, not in Bookworm.
 # but the latest firebase-tools requires it. So, we install adoptium builds

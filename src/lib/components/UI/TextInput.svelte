@@ -1,26 +1,51 @@
 <script lang="ts">
-  export let id: null | string = null;
-  export let name: null | string;
-  export let type = 'text';
-  export let placeholder = '';
-  export let required = false;
-  export let value = '';
-  export let error = '';
-  export let minLength: null | number = null;
-  export let maxLength: null | number = null;
-  export let testPattern: null | string = null;
-  export let isValid = true;
-  export let icon: string | null = null;
-  export let list: null | string = null;
-  export let autocomplete = 'on';
-  export let hideError = false;
-
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
   import Icon from './Icon.svelte';
   import { crossIcon } from '$lib/images/icons';
+  interface Props {
+    id?: null | string;
+    name: null | string;
+    type?: string;
+    placeholder?: string;
+    required?: boolean;
+    value?: string;
+    error?: string;
+    minLength?: null | number;
+    maxLength?: null | number;
+    testPattern?: null | string;
+    isValid?: boolean;
+    icon?: string | null;
+    list?: null | string;
+    autocomplete?: string;
+    hideError?: boolean;
+    onblur?: (e: FocusEvent) => void;
+    oninput?: (e: Event) => void;
+  }
 
-  let inputElement: HTMLInputElement;
+  let {
+    id = null,
+    name,
+    type = 'text',
+    placeholder = '',
+    required = false,
+    // Note: can not have a default value, since
+    // some component users will overwrite it with `undefined`,
+    // which is invalid in Svelte 5
+    value = $bindable(),
+    error = '',
+    minLength = null,
+    maxLength = null,
+    testPattern = null,
+    isValid = true,
+    icon = null,
+    list = null,
+    autocomplete = 'on',
+    hideError = false,
+    onblur
+  }: Props = $props();
+
+  let inputElement: HTMLInputElement = $state();
   onMount(() => {
     inputElement.type = type;
   });
@@ -39,8 +64,8 @@
     minlength={minLength}
     maxlength={maxLength}
     pattern={testPattern}
-    on:blur
-    on:input
+    {onblur}
+    {oninput}
     class:has-icon={!!icon}
     class:invalid={!!isValid}
     class="input"

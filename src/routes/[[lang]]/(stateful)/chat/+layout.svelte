@@ -28,36 +28,13 @@
   import createUrl from '$lib/util/create-url';
   import * as Sentry from '@sentry/sveltekit';
   import { lr } from '$lib/util/translation-helpers';
-
-  let localPage = $page;
-  // Subscribe to page is necessary to render the chat page of the selected chat (when the url changes) for mobile
-  const unsubscribeFromPage = page.subscribe((currentPage) => (localPage = currentPage));
-
-  $: selectedConversation = $chats[localPage.params.chatId];
-
-  $: conversations = Object.keys($chats)
-    .map((id) => $chats[id])
-    .sort(sortByLastActivity);
-
-  $: if (
-    $newConversation &&
-    selectedConversation &&
-    selectedConversation.users &&
-    selectedConversation.users.includes($newConversation.partnerId)
-  ) {
-    $newConversation = null;
+  import { isMobile } from '$lib/stores/ui.svelte';
+  import logger from '$lib/util/logger';
+  interface Props {
+    children?: import('svelte').Snippet;
   }
 
-  /**
-   * Whether we are on the overview page (/chat), but not on as specific chat URL
-   */
-  $: isOverview = visibleRoute($page.route.id ?? '') === routes.CHAT;
-
-  // TODO: do this with css grids, not with separate html templates switched by JS
-  // It is currently not responsive without reloading.
-  let outerWidth: number | undefined;
-  let isMobile = false;
-  $: typeof outerWidth === 'number' && outerWidth <= 700 ? (isMobile = true) : (isMobile = false);
+  let { children }: Props = $props();
 
   onMount(async () => {
     if (!$user) {
@@ -67,10 +44,12 @@
         `${$lr(routes.SIGN_IN)}?continueUrl=${document.location.pathname}${document.location.search}${document.location.hash}`
       );
     }
+
+    // Note: this takes unverified (new) users away to /account when they come from the map
     await checkAndHandleUnverified($_('chat.notify.unverified'));
 
-    let withQueryParam = localPage.url.searchParams.get('with');
-    let idQueryParam = localPage.url.searchParams.get('id');
+    let withQueryParam = $page.url.searchParams.get('with');
+    let idQueryParam = $page.url.searchParams.get('id');
 
     if (withQueryParam) {
       if (!$user.superfan) {
@@ -94,7 +73,6 @@
     // the <Progress> below has the side-effect on waiting for chat initialization
     // that will never happen.
     nProgress.done();
-    unsubscribeFromPage();
   });
 
   // Functions
@@ -142,7 +120,7 @@
         goto($lr(getConvoRoute($newConversation?.name || '', `new?id=${partnerId}`)), gotoOpts);
       } catch (ex) {
         // TODO: display error
-        console.error(ex);
+        logger.error(ex);
         Sentry.captureException(ex, {
           extra: { context: 'Initiating new chat' }
         });
@@ -179,26 +157,47 @@
       goto($lr(getConvoRoute(chatName, id)));
     } else {
       // TODO: show this error
-      console.error('Something went wrong when selecting a chat');
+      logger.error('Something went wrong when selecting a chat');
     }
   };
+  let selectedConversation = $derived($chats[$page.params.chatId ?? '']);
+  let conversations = $derived(
+    Object.keys($chats)
+      .map((id) => $chats[id])
+      .sort(sortByLastActivity)
+  );
+  /**
+   * Whether we are on the overview page (/chat), but not on as specific chat URL
+   */
+  let isOverview = $derived(visibleRoute($page.route.id ?? '') === routes.CHAT);
+
+  $effect(() => {
+    if (
+      $newConversation &&
+      selectedConversation &&
+      selectedConversation.users &&
+      selectedConversation.users.includes($newConversation.partnerId)
+    ) {
+      $newConversation = null;
+    }
+  });
 </script>
 
-<svelte:window bind:outerWidth />
 <Progress active={!$hasInitialized || $creatingNewChat} />
 
-{#if !localPage.url.searchParams.get('with') && $hasInitialized && $user && $user.emailVerified}
+{#if !$page.url.searchParams.get('with') && $hasInitialized && $user && $user.emailVerified}
   <div class="container">
-    {#if outerWidth != null && (!isMobile || (isMobile && isOverview))}
-      <section class="conversations" in:fly={{ x: -outerWidth, duration: 400 }}>
+    {#if !isMobile() || (isMobile() && isOverview)}
+      <!-- Chat listing -->
+      <section class="conversations" in:fly={{ x: '-100%', duration: 400 }}>
         <h2>{$_('chat.all-conversations')}</h2>
         {#if $newConversation}
           <article>
             <ConversationCard
-              on:click={() => selectConversation('new')}
+              onclick={() => selectConversation('new')}
               recipient={$newConversation.name}
               lastMessage={''}
-              selected={localPage.params.chatId === 'new'}
+              selected={$page.params.chatId === 'new'}
             />
           </article>
         {/if}
@@ -218,16 +217,17 @@
                 lastMessage={conversation.lastMessage}
                 selected={selectedConversation && selectedConversation.id === conversation.id}
                 seen={isConversationSeen(conversation)}
-                on:click={() => selectConversation(conversation.id)}
+                onclick={() => selectConversation(conversation.id)}
               />
             </article>
           {/each}
         {/if}
       </section>
     {/if}
-    {#if !isMobile || (isMobile && !isOverview)}
-      <div class="chat" in:fly={{ x: outerWidth, duration: 400 }}>
-        <slot />
+    {#if !isMobile() || (isMobile() && !isOverview)}
+      <!-- Specific opened chat -->
+      <div class="chat" in:fly={{ x: '100%', duration: 400 }}>
+        {@render children?.()}
       </div>
     {/if}
   </div>

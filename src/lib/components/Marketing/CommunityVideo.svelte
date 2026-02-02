@@ -18,7 +18,7 @@
     <Img class="bg-img" src={backgroundImg}></Img>
     <button
       class="overlay"
-      on:click={() => {
+      onclick={() => {
         $rootModal = CommunityVideoModal;
         trackEvent(PlausibleEvent.SHOW_COMMUNITY_VIDEO);
       }}

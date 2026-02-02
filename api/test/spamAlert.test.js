@@ -5,7 +5,6 @@ const { faker } = require('@faker-js/faker');
 const assert = require('node:assert');
 const { createNewUser, createGarden, createChat } = require('../seeders/util');
 const { clearAuth, clearFirestore } = require('./util/util');
-const { default: fetch } = require('node-fetch');
 const { wait } = require('../src/util/time');
 
 describe('spamAlert', () => {

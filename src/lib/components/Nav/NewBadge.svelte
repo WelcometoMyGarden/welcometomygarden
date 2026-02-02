@@ -1,12 +1,17 @@
 <script lang="ts">
-  export let gardenStyle: boolean = false;
+  interface Props {
+    gardenStyle?: boolean;
+    children?: import('svelte').Snippet;
+  }
+
+  let { gardenStyle = false, children }: Props = $props();
 </script>
 
 <!-- @component
 Badge (chip) to indicate in a menu item that it refers to a new feature.
  -->
 <div class="badge" class:gardenStyle>
-  <slot />
+  {@render children?.()}
 </div>
 
 <style>

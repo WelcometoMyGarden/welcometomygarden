@@ -2,29 +2,45 @@
   import { _ } from 'svelte-i18n';
   import { Modal } from '$lib/components/UI';
   import GardensTools from '$lib/components/LayersAndTools/GardensTools.svelte';
+  import { MOBILE_BREAKPOINT } from '$lib/constants';
 
-  export let show = false;
-  export let showGardens: boolean;
-  export let showSavedGardens: boolean;
+  interface Props {
+    show?: boolean;
+    showGardens: boolean;
+    showSavedGardens: boolean;
+  }
+
+  let {
+    show = $bindable(false),
+    showGardens = $bindable(),
+    showSavedGardens = $bindable()
+  }: Props = $props();
 
   // MODAL
   let ariaLabelledBy = 'tent-modal-title';
   let stickToBottom = true;
-  let maxWidth = 700;
 </script>
 
-<Modal bind:show maxWidth="{maxWidth}px" {stickToBottom} nopadding={stickToBottom} {ariaLabelledBy}>
-  <div slot="title" class="TitleSection" id={ariaLabelledBy}>
-    <h2 id="Title">{$_('map.gardens.title')}</h2>
-  </div>
-  <div slot="body" class="BodySection">
-    <hr />
-    <div class="modal-content">
-      <GardensTools bind:showGardens bind:showSavedGardens />
+<Modal
+  bind:show
+  maxWidth="{MOBILE_BREAKPOINT}px"
+  {stickToBottom}
+  nopadding={stickToBottom}
+  {ariaLabelledBy}
+>
+  {#snippet title()}
+    <div class="TitleSection" id={ariaLabelledBy}>
+      <h2 id="Title">{$_('map.gardens.title')}</h2>
     </div>
-
-    <!-- <hr /> -->
-  </div>
+  {/snippet}
+  {#snippet body()}
+    <div class="BodySection">
+      <hr />
+      <div class="modal-content">
+        <GardensTools bind:showGardens bind:showSavedGardens />
+      </div>
+    </div>
+  {/snippet}
 </Modal>
 
 <style>

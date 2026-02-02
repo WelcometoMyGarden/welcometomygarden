@@ -1,11 +1,11 @@
 {
   "root": true,
   "extends": [
+    // note: this depends on eslint-config-prettier
+    // see https://github.com/prettier/eslint-plugin-prettier/blob/main/recommended.js
     "plugin:prettier/recommended"
   ],
-  "plugins": [
-    "prettier"
-  ],
+  "plugins": ["prettier"],
   "parser": "@babel/eslint-parser",
   "parserOptions": {
     "requireConfigFile": false
@@ -15,13 +15,8 @@
     "node": true
   },
   "rules": {
-    "prettier/prettier": [
-      "error"
-    ],
-    "comma-dangle": [
-      "error",
-      "never"
-    ],
+    "prettier/prettier": ["error"],
+    "comma-dangle": ["error", "never"],
     "no-underscore-dangle": 0,
     "no-console": "warn",
     "no-unused-expressions": [
@@ -30,10 +25,7 @@
         "allowTernary": true
       }
     ],
-    "no-return-assign": [
-      2,
-      "except-parens"
-    ],
+    "no-return-assign": [2, "except-parens"],
     "no-param-reassign": [
       "error",
       {

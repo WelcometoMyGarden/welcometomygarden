@@ -1,34 +1,25 @@
 name: Prepare WTMG source
 description: Prepare the WTMG source code for building
-inputs:
-  credentials_json:
-    description: "GCP Service Account JSON Credentials"
-    required: true
 runs:
   using: composite
   steps:
     - name: Enable Corepack
       run: corepack enable
       shell: bash
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v6
       with:
-        node-version: 20
-        cache: "yarn"
+        node-version: 24
+        cache: 'yarn'
     - name: Install Dependencies
       # https://github.com/actions/setup-node/blob/main/docs/advanced-usage.md#caching-packages-data
       # https://yarnpkg.com/cli/install
-      # --frozen-lockfile is deprecated
       run: yarn install --immutable
       shell: bash
-    - id: auth
-      uses: google-github-actions/auth@v1
-      with:
-        credentials_json: "${{ inputs.credentials_json }}"
     - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@v1
+      uses: google-github-actions/setup-gcloud@v3
       with:
-        version: ">= 363.0.0"
-        project_id: "wtmg-production"
+        version: '>= 363.0.0'
+        project_id: 'wtmg-production'
     - name: Use gcloud CLI
       run: gsutil -m cp -r gs://wtmg-static/assets ${{ github.workspace }}/src/lib
       shell: bash

@@ -1128,7 +1128,10 @@
         "set": "Please enter a first name. This is how you're shown to other users",
         "max": "Your first name can only be 25 characters long so we can display it properly. Feel free to abbreviate or choose a nickname."
       },
-      "last-name": "Please enter your last name. This won't be shared with other users",
+      "last-name": {
+        "set": "Please enter your last name. This won't be shared with other users",
+        "max": "Your last name can be at most 50 characters."
+      },
       "country": {
         "from-list": "Please choose a country from the list. This helps us focus the map on where you're from"
       },

@@ -11,8 +11,8 @@
   import { signInLinkWithGarden } from '$lib/components/Map/Map.svelte';
   import { lr } from '$lib/util/translation-helpers';
 
-  let hamburger: HTMLButtonElement | null = null;
-  let drawerIsShown = false;
+  let hamburger: HTMLButtonElement | null = $state(null);
+  let drawerIsShown = $state(false);
   const toggleDrawer = () => (drawerIsShown = !drawerIsShown);
 </script>
 
@@ -54,10 +54,10 @@
       </li>
     {/if}
     <li class="hamburger">
-      <Hamburger bind:hamburger on:click={toggleDrawer} isOpen={drawerIsShown} />
+      <Hamburger bind:hamburger onclick={toggleDrawer} isOpen={drawerIsShown} />
     </li>
   </ul>
-  <SideDrawer isOpen={drawerIsShown} on:toggle={toggleDrawer} {hamburger} />
+  <SideDrawer isOpen={drawerIsShown} ontoggle={toggleDrawer} {hamburger} />
 </nav>
 
 <style>

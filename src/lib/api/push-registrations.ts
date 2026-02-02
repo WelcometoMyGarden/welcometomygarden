@@ -35,7 +35,7 @@ import notification from '$lib/stores/notification';
 import { t } from 'svelte-i18n';
 import { rootModal } from '$lib/stores/app';
 import NotificationSetupGuideModal from '$lib/components/Notifications/NotificationSetupGuideModal.svelte';
-import ErrorModal from '$lib/components/UI/ErrorModal.svelte';
+import ErrorModal, { type Props } from '$lib/components/UI/ErrorModal.svelte';
 import { bind } from 'svelte-simple-modal';
 import { timeout } from '$lib/util/timeout';
 import { UAParser } from 'ua-parser-js';
@@ -48,10 +48,11 @@ import {
   hasNotificationSupportNow
 } from '$lib/util/push-registrations';
 import * as Sentry from '@sentry/sveltekit';
+import logger from '$lib/util/logger';
 
 const pushRegistrationLoadCheck = () => {
   if (!get(loadedPushRegistrations)) {
-    console.warn(
+    logger.warn(
       "Trying to interact with push registrations that haven't loaded yet! This could lead to inconsistencies."
     );
   }
@@ -76,15 +77,15 @@ const unsubscribeNativePushRegistration = async () => {
       sW.pushManager.getSubscription()
     );
     if (!fullNativeSub) {
-      console.log("Couldn't get full native PushSubscription while trying to unsubscribe it.");
+      logger.log("Couldn't get full native PushSubscription while trying to unsubscribe it.");
     } else {
       const success = await fullNativeSub?.unsubscribe();
       if (success) {
-        console.log('Unregistered (in FB) local native PushSubscription sucessfully unsubscribed.');
+        logger.log('Unregistered (in FB) local native PushSubscription sucessfully unsubscribed.');
         currentNativeSubStore.set(null);
         return true;
       } else {
-        console.warn(
+        logger.warn(
           'Unregistered (in FB) local native PushSubscription was not sucessfully unsubscribed.'
         );
         // Then we just ignore this one...
@@ -92,7 +93,7 @@ const unsubscribeNativePushRegistration = async () => {
     }
     return false;
   } catch (e) {
-    console.warn(
+    logger.warn(
       'Error while trying to unsubscribe an unregistered (in FB) local native PushSubscription',
       e
     );
@@ -131,7 +132,7 @@ export const createPushRegistrationObserver = () => {
         cachedSub = JSON.parse(latestPushRegistration);
       }
     } catch (e) {
-      console.warn('Corrupted cached subscription JSON data');
+      logger.warn('Corrupted cached subscription JSON data');
       Sentry.captureException(e);
     }
 
@@ -144,7 +145,7 @@ export const createPushRegistrationObserver = () => {
       );
       if (!linkedFirebaseRegistration) {
         // This might mean a deletion has gone badly
-        console.warn('Current native subscription was not saved in the Firestore');
+        logger.warn('Current native subscription was not saved in the Firestore');
         // Since this native push registration is now useless, let's try to unregister it
         trackEvent(PlausibleEvent.DELETED_PUSH_REGISTRATION, { type: 'detached' });
         await unsubscribeNativePushRegistration();
@@ -185,7 +186,7 @@ export const createPushRegistrationObserver = () => {
         // If the cached sub can still be found in the remote registrations,
         // this means a local unsubscribe happened without us being notified about it.
         // The subscription is invalid/unusable regardless of its status, it should be deleted.
-        console.log('Deleted an invalidated cached pushRegistration');
+        logger.log('Deleted an invalidated cached pushRegistration');
         await deletePushRegistrationDoc(pushRegistrationDocToDelete);
         // Note: the above will invoke onSnapshot again, skip UI update.
         localStorage.removeItem(LATEST_PUSH_REGISTRATION_KEY);
@@ -296,7 +297,7 @@ export const handleNotificationEnableAttempt = async () => {
       return true;
     } else {
       // TODO: visible report error in modal?
-      console.warn('There was an error in enabling notifications');
+      logger.warn('There was an error in enabling notifications');
       return false;
     }
   } else if (canHaveNotificationSupport() || isAndroidFirefox()) {
@@ -306,7 +307,7 @@ export const handleNotificationEnableAttempt = async () => {
   } else {
     // TODO: show some instructions here (for an unsupported device)?
     // Probably not, because those can be delegated to the account page.
-    console.warn(
+    logger.warn(
       'Tried to enable notifications on a non-supported iDevice, this action should not have been shown.'
     );
     return false;
@@ -409,7 +410,7 @@ export const createPushRegistration = async () => {
       bind(ErrorModal, {
         error,
         specifier
-      })
+      } as Props)
     );
     isEnablingLocalPushRegistration.set(false);
   };
@@ -442,7 +443,7 @@ export const createPushRegistration = async () => {
       'Registering web push timed out'
     );
   } catch (e) {
-    console.error(e);
+    logger.error(e);
     if (isFirebaseError(e) && e.code === 'messaging/permission-blocked') {
       // The user has disabled/blocked permission before, and they tried to enable notifications again now
       // TODO: Inform the user that they should allow permissions via their browser, or "Reset permissions" (Chrome)
@@ -469,7 +470,7 @@ export const createPushRegistration = async () => {
 
   // If the resulting push registration was already stored, do not add it again.
   if (get(pushRegistrations).find((pR) => pR.fcmToken === fcmToken)) {
-    console.warn('Tried to add an already-known push registration; this should not happen.');
+    logger.warn('Tried to add an already-known push registration; this should not happen.');
     handleError(
       undefined,
       'It looks like you already had notifications activated on this browser.'
@@ -508,7 +509,7 @@ export const createPushRegistration = async () => {
     const msg =
       "Your push notifications were sucessfully enabled, but couldn't be added to the database.";
     handleError(e, msg);
-    console.error(msg);
+    logger.error(msg);
     Sentry.captureException(e);
     return;
   }
@@ -601,28 +602,28 @@ export const deletePushRegistration = async (pushRegistration: LocalPushRegistra
       .then(async (success) => {
         if (success) {
           try {
-            console.log('Successfully deleted/unsubscribed the current FCM registration.');
+            logger.log('Successfully deleted/unsubscribed the current FCM registration.');
             currentNativeSubStore.set(null);
             await deletePushRegistrationDoc(pushRegistration);
             return true;
           } catch (e) {
-            console.error(e);
+            logger.error(e);
             Sentry.captureException(e);
             return false;
           }
         } else {
-          console.warn('Failed to delete the FCM token that was marked to be deleted.');
+          logger.warn('Failed to delete the FCM token that was marked to be deleted.');
           return false;
         }
       })
       .catch((e) => {
-        console.error(e);
+        logger.error(e);
         return false;
       });
   } else {
     // We are currently NOT in a browser that can handle the deletion/unsubscription of the registration
     // We simply mark it for deletion (so that the backend won't use it anymore).
-    console.log(
+    logger.log(
       `Marking the subscription with ID ${id} on ${browser} ${vendor} ${model} for deletion.`
     );
 

@@ -1,8 +1,17 @@
 <script lang="ts">
-  export let name = '';
-  export let large = false;
-  export let border = false; // Adds a multi-color border around the avatar.
-  export let animate = true; // Enable the avatar to animate on hover.
+  interface Props {
+    name?: string;
+    large?: boolean;
+    border?: boolean; // Adds a multi-color border around the avatar.
+    animate?: boolean; // Enable the avatar to animate on hover.
+  }
+
+  let {
+    name = '',
+    large = false,
+    border = false,
+    animate = true
+  }: Props = $props();
   let animating = false; // Whether the avatar is currently animating.
 
   const colors = ['#EC9570', '#F6C4B7', '#F4E27E', '#59C29D', '#A2D0D3', '#2E5F63'];
@@ -28,7 +37,7 @@
   style="--chat-color: {colorOf(name)}"
 >
   <div class="avatar-border-multi">
-    <div class="avatar-border-white" />
+    <div class="avatar-border-white"></div>
   </div>
   <span class="avatar-text notranslate">
     {name ? name.charAt(0).toUpperCase() : '...'}

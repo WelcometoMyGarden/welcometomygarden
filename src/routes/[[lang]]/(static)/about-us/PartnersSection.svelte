@@ -5,7 +5,7 @@
   import PaddedSection from '$lib/components/Marketing/PaddedSection.svelte';
 </script>
 
-<PaddedSection>
+<PaddedSection className="reset-last-section-margin">
   <div class="wrapper">
     <h2>{$_('about-us.partners-section.title')}</h2>
     <p>{@html $_('about-us.partners-section.description')}</p>

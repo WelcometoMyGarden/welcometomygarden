@@ -1,13 +1,18 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import User from './User.svelte';
-  export let selected = false;
-  export let recipient: string;
-  export let seen = true;
-  export let lastMessage: string | undefined;
+  interface Props {
+    selected?: boolean;
+    recipient: string;
+    seen?: boolean;
+    lastMessage: string | undefined;
+    onclick: () => void;
+  }
+
+  let { selected = false, recipient, seen = true, lastMessage, onclick }: Props = $props();
 </script>
 
-<button class="button-container conversation" class:selected on:click>
+<button class="button-container conversation" class:selected {onclick}>
   <User name={recipient} {seen}>
     <p class="last-message" class:notranslate={true} class:seen>
       {#if lastMessage}

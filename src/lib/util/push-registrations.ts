@@ -1,4 +1,5 @@
 import { browser } from '$app/environment';
+import logger from './logger';
 import { iDeviceInfo } from './uaInfo';
 
 /**
@@ -6,10 +7,10 @@ import { iDeviceInfo } from './uaInfo';
  */
 export const hasNotificationSupportNow = () => {
   if (!('Notification' in window)) {
-    console.warn('This browser does not support the Notification API.');
+    logger.warn('This browser does not support the Notification API.');
     return false;
   } else if (typeof navigator === 'undefined' || !('serviceWorker' in navigator)) {
-    console.warn('This browser does not support service workers.');
+    logger.warn('This browser does not support service workers.');
     return false;
   }
   return true;

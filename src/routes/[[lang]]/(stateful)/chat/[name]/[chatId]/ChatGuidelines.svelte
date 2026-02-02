@@ -9,14 +9,18 @@
   import Img from '@zerodevx/svelte-img';
   import { zip } from 'lodash-es';
 
-  export let hostName: string;
+  interface Props {
+    hostName: string;
+  }
+
+  let { hostName }: Props = $props();
 
   // Combine the 3 points with 3 images
-  $: guidelineData = zip(Object.values($json('chat.guidelines.points')), [
+  let guidelineData = $derived(zip(Object.values($json('chat.guidelines.points')), [
     handIcon,
     chatIcon,
     plantIcon
-  ]).map(([a, b]) => ({ ...a, img: b }));
+  ]).map(([a, b]) => ({ ...a, img: b })));
 </script>
 
 <div class="chat-guidelines">

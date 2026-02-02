@@ -1,19 +1,25 @@
 <script lang="ts">
-  /**
-   * Expected to be a direct HTML string of an svg
-   */
-  export let logo: string | undefined;
-  /**
-   * The link to an <img> src (alternative to the "logo" prop)
-   */
-  export let src: string | undefined;
-  export let link: string;
-  export let name: string;
+  import ViteSVG from './ViteSVG.svelte';
+
+  interface Props {
+    /**
+     * Expected to be a direct HTML string of an svg
+     */
+    logo: string | undefined;
+    /**
+     * The link to an <img> src (alternative to the "logo" prop)
+     */
+    src: string | undefined;
+    link: string;
+    name: string;
+  }
+
+  let { logo, src, link, name }: Props = $props();
 </script>
 
 <a href={link} class="partner-link" target="_blank" aria-label={name}>
   {#if logo}
-    {@html logo}
+    <ViteSVG icon={logo}></ViteSVG>
   {:else if src}
     <img {src} alt={name} />
   {/if}

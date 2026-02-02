@@ -21,9 +21,9 @@ const sinon = require('sinon');
 
 // load process.env vars
 const dotenv = require('dotenv');
-dotenv.config({ path: './.env.local' });
+dotenv.config({ path: './.env.local', quiet: true });
 
-const { auth, db } = require('../seeders/app');
+const { auth } = require('../seeders/app');
 const { createNewUser } = require('../seeders/util');
 const mail = require('../src/mail');
 const { loggerStub, clearAuth, clearFirestore } = require('./util/util');

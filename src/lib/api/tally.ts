@@ -1,6 +1,7 @@
 import { browser } from '$app/environment';
 import type { MainLanguage } from '$lib/types/general';
 import { coerceToMainLanguage } from '$lib/util/get-browser-lang';
+import logger from '$lib/util/logger';
 import { locale } from 'svelte-i18n';
 import { get } from 'svelte/store';
 
@@ -39,7 +40,7 @@ export const openTally = (forms: MainLanguageFormIds, config: Partial<TallyPopup
   if (window.Tally) {
     boundOpener();
   } else {
-    console.warn('Tally not loaded yet, adding a load listener');
+    logger.warn('Tally not loaded yet, adding a load listener');
     document.addEventListener('tally-loaded', boundOpener, { once: true });
   }
 };

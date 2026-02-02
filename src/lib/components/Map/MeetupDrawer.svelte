@@ -1,10 +1,10 @@
 <script lang="ts">
   // Stripped-down version of GardenDrawer
-  import { createEventDispatcher, tick } from 'svelte';
+  import { tick } from 'svelte';
   import { scale } from 'svelte/transition';
   import { _, locale } from 'svelte-i18n';
   import { user } from '$lib/stores/auth';
-  import { clickOutside } from '$lib/directives';
+  import { clickOutside } from '$lib/attachments';
   import { Text, Button, Progress, Icon } from '../UI';
   import routes from '$lib/routes';
   import type { Meetup } from './MeetupLayer.svelte';
@@ -15,16 +15,21 @@
   import { crossIcon } from '$lib/images/icons';
   import { coercedLocale } from '$lib/stores/app';
   import { lr } from '$lib/util/translation-helpers';
+  import type { ClickOutsideEvent } from '$lib/attachments/click-outside';
 
-  export let meetup: Meetup | null = null;
+  interface Props {
+    meetup?: Meetup | null;
+    onclose: () => void;
+  }
 
-  let drawerElement;
+  let { meetup = null, onclose }: Props = $props();
 
-  const dispatch = createEventDispatcher();
-  $: isSelected = !!meetup;
-  let photoWrapper: HTMLElement | undefined;
-  let isShowingMagnifiedPhoto = false;
-  let isGettingMagnifiedPhoto = false;
+  let drawerElement = $state();
+
+  let isSelected = $derived(!!meetup);
+  let photoWrapper: HTMLElement | undefined = $state();
+  let isShowingMagnifiedPhoto = $state(false);
+  let isGettingMagnifiedPhoto = $state(false);
   const magnifyPhoto = async () => {
     isGettingMagnifiedPhoto = true;
     isShowingMagnifiedPhoto = true;
@@ -35,13 +40,15 @@
   };
 
   // TODO: should we force the UK date format here for English
-  $: meetupDateStr = Intl.DateTimeFormat($coercedLocale, {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long'
-  }).format(meetup?.date);
+  let meetupDateStr = $derived(
+    Intl.DateTimeFormat($coercedLocale, {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long'
+    }).format(meetup?.date)
+  );
 
-  const handleClickOutsideDrawer = (event) => {
+  const handleClickOutsideDrawer = (event: ClickOutsideEvent) => {
     const { clickEvent } = event.detail;
     // If the drawer is not open, don't try to close it
     // (this might mess with focus elsewhere on the page)
@@ -59,7 +66,7 @@
     ) {
       return;
     } else if (!drawerElement.contains(clickEvent.target)) {
-      dispatch('close');
+      onclose();
     }
   };
 </script>
@@ -70,14 +77,14 @@
     class="magnified-photo-wrapper"
     transition:scale
     bind:this={photoWrapper}
-    on:click={() => {
+    onclick={() => {
       isShowingMagnifiedPhoto = false;
     }}
-    on:keypress={(e) => {
+    onkeypress={(e) => {
       // keypress handler to satisfy svelte linter for a11y
       switch (e.key) {
         case 'Enter':
-        // Don't do anything: the on:click will also be called when Enter is pressed
+        // Don't do anything: the onclick will also be called when Enter is pressed
       }
     }}
   >
@@ -91,23 +98,22 @@
   class="drawer"
   class:hidden={!isSelected}
   bind:this={drawerElement}
-  use:clickOutside
-  on:click-outside={handleClickOutsideDrawer}
+  {@attach clickOutside}
+  onclickoutside={handleClickOutsideDrawer}
 >
   {#if isSelected}
     <section class="main">
       <header>
         <div class="mb-l garden-title">
-          <Text weight="w600" size="l" className="garden-title-text"
-            >WTMG meetup - {meetupDateStr}</Text
+          <Text weight="w600" size="l" class="garden-title-text">WTMG meetup - {meetupDateStr}</Text
           >
           <div class="top-buttons">
-            <button class="close-button" on:click={() => dispatch('close')}>
+            <button class="close-button" onclick={onclose}>
               <Icon icon={crossIcon} />
             </button>
           </div>
         </div>
-        <button on:click={magnifyPhoto} class="mb-l button-container image-wrapper">
+        <button onclick={magnifyPhoto} class="mb-l button-container image-wrapper">
           <Img class="meetup-img" src={meetupImg} alt="Invitational poster for a WTMG meetup" />
         </button>
       </header>

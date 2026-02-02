@@ -19,11 +19,15 @@
   import { isEnablingLocalPushRegistration } from '$lib/stores/pushRegistrations';
   import { PlausibleEvent } from '$lib/types/Plausible';
 
-  /**
-   * Keep showing this notice, regardless of cookie state. Never close it.
-   */
-  export let permanent: boolean = false;
-  export let show: boolean = permanent ? true : false;
+  interface Props {
+    /**
+     * Keep showing this notice, regardless of cookie state. Never close it.
+     */
+    permanent?: boolean;
+    show?: boolean;
+  }
+
+  let { permanent = false, show = $bindable(permanent ? true : false) }: Props = $props();
   const close = () => {
     show = false;
 
@@ -78,15 +82,15 @@
         <NewBadge>{$_('generics.new')}</NewBadge>
       {/if}
     </div>
-    <Text className="description" is="span" size="l">{$_('push-notifications.prompt.title')}</Text>
+    <Text class="description" is="span" size="l">{$_('push-notifications.prompt.title')}</Text>
     {#if !permanent}
-      <button class="close" type="button" on:click={close} aria-label="Close">
+      <button class="close" type="button" onclick={close} aria-label="Close">
         <Icon icon={crossIcon} />
       </button>
     {/if}
     <Button
       xsmall
-      on:click={affirmativeAction}
+      onclick={affirmativeAction}
       fullWidth
       centered
       loading={$isEnablingLocalPushRegistration}

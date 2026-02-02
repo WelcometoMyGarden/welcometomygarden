@@ -1105,7 +1105,10 @@
         "set": "Bitte geben Sie einen Vornamen ein. So werden Sie anderen Benutzern angezeigt",
         "max": "Ihr Vorname darf nur 25 Zeichen lang sein, damit wir ihn richtig darstellen können. Sie können ihn gerne abkürzen oder einen Spitznamen wählen"
       },
-      "last-name": "Bitte geben Sie Ihren Nachnamen ein. Dieser wird nicht an andere Benutzer weitergegeben",
+      "last-name": {
+        "set": "Bitte geben Sie Ihren Nachnamen ein. Dieser wird nicht an andere Benutzer weitergegeben",
+        "max": "Ihr Nachname darf maximal 50 Zeichen lang sein."
+      },
       "country": {
         "from-list": "Bitte wählen Sie ein Land aus der Liste. Dies hilft uns, die Karte darauf zu fokussieren, woher Sie kommen"
       },

@@ -1,21 +1,27 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { beforeUpdate } from 'svelte';
   import { LabeledCheckbox, Button, Modal } from '$lib/components/UI';
-  import { allListedGardens } from '$lib/stores/garden';
+  import { allListedGardens, filteredGardens } from '$lib/stores/garden';
   import type { Garden } from '$lib/types/Garden';
   import { type CapacityFilterType, type FacilitiesFilterType } from './Filter.svelte';
   import { facilities } from '$lib/stores/facilities';
-  import { MAX_GARDEN_CAPACITY } from '$lib/constants';
+  import { MAX_GARDEN_CAPACITY, MOBILE_BREAKPOINT } from '$lib/constants';
+  import { innerWidth } from 'svelte/reactivity/window';
 
-  // Will practically never be `undefined`, because it is initialized in beforeUpdate
-  export let filteredGardens: Garden[] | undefined;
-  export let filter;
-  export let show: boolean;
+  let {
+    filter = $bindable(),
+    show = $bindable()
+  }: {
+    filter: any;
+    show: boolean;
+  } = $props();
 
-  // because filter has a 2 way binding, if filter is modified somewhere the fx is called
-  beforeUpdate(() => {
-    filteredGardens = returnFilteredGardens();
+  let stickToBottom = $state(false);
+
+  $effect(() => {
+    $filteredGardens = $allListedGardens
+      .filter(gardenFilterFacilities, filter.facilities)
+      .filter(gardenFilterCapacity, filter.capacity);
   });
 
   const capacityMinReduce = () => {
@@ -37,98 +43,93 @@
     return value >= this.min && value <= this.max;
   }
 
-  const returnFilteredGardens = () => {
-    return $allListedGardens
-      .filter(gardenFilterFacilities, filter.facilities)
-      .filter(gardenFilterCapacity, filter.capacity);
-  };
-
-  let stickToBottom = false;
-  let maxWidth = 700;
-
-  let vw: number;
-
   // Stick the modal to the bottom on mobile
-  $: {
-    if (vw < maxWidth) {
+  $effect(() => {
+    if (!innerWidth.current) {
+      return;
+    } else if (innerWidth.current < MOBILE_BREAKPOINT) {
       stickToBottom = true;
     } else {
       stickToBottom = false;
     }
-  }
+  });
 </script>
-
-<svelte:window bind:innerWidth={vw} />
 
 <Modal
   bind:show
-  maxWidth="{maxWidth}px"
+  maxWidth="{MOBILE_BREAKPOINT}px"
   center={!stickToBottom}
   {stickToBottom}
   nopadding={stickToBottom}
   ariaLabelledBy="title"
 >
-  <div slot="title" class="gardenFilterTitleSection" let:ariaLabelledBy id={ariaLabelledBy}>
-    <h2 id="gardenFilterTitle">{$_('garden.filter.title')}</h2>
-  </div>
-  <div slot="body" class="gardenFilterBodySection">
-    <hr />
-    <div id="gardenFacilities" class="gardenFilterSection">
-      <h3 class="gardenFilterSubtitle">{$_('garden.filter.garden-facilities')}</h3>
-      <div class="gardenFilterCheckboxes">
-        {#each $facilities as facility (facility.name)}
-          <div class="gardenFilterCheckbox">
-            <LabeledCheckbox
-              name={facility.name}
-              icon={facility.icon}
-              label={facility.label}
-              bind:checked={filter.facilities[facility.name]}
-              compact
-            />
+  {#snippet title(ariaLabelledBy)}
+    <div class="gardenFilterTitleSection" id={ariaLabelledBy}>
+      <h2 id="gardenFilterTitle">{$_('garden.filter.title')}</h2>
+    </div>
+  {/snippet}
+  {#snippet body()}
+    <div class="gardenFilterBodySection">
+      <hr />
+      <div id="gardenFacilities" class="gardenFilterSection">
+        <h3 class="gardenFilterSubtitle">{$_('garden.filter.garden-facilities')}</h3>
+        <div class="gardenFilterCheckboxes">
+          {#each $facilities as facility (facility.name)}
+            <div class="gardenFilterCheckbox">
+              <LabeledCheckbox
+                name={facility.name}
+                icon={facility.icon}
+                label={facility.label}
+                bind:checked={filter.facilities[facility.name]}
+                compact
+              />
+            </div>
+          {/each}
+        </div>
+      </div>
+      <hr />
+      <div id="gardenCapacity" class="gardenFilterSection">
+        <h3 class="gardenFilterSubtitle">{$_('garden.filter.garden-capacity')}</h3>
+        <div class="gardenFilterCapacitySection">
+          <div class="gardenFilterCapacityText">
+            <p>{$_('garden.filter.spots-available')}</p>
           </div>
-        {/each}
-      </div>
-    </div>
-    <hr />
-    <div id="gardenCapacity" class="gardenFilterSection">
-      <h3 class="gardenFilterSubtitle">{$_('garden.filter.garden-capacity')}</h3>
-      <div class="gardenFilterCapacitySection">
-        <div class="gardenFilterCapacityText">
-          <p>{$_('garden.filter.spots-available')}</p>
-        </div>
-        <div class="gardenFilterCapacityModifier">
-          <p>{$_('garden.filter.min')}</p>
-          <button on:click={capacityMinReduce}><span>&minus;</span></button>
-          <input
-            type="number"
-            class="capacity-input"
-            name="capacity"
-            min="1"
-            max={MAX_GARDEN_CAPACITY}
-            bind:value={filter.capacity.min}
-          />
-          <button on:click={capacityMinIncrease}><span>&plus;</span></button>
+          <div class="gardenFilterCapacityModifier">
+            <p>{$_('garden.filter.min')}</p>
+            <button onclick={capacityMinReduce}><span>&minus;</span></button>
+            <input
+              type="number"
+              class="capacity-input"
+              name="capacity"
+              min="1"
+              max={MAX_GARDEN_CAPACITY}
+              bind:value={filter.capacity.min}
+            />
+            <button onclick={capacityMinIncrease}><span>&plus;</span></button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div slot="controls" class="applyGardenFilter">
-    <p class="controls-gardens-available">
-      {@html $_('garden.filter.available', {
-        values: {
-          amount: filteredGardens?.length,
-          styledAmount: `<strong>${filteredGardens?.length}</strong>`
-        }
-      })}
-    </p>
-    <Button
-      uppercase
-      small
-      on:click={() => {
-        show = false;
-      }}>{$_('garden.filter.apply-filter')}</Button
-    >
-  </div>
+  {/snippet}
+  {#snippet controls()}
+    <div class="applyGardenFilter">
+      <p class="controls-gardens-available">
+        {@html $_('garden.filter.available', {
+          values: {
+            amount: $filteredGardens?.length,
+            styledAmount: `<strong>${$filteredGardens?.length}</strong>`
+          }
+        })}
+      </p>
+      <Button
+        uppercase
+        small
+        onclick={() => {
+          show = false;
+        }}>{$_('garden.filter.apply-filter')}</Button
+      >
+    </div>
+  {/snippet}
 </Modal>
 
 <style>

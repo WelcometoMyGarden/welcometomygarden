@@ -4,8 +4,9 @@
  */
 import { Icon } from '$lib/components/UI';
 import { camelCase, kebabCase } from 'lodash-es';
-import type { ComponentType, SvelteComponent } from 'svelte';
+import { mount, unmount } from 'svelte';
 import * as Sentry from '@sentry/sveltekit';
+import logger from './logger';
 
 const catalog = {
   Icon: Icon
@@ -44,6 +45,7 @@ function coerceValue(value: string) {
     return value === 'true';
   }
   // use coercion for numbers
+  // @ts-ignore
   if (!isNaN(value)) {
     return parseFloat(value);
   }
@@ -54,7 +56,7 @@ function instantiateComponent(element: HTMLElement) {
   // let attrs = element.getAttributeNames();
   // let a = element.dataset
 
-  let component: ComponentType | null = null;
+  let component: (typeof catalog)[keyof typeof catalog] | null = null;
   let props: { [key: string]: string } = {};
   for (let [key, value] of Object.entries(element.dataset)) {
     if (key === 'component') {
@@ -63,6 +65,7 @@ function instantiateComponent(element: HTMLElement) {
       // Note: the prop will be in camel case already
       // but it starts with a capital
       let propName = camelCase(key.slice('prop'.length));
+      // @ts-ignore
       props[propName] = coerceValue(value!);
     }
   }
@@ -71,8 +74,9 @@ function instantiateComponent(element: HTMLElement) {
     return;
   }
 
-  return new component({
+  return mount(component, {
     target: element,
+    // @ts-ignore
     props
   });
 }
@@ -80,22 +84,22 @@ function instantiateComponent(element: HTMLElement) {
 // From: https://github.com/dimfeld/website/blob/master/src/dynamicComponents.ts
 export function instantiateComponents() {
   let elements = Array.from(document.querySelectorAll('[data-component]'));
-  console.log(elements);
-  let components: SvelteComponent[] = [];
+  logger.debug(elements);
+  let mountedComponents: {}[] = [];
 
   for (let div of elements) {
-    let component = instantiateComponent(div as HTMLElement);
-    if (component) {
-      components.push(component);
+    let mountedComponent = instantiateComponent(div as HTMLElement);
+    if (mountedComponent) {
+      mountedComponents.push(mountedComponent);
     }
   }
 
   return () => {
-    for (let component of components) {
+    for (let component of mountedComponents) {
       try {
-        component.$destroy();
+        unmount(component);
       } catch (e) {
-        console.error(e);
+        logger.error(e);
         Sentry.captureException(e, { extra: { context: 'Destroying dynamic components' } });
       }
     }

@@ -1,35 +1,44 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
   import { crossIcon } from '$lib/images/icons';
   import { Icon } from '../UI';
-  export let name;
-  export let icon: string | null = null;
-  export let closeButton = true;
-  export let pointer = false;
-  export let invert = false;
+  interface Props {
+    name: any;
+    icon?: string | null;
+    closeButton?: boolean;
+    pointer?: boolean;
+    invert?: boolean;
+    onclose: () => void;
+    onkeypress?: (e: KeyboardEvent) => void;
+    onclick?: (e: MouseEvent) => void;
+    children?: import('svelte').Snippet;
+  }
 
-  const dispatch = createEventDispatcher();
-
-  const close = () => {
-    dispatch('close');
-  };
+  let {
+    name,
+    icon = null,
+    closeButton = true,
+    pointer = false,
+    invert = false,
+    onclose,
+    children
+  }: Props = $props();
 </script>
 
 <div class="tag" class:invert>
-  <label for={name} on:click on:keypress class:pointer>
+  <label for={name} {onclick} {onkeypress} class:pointer>
     {#if icon}
       <div class="icon">
         <Icon {icon} />
       </div>
     {/if}
-    <slot />
+    {@render children?.()}
   </label>
   {#if closeButton}
     <button
       class="icon close"
-      on:click={close}
-      on:keypress={(e) => {
-        if (e.key === 'Escape') close();
+      onclick={onclose}
+      onkeypress={(e) => {
+        if (e.key === 'Escape') onclose();
       }}
     >
       <Icon icon={crossIcon} />

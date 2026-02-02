@@ -4,7 +4,7 @@
   import * as Sentry from '@sentry/sveltekit';
 
   import { onMount } from 'svelte';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import Modal from 'svelte-simple-modal';
   import { onNavigate } from '$app/navigation';
   import trackEvent, { registerCustomPropertyTracker } from '$lib/util/track-plausible';
@@ -22,11 +22,17 @@
   import { staticAppHasLoaded, appHasLoaded, coercedLocale, rootModal } from '$lib/stores/app';
   import { keyboardEvent } from '$lib/stores/keyboardEvent';
   import { isFullscreen } from '$lib/stores/fullscreen';
+  import logger from '$lib/util/logger.js';
+  interface Props {
+    children?: import('svelte').Snippet;
+  }
+
+  let { children }: Props = $props();
 
   if (browser) {
     initializeFirebase()
       .then(initializeUser)
-      .catch((e) => console.error('Error during init', e));
+      .catch((e) => logger.error('Error during init', e));
   }
 
   /**
@@ -36,13 +42,25 @@
    * It's main purspose today is compatibility, because dvh is badly supported on 1y+ old browsers.
    * https://caniuse.com/viewport-unit-variants
    *
+   * It does rely on calc() and viewport units (vh) etc (Chrome 26+, Safari 6+)
+   *
+   * Note: if the JS here fails in unsupported browsers (e.g. Chrome <84),
+   * this will make the page look weirdly narrow in height, because of the
+   * default 0px value of vh below. src/browser-support.js implements
+   * a workaround for this.
+   *
    * See also: https://codepen.io/th0rgall/pen/gOqrMdj
    */
-  let vh = `0px`;
+  let vh = $state(`0px`);
+
+  /**
+   * Helps us know which Firebase environment we're targetting
+   */
+  let localEnvString: string | null = $state(null);
 
   onMount(() => {
     return Sentry.startSpan({ name: 'Root Layout Load', op: 'app.load' }, async () => {
-      console.log('Mounting root layout');
+      logger.log('Mounting root layout');
 
       vh = `${window.innerHeight * 0.01}px`;
 
@@ -68,6 +86,12 @@
         }
       });
 
+      // Display an indicator on test hosts to see which project is active
+      // for example on localhost, a local network IP, bs-local.com (Browserstack), ...
+      localEnvString = !page.url.hostname.endsWith('welcometomygarden.org')
+        ? `local project: ${import.meta.env.VITE_FIREBASE_PROJECT_ID}`
+        : null;
+
       // No unsubscribers are used due to this being an async initializer
     });
   });
@@ -84,7 +108,7 @@
     }
   };
 
-  let appContainer: HTMLDivElement;
+  let appContainer: HTMLDivElement = $state();
 
   // Scroll to 0,0 on every navigation
   onNavigate(() => {
@@ -107,7 +131,7 @@
   };
 </script>
 
-<svelte:window on:resize={updateViewportHeight} on:keyup={onCustomPress} />
+<svelte:window onresize={updateViewportHeight} onkeyup={onCustomPress} />
 
 <svelte:head>
   {#if $staticAppHasLoaded}
@@ -186,7 +210,8 @@
   </div>
 {/if} -->
 <div
-  class="app active-{$activeRootPath} active-route-{$page?.route?.id} locale-{$coercedLocale}"
+  id="wtmg-app"
+  class="app active-{$activeRootPath} active-route-{page?.route?.id} locale-{$coercedLocale}"
   class:fullscreen={$isFullscreen}
   class:error-banner={false}
   style="--vh:{vh}"
@@ -197,8 +222,11 @@
     {#if browser}
       <Notifications />
     {/if}
-    <slot />
+    {@render children?.()}
   </Modal>
+  {#if localEnvString}
+    <div class="local-env-string">{localEnvString}</div>
+  {/if}
 </div>
 
 <style>
@@ -303,6 +331,16 @@
   }
   .permanent-error :global(.error-link) {
     text-decoration: underline;
+  }
+
+  .local-env-string {
+    z-index: 9999;
+    display: block;
+    position: fixed;
+    bottom: 3px;
+    right: 3px;
+    background-color: yellow;
+    color: black;
   }
 
   @media screen and (max-width: 700px) {

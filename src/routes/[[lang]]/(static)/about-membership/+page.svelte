@@ -21,7 +21,7 @@
   import ValuePoints from './ValuePoints.svelte';
   import { lr, membershipBlogLink } from '$lib/util/translation-helpers';
   import capitalize from '$lib/util/capitalize';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { user } from '$lib/stores/auth';
   import MarketingStyleWrapper from '$lib/components/Marketing/MarketingStyleWrapper.svelte';
   import { coreTeamProfiles } from '$lib/components/Marketing/static/profiles';
@@ -34,13 +34,13 @@
   }
 
   onMount(() => {
-    if ($page?.url.hash.includes('pricing')) {
+    if (page?.url.hash.includes('pricing')) {
       const pricingElem = document.getElementById('pricing');
       if (pricingElem) {
         const topOfPricingElem = pricingElem.offsetTop;
         window.scroll({ top: topOfPricingElem, behavior: 'smooth' });
       }
-    } else if ($page?.url.hash.includes('faq')) {
+    } else if (page?.url.hash.includes('faq')) {
       const faqElem = document.getElementById('faq');
       if (faqElem) {
         const topOfFaqElem = faqElem.offsetTop;
@@ -49,7 +49,7 @@
     }
   });
 
-  let testimonials: Slide[];
+  let testimonials: Slide[] = $state();
 
   const contentOfQuote = (quoteNumber: string) => {
     const prefix = `about-superfan.superfan-quotes-section.quotes.${quoteNumber}`;
@@ -93,35 +93,39 @@
 <MarketingStyleWrapper>
   <PaddedSection backgroundColor="var(--color-beige-light)" vertical topMargin={false}>
     <InnerVideoSection decoration={true}>
-      <h1 slot="heading">{$_('about-superfan.video-section.title')}</h1>
-      <div slot="text" class="video-text">
-        {@html $_('about-superfan.video-section.description')}
-        <div class="become-superfan-buttons">
-          {#if !$user?.superfan}
-            <div>
-              <Button
-                href="{$lr(routes.ABOUT_MEMBERSHIP)}#pricing"
-                uppercase
-                orange
-                arrow
-                minWidth="20rem">{$_('generics.become-member')}</Button
-              >
-              <SocialProof centerRelative />
-            </div>
-          {/if}
-          <Button
-            href={membershipBlogLink($_, {
-              utm_content: 'about_membership_header'
-            })}
-            target="_blank"
-            uppercase
-            inverse
-            link
-            orange
-            xsmall>{$_('about-superfan.video-section.blog-link-text')}</Button
-          >
+      {#snippet heading()}
+        <h1>{$_('about-superfan.video-section.title')}</h1>
+      {/snippet}
+      {#snippet text()}
+        <div class="video-text">
+          {@html $_('about-superfan.video-section.description')}
+          <div class="become-superfan-buttons">
+            {#if !$user?.superfan}
+              <div>
+                <Button
+                  href="{$lr(routes.ABOUT_MEMBERSHIP)}#pricing"
+                  uppercase
+                  orange
+                  arrow
+                  minWidth="20rem">{$_('generics.become-member')}</Button
+                >
+                <SocialProof centerRelative />
+              </div>
+            {/if}
+            <Button
+              href={membershipBlogLink($_, {
+                utm_content: 'about_membership_header'
+              })}
+              target="_blank"
+              uppercase
+              inverse
+              link
+              orange
+              xsmall>{$_('about-superfan.video-section.blog-link-text')}</Button
+            >
+          </div>
         </div>
-      </div>
+      {/snippet}
     </InnerVideoSection>
   </PaddedSection>
   <PaddedSection>
@@ -129,7 +133,7 @@
       >{$_('about-superfan.for-superfans-section.title')}</Heading
     >
     <ValuePoints />
-    <div style="margin-bottom: var(--spacing-medium)" />
+    <div style="margin-bottom: var(--spacing-medium)"></div>
   </PaddedSection>
   <PaddedSection backgroundColor="var(--color-beige-light" vertical id="pricing">
     <MembershipPricing full analyticsSource="about_membership" />
@@ -166,7 +170,7 @@
       </div>
     {/each}
   </PaddedSection>
-  <PaddedSection>
+  <PaddedSection className="reset-last-section-margin">
     <div class="more-questions">
       <h2>{capitalize($_('become-superfan.pricing-section.blog-post-link-text'))}</h2>
       <Button

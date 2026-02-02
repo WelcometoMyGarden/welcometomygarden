@@ -1,4 +1,3 @@
-const { default: fetch } = require('node-fetch');
 const addrparser = require('address-rfc2822');
 const { defineString } = require('firebase-functions/params');
 

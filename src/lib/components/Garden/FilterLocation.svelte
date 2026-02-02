@@ -1,51 +1,63 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { createEventDispatcher } from 'svelte';
   import { geocodeExtensive } from '$lib/api/mapbox';
-  import { clickOutside } from '$lib/directives';
+  import { clickOutside } from '$lib/attachments';
   import { TextInput } from '$lib/components/UI';
   import { markerIcon } from '$lib/images/icons';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { coercedLocale } from '$lib/stores/app';
   import * as Sentry from '@sentry/sveltekit';
+  import type { LongLat } from '$lib/types/Garden';
+  import { debounce } from 'lodash-es';
+  import logger from '$lib/util/logger';
 
-  export let isSearching;
-  export let closeToLocation;
+  let {
+    isSearching = $bindable(),
+    closeToLocation,
+    onGoToPlace
+  }: {
+    /**
+     * Whether the user is using this feature (not whether the search request is ongoing)
+     */
+    isSearching: boolean;
+    closeToLocation: LongLat;
+    onGoToPlace: (ll: LongLat) => void;
+  } = $props();
 
-  const dispatch = createEventDispatcher();
+  let locationInput = $state('');
 
-  let locationInput = '';
-  //a place format: {latitude: 51.221109, longitude: 4.3997081, place_name: "Antwerpen, Antwerpen, België"}, max 5
-  let places = [];
+  /**
+   * Max length: 5
+   */
+  let places = $state<(LongLat & { place_name: string })[]>([]);
 
-  //if there is no text in the inputfield the places array should also be empty
-  $: if (locationInput == '') emptyPlacesAndInput();
-
-  const emptyPlacesAndInput = () => {
+  const clearPlacesAndInput = () => {
     places = [];
     locationInput = '';
   };
 
-  //if locationInput changes then query
-  $: getLocationWithTimeout(locationInput);
-
-  //only query when the user stop typing for 'amount ms' of time (value between 200-1000 recommended)
-  let timeout = null;
-  const getLocationWithTimeout = (input) => {
-    if (timeout !== null) {
-      clearTimeout(timeout);
+  // Display the "no places found" warning message for 3 seconds,
+  // if there is a new warning reset the timer
+  let timeoutNoPlaces: number | null = null;
+  const showNoPlaces = () => {
+    if (timeoutNoPlaces !== null) {
+      clearTimeout(timeoutNoPlaces);
     }
-    timeout = setTimeout(function () {
-      getlocation(input);
-    }, 250);
+    timeoutNoPlaces = window.setTimeout(function () {
+      showNoPlacesBool = false;
+    }, 3000);
   };
 
-  //if the input is valuable, query the input, biased results based on proximity paramater and locale (language)
-  //if search result is successful, hide no places found warning message
-  let showNoPlacesBool = false;
+  // if the input is valuable, query the input, biased results based on proximity paramater and locale (language)
+  // if search result is successful, hide no places found warning message
+  let showNoPlacesBool = $state(false);
 
-  const getlocation = async (str: string) => {
+  /**
+   *
+   * @param str
+   */
+  const _forwardGeocode = async (str: string) => {
     try {
       if (str.trim() !== '') {
         const placesReturnedFromGeocode = await geocodeExtensive(
@@ -57,7 +69,7 @@
         );
         if (placesReturnedFromGeocode.type == 'succes') {
           showNoPlacesBool = false;
-          places = placesReturnedFromGeocode.data;
+          places = placesReturnedFromGeocode.data ?? [];
         } else if (placesReturnedFromGeocode.type == 'error') {
           places = [];
           showNoPlacesBool = true;
@@ -66,12 +78,14 @@
       }
     } catch (err) {
       places = [];
-      console.error(err);
+      logger.error(err);
       Sentry.captureException(err, { extra: { context: 'Extensive-geocoding' } });
     }
   };
 
-  const displayPlaceName = (place_name) => {
+  const debouncedForwardGeocode = debounce(_forwardGeocode, 250);
+
+  const displayPlaceName = (place_name: string) => {
     const placeParts = place_name.split(',');
     let placeFormat = '';
     for (let index = 0; index < placeParts.length - 1; index++) {
@@ -84,28 +98,31 @@
     return placeFormat;
   };
 
-  //display no places found warning message for 3 seconds, if there is a new warning reset the timer
-  let timeoutNoPlaces = null;
-  const showNoPlaces = () => {
-    if (timeoutNoPlaces !== null) {
-      clearTimeout(timeoutNoPlaces);
-    }
-    timeoutNoPlaces = setTimeout(function () {
-      showNoPlacesBool = false;
-    }, 3000);
+  const goToPlace = (long: number, lat: number) => {
+    clearPlacesAndInput();
+    onGoToPlace({ longitude: long, latitude: lat });
   };
 
-  const goToPlace = (long, lat) => {
-    emptyPlacesAndInput();
-    dispatch('goToPlace', { longitude: long, latitude: lat });
-  };
-
-  //if user drag map, nothing happens, if the user select a garden or click on the map the input and locations are emptied
+  // If user drag map, nothing happens, if the user select a garden or click on the map the input and locations are emptied
   const handleClickOutsidePlaces = () => {
-    emptyPlacesAndInput();
+    clearPlacesAndInput();
   };
 
-  $: isSearching = !!places.length || showNoPlacesBool;
+  $effect(() => {
+    // Clear the places if the input is empty
+    if (locationInput?.trim() === '' && places.length > 0) {
+      places = [];
+    }
+
+    /// If the input changes, do a location lookup
+    debouncedForwardGeocode(locationInput);
+
+    // Note: what this achieves is communicating whether there
+    // were some results, or no results, to the parent component
+    // Which can then hide some components under the result list
+    // TODO: not sure if this is really necessary.
+    isSearching = places.length > 0 || showNoPlacesBool;
+  });
 </script>
 
 <div class="location-filter-input">
@@ -121,11 +138,15 @@
   />
 </div>
 {#if places.length >= 1}
-  <div class="location-filter-output" use:clickOutside on:click-outside={handleClickOutsidePlaces}>
+  <div
+    class="location-filter-output"
+    {@attach clickOutside}
+    onclickoutside={handleClickOutsidePlaces}
+  >
     {#each places as place, i}
       <button
         class="button-container"
-        on:click={() => {
+        onclick={() => {
           goToPlace(place.longitude, place.latitude);
           trackEvent(PlausibleEvent.VISIT_SEARCHED_LOCATION);
         }}

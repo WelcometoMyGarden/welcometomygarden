@@ -1,8 +1,17 @@
-<script>
-  export let src = '';
-  export let alt = '';
-  export let style = '';
-  export let rounded = true;
+<script lang="ts">
+  interface Props {
+    src?: string;
+    alt?: string;
+    style?: string;
+    rounded?: boolean;
+  }
+
+  let {
+    src = '',
+    alt = '',
+    style = '',
+    rounded = true
+  }: Props = $props();
 </script>
 
 <img {src} {alt} {style} class:rounded />

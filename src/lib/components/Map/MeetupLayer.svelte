@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
   // Data & types, usable by other components too
   export const MEETUP_ID = 'meetups';
   export type Meetup = {
@@ -24,7 +24,7 @@
 
 <script lang="ts">
   // Note: assumes that the parent component has already loaded the map on component load
-  import { createEventDispatcher, getContext } from 'svelte';
+  import { getContext } from 'svelte';
   import type { ContextType } from './Map.svelte';
   import key from './mapbox-context.js';
   import type GeoJSON from 'geojson';
@@ -34,16 +34,20 @@
   import { isUserLoading, user } from '$lib/stores/auth';
   import { hasLoaded } from '$lib/stores/garden';
 
-  export let selectedMeetupId: undefined | string;
-  let loaded = false;
+  interface Props {
+    selectedMeetupId: undefined | string;
+    onMeetupClick: (meetupId: string) => void;
+  }
+
+  let { selectedMeetupId, onMeetupClick }: Props = $props();
+  let loaded = $state(false);
 
   const { getMap } = getContext<ContextType>(key);
   const map = getMap();
-  const dispatch = createEventDispatcher();
-  const onMeetupClick = (e: maplibregl.MapMouseEvent) => {
+  const _onMeetupClick = (e: maplibregl.MapMouseEvent) => {
     // will be serialized, but we only need the id!
     const meetup = e.features?.[0]?.properties;
-    dispatch('meetup-click', meetup.id);
+    onMeetupClick(meetup.id);
   };
   const meetupFeatureCollection: () => GeoJSON.FeatureCollection = () => ({
     type: 'FeatureCollection',
@@ -84,7 +88,7 @@
       .moveLayer(MEETUP_ID);
 
     // Add click handler
-    map.on('click', MEETUP_ID, onMeetupClick);
+    map.on('click', MEETUP_ID, _onMeetupClick);
 
     // Add hover handlers
     // TODO: copy-pasted from GardenLayer, probably should be refactored as utilities
@@ -98,27 +102,29 @@
     loaded = true;
   }
 
-  // Only load the meetup layer after the garden layer, to ensure it layered on top.
-  $: if (
-    !loaded &&
-    $gardenLayerLoaded &&
-    !$isUserLoading &&
-    $hasLoaded &&
-    (!!$user?.garden || $user?.superfan)
-  ) {
-    Promise.all(
-      [
-        {
-          url: '/images/markers/fireplace.png',
-          id: 'fireplace'
-        },
-        { url: '/images/markers/fireplace-yellow.png', id: 'fireplace-selected' }
-      ].map((img) => loadImg(map, img))
-    ).then(loadLayer);
-  }
+  $effect(() => {
+    // Only load the meetup layer after the garden layer, to ensure it layered on top.
+    if (
+      !loaded &&
+      $gardenLayerLoaded &&
+      !$isUserLoading &&
+      $hasLoaded &&
+      (!!$user?.garden || $user?.superfan)
+    ) {
+      Promise.all(
+        [
+          {
+            url: '/images/markers/fireplace.png',
+            id: 'fireplace'
+          },
+          { url: '/images/markers/fireplace-yellow.png', id: 'fireplace-selected' }
+        ].map((img) => loadImg(map, img))
+      ).then(loadLayer);
+    }
 
-  // Update data when meetup ID changes
-  $: if (loaded) {
-    map.getSource(MEETUP_ID).setData(meetupFeatureCollection(selectedMeetupId));
-  }
+    // Update data when meetup ID changes
+    if (loaded) {
+      map.getSource(MEETUP_ID).setData(meetupFeatureCollection(selectedMeetupId));
+    }
+  });
 </script>

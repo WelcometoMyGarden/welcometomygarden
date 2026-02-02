@@ -1,8 +1,13 @@
-<script>
+<script lang="ts">
   import SuperfanCounter from './SuperfanCounter.svelte';
   import { _ } from 'svelte-i18n';
-  /** Centers the social proof text relative to it's container, expanding a little beyond its boundaries */
-  export let centerRelative = false;
+
+  interface Props {
+    /** Centers the social proof text relative to it's container, expanding a little beyond its boundaries */
+    centerRelative?: boolean;
+  }
+
+  let { centerRelative = false }: Props = $props();
 </script>
 
 <p class:centerRelative>

@@ -1,8 +1,13 @@
 <script lang="ts">
   import Icon from './Icon.svelte';
 
-  export let isSkeleton = false;
-  export let icon: string | null = null;
+  interface Props {
+    isSkeleton?: boolean;
+    icon?: string | null;
+    children?: import('svelte').Snippet;
+  }
+
+  let { isSkeleton = false, icon = null, children }: Props = $props();
 </script>
 
 <div class="chip" class:skeleton={isSkeleton} class:is-skeleton={isSkeleton}>
@@ -11,7 +16,7 @@
       <Icon {icon} />
     </div>
   {/if}
-  <slot />
+  {@render children?.()}
 </div>
 
 <style>
