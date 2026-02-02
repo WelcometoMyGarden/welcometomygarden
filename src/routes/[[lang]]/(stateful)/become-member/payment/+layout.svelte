@@ -55,6 +55,7 @@
 
   let elementsSpan: Sentry.Span | null = null;
   let paymentElementReady = false;
+  let isSuccess = false;
 
   // payment intent client secret
   let clientSecret: string | null = null;
@@ -293,6 +294,10 @@
    * @returns true on a successful navigation
    */
   async function paymentSucceeded() {
+    // This helps to clean up the payment element <Progress> which will start loading regardless
+    // of payment initiation, failure or success. It should not load on payment success,
+    // since we're going for a redirect here and it will leak into the next page.
+    isSuccess = true;
     if (continueUrl) {
       notify.success($_('payment-superfan.payment-section.success'), 20000);
       // Tracking default given continueUrl: from trying to chat with someone
@@ -316,7 +321,7 @@
   <title>{$_('payment-superfan.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
-<Progress active={!paymentElementReady} />
+<Progress active={!paymentElementReady && !isSuccess} />
 {#if selectedLevel && $user && !hasActiveSubscription($user)}
   <PaddedSection className="summary-section" desktopOnly>
     <LevelSummary level={selectedLevel} />
