@@ -144,10 +144,17 @@ export class MainFlowTest extends GenericFlow {
     // (using continueUrl)
     await page.waitForURL('**/explore/garden/*');
 
+    // Close the original page fist to avoid it picking up the chatIntention
+    // and deleting it
+    await page.close();
+
     // Verify
     // Note: without verifying, trying to open a chat
-    // (or even "become a member" link when logged in)
-    // Will redirect to /account with the question to verify
+    // will redirect to /account with the question to verify
+    // TODO: verifying at this stage is weird.
+    //  It's probably more realistic to not verify, become a member,
+    //  attempt to chat, get redirected to /account with a notice to verify
+    //  and then get moved back to the garden through chatIntention (newly possible now)
     const { mailpitPage, openedLinkPage } = await openEmail({
       context,
       name: 'accountVerificationEmail',
@@ -156,13 +163,9 @@ export class MainFlowTest extends GenericFlow {
       platform: this.emailPlatform
     });
 
-    // Close the original page
-    await page.close();
-
     // Continue with the opened verification link page
     page = openedLinkPage;
     await page.bringToFront();
-    await page.waitForURL('**/explore/garden/*');
     // The opened page should redirect to the garden we wanted to open
     // using the localStorage chatIntent measures
     await page.waitForURL('**/explore/garden/*');
@@ -189,8 +192,15 @@ export class MainFlowTest extends GenericFlow {
       l: this.l.bind(this)
     });
 
-    // Wait until the original chat loads
-    await page.waitForURL('**/chat/**');
+    // Wait until the garden we wanted to contact loads again (via continueUrl)
+    await page.waitForURL('**/explore/garden/*');
+
+    // contact it
+    await page.getByRole('link', { name: this.l('contact-host') }).click();
+
+    // Wait until the original chat loads : note this only happens if visit the chat url directly
+    // while not being a member
+    // await page.waitForURL('**/chat/**');
 
     // Run internal assertions
     if (this.useStripe) {

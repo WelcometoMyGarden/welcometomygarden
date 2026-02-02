@@ -383,7 +383,12 @@
           </Button>
         {:else}
           {#if !$user}
-            <p class="cta-hint">
+            <!--
+             In case a user signs in through a garden card, store a chat intention just in case the user isn't verified yet.
+             If they verify after signing in here, but before clicking "become member" below, within 10min
+             (very unlikely but possible, and tested in our e2e test) then they will still be taken to the intended garden.
+            -->
+            <p class="cta-hint" onclickcapture={storeChatIntention}>
               {@html $_('garden.drawer.guest.login', {
                 values: {
                   signInLink: anchorText({
@@ -401,7 +406,14 @@
               onclickcapture={(ev) => {
                 // @ts-ignore
                 if (ev.target?.tagName === 'A') {
-                  // prevent the navigation from happening when the link is clicked
+                  // Prevent the navigation to chatWithGardenLink while still showing that URL.
+                  // from happening when the link is clicked, and just open the modal here.
+                  // A navigation would either
+                  // - in case of a verified user: open the chat with the modal on top, which takes more time to load
+                  // - in case of an unverified user: go to /chat and get redirect to /account due to being verified
+                  //   = breaking the membership flow
+                  // We're handling the modal here client-side with shallow routing, because the alternative of
+                  // /about-membership#pricing is less ergonomic
                   ev.preventDefault();
                   ev.stopPropagation();
                   onOpenMembershipModal(`${$lr(routes.MAP)}/garden/${garden?.id}`);
