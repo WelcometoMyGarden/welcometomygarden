@@ -2,6 +2,8 @@ import { expect, type BrowserContext, type Page } from '@playwright/test';
 import { openEmail } from './util';
 import { GenericFlow } from './GenericFlow';
 
+const DEBUG_REDIRECTIONS = false;
+
 /**
  * 1. Create an account without any shortcuts
  * 2. Go to /garden/manage, which should redirect to /account because the account is unverified yet
@@ -155,11 +157,13 @@ export class GardenManageTest extends GenericFlow {
   async test() {
     // Create a robot
     const robotContext = await this.browser.newContext();
-    await robotContext.on('page', async (page) => {
-      page.on('framenavigated', (frame) => {
-        console.log('Frame navigated to:', frame.url());
+    if (DEBUG_REDIRECTIONS) {
+      await robotContext.on('page', async (page) => {
+        page.on('framenavigated', (frame) => {
+          console.log('Frame navigated to:', frame.url());
+        });
       });
-    });
+    }
     const wtmgPage = await robotContext.newPage();
     await this.robot({ page: wtmgPage, context: robotContext, email: 'robot@slowby.travel' });
     await robotContext.close();

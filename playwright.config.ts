@@ -54,7 +54,7 @@ const localwebServers = [
       !envIsTrue(process.env.SKIP_BUILD)
         ? 'yarn build:demo && '
         : ''
-    }firebase --project demo-test emulators:start 2>&1 | grep -v "i  hosting: 127.0.0.1 - -"`,
+    }firebase --project demo-test emulators:start 2>&1 | grep -v "127.0.0.1 - -"`,
     // "URL of your http server that is expected to return a 2xx, 3xx, 400, 401, 402, or 403 status code when the server is ready to accept connections."
     // Empirically, we observered that sendMessage (a Cloud Task function) is the last function to be intitialized (it returns a 400 then),
     // Luckily, it also is a http function.

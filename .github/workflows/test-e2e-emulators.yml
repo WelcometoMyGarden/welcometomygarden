@@ -65,7 +65,6 @@ jobs:
       - name: Build emulator frontend
         run: yarn build:demo
       - name: Run your tests
-        # silences noisy access logs from the hosting server
         run: npx playwright test --project Mobile
       - name: Upload Playwright artifacts
         uses: actions/upload-artifact@v4
