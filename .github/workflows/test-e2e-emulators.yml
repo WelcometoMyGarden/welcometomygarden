@@ -29,6 +29,7 @@ jobs:
     environment: e2e-test-emulators
     container:
       image: ghcr.io/welcometomygarden/wtmg-e2e-ci:24
+      options: --user root
       env:
         SENTRY_DSN: ${{vars.SENTRY_DSN}}
         SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
@@ -64,6 +65,7 @@ jobs:
       - name: Build emulator frontend
         run: yarn build:demo
       - name: Run your tests
+        # silences noisy access logs from the hosting server
         run: npx playwright test --project Mobile
       - name: Upload Playwright artifacts
         uses: actions/upload-artifact@v4
