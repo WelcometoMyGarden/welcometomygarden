@@ -2,6 +2,19 @@
 
 **Heads-up:** this guide may not be sufficient to produce a working development environment, as it has not been tested for many months in which the app has changed significantly. If you want to contribute and experience any problems, feel free to file an issue.
 
+## Project overview
+
+The frontend (./) is a static site/SPA hybrid built with [SvelteKit](https://kit.svelte.dev/) and [Firebase](https://firebase.google.com/docs).
+
+The backend (./api) is largely built on Firebase Cloud Functions.
+
+The system is integrated with third-party services for several important features:
+
+- Mapbox: for our maps on the front-end.
+- SendGrid: for transactional emails & newsletter contact lists.
+- Stripe: for our membership program.
+- A Supabase PostgreSQL replica: for more advanced queries and features that Firestore can't handle.
+
 ## Prerequisites
 
 - [Node](https://nodejs.org/en/download/) v24. Using [nvm](https://github.com/nvm-sh/nvm) is recommended. This codebase might work with other older or newer node versions too, but these aren't tested.

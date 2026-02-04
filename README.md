@@ -1,24 +1,21 @@
-# Welcome To My Garden ![GitHub](https://img.shields.io/github/license/welcometomygarden/welcometomygarden?label=License)
+![GitHub](https://img.shields.io/github/license/welcometomygarden/welcometomygarden?label=License)
 
-This repository houses the front-end and back-end application code of [Welcome To My Garden](https://welcometomygarden.org).
+# Welcome To My Garden
 
-Welcome To My Garden is a network of citizens offering camping spots in their gardens to slow travellers.
+This repository houses the core front-end and back-end application code of [Welcome To My Garden](https://welcometomygarden.org) (WTMG).
 
-## Overview
+Welcome To My Garden is a network of citizens offering camping spots in their gardens to slow travellers, founded in 2020.
 
-The frontend (./) is a static site/SPA hybrid built with [SvelteKit](https://kit.svelte.dev/) and [Firebase](https://firebase.google.com/docs).
+![Screenshot of WTMG](https://storage.googleapis.com/wtmg-static/readme/wtmg-screenshot.jpg)
 
-The backend (./api) is largely built on Firebase Cloud Functions.
+## How we develop WTMG
 
-The system is integrated with third-party services for several important features:
+WTMG is open-source because we believe in transparency and building in public. However, WTMG is _not_ a product by techies for techies. We develop WTMG for a large community of slow travellers and hosts.
 
-- Mapbox: for our maps on the front-end.
-- SendGrid: for transactional emails & newsletter contact lists.
-- Stripe: for our membership program.
-- Supabase PostgreSQL replica: for more advanced queries and features that Firestore can't handle.
+This repository is maintained by [@th0rgall](https://github.com/th0rgall). Our roadmap is set by by the [WTMG team](https://welcometomygarden.org/about-us) with continuous input from our community.
 
-## Contributing
+**If you have a feature request**, contact our team at support@welcometomygarden.org. If you're a WTMG member, you can also [post a topic](https://community.welcometomygarden.org/c/feedback/12) in our community space to include the community in the conversation.
 
-Problems & bug reports are welcome in [Issues](https://github.com/WelcometoMyGarden/welcometomygarden/issues).
+**If you discovered a bug**, please report it in [GitHub Issues](https://github.com/WelcometoMyGarden/welcometomygarden/issues).
 
-For other contributions, check [CONTRIBUTING.md](./CONTRIBUTING.md) first.
+If you're interested in contributing in another way, check [our contribution guidelines](./CONTRIBUTING.md).

@@ -1,8 +1,24 @@
-## Contributing
+## Contribution guidelines
 
-Problems & bug reports are welcome in [Issues](https://github.com/WelcometoMyGarden/welcometomygarden/issues).
+If you have a feature request, contact our team at support@welcometomygarden.org. If you're a WTMG member, you can also [post a topic](https://community.welcometomygarden.org/c/feedback/12) in our community space to include the community in the conversation.
 
-If you want to build a feature or make an improvement to WTMG, check first if we would accept it by opening an issue. If you get no response, ping @th0rgall or write to thor ( at ) welcometomygarden.org.
+Bug reports are welcome in [Issues](https://github.com/WelcometoMyGarden/welcometomygarden/issues).
+
+### Can I help with fixing bug X?
+
+_Yes, thank you!_ In recent years, we have seen little interest in technical contributions. However, we appreciate it very much if you want to help with making WTMG better.
+
+We will try to keep the GitHub Issues up-to-date with known bugs that we haven't fixed yet, usually because we consider them to be rare and low priority.
+
+### Can I help with feature X?
+
+Maybe! GitHub Issues contains several predefined projects where help is welcome.
+
+If you want to build a new feature or add an improvement to WTMG, please check first if we would accept it by contacting us (see above). We'd love to talk about your idea.
+
+Some new features can change the (social) dynamics or experience of the platform for better or for worse, and we want to make sure that WTMG keeps serving its missing in the best way possible. What seems like a purely useful addition to you might be an annoying change to other community members. The WTMG team reserves the right to weigh the pros & cons of features, and to decide on the roadmap.
+
+## Getting started with development
 
 To set up the development environment, check the [development environment docs](./docs/dev-env.md).
 
