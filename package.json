@@ -99,6 +99,9 @@
     "vite-plugin-mkcert": "^1.17.9",
     "vitest": "^4.0.18"
   },
+  "resolutions": {
+    "sharp@npm:0.32.6": "0.33.5"
+  },
   "type": "module",
   "packageManager": "yarn@4.12.0"
 }
