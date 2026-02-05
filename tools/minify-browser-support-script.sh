@@ -6,12 +6,11 @@ set -e
 # Therefore, we must use minification that produces results compatible
 # with old browsers.
 #
-# Terser is only able to generate ES5 compatbile code
-#, while Uglify 2.x can generate # IE6+ compatible code.
-# (due to an event we use, we are restricted to IE8 though)
+# The common library Terser is only able to generate ES5 compatbile code,
+# while Uglify 2.x can generate IE6+ compatible code.
+# See https://www.npmjs.com/package/uglify-js/v/2.8.29
 #
-# https://www.npmjs.com/package/uglify-js/v/2.8.29
-#
+# We run Uglify JS using the Node engine (6) that existed at the time in Docker.
 
 ABSOLUTE_SRC="$(cd "$(dirname "$0")/../src" && pwd)"
 # Resolve absolute paths (important for Docker volume mounts)
@@ -32,5 +31,5 @@ docker run --rm \
       --mangle \
       --ie \
       --output /output/$(basename "$OUTPUT_FILE") \
-      && echo 'Done'
+      && echo 'Done' \
   "
