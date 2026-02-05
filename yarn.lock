@@ -230,7 +230,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@capacitor-community/safe-area@npm:^7.0.0-alpha.1":
+"@capacitor-community/safe-area@npm:^7.0.0":
   version: 7.0.0
   resolution: "@capacitor-community/safe-area@npm:7.0.0"
   peerDependencies:
@@ -2188,6 +2188,15 @@ __metadata:
     "@nodelib/fs.scandir": "npm:2.1.5"
     fastq: "npm:^1.6.0"
   checksum: 10/40033e33e96e97d77fba5a238e4bba4487b8284678906a9f616b5579ddaf868a18874c0054a75402c9fbaaa033a25ceae093af58c9c30278e35c23c9479e79b0
+  languageName: node
+  linkType: hard
+
+"@notnotsamuel/capacitor-swipe-back@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@notnotsamuel/capacitor-swipe-back@npm:3.0.2"
+  peerDependencies:
+    "@capacitor/core": ^7.0.0
+  checksum: 10/60e3105b21c88a9700240b9209fbbc3e78e10c7af436d5ad7c28e64fb0c02c366c0bcc534bb0ecc7c9425f0e7a30a1a6c61056397231b5ec52084e088367782c
   languageName: node
   linkType: hard
 
@@ -6344,15 +6353,6 @@ __metadata:
   version: 1.0.30001720
   resolution: "caniuse-lite@npm:1.0.30001720"
   checksum: 10/6557c5052fa17fd531f3e1a8013b5924fb69afcd53d9f3e3b9adc9e31c5a7e436b674c000c53659e097fe1fda1c290d1bd17c7f3f98d13749644386ed722ab5f
-  languageName: node
-  linkType: hard
-
-"capacitor-swipe-back-plugin@https://storage.googleapis.com/wtmg-static/packages/capacitor-swipe-back-plugin-3.0.0.tgz":
-  version: 3.0.0
-  resolution: "capacitor-swipe-back-plugin@https://storage.googleapis.com/wtmg-static/packages/capacitor-swipe-back-plugin-3.0.0.tgz"
-  peerDependencies:
-    "@capacitor/core": ^7.0.0
-  checksum: 10/d108287571d8576d41d2e6a4ebabea83c934f20a170c85aec4bdd0a9744fe155ac73c58f110653712cae75a80f8b2df587677f2e05f4b664e8bf157b29b00828
   languageName: node
   linkType: hard
 
@@ -13049,7 +13049,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "welcome-to-my-garden@workspace:."
   dependencies:
-    "@capacitor-community/safe-area": "npm:^7.0.0-alpha.1"
+    "@capacitor-community/safe-area": "npm:^7.0.0"
     "@capacitor/android": "npm:^7.4.5"
     "@capacitor/app": "npm:^7.1.1"
     "@capacitor/assets": "npm:^3.0.5"
@@ -13062,6 +13062,7 @@ __metadata:
     "@capacitor/push-notifications": "npm:^7.0.4"
     "@capacitor/splash-screen": "npm:^7.0.4"
     "@firebase/rules-unit-testing": "npm:^5.0.0"
+    "@notnotsamuel/capacitor-swipe-back": "npm:^3.0.2"
     "@playwright/test": "npm:^1.58.1"
     "@sentry/sveltekit": "npm:^10.38.0"
     "@stripe/stripe-js": "npm:^8.7.0"
@@ -13079,7 +13080,6 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^8.54.0"
     "@typescript-eslint/parser": "npm:^8.54.0"
     "@zerodevx/svelte-img": "npm:^2.1.2"
-    capacitor-swipe-back-plugin: "https://storage.googleapis.com/wtmg-static/packages/capacitor-swipe-back-plugin-3.0.0.tgz"
     dotenv: "npm:^17.2.3"
     eslint: "npm:^9.39.2"
     eslint-config-prettier: "npm:^9.1.2"

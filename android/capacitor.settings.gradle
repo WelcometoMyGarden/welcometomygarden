@@ -23,5 +23,5 @@ project(':capacitor-push-notifications').projectDir = new File('../node_modules/
 include ':capacitor-splash-screen'
 project(':capacitor-splash-screen').projectDir = new File('../node_modules/@capacitor/splash-screen/android')
 
-include ':capacitor-swipe-back-plugin'
-project(':capacitor-swipe-back-plugin').projectDir = new File('../node_modules/capacitor-swipe-back-plugin/android')
+include ':notnotsamuel-capacitor-swipe-back'
+project(':notnotsamuel-capacitor-swipe-back').projectDir = new File('../node_modules/@notnotsamuel/capacitor-swipe-back/android')

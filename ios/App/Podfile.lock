@@ -17,8 +17,6 @@ PODS:
     - Capacitor
   - CapacitorSplashScreen (7.0.4):
     - Capacitor
-  - CapacitorSwipeBackPlugin (3.0.0):
-    - Capacitor
   - FirebaseCore (9.0.0):
     - FirebaseCoreDiagnostics (~> 9.0)
     - FirebaseCoreInternal (~> 9.0)
@@ -71,6 +69,8 @@ PODS:
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
+  - NotnotsamuelCapacitorSwipeBack (3.0.2):
+    - Capacitor
   - OSInAppBrowserLib (2.3.1)
   - PromisesObjC (2.1.0)
 
@@ -84,8 +84,8 @@ DEPENDENCIES:
   - "CapacitorLocalNotifications (from `../../node_modules/@capacitor/local-notifications`)"
   - "CapacitorPushNotifications (from `../../node_modules/@capacitor/push-notifications`)"
   - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
-  - CapacitorSwipeBackPlugin (from `../../node_modules/capacitor-swipe-back-plugin`)
   - FirebaseMessaging
+  - "NotnotsamuelCapacitorSwipeBack (from `../../node_modules/@notnotsamuel/capacitor-swipe-back`)"
 
 SPEC REPOS:
   trunk:
@@ -119,8 +119,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/push-notifications"
   CapacitorSplashScreen:
     :path: "../../node_modules/@capacitor/splash-screen"
-  CapacitorSwipeBackPlugin:
-    :path: "../../node_modules/capacitor-swipe-back-plugin"
+  NotnotsamuelCapacitorSwipeBack:
+    :path: "../../node_modules/@notnotsamuel/capacitor-swipe-back"
 
 SPEC CHECKSUMS:
   Capacitor: 12914e6f1b7835e161a74ebd19cb361efa37a7dd
@@ -132,7 +132,6 @@ SPEC CHECKSUMS:
   CapacitorLocalNotifications: ba2a08bd92887b08f352e6b2db430575cef0cea3
   CapacitorPushNotifications: 7604512af53bbfdf1dd8fb2256b9ef1e8a69cdc2
   CapacitorSplashScreen: 000f7591d546907dda5cbb514bd6b6d9e6048cf8
-  CapacitorSwipeBackPlugin: acc6e006e9c550e1b5abf20a4bb534b595409d87
   FirebaseCore: e4c0b5d9727eaee0b43f9ed00baff7500c188d7b
   FirebaseCoreDiagnostics: 54410e5d156bf406a764c2722d9f77d682723b4c
   FirebaseCoreInternal: bca76517fe1ed381e989f5e7d8abb0da8d85bed3
@@ -141,9 +140,10 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 5fffe35792f8b96ec8d6775f5eccd83c998d5a3b
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
+  NotnotsamuelCapacitorSwipeBack: b3a00145209b368cdfe21816d7919484c3fe654e
   OSInAppBrowserLib: bf7cdcc072394ae827f8cfe3f5f9c807691834c0
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
 
-PODFILE CHECKSUM: 52a57be0e1628c4573063970ff7a068c235358f6
+PODFILE CHECKSUM: 832f20d84bbf0aa16744e0fa35d970b8275e677c
 
 COCOAPODS: 1.16.2

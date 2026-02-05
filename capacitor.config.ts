@@ -25,6 +25,7 @@ switch (process.env.NODE_ENV) {
   case 'devpush':
     overrideConfig = {
       server: {
+        // See tools/set-cf-ip.sh
         url: 'https://wtmg.thorgalle.com:5173'
       },
       ios: {

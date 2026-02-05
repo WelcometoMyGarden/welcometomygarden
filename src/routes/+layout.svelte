@@ -26,8 +26,7 @@
   import { SplashScreen } from '@capacitor/splash-screen';
   import { initializeNativePush } from '$lib/api/push-registrations/native.js';
   import logger from '$lib/util/logger.js';
-  import { SafeArea } from '@capacitor-community/safe-area';
-  import { CapacitorSwipeBackPlugin } from 'capacitor-swipe-back-plugin';
+  import { CapacitorSwipeBackPlugin } from '@notnotsamuel/capacitor-swipe-back';
   import { App as CapacitorApp, type URLOpenListenerEvent } from '@capacitor/app';
   interface Props {
     children?: import('svelte').Snippet;
@@ -45,16 +44,8 @@
         }
       });
     } else {
-      // iOS Back Swipe Plugin
-      // Android (support in this plugin doesn't seem to exist for Android? https://github.com/KrzysztofKostecki/capacitor-plugin-swipe-back/tree/capacitor_v7)
-      CapacitorSwipeBackPlugin.enable().then(() => console.debug('Swipe Back plugin enabled'));
+      CapacitorSwipeBackPlugin.enable().then(() => logger.debug('Swipe Back plugin enabled'));
     }
-
-    CapacitorApp.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
-      // Example url: https://beerswift.app/tabs/tab2
-      // slug = /tabs/tab2
-      console.log(`Routing event received: ${event.url}`);
-    });
   }
 
   let { children }: Props = $props();
@@ -95,17 +86,17 @@
         await SplashScreen.hide();
         // for (let i = 0; i < 6; i++) {
         // await StatusBar.setOverlaysWebView({ overlay: true })
-        await SafeArea.enable({
-          config: {
-            // TODO: not working for now
-            // https://github.com/capacitor-community/safe-area/issues/55
-            customColorsForSystemBars: true,
-            // statusBarColor: '#00000000', // transparent
-            statusBarContent: 'dark',
-            // navigationBarColor: '#00000000', // transparent
-            navigationBarContent: 'dark'
-          }
-        }).then(() => console.debug('Capacitor: safe area values set'));
+        // await SafeArea.enable({
+        //   config: {
+        //     // TODO: not working for now
+        //     // https://github.com/capacitor-community/safe-area/issues/55
+        //     customColorsForSystemBars: true,
+        //     // statusBarColor: '#00000000', // transparent
+        //     statusBarContent: 'dark',
+        //     // navigationBarColor: '#00000000', // transparent
+        //     navigationBarContent: 'dark'
+        //   }
+        // }).then(() => console.debug('Capacitor: safe area values set'));
         // await (new Promise(resolve => setTimeout(resolve, 50)));
         // }
       }
