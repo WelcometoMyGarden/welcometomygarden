@@ -7,7 +7,7 @@ import { isEnablingLocalPushRegistration } from '$lib/stores/pushRegistrations';
 import { get } from 'svelte/store';
 import { emailAsLink } from '$lib/constants';
 import { t } from 'svelte-i18n';
-import { collection, doc, DocumentReference } from 'firebase/firestore';
+import { collection, doc, type DocumentReference } from 'firebase/firestore';
 import type { CollectionReference } from '@firebase/firestore-types';
 import { db } from '$lib/api/firebase';
 import { getUser } from '$lib/stores/auth';
