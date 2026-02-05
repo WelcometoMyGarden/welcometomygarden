@@ -55,11 +55,12 @@ import {
   subscribeOrRefreshWebFCM,
   unsubscribeWebPushRegistration
 } from './webpush';
+import logger from '$lib/util/logger';
 import * as Sentry from '@sentry/sveltekit';
 
 const pushRegistrationLoadCheck = () => {
   if (!get(loadedPushRegistrations)) {
-    console.warn(
+    logger.warn(
       "Trying to interact with push registrations that haven't loaded yet! This could lead to inconsistencies."
     );
   }
@@ -137,7 +138,7 @@ export const createFirebasePushRegistrationObserver = () => {
         cachedWebPushSub = JSON.parse(latestPushRegistration);
       }
     } catch (e) {
-      console.warn('Corrupted cached subscription JSON data');
+      logger.warn('Corrupted cached subscription JSON data');
       Sentry.captureException(e);
     }
 
@@ -150,7 +151,7 @@ export const createFirebasePushRegistrationObserver = () => {
       );
       if (currentWebPushSub && !linkedFirebaseRegistration) {
         // This might mean a web push deletion has gone badly
-        console.warn('Current local web push subscription was not saved in the Firestore');
+        logger.warn('Current local web push subscription was not saved in the Firestore');
         // Since this native push registration is now useless, let's try to unregister it
         trackEvent(PlausibleEvent.DELETED_PUSH_REGISTRATION, { type: 'detached' });
         await unsubscribeWebPushRegistration();
@@ -191,7 +192,7 @@ export const createFirebasePushRegistrationObserver = () => {
         // If the cached sub can still be found in the remote registrations,
         // this means a local unsubscribe happened without us being notified about it.
         // The subscription is invalid/unusable regardless of its status, it should be deleted.
-        console.log('Deleted an invalidated cached pushRegistration');
+        logger.log('Deleted an invalidated cached pushRegistration');
         await deletePushRegistrationDoc(pushRegistrationDocToDelete);
         // Note: the above will invoke onSnapshot again, skip UI update.
         localStorage.removeItem(LATEST_PUSH_REGISTRATION_KEY);
@@ -257,7 +258,7 @@ export const handleNotificationEnableAttempt = async () => {
       return true;
     } else {
       // TODO: visible report error in modal?
-      console.warn('There was an error in enabling notifications');
+      logger.warn('There was an error in enabling notifications');
       return false;
     }
   } else if (canHaveWebPushSupport() || isAndroidFirefox()) {
@@ -267,7 +268,7 @@ export const handleNotificationEnableAttempt = async () => {
   } else {
     // TODO: show some instructions here (for an unsupported device)?
     // Probably not, because those can be delegated to the account page.
-    console.warn(
+    logger.warn(
       'Tried to enable notifications on a non-supported iDevice, this action should not have been shown.'
     );
     return false;
@@ -287,7 +288,7 @@ const markForDeletion = async (localPushRegistration: LocalPushRegistration): Pr
       browser
     }
   } = localPushRegistration;
-  console.log(
+  logger.log(
     `Marking the ${isNativePushRegistration(localPushRegistration) ? 'native' : 'web'} subscription with ID ${id} on ${browser} ${vendor} ${model} for deletion.`
   );
   try {
@@ -333,22 +334,22 @@ export const deletePushRegistration = async (pushRegistration: LocalPushRegistra
         .then(async (success) => {
           if (success) {
             try {
-              console.log('Successfully deleted/unsubscribed the current web FCM registration.');
+              logger.log('Successfully deleted/unsubscribed the current web FCM registration.');
               currentWebPushSubStore.set(null);
               await deletePushRegistrationDoc(pushRegistration);
               return true;
             } catch (e) {
-              console.error(e);
+              logger.error(e);
               Sentry.captureException(e);
               return false;
             }
           } else {
-            console.warn('Failed to delete the FCM token that was marked to be deleted.');
+            logger.warn('Failed to delete the FCM token that was marked to be deleted.');
             return false;
           }
         })
         .catch((e) => {
-          console.error(e);
+          logger.error(e);
           return false;
         });
     }
@@ -361,26 +362,26 @@ export const deletePushRegistration = async (pushRegistration: LocalPushRegistra
     }
     const nativeDeviceId = get(deviceId);
     if (!nativeDeviceId) {
-      console.warn(`Device unexpectedly not loaded yet or null ${nativeDeviceId}`);
+      logger.warn(`Device unexpectedly not loaded yet or null ${nativeDeviceId}`);
       return false;
     }
     if (nativeDeviceId !== pushRegistration.deviceId) {
-      console.log('Marking a push registration inactive from another device');
+      logger.log('Marking a push registration inactive from another device');
     } else {
       return await unregisterNotifications().then(async (success) => {
         if (success) {
           try {
-            console.log('Successfully deleted/unsubscribed the current native FCM registration.');
+            logger.log('Successfully deleted/unsubscribed the current native FCM registration.');
             currentWebPushSubStore.set(null);
             await deletePushRegistrationDoc(pushRegistration);
             return true;
           } catch (e) {
-            console.error(e);
+            logger.error(e);
             Sentry.captureException(e);
             return false;
           }
         } else {
-          console.warn('Failed to delete the FCM token that was marked to be deleted.');
+          logger.warn('Failed to delete the FCM token that was marked to be deleted.');
           return false;
         }
       });

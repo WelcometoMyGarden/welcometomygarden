@@ -23,20 +23,11 @@ export default defineConfig(({ command, mode }): UserConfig => {
       ? new URL(process.env.PUBLIC_SENTRY_DSN)
       : null;
 
+  console.log(useHTTPS, process.env.VITE_HTTPS_CERT_PATH, process.env.VITE_HTTPS_KEY_PATH);
   return {
     build: {
       minify: isProductionBuild ? 'esbuild' : false
     },
-    ...(useHTTPS && process.env.VITE_HTTPS_CERT_PATH
-      ? {
-          server: {
-            https: {
-              cert: readFileSync(process.env.VITE_HTTPS_CERT_PATH),
-              key: readFileSync(process.env.VITE_HTTPS_KEY_PATH)
-            }
-          }
-        }
-      : {}),
     plugins: [
       ...(sentryUrl && process.env.SENTRY_AUTH_TOKEN
         ? [
@@ -66,8 +57,16 @@ export default defineConfig(({ command, mode }): UserConfig => {
         : [])
     ],
     server: {
-      // Includes localhost by default, check is skipped when HTTPS is used (see above)
-      allowedHosts: [os.hostname().toLocaleLowerCase()]
+      // Includes localhost by default, check is skipped when HTTPS is used (see mkcert() and below)
+      allowedHosts: [os.hostname().toLocaleLowerCase()],
+      ...(useHTTPS && process.env.VITE_HTTPS_CERT_PATH
+        ? {
+            https: {
+              cert: readFileSync(process.env.VITE_HTTPS_CERT_PATH),
+              key: readFileSync(process.env.VITE_HTTPS_KEY_PATH)
+            }
+          }
+        : {})
     },
     ssr: {
       // https://vitejs.dev/guide/ssr.html#ssr-externals
