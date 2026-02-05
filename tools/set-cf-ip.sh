@@ -6,7 +6,7 @@
 # The goal is to make it easier to access a local Vite web development server from a virtual
 # on a dynamic local DHCP address using a or real mobile device (Simulator, emulator, ...),
 # without modifying the hostfile of said device, and without installing a custom
-#TLS Certificate Authority (although Android's webview # also seems to require one for ZeroSSL).
+# TLS Certificate Authority (although Android's webview still seems to require one for ZeroSSL!).
 #
 # Initially written by ChatGPT, with some issues corrected.
 # Dependencies:
