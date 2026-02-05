@@ -73,7 +73,7 @@
     by the screen switcher toggle in the iOS PWA.
     - The 0.7 scale here is because the inset is exaggerated for the bottom window switcher on iOS PWA.
     */
-    --height-mobile-nav: calc(7rem + var(--safe-area-inset-bottom) * 0.7);
+    --height-mobile-nav: calc(7rem + env(safe-area-inset-bottom, 0) * 0.7);
   }
 
   :global(body div.app.fullscreen) {
@@ -97,7 +97,7 @@
     justify-content: space-evenly;
     align-items: center;
     height: 100%;
-    padding: 0.8rem 0 max(calc(var(--safe-area-inset-bottom, 0.8rem) * 0.7), 0.8rem) 0;
+    padding: 0.8rem 0 max(calc(env(safe-area-inset-bottom, 0.8rem) * 0.7), 0.8rem) 0;
     background-color: var(--color-white);
     z-index: 121;
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
