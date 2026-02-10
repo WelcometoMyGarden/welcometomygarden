@@ -30,7 +30,7 @@ cap open ios
 
 **Android Build Types and iOS Xcode Schemes**
 
-The iOS scheme "App" is connected to the target "App". Another scheme, _App Staging_ also exists.
+The iOS scheme "App" is connected to the target "App". Another scheme, _App Staging_ also exists. On Android, a "prod" and "staging" product flavor is defined to switch the Firebase environment, which are combineable with the built-in _debug_ and _release_ build types.
 
 Switching schemes or build types currently the main goal of switching the Firebase Messaging backend attached to it (staging or prod). To change the frontend target, see below.
 
@@ -38,10 +38,12 @@ Insert the following files:
 
 **Android**
 
+See the [Firebase documentation](https://firebase.google.com/docs/projects/multiprojects#support_multiple_environments_in_your_android_application)
+
 ```bash
 ./android/app/google-services.json # staging service file, used in general debug builds
 ./android/app/src/staging/google-services.json # staging service file, used in staging builds
-./android/app/src/release/google-services.json # production service file, used in release builds
+./android/app/src/prod/google-services.json # production service file, used in release builds
 ```
 
 To switch, use View -> Tool Windows -> Build Variants in Android Studio, and switch the `:app` module.
