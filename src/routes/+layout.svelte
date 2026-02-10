@@ -254,6 +254,8 @@
   class:fullscreen={$isFullscreen}
   class:error-banner={false}
   class:native={Capacitor.isNativePlatform()}
+  class:ios={Capacitor.getPlatform() === 'ios'}
+  class:android={Capacitor.getPlatform() === 'android'}
   style="--vh:{vh}"
   bind:this={appContainer}
 >
@@ -395,7 +397,7 @@
     }
 
     /* Add a general safe inset padding on native, except on the map */
-    .app.native:not(.active-explore) {
+    .app.native.ios:not(.active-explore) {
       padding-top: env(safe-area-inset-top);
     }
 
