@@ -5,7 +5,7 @@ enum LogLevel {
   debug = 3
 }
 
-let currentLevel = import.meta.env.LOG_LEVEL ? parseInt(import.meta.env.LOG_LEVEL) : 2;
+let currentLevel = import.meta.env.VITE_LOG_LEVEL ? parseInt(import.meta.env.VITE_LOG_LEVEL) : 2;
 
 type LoggerFunction = (message: any, ...args: any[]) => void;
 
