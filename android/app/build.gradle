@@ -22,10 +22,17 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        staging {
-          initWith release
-          versionNameSuffix ".staging"
-        }
+    }
+    flavorDimensions "environment"
+    productFlavors {
+      prod {
+        dimension "environment"
+        versionNameSuffix ".prod"
+      }
+      staging {
+        dimension "environment"
+        versionNameSuffix ".staging"
+      }
     }
 }
 
