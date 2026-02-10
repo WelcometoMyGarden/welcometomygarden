@@ -397,7 +397,7 @@ Component for maps. Shared between the main map, and the map in the Garden creat
     }
   }
 
-  :global(.app.native .maplibregl-ctrl-top-right) {
+  :global(.app.native.ios .maplibregl-ctrl-top-right) {
     top: 10rem;
   }
 </style>

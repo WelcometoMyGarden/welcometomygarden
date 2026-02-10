@@ -458,7 +458,7 @@
   }
 
   /* Native override */
-  :global(.app.native .map-section .mapboxgl-ctrl-top-left) {
+  :global(.app.native.ios .map-section .mapboxgl-ctrl-top-left) {
     /* 10px is the built-in margin */
     top: calc(env(safe-area-inset-top) - 10px);
   }
