@@ -52,6 +52,9 @@ const config: CapacitorConfig = {
   plugins: {
     SplashScreen: {
       launchAutoHide: false
+    },
+    SystemBars: {
+      insetsHandling: 'disable'
     }
   },
   ...overrideConfig
