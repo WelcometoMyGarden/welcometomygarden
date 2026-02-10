@@ -1,21 +1,21 @@
 PODS:
-  - Capacitor (7.4.5):
+  - Capacitor (8.0.2):
     - CapacitorCordova
-  - CapacitorApp (7.1.1):
+  - CapacitorApp (8.0.0):
     - Capacitor
-  - CapacitorCommunitySafeArea (7.0.0):
+  - CapacitorCommunitySafeArea (8.0.1):
     - Capacitor
-  - CapacitorCordova (7.4.5)
-  - CapacitorDevice (7.0.3):
+  - CapacitorCordova (8.0.2)
+  - CapacitorDevice (8.0.0):
     - Capacitor
   - CapacitorInappbrowser (2.5.3):
     - Capacitor
     - OSInAppBrowserLib (~> 2.3.1)
-  - CapacitorLocalNotifications (7.0.4):
+  - CapacitorLocalNotifications (8.0.0):
     - Capacitor
-  - CapacitorPushNotifications (7.0.4):
+  - CapacitorPushNotifications (8.0.0):
     - Capacitor
-  - CapacitorSplashScreen (7.0.4):
+  - CapacitorSplashScreen (8.0.0):
     - Capacitor
   - FirebaseCore (9.0.0):
     - FirebaseCoreDiagnostics (~> 9.0)
@@ -123,15 +123,15 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@notnotsamuel/capacitor-swipe-back"
 
 SPEC CHECKSUMS:
-  Capacitor: 12914e6f1b7835e161a74ebd19cb361efa37a7dd
-  CapacitorApp: 63b237168fc869e758481dba283315a85743ee78
-  CapacitorCommunitySafeArea: 211e919d3f0ff6020a3b2acb3b772fa30fb685ef
-  CapacitorCordova: 31bbe4466000c6b86d9b7f1181ee286cff0205aa
-  CapacitorDevice: b64654eb4d404373e733c01d835055ba59286e5c
+  Capacitor: 2b79172ad27f3be2d103cce88b8eb9803fdcc744
+  CapacitorApp: 3963a84197280757b84f126afd1520a85ae3b092
+  CapacitorCommunitySafeArea: 91738f4ae7f47d2d94e06e429e16fb73cd8fdc48
+  CapacitorCordova: 921bdb690ebe82421b24fce45552fd3dea2ae43a
+  CapacitorDevice: 9a16fb36a19ff391bf75afbe3cf16f883b3b3aa0
   CapacitorInappbrowser: e1dc727db99127c2908b69408f7da8118d854a84
-  CapacitorLocalNotifications: ba2a08bd92887b08f352e6b2db430575cef0cea3
-  CapacitorPushNotifications: 7604512af53bbfdf1dd8fb2256b9ef1e8a69cdc2
-  CapacitorSplashScreen: 000f7591d546907dda5cbb514bd6b6d9e6048cf8
+  CapacitorLocalNotifications: 177cfbf8228d9bd82a147e094cb7984d7afb9e29
+  CapacitorPushNotifications: 722c1528eabbefd355f47e373a4c6235d01e85e9
+  CapacitorSplashScreen: 422880d7117605c30699eb4b21644b62db42e86c
   FirebaseCore: e4c0b5d9727eaee0b43f9ed00baff7500c188d7b
   FirebaseCoreDiagnostics: 54410e5d156bf406a764c2722d9f77d682723b4c
   FirebaseCoreInternal: bca76517fe1ed381e989f5e7d8abb0da8d85bed3
@@ -144,6 +144,6 @@ SPEC CHECKSUMS:
   OSInAppBrowserLib: bf7cdcc072394ae827f8cfe3f5f9c807691834c0
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
 
-PODFILE CHECKSUM: 832f20d84bbf0aa16744e0fa35d970b8275e677c
+PODFILE CHECKSUM: 1e456398e2e7495df96214322d7c56cd95be9747
 
 COCOAPODS: 1.16.2
