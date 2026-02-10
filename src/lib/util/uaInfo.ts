@@ -51,10 +51,13 @@ export const iDeviceInfo = browser
     })()
   : undefined;
 
-export const isMobileDevice = uaInfo
-  ? ((device) => (device.type && (device.type === 'mobile' || device.type === 'tablet')) || false)(
-      uaInfo!.device
-    )
-  : undefined;
-
 export const isNative = Capacitor.isNativePlatform();
+
+export const isMobileDevice =
+  isNative ||
+  (uaInfo
+    ? ((device) =>
+        (device.type && (device.type === 'mobile' || device.type === 'tablet')) || false)(
+        uaInfo!.device
+      )
+    : undefined);
