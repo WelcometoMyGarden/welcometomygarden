@@ -22,6 +22,17 @@ switch (process.env.NODE_ENV) {
       }
     };
     break;
+  case 'devpushprod':
+    overrideConfig = {
+      server: {
+        // See tools/set-cf-ip.sh
+        url: 'https://wtmg.thorgalle.com:5173'
+      },
+      ios: {
+        scheme: 'App'
+      }
+    };
+    break;
   case 'devpush':
     overrideConfig = {
       server: {
@@ -33,6 +44,7 @@ switch (process.env.NODE_ENV) {
       }
     };
     break;
+
   default:
     overrideConfig = {
       server: {
