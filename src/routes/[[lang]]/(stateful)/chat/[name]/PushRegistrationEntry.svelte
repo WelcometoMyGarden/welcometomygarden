@@ -113,7 +113,7 @@
         os ??
         $_('account.notifications.unknown')}
       <div class="extra-info">
-        {#if !isRegisteredInFirebase || (pushRegistration && isNativePushRegistration(pushRegistration) && pushRegistration.deviceId === $deviceId) || currentWebSub?.endpoint === pRWebPushEndpoint}
+        {#if !isRegisteredInFirebase || (pushRegistration && (isNativePushRegistration(pushRegistration) ? pushRegistration.deviceId === $deviceId : currentWebSub?.endpoint === pRWebPushEndpoint))}
           {$_('account.notifications.current')}
         {:else if refreshedAt}
           {$_('account.notifications.last-seen')}
