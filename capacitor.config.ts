@@ -67,6 +67,9 @@ const config: CapacitorConfig = {
     },
     SystemBars: {
       insetsHandling: 'disable'
+    },
+    EdgeToEdge: {
+      navigationBarColor: '#ffffff'
     }
   },
   ...overrideConfig

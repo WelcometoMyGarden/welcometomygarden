@@ -20,5 +20,8 @@ project(':capacitor-push-notifications').projectDir = new File('../node_modules/
 include ':capacitor-splash-screen'
 project(':capacitor-splash-screen').projectDir = new File('../node_modules/@capacitor/splash-screen/android')
 
+include ':capawesome-capacitor-android-edge-to-edge-support'
+project(':capawesome-capacitor-android-edge-to-edge-support').projectDir = new File('../node_modules/@capawesome/capacitor-android-edge-to-edge-support/android')
+
 include ':notnotsamuel-capacitor-swipe-back'
 project(':notnotsamuel-capacitor-swipe-back').projectDir = new File('../node_modules/@notnotsamuel/capacitor-swipe-back/android')

@@ -389,6 +389,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@capawesome/capacitor-android-edge-to-edge-support@npm:^8.0.5":
+  version: 8.0.5
+  resolution: "@capawesome/capacitor-android-edge-to-edge-support@npm:8.0.5"
+  peerDependencies:
+    "@capacitor/core": ">=8.0.0"
+  checksum: 10/6a77171b98acc9648b997b4766e6d8c7288194f9f9f73d41c4e261c9b30958973cbb0f84842413b1721d1b83cd0d517afac21644f1af92ce10fffb57b5ef8808
+  languageName: node
+  linkType: hard
+
 "@cspotcode/source-map-support@npm:^0.8.0":
   version: 0.8.1
   resolution: "@cspotcode/source-map-support@npm:0.8.1"
@@ -13051,6 +13060,7 @@ __metadata:
     "@capacitor/local-notifications": "npm:^8.0.0"
     "@capacitor/push-notifications": "npm:^8.0.0"
     "@capacitor/splash-screen": "npm:^8.0.0"
+    "@capawesome/capacitor-android-edge-to-edge-support": "npm:^8.0.5"
     "@firebase/rules-unit-testing": "npm:^5.0.0"
     "@notnotsamuel/capacitor-swipe-back": "npm:^3.0.2"
     "@playwright/test": "npm:^1.58.1"
