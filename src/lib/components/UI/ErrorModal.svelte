@@ -2,6 +2,10 @@
   import { _ } from 'svelte-i18n';
   import { close } from '$lib/stores/app';
   import { Modal } from '.';
+  import { isNative } from '$lib/util/uaInfo';
+  import { deviceId } from '$lib/stores/pushRegistrations';
+  import { Device, type DeviceInfo } from '@capacitor/device';
+  import { omit } from 'lodash-es';
 
   export interface Props {
     /**
@@ -21,6 +25,23 @@
   }
 
   let { specifier = '', contextLog = undefined, error }: Props = $props();
+
+  let nativeInfo: undefined | DeviceInfo;
+
+  let nativeInfoString = $derived(
+    nativeInfo
+      ? JSON.stringify(
+          omit(nativeInfo, ['name', 'operatingSystem', 'iOSVersion'] satisfies Array<
+            DeviceInfo[keyof DeviceInfo]
+          >)
+        )
+      : ''
+  );
+  $effect(() => {
+    if (isNative) {
+      Device.getInfo().then((info) => (nativeInfo = info));
+    }
+  });
 </script>
 
 <!-- @component
@@ -39,6 +60,7 @@ Modal to show a generic error.
         <p>{@html specifier}</p>
       {/if}
       <p></p>
+      <!-- This is printed as a box with -->
       <div class="error-log">
         {#if error}
           <code>
@@ -50,7 +72,17 @@ Modal to show a generic error.
           </code>
         {/if}
         {#if contextLog}<p>{contextLog}</p>{/if}
-        <p>{navigator.userAgent}</p>
+        <p>
+          {#if isNative}
+            Device ID: {$deviceId}
+            {#if nativeInfoString}
+              <br />
+              {nativeInfoString}
+            {/if}
+          {:else}
+            {navigator.userAgent}
+          {/if}
+        </p>
       </div>
     </div>
   {/snippet}

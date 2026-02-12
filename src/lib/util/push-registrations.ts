@@ -26,6 +26,9 @@ import logger from './logger';
  * Returns true on native platforms.
  */
 export const hasWebPushNotificationSupportNow = () => {
+  if (isNative) {
+    return false;
+  }
   if (!('Notification' in window)) {
     logger.warn('This browser does not support the Notification API.');
     return false;
@@ -74,7 +77,7 @@ export const isOnIDevicePWA = () => {
 /**
  * Shows an error in a modal with the given description. Also includes user agent information.
  * @param error
- * @param specifier HTML string
+ * @param specifier HTML string, already encapsulated in a <p>
  */
 export const handleErrorGeneric = (error: unknown, specifier: string) => {
   rootModal.set(
@@ -89,7 +92,7 @@ export const handleErrorGeneric = (error: unknown, specifier: string) => {
 /**
  * Displays a general-purpose error message related to notifications, with optional extra info.
  * @param error
- * @param extraInfo
+ * @param extraInfo HTML
  */
 export const handleError = (error: unknown, extraInfo?: string) => {
   const errorModalSpecifier = get(t)('push-notifications.error.generic', {

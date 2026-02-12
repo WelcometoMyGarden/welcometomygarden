@@ -46,6 +46,8 @@
     } else {
       CapacitorSwipeBackPlugin.enable().then(() => logger.debug('Swipe Back plugin enabled'));
     }
+  } else {
+    logger.debug('Not a native platform, skipping native push');
   }
 
   let { children }: Props = $props();
