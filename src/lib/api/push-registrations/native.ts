@@ -9,17 +9,21 @@ import {
   type FirebaseNativePushRegistration
 } from '$lib/types/PushRegistration';
 import { goto } from '$lib/util/navigate';
-import { handleError, pushRegistrationsColRef } from '$lib/util/push-registrations';
+import {
+  handleError,
+  isNativePushRegistration,
+  pushRegistrationsColRef
+} from '$lib/util/push-registrations';
 import removeUndefined from '$lib/util/remove-undefined';
 import { isNative } from '$lib/util/uaInfo';
-import { Device } from '@capacitor/device';
+import { Device, type DeviceInfo } from '@capacitor/device';
 import {
   type ActionPerformed,
   type PushNotificationSchema,
   PushNotifications,
   type Token
 } from '@capacitor/push-notifications';
-import { addDoc, serverTimestamp } from 'firebase/firestore';
+import { addDoc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { t } from 'svelte-i18n';
 import { get } from 'svelte/store';
 import type { IDevice } from 'ua-parser-js';
@@ -34,8 +38,11 @@ function handleLink(link: string) {
 // Set up listeners for notifications
 export function initializeNativePush() {
   if (!isNative) {
+    logger.debug('Not considered native, stopping native push init');
     return;
   }
+
+  logger.debug('Initializing native push');
 
   Device.getId().then((r) => deviceId.set(r.identifier));
 
@@ -119,54 +126,85 @@ export async function registerOrRefreshNativeRegistration() {
 }
 
 /**
- * Only for the first time
+ * Adds the registration to the Firestore. Normally only runs on the first time.
+ *
+ *  but in edge cases (TestFlight app and Debug app installed after eachother),
+ * the device ID may be different despite the FCM token being the same. In that case, this updates the device ID
  * @returns
  */
 async function registerNotifications() {
+  // Get device info
   let fcmToken: string;
-  try {
-    fcmToken = await registerOrRefreshNativeRegistration();
-
-    // If the resulting push registration was already stored, do not add it again.
-    if (get(pushRegistrations).find((pR) => pR.fcmToken === fcmToken)) {
-      logger.warn('Tried to add an already-known push registration; this should not happen.');
-      handleError(
-        undefined,
-        'It looks like you already had notifications activated on this device.'
-      );
-      return;
-    }
-  } catch (e) {
-    logger.error(e);
-    return;
-  }
+  let info: DeviceInfo;
+  let nativeDeviceId: string | null | undefined;
 
   try {
-    // Add the registration to the Firestor
-    const info = await Device.getInfo();
-    const nativeDeviceId = get(deviceId);
+    info = await Device.getInfo();
+    nativeDeviceId = get(deviceId);
     if (!nativeDeviceId) {
       logger.error("Couldn't get the native device ID while adding the push registration");
       return false;
     }
-    await addDoc<FirebaseNativePushRegistration, FirebaseNativePushRegistration>(
-      pushRegistrationsColRef(),
-      {
-        status: PushRegistrationStatus.ACTIVE,
-        fcmToken,
-        deviceId: nativeDeviceId,
-        ua: removeUndefined({
-          os: info.operatingSystem,
-          browser: null,
-          device: {
-            vendor: info.manufacturer,
-            model: info.model
-          } as IDevice
-        }),
-        createdAt: serverTimestamp(),
-        refreshedAt: serverTimestamp()
-      } satisfies FirebaseNativePushRegistration
-    );
+  } catch (e) {
+    handleError(undefined, 'Something went wrong while getting device information.');
+    return false;
+  }
+
+  try {
+    fcmToken = await registerOrRefreshNativeRegistration();
+  } catch (e) {
+    logger.error(e);
+    return false;
+  }
+
+  const localPushRegistrations = get(pushRegistrations);
+
+  const prWithSameToken = localPushRegistrations.find((pR) => pR.fcmToken === fcmToken);
+
+  // If the resulting push registration was already stored exactly,
+  // do not add it again. Show an error, since this should be prevented
+  // by a device ID check by the caller and we want to debug this situation.
+  if (
+    prWithSameToken &&
+    isNativePushRegistration(prWithSameToken) &&
+    prWithSameToken.deviceId === nativeDeviceId
+  ) {
+    logger.warn('Tried to add an already-known push registration; this should not happen.');
+    handleError(undefined, 'It looks like you already had notifications activated on this device.');
+    return false;
+  }
+
+  const upsertProperties = {
+    status: PushRegistrationStatus.ACTIVE,
+    deviceId: nativeDeviceId,
+    ua: removeUndefined({
+      os: info.operatingSystem,
+      browser: null,
+      device: {
+        vendor: info.manufacturer,
+        model: info.model
+      } as IDevice
+    }),
+    refreshedAt: serverTimestamp()
+  };
+
+  try {
+    if (prWithSameToken) {
+      // If the result push registration FCM token already exists, then the device
+      // properties may have changed, update them. There may be some edge cases where
+      // this happens.
+      await updateDoc(pushRegistrationsColRef().doc(prWithSameToken.id), upsertProperties);
+    } else {
+      // No PR exists yet in Firestore, add it (default situation)
+      await addDoc<FirebaseNativePushRegistration, FirebaseNativePushRegistration>(
+        pushRegistrationsColRef(),
+        {
+          fcmToken,
+          createdAt: serverTimestamp(),
+          ...upsertProperties
+        } satisfies FirebaseNativePushRegistration
+      );
+    }
     // Success
     isEnablingLocalPushRegistration.set(false);
     notification.success(get(t)('push-notifications.registration-success'));
@@ -174,6 +212,7 @@ async function registerNotifications() {
   } catch (e) {
     logger.error(e);
   }
+  return false;
 }
 
 export const createNativePushRegistration = async () => {
@@ -194,7 +233,7 @@ export const createNativePushRegistration = async () => {
         if (result.receive === 'granted') {
         } else {
           // Show some error
-          logger.warn('The user has not granted permissions for ');
+          logger.warn('The user has not granted permissions for notifications');
           throw Error();
         }
       });
