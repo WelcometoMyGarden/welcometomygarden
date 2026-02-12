@@ -39,6 +39,8 @@
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We want to help you find your location on the map.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>You can use the camera to take a picture for your garden profile.</string>
 	<key>UIBackgroundModes</key>
 	<array/>
 	<key>UILaunchStoryboardName</key>
