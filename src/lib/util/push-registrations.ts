@@ -20,6 +20,7 @@ import type {
 } from '$lib/types/PushRegistration';
 import { UAParser } from 'ua-parser-js';
 import logger from './logger';
+import nProgress from 'nprogress';
 
 /**
  * Synchronous (and probably more limited) version of Firebase Messaging's isSupported function.
@@ -87,6 +88,7 @@ export const handleErrorGeneric = (error: unknown, specifier: string) => {
     } as Props)
   );
   isEnablingLocalPushRegistration.set(false);
+  nProgress.done();
 };
 
 /**

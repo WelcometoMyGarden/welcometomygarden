@@ -29,11 +29,21 @@ import { get } from 'svelte/store';
 import type { IDevice } from 'ua-parser-js';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import logger from '$lib/util/logger';
+import nProgress from 'nprogress';
 
 function handleLink(link: string) {
   const { pathname, search, hash } = new URL(link);
   goto(`${pathname}${search}${hash}`);
 }
+
+export const isDirectPushPermissionAndroid = async () => {
+  const { platform, androidSDKVersion, osVersion } = await Device.getInfo();
+  return (
+    platform === 'android' &&
+    ((typeof androidSDKVersion === 'number' && androidSDKVersion <= 32) ||
+      parseInt(osVersion.split('.')[0] ?? '13') <= 12)
+  );
+};
 
 // Set up listeners for notifications
 export function initializeNativePush() {
@@ -128,9 +138,8 @@ export async function registerOrRefreshNativeRegistration() {
 /**
  * Adds the registration to the Firestore. Normally only runs on the first time.
  *
- *  but in edge cases (TestFlight app and Debug app installed after eachother),
+ * In edge cases (like having the TestFlight app and Debug app installed after eachother),
  * the device ID may be different despite the FCM token being the same. In that case, this updates the device ID
- * @returns
  */
 async function registerNotifications() {
   // Get device info
@@ -207,7 +216,12 @@ async function registerNotifications() {
     }
     // Success
     isEnablingLocalPushRegistration.set(false);
-    notification.success(get(t)('push-notifications.registration-success'));
+    nProgress.done();
+    if (!(await isDirectPushPermissionAndroid())) {
+      // If we're on an Android version which didn't prompt for permissions, then
+      // also don't display a confusing prompt
+      notification.success(get(t)('push-notifications.registration-success'));
+    }
     return true;
   } catch (e) {
     logger.error(e);
@@ -218,15 +232,13 @@ async function registerNotifications() {
 export const createNativePushRegistration = async () => {
   // Start loading state indicator
   isEnablingLocalPushRegistration.set(true);
+  // Progress indicator for native subs without the notification modal
+  nProgress.start();
 
   const { receive: permissionStatus } = await PushNotifications.checkPermissions();
   // Request permission to use push notifications
   // iOS will prompt user and return if they granted permission or not
-  // Android will just grant without prompting
-  // Android 13 requires a permission check in order to receive push notifications.
-  // call requestPermissions() accordingly when targeting SDK 33.
-  // use checkPremissions() to see if permissions were given.
-  //
+  // Android <=12 will just grant without prompting, Android 13 (SDK 33) also prompts the user
   try {
     if (permissionStatus !== 'denied' && permissionStatus !== 'granted') {
       await PushNotifications.requestPermissions().then((result) => {
@@ -243,8 +255,7 @@ export const createNativePushRegistration = async () => {
   }
   //
   // TODO question: is the registration event only called after registering?
-
-  await registerNotifications();
+  return await registerNotifications();
 };
 
 export const unregisterNotifications = async () => {

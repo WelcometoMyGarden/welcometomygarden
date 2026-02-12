@@ -8,6 +8,7 @@ import { updateCommunicationLanguage } from '$lib/api/user';
 import IosNotificationPrompt from '$lib/components/Notifications/IOSPWANotificationModal.svelte';
 import {
   createFirebasePushRegistrationObserver,
+  handleNotificationEnableAttempt,
   hasEnabledNotificationsOnCurrentDevice
 } from '$lib/api/push-registrations';
 import { isOnIDevicePWA } from '$lib/util/push-registrations';
@@ -27,7 +28,7 @@ import { isNative } from '$lib/util/uaInfo';
 export const updatingMailPreferences = writable(false);
 export const updatingSavedGardens = writable(false);
 
-let hasShownInitNotificationsModal = false;
+let isNotificationInitDone = false;
 
 type MaybeUnsubscriberFunc = (() => void) | undefined;
 
@@ -96,26 +97,34 @@ export const initializeUser = async () => {
       return;
     }
 
-    // After user login, detect startup on PWA iOS or native which doesn't have pre-existing push
-    // registrations
+    // After user login, detect startup on PWA iOS or native which doesn't have a pre-existing push registration
     // TODO: check if this loads after loading pre-existing push registrations?
     // TODO: make this influence dismissal somehow?
     const notificationsDismissed = getCookie(NOTIFICATION_PROMPT_DISMISSED_COOKIE);
     if (
       // Prevent the modal from being shown twice in the same boot session (we might get multiple user updates)
-      !hasShownInitNotificationsModal &&
+      !isNotificationInitDone &&
       // We're logged in...
       get(user) !== null &&
-      // ... the user hasn't dismissed notifications
+      // ... the user hasn't dismissed notifications in the chat
       notificationsDismissed !== 'true' &&
-      // ... the browser has no native sub registered (but support exists)
-      // ... we're on the PWA of a supporting iOS version (preventing this from appearing on Android/... browsers)
-      ((isOnIDevicePWA() && (await getCurrentWebPushSubscription()) === null) ||
-        //  or we're on native, without push registrations enabled yet
-        (isNative && !hasEnabledNotificationsOnCurrentDevice()))
+      // .. push notifs are not enabled yet
+      !hasEnabledNotificationsOnCurrentDevice()
     ) {
-      rootModal.set(IosNotificationPrompt);
-      hasShownInitNotificationsModal = true;
+      if (isNative) {
+        // On native platforms with built-in permission prompts (or no prompts), just immediately prompt for permission on user load
+        handleNotificationEnableAttempt();
+      } else if (
+        // On iOS web PWAs, prompt on user load (for Android Chrome*, which also support push without installing the app, we only prompt
+        // in the chat)
+        isOnIDevicePWA() &&
+        //  when the browser has no web push sub registered (but support exists)
+        (await getCurrentWebPushSubscription()) === null
+      ) {
+        rootModal.set(IosNotificationPrompt);
+      }
+
+      isNotificationInitDone = true;
     }
   });
 
