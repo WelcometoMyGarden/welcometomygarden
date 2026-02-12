@@ -15,7 +15,9 @@ import {
   isInitializingFirebase,
   isUserLoading,
   resolveOnUserLoaded,
-  supabase
+  supabase,
+  isUserLocaleLoaded,
+  resolveOnUserLocaleLoaded
 } from '$lib/stores/auth';
 import User, { type UserPrivate, type UserPublic } from '$lib/models/User';
 import { createUser, resendAccountVerification as resendAccVerif } from '$lib/api/functions';
@@ -29,7 +31,12 @@ import {
 } from 'firebase/firestore';
 import notify from '$lib/stores/notification';
 import { goto } from '$app/navigation';
-import routes, { getCurrentRoute, getCurrentRouteDescription } from '../routes';
+import routes, {
+  getBaseRouteIn,
+  getCurrentRoute,
+  getCurrentRouteDescription,
+  unlocalizePath
+} from '../routes';
 import { page } from '$app/stores';
 import type { FirebaseGarden } from '../types/Garden';
 import type { User as FirebaseUser } from 'firebase/auth';
@@ -44,6 +51,7 @@ import * as Sentry from '@sentry/sveltekit';
 import { lr } from '$lib/util/translation-helpers';
 import { DEFAULT_LANGUAGE } from '$lib/types/general';
 import logger from '$lib/util/logger';
+import { isRelativeURL, universalGoto } from '$lib/util/navigate';
 
 // These are not Svelte stores, because we do not wish to listen to updates on them.
 // They are abstracted away by the User store, and trigger updates on that store.
@@ -87,6 +95,7 @@ export const createAuthObserver = (): Unsubscribe => {
     resetDocCaches();
     // Unsubscribe from all user-related observers
     unsubscribeFromInnerObserversIfExisting();
+    isUserLocaleLoaded.set(false);
     // Set the user to null (log out), if we're not yet logged out.
     // This triggers chat observer cleanup in layout.svelte
     user.set(null);
@@ -180,7 +189,7 @@ export const createAuthObserver = (): Unsubscribe => {
         await updateUserIfPossible();
         if (getCurrentRoute() === routes.AUTH_ACTION) {
           // If we're not on a useful page, redirect to /account
-          routeTo = $lr(routes.ACCOUNT);
+          routeTo = routes.ACCOUNT;
         }
 
         // Check if we need to redirect to a specific garden after verification
@@ -193,7 +202,7 @@ export const createAuthObserver = (): Unsubscribe => {
             // Only redirect within 10 minutes
             if (Date.now() - chatIntentionTs.getTime() < 10 * 60 * 1000) {
               logger.log('Restoring chat intention after verification');
-              routeTo = $lr(`${routes.MAP}/garden/${chatIntentionGardenId}`);
+              routeTo = `${routes.MAP}/garden/${chatIntentionGardenId}`;
             }
             // Remove the intention in any case
             localStorage.removeItem('chatIntention');
@@ -232,7 +241,7 @@ export const createAuthObserver = (): Unsubscribe => {
         }
       }
 
-      // Redirect to the map on start/login, in some cases
+      // Handle redirects after login
       if (
         // In general, when we just logged in
         justLoggedIn &&
@@ -240,12 +249,25 @@ export const createAuthObserver = (): Unsubscribe => {
       ) {
         let continueUrl = get(page).url.searchParams.get('continueUrl');
         if (continueUrl) {
-          // Might happen if you open the /sign-in link with a continueUrl directly,
-          // but you were already logged in
-          routeTo = continueUrl;
+          if (
+            getBaseRouteIn(continueUrl) === routes.ADD_GARDEN &&
+            !(firebaseTokenEmailVerified && firebaseUserEmailVerified)
+          ) {
+            // If the intention was to add a garden before being signed in,
+            // but the user is not verified, redirect to the account page so the can verify + add the garden
+            logger.log(
+              'Redirecting to /account upon unverified email sign-in with a garden add intention'
+            );
+            routeTo = routes.ACCOUNT;
+          } else {
+            // Anonther continueUrl. Might happen if you open the /sign-in link with a continueUrl directly,
+            // but you were already logged in
+            routeTo = continueUrl;
+          }
         } else {
+          // Standard post-sign-in redirect to the map
           // Might happen if you have the sign in page open on two different tabs
-          routeTo = $lr(routes.MAP);
+          routeTo = routes.MAP;
         }
       }
 
@@ -267,7 +289,7 @@ export const createAuthObserver = (): Unsubscribe => {
         // individual pages don't only trigger on logout and can include specific messages
         if (getCurrentRouteDescription()?.requiresAuth) {
           notify.info(get(_)('auth.logged-out'), 8000);
-          routeTo = $lr(routes.SIGN_IN);
+          routeTo = routes.SIGN_IN;
         }
         try {
           if (get(supabase)) {
@@ -287,11 +309,13 @@ export const createAuthObserver = (): Unsubscribe => {
       // sign-in screen (we assume the user has already seen the homepage)
       // This gives it a more app-like feel.
       if (getCurrentRoute() === routes.HOME && isOnIDevicePWA()) {
-        routeTo = $lr(routes.SIGN_IN);
+        routeTo = routes.SIGN_IN;
       }
 
       // If we know we are logged out, we are not loading anymore.
       isUserLoading.set(false);
+      isUserLocaleLoaded.set(true);
+
       // If we don't have a user to load, we will also not load chats.
       handledOpenFromIOSPWA.set(true);
     }
@@ -300,9 +324,28 @@ export const createAuthObserver = (): Unsubscribe => {
     isInitializingFirebase.set(false);
 
     if (routeTo) {
-      // Before navigating, ensure the user is fully loaded.
+      // Before navigating, ensure the user is fully loaded (in case there is a user being loaded).
       await resolveOnUserLoaded();
-      return goto(routeTo);
+      if (justLoggedIn) {
+        // In case we just logged in, also wait until the user's communicationLanguage is loaded,
+        // which happens *after* in stores/user.ts after the user is loaded.
+        logger.debug("Waiting on the user's locale to load");
+        await resolveOnUserLocaleLoaded();
+      }
+      // Create the localized route after the locale is loaded
+      let targetRoute;
+      if (isRelativeURL(routeTo)) {
+        // unlocalizePath is intended to be used when routeTo was constructed from a continueUrl
+        // above, which may still have outdated locale information included in it
+        // $lr is not equipped to change existing language params
+        targetRoute = get(lr)(unlocalizePath(routeTo));
+      } else {
+        targetRoute = routeTo;
+      }
+      logger.debug(`onIdTokenChanged: routing to ${targetRoute} after user load`);
+      // Using universalGoto, since continueUrl, which may be in routeTo, may
+      // contain an external URL
+      return universalGoto(targetRoute);
     }
   });
 

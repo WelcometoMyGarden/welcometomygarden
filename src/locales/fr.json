@@ -1083,7 +1083,8 @@
     "email-change": {
       "in-progress": "Modification de votre email en cours...",
       "success": "La modification de votre adresse email a bien été finalisée! Veuillez se connecter de nouveau"
-    }
+    },
+    "logged-out": "Vous avez été déconnecté·e"
   },
   "register": {
     "notify": {

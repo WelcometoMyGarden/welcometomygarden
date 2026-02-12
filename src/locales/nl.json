@@ -724,7 +724,8 @@
     "email-change": {
       "in-progress": "Je email adres wordt gewijzigd...",
       "success": "Je email is gewijzigd! Gelieve opnieuw in te loggen"
-    }
+    },
+    "logged-out": "Je bent uitgelogd."
   },
   "register": {
     "title": "Registreren",

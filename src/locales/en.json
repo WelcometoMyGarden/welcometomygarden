@@ -1101,7 +1101,7 @@
       "logging-in": "Logging you into the community space...",
       "failed": "Login to the community space failed, contact support if this keeps happening."
     },
-    "logged-out": "You have been logged out elsewhere. Please log in again.",
+    "logged-out": "You have been logged out.",
     "email-change": {
       "in-progress": "Changing your email...",
       "success": "Your email has successfully been changed! Please log in again"
