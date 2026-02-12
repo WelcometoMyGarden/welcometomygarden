@@ -1,21 +1,27 @@
 <script>
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
-  import { formEmailValue, formPasswordValue, isSigningIn, user } from '$lib/stores/auth';
+  import {
+    formEmailValue,
+    formPasswordValue,
+    isSigningIn,
+    resolveOnUserLocaleLoaded,
+    user
+  } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
   import { login } from '$lib/api/auth';
-  import routes, { getBaseRouteIn } from '$lib/routes';
+  import routes from '$lib/routes';
   import AuthContainer from '$lib/components/AuthContainer.svelte';
   import { TextInput, Button, Progress } from '$lib/components/UI';
   import { lockIcon, emailIcon } from '$lib/images/icons';
   import { SUPPORT_EMAIL } from '$lib/constants';
-  import { goto, universalGoto } from '$lib/util/navigate';
   import { page } from '$app/state';
   import { get } from 'svelte/store';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
   import * as Sentry from '@sentry/sveltekit';
   import { lr } from '$lib/util/translation-helpers';
   import logger from '$lib/util/logger';
+  import { tick } from 'svelte';
 
   const continueUrl = $derived(page.url.searchParams.get('continueUrl'));
 
@@ -33,20 +39,11 @@
           level: 'warning'
         });
       }
+      await resolveOnUserLocaleLoaded();
+      // Without this, the locale update won't be propagated to the formatter _ in notify yet, despite the resolveOnUserLocaleLoaded above
+      await tick();
       notify.success($_('sign-in.notify.welcome', { values: { user: localUser?.firstName } }));
-      if (continueUrl) {
-        if (getBaseRouteIn(continueUrl) === routes.ADD_GARDEN && !localUser?.emailVerified) {
-          // If the intention is to add a garden, but the user is not verified, redirect to the account page
-          logger.log(
-            'Redirecting to /account upon unverified email sign-in with a garden add intention'
-          );
-          universalGoto($lr(routes.ACCOUNT));
-        } else {
-          universalGoto(continueUrl);
-        }
-      } else {
-        goto($lr(routes.MAP));
-      }
+      // NOTE: don't handle redirects & goto here, they are handled by auth().onIdTokenChanged()
     } catch (ex) {
       if (
         isFirebaseError(ex) &&

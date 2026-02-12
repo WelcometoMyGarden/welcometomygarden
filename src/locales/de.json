@@ -1079,7 +1079,7 @@
       "logging-in": "Wir sind damit beschäftigt, Sie im Community-Bereich anzumelden …",
       "failed": "Die Anmeldung beim Community-Bereich ist fehlgeschlagen. Wenden Sie sich an den Support, wenn dies weiterhin passiert."
     },
-    "logged-out": "Sie wurden an anderer Stelle abgemeldet. Bitte melden Sie sich erneut an.",
+    "logged-out": "Sie wurden abgemeldet.",
     "email-change": {
       "in-progress": "Ändern Ihrer E-Mail-Adresse …",
       "success": "Ihre E-Mail wurde erfolgreich geändert! Bitte melden Sie sich erneut an"

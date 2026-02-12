@@ -31,6 +31,14 @@ export const isSigningIn = writable(false);
 export const isUserLoading = writable(false);
 export const user: Writable<User | null> = writable(null);
 
+/**
+ * Whether the user's locale is synchronized to the local browser locale store.
+ * Applicable when waiting for a user to load.
+ *
+ * Defaults to true, because it is set to false when user loading starts.
+ */
+export const isUserLocaleLoaded = writable(true);
+
 export const appCheckToken = writable<string | null>(null);
 
 /**
@@ -43,6 +51,19 @@ export const resolveOnUserLoaded = async () => {
     return new Promise<void>((resolve) => {
       const unsubFromLoading = isUserLoading.subscribe((isLoading) => {
         if (!isLoading) {
+          unsubFromLoading();
+          resolve();
+        }
+      });
+    });
+  }
+  return Promise.resolve();
+};
+export const resolveOnUserLocaleLoaded = async () => {
+  if (!get(isUserLocaleLoaded)) {
+    return new Promise<void>((resolve) => {
+      const unsubFromLoading = isUserLocaleLoaded.subscribe((isLoaded) => {
+        if (isLoaded) {
           unsubFromLoading();
           resolve();
         }

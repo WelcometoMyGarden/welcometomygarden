@@ -1,7 +1,7 @@
 import { derived, get, writable } from 'svelte/store';
 import { createChatObserver } from '$lib/api/chat';
 import { getCookie, setCookie } from '$lib/util';
-import { resolveOnUserLoaded, user } from '$lib/stores/auth';
+import { isUserLocaleLoaded, resolveOnUserLoaded, user } from '$lib/stores/auth';
 import { resetChatStores } from '$lib/stores/chat';
 import { coerceToValidLangCode } from '$lib/util/get-browser-lang';
 import { updateCommunicationLanguage } from '$lib/api/user';
@@ -24,6 +24,7 @@ import { invalidateAll } from '$app/navigation';
 import logger from '$lib/util/logger';
 import { getCurrentWebPushSubscription } from '$lib/api/push-registrations/webpush';
 import { isNative } from '$lib/util/uaInfo';
+import routes, { getCurrentRoute } from '$lib/routes';
 
 export const updatingMailPreferences = writable(false);
 export const updatingSavedGardens = writable(false);
@@ -192,13 +193,22 @@ export const initializeUser = async () => {
         if (latestLocale !== latestUser.communicationLanguage) {
           // If the locale store isn't up-to-date with the user's data,
           // change it to match the user's language (load the user)
-          logger.debug(`Loading locale ${latestUser.communicationLanguage} from the user's data`);
-          locale.set(latestUser.communicationLanguage);
-          // Redirect if needed
-          invalidateAll();
+          logger.debug(
+            `Loading locale ${latestUser.communicationLanguage} from the user's data to overwrite local ${latestLocale}`
+          );
+          // await is important here, otherwise the isUserLocaleLoaded.set(true) below will be triggered
+          // before the locale is fully updated
+          await locale.set(latestUser.communicationLanguage);
+          if (getCurrentRoute() === routes.SIGN_IN) {
+            // onIdTokenChanged is responsible for redirection to the user's locale after login
+            logger.debug('Skipping locale invalidation redirect after login');
+          } else {
+            // Redirect based on the new locale
+            invalidateAll();
+          }
         }
       } else {
-        // The comm language does not exist yet
+        // The users' comm language does not exist yet.
         // Set the user's communication language to the current locale, if there is none set yet
         // This will trigger another `userLocale` update, which will set the related cookie.
         // but for the rest it should be a no-op.
@@ -206,6 +216,11 @@ export const initializeUser = async () => {
           `Initializing the empty locale in the user data to the current locale ${latestLocale}`
         );
         await updateCommunicationLanguage(latestLocale);
+      }
+      // In any case, set that the user's locale was loaded
+      if (!get(isUserLocaleLoaded)) {
+        logger.debug('Marking the user locale as loaded to', get(locale));
+        isUserLocaleLoaded.set(true);
       }
     }
   });

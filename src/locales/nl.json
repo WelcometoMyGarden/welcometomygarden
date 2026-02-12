@@ -30,7 +30,7 @@
     "helpcenter-url": "https://hulp.welcometomygarden.org/",
     "error": {
       "start": "Er ging iets mis",
-    "app-check": {
+      "app-check": {
         "message": "WTMG werkt mogelijk niet goed in deze browser. Bekijk {linkText} voor oplossingen.",
         "link-text": "ons helpcentrum"
       }
@@ -724,7 +724,8 @@
     "email-change": {
       "in-progress": "Je email adres wordt gewijzigd...",
       "success": "Je email is gewijzigd! Gelieve opnieuw in te loggen"
-    }
+    },
+    "logged-out": "Je bent uitgelogd."
   },
   "register": {
     "title": "Registreren",

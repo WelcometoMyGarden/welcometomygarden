@@ -1080,7 +1080,7 @@
       "logging-in": "Iniciando sesión en el espacio comunitario...",
       "failed": "Error al iniciar sesión en el espacio comunitario; contacta con el servicio de asistencia si esto continúa sucediendo."
     },
-    "logged-out": "Se ha cerrado sesión en otro lugar. Por favor inicia sesión nuevamente.",
+    "logged-out": "Se ha cerrado sesión.",
     "email-change": {
       "in-progress": "Cambiando tu correo electrónico...",
       "success": "¡Tu correo electrónico ha sido cambiado con éxito! Por favor inicia sesión de nuevo"

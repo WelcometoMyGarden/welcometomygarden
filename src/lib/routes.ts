@@ -46,7 +46,7 @@ type RouteDescriptions = {
 
 /**
  *
- * Converts a SvelteKit route ID to a form that removes optional route segments, and route groups.
+ * Converts a SvelteKit route ID to a form that removes optional route segments ( /[segment]/ ), and route groups ( /(group)/ ).
  * @param routeId
  */
 export const visibleRoute = (routeId: string) =>
@@ -103,6 +103,8 @@ const getCurrentRouteDescriptionInner = (
 
 /**
  * Get the non-localized base route of the given SvelteKit route ID or concrete pathname
+ *
+ * This is a version of getCurrentRoute() for the given route id or path
  */
 export const getBaseRouteIn = (path: string) => findRouteMatch(visibleRoute(path))?.route;
 
@@ -131,6 +133,14 @@ export const activeRootPath = derived(
   page,
   ($page) => $page?.url?.pathname?.substring($page.params.lang ? 4 : 1).split('/')[0]
 );
+
+/**
+ * Strip a 2-character langugage path parth like nl/ from the URL
+ * Also works with home page URLs like /es without, without trailing slash
+ *
+ * This is a generic version of activeUnlocalizedPath above, applicable to any given relative path.
+ */
+export const unlocalizePath = (path: string) => path.replace(/(?<=^\/)[a-z]{2}(?=\/|$)\/?/, '');
 
 export const routeNames = Object.fromEntries(
   Object.entries(routeDescriptions).map(([k, v]) => [k, v.route])
