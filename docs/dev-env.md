@@ -21,6 +21,7 @@ The system is integrated with third-party services for several important feature
 - Java runtime environment (JRE) >= v21. This is required for Firebase's CLI. [Adoptium builds](https://adoptium.net/en-GB/) are helpful.
 - The Yarn package manager version which is defined in [package.json](../package.json), which should be installed [via Corepack](https://yarnpkg.com/corepack#installation).
 - The [Firebase CLI](https://firebaseopensource.com/projects/firebase/firebase-tools/), installed globally via npm (`npm i -g firebase-tools`). Make sure globally installed node binaries are added to your path.
+- A tool to copy files from a public Google Storage bucket, such as `gsutil`, `google storage` or `rclone`
 - Optional: [Mailpit](https://mailpit.axllent.org/) for testing emails locally.
 
 ## Project setup
@@ -42,6 +43,12 @@ The system is integrated with third-party services for several important feature
    # For the backend Firebase Cloud Functions local emulator
 
    cd api && cp .env.example .env.local && cd -
+   ```
+
+3. Download source assets from our bucket, which are not (yet) tracked in git. You can also use another tool for this.
+
+   ```sh
+   gsutil -m cp -r gs://wtmg-static/assets src/lib
    ```
 
 ## Next, get the dev servers running

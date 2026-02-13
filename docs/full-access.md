@@ -86,7 +86,7 @@ Note that these should have empty values in the staging config, since we do not 
 
 **Google Cloud bucket assets**
 
-Some of our static assets live in a simple Google Cloud bucket.
+Some of our static assets live in a simple public Google Cloud bucket, `wtmg-static`
 
 In the bucket file management API, it's possible to drag & drop in a second version of a file onto an existing one (e.g. with a rescaled resolution), and specify to "replace" it in the dialog that appears. However:
 
@@ -99,25 +99,16 @@ For some newer components, we started dynamically generating responsive images o
 
 The source images for this process should be put in `src/lib/assets`, but are not checked into the Git repo.
 
-We keep them in a Google Cloud bucket (and maybe in [Google Drive](https://drive.google.com/drive/folders/1OcaKJa9VoykflvKNv6nH13O0Ho_PcApF?usp=sharing)).
+We also keep them in the `wtmg-static` Google Cloud bucket.
 
-It's possible to sync your local version with the Google Drive, in both ways, with several tools. Here are some guidelines for [rclone](https://rclone.org/drive/):
-
-Uploading local files:
+It's possible to sync your local version with the bucket, in both ways, with several tools. For example, to upload new files with [rclone](https://rclone.org/drive/):
 
 ```
 rclone copy --exclude="**.DS_Store" src/lib/assets gcloud:wtmg-static/assets
 ```
 
-```
-rclone copy --exclude="**.DS_Store" src/lib/assets slowby-gdrive:Development/assets
-```
-
 `bisync` can be used to both download and upload.
 
-This assumes:
-
-- `gcloud` is configured as a Google Cloud Storage remote. Check with the team to copy configuration.
-- `slowby-gdrive` is configured as a Google Drive remote, and that "Development" is a shortcut to the Development folder in our team drive. Check with the team to receive a client ID & secret you can use for the configuration.
+This assumes that `gcloud` is configured as a Google Cloud Storage remote targeting `wtmg-static`. Check with the team to copy configuration.
 
 In the future, we should maybe consider blowing up our repository size to 10s to 100s of megabytes anyway, to get the benefits of version control for source images, and to not have to deal with an external storage system like now. See [this discussion](https://softwareengineering.stackexchange.com/questions/80962/should-images-be-stored-in-a-git-repository).
