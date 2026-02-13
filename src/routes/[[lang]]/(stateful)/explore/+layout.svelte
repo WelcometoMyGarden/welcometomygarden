@@ -11,10 +11,8 @@
   import GardenLayer from '$lib/components/Map/GardenLayer.svelte';
   import WaymarkedTrails from '$lib/components/Map/WaymarkedTrails.svelte';
   import Filter from '$lib/components/Garden/Filter.svelte';
-  import { Progress, Icon } from '$lib/components/UI';
-
+  import { Progress } from '$lib/components/UI';
   import { getCookie } from '$lib/util';
-  import { crossIcon } from '$lib/images/icons';
   import {
     LOCATION_BELGIUM,
     LOCATION_WESTERN_EUROPE,
@@ -46,6 +44,7 @@
   import logger from '$lib/util/logger';
   import { pushState } from '$app/navigation';
   import createUrl from '$lib/util/create-url';
+  import VehicleNotice from './VehicleNotice.svelte';
   interface Props {
     children?: import('svelte').Snippet;
   }
@@ -60,7 +59,7 @@
   let showSavedGardens = $state(false);
   let showTransport = $state(false);
   let savedGardens = $state([] as string[]);
-  let carNoticeShown = $state(!isOnIDevicePWA() && !getCookie('car-notice-dismissed'));
+  let vehicleNoticeShown = $state(!isOnIDevicePWA() && !getCookie('car-notice-dismissed'));
 
   function showMembershipModal(gardenUrl?: string) {
     if (gardenUrl) {
@@ -186,7 +185,7 @@
   const closeCarNotice = () => {
     // Set a cookie for one year
     setExpiringCookie('car-notice-dismissed', true, 24 * 365);
-    carNoticeShown = false;
+    vehicleNoticeShown = false;
   };
 
   let fetchError = '';
@@ -283,20 +282,8 @@
     <WaymarkedTrails {showHiking} {showCycling} />
     <MeetupLayer onMeetupClick={selectMeetup} {selectedMeetupId} />
     {@render children?.()}
-    {#if carNoticeShown}
-      <div class="vehicle-notice-wrapper">
-        <button onclick={closeCarNotice} aria-label="Close notice" class="button-container close">
-          <Icon icon={crossIcon} />
-        </button>
-
-        <div class="vehicle-notice">
-          <div class="image-container">
-            <img src="/images/no-car.svg" alt="No vehicle allowed" />
-          </div>
-          <h3>{@html $_('map.vehicle-notice.title')}</h3>
-          <p class="mt-m">{@html $_('map.vehicle-notice.text')}</p>
-        </div>
-      </div>
+    {#if vehicleNoticeShown}
+      <VehicleNotice close={closeCarNotice} />
     {/if}
     <FileTrails />
     <ZoomRestrictionNotice onclick={() => showMembershipModal()} />
@@ -348,73 +335,6 @@
     top: calc(var(--spacing-map-controls) - 10px);
   }
 
-  .vehicle-notice-wrapper {
-    width: 45rem;
-    height: 30rem;
-    box-shadow: 0px 0px 21.5877px rgba(0, 0, 0, 0.1);
-    position: fixed;
-    bottom: var(--height-footer);
-    left: 0;
-    background-color: var(--color-white);
-    border-radius: 0.6rem;
-    z-index: 20;
-  }
-
-  .vehicle-notice {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    flex-direction: column;
-    text-align: center;
-    padding: 1.5rem;
-    font-family: var(--fonts-copy);
-    width: 100%;
-    height: 100%;
-  }
-
-  .vehicle-notice h3 {
-    font-size: 1.8rem;
-    line-height: 1.4;
-    text-transform: uppercase;
-    position: relative;
-    font-weight: 700;
-  }
-
-  .vehicle-notice h3::after {
-    content: '';
-    width: 16rem;
-    position: absolute;
-    bottom: -1rem;
-    left: calc(50% - 8rem);
-    height: 0.4rem;
-    background: var(--color-orange-light);
-    border-radius: 0.5rem;
-  }
-
-  .vehicle-notice p {
-    font-size: 1.4rem;
-  }
-
-  .vehicle-notice .image-container {
-    width: 10rem;
-    height: 10rem;
-  }
-
-  .vehicle-notice .image-container img {
-    max-width: 100%;
-  }
-
-  .close {
-    width: 3.6rem;
-    height: 3.6rem;
-    position: absolute;
-    right: 1.2rem;
-    top: 1.2rem;
-    cursor: pointer;
-    z-index: 10;
-  }
-
   @media screen and (max-width: 700px) {
     .map-section {
       top: 0;
@@ -427,33 +347,6 @@
       /* Fix the oval attribution info box by setting a height equal to width,
       but allow flexible height expansion when opened */
       height: 24px;
-    }
-
-    .vehicle-notice-wrapper {
-      top: 2rem;
-      left: calc(50% - 22.5rem);
-    }
-  }
-
-  @media screen and (max-width: 500px) {
-    .vehicle-notice-wrapper {
-      width: 90%;
-      left: 5%;
-      height: 24rem;
-    }
-
-    .vehicle-notice {
-      padding: 3rem 2rem 1rem;
-    }
-
-    .image-container {
-      display: none;
-    }
-  }
-
-  @media screen and (max-width: 400px) {
-    .vehicle-notice-wrapper {
-      height: 28rem;
     }
   }
 
