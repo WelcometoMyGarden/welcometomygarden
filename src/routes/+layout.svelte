@@ -398,9 +398,10 @@
       overflow-x: hidden;
     }
 
-    /* Add a general safe inset padding on native, except on the map */
-    .app.native.ios:not(.active-explore) {
-      padding-top: env(safe-area-inset-top);
+    /* Add a general safe inset padding on native, except on the map & chat
+      (they don't need it, or have their own safe area handling) */
+    .app.native.ios:not(.active-explore):not(.active-chat) {
+      padding-top: env(safe-area-inset-top, 0px);
     }
 
     /* On the iOS PWA, we bump the height of the nav (and entire app) with

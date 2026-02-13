@@ -155,7 +155,7 @@
   {/if}
 </svelte:head>
 
-<header class:mobile={isMobile()}>
+<header class="chat-header" class:mobile={isMobile()}>
   <!-- This component switches based on mobile or not -->
   <HeaderComponent name={$partner?.name ?? ''}>
     {#if isMobile()}
@@ -393,13 +393,21 @@
     left: 0;
     z-index: 10;
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
-    height: var(--spacing-chat-header);
+    padding-top: 0.7rem;
+    padding-bottom: 1.7rem;
+    min-height: var(--spacing-chat-header);
     display: flex;
     flex-direction: column;
     width: 100%;
     justify-content: center;
     align-items: center;
     gap: 0.5rem;
+  }
+
+  :global(.app.native.ios header.mobile.chat-header) {
+    /* Expands the white background element to the top of the screen */
+    padding-top: calc(env(safe-area-inset-top, 0px) - 0.3rem);
+    min-height: 10.5rem;
   }
 
   header.mobile .title {
