@@ -69,7 +69,7 @@
         class="time"
         style="animation-duration: {toast.timeout}ms;"
         onanimationend={() => removeToast(toast.id)}
-></div>
+      ></div>
     </li>
   {/each}
 </ul>
@@ -92,6 +92,9 @@
   @media screen and (max-width: 700px) {
     .toasts {
       top: 0;
+    }
+    :global(.app.native.ios .toasts) {
+      top: env(safe-area-inset-top, 0px);
     }
   }
 

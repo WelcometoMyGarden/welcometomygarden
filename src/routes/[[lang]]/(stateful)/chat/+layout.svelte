@@ -189,7 +189,11 @@
   <div class="container">
     {#if !isMobile() || (isMobile() && isOverview)}
       <!-- Chat listing -->
-      <section class="conversations" in:fly={{ x: '-100%', duration: 400 }}>
+      <section
+        class="conversations"
+        in:fly={{ x: '-100%', duration: 400 }}
+        class:is-mobile={isMobile()}
+      >
         <h2>{$_('chat.all-conversations')}</h2>
         {#if $newConversation}
           <article>
@@ -251,6 +255,16 @@
     height: 100%;
   }
 
+  :global(.app.native.ios .container .conversations) {
+    /*
+      This should be applied on .conversations, and not on .container,
+      because otherwise, a visual jump is visible when opening chats.
+      -> you open the specific chat (component mounts) -> component animates in, still with container top padding applied
+      -> specific chat CSS (fixed top 0 + safe area) is loaded -> it jumps back down
+    */
+    padding-top: calc(env(safe-area-inset-top, 0px) - 1.3rem);
+  }
+
   .empty {
     padding: 1rem 3rem;
     line-height: 1.6;
@@ -258,11 +272,15 @@
 
   .conversations {
     width: 40rem;
-    box-shadow: 0px 0px 33px rgba(0, 0, 0, 0.1);
     border-radius: 0.6rem;
     margin-right: 4rem;
     height: 100%;
     overflow-y: auto;
+  }
+
+  .conversations:not(.is-mobile) {
+    /* Avoid box shadow escaping on the top when using safe area top insets on native mobile */
+    box-shadow: 0px 0px 33px rgba(0, 0, 0, 0.1);
   }
 
   article {

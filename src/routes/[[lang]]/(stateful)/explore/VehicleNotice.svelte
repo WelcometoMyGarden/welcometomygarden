@@ -87,10 +87,16 @@
     cursor: pointer;
     z-index: 10;
   }
+
   @media screen and (max-width: 700px) {
     .vehicle-notice-wrapper {
       top: 2rem;
       left: calc(50% - 22.5rem);
+    }
+
+    :global(.app.native.ios .vehicle-notice-wrapper) {
+      /* 1.2rem makes it have similar position to the normal mobile notice relative to the filter buttons */
+      top: calc(1.2rem + env(safe-area-inset-top, 0px));
     }
   }
 
