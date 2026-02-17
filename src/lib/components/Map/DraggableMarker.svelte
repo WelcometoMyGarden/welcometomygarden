@@ -2,7 +2,7 @@
   import type { ContextType } from './Map.svelte';
 
   import { getContext, onMount } from 'svelte';
-  import maplibregl from 'maplibre-gl';
+  import mapboxgl from 'mapbox-gl';
   import key from './mapbox-context.js';
   import type { LongLat } from '$lib/types/Garden';
   interface Props {
@@ -21,14 +21,14 @@
   let markerElement = $state();
   let marker = $state();
   onMount(() => {
-    const popup = new maplibregl.Popup({
+    const popup = new mapboxgl.Popup({
       offset: 25,
       closeButton: false,
       closeOnClick: false,
       className: 'popup'
     }).setText(label);
 
-    marker = new maplibregl.Marker({
+    marker = new mapboxgl.Marker({
       draggable: true,
       element: markerElement
     })

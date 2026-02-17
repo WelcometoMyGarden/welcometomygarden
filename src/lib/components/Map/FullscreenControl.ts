@@ -1,17 +1,20 @@
 import logger from '$lib/util/logger';
-import pkg from 'maplibre-gl';
-import type { IControl, Map } from 'maplibre-gl';
+import pkg from 'mapbox-gl';
+import type { IControl, Map } from 'mapbox-gl';
 const { Evented } = pkg;
 
-// This is the  v2.x TS FullscreenControl version, which includes a `fullscreenstart` and `fullscreenend` event.
-// Dependencies were inlined
-// https://github.com/maplibre/maplibre-gl-js/blob/c03607bad8a0d6574e9738b23fa84f3620713df5/src/ui/control/fullscreen_control.ts
+// mapbox-gl-js's FullscreenControl (v3.x) does not anymore expose `fullscreenstart` and `fullscreenend` events (does not extend Evented anymore)
+//   (snapshot: https://github.com/mapbox/mapbox-gl-js/blob/7a72385de5c7400647ea7d3539637145fdf616a7/src/ui/control/fullscreen_control.ts)
 //
-// The previously shipped the old 1.x JS version, which is guaranteed compatible with our v1.x library, but does not include this
-// https://github.com/maplibre/maplibre-gl-js/blob/c03607bad8a0d6574e9738b23fa84f3620713df5/src/ui/control/fullscreen_control.ts#L44
+// maplibre-gl-js v5.x still does.
+//   (snapshot: https://github.com/maplibre/maplibre-gl-js/blob/c03607bad8a0d6574e9738b23fa84f3620713df5/src/ui/control/fullscreen_control.ts#L44)
 //
-// import DOM from '../../util/dom';
-
+// This is no a modified version of the maplibre-gl-js control, which is attempted to be made compatible with Mapbox GL JS class names.
+//
+// Imports/dependencies of the maplibre version were inlined/polyfilled here
+//
+// v 5.x https://github.com/maplibre/maplibre-gl-js/blob/d1dc8536a7ad2d454361a2b51700790394259b33/src/ui/control/fullscreen_control.ts#L122C1-L136C1
+//
 //// "polyfill" implementations
 const DOM = {
   // https://github.com/maplibre/maplibre-gl-js/blob/c03607bad8a0d6574e9738b23fa84f3620713df5/src/util/dom.ts#L22
@@ -152,7 +155,7 @@ class FullscreenControl extends Evented implements IControl {
   onAdd(map: Map) {
     this._map = map;
     if (!this._container) this._container = this._map.getContainer();
-    this._controlContainer = DOM.create('div', 'maplibregl-ctrl maplibregl-ctrl-group');
+    this._controlContainer = DOM.create('div', 'mapboxgl-ctrl mapboxgl-ctrl-group');
     this._setupUI();
     return this._controlContainer;
   }
@@ -166,10 +169,10 @@ class FullscreenControl extends Evented implements IControl {
   _setupUI() {
     const button = (this._fullscreenButton = DOM.create(
       'button',
-      'maplibregl-ctrl-fullscreen',
+      'mapboxgl-ctrl-fullscreen',
       this._controlContainer
     ));
-    DOM.create('span', 'maplibregl-ctrl-icon', button).setAttribute('aria-hidden', 'true');
+    DOM.create('span', 'mapboxgl-ctrl-icon', button).setAttribute('aria-hidden', 'true');
     button.type = 'button';
     this._updateTitle();
     this._fullscreenButton.addEventListener('click', this._onClickFullscreen);
@@ -206,8 +209,8 @@ class FullscreenControl extends Evented implements IControl {
 
   _handleFullscreenChange() {
     this._fullscreen = !this._fullscreen;
-    this._fullscreenButton.classList.toggle('maplibregl-ctrl-shrink');
-    this._fullscreenButton.classList.toggle('maplibregl-ctrl-fullscreen');
+    this._fullscreenButton.classList.toggle('mapboxgl-ctrl-shrink');
+    this._fullscreenButton.classList.toggle('mapboxgl-ctrl-fullscreen');
     this._updateTitle();
 
     if (this._fullscreen) {
@@ -262,7 +265,7 @@ class FullscreenControl extends Evented implements IControl {
   }
 
   _togglePseudoFullScreen() {
-    this._container.classList.toggle('maplibregl-pseudo-fullscreen');
+    this._container.classList.toggle('mapboxgl-pseudo-fullscreen');
     this._handleFullscreenChange();
     this._map.resize();
   }

@@ -3,11 +3,12 @@
   import { writable, derived } from 'svelte/store';
   import { lr } from '$lib/util/translation-helpers';
   import { page } from '$app/stores';
-  export type ContextType = { getMap: () => maplibregl.Map };
+  import type { Map, LngLat } from 'mapbox-gl';
+  export type ContextType = { getMap: () => Map };
   export const currentPosition = writable<LongLat | null>(null);
   export const mapState = writable<{
     zoom: number;
-    center: maplibregl.LngLat;
+    center: LngLat;
     gardenId?: string;
   } | null>(null);
 
@@ -19,6 +20,9 @@
     }
     return $lr(routes.SIGN_IN);
   });
+  import mapboxgl from 'mapbox-gl';
+  mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
+  import 'mapbox-gl/dist/mapbox-gl.css';
 </script>
 
 <!-- @component
@@ -27,11 +31,8 @@ Component for maps. Shared between the main map, and the map in the Garden creat
 
 <script lang="ts">
   import { setContext, onMount, tick, onDestroy, type Snippet } from 'svelte';
-  import maplibregl from 'maplibre-gl';
   import key from './mapbox-context.js';
-  import 'maplibre-gl/dist/maplibre-gl.css';
   import { DEFAULT_MAP_STYLE, MOBILE_BREAKPOINT, ZOOM_LEVELS } from '$lib/constants';
-  import FullscreenControl from './FullscreenControl';
   import { isFullscreen } from '$lib/stores/fullscreen';
   import { user } from '$lib/stores/auth';
   import { hasEnabledNotificationsOnCurrentDevice } from '$lib/api/push-registrations';
@@ -42,6 +43,7 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   import { innerWidth } from 'svelte/reactivity/window';
   import logger from '$lib/util/logger.js';
   import { Capacitor } from '@capacitor/core';
+  import FullscreenControl from './FullscreenControl';
 
   type Props = {
     lat: number;
@@ -74,9 +76,8 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   let isAutoloadingLocation = false;
 
   let container: HTMLElement;
-  let map: maplibregl.Map | undefined = $state();
+  let map: Map | undefined = $state();
   let loaded = $state(false);
-
   const isMobile = $derived(innerWidth.current != null && innerWidth.current <= MOBILE_BREAKPOINT);
 
   const customAttribution = [
@@ -90,15 +91,13 @@ Component for maps. Shared between the main map, and the map in the Garden creat
     getMap: () => map!
   });
 
-  maplibregl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
-
-  const fullAttribution = new maplibregl.AttributionControl({ customAttribution });
-  const compactAttribution = new maplibregl.AttributionControl({
+  const fullAttribution = new mapboxgl.AttributionControl({ customAttribution });
+  const compactAttribution = new mapboxgl.AttributionControl({
     compact: true,
     customAttribution
   });
 
-  const scaleControl = new maplibregl.ScaleControl();
+  const scaleControl = new mapboxgl.ScaleControl();
   const fullscreenControl: FullscreenControl | undefined = new FullscreenControl({
     // We can assume that <html> is already in the DOM, because the map only loads
     // after a log in, and by then the first render has happened.
@@ -106,8 +105,8 @@ Component for maps. Shared between the main map, and the map in the Garden creat
     container: document.querySelector('html')!
   });
 
-  const originalUpdateCamera = maplibregl.GeolocateControl.prototype._updateCamera;
-  maplibregl.GeolocateControl.prototype._updateCamera = function (...args: any[]) {
+  const originalUpdateCamera = mapboxgl.GeolocateControl.prototype._updateCamera;
+  mapboxgl.GeolocateControl.prototype._updateCamera = function (...args: any[]) {
     // -- Uncommented code: --
     // Don't update the camera if we're automatically loading the location on load
     // It might take 5+ seconds, resulting in weird jumps
@@ -122,7 +121,7 @@ Component for maps. Shared between the main map, and the map in the Garden creat
     }
     originalUpdateCamera.apply(this, args);
   };
-  const geolocationControl = new maplibregl.GeolocateControl({
+  const geolocationControl = new mapboxgl.GeolocateControl({
     trackUserLocation: !!$user?.superfan,
     showUserLocation: !!$user?.superfan,
     fitBoundsOptions: {
@@ -141,7 +140,7 @@ Component for maps. Shared between the main map, and the map in the Garden creat
    */
   const addMap = () => {
     // Load map
-    map = new maplibregl.Map({
+    map = new mapboxgl.Map({
       container,
       style: DEFAULT_MAP_STYLE,
       center: [lon, lat],
@@ -158,7 +157,7 @@ Component for maps. Shared between the main map, and the map in the Garden creat
     map.touchZoomRotate.disableRotation();
 
     map.addControl(
-      new maplibregl.NavigationControl({ showCompass: false, showZoom: true }),
+      new mapboxgl.NavigationControl({ showCompass: false, showZoom: true }),
       'top-left'
     );
     // Default to full attribution
@@ -190,7 +189,7 @@ Component for maps. Shared between the main map, and the map in the Garden creat
 
   onMount(async () => {
     // Before loading the map, clear the mapbox.eventData.uuid:<token_piece>
-    // So that Mapbox (Maplibre) GL JS v1.x will generate a new uuid, which prevents tracking our users.
+    // So that Mapbox (mapbox) GL JS v1.x will generate a new uuid, which prevents tracking our users.
     for (let i = 0; i < localStorage.length; i++) {
       const currentKey = localStorage.key(i);
       if (currentKey && currentKey.startsWith('mapbox.eventData.uuid')) {
@@ -369,7 +368,7 @@ Component for maps. Shared between the main map, and the map in the Garden creat
     height: 100%;
   }
 
-  div :global(.maplibregl-canvas-container) {
+  div :global(.mapboxgl-canvas-container) {
     height: 100%;
   }
   div :global(canvas) {
@@ -377,27 +376,27 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   }
 
   /* Override the default pulsating dot animation, which is distracting */
-  :global(.mapboxgl-user-location-dot:before, .maplibregl-user-location-dot:before) {
+  :global(.mapboxgl-user-location-dot:before, .mapboxgl-user-location-dot:before) {
     animation: none;
   }
 
   /* If geolocation is not available, hide the Mapbox button */
   :global(
     .mapboxgl-ctrl button.mapboxgl-ctrl-geolocate:disabled,
-    .maplibregl-ctrl button.maplibregl-ctrl-geolocate:disabled
+    .mapboxgl-ctrl button.mapboxgl-ctrl-geolocate:disabled
   ) {
     display: none;
   }
 
   @media screen and (max-width: 700px) {
     /* Includes the FullscreenControl */
-    :global(.maplibregl-ctrl-top-right) {
+    :global(.mapboxgl-ctrl-top-right) {
       top: 5.5rem;
       right: 0.2rem;
     }
   }
 
-  :global(.app.native.ios .maplibregl-ctrl-top-right) {
+  :global(.app.native.ios .mapboxgl-ctrl-top-right) {
     top: 10rem;
   }
 </style>
