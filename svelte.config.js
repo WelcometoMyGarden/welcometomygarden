@@ -1,6 +1,6 @@
 // https://kit.svelte.dev/docs/adapter-static
 import adapter from '@sveltejs/adapter-static';
-import preprocess from 'svelte-preprocess';
+import { sveltePreprocess } from 'svelte-preprocess';
 // Refactored the following to pure JS because TS support is not stable in Node.js yet
 // https://github.com/sveltejs/kit/pull/13935
 import { SUPPORTED_LANGUAGES } from './src/lib/types/general.js';
@@ -10,7 +10,7 @@ import { urlPathPrefix } from './src/lib/util/translation-shared.js';
 const config = {
   // Consult https://github.com/sveltejs/svelte-preprocess
   // for more information about preprocessors
-  preprocess: preprocess(),
+  preprocess: sveltePreprocess(),
   kit: {
     // https://stackoverflow.com/a/74222951/4973029
     alias: {
