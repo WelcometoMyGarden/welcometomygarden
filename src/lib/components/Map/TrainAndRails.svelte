@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type mapboxgl from 'maplibre-gl';
   import { getContext } from 'svelte';
   import key from './mapbox-context.js';
 

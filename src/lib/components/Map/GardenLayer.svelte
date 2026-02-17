@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { Garden } from '$lib/types/Garden';
   import type { ContextType } from './Map.svelte';
-  import type maplibregl from 'maplibre-gl';
   import type GeoJSON from 'geojson';
 
   import { getContext, onMount } from 'svelte';
@@ -101,7 +100,7 @@
     });
   };
 
-  const _onGardenClick = (e: maplibregl.MapMouseEvent) => {
+  const _onGardenClick = (e: mapboxgl.MapMouseEvent) => {
     const garden = e.features?.[0]?.properties;
     onGardenClick(garden);
   };

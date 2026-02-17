@@ -343,7 +343,7 @@
       top: 0rem;
     }
 
-    .map-section :global(.maplibregl-ctrl-attrib.maplibregl-compact:not(.mapboxgl-compact-show)) {
+    .map-section :global(.mapboxgl-ctrl-attrib.mapboxgl-compact:not(.mapboxgl-compact-show)) {
       /* Fix the oval attribution info box by setting a height equal to width,
       but allow flexible height expansion when opened */
       height: 24px;
