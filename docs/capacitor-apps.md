@@ -167,7 +167,7 @@ Note: if you previously had a debug build installed through Android Studio, you 
 
 ## iOS
 
-1. In the Project navigator -> App -> Build Settings, go to the Versioning section, adjust "Current Project Version" and "Marketing Version" as appropriate.
+1. In the Project navigator (first left top) -> App (left top) -> Targets -> App (left) -> Build Settings (top), go to the Versioning section, adjust "Current Project Version" and "Marketing Version" as appropriate.
 2. Go to Product -> Archive in the menu
 3. Click "Distribute app"
 
