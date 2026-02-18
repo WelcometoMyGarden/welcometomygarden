@@ -1,6 +1,6 @@
 # WTMG Development Environment
 
-**Heads-up:** this guide may not be sufficient to produce a working development environment, as it has not been tested for many months in which the app has changed significantly. If you want to contribute and experience any problems, feel free to file an issue.
+**Heads-up:** we try to keep this guide up-to-date, but it may currently not be sufficient to produce a working development environment, as it has not been tested from scratch for a while. If you experience any problems, feel free to file an issue.
 
 ## Project overview
 
@@ -15,7 +15,7 @@ The system is integrated with third-party services for several important feature
 - Stripe: for our membership program.
 - A Supabase PostgreSQL replica: for more advanced queries and features that Firestore can't handle.
 
-## Prerequisites
+## Requirements
 
 - [Node](https://nodejs.org/en/download/) v24. Using [nvm](https://github.com/nvm-sh/nvm) is recommended. This codebase might work with other older or newer node versions too, but these aren't tested.
 - Java runtime environment (JRE) >= v21. This is required for Firebase's CLI. [Adoptium builds](https://adoptium.net/en-GB/) are helpful.
@@ -23,6 +23,7 @@ The system is integrated with third-party services for several important feature
 - The [Firebase CLI](https://firebaseopensource.com/projects/firebase/firebase-tools/), installed globally via npm (`npm i -g firebase-tools`). Make sure globally installed node binaries are added to your path.
 - A tool to copy files from a public Google Storage bucket, such as `gsutil`, `google storage` or `rclone`
 - Optional: [Mailpit](https://mailpit.axllent.org/) for testing emails locally.
+- A Mapbox API key, you can [get one from Mapbox](https://docs.mapbox.com/help/getting-started/#how-to-use-mapbox). If you don't supply one, then some pages will crash. Mapbox asks for payment details to get a token, but has a free tier that should be sufficient for local development needs.
 
 ## Project setup
 
@@ -45,6 +46,8 @@ The system is integrated with third-party services for several important feature
    cd api && cp .env.example .env.local && cd -
    ```
 
+   Next, fill in your `VITE_MAPBOX_ACCESS_TOKEN` in the front-end `.env.local`.
+
 3. Download source assets from our bucket, which are not (yet) tracked in git. You can also use another tool for this.
 
    ```sh
@@ -56,10 +59,10 @@ The system is integrated with third-party services for several important feature
 Start all Firebase emulators:
 
 ```sh
-yarn firebase:demo
+yarn firebase:demo-seed
 ```
 
-This will locally emulate our "backend": Firebase's [Auth](https://firebase.google.com/docs/auth), [Firestore](https://firebase.google.com/docs/firestore), [Storage](https://firebase.google.com/docs/storage), [Hosting](https://firebase.google.com/docs/hosting) and [Cloud Functions](https://firebase.google.com/docs/functions) modules.
+This will locally emulate our "backend": Firebase's [Auth](https://firebase.google.com/docs/auth), [Firestore](https://firebase.google.com/docs/firestore), [Storage](https://firebase.google.com/docs/storage), [Hosting](https://firebase.google.com/docs/hosting) and [Cloud Functions](https://firebase.google.com/docs/functions) modules. It also seeds a few sample users and gardens which can be used for testing, see [the seed script](../api/seeders/simple.js).
 
 In a new terminal, run:
 
@@ -71,10 +74,26 @@ This will run a SvelteKit app dev server via Vite (our frontend). SvelteKit also
 
 If you use VSCode (recommended), you can also execute both commands at the same time using the pre-configured [Run Build Task](https://code.visualstudio.com/Docs/editor/tasks#_typescript-hello-world) command.
 
-There are several other development scripts available in `package.json`, for example, `yarn firebase:demo-seed` will add some testing data to the dev env upon startup.
+### Alternative production-like dev server
 
-⚠️ **To test some features locally, you will need to use the Firebase Hosting servers instead.** `yarn dev` will use Vite's (fast) development server based on native ES modules. This will always run the latest code, and is sufficient for nearly all development. However, at the moment of writing, there is one feature (handleUnsubscribe) which requires the use of the dynamic rewrite capabilities of Firebase Hosting's servers. If you need to debug a production error, it might also be good to work with a built app via Hosting rather than the Vite development server, because it is closer to the production code. When you run the Firebase emulators at the same time, you will start up the Firebase Hosting emulator, which is configured in [firebase.json](../firebase.json). It hosts files from [dist](../dist/) and runs a separate server for each Firebase target. The front-end codebase **has to be built manually** (for which Vite uses rollup) to overwrite the dist build, for example using `yarn build:demo`. There might be some slight behavioral differences between a Vite development server and production build.
-.
+`yarn dev` will use Vite's (fast) development server based on native ES modules with hot module replacement (HMR). This is the easiest way to develop the WTMG front-end in most cases.
+
+However, in some cases, it is necesary to work with a built app accessed Firebase Hosting rather than using Vite development server, because this setup behaves more similarly to a production deployment. If you're working on one of the following areas (probably not exhaustive), you may want to follow this course:
+
+- redirect behavior
+- SvelteKit adapter-static behavior, prerendering, SEO & meta tags
+- Firebase Hosting function rewrites
+- browser compatibility testing (built apps are more compatible due to transpilation settings, see [dynamicBuildTarget.js](../plugins/dynamicBuildTarget.js)).
+
+To run this setup:
+
+1. Build the app, this will write the static site to the `dist` folder
+   ```sh
+   yarn build:demo
+   ```
+2. Access the built app through the Firebase Hosting Emulator, typically at [http://localhost:4005](http://localhost:4005) which is configured in [firebase.json](../firebase.json) and started along with the other emulators (see above).
+
+This setup does not have a front-end live reload or rebuild, so you need to manually rebuild after each change and manually refresh the site too.
 
 ## What can you do now?
 
@@ -83,7 +102,7 @@ Assuming that you did the above, you now have a partially functioning developmen
 You should now be able to:
 
 - access your local WTMG app at [http://127.0.0.1:5173/](http://127.0.0.1:5173/)
-- access the [Firebase emulator](https://firebase.google.com/docs/emulator-suite) dashboard UI should be [http://127.0.0.1:4001/](http://127.0.0.1:4001/)
+- access the [Firebase emulator](https://firebase.google.com/docs/emulator-suite) dashboard UI at [http://127.0.0.1:4001/](http://127.0.0.1:4001/)
 
 If this doesn't work, check your web console logs if your ad blocker is enabled and blocking certain code modules from loading in the development watcher of Vite. Disable the ad blocker on your localhost:5173, or add exception rules.
 
@@ -93,22 +112,22 @@ In the app, you can now try:
 2. Since you don't have access to the SendGrid variables, no emails will be sent. You can see what emails would have been sent in the Firebase Emulator logs terminal (e.g. to access your email verification link).
 3. You can add a test garden and also upload a file into emulated [Storage](https://firebase.google.com/docs/storage) (but because of [this bug](https://github.com/WelcometoMyGarden/welcometomygarden/issues/289) their images won't show up).
 
-⚠️ Importantly, with the default demo development environment, the **map will be empty/broken** by default. That's because you're missing an API token. If you [get your own Mapbox Access Token](https://docs.mapbox.com/help/getting-started/#how-to-use-mapbox) and fill it in in `.env`, most basic features of the map should work. You may need to restart the Vite server. **Mapbox asks for payment details to get a token, but has a free tier that should be sufficient for your local development needs.** If you really dislike this, [upvote the issue to support an open & free alternative](https://github.com/WelcometoMyGarden/welcometomygarden/issues/308).
-
-Some features are reserved for [members](https://welcometomygarden.org/about-membership). You can make your local test account a member easily (and without Stripe) by:
+Some features are reserved for [members](https://welcometomygarden.org/about-membership). You can make your local test account a member easily (and without connecting to Stripe) by:
 
 1. Opening the Firestore emulator dashboard, the `users` collection (http://localhost:4001/firestore/data/users)
 2. Going to your test account's document (as a title, it has your user ID)
-3. Adding a boolean field named `superfan`, setting it to `true`.
+3. Adding a boolean field named `superfan`, and setting it to `true`.
 
-## What can you NOT immediately do?
+## Limitations
 
-- Some static images will be missing. We started dynamically generating responsive images on build-time for some newer components, rather than using one-size static images hosted in a bucket. The source images for this process should be put in `src/lib/assets`, but are not checked into the Git repo. You can download this [Google Drive](https://drive.google.com/drive/folders/1OcaKJa9VoykflvKNv6nH13O0Ho_PcApF?usp=sharing) and manually drop the contents in the mentioned local folder. See the [additional notes](./full-access.md) if you have full access to WTMG's systems to learn about syncing this folder.
-- Preview the email HTML, and test contact property syncing functionality - except if you create your own SendGrid account. It's a quick procedure to set up your own free account for testing.
-- Work on subscription features - except if you go through the hassle of setting up your own test company on Stripe!
+The above instructions set up a basic development environment for the core features of WTMG. Here are the limitations & some workarounds:
+
+- Testing SendGrid contact property syncing - except if you create your own SendGrid account.
+- In any case, you can't preview/test the email HTML templates used in the backend since those are defined as Dynamic Templates in our SendGrid instance. You can however use mailpit to see which emails are being sent by the backend.
+- Work on subscription features - except if you go through the hassle of setting up your own test company on Stripe.
 - Log into the Discourse community reserved for members - except if you set up your own Discourse server for testing, see [additional Discourse notes](./discourse.md)
 
-If you have received access to our staging or production Firebase environment, see how to log in your Firebase account & access real API services with [these additional notes](./full-access.md).
+If you have received access to our staging or production Firebase environment, see how to log in your Firebase account & access API services with [these additional notes](./full-access.md).
 
 ## Code orientation
 
