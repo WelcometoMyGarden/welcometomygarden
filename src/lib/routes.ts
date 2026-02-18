@@ -135,7 +135,7 @@ export const activeRootPath = derived(
 );
 
 /**
- * Strip a 2-character langugage path parth like nl/ from the URL
+ * Strip a 2-character langugage path parth like nl/ from the URL, without modifying the url for the rest.
  * Also works with home page URLs like /es without, without trailing slash
  *
  * This is a generic version of activeUnlocalizedPath above, applicable to any given relative path.

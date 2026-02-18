@@ -44,6 +44,8 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   import logger from '$lib/util/logger.js';
   import { Capacitor } from '@capacitor/core';
   import FullscreenControl from './FullscreenControl';
+  import CapacitorGeolocationProxy from './CapacitorGeolocationProxy';
+  import { checkPermission } from '$lib/api/geolocation.js';
 
   type Props = {
     lat: number;
@@ -54,6 +56,13 @@ Component for maps. Shared between the main map, and the map in the Garden creat
     // Recenter when the lat & long params change
     recenterOnUpdate: boolean;
     enableGeolocation?: boolean;
+    /**
+     * False by default.
+     * Given the way this is implemented, this only makes sense on the /explore map, since it targets the page container.
+     *
+     * Ignored on Capacitor in any case.
+     */
+    enableFullscreen?: boolean;
     isShowingGardenOnInit?: boolean;
     children: Snippet;
   };
@@ -64,9 +73,9 @@ Component for maps. Shared between the main map, and the map in the Garden creat
     zoom,
     applyZoom = false, // make this true if the provided zoom level should be applied
     maxZoom = ZOOM_LEVELS.MAX,
-    // Recenter when the lat & long params change
     recenterOnUpdate = false,
     enableGeolocation = true,
+    enableFullscreen = false,
     isShowingGardenOnInit = false,
     children
   }: Props = $props();
@@ -132,7 +141,11 @@ Component for maps. Shared between the main map, and the map in the Garden creat
       // but will be manually requested. Might be slower (so bad on load), but can give
       // more accurate results.
       enableHighAccuracy: true
-    }
+    },
+    geolocation:
+      Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'ios'
+        ? CapacitorGeolocationProxy
+        : navigator.geolocation
   });
 
   /**
@@ -165,7 +178,7 @@ Component for maps. Shared between the main map, and the map in the Garden creat
     map.addControl(scaleControl, 'bottom-right');
 
     // Add full screen control
-    if (!Capacitor.isNativePlatform()) {
+    if (!Capacitor.isNativePlatform() && enableFullscreen) {
       map.addControl(fullscreenControl);
 
       fullscreenControl.on('fullscreenstart', async () => {
@@ -205,32 +218,7 @@ Component for maps. Shared between the main map, and the map in the Garden creat
       }
     }
 
-    let geolocationPermission: string;
-
-    // We noticed a bug where the map broke on iOS 15.2 due to "query" not existing on the permissions
-    // object; while it actually supports geolocation
-    //
-    // From:  https://github.com/mapbox/mapbox-gl-js/blob/d8827408c6f4c4ceecba517931c96dda8bb261a1/src/ui/control/geolocate_control.js#L175-L177
-    // > navigator.permissions has incomplete browser support http://caniuse.com/#feat=permissions-api
-    // > Test for the case where a browser disables Geolocation because of an insecure origin;
-    // > in some environments like iOS16 WebView, permissions reject queries but still support geolocation
-    const geolocationObjectExists = !!navigator.geolocation;
-    // on iOS <= 16, I don't think we can know the state. But 'prompt' is safe to assume?
-    // because actually attempting a geolocation may result in a prompt / error / location
-    // The purpose of this `geolocationPermission` is to decide whether or not to add the
-    // geolocation control, and whether or not to try to trigger it automatically (see further on).
-    const assumedState = geolocationObjectExists ? 'prompt' : 'not-available';
-    if ('geolocation' in navigator && navigator?.permissions?.query !== undefined) {
-      // Query if possible
-      geolocationPermission = await navigator.permissions
-        .query({ name: 'geolocation' })
-        .then((result) => result.state)
-        // fall back to assumed state
-        .catch(() => assumedState);
-    } else {
-      // fall back to assumed state if queries are not possible
-      geolocationPermission = assumedState;
-    }
+    let geolocationPermission = await checkPermission();
 
     addMap();
 
@@ -240,8 +228,13 @@ Component for maps. Shared between the main map, and the map in the Garden creat
       geolocationPermission !== 'not-available' &&
       geolocationPermission !== 'denied'
     ) {
+      // By default, don't show on iOS PWA, a native app, or when trying to view a garden
+      // Except, if we already have enabled notifications, then this will not conflict with the
+      // notification-enabling prompt
       const canPromptForLocationPermissionOnLoad =
-        (!isOnIDevicePWA() || hasEnabledNotificationsOnCurrentDevice()) && !isShowingGardenOnInit;
+        (!(isOnIDevicePWA() || Capacitor.isNativePlatform()) ||
+          hasEnabledNotificationsOnCurrentDevice()) &&
+        !isShowingGardenOnInit;
 
       let shouldTriggerGeolocation =
         // It won't prompt if granted
