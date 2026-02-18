@@ -6,6 +6,9 @@ PODS:
   - CapacitorCordova (8.0.2)
   - CapacitorDevice (8.0.0):
     - Capacitor
+  - CapacitorGeolocation (8.1.0):
+    - Capacitor
+    - IONGeolocationLib (= 2.0.0)
   - CapacitorInappbrowser (2.5.3):
     - Capacitor
     - OSInAppBrowserLib (~> 2.3.1)
@@ -62,6 +65,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.7.0):
     - GoogleUtilities/Logger
+  - IONGeolocationLib (2.0.0)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
@@ -77,6 +81,7 @@ DEPENDENCIES:
   - "CapacitorApp (from `../../node_modules/@capacitor/app`)"
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorDevice (from `../../node_modules/@capacitor/device`)"
+  - "CapacitorGeolocation (from `../../node_modules/@capacitor/geolocation`)"
   - "CapacitorInappbrowser (from `../../node_modules/@capacitor/inappbrowser`)"
   - "CapacitorLocalNotifications (from `../../node_modules/@capacitor/local-notifications`)"
   - "CapacitorPushNotifications (from `../../node_modules/@capacitor/push-notifications`)"
@@ -93,6 +98,7 @@ SPEC REPOS:
     - FirebaseMessaging
     - GoogleDataTransport
     - GoogleUtilities
+    - IONGeolocationLib
     - nanopb
     - OSInAppBrowserLib
     - PromisesObjC
@@ -106,6 +112,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/ios"
   CapacitorDevice:
     :path: "../../node_modules/@capacitor/device"
+  CapacitorGeolocation:
+    :path: "../../node_modules/@capacitor/geolocation"
   CapacitorInappbrowser:
     :path: "../../node_modules/@capacitor/inappbrowser"
   CapacitorLocalNotifications:
@@ -122,6 +130,7 @@ SPEC CHECKSUMS:
   CapacitorApp: 3963a84197280757b84f126afd1520a85ae3b092
   CapacitorCordova: 921bdb690ebe82421b24fce45552fd3dea2ae43a
   CapacitorDevice: 9a16fb36a19ff391bf75afbe3cf16f883b3b3aa0
+  CapacitorGeolocation: 7132de914f9d853ec4642dc1d36e4e2018a4e8a8
   CapacitorInappbrowser: e1dc727db99127c2908b69408f7da8118d854a84
   CapacitorLocalNotifications: 177cfbf8228d9bd82a147e094cb7984d7afb9e29
   CapacitorPushNotifications: 722c1528eabbefd355f47e373a4c6235d01e85e9
@@ -133,11 +142,12 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 411a61cde991cbd00b5b11c7a25e0c8f28c44990
   GoogleDataTransport: 5fffe35792f8b96ec8d6775f5eccd83c998d5a3b
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
+  IONGeolocationLib: a5e40b54edc2ee9902036eda5aaa41ddf07bb68d
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   NotnotsamuelCapacitorSwipeBack: b3a00145209b368cdfe21816d7919484c3fe654e
   OSInAppBrowserLib: bf7cdcc072394ae827f8cfe3f5f9c807691834c0
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
 
-PODFILE CHECKSUM: bcc1a27596b0b0f799161930530f56df2a629b3e
+PODFILE CHECKSUM: c2c5376cfd6e0f870c5fcdaefdf4caa3232daf21
 
 COCOAPODS: 1.16.2

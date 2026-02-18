@@ -257,6 +257,7 @@
     lat={centerLocation.latitude}
     maxZoom={$user?.superfan ? memberMaxZoom : nonMemberMaxZoom}
     recenterOnUpdate
+    enableFullscreen
     {isShowingGardenOnInit}
     {zoom}
     {applyZoom}
