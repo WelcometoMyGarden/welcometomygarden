@@ -145,9 +145,12 @@
           {$_('index.faq.title')}
         </h2>
         {#if showVersion}
-          <div style="margin-bottom: 1rem; color: white; font-weight: 600;">
-            WTMG version: {__COMMIT_HASH__}
-          </div>
+          <ul style="text-align: left; margin-bottom: 1rem; color: white; font-weight: 600;">
+            <li>WTMG version: {__COMMIT_HASH__}</li>
+            <li>Commit date: {__COMMIT_DATE__}</li>
+            <li>Build date: {__BUILD_DATE__}</li>
+            <li>Host: {window.location.host}</li>
+          </ul>
         {/if}
         <p>
           {@html $_('index.faq.copy', {
