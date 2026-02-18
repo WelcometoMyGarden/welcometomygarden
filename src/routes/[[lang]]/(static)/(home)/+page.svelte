@@ -58,9 +58,12 @@
   let testimonials: Slide[] = $state();
   setTestimonials();
 
+  let showVersion = $state(false);
+
   const unsubscribeLocalization = _.subscribe(() => {
     setTestimonials();
   });
+
   onDestroy(() => {
     unsubscribeLocalization();
   });
@@ -133,9 +136,19 @@
   <PaddedSection desktopOnly>
     <div class="faq" id="faq">
       <div class="card faq-intro">
-        <h2 class="oh1 faq-title heading-underline heading-underline--center">
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+        <h2
+          onclick={() => (showVersion = !showVersion)}
+          class="oh1 faq-title heading-underline heading-underline--center"
+        >
           {$_('index.faq.title')}
         </h2>
+        {#if showVersion}
+          <div style="margin-bottom: 1rem; color: white; font-weight: 600;">
+            WTMG version: {__COMMIT_HASH__}
+          </div>
+        {/if}
         <p>
           {@html $_('index.faq.copy', {
             values: {

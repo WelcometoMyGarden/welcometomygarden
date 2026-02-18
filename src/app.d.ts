@@ -1,14 +1,7 @@
-// See https://kit.svelte.dev/docs/types#app
-// for information about these interfaces
-// and what to do when importing types
+// See https://svelte.dev/docs/kit/types#app.d.ts
+//
 declare namespace App {
   interface PageState {
     showMembershipModal?: boolean;
-  }
-}
-
-declare namespace svelteHTML {
-  interface HTMLAttributes {
-    onclickoutside?: (event: CustomEvent) => void;
   }
 }

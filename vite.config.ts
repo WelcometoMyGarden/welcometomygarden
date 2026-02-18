@@ -8,6 +8,7 @@ import { sentrySvelteKit } from '@sentry/sveltekit';
 import dynamicBuildTarget from './plugins/dynamicBuildTarget';
 import stripCSSWhereSelectors from './plugins/stripCSSWhereSelectors';
 import { readFileSync } from 'node:fs';
+import { execSync, spawnSync } from 'node:child_process';
 import os from 'os';
 
 /* eslint-env node */
@@ -23,10 +24,16 @@ export default defineConfig(({ command, mode }): UserConfig => {
       ? new URL(process.env.PUBLIC_SENTRY_DSN)
       : null;
 
-  console.log(useHTTPS, process.env.VITE_HTTPS_CERT_PATH, process.env.VITE_HTTPS_KEY_PATH);
+  // Finds whether there are untracked files, or uncommited files in the index
+  const isDirty = spawnSync('git diff-index --quiet --cached HEAD --').status !== 0;
+  const commitHash = `${execSync('git rev-parse --short HEAD').toString().trim()}${isDirty ? '-dirty' : ''}`;
+
   return {
     build: {
       minify: isProductionBuild ? 'esbuild' : false
+    },
+    define: {
+      __COMMIT_HASH__: JSON.stringify(commitHash)
     },
     plugins: [
       ...(sentryUrl && process.env.SENTRY_AUTH_TOKEN
