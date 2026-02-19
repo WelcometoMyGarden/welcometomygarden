@@ -27,6 +27,44 @@
           "source": "**",
           "destination": "/200.html"
         }
+      ],
+      "headers": [
+        {
+          "source": "**/*.html",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=600, must-revalidate"
+            }
+          ]
+        },
+        {
+          "regex": "^(images/.+|favicon\\.png|manifest\\.json)$",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=86400"
+            }
+          ]
+        },
+        {
+          "source": "_app/immutable/**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, immutable, max-age=31536000"
+            }
+          ]
+        },
+        {
+          "source": "_app/version.json",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-store"
+            }
+          ]
+        }
       ]
     },
     {
@@ -55,6 +93,44 @@
         {
           "source": "**",
           "destination": "/200.html"
+        }
+      ],
+      "headers": [
+        {
+          "source": "**/*.html",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=600, must-revalidate"
+            }
+          ]
+        },
+        {
+          "regex": "^(images/.+|favicon\\.png|manifest\\.json)$",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=86400"
+            }
+          ]
+        },
+        {
+          "source": "_app/immutable/**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, immutable, max-age=31536000"
+            }
+          ]
+        },
+        {
+          "source": "_app/version.json",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-store"
+            }
+          ]
         }
       ]
     }
