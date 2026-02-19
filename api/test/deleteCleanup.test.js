@@ -94,14 +94,8 @@ describe('deleteCleanup', () => {
 
     // Upload photos
     await Promise.all([
-      uploadGardenPhoto(
-        user1.uid,
-        '../static/images/workshops/the-1001-ways-of-slow-travelling.jpg'
-      ),
-      uploadGardenPhoto(
-        user2.uid,
-        '../static/images/workshops/the-1001-ways-of-slow-travelling.jpg'
-      )
+      uploadGardenPhoto(user1.uid, '../static/images/card-social.jpg'),
+      uploadGardenPhoto(user2.uid, '../static/images/card-social.jpg')
     ]);
 
     // Upload photo for user1
