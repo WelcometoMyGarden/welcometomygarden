@@ -58,7 +58,7 @@ switch (process.env.NODE_ENV) {
 }
 
 const config: CapacitorConfig = {
-  appId: 'org.welcometomygarden.app2',
+  appId: 'org.welcometomygarden.app',
   appName: 'WTMG',
   // webDir: '../dist',
   plugins: {
