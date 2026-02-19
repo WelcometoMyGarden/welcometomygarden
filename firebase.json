@@ -30,7 +30,7 @@
       ],
       "headers": [
         {
-          "source": "**/*.html",
+          "source": "**",
           "headers": [
             {
               "key": "Cache-Control",
@@ -39,7 +39,7 @@
           ]
         },
         {
-          "regex": "^(images/.+|favicon\\.png|manifest\\.json)$",
+          "regex": "/(images/.+|favicon\\.png|manifest\\.json)$",
           "headers": [
             {
               "key": "Cache-Control",
@@ -97,7 +97,7 @@
       ],
       "headers": [
         {
-          "source": "**/*.html",
+          "source": "**",
           "headers": [
             {
               "key": "Cache-Control",
@@ -106,7 +106,7 @@
           ]
         },
         {
-          "regex": "^(images/.+|favicon\\.png|manifest\\.json)$",
+          "regex": "/(images/.+|favicon\\.png|manifest\\.json)$",
           "headers": [
             {
               "key": "Cache-Control",
