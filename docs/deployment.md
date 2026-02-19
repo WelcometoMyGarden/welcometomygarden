@@ -19,6 +19,14 @@ Both `wtmg-production` and `wtmg-dev` have a target named `beta`.
 
 `wtmg-production` has a target `production` that is only used for production merges (see [firebase-hosting-merge](../.github/workflows/firebase-hosting-merge.yml)).
 
+**Cache control headers**
+
+We modify our cache-control headers using Firebase Hosting configuration (see https://firebase.google.com/docs/hosting/manage-cache#set_cache-control).
+
+URLs are matched for header modifications _before_ URL rewrites.
+
+To set caching rules for our pages: since we use [`cleanUrls`](https://firebase.google.com/docs/hosting/full-config#headers) (without `.html` suffixes), we can't match HTML pages with a glob rule like `"**/*.html"`, but we have to match their clean URLs instead. It's not easy to reliably match all clean page URLs without exhaustively listing them (the given [RE2 engine](https://github.com/google/re2/wiki/Syntax) is not flexible enough to for example exclude/negative match certain paths). Instead, we modify the default caching behavior, and allow overwrites later.
+
 # Back-end
 
 See [the API docs](../api/README.md) for info on deployment.
