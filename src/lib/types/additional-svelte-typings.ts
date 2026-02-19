@@ -14,9 +14,13 @@ declare global {
   // Can be resolved in Svelte files/templates too.
 
   /**
-   * Short commit hash of the codebase, with a -dirty suffix if files were modified
+   * Short commit hash of the codebase
    */
   const __COMMIT_HASH__: string;
+  /**
+   * The first line of the commit message
+   */
+  const __COMMIT_MESSAGE__: string;
   /**
    *
     committer date, ISO 8601-like format

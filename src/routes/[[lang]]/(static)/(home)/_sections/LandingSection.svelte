@@ -11,11 +11,27 @@
   import { appHasLoaded } from '$lib/stores/app';
   import { lr } from '$lib/util/translation-helpers';
   import ViteSVG from '$lib/components/UI/ViteSVG.svelte';
+  import DebuggingInfo from '$lib/components/DebuggingInfo.svelte';
+
+  let debuggingClicks = $state(0);
+  let showDebuggingInfo = $state(false);
 </script>
 
 <PaddedSection id="landing">
+  {#if debuggingClicks >= 3 && showDebuggingInfo}
+    <DebuggingInfo onclose={() => (showDebuggingInfo = !showDebuggingInfo)} />
+  {/if}
   <div class="welcome">
-    <div class="welcome-logo">
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+    <div
+      class="welcome-logo"
+      aria-hidden="true"
+      onclick={() => {
+        debuggingClicks++;
+        showDebuggingInfo = !showDebuggingInfo;
+      }}
+    >
       <ViteSVG icon={Logo}></ViteSVG>
     </div>
     <span class="mobile-heading oh1">{$_('generics.wtmg.explicit')}</span>

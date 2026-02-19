@@ -8,7 +8,7 @@ import { sentrySvelteKit } from '@sentry/sveltekit';
 import dynamicBuildTarget from './plugins/dynamicBuildTarget';
 import stripCSSWhereSelectors from './plugins/stripCSSWhereSelectors';
 import { readFileSync } from 'node:fs';
-import { execSync, spawnSync } from 'node:child_process';
+import { execSync } from 'node:child_process';
 import os from 'os';
 
 /* eslint-env node */
@@ -24,11 +24,23 @@ export default defineConfig(({ command, mode }): UserConfig => {
       ? new URL(process.env.PUBLIC_SENTRY_DSN)
       : null;
 
+  const dateFormat = new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'Europe/Brussels',
+    timeZoneName: 'short'
+  });
+
   // Finds whether there are untracked files, or uncommited files in the index
-  const isDirty = spawnSync('git diff-index --quiet --cached HEAD --').status !== 0;
-  const commitHash = `${execSync('git rev-parse --short HEAD').toString().trim()}${isDirty ? '-dirty' : ''}`;
-  // Note: ISO 8601 is also possible https://git-scm.com/docs/pretty-formats#Documentation/pretty-formats.txt-cI
-  const commitDate = execSync('git log -1 --format=%cd').toString();
+  const commitHash = execSync('git rev-parse --short HEAD').toString().trim();
+  // Note: ISO 8601 format from https://git-scm.com/docs/pretty-formats#Documentation/pretty-formats.txt-cI
+  const commitDate = dateFormat.format(
+    new Date(execSync('git log -1 --format=%cI').toString().trim())
+  );
+  const commitMessage = execSync('git log -1 --pretty=%B').toString().split('\n')[0];
 
   return {
     build: {
@@ -37,7 +49,8 @@ export default defineConfig(({ command, mode }): UserConfig => {
     define: {
       __COMMIT_HASH__: JSON.stringify(commitHash),
       __COMMIT_DATE__: JSON.stringify(commitDate),
-      __BUILD_DATE__: JSON.stringify(new Date().toString().replace(/\s+\([^\)]+\)/, ''))
+      __COMMIT_MESSAGE__: JSON.stringify(commitMessage),
+      __BUILD_DATE__: JSON.stringify(dateFormat.format(new Date()))
     },
     plugins: [
       ...(sentryUrl && process.env.SENTRY_AUTH_TOKEN
