@@ -1,4 +1,4 @@
-package org.welcometomygarden.app2;
+package org.welcometomygarden.app;
 import android.os.Bundle;
 import com.getcapacitor.BridgeActivity;
 import androidx.activity.EdgeToEdge;

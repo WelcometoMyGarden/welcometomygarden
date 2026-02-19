@@ -26,7 +26,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>org.welcometomygarden.app2</string>
+			<string>org.welcometomygarden.app</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>wtmg</string>
