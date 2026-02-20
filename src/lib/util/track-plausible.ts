@@ -27,6 +27,8 @@ import { get } from 'svelte/store';
 import * as Sentry from '@sentry/sveltekit';
 import { locale } from 'svelte-i18n';
 import logger from './logger';
+import { Capacitor } from '@capacitor/core';
+import { isOnIDevicePWA } from './uaInfo';
 
 type Callable = (eventName: PlausibleEvent, customProperties?: PlausibleCustomProperties) => void;
 
@@ -179,6 +181,9 @@ export const registerCustomPropertyTracker = (
     }
   });
 
+  // TODO: we may need to delay loading Plausible until the information
+  // to determine this is fully determined. Right now initial load data
+  // may be unreliable.
   const userUnsub = user.subscribe(($user) => {
     if (!plausibleScriptElement) {
       return;
@@ -193,6 +198,41 @@ export const registerCustomPropertyTracker = (
     } else {
       plausibleScriptElement.setAttribute('event-logged_in', 'false');
       plausibleScriptElement.setAttribute('event-superfan', 'false');
+    }
+
+    let platform = 'web';
+    if (Capacitor.isNativePlatform()) {
+      platform = 'app';
+    }
+    plausibleScriptElement.setAttribute('event-platform', platform);
+
+    // Override the platform with "pwa" if we're on a detectable PWA
+    // = iOS PWA with notification support, or modern Android Chromium
+    if (isOnIDevicePWA()) {
+      plausibleScriptElement.setAttribute('event-platform', 'pwa');
+    } else if ('getInstalledRelatedApps' in navigator) {
+      // See https://developer.mozilla.org/en-US/docs/Web/API/Navigator/getInstalledRelatedApps
+      type Platforms =
+        | 'webapp'
+        | 'play'
+        | 'chrome_web_store'
+        | 'chromeos_play'
+        | 'windows'
+        | 'f-droid'
+        | 'amazon';
+      (
+        navigator as {
+          getInstalledRelatedApps: () => Promise<
+            { platform: Platforms; id?: string; url?: string; version?: string }[]
+          >;
+        }
+      )
+        .getInstalledRelatedApps()
+        .then((apps) => {
+          if (apps.find(({ platform: p }) => p === 'webapp')) {
+            plausibleScriptElement.setAttribute('event-platform', 'pwa');
+          }
+        });
     }
   });
 
