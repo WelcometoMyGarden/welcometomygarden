@@ -5050,6 +5050,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/trusted-types@npm:^2.0.7":
+  version: 2.0.7
+  resolution: "@types/trusted-types@npm:2.0.7"
+  checksum: 10/8e4202766a65877efcf5d5a41b7dd458480b36195e580a3b1085ad21e948bc417d55d6f8af1fd2a7ad008015d4117d5fdfe432731157da3c68678487174e4ba3
+  languageName: node
+  linkType: hard
+
 "@types/ws@npm:^8.18.1":
   version: 8.18.1
   resolution: "@types/ws@npm:8.18.1"
@@ -5976,6 +5983,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"devalue@npm:^5.6.3":
+  version: 5.6.3
+  resolution: "devalue@npm:5.6.3"
+  checksum: 10/fba14656bdbd3c23bd850906a504ca2dc94e3dc199c84e6e51c327a425b19d4f431dd7e2a4d9ee51ff49458ef6d10f59f781166bc2d9d8ce1182e863e58d9449
+  languageName: node
+  linkType: hard
+
 "diacritics@npm:1.3.0":
   version: 1.3.0
   resolution: "diacritics@npm:1.3.0"
@@ -6574,12 +6588,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esrap@npm:^2.2.1":
-  version: 2.2.1
-  resolution: "esrap@npm:2.2.1"
+"esrap@npm:^2.2.2":
+  version: 2.2.3
+  resolution: "esrap@npm:2.2.3"
   dependencies:
     "@jridgewell/sourcemap-codec": "npm:^1.4.15"
-  checksum: 10/2b97a645717b910ada5a9b4368012d836f62060ec958d659520c161d1f3f8d0f9288f716df32cd4d589008c166a936e3a9f1e2ae4002f83692d19175535fa7bc
+  checksum: 10/a6cb7613ef6303daff29ee30e36e725f0b50d6ded4e64e1f80d0048228c85c708bd136cc97c8b358096c1c77cdd0f2651aab87dc70eab588bb8fc5217221a426
   languageName: node
   linkType: hard
 
@@ -9702,26 +9716,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte@npm:^5.49.0":
-  version: 5.49.0
-  resolution: "svelte@npm:5.49.0"
+"svelte@npm:^5.51.5":
+  version: 5.53.0
+  resolution: "svelte@npm:5.53.0"
   dependencies:
     "@jridgewell/remapping": "npm:^2.3.4"
     "@jridgewell/sourcemap-codec": "npm:^1.5.0"
     "@sveltejs/acorn-typescript": "npm:^1.0.5"
     "@types/estree": "npm:^1.0.5"
+    "@types/trusted-types": "npm:^2.0.7"
     acorn: "npm:^8.12.1"
     aria-query: "npm:^5.3.1"
     axobject-query: "npm:^4.1.0"
     clsx: "npm:^2.1.1"
-    devalue: "npm:^5.6.2"
+    devalue: "npm:^5.6.3"
     esm-env: "npm:^1.2.1"
-    esrap: "npm:^2.2.1"
+    esrap: "npm:^2.2.2"
     is-reference: "npm:^3.0.3"
     locate-character: "npm:^3.0.0"
     magic-string: "npm:^0.30.11"
     zimmerframe: "npm:^1.1.2"
-  checksum: 10/7068837c357e3d144fd8eb59a62c5ff20491184859f637517a59d5104e640e5bdc1030852f3a22bee9e21339300ce3d0f01cfcb25f687822ae01bc0317994643
+  checksum: 10/4b928f85c6b15410929640e9a1dc825e3c0257a67cf51c9fcda65be92fe8f0cc1b4b4ec2f3ce4b76f5f3a153c4bf18791670967abe0bbf060f3ccdc4d5ea3572
   languageName: node
   linkType: hard
 
@@ -10338,7 +10353,7 @@ __metadata:
     prettier-plugin-svelte: "npm:^3.4.1"
     smoothscroll-polyfill: "npm:^0.4.4"
     stripe: "npm:^17.7.0"
-    svelte: "npm:^5.49.0"
+    svelte: "npm:^5.51.5"
     svelte-check: "npm:^4.3.5"
     svelte-i18n: "npm:^4.0.1"
     svelte-preprocess: "npm:^6.0.3"
