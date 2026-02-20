@@ -1,7 +1,7 @@
 import { browser } from '$app/environment';
 import { rootModal } from '$lib/stores/app';
 import { bind } from 'svelte-simple-modal';
-import { iDeviceInfo, isNative, uaInfo } from './uaInfo';
+import { iDeviceInfo, isNative, uaInfo, hasWebPushNotificationSupportNow } from './uaInfo';
 import ErrorModal, { type Props } from '$lib/components/UI/ErrorModal.svelte';
 import { isEnablingLocalPushRegistration } from '$lib/stores/pushRegistrations';
 import { get } from 'svelte/store';
@@ -19,27 +19,9 @@ import type {
   LocalPushRegistration
 } from '$lib/types/PushRegistration';
 import { UAParser } from 'ua-parser-js';
-import logger from './logger';
 import nProgress from 'nprogress';
-
-/**
- * Synchronous (and probably more limited) version of Firebase Messaging's isSupported function.
- * Returns true on native platforms.
- */
-export const hasWebPushNotificationSupportNow = () => {
-  if (isNative) {
-    return false;
-  }
-  if (!('Notification' in window)) {
-    logger.warn('This browser does not support the Notification API.');
-    return false;
-  } else if (typeof navigator === 'undefined' || !('serviceWorker' in navigator)) {
-    logger.warn('This browser does not support service workers.');
-    return false;
-  }
-  return true;
-};
-
+export { hasWebPushNotificationSupportNow } from './uaInfo';
+export { isOnIDevicePWA } from './uaInfo';
 /**
  * Synchronous (and probably more limited) version of Firebase Messaging's isSupported function.
  * Returns true on native platforms.
@@ -64,15 +46,6 @@ export const canHaveWebPushSupport = () => {
     isIDevice &&
     (is_16_4_OrAboveIDevice || isUpgradeable16IDevice)
   );
-};
-
-export const isOnIDevicePWA = () => {
-  if (!browser) {
-    return false;
-  }
-  const { isIDevice, iDeviceVersion } = iDeviceInfo!;
-  // The last version check is probably redundant
-  return hasWebPushNotificationSupportNow() && isIDevice && iDeviceVersion! >= 16.4;
 };
 
 /**

@@ -1,6 +1,7 @@
 import { browser } from '$app/environment';
 import { Capacitor } from '@capacitor/core';
 import { UAParser } from 'ua-parser-js';
+import logger from './logger';
 
 /**
  * ua-parser-js object, only available in a browser context.
@@ -61,3 +62,30 @@ export const isMobileDevice =
         uaInfo!.device
       )
     : undefined);
+
+/**
+ * Synchronous (and probably more limited) version of Firebase Messaging's isSupported function.
+ * Returns true on native platforms.
+ */
+export const hasWebPushNotificationSupportNow = () => {
+  if (isNative || !browser) {
+    return false;
+  }
+  if (!('Notification' in window)) {
+    logger.warn('This browser does not support the Notification API.');
+    return false;
+  } else if (typeof navigator === 'undefined' || !('serviceWorker' in navigator)) {
+    logger.warn('This browser does not support service workers.');
+    return false;
+  }
+  return true;
+};
+
+export const isOnIDevicePWA = () => {
+  if (!browser) {
+    return false;
+  }
+  const { isIDevice, iDeviceVersion } = iDeviceInfo!;
+  // The last version check is probably redundant
+  return hasWebPushNotificationSupportNow() && isIDevice && iDeviceVersion! >= 16.4;
+};
