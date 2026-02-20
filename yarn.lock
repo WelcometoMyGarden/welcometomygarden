@@ -2929,22 +2929,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sveltejs/kit@npm:2.50.1":
-  version: 2.50.1
-  resolution: "@sveltejs/kit@npm:2.50.1"
+"@sveltejs/kit@npm:2.52.2":
+  version: 2.52.2
+  resolution: "@sveltejs/kit@npm:2.52.2"
   dependencies:
     "@standard-schema/spec": "npm:^1.0.0"
     "@sveltejs/acorn-typescript": "npm:^1.0.5"
     "@types/cookie": "npm:^0.6.0"
     acorn: "npm:^8.14.1"
     cookie: "npm:^0.6.0"
-    devalue: "npm:^5.6.2"
+    devalue: "npm:^5.6.3"
     esm-env: "npm:^1.2.2"
     kleur: "npm:^4.1.5"
     magic-string: "npm:^0.30.5"
     mrmime: "npm:^2.0.0"
-    sade: "npm:^1.8.1"
-    set-cookie-parser: "npm:^2.6.0"
+    set-cookie-parser: "npm:^3.0.0"
     sirv: "npm:^3.0.0"
   peerDependencies:
     "@opentelemetry/api": ^1.0.0
@@ -2959,7 +2958,7 @@ __metadata:
       optional: true
   bin:
     svelte-kit: svelte-kit.js
-  checksum: 10/4563c9d868f0060ab948100dcb7cff90c8aac85c46bc8967b82436b2c817d05c10d611ffbc215e53c6875ddb3c69e035b8c6735dfd3bc953d459e03cf12ba2a1
+  checksum: 10/ac7d6686da7af967f6da6c83718d11e7ba0fc606490ec01d608a3c988fb64de424beee8a62c048d87e5cdf9f88fb1fee0a117425e9a241c7a51fb34c88c6dfde
   languageName: node
   linkType: hard
 
@@ -5973,13 +5972,6 @@ __metadata:
   version: 2.0.3
   resolution: "detect-libc@npm:2.0.3"
   checksum: 10/b4ea018d623e077bd395f168a9e81db77370dde36a5b01d067f2ad7989924a81d31cb547ff764acb2aa25d50bb7fdde0b0a93bec02212b0cb430621623246d39
-  languageName: node
-  linkType: hard
-
-"devalue@npm:^5.6.2":
-  version: 5.6.2
-  resolution: "devalue@npm:5.6.2"
-  checksum: 10/734b57d917e45b534007e3b5055c031e4e3fcf3c3a44e1b4177e998f30e077e4d280b59abe0cc0ca9055a18e90266e31f578129e83e105e63e9680998a3c2a8a
   languageName: node
   linkType: hard
 
@@ -9201,10 +9193,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"set-cookie-parser@npm:^2.6.0":
-  version: 2.7.1
-  resolution: "set-cookie-parser@npm:2.7.1"
-  checksum: 10/c92b1130032693342bca13ea1b1bc93967ab37deec4387fcd8c2a843c0ef2fd9a9f3df25aea5bb3976cd05a91c2cf4632dd6164d6e1814208fb7d7e14edd42b4
+"set-cookie-parser@npm:^3.0.0":
+  version: 3.0.1
+  resolution: "set-cookie-parser@npm:3.0.1"
+  checksum: 10/3dc582014805932f112f6f39724b51c157fa6a29e71a41cb2a940da2b5523dab6953910f8ef22389801a5219e78dd9d13b54364953ab9a9644bc1abc2f8ebedc
   languageName: node
   linkType: hard
 
@@ -10323,7 +10315,7 @@ __metadata:
     "@stripe/stripe-js": "npm:^8.7.0"
     "@supabase/supabase-js": "npm:^2.93.2"
     "@sveltejs/adapter-static": "npm:^3.0.10"
-    "@sveltejs/kit": "npm:2.50.1"
+    "@sveltejs/kit": "npm:2.52.2"
     "@sveltejs/vite-plugin-svelte": "npm:^6.2.4"
     "@tmcw/togeojson": "npm:^7.1.2"
     "@turf/turf": "npm:^7.3.3"
