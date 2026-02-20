@@ -46,7 +46,7 @@
   @media screen and (max-width: 700px) {
     div {
       left: 48px;
-      top: 65px;
+      top: calc(env(safe-area-inset-top, 0px) + 65px);
       font-size: 1.6rem;
     }
   }
