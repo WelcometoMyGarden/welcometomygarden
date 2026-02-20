@@ -41,7 +41,7 @@
     "@stripe/stripe-js": "^8.7.0",
     "@supabase/supabase-js": "^2.93.2",
     "@sveltejs/adapter-static": "^3.0.10",
-    "@sveltejs/kit": "2.50.1",
+    "@sveltejs/kit": "2.52.2",
     "@sveltejs/vite-plugin-svelte": "^6.2.4",
     "@tmcw/togeojson": "^7.1.2",
     "@turf/turf": "^7.3.3",
