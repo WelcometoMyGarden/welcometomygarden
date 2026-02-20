@@ -71,6 +71,9 @@
 </li>
 
 <style>
+  button {
+    color: var(--color-green);
+  }
   .user {
     --dropdown-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
     min-width: 10rem;

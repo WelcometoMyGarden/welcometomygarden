@@ -9,7 +9,7 @@
   let { open = $bindable(true), title, content }: Props = $props();
 </script>
 
-<button class="button button-container" onclick={() => (open = !open)}>
+<button class="button-container" onclick={() => (open = !open)}>
   <div class="toggle-item">
     <span class="sign">{open ? '−' : '+'}</span>
     <div class="title">
@@ -26,9 +26,10 @@
 </button>
 
 <style>
-  .button {
+  button {
     background-color: transparent;
     padding-bottom: 0.5rem;
+    color: var(--color-green);
   }
 
   .toggle-item {

@@ -30,6 +30,7 @@
     background-color: var(--color-white);
     border-left: 0.3rem solid var(--color-white);
     transition: all 0.3s ease-in-out;
+    color: var(--color-green);
   }
 
   .conversation:hover,
