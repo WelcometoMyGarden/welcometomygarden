@@ -123,7 +123,6 @@ export async function initialize(): Promise<void> {
   appRef = initializeApp(FIREBASE_CONFIG);
 
   dbRef = getFirestore(appRef);
-
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_FIRESTORE_EMULATOR))) {
     connectFirestoreEmulator(dbRef, emulatorHostName, SSL_DEV ? 8081 : 8080);
   }
@@ -144,11 +143,6 @@ export async function initialize(): Promise<void> {
     );
   }
 
-  dbRef = getFirestore(appRef);
-  if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_FIRESTORE_EMULATOR))) {
-    connectFirestoreEmulator(dbRef, emulatorHostName, SSL_DEV ? 8081 : 8080);
-  }
-
   storageRef = getStorage(appRef);
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_STORAGE_EMULATOR))) {
     connectStorageEmulator(storageRef, emulatorHostName, SSL_DEV ? 9198 : 9199);
@@ -161,6 +155,7 @@ export async function initialize(): Promise<void> {
   initializeEuropeWest1Functions(europeWest1FunctionsRef);
 
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_API_EMULATOR))) {
+    logger.debug('Connecting to functions emulator');
     connectFunctionsEmulator(europeWest1FunctionsRef, emulatorHostName, SSL_DEV ? 5002 : 5001);
   }
 

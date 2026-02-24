@@ -127,10 +127,14 @@
       ]
     }
   ]);
-  
 </script>
 
-<PaddedSection is="footer" vertical backgroundColor="var(--color-beige-light)">
+<PaddedSection
+  className="desktop-footer"
+  is="footer"
+  vertical
+  backgroundColor="var(--color-beige-light)"
+>
   <div class="wrapper">
     <div class="top">
       <div class="left">
@@ -195,6 +199,11 @@
       dependent on the .app wrapper having `display: flexbox` */
     flex-grow: 1;
   }
+
+  :global(.app.active-app-payment .desktop-footer) {
+    display: none;
+  }
+
   .wrapper {
     width: 100%;
     display: flex;

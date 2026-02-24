@@ -322,7 +322,8 @@
      */
   }
 
-  .app.active-routeplanner {
+  .app.active-routeplanner,
+  .app.active-app-payment {
     padding-top: 0;
   }
 
