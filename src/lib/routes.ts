@@ -1,6 +1,5 @@
 import { page } from '$app/stores';
 import { derived, get, type Readable } from 'svelte/store';
-import { isRelativeURL } from './util/navigate';
 
 type RouteDescription = {
   route: string;
@@ -28,17 +27,12 @@ export const routeDescriptions = {
   RULES: { route: '/info/rules', requiresAuth: false },
   SIGN_IN: { route: '/sign-in', requiresAuth: false },
   MEMBER_PAYMENT: { route: '/become-member/payment', requiresAuth: true },
+  // This is actually a stateless page, fully instantiated by its query params
+  APP_PAYMENT: { route: '/app-payment', requiresAuth: false },
   TERMS_OF_USE: { route: '/terms/terms-of-use', requiresAuth: false },
   MEMBER_THANK_YOU: { route: '/become-member/thank-you', requiresAuth: false },
   ROUTE_PLANNER: { route: '/routeplanner', requiresAuth: false }
-};
-
-// Note, this otherwise useless expression allows us to typecheck the above array.
-// I don't want to assign a generic [key: string] type to it directly,
-// because we derive a type of its concrete keys below with RouteDescriptions, and it does not
-// seem to be possible reference a object with 'typeof' in its own declaration.
-// This helps with catching type errors above.
-routeDescriptions as { [key: string]: RouteDescription };
+} satisfies { [key: string]: RouteDescription };
 
 type RouteDescriptions = {
   [property in keyof typeof routeDescriptions]: RouteDescription;

@@ -5,7 +5,7 @@
   import notify from '$lib/stores/notification';
   import type { LayoutData } from './$types';
   import { goto } from '$lib/util/navigate';
-  import routes from '$lib/routes';
+  import routes, { getBaseRouteIn } from '$lib/routes';
   import {
     loadStripe,
     type CheckoutLocale,
@@ -37,9 +37,11 @@
   import { Progress } from '$lib/components/UI';
   import { trackEvent } from '$lib/util';
   import { PlausibleEvent } from '$lib/types/Plausible';
-  import { Capacitor } from '@capacitor/core';
   import { DefaultWebViewOptions, InAppBrowser } from '@capacitor/inappbrowser';
   import logger from '$lib/util/logger';
+  import NProgress from 'nprogress';
+  import { isNative } from '$lib/util/uaInfo';
+  import createUrl from '$lib/util/create-url';
 
   // TODO: the Svelte 5 upgrade of svelte-stripe is not complete yet
   // at the time of writing, see https://github.com/joshnuss/svelte-stripe/pull/131
@@ -71,6 +73,8 @@
   let requestedLevel = selectedLevel;
 
   const continueUrl = $page.url.searchParams.get('continueUrl');
+
+  let nativeModalClosedBySuccess = false;
 
   /**
    * Gets the current fully-qualified URL of the current page,
@@ -242,7 +246,7 @@
       }
 
       try {
-        const { data } = await timeout(
+        const { data: subData } = await timeout(
           createOrRetrieveUnpaidSubscription({
             priceId: selectedLevel.stripePriceId,
             // Note: this may not be a supported locale
@@ -251,23 +255,65 @@
           // In case an invoice is changed, it takes longer than 4 seconds
           15000
         );
-        if (data?.clientSecret && Capacitor.isNativePlatform()) {
+        if (subData?.clientSecret && isNative) {
           const loc = window.location;
-          const inAppPaymentPage = `${loc.protocol}//${loc.host}/app-payment?${new URLSearchParams({
-            clientSecret: data?.clientSecret,
-            name: `${$user?.firstName} ${$user?.lastName}`,
-            email: $user?.email
-          }).toString()}`;
-          console.debug(`Opening ${inAppPaymentPage} in a webview`);
+
+          const inAppPaymentPage = createUrl(
+            `${loc.protocol}//${loc.host}${$lr(routes.APP_PAYMENT)}`,
+            {
+              payment_intent_client_secret: subData?.clientSecret,
+              name: `${$user.firstName} ${$user.lastName}`,
+              email: $user.email,
+              slug: data.params.id ?? DEFAULT_MEMBER_LEVEL
+            }
+          );
+
+          logger.debug(`Opening ${inAppPaymentPage} in a webview`);
+
+          // Set up in-app browser listeners
+          InAppBrowser.removeAllListeners();
+          await Promise.all([
+            InAppBrowser.addListener('browserClosed', () => {
+              if (nativeModalClosedBySuccess) {
+                return;
+              } else {
+                // the user tried to abort the modal. Pop them back to whence they came, this
+                // page will not be useful to them
+                NProgress.done();
+                history.back();
+              }
+            }),
+            InAppBrowser.addListener('browserPageNavigationCompleted', async (e) => {
+              if (!e.url) {
+                logger.warn('In-app browser navigation without URL, ignoring');
+                return;
+              }
+              const url = new URL(e.url);
+              const { redirect_status } = Object.fromEntries(url.searchParams.entries());
+              if (
+                url.protocol === loc.protocol &&
+                url.host === loc.host &&
+                getBaseRouteIn(url.pathname) === routes.APP_PAYMENT &&
+                (redirect_status === 'succeeded' || redirect_status === 'pending')
+              ) {
+                logger.info('Successful payment in in-app browser detected');
+                // This should be assigned before we call .close(), to make sure
+                // we accurately identify why the close happened
+                nativeModalClosedBySuccess = true;
+                await InAppBrowser.close();
+                await paymentSucceeded();
+              }
+            })
+          ]);
           await InAppBrowser.openInWebView({
             url: inAppPaymentPage,
             options: DefaultWebViewOptions
           });
           return;
-        } else if (clientSecret) {
-          clientSecret = data.clientSecret;
+        } else if (subData.clientSecret) {
+          clientSecret = subData.clientSecret;
         } else {
-          console.error(
+          logger.error(
             'Unexpected: no client secret returned by an non-erroring createOrRetrieveUnpaidSubscription'
           );
         }
@@ -343,7 +389,7 @@
 </svelte:head>
 
 <Progress active={!paymentElementReady && !isSuccess} />
-{#if selectedLevel && $user && !hasActiveSubscription($user)}
+{#if !isNative && selectedLevel && $user && !hasActiveSubscription($user)}
   <PaddedSection className="summary-section" desktopOnly>
     <LevelSummary level={selectedLevel} />
   </PaddedSection>
@@ -364,7 +410,7 @@
               paymentElementReady = true;
             }}
             options={{
-              paymentMethodOrder: ['bancontact', 'card', 'ideal', 'sofort'],
+              paymentMethodOrder: ['bancontact', 'card', 'ideal', 'sepa_debit'], // TODO ADD SEPA
               terms: { bancontact: 'never', sepaDebit: 'never', card: 'never', ideal: 'never' },
               defaultValues: {
                 billingDetails: {
@@ -403,7 +449,7 @@
         </div>
       </form>
     {:else if !error}
-      <p>{$_('payment-superfan.payment-section.loading')}</p>
+      <p class="loading-text">{$_('payment-superfan.payment-section.loading')}</p>
     {/if}
   {:else if $user && hasActiveSubscription($user)}
     <!-- Subscription block -->
@@ -472,5 +518,10 @@
   }
   .terms > :global(.link--neutral) {
     color: #6d6e78;
+  }
+
+  /* To counteract the default mobile removal of top padding in PaddedSection */
+  .loading-text {
+    margin-top: var(--section-inner-padding);
   }
 </style>

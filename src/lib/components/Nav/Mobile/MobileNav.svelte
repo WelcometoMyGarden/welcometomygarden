@@ -91,6 +91,12 @@
     z-index: 120;
   }
 
+  :global(.app.active-app-payment) {
+    nav {
+      display: none;
+    }
+  }
+
   .main {
     position: relative;
     display: flex;

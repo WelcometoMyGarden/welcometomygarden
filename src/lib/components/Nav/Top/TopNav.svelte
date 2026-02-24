@@ -136,6 +136,12 @@
     top: var(--height-error-banner);
   }
 
+  :global(.app.active-app-payment) {
+    nav {
+      display: none;
+    }
+  }
+
   nav > .main-nav {
     flex: 1;
     padding: 0 0 0 5rem;
