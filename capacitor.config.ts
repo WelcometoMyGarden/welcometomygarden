@@ -60,6 +60,7 @@ switch (process.env.NODE_ENV) {
 const config: CapacitorConfig = {
   appId: 'org.welcometomygarden.app',
   appName: 'WTMG',
+  zoomEnabled: false,
   // webDir: '../dist',
   plugins: {
     SplashScreen: {
