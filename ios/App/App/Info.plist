@@ -40,9 +40,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>You can use the camera to take a picture for your garden profile.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>We want to help you find your location on the map.</string>
+	<string>We want to show your location on the map.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We want to help you find your location on the map.</string>
+	<string>We want to show your location on the map.</string>
 	<key>UIBackgroundModes</key>
 	<array/>
 	<key>UILaunchStoryboardName</key>

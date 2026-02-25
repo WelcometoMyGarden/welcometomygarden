@@ -15,6 +15,8 @@
 		43B6BF962E798B3F00E9FA7C /* capacitor.config.json in Resources */ = {isa = PBXBuildFile; fileRef = 50379B222058CBB4000EE86E /* capacitor.config.json */; };
 		43B6BF972E798B3F00E9FA7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 504EC30B1FED79650016851F /* Main.storyboard */; };
 		43B6BF992E798B3F00E9FA7C /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 2FAD9762203C412B000D30F8 /* config.xml */; };
+		43B8A99C2F4F6B8C00125E33 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 43B8A99B2F4F6B8C00125E33 /* InfoPlist.xcstrings */; };
+		43B8A99D2F4F6B8C00125E33 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 43B8A99B2F4F6B8C00125E33 /* InfoPlist.xcstrings */; };
 		50379B232058CBB4000EE86E /* capacitor.config.json in Resources */ = {isa = PBXBuildFile; fileRef = 50379B222058CBB4000EE86E /* capacitor.config.json */; };
 		504EC3081FED79650016851F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EC3071FED79650016851F /* AppDelegate.swift */; };
 		504EC30D1FED79650016851F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 504EC30B1FED79650016851F /* Main.storyboard */; };
@@ -31,6 +33,7 @@
 		4001C2425413719627ED8B21 /* Pods-App Staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App Staging.debug.xcconfig"; path = "Pods/Target Support Files/Pods-App Staging/Pods-App Staging.debug.xcconfig"; sourceTree = "<group>"; };
 		43B6BF9E2E798B3F00E9FA7C /* App Staging.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App Staging.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		43B6BF9F2E798B3F00E9FA7C /* App Staging-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "App Staging-Info.plist"; path = "/Users/thor/Code/slowby/welcometomygarden/ios/App/App Staging-Info.plist"; sourceTree = "<absolute>"; };
+		43B8A99B2F4F6B8C00125E33 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		43C63E0A2E4A465100B30031 /* AppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AppDebug.entitlements; sourceTree = "<group>"; };
 		43C63E0D2E4A4D1F00B30031 /* AppRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AppRelease.entitlements; sourceTree = "<group>"; };
 		50379B222058CBB4000EE86E /* capacitor.config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = capacitor.config.json; sourceTree = "<group>"; };
@@ -147,6 +150,7 @@
 				504EC30E1FED79650016851F /* Assets.xcassets */,
 				504EC3101FED79650016851F /* LaunchScreen.storyboard */,
 				504EC3131FED79650016851F /* Info.plist */,
+				43B8A99B2F4F6B8C00125E33 /* InfoPlist.xcstrings */,
 				2FAD9762203C412B000D30F8 /* config.xml */,
 				50B271D01FEDC1A000F3C39B /* public */,
 			);
@@ -238,6 +242,8 @@
 			knownRegions = (
 				en,
 				Base,
+				nl,
+				fr,
 			);
 			mainGroup = 504EC2FB1FED79650016851F;
 			preferredProjectObjectVersion = 77;
@@ -262,6 +268,7 @@
 				43B6BF962E798B3F00E9FA7C /* capacitor.config.json in Resources */,
 				43B6BF972E798B3F00E9FA7C /* Main.storyboard in Resources */,
 				43B6BF992E798B3F00E9FA7C /* config.xml in Resources */,
+				43B8A99D2F4F6B8C00125E33 /* InfoPlist.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +282,7 @@
 				50379B232058CBB4000EE86E /* capacitor.config.json in Resources */,
 				504EC30D1FED79650016851F /* Main.storyboard in Resources */,
 				2FAD9763203C412B000D30F8 /* config.xml in Resources */,
+				43B8A99C2F4F6B8C00125E33 /* InfoPlist.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,6 +520,7 @@
 				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -570,6 +579,7 @@
 				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
