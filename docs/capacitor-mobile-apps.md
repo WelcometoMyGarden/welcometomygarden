@@ -153,6 +153,28 @@ See https://github.com/ionic-team/capacitor-assets, which is invoked for our pur
 
 **iOS**: use Safari on macOS, enable Developer settings, go to the Develop menu -> from here you can inspect
 
+## Testing Universal Links (iOS) / (dynamic) App Links (Android)
+
+Navigating directly to a link in a browser without clicking a link may not trigger the app to open. Do this instead.
+
+**iOS**
+
+In iOS simulators, you can add a link to a Reminder and click it to test a universal link.
+
+**Android**
+
+In Android Emulators, you can edit the website field on a new test Contact in the phone book.
+
+Note: in Android, associations are attached to our production signing key. If you load a `debug` build on a test device, that production key will not be used by default.
+So, to load/auto-verify Play associations on a test device, run a `release` build by
+
+1. Build -> Generate Signed App Bundle or APK
+2. Generate APK (select the signing) key
+3. Locate the produced .apk
+4. Drag the .apk onto the emulator to install
+
+(.aab's can't be installed this way, those are used for Google Play)
+
 # Deployment
 
 ## Android

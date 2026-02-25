@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Geolocation Plugin (& webview functionality)-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,9 +28,11 @@
               <action android:name="android.intent.action.VIEW" />
               <category android:name="android.intent.category.DEFAULT" />
               <category android:name="android.intent.category.BROWSABLE" />
-              <data android:scheme="https" android:host="welcometomygarden.org" />
-              <data android:scheme="https" android:host="beta.welcometomygarden.org" />
-              <data android:scheme="https" android:host="staging.welcometomygarden.org" />
+              <data android:scheme="http" />
+              <data android:scheme="https" />
+              <data android:host="welcometomygarden.org" />
+              <data android:host="beta.welcometomygarden.org" />
+              <data android:host="staging.welcometomygarden.org" />
             </intent-filter>
         </activity>
         <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/push_icon" />
@@ -44,12 +51,6 @@
         </provider>
     </application>
 
-    <!-- Permissions -->
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Geolocation Plugin (& webview functionality)-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- This would *require* GPS support from the device -->
     <!-- <uses-feature android:name="android.hardware.location.gps" /> -->
 </manifest>
