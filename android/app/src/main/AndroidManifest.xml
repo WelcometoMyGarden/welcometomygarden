@@ -19,6 +19,14 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter android:autoVerify="true">
+              <action android:name="android.intent.action.VIEW" />
+              <category android:name="android.intent.category.DEFAULT" />
+              <category android:name="android.intent.category.BROWSABLE" />
+              <data android:scheme="https" android:host="welcometomygarden.org" />
+              <data android:scheme="https" android:host="beta.welcometomygarden.org" />
+              <data android:scheme="https" android:host="staging.welcometomygarden.org" />
+            </intent-filter>
         </activity>
         <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/push_icon" />
         <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming

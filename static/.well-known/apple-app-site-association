@@ -1,0 +1,21 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "9RZPVFH532.org.welcometomygarden.app",
+        "components": [
+          {
+            "comment": "Exclude terms pages",
+            "/": "*/terms/*",
+            "exclude": true
+          },
+          {
+            "comment": "By default, open all links in the app",
+            "/": "*"
+          }
+        ]
+      }
+    ]
+  }
+}

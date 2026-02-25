@@ -4,5 +4,11 @@
 <dict>
 	<key>aps-environment</key>
 	<string>development</string>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:beta.welcometomygarden.org</string>
+		<string>applinks:welcometomygarden.org</string>
+		<string>applinks:staging.welcometomygarden.org</string>
+	</array>
 </dict>
 </plist>

@@ -1,0 +1,17 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "org.welcometomygarden.app",
+      "sha256_cert_fingerprints": [
+        "43:04:2A:09:46:1C:6E:F3:9A:0D:64:FD:1B:46:04:ED:65:C8:5E:27:4D:9E:95:BE:0F:D4:DC:BF:AC:D7:C8:AF"
+      ]
+    },
+    "relation_extensions": {
+      "delegate_permission/common.handle_all_urls": {
+        "dynamic_app_link_components": [{ "/": "*/terms/*", "exclude": true }, { "/": "*" }]
+      }
+    }
+  }
+]
