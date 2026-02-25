@@ -6,6 +6,10 @@
 *.ap_
 *.aab
 
+# Build folders
+app/prod
+app/staging
+
 # Files for the ART/Dalvik VM
 *.dex
 

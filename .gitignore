@@ -67,3 +67,4 @@ node_modules
 
 runtests.sh
 test-results
+tools/hosts

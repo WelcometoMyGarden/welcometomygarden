@@ -16,7 +16,7 @@
   import Meta from '$lib/components/SEO/Meta.svelte';
   import { SUPPORTED_LANGUAGES } from '$lib/types/general.js';
   import { urlPathPrefix } from '$lib/util/translation-helpers';
-  import { activeUnlocalizedPath, activeRootPath } from '$lib/routes';
+  import routes, { activeUnlocalizedPath, activeRootPath, getBaseRouteIn } from '$lib/routes';
   import { PUBLIC_WTMG_HOST } from '$env/static/public';
   import { initializeUser } from '$lib/stores/user';
   import { staticAppHasLoaded, appHasLoaded, coercedLocale, rootModal } from '$lib/stores/app';
@@ -28,6 +28,7 @@
   import logger from '$lib/util/logger.js';
   import { CapacitorSwipeBackPlugin } from '@notnotsamuel/capacitor-swipe-back';
   import { App as CapacitorApp, type URLOpenListenerEvent } from '@capacitor/app';
+  import { goto } from '$lib/util/navigate.js';
   interface Props {
     children?: import('svelte').Snippet;
   }
@@ -46,6 +47,23 @@
     } else {
       CapacitorSwipeBackPlugin.enable().then(() => logger.debug('Swipe Back plugin enabled'));
     }
+
+    CapacitorApp.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+      try {
+        let { pathname, search, hash } = new URL(event.url);
+        let pathPart = `${pathname}${search}${hash}`;
+        if (pathPart) {
+          let baseRoute = getBaseRouteIn(pathname);
+          if (baseRoute === routes.APP_PAYMENT) {
+            logger.warn('TODO Unhandled');
+            return;
+          }
+          goto(pathPart);
+        }
+      } catch (e) {
+        logger.error(`Error parsing appUrl open ${event.url}`);
+      }
+    });
   } else {
     logger.debug('Not a native platform, skipping native push');
   }
