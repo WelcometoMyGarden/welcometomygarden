@@ -83,7 +83,7 @@ You need to modify the file to reference the needed certificates, and include th
 </network-security-config>
 ```
 
-### Using public domains & certificates
+### Using public domains & certificates (easiest)
 
 For physical iDevices at least, I've found it easiest to use an external certificate for local development.
 
@@ -95,24 +95,32 @@ The certificate is referenced by `VITE_HTTPS_CERT_PATH` and `VITE_HTTPS_KEY_PATH
 
 Android's webview doesn't trust ZeroSSL certificates by default. So, you need to add the ZeroSSL Root Cert to `android/app/src/main/res/raw/zerosslroot.pem`
 
-### Using custom hosts & self-signed mkcert certificates
+### Using custom hosts & self-signed mkcert certificates (trickier)
 
 Our Vite setup uses [vite-plugin-mkcert](https://github.com/liuweiGL/vite-plugin-mkcert). You can use this in combination with a modified hosts file to load URLs like `https://wtmg.staging:5173` which point to the local development server. Our capacitor config is currently not set up for this and would need to be modified to make it work.
 
-**iOS setup**:
+This method is trickier and not always usable. The only reason why you may want to use it, is that it has no dependency on a controllable public nameserver.
+
+**iOS setup**
 
 - Simulators are easy:
-  - Cert trust: you can simply drag & drop the mkcert root certificate on the Simulator to trust it.
+  - Cert trust: you can simply drag & drop the mkcert root certificate on the Simulator to trust it. On macOS, it is in `/Users/${USER}/Library/Application\ Support/mkcert/rootCA.pem`
   - Hostname resolution: simulators share much of the host macOS networking stack. If the macOS host can resolve the host (using `/etc/private/hosts`), the Simulator can too.
 - Physical devices: trickier
   - The mkcert root ceriticate has to be installed manually on the device.
-  - You can't simply edit `/etc/private/hosts` You can influence DNS resolution on the local network's DNS server, if accessible, or maybe [use an app](https://apple.stackexchange.com/questions/17077/add-a-hosts-file-entry-without-jailbreaking)
+  - You can't simply edit `/etc/private/hosts`. You can influence DNS resolution on the local network's DNS server, if accessible, or maybe [use an app](https://apple.stackexchange.com/questions/17077/add-a-hosts-file-entry-without-jailbreaking). To test on physical devices, relying on external DNS servers is easier (see previous "public domains" method).
 
 **Android**
 
 Certificates to be trusted need to be added explicitly to the project before building (see the setup file in the opening):
 
 Add the file `android/app/src/main/res/raw/rootca.pem`
+
+Resolving custom local domain names is trickier.
+
+On Android Emulators, the hosts file of the host system is **not** used. You can modify an emulator's hosts file manually using some steps. For more details, see [this script](../tools/install-android-hosts.sh) (consider more a manual than a script).
+
+I haven't tried the above steps on real devices yet.
 
 ### Running the local development servers
 
