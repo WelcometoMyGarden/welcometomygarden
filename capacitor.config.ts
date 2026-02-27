@@ -1,4 +1,10 @@
 import { CapacitorConfig } from '@capacitor/cli';
+import { config as dotEnvConfig } from 'dotenv';
+import { resolve } from 'path';
+
+dotEnvConfig({ path: resolve(process.cwd(), '.env.capacitor'), quiet: true });
+
+const DEVPUSH_URL = process.env.DEVPUSH_URL;
 
 let overrideConfig: Partial<CapacitorConfig>;
 switch (process.env.NODE_ENV) {
@@ -23,28 +29,33 @@ switch (process.env.NODE_ENV) {
     };
     break;
   case 'devpushprod':
-    overrideConfig = {
-      server: {
-        // See tools/set-cf-ip.sh
-        url: 'https://wtmg.thorgalle.com:5173'
-      },
-      ios: {
-        scheme: 'App'
-      }
-    };
-    break;
+    if (DEVPUSH_URL) {
+      overrideConfig = {
+        server: {
+          // See tools/set-cf-ip.sh
+          url: DEVPUSH_URL
+        },
+        ios: {
+          scheme: 'App'
+        }
+      };
+      break;
+    }
+    console.warn('No DEVPUSH_URL set, using default staging config');
   case 'devpush':
-    overrideConfig = {
-      server: {
-        // See tools/set-cf-ip.sh
-        url: 'https://wtmg.thorgalle.com:5173'
-      },
-      ios: {
-        scheme: 'App Staging'
-      }
-    };
-    break;
-
+    if (DEVPUSH_URL) {
+      overrideConfig = {
+        server: {
+          // See tools/set-cf-ip.sh
+          url: 'https://wtmg.thorgalle.com:5173'
+        },
+        ios: {
+          scheme: 'App Staging'
+        }
+      };
+      break;
+    }
+    console.warn('No DEVPUSH_URL set, using default staging config');
   default:
     overrideConfig = {
       server: {
