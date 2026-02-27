@@ -3288,10 +3288,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stripe/stripe-js@npm:^8.7.0":
-  version: 8.7.0
-  resolution: "@stripe/stripe-js@npm:8.7.0"
-  checksum: 10/d895b458602ae90c8b3f759617e495fe2f6541d59b853de6c3a3dd9ad07dcce5c31bdc8b11af1270e1032b788f64dadd0bd7a1e55e5ea2d4e53c87ef15ce4b6c
+"@stripe/stripe-js@npm:^8.8.0":
+  version: 8.8.0
+  resolution: "@stripe/stripe-js@npm:8.8.0"
+  checksum: 10/a059771590c6eb57efdcfb789da4783eb6e5a10d716bfe094ce5bcf7b28ba439867af53d055f7998cbd15a255e9dae020f9f4e6276defb4416d0457fc674fcfe
   languageName: node
   linkType: hard
 
@@ -12278,13 +12278,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte-stripe@npm:^1.4.0":
-  version: 1.4.0
-  resolution: "svelte-stripe@npm:1.4.0"
+"svelte-stripe@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "svelte-stripe@npm:2.0.0"
   peerDependencies:
-    "@stripe/stripe-js": ^3 || ^4
-    svelte: ^3 || ^4 || ^5
-  checksum: 10/c2be6dd81d8141f76772349d063672ed65da2fc56679f4d9ca37e06e3176917dcef3691b49f621432e8f8b4b5b0ecd3d5b65bf439aab7a7b2114c59d41ce9483
+    "@stripe/stripe-js": ">=5"
+    svelte: ^5
+  checksum: 10/d03637f2b16b5d5dfd4b5b5d85cabaf0cad1159d97b4441f178b119644986090e635bac3288f78d30002501fb7210bc27703e8c4434e1bc39ea6380b0c72c819
   languageName: node
   linkType: hard
 
@@ -13115,7 +13115,7 @@ __metadata:
     "@notnotsamuel/capacitor-swipe-back": "npm:^3.0.2"
     "@playwright/test": "npm:^1.58.1"
     "@sentry/sveltekit": "npm:^10.38.0"
-    "@stripe/stripe-js": "npm:^8.7.0"
+    "@stripe/stripe-js": "npm:^8.8.0"
     "@supabase/supabase-js": "npm:^2.94.1"
     "@sveltejs/adapter-static": "npm:^3.0.10"
     "@sveltejs/kit": "npm:2.50.2"
@@ -13153,7 +13153,7 @@ __metadata:
     svelte-i18n: "npm:^4.0.1"
     svelte-preprocess: "npm:^6.0.3"
     svelte-simple-modal: "npm:^2.0.0"
-    svelte-stripe: "npm:^1.4.0"
+    svelte-stripe: "npm:^2.0.0"
     tslib: "npm:^2.8.1"
     tsx: "npm:^4.21.0"
     typescript: "npm:^5.9.3"

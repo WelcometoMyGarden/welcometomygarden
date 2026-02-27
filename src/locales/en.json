@@ -950,7 +950,8 @@
       "errors": {
         "loading-error": "Something went wrong when loading our payments service. Please try reloading the page.",
         "systems-error": "Something went wrong in our systems. Please contact {supportEmail} and we'll help you asap! Sorry for the trouble.",
-        "payment-error": "Something went wrong with your payment, please try again."
+        "payment-error": "Something went wrong with your payment, please try again.",
+        "please-try-again": "Please try again."
       },
       "success": "Thank you for becoming a WTMG member!"
     },

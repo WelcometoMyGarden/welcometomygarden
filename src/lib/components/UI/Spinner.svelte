@@ -1,8 +1,17 @@
-<div class="lds-ellipsis">
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
+<script lang="ts">
+  interface Props {
+    color?: string;
+    fontSize?: string;
+    positioning?: 'absolute' | 'minimal';
+  }
+
+  let { color = '#fff', fontSize = '0.8em', positioning = 'absolute' }: Props = $props();
+</script>
+
+<div class={['lds-ellipsis', positioning]} style:font-size={fontSize}>
+  {#each Array(4).fill(1) as _}
+    <div style:background-color={color}></div>
+  {/each}
 </div>
 
 <!--
@@ -13,11 +22,16 @@
 
 <style>
   .lds-ellipsis {
-    font-size: 0.8em;
-    display: inline-block;
-    position: absolute;
     width: 5.7em;
     height: 1.7em;
+  }
+  .lds-ellipsis.minimal {
+    position: relative;
+  }
+
+  .lds-ellipsis.absolute {
+    display: inline-block;
+    position: absolute;
     /* center with absolute positioning */
     bottom: 0;
     top: 0;
@@ -31,7 +45,6 @@
     width: 0.92em;
     height: 0.92em;
     border-radius: 50%;
-    background: #fff;
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
   }
   .lds-ellipsis div:nth-child(1) {

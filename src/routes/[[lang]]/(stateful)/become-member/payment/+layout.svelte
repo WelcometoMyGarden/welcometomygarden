@@ -6,15 +6,7 @@
   import type { LayoutData } from './$types';
   import { goto } from '$lib/util/navigate';
   import routes, { getBaseRouteIn } from '$lib/routes';
-  import {
-    loadStripe,
-    type CheckoutLocale,
-    type Stripe,
-    type StripeElementLocale,
-    type StripeElements,
-    type StripeError
-  } from '@stripe/stripe-js';
-  import { Elements, PaymentElement } from 'svelte-stripe';
+  import { type StripeError } from '@stripe/stripe-js';
   import { createOrRetrieveUnpaidSubscription } from '$lib/api/functions';
   import { timeout } from '$lib/util/timeout';
   import {
@@ -22,11 +14,9 @@
     getSubLevelFromUser,
     getSubLevelBySlug
   } from '$lib/components/Membership/subscription-utils';
-  import Button from '$lib/components/UI/Button.svelte';
   import { emailAsLink, SUPPORT_EMAIL } from '$lib/constants';
-  import LevelSummary from './LevelSummary.svelte';
-  import { page } from '$app/stores';
-  import { anchorText, lr } from '$lib/util/translation-helpers';
+  import { page } from '$app/state';
+  import { lr } from '$lib/util/translation-helpers';
   import {
     DEFAULT_MEMBER_LEVEL,
     type SuperfanLevelData
@@ -34,47 +24,58 @@
   import PaddedSection from '$lib/components/Marketing/PaddedSection.svelte';
   import * as Sentry from '@sentry/sveltekit';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
-  import { Progress } from '$lib/components/UI';
-  import { trackEvent } from '$lib/util';
-  import { PlausibleEvent } from '$lib/types/Plausible';
-  import { DefaultWebViewOptions, InAppBrowser } from '@capacitor/inappbrowser';
+  import {
+    DefaultAndroidSystemBrowserOptions,
+    DefaultiOSSystemBrowserOptions,
+    InAppBrowser
+  } from '@capacitor/inappbrowser';
   import logger from '$lib/util/logger';
   import NProgress from 'nprogress';
   import { isNative } from '$lib/util/uaInfo';
   import createUrl from '$lib/util/create-url';
-
-  // TODO: the Svelte 5 upgrade of svelte-stripe is not complete yet
-  // at the time of writing, see https://github.com/joshnuss/svelte-stripe/pull/131
+  import PaymentPage from '../PaymentPage.svelte';
+  import { trackEvent } from '$lib/util';
+  import { PlausibleEvent } from '$lib/types/Plausible';
+  import { App as CapacitorApp, type URLOpenListenerEvent } from '@capacitor/app';
+  import { Capacitor } from '@capacitor/core';
+  import LoadingPage from '../LoadingPage.svelte';
 
   // TODO: if you subscribe & unsubscribe in 1 session without refreshing, no new sub will be auto-generated
   // we could fix this by detecting changes to the user (if we go from subscribed -> unsubscribed)
   // or by keeping state on whether the payment module is shown
-  // (if new state: not shown, not subscribed -> create new sub and show element)
 
-  export let data: LayoutData;
+  interface Props {
+    // (if new state: not shown, not subscribed -> create new sub and show element)
+    data: LayoutData;
+    children?: import('svelte').Snippet;
+  }
 
-  let stripe: Stripe | null = null;
+  let { children }: Props = $props();
 
-  let elements: StripeElements;
-
-  let elementsSpan: Sentry.Span | null = null;
-  let paymentElementReady = false;
-  let isSuccess = false;
-
-  // payment intent client secret
-  let clientSecret: string | null = null;
-  let processingPayment = false;
-  let error: StripeError | Error | null = null;
-
-  let selectedLevel: SuperfanLevelData | undefined = getSubLevelBySlug(
-    data.params.id ?? DEFAULT_MEMBER_LEVEL
+  // - payment_intent_client_secret
+  // - payment_intent : the pi_... id
+  // - redirect_status : 'succeeded' | 'failed' | 'pending' (= processing, like for SEPA)
+  // This is also given by the modal parent page
+  // Stripe seems to merge these with other existing search params in the search URL.
+  let { payment_intent_client_secret, redirect_status } = $derived(
+    Object.fromEntries(page.url.searchParams.entries())
   );
 
-  let requestedLevel = selectedLevel;
+  // reactive state
+  let error: StripeError | Error | null = $state(null);
+  let selectedLevel: SuperfanLevelData | undefined = $state(
+    getSubLevelBySlug(page.params.id ?? DEFAULT_MEMBER_LEVEL)
+  );
 
-  const continueUrl = $page.url.searchParams.get('continueUrl');
+  let waitingOnSuperfanStatus = $state(false);
+  let _hasActiveSubscription = $derived($user ? hasActiveSubscription($user) : false);
 
-  let nativeModalClosedBySuccess = false;
+  const continueUrl = $derived(page.url.searchParams.get('continueUrl'));
+
+  // non-reactive state reactive
+  let closeEventTimeout: number | undefined;
+  let inAppBrowserClosedByAppEvent = false;
+  let inAppBrowserIsOpen = false;
 
   /**
    * Gets the current fully-qualified URL of the current page,
@@ -90,132 +91,146 @@
     return newURL.toString();
   }
 
-  const submit = async () => {
-    if (!stripe || !clientSecret) return;
-    // avoid processing duplicates
-    if (processingPayment) return;
-    processingPayment = true;
-    // confirm payment with stripe
-    const result = await stripe.confirmPayment({
-      elements,
-      redirect: 'if_required',
-      confirmParams: {
-        // Redirect to the current page, passing on the continueUrl
-        return_url: currentUrlWithContinueUrlOnly(),
-        payment_method_data: {
-          billing_details: {
-            email: $user?.email
+  if (isNative) {
+    // Return handler for native universal/app links
+    // These are a fallback, we wait for membership status by default
+    CapacitorApp.addListener('appUrlOpen', async (event: URLOpenListenerEvent) => {
+      try {
+        let { pathname, searchParams } = new URL(event.url);
+        if (pathname && getBaseRouteIn(pathname) === routes.APP_PAYMENT) {
+          if (closeEventTimeout) {
+            // In this case, the InAppBrowser is already closed (on Android). Cancel the automatic close handling.
+            // We don't want to use that handler anymore anyway
+            inAppBrowserIsOpen = false;
+            logger.debug('Clearing the postponed Android InAppBrowser close event');
+            clearTimeout(closeEventTimeout);
+          }
+          logger.debug('Handling universal link in payment page', event.url);
+          const {
+            payment_intent_client_secret: newClientSecret,
+            redirect_status: newRedirectStatus
+          } = Object.fromEntries(searchParams.entries());
+          logger.debug('Old params: ', redirect_status, payment_intent_client_secret);
+          if (newRedirectStatus) {
+            redirect_status = newRedirectStatus;
+          }
+          if (newClientSecret) {
+            payment_intent_client_secret = newClientSecret;
+          }
+          logger.debug(
+            'New settings from native link',
+            redirect_status,
+            payment_intent_client_secret
+          );
+
+          if (newRedirectStatus) {
+            // If we handle an app link here, then the closure
+            // is due to an an app link in any case of redirect_status
+            inAppBrowserClosedByAppEvent = true;
+            // This will handle native app success or failure based on the redirect_status set
+            // Note: this should also still pick up the existing continueUrl
+            logger.debug('Starting to reload payment page from native link handler');
+            try {
+              // On Android, it is already closed by opening the link, but it doesn't seem
+              // to hurt to close it again anyway (just in case older Android versions cause issues here?)
+              inAppBrowserIsOpen = false;
+              await InAppBrowser.close();
+            } catch (e) {
+              logger.error('Error while closing the InAppBrowser', e);
+            }
+            reloadPage();
+          } else {
+            logger.warn('Unexpected missing redirect_status from native return URL');
           }
         }
+        // Note: this link is handled in the root layout
+        return;
+      } catch (e) {
+        logger.error(`Error parsing appUrl open ${event.url}`);
       }
     });
-
-    // This part of the code is only reached by payment methods that do not redirect!
-    logger.log('Stripe confirmation result', { result });
-    if (result.error) {
-      // payment failed, notify user
-      if (error?.message) error.message += ' Please try again.';
-      error = result.error;
-    } else if (
-      result.paymentIntent.status === 'succeeded' ||
-      result.paymentIntent.status === 'processing'
-    ) {
-      // In case of "processing" (part of the SEPA flow), assumme provisional success
-      logger.log('payment intent status:', result.paymentIntent.status);
-      logger.log('stripe.confirmPayment succeeded, redirecting to the Thank You page or next');
-      await paymentSucceeded();
-      // payment succeeded, wait for the user object to update
-    }
-    // In any case, we're done processing.
-    processingPayment = false;
-  };
+  }
 
   // Subscribe to user state changes
-  let unsubscribeFromUser = user.subscribe((newUserData) => {
-    logger.log('Receiving new user state');
-    if (newUserData && hasActiveSubscription(newUserData)) {
-      logger.log('The received user is subscribed');
-      selectedLevel = getSubLevelFromUser(newUserData);
-      return;
-    }
-    logger.log('The received user is not subscribed');
-  });
-
-  const reloadStripe = async () => {
-    // Load the Stripe payment elements
-    // TODO: can we fix this TS locale `as` hack? Verify that our input locales are always valid?
-    logger.log('Reloading stripe');
-    stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY, {
-      // Note: this will use e.g. Polish if it were set, not just supported languages
-      locale: ($locale as StripeElementLocale | CheckoutLocale) || 'auto'
-    });
-  };
 
   const unsubscribeFromLocale = _.subscribe(async () => {
     // TODO: this doesn't work, implement reactivity on Stripe somehow?
     // await reloadStripe();
   });
 
-  /**
-   * @returns true if search params were processed, which means that no further subscription
-   * processing is required.
-   *          false if no search params were found & processed
-   */
-  const processStripeSearchParams = async () => {
-    // Check if we got redirected back from a succesful or failed payment
-    // Relevant for bancontact and other redirect methods.
-    const searchParams = new URLSearchParams(document.location.search);
-    if (searchParams.get('payment_intent')) {
-      logger.log('onMount: redirect params were found');
-      // I couldn't find proper docs of these query parameters,
-      // https://stripe.com/docs/js/setup_intents/confirm_setup
-      // > If they fail to authorize the payment, they will be redirected back to your return_url
-      // > and the **SetupIntent** will have a status of requires_payment_method.
-      // > In this case you should attempt to recollect payment from the user.
-      // So our backend should in any case return that payment intent on the createOrRetrieveUnpaidSubscription
-      // (maybe we can adjust it to return an eventual previous error, via requires_payment_method)
-      //
-      // Empirically, these seem to exist:
-      // ?payment_intent=&payment_intent_client_secret=&redirect_status=failed
-      // the last status can be 'failed' or 'succeeded'
-      // Stripe seems to merge these with the possible continueUrl parameter.
-      if (searchParams.get('redirect_status')) {
-        const status = searchParams.get('redirect_status');
-        const clientSecretFromUrl = searchParams.get('payment_intent_client_secret');
-        // Clear search params, to not repeat an error on refresh
-        // window.history.replaceState({}, document.title, document.location.pathname);
-
-        switch (status) {
-          case 'pending':
-            // This happens when the payment is pending (e.g. Sofort). In this case, paymentProcessing will be set to
-            // true, and it will reactively make the user a superfan.
-            logger.log('onMount: success with pending payment');
-            return paymentSucceeded();
-          case 'failed':
-            error = new Error($_('payment-superfan.payment-section.errors.payment-error'));
-            if (clientSecretFromUrl) {
-              clientSecret = clientSecretFromUrl;
-            }
-            await reloadStripe();
-            return true;
-          case 'succeeded':
-            logger.log(
-              'onMount: redirect_status param was "succeeded", redirecting to the continueUrl or Thank You page'
-            );
-            return paymentSucceeded();
-        }
-      }
+  const handleNativePayment = async (clientSecret: string) => {
+    if (!$user) {
+      logger.warn('$user unexpectedly null when opening native payment');
+      return;
     }
-    return false;
-  };
-
-  onMount(async () => {
-    elementsSpan = Sentry.startSpanManual(
-      { name: 'Stripe Elements Load', op: 'stripe.elements.load' },
-      (span) => (elementsSpan = span)
+    const loc = window.location;
+    // Note: we don't need to pass the continueUrl, since in case of success
+    // we'll continue handling the success here, which already has continueUrl
+    const inAppPaymentPageURL = createUrl(
+      `${loc.protocol}//${loc.host}${$lr(routes.APP_PAYMENT)}`,
+      {
+        payment_intent_client_secret: clientSecret,
+        name: `${$user.firstName} ${$user.lastName}`,
+        email: $user.email,
+        slug: page.params.id ?? DEFAULT_MEMBER_LEVEL,
+        platform: Capacitor.getPlatform(),
+        ...(redirect_status
+          ? {
+              redirect_status
+            }
+          : {})
+      }
     );
 
-    logger.log('Running onMount');
+    logger.debug(`Opening ${inAppPaymentPageURL} in a system browser view`);
+
+    // Set up in-app browser listeners
+    InAppBrowser.removeAllListeners();
+
+    function handleInAppBrowserClose() {
+      inAppBrowserIsOpen = false;
+      if (inAppBrowserClosedByAppEvent) {
+        logger.log('Ignored browser InAppBrowser close due to handled app link');
+        return;
+      } else {
+        logger.log('Handling manual user InAppBrowser close');
+        // the user tried to abort the modal. Pop them back to whence they came, this
+        // page will not be useful to them
+        NProgress.done();
+        history.back();
+      }
+    }
+    await Promise.all([
+      InAppBrowser.addListener('browserClosed', () => {
+        if (Capacitor.getPlatform() === 'android') {
+          // on Android, the browser close event is called BEFORE
+          // the appUrlOpen event, but we depend on that event to handle the close event
+          logger.debug(
+            'Postponing the InAppBrowser browserClosed event until either appUrlOpen event is handled (see there), or 2000ms'
+          );
+          closeEventTimeout = window.setTimeout(handleInAppBrowserClose, 2000);
+        } else {
+          // on iOS, the browser close event when a universal link is opened
+          // is called  AFTER the appUrlOpen event
+          handleInAppBrowserClose();
+        }
+      })
+    ]);
+    await InAppBrowser.openInSystemBrowser({
+      url: inAppPaymentPageURL,
+      options: {
+        iOS: DefaultiOSSystemBrowserOptions,
+        android: DefaultAndroidSystemBrowserOptions
+      }
+    });
+    inAppBrowserIsOpen = true;
+    return;
+  };
+
+  const reloadPage = async () => {
+    logger.log('Reloading payment page');
+    logger.debug('continueUrl', continueUrl);
+    // Since this is a child of the stateful layout, we can assume that the user is already loaded here.
     if (!$user) {
       notify.warning($_('payment-superfan.not-logged-in-warning'), 10000);
       // replaceState: replaces the state of the current page, which we want,
@@ -225,20 +240,34 @@
       return goto($lr(routes.SIGN_IN), { replaceState: true });
     } else {
       // Check if we got redirected back from Stripe
-      const processed = await processStripeSearchParams();
-      if (processed) {
-        // no more processing needed
-        return;
+      switch (redirect_status) {
+        case 'pending':
+        case 'succeeded':
+          logger.log(`onMount: success with ${redirect_status} payment`);
+          return await paymentSucceeded();
+        case 'failed':
+          logger.debug('Detected failed payment, reloading PaymentPage');
+          if (isNative) {
+            await handleNativePayment(payment_intent_client_secret);
+          }
+          // Otherwise: on desktop this should be a fresh page load
+          // let normal PaymentPage init handle the failed payment
+          return;
+        default:
+          logger.debug('No Stripe redirect params found on the payment page');
+        // Note: 'failed' is handled by paymentpage (TODO: and maybe everything should be)
       }
 
-      if (hasActiveSubscription($user)) {
+      if (_hasActiveSubscription) {
         logger.log('onMount: $user is subscribed, selecting level');
-        // Make sure the correct price is shown, even if the user re-entered another price page
+        // Make sure the correct price is shown that the user currently has,
+        // even if the user opened another price page
         selectedLevel = getSubLevelFromUser($user);
         return;
       }
 
       logger.log('onMount: $user is not subscribed');
+      waitingOnSuperfanStatus = true;
 
       if (!selectedLevel) {
         logger.error("Didn't select, or couldn't find, a price level");
@@ -248,7 +277,7 @@
       try {
         const { data: subData } = await timeout(
           createOrRetrieveUnpaidSubscription({
-            priceId: selectedLevel.stripePriceId,
+            priceId: selectedLevel.stripePriceId!,
             // Note: this may not be a supported locale
             locale: $locale || 'en'
           }),
@@ -256,62 +285,11 @@
           15000
         );
         if (subData?.clientSecret && isNative) {
-          const loc = window.location;
-
-          const inAppPaymentPage = createUrl(
-            `${loc.protocol}//${loc.host}${$lr(routes.APP_PAYMENT)}`,
-            {
-              payment_intent_client_secret: subData?.clientSecret,
-              name: `${$user.firstName} ${$user.lastName}`,
-              email: $user.email,
-              slug: data.params.id ?? DEFAULT_MEMBER_LEVEL
-            }
-          );
-
-          logger.debug(`Opening ${inAppPaymentPage} in a webview`);
-
-          // Set up in-app browser listeners
-          InAppBrowser.removeAllListeners();
-          await Promise.all([
-            InAppBrowser.addListener('browserClosed', () => {
-              if (nativeModalClosedBySuccess) {
-                return;
-              } else {
-                // the user tried to abort the modal. Pop them back to whence they came, this
-                // page will not be useful to them
-                NProgress.done();
-                history.back();
-              }
-            }),
-            InAppBrowser.addListener('browserPageNavigationCompleted', async (e) => {
-              if (!e.url) {
-                logger.warn('In-app browser navigation without URL, ignoring');
-                return;
-              }
-              const url = new URL(e.url);
-              const { redirect_status } = Object.fromEntries(url.searchParams.entries());
-              if (
-                url.protocol === loc.protocol &&
-                url.host === loc.host &&
-                getBaseRouteIn(url.pathname) === routes.APP_PAYMENT &&
-                (redirect_status === 'succeeded' || redirect_status === 'pending')
-              ) {
-                logger.info('Successful payment in in-app browser detected');
-                // This should be assigned before we call .close(), to make sure
-                // we accurately identify why the close happened
-                nativeModalClosedBySuccess = true;
-                await InAppBrowser.close();
-                await paymentSucceeded();
-              }
-            })
-          ]);
-          await InAppBrowser.openInWebView({
-            url: inAppPaymentPage,
-            options: DefaultWebViewOptions
-          });
+          await handleNativePayment(subData.clientSecret);
           return;
         } else if (subData.clientSecret) {
-          clientSecret = subData.clientSecret;
+          logger.debug('Got payment_intent_client_secret', subData.clientSecret);
+          payment_intent_client_secret = subData.clientSecret;
         } else {
           logger.error(
             'Unexpected: no client secret returned by an non-erroring createOrRetrieveUnpaidSubscription'
@@ -319,7 +297,6 @@
         }
       } catch (firebaseError: any) {
         if (isFirebaseError(firebaseError) && firebaseError.code === 'functions/already-exists') {
-          processingPayment = true;
           // This means, in the best case, that we're already subscribed and no payment is due.
           // Wait until the User state gets updated (there might be an issue there).
           logger.warn(
@@ -335,7 +312,6 @@
           );
           return;
         } else {
-          processingPayment = false;
           logger.error(firebaseError);
           error = new Error($_('payment-superfan.payment-section.errors.loading-error'));
         }
@@ -347,12 +323,13 @@
         });
       }
 
-      await reloadStripe();
+      // await reloadStripe();
     }
-  });
+  };
+
+  onMount(reloadPage);
 
   onDestroy(() => {
-    unsubscribeFromUser();
     unsubscribeFromLocale();
   });
 
@@ -361,11 +338,17 @@
    * @returns true on a successful navigation
    */
   async function paymentSucceeded() {
-    // This helps to clean up the payment element <Progress> which will start loading regardless
-    // of payment initiation, failure or success. It should not load on payment success,
-    // since we're going for a redirect here and it will leak into the next page.
-    isSuccess = true;
+    if (!_hasActiveSubscription && continueUrl) {
+      // This status should still be set when there is a succeeded redirecting payment
+      // Only wait when there is a continueUrl.
+      waitingOnSuperfanStatus = true;
+      return;
+    }
+
+    NProgress.done();
+
     if (continueUrl) {
+      logger.debug('Handling payment succeeded with a continueUrl', continueUrl);
       notify.success($_('payment-superfan.payment-section.success'), 20000);
       // Tracking default given continueUrl: from trying to chat with someone
       let source = 'map_garden';
@@ -377,151 +360,85 @@
       // Note: this continueUrl is already localized
       await goto(continueUrl);
       return true;
+    } else {
+      // If there is no continueUrl, we're not waiting.
+      // We assume that there is enough waiting time on the Thank You page.
+      waitingOnSuperfanStatus = false;
     }
+    logger.debug('Handling payment succeeded without a continueUrl');
     trackEvent(PlausibleEvent.MEMBER_CONVERSION, { source: 'direct' });
     await goto($lr(routes.MEMBER_THANK_YOU));
     return true;
   }
+
+  $effect(() => {
+    // Execute payentSucceeded when this page notices an an active subscription after load
+    if (_hasActiveSubscription && waitingOnSuperfanStatus) {
+      logger.debug('Receiving new superfan status');
+      inAppBrowserClosedByAppEvent = true;
+      let continuePromise = Promise.resolve();
+      if (inAppBrowserIsOpen) {
+        continuePromise = InAppBrowser.close();
+      }
+      waitingOnSuperfanStatus = false;
+      continuePromise.then(paymentSucceeded);
+    }
+  });
 </script>
 
 <svelte:head>
   <title>{$_('payment-superfan.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
-<Progress active={!paymentElementReady && !isSuccess} />
-{#if !isNative && selectedLevel && $user && !hasActiveSubscription($user)}
-  <PaddedSection className="summary-section" desktopOnly>
-    <LevelSummary level={selectedLevel} />
+{#if error}
+  <PaddedSection topMargin={false}>
+    <!-- This is likely an error where the Stripe sub could not be created -->
+    <p class="error">{error.message}</p>
   </PaddedSection>
-{/if}
-<PaddedSection topMargin={false}>
-  {#if $user && selectedLevel && !hasActiveSubscription($user)}
-    <!-- Payment block - TODO: move into component -->
-    {#if error}
-      <p class="error">{error.message}</p>
-    {/if}
-    {#if stripe && clientSecret}
-      <form on:submit|preventDefault={submit}>
-        <Elements {stripe} {clientSecret} bind:elements>
-          <span class="method-title">{$_('payment-superfan.payment-section.payment-method')}</span>
-          <PaymentElement
-            on:ready={() => {
-              elementsSpan?.end();
-              paymentElementReady = true;
-            }}
-            options={{
-              paymentMethodOrder: ['bancontact', 'card', 'ideal', 'sepa_debit'], // TODO ADD SEPA
-              terms: { bancontact: 'never', sepaDebit: 'never', card: 'never', ideal: 'never' },
-              defaultValues: {
-                billingDetails: {
-                  name: `${$user?.firstName} ${$user?.lastName}`,
-                  email: $user?.email
-                }
-              },
-              // Never show an email field, we always use the account email.
-              // TODO: check if this is appropriate for PayPal
-              fields: {
-                billingDetails: {
-                  email: 'never'
-                }
-              }
-            }}
-          />
-        </Elements>
-        <div class="payment-button-section">
-          <Button type="submit" uppercase medium orange arrow loading={processingPayment} fullWidth
-            >{$_('payment-superfan.payment-section.pay-button')}</Button
-          >
-          <p class="terms">
-            {@html $_('payment-superfan.terms', {
+{:else if !isNative}
+  <!-- No error, not on native: show the desktop payment page. -->
+  {#if $user}
+    {#if selectedLevel && !_hasActiveSubscription && payment_intent_client_secret}
+      <!-- Note: paymentpage itself decided whether to show the payment element or a loading indicator -->
+      <PaymentPage
+        {payment_intent_client_secret}
+        selectedLevel={getSubLevelBySlug(page.params.id ?? DEFAULT_MEMBER_LEVEL)!}
+        name={`${$user?.firstName} ${$user?.lastName}`}
+        email={$user?.email}
+        onPaymentSucceeded={paymentSucceeded}
+        returnUrl={currentUrlWithContinueUrlOnly()}
+      />
+    {:else if _hasActiveSubscription && !waitingOnSuperfanStatus}
+      <!-- waitingOnSuperfanStatus check to prevent showing this in the milliseconds
+      before a redirect happens
+     -->
+      <PaddedSection topMargin={false}>
+        <!-- Subscription block -->
+        <!-- Show status -->
+        <p>
+          {$_('payment-superfan.payment-section.youre-subscribed')}
+          {#if selectedLevel && selectedLevel.stripePriceId !== selectedLevel.stripePriceId}
+            {@html $_('payment-superfan.payment-section.no-switching-here', {
               values: {
-                termsLink: anchorText({
-                  href: $lr(routes.TERMS_OF_USE),
-                  class: 'link--neutral',
-                  linkText:
-                    $locale === 'de'
-                      ? ($_('generics.terms-of-use') ?? '')
-                      : ($_('generics.terms-of-use') ?? '').toLowerCase()
-                })
+                supportEmail: emailAsLink
               }
             })}
-          </p>
-        </div>
-      </form>
-    {:else if !error}
-      <p class="loading-text">{$_('payment-superfan.payment-section.loading')}</p>
+          {/if}
+        </p>
+      </PaddedSection>
+    {:else}
+      <!-- The Stripe info (client secret) is still loading in this case -->
+      <LoadingPage />
     {/if}
-  {:else if $user && hasActiveSubscription($user)}
-    <!-- Subscription block -->
-    <!-- Show status -->
-    <p>
-      {$_('payment-superfan.payment-section.youre-subscribed')}
-      {#if requestedLevel && selectedLevel && requestedLevel.stripePriceId !== selectedLevel.stripePriceId}
-        {@html $_('payment-superfan.payment-section.no-switching-here', {
-          values: {
-            supportEmail: emailAsLink
-          }
-        })}
-      {/if}
-    </p>
   {:else}
-    No user!
+    <PaddedSection topMargin={false}>
+      <!-- This shouldn't happen, because the user should already be loaded in a stateful page -->
+      No user!
+    </PaddedSection>
   {/if}
   <!-- Unused slot, just to get rid of a compile-time warning -->
-  <slot />
-</PaddedSection>
-
-<style>
-  .method-title {
-    /* Taken from Stripe's Payment element CSS */
-    font-family:
-      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
-      'Helvetica Neue', sans-serif;
-    font-size: 14.88px;
-    color: rgb(48, 49, 61);
-    line-height: 17.1167px;
-    display: inline-block;
-    margin-bottom: 0.8rem;
-  }
-
-  /* Exceptionally, less padding */
-  :global(.outer.summary-section) {
-    margin-bottom: 4rem !important;
-  }
-
-  .payment-button-section {
-    width: 100%;
-    padding: 0 2rem 2rem 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .payment-button-section :global(button) {
-    max-width: 30rem;
-    margin: 3rem auto 2.7rem auto;
-  }
-
-  .error {
-    color: var(--color-danger);
-  }
-
-  .terms {
-    margin-bottom: 0;
-    text-align: center;
-    font-size: 1.4rem;
-    line-height: 1.4;
-    max-width: 720px;
-    /* Aligns with Stripe payment element grey */
-    color: #6d6e78;
-  }
-  .terms > :global(.link--neutral) {
-    color: #6d6e78;
-  }
-
-  /* To counteract the default mobile removal of top padding in PaddedSection */
-  .loading-text {
-    margin-top: var(--section-inner-padding);
-  }
-</style>
+  {@render children?.()}
+{:else}
+  <!-- We're on native, show that we're loading. The InAppBrowser will be opened over this. -->
+  <LoadingPage />
+{/if}

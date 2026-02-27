@@ -155,6 +155,8 @@ See https://github.com/ionic-team/capacitor-assets, which is invoked for our pur
 
 ## Testing Universal Links (iOS) / (dynamic) App Links (Android)
 
+### Where to test Universal Links / App Links from
+
 Navigating directly to a link in a browser without clicking a link may not trigger the app to open. Do this instead.
 
 **iOS**
@@ -174,6 +176,24 @@ So, to load/auto-verify Play associations on a test device, run a `release` buil
 4. Drag the .apk onto the emulator to install
 
 (.aab's can't be installed this way, those are used for Google Play)
+
+### Implementation notes
+
+**Apple Universal Link caveats**
+
+- Apple only triggers a universal link when triggered via JS from a browser context, if the `window.open/window.location` call came < 1 second after a button press. Otherwise, the link opens in the same browser context. This is an issue when waiting on a non-redirecting Stripe payment method before making a JS redirect call (it takes longer than a second).
+- **Universal links never trigger on `http://localhost`, they require HTTPS.**
+- When a universal link is already loaded in a SafariViewController (after failing the time constraint mentioned above), clicking a link that goes to the same domain does not trigger the universal link. You can click & navigate to a different registered applink, however.
+
+Android seems more flexible overall, at least the second restriction does apply as stringently. It did not cause problems in testing.
+
+**InAppBrowser behavior differences**
+
+- In iOS, `openInWebview` causes URL Scheme links embedded in the opened page to show a crash page, [see this issue](https://github.com/ionic-team/capacitor/discussions/8191). Maybe I had to have "Viewer" permission on those?
+- In Android, it looks like when a in-app tab is opened (SystemBrowser), the execution of the main Capacitor webview is paused.
+- When closing a SystemBrowser using an app link, on Android, the `browserClosed` event is called before the `appUrlOpen` event. On iOS, it's the reverse.
+
+### Implementation notes
 
 # Deployment
 
