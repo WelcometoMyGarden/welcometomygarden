@@ -943,7 +943,8 @@
       "errors": {
         "loading-error": "Algo salió mal al cargar nuestro servicio de pagos. Intenta recargar la página.",
         "systems-error": "Algo salió mal en nuestros sistemas. ¡Comunícate con {supportEmail} yte ayudaremos lo antes posible! Sentimos la molestia.",
-        "payment-error": "Algo salió mal con tu pago, inténtalo de nuevo."
+        "payment-error": "Algo salió mal con tu pago, inténtalo de nuevo.",
+        "please-try-again": "Inténtalo de nuevo."
       },
       "success": "¡Gracias por hacerte miembro de WTMG!"
     },

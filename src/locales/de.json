@@ -942,7 +942,8 @@
       "errors": {
         "loading-error": "Beim Laden unseres Zahlungsdienstes ist ein Fehler aufgetreten. Versuchen Sie bitte, die Seite neu zu laden.",
         "systems-error": "In unseren Systemen ist ein Fehler aufgetreten. Bitte kontaktieren Sie {supportEmail} und wir helfen Ihnen so schnell wie möglich! Entschuldigen Sie die Unannehmlichkeiten.",
-        "payment-error": "Bei Ihrer Zahlung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+        "payment-error": "Bei Ihrer Zahlung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+        "please-try-again": "Bitten versuchen Sie es erneut."
       },
       "success": "Vielen Dank, dass Sie WTMG-Mitglied geworden sind!"
     },
