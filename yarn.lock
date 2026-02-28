@@ -5426,10 +5426,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aria-query@npm:^5.3.1":
-  version: 5.3.2
-  resolution: "aria-query@npm:5.3.2"
-  checksum: 10/b2fe9bc98bd401bc322ccb99717c1ae2aaf53ea0d468d6e7aebdc02fac736e4a99b46971ee05b783b08ade23c675b2d8b60e4a1222a95f6e27bc4d2a0bfdcc03
+"aria-query@npm:5.3.1":
+  version: 5.3.1
+  resolution: "aria-query@npm:5.3.1"
+  checksum: 10/4b39d2e466992121886ae436d67085537af895b7e545e6092b89950a1f2c372e4a91b0b1daa16a5164564fdefbc6415a1d04d0fe2db8b1326f9ca6728f8384d0
   languageName: node
   linkType: hard
 
@@ -9716,9 +9716,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte@npm:^5.51.5":
-  version: 5.53.0
-  resolution: "svelte@npm:5.53.0"
+"svelte@npm:^5.53.5":
+  version: 5.53.6
+  resolution: "svelte@npm:5.53.6"
   dependencies:
     "@jridgewell/remapping": "npm:^2.3.4"
     "@jridgewell/sourcemap-codec": "npm:^1.5.0"
@@ -9726,7 +9726,7 @@ __metadata:
     "@types/estree": "npm:^1.0.5"
     "@types/trusted-types": "npm:^2.0.7"
     acorn: "npm:^8.12.1"
-    aria-query: "npm:^5.3.1"
+    aria-query: "npm:5.3.1"
     axobject-query: "npm:^4.1.0"
     clsx: "npm:^2.1.1"
     devalue: "npm:^5.6.3"
@@ -9736,7 +9736,7 @@ __metadata:
     locate-character: "npm:^3.0.0"
     magic-string: "npm:^0.30.11"
     zimmerframe: "npm:^1.1.2"
-  checksum: 10/4b928f85c6b15410929640e9a1dc825e3c0257a67cf51c9fcda65be92fe8f0cc1b4b4ec2f3ce4b76f5f3a153c4bf18791670967abe0bbf060f3ccdc4d5ea3572
+  checksum: 10/e043387f14b78f64456ac7e276f302a2fb1d7f754d7ac656c7c400c97361762345e27de74a5d02792caea9436cbfabf7ce62ae6fdcdb2da3b8387dda2391420c
   languageName: node
   linkType: hard
 
@@ -10353,7 +10353,7 @@ __metadata:
     prettier-plugin-svelte: "npm:^3.4.1"
     smoothscroll-polyfill: "npm:^0.4.4"
     stripe: "npm:^17.7.0"
-    svelte: "npm:^5.51.5"
+    svelte: "npm:^5.53.5"
     svelte-check: "npm:^4.3.5"
     svelte-i18n: "npm:^4.0.1"
     svelte-preprocess: "npm:^6.0.3"
