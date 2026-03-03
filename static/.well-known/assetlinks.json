@@ -5,7 +5,8 @@
       "namespace": "android_app",
       "package_name": "org.welcometomygarden.app",
       "sha256_cert_fingerprints": [
-        "43:04:2A:09:46:1C:6E:F3:9A:0D:64:FD:1B:46:04:ED:65:C8:5E:27:4D:9E:95:BE:0F:D4:DC:BF:AC:D7:C8:AF"
+        "43:04:2A:09:46:1C:6E:F3:9A:0D:64:FD:1B:46:04:ED:65:C8:5E:27:4D:9E:95:BE:0F:D4:DC:BF:AC:D7:C8:AF",
+        "A8:4F:41:FB:FE:53:2E:02:2A:ED:B6:77:12:0A:96:D7:15:31:7C:87:A5:7F:A0:17:F5:B2:59:E8:74:0E:EF:7F"
       ]
     },
     "relation_extensions": {
