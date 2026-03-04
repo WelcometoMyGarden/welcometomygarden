@@ -27,7 +27,7 @@
 <style>
   /* Use CSS specificity to override the height */
   :global(div.app.active-explore) {
-    --height-footer: 4.5rem;
+    --height-footer: calc(4.5rem + env(safe-area-inset-bottom, 0px) * 0.5);
   }
 
   /* Hide the footer on a fullscreen desktop map, too */
@@ -42,7 +42,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1rem;
+    padding: 0 1rem calc(env(safe-area-inset-bottom, 0px) * 0.5) 0;
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
   }
 

@@ -253,6 +253,6 @@
   /* Allow the map to be edge-to-edge under unsafe top elements
      while dodging these lements for the search filter. */
   :global(.app.native.ios .filter) {
-    top: calc(env(safe-area-inset-top));
+    top: env(safe-area-inset-top);
   }
 </style>

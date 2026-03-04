@@ -50,7 +50,7 @@
       {/if}
     </div>
   {/if}
-  <div class="main-nav">
+  <div class="main-nav" class:has-extra={$shouldShowBanner}>
     <WtmgLogo />
     <ul>
       <li>
@@ -114,7 +114,9 @@
   :global(body) {
     --height-nav-main: 7rem;
     --height-nav-extra: 3.5rem;
-    --height-nav: calc(var(--height-nav-extra) + var(--height-nav-main));
+    --height-nav: calc(
+      var(--height-nav-extra) + var(--height-nav-main) + env(safe-area-inset-top, 0px)
+    );
   }
 
   nav {
@@ -146,21 +148,25 @@
     flex: 1;
     padding: 0 0 0 5rem;
     justify-content: space-between;
+    display: flex;
+    align-items: center;
+  }
+
+  /* In case there is no extra bar on top, add extra padding in the main nav
+  to compensate for safe area
+   */
+  nav > .main-nav:not(.has-extra) {
+    padding-top: env(safe-area-inset-top, 0px);
   }
 
   nav .nav-extra {
     background-color: var(--color-beige-light);
     text-align: right;
-    height: var(--height-nav-extra);
+    height: calc(var(--height-nav-extra) + env(safe-area-inset-top, 0px));
     display: flex;
     justify-content: right;
     align-items: center;
-    padding: 0 1.5rem;
-  }
-
-  nav .main-nav {
-    display: flex;
-    align-items: center;
+    padding: env(safe-area-inset-top, 0px) 1.5rem 0 1.5rem;
   }
 
   nav .main-nav > ul {

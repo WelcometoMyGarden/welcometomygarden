@@ -55,6 +55,9 @@
 </button>
 
 <style>
+  button {
+    color: var(--color-green);
+  }
   :root {
     --spacing-collapsible-item-hor: 4.8rem;
   }

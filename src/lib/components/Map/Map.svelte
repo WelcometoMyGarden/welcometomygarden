@@ -389,7 +389,16 @@ Component for maps. Shared between the main map, and the map in the Garden creat
     }
   }
 
+  /* Native edge-to-edge handling */
   :global(.app.native.ios .mapboxgl-ctrl-top-right) {
-    top: 10rem;
+    top: calc(env(safe-area-inset-top, 0px) + 5rem);
+  }
+  @media screen and (min-width: 701px) {
+    /* In desktop mode, the controls are relative to the top of the map
+     which is already pushed down by the safe area  */
+    :global(.app.native.ios .mapboxgl-ctrl-top-right) {
+      /* 10px is the built-in margin */
+      top: 1rem;
+    }
   }
 </style>
