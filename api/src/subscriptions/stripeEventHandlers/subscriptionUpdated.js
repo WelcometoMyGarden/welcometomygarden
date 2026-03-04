@@ -7,6 +7,7 @@ const { isWTMGSubscription } = require('./util');
 const stripe = require('../stripe');
 const { nowSecs } = require('../../util/time');
 const { sendSubscriptionCancellationFeedbackEmail } = require('../../mail');
+const { setTimeout } = require('node:timers/promises');
 
 const {
   priceIdKey,
@@ -58,6 +59,32 @@ module.exports = async (event, res) => {
       return res.sendStatus(200);
       // Optional: check if a new sub was created within seconds of this event for further qualification, but this is probably not necesary.
     }
+  }
+
+  // If this event is updating the collection_method from 'send_invoice' to 'charge_automatically'
+  // then wait some time before processing it.
+  // In the conversion flow, we receive several events in quick succession:
+  // 1. invoice.paid: in which we update the subscription object in Stripe and Firebase by API calls to convert to "charge_automatically"
+  // 2. customer.subscription.updated: by Stripe, because the status changed from "past_due" to "active" after payment was received
+  // 3. customer.subscription.updated: 3 seconds later, because it was triggered by our API call upon receiving invoice.paid
+  //
+  // Event (2) still carries `collection_method === 'send_invoice'`.
+  // We've observed that sometimes (due to cold starts, network conditions, or extra dynamic fetches above here, unsure),
+  // the Firebase updates from event (2) are applied AFTER event (3).
+  // This leads Firebase to have the wrong collection_method for the
+  // A delay when processing event (3) should help fix this, to ensure it is handled after (2).
+  const DELAY = 10 * 1000;
+  if (
+    event.data.previous_attributes.collection_method === 'send_invoice' &&
+    subscription.collection_method === 'charge_automatically'
+  ) {
+    logger.debug(
+      'Waiting to handle the charge_automatically customer.subscription.updated event to prevent race conditions'
+    );
+    await setTimeout(DELAY);
+    logger.debug(
+      `Continuing to handle the charge_automatically customer.subscription.updated after a delay of ${DELAY}ms`
+    );
   }
 
   // Get required data
