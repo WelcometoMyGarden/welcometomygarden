@@ -48,11 +48,11 @@ export const isDirectPushPermissionAndroid = async () => {
 // Set up listeners for notifications
 export function initializeNativePush() {
   if (!isNative) {
-    logger.debug('Not considered native, stopping native push init');
+    DEV: logger.debug('Not considered native, stopping native push init');
     return;
   }
 
-  logger.debug('Initializing native push');
+  DEV: logger.debug('Initializing native push');
 
   Device.getId().then((r) => deviceId.set(r.identifier));
 
@@ -60,7 +60,7 @@ export function initializeNativePush() {
   PushNotifications.addListener(
     'pushNotificationReceived',
     async (notification: PushNotificationSchema) => {
-      logger.debug('Push received: ' + JSON.stringify(notification));
+      DEV: logger.debug('Push received: ' + JSON.stringify(notification));
       const { display } = await LocalNotifications.checkPermissions();
       if (display !== 'granted') {
         alert(`display is ${display}`);

@@ -102,22 +102,22 @@
             // In this case, the InAppBrowser is already closed (on Android). Cancel the automatic close handling.
             // We don't want to use that handler anymore anyway
             inAppBrowserIsOpen = false;
-            logger.debug('Clearing the postponed Android InAppBrowser close event');
+            DEV: logger.debug('Clearing the postponed Android InAppBrowser close event');
             clearTimeout(closeEventTimeout);
           }
-          logger.debug('Handling universal link in payment page', event.url);
+          DEV: logger.debug('Handling universal link in payment page', event.url);
           const {
             payment_intent_client_secret: newClientSecret,
             redirect_status: newRedirectStatus
           } = Object.fromEntries(searchParams.entries());
-          logger.debug('Old params: ', redirect_status, payment_intent_client_secret);
+          DEV: logger.debug('Old params: ', redirect_status, payment_intent_client_secret);
           if (newRedirectStatus) {
             redirect_status = newRedirectStatus;
           }
           if (newClientSecret) {
             payment_intent_client_secret = newClientSecret;
           }
-          logger.debug(
+          DEV: logger.debug(
             'New settings from native link',
             redirect_status,
             payment_intent_client_secret
@@ -129,7 +129,7 @@
             inAppBrowserClosedByAppEvent = true;
             // This will handle native app success or failure based on the redirect_status set
             // Note: this should also still pick up the existing continueUrl
-            logger.debug('Starting to reload payment page from native link handler');
+            DEV: logger.debug('Starting to reload payment page from native link handler');
             try {
               // On Android, it is already closed by opening the link, but it doesn't seem
               // to hurt to close it again anyway (just in case older Android versions cause issues here?)
@@ -182,7 +182,7 @@
       }
     );
 
-    logger.debug(`Opening ${inAppPaymentPageURL} in a system browser view`);
+    DEV: logger.debug(`Opening ${inAppPaymentPageURL} in a system browser view`);
 
     // Set up in-app browser listeners
     InAppBrowser.removeAllListeners();
@@ -205,7 +205,7 @@
         if (Capacitor.getPlatform() === 'android') {
           // on Android, the browser close event is called BEFORE
           // the appUrlOpen event, but we depend on that event to handle the close event
-          logger.debug(
+          DEV: logger.debug(
             'Postponing the InAppBrowser browserClosed event until either appUrlOpen event is handled (see there), or 2000ms'
           );
           closeEventTimeout = window.setTimeout(handleInAppBrowserClose, 2000);
@@ -229,7 +229,7 @@
 
   const reloadPage = async () => {
     logger.log('Reloading payment page');
-    logger.debug('continueUrl', continueUrl);
+    DEV: logger.debug('continueUrl', continueUrl);
     // Since this is a child of the stateful layout, we can assume that the user is already loaded here.
     if (!$user) {
       notify.warning($_('payment-superfan.not-logged-in-warning'), 10000);
@@ -246,7 +246,7 @@
           logger.log(`onMount: success with ${redirect_status} payment`);
           return await paymentSucceeded();
         case 'failed':
-          logger.debug('Detected failed payment, reloading PaymentPage');
+          DEV: logger.debug('Detected failed payment, reloading PaymentPage');
           if (isNative) {
             await handleNativePayment(payment_intent_client_secret);
           }
@@ -254,7 +254,7 @@
           // let normal PaymentPage init handle the failed payment
           return;
         default:
-          logger.debug('No Stripe redirect params found on the payment page');
+          DEV: logger.debug('No Stripe redirect params found on the payment page');
         // Note: 'failed' is handled by paymentpage (TODO: and maybe everything should be)
       }
 
@@ -288,7 +288,7 @@
           await handleNativePayment(subData.clientSecret);
           return;
         } else if (subData.clientSecret) {
-          logger.debug('Got payment_intent_client_secret', subData.clientSecret);
+          DEV: logger.debug('Got payment_intent_client_secret', subData.clientSecret);
           payment_intent_client_secret = subData.clientSecret;
         } else {
           logger.error(
@@ -348,7 +348,7 @@
     NProgress.done();
 
     if (continueUrl) {
-      logger.debug('Handling payment succeeded with a continueUrl', continueUrl);
+      DEV: logger.debug('Handling payment succeeded with a continueUrl', continueUrl);
       notify.success($_('payment-superfan.payment-section.success'), 20000);
       // Tracking default given continueUrl: from trying to chat with someone
       let source = 'map_garden';
@@ -365,7 +365,7 @@
       // We assume that there is enough waiting time on the Thank You page.
       waitingOnSuperfanStatus = false;
     }
-    logger.debug('Handling payment succeeded without a continueUrl');
+    DEV: logger.debug('Handling payment succeeded without a continueUrl');
     trackEvent(PlausibleEvent.MEMBER_CONVERSION, { source: 'direct' });
     await goto($lr(routes.MEMBER_THANK_YOU));
     return true;
@@ -374,7 +374,7 @@
   $effect(() => {
     // Execute payentSucceeded when this page notices an an active subscription after load
     if (_hasActiveSubscription && waitingOnSuperfanStatus) {
-      logger.debug('Receiving new superfan status');
+      DEV: logger.debug('Receiving new superfan status');
       inAppBrowserClosedByAppEvent = true;
       let continuePromise = Promise.resolve();
       if (inAppBrowserIsOpen) {

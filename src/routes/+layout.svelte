@@ -45,7 +45,9 @@
         }
       });
     } else {
-      CapacitorSwipeBackPlugin.enable().then(() => logger.debug('Swipe Back plugin enabled'));
+      CapacitorSwipeBackPlugin.enable().then(() => {
+        DEV: logger.debug('Swipe Back plugin enabled');
+      });
     }
 
     CapacitorApp.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
@@ -65,7 +67,7 @@
       }
     });
   } else {
-    logger.debug('Not a native platform, skipping native push');
+    DEV: logger.debug('Not a native platform, skipping native push');
   }
 
   let { children }: Props = $props();

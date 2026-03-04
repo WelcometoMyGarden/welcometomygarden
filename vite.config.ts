@@ -80,6 +80,11 @@ export default defineConfig(({ command, mode }): UserConfig => {
           ]
         : [])
     ],
+    esbuild: {
+      // Intended to drop logger.debug calls from production builds
+      // See https://github.com/evanw/esbuild/issues/3656#issuecomment-3996489063
+      dropLabels: isProductionBuild ? ['DEV'] : []
+    },
     server: {
       // Includes localhost by default, check is skipped when HTTPS is used (see mkcert() and below)
       allowedHosts: [os.hostname().toLocaleLowerCase()],

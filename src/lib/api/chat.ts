@@ -51,13 +51,13 @@ export const createChatObserver = () => {
     where('users', 'array-contains', getUser().id)
   );
 
-  logger.debug('Initializing chat observer');
+  DEV: logger.debug('Initializing chat observer');
   return onSnapshot(
     q,
     async (querySnapshot) => {
       const changes = querySnapshot.docChanges();
       try {
-        logger.debug('Handling chats snapshot');
+        DEV: logger.debug('Handling chats snapshot');
         await Promise.all(
           changes.map(async (change) => {
             const chat = change.doc.data();

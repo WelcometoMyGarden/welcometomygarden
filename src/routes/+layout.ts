@@ -20,7 +20,7 @@ export const trailingSlash = 'never';
 // ssr = true is the default assumed here
 
 export const load: LayoutLoad = async ({ params: { lang: pathLang }, url }) => {
-  logger.debug('Outer layout load started');
+  DEV: logger.debug('Outer layout load started');
   // Register languages for svelte-i18n
   // The language may or may not be supported, but it should be an iso-639-1 lowercase string.
   // It will be reported back through $locale, not the fallback.
@@ -78,7 +78,7 @@ export const load: LayoutLoad = async ({ params: { lang: pathLang }, url }) => {
     initialLocale: newStoreLocale ?? DEFAULT_LANGUAGE
   });
 
-  logger.debug(`Initialized locale ${newStoreLocale} (${browser ? 'browser' : 'server'})`);
+  DEV: logger.debug(`Initialized locale ${newStoreLocale} (${browser ? 'browser' : 'server'})`);
 
   // Necessary to avoid an SSR/CSR mismatch
   // the locale is only set inside [[lang]]/+layout.ts, because we need
