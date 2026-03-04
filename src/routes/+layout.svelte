@@ -29,6 +29,8 @@
   import { CapacitorSwipeBackPlugin } from '@notnotsamuel/capacitor-swipe-back';
   import { App as CapacitorApp, type URLOpenListenerEvent } from '@capacitor/app';
   import { goto } from '$lib/util/navigate.js';
+  import { isMobile } from '$lib/stores/ui.svelte.js';
+  import { isNative } from '$lib/util/uaInfo.js';
   interface Props {
     children?: import('svelte').Snippet;
   }
@@ -170,6 +172,26 @@
   };
 
   let appContainer: HTMLDivElement = $state();
+
+  // Prevent zooming on mobile/touch platforms
+  $effect(() => {
+    const mobileExtraViewportRules = ',minimum-scale=1.0,maximum-scale=1.0,user-scalable=no';
+    const viewport = document.head.querySelector('[name="viewport"]');
+    const viewportContent = viewport?.getAttribute('content');
+    if (!viewport || !viewportContent) {
+      return;
+    }
+    if (isMobile() || isNative) {
+      // When switching to a mobile viewport, add the statements
+      if (!viewportContent.includes(mobileExtraViewportRules))
+        viewport.setAttribute('content', viewportContent + mobileExtraViewportRules);
+    } else {
+      // When switching to a desktop viewport, remove the statements
+      if (viewportContent.includes(mobileExtraViewportRules)) {
+        viewport.setAttribute('content', viewportContent.replace(mobileExtraViewportRules, ''));
+      }
+    }
+  });
 
   // Scroll to 0,0 on every navigation
   onNavigate(() => {
