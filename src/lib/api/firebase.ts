@@ -128,7 +128,7 @@ export async function initialize(): Promise<void> {
   }
 
   if (Capacitor.isNativePlatform()) {
-    logger.debug('Initializing auth for Capacitor');
+    DEV: logger.debug('Initializing auth for Capacitor');
     // https://github.com/apache/cordova-ios/issues/1318#issuecomment-2853605880
     initializeAuth(appRef, { persistence: indexedDBLocalPersistence });
   }
@@ -155,7 +155,7 @@ export async function initialize(): Promise<void> {
   initializeEuropeWest1Functions(europeWest1FunctionsRef);
 
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_API_EMULATOR))) {
-    logger.debug('Connecting to functions emulator');
+    DEV: logger.debug('Connecting to functions emulator');
     connectFunctionsEmulator(europeWest1FunctionsRef, emulatorHostName, SSL_DEV ? 5002 : 5001);
   }
 
@@ -173,5 +173,5 @@ export async function initialize(): Promise<void> {
       // ...
     });
   }
-  logger.debug('Firebase init done');
+  DEV: logger.debug('Firebase init done');
 }

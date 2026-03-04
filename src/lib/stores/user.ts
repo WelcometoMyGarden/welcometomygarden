@@ -193,7 +193,7 @@ export const initializeUser = async () => {
         if (latestLocale !== latestUser.communicationLanguage) {
           // If the locale store isn't up-to-date with the user's data,
           // change it to match the user's language (load the user)
-          logger.debug(
+          DEV: logger.debug(
             `Loading locale ${latestUser.communicationLanguage} from the user's data to overwrite local ${latestLocale}`
           );
           // await is important here, otherwise the isUserLocaleLoaded.set(true) below will be triggered
@@ -201,7 +201,7 @@ export const initializeUser = async () => {
           await locale.set(latestUser.communicationLanguage);
           if (getCurrentRoute() === routes.SIGN_IN) {
             // onIdTokenChanged is responsible for redirection to the user's locale after login
-            logger.debug('Skipping locale invalidation redirect after login');
+            DEV: logger.debug('Skipping locale invalidation redirect after login');
           } else {
             // Redirect based on the new locale
             invalidateAll();
@@ -212,17 +212,17 @@ export const initializeUser = async () => {
         // Set the user's communication language to the current locale, if there is none set yet
         // This will trigger another `userLocale` update, which will set the related cookie.
         // but for the rest it should be a no-op.
-        logger.debug(
+        DEV: logger.debug(
           `Initializing the empty locale in the user data to the current locale ${latestLocale}`
         );
         await updateCommunicationLanguage(latestLocale);
       }
       // In any case, set that the user's locale was loaded
       if (!get(isUserLocaleLoaded)) {
-        logger.debug('Marking the user locale as loaded to', get(locale));
+        DEV: logger.debug('Marking the user locale as loaded to', get(locale));
         isUserLocaleLoaded.set(true);
       }
     }
   });
-  logger.debug('User init setup done');
+  DEV: logger.debug('User init setup done');
 };

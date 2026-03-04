@@ -329,7 +329,7 @@ export const createAuthObserver = (): Unsubscribe => {
       if (justLoggedIn) {
         // In case we just logged in, also wait until the user's communicationLanguage is loaded,
         // which happens *after* in stores/user.ts after the user is loaded.
-        logger.debug("Waiting on the user's locale to load");
+        DEV: logger.debug("Waiting on the user's locale to load");
         await resolveOnUserLocaleLoaded();
       }
       // Create the localized route after the locale is loaded
@@ -342,7 +342,7 @@ export const createAuthObserver = (): Unsubscribe => {
       } else {
         targetRoute = routeTo;
       }
-      logger.debug(`onIdTokenChanged: routing to ${targetRoute} after user load`);
+      DEV: logger.debug(`onIdTokenChanged: routing to ${targetRoute} after user load`);
       // Using universalGoto, since continueUrl, which may be in routeTo, may
       // contain an external URL
       return universalGoto(targetRoute);
