@@ -138,7 +138,14 @@
     top: var(--height-error-banner);
   }
 
-  :global(.app.active-app-payment) {
+  :global(body div.app.active-app-payment) {
+    /* body used for specificity over another rule */
+
+    --height-mobile-nav: 0rem;
+    /*
+      TODO: I think this is potentially the only use of nested CSS in a :global expression
+      it seems to work, using the scoped nav even?
+    */
     nav {
       display: none;
     }
