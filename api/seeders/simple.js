@@ -113,18 +113,5 @@ const seed = async () => {
 module.exports = seed;
 
 if (require.main === module) {
-  seed();
-  //
-  // Prevent the emulators:exec script from exiting, which prevents the emulators from exiting
-  // We need the to use emulators:exec to run this script, because I suspect that one exports the Google Application Default credentials
-  // required to work with the Firestore.
-  // Some comments here suggest alternatives, but this works!
-  // https://stackoverflow.com/questions/61972931/problem-running-js-file-with-firebase-emulators-exec#61980766
-  // My method explained: https://dev.to/th0rgall/comment/24khh
-  //
-  // Method ref:
-  // https://stackoverflow.com/a/50873242/4973029
-  process.stdin.resume();
-
-  // Killing is done with Ctrl+C
+  seed().then(() => process.exit(0));
 }
