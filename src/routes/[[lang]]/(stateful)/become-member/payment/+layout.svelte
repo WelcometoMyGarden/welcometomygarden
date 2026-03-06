@@ -164,10 +164,34 @@
       return;
     }
     const loc = window.location;
+    // Determine the host of the in-app payment page
+    // Note: on most phones, app links/universal links do not trigger when
+    // opened with .openInSystemBrowser(), but on at least a Fairphone 3
+    // with Android 13, they do immediately trigger leading to an immediate exit from the sytem browser
+    // back to the app (handled above), and thus a broken payment flow
+    //
+    // The solution is to use a different domain for the same deployment which is not registered
+    // as an app link. We use alternative Custom Domains for our Firebase Hosting Sites for this.
+    //
+    // Note that we don't touch the port here (which is part of .host), in case we're not on a
+    // deployment but on a local testing server, we should and do still use loc.host
+    let inAppPaymentPageHost = (() => {
+      switch (loc.host) {
+        case 'welcometomygarden.org':
+          return 'payment.welcometomygarden.org';
+        case 'beta.welcometomygarden.org':
+          return 'wtmg-beta.web.app';
+        case 'staging.welcometomygarden.org':
+          return 'wtmg-dev.web.app';
+        default:
+          return loc.host;
+      }
+    })();
+
     // Note: we don't need to pass the continueUrl, since in case of success
     // we'll continue handling the success here, which already has continueUrl
     const inAppPaymentPageURL = createUrl(
-      `${loc.protocol}//${loc.host}${$lr(routes.APP_PAYMENT)}`,
+      `${loc.protocol}//${inAppPaymentPageHost}${$lr(routes.APP_PAYMENT)}`,
       {
         payment_intent_client_secret: clientSecret,
         name: `${$user.firstName} ${$user.lastName}`,
