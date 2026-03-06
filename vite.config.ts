@@ -24,6 +24,10 @@ export default defineConfig(({ command, mode }): UserConfig => {
       ? new URL(process.env.PUBLIC_SENTRY_DSN)
       : null;
 
+  const extraLocalHosts = process.env.EXTRA_LOCAL_HOSTS
+    ? process.env.EXTRA_LOCAL_HOSTS.split(',').map((s) => s.trim())
+    : [];
+
   const dateFormat = new Intl.DateTimeFormat('en-GB', {
     day: 'numeric',
     month: 'short',
@@ -75,19 +79,19 @@ export default defineConfig(({ command, mode }): UserConfig => {
               // Edit your hostfile to map wtmg.dev to 127.0.0.1
               // We are not using .local here, request that domain may attempt a multicast
               // https://en.wikipedia.org/wiki/.local and take long to resolve.
-              hosts: ['localhost', '127.0.0.1', 'wtmg.dev', 'wtmg.staging']
+              hosts: ['localhost', '127.0.0.1', 'wtmg.dev', 'wtmg.staging', ...extraLocalHosts]
             })
           ]
         : [])
     ],
     esbuild: {
-      // Intended to drop logger.debug calls from production builds
+      // Intended to drop logger.debug calls from wtmg-production builds
       // See https://github.com/evanw/esbuild/issues/3656#issuecomment-3996489063
-      dropLabels: isProductionBuild ? ['DEV'] : []
+      dropLabels: mode === 'production' ? ['DEV'] : []
     },
     server: {
       // Includes localhost by default, check is skipped when HTTPS is used (see mkcert() and below)
-      allowedHosts: [os.hostname().toLocaleLowerCase()],
+      allowedHosts: [os.hostname().toLocaleLowerCase(), ...extraLocalHosts],
       ...(useHTTPS && process.env.VITE_HTTPS_CERT_PATH
         ? {
             https: {
