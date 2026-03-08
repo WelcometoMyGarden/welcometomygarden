@@ -18,6 +18,7 @@
   import { page } from '$app/state';
   import { get } from 'svelte/store';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
+  import validateEmail from '$lib/util/validate-email';
   import * as Sentry from '@sentry/sveltekit';
   import { lr, type LocalizedMessage } from '$lib/util/translation-helpers';
   import logger from '$lib/util/logger';
@@ -27,8 +28,19 @@
 
   let formError = $state<LocalizedMessage | null>(null);
   const submit = async () => {
-    if (!$formEmailValue || !$formPasswordValue) return;
     formError = null;
+    if (!$formEmailValue?.trim()) {
+      formError = { key: 'register.validate.email' };
+      return;
+    }
+    if (!validateEmail($formEmailValue)) {
+      formError = { key: 'register.validate.email' };
+      return;
+    }
+    if (!$formPasswordValue) {
+      formError = { key: 'register.validate.password.set' };
+      return;
+    }
     try {
       Sentry.addBreadcrumb({ message: 'Attempt to log in', level: 'info' });
       await login($formEmailValue, $formPasswordValue);
@@ -83,6 +95,7 @@
 
   {#snippet form()}
     <form
+      novalidate
       onsubmit={(e) => {
         e.preventDefault();
         submit();
