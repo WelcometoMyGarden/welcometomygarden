@@ -10,7 +10,7 @@
   import type { FormEventHandler } from 'svelte/elements';
   import { facilities } from '$lib/stores/facilities';
   import { MAX_GARDEN_CAPACITY } from '$lib/constants';
-  import { lr } from '$lib/util/translation-helpers';
+  import { lr, type LocalizedMessage } from '$lib/util/translation-helpers';
   import logger from '$lib/util/logger';
   interface Props {
     isSubmitting?: boolean;
@@ -45,25 +45,30 @@
 
   let formValid = $state(true);
 
-  let descriptionHint = $state({ message: '', valid: true });
+  let descriptionHint = $state<{ message: LocalizedMessage | null; valid: boolean }>({
+    message: null,
+    valid: true
+  });
   const validateDescription = (description: string) => {
     const len = description.length;
     if (len < 20) {
       descriptionHint.valid = false;
-      descriptionHint.message = $_('garden.form.description.hints.too-short', {
-        values: { remaining: 20 - len }
-      });
+      descriptionHint.message = {
+        key: 'garden.form.description.hints.too-short',
+        options: { values: { remaining: 20 - len } }
+      };
       return false;
     }
     if (len > 300) {
       descriptionHint.valid = false;
-      descriptionHint.message = $_('garden.form.description.hints.too-long', {
-        values: { surplus: len - 300 }
-      });
+      descriptionHint.message = {
+        key: 'garden.form.description.hints.too-long',
+        options: { values: { surplus: len - 300 } }
+      };
       return false;
     }
     descriptionHint.valid = true;
-    descriptionHint.message = '';
+    descriptionHint.message = null;
     return true;
   };
 
@@ -73,14 +78,17 @@
     garden.description = description;
   }) satisfies FormEventHandler<HTMLTextAreaElement>;
 
-  let coordinateHint = $state({ message: '', valid: true });
+  let coordinateHint = $state<{ message: LocalizedMessage | null; valid: boolean }>({
+    message: null,
+    valid: true
+  });
   const validateLocation = (location: LongLat | null) => {
     if (!location) {
-      coordinateHint.message = $_('garden.form.location.coordinate-hint');
+      coordinateHint.message = { key: 'garden.form.location.coordinate-hint' };
       coordinateHint.valid = false;
       return false;
     }
-    coordinateHint.message = '';
+    coordinateHint.message = null;
     coordinateHint.valid = true;
     return true;
   };
@@ -90,20 +98,23 @@
   };
 
   const validFileTypes = ['image/jpeg', 'image/png', 'image/tiff'];
-  let photoHint = $state({ message: '', valid: true });
+  let photoHint = $state<{ message: LocalizedMessage | null; valid: boolean }>({
+    message: null,
+    valid: true
+  });
   const validatePhoto = (file: File) => {
     if (!validFileTypes.includes(file.type)) {
-      photoHint.message = $_('garden.form.photo.hints.wrong-format');
+      photoHint.message = { key: 'garden.form.photo.hints.wrong-format' };
       photoHint.valid = false;
       return false;
     }
     // Should be no bigger than 30 MB
     if (file.size / 1024 / 1024 > 30) {
-      photoHint.message = $_('garden.form.photo.hints.too-large');
+      photoHint.message = { key: 'garden.form.photo.hints.too-large' };
       photoHint.valid = false;
       return false;
     }
-    photoHint.message = '';
+    photoHint.message = null;
     photoHint.valid = true;
     return true;
   };
@@ -194,7 +205,12 @@
         {@html $_('garden.form.location.notice')}
       </p>
       <CoordinateForm initialCoordinates={garden.location} onconfirm={setCoordinates} />
-      <p class="hint" class:invalid={!coordinateHint.valid}>{coordinateHint.message}</p>
+      <p class="hint" class:invalid={!coordinateHint.valid}>
+        {#if coordinateHint.message}{$_(
+            coordinateHint.message.key,
+            coordinateHint.message.options
+          )}{/if}
+      </p>
     </fieldset>
   </section>
 
@@ -218,7 +234,12 @@
             }
           }}
         ></textarea>
-        <p class="hint" class:invalid={!descriptionHint.valid}>{descriptionHint.message}</p>
+        <p class="hint" class:invalid={!descriptionHint.valid}>
+          {#if descriptionHint.message}{$_(
+              descriptionHint.message.key,
+              descriptionHint.message.options
+            )}{/if}
+        </p>
       </div>
     </fieldset>
   </section>
@@ -275,7 +296,9 @@
         {/await}
       {/if}
 
-      <p class="hint" class:invalid={!photoHint.valid}>{photoHint.message}</p>
+      <p class="hint" class:invalid={!photoHint.valid}>
+        {#if photoHint.message}{$_(photoHint.message.key, photoHint.message.options)}{/if}
+      </p>
     </fieldset>
   </section>
   <section class="section-submit">

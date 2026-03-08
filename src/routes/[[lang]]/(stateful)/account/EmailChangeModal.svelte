@@ -7,6 +7,7 @@
   import validateEmail from '$lib/util/validate-email';
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
+  import type { LocalizedMessage } from '$lib/util/translation-helpers';
 
   interface Props {
     show?: boolean;
@@ -21,7 +22,7 @@
     success = $bindable(false),
     isLoading = $bindable(false)
   }: Props = $props();
-  let formError: null | string = $state(null);
+  let formError = $state<LocalizedMessage | null>(null);
   let isValidEmail = $derived(validateEmail(newEmail));
 
   const submitEmailChange = async () => {
@@ -29,10 +30,11 @@
       // It's valid and new email address
       try {
         isLoading = true;
+        formError = null;
         await requestEmailChange(newEmail);
         success = true;
       } catch (e) {
-        formError = $_('account.change-email.modal.error.firebase-error');
+        formError = { key: 'account.change-email.modal.error.firebase-error' };
       } finally {
         isLoading = false;
       }
@@ -68,7 +70,7 @@
         />
         <div class="hint">
           {#if formError}
-            <p transition:fade class="hint danger">{formError}</p>
+            <p transition:fade class="hint danger">{$_(formError.key, formError.options)}</p>
           {/if}
         </div>
       {:else}

@@ -13,15 +13,23 @@
   import * as Sentry from '@sentry/sveltekit';
   import { openTally } from '$lib/api/tally';
   import { MOBILE_BREAKPOINT } from '$lib/constants';
+  import type { LocalizedMessage } from '$lib/util/translation-helpers';
   interface Props {
     show?: boolean;
   }
 
   let { show = $bindable(false) }: Props = $props();
 
-  let formError: null | string = $state(null);
+  let formError = $state<LocalizedMessage | null>(null);
   let shouldReauthenticate = $state(false);
   let verificationPrompt = $derived($_('account.delete.modal.prompt').toLowerCase());
+  let formErrorText = $derived(
+    formError
+      ? formError.key === 'account.delete.modal.errors.wrong-verification'
+        ? $_(formError.key, { values: { prompt: verificationPrompt } })
+        : $_(formError.key, formError.options)
+      : ''
+  );
 
   let verificationField = $state('');
   let processedVerificationField = $derived(verificationField.toLowerCase().trim());
@@ -48,12 +56,9 @@
   };
 
   const onConfirmDeletion = async () => {
+    formError = null;
     if (processedVerificationField !== verificationPrompt) {
-      formError = $_('account.delete.modal.errors.wrong-verification', {
-        values: {
-          prompt: verificationPrompt
-        }
-      });
+      formError = { key: 'account.delete.modal.errors.wrong-verification' };
       Sentry.captureMessage('Account deletion verification failed', {
         level: 'warning'
       });
@@ -72,12 +77,12 @@
           shouldReauthenticate = false;
         } catch (e) {
           if (isFirebaseError(e) && e.code === 'auth/wrong-password') {
-            formError = $_('account.delete.modal.reauthentication-incorrect-password');
+            formError = { key: 'account.delete.modal.reauthentication-incorrect-password' };
             Sentry.captureMessage('Account deletion reauthentication failed - wrong password', {
               level: 'warning'
             });
           } else {
-            formError = $_('sign-in.notify.login-issue');
+            formError = { key: 'sign-in.notify.login-issue' };
             Sentry.captureException(e, {
               extra: {
                 isFirebaseError: isFirebaseError(e),
@@ -186,8 +191,8 @@
           {/if}
         </div>
         <div class="hint">
-          {#if formError}
-            <p transition:fade class="hint danger">{formError}</p>
+          {#if formErrorText}
+            <p transition:fade class="hint danger">{formErrorText}</p>
           {/if}
         </div>
       </form>
