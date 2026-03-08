@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import {
@@ -19,16 +19,16 @@
   import { get } from 'svelte/store';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
   import * as Sentry from '@sentry/sveltekit';
-  import { lr } from '$lib/util/translation-helpers';
+  import { lr, type LocalizedMessage } from '$lib/util/translation-helpers';
   import logger from '$lib/util/logger';
   import { tick } from 'svelte';
 
   const continueUrl = $derived(page.url.searchParams.get('continueUrl'));
 
-  let formError = $state('');
+  let formError = $state<LocalizedMessage | null>(null);
   const submit = async () => {
     if (!$formEmailValue || !$formPasswordValue) return;
-    formError = '';
+    formError = null;
     try {
       Sentry.addBreadcrumb({ message: 'Attempt to log in', level: 'info' });
       await login($formEmailValue, $formPasswordValue);
@@ -49,12 +49,15 @@
         isFirebaseError(ex) &&
         (ex.code === 'auth/user-not-found' || ex.code === 'auth/wrong-password')
       ) {
-        formError = $_('sign-in.notify.incorrect');
+        formError = { key: 'sign-in.notify.incorrect' };
         Sentry.captureMessage('Sign in failed - incorrect credentials', {
           level: 'info' // This is an expected error case
         });
       } else {
-        formError = $_('sign-in.notify.login-issue', { values: { support: SUPPORT_EMAIL } });
+        formError = {
+          key: 'sign-in.notify.login-issue',
+          options: { values: { support: SUPPORT_EMAIL } }
+        };
         Sentry.captureException(ex, {
           extra: {
             isFirebaseError: isFirebaseError(ex),
@@ -109,7 +112,7 @@
       </div>
       <div class="hint">
         {#if formError}
-          <p transition:fade class="hint danger">{formError}</p>
+          <p transition:fade class="hint danger">{$_(formError.key, formError.options)}</p>
         {/if}
       </div>
       <div class="submit">

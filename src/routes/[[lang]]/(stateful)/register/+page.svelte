@@ -25,7 +25,7 @@
   import { onMount } from 'svelte';
   import * as Sentry from '@sentry/sveltekit';
   import { debounce } from 'lodash-es';
-  import { lr } from '$lib/util/translation-helpers';
+  import { lr, type LocalizedMessage } from '$lib/util/translation-helpers';
   import logger from '$lib/util/logger';
 
   const continueUrl = $derived(page.url.searchParams.get('continueUrl'));
@@ -35,7 +35,7 @@
      * Populated by value validation. When error equals the empty string, there is no error,
      * and the value can be considered valid.
      */
-    error?: string;
+    error?: LocalizedMessage | null;
   };
 
   type TextInputField = FieldCommon & {
@@ -46,7 +46,7 @@
     /**
      * Validates the value of this input field.
      */
-    validate: (value: string | undefined) => string | undefined;
+    validate: (value: string | undefined) => LocalizedMessage | undefined;
   };
 
   type CheckboxField = FieldCommon & {
@@ -57,7 +57,7 @@
     /**
      * Validates the value of this input field.
      */
-    validate: (value: boolean | undefined) => string | undefined;
+    validate: (value: boolean | undefined) => LocalizedMessage | undefined;
   };
 
   type RegistrationFields =
@@ -76,51 +76,51 @@
   let fields: RegistrationFields = $state({
     email: {
       validate: (v) => {
-        if (!v || !validateEmail(v)) return $_('register.validate.email');
+        if (!v || !validateEmail(v)) return { key: 'register.validate.email' };
       }
     },
     password: {
       validate: (v) => {
-        if (!v) return $_('register.validate.password.set');
-        if (v.length < 8) return $_('register.validate.password.min');
+        if (!v) return { key: 'register.validate.password.set' };
+        if (v.length < 8) return { key: 'register.validate.password.min' };
         // Primarily to prevent password length denial of service
-        if (v.length > 100) return $_('register.validate.password.max');
+        if (v.length > 100) return { key: 'register.validate.password.max' };
       }
     },
     firstName: {
       validate: (v) => {
-        if (!v || v.trim() === '') return $_('register.validate.first-name.set');
-        if (v.length > 25) return $_('register.validate.first-name.max');
+        if (!v || v.trim() === '') return { key: 'register.validate.first-name.set' };
+        if (v.length > 25) return { key: 'register.validate.first-name.max' };
       }
     },
     lastName: {
       validate: (v) => {
-        if (!v || v.trim() === '') return $_('register.validate.last-name.set');
-        if (v.length > 50) return $_('register.validate.last-name.max');
+        if (!v || v.trim() === '') return { key: 'register.validate.last-name.set' };
+        if (v.length > 50) return { key: 'register.validate.last-name.max' };
       }
     },
     country: {
       value: guessCountryCode(),
       validate: (v?: string) => {
         if (!v || !$countryNames[v]) {
-          return $_('register.validate.country.from-list');
+          return { key: 'register.validate.country.from-list' };
         }
       }
     },
     consent: {
       value: false,
       validate: (v) => {
-        if (!v) return $_('register.validate.consent');
+        if (!v) return { key: 'register.validate.consent' };
       }
     },
     reference: {
       validate: (v: any) => {
         if (typeof v === 'string' && v.length > 3000) {
-          return $_('register.validate.reference');
+          return { key: 'register.validate.reference' };
         }
         if (typeof v !== 'string' && v != null) {
           // Shouldn't happen
-          return 'Your answer must be text, or empty.';
+          return { key: 'register.validate.reference' };
         }
       }
     }
@@ -136,12 +136,13 @@
     Object.entries($countryNames).sort(([, nameA], [, nameB]) => nameA.localeCompare(nameB))
   );
 
-  let formError = $state('');
+  let formError = $state<LocalizedMessage | null>(null);
 
   const submit = async () => {
     // Already set this now, to transition the form submit button to "disabled"
     // as soon as possible, even before field evaluations.
     isSigningIn.set(true);
+    formError = null;
     Sentry.addBreadcrumb({ message: 'Attempt to register', level: 'info' });
     // Validate all fields
     let errorCount = 0;
@@ -149,10 +150,10 @@
       const field = fields[fieldName];
       // Type narrowing takes out the common "undefined" as the only possible type for v.
       // We know the validation function is able to handle its own input
-      const error = (field.validate as (v: string | boolean | undefined) => string | undefined)(
-        field.value
-      );
-      fields[fieldName].error = error || '';
+      const error = (
+        field.validate as (v: string | boolean | undefined) => LocalizedMessage | undefined
+      )(field.value);
+      fields[fieldName].error = error || null;
       if (error) errorCount++;
     });
 
@@ -165,7 +166,7 @@
           errors: Object.fromEntries(
             Object.entries(fields)
               .filter(([, field]) => field.error)
-              .map(([name, field]) => [name, field.error])
+              .map(([name, field]) => [name, field.error?.key])
           )
         }
       });
@@ -203,7 +204,7 @@
         isFirebaseError(err) &&
         err.code === ('functions/already-exists' satisfies FunctionsErrorCode)
       ) {
-        formError = $_('register.notify.in-use');
+        formError = { key: 'register.notify.in-use' };
         Sentry.captureMessage('Registration failed - email in use', {
           level: 'info' // This is an expected error case
         });
@@ -212,12 +213,15 @@
         err.code === ('functions/invalid-argument' satisfies FunctionsErrorCode) &&
         err.message === 'auth/invalid-email'
       ) {
-        formError = $_('register.notify.invalid');
+        formError = { key: 'register.notify.invalid' };
         Sentry.captureMessage('Registration failed - invalid email', {
           level: 'info' // This is an expected error case
         });
       } else {
-        formError = $_('register.notify.unexpected', { values: { support: SUPPORT_EMAIL } });
+        formError = {
+          key: 'register.notify.unexpected',
+          options: { values: { support: SUPPORT_EMAIL } }
+        };
         Sentry.captureException(err);
       }
       logger.log(err);
@@ -231,15 +235,21 @@
   // and are able to re-click the submit button within 1000ms. Maybe we could issue a cancel/reset when the checkbox is clicked?
   const debouncedSubmit = debounce(submit, 1000, { leading: true, trailing: false });
 
-  const cookiePolicy = `<a class="link" href=${$lr(routes.COOKIE_POLICY)} target="_blank" >${$_(
-    'generics.cookie-policy'
-  ).toLocaleLowerCase()}</a>`;
-  const privacyPolicy = `<a class="link" href=${$lr(routes.PRIVACY_POLICY)} target="_blank">${$_(
-    'generics.privacy-policy'
-  ).toLocaleLowerCase()}</a>`;
-  const termsOfUse = `<a class="link" href=${$lr(routes.TERMS_OF_USE)} target="_blank">${$_(
-    'generics.terms-of-use'
-  ).toLocaleLowerCase()}</a>`;
+  const cookiePolicy = $derived(
+    `<a class="link" href=${$lr(routes.COOKIE_POLICY)} target="_blank" >${$_(
+      'generics.cookie-policy'
+    ).toLocaleLowerCase()}</a>`
+  );
+  const privacyPolicy = $derived(
+    `<a class="link" href=${$lr(routes.PRIVACY_POLICY)} target="_blank">${$_(
+      'generics.privacy-policy'
+    ).toLocaleLowerCase()}</a>`
+  );
+  const termsOfUse = $derived(
+    `<a class="link" href=${$lr(routes.TERMS_OF_USE)} target="_blank">${$_(
+      'generics.terms-of-use'
+    ).toLocaleLowerCase()}</a>`
+  );
 
   onMount(async () => {
     await resolveOnUserLoaded();
@@ -280,7 +290,7 @@
           name="first-name"
           id="first-name"
           autocomplete="given-name"
-          onblur={() => (fields.firstName.error = '')}
+          onblur={() => (fields.firstName.error = null)}
           error={fields.firstName.error}
           bind:value={fields.firstName.value}
         />
@@ -294,7 +304,7 @@
           type="text"
           name="last-name"
           id="last-name"
-          onblur={() => (fields.lastName.error = '')}
+          onblur={() => (fields.lastName.error = null)}
           error={fields.lastName.error}
           bind:value={fields.lastName.value}
         />
@@ -310,7 +320,7 @@
           id="email"
           required
           onblur={() => {
-            fields.email.error = '';
+            fields.email.error = null;
           }}
           error={fields.email.error}
           bind:value={$formEmailValue}
@@ -325,7 +335,7 @@
           name="password"
           id="password"
           autocomplete="new-password"
-          onblur={() => (fields.password.error = '')}
+          onblur={() => (fields.password.error = null)}
           error={fields.password.error}
           bind:value={$formPasswordValue}
         />
@@ -348,7 +358,7 @@
           name="reference"
           id="reference"
           maxLength={3000}
-          onblur={() => (fields.reference.error = '')}
+          onblur={() => (fields.reference.error = null)}
           error={fields.reference.error}
           bind:value={fields.reference.value}
         />
@@ -368,14 +378,17 @@
           </label>
         </div>
         <div class="error">
-          {#if fields.consent.error}{@html fields.consent.error}{/if}
+          {#if fields.consent.error}{@html $_(
+              fields.consent.error.key,
+              fields.consent.error.options
+            )}{/if}
         </div>
       </div>
 
       <div class="submit">
         <div class="hint">
           {#if formError}
-            <p transition:fade class="hint danger">{formError}</p>
+            <p transition:fade class="hint danger">{$_(formError.key, formError.options)}</p>
           {/if}
         </div>
         <Button type="submit" medium disabled={$isSigningIn}>{$_('register.button')}</Button>
