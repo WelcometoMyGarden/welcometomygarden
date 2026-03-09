@@ -6,7 +6,7 @@ import type { ComponentProps } from 'svelte';
 import type ValuePoint from '$lib/components/Membership/ValuePoint.svelte';
 import { merge, zipWith } from 'lodash-es';
 import { getNodeArray } from '$lib/util/get-node-children';
-type ValuePointProps = ComponentProps<ValuePoint>;
+type ValuePointProps = ComponentProps<typeof ValuePoint>;
 export const valuePoints: (locale: string) => ValuePointProps[] = (locale) =>
   zipWith(
     [

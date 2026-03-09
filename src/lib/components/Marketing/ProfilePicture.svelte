@@ -1,7 +1,8 @@
 <script lang="ts">
   import ResponsiveSquare from '$lib/components/UI/ResponsiveSquare.svelte';
+  import Img from '@zerodevx/svelte-img';
   interface Props {
-    imageSrc: string;
+    imageSrc: string | Object[];
     name: string;
   }
 
@@ -9,11 +10,11 @@
 </script>
 
 <ResponsiveSquare>
-  <img src={imageSrc} alt="Picture of {name}" />
+  <Img class="profile-picture-img" src={imageSrc} alt="Picture of {name}" />
 </ResponsiveSquare>
 
 <style>
-  img {
+  :global(.profile-picture-img) {
     width: 100%;
     height: 100%;
     object-fit: cover;

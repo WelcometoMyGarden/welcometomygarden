@@ -1,14 +1,18 @@
 <script>
   import PaddedSection from '$lib/components/Marketing/PaddedSection.svelte';
-  import staticAssetUrl from '$lib/util/staticAssetUrl';
+  import Img from '@zerodevx/svelte-img';
   import { _ } from 'svelte-i18n';
-  const manonDriesInJapan = staticAssetUrl('/our-story/manon-dries-in-japan.jpg');
-  const hosts = staticAssetUrl('/our-story/hosts.jpg');
+  // These images becomes 775x581 CSS pixels at most in the mobile art direction
+  // In the desktop art direction, activated at 901px and higher, is 353x442
+  // With zero-devx we can't easily set different image aspect ratios for art direction,
+  // so we take the max-mobile (iPad) as a reference with DPR progression: 776,1552,2328
+  import manonDriesInJapan from '$lib/assets/about-us/our-story/manon-dries-in-japan.jpg?w=776;1552;2328&as=run:0';
+  import hosts from '$lib/assets/about-us/our-story/hosts.png?w=776;1552;2328&as=run:0';
 </script>
 
 <PaddedSection backgroundColor="var(--color-beige-light)" vertical desktopOnly>
   <div class="wrapper">
-    <img class="our-story" src={manonDriesInJapan} alt="Manon & Dries with bikes in Japan" />
+    <Img class="our-story" src={manonDriesInJapan} alt="Manon & Dries with bikes in Japan" />
     <h2 class="our-story">{$_('about-us.our-story-title')}</h2>
     <div class="text our-story">
       {@html $_('about-us.our-story-description')}
@@ -17,7 +21,7 @@
     <div class="text bigger-picture">
       {@html $_('about-us.bigger-picture-description')}
     </div>
-    <img class="bigger-picture" src={hosts} alt="Two hosts holding a WTMG sign." />
+    <Img class="bigger-picture" src={hosts} alt="Two hosts holding a WTMG sign." />
   </div>
 </PaddedSection>
 
@@ -41,7 +45,10 @@
     grid-column: 3 / span 3;
   }
 
-  img.our-story {
+  /* This one contains the .our-story image, inconvenient
+    necessity due to missing class prop of the wrapping picture element
+    from @zerodevx/svelte-img */
+  .wrapper :global(picture:nth-of-type(1)) {
     grid-row: 2;
     grid-column: 1 / span 2;
   }
@@ -56,19 +63,25 @@
     grid-column: 1 / span 3;
   }
 
-  img.bigger-picture {
+  /* Similar to above, .bigger-picture*/
+  .wrapper :global(picture:nth-of-type(2)) {
     grid-row: 4;
     grid-column: 4 / span 2;
   }
 
-  img {
-    width: 90%;
+  .wrapper :global(picture) {
     max-width: 44rem;
-    border-radius: 2rem;
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .wrapper :global(picture img) {
+    width: 90%;
+    height: 100%;
     aspect-ratio: 4 / 5;
     object-fit: cover;
-    align-self: center;
-    justify-self: center;
+    border-radius: 2rem;
   }
 
   .text :global(ul) {
@@ -88,8 +101,11 @@
       grid-template-rows: auto [h1] auto [img1] auto [txt1] auto [h2] auto [img2] auto [txt2];
     }
 
+    /* > used for specificity of overriding compared to desktop styles */
     .wrapper > .our-story,
-    .wrapper > .bigger-picture {
+    .wrapper > .bigger-picture,
+    .wrapper :global(picture:nth-of-type(1)),
+    .wrapper :global(picture:nth-of-type(2)) {
       grid-column: 1;
     }
 
@@ -97,7 +113,7 @@
       grid-row: 1;
     }
 
-    img.our-story {
+    .wrapper :global(picture:nth-of-type(1)) {
       grid-row: 2;
     }
 
@@ -109,7 +125,7 @@
       grid-row: 4;
     }
 
-    img.bigger-picture {
+    .wrapper :global(picture:nth-of-type(2)) {
       grid-row: 5;
     }
 
@@ -117,15 +133,17 @@
       grid-row: 6;
     }
 
-    img {
-      aspect-ratio: 4 / 3;
-      border-radius: 0;
+    .wrapper :global(picture) {
       max-width: unset;
-      width: 100%;
       align-self: stretch;
       padding: 0;
-      object-fit: cover;
       margin-bottom: var(--spacing-medium);
+    }
+    .wrapper :global(picture img) {
+      aspect-ratio: 4 / 3;
+      width: 100%;
+      border-radius: 0;
+      object-fit: cover;
     }
   }
 
@@ -138,7 +156,7 @@
       text-align: center;
     }
 
-    img {
+    .wrapper :global(picture) {
       aspect-ratio: unset;
     }
   }

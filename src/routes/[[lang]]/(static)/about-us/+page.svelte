@@ -1,18 +1,19 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
   import MarketingBlock from '$lib/components/Marketing/MarketingBlock.svelte';
+  import mImg from '$lib/assets/about-us/contributors/m.png?w=124;248;372&as=run:0';
+  import wardImg from '$lib/assets/about-us/contributors/ward.png?w=124;248;372&as=run:0';
+  import marieImg from '$lib/assets/about-us/contributors/marie.jpg?w=124;248;372&as=run:0';
+  import ismailaImg from '$lib/assets/about-us/contributors/ismaila.jpg?w=124;248;372&as=run:0';
+  import brentImg from '$lib/assets/about-us/contributors/brent.jpg?w=124;248;372&as=run:0';
+  import jannekeImg from '$lib/assets/about-us/contributors/janneke.png?w=124;248;372&as=run:0';
 
-  const michielImg = staticAssetUrl('/profile-pictures/michiel.png?v=2');
-  const wardImg = staticAssetUrl('/profile-pictures/ward.png');
-  const marieImg = staticAssetUrl('/profile-pictures/marie.jpg');
-  const ismailaImg = staticAssetUrl('/profile-pictures/ismaila.jpg');
-  const brentImg = staticAssetUrl('/profile-pictures/brent.jpg');
-  const jannekeImg = staticAssetUrl('/profile-pictures/janneke.png');
+  // For profile pictures, we need CSS pixel widths 124
+  // At DPR 2, that's 248. At DPR 3, it's 372
 
   import OurStorySection from './OurStorySection.svelte';
   import Text from '$lib/components/UI/Text.svelte';
   import PartnersSection from './PartnersSection.svelte';
-  import staticAssetUrl from '$lib/util/staticAssetUrl';
   import {
     coreTeamProfiles as coreTeamProfilesStatic,
     type ProfileData
@@ -27,7 +28,7 @@
     {
       name: 'Michiel',
       role: $_('about-us.dev'),
-      imageSrc: michielImg,
+      imageSrc: mImg,
       introHtml: $_('about-us.michiel')
     },
     {
@@ -61,7 +62,6 @@
       introHtml: $_('about-us.janneke')
     }
   ]);
-  
 
   // https://stackoverflow.com/a/67830849
   // coreTeamProfiles is structured like this for the sake of i18n
@@ -82,7 +82,6 @@
       introHtml: $_('about-us.thor')
     }
   });
-  
 </script>
 
 <svelte:head>

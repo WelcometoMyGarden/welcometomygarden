@@ -1,14 +1,13 @@
-import staticAssetUrl from '$lib/util/staticAssetUrl';
 import type ProfilePicture from '$lib/components/Marketing//ProfilePicture.svelte';
 import type { ComponentProps } from 'svelte';
 import type Profile from '$lib/components/Marketing/Profile.svelte';
 
-const driesImg = staticAssetUrl('/profile-pictures/dries.png');
-const manonImg = staticAssetUrl('/profile-pictures/manon.png');
-const thorImg = staticAssetUrl('/profile-pictures/thor.png');
+import manonImg from '$lib/assets/about-us/team/manon.jpg?w=124;248;372&as=run:0';
+import driesImg from '$lib/assets/about-us/team/dries.jpg?w=124;248;372&as=run:0';
+import thorImg from '$lib/assets/about-us/team/thor.jpg?w=124;248;372&as=run:0';
 
-export type ProfileData = ComponentProps<Profile> & { introHtml: string };
-export type ProfileDataCompact = ComponentProps<ProfilePicture>;
+export type ProfileData = ComponentProps<typeof Profile> & { introHtml: string };
+export type ProfileDataCompact = ComponentProps<typeof ProfilePicture>;
 export const coreTeamProfiles: { [name: string]: ProfileDataCompact } = {
   dries: {
     name: 'Dries',
