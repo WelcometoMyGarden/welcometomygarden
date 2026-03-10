@@ -953,7 +953,11 @@
         "payment-error": "Something went wrong with your payment, please try again.",
         "please-try-again": "Please try again."
       },
-      "success": "Thank you for becoming a WTMG member!"
+      "success": "Thank you for becoming a WTMG member!",
+      "app-fallback": {
+        "success-title": "Your payment was successful!",
+        "continue-button": "Continue"
+      }
     },
     "not-logged-in-warning": "To become Superfan, first log in or create an account",
     "title": "Payment",

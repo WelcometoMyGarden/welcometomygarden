@@ -945,7 +945,11 @@
         "payment-error": "Bei Ihrer Zahlung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
         "please-try-again": "Bitten versuchen Sie es erneut."
       },
-      "success": "Vielen Dank, dass Sie WTMG-Mitglied geworden sind!"
+      "success": "Vielen Dank, dass Sie WTMG-Mitglied geworden sind!",
+      "app-fallback": {
+        "continue-button": "Weiter",
+        "success-title": "Ihre Zahlung war erfolgreich!"
+      }
     },
     "not-logged-in-warning": "Um Superfan zu werden, melden Sie sich zuerst an oder erstellen Sie ein Konto",
     "title": "Zahlung",

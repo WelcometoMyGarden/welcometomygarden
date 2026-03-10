@@ -946,7 +946,11 @@
         "payment-error": "Un problème est survenu lors de votre paiement, merci de réessayer.",
         "please-try-again": "Merci de réessayer."
       },
-      "success": "Merci d’être devenu·e membre de WTMG !"
+      "success": "Merci d’être devenu·e membre de WTMG !",
+      "app-fallback": {
+        "continue-button": "Continuez",
+        "success-title": "Votre paiement a bien été effectué !"
+      }
     },
     "not-logged-in-warning": "Pour devenir Superfan, connectez-vous d'abord ou créez un compte",
     "title": "Paiement",
