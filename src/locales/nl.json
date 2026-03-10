@@ -587,7 +587,11 @@
         "payment-error": "Er ging iets fout met je betaling, probeer alsjeblieft opnieuw.",
         "please-try-again": "Probeer alsjeblieft opnieuw."
       },
-      "success": "Bedankt om lid te worden van WTMG!"
+      "success": "Bedankt om lid te worden van WTMG!",
+      "app-fallback": {
+        "continue-button": "Ga verder",
+        "success-title": "Jouw betaling is succesvol verlopen!"
+      }
     },
     "not-logged-in-warning": "Om Superfan te worden, moet je eerst inloggen of een account aanmaken",
     "title": "Betaling",

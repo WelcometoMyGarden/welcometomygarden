@@ -113,9 +113,13 @@
 {#if redirect_status === 'succeeded' || redirect_status === 'pending'}
   {#if showContinueInstructions}
     <PaddedSection>
-      <p class="text-succeeded">Your payment succeeded!</p>
+      <p class="text-succeeded">
+        {$_('payment-superfan.payment-section.app-fallback.success-title')}
+      </p>
       <div class="btn-succeeded">
-        <Button small centered href={successAppLink()}>Continue</Button>
+        <Button small centered href={successAppLink()}
+          >{$_('payment-superfan.payment-section.app-fallback.continue-button')}</Button
+        >
       </div>
     </PaddedSection>
   {:else}

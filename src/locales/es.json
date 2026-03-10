@@ -946,7 +946,11 @@
         "payment-error": "Algo salió mal con tu pago, inténtalo de nuevo.",
         "please-try-again": "Inténtalo de nuevo."
       },
-      "success": "¡Gracias por hacerte miembro de WTMG!"
+      "success": "¡Gracias por hacerte miembro de WTMG!",
+      "app-fallback": {
+        "continue-button": "Continuar",
+        "success-title": "¡Tu pago se ha realizado con éxito!"
+      }
     },
     "not-logged-in-warning": "Para convertirte en Superfan, primero inicia sesión o crea una cuenta",
     "title": "Pago",
