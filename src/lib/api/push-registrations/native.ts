@@ -12,7 +12,8 @@ import { goto } from '$lib/util/navigate';
 import {
   handleError,
   isNativePushRegistration,
-  pushRegistrationsColRef
+  pushRegistrationsColRef,
+  pushRegistrationDocRef
 } from '$lib/util/push-registrations';
 import removeUndefined from '$lib/util/remove-undefined';
 import { isNative } from '$lib/util/uaInfo';
@@ -23,13 +24,19 @@ import {
   PushNotifications,
   type Token
 } from '@capacitor/push-notifications';
-import { addDoc, serverTimestamp, updateDoc } from 'firebase/firestore';
+import { addDoc, deleteDoc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { t } from 'svelte-i18n';
 import { get } from 'svelte/store';
 import type { IDevice } from 'ua-parser-js';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import logger from '$lib/util/logger';
 import nProgress from 'nprogress';
+
+/**
+ * Android Notification Channel ID
+ */
+
+export const CHAT_NOTIFICATIONS_CHANNEL_ID = 'chat-notifications';
 
 function handleLink(link: string) {
   const { pathname, search, hash } = new URL(link);
@@ -75,7 +82,9 @@ export function initializeNativePush() {
             title: notification.title!,
             body: notification.body!,
             id: Math.floor(Math.random() * (max - min + 1) + min),
-            extra: notification.data
+            extra: notification.data,
+            // smallIcon & iconColor are configured in capacitor.config.ts
+            channelId: CHAT_NOTIFICATIONS_CHANNEL_ID
           }
         ]
       });
@@ -97,6 +106,19 @@ export function initializeNativePush() {
     }
   );
 
+  // Delete the default notification channel created by the LocalNotifications plugin
+  // see https://github.com/ionic-team/capacitor-plugins/issues/2490
+  PushNotifications.deleteChannel({ id: 'default' })
+    .then(() => {
+      DEV: logger.debug('Unused LocalNotifications default channel deleted');
+    })
+    .catch((e) => {
+      logger.warn(
+        'Issue when deleting the LocalNotifications default channel',
+        e instanceof Error ? e.message : ''
+      );
+    });
+
   LocalNotifications.addListener('localNotificationActionPerformed', async (notification) => {
     try {
       const link = notification.notification.extra.link;
@@ -104,6 +126,20 @@ export function initializeNativePush() {
     } catch (e) {
       alert(JSON.stringify(e));
     }
+  });
+}
+
+export function setupAndroidChannels() {
+  // Upsert notification channels - only relevant on Android
+  // The name will be updated if the ID is the same
+  return PushNotifications.createChannel({
+    id: CHAT_NOTIFICATIONS_CHANNEL_ID,
+    name: get(t)('push-notifications.android-channel')
+  }).catch((e) => {
+    logger.warn(
+      'Something went wrong while creating the chat messages channel',
+      e instanceof Error ? e.message : ''
+    );
   });
 }
 
@@ -172,7 +208,7 @@ async function registerNotifications() {
 
   // If the resulting push registration was already stored exactly,
   // do not add it again. Show an error, since this should be prevented
-  // by a device ID check by the caller and we want to debug this situation.
+  // by a device ID check by the caller, and we want to debug this situation.
   if (
     prWithSameToken &&
     isNativePushRegistration(prWithSameToken) &&
@@ -181,6 +217,25 @@ async function registerNotifications() {
     logger.warn('Tried to add an already-known push registration; this should not happen.');
     handleError(undefined, 'It looks like you already had notifications activated on this device.');
     return false;
+  }
+
+  // If there are other PRs with the same device ID, but with different tokens, those should be deleted
+  // before we adda new one. This might happen after an app reinstall. Normally, there should only be one in such a case.
+  const prsWithSameDeviceId = localPushRegistrations.filter(
+    (pR) => isNativePushRegistration(pR) && pR.deviceId == nativeDeviceId
+  );
+  if (prsWithSameDeviceId.length > 0) {
+    logger.log(
+      `Deleting ${prsWithSameDeviceId.length} push registrations with the same device ID while adding a new one: ${prsWithSameDeviceId.map((pR) => pR.fcmToken).join(',')}`
+    );
+    try {
+      await Promise.all(prsWithSameDeviceId.map(({ id }) => deleteDoc(pushRegistrationDocRef(id))));
+    } catch (e) {
+      logger.error(
+        'Error while deleting previous push registrations connected to the same device',
+        e instanceof Error ? e.message : ''
+      );
+    }
   }
 
   const upsertProperties = {
@@ -235,27 +290,48 @@ export const createNativePushRegistration = async () => {
   // Progress indicator for native subs without the notification modal
   nProgress.start();
 
-  const { receive: permissionStatus } = await PushNotifications.checkPermissions();
+  let { receive: permissionStatus } = await PushNotifications.checkPermissions();
+  DEV: logger.debug('Native notification permission status:', permissionStatus);
+
   // Request permission to use push notifications
   // iOS will prompt user and return if they granted permission or not
   // Android <=12 will just grant without prompting, Android 13 (SDK 33) also prompts the user
   try {
-    if (permissionStatus !== 'denied' && permissionStatus !== 'granted') {
-      await PushNotifications.requestPermissions().then((result) => {
-        if (result.receive === 'granted') {
-        } else {
-          // Show some error
-          logger.warn('The user has not granted permissions for notifications');
-          throw Error();
-        }
-      });
+    if (permissionStatus === 'denied') {
+      logger.warn("Notification status is denied, won't prompt");
+      return false;
+    }
+
+    // Prompt if possible
+    if (permissionStatus !== 'granted') {
+      logger.debug('Prompting for notification permission');
+      permissionStatus = await PushNotifications.requestPermissions()
+        .then((result) => {
+          if (result.receive === 'granted') {
+            return result.receive;
+          } else {
+            logger.warn('The user has not granted permissions for notifications:', result.receive);
+            return 'denied';
+          }
+        })
+        .catch((e) => {
+          logger.warn('Error while trying to request push notification permission', e);
+          return 'denied';
+        });
+    }
+
+    // Continue if granted
+    if (permissionStatus === 'granted') {
+      logger.log('Push notification permission granted, registering native push');
+      return await registerNotifications();
     }
   } catch (e) {
-    logger.warn("Couldn't get push registration permission");
+    logger.warn("Couldn't get push registration permission", e instanceof Error ? e.message : '');
+  } finally {
+    nProgress.done();
   }
-  //
+  return false;
   // TODO question: is the registration event only called after registering?
-  return await registerNotifications();
 };
 
 export const unregisterNotifications = async () => {

@@ -18,13 +18,14 @@ import {
   resetPushRegistrationStores
 } from '$lib/stores/pushRegistrations';
 import { locale } from 'svelte-i18n';
-import { handledOpenFromIOSPWA, rootModal } from './app';
+import { handledOpenFromIOSPWA, localeIsLoaded, rootModal } from './app';
 import { createAuthObserver } from '$lib/api/auth';
 import { invalidateAll } from '$app/navigation';
 import logger from '$lib/util/logger';
 import { getCurrentWebPushSubscription } from '$lib/api/push-registrations/webpush';
 import { isNative } from '$lib/util/uaInfo';
 import routes, { getCurrentRoute } from '$lib/routes';
+import { setupAndroidChannels } from '$lib/api/push-registrations/native';
 
 export const updatingMailPreferences = writable(false);
 export const updatingSavedGardens = writable(false);
@@ -38,6 +39,11 @@ let unsubscribeFromChatObserver: MaybeUnsubscriberFunc;
 let unsubscribeFromPushRegistrationObserver: MaybeUnsubscriberFunc;
 
 const userLocale = derived([user, locale], ([$user, $locale]) => [$user, $locale] as const);
+
+const pushLocale = derived(
+  [loadedPushRegistrations, localeIsLoaded],
+  ([$pushLoaded, $localeLoaded]) => $pushLoaded && $localeLoaded
+);
 
 /**
  * Firebase Auth observers should have been
@@ -58,13 +64,15 @@ export const initializeUser = async () => {
     // Initialize chat & push registrations observers if needed, that is
     // if the user logged in and has a verified email, or if the user has changed
     if (!!latestUser) {
+      // Subscribe to the push registration observer, if not initialized yet
+      // We're not making this dependent on email verification status, so new accounts
+      // get the prompt immediately.
+      unsubscribeFromPushRegistrationObserver =
+        unsubscribeFromPushRegistrationObserver ?? createFirebasePushRegistrationObserver();
       if (latestUser.emailVerified) {
-        // Without a verified email: no access to messages, no garden, no chats
+        // Without a verified email: no access to viewing or sending chats or messages, can't create a garden
         // Subscribe to the chat observer, if not initialized yet
         unsubscribeFromChatObserver = unsubscribeFromChatObserver ?? createChatObserver();
-        // Subscribe to the push registration observer, if not initialized yet
-        unsubscribeFromPushRegistrationObserver =
-          unsubscribeFromPushRegistrationObserver ?? createFirebasePushRegistrationObserver();
       } else if (isOnIDevicePWA()) {
         // If the user does not have a verified email, we unblock the loading of the page
         // by marking the open from iOS PWA as handled, since they can not do anything
@@ -92,11 +100,17 @@ export const initializeUser = async () => {
     }
   });
 
-  loadedPushRegistrations.subscribe(async (loaded) => {
+  pushLocale.subscribe(async (loaded) => {
+    // We're also waiting for locale load here, because in the native notification setup
+    // we use localized values for Android Channel Names
+
     // Push registrations can only be loaded after user data is available (see above)
     if (!loaded) {
       return;
     }
+
+    // Upsert Android channels based on the new locale info
+    setupAndroidChannels();
 
     // After user login, detect startup on PWA iOS or native which doesn't have a pre-existing push registration
     // TODO: check if this loads after loading pre-existing push registrations?
@@ -109,8 +123,8 @@ export const initializeUser = async () => {
       get(user) !== null &&
       // ... the user hasn't dismissed notifications in the chat
       notificationsDismissed !== 'true' &&
-      // .. push notifs are not enabled yet
-      !hasEnabledNotificationsOnCurrentDevice()
+      // ... push notifs are not enabled yet
+      !(await hasEnabledNotificationsOnCurrentDevice())
     ) {
       if (isNative) {
         // On native platforms with built-in permission prompts (or no prompts), just immediately prompt for permission on user load

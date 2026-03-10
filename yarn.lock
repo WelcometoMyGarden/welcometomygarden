@@ -374,11 +374,11 @@ __metadata:
   linkType: hard
 
 "@capacitor/local-notifications@npm:^8.0.0":
-  version: 8.0.0
-  resolution: "@capacitor/local-notifications@npm:8.0.0"
+  version: 8.0.2
+  resolution: "@capacitor/local-notifications@npm:8.0.2"
   peerDependencies:
     "@capacitor/core": ">=8.0.0"
-  checksum: 10/b1c6a133719592519851761a3f882deedf213e5e3c08d3990ec501750ff7053158569b0d5e21d8ab7ffdb1c21f5e5d74137b5809730bf30d0181eb857c1df63d
+  checksum: 10/91907f9a1ea9abecc169d3b6601c7ba521bbb57a560ef8f30ec8b088cf222903b2ec9f402c3bcdc71abf0ddac328bbde2e85dcf7ecd69489325d5e80bee3715e
   languageName: node
   linkType: hard
 

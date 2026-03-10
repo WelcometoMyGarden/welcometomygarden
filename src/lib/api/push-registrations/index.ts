@@ -57,6 +57,7 @@ import {
 } from './webpush';
 import logger from '$lib/util/logger';
 import * as Sentry from '@sentry/sveltekit';
+import { PushNotifications } from '@capacitor/push-notifications';
 
 const pushRegistrationLoadCheck = () => {
   if (!get(loadedPushRegistrations)) {
@@ -207,21 +208,28 @@ export const createFirebasePushRegistrationObserver = () => {
 
     // Update UI
     pushRegistrations.set(syncedPushRegistrations);
+    logger.debug('Loaded push registrations');
     loadedPushRegistrations.set(true);
   });
 };
 
-export const hasEnabledNotificationsOnCurrentDevice = () => {
-  return (
-    !!get(currentWebPushSubStore) ||
-    (isNative &&
+export const hasEnabledNotificationsOnCurrentDevice = async () => {
+  if (isNative) {
+    // We also check for whether the permissions are granted, because after an app
+    // reinstall on the same device, it's possible that the permission status is "prompt"
+    // while we have stored an "active" push registration linked to the device
+    const { receive: permissionStatus } = await PushNotifications.checkPermissions();
+    return (
+      permissionStatus === 'granted' &&
       get(pushRegistrations).find(
         (r) =>
           isNativePushRegistration(r) &&
           r.deviceId === get(deviceId) &&
           r.status === PushRegistrationStatus.ACTIVE
-      ))
-  );
+      )
+    );
+  }
+  return !!get(currentWebPushSubStore);
 };
 
 /**
@@ -248,6 +256,7 @@ export const isNotificationEligible = () =>
  * @returns true on a sucessful (expected) result.
  */
 export const handleNotificationEnableAttempt = async () => {
+  logger.debug('Attempting to register notifications');
   if (!isMobileDevice) {
     window.open(get(t)('push-notifications.prompt.helpcenter-url'), '_blank');
     return true;
@@ -258,7 +267,7 @@ export const handleNotificationEnableAttempt = async () => {
       return true;
     } else {
       // TODO: visible report error in modal?
-      logger.warn('There was an error in enabling notifications');
+      logger.warn('There was an error while enabling notifications');
       return false;
     }
   } else if (canHaveWebPushSupport() || isAndroidFirefox()) {
