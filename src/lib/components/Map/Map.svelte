@@ -233,7 +233,7 @@ Component for maps. Shared between the main map, and the map in the Garden creat
       // notification-enabling prompt
       const canPromptForLocationPermissionOnLoad =
         (!(isOnIDevicePWA() || Capacitor.isNativePlatform()) ||
-          hasEnabledNotificationsOnCurrentDevice()) &&
+          (await hasEnabledNotificationsOnCurrentDevice())) &&
         !isShowingGardenOnInit;
 
       let shouldTriggerGeolocation =

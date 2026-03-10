@@ -1566,6 +1566,7 @@
     }
   },
   "push-notifications": {
+    "android-channel": "Chat Notifications",
     "registration-success": "Notifications are successfully turned on",
     "prompt": {
       "title": "Get a mobile notification for new chat messages.",
