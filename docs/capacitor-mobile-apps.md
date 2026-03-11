@@ -200,7 +200,7 @@ Android seems more flexible overall, at least the second restriction does apply 
 ## Android
 
 1. Run `NODE_ENV={desired_env} cap sync android`
-2. Bump the `versionCode` and if wanted `versionName` in `build.gradle`
+2. In Android Studio, bump the `versionCode` and if wanted `versionName` in `build.gradle (:app)` (Cmd+Shift+O to file-search)
 3. Build the AAB via Build -> Generate Signed App Bundle ... This will build into `android/app/{flavor}/{build_type}/app-{flavor}-{buildtype}.aab`
 4. Open the [Google Play Console](https://play.google.com/console/u/0/developers/8500628513458158038/app-list)
 5. Go to Test and Release -> Create New Release
@@ -218,8 +218,8 @@ Note: if you previously had a debug build installed through Android Studio, you 
 ## iOS
 
 1. In the Project navigator (first left top) -> App (left top) -> Targets -> App (left) -> Build Settings (top), go to the Versioning section, adjust "Current Project Version" and "Marketing Version" as appropriate.
-2. Go to Product -> Archive in the menu
-3. Click "Distribute app"
+2. Go to Product -> Archive in the menu, which will rebuild the app if necessary and create a bundle/archive (to see existing archives, open the Organizer in Window)
+3. Click "Distribute app". It's also possible to first "Validate app" to make sure there are no submission errors before distributing.
 
 ### Distribution
 

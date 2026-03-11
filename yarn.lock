@@ -6387,6 +6387,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"capacitor-native-settings@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "capacitor-native-settings@npm:8.0.0"
+  peerDependencies:
+    "@capacitor/core": ">=8.0.0"
+  checksum: 10/493d845350a155c2105073af0e346fbe15fe4179885df1ebff5f2f46430289d598df2719ba953a9cb26c3696a82fa7d704487b993799428731f66c4a9b8bc2a9
+  languageName: node
+  linkType: hard
+
 "chai@npm:^6.2.1":
   version: 6.2.2
   resolution: "chai@npm:6.2.2"
@@ -13130,6 +13139,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^8.54.0"
     "@typescript-eslint/parser": "npm:^8.54.0"
     "@zerodevx/svelte-img": "npm:^2.1.2"
+    capacitor-native-settings: "npm:^8.0.0"
     dotenv: "npm:^17.2.3"
     eslint: "npm:^9.39.2"
     eslint-config-prettier: "npm:^9.1.2"

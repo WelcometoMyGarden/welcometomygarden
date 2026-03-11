@@ -31,6 +31,9 @@ import type { IDevice } from 'ua-parser-js';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import logger from '$lib/util/logger';
 import nProgress from 'nprogress';
+import { rootModal } from '$lib/stores/app';
+import NativeNotificationsDeniedModal from '$lib/components/Notifications/NativeNotificationsDeniedModal.svelte';
+import { Capacitor } from '@capacitor/core';
 
 /**
  * Android Notification Channel ID
@@ -108,17 +111,18 @@ export function initializeNativePush() {
 
   // Delete the default notification channel created by the LocalNotifications plugin
   // see https://github.com/ionic-team/capacitor-plugins/issues/2490
-  PushNotifications.deleteChannel({ id: 'default' })
-    .then(() => {
-      DEV: logger.debug('Unused LocalNotifications default channel deleted');
-    })
-    .catch((e) => {
-      logger.warn(
-        'Issue when deleting the LocalNotifications default channel',
-        e instanceof Error ? e.message : ''
-      );
-    });
-
+  if (Capacitor.getPlatform() === 'android') {
+    PushNotifications.deleteChannel({ id: 'default' })
+      .then(() => {
+        DEV: logger.debug('Unused LocalNotifications default channel deleted');
+      })
+      .catch((e) => {
+        logger.warn(
+          'Issue when deleting the LocalNotifications default channel',
+          e instanceof Error ? e.message : ''
+        );
+      });
+  }
   LocalNotifications.addListener('localNotificationActionPerformed', async (notification) => {
     try {
       const link = notification.notification.extra.link;
@@ -130,17 +134,20 @@ export function initializeNativePush() {
 }
 
 export function setupAndroidChannels() {
-  // Upsert notification channels - only relevant on Android
-  // The name will be updated if the ID is the same
-  return PushNotifications.createChannel({
-    id: CHAT_NOTIFICATIONS_CHANNEL_ID,
-    name: get(t)('push-notifications.android-channel')
-  }).catch((e) => {
-    logger.warn(
-      'Something went wrong while creating the chat messages channel',
-      e instanceof Error ? e.message : ''
-    );
-  });
+  if (Capacitor.getPlatform() === 'android') {
+    // Upsert notification channels - only relevant on Android
+    // The name will be updated if the ID is the same
+    return PushNotifications.createChannel({
+      id: CHAT_NOTIFICATIONS_CHANNEL_ID,
+      name: get(t)('push-notifications.android-channel')
+    }).catch((e) => {
+      logger.warn(
+        'Something went wrong while creating the chat messages channel',
+        e instanceof Error ? e.message : ''
+      );
+    });
+  }
+  return Promise.resolve('Not relevant on iOS or web');
 }
 
 export async function registerOrRefreshNativeRegistration() {
@@ -171,6 +178,22 @@ export async function registerOrRefreshNativeRegistration() {
   return await tokenPromise;
 }
 
+export const getNativeUAInfo = async () => {
+  const info = await Device.getInfo();
+  return {
+    os: info.operatingSystem,
+    browser: null,
+    device: {
+      vendor: info.manufacturer,
+      // On iOS,
+      // - without entitlements that would give the configured device name (which we don't need), the info.name is a model name like "iPhone 16e"
+      // - info.model is the Apple model code for the device, in this case iPhone17,5, which is never used in marketing
+      //   and therefore confusing
+      model: Capacitor.getPlatform() === 'ios' ? info.name : info.model
+    } as IDevice
+  };
+};
+
 /**
  * Adds the registration to the Firestore. Normally only runs on the first time.
  *
@@ -180,11 +203,8 @@ export async function registerOrRefreshNativeRegistration() {
 async function registerNotifications() {
   // Get device info
   let fcmToken: string;
-  let info: DeviceInfo;
   let nativeDeviceId: string | null | undefined;
-
   try {
-    info = await Device.getInfo();
     nativeDeviceId = get(deviceId);
     if (!nativeDeviceId) {
       logger.error("Couldn't get the native device ID while adding the push registration");
@@ -241,14 +261,7 @@ async function registerNotifications() {
   const upsertProperties = {
     status: PushRegistrationStatus.ACTIVE,
     deviceId: nativeDeviceId,
-    ua: removeUndefined({
-      os: info.operatingSystem,
-      browser: null,
-      device: {
-        vendor: info.manufacturer,
-        model: info.model
-      } as IDevice
-    }),
+    ua: removeUndefined(await getNativeUAInfo()),
     refreshedAt: serverTimestamp()
   };
 
@@ -284,7 +297,7 @@ async function registerNotifications() {
   return false;
 }
 
-export const createNativePushRegistration = async () => {
+export const createNativePushRegistration = async (showModalWhenDenied = true) => {
   // Start loading state indicator
   isEnablingLocalPushRegistration.set(true);
   // Progress indicator for native subs without the notification modal
@@ -298,7 +311,13 @@ export const createNativePushRegistration = async () => {
   // Android <=12 will just grant without prompting, Android 13 (SDK 33) also prompts the user
   try {
     if (permissionStatus === 'denied') {
-      logger.warn("Notification status is denied, won't prompt");
+      logger.warn(
+        `Notification status is denied${showModalWhenDenied === false ? ", won't prompt" : ', will show instructions modal'}`
+      );
+      if (showModalWhenDenied) {
+        rootModal.set(NativeNotificationsDeniedModal);
+      }
+      isEnablingLocalPushRegistration.set(false);
       return false;
     }
 
@@ -323,13 +342,17 @@ export const createNativePushRegistration = async () => {
     // Continue if granted
     if (permissionStatus === 'granted') {
       logger.log('Push notification permission granted, registering native push');
+      nProgress.done();
       return await registerNotifications();
     }
+
+    // Else: some kind of denial only happened after requesting permissions.
+    // Stop enable loader in any case.
+    isEnablingLocalPushRegistration.set(false);
   } catch (e) {
     logger.warn("Couldn't get push registration permission", e instanceof Error ? e.message : '');
-  } finally {
-    nProgress.done();
   }
+  nProgress.done();
   return false;
   // TODO question: is the registration event only called after registering?
 };

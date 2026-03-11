@@ -18,7 +18,6 @@ import type {
   FirebaseWebPushRegistration,
   LocalPushRegistration
 } from '$lib/types/PushRegistration';
-import { UAParser } from 'ua-parser-js';
 import nProgress from 'nprogress';
 export { hasWebPushNotificationSupportNow } from './uaInfo';
 export { isOnIDevicePWA } from './uaInfo';
@@ -109,12 +108,3 @@ export const isNativePushRegistration = (
 
 export const isAndroidFirefox = () =>
   uaInfo?.os.is('Android') && uaInfo?.browser.name?.includes('Firefox');
-
-export const getDeviceUAWithClientHints = async () => {
-  const uaP = new UAParser();
-  const deviceWithClientHints = await uaP.getDevice().withFeatureCheck().withClientHints();
-  if (deviceWithClientHints.model === 'K') {
-    deviceWithClientHints.model = 'Android';
-  }
-  return deviceWithClientHints;
-};

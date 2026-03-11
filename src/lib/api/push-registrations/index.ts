@@ -31,7 +31,7 @@ import { get } from 'svelte/store';
 import { isMobileDevice, isNative } from '$lib/util/uaInfo';
 import { t } from 'svelte-i18n';
 import { rootModal } from '$lib/stores/app';
-import NotificationSetupGuideModal from '$lib/components/Notifications/NotificationSetupGuideModal.svelte';
+import NotificationSetupGuideModal from '$lib/components/Notifications/WebNotificationSetupGuideModal.svelte';
 import { trackEvent } from '$lib/util';
 import { PlausibleEvent } from '$lib/types/Plausible';
 import {
@@ -157,11 +157,29 @@ export const createFirebasePushRegistrationObserver = () => {
         trackEvent(PlausibleEvent.DELETED_PUSH_REGISTRATION, { type: 'detached' });
         await unsubscribeWebPushRegistration();
       }
+      let currentNativePermission: string | null = null;
+      if (isNative && linkedFirebaseRegistration) {
+        currentNativePermission = await PushNotifications.checkPermissions()
+          .then(({ receive }) => receive)
+          .catch((e) => {
+            logger.warn(
+              'Error while checking native permission while processing a push registration snapshot',
+              e instanceof Error ? e.message : ''
+            );
+            return 'denied';
+          });
+      }
       if (linkedFirebaseRegistration?.status === PushRegistrationStatus.MARKED_FOR_DELETION) {
-        // Unsubscribe the current device's registration if it was marked for deletion, in any case
+        // Unsubscribe the current device's registration if it was marked for deletion externally, in any case
         trackEvent(PlausibleEvent.DELETED_PUSH_REGISTRATION, { type: 'other' });
         await deletePushRegistration(linkedFirebaseRegistration);
         // Note: the deletePushRegistration method invokes onSnapshot again, hence we can skip a UI update of stale data.
+        return;
+      } else if (linkedFirebaseRegistration && isNative && currentNativePermission !== 'granted') {
+        // Between app opens, it looks like the notification permission was removed
+        // Delete the registration
+        trackEvent(PlausibleEvent.DELETED_PUSH_REGISTRATION, { type: 'permission_denied' });
+        await deletePushRegistration(linkedFirebaseRegistration);
         return;
       } else if (
         !!linkedFirebaseRegistration &&
@@ -255,19 +273,21 @@ export const isNotificationEligible = () =>
  * The caller should close any modals that this action affects.
  * @returns true on a sucessful (expected) result.
  */
-export const handleNotificationEnableAttempt = async () => {
+export const handleNotificationEnableAttempt = async (showModalWhenDenied = true) => {
   logger.debug('Attempting to register notifications');
   if (!isMobileDevice) {
     window.open(get(t)('push-notifications.prompt.helpcenter-url'), '_blank');
     return true;
   } else if (isNative || (hasWebPushNotificationSupportNow() && !isAndroidFirefox())) {
     // Actually try to enable the notifications
-    const success = await (isNative ? createNativePushRegistration() : createWebPushRegistration());
+    const success = await (isNative
+      ? createNativePushRegistration(showModalWhenDenied)
+      : createWebPushRegistration());
     if (success) {
       return true;
     } else {
       // TODO: visible report error in modal?
-      logger.warn('There was an error while enabling notifications');
+      logger.warn('Notifications could not be enabled, see prior logs for details.');
       return false;
     }
   } else if (canHaveWebPushSupport() || isAndroidFirefox()) {

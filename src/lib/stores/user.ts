@@ -128,7 +128,7 @@ export const initializeUser = async () => {
     ) {
       if (isNative) {
         // On native platforms with built-in permission prompts (or no prompts), just immediately prompt for permission on user load
-        handleNotificationEnableAttempt();
+        handleNotificationEnableAttempt(false);
       } else if (
         // On iOS web PWAs, prompt on user load (for Android Chrome*, which also support push without installing the app, we only prompt
         // in the chat)
