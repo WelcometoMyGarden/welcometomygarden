@@ -7139,6 +7139,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dezalgo@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "dezalgo@npm:1.0.4"
+  dependencies:
+    asap: "npm:^2.0.0"
+    wrappy: "npm:1"
+  checksum: 10/895389c6aead740d2ab5da4d3466d20fa30f738010a4d3f4dcccc9fc645ca31c9d10b7e1804ae489b1eb02c7986f9f1f34ba132d409b043082a86d9a4e745624
+  languageName: node
+  linkType: hard
+
 "diacritics@npm:1.3.0":
   version: 1.3.0
   resolution: "diacritics@npm:1.3.0"
@@ -12361,6 +12371,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tar@npm:^7.5.3":
+  version: 7.5.11
+  resolution: "tar@npm:7.5.11"
+  dependencies:
+    "@isaacs/fs-minipass": "npm:^4.0.0"
+    chownr: "npm:^3.0.0"
+    minipass: "npm:^7.1.2"
+    minizlib: "npm:^3.1.0"
+    yallist: "npm:^5.0.0"
+  checksum: 10/fb2e77ee858a73936c68e066f4a602d428d6f812e6da0cc1e14a41f99498e4f7fd3535e355fa15157240a5538aa416026cfa6306bb0d1d1c1abf314b1f878e9a
+  languageName: node
+  linkType: hard
+
 "teeny-request@npm:^9.0.0":
   version: 9.0.0
   resolution: "teeny-request@npm:9.0.0"
@@ -13164,7 +13187,7 @@ __metadata:
     smoothscroll-polyfill: "npm:^0.4.4"
     stripe: "npm:^17.7.0"
     svelte: "npm:^5.51.5"
-    svelte-check: "npm:^4.3.5"
+    svelte-check: "npm:^4.3.6"
     svelte-i18n: "npm:^4.0.1"
     svelte-preprocess: "npm:^6.0.3"
     svelte-simple-modal: "npm:^2.0.0"
