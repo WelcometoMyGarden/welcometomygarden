@@ -4,7 +4,6 @@ import {
   pushRegistrations
 } from '$lib/stores/pushRegistrations';
 import {
-  getDeviceUAWithClientHints,
   handleError,
   handleErrorGeneric,
   hasWebPushNotificationSupportNow,
@@ -25,6 +24,7 @@ import notification from '$lib/stores/notification';
 import { uaInfo } from '$lib/util/uaInfo';
 import { timeout } from '$lib/util/timeout';
 import logger from '$lib/util/logger';
+import { UAParser } from 'ua-parser-js';
 
 export const LATEST_PUSH_REGISTRATION_KEY = 'latestPushRegistration';
 
@@ -243,7 +243,7 @@ export const createWebPushRegistration = async () => {
         os: os.name,
         browser: browser.name,
         // Destructure helps to convert into POJO
-        device: removeUndefined({ ...(await getDeviceUAWithClientHints()) })
+        device: removeUndefined({ ...(await getDeviceWebUAWithClientHints()) })
       }),
       host: location.host,
       createdAt: serverTimestamp(),
@@ -262,4 +262,12 @@ export const createWebPushRegistration = async () => {
     Sentry.captureException(e);
     return;
   }
+};
+export const getDeviceWebUAWithClientHints = async () => {
+  const uaP = new UAParser();
+  const deviceWithClientHints = await uaP.getDevice().withFeatureCheck().withClientHints();
+  if (deviceWithClientHints.model === 'K') {
+    deviceWithClientHints.model = 'Android';
+  }
+  return deviceWithClientHints;
 };

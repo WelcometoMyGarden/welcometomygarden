@@ -4,6 +4,7 @@
     isNotificationEligible,
     handleNotificationEnableAttempt
   } from '$lib/api/push-registrations';
+  import { getNativeUAInfo } from '$lib/api/push-registrations/native';
   import { Button, Icon } from '$lib/components/UI';
   import IconButton from '$lib/components/UI/IconButton.svelte';
   import { androidIcon, appleIcon, mobileDeviceIcon, trashIcon } from '$lib/images/icons';
@@ -16,15 +17,12 @@
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { PushRegistrationStatus, type LocalPushRegistration } from '$lib/types/PushRegistration';
   import { trackEvent } from '$lib/util';
-  import {
-    getDeviceUAWithClientHints,
-    isNativePushRegistration,
-    isWebPushRegistration
-  } from '$lib/util/push-registrations';
+  import { getDeviceWebUAWithClientHints } from '$lib/api/push-registrations/webpush';
   import { isIDeviceOS, isMobileDevice, isNative, uaInfo } from '$lib/util/uaInfo';
   import { capitalize } from 'lodash-es';
   import { onMount } from 'svelte';
   import { _ } from 'svelte-i18n';
+  import { isNativePushRegistration, isWebPushRegistration } from '$lib/util/push-registrations';
   interface Props {
     pushRegistration?: LocalPushRegistration | undefined;
   }
@@ -33,7 +31,12 @@
 
   // TODO: this rename is useless
   let currentWebSub = $derived($currentWebPushSubStore);
-  let isNativePR = $derived(pushRegistration && isNativePushRegistration(pushRegistration));
+
+  // When pushRegistration is falsy, it used to display the potential current PR.
+  // That one will be native if we are on a native device.
+  let isNativePR = $derived(
+    pushRegistration == null ? isNative : isNativePushRegistration(pushRegistration)
+  );
 
   // if the pushRegistration prop is undefined, fill destructured properties with null (except ua)
   let {
@@ -63,7 +66,11 @@
     // If we're showing the local device
     if (!pushRegistration) {
       // ... override the device with client hints
-      device = await getDeviceUAWithClientHints();
+      if (isNative) {
+        device = (await getNativeUAInfo()).device;
+      } else {
+        device = await getDeviceWebUAWithClientHints();
+      }
     }
   });
 
@@ -109,9 +116,11 @@
         {pureBrowserName}
         {$_('generics.on')}
       {/if}
-      {device?.vendor !== 'Apple' ? `${device.vendor} ` : ''}{device.model ??
-        os ??
-        $_('account.notifications.unknown')}
+      <div class="device-name">
+        {device?.vendor !== 'Apple' ? `${device.vendor} ` : ''}{device.model ??
+          os ??
+          $_('account.notifications.unknown')}
+      </div>
       <div class="extra-info">
         {#if !isRegisteredInFirebase || (pushRegistration && (isNativePushRegistration(pushRegistration) ? pushRegistration.deviceId === $deviceId : currentWebSub?.endpoint === pRWebPushEndpoint))}
           {$_('account.notifications.current')}
@@ -168,6 +177,9 @@
     display: flex;
     gap: 1.5rem;
     align-items: center;
+    flex-basis: 68%;
+    /* Cede space to the flex-neighbor (the button), beyond the flex-basis*/
+    min-width: 0;
   }
 
   .header :global(i) {
@@ -180,6 +192,8 @@
 
   .header > .copy {
     font-size: 1.7rem;
+    /* Allow the icon on the left to grow in the flex container */
+    min-width: 0;
   }
 
   .header .extra-info {
@@ -195,5 +209,10 @@
     fill: var(--color-orange);
     stroke: var(--color-danger);
     color: var(--color-danger);
+  }
+
+  .device-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 </style>
