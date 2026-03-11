@@ -42,13 +42,12 @@
 
 <Modal className="native-notification-denied-modal" center closeButton onclose={close}>
   {#snippet title()}
-    <Text is="h1" weight="w600" size="l" class="title">Turning on notifications</Text>
+    <Text is="h1" weight="w600" size="l" class="title"
+      >{$_('push-notifications.native-permission-denied.title')}</Text
+    >
   {/snippet}
   {#snippet body()}
-    <p>
-      It looks like the notification permission for the WTMG app is turned off in your phone’s
-      settings. Go to your settings to turn it back on, then return to the app.
-    </p>
+    <p>{$_('push-notifications.native-permission-denied.description')}</p>
     <div class="btns">
       <Button
         onclick={() => {
@@ -66,11 +65,7 @@
         }}
         fullWidth
         small={true}
-        uppercase>Open notification settings</Button
-      >
-      <!-- Show retry button after the app is foregrounded again -->
-      <Button inverse fullWidth small={true} uppercase onclick={close}
-        >{$_('push-notifications.how-to.ios-upgrade.btn-skip')}</Button
+        uppercase>{$_('push-notifications.native-permission-denied.button')}</Button
       >
     </div>
   {/snippet}

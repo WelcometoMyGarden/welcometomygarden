@@ -1577,7 +1577,12 @@
       "permission-denied": "Votre navigateur bloque actuellement les notifications mobiles pour WTMG. Pour les activer, autorisez les notifications dans votre navigateur. Suivez {faqLink}. Cela ne prend que deux minutes !\"",
       "generic": "Un problème s’est produit lors de l’activation de vos notifications mobiles. Pouvez-vous actualiser cette page et réessayer de les activer ? Si cela ne fonctionne pas, merci d'envoyer les informations ci-dessous à {emailLink} afin que nous puissions vous aider. Merci !"
     },
-    "android-channel": "Notifications messages"
+    "android-channel": "Notifications messages",
+    "native-permission-denied": {
+      "title": "Activer les notifications",
+      "description": "La permission de notifications pour l'application WTMG est désactivée dans les paramètres de votre téléphone. Allez dans vos paramètres pour les activer, puis revenez à l'application.",
+      "button": "Ouvrez les paramètres"
+    }
   },
   "email-preferences": {
     "error": "Vous avez des difficultés pour vous désabonner ? Contactez {support} et nous vous aiderons !",
