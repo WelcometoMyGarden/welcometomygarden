@@ -14,6 +14,21 @@
 # - openssl, dig, acme.sh, curl
 # - .env file, see below
 
+# Usage: ./set-cf-ip.sh [-i IP]
+# -i IP: Manually supply the IP address to use, bypassing automatic detection
+#        This can be useful if you have a fixed IP alias that is only locally valid, which helps
+#        with keeping your dev server accessible in local emulators and simulators between network changes.
+#        Otherwise, you may be assigned different local IPs on different subnets by a DHCP over time.
+#        On macOS you can add a fixed local IPv4 alias like this: `sudo ifconfig lo0 alias 10.241.241.1`
+
+# Parse command line options
+while getopts "i:" opt; do
+  case $opt in
+    i) MANUAL_IP="$OPTARG"; ;;
+    *) echo "Usage: $0 [-i IP]" >&2; exit 1 ;;
+  esac
+done
+
 # acme.sh may be installed as an alias
 shopt -s expand_aliases
 if [ -f ~/.bashrc ]; then
@@ -79,7 +94,14 @@ if [ $NEEDS_RENEWAL -eq 1 ]; then
 fi
 
 # 3. Get current local network IP address (en0 is typical for Wi-Fi)
-IP=$(ipconfig getifaddr en0)
+# Use the manual param if supplied
+if [ -n "$MANUAL_IP" ]; then
+  IP="$MANUAL_IP"
+else
+  # Otherwise the en0 interface
+  IP=$(ipconfig getifaddr en0)
+fi
+# If the above fails, the try en1
 if [ -z "$IP" ]; then
   IP=$(ipconfig getifaddr en1)
 fi

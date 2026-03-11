@@ -87,7 +87,7 @@ You need to modify the file to reference the needed certificates, and include th
 
 For physical iDevices at least, I've found it easiest to use an external certificate for local development.
 
-See [tools/set-cf-ip.sh](../tools/set-cf-ip.sh), which is a script that uses the Cloudflare API to 1) update the IP of a public DNS record to the current dev machine's local IP, 2) request an external ZeroSSL certificate for it, and store locally.
+See [tools/set-cf-ip.sh](../tools/set-cf-ip.sh), which is a script that uses the Cloudflare API to 1) update the IP of a public DNS record to the current dev machine's local IP, 2) request an external ZeroSSL certificate for it, and store it locally.
 
 The certificate is referenced by `VITE_HTTPS_CERT_PATH` and `VITE_HTTPS_KEY_PATH` in .env files.
 
@@ -105,7 +105,7 @@ This method is trickier and not always usable. The only reason why you may want 
 
 - Simulators are easy:
   - Cert trust: you can simply drag & drop the mkcert root certificate on the Simulator to trust it. On macOS, it is in `/Users/${USER}/Library/Application\ Support/mkcert/rootCA.pem`
-  - Hostname resolution: simulators share much of the host macOS networking stack. If the macOS host can resolve the host (using `/etc/private/hosts`), the Simulator can too.
+  - Hostname resolution: simulators share much of the host macOS networking stack. If the macOS host can resolve the host (using `/etc/private/hosts`), the Simulator can too. Even localhost is the same on the simulator and the host (it points to the host).
 - Physical devices: trickier
   - The mkcert root ceriticate has to be installed manually on the device.
   - You can't simply edit `/etc/private/hosts`. You can influence DNS resolution on the local network's DNS server, if accessible, or maybe [use an app](https://apple.stackexchange.com/questions/17077/add-a-hosts-file-entry-without-jailbreaking). To test on physical devices, relying on external DNS servers is easier (see previous "public domains" method).
