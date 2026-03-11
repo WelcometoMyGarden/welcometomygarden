@@ -38,13 +38,19 @@ export default defineConfig(({ command, mode }): UserConfig => {
     timeZoneName: 'short'
   });
 
+  // Git will complain about dubious ownership in the e2e test runner without this
+  // NOTE: we might be able to remove this if we can manage to let the runner run without root
+  const gitWithSafeDirOption = 'git -c safe.directory="$(pwd)"';
+
   // Finds whether there are untracked files, or uncommited files in the index
-  const commitHash = execSync('git rev-parse --short HEAD').toString().trim();
+  const commitHash = execSync(`${gitWithSafeDirOption} rev-parse --short HEAD `).toString().trim();
   // Note: ISO 8601 format from https://git-scm.com/docs/pretty-formats#Documentation/pretty-formats.txt-cI
   const commitDate = dateFormat.format(
-    new Date(execSync('git log -1 --format=%cI').toString().trim())
+    new Date(execSync(`${gitWithSafeDirOption} log -1 --format=%cI`).toString().trim())
   );
-  const commitMessage = execSync('git log -1 --pretty=%B').toString().split('\n')[0];
+  const commitMessage = execSync(`${gitWithSafeDirOption} log -1 --pretty=%B`)
+    .toString()
+    .split('\n')[0];
 
   return {
     build: {
