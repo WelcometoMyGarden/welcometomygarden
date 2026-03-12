@@ -54,8 +54,6 @@
    */
   let chatIdPath = $derived(page.params.chatId);
 
-  // UI state
-  let showNotificationPrompt = $state(false);
   let showMembershipModal = $derived(!$user?.superfan && chatIdPath === 'new');
   let sendButtonDisabled = $derived.by(() => {
     const { isSending, typedMessage, hint } = messageState;
@@ -205,7 +203,7 @@
       <!-- Show the guidelines, but only if is a new chat -->
       <ChatGuidelines hostName={$partner?.name} />
     {/if}
-    <NotificationPrompt bind:show={showNotificationPrompt} />
+    <NotificationPrompt bind:show={messageState.showNotificationPrompt} />
   </div>
 </div>
 <form
