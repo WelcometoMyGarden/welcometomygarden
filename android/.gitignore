@@ -107,7 +107,7 @@ app/src/main/assets/capacitor.plugins.json
 app/src/main/res/xml/config.xml
 
 # Network security config
-app/src/main/res/xml/network_security_config.xml
+app/src/*/res/xml/network_security_config.xml
 
 # Custom root certs
 *.pem
