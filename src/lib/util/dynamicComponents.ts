@@ -84,7 +84,7 @@ function instantiateComponent(element: HTMLElement) {
 // From: https://github.com/dimfeld/website/blob/master/src/dynamicComponents.ts
 export function instantiateComponents() {
   let elements = Array.from(document.querySelectorAll('[data-component]'));
-  logger.debug(elements);
+  DEV: logger.debug(elements);
   let mountedComponents: {}[] = [];
 
   for (let div of elements) {

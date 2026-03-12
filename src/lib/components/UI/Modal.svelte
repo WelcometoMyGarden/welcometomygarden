@@ -194,7 +194,8 @@
     width: 100vw;
     height: calc(var(--vh, 1vh) * 100);
     left: 0;
-    padding: 2rem;
+    padding: calc(env(safe-area-inset-top, 0px) + 2rem) 2rem
+      calc(env(safe-area-inset-bottom, 0px) + 2rem) 2rem;
     top: 0;
   }
 

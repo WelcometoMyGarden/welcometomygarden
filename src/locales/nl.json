@@ -584,9 +584,14 @@
       "errors": {
         "loading-error": "Er ging iets fout tijdens het laden van ons betaalsysteem. Probeer de pagina te herladen.",
         "systems-error": "Er ging iets fout in ons systeem. Gelieve {supportEmail} te contacteren en we zullen je zo snel mogelijk helpen! Excuseer voor het ongemak.",
-        "payment-error": "Er ging iets fout met je betaling, probeer alsjeblieft opnieuw."
+        "payment-error": "Er ging iets fout met je betaling, probeer alsjeblieft opnieuw.",
+        "please-try-again": "Probeer alsjeblieft opnieuw."
       },
-      "success": "Bedankt om lid te worden van WTMG!"
+      "success": "Bedankt om lid te worden van WTMG!",
+      "app-fallback": {
+        "continue-button": "Ga verder",
+        "success-title": "Jouw betaling is succesvol verlopen!"
+      }
     },
     "not-logged-in-warning": "Om Superfan te worden, moet je eerst inloggen of een account aanmaken",
     "title": "Betaling",
@@ -724,7 +729,8 @@
     "email-change": {
       "in-progress": "Je email adres wordt gewijzigd...",
       "success": "Je email is gewijzigd! Gelieve opnieuw in te loggen"
-    }
+    },
+    "logged-out": "Je bent uitgelogd."
   },
   "register": {
     "title": "Registreren",
@@ -1578,6 +1584,12 @@
       "permission-denied-faq-text": "de instructies in onze FAQ",
       "permission-denied": "Jouw browser blokkeert momenteel mobiele meldingen voor WTMG. Werk de toestemmingen van jouw browser bij of reset ze om mobiele meldingen aan te zetten. Volg eenvoudigweg {faqLink}. Het duurt slechts twee minuten!",
       "generic": "Er is iets misgegaan bij het aanzetten van je mobiele meldingen. Kan je deze pagina verversen en dan nogmaals proberen om ze aan te zetten? Als dit niet werkt, gelieve dan onderstaande informatie naar {emailLink} te sturen zodat we je verder kunnen helpen. Bedankt!"
+    },
+    "android-channel": "Chatmeldingen",
+    "native-permission-denied": {
+      "title": "Meldingen aanzetten",
+      "description": "De toestemming voor meldingen van de WTMG-app is uitgeschakeld in de instellingen van je telefoon. Ga naar je instellingen om deze in te schakelen en keer daarna terug naar de app.",
+      "button": "Open instellingen"
     }
   },
   "email-preferences": {

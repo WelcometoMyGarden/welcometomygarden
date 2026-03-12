@@ -23,6 +23,10 @@ export const isRelativeURL = (url: string) => {
   return !absUrlRegex.test(url);
 };
 
+export const toRelativePart = ({ pathname, search, hash }: URL) => {
+  return `${pathname}${search}${hash}`;
+};
+
 export const universalGoto = async (url: string) => {
   if (isRelativeURL(url)) {
     return goto(url);

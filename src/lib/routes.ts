@@ -1,6 +1,5 @@
 import { page } from '$app/stores';
 import { derived, get, type Readable } from 'svelte/store';
-import { isRelativeURL } from './util/navigate';
 
 type RouteDescription = {
   route: string;
@@ -28,17 +27,12 @@ export const routeDescriptions = {
   RULES: { route: '/info/rules', requiresAuth: false },
   SIGN_IN: { route: '/sign-in', requiresAuth: false },
   MEMBER_PAYMENT: { route: '/become-member/payment', requiresAuth: true },
+  // This is actually a stateless page, fully instantiated by its query params
+  APP_PAYMENT: { route: '/app-payment', requiresAuth: false },
   TERMS_OF_USE: { route: '/terms/terms-of-use', requiresAuth: false },
   MEMBER_THANK_YOU: { route: '/become-member/thank-you', requiresAuth: false },
   ROUTE_PLANNER: { route: '/routeplanner', requiresAuth: false }
-};
-
-// Note, this otherwise useless expression allows us to typecheck the above array.
-// I don't want to assign a generic [key: string] type to it directly,
-// because we derive a type of its concrete keys below with RouteDescriptions, and it does not
-// seem to be possible reference a object with 'typeof' in its own declaration.
-// This helps with catching type errors above.
-routeDescriptions as { [key: string]: RouteDescription };
+} satisfies { [key: string]: RouteDescription };
 
 type RouteDescriptions = {
   [property in keyof typeof routeDescriptions]: RouteDescription;
@@ -46,7 +40,7 @@ type RouteDescriptions = {
 
 /**
  *
- * Converts a SvelteKit route ID to a form that removes optional route segments, and route groups.
+ * Converts a SvelteKit route ID to a form that removes optional route segments ( /[segment]/ ), and route groups ( /(group)/ ).
  * @param routeId
  */
 export const visibleRoute = (routeId: string) =>
@@ -103,6 +97,8 @@ const getCurrentRouteDescriptionInner = (
 
 /**
  * Get the non-localized base route of the given SvelteKit route ID or concrete pathname
+ *
+ * This is a version of getCurrentRoute() for the given route id or path
  */
 export const getBaseRouteIn = (path: string) => findRouteMatch(visibleRoute(path))?.route;
 
@@ -131,6 +127,14 @@ export const activeRootPath = derived(
   page,
   ($page) => $page?.url?.pathname?.substring($page.params.lang ? 4 : 1).split('/')[0]
 );
+
+/**
+ * Strip a 2-character langugage path parth like nl/ from the URL, without modifying the url for the rest.
+ * Also works with home page URLs like /es without, without trailing slash
+ *
+ * This is a generic version of activeUnlocalizedPath above, applicable to any given relative path.
+ */
+export const unlocalizePath = (path: string) => path.replace(/(?<=^\/)[a-z]{2}(?=\/|$)\/?/, '');
 
 export const routeNames = Object.fromEntries(
   Object.entries(routeDescriptions).map(([k, v]) => [k, v.route])

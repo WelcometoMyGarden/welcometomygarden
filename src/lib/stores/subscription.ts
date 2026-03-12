@@ -141,4 +141,4 @@ export const renewalNoticeContent = derived(
 //   // $subscriptionJustEnded || $user?.superfan === true || $user?.garden != null
 // );
 // C: General announcement, also for visitors (does not exclude $subscriptionJustEnded)
-export const shouldShowBanner = writable(true)
+export const shouldShowBanner = writable(true);

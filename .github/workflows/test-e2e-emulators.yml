@@ -23,8 +23,19 @@ on:
       # This does not run backend test code
       - api/test/**
 jobs:
+  check_duplicate_runs:
+    runs-on: ubuntu-24.04
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5.3.1
+        with:
+          skip_after_successful_duplicate: 'true'
   playwright:
     name: 'Playwright Tests'
+    needs: check_duplicate_runs
+    if: ${{ needs.pre_job.outputs.should_skip != 'true' }}
     runs-on: ubuntu-24.04
     environment: e2e-test-emulators
     container:

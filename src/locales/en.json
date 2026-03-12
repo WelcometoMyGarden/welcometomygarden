@@ -950,9 +950,14 @@
       "errors": {
         "loading-error": "Something went wrong when loading our payments service. Please try reloading the page.",
         "systems-error": "Something went wrong in our systems. Please contact {supportEmail} and we'll help you asap! Sorry for the trouble.",
-        "payment-error": "Something went wrong with your payment, please try again."
+        "payment-error": "Something went wrong with your payment, please try again.",
+        "please-try-again": "Please try again."
       },
-      "success": "Thank you for becoming a WTMG member!"
+      "success": "Thank you for becoming a WTMG member!",
+      "app-fallback": {
+        "success-title": "Your payment was successful!",
+        "continue-button": "Continue"
+      }
     },
     "not-logged-in-warning": "To become Superfan, first log in or create an account",
     "title": "Payment",
@@ -1101,7 +1106,7 @@
       "logging-in": "Logging you into the community space...",
       "failed": "Login to the community space failed, contact support if this keeps happening."
     },
-    "logged-out": "You have been logged out elsewhere. Please log in again.",
+    "logged-out": "You have been logged out.",
     "email-change": {
       "in-progress": "Changing your email...",
       "success": "Your email has successfully been changed! Please log in again"
@@ -1565,6 +1570,7 @@
     }
   },
   "push-notifications": {
+    "android-channel": "Chat Notifications",
     "registration-success": "Notifications are successfully turned on",
     "prompt": {
       "title": "Get a mobile notification for new chat messages.",
@@ -1599,6 +1605,11 @@
       },
       "questions": "More detailed instructions? Visit our {guideLink}.",
       "questions-link-text": "Help Center"
+    },
+    "native-permission-denied": {
+      "title": "Turn on notifications",
+      "description": "The notification permission for the WTMG app is turned off in your phone’s settings. Go to your settings to turn it on, then return to the app.",
+      "button": "Open settings"
     },
     "error": {
       "permission-denied": "Your browser is currently blocking mobile notifications for WTMG. To turn on notifications, update or reset your browser permissions. Simply follow the {faqLink}. It only takes two minutes!",

@@ -70,7 +70,7 @@ export class StraightToMemberTest extends GenericFlow {
       page,
       context,
       useStripe: this.useStripe,
-      firstName: 'Robot',
+      email,
       isMobile: this.isMobile,
       l: this.l.bind(this)
     });

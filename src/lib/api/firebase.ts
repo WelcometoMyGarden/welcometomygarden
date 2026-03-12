@@ -1,5 +1,11 @@
 import { getApps, initializeApp, type FirebaseApp } from 'firebase/app';
-import { connectAuthEmulator, getAuth, type Auth } from 'firebase/auth';
+import {
+  connectAuthEmulator,
+  getAuth,
+  type Auth,
+  indexedDBLocalPersistence,
+  initializeAuth
+} from 'firebase/auth';
 import { type Firestore, getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { connectStorageEmulator, getStorage, type FirebaseStorage } from 'firebase/storage';
 import { connectFunctionsEmulator, getFunctions, type Functions } from 'firebase/functions';
@@ -13,6 +19,7 @@ import {
 import envIsTrue from '../util/env-is-true';
 import { browser } from '$app/environment';
 import logger from '$lib/util/logger';
+import { Capacitor } from '@capacitor/core';
 
 const FIREBASE_CONFIG = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
@@ -32,8 +39,7 @@ const firestoreWarningKeys = [
   'auth',
   'storage',
   'functions',
-  'messaging',
-  'appCheck'
+  'messaging'
 ] as const;
 type FirestoreWarning = { [key in (typeof firestoreWarningKeys)[number]]: string };
 
@@ -121,8 +127,15 @@ export async function initialize(): Promise<void> {
     connectFirestoreEmulator(dbRef, emulatorHostName, SSL_DEV ? 8081 : 8080);
   }
 
+  if (Capacitor.isNativePlatform()) {
+    DEV: logger.debug('Initializing auth for Capacitor');
+    // https://github.com/apache/cordova-ios/issues/1318#issuecomment-2853605880
+    initializeAuth(appRef, { persistence: indexedDBLocalPersistence });
+  }
+
   authRef = getAuth(appRef);
   authRef.useDeviceLanguage();
+
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_AUTH_EMULATOR))) {
     connectAuthEmulator(
       authRef,
@@ -142,6 +155,7 @@ export async function initialize(): Promise<void> {
   initializeEuropeWest1Functions(europeWest1FunctionsRef);
 
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_API_EMULATOR))) {
+    DEV: logger.debug('Connecting to functions emulator');
     connectFunctionsEmulator(europeWest1FunctionsRef, emulatorHostName, SSL_DEV ? 5002 : 5001);
   }
 
@@ -159,5 +173,5 @@ export async function initialize(): Promise<void> {
       // ...
     });
   }
-  logger.debug('Firebase init done');
+  DEV: logger.debug('Firebase init done');
 }

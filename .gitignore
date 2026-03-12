@@ -65,8 +65,6 @@ node_modules
 # Sentry Config File
 .env.sentry-build-plugin
 
-android
-ios
-
 runtests.sh
 test-results
+tools/hosts

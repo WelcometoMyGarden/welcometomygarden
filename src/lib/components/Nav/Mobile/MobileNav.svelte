@@ -16,7 +16,7 @@
   const toggleDrawer = () => (drawerIsShown = !drawerIsShown);
 </script>
 
-<nav id="navigation">
+<nav id="navigation" class="mobile-navigation">
   <ul class="main">
     <!-- TODO: render this from data with a component rather than repeating code -->
     <li>
@@ -75,6 +75,7 @@
     */
     --height-mobile-nav: calc(7rem + env(safe-area-inset-bottom, 0) * 0.7);
   }
+
   :global(body div.app.fullscreen) {
     --height-mobile-nav: 0rem;
   }
@@ -88,6 +89,19 @@
     background-color: var(--color-white);
     font-size: 1.4rem;
     z-index: 120;
+  }
+
+  :global(body div.app.active-app-payment) {
+    /* body used for specificity over another rule */
+
+    --height-mobile-nav: 0rem;
+    /*
+      TODO: I think this is potentially the only use of nested CSS in a :global expression
+      it seems to work, using the scoped nav even?
+    */
+    nav {
+      display: none;
+    }
   }
 
   .main {

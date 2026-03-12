@@ -61,6 +61,7 @@
   const unsubscribeLocalization = _.subscribe(() => {
     setTestimonials();
   });
+
   onDestroy(() => {
     unsubscribeLocalization();
   });

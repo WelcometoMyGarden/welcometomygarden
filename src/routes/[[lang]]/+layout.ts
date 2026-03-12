@@ -7,7 +7,7 @@ import logger from '$lib/util/logger';
 export const load: LayoutLoad = async ({ params: { lang: pathLang }, url, parent }) => {
   // TODO: maybe we want to init this with the browser lang like before?
   // To be able to use the right lang later if needed.
-  logger.debug('Inner layout load started');
+  DEV: logger.debug('Inner layout load started');
 
   const { newPath } = await parent();
 

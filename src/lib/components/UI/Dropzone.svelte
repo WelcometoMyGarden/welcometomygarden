@@ -9,7 +9,7 @@
     TOO_MANY_FILES_REJECTION
   } from '$lib/util/dropzone';
   import { onDestroy, type Snippet } from 'svelte';
-  import { iDeviceInfo } from '$lib/util/uaInfo';
+  import { iDeviceInfo, isNative } from '$lib/util/uaInfo';
   import type { DragEventHandler } from 'svelte/elements';
 
   type Props = {
@@ -324,11 +324,12 @@
 >
   <!-- Note: the accept attribute is ignored on iOS, because on some iPhones (e.g. 13, SE 2020, with iOS 17.6+)
         The accept attribute doesn't work as intended, and makes it impossible to select gpx files.
+        The same, we've seen, applies to all Android phones in Capacitor.
        Note: multipart/form-data is added here for futureproofing, in case we ever want to
         progressively enhance this action, see https://kit.svelte.dev/docs/migrating-to-sveltekit-2#forms-containing-file-inputs-must-use-multipart-form-data
     -->
   <input
-    accept={isIDevice ? undefined : Array.isArray(accept) ? accept.join(',') : accept}
+    accept={isIDevice || isNative ? undefined : Array.isArray(accept) ? accept.join(',') : accept}
     {multiple}
     type="file"
     {name}

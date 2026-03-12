@@ -1,0 +1,230 @@
+Instructions for the development of our [Capacitor](https://capacitorjs.com/)-based iOS & Android apps.
+
+# Local development
+
+## Switching Environments
+
+**Android Build Types and iOS Xcode Schemes**
+
+The iOS scheme "App" is connected to the target "App". Another scheme, _App Staging_ also exists. On Android, a "prod" and "staging" product flavor is defined to switch the Firebase environment, which are combineable with the built-in _debug_ and _release_ build types.
+
+Switching schemes or build types currently has the main goal of switching the Firebase Messaging backend attached to it (staging or prod). To change the frontend target, see below.
+
+Insert the following files:
+
+**Android**
+
+See the [Firebase documentation](https://firebase.google.com/docs/projects/multiprojects#support_multiple_environments_in_your_android_application)
+
+```bash
+./android/app/google-services.json # staging service file, used in general debug builds
+./android/app/src/staging/google-services.json # staging service file, used in staging builds
+./android/app/src/prod/google-services.json # production service file, used in release builds
+```
+
+To switch, use View -> Tool Windows -> Build Variants in Android Studio, and switch the `:app` module.
+
+**iOS**
+
+```bash
+./ios/App/App/FirebaseProd/GoogleService-Info.plist # production service file, used by the scheme App
+./ios/App/App/FirebaseStaging/GoogleService-Info.plist # staging service file, used by the scheme App Staging
+```
+
+For these files, use the right sidebar in Xcode to set the "target membership" to the "App" and "AppStaging" schemes (one each) respectively.
+
+## Switching frontend targets
+
+For now, the front-end uses the capacitor `server` config to directly load a target website in the webview when it opens.
+
+Use commands like:
+
+We use [environment-specific configurations](https://capacitorjs.com/docs/guides/environment-specific-configurations#export-environment-specific-capacitor-configuration) to define several target configurations, see [capacitor.config.ts](../capacitor.config.ts), which can be switches using a `cap` invocation with a specific `NODE_ENV`.
+
+Before running an app build, they need to copied or synced.
+
+```bash
+NODE_ENV=devpush|devpushprod|prod|beta|(default=staging) cap copy|sync
+
+# then run the app, can be done via the cli or Android Studio/Xcode GUI
+cap run ios|android
+```
+
+This will override the active server url and/or App scheme.
+
+It may still be necessary to select the appropriate staging or prod flavor/scheme in Android Studio or Xcode before building. For example, the production "App" scheme should be selected if you're targeting `https://beta.welcometomygarden.org`, otherwise the native app and encapsulated web app connect to a different Firebase project, leading to unintended behavior.
+
+## Connecting to a local development server with HTTPS
+
+The WebView app should be accessed in a privileged web context, that means, using HTTP on localhost, or using HTTPS when connecting to a another server.
+
+When developing locally, you often want that an emulator or physical test device connects to a dev machine's on the local network.
+
+### Prerequisite: Android certificate setup
+
+For local HTTPS development on Android, this file should be added, since it is referenced in our Android manifests (and the app won't build otherwise).
+
+You need to modify the file to reference the needed certificates, and include the certificate files as well. See below for more guidance.
+
+`android/app/src/main/res/xml/network_security_config.xml`
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+  <base-config>
+    <trust-anchors>
+      <!-- Trust the ZeroSSL root cert -->
+      <certificates src="@raw/zerosslroot"/>
+      <!-- Trust user added CAs -->
+      <certificates src="@raw/<the .pem filename added to this folder without extension>"/>
+      <certificates src="system"/>
+    </trust-anchors>
+  </base-config>
+</network-security-config>
+```
+
+### Using public domains & certificates (easiest)
+
+For physical iDevices at least, I've found it easiest to use an external certificate for local development.
+
+See [tools/set-cf-ip.sh](../tools/set-cf-ip.sh), which is a script that uses the Cloudflare API to 1) update the IP of a public DNS record to the current dev machine's local IP, 2) request an external ZeroSSL certificate for it, and store it locally.
+
+The certificate is referenced by `VITE_HTTPS_CERT_PATH` and `VITE_HTTPS_KEY_PATH` in .env files.
+
+**Android setup**
+
+Android's webview doesn't trust ZeroSSL certificates by default. So, you need to add the ZeroSSL Root Cert to `android/app/src/main/res/raw/zerosslroot.pem`
+
+### Using custom hosts & self-signed mkcert certificates (trickier)
+
+Our Vite setup uses [vite-plugin-mkcert](https://github.com/liuweiGL/vite-plugin-mkcert). You can use this in combination with a modified hosts file to load URLs like `https://wtmg.staging:5173` which point to the local development server. Our capacitor config is currently not set up for this and would need to be modified to make it work.
+
+This method is trickier and not always usable. The only reason why you may want to use it, is that it has no dependency on a controllable public nameserver.
+
+**iOS setup**
+
+- Simulators are easy:
+  - Cert trust: you can simply drag & drop the mkcert root certificate on the Simulator to trust it. On macOS, it is in `/Users/${USER}/Library/Application\ Support/mkcert/rootCA.pem`
+  - Hostname resolution: simulators share much of the host macOS networking stack. If the macOS host can resolve the host (using `/etc/private/hosts`), the Simulator can too. Even localhost is the same on the simulator and the host (it points to the host).
+- Physical devices: trickier
+  - The mkcert root ceriticate has to be installed manually on the device.
+  - You can't simply edit `/etc/private/hosts`. You can influence DNS resolution on the local network's DNS server, if accessible, or maybe [use an app](https://apple.stackexchange.com/questions/17077/add-a-hosts-file-entry-without-jailbreaking). To test on physical devices, relying on external DNS servers is easier (see previous "public domains" method).
+
+**Android**
+
+Certificates to be trusted need to be added explicitly to the project before building (see the setup file in the opening):
+
+Add the file `android/app/src/main/res/raw/rootca.pem`
+
+Resolving custom local domain names is trickier.
+
+On Android Emulators, the hosts file of the host system is **not** used. You can modify an emulator's hosts file manually using some steps. For more details, see [this script](../tools/install-android-hosts.sh) (consider more a manual than a script).
+
+I haven't tried the above steps on real devices yet.
+
+### Running the local development servers
+
+Run front-end servers in Vite modes that reference the right TLS certificates.
+
+```sh
+# for staging
+yarn dev:push
+# or to connect to production
+vite --mode devpushprod --host
+```
+
+Then build the app referencing the local hostname.
+
+```sh
+NODE_ENV=devpush cap copy
+NODE_ENV=devpushprod cap copy
+```
+
+## Icon/splash screen generation
+
+See https://github.com/ionic-team/capacitor-assets, which is invoked for our purposes here [tools/generatemobileicons.sh](../tools/generatemobileicons.sh)
+
+## Debugging mobile webviews
+
+**Android**:
+
+- Use a Chromium-based browser (Chrome/Chromium/Vivaldi/Helium/Brave)
+- Go to `chrome://inspect` or the equivalent -> from here you can inspect
+
+**iOS**: use Safari on macOS, enable Developer settings, go to the Develop menu -> from here you can inspect
+
+## Testing Universal Links (iOS) / (dynamic) App Links (Android)
+
+### Where to test Universal Links / App Links from
+
+Navigating directly to a link in a browser without clicking a link may not trigger the app to open. Do this instead.
+
+**iOS**
+
+In iOS simulators, you can add a link to a Reminder and click it to test a universal link.
+
+**Android**
+
+In Android Emulators, you can edit the website field on a new test Contact in the phone book.
+
+Note: in Android, associations are attached to our production signing key. If you load a `debug` build on a test device, that production key will not be used by default.
+So, to load/auto-verify Play associations on a test device, run a `release` build by
+
+1. Build -> Generate Signed App Bundle or APK
+2. Generate APK (select the signing) key
+3. Locate the produced .apk
+4. Drag the .apk onto the emulator to install
+
+(.aab's can't be installed this way, those are used for Google Play)
+
+### Implementation notes
+
+**Apple Universal Link caveats**
+
+- Apple only triggers a universal link when triggered via JS from a browser context, if the `window.open/window.location` call came < 1 second after a button press. Otherwise, the link opens in the same browser context. This is an issue when waiting on a non-redirecting Stripe payment method before making a JS redirect call (it takes longer than a second).
+- **Universal links never trigger on `http://localhost`, they require HTTPS.**
+- When a universal link is already loaded in a SafariViewController (after failing the time constraint mentioned above), clicking a link that goes to the same domain does not trigger the universal link. You can click & navigate to a different registered applink, however.
+
+Android seems more flexible overall, at least the second restriction does apply as stringently. It did not cause problems in testing.
+
+**InAppBrowser behavior differences**
+
+- In iOS, `openInWebview` causes URL Scheme links embedded in the opened page to show a crash page, [see this issue](https://github.com/ionic-team/capacitor/discussions/8191). Maybe I had to have "Viewer" permission on those?
+- In Android, it looks like when a in-app tab is opened (SystemBrowser), the execution of the main Capacitor webview is paused.
+- When closing a SystemBrowser using an app link, on Android, the `browserClosed` event is called before the `appUrlOpen` event. On iOS, it's the reverse.
+
+### Implementation notes
+
+# Deployment
+
+## Android
+
+1. Run `NODE_ENV={desired_env} cap sync android`
+2. In Android Studio, bump the `versionCode` and if wanted `versionName` in `build.gradle (:app)` (Cmd+Shift+O to file-search)
+3. Build the AAB via Build -> Generate Signed App Bundle ... This will build into `android/app/{flavor}/{build_type}/app-{flavor}-{buildtype}.aab`
+4. Open the [Google Play Console](https://play.google.com/console/u/0/developers/8500628513458158038/app-list)
+5. Go to Test and Release -> Create New Release
+
+### Distribution
+
+**Internal testing**
+
+Copy the web link for inviting testers from the Google Play Console.
+
+Updates can be seen, when published, in the Play Store app.
+
+Note: if you previously had a debug build installed through Android Studio, you will need to delete that before trying to update it in the Play Store. Otherwise, the update will start but fail with a nondescript error.
+
+## iOS
+
+1. In the Project navigator (first left top) -> App (left top) -> Targets -> App (left) -> Build Settings (top), go to the Versioning section, adjust "Current Project Version" and "Marketing Version" as appropriate.
+2. Go to Product -> Archive in the menu, which will rebuild the app if necessary and create a bundle/archive (to see existing archives, open the Organizer in Window)
+3. Click "Distribute app". It's also possible to first "Validate app" to make sure there are no submission errors before distributing.
+
+### Distribution
+
+**Internal testing**
+
+Continue distributign for "TestFlight Internal Only".
+
+Manage the App distribution & TestFlight settings in https://appstoreconnect.apple.com/

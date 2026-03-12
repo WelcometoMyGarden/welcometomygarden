@@ -39,7 +39,7 @@
       // Alternatively, also implement the verification thing continue URL (but
       // that's less intuitive)
       // Try reloading the user to make sure it is indeed not verified.
-      logger.debug('Reloading user because it was unverified');
+      DEV: logger.debug('Reloading user because it was unverified');
       // Prevent an infinite loop; reload will always update the reactive $user
       reloadedOnce = true;
       auth().currentUser?.reload();

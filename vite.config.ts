@@ -7,6 +7,8 @@ import envIsTrue from './src/lib/util/env-is-true';
 import { sentrySvelteKit } from '@sentry/sveltekit';
 import dynamicBuildTarget from './plugins/dynamicBuildTarget';
 import stripCSSWhereSelectors from './plugins/stripCSSWhereSelectors';
+import { readFileSync } from 'node:fs';
+import { execSync } from 'node:child_process';
 import os from 'os';
 
 /* eslint-env node */
@@ -22,9 +24,43 @@ export default defineConfig(({ command, mode }): UserConfig => {
       ? new URL(process.env.PUBLIC_SENTRY_DSN)
       : null;
 
+  const extraLocalHosts = process.env.EXTRA_LOCAL_HOSTS
+    ? process.env.EXTRA_LOCAL_HOSTS.split(',').map((s) => s.trim())
+    : [];
+
+  const dateFormat = new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'Europe/Brussels',
+    timeZoneName: 'short'
+  });
+
+  // Git will complain about dubious ownership in the e2e test runner without this
+  // NOTE: we might be able to remove this if we can manage to let the runner run without root
+  const gitWithSafeDirOption = 'git -c safe.directory="$(pwd)"';
+
+  // Finds whether there are untracked files, or uncommited files in the index
+  const commitHash = execSync(`${gitWithSafeDirOption} rev-parse --short HEAD `).toString().trim();
+  // Note: ISO 8601 format from https://git-scm.com/docs/pretty-formats#Documentation/pretty-formats.txt-cI
+  const commitDate = dateFormat.format(
+    new Date(execSync(`${gitWithSafeDirOption} log -1 --format=%cI`).toString().trim())
+  );
+  const commitMessage = execSync(`${gitWithSafeDirOption} log -1 --pretty=%B`)
+    .toString()
+    .split('\n')[0];
+
   return {
     build: {
       minify: isProductionBuild ? 'esbuild' : false
+    },
+    define: {
+      __COMMIT_HASH__: JSON.stringify(commitHash),
+      __COMMIT_DATE__: JSON.stringify(commitDate),
+      __COMMIT_MESSAGE__: JSON.stringify(commitMessage),
+      __BUILD_DATE__: JSON.stringify(dateFormat.format(new Date()))
     },
     plugins: [
       ...(sentryUrl && process.env.SENTRY_AUTH_TOKEN
@@ -43,20 +79,33 @@ export default defineConfig(({ command, mode }): UserConfig => {
       dynamicBuildTarget,
       stripCSSWhereSelectors,
       imagetools(),
-      ...(useHTTPS
+      ...(useHTTPS && !process.env.VITE_HTTPS_CERT_PATH
         ? [
             mkcert({
               // Edit your hostfile to map wtmg.dev to 127.0.0.1
               // We are not using .local here, request that domain may attempt a multicast
               // https://en.wikipedia.org/wiki/.local and take long to resolve.
-              hosts: ['localhost', '127.0.0.1', 'wtmg.dev']
+              hosts: ['localhost', '127.0.0.1', 'wtmg.dev', 'wtmg.staging', ...extraLocalHosts]
             })
           ]
         : [])
     ],
+    esbuild: {
+      // Intended to drop logger.debug calls from wtmg-production builds
+      // See https://github.com/evanw/esbuild/issues/3656#issuecomment-3996489063
+      dropLabels: mode === 'production' ? ['DEV'] : []
+    },
     server: {
-      // Includes localhost by default, check is skipped when HTTPS is used (see above)
-      allowedHosts: [os.hostname().toLocaleLowerCase()]
+      // Includes localhost by default, check is skipped when HTTPS is used (see mkcert() and below)
+      allowedHosts: [os.hostname().toLocaleLowerCase(), ...extraLocalHosts],
+      ...(useHTTPS && process.env.VITE_HTTPS_CERT_PATH
+        ? {
+            https: {
+              cert: readFileSync(process.env.VITE_HTTPS_CERT_PATH),
+              key: readFileSync(process.env.VITE_HTTPS_KEY_PATH)
+            }
+          }
+        : {})
     },
     ssr: {
       // https://vitejs.dev/guide/ssr.html#ssr-externals

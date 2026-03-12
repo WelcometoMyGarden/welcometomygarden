@@ -943,9 +943,14 @@
       "errors": {
         "loading-error": "Un problème est survenu lors du chargement de notre module de paiement. Merci d'essayer de recharger la page.",
         "systems-error": "Un problème est survenu dans notre système. Merci de contacter {supportEmail} et nous reviendrons vers vous le plus vite possible. Nous sommes désolés pour ce problème.",
-        "payment-error": "Un problème est survenu lors de votre paiement, merci de réessayer."
+        "payment-error": "Un problème est survenu lors de votre paiement, merci de réessayer.",
+        "please-try-again": "Merci de réessayer."
       },
-      "success": "Merci d’être devenu·e membre de WTMG !"
+      "success": "Merci d’être devenu·e membre de WTMG !",
+      "app-fallback": {
+        "continue-button": "Continuez",
+        "success-title": "Votre paiement a bien été effectué !"
+      }
     },
     "not-logged-in-warning": "Pour devenir Superfan, connectez-vous d'abord ou créez un compte",
     "title": "Paiement",
@@ -1083,7 +1088,8 @@
     "email-change": {
       "in-progress": "Modification de votre email en cours...",
       "success": "La modification de votre adresse email a bien été finalisée! Veuillez se connecter de nouveau"
-    }
+    },
+    "logged-out": "Vous avez été déconnecté·e"
   },
   "register": {
     "notify": {
@@ -1570,6 +1576,12 @@
       "permission-denied-faq-text": "les instructions dans notre FAQ",
       "permission-denied": "Votre navigateur bloque actuellement les notifications mobiles pour WTMG. Pour les activer, autorisez les notifications dans votre navigateur. Suivez {faqLink}. Cela ne prend que deux minutes !\"",
       "generic": "Un problème s’est produit lors de l’activation de vos notifications mobiles. Pouvez-vous actualiser cette page et réessayer de les activer ? Si cela ne fonctionne pas, merci d'envoyer les informations ci-dessous à {emailLink} afin que nous puissions vous aider. Merci !"
+    },
+    "android-channel": "Notifications messages",
+    "native-permission-denied": {
+      "title": "Activer les notifications",
+      "description": "La permission de notifications pour l'application WTMG est désactivée dans les paramètres de votre téléphone. Allez dans vos paramètres pour les activer, puis revenez à l'application.",
+      "button": "Ouvrez les paramètres"
     }
   },
   "email-preferences": {

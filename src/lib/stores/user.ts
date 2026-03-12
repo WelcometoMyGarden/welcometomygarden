@@ -1,28 +1,36 @@
-import { derived, writable } from 'svelte/store';
+import { derived, get, writable } from 'svelte/store';
 import { createChatObserver } from '$lib/api/chat';
 import { getCookie, setCookie } from '$lib/util';
-import { resolveOnUserLoaded, user } from '$lib/stores/auth';
+import { isUserLocaleLoaded, resolveOnUserLoaded, user } from '$lib/stores/auth';
 import { resetChatStores } from '$lib/stores/chat';
 import { coerceToValidLangCode } from '$lib/util/get-browser-lang';
 import { updateCommunicationLanguage } from '$lib/api/user';
 import IosNotificationPrompt from '$lib/components/Notifications/IOSPWANotificationModal.svelte';
 import {
-  createPushRegistrationObserver,
-  getCurrentNativeSubscription
+  createFirebasePushRegistrationObserver,
+  handleNotificationEnableAttempt,
+  hasEnabledNotificationsOnCurrentDevice
 } from '$lib/api/push-registrations';
 import { isOnIDevicePWA } from '$lib/util/push-registrations';
 import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
-import { resetPushRegistrationStores } from '$lib/stores/pushRegistrations';
+import {
+  loadedPushRegistrations,
+  resetPushRegistrationStores
+} from '$lib/stores/pushRegistrations';
 import { locale } from 'svelte-i18n';
-import { handledOpenFromIOSPWA, rootModal } from './app';
+import { handledOpenFromIOSPWA, localeIsLoaded, rootModal } from './app';
 import { createAuthObserver } from '$lib/api/auth';
 import { invalidateAll } from '$app/navigation';
 import logger from '$lib/util/logger';
+import { getCurrentWebPushSubscription } from '$lib/api/push-registrations/webpush';
+import { isNative } from '$lib/util/uaInfo';
+import routes, { getCurrentRoute } from '$lib/routes';
+import { setupAndroidChannels } from '$lib/api/push-registrations/native';
 
 export const updatingMailPreferences = writable(false);
 export const updatingSavedGardens = writable(false);
 
-let hasShownIOSNotificationsModal = false;
+let isNotificationInitDone = false;
 
 type MaybeUnsubscriberFunc = (() => void) | undefined;
 
@@ -31,6 +39,11 @@ let unsubscribeFromChatObserver: MaybeUnsubscriberFunc;
 let unsubscribeFromPushRegistrationObserver: MaybeUnsubscriberFunc;
 
 const userLocale = derived([user, locale], ([$user, $locale]) => [$user, $locale] as const);
+
+const pushLocale = derived(
+  [loadedPushRegistrations, localeIsLoaded],
+  ([$pushLoaded, $localeLoaded]) => $pushLoaded && $localeLoaded
+);
 
 /**
  * Firebase Auth observers should have been
@@ -51,13 +64,15 @@ export const initializeUser = async () => {
     // Initialize chat & push registrations observers if needed, that is
     // if the user logged in and has a verified email, or if the user has changed
     if (!!latestUser) {
+      // Subscribe to the push registration observer, if not initialized yet
+      // We're not making this dependent on email verification status, so new accounts
+      // get the prompt immediately.
+      unsubscribeFromPushRegistrationObserver =
+        unsubscribeFromPushRegistrationObserver ?? createFirebasePushRegistrationObserver();
       if (latestUser.emailVerified) {
-        // Without a verified email: no access to messages, no garden, no chats
+        // Without a verified email: no access to viewing or sending chats or messages, can't create a garden
         // Subscribe to the chat observer, if not initialized yet
         unsubscribeFromChatObserver = unsubscribeFromChatObserver ?? createChatObserver();
-        // Subscribe to the push registration observer, if not initialized yet
-        unsubscribeFromPushRegistrationObserver =
-          unsubscribeFromPushRegistrationObserver ?? createPushRegistrationObserver();
       } else if (isOnIDevicePWA()) {
         // If the user does not have a verified email, we unblock the loading of the page
         // by marking the open from iOS PWA as handled, since they can not do anything
@@ -83,26 +98,48 @@ export const initializeUser = async () => {
         resetPushRegistrationStores();
       }
     }
+  });
 
-    // After user login, detect startup on PWA iOS which doesn't have pre-existing push
-    // registrations
+  pushLocale.subscribe(async (loaded) => {
+    // We're also waiting for locale load here, because in the native notification setup
+    // we use localized values for Android Channel Names
+
+    // Push registrations can only be loaded after user data is available (see above)
+    if (!loaded) {
+      return;
+    }
+
+    // Upsert Android channels based on the new locale info
+    setupAndroidChannels();
+
+    // After user login, detect startup on PWA iOS or native which doesn't have a pre-existing push registration
     // TODO: check if this loads after loading pre-existing push registrations?
     // TODO: make this influence dismissal somehow?
     const notificationsDismissed = getCookie(NOTIFICATION_PROMPT_DISMISSED_COOKIE);
     if (
       // Prevent the modal from being shown twice in the same boot session (we might get multiple user updates)
-      !hasShownIOSNotificationsModal &&
+      !isNotificationInitDone &&
       // We're logged in...
-      latestUser !== null &&
-      // ... the browser has no native sub registered (but support exists)
-      (await getCurrentNativeSubscription()) === null &&
-      // ... the user hasn't dismissed notifications
+      get(user) !== null &&
+      // ... the user hasn't dismissed notifications in the chat
       notificationsDismissed !== 'true' &&
-      // ... we're on the PWA of a supporting iOS version (preventing this from appearing on Android/... browsers)
-      isOnIDevicePWA()
+      // ... push notifs are not enabled yet
+      !(await hasEnabledNotificationsOnCurrentDevice())
     ) {
-      rootModal.set(IosNotificationPrompt);
-      hasShownIOSNotificationsModal = true;
+      if (isNative) {
+        // On native platforms with built-in permission prompts (or no prompts), just immediately prompt for permission on user load
+        handleNotificationEnableAttempt(false);
+      } else if (
+        // On iOS web PWAs, prompt on user load (for Android Chrome*, which also support push without installing the app, we only prompt
+        // in the chat)
+        isOnIDevicePWA() &&
+        //  when the browser has no web push sub registered (but support exists)
+        (await getCurrentWebPushSubscription()) === null
+      ) {
+        rootModal.set(IosNotificationPrompt);
+      }
+
+      isNotificationInitDone = true;
     }
   });
 
@@ -170,22 +207,36 @@ export const initializeUser = async () => {
         if (latestLocale !== latestUser.communicationLanguage) {
           // If the locale store isn't up-to-date with the user's data,
           // change it to match the user's language (load the user)
-          logger.debug(`Loading locale ${latestUser.communicationLanguage} from the user's data`);
-          locale.set(latestUser.communicationLanguage);
-          // Redirect if needed
-          invalidateAll();
+          DEV: logger.debug(
+            `Loading locale ${latestUser.communicationLanguage} from the user's data to overwrite local ${latestLocale}`
+          );
+          // await is important here, otherwise the isUserLocaleLoaded.set(true) below will be triggered
+          // before the locale is fully updated
+          await locale.set(latestUser.communicationLanguage);
+          if (getCurrentRoute() === routes.SIGN_IN) {
+            // onIdTokenChanged is responsible for redirection to the user's locale after login
+            DEV: logger.debug('Skipping locale invalidation redirect after login');
+          } else {
+            // Redirect based on the new locale
+            invalidateAll();
+          }
         }
       } else {
-        // The comm language does not exist yet
+        // The users' comm language does not exist yet.
         // Set the user's communication language to the current locale, if there is none set yet
         // This will trigger another `userLocale` update, which will set the related cookie.
         // but for the rest it should be a no-op.
-        logger.debug(
+        DEV: logger.debug(
           `Initializing the empty locale in the user data to the current locale ${latestLocale}`
         );
         await updateCommunicationLanguage(latestLocale);
       }
+      // In any case, set that the user's locale was loaded
+      if (!get(isUserLocaleLoaded)) {
+        DEV: logger.debug('Marking the user locale as loaded to', get(locale));
+        isUserLocaleLoaded.set(true);
+      }
     }
   });
-  logger.debug('User init setup done');
+  DEV: logger.debug('User init setup done');
 };

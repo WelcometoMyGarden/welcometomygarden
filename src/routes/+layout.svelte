@@ -16,15 +16,60 @@
   import Meta from '$lib/components/SEO/Meta.svelte';
   import { SUPPORTED_LANGUAGES } from '$lib/types/general.js';
   import { urlPathPrefix } from '$lib/util/translation-helpers';
-  import { activeUnlocalizedPath, activeRootPath } from '$lib/routes';
+  import routes, { activeUnlocalizedPath, activeRootPath, getBaseRouteIn } from '$lib/routes';
   import { PUBLIC_WTMG_HOST } from '$env/static/public';
   import { initializeUser } from '$lib/stores/user';
   import { staticAppHasLoaded, appHasLoaded, coercedLocale, rootModal } from '$lib/stores/app';
   import { keyboardEvent } from '$lib/stores/keyboardEvent';
   import { isFullscreen } from '$lib/stores/fullscreen';
+  import { Capacitor } from '@capacitor/core';
+  import { SplashScreen } from '@capacitor/splash-screen';
+  import { initializeNativePush } from '$lib/api/push-registrations/native.js';
   import logger from '$lib/util/logger.js';
+  import { CapacitorSwipeBackPlugin } from '@notnotsamuel/capacitor-swipe-back';
+  import { App as CapacitorApp, type URLOpenListenerEvent } from '@capacitor/app';
+  import { goto } from '$lib/util/navigate.js';
+  import { isMobile } from '$lib/stores/ui.svelte.js';
+  import { isNative } from '$lib/util/uaInfo.js';
   interface Props {
     children?: import('svelte').Snippet;
+  }
+
+  if (Capacitor.isNativePlatform()) {
+    initializeNativePush();
+    if (Capacitor.getPlatform() === 'android') {
+      // TODO: remove listener on cleanup? CapacitorApp.removeAllListeners("backButton")
+      CapacitorApp.addListener('backButton', ({ canGoBack }) => {
+        if (!canGoBack) {
+          CapacitorApp.exitApp();
+        } else {
+          window.history.back();
+        }
+      });
+    } else {
+      CapacitorSwipeBackPlugin.enable().then(() => {
+        DEV: logger.debug('Swipe Back plugin enabled');
+      });
+    }
+
+    CapacitorApp.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+      try {
+        let { pathname, search, hash } = new URL(event.url);
+        let pathPart = `${pathname}${search}${hash}`;
+        if (pathPart) {
+          let baseRoute = getBaseRouteIn(pathname);
+          if (baseRoute === routes.APP_PAYMENT) {
+            logger.warn('TODO Unhandled');
+            return;
+          }
+          goto(pathPart);
+        }
+      } catch (e) {
+        logger.error(`Error parsing appUrl open ${event.url}`);
+      }
+    });
+  } else {
+    DEV: logger.debug('Not a native platform, skipping native push');
   }
 
   let { children }: Props = $props();
@@ -61,6 +106,24 @@
   onMount(() => {
     return Sentry.startSpan({ name: 'Root Layout Load', op: 'app.load' }, async () => {
       logger.log('Mounting root layout');
+      if (Capacitor.isNativePlatform()) {
+        await SplashScreen.hide();
+        // for (let i = 0; i < 6; i++) {
+        // await StatusBar.setOverlaysWebView({ overlay: true })
+        // await SafeArea.enable({
+        //   config: {
+        //     // TODO: not working for now
+        //     // https://github.com/capacitor-community/safe-area/issues/55
+        //     customColorsForSystemBars: true,
+        //     // statusBarColor: '#00000000', // transparent
+        //     statusBarContent: 'dark',
+        //     // navigationBarColor: '#00000000', // transparent
+        //     navigationBarContent: 'dark'
+        //   }
+        // }).then(() => console.debug('Capacitor: safe area values set'));
+        // await (new Promise(resolve => setTimeout(resolve, 50)));
+        // }
+      }
 
       vh = `${window.innerHeight * 0.01}px`;
 
@@ -109,6 +172,26 @@
   };
 
   let appContainer: HTMLDivElement = $state();
+
+  // Prevent zooming on mobile/touch platforms
+  $effect(() => {
+    const mobileExtraViewportRules = ',minimum-scale=1.0,maximum-scale=1.0,user-scalable=no';
+    const viewport = document.head.querySelector('[name="viewport"]');
+    const viewportContent = viewport?.getAttribute('content');
+    if (!viewport || !viewportContent) {
+      return;
+    }
+    if (isMobile() || isNative) {
+      // When switching to a mobile viewport, add the statements
+      if (!viewportContent.includes(mobileExtraViewportRules))
+        viewport.setAttribute('content', viewportContent + mobileExtraViewportRules);
+    } else {
+      // When switching to a desktop viewport, remove the statements
+      if (viewportContent.includes(mobileExtraViewportRules)) {
+        viewport.setAttribute('content', viewportContent.replace(mobileExtraViewportRules, ''));
+      }
+    }
+  });
 
   // Scroll to 0,0 on every navigation
   onNavigate(() => {
@@ -214,6 +297,9 @@
   class="app active-{$activeRootPath} active-route-{page?.route?.id} locale-{$coercedLocale}"
   class:fullscreen={$isFullscreen}
   class:error-banner={false}
+  class:native={Capacitor.isNativePlatform()}
+  class:ios={Capacitor.getPlatform() === 'ios'}
+  class:android={Capacitor.getPlatform() === 'android'}
   style="--vh:{vh}"
   bind:this={appContainer}
 >
@@ -278,7 +364,8 @@
      */
   }
 
-  .app.active-routeplanner {
+  .app.active-routeplanner,
+  .app.active-app-payment {
     padding-top: 0;
   }
 
@@ -352,6 +439,12 @@
        */
       height: calc(var(--vh, 1vh) * 100 - var(--height-mobile-nav));
       overflow-x: hidden;
+    }
+
+    /* Add a general safe inset padding on native, except on the map & chat
+      (they don't need it, or have their own safe area handling) */
+    .app.native.ios:not(.active-explore):not(.active-chat) {
+      padding-top: env(safe-area-inset-top, 0px);
     }
 
     /* On the iOS PWA, we bump the height of the nav (and entire app) with
