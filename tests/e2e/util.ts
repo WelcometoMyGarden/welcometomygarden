@@ -6,6 +6,10 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { auth, db } from './api/firebase';
+import { USERS, USERS_PRIVATE } from '$lib/api/collections';
+import type { DocumentReference } from 'firebase-admin/firestore';
+import type { UserPrivate, UserPublic } from '$lib/models/User';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 // Read from ".env" file.
 dotenv.config({ path: path.resolve(__dirname, '.env'), quiet: true });
@@ -101,64 +105,31 @@ export function t(locale: string, key: string, vars?: Record<string, string>) {
 }
 
 /**
- * TODO: refactor using direct firebase admin APIs (./api/firebase.ts)
  * @param param0
  */
-export async function makeSuperfan({
-  context,
-  firstName,
-  isMobile
-}: {
-  context: BrowserContext;
-  firstName: string;
-  isMobile: boolean;
-}) {
-  // open firebase admin to make this one a superfan
-  const firebaseAdminPage = await context.newPage();
-  await firebaseAdminPage.goto('http://localhost:4001/');
-  // Open "Authentication"
-  await firebaseAdminPage.getByRole('link', { name: 'Go to auth emulator' }).click();
-  // Locate the user ID of robot2
-  await firebaseAdminPage
-    .locator('tr')
-    .filter({ hasText: firstName })
-    .getByRole('cell')
-    .nth(4)
-    .click({
-      // Select text
-      clickCount: 3
-    });
-
-  // Copy user id
-  await firebaseAdminPage.locator('body').press('ControlOrMeta+c');
-  // Go to the Firestore view
-  await firebaseAdminPage.getByRole('link', { name: 'Firestore' }).click();
-  // Users
-  await firebaseAdminPage.getByLabel('View contents of collection with id: "users"').click();
-  if (isMobile) {
-    await firebaseAdminPage.getByRole('button', { name: 'home' }).hover();
-    await firebaseAdminPage.getByRole('button', { name: 'edit', exact: true }).click();
-  } else {
-    // Focuses the path field (I tried other methods from codegen, but they don't work and probably rely on some JS hover somewhere)
-    await firebaseAdminPage.getByText('homeusers').click();
-  }
-  // Grant clipboard permissions to browser context
-  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
-  const handle = await firebaseAdminPage.evaluateHandle(() => navigator.clipboard.readText());
-  // For some reason the clipboard includes spaces
-  const copiedUid = (await handle.jsonValue()).trim();
-  await firebaseAdminPage.getByLabel('Document path').fill(`/users/${copiedUid}`);
-  // open
-  await firebaseAdminPage.getByLabel('Document path').press('Enter');
-  // make superfan
-  await firebaseAdminPage.getByRole('button', { name: 'add Add field' }).click();
-  await firebaseAdminPage.getByLabel('Field', { exact: true }).fill('superfan');
-  await firebaseAdminPage.getByLabel('Field', { exact: true }).press('Tab');
-  await firebaseAdminPage.getByLabel('Type').selectOption('boolean');
-  await firebaseAdminPage.getByLabel('Type').press('Tab');
-  await firebaseAdminPage.getByRole('button', { name: 'Save' }).click();
-  // Wait for the change to take effect
-  await firebaseAdminPage.waitForTimeout(100);
+export async function createFakePaymentData({ email }: { email: string }) {
+  const authUser = await auth.getUserByEmail(email);
+  const nowS = Math.floor(new Date().getTime() / 1000);
+  const uid = authUser.uid;
+  await Promise.all([
+    (db.collection(USERS_PRIVATE).doc(uid) as DocumentReference<UserPrivate, UserPrivate>).update({
+      stripeCustomerId: `cus_bogus_${email}`,
+      stripeSubscription: {
+        status: 'active',
+        latestInvoiceStatus: 'paid',
+        id: `sub_bogus_${email}`,
+        // If needed, a real price could be loaded from api/.env.local using the same method as in ./api/stripe.ts
+        priceId: 'price_bogus',
+        startDate: nowS,
+        currentPeriodStart: nowS,
+        currentPeriodEnd: nowS + 365 * 24 * 3600,
+        collectionMethod: 'charge_automatically'
+      }
+    }),
+    (db.collection(USERS).doc(uid) as DocumentReference<UserPublic, UserPublic>).update({
+      superfan: true
+    })
+  ]);
 }
 
 export async function payOnStripeWithBancontactRedirect({
@@ -173,14 +144,18 @@ export async function payOnStripeWithBancontactRedirect({
 }) {
   // Fill in the Stripe payment details
   await page
-    .locator('iframe[src^="https://js.stripe.com/v3/elements-inner-payment"]')
+    // Note: don't try to select for iframe[src^="https://js.stripe.com"], Stripe injects many
+    // different iframes with the same start
+    .locator('iframe[src^="https://js.stripe.com/v3/elements-inner-accessory-target"]')
     .contentFrame()
     // .getByPlaceholder(l('first-and-last')) // it seems Stripe changed this?
     // .getByRole('textbox', { name: l('first-and-last') }) // it seems they changd it again
     .getByRole('button', { name: 'Bancontact' })
     // .fill('Test ga'); // note: this should be properly prefilled now
     .click();
+
   await page.getByRole('button', { name: l('pay-now') }).click();
+
   await page.getByRole('link', { name: 'Authorize Test Payment' }).click();
 }
 
@@ -209,22 +184,23 @@ export async function pretendToHavePaidWithRedirect({ page }: { page: Page }) {
 
 export async function pay({
   page,
-  context,
   useStripe,
-  firstName,
-  isMobile,
+  email,
   l
 }: {
   context: BrowserContext;
   page: Page;
   useStripe: boolean;
-  firstName: string;
+  email: string;
   isMobile: boolean;
   l: (key: string) => string;
 }) {
   if (!useStripe) {
-    await makeSuperfan({ context, firstName, isMobile });
-    await pretendToHavePaidWithRedirect({ page });
+    await createFakePaymentData({ email });
+    // Note: with the current code, the page should react
+    // to the user becoming a member. So the redirect is not required any longer.
+    //
+    // await pretendToHavePaidWithRedirect({ page });
     await page.bringToFront();
   } else {
     await payOnStripeWithBancontactRedirect({ page, l });

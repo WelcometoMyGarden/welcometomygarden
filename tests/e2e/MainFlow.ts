@@ -187,7 +187,7 @@ export class MainFlowTest extends GenericFlow {
       page: page,
       context,
       useStripe: this.useStripe,
-      firstName: 'Robot2',
+      email,
       isMobile: this.isMobile,
       l: this.l.bind(this)
     });
