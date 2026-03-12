@@ -3375,29 +3375,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sveltejs/kit@npm:2.50.2":
-  version: 2.50.2
-  resolution: "@sveltejs/kit@npm:2.50.2"
+"@sveltejs/kit@npm:2.53.3":
+  version: 2.53.3
+  resolution: "@sveltejs/kit@npm:2.53.3"
   dependencies:
     "@standard-schema/spec": "npm:^1.0.0"
     "@sveltejs/acorn-typescript": "npm:^1.0.5"
     "@types/cookie": "npm:^0.6.0"
     acorn: "npm:^8.14.1"
     cookie: "npm:^0.6.0"
-    devalue: "npm:^5.6.2"
+    devalue: "npm:^5.6.3"
     esm-env: "npm:^1.2.2"
     kleur: "npm:^4.1.5"
     magic-string: "npm:^0.30.5"
     mrmime: "npm:^2.0.0"
-    sade: "npm:^1.8.1"
     set-cookie-parser: "npm:^3.0.0"
     sirv: "npm:^3.0.0"
   peerDependencies:
     "@opentelemetry/api": ^1.0.0
-    "@sveltejs/vite-plugin-svelte": ^3.0.0 || ^4.0.0-next.1 || ^5.0.0 || ^6.0.0-next.0
+    "@sveltejs/vite-plugin-svelte": ^3.0.0 || ^4.0.0-next.1 || ^5.0.0 || ^6.0.0-next.0 || ^7.0.0
     svelte: ^4.0.0 || ^5.0.0-next.0
     typescript: ^5.3.3
-    vite: ^5.0.3 || ^6.0.0 || ^7.0.0-beta.0
+    vite: ^5.0.3 || ^6.0.0 || ^7.0.0-beta.0 || ^8.0.0
   peerDependenciesMeta:
     "@opentelemetry/api":
       optional: true
@@ -3405,7 +3404,7 @@ __metadata:
       optional: true
   bin:
     svelte-kit: svelte-kit.js
-  checksum: 10/5e0984be8be5bb1e89c66279367ea92b90390d6750e953ff5862fd140505458f898dfef0475557978c4366eca167dfabf7a532e28c0550313af2146ee7e78b27
+  checksum: 10/f9d4e15c94bdfe83a39477fdf5c91ed29cc86e85fc601a41533f6ff55ae199ebcf0cbe9dcbc9de4151b4697bd6a0500d6f6bf69239563ab1da7891bde1aeaa4d
   languageName: node
   linkType: hard
 
@@ -7122,13 +7121,6 @@ __metadata:
   version: 2.0.3
   resolution: "detect-libc@npm:2.0.3"
   checksum: 10/b4ea018d623e077bd395f168a9e81db77370dde36a5b01d067f2ad7989924a81d31cb547ff764acb2aa25d50bb7fdde0b0a93bec02212b0cb430621623246d39
-  languageName: node
-  linkType: hard
-
-"devalue@npm:^5.6.2":
-  version: 5.6.2
-  resolution: "devalue@npm:5.6.2"
-  checksum: 10/734b57d917e45b534007e3b5055c031e4e3fcf3c3a44e1b4177e998f30e077e4d280b59abe0cc0ca9055a18e90266e31f578129e83e105e63e9680998a3c2a8a
   languageName: node
   linkType: hard
 
@@ -13155,7 +13147,7 @@ __metadata:
     "@stripe/stripe-js": "npm:^8.8.0"
     "@supabase/supabase-js": "npm:^2.94.1"
     "@sveltejs/adapter-static": "npm:^3.0.10"
-    "@sveltejs/kit": "npm:2.50.2"
+    "@sveltejs/kit": "npm:2.53.3"
     "@sveltejs/vite-plugin-svelte": "npm:^6.2.4"
     "@tmcw/togeojson": "npm:^7.1.2"
     "@turf/turf": "npm:^7.3.3"
