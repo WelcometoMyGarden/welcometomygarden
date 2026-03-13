@@ -3,6 +3,11 @@ import { locale, type _ } from 'svelte-i18n';
 // Conditional inference, to extract the MessageFormatter type of the formatter store
 type Flatten<T> = T extends Readable<infer U> ? U : T;
 export type MessageFormatter = Flatten<typeof _>;
+export type TranslationOptions = Parameters<MessageFormatter>[1];
+export type LocalizedMessage = {
+  key: Parameters<MessageFormatter>[0];
+  options?: TranslationOptions;
+};
 import { UTM_MEMBERSHIP_CAMPAIGN, WTMG_BLOG_BASE_URL } from '$lib/constants';
 import createUrl from './create-url';
 import { goto, isRelativeURL } from './navigate';

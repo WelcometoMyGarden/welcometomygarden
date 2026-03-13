@@ -1,8 +1,10 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
+  import { _ } from 'svelte-i18n';
   import Icon from './Icon.svelte';
   import { crossIcon } from '$lib/images/icons';
+  import type { LocalizedMessage } from '$lib/util/translation-helpers';
   interface Props {
     id?: null | string;
     name: null | string;
@@ -10,7 +12,7 @@
     placeholder?: string;
     required?: boolean;
     value?: string;
-    error?: string;
+    error?: string | LocalizedMessage | null;
     minLength?: null | number;
     maxLength?: null | number;
     testPattern?: null | string;
@@ -46,6 +48,9 @@
   }: Props = $props();
 
   let inputElement: HTMLInputElement = $state();
+  let errorMessage = $derived(
+    typeof error === 'string' ? error : error ? $_(error.key, error.options) : ''
+  );
   onMount(() => {
     inputElement.type = type;
   });
@@ -82,8 +87,8 @@
   {/if}
   {#if !hideError}
     <div class="error">
-      {#if error}
-        <p class="error-message">{error}</p>
+      {#if errorMessage}
+        <p class="error-message">{errorMessage}</p>
       {/if}
     </div>
   {/if}

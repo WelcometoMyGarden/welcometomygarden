@@ -7,19 +7,32 @@
   import { requestPasswordReset } from '$lib/api/functions';
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { formEmailValue } from '$lib/stores/auth';
+  import validateEmail from '$lib/util/validate-email';
+  import type { LocalizedMessage } from '$lib/util/translation-helpers';
   import * as Sentry from '@sentry/sveltekit';
 
   let done = $state(false);
   let isSending = $state(false);
+  let formError = $state<LocalizedMessage | null>(null);
+
   const submit = async () => {
+    formError = null;
+    if (!$formEmailValue?.trim()) {
+      formError = { key: 'register.validate.email' };
+      return;
+    }
+    if (!validateEmail($formEmailValue)) {
+      formError = { key: 'register.validate.email' };
+      return;
+    }
     isSending = true;
     try {
       await requestPasswordReset($formEmailValue);
       done = true;
-      isSending = false;
     } catch (err) {
       Sentry.captureException(err, { extra: { context: 'Requesting password reset' } });
       done = true;
+    } finally {
       isSending = false;
     }
   };
@@ -43,6 +56,7 @@
       {#if !done}
         <p class="description">{$_('request-password-reset.description')}</p>
         <form
+          novalidate
           transition:fade={{ duration: transitionDuration }}
           onsubmit={(e) => {
             e.preventDefault();
@@ -59,6 +73,11 @@
               id="email"
               bind:value={$formEmailValue}
             />
+          </div>
+          <div class="hint">
+            {#if formError}
+              <p transition:fade class="hint danger">{$_(formError.key, formError.options)}</p>
+            {/if}
           </div>
           <div class="submit">
             <Button type="submit" medium disabled={!$formEmailValue || isSending}>
@@ -88,6 +107,9 @@
   }
   form > div {
     margin-bottom: 1.2rem;
+  }
+  .hint {
+    margin-bottom: 0;
   }
   .submit {
     text-align: center;
