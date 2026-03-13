@@ -13,7 +13,12 @@ export const uaInfo = browser
   ? (UAParser(navigator.userAgent).withFeatureCheck() as UAParser.IResult)
   : undefined;
 
-export const isIDeviceOS = (osName: string) => /iOS|iPadOS/.test(osName);
+/**
+ * @param osName note: native iOS has been reported and saved as 'ios',
+ *       web push has been reported and saved as 'iOS', therefore we use a case-insensitive match
+ * @returns
+ */
+export const isIDeviceOS = (osName: string) => /iOS|iPadOS/i.test(osName);
 
 export const iDeviceInfo = browser
   ? (() => {

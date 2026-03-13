@@ -144,7 +144,7 @@
       (hasNotificationSupportNow() || canHaveWebPushSupport() || !isMobileDevice) &&
       // Only show if the user hasn't just seen it
       (!cookie ||
-        // The cookie == "true" means it was dismissed for 6 monthts
+        // The cookie == "true" means it was dismissed for 6 months
         (cookie != 'true' &&
           // Otherwise, it must hold a creation timestamp
           new Date().getTime() - new Date(cookie).getTime() >

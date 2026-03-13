@@ -17,7 +17,7 @@ import {
 } from '$lib/util/push-registrations';
 import removeUndefined from '$lib/util/remove-undefined';
 import { isNative } from '$lib/util/uaInfo';
-import { Device, type DeviceInfo } from '@capacitor/device';
+import { Device } from '@capacitor/device';
 import {
   type ActionPerformed,
   type PushNotificationSchema,

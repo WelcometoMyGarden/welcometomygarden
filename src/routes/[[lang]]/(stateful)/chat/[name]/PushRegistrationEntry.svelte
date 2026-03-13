@@ -96,19 +96,15 @@
           !isRegisteredInFirebase)
     );
 
-  // Note: this relies on the CURRENT device. It should accept
+  // Note: both these expressions can not refer to the current device,
+  // since they need to work for any given other device UA too.
   let isIDevice = $derived(isIDeviceOS(os ?? ''));
+  let isAndroid = $derived(capitalize(os ?? '') === 'Android');
 </script>
 
 <div class="entry">
   <div class="header">
-    <Icon
-      icon={isIDevice
-        ? appleIcon
-        : capitalize(os ?? '') === 'Android'
-          ? androidIcon
-          : mobileDeviceIcon}
-    />
+    <Icon icon={isIDevice ? appleIcon : isAndroid ? androidIcon : mobileDeviceIcon} />
     <div class="copy">
       <!-- Don't show "Safari on" on iDevices or native devices,
        since people might be confused if they added with Chrome/FF on iOS + people are not interested in webview browsers -->
