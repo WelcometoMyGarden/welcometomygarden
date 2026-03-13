@@ -19,7 +19,7 @@
   import { anchorText } from '$lib/util/translation-helpers';
   import * as Sentry from '@sentry/sveltekit';
   import type { SuperfanLevelData } from '$lib/components/Membership/superfan-levels';
-  import LoadingPage from './LoadingPage.svelte';
+  import LoadingSection from './LoadingSection.svelte';
 
   type Props = {
     payment_intent_client_secret: string;
@@ -212,7 +212,7 @@
       payment_intent_client_secret && (redirect_status === 'succeeded' || redirect_status == 'pending')
     but with superfan status listening, we want to show the loading indicator instead.
     -->
-  <LoadingPage />
+  <LoadingSection />
 {/if}
 
 <style>

@@ -7,7 +7,7 @@
   import { stripStripeParams } from '$routes/[[lang]]/(stateful)/become-member/payment/util';
   import { Button } from '$lib/components/UI';
   import PaddedSection from '$lib/components/Marketing/PaddedSection.svelte';
-  import LoadingPage from '$routes/[[lang]]/(stateful)/become-member/LoadingPage.svelte';
+  import LoadingSection from '$routes/[[lang]]/(stateful)/become-member/LoadingSection.svelte';
   import { goto, toRelativePart } from '$lib/util/navigate';
 
   // note: on iOS, it doesn't seem to be possible to inspect the in-app browser modal via Safari
@@ -123,7 +123,7 @@
       </div>
     </PaddedSection>
   {:else}
-    <LoadingPage />
+    <LoadingSection />
   {/if}
 {:else if slug && name && email && payment_intent_client_secret && returnUrl}
   <PaymentPage

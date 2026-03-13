@@ -38,7 +38,8 @@
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { App as CapacitorApp, type URLOpenListenerEvent } from '@capacitor/app';
   import { Capacitor } from '@capacitor/core';
-  import LoadingPage from '../LoadingPage.svelte';
+  import LoadingSection from '../LoadingSection.svelte';
+  import LevelSummary from './LevelSummary.svelte';
 
   // TODO: if you subscribe & unsubscribe in 1 session without refreshing, no new sub will be auto-generated
   // we could fix this by detecting changes to the user (if we go from subscribed -> unsubscribed)
@@ -452,7 +453,16 @@
       </PaddedSection>
     {:else}
       <!-- The Stripe info (client secret) is still loading in this case -->
-      <LoadingPage />
+      <!--
+        Show the selectedLevel summary when it is available on non-native payment pages
+        This will be replaced by the same component in PaymentPage once the sub is created.
+       -->
+      {#if selectedLevel}
+        <PaddedSection className="app-payment-summary-section summary-section" desktopOnly>
+          <LevelSummary level={selectedLevel} />
+        </PaddedSection>
+      {/if}
+      <LoadingSection />
     {/if}
   {:else}
     <PaddedSection topMargin={false}>
@@ -464,5 +474,5 @@
   {@render children?.()}
 {:else}
   <!-- We're on native, show that we're loading. The InAppBrowser will be opened over this. -->
-  <LoadingPage />
+  <LoadingSection />
 {/if}

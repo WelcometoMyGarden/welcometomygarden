@@ -11,7 +11,7 @@
 <style>
   .container {
     flex-grow: 1;
-    height: 60vh;
+    height: 44vh;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -24,11 +24,12 @@
   }
 
   @media (max-width: 700px) {
+    /* Make the parent of this component flex on mobile,
+        - so we can grow the loader container to the end of the page and not beyond (on mobile, native or not)
+        - on the native payment layout, this makes it expand to a full-screen loader */
     :global(.marketing-wrapper) {
-      height: 100%;
-    }
-
-    .container {
+      display: flex;
+      flex-direction: column;
       height: 100%;
     }
   }
