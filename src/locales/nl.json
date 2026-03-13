@@ -665,7 +665,7 @@
         "are-you-sure": "<p>De chatberichten die je verzonden of ontvangen hebt zullen nog steeds zichtbaar zijn voor de tegenpartijen in die chats, alsook je voornaam.</p><strong>Deze actie kan niet ongedaan gemaakt worden!</strong></p>\n<p>Als je enkel je tuin wilt verbergen voor reizigers, verlaat dan deze popup en klik op \"{unlist}\".</p>",
         "prompt": "Verwijder alles",
         "errors": {
-          "wrong-verification": "Did you type \"{prompt}\" into the field above?"
+          "wrong-verification": "Heb je \"{prompt}\" in het veld hierboven getypt?"
         },
         "delete-field-label": "Typ \"{prompt}\"",
         "title": "Ben je zeker?",
