@@ -76,6 +76,67 @@ const seed = async () => {
         email: 'admin@slowby.travel'
       },
       { firstName: 'Admin', lastName: 'Slowby', countryCode: 'BE' }
+    ),
+    // Extra gardens in Europe (Innsbruck, Munich, Vienna, Zurich, Lyon)
+    createNewUser(
+      { email: 'innsbruck@slowby.travel' },
+      { firstName: 'Anna', lastName: 'Berg', countryCode: 'AT' }
+    ).then((user) =>
+      createGarden(
+        { latitude: 47.2692, longitude: 11.4041 },
+        user,
+        { description: 'Small garden near Innsbruck old town. Quiet, with view of the Nordkette.' }
+      )
+    ),
+    createNewUser(
+      { email: 'munich@slowby.travel' },
+      { firstName: 'Thomas', lastName: 'Müller', countryCode: 'DE' }
+    ).then((user) =>
+      createGarden(
+        { latitude: 48.1351, longitude: 11.582 },
+        user,
+        { description: 'Garden in Munich. Easy reach of S-Bahn. Bike available for guests.' }
+      )
+    ),
+    createNewUser(
+      { email: 'vienna@slowby.travel' },
+      { firstName: 'Elena', lastName: 'Hofmann', countryCode: 'AT' }
+    ).then((user) =>
+      createGarden(
+        { latitude: 48.2082, longitude: 16.3738 },
+        user,
+        { description: 'Green spot in Vienna. Tram stop nearby. Welcome, slow travellers!' }
+      )
+    ),
+    createNewUser(
+      { email: 'zurich@slowby.travel' },
+      { firstName: 'Marco', lastName: 'Steiner', countryCode: 'CH' }
+    ).then((user) =>
+      createGarden(
+        { latitude: 47.3769, longitude: 8.5417 },
+        user,
+        { description: 'Garden by the lake. Quiet neighbourhood, 15 min to Hauptbahnhof.' }
+      )
+    ),
+    createNewUser(
+      { email: 'lyon@slowby.travel' },
+      { firstName: 'Claire', lastName: 'Bernard', countryCode: 'FR' }
+    ).then((user) =>
+      createGarden(
+        { latitude: 45.764, longitude: 4.8357 },
+        user,
+        { description: 'Jardin à Lyon. Proche des quais du Rhône. Une place pour tente ou van.' }
+      )
+    ),
+    createNewUser(
+      { email: 'florence@slowby.travel' },
+      { firstName: 'Giulia', lastName: 'Rossi', countryCode: 'IT' }
+    ).then((user) =>
+      createGarden(
+        { latitude: 43.7696, longitude: 11.2558 },
+        user,
+        { description: 'Piccolo giardino a Firenze, a pochi minuti dal centro. Benvenuti viaggiatori lenti!' }
+      )
     )
   ]);
 
