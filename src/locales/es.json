@@ -1119,7 +1119,8 @@
         "from-list": "Por favor elige un país de la lista. Esto nos ayuda a centrar el mapa en tu lugar de origen."
       },
       "consent": "Debes aceptar los términos de <span class=\"notranslate\">Welcome To My Garden</span> si deseas utilizar la plataforma.",
-      "reference": "Asegúrate de que tu respuesta tenga como máximo 3000 caracteres"
+      "reference": "Asegúrate de que tu respuesta tenga como máximo 3000 caracteres",
+      "email-suggestion": "Querías decir"
     },
     "notify": {
       "successful": "¡Tu cuenta ha sido creada con éxito! Por favor revisa tu correo electrónico para verificar su cuenta.",

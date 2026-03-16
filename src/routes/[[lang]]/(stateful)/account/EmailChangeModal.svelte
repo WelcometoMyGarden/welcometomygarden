@@ -8,6 +8,7 @@
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import type { LocalizedMessage } from '$lib/util/translation-helpers';
+  import EmailInput from '$lib/components/UI/EmailInput.svelte';
 
   interface Props {
     show?: boolean;
@@ -26,6 +27,7 @@
   let isValidEmail = $derived(validateEmail(newEmail));
 
   const submitEmailChange = async () => {
+    // TODO: use generalized email validation like in other components
     if (isValidEmail && newEmail !== getUser().email) {
       // It's valid and new email address
       try {
@@ -58,16 +60,16 @@
     </div>
   {/snippet}
   {#snippet body()}
-    <div>
+    <div class="email-change-body">
       {#if !success}
         <p>{$_('account.change-email.modal.info')}</p>
-        <label for="new-email">{$_('account.change-email.modal.new-email-label')}</label>
-        <TextInput
+        <EmailInput
+          labelKey="account.change-email.modal.new-email-label"
           name="new-email"
           id="new-email"
           placeholder={$_('account.change-email.modal.new-email-placeholder')}
           bind:value={newEmail}
-        />
+        ></EmailInput>
         <div class="hint">
           {#if formError}
             <p transition:fade class="hint danger">{$_(formError.key, formError.options)}</p>
@@ -100,7 +102,7 @@
 </Modal>
 
 <style>
-  label {
+  .email-change-body :global(label) {
     font-weight: 500;
     display: block;
     margin-top: 1rem;

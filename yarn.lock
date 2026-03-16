@@ -5891,6 +5891,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@zootools/email-spell-checker@npm:^1.12.0":
+  version: 1.12.0
+  resolution: "@zootools/email-spell-checker@npm:1.12.0"
+  checksum: 10/2eaa550979cfc5e7ecaab9eb5a6e49652ce8dbb1f967c6d71002caac48fd757a3159bf2b32ae5243a1d5db2f2706e64e592e5082b73466598629183187d8d0f2
+  languageName: node
+  linkType: hard
+
 "JSONStream@npm:^1.0.4":
   version: 1.3.5
   resolution: "JSONStream@npm:1.3.5"
@@ -13167,6 +13174,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^8.54.0"
     "@typescript-eslint/parser": "npm:^8.54.0"
     "@zerodevx/svelte-img": "npm:^2.1.2"
+    "@zootools/email-spell-checker": "npm:^1.12.0"
     capacitor-native-settings: "npm:^8.0.0"
     dotenv: "npm:^17.2.3"
     eslint: "npm:^9.39.2"

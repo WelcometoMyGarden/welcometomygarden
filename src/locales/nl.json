@@ -760,7 +760,8 @@
         "from-list": "Kies een land uit de lijst. Dit helpt ons om de kaart te focussen op waar je vandaan komt."
       },
       "consent": "Je moet akkoord gaan met de voorwaarden van <span class=\"notranslate\">Welcome To My Garden</span> als je gebruik wilt maken van het platform.",
-      "reference": "Zorg ervoor dat jouw antwoord maximaal 3000 karakters lang is"
+      "reference": "Zorg ervoor dat jouw antwoord maximaal 3000 karakters lang is",
+      "email-suggestion": "Bedoelde je"
     },
     "notify": {
       "successful": "Jouw account is aangemaakt! Controleer jouw e-mail om jouw account te verifiëren.",

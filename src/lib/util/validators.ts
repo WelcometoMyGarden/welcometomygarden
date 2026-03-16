@@ -20,7 +20,12 @@ export const { email, password, firstName, lastName, country, consent, reference
     if (v.length > 50) return { key: 'register.validate.last-name.max' };
   },
   email: (v) => {
-    if (!v || !validateEmail(v)) return { key: 'register.validate.email' };
+    if (!v || (typeof v === 'string' && v.trim() === '')) {
+      return { key: 'register.validate.email' };
+    }
+    if (!validateEmail(v)) {
+      return { key: 'register.notify.invalid' };
+    }
   },
   password: (v) => {
     if (!v) return { key: 'register.validate.password.set' };

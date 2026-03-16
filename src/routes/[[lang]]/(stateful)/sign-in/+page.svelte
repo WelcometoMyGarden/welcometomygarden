@@ -24,6 +24,7 @@
   import logger from '$lib/util/logger';
   import { tick } from 'svelte';
   import PasswordInput from '$lib/components/UI/PasswordInput.svelte';
+  import EmailInput from '$lib/components/UI/EmailInput.svelte';
 
   const continueUrl = $derived(page.url.searchParams.get('continueUrl'));
 
@@ -104,15 +105,7 @@
       }}
     >
       <div>
-        <label for="email">{$_('generics.email')}</label>
-        <TextInput
-          icon={emailIcon}
-          autocomplete="email"
-          type="email"
-          name="email"
-          id="email"
-          bind:value={$formEmailValue}
-        ></TextInput>
+        <EmailInput bind:value={$formEmailValue}></EmailInput>
       </div>
       <div>
         <PasswordInput bind:value={$formPasswordValue} autocomplete="current-password" />

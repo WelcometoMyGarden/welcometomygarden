@@ -2,14 +2,14 @@
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import AuthContainer from '$lib/components/AuthContainer.svelte';
-  import { TextInput, Progress, Button } from '$lib/components/UI';
-  import { emailIcon } from '$lib/images/icons';
+  import { Progress, Button } from '$lib/components/UI';
   import { requestPasswordReset } from '$lib/api/functions';
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { formEmailValue } from '$lib/stores/auth';
   import { email as validateEmail } from '$lib/util/validators';
   import type { LocalizedMessage } from '$lib/util/translation-helpers';
   import * as Sentry from '@sentry/sveltekit';
+  import EmailInput from '$lib/components/UI/EmailInput.svelte';
 
   let done = $state(false);
   let isSending = $state(false);
@@ -59,16 +59,7 @@
           }}
         >
           <div>
-            <label for="email">{$_('generics.email')}</label>
-            <TextInput
-              icon={emailIcon}
-              autocomplete="off"
-              type="email"
-              name="email"
-              id="email"
-              bind:value={$formEmailValue}
-              error={formError}
-            />
+            <EmailInput bind:value={$formEmailValue} error={formError} autocomplete="off" />
           </div>
           <div class="submit">
             <Button type="submit" medium disabled={!$formEmailValue || isSending}>

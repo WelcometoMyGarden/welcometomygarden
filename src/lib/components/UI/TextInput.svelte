@@ -21,6 +21,10 @@
     list?: null | string;
     autocomplete?: AutoFill;
     /**
+     * Whether to trim this value automatically on blur
+     */
+    autotrim?: boolean;
+    /**
      * Whether to ignore errors passed to this component visually.
      * Normally, the component reserves space on the bottom of a field for an
      * eventual error.
@@ -34,6 +38,7 @@
      * A snippet intended for icon buttons which can process the field somehow
      */
     actionIcon?: Snippet;
+    customError?: Snippet;
     onblur?: (e: FocusEvent) => void;
     oninput?: (e: Event) => void;
   }
@@ -56,9 +61,11 @@
     icon = null,
     list = null,
     autocomplete = 'on',
+    autotrim = false,
     hideError = false,
     inset,
     actionIcon = undefined,
+    customError = undefined,
     onblur,
     oninput
   }: Props = $props();
@@ -98,7 +105,16 @@
       pattern={testPattern}
       class:invalid={!isValid}
       class="input"
-      {onblur}
+      onblur={(e) => {
+        if (autotrim && inputElement && value && typeof value === 'string') {
+          // Note: it seems like browsers automatically trim the .value
+          // result of a type="email" without visually showing the trimmed value
+          const trimmedValue = value.trim();
+          // Note: setting value directly does not seem to have (visual) effect
+          inputElement.value = trimmedValue;
+        }
+        onblur?.(e);
+      }}
       {oninput}
     />
     {#if !isValid}
@@ -112,10 +128,12 @@
       </div>
     {/if}
   </div>
-  {#if !hideError}
-    <div class="error">
+  {#if customError || !hideError}
+    <div class="error" transition:fade>
       {#if errorMessage}
         <p class="error-message" transition:fade>{errorMessage}</p>
+      {:else if customError}
+        <p class="custom-error" transition:fade>{@render customError?.()}</p>
       {/if}
     </div>
   {/if}
@@ -207,11 +225,11 @@
 
   .error {
     min-height: 3rem;
+    font-size: 1.4rem;
+    line-height: 3rem;
   }
 
   .error-message {
-    font-size: 1.4rem;
-    line-height: 3rem;
     color: var(--color-danger);
   }
 
