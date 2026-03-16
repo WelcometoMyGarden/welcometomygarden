@@ -13,7 +13,7 @@
   import routes from '$lib/routes';
   import AuthContainer from '$lib/components/AuthContainer.svelte';
   import { TextInput, Button, Progress } from '$lib/components/UI';
-  import { lockIcon, emailIcon } from '$lib/images/icons';
+  import { emailIcon } from '$lib/images/icons';
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { page } from '$app/state';
   import { get } from 'svelte/store';
@@ -23,10 +23,12 @@
   import { lr, type LocalizedMessage } from '$lib/util/translation-helpers';
   import logger from '$lib/util/logger';
   import { tick } from 'svelte';
+  import PasswordInput from '$lib/components/UI/PasswordInput.svelte';
 
   const continueUrl = $derived(page.url.searchParams.get('continueUrl'));
 
   let formError = $state<LocalizedMessage | null>(null);
+
   const submit = async () => {
     formError = null;
     if (!$formEmailValue?.trim()) {
@@ -110,18 +112,10 @@
           name="email"
           id="email"
           bind:value={$formEmailValue}
-        />
+        ></TextInput>
       </div>
       <div>
-        <label for="password">{$_('generics.password')}</label>
-        <TextInput
-          icon={lockIcon}
-          type="password"
-          name="password"
-          id="password"
-          autocomplete="new-password"
-          bind:value={$formPasswordValue}
-        />
+        <PasswordInput bind:value={$formPasswordValue} autocomplete="current-password" />
       </div>
       <div class="hint">
         {#if formError}
