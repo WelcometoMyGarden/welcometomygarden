@@ -1118,7 +1118,8 @@
         "from-list": "Bitte wählen Sie ein Land aus der Liste. Dies hilft uns, die Karte darauf zu fokussieren, woher Sie kommen"
       },
       "consent": "Sie müssen den Bedingungen von <span class=\"notranslate\">Welcome To My Garden</span> zustimmen, wenn Sie die Plattform nutzen möchten.",
-      "reference": "Bitte achten Sie darauf, dass Ihr Antwort maximal 3000 Zeichen lang ist"
+      "reference": "Bitte achten Sie darauf, dass Ihr Antwort maximal 3000 Zeichen lang ist",
+      "email-suggestion": "Meinten Sie"
     },
     "notify": {
       "successful": "Ihr Konto wurde erfolgreich erstellt! Bitte überprüfen Sie Ihre E-Mail, um Ihr Konto zu bestätigen.",

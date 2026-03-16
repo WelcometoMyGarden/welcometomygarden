@@ -67,6 +67,7 @@
     "@typescript-eslint/eslint-plugin": "^8.54.0",
     "@typescript-eslint/parser": "^8.54.0",
     "@zerodevx/svelte-img": "^2.1.2",
+    "@zootools/email-spell-checker": "^1.12.0",
     "capacitor-native-settings": "^8.0.0",
     "dotenv": "^17.2.3",
     "eslint": "^9.39.2",

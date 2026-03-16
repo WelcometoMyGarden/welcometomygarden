@@ -25,7 +25,7 @@
   import { countryNames, guessCountryCode } from '$lib/stores/countryNames';
   import AuthContainer from '$lib/components/AuthContainer.svelte';
   import { TextInput, Progress, Button, Select } from '$lib/components/UI';
-  import { emailIcon, userIcon } from '$lib/images/icons';
+  import { userIcon } from '$lib/images/icons';
   import { SUPPORT_EMAIL } from '$lib/constants';
   import type { FunctionsErrorCode } from 'firebase/functions';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
@@ -37,6 +37,7 @@
   import { lr, type LocalizedMessage } from '$lib/util/translation-helpers';
   import logger from '$lib/util/logger';
   import PasswordInput from '$lib/components/UI/PasswordInput.svelte';
+  import EmailInput from '$lib/components/UI/EmailInput.svelte';
 
   const continueUrl = $derived(page.url.searchParams.get('continueUrl'));
 
@@ -294,20 +295,14 @@
       </div>
 
       <div>
-        <label for="email">{$_('generics.email')}</label>
-        <TextInput
-          icon={emailIcon}
-          autocomplete="email"
-          type="email"
-          name="email"
-          id="email"
+        <EmailInput
+          bind:value={$formEmailValue}
           required
           onblur={() => {
             fields.email.error = null;
           }}
           error={fields.email.error}
-          bind:value={$formEmailValue}
-        />
+        ></EmailInput>
       </div>
 
       <div>

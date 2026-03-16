@@ -39,7 +39,8 @@
     },
     "account-page": "compte",
     "here": "ici",
-    "lang-prefix": "/fr"
+    "lang-prefix": "/fr",
+    "question-mark": " ?"
   },
   "ui": {
     "card": {
@@ -1118,7 +1119,8 @@
       "country": {
         "from-list": "Veuillez choisir un pays dans la liste. Ceci nous aide à centrer la carte vers votre pays d'origine."
       },
-      "reference": "Veillez à ce que votre réponse comporte au maximum 3000 caractères"
+      "reference": "Veillez à ce que votre réponse comporte au maximum 3000 caractères",
+      "email-suggestion": "Vouliez-vous dire"
     },
     "title": "Inscription",
     "button": "S'inscrire",

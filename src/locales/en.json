@@ -44,6 +44,7 @@
         "link-text": "our help center"
       }
     },
+    "question-mark": "?",
     "here": "here",
     "lang-prefix": ""
   },
@@ -1124,6 +1125,7 @@
     "reference": "How did you hear about WTMG? (optional)",
     "validate": {
       "email": "Please add an email address, this is what you log in with",
+      "email-suggestion": "Did you mean",
       "password": {
         "set": "You need to set a password so you can log in later",
         "min": "Your password must be at least 8 characters",
