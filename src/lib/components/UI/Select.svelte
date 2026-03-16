@@ -1,6 +1,6 @@
 <script lang="ts">
   interface Props {
-    // your script goes here
+    autocomplete?: AutoFill;
     name: string;
     value: string | null | undefined;
     transparent?: boolean;
@@ -14,6 +14,7 @@
 
   let {
     name,
+    autocomplete,
     value = $bindable(),
     transparent = false,
     globe = false,
@@ -23,8 +24,15 @@
   }: Props = $props();
 </script>
 
-<select {name} id={name} bind:value {onchange} class:transparent class:globe class:fullBlock
-  >{@render children?.()}</select
+<select
+  {name}
+  {autocomplete}
+  id={name}
+  bind:value
+  {onchange}
+  class:transparent
+  class:globe
+  class:fullBlock>{@render children?.()}</select
 >
 
 <style>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { type Snippet } from 'svelte';
   import { fade } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
   import Icon from './Icon.svelte';
@@ -19,8 +19,21 @@
     isValid?: boolean;
     icon?: string | null;
     list?: null | string;
-    autocomplete?: string;
+    autocomplete?: AutoFill;
+    /**
+     * Whether to ignore errors passed to this component visually.
+     * Normally, the component reserves space on the bottom of a field for an
+     * eventual error.
+     */
     hideError?: boolean;
+    /**
+     * Whether to add some padding, to give a better appearnce on non-white backgrounds.
+     */
+    inset?: boolean;
+    /**
+     * A snippet intended for icon buttons which can process the field somehow
+     */
+    actionIcon?: Snippet;
     onblur?: (e: FocusEvent) => void;
     oninput?: (e: Event) => void;
   }
@@ -44,76 +57,134 @@
     list = null,
     autocomplete = 'on',
     hideError = false,
-    onblur
+    inset,
+    actionIcon = undefined,
+    onblur,
+    oninput
   }: Props = $props();
 
-  let inputElement: HTMLInputElement = $state();
+  let inputElement: HTMLInputElement | undefined = $state();
   let errorMessage = $derived(
     typeof error === 'string' ? error : error ? $_(error.key, error.options) : ''
   );
-  onMount(() => {
-    inputElement.type = type;
-  });
 </script>
 
-<div class="container notranslate">
-  <input
-    bind:this={inputElement}
-    bind:value
-    {name}
-    {placeholder}
-    {required}
-    {autocomplete}
-    {list}
-    id={id || name}
-    minlength={minLength}
-    maxlength={maxLength}
-    pattern={testPattern}
-    {onblur}
-    {oninput}
-    class:has-icon={!!icon}
-    class:invalid={!!isValid}
-    class="input"
-  />
-  {#if icon}
-    <div class="icon">
-      <Icon {icon} />
-    </div>
-  {/if}
-  {#if !isValid}
-    <div class="validation-icon" transition:fade>
-      <Icon icon={crossIcon} />
-    </div>
-  {/if}
+<!-- Contains the main input field & decorations on the top, + an error message container -->
+<div class="outer-container notranslate" class:inset>
+  <!-- Main input field container -->
+  <div class="container">
+    {#if icon}
+      <div class="icon">
+        <Icon {icon} />
+      </div>
+    {/if}
+    <!-- The reason that the input field is a flex sibling to the icons on its sides,
+      is that password managers (tested with Bitwarden) use the <input> field width to
+      insert extra overlay controls on the right. If our icons are themselves overlayed
+      with absolute positioning over the input (previous situation), there may be an overlap.
+      -->
+    <input
+      bind:this={inputElement}
+      bind:value
+      {name}
+      {placeholder}
+      {required}
+      {autocomplete}
+      {list}
+      {type}
+      id={id || name}
+      minlength={minLength}
+      maxlength={maxLength}
+      pattern={testPattern}
+      class:invalid={!isValid}
+      class="input"
+      {onblur}
+      {oninput}
+    />
+    {#if !isValid}
+      <div class="validation-icon" transition:fade>
+        <Icon icon={crossIcon} />
+      </div>
+    {/if}
+    {#if actionIcon}
+      <div class="action-icon">
+        {@render actionIcon?.()}
+      </div>
+    {/if}
+  </div>
   {#if !hideError}
     <div class="error">
       {#if errorMessage}
-        <p class="error-message">{errorMessage}</p>
+        <p class="error-message" transition:fade>{errorMessage}</p>
       {/if}
     </div>
   {/if}
 </div>
 
 <style>
-  .container {
-    position: relative;
+  .outer-container {
     width: 100%;
   }
 
-  input.has-icon {
-    padding-left: 3rem;
+  .container {
     position: relative;
+    width: 100%;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+
+    border: none;
+    border-bottom: 1px solid var(--color-green);
+    transition: border 300ms ease-in-out;
+
+    /* For consistent appearance. Now only needed on non-white backgrounds,
+      like in the account deletion modal, where the field is shown on a beige background.
+    */
+    background: #fff;
+  }
+  .inset {
+    margin-top: 0.75rem;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .inset > .container {
+    padding: 0 1rem;
   }
 
-  .icon {
+  .container:has(input:focus) {
+    border-bottom: 1px solid var(--color-info);
+  }
+
+  input {
+    border: none;
+    padding: 1.2rem 0;
+    font-size: 1.6rem;
+    outline: none;
+    width: 100%;
+    position: relative;
+
+    flex-grow: 1;
+  }
+
+  .icon,
+  .action-icon {
     width: 2rem;
     height: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    left: 0.2rem;
+  }
+
+  .action-icon {
+    right: 0.2rem;
     top: 1.1rem;
+  }
+
+  .icon {
+    margin-right: 1rem;
+  }
+  .action-icon {
+    margin-left: 0.5rem;
   }
 
   .validation-icon {

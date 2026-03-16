@@ -1,15 +1,16 @@
-<script>
+<script lang="ts">
   import { _ } from 'svelte-i18n';
+  import { password as validatePassword } from '$lib/util/validators';
   import { goto } from '$lib/util/navigate';
   import { page } from '$app/state';
   import AuthContainer from '$lib/components/AuthContainer.svelte';
   import notify from '$lib/stores/notification';
   import { confirmPasswordReset, login, logout } from '$lib/api/auth';
-  import { TextInput, Progress, Button } from '$lib/components/UI';
-  import { lockIcon } from '$lib/images/icons';
+  import { Progress, Button } from '$lib/components/UI';
   import routes from '$lib/routes';
-  import { lr } from '$lib/util/translation-helpers';
+  import { lr, type LocalizedMessage } from '$lib/util/translation-helpers';
   import logger from '$lib/util/logger';
+  import PasswordInput from '$lib/components/UI/PasswordInput.svelte';
 
   const oobCode = page.url.searchParams.get('oobCode');
   const email = page.url.searchParams.get('email');
@@ -21,7 +22,7 @@
     goto($lr(routes.HOME));
   }
 
-  let password = $state({});
+  let password: { value?: string; error?: LocalizedMessage } = $state({});
 
   let isResetting = $state(false);
   const submit = async () => {
@@ -29,6 +30,13 @@
     try {
       if (!oobCode || !email) {
         throw new Error('Invalid code');
+      }
+
+      // Validate password
+      password.error = validatePassword(password.value);
+      if (password.error || !password.value) {
+        isResetting = false;
+        return;
       }
 
       await confirmPasswordReset(oobCode, password.value);
@@ -60,19 +68,16 @@
 
   {#snippet form()}
     <form
+      class="password-reset-form"
       onsubmit={(e) => {
         e.preventDefault();
         submit();
       }}
     >
-      <label for="password">{$_('generics.password')}</label>
-      <TextInput
-        icon={lockIcon}
-        type="password"
-        name="password"
-        id="password"
+      <PasswordInput
         autocomplete="new-password"
         bind:value={password.value}
+        error={password.error}
       />
       <Button type="submit" medium>{$_('reset-password.update')}</Button>
     </form>
@@ -80,7 +85,8 @@
 </AuthContainer>
 
 <style>
-  label {
-    display: block;
+  /* Ensure there is some spacing so it doesn't look weird in case of a validation error */
+  .password-reset-form :global(.outer-container) {
+    margin-bottom: 0.4rem;
   }
 </style>

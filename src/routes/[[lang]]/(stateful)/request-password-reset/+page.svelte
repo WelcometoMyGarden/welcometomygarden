@@ -7,22 +7,17 @@
   import { requestPasswordReset } from '$lib/api/functions';
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { formEmailValue } from '$lib/stores/auth';
-  import validateEmail from '$lib/util/validate-email';
+  import { email as validateEmail } from '$lib/util/validators';
   import type { LocalizedMessage } from '$lib/util/translation-helpers';
   import * as Sentry from '@sentry/sveltekit';
 
   let done = $state(false);
   let isSending = $state(false);
-  let formError = $state<LocalizedMessage | null>(null);
+  let formError = $state<LocalizedMessage>();
 
   const submit = async () => {
-    formError = null;
-    if (!$formEmailValue?.trim()) {
-      formError = { key: 'register.validate.email' };
-      return;
-    }
-    if (!validateEmail($formEmailValue)) {
-      formError = { key: 'register.validate.email' };
+    formError = validateEmail($formEmailValue);
+    if (formError) {
       return;
     }
     isSending = true;
@@ -72,12 +67,8 @@
               name="email"
               id="email"
               bind:value={$formEmailValue}
+              error={formError}
             />
-          </div>
-          <div class="hint">
-            {#if formError}
-              <p transition:fade class="hint danger">{$_(formError.key, formError.options)}</p>
-            {/if}
           </div>
           <div class="submit">
             <Button type="submit" medium disabled={!$formEmailValue || isSending}>
@@ -107,9 +98,6 @@
   }
   form > div {
     margin-bottom: 1.2rem;
-  }
-  .hint {
-    margin-bottom: 0;
   }
   .submit {
     text-align: center;

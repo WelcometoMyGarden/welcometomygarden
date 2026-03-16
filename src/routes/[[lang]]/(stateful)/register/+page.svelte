@@ -2,6 +2,16 @@
   import { _ } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import { goto, universalGoto } from '$lib/util/navigate';
+  import {
+    email as emailValidator,
+    password as passwordValidator,
+    type Validator,
+    firstName as firstNameValidator,
+    lastName as lastNameValidator,
+    country as countryValidator,
+    consent as consentValidator,
+    reference as referenceValidator
+  } from '$lib/util/validators';
   import { register } from '$lib/api/auth';
   import {
     formEmailValue,
@@ -15,11 +25,10 @@
   import { countryNames, guessCountryCode } from '$lib/stores/countryNames';
   import AuthContainer from '$lib/components/AuthContainer.svelte';
   import { TextInput, Progress, Button, Select } from '$lib/components/UI';
-  import { lockIcon, emailIcon, userIcon } from '$lib/images/icons';
+  import { emailIcon, userIcon } from '$lib/images/icons';
   import { SUPPORT_EMAIL } from '$lib/constants';
   import type { FunctionsErrorCode } from 'firebase/functions';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
-  import validateEmail from '$lib/util/validate-email';
   import { page } from '$app/state';
   import { get } from 'svelte/store';
   import { onMount } from 'svelte';
@@ -27,6 +36,7 @@
   import { debounce } from 'lodash-es';
   import { lr, type LocalizedMessage } from '$lib/util/translation-helpers';
   import logger from '$lib/util/logger';
+  import PasswordInput from '$lib/components/UI/PasswordInput.svelte';
 
   const continueUrl = $derived(page.url.searchParams.get('continueUrl'));
 
@@ -46,7 +56,7 @@
     /**
      * Validates the value of this input field.
      */
-    validate: (value: string | undefined) => LocalizedMessage | undefined;
+    validate: Validator;
   };
 
   type CheckboxField = FieldCommon & {
@@ -57,7 +67,7 @@
     /**
      * Validates the value of this input field.
      */
-    validate: (value: boolean | undefined) => LocalizedMessage | undefined;
+    validate: Validator;
   };
 
   type RegistrationFields =
@@ -75,54 +85,27 @@
   /** Field definitions with initial values */
   let fields: RegistrationFields = $state({
     email: {
-      validate: (v) => {
-        if (!v || !validateEmail(v)) return { key: 'register.validate.email' };
-      }
+      validate: emailValidator
     },
     password: {
-      validate: (v) => {
-        if (!v) return { key: 'register.validate.password.set' };
-        if (v.length < 8) return { key: 'register.validate.password.min' };
-        // Primarily to prevent password length denial of service
-        if (v.length > 100) return { key: 'register.validate.password.max' };
-      }
+      validate: passwordValidator
     },
     firstName: {
-      validate: (v) => {
-        if (!v || v.trim() === '') return { key: 'register.validate.first-name.set' };
-        if (v.length > 25) return { key: 'register.validate.first-name.max' };
-      }
+      validate: firstNameValidator
     },
     lastName: {
-      validate: (v) => {
-        if (!v || v.trim() === '') return { key: 'register.validate.last-name.set' };
-        if (v.length > 50) return { key: 'register.validate.last-name.max' };
-      }
+      validate: lastNameValidator
     },
     country: {
       value: guessCountryCode(),
-      validate: (v?: string) => {
-        if (!v || !$countryNames[v]) {
-          return { key: 'register.validate.country.from-list' };
-        }
-      }
+      validate: countryValidator
     },
     consent: {
       value: false,
-      validate: (v) => {
-        if (!v) return { key: 'register.validate.consent' };
-      }
+      validate: consentValidator
     },
     reference: {
-      validate: (v: any) => {
-        if (typeof v === 'string' && v.length > 3000) {
-          return { key: 'register.validate.reference' };
-        }
-        if (typeof v !== 'string' && v != null) {
-          // Shouldn't happen
-          return { key: 'register.validate.reference' };
-        }
-      }
+      validate: referenceValidator
     }
   });
 
@@ -328,12 +311,7 @@
       </div>
 
       <div>
-        <label for="password">{$_('generics.password')}</label>
-        <TextInput
-          icon={lockIcon}
-          type="password"
-          name="password"
-          id="password"
+        <PasswordInput
           autocomplete="new-password"
           onblur={() => (fields.password.error = null)}
           error={fields.password.error}
@@ -343,7 +321,7 @@
 
       <div class="country-select">
         <label for="country">{$_('register.country')}</label>
-        <Select name="country" bind:value={fields.country.value} fullBlock>
+        <Select name="country" autocomplete="country" bind:value={fields.country.value} fullBlock>
           {#each countryEntries as [code, name]}
             <option value={code}>{name}</option>
           {/each}

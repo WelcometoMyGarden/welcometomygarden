@@ -14,6 +14,7 @@
   import { openTally } from '$lib/api/tally';
   import { MOBILE_BREAKPOINT } from '$lib/constants';
   import type { LocalizedMessage } from '$lib/util/translation-helpers';
+  import PasswordInput from '$lib/components/UI/PasswordInput.svelte';
   interface Props {
     show?: boolean;
   }
@@ -185,8 +186,7 @@
               <p class="reauthentication-info">
                 {@html $_('account.delete.modal.reauthentication-info')}
               </p>
-              <label for="password">{$_('generics.password')}</label>
-              <TextInput type="password" name="password" id="password" bind:value={password} />
+              <PasswordInput autocomplete="current-password" bind:value={password} inset />
             </div>
           {/if}
         </div>

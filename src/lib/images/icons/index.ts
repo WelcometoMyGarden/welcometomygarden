@@ -41,6 +41,7 @@ export { default as questionMarkIcon } from './question-mark.svg?inline';
 export { default as routesIcon } from './routes.svg?inline';
 export { default as shareIcon } from './share.svg?inline';
 export { default as showerIcon } from './shower.svg?inline';
+export { default as showIcon } from './show.svg?inline';
 export { default as signInIcon } from './sign-in.svg?inline';
 export { default as signOutIcon } from './sign-out.svg?inline';
 export { default as tentIcon } from './tent.svg?inline';
