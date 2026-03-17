@@ -132,8 +132,8 @@
     name="location-filter"
     id="location-filter"
     placeholder={$_('garden.filter.search-city')}
-    hideError={true}
     showBorder={false}
+    hideErrorSpace={true}
     bind:value={locationInput}
     autocomplete="off"
   />

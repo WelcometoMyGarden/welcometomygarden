@@ -25,11 +25,10 @@
      */
     autotrim?: boolean;
     /**
-     * Whether to ignore errors passed to this component visually.
-     * Normally, the component reserves space on the bottom of a field for an
-     * eventual error.
+     * Whether to reserve extra space below the field to show errors, or custom errors.
+     * Will be ignored when a customError is given.
      */
-    hideError?: boolean;
+    hideErrorSpace?: boolean;
     /**
      * Whether to show a border that changes color with focus
      */
@@ -42,6 +41,9 @@
      * A snippet intended for icon buttons which can process the field somehow
      */
     actionIcon?: Snippet;
+    /**
+     * A custom snippet which will be rendered as child of an error p tag.
+     */
     customError?: Snippet;
     onblur?: (e: FocusEvent) => void;
     oninput?: (e: Event) => void;
@@ -66,7 +68,7 @@
     list = null,
     autocomplete = 'on',
     autotrim = false,
-    hideError = false,
+    hideErrorSpace = false,
     showBorder = true,
     inset,
     actionIcon = undefined,
@@ -133,12 +135,23 @@
       </div>
     {/if}
   </div>
-  {#if customError || !hideError}
-    <div class="error" transition:fade>
-      {#if errorMessage}
-        <p class="error-message" transition:fade>{errorMessage}</p>
-      {:else if customError}
-        <p class="custom-error" transition:fade>{@render customError?.()}</p>
+  {#if !hideErrorSpace || customError}
+    <div class="error">
+      {#if errorMessage || customError}
+        <!-- We use 1 p tag like this to avoid temporary double tags when
+           one fades out while the other fades in. A full workaround for that is likely complex, with transition
+           delays to the new element fade-in, determining which is new and which is old, ...
+           This will result in instant transitions if one of both was already present. Not perfect but acceptable. -->
+        <p
+          class={{ 'error-message': !!errorMessage, 'custom-error': !!customError }}
+          transition:fade
+        >
+          {#if errorMessage}
+            {errorMessage}
+          {:else}
+            {@render customError?.()}
+          {/if}
+        </p>
       {/if}
     </div>
   {/if}

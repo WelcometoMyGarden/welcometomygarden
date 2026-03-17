@@ -65,6 +65,7 @@
         <p>{$_('account.change-email.modal.info')}</p>
         <EmailInput
           labelKey="account.change-email.modal.new-email-label"
+          autocomplete="off"
           name="new-email"
           id="new-email"
           placeholder={$_('account.change-email.modal.new-email-placeholder')}
