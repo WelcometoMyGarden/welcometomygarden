@@ -1203,8 +1203,8 @@
       "attribution": "Trails courtesy of {link}"
     },
     "superfan-notice": {
-      "title": "New features for Superfans",
-      "linkText": "become a Superfan",
+      "title": "Features for members",
+      "linkText": "become a Member",
       "description": "See the rail network, upload routes, save gardens & more when you {linkText}!"
     },
     "gardens": {
