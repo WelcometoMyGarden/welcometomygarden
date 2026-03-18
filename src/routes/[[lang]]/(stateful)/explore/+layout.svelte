@@ -44,6 +44,7 @@
   import { pushState } from '$app/navigation';
   import createUrl from '$lib/util/create-url';
   import VehicleNotice from './VehicleNotice.svelte';
+  import MembershipNotice from './MembershipNotice.svelte';
   interface Props {
     children?: import('svelte').Snippet;
   }
@@ -59,6 +60,7 @@
   let showTransport = $state(false);
   let savedGardens = $state([] as string[]);
   let vehicleNoticeShown = $state(!getCookie('car-notice-dismissed'));
+  let membershipNoticeShown = $state(false);
 
   function showMembershipModal(gardenUrl?: string) {
     if (gardenUrl) {
@@ -300,7 +302,21 @@
     bind:showSavedGardens
     bind:showTransport
     bind:showFileTrailModal
+    onShowMembershipNotice={() => (membershipNoticeShown = true)}
+    onBecomeMember={() => {
+      membershipNoticeShown = false;
+      showMembershipModal();
+    }}
   />
+  {#if !$user?.superfan}
+    <MembershipNotice
+      bind:show={membershipNoticeShown}
+      onBecomeMember={() => {
+        membershipNoticeShown = false;
+        showMembershipModal();
+      }}
+    />
+  {/if}
   <!-- TODO: the $currentPosition should be based on IP
     (if it isn't already by default) -->
   <Filter onGoToPlace={goToPlace} closeToLocation={$currentPosition ?? LOCATION_BELGIUM} />
@@ -309,6 +325,7 @@
     bind:show={isShowingMembershipModal}
     continueUrl={membershipModalContinueUrl}
     onclose={() => {
+      membershipNoticeShown = false;
       if (membershipModalContinueUrl) {
         // reset the continue URL (in case we later click on
         // the zoom notice in the same session)

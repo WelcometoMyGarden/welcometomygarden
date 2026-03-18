@@ -1,10 +1,22 @@
 <script lang="ts">
   import { LabeledCheckbox, ToggleAble } from '$lib/components/UI';
   import { _ } from 'svelte-i18n';
-  import { cyclistIcon, hikerIcon, routesIcon, tentIcon, trainIcon } from '$lib/images/icons';
+  import { fly } from 'svelte/transition';
+  import {
+    crossIcon,
+    cyclistIcon,
+    hikerIcon,
+    routesIcon,
+    tentIcon,
+    trainIcon
+  } from '$lib/images/icons';
+  import MemberFeatureIcons from '$lib/components/LayersAndTools/MemberFeatureIcons.svelte';
   import { user } from '$lib/stores/auth';
   import Icon from '$lib/components/UI/Icon.svelte';
   import IconButton from '$lib/components/UI/IconButtonOld.svelte';
+  import routes from '$lib/routes';
+  import { anchorText, lr } from '$lib/util/translation-helpers';
+  import { clickOutside } from '$lib/attachments';
   import GardensTools from '$lib/components/LayersAndTools/GardensTools.svelte';
   import GardensModal from '$lib/components/LayersAndTools/GardensModal.svelte';
   import TrailsModal from '$lib/components/LayersAndTools/TrailsModal.svelte';
@@ -23,6 +35,8 @@
     showSavedGardens: boolean;
     showTransport: boolean;
     showFileTrailModal: boolean;
+    onShowMembershipNotice?: () => void;
+    onBecomeMember?: () => void;
   }
 
   let {
@@ -31,7 +45,9 @@
     showGardens = $bindable(),
     showSavedGardens = $bindable(),
     showTransport = $bindable(),
-    showFileTrailModal = $bindable()
+    showFileTrailModal = $bindable(),
+    onShowMembershipNotice = () => {},
+    onBecomeMember = () => {}
   }: Props = $props();
   let showGardensModal = $state(false);
   let showTrailsModal = $state(false);
@@ -41,17 +57,50 @@
 
   let superfan = $derived($user?.superfan);
 
+  let memberNoticeCopy = $derived(
+    $_('map.superfan-notice.description', {
+      values: {
+        linkText: anchorText({
+          href: `${$lr(routes.ABOUT_MEMBERSHIP)}#pricing`,
+          linkText: $_('map.superfan-notice.linkText'),
+          newtab: false,
+          class: 'underline'
+        })
+      }
+    })
+  );
+
   const toggleFileTrailModal = (_: Event) => {
     showFileTrailModal = !showFileTrailModal;
     if (showFileTrailModal) {
       trackEvent(PlausibleEvent.START_ROUTE_UPLOAD_FLOW);
     }
   };
+
+  let showMemberNotice = $state(false);
+
+  const toggleMemberNotice = (e: Event) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isMobile) {
+      onShowMembershipNotice();
+    } else {
+      showMemberNotice = !showMemberNotice;
+    }
+  };
+
+  const handleBecomeMember = () => {
+    // Close the notice in any case, since we're opening another modal
+    showMemberNotice = false;
+    onBecomeMember();
+  };
 </script>
 
 <div class="layers-and-tools">
+  <!-- Tools for members -->
   {#if superfan}
     {#if !isMobile}
+      <!-- Members - desktop tools -->
       <div class="layers-and-tools-superfan">
         <ToggleAble>
           {#snippet title()}
@@ -87,6 +136,7 @@
         </ToggleAble>
       </div>
     {:else}
+      <!-- Members - mobile tools -->
       <div class="layers-and-tools-superfan-mobile">
         <div class="fab">
           <IconButton xsmall onclick={() => (showGardensModal = !showGardensModal)}>
@@ -123,6 +173,7 @@
       <TransportModal bind:show={showTransportModal} bind:showTransport />
     {/if}
   {:else}
+    <!-- Non-member tools -->
     <div class="layers-and-tools-visitors-container">
       <div class="layers-and-tools-visitors">
         <div>
@@ -151,6 +202,50 @@
           })}
         </span>
       </div>
+      {#if showMemberNotice && !isMobile}
+        <div
+          class="member-notice"
+          in:fly={{ x: -260, duration: 200 }}
+          {@attach clickOutside}
+          onclickoutside={() => (showMemberNotice = false)}
+          style:width="calc({memberNoticeCopy.length}rem / 7.5)"
+        >
+          <button
+            class="button-container member-notice-close"
+            onclick={(e) => {
+              e.stopPropagation();
+              showMemberNotice = false;
+            }}
+            aria-label="Close notice"
+          >
+            <Icon icon={crossIcon} />
+          </button>
+          <div class="member-notice-header">
+            <p class="member-notice-title">{$_('map.superfan-notice.title')}</p>
+            <MemberFeatureIcons direction="horizontal" />
+          </div>
+          <p
+            class="member-notice-text"
+            onclickcapture={(ev) => {
+              if ((ev.target as HTMLParagraphElement)?.tagName === 'A') {
+                ev.preventDefault();
+                ev.stopPropagation();
+                handleBecomeMember();
+              }
+            }}
+          >
+            {@html memberNoticeCopy}
+          </p>
+        </div>
+      {:else}
+        <button
+          class="button-container member-notice-icons"
+          onclick={toggleMemberNotice}
+          aria-label={$_('map.superfan-notice.title')}
+        >
+          <MemberFeatureIcons />
+        </button>
+      {/if}
     </div>
   {/if}
 </div>
@@ -235,6 +330,65 @@
   .layers-and-tools :global(a.underline) {
     text-decoration: underline;
     cursor: pointer;
+  }
+
+  .member-notice-icons {
+    background-color: var(--color-superfan-yellow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    padding: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.24s;
+  }
+
+  .member-notice-icons:hover {
+    background-color: color-mix(in srgb, var(--color-superfan-yellow) 96%, rgb(79, 59, 7));
+  }
+
+  .member-notice-icons :global(.icons) {
+    height: 100%;
+  }
+
+  .member-notice {
+    background-color: var(--color-superfan-yellow);
+    padding: 1rem 1rem 1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    position: relative;
+    /* As a fallback, see the locale-dependent style calc in the template  */
+    width: 26.5rem;
+  }
+
+  .member-notice-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding-right: 2rem;
+  }
+
+  .member-notice-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  .member-notice-text {
+    font-size: 1.3rem;
+    font-weight: 300;
+    margin-top: 0.4rem;
+    line-height: 1.4;
+  }
+
+  .member-notice-close {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.4rem;
+    padding: 0.3rem;
+    cursor: pointer;
+    width: 2.4rem;
+    height: 2.4rem;
   }
 
   @media screen and (max-width: 700px) {
