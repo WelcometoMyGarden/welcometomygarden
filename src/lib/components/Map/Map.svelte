@@ -45,6 +45,7 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   import FullscreenControl from './FullscreenControl';
   import CapacitorGeolocationProxy from './CapacitorGeolocationProxy';
   import { checkPermission } from '$lib/api/geolocation.js';
+  import { openMembershipModalOnMapLoad } from '$lib/stores/app.js';
   import * as Sentry from '@sentry/sveltekit';
 
   type Props = {
@@ -227,12 +228,19 @@ Component for maps. Shared between the main map, and the map in the Garden creat
             ? CapacitorGeolocationProxy
             : navigator.geolocation
       });
-      // By default, don't show on a native app, or when trying to view a garden
+
+      // When trying to view a garden or loading the membership modal, don't prompt on this load.
+      // Also, when notifications are not enabled yet on native, don't prompt here,
+      // since it will conflict with the auto-prompt after sign-in to enable notifications.
       // Except, if we already have enabled notifications, then this will not conflict with the
       // notification-enabling prompt
       const canPromptForLocationPermissionOnLoad =
-        (!Capacitor.isNativePlatform() || (await hasEnabledNotificationsOnCurrentDevice())) &&
-        !isShowingGardenOnInit;
+        !isShowingGardenOnInit &&
+        !$openMembershipModalOnMapLoad &&
+        // Won't overlap with a notification enabling prompt
+        (!Capacitor.isNativePlatform() ||
+          // TODO: we can probably also prompt when notifs were explicitly denied
+          (await hasEnabledNotificationsOnCurrentDevice()));
 
       let shouldTriggerGeolocation =
         // It won't prompt if granted

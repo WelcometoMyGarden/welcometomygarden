@@ -53,10 +53,12 @@
   <!-- Note: this will still track the 'zoom_notice' event despite not opening the link -->
   <Anchor
     className="zoom-restriction-notice-link"
-    href={createUrl($lr(routes.ABOUT_MEMBERSHIP))}
+    href={$user
+      ? createUrl($lr(routes.ABOUT_MEMBERSHIP))
+      : createUrl($lr(routes.SIGN_IN), { continueUrl: $lr(routes.MAP) })}
     preventing
     track={[PlausibleEvent.OPEN_MEMBERSHIP_MODAL, { source: 'zoom_notice' }]}
     {onclick}
-    newtab>{$_('generics.become-member')}</Anchor
+    newtab={false}>{$_('generics.become-member')}</Anchor
   >{' '}{$_('map.zoom-restriction-notice')}.
 </MapNotice>

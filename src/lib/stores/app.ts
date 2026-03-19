@@ -77,3 +77,10 @@ export const close = () => rootModal.set(null);
  * This observable is useful to know when it is possible to add layers on top of it.
  */
 export const gardenLayerLoaded = writable(false);
+
+/**
+ * When true, the membership modal should open once the map (and any garden modal) has loaded.
+ * Set this before navigating to the map for users who should be prompted to become a member.
+ * Reset it when the membership modal is closed.
+ */
+export const openMembershipModalOnMapLoad = writable(false);

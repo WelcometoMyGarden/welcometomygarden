@@ -168,20 +168,15 @@
         countryCode: fields.country.value as string,
         reference: (fields.reference.value as string)?.trim() || null
       });
-      notify.success($_('register.notify.successful'), 10000);
-      if (continueUrl) {
-        if (getBaseRouteIn(continueUrl) === routes.ADD_GARDEN && !get(user)?.emailVerified) {
-          // If the intention is to add a garden, but the user is not verified, redirect to the account page
-          logger.log(
-            'Redirecting to /account upon unverified email sign-up with a garden add intention'
-          );
-          universalGoto($lr(routes.ACCOUNT));
-        } else {
-          universalGoto(continueUrl);
-        }
-      } else {
-        goto($lr(routes.MAP));
+      // If an explicit continueUrl to the map was set, it means we want the user to enter
+      // the membership modal there without distractions
+      const isMapContinue = !!continueUrl && getBaseRouteIn(continueUrl) === routes.MAP;
+      if (!isMapContinue) {
+        notify.success($_('register.notify.successful'), 10000);
       }
+
+      // Note: continueUrl handling and redirection after registration is handled in onIdTokenChanged in auth.ts
+      // Just like on the sign-in page.
     } catch (err: unknown) {
       isSigningIn.set(false);
       if (
