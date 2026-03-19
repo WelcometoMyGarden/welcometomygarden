@@ -29,6 +29,7 @@
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import { setExpiringCookie } from '$lib/util/set-cookie';
+  import { openMembershipModalOnMapLoad } from '$lib/stores/app';
   import ZoomRestrictionNotice from '$lib/components/Map/ZoomRestrictionNotice.svelte';
   import { createTrailObserver } from '$lib/api/trail';
   import { user } from '$lib/stores/auth';
@@ -75,6 +76,36 @@
   let isShowingMembershipModal = $derived(page.state.showMembershipModal ?? false);
 
   let membershipModalContinueUrl: undefined | string = $state();
+
+  $effect(() => {
+    if ($openMembershipModalOnMapLoad && !$user?.superfan) {
+      // I'm not sure why this setTimeout is necessary, but without it, the modal doesn't open.
+      // This effect runs first before onMount, but it should still be after the DOM mounts
+      // What also doesn't work: (1)
+      // - waiting for onMount using a $state property in the if() here
+      // - waiting for a tick() before showing the modal
+      setTimeout(() => {
+        showMembershipModal();
+        openMembershipModalOnMapLoad.set(false);
+      }, 0);
+    }
+  });
+
+  const onBecomeMember = () => {
+    if ($user && !$user.superfan) {
+      // If we're logged in, but not a superfan
+      showMembershipModal();
+    } else if (!$user) {
+      // If we're logged out
+      goto(createUrl($lr(routes.SIGN_IN), { continueUrl: $lr(routes.MAP) }));
+    }
+    // This function should not be called in the case logged in + superfan
+  };
+
+  const onBecomeMemberFromNotice = () => {
+    membershipNoticeShown = false;
+    onBecomeMember();
+  };
 
   let unsubscribeFromTrailObserver: null | Unsubscribe = $state(null);
 
@@ -289,7 +320,7 @@
       <VehicleNotice close={closeCarNotice} />
     {/if}
     <FileTrails />
-    <ZoomRestrictionNotice onclick={() => showMembershipModal()} />
+    <ZoomRestrictionNotice onclick={onBecomeMember} />
   </Map>
   <LayersAndTools
     bind:showHiking
@@ -299,19 +330,10 @@
     bind:showTransport
     bind:showFileTrailModal
     onShowMembershipNotice={() => (membershipNoticeShown = true)}
-    onBecomeMember={() => {
-      membershipNoticeShown = false;
-      showMembershipModal();
-    }}
+    onBecomeMember={onBecomeMemberFromNotice}
   />
   {#if !$user?.superfan}
-    <MembershipNotice
-      bind:show={membershipNoticeShown}
-      onBecomeMember={() => {
-        membershipNoticeShown = false;
-        showMembershipModal();
-      }}
-    />
+    <MembershipNotice bind:show={membershipNoticeShown} onBecomeMember={onBecomeMemberFromNotice} />
   {/if}
   <!-- TODO: the $currentPosition should be based on IP
     (if it isn't already by default) -->
@@ -322,6 +344,7 @@
     continueUrl={membershipModalContinueUrl}
     onclose={() => {
       membershipNoticeShown = false;
+      openMembershipModalOnMapLoad.set(false);
       if (membershipModalContinueUrl) {
         // reset the continue URL (in case we later click on
         // the zoom notice in the same session)

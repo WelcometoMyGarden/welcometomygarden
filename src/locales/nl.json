@@ -184,8 +184,8 @@
       },
       "guest": {
         "button": "Contact host",
-        "login": "Je moet {signInLink} en lid zijn om contact op te kunnen nemen met hosts.",
-        "sign-link-text": "inloggen",
+        "login": "Je moet {signInLink} om contact op te kunnen nemen met hosts.",
+        "sign-link-text": "inloggen en lid zijn",
         "become-member": "Om contact op te nemen met hosts moet je eerst {becomeMember}. Bedankt!",
         "become-member-text": "lid worden"
       },
