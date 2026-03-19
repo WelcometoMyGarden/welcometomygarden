@@ -36,7 +36,12 @@
   span {
     background-color: var(--color-green);
     display: block;
-    height: 0.3rem;
+    /*
+      This controls the size/height of the 3 bars.
+      Don't let this be a fractional value, it leads to
+      "scaling artifacts" where one bar might be bigger than others.
+    */
+    height: 3px;
     position: relative;
     transition: background-color 200ms ease-out;
     width: 3rem;
