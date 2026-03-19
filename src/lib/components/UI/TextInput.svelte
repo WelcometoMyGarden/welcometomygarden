@@ -31,7 +31,11 @@
      */
     hideError?: boolean;
     /**
-     * Whether to add some padding, to give a better appearnce on non-white backgrounds.
+     * Whether to show a border that changes color with focus
+     */
+    showBorder?: boolean;
+    /**
+     * Whether to add some padding and rounding, to give a better appearance on non-white backgrounds.
      */
     inset?: boolean;
     /**
@@ -63,6 +67,7 @@
     autocomplete = 'on',
     autotrim = false,
     hideError = false,
+    showBorder = true,
     inset,
     actionIcon = undefined,
     customError = undefined,
@@ -79,7 +84,7 @@
 <!-- Contains the main input field & decorations on the top, + an error message container -->
 <div class="outer-container notranslate" class:inset>
   <!-- Main input field container -->
-  <div class="container">
+  <div class="container" class:show-border={showBorder}>
     {#if icon}
       <div class="icon">
         <Icon {icon} />
@@ -150,16 +155,23 @@
     display: flex;
     justify-items: center;
     align-items: center;
-
     border: none;
-    border-bottom: 1px solid var(--color-green);
-    transition: border 300ms ease-in-out;
 
     /* For consistent appearance. Now only needed on non-white backgrounds,
       like in the account deletion modal, where the field is shown on a beige background.
     */
     background: #fff;
   }
+
+  .container.show-border {
+    border-bottom: 1px solid var(--color-green);
+    transition: border 300ms ease-in-out;
+  }
+
+  .container.show-border:has(input:focus) {
+    border-bottom: 1px solid var(--color-info);
+  }
+
   .inset {
     margin-top: 0.75rem;
     border-radius: 3px;
@@ -167,10 +179,6 @@
   }
   .inset > .container {
     padding: 0 1rem;
-  }
-
-  .container:has(input:focus) {
-    border-bottom: 1px solid var(--color-info);
   }
 
   input {

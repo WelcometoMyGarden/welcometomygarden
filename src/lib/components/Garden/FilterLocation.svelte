@@ -133,6 +133,7 @@
     id="location-filter"
     placeholder={$_('garden.filter.search-city')}
     hideError={true}
+    showBorder={false}
     bind:value={locationInput}
     autocomplete="off"
   />
@@ -168,17 +169,22 @@
 <style>
   .location-filter-input {
     background-color: var(--color-white);
-    border-radius: 10px;
+    border-radius: var(--modal-border-radius);
+    overflow: hidden;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
     margin-bottom: 1rem;
-    padding-left: 1rem;
+    padding-left: 1.3rem;
+  }
+
+  .location-filter-input :global(.container > .icon) {
+    margin-right: 0.9rem;
   }
 
   .location-filter-output {
     width: 100%;
     position: absolute;
     background-color: var(--color-white);
-    border-radius: 10px;
+    border-radius: var(--modal-border-radius);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
     padding: 1rem;
   }

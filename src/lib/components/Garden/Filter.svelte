@@ -195,16 +195,6 @@
     flex-wrap: wrap;
   }
 
-  .filter :global(input) {
-    border-radius: var(--modal-border-radius);
-    border-bottom: none;
-  }
-
-  .filter :global(.input:focus) {
-    border-radius: var(--modal-border-radius);
-    border-bottom: none;
-  }
-
   /* Override button styles to make it match the search box height */
   .garden-filter {
     margin-bottom: 1rem;
