@@ -540,9 +540,9 @@
       },
       "guest": {
         "button": "Contactar al anfitrión",
-        "login": "Debes {signInLink} y ser miembro para contactar a los anfitriones",
+        "login": "Debes {signInLink} para contactar a los anfitriones",
         "become-member": "Para contactar a los anfitriones, primero debe {becomeMember}. ¡Gracias!",
-        "sign-link-text": "iniciar sesión",
+        "sign-link-text": "iniciar sesión y ser miembro",
         "become-member-text": "Hacerse en miembro"
       },
       "save": "Ahorrar",

@@ -42,7 +42,7 @@ import type { FirebaseGarden } from '../types/Garden';
 import type { User as FirebaseUser } from 'firebase/auth';
 import { trackEvent } from '$lib/util';
 import { PlausibleEvent } from '$lib/types/Plausible';
-import { handledOpenFromIOSPWA } from '$lib/stores/app';
+import { handledOpenFromIOSPWA, openMembershipModalOnMapLoad } from '$lib/stores/app';
 import { allListedGardens, hasLoaded as gardenHasLoaded } from '$lib/stores/garden';
 import { createClient } from '@supabase/supabase-js';
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_API_URL } from '$env/static/public';
@@ -121,8 +121,20 @@ export const createAuthObserver = (): Unsubscribe => {
     if (oldStoredUser == null) {
       logger.info('Previous user was null');
     }
+
+    /**
+     * To be filled by the URL continueUrl param
+     */
+    let continueUrl;
+
+    /** Where we need to route to */
     let routeTo: string | null = null;
 
+    /**
+     * Whether we just logged in.
+     * Note that this also includes the case where we are automatically logged in,
+     * but we did a hard refresh or load of the page.
+     */
     let justLoggedIn = false;
 
     if (firebaseUser) {
@@ -141,6 +153,8 @@ export const createAuthObserver = (): Unsubscribe => {
       }
       // Other cases: the current user was updated with new auth info
       // or the user was manually reloaded (currentUser.reload())
+
+      logger.debug('A user just logged in', firebaseUser.uid);
 
       const firebaseUserEmailVerified: boolean = firebaseUser.emailVerified;
       // The token email_verified field is undocumented, but it gets set,
@@ -242,12 +256,13 @@ export const createAuthObserver = (): Unsubscribe => {
       }
 
       // Handle redirects after login
+      continueUrl = get(page).url.searchParams.get('continueUrl');
+      const currentRoute = getCurrentRoute();
       if (
         // In general, when we just logged in
         justLoggedIn &&
-        getCurrentRoute() === routes.SIGN_IN
+        (currentRoute === routes.SIGN_IN || currentRoute == routes.REGISTER)
       ) {
-        let continueUrl = get(page).url.searchParams.get('continueUrl');
         if (continueUrl) {
           if (
             getBaseRouteIn(continueUrl) === routes.ADD_GARDEN &&
@@ -269,6 +284,7 @@ export const createAuthObserver = (): Unsubscribe => {
           // Might happen if you have the sign in page open on two different tabs
           routeTo = routes.MAP;
         }
+        // Note: the membership modal is activated later on in this function, when we have loaded the user
       }
 
       // Check if a Supabase role is set
@@ -343,6 +359,24 @@ export const createAuthObserver = (): Unsubscribe => {
         targetRoute = routeTo;
       }
       DEV: logger.debug(`onIdTokenChanged: routing to ${targetRoute} after user load`);
+
+      // Check whether we need to open the membership modal on the map
+      // This is handled here, because we need to wait on user load (see above) to confirm membership or not
+      if (
+        justLoggedIn &&
+        continueUrl &&
+        // We want to ensure there was an explicit continueUrl to the map assigned
+        // NOTE: we can assume that /explore in the continueUrl means that we want to show the membership modal,
+        // just because the map & gardens are publicly visible without account, and we don't normally route
+        // people to the sign-in/register pages _unless_ they try to become a member from the map, for which
+        // there are 3 entry points: the zoom restriction notice, the garden modal, and the membership features modal.
+        getBaseRouteIn(continueUrl) === routes.MAP &&
+        getBaseRouteIn(routeTo) === routes.MAP &&
+        !get(user)?.superfan
+      ) {
+        openMembershipModalOnMapLoad.set(true);
+      }
+
       // Using universalGoto, since continueUrl, which may be in routeTo, may
       // contain an external URL
       return universalGoto(targetRoute);

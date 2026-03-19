@@ -599,8 +599,8 @@
         "button": "Gérer le jardin"
       },
       "guest": {
-        "sign-link-text": "vous connecter",
-        "login": "Vous devez {signInLink} et être membre pour contacter des hôtes.",
+        "sign-link-text": "vous connecter et être membre",
+        "login": "Vous devez {signInLink} pour contacter des hôtes.",
         "button": "Contacter l'hôte",
         "become-member": "Pour contacter les hôtes, vous devez d'abord {becomeMember}. Merci !",
         "become-member-text": "devenir membre"
@@ -1343,7 +1343,7 @@
           },
           "7": {
             "copy": {
-              "0": "<span style=\"text-decoration: underline;\">Par un Member ou Superfan</span><br/>\n<p>Conformément à la législation belge et aux réglementations européennes de protection des consommateurs, les Membres et Superfans résidant dans l'Union Européenne ont le droit de se rétracter de leur achat dans un délai de quatorze (14) jours à compter de leur adhésion en tant que Membre ou Superfan.</p>\n<p>Ce droit ne s'applique que si les conditions suivantes sont remplies :</p>",
+              "0": "<span style=\"text-decoration: underline;\">Par un Membre ou Superfan</span><br/>\n<p>Conformément à la législation belge et aux réglementations européennes de protection des consommateurs, les Membres et Superfans résidant dans l'Union Européenne ont le droit de se rétracter de leur achat dans un délai de quatorze (14) jours à compter de leur adhésion en tant que Membre ou Superfan.</p>\n<p>Ce droit ne s'applique que si les conditions suivantes sont remplies :</p>",
               "1": "<ol class=\"terms-html\">\n<li>Aucune demande de séjour n’a été envoyée via la plateforme WTMG ; et</li>\n<li>Le Membre ou Superfan n’a pas enfreint les Conditions d'Utilisation ni les règles de WTMG.</li>\n</ol>",
               "2": "Si ces conditions sont remplies, le délai de rétractation prend fin quatorze (14) jours ouverts après la date du paiement initial ou, pour les renouvellements, quatorze (14) jours après la date de renouvellement. Passé ce délai, aucun remboursement ne pourra avoir lieu, en totalité ou en partie. Ce droit d’annulation s'applique également à chaque renouvellement annuel, dans les mêmes conditions. Pour annuler une adhésion, les Membres et Superfans doivent informer WTMG par email à <a href=\"mailto:support@welcometomygarden.org\">support@welcometomygarden.org</a> dans le délai de 14 jours applicable.",
               "3": "<span style=\"text-decoration: underline;\">Par <span class=\"notranslate\">Welcome To My Garden</span></span>\n<p>WTMG est destiné exclusivement à l’usage prévu tel que décrit dans ces Conditions et les règles de la plateforme. Toute autre utilisation — y compris les activités commerciales, les promotions tierces, les sollicitations personnelles ou la collecte et l’utilisation de données personnelles — est strictement interdite. WTMG ne soutient ni ne tolère aucune forme de communication non sollicitée (“SPAM”). Si un Membre ou Superfan se livre à une telle activité, WTMG se réserve le droit de suspendre ou de supprimer immédiatement son compte sans remboursement. Toute violation de ces Conditions peut entraîner de graves conséquences, y compris des actions en justice, des demandes de réparation de préjudices et le remboursement des frais juridiques. En utilisant la plateforme, vous acceptez également de dégager WTMG de toute responsabilité découlant de votre violation de ces Conditions, y compris toute réclamation de tiers qui pourrait en résulter.</p>"

@@ -141,7 +141,7 @@ export class MainFlowTest extends GenericFlow {
     await page.getByLabel(this.l('cookie-policy')).check();
     await page.getByRole('button', { name: this.l('sign-up') }).click();
     // Wait until the original page redirects back to the garden that we wanted to chat with
-    // (using continueUrl)
+    // (using continueUrl). The membership modal will be overlayed over this.
     await page.waitForURL('**/explore/garden/*');
 
     // Close the original page fist to avoid it picking up the chatIntention
