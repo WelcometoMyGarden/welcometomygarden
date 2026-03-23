@@ -51,8 +51,8 @@ Implications:
 - It's easy to test web push on mobile, using the real (HTTPS) staging/production servers **without emulators**
   - It's fairly easy to run a local frontend dev server via HTTPS, see our [Capacitor app development docs](./capacitor-mobile-apps.md) for setup instructions regarding compatibility with real or simulated devices.
 - It's possible to test web push on a **dev machine using http localhost with Firebase Auth/Function/Storage emulators**, with a spoofed mobile phone User Agent (because we only allow notifications on mobile phones, by User Agent).
-- An iOS simulator can also access the macOS `localhost` on http (but you will need to use Home Screen apps, see above). I'm not sure if Web Push can be tested with emulators this way.
-- An Android Emulator can not access the macOS localhost, but its system browser supports Web Push on HTTPS endpoints (so no emulators)
+- An iOS simulator can also access the macOS `localhost` on http (but you will need to use Home Screen apps, see above). Push notifications or Web Push can not be tested with simulators this way, since I don't think simulators can get "real push notifications.
+- An Android Emulator can not access the macOS localhost, but its system browser supports Web Push on HTTPS endpoints (so no emulators), as well as real push notifications.
 - It's _not_ easy to test with emulators on a real mobile device. The only way I got it to work: 1) to run a reverse nginx proxy in iSH on an iPhone, that connects to HTTP emulators on a desktop. This way, you can connect to localhost on the iPhone. This approach is not practical.
 
 **Debugging**
