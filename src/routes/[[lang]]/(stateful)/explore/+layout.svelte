@@ -179,7 +179,10 @@
   };
 
   const closeDrawer = () => {
-    goto($lr(routes.MAP));
+    // We use keepFocus to keep the location search filter field in focus
+    // when closing a garden by clicking outside it. For some reason,
+    // data-sveltekit-keepfocus on the search input field does not suffice.
+    goto($lr(routes.MAP), { keepFocus: true });
   };
 
   const closeCarNotice = () => {

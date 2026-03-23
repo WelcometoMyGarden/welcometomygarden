@@ -127,6 +127,7 @@
 
 <div class="location-filter-input">
   <TextInput
+    keepFocus
     icon={markerIcon}
     type="text"
     name="location-filter"

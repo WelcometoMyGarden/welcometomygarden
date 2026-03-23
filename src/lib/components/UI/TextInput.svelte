@@ -38,6 +38,10 @@
      */
     inset?: boolean;
     /**
+     * Whether to use SvelteKit's data-sveltekit-keepfocus attribute
+     */
+    keepFocus?: boolean;
+    /**
      * A snippet intended for icon buttons which can process the field somehow
      */
     actionIcon?: Snippet;
@@ -70,6 +74,7 @@
     autotrim = false,
     hideErrorSpace = false,
     showBorder = true,
+    keepFocus = false,
     inset,
     actionIcon = undefined,
     customError = undefined,
@@ -106,6 +111,7 @@
       {autocomplete}
       {list}
       {type}
+      data-sveltekit-keepfocus={keepFocus}
       id={id || name}
       minlength={minLength}
       maxlength={maxLength}
