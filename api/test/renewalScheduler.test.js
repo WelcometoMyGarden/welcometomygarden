@@ -19,10 +19,6 @@ const sinon = require('sinon');
 //
 // beforeEach really runs before each test, also before nested tests
 
-// load process.env vars
-const dotenv = require('dotenv');
-dotenv.config({ path: './.env.local', quiet: true });
-
 const { auth } = require('../seeders/app');
 const { createNewUser } = require('../seeders/util');
 const mail = require('../src/mail');

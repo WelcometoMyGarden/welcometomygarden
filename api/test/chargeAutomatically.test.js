@@ -21,6 +21,8 @@
 const assert = require('node:assert');
 const dotenv = require('dotenv');
 const { resolve } = require('node:path');
+// TODO: this might still be needed to import vars for stripe
+// it should not be needed anymore for seeders/app
 dotenv.config({ path: resolve(__dirname, '../.env.local'), quiet: true });
 
 const {

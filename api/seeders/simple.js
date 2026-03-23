@@ -1,12 +1,10 @@
 #!/usr/bin/env node
+// This can be run as a script against locally running emulators.
+// it will not automatically reset the emulators though.
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { faker } = require('@faker-js/faker');
 const { auth } = require('./app');
 const { createNewUser, createGarden, createChat, sendMessage } = require('./util');
-const { config } = require('dotenv');
-
-config({ path: 'api/.env.local', quiet: true });
 
 const seed = async () => {
   // Create users
@@ -97,7 +95,6 @@ const seed = async () => {
   );
   for (let i = 0; i < 10; i += 1) {
     const even = i % 2 === 0;
-    // eslint-disable-next-line no-await-in-loop
     await sendMessage((even ? user2 : user1).uid, firstChatId, faker.lorem.sentences(), false);
   }
 

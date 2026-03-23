@@ -1,5 +1,8 @@
+const { config } = require('dotenv');
 const admin = require('firebase-admin');
 // eslint-disable-next-line import/no-extraneous-dependencies
+
+config({ path: 'api/.env.local', quiet: true });
 
 let app;
 if (!admin.apps.length) {
@@ -9,6 +12,7 @@ if (!admin.apps.length) {
 } else {
   [app] = admin.apps;
 }
+
 const db = admin.firestore(app);
 const auth = admin.auth(app);
 const storage = admin.storage(app);
