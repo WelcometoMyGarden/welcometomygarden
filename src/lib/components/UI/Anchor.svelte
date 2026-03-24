@@ -9,6 +9,7 @@
     preventing?: boolean;
     newtab?: boolean | undefined;
     track?: Parameters<typeof trackEvent> | undefined;
+    className?: string;
     onclick?: (event: MouseEvent) => void;
     children?: import('svelte').Snippet;
   }
@@ -18,6 +19,7 @@
     preventing = false,
     newtab = undefined,
     track = undefined,
+    className = '',
     onclick,
     children
   }: Props = $props();
@@ -35,8 +37,12 @@
 
 <!-- @component
 Simple anchor link component, mostly to avoid repeated styling -->
-<a {href} onclick={handleClick} target={newtab ? '_blank' : undefined} rel="noopener"
-  >{@render children?.()}</a
+<a
+  {href}
+  onclick={handleClick}
+  target={newtab ? '_blank' : undefined}
+  rel="noopener"
+  class={className}>{@render children?.()}</a
 >
 
 <style>

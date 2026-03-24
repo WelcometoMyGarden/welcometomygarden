@@ -52,6 +52,7 @@
   ℹ️{' '}
   <!-- Note: this will still track the 'zoom_notice' event despite not opening the link -->
   <Anchor
+    className="zoom-restriction-notice-link"
     href={createUrl($lr(routes.ABOUT_MEMBERSHIP))}
     preventing
     track={[PlausibleEvent.OPEN_MEMBERSHIP_MODAL, { source: 'zoom_notice' }]}
