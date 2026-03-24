@@ -1,6 +1,10 @@
 <script lang="ts">
   import { clickOutside } from '$lib/attachments';
+  import { Capacitor } from '@capacitor/core';
   import Button from './UI/Button.svelte';
+  import { Device } from '@capacitor/device';
+  import { deviceId } from '$lib/stores/pushRegistrations';
+  import sift3Distance from '@zootools/email-spell-checker/dist/lib/fuzzy-detection/sift3-distance';
   const { onclose }: { onclose: () => void } = $props();
 </script>
 
@@ -16,10 +20,6 @@
         <td>{__COMMIT_MESSAGE__}</td>
       </tr>
       <tr>
-        <td>Commit date</td>
-        <td>{__COMMIT_DATE__}</td>
-      </tr>
-      <tr>
         <td>Build date</td>
         <td>{__BUILD_DATE__}</td>
       </tr>
@@ -27,6 +27,39 @@
         <td>Host</td>
         <td>{window.location.host}</td>
       </tr>
+      {#if Capacitor.isNativePlatform()}
+        {#await Device.getInfo()}
+          <tr>
+            <td>Loading native info...</td><td></td>
+          </tr>
+        {:then info}
+          <tr>
+            <td>Device</td>
+            <td>{info.manufacturer} {info.model}</td>
+          </tr>
+          <tr><td>Device ID</td><td>{$deviceId}</td></tr>
+          <tr>
+            <td>OS version</td>
+            <td
+              >{info.operatingSystem}
+              {info.osVersion}
+              {Capacitor.getPlatform() === 'android' ? `(sdk: ${info.androidSDKVersion})` : ''}
+            </td>
+          </tr>
+          {#if Capacitor.getPlatform() === 'android'}
+            <!-- On iOS, the webview version just equals the OS version, so it doesn't add anything -->
+            <tr>
+              <td>Webview version</td>
+              <td>{info.webViewVersion}</td>
+            </tr>
+          {/if}
+          <tr>
+            <td>Memory used</td>
+            <td>{Math.round((info.memUsed ?? 0) / 1048576)} MB</td>
+          </tr>
+        {/await}
+        <tr></tr>
+      {/if}
     </tbody>
   </table>
   <p>You have shown debugging information by tapping the WTMG logo 3 times.</p>
