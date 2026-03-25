@@ -56,10 +56,6 @@
     }
   },
   "index": {
-    "banner-stmf": {
-      "copy": "Wil je je trage reis voorbereiden met de community en tegelijk Welcome To My Garden ondersteunen? Bekijk ons {stmfLink} (van 3 tot 29 juni)!",
-      "link": "Slow Travel Mini Festival"
-    },
     "shop": {
       "banner": {
         "copy": "Welcome To My Garden heeft nu een {title} met houten WTMG-bordjes en postkaartjes om hosts te bedanken. Neem zeker een kijkje op {link}!",
@@ -813,7 +809,7 @@
   },
   "map": {
     "vehicle-notice": {
-      "title": "<span class=\"notranslate\">Welcome To My Garden</span> is alleen voor langzame reizigers.",
+      "title": "<span class=\"notranslate\">Welcome To My Garden</span> is alleen voor trage reizigers.",
       "text": "Als je van plan bent om met een gemotoriseerd voertuig te reizen, neem dan geen contact op met de host via dit platform. Bedankt voor jouw begrip!"
     },
     "trails": {
@@ -1477,16 +1473,6 @@
           }
         }
       }
-    }
-  },
-  "stmf": {
-    "title": "Slow Travel Mini Festival",
-    "description": "Bereid uw langzame reizen voor met de gemeenschap",
-    "sections": {
-      "get-inspired": "Word geïnspireerd",
-      "plan": "Plan",
-      "contribute": "Draag bij",
-      "rethink": "Herdenk"
     }
   },
   "fallback": {

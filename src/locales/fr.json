@@ -101,10 +101,6 @@
         "title": "Étape 3 : Plantez votre tente"
       }
     },
-    "banner-stmf": {
-      "copy": "Vous voulez préparer votre prochain voyage lent tout en soutenant <span class=\"notranslate\">Welcome To My Garden</span> ? Découvrez notre {stmfLink} (du 3 au 29 juin) !",
-      "link": "Slow Travel Mini Festival"
-    },
     "shop": {
       "banner": {
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> a désormais {title} avec des panneaux en bois WTMG et des cartes postales pour remercier vos hôtes. Rendez-vous sur {link} !",
@@ -1473,16 +1469,6 @@
           }
         }
       }
-    }
-  },
-  "stmf": {
-    "title": "Slow Travel Mini Festival",
-    "description": "Préparez votre voyage lent avec la communauté",
-    "sections": {
-      "rethink": "Repenser",
-      "contribute": "Contribuer",
-      "plan": "Planifier",
-      "get-inspired": "S'inspirer"
     }
   },
   "fallback": {

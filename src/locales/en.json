@@ -65,10 +65,6 @@
     }
   },
   "index": {
-    "banner-stmf": {
-      "copy": "Want to prepare your slow travels with the community while supporting Welcome To My Garden? Check out our {stmfLink} (from 3 to 29 June)!",
-      "link": "Slow Travel Mini Festival"
-    },
     "shop": {
       "banner": {
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> now has its {title} with wooden WTMG signs and thank you postcards for hosts. Go check it out at {link}!",
@@ -1500,16 +1496,6 @@
           }
         }
       }
-    }
-  },
-  "stmf": {
-    "title": "Slow Travel Mini Festival",
-    "description": "Prepare your slow travels with the community",
-    "sections": {
-      "get-inspired": "Get Inspired",
-      "plan": "Plan",
-      "contribute": "Contribute",
-      "rethink": "Rethink"
     }
   },
   "fallback": {
