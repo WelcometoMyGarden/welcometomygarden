@@ -6,7 +6,8 @@ import {
   verifyPasswordResetCode as firebaseVerifyPasswordResetCode,
   type Unsubscribe,
   confirmPasswordReset as firebaseConfirmPasswordReset,
-  deleteUser
+  deleteUser,
+  signInWithCustomToken
 } from 'firebase/auth';
 import { auth, db } from './firebase';
 import {
@@ -521,7 +522,11 @@ export const createCampsiteObserver = (currentUserId: string) => {
 export const login = async (email: string, password: string): Promise<void> => {
   isSigningIn.set(true);
   try {
-    await signInWithEmailAndPassword(auth(), email, password);
+    if (import.meta.env.VITE_FIREBASE_CUSTOM_TOKEN) {
+      await signInWithCustomToken(auth(), import.meta.env.VITE_FIREBASE_CUSTOM_TOKEN);
+    } else {
+      await signInWithEmailAndPassword(auth(), email, password);
+    }
     trackEvent(PlausibleEvent.SIGN_IN);
     await resolveOnUserLoaded();
   } catch (e) {
