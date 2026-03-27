@@ -4,7 +4,7 @@
   import Button from './UI/Button.svelte';
   import { Device } from '@capacitor/device';
   import { deviceId } from '$lib/stores/pushRegistrations';
-  import sift3Distance from '@zootools/email-spell-checker/dist/lib/fuzzy-detection/sift3-distance';
+  import { App } from '@capacitor/app';
   const { onclose }: { onclose: () => void } = $props();
 </script>
 
@@ -28,9 +28,19 @@
         <td>{window.location.host}</td>
       </tr>
       {#if Capacitor.isNativePlatform()}
+        {#await App.getInfo()}
+          <tr>
+            <td>Loading native app info...</td>
+          </tr>
+        {:then info}
+          <tr>
+            <td>App version</td>
+            <td>{info.version} ({info.build})</td>
+          </tr>
+        {/await}
         {#await Device.getInfo()}
           <tr>
-            <td>Loading native info...</td><td></td>
+            <td>Loading native device info...</td><td></td>
           </tr>
         {:then info}
           <tr>
@@ -58,7 +68,6 @@
             <td>{Math.round((info.memUsed ?? 0) / 1048576)} MB</td>
           </tr>
         {/await}
-        <tr></tr>
       {/if}
     </tbody>
   </table>
