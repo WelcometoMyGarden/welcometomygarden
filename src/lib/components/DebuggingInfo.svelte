@@ -5,6 +5,7 @@
   import { Device } from '@capacitor/device';
   import { deviceId } from '$lib/stores/pushRegistrations';
   import { App } from '@capacitor/app';
+  import { dev } from '$app/environment';
   const { onclose }: { onclose: () => void } = $props();
 </script>
 
@@ -25,7 +26,7 @@
       </tr>
       <tr>
         <td>Host</td>
-        <td>{window.location.host}</td>
+        <td>{window.location.host}{dev ? ` (dev server)` : ''}</td>
       </tr>
       {#if Capacitor.isNativePlatform()}
         {#await App.getInfo()}
