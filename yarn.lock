@@ -230,6 +230,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@capacitor-community/safe-area@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "@capacitor-community/safe-area@npm:8.0.1"
+  peerDependencies:
+    "@capacitor/core": ">=8.0.0"
+  checksum: 10/8d5f4f61cab2793b3a58be6d71d3b55f52fba9d09c8a3833de361424386a8f94238f37ef38bc4c89155c8fbbfdcdf288996d65b2ac4cce1f9985b7c30ce8cebb
+  languageName: node
+  linkType: hard
+
 "@capacitor/android@npm:^8.0.0":
   version: 8.0.2
   resolution: "@capacitor/android@npm:8.0.2"
@@ -404,15 +413,6 @@ __metadata:
   version: 1.0.4
   resolution: "@capacitor/synapse@npm:1.0.4"
   checksum: 10/1e7d4e4abb7ad0890e37544062523eb4ab1ec4478aaccd1d9d4550033ab67c126f50de622cfc202f0bad1c38aaee686505c248196873c81fa4175158214cafaa
-  languageName: node
-  linkType: hard
-
-"@capawesome/capacitor-android-edge-to-edge-support@npm:^8.0.5":
-  version: 8.0.5
-  resolution: "@capawesome/capacitor-android-edge-to-edge-support@npm:8.0.5"
-  peerDependencies:
-    "@capacitor/core": ">=8.0.0"
-  checksum: 10/6a77171b98acc9648b997b4766e6d8c7288194f9f9f73d41c4e261c9b30958973cbb0f84842413b1721d1b83cd0d517afac21644f1af92ce10fffb57b5ef8808
   languageName: node
   linkType: hard
 
@@ -13142,6 +13142,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "welcome-to-my-garden@workspace:."
   dependencies:
+    "@capacitor-community/safe-area": "npm:^8.0.1"
     "@capacitor/android": "npm:^8.0.0"
     "@capacitor/app": "npm:^8.0.0"
     "@capacitor/assets": "npm:^3.0.5"
@@ -13154,7 +13155,6 @@ __metadata:
     "@capacitor/local-notifications": "npm:^8.0.0"
     "@capacitor/push-notifications": "npm:^8.0.0"
     "@capacitor/splash-screen": "npm:^8.0.0"
-    "@capawesome/capacitor-android-edge-to-edge-support": "npm:^8.0.5"
     "@firebase/rules-unit-testing": "npm:^5.0.0"
     "@notnotsamuel/capacitor-swipe-back": "npm:^3.0.2"
     "@playwright/test": "npm:^1.58.1"

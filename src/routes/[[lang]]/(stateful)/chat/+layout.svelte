@@ -255,16 +255,6 @@
     height: 100%;
   }
 
-  :global(.app.native.ios .container .conversations) {
-    /*
-      This should be applied on .conversations, and not on .container,
-      because otherwise, a visual jump is visible when opening chats.
-      -> you open the specific chat (component mounts) -> component animates in, still with container top padding applied
-      -> specific chat CSS (fixed top 0 + safe area) is loaded -> it jumps back down
-    */
-    padding-top: calc(env(safe-area-inset-top, 0px) - 1.3rem);
-  }
-
   .empty {
     padding: 1rem 3rem;
     line-height: 1.6;
@@ -276,6 +266,13 @@
     margin-right: 4rem;
     height: 100%;
     overflow-y: auto;
+    /*
+      This should be applied on .conversations, and not on .container,
+      because otherwise, a visual jump is visible when opening chats.
+      -> you open the specific chat (component mounts) -> component animates in, still with container top padding applied
+      -> specific chat CSS (fixed top 0 + safe area) is loaded -> it jumps back down
+    */
+    padding-top: max(0px, env(safe-area-inset-top, 0px) - 1.3rem);
   }
 
   .conversations:not(.is-mobile) {

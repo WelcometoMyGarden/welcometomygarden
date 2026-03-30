@@ -391,7 +391,9 @@
     left: 0;
     z-index: 10;
     box-shadow: 0px 0px 3.3rem rgba(0, 0, 0, 0.1);
-    padding-top: 0.7rem;
+    /* Expands the white background element to the top of the screen,
+       dynamic in case of safe area support */
+    padding-top: max(0.7rem, calc(env(safe-area-inset-top, 0px) - 0.2rem));
     padding-bottom: 1.7rem;
     min-height: var(--spacing-chat-header);
     display: flex;
@@ -402,9 +404,13 @@
     gap: 0.5rem;
   }
 
-  :global(.app.native.ios header.mobile.chat-header) {
-    /* Expands the white background element to the top of the screen */
-    padding-top: calc(env(safe-area-inset-top, 0px) - 0.3rem);
+  :global(.app.native.supports-safe-area header.mobile.chat-header) {
+    /* TODO: this is a hardcoded override for Capacitor devices with the
+      SafeArea plugin, or iOS. The presence of that plugin on Android
+      does not mean that any overlapping UI elements exist however.
+      We should probably check whether one of the env() vars is non-zero with JS
+      and then make this ".needs-safe-area"
+    */
     min-height: 10.5rem;
   }
 

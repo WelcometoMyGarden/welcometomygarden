@@ -255,6 +255,8 @@
 <Progress active={$isFetchingGardens} />
 
 <div class="map-section">
+  <!-- Note: the reason why some components here are a child of <Map>, and others are not,
+      is that they consume the map as Svelte context, and query or control the map in some way  -->
   <Map
     lon={centerLocation.longitude}
     lat={centerLocation.latitude}
@@ -329,34 +331,9 @@
     left: 0;
   }
 
-  /* TODO: unhide this attribution logo? */
-  .map-section :global(.mapboxgl-ctrl-logo) {
-    display: none;
-  }
-
-  .map-section :global(.mapboxgl-ctrl-top-left) {
-    /* 10px is the built-in margin of the zoom control */
-    top: calc(var(--spacing-map-controls) - 10px);
-  }
-
   @media screen and (max-width: 700px) {
     .map-section {
       top: 0;
     }
-    .map-section :global(.mapboxgl-ctrl-top-left) {
-      top: 0rem;
-    }
-
-    .map-section :global(.mapboxgl-ctrl-attrib.mapboxgl-compact:not(.mapboxgl-compact-show)) {
-      /* Fix the oval attribution info box by setting a height equal to width,
-      but allow flexible height expansion when opened */
-      height: 24px;
-    }
-  }
-
-  /* Native override */
-  :global(.app.native.ios .map-section .mapboxgl-ctrl-top-left) {
-    /* 10px is the built-in margin */
-    top: calc(env(safe-area-inset-top, 0px) - 10px);
   }
 </style>

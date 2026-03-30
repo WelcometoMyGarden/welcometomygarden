@@ -80,9 +80,6 @@ const config: CapacitorConfig = {
     SystemBars: {
       insetsHandling: 'disable'
     },
-    EdgeToEdge: {
-      navigationBarColor: '#ffffff'
-    },
     LocalNotifications: {
       smallIcon: 'push_icon',
       // Not sure if we can use the variable name @color/colorPrimary here, not suggested in the docs

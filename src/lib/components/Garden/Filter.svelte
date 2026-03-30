@@ -226,8 +226,9 @@
 
   @media screen and (max-width: 700px) {
     .filter {
-      /* Align with scale control */
-      top: 10px;
+      /* Align with scale control, falls back to the value without above safe area,
+         because on desktop the safe area padding is already included in the nav bar */
+      top: calc(var(--spacing-map-controls) + env(safe-area-inset-top, 0px));
       /* Full width (including control padding) on the left
        - control inner spacing until the Filter component
        - spacing on the right, equal to the control padding */
@@ -238,11 +239,5 @@
       /* This should not be necessary with the above width, but for safety */
       margin-right: var(--mapbox-zoom-ctrl-padding);
     }
-  }
-
-  /* Allow the map to be edge-to-edge under unsafe top elements
-     while dodging these lements for the search filter. */
-  :global(.app.native.ios .filter) {
-    top: env(safe-area-inset-top);
   }
 </style>

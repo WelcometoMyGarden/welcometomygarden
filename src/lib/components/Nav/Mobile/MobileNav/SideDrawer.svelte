@@ -223,7 +223,7 @@
     transform-origin: 0% 0%;
     transform: translate(100%, 0);
 
-    padding: 0 0 var(--height-mobile-nav) 0;
+    padding: env(safe-area-inset-top, 0px) 0 var(--height-mobile-nav) 0;
   }
 
   .socials {
@@ -317,9 +317,5 @@
 
   .sign-out {
     color: var(--color-orange);
-  }
-
-  :global(.app.native.ios .drawer) {
-    padding-top: env(safe-area-inset-top);
   }
 </style>

@@ -78,6 +78,8 @@
   .toasts {
     list-style: none;
     position: fixed;
+    /* Note: this is relative to screen top, and needs to take into account the desktop nav.
+       This variable this already includes safe area insets if they apply. */
     top: calc(var(--height-nav));
     right: 0;
     padding: 0;
@@ -91,9 +93,7 @@
 
   @media screen and (max-width: 700px) {
     .toasts {
-      top: 0;
-    }
-    :global(.app.native.ios .toasts) {
+      /* The top navbar does not apply here anymore */
       top: env(safe-area-inset-top, 0px);
     }
   }

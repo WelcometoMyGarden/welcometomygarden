@@ -9,6 +9,7 @@ android {
 
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
+    implementation project(':capacitor-community-safe-area')
     implementation project(':capacitor-app')
     implementation project(':capacitor-device')
     implementation project(':capacitor-geolocation')
@@ -16,7 +17,6 @@ dependencies {
     implementation project(':capacitor-local-notifications')
     implementation project(':capacitor-push-notifications')
     implementation project(':capacitor-splash-screen')
-    implementation project(':capawesome-capacitor-android-edge-to-edge-support')
     implementation project(':notnotsamuel-capacitor-swipe-back')
     implementation project(':capacitor-native-settings')
 

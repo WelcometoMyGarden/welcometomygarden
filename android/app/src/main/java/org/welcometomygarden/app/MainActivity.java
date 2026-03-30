@@ -3,6 +3,8 @@ package org.welcometomygarden.app;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
+import androidx.activity.EdgeToEdge;
+
 import com.getcapacitor.BridgeActivity;
 
 public class MainActivity extends BridgeActivity {
@@ -16,11 +18,16 @@ public class MainActivity extends BridgeActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
     // Lock phones to portrait, allow tablets to rotate
     if (!canSupportLandscape()) {
       setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     } else {
       setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
     }
+
+    // Enable edge-to-edge mode
+    // see https://github.com/capacitor-community/safe-area
+    EdgeToEdge.enable(this);
   }
 }

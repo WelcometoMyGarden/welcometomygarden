@@ -300,6 +300,8 @@
   class:native={Capacitor.isNativePlatform()}
   class:ios={Capacitor.getPlatform() === 'ios'}
   class:android={Capacitor.getPlatform() === 'android'}
+  class:supports-safe-area={Capacitor.getPlatform() === 'ios' ||
+    Capacitor.isPluginAvailable('SafeArea')}
   style="--vh:{vh}"
   bind:this={appContainer}
 >
@@ -443,7 +445,7 @@
 
     /* Add a general safe inset padding on native, except on the map & chat
       (they don't need it, or have their own safe area handling) */
-    .app.native.ios:not(.active-explore):not(.active-chat) {
+    .app.native.supports-safe-area:not(.active-explore):not(.active-chat) {
       padding-top: env(safe-area-inset-top, 0px);
     }
 

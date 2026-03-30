@@ -35,6 +35,7 @@
     "stripe:staging": "stripe listen --events customer.subscription.deleted,customer.subscription.updated,invoice.finalized,invoice.created,invoice.paid,payment_intent.processing --forward-to http://127.0.0.1:5001/wtmg-dev/europe-west1/handleStripeWebhookV2"
   },
   "devDependencies": {
+    "@capacitor-community/safe-area": "^8.0.1",
     "@capacitor/android": "^8.0.0",
     "@capacitor/app": "^8.0.0",
     "@capacitor/assets": "^3.0.5",
@@ -47,7 +48,6 @@
     "@capacitor/local-notifications": "^8.0.0",
     "@capacitor/push-notifications": "^8.0.0",
     "@capacitor/splash-screen": "^8.0.0",
-    "@capawesome/capacitor-android-edge-to-edge-support": "^8.0.5",
     "@firebase/rules-unit-testing": "^5.0.0",
     "@notnotsamuel/capacitor-swipe-back": "^3.0.2",
     "@playwright/test": "^1.58.1",

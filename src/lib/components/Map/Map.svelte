@@ -348,7 +348,7 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   });
 </script>
 
-<div bind:this={container}>
+<div class="map-container" bind:this={container}>
   <!-- Show map UI if the map is loaded -->
   {#if map && loaded}
     {@render children?.()}
@@ -381,24 +381,44 @@ Component for maps. Shared between the main map, and the map in the Garden creat
     display: none;
   }
 
+  /* TODO: unhide this attribution logo? */
+  .map-container :global(.mapboxgl-ctrl-logo) {
+    display: none;
+  }
+
+  .map-container :global(.mapboxgl-ctrl-top-left) {
+    /* 10px is the built-in margin of the zoom control */
+    top: calc(env(safe-area-inset-top, 0px) + var(--spacing-map-controls) - 10px);
+  }
+
   @media screen and (max-width: 700px) {
     /* Includes the FullscreenControl */
-    :global(.mapboxgl-ctrl-top-right) {
-      top: 5.5rem;
+    .map-container :global(.mapboxgl-ctrl-top-right) {
+      /* The top-right controls (on native just the geolocation) should come below the filter button */
+      top: calc(env(safe-area-inset-top, 0px) + var(--spacing-map-controls) + 4.3rem);
       right: 0.2rem;
+    }
+
+    .map-container :global(.mapboxgl-ctrl-attrib.mapboxgl-compact:not(.mapboxgl-compact-show)) {
+      /* Fix the oval attribution info box by setting a height equal to width,
+      but allow flexible height expansion when opened */
+      height: 24px;
     }
   }
 
-  /* Native edge-to-edge handling */
-  :global(.app.native.ios .mapboxgl-ctrl-top-right) {
-    top: calc(env(safe-area-inset-top, 0px) + 5rem);
-  }
   @media screen and (min-width: 701px) {
     /* In desktop mode, the controls are relative to the top of the map
-     which is already pushed down by the safe area  */
-    :global(.app.native.ios .mapboxgl-ctrl-top-right) {
-      /* 10px is the built-in margin */
-      top: 1rem;
+     which is already pushed down by the safe area insets */
+    .map-container :global(.mapboxgl-ctrl-top-left),
+    .map-container :global(.mapboxgl-ctrl-top-right) {
+      top: calc(var(--spacing-map-controls) - 10px);
+    }
+    /**
+     10px is the inner padding of controls, reset it 0
+    */
+    .map-container :global(.mapboxgl-ctrl-top-left .mapboxgl-ctrl-group),
+    .map-container :global(.mapboxgl-ctrl-top-right .mapboxgl-ctrl-group) {
+      padding-top: 0;
     }
   }
 </style>
