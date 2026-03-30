@@ -131,6 +131,10 @@ Run front-end servers in Vite modes that reference the right TLS certificates.
 yarn dev:push
 # or to connect to production
 vite --mode devpushprod --host
+
+# In some cases (e.g. testing older webviews, or trying to assess production performance & behavior), it's useful to build the static site and host it.
+# The Vite preview server is configured to use the same HTTPS setup as the dev server. The Firebase Hosting emulator unfortunately doesn't support HTTPS.
+vite build --mode devpush && vite preview --mode devpush --host --port 5173
 ```
 
 Then build the app referencing the local hostname.
@@ -152,6 +156,55 @@ See https://github.com/ionic-team/capacitor-assets, which is invoked for our pur
 - Go to `chrome://inspect` or the equivalent -> from here you can inspect
 
 **iOS**: use Safari on macOS, enable Developer settings, go to the Develop menu -> from here you can inspect
+
+### ⚠️ Android Emulators ship with (too) old webview versions
+
+Older Android emulators may ship with a webview version aligned with the Chrome version at the time of the Android version's release (at or close to their initial version). In most real-life situations though, this web view version would have been updated along with the Chrome/browser version on the device, up until a certain maximum version (see table below). We've seen this in practice with:
+
+- my Android 9 Google APIs emulator shipping with Webview v66
+- a real user's Android 9 device that had v138 (max)
+
+Below Chrome 85 (see [this](../plugins/dynamicBuildTarget.js) for our current supported browsers) this affects whether the WTMG site code can run at all. Above, this this might influence certain browser features that Capacitor relies upon, which expect a higher browser version.
+
+**To update your emulator's webview**
+
+Search for an applicable `.apk` (not "splits") from [APKMirror](https://www.apkmirror.com/apk/google-inc/chrome/).
+
+- Installing these also affects your webview.
+- Though the theoretical minimum and target Android versions are clear for packages, I've seen in practice that Chrome often crashes after installation, due to some unspecified dependency. Sometimes the packaged webview then still works for our app, sometimes not. You might need to go lower than desired with the version.
+- You can also try looking for "Android System WebView" packages, but I've personally had bad luck installing those due to signature differences (explained on APKMirror). Chrome packages did not have this issue.
+- To confirm the webview, check Settings → Developer Options → WebView implementation
+
+Some helpful command examples:
+
+```sh
+# List devices, inluding extra details to identify them
+adb devices -l
+# Install, if only one device is running
+adb install -r /path/to/chrome.apk
+# Install, if multiple devices are running
+adb -s emulator-5554 install -r /path/to/chrome.apk
+# Uninstall
+adb uninstall com.android.chrome
+```
+
+**Initial/max browser version by Android version**
+
+(Careful: this is mostly unverified output by ChatGPT 4o, except the above)
+
+|                               | Release year | Initial chrome version | Max Chrome Version |
+| ----------------------------- | ------------ | ---------------------- | ------------------ |
+| **Android 10+**               | 2019         | 77                     | current            |
+| Android 8 & 9                 | 2017         | 60                     | **138**            |
+| **Android 7.0 (Nougat):**     | 2016         | 51                     | 113                |
+| **Android 6.0 (Marshmallow)** | 2015         | 44                     | 106                |
+| **Android 5.x:**              | 2014         | 37                     | 95                 |
+
+### ⚠️ False error: `{something}.at is not a function`
+
+With something being `this._sessionEntries` or a transpiled variable.
+
+If you get this console error in the DevTools, coming from a `VM109` source instead of a specific script, it is not something caused by our code (not even our Sentry code, which used to have such a line), but by a Chrome DevTools Live Metrics script that gets injected by Chromium-based webviews. It's a bundled version of Google's web-vitals library (v5) with a DevTools reporting wrapper, that uses the ES2022 method `.at()` that only supported on Chrome **92+**. The Pixel 5/Android 11/SDK 30/Google APIs emulators ships with **91**, causing this.
 
 ## Testing Universal Links (iOS) / (dynamic) App Links (Android)
 
@@ -192,8 +245,6 @@ Android seems more flexible overall, at least the second restriction does apply 
 - In iOS, `openInWebview` causes URL Scheme links embedded in the opened page to show a crash page, [see this issue](https://github.com/ionic-team/capacitor/discussions/8191). Maybe I had to have "Viewer" permission on those?
 - In Android, it looks like when a in-app tab is opened (SystemBrowser), the execution of the main Capacitor webview is paused.
 - When closing a SystemBrowser using an app link, on Android, the `browserClosed` event is called before the `appUrlOpen` event. On iOS, it's the reverse.
-
-### Implementation notes
 
 # Deployment
 
