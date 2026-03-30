@@ -346,10 +346,12 @@ export const createNativePushRegistration = async (showModalWhenDenied = true) =
       return await registerNotifications();
     }
 
-    // Else: some kind of denial only happened after requesting permissions.
+    // Else: some kind of denial only happened after requesting permissions
     // Stop enable loader in any case.
     isEnablingLocalPushRegistration.set(false);
   } catch (e) {
+    // Note: unlike on web push, we're not showing an error modal, except in a few
+    // unexpected cases (not all) in registerNotifications()
     logger.warn("Couldn't get push registration permission", e instanceof Error ? e.message : '');
   }
   nProgress.done();
