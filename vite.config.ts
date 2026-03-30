@@ -52,6 +52,15 @@ export default defineConfig(({ command, mode }): UserConfig => {
     .toString()
     .split('\n')[0];
 
+  const httpsOptions =
+    useHTTPS && process.env.VITE_HTTPS_CERT_PATH
+      ? {
+          https: {
+            cert: readFileSync(process.env.VITE_HTTPS_CERT_PATH),
+            key: readFileSync(process.env.VITE_HTTPS_KEY_PATH)
+          }
+        }
+      : {};
   return {
     build: {
       minify: isProductionBuild ? 'esbuild' : false
@@ -98,14 +107,10 @@ export default defineConfig(({ command, mode }): UserConfig => {
     server: {
       // Includes localhost by default, check is skipped when HTTPS is used (see mkcert() and below)
       allowedHosts: [os.hostname().toLocaleLowerCase(), ...extraLocalHosts],
-      ...(useHTTPS && process.env.VITE_HTTPS_CERT_PATH
-        ? {
-            https: {
-              cert: readFileSync(process.env.VITE_HTTPS_CERT_PATH),
-              key: readFileSync(process.env.VITE_HTTPS_KEY_PATH)
-            }
-          }
-        : {})
+      ...httpsOptions
+    },
+    preview: {
+      ...httpsOptions
     },
     ssr: {
       // https://vitejs.dev/guide/ssr.html#ssr-externals
