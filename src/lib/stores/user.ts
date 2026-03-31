@@ -2,7 +2,7 @@ import { derived, get, writable } from 'svelte/store';
 import { createChatObserver } from '$lib/api/chat';
 import { getCookie, setCookie } from '$lib/util';
 import { isUserLocaleLoaded, resolveOnUserLoaded, user } from '$lib/stores/auth';
-import { resetChatStores } from '$lib/stores/chat';
+import { resetChatStores, initBadgeSync } from '$lib/stores/chat';
 import { coerceToValidLangCode } from '$lib/util/get-browser-lang';
 import { updateCommunicationLanguage } from '$lib/api/user';
 import IosNotificationPrompt from '$lib/components/Notifications/IOSPWANotificationModal.svelte';
@@ -37,6 +37,7 @@ type MaybeUnsubscriberFunc = (() => void) | undefined;
 let unsubscribeFromAuthObserver: MaybeUnsubscriberFunc;
 let unsubscribeFromChatObserver: MaybeUnsubscriberFunc;
 let unsubscribeFromPushRegistrationObserver: MaybeUnsubscriberFunc;
+let unsubscribeFromBadgeSync: MaybeUnsubscriberFunc;
 
 const userLocale = derived([user, locale], ([$user, $locale]) => [$user, $locale] as const);
 
@@ -73,6 +74,8 @@ export const initializeUser = async () => {
         // Without a verified email: no access to viewing or sending chats or messages, can't create a garden
         // Subscribe to the chat observer, if not initialized yet
         unsubscribeFromChatObserver = unsubscribeFromChatObserver ?? createChatObserver();
+        // Keep OS badge in sync with unread chat count (dependent on chat count, plus the push registration init above)
+        unsubscribeFromBadgeSync = unsubscribeFromBadgeSync ?? initBadgeSync();
       } else if (isOnIDevicePWA()) {
         // If the user does not have a verified email, we unblock the loading of the page
         // by marking the open from iOS PWA as handled, since they can not do anything
@@ -89,6 +92,11 @@ export const initializeUser = async () => {
         unsubscribeFromChatObserver();
         unsubscribeFromChatObserver = undefined;
         resetChatStores();
+      }
+
+      if (unsubscribeFromBadgeSync) {
+        unsubscribeFromBadgeSync();
+        unsubscribeFromBadgeSync = undefined;
       }
 
       if (unsubscribeFromPushRegistrationObserver) {

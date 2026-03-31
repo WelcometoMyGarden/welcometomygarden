@@ -1,6 +1,12 @@
 import type { NewConversation, LocalChat, LocalMessage } from '$lib/types/Chat';
 import { user } from './auth';
 import { writable, get, derived } from 'svelte/store';
+import { setBadgeCount } from '$lib/util/badge';
+import { PushNotifications } from '@capacitor/push-notifications';
+import { isNative } from '$lib/util/uaInfo';
+import * as Sentry from '@sentry/sveltekit';
+import { localNativeRegistrationFCMToken } from './pushRegistrations';
+import logger from '$lib/util/logger';
 
 export const hasInitialized = writable(false);
 export const creatingNewChat = writable(false);
@@ -12,19 +18,23 @@ export const newConversation = writable<NewConversation>(null);
 
 export const chats = writable<{ [chatId: string]: LocalChat }>({});
 
-// Make sure the unseen message count also updates when the user changes, for example, logs out.
-// TODO: although the chats should change: be cleared, be reinitialized, ... in that sense. Is this derivation necessary?
-export const chatsCountWithUnseenMessages = derived([chats, user], ([$chats, $user]) =>
-  Object.entries($chats).reduce((chatsWithUnseenMessages, [, chat]) => {
-    if (!$user) {
-      return 0;
+/**
+ * Is null if logged out, or the chats have not loaded yet
+ */
+export const chatsCountWithUnseenMessages = derived(
+  [chats, user, hasInitialized],
+  ([$chats, $user]) => {
+    if (!$user || !hasInitialized) {
+      return null;
     }
-    const hasUnseenMessage = chat.lastMessageSender != $user.id && chat.lastMessageSeen === false;
-    if (hasUnseenMessage) {
-      return chatsWithUnseenMessages + 1;
-    }
-    return chatsWithUnseenMessages;
-  }, 0)
+    return Object.entries($chats).reduce((chatsWithUnseenMessages, [, chat]) => {
+      const hasUnseenMessage = chat.lastMessageSender != $user.id && chat.lastMessageSeen === false;
+      if (hasUnseenMessage) {
+        return chatsWithUnseenMessages + 1;
+      }
+      return chatsWithUnseenMessages;
+    }, 0);
+  }
 );
 
 /**
@@ -90,4 +100,39 @@ export const resetChatStores = () => {
   creatingNewChat.set(false);
   chats.set({});
   messages.set({});
+};
+
+/**
+ * Badge status synchronization should only happen after
+ */
+export const chatsCountWithUnseenMessagesAfterNativeRegistration = derived(
+  [localNativeRegistrationFCMToken, hasInitialized, chatsCountWithUnseenMessages],
+  ([$localNativeRegistrationFCMToken, $hasInitialized, $chatsCountWithUnseenMessages]) => {
+    if (!$hasInitialized || !$localNativeRegistrationFCMToken) {
+      return null;
+    }
+    return $chatsCountWithUnseenMessages;
+  }
+);
+
+/**
+ * Subscribes to chatsCountWithUnseenMessagesAfterNativeRegistration and keeps the OS badge in sync,
+ * Also clears the notification tray when count reaches 0.
+ * Returns an unsubscribe function.
+ */
+export const initBadgeSync = (): (() => void) => {
+  const unsubscribe = chatsCountWithUnseenMessagesAfterNativeRegistration.subscribe((count) => {
+    if (typeof count === 'number') {
+      logger.debug('Setting badge count', count);
+      setBadgeCount(count);
+      if (count === 0 && isNative) {
+        try {
+          PushNotifications.removeAllDeliveredNotifications();
+        } catch (e) {
+          Sentry.captureException(e);
+        }
+      }
+    }
+  });
+  return unsubscribe;
 };

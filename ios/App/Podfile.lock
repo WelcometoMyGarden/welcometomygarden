@@ -22,6 +22,8 @@ PODS:
     - Capacitor
   - CapacitorSplashScreen (8.0.0):
     - Capacitor
+  - CapawesomeCapacitorBadge (8.0.1):
+    - Capacitor
   - FirebaseCore (12.10.0):
     - FirebaseCoreInternal (~> 12.10.0)
     - GoogleUtilities/Environment (~> 8.1)
@@ -92,6 +94,7 @@ DEPENDENCIES:
   - CapacitorNativeSettings (from `../../node_modules/capacitor-native-settings`)
   - "CapacitorPushNotifications (from `../../node_modules/@capacitor/push-notifications`)"
   - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
+  - "CapawesomeCapacitorBadge (from `../../node_modules/@capawesome/capacitor-badge`)"
   - FirebaseMessaging
   - "NotnotsamuelCapacitorSwipeBack (from `../../node_modules/@notnotsamuel/capacitor-swipe-back`)"
 
@@ -131,6 +134,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/push-notifications"
   CapacitorSplashScreen:
     :path: "../../node_modules/@capacitor/splash-screen"
+  CapawesomeCapacitorBadge:
+    :path: "../../node_modules/@capawesome/capacitor-badge"
   NotnotsamuelCapacitorSwipeBack:
     :path: "../../node_modules/@notnotsamuel/capacitor-swipe-back"
 
@@ -146,6 +151,7 @@ SPEC CHECKSUMS:
   CapacitorNativeSettings: 61b7c3d4081dec0b348cc383af83f3e1faa89106
   CapacitorPushNotifications: 722c1528eabbefd355f47e373a4c6235d01e85e9
   CapacitorSplashScreen: 422880d7117605c30699eb4b21644b62db42e86c
+  CapawesomeCapacitorBadge: 0a65ef36db6c236b41f324df5a2f12fe8cdd4a29
   FirebaseCore: f4428e22415ea3b3eca652c2098413dabf2a23a9
   FirebaseCoreInternal: e7bbaeb00ab73011298f35ed223aa7371e212948
   FirebaseInstallations: 047343aa91fd6a1ebfa3eb374ddecf36a8aaddfd
@@ -158,6 +164,6 @@ SPEC CHECKSUMS:
   OSInAppBrowserLib: bf7cdcc072394ae827f8cfe3f5f9c807691834c0
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
 
-PODFILE CHECKSUM: 182d3923061230c8c634f651356b6e99cfc96825
+PODFILE CHECKSUM: 8a31458174004c675f4c352bc044fd54792432b9
 
 COCOAPODS: 1.16.2

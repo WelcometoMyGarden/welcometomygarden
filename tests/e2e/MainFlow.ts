@@ -1,10 +1,12 @@
 import { type BrowserContext, type Page, expect } from '@playwright/test';
-import { deleteAccount, openEmail, pay } from './util';
+import { deleteAccount, openEmail, pay, removeEndingSlash, unlocalize } from './util';
 import { GenericFlow } from './GenericFlow';
 import stripe from './api/stripe';
 import { auth, db } from './api/firebase';
 import type { DocumentReference } from 'firebase-admin/firestore';
 import type { UserPrivate } from '$lib/models/User';
+import { USERS_PRIVATE } from '$lib/api/collections';
+import { urlPathPrefix } from '$lib/util/translation-shared';
 
 /**
  * A test flow that tests the main, including some detailed redirect handling.
@@ -53,7 +55,7 @@ export class MainFlowTest extends GenericFlow {
       context,
       name: 'accountVerificationEmail',
       toEmail: email,
-      linkPrefix: `${this.baseURL}/auth/`,
+      linkPrefix: unlocalize(`${this.baseURL}/auth/`),
       platform: this.emailPlatform
     });
 
@@ -159,7 +161,7 @@ export class MainFlowTest extends GenericFlow {
       context,
       name: 'accountVerificationEmail',
       toEmail: email,
-      linkPrefix: `${this.baseURL}/auth/`,
+      linkPrefix: unlocalize(`${this.baseURL}/auth/`),
       platform: this.emailPlatform
     });
 
@@ -284,12 +286,23 @@ export class MainFlowTest extends GenericFlow {
     // Check for a response email as robot 2
     await robot2Mailpit.bringToFront();
 
+    // Get comm language
+    const robot2UID = (await auth.getUserByEmail(robot2Email)).uid;
+    const commLang = (
+      await (
+        db.collection(USERS_PRIVATE).doc(robot2UID) as DocumentReference<UserPrivate, UserPrivate>
+      ).get()
+    ).data()?.communicationLanguage;
+
     const { openedLinkPage: robot2ChatPage } = await openEmail({
       context: robot2Context,
       existingMailpitPage: robot2Mailpit,
       name: 'messageReceivedEmail',
       toEmail: robot2Email,
-      linkPrefix: `${this.baseURL}/chat/`,
+      // Note: baseURL includes the current "test language",
+      // but this needs to be the language of the recipient
+      // (for now, this should match, but it could not later if user properties change)
+      linkPrefix: `${removeEndingSlash(unlocalize(this.baseURL))}${urlPathPrefix(commLang)}/chat/`,
       platform: this.emailPlatform
     });
 

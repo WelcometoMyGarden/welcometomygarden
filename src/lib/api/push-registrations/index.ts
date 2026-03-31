@@ -185,13 +185,18 @@ export const createFirebasePushRegistrationObserver = () => {
         !!linkedFirebaseRegistration &&
         new Date().valueOf() -
           (linkedFirebaseRegistration.refreshedAt as Timestamp).toDate().valueOf() >
-          // Weekly refresh of the ones that have not been active
+          // Daily refresh of the ones that have not been active
           MESSAGING_REFRESH_THRESHOLD
       ) {
         trackEvent(PlausibleEvent.REFRESHED_PUSH_REGISTRATION);
         await refreshExistingSubscription(linkedFirebaseRegistration);
         // Note: the refreshExistingSubscription invokes onSnapshot again, hence we can skip a UI update of stale data.
         return;
+      } else if (!!linkedFirebaseRegistration && isNative) {
+        // On native, register the current push registration on every load time, without refreshing Firebase (daily, above).
+        // This is necessary to ensure that .capacitorDidRegisterForRemoteNotifications was called before
+        // initing or changing badge counts.
+        await registerOrRefreshNativeRegistration();
       }
     }
 

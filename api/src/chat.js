@@ -114,12 +114,40 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
       fail('internal');
     }
 
+    // Compute the recipient's unread chat count for the iOS badge
+    // We count 1 for the current chat (always unseen for the recipient at this point —
+    // the client updates lastMessageSeen after creating the message, so there's a race),
+    // plus any other chats already marked unseen.
+    let recipientUnreadCount = 1;
+    try {
+      const recipientChatsSnap = await db
+        .collection('chats')
+        .where('users', 'array-contains', recipientId)
+        .get();
+      for (const chatDoc of recipientChatsSnap.docs) {
+        if (chatDoc.id === chatId) continue;
+        const d = chatDoc.data();
+        if (d.lastMessageSeen === false && d.lastMessageSender !== recipientId) {
+          recipientUnreadCount++;
+        }
+      }
+    } catch (ex) {
+      logger.error('Error while computing recipient unread count for badge', ex);
+    }
+
+    const recipientLanguage = recipientUserPrivateDocData.communicationLanguage ?? 'en';
     const commonPayload = {
       senderName: senderAuthUser.displayName ?? '',
       message: normalizeMessage(message.content),
-      messageUrl: buildMessageUrl(senderAuthUser.displayName, chatId),
+      messageUrl: buildMessageUrl({
+        displayName: senderAuthUser.displayName,
+        chatId,
+        language: recipientLanguage
+      }),
       superfan: recipientUserPublicDocData.superfan ?? false,
-      language: recipientUserPrivateDocData.communicationLanguage ?? 'en'
+      language: recipientLanguage,
+      recipientUnreadCount,
+      threadId: chatId
     };
     //
     // In any case: send a notification to all registered devices via FCM
@@ -144,7 +172,12 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
                 // probably with reason, because: https://developer.mozilla.org/en-US/docs/Web/API/Clients/openWindow#parameters :
                 //   > A string representing the URL of the client you want to open in the window.
                 //   > **Generally this value must be a URL from the same origin as the calling script.**
-                messageUrl: buildMessageUrl(senderAuthUser.displayName, chatId, host),
+                messageUrl: buildMessageUrl({
+                  displayName: senderAuthUser.displayName,
+                  chatId,
+                  host,
+                  language: recipientLanguage
+                }),
                 fcmToken
               });
             } catch (pushNotificationError) {

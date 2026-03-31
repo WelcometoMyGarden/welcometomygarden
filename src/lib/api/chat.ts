@@ -102,13 +102,15 @@ export const createChatObserver = () => {
 
       // Special check for iOS PWA on startup
       // Note: appHasLoaded doesn't resolve until handledOpenFromIOSPWA is true, in this case.
+      const unseenMessages = get(chatsCountWithUnseenMessages);
       if (!get(handledOpenFromIOSPWA) && isOnIDevicePWA()) {
         if (
           // Prevent the UI from jumping automatically to the chat while you're doing something else
           // TODO: maybe there is a better way to open the chat UI when someone just
           // "opened" the iOS home app (and only then)
           // The current user has an unread chat
-          get(chatsCountWithUnseenMessages) > 0
+          typeof unseenMessages === 'number' &&
+          unseenMessages > 0
         ) {
           // show the chat if a new chat has arrived when
           // opening the app

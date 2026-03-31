@@ -12,6 +12,11 @@ export const currentWebPushSubStore = writable<PushSubscriptionPOJO | null>(null
  */
 export const deviceId = writable<string | null | undefined>(undefined);
 
+/**
+ * Updated when the local native registration is acquired.
+ */
+export const localNativeRegistrationFCMToken = writable<null | string>(null);
+
 export const resetPushRegistrationStores = () => {
   pushRegistrations.set([]);
   loadedPushRegistrations.set(false);

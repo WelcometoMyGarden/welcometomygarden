@@ -53,6 +53,7 @@ import { lr } from '$lib/util/translation-helpers';
 import { DEFAULT_LANGUAGE } from '$lib/types/general';
 import logger from '$lib/util/logger';
 import { isRelativeURL, universalGoto } from '$lib/util/navigate';
+import { clearBadge } from '$lib/util/badge';
 
 // These are not Svelte stores, because we do not wish to listen to updates on them.
 // They are abstracted away by the User store, and trigger updates on that store.
@@ -112,8 +113,6 @@ export const createAuthObserver = (): Unsubscribe => {
   // https://firebase.google.com/docs/reference/node/firebase.auth.Auth#onidtokenchanged
   const unsubscribeFromAuthObserver = auth().onIdTokenChanged(async (firebaseUser) => {
     logger.info(`auth/token changed (${!!firebaseUser ? 'truthy' : 'falsy'})`);
-
-    const $lr = get(lr);
 
     // Update the auth state cache
     latestAuthUserState = firebaseUser;
@@ -275,8 +274,8 @@ export const createAuthObserver = (): Unsubscribe => {
       // Check if a Supabase role is set
     } else {
       logger.log('Received a null Firebase user update');
-      // If the user somehow got logged out by Firebase, sync this change to the app.
-      // (e.g. their password was reset elsewhere)
+      // If the user logged out, here or elsewhere, directly or indirectly.
+      // This may happen indirectly on the current tab if the user reset their password elsewhere.
       if (oldStoredUser) {
         logger.log('User is/has been logged out');
         // Perform cleanup
@@ -303,6 +302,7 @@ export const createAuthObserver = (): Unsubscribe => {
           logger.error('Failed to sign out from Supabase', e);
           Sentry.captureException(e);
         }
+        await clearBadge();
       }
 
       // If we're logged out, on an iDevice PWA, and opening the homepage
@@ -338,7 +338,6 @@ export const createAuthObserver = (): Unsubscribe => {
       if (isRelativeURL(routeTo)) {
         // unlocalizePath is intended to be used when routeTo was constructed from a continueUrl
         // above, which may still have outdated locale information included in it
-        // $lr is not equipped to change existing language params
         targetRoute = get(lr)(unlocalizePath(routeTo));
       } else {
         targetRoute = routeTo;

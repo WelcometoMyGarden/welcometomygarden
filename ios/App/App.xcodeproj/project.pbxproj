@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2FAD9763203C412B000D30F8 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 2FAD9762203C412B000D30F8 /* config.xml */; };
+		438576CD2F7AB3DA00C0B835 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 438576CC2F7AB3DA00C0B835 /* PrivacyInfo.xcprivacy */; };
+		438576CE2F7AB3DA00C0B835 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 438576CC2F7AB3DA00C0B835 /* PrivacyInfo.xcprivacy */; };
 		43B6BF8F2E798B3F00E9FA7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EC3071FED79650016851F /* AppDelegate.swift */; };
 		43B6BF932E798B3F00E9FA7C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 504EC3101FED79650016851F /* LaunchScreen.storyboard */; };
 		43B6BF942E798B3F00E9FA7C /* public in Resources */ = {isa = PBXBuildFile; fileRef = 50B271D01FEDC1A000F3C39B /* public */; };
@@ -31,6 +33,7 @@
 /* Begin PBXFileReference section */
 		2FAD9762203C412B000D30F8 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		4001C2425413719627ED8B21 /* Pods-App Staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App Staging.debug.xcconfig"; path = "Pods/Target Support Files/Pods-App Staging/Pods-App Staging.debug.xcconfig"; sourceTree = "<group>"; };
+		438576CC2F7AB3DA00C0B835 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		43B6BF9E2E798B3F00E9FA7C /* App Staging.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App Staging.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		43B6BF9F2E798B3F00E9FA7C /* App Staging-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "App Staging-Info.plist"; path = "/Users/thor/Code/slowby/welcometomygarden/ios/App/App Staging-Info.plist"; sourceTree = "<absolute>"; };
 		43B8A99B2F4F6B8C00125E33 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
@@ -153,6 +156,7 @@
 				43B8A99B2F4F6B8C00125E33 /* InfoPlist.xcstrings */,
 				2FAD9762203C412B000D30F8 /* config.xml */,
 				50B271D01FEDC1A000F3C39B /* public */,
+				438576CC2F7AB3DA00C0B835 /* PrivacyInfo.xcprivacy */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -263,6 +267,7 @@
 			files = (
 				43B6BF932E798B3F00E9FA7C /* LaunchScreen.storyboard in Resources */,
 				43B6BF942E798B3F00E9FA7C /* public in Resources */,
+				438576CE2F7AB3DA00C0B835 /* PrivacyInfo.xcprivacy in Resources */,
 				43B6BF952E798B3F00E9FA7C /* Assets.xcassets in Resources */,
 				43B6BF962E798B3F00E9FA7C /* capacitor.config.json in Resources */,
 				43B6BF972E798B3F00E9FA7C /* Main.storyboard in Resources */,
@@ -277,6 +282,7 @@
 			files = (
 				504EC3121FED79650016851F /* LaunchScreen.storyboard in Resources */,
 				50B271D11FEDC1A000F3C39B /* public in Resources */,
+				438576CD2F7AB3DA00C0B835 /* PrivacyInfo.xcprivacy in Resources */,
 				504EC30F1FED79650016851F /* Assets.xcassets in Resources */,
 				50379B232058CBB4000EE86E /* capacitor.config.json in Resources */,
 				504EC30D1FED79650016851F /* Main.storyboard in Resources */,

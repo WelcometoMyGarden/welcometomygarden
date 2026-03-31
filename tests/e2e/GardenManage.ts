@@ -1,5 +1,5 @@
 import { expect, type BrowserContext, type Page } from '@playwright/test';
-import { openEmail } from './util';
+import { openEmail, unlocalize } from './util';
 import { GenericFlow } from './GenericFlow';
 
 const DEBUG_REDIRECTIONS = false;
@@ -65,7 +65,7 @@ export class GardenManageTest extends GenericFlow {
       context,
       name: 'accountVerificationEmail',
       toEmail: email,
-      linkPrefix: `${this.baseURL}/auth/`,
+      linkPrefix: unlocalize(`${this.baseURL}/auth/`),
       platform: this.emailPlatform
     });
 

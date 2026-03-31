@@ -74,16 +74,16 @@ const config: CapacitorConfig = {
   zoomEnabled: false,
   // webDir: '../dist',
   plugins: {
+    LocalNotifications: {
+      smallIcon: 'push_icon',
+      // Not sure if we can use the variable name @color/colorPrimary here, not suggested in the docs
+      iconColor: '#495747'
+    },
     SplashScreen: {
       launchAutoHide: false
     },
     SystemBars: {
       insetsHandling: 'disable'
-    },
-    LocalNotifications: {
-      smallIcon: 'push_icon',
-      // Not sure if we can use the variable name @color/colorPrimary here, not suggested in the docs
-      iconColor: '#495747'
     }
   },
   ...overrideConfig

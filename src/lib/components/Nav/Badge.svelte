@@ -2,20 +2,20 @@
   import { fade } from 'svelte/transition';
 
   interface Props {
-    count?: number;
+    count?: number | null;
   }
 
   let { count = 0 }: Props = $props();
 </script>
 
-{#if count > 0}
+{#if typeof count === 'number' && count > 0}
   <div transition:fade={{ duration: 200 }}>{count}</div>
 {/if}
 
 <!-- @component
     A circular badge to display a count on the right top of a relatively
     positioned box.
-    
+
     Naming reference: https://mui.com/material-ui/react-badge/
 -->
 <style>

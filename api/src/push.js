@@ -8,6 +8,8 @@ const { logger } = require('firebase-functions/v2');
  * @property {string} messageUrl
  * @property {boolean} superfan
  * @property {string} language
+ * @property {number} [recipientUnreadCount]
+ * @property {string} [threadId] used on APNS to group notifications
  */
 
 /**
@@ -16,12 +18,15 @@ const { logger } = require('firebase-functions/v2');
  * @returns
  */
 exports.sendNotification = async (config) => {
-  const { fcmToken, senderName, message, messageUrl, language } = config;
+  const { fcmToken, senderName, message, messageUrl, language, recipientUnreadCount, threadId } =
+    config;
 
   const messageFrom = { en: 'Message from', nl: 'Bericht van', fr: 'Message de' }[language ?? 'en'];
 
   // General FCM concept guidance:
   // https://firebase.google.com/docs/cloud-messaging/concept-options
+  //
+  // Collapse keys are not relevant for us, for now, because we don't allow message edits or similar.
   /**
    * @type {import('firebase-admin/messaging').Message}
    */
@@ -36,6 +41,18 @@ exports.sendNotification = async (config) => {
     },
     webpush: {
       fcmOptions: { link: messageUrl }
+    },
+    apns: {
+      payload: {
+        aps: {
+          ...(typeof recipientUnreadCount === 'number'
+            ? {
+                badge: recipientUnreadCount
+              }
+            : {}),
+          ...(typeof threadId === 'string' ? { threadId } : {})
+        }
+      }
     },
     token: fcmToken
   };

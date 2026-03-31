@@ -4,6 +4,7 @@
   import { fade } from 'svelte/transition';
   import { page } from '$app/state';
   import { markChatSeen } from '$lib/api/chat';
+  import { removeDeliveredNotificationsForChat } from '$lib/util/badge';
   import { user } from '$lib/stores/auth';
   import { messages, newConversation } from '$lib/stores/chat';
   import { Avatar, Icon } from '$lib/components/UI';
@@ -112,6 +113,8 @@
       chat.lastMessageSeen === false
     ) {
       markChatSeen(chatIdPath);
+      // Remove any delivered notifications for this chat from the tray
+      removeDeliveredNotificationsForChat(chatIdPath);
     }
 
     const typedMessage = messageState.typedMessage;

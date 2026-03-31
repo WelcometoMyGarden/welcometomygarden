@@ -17,6 +17,7 @@ dependencies {
     implementation project(':capacitor-local-notifications')
     implementation project(':capacitor-push-notifications')
     implementation project(':capacitor-splash-screen')
+    implementation project(':capawesome-capacitor-badge')
     implementation project(':notnotsamuel-capacitor-swipe-back')
     implementation project(':capacitor-native-settings')
 

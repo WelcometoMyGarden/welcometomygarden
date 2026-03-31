@@ -88,6 +88,10 @@ exports.sendMessageReminder = async function (req) {
     language: hostPrivateUserProfileData.communicationLanguage,
     senderName: sender.displayName,
     message: normalizeMessage(combinedSenderMessage),
-    messageUrl: buildMessageUrl(sender.displayName, chatId)
+    messageUrl: buildMessageUrl({
+      displayName: sender.displayName,
+      chatId,
+      language: hostPrivateUserProfileData.communicationLanguage
+    })
   });
 };

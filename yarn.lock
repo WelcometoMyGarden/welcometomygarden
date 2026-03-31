@@ -416,6 +416,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@capawesome/capacitor-badge@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "@capawesome/capacitor-badge@npm:8.0.1"
+  peerDependencies:
+    "@capacitor/core": ">=8.0.0"
+  checksum: 10/9508eb3bdd2b94c422adcebb3225bbaf51b7ef26e8a99a10fdd9b5c8a7230c24857499ddb91d167842374cb2686ccbc1c6e5913c952a2e1f3e9a602a13f751a8
+  languageName: node
+  linkType: hard
+
 "@cspotcode/source-map-support@npm:^0.8.0":
   version: 0.8.1
   resolution: "@cspotcode/source-map-support@npm:0.8.1"
@@ -13155,6 +13164,7 @@ __metadata:
     "@capacitor/local-notifications": "npm:^8.0.0"
     "@capacitor/push-notifications": "npm:^8.0.0"
     "@capacitor/splash-screen": "npm:^8.0.0"
+    "@capawesome/capacitor-badge": "npm:^8.0.1"
     "@firebase/rules-unit-testing": "npm:^5.0.0"
     "@notnotsamuel/capacitor-swipe-back": "npm:^3.0.2"
     "@playwright/test": "npm:^1.58.1"

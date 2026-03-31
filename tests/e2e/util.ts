@@ -14,7 +14,28 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // Read from ".env" file.
 dotenv.config({ path: path.resolve(__dirname, '.env'), quiet: true });
 
-let accessToken: string;
+export const removeEndingSlash = (str: string) => {
+  if (str.endsWith('/')) {
+    return str.substring(0, str.length - 1);
+  }
+  return `${str}`;
+};
+
+// The server sends unlocalized (English) URLs,
+// in most cases (not for the new messages)
+export const unlocalize = (url: string) => {
+  let Url;
+  try {
+    Url = new URL(url);
+  } catch (_) {
+    console.error('Not a valid link prefix', url);
+    return '';
+  }
+  // Strip the language parameter, if one exists
+  // (any 2-character leading segment is assumed to be one)
+  Url.pathname = Url.pathname.replace(/^\/\w\w(?:[?#\/]|$)/i, '/');
+  return Url.toString();
+};
 
 export async function openEmail({
   context,
@@ -54,21 +75,6 @@ export async function openEmail({
     );
   }
 
-  // The server sends unlocalized (English) URLs as of now
-  const unlocalize = (url: string) => {
-    let Url;
-    try {
-      Url = new URL(url);
-    } catch (_) {
-      console.error('Not a valid link prefix', url);
-      return '';
-    }
-    // Strip the language parameter, if one exists
-    // (any 2-character leading segment is assumed to be one)
-    Url.pathname = Url.pathname.replace(/^\/\w\w(?:[?#\/]|$)/i, '/');
-    return Url.toString();
-  };
-
   // Find plain text activation link inside the email (it can do that!)
   // NOTE: this is local-dev dependent
   //
@@ -76,7 +82,7 @@ export async function openEmail({
   // Open the link with the desired prefix
   // do not include the protocol, gmail rewrites https to http for example
   const link = await emailPage
-    .locator(`[href*="${unlocalize(linkPrefix).replace(/https?:\/\//, '')}"]`)
+    .locator(`[href*="${linkPrefix.replace(/https?:\/\//, '')}"]`)
     .first();
   await link.click();
   const openedLinkPage = await popupPromise;

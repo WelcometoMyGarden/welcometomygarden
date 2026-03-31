@@ -19,6 +19,7 @@ def capacitor_pods
   pod 'CapacitorLocalNotifications', :path => '../../node_modules/@capacitor/local-notifications'
   pod 'CapacitorPushNotifications', :path => '../../node_modules/@capacitor/push-notifications'
   pod 'CapacitorSplashScreen', :path => '../../node_modules/@capacitor/splash-screen'
+  pod 'CapawesomeCapacitorBadge', :path => '../../node_modules/@capawesome/capacitor-badge'
   pod 'NotnotsamuelCapacitorSwipeBack', :path => '../../node_modules/@notnotsamuel/capacitor-swipe-back'
   pod 'CapacitorNativeSettings', :path => '../../node_modules/capacitor-native-settings'
 end

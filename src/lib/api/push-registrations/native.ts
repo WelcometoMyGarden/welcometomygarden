@@ -2,13 +2,14 @@ import notification from '$lib/stores/notification';
 import {
   deviceId,
   isEnablingLocalPushRegistration,
+  localNativeRegistrationFCMToken,
   pushRegistrations
 } from '$lib/stores/pushRegistrations';
 import {
   PushRegistrationStatus,
   type FirebaseNativePushRegistration
 } from '$lib/types/PushRegistration';
-import { goto } from '$lib/util/navigate';
+import { goto, isRelativeURL } from '$lib/util/navigate';
 import {
   handleError,
   isNativePushRegistration,
@@ -34,6 +35,9 @@ import nProgress from 'nprogress';
 import { rootModal } from '$lib/stores/app';
 import NativeNotificationsDeniedModal from '$lib/components/Notifications/NativeNotificationsDeniedModal.svelte';
 import { Capacitor } from '@capacitor/core';
+import { page } from '$app/state';
+import { unlocalizePath } from '$lib/routes';
+import { PUBLIC_WTMG_HOST } from '$env/static/public';
 
 /**
  * Android Notification Channel ID
@@ -44,6 +48,28 @@ export const CHAT_NOTIFICATIONS_CHANNEL_ID = 'chat-notifications';
 function handleLink(link: string) {
   const { pathname, search, hash } = new URL(link);
   goto(`${pathname}${search}${hash}`);
+}
+
+/**
+ * Extracts the chatId from a push notification link URL.
+ * Link format (after unlocalization): /chat/{senderFirstName}/{chatId}
+ * Returns null if the link is not a chat link or cannot be parsed.
+ */
+function extractChatIdFromLink(link: string | undefined): string | null {
+  if (!link) return null;
+  try {
+    // Strip query params & hashes if any
+    const pathname = new URL(isRelativeURL(link) ? `${PUBLIC_WTMG_HOST}${link}` : link).pathname;
+    const unlocalized = unlocalizePath(pathname);
+    // Expected: /chat/{name}/{chatId}
+    const parts = unlocalized.split('/').filter(Boolean);
+    if (parts[0] === 'chat' && parts.length >= 3) {
+      return parts[2];
+    }
+  } catch (e) {
+    // Malformed URL - ignore
+  }
+  return null;
 }
 
 export const isDirectPushPermissionAndroid = async () => {
@@ -67,10 +93,25 @@ export function initializeNativePush() {
   Device.getId().then((r) => deviceId.set(r.identifier));
 
   // Show us the notification payload if the app is open on our device
+  // Note: this event only fires when the app is in the foreground; FCM delivers
+  // directly to the system tray when the app is backgrounded.
   PushNotifications.addListener(
     'pushNotificationReceived',
     async (notification: PushNotificationSchema) => {
       DEV: logger.debug('Push received: ' + JSON.stringify(notification));
+
+      // If the user is actively viewing the chat this notification is for,
+      // skip showing a local notification — they can already see the message.
+      const notifChatId = extractChatIdFromLink(notification.data?.link);
+      if (notifChatId) {
+        const isViewingThisChat =
+          page.params?.chatId === notifChatId && page.route?.id?.includes('[chatId]');
+        if (isViewingThisChat) {
+          DEV: logger.debug('Skipping local notification: user is viewing this chat');
+          return;
+        }
+      }
+
       const { display } = await LocalNotifications.checkPermissions();
       if (display !== 'granted') {
         alert(`display is ${display}`);
@@ -149,7 +190,6 @@ export function setupAndroidChannels() {
   }
   return Promise.resolve('Not relevant on iOS or web');
 }
-
 export async function registerOrRefreshNativeRegistration() {
   // Set up listeners
   const tokenPromise = new Promise<string>(async (resolve, reject) => {
@@ -158,6 +198,7 @@ export async function registerOrRefreshNativeRegistration() {
       'registration',
       async (token: Token) => {
         await removeListeners();
+        localNativeRegistrationFCMToken.set(token.value);
         resolve(token.value);
       }
     );
