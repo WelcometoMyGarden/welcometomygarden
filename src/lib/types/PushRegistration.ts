@@ -91,6 +91,10 @@ export type FirebaseNativePushRegistration = FirebasePushRegistrationCommon & {
 
 export type FirebasePushRegistration = FirebaseWebPushRegistration | FirebaseNativePushRegistration;
 
+/**
+ * Note about naming: this is not necessarily a push registration on the local device.
+ * It is just an object derived locally from Firebase data (the id is added in)
+ */
 export type LocalPushRegistration = FirebasePushRegistration & { id: string };
 
 export type PushSubscriptionPOJO = PushSubscriptionJSON;

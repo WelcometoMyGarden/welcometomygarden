@@ -339,11 +339,15 @@ const markForDeletion = async (localPushRegistration: LocalPushRegistration): Pr
  * Deletes the given push registration, or marks it for deletion if the current device can not delete it.
  * Calling this method again on the proper device afterwards will complete the deletion.
  *
+ * @param pushRegistration the push registration to delete
  * @returns whether the operation was successful.
  */
 export const deletePushRegistration = async (pushRegistration: LocalPushRegistration) => {
   if (isWebPushRegistration(pushRegistration)) {
     const { endpoint: endpointToDelete } = pushRegistration.subscription;
+
+    // Check if the current device supports web push, and if its current endpoint
+    // (if any) matches the registration to delete
     let currentNativeSub: PushSubscriptionPOJO | undefined | null;
     if (hasWebPushNotificationSupportNow()) {
       currentNativeSub = await getCurrentWebPushSubscription();
@@ -387,21 +391,28 @@ export const deletePushRegistration = async (pushRegistration: LocalPushRegistra
           return false;
         });
     }
-    // Otherwise, we have web push support, but we're not on the current device
+    // Otherwise, the registration to delete is not for the current device/browser
     return await markForDeletion(pushRegistration);
   } else if (isNativePushRegistration(pushRegistration)) {
     // Check if we are on the same device
     if (!isNative) {
+      // We're not on a native device, so surely we're on another device/browser
+      // -> mark for deletion
+      logger.log('Marking a native push registration for deletion from a web browser');
       return await markForDeletion(pushRegistration);
     }
     const nativeDeviceId = get(deviceId);
     if (!nativeDeviceId) {
-      logger.warn(`Device unexpectedly not loaded yet or null ${nativeDeviceId}`);
+      logger.warn(
+        `Device unexpectedly not loaded yet or null ${nativeDeviceId} on a native device`
+      );
       return false;
     }
     if (nativeDeviceId !== pushRegistration.deviceId) {
-      logger.log('Marking a push registration inactive from another device');
+      logger.log('Marking a native push registration for deletion from another native device');
+      return await markForDeletion(pushRegistration);
     } else {
+      // We're on the current device, unregister the local registration before deleting
       return await unregisterNotifications().then(async (success) => {
         if (success) {
           try {
@@ -421,8 +432,12 @@ export const deletePushRegistration = async (pushRegistration: LocalPushRegistra
       });
     }
   } else {
-    // We are currently NOT in a browser that can handle the deletion/unsubscription of the registration
-    // We simply mark it for deletion (so that the backend won't use it anymore).
+    // Note: this should not happen. A pushRegistration should be either web or native.
+    Sentry.captureMessage('Trying to delete a push registration that is neither web or native', {
+      level: 'error',
+      extra: pushRegistration
+    });
+    // Mark for deletion in any case
     return await markForDeletion(pushRegistration);
   }
 };
