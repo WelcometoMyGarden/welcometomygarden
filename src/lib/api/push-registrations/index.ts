@@ -46,7 +46,7 @@ import {
 import {
   createNativePushRegistration,
   registerOrRefreshNativeRegistration,
-  unregisterNotifications
+  resolveOnNativePushTokenLoaded
 } from './native';
 import {
   createWebPushRegistration,
@@ -131,25 +131,41 @@ export const createFirebasePushRegistrationObserver = () => {
       id: registration.id
     }));
 
+    logger.debug(
+      `Processing push-registrations snapshot with ${syncedPushRegistrations.length} entries`
+    );
+
     const currentWebPushSub = await getCurrentWebPushSubscription();
     let cachedWebPushSub: WebPushSubscriptionCore | undefined;
     try {
-      const latestPushRegistration = localStorage.getItem(LATEST_PUSH_REGISTRATION_KEY);
-      if (latestPushRegistration) {
-        cachedWebPushSub = JSON.parse(latestPushRegistration);
+      const latestWebPushRegistration = localStorage.getItem(LATEST_PUSH_REGISTRATION_KEY);
+      if (latestWebPushRegistration) {
+        cachedWebPushSub = JSON.parse(latestWebPushRegistration);
       }
     } catch (e) {
       logger.warn('Corrupted cached subscription JSON data');
       Sentry.captureException(e);
     }
 
+    let localNativePushToken;
     if (currentWebPushSub || isNative) {
+      if (isNative) {
+        // Before further processing, wait until we know the same token
+        // Note: this token should be loaded whenver the app opens, even if there is
+        // no push permission. See initializeNativePush()
+        localNativePushToken = await resolveOnNativePushTokenLoaded();
+      }
+
       // If a current web push Firebase registration is known, linked to the current device
       const linkedFirebaseRegistration = syncedPushRegistrations.find((registration) =>
         isWebPushRegistration(registration)
           ? registration.subscription?.endpoint === currentWebPushSub?.endpoint
           : registration.deviceId === get(deviceId)
       );
+      const msSinceLastRefresh = linkedFirebaseRegistration
+        ? new Date().valueOf() -
+          (linkedFirebaseRegistration.refreshedAt as Timestamp).toDate().valueOf()
+        : null;
       if (currentWebPushSub && !linkedFirebaseRegistration) {
         // This might mean a web push deletion has gone badly
         logger.warn('Current local web push subscription was not saved in the Firestore');
@@ -175,28 +191,38 @@ export const createFirebasePushRegistrationObserver = () => {
         await deletePushRegistration(linkedFirebaseRegistration);
         // Note: the deletePushRegistration method invokes onSnapshot again, hence we can skip a UI update of stale data.
         return;
-      } else if (linkedFirebaseRegistration && isNative && currentNativePermission !== 'granted') {
-        // Between app opens, it looks like the notification permission was removed
-        // Delete the registration
+      } else if (
+        isNative &&
+        linkedFirebaseRegistration &&
+        (currentNativePermission !== 'granted' ||
+          localNativePushToken !== linkedFirebaseRegistration.fcmToken)
+      ) {
+        // Between app opens, it looks like the notification permission was removed, or the token got "disconnected"
+        // Delete the old registration.
+        // Both these may happen after an app reinstall on Android (tested in emulators)
+        // On iOS, the device ID changes after a reinstall (on a simulator at least).
+        DEV: logger.debug(
+          `Deleting a push registration linked to the current native device because push permission was not granted, or the FCM token diverged from the current device\n` +
+            `Permission status: ${currentNativePermission}\nDeleting FCM Token: ${linkedFirebaseRegistration.fcmToken}`
+        );
         trackEvent(PlausibleEvent.DELETED_PUSH_REGISTRATION, { type: 'permission_denied' });
         await deletePushRegistration(linkedFirebaseRegistration);
+        // Note: the deletion should re-rigger a snapshot run.
         return;
       } else if (
         !!linkedFirebaseRegistration &&
-        new Date().valueOf() -
-          (linkedFirebaseRegistration.refreshedAt as Timestamp).toDate().valueOf() >
+        msSinceLastRefresh != null &&
+        msSinceLastRefresh >
           // Daily refresh of the ones that have not been active
           MESSAGING_REFRESH_THRESHOLD
       ) {
+        DEV: logger.debug(
+          `Refreshing the locally linked push registration after ${(msSinceLastRefresh / (1000 * 3600)).toFixed(1)} hours`
+        );
         trackEvent(PlausibleEvent.REFRESHED_PUSH_REGISTRATION);
         await refreshExistingSubscription(linkedFirebaseRegistration);
-        // Note: the refreshExistingSubscription invokes onSnapshot again, hence we can skip a UI update of stale data.
+        // Note: the refreshExistingSubscription call invokes onSnapshot again, hence we can skip a UI update of stale data.
         return;
-      } else if (!!linkedFirebaseRegistration && isNative) {
-        // On native, register the current push registration on every load time, without refreshing Firebase (daily, above).
-        // This is necessary to ensure that .capacitorDidRegisterForRemoteNotifications was called before
-        // initing or changing badge counts.
-        await registerOrRefreshNativeRegistration();
       }
     }
 
@@ -240,7 +266,12 @@ export const hasEnabledNotificationsOnCurrentDevice = async () => {
   if (isNative) {
     // We also check for whether the permissions are granted, because after an app
     // reinstall on the same device, it's possible that the permission status is "prompt"
-    // while we have stored an "active" push registration linked to the device
+    // while we have stored an "active" push registration linked to the same device
+    //
+    // TODO: we could and probably should also check for the local native FCM token, but then we have to wait
+    // for it. Otherwise, if someone reinstalls, grants notif permission manually before opening the app,
+    // then this would assume that the local device match + granted = enabled (not true: it will have a different FCM token)
+    // Might also not be true on old androids with auto-grant.
     const { receive: permissionStatus } = await PushNotifications.checkPermissions();
     return (
       permissionStatus === 'granted' &&
@@ -372,7 +403,10 @@ export const deletePushRegistration = async (pushRegistration: LocalPushRegistra
         .then(async (success) => {
           if (success) {
             try {
-              logger.log('Successfully deleted/unsubscribed the current web FCM registration.');
+              logger.log(
+                'Successfully deleted/unsubscribed the current web FCM registration:',
+                pushRegistration.fcmToken
+              );
               currentWebPushSubStore.set(null);
               await deletePushRegistrationDoc(pushRegistration);
               return true;
@@ -382,7 +416,10 @@ export const deletePushRegistration = async (pushRegistration: LocalPushRegistra
               return false;
             }
           } else {
-            logger.warn('Failed to delete the FCM token that was marked to be deleted.');
+            logger.warn(
+              'Failed to delete the FCM token that was marked to be deleted:',
+              pushRegistration.fcmToken
+            );
             return false;
           }
         })
@@ -401,6 +438,8 @@ export const deletePushRegistration = async (pushRegistration: LocalPushRegistra
       logger.log('Marking a native push registration for deletion from a web browser');
       return await markForDeletion(pushRegistration);
     }
+
+    // From here on: assume we are on a native device
     const nativeDeviceId = get(deviceId);
     if (!nativeDeviceId) {
       logger.warn(
@@ -408,28 +447,43 @@ export const deletePushRegistration = async (pushRegistration: LocalPushRegistra
       );
       return false;
     }
+    const localNativeToken = await resolveOnNativePushTokenLoaded();
     if (nativeDeviceId !== pushRegistration.deviceId) {
       logger.log('Marking a native push registration for deletion from another native device');
       return await markForDeletion(pushRegistration);
+    } else if (localNativeToken !== pushRegistration.fcmToken) {
+      // We're on the same the device connected to the pushRegistration we're trying to delete,
+      // but we already have a new local FCM token. Don't call .unregister() since we would be
+      // pre-emptively unregistering our fresh token which still has to be uploaded.
+      // Just delete the old irrelevant registration. This may happen after reinstall on Android.
+      DEV: logger.debug(
+        `Deleting push registration without unregistering locally because we're on the same device with a new token ${pushRegistration.fcmToken}`
+      );
+      await deletePushRegistrationDoc(pushRegistration);
+      return true;
     } else {
       // We're on the current device, unregister the local registration before deleting
-      return await unregisterNotifications().then(async (success) => {
-        if (success) {
+      return await PushNotifications.unregister()
+        .then(async () => {
           try {
-            logger.log('Successfully deleted/unsubscribed the current native FCM registration.');
+            logger.log(
+              'Successfully deleted/unsubscribed the current native FCM registration:',
+              pushRegistration.fcmToken
+            );
             currentWebPushSubStore.set(null);
             await deletePushRegistrationDoc(pushRegistration);
             return true;
           } catch (e) {
-            logger.error(e);
+            logger.error('Failed to delete the current native FCM registration', e);
             Sentry.captureException(e);
             return false;
           }
-        } else {
+        })
+        .catch((e) => {
           logger.warn('Failed to delete the FCM token that was marked to be deleted.');
+          Sentry.captureException(e);
           return false;
-        }
-      });
+        });
     }
   } else {
     // Note: this should not happen. A pushRegistration should be either web or native.

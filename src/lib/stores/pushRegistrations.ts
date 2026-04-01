@@ -2,6 +2,9 @@ import type { LocalPushRegistration, PushSubscriptionPOJO } from '$lib/types/Pus
 import { writable } from 'svelte/store';
 
 export const pushRegistrations = writable<LocalPushRegistration[]>([]);
+/**
+ * Whether the remote Firebase push registrations were loaded and processed once
+ */
 export const loadedPushRegistrations = writable(false);
 
 export const isEnablingLocalPushRegistration = writable<boolean>(false);

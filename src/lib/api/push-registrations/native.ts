@@ -38,6 +38,7 @@ import { Capacitor } from '@capacitor/core';
 import { page } from '$app/state';
 import { unlocalizePath } from '$lib/routes';
 import { PUBLIC_WTMG_HOST } from '$env/static/public';
+import * as Sentry from '@sentry/sveltekit';
 
 /**
  * Android Notification Channel ID
@@ -164,6 +165,7 @@ export function initializeNativePush() {
         );
       });
   }
+
   LocalNotifications.addListener('localNotificationActionPerformed', async (notification) => {
     try {
       const link = notification.notification.extra.link;
@@ -172,7 +174,49 @@ export function initializeNativePush() {
       alert(JSON.stringify(e));
     }
   });
+
+  /*
+   * Note: we've observed that the 'registration' event will trigger called even without calling PushNotifications.register(),
+   * at least on Android, after a reinstall (perhaps on every new install?).
+   *
+   * We require the token to be aware of whether the registration was loaded, because it is necessary to ensure that
+   * .capacitorDidRegisterForRemoteNotifications was called before initing or changing badge counts. It is also helpful
+   * for remote push registration state management and comparisons.
+   *
+   * Therefore, we always proactively call .register() on init and wait for results with resolveOnNativePushTokenLoaded
+   * On Android, this will lead to a double 'regisration' event after reinstall and perhaps install.
+   * On iOS, it should not, even on a reinstall, but our manual .register() will return a token when notifs are in 'prompt' too.
+   */
+  PushNotifications.addListener('registration', (token: Token) => {
+    DEV: logger.info('Native FCM token retrieved', token.value);
+    localNativeRegistrationFCMToken.set(token.value);
+  });
+  PushNotifications.addListener('registrationError', (e) => {
+    DEV: logger.debug('Error retrieving FCM token');
+    Sentry.captureException(e, { extra: { context: 'Native push registration error' } });
+  });
+  DEV: logger.debug('Registing for local native push');
+  PushNotifications.register();
 }
+
+/**
+ * Resolves as soon as a local native push token is available, with the token
+ */
+export const resolveOnNativePushTokenLoaded = async () => {
+  const currentToken = get(localNativeRegistrationFCMToken);
+  if (typeof currentToken === 'string') {
+    // check for token, because we start off with not loading an a null token
+    return Promise.resolve(currentToken);
+  }
+  return new Promise<string>((resolve) => {
+    const unsubFromLoading = localNativeRegistrationFCMToken.subscribe((token) => {
+      if (typeof token === 'string') {
+        unsubFromLoading();
+        resolve(token);
+      }
+    });
+  });
+};
 
 export function setupAndroidChannels() {
   if (Capacitor.getPlatform() === 'android') {
@@ -191,6 +235,7 @@ export function setupAndroidChannels() {
   return Promise.resolve('Not relevant on iOS or web');
 }
 export async function registerOrRefreshNativeRegistration() {
+  DEV: logger.debug('Registering native push notifications due to creation or refresh');
   // Set up listeners
   const tokenPromise = new Promise<string>(async (resolve, reject) => {
     // On success, we should be able to receive notifications
@@ -198,7 +243,7 @@ export async function registerOrRefreshNativeRegistration() {
       'registration',
       async (token: Token) => {
         await removeListeners();
-        localNativeRegistrationFCMToken.set(token.value);
+        DEV: logger.debug('Successfully registered native push with FCM token', token.value);
         resolve(token.value);
       }
     );
@@ -281,13 +326,14 @@ async function registerNotifications() {
   }
 
   // If there are other PRs with the same device ID, but with different tokens, those should be deleted
-  // before we adda new one. This might happen after an app reinstall. Normally, there should only be one in such a case.
+  // before we add new one. This might happen after an app reinstall (especially on Android, where at least
+  // in emulators the device IDs are stable). Normally, there should only be one in such a case.
   const prsWithSameDeviceId = localPushRegistrations.filter(
     (pR) => isNativePushRegistration(pR) && pR.deviceId == nativeDeviceId
   );
   if (prsWithSameDeviceId.length > 0) {
     logger.log(
-      `Deleting ${prsWithSameDeviceId.length} push registrations with the same device ID while adding a new one: ${prsWithSameDeviceId.map((pR) => pR.fcmToken).join(',')}`
+      `Deleting ${prsWithSameDeviceId.length} push registrations with the same device ID while adding a new one. Deleting: ${prsWithSameDeviceId.map((pR) => pR.fcmToken).join(',')}`
     );
     try {
       await Promise.all(prsWithSameDeviceId.map(({ id }) => deleteDoc(pushRegistrationDocRef(id))));
@@ -308,8 +354,8 @@ async function registerNotifications() {
 
   try {
     if (prWithSameToken) {
-      // If the result push registration FCM token already exists, then the device
-      // properties may have changed, update them. There may be some edge cases where
+      // If the result push registration FCM token already exists on another device ID,
+      // then the device properties may have changed, update them. There may be some edge cases where
       // this happens.
       await updateDoc(pushRegistrationsColRef().doc(prWithSameToken.id), upsertProperties);
     } else {
@@ -328,7 +374,7 @@ async function registerNotifications() {
     nProgress.done();
     if (!(await isDirectPushPermissionAndroid())) {
       // If we're on an Android version which didn't prompt for permissions, then
-      // also don't display a confusing prompt
+      // also don't display a confusing toast that something happened
       notification.success(get(t)('push-notifications.registration-success'));
     }
     return true;
@@ -398,15 +444,4 @@ export const createNativePushRegistration = async (showModalWhenDenied = true) =
   nProgress.done();
   return false;
   // TODO question: is the registration event only called after registering?
-};
-
-export const unregisterNotifications = async () => {
-  try {
-    await PushNotifications.unregister();
-    await PushNotifications.removeAllListeners();
-    return true;
-  } catch (e) {
-    logger.error(e);
-    return false;
-  }
 };

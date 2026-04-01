@@ -41,7 +41,10 @@ let unsubscribeFromBadgeSync: MaybeUnsubscriberFunc;
 
 const userLocale = derived([user, locale], ([$user, $locale]) => [$user, $locale] as const);
 
-const pushLocale = derived(
+/**
+ * When push registrations are loaded, as well as the locale
+ */
+const remotePushAndLocaleLoaded = derived(
   [loadedPushRegistrations, localeIsLoaded],
   ([$pushLoaded, $localeLoaded]) => $pushLoaded && $localeLoaded
 );
@@ -108,11 +111,11 @@ export const initializeUser = async () => {
     }
   });
 
-  pushLocale.subscribe(async (loaded) => {
+  remotePushAndLocaleLoaded.subscribe(async (loaded) => {
     // We're also waiting for locale load here, because in the native notification setup
     // we use localized values for Android Channel Names
+    // Note: push registrations can only be loaded after user data is available (see above)
 
-    // Push registrations can only be loaded after user data is available (see above)
     if (!loaded) {
       return;
     }
@@ -124,31 +127,35 @@ export const initializeUser = async () => {
     // TODO: check if this loads after loading pre-existing push registrations?
     // TODO: make this influence dismissal somehow?
     const notificationsDismissed = getCookie(NOTIFICATION_PROMPT_DISMISSED_COOKIE);
-    if (
-      // Prevent the modal from being shown twice in the same boot session (we might get multiple user updates)
-      !isNotificationInitDone &&
-      // We're logged in...
-      get(user) !== null &&
-      // ... the user hasn't dismissed notifications in the chat
-      notificationsDismissed !== 'true' &&
-      // ... push notifs are not enabled yet
-      !(await hasEnabledNotificationsOnCurrentDevice())
-    ) {
-      if (isNative) {
-        // On native platforms with built-in permission prompts (or no prompts), just immediately prompt for permission on user load
-        handleNotificationEnableAttempt(false);
-      } else if (
-        // On iOS web PWAs, prompt on user load (for Android Chrome*, which also support push without installing the app, we only prompt
-        // in the chat)
-        isOnIDevicePWA() &&
-        //  when the browser has no web push sub registered (but support exists)
-        (await getCurrentWebPushSubscription()) === null
-      ) {
-        rootModal.set(IosNotificationPrompt);
-      }
 
-      isNotificationInitDone = true;
+    // Bail out from further processing under some conditions
+    const alreadyHasNotifs = await hasEnabledNotificationsOnCurrentDevice();
+    if (
+      // Prevent the modal from being shown twice in the app boot session
+      // (we might get multiple pushLocale updates, likely not though)
+      isNotificationInitDone ||
+      // the user has dismissed notifications in the chat
+      notificationsDismissed === 'true' ||
+      alreadyHasNotifs
+    ) {
+      return;
     }
+
+    // Push notifications are not enabled yet, and we can try enabling them
+    if (isNative) {
+      // On native platforms with built-in permission prompts (or no prompts), just immediately prompt for permission on user load
+      handleNotificationEnableAttempt(false);
+    } else if (
+      // On iOS web PWAs, prompt on user load (for Android Chrome*, which also support push without installing the app, we only prompt
+      // in the chat)
+      isOnIDevicePWA() &&
+      //  when the browser has no web push sub registered (but support exists)
+      (await getCurrentWebPushSubscription()) === null
+    ) {
+      rootModal.set(IosNotificationPrompt);
+    }
+
+    isNotificationInitDone = true;
   });
 
   /**
