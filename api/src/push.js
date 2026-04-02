@@ -54,6 +54,11 @@ exports.sendNotification = async (config) => {
         }
       }
     },
+    android: {
+      notification: {
+        color: '#495747'
+      }
+    },
     token: fcmToken
   };
 
