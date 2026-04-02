@@ -5,12 +5,8 @@ const { supabase } = require('../supabase');
 const { wait } = require('../util/time');
 
 /**
- * Note: I'd prefer the path to be Record<string,string>, but it seems like
- * TS needs a combination of all possible params here to not complain.
- * Typescript gives errors for the one case (onUserPrivateWrite) where the parameters type is given.
- *
  * @typedef {<T extends Change<DocumentSnapshot<any>>>
- *  (event: FirestoreEvent<T, {userId: string; campsiteId: string;}>) => Promise<any>} FirestoreEventHandler
+ *  (event: FirestoreEvent<T, Record<string, string>>) => Promise<any>} FirestoreEventHandler
  */
 
 /**

@@ -40,6 +40,8 @@ const {
 } = require('./auth');
 const { doBackup } = require('./storage');
 const { onMessageCreate, onChatCreate } = require('./chat');
+const { onPushRegistrationWrite } = require('./user/onPushRegistrationWrite');
+
 const { onCampsiteCreate, onCampsiteDelete } = require('./campsites');
 const { stripeWebhookHandler } = require('./subscriptions/webhookHandler');
 const {
@@ -204,8 +206,11 @@ exports.onMessageWriteV2 = onDocumentWritten(
 );
 // for subcollections `push-registrations`, `unreads`, and `trails`
 exports.onUserPrivateSubcollectionWriteV2 = onDocumentWritten(
-  'users-private/{userId}/{subcollection}/{documentId}',
-  whenSupabaseReplicating(onUserPrivateSubcollectionWrite)
+  { document: 'users-private/{userId}/{subcollection}/{documentId}' },
+  executeFirestoreTriggersConcurrently([
+    whenSupabaseReplicating(onUserPrivateSubcollectionWrite),
+    onPushRegistrationWrite
+  ])
 );
 
 // Queuable Cloud Tasks
