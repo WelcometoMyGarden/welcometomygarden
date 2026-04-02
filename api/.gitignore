@@ -11,3 +11,5 @@ admin-credentials.json
 !.yarn/versions
 test/data
 runtests.sh
+
+!.env.test.local

@@ -4,6 +4,10 @@ const admin = require('firebase-admin');
 
 config({ path: 'api/.env.local', quiet: true });
 
+if (!process.env.STAGING) {
+  config({ path: 'api/.env.test.local', quiet: true });
+}
+
 let app;
 if (!admin.apps.length) {
   app = admin.initializeApp({

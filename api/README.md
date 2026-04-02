@@ -38,16 +38,7 @@ This project uses the [mocha](https://mochajs.org/) test runner, and [sinon](htt
 
 Most tests depend on (parts of) a Firebase Emulator environment, therefore it is convenient to first start a Firebase emulator dev environment independently in a shell, for example with `yarn firebase:demo`. This is useful to develop tests, since the same emulator environment can be preserved while changing application and test code, and no lengthy emulator restarts are required.
 
-Tests can then be run in another shell using `mocha`. You will need to prepare the mocha shell environment to connect to the local emulators, for example with:
-
-```sh
-cd api
-export FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099
-export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080
-export FIREBASE_STORAGE_EMULATOR_HOST=127.0.0.1:9199
-```
-
-Here are some test examples:
+Tests can then be run in another shell using `mocha`. Here are some test examples:
 
 ```sh
 # Run all tests
