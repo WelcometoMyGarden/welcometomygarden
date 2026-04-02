@@ -29,9 +29,6 @@
 
   let { pushRegistration = undefined }: Props = $props();
 
-  // TODO: this rename is useless
-  let currentWebSub = $derived($currentWebPushSubStore);
-
   // When pushRegistration is falsy, it used to display the potential current PR.
   // That one will be native if we are on a native device.
   let isNativePR = $derived(
@@ -89,7 +86,7 @@
         // ... we're on a mobile device browser
         (isMobileDevice! &&
           // ... that currently doesn't have a sub
-          currentWebSub === null &&
+          $currentWebPushSubStore === null &&
           // ... and could have notifications
           isNotificationEligible() &&
           // ... and hasn't been registered yet in Firebase
@@ -118,7 +115,7 @@
           $_('account.notifications.unknown')}
       </div>
       <div class="extra-info">
-        {#if !isRegisteredInFirebase || (pushRegistration && (isNativePushRegistration(pushRegistration) ? pushRegistration.deviceId === $deviceId : currentWebSub?.endpoint === pRWebPushEndpoint))}
+        {#if !isRegisteredInFirebase || (pushRegistration && (isNativePushRegistration(pushRegistration) ? pushRegistration.deviceId === $deviceId : $currentWebPushSubStore?.endpoint === pRWebPushEndpoint))}
           {$_('account.notifications.current')}
         {:else if refreshedAt}
           {$_('account.notifications.last-seen')}
@@ -144,7 +141,7 @@
           }}
         />
       </div>
-    {:else if isNative || (canSuggestToTurnOnNotifsForCurrentDevice && isMobileDevice && currentWebSub === null)}
+    {:else if isNative || (canSuggestToTurnOnNotifsForCurrentDevice && isMobileDevice && $currentWebPushSubStore === null)}
       <!-- TODO: potential notification suppport action -->
       <Button
         xsmall

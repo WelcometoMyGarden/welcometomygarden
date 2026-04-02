@@ -23,9 +23,9 @@
   import NewBadge from '$lib/components/Nav/NewBadge.svelte';
   import { hasDeniedWebPushNotifications } from '$lib/api/push-registrations/webpush';
   import { PushRegistrationStatus } from '$lib/types/PushRegistration';
+  import type { Timestamp } from 'firebase/firestore';
 
-  // TODO: reassess this when evaluating mobile notifs
-  /** Note: this registration could be marked for deletion  */
+  /** Note: this registration could be marked for deletion */
   let currentPushRegistration = $derived(
     $pushRegistrations.find((pR) => {
       return (
@@ -35,16 +35,24 @@
       );
     })
   );
+
   let currentActivePushRegistration = $derived(
     currentPushRegistration?.status === PushRegistrationStatus.ACTIVE
       ? currentPushRegistration
       : undefined
   );
-  let otherSubscriptions = $derived(
-    $pushRegistrations.filter(
-      (pR) =>
-        pR.status === PushRegistrationStatus.ACTIVE && pR.id !== currentActivePushRegistration?.id
-    )
+
+  let activePushRegistrations = $derived(
+    $pushRegistrations.filter((pR) => pR.status === PushRegistrationStatus.ACTIVE)
+  );
+
+  let otherActivePushRegistrations = $derived(
+    activePushRegistrations
+      .filter((pR) => pR.id !== currentActivePushRegistration?.id)
+      // Sort reverse chronologically
+      .sort(
+        (a, b) => (b.refreshedAt as Timestamp).toMillis() - (a.refreshedAt as Timestamp).toMillis()
+      )
   );
 
   /**
@@ -60,7 +68,7 @@
   const { isIDevice, currentAppleDevice } = iDeviceInfo!;
 
   const hasActivePushRegistrationWithModel = (model: string) =>
-    !!otherSubscriptions.find(({ ua }) => ua.device?.model === model);
+    !!otherActivePushRegistrations.find(({ ua }) => ua.device?.model === model);
 
   /**
    * Since (1) iDevices can only enable Web Push in Home Screen apps, and (2) Home Screen apps
@@ -71,8 +79,7 @@
    * !! We make an assumption here that most people only have 1 iPhone, and/or 1 iPad, and when the above situation occurs,
    * we choose to hide the current browser in the account settings to prevent confusion.
    */
-  let isNonPWAIDeviceWithActivePWA = $derived(
-    // TODO: just added this isNative line here, how to handle this better?
+  let isNonPWAIOSBrowserWithActivePWA = $derived(
     !isNative &&
       !currentActivePushRegistration &&
       isIDevice &&
@@ -133,18 +140,18 @@ This normally shouldn't happen, except when a database was wiped (in testing) --
   {/if}
 
   <!-- Notification config -->
-  {#if !(isNative || isMobileDevice) && $loadedPushRegistrations && $pushRegistrations.length === 0 && $currentWebPushSubStore === null}
+  {#if !(isNative || isMobileDevice) && $loadedPushRegistrations && activePushRegistrations.length === 0 && $currentWebPushSubStore === null}
     <!-- Show desktop suggestion banner -->
     <NotificationPrompt permanent />
-  {:else if (isMobileDevice && isNotificationEligible()) || ($loadedPushRegistrations && otherSubscriptions.length > 0)}
+  {:else if (isMobileDevice && isNotificationEligible()) || ($loadedPushRegistrations && otherActivePushRegistrations.length > 0)}
     <!-- Show options for the current device if it supports notifications, including current sub options -->
 
     <!-- Show the current device on top, if it's not activated yet -->
-    {#if isMobileDevice && isNotificationEligible() && !currentActivePushRegistration && !hasDeniedWebPushNotifications() && !isNonPWAIDeviceWithActivePWA}
+    {#if isMobileDevice && isNotificationEligible() && !currentActivePushRegistration && !hasDeniedWebPushNotifications() && !isNonPWAIOSBrowserWithActivePWA}
       <PushRegistrationEntry pushRegistration={currentActivePushRegistration} />
     {/if}
     <!-- Show the title for managing active push registration, if any are active (current or not) -->
-    {#if otherSubscriptions.length > 0 || !!currentActivePushRegistration}
+    {#if otherActivePushRegistrations.length > 0 || !!currentActivePushRegistration}
       <h3>{$_('account.notifications.manage')}</h3>
       <!-- Show other push registrations if available (also on desktop)-->
       <ul>
@@ -154,7 +161,7 @@ This normally shouldn't happen, except when a database was wiped (in testing) --
             <PushRegistrationEntry pushRegistration={currentActivePushRegistration} />
           </li>
         {/if}
-        {#each otherSubscriptions as pushRegistration (pushRegistration.id)}
+        {#each otherActivePushRegistrations as pushRegistration (pushRegistration.id)}
           <li>
             <PushRegistrationEntry {pushRegistration} />
           </li>

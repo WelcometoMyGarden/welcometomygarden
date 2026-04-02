@@ -354,7 +354,7 @@ async function registerNotifications() {
 
   try {
     if (prWithSameToken) {
-      // If the result push registration FCM token already exists on another device ID,
+      // If the resulting push registration FCM token already exists on another device ID,
       // then the device properties may have changed, update them. There may be some edge cases where
       // this happens.
       await updateDoc(pushRegistrationsColRef().doc(prWithSameToken.id), upsertProperties);

@@ -216,6 +216,9 @@ export const createFirebasePushRegistrationObserver = () => {
           // Daily refresh of the ones that have not been active
           MESSAGING_REFRESH_THRESHOLD
       ) {
+        // Note: this will also try to update/refresh registrations with FCM_ERRORED status after 1 day
+        // and make them active. I've observed this to be an issue (a wrongly errored token that actually worked)
+        // on my own iPhone.
         DEV: logger.debug(
           `Refreshing the locally linked push registration after ${(msSinceLastRefresh / (1000 * 3600)).toFixed(1)} hours`
         );
@@ -249,11 +252,6 @@ export const createFirebasePushRegistrationObserver = () => {
         return;
       }
     }
-
-    // Don't show push registrations that are marked for deletion
-    syncedPushRegistrations = syncedPushRegistrations.filter(
-      (pR) => pR.status !== PushRegistrationStatus.MARKED_FOR_DELETION
-    );
 
     // Update UI
     pushRegistrations.set(syncedPushRegistrations);
