@@ -399,7 +399,6 @@
     position: absolute;
     left: calc(50% - 5rem);
     top: -5rem;
-    z-index: 10;
   }
 
   .content {
