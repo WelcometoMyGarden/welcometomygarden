@@ -59,14 +59,24 @@ export const iDeviceInfo = browser
 
 export const isNative = Capacitor.isNativePlatform();
 
-export const isMobileDevice =
-  isNative ||
+/**
+ * Whether this device is a mobile web browser (detected by UA check).
+ * Explicitly excludes native Capacitor apps (those are "native app devices", despite the webview).
+ * Should include PWA/homes screen apps.
+ */
+export const isMobileWebDevice =
+  !isNative &&
   (uaInfo
     ? ((device) =>
         (device.type && (device.type === 'mobile' || device.type === 'tablet')) || false)(
         uaInfo!.device
       )
     : undefined);
+
+/**
+ * Whether this is a native Capacitor device, or a detected mobile web browser.
+ */
+export const isMobileDevice = isNative || isMobileWebDevice;
 
 /**
  * Synchronous (and probably more limited) version of Firebase Messaging's isSupported function.

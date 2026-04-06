@@ -137,6 +137,35 @@ export const membershipBlogLink = (
   return createUrl(`${WTMG_BLOG_BASE_URL}${t('generics.fair-model-blog-path')}`, params);
 };
 
+export const appleAppStoreUrl = derived(locale, ($locale) => {
+  const langMap = {
+    en: 'en-GB',
+    fr: 'fr-FR',
+    nl: 'nl',
+    // Don't supply lang param to es or de, we use their own regions below, language is implied
+    de: '',
+    es: ''
+  };
+
+  // Prefer to show the Belgian region if the language is available there. It has more reviews.
+  const regionMap = {
+    nl: 'be',
+    fr: 'be',
+    en: 'be',
+    es: 'es',
+    de: 'de'
+  };
+  const lang = coerceToSupportedLanguage($locale);
+  return `https://apps.apple.com/${regionMap[lang]}/app/welcome-to-my-garden/id6759368622${langMap[lang] ? `?l=${langMap[lang]}` : ''}`;
+});
+
+// Google does not have separate region store URLs, it does IP-based geolocation. It does allow any language via the hl param.
+export const googlePlayStoreUrl = derived(
+  locale,
+  ($locale) =>
+    `https://play.google.com/store/apps/details?id=org.welcometomygarden.app&hl=${$locale}`
+);
+
 export const bannerLink = derived(locale, ($locale) => {
   const mainLang = coerceToMainLanguage($locale);
   return `https://velotourfestival.be/${mainLang === 'en' ? '' : `${mainLang}.html`}`;

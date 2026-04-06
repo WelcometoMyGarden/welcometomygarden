@@ -1561,7 +1561,6 @@
     "android-channel": "Chat Notifications",
     "registration-success": "Notifications are successfully turned on",
     "prompt": {
-      "title": "Get a mobile notification for new chat messages.",
       "garden-intro": "You will automatically receive an email for each new request to stay in your garden",
       "garden-follow-up": ", and you can also get <strong>mobile notifications</strong>.",
       "garden-enable": "Would you also like to receive <strong>mobile notifications</strong> for new chat messages?",
@@ -1571,7 +1570,11 @@
       "btn-show-me": "Show me how",
       "btn-turn-on": "Turn on notifications",
       "follow-up-desktop": "Would you like to receive <strong>mobile notifications</strong> for new chat messages?",
-      "helpcenter-url": "https://help.welcometomygarden.org/master/1.-mobile-notifications"
+      "helpcenter-url": "https://help.welcometomygarden.org/master/1.-mobile-notifications",
+      "download": "Download the app",
+      "mobile-web-title": "Get mobile notifications for new chat messages with our app.",
+      "native-title": "Get mobile notifications for new chat messages.",
+      "desktop-title": "Download our app and get mobile notifications for new chat messages."
     },
     "how-to": {
       "title": "How to turn on mobile notifications",

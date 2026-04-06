@@ -1,7 +1,5 @@
-import { browser } from '$app/environment';
 import { rootModal } from '$lib/stores/app';
 import { bind } from 'svelte-simple-modal';
-import { iDeviceInfo, isNative, uaInfo, hasWebPushNotificationSupportNow } from './uaInfo';
 import ErrorModal, { type Props } from '$lib/components/UI/ErrorModal.svelte';
 import { isEnablingLocalPushRegistration } from '$lib/stores/pushRegistrations';
 import { get } from 'svelte/store';
@@ -20,32 +18,6 @@ import type {
 } from '$lib/types/PushRegistration';
 import nProgress from 'nprogress';
 export { hasWebPushNotificationSupportNow } from './uaInfo';
-export { isOnIDevicePWA } from './uaInfo';
-/**
- * Synchronous (and probably more limited) version of Firebase Messaging's isSupported function.
- * Returns true on native platforms.
- */
-export const hasNotificationSupportNow = () => {
-  if (isNative) {
-    return true;
-  }
-  return hasWebPushNotificationSupportNow();
-};
-
-/**
- * Does not have immediate support, but by changing some conditions, support can be achieved.
- */
-export const canHaveWebPushSupport = () => {
-  if (!browser || isNative) {
-    return false;
-  }
-  const { isIDevice, isUpgradeable16IDevice, is_16_4_OrAboveIDevice } = iDeviceInfo!;
-  return (
-    !hasWebPushNotificationSupportNow() &&
-    isIDevice &&
-    (is_16_4_OrAboveIDevice || isUpgradeable16IDevice)
-  );
-};
 
 /**
  * Shows an error in a modal with the given description. Also includes user agent information.
@@ -98,13 +70,11 @@ export const pushRegistrationDocRef = (id: string) =>
   ) as DocumentReference<FirebasePushRegistration>;
 
 export const isWebPushRegistration = (
-  pr: LocalPushRegistration
-): pr is FirebaseWebPushRegistration & { id: string } => (pr as any)['subscription'] != null;
+  pr: LocalPushRegistration | undefined | null
+): pr is FirebaseWebPushRegistration & { id: string } =>
+  pr != null && (pr as any)['subscription'] != null;
 
 export const isNativePushRegistration = (
-  pr: LocalPushRegistration
+  pr: LocalPushRegistration | undefined | null
 ): pr is FirebaseNativePushRegistration & { id: string } =>
-  typeof (pr as any)['deviceId'] !== 'undefined';
-
-export const isAndroidFirefox = () =>
-  uaInfo?.os.is('Android') && uaInfo?.browser.name?.includes('Firefox');
+  pr != null && typeof (pr as any)['deviceId'] !== 'undefined';

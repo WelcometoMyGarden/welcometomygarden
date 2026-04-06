@@ -5,6 +5,10 @@ import { innerWidth } from 'svelte/reactivity/window';
 
 let _isMobile = $derived(innerWidth.current && innerWidth.current <= MOBILE_BREAKPOINT);
 
+/**
+ * Whether the viewport width is below the mobile breakpoint.
+ * Does not say anything about the device's nature otherwise.
+ */
 export function isMobile() {
   return _isMobile;
 }

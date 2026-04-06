@@ -1,28 +1,9 @@
-import {
-  currentWebPushSubStore,
-  isEnablingLocalPushRegistration,
-  pushRegistrations
-} from '$lib/stores/pushRegistrations';
-import {
-  handleError,
-  handleErrorGeneric,
-  hasWebPushNotificationSupportNow,
-  pushRegistrationsColRef
-} from '$lib/util/push-registrations';
+import { currentWebPushSubStore } from '$lib/stores/pushRegistrations';
+import { hasWebPushNotificationSupportNow } from '$lib/util/push-registrations';
 import { isEmpty } from 'lodash-es';
 import * as Sentry from '@sentry/sveltekit';
 import { getToken } from 'firebase/messaging';
 import { messaging } from '../firebase';
-import isFirebaseError from '$lib/util/types/isFirebaseError';
-import { t } from 'svelte-i18n';
-import { get } from 'svelte/store';
-import { anchorText } from '$lib/util/translation-helpers';
-import { addDoc, serverTimestamp } from 'firebase/firestore';
-import { PushRegistrationStatus, type WebPushSubscriptionCore } from '$lib/types/PushRegistration';
-import removeUndefined from '$lib/util/remove-undefined';
-import notification from '$lib/stores/notification';
-import { uaInfo } from '$lib/util/uaInfo';
-import { timeout } from '$lib/util/timeout';
 import logger from '$lib/util/logger';
 import { UAParser } from 'ua-parser-js';
 
@@ -101,10 +82,6 @@ export const getCurrentWebPushSubscription = async () => {
   currentWebPushSubStore.set(sub);
   return sub;
 };
-//
-// https://developer.mozilla.org/en-US/docs/Web/API/Notification/permission_static
-export const hasDeniedWebPushNotifications = () =>
-  hasWebPushNotificationSupportNow() && Notification.permission === 'denied';
 
 /**
  * In case of a new subscription, this method should be called from a user gesture.
@@ -166,103 +143,6 @@ export const subscribeOrRefreshWebFCM = async () => {
   return subscriptionInfo;
 };
 
-/**
- * Creates, and subscribes to, a new push registration.
- * Affects three systems:
- * 1. the native Web Push/Service Worker/browser APIs & subscription objects
- * 2. the Firebase Cloud Messaging backend (kept in sync by messaging() & our SW)
- * 3. our own PushRegistration registry in Firestore
- *
- * @returns
- * - true if the operation was succesful
- * - undefined otherwise
- */
-export const createWebPushRegistration = async () => {
-  // Start loading state indicator
-  isEnablingLocalPushRegistration.set(true);
-
-  let subscriptionCore: WebPushSubscriptionCore;
-
-  // Try to enable the notifications
-  try {
-    const subscriptionPromise = subscribeOrRefreshWebFCM();
-    subscriptionCore = await timeout(
-      subscriptionPromise,
-      15 * 1000,
-      'Registering web push timed out'
-    );
-  } catch (e) {
-    logger.error(e);
-    if (isFirebaseError(e) && e.code === 'messaging/permission-blocked') {
-      // The user has disabled/blocked permission before, and they tried to enable notifications again now
-      // TODO: Inform the user that they should allow permissions via their browser, or "Reset permissions" (Chrome)
-      handleErrorGeneric(
-        e,
-        get(t)('push-notifications.error.permission-denied', {
-          values: {
-            faqLink: anchorText({
-              href: get(t)('push-notifications.error.permission-denied-faq-link'),
-              linkText: get(t)('push-notifications.error.permission-denied-faq-text'),
-              class: 'link'
-            })
-          }
-        })
-      );
-      Sentry.captureMessage('messaging/permission-blocked');
-    } else {
-      handleError(e);
-      Sentry.captureException(e);
-    }
-    return;
-  }
-  const { fcmToken, subscription } = subscriptionCore;
-
-  // If the resulting push registration was already stored, do not add it again.
-  if (get(pushRegistrations).find((pR) => pR.fcmToken === fcmToken)) {
-    logger.warn('Tried to add an already-known push registration; this should not happen.');
-    handleError(
-      undefined,
-      'It looks like you already had notifications activated on this browser.'
-    );
-    return;
-  }
-
-  // Add the registration to the Firestore
-  try {
-    // Get these synchronously for backwards compat
-    const { os, browser } = uaInfo!;
-    // Client Hints might help detect more about the device (in Chrome)
-    // for example: model = 'FP3' instead of 'K' on Dries' FairPhone 3
-    // https://docs.uaparser.js.org/v2/api/ua-parser-js/idata/with-client-hints.html
-
-    await addDoc(pushRegistrationsColRef(), {
-      status: PushRegistrationStatus.ACTIVE,
-      fcmToken,
-      subscription,
-      ua: removeUndefined({
-        os: os.name,
-        browser: browser.name,
-        // Destructure helps to convert into POJO
-        device: removeUndefined({ ...(await getDeviceWebUAWithClientHints()) })
-      }),
-      host: location.host,
-      createdAt: serverTimestamp(),
-      refreshedAt: serverTimestamp()
-    });
-
-    // Success
-    isEnablingLocalPushRegistration.set(false);
-    notification.success(get(t)('push-notifications.registration-success'));
-    return true;
-  } catch (e) {
-    const msg =
-      "Your push notifications were sucessfully enabled, but couldn't be added to the database.";
-    handleError(e, msg);
-    logger.error(msg);
-    Sentry.captureException(e);
-    return;
-  }
-};
 export const getDeviceWebUAWithClientHints = async () => {
   const uaP = new UAParser();
   const deviceWithClientHints = await uaP.getDevice().withFeatureCheck().withClientHints();

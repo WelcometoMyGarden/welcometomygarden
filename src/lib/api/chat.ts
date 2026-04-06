@@ -28,7 +28,7 @@ import routes from '$lib/routes';
 import { get } from 'svelte/store';
 import { goto } from '$lib/util/navigate';
 import { handledOpenFromIOSPWA } from '$lib/stores/app';
-import { isOnIDevicePWA } from '$lib/util/push-registrations';
+import { isOnIDevicePWA } from '$lib/util/uaInfo';
 import * as Sentry from '@sentry/sveltekit';
 import { lr } from '$lib/util/translation-helpers';
 import logger from '$lib/util/logger';

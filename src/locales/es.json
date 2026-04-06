@@ -1515,7 +1515,6 @@
   "push-notifications": {
     "registration-success": "Las notificaciones se activaron correctamente.",
     "prompt": {
-      "title": "Reciba una notificación móvil para nuevos mensajes de chat.",
       "garden-intro": "Recibirás automáticamente un correo electrónico por cada nueva solicitud para permanecer en tu jardín.",
       "garden-follow-up": "y también puedes recibir <strong>notificaciones móviles</strong> .",
       "garden-enable": "¿También te gustaría recibir <strong>notificaciones móviles</strong> de nuevos mensajes de chat?",
@@ -1524,7 +1523,11 @@
       "ios-installed-title": "Notificaciones móviles",
       "btn-show-me": "Muéstrame cómo",
       "btn-turn-on": "Activar las notificaciones",
-      "follow-up-desktop": "¿Le gustaría recibir <strong>notificaciones móviles</strong> de nuevos mensajes de chat?"
+      "follow-up-desktop": "¿Le gustaría recibir <strong>notificaciones móviles</strong> de nuevos mensajes de chat?",
+      "download": "Descarga la app",
+      "mobile-web-title": "Recibe notificaciones móviles para nuevos mensajes con nuestra app.",
+      "native-title": "Recibe notificaciones móviles para nuevos mensajes",
+      "desktop-title": "Descarga nuestra app y recibe notificaciones móviles para nuevos mensajes."
     },
     "how-to": {
       "title": "Cómo activar las notificaciones móviles",

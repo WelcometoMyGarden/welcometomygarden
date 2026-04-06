@@ -1556,8 +1556,11 @@
       "btn-turn-on": "Activez les notifications",
       "ios-installed": "Ne ratez jamais un message en activant maintenant vos notifications mobiles !",
       "ios-installed-title": "Notifications mobiles",
-      "title": "Recevez une notification mobile pour vos nouveaux messages.",
-      "helpcenter-url": "https://aide.welcometomygarden.org/master/1.-notifications-mobiles"
+      "helpcenter-url": "https://aide.welcometomygarden.org/master/1.-notifications-mobiles",
+      "download": "Téléchargez l’appli",
+      "mobile-web-title": "Recevez des notifications mobiles pour vos nouveaux messages avec notre application.",
+      "native-title": "Recevez des notifications mobiles pour les nouveaux messages.",
+      "desktop-title": "Téléchargez notre appli et recevez des notifications mobiles pour vos nouveaux messages."
     },
     "error": {
       "permission-denied-faq-link": "https://aide.welcometomygarden.org/master/1.-notifications-mobiles/1.1.-android#que-faire-si-mon-navigateur-bloque-les-notifications-uniquement-sur-wtmg",

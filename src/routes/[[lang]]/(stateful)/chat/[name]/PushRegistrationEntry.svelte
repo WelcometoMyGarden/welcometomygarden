@@ -1,7 +1,6 @@
 <script lang="ts">
   import {
     deletePushRegistration,
-    isNotificationEligible,
     handleNotificationEnableAttempt
   } from '$lib/api/push-registrations';
   import { getNativeUAInfo } from '$lib/api/push-registrations/native';
@@ -77,21 +76,6 @@
    * Whether this registration exists in Firebase
    */
   let isRegisteredInFirebase = $derived(!!id);
-  let canSuggestToTurnOnNotifsForCurrentDevice =
-    // ... we're on a mobile device
-    $derived(
-      // TODO Revise this?
-      // native or
-      isNative ||
-        // ... we're on a mobile device browser
-        (isMobileDevice! &&
-          // ... that currently doesn't have a sub
-          $currentWebPushSubStore === null &&
-          // ... and could have notifications
-          isNotificationEligible() &&
-          // ... and hasn't been registered yet in Firebase
-          !isRegisteredInFirebase)
-    );
 
   // Note: both these expressions can not refer to the current device,
   // since they need to work for any given other device UA too.
@@ -141,8 +125,7 @@
           }}
         />
       </div>
-    {:else if isNative || (canSuggestToTurnOnNotifsForCurrentDevice && isMobileDevice && $currentWebPushSubStore === null)}
-      <!-- TODO: potential notification suppport action -->
+    {:else if isNative}
       <Button
         xsmall
         onclick={() => {

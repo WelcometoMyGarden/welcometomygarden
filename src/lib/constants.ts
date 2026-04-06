@@ -60,7 +60,7 @@ export const memberMaxZoom = ZOOM_LEVELS.MAX;
 
 export const MAX_GARDEN_CAPACITY = 100;
 
-export const NOTIFICATION_PROMPT_DISMISSED_COOKIE = 'notif_dismissed';
+export const NOTIFICATION_PROMPT_DISMISSED_COOKIE = 'native_notif_dismissed';
 
 // In EUR
 export const MEMBERSHIP_YEARLY_AMOUNTS: { [key: string]: number } = {

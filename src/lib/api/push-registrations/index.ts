@@ -28,16 +28,11 @@ import {
   pushRegistrations
 } from '$lib/stores/pushRegistrations';
 import { get } from 'svelte/store';
-import { isMobileDevice, isNative } from '$lib/util/uaInfo';
-import { t } from 'svelte-i18n';
-import { rootModal } from '$lib/stores/app';
-import NotificationSetupGuideModal from '$lib/components/Notifications/WebNotificationSetupGuideModal.svelte';
+import { iDeviceInfo, isMobileWebDevice, isNative } from '$lib/util/uaInfo';
 import { trackEvent } from '$lib/util';
 import { PlausibleEvent } from '$lib/types/Plausible';
 import {
-  canHaveWebPushSupport,
   hasWebPushNotificationSupportNow,
-  isAndroidFirefox,
   isNativePushRegistration,
   isWebPushRegistration,
   pushRegistrationDocRef,
@@ -49,7 +44,6 @@ import {
   resolveOnNativePushTokenLoaded
 } from './native';
 import {
-  createWebPushRegistration,
   getCurrentWebPushSubscription,
   LATEST_PUSH_REGISTRATION_KEY,
   subscribeOrRefreshWebFCM,
@@ -58,6 +52,7 @@ import {
 import logger from '$lib/util/logger';
 import * as Sentry from '@sentry/sveltekit';
 import { PushNotifications } from '@capacitor/push-notifications';
+import { appleAppStoreUrl, googlePlayStoreUrl } from '$lib/util/translation-helpers';
 
 const pushRegistrationLoadCheck = () => {
   if (!get(loadedPushRegistrations)) {
@@ -293,15 +288,11 @@ export const hasOrHadEnabledNotificationsSomewhere = () => {
   return get(pushRegistrations).length > 0;
 };
 
-/** Convenience method. Whether we're _sure_ that this device can handle Web Push or native push notifications, now or with some intervention. */
-export const isNotificationEligible = () =>
-  isNative ||
-  ((hasWebPushNotificationSupportNow() || canHaveWebPushSupport()) &&
-    // We decided to _not_ allow notifications on Firefox on Android, because
-    // - on a notification tap, Firefox may open a blank page or any last page from history
-    // - PWA experience is "just a bookmark", not like Chrome
-    // - unregistering doesn't work like in Chrome (PushSubscription stays active after programmatic unsub)
-    !isAndroidFirefox());
+export const hasOrHadEnabledNativeNotificationsSomewhere = () => {
+  pushRegistrationLoadCheck();
+  // TODO: should we await this somehow where it's used?
+  return get(pushRegistrations).filter(isNativePushRegistration).length > 0;
+};
 
 /**
  * The caller should close any modals that this action affects.
@@ -309,14 +300,14 @@ export const isNotificationEligible = () =>
  */
 export const handleNotificationEnableAttempt = async (showModalWhenDenied = true) => {
   logger.debug('Attempting to register notifications');
-  if (!isMobileDevice) {
-    window.open(get(t)('push-notifications.prompt.helpcenter-url'), '_blank');
+  // Note: desktop devices (not mobile web, not native) should normally not reach here
+  if (isMobileWebDevice) {
+    const { isIDevice } = iDeviceInfo!;
+    window.open(isIDevice ? get(appleAppStoreUrl) : get(googlePlayStoreUrl), '_blank');
     return true;
-  } else if (isNative || (hasWebPushNotificationSupportNow() && !isAndroidFirefox())) {
-    // Actually try to enable the notifications
-    const success = await (isNative
-      ? createNativePushRegistration(showModalWhenDenied)
-      : createWebPushRegistration());
+  } else if (isNative) {
+    // We're on native - actually try to enable the notifications
+    const success = await createNativePushRegistration(showModalWhenDenied);
     if (success) {
       return true;
     } else {
@@ -324,10 +315,6 @@ export const handleNotificationEnableAttempt = async (showModalWhenDenied = true
       logger.warn('Notifications could not be enabled, see prior logs for details.');
       return false;
     }
-  } else if (canHaveWebPushSupport() || isAndroidFirefox()) {
-    // TODO: set notification dismissal?
-    rootModal.set(NotificationSetupGuideModal);
-    return true;
   } else {
     // TODO: show some instructions here (for an unsupported device)?
     // Probably not, because those can be delegated to the account page.

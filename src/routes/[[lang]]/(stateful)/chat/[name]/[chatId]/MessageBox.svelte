@@ -10,13 +10,15 @@
   import { get } from 'svelte/store';
   import * as Sentry from '@sentry/sveltekit';
   import { user } from '$lib/stores/auth';
-  import { canHaveWebPushSupport, hasNotificationSupportNow } from '$lib/util/push-registrations';
-  import { hasOrHadEnabledNotificationsSomewhere } from '$lib/api/push-registrations';
-  import { isMobileDevice, uaInfo } from '$lib/util/uaInfo';
+  import { hasOrHadEnabledNativeNotificationsSomewhere } from '$lib/api/push-registrations';
+  import { isMobileWebDevice, isNative, uaInfo } from '$lib/util/uaInfo';
   import { chat as sharedChat, role, scrollDownMessages, partner } from './_shared.svelte';
   import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
   import { OS } from 'ua-parser-js/enums';
   import logger from '$lib/util/logger';
+  import { deviceId, pushRegistrations } from '$lib/stores/pushRegistrations';
+  import { isNativePushRegistration } from '$lib/util/push-registrations';
+  import { PushRegistrationStatus } from '$lib/types/PushRegistration';
 
   export const MAX_MESSAGE_LENGTH = 800;
 
@@ -138,11 +140,13 @@
     // TODO take into account existing notifs
     const cookie = getCookie(NOTIFICATION_PROMPT_DISMISSED_COOKIE);
     if (
-      // Only show if we haven't enabled notifications anywhere yet
-      !hasOrHadEnabledNotificationsSomewhere() &&
-      // Only show if we are on desktop, or we are on a mobile with potential support
-      (hasNotificationSupportNow() || canHaveWebPushSupport() || !isMobileDevice) &&
-      // Only show if the user hasn't just seen it
+      // 1st group: device conditions
+      // On native, show if not enabled anywhere yet
+      ((isNative && !hasOrHadEnabledNativeNotificationsSomewhere()) ||
+        // On mobile web, always try to show. If the user has the app already,
+        // it's unlikely they get here due to deep links).
+        isMobileWebDevice) &&
+      // 2nd group: only show if the user hasn't just seen it
       (!cookie ||
         // The cookie == "true" means it was dismissed for 6 months
         (cookie != 'true' &&
@@ -166,6 +170,26 @@
       state.textArea?.focus();
     }
   };
+</script>
+
+<script>
+  // TODO: is this the right place of this effect?
+  // It's here because the post-send NotificationPrompt logic is here too
+  $effect(() => {
+    // If the current device enables a push registration, close the NotificationPrompt
+    // It may not be close if notifications are denied, then the first handleNotificationEnableAttempt
+    // will return `false`.
+    if (
+      $pushRegistrations.some(
+        (pR) =>
+          isNativePushRegistration(pR) &&
+          pR.deviceId === $deviceId &&
+          pR.status === PushRegistrationStatus.ACTIVE
+      )
+    ) {
+      state.showNotificationPrompt = false;
+    }
+  });
 </script>
 
 <textarea

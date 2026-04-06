@@ -1563,8 +1563,11 @@
       "follow-up-desktop": "Wil je <strong>mobiele meldingen</strong> ontvangen voor nieuwe chatberichten?",
       "ios-installed": "Mis geen enkel bericht door je mobiele meldingen aan te zetten!",
       "ios-installed-title": "Mobiele meldingen",
-      "title": "Krijg een mobiele melding voor nieuwe chatberichten.",
-      "helpcenter-url": "https://hulp.welcometomygarden.org/master/1.-mobiele-meldingen"
+      "helpcenter-url": "https://hulp.welcometomygarden.org/master/1.-mobiele-meldingen",
+      "download": "Download de app",
+      "mobile-web-title": "Ontvang mobiele meldingen voor nieuwe chatberichten met onze app.",
+      "native-title": "Ontvang mobiele meldingen voor nieuwe chatberichten.",
+      "desktop-title": "Download onze app en ontvang mobiele meldingen voor nieuwe chatberichten."
     },
     "error": {
       "permission-denied-faq-link": "https://hulp.welcometomygarden.org/master/1.-mobiele-meldingen/1.1.-android#wat-moet-ik-doen-als-mijn-browser-mobiele-meldingen-specifiek-voor-wtmg-blokkeert",

@@ -1514,7 +1514,6 @@
   "push-notifications": {
     "registration-success": "Benachrichtigungen wurden erfolgreich aktiviert",
     "prompt": {
-      "title": "Erhalten Sie eine mobile Benachrichtigung für neue Chat-Nachrichten.",
       "garden-intro": "Sie erhalten automatisch eine E-Mail für jede neue Anfrage zum Aufenthalt in Ihrem Garten",
       "garden-follow-up": ", und Sie können auch <strong>mobile Benachrichtigungen</strong> erhalten.",
       "garden-enable": "Möchten Sie auch <strong>mobile Benachrichtigungen</strong> über neue Chatnachrichten erhalten?",
@@ -1523,7 +1522,11 @@
       "ios-installed-title": "Mobile Benachrichtigungen",
       "btn-show-me": "Zeig mir wie",
       "btn-turn-on": "Benachrichtigungen einschalten",
-      "follow-up-desktop": "Möchten Sie <strong>mobile Benachrichtigungen</strong> über neue Chat-Nachrichten erhalten?"
+      "follow-up-desktop": "Möchten Sie <strong>mobile Benachrichtigungen</strong> über neue Chat-Nachrichten erhalten?",
+      "download": "App herunterladen",
+      "mobile-web-title": "Erhalten Sie mobile Benachrichtigungen für neue Chatnachrichten mit unserer App.",
+      "native-title": "Erhalten Sie mobile Benachrichtigungen für neue Chatnachrichten.",
+      "desktop-title": "Laden Sie unsere App herunter und erhalten Sie mobile Benachrichtigungen für neue Chatnachrichten."
     },
     "how-to": {
       "title": "So aktivieren Sie mobile Benachrichtigungen",

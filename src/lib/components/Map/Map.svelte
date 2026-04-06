@@ -36,7 +36,6 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   import { isFullscreen } from '$lib/stores/fullscreen';
   import { user } from '$lib/stores/auth';
   import { hasEnabledNotificationsOnCurrentDevice } from '$lib/api/push-registrations';
-  import { isOnIDevicePWA } from '$lib/util/push-registrations';
   import { beforeNavigate } from '$app/navigation';
   import routes from '$lib/routes';
   import createUrl from '$lib/util/create-url';
@@ -228,12 +227,11 @@ Component for maps. Shared between the main map, and the map in the Garden creat
       geolocationPermission !== 'not-available' &&
       geolocationPermission !== 'denied'
     ) {
-      // By default, don't show on iOS PWA, a native app, or when trying to view a garden
+      // By default, don't show on a native app, or when trying to view a garden
       // Except, if we already have enabled notifications, then this will not conflict with the
       // notification-enabling prompt
       const canPromptForLocationPermissionOnLoad =
-        (!(isOnIDevicePWA() || Capacitor.isNativePlatform()) ||
-          (await hasEnabledNotificationsOnCurrentDevice())) &&
+        (!Capacitor.isNativePlatform() || (await hasEnabledNotificationsOnCurrentDevice())) &&
         !isShowingGardenOnInit;
 
       let shouldTriggerGeolocation =

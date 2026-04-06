@@ -5,25 +5,22 @@ import { isUserLocaleLoaded, resolveOnUserLoaded, user } from '$lib/stores/auth'
 import { resetChatStores, initBadgeSync } from '$lib/stores/chat';
 import { coerceToValidLangCode } from '$lib/util/get-browser-lang';
 import { updateCommunicationLanguage } from '$lib/api/user';
-import IosNotificationPrompt from '$lib/components/Notifications/IOSPWANotificationModal.svelte';
 import {
   createFirebasePushRegistrationObserver,
   handleNotificationEnableAttempt,
   hasEnabledNotificationsOnCurrentDevice
 } from '$lib/api/push-registrations';
-import { isOnIDevicePWA } from '$lib/util/push-registrations';
 import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
 import {
   loadedPushRegistrations,
   resetPushRegistrationStores
 } from '$lib/stores/pushRegistrations';
 import { locale } from 'svelte-i18n';
-import { handledOpenFromIOSPWA, localeIsLoaded, rootModal } from './app';
+import { handledOpenFromIOSPWA, localeIsLoaded } from './app';
 import { createAuthObserver } from '$lib/api/auth';
 import { invalidateAll } from '$app/navigation';
 import logger from '$lib/util/logger';
-import { getCurrentWebPushSubscription } from '$lib/api/push-registrations/webpush';
-import { isNative } from '$lib/util/uaInfo';
+import { isNative, isOnIDevicePWA } from '$lib/util/uaInfo';
 import routes, { getCurrentRoute } from '$lib/routes';
 import { setupAndroidChannels } from '$lib/api/push-registrations/native';
 
@@ -145,16 +142,7 @@ export const initializeUser = async () => {
     if (isNative) {
       // On native platforms with built-in permission prompts (or no prompts), just immediately prompt for permission on user load
       handleNotificationEnableAttempt(false);
-    } else if (
-      // On iOS web PWAs, prompt on user load (for Android Chrome*, which also support push without installing the app, we only prompt
-      // in the chat)
-      isOnIDevicePWA() &&
-      //  when the browser has no web push sub registered (but support exists)
-      (await getCurrentWebPushSubscription()) === null
-    ) {
-      rootModal.set(IosNotificationPrompt);
     }
-
     isNotificationInitDone = true;
   });
 

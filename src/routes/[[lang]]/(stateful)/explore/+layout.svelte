@@ -32,7 +32,6 @@
   import ZoomRestrictionNotice from '$lib/components/Map/ZoomRestrictionNotice.svelte';
   import { createTrailObserver } from '$lib/api/trail';
   import { user } from '$lib/stores/auth';
-  import { isOnIDevicePWA } from '$lib/util/push-registrations';
   import type { Unsubscribe } from 'firebase/firestore';
   import { fileDataLayers, removeTrailAnimations } from '$lib/stores/file';
   import { isEmpty } from 'lodash-es';
@@ -59,7 +58,7 @@
   let showSavedGardens = $state(false);
   let showTransport = $state(false);
   let savedGardens = $state([] as string[]);
-  let vehicleNoticeShown = $state(!isOnIDevicePWA() && !getCookie('car-notice-dismissed'));
+  let vehicleNoticeShown = $state(!getCookie('car-notice-dismissed'));
 
   function showMembershipModal(gardenUrl?: string) {
     if (gardenUrl) {

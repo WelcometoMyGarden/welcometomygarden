@@ -47,7 +47,6 @@ import { handledOpenFromIOSPWA } from '$lib/stores/app';
 import { allListedGardens, hasLoaded as gardenHasLoaded } from '$lib/stores/garden';
 import { createClient } from '@supabase/supabase-js';
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_API_URL } from '$env/static/public';
-import { isOnIDevicePWA } from '$lib/util/push-registrations';
 import * as Sentry from '@sentry/sveltekit';
 import { lr } from '$lib/util/translation-helpers';
 import { DEFAULT_LANGUAGE } from '$lib/types/general';
@@ -303,14 +302,6 @@ export const createAuthObserver = (): Unsubscribe => {
           Sentry.captureException(e);
         }
         await clearBadge();
-      }
-
-      // If we're logged out, on an iDevice PWA, and opening the homepage
-      // then immediately redirect away from the homepage and skip to the
-      // sign-in screen (we assume the user has already seen the homepage)
-      // This gives it a more app-like feel.
-      if (getCurrentRoute() === routes.HOME && isOnIDevicePWA()) {
-        routeTo = routes.SIGN_IN;
       }
 
       // If we know we are logged out, we are not loading anymore.

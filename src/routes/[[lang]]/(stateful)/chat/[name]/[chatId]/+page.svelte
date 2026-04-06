@@ -206,8 +206,8 @@
       <!-- Show the guidelines, but only if is a new chat -->
       <ChatGuidelines hostName={$partner?.name} />
     {/if}
-    <NotificationPrompt bind:show={messageState.showNotificationPrompt} />
   </div>
+  <NotificationPrompt bind:show={messageState.showNotificationPrompt} />
 </div>
 <form
   onsubmit={(e) => {
@@ -248,14 +248,15 @@
     width: 100%;
     position: relative;
     overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
   .messages {
     padding: 0 1rem 0 0;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    min-height: 100%;
+    flex-grow: 1;
     /* Shows the scroll bar only when needed */
     overflow-y: auto;
     overflow-x: hidden;
@@ -482,6 +483,10 @@
     padding: 1.7rem;
   }
 
+  .message-wrapper :global(.notification-prompt .prompt) {
+    margin-bottom: 0;
+  }
+
   @media (min-width: 701px) and (max-width: 850px) {
     .message {
       max-width: 80%;
@@ -535,6 +540,7 @@
      that the scroll bar doesn't appear weirdly padded from the right */
     header.mobile,
     .message-wrapper > .messages,
+    .message-wrapper :global(.notification-prompt),
     form {
       padding-left: 1.2rem;
       padding-right: 1.2rem;

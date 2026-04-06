@@ -4,7 +4,7 @@ import { isInitializingFirebase, isSigningIn, isUserLoading } from './auth';
 import { isLoading as isLocaleLoading, locale } from 'svelte-i18n';
 import type { Component } from 'svelte';
 import { coerceToSupportedLanguage } from '$lib/util/get-browser-lang';
-import { isOnIDevicePWA } from '$lib/util/push-registrations';
+import { isOnIDevicePWA } from '$lib/util/uaInfo';
 
 export const handledOpenFromIOSPWA = writable(false);
 
