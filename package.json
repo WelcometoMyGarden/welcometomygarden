@@ -27,7 +27,7 @@
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
     "format": "prettier --plugin-search-dir . --write .",
     "firebase:demo": "([ -d ./emulator-data ] || yarn firebase:demo-seed) && [ -d ./emulator-data ] && firebase --project demo-test emulators:start --import ./emulator-data",
-    "firebase:demo-seed": "firebase --project demo-test emulators:exec --only auth,firestore --export-on-exit ./emulator-data api/seeders/simple.js",
+    "firebase:demo-seed": "firebase --project demo-test emulators:exec --only auth,firestore,functions --export-on-exit ./emulator-data api/seeders/simple.js",
     "firebase:demo-reset": "rm -rf ./emulator-data && firebase --project demo-test emulators:start",
     "firebase:debug": "firebase --project demo-test emulators:start --inspect-functions",
     "firebase:staging": "firebase --project staging emulators:start --only functions,tasks",

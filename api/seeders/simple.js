@@ -2,9 +2,14 @@
 // This can be run as a script against locally running emulators.
 // it will not automatically reset the emulators though.
 
+const { setTimeout: delayMs } = require('node:timers/promises');
 const { faker } = require('@faker-js/faker');
-const { auth } = require('./app');
+const { auth, db } = require('./app');
 const { createNewUser, createGarden, createChat, sendMessage } = require('./util');
+
+// How many `sendMessage` calls in the first chat;
+// demo-seed waits for stats/messages === 2 + this (two `createChat` openers).
+const EXTRA_MESSAGES_FIRST_CHAT = 10;
 
 const seed = async () => {
   // Create users
@@ -154,7 +159,7 @@ const seed = async () => {
     'Hey, can I stay in your garden?',
     false
   );
-  for (let i = 0; i < 10; i += 1) {
+  for (let i = 0; i < EXTRA_MESSAGES_FIRST_CHAT; i += 1) {
     const even = i % 2 === 0;
     await sendMessage((even ? user2 : user1).uid, firstChatId, faker.lorem.sentences(), false);
   }
@@ -168,8 +173,35 @@ const seed = async () => {
   };
 };
 
+
+const DEMO_SEED_MESSAGE_STARTUP_POLLING_TIMEOUT_MS = 120_000;
+const DEMO_SEED_MESSAGE_STARTUP_POLLING_INTERVAL_MS = 250;
+
+async function demoSeedMessageStartupPolling(expectedMessagesCount) {
+  const pollDeadlineMs = Date.now() + DEMO_SEED_MESSAGE_STARTUP_POLLING_TIMEOUT_MS;
+  let currentMessagesCount = 0;
+
+  while (Date.now() < pollDeadlineMs) {
+    const messagesStatSnap = await db.collection('stats').doc('messages').get();
+    const countField = messagesStatSnap.data()?.count;
+    currentMessagesCount = countField == null ? 0 : Number(countField);
+    if (currentMessagesCount === expectedMessagesCount) {
+      // eslint-disable-next-line no-console
+      console.log('demo-seed: Firestore message triggers caught up');
+      return;
+    }
+    await delayMs(DEMO_SEED_MESSAGE_STARTUP_POLLING_INTERVAL_MS);
+  }
+
+  throw new Error(
+    `demo-seed: timeout (wanted stats/messages ${expectedMessagesCount}, got ${currentMessagesCount})`
+  );
+}
+
 module.exports = seed;
 
 if (require.main === module) {
-  seed().then(() => process.exit(0));
+  seed()
+    .then(() => demoSeedMessageStartupPolling(2 + EXTRA_MESSAGES_FIRST_CHAT))
+    .then(() => process.exit(0));
 }

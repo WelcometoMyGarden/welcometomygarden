@@ -66,10 +66,12 @@ yarn firebase:demo
 
 This will locally emulate our backend: Firebase [Auth](https://firebase.google.com/docs/auth), [Firestore](https://firebase.google.com/docs/firestore), [Storage](https://firebase.google.com/docs/storage), [Hosting](https://firebase.google.com/docs/hosting), and [Cloud Functions](https://firebase.google.com/docs/functions). The first time you run it (or if there is no existing export), it will run the [seed script](../api/seeders/simple.js) and export auth and Firestore data to `./emulator-data`. On later runs it reuses that data so emulators start quickly with sample users and gardens.
 
+With `yarn firebase:demo-seed`, the seed script runs against Auth + Firestore + Functions, then briefly polls `stats/messages` until it matches the number of seeded messages (see `EXTRA_MESSAGES_FIRST_CHAT` in `api/seeders/simple.js`), so export is not racing triggers (up to a 120s cap in code).
+
 **Firebase demo scripts:**
 
 - **`yarn firebase:demo`** — Start emulators with seeded data. Uses `./emulator-data` if present; otherwise runs the seeder and exports, then starts with that data.
-- **`yarn firebase:demo-seed`** — Run only the seeder (auth + Firestore), export to `./emulator-data`, then exit. Use this to refresh the exported data; then run `yarn firebase:demo` to start emulators with the new export.
+- **`yarn firebase:demo-seed`** — Seed + functions, wait on stats, dump to `./emulator-data`, exit. Handy when you want to refresh the snapshot before `yarn firebase:demo`.
 - **`yarn firebase:demo-reset`** — Remove `./emulator-data` and start emulators **empty** (no import). Use this when you want a clean slate with no seed data.
 
 The directory `./emulator-data` is gitignored.
