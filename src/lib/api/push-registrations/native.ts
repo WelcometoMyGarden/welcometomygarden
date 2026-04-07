@@ -312,34 +312,38 @@ async function registerNotifications() {
 
   const prWithSameToken = localPushRegistrations.find((pR) => pR.fcmToken === fcmToken);
 
-  // If the resulting push registration was already stored exactly,
-  // do not add it again. Show an error, since this should be prevented
-  // by a device ID check by the caller, and we want to debug this situation.
+  // Error guard: if the exact same token + device ID is already ACTIVE (or FCM_ERRORED), we have an unexpected
+  // double-registration. MARKED_FOR_DELETION is excluded: that is the re-enable case (see upsert below).
   if (
     prWithSameToken &&
     isNativePushRegistration(prWithSameToken) &&
-    prWithSameToken.deviceId === nativeDeviceId
+    prWithSameToken.deviceId === nativeDeviceId &&
+    prWithSameToken.status !== PushRegistrationStatus.MARKED_FOR_DELETION
   ) {
     logger.warn('Tried to add an already-known push registration; this should not happen.');
     handleError(undefined, 'It looks like you already had notifications activated on this device.');
     return false;
   }
 
-  // If there are other PRs with the same device ID, but with different tokens, those should be deleted
-  // before we add new one. This might happen after an app reinstall (especially on Android, where at least
-  // in emulators the device IDs are stable). Normally, there should only be one in such a case.
-  const prsWithSameDeviceId = localPushRegistrations.filter(
-    (pR) => isNativePushRegistration(pR) && pR.deviceId == nativeDeviceId
+  // Delete stale existing registrations with the same device ID but a different token. This happens after an
+  // app reinstall on Android (device IDs are stable, but FCM issues a new token). We exclude
+  // prWithSameToken here: if it exists with the same device ID, that is the re-enable case
+  // (MARKED_FOR_DELETION with same token) and should be reactivated via upsert, not deleted.
+  const staleRegistrationsToDelete = localPushRegistrations.filter(
+    (pR) =>
+      isNativePushRegistration(pR) && pR.deviceId == nativeDeviceId && pR.id !== prWithSameToken?.id
   );
-  if (prsWithSameDeviceId.length > 0) {
+  if (staleRegistrationsToDelete.length > 0) {
     logger.log(
-      `Deleting ${prsWithSameDeviceId.length} push registrations with the same device ID while adding a new one. Deleting: ${prsWithSameDeviceId.map((pR) => pR.fcmToken).join(',')}`
+      `Deleting ${staleRegistrationsToDelete.length} stale push registration(s) with the same device ID. Tokens: ${staleRegistrationsToDelete.map((pR) => pR.fcmToken).join(',')}`
     );
     try {
-      await Promise.all(prsWithSameDeviceId.map(({ id }) => deleteDoc(pushRegistrationDocRef(id))));
+      await Promise.all(
+        staleRegistrationsToDelete.map(({ id }) => deleteDoc(pushRegistrationDocRef(id)))
+      );
     } catch (e) {
       logger.error(
-        'Error while deleting previous push registrations connected to the same device',
+        'Error while deleting stale push registrations with the same device ID',
         e instanceof Error ? e.message : ''
       );
     }
@@ -354,12 +358,18 @@ async function registerNotifications() {
 
   try {
     if (prWithSameToken) {
-      // If the resulting push registration FCM token already exists on another device ID,
-      // then the device properties may have changed, update them. There may be some edge cases where
-      // this happens.
-      await updateDoc(pushRegistrationsColRef().doc(prWithSameToken.id), upsertProperties);
+      // Two cases reach this branch — both resolved by updating the existing doc to ACTIVE:
+      // 1. Re-enable: same token + same device ID + MARKED_FOR_DELETION → reactivation.
+      //    We don't call unregister() on opt-out, so the token is still valid (also
+      //    confirmed by the refresh of the at the top of this function)
+      // 2. Token migration: same token found on a different device ID (edge case, e.g.
+      //    potentially happening when switching between TestFlight and debug builds) → update the device properties.
+      if (prWithSameToken.status === PushRegistrationStatus.MARKED_FOR_DELETION) {
+        logger.log('Re-enabling: reactivating an opted-out native push registration');
+      }
+      await updateDoc(pushRegistrationDocRef(prWithSameToken.id), upsertProperties);
     } else {
-      // No PR exists yet in Firestore, add it (default situation)
+      // Default: no existing PR with this token — add a fresh one.
       await addDoc<FirebaseNativePushRegistration, FirebaseNativePushRegistration>(
         pushRegistrationsColRef(),
         {

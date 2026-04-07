@@ -181,11 +181,24 @@ export const createFirebasePushRegistrationObserver = () => {
           });
       }
       if (linkedFirebaseRegistration?.status === PushRegistrationStatus.MARKED_FOR_DELETION) {
-        // Unsubscribe the current device's registration if it was marked for deletion externally, in any case
-        trackEvent(PlausibleEvent.DELETED_PUSH_REGISTRATION, { type: 'other' });
-        await deletePushRegistration(linkedFirebaseRegistration);
-        // Note: the deletePushRegistration method invokes onSnapshot again, hence we can skip a UI update of stale data.
-        return;
+        if (isNativePushRegistration(linkedFirebaseRegistration)) {
+          // For native registrations, MARKED_FOR_DELETION means the user explicitly opted out on this
+          // device. Do NOT auto-delete or unregister from FCM — just reflect this state in the UI so
+          // the user sees the "Turn on" button in the account page. The boot init in user.ts also
+          // checks for this status to prevent auto-re-registering on the next app open.
+          //
+          // Note: web push registrations keep the old auto-delete behavior (see else branch below).
+          // TODO: when web push is phased out, consider renaming 'marked_for_deletion' to 'off' to
+          // avoid confusion between the two different semantics this status has for native vs web.
+          //
+          // Fall through to the UI update at the end of this function.
+        } else {
+          // Web push: complete the deletion on the device that currently has this subscription active.
+          trackEvent(PlausibleEvent.DELETED_PUSH_REGISTRATION, { type: 'other' });
+          await deletePushRegistration(linkedFirebaseRegistration);
+          // Note: deletePushRegistration() triggers another onSnapshot, so we skip the UI update here.
+          return;
+        }
       } else if (
         isNative &&
         linkedFirebaseRegistration &&
@@ -277,6 +290,25 @@ export const hasEnabledNotificationsOnCurrentDevice = async () => {
     );
   }
   return !!get(currentWebPushSubStore);
+};
+
+/**
+ * Returns true if the current native device has explicitly opted out of notifications,
+ * i.e. has a MARKED_FOR_DELETION native push registration linked to this device.
+ *
+ * Used to prevent auto-re-registering on boot when the user deliberately turned off notifications in the account settings,
+ * but not in there native OS app settings.
+ * On native, MARKED_FOR_DELETION acts as an "off" state (unlike web push where it triggers cleanup).
+ * TODO: when web push is phased out, consider renaming 'marked_for_deletion' to 'off' for clarity.
+ */
+export const hasOptedOutOnCurrentNativeDevice = () => {
+  if (!isNative) return false;
+  return get(pushRegistrations).some(
+    (r) =>
+      isNativePushRegistration(r) &&
+      r.deviceId === get(deviceId) &&
+      r.status === PushRegistrationStatus.MARKED_FOR_DELETION
+  );
 };
 
 /**
@@ -446,28 +478,18 @@ export const deletePushRegistration = async (pushRegistration: LocalPushRegistra
       await deletePushRegistrationDoc(pushRegistration);
       return true;
     } else {
-      // We're on the current device, unregister the local registration before deleting
-      return await PushNotifications.unregister()
-        .then(async () => {
-          try {
-            logger.log(
-              'Successfully deleted/unsubscribed the current native FCM registration:',
-              pushRegistration.fcmToken
-            );
-            currentWebPushSubStore.set(null);
-            await deletePushRegistrationDoc(pushRegistration);
-            return true;
-          } catch (e) {
-            logger.error('Failed to delete the current native FCM registration', e);
-            Sentry.captureException(e);
-            return false;
-          }
-        })
-        .catch((e) => {
-          logger.warn('Failed to delete the FCM token that was marked to be deleted.');
-          Sentry.captureException(e);
-          return false;
-        });
+      // We're on the current native device. Instead of calling PushNotifications.unregister()
+      // and deleting the Firestore doc, we mark as MARKED_FOR_DELETION. This preserves the OS
+      // notification permission and the FCM token, while preventing push delivery (the backend
+      // filters by 'active' status) and preventing auto-re-registration on the next boot.
+      // The user can re-enable from the account page, which will reactivate this registration.
+      //
+      // Note: web push uses a different path (isWebPushRegistration branch above) where we DO
+      // call deleteToken() and delete the doc.
+      // TODO: when web push is phased out, consider renaming 'marked_for_deletion' to 'off' to
+      // avoid confusion between the two different semantics this status has for native vs web.
+      trackEvent(PlausibleEvent.DELETED_PUSH_REGISTRATION, { type: 'own' });
+      return await markForDeletion(pushRegistration);
     }
   } else {
     // Note: this should not happen. A pushRegistration should be either web or native.

@@ -8,7 +8,8 @@ import { updateCommunicationLanguage } from '$lib/api/user';
 import {
   createFirebasePushRegistrationObserver,
   handleNotificationEnableAttempt,
-  hasEnabledNotificationsOnCurrentDevice
+  hasEnabledNotificationsOnCurrentDevice,
+  hasOptedOutOnCurrentNativeDevice
 } from '$lib/api/push-registrations';
 import { NOTIFICATION_PROMPT_DISMISSED_COOKIE } from '$lib/constants';
 import {
@@ -127,13 +128,18 @@ export const initializeUser = async () => {
 
     // Bail out from further processing under some conditions
     const alreadyHasNotifs = await hasEnabledNotificationsOnCurrentDevice();
+    // On native, if the user previously opted out (MARKED_FOR_DELETION registration exists for
+    // this device), don't auto-re-register even though OS permission is still granted.
+    // See hasOptedOutOnCurrentNativeDevice() and the observer in push-registrations/index.ts.
+    const hasOptedOut = hasOptedOutOnCurrentNativeDevice();
     if (
       // Prevent the modal from being shown twice in the app boot session
       // (we might get multiple pushLocale updates, likely not though)
       isNotificationInitDone ||
       // the user has dismissed notifications in the chat
       notificationsDismissed === 'true' ||
-      alreadyHasNotifs
+      alreadyHasNotifs ||
+      hasOptedOut
     ) {
       return;
     }
