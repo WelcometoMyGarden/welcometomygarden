@@ -250,6 +250,8 @@ Android seems more flexible overall, at least the second restriction does apply 
 
 # Deployment
 
+There is [tools/deploy-mobile.sh](../tools/deploy-mobile.sh) which largely automates the procedure described below.
+
 ## Android
 
 1. Run `NODE_ENV={desired_env} cap sync android`
