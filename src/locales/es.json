@@ -50,7 +50,9 @@
     "banner": {
       "prompt": "",
       "answer": "",
-      "link-text": ""
+      "link-text": "Descárgala ahora",
+      "single-link": "¡Nuestra app WTMG está aquí! {link}. 🥳🏕️",
+      "double-link": "¡Nuestra app WTMG está aquí! Descárgala ahora en {iPhone} o {Android}. 🥳🏕️"
     },
     "membership-expired-notice": {
       "prompt": "¿Quiere renovar su suscripción de WTMG {amount} ahora?",

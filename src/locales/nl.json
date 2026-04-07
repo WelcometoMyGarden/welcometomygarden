@@ -48,7 +48,9 @@
     "banner": {
       "prompt": "",
       "answer": "Inschrijvingen voor ons {link} zijn nu open - hopelijk tot dan! 🎉🚴",
-      "link-text": "Velotour Festival"
+      "link-text": "Download hem nu",
+      "single-link": "Onze WTMG-app is er! {link}. 🥳🏕️",
+      "double-link": "Onze WTMG-app is er! Download hem nu op {iPhone} of {Android}. 🥳🏕️"
     },
     "membership-expired-notice": {
       "prompt": "Wil je je WTMG-lidmaatschap{amount} nu verlengen?",

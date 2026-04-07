@@ -17,8 +17,9 @@
   } from '$lib/stores/subscription';
   import { coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
   import { transKeyExists } from '$lib/util';
-  import { anchorText, bannerLink, lr } from '$lib/util/translation-helpers';
+  import { lr } from '$lib/util/translation-helpers';
   import type { ClickOutsideEvent } from '$lib/attachments/click-outside';
+  import TemporaryAppNavBannerContent from '../../TemporaryAppNoticeBanner.svelte';
 
   interface Props {
     isOpen?: boolean;
@@ -95,7 +96,10 @@
       {#if transKeyExists('navigation.banner.prompt')}
         <span class="title">{$_('navigation.banner.prompt')}</span>
       {/if}
-      <span
+      <span>
+        <TemporaryAppNavBannerContent />
+      </span>
+      <!-- <span
         >{@html $_('navigation.banner.answer', {
           values: {
             link: anchorText({
@@ -106,7 +110,7 @@
             })
           }
         })}
-      </span>
+      </span> -->
     {/if}
   </li>
   <li class="main-links-container">

@@ -1,4 +1,4 @@
-import { derived, writable } from 'svelte/store';
+import { derived } from 'svelte/store';
 import { user } from './auth';
 import { locale, t } from 'svelte-i18n';
 import { staticAppHasLoaded } from './app';
@@ -6,6 +6,7 @@ import { MEMBERSHIP_YEARLY_AMOUNTS } from '$lib/constants';
 import { anchorText } from '$lib/util/translation-helpers';
 import routes from '$lib/routes';
 import { PlausibleEvent } from '$lib/types/Plausible';
+import { hasAnyNativePushRegistration } from '$lib/util/push-registrations';
 
 export const hasValidSubscription = derived(user, ($user) =>
   $user?.superfan
@@ -141,4 +142,13 @@ export const renewalNoticeContent = derived(
 //   // $subscriptionJustEnded || $user?.superfan === true || $user?.garden != null
 // );
 // C: General announcement, also for visitors (does not exclude $subscriptionJustEnded)
-export const shouldShowBanner = writable(true);
+// export const shouldShowBanner = writable(true);
+
+// Temporary condition: show banner if
+// - default "subscriptionJustEnded" conditions
+// - the user does not have any native push registration yet
+export const shouldShowBanner = derived(
+  [subscriptionJustEnded, hasAnyNativePushRegistration],
+  ([$subscriptionJustEnded, $hasAnyNativePushRegistration]) =>
+    $subscriptionJustEnded || !$hasAnyNativePushRegistration
+);

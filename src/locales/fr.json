@@ -51,7 +51,9 @@
     "banner": {
       "prompt": "",
       "answer": "Les inscriptions pour notre {link} sont ouvertes - nous espérons vous y voir ! 🎉🚴",
-      "link-text": "Velotour Festival"
+      "link-text": "Téléchargez-la maintenant",
+      "single-link": "Notre appli WTMG est là ! {link}. 🥳🏕️",
+      "double-link": "Notre appli WTMG est là ! Téléchargez-la sur {iPhone} ou {Android}. 🥳🏕️"
     },
     "membership-expired-notice": {
       "prompt": "Souhaitez-vous renouveler votre adhésion WTMG{amount} dès maintenant ?",

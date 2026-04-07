@@ -13,9 +13,10 @@
     shouldShowBanner,
     subscriptionJustEnded
   } from '$lib/stores/subscription';
-  import { anchorText, bannerLink, lr } from '$lib/util/translation-helpers';
+  import { lr } from '$lib/util/translation-helpers';
   import { transKeyExists } from '$lib/util';
   import { signInLinkWithGarden } from '$lib/components/Map/Map.svelte';
+  import TemporaryAppNavBannerContent from '../TemporaryAppNoticeBanner.svelte';
 
   let firstName = $derived($user ? $user.firstName : '');
 </script>
@@ -36,7 +37,9 @@
           {#if transKeyExists('navigation.banner.prompt')}
             <strong style="font-weight: 500;">{$_('navigation.banner.prompt')}</strong>
             {' '}
-          {/if}{@html $_('navigation.banner.answer', {
+          {/if}
+          <TemporaryAppNavBannerContent />
+          <!-- {@html $_('navigation.banner.answer', {
             values: {
               link: anchorText({
                 href: $bannerLink,
@@ -45,7 +48,7 @@
                 newtab: true
               })
             }
-          })}
+          })} -->
         </span>
       {/if}
     </div>
