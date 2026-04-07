@@ -1,8 +1,8 @@
 import { rootModal } from '$lib/stores/app';
 import { bind } from 'svelte-simple-modal';
 import ErrorModal, { type Props } from '$lib/components/UI/ErrorModal.svelte';
-import { isEnablingLocalPushRegistration } from '$lib/stores/pushRegistrations';
-import { get } from 'svelte/store';
+import { isEnablingLocalPushRegistration, pushRegistrations } from '$lib/stores/pushRegistrations';
+import { derived, get } from 'svelte/store';
 import { emailAsLink } from '$lib/constants';
 import { t } from 'svelte-i18n';
 import { collection, doc, type DocumentReference } from 'firebase/firestore';
@@ -78,3 +78,13 @@ export const isNativePushRegistration = (
   pr: LocalPushRegistration | undefined | null
 ): pr is FirebaseNativePushRegistration & { id: string } =>
   pr != null && typeof (pr as any)['deviceId'] !== 'undefined';
+
+/**
+ * Regardless of status
+ * NOTE: we're defining this store here and not in stores/push-registrations,
+ * because this file already imports stores/push-registrations and we want to avoid
+ * cyclic imports
+ */
+export const hasAnyNativePushRegistration = derived(pushRegistrations, (pushRegistrations) =>
+  pushRegistrations.some((pR) => isNativePushRegistration(pR))
+);

@@ -1,6 +1,10 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { isNativePushRegistration, isWebPushRegistration } from '$lib/util/push-registrations';
+  import {
+    hasAnyNativePushRegistration,
+    isNativePushRegistration,
+    isWebPushRegistration
+  } from '$lib/util/push-registrations';
   import {
     loadedPushRegistrations,
     pushRegistrations,
@@ -46,20 +50,13 @@
       )
   );
 
-  /**
-   * Regardless of status
-   */
-  let hasAnyNativePushRegistration = $derived(
-    $pushRegistrations.some((pR) => isNativePushRegistration(pR))
-  );
-
   let shouldShowNotificationPrompt = $derived(
     // Never show on native, since we enable notifications here
     !isNative &&
       // Always show on mobile web devices
       (isMobileWebDevice ||
         // Show on desktop browsers if there is no native push registered yet
-        (!isMobileDevice && $loadedPushRegistrations && !hasAnyNativePushRegistration))
+        (!isMobileDevice && $loadedPushRegistrations && !$hasAnyNativePushRegistration))
   );
 
   /**
@@ -111,7 +108,7 @@
 
   <!-- Show our external FAQ page if the user has web push registrations,
        but no native push registrations -->
-  {#if $loadedPushRegistrations && hasAnyActiveOrErroredWebPushRegistration && !hasAnyNativePushRegistration}
+  {#if $loadedPushRegistrations && hasAnyActiveOrErroredWebPushRegistration && !$hasAnyNativePushRegistration}
     <p class="faqlink">
       {@html $_('account.notifications.questions', {
         values: {

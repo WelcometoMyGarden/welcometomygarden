@@ -28,7 +28,7 @@ import {
   pushRegistrations
 } from '$lib/stores/pushRegistrations';
 import { get } from 'svelte/store';
-import { iDeviceInfo, isMobileWebDevice, isNative } from '$lib/util/uaInfo';
+import { isIDevice, isMobileWebDevice, isNative } from '$lib/util/uaInfo';
 import { trackEvent } from '$lib/util';
 import { PlausibleEvent } from '$lib/types/Plausible';
 import {
@@ -302,8 +302,7 @@ export const handleNotificationEnableAttempt = async (showModalWhenDenied = true
   logger.debug('Attempting to register notifications');
   // Note: desktop devices (not mobile web, not native) should normally not reach here
   if (isMobileWebDevice) {
-    const { isIDevice } = iDeviceInfo!;
-    window.open(isIDevice ? get(appleAppStoreUrl) : get(googlePlayStoreUrl), '_blank');
+    window.open(isIDevice() ? get(appleAppStoreUrl) : get(googlePlayStoreUrl), '_blank');
     return true;
   } else if (isNative) {
     // We're on native - actually try to enable the notifications

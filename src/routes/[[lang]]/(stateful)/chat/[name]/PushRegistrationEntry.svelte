@@ -17,7 +17,7 @@
   import { PushRegistrationStatus, type LocalPushRegistration } from '$lib/types/PushRegistration';
   import { trackEvent } from '$lib/util';
   import { getDeviceWebUAWithClientHints } from '$lib/api/push-registrations/webpush';
-  import { isIDeviceOS, isMobileDevice, isNative, uaInfo } from '$lib/util/uaInfo';
+  import { isIDeviceOS, isNative, uaInfo } from '$lib/util/uaInfo';
   import { capitalize } from 'lodash-es';
   import { onMount } from 'svelte';
   import { _ } from 'svelte-i18n';

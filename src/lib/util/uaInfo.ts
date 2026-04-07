@@ -59,6 +59,14 @@ export const iDeviceInfo = browser
 
 export const isNative = Capacitor.isNativePlatform();
 
+export const isIDevice = () => {
+  if (!iDeviceInfo) {
+    return false;
+  }
+  const { isIDevice } = iDeviceInfo;
+  return isIDevice;
+};
+
 /**
  * Whether this device is a mobile web browser (detected by UA check).
  * Explicitly excludes native Capacitor apps (those are "native app devices", despite the webview).
