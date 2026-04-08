@@ -46,7 +46,7 @@ The system is integrated with third-party services for several important feature
    cd api && cp .env.example .env.local && cd -
    ```
 
-   Next, fill in your `VITE_MAPBOX_ACCESS_TOKEN` in the front-end `.env.local`.
+   Next, fill in your `VITE_MAPBOX_ACCESS_TOKEN` in the front-end `.env.development.local`.
 
 3. Download source assets from our bucket, which are not (yet) tracked in git. You can also use another tool for this.
 
@@ -56,13 +56,27 @@ The system is integrated with third-party services for several important feature
 
 ## Next, get the dev servers running
 
-Start all Firebase emulators:
+### Firebase demo emulators (seeded)
+
+Start the Firebase emulators with seeded data:
 
 ```sh
-yarn firebase:demo-seed
+yarn firebase:demo
 ```
 
-This will locally emulate our "backend": Firebase's [Auth](https://firebase.google.com/docs/auth), [Firestore](https://firebase.google.com/docs/firestore), [Storage](https://firebase.google.com/docs/storage), [Hosting](https://firebase.google.com/docs/hosting) and [Cloud Functions](https://firebase.google.com/docs/functions) modules. It also seeds a few sample users and gardens which can be used for testing, see [the seed script](../api/seeders/simple.js).
+This will locally emulate our backend: Firebase [Auth](https://firebase.google.com/docs/auth), [Firestore](https://firebase.google.com/docs/firestore), [Storage](https://firebase.google.com/docs/storage), [Hosting](https://firebase.google.com/docs/hosting), and [Cloud Functions](https://firebase.google.com/docs/functions). The first time you run it (or if there is no existing export), it will run the [seed script](../api/seeders/simple.js) and export auth and Firestore data to `./emulator-data`. On later runs it reuses that data so emulators start quickly with sample users and gardens.
+
+With `yarn firebase:demo-seed`, the seed script runs against Auth + Firestore + Functions, then briefly polls `stats/messages` until it matches the number of seeded messages (see `EXTRA_MESSAGES_FIRST_CHAT` in `api/seeders/simple.js`), so export is not racing triggers (up to a 120s cap in code).
+
+**Firebase demo scripts:**
+
+- **`yarn firebase:demo`** — Start emulators with seeded data. Uses `./emulator-data` if present; otherwise runs the seeder and exports, then starts with that data.
+- **`yarn firebase:demo-seed`** — Seed + functions, wait on stats, dump to `./emulator-data`, exit. Handy when you want to refresh the snapshot before `yarn firebase:demo`.
+- **`yarn firebase:demo-reset`** — Remove `./emulator-data` and start emulators **empty** (no import). Use this when you want a clean slate with no seed data.
+
+The directory `./emulator-data` is gitignored.
+
+### Frontend dev server
 
 In a new terminal, run:
 
@@ -78,7 +92,7 @@ If you use VSCode (recommended), you can also execute both commands at the same 
 
 `yarn dev` will use Vite's (fast) development server based on native ES modules with hot module replacement (HMR). This is the easiest way to develop the WTMG front-end in most cases.
 
-However, in some cases, it is necesary to work with a built app accessed Firebase Hosting rather than using Vite development server, because this setup behaves more similarly to a production deployment. If you're working on one of the following areas (probably not exhaustive), you may want to follow this course:
+However, in some cases, it is necessary to work with a built app accessed Firebase Hosting rather than using Vite development server, because this setup behaves more similarly to a production deployment. If you're working on one of the following areas (probably not exhaustive), you may want to follow this course:
 
 - redirect behavior
 - SvelteKit adapter-static behavior, prerendering, SEO & meta tags
@@ -204,7 +218,7 @@ You will need the right environment variables for this.
 
 ## Deployment
 
-Gitub Actions are set up for a production environment (based off `master`), a beta environment (`beta`) and a staging environment (`staging`). These only deploy the SvelteKit frontend, and not the Cloud Functions in `/api`. See [/api](../api/README.md) to learn how the backend functions are deployed.
+Github Actions are set up for a production environment (based off `master`), a beta environment (`beta`) and a staging environment (`staging`). These only deploy the SvelteKit frontend, and not the Cloud Functions in `/api`. See [/api](../api/README.md) to learn how the backend functions are deployed.
 
 The beta environment connects to the production Firebase backend, but has an independent frontend.
 
