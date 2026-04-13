@@ -12,7 +12,9 @@ export const hasValidSubscription = derived(user, ($user) =>
   $user?.superfan
     ? $user.stripeSubscription &&
       $user.stripeSubscription.status === 'active' &&
-      $user.stripeSubscription.latestInvoiceStatus === 'paid'
+      ($user.stripeSubscription.latestInvoiceStatus === 'paid' ||
+        // In case of SEPA renewals, the latest invoice status will still be "open" for some time
+        $user.stripeSubscription.paymentProcessing === true)
     : false
 );
 
