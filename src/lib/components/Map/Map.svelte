@@ -130,24 +130,6 @@ Component for maps. Shared between the main map, and the map in the Garden creat
     }
     originalUpdateCamera.apply(this, args);
   };
-  const geolocationControl = new mapboxgl.GeolocateControl({
-    trackUserLocation: !!$user?.superfan,
-    showUserLocation: !!$user?.superfan,
-    fitBoundsOptions: {
-      maxZoom: ZOOM_LEVELS.SMALL_COUNTRY
-    },
-    positionOptions: {
-      // Enable high accuracy when the location was not automatically activated on load
-      // but will be manually requested. Might be slower (so bad on load), but can give
-      // more accurate results.
-      enableHighAccuracy: true
-    },
-    geolocation:
-      Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'ios'
-        ? CapacitorGeolocationProxy
-        : navigator.geolocation
-  });
-
   /**
    * Loads the map and inserts it into the DOM
    */
@@ -228,6 +210,23 @@ Component for maps. Shared between the main map, and the map in the Garden creat
       geolocationPermission !== 'not-available' &&
       geolocationPermission !== 'denied'
     ) {
+      const geolocationControl = new mapboxgl.GeolocateControl({
+        trackUserLocation: !!$user?.superfan,
+        showUserLocation: !!$user?.superfan,
+        fitBoundsOptions: {
+          maxZoom: ZOOM_LEVELS.SMALL_COUNTRY
+        },
+        positionOptions: {
+          // Enable high accuracy when the location was not automatically activated on load
+          // but will be manually requested. Might be slower (so bad on load), but can give
+          // more accurate results.
+          enableHighAccuracy: true
+        },
+        geolocation:
+          Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'ios'
+            ? CapacitorGeolocationProxy
+            : navigator.geolocation
+      });
       // By default, don't show on a native app, or when trying to view a garden
       // Except, if we already have enabled notifications, then this will not conflict with the
       // notification-enabling prompt

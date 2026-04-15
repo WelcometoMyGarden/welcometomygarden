@@ -1,6 +1,8 @@
+import { isCapacitorError } from '$lib/components/Map/CapacitorGeolocationProxy';
 import { isNative } from '$lib/util/uaInfo';
-import { Capacitor } from '@capacitor/core';
+import { Capacitor, type PermissionState } from '@capacitor/core';
 import { Geolocation } from '@capacitor/geolocation';
+import * as Sentry from '@sentry/sveltekit';
 
 export const checkPermission = async (): Promise<
   'granted' | 'denied' | 'prompt' | 'not-available'
@@ -8,10 +10,22 @@ export const checkPermission = async (): Promise<
   // ==== native geolocation ====
   //
   if (isNative && Capacitor.getPlatform() === 'ios') {
-    const status = (await Geolocation.checkPermissions()).coarseLocation;
+    let status: PermissionState;
+    try {
+      status = (await Geolocation.checkPermissions()).coarseLocation;
+    } catch (e) {
+      if (isCapacitorError(e) && e.code === 'OS-PLUG-GLOC-0007') {
+        // This happens on iOS when Location Services are globally disabled.
+        // If they are enabled, but specific permissions are granted to WTMG (even: "Never")
+        // then checkPermissions() succeeds (In the case of "Never" it will likely return "denied")
+        Sentry.captureMessage(`${Capacitor.getPlatform()} location services are globally disabled`);
+      }
+      // In any case, consider it denied
+      status = 'denied';
+    }
     switch (status) {
       case 'prompt':
-      // TODO: I'm not when this applies, and how to add the rational to the prompt when needed
+      // TODO: I'm not sure when this applies, and how to add the rational to the prompt when needed
       case 'prompt-with-rationale':
         return 'prompt';
       default:

@@ -12,6 +12,8 @@
   const { onclose }: { onclose: () => void } = $props();
 
   const canvas = document.createElement('canvas');
+
+  // TODO: remove these two, they were only used to analyze a bug that is now fixed
   let webGLDiagnostics: string | undefined = $state();
   let tileFetchResult: string | undefined = $state();
   onMount(() => {

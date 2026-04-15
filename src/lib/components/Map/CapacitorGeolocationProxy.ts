@@ -1,6 +1,7 @@
 import logger from '$lib/util/logger';
 import { Geolocation, type Position } from '@capacitor/geolocation';
 import { random } from 'lodash-es';
+import * as Sentry from '@sentry/sveltekit';
 
 /**
  * See https://capacitorjs.com/docs/apis/geolocation#errors
@@ -142,7 +143,9 @@ export default {
           success(mapNativeWebPosition(position));
         }
       }
-    ).then((nativeCallbackId) => positionHandlers.set(id, nativeCallbackId));
+    )
+      .then((nativeCallbackId) => positionHandlers.set(id, nativeCallbackId))
+      .catch(Sentry.captureException);
     return id;
   },
   clearWatch: (id) => {
