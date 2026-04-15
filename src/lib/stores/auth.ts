@@ -85,3 +85,5 @@ export const formEmailValue = writable('');
 export const formPasswordValue = writable('');
 
 export const supabase = writable<SupabaseClient | undefined>();
+
+export const firebaseCustomToken = writable(import.meta.env.VITE_FIREBASE_CUSTOM_TOKEN);

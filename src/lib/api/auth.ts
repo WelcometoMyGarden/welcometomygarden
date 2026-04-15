@@ -18,7 +18,8 @@ import {
   resolveOnUserLoaded,
   supabase,
   isUserLocaleLoaded,
-  resolveOnUserLocaleLoaded
+  resolveOnUserLocaleLoaded,
+  firebaseCustomToken
 } from '$lib/stores/auth';
 import User, { type UserPrivate, type UserPublic } from '$lib/models/User';
 import { createUser, resendAccountVerification as resendAccVerif } from '$lib/api/functions';
@@ -512,8 +513,8 @@ export const createCampsiteObserver = (currentUserId: string) => {
 export const login = async (email: string, password: string): Promise<void> => {
   isSigningIn.set(true);
   try {
-    if (import.meta.env.VITE_FIREBASE_CUSTOM_TOKEN) {
-      await signInWithCustomToken(auth(), import.meta.env.VITE_FIREBASE_CUSTOM_TOKEN);
+    if (get(firebaseCustomToken)) {
+      await signInWithCustomToken(auth(), get(firebaseCustomToken));
     } else {
       await signInWithEmailAndPassword(auth(), email, password);
     }

@@ -12,8 +12,7 @@
   import { login } from '$lib/api/auth';
   import routes from '$lib/routes';
   import AuthContainer from '$lib/components/AuthContainer.svelte';
-  import { TextInput, Button, Progress } from '$lib/components/UI';
-  import { emailIcon } from '$lib/images/icons';
+  import { Button, Progress } from '$lib/components/UI';
   import { SUPPORT_EMAIL } from '$lib/constants';
   import { page } from '$app/state';
   import { get } from 'svelte/store';
@@ -25,6 +24,7 @@
   import { tick } from 'svelte';
   import PasswordInput from '$lib/components/UI/PasswordInput.svelte';
   import EmailInput from '$lib/components/UI/EmailInput.svelte';
+  import FirebaseTokenModal from './FirebaseTokenModal.svelte';
 
   const continueUrl = $derived(page.url.searchParams.get('continueUrl'));
 
@@ -83,6 +83,16 @@
       // TODO: Handle network errors and response errors
     }
   };
+
+  // Debugging: provide a way to open the FirebaseTokenModal
+  // by clicking to paragraphs below alternatingly
+  let unlockFirebaseTokenLogin = $state(0);
+  let lastTarget = $state();
+  const clickToUnlock = (target: 'a' | 'b') => {
+    if (lastTarget !== target) {
+      unlockFirebaseTokenLogin += 1;
+    }
+  };
 </script>
 
 <svelte:head>
@@ -123,7 +133,9 @@
     </form>
   {/snippet}
 
-  <p>
+  <!-- svelte-ignore a11y_click_events_have_key_events -->
+  <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+  <p onclick={() => clickToUnlock('a')}>
     {@html $_('sign-in.reset.text', {
       values: {
         link: `<a class="link" href="${$lr(routes.REQUEST_PASSWORD_RESET)}">${$_(
@@ -132,7 +144,7 @@
       }
     })}
   </p>
-  <p>
+  <p onclick={() => clickToUnlock('b')}>
     {@html $_('sign-in.register.text', {
       values: {
         link: `<a class="link" href="${$lr(routes.REGISTER)}${continueUrl ? `?continueUrl=${encodeURIComponent(continueUrl)}` : ''}">${$_('sign-in.register.link')}</a>`
@@ -140,6 +152,8 @@
     })}
   </p>
 </AuthContainer>
+<!-- After 4 alternating clicks on the two paragraphs -->
+<FirebaseTokenModal show={unlockFirebaseTokenLogin > 4} />
 
 <style>
   form > div {
