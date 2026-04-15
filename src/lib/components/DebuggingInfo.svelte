@@ -6,7 +6,66 @@
   import { deviceId } from '$lib/stores/pushRegistrations';
   import { App } from '@capacitor/app';
   import { dev } from '$app/environment';
+  import { onMount } from 'svelte';
+  import { isEmpty } from 'lodash-es';
+  import * as Sentry from '@sentry/sveltekit';
   const { onclose }: { onclose: () => void } = $props();
+
+  const canvas = document.createElement('canvas');
+  let webGLDiagnostics: string | undefined = $state();
+  let tileFetchResult: string | undefined = $state();
+  onMount(() => {
+    try {
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      const webGLRenderer = gl ? gl.getParameter(gl.RENDERER) : null;
+      const webGLCoreDiagnostics = [
+        // 1. WebGL available
+        !!gl,
+        // 2. renderer
+        webGLRenderer,
+        // 3. vendor
+        gl ? gl.getParameter(gl.VENDOR) : null
+      ];
+      // Optional 4. unmasked renderer, if different
+      const unmaskedRenderer = gl
+        ? (() => {
+            const ext = gl.getExtension('WEBGL_debug_renderer_info');
+            return ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : null;
+          })()
+        : null;
+      webGLDiagnostics = [
+        ...webGLCoreDiagnostics,
+        ...(unmaskedRenderer !== webGLRenderer ? [unmaskedRenderer] : [])
+      ] as any;
+    } catch (e) {
+      webGLDiagnostics = "Couldn't parse WebGL data" as any;
+      Sentry.captureException(e, { level: 'info', extra: { context: 'Debug WebGL info' } });
+    }
+    // Mapbox fetch check
+    fetch(
+      `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2,mapbox.mapbox-streets-v7/12/2112/1374.vector.pbf?sku=101fnAAZvT4UF&access_token=${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}`,
+      {
+        credentials: 'omit',
+        headers: {
+          Accept: '*/*'
+        },
+        method: 'GET',
+        mode: 'cors'
+      }
+    )
+      .then((r) => {
+        const setResult = (txt: string) =>
+          (tileFetchResult = `${r.status}${r.statusText.trim() ? ` ${r.statusText}` : ''}: ${txt}`);
+        return r
+          .text()
+          .then((t: string) => setResult(`len ${t.length}`))
+          .catch(() => setResult('Failed to parse text'));
+      })
+      .catch((e) => {
+        tileFetchResult = `Error: ${e.toString()}`;
+        Sentry.captureException(e, { level: 'info', extra: { context: 'Debug WebGL info' } });
+      });
+  });
 </script>
 
 <div class="debugging-info" {@attach clickOutside} onclickoutside={onclose}>
@@ -69,6 +128,18 @@
             <td>{Math.round((info.memUsed ?? 0) / 1048576)} MB</td>
           </tr>
         {/await}
+      {/if}
+      {#if !isEmpty(webGLDiagnostics)}
+        <tr>
+          <td>WebGL</td>
+          <td>{JSON.stringify(webGLDiagnostics)}</td>
+        </tr>
+      {/if}
+      {#if tileFetchResult}
+        <tr>
+          <td>Tile fetch</td>
+          <td>{tileFetchResult}</td>
+        </tr>
       {/if}
     </tbody>
   </table>

@@ -45,6 +45,7 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   import FullscreenControl from './FullscreenControl';
   import CapacitorGeolocationProxy from './CapacitorGeolocationProxy';
   import { checkPermission } from '$lib/api/geolocation.js';
+  import * as Sentry from '@sentry/sveltekit';
 
   type Props = {
     lat: number;
@@ -278,6 +279,8 @@ Component for maps. Shared between the main map, and the map in the Garden creat
     map!.on('load', () => {
       loaded = true;
     });
+
+    map!.on('error', (e) => Sentry.captureException(e, { extra: { context: 'Map error' } }));
 
     tick().then(() => {
       map!.resize();
