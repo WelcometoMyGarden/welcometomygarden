@@ -272,10 +272,14 @@ export const getNativeUAInfo = async () => {
     device: {
       vendor: info.manufacturer,
       // On iOS,
-      // - without entitlements that would give the configured device name (which we don't need), the info.name is a model name like "iPhone 16e"
       // - info.model is the Apple model code for the device, in this case iPhone17,5, which is never used in marketing
       //   and therefore confusing
-      model: Capacitor.getPlatform() === 'ios' ? info.name : info.model
+      // - without entitlements that would give the configured device name (which we don't need),
+      //   the info.name on simulators is a model name like "iPhone 16e", but on real devices it is just "iPhone"
+      // Note: for the app beta launch, we stored info.model. For the initial launch, we stored info.name.
+      // After 16/04/2026 we're storing info.model again, and we present this in a simplified way using
+      // $lib/util/apple-device-names.ts
+      model: info.model
     } as IDevice
   };
 };

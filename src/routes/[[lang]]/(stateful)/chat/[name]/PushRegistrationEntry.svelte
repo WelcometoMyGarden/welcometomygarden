@@ -22,6 +22,7 @@
   import { onMount } from 'svelte';
   import { _ } from 'svelte-i18n';
   import { isNativePushRegistration, isWebPushRegistration } from '$lib/util/push-registrations';
+  import { getAppleDeviceModelName } from '$lib/util/apple-device-names';
   interface Props {
     pushRegistration?: LocalPushRegistration | undefined;
   }
@@ -94,7 +95,12 @@
         {$_('generics.on')}
       {/if}
       <div class="device-name">
-        {device?.vendor !== 'Apple' ? `${device.vendor} ` : ''}{device.model ??
+        <!-- Don't include the vendor name when it's Apple -->
+        {capitalize(device?.vendor) !== 'Apple' ? `${device.vendor} ` : ''}{(capitalize(
+          device?.vendor
+        ) === 'Apple'
+          ? getAppleDeviceModelName(device.model ?? '')
+          : device.model) ??
           os ??
           $_('account.notifications.unknown')}
       </div>
