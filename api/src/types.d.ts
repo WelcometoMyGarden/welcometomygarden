@@ -52,6 +52,11 @@ declare global {
      * When the user was blocked from sending more chats
      */
     chatBlockedAt?: Timestamp | null;
+    /**
+     * When the garden of this user was (last) manually unlisted by an administrative action
+     * @since 17-04-2026
+     */
+    unlistedByAdminAt?: Timestamp;
   };
 
   type WrappedFunction = <T extends (...args: any[]) => any>(
