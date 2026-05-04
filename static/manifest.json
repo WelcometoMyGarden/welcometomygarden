@@ -9,6 +9,14 @@
   "theme_color": "#FFFFFF",
   "display": "standalone",
   "orientation": "any",
+  "prefer_related_applications": true,
+  "related_applications": [
+      {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=org.welcometomygarden.app",
+      "id": "org.welcometomygarden.app"
+      }
+  ],
   "icons": [
     {
       "src": "/images/app-icon/android-icon-36x36.png",
