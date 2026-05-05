@@ -489,6 +489,7 @@
     margin-bottom: 2rem;
     font-weight: 500;
     font-size: 1.8rem;
+    line-height: 1.3;
   }
   .description {
     margin-bottom: 1rem;
@@ -507,6 +508,10 @@
     text-align: left;
   }
 
+  .content :global(section h2 div.badge) {
+    font-size: 0.9em;
+  }
+
   @media (max-width: 700px) {
     .wrapper {
       min-height: calc(calc(var(--vh, 1vh) * 100) - var(--height-nav) - 12rem);
@@ -514,6 +519,13 @@
     }
     .preference-list {
       padding-left: 2rem;
+    }
+
+    /* New badge: make smaller on mobile to prevent
+       collapsing lines */
+    .content :global(section h2 div.badge) {
+      font-size: var(--paragraph-font-size);
+      margin-right: 0;
     }
   }
 

@@ -150,6 +150,11 @@
       'button';
   }
 
+  /* The account page already has enough spacing here */
+  .prompt.permanent {
+    margin: 1rem 0 0 0;
+  }
+
   @supports (container-type: inline-size) {
     .container {
       container-type: inline-size;
