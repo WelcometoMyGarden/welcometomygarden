@@ -8,6 +8,8 @@ import routes, { getBaseRouteIn } from '$lib/routes';
 /**
  * Delete the PWA manifest from some routes, in the hope that those will not suggest
  * to be installed as PWA.
+ * Note: this may have become irrelevant since the change that calls preventDefault on beforeinstallprompt,
+ * it doesn't hurt to keep it anyway however.
  */
 const ROUTES_WITHOUT_MANIFEST = [routes.APP_PAYMENT];
 
@@ -24,7 +26,14 @@ export const handle: Handle = async ({ event, resolve }) => {
     transformPageChunk: ({ html }) => {
       let outHtml = html
         .replace('%lang%', event.params.lang ?? DEFAULT_LANGUAGE)
-        .replace('%browserdetect%', browserDetectScript);
+        .replace('%browserdetect%', browserDetectScript)
+        // Using anything else than <!--# will result in fake warnings, at the moment
+        // see https://github.com/sveltejs/kit/pull/15695
+        // (the above PR is merged, but at the moment not available yet in this codebase,
+        // so the warning does show at the moment of writing)
+        // Note: this does not work with multi-line comments, we're keeping it limited to single lines
+        // to avoid accidentally stripping more than just comments.
+        .replace(/^\s*<!--#.*-->$\n/gm, '');
       for (const route of ROUTES_WITHOUT_MANIFEST) {
         if (getBaseRouteIn(event.route.id ?? '') === route) {
           outHtml = outHtml.replace(/^\s+<link rel="manifest".+$\n/gm, '');

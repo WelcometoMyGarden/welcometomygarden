@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="%lang%">
+  <!--# Note that these comment lines are stripped in hooks.server.ts  -->
   <head>
     <meta charset="utf-8" />
-    <!-- viewport-fit=cover is required to use safe-inset CSS env() variables -->
+    <!--# viewport-fit=cover is required to use safe-inset CSS env() variables -->
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
     <link
@@ -87,7 +88,7 @@
       href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua&family=Montserrat:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <!-- Plausible -->
+    <!--# Plausible -->
     <script
       defer
       id="plausible"
@@ -102,6 +103,14 @@
         function () {
           (window.plausible.q = window.plausible.q || []).push(arguments);
         };
+    </script>
+    <!--# We want to disable PWA prompts (in favor of native app prompts, or no prompts at all) -->
+    <!--# See https://web.dev/learn/pwa/installation-prompt/ -->
+    <!--# The event listener is added here to make sure it exists before Chrome fires it -->
+    <script>
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+      });
     </script>
     <!-- SvelteKit HEAD -->
     %sveltekit.head%
