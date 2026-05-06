@@ -94,15 +94,16 @@ service cloud.firestore {
       // Don't allow sensitive indentifiers to be changed by clients
       // Note: this also doesn't allow *creation* by clients, but that's OK, because the backend creates the doc.
         && !request.resource.data.diff(resource.data).affectedKeys().hasAny([
-      'lastName',
       'consentedAt',
       'creationLanguage',
+      'lastName',
+      'latestSpamAlertAt',
+      'newEmail',
+      'oldEmail',
+      'secret',
+      'sendgridId',
       'stripeCustomerId',
       'stripeSubscription',
-      'sendgridId',
-      'oldEmail',
-      'newEmail',
-      'latestSpamAlertAt'
       ])
     }
 

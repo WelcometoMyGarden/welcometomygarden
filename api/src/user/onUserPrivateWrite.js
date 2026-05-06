@@ -7,12 +7,14 @@ const {
   sendgridWtmgNewsletterListId,
   isContactSyncDisabled,
   sendgridHostFieldIdParam,
-  sendgridNewsletterFieldIdParam
+  sendgridNewsletterFieldIdParam,
+  sendgridSecretFieldIdParam
 } = require('../sharedConfig');
 const logger = require('firebase-functions/logger');
 const { auth } = require('../firebase');
 const stripe = require('../subscriptions/stripe');
 const { coerceToSupportedLanguage } = require('../util/mail');
+const removeUndefined = require('../util/removeUndefined');
 
 /**
  * @param {FirestoreEvent<Change<DocumentSnapshot<UserPrivate>>, { userId: string; }>} event
@@ -109,9 +111,10 @@ exports.onUserPrivateWrite = async ({ data: change, params }) => {
         extraContactDetails: {
           ...sendgridContactUpdateFields,
           custom_fields: {
-            ...sendgridContactUpdateFields.custom_fields,
+            ...removeUndefined(sendgridContactUpdateFields.custom_fields),
             // A new account will always start by not being a host
             [sendgridHostFieldIdParam.value()]: 0,
+            [sendgridSecretFieldIdParam.value()]: userPrivateAfter.secret ?? '',
             // The creation language will be updated only one time, upon the creation
             // of a users-private doc. It is intentionally not set if an older user
             // triggers a contact creation, to prevent being enrolled in unwanted SendGrid automations.

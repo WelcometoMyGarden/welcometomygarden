@@ -3,9 +3,13 @@ const {
   sendgridCommunicationLanguageFieldIdParam,
   sendgridSuperfanFieldIdParam,
   sendgridHostFieldIdParam,
-  sendgridNewsletterFieldIdParam
+  sendgridNewsletterFieldIdParam,
+  sendgridSecretFieldIdParam
 } = require('../sharedConfig');
 
+/**
+ * @param {string} uid
+ */
 const collectSendgridContactData = async (uid) => {
   // Get the required data
   const [
@@ -14,7 +18,8 @@ const collectSendgridContactData = async (uid) => {
       privateUserProfileData: {
         lastName,
         communicationLanguage,
-        emailPreferences: { news }
+        emailPreferences: { news },
+        secret
       }
     },
     garden
@@ -24,16 +29,20 @@ const collectSendgridContactData = async (uid) => {
 
   // Combine all fields that are not set in the createSendgridContact function
   // they are expected in the argument context
+  /**
+   * @satisfies {Partial<SendGrid.ContactDetails>}
+   */
   const contactUpdateFields = {
     first_name: firstName,
     country: countryCode,
     last_name: lastName,
     custom_fields: {
-      [sendgridCommunicationLanguageFieldIdParam.value()]: communicationLanguage,
+      [sendgridCommunicationLanguageFieldIdParam.value()]: communicationLanguage ?? '',
       [sendgridSuperfanFieldIdParam.value()]: superfan ? 1 : 0,
       [sendgridHostFieldIdParam.value()]: isHost ? 1 : 0,
       // This one is optionally set here
-      [sendgridNewsletterFieldIdParam.value()]: news ? 1 : 0
+      [sendgridNewsletterFieldIdParam.value()]: news ? 1 : 0,
+      [sendgridSecretFieldIdParam.value()]: secret ?? ''
       // We intentionally DO NOT include SG_CREATION_LANGUAGE_FIELD_ID
       // this prevents the user from re-entering (with the new contact)
       // automation lists, which all depend on this field

@@ -9,6 +9,7 @@ const { DateTime } = require('luxon');
 const { FirebaseAuthError } = require('firebase-admin/auth');
 const { omit } = require('lodash');
 const isRandomMixedCase = require('./util/isRandomMixedCase');
+const { nanoid } = require('nanoid');
 
 /**
  * Throws upon invalid data
@@ -225,6 +226,7 @@ exports.createUser = async ({ data: inputData, auth: authContext }) => {
         },
         creationLanguage: communicationLanguage,
         communicationLanguage,
+        secret: nanoid(),
         //
         // Optional reference field. Don't include it if it does not have a valid value
         ...(typeof reference === 'string' && reference.length > 0

@@ -85,6 +85,12 @@ export type UserPrivate = {
    * When the last alert was triggered on whether this user was starting many chats in a short timeframe.
    */
   latestSpamAlertAt?: Timestamp;
+  /**
+   * A per-user unique key that allows them to take certain actions via email (unsubscribe, request renewal) without logging in.
+   * Stored in users-private since May 6th, 2026. Before that it was only in SendGrid.
+   * May be undefined for older users that don't have a contact in SG.
+   */
+  secret?: string;
 };
 
 /**

@@ -1,5 +1,4 @@
 const { logger } = require('firebase-functions');
-const { nanoid } = require('nanoid');
 const { sendgrid: sendgridClient } = require('./sendgrid');
 const fail = require('../util/fail');
 const { getFunctionUrl, auth } = require('../firebase');
@@ -8,7 +7,6 @@ const {
   sendgridCreationTimeFieldIdParam,
   sendgridWtmgNewsletterListId,
   isContactSyncDisabled,
-  sendgridSecretFieldIdParam,
   sendgridNewsletterFieldIdParam,
   sendgridCreationLanguageFieldIdParam
 } = require('../sharedConfig');
@@ -36,6 +34,9 @@ const createSendgridContact = async (
     return;
   }
 
+  /**
+   * @type {Partial<SendGrid.ContactDetails>}
+   */
   const fetchedDetails =
     typeof fetchContactDetails === 'undefined' || fetchContactDetails
       ? await collectSendgridContactData(uid)
@@ -76,9 +77,6 @@ const createSendgridContact = async (
       [sendgridCreationTimeFieldIdParam.value()]: new Date(
         firebaseUser.metadata.creationTime
       ).toISOString(),
-      // NOTE: in case of an email update, the nanoid secret will change.
-      // So via old emails, the unsubscribe can't happen anymore. That's probably OK.
-      [sendgridSecretFieldIdParam.value()]: nanoid(),
       // Might be overwritten by extra custom fields below
       ...(shouldAddToNewsletter
         ? {

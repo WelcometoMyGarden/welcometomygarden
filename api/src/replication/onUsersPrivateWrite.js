@@ -9,18 +9,19 @@ module.exports = async ({ data: change }) => {
     tableName: 'users_private',
     // Ignore possible newEmail/oldEmail properties
     pick: [
-      'lastName',
-      'consentedAt',
-      'emailPreferences',
       'communicationLanguage',
+      'consentedAt',
+      'createTime',
       'creationLanguage',
+      'emailPreferences',
+      'lastName',
+      'latestSpamAlertAt',
+      'reference',
+      'secret',
       'sendgridId',
       'stripeCustomerId',
       'stripeSubscription',
-      'createTime',
-      'updateTime',
-      'reference',
-      'latestSpamAlertAt'
+      'updateTime'
     ]
   });
 };
