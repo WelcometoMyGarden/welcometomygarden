@@ -30,7 +30,7 @@ if (!admin.apps.length) {
   }
 }
 
-const { region: regionV1 } = require('firebase-functions/v1');
+const { region: regionV1, RESET_VALUE } = require('firebase-functions/v1');
 const {
   requestPasswordReset,
   resendAccountVerification,
@@ -134,7 +134,7 @@ exports.handleStripeWebhookV2 = onRequest(
   {
     // restore to v2 defaults
     cpu: 1,
-    concurrency: null
+    concurrency: RESET_VALUE
   },
   stripeWebhookHandler
 );
@@ -145,7 +145,7 @@ exports.parseInboundEmailV2 = onRequest(parseInboundEmail);
 exports.handleUnsubscribe = onRequest(handleUnsubscribeRouter);
 exports.errorLogTunnel = onRequest(
   {
-    concurrency: null,
+    concurrency: RESET_VALUE,
     cpu: 1
   },
   errorLogTunnel
@@ -161,7 +161,7 @@ exports.onUserPrivateWriteV2 = onDocumentWritten(
     document: 'users-private/{userId}',
     // restore to v2 defaults
     cpu: 1,
-    concurrency: null
+    concurrency: RESET_VALUE
   },
   executeFirestoreTriggersConcurrently([
     onUserPrivateWrite,
