@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+# Script to updated local dev environment variables related to the front-end server target
+# in .env files simultaneously.
+
+set -euo pipefail
+
+PORT="${1:-}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+if [[ -z "$PORT" ]]; then
+    echo "Usage: $0 <port>"
+    echo "Valid ports: 4005, 5173, 4173"
+    exit 1
+fi
+
+if [[ "$PORT" != "4005" && "$PORT" != "5173" && "$PORT" != "4173" ]]; then
+    echo "Error: Invalid port '$PORT'. Valid ports: 4005, 5173, 4173"
+    exit 1
+fi
+
+# Portable sed -i: macOS requires an empty string argument, Linux does not
+sedi() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i '' "$@"
+    else
+        sed -i "$@"
+    fi
+}
+
+# .env.local — PUBLIC_WTMG_HOST
+ENV_LOCAL="$ROOT_DIR/.env.local"
+if [[ -f "$ENV_LOCAL" ]]; then
+    sedi 's|^PUBLIC_WTMG_HOST=http://localhost|# PUBLIC_WTMG_HOST=http://localhost|' "$ENV_LOCAL"
+    sedi "s|^# PUBLIC_WTMG_HOST=http://localhost:${PORT}|PUBLIC_WTMG_HOST=http://localhost:${PORT}|" "$ENV_LOCAL"
+    echo "  .env.local          → PUBLIC_WTMG_HOST=http://localhost:${PORT}"
+else
+    echo "  .env.local not found, skipping"
+fi
+
+# .env.test.local — BASE_URL and USE_PREVIEW
+ENV_TEST_LOCAL="$ROOT_DIR/.env.test.local"
+if [[ -f "$ENV_TEST_LOCAL" ]]; then
+    sedi "s|^BASE_URL='http://localhost|# BASE_URL='http://localhost|" "$ENV_TEST_LOCAL"
+    sedi "s|^# BASE_URL='http://localhost:${PORT}|BASE_URL='http://localhost:${PORT}|" "$ENV_TEST_LOCAL"
+
+    if [[ "$PORT" == "4005" ]]; then
+        sedi 's|^USE_PREVIEW=false|# USE_PREVIEW=false|' "$ENV_TEST_LOCAL"
+        sedi 's|^# USE_PREVIEW=true|USE_PREVIEW=true|' "$ENV_TEST_LOCAL"
+        echo "  .env.test.local     → BASE_URL='http://localhost:${PORT}', USE_PREVIEW=true"
+    else
+        sedi 's|^USE_PREVIEW=true|# USE_PREVIEW=true|' "$ENV_TEST_LOCAL"
+        sedi 's|^# USE_PREVIEW=false|USE_PREVIEW=false|' "$ENV_TEST_LOCAL"
+        echo "  .env.test.local     → BASE_URL='http://localhost:${PORT}', USE_PREVIEW=false"
+    fi
+else
+    echo "  .env.test.local not found, skipping"
+fi
+
+# api/.env.local — FRONTEND_URL
+API_ENV_LOCAL="$ROOT_DIR/api/.env.local"
+if [[ -f "$API_ENV_LOCAL" ]]; then
+    sedi 's|^FRONTEND_URL="http://localhost|# FRONTEND_URL="http://localhost|' "$API_ENV_LOCAL"
+    sedi "s|^# FRONTEND_URL=\"http://localhost:${PORT}|FRONTEND_URL=\"http://localhost:${PORT}|" "$API_ENV_LOCAL"
+    echo "  api/.env.local      → FRONTEND_URL=\"http://localhost:${PORT}\""
+else
+    echo "  api/.env.local not found, skipping"
+fi
+
+echo ""
+echo "Switched to port ${PORT}."
