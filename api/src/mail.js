@@ -97,6 +97,7 @@ function logActionLink(verificationLink) {
 
 /**
  * In SendGrid: [WTMG] Email Verification
+ * Has no unsub link.
  * @param {EmailVerificationConfig} config
  */
 exports.sendAccountVerificationEmail = ({
@@ -230,6 +231,7 @@ exports.sendBecomeMemberEmail = ({ email, firstName, language }) => {
 
 /**
  * In SendGrid: [WTMG] Reset your password
+ * Has no unsub link.
  * @param {EmailConfig & {resetLink: string}} config
  */
 exports.sendPasswordResetEmail = ({ email, firstName, language, resetLink }) => {
@@ -288,6 +290,8 @@ exports.sendPasswordResetEmail = ({ email, firstName, language, resetLink }) => 
 const inboundParseEmailParam = defineString('SENDGRID_INBOUND_PARSE_EMAIL');
 
 /**
+ * In SendGrid: [WTMG] New chat message
+ * Has no unsub link.
  * @param {MessageReceivedConfig} config
  * @returns
  */
@@ -334,7 +338,8 @@ exports.sendMessageReceivedEmail = (config) => {
 };
 
 /**
- *
+ * In SendGrid: [WTMG] 24h reminder - New chat message
+ * Has no unsub link.
  * @param {Omit<MessageReceivedConfig, 'superfan'>} config
  * @returns
  */
@@ -381,6 +386,7 @@ exports.sendMessageReminderEmail = (config) => {
 
 /**
  * In SendGrid: Email reply error
+ * Has no unsub link.
  * @param {{email: string, language?: string}} config
  */
 exports.sendEmailReplyError = ({ email: toEmail, language }) => {
@@ -415,7 +421,8 @@ exports.sendEmailReplyError = ({ email: toEmail, language }) => {
 };
 
 /**
- * In SendGrid: Subscription confirmation email
+ * In SendGrid: [WTMG] Thank you email Superfans
+ * Has OLD unsub link (/account)
  * @param {EmailConfig} config
  * @returns
  */
@@ -456,7 +463,7 @@ exports.sendSubscriptionConfirmationEmail = ({ email, firstName, language }) => 
 };
 
 /**
- * In SendGrid: Abandoned cart reminder email
+ * In SendGrid: Abandoned cart
  * @param {EmailConfig} config
  * @returns
  */
@@ -603,6 +610,7 @@ exports.sendSubscriptionUpcomingRenewalEmail = async (config) => {
 };
 
 /**
+ * In SendGrid: [WTMG] Renewal 2 days before - Manual
  * @param {SubscriptionRenewalConfig} config
  * @returns
  */
@@ -814,7 +822,7 @@ exports.sendSubscriptionAutomaticRenewalThankYouEmail = async ({ email, firstNam
 };
 
 /**
- * In SendGrid: Subscription ended feedback email
+ * In SendGrid: [WTMG] Feedback email 5 days after
  * @param {EmailConfig} config
  * @returns
  */
@@ -902,7 +910,7 @@ exports.sendSubscriptionCancellationFeedbackEmail = async ({
 /**
 
 /**
- *
+ * In SendGrid: [WTMG] Renewal 2 days before - Cancelled Renewal
  * @param {Omit<AutomaticRenewalConfig, 'price'>} config does not include/need the price
  */
 exports.sendCancelledRenewalReminderEmail2DaysEmail = async function (config) {
@@ -943,7 +951,7 @@ exports.sendCancelledRenewalReminderEmail2DaysEmail = async function (config) {
 };
 
 /**
- *
+ * In SendGrid: [WTMG] Renewal 7 days before - Cancelled Renewal
  * @param {AutomaticRenewalConfig} config
  */
 exports.sendCancelledRenewalReminderEmail7DaysEmail = async function (config) {
@@ -1097,7 +1105,7 @@ or their <a href="${dashboardUrl()}/action/user-info?userId=${encodeURIComponent
 };
 
 /**
- * In SendGrid: Photo reminder email
+ * In SendGrid: WTMG host - Garden picture
  * @param {EmailConfig} config
  */
 exports.sendPhotoReminderEmail = ({ email, firstName, language }) => {
