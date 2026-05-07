@@ -31,7 +31,8 @@ module.exports = async (docs) => {
       // Send renewal invoice email
       await sendSubscriptionRenewalReminderEmail({
         email: combinedUser.email,
-        firstName: combinedUser.displayName,
+        firstName: /** @type {string} */ (combinedUser.displayName),
+        secret: combinedUser.secret,
         renewalLink: combinedUser.stripeSubscription.renewalInvoiceLink,
         language: combinedUser.communicationLanguage,
         price

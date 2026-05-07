@@ -58,6 +58,7 @@ exports.sendAbandonedCartReminder = async (req) => {
   await sendAbandonedCartReminderEmail({
     email: /** @type {string} */ (user.email),
     firstName: publicUserProfileData.firstName,
-    language: privateUserProfileData.communicationLanguage
+    language: privateUserProfileData.communicationLanguage,
+    secret: privateUserProfileData.secret
   });
 };

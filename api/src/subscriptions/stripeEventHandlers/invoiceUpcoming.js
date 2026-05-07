@@ -134,6 +134,7 @@ module.exports = async (event, res) => {
     firstName: publicUserProfileData.firstName,
     price: price.unit_amount / 100,
     language: privateUserProfileData.communicationLanguage,
+    secret: privateUserProfileData.secret,
     portalLink: portalSession.url,
     isSEPA,
     last4,

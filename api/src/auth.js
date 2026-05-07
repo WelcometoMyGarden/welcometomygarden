@@ -95,7 +95,7 @@ exports.requestPasswordReset = async (request) => {
 
     await sendPasswordResetEmail({
       email,
-      firstName: /** @type{string} */ (user.displayName),
+      firstName: /** @type {string} */ (user.displayName),
       language: communicationLanguage,
       resetLink
     });

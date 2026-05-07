@@ -50,7 +50,9 @@ exports.sendManualRenewalFeedbackEmails = async () => {
       await sendSubscriptionEndedFeedbackEmail({
         email: combinedUser.email,
         firstName: /** @type {string} */ (combinedUser.displayName),
-        language: combinedUser.communicationLanguage
+        language: combinedUser.communicationLanguage,
+        secret: combinedUser.secret,
+        wtmg_id: combinedUser.uid
       });
     },
     'Sending feedback emails (manual renewal)'
@@ -100,7 +102,9 @@ exports.sendAutomaticRenewalFeedbackEmails = async () => {
       await sendSubscriptionEndedFeedbackEmail({
         email: combinedUser.email,
         firstName: combinedUser.displayName,
-        language: combinedUser.communicationLanguage
+        language: combinedUser.communicationLanguage,
+        secret: combinedUser.secret,
+        wtmg_id: combinedUser.uid
       });
     },
     'Sending feedback emails (automatic renewal)'

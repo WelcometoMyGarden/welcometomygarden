@@ -21,7 +21,7 @@ exports.userPrivateDocIds = (docs) => {
 /**
  * Processes the given users-private snapshot by first enriching them with Firebase Auth data,
  * and then calling the user-provided function.
- * Returns the combined user data when the function call succeeds.
+ * Returns the combined user data (auth and users-private) when the function call succeeds.
  * Returns null when the user Auth data can't be found, or the function call fails.
  *
  * @param {DocumentSnapshot<UserPrivate>[]} userPrivateDocs

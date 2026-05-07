@@ -31,7 +31,14 @@ exports.sendCancelledRenewalReminderEmail7Days = async function (docs) {
   );
   await processUserPrivateDocs(
     filteredDocs,
-    async ({ email, stripeSubscription, stripeCustomerId, displayName, communicationLanguage }) => {
+    async ({
+      email,
+      stripeSubscription,
+      stripeCustomerId,
+      displayName,
+      communicationLanguage,
+      secret
+    }) => {
       // Rounded euro price of the price ID
       const price = wtmgPriceIdToPrice()[stripeSubscription?.priceId];
       const portalSession = await stripe.billingPortal.sessions.create({
@@ -42,6 +49,7 @@ exports.sendCancelledRenewalReminderEmail7Days = async function (docs) {
       await sendCancelledRenewalReminderEmail7DaysEmail({
         email,
         firstName: /** @type {string} */ (displayName),
+        secret,
         portalLink: portalSession.url,
         language: communicationLanguage,
         price
@@ -60,7 +68,7 @@ exports.sendCancelledRenewalReminderEmail2Days = async function (docs) {
   );
   await processUserPrivateDocs(
     filteredDocs,
-    async ({ email, stripeCustomerId, displayName, communicationLanguage }) => {
+    async ({ email, stripeCustomerId, displayName, communicationLanguage, secret }) => {
       const portalSession = await stripe.billingPortal.sessions.create({
         customer: /** @type {string} */ (stripeCustomerId),
         return_url: `${frontendUrl()}/account`
@@ -70,6 +78,7 @@ exports.sendCancelledRenewalReminderEmail2Days = async function (docs) {
         email,
         firstName: /** @type {string} */ (displayName),
         portalLink: portalSession.url,
+        secret,
         language: communicationLanguage
       });
     },

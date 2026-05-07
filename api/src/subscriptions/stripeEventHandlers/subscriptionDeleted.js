@@ -175,7 +175,8 @@ module.exports = async (event, res) => {
   const emailConfig = {
     email: user.email,
     firstName: publicUserProfileData?.firstName,
-    language: privateUserProfileData?.communicationLanguage
+    language: privateUserProfileData?.communicationLanguage,
+    secret: privateUserProfileData?.secret
   };
 
   // Inform the user that their subscription has ended *naturally*...

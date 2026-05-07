@@ -15,7 +15,7 @@ exports.sendPhotoReminderEmail = async function (req) {
     // Get user data and check garden
     const [
       {
-        privateUserProfileData: { communicationLanguage }
+        privateUserProfileData: { communicationLanguage, secret }
       },
       { exists: gardenExists, gardenData }
     ] = await Promise.all([getUserDocRefsWithData(uid), getGardenWithData(uid)]);
@@ -26,7 +26,8 @@ exports.sendPhotoReminderEmail = async function (req) {
       await sendPhotoReminderEmail({
         email: /** @type {string} */ (user.email),
         firstName: /** @type {string} */ (user.displayName),
-        language: communicationLanguage || 'en'
+        language: communicationLanguage || 'en',
+        secret
       });
     } else {
       logger.info('Host does not need a photo reminder', {

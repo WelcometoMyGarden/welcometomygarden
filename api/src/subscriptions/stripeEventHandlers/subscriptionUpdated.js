@@ -156,6 +156,7 @@ module.exports = async (event, res) => {
       email: /** @type {string} */ (customer.email),
       firstName: publicUserProfileData.firstName,
       language: privateUserProfileData.communicationLanguage,
+      secret: privateUserProfileData.secret,
       endDate
     });
   }

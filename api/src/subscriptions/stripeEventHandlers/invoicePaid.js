@@ -83,7 +83,8 @@ module.exports = async (event, res) => {
         await sendSubscriptionConfirmationEmail({
           email: /** @type {string} */ (invoice.customer_email),
           firstName: publicUserProfileData.firstName,
-          language: privateUserProfileData.communicationLanguage
+          language: privateUserProfileData.communicationLanguage,
+          secret: privateUserProfileData.secret
         });
       } else if (invoice.billing_reason === 'subscription_cycle') {
         // Overrides of invoices should not be possible on subscription cycles (at the time of writing)
@@ -91,7 +92,8 @@ module.exports = async (event, res) => {
         const emailConfig = {
           email: /** @type {string} */ (invoice.customer_email),
           firstName: publicUserProfileData.firstName,
-          language: privateUserProfileData.communicationLanguage
+          language: privateUserProfileData.communicationLanguage,
+          secret: privateUserProfileData.secret
         };
         if (subscription.collection_method === 'send_invoice') {
           await sendSubscriptionManualRenewalThankYouEmail(emailConfig);

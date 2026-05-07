@@ -15,7 +15,8 @@ exports.sendBecomeMemberEmail = async function (req) {
       {
         privateUserProfileData: {
           emailPreferences: { news },
-          communicationLanguage
+          communicationLanguage,
+          secret
         },
         publicUserProfileData: { superfan: isMember }
       },
@@ -26,8 +27,9 @@ exports.sendBecomeMemberEmail = async function (req) {
       logger.info('Sending "become a member" email, 4th of the welcome flow', metadata);
       await sendBecomeMemberEmail({
         email: /** @type {string} */ (user.email),
-        name: /** @type {string} */ (user.displayName),
-        language: communicationLanguage
+        firstName: /** @type {string} */ (user.displayName),
+        language: communicationLanguage,
+        secret
       });
     } else {
       logger.info(`User does not meet the criteria to send the 4th welcome flow email`, metadata);

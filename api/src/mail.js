@@ -9,6 +9,10 @@ const { coerceToMainLanguage } = require('./util/mail');
  * @property {string} email
  * @property {string} firstName
  * @property {string} [language]
+ *
+ * This is combined with `email` to make authenticated manage subscription links
+ * @typedef {Object} SecretConfig
+ * @property {string} secret
  */
 
 /**
@@ -154,9 +158,9 @@ exports.sendAccountVerificationEmail = ({
 /**
  * In SendGrid: Welcome Flow - Email #1 - Welcome - FR
  *
- * @param {EmailConfig} config
+ * @param {EmailConfig & SecretConfig} config
  */
-exports.sendWelcomeEmail = ({ email, firstName, language }) => {
+exports.sendWelcomeEmail = ({ email, firstName, language, secret }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -177,7 +181,9 @@ exports.sendWelcomeEmail = ({ email, firstName, language }) => {
     from: manonFrom(language),
     templateId,
     dynamicTemplateData: {
-      ...firstNameProps(firstName)
+      ...firstNameProps(firstName),
+      secret,
+      email
     },
     categories: [WELCOME_FLOW_CATEGORY]
   };
@@ -193,9 +199,9 @@ exports.sendWelcomeEmail = ({ email, firstName, language }) => {
 /**
  * In SendGrid: Welcome Flow - Email #4 - Becoming a member
  * Fourth welcome flow email
- * @param {EmailConfig} config
+ * @param {EmailConfig & SecretConfig} config
  */
-exports.sendBecomeMemberEmail = ({ email, firstName, language }) => {
+exports.sendBecomeMemberEmail = ({ email, firstName, language, secret }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -216,7 +222,9 @@ exports.sendBecomeMemberEmail = ({ email, firstName, language }) => {
     from: manonFrom(language),
     templateId,
     dynamicTemplateData: {
-      ...firstNameProps(firstName)
+      ...firstNameProps(firstName),
+      secret,
+      email
     },
     categories: [WELCOME_FLOW_CATEGORY]
   };
@@ -423,10 +431,10 @@ exports.sendEmailReplyError = ({ email: toEmail, language }) => {
 /**
  * In SendGrid: [WTMG] Thank you email Superfans
  * Has OLD unsub link (/account)
- * @param {EmailConfig} config
+ * @param {EmailConfig & SecretConfig} config
  * @returns
  */
-exports.sendSubscriptionConfirmationEmail = ({ email, firstName, language }) => {
+exports.sendSubscriptionConfirmationEmail = ({ email, firstName, language, secret }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -449,7 +457,9 @@ exports.sendSubscriptionConfirmationEmail = ({ email, firstName, language }) => 
     templateId,
     dynamicTemplateData: {
       ...firstNameProps(firstName),
-      exploreFeaturesLink: `${frontendUrl()}/explore`
+      exploreFeaturesLink: `${frontendUrl()}/explore`,
+      secret,
+      email
     },
     categories: ['Subscription confirmation email']
   };
@@ -464,10 +474,10 @@ exports.sendSubscriptionConfirmationEmail = ({ email, firstName, language }) => 
 
 /**
  * In SendGrid: Abandoned cart
- * @param {EmailConfig} config
+ * @param {EmailConfig & SecretConfig} config
  * @returns
  */
-exports.sendAbandonedCartReminderEmail = async ({ email, firstName, language }) => {
+exports.sendAbandonedCartReminderEmail = async ({ email, firstName, language, secret }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -489,7 +499,9 @@ exports.sendAbandonedCartReminderEmail = async ({ email, firstName, language }) 
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      ...firstNameProps(firstName)
+      ...firstNameProps(firstName),
+      secret,
+      email
     },
     categories: ['Abandoned cart reminder email']
   };
@@ -503,7 +515,7 @@ exports.sendAbandonedCartReminderEmail = async ({ email, firstName, language }) 
 };
 
 /**
- * @typedef {EmailConfig & {
+ * @typedef {EmailConfig & SecretConfig & {
  *   price: number,
  *   renewalLink: string
  * }} SubscriptionRenewalConfig
@@ -521,7 +533,7 @@ exports.sendAbandonedCartReminderEmail = async ({ email, firstName, language }) 
  * @returns
  */
 exports.sendSubscriptionRenewalEmail = async (config) => {
-  const { email, firstName, price, renewalLink, language } = config;
+  const { email, firstName, price, renewalLink, language, secret } = config;
   let templateId;
   switch (language) {
     case 'fr':
@@ -545,7 +557,9 @@ exports.sendSubscriptionRenewalEmail = async (config) => {
     dynamicTemplateData: {
       ...firstNameProps(firstName),
       price,
-      renewalLink
+      renewalLink,
+      secret,
+      email
     },
     categories: ['Subscription renewal email']
   };
@@ -569,7 +583,8 @@ exports.sendSubscriptionRenewalEmail = async (config) => {
  * @returns
  */
 exports.sendSubscriptionUpcomingRenewalEmail = async (config) => {
-  const { email, firstName, price, portalLink, language, isSEPA, last4, mandateReference } = config;
+  const { email, firstName, price, portalLink, language, isSEPA, last4, mandateReference, secret } =
+    config;
   let templateId;
   switch (language) {
     case 'fr':
@@ -596,7 +611,9 @@ exports.sendSubscriptionUpcomingRenewalEmail = async (config) => {
       portalLink,
       isSEPA,
       last4,
-      mandateReference
+      mandateReference,
+      secret,
+      email
     },
     categories: ['Subscription upcoming renewal email (automatic)']
   };
@@ -615,7 +632,7 @@ exports.sendSubscriptionUpcomingRenewalEmail = async (config) => {
  * @returns
  */
 exports.sendSubscriptionRenewalReminderEmail = async (config) => {
-  const { email, firstName, renewalLink, language, price } = config;
+  const { email, firstName, renewalLink, language, price, secret } = config;
   let templateId;
   switch (language) {
     case 'fr':
@@ -639,7 +656,9 @@ exports.sendSubscriptionRenewalReminderEmail = async (config) => {
     dynamicTemplateData: {
       ...firstNameProps(firstName),
       renewalLink,
-      price
+      price,
+      secret,
+      email
     },
     categories: ['Subscription renewal reminder email']
   };
@@ -658,10 +677,10 @@ exports.sendSubscriptionRenewalReminderEmail = async (config) => {
  * To be used when a send_invoice subscription ends, and when
  * a charge_automatically subscription ends naturally due to prior cancellation.
  *
- * @param {EmailConfig} config
+ * @param {EmailConfig & SecretConfig} config
  * @returns
  */
-exports.sendSubscriptionEndedEmail = async ({ email, firstName, language }) => {
+exports.sendSubscriptionEndedEmail = async ({ email, firstName, language, secret }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -683,7 +702,9 @@ exports.sendSubscriptionEndedEmail = async ({ email, firstName, language }) => {
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      ...firstNameProps(firstName)
+      ...firstNameProps(firstName),
+      secret,
+      email
     },
     categories: ['Subscription ended email']
   };
@@ -702,10 +723,10 @@ exports.sendSubscriptionEndedEmail = async ({ email, firstName, language }) => {
  * To be used when a send_invoice subscription ends, and when
  * a charge_automatically subscription ends naturally due to prior cancellation.
  *
- * @param {EmailConfig} config
+ * @param {EmailConfig & SecretConfig} config
  * @returns
  */
-exports.sendSubscriptionAllPaymentsFailedEmail = async ({ email, firstName, language }) => {
+exports.sendSubscriptionAllPaymentsFailedEmail = async ({ email, firstName, language, secret }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -728,7 +749,9 @@ exports.sendSubscriptionAllPaymentsFailedEmail = async ({ email, firstName, lang
     templateId,
     dynamicTemplateData: {
       ...firstNameProps(firstName),
-      renewalLink: `${frontendUrl()}/about-membership#pricing`
+      renewalLink: `${frontendUrl()}/about-membership#pricing`,
+      secret,
+      email
     },
     categories: ['Subscription ended email - payments failed (automatic)']
   };
@@ -743,10 +766,15 @@ exports.sendSubscriptionAllPaymentsFailedEmail = async ({ email, firstName, lang
 
 /**
  * In SendGrid: [WTMG] Renewal Thank You - Manual
- * @param {EmailConfig} config
+ * @param {EmailConfig & SecretConfig} config
  * @returns
  */
-exports.sendSubscriptionManualRenewalThankYouEmail = async ({ email, firstName, language }) => {
+exports.sendSubscriptionManualRenewalThankYouEmail = async ({
+  email,
+  firstName,
+  language,
+  secret
+}) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -768,7 +796,9 @@ exports.sendSubscriptionManualRenewalThankYouEmail = async ({ email, firstName, 
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      ...firstNameProps(firstName)
+      ...firstNameProps(firstName),
+      secret,
+      email
     },
     categories: ['Subscription renewal Thank You email']
   };
@@ -783,10 +813,15 @@ exports.sendSubscriptionManualRenewalThankYouEmail = async ({ email, firstName, 
 
 /**
  * In SendGrid: [WTMG] Renewal Thank You - Automatic
- * @param {EmailConfig} config
+ * @param {EmailConfig & SecretConfig} config
  * @returns
  */
-exports.sendSubscriptionAutomaticRenewalThankYouEmail = async ({ email, firstName, language }) => {
+exports.sendSubscriptionAutomaticRenewalThankYouEmail = async ({
+  email,
+  firstName,
+  language,
+  secret
+}) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -808,7 +843,9 @@ exports.sendSubscriptionAutomaticRenewalThankYouEmail = async ({ email, firstNam
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      ...firstNameProps(firstName)
+      ...firstNameProps(firstName),
+      secret,
+      email
     },
     categories: ['Subscription renewal Thank You email (automatic)']
   };
@@ -823,10 +860,16 @@ exports.sendSubscriptionAutomaticRenewalThankYouEmail = async ({ email, firstNam
 
 /**
  * In SendGrid: [WTMG] Feedback email 5 days after
- * @param {EmailConfig} config
+ * @param {EmailConfig & SecretConfig & {wtmg_id: string}} config
  * @returns
  */
-exports.sendSubscriptionEndedFeedbackEmail = async ({ email, firstName, language }) => {
+exports.sendSubscriptionEndedFeedbackEmail = async ({
+  email,
+  firstName,
+  language,
+  secret,
+  wtmg_id
+}) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -848,7 +891,10 @@ exports.sendSubscriptionEndedFeedbackEmail = async ({ email, firstName, language
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      ...firstNameProps(firstName)
+      ...firstNameProps(firstName),
+      secret,
+      email,
+      wtmg_id
     },
     categories: ['Subscription ended feedback email']
   };
@@ -863,14 +909,15 @@ exports.sendSubscriptionEndedFeedbackEmail = async ({ email, firstName, language
 
 /**
  * In SendGrid: Subscription cancellation confirmation + feedback email
- * @param {EmailConfig & {endDate: string}} config
+ * @param {EmailConfig & SecretConfig & {endDate: string}} config
  * @returns
  */
 exports.sendSubscriptionCancellationFeedbackEmail = async ({
   email,
   firstName,
   language,
-  endDate
+  endDate,
+  secret
 }) => {
   let templateId;
   switch (language) {
@@ -894,7 +941,9 @@ exports.sendSubscriptionCancellationFeedbackEmail = async ({
     templateId,
     dynamicTemplateData: {
       ...firstNameProps(firstName),
-      endDate
+      endDate,
+      secret,
+      email
     },
     categories: ['Subscription cancellation confirmation + feedback email']
   };
@@ -914,7 +963,7 @@ exports.sendSubscriptionCancellationFeedbackEmail = async ({
  * @param {Omit<AutomaticRenewalConfig, 'price'>} config does not include/need the price
  */
 exports.sendCancelledRenewalReminderEmail2DaysEmail = async function (config) {
-  const { email, firstName, portalLink, language } = config;
+  const { email, firstName, portalLink, language, secret } = config;
   let templateId;
   switch (language) {
     case 'fr':
@@ -937,7 +986,9 @@ exports.sendCancelledRenewalReminderEmail2DaysEmail = async function (config) {
     templateId,
     dynamicTemplateData: {
       ...firstNameProps(firstName),
-      portalLink
+      portalLink,
+      secret,
+      email
     },
     categories: ['Subscription cancelled renewal reminder 2 days (automatic)']
   };
@@ -955,7 +1006,7 @@ exports.sendCancelledRenewalReminderEmail2DaysEmail = async function (config) {
  * @param {AutomaticRenewalConfig} config
  */
 exports.sendCancelledRenewalReminderEmail7DaysEmail = async function (config) {
-  const { email, firstName, price, portalLink, language } = config;
+  const { email, firstName, price, portalLink, language, secret } = config;
   let templateId;
   switch (language) {
     case 'fr':
@@ -979,7 +1030,9 @@ exports.sendCancelledRenewalReminderEmail7DaysEmail = async function (config) {
     dynamicTemplateData: {
       ...firstNameProps(firstName),
       price,
-      portalLink
+      portalLink,
+      secret,
+      email
     },
     categories: ['Subscription cancelled renewal reminder 7 days (automatic)']
   };
@@ -1106,9 +1159,9 @@ or their <a href="${dashboardUrl()}/action/user-info?userId=${encodeURIComponent
 
 /**
  * In SendGrid: WTMG host - Garden picture
- * @param {EmailConfig} config
+ * @param {EmailConfig & SecretConfig} config
  */
-exports.sendPhotoReminderEmail = ({ email, firstName, language }) => {
+exports.sendPhotoReminderEmail = ({ email, firstName, language, secret }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -1130,7 +1183,9 @@ exports.sendPhotoReminderEmail = ({ email, firstName, language }) => {
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      ...firstNameProps(firstName)
+      ...firstNameProps(firstName),
+      secret,
+      email
     },
     categories: ['Photo reminder email']
   };

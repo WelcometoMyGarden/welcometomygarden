@@ -112,7 +112,8 @@ module.exports = async (event, res) => {
       firstName: publicUserProfileData.firstName,
       renewalLink: finalizedInvoice.hosted_invoice_url,
       price: price.unit_amount / 100,
-      language: privateUserProfileData.communicationLanguage
+      language: privateUserProfileData.communicationLanguage,
+      secret: privateUserProfileData.secret
     });
   } else {
     // TODO: send a different email for charge_automatically renewals (without link)

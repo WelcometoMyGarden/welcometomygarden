@@ -338,6 +338,7 @@ exports.onChatCreate = async ({ data: chatSnapshot }) => {
       email: /** @type {string} */ (email),
       firstName: /** @type {string} */ (displayName),
       lastName: usersPrivateDocData.lastName,
+      secret: usersPrivateDocData.secret,
       lastMessage: chatSnapshot.data().lastMessage
     };
   }

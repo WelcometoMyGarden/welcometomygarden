@@ -26,12 +26,13 @@ exports.sendQueuedMessage = async (req) => {
     const user = await getUser(data.uid, 'welcome email');
     if (user) {
       const { privateUserProfileDocRef } = await getUserDocRefs(data.uid);
-      const { communicationLanguage } = (await privateUserProfileDocRef.get()).data() ?? {};
+      const { communicationLanguage, secret } = (await privateUserProfileDocRef.get()).data() ?? {};
       logger.info('Sending welcome email', { uid: user.uid });
       await sendWelcomeEmail({
         email: /** @type {string} */ (user.email),
         firstName: /** @type {string} */ (user.displayName),
-        language: communicationLanguage
+        language: communicationLanguage,
+        secret
       });
     }
   } else if (type === 'become_member') {
