@@ -5,6 +5,13 @@ const { frontendUrl, canSendMail, dashboardUrl } = require('./sharedConfig');
 const { coerceToMainLanguage } = require('./util/mail');
 
 /**
+ * @typedef {Object} EmailConfig
+ * @property {string} email
+ * @property {string} firstName
+ * @property {string} [language]
+ */
+
+/**
  * See https://github.com/sendgrid/sendgrid-nodejs/tree/main/packages/mail
  * @param {SendGrid.MailDataRequired} msg
  */
@@ -12,15 +19,33 @@ const send = (msg) => sendgridMail.send(msg);
 
 /**
  * Since this code is public, trump simplistic email scrapers.
+ * @param {string} handle
+ * @param {string} domain
  * @returns
  */
 const buildEmail = (handle, domain) => `${handle}@${domain}`;
 const WTMG_DOMAIN = 'welcometomygarden.org';
 
 const SUPPORT_FROM = `Welcome To My Garden <${buildEmail('support', WTMG_DOMAIN)}>`;
+
+/**
+ * @param {string} [lang]
+ */
 const manonFrom = (lang) => ({
   email: 'news@welcometomygarden.org',
   name: `Manon ${{ en: 'from', nl: 'van', fr: 'de' }[coerceToMainLanguage(lang)]} WTMG`
+});
+
+/**
+ * Historically we've used `firstName` as a variable in Dynamic Templates (DT).
+ * `first_name` is used for SendGrid Contacts (which are not interpolated for DT)
+ * It may occur that some DT's contain the `first_name` out of confusion,
+ * so we provide both properties everywhere just in case.
+ * @param {string} name
+ */
+const firstNameProps = (name) => ({
+  firstName: name,
+  first_name: name
 });
 
 const WELCOME_FLOW_CATEGORY = 'Welcome flow - March 2025';
@@ -63,19 +88,24 @@ function logActionLink(verificationLink) {
 }
 
 /**
- * @param {string} email
- * @param {string} name
- * @param {string} verificationLink
- * @param {string} language
- * @param {'creation' | 'change'} type
+ * @typedef {EmailConfig & {
+ *    verificationLink: string,
+ *    type?: 'creation' | 'change'
+ *   }
+ * } EmailVerificationConfig
  */
-exports.sendAccountVerificationEmail = (
+
+/**
+ * In SendGrid: [WTMG] Email Verification
+ * @param {EmailVerificationConfig} config
+ */
+exports.sendAccountVerificationEmail = ({
   email,
-  name,
+  firstName,
   verificationLink,
   language,
   type = 'creation'
-) => {
+}) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -97,7 +127,7 @@ exports.sendAccountVerificationEmail = (
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      firstName: name,
+      ...firstNameProps(firstName),
       verificationLink,
       type
     },
@@ -121,12 +151,11 @@ exports.sendAccountVerificationEmail = (
 };
 
 /**
- * First welcome flow email
- * @param {string} email
- * @param {string} name
- * @param {string} language
+ * In SendGrid: Welcome Flow - Email #1 - Welcome - FR
+ *
+ * @param {EmailConfig} config
  */
-exports.sendWelcomeEmail = (email, name, language) => {
+exports.sendWelcomeEmail = ({ email, firstName, language }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -147,9 +176,7 @@ exports.sendWelcomeEmail = (email, name, language) => {
     from: manonFrom(language),
     templateId,
     dynamicTemplateData: {
-      // first_name is the SG contact, but it may not be ready yet
-      firstName: name,
-      first_name: name
+      ...firstNameProps(firstName)
     },
     categories: [WELCOME_FLOW_CATEGORY]
   };
@@ -163,9 +190,11 @@ exports.sendWelcomeEmail = (email, name, language) => {
 };
 
 /**
+ * In SendGrid: Welcome Flow - Email #4 - Becoming a member
  * Fourth welcome flow email
+ * @param {EmailConfig} config
  */
-exports.sendBecomeMemberEmail = (email, name, language) => {
+exports.sendBecomeMemberEmail = ({ email, firstName, language }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -186,9 +215,7 @@ exports.sendBecomeMemberEmail = (email, name, language) => {
     from: manonFrom(language),
     templateId,
     dynamicTemplateData: {
-      // first_name is the SG contact, but it may not be ready yet
-      firstName: name,
-      first_name: name
+      ...firstNameProps(firstName)
     },
     categories: [WELCOME_FLOW_CATEGORY]
   };
@@ -201,7 +228,11 @@ exports.sendBecomeMemberEmail = (email, name, language) => {
   return send(msg);
 };
 
-exports.sendPasswordResetEmail = (email, name, resetLink) => {
+/**
+ * In SendGrid: Reset your password
+ * @param {EmailConfig & {resetLink: string}} config
+ */
+exports.sendPasswordResetEmail = ({ email, firstName, resetLink }) => {
   // TODO: we only have this one in English?
   /**
    * @satisfies {SendGrid.MailDataRequired}
@@ -211,7 +242,7 @@ exports.sendPasswordResetEmail = (email, name, resetLink) => {
     from: SUPPORT_FROM,
     templateId: 'd-e30e97d29db9487aaea9b690c84ca7b0',
     dynamicTemplateData: {
-      firstName: name,
+      ...firstNameProps(firstName),
       resetLink
     },
     categories: ['Password reset email']
@@ -234,14 +265,12 @@ exports.sendPasswordResetEmail = (email, name, resetLink) => {
 };
 
 /**
- * @typedef {Object} MessageReceivedConfig
- * @property {string} email
- * @property {string} firstName
+ * @typedef {Object} MessageReceivedConfigType
  * @property {string} senderName
  * @property {string} message
  * @property {string} messageUrl
  * @property {boolean} superfan
- * @property {string} language
+ * @typedef {EmailConfig & MessageReceivedConfigType} MessageReceivedConfig
  */
 
 const inboundParseEmailParam = defineString('SENDGRID_INBOUND_PARSE_EMAIL');
@@ -275,7 +304,7 @@ exports.sendMessageReceivedEmail = (config) => {
     replyTo: `Welcome To My Garden <${inboundParseEmailParam.value()}>`,
     templateId,
     dynamicTemplateData: {
-      firstName,
+      ...firstNameProps(firstName),
       senderName,
       messageUrl,
       message,
@@ -322,7 +351,7 @@ exports.sendMessageReminderEmail = (config) => {
     replyTo: `Welcome To My Garden <${inboundParseEmailParam.value()}>`,
     templateId,
     dynamicTemplateData: {
-      firstName,
+      ...firstNameProps(firstName),
       senderName,
       messageUrl,
       message
@@ -338,7 +367,11 @@ exports.sendMessageReminderEmail = (config) => {
   return send(msg);
 };
 
-exports.sendEmailReplyError = (toEmail, language) => {
+/**
+ * In SendGrid: Email reply error
+ * @param {{email: string, language?: string}} config
+ */
+exports.sendEmailReplyError = ({ email: toEmail, language }) => {
   let templateId;
   switch (language) {
     case 'nl':
@@ -370,13 +403,11 @@ exports.sendEmailReplyError = (toEmail, language) => {
 };
 
 /**
- *
- * @param {string} language
- * @param {string} email
- * @param {string} firstName
+ * In SendGrid: Subscription confirmation email
+ * @param {EmailConfig} config
  * @returns
  */
-exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
+exports.sendSubscriptionConfirmationEmail = ({ email, firstName, language }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -398,7 +429,7 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      firstName,
+      ...firstNameProps(firstName),
       exploreFeaturesLink: `${frontendUrl()}/explore`
     },
     categories: ['Subscription confirmation email']
@@ -413,13 +444,11 @@ exports.sendSubscriptionConfirmationEmail = (email, firstName, language) => {
 };
 
 /**
- *
- * @param {string} email
- * @param {string} language
- * @param {string} firstName
+ * In SendGrid: Abandoned cart reminder email
+ * @param {EmailConfig} config
  * @returns
  */
-exports.sendAbandonedCartReminderEmail = async (email, firstName, language) => {
+exports.sendAbandonedCartReminderEmail = async ({ email, firstName, language }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -441,7 +470,7 @@ exports.sendAbandonedCartReminderEmail = async (email, firstName, language) => {
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      firstName
+      ...firstNameProps(firstName)
     },
     categories: ['Abandoned cart reminder email']
   };
@@ -455,12 +484,10 @@ exports.sendAbandonedCartReminderEmail = async (email, firstName, language) => {
 };
 
 /**
- * @typedef {Object} SubscriptionRenewalConfig
- * @property {string} email
- * @property {string} firstName
- * @property {number} price expected to be an integer
- * @property {string} renewalLink
- * @property {string} language
+ * @typedef {EmailConfig & {
+ *   price: number,
+ *   renewalLink: string
+ * }} SubscriptionRenewalConfig
  */
 
 /** @typedef {Omit<SubscriptionRenewalConfig, "renewalLink"> & {portalLink: string}} AutomaticRenewalConfig */
@@ -497,7 +524,7 @@ exports.sendSubscriptionRenewalEmail = async (config) => {
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      firstName,
+      ...firstNameProps(firstName),
       price,
       renewalLink
     },
@@ -545,7 +572,7 @@ exports.sendSubscriptionUpcomingRenewalEmail = async (config) => {
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      firstName,
+      ...firstNameProps(firstName),
       price,
       portalLink,
       isSEPA,
@@ -590,7 +617,7 @@ exports.sendSubscriptionRenewalReminderEmail = async (config) => {
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      firstName,
+      ...firstNameProps(firstName),
       renewalLink,
       price
     },
@@ -611,12 +638,10 @@ exports.sendSubscriptionRenewalReminderEmail = async (config) => {
  * To be used when a send_invoice subscription ends, and when
  * a charge_automatically subscription ends naturally due to prior cancellation.
  *
- * @param {string} email
- * @param {string} firstName
- * @param {string} language
+ * @param {EmailConfig} config
  * @returns
  */
-exports.sendSubscriptionEndedEmail = async (email, firstName, language) => {
+exports.sendSubscriptionEndedEmail = async ({ email, firstName, language }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -638,7 +663,7 @@ exports.sendSubscriptionEndedEmail = async (email, firstName, language) => {
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      firstName
+      ...firstNameProps(firstName)
     },
     categories: ['Subscription ended email']
   };
@@ -657,12 +682,10 @@ exports.sendSubscriptionEndedEmail = async (email, firstName, language) => {
  * To be used when a send_invoice subscription ends, and when
  * a charge_automatically subscription ends naturally due to prior cancellation.
  *
- * @param {string} email
- * @param {string} firstName
- * @param {string} language
+ * @param {EmailConfig} config
  * @returns
  */
-exports.sendSubscriptionAllPaymentsFailedEmail = async (email, firstName, language) => {
+exports.sendSubscriptionAllPaymentsFailedEmail = async ({ email, firstName, language }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -684,7 +707,7 @@ exports.sendSubscriptionAllPaymentsFailedEmail = async (email, firstName, langua
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      firstName,
+      ...firstNameProps(firstName),
       renewalLink: `${frontendUrl()}/about-membership#pricing`
     },
     categories: ['Subscription ended email - payments failed (automatic)']
@@ -700,12 +723,10 @@ exports.sendSubscriptionAllPaymentsFailedEmail = async (email, firstName, langua
 
 /**
  * In SendGrid: [WTMG] Renewal Thank You - Manual
- * @param {string} email
- * @param {string} firstName
- * @param {string} language
+ * @param {EmailConfig} config
  * @returns
  */
-exports.sendSubscriptionManualRenewalThankYouEmail = async (email, firstName, language) => {
+exports.sendSubscriptionManualRenewalThankYouEmail = async ({ email, firstName, language }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -727,7 +748,7 @@ exports.sendSubscriptionManualRenewalThankYouEmail = async (email, firstName, la
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      firstName
+      ...firstNameProps(firstName)
     },
     categories: ['Subscription renewal Thank You email']
   };
@@ -742,12 +763,10 @@ exports.sendSubscriptionManualRenewalThankYouEmail = async (email, firstName, la
 
 /**
  * In SendGrid: [WTMG] Renewal Thank You - Automatic
- * @param {string} email
- * @param {string} firstName
- * @param {string} language
+ * @param {EmailConfig} config
  * @returns
  */
-exports.sendSubscriptionAutomaticRenewalThankYouEmail = async (email, firstName, language) => {
+exports.sendSubscriptionAutomaticRenewalThankYouEmail = async ({ email, firstName, language }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -769,7 +788,7 @@ exports.sendSubscriptionAutomaticRenewalThankYouEmail = async (email, firstName,
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      firstName
+      ...firstNameProps(firstName)
     },
     categories: ['Subscription renewal Thank You email (automatic)']
   };
@@ -783,12 +802,11 @@ exports.sendSubscriptionAutomaticRenewalThankYouEmail = async (email, firstName,
 };
 
 /**
- * @param {string} email
- * @param {string} firstName
- * @param {string} language
+ * In SendGrid: Subscription ended feedback email
+ * @param {EmailConfig} config
  * @returns
  */
-exports.sendSubscriptionEndedFeedbackEmail = async (email, firstName, language) => {
+exports.sendSubscriptionEndedFeedbackEmail = async ({ email, firstName, language }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -810,7 +828,7 @@ exports.sendSubscriptionEndedFeedbackEmail = async (email, firstName, language) 
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      firstName
+      ...firstNameProps(firstName)
     },
     categories: ['Subscription ended feedback email']
   };
@@ -824,13 +842,11 @@ exports.sendSubscriptionEndedFeedbackEmail = async (email, firstName, language) 
 };
 
 /**
- * @param {string} email
- * @param {string} firstName
- * @param {string} language
- * @param {string} endDate
+ * In SendGrid: Subscription cancellation confirmation + feedback email
+ * @param {EmailConfig & {endDate: string}} config
  * @returns
  */
-exports.sendSubscriptionCancellationFeedbackEmail = async (email, firstName, language, endDate) => {
+exports.sendSubscriptionCancellationFeedbackEmail = async ({ email, firstName, language, endDate }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -852,7 +868,7 @@ exports.sendSubscriptionCancellationFeedbackEmail = async (email, firstName, lan
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      firstName,
+      ...firstNameProps(firstName),
       endDate
     },
     categories: ['Subscription cancellation confirmation + feedback email']
@@ -895,7 +911,7 @@ exports.sendCancelledRenewalReminderEmail2DaysEmail = async function (config) {
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      firstName,
+      ...firstNameProps(firstName),
       portalLink
     },
     categories: ['Subscription cancelled renewal reminder 2 days (automatic)']
@@ -936,7 +952,7 @@ exports.sendCancelledRenewalReminderEmail7DaysEmail = async function (config) {
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      firstName,
+      ...firstNameProps(firstName),
       price,
       portalLink
     },
@@ -1064,11 +1080,10 @@ or their <a href="${dashboardUrl()}/action/user-info?userId=${encodeURIComponent
 };
 
 /**
- * @param {string} email
- * @param {string} firstName
- * @param {string} language
+ * In SendGrid: Photo reminder email
+ * @param {EmailConfig} config
  */
-exports.sendPhotoReminderEmail = (email, firstName, language) => {
+exports.sendPhotoReminderEmail = ({ email, firstName, language }) => {
   let templateId;
   switch (language) {
     case 'fr':
@@ -1090,8 +1105,7 @@ exports.sendPhotoReminderEmail = (email, firstName, language) => {
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      firstName,
-      first_name: firstName
+      ...firstNameProps(firstName)
     },
     categories: ['Photo reminder email']
   };

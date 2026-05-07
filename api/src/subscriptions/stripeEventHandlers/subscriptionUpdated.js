@@ -152,12 +152,12 @@ module.exports = async (event, res) => {
       `${customerId} cancelled ${subscription.id}, ending on ${endDate}. Sending a confirmation email.`
     );
 
-    await sendSubscriptionCancellationFeedbackEmail(
-      customer.email,
-      publicUserProfileData.firstName,
-      privateUserProfileData.communicationLanguage,
+    await sendSubscriptionCancellationFeedbackEmail({
+      email: /** @type {string} */ (customer.email),
+      firstName: publicUserProfileData.firstName,
+      language: privateUserProfileData.communicationLanguage,
       endDate
-    );
+    });
   }
 
   return res.sendStatus(200);

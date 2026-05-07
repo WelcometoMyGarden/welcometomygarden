@@ -83,13 +83,13 @@ exports.sendMessageReminder = async function (req) {
     `Sending message reminder email for chat ${chatId} by traveller ${senderUid} to host ${host.uid}`
   );
   await sendMessageReminderEmail({
-    email: host.email,
+    email: /** @type {string} */ (host.email),
     firstName: hostPublicUserProfileData.firstName,
     language: hostPrivateUserProfileData.communicationLanguage,
-    senderName: sender.displayName,
+    senderName: /** @type {string}*/ (sender.displayName),
     message: normalizeMessage(combinedSenderMessage),
     messageUrl: buildMessageUrl({
-      displayName: sender.displayName,
+      displayName: /** @type {string}*/ (sender.displayName),
       chatId,
       language: hostPrivateUserProfileData.communicationLanguage
     })

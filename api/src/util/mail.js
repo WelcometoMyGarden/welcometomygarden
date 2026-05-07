@@ -1,7 +1,13 @@
 const { frontendUrl } = require('../sharedConfig');
 const removeDiacritics = require('./removeDiacritics');
 
+/**
+ * @param {string} str
+ */
 exports.normalizeMessage = (str) => str.replace(/\n\s*\n\s*\n/g, '\n\n');
+/**
+ * @param {string} str
+ */
 exports.normalizeName = (str) => removeDiacritics(str).toLowerCase();
 /**
  * Returns the URL path prefix for the given language, e.g. '/nl' for Dutch

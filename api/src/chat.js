@@ -324,15 +324,19 @@ exports.onChatCreate = async ({ data: chatSnapshot }) => {
   const usersPrivateDoc = await userPrivateDocRef.get();
   const usersPrivateDocData = usersPrivateDoc.data();
   const canCheckForSpamActivity =
-    !usersPrivateDocData.latestSpamAlertAt ||
-    now - usersPrivateDocData.latestSpamAlertAt.toMillis() > 24 * 3600 * 1000;
+    usersPrivateDocData &&
+    (!usersPrivateDocData.latestSpamAlertAt ||
+      now - usersPrivateDocData.latestSpamAlertAt.toMillis() > 24 * 3600 * 1000);
 
   async function getChatNotificationParamsForSender() {
     const { email, displayName } = await auth.getUser(senderAuthId);
+    if (!usersPrivateDocData) {
+      throw new Error('users-private doc is falsy while getting chat notification params');
+    }
     return {
       uid: senderAuthId,
-      email,
-      firstName: displayName,
+      email: /** @type {string} */ (email),
+      firstName: /** @type {string} */ (displayName),
       lastName: usersPrivateDocData.lastName,
       lastMessage: chatSnapshot.data().lastMessage
     };

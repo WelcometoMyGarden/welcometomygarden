@@ -172,11 +172,11 @@ module.exports = async (event, res) => {
     return res.sendStatus(200);
   }
 
-  const emailParams = /** @type {const} */ ([
-    user.email,
-    publicUserProfileData?.firstName,
-    privateUserProfileData?.communicationLanguage
-  ]);
+  const emailConfig = {
+    email: user.email,
+    firstName: publicUserProfileData?.firstName,
+    language: privateUserProfileData?.communicationLanguage
+  };
 
   // Inform the user that their subscription has ended *naturally*...
   if (
@@ -207,7 +207,7 @@ module.exports = async (event, res) => {
       'The deleted sub was a lapsed send_invoice subscription renewal ' +
         'or previously canceled charge_automatically subscription, sending the subscriptionEnded email'
     );
-    await sendSubscriptionEndedEmail(...emailParams);
+    await sendSubscriptionEndedEmail(emailConfig);
   }
   // ... if this was a deletion due the failing of all payment attempt for an automatic renewal
   else if (
@@ -217,7 +217,7 @@ module.exports = async (event, res) => {
     latestInvoice.status !== 'paid'
   ) {
     // then send an adapted email
-    await sendSubscriptionAllPaymentsFailedEmail(...emailParams);
+    await sendSubscriptionAllPaymentsFailedEmail(emailConfig);
   }
 
   return res.sendStatus(200);

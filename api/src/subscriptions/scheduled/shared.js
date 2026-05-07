@@ -25,7 +25,7 @@ exports.userPrivateDocIds = (docs) => {
  * Returns null when the user Auth data can't be found, or the function call fails.
  *
  * @param {DocumentSnapshot<UserPrivate>[]} userPrivateDocs
- * @param {(combinedUser: {id: string} & Omit<UserRecord, 'toJSON'> & UserPrivate ) => void} processFn
+ * @param {(combinedUser: {id: string, email: string} & Omit<UserRecord, 'toJSON'> & UserPrivate ) => void} processFn
  * @param {string} processDescription
  */
 exports.processUserPrivateDocs = async (userPrivateDocs, processFn, processDescription) => {

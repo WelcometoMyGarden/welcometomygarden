@@ -80,24 +80,24 @@ module.exports = async (event, res) => {
         invoice.metadata.billing_reason_override === 'subscription_create'
       ) {
         // this is the paid invoice for the first subscription
-        await sendSubscriptionConfirmationEmail(
-          invoice.customer_email,
-          publicUserProfileData.firstName,
-          privateUserProfileData.communicationLanguage
-        );
+        await sendSubscriptionConfirmationEmail({
+          email: /** @type {string} */ (invoice.customer_email),
+          firstName: publicUserProfileData.firstName,
+          language: privateUserProfileData.communicationLanguage
+        });
       } else if (invoice.billing_reason === 'subscription_cycle') {
         // Overrides of invoices should not be possible on subscription cycles (at the time of writing)
         // But with SEPA Debit, paymentProcessing on renewals is (or should be) possible.
-        const params = /** @type {const} */ ([
-          invoice.customer_email,
-          publicUserProfileData.firstName,
-          privateUserProfileData.communicationLanguage
-        ]);
+        const emailConfig = {
+          email: /** @type {string} */ (invoice.customer_email),
+          firstName: publicUserProfileData.firstName,
+          language: privateUserProfileData.communicationLanguage
+        };
         if (subscription.collection_method === 'send_invoice') {
-          await sendSubscriptionManualRenewalThankYouEmail(...params);
+          await sendSubscriptionManualRenewalThankYouEmail(emailConfig);
         } else {
           // for a charge_automatically renewal
-          await sendSubscriptionAutomaticRenewalThankYouEmail(...params);
+          await sendSubscriptionAutomaticRenewalThankYouEmail(emailConfig);
         }
       }
     } catch (e) {

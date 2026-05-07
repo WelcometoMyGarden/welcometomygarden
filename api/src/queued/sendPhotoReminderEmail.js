@@ -23,7 +23,11 @@ exports.sendPhotoReminderEmail = async function (req) {
     // Only send reminder if they have a listed garden without a photo
     if (gardenExists && !gardenData.photo && gardenData.listed) {
       logger.info('Sending photo reminder email', { uid });
-      await sendPhotoReminderEmail(user.email, user.displayName, communicationLanguage || 'en');
+      await sendPhotoReminderEmail({
+        email: /** @type {string} */ (user.email),
+        firstName: /** @type {string} */ (user.displayName),
+        language: communicationLanguage || 'en'
+      });
     } else {
       logger.info('Host does not need a photo reminder', {
         uid,

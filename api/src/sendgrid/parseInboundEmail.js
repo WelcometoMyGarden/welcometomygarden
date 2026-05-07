@@ -315,7 +315,7 @@ exports.parseInboundEmail = async (req, res) => {
         );
       }
       logger.log(`Sending error email to ${fromEmail} in language ${language}`);
-      await sendEmailReplyError(fromEmail, language);
+      await sendEmailReplyError({ email: fromEmail, language });
     } else {
       logger.warn("Couldn't parse an email to send an error message to, not sending error email");
     }

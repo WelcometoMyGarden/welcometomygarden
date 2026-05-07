@@ -130,7 +130,7 @@ module.exports = async (event, res) => {
   }
 
   await sendSubscriptionUpcomingRenewalEmail({
-    email: invoice.customer_email,
+    email: /** @type {string} */ (invoice.customer_email),
     firstName: publicUserProfileData.firstName,
     price: price.unit_amount / 100,
     language: privateUserProfileData.communicationLanguage,

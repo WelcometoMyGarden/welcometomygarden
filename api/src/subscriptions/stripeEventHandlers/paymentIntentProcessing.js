@@ -113,29 +113,29 @@ module.exports = async (event, res) => {
     invoice.metadata?.billing_reason_override === 'subscription_create'
   ) {
     logger.log(`Sending subscription confirmation email to ${uid} <${invoice.customer_email}>`);
-    await sendSubscriptionConfirmationEmail(
-      invoice.customer_email,
-      publicUserProfileData.firstName,
-      privateUserProfileData.communicationLanguage
-    );
+    await sendSubscriptionConfirmationEmail({
+      email: invoice.customer_email,
+      firstName: publicUserProfileData.firstName,
+      language: privateUserProfileData.communicationLanguage
+    });
   } else if (invoice.billing_reason === 'subscription_cycle') {
     // TODO: charge_automatically SEPA renewal payments should also reach here.
     // We probably want to send them a different email.
-    const params = /** @type {const} */ ([
-      invoice.customer_email,
-      publicUserProfileData.firstName,
-      privateUserProfileData.communicationLanguage
-    ]);
+    const emailConfig = {
+      email: invoice.customer_email,
+      firstName: publicUserProfileData.firstName,
+      language: privateUserProfileData.communicationLanguage
+    };
     if (privateUserProfileData.stripeSubscription.collectionMethod !== 'charge_automatically') {
       logger.log(
         `Sending subscription manual renewal thank you email to ${uid} <${invoice.customer_email}>`
       );
-      await sendSubscriptionManualRenewalThankYouEmail(...params);
+      await sendSubscriptionManualRenewalThankYouEmail(emailConfig);
     } else {
       logger.log(
         `Sending subscription automatic renewal thank you email to ${uid} <${invoice.customer_email}>`
       );
-      await sendSubscriptionAutomaticRenewalThankYouEmail(...params);
+      await sendSubscriptionAutomaticRenewalThankYouEmail(emailConfig);
     }
   }
 

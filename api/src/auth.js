@@ -52,7 +52,12 @@ const sendVerificationEmail = async (email, firstName, language) => {
     url: `${frontendUrl()}/account`
   });
 
-  await sendAccountVerificationEmail(email, firstName, link, language);
+  await sendAccountVerificationEmail({
+    email,
+    firstName,
+    verificationLink: link,
+    language
+  });
 };
 exports.sendVerificationEmail = sendVerificationEmail;
 
@@ -78,10 +83,14 @@ exports.requestPasswordReset = async (request) => {
     // to prevent email enumeration attacks
     if (!user) return successResponse;
 
-    const link = await auth.generatePasswordResetLink(email, {
+    const resetLink = await auth.generatePasswordResetLink(email, {
       url: `${frontendUrl()}/reset-password`
     });
-    await sendPasswordResetEmail(email, user.displayName, link);
+    await sendPasswordResetEmail({
+      email,
+      firstName: /** @type{string} */ (user.displayName),
+      resetLink
+    });
     return successResponse;
   } catch (e) {
     if (e instanceof FirebaseAuthError && e.code == 'auth/user-not-found') {
@@ -187,13 +196,13 @@ async function requestEmailChangeForUser(authUser, newEmail) {
     );
   }
 
-  await sendAccountVerificationEmail(
-    newEmail,
-    authUser?.displayName,
-    verifyAndChangeActionLink,
-    userPrivateData.communicationLanguage || 'en',
-    'change'
-  );
+  await sendAccountVerificationEmail({
+    email: newEmail,
+    firstName: authUser?.displayName,
+    verificationLink: verifyAndChangeActionLink,
+    language: userPrivateData.communicationLanguage || 'en',
+    type: 'change'
+  });
 }
 
 /**

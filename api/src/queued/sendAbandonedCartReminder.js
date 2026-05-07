@@ -55,9 +55,9 @@ exports.sendAbandonedCartReminder = async (req) => {
   logger.info(
     `Sending abandoned cart reminder email to ${uid} / ${customerId} at ${DateTime.now().setZone('Europe/Brussels').toISO()}`
   );
-  await sendAbandonedCartReminderEmail(
-    user.email,
-    publicUserProfileData.firstName,
-    privateUserProfileData.communicationLanguage
-  );
+  await sendAbandonedCartReminderEmail({
+    email: /** @type {string} */ (user.email),
+    firstName: publicUserProfileData.firstName,
+    language: privateUserProfileData.communicationLanguage
+  });
 };

@@ -47,11 +47,11 @@ exports.sendManualRenewalFeedbackEmails = async () => {
     filteredDocs,
     async (combinedUser) => {
       // Send renewal invoice email
-      await sendSubscriptionEndedFeedbackEmail(
-        combinedUser.email,
-        combinedUser.displayName,
-        combinedUser.communicationLanguage
-      );
+      await sendSubscriptionEndedFeedbackEmail({
+        email: combinedUser.email,
+        firstName: /** @type {string} */ (combinedUser.displayName),
+        language: combinedUser.communicationLanguage
+      });
     },
     'Sending feedback emails (manual renewal)'
   );
@@ -97,11 +97,11 @@ exports.sendAutomaticRenewalFeedbackEmails = async () => {
     filteredDocs,
     async (combinedUser) => {
       // Send renewal invoice email
-      await sendSubscriptionEndedFeedbackEmail(
-        combinedUser.email,
-        combinedUser.displayName,
-        combinedUser.communicationLanguage
-      );
+      await sendSubscriptionEndedFeedbackEmail({
+        email: combinedUser.email,
+        firstName: combinedUser.displayName,
+        language: combinedUser.communicationLanguage
+      });
     },
     'Sending feedback emails (automatic renewal)'
   );

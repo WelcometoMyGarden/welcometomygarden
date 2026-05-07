@@ -41,7 +41,7 @@ exports.sendCancelledRenewalReminderEmail7Days = async function (docs) {
       // Send email
       await sendCancelledRenewalReminderEmail7DaysEmail({
         email,
-        firstName: displayName,
+        firstName: /** @type {string} */ (displayName),
         portalLink: portalSession.url,
         language: communicationLanguage,
         price
@@ -68,7 +68,7 @@ exports.sendCancelledRenewalReminderEmail2Days = async function (docs) {
       // Send email
       await sendCancelledRenewalReminderEmail2DaysEmail({
         email,
-        firstName: displayName,
+        firstName: /** @type {string} */ (displayName),
         portalLink: portalSession.url,
         language: communicationLanguage
       });

@@ -24,7 +24,11 @@ exports.sendBecomeMemberEmail = async function (req) {
     const metadata = { uid, news, addedGarden: gardenExists, isMember: !!isMember };
     if (news === true && gardenExists === false && !isMember) {
       logger.info('Sending "become a member" email, 4th of the welcome flow', metadata);
-      await sendBecomeMemberEmail(user.email, user.displayName, communicationLanguage);
+      await sendBecomeMemberEmail({
+        email: /** @type {string} */ (user.email),
+        name: /** @type {string} */ (user.displayName),
+        language: communicationLanguage
+      });
     } else {
       logger.info(`User does not meet the criteria to send the 4th welcome flow email`, metadata);
     }
