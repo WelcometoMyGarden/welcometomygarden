@@ -2,19 +2,26 @@ import { httpsCallable, type Functions, type HttpsCallable } from 'firebase/func
 import { FIREBASE_WARNING } from './firebase';
 import type { EmailPreferences, User } from '$lib/models/User';
 
+// Single ref for the bundle — initialized in initializeEuropeWest1Functions below.
+let indexCallableRef: HttpsCallable<{ fn: string; data: unknown }, unknown> | null = null;
+
+const indexCallableAccessor = (): HttpsCallable<{ fn: string; data: unknown }, unknown> | null =>
+  indexCallableRef;
+
 /**
- * Checks whether the Firebase function is initialized before calling it, while keeping
- * strong TS typing.
+ * Routes a call through the indexCallable bundle function.
+ * Adds a `fn` discriminator so the backend knows which handler to invoke.
+ * The returned function has the same call signature as HttpsCallable<R, S>,
+ * making this a drop-in replacement transparent to all callers.
  *
  * The accessor must be a function to prevent concrete `null` values being "hard-coded" into
  * the inner function by Vite.
  */
-const wrapCallable = <R, S>(callableAccessor: () => HttpsCallable<R, S> | null) => {
-  // This function matches the internal signature of HttpsCallable
+const wrapCallable = <R = unknown, S = unknown>(fnName: string) => {
   return async (data?: R | null) => {
-    const callable = callableAccessor();
+    const callable = indexCallableAccessor() as HttpsCallable<{ fn: string; data: R }, S> | null;
     if (callable) {
-      return await callable(data);
+      return await callable({ fn: fnName, data: data as R });
     }
     throw new Error(FIREBASE_WARNING.functions);
   };
@@ -29,24 +36,15 @@ export type CreateUserRequest = {
   communicationLanguage: string;
   reference: string | null;
 };
-let createUserRef: HttpsCallable<CreateUserRequest> | null = null;
-export const createUser: HttpsCallable<CreateUserRequest> = wrapCallable(() => createUserRef);
+export const createUser = wrapCallable<CreateUserRequest>('createUser');
 
 type email = string;
-type EmptyObject = Record<string, never>;
 
-let requestPasswordResetRef: HttpsCallable<email> | null = null;
-export const requestPasswordReset: HttpsCallable<email> = wrapCallable(
-  () => requestPasswordResetRef
-);
+export const requestPasswordReset = wrapCallable<email>('requestPasswordReset');
 
-let resendAccountVerificationRef: HttpsCallable | null = null;
-export const resendAccountVerification: HttpsCallable = wrapCallable(
-  () => resendAccountVerificationRef
-);
+export const resendAccountVerification = wrapCallable('resendAccountVerification');
 
-let requestEmailChangeRef: HttpsCallable<email> | null = null;
-export const requestEmailChange: HttpsCallable<email> = wrapCallable(() => requestEmailChangeRef);
+export const requestEmailChange = wrapCallable<email>('requestEmailChange');
 
 export type PropagateEmailChangeRequest = {
   mode: 'change' | 'recover';
@@ -55,10 +53,8 @@ export type PropagateEmailChangeRequest = {
    */
   email: string;
 };
-let propagateEmailChangeRef: HttpsCallable<PropagateEmailChangeRequest> | null = null;
-export const propagateEmailChange: HttpsCallable<PropagateEmailChangeRequest> = wrapCallable(
-  () => propagateEmailChangeRef
-);
+export const propagateEmailChange =
+  wrapCallable<PropagateEmailChangeRequest>('propagateEmailChange');
 
 // These are just the fields we're interested in
 // https://stripe.com/docs/api/customers/create
@@ -71,9 +67,10 @@ type CreateStripeCustomerResponse = {
     wtmg_id?: string;
   };
 };
-let createStripeCustomerRef: HttpsCallable<unknown, CreateStripeCustomerResponse> | null = null;
-export const createStripeCustomer: HttpsCallable<unknown, CreateStripeCustomerResponse> =
-  wrapCallable(() => createStripeCustomerRef);
+
+export const createStripeCustomer = wrapCallable<unknown, CreateStripeCustomerResponse>(
+  'createStripeCustomer'
+);
 
 // These are just the fields we're interested in
 // https://stripe.com/docs/api/customers/create
@@ -83,15 +80,10 @@ type CreateCustomerPortalSessionResponse = {
   return_url: string;
   url: string;
 };
-let createCustomerPortalSessionRef: HttpsCallable<
+export const createCustomerPortalSession = wrapCallable<
   unknown,
   CreateCustomerPortalSessionResponse
-> | null = null;
-
-export const createCustomerPortalSession: HttpsCallable<
-  unknown,
-  CreateCustomerPortalSessionResponse
-> = wrapCallable(() => createCustomerPortalSessionRef);
+>('createCustomerPortalSession');
 
 type CreateOrRetrieveUnpaidSubscriptionRequest = {
   /** Price ID of the subscription to create */
@@ -108,14 +100,10 @@ type CreateOrRetrieveUnpaidSubscriptionResponse = {
   clientSecret: string;
 };
 
-let createOrRetrieveUnpaidSubscriptionRef: HttpsCallable<
+export const createOrRetrieveUnpaidSubscription = wrapCallable<
   CreateOrRetrieveUnpaidSubscriptionRequest,
   CreateOrRetrieveUnpaidSubscriptionResponse
-> | null = null;
-export const createOrRetrieveUnpaidSubscription: HttpsCallable<
-  CreateOrRetrieveUnpaidSubscriptionRequest,
-  CreateOrRetrieveUnpaidSubscriptionResponse
-> = wrapCallable(() => createOrRetrieveUnpaidSubscriptionRef);
+>('createOrRetrieveUnpaidSubscription');
 
 export type DiscourseConnectLoginRequest = {
   /**
@@ -129,14 +117,10 @@ export type DiscourseConnectLoginResponse = DiscourseConnectLoginRequest & {
   return_sso_url: string;
 };
 
-let discourseConnectLoginRef: HttpsCallable<
+export const discourseConnectLogin = wrapCallable<
   DiscourseConnectLoginRequest,
   DiscourseConnectLoginResponse
-> | null = null;
-export const discourseConnectLogin: HttpsCallable<
-  DiscourseConnectLoginRequest,
-  DiscourseConnectLoginResponse
-> = wrapCallable(() => discourseConnectLoginRef);
+>('discourseConnectLogin');
 
 // To manage SendGrid subscriptions
 export type ManageEmailPreferencesRequest = {
@@ -159,39 +143,12 @@ export type ManageEmailPreferencesResponse =
       emailPreferences: EmailPreferences;
     }
   | { status: 'error'; error: string };
-let manageEmailPreferencesRef: HttpsCallable<
+
+export const manageEmailPreferences = wrapCallable<
   ManageEmailPreferencesRequest,
   ManageEmailPreferencesResponse
-> | null = null;
-export const manageEmailPreferences: HttpsCallable<
-  ManageEmailPreferencesRequest,
-  ManageEmailPreferencesResponse
-> = wrapCallable(() => manageEmailPreferencesRef);
+>('manageEmailPreferences');
 
 export const initializeEuropeWest1Functions = (europeWest1Functions: Functions) => {
-  createUserRef = httpsCallable<CreateUserRequest>(europeWest1Functions, 'createUserV2');
-  //@ts-ignore
-  requestPasswordResetRef = httpsCallable<EmptyObject>(
-    europeWest1Functions,
-    'requestPasswordResetV2'
-  );
-  resendAccountVerificationRef = httpsCallable(europeWest1Functions, 'resendAccountVerificationV2');
-  createStripeCustomerRef = httpsCallable(europeWest1Functions, 'createStripeCustomerV2');
-  createOrRetrieveUnpaidSubscriptionRef = httpsCallable(
-    europeWest1Functions,
-    'createOrRetrieveUnpaidSubscriptionV2'
-  );
-  createCustomerPortalSessionRef = httpsCallable(
-    europeWest1Functions,
-    'createCustomerPortalSessionV2'
-  );
-  // temporarily unused
-  // createCustomerPortalSessionRef = httpsCallable(
-  //   europeWest1Functions,
-  //   'createCustomerPortalSessionV2'
-  // );
-  discourseConnectLoginRef = httpsCallable(europeWest1Functions, 'discourseConnectLoginV2');
-  requestEmailChangeRef = httpsCallable(europeWest1Functions, 'requestEmailChangeV2');
-  propagateEmailChangeRef = httpsCallable(europeWest1Functions, 'propagateEmailChangeV2');
-  manageEmailPreferencesRef = httpsCallable(europeWest1Functions, 'manageEmailPreferencesV2');
+  indexCallableRef = httpsCallable(europeWest1Functions, 'indexCallable');
 };

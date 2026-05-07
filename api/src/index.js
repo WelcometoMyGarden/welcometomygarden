@@ -31,26 +31,14 @@ if (!admin.apps.length) {
 }
 
 const { region: regionV1, RESET_VALUE } = require('firebase-functions/v1');
-const {
-  requestPasswordReset,
-  resendAccountVerification,
-  updateEmail,
-  requestEmailChange,
-  propagateEmailChange
-} = require('./auth');
+const { updateEmail } = require('./auth');
 const { doBackup } = require('./storage');
 const { onMessageCreate, onChatCreate } = require('./chat');
 const { onPushRegistrationWrite } = require('./user/onPushRegistrationWrite');
 
 const { onCampsiteCreate, onCampsiteDelete } = require('./campsites');
 const { stripeWebhookHandler } = require('./subscriptions/webhookHandler');
-const {
-  createOrRetrieveUnpaidSubscription
-} = require('./subscriptions/createOrRetrieveUnpaidSubscription');
-const { createStripeCustomer } = require('./subscriptions/createStripeCustomer');
 const { handleRenewals } = require('./subscriptions/handleRenewals');
-const { discourseConnectLogin } = require('./discourse/discourseConnectLogin');
-const { createUser } = require('./user/createUser');
 const { cleanupUserOnDelete } = require('./user/cleanupUserOnDelete');
 const { onUserWrite } = require('./user/onUserWrite');
 const { onUserPrivateWrite } = require('./user/onUserPrivateWrite');
@@ -72,11 +60,8 @@ const refreshAuthTable = require('./replication/scheduled/refreshAuthTable');
 const { shouldReplicateRuntime, isContactSyncDisabled } = require('./sharedConfig');
 const { initialize: initSupabase } = require('./supabase');
 const onCampsiteListedChange = require('./user/onCampsiteListedChange');
-const { createCustomerPortalSession } = require('./subscriptions/createCustomerPortalSession');
-const {
-  manageEmailPreferences,
-  handleUnsubscribeRouter
-} = require('./sendgrid/manageEmailPreferences');
+const { indexCallable } = require('./indexCallable');
+const { handleUnsubscribeRouter } = require('./sendgrid/manageEmailPreferences');
 const { onTaskDispatched } = require('firebase-functions/tasks');
 const checkContactCreation = require('./sendgrid/checkContactCreation');
 const { sendQueuedMessage } = require('./queued/sendQueuedMessage');
@@ -126,19 +111,13 @@ const resetFunctionsV2DefaultHttpsOptions = {
   maxInstances: 20
 };
 
-// Callable functions: accounts
-exports.requestPasswordResetV2 = onCall(requestPasswordReset);
-exports.resendAccountVerificationV2 = onCall(resendAccountVerification);
-exports.createUserV2 = onCall(resetFunctionsV2DefaultHttpsOptions, createUser);
-exports.requestEmailChangeV2 = onCall(requestEmailChange);
-exports.propagateEmailChangeV2 = onCall(propagateEmailChange);
-exports.discourseConnectLoginV2 = onCall(discourseConnectLogin);
-exports.manageEmailPreferencesV2 = onCall(manageEmailPreferences);
+const indexCallableMinInstanceConfig = projectID.equals('wtmg-production').thenElse(1, 0);
 
-// Callable functions: subscriptions
-exports.createStripeCustomerV2 = onCall(createStripeCustomer);
-exports.createOrRetrieveUnpaidSubscriptionV2 = onCall(createOrRetrieveUnpaidSubscription);
-exports.createCustomerPortalSessionV2 = onCall(createCustomerPortalSession);
+// Callable functions: bundled user action functions (1 warm instance to avoid cold boots)
+exports.indexCallable = onCall(
+  { ...resetFunctionsV2DefaultHttpsOptions, minInstances: indexCallableMinInstanceConfig },
+  indexCallable
+);
 
 // Callable functions: admin functions
 exports.updateEmail = onCall(updateEmail);
