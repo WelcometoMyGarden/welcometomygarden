@@ -102,19 +102,34 @@ const whenSendGridSyncing =
 // This is in Belgium! All new functions should be deployed here.
 const DEFAULT_REGION = 'europe-west1';
 const euWest1V1 = regionV1(DEFAULT_REGION);
-// v2 function defaults
+
+// set v2 function global options
 setGlobalOptions({
   region: DEFAULT_REGION,
   // TEMPORARY FIX: remove concurrency
   // https://firebase.google.com/docs/functions/2nd-gen-upgrade#audit_global_variable_usage
   cpu: 'gcf_gen1',
-  concurrency: 1
+  concurrency: 1,
+  // Assuming effective concurrency of 1 using gcf_gen1,
+  // with each concurrent user requiring a new instance.
+  maxInstances: 500
 });
+
+// Define original v2 defaults to reset the overriden global defaults where desired
+/**
+ * @satisfies {import('firebase-functions/v2/https').HttpsOptions}
+ */
+const resetFunctionsV2DefaultHttpsOptions = {
+  cpu: 1,
+  concurrency: RESET_VALUE,
+  // Should be multiplied by concurrency of 80 to get an estimate of concurrent requests: 1600
+  maxInstances: 20
+};
 
 // Callable functions: accounts
 exports.requestPasswordResetV2 = onCall(requestPasswordReset);
 exports.resendAccountVerificationV2 = onCall(resendAccountVerification);
-exports.createUserV2 = onCall(createUser);
+exports.createUserV2 = onCall(resetFunctionsV2DefaultHttpsOptions, createUser);
 exports.requestEmailChangeV2 = onCall(requestEmailChange);
 exports.propagateEmailChangeV2 = onCall(propagateEmailChange);
 exports.discourseConnectLoginV2 = onCall(discourseConnectLogin);
@@ -131,11 +146,7 @@ exports.updateEmail = onCall(updateEmail);
 // HTTP functions:
 // Stripe webhook endpoint
 exports.handleStripeWebhookV2 = onRequest(
-  {
-    // restore to v2 defaults
-    cpu: 1,
-    concurrency: RESET_VALUE
-  },
+  resetFunctionsV2DefaultHttpsOptions,
   stripeWebhookHandler
 );
 // Handle SendGrid Inbound Email
@@ -143,13 +154,7 @@ exports.parseInboundEmailV2 = onRequest(parseInboundEmail);
 // To handle List-Unsubscribe=One-Click calls
 // To test this, use Firebase Hosting's dynamic rewrite function. See dev-env.md.
 exports.handleUnsubscribe = onRequest(handleUnsubscribeRouter);
-exports.errorLogTunnel = onRequest(
-  {
-    concurrency: RESET_VALUE,
-    cpu: 1
-  },
-  errorLogTunnel
-);
+exports.errorLogTunnel = onRequest(resetFunctionsV2DefaultHttpsOptions, errorLogTunnel);
 
 // Firebase Auth triggers
 exports.onAuthUserDelete = euWest1V1.auth.user().onDelete(cleanupUserOnDelete);
@@ -159,9 +164,7 @@ exports.onAuthUserCreate = euWest1V1.auth.user().onCreate(onAuthUserCreate);
 exports.onUserPrivateWriteV2 = onDocumentWritten(
   {
     document: 'users-private/{userId}',
-    // restore to v2 defaults
-    cpu: 1,
-    concurrency: RESET_VALUE
+    ...resetFunctionsV2DefaultHttpsOptions
   },
   executeFirestoreTriggersConcurrently([
     onUserPrivateWrite,
@@ -170,7 +173,7 @@ exports.onUserPrivateWriteV2 = onDocumentWritten(
 );
 
 exports.onUserWriteV2 = onDocumentWritten(
-  'users/{userId}',
+  { document: 'users/{userId}', resetFunctionsV2DefaultHttpsOptions },
   executeFirestoreTriggersConcurrently([
     onUserWrite,
     whenSupabaseReplicating(onUsersWriteReplicate)
