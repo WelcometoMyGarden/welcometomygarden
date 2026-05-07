@@ -2,7 +2,7 @@ const { HttpsError } = require('firebase-functions/v2/https');
 const { FieldValue } = require('firebase-admin/firestore');
 const fail = require('./util/fail');
 const { sendAccountVerificationEmail, sendPasswordResetEmail } = require('./mail');
-const { db, auth } = require('./firebase');
+const { db, auth, getUserDocRefs } = require('./firebase');
 const { updateSendgridContactEmail } = require('./sendgrid/updateContactEmail');
 const stripe = require('./subscriptions/stripe');
 const { updateDiscourseUser } = require('./discourse/updateDiscourseUser');
@@ -83,12 +83,20 @@ exports.requestPasswordReset = async (request) => {
     // to prevent email enumeration attacks
     if (!user) return successResponse;
 
-    const resetLink = await auth.generatePasswordResetLink(email, {
-      url: `${frontendUrl()}/reset-password`
-    });
+    const [resetLink, communicationLanguage] = await Promise.all([
+      auth.generatePasswordResetLink(email, {
+        url: `${frontendUrl()}/reset-password`
+      }),
+      getUserDocRefs(user.uid)
+        .privateUserProfileDocRef.get()
+        .then((d) => d.data()?.communicationLanguage)
+        .catch(() => undefined)
+    ]);
+
     await sendPasswordResetEmail({
       email,
       firstName: /** @type{string} */ (user.displayName),
+      language: communicationLanguage,
       resetLink
     });
     return successResponse;

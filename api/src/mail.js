@@ -229,18 +229,30 @@ exports.sendBecomeMemberEmail = ({ email, firstName, language }) => {
 };
 
 /**
- * In SendGrid: Reset your password
+ * In SendGrid: [WTMG] Reset your password
  * @param {EmailConfig & {resetLink: string}} config
  */
-exports.sendPasswordResetEmail = ({ email, firstName, resetLink }) => {
-  // TODO: we only have this one in English?
+exports.sendPasswordResetEmail = ({ email, firstName, language, resetLink }) => {
+  let templateId;
+  switch (language) {
+    case 'fr':
+      templateId = 'd-5f1130cc9640478fb34db6fb37ab8cab';
+      break;
+    case 'nl':
+      templateId = 'd-9d0a814257f04960ad704a6add7f1d78';
+      break;
+    default:
+      templateId = 'd-e30e97d29db9487aaea9b690c84ca7b0';
+      break;
+  }
+
   /**
    * @satisfies {SendGrid.MailDataRequired}
    */
   const msg = {
     to: email,
     from: SUPPORT_FROM,
-    templateId: 'd-e30e97d29db9487aaea9b690c84ca7b0',
+    templateId,
     dynamicTemplateData: {
       ...firstNameProps(firstName),
       resetLink
@@ -846,7 +858,12 @@ exports.sendSubscriptionEndedFeedbackEmail = async ({ email, firstName, language
  * @param {EmailConfig & {endDate: string}} config
  * @returns
  */
-exports.sendSubscriptionCancellationFeedbackEmail = async ({ email, firstName, language, endDate }) => {
+exports.sendSubscriptionCancellationFeedbackEmail = async ({
+  email,
+  firstName,
+  language,
+  endDate
+}) => {
   let templateId;
   switch (language) {
     case 'fr':
