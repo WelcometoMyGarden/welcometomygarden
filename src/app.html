@@ -97,7 +97,37 @@
       data-domain="welcometomygarden.org"
       src="https://visitors.slowby.travel/script.js"
     ></script>
+    <!--# Set event-platform synchronously so the auto-fired initial pageview -->
+    <!--# has the correct value. Inline scripts (no defer) execute before the -->
+    <!--# deferred Plausible script, so the attribute is in place before -->
+    <!--# Plausible reads it. registerCustomPropertyTracker further refines this -->
+    <!--# after onMount (e.g. async getInstalledRelatedApps for Android tabs -->
+    <!--# with the PWA installed). No default is set: if this script doesn't -->
+    <!--# run, "platform" stays missing in Plausible (= "(none)") so attribution -->
+    <!--# gaps remain visible. -->
+    <!--# Implementation notes: the JS is attempted to be ES5 compatible. -->
+    <!--# window.Capacitor should be injected even before page load by Capacitor -->
     <script>
+      (function () {
+        var el = document.getElementById('plausible');
+        if (!el) return;
+        try {
+          if (
+            window.Capacitor &&
+            window.Capacitor.isNativePlatform &&
+            window.Capacitor.isNativePlatform()
+          ) {
+            el.setAttribute('event-platform', 'app');
+          } else if (
+            (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+            window.navigator.standalone === true
+          ) {
+            el.setAttribute('event-platform', 'pwa');
+          } else {
+            el.setAttribute('event-platform', 'web');
+          }
+        } catch (e) {}
+      })();
       window.plausible =
         window.plausible ||
         function () {
