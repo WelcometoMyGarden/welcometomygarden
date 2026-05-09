@@ -46,6 +46,7 @@ tests/e2e/credentials.json
 dist
 .routify
 node_modules
+emulator-data/
 
 /build
 /.svelte-kit
