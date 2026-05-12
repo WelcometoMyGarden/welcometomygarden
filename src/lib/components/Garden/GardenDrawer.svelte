@@ -29,6 +29,7 @@
   import type { ClickOutsideEvent } from '$lib/attachments/click-outside';
   import logger from '$lib/util/logger';
   import { goto } from '$lib/util/navigate';
+  import createUrl from '$lib/util/create-url';
   interface Props {
     garden?: Garden | null;
     isShowingMembershipModal?: boolean;
@@ -200,6 +201,7 @@
   };
 
   let chatWithGardenLink = $derived(`${$lr(routes.CHAT)}?with=${garden?.id}`);
+  let gardenLink = $derived(`${$lr(routes.MAP)}/garden/${garden?.id}`);
 
   const createPhoneNumberPlaceHolder = (length: number) => {
     const container = document.createElement('span');
@@ -392,7 +394,7 @@
               {@html $_('garden.drawer.guest.login', {
                 values: {
                   signInLink: anchorText({
-                    href: `${$lr(routes.SIGN_IN)}?continueUrl=${encodeURIComponent(`${$lr(routes.MAP)}/garden/${garden?.id}`)}`,
+                    href: `${$lr(routes.SIGN_IN)}?continueUrl=${encodeURIComponent(gardenLink)}`,
                     linkText: $_('garden.drawer.guest.sign-link-text'),
                     newtab: false,
                     class: 'link'
@@ -416,7 +418,7 @@
                   // /about-membership#pricing is less ergonomic
                   ev.preventDefault();
                   ev.stopPropagation();
-                  onOpenMembershipModal(`${$lr(routes.MAP)}/garden/${garden?.id}`);
+                  onOpenMembershipModal(gardenLink);
                 }
               }}
             >
@@ -439,9 +441,21 @@
               if (!$user?.emailVerified) {
                 storeChatIntention();
               }
-              // In case of a user with an unverified email
-              // the chat page will redirect to the /account page
-              // with a verification notice
+
+              if (!$user) {
+                goto(
+                  createUrl($lr(routes.SIGN_IN), {
+                    continueUrl: gardenLink
+                  })
+                );
+                return;
+              }
+
+              if (!$user.superfan) {
+                onOpenMembershipModal(gardenLink);
+                return;
+              }
+
               goto(chatWithGardenLink);
             }}
             disabled={!$user || !$user.superfan}
