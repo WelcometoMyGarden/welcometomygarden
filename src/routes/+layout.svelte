@@ -31,6 +31,7 @@
   import { goto } from '$lib/util/navigate.js';
   import { isMobile } from '$lib/stores/ui.svelte.js';
   import { isNative } from '$lib/util/uaInfo.js';
+  import { setShouldPanToGardenLocation } from './[[lang]]/(stateful)/explore/shared.svelte';
   interface Props {
     children?: import('svelte').Snippet;
   }
@@ -62,7 +63,15 @@
             logger.warn('TODO Unhandled');
             return;
           }
-          goto(pathPart);
+          goto(pathPart).then(() => {
+            if (baseRoute === routes.MAP && /\/explore\/garden\/\w+/.test(pathPart)) {
+              // If we are currently already on the map, and the opened link has a garden in the URL,
+              // then ensure the map pans to the target garden location, despite the fact
+              // that the map layout's onMount will not fire after a goto() to the same layout.
+              // This state is reactively listened to by an $effect in the explore layout.
+              setShouldPanToGardenLocation(true);
+            }
+          });
         }
       } catch (e) {
         logger.error(`Error parsing appUrl open ${event.url}`);
@@ -87,7 +96,7 @@
    * It's main purspose today is compatibility, because dvh is badly supported on 1y+ old browsers.
    * https://caniuse.com/viewport-unit-variants
    *
-   * It does rely on calc() and viewport units (vh) etc (Chrome 26+, Safari 6+)
+   * It does resetShouldMoveToGardenLocationrt units (vh) etc (Chrome 26+, Safari 6+)
    *
    * Note: if the JS here fails in unsupported browsers (e.g. Chrome <84),
    * this will make the page look weirdly narrow in height, because of the

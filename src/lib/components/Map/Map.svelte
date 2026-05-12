@@ -3,7 +3,7 @@
   import { writable, derived } from 'svelte/store';
   import { lr } from '$lib/util/translation-helpers';
   import { page } from '$app/stores';
-  import type { Map, LngLat } from 'mapbox-gl';
+  import type { Map, LngLat, LngLatLike } from 'mapbox-gl';
   export type ContextType = { getMap: () => Map };
   export const currentPosition = writable<LongLat | null>(null);
   export const mapState = writable<{
@@ -321,7 +321,7 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   $effect(() => {
     if (recenterOnUpdate && map) {
       const zoomLevel = applyZoom ? zoom : map.getZoom();
-      const params = { center: [lon, lat], zoom: zoomLevel };
+      const params = { center: [lon, lat] satisfies LngLatLike, zoom: zoomLevel };
       if (!isShowingGardenOnInit) {
         map.flyTo({
           ...params,

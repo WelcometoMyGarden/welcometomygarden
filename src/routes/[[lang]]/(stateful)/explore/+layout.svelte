@@ -44,6 +44,7 @@
   import { pushState } from '$app/navigation';
   import createUrl from '$lib/util/create-url';
   import VehicleNotice from './VehicleNotice.svelte';
+  import { shouldPanToGardenLocation, setShouldPanToGardenLocation } from './shared.svelte';
   interface Props {
     children?: import('svelte').Snippet;
   }
@@ -107,6 +108,8 @@
 
   /**
    * Whether this page was loaded from a URL with a garden in it
+   *
+   * Note: only captures the initial value, does not updat eon goto() calls to the same layout
    */
   let isShowingGardenOnInit = $state(!!page.params.gardenId);
 
@@ -190,8 +193,6 @@
     vehicleNoticeShown = false;
   };
 
-  let fetchError = '';
-
   // LIFECYCLE HOOKS
 
   onMount(async () => {
@@ -205,7 +206,8 @@
     // Note that all gardens are fetched at the end of this function on a fresh/hard navigation, but it may also be possible that
     // onMount() is called in a soft client-side navigation, after gardens have already been loaded.
     if (gardensAreEmpty && !$isFetchingGardens && isShowingGardenOnInit) {
-      preloadedGarden = await getGarden(page.params.gardenId);
+      // non-null assertion: gardenId should be defined in onMount if isShowingGardenOnInit is true
+      preloadedGarden = await getGarden(page.params.gardenId!);
     }
 
     // In any case where we open the map with a garden in the URL, move the map view to that garden
@@ -234,7 +236,6 @@
     if (gardensAreEmpty && !$isFetchingGardens) {
       await getAllListedGardens().catch((ex) => {
         logger.error(ex);
-        fetchError = 'Error' + ex;
         isFetchingGardens.set(false);
       });
     }
@@ -248,6 +249,17 @@
     }
     // On SPA navigation, when coming back, don't animate to an added trail anymore
     removeTrailAnimations();
+  });
+
+  $effect(() => {
+    // The panning controlled by isShowingGardenOnInit in onMount or selectGarden does not work
+    // when opening a garden on native from an external link (appUrlOpen) when the map is already
+    // loaded. In that case, we use this shared state indicator (instead of a URL param, which would
+    // be an alternative)
+    if (shouldPanToGardenLocation() && selectedGarden) {
+      setMapToGardenLocation(selectedGarden);
+      setShouldPanToGardenLocation(false);
+    }
   });
 </script>
 
