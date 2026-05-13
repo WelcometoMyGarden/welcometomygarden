@@ -95,7 +95,7 @@ export const storage: () => FirebaseStorage = guardNull<FirebaseStorage>(
 
 // TODO: configure via env var?
 // Note: can be changed to an internal IP
-// Warnng: setting to another setting than 'localhost' has implications on the testability of services.
+// Warning: setting to another setting than 'localhost' has implications on the testability of services.
 // - Service Workers (web push) only work on localhost OR HTTPS
 // - Firebase Emulators CAN'T USE HTTPS
 //   https://github.com/firebase/firebase-tools/issues/1908#issuecomment-1677219899
