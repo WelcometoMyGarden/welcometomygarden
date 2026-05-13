@@ -14,9 +14,7 @@ on:
       - firestore*
       # Updated docs shouldn't trigger deploys
       - docs/**
-      - README.md
-      - CONTRIBUTING.md
-      - SECURITY.md
+      - '*.md'
       # We don't run front-end tests here yet
       - tests/**
       - ci/**
