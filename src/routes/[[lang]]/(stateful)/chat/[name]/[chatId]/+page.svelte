@@ -389,7 +389,7 @@
   }
 
   header.mobile {
-    color: var(--color-green-3);
+    color: var(--color-green-2);
     position: fixed;
     top: 0;
     left: 0;
@@ -427,7 +427,7 @@
 
   .header-content {
     display: flex;
-    color: var(--color-green-3);
+    color: var(--color-green-2);
   }
 
   header.mobile .header-content {
@@ -455,7 +455,7 @@
   .country-name {
     display: inline-flex;
     align-items: center;
-    color: var(--color-green-3);
+    color: var(--color-green-2);
   }
 
   .garden-link:not(:hover) {
@@ -470,7 +470,7 @@
   }
   .garden-link :global(i svg),
   .country-name :global(i svg) {
-    fill: var(--color-green-3);
+    fill: var(--color-green-2);
   }
   .garden-link :global(i) {
     margin-right: 6px;

@@ -83,7 +83,7 @@
     grid-column: 1 / span 2;
     grid-row: 2;
     line-height: 143.4%;
-    color: var(--color-green-3);
+    color: var(--color-green-2);
   }
 
   @media screen and (min-width: 700px) {
