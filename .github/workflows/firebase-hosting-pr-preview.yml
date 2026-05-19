@@ -60,7 +60,7 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_STAGING }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_DEV }}'
           projectId: wtmg-dev
           # 30d is the maximum https://firebase.google.com/docs/hosting/manage-hosting-resources#preview-channel-expiration
           expires: 30d
