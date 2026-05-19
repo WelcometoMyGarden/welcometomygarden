@@ -44,6 +44,10 @@
       background-color: var(--color-green-light);
       border-left: 0.3rem solid var(--color-green-light);
     }
+
+    .conversation.selected:hover {
+      border-left: 0.3rem solid var(--color-green);
+    }
   }
 
   /* Provide touch feedback without sticking on scroll */
