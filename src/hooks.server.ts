@@ -4,6 +4,8 @@ import type { Handle } from '@sveltejs/kit';
 import { locale } from 'svelte-i18n';
 import browserDetectScript from './browser-support.min.js?raw';
 import routes, { getBaseRouteIn } from '$lib/routes';
+import envIsTrue from '$lib/util/env-is-true';
+import { IS_PREVIEW } from '$env/static/private';
 
 /**
  * Delete the PWA manifest from some routes, in the hope that those will not suggest
@@ -27,13 +29,21 @@ export const handle: Handle = async ({ event, resolve }) => {
       let outHtml = html
         .replace('%lang%', event.params.lang ?? DEFAULT_LANGUAGE)
         .replace('%browserdetect%', browserDetectScript)
+        // Strip comments from app.html
         // Using anything else than <!--# will result in fake warnings, at the moment
         // see https://github.com/sveltejs/kit/pull/15695
         // (the above PR is merged, but at the moment not available yet in this codebase,
         // so the warning does show at the moment of writing)
         // Note: this does not work with multi-line comments, we're keeping it limited to single lines
         // to avoid accidentally stripping more than just comments.
-        .replace(/^\s*<!--#.*-->$\n/gm, '');
+        .replace(/^\s*<!--#.*-->$\n/gm, '')
+        // Insert noindex meta tags for Firebase preview channels
+        .replace(/^(\s*)%noindextag%\s*$\n/gm, (_: string | undefined, m1: string | undefined) => {
+          if (envIsTrue(IS_PREVIEW)) {
+            return `${m1}<meta name="robots" content="noindex" />\n`;
+          }
+          return '';
+        });
       for (const route of ROUTES_WITHOUT_MANIFEST) {
         if (getBaseRouteIn(event.route.id ?? '') === route) {
           outHtml = outHtml.replace(/^\s+<link rel="manifest".+$\n/gm, '');

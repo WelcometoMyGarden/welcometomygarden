@@ -1,27 +1,30 @@
-name: Deploy to Firebase Hosting on merge to beta
+name: Deploy to Preview Channel (Staging)
 on:
-  push:
-    branches:
-      - beta
+  pull_request:
     # Since this action only deploys the front-end SvelteKit SPA
     # backend resources can be ignored.
     paths-ignore:
       - .gitignore
       - playwright.config.ts
-      # An updated backend shouldn't trigger deploys
+      # An updated backend shouldn't trigger front-end preview deploys
       - api/**
       # We don't have automated Firestore rules deploys yet.
       - firestore*
       # Updated docs shouldn't trigger deploys
       - docs/**
       - '*.md'
-      # We don't run front-end tests here yet
+      # We don't block a deploy on failed tests yet
       - tests/**
       - ci/**
+      # Changes to build & test workflows should not run prod deployments
+      - .github/workflows/test*
+      - .github/workflows/build*
+
 jobs:
   build_and_deploy:
+    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
-    environment: beta
+    environment: staging
     env:
       VITE_FIREBASE_API_KEY: ${{secrets.FIREBASE_API_KEY}}
       VITE_FIREBASE_AUTH_DOMAIN: ${{secrets.FIREBASE_AUTH_DOMAIN}}
@@ -29,15 +32,14 @@ jobs:
       VITE_FIREBASE_PROJECT_ID: ${{secrets.FIREBASE_PROJECT_ID}}
       VITE_FIREBASE_STORAGE_BUCKET: ${{secrets.FIREBASE_STORAGE_BUCKET}}
       VITE_FIREBASE_MESSAGING_SENDER_ID: ${{secrets.FIREBASE_MESSAGING_SENDER_ID}}
-      VITE_FIREBASE_VAPID_PUBLIC_KEY: ${{vars.FIREBASE_VAPID_PUBLIC_KEY}}
       VITE_FIREBASE_APP_ID: ${{secrets.FIREBASE_APP_ID}}
       VITE_FIREBASE_MEASUREMENT_ID: ${{secrets.FIREBASE_MEASUREMENT_ID}}
-      VITE_FIREBASE_APP_CHECK_PUBLIC_KEY: ${{vars.FIREBASE_APP_CHECK_PUBLIC_KEY}}
+      VITE_FIREBASE_VAPID_PUBLIC_KEY: ${{vars.FIREBASE_VAPID_PUBLIC_KEY}}
       VITE_MAPBOX_ACCESS_TOKEN: ${{secrets.MAPBOX_ACCESS_TOKEN}}
       VITE_THUNDERFOREST_API_KEY: ${{secrets.THUNDERFOREST_API_KEY}}
       VITE_DIRECT_TRAIN_API_URLS: ${{secrets.DIRECT_TRAIN_API_URLS}}
       VITE_DB_TRANSPORT_REST_API_URLS: ${{secrets.DB_TRANSPORT_REST_API_URLS}}
-      VITE_STATIC_ASSETS_BUCKET: https://storage.googleapis.com/wtmg-static
+      VITE_STATIC_ASSETS_BUCKET: ${{secrets.STATIC_ASSETS_BUCKET}}
       VITE_STRIPE_PUBLISHABLE_KEY: ${{secrets.STRIPE_PUBLISHABLE_KEY}}
       VITE_STRIPE_PRICE_ID_REDUCED: ${{secrets.STRIPE_PRICE_ID_REDUCED}}
       VITE_STRIPE_PRICE_ID_NORMAL: ${{secrets.STRIPE_PRICE_ID_NORMAL}}
@@ -49,16 +51,16 @@ jobs:
       PUBLIC_SUPABASE_API_URL: ${{vars.SUPABASE_API_URL}}
       PUBLIC_SENTRY_DSN: ${{vars.SENTRY_DSN}}
       PUBLIC_WTMG_HOST: ${{vars.WTMG_HOST}}
-      IS_PREVIEW: 'false'
+      IS_PREVIEW: 'true'
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/prepare-source
       - name: Build project
-        run: yarn run build:prod
+        run: yarn run build:staging
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_PRODUCTION }}'
-          channelId: live
-          projectId: wtmg-production
-          target: beta
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_STAGING }}'
+          projectId: wtmg-dev
+          # 30d is the maximum https://firebase.google.com/docs/hosting/manage-hosting-resources#preview-channel-expiration
+          expires: 30d

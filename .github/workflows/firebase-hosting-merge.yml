@@ -53,6 +53,7 @@ jobs:
       PUBLIC_SUPABASE_API_URL: ${{vars.SUPABASE_API_URL}}
       PUBLIC_SENTRY_DSN: ${{vars.SENTRY_DSN}}
       PUBLIC_WTMG_HOST: ${{vars.WTMG_HOST}}
+      IS_PREVIEW: 'false'
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/prepare-source
