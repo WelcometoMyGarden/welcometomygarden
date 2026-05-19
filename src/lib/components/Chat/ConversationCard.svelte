@@ -33,17 +33,24 @@
     color: var(--color-green);
   }
 
-  .conversation:hover,
   .conversation.selected {
     background-color: var(--color-green-light);
-  }
-
-  .conversation:hover {
-    border-left: 0.3rem solid var(--color-green-light);
-  }
-
-  .conversation.selected {
     border-left: 0.3rem solid var(--color-green);
+  }
+
+  /* Only apply hover styles on devices with real hover (avoids iOS sticky-hover bug) */
+  @media (hover: hover) {
+    .conversation:hover {
+      background-color: var(--color-green-light);
+      border-left: 0.3rem solid var(--color-green-light);
+    }
+  }
+
+  /* Provide touch feedback without sticking on scroll */
+  @media (hover: none) {
+    .conversation:active {
+      background-color: var(--color-green-light);
+    }
   }
 
   .conversation :global(.details) {
