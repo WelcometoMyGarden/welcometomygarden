@@ -3,6 +3,7 @@
   import { fly } from 'svelte/transition';
   import { flip } from 'svelte/animate';
   import { goto } from '$lib/util/navigate';
+  import { beforeNavigate } from '$app/navigation';
   import { page } from '$app/stores';
   import { getUser, user } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
@@ -35,6 +36,13 @@
   }
 
   let { children }: Props = $props();
+
+  // Track whether the current navigation is a browser/native back-forward (popstate).
+  // When true, we skip the Svelte fly transitions to avoid double-animation on native swipe-back.
+  let isPopstateNav = $state(false);
+  beforeNavigate(({ type }) => {
+    isPopstateNav = type === 'popstate';
+  });
 
   onMount(async () => {
     if (!$user) {
@@ -191,7 +199,7 @@
       <!-- Chat listing -->
       <section
         class="conversations"
-        in:fly={{ x: '-100%', duration: 400 }}
+        in:fly={isPopstateNav ? { duration: 0 } : { x: '-100%', duration: 400 }}
         class:is-mobile={isMobile()}
       >
         <h2>{$_('chat.all-conversations')}</h2>
@@ -230,7 +238,7 @@
     {/if}
     {#if !isMobile() || (isMobile() && !isOverview)}
       <!-- Specific opened chat -->
-      <div class="chat" in:fly={{ x: '100%', duration: 400 }}>
+      <div class="chat" in:fly={isPopstateNav ? { duration: 0 } : { x: '100%', duration: 400 }}>
         {@render children?.()}
       </div>
     {/if}
