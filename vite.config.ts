@@ -42,15 +42,19 @@ export default defineConfig(({ command, mode }): UserConfig => {
   // NOTE: we might be able to remove this if we can manage to let the runner run without root
   const gitWithSafeDirOption = 'git -c safe.directory="$(pwd)"';
 
-  // Finds whether there are untracked files, or uncommited files in the index
-  const commitHash = execSync(`${gitWithSafeDirOption} rev-parse --short HEAD `).toString().trim();
+  const tryGit = (cmd: string): string => {
+    try {
+      return execSync(cmd).toString().trim();
+    } catch {
+      return '';
+    }
+  };
+
+  const commitHash = tryGit(`${gitWithSafeDirOption} rev-parse --short HEAD`);
   // Note: ISO 8601 format from https://git-scm.com/docs/pretty-formats#Documentation/pretty-formats.txt-cI
-  const commitDate = dateFormat.format(
-    new Date(execSync(`${gitWithSafeDirOption} log -1 --format=%cI`).toString().trim())
-  );
-  const commitMessage = execSync(`${gitWithSafeDirOption} log -1 --pretty=%B`)
-    .toString()
-    .split('\n')[0];
+  const commitDateRaw = tryGit(`${gitWithSafeDirOption} log -1 --format=%cI`);
+  const commitDate = commitDateRaw ? dateFormat.format(new Date(commitDateRaw)) : '';
+  const commitMessage = tryGit(`${gitWithSafeDirOption} log -1 --pretty=%B`).split('\n')[0];
 
   const httpsOptions =
     useHTTPS && process.env.VITE_HTTPS_CERT_PATH
