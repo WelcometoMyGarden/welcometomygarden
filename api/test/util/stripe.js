@@ -3,6 +3,7 @@ const { createNewUser } = require('../../seeders/util');
 const stripe = require('../../src/subscriptions/stripe');
 const { db } = require('../../seeders/app');
 const { stripeSubscriptionKeys } = require('../../src/subscriptions/constants');
+const { getSubscriptionPeriod } = require('../../src/subscriptions/basilCompat');
 const { faker } = require('@faker-js/faker/locale/fr');
 const { normalize } = require('./util');
 const { setTimeout } = require('node:timers/promises');
@@ -65,6 +66,7 @@ exports.createAndLinkTestClockCustomer = async function (locale) {
 exports.linkSubscription = async function (usersPrivateRef, subscription) {
   // --> Calls the customer.subscription.created handler, but this one is not relevant for us
   // Link to Firebase
+  const { currentPeriodStart, currentPeriodEnd } = getSubscriptionPeriod(subscription);
   await usersPrivateRef.update({
     [idKey]: subscription.id,
     [priceIdKey]: subscription.items.data[0].price.id,
@@ -73,8 +75,8 @@ exports.linkSubscription = async function (usersPrivateRef, subscription) {
       subscription.latest_invoice
     ).status,
     [startDateKey]: subscription.start_date,
-    [currentPeriodStartKey]: subscription.current_period_start,
-    [currentPeriodEndKey]: subscription.current_period_end,
+    [currentPeriodStartKey]: currentPeriodStart,
+    [currentPeriodEndKey]: currentPeriodEnd,
     [cancelAtKey]: subscription.cancel_at,
     [canceledAtKey]: subscription.canceled_at,
     [collectionMethodKey]: subscription.collection_method

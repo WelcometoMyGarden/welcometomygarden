@@ -9,6 +9,7 @@ const { stripeSubscriptionKeys } = require('../constants');
 const { getUserDocRefsWithData } = require('../../firebase');
 const { isWTMGInvoice } = require('./util');
 const stripe = require('../stripe');
+const { getInvoiceSubscriptionId } = require('../basilCompat');
 
 const { latestInvoiceStatusKey, paymentProcessingKey, collectionMethodKey } =
   stripeSubscriptionKeys;
@@ -64,9 +65,12 @@ module.exports = async (event, res) => {
   // NOTE: we should be able to optimize out this call for extra details by checking instead for
   // privateUserProfileData.stripeSubscription.collectionMethod === 'charge_automatically' (or not) below
   // NOTE: send_invoice will mostly not be set there, it will be undefined in many cases
-  const subscription = await stripe.subscriptions.retrieve(
-    /** @type {string} */ (invoice.subscription)
-  );
+  const subscriptionId = getInvoiceSubscriptionId(invoice);
+  if (!subscriptionId) {
+    logger.error('invoice.paid event arrived without an attached subscription on its parent');
+    return res.sendStatus(200);
+  }
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
   // Send confirmation or thank you emails
   // (we already sent these in paymentIntentProcessing.js when `paymentWasProcessing` flag is true)
@@ -125,7 +129,7 @@ module.exports = async (event, res) => {
     ).data.find((pm) => pm.type === 'sepa_debit' || pm.type === 'card');
 
     if (paymentMethod) {
-      await stripe.subscriptions.update(/** @type {string} */ (invoice.subscription), {
+      await stripe.subscriptions.update(subscriptionId, {
         collection_method: 'charge_automatically',
         payment_settings: {
           // From trial and error, I noticed it is required that the bancontact options (currently only preferred language)

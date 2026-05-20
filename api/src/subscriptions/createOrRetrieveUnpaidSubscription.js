@@ -5,6 +5,7 @@ const { stripeSubscriptionKeys } = require('./constants');
 const removeUndefined = require('../util/removeUndefined');
 const { db } = require('../firebase');
 const { isWTMGSubscription } = require('./stripeEventHandlers/util');
+const { getSubscriptionPeriod, getInvoicePaymentIntent } = require('./basilCompat');
 const { oneDayAgo } = require('../util/time');
 
 const {
@@ -27,23 +28,31 @@ const {
 /**
  * Makes sure a payment intent is generated and set up for future usage.
  * This is a preparation for switching collection_method to charge_automatically, which will happen immediately after the first payment (see invoice.paid)
- * Inserts the new payment intent in-place in the argument param object.
+ * Returns the finalized invoice and its PaymentIntent.
  * @param {Stripe.Subscription} subscription
+ * @returns {Promise<{ invoice: import('stripe').Stripe.Invoice, paymentIntent: import('stripe').Stripe.PaymentIntent }>}
  */
 const insertPaymentIntent = async (subscription) => {
   // Invoices are normally only finalized after one hour.
   // Manually finalize the invoice, which will create a new related PaymentIntent
-  const openInvoice = await stripe.invoices.finalizeInvoice(subscription.latest_invoice.id);
+  const invoiceId = /** @type {import('stripe').Stripe.Invoice} */ (subscription.latest_invoice)
+    .id;
+  const openInvoice = await stripe.invoices.finalizeInvoice(invoiceId);
+
+  // Resolve the PaymentIntent via the new invoice.payments structure (Basil).
+  const existingPaymentIntent = await getInvoicePaymentIntent(openInvoice.id);
+  if (!existingPaymentIntent) {
+    throw new Error(`Could not find a PaymentIntent for invoice ${openInvoice.id}`);
+  }
 
   // Automatic renewals: collect payment with the aim of future charges as well
   // This influences the copy shown in Payment Elements.
   // In case of Bancontact/iDEAL, the payment method details saved are SEPA details
-  const paymentIntent = await stripe.paymentIntents.update(openInvoice.payment_intent, {
+  const paymentIntent = await stripe.paymentIntents.update(existingPaymentIntent.id, {
     setup_future_usage: 'off_session'
   });
 
-  // Update the payment intent in the locally stored subscription object
-  subscription.latest_invoice.payment_intent = paymentIntent;
+  return { invoice: openInvoice, paymentIntent };
 };
 
 /**
@@ -100,6 +109,8 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
     days_until_due: 1
   });
 
+  const { currentPeriodStart, currentPeriodEnd } = getSubscriptionPeriod(subscription);
+
   // Set initial subscription parameters in Firebase
   const updateUserPrivateDocPromise = privateUserProfileDocRef.update(
     removeUndefined({
@@ -112,9 +123,11 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
       // NOTE: [insert-payment-intent-speedhack]: the latestInvoiceStatus be out-of-date (with status === 'draft', while it should be 'open')
       // because we're NOT waiting for insertPaymentIntent to finish to perform this userPrivate doc update
       // This allows both requests to work concurrently rather than serially, shaving off a bit of time in this long-running operation.
-      [latestInvoiceStatusKey]: subscription.latest_invoice.status,
-      [currentPeriodStartKey]: subscription.current_period_start,
-      [currentPeriodEndKey]: subscription.current_period_end,
+      [latestInvoiceStatusKey]: /** @type {import('stripe').Stripe.Invoice} */ (
+        subscription.latest_invoice
+      ).status,
+      [currentPeriodStartKey]: currentPeriodStart,
+      [currentPeriodEndKey]: currentPeriodEnd,
       [startDateKey]: subscription.start_date,
       [cancelAtKey]: subscription.cancel_at,
       [canceledAtKey]: subscription.canceled_at,
@@ -122,10 +135,14 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
     })
   );
 
-  await Promise.all([insertPaymentIntent(subscription), updateUserPrivateDocPromise]);
+  const [{ paymentIntent }] = await Promise.all([
+    insertPaymentIntent(subscription),
+    updateUserPrivateDocPromise
+  ]);
 
-  // Will include the new PaymentIntent
-  return subscription;
+  // The PaymentIntent's client_secret can still be used to confirm an invoice
+  // PaymentIntent on the frontend with the Payment Element.
+  return { subscription, clientSecret: paymentIntent.client_secret };
 };
 
 /**
@@ -142,12 +159,15 @@ const changeSubscriptionPrice = async (
   privateUserProfileDocRef
 ) => {
   const newPriceId = priceObject.id;
+  const existingInvoice = /** @type {import('stripe').Stripe.Invoice} */ (
+    existingSubscription.latest_invoice
+  );
   // void the previous unpaid invoice. The upgrade will generate a new invoice,
   // and the old finalized one is not relevant anymore.
-  await stripe.invoices.voidInvoice(existingSubscription.latest_invoice.id);
+  await stripe.invoices.voidInvoice(existingInvoice.id);
 
   // Also store the period it was for, for usage in the later new invoice
-  const { period } = existingSubscription.latest_invoice.lines.data[0];
+  const { period } = existingInvoice.lines.data[0];
 
   // Step 2: perform an upgrade/downgrade of the sub with Stripe
   // https://stripe.com/docs/billing/subscriptions/upgrade-downgrade
@@ -222,7 +242,7 @@ const changeSubscriptionPrice = async (
   });
 
   // Save the updated info in Firebase
-  await Promise.all([
+  const [{ paymentIntent }] = await Promise.all([
     insertPaymentIntent(proratedSubscription),
     privateUserProfileDocRef.update(
       removeUndefined({
@@ -231,13 +251,15 @@ const changeSubscriptionPrice = async (
         [priceIdKey]: proratedSubscription.items.data[0].price.id,
         [statusKey]: proratedSubscription.status,
         // NOTE: this will be outdated, see [insert-payment-intent-speedhack]
-        [latestInvoiceStatusKey]: proratedSubscription.latest_invoice.status
+        [latestInvoiceStatusKey]: /** @type {import('stripe').Stripe.Invoice} */ (
+          proratedSubscription.latest_invoice
+        ).status
         // id, startDate, currentPeriodStart & currentPeriodEnd should not have altered
       })
     )
   ]);
 
-  return proratedSubscription;
+  return { subscription: proratedSubscription, clientSecret: paymentIntent.client_secret };
 };
 
 /**
@@ -305,11 +327,15 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
     // TODO: a failed payment moves the sub status to 'past_due' afaics - what does that mean for this?
     // Disabling status: 'active' for now
     // status: 'active',
-    expand: ['data.latest_invoice.payment_intent']
+    // Basil: `invoice.payment_intent` was removed; PaymentIntents are now reached
+    // through `invoice.payments[].payment.payment_intent`.
+    expand: ['data.latest_invoice.payments.data.payment.payment_intent']
   });
 
-  // A variable to hold the subscription to be retrieved or created
-  let subscription;
+  // Holds the subscription to be retrieved or created plus the PaymentIntent
+  // client_secret to confirm on the frontend.
+  /** @type {{ subscription: import('stripe').Stripe.Subscription, clientSecret: string | null }} */
+  let result;
 
   // Find an active WTMG subscription (if any) that is already paid
   const existingValidSubscription = existingSubscriptions.data.find((sub) => {
@@ -334,17 +360,17 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
   const existingIncompleteSubscription = existingSubscriptions.data.find((sub) => {
     // Only retrieve subscriptions with a latest invoice that wasn't paid yet
     // https://stripe.com/docs/invoicing/overview#workflow-overview
-    const hasOpenInvoice =
-      typeof sub.latest_invoice === 'object' &&
-      sub.latest_invoice != null &&
-      sub.latest_invoice.status === 'open';
+    const latestInvoice =
+      typeof sub.latest_invoice === 'object' ? sub.latest_invoice : null;
+    const hasOpenInvoice = latestInvoice?.status === 'open';
 
     // Has a payment intent that can we send back to the client (whatever status it has)
     // https://stripe.com/docs/payments/intents#intent-statuses
-    const hasPaymentIntent =
-      hasOpenInvoice &&
-      typeof sub.latest_invoice.payment_intent === 'object' &&
-      sub.latest_invoice.payment_intent != null;
+    // Basil: PaymentIntent is reached via the expanded invoice.payments structure.
+    const piPayment = latestInvoice?.payments?.data?.find(
+      (p) => p.payment?.type === 'payment_intent' && p.payment.payment_intent
+    );
+    const hasPaymentIntent = hasOpenInvoice && piPayment != null;
 
     return isWTMGSubscription(sub) && hasOpenInvoice && hasPaymentIntent;
   });
@@ -357,7 +383,11 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
       //
       // Void the invoice explicitly, to avoid its expiry/state transition (-> uncollectible) triggering an unexpected side-effect later on
       const voidExistingInvoice = async () =>
-        stripe.invoices.voidInvoice(existingIncompleteSubscription.latest_invoice.id);
+        stripe.invoices.voidInvoice(
+          /** @type {import('stripe').Stripe.Invoice} */ (
+            existingIncompleteSubscription.latest_invoice
+          ).id
+        );
       // Cancel the subscription explicitly
       const cancelExistingSubObject = async () =>
         stripe.subscriptions.cancel(existingIncompleteSubscription.id);
@@ -371,7 +401,7 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
       // Sequentially, it might still be possible (depends on how Stripe functions), but it's less likely.
       // NOTE 2: this gives us price-changing for free
       // TODO: we should consider making this the default options for price-changing within 24 hours, too
-      subscription = await createNewSubscription(
+      result = await createNewSubscription(
         customerId,
         priceId,
         privateUserProfileDocRef,
@@ -384,17 +414,29 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
       // We should probably disallow changing the subscription price of a pending payment invoice, or create a second, actually prorated invoice?
       //
       // If we're in the 24h window, and the price id requested is different to the current subscription's price, then change the subscription
-      subscription = await changeSubscriptionPrice(
+      result = await changeSubscriptionPrice(
         existingIncompleteSubscription,
         requestedPrice,
         privateUserProfileDocRef
       );
     } else {
       // If we're in the 24h window, and the price id was the same, return the payment intent of the existing unpaid invoice
-      subscription = existingIncompleteSubscription;
+      const existingInvoice = /** @type {import('stripe').Stripe.Invoice} */ (
+        existingIncompleteSubscription.latest_invoice
+      );
+      const piPayment = existingInvoice.payments?.data?.find(
+        (p) => p.payment?.type === 'payment_intent' && p.payment.payment_intent
+      );
+      const pi = piPayment?.payment?.payment_intent;
+      const clientSecret =
+        pi && typeof pi !== 'string' ? pi.client_secret : null;
+      result = {
+        subscription: existingIncompleteSubscription,
+        clientSecret
+      };
     }
   } else {
-    subscription = await createNewSubscription(
+    result = await createNewSubscription(
       customerId,
       priceId,
       privateUserProfileDocRef,
@@ -403,7 +445,7 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
   }
 
   return {
-    subscriptionId: subscription.id,
-    clientSecret: subscription.latest_invoice.payment_intent.client_secret
+    subscriptionId: result.subscription.id,
+    clientSecret: result.clientSecret
   };
 };

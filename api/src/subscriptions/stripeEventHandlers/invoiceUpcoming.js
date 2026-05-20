@@ -3,6 +3,11 @@
 const { logger } = require('firebase-functions/v2');
 const { isWTMGInvoice } = require('./util');
 const stripe = require('../stripe');
+const {
+  getInvoiceSubscriptionId,
+  getInvoiceLatestCharge,
+  getInvoiceLineUnitAmount
+} = require('../basilCompat');
 const { frontendUrl } = require('../../sharedConfig');
 const { sendSubscriptionUpcomingRenewalEmail } = require('../../mail');
 const getFirebaseUserId = require('../getFirebaseUserId');
@@ -28,7 +33,12 @@ module.exports = async (event, res) => {
   }
 
   // Ignore this event for subscriptions that are not automatically charged
-  const sub = await stripe.subscriptions.retrieve(/** @type {string}*/ (invoice.subscription));
+  const subscriptionId = getInvoiceSubscriptionId(invoice);
+  if (!subscriptionId) {
+    logger.log('Ignoring upcoming invoice without an attached subscription');
+    return res.sendStatus(200);
+  }
+  const sub = await stripe.subscriptions.retrieve(subscriptionId);
   if (sub.collection_method !== 'charge_automatically') {
     logger.log('Ignoring upcoming renewal event for non-charge-automatically');
     return res.sendStatus(200);
@@ -46,8 +56,8 @@ module.exports = async (event, res) => {
     await getFirebaseUserId(invoice.customer)
   );
 
-  const price = invoice.lines.data[0]?.price;
-  if (!(typeof price?.unit_amount === 'number')) {
+  const unitAmount = getInvoiceLineUnitAmount(invoice);
+  if (typeof unitAmount !== 'number') {
     res.status(500);
     return res.send('Missing parameters to send an automatic upcoming subscription renewal email');
   }
@@ -80,14 +90,16 @@ module.exports = async (event, res) => {
       // NOTE: this will be the case if the the subscription was directly started
       // with sepa debit.
       last4 = paymentMethod.sepa_debit.last4;
-      const { charge: latestCharge } = await stripe.invoices.retrieve(
-        /** @type {string} */ (sub.latest_invoice),
-        { expand: ['charge'] }
+      const latestCharge = await getInvoiceLatestCharge(
+        /** @type {string} */ (sub.latest_invoice)
       );
+      if (!latestCharge) {
+        res.status(500);
+        return res.send('Could not retrieve a Charge for the latest subscription invoice');
+      }
 
       // Find the mandate
-      const mandateId = /** @type {import('stripe').Stripe.Charge} */ (latestCharge)
-        .payment_method_details.sepa_debit.mandate;
+      const mandateId = latestCharge.payment_method_details.sepa_debit.mandate;
       const mandate = await stripe.mandates.retrieve(/** @type {string} */ (mandateId));
       mandateReference = mandate.payment_method_details.sepa_debit.reference;
     } else {
@@ -132,7 +144,7 @@ module.exports = async (event, res) => {
   await sendSubscriptionUpcomingRenewalEmail({
     email: /** @type {string} */ (invoice.customer_email),
     firstName: publicUserProfileData.firstName,
-    price: price.unit_amount / 100,
+    price: unitAmount / 100,
     language: privateUserProfileData.communicationLanguage,
     secret: privateUserProfileData.secret,
     portalLink: portalSession.url,

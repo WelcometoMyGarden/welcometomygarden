@@ -2,9 +2,9 @@ const { logger } = require('firebase-functions/v2');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const { stripeSubscriptionKeys } = require('../constants');
 const { db } = require('../../firebase');
-const stripe = require('../stripe');
 const { isWTMGInvoice } = require('./util');
 const { getLatestCharge } = require('./shared');
+const { getInvoiceForPaymentIntent } = require('../basilCompat');
 
 const { latestInvoiceStatusKey, paymentProcessingKey } = stripeSubscriptionKeys;
 
@@ -36,19 +36,19 @@ module.exports = async (event, res) => {
   const isDeclinedSepaCharge = ({ payment_method_details, status }) =>
     payment_method_details?.type === 'sepa_debit' && status === 'failed';
 
-  // Check if an eligible charge exists, and a related invoice, otherwise ignore
-  if (
-    !latestCharge ||
-    !isDeclinedSepaCharge(latestCharge) ||
-    typeof paymentIntent.invoice !== 'string' // shouldn't happen, helps narrow down the tiype
-  ) {
+  // Check if an eligible charge exists, otherwise ignore
+  if (!latestCharge || !isDeclinedSepaCharge(latestCharge)) {
     logger.log('Skpping non (SEPA + failed) charge');
     return res.sendStatus(200);
   }
 
   // --- Qualify the event further based on the linked invoice ---
-  // Fetch the related invoice
-  const invoice = await stripe.invoices.retrieve(paymentIntent.invoice);
+  // Basil: PaymentIntent.invoice was removed; map back via InvoicePayment.
+  const invoice = await getInvoiceForPaymentIntent(paymentIntent.id);
+  if (!invoice) {
+    logger.log('Skipping payment_intent.payment_failed with no linked invoice');
+    return res.sendStatus(200);
+  }
 
   // Check if the invoice is a WTMG invoice
   if (!(await isWTMGInvoice(invoice))) {
