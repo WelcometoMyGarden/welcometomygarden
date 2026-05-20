@@ -25,7 +25,7 @@ COPY \
   # Package manager
   api/package.json api/yarn.lock api/.yarnrc.yml \
   # Project config
-  api/eslint.config.js api/.eslintrc.json api/jsconfig.json \
+  api/eslint.config.js api/jsconfig.json \
   # Target
   ./api/
 # Source (note: excludes test & seeders folders for now)

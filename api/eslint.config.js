@@ -1,35 +1,14 @@
-const prettier = require('eslint-plugin-prettier');
+const prettierRecommended = require('eslint-plugin-prettier/recommended');
 const globals = require('globals');
-const babelParser = require('@babel/eslint-parser');
-const js = require('@eslint/js');
-
-const { FlatCompat } = require('@eslint/eslintrc');
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all
-});
 
 module.exports = [
-  ...compat.extends('plugin:prettier/recommended'),
+  prettierRecommended,
   {
-    plugins: {
-      prettier
-    },
-
     languageOptions: {
       globals: {
         ...globals.node
       },
-
-      parser: babelParser,
-      ecmaVersion: 5,
-      // sourceType: "commonjs",
-      sourceType: 'script',
-      parserOptions: {
-        requireConfigFile: false
-      }
+      sourceType: 'commonjs'
     },
     rules: {
       'prettier/prettier': ['error'],
@@ -82,6 +61,7 @@ module.exports = [
             '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.'
         }
       ],
+      // Not sure how else to cleanly serialize promise execution...
       'no-await-in-loop': 'warn',
       camelcase: 'off'
     }
