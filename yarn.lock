@@ -212,12 +212,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@capacitor/android@npm:^8.0.0":
-  version: 8.0.2
-  resolution: "@capacitor/android@npm:8.0.2"
+"@capacitor-community/safe-area@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "@capacitor-community/safe-area@npm:8.0.1"
   peerDependencies:
-    "@capacitor/core": ^8.2.0
-  checksum: 10/73fefd2df483cfca1989f51e7b99e83d5c294282b7ef7f5f8fe8a2f170e141446c0f8e5f8b1c5ee9335dd98408ab6bc188f70cea71874d74c717c4828ade99de
+    "@capacitor/core": ">=8.0.0"
+  checksum: 10/8d5f4f61cab2793b3a58be6d71d3b55f52fba9d09c8a3833de361424386a8f94238f37ef38bc4c89155c8fbbfdcdf288996d65b2ac4cce1f9985b7c30ce8cebb
+  languageName: node
+  linkType: hard
+
+"@capacitor/android@npm:^8.2.0":
+  version: 8.3.4
+  resolution: "@capacitor/android@npm:8.3.4"
+  peerDependencies:
+    "@capacitor/core": ^8.3.0
+  checksum: 10/9d16e90136e51ff1ad3801653863084f82e8de21dd4c289a12cfd2b1d46d48ab08458cd75942d2692d2dfeb3538dd13819d50ec2782eed5eab82045a199a5074
   languageName: node
   linkType: hard
 
@@ -389,12 +398,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@capawesome/capacitor-android-edge-to-edge-support@npm:^8.0.5":
-  version: 8.0.5
-  resolution: "@capawesome/capacitor-android-edge-to-edge-support@npm:8.0.5"
+"@capawesome/capacitor-badge@npm:^8.0.1":
+  version: 8.0.2
+  resolution: "@capawesome/capacitor-badge@npm:8.0.2"
   peerDependencies:
     "@capacitor/core": ">=8.0.0"
-  checksum: 10/6a77171b98acc9648b997b4766e6d8c7288194f9f9f73d41c4e261c9b30958973cbb0f84842413b1721d1b83cd0d517afac21644f1af92ce10fffb57b5ef8808
+  checksum: 10/1573199c043802283339d993712294da4a7874704b21bea5b32208043d02e0b9fdbaa743de22fbcc39db013f117f355f4f1125394e3d814b7418dd47aa90c5cd
   languageName: node
   linkType: hard
 
@@ -13720,19 +13729,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "welcome-to-my-garden@workspace:."
   dependencies:
-    "@capacitor/android": "npm:^8.0.0"
-    "@capacitor/app": "npm:^8.0.0"
+    "@capacitor-community/safe-area": "npm:^8.0.1"
+    "@capacitor/android": "npm:^8.2.0"
+    "@capacitor/app": "npm:^8.0.1"
     "@capacitor/assets": "npm:^3.0.5"
     "@capacitor/cli": "npm:^8.2.0"
     "@capacitor/core": "npm:^8.2.0"
     "@capacitor/device": "npm:^8.0.1"
     "@capacitor/geolocation": "npm:^8.1.0"
-    "@capacitor/inappbrowser": "npm:^2.5.3"
-    "@capacitor/ios": "npm:^8.0.0"
-    "@capacitor/local-notifications": "npm:^8.0.0"
-    "@capacitor/push-notifications": "npm:^8.0.0"
-    "@capacitor/splash-screen": "npm:^8.0.0"
-    "@capawesome/capacitor-android-edge-to-edge-support": "npm:^8.0.5"
+    "@capacitor/inappbrowser": "npm:^2.5.4"
+    "@capacitor/ios": "npm:^8.2.0"
+    "@capacitor/local-notifications": "npm:^8.0.2"
+    "@capacitor/push-notifications": "npm:^8.0.2"
+    "@capacitor/splash-screen": "npm:^8.0.1"
+    "@capawesome/capacitor-badge": "npm:^8.0.1"
     "@firebase/rules-unit-testing": "npm:^5.0.0"
     "@notnotsamuel/capacitor-swipe-back": "npm:^3.0.2"
     "@playwright/test": "npm:^1.58.2"
@@ -13784,8 +13794,13 @@ __metadata:
     ua-parser-js: "npm:^2.0.9"
     vite: "npm:^7.3.1"
     vite-bundle-visualizer: "npm:^1.2.1"
-    vite-plugin-mkcert: "npm:^1.17.9"
-    vitest: "npm:^4.0.18"
+    vite-plugin-mkcert: "npm:^1.17.10"
+    vitest: "npm:^4.1.0"
+  dependenciesMeta:
+    esbuild:
+      built: true
+    sharp:
+      built: true
   languageName: unknown
   linkType: soft
 
