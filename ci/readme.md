@@ -1,3 +1,22 @@
+## Local E2E tests in a CI container
+
+Running E2E tests in may be useful to test the effect of front-end and/or back-end dependency updates and configuration changes, especially:
+
+- When simulatenously working on another feature on the host, delegating the E2E test of code snapshot (docker `COPY`) makes it run in parallel to local host development servers.
+- Configuration changes that may be dependent somehow on the host system, in which the container is a neutral/fresh environment without access to most credentials.
+
+To use it, run:
+
+```sh
+./ci/local-build.sh && ./ci/local-run.sh
+```
+
+The build script will at first build the base build container (`Dockerfile.ci`), which is not dependent on local repo files. This container should be cached for subsequent runs.
+
+Next, `Dockerfile.local-test` will `COPY` essential source files and config into the container, and will then install dependencies. **This process should be rerun after a code change**.
+
+The local-run script will run the container, which fills in environment variables based on a fixed mapping and env file given. Then it builds the front-end, and runs the tests (which also runs the backend).
+
 ## Deployment
 
 These can be deployed locally too via the docker CLI, using a GitHub Personal Access Token (classic).
