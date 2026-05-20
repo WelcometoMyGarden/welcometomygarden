@@ -4,7 +4,7 @@
   import { linear, cubicOut } from 'svelte/easing';
   import { flip } from 'svelte/animate';
   import { goto } from '$lib/util/navigate';
-  import { afterNavigate } from '$app/navigation';
+  import { afterNavigate, beforeNavigate } from '$app/navigation';
   import { page } from '$app/stores';
   import { user } from '$lib/stores/auth';
   import notify from '$lib/stores/notification';
@@ -135,6 +135,17 @@
       swipeLeaving = false;
     }
   };
+
+  // Track whether the current navigation is a browser/native back-forward (popstate).
+  // When true, we skip the Svelte fly transitions to avoid double-animation on native swipe-back.
+  // Note: we can't know whether the native back action was caused by a "swipe back"
+  // or a tap on a back button. This blanket-disables the Svelte transition for all those cases,
+  // and only leaves them enabled for in-web-app back button presses (top left).
+  // It mostly avoids the common double animation case on iOS.
+  let isPopstateNav = $state(false);
+  beforeNavigate(({ type }) => {
+    isPopstateNav = type === 'popstate';
+  });
 
   onMount(async () => {
     if (!$user) {
@@ -377,7 +388,7 @@
       <!-- Chat listing -->
       <section
         class="conversations"
-        in:fly={{ x: '-100%', duration: 400 }}
+        in:fly={isPopstateNav ? { duration: 0 } : { x: '-100%', duration: 400 }}
         class:is-mobile={isMobile()}
       >
         {#if viewVisible}
@@ -487,7 +498,7 @@
 
     {#if !isMobile() || (isMobile() && !isOverview)}
       <!-- Specific opened chat -->
-      <div class="chat" in:fly={{ x: '100%', duration: 400 }}>
+      <div class="chat" in:fly={isPopstateNav ? { duration: 0 } : { x: '100%', duration: 400 }}>
         {@render children?.()}
       </div>
     {/if}
