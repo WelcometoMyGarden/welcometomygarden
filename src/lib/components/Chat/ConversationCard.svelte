@@ -41,11 +41,12 @@
   /* Only apply hover styles on devices with real hover (avoids iOS sticky-hover bug) */
   @media (hover: hover) {
     .conversation:hover {
-      background-color: var(--color-green-light);
-      border-left: 0.3rem solid var(--color-green-light);
+      background-color: var(--color-beige-light);
+      border-left: 0.3rem solid var(--color-beige-light);
     }
 
     .conversation.selected:hover {
+      background-color: var(--color-green-light);
       border-left: 0.3rem solid var(--color-green);
     }
   }
