@@ -13218,6 +13218,11 @@ __metadata:
     vite-bundle-visualizer: "npm:^1.2.1"
     vite-plugin-mkcert: "npm:^1.17.9"
     vitest: "npm:^4.0.18"
+  dependenciesMeta:
+    esbuild:
+      built: true
+    sharp:
+      built: true
   languageName: unknown
   linkType: soft
 
