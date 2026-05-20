@@ -229,6 +229,36 @@
     }
   };
 
+  const handleDragTouchCancel = () => {
+    isSwiping = false;
+    swipeDragOffset = 0;
+  };
+
+  // Content area: only start swipe-to-close when already scrolled to the top
+  let drawerContentEl: HTMLElement | undefined = $state();
+
+  const handleContentTouchStart = (e: TouchEvent) => {
+    if (drawerContentEl && drawerContentEl.scrollTop === 0) {
+      handleDragTouchStart(e);
+    }
+  };
+
+  $effect(() => {
+    const el = drawerContentEl;
+    if (!el) return;
+    // Non-passive so we can preventDefault to stop native scroll when swiping down at top
+    const onTouchMove = (e: TouchEvent) => {
+      if (!isSwiping) return;
+      const delta = e.touches[0].clientY - swipeTouchStartY;
+      if (delta > 0) {
+        e.preventDefault();
+        swipeDragOffset = delta;
+      }
+    };
+    el.addEventListener('touchmove', onTouchMove, { passive: false });
+    return () => el.removeEventListener('touchmove', onTouchMove);
+  });
+
   const createPhoneNumberPlaceHolder = (length: number) => {
     const container = document.createElement('span');
     mount(HiddenPhoneNumber, {
@@ -328,10 +358,17 @@
     ontouchstart={handleDragTouchStart}
     ontouchmove={handleDragTouchMove}
     ontouchend={handleDragTouchEnd}
+    ontouchcancel={handleDragTouchCancel}
   ></div>
   {#if gardenIsSelected && initialGardenInfoLoaded && userInfo && garden}
     <section class="main">
-      <header>
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
+      <header
+        ontouchstart={handleDragTouchStart}
+        ontouchmove={handleDragTouchMove}
+        ontouchend={handleDragTouchEnd}
+        ontouchcancel={handleDragTouchCancel}
+      >
         <div class="garden-title">
           <Text weight="w600" size="l" class="garden-title-text notranslate">
             {#if ownedByLoggedInUser}
@@ -350,7 +387,11 @@
                 >
               </button>
             {/if}
-            <button class="close-button" onclick={onclose}>
+            <button
+              class="close-button"
+              onclick={onclose}
+              ontouchstart={(e) => e.stopPropagation()}
+            >
               <Icon icon={crossIcon} />
             </button>
           </div>
@@ -363,7 +404,11 @@
           </button>
         {/if}
       </header>
-      <div class="drawer-content-area">
+      <div class="drawer-content-area" bind:this={drawerContentEl}
+        ontouchstart={handleContentTouchStart}
+        ontouchend={handleDragTouchEnd}
+        ontouchcancel={handleDragTouchCancel}
+      >
         <div class="description" bind:this={descriptionEl}>
           <Text
             >{$user?.superfan
@@ -510,14 +555,19 @@
 <style>
   .drag-handle {
     display: none;
+    cursor: grab;
+    touch-action: none;
+    flex-shrink: 0;
+  }
+
+  .drag-handle::before {
+    content: '';
+    display: block;
     width: 4rem;
     height: 0.4rem;
     background-color: var(--color-gray);
     border-radius: 2px;
-    margin: -1.2rem auto 1.5rem;
-    cursor: grab;
-    touch-action: none;
-    flex-shrink: 0;
+    margin: 0 auto;
   }
 
   .drawer {
@@ -750,10 +800,21 @@
   @media screen and (max-width: 700px) {
     .drag-handle {
       display: block;
+      /* Full-width so the entire top strip is touchable */
+      width: 100%;
+      /* padding-top provides whitespace above the pill (replaces the drawer's
+         removed top padding); padding-bottom bridges the gap to the header below */
+      padding: 1.5rem 0 1.5rem;
+    }
+
+    header {
+      /* Entire header area is a swipe target on mobile */
+      touch-action: none;
     }
 
     .drawer {
-      padding: 2.7rem 2.7rem 0 2.7rem;
+      /* Top padding is handled by the drag-handle element above the header */
+      padding: 0 2.7rem 0 2.7rem;
       min-height: auto;
       max-height: calc(var(--vh, 1vh) * 70);
       top: auto;
