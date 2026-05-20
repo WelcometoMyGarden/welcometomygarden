@@ -203,6 +203,32 @@
   let chatWithGardenLink = $derived(`${$lr(routes.CHAT)}?with=${garden?.id}`);
   let gardenLink = $derived(`${$lr(routes.MAP)}/garden/${garden?.id}`);
 
+  // Swipe-down-to-close for mobile bottom sheet
+  let swipeTouchStartY = $state(0);
+  let swipeDragOffset = $state(0);
+  let isSwiping = $state(false);
+
+  const handleDragTouchStart = (e: TouchEvent) => {
+    swipeTouchStartY = e.touches[0].clientY;
+    isSwiping = true;
+  };
+
+  const handleDragTouchMove = (e: TouchEvent) => {
+    if (!isSwiping) return;
+    const delta = e.touches[0].clientY - swipeTouchStartY;
+    swipeDragOffset = Math.max(0, delta);
+  };
+
+  const handleDragTouchEnd = () => {
+    isSwiping = false;
+    if (swipeDragOffset > 80) {
+      swipeDragOffset = 0;
+      onclose();
+    } else {
+      swipeDragOffset = 0;
+    }
+  };
+
   const createPhoneNumberPlaceHolder = (length: number) => {
     const container = document.createElement('span');
     mount(HiddenPhoneNumber, {
@@ -291,9 +317,18 @@
   class="drawer"
   class:hidden={!gardenIsSelected}
   bind:this={drawerElement}
+  style:transform={swipeDragOffset > 0 ? `translateY(${swipeDragOffset}px)` : undefined}
+  style:transition={isSwiping ? 'none' : undefined}
   {@attach clickOutside}
   onclickoutside={handleClickOutsideDrawer}
 >
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
+  <div
+    class="drag-handle"
+    ontouchstart={handleDragTouchStart}
+    ontouchmove={handleDragTouchMove}
+    ontouchend={handleDragTouchEnd}
+  ></div>
   {#if gardenIsSelected && initialGardenInfoLoaded && userInfo && garden}
     <section class="main">
       <header>
@@ -473,6 +508,18 @@
 </div>
 
 <style>
+  .drag-handle {
+    display: none;
+    width: 4rem;
+    height: 0.4rem;
+    background-color: var(--color-gray);
+    border-radius: 2px;
+    margin: -1.2rem auto 1.5rem;
+    cursor: grab;
+    touch-action: none;
+    flex-shrink: 0;
+  }
+
   .drawer {
     display: flex;
     flex-direction: column;
@@ -701,6 +748,10 @@
   }
 
   @media screen and (max-width: 700px) {
+    .drag-handle {
+      display: block;
+    }
+
     .drawer {
       padding: 2.7rem 2.7rem 0 2.7rem;
       min-height: auto;
