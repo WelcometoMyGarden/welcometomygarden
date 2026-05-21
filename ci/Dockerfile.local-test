@@ -31,8 +31,13 @@ COPY \
 # Source (note: excludes test & seeders folders for now)
 COPY api/src ./api/src/
 
+# Prepare the exact Yarn version from packageManager field into the corepack cache
+RUN corepack prepare --activate
+
 # Install dependencies
-RUN yarn install --immutable && cd api && yarn install --immutable && cd ..
+RUN --mount=type=cache,id=yarn-frontend-cache,target=/app/.yarn/cache \
+    --mount=type=cache,id=yarn-api-cache,target=/app/api/.yarn/cache \
+    yarn install --immutable && cd api && yarn install --immutable && cd ..
 
 # Prepare runtime environment
 # We are copying firebase.json above because we need to modify it.
@@ -42,4 +47,4 @@ RUN sed -i -z 's/,\n[[:space:]]*"extensions": {\n[[:space:]]*"storage-resize-ima
 COPY ci ci/
 
 ENTRYPOINT [ "/bin/bash", "-c" ]
-CMD [ "./ci/fill-envs.sh && yarn build:demo && npx playwright test --project Mobile"]
+CMD [ "./ci/fill-envs.sh && yarn build:demo && yarn test:e2e"]
