@@ -46,7 +46,6 @@ Make sure you forward events to the project name of the current Firebase project
 **Good to know**
 
 - Also verify that the front-end can connect to the API emulator, with (`VITE_USE_API_EMULATOR=true`) in the frontend .env.
-- In case you want to test an (event) API version update, pass `-l` to use the latest API event version.
 - **Re-triggering a specific event** may be helpful for debugging, it's possible using
 
   ```bash
@@ -77,3 +76,26 @@ For payment details to be used in testing, see the following: https://docs.strip
 
 - In https://dashboard.stripe.com/settings/billing/automatic, we switched "Email finalised invoices to customers" OFF (default: ON), so we can create our own copy for this email
 - We changed the rules for overdue subscriptions and invoices.
+
+## Stripe API/event version updates
+
+Are documented here: https://docs.stripe.com/changelog
+
+- The Stripe backend API client is pinned to a certain version by default, but we provide a specific API version in `api/src/subscriptions/stripe.js`, using `STRIPE_VERSION`.
+- Webhooks **can be** pinned to a specific version, which we do. We include this version in the `version` query parameter.
+
+To test new versions, use the local Sandbox, and change the local env `STRIPE_VERSION` parameter. It is defined in:
+
+- `api/.env.(prod|staging|local)`
+- `ci/env-templates/backend.env`
+- For docs `api/.env.example`,
+  Then, in the web UI, go to Developer Workbench -> Overview -> API Version -> Upgrade to change the default account API version. This one will be used for `stripe listen` runs. Alternatively, use the `-l` flag to get the latest API version. If no version query param is given (it is not in the defaul `stripe listen` test webhook examples above), then the event version is assumed to be the desired version.
+
+After testing, deployment happens by:
+
+1. Creating a 2nd webhook registration that starts sending events with the new version in parallel. These should be ignored by the current production handler.
+2. Deploying the handler function update that adds support for the new handler. This one will now start ignoring old version events.
+3. Removing the webhook registration with the old version.
+4. For good measure, also update the default account version.
+
+See https://docs.stripe.com/upgrades#how-can-i-upgrade-my-api and https://docs.stripe.com/webhooks/versioning for more context.

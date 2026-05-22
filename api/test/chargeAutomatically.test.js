@@ -46,6 +46,7 @@ const {
   linkSubscription,
   pollForTestClockReady
 } = require('./util/stripe');
+const { getInvoicePaymentIntent } = require('../src/subscriptions/basilCompat');
 const { db } = require('../seeders/app');
 const envIsTrue = require('../src/util/envIsTrue');
 
@@ -98,7 +99,7 @@ describe.skip('charge_automatically', () => {
     console.log('Advancing to just before the next year...');
     // Advance the test clock
     testClock = await stripe.testHelpers.testClocks.advance(testClock.id, {
-      frozen_time: DateTime.fromSeconds(subscription.current_period_end)
+      frozen_time: DateTime.fromSeconds(subscription.items.data[0].current_period_end)
         .minus({ days: 4 })
         .toSeconds()
     });
@@ -111,7 +112,7 @@ describe.skip('charge_automatically', () => {
     console.log('Advancing to 1 day after the renewal period');
     // Advance the test clock
     testClock = await stripe.testHelpers.testClocks.advance(testClock.id, {
-      frozen_time: DateTime.fromSeconds(subscription.current_period_end)
+      frozen_time: DateTime.fromSeconds(subscription.items.data[0].current_period_end)
         .plus({ days: 1 })
         .toSeconds()
     });
@@ -179,7 +180,7 @@ describe.skip('charge_automatically', () => {
 
     // Advance the test clock
     testClock = await stripe.testHelpers.testClocks.advance(testClock.id, {
-      frozen_time: DateTime.fromSeconds(subscription.current_period_end)
+      frozen_time: DateTime.fromSeconds(subscription.items.data[0].current_period_end)
         .minus({ days: 4 })
         .toSeconds()
     });
@@ -190,7 +191,7 @@ describe.skip('charge_automatically', () => {
     await hasExactlyOneEmailWithQuery(MAIL_UPCOMING);
 
     console.log('Advancing test clock, trying to charge for renewal...');
-    const oneDayAfterRenewalPoint = DateTime.fromSeconds(subscription.current_period_end).plus({
+    const oneDayAfterRenewalPoint = DateTime.fromSeconds(subscription.items.data[0].current_period_end).plus({
       days: 1
     });
     // Advance the test clock
@@ -274,7 +275,7 @@ describe.skip('charge_automatically', () => {
 
     // Advance the test clock
     testClock = await stripe.testHelpers.testClocks.advance(testClock.id, {
-      frozen_time: DateTime.fromSeconds(subscription.current_period_end)
+      frozen_time: DateTime.fromSeconds(subscription.items.data[0].current_period_end)
         .minus({ days: 4 })
         .toSeconds()
     });
@@ -289,7 +290,7 @@ describe.skip('charge_automatically', () => {
     // --> Stripe will attempt to charge the card, which will fail 1 time
     //     (depends on dashboard settings)
     testClock = await stripe.testHelpers.testClocks.advance(testClock.id, {
-      frozen_time: DateTime.fromSeconds(subscription.current_period_end)
+      frozen_time: DateTime.fromSeconds(subscription.items.data[0].current_period_end)
         .plus({ days: 1 })
         .toSeconds()
     });
@@ -314,7 +315,7 @@ describe.skip('charge_automatically', () => {
     // --> Stripe will attempt to charge the card again, which should succeed
     //     (depends on dashboard settings)
     testClock = await stripe.testHelpers.testClocks.advance(testClock.id, {
-      frozen_time: DateTime.fromSeconds(subscription.current_period_end)
+      frozen_time: DateTime.fromSeconds(subscription.items.data[0].current_period_end)
         .plus({ days: 4 })
         .toSeconds()
     });
@@ -385,15 +386,13 @@ describe.skip('charge_automatically', () => {
       }
     });
 
-    const paymentIntent = await stripe.paymentIntents.update(
-      /** @type {string}*/ (
-        /** @type {import('stripe').Stripe.Invoice} */ (subscription.latest_invoice).payment_intent
-      ),
-      {
-        setup_future_usage: 'off_session',
-        payment_method: paymentMethod.id
-      }
+    const existingPaymentIntent = await getInvoicePaymentIntent(
+      /** @type {import('stripe').Stripe.Invoice} */ (subscription.latest_invoice)
     );
+    const paymentIntent = await stripe.paymentIntents.update(existingPaymentIntent.id, {
+      setup_future_usage: 'off_session',
+      payment_method: paymentMethod.id
+    });
 
     await stripe.paymentMethods.attach(paymentMethod.id, { customer: customer.id });
 
@@ -455,7 +454,7 @@ describe.skip('charge_automatically', () => {
 
     // Advance the test clock
     testClock = await stripe.testHelpers.testClocks.advance(testClock.id, {
-      frozen_time: DateTime.fromSeconds(subscription.current_period_end)
+      frozen_time: DateTime.fromSeconds(subscription.items.data[0].current_period_end)
         .minus({ days: 4 })
         .toSeconds()
     });
@@ -470,7 +469,7 @@ describe.skip('charge_automatically', () => {
     // --> Stripe will attempt to charge the card, which will fail 3 times
     //     (depends on dashboard settings)
     testClock = await stripe.testHelpers.testClocks.advance(testClock.id, {
-      frozen_time: DateTime.fromSeconds(subscription.current_period_end)
+      frozen_time: DateTime.fromSeconds(subscription.items.data[0].current_period_end)
         // 8 is not enough
         .plus({ days: 20 })
         .toSeconds()

@@ -1,5 +1,6 @@
 const { defineString } = require('firebase-functions/params');
 const stripe = require('../stripe');
+const { getInvoiceSubscriptionId } = require('../basilCompat');
 
 const stripePriceIdReduced = defineString('STRIPE_PRICE_IDS_REDUCED');
 const stripePriceIdNormal = defineString('STRIPE_PRICE_IDS_NORMAL');
@@ -32,38 +33,37 @@ exports.isWTMGPriceId = function (priceId) {
  * @param {Omit<import('stripe').Stripe.Invoice, "id">} invoice
  */
 exports.isWTMGInvoice = async (invoice) => {
-  const { lines, subscription, amount_paid } = invoice;
+  const { lines, amount_paid } = invoice;
   const lineOne = lines.data[0];
-  let price = null;
-  if (lineOne != null && lineOne.price?.type === 'one_time') {
-    // In this case, the plan is null, and then this was a modified invoice
-    // (the customer changed their mind),
-    // which had a new one-time price & product id generated for it by Stripe
-    // Get the actual (hopefully!) current product & price from the subscription (?)
-    // do verify with the amount?
-    // if price->type is one_time instead of recurring
-    // TODO: we should consider cancelling & recreating subs on change instead, to avoid confusing issues like this.
-    //
-    // The sub will contain the actual price ID of the sub plan.
-    const sub = await stripe.subscriptions.retrieve(/** @type {string} */ (subscription));
-    price = sub.items.data[0].price;
-    if (price.unit_amount !== amount_paid) {
-      // check if this person perhaps updated their sub two times?? :S
-      // TODO 1: is the price ID info now used in an intergration? ARE THE FAKE ONES
-      //          in our Firebase? That could lead to mega weirdness
-      // TODO 2: update the product ID too (that one is also unique per invoice)
-      console.error(`Weirdness occurred in ${sub.id}`);
-    }
-  } else {
-    // Normal case
-    price = lineOne.price;
-  }
 
-  const priceId = price?.id;
-  if (this.isWTMGPriceId(priceId)) {
+  // Basil: `price` on an invoice line item became the polymorphic `pricing`
+  // object. For our standard recurring subs, pricing.price_details.price is
+  // the recurring Price id and matches one of our STRIPE_PRICE_IDS_*.
+  const directPriceId = lineOne?.pricing?.price_details?.price;
+  if (directPriceId && this.isWTMGPriceId(directPriceId)) {
     return true;
   }
-  return false;
+
+  // Fallback: this could be a modified first invoice (see [one-off-invoice]
+  // in createOrRetrieveUnpaidSubscription.js — changeSubscriptionPrice deletes
+  // the auto-prorated lines and re-adds a single InvoiceItem with `unit_amount`,
+  // which makes Stripe attach a generated one-off Price that won't match our
+  // WTMG ids). In that case, the canonical sub price lives on the Subscription
+  // itself, reached via the new parent.subscription_details field.
+  const subscriptionId = getInvoiceSubscriptionId(invoice);
+  if (!subscriptionId) {
+    return false;
+  }
+  const sub = await stripe.subscriptions.retrieve(subscriptionId);
+  const subPrice = sub.items.data[0].price;
+  if (subPrice.unit_amount !== amount_paid) {
+    // Sanity log: matches the previous behaviour. Means the line item amount
+    // and the subscription's current price are out of sync — possibly a
+    // double price change. The boolean return is still driven by the sub's
+    // price id below.
+    console.error(`Weirdness occurred in ${sub.id}`);
+  }
+  return this.isWTMGPriceId(subPrice.id);
 };
 
 /**

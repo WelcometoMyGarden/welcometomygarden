@@ -6,6 +6,11 @@ const removeUndefined = require('../../util/removeUndefined');
 const { getUserDocRefsWithData } = require('../../firebase');
 const { sendSubscriptionRenewalEmail } = require('../../mail');
 const { isWTMGInvoice } = require('./util');
+const {
+  getInvoiceSubscriptionId,
+  getInvoicePaymentIntent,
+  getInvoiceLineUnitAmount
+} = require('../basilCompat');
 /**
  * Handles the `invoice.created` event from Stripe.
  * Only handles WTMG subscription renewal invoices, ignores other invoices.
@@ -23,7 +28,7 @@ module.exports = async (event, res) => {
   // NOTE: we can only rely on this price ID being accurate because we only look for subscription_cycle invoices
   // If we were to handle subscription_update invoices here, the price ID may be different, see [one-off-invoice]
   const isWtmgSubscriptionInvoice = await isWTMGInvoice(invoice);
-  const price = invoice.lines.data[0]?.price;
+  const unitAmount = getInvoiceLineUnitAmount(invoice);
   if (!(isWtmgSubscriptionInvoice && invoice.billing_reason === 'subscription_cycle')) {
     // Ignore invoices that were created for events not related
     // to WTMG subscription renewals
@@ -47,18 +52,30 @@ module.exports = async (event, res) => {
     // > Error: This invoice is already finalized, you can't re-finalize a non-draft invoice.
     finalizedInvoice = await stripe.invoices.retrieve(invoice.id);
   }
+  const subscriptionId = getInvoiceSubscriptionId(finalizedInvoice);
+  if (!subscriptionId) {
+    const msg = 'invoice.created event for a WTMG invoice without an attached subscription';
+    logger.error(msg);
+    res.status(500);
+    return res.send(msg);
+  }
   /**
    * @type {import('stripe').Stripe.Subscription}
    */
-  const subscription = await stripe.subscriptions.retrieve(
-    /** @type {string} */ (finalizedInvoice.subscription)
-  );
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
   // In case the subscription still has the type send_invoice, immediately set the current PaymentIntent up
   // to collect off-session payments in the future, before sending the email.
   // This is a necessary preparation step to be able to switch the subscription to charge_automatically for the invoice of next year.
   if (subscription.collection_method === 'send_invoice') {
-    await stripe.paymentIntents.update(/** @type {string} */ (finalizedInvoice.payment_intent), {
+    const paymentIntent = await getInvoicePaymentIntent(finalizedInvoice.id);
+    if (!paymentIntent) {
+      const msg = 'Could not find a PaymentIntent on the finalized invoice';
+      logger.error(msg);
+      res.status(500);
+      return res.send(msg);
+    }
+    await stripe.paymentIntents.update(paymentIntent.id, {
       setup_future_usage: 'off_session'
     });
     logger.log(
@@ -98,7 +115,7 @@ module.exports = async (event, res) => {
       privateUserProfileData &&
       finalizedInvoice.customer_email &&
       finalizedInvoice.hosted_invoice_url &&
-      typeof price?.unit_amount === 'number'
+      typeof unitAmount === 'number'
     )
   ) {
     res.status(500);
@@ -111,7 +128,7 @@ module.exports = async (event, res) => {
       email: finalizedInvoice.customer_email,
       firstName: publicUserProfileData.firstName,
       renewalLink: finalizedInvoice.hosted_invoice_url,
-      price: price.unit_amount / 100,
+      price: unitAmount / 100,
       language: privateUserProfileData.communicationLanguage,
       secret: privateUserProfileData.secret
     });

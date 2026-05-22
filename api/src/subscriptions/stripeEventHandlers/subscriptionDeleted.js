@@ -10,6 +10,7 @@ const { stripeSubscriptionKeys } = require('../constants');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const { isWTMGSubscription } = require('./util');
 const stripe = require('../stripe');
+const { getSubscriptionPeriod } = require('../basilCompat');
 
 const {
   statusKey,
@@ -37,11 +38,8 @@ module.exports = async (event, res) => {
     return res.sendStatus(200);
   }
 
-  const {
-    customer,
-    start_date: startDate,
-    current_period_start: currentPeriodStart
-  } = subscription;
+  const { customer, start_date: startDate } = subscription;
+  const { currentPeriodStart, currentPeriodEnd } = getSubscriptionPeriod(subscription);
 
   // Ignore some situations
   if (
@@ -86,8 +84,8 @@ module.exports = async (event, res) => {
         [cancelAtKey]: subscription.cancel_at,
         [canceledAtKey]: subscription.canceled_at,
         // to be sure, include these too
-        [currentPeriodStartKey]: subscription.current_period_start,
-        [currentPeriodEndKey]: subscription.current_period_end,
+        [currentPeriodStartKey]: currentPeriodStart,
+        [currentPeriodEndKey]: currentPeriodEnd,
         [collectionMethodKey]: subscription.collection_method,
         // This is used in the frontend, also important
         // Empirically, the invoice status changes right before Stripe takes
