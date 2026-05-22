@@ -33,6 +33,7 @@ const {
   linkSubscription,
   pollForTestClockReady
 } = require('./util/stripe');
+const { getInvoicePaymentIntent } = require('../src/subscriptions/basilCompat');
 const { db } = require('../seeders/app');
 
 const MAIL_CONFIRMATION = 'subscriptionConfirmationEmail';
@@ -85,12 +86,12 @@ describe.skip('send_invoice', () => {
     await linkSubscription(usersPrivateRef, subscription);
 
     // Confirm the send invoice payment
-    let paymentIntentId = /** @type {string} */ (
-      /** @type {import('stripe').Stripe.Invoice } */ (subscription.latest_invoice).payment_intent
+    let paymentIntent = await getInvoicePaymentIntent(
+      /** @type {import('stripe').Stripe.Invoice} */ (subscription.latest_invoice)
     );
 
     // Pay the first invoice
-    await stripe.paymentIntents.confirm(paymentIntentId, {
+    await stripe.paymentIntents.confirm(paymentIntent.id, {
       payment_method: paymentMethod.id
     });
 
@@ -116,7 +117,7 @@ describe.skip('send_invoice', () => {
     console.log('Advancing to right after the renewal time...');
     // Advance the test clock
     testClock = await stripe.testHelpers.testClocks.advance(testClock.id, {
-      frozen_time: DateTime.fromSeconds(subscription.current_period_end)
+      frozen_time: DateTime.fromSeconds(subscription.items.data[0].current_period_end)
         .plus({ days: 0.25 })
         .toSeconds()
     });
@@ -137,12 +138,12 @@ describe.skip('send_invoice', () => {
     await linkSubscription(usersPrivateRef, subscription);
     //
     // Confirm the send invoice renewal payment
-    paymentIntentId = /** @type {string} */ (
-      /** @type {import('stripe').Stripe.Invoice } */ (subscription.latest_invoice).payment_intent
+    paymentIntent = await getInvoicePaymentIntent(
+      /** @type {import('stripe').Stripe.Invoice} */ (subscription.latest_invoice)
     );
 
     console.log('Confirm renewal payment');
-    await stripe.paymentIntents.confirm(paymentIntentId, {
+    await stripe.paymentIntents.confirm(paymentIntent.id, {
       payment_method: paymentMethod.id
     });
     //
@@ -153,7 +154,7 @@ describe.skip('send_invoice', () => {
     console.log('Advancing to 2 day after the renewal period');
     // Advance the test clock (the subscription object is of the new period)
     testClock = await stripe.testHelpers.testClocks.advance(testClock.id, {
-      frozen_time: DateTime.fromSeconds(subscription.current_period_start)
+      frozen_time: DateTime.fromSeconds(subscription.items.data[0].current_period_start)
         .plus({ days: 2 })
         .toSeconds()
     });
