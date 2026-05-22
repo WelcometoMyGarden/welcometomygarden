@@ -5,6 +5,7 @@ const { stripeSubscriptionKeys } = require('./constants');
 const removeUndefined = require('../util/removeUndefined');
 const { usersPrivateDoc } = require('../collections');
 const { isWTMGSubscription } = require('./stripeEventHandlers/util');
+const { getSubscriptionPeriod, getInvoicePaymentIntent } = require('./basilCompat');
 const { oneDayAgo } = require('../util/time');
 const { logger } = require('firebase-functions');
 
@@ -28,29 +29,32 @@ const {
 /**
  * Makes sure a payment intent is generated and set up for future usage.
  * This is a preparation for switching collection_method to charge_automatically, which will happen immediately after the first payment (see invoice.paid)
- * Inserts the new payment intent in-place in the argument param object.
- * @param {Stripe.Subscription} subscription subscription object with an expanded latest_invoice
+ * Returns the finalized invoice and its PaymentIntent.
+ * @param {Stripe.Subscription} subscription
+ * @returns {Promise<{ invoice: import('stripe').Stripe.Invoice, paymentIntent: import('stripe').Stripe.PaymentIntent }>}
  */
-const insertPaymentIntent = async (subscription) => {
+const generatePaymentIntent = async (subscription) => {
   // Invoices are normally only finalized after one hour.
   // Manually finalize the invoice, which will create a new related PaymentIntent
-  // @ts-expect-error Stripe types `latest_invoice` as `string | Invoice`; it was expanded to an Invoice here.
-  const openInvoice = await stripe.invoices.finalizeInvoice(subscription.latest_invoice.id);
+  const invoiceId = /** @type {import('stripe').Stripe.Invoice} */ (subscription.latest_invoice).id;
+
+  // TODO: can this be expanded?
+  const openInvoice = await stripe.invoices.finalizeInvoice(invoiceId);
+
+  // Resolve the PaymentIntent via the new invoice.payments structure (Basil).
+  const existingPaymentIntent = await getInvoicePaymentIntent(openInvoice.id);
+  if (!existingPaymentIntent) {
+    throw new Error(`Could not find a PaymentIntent for invoice ${openInvoice.id}`);
+  }
 
   // Automatic renewals: collect payment with the aim of future charges as well
   // This influences the copy shown in Payment Elements.
   // In case of Bancontact/iDEAL, the payment method details saved are SEPA details
-  const paymentIntent = await stripe.paymentIntents.update(
-    // @ts-expect-error Stripe types `payment_intent` as `string | PaymentIntent`; it is the intent ID here.
-    openInvoice.payment_intent,
-    {
-      setup_future_usage: 'off_session'
-    }
-  );
+  const paymentIntent = await stripe.paymentIntents.update(existingPaymentIntent.id, {
+    setup_future_usage: 'off_session'
+  });
 
-  // Update the payment intent in the locally stored subscription object
-  // @ts-expect-error Stripe types `latest_invoice` as `string | Invoice`; it was expanded here.
-  subscription.latest_invoice.payment_intent = paymentIntent;
+  return { invoice: openInvoice, paymentIntent };
 };
 
 /**
@@ -107,6 +111,8 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
     days_until_due: 1
   });
 
+  const { currentPeriodStart, currentPeriodEnd } = getSubscriptionPeriod(subscription);
+
   // Set initial subscription parameters in Firebase
   const updateUserPrivateDocPromise = privateUserProfileDocRef.update(
     removeUndefined({
@@ -119,10 +125,11 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
       // NOTE: [insert-payment-intent-speedhack]: the latestInvoiceStatus be out-of-date (with status === 'draft', while it should be 'open')
       // because we're NOT waiting for insertPaymentIntent to finish to perform this userPrivate doc update
       // This allows both requests to work concurrently rather than serially, shaving off a bit of time in this long-running operation.
-      // @ts-expect-error Stripe types `latest_invoice` as `string | Invoice`; it is expanded here.
-      [latestInvoiceStatusKey]: subscription.latest_invoice.status,
-      [currentPeriodStartKey]: subscription.current_period_start,
-      [currentPeriodEndKey]: subscription.current_period_end,
+      [latestInvoiceStatusKey]: /** @type {import('stripe').Stripe.Invoice} */ (
+        subscription.latest_invoice
+      ).status,
+      [currentPeriodStartKey]: currentPeriodStart,
+      [currentPeriodEndKey]: currentPeriodEnd,
       [startDateKey]: subscription.start_date,
       [cancelAtKey]: subscription.cancel_at,
       [canceledAtKey]: subscription.canceled_at,
@@ -130,10 +137,14 @@ const createNewSubscription = async (customerId, priceId, privateUserProfileDocR
     })
   );
 
-  await Promise.all([insertPaymentIntent(subscription), updateUserPrivateDocPromise]);
+  const [{ paymentIntent }] = await Promise.all([
+    generatePaymentIntent(subscription),
+    updateUserPrivateDocPromise
+  ]);
 
-  // Will include the new PaymentIntent
-  return subscription;
+  // The PaymentIntent's client_secret can still be used to confirm an invoice
+  // PaymentIntent on the frontend with the Payment Element.
+  return { subscription, clientSecret: paymentIntent.client_secret };
 };
 
 /**
@@ -150,14 +161,15 @@ const changeSubscriptionPrice = async (
   privateUserProfileDocRef
 ) => {
   const newPriceId = priceObject.id;
+  const existingInvoice = /** @type {import('stripe').Stripe.Invoice} */ (
+    existingSubscription.latest_invoice
+  );
   // void the previous unpaid invoice. The upgrade will generate a new invoice,
   // and the old finalized one is not relevant anymore.
-  // @ts-expect-error Stripe types `latest_invoice` as `string | Invoice`; it is expanded here.
-  await stripe.invoices.voidInvoice(existingSubscription.latest_invoice.id);
+  await stripe.invoices.voidInvoice(existingInvoice.id);
 
   // Also store the period it was for, for usage in the later new invoice
-  // @ts-expect-error Stripe types `latest_invoice` as `string | Invoice`; it is expanded here.
-  const { period } = existingSubscription.latest_invoice.lines.data[0];
+  const { period } = existingInvoice.lines.data[0];
 
   // Step 2: perform an upgrade/downgrade of the sub with Stripe
   // https://stripe.com/docs/billing/subscriptions/upgrade-downgrade
@@ -232,8 +244,8 @@ const changeSubscriptionPrice = async (
   });
 
   // Save the updated info in Firebase
-  await Promise.all([
-    insertPaymentIntent(proratedSubscription),
+  const [{ paymentIntent }] = await Promise.all([
+    generatePaymentIntent(proratedSubscription),
     privateUserProfileDocRef.update(
       removeUndefined({
         // Get the new price id from the source of truth, it should be equal to priceObject.id though.
@@ -241,14 +253,15 @@ const changeSubscriptionPrice = async (
         [priceIdKey]: proratedSubscription.items.data[0].price.id,
         [statusKey]: proratedSubscription.status,
         // NOTE: this will be outdated, see [insert-payment-intent-speedhack]
-        // @ts-expect-error Stripe types `latest_invoice` as `string | Invoice`; it is expanded here.
-        [latestInvoiceStatusKey]: proratedSubscription.latest_invoice.status
+        [latestInvoiceStatusKey]: /** @type {import('stripe').Stripe.Invoice} */ (
+          proratedSubscription.latest_invoice
+        ).status
         // id, startDate, currentPeriodStart & currentPeriodEnd should not have altered
       })
     )
   ]);
 
-  return proratedSubscription;
+  return { subscription: proratedSubscription, clientSecret: paymentIntent.client_secret };
 };
 
 /**
@@ -317,11 +330,17 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
     // NOTE: this behavior will change
     // Disabling status: 'active' for now
     // status: 'active',
-    expand: ['data.latest_invoice.payment_intent']
+    // Basil: `invoice.payment_intent` was removed; PaymentIntents are now reached
+    // through `invoice.payments[].payment.payment_intent`.
+    // Stripe's 4-level expand limit means we can only go as deep as `payments` here.
+    // To read the PaymentIntent itself we fetch it separately via getInvoicePaymentIntent.
+    expand: ['data.latest_invoice.payments']
   });
 
-  // A variable to hold the subscription to be retrieved or created
-  let subscription;
+  // Holds the subscription to be retrieved or created plus the PaymentIntent
+  // client_secret to confirm on the frontend.
+  /** @type {{ subscription: import('stripe').Stripe.Subscription, clientSecret: string | null }} */
+  let result;
 
   // Find an active WTMG subscription (if any) that is already paid
   const existingValidSubscription = existingSubscriptions.data.find((sub) => {
@@ -355,34 +374,26 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
   const existingIncompleteSubscription = existingSubscriptions.data.find((sub) => {
     // Only retrieve subscriptions with a latest invoice that wasn't paid yet
     // https://stripe.com/docs/invoicing/overview#workflow-overview
-    const hasOpenInvoice =
-      typeof sub.latest_invoice === 'object' &&
-      sub.latest_invoice != null &&
-      sub.latest_invoice.status === 'open';
+    const latestInvoice = typeof sub.latest_invoice === 'object' ? sub.latest_invoice : null;
+    const hasOpenInvoice = latestInvoice?.status === 'open';
 
-    // Has a payment intent that can we send back to the client (whatever status it has)
+    // Has an InvoicePayment that points to a PaymentIntent we can send back to
+    // the client (whatever status it has).
     // https://stripe.com/docs/payments/intents#intent-statuses
-    // @ts-expect-error Stripe types `latest_invoice` as `string | Invoice`; it is expanded here.
-    const latestInvoicePaymentIntent = hasOpenInvoice ? sub.latest_invoice.payment_intent : null;
-    const hasPaymentIntent =
-      hasOpenInvoice &&
-      typeof latestInvoicePaymentIntent === 'object' &&
-      latestInvoicePaymentIntent != null;
+    // Basil: the link is via the expanded invoice.payments list; payment.payment_intent
+    // is just a string id at this depth (we did not deep-expand it).
+    const hasInvoicePaymentIntent = latestInvoice?.payments?.data?.some(
+      (p) => p.payment?.type === 'payment_intent' && p.payment.payment_intent != null
+    );
 
-    if (isWTMGSubscription(sub) && hasOpenInvoice && !hasPaymentIntent) {
-      logger.error(
-        'Unexpected situation, incomplete sub has open invoice but no string payment intent',
-        {
-          sub: sub.id,
-          inv: /** @type {import('stripe').Stripe.Invoice} */ (sub.latest_invoice).id,
-          pi: typeof (
-            /** @type {import('stripe').Stripe.Invoice} */ (sub?.latest_invoice).payment_intent
-          )
-        }
-      );
+    if (isWTMGSubscription(sub) && hasOpenInvoice && !hasInvoicePaymentIntent) {
+      logger.error('Unexpected situation, incomplete sub has open invoice but no payment intent', {
+        sub: sub.id,
+        inv: latestInvoice?.id
+      });
     }
 
-    return isWTMGSubscription(sub) && hasOpenInvoice && hasPaymentIntent;
+    return isWTMGSubscription(sub) && hasOpenInvoice && hasInvoicePaymentIntent;
   });
 
   if (existingIncompleteSubscription) {
@@ -393,8 +404,11 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
       //
       // Void the invoice explicitly, to avoid its expiry/state transition (-> uncollectible) triggering an unexpected side-effect later on
       const voidExistingInvoice = async () =>
-        // @ts-expect-error Stripe types `latest_invoice` as `string | Invoice`; it is expanded here.
-        stripe.invoices.voidInvoice(existingIncompleteSubscription.latest_invoice.id);
+        stripe.invoices.voidInvoice(
+          /** @type {import('stripe').Stripe.Invoice} */ (
+            existingIncompleteSubscription.latest_invoice
+          ).id
+        );
       // Cancel the subscription explicitly
       const cancelExistingSubObject = async () =>
         stripe.subscriptions.cancel(existingIncompleteSubscription.id);
@@ -408,12 +422,7 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
       // Sequentially, it might still be possible (depends on how Stripe functions), but it's less likely.
       // NOTE 2: this gives us price-changing for free
       // TODO: we should consider making this the default options for price-changing within 24 hours, too
-      subscription = await createNewSubscription(
-        customerId,
-        priceId,
-        privateUserProfileDocRef,
-        locale
-      );
+      result = await createNewSubscription(customerId, priceId, privateUserProfileDocRef, locale);
     } else if (priceId !== existingIncompleteSubscription.items.data[0].price.id) {
       // TODO: pending/processing SEPA Debit payments will also have an "open" status invoice, and "processing" status PaymentIntent
       // While the front-end tries to prevent it, there could be cases where we have retrieved a pending payment invoice,
@@ -421,27 +430,30 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
       // We should probably disallow changing the subscription price of a pending payment invoice, or create a second, actually prorated invoice?
       //
       // If we're in the 24h window, and the price id requested is different to the current subscription's price, then change the subscription
-      subscription = await changeSubscriptionPrice(
+      result = await changeSubscriptionPrice(
         existingIncompleteSubscription,
         requestedPrice,
         privateUserProfileDocRef
       );
     } else {
-      // If we're in the 24h window, and the price id was the same, return the payment intent of the existing unpaid invoice
-      subscription = existingIncompleteSubscription;
+      // If we're in the 24h window, and the price id was the same, return the payment intent of the existing unpaid invoice.
+      // The PaymentIntent isn't expanded on the listed invoice (depth limit),
+      // so resolve it via the helper, which expands invoice.payments.data.payment.payment_intent in a fresh retrieve.
+      const existingInvoice = /** @type {import('stripe').Stripe.Invoice} */ (
+        existingIncompleteSubscription.latest_invoice
+      );
+      const paymentIntent = await getInvoicePaymentIntent(existingInvoice);
+      result = {
+        subscription: existingIncompleteSubscription,
+        clientSecret: paymentIntent?.client_secret ?? null
+      };
     }
   } else {
-    subscription = await createNewSubscription(
-      customerId,
-      priceId,
-      privateUserProfileDocRef,
-      locale
-    );
+    result = await createNewSubscription(customerId, priceId, privateUserProfileDocRef, locale);
   }
 
   return {
-    subscriptionId: subscription.id,
-    // @ts-expect-error Stripe types `latest_invoice`/`payment_intent` as unions; both are expanded here.
-    clientSecret: subscription.latest_invoice.payment_intent.client_secret
+    subscriptionId: result.subscription.id,
+    clientSecret: result.clientSecret
   };
 };
