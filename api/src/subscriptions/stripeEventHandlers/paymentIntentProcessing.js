@@ -7,9 +7,9 @@ const {
 } = require('../../mail');
 const { stripeSubscriptionKeys } = require('../constants');
 const { getUserDocRefsWithData } = require('../../firebase');
-const stripe = require('../stripe');
 const { isWTMGInvoice } = require('./util');
 const { getLatestCharge } = require('./shared');
+const { getInvoiceForPaymentIntent } = require('../basilCompat');
 
 const { latestInvoiceStatusKey, paymentProcessingKey } = stripeSubscriptionKeys;
 
@@ -42,19 +42,19 @@ module.exports = async (event, res) => {
     payment_method_details?.type === 'sepa_debit' &&
     status === 'pending';
 
-  // Check if an eligible charge exists, and a related invoice
-  if (
-    !latestCharge ||
-    !isApprovedSepaCharge(latestCharge) ||
-    typeof paymentIntent.invoice !== 'string' // shouldn't happen, helps narrow down the tiype
-  ) {
+  // Check if an eligible charge exists
+  if (!latestCharge || !isApprovedSepaCharge(latestCharge)) {
     logger.log('Skipping non (SEPA + approved + pending) charge');
     return res.sendStatus(200);
   }
 
   // --- Qualify the event further based on the linked invoice ---
-  // Fetch the related invoice
-  const invoice = await stripe.invoices.retrieve(paymentIntent.invoice);
+  // Basil: PaymentIntent.invoice was removed; map back via InvoicePayment.
+  const invoice = await getInvoiceForPaymentIntent(paymentIntent.id);
+  if (!invoice) {
+    logger.log('Skipping payment_intent.processing with no linked invoice');
+    return res.sendStatus(200);
+  }
 
   // Check if the invoice is a WTMG invoice
   if (!(await isWTMGInvoice(invoice))) {
