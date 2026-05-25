@@ -31,7 +31,7 @@
     "firebase-functions": "^7.0.3",
     "google-auth-library": "^10.5.0",
     "html-to-text": "^9.0.5",
-    "lodash": "^4.17.23",
+    "lodash": "^4.18.1",
     "luxon": "^3.7.2",
     "nanoid": "^5.1.6",
     "stripe": "^17.7.0"
