@@ -164,7 +164,9 @@ Older Android emulators may ship with a webview version aligned with the Chrome 
 - my Android 9 Google APIs emulator shipping with Webview v66
 - a real user's Android 9 device that had v138 (max)
 
-Below Chrome 85 (see [this](../plugins/dynamicBuildTarget.js) for our current supported browsers) this affects whether the WTMG site code can run at all. Above, this this might influence certain browser features that Capacitor relies upon, which expect a higher browser version.
+Below Chrome 85 (see [this](../plugins/dynamicBuildTarget.js) for our current supported browsers) this affects whether the WTMG site code can run at all.
+
+Above Chrome 85, this might influence certain browser features on which Capacitor relies, which expect a higher browser version. For example, **below Chrome 140** edge-to-edge will not work on phones that should support it with more recent Chrome versions. **Below Chrome 144**, the bottom insets may be broken when the keyboard is shown. For these two issues, see the footnote [in the safe-area plugin's docs](https://github.com/capacitor-community/safe-area) for more details. We use this plugin to gracefully degrade or patch the UX in case of older webview versions.
 
 **To update your emulator's webview**
 
