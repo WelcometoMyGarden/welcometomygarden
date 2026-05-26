@@ -109,11 +109,9 @@ This will deploy specific functions, for example, all currently used Stripe-rela
 
 ```sh
 firebase deploy --project prod --only \
-functions:createStripeCustomerV2,\
-functions:createOrRetrieveUnpaidSubscriptionV2,\
+functions:indexCallable,\
 functions:handleRenewalsV2,\
 functions:handleStripeWebhookV2,\
-functions:propagateEmailChangeV2,\
 functions:onAuthUserDelete
 ```
 
@@ -136,12 +134,8 @@ In staging (wtmg-dev), not all functions are relevant. These are relevant functi
 ```sh
 firebase deploy --project staging --only \
 functions:checkContactCreation,\
-functions:createCustomerPortalSessionV2,\
-functions:createOrRetrieveUnpaidSubscriptionV2,\
-functions:createStripeCustomerV2,\
-functions:createUserV2,\
-functions:discourseConnectLoginV2,\
 functions:handleStripeWebhookV2,\
+functions:indexCallable,\
 functions:onCampsiteCreateV2,\
 functions:onCampsiteDeleteV2,\
 functions:onCampsiteWriteV2,\
@@ -150,10 +144,6 @@ functions:onMessageCreateV2,\
 functions:onUserPrivateWriteV2,\
 functions:onUserWriteV2,\
 functions:parseInboundEmailV2,\
-functions:propagateEmailChangeV2,\
-functions:requestEmailChangeV2,\
-functions:requestPasswordResetV2,\
-functions:resendAccountVerificationV2,\
 functions:sendMessage,\
 functions:updateEmail,\
 functions:onAuthUserCreate,\
@@ -167,7 +157,6 @@ These are the functions omitted from staging:
 - handleRenewalsV2 # to test schedule renewal handling, local api tests with backdated (simulated) data is more helpful than waiting 1 year on events
 - errorLogTunnel # this just proxies into our single Glitchtip instance, we use prod the prod function
 - handleUnsubscribe # this is dependent on our production SendGrid
-- manageEmailPreferencesV2
 - functions depending on Supabase:
   - refreshAuthTableV2 # we currently don't have a staging Supabase
   - onChatWriteV2
