@@ -1,6 +1,6 @@
 # Front-end
 
-The SvelteKit is deployed as a static site to Firebase Hosting.
+The SvelteKit is deployed as a static site to Firebase Hosting. A GitHub Action normally takes care of this, but if GitHub Actions are down (happens regularly as of late!), you can also deploy on your machine easily. See below for instructi
 
 ### Trailing slashes
 
@@ -26,6 +26,28 @@ We modify our cache-control headers using Firebase Hosting configuration (see ht
 URLs are matched for header modifications _before_ URL rewrites.
 
 To set caching rules for our pages: since we use [`cleanUrls`](https://firebase.google.com/docs/hosting/full-config#headers) (without `.html` suffixes), we can't match HTML pages with a glob rule like `"**/*.html"`, but we have to match their clean URLs instead. It's not easy to reliably match all clean page URLs without exhaustively listing them (the given [RE2 engine](https://github.com/google/re2/wiki/Syntax) is not flexible enough to for example exclude/negative match certain paths). Instead, we modify the default caching behavior, and allow overwrites later.
+
+### Manual deploy
+
+The steps to deploy manually follow [the Firebase guide](https://firebase.google.com/docs/hosting/test-preview-deploy#deploy-project-directory-to-live) and [example commands for handling targets & channels](https://firebase.google.com/docs/hosting/multisites#cli-commands-with-deploy-targets), in accordance with our configruation.
+
+**Note** that the static site will be built with `.env.*[.local]` environment files available in the root. **These may have been modified for local development purposes.** Ensure they are appropriate for live production builds before proceeding.
+
+Some variables required for the Github CI environment are not required locally, for example, those exclusively used to set up the source (`prepare-source`).
+
+Run the applicable command from the root:
+
+```sh
+# For staging
+yarn build:staging
+firebase --project staging deploy --only hosting:beta
+
+# For production
+yarn build:prod
+firebase --project prod deploy --only hosting:production
+```
+
+Note: this does not include instructions for the production `beta` target. For this, a new Vite mode with appropriate env vars reflecting the GitHub config needs to be created.
 
 # Back-end
 
