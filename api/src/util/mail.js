@@ -41,7 +41,7 @@ exports.buildMessageUrl = ({ displayName, chatId, host, language }) => {
 /**
  * @type {SupportedLanguage[]}
  */
-const SUPPORTED_LANGUAGES = ['en', 'nl', 'fr', 'de', 'es'];
+const SUPPORTED_LANGUAGES = ['en', 'nl', 'fr', 'de', 'es', 'pl'];
 /**
  * @type {MainLanguage[]}
  */
