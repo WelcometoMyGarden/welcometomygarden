@@ -71,6 +71,11 @@ export const urlPathPrefix = (locale: string | null | undefined) => {
  */
 export const lr = derived(locale, ($locale) => (route: string) => urlPathPrefix($locale) + route);
 
+/**
+ * A store version of urlPathPrefix for i18n interpolation use
+ */
+export const langPrefix = derived(locale, ($locale) => urlPathPrefix($locale));
+
 export const anchorText = (props: {
   href: string;
   linkText: string;

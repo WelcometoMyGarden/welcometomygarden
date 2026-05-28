@@ -4,7 +4,7 @@
   import MarketingBlock from '$lib/components/Marketing/MarketingBlock.svelte';
   import { Button } from '$lib/components/UI';
   import routes from '$lib/routes';
-  import { lr } from '$lib/util/translation-helpers';
+  import { langPrefix, lr } from '$lib/util/translation-helpers';
 </script>
 
 <svelte:head>
@@ -28,10 +28,7 @@
         <div class="closing-section">
           {@html $_('thank-you-superfan.closing-section.text', {
             values: {
-              langPrefix: $_('generics.lang-prefix', {
-                // the empty string prefix is valid here
-                default: ''
-              })
+              langPrefix: $langPrefix
             }
           })}
         </div>

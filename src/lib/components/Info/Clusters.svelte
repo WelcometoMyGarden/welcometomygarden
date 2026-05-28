@@ -4,7 +4,7 @@
   import Collapsible from '../../components/Collapsible.svelte';
   import { DONATION_URL, COMMUNITY_TRANSLATIONS_URL } from '$lib/constants';
   import routes from '$lib/routes';
-  import { anchorText, lr } from '$lib/util/translation-helpers';
+  import { anchorText, langPrefix, lr } from '$lib/util/translation-helpers';
 
   let { clustersKey } = $props();
 
@@ -48,10 +48,7 @@
                     href: $_('push-notifications.prompt.helpcenter-url'),
                     linkText: $_('faq.help-center-text')
                   }),
-                  langPrefix: $_('generics.lang-prefix', {
-                    // the empty string prefix is valid here
-                    default: ''
-                  })
+                  langPrefix: $langPrefix
                 }
               })}
             </p>
