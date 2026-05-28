@@ -203,3 +203,13 @@ firebase deploy --only storage
 # Both
 firebase deploy --only firestore:rules,storage
 ```
+
+### Deploying Firestore indexes
+
+[firestore.indexes.json](../firestore.indexes.json) contains the [Cloud Firestore Index Definition](https://firebase.google.com/docs/reference/firestore/indexes) export of the current production instance. So far, we've used [links in error messages in staging](https://firebase.google.com/docs/firestore/query-data/indexing#create-missing-index-error) and [manually added entries](https://firebase.google.com/docs/firestore/query-data/indexing#use-the-firebase-console) in the Firebase Console to manage indices, but at some point I'd like to manage indices in code here. In that case, we can deploy a new index with:
+
+```sh
+firestore deploy --only firestore:indexes
+```
+
+Note that some indices are likely unused, they should be cleaned up at some point.
