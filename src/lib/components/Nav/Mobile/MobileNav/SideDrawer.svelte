@@ -93,9 +93,6 @@
       <span class="title">{$renewalNoticeContent?.prompt}</span>
       <span>{@html $renewalNoticeContent?.answerHtml}</span>
     {:else if $shouldShowBanner}
-      {#if transKeyExists('navigation.banner.prompt')}
-        <span class="title">{$_('navigation.banner.prompt')}</span>
-      {/if}
       <span>
         <TemporaryAppNavBannerContent />
       </span>
@@ -261,12 +258,6 @@
 
   ul > li.superfan-bar:not(.show) {
     height: 1rem;
-  }
-  .superfan-bar .title {
-    font-weight: 600;
-    font-size: 1.1rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
   }
 
   li a.highlighted {

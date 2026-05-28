@@ -34,10 +34,6 @@
       {:else}
         <!-- generic banner, logic is configurable via $shouldShowBanner (don't exclude the renewal case there) -->
         <span>
-          {#if transKeyExists('navigation.banner.prompt')}
-            <strong style="font-weight: 500;">{$_('navigation.banner.prompt')}</strong>
-            {' '}
-          {/if}
           <TemporaryAppNavBannerContent />
           <!-- {@html $_('navigation.banner.answer', {
             values: {

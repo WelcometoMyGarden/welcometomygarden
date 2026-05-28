@@ -46,7 +46,6 @@
   },
   "navigation": {
     "banner": {
-      "prompt": "",
       "answer": "Les inscriptions pour notre {link} sont ouvertes - nous espérons vous y voir ! 🎉🚴",
       "link-text": "Téléchargez-la maintenant",
       "single-link": "Notre appli WTMG est là ! {link}. 🥳🏕️",

@@ -52,7 +52,6 @@
   },
   "navigation": {
     "banner": {
-      "prompt": "",
       "answer": "Registrations for our {link} are now open - we hope to see you there! 🎉🚴",
       "single-link": "Our WTMG app is here! {link}. 🥳🏕️",
       "double-link": "Our WTMG app is here! Get it now on {iPhone} or {Android}. 🥳🏕️",
