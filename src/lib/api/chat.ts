@@ -7,7 +7,8 @@ import {
   addMessage,
   hasInitialized,
   removeChat,
-  chatsCountWithUnseenMessages
+  chatsCountWithUnseenMessages,
+  lastArchiveAction
 } from '$lib/stores/chat';
 import {
   collection,
@@ -17,6 +18,8 @@ import {
   updateDoc,
   onSnapshot,
   addDoc,
+  arrayUnion,
+  arrayRemove,
   Timestamp,
   type CollectionReference,
   type DocumentReference
@@ -182,6 +185,18 @@ export const markChatSeen = async (chatId: string) => {
   await updateDoc(chatRef, {
     lastMessageSeen: true
   });
+};
+
+export const archiveChat = async (chatId: string, chatName: string) => {
+  const chatRef = doc(db(), CHATS, chatId) as DocumentReference<FirebaseChat>;
+  await updateDoc(chatRef, { archivedBy: arrayUnion(getUser().id) });
+  lastArchiveAction.set({ kind: 'archive', chatId, chatName });
+};
+
+export const unarchiveChat = async (chatId: string, chatName: string) => {
+  const chatRef = doc(db(), CHATS, chatId) as DocumentReference<FirebaseChat>;
+  await updateDoc(chatRef, { archivedBy: arrayRemove(getUser().id) });
+  lastArchiveAction.set({ kind: 'unarchive', chatId, chatName });
 };
 
 /**

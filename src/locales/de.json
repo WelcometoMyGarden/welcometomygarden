@@ -38,7 +38,10 @@
     },
     "account-page": "Kontoseite",
     "here": "Hier",
-    "lang-prefix": "/de"
+    "lang-prefix": "/de",
+    "cancel": "Abbrechen",
+    "now": "Jetzt",
+    "undo": "Rückgängig"
   },
   "ui": {
     "card": {
@@ -1131,10 +1134,6 @@
     "title": "Chat",
     "title-conversation": "Mit {partnerName} chatten",
     "all-conversations": "Alle Unterhaltungen",
-    "no-messages": {
-      "text": "Sie haben noch keine Nachrichten. Wählen Sie einen Gastgeber {link}, um ihn zu kontaktieren.",
-      "link": "auf der Karte"
-    },
     "type-message": "Schreiben Sie eine Nachricht …",
     "new": "neu",
     "notify": {
@@ -1148,7 +1147,37 @@
       "description": "Beim Senden Ihres Chats ist ein Fehler aufgetreten.",
       "instruction": "Wenn dies weiterhin passiert, kopieren Sie bitte den untenstehenden Text und fügen Sie ihn in eine E-Mail ein an",
       "closing-line": "Wir versuchen Ihnen so schnell wie möglich zu helfen!"
-    }
+    },
+    "messages": "Nachrichten",
+    "tabs": {
+      "all": "Alle",
+      "archived": "Archiviert"
+    },
+    "archive": "Archivieren",
+    "unarchive": "Aus Archiv holen",
+    "archive-conversation": "Chat archivieren",
+    "unarchive-conversation": "Chat aus Archiv holen",
+    "archived-one": "{name} archiviert",
+    "unarchived-one": "{name} zurück in den Posteingang",
+    "no-archived": {
+      "title": "Du hast keine archivierten Nachrichten",
+      "detail": "Wenn du eine Nachricht archivierst, erscheint sie hier.",
+      "button": "Alle Gespräche anzeigen"
+    },
+    "selected": "{count} ausgewählt",
+    "select": "Auswählen",
+    "deselect": "Abwählen",
+    "confirm-archive": {
+      "title": "Dieses Gespräch archivieren?",
+      "body": "Du hast eine ungelesene Nachricht von {name}. Beim Archivieren wird sie als gelesen markiert und ins Archiv verschoben.",
+      "confirm": "Archivieren"
+    },
+    "no-inbox": {
+      "title": "Sie haben noch keine Nachrichten",
+      "detail": "Wählen Sie einen Gastgeber auf der Karte, um ihn zu kontaktieren.",
+      "button": "Zur Karte"
+    },
+    "open-archive": "Archiv öffnen"
   },
   "map": {
     "vehicle-notice": {

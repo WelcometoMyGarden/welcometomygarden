@@ -87,7 +87,7 @@ export type UserPrivate = {
   latestSpamAlertAt?: Timestamp;
   /**
    * A per-user unique key that allows them to take certain actions via email (unsubscribe, request renewal) without logging in.
-   * Stored in users-private since May 6th, 2026. Before that it was only in SendGrid.
+   * Stored in users-private since May 6th, 2026. Before that it was only in SendGrid. Is has been backfilled, however.
    *
    * May be undefined for older users that don't have a contact in SG, but for all main intents where it is used
    * in emails, it is normally defined.

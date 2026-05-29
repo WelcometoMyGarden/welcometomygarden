@@ -286,6 +286,34 @@ service cloud.firestore {
         || get(/databases/$(database)/documents/users-meta/$(requesterId())).data.chatBlockedAt == null
     }
 
+    // Conditions for archive/unarchive — the ONLY change is adding or removing
+    // the requester's own UID from the archivedBy array.
+    function isValidArchiveUpdate() {
+      // Only the archivedBy field may change
+      let isOnlyArchivedByChange = incomingData().diff(existingData()).affectedKeys().hasOnly(['archivedBy']);
+      let existingArchived = existingData().get('archivedBy', []);
+      let incomingArchived = incomingData().get('archivedBy', []);
+      // archivedBy must be a list of max 2 entries, all of which must be chat participants
+      let isValidArchivedBy = incomingArchived is list
+        && incomingArchived.size() <= 2
+        && incomingArchived.hasOnly(existingData().users);
+      // Adding self: requester was not already in archivedBy; now they are; no other change
+      let isAdding = incomingArchived.size() == existingArchived.size() + 1
+        && !existingArchived.hasAll([requesterId()])
+        && incomingArchived.hasAll([requesterId()])
+        && incomingArchived.hasAll(existingArchived);
+      // Removing self: requester was in archivedBy; now they're not; no other change
+      let isRemoving = existingArchived.size() == incomingArchived.size() + 1
+        && existingArchived.hasAll([requesterId()])
+        && !incomingArchived.hasAll([requesterId()])
+        && existingArchived.hasAll(incomingArchived);
+      return isSignedIn() && isVerified()
+        && requesterId() in existingData().users
+        && isOnlyArchivedByChange
+        && isValidArchivedBy
+        && (isAdding || isRemoving);
+    }
+
 
     // Conditions for chat creations
     function canCreateChat() {
@@ -299,19 +327,27 @@ service cloud.firestore {
         && userExists(incomingData().users[1])
       // The sender is not blocked from sending chats
         && isNotChatBlocked()
+      // A chat can't start off archived
+        && !incomingData().keys().hasAny(['archivedBy'])
     }
-
 
     // Conditions for chat updates
     function canUpdateChat() {
-      return isValidChatWrite()
+      let archivedByChanged = incomingData().diff(existingData()).affectedKeys().hasAny(['archivedBy']);
+      // Path 1: archivedBy didn't change — validate as a normal chat write
+      // Path 2: archivedBy changed — validate as an archive/unarchive operation
+      // Note: ternary operator has lowest precedence: https://firebase.google.com/docs/rules/rules-language#building_conditions
+      return archivedByChanged
+      ? isValidArchiveUpdate()
+      : isValidChatWrite()
       // Only chat participants can update the chat
         && requesterId() in incomingData().users
       // Participants can not change the creation timestamp
         && incomingData().createdAt == existingData().createdAt
       // Participants can not change the chat participants
-        && incomingData().users == existingData().users
+        && incomingData().users == existingData().users;
     }
+
 
 
     function canReadMessage(chatId) {

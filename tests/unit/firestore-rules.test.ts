@@ -79,6 +79,8 @@ beforeEach(async () => {
 });
 
 const ALICE_TOKEN_OPTS = { email: 'alice@slowby.travel', email_verified: true };
+const BOB_TOKEN_OPTS = { email: 'bob@slowby.travel', email_verified: true };
+const CHARLIE_TOKEN_OPTS = { email: 'charlie@slowby.travel', email_verified: true };
 
 describe('registration', async () => {
   it('should not allow an authenticated user to create their own "user" or "user-private" docs', async () => {
@@ -120,6 +122,32 @@ const createAliceUser = async () => {
   return aliceDb;
 };
 
+/**
+ * An alternative user (non-superfan)
+ */
+const createBobUser = async () => {
+  const bobDb = testEnv.authenticatedContext('bob', BOB_TOKEN_OPTS).firestore();
+  await testEnv.withSecurityRulesDisabled(async (context) => {
+    // This can only be called once.
+    const firestore = context.firestore();
+    await setDoc(doc(firestore, 'users/bob'), {
+      firstName: 'Bob',
+      countryCode: 'DK',
+      superfan: false
+    });
+
+    await setDoc(doc(firestore, 'users-private/alice'), {
+      lastName: 'Bobber',
+      consentedAt: serverTimestamp(),
+      emailPreferences: {
+        newChat: true,
+        news: true
+      }
+    });
+  });
+  return bobDb;
+};
+
 describe('"user" data', async () => {
   let testDb: firebase.firestore.Firestore;
   beforeEach(async () => {
@@ -130,13 +158,7 @@ describe('"user" data', async () => {
   });
   it('allows reading public user data of any individual user', async () => {
     // Create the "bob" user
-    await testEnv.withSecurityRulesDisabled(async (context) => {
-      await setDoc(doc(context.firestore(), 'users/bob'), {
-        firstName: 'Bob',
-        countryCode: 'BE',
-        superfan: false
-      });
-    });
+    await createBobUser();
 
     // Get bob's data
     await assertSucceeds(getDoc(doc(testDb, 'users/bob')));
@@ -144,17 +166,23 @@ describe('"user" data', async () => {
   it('disallows listing users data', async () => {
     await assertFails(getDocs(query(collection(testDb, 'users'))));
   });
-  it('should allow ONLY signed in users to update their users document with (a) required field', async () => {
+  it('should allow ONLY signed in users to update their users document with fields they are allowed to change', async () => {
     await assertSucceeds(
       updateDoc(doc(testDb, 'users/alice'), {
-        firstName: 'Alice',
-        countryCode: 'BE'
+        savedGardens: []
+      })
+    );
+    // Other users can't do this
+    const bobDb = await createBobUser();
+    await assertFails(
+      updateDoc(doc(bobDb, 'users/alice'), {
+        savedGardens: []
       })
     );
   });
 
-  it('should allow ONLY signed in users to overwrite their doc with all required fields', async () => {
-    await assertSucceeds(
+  it('should NOT allow even signed in users to set/overwrite their entire users doc', async () => {
+    await assertFails(
       setDoc(doc(testDb, 'users/alice'), {
         firstName: 'Alice',
         countryCode: 'BE',
@@ -250,20 +278,8 @@ describe('"user-private" data', async () => {
   it('fails when trying to create a document (firebase-admin required) ', async () => {
     await assertFails(setDoc(doc(testDb, 'users-private/bob'), {}));
   });
-  it('fails on overwrite when the basic field requirements are met', async () => {
+  it('fails on overwrite (set) the entire doc (clients are not allowed to do this)', async () => {
     await assertFails(
-      setDoc(doc(testDb, 'users-private/alice'), {
-        lastName: 'Frazier',
-        consentedAt: serverTimestamp(),
-        emailPreferences: {
-          // missing newChat
-          news: true
-        }
-      })
-    );
-  });
-  it('succeeds on overwrite when the basic field requirements are met', async () => {
-    await assertSucceeds(
       setDoc(doc(testDb, 'users-private/alice'), {
         lastName: 'Frazier',
         consentedAt: serverTimestamp(),
@@ -301,32 +317,20 @@ describe('"user-private" data', async () => {
 
 describe('chat', async () => {
   let testDb: firebase.firestore.Firestore;
+  let bobDb: firebase.firestore.Firestore;
   beforeEach(async () => {
     // Create alice
     testDb = await createAliceUser();
+    bobDb = await createBobUser();
     // Test-specific prep
     await testEnv.withSecurityRulesDisabled(async (context) => {
       const firestore = context.firestore();
       // Make Alice a superfan
       await updateDoc(doc(firestore, 'users/alice'), { superfan: true });
-      // Create the "bob" user
-      await setDoc(doc(firestore, 'users/bob'), {
-        firstName: 'Bob',
-        countryCode: 'BE',
-        superfan: false
-      });
-      await setDoc(doc(firestore, 'users-private/bob'), {
-        lastName: 'Dylan',
-        consentedAt: serverTimestamp(),
-        emailPreferences: {
-          newChat: true,
-          news: true
-        }
-      });
     });
   });
+
   describe('chat creation', async () => {
-    // TODO: it will fail because of another rule now
     const createChatFromAlice = async () => {
       const now = Timestamp.now();
       await setDoc(doc(testDb, 'chats/testchat'), {
@@ -339,6 +343,19 @@ describe('chat', async () => {
 
     it('a superfan can start a new chat if it has no users-meta doc', () =>
       assertSucceeds(createChatFromAlice()));
+
+    it('a non-superfan can NOT start a new chat', async () => {
+      const now = Timestamp.now();
+
+      await assertFails(
+        setDoc(doc(bobDb, 'chats/testchat'), {
+          users: ['bob', 'alice'],
+          createdAt: now,
+          lastActivity: now,
+          lastMessage: 'Hello from Bob to Alice'
+        })
+      );
+    });
 
     it('a superfan can start a new chat if it has an existing users-meta doc without chatBlockedAt prop', async () => {
       // Set alice to chat-blocked by the system
@@ -367,6 +384,67 @@ describe('chat', async () => {
 
       // Alice should not be able to create the chat
       await assertFails(createChatFromAlice());
+    });
+  });
+
+  describe('chat archive', async () => {
+    const chatDoc = () => doc(testDb, 'chats/testchat');
+
+    const seedChat = async (extraFields: Record<string, unknown> = {}) => {
+      const now = Timestamp.now();
+      await testEnv.withSecurityRulesDisabled(async (context) => {
+        await setDoc(doc(context.firestore(), 'chats/testchat'), {
+          users: ['alice', 'bob'],
+          createdAt: now,
+          lastActivity: now,
+          lastMessage: 'Hello there',
+          ...extraFields
+        });
+      });
+    };
+
+    beforeEach(() => seedChat());
+
+    it('allows a participant to archive the chat (add own uid to archivedBy)', async () => {
+      await assertSucceeds(updateDoc(chatDoc(), { archivedBy: ['alice'] }));
+    });
+
+    it('allows a participant to unarchive the chat (remove own uid from archivedBy)', async () => {
+      await testEnv.withSecurityRulesDisabled(async (context) => {
+        await updateDoc(doc(context.firestore(), 'chats/testchat'), { archivedBy: ['alice'] });
+      });
+      await assertSucceeds(updateDoc(chatDoc(), { archivedBy: [] }));
+    });
+
+    it('allows the other participant to archive on their side', async () => {
+      const bobDb = await createBobUser();
+      await assertSucceeds(updateDoc(doc(bobDb, 'chats/testchat'), { archivedBy: ['bob'] }));
+    });
+
+    it('prevents a non-participant from archiving a chat', async () => {
+      const charlieDb = testEnv.authenticatedContext('charlie', CHARLIE_TOKEN_OPTS).firestore();
+      await assertFails(updateDoc(doc(charlieDb, 'chats/testchat'), { archivedBy: ['charlie'] }));
+    });
+
+    it("prevents a participant from adding another user's uid to archivedBy", async () => {
+      await assertFails(updateDoc(chatDoc(), { archivedBy: ['bob'] }));
+    });
+
+    it('prevents a participant from adding their own uid twice to archivedBy', async () => {
+      await assertFails(updateDoc(chatDoc(), { archivedBy: ['alice', 'alice'] }));
+    });
+
+    it('prevents creating a chat with archivedBy already set', async () => {
+      const now = Timestamp.now();
+      await assertFails(
+        setDoc(doc(testDb, 'chats/newchat'), {
+          users: ['alice', 'bob'],
+          createdAt: now,
+          lastActivity: now,
+          lastMessage: 'Hello there',
+          archivedBy: ['alice']
+        })
+      );
     });
   });
 });

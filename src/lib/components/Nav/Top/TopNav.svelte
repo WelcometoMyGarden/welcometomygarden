@@ -127,8 +127,10 @@
     top: 0;
     left: 0;
     height: var(--height-nav);
-    /* z-index 0 results in the map overlapping the user dropdown nav menu on desktop */
-    z-index: 1;
+    /* z-index 0 results in the map overlapping the user dropdown nav menu on desktop
+       z-index 5 is chosen to avoid 5 levels of manual stacking below, e.g. used in ConversationCard
+     */
+    z-index: 5;
     width: 100%;
     display: flex;
     flex-direction: column;

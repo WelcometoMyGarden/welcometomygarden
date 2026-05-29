@@ -39,7 +39,10 @@
     },
     "account-page": "página de tu cuenta",
     "here": "aquí",
-    "lang-prefix": "/es"
+    "lang-prefix": "/es",
+    "cancel": "Cancelar",
+    "now": "ahora",
+    "undo": "Deshacer"
   },
   "ui": {
     "card": {
@@ -1132,10 +1135,6 @@
     "title": "Conversar",
     "title-conversation": "Conversa con {partnerName}",
     "all-conversations": "Todas las conversaciones",
-    "no-messages": {
-      "text": "Aún no tienes ningún mensaje. Selecciona un anfitrión {link} para contactarlo.",
-      "link": "en el mapa"
-    },
     "type-message": "Escribe tu mensaje...",
     "new": "nuevo",
     "notify": {
@@ -1149,7 +1148,37 @@
       "description": "Algo salió mal al enviar tu mensaje.",
       "instruction": "Si esto continúa sucediendo, copie lo que ve a continuación y péguelo en un correo electrónico a",
       "closing-line": "¡Intentaremos ayudarte lo más rápido que podamos!"
-    }
+    },
+    "messages": "Mensajes",
+    "tabs": {
+      "all": "Todos",
+      "archived": "Archivados"
+    },
+    "archive": "Archivar",
+    "unarchive": "Desarchivar",
+    "archive-conversation": "Archivar conversación",
+    "unarchive-conversation": "Desarchivar conversación",
+    "archived-one": "{name} archivado/a",
+    "unarchived-one": "{name} de vuelta en la bandeja de entrada",
+    "no-archived": {
+      "title": "No tienes mensajes archivados",
+      "detail": "Cuando archivas un mensaje, aparecerá aquí.",
+      "button": "Ver todas las conversaciones"
+    },
+    "selected": "{count} seleccionado(s)",
+    "select": "Seleccionar",
+    "deselect": "Deseleccionar",
+    "confirm-archive": {
+      "title": "¿Archivar esta conversación?",
+      "body": "Tienes un mensaje no leído de {name}. Al archivar se marcará como leído y se moverá a tu archivo.",
+      "confirm": "Archivar"
+    },
+    "no-inbox": {
+      "title": "Aún no tienes ningún mensaje",
+      "detail": "Selecciona un anfitrión en el mapa para contactarlo.",
+      "button": "Ir al mapa"
+    },
+    "open-archive": "Abrir archivo"
   },
   "map": {
     "vehicle-notice": {

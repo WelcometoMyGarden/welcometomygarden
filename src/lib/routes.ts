@@ -15,6 +15,7 @@ export const routeDescriptions = {
   AUTH_DISCOURSE: { route: '/auth/discourse-connect', requiresAuth: true },
   BECOME_MEMBER: { route: '/become-member', requiresAuth: false },
   CHAT: { route: '/chat', requiresAuth: false },
+  CHAT_ARCHIVE: { route: '/chat/archive', requiresAuth: false },
   COOKIE_POLICY: { route: '/terms/cookies', requiresAuth: false },
   FAQ: { route: '/info/faq', requiresAuth: false },
   HOME: { route: '/', requiresAuth: false },

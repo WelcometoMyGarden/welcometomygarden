@@ -81,6 +81,22 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
     return;
   }
 
+  // If the recipient had archived the chat, unarchive it so the new message surfaces
+  if (Array.isArray(chat.archivedBy) && chat.archivedBy.includes(recipientId)) {
+    try {
+      await db
+        .collection('chats')
+        .doc(chatId)
+        .update({
+          archivedBy: FieldValue.arrayRemove(recipientId)
+        });
+    } catch (e) {
+      logger.error('Could not unarchive a chat that received a new message for the recipient', {
+        chatId: chat.id
+      });
+    }
+  }
+
   const recipientEmailPreferences = recipientUserPrivateDocData.emailPreferences;
 
   // Determine whether an email should be sent,

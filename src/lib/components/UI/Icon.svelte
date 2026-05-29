@@ -10,6 +10,7 @@
     greenStroke?: boolean;
     clickable?: boolean;
     inline?: boolean;
+    rotate?: number;
     class?: string;
   };
   let {
@@ -18,6 +19,7 @@
     greenStroke = false,
     clickable = false,
     inline = false,
+    rotate,
     class: className
   }: Props = $props();
 </script>
@@ -28,6 +30,7 @@
   class:green-stroke={greenStroke}
   class:clickable
   class={className}
+  style={rotate != null ? `transform: rotate(${rotate}deg)` : undefined}
 >
   <ViteSVG {icon}></ViteSVG>
 </i>
