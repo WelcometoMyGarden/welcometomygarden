@@ -1,5 +1,6 @@
 // These are all to be explicitly inlined by Vite, since this was
 // the previous behavior with svg-inline-loader
+export { default as archiveIcon } from './archive.svg?inline';
 export { default as androidIcon } from './android-logo.svg?inline';
 export { default as appleIcon } from './apple-logo.svg?inline';
 export { default as arrowIcon } from './arrow.svg?inline';
@@ -52,6 +53,7 @@ export { default as threeDotsIcon } from './dots-three.svg?inline';
 export { default as toiletIcon } from './toilet.svg?inline';
 export { default as trainIcon } from './train.svg?inline';
 export { default as trashIcon } from './trash.svg?inline';
+export { default as unarchiveIcon } from './unarchive.svg?inline';
 export { default as uploadCloudIcon } from './upload-cloud.svg?inline';
 export { default as userIcon } from './user.svg?inline';
 export { default as waterIcon } from './water.svg?inline';

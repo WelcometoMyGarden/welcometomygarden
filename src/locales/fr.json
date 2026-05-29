@@ -40,7 +40,10 @@
     "account-page": "compte",
     "here": "ici",
     "lang-prefix": "/fr",
-    "question-mark": " ?"
+    "question-mark": " ?",
+    "cancel": "Annuler",
+    "now": "maintenant",
+    "undo": "Annuler"
   },
   "ui": {
     "card": {
@@ -1136,10 +1139,6 @@
       "empty-message": "Votre message ne peut pas être vide",
       "unverified": "Veuillez confirmer votre adresse électronique avant de commencer à discuter"
     },
-    "no-messages": {
-      "text": "Vous n'avez pas encore de messages. Sélectionnez un hôte {link} pour le contacter.",
-      "link": "sur la carte"
-    },
     "type-message": "Tapez votre message…",
     "new": "nouveau",
     "title-conversation": "Discuter avec {partnerName}",
@@ -1161,7 +1160,37 @@
         }
       },
       "title": "Consignes pour les demandes"
-    }
+    },
+    "messages": "Messages",
+    "tabs": {
+      "all": "Tous",
+      "archived": "Archivés"
+    },
+    "archive": "Archiver",
+    "unarchive": "Désarchiver",
+    "archive-conversation": "Archiver la conversation",
+    "unarchive-conversation": "Désarchiver la conversation",
+    "archived-one": "{name} archivé(e)",
+    "unarchived-one": "{name} remis(e) dans la boîte de réception",
+    "no-archived": {
+      "title": "Vous n'avez pas de messages archivés",
+      "detail": "Lorsque vous archivez un message, il apparaîtra ici.",
+      "button": "Voir toutes les conversations"
+    },
+    "selected": "{count} sélectionné(s)",
+    "select": "Sélectionner",
+    "deselect": "Désélectionner",
+    "confirm-archive": {
+      "title": "Archiver cette conversation ?",
+      "body": "Vous avez un message non lu de {name}. L'archivage le marquera comme lu et le déplacera dans votre archive.",
+      "confirm": "Archiver"
+    },
+    "no-inbox": {
+      "title": "Vous n'avez pas encore de messages",
+      "detail": "Sélectionnez un hôte sur la carte pour le contacter.",
+      "button": "Aller à la carte"
+    },
+    "open-archive": "Ouvrir les archives"
   },
   "map": {
     "vehicle-notice": {

@@ -11,7 +11,7 @@ export type FirebaseChat = {
   /**
    * Reflects whether the last message was seen (opened) by the receiving user.
    * see https://github.com/WelcometoMyGarden/welcometomygarden/issues/276#issuecomment-1407382095
-   * @since 3.2.0 (April 2023)
+   * @since April 2023
    */
   lastMessageSeen?: boolean;
   lastMessageSender?: string;
@@ -19,6 +19,12 @@ export type FirebaseChat = {
    * Array of participating uids
    */
   users: string[];
+  /**
+   * UIDs of users who have archived this chat. Undefined when no user has archived it.
+   * A user archives by adding their UID; unarchives by removing it.
+   * @since archiving feature late may -2026
+   */
+  archivedBy?: string[];
 };
 
 export type LocalChat = FirebaseChat & {

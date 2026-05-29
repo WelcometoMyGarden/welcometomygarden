@@ -46,7 +46,10 @@
     },
     "question-mark": "?",
     "here": "here",
-    "lang-prefix": ""
+    "lang-prefix": "",
+    "cancel": "Cancel",
+    "now": "now",
+    "undo": "Undo"
   },
   "ui": {
     "card": {
@@ -1154,10 +1157,6 @@
     "title": "Chat",
     "title-conversation": "Chat with {partnerName}",
     "all-conversations": "All conversations",
-    "no-messages": {
-      "text": "You don't have any messages yet. Select a host {link} to contact them.",
-      "link": "on the map"
-    },
     "type-message": "Type your message...",
     "new": "new",
     "notify": {
@@ -1188,7 +1187,37 @@
           "description": "Keep your host informed. Let them know if your plans change."
         }
       }
-    }
+    },
+    "messages": "Messages",
+    "tabs": {
+      "all": "All",
+      "archived": "Archived"
+    },
+    "archive": "Archive",
+    "unarchive": "Unarchive",
+    "archive-conversation": "Archive chat",
+    "unarchive-conversation": "Unarchive chat",
+    "archived-one": "Archived {name}",
+    "unarchived-one": "Moved {name} back to inbox",
+    "no-archived": {
+      "title": "You don't have any archived messages",
+      "detail": "When you archive a message, it will appear here.",
+      "button": "Show all conversations"
+    },
+    "selected": "{count} selected",
+    "select": "Select",
+    "deselect": "Deselect",
+    "confirm-archive": {
+      "title": "Archive this conversation?",
+      "body": "You have an unread message from {name}. Archiving will mark it as read and move it to your archive.",
+      "confirm": "Archive"
+    },
+    "no-inbox": {
+      "title": "You don't have any messages yet",
+      "detail": "Select a host on the map to contact them.",
+      "button": "Go to the map"
+    },
+    "open-archive": "Open archive"
   },
   "map": {
     "vehicle-notice": {

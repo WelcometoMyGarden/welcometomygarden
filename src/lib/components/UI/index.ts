@@ -22,3 +22,6 @@ export { default as ToggleAble } from './ToggleAble.svelte';
 export { default as LabeledRadioButton } from './LabeledRadioButton.svelte';
 export { default as Select } from './Select.svelte';
 export { default as IconButton } from './IconButtonOld.svelte';
+export { default as DropdownMenu } from './DropdownMenu.svelte';
+export { default as DropdownMenuItem } from './DropdownMenuItem.svelte';
+export { default as ChatIconButton } from './ChatIconButton.svelte';

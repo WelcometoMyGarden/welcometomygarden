@@ -11,6 +11,16 @@ import logger from '$lib/util/logger';
 export const hasInitialized = writable(false);
 export const creatingNewChat = writable(false);
 
+export const isArchivedView = writable(false);
+
+export type ArchiveUndoEntry = {
+  kind: 'archive' | 'unarchive';
+  chatId: string;
+  chatName: string;
+};
+/** Set by archive/unarchive actions so the layout can show an undo toast. */
+export const lastArchiveAction = writable<ArchiveUndoEntry | null>(null);
+
 /**
  * The new chat that is being created
  */
@@ -18,8 +28,38 @@ export const newConversation = writable<NewConversation>(null);
 
 export const chats = writable<{ [chatId: string]: LocalChat }>({});
 
+export const isChatArchivedByUser = (chat: LocalChat, userId: string): boolean =>
+  Array.isArray(chat.archivedBy) && chat.archivedBy.includes(userId);
+
+/** Chats filtered to only the current view (archived or non-archived). */
+export const visibleChats = derived(
+  [chats, user, isArchivedView],
+  ([$chats, $user, $isArchived]) => {
+    if (!$user) return {} as { [chatId: string]: LocalChat };
+    return Object.fromEntries(
+      Object.entries($chats).filter(([, chat]) => {
+        const archived = isChatArchivedByUser(chat as LocalChat, $user.id);
+        return $isArchived ? archived : !archived;
+      })
+    ) as { [chatId: string]: LocalChat };
+  }
+);
+
+/** Count of non-archived chats for the current user. */
+export const nonArchivedCount = derived([chats, user], ([$chats, $user]) => {
+  if (!$user) return 0;
+  return Object.values($chats).filter((chat) => !isChatArchivedByUser(chat, $user.id)).length;
+});
+
+/** Count of archived chats for the current user. */
+export const archivedCount = derived([chats, user], ([$chats, $user]) => {
+  if (!$user) return 0;
+  return Object.values($chats).filter((chat) => isChatArchivedByUser(chat, $user.id)).length;
+});
+
 /**
- * Is null if logged out, or the chats have not loaded yet
+ * Is null if logged out, or the chats have not loaded yet.
+ * Excludes archived chats so they don't contribute to the app badge count.
  */
 export const chatsCountWithUnseenMessages = derived(
   [chats, user, hasInitialized],
@@ -28,6 +68,7 @@ export const chatsCountWithUnseenMessages = derived(
       return null;
     }
     return Object.entries($chats).reduce((chatsWithUnseenMessages, [, chat]) => {
+      if (isChatArchivedByUser(chat, $user.id)) return chatsWithUnseenMessages;
       const hasUnseenMessage = chat.lastMessageSender != $user.id && chat.lastMessageSeen === false;
       if (hasUnseenMessage) {
         return chatsWithUnseenMessages + 1;
@@ -100,6 +141,8 @@ export const resetChatStores = () => {
   creatingNewChat.set(false);
   chats.set({});
   messages.set({});
+  isArchivedView.set(false);
+  lastArchiveAction.set(null);
 };
 
 /**

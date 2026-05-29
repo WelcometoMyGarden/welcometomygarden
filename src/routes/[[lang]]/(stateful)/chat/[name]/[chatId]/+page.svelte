@@ -6,12 +6,12 @@
   import { markChatSeen } from '$lib/api/chat';
   import { removeDeliveredNotificationsForChat } from '$lib/util/badge';
   import { user } from '$lib/stores/auth';
-  import { messages, newConversation } from '$lib/stores/chat';
-  import { Avatar, Icon } from '$lib/components/UI';
+  import { messages, newConversation, isChatArchivedByUser } from '$lib/stores/chat';
+  import { Avatar, Icon, DropdownMenu, DropdownMenuItem, ChatIconButton } from '$lib/components/UI';
   import { User } from '$lib/components/Chat';
-  import { markerIconPhosphor, tentIcon } from '$lib/images/icons';
+  import { markerIconPhosphor, tentIcon, archiveIcon, unarchiveIcon, threeDotsIcon } from '$lib/images/icons';
   import routes from '$lib/routes';
-  import { formatDate } from '$lib/util';
+  import { formatMessageTimestamp } from '$lib/util';
   import chevronRight from '$lib/images/icons/chevron-right.svg?inline';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
@@ -40,6 +40,7 @@
   import { isMobile } from '$lib/stores/ui.svelte';
   import Fragment from '$lib/components/UI/Fragment.svelte';
   import { afterNavigate } from '$app/navigation';
+  import { toggleArchiveForChat } from '../../archive-actions.svelte';
 
   /**
    * See $sharedChat for docs
@@ -61,6 +62,14 @@
     return isSending || !typedMessage || !!hint;
   });
   let autoscroll: boolean | undefined = $state(false);
+  let showActionsDropdown = $state(false);
+
+  // This state is calculated when the dropdown is clicked
+  let actionsDropdownTop = $state(0);
+  let actionsDropdownRight = $state(0);
+
+  // Whether this chat is archived by the current user
+  let isArchivedByMe = $derived(chat && $user ? isChatArchivedByUser(chat, $user.id) : false);
 
   // Scroll to bottom of message container when a new message arrives
   // only scroll down if we are already looking at the bottom
@@ -156,12 +165,33 @@
   {/if}
 </svelte:head>
 
+<DropdownMenu
+  open={showActionsDropdown}
+  onclose={() => (showActionsDropdown = false)}
+  top={actionsDropdownTop}
+  right={actionsDropdownRight}
+>
+  <DropdownMenuItem
+    onclick={() => {
+      showActionsDropdown = false;
+      toggleArchiveForChat(chat);
+    }}
+  >
+    <Icon icon={isArchivedByMe ? unarchiveIcon : archiveIcon} />
+    <span>
+      {isArchivedByMe ? $_('chat.unarchive-conversation') : $_('chat.archive-conversation')}
+    </span>
+  </DropdownMenuItem>
+</DropdownMenu>
+
 <header class="chat-header" class:mobile={isMobile()}>
   <!-- This component switches based on mobile or not -->
   <HeaderComponent name={$partner?.name ?? ''}>
     {#if isMobile()}
       <!-- Back to overview nav -->
-      <a class="back" href={$lr(routes.CHAT)}><Icon greenStroke icon={chevronRight} /></a>
+      <a class="back" href={isArchivedByMe ? $lr(routes.CHAT_ARCHIVE) : $lr(routes.CHAT)}
+        ><Icon greenStroke rotate={180} icon={chevronRight} /></a
+      >
     {/if}
     <div class="header-content">
       {#if isMobile()}
@@ -180,6 +210,25 @@
         </a>
       {/if}
     </div>
+
+    <!-- Header actions: dots menu with Archive/Unarchive (desktop + mobile) -->
+    {#if chat}
+      <div class="head-actions">
+        <ChatIconButton
+          icon={threeDotsIcon}
+          variant="header"
+          open={showActionsDropdown}
+          ariaLabel="More options"
+          onclick={(e: MouseEvent) => {
+            const btn = e.currentTarget as HTMLElement;
+            const r = btn.getBoundingClientRect();
+            actionsDropdownTop = r.bottom + 4;
+            actionsDropdownRight = window.innerWidth - r.right;
+            showActionsDropdown = true;
+          }}
+        />
+      </div>
+    {/if}
   </HeaderComponent>
 </header>
 
@@ -198,7 +247,7 @@
             <p class="message-text notranslate">{normalizeWhiteSpace(message.content)}</p>
           </div>
           <div class="timestamp">
-            {formatDate(message.createdAt.seconds * 1000)}
+            {formatMessageTimestamp(message.createdAt.seconds * 1000)}
           </div>
         </div>
       {/each}
@@ -285,7 +334,6 @@
     /* The 500px is to constrain the max-width on desktop */
     max-width: min(80%, 500px);
     word-break: break-word;
-
     align-items: flex-start;
   }
 
@@ -310,7 +358,6 @@
        but still respect actual line breaks. */
     white-space: pre-wrap;
     padding: 1.2rem;
-
     border-radius: 1rem 1rem 1rem 0rem;
     margin-left: 2rem;
     margin-right: 0rem;
@@ -328,7 +375,6 @@
     color: var(--color-darker-gray);
     font-size: 1.2rem;
     padding-top: 0.2rem;
-
     margin-left: calc(5rem + 2rem);
     margin-right: 0;
     align-self: flex-start;
@@ -437,7 +483,8 @@
   }
 
   header:not(.mobile) {
-    padding: 1.5rem 1rem;
+    padding: 1.5rem 5rem 1.5rem 1rem;
+    position: relative;
     box-shadow: 0px 5px 3px -3px rgba(143, 142, 142, 0.1);
   }
 
@@ -468,16 +515,20 @@
     transform: translateY(1px);
     display: inline-block;
   }
+
   .garden-link :global(i svg),
   .country-name :global(i svg) {
     fill: var(--color-green-2);
   }
+
   .garden-link :global(i) {
     margin-right: 6px;
   }
+
   .country-name :global(i) {
     margin-right: 3px;
   }
+
   .send {
     width: 6rem;
     padding: 1.7rem;
@@ -485,6 +536,17 @@
 
   .message-wrapper :global(.notification-prompt .prompt) {
     margin-bottom: 0;
+  }
+
+  /* ── Header actions ─────────────────────────────────────────── */
+  .head-actions {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
   }
 
   @media (min-width: 701px) and (max-width: 850px) {
@@ -505,9 +567,7 @@
 
     .message-text {
       padding: 1rem;
-
       margin-left: 1rem;
-      padding: 1rem;
     }
 
     .message.by-user .message-text {
@@ -530,10 +590,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    .back :global(i) {
-      transform: rotate(180deg);
     }
 
     /* Setting the padding here rather than on the parent ensures

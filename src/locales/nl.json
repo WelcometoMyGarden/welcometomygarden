@@ -37,7 +37,10 @@
     },
     "account-page": "accountpagina",
     "here": "hier",
-    "lang-prefix": "/nl"
+    "lang-prefix": "/nl",
+    "cancel": "Annuleren",
+    "now": "nu",
+    "undo": "Ongedaan maken"
   },
   "ui": {
     "card": {
@@ -773,10 +776,6 @@
     "title": "Chat",
     "title-conversation": "Chat met {partnerName}",
     "all-conversations": "Alle gesprekken",
-    "no-messages": {
-      "text": "Je hebt nog geen berichten. Selecteer een host {link} om contact met ze op te nemen.",
-      "link": "op de kaart"
-    },
     "type-message": "Typ jouw bericht...",
     "new": "nieuw",
     "notify": {
@@ -807,7 +806,37 @@
         }
       },
       "title": "Richtlijnen voor verzoeken"
-    }
+    },
+    "messages": "Berichten",
+    "tabs": {
+      "all": "Alle",
+      "archived": "Gearchiveerd"
+    },
+    "archive": "Archiveren",
+    "unarchive": "Uit archief halen",
+    "archive-conversation": "Chat archiveren",
+    "unarchive-conversation": "Chat uit archief halen",
+    "archived-one": "{name} gearchiveerd",
+    "unarchived-one": "{name} terug naar inbox",
+    "no-archived": {
+      "title": "Je hebt geen gearchiveerde berichten",
+      "detail": "Wanneer je een bericht archiveert, verschijnt het hier.",
+      "button": "Alle gesprekken tonen"
+    },
+    "selected": "{count} geselecteerd",
+    "select": "Selecteren",
+    "deselect": "Deselecteren",
+    "confirm-archive": {
+      "title": "Dit gesprek archiveren?",
+      "body": "Je hebt een ongelezen bericht van {name}. Archiveren markeert het als gelezen en verplaatst het naar je archief.",
+      "confirm": "Archiveer"
+    },
+    "no-inbox": {
+      "title": "Je hebt nog geen berichten",
+      "detail": "Selecteer een host op de kaart om contact met ze op te nemen.",
+      "button": "Naar de kaart"
+    },
+    "open-archive": "Archief openen"
   },
   "map": {
     "vehicle-notice": {
