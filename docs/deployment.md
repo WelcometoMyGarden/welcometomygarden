@@ -19,6 +19,8 @@ Both `wtmg-production` and `wtmg-dev` have a target named `beta`.
 
 `wtmg-production` has a target `production` that is only used for production merges (see [firebase-hosting-merge](../.github/workflows/firebase-hosting-merge.yml)).
 
+The `production` target is not used in the `wtmg-dev` (see [`.firebaserc`](../.firebaserc)). This might result in the failure of some `firebase` commands that try to deploy to all targets by default. This is why the target is explicitly mentioned in some of the following commands.
+
 **Cache control headers**
 
 We modify our cache-control headers using Firebase Hosting configuration (see https://firebase.google.com/docs/hosting/manage-cache#set_cache-control).
@@ -31,13 +33,19 @@ To set caching rules for our pages: since we use [`cleanUrls`](https://firebase.
 
 The steps to deploy manually follow [the Firebase guide](https://firebase.google.com/docs/hosting/test-preview-deploy#deploy-project-directory-to-live) and [example commands for handling targets & channels](https://firebase.google.com/docs/hosting/multisites#cli-commands-with-deploy-targets), in accordance with our configruation.
 
-**Note** that the static site will be built with `.env.*[.local]` environment files available in the root. **These may have been modified for local development purposes.** Ensure they are appropriate for live production builds before proceeding.
+**Note** that the static site will be built with `.env.*[.local]` environment files available in the root. **These may have been modified for local development purposes.** Ensure they are appropriate for your target environment before proceeding.
 
 Some variables required for the Github CI environment are not required locally, for example, those exclusively used to set up the source (`prepare-source`).
 
 Run the applicable command from the root:
 
 ```sh
+# For a staging preview channel deploy
+yarn build:staging
+# The expires param is optional, the max is 30d, the default is 7d (2w doesn't work for some reason, 14d does)
+# --only beta is important, otherwise it will try to deploy to prod-dummy too which does not exist
+firebase --project staging hosting:channel:deploy new-awesome-feature --only beta [--expires 7d]
+
 # For staging
 yarn build:staging
 firebase --project staging deploy --only hosting:beta
