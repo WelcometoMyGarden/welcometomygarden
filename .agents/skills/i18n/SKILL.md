@@ -32,7 +32,7 @@ The 5 standard locales are: `en`, `nl`, `de`, `fr`, `es`.
 ## Key rules
 
 1. **Always use the scripts in `scripts/`.** Do not edit the JSON files by hand or with the Edit tool — use the scripts. They preserve the file's `indent=2` formatting, UTF-8 (non-ASCII) characters, and trailing newline, so diffs stay clean.
-2. **Edit all locales together.** When adding or editing a key, update all 5 locale files. **Generate the translations yourself** — you don't need to ask the user for them. Only ask if the user has told you about a specific translation source/process to follow.
+2. **Edit all locales together.** When adding or editing a key, update all 5 locale files. **Generate the translations yourself** — you don't need to ask the user for them. Only ask if the user has told you about a specific translation source/process to follow. **Follow translation guidelines** in `guidelines.md`.
 3. **English is the source of truth.** When checking for missing keys, compare all locales against `en.json`.
 
 ## Locating keys in code
