@@ -19,6 +19,7 @@
   import NotificationPrompt from './NotificationPrompt.svelte';
   import MembershipModal from '$lib/components/Membership/MembershipModal.svelte';
   import ChatGuidelines from './ChatGuidelines.svelte';
+  import BackButton from '../../BackButton.svelte';
   import { countryNames } from '$lib/stores/countryNames';
   import { lr } from '$lib/util/translation-helpers';
   import { cleanupMessageListeners, updateMessageListeners } from './_chat-loading.svelte';
@@ -189,9 +190,10 @@
   <HeaderComponent name={$partner?.name ?? ''}>
     {#if isMobile()}
       <!-- Back to overview nav -->
-      <a class="back" href={isArchivedByMe ? $lr(routes.CHAT_ARCHIVE) : $lr(routes.CHAT)}
-        ><Icon greenStroke rotate={180} icon={chevronRight} /></a
-      >
+      <BackButton
+        href={isArchivedByMe ? $lr(routes.CHAT_ARCHIVE) : $lr(routes.CHAT)}
+        ariaLabel="Back to conversations"
+      />
     {/if}
     <div class="header-content">
       {#if isMobile()}
@@ -580,16 +582,6 @@
 
     .message.by-user .timestamp {
       margin-right: 4rem;
-    }
-
-    .back {
-      height: 3rem;
-      width: 3rem;
-      left: 2.5rem;
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     /* Setting the padding here rather than on the parent ensures

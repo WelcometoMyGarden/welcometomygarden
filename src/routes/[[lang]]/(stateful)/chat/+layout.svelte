@@ -1,7 +1,7 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { fly } from 'svelte/transition';
-  import { linear } from 'svelte/easing';
+  import { fly, fade } from 'svelte/transition';
+  import { linear, cubicOut } from 'svelte/easing';
   import { flip } from 'svelte/animate';
   import { goto } from '$lib/util/navigate';
   import { afterNavigate } from '$app/navigation';
@@ -25,10 +25,10 @@
   import { isConversationSeen, toggleArchiveForChat } from './archive-actions.svelte';
   import ConversationCard from '$lib/components/Chat/ConversationCard.svelte';
   import EmptyChatState from './EmptyChatState.svelte';
+  import BackButton from './BackButton.svelte';
   import ChatToast from '$lib/components/Chat/ChatToast.svelte';
-  import { Progress, Icon, ChatIconButton } from '$lib/components/UI';
-  import { archiveIcon } from '$lib/images/icons';
-  import chevronRight from '$lib/images/icons/chevron-right.svg?inline';
+  import { Progress, ChatIconButton } from '$lib/components/UI';
+  import { archiveIcon, chatIcon } from '$lib/images/icons';
   import { onMount, tick } from 'svelte';
   import { checkAndHandleUnverified } from '$lib/api/auth';
   import createSlug from '$lib/util/createSlug';
@@ -42,6 +42,8 @@
   import { lr } from '$lib/util/translation-helpers';
   import { isMobile } from '$lib/stores/ui.svelte';
   import logger from '$lib/util/logger';
+  import { wait } from '$lib/util/timeout';
+  import { EMPTY_FADE_DURATION } from './_shared';
 
   interface Props {
     children?: import('svelte').Snippet;
@@ -52,16 +54,63 @@
   // Card leaving the list: slide out to the left while fading.
   const CARD_OUT_DURATION = 300;
 
-  // When switching between the "all" and "archived" lists, the cards from the
-  // previous view are removed from the list. We don't want their outro to play
-  // in that case — only genuine archive/unarchive actions should animate.
+  // How long the empty state takes to fade out. Keep in sync with the fade
+  // duration in EmptyChatState.svelte — a card replacing the empty state waits
+  // this long before revealing itself, so the two never overlap.
+
+  // Reveal a card by sliding it open while fading in. Used only when a card
+  // replaces the empty state: passing duration 0 makes it a no-op so ordinary
+  // card insertions (new messages, view switches) are unaffected.
+  const revealCard = (node: Element, { delay = 0, duration = 0 } = {}) => {
+    if (!duration) return { duration: 0 };
+    const style = getComputedStyle(node);
+    const height = parseFloat(style.height);
+    return {
+      delay,
+      duration,
+      easing: cubicOut,
+      css: (t: number) => `overflow: hidden; opacity: ${t}; height: ${t * height}px;`
+    };
+  };
+
+  // Switching between the "all" and "archived" lists fades the whole list out,
+  // swaps the underlying data while it's invisible, then fades the new list
+  // back in. This keeps the two views from ever being in the DOM at the same
+  // time, which would make the list (and its header) visibly jump.
+  const VIEW_FADE_DURATION = 150;
+
+  // When switching views, the previous view's cards are removed in bulk. We
+  // don't want their individual outro to play in that case — only genuine
+  // archive/unarchive actions should animate per-card.
   let suppressCardAnimations = $state(false);
+  // Drives the fade of the whole list while switching views.
+  let viewVisible = $state(true);
+  // Latest-switch-wins guard, so rapid toggles don't fight each other.
+  // Switches executed while older switches are in progress cancel the effects of the older ones.
+  let switchToken = 0;
+  let pendingArchivedView: boolean | null = null;
+
   const switchArchivedView = async (value: boolean) => {
-    if ($isArchivedView === value) return;
+    // Compare against the in-flight target (if any), since `isArchivedView` is
+    // only updated halfway through the fade.
+    if ((pendingArchivedView ?? $isArchivedView) === value) return;
+    pendingArchivedView = value;
+    const token = ++switchToken;
     suppressCardAnimations = true;
+    // Fade the current list out.
+    viewVisible = false;
+    await wait(VIEW_FADE_DURATION);
+    if (token !== switchToken) return;
+    // Swap the data while nothing is visible, then fade the new list in.
     isArchivedView.set(value);
+    if (token !== switchToken) return;
+    viewVisible = true;
+    // tick: wait until the view has rendered before unsupressing
+    // the inner card animations, otherwise they still play.
     await tick();
+    if (token !== switchToken) return;
     suppressCardAnimations = false;
+    pendingArchivedView = null;
   };
 
   onMount(async () => {
@@ -200,6 +249,23 @@
       visibleRoute($page.route.id ?? '') === routes.CHAT_ARCHIVE
   );
 
+  // Track whether the list just went from empty → populated (e.g. a chat is
+  // archived/unarchived elsewhere while we're looking at the empty state). In
+  // that case a card should hold off until the empty state has faded out,
+  // instead of popping in alongside it.
+  let cameFromEmpty = $state(false);
+  let prevConversationsEmpty: boolean | null = null;
+  $effect.pre(() => {
+    // Only start tracking once chats have loaded, so the initial render of an
+    // already-populated list doesn't count as "coming from empty".
+    if (!$hasInitialized) return;
+    const empty = conversations.length === 0;
+    cameFromEmpty = prevConversationsEmpty === true && !empty;
+    prevConversationsEmpty = empty;
+  });
+  // Don't delay during view switches — the whole list fades there instead.
+  let delayCardIntro = $derived(cameFromEmpty && !suppressCardAnimations);
+
   // Initialise from the current route (e.g. deep-link directly to /chat/archive)
   isArchivedView.set(visibleRoute($page.route.id ?? '') === routes.CHAT_ARCHIVE);
 
@@ -269,85 +335,100 @@
         in:fly={{ x: '-100%', duration: 400 }}
         class:is-mobile={isMobile()}
       >
-        <!-- List header -->
-        {#if !$isArchivedView}
-          <div class="listnav">
-            <h2 class="listnav-title">{$_('chat.all-conversations')}</h2>
-            <ChatIconButton
-              icon={archiveIcon}
-              variant="header"
-              ariaLabel="{$_('chat.open-archive')} ({$archivedCount})"
-              title={$_('chat.tabs.archived')}
-              onclick={() => goto($lr(routes.CHAT_ARCHIVE))}
-            />
-          </div>
-        {:else}
-          <div class="listnav archive">
-            <button
-              class="listnav-back"
-              onclick={() => goto($lr(routes.CHAT))}
-              aria-label="Back to All conversations"
-              title="Back"
-            >
-              <Icon greenStroke rotate={180} icon={chevronRight} />
-            </button>
-            <h2 class="listnav-title center">{$_('chat.tabs.archived')}</h2>
-          </div>
-        {/if}
+        {#if viewVisible}
+          <div class="view" transition:fade={{ duration: VIEW_FADE_DURATION }}>
+            <!-- List header -->
+            {#if !$isArchivedView}
+              <div class="listnav">
+                <h2 class="listnav-title">{$_('chat.all-conversations')}</h2>
+                <ChatIconButton
+                  icon={archiveIcon}
+                  variant="header"
+                  ariaLabel="{$_('chat.open-archive')} ({$archivedCount})"
+                  title={$_('chat.tabs.archived')}
+                  onclick={() => goto($lr(routes.CHAT_ARCHIVE))}
+                />
+              </div>
+            {:else}
+              <div class="listnav archive">
+                <BackButton
+                  onclick={() => goto($lr(routes.CHAT))}
+                  ariaLabel="Back to All conversations"
+                  title="Back"
+                />
+                <h2 class="listnav-title center">{$_('chat.tabs.archived')}</h2>
+              </div>
+            {/if}
 
-        <!-- Conversation rows -->
-        {#if $newConversation && !$isArchivedView}
-          <article>
-            <ConversationCard
-              onclick={() => selectConversation('new')}
-              recipient={$newConversation.name}
-              lastMessage={''}
-              selected={$page.params.chatId === 'new'}
-            />
-          </article>
-        {/if}
+            <!-- Conversation rows -->
+            {#if $newConversation && !$isArchivedView}
+              <article>
+                <ConversationCard
+                  onclick={() => selectConversation('new')}
+                  recipient={$newConversation.name}
+                  lastMessage={''}
+                  selected={$page.params.chatId === 'new'}
+                />
+              </article>
+            {/if}
 
-        {#if conversations.length === 0 && !($newConversation && !$isArchivedView)}
-          {#if $isArchivedView}
-            <EmptyChatState
-              title={$_('chat.no-archived.title')}
-              detail={$_('chat.no-archived.detail')}
-              actionLabel={$_('chat.no-archived.button')}
-              onaction={() => goto($lr(routes.CHAT))}
-            />
-          {:else}
-            <EmptyChatState
-              title={$_('chat.no-inbox.title')}
-              detail={$_('chat.no-inbox.detail')}
-              actionLabel={$_('chat.no-inbox.button')}
-              onaction={() => goto($lr(routes.MAP))}
-            />
-          {/if}
-        {:else}
-          {#each conversations as conversation (conversation.id)}
-            <article
-              animate:flip={{
-                duration: 400,
-                delay: suppressCardAnimations ? 0 : CARD_OUT_DURATION
-              }}
-              out:fly={{
-                x: '-100%',
-                duration: suppressCardAnimations ? 0 : CARD_OUT_DURATION,
-                easing: linear
-              }}
-            >
-              <ConversationCard
-                recipient={$chats[conversation.id].partner.firstName}
-                lastMessage={conversation.lastMessage}
-                lastActivityMs={conversation.lastActivity.toMillis()}
-                selected={selectedConversation && selectedConversation.id === conversation.id}
-                seen={isConversationSeen(conversation)}
-                archived={$user ? isChatArchivedByUser(conversation, $user.id) : false}
-                onclick={() => selectConversation(conversation.id)}
-                onarchive={() => toggleArchiveForChat(conversation)}
-              />
-            </article>
-          {/each}
+            {#if conversations.length === 0 && !($newConversation && !$isArchivedView)}
+              {#if $isArchivedView}
+                <EmptyChatState
+                  title={$_('chat.no-archived.title')}
+                  detail={$_('chat.no-archived.detail')}
+                  icon={archiveIcon}
+                  actionLabel={$_('chat.no-archived.button')}
+                  onaction={() => goto($lr(routes.CHAT))}
+                />
+              {:else if $archivedCount > 0}
+                <!-- No active conversations, but some are archived -->
+                <EmptyChatState
+                  title={$_('chat.no-active.title')}
+                  detail={$_('chat.no-active.detail')}
+                  icon={chatIcon}
+                />
+              {:else}
+                <EmptyChatState
+                  title={$_('chat.no-inbox.title')}
+                  detail={$_('chat.no-inbox.detail')}
+                  icon={chatIcon}
+                  actionLabel={$_('chat.no-inbox.button')}
+                  onaction={() => goto($lr(routes.MAP))}
+                />
+              {/if}
+            {:else}
+              {#each conversations as conversation (conversation.id)}
+                <article
+                  animate:flip={{
+                    duration: 400,
+                    delay: suppressCardAnimations ? 0 : CARD_OUT_DURATION
+                  }}
+                  in:revealCard|global={{
+                    duration: delayCardIntro ? EMPTY_FADE_DURATION : 0,
+                    // Wait until the empty state has faded out before inserting
+                    delay: delayCardIntro ? EMPTY_FADE_DURATION : 0
+                  }}
+                  out:fly={{
+                    x: '-100%',
+                    duration: suppressCardAnimations ? 0 : CARD_OUT_DURATION,
+                    easing: linear
+                  }}
+                >
+                  <ConversationCard
+                    recipient={$chats[conversation.id].partner.firstName}
+                    lastMessage={conversation.lastMessage}
+                    lastActivityMs={conversation.lastActivity.toMillis()}
+                    selected={selectedConversation && selectedConversation.id === conversation.id}
+                    seen={isConversationSeen(conversation)}
+                    archived={$user ? isChatArchivedByUser(conversation, $user.id) : false}
+                    onclick={() => selectConversation(conversation.id)}
+                    onarchive={() => toggleArchiveForChat(conversation)}
+                  />
+                </article>
+              {/each}
+            {/if}
+          </div>
         {/if}
       </section>
     {/if}
@@ -365,7 +446,7 @@
         message={$lastArchiveAction.kind === 'archive'
           ? $_('chat.archived-one', { values: { name: $lastArchiveAction.chatName } })
           : $_('chat.unarchived-one', { values: { name: $lastArchiveAction.chatName } })}
-        undoLabel={$_('chat.undo')}
+        undoLabel={$_('generics.undo')}
         onundo={undoLast}
       />
     {/if}
@@ -406,6 +487,13 @@
     box-shadow: 0px 0px 33px rgba(0, 0, 0, 0.1);
   }
 
+  /* Wraps the header + rows so the whole list fades as one unit when switching
+     between the all/archived views. */
+  .view {
+    display: flex;
+    flex-direction: column;
+  }
+
   article {
     width: 100%;
   }
@@ -422,13 +510,13 @@
   .listnav {
     display: flex;
     align-items: center;
-    padding: 2.4rem 1.8rem 1.2rem 2.4rem;
+    /* Note: the content is given a height from the archive view icon */
+    padding: 2.2rem 1.9rem 2.2rem 3rem;
     flex-shrink: 0;
-    border-bottom: 1px solid var(--color-gray);
   }
 
   .listnav.archive {
-    padding: 2.4rem 2.4rem 1.2rem 1rem;
+    padding: 2.9rem 3rem;
     gap: 0.4rem;
   }
 
@@ -442,27 +530,6 @@
 
   .listnav-title.center {
     text-align: center;
-  }
-
-  .listnav-back {
-    width: 3.6rem;
-    height: 3.9rem;
-    /* Compensate for the non-centered internal svg, along with the height above */
-    padding: 5px 5px 5px 0;
-    border-radius: 0.6rem;
-    border: none;
-    background: none;
-    cursor: pointer;
-    color: var(--color-green);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 150ms;
-    flex-shrink: 0;
-  }
-
-  .listnav-back:hover {
-    background: var(--color-gray);
   }
 
   /* ── Responsive ────────────────────────────────────────────────── */

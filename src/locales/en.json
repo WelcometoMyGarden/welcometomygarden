@@ -1198,7 +1198,7 @@
     "archive-conversation": "Archive chat",
     "unarchive-conversation": "Unarchive chat",
     "archived-one": "Archived {name}",
-    "unarchived-one": "Moved {name} back to inbox",
+    "unarchived-one": "Unarchived {name}",
     "no-archived": {
       "title": "You don't have any archived messages",
       "detail": "When you archive a message, it will appear here.",
@@ -1217,7 +1217,11 @@
       "detail": "Select a host on the map to contact them.",
       "button": "Go to the map"
     },
-    "open-archive": "Open archive"
+    "open-archive": "Open archive",
+    "no-active": {
+      "title": "No active conversations",
+      "detail": "When you receive a message, it will appear here. Or select a host on the map to contact them."
+    }
   },
   "map": {
     "vehicle-notice": {

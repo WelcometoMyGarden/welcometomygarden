@@ -12,3 +12,5 @@ export const timeout = async <T>(promise: Promise<T>, time = 4000, spec?: string
     promise
   ]) as Promise<T>;
 };
+
+export const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

@@ -1,20 +1,25 @@
 <script lang="ts">
+  import { fade } from 'svelte/transition';
   import { Icon } from '$lib/components/UI';
-  import { archiveIcon } from '$lib/images/icons';
+  import { EMPTY_FADE_DURATION } from './_shared';
 
   interface Props {
     title: string;
     detail: string;
+    icon: string | Object[];
     actionLabel?: string;
     onaction?: () => void;
   }
 
-  let { title, detail, actionLabel, onaction }: Props = $props();
+  let { title, detail, actionLabel, icon, onaction }: Props = $props();
 </script>
 
-<div class="empty">
+<!-- This needs a global transition, since the insertion/removal of this component
+ is controlled by an ancestral `conversations.length === 0` condition, not by an
+ immediately containing $isArchivedView block -->
+<div class="empty" transition:fade|global={{ duration: EMPTY_FADE_DURATION }}>
   <span class="empty-icon" class:faded={!actionLabel}>
-    <Icon icon={archiveIcon} />
+    <Icon {icon} />
   </span>
   <p class="empty-title">{title}</p>
   <p class="empty-detail">{detail}</p>
