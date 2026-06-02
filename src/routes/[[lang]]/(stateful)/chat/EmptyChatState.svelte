@@ -9,16 +9,25 @@
     icon: string | Object[];
     actionLabel?: string;
     onaction?: () => void;
+    /** Fade duration (ms). The parent shortens this during a view switch. */
+    duration?: number;
   }
 
-  let { title, detail, actionLabel, icon, onaction }: Props = $props();
+  let {
+    title,
+    detail,
+    actionLabel,
+    icon,
+    onaction,
+    duration = EMPTY_FADE_DURATION
+  }: Props = $props();
 </script>
 
 <!-- This needs a global transition, since the insertion/removal of this component
  is controlled by an ancestral `conversations.length === 0` condition, not by an
  immediately containing $isArchivedView block -->
-<div class="empty" transition:fade|global={{ duration: EMPTY_FADE_DURATION }}>
-  <span class="empty-icon" class:faded={!actionLabel}>
+<div class="empty" transition:fade|global={{ duration }}>
+  <span class="empty-icon">
     <Icon {icon} />
   </span>
   <p class="empty-title">{title}</p>
@@ -47,15 +56,6 @@
   .empty-icon :global(i) {
     width: 4rem;
     height: 4rem;
-  }
-
-  .empty-icon.faded {
-    opacity: 0.5;
-  }
-
-  .empty-icon.faded :global(i) {
-    width: 3rem;
-    height: 3rem;
   }
 
   .empty-title {

@@ -187,16 +187,24 @@ export const markChatSeen = async (chatId: string) => {
   });
 };
 
-export const archiveChat = async (chatId: string, chatName: string) => {
+/**
+ * @param recordForUndo whether to record this action so an undo toast is shown.
+ *   Pass `false` when this call is itself an undo, to avoid a toast loop.
+ */
+export const archiveChat = async (chatId: string, chatName: string, recordForUndo = true) => {
   const chatRef = doc(db(), CHATS, chatId) as DocumentReference<FirebaseChat>;
   await updateDoc(chatRef, { archivedBy: arrayUnion(getUser().id) });
-  lastArchiveAction.set({ kind: 'archive', chatId, chatName });
+  if (recordForUndo) lastArchiveAction.set({ kind: 'archive', chatId, chatName });
 };
 
-export const unarchiveChat = async (chatId: string, chatName: string) => {
+/**
+ * @param recordForUndo whether to record this action so an undo toast is shown.
+ *   Pass `false` when this call is itself an undo, to avoid a toast loop.
+ */
+export const unarchiveChat = async (chatId: string, chatName: string, recordForUndo = true) => {
   const chatRef = doc(db(), CHATS, chatId) as DocumentReference<FirebaseChat>;
   await updateDoc(chatRef, { archivedBy: arrayRemove(getUser().id) });
-  lastArchiveAction.set({ kind: 'unarchive', chatId, chatName });
+  if (recordForUndo) lastArchiveAction.set({ kind: 'unarchive', chatId, chatName });
 };
 
 /**

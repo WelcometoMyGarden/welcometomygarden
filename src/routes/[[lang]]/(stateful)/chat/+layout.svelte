@@ -266,6 +266,14 @@
   // Don't delay during view switches — the whole list fades there instead.
   let delayCardIntro = $derived(cameFromEmpty && !suppressCardAnimations);
 
+  // During a view switch the empty state fades in lockstep with the list
+  // wrapper (VIEW_FADE_DURATION); otherwise it uses its own, slower fade so a
+  // card appearing/disappearing within the current view stays in sync with the
+  // delayed card reveal (EMPTY_FADE_DURATION).
+  let emptyFadeDuration = $derived(
+    suppressCardAnimations ? VIEW_FADE_DURATION : EMPTY_FADE_DURATION
+  );
+
   // Initialise from the current route (e.g. deep-link directly to /chat/archive)
   isArchivedView.set(visibleRoute($page.route.id ?? '') === routes.CHAT_ARCHIVE);
 
@@ -316,10 +324,12 @@
       toastTimer = null;
     }
     lastArchiveAction.set(null);
+    // Don't record the reverse action for undo — otherwise undoing spawns
+    // another undo toast.
     if (action.kind === 'archive') {
-      await unarchiveChat(action.chatId, action.chatName);
+      await unarchiveChat(action.chatId, action.chatName, false);
     } else {
-      await archiveChat(action.chatId, action.chatName);
+      await archiveChat(action.chatId, action.chatName, false);
     }
   };
 </script>
@@ -380,13 +390,17 @@
                   icon={archiveIcon}
                   actionLabel={$_('chat.no-archived.button')}
                   onaction={() => goto($lr(routes.CHAT))}
+                  duration={emptyFadeDuration}
                 />
               {:else if $archivedCount > 0}
                 <!-- No active conversations, but some are archived -->
                 <EmptyChatState
                   title={$_('chat.no-active.title')}
                   detail={$_('chat.no-active.detail')}
+                  actionLabel={$_('chat.no-inbox.button')}
+                  onaction={() => goto($lr(routes.MAP))}
                   icon={chatIcon}
+                  duration={emptyFadeDuration}
                 />
               {:else}
                 <EmptyChatState
@@ -395,6 +409,7 @@
                   icon={chatIcon}
                   actionLabel={$_('chat.no-inbox.button')}
                   onaction={() => goto($lr(routes.MAP))}
+                  duration={emptyFadeDuration}
                 />
               {/if}
             {:else}
