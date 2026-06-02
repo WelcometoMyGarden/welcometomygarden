@@ -1170,8 +1170,8 @@
     "unarchive": "Désarchiver",
     "archive-conversation": "Archiver la conversation",
     "unarchive-conversation": "Désarchiver la conversation",
-    "archived-one": "{name} archivé(e)",
-    "unarchived-one": "{name} remis(e) dans la boîte de réception",
+    "archived-one": "{name} archivé·e",
+    "unarchived-one": "{name} désarchivé·e",
     "no-archived": {
       "title": "Vous n'avez pas de messages archivés",
       "detail": "Lorsque vous archivez un message, il apparaîtra ici.",
@@ -1190,7 +1190,11 @@
       "detail": "Sélectionnez un hôte sur la carte pour le contacter.",
       "button": "Aller à la carte"
     },
-    "open-archive": "Ouvrir les archives"
+    "open-archive": "Ouvrir les archives",
+    "no-active": {
+      "title": "Aucune conversation active",
+      "detail": "Lorsque vous recevez un message, il apparaîtra ici. Ou sélectionnez un hôte sur la carte pour le contacter."
+    }
   },
   "map": {
     "vehicle-notice": {

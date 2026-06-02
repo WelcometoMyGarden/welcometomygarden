@@ -1159,7 +1159,7 @@
     "archive-conversation": "Archivar conversación",
     "unarchive-conversation": "Desarchivar conversación",
     "archived-one": "{name} archivado/a",
-    "unarchived-one": "{name} de vuelta en la bandeja de entrada",
+    "unarchived-one": "{name} desarchivado/a",
     "no-archived": {
       "title": "No tienes mensajes archivados",
       "detail": "Cuando archivas un mensaje, aparecerá aquí.",
@@ -1178,7 +1178,11 @@
       "detail": "Selecciona un anfitrión en el mapa para contactarlo.",
       "button": "Ir al mapa"
     },
-    "open-archive": "Abrir archivo"
+    "open-archive": "Abrir archivo",
+    "no-active": {
+      "title": "No hay conversaciones activas",
+      "detail": "Cuando recibas un mensaje, aparecerá aquí. O selecciona un anfitrión en el mapa para contactarlo."
+    }
   },
   "map": {
     "vehicle-notice": {

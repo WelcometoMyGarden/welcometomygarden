@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { clickOutside } from '$lib/attachments';
   import type { Snippet } from 'svelte';
 
   interface Props {
@@ -12,20 +13,19 @@
 </script>
 
 {#if open}
-  <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
-  <div class="scrim" onclick={onclose}></div>
-  <div class="menu" role="menu" style:top="{top}px" style:right="{right}px">
+  <div
+    class="menu"
+    role="menu"
+    style:top="{top}px"
+    style:right="{right}px"
+    {@attach clickOutside}
+    onclickoutside={() => onclose()}
+  >
     {@render children?.()}
   </div>
 {/if}
 
 <style>
-  .scrim {
-    position: fixed;
-    inset: 0;
-    z-index: 199;
-  }
-
   .menu {
     position: fixed;
     z-index: 200;

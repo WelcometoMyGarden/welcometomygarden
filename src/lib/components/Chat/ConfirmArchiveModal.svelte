@@ -19,11 +19,11 @@
   const performConfirmedArchive = async () => {
     const chat = chatToConfirm;
     if (!chat) return;
-    await archiveChat(chat.id, chat.partner.firstName);
     if (!isConversationSeen(chat)) {
       await markChatSeen(chat.id);
     }
     await goto($lr(routes.CHAT));
+    await archiveChat(chat.id, chat.partner.firstName);
     close();
   };
 

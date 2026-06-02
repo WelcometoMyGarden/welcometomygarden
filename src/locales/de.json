@@ -1158,7 +1158,7 @@
     "archive-conversation": "Chat archivieren",
     "unarchive-conversation": "Chat aus Archiv holen",
     "archived-one": "{name} archiviert",
-    "unarchived-one": "{name} zurück in den Posteingang",
+    "unarchived-one": "{name} aus dem Archiv geholt",
     "no-archived": {
       "title": "Du hast keine archivierten Nachrichten",
       "detail": "Wenn du eine Nachricht archivierst, erscheint sie hier.",
@@ -1177,7 +1177,11 @@
       "detail": "Wählen Sie einen Gastgeber auf der Karte, um ihn zu kontaktieren.",
       "button": "Zur Karte"
     },
-    "open-archive": "Archiv öffnen"
+    "open-archive": "Archiv öffnen",
+    "no-active": {
+      "title": "Keine aktiven Gespräche",
+      "detail": "Wenn Sie eine Nachricht erhalten, erscheint sie hier. Oder wählen Sie einen Gastgeber auf der Karte, um ihn zu kontaktieren."
+    }
   },
   "map": {
     "vehicle-notice": {

@@ -817,7 +817,7 @@
     "archive-conversation": "Chat archiveren",
     "unarchive-conversation": "Chat uit archief halen",
     "archived-one": "{name} gearchiveerd",
-    "unarchived-one": "{name} terug naar inbox",
+    "unarchived-one": "{name} gedearchiveerd",
     "no-archived": {
       "title": "Je hebt geen gearchiveerde berichten",
       "detail": "Wanneer je een bericht archiveert, verschijnt het hier.",
@@ -836,7 +836,11 @@
       "detail": "Selecteer een host op de kaart om contact met ze op te nemen.",
       "button": "Naar de kaart"
     },
-    "open-archive": "Archief openen"
+    "open-archive": "Archief openen",
+    "no-active": {
+      "title": "Geen actieve gesprekken",
+      "detail": "Wanneer je een bericht ontvangt, verschijnt het hier. Of selecteer een host op de kaart om contact met ze op te nemen."
+    }
   },
   "map": {
     "vehicle-notice": {
