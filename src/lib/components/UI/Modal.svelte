@@ -103,6 +103,32 @@
     if (e.key === 'Escape' || e.keyCode === 27) close();
   };
 
+  // Swipe-down-to-close for bottom sheet modals
+  let swipeTouchStartY = $state(0);
+  let swipeDragOffset = $state(0);
+  let isSwiping = $state(false);
+
+  const handleDragTouchStart = (e: TouchEvent) => {
+    swipeTouchStartY = e.touches[0].clientY;
+    isSwiping = true;
+  };
+
+  const handleDragTouchMove = (e: TouchEvent) => {
+    if (!isSwiping) return;
+    const delta = e.touches[0].clientY - swipeTouchStartY;
+    swipeDragOffset = Math.max(0, delta);
+  };
+
+  const handleDragTouchEnd = () => {
+    isSwiping = false;
+    if (swipeDragOffset > 80) {
+      swipeDragOffset = 0;
+      close();
+    } else {
+      swipeDragOffset = 0;
+    }
+  };
+
   onMount(() => {
     //  Trigger CSS background transition
     effectiveBgColor = backgroundColor;
@@ -154,9 +180,22 @@
       class:transparent
       style:max-width={maxWidth}
       style:max-height={maxHeight}
+      style:transform={stickToBottom && swipeDragOffset > 0
+        ? `translateY(${swipeDragOffset}px)`
+        : undefined}
+      style:transition={stickToBottom && isSwiping ? 'none' : undefined}
       {@attach focusTrap}
       id="dialog"
     >
+      {#if stickToBottom}
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <div
+          class="drag-handle"
+          ontouchstart={handleDragTouchStart}
+          ontouchmove={handleDragTouchMove}
+          ontouchend={handleDragTouchEnd}
+        ></div>
+      {/if}
       <div class="modal-header">
         <!--
           {ariaLabelledBy} inserts an "arialabelledby" attribute (which is not a valid ARIA attribute)
@@ -222,6 +261,17 @@
   .stick-to-bottom .modal-content {
     border-radius: var(--modal-border-radius) var(--modal-border-radius) 0 0;
     max-height: 77%;
+  }
+
+  .drag-handle {
+    width: 4rem;
+    height: 0.4rem;
+    background-color: var(--color-gray);
+    border-radius: 2px;
+    margin: -0.5rem auto 1.5rem;
+    cursor: grab;
+    touch-action: none;
+    flex-shrink: 0;
   }
 
   .center {
