@@ -33,7 +33,7 @@
     </li>
     {#if $user}
       <li>
-        <a href={$lr(routes.CHAT)} class:active={$currentRoute === routes.CHAT}>
+        <a href={$lr(routes.CHAT)} class:active={$currentRoute?.startsWith(routes.CHAT) ?? false}>
           <Icon icon={chatIcon} />
           {$_('generics.chat')}
           <Badge count={$chatsCountWithUnseenMessages} />

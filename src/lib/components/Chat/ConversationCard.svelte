@@ -12,7 +12,12 @@
     lastActivityMs?: number;
     archived?: boolean;
     onclick: () => void;
-    onarchive?: () => void;
+    /**
+     * @param viaSwipe true when triggered by a committed swipe gesture, which
+     *   has already animated the row off-screen — the list uses this to skip
+     *   its own leave-animation so the card doesn't slide out a second time.
+     */
+    onarchive?: (viaSwipe?: boolean) => void;
   }
 
   let {
@@ -60,7 +65,10 @@
   };
 
   // ── Swipe to archive — touch events only fire on touch-capable devices ─
+
+  // How many pixels to swipe at least to the left to leave the actions below in a revealed state
   const SWIPE_REVEAL = 84;
+  // How many pixels to swipe at least to the left to confirm the archive action
   const SWIPE_COMMIT = 180;
 
   let dx = $state(0);
@@ -127,10 +135,13 @@
       return;
     }
     if (dx <= -SWIPE_COMMIT) {
+      // Slide the row fully off-screen, then archive it. We don't reset() here:
+      // the card is about to be removed, and snapping dx back to 0 would make it
+      // briefly slide back in before the list's leave-animation plays. Instead
+      // we pass viaSwipe=true so the list skips that (now redundant) animation.
       dx = -500;
       setTimeout(() => {
-        onarchive?.();
-        reset();
+        onarchive?.(true);
       }, 180);
     } else if (dx <= -SWIPE_REVEAL) {
       dx = -SWIPE_REVEAL;

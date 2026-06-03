@@ -113,6 +113,28 @@
     pendingArchivedView = null;
   };
 
+  // While true, a card is being removed by a committed swipe gesture. The swipe
+  // already animated the row off-screen, so we skip the list's own leave-
+  // animation (and the flip delay that waits for it) to avoid a second slide.
+  let swipeLeaving = $state(false);
+
+  const archiveFromCard = async (conversation: LocalChat, viaSwipe = false) => {
+    if (!viaSwipe) {
+      toggleArchiveForChat(conversation);
+      return;
+    }
+    swipeLeaving = true;
+    try {
+      // Firestore locally removes the card synchronously here, so
+      // its `out:` transition runs (with duration 0) while swipeLeaving is true.
+      await toggleArchiveForChat(conversation);
+      await tick();
+    } finally {
+      // Allow normal animations again
+      swipeLeaving = false;
+    }
+  };
+
   onMount(async () => {
     if (!$user) {
       notify.info($_('auth.unsigned'), 8000);
@@ -417,7 +439,7 @@
                 <article
                   animate:flip={{
                     duration: 400,
-                    delay: suppressCardAnimations ? 0 : CARD_OUT_DURATION
+                    delay: suppressCardAnimations || swipeLeaving ? 0 : CARD_OUT_DURATION
                   }}
                   in:revealCard|global={{
                     duration: delayCardIntro ? EMPTY_FADE_DURATION : 0,
@@ -426,7 +448,7 @@
                   }}
                   out:fly={{
                     x: '-100%',
-                    duration: suppressCardAnimations ? 0 : CARD_OUT_DURATION,
+                    duration: suppressCardAnimations || swipeLeaving ? 0 : CARD_OUT_DURATION,
                     easing: linear
                   }}
                 >
@@ -438,7 +460,7 @@
                     seen={isConversationSeen(conversation)}
                     archived={$user ? isChatArchivedByUser(conversation, $user.id) : false}
                     onclick={() => selectConversation(conversation.id)}
-                    onarchive={() => toggleArchiveForChat(conversation)}
+                    onarchive={(viaSwipe) => archiveFromCard(conversation, viaSwipe)}
                   />
                 </article>
               {/each}
