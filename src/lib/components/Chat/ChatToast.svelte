@@ -72,7 +72,7 @@
 
   @media screen and (max-width: 700px) {
     .toast-wrap {
-      bottom: 8rem;
+      bottom: 4rem;
     }
   }
 </style>

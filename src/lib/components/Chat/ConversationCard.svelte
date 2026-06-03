@@ -68,7 +68,12 @@
   let startX = 0;
   let startY = 0;
   let moved = false;
-  let isHorizontal: boolean | null = null;
+  /**
+   * Whether the last touch interaction resulted in a horizontal swipe.
+   * `false` means the swipe was vertical.
+   * `null` means there was NO swipe in either direction (the threshold was not reached).
+   */
+  let isHorizontalSwipe: boolean | null = null;
 
   const reset = () => {
     dx = 0;
@@ -82,19 +87,19 @@
     startX = p.clientX;
     startY = p.clientY;
     moved = false;
-    isHorizontal = null;
+    isHorizontalSwipe = null;
   };
 
   const onTouchMove = (e: TouchEvent) => {
     const p = getPoint(e);
     const dxRaw = p.clientX - startX;
     const dy = p.clientY - startY;
-    if (isHorizontal === null) {
+    if (isHorizontalSwipe === null) {
       if (Math.abs(dxRaw) > 6 || Math.abs(dy) > 6) {
-        isHorizontal = Math.abs(dxRaw) > Math.abs(dy);
+        isHorizontalSwipe = Math.abs(dxRaw) > Math.abs(dy);
       } else return;
     }
-    if (!isHorizontal) return;
+    if (!isHorizontalSwipe) return;
     moved = true;
     let next = Math.min(0, dxRaw + (revealed ? -SWIPE_REVEAL : 0));
     if (next < -SWIPE_COMMIT - 40) next = -SWIPE_COMMIT - 40;
@@ -104,15 +109,20 @@
   const onTouchEnd = (e: TouchEvent) => {
     // Prevent the browser's synthesized click — we call onclick() ourselves below
     e.preventDefault();
-    if (!moved || isHorizontal === false) {
+    if (!moved || isHorizontalSwipe === false) {
       if (revealed) {
         reset();
         return;
       }
-      onclick();
+      // Only open the chat on a genuine tap, i.e. when the finger never crossed
+      // the gesture threshold in ANY direction (isHorizontal stays null). A
+      // vertical scroll sets isHorizontalSwipe to false and must NOT open the card.
+      if (isHorizontalSwipe === null) {
+        onclick();
+      }
       return;
     }
-    if (!isHorizontal) {
+    if (!isHorizontalSwipe) {
       reset();
       return;
     }
