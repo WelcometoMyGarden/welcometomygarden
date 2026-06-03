@@ -9,7 +9,13 @@
   import { messages, newConversation, isChatArchivedByUser } from '$lib/stores/chat';
   import { Avatar, Icon, DropdownMenu, DropdownMenuItem, ChatIconButton } from '$lib/components/UI';
   import { User } from '$lib/components/Chat';
-  import { markerIconPhosphor, tentIcon, archiveIcon, unarchiveIcon, threeDotsIcon } from '$lib/images/icons';
+  import {
+    markerIconPhosphor,
+    tentIcon,
+    archiveIcon,
+    unarchiveIcon,
+    threeDotsIcon
+  } from '$lib/images/icons';
   import routes from '$lib/routes';
   import { formatMessageTimestamp } from '$lib/util';
   import chevronRight from '$lib/images/icons/chevron-right.svg?inline';
@@ -544,8 +550,6 @@
   .head-actions {
     position: absolute;
     right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
@@ -592,6 +596,19 @@
     form {
       padding-left: 1.2rem;
       padding-right: 1.2rem;
+    }
+  }
+
+  @media (min-width: 701px) {
+    /*
+    On desktop, for some reason, the alignment is otherwise not OK.
+    TODO: it's probably advisable to rewrite the structure of the whole
+    mobile/desktop specific chat header component(s) to be (1) shared and
+    (2) flexbox or grid based
+     */
+    .head-actions {
+      top: 50%;
+      transform: translateY(-50%);
     }
   }
 </style>
