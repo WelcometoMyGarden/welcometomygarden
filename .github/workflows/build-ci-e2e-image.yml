@@ -7,9 +7,10 @@ on:
     branches:
       - master
     paths:
-      - ci/Dockerfile.ci
+      - 'ci/Dockerfile.ci'
       # Self-referential, to ensure updates work
-      - .github/workflows/build-ci-e2e-image.yml
+      - '.github/workflows/build-ci-e2e-image.yml'
+  workflow_dispatch:
 
 env:
   IMAGE_NAME: wtmg-e2e-ci
@@ -27,7 +28,7 @@ jobs:
         run: |
           docker build . \
           --file ci/Dockerfile.ci \
-          --tag $IMAGE_NAME:$IMAGE_VERSION \
+          --tag $IMAGE_NAME:$VERSION \
           --label "runnumber=${GITHUB_RUN_ID}"
       - name: Log in to registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
@@ -37,5 +38,7 @@ jobs:
           # Change to lowercase, everything incl. the repository_owner name has to be lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
           echo IMAGE_ID=$IMAGE_ID
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker tag $IMAGE_NAME:$VERSION $IMAGE_ID:$VERSION
+          docker tag $IMAGE_NAME:$VERSION $IMAGE_ID:latest
           docker push $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:latest
