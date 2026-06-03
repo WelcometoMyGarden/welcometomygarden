@@ -9,6 +9,7 @@
   import { _ } from 'svelte-i18n';
   import { Modal } from '../UI';
   import Button from '../UI/Button.svelte';
+  import { isMobile } from '$lib/stores/ui.svelte';
 
   let { chat: chatToConfirm }: { chat: LocalChat } = $props();
 
@@ -37,6 +38,8 @@
       performConfirmedArchive();
     }
   };
+
+  let buttonProps = $derived(isMobile() ? { small: true, fullWidth: true } : { medium: true });
 </script>
 
 <svelte:window onkeydown={onKeydown} />
@@ -57,9 +60,10 @@
   {/snippet}
   {#snippet controls()}
     <div class="actions">
-      <Button medium type="button" uppercase inverse onclick={close}>{$_('generics.cancel')}</Button
+      <Button uppercase inverse onclick={close} {...buttonProps}>{$_('generics.cancel')}</Button>
+      <Button medium uppercase onclick={performConfirmedArchive} {...buttonProps}
+        >{$_('chat.confirm-archive.confirm')}</Button
       >
-      <Button medium onclick={performConfirmedArchive}>{$_('chat.confirm-archive.confirm')}</Button>
     </div>
   {/snippet}
   <!-- <div class="actions">
@@ -84,15 +88,9 @@
     justify-content: flex-end;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 500px) {
     .actions {
       flex-direction: column-reverse;
-    }
-
-    .btn-cancel,
-    .btn-confirm {
-      width: 100%;
-      text-align: center;
     }
   }
 </style>

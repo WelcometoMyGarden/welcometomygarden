@@ -201,7 +201,9 @@
       <div class="name-row">
         <span class="name" class:seen>{recipient}</span>
         {#if timestamp}
-          <span class="timestamp" class:unseen={!seen}>{timestamp}</span>
+          <span class="timestamp" class:unseen={!seen}
+            >{typeof timestamp === 'string' ? timestamp : $_(timestamp.key)}</span
+          >
         {/if}
       </div>
       <p class="last-message notranslate" class:seen>

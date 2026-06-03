@@ -814,8 +814,8 @@
     },
     "archive": "Archiveren",
     "unarchive": "Uit archief halen",
-    "archive-conversation": "Chat archiveren",
-    "unarchive-conversation": "Chat uit archief halen",
+    "archive-conversation": "Gesprek archiveren",
+    "unarchive-conversation": "Gesprek uit archief halen",
     "archived-one": "{name} gearchiveerd",
     "unarchived-one": "{name} gedearchiveerd",
     "no-archived": {
@@ -834,12 +834,12 @@
     "no-inbox": {
       "title": "Je hebt nog geen berichten",
       "detail": "Selecteer een host op de kaart om contact met ze op te nemen.",
-      "button": "Naar de kaart"
+      "button": "Ga naar de kaart"
     },
     "open-archive": "Archief openen",
     "no-active": {
       "title": "Geen actieve gesprekken",
-      "detail": "Wanneer je een bericht ontvangt, verschijnt het hier. Of selecteer een host op de kaart om contact met ze op te nemen."
+      "detail": "Wanneer je een bericht ontvangt, verschijnt het hier. Of contacteer een host op de kaart."
     }
   },
   "map": {

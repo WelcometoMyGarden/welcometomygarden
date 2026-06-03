@@ -1175,12 +1175,12 @@
     "no-inbox": {
       "title": "Sie haben noch keine Nachrichten",
       "detail": "Wählen Sie einen Gastgeber auf der Karte, um ihn zu kontaktieren.",
-      "button": "Zur Karte"
+      "button": "Zur Karte gehen"
     },
     "open-archive": "Archiv öffnen",
     "no-active": {
       "title": "Keine aktiven Gespräche",
-      "detail": "Wenn Sie eine Nachricht erhalten, erscheint sie hier. Oder wählen Sie einen Gastgeber auf der Karte, um ihn zu kontaktieren."
+      "detail": "Wenn Sie eine Nachricht erhalten, erscheint sie hier. Oder kontaktieren Sie einen Gastgeber auf der Karte."
     }
   },
   "map": {
