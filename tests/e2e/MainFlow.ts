@@ -276,7 +276,8 @@ export class MainFlowTest extends GenericFlow {
       await wtmgPage1.getByRole('button', { name: 'R Robot1' }).click();
       await wtmgPage1.getByRole('link', { name: this.l('chat') }).click();
     }
-    await wtmgPage1.getByRole('button', { name: 'R Robot2 Hello, what a nice' }).click();
+    // Open by clicking the conversation card, found by preview text
+    await wtmgPage1.getByRole('button', { name: 'Hello, what a nice' }).click();
 
     // Respond
     await wtmgPage1.getByPlaceholder(this.l('type-message-placeholder')).click();
