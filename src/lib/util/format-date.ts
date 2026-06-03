@@ -1,12 +1,11 @@
-import { t } from 'svelte-i18n';
-import { get } from 'svelte/store';
+import type { LocalizedMessage } from './translation-helpers';
 
-export const formatConversationCardTimestamp = (ms: number): string => {
+export const formatConversationCardTimestamp = (ms: number): string | LocalizedMessage => {
   const now = new Date();
   const date = new Date(ms);
   const diffMs = now.getTime() - date.getTime();
 
-  if (diffMs < 60_000) return get(t)('generics.now');
+  if (diffMs < 60_000) return { key: 'generics.now' };
 
   // Show the time on the same day
   if (date.toDateString() === now.toDateString()) {

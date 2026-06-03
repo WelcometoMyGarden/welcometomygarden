@@ -1170,8 +1170,8 @@
     "unarchive": "Désarchiver",
     "archive-conversation": "Archiver la conversation",
     "unarchive-conversation": "Désarchiver la conversation",
-    "archived-one": "{name} archivé·e",
-    "unarchived-one": "{name} désarchivé·e",
+    "archived-one": "Archivé {name}",
+    "unarchived-one": "Désarchivé {name}",
     "no-archived": {
       "title": "Vous n'avez pas de messages archivés",
       "detail": "Lorsque vous archivez un message, il apparaîtra ici.",
@@ -1182,7 +1182,7 @@
     "deselect": "Désélectionner",
     "confirm-archive": {
       "title": "Archiver cette conversation ?",
-      "body": "Vous avez un message non lu de {name}. L'archivage le marquera comme lu et le déplacera dans votre archive.",
+      "body": "Vous avez un message non lu de {name}. Archiver le message le marquera comme lu et le déplacera dans vos archives.",
       "confirm": "Archiver"
     },
     "no-inbox": {
@@ -1193,7 +1193,7 @@
     "open-archive": "Ouvrir les archives",
     "no-active": {
       "title": "Aucune conversation active",
-      "detail": "Lorsque vous recevez un message, il apparaîtra ici. Ou sélectionnez un hôte sur la carte pour le contacter."
+      "detail": "Lorsque vous recevez un message, il apparaîtra ici. Ou contactez un·e hôte sur la carte."
     }
   },
   "map": {

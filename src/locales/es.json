@@ -1181,7 +1181,7 @@
     "open-archive": "Abrir archivo",
     "no-active": {
       "title": "No hay conversaciones activas",
-      "detail": "Cuando recibas un mensaje, aparecerá aquí. O selecciona un anfitrión en el mapa para contactarlo."
+      "detail": "Cuando recibas un mensaje, aparecerá aquí. O contacta a un anfitrión en el mapa."
     }
   },
   "map": {

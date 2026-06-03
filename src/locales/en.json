@@ -1220,7 +1220,7 @@
     "open-archive": "Open archive",
     "no-active": {
       "title": "No active conversations",
-      "detail": "When you receive a message, it will appear here. Or select a host on the map to contact them."
+      "detail": "When you receive a message, it will appear here. Or contact a host on the map."
     }
   },
   "map": {
