@@ -5,6 +5,7 @@ const removeUndefined = require('../../util/removeUndefined');
 const { getUserDocRefsWithData } = require('../../firebase');
 const { isWTMGSubscription } = require('./util');
 const stripe = require('../stripe');
+const { getSubscriptionPeriod } = require('../basilCompat');
 const { nowSecs } = require('../../util/time');
 const { sendSubscriptionCancellationFeedbackEmail } = require('../../mail');
 const { setTimeout } = require('node:timers/promises');
@@ -89,7 +90,8 @@ module.exports = async (event, res) => {
 
   // Get required data
   const uid = await getFirebaseUserId(subscription.customer);
-  const { customer: customerId, current_period_end } = subscription;
+  const { customer: customerId } = subscription;
+  const { currentPeriodStart, currentPeriodEnd } = getSubscriptionPeriod(subscription);
   if (!uid) {
     logger.error(`Could not find a Firebase UID for customer ${customerId}`);
     return res.sendStatus(500);
@@ -108,8 +110,8 @@ module.exports = async (event, res) => {
       [priceIdKey]: subscription.items.data[0].price.id,
       [cancelAtKey]: subscription.cancel_at,
       [canceledAtKey]: subscription.canceled_at,
-      [currentPeriodStartKey]: subscription.current_period_start,
-      [currentPeriodEndKey]: subscription.current_period_end,
+      [currentPeriodStartKey]: currentPeriodStart,
+      [currentPeriodEndKey]: currentPeriodEnd,
       [latestInvoiceStatusKey]: latestInvoice.status,
       [collectionMethodKey]: subscription.collection_method
       // startDate should not have changed
@@ -146,7 +148,7 @@ module.exports = async (event, res) => {
     const endDate = new Intl.DateTimeFormat(privateUserProfileData.communicationLanguage ?? 'en', {
       // 17 december 2024
       dateStyle: 'long'
-    }).format(current_period_end * 1000);
+    }).format(currentPeriodEnd * 1000);
 
     logger.log(
       `${customerId} cancelled ${subscription.id}, ending on ${endDate}. Sending a confirmation email.`
