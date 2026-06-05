@@ -3,5 +3,5 @@
 </script>
 
 <svelte:head>
-  <title>{$_('chat.tabs.archived')} | {$_('generics.wtmg.explicit')}</title>
+  <title>{$_('chat.archived')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
