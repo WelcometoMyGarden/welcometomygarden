@@ -19,12 +19,12 @@
 
 This table contains agreed-upon translations for specific words:
 
-| English (en) | Dutch (nl)   | French (fr) | German (de)      | Spanish (es)      |
-| ------------ | ------------ | ----------- | ---------------- | ----------------- |
-| slow travel  | traag reizen | voyage lent | langsames Reisen | los viajes lentos |
-| host         | host         | hôte        | Gastgeber        | anfitrión         |
-| member       | lid          | membre      | Mitglied         | miembro           |
-| membership   | lidmaatschap | adhésion    | Mitgliedschaft   | membresía         |
+| English (en) | Dutch (nl)   | French (fr) | German (de)      | Spanish (es)      | Polish (pl)           |
+| ------------ | ------------ | ----------- | ---------------- | ----------------- | --------------------- |
+| slow travel  | traag reizen | voyage lent | langsames Reisen | los viajes lentos | świadome podróżowanie |
+| host         | host         | hôte        | Gastgeber        | anfitrión         | gospodarz             |
+| member       | lid          | membre      | Mitglied         | miembro           | subskrybent           |
+| membership   | lidmaatschap | adhésion    | Mitgliedschaft   | membresía         | subskrypcja           |
 
 Generally, derived or related forms of these words should also be translated with their equivalent form in other languages, except if explicitly pinned in the dictionary. E.g.: slow traveller (en) becomes trage reiziger (nl), but membership becomes adhésion (fr).
 

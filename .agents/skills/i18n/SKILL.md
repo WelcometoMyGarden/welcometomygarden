@@ -21,6 +21,9 @@ The 5 standard locales are: `en`, `nl`, `de`, `fr`, `es`.
 - Add a new translation key across all locales
 - Check which keys are missing in non-English locales
 - Edit an existing translation value
+- Build a translation worksheet for what changed since a commit (`since.py`)
+- Find translation keys that look unused, for review before deletion (`unused.py`)
+- Clean up empty `{}` subtrees left behind after removing keys (`prune-empty.py`)
 
 **If args are given**, interpret them as the task. Common forms:
 
@@ -115,6 +118,59 @@ grep -rn "chat.archived-new-activity" src/
 # 2. then move the key across all locales:
 python3 .agents/skills/i18n/scripts/rename.py chat.archived-new-activity chat.open-archive
 ```
+
+### `since.py <commit> <lang>` — translation worksheet for changes since a commit
+
+Compares English (`en.json`) at a baseline `<commit>` against the current working-tree `en.json` and reports everything that changed **after** that commit (the commit itself is the baseline and is not included). Output is markdown:
+
+- **Added keys** table — keys present now, absent at the baseline.
+- **Updated keys** table — keys whose English value changed.
+- **Removed keys** list — keys present at the baseline, gone now.
+
+Both tables have three columns: the dot-notation key, the current English value, and a column for `<lang>`. That last column is pre-filled with the locale's **current** value (empty for new keys, the stale value for updated keys). Use it as a worklist: **replace those cells with freshly generated translations** for `<lang>` that follow `guidelines.md`. Then turn the finished tables into a patch and apply it with `patch.py`.
+
+`<lang>` does **not** have to be one of the 5 standard locales — pass a brand-new language (e.g. `pl`) and its column comes back empty, ready to be filled with translations into that new language.
+
+Alongside the markdown, the two tables are also written to CSV files in the repo root: `i18n-added-<lang>.csv` and `i18n-updated-<lang>.csv` (columns `key,en,<lang>`). These are scratch artifacts — they hold the same scaffold as the printed tables, so delete them once you've applied the translations, and don't commit them.
+
+```bash
+python3 .agents/skills/i18n/scripts/since.py HEAD~5 fr   # what changed in the last 5 commits, for French
+python3 .agents/skills/i18n/scripts/since.py a1b2c3d nl
+python3 .agents/skills/i18n/scripts/since.py a1b2c3d pl  # a new language not yet in the repo
+```
+
+The script only reads English values for the diff — it does not translate. Generating the `<lang>` translations (including for brand-new languages) and applying them are your job, per the key rules above.
+
+### `unused.py` — find keys that look unused, for review before deletion
+
+Scans the source tree (`--src`, default `src`) for every i18n reference and compares it against the keys defined in `en.json`. It detects references in the call forms `$_(...)`, `$t(...)`, `_(...)`, `t(...)`, `get(_)(...)`, `get(t)(...)`, `transKeyExists(...)`, the subtree accessors `json(...)` and the WTMG helpers `getNode(...)` / `getNodeArray(...)` / `getNodeKeys(...)` / `getNodeChildren(...)` (which mark a path and all its descendants as used), and `{ key: ... }` LocalizedMessage objects, classifying the first argument as:
+
+- **Static literal** (a quoted/back-tick string with no `${...}`) matching the key shape `word.word2-word3.0.word_word` → the key is **used**.
+- **Dynamic template** (a back-tick string with `${...}`, e.g. `index.steps.${key}.title`) → turned into a glob to best-effort match candidate keys.
+- **Indirect** (a bare expression like `error.key` or `prefix + '.name'`) → listed for manual reasoning; embedded literal keys inside it (e.g. the fallback in `labelKey ?? 'generics.email'`) are still counted as used.
+
+Output is sorted into confidence tiers:
+
+- **Likely unused** — no static or dynamic-template reference. The real removal candidates.
+- **Possibly dynamic** — matched only by a dynamic template glob; the interpolation *might* produce them. Verify before touching.
+- **Dynamic key templates** and **Indirect references** — listed with locations so you can reason about which keys they actually generate (the glob over-/under-matches, so this human/AI reasoning step is required). It also reports static references that resolve to no key in `en.json` (typos / stale refs).
+
+```bash
+python3 .agents/skills/i18n/scripts/unused.py
+```
+
+**The script never deletes anything, and "likely unused" is not a guarantee.** Always reason about the dynamic templates and indirect references first (a key built from a runtime variable can be real even with zero static hits), `grep` to confirm, then remove confirmed keys across all locales with `remove.py`.
+
+### `prune-empty.py` — delete empty `{}` subtrees left behind after removals
+
+Removing keys can leave empty husks (`"tabs": {}`, `"three-features": {}`). This finds every object that is recursively empty (a bare `{}` or a tree of nested empty objects) and removes it — but **only when it is empty or absent in every locale**. A section that is `{}` in `fr`/`nl` but still has content in `en` is an untranslated section, not cruft: those inconsistent cases are reported separately and left untouched. Only the top of each empty subtree is removed (e.g. `index.slowby`, not also `index.slowby.banner`).
+
+```bash
+python3 .agents/skills/i18n/scripts/prune-empty.py --dry-run   # preview
+python3 .agents/skills/i18n/scripts/prune-empty.py             # apply
+```
+
+A natural follow-up to `unused.py` + `remove.py`: remove dead keys, then prune the empty parents they leave behind.
 
 ---
 
