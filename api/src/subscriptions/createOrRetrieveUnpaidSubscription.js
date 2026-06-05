@@ -6,6 +6,7 @@ const removeUndefined = require('../util/removeUndefined');
 const { db } = require('../firebase');
 const { isWTMGSubscription } = require('./stripeEventHandlers/util');
 const { oneDayAgo } = require('../util/time');
+const { logger } = require('firebase-functions');
 
 const {
   idKey,
@@ -270,7 +271,7 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
       // Store the object for later reference, it might be needed.
       requestedPrice = await stripe.prices.retrieve(priceId);
     } catch (e) {
-      console.error(`An invalid price_id was supplied: ${priceId}`);
+      logger.error(`An invalid price_id was supplied: ${priceId}`);
       fail('invalid-argument');
     }
   };
@@ -282,7 +283,7 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
   const fetchUserData = async () => {
     const privateUserProfileData = (await privateUserProfileDocRef.get()).data();
     if (!privateUserProfileData.stripeCustomerId) {
-      console.info(`User ${uid} does not yet have a Stripe customer linked to it, creating it.`);
+      logger.info(`User ${uid} does not yet have a Stripe customer linked to it, creating it.`);
       const { id: createdCustomerId } = await createStripeCustomer({
         data: { locale },
         auth: request.auth
@@ -315,17 +316,26 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
   const existingValidSubscription = existingSubscriptions.data.find((sub) => {
     return (
       isWTMGSubscription(sub) &&
-      sub.status === 'active' &&
       sub.latest_invoice != null &&
       typeof sub.latest_invoice !== 'string' &&
       sub.latest_invoice.status === 'paid'
     );
   });
 
+  if (existingValidSubscription && existingValidSubscription.status !== 'active') {
+    logger.error('Weird race condition found, sub is not active while latest invoice is paid', {
+      sub: existingValidSubscription.id,
+      sub_status: existingValidSubscription.status,
+      inv: /** @type {import('stripe').Stripe.Invoice} */ (existingValidSubscription.latest_invoice)
+        .id
+    });
+  }
+
   // Don't create a new subscription
   if (existingValidSubscription) {
-    console.warn(
-      'Tried to recreate an already-active & paid subscription. Something probably went wrong with the Firebase sync, because the client is trying this invalid request.'
+    logger.warn(
+      'Tried to recreate an already-active & paid subscription. Something probably went wrong with the Firebase sync, because the client is trying this invalid request.',
+      { sub: existingValidSubscription.id }
     );
     fail('already-exists');
   }
@@ -345,6 +355,19 @@ exports.createOrRetrieveUnpaidSubscription = async (request) => {
       hasOpenInvoice &&
       typeof sub.latest_invoice.payment_intent === 'object' &&
       sub.latest_invoice.payment_intent != null;
+
+    if (isWTMGSubscription(sub) && hasOpenInvoice && !hasPaymentIntent) {
+      logger.error(
+        'Unexpected situation, incomplete sub has open invoice but no string payment intent',
+        {
+          sub: sub.id,
+          inv: /** @type {import('stripe').Stripe.Invoice} */ (sub.latest_invoice).id,
+          pi: typeof (
+            /** @type {import('stripe').Stripe.Invoice} */ (sub?.latest_invoice).payment_intent
+          )
+        }
+      );
+    }
 
     return isWTMGSubscription(sub) && hasOpenInvoice && hasPaymentIntent;
   });

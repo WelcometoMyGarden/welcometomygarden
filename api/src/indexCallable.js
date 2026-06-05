@@ -13,6 +13,7 @@ const { createCustomerPortalSession } = require('./subscriptions/createCustomerP
 const { discourseConnectLogin } = require('./discourse/discourseConnectLogin');
 const { createStripeCustomer } = require('./subscriptions/createStripeCustomer');
 const { manageEmailPreferences } = require('./sendgrid/manageEmailPreferences');
+const { logger } = require('firebase-functions');
 
 const handlers = {
   createCustomerPortalSession,
@@ -47,6 +48,8 @@ exports.indexCallable = async (request) => {
   const handler = /** @type {(request: FV2.CallableRequest) => any} */ (
     handlers[/** @type {keyof typeof handlers} */ (fn)]
   );
+
+  logger.info(`Handling ${fn}`);
 
   return await handler({
     ...request,
