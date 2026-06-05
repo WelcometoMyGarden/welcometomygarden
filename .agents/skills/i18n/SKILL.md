@@ -37,6 +37,7 @@ The 5 standard locales are: `en`, `nl`, `de`, `fr`, `es`.
 1. **Always use the scripts in `scripts/`.** Do not edit the JSON files by hand or with the Edit tool — use the scripts. They preserve the file's `indent=2` formatting, UTF-8 (non-ASCII) characters, and trailing newline, so diffs stay clean.
 2. **Edit all locales together.** When adding or editing a key, update all 5 locale files. **Generate the translations yourself** — you don't need to ask the user for them. Only ask if the user has told you about a specific translation source/process to follow. **Follow translation guidelines** in `guidelines.md`.
 3. **English is the source of truth.** When checking for missing keys, compare all locales against `en.json`.
+4. **Never create a new locale file.** Only edit the locale files that already exist in `src/locales/`. Do not seed or scaffold a `*.json` for a language that isn't there yet (e.g. `pl`) — adding a language is a separate, deliberate step (registering it in `SUPPORTED_LANGUAGES` and wiring it up). When asked to translate into a not-yet-supported language, deliver the translations in the `since.py` CSV worksheet instead (see below), never in a new locale file.
 
 ## Locating keys in code
 
@@ -127,11 +128,14 @@ Compares English (`en.json`) at a baseline `<commit>` against the current workin
 - **Updated keys** table — keys whose English value changed.
 - **Removed keys** list — keys present at the baseline, gone now.
 
-Both tables have three columns: the dot-notation key, the current English value, and a column for `<lang>`. That last column is pre-filled with the locale's **current** value (empty for new keys, the stale value for updated keys). Use it as a worklist: **replace those cells with freshly generated translations** for `<lang>` that follow `guidelines.md`. Then turn the finished tables into a patch and apply it with `patch.py`.
+Both tables have three columns: the dot-notation key, the current English value, and a column for `<lang>`. That last column is pre-filled with the locale's **current** value (empty for new keys, the stale value for updated keys). Use it as a worklist: **replace those cells with freshly generated translations** for `<lang>` that follow `guidelines.md`.
 
-`<lang>` does **not** have to be one of the 5 standard locales — pass a brand-new language (e.g. `pl`) and its column comes back empty, ready to be filled with translations into that new language.
+Alongside the markdown, the two tables are also written to CSV files in the repo root: `i18n-added-<lang>.csv` and `i18n-updated-<lang>.csv` (columns `key,en,<lang>`).
 
-Alongside the markdown, the two tables are also written to CSV files in the repo root: `i18n-added-<lang>.csv` and `i18n-updated-<lang>.csv` (columns `key,en,<lang>`). These are scratch artifacts — they hold the same scaffold as the printed tables, so delete them once you've applied the translations, and don't commit them.
+**Where the finished translations go depends on whether `<lang>` already exists in `src/locales/`:**
+
+- **Existing locale** (one of the 5 standard locales): turn the finished tables into a patch and apply it with `patch.py`. Here the CSVs are scratch — delete them once applied, and don't commit them.
+- **New / not-yet-supported language** (e.g. `pl`, with no `pl.json`): `<lang>` does **not** have to be a standard locale — its column just comes back empty. **Write the translations into the CSV worksheet files and leave them there as the deliverable.** Do **NOT** create or seed a `<lang>.json` (or any missing locale file) yourself — adding a new locale to the project is a separate, deliberate step (registering it in `SUPPORTED_LANGUAGES` and wiring it up), not something this worksheet does. The filled CSVs are the output to hand off.
 
 ```bash
 python3 .agents/skills/i18n/scripts/since.py HEAD~5 fr   # what changed in the last 5 commits, for French
