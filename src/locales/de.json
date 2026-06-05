@@ -1,5 +1,4 @@
 {
-  "tagline": "Welcome To My Garden ist ein gemeinnütziges Netzwerk von Bürgern, die Langsamreisenden kostenlose Zeltstellplätze in ihren Gärten anbieten.",
   "generics": {
     "password": "Passwort",
     "email": "E-Mail",
@@ -10,8 +9,7 @@
     "map": "Karte",
     "rules": "Regeln",
     "faq": {
-      "acronym": "FAQ",
-      "explicit": "Häufig gestellte Fragen"
+      "acronym": "FAQ"
     },
     "wtmg": {
       "acronym": "WTMG",
@@ -23,14 +21,12 @@
     "sign-out": "Abmelden",
     "sign-in": "Anmelden",
     "garden": "Garten",
-    "slowby": "Geheime Reisen",
     "about-us": "Über uns",
     "become-superfan": "Werde ein Superfan",
     "become-member": "Mitglied werden",
     "superfan": "Super Fan",
     "member": "Mitglied",
     "membership": "Mitgliedschaft",
-    "feature": "Besonderheit",
     "new": "Neu",
     "on": "An",
     "error": {
@@ -66,12 +62,6 @@
       "banner": {
         "copy": "Welcome To My Garden hat jetzt seinen {title} mit WTMG-Holzschildern und Dankespostkarten für Gastgeber. Schauen Sie es sich an unter {link}!",
         "title": "Internetshop"
-      }
-    },
-    "slowby": {
-      "banner": {
-        "copy": "Möchten Sie mit dem langsamen Reisen beginnen? Gute Nachricht! Sie können jetzt geheime Slow-Travel-Reisen unternehmen, um die verborgenen Seiten Belgiens zu entdecken. Wir haben gerade den {title} - Schau es dir unter {link} an.",
-        "title": "Slowby"
       }
     },
     "intro": {
@@ -128,8 +118,6 @@
     },
     "superfan": {
       "become-superfan-title": "WTMG wird von Mitgliedern unterstützt",
-      "financial-support": "Mit Ihrer finanziellen Unterstützung kann WTMG weiterhin kostenlos für alle genutzt werden! Helfen Sie uns, WTMG zu erhalten und erfolgreich zu machen? Werden Sie Superfan und erhalten Sie Zugriff auf neue Funktionen!",
-      "learn-more": "Mehr erfahren",
       "subtitle": "Ein faires Modell für WTMG"
     },
     "wtmg-quotes": {
@@ -196,8 +184,7 @@
         "title": "Verbreiten Sie die gut Nachricht",
         "copy": "Möchten Sie Ihren Garten öffnen oder kennen Sie jemanden, der das gerne tun würde? Verbreiten Sie die Nachricht über <span class=\"notranslate\">Welcome To My Garden</span>! Sie können sie auch einladen, unserer <a href=\"https://www.facebook.com/Welcome2mygarden\">Facebook-Seite</a> zu folgen."
       }
-    },
-    "message": "Viel Spaß beim Campen!"
+    }
   },
   "faq": {
     "title": "FAQ",
@@ -571,7 +558,6 @@
       "add-first": "Bitte fügen Sie zuerst einen Garten hinzu."
     },
     "form": {
-      "sign-in-link-text": "anmelden",
       "register-link-text": "ein Konto erstellen",
       "location": {
         "title": "Standort (erforderlich)",
@@ -645,26 +631,6 @@
       "welcome": "Willkommen zurück, {user}!",
       "incorrect": "Die angegebene E-Mail-Adresse oder das Passwort ist falsch.",
       "login-issue": "Wir konnten Sie nicht anmelden. Wenn das Problem weiterhin besteht, wenden Sie sich bitte an {support}"
-    }
-  },
-  "superfan-shared": {
-    "become-superfan-button": "Werde ein Superfan",
-    "three-features": {
-      "feature-one-title": "Siehe Schienennetz",
-      "feature-one-description": "Senden Sie Übernachtungsanfragen an über 5.000 Gärten.",
-      "feature-two-title": "Planen Sie Ihre Anreise",
-      "feature-two-description": "Laden Sie Ihre Route hoch, speichern Sie Gärten und sehen Sie sich das Schienennetz an.",
-      "feature-three-title": "Speichern Sie Gärten",
-      "feature-three-description": "Hier geht's zum Gemeinschaftsbereich"
-    },
-    "three-support-reasons": {
-      "title": "Dank Ihrer Unterstützung können wir...",
-      "support-one-title": "Halten Sie den \"WTMG-spirit\" am Leben",
-      "support-one-description": "Wir setzen uns dafür ein, dass WTMG sicher und benutzerfreundlich bleibt. Dies erfordert harte Arbeit!",
-      "support-two-title": "Verbessern Sie das WTMG-Erlebnis",
-      "support-two-description": "Wir verlassen nun die Freiwilligenphase: WTMG braucht unsere ständige Aufmerksamkeit, um aktiv und erfolgreich zu bleiben!",
-      "support-three-title": "Bringen Sie die Community zusammen",
-      "support-three-description": "Wir möchten einen Gemeinschaftsraum schaffen, in dem sich Menschen treffen und austauschen können – sowohl online als auch offline."
     }
   },
   "become-superfan": {
@@ -921,11 +887,6 @@
         "superfan": "WTMG-Superfan"
       },
       "duration": "1 Jahr",
-      "mode": "nicht wiederkehrend",
-      "feature-overview": {
-        "regular": "Erhalten Sie vollen Zugriff auf die WTMG-Plattform und decken Sie Ihren Teil der Kosten.",
-        "superfan": "Erhalten Sie vollen Zugriff auf die WTMG-Plattform und unterstützen Sie unsere Mission, langsames Reisen zu fördern."
-      },
       "features": {
         "0": "Zelte kostenlos in Gärten",
         "1": "Triff fantastische Menschen",
@@ -937,7 +898,6 @@
       "payment-method": "Bezahlverfahren",
       "pay-button": "Zahlen Sie jetzt",
       "loading": "Wird geladen...",
-      "processing-payment": "Wird bearbeitet...",
       "youre-subscribed": "Sie sind als Superfan angemeldet!",
       "no-switching-here": "Wir unterstützen derzeit keinen Wechsel zu einem anderen Preis von hier aus. Lassen Sie uns unter {supportEmail} wissen, wenn Sie wechseln möchten. Danke!",
       "errors": {
@@ -999,7 +959,6 @@
       }
     },
     "superfan": {
-      "loading-portal": "Portal wird geladen...",
       "valid": "Ihre Mitgliedschaft ist gültig bis {date}",
       "renew-btn-text": "Jetzt erneuern",
       "auto-active": "Deine Mitgliedschaft ist aktiv.<br>Sie wird automatisch am {date} verlängert.",
@@ -1057,10 +1016,6 @@
       "unknown": "Unbekannt",
       "current": "Aktuelles Gerät",
       "last-seen": "Zuletzt gesehen auf",
-      "unsupported-ios": "<p>Hoppla! Ihre aktuelle iOS-Version unterstützt keine mobilen Benachrichtigungen. Um sie zu aktivieren, <strong>aktualisieren Sie bitte Ihre iOS-Version</strong> (Einstellungen &gt; Allgemein &gt; Softwareaktualisierung).</p><p> Wenn Sie nicht auf <strong>16.4 oder höher</strong> aktualisieren können, bedeutet dies, dass Ihr Gerät unsere mobilen Benachrichtigungen leider nicht unterstützt.</p>",
-      "unsupported-android": "Hoppla! Dieser Browser unterstützt keine mobilen Benachrichtigungen. Öffnen Sie WTMG in <strong>einem anderen Browser,</strong> um sie einzuschalten.",
-      "ios16-check": "wenn Sie Ihr Gerät aktualisieren können",
-      "ios16-link": "https://support.apple.com/de-de/103267",
       "questions": "Fragen? Schauen Sie unter {faqLink} nach.",
       "questions-faqlink-text": "unsere FAQ"
     }
@@ -1148,11 +1103,6 @@
       "instruction": "Wenn dies weiterhin passiert, kopieren Sie bitte den untenstehenden Text und fügen Sie ihn in eine E-Mail ein an",
       "closing-line": "Wir versuchen Ihnen so schnell wie möglich zu helfen!"
     },
-    "messages": "Nachrichten",
-    "tabs": {
-      "all": "Alle",
-      "archived": "Archiviert"
-    },
     "archive": "Archivieren",
     "unarchive": "Aus Archiv holen",
     "archive-conversation": "Chat archivieren",
@@ -1164,9 +1114,6 @@
       "detail": "Wenn du eine Nachricht archivierst, erscheint sie hier.",
       "button": "Alle Gespräche anzeigen"
     },
-    "selected": "{count} ausgewählt",
-    "select": "Auswählen",
-    "deselect": "Abwählen",
     "confirm-archive": {
       "title": "Dieses Gespräch archivieren?",
       "body": "Du hast eine ungelesene Nachricht von {name}. Beim Archivieren wird sie als gelesen markiert und ins Archiv verschoben.",
@@ -1181,7 +1128,8 @@
     "no-active": {
       "title": "Keine aktiven Gespräche",
       "detail": "Wenn Sie eine Nachricht erhalten, erscheint sie hier. Oder kontaktieren Sie einen Gastgeber auf der Karte."
-    }
+    },
+    "archived": "Archiviert"
   },
   "map": {
     "vehicle-notice": {
@@ -1192,11 +1140,6 @@
       "hiking": "Wanderrouten anzeigen",
       "cycling": "Fahrradrouten anzeigen",
       "attribution": "Trails mit freundlicher Genehmigung von {link}"
-    },
-    "superfan-notice": {
-      "title": "Neue Funktionen für Superfans",
-      "linkText": "werde ein Superfan",
-      "description": "Sehen Sie sich das Schienennetz an, laden Sie Routen hoch, speichern Sie Gärten und mehr, wenn Sie {linkText}!"
     },
     "gardens": {
       "title": "Gärten",
@@ -1512,9 +1455,6 @@
     "marie": "Die geniale Designerin. Sie hat WTMG so hübsch gemacht.",
     "ismaila": "Ismaila ist der Kopf hinter den Filtern auf der Karte.",
     "brent": "Brent hat unsere erste Landingpage codiert.",
-    "for-everyone": "WTMG für alle",
-    "how-contribute": "Wie können Sie einen Beitrag leisten?",
-    "ways-support": "Hier finden Sie alle Möglichkeiten, wie Sie uns unterstützen können.",
     "our-story-title": "Unsere Geschichte",
     "our-story-description": "<p>Hey! Wir sind Dries und Manon und die stolzen Eltern von <span class=\"notranslate\">Welcome To My Garden</span>. 2019 sind wir von Brüssel nach Tokio geradelt. Im Laufe von 11 Monaten sind wir durch 21 Länder gereist und wurden unterwegs von unzähligen unglaublichen Menschen beherbergt.</p><p>Als wir wieder in Belgien ankamen, fragten wir uns: Wie können wir langsames Reisen in unserem eigenen Land einfacher und unterhaltsamer machen? An einem regnerischen Sonntagnachmittag im Jahr 2020 richtete Dries die erste Version von WTMG ein. Innerhalb von zwei Stunden waren 50 Gärten auf der Karte – und nach zwei Wochen waren es 500!</p><p>Seitdem haben wir einen langen Weg zurückgelegt: Heute zählt WTMG über 8.500 Gärten. Es ist klar, dass wir hier bleiben werden! Und es ist Zeit, einen Schritt weiterzugehen. Wir haben auf Sie, unsere Community, gehört und investieren nun in die Umsetzung von WTMG, damit es all Ihren Anforderungen an langsames Reisen gerecht wird.</p><p>WTMG existiert dank der harten Arbeit einer Gruppe leidenschaftlicher Freiwilliger, die Abende und Wochenenden investiert haben. Aber um weiterzumachen, brauchen wir mehr Zeit und Personal. Deshalb ist jetzt auch Thor mit an Bord. Wir geben unser Bestes und hoffen, dass Sie uns auf dieser Reise begleiten!</p>",
     "bigger-picture-title": "Das größere Bild",
@@ -1549,41 +1489,16 @@
   "push-notifications": {
     "registration-success": "Benachrichtigungen wurden erfolgreich aktiviert",
     "prompt": {
-      "garden-intro": "Sie erhalten automatisch eine E-Mail für jede neue Anfrage zum Aufenthalt in Ihrem Garten",
-      "garden-follow-up": ", und Sie können auch <strong>mobile Benachrichtigungen</strong> erhalten.",
-      "garden-enable": "Möchten Sie auch <strong>mobile Benachrichtigungen</strong> über neue Chatnachrichten erhalten?",
-      "garden-ios-home": "Zum Aktivieren <strong>fügen Sie</strong> die <strong>WTMG-</strong> Website in wenigen einfachen Schritten einfach zu Ihrem <strong>Startbildschirm</strong> <strong>hinzu</strong>.",
-      "ios-installed": "Verpassen Sie nie wieder eine Nachricht, indem Sie mobile Benachrichtigungen aktivieren!",
-      "ios-installed-title": "Mobile Benachrichtigungen",
-      "btn-show-me": "Zeig mir wie",
       "btn-turn-on": "Benachrichtigungen einschalten",
-      "follow-up-desktop": "Möchten Sie <strong>mobile Benachrichtigungen</strong> über neue Chat-Nachrichten erhalten?",
       "download": "App herunterladen",
       "mobile-web-title": "Erhalten Sie mobile Benachrichtigungen für neue Chatnachrichten mit unserer App.",
       "native-title": "Erhalten Sie mobile Benachrichtigungen für neue Chatnachrichten.",
       "desktop-title": "Laden Sie unsere App herunter und erhalten Sie mobile Benachrichtigungen für neue Chatnachrichten."
     },
     "how-to": {
-      "title": "So aktivieren Sie mobile Benachrichtigungen",
-      "ios-upgrade": {
-        "copy": "Um mobile Benachrichtigungen ab {link} zu erhalten, gehen Sie zu Ihren {accountSettings}, um sie zu aktivieren.",
-        "help-link": "https://support.apple.com/de-de/118575",
-        "help-link-copy": "Update auf iOS 16.4",
-        "account-settings": "Konto",
-        "btn-show": "So führen Sie ein Update durch",
-        "btn-skip": "Nicht jetzt"
-      },
-      "ios-browser-steps": {
-        "1": "Fügen Sie WTMG zu Ihrem Home-Bildschirm hinzu.",
-        "2": "Öffnen Sie WTMG von Ihrem Home-Bildschirm",
-        "3": "Melden Sie sich bei Ihrem Konto an"
-      },
-      "questions": "Detailliertere Anweisungen? Besuchen Sie unseren {guideLink}.",
-      "questions-link-text": "Hilfezentrum"
+      "title": "So aktivieren Sie mobile Benachrichtigungen"
     },
     "error": {
-      "permission-denied": "Ihr Browser blockiert derzeit mobile Benachrichtigungen für WTMG. Um Benachrichtigungen zu aktivieren, aktualisieren Sie oder setzen Sie Ihre Browserberechtigungen zurück. Folgen Sie einfach dem {faqLink}. Es dauert nur zwei Minuten!",
-      "permission-denied-faq-text": "Anleitungen dazu finden Sie in unseren FAQ",
       "generic": "Beim Aktivieren mobiler Benachrichtigungen ist ein Fehler aufgetreten. Senden Sie bitte die folgenden Informationen an {emailLink} und wir helfen Ihnen weiter. Vielen Dank!"
     },
     "android-channel": "Chat Benachrichtigungen",

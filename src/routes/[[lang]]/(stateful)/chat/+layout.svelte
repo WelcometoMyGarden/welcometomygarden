@@ -377,7 +377,7 @@
                   icon={archiveIcon}
                   variant="header"
                   ariaLabel="{$_('chat.open-archive')} ({$archivedCount})"
-                  title={$_('chat.tabs.archived')}
+                  title={$_('chat.archived')}
                   onclick={() => goto($lr(routes.CHAT_ARCHIVE))}
                 />
               </div>
@@ -388,7 +388,7 @@
                   ariaLabel="Back to All conversations"
                   title="Back"
                 />
-                <h2 class="listnav-title center">{$_('chat.tabs.archived')}</h2>
+                <h2 class="listnav-title center">{$_('chat.archived')}</h2>
               </div>
             {/if}
 

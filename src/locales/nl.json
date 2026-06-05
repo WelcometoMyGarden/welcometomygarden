@@ -1,5 +1,4 @@
 {
-  "tagline": "Een netwerk zonder winstoogmerk van burgers die gratis hun tuin openstellen voor trage reizigers die een kampeerplek zoeken.",
   "generics": {
     "password": "Wachtwoord",
     "email": "E-mail",
@@ -10,18 +9,15 @@
     "map": "Kaart",
     "rules": "Regels",
     "faq": {
-      "acronym": "FAQ",
-      "explicit": "Veelgestelde vragen"
+      "acronym": "FAQ"
     },
     "chat": "Chat",
     "account": "Account",
     "sign-out": "Uitloggen",
     "sign-in": "Inloggen",
     "garden": "Tuin",
-    "slowby": "Secret Trips",
     "about-us": "Over Ons",
     "become-superfan": "Word Superfan",
-    "slowby-url": "https://www.slowby.travel/nl/start",
     "new": "Nieuw",
     "fair-model-blog-path": "/nl/een-fair-model-om-de-toekomst-van-wtmg-te-verzekeren",
     "become-member": "Word lid",
@@ -65,13 +61,6 @@
       "banner": {
         "copy": "Welcome To My Garden heeft nu een {title} met houten WTMG-bordjes en postkaartjes om hosts te bedanken. Neem zeker een kijkje op {link}!",
         "title": "online shop"
-      }
-    },
-    "slowby": {
-      "banner": {
-        "copy": "Wil je starten met slow travel? Goed nieuws! Met secret slow travel trips kan je nu de verborgen hoekjes van België ontdekken. We hebben net {title} gelanceerd - neem een kijkje op {link}.",
-        "title": "Slowby",
-        "url": "https://slowby.travel/nl/start"
       }
     },
     "intro": {
@@ -131,8 +120,6 @@
     },
     "superfan": {
       "become-superfan-title": "Leden maken WTMG mogelijk",
-      "financial-support": "Met jouw financiële steun kan WTMG voor iedereen gratis toegankelijk blijven! Wil jij ons helpen om WTMG te laten blijven bloeien? Word Superfan en krijg toegang tot nieuwe features!",
-      "learn-more": "Lees meer",
       "subtitle": "Een fair model voor WTMG"
     },
     "wtmg-quotes": {
@@ -216,7 +203,6 @@
       "add-first": "Voeg eerst jouw tuin toe."
     },
     "form": {
-      "sign-in-link-text": "Log in",
       "register-link-text": "een account aanmaken",
       "location": {
         "title": "Locatie (verplicht)",
@@ -292,26 +278,6 @@
       "login-issue": "We konden je niet inloggen. Als het probleem aanhoudt, neem dan contact op met {support}"
     }
   },
-  "superfan-shared": {
-    "become-superfan-button": "Become a Superfan",
-    "three-features": {
-      "feature-one-title": "Bekijk het spoornetwerk",
-      "feature-one-description": "Overnachtingsverzoeken sturen naar 5000+ tuinen.",
-      "feature-two-title": "Je reis plannen",
-      "feature-two-description": "upload je route, sla tuinen op & bekijk het spoornetwerk.",
-      "feature-three-title": "Sla tuinen op",
-      "feature-three-description": "De communityruimte binnenstappen."
-    },
-    "three-support-reasons": {
-      "title": "Dankzij jouw steun kunnen we…",
-      "support-one-title": "De warme WTMG vibe behouden",
-      "support-one-description": "We willen echte connecties tussen echte mensen blijven bevorderen door ons platform. Daarbij willen we WTMG graag veilig en gebruiksvriendelijk houden. Hier wordt achter de schermen hard voor gewerkt!",
-      "support-two-title": "De WTMG ervaring verbeteren",
-      "support-two-description": "De eerste versie van WTMG hebben we in onze vrije tijd als vrijwilligers opgezet. Nu het platform groeit is het nodig om meer tijd en geld te investeren. WTMG heeft nu voltijds onze aandacht nodig om in leven te blijven!",
-      "support-three-title": "De community samenbrengen",
-      "support-three-description": "WTMG is meer dan een netwerk van tuinen; het is vooral een netwerk van fantastische mensen die van slow travel houden. We willen een community space creëren waar mensen elkaar kunnen ontmoeten, zowel online als offline."
-    }
-  },
   "become-superfan": {
     "pricing-section": {
       "terms-label": "Ik gebruik WTMG uitsluitend als trage reiziger (nooit met de auto) en ga akkoord met alle {termsLink}.",
@@ -367,7 +333,6 @@
     }
   },
   "about-superfan": {
-    "top-section": {},
     "video-section": {
       "title": "Word lid van de WTMG-community",
       "description": "<p><span class=\"notranslate\">Welcome To My Garden</span> wil traag reizen toegankelijker maken voor iedereen. Zoals iedere tuin heeft WTMG ook onderhoud nodig om te kunnen groeien en gezond te blijven.</p><p>Bij een WTMG host verblijven is gratis. Om WTMG te onderhouden en verder te ontwikkelen, vertrouwen we op een jaarlijks lidmaatschap om de kosten eerlijk te verdelen onder alle trage reizigers.\n</p>",
@@ -560,14 +525,9 @@
   "payment-superfan": {
     "overview-section": {
       "duration": "1 jaar",
-      "feature-overview": {
-        "regular": "Krijg volledige toegang tot het WTMG platform en dek jouw deel van de kosten.",
-        "superfan": "Krijg volledige toegang tot het WTMG platform en steun onze missie om slow travel te promoten."
-      },
       "product": {
         "regular": "WTMG lidmaatschap"
       },
-      "mode": "niet-herhalend",
       "features": {
         "0": "Kampeer gratis in tuinen",
         "1": "Ontmoet fantastische mensen",
@@ -579,7 +539,6 @@
       "payment-method": "Betaalmethode",
       "pay-button": "Betaal nu",
       "loading": "Aan het laden...",
-      "processing-payment": "Aan het verwerken...",
       "youre-subscribed": "Je bent aangemeld als Superfan!",
       "no-switching-here": "We ondersteunen het momenteel nog niet om hier te veranderen naar een andere prijs, laat het ons weten op {supportEmail} als je dat wil doen. Bedankt!",
       "errors": {
@@ -641,7 +600,6 @@
       }
     },
     "superfan": {
-      "loading-portal": "Portaal aan het laden...",
       "valid": "Jouw lidmaatschap is geldig tot {date}",
       "auto-active": "Je lidmaatschap is actief.<br>Verlengt automatisch op {date}.",
       "btn-manage": "Beheer lidmaatschap",
@@ -695,14 +653,10 @@
       "delete": "Verwijder",
       "last-seen": "Laatst gezien op",
       "unknown": "onbekend",
-      "ios16-link": "https://support.apple.com/nl-be/HT213411",
-      "ios16-check": "of je kan updaten",
       "current": "Dit apparaat",
       "title": "Mobiele meldingen",
       "manage": "Beheer jouw actieve mobiele meldingen",
       "turn-on": "Zet meldingen aan",
-      "unsupported-ios": "<p>Oeps! Je huidige iOS-versie ondersteunt geen mobiele meldingen. Om ze aan te zetten, <strong>update je iOS-versie</strong> (Instellingen > Algemeen > Software-update).</p><p>Als je niet kan updaten naar versie <strong>16.4 of hoger</strong>, betekent dit helaas dat je toestel onze mobiele meldingen niet ondersteunt.</p>",
-      "unsupported-android": "Oeps! Deze browser ondersteunt geen mobiele meldingen. Open WTMG in een <strong>andere browser</strong> om ze aan te zetten.",
       "questions": "Vragen? Bekijk {faqLink}.",
       "questions-faqlink-text": "onze FAQ"
     }
@@ -807,11 +761,6 @@
       },
       "title": "Richtlijnen voor verzoeken"
     },
-    "messages": "Berichten",
-    "tabs": {
-      "all": "Alle",
-      "archived": "Gearchiveerd"
-    },
     "archive": "Archiveren",
     "unarchive": "Uit archief halen",
     "archive-conversation": "Gesprek archiveren",
@@ -823,9 +772,6 @@
       "detail": "Wanneer je een bericht archiveert, verschijnt het hier.",
       "button": "Alle gesprekken tonen"
     },
-    "selected": "{count} geselecteerd",
-    "select": "Selecteren",
-    "deselect": "Deselecteren",
     "confirm-archive": {
       "title": "Dit gesprek archiveren?",
       "body": "Je hebt een ongelezen bericht van {name}. Archiveren markeert het als gelezen en verplaatst het naar je archief.",
@@ -840,7 +786,8 @@
     "no-active": {
       "title": "Geen actieve gesprekken",
       "detail": "Wanneer je een bericht ontvangt, verschijnt het hier. Of contacteer een host op de kaart."
-    }
+    },
+    "archived": "Gearchiveerd"
   },
   "map": {
     "vehicle-notice": {
@@ -851,11 +798,6 @@
       "hiking": "Wandelroutes tonen",
       "cycling": "Fietsroutes tonen",
       "attribution": "Trajecten met dank aan {link}"
-    },
-    "superfan-notice": {
-      "title": "Nieuwe features voor Superfans",
-      "linkText": "door Superfan te worden",
-      "description": "Bekijk het spoornetwerk, upload routes, sla tuinen op & meer {linkText}!"
     },
     "gardens": {
       "title": "Tuinen",
@@ -937,8 +879,7 @@
         "title": "Vertel het verder",
         "copy": "Wil jij ook jouw tuin openen of ken je iemand die dat graag zou doen? Vertel over <span class=\"notranslate\">Welcome To My Garden</span>! Je kan ook mensen uitnodigen om onze <a href=\"https://www.facebook.com/Welcome2mygarden\">Facebookpagina</a> leuk te vinden."
       }
-    },
-    "message": "Veel kampeerplezier!"
+    }
   },
   "faq": {
     "title": "FAQ",
@@ -1530,9 +1471,6 @@
     "marie": "Onze geniale ontwerper, die WTMG supermooi heeft gemaakt!",
     "ismaila": "Ismaila is het brein achter de filters op de kaart.",
     "brent": "Brent codeerde onze eerste landingspagina.",
-    "for-everyone": "WTMG voor iedereen",
-    "how-contribute": "Hoe kan jij bijdragen?",
-    "ways-support": "Je kunt ons op allerlei manieren steunen. We hebben ze op een rijtje gezet:",
     "our-story-title": "Ons verhaal",
     "our-story-description": "<p>Hey! Wij zijn Dries en Manon en wij zijn de trotse ouders van <span class=\"notranslate\">Welcome To My Garden</span>. In 2019 fietsten we van Brussel naar Tokyo. Gedurende 11 maanden reisden we door 21 landen, en genoten we van de gastvrijheid van talloze geweldige mensen die we op onze route tegenkwamen.</p><p>Eenmaal terug in België vroegen we ons af hoe we slow travel eenvoudiger en leuker konden maken in ons eigen land. Op een regenachtige zondagnamiddag in 2020 zette Dries de eerste versie van WTMG in elkaar. Binnen twee uur tijd stonden er 50 tuinen op de kaart. Twee weken later waren dat er 500!</p><p>Sindsdien is er veel gebeurd. Vandaag staan er 8500 tuinen op de kaart. Het is duidelijk dat we geen eendagsvlieg zijn! En het is tijd om verder te denken. We hebben naar jullie, onze community, geluisterd en we zijn bezig om WTMG nog beter te laten aansluiten bij jullie trage reisbehoeften.</p><p>WTMG bestaat vandaag dankzij de inzet van een bevlogen vrijwilligersteam. Samen hebben we avonden en weekenden ingezet. Maar om WTMG gaande te houden hebben we meer tijd en menskracht nodig. Daarom maakt Thor nu ook onderdeel uit van het team. Wij zetten alles op alles en hopen dat jullie ons ook willen steunen!</p>",
     "bigger-picture-title": "Het grotere plaatje",
@@ -1572,32 +1510,10 @@
   "push-notifications": {
     "registration-success": "Meldingen zijn succesvol aangezet",
     "how-to": {
-      "questions": "Meer gedetailleerde instructies? Bezoek ons {guideLink}.",
-      "questions-link-text": "Helpcentrum",
-      "ios-browser-steps": {
-        "1": "Zet WTMG op je beginscherm.",
-        "2": "Open WTMG op je Beginscherm",
-        "3": "Log in op jouw account",
-        "1-chrome": "<li>Klik op {shareIcon} “<em>Delen</em>” (rechtsboven)</li>\n<li>Klik op {plusSquareIcon} “<em>Zet op je Beginscherm</em>”</li>",
-        "1-firefox": "<li>Open het {burgerIcon} menu hieronder (<em>niet</em> het WTMG-menu).</li> \n<li>Klik op {shareIcon} “<em>Delen</em>”</li> \n<li>Klik op {plusSquareIcon}“<em>Zet op je Beginscherm</em>”</li>",
-        "1-safari": "<li>Klik op {shareIcon} “<em>Delen</em>” vanonder</li>\n<li>Klik op {plusSquareIcon} “<em>Zet op je Beginscherm</em>”</li>"
-      },
-      "ios-upgrade": {
-        "account-settings": "Account",
-        "copy": "Om mobiele meldingen te ontvangen, moet je {link} of hoger, en nadien naar je {accountSettings} gaan om ze aan te zetten.",
-        "btn-show": "Hoe bij te werken",
-        "btn-skip": "Niet nu",
-        "help-link": "https://support.apple.com/nl-be/HT204204",
-        "help-link-copy": "updaten naar iOS 16.4"
-      },
       "title": "Zo zet je mobiele meldingen aan"
     },
     "prompt": {
-      "btn-show-me": "Toon me hoe",
       "btn-turn-on": "Zet meldingen aan",
-      "follow-up-desktop": "Wil je <strong>mobiele meldingen</strong> ontvangen voor nieuwe chatberichten?",
-      "ios-installed": "Mis geen enkel bericht door je mobiele meldingen aan te zetten!",
-      "ios-installed-title": "Mobiele meldingen",
       "helpcenter-url": "https://hulp.welcometomygarden.org/master/1.-mobiele-meldingen",
       "download": "Download de app",
       "mobile-web-title": "Ontvang mobiele meldingen voor nieuwe chatberichten met onze app.",
@@ -1605,9 +1521,6 @@
       "desktop-title": "Download onze app en ontvang mobiele meldingen voor nieuwe chatberichten."
     },
     "error": {
-      "permission-denied-faq-link": "https://hulp.welcometomygarden.org/master/1.-mobiele-meldingen/1.1.-android#wat-moet-ik-doen-als-mijn-browser-mobiele-meldingen-specifiek-voor-wtmg-blokkeert",
-      "permission-denied-faq-text": "de instructies in onze FAQ",
-      "permission-denied": "Jouw browser blokkeert momenteel mobiele meldingen voor WTMG. Werk de toestemmingen van jouw browser bij of reset ze om mobiele meldingen aan te zetten. Volg eenvoudigweg {faqLink}. Het duurt slechts twee minuten!",
       "generic": "Er is iets misgegaan bij het aanzetten van je mobiele meldingen. Gelieve onderstaande informatie naar {emailLink} te sturen zodat we je verder kunnen helpen. Bedankt!"
     },
     "android-channel": "Chatmeldingen",
