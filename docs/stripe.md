@@ -8,8 +8,11 @@ Ensure the relevant testing Stripe API secret, webhook secret and product IDs ar
 
 Which ones you need depends on the Stripe environment you're targeting, and the Firebase Functions' environment you are running with (local, staging, production?).
 
-- If you only run the local functions emulator against the deployed staging Firestore (the `wtmg-dev` project), Auth, and Stripe's Legacy Test Mode (our previous "staging testing approach"), then you will want to consider `./api/.env.staging` (also used for deployment) and `./api/.env.staging.local` (local overrides), and possibly temporarily rename `./api/.env.local` to prevent unwanted overrides.
-  dd
+- If you want to only run the local functions emulator against the deployed staging Firestore (the `wtmg-dev` project), Auth, and Stripe's (Legacy) Test Mode (our previous "staging testing approach"), then
+  - Review `./api/.env.staging` (also used for deployment) and `./api/.env.staging.local` (local overrides), and possibly temporarily rename `./api/.env.local` to prevent unwanted overrides.
+  - Use `yarn firebase:staging-debug` to run the backend API emulator with live service passthrough.
+  - Remember to also switch the frontend `.env.staging.local` config to use the required functions emulators.
+  - Be sure that no (production) Google Application Default Credentials are lingering. The Firebase SDK also by default reads these from `~/.config/gcloud/application_default_credentials.json`, not just from env vars.
 - To run test locally against the local `demo-test` Firebase project, we use the new Stripe Sandbox named "Local". In this case, only `./api/.env.local` is relevant.
 
 ### Set up local webhooks
