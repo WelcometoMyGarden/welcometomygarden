@@ -5,6 +5,8 @@ const { getFunctionUrl } = require('../../firebase');
 const { getFunctions } = require('firebase-admin/functions');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const fail = require('../../util/fail');
+const stripe = require('../stripe');
+const { projectID } = require('firebase-functions/params');
 
 /**
  * Only sent when the subscription is created.
@@ -73,6 +75,34 @@ module.exports = async (event, res) => {
         : {})
     }
   );
+
+  try {
+    if (!subscription.customer) {
+      // Type guard; a just-made sub should have a customer
+      res.sendStatus(500);
+    }
+    if (projectID.value() === 'wtmg-production') {
+      // Check if this could be an unexpected double subscription
+      const existingSubscriptions = await stripe.subscriptions.list({
+        customer: /** @type {string} */ (subscription.customer),
+        created: {
+          // > 15 minutes ago
+          gt: Math.floor(new Date().getTime() / 1000) - 15 * 60
+        }
+      });
+      const priorWTMGSubs = existingSubscriptions.data.filter(
+        (s) => s.id !== subscription.id && isWTMGSubscription(s)
+      );
+
+      if (priorWTMGSubs.length > 0) {
+        logger.error('Weird double+ subscription situation detected', {
+          customer: subscription.customer
+        });
+      }
+    }
+  } catch (e) {
+    logger.error('Error while checking for double subscription', { e });
+  }
 
   return res.sendStatus(200);
 };
