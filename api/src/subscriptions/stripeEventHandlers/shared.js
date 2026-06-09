@@ -10,7 +10,7 @@ exports.getLatestCharge = async (event) => {
   const paymentIntent = /** @type {import('stripe').Stripe.PaymentIntent} */ (event.data.object);
 
   // https://docs.stripe.com/changelog/2022-11-15
-  const usesOldCharges = event.api_version < '2022-11-15';
+  const usesOldCharges = /** @type {string} */ (event.api_version) < '2022-11-15';
   // --- Do pre-checks for the usefulness of this event for WTMG ---
   // Make sure charges are listed for the paymentIntent
   // @ts-ignore

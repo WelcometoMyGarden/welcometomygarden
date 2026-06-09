@@ -10,6 +10,7 @@ const { stripeSubscriptionKeys } = require('../constants');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const { isWTMGSubscription } = require('./util');
 const stripe = require('../stripe');
+const { projectID } = require('firebase-functions/params');
 
 const {
   statusKey,
@@ -57,6 +58,44 @@ module.exports = async (event, res) => {
     (typeof customer !== 'string' && customer?.id == null)
   ) {
     return res.sendStatus(200);
+  }
+
+  // Abort if another valid WTMG subscription exists
+  // This should not happen, this is to prevent a bug case)
+  try {
+    if (projectID.value() === 'wtmg-production') {
+      // Check if this could be an unexpected double subscription
+      const existingActiveSubscriptions = await stripe.subscriptions.list({
+        customer: /** @type {string} */ (subscription.customer),
+        status: 'active',
+        expand: ['data.latest_invoice']
+      });
+      const existingValidSubscription = existingActiveSubscriptions.data.find(
+        (s) =>
+          s.id !== subscription.id &&
+          isWTMGSubscription(s) &&
+          s.latest_invoice != null &&
+          typeof s.latest_invoice !== 'string' &&
+          s.latest_invoice.status === 'paid'
+      );
+      if (existingValidSubscription) {
+        logger.error(
+          'A WTMG subscription is being deleted for a customer which also has another valid WTMG sub',
+          {
+            customer: subscription.customer
+          }
+        );
+        // Abort
+        return res.sendStatus(200);
+      }
+    }
+  } catch (e) {
+    logger.error(
+      'Error while checking for other valid subscriptions during subscription deletion',
+      {
+        error: e
+      }
+    );
   }
 
   const customerId = typeof customer === 'string' ? customer : customer.id;
