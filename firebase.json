@@ -16,6 +16,56 @@
           "source": "/garden/manage",
           "destination": "/garden/edit",
           "type": 301
+        },
+        {
+          "source": "/about-superfan",
+          "destination": "/about-membership",
+          "type": 301
+        },
+        {
+          "source": "/:lang/about-superfan",
+          "destination": "/:lang/about-membership",
+          "type": 301
+        },
+        {
+          "source": "/become-superfan",
+          "destination": "/become-member",
+          "type": 301
+        },
+        {
+          "source": "/:lang/become-superfan",
+          "destination": "/:lang/become-member",
+          "type": 301
+        },
+        {
+          "source": "/become-superfan/payment",
+          "destination": "/become-member/payment",
+          "type": 301
+        },
+        {
+          "source": "/:lang/become-superfan/payment",
+          "destination": "/:lang/become-member/payment",
+          "type": 301
+        },
+        {
+          "source": "/become-superfan/payment/sow",
+          "destination": "/become-member/payment",
+          "type": 301
+        },
+        {
+          "source": "/:lang/become-superfan/payment/sow",
+          "destination": "/:lang/become-member/payment",
+          "type": 301
+        },
+        {
+          "source": "/become-superfan/payment/:id",
+          "destination": "/become-member/payment/superfan",
+          "type": 301
+        },
+        {
+          "source": "/:lang/become-superfan/payment/:id",
+          "destination": "/:lang/become-member/payment/superfan",
+          "type": 301
         }
       ],
       "rewrites": [
@@ -94,6 +144,56 @@
         {
           "source": "/garden/manage",
           "destination": "/garden/edit",
+          "type": 301
+        },
+        {
+          "source": "/about-superfan",
+          "destination": "/about-membership",
+          "type": 301
+        },
+        {
+          "source": "/:lang/about-superfan",
+          "destination": "/:lang/about-membership",
+          "type": 301
+        },
+        {
+          "source": "/become-superfan",
+          "destination": "/become-member",
+          "type": 301
+        },
+        {
+          "source": "/:lang/become-superfan",
+          "destination": "/:lang/become-member",
+          "type": 301
+        },
+        {
+          "source": "/become-superfan/payment",
+          "destination": "/become-member/payment",
+          "type": 301
+        },
+        {
+          "source": "/:lang/become-superfan/payment",
+          "destination": "/:lang/become-member/payment",
+          "type": 301
+        },
+        {
+          "source": "/become-superfan/payment/sow",
+          "destination": "/become-member/payment",
+          "type": 301
+        },
+        {
+          "source": "/:lang/become-superfan/payment/sow",
+          "destination": "/:lang/become-member/payment",
+          "type": 301
+        },
+        {
+          "source": "/become-superfan/payment/:id",
+          "destination": "/become-member/payment/superfan",
+          "type": 301
+        },
+        {
+          "source": "/:lang/become-superfan/payment/:id",
+          "destination": "/:lang/become-member/payment/superfan",
           "type": 301
         }
       ],
