@@ -3,7 +3,7 @@ import { clearAuth, clearFirestore } from '../util';
 import { type TestOptions } from '../../playwright.config';
 import { MainFlowTest } from './MainFlow';
 import { StraightToMemberTest } from './StraightToMember';
-import { GardenManageTest } from './GardenManage';
+import { GardenEditTest } from './GardenEdit';
 
 const test = base.extend<TestOptions>({
   useStripe: [false, { option: true }],
@@ -52,9 +52,9 @@ test('straight to member', async ({
   await flow.test();
 });
 
-test('garden manage', async ({ browser, baseURL, useStripe, useDemoProject, locale, isMobile }) => {
+test('garden edit', async ({ browser, baseURL, useStripe, useDemoProject, locale, isMobile }) => {
   const context = { browser, baseURL, useStripe, useDemoProject, locale, isMobile };
-  const flow = new GardenManageTest(context);
+  const flow = new GardenEditTest(context);
   await flow.test();
 });
 

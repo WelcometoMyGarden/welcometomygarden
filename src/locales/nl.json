@@ -165,8 +165,7 @@
         "capacity": "Ruimte voor {styleCapacity} {capacity, plural, one {tent} other {tenten}}"
       },
       "owner": {
-        "your-garden": "Jouw tuin",
-        "button": "Tuin beheren"
+        "your-garden": "Jouw tuin"
       },
       "guest": {
         "button": "Contact host",
@@ -197,8 +196,8 @@
       "title": "Voeg jouw tuin toe"
     },
     "manage": {
-      "title": "Beheer jouw tuin",
-      "add-first": "Voeg eerst jouw tuin toe."
+      "add-first": "Voeg eerst jouw tuin toe.",
+      "action": "Tuin bewerken"
     },
     "form": {
       "register-link-text": "een account aanmaken",
@@ -244,7 +243,7 @@
       },
       "invalid": "Sommige informatie was niet geldig. Controleer de door je verstrekte informatie op fouten.",
       "manage": {
-        "title": "Beheer jouw tuin",
+        "title": "Bewerk jouw tuin",
         "button": "Update jouw tuin",
         "normal-notice": "Op deze pagina kan je de informatie over jouw tuin bijwerken. Je kan jouw tuin op elk moment van de kaart halen op je {accountLink}."
       },
@@ -590,8 +589,7 @@
         "button": "Voeg jouw tuin toe"
       },
       "listed": {
-        "text": "Haal mijn tuin tijdelijk van de kaart",
-        "button": "Beheer jouw tuin"
+        "text": "Haal mijn tuin tijdelijk van de kaart"
       },
       "unverified": {
         "text": "Controleer jouw e-mail om jouw tuin te beheren."

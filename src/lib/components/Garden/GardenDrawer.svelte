@@ -380,8 +380,8 @@
           </Text>
         {/if}
         {#if ownedByLoggedInUser}
-          <Button href={$lr(routes.MANAGE_GARDEN)} uppercase medium>
-            {$_('garden.drawer.owner.button')}
+          <Button href={$lr(routes.EDIT_GARDEN)} uppercase medium>
+            {$_('garden.manage.action')}
           </Button>
         {:else}
           {#if !$user}

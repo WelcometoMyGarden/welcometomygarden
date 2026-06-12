@@ -44,7 +44,7 @@
       logger.log(ex);
       Sentry.captureException(ex, {
         extra: {
-          context: 'Error managing garden',
+          context: 'Error editing garden',
           garden: {
             hasPhoto: !!(garden.photo && garden.photo.files && garden.photo.files[0])
           }
@@ -56,7 +56,7 @@
 </script>
 
 <svelte:head>
-  <title>{$_('garden.manage.title')} | {$_('generics.wtmg.explicit')}</title>
+  <title>{$_('garden.manage.action')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
 
 <Progress active={updatingGarden} />

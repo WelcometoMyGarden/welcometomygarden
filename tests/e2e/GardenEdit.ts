@@ -6,15 +6,15 @@ const DEBUG_REDIRECTIONS = false;
 
 /**
  * 1. Create an account without any shortcuts
- * 2. Go to /garden/manage, which should redirect to /account because the account is unverified yet
+ * 2. Go to /garden/edit, which should redirect to /account because the account is unverified yet
  * 3. Verify the account.
- * 4. Go back to /garden/manage manually, which should redirect to /garden/add
+ * 4. Go back to /garden/edit manually, which should redirect to /garden/add
  * 5. Add a garden
- * 6. Go manually to /garden/add, which redirect to /garden/manage,
+ * 6. Go manually to /garden/add, which redirect to /garden/edit,
  *    and change the garden description, location, and facilities
  * 7. Expect auto-redirect to your garden, verify the changed description and facilities
  */
-export class GardenManageTest extends GenericFlow {
+export class GardenEditTest extends GenericFlow {
   async robot({
     page: inPage,
     context,
@@ -48,9 +48,9 @@ export class GardenManageTest extends GenericFlow {
     // Close the page
     await page.close();
 
-    // In a new page, load /garden/manage
+    // In a new page, load /garden/edit
     page = await context.newPage();
-    await page.goto(`${this.baseURL}/garden/manage`);
+    await page.goto(`${this.baseURL}/garden/edit`);
     // Wait for the redirect to /account, because we're not verified yet
     await page.waitForURL('**/account');
     // Check that the verification toast appears
@@ -73,7 +73,7 @@ export class GardenManageTest extends GenericFlow {
 
     page = openedLinkPage;
 
-    await page.goto(`${this.baseURL}/garden/manage`);
+    await page.goto(`${this.baseURL}/garden/edit`);
     // Wait for the redirect to /garden/add, because we don't have a garden yet
     await page.waitForURL('**/garden/add');
 
@@ -110,8 +110,8 @@ export class GardenManageTest extends GenericFlow {
     page = await context.newPage();
     // Manually open a new page on /garden/add
     await page.goto(`${this.baseURL}/garden/add`);
-    // Wait for redirect to to the /garden/manage page
-    await page.waitForURL('**/garden/manage');
+    // Wait for redirect to to the /garden/edit page
+    await page.waitForURL('**/garden/edit');
 
     //
     await page.getByRole('button', { name: this.l('adjust-pin-location') }).click();

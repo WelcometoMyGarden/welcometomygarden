@@ -521,8 +521,7 @@
         "capacity": "Espacio para {styleCapacity} {capacity, plural, one {tienda} other {tiendas}}"
       },
       "owner": {
-        "your-garden": "Su jardín",
-        "button": "Administrar jardín"
+        "your-garden": "Su jardín"
       },
       "guest": {
         "button": "Contactar al anfitrión",
@@ -553,8 +552,8 @@
       "title": "Añadir su jardín"
     },
     "manage": {
-      "title": "Administrar jardín",
-      "add-first": "Primero añadir un jardín."
+      "add-first": "Primero añadir un jardín.",
+      "action": "Editar el jardín"
     },
     "form": {
       "register-link-text": "crear una cuenta",
@@ -600,7 +599,7 @@
       },
       "invalid": "Alguna información no es válida. Por favor revisa la información enviada para ver si hay errores.",
       "manage": {
-        "title": "Gestiona tu jardín",
+        "title": "Edita tu jardín",
         "button": "Actualiza tu jardín",
         "normal-notice": "En esta página puedes actualizar la información de tu jardín. Puedes retirarlo de la mapa en cualquier momento desde la {accountLink}."
       },
@@ -950,8 +949,7 @@
         "button": "Añade tu jardín"
       },
       "listed": {
-        "text": "Dejar de incluir mi jardín temporalmente",
-        "button": "Administrar jardín"
+        "text": "Dejar de incluir mi jardín temporalmente"
       },
       "unverified": {
         "text": "Verifica tu correo electrónico para gestionar tu jardín."

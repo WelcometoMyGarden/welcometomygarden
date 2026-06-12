@@ -6,6 +6,18 @@
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "cleanUrls": true,
       "trailingSlash": false,
+      "redirects": [
+        {
+          "source": "/:lang/garden/manage",
+          "destination": "/:lang/garden/edit",
+          "type": 301
+        },
+        {
+          "source": "/garden/manage",
+          "destination": "/garden/edit",
+          "type": 301
+        }
+      ],
       "rewrites": [
         {
           "source": "/email-preferences",
@@ -73,6 +85,18 @@
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "cleanUrls": true,
       "trailingSlash": false,
+      "redirects": [
+        {
+          "source": "/:lang/garden/manage",
+          "destination": "/:lang/garden/edit",
+          "type": 301
+        },
+        {
+          "source": "/garden/manage",
+          "destination": "/garden/edit",
+          "type": 301
+        }
+      ],
       "rewrites": [
         {
           "source": "/email-preferences",

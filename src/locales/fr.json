@@ -552,7 +552,7 @@
       },
       "invalid": "Certaines informations n'étaient pas valides. Veuillez vérifier que les informations que vous avez soumises ne contiennent pas d'erreurs.",
       "manage": {
-        "title": "Gérer votre jardin",
+        "title": "Modifier votre jardin",
         "button": "Mettre à jour le jardin",
         "normal-notice": "Sur cette page, vous pouvez mettre à jour les informations de votre jardin. Vous pouvez le retirer de la carte à tout moment en allant dans votre {accountLink}."
       },
@@ -578,8 +578,7 @@
     },
     "drawer": {
       "owner": {
-        "your-garden": "Votre jardin",
-        "button": "Gérer le jardin"
+        "your-garden": "Votre jardin"
       },
       "guest": {
         "sign-link-text": "vous connecter",
@@ -613,8 +612,8 @@
       "title": "Ajoutez votre jardin"
     },
     "manage": {
-      "title": "Gérer le jardin",
-      "add-first": "Veuillez d'abord ajouter votre jardin"
+      "add-first": "Veuillez d'abord ajouter votre jardin",
+      "action": "Modifier le jardin"
     }
   },
   "sign-in": {
@@ -942,8 +941,7 @@
         "text": "Vérifiez votre adresse électronique pour gérer votre jardin."
       },
       "listed": {
-        "text": "Retirer temporairement mon jardin de la carte",
-        "button": "Gérer le jardin"
+        "text": "Retirer temporairement mon jardin de la carte"
       },
       "visibility": {
         "on-label": "Votre jardin est sur la carte",

@@ -19,7 +19,7 @@ export const routeDescriptions = {
   COOKIE_POLICY: { route: '/terms/cookies', requiresAuth: false },
   FAQ: { route: '/info/faq', requiresAuth: false },
   HOME: { route: '/', requiresAuth: false },
-  MANAGE_GARDEN: { route: '/garden/manage', requiresAuth: true },
+  EDIT_GARDEN: { route: '/garden/edit', requiresAuth: true },
   MAP: { route: '/explore', requiresAuth: false },
   PRIVACY_POLICY: { route: '/terms/privacy-policy', requiresAuth: false },
   REGISTER: { route: '/register', requiresAuth: false },

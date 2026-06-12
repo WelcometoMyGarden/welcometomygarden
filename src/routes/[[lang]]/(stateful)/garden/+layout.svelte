@@ -50,10 +50,10 @@
       goto($lr(routes.ACCOUNT));
     } else if ($gardenHasLoaded) {
       if (!!$user.garden && getBaseRouteIn(pathname) == routes.ADD_GARDEN) {
-        // Garden already exists, silently go to the "Manage garden" page
+        // Garden already exists, silently go to the "Edit garden" page
         navigating = true;
-        goto($lr(routes.MANAGE_GARDEN));
-      } else if (!$user.garden && getBaseRouteIn(pathname) === routes.MANAGE_GARDEN) {
+        goto($lr(routes.EDIT_GARDEN));
+      } else if (!$user.garden && getBaseRouteIn(pathname) === routes.EDIT_GARDEN) {
         // Garden does not yet exist, go to the "Add garden" page
         notify.warning($_('garden.manage.add-first'));
         navigating = true;

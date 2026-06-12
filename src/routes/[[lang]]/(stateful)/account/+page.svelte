@@ -306,8 +306,8 @@
         {:else if $user.emailVerified && $user.garden}
           <GardenStatusWrapper />
           <div class="mt-l">
-            <Button href={$lr(routes.MANAGE_GARDEN)} medium uppercase>
-              {$_('account.garden.listed.button')}
+            <Button href={$lr(routes.EDIT_GARDEN)} medium uppercase>
+              {$_('garden.manage.action')}
             </Button>
           </div>
         {:else if $user.garden && !$user.emailVerified}

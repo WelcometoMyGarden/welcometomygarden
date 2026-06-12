@@ -527,8 +527,7 @@
         "capacity": "Space for {styleCapacity} {capacity, plural, one {tent} other {tents}}"
       },
       "owner": {
-        "your-garden": "Your Garden",
-        "button": "Manage garden"
+        "your-garden": "Your Garden"
       },
       "guest": {
         "button": "Contact host",
@@ -559,8 +558,8 @@
       "title": "Add your garden"
     },
     "manage": {
-      "title": "Manage garden",
-      "add-first": "Please add a garden first."
+      "add-first": "Please add a garden first.",
+      "action": "Edit garden"
     },
     "form": {
       "register-link-text": "create an account",
@@ -606,7 +605,7 @@
       },
       "invalid": "Some information was not valid. Please check your submitted information for errors.",
       "manage": {
-        "title": "Manage your garden",
+        "title": "Edit your garden",
         "button": "Update your garden",
         "normal-notice": "On this page, you can update your garden information. You can unlist your garden at any time on your {accountLink}."
       },
@@ -969,8 +968,7 @@
         "button": "Add your garden"
       },
       "listed": {
-        "text": "Unlist my garden temporarily",
-        "button": "Manage garden"
+        "text": "Unlist my garden temporarily"
       },
       "unverified": {
         "text": "Verify your email to manage your garden."

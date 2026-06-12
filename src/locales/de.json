@@ -520,8 +520,7 @@
         "capacity": "Platz für {styleCapacity} {capacity, plural, one {Zelt} other {Zelte}}"
       },
       "owner": {
-        "your-garden": "Ihr Garten",
-        "button": "Garten verwalten"
+        "your-garden": "Ihr Garten"
       },
       "guest": {
         "button": "Gastgeber kontaktieren",
@@ -552,8 +551,8 @@
       "title": "Fügen Sie Ihren Garten hinzu"
     },
     "manage": {
-      "title": "Garten verwalten",
-      "add-first": "Bitte fügen Sie zuerst einen Garten hinzu."
+      "add-first": "Bitte fügen Sie zuerst einen Garten hinzu.",
+      "action": "Garten bearbeiten"
     },
     "form": {
       "register-link-text": "ein Konto erstellen",
@@ -599,7 +598,7 @@
       },
       "invalid": "Einige Informationen waren nicht gültig. Bitte überprüfen Sie Ihre übermittelten Informationen auf Fehler.",
       "manage": {
-        "title": "Verwalten Sie Ihren Garten",
+        "title": "Bearbeiten Sie Ihren Garten",
         "button": "Ihren Garten aktualisieren",
         "normal-notice": "Auf dieser Seite können Sie die Informationen zu Ihrem Garten aktualisieren. Sie können Ihren Garten jederzeit abmelden auf Ihrer {accountLink}."
       },
@@ -949,8 +948,7 @@
         "button": "Ihren Garten hinzufügen"
       },
       "listed": {
-        "text": "Sie können Ihren Garten jederzeit abmelden. Dies bedeutet, dass er für später gespeichert bleibt – aber nicht mehr auf der Karte angezeigt wird, bis Sie ihn wieder anzeigen.",
-        "button": "Garten verwalten"
+        "text": "Sie können Ihren Garten jederzeit abmelden. Dies bedeutet, dass er für später gespeichert bleibt – aber nicht mehr auf der Karte angezeigt wird, bis Sie ihn wieder anzeigen."
       },
       "unverified": {
         "text": "Bestätigen Sie Ihre E-Mail-Adresse, um Ihren Garten zu verwalten."
