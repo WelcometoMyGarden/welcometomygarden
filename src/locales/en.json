@@ -974,6 +974,31 @@
       },
       "unverified": {
         "text": "Verify your email to manage your garden."
+      },
+      "visibility": {
+        "on-label": "Your garden is on the map",
+        "on-subtext": "Switch off to temporarily unlist your garden.",
+        "off-label": "Your garden is currently not on the map",
+        "returns-on": "It returns to the map on {date} ({relative}).",
+        "off-indefinite": "Switch on to relist your garden.",
+        "change-date": "Change date",
+        "set-return-date": "Set a return date",
+        "relist-now": "Relist now"
+      },
+      "unlist-modal": {
+        "title": "Unlist your garden temporarily",
+        "subtitle": "For how long do you want to unlist your garden?",
+        "mode-date-title": "Until a certain date",
+        "mode-date-desc": "Your garden returns automatically.",
+        "mode-indef-title": "Indefinitely",
+        "mode-indef-desc": "You manually relist your garden.",
+        "date-label": "Back on the map",
+        "pick-date": "Pick a date",
+        "return": "Your garden returns to the map on {date} ({relative}).",
+        "cancel": "Cancel",
+        "unlist-until": "Unlist until {date}",
+        "unlist-garden": "Unlist garden",
+        "preset-weeks": "{count, plural, one {# week} other {# weeks}}"
       }
     },
     "superfan": {

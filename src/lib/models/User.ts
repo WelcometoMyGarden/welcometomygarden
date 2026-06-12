@@ -93,6 +93,17 @@ export type UserPrivate = {
    * in emails, it is normally defined.
    */
   secret?: string;
+  /**
+   * When set, the date/time at which this user's garden should be automatically relisted on the map
+   * (the `relistGardens` scheduled function picks these up daily). Normally a 10:00 Europe/Brussels
+   * timestamp, but the backend queries a full day range so any time-of-day works.
+   *
+   * - `undefined`/`null`: no scheduled relist (garden is either listed, or unlisted indefinitely).
+   * - `Timestamp`: garden is unlisted and should be relisted on this date.
+   *
+   * @since 2026-06
+   */
+  relistGardenAt?: Timestamp | null;
 };
 
 /**
@@ -126,6 +137,7 @@ export class User implements UserPrivate, UserPublic {
   savedGardens?: string[];
   stripeCustomerId?: string;
   stripeSubscription?: StripeSubscription;
+  relistGardenAt?: Timestamp | null;
 
   constructor(user: UserProps) {
     // TYPE TODO: choose one, id or uid
@@ -147,6 +159,7 @@ export class User implements UserPrivate, UserPublic {
     this.savedGardens = user.savedGardens || [];
     this.stripeCustomerId = user.stripeCustomerId;
     this.stripeSubscription = user.stripeSubscription;
+    this.relistGardenAt = user.relistGardenAt ?? null;
   }
 
   /**
@@ -179,7 +192,8 @@ export class User implements UserPrivate, UserPublic {
       superfan: this.superfan,
       savedGardens: this.savedGardens,
       stripeCustomerId: this.stripeCustomerId,
-      stripeSubscription: this.stripeSubscription ? { ...this.stripeSubscription } : undefined
+      stripeSubscription: this.stripeSubscription ? { ...this.stripeSubscription } : undefined,
+      relistGardenAt: this.relistGardenAt
     };
   }
 

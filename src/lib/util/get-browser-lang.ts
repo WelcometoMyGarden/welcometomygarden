@@ -11,6 +11,19 @@ const findValidLocale = (lang: string) =>
 export const isValidLocale = (lang: string) => !!findValidLocale(lang);
 
 export const coerceToValidLangCode = (lang: string) => findValidLocale(lang) ?? DEFAULT_LANGUAGE;
+
+export const getBrowserLangAndRegion = () => {
+  const browserLang = window.navigator.language;
+  if (browserLang.length === 5) {
+    // standard format of en-US
+    // TODO: this is not reliably parsing BCP 47. A basic regex:
+    // https://stackoverflow.com/questions/8758340/is-there-a-regex-to-test-if-a-string-is-for-a-locale/48300605#48300605
+    const [lang, region] = browserLang.split('-');
+    return { lang: lang.toLowerCase(), region: region.toUpperCase() };
+  }
+  return null;
+};
+
 /**
  * Get the language of the current browser
  *
@@ -20,7 +33,9 @@ export const coerceToValidLangCode = (lang: string) => findValidLocale(lang) ?? 
  */
 export const getBrowserLanguage = () =>
   // TODO: should we use getLocaleFromNavigator from svelte-i18n?
-  coerceToValidLangCode(window.navigator.language?.split('-')[0].toLowerCase());
+  // TODO: this does not follow the spec really
+  // https://developer.mozilla.org/en-US/docs/Glossary/BCP_47_language_tag
+  coerceToValidLangCode(window.navigator.language.split('-')[0].toLowerCase());
 
 /**
  * Check the navigator language and returns it, if it is a supported locale.

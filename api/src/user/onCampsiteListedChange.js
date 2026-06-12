@@ -1,5 +1,6 @@
 const { Timestamp } = require('firebase-admin/firestore');
-const { changeData } = require('../firebase');
+const { logger } = require('firebase-functions/v2');
+const { changeData, getUserDocRefs } = require('../firebase');
 /**
  * @param {FirestoreEvent<Change<DocumentSnapshot<Garden>>>} change
  */
@@ -30,4 +31,19 @@ module.exports = async ({ data }) => {
   // Update the document
   // This should result in new listener calls that will just replicate (SendGrid and Supabase).
   await after.ref.update({ latestListedChangeAt });
+
+  // When the garden was just relisted (listed set to true), clear any pending scheduled relist date
+  // on the owner's users-private doc.
+  // For the front-end triggered upates this should already be done by a batched write by the frontend,
+  // to ensure quick UI state updates.
+  if (afterData?.listed === true) {
+    const uid = after.ref.id;
+    const { privateUserProfileDocRef } = getUserDocRefs(uid);
+    const userPrivateSnapshot = await privateUserProfileDocRef.get();
+    const relistGardenAt = userPrivateSnapshot.data()?.relistGardenAt;
+    if (relistGardenAt instanceof Timestamp) {
+      logger.info(`Clearing relistGardenAt for relisted garden of user ${uid}.`);
+      await privateUserProfileDocRef.update({ relistGardenAt: null });
+    }
+  }
 };

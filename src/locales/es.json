@@ -955,6 +955,31 @@
       },
       "unverified": {
         "text": "Verifica tu correo electrónico para gestionar tu jardín."
+      },
+      "visibility": {
+        "on-label": "Tu jardín está en el mapa",
+        "on-subtext": "Desactívalo para retirar temporalmente tu jardín del mapa.",
+        "off-label": "Tu jardín no está actualmente en el mapa",
+        "returns-on": "Vuelve al mapa el {date} ({relative}).",
+        "off-indefinite": "Actívalo para volver a mostrar tu jardín en el mapa.",
+        "change-date": "Cambiar la fecha",
+        "set-return-date": "Definir el regreso",
+        "relist-now": "Mostrar ahora"
+      },
+      "unlist-modal": {
+        "title": "Retira temporalmente tu jardín del mapa",
+        "subtitle": "¿Durante cuánto tiempo quieres retirar tu jardín?",
+        "mode-date-title": "Hasta una fecha determinada",
+        "mode-date-desc": "Tu jardín vuelve automáticamente.",
+        "mode-indef-title": "Indefinidamente",
+        "mode-indef-desc": "Vuelves a mostrar tu jardín manualmente.",
+        "date-label": "De vuelta en el mapa",
+        "pick-date": "Elegir una fecha",
+        "return": "Tu jardín vuelve al mapa el {date} ({relative}).",
+        "cancel": "Cancelar",
+        "unlist-until": "Retirar hasta el {date}",
+        "unlist-garden": "Retirar jardín",
+        "preset-weeks": "{count, plural, one {# semana} other {# semanas}}"
       }
     },
     "superfan": {

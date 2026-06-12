@@ -954,6 +954,31 @@
       },
       "unverified": {
         "text": "Bestätigen Sie Ihre E-Mail-Adresse, um Ihren Garten zu verwalten."
+      },
+      "visibility": {
+        "on-label": "Ihr Garten ist auf der Karte",
+        "on-subtext": "Schalten Sie aus, um Ihren Garten vorübergehend von der Karte zu nehmen.",
+        "off-label": "Ihr Garten ist derzeit nicht auf der Karte",
+        "returns-on": "Er erscheint wieder auf der Karte am {date} ({relative}).",
+        "off-indefinite": "Schalten Sie ein, um Ihren Garten wieder auf die Karte zu setzen.",
+        "change-date": "Datum ändern",
+        "set-return-date": "Rückkehr festlegen",
+        "relist-now": "Jetzt wieder anzeigen"
+      },
+      "unlist-modal": {
+        "title": "Nehmen Sie Ihren Garten vorübergehend von der Karte",
+        "subtitle": "Wie lange möchten Sie Ihren Garten von der Karte nehmen?",
+        "mode-date-title": "Bis zu einem bestimmten Datum",
+        "mode-date-desc": "Ihr Garten kehrt automatisch zurück.",
+        "mode-indef-title": "Auf unbestimmte Zeit",
+        "mode-indef-desc": "Sie stellen Ihren Garten selbst wieder ein.",
+        "date-label": "Zurück auf der Karte",
+        "pick-date": "Datum wählen",
+        "return": "Ihr Garten erscheint wieder auf der Karte am {date} ({relative}).",
+        "cancel": "Abbrechen",
+        "unlist-until": "Verbergen bis {date}",
+        "unlist-garden": "Garten verbergen",
+        "preset-weeks": "{count, plural, one {# Woche} other {# Wochen}}"
       }
     },
     "superfan": {

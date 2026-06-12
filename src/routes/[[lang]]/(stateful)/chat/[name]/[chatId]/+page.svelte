@@ -48,6 +48,7 @@
   import Fragment from '$lib/components/UI/Fragment.svelte';
   import { afterNavigate } from '$app/navigation';
   import { toggleArchiveForChat } from '../../archive-actions.svelte';
+  import { coercedLocale } from '$lib/stores/app';
 
   /**
    * See $sharedChat for docs
@@ -255,7 +256,7 @@
             <p class="message-text notranslate">{normalizeWhiteSpace(message.content)}</p>
           </div>
           <div class="timestamp">
-            {formatMessageTimestamp(message.createdAt.seconds * 1000)}
+            {formatMessageTimestamp(message.createdAt.seconds * 1000, $coercedLocale)}
           </div>
         </div>
       {/each}

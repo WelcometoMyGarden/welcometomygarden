@@ -944,6 +944,31 @@
       "listed": {
         "text": "Retirer temporairement mon jardin de la carte",
         "button": "Gérer le jardin"
+      },
+      "visibility": {
+        "on-label": "Votre jardin est sur la carte",
+        "on-subtext": "Désactivez-le pour retirer temporairement votre jardin.",
+        "off-label": "Votre jardin n'est actuellement pas sur la carte",
+        "returns-on": "Il réapparaît sur la carte le {date} ({relative}).",
+        "off-indefinite": "Activez-le pour remettre votre jardin sur la carte.",
+        "change-date": "Modifier la date",
+        "set-return-date": "Définir le retour",
+        "relist-now": "Réafficher maintenant"
+      },
+      "unlist-modal": {
+        "title": "Retirer temporairement votre jardin",
+        "subtitle": "Pendant combien de temps voulez-vous retirer votre jardin ?",
+        "mode-date-title": "Jusqu'à une certaine date",
+        "mode-date-desc": "Votre jardin réapparaît automatiquement.",
+        "mode-indef-title": "Pour une durée indéterminée",
+        "mode-indef-desc": "Vous réaffichez votre jardin vous-même.",
+        "date-label": "De retour sur la carte",
+        "pick-date": "Choisir une date",
+        "return": "Votre jardin réapparaît sur la carte le {date} ({relative}).",
+        "cancel": "Annuler",
+        "unlist-until": "Retirer jusqu'au {date}",
+        "unlist-garden": "Retirer le jardin",
+        "preset-weeks": "{count, plural, one {# semaine} other {# semaines}}"
       }
     },
     "superfan": {

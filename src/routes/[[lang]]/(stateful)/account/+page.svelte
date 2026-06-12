@@ -4,11 +4,11 @@
   import notify from '$lib/stores/notification';
   import { updateMailPreferences } from '$lib/api/user';
   import { resendAccountVerification } from '$lib/api/auth';
-  import { changeListedStatus } from '$lib/api/garden';
   import { user } from '$lib/stores/auth';
   import { updatingMailPreferences } from '$lib/stores/user';
-  import { Avatar, Icon, Button, LabeledCheckbox } from '$lib/components/UI';
+  import { Avatar, Icon, Button } from '$lib/components/UI';
   import AccountDeletionModal from './AccountDeletionModal.svelte';
+  import GardenStatusWrapper from './GardenStatusWrapper.svelte';
   import { flagIcon, emailIcon, pencilIcon } from '$lib/images/icons';
   import routes from '$lib/routes';
   import { SUPPORT_EMAIL } from '$lib/constants';
@@ -23,11 +23,9 @@
   } from '$lib/stores/subscription';
   import { onMount } from 'svelte';
   import { createCustomerPortalSession } from '$lib/api/functions';
-  import { updateGardenLocally } from '$lib/stores/garden';
   import { coercedLocale } from '$lib/stores/app';
   import * as Sentry from '@sentry/sveltekit';
   import isFirebaseError from '$lib/util/types/isFirebaseError';
-  import { openTally } from '$lib/api/tally';
   import { lr } from '$lib/util/translation-helpers';
   import logger from '$lib/util/logger';
 
@@ -47,47 +45,6 @@
       logger.log(ex);
       Sentry.captureException(ex, { extra: { context: 'Error while updating mail prefs' } });
     }
-  };
-
-  let updatingListedStatus = $state(false);
-  const hideGardenTemporarily = async (event: Event) => {
-    // "checked" means "take off the map" (opposite of listed)
-    const newListedStatus = !(event.target as HTMLInputElement)?.checked;
-    updatingListedStatus = true;
-    try {
-      await changeListedStatus(newListedStatus);
-      if (!newListedStatus) notify.success($_('account.notify.garden-no-show'), 7000);
-      else notify.success($_('account.notify.garden-show'), 7000);
-      // The update will stream back to the currentUser.garden, but this happens async
-      // (in two updates actually, since the backend also sets the latestListedChangedAt property)
-      //
-      // Perform an optimistic update that will immediately update the local listed gardens array,
-      // so the map stays in sync (also fetches all gardens if we didn't load them in this session yet)
-      await updateGardenLocally({ id: $user!.id, ...$user!.garden!, listed: newListedStatus });
-
-      if (newListedStatus === false) {
-        setTimeout(
-          () =>
-            openTally(
-              { en: 'w2QJpA', nl: 'w76VG6', fr: 'wbb8P0' },
-              {
-                hideTitle: false,
-                width: 500,
-                layout: 'modal',
-                emoji: undefined,
-                showOnce: false
-              }
-            ),
-          600
-        );
-      }
-    } catch (ex) {
-      logger.error(ex);
-      Sentry.captureException(ex, {
-        extra: { context: 'Error while updating the garden listed status' }
-      });
-    }
-    updatingListedStatus = false;
   };
 
   let isResendingEmail: boolean = $state();
@@ -347,13 +304,7 @@
             </Button>
           {/if}
         {:else if $user.emailVerified && $user.garden}
-          <LabeledCheckbox
-            disabled={updatingListedStatus}
-            name="listed"
-            checked={!$user.garden.listed}
-            label={$_('account.garden.listed.text')}
-            oninput={hideGardenTemporarily}
-          />
+          <GardenStatusWrapper />
           <div class="mt-l">
             <Button href={$lr(routes.MANAGE_GARDEN)} medium uppercase>
               {$_('account.garden.listed.button')}

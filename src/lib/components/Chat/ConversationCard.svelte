@@ -3,6 +3,7 @@
   import { Avatar, Icon, DropdownMenu, DropdownMenuItem, ChatIconButton } from '$lib/components/UI';
   import { archiveIcon, unarchiveIcon, threeDotsIcon } from '$lib/images/icons';
   import { formatConversationCardTimestamp } from '$lib/util';
+  import { coercedLocale } from '$lib/stores/app';
 
   interface Props {
     selected?: boolean;
@@ -32,7 +33,7 @@
   }: Props = $props();
 
   let timestamp = $derived(
-    lastActivityMs != null ? formatConversationCardTimestamp(lastActivityMs) : null
+    lastActivityMs != null ? formatConversationCardTimestamp(lastActivityMs, $coercedLocale) : null
   );
 
   // ── Dropdown menu ─────────────────────────────────────────────────────

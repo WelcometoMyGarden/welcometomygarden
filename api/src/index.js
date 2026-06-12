@@ -57,6 +57,7 @@ const onUserPrivateSubcollectionWrite = require('./replication/onUsersPrivateSub
 const onMessagesWriteReplicate = require('./replication/onMessagesWrite');
 const onAuthUserCreate = require('./user/onAuthUserCreate');
 const refreshAuthTable = require('./replication/scheduled/refreshAuthTable');
+const relistGardens = require('./scheduled/relistGardens');
 const { shouldReplicateRuntime, isContactSyncDisabled } = require('./sharedConfig');
 const { initialize: initSupabase } = require('./supabase');
 const onCampsiteListedChange = require('./user/onCampsiteListedChange');
@@ -244,6 +245,13 @@ exports.refreshAuthTableV2 = onSchedule(
     timeoutSeconds: 60 * 5
   },
   whenSupabaseReplicating(refreshAuthTable)
+);
+exports.relistGardens = onSchedule(
+  {
+    schedule: 'every day 10:00',
+    timeZone: 'Europe/Brussels'
+  },
+  relistGardens
 );
 
 // Testing

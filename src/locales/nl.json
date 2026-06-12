@@ -595,6 +595,31 @@
       },
       "unverified": {
         "text": "Controleer jouw e-mail om jouw tuin te beheren."
+      },
+      "visibility": {
+        "on-label": "Je tuin staat op de kaart",
+        "on-subtext": "Zet het uit om je tuin tijdelijk van de kaart te halen.",
+        "off-label": "Je tuin staat momenteel niet op de kaart",
+        "returns-on": "Hij verschijnt opnieuw op de kaart op {date} ({relative}).",
+        "off-indefinite": "Zet het aan om je tuin opnieuw op de kaart te zetten.",
+        "change-date": "Datum wijzigen",
+        "set-return-date": "Terugkeer instellen",
+        "relist-now": "Nu terugzetten"
+      },
+      "unlist-modal": {
+        "title": "Haal je tuin tijdelijk van de kaart",
+        "subtitle": "Hoelang wil je je tuin van de kaart halen?",
+        "mode-date-title": "Tot een bepaalde datum",
+        "mode-date-desc": "Je tuin keert automatisch terug.",
+        "mode-indef-title": "Voor onbepaalde tijd",
+        "mode-indef-desc": "Je plaatst je tuin zelf terug.",
+        "date-label": "Terug op de kaart",
+        "pick-date": "Kies een datum",
+        "return": "Je tuin verschijnt opnieuw op de kaart op {date} ({relative}).",
+        "cancel": "Annuleren",
+        "unlist-until": "Verbergen tot {date}",
+        "unlist-garden": "Tuin verbergen",
+        "preset-weeks": "{count, plural, one {# week} other {# weken}}"
       }
     },
     "superfan": {

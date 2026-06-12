@@ -1,5 +1,5 @@
 import type { User } from '$lib/models/User';
-import { CAMPSITES } from './collections';
+import { CAMPSITES, USERS_PRIVATE } from './collections';
 import {
   collection,
   doc,
@@ -8,6 +8,8 @@ import {
   getDocFromCache,
   getDocFromServer,
   getDoc,
+  writeBatch,
+  Timestamp,
   type CollectionReference
 } from 'firebase/firestore';
 import { getUser, user } from '$lib/stores/auth';
@@ -15,7 +17,8 @@ import {
   isUploading,
   uploadProgress,
   allListedGardens,
-  isFetchingGardens
+  isFetchingGardens,
+  updateGardenLocally
 } from '$lib/stores/garden';
 import { supabase } from '$lib/stores/auth';
 import { db, storage } from './firebase';
@@ -326,16 +329,63 @@ export const updateGarden = async ({ photo: newPhotoFile, ...rest }: GardenToAdd
   return gardenWithId;
 };
 
-/**
- * Changes the listed status of the garden in Firebase
- * @param shouldBeListed
- */
-export const changeListedStatus = async (shouldBeListed: boolean) => {
+/** Optimistically reflect a new `listed` value in the local listed-gardens store + the map. */
+const updateLocalListedStatus = (listed: boolean) => {
+  const currentUser = getUser();
+  if (currentUser.garden) {
+    updateGardenLocally({ id: currentUser.id, ...currentUser.garden, listed });
+  }
+};
+
+export const unlistGardenUntil = async (returnDate: Date) => {
   const currentUser = getUser();
   if (!currentUser.id) throw new Error('User is not logged in.');
 
-  const docRef = doc(db(), CAMPSITES, currentUser.id);
-  await updateDoc(docRef, { listed: shouldBeListed });
+  // The campsite `listed` flag and the `relistGardenAt` date must change together, so write them
+  // atomically in a single batch.
+  const batch = writeBatch(db());
+  batch.update(doc(db(), CAMPSITES, currentUser.id), { listed: false });
+  batch.update(doc(db(), USERS_PRIVATE, currentUser.id), {
+    relistGardenAt: Timestamp.fromDate(returnDate)
+  });
+  await batch.commit();
+
+  updateLocalListedStatus(false);
+};
+
+/**
+ * Unlist the garden indefinitely. Only clears `relistGardenAt` when one was previously set,
+ * to avoid an unnecessary `users-private` write.
+ */
+export const unlistGardenIndefinitely = async () => {
+  const currentUser = getUser();
+  if (!currentUser.id) throw new Error('User is not logged in.');
+
+  const batch = writeBatch(db());
+  batch.update(doc(db(), CAMPSITES, currentUser.id), { listed: false });
+  if (currentUser.relistGardenAt != null) {
+    batch.update(doc(db(), USERS_PRIVATE, currentUser.id), { relistGardenAt: null });
+  }
+  await batch.commit();
+
+  updateLocalListedStatus(false);
+};
+
+/**
+ * Relist the garden immediately.
+ */
+export const relistGardenNow = async () => {
+  const currentUser = getUser();
+  if (!currentUser.id) throw new Error('User is not logged in.');
+
+  const batch = writeBatch(db());
+  batch.update(doc(db(), CAMPSITES, currentUser.id), { listed: true });
+  if (currentUser.relistGardenAt != null) {
+    batch.update(doc(db(), USERS_PRIVATE, currentUser.id), { relistGardenAt: null });
+  }
+  await batch.commit();
+
+  updateLocalListedStatus(true);
 };
 
 const getPhotoBySize = async (size: string, garden: GardenPhoto) => {

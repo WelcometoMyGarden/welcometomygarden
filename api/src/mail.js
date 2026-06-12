@@ -197,6 +197,49 @@ exports.sendWelcomeEmail = ({ email, firstName, language, secret }) => {
 };
 
 /**
+ * In SendGrid: Garden relisted - your garden is back on the map.
+ * Sent by the `relistGardens` scheduled function when a temporarily unlisted garden is
+ * automatically put back on the map on its chosen return date.
+ *
+ * TODO: replace the placeholder template IDs below with the real SendGrid Dynamic Template IDs.
+ * @param {EmailConfig} config
+ */
+exports.sendGardenRelistedEmail = ({ email, firstName, language }) => {
+  let templateId;
+  switch (coerceToMainLanguage(language)) {
+    case 'fr':
+      templateId = 'd-REPLACE_WITH_FR_GARDEN_RELISTED_TEMPLATE_ID';
+      break;
+    case 'nl':
+      templateId = 'd-REPLACE_WITH_NL_GARDEN_RELISTED_TEMPLATE_ID';
+      break;
+    default:
+      templateId = 'd-REPLACE_WITH_EN_GARDEN_RELISTED_TEMPLATE_ID';
+      break;
+  }
+
+  /**
+   * @satisfies {SendGrid.MailDataRequired}
+   */
+  const msg = {
+    to: email,
+    from: SUPPORT_FROM,
+    templateId,
+    dynamicTemplateData: {
+      ...firstNameProps(firstName)
+    },
+    categories: ['Garden relisted']
+  };
+
+  if (!canSendMail()) {
+    devSend(msg, 'gardenRelistedEmail');
+    return Promise.resolve();
+  }
+
+  return send(msg);
+};
+
+/**
  * In SendGrid: Welcome Flow - Email #4 - Becoming a member
  * Fourth welcome flow email
  * @param {EmailConfig & SecretConfig} config

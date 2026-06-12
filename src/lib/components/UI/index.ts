@@ -20,6 +20,8 @@ export { default as FileInput } from './FileInput.svelte';
 export { default as MultiActionLabel } from './MultiActionLabel.svelte';
 export { default as ToggleAble } from './ToggleAble.svelte';
 export { default as LabeledRadioButton } from './LabeledRadioButton.svelte';
+export { default as RadioCard } from './RadioCard.svelte';
+export { default as Switch } from './Switch.svelte';
 export { default as Select } from './Select.svelte';
 export { default as IconButton } from './IconButtonOld.svelte';
 export { default as DropdownMenu } from './DropdownMenu.svelte';
