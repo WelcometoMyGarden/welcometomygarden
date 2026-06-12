@@ -25,17 +25,12 @@ const config = {
     }),
     prerender: {
       crawl: true,
-      // Prevents: "The following routes were marked as prerenderable, but were not prerendered because they were not found while crawling your app:"
       entries: [
         '*',
         // Include the index page for every supported language.
         // This explicit list is an alternative to using <a href>s
         // in the language selector component, which could be detected by the Svelte crawler.
-        ...SUPPORTED_LANGUAGES.map((l) => urlPathPrefix(l)).filter((s) => s !== ''),
-        '/chat/[name]/[chatId]',
-        '/explore/garden/[gardenId]',
-        '/explore/meetup/[meetupId]',
-        '/become-member/payment/[id]'
+        ...SUPPORTED_LANGUAGES.map((l) => urlPathPrefix(l)).filter((s) => s !== '')
       ]
     }
   },
