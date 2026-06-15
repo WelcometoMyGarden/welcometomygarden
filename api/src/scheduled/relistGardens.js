@@ -61,11 +61,13 @@ module.exports = async () => {
         const user = await getUser(uid, 'garden relisted');
         if (user) {
           const {
-            privateUserProfileData: { communicationLanguage }
+            privateUserProfileData: { communicationLanguage, secret },
+            publicUserProfileData: { firstName }
           } = await getUserDocRefsWithData(uid);
           await sendGardenRelistedEmail({
             email: /** @type {string} */ (user.email),
-            firstName: /** @type {string} */ (user.displayName),
+            secret: /** @type {string} */ (secret),
+            firstName: /** @type {string} */ (firstName),
             language: communicationLanguage ?? 'en'
           });
         }

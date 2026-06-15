@@ -202,19 +202,19 @@ exports.sendWelcomeEmail = ({ email, firstName, language, secret }) => {
  * automatically put back on the map on its chosen return date.
  *
  * TODO: replace the placeholder template IDs below with the real SendGrid Dynamic Template IDs.
- * @param {EmailConfig} config
+ * @param {EmailConfig & SecretConfig} config
  */
-exports.sendGardenRelistedEmail = ({ email, firstName, language }) => {
+exports.sendGardenRelistedEmail = ({ email, firstName, language, secret }) => {
   let templateId;
   switch (coerceToMainLanguage(language)) {
     case 'fr':
-      templateId = 'd-REPLACE_WITH_FR_GARDEN_RELISTED_TEMPLATE_ID';
+      templateId = 'd-796724d595f744698782f8cb405a7445';
       break;
     case 'nl':
-      templateId = 'd-REPLACE_WITH_NL_GARDEN_RELISTED_TEMPLATE_ID';
+      templateId = 'd-a582eb27531e458aab3475ce6b02a7b6';
       break;
     default:
-      templateId = 'd-REPLACE_WITH_EN_GARDEN_RELISTED_TEMPLATE_ID';
+      templateId = 'd-857a7cf4f792467898ab4e30ac63ab9c';
       break;
   }
 
@@ -226,7 +226,9 @@ exports.sendGardenRelistedEmail = ({ email, firstName, language }) => {
     from: SUPPORT_FROM,
     templateId,
     dynamicTemplateData: {
-      ...firstNameProps(firstName)
+      ...firstNameProps(firstName),
+      secret,
+      email
     },
     categories: ['Garden relisted']
   };
