@@ -617,7 +617,8 @@
         "cancel": "Annuleren",
         "unlist-until": "Verbergen tot {date}",
         "unlist-garden": "Tuin verbergen",
-        "preset-weeks": "{count, plural, one {# week} other {# weken}}"
+        "preset-weeks": "{count, plural, one {# week} other {# weken}}",
+        "date-in-past": "De datum moet in de toekomst liggen."
       }
     },
     "superfan": {

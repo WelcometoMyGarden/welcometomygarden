@@ -976,7 +976,8 @@
         "cancel": "Abbrechen",
         "unlist-until": "Verbergen bis {date}",
         "unlist-garden": "Garten verbergen",
-        "preset-weeks": "{count, plural, one {# Woche} other {# Wochen}}"
+        "preset-weeks": "{count, plural, one {# Woche} other {# Wochen}}",
+        "date-in-past": "Das Datum muss in der Zukunft liegen."
       }
     },
     "superfan": {

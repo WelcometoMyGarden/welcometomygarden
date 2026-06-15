@@ -130,7 +130,7 @@ service cloud.firestore {
       allow update:
       if isSignedIn() &&
       isOwner(userId) &&
-      validateUserPrivateState(request.resource.data)
+      validateUserPrivateState(incomingData())
       match /trails/{trailId} {
         allow read: if isValidTrailAccess(userId);
         allow create: if isValidTrailAccess(userId)

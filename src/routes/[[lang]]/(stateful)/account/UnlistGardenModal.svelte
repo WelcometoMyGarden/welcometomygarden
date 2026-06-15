@@ -5,6 +5,7 @@
 
 <script lang="ts">
   import { _ } from 'svelte-i18n';
+  import { fade } from 'svelte/transition';
   import { Modal, Button, RadioCard } from '$lib/components/UI';
   import { calendarIcon, hideIcon } from '$lib/images/icons';
   import {
@@ -91,9 +92,21 @@
     }
   });
 
-  const minDate = $derived(toDateInputValue(addDays(startOfToday(), 1)));
+  const tomorrow = $derived(addDays(startOfToday(), 1));
+  const minDate = $derived(toDateInputValue(tomorrow));
 
   const draftDate = $derived(parseInputDate(draftDateStr));
+
+  /** Whether the drafted date lies in the future (tomorrow or later, not today). */
+  const isDraftDateInFuture = $derived(draftDate.getTime() >= tomorrow.getTime());
+
+  /** Shown above the divider when a user tries to confirm a date that isn't in the future. */
+  let dateError = $state(false);
+
+  // Clear the error as soon as the user picks a valid future date.
+  $effect(() => {
+    if (isDraftDateInFuture) dateError = false;
+  });
 
   const returnMessage = $derived(
     $_('account.garden.unlist-modal.return', {
@@ -119,6 +132,10 @@
 
   const confirm = () => {
     if (!unlistMode) return;
+    if (unlistMode === 'until-date' && !isDraftDateInFuture) {
+      dateError = true;
+      return;
+    }
     onConfirm({
       mode: unlistMode,
       returnDate: unlistMode === 'until-date' ? brusselsTimeOnDate(draftDateStr) : null
@@ -187,6 +204,11 @@
               bind:value={draftCustomReturnDate}
             />
           </div>
+          {#if dateError}
+            <p class="date-error" transition:fade>
+              {$_('account.garden.unlist-modal.date-in-past')}
+            </p>
+          {/if}
         {/if}
 
         <p class="return">{@html returnMessage}</p>
@@ -296,6 +318,13 @@
   .return :global(strong) {
     color: var(--color-green);
     font-weight: 600;
+  }
+
+  .date-error {
+    color: var(--color-danger);
+    font-size: 1.3rem;
+    line-height: 1.4;
+    margin: 0 0 1.2rem;
   }
 
   .buttons {
