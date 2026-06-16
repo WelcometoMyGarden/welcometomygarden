@@ -133,6 +133,11 @@
 </Modal>
 
 <style>
+  button {
+    /* Reset Safari default blue text */
+    color: var(--color-green);
+  }
+
   .gardenFilterTitleSection {
     width: 100%;
   }
