@@ -135,8 +135,10 @@
             href={createUrl(
               `${meetup?.registrationLink}/${coerceToMainLanguage($locale || undefined)}`,
               {
-                ref: 'map',
-                wtmg: $user?.id
+                wtmg: $user.id,
+                traveller: $user.superfan ?? 'false',
+                host: !!$user.garden,
+                ref: 'website'
               }
             )}
             target="_blank"

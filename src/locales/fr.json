@@ -1198,8 +1198,8 @@
     },
     "zoom-restriction-notice": "pour zoomer plus",
     "meetups": {
-      "description": "Vous cherchez votre prochaine aventure slow travel ? Rejoignez-nous au meetup WTMG près de {location} le {date} ! L’idée est simple : nous nous retrouvons dans un jardin WTMG, partageons notre enthousiasme pour le slow travel et passons un bon moment ensemble. C'est gratuit, mais vous devez vous inscrire. Nous avons hâte de vous y voir !",
-      "btn-register": "S’inscrire",
+      "description": "Envie de rencontrer d'autres voyageur·euses et hôtes ? Rejoignez-nous à notre meetup à Bruges le vendredi 3 juillet ! C’est l’occasion parfaite pour se rencontrer, partager vos expériences et échanger autour de WTMG. Le meetup a lieu dans le jardin de la première maison de retraite à avoir rejoint WTMG. Gratuit, mais inscription obligatoire. À bientôt !",
+      "btn-register": "Inscrivez-vous maintenant",
       "no-account": "Vous devez {signInLink} pour vous inscrire",
       "cities": {
         "Bruges": "Bruges"

@@ -12,9 +12,9 @@
 
   export const meetups: Meetup[] = [
     {
-      id: 'bruges-2025',
+      id: 'bruges-2026',
       // Use local time
-      date: new Date(2025, 6 - 1, 26),
+      date: new Date(2026, 7 - 1, 3),
       place: 'Bruges',
       lnglat: [3.244532, 51.2070776],
       registrationLink: `https://meetup.welcometomygarden.org/brugge`

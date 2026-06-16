@@ -1225,7 +1225,7 @@
     },
     "zoom-restriction-notice": "to zoom in more",
     "meetups": {
-      "description": "Looking for your next slow travel adventure? Join us at the WTMG meetup near {location} on {date}! The idea is simple: we meet in a WTMG garden, share our excitement about slow travel and have a great time together. It’s free, but mandatory to register. See you there!",
+      "description": "Want to meet other slow travellers and hosts? Join us at the WTMG Meetup near Bruges on Friday 3 July! It’s a great opportunity to meet each other, share experiences and talk about WTMG. It takes place in the garden of the first care home on WTMG. It’s free, but mandatory to register. See you there!",
       "btn-register": "Register now",
       "no-account": "You must {signInLink} to register",
       "cities": {
