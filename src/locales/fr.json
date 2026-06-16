@@ -926,10 +926,11 @@
   },
   "account": {
     "notify": {
-      "garden-no-show": "Votre jardin n'apparaîtra pas sur la carte",
+      "garden-no-show": "Votre jardin n'apparaît plus sur la carte",
       "garden-show": "Votre jardin apparaîtra à nouveau sur la carte",
       "preferences-update": "Vos préférences en matière de courriel ont été mises à jour !",
-      "resend-error": "Nous n'avons pas pu renvoyer le courriel de vérification du compte. Veuillez contacter {support}"
+      "resend-error": "Nous n'avons pas pu renvoyer le courriel de vérification du compte. Veuillez contacter {support}",
+      "garden-relist-set": "Votre jardin réapparaît le {returnDate}"
     },
     "garden": {
       "title": "Votre jardin",

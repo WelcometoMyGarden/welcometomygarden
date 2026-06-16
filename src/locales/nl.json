@@ -637,8 +637,9 @@
     "notify": {
       "resend-error": "We konden geen accountverificatie e-mail sturen. Neem contact op met {support}",
       "garden-show": "Jouw tuin komt weer op de kaart te staan",
-      "garden-no-show": "Jouw tuin komt niet op de kaart te staan.",
-      "preferences-update": "Jouw e-mailvoorkeuren zijn bijgewerkt!"
+      "garden-no-show": "Je tuin staat niet meer op de kaart",
+      "preferences-update": "Jouw e-mailvoorkeuren zijn bijgewerkt!",
+      "garden-relist-set": "Je tuin keert terug op {returnDate}"
     },
     "delete": {
       "button-action": "Verwijder je account",

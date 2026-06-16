@@ -136,6 +136,14 @@ export const formatShortDate = (date: Date, locale: string): string =>
     .toLocaleDateString(expandLocale(locale), { day: 'numeric', month: 'short' })
     .replace(/\.$/, '');
 
+/** Short, locale-aware numeric date e.g. "16/6/2026" (en) / "16-6-2026" (nl) / "16.6.2026" (de). */
+export const formatNumericDate = (date: Date, locale: string): string =>
+  date.toLocaleDateString(expandLocale(locale), {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric'
+  });
+
 /**
  * Locale-aware relative time e.g. "in 5 days", "in 2 weeks", using native `Intl.RelativeTimeFormat`.
  * Thresholds: < 14 days → days, < 60 → weeks, < 365 → months, else years.

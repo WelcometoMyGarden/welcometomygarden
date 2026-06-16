@@ -5,6 +5,8 @@
   import logger from '$lib/util/logger';
   import { user } from '$lib/stores/auth';
   import { unlistGardenUntil, unlistGardenIndefinitely, relistGardenNow } from '$lib/api/garden';
+  import { coercedLocale } from '$lib/stores/app';
+  import { formatNumericDate } from '$lib/util/format-date';
   import GardenStatusCard from './GardenStatusCard.svelte';
   import UnlistGardenModal, {
     type UnlistResult,
@@ -51,13 +53,24 @@
 
   const onConfirmUnlist = async (result: UnlistResult) => {
     updating = true;
+    // Whether the garden was already unlisted before (possible when setting a relist date)
+    const wasListed = listed;
     try {
       if (result.mode === 'until-date' && result.returnDate) {
         await unlistGardenUntil(result.returnDate);
       } else {
         await unlistGardenIndefinitely();
       }
-      notify.success($_('account.notify.garden-no-show'), 7000);
+      if (!wasListed && result.mode === 'until-date' && result.returnDate) {
+        notify.success(
+          $_('account.notify.garden-relist-set', {
+            values: { returnDate: formatNumericDate(result.returnDate, $coercedLocale) }
+          }),
+          7000
+        );
+      } else {
+        notify.success($_('account.notify.garden-no-show'), 7000);
+      }
     } catch (ex) {
       logger.error(ex);
       Sentry.captureException(ex, {

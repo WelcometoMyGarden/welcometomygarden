@@ -996,8 +996,9 @@
     "notify": {
       "resend-error": "Wir konnten keine E-Mail zur Kontobestätigung erneut senden. Bitte kontaktieren Sie {support}",
       "garden-show": "Ihr Garten wird wieder auf der Karte angezeigt",
-      "garden-no-show": "Ihr Garten wird nicht auf der Karte angezeigt",
-      "preferences-update": "Ihre E-Mail-Einstellungen wurden aktualisiert!"
+      "garden-no-show": "Dein Garten wird nicht mehr auf der Karte angezeigt",
+      "preferences-update": "Ihre E-Mail-Einstellungen wurden aktualisiert!",
+      "garden-relist-set": "Dein Garten kehrt am {returnDate} zurück"
     },
     "delete": {
       "button-action": "Löschen Sie Ihren Account",

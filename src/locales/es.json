@@ -997,8 +997,9 @@
     "notify": {
       "resend-error": "No pudimos reenviar un correo electrónico de verificación de cuenta. Por favor contacta con {support}",
       "garden-show": "Tu jardín volverá a aparecer en el mapa.",
-      "garden-no-show": "Tu jardín no aparecerá en el mapa",
-      "preferences-update": "¡Tus preferencias de correo electrónico han sido actualizadas!"
+      "garden-no-show": "Tu jardín ya no aparece en el mapa",
+      "preferences-update": "¡Tus preferencias de correo electrónico han sido actualizadas!",
+      "garden-relist-set": "Tu jardín vuelve el {returnDate}"
     },
     "delete": {
       "button-action": "Elimina tu cuenta",
