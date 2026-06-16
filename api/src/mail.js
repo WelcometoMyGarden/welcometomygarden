@@ -18,10 +18,15 @@ const { coerceToMainLanguage } = require('./util/mail');
 /**
  * See https://github.com/sendgrid/sendgrid-nodejs/tree/main/packages/mail
  * @param {SendGrid.MailDataRequired} msg
- * @param isEssential whether to use the essential email pool
- */
-const send = (msg, isEssential = false) =>
-  sendgridMail.send({ ...msg, ipPoolName: isEssential ? 'Essential pool' : 'Marketing pool' });
+ * @param isEssential whether to use the essential email pool. Due to volume issues, only 20% of
+ * essential emails actually use the 'Essential pool' for an initial period; the rest fall back to the 'Marketing pool'.
+ */ const send = (msg, isEssential = false) => {
+  const useEssentialPool = isEssential && Math.random() < 0.2;
+  return sendgridMail.send({
+    ...msg,
+    ipPoolName: useEssentialPool ? 'Essential pool' : 'Marketing pool'
+  });
+};
 
 /**
  * Since this code is public, trump simplistic email scrapers.
@@ -154,7 +159,7 @@ exports.sendAccountVerificationEmail = ({
     return Promise.resolve();
   }
 
-  return send(msg, true);
+  return send(msg);
 };
 
 /**
@@ -330,7 +335,7 @@ exports.sendPasswordResetEmail = ({ email, firstName, language, resetLink }) => 
     return Promise.resolve();
   }
 
-  return send(msg, true);
+  return send(msg);
 };
 
 /**
