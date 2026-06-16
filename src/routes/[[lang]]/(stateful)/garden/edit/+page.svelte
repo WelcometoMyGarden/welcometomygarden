@@ -39,7 +39,11 @@
         : (notifyMsg = $_('garden.notify.update'));
       notify.success(notifyMsg, 10000);
       trackEvent(PlausibleEvent.UPDATE_GARDEN);
-      goto($lr(`${routes.MAP}/garden/${$user!.id}`));
+      if (newGarden.listed) {
+        goto($lr(`${routes.MAP}/garden/${$user!.id}`));
+      } else {
+        goto($lr(routes.ACCOUNT));
+      }
     } catch (ex) {
       logger.log(ex);
       Sentry.captureException(ex, {
