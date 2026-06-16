@@ -18,8 +18,10 @@ const { coerceToMainLanguage } = require('./util/mail');
 /**
  * See https://github.com/sendgrid/sendgrid-nodejs/tree/main/packages/mail
  * @param {SendGrid.MailDataRequired} msg
+ * @param isEssential whether to use the essential email pool
  */
-const send = (msg) => sendgridMail.send(msg);
+const send = (msg, isEssential = false) =>
+  sendgridMail.send({ ...msg, ipPoolName: isEssential ? 'Essential pool' : 'Marketing pool' });
 
 /**
  * Since this code is public, trump simplistic email scrapers.
@@ -152,7 +154,7 @@ exports.sendAccountVerificationEmail = ({
     return Promise.resolve();
   }
 
-  return send(msg);
+  return send(msg, true);
 };
 
 /**
@@ -328,7 +330,7 @@ exports.sendPasswordResetEmail = ({ email, firstName, language, resetLink }) => 
     return Promise.resolve();
   }
 
-  return send(msg);
+  return send(msg, true);
 };
 
 /**
@@ -387,7 +389,7 @@ exports.sendMessageReceivedEmail = (config) => {
     return Promise.resolve();
   }
 
-  return send(msg);
+  return send(msg, true);
 };
 
 /**
@@ -514,7 +516,7 @@ exports.sendSubscriptionConfirmationEmail = ({ email, firstName, language, secre
     return Promise.resolve();
   }
 
-  return send(msg);
+  return send(msg, true);
 };
 
 /**
@@ -614,7 +616,7 @@ exports.sendSubscriptionRenewalEmail = async (config) => {
     return Promise.resolve();
   }
 
-  return send(msg);
+  return send(msg, true);
 };
 
 /**
@@ -668,7 +670,7 @@ exports.sendSubscriptionUpcomingRenewalEmail = async (config) => {
     return Promise.resolve();
   }
 
-  return send(msg);
+  return send(msg, true);
 };
 
 /**
@@ -759,14 +761,11 @@ exports.sendSubscriptionEndedEmail = async ({ email, firstName, language, secret
     return Promise.resolve();
   }
 
-  return send(msg);
+  return send(msg, true);
 };
 
 /**
  * In SendGrid: [WTMG] Cancellation failed payment
- *
- * To be used when a send_invoice subscription ends, and when
- * a charge_automatically subscription ends naturally due to prior cancellation.
  *
  * @param {EmailConfig & SecretConfig} config
  * @returns
@@ -806,7 +805,7 @@ exports.sendSubscriptionAllPaymentsFailedEmail = async ({ email, firstName, lang
     return Promise.resolve();
   }
 
-  return send(msg);
+  return send(msg, true);
 };
 
 /**
@@ -853,7 +852,7 @@ exports.sendSubscriptionManualRenewalThankYouEmail = async ({
     return Promise.resolve();
   }
 
-  return send(msg);
+  return send(msg, true);
 };
 
 /**
@@ -900,7 +899,7 @@ exports.sendSubscriptionAutomaticRenewalThankYouEmail = async ({
     return Promise.resolve();
   }
 
-  return send(msg);
+  return send(msg, true);
 };
 
 /**
@@ -998,7 +997,7 @@ exports.sendSubscriptionCancellationFeedbackEmail = async ({
     return Promise.resolve();
   }
 
-  return send(msg);
+  return send(msg, true);
 };
 
 /**
