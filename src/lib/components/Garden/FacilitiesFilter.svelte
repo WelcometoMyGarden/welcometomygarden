@@ -264,5 +264,9 @@
       row-gap: 0.6rem;
       column-gap: 1.4rem;
     }
+    .gardenFilterTitleSection {
+      /* Compensate for the close button on the right on mobile, to center the text */
+      padding-left: 30px;
+    }
   }
 </style>

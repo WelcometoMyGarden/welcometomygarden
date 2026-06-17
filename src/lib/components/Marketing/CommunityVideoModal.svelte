@@ -9,14 +9,13 @@
   (until some minimum)
   -->
 <Modal
-  transparent={true}
+  transparentContent={true}
   maxWidth="1100px"
   center={true}
   backgroundColor="rgb(0,0,0,0.9)"
-  transitionBackground={true}
   noInnerPadding={true}
 >
   {#snippet body()}
-    <Video  />
+    <Video />
   {/snippet}
 </Modal>

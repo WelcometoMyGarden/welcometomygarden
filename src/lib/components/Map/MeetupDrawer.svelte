@@ -4,8 +4,8 @@
   import { scale } from 'svelte/transition';
   import { _, locale } from 'svelte-i18n';
   import { user } from '$lib/stores/auth';
-  import { clickOutside } from '$lib/attachments';
-  import { Text, Button, Progress, Icon } from '../UI';
+  import { clickOutside, swipeToClose } from '$lib/attachments';
+  import { Text, Button, Progress, Icon, DragHandle } from '../UI';
   import routes from '$lib/routes';
   import type { Meetup } from './MeetupLayer.svelte';
   import createUrl from '$lib/util/create-url';
@@ -24,9 +24,22 @@
 
   let { meetup = null, onclose }: Props = $props();
 
-  let drawerElement = $state();
+  let drawerElement: HTMLElement | undefined = $state();
 
   let isSelected = $derived(!!meetup);
+
+  // When a swipe-down is committed, the swipeToClose attachment (animateOut:
+  // false) leaves the drawer at the finger's offset via an inline transform and
+  // calls `onclose`. Once that deselects the meetup, the drawer gains `.hidden`
+  // — so we drop the leftover inline transform here, letting the `.hidden` CSS
+  // transition slide the drawer the rest of the way down (and keeping it from
+  // being stranded off-screen on the next open). See GardenDrawer for details.
+  $effect(() => {
+    if (!isSelected && drawerElement) {
+      drawerElement.style.transition = '';
+      drawerElement.style.transform = '';
+    }
+  });
   let photoWrapper: HTMLElement | undefined = $state();
   let isShowingMagnifiedPhoto = $state(false);
   let isGettingMagnifiedPhoto = $state(false);
@@ -65,7 +78,7 @@
       clickEvent.target.tagName == 'LABEL'
     ) {
       return;
-    } else if (!drawerElement.contains(clickEvent.target)) {
+    } else if (drawerElement && !drawerElement.contains(clickEvent.target as Node | null)) {
       onclose();
     }
   };
@@ -99,8 +112,10 @@
   class:hidden={!isSelected}
   bind:this={drawerElement}
   {@attach clickOutside}
+  {@attach swipeToClose(() => ({ onClose: onclose, animateOut: false }))}
   onclickoutside={handleClickOutsideDrawer}
 >
+  <DragHandle />
   {#if isSelected}
     <section class="main">
       <header>
@@ -108,7 +123,7 @@
           <Text weight="w600" size="l" class="garden-title-text">WTMG meetup - {meetupDateStr}</Text
           >
           <div class="top-buttons">
-            <button class="close-button" onclick={onclose}>
+            <button class="close-button" onclick={onclose} data-swipe-ignore>
               <Icon icon={crossIcon} />
             </button>
           </div>
@@ -165,6 +180,8 @@
 
 <style>
   .drawer {
+    /* The drag handle is only for the bottom-sheet on mobile */
+    --drag-handle-display: none;
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -282,7 +299,18 @@
   }
 
   @media screen and (max-width: 700px) {
+    header {
+      /* Entire header area is a swipe target on mobile */
+      touch-action: none;
+    }
+
     .drawer {
+      /* Show the drag handle and let it provide the top spacing (the drawer
+         itself has no top padding below); margins bridge the gap to the header */
+      --drag-handle-display: block;
+      --drag-handle-margin: 1.5rem auto 1rem;
+      /* Top padding is handled by the drag handle above the header */
+      padding: 0 2rem;
       min-height: auto;
       max-height: calc(var(--vh, 1vh) * 70);
       top: auto;
@@ -295,6 +323,15 @@
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
       transition: transform 250ms;
+    }
+    /* No coarse pointer anywhere: we're confident there's no touch screen, so
+     hide the handle, and reintroduce the padding
+
+      */
+    @media not all and (any-pointer: coarse) {
+      .drawer {
+        padding: 2rem;
+      }
     }
     .drawer.hidden {
       right: 0;

@@ -11,8 +11,8 @@
     type DisplayResponseRateTime
   } from '$lib/api/garden';
   import { user } from '$lib/stores/auth';
-  import { clickOutside } from '$lib/attachments';
-  import { Text, Chip, Image, Button, Progress } from '../UI';
+  import { clickOutside, swipeToClose } from '$lib/attachments';
+  import { Text, Chip, Image, Button, Progress, DragHandle } from '../UI';
   import { tentPhosphor, heartIcon, heartIconFill, crossIcon } from '$lib/images/icons';
   import routes from '$lib/routes';
   import type { Garden, GardenPhoto } from '$lib/types/Garden';
@@ -50,7 +50,29 @@
 
   let gardenIsSelected = $derived(!!garden);
 
-  let drawerElement = $state();
+  let drawerElement: HTMLElement | undefined = $state();
+
+  // When a swipe-down is committed, the swipeToClose attachment leaves the
+  // drawer at the finger's offset (via an inline transform) and triggers
+  // `onclose`, which navigates away. Once that navigation deselects the garden,
+  // the drawer gains its `.hidden` class — so here we drop the leftover inline
+  // transform, letting the `.hidden` CSS transition slide the drawer the rest
+  // of the way down from where the finger left off (and keeping it from being
+  // stranded off-screen on the next open).
+  //
+  // If we don't do this, then swipeToClose (with animateOut = true) would itself
+  // reset the inline transform back to '' BEFORE the .hidden class is applied,
+  // which would briefly flash back to the default non-hidden of transform(-50%)
+  // before hidden is applied.
+  // TODO: an alternative/cleaner solution to the animateOut property is perhaps
+  // finding a way to wait on the SvelteKit navigation to resolve?
+  // (for .hidden to be applied before/when resetting the inline transform)
+  $effect(() => {
+    if (!gardenIsSelected && drawerElement) {
+      drawerElement.style.transition = '';
+      drawerElement.style.transform = '';
+    }
+  });
   let photoWrapper: HTMLElement | undefined = $state();
   let userInfo: UserPublic | null = $state(null);
   let photoUrl: string | null = $state(null);
@@ -178,7 +200,7 @@
       clickEvent.target.tagName == 'LABEL'
     ) {
       return;
-    } else if (!drawerElement.contains(clickEvent.target)) {
+    } else if (drawerElement && !drawerElement.contains(clickEvent.target as Node | null)) {
       onclose();
     }
   };
@@ -292,8 +314,10 @@
   class:hidden={!gardenIsSelected}
   bind:this={drawerElement}
   {@attach clickOutside}
+  {@attach swipeToClose(() => ({ onClose: onclose, animateOut: false }))}
   onclickoutside={handleClickOutsideDrawer}
 >
+  <DragHandle />
   {#if gardenIsSelected && initialGardenInfoLoaded && userInfo && garden}
     <section class="main">
       <header>
@@ -315,7 +339,7 @@
                 >
               </button>
             {/if}
-            <button class="close-button" onclick={onclose}>
+            <button class="close-button" onclick={onclose} data-swipe-ignore>
               <Icon icon={crossIcon} />
             </button>
           </div>
@@ -474,6 +498,8 @@
 
 <style>
   .drawer {
+    /* The drag handle is only for the bottom-sheet on mobile */
+    --drag-handle-display: none;
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -701,8 +727,18 @@
   }
 
   @media screen and (max-width: 700px) {
+    header {
+      /* Entire header area is a swipe target on mobile */
+      touch-action: none;
+    }
+
     .drawer {
-      padding: 2.7rem 2.7rem 0 2.7rem;
+      /* Show the drag handle and let it provide the top spacing (the drawer
+         itself has no top padding below); margins bridge the gap to the header */
+      --drag-handle-display: block;
+      --drag-handle-margin: 1.5rem auto 1rem;
+      /* Top padding is handled by the drag handle above the header */
+      padding: 0 2.7rem 0 2.7rem;
       min-height: auto;
       max-height: calc(var(--vh, 1vh) * 70);
       top: auto;
@@ -716,8 +752,20 @@
       border-bottom-left-radius: 0;
       transition: transform 250ms;
     }
+    /* No coarse pointer anywhere: we're confident there's no touch screen, so
+     hide the handle, and reintroduce the padding
+
+      */
+    @media not all and (any-pointer: coarse) {
+      .drawer {
+        padding: 2.7rem 2.7rem 0 2.7rem;
+      }
+    }
+
     .drawer.hidden {
       right: 0;
+      /* TODO: 90vh also works here, but might have compatibility constraints?
+        This seems to be an arbitrary large value that is not dependent on viewport height */
       transform: translateY(100rem);
     }
 

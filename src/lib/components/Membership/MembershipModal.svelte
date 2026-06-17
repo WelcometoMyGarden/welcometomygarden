@@ -34,7 +34,6 @@
   center
   fullHeight
   shrinkableBody
-  stickToBottom={false}
   nopadding={false}
   noInnerPadding
   ariaLabelledBy="subtitle title"

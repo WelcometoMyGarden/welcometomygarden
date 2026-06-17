@@ -12,9 +12,20 @@
     showHiking: boolean;
     showCycling: boolean;
     onclick: (e: MouseEvent) => void;
+    /**
+     * Whether this tool is rendered inside a mobile MapToolModal (as opposed to
+     * the desktop LayersAndTools panel). In the modal the controls are
+     * left-aligned and the upload action uses a standard-size button.
+     */
+    inModal?: boolean;
   }
 
-  let { showHiking = $bindable(), showCycling = $bindable(), onclick }: Props = $props();
+  let {
+    showHiking = $bindable(),
+    showCycling = $bindable(),
+    onclick,
+    inModal = false
+  }: Props = $props();
 
   let localFileDataLayers = $state($fileDataLayers);
   const fileDataLayersUnsubscribe = fileDataLayers.subscribe((value) => {
@@ -23,7 +34,7 @@
   onDestroy(fileDataLayersUnsubscribe);
 </script>
 
-<div class="static-layers">
+<div class="static-layers" class:in-modal={inModal}>
   <LabeledCheckbox
     name="hiking"
     icon={hikerIcon}
@@ -38,7 +49,7 @@
   />
 </div>
 
-<div class="data-layers">
+<div class="data-layers" class:in-modal={inModal}>
   {#each localFileDataLayers as layer}
     <MultiActionLabel
       icon={routesIcon}
@@ -51,11 +62,11 @@
   {/each}
 </div>
 
-<div class="layers-and-tools-button">
-  <Button preventing inverse xxsmall {onclick}>
+<div class="layers-and-tools-button" class:in-modal={inModal}>
+  <Button preventing {onclick} inverse={!inModal} xxsmall={!inModal} small={inModal}>
     <span class="button-text-container">
       <span class="button-icon">
-        <Icon icon={routesIcon} />
+        <Icon icon={routesIcon} whiteStroke={inModal} />
       </span>
       <span class="button-text">{$_('map.routes.upload-route')}</span>
     </span>
@@ -80,14 +91,23 @@
     text-align: center;
   }
 
-  @media screen and (max-width: 700px) {
-    .static-layers,
-    .data-layers {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      max-width: 370px;
-      margin: auto;
-    }
+  /* Inside the mobile MapToolModal: left-align the checkboxes (matching the
+     other map tool modals) and give the upload button room to breathe. */
+  .static-layers.in-modal,
+  .data-layers.in-modal {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .layers-and-tools-button.in-modal {
+    margin-top: 1.5rem;
+  }
+
+  .layers-and-tools-button.in-modal .button-icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    margin: 0 1rem 0 0;
   }
 </style>

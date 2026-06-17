@@ -128,7 +128,6 @@
   bind:show
   maxWidth="{MOBILE_BREAKPOINT}px"
   center={true}
-  stickToBottom={false}
   nopadding={false}
   ariaLabelledBy="title"
 >
