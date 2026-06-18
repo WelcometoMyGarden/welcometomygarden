@@ -2,9 +2,8 @@ const {
   sendCancelledRenewalReminderEmail7DaysEmail,
   sendCancelledRenewalReminderEmail2DaysEmail
 } = require('../../mail');
-const { frontendUrl } = require('../../sharedConfig');
 const { lxHourStart, oneWeekSecs, oneHourSecs, oneDaySecs } = require('../../util/time');
-const stripe = require('../stripe');
+const { createCustomerPortalUrl } = require('../manageSubscription');
 const { wtmgPriceIdToPrice } = require('../stripeEventHandlers/util');
 const { processUserPrivateDocs } = require('./shared');
 
@@ -31,26 +30,15 @@ exports.sendCancelledRenewalReminderEmail7Days = async function (docs) {
   );
   await processUserPrivateDocs(
     filteredDocs,
-    async ({
-      email,
-      stripeSubscription,
-      stripeCustomerId,
-      displayName,
-      communicationLanguage,
-      secret
-    }) => {
+    async ({ email, stripeSubscription, displayName, communicationLanguage, secret }) => {
       // Rounded euro price of the price ID
       const price = wtmgPriceIdToPrice()[stripeSubscription?.priceId];
-      const portalSession = await stripe.billingPortal.sessions.create({
-        customer: /** @type {string} */ (stripeCustomerId),
-        return_url: `${frontendUrl()}/account`
-      });
       // Send email
       await sendCancelledRenewalReminderEmail7DaysEmail({
         email,
         firstName: /** @type {string} */ (displayName),
         secret,
-        portalLink: portalSession.url,
+        portalLink: createCustomerPortalUrl(email, secret),
         language: communicationLanguage,
         price
       });
@@ -68,16 +56,12 @@ exports.sendCancelledRenewalReminderEmail2Days = async function (docs) {
   );
   await processUserPrivateDocs(
     filteredDocs,
-    async ({ email, stripeCustomerId, displayName, communicationLanguage, secret }) => {
-      const portalSession = await stripe.billingPortal.sessions.create({
-        customer: /** @type {string} */ (stripeCustomerId),
-        return_url: `${frontendUrl()}/account`
-      });
+    async ({ email, displayName, communicationLanguage, secret }) => {
       // Send email
       await sendCancelledRenewalReminderEmail2DaysEmail({
         email,
         firstName: /** @type {string} */ (displayName),
-        portalLink: portalSession.url,
+        portalLink: createCustomerPortalUrl(email, secret),
         secret,
         language: communicationLanguage
       });

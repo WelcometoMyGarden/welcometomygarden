@@ -2,7 +2,7 @@ const { defineString } = require('firebase-functions/params');
 const { sendgridMail } = require('./sendgrid/sendgrid');
 const devSend = require('./util/devMail');
 const { frontendUrl, canSendMail, dashboardUrl } = require('./sharedConfig');
-const { coerceToMainLanguage } = require('./util/mail');
+const { coerceToMainLanguage } = require('./util/translations');
 
 /**
  * @typedef {Object} EmailConfig

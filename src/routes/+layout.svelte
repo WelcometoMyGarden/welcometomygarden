@@ -3,7 +3,7 @@
   import '$lib/styles/global.css';
   import * as Sentry from '@sentry/sveltekit';
 
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
   import { page } from '$app/state';
   import Modal from 'svelte-simple-modal';
   import { onNavigate } from '$app/navigation';
@@ -19,7 +19,16 @@
   import routes, { activeUnlocalizedPath, activeRootPath, getBaseRouteIn } from '$lib/routes';
   import { PUBLIC_WTMG_HOST } from '$env/static/public';
   import { initializeUser } from '$lib/stores/user';
-  import { staticAppHasLoaded, appHasLoaded, coercedLocale, rootModal } from '$lib/stores/app';
+  import {
+    staticAppHasLoaded,
+    appHasLoaded,
+    coercedLocale,
+    rootModal,
+    resolveOnStaticAppHasLoaded
+  } from '$lib/stores/app';
+  import notify from '$lib/stores/notification';
+  import { formatNumericDate } from '$lib/util/format-date';
+  import { replaceState } from '$app/navigation';
   import { keyboardEvent } from '$lib/stores/keyboardEvent';
   import { isFullscreen } from '$lib/stores/fullscreen';
   import { Capacitor } from '@capacitor/core';
@@ -82,6 +91,32 @@
   }
 
   let { children }: Props = $props();
+
+  // Toast-via-query-param handling, for authenticated actions that redirect into
+  // the app (e.g. managing a membership from an email link).
+  // We tried doing this in the two layout.ts files, but that did not work for a reason
+  // that took too long to find.
+  // This approach could support more toast types later.
+  const TOAST_PARAMS = ['toast', 'when'];
+
+  /** Triggers a toast based on the current `toast` query param, if present. */
+  const triggerToastFromUrl = (url: URL) => {
+    const toast = url.searchParams.get('toast');
+    if (toast === 'membership-expired') {
+      const whenParam = url.searchParams.get('when');
+      const when = whenParam ? new Date(whenParam) : null;
+      const date =
+        when && !Number.isNaN(when.getTime()) ? formatNumericDate(when, $locale ?? 'en') : '';
+      notify.info($_('generics.toast.membership-expired', { values: { date } }));
+    }
+  };
+
+  /** Removes the toast-related query params from the URL, without a reload. */
+  const stripToastParams = (url: URL) => {
+    const newUrl = new URL(url);
+    TOAST_PARAMS.forEach((param) => newUrl.searchParams.delete(param));
+    replaceState(`${newUrl.pathname}${newUrl.search}${newUrl.hash}`, page.state);
+  };
 
   if (browser) {
     initializeFirebase()
@@ -163,6 +198,21 @@
       localEnvString = !page.url.hostname.endsWith('welcometomygarden.org')
         ? `local project: ${import.meta.env.VITE_FIREBASE_PROJECT_ID}`
         : null;
+
+      const url = page.url;
+      if (!url.searchParams.has('toast')) {
+        return;
+      } else {
+        // Handle toasts:
+        // - wait for the locale to load
+        // - wait for a tick after mount, otherwise SvelteKit complains about using replaceState
+        //   while the router is not yet initialized
+        Promise.all([tick(), resolveOnStaticAppHasLoaded()]).then(() => {
+          triggerToastFromUrl(url);
+          // Strip the params so a refresh/back-navigation doesn't re-trigger the toast.
+          stripToastParams(url);
+        });
+      }
 
       // No unsubscribers are used due to this being an async initializer
     });

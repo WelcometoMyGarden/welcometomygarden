@@ -36,7 +36,10 @@
     "here": "Hier",
     "cancel": "Abbrechen",
     "now": "Jetzt",
-    "undo": "Rückgängig"
+    "undo": "Rückgängig",
+    "toast": {
+      "membership-expired": "Deine Mitgliedschaft ist am {date} abgelaufen."
+    }
   },
   "ui": {
     "card": {
@@ -1549,5 +1552,11 @@
       "keywords": "Camping, Europa, Slow Travel, Radfahren, Wandern, Zelt, community, Camping im Garten, kostenloses Camping, Abenteuer",
       "description": "Welcome To My Garden: Ein gemeinnütziges Netzwerk von Bürgern und Bürgerinnen, die Langsamreisenden Campingplätze in ihren Gärten anbieten."
     }
+  },
+  "manage-membership-error": {
+    "logged-in": "Du kannst versuchen, dein Abonnement {accountLink} zu verwalten. Wenn das nicht funktioniert, wende dich an {support}.",
+    "logged-out": "Beim Verwalten der Mitgliedschaft von {email} ist etwas schiefgelaufen. {signInLink}, um dein Abonnement zu verwalten.",
+    "account-link-text": "über deine Kontoseite",
+    "sign-in-link-text": "Anmelden"
   }
 }

@@ -1,57 +1,17 @@
 const { logger } = require('firebase-functions');
 const fail = require('../util/fail');
-const getContactByEmail = require('./getContactByEmail');
+const verifyBySecret = require('../user/verifyBySecret');
 const { db } = require('../firebase');
 const querystring = require('node:querystring');
 
 /**
- *
- * @param {string} email
- * @param {string} secret
- * @param {string} [ source ]
- * @returns the uid of the user in case of success
- */
-async function verifyBySecret(email, secret, source) {
-  // Check for anonymous verification auth by SendGrid contact secret
-  // (expected to be common)
-  let logMetadata = { email, secret, source };
-  /** @type {SendGrid.ContactDetails | null} */
-  let contact = null;
-  // This might throw when FB auth missing or invalid, and no contact exists
-  // Some WTMG users don't have contacts, namely, those who have:
-  // - `news === false` since before the auto-syncing release && who didn't change any profile data after that
-  // (+ some rare error cases)
-  // (Some users DO have contacts, but their sendgridIds aren't linked in FB: we take SG as the source of truth for the secret; irrelevant here)
-  // commit bf57442b0485ae1209d4155206339b8099843844 at 2023-02-03T03:46:00+5:30 auto syncing to SendGrid
-  // Possible cases of transactional email that may reach a news===false without a contact:
-  // - "your garden has been unlisted" email
-  // Essential service notification relating to your user agreement.
-  contact = await getContactByEmail(email);
-  if (typeof contact.custom_fields.secret !== 'string') {
-    logger.error(`Unexpected missing 'secret' custom field for ${email}`, logMetadata);
-    // Shouldn't happen
-    throw new Error('invalid_state');
-  }
-
-  if (contact.custom_fields.secret !== secret) {
-    logger.warn('Secret mismatch', logMetadata);
-    throw new Error('secret_mismatch');
-  }
-
-  return contact.custom_fields.wtmg_id.toString();
-}
-
-/**
- * See https://meta.discourse.org/t/setup-discourseconnect-official-single-sign-on-for-discourse-sso/13045
- * Note that the URL-decoding and encoding discussed in the guide will be handled by URLSearchParams on the frontend.
- * sso payload should NOT be URL encoded
  * @param {FV2.CallableRequest<import("../../../src/lib/api/functions").ManageEmailPreferencesRequest>} request
  * @returns {Promise<import("../../../src/lib/api/functions").ManageEmailPreferencesResponse>} sso payload will not be URL-encoded
  */
 
 async function manageEmailPreferences({ data, auth: callAuth }) {
   const { type, email, secret } = data;
-  if (!email) {
+  if (!email || !secret) {
     return fail('invalid-argument');
   }
 
@@ -91,7 +51,7 @@ async function manageEmailPreferences({ data, auth: callAuth }) {
     const doc = docSnap.data();
     return {
       status: 'ok',
-      emailPreferences: doc.emailPreferences
+      emailPreferences: doc?.emailPreferences
     };
   }
   if (type === 'set') {
@@ -132,19 +92,27 @@ async function manageEmailPreferences({ data, auth: callAuth }) {
 
 const express = require('express');
 const { sendPlausibleEvent } = require('../util/plausible');
+const { parseEmailAuth } = require('../user/util/parseEmailAuth');
 const handleUnsubscribeRouter = express();
 
 /**
  *
- * @param {FV2.Request} req
+ * @param {import('express').Request} req
  * @param {import('express').Response} res
  */
 async function handleUnsubscribePost(req, res) {
-  // https://expressjs.com/en/api.html#express.urlencoded
-  // Parse expected properties and their
-  const { email: inEmail, e, secret: inSecret, s } = req.query;
-  const secret = s ?? inSecret;
-  const email = e ?? inEmail;
+  // Note: according to the spec, mailbox provider will also include POST body data:
+  //
+  // > A mail receiver can do a one-click unsubscription by performing an HTTPS POST to the HTTPS URI in the List-Unsubscribe header.
+  // > It sends the key/value pair in the List-Unsubscribe-Post header as the request body.
+  // > The POST content SHOULD be sent as 'multipart/form-data' [RFC7578] or MAY be sent as 'application/x-www-form-urlencoded'.
+  // > These encodings are the ones used by web browsers when sending forms.
+  // > The target of the POST action is the same as the one in the GET action for a manual unsubscription, so this is intended to allow the same server code to handle both.
+  //
+  // ... but we should be able to safely ignore this, since our target URL ("HTTPS URI in the List-Unsubscribe header")
+  // already includes query parameters, which we parse here.
+
+  const { email, secret } = parseEmailAuth(req.query);
 
   if (typeof email !== 'string' || typeof secret !== 'string') {
     logger.warn(
@@ -207,6 +175,8 @@ async function handleUnsubscribePost(req, res) {
 // https://expressjs.com/en/5x/api.html#req.query
 // https://expressjs.com/en/5x/api.html#app.settings.table
 handleUnsubscribeRouter.get('/email-preferences', (req, res) =>
+  // @ts-ignore it seems that the parsed query string could be more complex than
+  // the Dict expected by .encode(), but we are currently not using this for complex cases
   res.redirect(`/my-email-preferences?${querystring.encode(req.query ?? {})}`)
 );
 handleUnsubscribeRouter.post('/email-preferences', handleUnsubscribePost);

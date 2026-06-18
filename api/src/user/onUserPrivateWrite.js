@@ -13,7 +13,7 @@ const {
 const logger = require('firebase-functions/logger');
 const { auth } = require('../firebase');
 const stripe = require('../subscriptions/stripe');
-const { coerceToSupportedLanguage } = require('../util/mail');
+const { coerceToSupportedLanguage } = require('../util/translations');
 const removeUndefined = require('../util/removeUndefined');
 
 /**

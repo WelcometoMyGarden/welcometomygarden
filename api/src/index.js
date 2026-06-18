@@ -63,6 +63,7 @@ const { initialize: initSupabase } = require('./supabase');
 const onCampsiteListedChange = require('./user/onCampsiteListedChange');
 const { indexCallable } = require('./indexCallable');
 const { handleUnsubscribeRouter } = require('./sendgrid/manageEmailPreferences');
+const { handleManageSubscription } = require('./subscriptions/manageSubscription');
 const { onTaskDispatched } = require('firebase-functions/tasks');
 const checkContactCreation = require('./sendgrid/checkContactCreation');
 const { sendQueuedMessage } = require('./queued/sendQueuedMessage');
@@ -130,10 +131,15 @@ exports.handleStripeWebhookV2 = onRequest(
   stripeWebhookHandler
 );
 // Handle SendGrid Inbound Email
-exports.parseInboundEmailV2 = onRequest(parseInboundEmail);
+exports.parseInboundEmailV2 = onRequest(resetFunctionsV2DefaultHttpsOptions, parseInboundEmail);
 // To handle List-Unsubscribe=One-Click calls
-// To test this, use Firebase Hosting's dynamic rewrite function. See dev-env.md.
-exports.handleUnsubscribe = onRequest(handleUnsubscribeRouter);
+// To test the folling two, use Firebase Hosting's dynamic rewrite function. See dev-env.md.
+exports.handleUnsubscribe = onRequest(resetFunctionsV2DefaultHttpsOptions, handleUnsubscribeRouter);
+// Authenticated (email + secret) subscription management links from emails.
+exports.handleManageSubscription = onRequest(
+  resetFunctionsV2DefaultHttpsOptions,
+  handleManageSubscription
+);
 exports.errorLogTunnel = onRequest(resetFunctionsV2DefaultHttpsOptions, errorLogTunnel);
 
 // Firebase Auth triggers

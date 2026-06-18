@@ -35,7 +35,10 @@
     "here": "hier",
     "cancel": "Annuleren",
     "now": "nu",
-    "undo": "Ongedaan maken"
+    "undo": "Ongedaan maken",
+    "toast": {
+      "membership-expired": "Je lidmaatschap is verlopen op {date}."
+    }
   },
   "ui": {
     "card": {
@@ -1584,5 +1587,11 @@
       "keywords": "kamperen, Europa, slow travel, traag reizen, fietsen, wandelen, tent, community, kamperen in een tuin, gratis kamperen, avontuur",
       "description": "Welcome To My Garden: Gratis kampeerplekjes voor trage reizigers, bij mensen in de tuin. Met dank aan een warm netwerk van betrokken burgers."
     }
+  },
+  "manage-membership-error": {
+    "logged-in": "Je kan proberen je abonnement te beheren {accountLink}. Als dat niet werkt, neem dan contact op met {support}.",
+    "logged-out": "Er ging iets mis bij het beheren van het lidmaatschap van {email}. {signInLink} om je abonnement te beheren.",
+    "account-link-text": "via je accountpagina",
+    "sign-in-link-text": "Inloggen"
   }
 }

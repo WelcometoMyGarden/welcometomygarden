@@ -3,10 +3,10 @@
 const { logger } = require('firebase-functions/v2');
 const { isWTMGInvoice } = require('./util');
 const stripe = require('../stripe');
-const { frontendUrl } = require('../../sharedConfig');
 const { sendSubscriptionUpcomingRenewalEmail } = require('../../mail');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const { getUserDocRefsWithData } = require('../../firebase');
+const { createCustomerPortalUrl } = require('../manageSubscription');
 
 /**
  * Current only purpose handles sending the [WTMG] Renewal 7 days before - Automatic email
@@ -33,11 +33,6 @@ module.exports = async (event, res) => {
     logger.log('Ignoring upcoming renewal event for non-charge-automatically');
     return res.sendStatus(200);
   }
-
-  const portalSession = await stripe.billingPortal.sessions.create({
-    customer: /** @type {string} */ (invoice.customer),
-    return_url: `${frontendUrl()}/account`
-  });
 
   // Send the upcoming renewal email ([WTMG] Renewal 7 days before - Automatic)
 
@@ -129,13 +124,15 @@ module.exports = async (event, res) => {
     }
   }
 
+  const email = /** @type {string} */ (invoice.customer_email);
+
   await sendSubscriptionUpcomingRenewalEmail({
-    email: /** @type {string} */ (invoice.customer_email),
+    email,
     firstName: publicUserProfileData.firstName,
     price: price.unit_amount / 100,
     language: privateUserProfileData.communicationLanguage,
     secret: privateUserProfileData.secret,
-    portalLink: portalSession.url,
+    portalLink: createCustomerPortalUrl(email, privateUserProfileData.secret),
     isSEPA,
     last4,
     mandateReference

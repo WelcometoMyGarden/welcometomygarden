@@ -43,7 +43,10 @@
     "here": "here",
     "cancel": "Cancel",
     "now": "now",
-    "undo": "Undo"
+    "undo": "Undo",
+    "toast": {
+      "membership-expired": "Your membership expired on {date}."
+    }
   },
   "ui": {
     "card": {
@@ -1595,5 +1598,11 @@
       "sign-in-label": "sign in",
       "button-label": "Sign in or become a member"
     }
+  },
+  "manage-membership-error": {
+    "logged-in": "You can try managing your subscription {accountLink}. If that does not work, contact {support}.",
+    "logged-out": "Something went wrong when managing the membership of {email}. {signInLink} to manage your subscription.",
+    "account-link-text": "via your account page",
+    "sign-in-link-text": "Sign in"
   }
 }

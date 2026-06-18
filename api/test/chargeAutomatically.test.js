@@ -2,9 +2,9 @@
 //
 // This tests the logic of the Stripe event handlers for a charge_automatically renewal to some extent.
 //
-// It sets up the test by creating test users/customers, and roughly replicates
+// It sets up the test by creating test users & customers, and roughly replicates
 // the behavior of createOrRetrieveUnpaidSubscription function
-// (note: some work could be done to extrac the inner logic of that function so it is easily
+// (note: some work could be done to extract the inner logic of that function so it is easily
 // callable from tests without a frontend invocation)
 //
 // This test should be run with:

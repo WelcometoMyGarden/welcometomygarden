@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/sveltekit';
-import { derived, writable } from 'svelte/store';
+import { derived, get, writable } from 'svelte/store';
 import { isInitializingFirebase, isSigningIn, isUserLoading } from './auth';
 import { isLoading as isLocaleLoading, locale } from 'svelte-i18n';
 import type { Component } from 'svelte';
@@ -25,6 +25,21 @@ export const staticAppHasLoaded = derived(
     return $localeIsLoaded && isIDevicePWAReady;
   }
 );
+
+export const resolveOnStaticAppHasLoaded = async () => {
+  if (get(staticAppHasLoaded)) {
+    return Promise.resolve();
+  } else {
+    return new Promise<void>((resolve) => {
+      const unsubFromLoading = staticAppHasLoaded.subscribe((isLoaded) => {
+        if (isLoaded) {
+          unsubFromLoading();
+          resolve();
+        }
+      });
+    });
+  }
+};
 
 /**
  * Always has a value, will start with 'en' because $locale starts with null

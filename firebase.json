@@ -78,6 +78,14 @@
           }
         },
         {
+          "source": "/manage-membership",
+          "function": {
+            "functionId": "handleManageSubscription",
+            "region": "europe-west1",
+            "pinTag": false
+          }
+        },
+        {
           "source": "/error-log-tunnel",
           "function": {
             "functionId": "errorLogTunnel",
@@ -202,6 +210,14 @@
           "source": "/email-preferences",
           "function": {
             "functionId": "handleUnsubscribe",
+            "region": "europe-west1",
+            "pinTag": false
+          }
+        },
+        {
+          "source": "/manage-membership",
+          "function": {
+            "functionId": "handleManageSubscription",
             "region": "europe-west1",
             "pinTag": false
           }

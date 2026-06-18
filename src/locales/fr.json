@@ -37,7 +37,10 @@
     "question-mark": " ?",
     "cancel": "Annuler",
     "now": "maintenant",
-    "undo": "Annuler"
+    "undo": "Annuler",
+    "toast": {
+      "membership-expired": "Votre adhésion a expiré le {date}."
+    }
   },
   "ui": {
     "card": {
@@ -1577,5 +1580,11 @@
       "keywords": "camping, Europe, slow travel, voyage lent, voyage à vélo, randonnée, tente, communauté, camping dans les jardins, camping gratuit, aventure",
       "description": "Welcome To My Garden: Un réseau de citoyen·nes qui ouvrent leur jardin pour que les voyageur·ses lent·es puissent y camper gratuitement pour la nuit."
     }
+  },
+  "manage-membership-error": {
+    "logged-in": "Vous pouvez essayer de gérer votre abonnement {accountLink}. Si cela ne fonctionne pas, contactez {support}.",
+    "logged-out": "Une erreur s'est produite lors de la gestion de l'adhésion de {email}. {signInLink} pour gérer votre abonnement.",
+    "account-link-text": "via la page de votre compte",
+    "sign-in-link-text": "Se connecter"
   }
 }

@@ -25,8 +25,9 @@
     // Initialize
     // NOTE: this will not handle user switches well (log outs etc)
     const searchParams = new URLSearchParams(document.location.search);
-    // TODO: Sendgrid doesn't seem to URL-encode Custom Unsubscribe links; at least for transactional ones
-    // Assume that a space in the email was meant to be a "+". There may be more issues coming from this...
+    // TODO: Sendgrid doesn't URL-encode Custom Unsubscribe link fields, also not in manually interpolated footer links.
+    // Assume that a space in the email was meant to be a "+".
+    // Other valid email chars that can cause issues are #, %, =, & but those are not really concern right now.
     // Maybe we can use the WTMG-ID instead?
     emailParam = (searchParams.get('email') || searchParams.get('e'))?.replace(/\s/g, '+') ?? null;
     secretParam = searchParams.get('secret') || searchParams.get('s');

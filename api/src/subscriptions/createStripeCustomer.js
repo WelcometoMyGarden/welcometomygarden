@@ -1,7 +1,7 @@
 const fail = require('../util/fail');
 const stripe = require('./stripe');
 const { auth, db } = require('../firebase');
-const { coerceToSupportedLanguage } = require('../util/mail');
+const { coerceToSupportedLanguage } = require('../util/translations');
 
 /**
  * Creates a customer in stripe
