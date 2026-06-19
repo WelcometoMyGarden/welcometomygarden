@@ -11,6 +11,8 @@
 		438576CD2F7AB3DA00C0B835 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 438576CC2F7AB3DA00C0B835 /* PrivacyInfo.xcprivacy */; };
 		438576CE2F7AB3DA00C0B835 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 438576CC2F7AB3DA00C0B835 /* PrivacyInfo.xcprivacy */; };
 		43B6BF8F2E798B3F00E9FA7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EC3071FED79650016851F /* AppDelegate.swift */; };
+		ABCDEF012E798B3F00E9FA02 /* OfflineGateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCDEF012E798B3F00E9FA01 /* OfflineGateViewController.swift */; };
+		ABCDEF012E798B3F00E9FA03 /* OfflineGateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCDEF012E798B3F00E9FA01 /* OfflineGateViewController.swift */; };
 		43B6BF932E798B3F00E9FA7C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 504EC3101FED79650016851F /* LaunchScreen.storyboard */; };
 		43B6BF942E798B3F00E9FA7C /* public in Resources */ = {isa = PBXBuildFile; fileRef = 50B271D01FEDC1A000F3C39B /* public */; };
 		43B6BF952E798B3F00E9FA7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 504EC30E1FED79650016851F /* Assets.xcassets */; };
@@ -42,6 +44,7 @@
 		50379B222058CBB4000EE86E /* capacitor.config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = capacitor.config.json; sourceTree = "<group>"; };
 		504EC3041FED79650016851F /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		504EC3071FED79650016851F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		ABCDEF012E798B3F00E9FA01 /* OfflineGateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineGateViewController.swift; sourceTree = "<group>"; };
 		504EC30C1FED79650016851F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		504EC30E1FED79650016851F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		504EC3111FED79650016851F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -149,6 +152,7 @@
 				43C63E0A2E4A465100B30031 /* AppDebug.entitlements */,
 				50379B222058CBB4000EE86E /* capacitor.config.json */,
 				504EC3071FED79650016851F /* AppDelegate.swift */,
+				ABCDEF012E798B3F00E9FA01 /* OfflineGateViewController.swift */,
 				504EC30B1FED79650016851F /* Main.storyboard */,
 				504EC30E1FED79650016851F /* Assets.xcassets */,
 				504EC3101FED79650016851F /* LaunchScreen.storyboard */,
@@ -368,6 +372,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				43B6BF8F2E798B3F00E9FA7C /* AppDelegate.swift in Sources */,
+				ABCDEF012E798B3F00E9FA02 /* OfflineGateViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,6 +381,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				504EC3081FED79650016851F /* AppDelegate.swift in Sources */,
+				ABCDEF012E798B3F00E9FA03 /* OfflineGateViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

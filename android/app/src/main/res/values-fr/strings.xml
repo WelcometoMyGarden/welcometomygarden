@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="offline_message">Welcome To My Garden a besoin d\'une connexion Internet</string>
+    <string name="offline_connecting">Tentative de connexion…</string>
+</resources>
