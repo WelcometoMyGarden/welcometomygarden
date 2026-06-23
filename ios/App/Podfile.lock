@@ -1,12 +1,12 @@
 PODS:
-  - Capacitor (8.0.2):
+  - Capacitor (8.3.4):
     - CapacitorCordova
-  - CapacitorApp (8.0.0):
+  - CapacitorApp (8.1.0):
     - Capacitor
   - CapacitorCommunitySafeArea (8.0.1):
     - Capacitor
-  - CapacitorCordova (8.0.2)
-  - CapacitorDevice (8.0.0):
+  - CapacitorCordova (8.3.4)
+  - CapacitorDevice (8.0.2):
     - Capacitor
   - CapacitorGeolocation (8.1.0):
     - Capacitor
@@ -14,15 +14,15 @@ PODS:
   - CapacitorInappbrowser (2.5.3):
     - Capacitor
     - OSInAppBrowserLib (~> 2.3.1)
-  - CapacitorLocalNotifications (8.0.2):
+  - CapacitorLocalNotifications (8.1.0):
     - Capacitor
-  - CapacitorNativeSettings (8.0.0):
+  - CapacitorNativeSettings (8.1.0):
     - Capacitor
-  - CapacitorPushNotifications (8.0.0):
+  - CapacitorPushNotifications (8.0.4):
     - Capacitor
-  - CapacitorSplashScreen (8.0.0):
+  - CapacitorSplashScreen (8.0.1):
     - Capacitor
-  - CapawesomeCapacitorBadge (8.0.1):
+  - CapawesomeCapacitorBadge (8.0.2):
     - Capacitor
   - FirebaseCore (12.10.0):
     - FirebaseCoreInternal (~> 12.10.0)
@@ -140,18 +140,18 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@notnotsamuel/capacitor-swipe-back"
 
 SPEC CHECKSUMS:
-  Capacitor: 2b79172ad27f3be2d103cce88b8eb9803fdcc744
-  CapacitorApp: 3963a84197280757b84f126afd1520a85ae3b092
+  Capacitor: d13cad5fa09155679672808cc4ca9fbc2997e1b4
+  CapacitorApp: 449ffe26375e96f8aaaee625ac6e01e5c57c8650
   CapacitorCommunitySafeArea: 91738f4ae7f47d2d94e06e429e16fb73cd8fdc48
-  CapacitorCordova: 921bdb690ebe82421b24fce45552fd3dea2ae43a
-  CapacitorDevice: 9a16fb36a19ff391bf75afbe3cf16f883b3b3aa0
+  CapacitorCordova: c07921bdcfec6f691bae22274446b4d606ebf6a4
+  CapacitorDevice: 14cba6f88d1c3074cbf825fea977c8c526453ff8
   CapacitorGeolocation: 7132de914f9d853ec4642dc1d36e4e2018a4e8a8
   CapacitorInappbrowser: e1dc727db99127c2908b69408f7da8118d854a84
-  CapacitorLocalNotifications: 4db83a7f6bdd2f30dcedf5c6f92c415065467a24
-  CapacitorNativeSettings: 61b7c3d4081dec0b348cc383af83f3e1faa89106
-  CapacitorPushNotifications: 722c1528eabbefd355f47e373a4c6235d01e85e9
-  CapacitorSplashScreen: 422880d7117605c30699eb4b21644b62db42e86c
-  CapawesomeCapacitorBadge: 0a65ef36db6c236b41f324df5a2f12fe8cdd4a29
+  CapacitorLocalNotifications: 910c3e45572b4adb92a32e7b6c3791d1eadadcbf
+  CapacitorNativeSettings: d512b84fdcc04948c32f267621079a0d7c0d452f
+  CapacitorPushNotifications: f96978ca9c1b2c0b755e27a13b6bd3f7bc12905c
+  CapacitorSplashScreen: 4b46c72298db552b3c57ce021ef028b6dc7f1fa7
+  CapawesomeCapacitorBadge: 0d9dca1ab1e770a4524c5a6c35d3c1ee91b296f8
   FirebaseCore: f4428e22415ea3b3eca652c2098413dabf2a23a9
   FirebaseCoreInternal: e7bbaeb00ab73011298f35ed223aa7371e212948
   FirebaseInstallations: 047343aa91fd6a1ebfa3eb374ddecf36a8aaddfd

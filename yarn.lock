@@ -324,23 +324,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@capacitor/geolocation@npm:^8.2.0":
-  version: 8.2.0
-  resolution: "@capacitor/geolocation@npm:8.2.0"
+"@capacitor/geolocation@npm:8.1.0":
+  version: 8.1.0
+  resolution: "@capacitor/geolocation@npm:8.1.0"
   dependencies:
     "@capacitor/synapse": "npm:^1.0.4"
   peerDependencies:
     "@capacitor/core": ">=8.0.0"
-  checksum: 10/49e86baa5599a3d81e65e96208c08983500144a2bf0fe47173d97676a0c0ba1ea06da3f9e4f406230a6522e7c7539c5b7fec2b0a554cbbd21a48cad414a8afd1
+  checksum: 10/f6fc35d17056ca90aa717892e48821ab18d418e527623af6294fe9aae3cd87bbcc953024c35b24a4f47e30e4004364612c730a5047a5efeca280978b63e85f9c
   languageName: node
   linkType: hard
 
-"@capacitor/inappbrowser@npm:^2.5.5":
-  version: 2.5.5
-  resolution: "@capacitor/inappbrowser@npm:2.5.5"
+"@capacitor/inappbrowser@npm:2.5.3":
+  version: 2.5.3
+  resolution: "@capacitor/inappbrowser@npm:2.5.3"
   peerDependencies:
     "@capacitor/core": ">=7.0.0"
-  checksum: 10/4e6b36e940e3e342544e22a3af90e95ace77962f5e24c2c7323a841ae2563a6f23903436d5924062ae7434a7d84f91278d1b76e7ac8dfea1cb51f84182a99ebf
+  checksum: 10/d335759a1395cb5d13069b5d6c6f960013a7ee9e25a5c0c52a7545f6a6833af3d80bf0db313243f22886d4fd92e4854ce7d812e5db365528674e0d767585a583
   languageName: node
   linkType: hard
 
@@ -13623,8 +13623,8 @@ __metadata:
     "@capacitor/cli": "npm:^8.3.4"
     "@capacitor/core": "npm:^8.3.4"
     "@capacitor/device": "npm:^8.0.2"
-    "@capacitor/geolocation": "npm:^8.2.0"
-    "@capacitor/inappbrowser": "npm:^2.5.5"
+    "@capacitor/geolocation": "npm:8.1.0"
+    "@capacitor/inappbrowser": "npm:2.5.3"
     "@capacitor/ios": "npm:^8.3.4"
     "@capacitor/local-notifications": "npm:^8.1.0"
     "@capacitor/push-notifications": "npm:^8.0.4"
