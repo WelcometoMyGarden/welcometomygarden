@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="offline_message">Du scheinst offline zu sein. Um WTMG zu nutzen, geh wieder online.</string>
+</resources>
