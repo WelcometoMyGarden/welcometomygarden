@@ -5,4 +5,6 @@
     <string name="package_name">org.welcometomygarden.app</string>
     <string name="custom_url_scheme">org.welcometomygarden.app</string>
     <string name="default_notification_channel_id">chat-notifications</string>
+    <!-- Offline gate (shown natively when the remote site can\'t load due to no internet) -->
+    <string name="offline_message">No internet connection. Check your connection and try again.</string>
 </resources>

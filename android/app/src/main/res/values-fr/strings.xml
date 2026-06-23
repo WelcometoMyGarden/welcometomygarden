@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="offline_message">Pas de connexion internet. Vérifiez votre connexion et réessayez.</string>
+</resources>
