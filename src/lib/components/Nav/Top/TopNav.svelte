@@ -14,7 +14,6 @@
     subscriptionJustEnded
   } from '$lib/stores/subscription';
   import { lr } from '$lib/util/translation-helpers';
-  import { transKeyExists } from '$lib/util';
   import { signInLinkWithGarden } from '$lib/components/Map/Map.svelte';
   import TemporaryAppNavBannerContent from '../TemporaryAppNoticeBanner.svelte';
 
@@ -118,6 +117,10 @@
     );
   }
 
+  :global(.app.error-banner) {
+    --height-nav: calc(var(--height-nav-extra) + var(--height-nav-main));
+  }
+
   nav {
     position: fixed;
     top: 0;
@@ -135,7 +138,7 @@
   }
 
   /* Dodge the error banner if it is shown */
-  :global(.app.error-banner) nav {
+  :global(.app.error-banner nav#top-nav) {
     top: var(--height-error-banner);
   }
 
@@ -167,6 +170,11 @@
     padding-top: env(safe-area-inset-top, 0px);
   }
 
+  :global(.app.error-banner nav#top-nav > .main-nav:not(.has-extra)) {
+    /* reset safe area handling */
+    padding-top: 0;
+  }
+
   nav .nav-extra {
     background-color: var(--color-beige-light);
     text-align: right;
@@ -175,6 +183,12 @@
     justify-content: right;
     align-items: center;
     padding: env(safe-area-inset-top, 0px) 1.5rem 0 1.5rem;
+  }
+
+  :global(.app.error-banner nav#top-nav .nav-extra) {
+    /* this does not take over the top safe area handling anymore  */
+    height: var(--height-nav-extra);
+    padding: 0 1.5rem;
   }
 
   nav .main-nav > ul {

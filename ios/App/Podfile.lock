@@ -18,6 +18,8 @@ PODS:
     - Capacitor
   - CapacitorNativeSettings (8.1.0):
     - Capacitor
+  - CapacitorNetwork (8.0.1):
+    - Capacitor
   - CapacitorPushNotifications (8.0.4):
     - Capacitor
   - CapacitorSplashScreen (8.0.1):
@@ -92,6 +94,7 @@ DEPENDENCIES:
   - "CapacitorInappbrowser (from `../../node_modules/@capacitor/inappbrowser`)"
   - "CapacitorLocalNotifications (from `../../node_modules/@capacitor/local-notifications`)"
   - CapacitorNativeSettings (from `../../node_modules/capacitor-native-settings`)
+  - "CapacitorNetwork (from `../../node_modules/@capacitor/network`)"
   - "CapacitorPushNotifications (from `../../node_modules/@capacitor/push-notifications`)"
   - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
   - "CapawesomeCapacitorBadge (from `../../node_modules/@capawesome/capacitor-badge`)"
@@ -130,6 +133,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/local-notifications"
   CapacitorNativeSettings:
     :path: "../../node_modules/capacitor-native-settings"
+  CapacitorNetwork:
+    :path: "../../node_modules/@capacitor/network"
   CapacitorPushNotifications:
     :path: "../../node_modules/@capacitor/push-notifications"
   CapacitorSplashScreen:
@@ -149,6 +154,7 @@ SPEC CHECKSUMS:
   CapacitorInappbrowser: e1dc727db99127c2908b69408f7da8118d854a84
   CapacitorLocalNotifications: 910c3e45572b4adb92a32e7b6c3791d1eadadcbf
   CapacitorNativeSettings: d512b84fdcc04948c32f267621079a0d7c0d452f
+  CapacitorNetwork: 8812ce60d11fb63d8f2e4ba51a49b2e59892ebe2
   CapacitorPushNotifications: f96978ca9c1b2c0b755e27a13b6bd3f7bc12905c
   CapacitorSplashScreen: 4b46c72298db552b3c57ce021ef028b6dc7f1fa7
   CapawesomeCapacitorBadge: 0d9dca1ab1e770a4524c5a6c35d3c1ee91b296f8
@@ -164,6 +170,6 @@ SPEC CHECKSUMS:
   OSInAppBrowserLib: bf7cdcc072394ae827f8cfe3f5f9c807691834c0
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
 
-PODFILE CHECKSUM: 8a31458174004c675f4c352bc044fd54792432b9
+PODFILE CHECKSUM: a76c9535b90d8981e4d5aaad167a9824e6a167cc
 
 COCOAPODS: 1.16.2

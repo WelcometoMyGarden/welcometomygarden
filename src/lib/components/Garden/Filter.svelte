@@ -239,5 +239,10 @@
       /* This should not be necessary with the above width, but for safety */
       margin-right: var(--mapbox-zoom-ctrl-padding);
     }
+
+    :global(.app.error-banner .filter) {
+      /* reset the above, error-banner takes care of top inset */
+      top: calc(var(--spacing-map-controls));
+    }
   }
 </style>

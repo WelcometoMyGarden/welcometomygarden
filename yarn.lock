@@ -362,6 +362,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@capacitor/network@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "@capacitor/network@npm:8.0.1"
+  peerDependencies:
+    "@capacitor/core": ">=8.0.0"
+  checksum: 10/808ea9c1ce34632e185446e91f6acba0926f7ef0a795f3f7dda6a4cacf614a2cd44cdf70d8574cf1f3dba84801ae8d7cc269146a2f27650288e6f43cb7bec6f1
+  languageName: node
+  linkType: hard
+
 "@capacitor/push-notifications@npm:^8.0.4":
   version: 8.0.4
   resolution: "@capacitor/push-notifications@npm:8.0.4"
@@ -13627,6 +13636,7 @@ __metadata:
     "@capacitor/inappbrowser": "npm:2.5.3"
     "@capacitor/ios": "npm:^8.3.4"
     "@capacitor/local-notifications": "npm:^8.1.0"
+    "@capacitor/network": "npm:^8.0.1"
     "@capacitor/push-notifications": "npm:^8.0.4"
     "@capacitor/splash-screen": "npm:^8.0.1"
     "@capawesome/capacitor-badge": "npm:^8.0.2"
