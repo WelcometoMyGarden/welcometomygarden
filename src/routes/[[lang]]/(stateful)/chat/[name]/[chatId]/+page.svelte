@@ -473,6 +473,16 @@
     min-height: 10.5rem;
   }
 
+  :global(.app.error-banner header.mobile.chat-header) {
+    /* Note: this is a broken attempt at dodging the error banner on mobile
+    On mobile, the error banner has an "auto" height, and overlays.
+    This uses the static desktop height to at least dodge it a bit.
+    This var includes the top safe area.
+   */
+    top: calc(var(--height-error-banner));
+    padding-top: 2.4rem;
+  }
+
   header.mobile .title {
     width: 100%;
     text-align: center;

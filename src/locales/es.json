@@ -31,6 +31,8 @@
     "fair-model-blog-path": "",
     "on": "en",
     "error": {
+      "offline": "Sin conexión a Internet. Necesitas Internet para usar WTMG.",
+      "offline-chat": "Sin conexión a Internet. Necesitas Internet para enviar mensajes.",
       "start": "Algo salió mal"
     },
     "account-page": "página de tu cuenta",
