@@ -39,6 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         // Called when the app was launched with a url. Feel free to add additional processing here,
         // but if you want the App API to support tracking app url opens, make sure to keep this call
+        // Store the link so the offline gate can re-apply it once connectivity is restored.
+        OfflinePendingLink.shared.capture(url)
         return ApplicationDelegateProxy.shared.application(app, open: url, options: options)
     }
 
@@ -46,6 +48,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the app was launched with an activity, including Universal Links.
         // Feel free to add additional processing here, but if you want the App API to support
         // tracking app url opens, make sure to keep this call
+        // Store the link so the offline gate can re-apply it once connectivity is restored.
+        if let url = userActivity.webpageURL {
+            OfflinePendingLink.shared.capture(url)
+        }
         return ApplicationDelegateProxy.shared.application(application, continue: userActivity, restorationHandler: restorationHandler)
     }
 
