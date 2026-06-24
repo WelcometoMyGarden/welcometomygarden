@@ -47,6 +47,7 @@
     "@capacitor/inappbrowser": "2.5.3",
     "@capacitor/ios": "^8.3.4",
     "@capacitor/local-notifications": "^8.1.0",
+    "@capacitor/network": "^8.0.1",
     "@capacitor/push-notifications": "^8.0.4",
     "@capacitor/splash-screen": "^8.0.1",
     "@capawesome/capacitor-badge": "^8.0.2",

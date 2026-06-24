@@ -35,9 +35,9 @@ final class OfflinePendingLink {
 /// remote site never loads, the JS never runs, and the splash screen stays on screen forever.
 ///
 /// This controller watches connectivity (via `NWPathMonitor`) and the WebView's load progress. If the
-/// remote site can't be reached because the device is offline, it shows a native, localized overlay,
-/// polls for connectivity, and reloads `server.url` as soon as the connection is restored. Deep links
-/// received while offline are re-applied on the recovery load.
+/// remote site can't be reached because the device is offline, it shows a native, localized overlay
+/// with a spinner, polls for connectivity, and reloads `server.url` as soon as the connection is
+/// restored. Deep links received while offline are re-applied on the recovery load.
 class OfflineGateViewController: CAPBridgeViewController, WKScriptMessageHandler {
 
     /// Name of the JS->native bridge message used to request a cache-ignoring reload.
@@ -65,6 +65,13 @@ class OfflineGateViewController: CAPBridgeViewController, WKScriptMessageHandler
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // Let the web layer trigger a cache-ignoring reload (see `userContentController(_:didReceive:)`).
+        // Registered regardless of `serverURL`; harmless for local-bundle builds.
+        // Note: the user content controller retains the handler strongly, but this view controller
+        // is the app's root bridge controller and lives for the whole app lifetime, so the resulting
+        // reference cycle is intentional and not a leak.
+        webView?.configuration.userContentController.add(self, name: OfflineGateViewController.hardReloadMessageName)
 
         // Only gate when a remote server URL is configured (production/staging builds).
         guard serverURL != nil else { return }
@@ -100,6 +107,20 @@ class OfflineGateViewController: CAPBridgeViewController, WKScriptMessageHandler
                 DispatchQueue.main.async { self.markLoaded() }
             }
         }
+    }
+
+    // MARK: - Hard reload bridge
+
+    /// Handles the `wtmgHardReload` message posted by the web layer when connectivity is restored.
+    ///
+    /// A plain JS `window.location.reload()` in WKWebView does not reliably re-fetch resources that
+    /// failed to load while offline (dynamically imported JS chunks, CSS modules): the webview keeps
+    /// serving the failed responses from its cache, so the page crashes again on the same missing
+    /// module. `reloadFromOrigin()` performs an end-to-end revalidation that ignores the cache, which
+    /// re-fetches those resources cleanly.
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        guard message.name == OfflineGateViewController.hardReloadMessageName else { return }
+        webView?.reloadFromOrigin()
     }
 
     // MARK: - Overlay

@@ -15,6 +15,7 @@ dependencies {
     implementation project(':capacitor-geolocation')
     implementation project(':capacitor-inappbrowser')
     implementation project(':capacitor-local-notifications')
+    implementation project(':capacitor-network')
     implementation project(':capacitor-push-notifications')
     implementation project(':capacitor-splash-screen')
     implementation project(':capawesome-capacitor-badge')

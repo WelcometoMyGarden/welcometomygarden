@@ -30,6 +30,8 @@
     "new": "Neu",
     "on": "An",
     "error": {
+      "offline": "Keine Internetverbindung. Du brauchst Internet, um WTMG zu nutzen.",
+      "offline-chat": "Keine Internetverbindung. Du brauchst Internet, um Nachrichten zu senden.",
       "start": "Etwas ist schief gelaufen"
     },
     "account-page": "Kontoseite",

@@ -26,6 +26,8 @@
     "on": "sur",
     "helpcenter-url": "https://aide.welcometomygarden.org/",
     "error": {
+      "offline": "Pas de connexion internet. Vous avez besoin d'internet pour utiliser WTMG.",
+      "offline-chat": "Pas de connexion internet. Vous avez besoin d'internet pour envoyer des messages.",
       "start": "Quelque chose n’a pas fonctionné",
       "app-check": {
         "message": "WTMG peut ne pas bien fonctionner avec ce navigateur. Consultez {linkText} pour trouver des solutions.",
