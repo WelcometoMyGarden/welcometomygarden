@@ -192,27 +192,34 @@
 
   onMount(() => {
     return Sentry.startSpan({ name: 'Root Layout Load', op: 'app.load' }, async () => {
-      // Note: we don't unregister from this handler,
-      // since the root layout should be called only once
-      Network.getStatus()
-        .then((status) => {
+      // Note: we don't unregister from this handler, since the root layout should be called only once.
+      // Also only wire up connectivity detection when the plugin is actually available (true on the web and on native shells that
+      // include it); otherwise skip it entirely so we don't trigger "not implemented" errors.
+      if (Capacitor.isPluginAvailable('Network')) {
+        Network.getStatus()
+          .then((status) => {
+            isOffline = !status.connected;
+          })
+          .catch(() => {});
+        Network.addListener('networkStatusChange', (status) => {
+          const wasOffline = isOffline;
           isOffline = !status.connected;
-        })
-        .catch(() => {});
-      Network.addListener('networkStatusChange', (status) => {
-        const wasOffline = isOffline;
-        isOffline = !status.connected;
-        // When connectivity is restored after having been lost, do a hard reload of the current
-        // page so it reflects the latest state — unless we're on a data-entry route where a
-        // reload could discard in-progress input.
-        // This helps when you are e.g. on the home page and
-        // 1) lose connection, 2) go to /explore (shows an error), 3) regain connection
-        // -> the /explore page does not rerun onMount or reload -> you're stuck
-        // Note: I tried to use SvelteKit's `invalidateAll` here, that did not work.
-        if (wasOffline && status.connected && !RELOAD_EXEMPT_ROUTE_IDS.has(page.route?.id ?? '')) {
-          hardReload();
-        }
-      }).catch(() => {});
+          // When connectivity is restored after having been lost, do a hard reload of the current
+          // page so it reflects the latest state — unless we're on a data-entry route where a
+          // reload could discard in-progress input.
+          // This helps when you are e.g. on the home page and
+          // 1) lose connection, 2) go to /explore (shows an error), 3) regain connection
+          // -> the /explore page does not rerun onMount or reload -> you're stuck
+          // Note: I tried to use SvelteKit's `invalidateAll` here, that did not work.
+          if (
+            wasOffline &&
+            status.connected &&
+            !RELOAD_EXEMPT_ROUTE_IDS.has(page.route?.id ?? '')
+          ) {
+            hardReload();
+          }
+        }).catch(() => {});
+      }
       logger.log('Mounting root layout');
       if (Capacitor.isNativePlatform()) {
         await SplashScreen.hide();
