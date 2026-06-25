@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.activity.EdgeToEdge;
 
 import com.getcapacitor.BridgeActivity;
+import com.getcapacitor.CapConfig;
 
 public class MainActivity extends BridgeActivity {
   private OfflineGate offlineGate;
@@ -20,6 +21,18 @@ public class MainActivity extends BridgeActivity {
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
+    // Inject the runtime-selected backend channel before the bridge is built. When no override is
+    // persisted this resolves to the baked server.url, preserving the default behavior. See
+    // WtmgServerConfig. Must run before super.onCreate(), which builds the bridge from this.config.
+    CapConfig runtimeConfig = WtmgServerConfig.buildConfig(this);
+    if (runtimeConfig != null) {
+      this.config = runtimeConfig;
+    }
+
+    // Register the app-local backend-channel plugin before the bridge loads (it is not part of the
+    // auto-registered packageClassList, which only covers npm plugin packages).
+    registerPlugin(WtmgServerPlugin.class);
+
     super.onCreate(savedInstanceState);
 
     // Lock phones to portrait, allow tablets to rotate

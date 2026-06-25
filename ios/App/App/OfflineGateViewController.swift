@@ -93,6 +93,36 @@ class OfflineGateViewController: CAPBridgeViewController, WKScriptMessageHandler
         monitor.start(queue: monitorQueue)
     }
 
+    // MARK: - Runtime backend channel
+
+    /// Points the bridge at the runtime-selected server URL (if any) before it is built.
+    ///
+    /// Called by `CAPBridgeViewController.loadView()` before the bridge/config are created, so setting
+    /// `descriptor.serverURL` here makes the chosen channel the canonical app host (correct cookies,
+    /// `getServerUrl()`, and navigation handling). When no override is persisted, the baked
+    /// `server.url` from `capacitor.config.json` (already on the descriptor) is kept.
+    override func instanceDescriptor() -> InstanceDescriptor {
+        let descriptor = super.instanceDescriptor()
+        if let override = WtmgServerConfig.override {
+            descriptor.serverURL = override
+        }
+        // Keep the preset channels navigable in-webview (rather than punted to the system browser)
+        // while/after switching between them.
+        let presetHosts = ["welcometomygarden.org", "beta.welcometomygarden.org", "staging.welcometomygarden.org"]
+        var hostnames = descriptor.allowedNavigationHostnames
+        for host in presetHosts where !hostnames.contains(host) {
+            hostnames.append(host)
+        }
+        descriptor.allowedNavigationHostnames = hostnames
+        return descriptor
+    }
+
+    /// Registers the app-local `WtmgServer` plugin. Done here (rather than via the auto-registered
+    /// `packageClassList`, which only covers npm plugin packages) so the JS layer can switch channels.
+    override func capacitorDidLoad() {
+        bridge?.registerPluginInstance(WtmgServerPlugin())
+    }
+
     // MARK: - Load progress
 
     private func observeLoadProgress() {
@@ -312,5 +342,105 @@ class OfflineGateViewController: CAPBridgeViewController, WKScriptMessageHandler
     private static func montserrat(_ weight: MontserratWeight, size: CGFloat) -> UIFont {
         return UIFont(name: weight.postScriptName, size: size)
             ?? .systemFont(ofSize: size, weight: weight.systemWeight)
+    }
+}
+
+// MARK: - Runtime backend channel
+
+/// Persistence + resolution for the runtime backend-channel override.
+///
+/// The active server URL is `override ?? bakedDefaultURL()`, where the baked default is the
+/// `server.url` written into `capacitor.config.json` at `cap sync` time. Read by
+/// `OfflineGateViewController.instanceDescriptor()` to point the webview, and by `WtmgServerPlugin`
+/// for the JS API. Defined here (rather than in its own file) so it is part of an existing target
+/// source file and needs no Xcode project changes.
+enum WtmgServerConfig {
+    static let overrideKey = "wtmg_server_url"
+
+    /// The user-selected override URL, or nil when none is persisted (use the baked default).
+    static var override: String? {
+        get {
+            let value = UserDefaults.standard.string(forKey: overrideKey)
+            return (value?.isEmpty == false) ? value : nil
+        }
+        set {
+            if let value = newValue, !value.isEmpty {
+                UserDefaults.standard.set(value, forKey: overrideKey)
+            } else {
+                UserDefaults.standard.removeObject(forKey: overrideKey)
+            }
+        }
+    }
+
+    /// The `server.url` baked into the bundled `capacitor.config.json` (default when no override).
+    static func bakedDefaultURL() -> String {
+        guard let url = Bundle.main.url(forResource: "capacitor.config", withExtension: "json"),
+              let data = try? Data(contentsOf: url),
+              let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let server = json["server"] as? [String: Any],
+              let serverURL = server["url"] as? String else {
+            return ""
+        }
+        return serverURL
+    }
+
+    /// The server URL the app should currently load.
+    static func currentURL() -> String {
+        return override ?? bakedDefaultURL()
+    }
+
+    static func isValid(_ urlString: String) -> Bool {
+        guard let url = URL(string: urlString), let scheme = url.scheme?.lowercased() else {
+            return false
+        }
+        return scheme == "http" || scheme == "https"
+    }
+}
+
+/// App-local Capacitor plugin exposing the backend-channel switcher to the web layer
+/// (`src/lib/api/serverChannel.ts`). Registered in `OfflineGateViewController.capacitorDidLoad()`.
+@objc(WtmgServerPlugin)
+public class WtmgServerPlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "WtmgServerPlugin"
+    public let jsName = "WtmgServer"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "getConfig", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setUrl", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "reset", returnType: CAPPluginReturnPromise)
+    ]
+
+    @objc func getConfig(_ call: CAPPluginCall) {
+        call.resolve([
+            "current": WtmgServerConfig.currentURL(),
+            "baseline": WtmgServerConfig.bakedDefaultURL(),
+            "isPersisted": WtmgServerConfig.override != nil
+        ])
+    }
+
+    @objc func setUrl(_ call: CAPPluginCall) {
+        guard let url = call.getString("url"), WtmgServerConfig.isValid(url) else {
+            call.reject("A valid http(s) URL is required")
+            return
+        }
+        WtmgServerConfig.override = url
+        rebuildWebView()
+        call.resolve()
+    }
+
+    @objc func reset(_ call: CAPPluginCall) {
+        WtmgServerConfig.override = nil
+        rebuildWebView()
+        call.resolve()
+    }
+
+    /// Re-points the app at the resolved server URL by replacing the root view controller with a
+    /// fresh bridge controller, which re-runs `instanceDescriptor()` and loads the new URL.
+    private func rebuildWebView() {
+        DispatchQueue.main.async { [weak self] in
+            let window = self?.bridge?.viewController?.view.window
+                ?? (UIApplication.shared.delegate as? AppDelegate)?.window
+            window?.rootViewController = OfflineGateViewController()
+            window?.makeKeyAndVisible()
+        }
     }
 }

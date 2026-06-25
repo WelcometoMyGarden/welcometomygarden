@@ -86,7 +86,18 @@ const config: CapacitorConfig = {
       insetsHandling: 'disable'
     }
   },
-  ...overrideConfig
+  ...overrideConfig,
+  server: {
+    // Keep `server.url` from the NODE_ENV-selected override above, but also allow navigating
+    // between the backend channels in-webview (rather than being punted to the system browser)
+    // so the runtime channel switcher works. See src/lib/api/serverChannel.ts.
+    ...overrideConfig.server,
+    allowNavigation: [
+      'welcometomygarden.org',
+      'beta.welcometomygarden.org',
+      'staging.welcometomygarden.org'
+    ]
+  }
 };
 
 export default config;
