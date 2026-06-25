@@ -210,12 +210,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@capacitor/android@npm:^8.3.4":
-  version: 8.3.4
-  resolution: "@capacitor/android@npm:8.3.4"
+"@capacitor/android@npm:^8.4.0":
+  version: 8.4.0
+  resolution: "@capacitor/android@npm:8.4.0"
   peerDependencies:
-    "@capacitor/core": ^8.3.0
-  checksum: 10/9d16e90136e51ff1ad3801653863084f82e8de21dd4c289a12cfd2b1d46d48ab08458cd75942d2692d2dfeb3538dd13819d50ec2782eed5eab82045a199a5074
+    "@capacitor/core": ^8.4.0
+  checksum: 10/36aa12718093204fc8cfededf881c878170ce07f0acc95e8f1a5f598934d10e1ab80b7e328036abfb4016c34b3b7ebb44bf993ba7c075b18f5d9e0b8fec5a29d
   languageName: node
   linkType: hard
 
@@ -278,9 +278,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@capacitor/cli@npm:^8.3.4":
-  version: 8.3.4
-  resolution: "@capacitor/cli@npm:8.3.4"
+"@capacitor/cli@npm:^8.4.0":
+  version: 8.4.0
+  resolution: "@capacitor/cli@npm:8.4.0"
   dependencies:
     "@ionic/cli-framework-output": "npm:^2.2.8"
     "@ionic/utils-subprocess": "npm:^3.0.1"
@@ -302,16 +302,16 @@ __metadata:
   bin:
     cap: bin/capacitor
     capacitor: bin/capacitor
-  checksum: 10/38d10aedb4921c1f243f348da53cce771fcfb42d63a3813fb53dcbc256cfb677cfc96745175f3dad63ee50bc2b2a455e98c725052587b7e162dc53d24cc892c2
+  checksum: 10/cf1ed8941b01198372fc0632d395b452595a79ee1a63d65d78b127ed95fb0fa42a162c1273ec3f42edd2130f1e13ae0b5bd2226ec9649cd315b14d25875805fa
   languageName: node
   linkType: hard
 
-"@capacitor/core@npm:^8.3.4":
-  version: 8.3.4
-  resolution: "@capacitor/core@npm:8.3.4"
+"@capacitor/core@npm:^8.4.0":
+  version: 8.4.0
+  resolution: "@capacitor/core@npm:8.4.0"
   dependencies:
     tslib: "npm:^2.1.0"
-  checksum: 10/ce81e9594a93268fcd0080400ec81ecdd5680ad7693f170e115a5b9d6b9e034d421755e13ea2bc69034d3d7c1b41e560c1f9500e8739ddaf2c15af7ccf0e8a03
+  checksum: 10/4f56940b4d002baac02705180c4722b757d4c432104676f5db4648be1e32655b94640a38060ab6705eeef0a106721dde756df45465f7f481bb906b33f5ca22ee
   languageName: node
   linkType: hard
 
@@ -324,41 +324,41 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@capacitor/geolocation@npm:8.1.0":
-  version: 8.1.0
-  resolution: "@capacitor/geolocation@npm:8.1.0"
+"@capacitor/geolocation@npm:8.2.0":
+  version: 8.2.0
+  resolution: "@capacitor/geolocation@npm:8.2.0"
   dependencies:
     "@capacitor/synapse": "npm:^1.0.4"
   peerDependencies:
     "@capacitor/core": ">=8.0.0"
-  checksum: 10/f6fc35d17056ca90aa717892e48821ab18d418e527623af6294fe9aae3cd87bbcc953024c35b24a4f47e30e4004364612c730a5047a5efeca280978b63e85f9c
+  checksum: 10/49e86baa5599a3d81e65e96208c08983500144a2bf0fe47173d97676a0c0ba1ea06da3f9e4f406230a6522e7c7539c5b7fec2b0a554cbbd21a48cad414a8afd1
   languageName: node
   linkType: hard
 
-"@capacitor/inappbrowser@npm:2.5.3":
-  version: 2.5.3
-  resolution: "@capacitor/inappbrowser@npm:2.5.3"
+"@capacitor/inappbrowser@npm:2.5.5":
+  version: 2.5.5
+  resolution: "@capacitor/inappbrowser@npm:2.5.5"
   peerDependencies:
     "@capacitor/core": ">=7.0.0"
-  checksum: 10/d335759a1395cb5d13069b5d6c6f960013a7ee9e25a5c0c52a7545f6a6833af3d80bf0db313243f22886d4fd92e4854ce7d812e5db365528674e0d767585a583
+  checksum: 10/4e6b36e940e3e342544e22a3af90e95ace77962f5e24c2c7323a841ae2563a6f23903436d5924062ae7434a7d84f91278d1b76e7ac8dfea1cb51f84182a99ebf
   languageName: node
   linkType: hard
 
-"@capacitor/ios@npm:^8.3.4":
-  version: 8.3.4
-  resolution: "@capacitor/ios@npm:8.3.4"
+"@capacitor/ios@npm:^8.4.0":
+  version: 8.4.0
+  resolution: "@capacitor/ios@npm:8.4.0"
   peerDependencies:
-    "@capacitor/core": ^8.3.0
-  checksum: 10/93c3261c5a2ddf5b1040039f001a46ff2d6cd377ddc8a8a47a3a7c67739bb5220fd866e8fad7cf383e69157f8648f2dff705154bfc69bc2ee2a5e469d03120c0
+    "@capacitor/core": ^8.4.0
+  checksum: 10/82986eae0db6441559e231085fe25e42efabe947c40680d2090088473f087511dfcd53452338393a2d2c50041dbd81f84318d6e2cae79fb2389e9e47873436f5
   languageName: node
   linkType: hard
 
-"@capacitor/local-notifications@npm:^8.1.0":
-  version: 8.1.0
-  resolution: "@capacitor/local-notifications@npm:8.1.0"
+"@capacitor/local-notifications@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "@capacitor/local-notifications@npm:8.2.0"
   peerDependencies:
     "@capacitor/core": ">=8.0.0"
-  checksum: 10/bd65e2ab50c8d198d1eef4f67832301c1a31557df0bcb1d39ae53044788ccb1c028950a5e9dec552ae21d632c49d050e8b1950be522f9c149bbf51a11feab575
+  checksum: 10/dbb9517cfad785e74d2358a5912ff107260bf38d39ce9e5d1173a2a9766b7369977e0fc4163ff02eba792231c583902d05b96ca2bc2297c3e3441a05fe8db494
   languageName: node
   linkType: hard
 
@@ -371,12 +371,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@capacitor/push-notifications@npm:^8.0.4":
-  version: 8.0.4
-  resolution: "@capacitor/push-notifications@npm:8.0.4"
+"@capacitor/push-notifications@npm:^8.1.1":
+  version: 8.1.1
+  resolution: "@capacitor/push-notifications@npm:8.1.1"
   peerDependencies:
     "@capacitor/core": ">=8.0.0"
-  checksum: 10/5851b0f6172e67ea4277be4ea80de442eea537fff8a1f6650d7cb4148f5646a08ca2aa615c06d4920e91842878f22334aaba4c15ef45528d7209e6e82bb915ac
+  checksum: 10/94dfe4f828a49b4b647d11064044dde479b20bbb39442ce27c745448fc9382b39dcef0cfb01bb59add53d5888d1030bc72076839aef2f9453a9b00c22e2e98ac
   languageName: node
   linkType: hard
 
@@ -13626,18 +13626,18 @@ __metadata:
   resolution: "welcome-to-my-garden@workspace:."
   dependencies:
     "@capacitor-community/safe-area": "npm:^8.0.1"
-    "@capacitor/android": "npm:^8.3.4"
+    "@capacitor/android": "npm:^8.4.0"
     "@capacitor/app": "npm:^8.1.0"
     "@capacitor/assets": "npm:^3.0.5"
-    "@capacitor/cli": "npm:^8.3.4"
-    "@capacitor/core": "npm:^8.3.4"
+    "@capacitor/cli": "npm:^8.4.0"
+    "@capacitor/core": "npm:^8.4.0"
     "@capacitor/device": "npm:^8.0.2"
-    "@capacitor/geolocation": "npm:8.1.0"
-    "@capacitor/inappbrowser": "npm:2.5.3"
-    "@capacitor/ios": "npm:^8.3.4"
-    "@capacitor/local-notifications": "npm:^8.1.0"
+    "@capacitor/geolocation": "npm:8.2.0"
+    "@capacitor/inappbrowser": "npm:2.5.5"
+    "@capacitor/ios": "npm:^8.4.0"
+    "@capacitor/local-notifications": "npm:^8.2.0"
     "@capacitor/network": "npm:^8.0.1"
-    "@capacitor/push-notifications": "npm:^8.0.4"
+    "@capacitor/push-notifications": "npm:^8.1.1"
     "@capacitor/splash-screen": "npm:^8.0.1"
     "@capawesome/capacitor-badge": "npm:^8.0.2"
     "@firebase/rules-unit-testing": "npm:^5.0.1"
