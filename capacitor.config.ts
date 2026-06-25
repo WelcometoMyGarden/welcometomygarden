@@ -72,7 +72,10 @@ const config: CapacitorConfig = {
   appId: 'org.welcometomygarden.app',
   appName: 'WTMG',
   zoomEnabled: false,
-  // webDir: '../dist',
+  // The app loads its UI from `server.url` (set per-environment below), so the bundled
+  // web assets are never used at runtime. Point `webDir` at a minimal placeholder so
+  // `cap sync` packages a ~1 KB stub instead of a full (and easily stale) copy of the site.
+  webDir: 'tools/assets/mobile-shell',
   plugins: {
     LocalNotifications: {
       smallIcon: 'push_icon',
