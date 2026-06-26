@@ -19,7 +19,7 @@ android {
     applicationId "org.welcometomygarden.app"
     minSdkVersion rootProject.ext.minSdkVersion
     targetSdkVersion rootProject.ext.targetSdkVersion
-    versionCode 8
+    versionCode 9
     versionName "1.0.5"
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     aaptOptions {
