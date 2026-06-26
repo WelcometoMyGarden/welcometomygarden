@@ -14,7 +14,7 @@ on:
       - firestore*
       # Updated docs shouldn't trigger deploys
       - docs/**
-      - '*.md'
+      - "*.md"
       # We don't run front-end tests here yet
       - tests/**
       - ci/**
@@ -48,16 +48,27 @@ jobs:
       PUBLIC_SUPABASE_API_URL: ${{vars.SUPABASE_API_URL}}
       PUBLIC_SENTRY_DSN: ${{vars.SENTRY_DSN}}
       PUBLIC_WTMG_HOST: ${{vars.WTMG_HOST}}
-      IS_PREVIEW: 'false'
+      IS_PREVIEW: "false"
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/prepare-source
       - name: Build project
         run: yarn run build:staging
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      # FirebaseExtended/action-hosting-deploy runs firebase-tools on the runner's
+      # built-in node24 runtime (currently 24.17.0), which has a regression that breaks
+      # the STS token exchange during auth (ERR_STREAM_PREMATURE_CLOSE).
+      # See https://github.com/nodejs/node/issues/63989 — fixed in 24.18.0.
+      # The action gives no way to pin its runtime, so we call firebase-tools directly
+      # under a Node version we control instead.
+      - name: Pin Node for deploy (workaround for nodejs/node#63989)
+        uses: actions/setup-node@v6
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_DEV }}'
-          projectId: wtmg-dev
-          channelId: live
-          target: beta
+          node-version: 24.18.0
+      - name: Authenticate to Firebase
+        run: |
+          echo "$FIREBASE_SERVICE_ACCOUNT" > "$RUNNER_TEMP/firebase-service-account.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/firebase-service-account.json" >> "$GITHUB_ENV"
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_DEV }}
+      - name: Deploy to Firebase Hosting
+        run: npx -y firebase-tools@latest deploy --only hosting:beta --project wtmg-dev --non-interactive
