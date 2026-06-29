@@ -23,6 +23,7 @@
   import LayersAndTools from '$lib/components/LayersAndTools/LayersAndTools.svelte';
   import FileTrailModal from '$lib/components/Map/FileTrailModal.svelte';
   import FileTrails from '$lib/components/Map/FileTrails.svelte';
+  import RouteTweaks from '$lib/components/Map/RouteTweaks.svelte';
   import type { Garden, LongLat } from '$lib/types/Garden';
   import { savedGardens as savedGardenStore } from '$lib/stores/savedGardens';
   import TrainAndRails from '$lib/components/Map/TrainAndRails.svelte';
@@ -316,6 +317,10 @@
   <!-- TODO: the $currentPosition should be based on IP
     (if it isn't already by default) -->
   <Filter onGoToPlace={goToPlace} closeToLocation={$currentPosition ?? LOCATION_BELGIUM} />
+  {#if $user?.superfan}
+    <!-- Temporary prototype: route file display tweaks overlay -->
+    <RouteTweaks />
+  {/if}
   <FileTrailModal bind:show={showFileTrailModal} />
   <MembershipModal
     bind:show={isShowingMembershipModal}
