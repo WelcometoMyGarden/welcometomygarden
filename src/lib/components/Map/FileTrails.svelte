@@ -24,10 +24,7 @@
 
   // Track what we've rendered + the DOM markers we manage manually.
   const rendered = new Set<string>();
-  const endpointMarkers = new Map<
-    string,
-    { start?: Marker; end?: Marker }
-  >();
+  const endpointMarkers = new Map<string, { start?: Marker; end?: Marker }>();
 
   const fitToTrail = (geoJson: FileDataLayer['geoJson']) => {
     try {
