@@ -17,11 +17,14 @@
   import type { FileDataLayer } from '$lib/types/DataLayer';
   import type { FeatureCollection, Point } from 'geojson';
   import {
+    clusterEndpoints,
     colorForRoute,
+    computeEndpointStyle,
     computeKmMarkers,
     computeStartEnd,
     evaluateZoomInterval,
-    parseZoomIntervalConfig
+    parseZoomIntervalConfig,
+    type RouteEndpoint
   } from '$lib/util/map/routeStyle';
   import * as Sentry from '@sentry/sveltekit';
   import logger from '$lib/util/logger';
@@ -58,9 +61,11 @@
   const kmCircleId = (id: string) => `${id}__km-circle`;
   const kmLabelId = (id: string) => `${id}__km-label`;
 
-  // Track what we've rendered + the DOM markers we manage manually.
+  // Track rendered trail layers + the global set of endpoint DOM markers.
   const rendered = new Set<string>();
-  const endpointMarkers = new Map<string, { start?: Marker; end?: Marker }>();
+  let endpointMarkers: Marker[] = [];
+
+  const BASE_MARKER_SIZE = 24; // px, badge diameter at full size
 
   const fitToTrail = (geoJson: FileDataLayer['geoJson']) => {
     try {
@@ -82,63 +87,76 @@
     }
   };
 
-  const toggleMarker = (marker: Marker | undefined, visible: boolean) => {
-    if (marker) marker.getElement().style.display = visible ? '' : 'none';
-  };
-
   const createEndpointElement = (type: 'start' | 'end') => {
+    const svgBase = type === 'start' ? 12 : 11;
     const el = document.createElement('div');
+    // `display:flex` lives in the global .trail-endpoint rule below, because mapbox
+    // clears the inline `display` property it sets on marker elements.
     el.classList.add('trail-endpoint');
+    el.dataset.svgBase = `${svgBase}`;
     el.style.cssText =
-      'width:24px;height:24px;border-radius:50%;align-items:center;' +
-      'justify-content:center;line-height:0;border:2px solid #fff;box-sizing:border-box;' +
-      'box-shadow:0 1px 4px rgba(0,0,0,0.4);';
+      `width:${BASE_MARKER_SIZE}px;height:${BASE_MARKER_SIZE}px;border-radius:50%;` +
+      'align-items:center;justify-content:center;line-height:0;' +
+      'border:2px solid #fff;box-sizing:border-box;box-shadow:0 1px 4px rgba(0,0,0,0.4);';
     // Slightly transparent backgrounds; the end marker is a red-orange.
     el.style.background = type === 'start' ? 'rgba(27, 120, 55, 0.82)' : 'rgba(216, 67, 33, 0.82)';
     el.innerHTML =
       type === 'start'
         ? // Filled play (triangle) icon
-          '<svg width="12" height="12" viewBox="0 0 24 24" fill="#fff" ' +
+          `<svg width="${svgBase}" height="${svgBase}" viewBox="0 0 24 24" fill="#fff" ` +
           'style="display:block"><path d="M8 6v12l11-6z"/></svg>'
         : // Filled stop (square) icon
-          '<svg width="11" height="11" viewBox="0 0 24 24" fill="#fff" ' +
+          `<svg width="${svgBase}" height="${svgBase}" viewBox="0 0 24 24" fill="#fff" ` +
           'style="display:block"><rect x="5" y="5" width="14" height="14" rx="1.5"/></svg>';
     return el;
   };
 
-  const updateEndpointMarkers = (layer: FileDataLayer) => {
-    const ends = computeStartEnd(layer.geoJson);
-    let entry = endpointMarkers.get(layer.id);
-    if (!entry) {
-      entry = {};
-      endpointMarkers.set(layer.id, entry);
+  /** Applies the current zoom-based scale & opacity to all endpoint markers. */
+  const applyEndpointStyle = () => {
+    const { scale, opacity } = computeEndpointStyle(map.getZoom());
+    const size = BASE_MARKER_SIZE * scale;
+    for (const marker of endpointMarkers) {
+      const el = marker.getElement();
+      el.style.width = `${size}px`;
+      el.style.height = `${size}px`;
+      el.style.borderWidth = `${Math.max(1, 2 * scale)}px`;
+      el.style.opacity = `${opacity}`;
+      const svg = el.querySelector('svg');
+      if (svg) {
+        const svgSize = Number(el.dataset.svgBase ?? 12) * scale;
+        svg.setAttribute('width', `${svgSize}`);
+        svg.setAttribute('height', `${svgSize}`);
+      }
+    }
+  };
+
+  /**
+   * Rebuilds the global set of start/end markers from all *visible* trails, merging
+   * endpoints within 5 m of each other into a single midpoint start marker.
+   */
+  const rebuildEndpointMarkers = () => {
+    endpointMarkers.forEach((marker) => marker.remove());
+    endpointMarkers = [];
+
+    if (!get(routeTweaks).showStartEndMarkers) return;
+
+    const endpoints: RouteEndpoint[] = [];
+    for (const layer of get(fileDataLayers)) {
+      if (layer.visible === false) continue;
+      const ends = computeStartEnd(layer.geoJson);
+      if (!ends) continue;
+      endpoints.push({ type: 'start', lngLat: ends.start as [number, number] });
+      endpoints.push({ type: 'end', lngLat: ends.end as [number, number] });
     }
 
-    if (!ends) {
-      entry.start?.remove();
-      entry.end?.remove();
-      entry.start = entry.end = undefined;
-      return;
-    }
-
-    const startLngLat = ends.start as [number, number];
-    const endLngLat = ends.end as [number, number];
-
-    if (!entry.start) {
-      entry.start = new mapboxgl.Marker({ element: createEndpointElement('start') })
-        .setLngLat(startLngLat)
+    for (const ep of clusterEndpoints(endpoints)) {
+      const marker = new mapboxgl.Marker({ element: createEndpointElement(ep.type) })
+        .setLngLat(ep.lngLat)
         .addTo(map);
-    } else {
-      entry.start.setLngLat(startLngLat);
+      endpointMarkers.push(marker);
     }
 
-    if (!entry.end) {
-      entry.end = new mapboxgl.Marker({ element: createEndpointElement('end') })
-        .setLngLat(endLngLat)
-        .addTo(map);
-    } else {
-      entry.end.setLngLat(endLngLat);
-    }
+    applyEndpointStyle();
   };
 
   const applyVisibility = (layer: FileDataLayer, tweaks: RouteTweaks) => {
@@ -148,11 +166,6 @@
     const kmVisible = lineVisible && tweaks.showKmMarkers;
     setLayerVisibility(kmCircleId(layer.id), kmVisible);
     setLayerVisibility(kmLabelId(layer.id), kmVisible);
-
-    const endpointsVisible = lineVisible && tweaks.showStartEndMarkers;
-    const entry = endpointMarkers.get(layer.id);
-    toggleMarker(entry?.start, endpointsVisible);
-    toggleMarker(entry?.end, endpointsVisible);
   };
 
   const renderTrail = (layer: FileDataLayer, color: string, tweaks: RouteTweaks) => {
@@ -227,8 +240,7 @@
       map.setPaintProperty(kmLabelId(id), 'text-opacity', effOpacity);
     }
 
-    // --- Start/end markers ---
-    updateEndpointMarkers(layer);
+    // Start/end markers are managed globally (see rebuildEndpointMarkers).
 
     // --- Visibility ---
     applyVisibility(layer, tweaks);
@@ -242,11 +254,6 @@
     });
     if (map.getSource(kmSourceId(id))) map.removeSource(kmSourceId(id));
     if (map.getSource(id)) map.removeSource(id);
-
-    const entry = endpointMarkers.get(id);
-    entry?.start?.remove();
-    entry?.end?.remove();
-    endpointMarkers.delete(id);
 
     rendered.delete(id);
   };
@@ -268,6 +275,9 @@
       const color = colorForRoute(index, tweaks.useMultipleColors);
       renderTrail(layer, color, tweaks);
     });
+
+    // Rebuild the global (clustered) start/end markers from the current state.
+    rebuildEndpointMarkers();
   };
 
   /**
@@ -297,6 +307,9 @@
         map.setPaintProperty(kmLabelId(id), 'text-opacity', effOpacity);
       }
     });
+
+    // Shrink/fade the start/end markers based on zoom.
+    applyEndpointStyle();
   };
 
   map.on('zoom', onZoom);
@@ -310,6 +323,8 @@
     map.off('zoom', onZoom);
     // Guard against the map having been torn down already (e.g. on navigation away).
     try {
+      endpointMarkers.forEach((marker) => marker.remove());
+      endpointMarkers = [];
       [...rendered].forEach(removeTrail);
     } catch {
       // The map/style is gone; nothing left to clean up.

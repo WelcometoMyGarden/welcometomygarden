@@ -4,6 +4,8 @@
   import { LabeledCheckbox, MultiActionLabel, Button, Icon } from '$lib/components/UI';
   import { cyclistIcon, hikerIcon, routesIcon } from '$lib/images/icons';
   import { fileDataLayers } from '$lib/stores/file';
+  import { routeTweaks } from '$lib/stores/routeTweaks';
+  import { colorForRoute } from '$lib/util/map/routeStyle';
   import { cleanName } from '$lib/util/slugify';
   import { onDestroy } from 'svelte';
   import { deleteTrail, toggleTrailVisibility } from '$lib/api/trail';
@@ -50,15 +52,26 @@
 </div>
 
 <div class="data-layers" class:in-modal={inModal}>
-  {#each localFileDataLayers as layer}
-    <MultiActionLabel
-      icon={routesIcon}
-      name={layer.id}
-      label={cleanName(layer.originalFileName)}
-      checked={layer.visible}
-      onchange={() => toggleTrailVisibility(layer.id)}
-      onsecondary={() => deleteTrail(layer.id)}
-    />
+  {#each localFileDataLayers as layer, index}
+    <div class="trail-row">
+      <div class="trail-label">
+        <MultiActionLabel
+          icon={routesIcon}
+          name={layer.id}
+          label={cleanName(layer.originalFileName)}
+          checked={layer.visible}
+          onchange={() => toggleTrailVisibility(layer.id)}
+          onsecondary={() => deleteTrail(layer.id)}
+        />
+      </div>
+      <!-- Colour indicator matching the route's colour on the map -->
+      <span
+        class="trail-color"
+        class:dimmed={!layer.visible}
+        style:background={colorForRoute(index, $routeTweaks.useMultipleColors)}
+        title="Route colour on the map"
+      ></span>
+    </div>
   {/each}
 </div>
 
@@ -74,6 +87,33 @@
 </div>
 
 <style>
+  .trail-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+  }
+
+  .trail-label {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Vertical colour bar matching the route's colour on the map. */
+  .trail-color {
+    flex-shrink: 0;
+    width: 0.4rem;
+    align-self: stretch;
+    min-height: 2rem;
+    border-radius: 0.2rem;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+  }
+
+  .trail-color.dimmed {
+    opacity: 0.3;
+  }
+
   .button-text-container {
     display: inline-flex;
     align-items: center;
