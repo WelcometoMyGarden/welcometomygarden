@@ -272,6 +272,73 @@
     rendered.delete(id);
   };
 
+  const moveToTop = (layerId: string) => {
+    if (map.getLayer(layerId)) map.moveLayer(layerId);
+  };
+
+  /** Brings a trail's line and km marker layers above everything else. */
+  const raiseTrail = (id: string) => {
+    moveToTop(id);
+    moveToTop(kmCircleId(id));
+    moveToTop(kmLabelId(id));
+  };
+
+  // Per-layer hover/click handlers active in 'raiseOnHover' mode.
+  let lineEventBindings: {
+    event: 'mouseenter' | 'mouseleave' | 'click';
+    id: string;
+    fn: () => void;
+  }[] = [];
+
+  const clearLineEvents = () => {
+    lineEventBindings.forEach(({ event, id, fn }) => map.off(event, id, fn));
+    lineEventBindings = [];
+  };
+
+  /**
+   * Applies the current layer-stacking mode to the trail layers (and wires up the
+   * hover/tap handlers for 'raiseOnHover').
+   */
+  const applyLayerMode = () => {
+    clearLineEvents();
+    const mode = get(routeTweaks).routeLayerMode;
+    const ids = get(fileDataLayers)
+      .map((layer) => layer.id)
+      .filter((id) => map.getLayer(id));
+
+    if (mode === 'kmOnTop') {
+      // All lines first, then all km circles, then all km labels => markers on top.
+      ids.forEach((id) => moveToTop(id));
+      ids.forEach((id) => moveToTop(kmCircleId(id)));
+      ids.forEach((id) => moveToTop(kmLabelId(id)));
+      return;
+    }
+
+    // 'default' and 'raiseOnHover' share the per-route interleaved base order.
+    ids.forEach((id) => raiseTrail(id));
+
+    if (mode === 'raiseOnHover') {
+      ids.forEach((id) => {
+        const enter = () => {
+          raiseTrail(id);
+          map.getCanvas().style.cursor = 'pointer';
+        };
+        const leave = () => {
+          map.getCanvas().style.cursor = '';
+        };
+        const click = () => raiseTrail(id);
+        map.on('mouseenter', id, enter);
+        map.on('mouseleave', id, leave);
+        map.on('click', id, click);
+        lineEventBindings.push(
+          { event: 'mouseenter', id, fn: enter },
+          { event: 'mouseleave', id, fn: leave },
+          { event: 'click', id, fn: click }
+        );
+      });
+    }
+  };
+
   /** Full reconcile of the map against the current trails + tweaks state. */
   const sync = () => {
     refreshEffective();
@@ -292,6 +359,9 @@
 
     // Rebuild the global (clustered) start/end markers from the current state.
     rebuildEndpointMarkers();
+
+    // Apply the chosen layer-stacking mode (ordering + hover/tap handlers).
+    applyLayerMode();
   };
 
   /**
@@ -335,6 +405,7 @@
     unsubscribeLayers();
     unsubscribeTweaks();
     map.off('zoom', onZoom);
+    clearLineEvents();
     // Guard against the map having been torn down already (e.g. on navigation away).
     try {
       endpointMarkers.forEach((marker) => marker.remove());

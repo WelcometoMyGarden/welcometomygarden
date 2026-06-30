@@ -9,6 +9,14 @@
 import { writable } from 'svelte/store';
 import { DEFAULT_ZOOM_INTERVAL_CONFIG } from '$lib/util/map/routeStyle';
 
+/**
+ * How overlapping routes & their km markers are stacked:
+ * - `default`: per-route interleaved (a later route can cover earlier markers)
+ * - `kmOnTop`: all km markers drawn above all route lines
+ * - `raiseOnHover`: hovering/tapping a route brings it and its markers to the top
+ */
+export type RouteLayerMode = 'default' | 'kmOnTop' | 'raiseOnHover';
+
 export type RouteTweaks = {
   /** Whether the tweaks overlay panel itself is visible. */
   panelOpen: boolean;
@@ -23,6 +31,8 @@ export type RouteTweaks = {
    * marker spacing dynamically based on the current map zoom level.
    */
   zoomIntervalConfig: string;
+  /** How overlapping routes & their km markers are stacked. */
+  routeLayerMode: RouteLayerMode;
 };
 
 export const routeTweaks = writable<RouteTweaks>({
@@ -30,7 +40,8 @@ export const routeTweaks = writable<RouteTweaks>({
   useMultipleColors: true,
   showKmMarkers: true,
   showStartEndMarkers: true,
-  zoomIntervalConfig: DEFAULT_ZOOM_INTERVAL_CONFIG
+  zoomIntervalConfig: DEFAULT_ZOOM_INTERVAL_CONFIG,
+  routeLayerMode: 'default'
 });
 
 /** Live mirror of the current map zoom level, for display in the tweaks panel. */

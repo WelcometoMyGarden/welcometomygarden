@@ -5,7 +5,12 @@
    * NOTE: this is a one-off, self-contained tweaks panel. It can be removed together with
    * `$lib/stores/routeTweaks` and the related handling in `FileTrails.svelte`.
    */
-  import { routeTweaks, currentMapZoom, effectiveKm } from '$lib/stores/routeTweaks';
+  import {
+    routeTweaks,
+    currentMapZoom,
+    effectiveKm,
+    type RouteLayerMode
+  } from '$lib/stores/routeTweaks';
   import { ROUTE_COLORS, DEFAULT_ZOOM_INTERVAL_CONFIG } from '$lib/util/map/routeStyle';
   import { Switch, Modal } from '$lib/components/UI';
   import Icon from '$lib/components/UI/Icon.svelte';
@@ -17,6 +22,12 @@
     routeTweaks.update((t) => ({ ...t, [key]: !t[key] }));
 
   const setPanelOpen = (panelOpen: boolean) => routeTweaks.update((t) => ({ ...t, panelOpen }));
+
+  const onLayerModeChange = (e: Event) =>
+    routeTweaks.update((t) => ({
+      ...t,
+      routeLayerMode: (e.currentTarget as HTMLSelectElement).value as RouteLayerMode
+    }));
 
   const onConfigInput = (e: Event) =>
     routeTweaks.update((t) => ({
@@ -89,6 +100,15 @@
         ariaLabel="Toggle start and end markers"
         onToggle={() => toggle('showStartEndMarkers')}
       />
+    </div>
+
+    <div class="row">
+      <label class="label" for="layer-mode">Overlapping routes</label>
+      <select id="layer-mode" value={$routeTweaks.routeLayerMode} onchange={onLayerModeChange}>
+        <option value="default">Default</option>
+        <option value="kmOnTop">Km markers on top</option>
+        <option value="raiseOnHover">Raise route on hover/tap</option>
+      </select>
     </div>
   </section>
 {:else}
@@ -204,6 +224,16 @@
 
   .readouts .muted {
     color: var(--color-text-light, #777);
+  }
+
+  select {
+    font-size: 1.3rem;
+    padding: 0.3rem 0.4rem;
+    border: 1px solid var(--color-gray, #ccc);
+    border-radius: 0.4rem;
+    background: #fff;
+    cursor: pointer;
+    max-width: 14rem;
   }
 
   .link-button {
