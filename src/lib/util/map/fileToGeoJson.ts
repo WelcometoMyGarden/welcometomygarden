@@ -18,9 +18,16 @@ export default (
       if (!contentText) return reject(new Error('File is empty'));
 
       if (fileExtension === 'geojson') return resolve(JSON.parse(contentText));
-      else if (fileExtension === 'gpx')
-        return resolve(gpx(new DOMParser().parseFromString(contentText, 'text/xml')));
-      else if (fileExtension === 'kml')
+      else if (fileExtension === 'gpx') {
+        let xmlDOM;
+        xmlDOM = new DOMParser().parseFromString(contentText, 'text/xml');
+        // See https://developer.mozilla.org/en-US/docs/Web/API/DOMParser/parseFromString#error_handling
+        const errorNode = xmlDOM.querySelector('parsererror');
+        if (errorNode) {
+          reject(errorNode.textContent);
+        }
+        return resolve(gpx(xmlDOM));
+      } else if (fileExtension === 'kml')
         return resolve(
           <GeoJSON.FeatureCollection<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>>(
             kml(new DOMParser().parseFromString(contentText, 'text/xml'))

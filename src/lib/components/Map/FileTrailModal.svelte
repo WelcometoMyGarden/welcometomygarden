@@ -26,8 +26,11 @@
     show?: boolean;
   }
 
+  type FilesStatus = { succeeded: File[]; failed: File[] };
+
   let { show = $bindable(false) }: Props = $props();
   let files: File[] = $state([]);
+  let processedFiles: FilesStatus | undefined = $state();
 
   // MODAL
   let ariaLabelledBy = 'route-modal-title';
@@ -43,25 +46,26 @@
     else stickToBottom = false;
   });
 
-  const handleFiles = async (files: File[]): Promise<boolean> => {
+  const handleFiles = async (files: File[]): Promise<FilesStatus> => {
+    let succeeded = [];
+    let failed = [];
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const extension = getFileExtension(file.name);
       if (VALID_FILETYPE_EXTENSIONS.includes(extension)) {
         try {
           const geoJson = await fileToGeoJson(file);
-
-          createTrail({ name: file.name, geoJson });
-          return true;
+          await createTrail({ name: file.name, geoJson });
+          succeeded.push(file);
         } catch (error) {
-          notification.warning('Error while processing file', 5000);
+          notification.warning(`Error while processing file: ${file.name}`, 5000);
           logger.log(error);
           Sentry.captureException(error);
-          return false;
+          failed.push(file);
         }
       }
     }
-    return true;
+    return { succeeded, failed };
   };
 
   const onFileClick = (
@@ -73,20 +77,32 @@
     files = files.filter((_, index) => index !== i);
   };
 
-  const clicked = async () => {
+  const clickedConfirmButton = async () => {
     if (phase === 'SELECTING') {
       if (files && files.length > 0) {
-        const b = await handleFiles(files);
+        processedFiles = await handleFiles(files);
         trackEvent(PlausibleEvent.UPLOAD_ROUTE);
-        if (!b) return reset();
-        phase = 'DONE';
+        // If any creation succeeded, continue to the next phase,
+        // but remove the succeeded files from memory.
+        // This leaves the failed files in memory for a retry.
+        // TODO: types of errors could be distinguished. For example, a Firebase network issue could be temporary,
+        // but an XML parsing error is likely permanent. There no sense in keeping bad files in memory.
+        if (processedFiles.succeeded.length > 0) {
+          files = files.filter(
+            (f) =>
+              !processedFiles?.succeeded
+                .map((sf) => `${sf.name}${sf.lastModified}`)
+                .find((sfHash) => sfHash === `${f.name}${f.lastModified}`)
+          );
+          phase = 'DONE';
+        }
+        // else: do nothing, stay in the upload form
+        // TODO: there is no user feedback about failures in the modal. UX can be improved here.
+        // There is a toast (see above), but it appears below the modal now. Probably it should appear above.
       }
-    } else if (phase === 'DONE') reset();
-  };
-
-  const reset = () => {
-    files = [];
-    show = false;
+    } else if (phase === 'DONE') {
+      show = false;
+    }
   };
 
   keyboardEvent.subscribe((e) => (e?.key === 'n' ? (show = !show) : null));
@@ -178,7 +194,9 @@
                 <Icon icon={uploadCloudIcon} />
               </div>
               <div class="drag-here">
-                <Text size="l" weight="bold">{files.map((f) => cleanName(f.name)).join(', ')}</Text>
+                <Text size="l" weight="bold"
+                  >{processedFiles?.succeeded.map((f) => cleanName(f.name)).join(', ')}</Text
+                >
               </div>
               <div class="sub-text">
                 <Text>{$_('map.upload-route.added-to-map')}</Text>
@@ -191,7 +209,9 @@
   {/snippet}
   {#snippet controls()}
     <div class="modal-controls">
-      <Button uppercase small disabled={buttonDisabled} onclick={clicked}>{buttonText}</Button>
+      <Button uppercase small disabled={buttonDisabled} onclick={clickedConfirmButton}
+        >{buttonText}</Button
+      >
     </div>
   {/snippet}
 </Modal>
