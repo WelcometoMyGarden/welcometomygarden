@@ -112,3 +112,79 @@ export const computeKmMarkers = (
 
   return { type: 'FeatureCollection', features };
 };
+
+/** A zoom→interval rule: at zoom in `[min, max)` the km marker interval is `interval` km. */
+export type IntervalRule = { min: number; max: number | null; interval: number };
+
+/** How many zoom levels below the lowest rule the km markers fade out over. */
+export const FADE_ZOOM_RANGE = 1;
+
+/**
+ * Default zoom→interval mapping. Lines are `<min>-<max>,<intervalKm>`:
+ * - `11-,1`   interval 1 km at zoom >= 11
+ * - `8-11,5`  interval 5 km at zoom 8–11
+ * - `7-8,10`  interval 10 km at zoom 7–8
+ * Below zoom 7 (small-country-ish) no rule matches, so the markers fade out.
+ */
+export const DEFAULT_ZOOM_INTERVAL_CONFIG = ['11-,1', '8-11,5', '7-8,10'].join('\n');
+
+/**
+ * Parses the zoom-interval config text. Each non-empty, non-comment line has the form
+ * `<min>-<max>,<intervalKm>`, where `max` may be omitted for an open-ended upper bound
+ * (e.g. `11-,1`) and `min` may be omitted for an open-ended lower bound. Floating point
+ * numbers are supported. Invalid lines are ignored.
+ */
+export const parseZoomIntervalConfig = (text: string): IntervalRule[] => {
+  const rules: IntervalRule[] = [];
+  for (const rawLine of text.split('\n')) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith('#') || line.startsWith('//')) continue;
+    const [rangePart, intervalPart] = line.split(',');
+    if (intervalPart === undefined) continue;
+    const rangeMatch = rangePart.trim().match(/^(\d*\.?\d*)\s*-\s*(\d*\.?\d*)$/);
+    if (!rangeMatch) continue;
+    const interval = parseFloat(intervalPart.trim());
+    if (!(interval > 0)) continue;
+    const min = rangeMatch[1] === '' ? -Infinity : parseFloat(rangeMatch[1]);
+    const max = rangeMatch[2] === '' ? null : parseFloat(rangeMatch[2]);
+    if (Number.isNaN(min) || (max !== null && Number.isNaN(max))) continue;
+    rules.push({ min, max, interval });
+  }
+  return rules;
+};
+
+/**
+ * Determines the km marker interval and opacity for the given zoom level, based on the
+ * parsed rules. Returns `null` when no markers should be shown at all (no rules).
+ */
+export const evaluateZoomInterval = (
+  rules: IntervalRule[],
+  zoom: number,
+  fadeRange = FADE_ZOOM_RANGE
+): { interval: number; opacity: number } | null => {
+  if (rules.length === 0) return null;
+  const sorted = [...rules].sort((a, b) => a.min - b.min);
+
+  // Exact match.
+  for (const r of sorted) {
+    if (zoom >= r.min && (r.max === null || zoom < r.max)) {
+      return { interval: r.interval, opacity: 1 };
+    }
+  }
+
+  // Below the most zoomed-out rule: fade out over `fadeRange` zoom levels.
+  const lowest = sorted[0];
+  if (zoom < lowest.min) {
+    const opacity = Math.max(0, Math.min(1, (zoom - (lowest.min - fadeRange)) / fadeRange));
+    return { interval: lowest.interval, opacity };
+  }
+
+  // In a gap between rules (or above all upper bounds): use the closest lower rule.
+  const lowerRules = sorted.filter((r) => zoom >= r.min);
+  if (lowerRules.length) {
+    const r = lowerRules[lowerRules.length - 1];
+    return { interval: r.interval, opacity: 1 };
+  }
+
+  return null;
+};

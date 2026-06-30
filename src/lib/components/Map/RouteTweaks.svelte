@@ -5,23 +5,38 @@
    * NOTE: this is a one-off, self-contained tweaks panel. It can be removed together with
    * `$lib/stores/routeTweaks` and the related handling in `FileTrails.svelte`.
    */
-  import { routeTweaks } from '$lib/stores/routeTweaks';
-  import { ROUTE_COLORS } from '$lib/util/map/routeStyle';
-  import { Switch } from '$lib/components/UI';
+  import { routeTweaks, currentMapZoom, effectiveKm } from '$lib/stores/routeTweaks';
+  import { ROUTE_COLORS, DEFAULT_ZOOM_INTERVAL_CONFIG } from '$lib/util/map/routeStyle';
+  import { Switch, Modal } from '$lib/components/UI';
   import Icon from '$lib/components/UI/Icon.svelte';
   import { crossIcon } from '$lib/images/icons';
+
+  let showIntervalModal = $state(false);
 
   const toggle = (key: 'useMultipleColors' | 'showKmMarkers' | 'showStartEndMarkers') =>
     routeTweaks.update((t) => ({ ...t, [key]: !t[key] }));
 
-  const onIntervalInput = (e: Event) => {
-    const value = parseFloat((e.currentTarget as HTMLInputElement).value);
-    if (!Number.isNaN(value) && value > 0) {
-      routeTweaks.update((t) => ({ ...t, kmInterval: value }));
-    }
-  };
-
   const setPanelOpen = (panelOpen: boolean) => routeTweaks.update((t) => ({ ...t, panelOpen }));
+
+  const onConfigInput = (e: Event) =>
+    routeTweaks.update((t) => ({
+      ...t,
+      zoomIntervalConfig: (e.currentTarget as HTMLTextAreaElement).value
+    }));
+
+  const resetConfig = () =>
+    routeTweaks.update((t) => ({ ...t, zoomIntervalConfig: DEFAULT_ZOOM_INTERVAL_CONFIG }));
+
+  let zoomText = $derived($currentMapZoom != null ? $currentMapZoom.toFixed(1) : '—');
+  let intervalText = $derived(
+    !$routeTweaks.showKmMarkers
+      ? 'off'
+      : !$effectiveKm
+        ? 'hidden'
+        : $effectiveKm.opacity < 1
+          ? `${$effectiveKm.interval} km (fading)`
+          : `${$effectiveKm.interval} km`
+  );
 </script>
 
 {#if $routeTweaks.panelOpen}
@@ -59,18 +74,13 @@
       />
     </div>
 
-    <div class="row">
-      <label class="label" for="km-interval">Km marker interval</label>
-      <input
-        id="km-interval"
-        type="number"
-        min="0.1"
-        step="0.1"
-        value={$routeTweaks.kmInterval}
-        oninput={onIntervalInput}
-        disabled={!$routeTweaks.showKmMarkers}
-      />
+    <div class="readouts">
+      <div><span class="muted">Zoom level</span> <strong>{zoomText}</strong></div>
+      <div><span class="muted">Interval</span> <strong>{intervalText}</strong></div>
     </div>
+    <button class="link-button" onclick={() => (showIntervalModal = true)}>
+      Edit zoom → interval rules…
+    </button>
 
     <div class="row">
       <span class="label">Show start/end markers</span>
@@ -84,6 +94,42 @@
 {:else}
   <button class="route-tweaks-reopen" onclick={() => setPanelOpen(true)}> Route tweaks </button>
 {/if}
+
+<Modal
+  bind:show={showIntervalModal}
+  maxWidth="42rem"
+  center
+  closeButton
+  ariaLabel="Edit zoom to interval rules"
+>
+  {#snippet body()}
+    <div class="config-modal">
+      <h3>Zoom → km interval rules</h3>
+      <p class="help">
+        One rule per line: <code>&lt;min&gt;-&lt;max&gt;,&lt;intervalKm&gt;</code>. Omit
+        <code>max</code> for an open upper bound. Floats allowed. Lines apply at zoom in
+        <code>[min, max)</code>. Below the lowest rule the markers fade out.
+      </p>
+      <p class="help example">
+        e.g. <code>11-,1</code> = 1&nbsp;km from zoom 11; <code>7-8,10</code> = 10&nbsp;km between zoom
+        7 and 8.
+      </p>
+      <textarea
+        class="config-input"
+        rows="6"
+        spellcheck="false"
+        value={$routeTweaks.zoomIntervalConfig}
+        oninput={onConfigInput}
+      ></textarea>
+      <div class="config-status">
+        Current zoom <strong>{zoomText}</strong> → interval <strong>{intervalText}</strong>
+      </div>
+    </div>
+  {/snippet}
+  {#snippet controls()}
+    <button class="reset-button" onclick={resetConfig}>Reset to default</button>
+  {/snippet}
+</Modal>
 
 <style>
   .route-tweaks {
@@ -149,17 +195,25 @@
     line-height: 1.3;
   }
 
-  input[type='number'] {
-    width: 6rem;
-    padding: 0.4rem 0.5rem;
-    border: 1px solid var(--color-gray, #ccc);
-    border-radius: 0.4rem;
-    font-size: 1.4rem;
-    text-align: right;
+  .readouts {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.4rem 0 0.2rem;
   }
 
-  input[type='number']:disabled {
-    opacity: 0.5;
+  .readouts .muted {
+    color: var(--color-text-light, #777);
+  }
+
+  .link-button {
+    background: none;
+    border: none;
+    padding: 0.2rem 0 0.6rem;
+    color: var(--color-highlight-blue, #1565c0);
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 1.3rem;
   }
 
   .legend {
@@ -188,5 +242,55 @@
     font-size: 1.3rem;
     font-weight: 600;
     cursor: pointer;
+  }
+
+  .config-modal h3 {
+    font-size: 1.7rem;
+    margin: 0 0 0.8rem;
+  }
+
+  .config-modal .help {
+    font-size: 1.3rem;
+    line-height: 1.4;
+    margin: 0 0 0.6rem;
+    color: var(--color-text, #333);
+  }
+
+  .config-modal .example {
+    color: var(--color-text-light, #777);
+  }
+
+  .config-modal code {
+    background: var(--color-gray-fa, #f2f2f2);
+    border-radius: 0.3rem;
+    padding: 0.05rem 0.3rem;
+    font-family: monospace;
+  }
+
+  .config-input {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: monospace;
+    font-size: 1.4rem;
+    line-height: 1.5;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--color-gray, #ccc);
+    border-radius: 0.4rem;
+    resize: vertical;
+  }
+
+  .config-status {
+    margin-top: 0.8rem;
+    font-size: 1.3rem;
+    color: var(--color-text-light, #777);
+  }
+
+  .reset-button {
+    background: none;
+    border: 1px solid var(--color-gray, #ccc);
+    border-radius: 0.4rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1.3rem;
   }
 </style>

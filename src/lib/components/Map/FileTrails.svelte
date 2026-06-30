@@ -3,19 +3,55 @@
   import type { GeoJSONSource, Marker } from 'mapbox-gl';
   import mapboxgl from 'mapbox-gl';
   import { fileDataLayers } from '$lib/stores/file';
-  import { routeTweaks, type RouteTweaks } from '$lib/stores/routeTweaks';
+  import {
+    routeTweaks,
+    type RouteTweaks,
+    currentMapZoom,
+    effectiveKm
+  } from '$lib/stores/routeTweaks';
   import { getContext, onDestroy } from 'svelte';
   import { get } from 'svelte/store';
   import { bbox } from '@turf/bbox';
   import key from './mapbox-context.js';
   import { ZOOM_LEVELS } from '$lib/constants';
   import type { FileDataLayer } from '$lib/types/DataLayer';
-  import { colorForRoute, computeKmMarkers, computeStartEnd } from '$lib/util/map/routeStyle';
+  import type { FeatureCollection, Point } from 'geojson';
+  import {
+    colorForRoute,
+    computeKmMarkers,
+    computeStartEnd,
+    evaluateZoomInterval,
+    parseZoomIntervalConfig
+  } from '$lib/util/map/routeStyle';
   import * as Sentry from '@sentry/sveltekit';
   import logger from '$lib/util/logger';
 
   const { getMap } = getContext<ContextType>(key);
   const map = getMap();
+
+  const EMPTY_KM: FeatureCollection<Point, { label: string }> = {
+    type: 'FeatureCollection',
+    features: []
+  };
+
+  // Effective km marker interval + opacity for the current zoom level (driven by the
+  // zoom→interval config in the tweaks store). `effInterval === null` => no markers.
+  let effInterval: number | null = null;
+  let effOpacity = 0;
+
+  /** Recomputes the effective interval/opacity from the live zoom + config. */
+  const refreshEffective = () => {
+    const zoom = map.getZoom();
+    currentMapZoom.set(zoom);
+    const rules = parseZoomIntervalConfig(get(routeTweaks).zoomIntervalConfig);
+    const result = evaluateZoomInterval(rules, zoom);
+    effInterval = result ? result.interval : null;
+    effOpacity = result ? result.opacity : 0;
+    effectiveKm.set(result);
+  };
+
+  const kmMarkersFor = (geoJson: FileDataLayer['geoJson']) =>
+    effInterval != null ? computeKmMarkers(geoJson, effInterval) : EMPTY_KM;
 
   // Layer/source id helpers (the base `id` stays the line layer/source, for backwards compat).
   const kmSourceId = (id: string) => `${id}__km`;
@@ -54,19 +90,18 @@
     const el = document.createElement('div');
     el.style.cssText =
       'width:24px;height:24px;border-radius:50%;display:flex;align-items:center;' +
-      'justify-content:center;border:2px solid #fff;box-sizing:border-box;' +
+      'justify-content:center;line-height:0;border:2px solid #fff;box-sizing:border-box;' +
       'box-shadow:0 1px 4px rgba(0,0,0,0.4);';
-    el.style.background = type === 'start' ? '#1b7837' : '#c1121f';
+    // Slightly transparent backgrounds; the end marker is a red-orange.
+    el.style.background = type === 'start' ? 'rgba(27, 120, 55, 0.82)' : 'rgba(216, 67, 33, 0.82)';
     el.innerHTML =
       type === 'start'
-        ? // Flag icon
-          '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" ' +
-          'stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
-          '<path d="M4 22V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg>'
-        : // Checkered (finish) icon
-          '<svg width="13" height="13" viewBox="0 0 16 16">' +
-          '<rect x="0" y="0" width="8" height="8" fill="#fff"/>' +
-          '<rect x="8" y="8" width="8" height="8" fill="#fff"/></svg>';
+        ? // Filled play (triangle) icon
+          '<svg width="12" height="12" viewBox="0 0 24 24" fill="#fff" ' +
+          'style="display:block"><path d="M8 6v12l11-6z"/></svg>'
+        : // Filled stop (square) icon
+          '<svg width="11" height="11" viewBox="0 0 24 24" fill="#fff" ' +
+          'style="display:block"><rect x="5" y="5" width="14" height="14" rx="1.5"/></svg>';
     return el;
   };
 
@@ -146,7 +181,7 @@
     if (isNew && layer.animate) fitToTrail(geoJson);
 
     // --- Kilometre markers ---
-    const kmData = computeKmMarkers(geoJson, tweaks.kmInterval);
+    const kmData = kmMarkersFor(geoJson);
     if (!map.getSource(kmSourceId(id))) {
       map.addSource(kmSourceId(id), { type: 'geojson', data: kmData });
     } else {
@@ -161,12 +196,16 @@
         paint: {
           'circle-color': 'rgba(255, 255, 255, 0.75)',
           'circle-radius': 9,
+          'circle-opacity': effOpacity,
           'circle-stroke-width': 1.5,
-          'circle-stroke-color': color
+          'circle-stroke-color': color,
+          'circle-stroke-opacity': effOpacity
         }
       });
     } else {
       map.setPaintProperty(kmCircleId(id), 'circle-stroke-color', color);
+      map.setPaintProperty(kmCircleId(id), 'circle-opacity', effOpacity);
+      map.setPaintProperty(kmCircleId(id), 'circle-stroke-opacity', effOpacity);
     }
 
     if (!map.getLayer(kmLabelId(id))) {
@@ -180,10 +219,11 @@
           'text-allow-overlap': true,
           'text-ignore-placement': true
         },
-        paint: { 'text-color': color }
+        paint: { 'text-color': color, 'text-opacity': effOpacity }
       });
     } else {
       map.setPaintProperty(kmLabelId(id), 'text-color', color);
+      map.setPaintProperty(kmLabelId(id), 'text-opacity', effOpacity);
     }
 
     // --- Start/end markers ---
@@ -212,6 +252,7 @@
 
   /** Full reconcile of the map against the current trails + tweaks state. */
   const sync = () => {
+    refreshEffective();
     const layers = get(fileDataLayers);
     const tweaks = get(routeTweaks);
 
@@ -228,12 +269,44 @@
     });
   };
 
+  /**
+   * On zoom: re-evaluate the effective interval/opacity and update the km layers.
+   * The marker data is only recomputed when the interval actually changes; the
+   * (cheap) opacity fade is applied on every zoom frame.
+   */
+  const onZoom = () => {
+    const prevInterval = effInterval;
+    refreshEffective();
+    const intervalChanged = prevInterval !== effInterval;
+
+    rendered.forEach((id) => {
+      if (intervalChanged) {
+        const layer = get(fileDataLayers).find((l) => l.id === id);
+        if (layer) {
+          (map.getSource(kmSourceId(id)) as GeoJSONSource | undefined)?.setData(
+            kmMarkersFor(layer.geoJson)
+          );
+        }
+      }
+      if (map.getLayer(kmCircleId(id))) {
+        map.setPaintProperty(kmCircleId(id), 'circle-opacity', effOpacity);
+        map.setPaintProperty(kmCircleId(id), 'circle-stroke-opacity', effOpacity);
+      }
+      if (map.getLayer(kmLabelId(id))) {
+        map.setPaintProperty(kmLabelId(id), 'text-opacity', effOpacity);
+      }
+    });
+  };
+
+  map.on('zoom', onZoom);
+
   const unsubscribeLayers = fileDataLayers.subscribe(sync);
   const unsubscribeTweaks = routeTweaks.subscribe(sync);
 
   onDestroy(() => {
     unsubscribeLayers();
     unsubscribeTweaks();
+    map.off('zoom', onZoom);
     // Guard against the map having been torn down already (e.g. on navigation away).
     try {
       [...rendered].forEach(removeTrail);

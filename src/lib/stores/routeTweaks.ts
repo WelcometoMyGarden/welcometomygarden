@@ -7,6 +7,7 @@
  * NOTE: this is intentionally a self-contained, removable prototype.
  */
 import { writable } from 'svelte/store';
+import { DEFAULT_ZOOM_INTERVAL_CONFIG } from '$lib/util/map/routeStyle';
 
 export type RouteTweaks = {
   /** Whether the tweaks overlay panel itself is visible. */
@@ -15,16 +16,28 @@ export type RouteTweaks = {
   useMultipleColors: boolean;
   /** Show kilometre markers along each route. */
   showKmMarkers: boolean;
-  /** Interval (in km) between kilometre markers. */
-  kmInterval: number;
   /** Show start & end markers at the route extremities. */
   showStartEndMarkers: boolean;
+  /**
+   * Zoom→interval rules (one per line, `<min>-<max>,<intervalKm>`) driving the km
+   * marker spacing dynamically based on the current map zoom level.
+   */
+  zoomIntervalConfig: string;
 };
 
 export const routeTweaks = writable<RouteTweaks>({
   panelOpen: true,
   useMultipleColors: true,
   showKmMarkers: true,
-  kmInterval: 1,
-  showStartEndMarkers: true
+  showStartEndMarkers: true,
+  zoomIntervalConfig: DEFAULT_ZOOM_INTERVAL_CONFIG
 });
+
+/** Live mirror of the current map zoom level, for display in the tweaks panel. */
+export const currentMapZoom = writable<number | null>(null);
+
+/**
+ * The km marker interval + opacity currently in effect for the live zoom level.
+ * `null` means markers are fully hidden.
+ */
+export const effectiveKm = writable<{ interval: number; opacity: number } | null>(null);
