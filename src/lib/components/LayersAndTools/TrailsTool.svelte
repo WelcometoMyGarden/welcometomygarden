@@ -53,25 +53,24 @@
 
 <div class="data-layers" class:in-modal={inModal}>
   {#each localFileDataLayers as layer, index}
-    <div class="trail-row">
-      <div class="trail-label">
-        <MultiActionLabel
-          icon={routesIcon}
-          name={layer.id}
-          label={cleanName(layer.originalFileName)}
-          checked={layer.visible}
-          onchange={() => toggleTrailVisibility(layer.id)}
-          onsecondary={() => deleteTrail(layer.id)}
-        />
-      </div>
-      <!-- Colour indicator matching the route's colour on the map -->
-      <span
-        class="trail-color"
-        class:dimmed={!layer.visible}
-        style:background={colorForRoute(index, $routeTweaks.useMultipleColors)}
-        title="Route colour on the map"
-      ></span>
-    </div>
+    <MultiActionLabel
+      icon={routesIcon}
+      name={layer.id}
+      label={cleanName(layer.originalFileName)}
+      checked={layer.visible}
+      onchange={() => toggleTrailVisibility(layer.id)}
+      onsecondary={() => deleteTrail(layer.id)}
+    >
+      {#snippet leading()}
+        <!-- Colour indicator matching the route's colour on the map -->
+        <span
+          class="trail-color"
+          class:dimmed={!layer.visible}
+          style:background={colorForRoute(index, $routeTweaks.useMultipleColors)}
+          title="Route colour on the map"
+        ></span>
+      {/snippet}
+    </MultiActionLabel>
   {/each}
 </div>
 
@@ -87,26 +86,15 @@
 </div>
 
 <style>
-  .trail-row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.6rem;
-    width: 100%;
-  }
-
-  .trail-label {
-    flex: 1;
-    min-width: 0;
-  }
-
-  /* Vertical colour bar matching the route's colour on the map. */
+  /* Vertical colour bar matching the route's colour on the map, shown between the
+     checkbox and the route name. Kept shorter than the row so there's a gap between
+     consecutive bars. */
   .trail-color {
     flex-shrink: 0;
-    width: 0.4rem;
-    align-self: stretch;
-    min-height: 2rem;
-    border-radius: 0.2rem;
+    width: 0.5rem;
+    height: 1.4rem;
+    margin-right: 0.6rem;
+    border-radius: 0.25rem;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
   }
 

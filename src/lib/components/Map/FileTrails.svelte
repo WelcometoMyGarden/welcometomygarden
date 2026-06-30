@@ -87,8 +87,28 @@
     }
   };
 
-  const createEndpointElement = (type: 'start' | 'end') => {
-    const svgBase = type === 'start' ? 12 : 11;
+  // Per-type marker config: icon svg, base svg size (px) and badge background.
+  // The start (play) icon is a bit larger so it reads as balanced next to the square.
+  const ENDPOINT_CONFIG = {
+    start: {
+      svgBase: 14,
+      background: 'rgba(27, 120, 55, 0.82)', // green
+      icon: '<path d="M8 6v12l11-6z"/>' // filled play (triangle)
+    },
+    end: {
+      svgBase: 11,
+      background: 'rgba(216, 67, 33, 0.82)', // red-orange
+      icon: '<rect x="5" y="5" width="14" height="14" rx="1.5"/>' // filled stop (square)
+    },
+    pause: {
+      svgBase: 12,
+      background: 'rgba(30, 58, 138, 0.82)', // dark blue
+      icon: '<rect x="6.5" y="5" width="3.5" height="14" rx="1"/><rect x="14" y="5" width="3.5" height="14" rx="1"/>' // pause (two bars)
+    }
+  } as const;
+
+  const createEndpointElement = (type: RouteEndpoint['type']) => {
+    const { svgBase, background, icon } = ENDPOINT_CONFIG[type];
     const el = document.createElement('div');
     // `display:flex` lives in the global .trail-endpoint rule below, because mapbox
     // clears the inline `display` property it sets on marker elements.
@@ -98,16 +118,10 @@
       `width:${BASE_MARKER_SIZE}px;height:${BASE_MARKER_SIZE}px;border-radius:50%;` +
       'align-items:center;justify-content:center;line-height:0;' +
       'border:2px solid #fff;box-sizing:border-box;box-shadow:0 1px 4px rgba(0,0,0,0.4);';
-    // Slightly transparent backgrounds; the end marker is a red-orange.
-    el.style.background = type === 'start' ? 'rgba(27, 120, 55, 0.82)' : 'rgba(216, 67, 33, 0.82)';
+    el.style.background = background;
     el.innerHTML =
-      type === 'start'
-        ? // Filled play (triangle) icon
-          `<svg width="${svgBase}" height="${svgBase}" viewBox="0 0 24 24" fill="#fff" ` +
-          'style="display:block"><path d="M8 6v12l11-6z"/></svg>'
-        : // Filled stop (square) icon
-          `<svg width="${svgBase}" height="${svgBase}" viewBox="0 0 24 24" fill="#fff" ` +
-          'style="display:block"><rect x="5" y="5" width="14" height="14" rx="1.5"/></svg>';
+      `<svg width="${svgBase}" height="${svgBase}" viewBox="0 0 24 24" fill="#fff" ` +
+      `style="display:block">${icon}</svg>`;
     return el;
   };
 

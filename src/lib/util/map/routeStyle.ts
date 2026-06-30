@@ -113,13 +113,16 @@ export const computeKmMarkers = (
   return { type: 'FeatureCollection', features };
 };
 
-/** A start/end marker at a route extremity. */
-export type RouteEndpoint = { type: 'start' | 'end'; lngLat: [number, number] };
+/**
+ * A route extremity marker. `pause` is used for points produced by merging nearby
+ * endpoints (see clusterEndpoints).
+ */
+export type RouteEndpoint = { type: 'start' | 'end' | 'pause'; lngLat: [number, number] };
 
 /**
  * Merges endpoints that lie within `maxDistanceMeters` of each other into a single
- * marker placed at the cluster's midpoint (centroid). A merged cluster is always
- * rendered as a `start` marker.
+ * marker placed at the cluster's midpoint (centroid). A merged cluster is rendered
+ * as a `pause` marker.
  */
 export const clusterEndpoints = (
   endpoints: RouteEndpoint[],
@@ -140,22 +143,22 @@ export const clusterEndpoints = (
     if (cluster.length === 1) return cluster[0];
     const lng = cluster.reduce((sum, m) => sum + m.lngLat[0], 0) / cluster.length;
     const lat = cluster.reduce((sum, m) => sum + m.lngLat[1], 0) / cluster.length;
-    return { type: 'start', lngLat: [lng, lat] };
+    return { type: 'pause', lngLat: [lng, lat] };
   });
 };
 
 /** Zoom thresholds controlling start/end marker shrinking & fading. */
 export const ENDPOINT_FULL_ZOOM = 8.5; // at/above: full size
-export const ENDPOINT_SHRINK_FLOOR = 7; // 7–8.5: shrink down to ENDPOINT_MIN_SCALE
-export const ENDPOINT_FADE_END = 6.5; // 6.5–7: fade out; below: hidden
+export const ENDPOINT_SHRINK_FLOOR = 8; // 8–8.5: shrink down to ENDPOINT_MIN_SCALE
+export const ENDPOINT_FADE_END = 7.5; // 7.5–8: fade out over 0.5 zoom levels; below: hidden
 export const ENDPOINT_MIN_SCALE = 0.45;
 
 /**
  * Computes the start/end marker scale & opacity for a zoom level:
  * - zoom >= 8.5: full size, opaque
- * - 7–8.5: shrinks linearly down to ENDPOINT_MIN_SCALE
- * - 6.5–7: stays small and fades out over 0.5 zoom levels
- * - below 6.5: hidden
+ * - 8–8.5: shrinks linearly down to ENDPOINT_MIN_SCALE
+ * - 7.5–8: stays small and fades out over 0.5 zoom levels
+ * - below 7.5: hidden
  */
 export const computeEndpointStyle = (zoom: number): { scale: number; opacity: number } => {
   if (zoom >= ENDPOINT_FULL_ZOOM) return { scale: 1, opacity: 1 };
