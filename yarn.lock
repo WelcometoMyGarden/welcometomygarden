@@ -380,6 +380,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@capacitor/share@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "@capacitor/share@npm:8.0.1"
+  peerDependencies:
+    "@capacitor/core": ">=8.0.0"
+  checksum: 10/87d7adfc5a2485f628bb07f2625a63fbe05399d15f3fad635637f8fc054fd2c2a4c281af1c2eb452ee5adf5f28041dd248b4d3881c726e3a80cb9751840d57c5
+  languageName: node
+  linkType: hard
+
 "@capacitor/splash-screen@npm:^8.0.1":
   version: 8.0.1
   resolution: "@capacitor/splash-screen@npm:8.0.1"
@@ -13638,6 +13647,7 @@ __metadata:
     "@capacitor/local-notifications": "npm:^8.2.0"
     "@capacitor/network": "npm:^8.0.1"
     "@capacitor/push-notifications": "npm:^8.1.1"
+    "@capacitor/share": "npm:^8.0.1"
     "@capacitor/splash-screen": "npm:^8.0.1"
     "@capawesome/capacitor-badge": "npm:^8.0.2"
     "@firebase/rules-unit-testing": "npm:^5.0.1"

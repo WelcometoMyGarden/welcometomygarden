@@ -62,7 +62,8 @@ export enum PlausibleEvent {
   SHOW_COMMUNITY_VIDEO = 'Show Community Video',
   APP_CHECK_ERROR = 'App Check Error',
   USED_BROWSER_TRANSLATION = 'Used Browser Translation',
-  MEMBER_CONVERSION = 'Member Conversion'
+  MEMBER_CONVERSION = 'Member Conversion',
+  SHARE_GARDEN = 'Share Garden'
 }
 
 const superfanOnlyEvents = [
@@ -160,4 +161,12 @@ export type PlausibleNotificationsInternalDeletionProperties = {
 
 export type PlausibleAppCheckErrorProperties = {
   type: string;
+};
+
+export type PlausibleShareGardenProperties = {
+  /**
+   * The app/activity the garden was shared with, if the platform reports it
+   * (from the native share sheet's `activityType`). Not always provided.
+   */
+  share_target?: string;
 };
