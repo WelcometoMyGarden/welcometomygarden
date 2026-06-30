@@ -17,6 +17,8 @@ package-lock.json
 wtmg.config.json
 vite.config.ts.timestamp*
 
+storage*.cors.json
+
 # Tests
 /coverage
 /.nyc_output
@@ -69,3 +71,4 @@ node_modules
 runtests.sh
 test-results
 tools/hosts
+

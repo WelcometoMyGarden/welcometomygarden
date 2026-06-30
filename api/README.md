@@ -189,7 +189,7 @@ firebase --project staging deploy --only extensions
 
 I don't think it's possible (yet) to only deploy one extension, which is OK since at the moment we only have one extension active.
 
-### Deploy Firestore rules
+### Deploy Firestore & Firebase Storage rules
 
 See [the docs](https://firebase.google.com/docs/rules/manage-deploy#deploy_your_updates).
 
@@ -203,6 +203,23 @@ firebase deploy --only storage
 # Both
 firebase deploy --only firestore:rules,storage
 ```
+
+### Retrieving Firebase Storage/Google Storage bucket CORS rules
+
+The `gcloud` CLI or older `gsutil` needs to be used for this. By default, no CORS config will be set (`null`), which does not allow cross-origin requests.
+
+```sh
+# Retrieve (staging), filtering the cors section out of the YAML config
+gcloud storage buckets describe gs://wtmg-dev.appspot.com --format="default(cors_config)"
+
+# Updating
+gcloud storage buckets update gs://wtmg-dev.appspot.com --cors-file=storage.staging.cors.json
+
+# Deleting (probably never necessary)
+gcloud storage buckets update gs://wtmg-dev.appspot.com --clear-cors
+```
+
+These files are not committed to this repo. For production, target `gs://wtmg-production.appspot.com`.
 
 ### Deploying Firestore indexes
 
