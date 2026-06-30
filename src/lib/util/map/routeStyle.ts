@@ -117,16 +117,14 @@ export const computeKmMarkers = (
 export type IntervalRule = { min: number; max: number | null; interval: number };
 
 /** How many zoom levels below the lowest rule the km markers fade out over. */
-export const FADE_ZOOM_RANGE = 1;
+export const FADE_ZOOM_RANGE = 0.5;
 
 /**
  * Default zoom→interval mapping. Lines are `<min>-<max>,<intervalKm>`:
- * - `11-,1`   interval 1 km at zoom >= 11
- * - `8-11,5`  interval 5 km at zoom 8–11
- * - `7-8,10`  interval 10 km at zoom 7–8
- * Below zoom 7 (small-country-ish) no rule matches, so the markers fade out.
  */
-export const DEFAULT_ZOOM_INTERVAL_CONFIG = ['11-,1', '8-11,5', '7-8,10'].join('\n');
+export const DEFAULT_ZOOM_INTERVAL_CONFIG = `11.5-,1
+9.5-11.5,5
+8.5-9.5,10`;
 
 /**
  * Parses the zoom-interval config text. Each non-empty, non-comment line has the form

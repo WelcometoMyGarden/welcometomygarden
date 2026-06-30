@@ -88,8 +88,9 @@
 
   const createEndpointElement = (type: 'start' | 'end') => {
     const el = document.createElement('div');
+    el.classList.add('trail-endpoint');
     el.style.cssText =
-      'width:24px;height:24px;border-radius:50%;display:flex;align-items:center;' +
+      'width:24px;height:24px;border-radius:50%;align-items:center;' +
       'justify-content:center;line-height:0;border:2px solid #fff;box-sizing:border-box;' +
       'box-shadow:0 1px 4px rgba(0,0,0,0.4);';
     // Slightly transparent backgrounds; the end marker is a red-orange.
@@ -315,3 +316,10 @@
     }
   });
 </script>
+
+<style>
+  /* The inline css classes get overwritten/cleared by mapbox I think */
+  :global(.mapboxgl-marker.trail-endpoint) {
+    display: flex;
+  }
+</style>
