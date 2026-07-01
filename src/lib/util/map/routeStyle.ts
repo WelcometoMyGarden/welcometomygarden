@@ -3,8 +3,15 @@
  *
  * NOTE: part of a temporary prototype for route file display enhancements.
  */
-import { along, distance, length, lineString } from '@turf/turf';
-import type { Feature, FeatureCollection, Geometry, Point, Position } from 'geojson';
+import {
+  along,
+  distance,
+  length,
+  lineSliceAlong,
+  lineString,
+  pointToLineDistance
+} from '@turf/turf';
+import type { Feature, FeatureCollection, Geometry, LineString, Point, Position } from 'geojson';
 
 /**
  * Palette used to colour uploaded routes.
@@ -174,6 +181,82 @@ export const computeEndpointStyle = (zoom: number): { scale: number; opacity: nu
     return { scale: ENDPOINT_MIN_SCALE, opacity: t };
   }
   return { scale: ENDPOINT_MIN_SCALE, opacity: 0 };
+};
+
+/** A route paired with the colour it is drawn in on the map. */
+export type ColoredRoute = { color: string; geoJson: FeatureCollection | Feature };
+
+/** Max distance (m) between two routes to count as following "the same path". */
+export const OVERLAP_THRESHOLD_M = 20;
+/** Minimum sustained length (km) for a shared stretch to be treated as an overlap. */
+export const OVERLAP_MIN_LENGTH_KM = 0.1;
+/** Sampling step (km) used when scanning a route for overlaps. */
+export const OVERLAP_SAMPLE_KM = 0.02;
+
+/**
+ * Detects stretches where two routes follow (roughly) the same path — not merely
+ * crossing, but staying within `OVERLAP_THRESHOLD_M` of each other for at least
+ * `OVERLAP_MIN_LENGTH_KM`. Each detected stretch is returned as a LineString carrying
+ * the two routes' colours, so it can be drawn as an alternating two-colour line.
+ *
+ * NOTE: this is an O(pairs × samples × vertices) scan; it is only run in the overlap
+ * display mode (and off the zoom hot path).
+ */
+export const computeOverlapSegments = (
+  routes: ColoredRoute[]
+): FeatureCollection<LineString, { colorA: string; colorB: string }> => {
+  const features: Feature<LineString, { colorA: string; colorB: string }>[] = [];
+  const maxKm = OVERLAP_THRESHOLD_M / 1000;
+  const linesPerRoute = routes.map((r) =>
+    extractLines(r.geoJson).map((coords) => lineString(coords))
+  );
+
+  for (let i = 0; i < routes.length; i++) {
+    for (let j = i + 1; j < routes.length; j++) {
+      const bLines = linesPerRoute[j];
+      if (linesPerRoute[i].length === 0 || bLines.length === 0) continue;
+
+      for (const lineA of linesPerRoute[i]) {
+        const lenKm = length(lineA, { units: 'kilometers' });
+        if (lenKm <= 0) continue;
+
+        // Sample lineA at a fixed spacing (plus its exact end).
+        const dists: number[] = [];
+        for (let d = 0; d < lenKm; d += OVERLAP_SAMPLE_KM) dists.push(d);
+        dists.push(lenKm);
+
+        let runStart: number | null = null;
+        for (let k = 0; k < dists.length; k++) {
+          const d = dists[k];
+          const pt = along(lineA, d, { units: 'kilometers' });
+          const near = bLines.some(
+            (lineB) => pointToLineDistance(pt, lineB, { units: 'kilometers' }) <= maxKm
+          );
+          const isLast = k === dists.length - 1;
+
+          if (near && runStart === null) runStart = d;
+          if ((!near || isLast) && runStart !== null) {
+            const end = near ? d : dists[k - 1];
+            if (end - runStart >= OVERLAP_MIN_LENGTH_KM) {
+              try {
+                const seg = lineSliceAlong(lineA, runStart, end, { units: 'kilometers' });
+                features.push({
+                  type: 'Feature',
+                  geometry: seg.geometry,
+                  properties: { colorA: routes[i].color, colorB: routes[j].color }
+                });
+              } catch {
+                // Degenerate slice; skip.
+              }
+            }
+            runStart = null;
+          }
+        }
+      }
+    }
+  }
+
+  return { type: 'FeatureCollection', features };
 };
 
 /** A zoom→interval rule: at zoom in `[min, max)` the km marker interval is `interval` km. */

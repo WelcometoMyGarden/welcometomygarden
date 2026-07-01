@@ -14,8 +14,16 @@ import { DEFAULT_ZOOM_INTERVAL_CONFIG } from '$lib/util/map/routeStyle';
  * - `default`: per-route interleaved (a later route can cover earlier markers)
  * - `kmOnTop`: all km markers drawn above all route lines
  * - `raiseOnHover`: hovering/tapping a route brings it and its markers to the top
+ * - `kmOnTopHover`: km markers on top, plus the hover/tap raise behaviour
+ * - `kmOnTopOverlap`: km markers on top, plus shared route segments drawn as a single
+ *   line alternating the two routes' colours
  */
-export type RouteLayerMode = 'default' | 'kmOnTop' | 'raiseOnHover';
+export type RouteLayerMode =
+  | 'default'
+  | 'kmOnTop'
+  | 'raiseOnHover'
+  | 'kmOnTopHover'
+  | 'kmOnTopOverlap';
 
 export type RouteTweaks = {
   /** Whether the tweaks overlay panel itself is visible. */

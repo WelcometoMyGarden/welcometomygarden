@@ -21,6 +21,7 @@
     colorForRoute,
     computeEndpointStyle,
     computeKmMarkers,
+    computeOverlapSegments,
     computeStartEnd,
     evaluateZoomInterval,
     parseZoomIntervalConfig,
@@ -283,6 +284,82 @@
     moveToTop(kmLabelId(id));
   };
 
+  // Shared-segment overlap layers (only used in 'kmOnTopOverlap' mode).
+  const OVERLAP_SOURCE = '__route-overlaps';
+  const OVERLAP_LAYER_A = '__route-overlaps-a';
+  const OVERLAP_LAYER_B = '__route-overlaps-b';
+
+  // Signature of the inputs the last overlap computation was based on, so the
+  // (expensive) scan is skipped when unrelated tweaks change (e.g. km config edits).
+  let lastOverlapSig = '';
+
+  const removeOverlapLayers = () => {
+    [OVERLAP_LAYER_B, OVERLAP_LAYER_A].forEach((id) => {
+      if (map.getLayer(id)) map.removeLayer(id);
+    });
+    if (map.getSource(OVERLAP_SOURCE)) map.removeSource(OVERLAP_SOURCE);
+    lastOverlapSig = '';
+  };
+
+  /**
+   * In overlap mode, detects where routes share the same path and draws those stretches
+   * as a single line alternating the two routes' colours (solid colour A + dashed
+   * colour B on top). No-op / cleanup in other modes.
+   */
+  const applyOverlaps = () => {
+    if (get(routeTweaks).routeLayerMode !== 'kmOnTopOverlap') {
+      removeOverlapLayers();
+      return;
+    }
+
+    const tweaks = get(routeTweaks);
+    const routes = get(fileDataLayers)
+      .map((layer, index) => ({
+        id: layer.id,
+        color: colorForRoute(index, tweaks.useMultipleColors),
+        geoJson: layer.geoJson,
+        visible: layer.visible !== false
+      }))
+      .filter((r) => r.visible);
+
+    // Recompute only when the routes or their colours actually changed.
+    const sig = routes.map((r) => `${r.id}:${r.color}`).join(',');
+    if (sig === lastOverlapSig && map.getSource(OVERLAP_SOURCE)) return;
+    lastOverlapSig = sig;
+
+    const data = computeOverlapSegments(routes);
+
+    if (!map.getSource(OVERLAP_SOURCE)) {
+      map.addSource(OVERLAP_SOURCE, { type: 'geojson', data });
+    } else {
+      (map.getSource(OVERLAP_SOURCE) as GeoJSONSource | undefined)?.setData(data);
+    }
+
+    if (!map.getLayer(OVERLAP_LAYER_A)) {
+      map.addLayer({
+        id: OVERLAP_LAYER_A,
+        type: 'line',
+        source: OVERLAP_SOURCE,
+        layout: { 'line-join': 'round', 'line-cap': 'round' },
+        paint: { 'line-width': 7, 'line-color': ['get', 'colorA'], 'line-opacity': 0.9 }
+      });
+    }
+    if (!map.getLayer(OVERLAP_LAYER_B)) {
+      map.addLayer({
+        id: OVERLAP_LAYER_B,
+        type: 'line',
+        source: OVERLAP_SOURCE,
+        layout: { 'line-join': 'round', 'line-cap': 'butt' },
+        paint: {
+          'line-width': 7,
+          'line-color': ['get', 'colorB'],
+          'line-opacity': 0.9,
+          'line-dasharray': [2, 2]
+        }
+      });
+    }
+  };
+
   // Per-layer hover/click handlers active in 'raiseOnHover' mode.
   let lineEventBindings: {
     event: 'mouseenter' | 'mouseleave' | 'click';
@@ -306,18 +383,21 @@
       .map((layer) => layer.id)
       .filter((id) => map.getLayer(id));
 
-    if (mode === 'kmOnTop') {
-      // All lines first, then all km circles, then all km labels => markers on top.
+    const kmOnTop = mode === 'kmOnTop' || mode === 'kmOnTopHover' || mode === 'kmOnTopOverlap';
+
+    if (kmOnTop) {
+      // Lines first, then overlap lines, then all km circles & labels => markers on top.
       ids.forEach((id) => moveToTop(id));
+      moveToTop(OVERLAP_LAYER_A);
+      moveToTop(OVERLAP_LAYER_B);
       ids.forEach((id) => moveToTop(kmCircleId(id)));
       ids.forEach((id) => moveToTop(kmLabelId(id)));
-      return;
+    } else {
+      // 'default' and 'raiseOnHover' share the per-route interleaved base order.
+      ids.forEach((id) => raiseTrail(id));
     }
 
-    // 'default' and 'raiseOnHover' share the per-route interleaved base order.
-    ids.forEach((id) => raiseTrail(id));
-
-    if (mode === 'raiseOnHover') {
+    if (mode === 'raiseOnHover' || mode === 'kmOnTopHover') {
       ids.forEach((id) => {
         const enter = () => {
           raiseTrail(id);
@@ -359,6 +439,9 @@
 
     // Rebuild the global (clustered) start/end markers from the current state.
     rebuildEndpointMarkers();
+
+    // Build/refresh shared-segment overlap layers (overlap mode only).
+    applyOverlaps();
 
     // Apply the chosen layer-stacking mode (ordering + hover/tap handlers).
     applyLayerMode();
@@ -410,6 +493,7 @@
     try {
       endpointMarkers.forEach((marker) => marker.remove());
       endpointMarkers = [];
+      removeOverlapLayers();
       [...rendered].forEach(removeTrail);
     } catch {
       // The map/style is gone; nothing left to clean up.

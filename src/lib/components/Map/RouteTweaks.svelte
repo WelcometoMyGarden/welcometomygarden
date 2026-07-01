@@ -108,6 +108,8 @@
         <option value="default">Default</option>
         <option value="kmOnTop">Km markers on top</option>
         <option value="raiseOnHover">Raise route on hover/tap</option>
+        <option value="kmOnTopHover">Km on top + raise on hover/tap</option>
+        <option value="kmOnTopOverlap">Km on top + blend overlaps</option>
       </select>
     </div>
   </section>
