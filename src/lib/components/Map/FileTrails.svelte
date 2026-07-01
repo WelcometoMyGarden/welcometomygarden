@@ -372,41 +372,59 @@
     lineEventBindings = [];
   };
 
+  const currentTrailIds = () =>
+    get(fileDataLayers)
+      .map((layer) => layer.id)
+      .filter((id) => map.getLayer(id));
+
+  /** Moves the overlap lines and all km marker layers above everything else. */
+  const stackKmOnTop = () => {
+    moveToTop(OVERLAP_LAYER_A);
+    moveToTop(OVERLAP_LAYER_B);
+    currentTrailIds().forEach((id) => moveToTop(kmCircleId(id)));
+    currentTrailIds().forEach((id) => moveToTop(kmLabelId(id)));
+  };
+
   /**
    * Applies the current layer-stacking mode to the trail layers (and wires up the
-   * hover/tap handlers for 'raiseOnHover').
+   * hover/tap handlers for the raise modes).
    */
   const applyLayerMode = () => {
     clearLineEvents();
     const mode = get(routeTweaks).routeLayerMode;
-    const ids = get(fileDataLayers)
-      .map((layer) => layer.id)
-      .filter((id) => map.getLayer(id));
+    const ids = currentTrailIds();
 
     const kmOnTop = mode === 'kmOnTop' || mode === 'kmOnTopHover' || mode === 'kmOnTopOverlap';
 
     if (kmOnTop) {
       // Lines first, then overlap lines, then all km circles & labels => markers on top.
       ids.forEach((id) => moveToTop(id));
-      moveToTop(OVERLAP_LAYER_A);
-      moveToTop(OVERLAP_LAYER_B);
-      ids.forEach((id) => moveToTop(kmCircleId(id)));
-      ids.forEach((id) => moveToTop(kmLabelId(id)));
+      stackKmOnTop();
     } else {
       // 'default' and 'raiseOnHover' share the per-route interleaved base order.
       ids.forEach((id) => raiseTrail(id));
     }
 
     if (mode === 'raiseOnHover' || mode === 'kmOnTopHover') {
+      // In 'kmOnTopHover' only the stroke is raised (km markers must stay on top);
+      // in 'raiseOnHover' the whole route (stroke + its km markers) is raised.
+      const raise =
+        mode === 'kmOnTopHover'
+          ? (id: string) => {
+              moveToTop(id);
+              stackKmOnTop();
+            }
+          : (id: string) => raiseTrail(id);
+
       ids.forEach((id) => {
         const enter = () => {
-          raiseTrail(id);
+          raise(id);
           map.getCanvas().style.cursor = 'pointer';
         };
         const leave = () => {
           map.getCanvas().style.cursor = '';
         };
-        const click = () => raiseTrail(id);
+        const click = () => raise(id);
         map.on('mouseenter', id, enter);
         map.on('mouseleave', id, leave);
         map.on('click', id, click);

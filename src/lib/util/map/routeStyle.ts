@@ -3,14 +3,7 @@
  *
  * NOTE: part of a temporary prototype for route file display enhancements.
  */
-import {
-  along,
-  distance,
-  length,
-  lineSliceAlong,
-  lineString,
-  pointToLineDistance
-} from '@turf/turf';
+import { along, distance, length, lineString } from '@turf/turf';
 import type { Feature, FeatureCollection, Geometry, LineString, Point, Position } from 'geojson';
 
 /**
@@ -190,8 +183,62 @@ export type ColoredRoute = { color: string; geoJson: FeatureCollection | Feature
 export const OVERLAP_THRESHOLD_M = 20;
 /** Minimum sustained length (km) for a shared stretch to be treated as an overlap. */
 export const OVERLAP_MIN_LENGTH_KM = 0.1;
-/** Sampling step (km) used when scanning a route for overlaps. */
-export const OVERLAP_SAMPLE_KM = 0.02;
+/** Vertices closer than this (m) are dropped before scanning (accuracy vs. speed). */
+export const OVERLAP_DECIMATE_M = 10;
+/** Step (m) at which a route is sampled while scanning for overlaps. */
+export const OVERLAP_SAMPLE_M = 25;
+
+// --- Fast local planar geometry (accurate enough at the ~20 m scale) ---
+const M_PER_DEG_LAT = 111_320;
+type XY = [number, number];
+
+/** Squared distance (m²) from point p to segment a–b, in projected metres. */
+const pointSegDist2 = (p: XY, a: XY, b: XY): number => {
+  const dx = b[0] - a[0];
+  const dy = b[1] - a[1];
+  const len2 = dx * dx + dy * dy;
+  let t = len2 > 0 ? ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / len2 : 0;
+  t = t < 0 ? 0 : t > 1 ? 1 : t;
+  const cx = a[0] + t * dx - p[0];
+  const cy = a[1] + t * dy - p[1];
+  return cx * cx + cy * cy;
+};
+
+/** A uniform grid spatial index over projected segments, for fast proximity queries. */
+const makeSegmentGrid = (segments: [XY, XY][], cell: number) => {
+  const grid = new Map<string, [XY, XY][]>();
+  for (const seg of segments) {
+    const [a, b] = seg;
+    const cx0 = Math.floor(Math.min(a[0], b[0]) / cell);
+    const cx1 = Math.floor(Math.max(a[0], b[0]) / cell);
+    const cy0 = Math.floor(Math.min(a[1], b[1]) / cell);
+    const cy1 = Math.floor(Math.max(a[1], b[1]) / cell);
+    for (let cx = cx0; cx <= cx1; cx++) {
+      for (let cy = cy0; cy <= cy1; cy++) {
+        const key = `${cx},${cy}`;
+        const bucket = grid.get(key);
+        if (bucket) bucket.push(seg);
+        else grid.set(key, [seg]);
+      }
+    }
+  }
+  return grid;
+};
+
+const isNearGrid = (grid: Map<string, [XY, XY][]>, p: XY, cell: number, thr2: number): boolean => {
+  const cx = Math.floor(p[0] / cell);
+  const cy = Math.floor(p[1] / cell);
+  for (let ix = cx - 1; ix <= cx + 1; ix++) {
+    for (let iy = cy - 1; iy <= cy + 1; iy++) {
+      const bucket = grid.get(`${ix},${iy}`);
+      if (!bucket) continue;
+      for (const [a, b] of bucket) {
+        if (pointSegDist2(p, a, b) <= thr2) return true;
+      }
+    }
+  }
+  return false;
+};
 
 /**
  * Detects stretches where two routes follow (roughly) the same path — not merely
@@ -199,57 +246,114 @@ export const OVERLAP_SAMPLE_KM = 0.02;
  * `OVERLAP_MIN_LENGTH_KM`. Each detected stretch is returned as a LineString carrying
  * the two routes' colours, so it can be drawn as an alternating two-colour line.
  *
- * NOTE: this is an O(pairs × samples × vertices) scan; it is only run in the overlap
- * display mode (and off the zoom hot path).
+ * Optimised for speed (this is the only heavy path, and runs only in overlap mode):
+ * routes are decimated, projected to a local metric plane, indexed in a uniform grid,
+ * and scanned in a single linear pass — turning the naive O(pairs × samples × vertices)
+ * scan into ~O(vertices + samples).
  */
 export const computeOverlapSegments = (
   routes: ColoredRoute[]
 ): FeatureCollection<LineString, { colorA: string; colorB: string }> => {
   const features: Feature<LineString, { colorA: string; colorB: string }>[] = [];
-  const maxKm = OVERLAP_THRESHOLD_M / 1000;
-  const linesPerRoute = routes.map((r) =>
-    extractLines(r.geoJson).map((coords) => lineString(coords))
-  );
 
-  for (let i = 0; i < routes.length; i++) {
-    for (let j = i + 1; j < routes.length; j++) {
-      const bLines = linesPerRoute[j];
-      if (linesPerRoute[i].length === 0 || bLines.length === 0) continue;
+  // Reference latitude for the local projection (from the first available vertex).
+  let lat0: number | undefined;
+  for (const r of routes) {
+    const lines = extractLines(r.geoJson);
+    if (lines.length && lines[0].length) {
+      lat0 = lines[0][0][1];
+      break;
+    }
+  }
+  if (lat0 === undefined) return { type: 'FeatureCollection', features };
 
-      for (const lineA of linesPerRoute[i]) {
-        const lenKm = length(lineA, { units: 'kilometers' });
-        if (lenKm <= 0) continue;
+  const kx = M_PER_DEG_LAT * Math.cos((lat0 * Math.PI) / 180);
+  const project = (lng: number, lat: number): XY => [lng * kx, lat * M_PER_DEG_LAT];
 
-        // Sample lineA at a fixed spacing (plus its exact end).
-        const dists: number[] = [];
-        for (let d = 0; d < lenKm; d += OVERLAP_SAMPLE_KM) dists.push(d);
-        dists.push(lenKm);
+  // Preprocess each route: decimate vertices, project to metres, and index its segments.
+  const decimate2 = OVERLAP_DECIMATE_M * OVERLAP_DECIMATE_M;
+  const prepped = routes.map((r) => {
+    const lines: { ll: [number, number][]; xy: XY[] }[] = [];
+    const segments: [XY, XY][] = [];
+    for (const coords of extractLines(r.geoJson)) {
+      const ll: [number, number][] = [];
+      const xy: XY[] = [];
+      let last: XY | null = null;
+      for (let idx = 0; idx < coords.length; idx++) {
+        const lng = coords[idx][0];
+        const lat = coords[idx][1];
+        const p = project(lng, lat);
+        const keep =
+          idx === 0 ||
+          idx === coords.length - 1 ||
+          !last ||
+          (p[0] - last[0]) ** 2 + (p[1] - last[1]) ** 2 >= decimate2;
+        if (keep) {
+          ll.push([lng, lat]);
+          xy.push(p);
+          last = p;
+        }
+      }
+      if (xy.length >= 2) {
+        lines.push({ ll, xy });
+        for (let s = 0; s < xy.length - 1; s++) segments.push([xy[s], xy[s + 1]]);
+      }
+    }
+    return { color: r.color, lines, grid: makeSegmentGrid(segments, OVERLAP_THRESHOLD_M) };
+  });
 
-        let runStart: number | null = null;
-        for (let k = 0; k < dists.length; k++) {
-          const d = dists[k];
-          const pt = along(lineA, d, { units: 'kilometers' });
-          const near = bLines.some(
-            (lineB) => pointToLineDistance(pt, lineB, { units: 'kilometers' }) <= maxKm
-          );
-          const isLast = k === dists.length - 1;
+  const thr2 = OVERLAP_THRESHOLD_M * OVERLAP_THRESHOLD_M;
+  const minLenM = OVERLAP_MIN_LENGTH_KM * 1000;
 
-          if (near && runStart === null) runStart = d;
-          if ((!near || isLast) && runStart !== null) {
-            const end = near ? d : dists[k - 1];
-            if (end - runStart >= OVERLAP_MIN_LENGTH_KM) {
-              try {
-                const seg = lineSliceAlong(lineA, runStart, end, { units: 'kilometers' });
+  for (let i = 0; i < prepped.length; i++) {
+    for (let j = i + 1; j < prepped.length; j++) {
+      const a = prepped[i];
+      const b = prepped[j];
+      if (!a.lines.length || !b.lines.length) continue;
+
+      for (const line of a.lines) {
+        // Single linear walk of the line, sampling every OVERLAP_SAMPLE_M metres and
+        // testing proximity to route B via its grid; collect runs of "near" samples.
+        const samples: { near: boolean; ll: [number, number] }[] = [];
+        let acc = 0;
+        let next = 0;
+        for (let k = 0; k < line.xy.length - 1; k++) {
+          const p0 = line.xy[k];
+          const p1 = line.xy[k + 1];
+          const l0 = line.ll[k];
+          const l1 = line.ll[k + 1];
+          const segLen = Math.hypot(p1[0] - p0[0], p1[1] - p0[1]);
+          if (segLen === 0) continue;
+          while (next <= acc + segLen + 1e-6) {
+            const t = (next - acc) / segLen;
+            const p: XY = [p0[0] + t * (p1[0] - p0[0]), p0[1] + t * (p1[1] - p0[1])];
+            samples.push({
+              near: isNearGrid(b.grid, p, OVERLAP_THRESHOLD_M, thr2),
+              ll: [l0[0] + t * (l1[0] - l0[0]), l0[1] + t * (l1[1] - l0[1])]
+            });
+            next += OVERLAP_SAMPLE_M;
+          }
+          acc += segLen;
+        }
+
+        let start = -1;
+        for (let k = 0; k < samples.length; k++) {
+          const near = samples[k].near;
+          const last = k === samples.length - 1;
+          if (near && start < 0) start = k;
+          if ((!near || last) && start >= 0) {
+            const endIdx = near ? k : k - 1;
+            if ((endIdx - start) * OVERLAP_SAMPLE_M >= minLenM) {
+              const coordinates = samples.slice(start, endIdx + 1).map((s) => s.ll);
+              if (coordinates.length >= 2) {
                 features.push({
                   type: 'Feature',
-                  geometry: seg.geometry,
-                  properties: { colorA: routes[i].color, colorB: routes[j].color }
+                  geometry: { type: 'LineString', coordinates },
+                  properties: { colorA: a.color, colorB: b.color }
                 });
-              } catch {
-                // Degenerate slice; skip.
               }
             }
-            runStart = null;
+            start = -1;
           }
         }
       }
