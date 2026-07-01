@@ -25,6 +25,14 @@ export type RouteLayerMode =
   | 'kmOnTopHover'
   | 'kmOnTopOverlap';
 
+/**
+ * How start/end/pause markers are drawn:
+ * - `icons`: play (start), stop square (end), pause bars (merged) — the status quo
+ * - `flags`: plain green circle (start) and a checkerboard finish badge (end AND
+ *   merged), both with a thin white border
+ */
+export type EndpointMode = 'icons' | 'flags';
+
 export type RouteTweaks = {
   /** Whether the tweaks overlay panel itself is visible. */
   panelOpen: boolean;
@@ -41,6 +49,8 @@ export type RouteTweaks = {
   zoomIntervalConfig: string;
   /** How overlapping routes & their km markers are stacked. */
   routeLayerMode: RouteLayerMode;
+  /** How start/end/pause markers are drawn. */
+  endpointMode: EndpointMode;
 };
 
 export const routeTweaks = writable<RouteTweaks>({
@@ -49,7 +59,8 @@ export const routeTweaks = writable<RouteTweaks>({
   showKmMarkers: true,
   showStartEndMarkers: true,
   zoomIntervalConfig: DEFAULT_ZOOM_INTERVAL_CONFIG,
-  routeLayerMode: 'default'
+  routeLayerMode: 'default',
+  endpointMode: 'icons'
 });
 
 /** Live mirror of the current map zoom level, for display in the tweaks panel. */

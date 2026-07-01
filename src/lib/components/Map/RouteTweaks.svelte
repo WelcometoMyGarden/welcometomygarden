@@ -9,7 +9,8 @@
     routeTweaks,
     currentMapZoom,
     effectiveKm,
-    type RouteLayerMode
+    type RouteLayerMode,
+    type EndpointMode
   } from '$lib/stores/routeTweaks';
   import { ROUTE_COLORS, DEFAULT_ZOOM_INTERVAL_CONFIG } from '$lib/util/map/routeStyle';
   import { Switch, Modal } from '$lib/components/UI';
@@ -27,6 +28,12 @@
     routeTweaks.update((t) => ({
       ...t,
       routeLayerMode: (e.currentTarget as HTMLSelectElement).value as RouteLayerMode
+    }));
+
+  const onEndpointModeChange = (e: Event) =>
+    routeTweaks.update((t) => ({
+      ...t,
+      endpointMode: (e.currentTarget as HTMLSelectElement).value as EndpointMode
     }));
 
   const onConfigInput = (e: Event) =>
@@ -100,6 +107,14 @@
         ariaLabel="Toggle start and end markers"
         onToggle={() => toggle('showStartEndMarkers')}
       />
+    </div>
+
+    <div class="row">
+      <label class="label" for="endpoint-mode">Start/end style</label>
+      <select id="endpoint-mode" value={$routeTweaks.endpointMode} onchange={onEndpointModeChange}>
+        <option value="icons">Play / stop / pause icons</option>
+        <option value="flags">Circle + finish flag</option>
+      </select>
     </div>
 
     <div class="row">

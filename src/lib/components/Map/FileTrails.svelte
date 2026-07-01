@@ -6,6 +6,7 @@
   import {
     routeTweaks,
     type RouteTweaks,
+    type EndpointMode,
     currentMapZoom,
     effectiveKm
   } from '$lib/stores/routeTweaks';
@@ -108,17 +109,45 @@
     }
   } as const;
 
-  const createEndpointElement = (type: RouteEndpoint['type']) => {
-    const { svgBase, background, icon } = ENDPOINT_CONFIG[type];
+  // A 4×4 black/white checkerboard filling the badge, clipped to the circle — a
+  // finish flag. Stretched to fill via preserveAspectRatio="none".
+  const CHECKERBOARD_SVG =
+    '<svg viewBox="0 0 4 4" preserveAspectRatio="none" width="100%" height="100%" ' +
+    'fill="#111" style="display:block"><rect width="4" height="4" fill="#fff"/>' +
+    [0, 1, 2, 3]
+      .flatMap((r) =>
+        [0, 1, 2, 3]
+          .filter((c) => (r + c) % 2 === 0)
+          .map((c) => `<rect x="${c}" y="${r}" width="1" height="1"/>`)
+      )
+      .join('') +
+    '</svg>';
+
+  const createEndpointElement = (type: RouteEndpoint['type'], mode: EndpointMode) => {
     const el = document.createElement('div');
     // `display:flex` lives in the global .trail-endpoint rule below, because mapbox
     // clears the inline `display` property it sets on marker elements.
     el.classList.add('trail-endpoint');
-    el.dataset.svgBase = `${svgBase}`;
     el.style.cssText =
       `width:${BASE_MARKER_SIZE}px;height:${BASE_MARKER_SIZE}px;border-radius:50%;` +
-      'align-items:center;justify-content:center;line-height:0;' +
+      'align-items:center;justify-content:center;line-height:0;overflow:hidden;' +
       'border:2px solid #fff;box-sizing:border-box;box-shadow:0 1px 4px rgba(0,0,0,0.4);';
+
+    if (mode === 'flags') {
+      if (type === 'start') {
+        // Plain, mostly-opaque green circle (no icon).
+        el.style.background = 'rgba(27, 120, 55, 0.92)';
+      } else {
+        // End & merged (pause) => checkerboard finish badge.
+        el.style.background = '#fff';
+        el.innerHTML = CHECKERBOARD_SVG;
+      }
+      return el;
+    }
+
+    // 'icons' mode (status quo): play / stop / pause glyphs.
+    const { svgBase, background, icon } = ENDPOINT_CONFIG[type];
+    el.dataset.svgBase = `${svgBase}`;
     el.style.background = background;
     el.innerHTML =
       `<svg width="${svgBase}" height="${svgBase}" viewBox="0 0 24 24" fill="#fff" ` +
@@ -136,9 +165,11 @@
       el.style.height = `${size}px`;
       el.style.borderWidth = `${Math.max(1, 2 * scale)}px`;
       el.style.opacity = `${opacity}`;
+      // Only fixed-size glyph svgs are resized; the checkerboard svg fills the badge
+      // (width/height 100%) and scales automatically with it.
       const svg = el.querySelector('svg');
-      if (svg) {
-        const svgSize = Number(el.dataset.svgBase ?? 12) * scale;
+      if (svg && el.dataset.svgBase) {
+        const svgSize = Number(el.dataset.svgBase) * scale;
         svg.setAttribute('width', `${svgSize}`);
         svg.setAttribute('height', `${svgSize}`);
       }
@@ -154,6 +185,7 @@
     endpointMarkers = [];
 
     if (!get(routeTweaks).showStartEndMarkers) return;
+    const mode = get(routeTweaks).endpointMode;
 
     const endpoints: RouteEndpoint[] = [];
     for (const layer of get(fileDataLayers)) {
@@ -165,7 +197,7 @@
     }
 
     for (const ep of clusterEndpoints(endpoints)) {
-      const marker = new mapboxgl.Marker({ element: createEndpointElement(ep.type) })
+      const marker = new mapboxgl.Marker({ element: createEndpointElement(ep.type, mode) })
         .setLngLat(ep.lngLat)
         .addTo(map);
       endpointMarkers.push(marker);
