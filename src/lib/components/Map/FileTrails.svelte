@@ -67,7 +67,13 @@
   const rendered = new Set<string>();
   let endpointMarkers: Marker[] = [];
 
-  const BASE_MARKER_SIZE = 24; // px, badge diameter at full size
+  const BASE_MARKER_SIZE = 24; // px, badge diameter at full size ('icons' mode)
+  // In 'flags' mode, match the km markers' diameter (2 * their circle-radius, see
+  // the km circle layer paint below) instead of the icon badge size.
+  const KM_MARKER_DIAMETER = 18; // px, must track 'circle-radius' on the km circle layer
+
+  const baseMarkerSizeFor = (mode: EndpointMode) =>
+    mode === 'flags' ? KM_MARKER_DIAMETER : BASE_MARKER_SIZE;
 
   const fitToTrail = (geoJson: FileDataLayer['geoJson']) => {
     try {
@@ -124,12 +130,13 @@
     '</svg>';
 
   const createEndpointElement = (type: RouteEndpoint['type'], mode: EndpointMode) => {
+    const baseSize = baseMarkerSizeFor(mode);
     const el = document.createElement('div');
     // `display:flex` lives in the global .trail-endpoint rule below, because mapbox
     // clears the inline `display` property it sets on marker elements.
     el.classList.add('trail-endpoint');
     el.style.cssText =
-      `width:${BASE_MARKER_SIZE}px;height:${BASE_MARKER_SIZE}px;border-radius:50%;` +
+      `width:${baseSize}px;height:${baseSize}px;border-radius:50%;` +
       'align-items:center;justify-content:center;line-height:0;overflow:hidden;' +
       'border:2px solid #fff;box-sizing:border-box;box-shadow:0 1px 4px rgba(0,0,0,0.4);';
 
@@ -158,7 +165,7 @@
   /** Applies the current zoom-based scale & opacity to all endpoint markers. */
   const applyEndpointStyle = () => {
     const { scale, opacity } = computeEndpointStyle(map.getZoom());
-    const size = BASE_MARKER_SIZE * scale;
+    const size = baseMarkerSizeFor(get(routeTweaks).endpointMode) * scale;
     for (const marker of endpointMarkers) {
       const el = marker.getElement();
       el.style.width = `${size}px`;
