@@ -12,6 +12,8 @@
     oninput?: (e: Event) => void;
     onchange: (e: Event) => void;
     onsecondary: (e: MouseEvent) => void;
+    /** Optional content rendered between the checkbox and the label. */
+    leading?: import('svelte').Snippet;
   }
 
   let {
@@ -22,12 +24,13 @@
     disabled = false,
     oninput,
     onchange,
-    onsecondary
+    onsecondary,
+    leading
   }: Props = $props();
 </script>
 
 <div class="multi-action-label">
-  <LabeledCheckbox ellipsis {name} {label} {disabled} {oninput} bind:checked {onchange} />
+  <LabeledCheckbox ellipsis {name} {label} {disabled} {oninput} bind:checked {onchange} {leading} />
   <button
     class="button-unstyle secondary"
     onclick={(e) => {

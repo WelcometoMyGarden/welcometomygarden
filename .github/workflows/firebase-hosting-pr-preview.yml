@@ -12,7 +12,7 @@ on:
       - firestore*
       # Updated docs shouldn't trigger deploys
       - docs/**
-      - '*.md'
+      - "*.md"
       # We don't block a deploy on failed tests yet
       - tests/**
       - ci/**
@@ -22,7 +22,7 @@ on:
 
 jobs:
   build_and_deploy:
-    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+    if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
     runs-on: ubuntu-latest
     environment: staging
     env:
@@ -51,16 +51,22 @@ jobs:
       PUBLIC_SUPABASE_API_URL: ${{vars.SUPABASE_API_URL}}
       PUBLIC_SENTRY_DSN: ${{vars.SENTRY_DSN}}
       PUBLIC_WTMG_HOST: ${{vars.WTMG_HOST}}
-      IS_PREVIEW: 'true'
+      IS_PREVIEW: "true"
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/prepare-source
       - name: Build project
         run: yarn run build:staging
+      - name: Pin Node for deploy
+        # workaround for https://github.com/FirebaseExtended/action-hosting-deploy/issues/460 and
+        # and https://github.com/firebase/firebase-tools/issues/10716#issuecomment-4800040219
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.18.0
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_DEV }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_DEV }}"
           projectId: wtmg-dev
           target: beta
           # 30d is the maximum https://firebase.google.com/docs/hosting/manage-hosting-resources#preview-channel-expiration
