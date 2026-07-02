@@ -14,7 +14,7 @@ on:
       - firestore*
       # Updated docs shouldn't trigger deploys
       - docs/**
-      - '*.md'
+      - "*.md"
       # We don't run front-end tests here yet
       - tests/**
       - ci/**
@@ -49,16 +49,22 @@ jobs:
       PUBLIC_SUPABASE_API_URL: ${{vars.SUPABASE_API_URL}}
       PUBLIC_SENTRY_DSN: ${{vars.SENTRY_DSN}}
       PUBLIC_WTMG_HOST: ${{vars.WTMG_HOST}}
-      IS_PREVIEW: 'false'
+      IS_PREVIEW: "false"
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/prepare-source
       - name: Build project
         run: yarn run build:prod
+      - name: Pin Node for deploy
+        # workaround for https://github.com/FirebaseExtended/action-hosting-deploy/issues/460 and
+        # and https://github.com/firebase/firebase-tools/issues/10716#issuecomment-4800040219
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.18.0
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_PRODUCTION }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTMG_PRODUCTION }}"
           channelId: live
           projectId: wtmg-production
           target: beta
