@@ -1,30 +1,75 @@
 <script module lang="ts">
   /**
-   * The coverage radius, in kilometers, around a single garden that is considered
-   * "green" (well covered). Anything further away gradually turns "red".
+   * Distance (km) around a single garden that counts as fully "covered". Within
+   * this radius the overlay is solid green.
    */
   export const COVERAGE_RADIUS_KM = 15;
 
   /**
+   * Distance (km) at which coverage has fully decayed to "no coverage" (red).
+   * Between {@link COVERAGE_RADIUS_KM} and this distance the overlay fades from
+   * green through yellow to red.
+   */
+  export const GRADIENT_END_KM = 25;
+
+  /**
+   * Overlay colours (RGB triplets, without alpha) shared with the page legend so
+   * the two always stay in sync.
+   */
+  export const COVERAGE_COLORS = {
+    /** Well covered — within COVERAGE_RADIUS_KM of a garden. */
+    covered: '46, 150, 80',
+    /** Halfway through the gradient. */
+    mid: '240, 200, 50',
+    /** No garden nearby. */
+    gap: '214, 40, 40'
+  };
+
+  /** Translucency of the overlay so the underlying map stays legible. */
+  const OVERLAY_ALPHA = 0.5;
+
+  const rgba = (rgb: string) => `rgba(${rgb}, ${OVERLAY_ALPHA})`;
+
+  /**
+   * The Gaussian coefficient baked into Mapbox's heatmap kernel
+   * (see mapbox-gl heatmap.fragment.glsl: `val = weight * intensity * GAUSS_COEF * exp(-4.5 * r²)`).
+   */
+  const GAUSS_COEF = 0.3989422804014327;
+
+  /**
+   * Mapbox samples the heatmap colour ramp with the raw accumulated density over
+   * the domain [0, 1]. By setting the intensity to 1 / GAUSS_COEF, a single
+   * garden's centre density normalizes to exactly 1.0, so the kernel maps
+   * directly onto the ramp and a lone garden reaches the "green" end.
+   */
+  const HEATMAP_INTENSITY = 1 / GAUSS_COEF;
+
+  /**
+   * The density that Mapbox's heatmap kernel produces for a single garden at a
+   * given ground distance, given the heatmap radius represents {@link GRADIENT_END_KM}
+   * and the centre density is normalized to 1.
+   *
+   * density(d) = exp(-4.5 * (d / radius)²)
+   */
+  const densityAtKm = (km: number) => Math.exp(-4.5 * Math.pow(km / GRADIENT_END_KM, 2));
+
+  /**
    * Reference latitude (degrees) used to convert the coverage radius from
-   * kilometers to screen pixels. Mapbox's `heatmap-radius` is expressed in
-   * pixels, and the meters-per-pixel of a Web Mercator projection depends on the
-   * latitude. We pick a latitude central to WTMG's core region (Western Europe)
-   * so the rendered radius is accurate there, and only slightly off north/south.
+   * kilometers to screen pixels. Mapbox's `heatmap-radius` is in pixels, and the
+   * meters-per-pixel of a Web Mercator projection depends on the latitude. We
+   * pick a latitude central to WTMG's core region (Western Europe).
    */
   const REFERENCE_LATITUDE = 50;
 
   /**
-   * Computes the on-screen pixel radius that represents {@link COVERAGE_RADIUS_KM}
-   * at a given zoom level and the {@link REFERENCE_LATITUDE}.
+   * On-screen pixel radius representing {@link GRADIENT_END_KM} at a given zoom.
    *
    * meters-per-pixel = 156543.03392 * cos(lat) / 2^zoom
-   * radius(px) = radius(m) / meters-per-pixel
    */
   const radiusPxAtZoom = (zoom: number) => {
     const metersPerPixel =
       (156543.03392 * Math.cos((REFERENCE_LATITUDE * Math.PI) / 180)) / Math.pow(2, zoom);
-    return (COVERAGE_RADIUS_KM * 1000) / metersPerPixel;
+    return (GRADIENT_END_KM * 1000) / metersPerPixel;
   };
 </script>
 
@@ -73,10 +118,15 @@
         data: buildFeatureCollection()
       });
 
-      // An "inverse" heatmap: where no garden is nearby the density is 0, which we
-      // paint red. As we approach a garden (higher density) the colour shifts through
-      // orange/amber to green. A single garden's kernel fades to ~0 at its
-      // `heatmap-radius`, so the green bloom roughly matches the coverage radius.
+      // An "inverse" heatmap of garden coverage. Because a heatmap paints its whole
+      // extent by density, areas with no nearby garden (density 0) are painted red,
+      // and the colour shifts to green as we approach a garden.
+      //
+      // The kernel/colour stops are calibrated (see the module script) so that a
+      // single isolated garden reads as:
+      //   - solid green out to COVERAGE_RADIUS_KM (15 km),
+      //   - a green → yellow → red gradient from there to GRADIENT_END_KM (25 km),
+      //   - pure red beyond 25 km.
       map.addLayer({
         id: heatmapLayerId,
         type: 'heatmap',
@@ -84,45 +134,45 @@
         paint: {
           // Every garden contributes equally.
           'heatmap-weight': 1,
-          // Keep the accumulated density comparable across zoom levels. The radius
-          // already scales with zoom (see below), so a fixed intensity keeps a lone
-          // garden's peak roughly constant. Boosted a little so that even an isolated
-          // garden's centre reliably reaches the "green" end of the ramp.
-          'heatmap-intensity': 1.5,
-          // Colour ramp from "no coverage" (red) to "well covered" (green).
-          // Green is reached fairly early in the density range so a single garden
-          // reads as covered, while areas with no nearby garden (density ~0) stay red.
-          // Alpha is baked into the colours so the whole overlay stays translucent
-          // and the underlying map remains legible.
+          // Normalizes a single garden's centre density to 1.0 (see HEATMAP_INTENSITY).
+          'heatmap-intensity': HEATMAP_INTENSITY,
+          // Map the kernel density at each key distance to a colour. Densities are
+          // strictly ascending (further away = lower density = redder).
           'heatmap-color': [
             'interpolate',
             ['linear'],
             ['heatmap-density'],
+            // No garden within range at all.
             0,
-            'rgba(214, 40, 40, 0.5)',
-            0.1,
-            'rgba(230, 92, 40, 0.5)',
-            0.25,
-            'rgba(240, 170, 50, 0.45)',
-            0.4,
-            'rgba(190, 200, 60, 0.42)',
-            0.6,
-            'rgba(58, 170, 90, 0.42)',
+            rgba(COVERAGE_COLORS.gap),
+            // 25 km — outer edge of the gradient, still red.
+            densityAtKm(GRADIENT_END_KM),
+            rgba(COVERAGE_COLORS.gap),
+            // Midpoint of the gradient (20 km) — yellow.
+            densityAtKm((COVERAGE_RADIUS_KM + GRADIENT_END_KM) / 2),
+            rgba(COVERAGE_COLORS.mid),
+            // 15 km — the green plateau begins here.
+            densityAtKm(COVERAGE_RADIUS_KM),
+            rgba(COVERAGE_COLORS.covered),
+            // Garden centre.
             1,
-            'rgba(40, 150, 75, 0.42)'
+            rgba(COVERAGE_COLORS.covered)
           ],
-          // Radius (in pixels) that represents COVERAGE_RADIUS_KM at each zoom level.
-          // Because the pixel radius that maps to a fixed real-world distance doubles
-          // for every zoom level, an exponential (base 2) interpolation between two
-          // computed anchor stops reproduces the curve exactly.
+          // Radius (px) representing GRADIENT_END_KM at each zoom level. The pixel
+          // radius mapping to a fixed real-world distance doubles per zoom level, so
+          // an exponential (base 2) interpolation between two computed anchor stops
+          // reproduces the curve exactly. Anchoring the low stop at zoom 0 (rather
+          // than clamping at a higher zoom) is what keeps sparse regions realistically
+          // red when zoomed out, instead of a fixed pixel radius ballooning into
+          // hundreds of kilometers of false "coverage".
           'heatmap-radius': [
             'interpolate',
             ['exponential', 2],
             ['zoom'],
-            4,
-            radiusPxAtZoom(4),
-            14,
-            radiusPxAtZoom(14)
+            0,
+            radiusPxAtZoom(0),
+            16,
+            radiusPxAtZoom(16)
           ],
           'heatmap-opacity': 1
         }

@@ -5,7 +5,9 @@
   import { allListedGardens, isFetchingGardens } from '$lib/stores/garden';
   import Map, { currentPosition, mapState } from '$lib/components/Map/Map.svelte';
   import CoverageHeatmapLayer, {
-    COVERAGE_RADIUS_KM
+    COVERAGE_RADIUS_KM,
+    GRADIENT_END_KM,
+    COVERAGE_COLORS
   } from '$lib/components/Map/CoverageHeatmapLayer.svelte';
   import FilterLocation from '$lib/components/Garden/FilterLocation.svelte';
   import { Progress } from '$lib/components/UI';
@@ -28,6 +30,18 @@
 
   // Controls the map location imperatively (see /explore for the same pattern).
   let centerLocation = $state(LOCATION_WESTERN_EUROPE);
+
+  // Legend geometry, derived from the coverage constants so it always matches the
+  // map overlay. The legend spans 0–GRADIENT_END_KM: solid green until
+  // COVERAGE_RADIUS_KM, then a gradient through yellow to red at the far end.
+  const greenPct = (COVERAGE_RADIUS_KM / GRADIENT_END_KM) * 100;
+  const midPct = ((COVERAGE_RADIUS_KM + GRADIENT_END_KM) / 2 / GRADIENT_END_KM) * 100;
+  const legendGradient =
+    `linear-gradient(to right,` +
+    ` rgb(${COVERAGE_COLORS.covered}) 0%,` +
+    ` rgb(${COVERAGE_COLORS.covered}) ${greenPct}%,` +
+    ` rgb(${COVERAGE_COLORS.mid}) ${midPct}%,` +
+    ` rgb(${COVERAGE_COLORS.gap}) 100%)`;
 
   const goToPlace = (event: LongLat) => {
     zoom = ZOOM_LEVELS.CITY;
@@ -87,18 +101,21 @@
     </div>
   </div>
 
-  <div class="legend" aria-hidden="true">
+  <div class="legend">
     <p class="legend-title">{$_('map.coverage-gaps.title')}</p>
-    <div class="legend-scale">
-      <span class="legend-swatch legend-swatch--covered"></span>
-      <span class="legend-gradient"></span>
-      <span class="legend-swatch legend-swatch--gap"></span>
-    </div>
-    <div class="legend-labels">
+    <div class="legend-endpoints">
       <span
         >{$_('map.coverage-gaps.legend.covered', { values: { radius: COVERAGE_RADIUS_KM } })}</span
       >
       <span>{$_('map.coverage-gaps.legend.gap')}</span>
+    </div>
+    <div class="legend-bar" style="background: {legendGradient};">
+      <span class="legend-tick" style="left: {greenPct}%;"></span>
+    </div>
+    <div class="legend-ticks">
+      <span style="left: 0%;">0</span>
+      <span style="left: {greenPct}%;">{COVERAGE_RADIUS_KM} km</span>
+      <span style="left: 100%;">{GRADIENT_END_KM} km</span>
     </div>
   </div>
 </div>
@@ -144,48 +161,51 @@
     margin-bottom: 0.6rem;
   }
 
-  .legend-scale {
+  .legend-endpoints {
     display: flex;
-    align-items: center;
-    gap: 0.4rem;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+    gap: 1rem;
   }
 
-  .legend-swatch,
-  .legend-gradient {
+  /* The gradient bar maps distance-to-nearest-garden (0 → GRADIENT_END_KM). */
+  .legend-bar {
+    position: relative;
     height: 1rem;
     border-radius: 2px;
   }
 
-  .legend-swatch {
-    width: 1.4rem;
-    flex-shrink: 0;
+  /* Marker at the COVERAGE_RADIUS_KM boundary (end of the solid-green zone). */
+  .legend-tick {
+    position: absolute;
+    top: -2px;
+    bottom: -2px;
+    width: 2px;
+    transform: translateX(-50%);
+    background-color: var(--color-black, #000);
   }
 
-  .legend-swatch--covered {
-    background-color: rgb(40, 150, 75);
-  }
-
-  .legend-swatch--gap {
-    background-color: rgb(214, 40, 40);
-  }
-
-  .legend-gradient {
-    flex-grow: 1;
-    background: linear-gradient(
-      to right,
-      rgb(40, 150, 75),
-      rgb(190, 200, 60),
-      rgb(240, 170, 50),
-      rgb(214, 40, 40)
-    );
-  }
-
-  .legend-labels {
-    display: flex;
-    justify-content: space-between;
+  .legend-ticks {
+    position: relative;
+    height: 1.4rem;
+    margin-top: 0.3rem;
     font-size: 1.2rem;
-    margin-top: 0.4rem;
-    gap: 1rem;
+  }
+
+  .legend-ticks span {
+    position: absolute;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+
+  /* Keep the first and last labels within the bar's bounds. */
+  .legend-ticks span:first-child {
+    transform: translateX(0);
+  }
+
+  .legend-ticks span:last-child {
+    transform: translateX(-100%);
   }
 
   @media screen and (max-width: 700px) {
