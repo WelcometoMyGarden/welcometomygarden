@@ -77,13 +77,13 @@
   "index": {
     "shop": {
       "banner": {
-        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> hat jetzt {title}WTMG-Schilder aus Holz und Dankeskarten für die Gastgebenden. Schau es dir unter {link} an!",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> hat jetzt {title}WTMG-Schilder aus Holz und Dankeskarten für die Hosts. Schau es dir unter {link} an!",
         "title": "Online-Shop"
       }
     },
     "intro": {
       "headline": "Dein slow travel-Abenteuer beginnt hier",
-      "copy": "Campingplätze in den Gärten von Privatpersonen für slow traveller. Präsentiert von einer herzlichen Gemeinschaft von Bürger:innen.",
+      "copy": "Zeltplätze in den Gärten von Privatpersonen für Slow Traveller. Präsentiert von einer herzlichen Gemeinschaft von Bürger:innen.",
       "add-garden": "Füge deinen Garten hinzu! ",
       "explore-map": "Karte erkunden",
       "learn-more": "Mehr erfahren",
@@ -94,16 +94,16 @@
     "steps": {
       "0": {
         "title": "Schritt 1: Registrieren und loslegen",
-        "copy": "Registriere dich, um Zeltplätze in den Gärten von Privatpersonen zu finden und Gastgebende zu kontaktieren, oder {addGardenLink} zur Karte!",
+        "copy": "Registriere dich, um Zeltplätze in den Gärten von Privatpersonen zu finden und Hosts zu kontaktieren, oder {addGardenLink} zur Karte!",
         "add-garden-link-text": "füge deinen eigenen Garten hinzu"
       },
       "1": {
         "title": "Schritt 2: Plane deine Reise",
-        "copy": "Sprich dich mit deinem/deiner Gastgebenden ab und plane deine Wander- oder Fahrradroute zum Ziel-Garten"
+        "copy": "Sprich dich mit deinem Host ab und plane deine Wander- oder Fahrradroute zum Ziel-Garten"
       },
       "2": {
         "title": "Schritt 3: Schlage dein Zelt auf",
-        "copy": "Lerne deine Gastgebenden kennen, schlage dein Zelt auf und genieße deinen Aufenthalt – egal, ob das eine ruhige Nacht bedeutet oder ein nettes Beisammensein mit deiner Gastgeber:in!"
+        "copy": "Lerne deine Hosts kennen, schlage dein Zelt auf und genieße deinen Aufenthalt – egal, ob das eine ruhige Nacht bedeutet oder ein nettes Beisammensein mit deinem Host!"
       }
     },
     "faq": {
@@ -113,23 +113,23 @@
       "questions": {
         "0": {
           "title": "Für wen ist <span class=\"notranslate\">Welcome To My Garden</span> gedacht?",
-          "copy": "<span class=\"notranslate\">Welcome To My Garden</span> wurde für Wandernde und Radfahrende ins Leben gerufen, die am Ende des Tages einen Zeltplatz auf ihrer Route benötigen. Es soll keinen vollwertigen Campingplatz ersetzen, sondern einfach ein sicherer Ort für die Nacht sein! Sieh es als Ergänzung zum belgischen Biwakplatz-Netzwerk. <span class=\"notranslate\">Welcome To My Garden</span> ist nicht-kommerziell: Es fließt kein Geld. Das bedeutet, dass du als Gastgeber:in von deinen Gästen kein Geld für den Aufenthalt verlangen darfst."
+          "copy": "<span class=\"notranslate\">Welcome To My Garden</span> wurde für Wandernde und Radfahrende ins Leben gerufen, die am Ende des Tages einen Zeltplatz auf ihrer Route benötigen. Es soll keinen vollwertigen Zeltplatz ersetzen, sondern einfach ein sicherer Ort für die Nacht sein! Sieh es als Ergänzung zum belgischen Biwakplatz-Netzwerk. <span class=\"notranslate\">Welcome To My Garden</span> ist nicht-kommerziell: Es fließt kein Geld. Das bedeutet, dass du als Host von deinen Gästen kein Geld für den Aufenthalt verlangen darfst."
         },
         "1": {
           "title": "Wie komme ich zu meinem Zeltplatz?",
-          "copy": "<span class=\"notranslate\">Welcome To My Garden</span> ist ausschließlich für slow traveller gedacht. Bitte wandere oder fahre mit dem Rad zu deinem Zeltplatz. Natürlich kannst du die öffentlichen Verkehrsmittel oder dein Auto nutzen, um zum Startpunkt deiner Route zu gelangen – solange du nicht mit dem Auto bei deiner Gastgeber:in vorfährst!"
+          "copy": "<span class=\"notranslate\">Welcome To My Garden</span> ist ausschließlich für Slow Traveller gedacht. Bitte wandere oder fahre mit dem Rad zu deinem Zeltplatz. Natürlich kannst du die öffentlichen Verkehrsmittel oder dein Auto nutzen, um zum Startpunkt deiner Route zu gelangen – solange du nicht mit dem Auto bei deinem Host vorfährst!"
         },
         "2": {
           "title": "Wie frage ich eine Übernachtung an?",
-          "copy": "Sofern auf dem Profil der Gastgeber:in nicht ausdrücklich anders angegeben, solltest du dich immer im Voraus mit der Gastgeber:in in Verbindung setzen. Wenn du eine Übernachtung anfragst, gib bitte ein paar Informationen über dich selbst sowie dein Ankunftsdatum und deine Ankunftszeit an."
+          "copy": "Sofern auf dem Profil des Hosts nicht ausdrücklich anders angegeben, solltest du dich immer im Voraus mit dem Host in Verbindung setzen. Wenn du eine Übernachtung anfragst, gib bitte ein paar Informationen über dich selbst sowie dein Ankunftsdatum und deine Ankunftszeit an."
         },
         "3": {
           "title": "Was ist mit Sanitäranlagen?",
-          "copy": "Im Grunde bieten Gastgeber:innen nur eine Ecke in ihrem Garten an, auf der du dein Zelt aufschlagen kannst. Darüber hinaus bieten sie vielleicht Zugang zu Trinkwasser, einer Toilette und Strom an. Dazu sind sie jedoch nicht verpflichtet: all das sind Extras. Betrachte einen Garten als Biwakplatz, nicht als vollwertigen Campingplatz."
+          "copy": "Im Grunde bieten Hosts nur eine Ecke in ihrem Garten an, auf der du dein Zelt aufschlagen kannst. Darüber hinaus bieten sie vielleicht Zugang zu Trinkwasser, einer Toilette und Strom an. Dazu sind sie jedoch nicht verpflichtet: all das sind Extras. Betrachte einen Garten als Biwakplatz, nicht als vollwertigen Zeltplatz."
         },
         "4": {
           "title": "Kostet <span class=\"notranslate\">Welcome To My Garden</span> etwas?",
-          "copy": "Die Übernachtung bei einer WTMG-Gastgeber:in ist kostenlos. Um WTMG jedoch zu erhalten und weiterzuentwickeln, sind wir auf eine jährliche Mitgliedschaft angewiesen, um die Kosten fair unter allen slow travellern aufzuteilen. Du kannst <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">hier</a> Mitglied werden."
+          "copy": "Die Übernachtung bei einem WTMG-Host ist kostenlos. Um WTMG jedoch zu erhalten und weiterzuentwickeln, sind wir auf eine jährliche Mitgliedschaft angewiesen, um die Kosten fair unter allen Slow Travellern aufzuteilen. Du kannst <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">hier</a> Mitglied werden."
         }
       }
     },
@@ -141,7 +141,7 @@
     "wtmg-quotes": {
       "0": {
         "name": "Frank & Katlijn",
-        "quote": "Wir lieben es, die Geschichten von slow travellern zu hören. Einige haben gerade erst angefangen, andere reisen mit Kindern. Alle haben eine Geschichte zu erzählen."
+        "quote": "Wir lieben es, die Geschichten von Slow Travellern zu hören. Einige haben gerade erst angefangen, andere reisen mit Kindern. Alle haben eine Geschichte zu erzählen."
       },
       "1": {
         "name": "Carolien und ihre Familie",
@@ -149,7 +149,7 @@
       },
       "2": {
         "name": "Marie Marth",
-        "quote": "Dank WTMG und den slow travellern, die ich bei mir zu Gast hatte, entdecke ich meine eigene Region jetzt zu Fuß neu. Ich sehe alles aus einer neuen Perspektive und es ist faszinierend."
+        "quote": "Dank WTMG und den Slow Travellern, die ich bei mir zu Gast hatte, entdecke ich meine eigene Region jetzt zu Fuß neu. Ich sehe alles aus einer neuen Perspektive und es ist faszinierend."
       }
     }
   },
@@ -159,23 +159,23 @@
     "rules": {
       "0": {
         "title": "Ein Netzwerk von Bürger:innen",
-        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> ist ein Netzwerk von Bürger:innen, die slow travellers kostenlose Zeltplätze in ihren Gärten anbieten. Es ist eine gemeinnützige Initiative, mit der kein Einkommen erzielt werden soll. <span class=\"notranslate\">Welcome To My Garden</span> übernimmt keine Verantwortung für Verluste, Schäden oder Verletzungen, die während eines Aufenthalts entstehen."
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> ist ein Netzwerk von Bürger:innen, die Slow Travellers kostenlose Zeltplätze in ihren Gärten anbieten. Es ist eine gemeinnützige Initiative, mit der kein Einkommen erzielt werden soll. <span class=\"notranslate\">Welcome To My Garden</span> übernimmt keine Verantwortung für Verluste, Schäden oder Verletzungen, die während eines Aufenthalts entstehen."
       },
       "1": {
-        "title": "Nur für slow travellers (ohne-Auto-Regel)",
-        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> schont die Umwelt und wurde ausschließlich für slow travellers ins Leben gerufen. Das bedeutet, dass du die Zeltplätze nur zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln erreichen kannst. Die Anreise mit dem eigenen Auto ist verboten. Du darfst zwar mit dem Auto zum Startpunkt deiner Wander- oder Radtour fahren, aber nur, solange du nicht mit dem Auto am Zeltplatz auftauchst."
+        "title": "Nur für Slow Travellers (ohne-Auto-Regel)",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> schont die Umwelt und wurde ausschließlich für Slow Travellers ins Leben gerufen. Das bedeutet, dass du die Zeltplätze nur zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln erreichen kannst. Die Anreise mit dem eigenen Auto ist verboten. Du darfst zwar mit dem Auto zum Startpunkt deiner Wander- oder Radtour fahren, aber nur, solange du nicht mit dem Auto am Zeltplatz auftauchst."
       },
       "2": {
         "title": "Schicke vorab eine Anfrage an die Gartenbesitzer:innen",
-        "copy": "Gartenbesitzer:innen sind vielleicht nicht immer zu Hause und bereit, dich zu empfangen. Wir bitten alle Reisenden, die Gartenbesitzer:innen vorab zu kontaktieren, um die Verfügbarkeit direkt zu prüfen. Dies sollte über eine Anfrage an die Gastgeber:innen über ihr Profil geschehen. Nach dem ersten Kontakt könnt ihr Kontaktdaten austauschen, um in Verbindung zu bleiben und deine Gastgeber:innen per E-Mail oder Telefon über deine Ankunftszeit zu informieren, je nachdem, was sie bevorzugen. Wenn du eine Anfrage sendest, gib bitte ein paar Informationen über dich und deine voraussichtliche Ankunftszeit an. Beleidigendes Verhalten und Missbrauch der Plattform führen zur Sperrung des Kontos (siehe unsere Nutzungsbedingungen)."
+        "copy": "Gartenbesitzer:innen sind vielleicht nicht immer zu Hause und bereit, dich zu empfangen. Wir bitten alle Reisenden, die Gartenbesitzer:innen vorab zu kontaktieren, um die Verfügbarkeit direkt zu prüfen. Dies sollte über eine Anfrage an die Hosts über ihr Profil geschehen. Nach dem ersten Kontakt könnt ihr Kontaktdaten austauschen, um in Verbindung zu bleiben und deine Hosts per E-Mail oder Telefon über deine Ankunftszeit zu informieren, je nachdem, was sie bevorzugen. Wenn du eine Anfrage sendest, gib bitte ein paar Informationen über dich und deine voraussichtliche Ankunftszeit an. Beleidigendes Verhalten und Missbrauch der Plattform führen zur Sperrung des Kontos (siehe unsere Nutzungsbedingungen)."
       },
       "3": {
         "title": "Maximale Aufenthaltsdauer",
         "copy": "Du kannst maximal 48 Stunden auf einem Zeltplatz bleiben. Sprich dich dazu immer mit den Gartenbesitzer:innen ab."
       },
       "4": {
-        "title": "Richtlinien für Aufenthaltsanfragen von slow travellers",
-        "copy": "<p>Bitte beachte beim Senden einer Anfrage die folgenden Richtlinien. Dies hilft den Gastgeber:innen, deine Anfrage zu verstehen, und erleichtert ihnen die Antwort.</p><ul><li>Stelle dich vor<br/>Erzähle deinen Gastgeber:innen, wer du bist, was für eine Reise du machst und wann du in ihrem Garten übernachten möchtest.</li><li>Kommuniziere klar<br/>Halte deine Gastgeber:innen auf dem Laufenden. Pläne geändert? Gib deinen Gastgeber:innen so schnell wie möglich Bescheid.</li><li>Sei freundlich und respektvoll<br/>Alle WTMG-Gastgeber:innen engagieren sich ehrenamtlich. Eine nette Nachricht ist der Beginn eines tollen Abenteuers!</li></ul>"
+        "title": "Richtlinien für Aufenthaltsanfragen von Slow Travellers",
+        "copy": "<p>Bitte beachte beim Senden einer Anfrage die folgenden Richtlinien. Dies hilft den Hosts, deine Anfrage zu verstehen, und erleichtert ihnen die Antwort.</p><ul><li>Stelle dich vor<br/>Erzähle deinen Hosts, wer du bist, was für eine Reise du machst und wann du in ihrem Garten übernachten möchtest.</li><li>Kommuniziere klar<br/>Halte deine Hosts auf dem Laufenden. Pläne geändert? Gib deinen Hosts so schnell wie möglich Bescheid.</li><li>Sei freundlich und respektvoll<br/>Alle WTMG-Hosts engagieren sich ehrenamtlich. Eine nette Nachricht ist der Beginn eines tollen Abenteuers!</li></ul>"
       },
       "5": {
         "title": "Maximale Anzahl an Zelten",
@@ -195,7 +195,7 @@
       },
       "9": {
         "title": "Viel Spaß!",
-        "copy": "Dies ist eine großartige Gelegenheit, andere Menschen kennenzulernen und Spaß zu haben! Lerne ein paar Wörter in der Sprache deiner Gastgeber:innen, wenn du in einer anderen Region als deiner eigenen unterwegs bist. Sei neugierig, tausche Geschichten aus und knüpfe neue Freundschaften!"
+        "copy": "Dies ist eine großartige Gelegenheit, andere Menschen kennenzulernen und Spaß zu haben! Lerne ein paar Wörter in der Sprache deiner Hosts, wenn du in einer anderen Region als deiner eigenen unterwegs bist. Sei neugierig, tausche Geschichten aus und knüpfe neue Freundschaften!"
       },
       "10": {
         "title": "Erzähle es weiter",
@@ -212,15 +212,15 @@
         "questions": {
           "what": {
             "title": "Was ist <span class=\"notranslate\">Welcome To My Garden</span>?",
-            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> ist ein Netzwerk von Bürger:innen, die ihre Gärten für slow travellers öffnen, die einen Zeltplatz suchen. Es ist eine gemeinnützige Initiative, die von einer Gruppe von Bürger:innen während des ersten Covid-19-Lockdowns ins Leben gerufen wurde. <span class=\"notranslate\">Welcome To My Garden</span> ist heute ein soziales Unternehmen, welches slow travel für Alle zugänglicher machen möchte."
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> ist ein Netzwerk von Bürger:innen, die ihre Gärten für Slow Travellers öffnen, die einen Zeltplatz suchen. Es ist eine gemeinnützige Initiative, die von einer Gruppe von Bürger:innen während des ersten Covid-19-Lockdowns ins Leben gerufen wurde. <span class=\"notranslate\">Welcome To My Garden</span> ist heute ein soziales Unternehmen, welches slow travel für Alle zugänglicher machen möchte."
           },
           "who": {
             "title": "Für wen ist <span class=\"notranslate\">Welcome To My Garden</span> gedacht?",
-            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> wurde für Wanderer und Radfahrer:innen entwickelt, die am Ende des Tages einen Zeltplatz auf ihrer Route benötigen. Es soll keine vollwertigen Campingplätze ersetzen, sondern einfach ein sicherer Ort für die Nacht sein! Betrachte es als Ergänzung zu einem Netzwerk von Biwakplätzen."
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> wurde für Wanderer und Radfahrer:innen entwickelt, die am Ende des Tages einen Zeltplatz auf ihrer Route benötigen. Es soll keine vollwertigen Zeltplätze ersetzen, sondern einfach ein sicherer Ort für die Nacht sein! Betrachte es als Ergänzung zu einem Netzwerk von Biwakplätzen."
           },
           "how": {
             "title": "Wie funktioniert <span class=\"notranslate\">Welcome To My Garden</span>?",
-            "copy": "Wer seinen Garten für Reisende öffnen möchte, kann seinen Garten hinzufügen, indem er auf „Füge deinen Garten hinzu“ klickt. Wer in einem Garten übernachten möchte, muss Mitglied werden und sich dann mit den Gastgeber:innen in Verbindung setzen, um den Aufenthalt zu vereinbaren."
+            "copy": "Wer seinen Garten für Reisende öffnen möchte, kann seinen Garten hinzufügen, indem er auf „Füge deinen Garten hinzu“ klickt. Wer in einem Garten übernachten möchte, muss Mitglied werden und sich dann mit den Hosts in Verbindung setzen, um den Aufenthalt zu vereinbaren."
           }
         }
       },
@@ -228,60 +228,60 @@
         "title": "Slow Travellers",
         "questions": {
           "request-tips": {
-            "title": "Was sollte meine Aufenthaltsanfrage an die Gastgeber:innen enthalten?",
-            "copy": "<p>Bitte beachte die folgenden Richtlinien, wenn du eine Anfrage sendest. Das hilft den Gastgeber:innen, deine Anfrage zu verstehen, und erleichtert ihnen die Antwort.</p><ul><li>Stelle dich vor<br/>Erzähle deinen Gastgeber:innen, wer du bist, was für eine Reise du machst und wann du in ihrem Garten übernachten möchtest.</li><li>Kommuniziere klar<br/>Halte deine Gastgeber:innen auf dem Laufenden. Pläne geändert? Gib deinen Gastgeber:innen so schnell wie möglich Bescheid.</li><li>Sei freundlich und respektvoll<br/>Alle WTMG-Gastgeber:innen arbeiten ehrenamtlich. Eine nette Nachricht ist der Beginn eines tollen Abenteuers!</li></ul>"
+            "title": "Was sollte meine Aufenthaltsanfrage an die Hosts enthalten?",
+            "copy": "<p>Bitte beachte die folgenden Richtlinien, wenn du eine Anfrage sendest. Das hilft den Hosts, deine Anfrage zu verstehen, und erleichtert ihnen die Antwort.</p><ul><li>Stelle dich vor<br/>Erzähle deinen Hosts, wer du bist, was für eine Reise du machst und wann du in ihrem Garten übernachten möchtest.</li><li>Kommuniziere klar<br/>Halte deine Hosts auf dem Laufenden. Pläne geändert? Gib deinen Hosts so schnell wie möglich Bescheid.</li><li>Sei freundlich und respektvoll<br/>Alle WTMG-Hosts arbeiten ehrenamtlich. Eine nette Nachricht ist der Beginn eines tollen Abenteuers!</li></ul>"
           },
           "how-camping": {
-            "title": "Wie komme ich zu meinem Campingplatz?",
-            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> wurde ins Leben gerufen, um den Bedürfnissen von Slow Travellern gerecht zu werden: Wandernden und Radfahrenden, die am Ende des Tages einen Zeltplatz benötigen. Aus diesem Grund solltest du zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln an deinem Campingplatz ankommen – auf keinen Fall mit dem Auto."
+            "title": "Wie komme ich zu meinem Zeltplatz?",
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> wurde ins Leben gerufen, um den Bedürfnissen von Slow Travellern gerecht zu werden: Wandernden und Radfahrenden, die am Ende des Tages einen Zeltplatz benötigen. Aus diesem Grund solltest du zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln an deinem Zeltplatz ankommen – auf keinen Fall mit dem Auto."
           },
           "what-facilities": {
             "title": "Welche Ausstattung finde ich im Garten?",
-            "copy": "Im Grunde bieten Gastgeber:innen nur eine Ecke in ihrem Garten an, auf der du dein Zelt aufschlagen kannst. Darüber hinaus bieten sie eventuell Zugang zu Trinkwasser, einer Toilette und Strom an. Sie sind jedoch nicht dazu verpflichtet: All dies sind Extras. Betrachte einen Garten als Biwakplatz und nicht als vollwertigen Campingplatz. Die Ausstattungsmerkmale werden in der Gartenübersicht angezeigt; du kannst auch mithilfe der Schaltfläche neben der Suchleiste nach Merkmalen filtern."
+            "copy": "Im Grunde bieten Hosts nur eine Ecke in ihrem Garten an, auf der du dein Zelt aufschlagen kannst. Darüber hinaus bieten sie eventuell Zugang zu Trinkwasser, einer Toilette und Strom an. Sie sind jedoch nicht dazu verpflichtet: All dies sind Extras. Betrachte einen Garten als Biwakplatz und nicht als vollwertigen Zeltplatz. Die Ausstattungsmerkmale werden in der Gartenübersicht angezeigt; du kannst auch mithilfe der Schaltfläche neben der Suchleiste nach Merkmalen filtern."
           },
           "cost": {
             "title": "Kostet <span class=\"notranslate\">Welcome To My Garden</span> etwas?",
-            "copy": "<p>Die Übernachtung bei Gastgeber:innen von WTMG ist kostenlos. Um WTMG jedoch zu erhalten und weiterzuentwickeln, sind wir auf eine jährliche Mitgliedschaft angewiesen, um die Kosten fair unter allen Slow Travellern aufzuteilen. Du kannst die Verlängerung jederzeit in deinem {accountLink} kündigen. Mitglied werden kannst du <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">hier</a>.</p>"
+            "copy": "<p>Die Übernachtung bei Hosts von WTMG ist kostenlos. Um WTMG jedoch zu erhalten und weiterzuentwickeln, sind wir auf eine jährliche Mitgliedschaft angewiesen, um die Kosten fair unter allen Slow Travellern aufzuteilen. Du kannst die Verlängerung jederzeit in deinem {accountLink} kündigen. Mitglied werden kannst du <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">hier</a>.</p>"
           },
           "no-garden": {
             "title": "Ich habe keinen Garten. Kann ich trotzdem in den Gärten anderer Leute zelten?",
-            "copy": "Ja! Du musst selbst keinen Garten anbieten, um einen nutzen zu können. Die Plattform steht allen slow travellern offen!"
+            "copy": "Ja! Du musst selbst keinen Garten anbieten, um einen nutzen zu können. Die Plattform steht allen Slow Travellern offen!"
           },
           "how-long": {
             "title": "Wie lange kann ich dort bleiben?",
-            "copy": "Da diese Gärten nur auf die Bedürfnisse von slow travellern ausgerichtet sind, die sich auf einer mehrtägigen Wanderung oder Radtour befinden, kannst du maximal 48 Stunden (zwei Nächte) auf einem Campingplatz bleiben. Danach kannst du natürlich zum nächsten Campingplatz weiterziehen! Und zum nächsten. Und zum nächsten… Sprich dich aber immer mit den Gastgeber:innen ab, wie lange du bleiben darfst – manche bevorzugen es, wenn du nur eine Nacht bleibst."
+            "copy": "Da diese Gärten nur auf die Bedürfnisse von Slow Travellern ausgerichtet sind, die sich auf einer mehrtägigen Wanderung oder Radtour befinden, kannst du maximal 48 Stunden (zwei Nächte) auf einem Zeltplatz bleiben. Danach kannst du natürlich zum nächsten Zeltplatz weiterziehen! Und zum nächsten. Und zum nächsten… Sprich dich aber immer mit den Hosts ab, wie lange du bleiben darfst – manche bevorzugen es, wenn du nur eine Nacht bleibst."
           },
           "animals": {
             "title": "Kann ich meine Familie mitbringen? Meine Kinder? Meinen Hund?",
-            "copy": "Am besten fragst du deine Gastgeber:innen, ob Kinder und/oder Hunde willkommen sind. Viele Gastgeber:innen haben bereits auf ihrem Profil angegeben, dass sie offen für Familien sind, aber selbst wenn nicht, kannst du immer nachfragen!"
+            "copy": "Am besten fragst du deine Hosts, ob Kinder und/oder Hunde willkommen sind. Viele Hosts haben bereits auf ihrem Profil angegeben, dass sie offen für Familien sind, aber selbst wenn nicht, kannst du immer nachfragen!"
           },
           "no-toilet": {
             "title": "Und was ist, wenn es keine Toilette gibt?",
-            "copy": "Nicht alle Gastgeber:innen können den Zugang zu einer Toilette anbieten. In diesem Fall suche dir bitte ein Plätzchen außerhalb des Gartens. Pinkle hinter einen Baum und packe dein großes Geschäft in einen Beutel, damit du ihn am nächsten Tag im Müll entsorgen kannst. Beachte das Prinzip „Hinterlasse keine Spuren“ (Leave No Trace), genau wie beim Wildcampen."
+            "copy": "Nicht alle Hosts können den Zugang zu einer Toilette anbieten. In diesem Fall suche dir bitte ein Plätzchen außerhalb des Gartens. Pinkle hinter einen Baum und packe dein großes Geschäft in einen Beutel, damit du ihn am nächsten Tag im Müll entsorgen kannst. Beachte das Prinzip „Hinterlasse keine Spuren“ (Leave No Trace), genau wie beim Wildcampen."
           },
           "tent-type": {
             "title": "Welche Art von Zelt darf ich mitbringen?",
-            "copy": "Da sich WTMG ausschließlich an Wandernde und Radfahrende richtet, erwarten wir, dass du kein größeres Zelt als ein Trekkingzelt mitbringst. Das bedeutet, dass es problemlos in deinen Rucksack passen sollte. Wenn du dir unsicher bist, ob dein Zelt in den Garten der Gastgeber:innen passt, frage sie am besten vor deiner Abreise."
+            "copy": "Da sich WTMG ausschließlich an Wandernde und Radfahrende richtet, erwarten wir, dass du kein größeres Zelt als ein Trekkingzelt mitbringst. Das bedeutet, dass es problemlos in deinen Rucksack passen sollte. Wenn du dir unsicher bist, ob dein Zelt in den Garten der Hosts passt, frage sie am besten vor deiner Abreise."
           }
         }
       },
       "hosts": {
-        "title": "Gastgeber:innen",
+        "title": "Hosts",
         "questions": {
           "privacy": {
-            "title": "Wie garantiert <span class=\"notranslate\">Welcome To My Garden</span> meine Privatsphäre als Gastgeber:in?",
-            "copy": "Alle deine persönlichen Daten sind durch das Login-System geschützt. Wenn du Gastgeber:in bist, zeigen wir deine Hausnummer oder deinen genauen Standort nicht auf der Karte an. Du kannst diese Daten an deine Gäste weitergeben, sobald ihr in Kontakt steht. Du entscheidest, wie sie dich kontaktieren sollen: per E-Mail, Telefon oder beides."
+            "title": "Wie garantiert <span class=\"notranslate\">Welcome To My Garden</span> meine Privatsphäre als Host?",
+            "copy": "Alle deine persönlichen Daten sind durch das Login-System geschützt. Wenn du Host bist, zeigen wir deine Hausnummer oder deinen genauen Standort nicht auf der Karte an. Du kannst diese Daten an deine Gäste weitergeben, sobald ihr in Kontakt steht. Du entscheidest, wie sie dich kontaktieren sollen: per E-Mail, Telefon oder beides."
           },
           "messaging": {
             "title": "Ich habe eine Nachricht von einem Slow Traveller erhalten. Wo soll ich antworten?",
-            "copy": "Der Austausch zwischen Gastgeber:innen und Reisenden findet über den Chat auf der Plattform statt. Wenn du eine Benachrichtigungs-E-Mail über eine neue Nachricht erhältst, gehe zu {chatLink}, um zu antworten."
+            "copy": "Der Austausch zwischen Hosts und Reisenden findet über den Chat auf der Plattform statt. Wenn du eine Benachrichtigungs-E-Mail über eine neue Nachricht erhältst, gehe zu {chatLink}, um zu antworten."
           },
           "suspend": {
             "title": "Ich möchte meinen Garten vorübergehend pausieren, bin aber bald wieder da! Wie mache ich das?",
-            "copy": "Gehe zu deinem {accountLink}. Wähle in der Kategorie „Dein Garten“ das Kontrollkästchen „Auf der Karte anzeigen“ ab. Der Garten bleibt auf der Plattform gespeichert, wird aber nicht mehr auf der Karte angezeigt. Wenn du wieder zurück bist, aktiviere das Kontrollkästchen einfach wieder, um erneut slow traveller willkommen zu heißen!"
+            "copy": "Gehe zu deinem {accountLink}. Wähle in der Kategorie „Dein Garten“ das Kontrollkästchen „Auf der Karte anzeigen“ ab. Der Garten bleibt auf der Plattform gespeichert, wird aber nicht mehr auf der Karte angezeigt. Wenn du wieder zurück bist, aktiviere das Kontrollkästchen einfach wieder, um erneut Slow Traveller willkommen zu heißen!"
           },
           "issue": {
-            "title": "Ich hatte ein Problem mit einem Gast oder Gastgeber:innen. Wie kann ich das melden?",
+            "title": "Ich hatte ein Problem mit einem Gast oder einem Host. Wie kann ich das melden?",
             "copy": "Probleme oder Fehlverhalten sollten per E-Mail an <span class=\"notranslate\">Welcome To My Garden</span> gemeldet werden: {support}. Im Falle eines Fehlverhaltens behalten wir uns das Recht vor, das Konto dieser Person einseitig zu löschen (siehe Nutzungsbedingungen)."
           }
         }
@@ -375,9 +375,9 @@
             }
           },
           "3": {
-            "title": "Standort der Nutzenden",
+            "title": "Standort der Users",
             "list": {
-              "0": "Wenn du zustimmst, deinen Standort mit <span class=\\\"notranslate\\\">Welcome To My Garden</span> zu teilen, wird die Karte von <span class=\\\"notranslate\\\">Welcome To My Garden</span> auf den von deinem Browser bereitgestellten Standort zentriert. <span class=\\\"notranslate\\\">Welcome To My Garden</span> speichert deinen Standort in keiner Weise, weder in einem Cookie noch im lokalen Speicher. Der Standort der Nutzer:innen dient nur dazu, dein Nutzungserlebnis zu verbessern, indem die Karte zentriert wird."
+              "0": "Wenn du zustimmst, deinen Standort mit <span class=\\\"notranslate\\\">Welcome To My Garden</span> zu teilen, wird die Karte von <span class=\\\"notranslate\\\">Welcome To My Garden</span> auf den von deinem Browser bereitgestellten Standort zentriert. <span class=\\\"notranslate\\\">Welcome To My Garden</span> speichert deinen Standort in keiner Weise, weder in einem Cookie noch im lokalen Speicher. Der Standort der Users dient nur dazu, dein Nutzungserlebnis zu verbessern, indem die Karte zentriert wird."
             }
           }
         }
@@ -387,7 +387,7 @@
         "subtitle": "Wir verwenden deine personenbezogenen Daten möglicherweise für die folgenden Zwecke",
         "purposes": {
           "0": "Um dein Benutzerprofil auf dieser Website zu erstellen und zu verwalten;",
-          "1": "Um die Identifizierung und Authentifizierung von Nutzer:innen zu verwalten;",
+          "1": "Um die Identifizierung und Authentifizierung von Users zu verwalten;",
           "2": "Um dein Benutzerkonto zu verifizieren, um die notwendigen Sicherheitsmaßnahmen zu gewährleisten;",
           "3": "Um der Community Informationen über deinen Garten bereitzustellen;",
           "4": "Um dich zu benachrichtigen, wenn Aktualisierungen auf der Plattform stattfinden;",
@@ -450,8 +450,8 @@
         "0": {
           "title": "Rechtliche Verfahren",
           "copy": {
-            "0": "Der Auftragsverarbeiter und der für die Verarbeitung Verantwortliche können die personenbezogenen Daten der Nutzer:innen für rechtliche Zwecke, vor Gericht oder in Gerichtsverfahren im Falle einer rechtswidrigen Nutzung dieser Anwendung oder der damit verbundenen Dienste verwenden.",
-            "1": "Nutzer:innen sind sich darüber im Klaren, dass der Auftragsverarbeiter und der für die Verarbeitung Verantwortliche verpflichtet sein können, die personenbezogenen Daten auf Anfrage der für die Datenverarbeitung zuständigen Regierungsbehörden offenzulegen."
+            "0": "Der Auftragsverarbeiter und der für die Verarbeitung Verantwortliche können die personenbezogenen Daten der Users für rechtliche Zwecke, vor Gericht oder in Gerichtsverfahren im Falle einer rechtswidrigen Nutzung dieser Anwendung oder der damit verbundenen Dienste verwenden.",
+            "1": "Users sind sich darüber im Klaren, dass der Auftragsverarbeiter und der für die Verarbeitung Verantwortliche verpflichtet sein können, die personenbezogenen Daten auf Anfrage der für die Datenverarbeitung zuständigen Regierungsbehörden offenzulegen."
           }
         },
         "1": {
@@ -473,10 +473,10 @@
         },
         "1": {
           "title": "Nutzungsdaten",
-          "copy": "Informationen, die von dieser Anwendung (oder den in dieser Anwendung genutzten externen Diensten) automatisch erfasst werden, einschließlich: der IP-Adressen oder Domainnamen der Computer, die von den Nutzer:innen dieser Anwendung verwendet werden, der URI-Adressen (Uniform Resource Identifier), des Zeitpunkts der Anfrage, der für die Übermittlung der Anfrage an den Server verwendeten Methode, der Größe der als Antwort empfangenen Datei, des numerischen Codes, der den Status der Serverantwort anzeigt (erfolgreich, Fehler usw.), der Funktionen des Browsers und des Betriebssystems der Nutzer:in, der verschiedenen Zeitangaben pro Besuch (z. B. die auf jeder Seite der Anwendung verbrachte Zeit) und der während der Nutzung der Anwendung erfassten Daten (z. B. die Reihenfolge der besuchten Seiten oder andere Parameter über das Betriebssystem des Geräts)."
+          "copy": "Informationen, die von dieser Anwendung (oder den in dieser Anwendung genutzten externen Diensten) automatisch erfasst werden, einschließlich: der IP-Adressen oder Domainnamen der Computer, die von den Users dieser Anwendung verwendet werden, der URI-Adressen (Uniform Resource Identifier), des Zeitpunkts der Anfrage, der für die Übermittlung der Anfrage an den Server verwendeten Methode, der Größe der als Antwort empfangenen Datei, des numerischen Codes, der den Status der Serverantwort anzeigt (erfolgreich, Fehler usw.), der Funktionen des Browsers und des Betriebssystems des Users, der verschiedenen Zeitangaben pro Besuch (z. B. die auf jeder Seite der Anwendung verbrachte Zeit) und der während der Nutzung der Anwendung erfassten Daten (z. B. die Reihenfolge der besuchten Seiten oder andere Parameter über das Betriebssystem des Geräts)."
         },
         "2": {
-          "title": "Nutzer:in",
+          "title": "User",
           "copy": "Die Person, die diese Anwendung nutzt und die die Zustimmung der betroffenen Person, auf die sich die personenbezogenen Daten beziehen, einholen oder von dieser bevollmächtigt sein muss."
         },
         "3": {
@@ -493,21 +493,21 @@
         },
         "6": {
           "title": "Diese Anwendung",
-          "copy": "Die Hardware- oder Software-Tools, mit denen die personenbezogenen Daten der Nutzer:innen erfasst werden."
+          "copy": "Die Hardware- oder Software-Tools, mit denen die personenbezogenen Daten der Users erfasst werden."
         },
         "7": {
           "title": "Cookie",
-          "copy": "Kleines Datenpaket, das auf dem Gerät der Nutzer:in gespeichert wird. Siehe unsere Cookie-Richtlinie."
+          "copy": "Kleines Datenpaket, das auf dem Gerät des Users gespeichert wird. Siehe unsere Cookie-Richtlinie."
         }
       },
       "legal-info": {
         "title": "Rechtliche Informationen",
-        "copy": "Hinweis für europäische Nutzer:innen: Diese Datenschutzerklärung wurde unter Beachtung der Verpflichtungen in Art. 10 der europäischen Richtlinie 95/46/EG und der Bestimmungen der europäischen Richtlinie 2002/58/EG sowie der Änderung in Richtlinie 2009/136/EG bezüglich Cookies erstellt."
+        "copy": "Hinweis für europäische Users: Diese Datenschutzerklärung wurde unter Beachtung der Verpflichtungen in Art. 10 der europäischen Richtlinie 95/46/EG und der Bestimmungen der europäischen Richtlinie 2002/58/EG sowie der Änderung in Richtlinie 2009/136/EG bezüglich Cookies erstellt."
       }
     },
     "change-warning": {
       "title": "Änderungen dieser Datenschutzrichtlinie",
-      "copy": "Die für die Datenverarbeitung verantwortliche Person behält sich das Recht vor, diese Datenschutzrichtlinie jederzeit zu ändern, In diesem Fall wirst du auf dieser Seite darüber informiert und wir empfehlen dir, diese Seite regelmäßig auf eventuelle Änderungen zu überprüfen. Das Datum der letzten Änderung ist unten auf der Seite angegeben. Wenn du einer Änderung der Richtlinie widerspricht, darfst du diese Anwendung nicht weiter nutzen. Du kannst bei der für die Datenverarbeitung verantwortlichen Stelle die Löschung deiner personenbezogenen Daten beantragen. Sofern nicht anders angegeben, gilt die jeweils aktuelle Datenschutzrichtlinie für alle personenbezogenen Daten, die die verantwortliche Person über die Nutzer:innen gespeichert hat."
+      "copy": "Die für die Datenverarbeitung verantwortliche Person behält sich das Recht vor, diese Datenschutzrichtlinie jederzeit zu ändern, In diesem Fall wirst du auf dieser Seite darüber informiert und wir empfehlen dir, diese Seite regelmäßig auf eventuelle Änderungen zu überprüfen. Das Datum der letzten Änderung ist unten auf der Seite angegeben. Wenn du einer Änderung der Richtlinie widerspricht, darfst du diese Anwendung nicht weiter nutzen. Du kannst bei der für die Datenverarbeitung verantwortlichen Stelle die Löschung deiner personenbezogenen Daten beantragen. Sofern nicht anders angegeben, gilt die jeweils aktuelle Datenschutzrichtlinie für alle personenbezogenen Daten, die die verantwortliche Person über die Users gespeichert hat."
     }
   },
   "garden": {
@@ -543,9 +543,9 @@
         "button": "Garten verwalten"
       },
       "guest": {
-        "button": "Gastgeber:in kontaktieren",
-        "login": "Du musst dich {signInLink} und Mitglied sein, um Gastgeber:innen zu kontaktieren",
-        "become-member": "Um Gastgeber:innen zu kontaktieren, solltest du zuerst {becomeMember}. Vielen Dank!",
+        "button": "Host kontaktieren",
+        "login": "Du musst dich {signInLink} und Mitglied sein, um Hosts zu kontaktieren",
+        "become-member": "Um Hosts zu kontaktieren, solltest du zuerst {becomeMember}. Vielen Dank!",
         "sign-link-text": "anmelden",
         "become-member-text": "Mitglied werden"
       },
@@ -590,8 +590,8 @@
         "country": "Land"
       },
       "description": {
-        "title": "Beschreibe deinen Camping-Spot (erforderlich)",
-        "notice": "Eine kurze Beschreibung deines Gartens und des Camping-Spots, den du anbieten kannst. Diese Informationen werden öffentlich angezeigt, also gib hier keine persönlichen Daten an. <br />Deine Beschreibung muss zwischen 20 und 300 Zeichen lang sein.",
+        "title": "Beschreibe deinen Zeltplatz (erforderlich)",
+        "notice": "Eine kurze Beschreibung deines Gartens und des Zeltplatzes, den du anbieten kannst. Diese Informationen werden öffentlich angezeigt, also gib hier keine persönlichen Daten an. <br />Deine Beschreibung muss zwischen 20 und 300 Zeichen lang sein.",
         "hints": {
           "too-short": "{remaining} {remaining, plural, one {weiteres Zeichen} other {weitere Zeichen}} erforderlich...",
           "too-long": "{surplus} {surplus, plural, one {Zeichen} other {Zeichen}} zu lang..."
@@ -609,7 +609,7 @@
       },
       "photo": {
         "title": "Foto",
-        "notice": "Zeige den Leuten, wie dein Garten aussieht.<br />Achte darauf, dass das Bild nur den Camping-Spot zeigt und nicht das Haus deines Nachbarn.",
+        "notice": "Zeige den Leuten, wie dein Garten aussieht.<br />Achte darauf, dass das Bild nur den Zeltplatz zeigt und nicht das Haus deines Nachbarn.",
         "img-alt": "Dein Garten",
         "hints": {
           "wrong-format": "Dein Foto muss eine JPEG-, PNG- oder TIFF-Datei sein.",
@@ -654,7 +654,7 @@
     "modal": {
       "subtitle": "Slow travel mit WTMG",
       "title": "Werde Mitglied!",
-      "intro": "Der Aufenthalt bei WTMG-Gastgeber:innen ist kostenlos. Um WTMG jedoch zu erhalten und weiterzuentwickeln, sind wir auf einen jährlichen Mitgliedsbeitrag eine jährliche Mitgliedschaft angewiesen, um die Kosten fair unter allen Slow Travellers aufzuteilen. Schließe dich uns noch heute an! Mach noch heute mit!",
+      "intro": "Der Aufenthalt bei WTMG-Hosts ist kostenlos. Um WTMG jedoch zu erhalten und weiterzuentwickeln, sind wir auf einen jährlichen Mitgliedsbeitrag eine jährliche Mitgliedschaft angewiesen, um die Kosten fair unter allen Slow Travellers aufzuteilen. Schließe dich uns noch heute an! Mach noch heute mit!",
       "features-title": "Als Mitglied kannst du...",
       "choose-membership": "Mitgliedschaft wählen"
     },
@@ -708,7 +708,7 @@
   "about-superfan": {
     "video-section": {
       "title": "Tritt der Community bei",
-      "description": "<p><span class=\"notranslate\">Welcome To My Garden</span> hat es sich zur Aufgabe gemacht, Slow Travel für alle zugänglicher zu machen. Wie jeder Garten muss auch WTMG gepflegt werden, um zu wachsen und gesund zu bleiben.</p><p>Die Übernachtung bei Gastgeber:innen von WTMG ist kostenlos. Um WTMG jedoch zu pflegen und weiterzuentwickeln, sind wir auf einen jährlichen Mitgliedsbeitrag eine jährliche Mitgliedschaft angewiesen, um die Kosten fair unter allen Slow Travellers aufzuteilen. Schließe dich uns noch heute an!</p>",
+      "description": "<p><span class=\"notranslate\">Welcome To My Garden</span> hat es sich zur Aufgabe gemacht, Slow Travel für alle zugänglicher zu machen. Wie jeder Garten muss auch WTMG gepflegt werden, um zu wachsen und gesund zu bleiben.</p><p>Die Übernachtung bei Hosts von WTMG ist kostenlos. Um WTMG jedoch zu pflegen und weiterzuentwickeln, sind wir auf einen jährlichen Mitgliedsbeitrag eine jährliche Mitgliedschaft angewiesen, um die Kosten fair unter allen Slow Travellers aufzuteilen. Schließe dich uns noch heute an!</p>",
       "blog-link-text": "Warum WTMG Mitglieder braucht",
       "superfan-count": "Slow Travellers sind bereits dabei!"
     },
@@ -717,10 +717,10 @@
       "title": "Als Mitglied kannst du…",
       "points": {
         "0": {
-          "title": "<strong>Kostenlose Übernachtungsanfragen an alle über 9.000 WTMG-Gastgeber:innen</strong> auf der Karte senden"
+          "title": "<strong>Kostenlose Übernachtungsanfragen an alle über 9.000 WTMG-Hosts</strong> auf der Karte senden"
         },
         "1": {
-          "title": "<strong>Absprachen mit Gastgeber:innen</strong> über den Chat treffen und tolle neue Leute kennenlernen."
+          "title": "<strong>Absprachen mit Hosts</strong> über den Chat treffen und tolle neue Leute kennenlernen."
         },
         "2": {
           "title": "<strong>Praktische Funktionen nutzen:</strong> Lade deine Route hoch, speichere Gärten und sieh dir das Schienennetz an."
@@ -772,28 +772,28 @@
           "questions": {
             "0": {
               "title": "Warum führt WTMG eine Mitgliedschaft ein?",
-              "copy": "<span class=\"notranslate\">Welcome To My Garden</span> hat es sich zur Aufgabe gemacht, Slow Travel für alle zugänglicher zu machen. Wie jeder Garten muss auch WTMG gepflegt werden, um zu wachsen und gesund zu bleiben. Die Übernachtung bei Gastgeber:innen von WTMG ist kostenlos. Um WTMG jedoch zu pflegen und weiterzuentwickeln, sind wir auf eine jährliche Mitgliedschaft angewiesen, um die Kosten fair unter allen Slow ravellers aufzuteilen. <a href=\"https://blog.welcometomygarden.org/towards-a-fair-model-to-make-wtmg-survive-and-thrive?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=membership_faq\" target=\"_blank\">Lies hier unsere ganze Geschichte</a>."
+              "copy": "<span class=\"notranslate\">Welcome To My Garden</span> hat es sich zur Aufgabe gemacht, Slow Travel für alle zugänglicher zu machen. Wie jeder Garten muss auch WTMG gepflegt werden, um zu wachsen und gesund zu bleiben. Die Übernachtung bei Hosts von WTMG ist kostenlos. Um WTMG jedoch zu pflegen und weiterzuentwickeln, sind wir auf eine jährliche Mitgliedschaft angewiesen, um die Kosten fair unter allen Slow Travellers aufzuteilen. <a href=\"https://blog.welcometomygarden.org/towards-a-fair-model-to-make-wtmg-survive-and-thrive?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=membership_faq\" target=\"_blank\">Lies hier unsere ganze Geschichte</a>."
             }
           }
         },
         "superfan-faq": {
-          "title": "Slow travellers",
+          "title": "Slow Travellers",
           "questions": {
             "0": {
               "title": "Was bedeutet es, Mitglied oder Superfan zu sein?",
-              "copy": "<p>Um WTMG zu betreiben und weiterzuentwickeln, setzen wir auf eine jährliche Mitgliedschaft, um so die Kosten fair auf alle slow traveller zu verteilen.</p>\n<p>Wenn du Mitglied oder Superfan wirst, kannst du:</p>\n<ul>\n<li>Kostenlose Anfragen an über 5000 Gärten senden</li>\n<li>Praktische Funktionen zur Planung deiner Reise nutzen: Lade deine Route hoch, speichere Gärten, sieh dir das Wegenetz an</li>\n<li>Auf den Online-Community-Bereich zugreifen</li>\n<li>Dazu beitragen, dass WTMG werbefrei, völlig unabhängig und von Mitgliedern getragen bleibt.</li>\n</ul>"
+              "copy": "<p>Um WTMG zu betreiben und weiterzuentwickeln, setzen wir auf eine jährliche Mitgliedschaft, um so die Kosten fair auf alle Slow Traveller zu verteilen.</p>\n<p>Wenn du Mitglied oder Superfan wirst, kannst du:</p>\n<ul>\n<li>Kostenlose Anfragen an über 5000 Gärten senden</li>\n<li>Praktische Funktionen zur Planung deiner Reise nutzen: Lade deine Route hoch, speichere Gärten, sieh dir das Wegenetz an</li>\n<li>Auf den Online-Community-Bereich zugreifen</li>\n<li>Dazu beitragen, dass WTMG werbefrei, völlig unabhängig und von Mitgliedern getragen bleibt.</li>\n</ul>"
             },
             "1": {
               "title": "Was ist der Unterschied zwischen einem Mitglied und einem Superfan?",
               "copy": "Obwohl Superfans Zugang zu denselben Vorteilen wie Mitglieder haben, sind sie für WTMG besonders wichtig, da sie es uns ermöglichen, WTMG zu verbessern, die slow travel-Bewegung auszubauen und mehr Gärten auf die Karte zu bringen. Wenn du echte Leidenschaft für slow travel empfindest und die Mission von WTMG unterstützen möchtest, ist dies genau das Richtige für dich!"
             },
             "2": {
-              "title": "Warum benötigt WTMG einen jährlichen finanziellen Beitrag von slow travellern?",
-              "copy": "<p>Jeden Monat investieren wir tausende Euro und hunderte Stunden, um WTMG am Laufen zu halten. Das ist unser Leben und unsere Arbeit: Wir müssen unsere Gehälter, unser Büro, Hosting-Kosten und mehr bezahlen.</p>\n<p>WTMG ist ein völlig unabhängiges Projekt, das vom Gründerteam komplett selbst und ohne Investoren finanziert wurde. Um sicherzustellen, dass WTMG auch in den kommenden Jahren existieren kann, erwarten wir von jedem Nutzer einen Beitrag, um unsere Plattform zu nutzen.</p>"
+              "title": "Warum benötigt WTMG einen jährlichen finanziellen Beitrag von Slow Travellern?",
+              "copy": "<p>Jeden Monat investieren wir tausende Euro und hunderte Stunden, um WTMG am Laufen zu halten. Das ist unser Leben und unsere Arbeit: Wir müssen unsere Gehälter, unser Büro, Hosting-Kosten und mehr bezahlen.</p>\n<p>WTMG ist ein völlig unabhängiges Projekt, das vom Gründerteam komplett selbst und ohne Investoren finanziert wurde. Um sicherzustellen, dass WTMG auch in den kommenden Jahren existieren kann, erwarten wir von jedem User einen Beitrag, um unsere Plattform zu nutzen.</p>"
             },
             "3": {
               "title": "Wohin fließt mein Geld?",
-              "copy": "<p>Da wir nichts zu verbergen haben und uns Transparenz wichtig ist, haben wir eine Übersicht erstellt, um dir einen Einblick zu geben, wohin die Beiträge unserer Mitglieder fließen.</p>\n<p>Die jährlichen Mitgliedsbeiträge ermöglichen es uns:</p>\n<ul>\n<li>Die WTMG-Plattform und -Server zu betreiben und zu warten</li>\n<li>Alle Betriebskosten wie Softwarelizenzen, Buchhaltung und Co-Working-Space zu decken</li>\n<li>Auf Support-Anfragen und Fragen von Mitgliedern und Gastgeber:innen zu antworten</li>\n<li>Die Qualität des WTMG-Netzwerks aufrechtzuerhalten</li>\n<li>Einen Community-Bereich bereitzustellen, in dem sich Mitglieder treffen und Erfahrungen austauschen können</li>\n<li>Die WTMG-Plattform basierend auf dem Feedback der Mitglieder zu verbessern</li>\n<li>WTMG nach außen hin zu kommunizieren und slow travel im Allgemeinen zu fördern</li>\n<li>Kooperationen mit anderen slow travel-Initiativen aufzubauen</li>\n</ul>"
+              "copy": "<p>Da wir nichts zu verbergen haben und uns Transparenz wichtig ist, haben wir eine Übersicht erstellt, um dir einen Einblick zu geben, wohin die Beiträge unserer Mitglieder fließen.</p>\n<p>Die jährlichen Mitgliedsbeiträge ermöglichen es uns:</p>\n<ul>\n<li>Die WTMG-Plattform und -Server zu betreiben und zu warten</li>\n<li>Alle Betriebskosten wie Softwarelizenzen, Buchhaltung und Co-Working-Space zu decken</li>\n<li>Auf Support-Anfragen und Fragen von Mitgliedern und Hosts zu antworten</li>\n<li>Die Qualität des WTMG-Netzwerks aufrechtzuerhalten</li>\n<li>Einen Community-Bereich bereitzustellen, in dem sich Mitglieder treffen und Erfahrungen austauschen können</li>\n<li>Die WTMG-Plattform basierend auf dem Feedback der Mitglieder zu verbessern</li>\n<li>WTMG nach außen hin zu kommunizieren und slow travel im Allgemeinen zu fördern</li>\n<li>Kooperationen mit anderen slow travel-Initiativen aufzubauen</li>\n</ul>"
             },
             "4": {
               "title": "Wie viel muss ich beitragen?",
@@ -808,12 +808,12 @@
               "copy": "Du kannst deine Mitgliedschaft jederzeit in deinem {accountLink} verwalten, verlängern oder kündigen. Auf dieser Seite siehst du den aktuellen Status deiner Mitgliedschaft, das Verlängerungs- oder Ablaufdatum sowie Anweisungen zum Kündigen oder Verlängern."
             },
             "7": {
-              "title": "Ist es für slow traveller verpflichtend, Mitglied oder Superfan zu werden?",
-              "copy": "<p>Slow traveller müssen einen jährlichen finanziellen Beitrag leisten, damit WTMG weiterhin existieren kann. Das haben wir bereits bei unserem Aufruf für Superfans kommuniziert. Jetzt weiten wir diese Bitte auf unsere gesamte slow travel-Community aus. <strong>Im Grunde genommen erwarten wir von dir einen Beitrag, wenn du unsere Plattform nutzt.</strong> Dies wird ein jährlicher Beitrag sein. Neben der Möglichkeit, Superfan zu werden, führen wir daher eine Mitgliedschaft ein, um unsere Bitte um Unterstützung von den Unterstützer:innen der ersten Stunde auf die breitere Community auszuweiten.</p>\n<p>Von Gastgeber:innen verlangen wir keinen finanziellen Beitrag, da sie bereits auf andere Weise beitragen – natürlich können sie uns aber auch gerne finanziell unterstützen, wenn sie möchten.</p>"
+              "title": "Ist es für Slow Traveller verpflichtend, Mitglied oder Superfan zu werden?",
+              "copy": "<p>Slow Traveller müssen einen jährlichen finanziellen Beitrag leisten, damit WTMG weiterhin existieren kann. Das haben wir bereits bei unserem Aufruf für Superfans kommuniziert. Jetzt weiten wir diese Bitte auf unsere gesamte slow travel-Community aus. <strong>Im Grunde genommen erwarten wir von dir einen Beitrag, wenn du unsere Plattform nutzt.</strong> Dies wird ein jährlicher Beitrag sein. Neben der Möglichkeit, Superfan zu werden, führen wir daher eine Mitgliedschaft ein, um unsere Bitte um Unterstützung von den Unterstützer:innen der ersten Stunde auf die breitere Community auszuweiten.</p>\n<p>Von Hosts verlangen wir keinen finanziellen Beitrag, da sie bereits auf andere Weise beitragen – natürlich können sie uns aber auch gerne finanziell unterstützen, wenn sie möchten.</p>"
             },
             "8": {
               "title": "Habt ihr nicht bereits einen Aufruf für Superfans gestartet?",
-              "copy": "<p>Ende 2022 haben wir einen Aufruf für WTMG Superfans gestartet. Wir sind sehr dankbar für die Unterstützung, die wir von den ersten über 250 Superfans erhalten haben, sowie für eine großzügige Spende von 1.000 € von einer:m Gastgeber:in. <strong>Dank dieser ersten Unterstützer:innen sind wir überzeugt, dass wir ein selbsttragendes Modell für WTMG erreichen können.</strong> Aber um dorthin zu gelangen, brauchen wir <strong>breite Unterstützung</strong>; nicht nur von einem kleinen Prozentsatz unserer Nutzer:innen: Wir haben ausgerechnet, dass wir die Unterstützung von <strong>mindestens 3.000 Reisenden</strong> benötigen, um dieses Wunder wahr werden zu lassen.</p>"
+              "copy": "<p>Ende 2022 haben wir einen Aufruf für WTMG Superfans gestartet. Wir sind sehr dankbar für die Unterstützung, die wir von den ersten über 250 Superfans erhalten haben, sowie für eine großzügige Spende von 1.000 € von einem Host. <strong>Dank dieser ersten Unterstützer:innen sind wir überzeugt, dass wir ein selbsttragendes Modell für WTMG erreichen können.</strong> Aber um dorthin zu gelangen, brauchen wir <strong>breite Unterstützung</strong>; nicht nur von einem kleinen Prozentsatz unserer Users: Wir haben ausgerechnet, dass wir die Unterstützung von <strong>mindestens 3.000 Reisenden</strong> benötigen, um dieses Wunder wahr werden zu lassen.</p>"
             },
             "9": {
               "title": "Wenn ich kein Mitglied oder Superfan werde, was passiert dann mit meinem kostenlosen Konto?",
@@ -833,16 +833,16 @@
             },
             "13": {
               "title": "Wird eine Mitgliedschaft pro Person benötigt, wenn ich mit Freund:innen oder der Familie reise?",
-              "copy": "Nein, es ist nur eine Mitgliedschaft erforderlich, um Gastgeber:innen zu kontaktieren, wenn du mit Freund:innen oder der Familie reist. Jedes einzelne Konto ist jedoch personengebunden, sodass jede Person, die separat reist, eine eigene Mitgliedschaft benötigt."
+              "copy": "Nein, es ist nur eine Mitgliedschaft erforderlich, um Hosts zu kontaktieren, wenn du mit Freund:innen oder der Familie reist. Jedes einzelne Konto ist jedoch personengebunden, sodass jede Person, die separat reist, eine eigene Mitgliedschaft benötigt."
             }
           }
         },
         "hosts-faq": {
-          "title": "Gastgeber:innen",
+          "title": "Hosts",
           "questions": {
             "0": {
-              "title": "Ich bin Gastgeber:in. Sollte ich Mitglied oder Superfan werden?",
-              "copy": "Zunächst einmal freuen wir uns riesig, dass du slow travel Reisende in deinem Garten willkommen heißt! WTMG würde ohne warmherzige Menschen wie dich nicht existieren. Wenn du ein Superfan werden und uns bei unserer Mission unterstützen möchtest, slow travel zugänglicher zu machen, würden wir uns darüber sehr freuen. Aber wir möchten betonen, dass du bereits als Gastgeber:in einen riesigen Beitrag leistest!"
+              "title": "Ich bin Host. Sollte ich Mitglied oder Superfan werden?",
+              "copy": "Zunächst einmal freuen wir uns riesig, dass du slow travel Reisende in deinem Garten willkommen heißt! WTMG würde ohne warmherzige Menschen wie dich nicht existieren. Wenn du ein Superfan werden und uns bei unserer Mission unterstützen möchtest, slow travel zugänglicher zu machen, würden wir uns darüber sehr freuen. Aber wir möchten betonen, dass du bereits als Host einen riesigen Beitrag leistest!"
             }
           }
         },
@@ -859,19 +859,19 @@
             },
             "2": {
               "title": "Wie viel kostet der Betrieb von WTMG?",
-              "copy": "<p>Jeden Monat stecken wir tausende Euro und hunderte Stunden Arbeit hinein, um WTMG am Laufen zu halten. Das ist unser Leben und unser Job: Wir müssen unsere Gehälter, unser Büro, die Hosting-Kosten und vieles mehr bezahlen.</p>\n<p>WTMG ist ein völlig unabhängiges Projekt, das von unserem Gründerteam komplett aus eigener Kraft aufgebaut wurde. Das bedeutet, dass keine Investor:innen beteiligt sind. Um sicherzustellen, dass WTMG auch in den kommenden Jahren existieren kann, hilft ein faires Modell dabei, die Kosten unter den slow travellers aufzuteilen.</p>"
+              "copy": "<p>Jeden Monat stecken wir tausende Euro und hunderte Stunden Arbeit hinein, um WTMG am Laufen zu halten. Das ist unser Leben und unser Job: Wir müssen unsere Gehälter, unser Büro, die Hosting-Kosten und vieles mehr bezahlen.</p>\n<p>WTMG ist ein völlig unabhängiges Projekt, das von unserem Gründerteam komplett aus eigener Kraft aufgebaut wurde. Das bedeutet, dass keine Investor:innen beteiligt sind. Um sicherzustellen, dass WTMG auch in den kommenden Jahren existieren kann, hilft ein faires Modell dabei, die Kosten unter den Slow Travellers aufzuteilen.</p>"
             },
             "3": {
               "title": "Wie wurden die WTMG-Rechnungen bisher bezahlt?",
-              "copy": "<p>Bislang wurden die Kosten für WTMG hauptsächlich aus eigener Tasche von unserem Gründerteam bezahlt.</p>\n<p>So haben wir die Kosten bisher gedeckt:</p>\n<ul>\n<li>Der Großteil der Rechnungen wurde dank der Einnahmen aus der Reiseplanung mit unserem Nebenprojekt Slowby.travel (30.000 €) und den Vertriebsrechten für Manons Dokumentarfilm „Women Don’t Cycle“ (25.000 €) beglichen.</li>\n<li>In seinem ersten Bestehensjahr erhielt WTMG finanzielle Unterstützung von frühen Unterstützer:innen wie Grote Routepaden, GR Sentiers und Natuurpunt.</li>\n<li><em>Ende 2022 haben wir einen Aufruf für WTMG Superfans gestartet. Wir sind sehr dankbar für die Unterstützung der ersten über 230 Superfans und eine großzügige Spende von 1.000 € von einer Gastgeber:in. Dank dieser ersten Unterstützer:innen sind wir überzeugt, dass wir ein selbsttragendes Modell für WTMG erreichen können. Aber um dorthin zu gelangen, brauchen wir breite Unterstützung, nicht nur von einem kleinen Prozentsatz unserer Nutzer:innen: Wir haben ausgerechnet, dass wir die Unterstützung von 3.000 Reisenden benötigen, um dieses Wunder wahr werden zu lassen.</em></li>\n</ul>"
+              "copy": "<p>Bislang wurden die Kosten für WTMG hauptsächlich aus eigener Tasche von unserem Gründerteam bezahlt.</p>\n<p>So haben wir die Kosten bisher gedeckt:</p>\n<ul>\n<li>Der Großteil der Rechnungen wurde dank der Einnahmen aus der Reiseplanung mit unserem Nebenprojekt Slowby.travel (30.000 €) und den Vertriebsrechten für Manons Dokumentarfilm „Women Don’t Cycle“ (25.000 €) beglichen.</li>\n<li>In seinem ersten Bestehensjahr erhielt WTMG finanzielle Unterstützung von frühen Unterstützer:innen wie Grote Routepaden, GR Sentiers und Natuurpunt.</li>\n<li><em>Ende 2022 haben wir einen Aufruf für WTMG Superfans gestartet. Wir sind sehr dankbar für die Unterstützung der ersten über 230 Superfans und eine großzügige Spende von 1.000 € von einem Host. Dank dieser ersten Unterstützer:innen sind wir überzeugt, dass wir ein selbsttragendes Modell für WTMG erreichen können. Aber um dorthin zu gelangen, brauchen wir breite Unterstützung, nicht nur von einem kleinen Prozentsatz unserer Users: Wir haben ausgerechnet, dass wir die Unterstützung von 3.000 Reisenden benötigen, um dieses Wunder wahr werden zu lassen.</em></li>\n</ul>"
             },
             "4": {
               "title": "Habt ihr andere Wege ausprobiert, um Einnahmen zu erzielen – wie Spenden, Sponsoring und Subventionen?",
-              "copy": "<p>Wir haben bereits einige Wege ausprobiert, um die nötigen Einnahmen zu erzielen, damit wir weitermachen können. Folgendes hat sich für WTMG als nicht tragfähig erwiesen:</p>\n<ul>\n<li>Spenden. Es ist verlockend zu glauben, dass es klappen kann, wenn jede:r freiwillig einen kleinen Beitrag leistet. In der Realität hat sich gezeigt, dass Spenden nicht einmal ausreichten, um die technischen Kosten zu decken. Insgesamt haben wir weniger als 500 €/Jahr an Spenden erhalten.</li>\n<li><em>Ein weiteres Projekt betreiben (wie wir es mit unseren Slowby-Reisen gemacht haben). Da WTMG unsere volle Aufmerksamkeit erfordert, ist es für ein dreiköpfiges Team einfach zu viel Aufwand, zwei große Projekte gleichzeitig zu betreiben. Jemand hat dieses Finanzierungsmodell treffend als Rezept für ein Burnout bezeichnet (keine Sorge, wir sind immer noch voller positiver Energie, aber genau deshalb müssen wir jetzt handeln).</em></li>\n<li>Subventionen. Sie sind toll, um ein Projekt anzustoßen, machen es aber langfristig nicht finanziell unabhängig. Wie in <a href=\"https://www.libraryofthings.co.uk/blog/purposebeforeprofit\">diesem Beitrag</a> von Library of Things sehr gut erklärt wird, würde uns die Beantragung von Subventionen auch von unserem eigentlichen Ziel ablenken: Mehrwert für unsere Community zu schaffen.</li>\n</ul>\n<p>Wir haben uns entschieden, keine Werbung auf unserer Website anzuzeigen. Warum? Wir wollen deine Daten nicht an Unternehmen verkaufen, deren Werte vielleicht nicht mit unseren übereinstimmen. Außerdem würde die Ausrichtung auf Werbung unseren Fokus davon ablenken, Mehrwert für unsere Nutzer:innen zu schaffen. Wir möchten für eine großartige slow travel Plattform bezahlt werden, die es auch wert ist, dafür zu bezahlen.</p>\n<p><strong>Zusammenfassend glauben wir, dass es sowohl fair als auch angemessen ist, unsere slow travellers um einen finanziellen Beitrag zu bitten.</strong></p>"
+              "copy": "<p>Wir haben bereits einige Wege ausprobiert, um die nötigen Einnahmen zu erzielen, damit wir weitermachen können. Folgendes hat sich für WTMG als nicht tragfähig erwiesen:</p>\n<ul>\n<li>Spenden. Es ist verlockend zu glauben, dass es klappen kann, wenn jede:r freiwillig einen kleinen Beitrag leistet. In der Realität hat sich gezeigt, dass Spenden nicht einmal ausreichten, um die technischen Kosten zu decken. Insgesamt haben wir weniger als 500 €/Jahr an Spenden erhalten.</li>\n<li><em>Ein weiteres Projekt betreiben (wie wir es mit unseren Slowby-Reisen gemacht haben). Da WTMG unsere volle Aufmerksamkeit erfordert, ist es für ein dreiköpfiges Team einfach zu viel Aufwand, zwei große Projekte gleichzeitig zu betreiben. Jemand hat dieses Finanzierungsmodell treffend als Rezept für ein Burnout bezeichnet (keine Sorge, wir sind immer noch voller positiver Energie, aber genau deshalb müssen wir jetzt handeln).</em></li>\n<li>Subventionen. Sie sind toll, um ein Projekt anzustoßen, machen es aber langfristig nicht finanziell unabhängig. Wie in <a href=\"https://www.libraryofthings.co.uk/blog/purposebeforeprofit\">diesem Beitrag</a> von Library of Things sehr gut erklärt wird, würde uns die Beantragung von Subventionen auch von unserem eigentlichen Ziel ablenken: Mehrwert für unsere Community zu schaffen.</li>\n</ul>\n<p>Wir haben uns entschieden, keine Werbung auf unserer Website anzuzeigen. Warum? Wir wollen deine Daten nicht an Unternehmen verkaufen, deren Werte vielleicht nicht mit unseren übereinstimmen. Außerdem würde die Ausrichtung auf Werbung unseren Fokus davon ablenken, Mehrwert für unsere Users zu schaffen. Wir möchten für eine großartige slow travel Plattform bezahlt werden, die es auch wert ist, dafür zu bezahlen.</p>\n<p><strong>Zusammenfassend glauben wir, dass es sowohl fair als auch angemessen ist, unsere Slow Travellers um einen finanziellen Beitrag zu bitten.</strong></p>"
             },
             "5": {
               "title": "Wie viele Mitglieder braucht WTMG, um zu überleben und zu wachsen?",
-              "copy": "Um ein qualitativ hochwertiges Netzwerk aufrechtzuerhalten und WTMG weiterzuentwickeln, brauchen wir 3.000 slow travellers, die Mitglied werden. Gemeinsam können wir das schaffen – genau das bedeutet es, eine Community zu sein."
+              "copy": "Um ein qualitativ hochwertiges Netzwerk aufrechtzuerhalten und WTMG weiterzuentwickeln, brauchen wir 3.000 Slow Travellers, die Mitglied werden. Gemeinsam können wir das schaffen – genau das bedeutet es, eine Community zu sein."
             }
           }
         }
@@ -977,7 +977,7 @@
     "garden": {
       "title": "Dein Garten",
       "unlisted": {
-        "text": "Du hast deinen Garten noch nicht auf der Karte eingetragen. Wenn du deinen Garten hinzufügst, können andere Nutzer:innen dich kontaktieren, um eine Übernachtung anzufragen. Du kannst deinen Garten jederzeit wieder ausblenden!",
+        "text": "Du hast deinen Garten noch nicht auf der Karte eingetragen. Wenn du deinen Garten hinzufügst, können andere Users dich kontaktieren, um eine Übernachtung anzufragen. Du kannst deinen Garten jederzeit wieder ausblenden!",
         "button": "Garten hinzufügen"
       },
       "listed": {
@@ -1095,11 +1095,11 @@
         "max": "Bitte achte darauf, dass dein Passwort maximal 100 Zeichen lang ist"
       },
       "first-name": {
-        "set": "Bitte gib einen Vornamen ein. So wirst du anderen Nutzer:innen angezeigt",
+        "set": "Bitte gib einen Vornamen ein. So wirst du anderen Users angezeigt",
         "max": "Dein Vorname darf maximal 25 Zeichen lang sein, damit wir ihn richtig anzeigen können. Du kannst ihn gerne abkürzen oder einen Spitznamen wählen."
       },
       "last-name": {
-        "set": "Bitte gib deinen Nachnamen ein. Er wird nicht mit anderen Nutzer:innen geteilt",
+        "set": "Bitte gib deinen Nachnamen ein. Er wird nicht mit anderen Users geteilt",
         "max": "Dein Nachname darf maximal 50 Zeichen lang sein."
       },
       "country": {
@@ -1141,12 +1141,12 @@
           "description": "Erzähle {hostName}, wer du bist, was für eine Reise du machst und wann du gerne übernachten möchtest."
         },
         "1": {
-          "title": "Kontaktiere Gastgeber:innen rechtzeitig",
-          "description": "Alle Gastgeber:innen arbeiten ehrenamtlich. Kontaktiere sie wenn möglich rechtzeitig, damit sie sich organisieren können."
+          "title": "Kontaktiere Hosts rechtzeitig",
+          "description": "Alle Hosts arbeiten ehrenamtlich. Kontaktiere sie wenn möglich rechtzeitig, damit sie sich organisieren können."
         },
         "2": {
           "title": "Sei freundlich und respektvoll",
-          "description": "Halte deine:n Gastgeber:in auf dem Laufenden. Gib Bescheid, wenn sich deine Pläne ändern."
+          "description": "Halte deinen Host auf dem Laufenden. Gib Bescheid, wenn sich deine Pläne ändern."
         }
       }
     },
@@ -1168,20 +1168,20 @@
     },
     "no-inbox": {
       "title": "Du hast noch keine Nachrichten",
-      "detail": "Wähle eine:n Gastgeber:in auf der Karte aus, um Kontakt aufzunehmen.",
+      "detail": "Wähle einen Host auf der Karte aus, um Kontakt aufzunehmen.",
       "button": "Zur Karte"
     },
     "open-archive": "Archiv öffnen",
     "no-active": {
       "title": "Keine aktiven Unterhaltungen",
-      "detail": "Wenn du eine Nachricht erhältst, wird sie hier angezeigt. Oder kontaktiere eine:n Gastgeber:in auf der Karte."
+      "detail": "Wenn du eine Nachricht erhältst, wird sie hier angezeigt. Oder kontaktiere einen Host auf der Karte."
     },
     "archived": "Archiviert"
   },
   "map": {
     "vehicle-notice": {
-      "title": "<span class=\"notranslate\">Welcome To My Garden</span> ist nur für slow traveller.",
-      "text": "Wenn du planst, mit einem motorisierten Fahrzeug zu reisen, kontaktiere die Gastgeber:innen bitte nicht über diese Plattform. Vielen Dank für dein Verständnis!"
+      "title": "<span class=\"notranslate\">Welcome To My Garden</span> ist nur für Slow Traveller.",
+      "text": "Wenn du planst, mit einem motorisierten Fahrzeug zu reisen, kontaktiere die Hosts bitte nicht über diese Plattform. Vielen Dank für dein Verständnis!"
     },
     "trails": {
       "hiking": "Wanderrouten anzeigen",
@@ -1241,7 +1241,7 @@
     "last-updated": "Zuletzt aktualisiert: 30. April 2025",
     "intro": {
       "0": {
-        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> ist eine Plattform, auf der Bürger:innen ihre Gärten öffnen, damit slow traveller (also nicht-motorisierte Reisende, die mit dem Fahrrad oder zu Fuß unterwegs sind) dort für die Nacht zelten können."
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> ist eine Plattform, auf der Bürger:innen ihre Gärten öffnen, damit Slow Traveller (also nicht-motorisierte Reisende, die mit dem Fahrrad oder zu Fuß unterwegs sind) dort für die Nacht zelten können."
       },
       "1": {
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span>, ein gemeinnütziges Projekt unter der Rechtsform von Slowby, einem Sozialunternehmen, gegründet und bestehend nach belgischem Recht, mit Sitz in der Henri Van Bortonnestraat 100, 1090 Jette, Belgien, mit der Unternehmensnummer BE 0784.423.261."
@@ -1253,7 +1253,7 @@
         "copy": "Die Nutzung dieser Plattform <span class=\"bold\">unterliegt einer Reihe von Regeln</span>. Unten findest du die allgemeinen Bedingungen unserer Plattform, da wir davon überzeugt sind, dass <span class=\"bold\">klare Regeln</span> die beste Garantie für eine <span class=\"bold\">respektvolle Gemeinschaft</span> bieten. <span class=\"bold\">Mit der Erstellung eines Kontos oder dem anderweitigen Zugriff auf die Plattform erklärst du dich mit diesen Bedingungen einverstanden.</span>"
       },
       "4": {
-        "copy": "Da <span class=\"notranslate\">Welcome To My Garden</span> das Feedback der Nutzer:innen unserer Plattform schätzt, freuen wir uns über alle Ideen zur weiteren Verbesserung der Plattform. Du kannst deine Vorschläge per E-Mail an {support} senden."
+        "copy": "Da <span class=\"notranslate\">Welcome To My Garden</span> das Feedback der Users unserer Plattform schätzt, freuen wir uns über alle Ideen zur weiteren Verbesserung der Plattform. Du kannst deine Vorschläge per E-Mail an {support} senden."
       }
     },
     "articles": {
@@ -1261,10 +1261,10 @@
         "title": "Wer kann sich auf der Plattform registrieren?",
         "descriptions": {
           "0": {
-            "copy": "<span class=\"bold\">Alle Bürger:innen, die slow traveller in ihrem Garten einen kostenlosen Campingplatz anbieten möchten, sowie alle slow traveller – streng definiert als nicht-motorisierte Reisende wie Radfahrende und Wandernde –, die das Netzwerk nutzen möchten. </span> Wenn du deinen Garten hinzufügen möchtest, musst du ein Konto erstellen. Wenn du als slow traveller eine:n Gastgeber:in kontaktieren möchtest, musst du WTMG-Mitglied werden. Nur registrierte Teilnehmende können aktive Nutzer:innen sein. Du kannst dich mit deiner E-Mail-Adresse registrieren."
+            "copy": "<span class=\"bold\">Alle Bürger:innen, die Slow Traveller in ihrem Garten einen kostenlosen Zeltplatz anbieten möchten, sowie alle Slow Traveller – streng definiert als nicht-motorisierte Reisende wie Radfahrende und Wandernde –, die das Netzwerk nutzen möchten. </span> Wenn du deinen Garten hinzufügen möchtest, musst du ein Konto erstellen. Wenn du als Slow Traveller einen Host kontaktieren möchtest, musst du WTMG-Mitglied werden. Nur registrierte Teilnehmende können aktive Users sein. Du kannst dich mit deiner E-Mail-Adresse registrieren."
           },
           "1": {
-            "copy": "Die Erstellung eines Kontos durch eine:n Nutzer:in gibt dieser Person kein Eigentumsrecht an dem Konto. <span class=\"notranslate\">Welcome To My Garden</span> behält sich das Recht vor, Konten abzulehnen, zu sperren oder zu löschen, beispielsweise wenn die:der Nutzer:in die folgenden Regeln nicht einhält oder ein unangemessenes Verhalten von einer:m Gastgeber:in oder einem Gast gemeldet wurde."
+            "copy": "Die Erstellung eines Kontos durch einen User gibt dieser Person kein Eigentumsrecht an dem Konto. <span class=\"notranslate\">Welcome To My Garden</span> behält sich das Recht vor, Konten abzulehnen, zu sperren oder zu löschen, beispielsweise wenn der User die folgenden Regeln nicht einhält oder ein unangemessenes Verhalten von einem Host oder einem Gast gemeldet wurde."
           }
         },
         "info": {
@@ -1273,7 +1273,7 @@
             "sections": {
               "0": {
                 "title": "Jedes Konto ist streng persönlich",
-                "copy": "Jedes Konto muss einzigartig und mit einer natürlichen Person verknüpft sein. Wenn du dich für ein Konto registrierst, musst du korrekte Kontoinformationen angeben und diese bei Änderungen umgehend aktualisieren. Jede:r Nutzer:in hat das Recht, ein Konto zu erstellen. Wenn festgestellt wird, dass eine Person mehrere Konten hat, behält sich <span class=\"notranslate\">Welcome To My Garden</span> das Recht vor, all diese Konten zu löschen. Jede:r Nutzer:in muss über 18 Jahre alt sein."
+                "copy": "Jedes Konto muss einzigartig und mit einer natürlichen Person verknüpft sein. Wenn du dich für ein Konto registrierst, musst du korrekte Kontoinformationen angeben und diese bei Änderungen umgehend aktualisieren. Jeder User hat das Recht, ein Konto zu erstellen. Wenn festgestellt wird, dass eine Person mehrere Konten hat, behält sich <span class=\"notranslate\">Welcome To My Garden</span> das Recht vor, all diese Konten zu löschen. Jeder User muss über 18 Jahre alt sein."
               },
               "1": {
                 "title": "Ein Konto kann nicht auf eine andere Person übertragen werden",
@@ -1281,25 +1281,25 @@
               },
               "2": {
                 "title": "Ein Konto darf nicht für kommerzielle Zwecke genutzt werden",
-                "copy": "Die Plattform <span class=\"notranslate\">Welcome To My Garden</span> soll es Bürger:innen ermöglichen, ihre Gärten als kostenlosen Platz zum Zelten anzubieten, und es slow traveller ermöglichen, das Netzwerk auf Reisen zu nutzen. Ein Konto darf daher nur für diese Zwecke genutzt werden. Jede Nutzung des Kontos, die ausschließlich dem Erreichen eines kommerziellen Vorteils dient, ist strengstens untersagt."
+                "copy": "Die Plattform <span class=\"notranslate\">Welcome To My Garden</span> soll es Bürger:innen ermöglichen, ihre Gärten als kostenlosen Platz zum Zelten anzubieten, und es Slow Traveller ermöglichen, das Netzwerk auf Reisen zu nutzen. Ein Konto darf daher nur für diese Zwecke genutzt werden. Jede Nutzung des Kontos, die ausschließlich dem Erreichen eines kommerziellen Vorteils dient, ist strengstens untersagt."
               },
               "3": {
                 "title": "Die Kontoinformationen müssen stets vertraulich behandelt werden",
-                "copy": "Es ist niemand anderem als der Person, die das Konto tatsächlich erstellt hat, gestattet, dieses Konto zu nutzen. Die Person, die das Konto erstellt hat, muss sicherstellen, dass sie das Passwort und die Login-Daten sicher aufbewahrt. Wir empfehlen dir dringend, ein „starkes“ Passwort zu verwenden (ein Passwort mit einer Kombination aus Klein-, Großbuchstaben und Zahlen). Wir empfehlen dir die Verwendung eines Passwort-Managers. <span class=\"notranslate\">Welcome To My Garden</span> kann unter keinen Umständen für Verluste oder Schäden haftbar gemacht werden, die am Konto entstehen, wenn die oben genannten Bedingungen von der nutzenden Person nicht erfüllt werden. <span class=\"notranslate\">Welcome To My Garden</span> kann auch nicht für den Diebstahl deines Kontos, beispielsweise durch „Phishing“, haftbar gemacht werden. <span class=\"notranslate\">Welcome To My Garden</span> wird seine Nutzenden niemals per E-Mail nach persönlichen Daten wie Login oder Passwort fragen. Wenn persönliche Daten angefordert werden, wirst du immer auf die Plattform von <span class=\"notranslate\">Welcome To My Garden</span> weitergeleitet. Du bist für alle Aktivitäten verantwortlich, die im Zusammenhang mit deinem Konto stattfinden, und akzeptierst alle Risiken eines unbefugten Zugriffs."
+                "copy": "Es ist niemand anderem als der Person, die das Konto tatsächlich erstellt hat, gestattet, dieses Konto zu nutzen. Die Person, die das Konto erstellt hat, muss sicherstellen, dass sie das Passwort und die Login-Daten sicher aufbewahrt. Wir empfehlen dir dringend, ein „starkes“ Passwort zu verwenden (ein Passwort mit einer Kombination aus Klein-, Großbuchstaben und Zahlen). Wir empfehlen dir die Verwendung eines Passwort-Managers. <span class=\"notranslate\">Welcome To My Garden</span> kann unter keinen Umständen für Verluste oder Schäden haftbar gemacht werden, die am Konto entstehen, wenn die oben genannten Bedingungen von dem User nicht erfüllt werden. <span class=\"notranslate\">Welcome To My Garden</span> kann auch nicht für den Diebstahl deines Kontos, beispielsweise durch „Phishing“, haftbar gemacht werden. <span class=\"notranslate\">Welcome To My Garden</span> wird seine Users niemals per E-Mail nach persönlichen Daten wie Login oder Passwort fragen. Wenn persönliche Daten angefordert werden, wirst du immer auf die Plattform von <span class=\"notranslate\">Welcome To My Garden</span> weitergeleitet. Du bist für alle Aktivitäten verantwortlich, die im Zusammenhang mit deinem Konto stattfinden, und akzeptierst alle Risiken eines unbefugten Zugriffs."
               }
             }
           }
         }
       },
       "1": {
-        "title": "Nutzungsbedingungen für Gastgeber:innen",
+        "title": "Nutzungsbedingungen für Hosts",
         "info": {
           "0": {
             "title": "Mit dem Hinzufügen deines Gartens zur Plattform erkennst du die allgemeinen Regeln der Plattform an, diese lauten wie folgt",
             "sections": {
               "0": {
                 "title": "Keine Einnahmen",
-                "copy": "Der Aufenthalt im Garten ist kostenlos. Daher sollten daraus keine Einnahmen erzielt werden. Das Anbieten eines Gartens gegen eine Gebühr ist strengstens untersagt, und die Plattform behält sich das Recht vor, das Konto des:der Gastgeber:in dauerhaft zu löschen, falls dies geschieht."
+                "copy": "Der Aufenthalt im Garten ist kostenlos. Daher sollten daraus keine Einnahmen erzielt werden. Das Anbieten eines Gartens gegen eine Gebühr ist strengstens untersagt, und die Plattform behält sich das Recht vor, das Konto des Hosts dauerhaft zu löschen, falls dies geschieht."
               },
               "1": {
                 "title": "Haftungsausschluss",
@@ -1307,60 +1307,60 @@
               },
               "2": {
                 "title": "Keine Diskriminierung",
-                "copy": "<span class=\"notranslate\">Welcome To My Garden</span> toleriert keinerlei Diskriminierung. Von Gastgeber:innen wird erwartet, dass sie sich dementsprechend verhalten. Gastgeber:innen dürfen niemanden aufgrund von Geschlecht, ethnischer Zugehörigkeit, Alter, sexueller Orientierung, sozioökonomischem Status, äußerem Erscheinungsbild, Fähigkeiten und Religion (oder deren Fehlen) diskriminieren."
+                "copy": "<span class=\"notranslate\">Welcome To My Garden</span> toleriert keinerlei Diskriminierung. Von Hosts wird erwartet, dass sie sich dementsprechend verhalten. Hosts dürfen niemanden aufgrund von Geschlecht, ethnischer Zugehörigkeit, Alter, sexueller Orientierung, sozioökonomischem Status, äußerem Erscheinungsbild, Fähigkeiten und Religion (oder deren Fehlen) diskriminieren."
               }
             }
           }
         }
       },
       "2": {
-        "title": "Nutzungsbedingungen für Nutzende",
+        "title": "Nutzungsbedingungen für Users",
         "descriptions": {
           "0": {
-            "copy": "Nutzende müssen mindestens 18 Jahre alt sein, um die Plattform zu nutzen. Mit der Erstellung eines Kontos stimmen Nutzende den Nutzungsbedingungen von <span class=\"notranslate\">Welcome To My Garden</span> unverzüglich zu."
+            "copy": "Users müssen mindestens 18 Jahre alt sein, um die Plattform zu nutzen. Mit der Erstellung eines Kontos stimmen Users den Nutzungsbedingungen von <span class=\"notranslate\">Welcome To My Garden</span> unverzüglich zu."
           }
         },
         "paragraphs": {
           "0": {
-            "title": "Kontaktaufnahme mit den Gastgeber:innen",
+            "title": "Kontaktaufnahme mit den Hosts",
             "copy": {
-              "0": "Gastgeber:innen sollten ausschließlich kontaktiert werden, um einen Aufenthalt in ihren Gärten anzufragen. Jeglicher Missbrauch der Plattform kann zur Sperrung oder Löschung des Kontos der nutzenden Person führen."
+              "0": "Hosts sollten ausschließlich kontaktiert werden, um einen Aufenthalt in ihren Gärten anzufragen. Jeglicher Missbrauch der Plattform kann zur Sperrung oder Löschung des Kontos des Users führen."
             }
           },
           "1": {
-            "title": "Verpflichtung zur vorherigen Kontaktaufnahme mit den Gastgeber:innen zur Anfrage eines Aufenthalts",
+            "title": "Verpflichtung zur vorherigen Kontaktaufnahme mit den Hosts zur Anfrage eines Aufenthalts",
             "copy": {
-              "0": "Nutzende sind verpflichtet, die Gastgeber:innen vorab zu kontaktieren, um einen Aufenthalt anzufragen, es sei denn, die Gastgeber:innen haben in ihrem Profil ausdrücklich angegeben, dass dies nicht erforderlich ist. Nutzende sollten immer korrekte Angaben zu ihrer Person machen."
+              "0": "Users sind verpflichtet, die Hosts vorab zu kontaktieren, um einen Aufenthalt anzufragen, es sei denn, die Hosts haben in ihrem Profil ausdrücklich angegeben, dass dies nicht erforderlich ist. Users sollten immer korrekte Angaben zu ihrer Person machen."
             }
           },
           "2": {
-            "title": "Angebotene Ausstattung der Gastgeber:innen",
+            "title": "Angebotene Ausstattung der Hosts",
             "copy": {
-              "0": "Die Gastgeber:innen tragen die alleinige Verantwortung für die Ausstattung, die sie den Nutzenden zur Verfügung stellen oder nicht. Durch die Nutzung dieser Plattform erkennt die nutzende Person die Bedingungen ihres Aufenthalts an und akzeptiert diese – was den Zugang zu Sanitäranlagen einschließen kann oder auch nicht."
+              "0": "Die Hosts tragen die alleinige Verantwortung für die Ausstattung, die sie den Users zur Verfügung stellen oder nicht. Durch die Nutzung dieser Plattform erkennt der User die Bedingungen seines Aufenthalts an und akzeptiert diese – was den Zugang zu Sanitäranlagen einschließen kann oder auch nicht."
             }
           },
           "3": {
             "title": "Respekt vor der Natur",
             "copy": {
-              "0": "Nutzende müssen all ihren Müll bei der Abreise wieder mitnehmen. Nutzende sollten stets die Natur, den Garten der Gastgeber:innen und ihre Umgebung respektieren und sich an das <a href=\"https://en.wikipedia.org/wiki/Leave_No_Trace\">Leave No Trace</a>-Prinzip halten."
+              "0": "Users müssen all ihren Müll bei der Abreise wieder mitnehmen. Users sollten stets die Natur, den Garten der Hosts und ihre Umgebung respektieren und sich an das <a href=\"https://en.wikipedia.org/wiki/Leave_No_Trace\">Leave No Trace</a>-Prinzip halten."
             }
           },
           "4": {
-            "title": "Respekt vor den Gastgeber:innen und Nachbar:innen",
+            "title": "Respekt vor den Hosts und Nachbar:innen",
             "copy": {
-              "0": "Nutzende sollten den Gartenbesitzer:innen gegenüber immer respektvoll sein und den Lärm auf ein Minimum reduzieren. Sie sollten sich auch an alle Vorgaben der Gastgeber:innen halten."
+              "0": "Users sollten den Gartenbesitzer:innen gegenüber immer respektvoll sein und den Lärm auf ein Minimum reduzieren. Sie sollten sich auch an alle Vorgaben der Hosts halten."
             }
           },
           "5": {
             "title": "Keine-Autos-Regel",
             "copy": {
-              "0": "Die Plattform <span class=\"notranslate\">Welcome To My Garden</span> schont die Umwelt und richtet sich ausschließlich an die Bedürfnisse von slow travel Reisenden. Das bedeutet, dass Nutzende die Gärten nur zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln aufsuchen dürfen. Wenn du planst, mit einem motorisierten Fahrzeug zu reisen, kontaktiere Gastgeber:innen bitte nicht über diese Plattform. Die Nutzung von motorisierten Fahrzeugen ist verboten."
+              "0": "Die Plattform <span class=\"notranslate\">Welcome To My Garden</span> schont die Umwelt und richtet sich ausschließlich an die Bedürfnisse von slow travel Reisenden. Das bedeutet, dass Users die Gärten nur zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln aufsuchen dürfen. Wenn du planst, mit einem motorisierten Fahrzeug zu reisen, kontaktiere Hosts bitte nicht über diese Plattform. Die Nutzung von motorisierten Fahrzeugen ist verboten."
             }
           },
           "6": {
             "title": "Jährliche Mitgliedschaft: werde Mitglied oder Superfan",
             "copy": {
-              "0": "<span class=\"notranslate\">Welcome To My Garden</span> hat es sich zur Aufgabe gemacht, slow travel für alle zugänglicher zu machen. Wie jeder Garten braucht auch WTMG Pflege, um zu wachsen und gesund zu bleiben. Der Aufenthalt bei WTMG-Gastgeber:innen ist kostenlos. Um WTMG jedoch zu pflegen und weiterzuentwickeln, sind wir auf eine jährliche Mitgliedschaft angewiesen, um die Kosten fair unter allen slow travel Reisenden aufzuteilen. Diese haben die Wahl, entweder Mitglied oder Superfan zu werden. Diese Mitgliedschaft ist obligatorisch. Es ist Mitgliedern oder Superfans nicht gestattet, ihre Login-Daten an Dritte weiterzugeben. Superfans erklären sich mit denselben Bedingungen wie alle Nutzenden einverstanden, und <span class=\"notranslate\">Welcome To My Garden</span> behält sich das Recht vor, Konten von Mitgliedern oder Superfans, die sich nicht an die Bedingungen halten, abzulehnen, zu sperren oder zu löschen.",
+              "0": "<span class=\"notranslate\">Welcome To My Garden</span> hat es sich zur Aufgabe gemacht, slow travel für alle zugänglicher zu machen. Wie jeder Garten braucht auch WTMG Pflege, um zu wachsen und gesund zu bleiben. Der Aufenthalt bei WTMG-Hosts ist kostenlos. Um WTMG jedoch zu pflegen und weiterzuentwickeln, sind wir auf eine jährliche Mitgliedschaft angewiesen, um die Kosten fair unter allen slow travel Reisenden aufzuteilen. Diese haben die Wahl, entweder Mitglied oder Superfan zu werden. Diese Mitgliedschaft ist obligatorisch. Es ist Mitgliedern oder Superfans nicht gestattet, ihre Login-Daten an Dritte weiterzugeben. Superfans erklären sich mit denselben Bedingungen wie alle Users einverstanden, und <span class=\"notranslate\">Welcome To My Garden</span> behält sich das Recht vor, Konten von Mitgliedern oder Superfans, die sich nicht an die Bedingungen halten, abzulehnen, zu sperren oder zu löschen.",
               "1": "Die Haftungsbeschränkungen (siehe unten) von <span class=\"notranslate\">Welcome To My Garden</span> im Allgemeinen gelten auch für die Nutzung der Zusatzfunktionen für Mitglieder oder Superfans, was bedeutet, dass <span class=\"notranslate\">Welcome To My Garden</span> nicht für Schäden oder Verluste haftbar gemacht werden kann, die durch die Nutzung von <span class=\"notranslate\">Welcome To My Garden</span> entstehen.",
               "2": "Slow Traveller entscheiden selbst, ob sie Mitglieder (Mindestbeitrag) oder Superfans (zusätzlicher Beitrag) werden möchten. Der Preis enthält 21 % MwSt. auf Mitgliedschaften. Mitgliedschaften werden jährlich bezahlt und verlängern sich automatisch, es sei denn, sie werden vom Mitglied oder von WTMG gekündigt. Mitglieder oder Superfans können die Verlängerung jederzeit in ihrem {accountLink} kündigen. Wenn ein Mitglied oder Superfan eine Mitgliedschaft kündigt, wird nur die automatische Verlängerung storniert. Das bedeutet, dass die Mitgliedschaft bis zum Ende des bereits bezahlten Zeitraums gültig bleibt. Sieben Tage vor dem Verlängerungsdatum werden Mitglieder per E-Mail über ihre bevorstehende Verlängerung benachrichtigt. Die Mitgliedschaft ist nicht erstattungsfähig und nicht auf Dritte übertragbar."
             }
@@ -1386,15 +1386,15 @@
         "title": "Interaktionen mit anderen Mitgliedern",
         "paragraphs": {
           "0": {
-            "title": "Du allein bist für deine Interaktionen mit anderen Nutzer:innen verantwortlich.",
+            "title": "Du allein bist für deine Interaktionen mit anderen Users verantwortlich.",
             "copy": {
-              "0": "<span class=\"notranslate\">Welcome To My Garden</span> ist eine Plattform für Nutzer:innen, um ihren Garten kostenlos zur Verfügung zu stellen, einen Gartenaufenthalt anzufragen und miteinander zu kommunizieren, um diese Nutzung zu ermöglichen. Nutzer:innen tragen die alleinige Verantwortung für alle Interaktionen mit anderen Nutzer:innen der Plattform. <span class=\"notranslate\">Welcome To My Garden</span> ist an der Kommunikation oder an Streitigkeiten zwischen zwei Nutzer:innen weder beteiligt noch trägt sie dafür eine Verantwortung oder Haftung. Um es ganz klar zu sagen: <span class=\"notranslate\">Welcome To My Garden</span> ist eine Plattform, die es Gastgeber:innen ermöglicht, ihren Garten kostenlos zur Verfügung zu stellen, und Nutzer:innen ermöglicht, den Garten von jemandem zum Campen zu nutzen sowie einen Ort zur Kommunikation zwischen Nutzer:innen bietet. <span class=\"notranslate\">Welcome To My Garden</span> ist und kann nicht für die Interaktionen oder die Folgen von Interaktionen zwischen Nutzer:innen verantwortlich gemacht werden. Nutzer:innen stellen <span class=\"notranslate\">Welcome To My Garden</span> (sowie sein Team und seine Freiwilligen) von Ansprüchen, Forderungen und Schäden (tatsächlichen und Folgeschäden) jeder Art und Natur frei, bekannt und unbekannt, vermutet und unvermutet, offengelegt und nicht offengelegt, die sich aus solchen Streitigkeiten ergeben oder in irgendeiner Weise damit zusammenhängen. Achte bei der Nutzung der Plattform immer auf Sicherheit und gesunden Menschenverstand."
+              "0": "<span class=\"notranslate\">Welcome To My Garden</span> ist eine Plattform für Users, um ihren Garten kostenlos zur Verfügung zu stellen, einen Gartenaufenthalt anzufragen und miteinander zu kommunizieren, um diese Nutzung zu ermöglichen. Users tragen die alleinige Verantwortung für alle Interaktionen mit anderen Users der Plattform. <span class=\"notranslate\">Welcome To My Garden</span> ist an der Kommunikation oder an Streitigkeiten zwischen zwei Users weder beteiligt noch trägt sie dafür eine Verantwortung oder Haftung. Um es ganz klar zu sagen: <span class=\"notranslate\">Welcome To My Garden</span> ist eine Plattform, die es Hosts ermöglicht, ihren Garten kostenlos zur Verfügung zu stellen, und Users ermöglicht, den Garten von jemandem zum Campen zu nutzen sowie einen Ort zur Kommunikation zwischen Users bietet. <span class=\"notranslate\">Welcome To My Garden</span> ist und kann nicht für die Interaktionen oder die Folgen von Interaktionen zwischen Users verantwortlich gemacht werden. Users stellen <span class=\"notranslate\">Welcome To My Garden</span> (sowie sein Team und seine Freiwilligen) von Ansprüchen, Forderungen und Schäden (tatsächlichen und Folgeschäden) jeder Art und Natur frei, bekannt und unbekannt, vermutet und unvermutet, offengelegt und nicht offengelegt, die sich aus solchen Streitigkeiten ergeben oder in irgendeiner Weise damit zusammenhängen. Achte bei der Nutzung der Plattform immer auf Sicherheit und gesunden Menschenverstand."
             }
           },
           "1": {
             "title": "Identitätsprüfung",
             "copy": {
-              "0": "Nutzer:innen sind allein dafür verantwortlich, die Identität und Eignung anderer Nutzer:innen festzustellen. Als Gastgeber:in kannst du Nutzer:innen jederzeit ablehnen. Als Reisende:r kannst du selbst entscheiden, wo du übernachten möchtest. <span class=\"notranslate\">Welcome To My Garden</span> kann und wird die Identität der einzelnen Nutzer:innen nicht bestätigen. Die Plattform verfügt über keinerlei Informationen über die strafrechtliche Vergangenheit oder die moralische Integrität der Nutzer:innen. Achte bei der Nutzung der Plattform immer auf Sicherheit und gesunden Menschenverstand."
+              "0": "Users sind allein dafür verantwortlich, die Identität und Eignung anderer Users festzustellen. Als Host kannst du Users jederzeit ablehnen. Als Reisende:r kannst du selbst entscheiden, wo du übernachten möchtest. <span class=\"notranslate\">Welcome To My Garden</span> kann und wird die Identität der einzelnen Users nicht bestätigen. Die Plattform verfügt über keinerlei Informationen über die strafrechtliche Vergangenheit oder die moralische Integrität der Users. Achte bei der Nutzung der Plattform immer auf Sicherheit und gesunden Menschenverstand."
             }
           }
         }
@@ -1410,9 +1410,9 @@
           "0": {
             "title": "Anstößiges Verhalten",
             "copy": {
-              "0": "Wir glauben fest an die Meinungsfreiheit. Um jedoch sicherzustellen, dass die Plattform von allen Nutzer:innen konstruktiv genutzt werden kann, dulden wir kein anstößiges Verhalten, das Belästigung, Einschüchterung oder Angstmacherei darstellt.",
+              "0": "Wir glauben fest an die Meinungsfreiheit. Um jedoch sicherzustellen, dass die Plattform von allen Users konstruktiv genutzt werden kann, dulden wir kein anstößiges Verhalten, das Belästigung, Einschüchterung oder Angstmacherei darstellt.",
               "1": "Konten und damit verknüpfte Konten, die zur Durchführung der unten aufgeführten Handlungen genutzt werden, können vorübergehend gesperrt und/oder dauerhaft gelöscht werden.",
-              "2": "Gewaltandrohungen (direkt oder indirekt): Du darfst keine Gewalt androhen oder fördern. Dies schließt die Förderung von Terrorismus ein. Belästigung: Du darfst nicht dazu anstiften oder daran beteiligt sein, andere absichtlich zu beleidigen oder zu belästigen. Hier sind einige Faktoren, die wir bei der Beurteilung von missbräuchlichem Verhalten berücksichtigen können: ob der Hauptzweck des gemeldeten Kontos darin besteht, andere zu belästigen oder anstößige Nachrichten zu senden; ob das gemeldete Verhalten einseitig ist oder Drohungen enthält; ob das gemeldete Konto andere dazu ermutigt, ein anderes Konto einzuschüchtern; und ob das gemeldete Konto von mehreren Konten aus einschüchternde Nachrichten an ein Konto sendet. Hassrede: Du darfst keine Gewalt gegen andere Personen fördern oder sie aufgrund von Rasse, ethnischer Herkunft, Nationalität, sexueller Orientierung, Geschlecht, Geschlechtsidentität, Weltanschauung, Religion, Alter, Behinderung oder Krankheit direkt angreifen oder bedrohen. Wir erlauben auch keine Konten, deren Hauptzweck darin besteht, andere auf der Grundlage dieser Kategorien zu schädigen. Missbrauch mehrerer Konten: Das Erstellen mehrerer Konten zur überschneidenden Nutzung, um eine vorübergehende oder dauerhafte Sperrung eines einzelnen Kontos zu umgehen, ist nicht gestattet. Private Daten: Du darfst keine vertraulichen Daten und privaten Informationen anderer ohne deren ausdrückliche Genehmigung und Zustimmung veröffentlichen oder posten. Zu diesen Daten gehören unter anderem: Kreditkartennummern, Adressdaten, Telefonnummern oder Daten, die unter die Privatsphäre einer Person fallen. Identitätsdiebstahl: Es ist dir nicht gestattet, auf die Plattform zuzugreifen und vorzugeben, jemand anderes zu sein, und insbesondere darfst du andere Nutzer:innen auf diese Weise nicht täuschen, verwirren oder bedrohen. Es kann dir der Zugriff über die Plattform verwehrt werden, wenn jemand anderes in einer Weise täuscht, verwirrt oder bedroht, die andere tatsächlich schädigt oder bedroht."
+              "2": "Gewaltandrohungen (direkt oder indirekt): Du darfst keine Gewalt androhen oder fördern. Dies schließt die Förderung von Terrorismus ein. Belästigung: Du darfst nicht dazu anstiften oder daran beteiligt sein, andere absichtlich zu beleidigen oder zu belästigen. Hier sind einige Faktoren, die wir bei der Beurteilung von missbräuchlichem Verhalten berücksichtigen können: ob der Hauptzweck des gemeldeten Kontos darin besteht, andere zu belästigen oder anstößige Nachrichten zu senden; ob das gemeldete Verhalten einseitig ist oder Drohungen enthält; ob das gemeldete Konto andere dazu ermutigt, ein anderes Konto einzuschüchtern; und ob das gemeldete Konto von mehreren Konten aus einschüchternde Nachrichten an ein Konto sendet. Hassrede: Du darfst keine Gewalt gegen andere Personen fördern oder sie aufgrund von Rasse, ethnischer Herkunft, Nationalität, sexueller Orientierung, Geschlecht, Geschlechtsidentität, Weltanschauung, Religion, Alter, Behinderung oder Krankheit direkt angreifen oder bedrohen. Wir erlauben auch keine Konten, deren Hauptzweck darin besteht, andere auf der Grundlage dieser Kategorien zu schädigen. Missbrauch mehrerer Konten: Das Erstellen mehrerer Konten zur überschneidenden Nutzung, um eine vorübergehende oder dauerhafte Sperrung eines einzelnen Kontos zu umgehen, ist nicht gestattet. Private Daten: Du darfst keine vertraulichen Daten und privaten Informationen anderer ohne deren ausdrückliche Genehmigung und Zustimmung veröffentlichen oder posten. Zu diesen Daten gehören unter anderem: Kreditkartennummern, Adressdaten, Telefonnummern oder Daten, die unter die Privatsphäre einer Person fallen. Identitätsdiebstahl: Es ist dir nicht gestattet, auf die Plattform zuzugreifen und vorzugeben, jemand anderes zu sein, und insbesondere darfst du andere Users auf diese Weise nicht täuschen, verwirren oder bedrohen. Es kann dir der Zugriff über die Plattform verwehrt werden, wenn jemand anderes in einer Weise täuscht, verwirrt oder bedroht, die andere tatsächlich schädigt oder bedroht."
             }
           },
           "1": {
@@ -1427,7 +1427,7 @@
         "title": "Haftungsbeschränkung",
         "descriptions": {
           "0": {
-            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> – einschließlich seines Teams und seiner Freiwilligen – haftet weder gegenüber Nutzer:innen noch gegenüber Gastgeber:innen im Rahmen einer Haftungstheorie – sei es aus Vertrag, unerlaubter Handlung, Fahrlässigkeit, Gefährdungshaftung, Gewährleistung oder anderweitig – für indirekte, Folgeschäden, exemplarische, zufällige, Straf- oder Sonderschäden. Die Plattform kann nicht für Verspätungen oder die Nichterfüllung dieser Bedingungen haftbar gemacht werden. Die Plattform übernimmt keine Haftung für Personenschäden oder Todesfälle, die sich aus ihrer Nutzung ergeben."
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> – einschließlich seines Teams und seiner Freiwilligen – haftet weder gegenüber Users noch gegenüber Hosts im Rahmen einer Haftungstheorie – sei es aus Vertrag, unerlaubter Handlung, Fahrlässigkeit, Gefährdungshaftung, Gewährleistung oder anderweitig – für indirekte, Folgeschäden, exemplarische, zufällige, Straf- oder Sonderschäden. Die Plattform kann nicht für Verspätungen oder die Nichterfüllung dieser Bedingungen haftbar gemacht werden. Die Plattform übernimmt keine Haftung für Personenschäden oder Todesfälle, die sich aus ihrer Nutzung ergeben."
           },
           "1": {
             "copy": "IN KEINEM FALL HAFTEN WELCOMETOMYGARDEN.ORG ODER SEINE GELDGEBER:INNEN UND FREIWILLIGEN FÜR INDIREKTE ODER FOLGESCHÄDEN ODER ANDERE SCHÄDEN JEGLICHER ART, EINSCHLIESSLICH, ABER NICHT BESCHRÄNKT AUF NUTZUNGSAUSFALL, ENTGANGENEN GEWINN ODER DATENVERLUST, SEI ES IM RAHMEN EINER VERTRAGSKLAGE, EINER UNERLAUBTEN HANDLUNG (EINSCHLIESSLICH, ABER NICHT BESCHRÄNKT AUF FAHRLÄSSIGKEIT) ODER ANDERWEITIG, SELBST WENN WIR AUF DIE MÖGLICHKEIT SOLCHER SCHÄDEN HINGEWIESEN WURDEN, DIE SICH AUS ODER IM ZUSAMMENHANG MIT FOLGENDEM ERGEBEN: (A) DER NUTZUNG ODER DER UNFÄHIGKEIT ZUR NUTZUNG UNSERER DIENSTE; (B) DEN KOSTEN FÜR DEN ERSATZ VON WAREN, DIENSTLEISTUNGEN ODER INFORMATIONEN, DIE ALS ERGEBNIS VON INFORMATIONEN ODER TRANSAKTIONEN ERWORBEN ODER ERHALTEN WURDEN, DIE ÜBER UNSERE DIENSTE ABGESCHLOSSEN WURDEN; (C) DER OFFENLEGUNG, DEM UNBEFUGTEN ZUGRIFF ODER DER ÄNDERUNG DEINER INHALTE; (D) SCHÄDEN DURCH VERLUST ODER BESCHÄDIGUNG VON DATEN ODER PROGRAMMEN, DIENSTUNTERBRECHUNGEN ODER DIE BESCHAFFUNG VON ERSATZDIENSTEN, SELBST WENN WIR VON DER MÖGLICHKEIT SOLCHER SCHÄDEN WISSEN ODER DARAUF HINGEWIESEN WURDEN; (E) ERKLÄRUNGEN, VERHALTEN ODER UNTERLASSUNGEN VON DIENSTANBIETERN ODER ANDEREN DRITTEN AUF UNSEREN DIENSTEN; (F) DEINEM VERHALTEN ODER DEM VERHALTEN ANDERER IM ZUSAMMENHANG MIT DER NUTZUNG DER DIENSTE, EINSCHLIESSLICH, ABER NICHT BESCHRÄNKT AUF KÖRPERVERLETZUNG, SEELISCHES LEID, TOD ODER ANDERE SCHÄDEN, DIE SICH AUS DER KOMMUNIKATION ODER TREFFEN MIT ANDEREN REGISTRIERTEN MITGLIEDERN UNSERER DIENSTE ODER PERSONEN ERGEBEN, DIE DIR DURCH UNSERE DIENSTE ONLINE ODER OFFLINE VORGESTELLT WURDEN; ODER (G) JEGLICHEN ANDEREN ANGELEGENHEITEN, DIE SICH AUS UNSEREN DIENSTEN ODER DIESEN BEDINGUNGEN ERGEBEN, DAMIT IN ZUSAMMENHANG STEHEN ODER DAMIT VERBUNDEN SIND."
@@ -1438,7 +1438,7 @@
         "title": "Spam",
         "descriptions": {
           "0": {
-            "copy": "Wir bemühen uns jederzeit, die Nutzer:innen der <span class=\"notranslate\">Welcome To My Garden</span>-Plattform vor technischem Missbrauch und Spam zu schützen. Konten, die zur Durchführung der unten aufgeführten Aktivitäten genutzt werden, können vorübergehend gesperrt oder dauerhaft gelöscht werden."
+            "copy": "Wir bemühen uns jederzeit, die Users der <span class=\"notranslate\">Welcome To My Garden</span>-Plattform vor technischem Missbrauch und Spam zu schützen. Konten, die zur Durchführung der unten aufgeführten Aktivitäten genutzt werden, können vorübergehend gesperrt oder dauerhaft gelöscht werden."
           },
           "1": {
             "copy": "Schadsoftware / Phishing / Viren / Würmer / Trojaner: Du darfst keine schädlichen Inhalte oder Links zu solchen Inhalten veröffentlichen, die darauf abzielen, die Browser oder Computer anderer zu beschädigen oder zu stören oder die Privatsphäre von jemandem zu verletzen. Spam: Es ist dir nicht gestattet, die <span class=\"notranslate\">Welcome To My Garden</span>-Plattform zu nutzen, um andere mit Spam zu belästigen."
@@ -1460,13 +1460,13 @@
         "title": "Bei Verstößen gegen die vorgenannten Regeln",
         "descriptions": {
           "0": {
-            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> behält sich das Recht vor, entsprechende Nachrichten zu löschen, wenn Verstöße gegen die vorgenannten Regeln festgestellt werden, und kann Nutzerkonten sogar vorübergehend sperren oder dauerhaft löschen."
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> behält sich das Recht vor, entsprechende Nachrichten zu löschen, wenn Verstöße gegen die vorgenannten Regeln festgestellt werden, und kann User-Konten sogar vorübergehend sperren oder dauerhaft löschen."
           },
           "1": {
-            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> kann in keiner Weise für von Nutzer:innen oder Dritten veröffentlichte Nachrichten haftbar gemacht werden, die gegen die oben genannten Regeln verstoßen. Wenn du als Nutzer:in einen Verstoß bemerkst, melde diesen bitte an folgende E-Mail-Adresse: {support}"
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> kann in keiner Weise für von Users oder Dritten veröffentlichte Nachrichten haftbar gemacht werden, die gegen die oben genannten Regeln verstoßen. Wenn du als User einen Verstoß bemerkst, melde diesen bitte an folgende E-Mail-Adresse: {support}"
           },
           "2": {
-            "copy": "Es kann vorkommen, dass über die Plattform schädliche Dateien heruntergeladen werden können, unabhängig davon, ob dies durch eine:n Nutzer:in verursacht wurde oder nicht, oder dass Nutzer:innen schädliche Hyperlinks platzieren. Jeder Download durch eine:n Nutzer:in oder Klick auf einen von eine:r Nutzer:in platzierten Hyperlink erfolgt auf eigene Gefahr. Für eventuell entstehende Schäden ist ausschließlich diese:r Nutzer:in selbst verantwortlich."
+            "copy": "Es kann vorkommen, dass über die Plattform schädliche Dateien heruntergeladen werden können, unabhängig davon, ob dies durch einen User verursacht wurde oder nicht, oder dass Users schädliche Hyperlinks platzieren. Jeder Download durch einen User oder Klick auf einen von einem User platzierten Hyperlink erfolgt auf eigene Gefahr. Für eventuell entstehende Schäden ist ausschließlich dieser User selbst verantwortlich."
           }
         }
       },
@@ -1474,7 +1474,7 @@
         "title": "Rechte an geistigem Eigentum",
         "descriptions": {
           "0": {
-            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respektiert die Rechte an geistigem Eigentum anderer und erwartet, dass auch die Nutzer:innen dieser Plattform diese Rechte respektieren. <span class=\"notranslate\">Welcome To My Garden</span> behält sich das Recht vor, Inhalte zu entfernen, die geistige Eigentumsrechte verletzen. Wiederholte Verstöße gegen geistige Eigentumsrechte jeglicher Art durch eine:n Nutzer:in führen zur Sperrung oder Löschung des Kontos durch <span class=\"notranslate\">Welcome To My Garden</span>."
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respektiert die Rechte an geistigem Eigentum anderer und erwartet, dass auch die Users dieser Plattform diese Rechte respektieren. <span class=\"notranslate\">Welcome To My Garden</span> behält sich das Recht vor, Inhalte zu entfernen, die geistige Eigentumsrechte verletzen. Wiederholte Verstöße gegen geistige Eigentumsrechte jeglicher Art durch einen User führen zur Sperrung oder Löschung des Kontos durch <span class=\"notranslate\">Welcome To My Garden</span>."
           },
           "1": {
             "copy": "Verstöße gegen Rechte an geistigem Eigentum können über die folgende E-Mail-Adresse gemeldet werden: {support}"
@@ -1505,7 +1505,7 @@
   },
   "about-us": {
     "here-we-are": "Hier sind wir!",
-    "who-behind": "Wer steckt also hinter WTMG? Wir sind ein kleines Team von vier slow travel-Begeisterten und wollen auch anderen helfen, sich auf ihre slow travel-Abenteuer einzulassen! Fun Fact: Wir alle sind sowohl WTMG-Gastgeber:innen als auch Reisende.",
+    "who-behind": "Wer steckt also hinter WTMG? Wir sind ein kleines Team von vier slow travel-Begeisterten und wollen auch anderen helfen, sich auf ihre slow travel-Abenteuer einzulassen! Fun Fact: Wir alle sind sowohl WTMG-Hosts als auch Reisende.",
     "co-founder": "Mitbegründer:in",
     "dev": "Entwickler:in",
     "designer": "Designer:in",
@@ -1522,7 +1522,7 @@
     "our-story-title": "Unsere Geschichte",
     "our-story-description": "<p>Hallo! Wir sind Dries und Manon und wir sind die stolzen Eltern von <span class=\"notranslate\">Welcome To My Garden</span>. Im Jahr 2019 sind wir mit dem Fahrrad von Brüssel nach Tokio gefahren. Im Laufe von 11 Monaten sind wir durch 21 Länder gereist und wurden unterwegs von unzähligen fantastischen Menschen beherbergt.</p><p>Als wir wieder in Belgien ankamen, fragten wir uns: Wie können wir slow travel in unserem eigenen Land einfacher und unterhaltsamer machen? An einem verregneten Sonntagnachmittag im Jahr 2020 erstellte Dries die erste Version von WTMG. Innerhalb von zwei Stunden gab es 50 Gärten auf der Karte – und nach zwei Wochen waren es 500!</p><p>Seitdem haben wir einen langen Weg zurückgelegt: Heute zählt WTMG 8500 Gärten. Es ist klar, dass wir hier sind, um zu bleiben! Und es ist an der Zeit, den nächsten Schritt zu machen. Wir haben auf euch, unsere Community, gehört und investieren nun darin, WTMG an all eure slow travel Bedürfnisse anzupassen.</p><p>WTMG existiert dank der harten Arbeit einer leidenschaftlichen Gruppe von Freiwilligen, die Abende und Wochenenden investiert haben. Aber um weiterzumachen, brauchen wir mehr Zeit und Manpower. Deshalb ist auch Thor mit an Bord gekommen. Wir geben alles und hoffen, dass du uns auf dieser Reise begleitest!</p>",
     "bigger-picture-title": "Das große Ganze",
-    "bigger-picture-description": "<p>Wenn wir in den letzten Jahren eines gelernt haben, dann das: Es ist an der Zeit, zu entschleunigen. Das gilt für das Leben im Allgemeinen, aber ganz besonders auch für das Reisen. Je schneller wir reisen, desto mehr verpassen wir. Schnelles Reisen verursacht viele CO2-Emissionen, trennt Menschen von ihrer Umgebung und schadet Gemeinschaften. Bühne frei für slow travel!</p><p>Und Bühne frei für WTMG! Wir sind stolz darauf, Teil der Lösung für diese globale Herausforderung zu sein. In zwei Jahren hat WTMG viel erreicht:<ul><li>Über 8.500 herzliche Gastgeber:innen haben ihren Garten für slow travel Reisende geöffnet</li><li>125.000 Übernachtungsanfragen wurden über die WTMG-Plattform gesendet</li><li>Wir haben in Belgien angefangen, aber immer mehr Gärten tauchen mittlerweile auch in ganz Europa und darüber hinaus auf?</li><li>Wir haben finanzielle Unterstützung von Partnern wie Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers und Natuurpunt erhalten</li></ul></p><p>Die bedeutungsvollsten und unvergesslichsten Erfahrungen machen wir, wenn wir uns Zeit nehmen, unsere Umgebung zu erkunden und uns darauf einzulassen. Mit WTMG möchten wir dir genau dabei helfen. Gemeinsam können wir die Welt zu einem besseren Ort machen – indem wir langsamer und nachhaltiger reisen. Bist du dabei?</p><p>Wir sind immer offen für neue Ideen und Kooperationen, also zögere bitte nicht, uns zu kontaktieren!</p>",
+    "bigger-picture-description": "<p>Wenn wir in den letzten Jahren eines gelernt haben, dann das: Es ist an der Zeit, zu entschleunigen. Das gilt für das Leben im Allgemeinen, aber ganz besonders auch für das Reisen. Je schneller wir reisen, desto mehr verpassen wir. Schnelles Reisen verursacht viele CO2-Emissionen, trennt Menschen von ihrer Umgebung und schadet Gemeinschaften. Bühne frei für slow travel!</p><p>Und Bühne frei für WTMG! Wir sind stolz darauf, Teil der Lösung für diese globale Herausforderung zu sein. In zwei Jahren hat WTMG viel erreicht:<ul><li>Über 8.500 herzliche Hosts haben ihren Garten für slow travel Reisende geöffnet</li><li>125.000 Übernachtungsanfragen wurden über die WTMG-Plattform gesendet</li><li>Wir haben in Belgien angefangen, aber immer mehr Gärten tauchen mittlerweile auch in ganz Europa und darüber hinaus auf?</li><li>Wir haben finanzielle Unterstützung von Partnern wie Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers und Natuurpunt erhalten</li></ul></p><p>Die bedeutungsvollsten und unvergesslichsten Erfahrungen machen wir, wenn wir uns Zeit nehmen, unsere Umgebung zu erkunden und uns darauf einzulassen. Mit WTMG möchten wir dir genau dabei helfen. Gemeinsam können wir die Welt zu einem besseren Ort machen – indem wir langsamer und nachhaltiger reisen. Bist du dabei?</p><p>Wir sind immer offen für neue Ideen und Kooperationen, also zögere bitte nicht, uns zu kontaktieren!</p>",
     "contributors": "Mitwirkende",
     "amazing-people": "Zu guter Letzt möchten wir diesen fantastischen Menschen danken",
     "cradle": "Ohne diese fantastischen Menschen würde <span class=\"notranslate\">Welcome To My Garden</span> nicht existieren. Sie standen an der Wiege der Plattform und haben von Anfang an an sie geglaubt!",
@@ -1581,12 +1581,12 @@
   "seo": {
     "general": {
       "description": "Welcome To My Garden: Kostenlose Zeltplätze in privaten Gärten für slow travel Reisende. Ermöglicht durch eine herzliche Gemeinschaft von Bürger:innen.",
-      "keywords": "Camping, Europa, slow travel, Radfahren, Wandern, Zelt, Community, Camping im Garten, kostenloses Camping, Abenteuer"
+      "keywords": "Zeltplatz, Europa, slow travel, Radfahren, Wandern, Zelt, Community, Zeltplatz im Garten, kostenloser Zeltplatz, Abenteuer"
     },
     "routeplanner": {
       "title": "Routenplaner WTMG",
       "description": "Kostenloser Online-Routenplaner für Rad- und Wandertouren mit Welcome To My Garden.",
-      "keywords": "Routenplaner, slow travel, Reiseroute, Wanderrouten, Radrouten, WTMG, Gärten, Camping",
+      "keywords": "Routenplaner, slow travel, Reiseroute, Wanderrouten, Radrouten, WTMG, Gärten, Zeltplatz",
       "image-url": "https://storage.googleapis.com/wtmg-static/routeplanner/preview/route-planner-en.jpg",
       "image-alt": "Poster für den WTMG-Routenplaner mit einem Kartenhintergrund"
     }
