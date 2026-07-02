@@ -1,0 +1,1574 @@
+{
+  "generics": {
+    "password": "Parolă",
+    "email": "Email",
+    "cookie-policy": "Politica de cookie-uri",
+    "privacy-policy": "Politica de confidențialitate",
+    "terms-of-use": "Termeni de utilizare",
+    "home": "Acasă",
+    "map": "Hartă",
+    "rules": "Reguli",
+    "faq": {
+      "acronym": "FAQ"
+    },
+    "wtmg": {
+      "acronym": "WTMG",
+      "explicit": "Welcome To My Garden"
+    },
+    "chat": "Chat",
+    "community": "Comunitate",
+    "account": "Cont",
+    "account-page": "pagina de cont",
+    "sign-out": "Deconectare",
+    "sign-in": "Conectare",
+    "garden": "Grădină",
+    "about-us": "Despre noi",
+    "become-superfan": "Devino Superfan",
+    "become-member": "Devino membru",
+    "helpcenter-url": "https://help.welcometomygarden.org/",
+    "superfan": "Superfan",
+    "member": "Membru",
+    "membership": "Abonament",
+    "new": "Nou",
+    "fair-model-blog-path": "/towards-a-fair-model-to-make-wtmg-survive-and-thrive",
+    "on": "pe",
+    "error": {
+      "start": "Ceva nu a mers bine",
+      "app-check": {
+        "message": "Este posibil ca WTMG să nu funcționeze bine în acest browser. Verifică {linkText} pentru soluții.",
+        "link-text": "centrul nostru de ajutor"
+      }
+    },
+    "question-mark": "?",
+    "here": "aici",
+    "cancel": "Anulează",
+    "now": "acum",
+    "undo": "Revocă"
+  },
+  "ui": {
+    "card": {
+      "register-here": "Înregistrează-te aici"
+    }
+  },
+  "navigation": {
+    "banner": {
+      "answer": "Înscrierile pentru {link} sunt acum deschise - sperăm să te vedem acolo! 🎉🚴",
+      "single-link": "Aplicația noastră WTMG este aici! {link}. 🥳🏕️",
+      "double-link": "Aplicația noastră WTMG este aici! Descarc-o acum pentru {iPhone} sau {Android}. 🥳🏕️",
+      "link-text": "Descarc-o acum"
+    },
+    "membership-expired-notice": {
+      "prompt": "Vrei să îți reînnoiești Abonamentul WTMG{amount} acum?",
+      "answer": "Atunci dă clic {linkText}. Îți mulțumim pentru sprijin!"
+    }
+  },
+  "index": {
+    "shop": {
+      "banner": {
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> are acum propriul {title} cu semne din lemn WTMG și cărți poștale de mulțumire pentru gazde. Mergi să le vezi la {link}!",
+        "title": "magazin online"
+      }
+    },
+    "intro": {
+      "headline": "Aventura ta de călătorie lentă începe aici",
+      "copy": "Locuri de campare în grădinile oamenilor pentru cei care practică călătoria lentă. Oferit de o comunitate inimoasă de cetățeni.",
+      "add-garden": "Adaugă grădina ta",
+      "explore-map": "Explorează harta",
+      "learn-more": "Află mai multe",
+      "garden-count-before": "Descoperă",
+      "garden-count-after": ", și numărul crește!",
+      "garden-count-noun": "grădini primitoare"
+    },
+    "steps": {
+      "0": {
+        "title": "Pasul 1: Înregistrează-te pentru a începe",
+        "copy": "Înregistrează-te pentru a găsi locuri de campare în grădinile oamenilor și pentru a contacta gazdele, sau {addGardenLink} pe hartă!",
+        "add-garden-link-text": "adaugă propria grădină"
+      },
+      "1": {
+        "title": "Pasul 2: Planifică-ți călătoria",
+        "copy": "Stabilește detaliile cu gazda ta și planifică-ți traseul de drumeție sau ciclism până la grădina gazdei."
+      },
+      "2": {
+        "title": "Pasul 3: Pune-ți cortul",
+        "copy": "Fă cunoștință cu gazda, pune-ți cortul și bucură-te de ședere - fie că asta înseamnă o noapte liniștită sau timp petrecut cu gazda ta!"
+      }
+    },
+    "faq": {
+      "title": "Tot ce trebuie să știi",
+      "copy": "Iată cele mai importante lucruri pe care trebuie să le știi despre următoarea ta aventură. Te rugăm să citești cu atenție această secțiune de FAQ pentru a ști în ce te implici. Ai mai multe întrebări? Citește mai multe în {faqLink}!",
+      "faq-link-text": "FAQ-ul nostru complet",
+      "questions": {
+        "0": {
+          "title": "Pentru cine este <span class=\"notranslate\">Welcome To My Garden</span>?",
+          "copy": "<span class=\"notranslate\">Welcome To My Garden</span> a fost creat pentru drumeți și bicicliști care au nevoie de un loc de campare pe traseul lor la sfârșitul zilei. Nu are scopul de a înlocui campingurile complet echipate, ci este doar un loc sigur pentru noapte! Consideră-l o completare a rețelei de zone de campare autorizate din Belgia. <span class=\"notranslate\">Welcome To My Garden</span> este non-comercial: nu se oferă bani. Aceasta înseamnă că, în calitate de gazdă, nu le poți cere oaspeților tăi să plătească pentru șederea lor."
+        },
+        "1": {
+          "title": "Cum ajung la locul meu de campare?",
+          "copy": "<span class=\"notranslate\">Welcome To My Garden</span> este destinat exclusiv celor care practică călătoria lentă. Te rugăm să mergi pe jos sau cu bicicleta până la locul tău de campare. Desigur, poți folosi transportul public sau mașina personală pentru a ajunge la începutul traseului - atât timp cât nu apari cu mașina la poarta gazdei!"
+        },
+        "2": {
+          "title": "Cum solicit o ședere?",
+          "copy": "Cu excepția cazului în care se specifică clar pe profilul gazdei, ar trebui să contactezi întotdeauna gazda în avans. Când soliciți o ședere, te rugăm să oferi câteva informații despre tine, data și ora sosirii tale."
+        },
+        "3": {
+          "title": "Cum rămâne cu facilitățile?",
+          "copy": "Practic, gazdele oferă doar un colț în grădina lor pentru a-ți pune cortul. În plus, pot oferi acces la apă potabilă, toaletă și electricitate. Cu toate acestea, nu sunt obligate să o facă: toate acestea sunt bonusuri. Consideră grădina ca pe o zonă de campare autorizată, nu ca pe un camping complet echipat."
+        },
+        "4": {
+          "title": "Costă ceva <span class=\"notranslate\">Welcome To My Garden</span>?",
+          "copy": "Șederea la o gazdă WTMG este gratuită. Totuși, pentru a întreține și dezvolta WTMG, ne bazăm pe un Abonament anual pentru a împărți costurile în mod echitabil între toți cei care practică călătoria lentă. Poți deveni membru <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">aici</a>."
+        }
+      }
+    },
+    "superfan": {
+      "become-superfan-title": "WTMG este susținut de membrii săi",
+      "subtitle": "Un model echitabil pentru WTMG"
+    },
+    "video-title": "Fă cunoștință cu comunitatea WTMG",
+    "wtmg-quotes": {
+      "0": {
+        "name": "Frank & Katlijn",
+        "quote": "Ne place să ascultăm poveștile celor care practică călătoria lentă. Unii abia au început, alții călătoresc cu copii. Fiecare are o poveste."
+      },
+      "1": {
+        "name": "Carolien și familia ei",
+        "quote": "Se pare că WTMG nu aduce împreună doar oameni, ci și animale. Am fost primiți cu căldură alături de măgărușii noștri!"
+      },
+      "2": {
+        "name": "Marie Marth",
+        "quote": "Datorită WTMG și călătorilor pe care i-am găzduit, acum îmi redescopăr propria regiune la pas. Văd totul dintr-o nouă perspectivă și este fascinant."
+      }
+    }
+  },
+  "rules": {
+    "title": "Reguli",
+    "description": "Iată cum funcționează <span class=\"notranslate\">Welcome To My Garden</span>. Asigură-te că citești regulile înainte de a-ți începe aventura! Până la urmă, această platformă va funcționa bine doar dacă respectăm cu toții regulile.",
+    "rules": {
+      "0": {
+        "title": "Rețea de cetățeni",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> este o rețea de cetățeni care oferă locuri de campare gratuite în grădinile lor pentru cei care practică călătoria lentă. Este o inițiativă non-profit și nu ar trebui să se obțină niciun venit din ea. <span class=\"notranslate\">Welcome To My Garden</span> nu își asumă nicio responsabilitate pentru eventualele pierderi, daune sau vătămări suferite în timpul unei șederi."
+      },
+      "1": {
+        "title": "Doar pentru cei care aleg călătoria lentă (regula fără mașină)",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respectă mediul înconjurător și a fost creat exclusiv pentru călătoria lentă. Acest lucru înseamnă că poți ajunge la locurile de campare doar pe jos, cu bicicleta sau cu transportul public. Accesul cu mașina personală este interzis. Ai voie să conduci până la începutul traseului tău de drumeție sau de ciclism – atât timp cât nu apari la locurile de campare cu mașina."
+      },
+      "2": {
+        "title": "Trimite o cerere în avans proprietarului grădinii",
+        "copy": "Este posibil ca proprietarii grădinilor să nu fie acasă și pregătiți să te întâmpine în orice moment. Le cerem utilizatorilor să contacteze proprietarul grădinii în avans pentru a verifica direct disponibilitatea. Acest lucru se face prin trimiterea unei cereri către gazdă prin intermediul profilului acesteia. După stabilirea primei conexiuni, puteți face schimb de date de contact, astfel încât să rămâneți în legătură și să îți anunți gazda despre ora sosirii prin e-mail sau telefon, în funcție de preferințele sale. Când trimiți o cerere, oferă câteva informații despre tine și despre ora estimată a sosirii. Comportamentele jignitoare și utilizarea abuzivă a platformei vor duce la suspendarea contului (te rugăm să consulți termenii noștri de utilizare)."
+      },
+      "3": {
+        "title": "Durata maximă a șederii",
+        "copy": "Poți sta într-un loc de campare maximum 48 de ore. Verifică întotdeauna cu proprietarul grădinii."
+      },
+      "4": {
+        "title": "Ghid de solicitare a șederii pentru cei care aleg călătoria lentă",
+        "copy": "<p>Când trimiți o cerere, te rugăm să respecți următoarele recomandări. Acest lucru va ajuta gazdele să îți înțeleagă solicitarea și le va fi mai ușor să răspundă.</p><ul><li>Prezintă-te<br/>Spune-i gazdei tale cine ești, în ce fel de călătorie te afli și când ai dori să stai în grădina sa.</li><li>Comunică clar<br/>Ține-ți gazda la curent. S-au schimbat planurile? Anunță-ți gazda cât mai curând posibil.</li><li>Fii amabil și respectuos<br/>Toate gazdele WTMG sunt voluntari. Un mesaj frumos este începutul unei mari aventuri!</li></ul>"
+      },
+      "5": {
+        "title": "Numărul maxim de corturi",
+        "copy": "Proprietarii de grădini stabilesc câte corturi pot găzdui în fiecare noapte (acesta nu este Festivalul Dour). Te rugăm să le respecți decizia."
+      },
+      "6": {
+        "title": "Facilități",
+        "copy": "Facilitățile pot varia de la un loc de campare la altul. Unii proprietari de grădini ar putea oferi acces la băile lor, în timp ce alții ar putea prefera să nu o facă. Te rugăm să le respecți deciziile și în aceste privințe."
+      },
+      "7": {
+        "title": "Respectul pentru natură",
+        "copy": "Toate deșeurile tale trebuie luate cu tine. Aceasta include urina și fecalele dacă nu există toaletă disponibilă: găsește un tufiș sau un copac în afara grădinii pentru treaba mică; pune treaba mare într-o pungă și arunc-o la coșul de gunoi a doua zi. Respectă natura și proprietarii de grădini: aplică principiul „Nu lăsa urme” la fel cum ai face dacă ai campa în sălbăticie."
+      },
+      "8": {
+        "title": "Fără zgomot",
+        "copy": "Te rugăm să respecți intimitatea proprietarilor locului de campare. Așa că nu cânta cu Celine Dion din toate puterile și nu face niciun alt tip de zgomot – cu siguranță nu după ora 22:00!"
+      },
+      "9": {
+        "title": "Distracție plăcută!",
+        "copy": "Aceasta este o oportunitate excelentă de a cunoaște oameni noi și de a te distra! Învață câteva cuvinte în limba gazdei tale dacă călătorești într-o regiune diferită de a ta. Fii curios, împărtășește povești și leagă noi prietenii!"
+      },
+      "10": {
+        "title": "Dă vestea mai departe",
+        "copy": "Ți-ar plăcea să îți deschizi grădina sau cunoști pe cineva care ar fi bucuros să o facă? Dă vestea mai departe despre <span class=\"notranslate\">Welcome To My Garden</span>! Îi poți invita să aprecieze și <a href=\"https://www.facebook.com/Welcome2mygarden\">pagina noastră de Facebook</a>."
+      }
+    }
+  },
+  "faq": {
+    "title": "Întrebări frecvente",
+    "description": "Întrebări adresate frecvent",
+    "clusters": {
+      "general": {
+        "title": "General",
+        "questions": {
+          "what": {
+            "title": "Ce este <span class=\"notranslate\">Welcome To My Garden</span>?",
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> este o rețea de cetățeni care își deschid grădinile pentru cei care aleg călătoria lentă și au nevoie de un loc de campare. Es o inițiativă non-profit creată de un grup de cetățeni în timpul primului lockdown din perioada Covid-19. <span class=\"notranslate\">Welcome To My Garden</span> este acum o întreprindere socială, având misiunea de a face călătoria lentă mai accesibilă pentru toată lumea."
+          },
+          "who": {
+            "title": "Pentru cine este <span class=\"notranslate\">Welcome To My Garden</span>?",
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> a fost creat pentru drumeți și bicicliști care au nevoie de un loc de campare pe traseul lor la sfârșitul zilei. Nu are scopul de a înlocui campingurile complet echipate, ci doar de a oferi un loc sigur pentru noapte! Consideră-l o completare a unei rețele de zone de campare autorizate."
+          },
+          "how": {
+            "title": "Cum funcționează <span class=\"notranslate\">Welcome To My Garden</span>?",
+            "copy": "Persoanele care doresc să își deschidă grădina pentru călători își pot adăuga grădina făcând clic pe „Adaugă grădina ta”. Persoanele care doresc să stea într-o grădină trebuie să își facă un Abonament și apoi să contacteze gazdele pentru a-și organiza șederea."
+          }
+        }
+      },
+      "slow-travellers": {
+        "title": "Cei care aleg călătoria lentă",
+        "questions": {
+          "request-tips": {
+            "title": "Ce ar trebui să includ în cererea de ședere trimisă gazdelor?",
+            "copy": "<p>Când trimiți o solicitare, te rugăm să respecți următoarele recomandări. Acest lucru va ajuta gazdele să înțeleagă solicitarea ta și le va fi mai ușor să răspundă.</p><ul><li>Prezintă-te<br/>Spune-i gazdei tale cine ești, în ce fel de călătorie te afli și când ai dori să stai în grădina sa.</li><li>Comunică clar<br/>Ține-ți gazda la curent. S-au schimbat planurile? Anunță-ți gazda cât mai curând posibil.</li><li>Fii amabil și respectuos<br/>Toate gazdele WTMG sunt voluntari. Un mesaj prietenos este începutul unei aventuri minunate!</li></ul>"
+          },
+          "how-camping": {
+            "title": "Cum ajung la locul meu de campare?",
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> a fost creat pentru a răspunde nevoilor celor care practică călătoria lentă: drumeți și bicicliști care au nevoie de un loc de campare la sfârșitul zilei. Din acest motiv, este de așteptat să ajungi la locul de campare pe jos, cu bicicleta sau cu transportul public – în niciun caz cu mașina."
+          },
+          "what-facilities": {
+            "title": "Ce facilități vei găsi în grădină?",
+            "copy": "În principiu, gazdele oferă doar un colț din grădina lor pentru a-ți instala cortul. În plus, pot oferi acces la apă potabilă, toaletă și electricitate. Cu toate acestea, nu sunt obligate să facă acest lucru: toate acestea sunt bonusuri. Consideră o grădină ca pe un loc de bivuac, nu ca pe un camping în toată regula. Facilitățile sunt afișate în prezentarea generală a grădinii; de asemenea, poți filtra facilitățile folosind butonul de lângă bara de căutare."
+          },
+          "cost": {
+            "title": "Costă ceva <span class=\"notranslate\">Welcome To My Garden</span>?",
+            "copy": "<p>Să stai la o gazdă WTMG este gratuit. Totuși, pentru a întreține și dezvolta WTMG, ne bazăm pe un Abonament anual pentru a împărți costurile în mod echitabil între toți călătorii lenți. Poți anula reînnoirea oricând din {accountLink}-ul tău. Poți obține un Abonament <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">aici</a>.</p>"
+          },
+          "no-garden": {
+            "title": "Nu am o grădină. Pot totuși să călătoresc în grădinile altor oameni?",
+            "copy": "Da! Nu trebuie să oferi o grădină pentru a folosi una. Platforma este deschisă tuturor călătorilor lenți!"
+          },
+          "how-long": {
+            "title": "Cât timp pot rămâne acolo?",
+            "copy": "Deoarece aceste grădini se adresează doar nevoilor călătorilor lenți care se află într-o drumeție sau o călătorie cu bicicleta în mai multe etape, poți sta într-un loc de campare maximum 48 de ore (două nopți). Desigur, după aceea poți merge la următorul loc de campare! Și la următorul. Și la următorul... Întotdeauna verifică cu gazda cât timp poți sta, unele gazde vor prefera să stai doar o singură noapte."
+          },
+          "animals": {
+            "title": "Pot să-mi aduc familia? Copiii? Câinele?",
+            "copy": "Cel mai bine este să o întrebi pe gazda ta dacă acceptă copii și/sau câini. Destul de multe gazde au indicat deja pe profilul lor că sunt deschise să primească familii, dar chiar dacă nu au făcut-o, poți oricând să întrebi!"
+          },
+          "no-toilet": {
+            "title": "Și ce se întâmplă dacă nu există toaletă?",
+            "copy": "Este posibil ca nu toate gazdele să ofere acces la toaletă. În acest caz, te rugăm să găsești un loc în afara grădinii care să îți satisfacă nevoile. Fă pipi în spatele unui copac și strânge treaba mare într-o pungă pentru a o arunca la gunoi a doua zi. Aplică principiul „Nu lăsa urme” (Leave No Trace), la fel cum ai face-o când campezi în sălbăticie."
+          },
+          "tent-type": {
+            "title": "Ce tip de cort pot să aduc?",
+            "copy": "Deoarece WTMG se adresează doar drumeților și bicicliștilor, ne așteptăm să nu aduci un cort mai mare decât cel de drumeție. Asta înseamnă că ar trebui să încapă cu ușurință în rucsacul tău. Dacă nu ești sigur că cortul tău va încăpea în grădina gazdei, te rugăm să o consulți înainte de plecare."
+          }
+        }
+      },
+      "hosts": {
+        "title": "Gazde",
+        "questions": {
+          "privacy": {
+            "title": "Cum garantează <span class=\"notranslate\">Welcome To My Garden</span> confidențialitatea mea ca gazdă?",
+            "copy": "Toate datele tale personale sunt protejate de sistemul de autentificare. Dacă ești gazdă, nu îți vom afișa numărul casei sau locația exactă pe hartă. Le poți oferi aceste detalii oaspeților tăi odată ce ai luat legătura cu ei. Tu decizi cum dorești să te contacteze: prin e-mail, prin telefon sau prin ambele."
+          },
+          "messaging": {
+            "title": "Am primit un mesaj de la un călător lent. Unde ar trebui să răspund?",
+            "copy": "Conversația dintre gazde și călători are loc prin intermediul chat-ului de pe platformă. Dacă primești un e-mail de notificare că ai primit un mesaj, mergi la {chatLink} pentru a răspunde."
+          },
+          "suspend": {
+            "title": "Aș dori să îmi suspend grădina pentru o perioadă, dar mă voi întoarce curând! Cum fac acest lucru?",
+            "copy": "Mergi la {accountLink}-ul tău. În categoria „Grădina ta”, debifează caseta „Afișat pe hartă”. Grădina va rămâne salvată pe platformă, dar nu va mai apărea pe hartă. Când te întorci, trebuie doar să bifezi din nou caseta și poți începe să găzduiești din nou călători lenți!"
+          },
+          "issue": {
+            "title": "Am avut o problemă cu un oaspete sau o gazdă. Cum o pot raporta?",
+            "copy": "Orice problemă sau comportament necorespunzător trebuie raportat către <span class=\"notranslate\">Welcome To My Garden</span> prin e-mail: {support}. În caz de comportament necorespunzător, ne rezervăm dreptul de a elimina unilateral contul acelei persoane (vezi Termenii de utilizare)."
+          }
+        }
+      },
+      "technical-support": {
+        "title": "Suport tehnic",
+        "questions": {
+          "privacy": {
+            "title": "Tocmai m-am înregistrat, dar nu am primit e-mailul de confirmare.",
+            "copy": "Contactează echipa de asistență (support@welcometomygarden.org) și te vor ajuta să-ți verifici e-mailul!"
+          },
+          "messages": {
+            "title": "Am probleme la citirea mesajelor.",
+            "copy": "Mai întâi, încearcă să te conectezi folosind un alt browser, cum ar fi Firefox sau Google Chrome. Dacă nu funcționează, contactează asistența la support@welcometomygarden.org. Există întotdeauna o soluție pentru orice, o vom găsi împreună!"
+          },
+          "update-email": {
+            "title": "Aș dori să-mi actualizez adresa de e-mail sau să-mi șterg contul. Cum fac asta?",
+            "copy": "Dacă dorești să-ți schimbi e-mailul sau să-ți ștergi contul, te rugăm să mergi la secțiunea {accountLink}."
+          },
+          "newsletter": {
+            "title": "Mi-ar plăcea foarte mult să primesc următorul vostru newsletter! Ce ar trebui să fac?",
+            "copy": "Pentru a primi următorul nostru newsletter, mergi la {accountLink} și bifează căsuța „<span class=\"notranslate\">Welcome To My Garden</span> are noutăți de împărtășit”. Dacă dorești să nu mai primești noutăți, debifează aceeași căsuță."
+          },
+          "text-in-english": {
+            "title": "Există text în limba engleză, deși nu este limba mea preferată. Cum pot schimba asta?",
+            "copy": "Pe computer, mergi în stânga jos și alege limba dorită. Pe telefon, dă clic pe meniul tip hamburger. Dacă un text nu este încă tradus în limba ta preferată, atunci acesta va apărea în engleză."
+          },
+          "notifications": {
+            "title": "Mai am o întrebare despre primirea notificărilor pe mobil.",
+            "copy": "Poți găsi tot ce trebuie să știi despre notificările pe mobil în {mobileFaqLink}."
+          }
+        }
+      },
+      "other": {
+        "title": "Altele",
+        "questions": {
+          "fb-page": {
+            "title": "De ce pagina de Facebook este doar în engleză?",
+            "copy": "În primul rând, există un motiv foarte practic: engleza este singura limbă în care întreaga echipă poate comunica suficient de fluent! De asemenea, ne dorim ca WTMG să fie deschis tuturor, astfel încât oamenii din alte țări să poată implementa inițiativa și în țara lor. Pe pagina de Facebook vom rămâne la limba engleză. Dacă te simți mai confortabil să scrii în olandeză sau franceză, te rugăm să o faci!"
+          }
+        }
+      }
+    },
+    "donation": "o donație",
+    "instruction-page": "această pagină de instrucțiuni",
+    "help-center-text": "Centrul nostru de ajutor"
+  },
+  "cookies": {
+    "title": "Politica de module cookie"
+  },
+  "privacy-policy": {
+    "title": "Politica de confidențialitate",
+    "last-updated": "Ultima actualizare: 26 august 2025",
+    "subtitle": "Responsabil pentru prelucrarea datelor și proprietar",
+    "intro": "<span class=\"notranslate\">Welcome To My Garden</span>, un proiect non-profit sub entitatea juridică Slowby, o întreprindere socială, constituită și care funcționează conform legilor din Belgia, cu sediul social în Henri Van Bortonnestraat 100, 1090 Jette, Belgia, având numărul de înregistrare BE 0784.423.261.",
+    "email": "E-mail: {support}",
+    "scope": {
+      "title": "Politica de confidențialitate",
+      "copy": "Această „Politică de confidențialitate” se aplică „Datelor cu caracter personal” colectate de <span class=\"notranslate\">Welcome To My Garden</span> prin intermediul acestui site web."
+    },
+    "personal-data": {
+      "meaning": {
+        "title": "Ce înseamnă date cu caracter personal?",
+        "copy": "În această Politică de confidențialitate, prin Date cu caracter personal se înțelege orice informație care face posibilă identificarea ta. O persoană identificabilă este o persoană care poate fi identificată, direct sau indirect, în special prin referire la un număr de identificare sau la unul sau mai mulți factori legați de identitatea sa fizică, fiziologică, psihică, economică, culturală sau socială. Un exemplu tipic de informații personale este numele și adresa ta de e-mail."
+      },
+      "collection": {
+        "title": "Ce date cu caracter personal colectăm?",
+        "copy": "Este posibil să colectăm Datele tale cu caracter personal din următoarele surse:",
+        "sources": {
+          "0": {
+            "title": "Datele cu caracter personal pe care le furnizezi în timpul procesului de înregistrare pe platformă.",
+            "list": {
+              "0": "Adresa de e-mail (obligatoriu)",
+              "1": "Numele și prenumele tău (obligatoriu)",
+              "2": "Țara ta (obligatoriu)",
+              "3": "Consimțământul tău pentru acești termeni"
+            }
+          },
+          "1": {
+            "title": "Datele cu caracter personal pe care le colectăm atunci când vizitezi site-ul nostru web.",
+            "list": {
+              "0": "Folosim module cookie pentru a colecta automat date cu caracter personal despre tine atunci când folosești acest site web. Pentru mai multe informații, te rugăm să consulți Politica noastră de module cookie."
+            }
+          },
+          "2": {
+            "title": "Datele cu caracter personal pe care le furnizezi atunci când adaugi grădina în contul tău.",
+            "list": {
+              "0": "Locația grădinii tale (coordonate: latitudinea și longitudinea) (obligatoriu)",
+              "1": "Informații despre grădina ta (descriere, facilități, numărul de corturi pe care le poți găzdui) (obligatoriu)",
+              "2": "O imagine cu grădina ta (opțional)"
+            }
+          },
+          "3": {
+            "title": "Locația utilizatorului",
+            "list": {
+              "0": "În cazul în care ești de acord să-ți partajezi locația cu <span class=\"notranslate\">Welcome To My Garden</span>, harta <span class=\"notranslate\">Welcome To My Garden</span> va fi centrată pe locația furnizată de browserul tău. <span class=\"notranslate\">Welcome To My Garden</span> nu stochează în niciun fel locația ta, nici într-un modul cookie, nici în stocarea locală. Locația utilizatorului servește doar la îmbunătățirea experienței tale de utilizare, prin centrarea hărții."
+            }
+          }
+        }
+      },
+      "usage": {
+        "title": "Cum folosim datele cu caracter personal?",
+        "subtitle": "Este posibil să folosim datele tale cu caracter personal în următoarele scopuri",
+        "purposes": {
+          "0": "Pentru a-ți crea și menține profilul de utilizator pe acest site;",
+          "1": "Pentru a gestiona identificarea și autentificarea utilizatorilor;",
+          "2": "Pentru a-ți verifica contul de utilizator în scopul garantării măsurilor de securitate necesare;",
+          "3": "Pentru a oferi informații despre grădina ta comunității de utilizatori;",
+          "4": "Pentru a te alerta atunci când au loc actualizări pe platformă;",
+          "5": "Pentru a te alerta atunci când activitățile de pe platformă te-ar putea interesa."
+        },
+        "copy": "Datele cu caracter personal sunt stocate și prelucrate doar pentru perioada necesară îndeplinirii scopului prelucrării. După aceea, datele vor fi șterse sau anonimizate. <span class=\"notranslate\">Welcome To My Garden</span> se bazează pe Firebase pentru stocarea și gestionarea datelor, pe Stripe pentru procesarea plăților și pe SendGrid pentru comunicarea prin e-mail. Aceste servicii sunt certificate conform standardelor majore de confidențialitate și securitate și sunt conforme cu GDPR. Politicile lor de confidențialitate sunt disponibile aici: <a href=\"https://firebase.google.com/support/privacy?hl=en\" target=\"_blank\">Firebase</a>, <a href=\"https://stripe.com/privacy\" target=\"_blank\">Stripe</a> și <a href=\"https://www.twilio.com/legal/privacy\" target=\"_blank\">SendGrid</a>."
+      },
+      "backups": {
+        "title": "Copii de siguranță",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> face o copie de siguranță a tuturor datelor sale la fiecare 6 ore și stochează datele timp de 30 de zile. Dacă soliciți ștergerea contului tău, datele vor fi stocate în copia de siguranță pentru această durată. Niciuna dintre aceste date nu va fi folosită vreodată, cu excepția cazului în care datele de producție sunt corupte."
+      },
+      "extra": {
+        "0": {
+          "title": "Cu cine împărtășim datele tale cu caracter personal?",
+          "copy": "Datele tale cu caracter personal nu vor fi transmise niciunei terțe părți. Nu vom vinde și nu vom închiria niciodată datele tale cu caracter personal altor furnizori de servicii și nici nu vom partaja datele tale cu caracter personal cu furnizori de servicii care nu sunt conformi cu GDPR."
+        },
+        "1": {
+          "title": "Unde transferăm datele tale cu caracter personal?",
+          "copy": "Transferăm datele tale cu caracter personal către furnizori de servicii stabiliți în afara Spațiului Economic European doar dacă aceștia respectă art. 44 din GDPR. Toți furnizorii de servicii cu sediul în SUA respectă Scutul de confidențialitate (Privacy Shield)."
+        },
+        "2": {
+          "title": "Procesul decizional automatizat și crearea de profiluri",
+          "copy": "Prelucrarea datelor tale cu caracter personal nu include crearea de profiluri și nu va face obiectul unei decizii automatizate de către <span class=\"notranslate\">Welcome To My Garden</span>."
+        }
+      }
+    },
+    "rights": {
+      "title": "Ce drepturi ai?",
+      "copy": "<span>Ai dreptul de a-ți vizualiza datele cu caracter personal în orice moment, precum și dreptul de a fi informat cu privire la utilizarea pe care <span class=\"notranslate\">Welcome To My Garden</span> o dă datelor tale cu caracter personal.</span>",
+      "list": {
+        "0": {
+          "title": "Dreptul la rectificare, ștergere și restricționarea prelucrării",
+          "copy": "Ești liber să decizi dacă dorești sau nu să furnizezi datele tale cu caracter personal către <span class=\"notranslate\">Welcome To My Garden</span>. În plus, ai întotdeauna dreptul de a-ți modifica, completa sau șterge datele cu caracter personal de pe <span class=\"notranslate\">Welcome To My Garden</span>. Confirmi că refuzul de a furniza sau solicitarea de ștergere a datelor cu caracter personal înseamnă că anumite servicii nu mai pot fi oferite. De asemenea, poți solicita restricționarea prelucrării datelor tale cu caracter personal."
+        },
+        "1": {
+          "title": "Dreptul de opoziție",
+          "copy": "Ai dreptul de a te opune prelucrării datelor tale cu caracter personal, atât timp cât acest lucru se face din motive întemeiate și legitime."
+        },
+        "2": {
+          "title": "Dreptul la portabilitatea datelor",
+          "copy": "Ai dreptul de a obține datele cu caracter personal pe care le-ai furnizat către <span class=\"notranslate\">Welcome To My Garden</span> într-un format structurat, utilizat în mod curent și care poate fi citit automat, și/sau de a le transfera către alți operatori."
+        },
+        "3": {
+          "title": "Dreptul de a-ți retrage consimțământul",
+          "copy": "În măsura în care prelucrarea se bazează pe consimțământul tău prealabil, ai dreptul de a retrage această aprobare."
+        },
+        "4": {
+          "title": "Dreptul de a depune o plângere",
+          "copy": "Ai dreptul de a depune o plângere la Comisia Belgiană pentru Protecția Vieții Private: Personal Privacy Protection Commission, Drukpersstraat 35, 1000 Brussels, Belgium, Tel +32 (0)2 274 48 00, Fax +32 (0)2 274 48 35, email: commission@privacycommission.be. Acest lucru nu aduce atingere unei căi de atac în fața unei instanțe civile."
+        }
+      },
+      "exercise-rights": {
+        "title": "Exercitarea drepturilor tale",
+        "copy": "Îți poți exercita drepturile contactând <span class=\"notranslate\">Welcome To My Garden</span> în acest scop, prin trimiterea unui e-mail la adresa {support}, cu condiția să anexezi o copie a cărții tale de identitate"
+      }
+    },
+    "additional-info": {
+      "title": "Informații suplimentare despre colectarea și prelucrarea datelor",
+      "infos": {
+        "0": {
+          "title": "Proceduri legale",
+          "copy": {
+            "0": "Împuternicitul și Operatorul pentru prelucrarea datelor ar putea folosi datele cu caracter personal ale utilizatorului în scopuri juridice, în instanță sau în cadrul procedurilor judiciare, în cazul utilizării ilegale a acestei Aplicații sau a serviciilor conexe.",
+            "1": "Utilizatorul este conștient de faptul că Împuternicitul și Operatorul de date ar putea fi obligați să dezvăluie datele cu caracter personal la cererea instituțiilor guvernamentale competente pentru prelucrarea datelor."
+          }
+        },
+        "1": {
+          "title": "Măsuri de securitate",
+          "copy": {
+            "0": "<span class=\"notranslate\">Welcome To My Garden</span> a dezvoltat măsuri de securitate adaptate la nivel tehnologic și organizațional pentru a preveni distrugerea, pierderea, falsificarea, modificarea, accesul neautorizat sau divulgarea eronată către terți a datelor cu caracter personal, precum și orice altă procesare neautorizată a acestor date.",
+            "1": "În niciun caz <span class=\"notranslate\">Welcome To My Garden</span> nu poate fi tras la răspundere pentru orice pierdere directă sau indirectă rezultată din utilizarea incorectă sau ilegală a datelor tale cu caracter personal de către un terț.",
+            "2": "Trebuie să respecți în orice moment instrucțiunile de securitate, ceea ce include prevenirea oricărui acces neautorizat la datele tale de autentificare, inclusiv parola. Ești singurul responsabil pentru utilizarea site-ului pe computerul tău, de la adresa ta IP și cu datele tale de identificare, precum și pentru păstrarea confidențialității acestora."
+          }
+        }
+      }
+    },
+    "definitions": {
+      "title": "Definiții și cadru legal",
+      "articles": {
+        "0": {
+          "title": "Date cu caracter personal (sau Date)",
+          "copy": "Orice informație referitoare la o persoană fizică, o persoană juridică, o instituție sau o asociație care a fost sau ar putea fi identificată, direct sau indirect, prin referire la alte informații."
+        },
+        "1": {
+          "title": "Date de utilizare",
+          "copy": "Informații colectate automat din această Aplicație (sau din serviciile externe utilizate în această Aplicație), inclusiv: adresele IP sau numele de domeniu ale computerelor utilizate de Utilizatorii acestei Aplicații, adresele URI (Uniform Resource Identifier), ora solicitării, metoda utilizată pentru a trimite solicitarea către server, dimensiunea fișierului primit ca răspuns, codul numeric care indică starea răspunsului serverului (succes, eroare etc.), funcțiile browserului și ale sistemului de operare ale Utilizatorului, diferitele date temporale pe vizită (cum ar fi timpul petrecut pe fiecare pagină a aplicației) și datele colectate în timpul utilizării aplicației (de exemplu: ordinea paginilor vizitate sau alți parametri despre sistemul de operare al dispozitivului)."
+        },
+        "2": {
+          "title": "Utilizator",
+          "copy": "Persoana care folosește această Aplicație și care trebuie să fie de acord cu sau să fie autorizată de Persoana vizată la care se referă Datele cu caracter personal."
+        },
+        "3": {
+          "title": "Persoana vizată",
+          "copy": "Persoana juridică sau fizică la care se referă Datele cu caracter personal."
+        },
+        "4": {
+          "title": "Persoana împuternicită de operator (sau Supervizor de date)",
+          "copy": "Persoana fizică, persoana juridică, administrația guvernamentală sau orice altă instituție, asociație sau organizație autorizată de Operatorul de date să prelucreze Datele cu caracter personal în conformitate cu această politică de confidențialitate."
+        },
+        "5": {
+          "title": "Operatorul de date (sau Proprietarul)",
+          "copy": "Persoana fizică, persoana juridică, administrația guvernamentală sau orice altă instituție, asociație sau organizație care are dreptul, de asemenea împreună cu Operatorul de prelucrare a datelor, să ia decizii privind scopurile și metodele de prelucrare a Datelor cu caracter personal și mijloacele utilizate, inclusiv măsurile de securitate privind exploatarea și utilizarea acestei Aplicații. Operatorul pentru prelucrarea Datelor este Proprietarul acestei Aplicații, cu excepția cazului în care se specifică altfel."
+        },
+        "6": {
+          "title": "Această Aplicație",
+          "copy": "Instrumentele hardware sau software prin care sunt colectate Datele cu caracter personal ale Utilizatorului."
+        },
+        "7": {
+          "title": "Cookie",
+          "copy": "Un mic set de date stocat pe dispozitivul Utilizatorului. Vezi Politica noastră de cookie-uri."
+        }
+      },
+      "legal-info": {
+        "title": "Informații legale",
+        "copy": "Notă pentru utilizatorii europeni: această declarație de confidențialitate a fost redactată respectând obligațiile din art. 10 din Directiva Europeană 95/46/CE și prevederile Directivei Europene 2002/58/CE, precum și revizuirea din Directiva 2009/136/CE privind modulele cookie."
+      }
+    },
+    "change-warning": {
+      "title": "Modificări ale acestei politici de confidențialitate",
+      "copy": "Operatorul pentru prelucrarea Datelor își rezervă dreptul de a modifica această politică de confidențialitate în orice moment, notificând Utilizatorii pe această pagină. Te încurajăm să verifici această pagină pentru eventuale modificări. Data ultimei modificări este indicată în partea de jos a paginii. Dacă un Utilizator nu este de acord cu vreo modificare a politicii, acesta nu trebuie să mai folosească această Aplicație. Se poate solicita Operatorului de date ștergerea Datelor cu caracter personal. Cu excepția cazului în care se specifică altfel, Politica de confidențialitate în vigoare la momentul respectiv se aplică tuturor Datelor cu caracter personal pe care Operatorul le are stocate despre Utilizatori."
+    }
+  },
+  "garden": {
+    "facilities": {
+      "labels": {
+        "water": "Apă",
+        "drinkable-water": "Apă potabilă",
+        "toilet": "Toaletă",
+        "bonfire": "Foc de tabără",
+        "electricity": "Electricitate",
+        "shower": "Duș"
+      }
+    },
+    "filter": {
+      "title": "Filtru",
+      "garden-facilities": "Facilități grădină",
+      "garden-capacity": "Capacitate grădină",
+      "spots-available": "Locuri de cort disponibile",
+      "min": "Minim",
+      "no-places": "Nu s-au găsit locuri",
+      "search-city": "Caută un oraș",
+      "all-filters": "Toate filtrele",
+      "apply-filter": "Aplică filtrul",
+      "available": "{styledAmount} {amount, plural, one {grădină disponibilă} other {grădini disponibile}} cu filtrele active.",
+      "min-capacity": "Min. {capacity} {capacity, plural, one {cort} other {corturi}}"
+    },
+    "drawer": {
+      "facilities": {
+        "capacity": "Spațiu pentru {styleCapacity} {capacity, plural, one {cort} other {corturi}}"
+      },
+      "owner": {
+        "your-garden": "Grădina ta",
+        "button": "Administrează grădina"
+      },
+      "guest": {
+        "button": "Contactează gazda",
+        "login": "Trebuie să {signInLink} și să fii membru pentru a contacta gazdele",
+        "become-member": "Pentru a contacta gazdele, trebuie mai întâi să {becomeMember}. Îți mulțumim!",
+        "sign-link-text": "te autentifici",
+        "become-member-text": "devii membru"
+      },
+      "save": "Salvează",
+      "saved": "Salvat",
+      "phone-notice": "Numerele de telefon sunt vizibile doar pentru membri.",
+      "response-rate-time": {
+        "response-rate": "Rată de răspuns",
+        "response": "{responses, plural, one {răspuns} other {răspunsuri}}",
+        "request": "{requests, plural, one {solicitare} other {solicitări}}",
+        "day": "{days, plural, one {zi} other {zile}}",
+        "to": "la",
+        "within": "în decurs de",
+        "in": "în",
+        "the-last": "ultimele",
+        "typically-responds": "De obicei răspunde",
+        "a-few-hours": "câteva ore",
+        "a-week": "o săptămână",
+        "or-more": "sau mai mult"
+      }
+    },
+    "add": {
+      "title": "Adaugă grădina ta"
+    },
+    "manage": {
+      "add-first": "Te rugăm să adaugi mai întâi o grădină.",
+      "title": "Administrează grădina"
+    },
+    "form": {
+      "register-link-text": "creează un cont",
+      "location": {
+        "title": "Locație (obligatoriu)",
+        "notice": "Mută marcatorul pentru a stabili locația grădinii tale. Poți completa câmpurile de adresă pentru a apropia marcatorul de tine. <br /> Nu stocăm informațiile despre adresa ta.",
+        "coordinate-hint": "Asigură-te că ai tras marcatorul de pe hartă pe locația exactă a grădinii tale și că ai dat clic pe „Confirmă locația pinului”",
+        "confirm-button": "Confirmă locația pinului",
+        "adjust-button": "Ajustează locația pinului",
+        "street": "Stradă",
+        "house-number": "Număr",
+        "region": "Județ sau regiune",
+        "postal-code": "Cod poștal",
+        "city": "Oraș",
+        "country": "Țară"
+      },
+      "description": {
+        "title": "Descrie locul tău de campare (obligatoriu)",
+        "notice": "O scurtă descriere a grădinii tale și a locului de campare pe care îl oferi. Aceste informații sunt afișate public, așa că nu include detalii personale aici. <br />Descrierea trebuie să aibă între 20 și 300 de caractere.",
+        "hints": {
+          "too-short": "Mai este nevoie de {remaining} {remaining, plural, one {caracter} other {caractere}}...",
+          "too-long": "Depășire cu {surplus} {surplus, plural, one {caracter} other {caractere}}..."
+        },
+        "placeholder": "Introdu o descriere...",
+        "label": "Descriere"
+      },
+      "facilities": {
+        "title": "Facilități",
+        "notice": "La ce fel de facilități au acces călătorii?",
+        "capacity": {
+          "label": "Capacitate (obligatoriu)",
+          "help": "Pentru câte corturi ai spațiu (estimare)"
+        }
+      },
+      "photo": {
+        "title": "Fotografie",
+        "notice": "Arată-le oamenilor cum arată grădina ta.<br />Asigură-te că imaginea arată doar locul de campare și nu include casa vecinului tău.",
+        "img-alt": "Grădina ta",
+        "hints": {
+          "wrong-format": "Fotografia trebuie să fie un fișier JPEG, PNG sau TIFF.",
+          "too-large": "Imaginea este prea mare. Dimensiunea fișierului imaginii ar trebui să fie de maximum 30 MB."
+        }
+      },
+      "invalid": "Unele informații nu au fost valide. Te rugăm să verifici erorile din informațiile trimise.",
+      "manage": {
+        "title": "Administrează-ți grădina",
+        "button": "Actualizează-ți grădina",
+        "normal-notice": "Pe această pagină îți poți actualiza informațiile despre grădină. Îți poți retrage grădina de pe listă oricând din {accountLink}."
+      },
+      "add": {
+        "normal-notice": "Prin trimiterea acestui formular, grădina ta va fi adăugată pe hartă. O poți administra sau elimina oricând din {accountLink}.",
+        "button": "Adaugă-ți grădina",
+        "title": "Adaugă-ți grădina pe hartă"
+      }
+    },
+    "notify": {
+      "success": "Grădina ta a fost adăugată cu succes!",
+      "update": "Grădina ta a fost actualizată cu succes!"
+    }
+  },
+  "sign-in": {
+    "title": "Autentificare",
+    "button": "Autentificare",
+    "reset": {
+      "text": "Ai uitat parola? {link}",
+      "link": "Reseteaz-o"
+    },
+    "register": {
+      "text": "Nu ai încă un cont? {link}",
+      "link": "Înregistrează-te"
+    },
+    "notify": {
+      "welcome": "Bine ai revenit, {user}!",
+      "incorrect": "E-mailul sau parola furnizată sunt incorecte.",
+      "login-issue": "Nu te-am putut autentifica. Dacă problema persistă, te rugăm să contactezi {support}"
+    }
+  },
+  "become-superfan": {
+    "modal": {
+      "subtitle": "Călătorie lentă cu WTMG",
+      "title": "Devino membru!",
+      "intro": "Găzduirea la o gazdă WTMG este gratuită. Totuși, pentru a menține și dezvolta WTMG, ne bazăm pe un abonament anual pentru a împărți costurile în mod echitabil între toți cei care practică călătoria lentă. Alătură-te nouă astăzi!",
+      "features-title": "În calitate de membru, poți...",
+      "choose-membership": "Alege Abonamentul"
+    },
+    "pricing-section": {
+      "title": "Alege tipul de abonament",
+      "description": "Valabil timp de un an. Alătură-te comunității noastre astăzi!",
+      "per-month": "pe lună",
+      "pricing-levels": {
+        "0": {
+          "title": "Gratuit",
+          "description": "Poți explora harta, poți găzdui călători care practică călătoria lentă în grădina ta și poți primi newsletterul WTMG.",
+          "backref": "",
+          "checklist": {
+            "0": "<strong>Vezi toate grădinile și traseele</strong> pe hartă",
+            "1": "<strong>Găzduiește călători care practică călătoria lentă</strong> în grădina ta",
+            "2": "<strong>Primește newsletterul WTMG</strong>"
+          }
+        },
+        "1": {
+          "title": "Membru",
+          "description": "Primești acces complet la platforma WTMG și îți acoperi partea ta din costuri.",
+          "backref": "Tot ce este în Free, plus:",
+          "checklist": {
+            "0": "<strong>Trimite solicitări de găzduire către peste 5000 de grădini.</strong>",
+            "1": "<strong>Planifică-ți călătoria:</strong> încarcă-ți traseul, salvează grădini și vezi rețeaua feroviară",
+            "2": "<strong>Acces la spațiul comunității</strong>",
+            "3": "<strong>Menține WTMG fără reclame, complet independent și susținut de membri</strong>"
+          }
+        },
+        "2": {
+          "title": "Superfan 💚",
+          "description": "Ești cu adevărat pasionat de călătoriile lente și vrei să susții misiunea WTMG.",
+          "backref": "Include toate beneficiile pentru Membri, plus:",
+          "mobile-superfan-copy": "Beneficii pentru Membri, plus că tu chiar crezi în ceea ce facem și vrei să susții misiunea WTMG.",
+          "checklist": {
+            "0": "<strong>Arată-ți susținerea și ajută-ne să îmbunătățim WTMG</strong>",
+            "1": "<strong>Ajută-ne să dezvoltăm mișcarea călătoriilor lente și să adăugăm mai multe grădini pe hartă</strong>"
+          }
+        }
+      },
+      "per-year": "/an",
+      "terms-label": "Folosesc WTMG doar ca un călător lent (niciodată cu mașina) și sunt de acord cu toate {termsLink}.",
+      "terms-link-text": "regulile WTMG",
+      "questions": "Întrebări?",
+      "faq-link-text": "Vezi întrebările frecvente.",
+      "blog-post": "Citește articolul nostru de pe blog:",
+      "blog-post-link-text": "De ce un abonament pentru WTMG?",
+      "already-member": ""
+    }
+  },
+  "about-superfan": {
+    "video-section": {
+      "title": "Alătură-te comunității",
+      "description": "<_p><_span class=\"notranslate\">Welcome To My Garden<_/span> are misiunea de a face călătoriile lente mai accesibile pentru toată lumea. Ca orice grădină, WTMG are nevoie de îngrijire pentru a crește și a rămâne sănătoasă.<_/p><_p>_Găzduirea la o gazdă WTMG este gratuită. Cu toate acestea, pentru a menține și dezvolta WTMG, ne bazăm pe un abonament anual pentru a împărți costurile în mod echitabil între toți călătorii lenți. Alătură-te nouă astăzi!<_/p>",
+      "blog-link-text": "De ce are nevoie WTMG de membri",
+      "superfan-count": "călători lenți s-au alăturat deja!"
+    },
+    "for-superfans-section": {
+      "slug": "Tu faci ca magia să se întâmple",
+      "title": "Ca membru, poți să…",
+      "points": {
+        "0": {
+          "title": "<strong>Trimite solicitări de găzduire gratuite către toate cele peste 5.000 de gazde WTMG de pe hartă</strong>"
+        },
+        "1": {
+          "title": "<strong>Stabilește detalii cu gazdele</strong> prin chat și ai ocazia să cunoști oameni noi minunați."
+        },
+        "2": {
+          "title": "<strong>Folosește funcții utile:</strong> încarcă-ți traseul, salvează grădini și vezi rețeaua feroviară."
+        },
+        "3": {
+          "title": "<strong>Accesează Comunitatea WTMG</strong> unde membrii se pot întâlni, pot împărtăși experiențe și pot pune întrebări."
+        },
+        "4": {
+          "title": "<strong>Îți acoperi partea ta din costuri:</strong> WTMG are nevoie de fonduri pentru a menține o rețea de calitate."
+        },
+        "5": {
+          "title": "<strong>Menții WTMG fără reclame, complet independent și susținut de membri:</strong> fără sprijinul continuu al comunității noastre nu putem exista!"
+        },
+        "6": {
+          "title": "<strong>Susții munca unei echipe dedicate</strong> de patru entuziaști ai călătoriilor lente."
+        }
+      }
+    },
+    "team-section": {
+      "title": "Fă cunoștință cu echipa",
+      "description": "Deci, cine se află în spatele WTMG? Suntem o echipă mică de patru pasionați de călătorii lente și vrem să-i ajutăm și pe alții să pornească în propriile aventuri de călătorie lentă!",
+      "meet-team-button": "Fă cunoștință cu echipa"
+    },
+    "superfan-quotes-section": {
+      "quotes": {
+        "0": {
+          "name": "Lieven",
+          "quote": "O inițiativă minunată care încurajează solidaritatea și spiritul de comunitate între călătorii lenți, combinată cu tehnologie de ultimă oră? Sunt complet de acord!"
+        },
+        "1": {
+          "name": "Boris",
+          "quote": "Începând să călătoresc cu bicicleta, s-a cristalizat ceea ce doream să devin: liber, minimalist, autonom și activ."
+        },
+        "2": {
+          "name": "Marie Marth",
+          "quote": "WTMG nu este doar distractiv, ci înseamnă să schimbăm lumea, să schimbăm modul în care călătorim."
+        },
+        "3": {
+          "name": "Benoit & Hélène",
+          "quote": "Mă bucur să fiu înconjurat de o comunitate atât de minunată de călători lenți care trec de la vorbe la fapte!"
+        }
+      }
+    },
+    "faq-section": {
+      "title": "Întrebări frecvente",
+      "faq-subsections": {
+        "why": {
+          "title": "",
+          "questions": {
+            "0": {
+              "title": "De ce lansează WTMG un abonament?",
+              "copy": "<_span class=\"notranslate\">Welcome To My Garden<_/span> are misiunea de a face călătoriile lente mai accesibile pentru toată lumea. Ca orice grădină, WTMG are nevoie de îngrijire pentru a crește și a rămâne sănătoasă. Găzduirea la o gazdă WTMG este gratuită. Cu toate acestea, pentru a menține și dezvolta WTMG, ne bazăm pe un abonament anual pentru a împărți costurile în mod echitabil între toți călătorii lenți. <_a href=\"https://blog.welcometomygarden.org/towards-a-fair-model-to-make-wtmg-survive-and-thrive?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=membership_faq\" target=\"_blank\">_Citește întreaga noastră poveste aici<_/a>."
+            }
+          }
+        },
+        "superfan-faq": {
+          "title": "Călători lenți",
+          "questions": {
+            "0": {
+              "title": "Ce înseamnă să fii membru sau Superfan?",
+              "copy": "<p>Pentru a menține și dezvolta WTMG, ne bazăm pe un Abonament anual pentru a împărți costurile în mod echitabil între toți cei care practică o călătorie lentă.</p><p>Când devii membru sau Superfan, poți:</p><ul><li>Să trimiți cereri gratuite către peste 5000 de grădini</li><li>Funcții utile pentru a-ți planifica călătoria: încarcă-ți traseul, salvează grădini, vizualizează rețeaua de trasee</li><li>Să accesezi spațiul online al comunității</li><li>Să menții WTMG fără reclame, complet independent și susținut de membri.</li></ul>"
+            },
+            "1": {
+              "title": "Care este diferența dintre a fi membru și a fi Superfan?",
+              "copy": "Deși Superfanii au acces la aceleași beneficii ca și membrii, ei sunt foarte importanți pentru WTMG, deoarece ne permit să îmbunătățim WTMG, să dezvoltăm mișcarea de călătorie lentă și să adăugăm mai multe grădini pe hartă. Dacă ești cu adevărat pasionat de călătoria lentă și vrei să susții misiunea WTMG, acest lucru este pentru tine!"
+            },
+            "2": {
+              "title": "De ce are nevoie WTMG de o contribuție financiară anuală din partea celor care practică o călătorie lentă?",
+              "copy": "<p>În fiecare lună, cheltuim mii de euro și sute de ore pentru a menține WTMG în funcțiune. Aceasta este viața și munca noastră: trebuie să ne asigurăm veniturile, să plătim biroul, costurile de hosting și multe altele.</p><p>WTMG este un proiect complet independent, finanțat în întregime din resurse proprii de către echipa sa fondatoare, ceea ce înseamnă că nu au fost implicați investitori. Pentru a ne asigura că WTMG poate exista în anii următori, un model echitabil înseamnă împărțirea costurilor între cei care practică o călătorie lentă. Practic, dacă folosești platforma noastră, ne așteptăm să contribui.</p>"
+            },
+            "3": {
+              "title": "Unde vor merge banii mei?",
+              "copy": "<p>Deoarece nu avem nimic de ascuns și transparența contează, am pregătit o prezentare generală pentru a-ți oferi o imagine clară despre destinația contribuțiilor membrilor noștri.</p><p>Taxele anuale pentru Abonament ne vor permite să:</p><ul><li>Menținem platforma și serverele WTMG</li><li>Acoperim toate costurile operaționale, cum ar fi costurile cu software-ul, contabilul și spațiul de co-working</li><li>Răspundem la solicitările de asistență și la întrebările membrilor și ale gazdelor</li><li>Menținem calitatea rețelei WTMG</li><li>Oferim un spațiu al comunității unde membrii se pot întâlni și pot împărtăși experiențe</li><li>Îmbunătățim platforma WTMG pe baza feedback-ului primit de la membri</li><li>Comunicăm despre WTMG în exterior și promovăm călătoria lentă în general</li><li>Stabilim colaborări cu alte inițiative de călătorie lentă</li></ul>"
+            },
+            "4": {
+              "title": "Cât de mult trebuie să contribui?",
+              "copy": "<p>Depinde de tine! Poți deveni membru sau Superfan, în funcție de cât de mult crezi în călătoria lentă și de cât de mult vrei să ne susții.</p><p>Un Abonament de membru costă 36 € pe an, ceea ce practic îți acoperă propriul cost. Poți trimite cereri gratuite către 5000 de grădini, ai acces la funcții utile pentru a-ți planifica călătoria și permiți WTMG să rămână fără reclame, complet independent și susținut de membri.</p><p>Să devii Superfan costă 60 € pe an. Pe lângă faptul că beneficiază de toate avantajele membrilor, Superfanii ne ajută, de asemenea, să îmbunătățim WTMG, să dezvoltăm mișcarea de călătorie lentă și să adăugăm mai multe grădini pe hartă.</p>"
+            },
+            "5": {
+              "title": "Cum funcționează plata?",
+              "copy": "După ce ai ales dacă dorești să devii membru sau Superfan, vei fi redirecționat către pagina de plată. Plătești pentru un an o dată. Abonamentul tău se va reînnoi automat, dar poți anula reînnoirea automată oricând în {accountLink}. Cu șapte zile înainte de data reînnoirii, te vom notifica, de asemenea, prin e-mail cu privire la viitoarea reînnoire."
+            },
+            "6": {
+              "title": "Cum îmi pot gestiona, reînnoi sau anula Abonamentul?",
+              "copy": "Îți poți gestiona, reînnoi sau anula Abonamentul oricând în {accountLink}. Pe această pagină vei vedea starea actuală a Abonamentului tău, data de reînnoire sau de expirare și instrucțiuni despre comment să îl anulezi sau să îl reînnoiești."
+            },
+            "7": {
+              "title": "Este obligatoriu să devii membru sau Superfan dacă practici o călătorie lentă?",
+              "copy": "<p>Călătorii care practică o călătorie lentă trebuie să aibă o contribuție financiară anuală pentru ca WTMG să poată exista în continuare. Acesta este lucrul pe care l-am cerut deja atunci când am lansat apelul nostru pentru Superfani. Acum, extindem această solicitare către întreaga noastră comunitate de călătorie lentă. <strong>Practic, dacă folosești platforma noastră, ne așteptăm să contribui.</strong> Aceasta va fi o contribuție anuală. Astfel, pe lângă posibilitatea de a bani deveni Superfan, introducem un Abonament pentru a extinde solicitarea noastră de sprijin de la primii noștri susținători la întreaga comunitate.</p><p>Nu le cerem gazdelor să contribuie financiar, deoarece ele contribuie deja într-un alt mod – dar, desigur, sunt pe deplin binevenite să contribuie și financiar dacă doresc.</p>"
+            },
+            "8": {
+              "title": "Nu ați lansat deja un apel pentru Superfani?",
+              "copy": "<p>La sfârșitul anului 2022, am lansat un apel pentru Superfani WTMG. Suntem foarte recunoscători pentru sprijinul primit de la primii peste 250 de Superfani și pentru o donație generoasă de 1.000 € de la o gazdă. <strong>Datorită acestor primitori susținători, suntem convinși că putem ajunge la un model de sine stătător pentru WTMG.</strong> Dar pentru a ajunge acolo, avem nevoie de un <strong>sprijin larg</strong>; nu doar din partea unui procent mic de utilizatori: am calculat că avem nevoie de susținerea a <strong>cel puțin 3.000 de călători</strong> pentru ca această magie să se întâmple.</p>"
+            },
+            "9": {
+              "title": "Dacă nu devin membru sau Superfan, ce se va întâmpla cu contul meu gratuit?",
+              "copy": "Ca membru gratuit, poți explora harta, poți găzdui călători care practică călătoria lentă în grădina ta și poți primi newsletterul WTMG."
+            },
+            "10": {
+              "title": "Pentru cât timp voi deveni membru sau Superfan?",
+              "copy": "Când devii membru sau Superfan, vei plăti pentru un an. Abonamentul tău se va reînnoi automat, dar poți anula oricând reînnoirea automată din {accountLink}-ul tău. Dacă îți anulezi abonamentul, doar reînnoirea automată va fi anulată. Acest lucru înseamnă că vei rămâne membru până la sfârșitul perioadei pentru care ai plătit deja."
+            },
+            "11": {
+              "title": "Pot să renunț la calitatea de membru sau Superfan?",
+              "copy": "<p>Da, oricând dorești. De îndată ce ai devenit membru al comunității, îți poți gestiona abonamentul anual în {accountLink}-ul tău WTMG.</p><p>Dacă pe pagina contului tău scrie <strong>\"Abonamentul tău este activ. Se reînnoiește automat la xx/xx/xxxx.\"</strong>, abonamentul tău se va reînnoi la acea dată. Poți anula reînnoirea oricând făcând clic pe <strong>„Gestionează abonamentul”</strong>. Dacă îți anulezi abonamentul, doar reînnoirea automată va fi anulată. Acest lucru înseamnă că vei rămâne membru până la sfârșitul perioadei pentru care ai plătit deja.</p><p>Dacă pe pagina contului tău scrie <strong>\"Abonamentul tău este valabil până la xx/xx/xxxx. Reînnoirea automată este dezactivată.”</strong>, abonamentul tău va expira la data specificată și nu va fi reînnoit automat.</p>"
+            },
+            "12": {
+              "title": "Ce se întâmplă dacă îmi anulezi abonamentul?",
+              "copy": "În cazul în care îți anulezi abonamentul, doar reînnoirea automată va fi anulată. Acest lucru înseamnă că vei rămâne membru până la sfârșitul perioadei pentru care ai plătit deja. Totuși, dacă te răzgândești, poți reactiva oricând reînnoirea automată din {accountLink}-ul tău."
+            },
+            "13": {
+              "title": "Este nevoie de câte un abonament de persoană dacă călătoresc cu prietenii sau familia?",
+              "copy": "Nu, este nevoie de un singur abonament pentru a contacta gazdele atunci când călătorești cu prietenii sau familia. Cu toate acestea, fiecare cont individual este strict personal, așa că oricine călătorește separat va avea nevoie de propriul abonament."
+            }
+          }
+        },
+        "hosts-faq": {
+          "title": "Gazde",
+          "questions": {
+            "0": {
+              "title": "Sunt gazdă. Ar trebui să devin membru sau Superfan?",
+              "copy": "În primul rând, suntem extrem de bucuroși că primești călători care practică călătoria lentă în grădina ta! WTMG nu ar exista fără oameni cu suflet mare ca tine. Dacă vrei să devii Superfan și să ne susții în misiunea noastră de a face călătoria lentă mai accesibilă, ne-am bucura tare mult. Însă vrem să subliniem că tu aduci deja o contribuție uriașă în calitate de gazdă!"
+            }
+          }
+        },
+        "structure-faq": {
+          "title": "Despre WTMG",
+          "questions": {
+            "0": {
+              "title": "Cine se află în spatele WTMG?",
+              "copy": "Suntem o echipă mică formată din trei pasionați de călătorie lentă (Dries, Manon și Thor) care lucrează cu normă întreagă pentru a face WTMG posibil. Poți citi mai multe despre noi <a href=\"{langPrefix}/about-us\" target=\"_blank\">aici</a>."
+            },
+            "1": {
+              "title": "Care este structura juridică din spatele WTMG?",
+              "copy": "<span class=\"notranslate\">Welcome To My Garden</span> este un proiect non-profit sub entitatea juridică Slowby, o <a href=\"https://1819.brussels/en/information-library/sustainable-entrepreneurship/accreditation-social-enterprise-benefits\" target=\"_blank\">întreprindere socială</a>, ceea ce înseamnă că suntem o inițiativă care urmărește un impact social. Cele cinei principii ale <a href=\"https://www.codesocialeondernemingen.nl/application/files/2615/5491/1784/Principles_Code_Social_Enterprises_English_version.pdf\" target=\"_blank\">Codului Întreprinderilor Sociale</a> reprezintă ghidul nostru în luarea deciziilor. Pentru a proteja misiunea WTMG, luăm în considerare posibilitatea de a deveni o cooperativă sau de a implementa un <a href=\"https://purpose-economy.org/en/whats-steward-ownership/\" target=\"_blank\">model de proprietate de tip steward (steward-ownership)</a> la un moment dat în viitor. Totuși, mai întâi trebuie să ne asigurăm că putem crea un model viabil care să asigure stabilitatea financiară a WTMG."
+            },
+            "2": {
+              "title": "Cât costă administrarea WTMG?",
+              "copy": "<p>În fiecare lună, cheltuim mii de euro și sute de ore pentru a menține WTMG în funcțiune. Aceasta este viața și munca noastră: trebuie să ne plătim salariile, biroul, costurile de găzduire și multe altele.</p>\n<p>WTMG este un proiect complet independent, finanțat integral de echipa sa fondatoare; ceea ce înseamnă că nu au fost implicați investitori. Pentru a ne asigura că WTMG poate exista și în anii următori, un model echitabil ne ajută să împărțim costurile între cei care practică călătoria lentă.</p>"
+            },
+            "3": {
+              "title": "Cum au fost plătite facturile WTMG până acum?",
+              "copy": "<p>Până acum, costurile WTMG au fost plătite în principal din buzunarele echipei noastre fondatoare.</p>\n<p>Iată cum am acoperit costurile de până acum:</p>\n<ul>\n<li>Marea majoritate a facturilor au fost plătite datorită veniturilor obținute din planificarea de călătorii prin activitatea noastră secundară Slowby.travel (30.000 €) și din drepturile de distribuție ale documentarului lui Manon, „Women Don’t Cycle” (25.000 €).</li>\n<li>În primul său an de existență, WTMG a primit sprijin financiar de la susținători timpurii precum Grote Routepaden, GR Sentiers și Natuurpunt.</li>\n<li><em>La sfârșitul anului 2022, am lansat un apel pentru Superfans WTMG. Suntem foarte recunoscători pentru sprijinul primit de la primii peste 230 de Superfans și pentru o donație generoasă de 1.000 € de la o gazdă. Datorită acestor primii susținători, suntem convinși că putem ajunge la un model autosuficient pentru WTMG. Dar pentru a ajunge acolo, avem nevoie de un sprijin larg, nu doar de la un procent mic de utilizatori: am calculat că avem nevoie de sprijinul a 3.000 de călători pentru ca această magie să se întâmple.</em></li>\n</ul>"
+            },
+            "4": {
+              "title": "Ați încercat și alte modalități de a genera venituri - cum ar fi donațiile, sponsorizările și subvențiile?",
+              "copy": "<p>Am încercat deja câteva modalități de a genera veniturile de care avem nevoie pentru a continua. Următoarele s-au dovedit a fi nesustenabile pentru WTMG:</p>\n<ul>\n<li>Donațiile. Este tentant să crezi că putem reuși dacă toată lumea contribuie voluntar cu puțin. În realitate, s-a dovedit că donațiile au fost insuficiente chiar și pentru a acoperi toate costurile tehnice. În total, am primit mai puțin de 500 €/an din donații.</li>\n<li><em>Gestionarea unei alte inițiative (așa cum am făcut cu călătoriile noastre Slowby). Deoarece WTMG necesită atenția noastră deplină, este pur și simplu un efort prea mare să derulăm două inițiative mari în același timp cu o echipă de trei persoane. Cineva a numit pe bună dreptate acest model de finanțare o rețetă pentru burnout (nu-ți face griji, suntem încă plini de energie pozitivă, dar de aceea trebuie să acționăm acum).</em></li>\n<li>Subvențiile. Sunt excelente pentru a lansa un proiect, dar nu îl fac autosuficient din punct de vedere financiar pe termen lung. Așa cum este explicat foarte frumos în <a href=\"https://www.libraryofthings.co.uk/blog/purposebeforeprofit\">această postare</a> de la Library of Things, solicitarea de subvenții ne-ar distrage atenția de la adevăratul nostru scop: crearea de valoare pentru comunitatea noastră.</li>\n</ul>\n<p>Am ales să nu afișăm reclame pe site-ul nostru. De ce? Nu vrem să îți vindem datele unor companii ale căror valori s-ar putea să nu se alinieze cu ale noastre. De asemenea, căutarea de reclame ne-ar distrage atenția de la crearea de valoare pentru utilizatori. Vrem să fim plătiți pentru o platformă excelentă de călătorie lentă care merită să fie plătită.</p>\n<p><strong>Deci, ca să rezumăm, credem că este atât corect, cât și rezonabil să solicităm o contribuție financiară de la călătorii noștri care practică călătoria lentă.</strong></p>"
+            },
+            "5": {
+              "title": "De câți membri are nevoie WTMG pentru a supraviețui și a se dezvolta?",
+              "copy": "Pentru a menține o rețea de calitate și pentru a continua dezvoltarea WTMG, avem nevoie ca 3.000 de călători care practică călătoria lentă să devină membri. Împreună putem reuși – asta înseamnă să fim o comunitate."
+            }
+          }
+        }
+      },
+      "contact-section": {
+        "title": "Mai ai întrebări?",
+        "contact-button": "Citește întreaga poveste"
+      }
+    }
+  },
+  "thank-you-superfan": {
+    "top-section": {
+      "title": "Îți mulțumim că te-ai alăturat comunității WTMG! 🌟",
+      "description": "<p>Suntem atât de fericiți că pornești la drum alături de noi! 💚</p>",
+      "features": "<p>Acum poți să:</p>\n<ul>\n<li>Trimiți cereri de găzduire către peste 5000 de grădini</li>\n<li>Îți planifici călătoria: încarcă-ți traseul, salvează grădini și vezi rețeaua feroviară</li>\n<li>Accesezi spațiul comunității</li>\n</ul>",
+      "outro": "<p>Datorită ție, putem menține WTMG fără reclame, complet independent și susținut de membri.</p>"
+    },
+    "features-section": {
+      "title": "Acum poți să:",
+      "explore-features-button": "Începe să-ți planifici călătoria"
+    },
+    "closing-section": {
+      "text": "<p><strong>Un mare mulțumesc din partea echipei noastre!</strong></p>\n<p>Dries, Manon și Thor</p>\n<p><em>PS: Vrei să afli mai multe despre cine suntem? <a class=\"link\" href=\"{langPrefix}/about-us\">Citește povestea noastră aici!</a></em></p>"
+    }
+  },
+  "payment-superfan": {
+    "overview-section": {
+      "product": {
+        "regular": "Abonament WTMG",
+        "superfan": "WTMG Superfan"
+      },
+      "duration": "1 an",
+      "features": {
+        "0": "Campează gratuit în grădini",
+        "1": "Întâlnește oameni minunați",
+        "2": "Planifică-ți cu ușurință aventura",
+        "3": "Menține WTMG independent"
+      }
+    },
+    "payment-section": {
+      "payment-method": "Metodă de plată",
+      "pay-button": "Plătește acum",
+      "loading": "Se încarcă...",
+      "youre-subscribed": "Te-ai abonat ca Superfan!",
+      "no-switching-here": "În prezent, nu oferim posibilitatea de a schimba prețul de aici. Scrie-ne la {supportEmail} dacă dorești să schimbi abonamentul. Mulțumim!",
+      "errors": {
+        "loading-error": "Ceva nu a mers bine la încărcarea serviciului nostru de plăți. Te rugăm să reîncarci pagina.",
+        "systems-error": "Ceva nu a mers bine în sistemele noastre. Te rugăm să ne contactezi la {supportEmail} și te vom ajuta cât mai curând posibil! Ne cerem scuze pentru neplăceri.",
+        "payment-error": "Ceva nu a mers bine cu plata ta, te rugăm să încerci din nou.",
+        "please-try-again": "Te rugăm să încerci din nou."
+      },
+      "success": "Îți mulțumim că ai devenit membru WTMG!",
+      "app-fallback": {
+        "success-title": "Plata ta a fost efectuată cu succes!",
+        "continue-button": "Continuă"
+      }
+    },
+    "not-logged-in-warning": "Pentru a deveni Superfan, mai întâi autentifică-te sau creează-ți un cont",
+    "title": "Plată",
+    "terms": "Devenind membru, ești de acord cu {termsLink}. Abonamentul tău se va reînnoi automat, dar îl poți anula oricând."
+  },
+  "request-password-reset": {
+    "title": "Resetează-ți parola",
+    "description": "Introdu adresa de e-mail asociată contului tău WTMG și îți vom trimite un link pentru a-ți reseta parola.",
+    "button": "Obține linkul de resetare",
+    "set": "Dacă există un cont cu adresa de e-mail {email}, îți vom trimite un e-mail cu instrucțiuni pentru resetarea parolei.",
+    "trouble": "Întâmpini probleme la autentificare? Contactează {support} și te vom ajuta!"
+  },
+  "reset-password": {
+    "title": "Setează o parolă nouă",
+    "update": "Actualizează parola",
+    "success": "Parola ta a fost resetată cu succes"
+  },
+  "email-preferences": {
+    "error": "Întâmpini probleme la dezabonare? Contactează {support} și te vom ajuta!",
+    "unsubscribe": {
+      "title": "Dezabonare de la noutățile WTMG",
+      "description": "<p>Dacă apeși pe butonul de dezabonare de mai jos, nu vei mai primi noutăți de la WTMG la adresa <span class=\"notranslate\">{email}</span>.</p>",
+      "unsubscribe": "Dezabonare"
+    },
+    "resubscribe": {
+      "title": "Te-ai dezabonat de la noutățile WTMG",
+      "description": "<p>Nu vei mai primi noutăți de la WTMG la adresa <span class=\"notranslate\">{email}</span>.</p><p>Dacă dorești să te reabonezi, poți apăsa pe butonul de mai jos.</p>",
+      "resubscribe": "Reabonare"
+    }
+  },
+  "account": {
+    "title": "Cont",
+    "verify": {
+      "title": "Verifică-ți adresa de e-mail",
+      "text": "Trebuie să îți verifici adresa de e-mail dacă dorești să conversezi pe chat sau să adaugi o grădină.",
+      "button": "Retrimite e-mailul",
+      "sent": "E-mail trimis!",
+      "reload-suggestion": "Ai verificat deja? Încearcă să {reloading} pagina.",
+      "reloading-text": "reîncarci"
+    },
+    "preferences": {
+      "title": "Preferințe e-mail",
+      "text": "Trimite-mi e-mailuri când:",
+      "chat": "Primesc un mesaj nou pe chat",
+      "news": "<span class=\"notranslate\">Welcome To My Garden</span> are noutăți de împărtășit"
+    },
+    "garden": {
+      "title": "Grădina ta",
+      "unlisted": {
+        "text": "Încă nu ți-ai adăugat grădina pe hartă. Când o adaugi, ceilalți utilizatori te vor putea contacta pentru a solicita o ședere. Poți retrage grădina de pe hartă în orice moment!",
+        "button": "Adaugă-ți grădina"
+      },
+      "listed": {
+        "text": "Retrage-ți temporar grădina de pe hartă",
+        "button": "Gestionează grădina"
+      },
+      "unverified": {
+        "text": "Verifică-și adresa de e-mail pentru a-ți gestiona grădina."
+      }
+    },
+    "superfan": {
+      "btn-manage": "Gestionează abonamentul",
+      "valid": "Abonamentul tău este valabil până la {date}",
+      "auto-active": "Abonamentul tău este activ.<br>Se reînnoiește automat pe {date}.",
+      "auto-canceled": "Abonamentul tău este valabil până la {date}.<br>Reînnoirea automată este dezactivată.",
+      "renew-btn-text": "Reînnoiește acum",
+      "send-invoice-just-ended": "Abonamentul tău a expirat.<br>Reînnoiește-l acum și activează reînnoirea automată (poate fi anulată oricând).",
+      "charge-automatically": {
+        "update-payment-method": "Actualizează metoda de plată",
+        "expired": "Abonamentul tău a expirat.<br>Sperăm că ne putem baza în continuare pe sprijinul tău! 💚",
+        "payment-failed": "Abonamentul tău a expirat.<br>Actualizează metoda de plată pentru a-l reînnoi."
+      }
+    },
+    "notify": {
+      "resend-error": "Nu am putut retrimite e-mailul de verificare a contului. Te rugăm să contactezi {support}",
+      "garden-show": "Grădina ta va apărea din nou pe hartă",
+      "garden-no-show": "Grădina ta nu va mai apărea pe hartă",
+      "preferences-update": "Preferințele tale de e-mail au fost actualizate!"
+    },
+    "delete": {
+      "button-action": "Șterge-ți contul",
+      "modal": {
+        "are-you-sure": "<p>Mesajele de pe chat pe care le-ai primit sau trimis vor rămâne vizibile pentru celelalte conturi implicate în acele conversații, inclusiv prenumele tău.</p><strong>Această acțiune este ireversibilă!</strong></p><p>Dacă vrei doar să îți ascunzi grădina de pe hartă, închide această fereastră și apasă pe \"{unlist}\".</p>",
+        "prompt": "șterge tot",
+        "errors": {
+          "wrong-verification": "Ai scris „{prompt}” în câmpul de mai sus?"
+        },
+        "delete-field-label": "Scrie „{prompt}”",
+        "title": "Sigur?",
+        "reauthentication-info": "<span style=\"color:var(--color-danger);\">⚠️ A trecut mult timp de când te-ai autentificat ultima dată.</span> Pentru a ne asigura că ești tu, te rugăm să introduci parola pentru a confirma ștergerea:",
+        "deleted": "Contul tău a fost șters",
+        "verification-info": "<p>Pentru a ne asigura că nu îți ștergi contul accidental, scrie „{prompt}” în caseta de text de mai jos:</p>",
+        "verification-ok": "✅ Acum îți poți șterge contul!",
+        "reauthentication-incorrect-password": "Parola introdusă este incorectă, încearcă din nou."
+      },
+      "intro": "Ștergerea contului tău va elimina din sistemele noastre toate datele acestuia, cum ar fi adresa de e-mail, numele de familie și informațiile despre grădina ta."
+    },
+    "change-email": {
+      "modal": {
+        "title": "Schimbă-ți adresa de e-mail",
+        "info": "Această acțiune îți va schimba adresa de e-mail în toate sistemele WTMG.",
+        "new-email-placeholder": "nouaadresa@welcometomygarden.org",
+        "new-email-label": "Noua adresă de e-mail",
+        "error": {
+          "firebase-error": "Ceva nu a mers bine la solicitarea actualizării adresei tale de e-mail. Dacă nu ai primit un e-mail de verificare pe noua adresă, verifică folderul SPAM. Dacă problema persistă, te rugăm să contactezi serviciul nostru de asistență."
+        },
+        "success": "Solicitarea ta de modificare a fost trimisă cu succes! Deschide căsuța poștală a noii tale adrese de e-mail ({newEmail}) și dă clic pe linkul de verificare pentru a finaliza procesul.",
+        "button-label": "Schimbă e-mailul"
+      }
+    },
+    "notifications": {
+      "manage": "Gestionează-ți notificările mobile active",
+      "title": "Notificări pe mobil",
+      "delete": "Șterge",
+      "turn-on": "Activează notificările",
+      "unknown": "necunoscut",
+      "current": "Dispozitivul curent",
+      "last-seen": "Ultima accesare la",
+      "questions": "Întrebări? Consultă {faqLink}.",
+      "questions-faqlink-text": "secțiunea noastră de Întrebări Frecvente"
+    }
+  },
+  "auth": {
+    "invalid-code": "Această pagină nu poate fi accesată fără un cod de acțiune valid",
+    "password": {
+      "expired": "Acest link de resetare a parolei a expirat. Te rugăm să soliciți unul nou"
+    },
+    "unsigned": "Te rugăm să te autentifici mai întâi.",
+    "verification": {
+      "verifying": "Îți verificăm adresa de e-mail... Nu închide această pagină, procesul poate dura câteva secunde.",
+      "reloading": "Îți reîncărcăm contul...",
+      "success": "Adresa ta de e-mail a fost verificată cu succes!",
+      "refresh": "Adresa ta de e-mail a fost deja verificată.",
+      "expired": "Acest link de verificare a expirat. Te rugăm să soliciți unul nou.",
+      "sign-in": "Autentifică-te pentru a continua.",
+      "unverified": "Te rugăm să îți verifici mai întâi adresa de e-mail."
+    },
+    "discourse": {
+      "superfan": "Doar membrii Superfan au acces la spațiul comunității.",
+      "logging-in": "Te conectăm la spațiul comunității...",
+      "failed": "Conectarea la spațiul comunității a eșuat. Contactează asistența dacă problema persistă."
+    },
+    "logged-out": "Te-ai deconectat cu succes.",
+    "email-change": {
+      "in-progress": "Se modifică adresa de e-mail...",
+      "success": "Adresa ta de e-mail a fost modificată cu succes! Te rugăm să te autentifici din nou"
+    }
+  },
+  "register": {
+    "title": "Înregistrare",
+    "button": "Înregistrează-te",
+    "first-name": "Prenume",
+    "last-name": "Nume",
+    "country": "Țară",
+    "policies": "Sunt de acord cu {cookiePolicy}, {privacyPolicy} și {termsOfUse}",
+    "registering": "Te înregistrăm...",
+    "registered": "Ai deja un cont? {signIn}",
+    "reference": "Cum ai aflat de WTMG? (opțional)",
+    "validate": {
+      "email": "Te rugăm să adaugi o adresă de e-mail, o vei folosi pentru a te autentifica",
+      "email-suggestion": "Ai vrut să scrii",
+      "password": {
+        "set": "Trebuie să setezi o parolă pentru a te putea autentifica mai târziu",
+        "min": "Parola trebuie să aibă cel puțin 8 caractere",
+        "max": "Te rugăm să te asiguri că parola are cel mult 100 de caractere"
+      },
+      "first-name": {
+        "set": "Te rugăm să introduci un prenume. Acesta va fi vizibil pentru ceilalți utilizatori",
+        "max": "Prenumele poate avea maximum 25 de caractere pentru a fi afișat corect. Poți folosi o abreviere sau o poreclă."
+      },
+      "last-name": {
+        "set": "Te rugăm să îți introduci numele de familie. Acesta nu va fi vizibil pentru ceilalți utilizatori",
+        "max": "Numele de familie poate avea maximum 50 de caractere."
+      },
+      "country": {
+        "from-list": "Te rugăm să alegi o țară din listă. Acest lucru ne ajută să poziționăm harta în zona ta"
+      },
+      "consent": "Trebuie să fii de acord cu termenii <span class=\"notranslate\">Welcome To My Garden</span> pentru a putea folosi platforma",
+      "reference": "Te rugăm să te asiguri că răspunsul tău are maximum 100 de caractere"
+    },
+    "notify": {
+      "successful": "Contul tău a fost creat cu succes! Te rugăm să îți verifici e-mailul pentru a-ți confirma contul.",
+      "in-use": "Această adresă de e-mail este deja utilizată.",
+      "invalid": "Aceasta nu pare să fie o adresă de e-mail validă. Poate s-a strecurat o greșeală?",
+      "unexpected": "A apărut o eroare neșteptată. Dacă problema persistă, te rugăm să contactezi {support}"
+    }
+  },
+  "chat": {
+    "title": "Chat",
+    "title-conversation": "Discuție cu {partnerName}",
+    "all-conversations": "Toate discuțiile",
+    "type-message": "Scrie un mesaj...",
+    "new": "nou",
+    "notify": {
+      "unverified": "Te rugăm să îți verifici adresa de e-mail înainte de a începe să discuți",
+      "empty-message": "Mesajul tău nu poate fi gol",
+      "too-long": "Mesajul tău este cu {surplus} {surplus, plural, one {caracter} other {caractere}} prea lung..."
+    },
+    "go-to-garden": "Mergi la grădină",
+    "error-modal": {
+      "title": "Ceva nu a mers bine",
+      "description": "A apărut o eroare la trimiterea mesajului tău.",
+      "instruction": "Dacă problema persistă, te rugăm să copiezi textul de mai jos și să îl trimiți prin e-mail la",
+      "closing-line": "Vom încerca să te ajutăm cât mai repede posibil!"
+    },
+    "guidelines": {
+      "title": "Ghid pentru solicitările de ședere",
+      "points": {
+        "0": {
+          "title": "Prezintă-te",
+          "description": "Spune-i gazdei {hostName} cine ești, în ce fel de călătorie te afli și când ai dori să vii."
+        },
+        "1": {
+          "title": "Contactează gazdele din timp",
+          "description": "Toate gazdele sunt voluntari. Cât de mult posibil, contactează-le din timp pentru a se putea organiza."
+        },
+        "2": {
+          "title": "Fii amabil și respectuos",
+          "description": "Ține-ți gazda la curent. Anunț-o dacă planurile tale se schimbă."
+        }
+      }
+    },
+    "archive": "Arhivează",
+    "unarchive": "Dezarhivează",
+    "archive-conversation": "Arhivează discuția",
+    "unarchive-conversation": "Dezarhivează discuția",
+    "archived-one": "Discuție cu {name} arhivată",
+    "unarchived-one": "Discuție cu {name} dezarhivată",
+    "no-archived": {
+      "title": "Nu ai mesaje arhivate",
+      "detail": "Când arhivezi o discuție, aceasta va apărea aici.",
+      "button": "Arată toate discuțiile"
+    },
+    "confirm-archive": {
+      "title": "Arhivezi această discuție?",
+      "body": "Ai un mesaj necitit de la {name}. Arhivarea îl va marca ca citit și îl va muta în arhivă.",
+      "confirm": "Arhivează"
+    },
+    "no-inbox": {
+      "title": "Nu ai încă niciun mesaj",
+      "detail": "Selectează o gazdă de pe hartă pentru a o contacta.",
+      "button": "Mergi la hartă"
+    },
+    "open-archive": "Deschide arhiva",
+    "no-active": {
+      "title": "Nicio discuție activă",
+      "detail": "Când primești un mesaj, acesta va apărea aici. Sau contactează o gazdă de pe hartă."
+    },
+    "archived": "Arhivate"
+  },
+  "map": {
+    "vehicle-notice": {
+      "title": "<span class=\"notranslate\">Welcome To My Garden</span> este doar pentru călătorii lenți.",
+      "text": "Dacă plănuiești să călătorești cu un vehicul motorizat, te rugăm să nu contactezi gazdele prin intermediul acestei platforme. Îți mulțumim pentru înțelegere!"
+    },
+    "trails": {
+      "hiking": "Arată traseele de drumeție",
+      "cycling": "Arată traseele de ciclism",
+      "attribution": "Trasee oferite de {link}"
+    },
+    "gardens": {
+      "title": "Grădini",
+      "show-all": "Arată toate grădinile",
+      "show-saved": "Arată grădinile salvate",
+      "hide-all": "Ascunde toate grădinile"
+    },
+    "routes": {
+      "title": "Trasee de drumeție și ciclism",
+      "title-modal": "Drumeție și ciclism",
+      "upload-route": "Încarcă un traseu"
+    },
+    "railway": {
+      "title": "Rețeaua feroviară",
+      "title-modal": "Trenuri",
+      "show-transport": "Arată rețeaua de trenuri"
+    },
+    "upload-route": {
+      "title": "Încarcă traseul tău",
+      "drag-here": "Trage aici sau {selectFile}",
+      "select-file": "selectează fișierul",
+      "added-to-map": "a fost adăugat pe hartă."
+    },
+    "zoom-restriction-notice": "pentru a mări mai mult",
+    "meetups": {
+      "description": "Cauți următoarea ta aventură de călătorie lentă? Alătură-te nouă la întâlnirea WTMG de lângă {location} pe {date}! Ideea este simplă: ne întâlnim într-o grădină WTMG, ne împărtășim entuziasmul pentru călătoria lentă și ne simțim bine împreună. Este gratuit, dar înregistrarea este obligatorie. Ne vedem acolo!",
+      "btn-register": "Înregistrează-te acum",
+      "no-account": "Trebuie să {signInLink} pentru a te înregistra",
+      "cities": {
+        "Bruges": "Bruges"
+      }
+    }
+  },
+  "terms-of-use": {
+    "title": "Termeni de utilizare",
+    "last-updated": "Ultima actualizare: 30 aprilie 2025",
+    "intro": {
+      "0": {
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> este o platformă unde cetățenii își deschid grădinile pentru ca cei care călătoresc lent (adică călătorii nemotorizați care merg cu bicicleta sau pe jos) să poată campa acolo peste noapte."
+      },
+      "1": {
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span>, un proiect non-profit sub entitatea juridică Slowby, o întreprindere socială, constituită și funcționând în conformitate cu legile din Belgia, cu sediul social în Henri Van Bortonnestraat 100, 1090 Jette, Belgia, având numărul de înregistrare BE 0784.423.261."
+      },
+      "2": {
+        "copy": "Acești Termeni de utilizare (<strong>„Termeni”</strong>) se aplică accesului și utilizării de către tine a site-ului web și utilizării rețelei (colectiv, <strong>„Platforma”</strong> noastră) furnizate de <span class=\"notranslate\">Welcome To My Garden</span>."
+      },
+      "3": {
+        "copy": "Utilizarea acestei platforme este <span class=\"bold\">supusă unor reguli</span>. Mai jos poți găsi condițiile generale ale platformei noastre, deoarece suntem convinși că <span class=\"bold\">regulile clare</span> oferă cea mai bună garanție pentru o <span class=\"bold\">comunitate respectuoasă</span>. <span class=\"bold\">Prin crearea unui cont sau prin accesarea în alt mod a Platformei, ești de acord cu acești Termeni.</span>"
+      },
+      "4": {
+        "copy": "Deoarece <span class=\"notranslate\">Welcome To My Garden</span> apreciază feedback-ul utilizatorilor platformei sale, primim cu drag orice idee de îmbunătățire a acesteia. Poți trimite sugestiile tale prin e-mail la {support}."
+      }
+    },
+    "articles": {
+      "0": {
+        "title": "Cine se poate înregistra pe platformă?",
+        "descriptions": {
+          "0": {
+            "copy": "<span class=\"bold\">Orice cetățean care dorește să ofere un loc de campare gratuit în grădina sa pentru cei care călătoresc lent și orice călător lent - definit strict ca un călător nemotorizat, cum ar fi bicicliștii și drumeții - care dorește să folosească rețeaua. </span> Dacă vrei să îți adaugi grădina, trebuie să îți creezi un cont. Dacă vrei să contactezi o gazdă în calitate de călător lent, trebuie să devii membru WTMG. Doar participanții înregistrați pot fi utilizatori activi. Te poți înregistra cu adresa ta de e-mail."
+          },
+          "1": {
+            "copy": "Crearea unui cont de către un utilizator nu îi oferă acestuia dreptul de proprietate asupra contului. <span class=\"notranslate\">Welcome To My Garden</span> își rezervă dreptul de a refuza, suspenda sau șterge conturi, de exemplu dacă utilizatorul nu respectă următoarele reguli sau dacă a fost raportat un comportament necorespunzător de către o gazdă sau un oaspete."
+          }
+        },
+        "info": {
+          "0": {
+            "title": "Fiecare cont trebuie să respecte următoarele reguli",
+            "sections": {
+              "0": {
+                "title": "Fiecare cont este strict personal",
+                "copy": "Fiecare cont trebuie să fie unic și legat de o persoană fizică. Dacă te înregistrezi pentru un cont, trebuie să oferi informații exacte și să le actualizezi prompt dacă se schimbă. Fiecare utilizator are dreptul de a crea un singur cont. Dacă se constată că o persoană are mai multe conturi, <span class=\"notranslate\">Welcome To My Garden</span> își rezervă dreptul de a șterge toate aceste conturi. Fiecare utilizator trebuie să aibă peste 18 ani."
+              },
+              "1": {
+                "title": "Un cont nu poate fi transferat unei alte persoane",
+                "copy": "Deoarece fiecare cont este legat strict de o anumită persoană, acesta nu poate fi transferat unei alte persoane fără permisiunea <span class=\"notranslate\">Welcome To My Garden</span>. Această interdicție de transfer trebuie interpretată în sensul cel mai larg. <span class=\"notranslate\">Welcome To My Garden</span> își rezervă dreptul de a refuza sau de a șterge contul în caz de încălcări."
+              },
+              "2": {
+                "title": "Un cont nu poate fi utilizat în scopuri comerciale",
+                "copy": "Platforma <span class=\"notranslate\">Welcome To My Garden</span> este destinată să le permită cetățenilor să își ofere grădinile ca locuri de campare gratuite și să le permită celor care călătoresc lent să folosească rețeaua în timpul călătoriei. Prin urmare, un cont poate fi utilizat doar în aceste scopuri. Orice utilizare a contului cu unicul scop de a obține un avantaj comercial este strict interzisă."
+              },
+              "3": {
+                "title": "Informațiile contului trebuie să rămână întotdeauna confidențiale",
+                "copy": "Nu este permis ca o altă persoană în afară de cea care a creat contul să folosească acest cont. Persoana care a creat contul trebuie să se asigure că își păstrează parola și datele de autentificare în siguranță. Îți recomandăm cu căldură să folosești o parolă „puternică” (o parolă care conține o combinație de litere mici, mari și cifre). Îți recomandăm să folosești un manager de parole. <span class=\"notranslate\">Welcome To My Garden</span> nu poate fi tras la răspundere în nicio circumstanță pentru eventualele pierderi sau daune aduse contului dacă aceste condiții nu sunt respectate de către utilizator. De asemenea, <span class=\"notranslate\">Welcome To My Garden</span> nu poate fi tras la răspundere pentru furtul contului tău, de exemplu prin „phishing”. <span class=\"notranslate\">Welcome To My Garden</span> nu le va cere niciodată utilizatorilor săi date personale, cum ar fi datele de autentificare sau parola, prin e-mail. Dacă sunt solicitate date personale, utilizatorul va fi întotdeauna redirecționat către platforma <span class=\"notranslate\">Welcome To My Garden</span>. Ești responsabil pentru toate activitățile care au loc în legătură cu contul tău și îți asumi toate riscurile accesului neautorizat."
+              }
+            }
+          }
+        }
+      },
+      "1": {
+        "title": "Termeni de utilizare pentru gazde",
+        "info": {
+          "0": {
+            "title": "Prin adăugarea grădinii tale pe platformă, iei la cunoștință regulile generale ale platformei, care sunt următoarele",
+            "sections": {
+              "0": {
+                "title": "Fără venituri",
+                "copy": "Găzduirea în grădină este gratuită. Prin urmare, nu ar trebui să se obțină niciun venit din aceasta. Oferirea unei grădini contra cost este strict interzisă, iar platforma își rezervă dreptul de a șterge definitiv contul unei gazde dacă acest lucru se întâmplă."
+              },
+              "1": {
+                "title": "Exonerare de răspundere",
+                "copy": "Echipa din spatele <span class=\"notranslate\">Welcome To My Garden</span> și Slowby nu își asumă nicio responsabilitate pentru nicio pierdere, daună sau vătămare rezultată din utilizarea site-ului și/sau în timpul șederii în grădina unui alt cetățean."
+              },
+              "2": {
+                "title": "Fără discriminare",
+                "copy": "<span class=\"notranslate\">Welcome To My Garden</span> nu tolerează niciun fel de discriminare. Se așteaptă ca gazdele să acționeze în conformitate cu acest lucru. Gazdele nu pot discrimina pe criterii de sex, etnie, vârstă, orientare sexuală, statut socioeconomic, aspect fizic, abilități și religie (sau absența acesteia)."
+              }
+            }
+          }
+        }
+      },
+      "2": {
+        "title": "Termeni pentru utilizatori",
+        "descriptions": {
+          "0": {
+            "copy": "Utilizatorii trebuie să aibă cel puțin 18 ani pentru a folosi platforma. Prin crearea unui cont, utilizatorii sunt de acord imediat cu termenii de utilizare ai <span class=\"notranslate\">Welcome To My Garden</span>."
+          }
+        },
+        "paragraphs": {
+          "0": {
+            "title": "Contactarea gazdelor",
+            "copy": {
+              "0": "Gazdele ar trebui contactate exclusiv pentru a solicita o ședere în grădinile lor. Orice utilizare abuzivă a platformei poate duce la suspendarea sau ștergerea contului utilizatorului."
+            }
+          },
+          "1": {
+            "title": "Obligația de a contacta gazdele în prealabil pentru a solicita o ședere",
+            "copy": {
+              "0": "Utilizatorii sunt obligați să contacteze gazda în prealabil pentru a solicita o ședere, cu excepția cazului în care gazda a menționat clar pe profilul său că acest lucru nu este necesar. Utilizatorii ar trebui să ofere întotdeauna informații corecte despre ei înșiși."
+            }
+          },
+          "2": {
+            "title": "Facilitățile oferite de gazdă",
+            "copy": {
+              "0": "Gazda este singura responsabilă pentru facilitățile pe care le pune sau nu la dispoziția utilizatorului. Prin utilizarea acestei platforme, utilizatorul ia la cunoștință și acceptă condițiile șederii sale - care pot include sau nu accesul la facilități sanitare."
+            }
+          },
+          "3": {
+            "title": "Respectul pentru natură",
+            "copy": {
+              "0": "Utilizatorii trebuie să își strângă toate deșeurile la plecare. Utilizatorii ar trebui să respecte întotdeauna natura, grădina gazdei și împrejurimile acesteia și să respecte principiul <a href=\"https://en.wikipedia.org/wiki/Leave_No_Trace\">Leave No Trace</a>."
+            }
+          },
+          "4": {
+            "title": "Respectul pentru gazdă și vecini",
+            "copy": {
+              "0": "Utilizatorii ar trebui să fie întotdeauna respectuoși cu proprietarii grădinii și să reducă zgomotul la minimum. De asemenea, ar trebui să respecte orice cerințe formulate de gazde."
+            }
+          },
+          "5": {
+            "title": "Regula fără mașină",
+            "copy": {
+              "0": "Platforma <span class=\"notranslate\">Welcome To My Garden</span> respectă mediul înconjurător și se adresează exclusiv nevoilor celor care practică o călătorie lentă. Acest lucru înseamnă că utilizatorii pot călători către grădini doar pe jos, cu bicicleta sau cu transportul public. Dacă intenționezi să călătorești cu un vehicul motorizat, te rugăm să nu contactezi gazdele prin intermediul acestei platforme. Utilizarea vehiculelor motorizate este interzisă."
+            }
+          },
+          "6": {
+            "title": "Abonament anual: cum devii Membru sau Superfan",
+            "copy": {
+              "0": "<span class=\"notranslate\">Welcome To My Garden</span> are misiunea de a face călătoria lentă mai accesibilă pentru toată lumea. Ca orice grădină, WTMG are nevoie de îngrijire pentru a crește și a rămâne sănătoasă. Găzduirea la o gazdă WTMG este gratuită. Totuși, pentru a menține și dezvolta WTMG, ne bazăm pe un Abonament anual pentru a împărți costurile în mod echitabil între toți călătorii. Cei care practică o călătorie lentă au de ales între a deveni Membri sau Superfans. Acest Abonament este obligatoriu. Membrii sau Superfans nu au voie să își transmită datele de autentificare unei terțe părți. Superfans sunt de acord cu aceiași termeni ca toți utilizatorii, iar <span class=\"notranslate\">Welcome To My Garden</span> își rezervă dreptul de a refuza, suspenda sau șterge conturile Membrilor sau Superfans care nu respectă termenii.",
+              "1": "Limitările de răspundere (vezi mai jos) ale <span class=\"notranslate\">Welcome To My Garden</span> în general se aplică și pentru utilizarea funcționalităților suplimentare destinate Membrilor sau Superfanilor, ceea ce înseamnă că <span class=\"notranslate\">Welcome To My Garden</span> nu poate fi tras la răspundere pentru nicio daună sau pierdere care ar putea apărea în urma utilizării <span class=\"notranslate\">Welcome To My Garden</span>.",
+              "2": "Cei care călătoresc lent aleg dacă vor să devină Membri (contribuție minimă) sau Superfani (contribuție suplimentară). Prețul include TVA de 21% aplicat abonamentelor. Abonamentele sunt plătite anual și se reînnoiesc automat, cu excepția cazului în care sunt anulate de membru sau de WTMG. Membrii sau Superfanii pot anula reînnoirea în orice moment din {accountLink}. Atunci când un Membru sau Superfan anulează un abonament, se anulează doar reînnoirea automată. Acest lucru înseamnă că abonamentul rămâne valabil până la sfârșitul perioadei deja plătite. Cu șapte zile înainte de data reînnoirii, membrii sunt notificați prin e-mail cu privire la viitoarea lor reînnoire. Abonamentul este nerambursabil și netransmisibil către o terță parte."
+            }
+          },
+          "7": {
+            "title": "Dreptul de anulare a Abonamentului Anual",
+            "copy": {
+              "0": "<span style=\"text-decoration: underline;\">De către un Membru sau Superfan</span><br/><p>În conformitate cu legislația belgiană și reglementările UE privind protecția consumatorilor, Membrii și Superfanii care au reședința în Uniunea Europeană au dreptul de a se retrage din achiziție în termen de paisprezece (14) zile de la data la care au devenit Membri sau Superfani plătitori.</p><p>Acest drept se aplică doar dacă sunt îndeplinite următoarele condiții:</p>",
+              "1": "<ol class=\"terms-html\"><li>Nu au fost trimise solicitări de ședere prin platforma WTMG; și</li><li>Membrul sau Superfanul nu a încălcat aceste Termene de utilizare sau regulile WTMG.</li></ol>",
+              "2": "Dacă aceste condiții sunt îndeplinite, perioada de retragere se încheie la paisprezece (14) zile calendaristice de la data plății inițiale sau, în cazul reînnoirilor, la paisprezece (14) zile de la data reînnoirii. După această perioadă, nu se vor acorda rambursări, parțiale sau totale. Acest drept de retragere se aplică, de asemenea, la fiecare reînnoire anuală, în aceleași condiții. Pentru a anula un abonament, Membrii și Superfanii trebuie să ne notifice în mod clar prin e-mail la <a href=\"mailto:support@welcometomygarden.org\">support@welcometomygarden.org</a> în termenul aplicabil de 14 zile.",
+              "3": "<span style=\"text-decoration: underline;\">De către <span class=\"notranslate\">Welcome To My Garden</span></span><p>WTMG este destinat exclusiv scopului său stabilit, așa cum este descris în aceste Termene și în regulile platformei. Orice altă utilizare — inclusiv activitățile comerciale, promovările de către terți, solicitările personale sau colectarea și utilizarea datelor cu caracter personal — este strict interzisă. WTMG nu susține și nu tolerează nicio formă de comunicare nesolicitată („SPAM”). Dacă un Membru sau un Superfan se implică în astfel de activități, WTMG își rezervă dreptul de a-i suspenda sau șterge imediat contul, fără nicio rambursare. Orice încălcare a acestor Termene poate avea consecințe grave, inclusiv acțiuni în instanță, cereri de despăgubire și rambursarea cheltuielilor de judecată. Prin utilizarea platformei, ești de acord, de asemenea, să exonerezi WTMG de orice răspundere rezultată din încălcarea de către tine a acestor Termene, inclusiv de orice pretenții ale terților care ar putea apărea.</p>"
+            }
+          },
+          "8": {
+            "title": "Declinarea responsabilității",
+            "copy": {
+              "0": "Echipa și voluntarii din spatele <span class=\"notranslate\">Welcome To My Garden</span> nu își asumă nicio responsabilitate pentru nicio pierdere, daună sau vătămare suferită ca urmare a utilizării site-ului și/sau în timpul șederii în grădina unui alt cetățean."
+            }
+          }
+        }
+      },
+      "3": {
+        "title": "Interacțiunile cu alți membri",
+        "paragraphs": {
+          "0": {
+            "title": "Ești singurul responsabil pentru interacțiunile tale cu ceilalți utilizatori.",
+            "copy": {
+              "0": "<span class=\"notranslate\">Welcome To My Garden</span> este o platformă prin care utilizatorii își pot pune la dispoziție în mod gratuit grădina, pot solicita o ședere în grădină și pot comunica unii cu alții în acest scop. Utilizatorii au întreaga responsabilitate pentru orice interacțiune cu alți utilizatori ai platformei. <span class=\"notranslate\">Welcome To My Garden</span> nu are nicio implicare și nicio responsabilitate sau răspundere în ceea ce privește comunicările sau disputele dintre doi utilizatori. Pentru a fi foarte clari: <span class=\"notranslate\">Welcome To My Garden</span> este o platformă care le permite gazdelor să își pună grădina la dispoziție în mod gratuit, le permite utilizatorilor să folosească grădina cuiva pentru a campa și oferă un loc de comunicare între utilizatori. <span class=\"notranslate\">Welcome To My Garden</span> nu va fi și nu poate fi trasă la răspundere pentru interacțiunile sau consecințele interacțiunilor dintre utilizatori. Utilizatorii exonerează <span class=\"notranslate\">Welcome To My Garden</span> (și echipa și voluntarii săi) de orice pretenții, cereri și daune (efective și secundare) de orice fel și natură, cunoscute și necunoscute, suspectate și nesuspectate, dezvăluite și nedezvăluite, care decurg din sau sunt legate în orice fel de astfel de dispute. Pune întotdeauna pe primul loc siguranța și bunul simț atunci când folosești platforma."
+            }
+          },
+          "1": {
+            "title": "Verificarea identității",
+            "copy": {
+              "0": "Utilizatorii sunt singurii responsabili pentru determinarea identității și potrivirii altor utilizatori. Ca gazdă, poți oricând să refuzi utilizatori. În calitate de călător, poți decide unde vrei să stai. <span class=\"notranslate\">Welcome To My Garden</span> nu poate și nu confirmă identitatea fiecărui utilizator. Platforma nu deține informații despre cazierul judiciar sau moralitatea utilizatorilor. Pune întotdeauna pe primul loc siguranța și bunul simț atunci când folosești platforma."
+            }
+          }
+        }
+      },
+      "4": {
+        "title": "Limitări privind conținutul și utilizarea platformei",
+        "descriptions": {
+          "0": {
+            "copy": "Pentru a ne asigura că platforma <span class=\"notranslate\">Welcome To My Garden</span> funcționează corect și că poți comunica și te poți conecta cu ceilalți, există câteva restricții privind tipul de conținut care poate fi publicat prin intermediul platformei. Acestea sunt următoarele:"
+          }
+        },
+        "paragraphs": {
+          "0": {
+            "title": "Comportament ofensator",
+            "copy": {
+              "0": "Credem cu tărie în libertatea de exprimare. Totuși, pentru a ne asigura că platforma poate fi utilizată într-un mod constructiv de către toți utilizatorii, nu permitem comportamentele ofensatoare care constituie hărțuire, intimidare sau instigare la frică.",
+              "1": "Conturile și conturile asociate care sunt utilizate pentru a efectua acțiunile enumerate mai jos pot fi blocate temporar și/sau șterse definitiv.",
+              "2": "Amenințări cu violență (directe sau indirecte): Nu ai voie să ameninți cu violența sau să o promovezi. Aceasta include promovarea terorismului. Hărțuire: Nu ai voie să instigi sau să fii implicat în insultarea sau hărțuirea deliberată a altor persoane. Iată câțiva factori pe care îi putem lua în considerare atunci când evaluăm un comportament abuziv: dacă scopul principal al contului raportat este de a hărțui sau de a trimite mesaje ofensatoare altora; dacă comportamentul raportat este unidirecțional sau conține amenințări; dacă contul raportat îi încurajează pe alții să intimideze un alt cont; și dacă contul raportat trimite mesaje de intimidare către un cont de pe mai multe conturi. Ură: Nu ai voie să promovezi violența împotriva altor persoane sau să le ataci ori să le ameninți direct pe criterii de rasă, origine etnică, naționalitate, orientare sexuală, sex, identitate de gen, afiliere filozofică, religie, vârstă, dizabilitate sau boală. De asemenea, nu permitem conturi al căror scop principal este de a instiga pe alții să facă rău pe baza acestor categorii. Utilizarea abuzivă a mai multor conturi: Crearea de conturi multiple pentru utilizare suprapusă în scopul de a evita suspendarea temporară sau permanentă a unui cont individual nu este permisă. Date private: Nu ai voie să publici sau să postezi date confidențiale și informații private ale altor persoane fără autorizarea și consimțământul lor expres. Aceste date includ, dar nu se limitează la: numere de card de credit, detalii despre adresă, numere de telefon sau date care țin de viața privată a unei persoane. Furtul de identitate (Impersonarea): Nu ai voie să accesezi platforma pretinzând că ești altcineva și, în mod specific, nu ai voie să înșeli, să induci în eroare sau să ameninți alți utilizatori în acest mod. De asemenea, nu îți este permis să accesezi platforma dacă altcineva înșală, induce în eroare sau amenință într-un mod care de fapt păcălește sau amenință pe alții."
+            }
+          },
+          "1": {
+            "title": "Despăgubiri",
+            "copy": {
+              "0": "Te obligi să aperi, să despăgubești și să exonerezi de răspundere WelcomeToMyGarden.org (precum și pe fiecare dintre finanțatorii și/sau voluntarii săi) în legătură cu orice revendicare, cerere, acțiune, daună, pierdere, cost sau cheltuială, inclusiv, fără limitare, onorariile rezonabile ale avocaților, care decurg din sau sunt legate de (a) utilizarea de către tine a serviciilor noastre; (b) orice conținut de membru sau trimiteri pe care le furnizezi; (c) încălcarea de către tine a acestor termeni; (d) încălcarea de către tine a oricăror drepturi ale unei alte persoane; sau (e) conduita ta în legătură cu serviciile. În plus, dacă utilizezi serviciile în numele unei entități, declari și garantezi că acea entitate este de acord să te despăgubească pe tine și WelcomeToMyGarden.org pentru încălcări ale acestor termeni în conformitate cu această secțiune. Dacă ai obligația de a ne despăgubi, vom avea dreptul, la discreția noastră exclusivă și absolută, de a controla orice acțiune sau procedură și de a stabili dacă dorim să o soluționăm pe cale amiabilă și, dacă da, în ce condiții."
+            }
+          }
+        }
+      },
+      "5": {
+        "title": "Limitarea răspunderii",
+        "descriptions": {
+          "0": {
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> - inclusiv echipa și voluntarii săi - nu va fi răspunzătoare față de utilizatori și/sau gazde în baza niciunei teorii a răspunderii — fie că este vorba despre contract, răspundere civilă delictuală, neglijență, răspundere strictă, garanție sau altfel — pentru orice daune indirecte, consecutive, exemplare, incidentale, punitive sau speciale. Platforma nu poate fi trasă la răspundere pentru nicio neîndeplinire sau întârziere în executarea termenilor. Platforma nu poate fi trasă la răspundere în caz de vătămare corporală sau deces rezultate din utilizarea acesteia."
+          },
+          "1": {
+            "copy": "ÎN NICIUN CAZ WELCOMETOMYGARDEN.ORG SAU FINANȚATORII ȘI VOLUNTARII SĂI NU VOR FI RĂSPUNZĂTORI PENTRU DAUNE INDIRECTE SAU CONSECUTIVE, SAU ORICE ALTE DAUNE DE ORICE FEL, INCLUSIV, DAR FĂRĂ A SE LIMITA LA PIERDEREA UTILIZĂRII, PIERDEREA DE PROFIT SAU PIERDEREA DE DATE, FIE ÎNTR-O ACȚIUNE ÎN CONTRACT, RĂSPUNDERE DELICTUALĂ (INCLUSIV, DAR FĂRĂ A SE LIMITA LA NEGLIJENȚĂ) SAU ÎN ALT MOD, CHIAR DACĂ AM FOST AVERTIZAȚI CU PRIVIRE LA POSIBILITATEA UNOR ASTFEL DE DAUNE, CARE DECURG DIN SAU SUNT LEGATE DE: (A) UTILIZAREA SAU IMPOSIBILITATEA DE A UTILIZA SERVICIILE NOASTRE; (B) COSTUL DE ÎNLOCUIRE A ORICĂROR BUNURI, SERVICII SAU INFORMAȚII ACHIZIȚIONATE SAU OBȚINUTE CA REZULTAT AL ORICĂROR INFORMAȚII OBȚINUTE SAU TRANZACȚII EFECTUATE PRIN SAU DIN SERVICIILE NOASTRE; (C) DEZVĂLUIREA, ACCESUL NEAUTORIZAT SAU ALTERAREA CONȚINUTULUI TĂU; (D) DAUNE PENTRU PIERDEREA SAU CORUPEREA DATELOR SAU PROGRAMELOR, ÎNTRERUPERI ALE SERVICIILOR SAU ACHIZIȚIONAREA DE SERVICII DE ÎNLOCUIRE, CHIAR DACĂ ȘTIM SAU AM FOST AVERTIZAȚI CU PRIVIRE LA POSIBILITATEA UNOR ASTFEL DE DAUNE; (E) DECLARAȚII, CONDUITĂ SAU OMISIUNI ALE ORICĂROR FURNIZORI DE SERVICII SAU ALE ALTOR TERȚE PĂRȚI PRIVIND SERVICIILE NOASTRE; (F) CONDUITA SAU ACȚIUNILE TALE SAU ALE ORICĂREI ALTE PERSOANE ÎN LEGĂTURĂ CU UTILIZAREA SERVICIILOR, INCLUSIV, FĂRĂ LIMITARE, VĂTĂMAREA CORPORALĂ, SUFERINȚA EMOȚIONALĂ, DECESUL SAU ORICE ALTE DAUNE REZULTATE DIN COMUNICĂRI SAU ÎNTÂLNIRI CU ALȚI MEMBRI ÎNREGISTRAȚI AI SERVICIILOR NOASTRE SAU PERSOANE CARE ȚI-AU FOST PREZENTATE PRIN INTERMEDIUL SERVICIILOR NOASTRE, FIE ONLINE, FIE OFFLINE; SAU (G) ORICE ALTĂ PROBLEMĂ CE DECURGE DIN, ESTE LEGATĂ DE SAU ARE CONEXIUNE CU SERVICIILE NOASTRE SAU ACEȘTI TERMENI."
+          }
+        }
+      },
+      "6": {
+        "title": "Spam",
+        "descriptions": {
+          "0": {
+            "copy": "Ne străduim în permanență să protejăm utilizatorii platformei <span class=\"notranslate\">Welcome To My Garden</span> de abuzuri tehnice și spam. Conturile care sunt utilizate pentru a efectua acțiunile enumerate mai jos pot fi blocate temporar sau șterse definitiv."
+          },
+          "1": {
+            "copy": "Malware / phishing / viruși / viermi / troieni: Nu ai voie să postezi conținut malițios sau linkuri către un astfel de conținut cu scopul de a deteriora sau perturba browserele sau computerele altcuiva, sau de a încălca confidențialitatea cuiva. Spam: Nu ai voie să folosești platforma <span class=\"notranslate\">Welcome To My Garden</span> pentru a trimite spam oamenilor."
+          }
+        }
+      },
+      "7": {
+        "title": "Încălcarea legilor aplicabile",
+        "descriptions": {
+          "0": {
+            "copy": "Utilizarea contului nu trebuie să încalce în niciun fel legile aplicabile. Aceasta include încălcări ale legislației privind confidențialitatea, ale drepturilor de proprietate intelectuală, ale codului penal etc."
+          },
+          "1": {
+            "copy": "Contul nu poate fi utilizat pentru a promova activități ilegale în niciun fel."
+          }
+        }
+      },
+      "8": {
+        "title": "În cazul încălcării regulilor menționate mai sus",
+        "descriptions": {
+          "0": {
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> își rezervă dreptul de a șterge mesajele respective dacă detectează încălcări ale regulilor menționate mai sus și poate chiar să suspende sau să șteargă definitiv conturile de utilizator."
+          },
+          "1": {
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> nu poate fi trasă la răspundere în niciun fel pentru mesajele postate de utilizatori sau terți care încalcă regulile specificate mai sus. Dacă un utilizator detectează o încălcare, te rugăm să o raportezi la următoarea adresă de e-mail: {support}"
+          },
+          "2": {
+            "copy": "Se poate întâmpla ca prin intermediul platformei să poată fi descărcate fișiere dăunătoare, din cauza unui utilizator sau nu, sau ca utilizatorii să plaseze hyperlinkuri dăunătoare. Fiecare descărcare efectuată de un utilizator sau click pe un hyperlink plasat de un utilizator se face pe propriul risc al utilizatorului. Orice daună suferită este în întregime și exclusiv responsabilitatea acestui utilizator."
+          }
+        }
+      },
+      "9": {
+        "title": "Drepturile de proprietate intelectuală",
+        "descriptions": {
+          "0": {
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respectă drepturile de proprietate intelectuală ale altora și se așteaptă ca și utilizatorii acestei platforme să respecte aceste drepturi. <span class=\"notranslate\">Welcome To My Garden</span> își rezervă dreptul de a elimina conținutul care încalcă drepturile de proprietate intelectuală. Încălcările repetate ale drepturilor de proprietate intelectuală de orice fel de către un utilizator vor duce la suspendarea sau eliminarea contului de către <span class=\"notranslate\">Welcome To My Garden</span>."
+          },
+          "1": {
+            "copy": "Încălcările drepturilor de proprietate intelectuală pot fi raportate la următoarea adresă de e-mail: {support}"
+          }
+        }
+      },
+      "10": {
+        "title": "Drepturile de proprietate ale <span class=\"notranslate\">Welcome To My Garden</span>",
+        "descriptions": {
+          "0": {
+            "copy": "Codul sursă al <span class=\"notranslate\">Welcome To My Garden</span> este open source. Ești de acord să respecți și să te conformezi oricărui acord de licență aplicabil acestui software open source. Identitatea vizuală, inclusiv logo-ul, culorile și numele, nu pot fi utilizate sau replicate pentru nicio altă platformă fără permisiunea prealabilă a <span class=\"notranslate\">Welcome To My Garden</span>."
+          }
+        }
+      },
+      "11": {
+        "title": "Modificări ale acestor Termeni",
+        "descriptions": {
+          "0": {
+            "copy": "Putem aduce modificări acestor Termeni din când în când. Dacă facem modificări, vom posta Termenii modificați pe Platforma noastră și vom actualiza data „Ultima actualizare” de mai sus. De asemenea, s-ar putea să încercăm să te notificăm prin trimiterea unui e-mail la adresa asociată contului tău sau prin intermediul Platformei noastre. Cu excepția cazului în care se specifică altfel în notificarea noastră, Termenii modificați vor intra în vigoare imediat, iar accesul și utilizarea în continuare a Platformei noastre după transmiterea notificării vor confirma acceptarea modificărilor de către tine. În orice caz, modificările aduse acestor Termeni nu vor fi retroactive. Dacă nu ești de acord cu Termenii modificați, trebuie să încetezi accesarea și utilizarea Platformei noastre."
+          }
+        }
+      }
+    }
+  },
+  "fallback": {
+    "404": "404 - pagina nu a fost găsită",
+    "redirect": "înapoi la pagina principală"
+  },
+  "about-us": {
+    "here-we-are": "Iată-ne!",
+    "who-behind": "Așadar, cine se află în spatele WTMG? Suntem o echipă mică de patru pasionați de călătorii lente și vrem să-i ajutăm și pe alții să pornească în propriile aventuri de călătorie lentă! Un detaliu interesant: toți suntem atât gazde WTMG, cât și călători.",
+    "co-founder": "Co-fondator",
+    "dev": "Dezvoltator",
+    "designer": "Designer",
+    "communications": "Comunicare",
+    "dries": "Dries este cel care a venit cu ideea WTMG. Și-a cumpărat prima bicicletă de turism la doar 18 ani și a pedalat de la Bruxelles la Tokyo împreună cu Manon în 2019. Pasiunea lui pentru date deschise și open source l-a condus să lucreze pentru Open Knowledge Belgium timp de câțiva ani, unde l-a și cunoscut pe Thor. El conduce echipa WTMG, iar entuziasmul lui este de-a dreptul contagios!",
+    "manon": "Manon este o persoană cu adevărat multipotențială și are o soluție pentru toate. A alergat de două ori la maraton, a pedalat de la Bruxelles la Tokyo cu Dries și a făcut un film minunat despre asta: <a href=\"https://womendontcycle.com/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=about_profile\" target=\"_blank\">„Women Don’t Cycle”</a>. Este singura din echipă care a studiat turismul. Faptul că vorbește fluent patru limbi și se simte foarte confortabil în fața camerei o face purtătoarea noastră de cuvânt neoficială!",
+    "thor": "Thor este tehnologul de geniu de care are nevoie orice proiect. A participat de două ori la Open Summer of Code, unde l-a cunoscut pe Dries în 2017. În același an, a mers cu bicicleta de la Leuven la Helsinki. Nu este doar un dezvoltator fantastic, ci și un designer excelent. Îi place să gătească, să scrie cod și să citească articole lungi și intrigante!",
+    "ward": "Ward a contribuit la WTMG încă de la început!",
+    "janneke": "Regina cuvintelor, cea care a început pagina noastră de Facebook.",
+    "michiel": "Programatorul original. Fără el, WTMG nu ar exista.",
+    "marie": "Designerul genial. Ea a făcut WTMG atât de frumos.",
+    "ismaila": "Ismaila este creierul din spatele filtrelor de pe hartă.",
+    "brent": "Brent a programat prima noastră pagină de prezentare.",
+    "our-story-title": "Povestea noastră",
+    "our-story-description": "<p>Hei! Noi suntem Dries și Manon și suntem mândrii părinți ai <span class=\"notranslate\">Welcome To My Garden</span>. În 2019, am mers cu bicicleta de la Bruxelles la Tokyo. Pe parcursul a 11 luni, am călătorit prin 21 de țări și am fost găzduiți de nenumărați oameni extraordinari pe drum.</p><p>Când ne-am întors în Belgia, ne-am întrebat: cum putem face călătoria lentă mai ușoară și mai distractivă în propria noastră țară? Într-o după-amiază ploioasă de duminică din 2020, Dries a creat prima versiune a WTMG. În decurs de două ore, pe hartă erau 50 de grădini - iar după două săptămâni, erau 500!</p><p>Am parcurs un drum lung de atunci: astăzi, WTMG numără 8500 de grădini. Este clar că am venit ca să rămânem! Și este timpul să trecem la nivelul următor. V-am ascultat pe voi, comunitatea noastră, iar acum investim pentru ca WTMG să răspundă tuturor nevoilor voastre de călătorie lentă.</p><p>WTMG există datorită muncii asidue a unui grup pasionat de voluntari, care și-au investit serile și weekendurile în acest proiect. Dar pentru a continua, avem nevoie de mai mult timp și de forță de muncă. De aceea s-a alăturat și Thor. Dăm tot ce avem mai bun și sperăm că ni te vei alătura în această aventură!</p>",
+    "bigger-picture-title": "Imaginea de ansamblu",
+    "bigger-picture-description": "<p>Dacă am învățat un lucru în ultimii ani, acesta este: e timpul să încetinim ritmul. Acest lucru este valabil pentru viață în general, dar cu siguranță și pentru călătorii în mod special. Cu cât călătorim mai repede, cu atât pierdem mai mult. Călătoriile rapide generează o mulțime de emisii de CO2, deconectează oamenii de mediul înconjurător și dăunează comunităților. Aici intervine călătoria lentă!</p><p>Și aici intervine WTMG! Suntem mândri să facem parte din soluția la această provocare globală. În doi ani, WTMG a realizat multe:<ul><li>Peste 8.500 de gazde inimoase și-au deschis grădina pentru călătorii lenți</li><li>125.000 de cereri de găzduire au fost trimise prin platforma WTMG</li><li>Am început în Belgia, dar din ce în ce mai multe grădini apar acum și în Europa și nu numai?</li><li>Am primit sprijin financiar de la parteneri precum Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers și Natuurpunt</li></ul></p><p>Cele mai pline de semnificație și memorabile experiențe au loc atunci când ne acordăm timp să explorăm și să interacționăm cu mediul înconjurător. Cu WTMG, vrem să te ajutăm să faci exact asta. Împreună, putem face lumea un loc mai bun – călătorind mai lent și mai durabil. Te alături aventurii?</p><p>Suntem mereu deschiși la idei noi și colaborări, așa că nu ezita să ne contactezi!</p>",
+    "contributors": "Contribuitori",
+    "amazing-people": "Nu în ultimul rând, vrem să le mulțumim acestor oameni minunați",
+    "cradle": "Fără acești oameni minunați, <span class=\"notranslate\">Welcome To My Garden</span> nu ar exista. Ei au fost la originile platformei și au crezut în ea încă de la început!",
+    "partners-section": {
+      "title": "Cei care au crezut de la început",
+      "description": "Acești parteneri ne-au ajutat să pornim la drum și au crezut în <span class=\"notranslate\">Welcome To My Garden</span> chiar de la început!"
+    }
+  },
+  "footer": {
+    "copyright": "© Creat cu 💚 de <span class=\"notranslate\">Welcome To My Garden</span> {year}. Toate drepturile rezervate.",
+    "link-category-titles": {
+      "our-projects": "Proiectele noastre",
+      "learn-more": "Află mai multe"
+    },
+    "links": {
+      "get-in-touch": "Contactează-ne",
+      "route-planner": {
+        "title": "Planificator de rute"
+      },
+      "velotour": {
+        "title": "Velotour Festival",
+        "url": "https://velotourfestival.be/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer"
+      },
+      "women-dont-cycle": {
+        "title": "Women Don't Cycle - Filmul",
+        "url": "https://womendontcycle.com/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer"
+      },
+      "wtmg-sign": {
+        "title": "Semn WTMG"
+      }
+    }
+  },
+  "push-notifications": {
+    "android-channel": "Notificări chat",
+    "registration-success": "Notificările au fost activate cu succes",
+    "prompt": {
+      "btn-turn-on": "Activează notificările",
+      "helpcenter-url": "https://help.welcometomygarden.org/master/1.-mobile-notifications",
+      "download": "Descarcă aplicația",
+      "mobile-web-title": "Primește notificări pe mobil pentru mesaje noi pe chat cu aplicația noastră.",
+      "native-title": "Primește notificări pe mobil pentru mesaje noi pe chat.",
+      "desktop-title": "Descarcă aplicația noastră și primește notificări pe mobil pentru mesaje noi pe chat."
+    },
+    "how-to": {
+      "title": "Cum să activezi notificările pe mobil"
+    },
+    "native-permission-denied": {
+      "title": "Activează notificările",
+      "description": "Permisiunea de notificare pentru aplicația WTMG este dezactivată în setările telefonului tău. Mergi la setări pentru a o activa, apoi revino în aplicație.",
+      "button": "Deschide setările"
+    },
+    "error": {
+      "generic": "Ceva nu a mers bine la activarea notificărilor pe mobil. Te rugăm să trimiți informațiile de mai jos la {emailLink} pentru a te putea ajuta. Mulțumim!"
+    }
+  },
+  "seo": {
+    "general": {
+      "description": "Welcome To My Garden: Locuri de campare gratuite în grădinile oamenilor pentru călătorii lenți. Oferit de o comunitate inimoasă de cetățeni.",
+      "keywords": "camping, Europa, călătorie lentă, ciclism, drumeții, cort, comunitate, campare în grădină, campare gratuită, aventură"
+    },
+    "routeplanner": {
+      "title": "Planificator de rute WTMG",
+      "description": "Planificator online gratuit de rute pentru excursii cu bicicleta și drumeții cu Welcome To My Garden.",
+      "keywords": "planificator de rute, călătorie lentă, itinerar, trasee de drumeție, trasee de ciclism, WTMG, grădini, camping",
+      "image-url": "https://storage.googleapis.com/wtmg-static/routeplanner/preview/route-planner-en.jpg",
+      "image-alt": "Poster pentru planificatorul de rute WTMG pe fundalul unei hărți"
+    }
+  },
+  "routeplanner": {
+    "modal": {
+      "title": "Grădini WTMG de-a lungul rutei tale",
+      "description": "Pentru a vedea grădinile de pe traseul tău, trebuie să {signIn} și să ai un abonament WTMG.",
+      "sign-in-label": "te conectezi",
+      "button-label": "Conectează-te sau fă-ți un abonament"
+    }
+  }
+}
