@@ -44,7 +44,7 @@
     "member": "Miembro",
     "membership": "Membresía",
     "new": "Nuevo",
-    "fair-model-blog-path": "",
+    "fair-model-blog-path": "/towards-a-fair-model-to-make-wtmg-survive-and-thrive",
     "on": "en",
     "error": {
       "offline": "Sin conexión a Internet. Necesitas Internet para usar WTMG.",
@@ -393,7 +393,7 @@
           "4": "Para avisarte cuando se realicen actualizaciones en la plataforma;",
           "5": "Para avisarte cuando haya actividades en la plataforma que puedan interesarte."
         },
-        "copy": "Los datos personales solo se almacenan y procesan durante el período necesario para los fines del tratamiento. Después de eso, los datos se eliminarán o se anonimizarán. <span class=\"notranslate\">Welcome To My Garden</span> utiliza Firebase para el almacenamiento y la gestión de datos, Stripe para el procesamiento de pagos y SendGrid para la comunicación por correo electrónico. Estos servicios están certificados bajo los principales estándares de privacidad y seguridad y cumplen con el RGPD. Sus políticas de privacidad están disponibles aquí: <a href=\"https://firebase.google.com/support/privacy?hl=en\" target=\"_blank\">Firebase</a>, <a href=\"https://stripe.com/privacy\" target=\"_blank\">Stripe</a> y <a href=\"https://www.twilio.com/legal/privacy\" target=\"_blank\">SendGrid</a>."
+        "copy": "Los datos personales solo se almacenan y procesan durante el período necesario para los fines del tratamiento. Después de eso, los datos se eliminarán o se anonimizarán. <span class=\"notranslate\">Welcome To My Garden</span> utiliza Firebase para el almacenamiento y la gestión de datos, Stripe para el procesamiento de pagos y SendGrid para la comunicación por correo electrónico. Estos servicios están certificados bajo los principales estándares de privacidad y seguridad y cumplen con el RGPD. Sus políticas de privacidad están disponibles aquí: <a href=\"https://firebase.google.com/support/privacy?hl=es\" target=\"_blank\">Firebase</a>, <a href=\"https://stripe.com/privacy\" target=\"_blank\">Stripe</a> y <a href=\"https://www.twilio.com/legal/privacy\" target=\"_blank\">SendGrid</a>."
       },
       "backups": {
         "title": "Copias de seguridad",

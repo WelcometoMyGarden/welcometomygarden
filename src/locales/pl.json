@@ -382,7 +382,7 @@
           "4": "Do powiadamiania Cię o aktualizacjach na platformie;",
           "5": "Do powiadamiania Cię o aktywnościach na platformie, które mogą Cię zainteresować."
         },
-        "copy": "Dane osobowe są przechowywane i przetwarzane wyłącznie przez okres wymagany do realizacji celu przetwarzania. Po tym czasie dane zostaną usunięte lub zanonimizowane. <span class=\"notranslate\">Welcome To My Garden</span> korzysta z Firebase do przechowywania danych i zarządzania nimi, ze Stripe do przetwarzania płatności oraz z SendGrid do komunikacji e-mail. Usługi te są certyfikowane zgodnie z głównymi standardami prywatności i bezpieczeństwa oraz są zgodne z RODO. Ich polityki prywatności są dostępne tutaj: <a href=\"https://firebase.google.com/support/privacy?hl=en\" target=\"_blank\">Firebase</a>, <a href=\"https://stripe.com/privacy\" target=\"_blank\">Stripe</a> i <a href=\"https://www.twilio.com/legal/privacy\" target=\"_blank\">SendGrid</a>."
+        "copy": "Dane osobowe są przechowywane i przetwarzane wyłącznie przez okres wymagany do realizacji celu przetwarzania. Po tym czasie dane zostaną usunięte lub zanonimizowane. <span class=\"notranslate\">Welcome To My Garden</span> korzysta z Firebase do przechowywania danych i zarządzania nimi, ze Stripe do przetwarzania płatności oraz z SendGrid do komunikacji e-mail. Usługi te są certyfikowane zgodnie z głównymi standardami prywatności i bezpieczeństwa oraz są zgodne z RODO. Ich polityki prywatności są dostępne tutaj: <a href=\"https://firebase.google.com/support/privacy?hl=pl\" target=\"_blank\">Firebase</a>, <a href=\"https://stripe.com/privacy\" target=\"_blank\">Stripe</a> i <a href=\"https://www.twilio.com/legal/privacy\" target=\"_blank\">SendGrid</a>."
       },
       "backups": {
         "title": "Kopie zapasowe",
@@ -520,7 +520,7 @@
       "search-city": "Szukaj miasta",
       "all-filters": "Wszystkie filtry",
       "apply-filter": "Zastosuj filtr",
-      "available": "{styledAmount} {amount, plural, jeden {ogród dostępny} few {ogrody dostępne} many {ogrodów dostępnych} other {ogrodu dostępnego}} z aktywnymi filtrami.",
+      "available": "{styledAmount} {amount, plural, one {ogród dostępny} few {ogrody dostępne} many {ogrodów dostępnych} other {ogrodu dostępnego}} z aktywnymi filtrami.",
       "min-capacity": "Min. {capacity} {capacity, plural, one {namiot} few {namioty} many {namiotów} other {namiotu}}"
     },
     "drawer": {
