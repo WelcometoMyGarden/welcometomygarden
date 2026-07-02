@@ -50,7 +50,10 @@ Each language contains a glossary on top. Generally, derived or related forms of
 | host         | Gastgeber        |
 | member       | Mitglied         |
 | membership   | Mitgliedschaft   |
+| camping      | Zeltplatz        |
 
+- DON'T use "Campingplätze" or "camping" in translations
+- Keep the following terms in English if they were in English, but capitalize them German-style: Slow Traveller, User, Host
 - **Use informal personal pronouns and tone** (e.g. du, not Sie)
 
 ### Spanish (es)
