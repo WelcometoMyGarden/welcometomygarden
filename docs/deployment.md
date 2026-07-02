@@ -29,6 +29,12 @@ URLs are matched for header modifications _before_ URL rewrites.
 
 To set caching rules for our pages: since we use [`cleanUrls`](https://firebase.google.com/docs/hosting/full-config#headers) (without `.html` suffixes), we can't match HTML pages with a glob rule like `"**/*.html"`, but we have to match their clean URLs instead. It's not easy to reliably match all clean page URLs without exhaustively listing them (the given [RE2 engine](https://github.com/google/re2/wiki/Syntax) is not flexible enough to for example exclude/negative match certain paths). Instead, we modify the default caching behavior, and allow overwrites later.
 
+### Assets
+
+Currently, most media assets used by the front-end are not committed to this repo and live in a storage bucket. They need to be deployed separately.
+
+The [full access](./full-access.md) docs also contains instructions for this.
+
 ### Manual deploy
 
 The steps to deploy manually follow [the Firebase guide](https://firebase.google.com/docs/hosting/test-preview-deploy#deploy-project-directory-to-live) and [example commands for handling targets & channels](https://firebase.google.com/docs/hosting/multisites#cli-commands-with-deploy-targets), in accordance with our configruation.
