@@ -37,8 +37,8 @@
     gap: '214, 40, 40'
   };
 
-  /** Darker variants used for the isodistance border lines (and legend markers). */
-  export const BORDER_COLORS = {
+  /** Darker variants used for the isodistance border lines. */
+  const BORDER_COLORS = {
     covered: 'rgb(20, 100, 50)',
     mid: 'rgb(170, 130, 20)',
     gap: 'rgb(150, 25, 25)'
@@ -79,20 +79,10 @@
    */
   const REFERENCE_LATITUDE = 50;
 
-  /**
-   * Ground resolution (meters per screen pixel) at the equator, zoom 0.
-   * Mapbox GL JS renders with 512 px tiles, so at zoom z the world is 512 · 2^z
-   * screen pixels wide. Hence: earthCircumference / (512 · 2^z) = 78271.52 / 2^z.
-   * (Using the 256-tile constant, 156543, would make every radius half the
-   * intended size and compress the whole gradient by 2×.)
-   */
-  const METERS_PER_PIXEL_EQUATOR_Z0 = 40075016.686 / 512;
-
   /** On-screen pixel radius representing `radiusKm` at a given zoom. */
   const radiusPxAtZoom = (zoom: number, radiusKm: number) => {
     const metersPerPixel =
-      (METERS_PER_PIXEL_EQUATOR_Z0 * Math.cos((REFERENCE_LATITUDE * Math.PI) / 180)) /
-      Math.pow(2, zoom);
+      (156543.03392 * Math.cos((REFERENCE_LATITUDE * Math.PI) / 180)) / Math.pow(2, zoom);
     return (radiusKm * 1000) / metersPerPixel;
   };
 

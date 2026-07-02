@@ -6,10 +6,8 @@
   import Map, { currentPosition, mapState } from '$lib/components/Map/Map.svelte';
   import CoverageHeatmapLayer, {
     COVERAGE_RADIUS_KM,
-    MID_KM,
     GRADIENT_END_KM,
-    COVERAGE_COLORS,
-    BORDER_COLORS
+    COVERAGE_COLORS
   } from '$lib/components/Map/CoverageHeatmapLayer.svelte';
   import CoverageTweaks from '$lib/components/Map/CoverageTweaks.svelte';
   import { coverageTweaks } from '$lib/stores/coverageTweaks';
@@ -116,20 +114,11 @@
       <span>{$_('map.coverage-gaps.legend.gap')}</span>
     </div>
     <div class="legend-bar" style="background: {legendGradient};">
-      <!-- Vertical markers for the 15/20/25 km isodistance lines, coloured to
-           match the border lines drawn on the map in "isodistance" mode. -->
-      <span class="legend-line" style="left: {greenPct}%; background: {BORDER_COLORS.covered};"
-      ></span>
-      <span class="legend-line" style="left: {midPct}%; background: {BORDER_COLORS.mid};"></span>
-      <span
-        class="legend-line legend-line--end"
-        style="left: 100%; background: {BORDER_COLORS.gap};"
-      ></span>
+      <span class="legend-tick" style="left: {greenPct}%;"></span>
     </div>
     <div class="legend-ticks">
       <span style="left: 0%;">0</span>
       <span style="left: {greenPct}%;">{COVERAGE_RADIUS_KM} km</span>
-      <span class="legend-tick-sub" style="left: {midPct}%;">{MID_KM} km</span>
       <span style="left: 100%;">{GRADIENT_END_KM} km</span>
     </div>
   </div>
@@ -191,18 +180,14 @@
     border-radius: 2px;
   }
 
-  /* Vertical markers for the 15/20/25 km isodistance lines. */
-  .legend-line {
+  /* Marker at the COVERAGE_RADIUS_KM boundary (end of the solid-green zone). */
+  .legend-tick {
     position: absolute;
     top: -2px;
     bottom: -2px;
     width: 2px;
     transform: translateX(-50%);
-  }
-
-  /* Keep the 25 km marker (at 100%) inside the bar. */
-  .legend-line--end {
-    transform: translateX(-100%);
+    background-color: var(--color-black, #000);
   }
 
   .legend-ticks {
@@ -216,12 +201,6 @@
     position: absolute;
     transform: translateX(-50%);
     white-space: nowrap;
-  }
-
-  /* Subtle intermediate 20 km label. */
-  .legend-tick-sub {
-    font-size: 1rem;
-    color: var(--color-text-gray, #777);
   }
 
   /* Keep the first and last labels within the bar's bounds. */
