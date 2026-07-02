@@ -1227,6 +1227,13 @@
       "added-to-map": "has been added to the map."
     },
     "zoom-restriction-notice": "to zoom in more",
+    "coverage-gaps": {
+      "title": "Garden coverage gaps",
+      "legend": {
+        "covered": "Within {radius} km of a garden",
+        "gap": "No garden nearby"
+      }
+    },
     "meetups": {
       "description": "Want to meet other slow travellers and hosts? Join us at the WTMG Meetup near Bruges on Friday 3 July! It’s a great opportunity to meet each other, share experiences and talk about WTMG. It takes place in the garden of the first care home on WTMG. It’s free, but mandatory to register. See you there!",
       "btn-register": "Register now",

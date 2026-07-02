@@ -430,14 +430,16 @@
     padding-top: 0;
   }
 
-  .app.active-explore {
+  .app.active-explore,
+  .app.active-coveragegaps {
     /* Avoid scrollbars */
     overflow-y: auto;
   }
-  .app.active-explore > :global(main) {
+  .app.active-explore > :global(main),
+  .app.active-coveragegaps > :global(main) {
     /* Make sure the map fills the entire space */
     height: 100%;
-    /* No max-width on the explore page */
+    /* No max-width on the map pages */
     max-width: unset;
   }
   /*
@@ -504,7 +506,9 @@
 
     /* Add a general safe inset padding on native, except on the map & chat
       (they don't need it, or have their own safe area handling) */
-    .app.native.supports-safe-area:not(.active-explore):not(.active-chat) {
+    .app.native.supports-safe-area:not(.active-explore):not(.active-coveragegaps):not(
+        .active-chat
+      ) {
       padding-top: env(safe-area-inset-top, 0px);
     }
 

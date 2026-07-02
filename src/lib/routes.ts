@@ -17,6 +17,7 @@ export const routeDescriptions = {
   CHAT: { route: '/chat', requiresAuth: false },
   CHAT_ARCHIVE: { route: '/chat/archive', requiresAuth: false },
   COOKIE_POLICY: { route: '/terms/cookies', requiresAuth: false },
+  COVERAGE_GAPS: { route: '/coveragegaps', requiresAuth: false },
   FAQ: { route: '/info/faq', requiresAuth: false },
   HOME: { route: '/', requiresAuth: false },
   EDIT_GARDEN: { route: '/garden/edit', requiresAuth: true },

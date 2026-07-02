@@ -26,12 +26,14 @@
 
 <style>
   /* Use CSS specificity to override the height */
-  :global(div.app.active-explore) {
+  :global(div.app.active-explore),
+  :global(div.app.active-coveragegaps) {
     --height-footer: calc(4.5rem + env(safe-area-inset-bottom, 0px) * 0.5);
   }
 
   /* Hide the footer on a fullscreen desktop map, too */
-  :global(div.app.active-explore.fullscreen footer.minimal-footer) {
+  :global(div.app.active-explore.fullscreen footer.minimal-footer),
+  :global(div.app.active-coveragegaps.fullscreen footer.minimal-footer) {
     display: none;
   }
 

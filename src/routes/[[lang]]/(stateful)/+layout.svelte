@@ -14,7 +14,7 @@
 {#if $appHasLoaded}
   <Navigation />
   <main>{@render children?.()}</main>
-  {#if $currentRoute === routes.MAP}
+  {#if $currentRoute === routes.MAP || $currentRoute === routes.COVERAGE_GAPS}
     <MinimalFooter />
   {:else}
     <Footer />
