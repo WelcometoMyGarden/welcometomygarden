@@ -143,22 +143,32 @@ export const membershipBlogLink = (
 };
 
 export const appleAppStoreUrl = derived(locale, ($locale) => {
+  // Empty values have been found to automatically use their region's main language
+  // Specified values don't default to what we would expect.
   const langMap = {
-    en: 'en-GB',
-    fr: 'fr-FR',
-    nl: 'nl',
-    // Don't supply lang param to es or de, we use their own regions below, language is implied
     de: '',
-    es: ''
+    en: 'en-GB',
+    es: '',
+    // Yes, /be/...?l=fr-FR is actually how Apple implemented this.
+    fr: 'fr-FR',
+    it: '',
+    nl: 'nl',
+    pl: 'pl',
+    ro: 'ro',
+    se: ''
   };
 
   // Prefer to show the Belgian region if the language is available there. It has more reviews.
   const regionMap = {
-    nl: 'be',
-    fr: 'be',
+    de: 'de',
     en: 'be',
     es: 'es',
-    de: 'de'
+    fr: 'be',
+    it: 'it',
+    nl: 'be',
+    pl: 'pl',
+    ro: 'ro',
+    se: 'se'
   };
   const lang = coerceToSupportedLanguage($locale);
   return `https://apps.apple.com/${regionMap[lang]}/app/welcome-to-my-garden/id6759368622${langMap[lang] ? `?l=${langMap[lang]}` : ''}`;

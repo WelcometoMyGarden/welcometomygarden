@@ -1,6 +1,16 @@
 // This file is in JS + JSDoc for interop with svelte.config.js
 //
-export const SUPPORTED_LANGUAGES = /** @type {const} */ (['en', 'nl', 'fr', 'de', 'es']);
+export const SUPPORTED_LANGUAGES = /** @type {const} */ ([
+  'de',
+  'en',
+  'es',
+  'fr',
+  'it',
+  'nl',
+  'pl',
+  'ro',
+  'sv'
+]);
 /**
  * @typedef {(typeof SUPPORTED_LANGUAGES)[number]} SupportedLanguage
  */

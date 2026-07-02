@@ -33,7 +33,7 @@ export const countryNames = derived(locale, ($locale) => {
  * Guesses an alpha-2 country code based on Accept-Language headers
  */
 export const guessCountryCode = () => {
-  //  Instead of using a GeoIP API or database (https://github.com/runk/node-maxmind / https://db-ip.com/db/download/ip-to-country-lite)
+  // Instead of using a GeoIP API or database (https://github.com/runk/node-maxmind / https://db-ip.com/db/download/ip-to-country-lite)
   // Accept-Language headers often contain a country code
   // https://db-ip.com/db/format/ip-to-country-lite/mmdb.html
   // From Plausible data,
@@ -61,6 +61,14 @@ export const guessCountryCode = () => {
         return 'ES';
       case 'en':
         return 'GB';
+      case 'it':
+        return 'IT';
+      case 'pl':
+        return 'PL';
+      case 'ro':
+        return 'RO';
+      case 'sv':
+        return 'SE';
       default:
         return 'BE';
     }
