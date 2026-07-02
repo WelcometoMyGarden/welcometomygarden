@@ -9,8 +9,6 @@
     GRADIENT_END_KM,
     COVERAGE_COLORS
   } from '$lib/components/Map/CoverageHeatmapLayer.svelte';
-  import CoverageTweaks from '$lib/components/Map/CoverageTweaks.svelte';
-  import { coverageTweaks } from '$lib/stores/coverageTweaks';
   import FilterLocation from '$lib/components/Garden/FilterLocation.svelte';
   import { Progress } from '$lib/components/UI';
   import {
@@ -89,11 +87,9 @@
     {applyZoom}
   >
     {#if $allListedGardens.length > 0}
-      <CoverageHeatmapLayer gardens={$allListedGardens} mode={$coverageTweaks.mode} />
+      <CoverageHeatmapLayer gardens={$allListedGardens} />
     {/if}
   </Map>
-
-  <CoverageTweaks />
 
   <div class="location-search">
     <div class="location-filter">
