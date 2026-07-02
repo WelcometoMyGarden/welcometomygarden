@@ -54,13 +54,13 @@ export type RouteTweaks = {
 };
 
 export const routeTweaks = writable<RouteTweaks>({
-  panelOpen: true,
+  panelOpen: false,
   useMultipleColors: true,
   showKmMarkers: true,
   showStartEndMarkers: true,
   zoomIntervalConfig: DEFAULT_ZOOM_INTERVAL_CONFIG,
-  routeLayerMode: 'default',
-  endpointMode: 'icons'
+  routeLayerMode: 'kmOnTopOverlap',
+  endpointMode: 'flags'
 });
 
 /** Live mirror of the current map zoom level, for display in the tweaks panel. */
