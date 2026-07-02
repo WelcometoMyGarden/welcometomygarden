@@ -30,7 +30,7 @@
     "member": "Iscritto",
     "membership": "Iscrizione",
     "new": "Nuovo",
-    "fair-model-blog-path": "come far sì che WTMG sopravviva e cresca",
+    "fair-model-blog-path": "/towards-a-fair-model-to-make-wtmg-survive-and-thrive",
     "on": "su",
     "error": {
       "start": "Qualcosa è andato storto",
@@ -381,7 +381,7 @@
           "4": "Per avvisarti quando vengono effettuati aggiornamenti sulla piattaforma;",
           "5": "Per avvisarti quando ci sono attività sulla piattaforma che potrebbero interessarti."
         },
-        "copy": "I dati personali vengono conservati e trattati solo per il periodo necessario allo scopo del trattamento. Successivamente, i dati verranno eliminati o resi anonimi. <span class=\"notranslate\">Welcome To My Garden</span> si affida a Firebase per l'archiviazione e la gestione dei dati, a Stripe per l'elaborazione dei pagamenti e a SendGrid per le comunicazioni via email. Questi servizi sono certificati in base ai principali standard di privacy e sicurezza e sono conformi al GDPR. Le loro informative sulla privacy sono disponibili qui: <a href=\"https://firebase.google.com/support/privacy?hl=en\" target=\"_blank\">Firebase</a>, <a href=\"https://stripe.com/privacy\" target=\"_blank\">Stripe</a> e <a href=\"https://www.twilio.com/legal/privacy\" target=\"_blank\">SendGrid</a>."
+        "copy": "I dati personali vengono conservati e trattati solo per il periodo necessario allo scopo del trattamento. Successivamente, i dati verranno eliminati o resi anonimi. <span class=\"notranslate\">Welcome To My Garden</span> si affida a Firebase per l'archiviazione e la gestione dei dati, a Stripe per l'elaborazione dei pagamenti e a SendGrid per le comunicazioni via email. Questi servizi sono certificati in base ai principali standard di privacy e sicurezza e sono conformi al GDPR. Le loro informative sulla privacy sono disponibili qui: <a href=\"https://firebase.google.com/support/privacy?hl=it\" target=\"_blank\">Firebase</a>, <a href=\"https://stripe.com/privacy\" target=\"_blank\">Stripe</a> e <a href=\"https://www.twilio.com/legal/privacy\" target=\"_blank\">SendGrid</a>."
       },
       "backups": {
         "title": "Backup",
