@@ -43,7 +43,10 @@
     "here": "aici",
     "cancel": "Anulează",
     "now": "acum",
-    "undo": "Revocă"
+    "undo": "Revocă",
+    "toast": {
+      "membership-expired": "Abonamentul tău a expirat pe {date}."
+    }
   },
   "ui": {
     "card": {
@@ -527,8 +530,7 @@
         "capacity": "Spațiu pentru {styleCapacity} {capacity, plural, one {cort} other {corturi}}"
       },
       "owner": {
-        "your-garden": "Grădina ta",
-        "button": "Administrează grădina"
+        "your-garden": "Grădina ta"
       },
       "guest": {
         "button": "Contactează gazda",
@@ -560,7 +562,7 @@
     },
     "manage": {
       "add-first": "Te rugăm să adaugi mai întâi o grădină.",
-      "title": "Administrează grădina"
+      "action": "Editează grădina"
     },
     "form": {
       "register-link-text": "creează un cont",
@@ -969,11 +971,36 @@
         "button": "Adaugă-ți grădina"
       },
       "listed": {
-        "text": "Retrage-ți temporar grădina de pe hartă",
-        "button": "Gestionează grădina"
+        "text": "Retrage-ți temporar grădina de pe hartă"
       },
       "unverified": {
         "text": "Verifică-ți adresa de e-mail pentru a-ți gestiona grădina."
+      },
+      "unlist-modal": {
+        "title": "Retrage-ți temporar grădina de pe hartă",
+        "subtitle": "Pentru cât timp dorești să îți retragi grădina de pe hartă?",
+        "mode-date-title": "Până la o anumită dată",
+        "mode-date-desc": "Grădina ta revine automat.",
+        "mode-indef-title": "Pe termen nedeterminat",
+        "mode-indef-desc": "Îți repui manual grădina pe hartă.",
+        "date-label": "Din nou pe hartă",
+        "pick-date": "Alege o dată",
+        "return": "Grădina ta revine pe hartă pe {date} ({relative}).",
+        "cancel": "Anulează",
+        "unlist-until": "Retrage până la {date}",
+        "unlist-garden": "Retrage grădina",
+        "preset-weeks": "{count, plural, one {# săptămână} other {# săptămâni}}",
+        "date-in-past": "Data trebuie să fie în viitor."
+      },
+      "visibility": {
+        "change-date": "Schimbă data",
+        "off-indefinite": "Activează pentru a-ți repune grădina pe hartă.",
+        "off-label": "Grădina ta nu este momentan pe hartă",
+        "on-label": "Grădina ta este pe hartă",
+        "on-subtext": "Dezactivează pentru a-ți retrage temporar grădina de pe hartă.",
+        "relist-now": "Repune acum pe hartă",
+        "returns-on": "Revine pe hartă pe {date} ({relative}).",
+        "set-return-date": "Setează o dată de revenire"
       }
     },
     "superfan": {
@@ -993,7 +1020,8 @@
       "resend-error": "Nu am putut retrimite e-mailul de verificare a contului. Te rugăm să contactezi {support}",
       "garden-show": "Grădina ta va apărea din nou pe hartă",
       "garden-no-show": "Grădina ta nu va mai apărea pe hartă",
-      "preferences-update": "Preferințele tale de e-mail au fost actualizate!"
+      "preferences-update": "Preferințele tale de e-mail au fost actualizate!",
+      "garden-relist-set": "Grădina ta revine pe {returnDate}"
     },
     "delete": {
       "button-action": "Șterge-ți contul",
@@ -1570,5 +1598,11 @@
       "sign-in-label": "conectează-te ",
       "button-label": "Conectează-te sau devino membru"
     }
+  },
+  "manage-membership-error": {
+    "logged-in": "Poți încerca să îți gestionezi abonamentul {accountLink}. Dacă nu funcționează, contactează {support}.",
+    "logged-out": "Ceva nu a mers bine la gestionarea abonamentului pentru {email}. {signInLink} pentru a-ți gestiona abonamentul.",
+    "account-link-text": "prin pagina de cont",
+    "sign-in-link-text": "Conectare"
   }
 }

@@ -43,7 +43,10 @@
     "here": "qui",
     "cancel": "Annulla",
     "now": "ora",
-    "undo": "Annulla"
+    "undo": "Annulla",
+    "toast": {
+      "membership-expired": "La tua iscrizione è scaduta il {date}."
+    }
   },
   "ui": {
     "card": {
@@ -527,8 +530,7 @@
         "capacity": "Spazio per {styleCapacity} {capacity, plural, one {tenda} other {tende}}"
       },
       "owner": {
-        "your-garden": "Il tuo giardino",
-        "button": "Gestisci il giardino"
+        "your-garden": "Il tuo giardino"
       },
       "guest": {
         "button": "Contatta l'ospitante",
@@ -560,7 +562,7 @@
     },
     "manage": {
       "add-first": "Per favore, aggiungi prima un giardino.",
-      "title": "Gestisci il giardino"
+      "action": "Modifica giardino"
     },
     "form": {
       "register-link-text": "creare un account",
@@ -969,11 +971,36 @@
         "button": "Aggiungi il tuo giardino"
       },
       "listed": {
-        "text": "Nascondi temporaneamente il mio giardino",
-        "button": "Gestisci il giardino"
+        "text": "Nascondi temporaneamente il mio giardino"
       },
       "unverified": {
         "text": "Verifica la tua email per gestire il tuo giardino."
+      },
+      "unlist-modal": {
+        "title": "Nascondi temporaneamente il tuo giardino",
+        "subtitle": "Per quanto tempo vuoi nascondere il tuo giardino?",
+        "mode-date-title": "Fino a una data specifica",
+        "mode-date-desc": "Il tuo giardino torna automaticamente.",
+        "mode-indef-title": "A tempo indeterminato",
+        "mode-indef-desc": "Sei tu a rimettere il tuo giardino sulla mappa manualmente.",
+        "date-label": "Di nuovo sulla mappa",
+        "pick-date": "Scegli una data",
+        "return": "Il tuo giardino tornerà sulla mappa il {date} ({relative}).",
+        "cancel": "Annulla",
+        "unlist-until": "Nascondi fino al {date}",
+        "unlist-garden": "Nascondi giardino",
+        "preset-weeks": "{count, plural, one {# settimana} other {# settimane}}",
+        "date-in-past": "La data deve essere nel futuro."
+      },
+      "visibility": {
+        "change-date": "Cambia data",
+        "off-indefinite": "Attivalo per rimettere il tuo giardino sulla mappa.",
+        "off-label": "Il tuo giardino al momento non è sulla mappa",
+        "on-label": "Il tuo giardino è sulla mappa",
+        "on-subtext": "Disattivalo per nascondere temporaneamente il tuo giardino.",
+        "relist-now": "Rimetti ora sulla mappa",
+        "returns-on": "Torna sulla mappa il {date} ({relative}).",
+        "set-return-date": "Imposta una data di ritorno"
       }
     },
     "superfan": {
@@ -993,7 +1020,8 @@
       "resend-error": "Non siamo riusciti a inviare nuovamente l'email di verifica. Contatta {support}",
       "garden-show": "Il tuo giardino sarà di nuovo visibile sulla mappa",
       "garden-no-show": "Il tuo giardino non sarà più visibile sulla mappa",
-      "preferences-update": "Le tue preferenze email sono state aggiornate!"
+      "preferences-update": "Le tue preferenze email sono state aggiornate!",
+      "garden-relist-set": "Il tuo giardino tornerà il {returnDate}"
     },
     "delete": {
       "button-action": "Elimina il tuo account",
@@ -1570,5 +1598,11 @@
       "sign-in-label": "accedere",
       "button-label": "Accedi o iscriviti"
     }
+  },
+  "manage-membership-error": {
+    "logged-in": "Puoi provare a gestire la tua iscrizione {accountLink}. Se non funziona, contatta {support}.",
+    "logged-out": "Qualcosa è andato storto durante la gestione dell'iscrizione di {email}. {signInLink} per gestire la tua iscrizione.",
+    "account-link-text": "tramite la tua pagina account",
+    "sign-in-link-text": "Accedi"
   }
 }

@@ -43,7 +43,10 @@
     "here": "här",
     "cancel": "Avbryt",
     "now": "nu",
-    "undo": "Ångra"
+    "undo": "Ångra",
+    "toast": {
+      "membership-expired": "Ditt medlemskap upphörde den {date}."
+    }
   },
   "ui": {
     "card": {
@@ -527,8 +530,7 @@
         "capacity": "Plats för {styleCapacity} {capacity, plural, one {tält} other {tält}}"
       },
       "owner": {
-        "your-garden": "Din trädgård",
-        "button": "Hantera trädgård"
+        "your-garden": "Din trädgård"
       },
       "guest": {
         "button": "Kontakta värd",
@@ -560,7 +562,7 @@
     },
     "manage": {
       "add-first": "Vänligen lägg till en trädgård först.",
-      "title": "Hantera trädgård"
+      "action": "Redigera trädgård"
     },
     "form": {
       "register-link-text": "skapa ett konto",
@@ -969,11 +971,36 @@
         "button": "Lägg till din trädgård"
       },
       "listed": {
-        "text": "Dölj min trädgård tillfälligt",
-        "button": "Hantera trädgård"
+        "text": "Dölj min trädgård tillfälligt"
       },
       "unverified": {
         "text": "Verifiera din e-post för att hantera din trädgård."
+      },
+      "unlist-modal": {
+        "title": "Dölj din trädgård tillfälligt",
+        "subtitle": "Hur länge vill du dölja din trädgård?",
+        "mode-date-title": "Till ett visst datum",
+        "mode-date-desc": "Din trädgård återgår automatiskt.",
+        "mode-indef-title": "Tills vidare",
+        "mode-indef-desc": "Du återpublicerar din trädgård manuellt.",
+        "date-label": "Tillbaka på kartan",
+        "pick-date": "Välj ett datum",
+        "return": "Din trädgård återgår till kartan den {date} ({relative}).",
+        "cancel": "Avbryt",
+        "unlist-until": "Dölj till {date}",
+        "unlist-garden": "Dölj trädgård",
+        "preset-weeks": "{count, plural, one {# vecka} other {# veckor}}",
+        "date-in-past": "Datumet måste vara i framtiden."
+      },
+      "visibility": {
+        "change-date": "Ändra datum",
+        "off-indefinite": "Slå på för att visa din trädgård igen.",
+        "off-label": "Din trädgård är för närvarande inte på kartan",
+        "on-label": "Din trädgård är på kartan",
+        "on-subtext": "Stäng av för att tillfälligt dölja din trädgård.",
+        "relist-now": "Visa igen nu",
+        "returns-on": "Den återgår till kartan den {date} ({relative}).",
+        "set-return-date": "Ange ett återgångsdatum"
       }
     },
     "superfan": {
@@ -993,7 +1020,8 @@
       "resend-error": "Vi kunde inte skicka verifieringsmejlet för kontot igen. Vänligen kontakta {support}",
       "garden-show": "Din trädgård kommer att visas på kartan igen",
       "garden-no-show": "Din trädgård kommer inte att visas på kartan",
-      "preferences-update": "Dina e-postinställningar har uppdaterats!"
+      "preferences-update": "Dina e-postinställningar har uppdaterats!",
+      "garden-relist-set": "Din trädgård återgår den {returnDate}"
     },
     "delete": {
       "button-action": "Ta bort ditt konto",
@@ -1570,5 +1598,11 @@
       "sign-in-label": "logga in",
       "button-label": "Logga in eller bli medlem"
     }
+  },
+  "manage-membership-error": {
+    "logged-in": "Du kan försöka hantera ditt medlemskap {accountLink}. Om det inte fungerar, kontakta {support}.",
+    "logged-out": "Något gick fel när medlemskapet för {email} skulle hanteras. {signInLink} för att hantera ditt medlemskap.",
+    "account-link-text": "via Mina sidor",
+    "sign-in-link-text": "Logga in"
   }
 }

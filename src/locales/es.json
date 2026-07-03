@@ -55,7 +55,10 @@
     "here": "aquí",
     "cancel": "Cancelar",
     "now": "ahora",
-    "undo": "Deshacer"
+    "undo": "Deshacer",
+    "toast": {
+      "membership-expired": "Tu membresía expiró el {date}."
+    }
   },
   "ui": {
     "card": {
@@ -539,8 +542,7 @@
         "capacity": "Espacio para {styleCapacity} {capacity, plural, one {tienda} other {tiendas}}"
       },
       "owner": {
-        "your-garden": "Tu jardín",
-        "button": "Gestionar jardín"
+        "your-garden": "Tu jardín"
       },
       "guest": {
         "button": "Contactar anfitrión",
@@ -572,7 +574,7 @@
     },
     "manage": {
       "add-first": "Por favor añade un jardín primero.",
-      "title": "Gestionar jardín"
+      "action": "Editar jardín"
     },
     "form": {
       "register-link-text": "crear una cuenta",
@@ -981,11 +983,36 @@
         "button": "Añadir tu jardín"
       },
       "listed": {
-        "text": "Retirar mi jardín de la lista temporalmente",
-        "button": "Gestionar jardín"
+        "text": "Retirar mi jardín de la lista temporalmente"
       },
       "unverified": {
         "text": "Verifica tu correo electrónico para gestionar tu jardín."
+      },
+      "unlist-modal": {
+        "title": "Retirar tu jardín de la lista temporalmente",
+        "subtitle": "¿Durante cuánto tiempo quieres retirar tu jardín de la lista?",
+        "mode-date-title": "Hasta una fecha determinada",
+        "mode-date-desc": "Tu jardín vuelve automáticamente.",
+        "mode-indef-title": "Indefinidamente",
+        "mode-indef-desc": "Vuelves a publicar tu jardín manualmente.",
+        "date-label": "De vuelta en el mapa",
+        "pick-date": "Elige una fecha",
+        "return": "Tu jardín volverá al mapa el {date} ({relative}).",
+        "cancel": "Cancelar",
+        "unlist-until": "Retirar hasta {date}",
+        "unlist-garden": "Retirar jardín",
+        "preset-weeks": "{count, plural, one {# semana} other {# semanas}}",
+        "date-in-past": "La fecha debe estar en el futuro."
+      },
+      "visibility": {
+        "change-date": "Cambiar fecha",
+        "off-indefinite": "Actívalo para volver a incluir tu jardín en la lista.",
+        "off-label": "Tu jardín no está actualmente en el mapa",
+        "on-label": "Tu jardín está en el mapa",
+        "on-subtext": "Desactívalo para retirar tu jardín de la lista temporalmente.",
+        "relist-now": "Volver a publicar ahora",
+        "returns-on": "Vuelve al mapa el {date} ({relative}).",
+        "set-return-date": "Establecer una fecha de regreso"
       }
     },
     "superfan": {
@@ -1005,7 +1032,8 @@
       "resend-error": "No hemos podido reenviar el correo de verificación de la cuenta. Por favor, contacta con {support}",
       "garden-show": "Tu jardín volverá a aparecer en el mapa",
       "garden-no-show": "Tu jardín ya no aparecerá en el mapa",
-      "preferences-update": "¡Tus preferencias de correo electrónico han sido actualizadas!"
+      "preferences-update": "¡Tus preferencias de correo electrónico han sido actualizadas!",
+      "garden-relist-set": "Tu jardín vuelve el {returnDate}"
     },
     "delete": {
       "button-action": "Eliminar tu cuenta",
@@ -1598,5 +1626,11 @@
       "sign-in-label": "iniciar sesión",
       "button-label": "Inicia sesión o hazte miembro/a"
     }
+  },
+  "manage-membership-error": {
+    "logged-in": "Puedes intentar gestionar tu suscripción {accountLink}. Si eso no funciona, contacta con {support}.",
+    "logged-out": "Algo salió mal al gestionar la membresía de {email}. {signInLink} para gestionar tu suscripción.",
+    "account-link-text": "a través de tu página de cuenta",
+    "sign-in-link-text": "Iniciar sesión"
   }
 }

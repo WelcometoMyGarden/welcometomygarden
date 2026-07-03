@@ -44,7 +44,10 @@
     "cancel": "Anuluj",
     "now": "teraz",
     "undo": "Cofnij",
-    "slowby-url": "https://slowby.travel/"
+    "slowby-url": "https://slowby.travel/",
+    "toast": {
+      "membership-expired": "Twoja subskrypcja wygasła w dniu {date}."
+    }
   },
   "ui": {
     "card": {
@@ -528,8 +531,7 @@
         "capacity": "Miejsce na {styleCapacity} {capacity, plural, one {namiot} few {namioty} many {namiotów} other {namiotu}}"
       },
       "owner": {
-        "your-garden": "Twój ogród",
-        "button": "Zarządzaj ogrodem"
+        "your-garden": "Twój ogród"
       },
       "guest": {
         "button": "Skontaktuj się z gospodarzem",
@@ -561,7 +563,7 @@
     },
     "manage": {
       "add-first": "Najpierw dodaj ogród.",
-      "title": "Zarządzaj ogrodem"
+      "action": "Edytuj ogród"
     },
     "form": {
       "register-link-text": "utwórz konto",
@@ -970,11 +972,36 @@
         "button": "Dodaj swój ogród"
       },
       "listed": {
-        "text": "Tymczasowo ukryj mój ogród",
-        "button": "Zarządzaj ogrodem"
+        "text": "Tymczasowo ukryj mój ogród"
       },
       "unverified": {
         "text": "Zweryfikuj swój e-mail, aby zarządzać ogrodem."
+      },
+      "unlist-modal": {
+        "title": "Tymczasowo ukryj swój ogród",
+        "subtitle": "Na jak długo chcesz ukryć swój ogród?",
+        "mode-date-title": "Do określonej daty",
+        "mode-date-desc": "Twój ogród wraca automatycznie.",
+        "mode-indef-title": "Bezterminowo",
+        "mode-indef-desc": "Ręcznie przywracasz swój ogród na mapę.",
+        "date-label": "Z powrotem na mapie",
+        "pick-date": "Wybierz datę",
+        "return": "Twój ogród wróci na mapę {date} ({relative}).",
+        "cancel": "Anuluj",
+        "unlist-until": "Ukryj do {date}",
+        "unlist-garden": "Ukryj ogród",
+        "preset-weeks": "{count, plural, one {# tydzień} few {# tygodnie} many {# tygodni} other {# tygodnia}}",
+        "date-in-past": "Data musi być w przyszłości."
+      },
+      "visibility": {
+        "change-date": "Zmień datę",
+        "off-indefinite": "Włącz, aby ponownie umieścić swój ogród na mapie.",
+        "off-label": "Twój ogród nie jest obecnie na mapie",
+        "on-label": "Twój ogród jest na mapie",
+        "on-subtext": "Wyłącz, aby tymczasowo ukryć swój ogród.",
+        "relist-now": "Przywróć teraz",
+        "returns-on": "Wróci na mapę {date} ({relative}).",
+        "set-return-date": "Ustaw datę powrotu"
       }
     },
     "superfan": {
@@ -994,7 +1021,8 @@
       "resend-error": "Nie mogliśmy ponownie wysłać e-maila weryfikacyjnego. Skontaktuj się z {support}",
       "garden-show": "Twój ogród ponownie pojawi się na mapie",
       "garden-no-show": "Twój ogród nie będzie widoczny na mapie",
-      "preferences-update": "Twoje ustawienia powiadomień zostały zaktualizowane!"
+      "preferences-update": "Twoje ustawienia powiadomień zostały zaktualizowane!",
+      "garden-relist-set": "Twój ogród wróci {returnDate}"
     },
     "delete": {
       "button-action": "Usuń swoje konto",
@@ -1575,5 +1603,11 @@
       "sign-in-label": "się zalogować",
       "button-label": "Zaloguj się lub wykup subskrypcję"
     }
+  },
+  "manage-membership-error": {
+    "logged-in": "Możesz spróbować zarządzać swoją subskrypcją {accountLink}. Jeśli to nie zadziała, skontaktuj się z {support}.",
+    "logged-out": "Coś poszło nie tak podczas zarządzania subskrypcją {email}. {signInLink}, aby zarządzać swoją subskrypcją.",
+    "account-link-text": "przez stronę konta",
+    "sign-in-link-text": "Zaloguj się"
   }
 }
