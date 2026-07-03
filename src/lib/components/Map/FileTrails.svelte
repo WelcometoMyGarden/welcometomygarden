@@ -234,12 +234,12 @@
     }
 
     if (mode === 'dots') {
-      // Green circle (start), red circle (end) and a vertically split
-      // half-green/half-red circle for merged start+end points.
+      // Green circle (start), red circle (end) and a vertically split circle for merged
+      // start+end points: red on the left half, green on the right half.
       if (type === 'start') el.style.background = BADGE_GREEN;
       else if (type === 'end') el.style.background = BADGE_RED;
       else
-        el.style.background = `linear-gradient(90deg, ${BADGE_GREEN} 0 50%, ${BADGE_RED} 50% 100%)`;
+        el.style.background = `linear-gradient(90deg, ${BADGE_RED} 0 50%, ${BADGE_GREEN} 50% 100%)`;
       return el;
     }
 
@@ -419,7 +419,11 @@
           'text-field': routeName,
           'text-size': 13,
           'text-max-angle': 40,
-          'text-keep-upright': true
+          'text-keep-upright': true,
+          // Render every route's name even where routes overlap/run together, instead of
+          // letting collision detection drop all but one label.
+          'text-allow-overlap': true,
+          'text-ignore-placement': true
         },
         paint: {
           'text-color': color,
@@ -450,11 +454,30 @@
     rendered.delete(id);
   };
 
+  // The WTMG garden layers (see GardenLayer.svelte), in the order they are added — i.e.
+  // bottom-to-top in the style. Uploaded route layers are always kept below these so the
+  // garden icons stay visible on top of the routes.
+  const GARDEN_LAYER_IDS = [
+    'clusters',
+    'cluster-count',
+    'unclustered-point',
+    'saved-gardens-layer'
+  ];
+
+  /**
+   * The id of the lowest-stacked garden layer currently present, used as the `beforeId`
+   * when raising route layers so they never end up on top of the garden icons. Returns
+   * `undefined` when no garden layer exists yet (e.g. still loading), in which case
+   * layers are raised to the very top as a fallback.
+   */
+  const gardenFloorLayerId = () => GARDEN_LAYER_IDS.find((id) => map.getLayer(id));
+
+  // Raise a layer as high as possible while staying below the garden layers.
   const moveToTop = (layerId: string) => {
-    if (map.getLayer(layerId)) map.moveLayer(layerId);
+    if (map.getLayer(layerId)) map.moveLayer(layerId, gardenFloorLayerId());
   };
 
-  /** Brings a trail's line and km marker layers above everything else. */
+  /** Brings a trail's line and km marker layers above the other routes (but below gardens). */
   const raiseTrail = (id: string) => {
     moveToTop(id);
     moveToTop(nameLabelId(id));
@@ -568,7 +591,7 @@
       .map((layer) => layer.id)
       .filter((id) => map.getLayer(id));
 
-  /** Moves the overlap lines and all km marker layers above everything else. */
+  /** Moves the overlap lines and all km marker layers above the routes (below gardens). */
   const stackKmOnTop = () => {
     moveToTop(OVERLAP_LAYER_A);
     moveToTop(OVERLAP_LAYER_B);
