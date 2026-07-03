@@ -28,10 +28,22 @@
     "NSCameraUsageDescription" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "damit du ein Foto von deinem Garten machen kannst."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "so that you can take a picture of your garden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "para que puedas tomar una foto de tu jardín."
           }
         },
         "fr" : {
@@ -40,10 +52,34 @@
             "value" : "pour que vous puissiez prendre une photo de votre jardin."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "per permetterti di scattare una foto del tuo giardino."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "zodat je een foto van je tuin kunt maken."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "aby zrobić zdjęcie Twojego ogrodu."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ca să poți face o poză grădinii tale."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "så att du kan ta en bild av din trädgård."
           }
         }
       }
@@ -51,10 +87,22 @@
     "NSLocationAlwaysAndWhenInUseUsageDescription" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wir möchten deinen Standort auf der Karte anzeigen."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "We want to show your location on the map."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Queremos mostrar tu ubicación en el mapa."
           }
         },
         "fr" : {
@@ -63,10 +111,34 @@
             "value" : "Nous voulons afficher votre position sur la carte."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vogliamo mostrare la tua posizione sulla mappa."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "We willen je locatie op de kaart tonen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chcemy pokazać Twoją lokalizację na mapie."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dorim să îți afișăm locația pe hartă."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vi vill visa din plats på kartan."
           }
         }
       }
@@ -74,10 +146,22 @@
     "NSLocationWhenInUseUsageDescription" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wir möchten deinen Standort auf der Karte anzeigen."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "We want to show your location on the map."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Queremos mostrar tu ubicación en el mapa."
           }
         },
         "fr" : {
@@ -86,10 +170,34 @@
             "value" : "Nous voulons afficher votre position sur la carte."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vogliamo mostrare la tua posizione sulla mappa."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "We willen je locatie op de kaart tonen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chcemy pokazać Twoją lokalizację na mapie."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dorim să îți afișăm locația pe hartă."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vi vill visa din plats på kartan."
           }
         }
       }
