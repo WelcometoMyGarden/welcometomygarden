@@ -150,8 +150,8 @@
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> è una rete di cittadini che offrono ai viaggiatori lenti spazio per campeggiare gratuitamente nei loro giardini . Si tratta di un'iniziativa senza scopo di lucro e non deve essere generato alcun profitto. <span class=\"notranslate\">Welcome To My Garden</span> non si assume alcuna responsabilità per perdite, danni o infortuni subiti durante il soggiorno."
       },
       "1": {
-        "title": "Solo per viaggiatori lenti (regola \"senza auto\")",
-        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> rispetta l'ambiente ed è stato pensato solo per i viaggiatori lenti. Questo significa che puoi raggiungere i giardini solo a piedi, in bicicletta o con i mezzi pubblici. È vietato arrivare con la tua auto privata. Puoi guidare fino al punto di partenza della tua avventura, non puoi arrivare in auto da chi ti ospiterà."
+        "title": "Solo per viaggiatori lenti (regola \"senza auto o moto\")",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> rispetta l'ambiente ed è stato pensato solo per i viaggiatori lenti. Questo significa che puoi raggiungere i giardini solo a piedi, in bicicletta o con i mezzi pubblici. È vietato arrivare con la tua auto o moto privata. Puoi guidare fino al punto di partenza della tua avventura, non puoi arrivare in auto o moto da chi ti ospiterà."
       },
       "2": {
         "title": "Invia una richiesta ai proprietari del giardino",
@@ -221,7 +221,7 @@
           },
           "how-camping": {
             "title": "Come arrivo al mio posto tenda?",
-            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> è stata creata per soddisfare le esigenze dei viaggiatori lenti: escursionisti e ciclisti che hanno bisogno di un posto tenda alla fine della giornata. Per questo motivo dovresti arrivare al tuo posto tenda a piedi, in bicicletta o con i mezzi pubblici – assolutamente non in auto."
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> è stata creata per soddisfare le esigenze dei viaggiatori lenti: escursionisti e ciclisti che hanno bisogno di un posto tenda alla fine della giornata. Per questo motivo dovresti arrivare al tuo posto tenda a piedi, in bicicletta o con i mezzi pubblici – assolutamente non in auto o moto."
           },
           "what-facilities": {
             "title": "Quali servizi troverai nel giardino?",
@@ -684,7 +684,7 @@
         }
       },
       "per-year": "/anno",
-      "terms-label": "Uso WTMG solo come viaggiatore lento (mai in auto) e accetto tutte le {termsLink}.",
+      "terms-label": "Uso WTMG solo come viaggiatore lento (mai in auto o moto) e accetto tutte le {termsLink}.",
       "terms-link-text": "regole di WTMG",
       "questions": "Domande?",
       "faq-link-text": "Consulta le nostre FAQ.",
@@ -1324,7 +1324,7 @@
             }
           },
           "5": {
-            "title": "Regola dell'assenza di auto",
+            "title": "Regola dell'assenza di auto o moto",
             "copy": {
               "0": "La piattaforma <span class=\"notranslate\">Welcome To My Garden</span> rispetta l'ambiente e si rivolge esclusivamente alle esigenze dei viaggiatori lenti. Ciò significa che gli utenti possono recarsi nei giardini solo a piedi, in bicicletta o con i mezzi pubblici. Se hai intenzione di viaggiare con un veicolo a motore, ti preghiamo di non contattare gli ospitanti tramite questa piattaforma. L'uso di veicoli a motore è vietato."
             }

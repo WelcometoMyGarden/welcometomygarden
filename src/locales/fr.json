@@ -166,8 +166,8 @@
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> est un réseau de citoyen.ne.s offrant leur jardin comme un espace de bivouac gratuit pour de voyageurs et voyageuses adeptes du slow travel. Il s’agit d’une initiative sans but lucratif et en conséquence, aucun bénéfice, ni de la part de la plateforme ni de la <span class=\"notranslate\">Welcome To My Garden</span>eut être fait. <span class=\"notranslate\">Welcome To My Garden</span> ne prendra aucune responsabilité pour toute perte, dommage ou blessure encourue pendant un séjour. Les comportements offensants et l'utilisation abusive de la plateforme entraîneront la suspension des comptes (veuillez vous référer à nos conditions d'utilisation)."
       },
       "1": {
-        "title": "Seulement pour les voyageur.ses lent.es (pas de voiture)",
-        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respecte l’environnement et est une initiative à destination des voyageurs et voyageuses adeptes du slow travel, c’est à dire pour ceux et celles qui se déplacent à pied, à vélo ou en transport en commun. Arriver directement à un jardin en voiture est interdit. Vous pouvez bien sûr vous déplacer en voiture pour vous rendre au point de départ de votre randonnée pédestre ou cycliste."
+        "title": "Seulement pour les voyageur.ses lent.es (pas de voiture ni de moto)",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respecte l’environnement et est une initiative à destination des voyageurs et voyageuses adeptes du slow travel, c’est à dire pour ceux et celles qui se déplacent à pied, à vélo ou en transport en commun. Arriver directement à un jardin en voiture ou en moto est interdit. Vous pouvez bien sûr vous déplacer en voiture pour vous rendre au point de départ de votre randonnée pédestre ou cycliste."
       },
       "2": {
         "title": "Envoyez une demande à l’avance au propriétaire du jardin",
@@ -237,7 +237,7 @@
           },
           "how-camping": {
             "title": "Comment accéder au bivouac ?",
-            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> a été mis en place pour répondre aux besoins des voyageurs et voyageuses lent.e.s adeptes du slow travel, c’est à dire des randonneurs et cyclistes qui auraient besoin d’un endroit où poser leur tente pour la nuit. Nous vous demandons donc d’accéder au bivouac de cette manière et non pas par voiture. Vous pouvez bien sûr conduire jusqu’au début du sentier de randonnée, mais vous ne pouvez pas arriver directement chez votre hôte en voiture !"
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> a été mis en place pour répondre aux besoins des voyageurs et voyageuses lent.e.s adeptes du slow travel, c’est à dire des randonneurs et cyclistes qui auraient besoin d’un endroit où poser leur tente pour la nuit. Nous vous demandons donc d’accéder au bivouac de cette manière et non pas par voiture ou par moto. Vous pouvez bien sûr conduire jusqu’au début du sentier de randonnée, mais vous ne pouvez pas arriver directement chez votre hôte en voiture ou en moto !"
           },
           "what-facilities": {
             "title": "Quelles installations pourrez-vous trouver dans les jardins ?",
@@ -690,7 +690,7 @@
         }
       },
       "per-year": "/an",
-      "terms-label": "J’utilise WTMG uniquement en tant que voyageur.se lent.e (jamais en voiture) et j'accepte toutes les {termsLink}.",
+      "terms-label": "J’utilise WTMG uniquement en tant que voyageur.se lent.e (jamais en voiture ni en moto) et j'accepte toutes les {termsLink}.",
       "terms-link-text": "règles de WTMG",
       "faq-link-text": "Lisez nos FAQ.",
       "blog-post": "Lisez notre blog post: ",
@@ -1357,7 +1357,7 @@
             }
           },
           "5": {
-            "title": "Pas de voiture autorisée",
+            "title": "Pas de voiture ni de moto autorisée",
             "copy": {
               "0": "La plateforme <span class=\"notranslate\">Welcome To My Garden</span> respecte l'environnement et ne répond qu'aux besoins des voyageurs lents. Cela signifie que les utilisateurs ne peuvent se rendre dans les jardins qu'à pied, à vélo ou en transports en commun. Si vous prévoyez de voyager en véhicule motorisé, veuillez ne pas contacter les hôtes via cette plateforme. L'utilisation de véhicules motorisés est interdite."
             }

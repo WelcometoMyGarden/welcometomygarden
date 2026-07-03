@@ -162,8 +162,8 @@
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> es una red de ciudadanos/as que ofrecen zonas de acampada gratuitas en sus jardines a viajeros/as lentos/as. Es una iniciativa sin ánimo de lucro y no se debe obtener ningún ingreso de ella. <span class=\"notranslate\">Welcome To My Garden</span> no asumirá ninguna responsabilidad por pérdidas, daños o lesiones sufridas durante la estancia."
       },
       "1": {
-        "title": "Solo para viajeros/as lentos/as (regla sin coches)",
-        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respeta el medio ambiente y se ha creado exclusivamente para viajeros/as lentos/as. Esto significa que solo puedes llegar a las zonas de acampada a pie, en bicicleta o en transporte público. Está prohibido llegar en coche privado. Está permitido conducir hasta el inicio de tu ruta de senderismo o ciclismo, siempre y cuando no te presentes en las zonas de acampada con tu coche."
+        "title": "Solo para viajeros/as lentos/as (regla sin coches ni motos)",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respeta el medio ambiente y se ha creado exclusivamente para viajeros/as lentos/as. Esto significa que solo puedes llegar a las zonas de acampada a pie, en bicicleta o en transporte público. Está prohibido llegar en coche o moto privados. Está permitido conducir hasta el inicio de tu ruta de senderismo o ciclismo, siempre y cuando no te presentes en las zonas de acampada con tu coche o moto."
       },
       "2": {
         "title": "Envía una solicitud con antelación al/a la propietario/a del jardín",
@@ -233,7 +233,7 @@
           },
           "how-camping": {
             "title": "¿Cómo llego a mi zona de acampada?",
-            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> se ha creado para satisfacer las necesidades de los/as viajeros/as lentos/as: senderistas y ciclistas que necesitan un lugar para acampar al final del día. Por este motivo, se espera que llegues a tu lugar de acampada a pie, en bicicleta o en transporte público; definitivamente no en coche."
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> se ha creado para satisfacer las necesidades de los/as viajeros/as lentos/as: senderistas y ciclistas que necesitan un lugar para acampar al final del día. Por este motivo, se espera que llegues a tu lugar de acampada a pie, en bicicleta o en transporte público; definitivamente no en coche o moto."
           },
           "what-facilities": {
             "title": "¿Qué servicios e instalaciones encontrarás en el jardín?",
@@ -696,7 +696,7 @@
         }
       },
       "per-year": "/año",
-      "terms-label": "Utilizo WTMG solo como viajero/a lento/a (nunca en coche) y acepto todas las {termsLink}.",
+      "terms-label": "Utilizo WTMG solo como viajero/a lento/a (nunca en coche o moto) y acepto todas las {termsLink}.",
       "terms-link-text": "Reglas de WTMG",
       "questions": "¿Preguntas?",
       "faq-link-text": "Consulta nuestro FAQ.",
@@ -1352,7 +1352,7 @@
             }
           },
           "5": {
-            "title": "Norma de no viajar en coche",
+            "title": "Norma de no viajar en coche o moto",
             "copy": {
               "0": "La plataforma <span class=\"notranslate\">Welcome To My Garden</span> respeta el medio ambiente y se dirige únicamente a las necesidades de los viajeros lentos. Esto significa que los usuarios solo pueden viajar a los jardines a pie, en bicicleta o en transporte público. Si planeas viajar en un vehículo motorizado, por favor no contactes con los anfitriones a través de esta plataforma. El uso de vehículos motorizados está prohibido."
             }

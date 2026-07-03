@@ -296,7 +296,7 @@
   },
   "become-superfan": {
     "pricing-section": {
-      "terms-label": "Ik gebruik WTMG uitsluitend als trage reiziger (nooit met de auto) en ga akkoord met alle {termsLink}.",
+      "terms-label": "Ik gebruik WTMG uitsluitend als trage reiziger (nooit met de auto of motor) en ga akkoord met alle {termsLink}.",
       "terms-link-text": "WTMG-regels",
       "description": "Geldig voor één jaar. Word vandaag lid van onze community!",
       "per-month": "per maand",
@@ -898,8 +898,8 @@
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> is een netwerk van burgers die gratis kampeerplekken in hun tuinen aanbieden aan trage reizigers. Het is een initiatief zonder winstoogmerk en er mag geen inkomen uit worden gehaald. <span class=\"notranslate\">Welcome To My Garden</span> is niet verantwoordelijk voor verlies, schade of letsels opgelopen tijdens een verblijf. Aanstootgevend gedrag en misbruik van het platform leiden tot schorsing van accounts (zie onze gebruiksvoorwaarden)."
       },
       "1": {
-        "title": "Alleen voor trage reizigers (geen auto)",
-        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respecteert het milieu en is alleen bedoeld voor trage reizigers. Hierdoor kun je de kampeerplekken enkel te voet, met de fiets of met het openbaar vervoer bereiken.Het is verboden om er te komen met een auto. Je mag naar het begin van je wandel- of fietspad rijden - zolang je maar niet met de auto naar de kampeerplekken komt."
+        "title": "Alleen voor trage reizigers (geen auto of motor)",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respecteert het milieu en is alleen bedoeld voor trage reizigers. Hierdoor kun je de kampeerplekken enkel te voet, met de fiets of met het openbaar vervoer bereiken.Het is verboden om er te komen met een auto of motor. Je mag naar het begin van je wandel- of fietspad rijden - zolang je maar niet met de auto of motor naar de kampeerplekken komt."
       },
       "2": {
         "title": "Stuur vooraf een verzoek naar de tuineigenaar",
@@ -969,7 +969,7 @@
           },
           "how-camping": {
             "title": "Hoe kom ik bij mijn kampeerplek?",
-            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> is opgezet om te voldoen aan de behoeften van trage reizigers: wandelaars en fietsers die aan het eind van de dag een kampeerplek nodig hebben. Het is daarom de bedoeling dat je te voet, met de fiets of met het openbaar vervoer op de kampeerplek aankomt - zeker niet met de auto. Natuurlijk kun je wel naar het begin van je route rijden - zolang je maar niet bij je host komt opdagen in je auto!"
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> is opgezet om te voldoen aan de behoeften van trage reizigers: wandelaars en fietsers die aan het eind van de dag een kampeerplek nodig hebben. Het is daarom de bedoeling dat je te voet, met de fiets of met het openbaar vervoer op de kampeerplek aankomt - zeker niet met de auto of motor. Natuurlijk kun je wel naar het begin van je route rijden - zolang je maar niet bij je host komt opdagen in je auto of op je motor!"
           },
           "what-facilities": {
             "title": "Welke voorzieningen vind je in de tuin?",
@@ -1362,7 +1362,7 @@
             }
           },
           "5": {
-            "title": "Geen auto",
+            "title": "Geen auto of motor",
             "copy": {
               "0": "Het <span class=\"notranslate\">Welcome To My Garden</span>-platform respecteert het milieu en komt alleen tegemoet aan de behoeften van trage reizigers. Dit betekent dat gebruikers alleen te voet, met de fiets of met het openbaar vervoer naar tuinen kunnen reizen. Als je van plan bent met een gemotoriseerd voertuig te reizen, neem dan geen contact op met hosts via <span class=\"notranslate\">Welcome To My Garden</span>. Het gebruik van gemotoriseerde voertuigen is verboden."
             }

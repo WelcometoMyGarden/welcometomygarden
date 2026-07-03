@@ -150,8 +150,8 @@
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> är ett nätverk av invånare som erbjuder gratis tältplatser i sina trädgårdar till slow travellers. Det är ett ideellt initiativ och ingen inkomst ska genereras från det. <span class=\"notranslate\">Welcome To My Garden</span> tar inget ansvar för förlust, skada eller personskada som uppstår under en vistelse."
       },
       "1": {
-        "title": "Endast för slow travellers (bilförbud)",
-        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> värnar om miljön och har skapats enbart för slow travellers. Det innebär att du endast kan ta dig till tältplatserna till fots, med cykel eller kollektivtrafik. Det är förbjudet att ta sig dit med privatbil. Du får köra till starten av din vandrings- eller cykelled – så länge du inte dyker upp vid tältplatsen i bil."
+        "title": "Endast för slow travellers (förbud mot bil och motorcykel)",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> värnar om miljön och har skapats enbart för slow travellers. Det innebär att du endast kan ta dig till tältplatserna till fots, med cykel eller kollektivtrafik. Det är förbjudet att ta sig dit med privatbil eller motorcykel. Du får köra till starten av din vandrings- eller cykelled – så länge du inte dyker upp vid tältplatsen med bil eller motorcykel."
       },
       "2": {
         "title": "Skicka en förfrågan i förväg till trädgårdsägaren",
@@ -221,7 +221,7 @@
           },
           "how-camping": {
             "title": "Hur tar jag mig till min tältplats?",
-            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> har skapats för slow travellers i åtanke: vandrare och cyklister som behöver en tältplats i slutet av dagen. Därför ska du ta dig till din tältplats till fots, med cykel eller med kollektivtrafik – absolut inte med bil."
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> har skapats för slow travellers i åtanke: vandrare och cyklister som behöver en tältplats i slutet av dagen. Därför ska du ta dig till din tältplats till fots, med cykel eller med kollektivtrafik – absolut inte med bil eller motorcykel."
           },
           "what-facilities": {
             "title": "Vilka faciliteter hittar du i trädgården?",
@@ -684,7 +684,7 @@
         }
       },
       "per-year": "/år",
-      "terms-label": "Jag använder WTMG endast som slow traveller (aldrig med bil) och godkänner alla {termsLink}.",
+      "terms-label": "Jag använder WTMG endast som slow traveller (aldrig med bil eller motorcykel) och godkänner alla {termsLink}.",
       "terms-link-text": "WTMG-regler",
       "questions": "Frågor?",
       "faq-link-text": "Se vår FAQ.",
@@ -1324,7 +1324,7 @@
             }
           },
           "5": {
-            "title": "Regel om bilförbud",
+            "title": "Regel om förbud mot bil och motorcykel",
             "copy": {
               "0": "Plattformen <span class=\"notranslate\">Welcome To My Garden</span> respekterar miljön och tillgodoser endast behoven hos slow travellers. Detta innebär att användare endast kan resa till trädgårdar till fots, med cykel eller med kollektivtrafik. Om du planerar att resa med ett motorfordon, vänligen kontakta inte värdar via denna plattform. Användning av motorfordon är förbjuden."
             }
