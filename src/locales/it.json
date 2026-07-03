@@ -1098,7 +1098,7 @@
     "first-name": "Nome",
     "last-name": "Cognome",
     "country": "Paese",
-    "policies": "Accetto l'informativa sui {cookiePolicy}, l'{privacyPolicy} e i {termsOfUse}",
+    "policies": "Accetto l'informativa sui {cookiePolicy}, l’{privacyPolicy} e i {termsOfUse}",
     "registering": "Registrazione in corso...",
     "registered": "Hai già un account? {signIn}",
     "reference": "Come hai conosciuto WTMG? (facoltativo)",
