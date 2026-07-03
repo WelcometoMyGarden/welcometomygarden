@@ -27,15 +27,12 @@
 <p>
   Si vous vous préoccupez de votre vie privée en ligne, nous vous recommandons d'utiliser une
   extension de navigateur telle que
-  <a
-    href="https://www.google.com/url?q=https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/&amp;sa=D&amp;ust=1592214262287000"
-    >Privacy Badger</a
-  >
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/">Privacy Badger</a>
   (Firefox), <a href="https://www.ghostery.com/ghostery-ad-blocker">Ghostery</a> (disponible pour de
-  nombreux navigateurs) ou <a href="https://ublockorigin.com/">uBlock Origin</a> (disponible pour de
-  nombreux navigateurs).
+  nombreux navigateurs) ou <a href="https://ublockorigin.com/">uBlock Origin</a> (disponible pour de nombreux
+  navigateurs).
 </p>
-<h3>‍3. Les cookies mis en place</h3>
+<h3>3. Les cookies mis en place</h3>
 <p>
   Lorsque vous êtes un nouveau visiteur sur notre site web, nous essayons de ne définir que les
   cookies strictement nécessaires pour fournir les services de <span class="notranslate"
@@ -155,9 +152,9 @@
 </p>
 <p>
   Contrairement à de nombreuses autres solutions d'analyse, Plausible
-  <a href="https://plausible.io/privacy-focused-web-analytics">ne stocke pas de cookies</a> ou de données
-  de site dans votre navigateur. Cela signifie que nous, ou notre fournisseur de services d'analyse,
-  ne pouvons pas :
+  <a href="https://plausible.io/privacy-focused-web-analytics">ne stocke <em>aucun</em> cookie</a> ni
+  aucune donnée de site dans votre navigateur. Cela signifie que nous, ou notre fournisseur de services
+  d'analyse, ne pouvons pas :
 </p>
 <ul>
   <li>vous suivre sur différents sites web</li>
@@ -168,7 +165,7 @@
   Pour en savoir plus sur la manière respectueuse de la vie privée dont Plausible recueille ses
   statistiques, lisez <a href="https://plausible.io/data-policy">leur politique de données</a>.
 </p>
-<h3>5. Plusieurs informations</h3>
+<h3>5. Plus d'informations</h3>
 <p>
   Nous espérons que cette page a clarifié les choses pour vous. Comme indiqué précédemment, si vous
   n'êtes pas sûr d'avoir besoin de quelque chose, il est généralement plus prudent de laisser les
