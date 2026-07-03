@@ -42,15 +42,30 @@ export type RouteTweaks = {
   useMultipleColors: boolean;
   /** Show kilometre markers along each route. */
   showKmMarkers: boolean;
-  /**
-   * Fade the km markers in/out around their zoom thresholds. When off, they simply
-   * appear/disappear at full opacity instead of gradually fading.
-   */
-  fadeKmMarkers: boolean;
   /** Show start & end markers at the route extremities. */
   showStartEndMarkers: boolean;
   /** Draw the route lines semi-transparently so the underlying road stays visible. */
   transparentRoutes: boolean;
+  /**
+   * Only apply the transparent route styling once the map is zoomed in far enough to
+   * look at the route in detail; at lower zoom levels the routes stay fully opaque.
+   */
+  transparentRoutesHighZoomOnly: boolean;
+  /**
+   * Draw the km marker background fully white instead of slightly transparent, so the
+   * underlying map never shows through the marker.
+   */
+  whiteKmBackground: boolean;
+  /**
+   * Shrink the km marker label slightly when it has more than 2 digits (> 99), so the
+   * number still fits inside the marker.
+   */
+  shrinkLargeKmLabels: boolean;
+  /**
+   * Draw the km markers as ovals (stretched horizontally to fit their number) rather
+   * than fixed-size circles.
+   */
+  ovalKmMarkers: boolean;
   /** Show the (GPX) file name as a label repeated along each route. */
   showRouteNames: boolean;
   /**
@@ -68,13 +83,16 @@ export const routeTweaks = writable<RouteTweaks>({
   panelOpen: false,
   useMultipleColors: true,
   showKmMarkers: true,
-  fadeKmMarkers: true,
   showStartEndMarkers: true,
   transparentRoutes: false,
+  transparentRoutesHighZoomOnly: false,
+  whiteKmBackground: false,
+  shrinkLargeKmLabels: false,
+  ovalKmMarkers: false,
   showRouteNames: false,
   zoomIntervalConfig: DEFAULT_ZOOM_INTERVAL_CONFIG,
   routeLayerMode: 'kmOnTopOverlap',
-  endpointMode: 'flags'
+  endpointMode: 'dots'
 });
 
 /** Live mirror of the current map zoom level, for display in the tweaks panel. */

@@ -23,9 +23,12 @@
     key:
       | 'useMultipleColors'
       | 'showKmMarkers'
-      | 'fadeKmMarkers'
       | 'showStartEndMarkers'
       | 'transparentRoutes'
+      | 'transparentRoutesHighZoomOnly'
+      | 'whiteKmBackground'
+      | 'shrinkLargeKmLabels'
+      | 'ovalKmMarkers'
       | 'showRouteNames'
   ) => routeTweaks.update((t) => ({ ...t, [key]: !t[key] }));
 
@@ -56,11 +59,9 @@
   let intervalText = $derived(
     !$routeTweaks.showKmMarkers
       ? 'off'
-      : !$effectiveKm
+      : !$effectiveKm || $effectiveKm.opacity <= 0
         ? 'hidden'
-        : $effectiveKm.opacity < 1 && $routeTweaks.fadeKmMarkers
-          ? `${$effectiveKm.interval} km (fading)`
-          : `${$effectiveKm.interval} km`
+        : `${$effectiveKm.interval} km`
   );
 </script>
 
@@ -108,11 +109,29 @@
     </button>
 
     <div class="row">
-      <span class="label">Fade km markers in/out</span>
+      <span class="label">White km marker background</span>
       <Switch
-        checked={$routeTweaks.fadeKmMarkers}
-        ariaLabel="Toggle fading of kilometre markers"
-        onToggle={() => toggle('fadeKmMarkers')}
+        checked={$routeTweaks.whiteKmBackground}
+        ariaLabel="Toggle fully white km marker background"
+        onToggle={() => toggle('whiteKmBackground')}
+      />
+    </div>
+
+    <div class="row">
+      <span class="label">Shrink labels over 99</span>
+      <Switch
+        checked={$routeTweaks.shrinkLargeKmLabels}
+        ariaLabel="Toggle smaller km label text for numbers over 99"
+        onToggle={() => toggle('shrinkLargeKmLabels')}
+      />
+    </div>
+
+    <div class="row">
+      <span class="label">Oval km markers</span>
+      <Switch
+        checked={$routeTweaks.ovalKmMarkers}
+        ariaLabel="Toggle oval km markers"
+        onToggle={() => toggle('ovalKmMarkers')}
       />
     </div>
 
@@ -142,6 +161,17 @@
         onToggle={() => toggle('transparentRoutes')}
       />
     </div>
+
+    {#if $routeTweaks.transparentRoutes}
+      <div class="row sub">
+        <span class="label">…only when zoomed in</span>
+        <Switch
+          checked={$routeTweaks.transparentRoutesHighZoomOnly}
+          ariaLabel="Only make routes transparent at higher zoom levels"
+          onToggle={() => toggle('transparentRoutesHighZoomOnly')}
+        />
+      </div>
+    {/if}
 
     <div class="row">
       <span class="label">Show file names along routes</span>
@@ -265,6 +295,14 @@
 
   .label {
     line-height: 1.3;
+  }
+
+  .row.sub {
+    padding: 0.2rem 0 0.5rem 1.2rem;
+  }
+
+  .row.sub .label {
+    color: var(--color-text-light, #777);
   }
 
   .readouts {

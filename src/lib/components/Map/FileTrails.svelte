@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { ContextType } from './Map.svelte';
-  import type { GeoJSONSource, Marker } from 'mapbox-gl';
+  import type { ExpressionSpecification, GeoJSONSource, Marker } from 'mapbox-gl';
   import mapboxgl from 'mapbox-gl';
   import { fileDataLayers } from '$lib/stores/file';
   import {
@@ -58,26 +58,82 @@
   const kmMarkersFor = (geoJson: FileDataLayer['geoJson']) =>
     effInterval != null ? computeKmMarkers(geoJson, effInterval) : EMPTY_KM;
 
-  // Effective km marker opacity: the zoom-driven fade, unless fading is disabled — in
-  // which case markers simply snap between fully visible and hidden.
-  const kmOpacity = () => (get(routeTweaks).fadeKmMarkers ? effOpacity : effOpacity > 0 ? 1 : 0);
+  // Effective km marker opacity: markers snap between fully visible and hidden at their
+  // zoom thresholds.
+  const kmOpacity = () => (effOpacity > 0 ? 1 : 0);
+
+  // Km marker circle background: slightly transparent by default so the map subtly shows
+  // through, or fully white when the "white km marker background" tweak is on.
+  const KM_BACKGROUND = 'rgba(255, 255, 255, 0.75)';
+  const KM_BACKGROUND_WHITE = 'rgba(255, 255, 255, 1)';
+  const kmBackground = () =>
+    get(routeTweaks).whiteKmBackground ? KM_BACKGROUND_WHITE : KM_BACKGROUND;
 
   // Route line opacity: reduced when the "transparent routes" tweak is on, so the
-  // underlying road stays visible through the line.
+  // underlying road stays visible through the line. When "only when zoomed in" is also
+  // on, the transparency only kicks in once the map is zoomed past this level.
   const ROUTE_OPACITY = 0.8;
   const ROUTE_OPACITY_TRANSPARENT = 0.45;
   const OVERLAP_OPACITY = 0.9;
   const OVERLAP_OPACITY_TRANSPARENT = 0.5;
-  const lineOpacity = () =>
-    get(routeTweaks).transparentRoutes ? ROUTE_OPACITY_TRANSPARENT : ROUTE_OPACITY;
+  const TRANSPARENT_MIN_ZOOM = ZOOM_LEVELS.ROAD; // "looking at the route in detail"
+  const routesTransparentNow = () => {
+    const tweaks = get(routeTweaks);
+    if (!tweaks.transparentRoutes) return false;
+    if (tweaks.transparentRoutesHighZoomOnly) return map.getZoom() >= TRANSPARENT_MIN_ZOOM;
+    return true;
+  };
+  const lineOpacity = () => (routesTransparentNow() ? ROUTE_OPACITY_TRANSPARENT : ROUTE_OPACITY);
   const overlapOpacity = () =>
-    get(routeTweaks).transparentRoutes ? OVERLAP_OPACITY_TRANSPARENT : OVERLAP_OPACITY;
+    routesTransparentNow() ? OVERLAP_OPACITY_TRANSPARENT : OVERLAP_OPACITY;
 
   // Layer/source id helpers (the base `id` stays the line layer/source, for backwards compat).
   const kmSourceId = (id: string) => `${id}__km`;
   const kmCircleId = (id: string) => `${id}__km-circle`;
   const kmLabelId = (id: string) => `${id}__km-label`;
   const nameLabelId = (id: string) => `${id}__name`;
+
+  // --- Km label text size ---
+  // Slightly smaller text for labels with more than 2 digits (> 99) when the "shrink
+  // labels over 99" tweak is on, so the number still fits inside the marker.
+  const KM_LABEL_SIZE = 10;
+  const KM_LABEL_SIZE_SMALL = 8;
+  const kmTextSize = (): ExpressionSpecification | number =>
+    get(routeTweaks).shrinkLargeKmLabels
+      ? ['case', ['>', ['to-number', ['get', 'label']], 99], KM_LABEL_SIZE_SMALL, KM_LABEL_SIZE]
+      : KM_LABEL_SIZE;
+
+  // --- Oval km markers ---
+  // When the "oval km markers" tweak is on, the km label symbol layer draws a white,
+  // route-coloured-bordered pill behind the number, stretched horizontally to fit it
+  // (via icon-text-fit) so wider (3-digit) numbers get a more oval marker. The pill is a
+  // small circular image per (colour + background) combination, registered on demand.
+  const OVAL_IMG_D = 48; // source image diameter (px); icon-text-fit stretches it to the text
+  const OVAL_TEXT_FIT_PADDING: [number, number, number, number] = [3, 7, 3, 7];
+  const ovalImageId = (color: string, white: boolean) => `km-oval__${white ? 'w' : 't'}__${color}`;
+
+  /** Registers (once) and returns the id of the pill image for a colour + background. */
+  const ensureOvalImage = (color: string, white: boolean): string => {
+    const id = ovalImageId(color, white);
+    if (map.hasImage(id)) return id;
+    const size = OVAL_IMG_D;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return id;
+    const stroke = 3;
+    const r = size / 2 - stroke;
+    ctx.beginPath();
+    ctx.arc(size / 2, size / 2, r, 0, Math.PI * 2);
+    ctx.fillStyle = white ? KM_BACKGROUND_WHITE : KM_BACKGROUND;
+    ctx.fill();
+    ctx.lineWidth = stroke;
+    ctx.strokeStyle = color;
+    ctx.stroke();
+    if (!map.hasImage(id)) map.addImage(id, ctx.getImageData(0, 0, size, size), { pixelRatio: 2 });
+    return id;
+  };
 
   /** The label shown along a route: the file name minus its extension. */
   const routeNameFor = (layer: FileDataLayer) =>
@@ -253,7 +309,9 @@
     setLayerVisibility(layer.id, lineVisible);
 
     const kmVisible = lineVisible && tweaks.showKmMarkers;
-    setLayerVisibility(kmCircleId(layer.id), kmVisible);
+    // In oval mode the pill background is drawn as the label's icon, so the separate
+    // circle layer stays hidden to avoid a circle showing behind the oval.
+    setLayerVisibility(kmCircleId(layer.id), kmVisible && !tweaks.ovalKmMarkers);
     setLayerVisibility(kmLabelId(layer.id), kmVisible);
 
     const nameVisible = lineVisible && tweaks.showRouteNames;
@@ -301,7 +359,7 @@
         type: 'circle',
         source: kmSourceId(id),
         paint: {
-          'circle-color': 'rgba(255, 255, 255, 0.75)',
+          'circle-color': kmBackground(),
           'circle-radius': 9,
           'circle-opacity': kmOpacity(),
           'circle-stroke-width': 1.5,
@@ -310,10 +368,17 @@
         }
       });
     } else {
+      map.setPaintProperty(kmCircleId(id), 'circle-color', kmBackground());
       map.setPaintProperty(kmCircleId(id), 'circle-stroke-color', color);
       map.setPaintProperty(kmCircleId(id), 'circle-opacity', kmOpacity());
       map.setPaintProperty(kmCircleId(id), 'circle-stroke-opacity', kmOpacity());
     }
+
+    const oval = tweaks.ovalKmMarkers;
+    // The oval pill (drawn as the label's icon) carries the white background + coloured
+    // border itself, so the separate circle layer is hidden in oval mode (see
+    // applyVisibility). Register the pill image for this route's colour on demand.
+    const ovalImg = oval ? ensureOvalImage(color, tweaks.whiteKmBackground) : '';
 
     if (!map.getLayer(kmLabelId(id))) {
       map.addLayer({
@@ -322,15 +387,23 @@
         source: kmSourceId(id),
         layout: {
           'text-field': ['get', 'label'],
-          'text-size': 10,
+          'text-size': kmTextSize(),
           'text-allow-overlap': true,
-          'text-ignore-placement': true
+          'text-ignore-placement': true,
+          'icon-image': ovalImg,
+          'icon-text-fit': 'both',
+          'icon-text-fit-padding': OVAL_TEXT_FIT_PADDING,
+          'icon-allow-overlap': true,
+          'icon-ignore-placement': true
         },
-        paint: { 'text-color': color, 'text-opacity': kmOpacity() }
+        paint: { 'text-color': color, 'text-opacity': kmOpacity(), 'icon-opacity': kmOpacity() }
       });
     } else {
+      map.setLayoutProperty(kmLabelId(id), 'text-size', kmTextSize());
+      map.setLayoutProperty(kmLabelId(id), 'icon-image', ovalImg);
       map.setPaintProperty(kmLabelId(id), 'text-color', color);
       map.setPaintProperty(kmLabelId(id), 'text-opacity', kmOpacity());
+      map.setPaintProperty(kmLabelId(id), 'icon-opacity', kmOpacity());
     }
 
     // --- Route name label (repeated along the line) ---
@@ -609,8 +682,23 @@
       }
       if (map.getLayer(kmLabelId(id))) {
         map.setPaintProperty(kmLabelId(id), 'text-opacity', kmOpacity());
+        map.setPaintProperty(kmLabelId(id), 'icon-opacity', kmOpacity());
       }
     });
+
+    // Keep the route-line transparency in sync with the zoom level when the "only when
+    // zoomed in" tweak is on (it's the only case where line opacity changes with zoom).
+    if (get(routeTweaks).transparentRoutes && get(routeTweaks).transparentRoutesHighZoomOnly) {
+      rendered.forEach((id) => {
+        if (map.getLayer(id)) map.setPaintProperty(id, 'line-opacity', lineOpacity());
+      });
+      if (map.getLayer(OVERLAP_LAYER_A)) {
+        map.setPaintProperty(OVERLAP_LAYER_A, 'line-opacity', overlapOpacity());
+      }
+      if (map.getLayer(OVERLAP_LAYER_B)) {
+        map.setPaintProperty(OVERLAP_LAYER_B, 'line-opacity', overlapOpacity());
+      }
+    }
 
     // Shrink/fade the start/end markers based on zoom.
     applyEndpointStyle();
