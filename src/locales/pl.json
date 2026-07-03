@@ -151,8 +151,8 @@
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> to spolecznosc obywatelska oferująca darmowe miejsca namiotowe w swoich ogrodach dla świadomych podróżników. Jest to inicjatywa non-profit i nie należy czerpać z niej żadnych dochodów. <span class=\"notranslate\">Welcome To My Garden</span> nie ponosi odpowiedzialności za jakiekolwiek straty, szkody lub obrażenia powstałe podczas pobytu."
       },
       "1": {
-        "title": "Tylko dla świadomych podróżników (zasada zakazu samochodów)",
-        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> szanuje środowisko i powstało wyłącznie dla świadomych podróżników (slow travellers). Oznacza to, że do miejsc namiotowych można dotrzeć wyłącznie pieszo, rowerem lub transportem publicznym. Dojazd samochodem jest zabroniony. Możesz dojechać autem do początku szlaku pieszego lub rowerowego – pod warunkiem, że nie pojawisz się samochodem bezpośrednio u gospodarza ogrodu."
+        "title": "Tylko dla świadomych podróżników (zasada zakazu samochodów i motocykli)",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> szanuje środowisko i powstało wyłącznie dla świadomych podróżników (slow travellers). Oznacza to, że do miejsc namiotowych można dotrzeć wyłącznie pieszo, rowerem lub transportem publicznym. Dojazd samochodem lub motocyklem jest zabroniony. Możesz dojechać autem do początku szlaku pieszego lub rowerowego – pod warunkiem, że nie pojawisz się samochodem lub motocyklem bezpośrednio u gospodarza ogrodu."
       },
       "2": {
         "title": "Wyślij zapytanie z wyprzedzeniem do właściciela ogrodu",
@@ -222,7 +222,7 @@
           },
           "how-camping": {
             "title": "Jak dotrzeć do miejsca namiotowego?",
-            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> powstało, aby zaspokoić potrzeby świadomych podróżników: pieszych i rowerzystów potrzebujących miejsca namiotowego na koniec dnia. Na miejsce namiotowe powinieneś dotrzeć pieszo, rowerem lub transportem publicznym – na pewno nie samochodem."
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> powstało, aby zaspokoić potrzeby świadomych podróżników: pieszych i rowerzystów potrzebujących miejsca namiotowego na koniec dnia. Na miejsce namiotowe powinieneś dotrzeć pieszo, rowerem lub transportem publicznym – na pewno nie samochodem ani motocyklem."
           },
           "what-facilities": {
             "title": "Jakie udogodnienia znajdziesz w ogrodzie?",
@@ -685,7 +685,7 @@
         }
       },
       "per-year": "/rok",
-      "terms-label": "Korzystam z WTMG wyłącznie jako świadomy podróżnik (nigdy samochodem) i zgadzam się ze wszystkimi {termsLink}.",
+      "terms-label": "Korzystam z WTMG wyłącznie jako świadomy podróżnik (nigdy samochodem ani motocyklem) i zgadzam się ze wszystkimi {termsLink}.",
       "terms-link-text": "zasadami WTMG",
       "questions": "Pytania?",
       "faq-link-text": "Zobacz nasze FAQ.",
@@ -1329,7 +1329,7 @@
             }
           },
           "5": {
-            "title": "Zasada zakazu korzystania z samochodów",
+            "title": "Zasada zakazu korzystania z samochodów i motocykli",
             "copy": {
               "0": "Platforma <span class=\"notranslate\">Welcome To My Garden</span> szanuje środowisko i zaspokaja potrzeby wyłącznie świadomych podróżników. Oznacza to, że użytkownicy mogą docierać do ogrodów wyłącznie pieszo, rowerem lub transportem publicznym. Jeśli planujesz podróżować pojazdem silnikowym, nie kontaktuj się z gospodarzami za pośrednictwem tej platformy. Korzystanie z pojazdów silnikowych jest zabronione."
             }

@@ -153,8 +153,8 @@
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> is a network of citizens offering free camping spots in their gardens to slow travellers. It is a not-for-profit initiative and no income should be made from it. <span class=\"notranslate\">Welcome To My Garden</span> will not take any responsibility for any loss, damage or injury incurred during a stay."
       },
       "1": {
-        "title": "Only for slow travellers (no car rule)",
-        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respects the environment and has been set up for slow travellers only. This means you can only reach the camping spots on foot, by bicycle or public transport. Getting there with your private car is forbidden. You are allowed to drive to the start of your hiking or biking trail – as long as you don’t turn up at the camping spots in your car."
+        "title": "Only for slow travellers (no car or motorcycle rule)",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respects the environment and has been set up for slow travellers only. This means you can only reach the camping spots on foot, by bicycle or public transport. Getting there with your private car or motorcycle is forbidden. You are allowed to drive to the start of your hiking or biking trail – as long as you don’t turn up at the camping spots in your car or motorcycle."
       },
       "2": {
         "title": "Send a request in advance to the garden owner",
@@ -224,7 +224,7 @@
           },
           "how-camping": {
             "title": "How do I get to my camping spot?",
-            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> has been set up to meet the needs of slow travellers: hikers and cyclists who need a camping spot at the end of the day. For this reason you are supposed to arrive at your camping spot on foot or by bike, or by public transport – definitely not by car."
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> has been set up to meet the needs of slow travellers: hikers and cyclists who need a camping spot at the end of the day. For this reason you are supposed to arrive at your camping spot on foot or by bike, or by public transport – definitely not by car or motorcycle."
           },
           "what-facilities": {
             "title": "What facilities will you find in the garden?",
@@ -686,7 +686,7 @@
         }
       },
       "per-year": "/year",
-      "terms-label": "I use WTMG only as a slow traveller (never by car) and agree with all {termsLink}.",
+      "terms-label": "I use WTMG only as a slow traveller (never by car or motorcycle) and agree with all {termsLink}.",
       "terms-link-text": "WTMG rules",
       "questions": "Questions?",
       "faq-link-text": "See our FAQ.",
@@ -1352,9 +1352,9 @@
             }
           },
           "5": {
-            "title": "No car rule",
+            "title": "No car or motorcycle rule",
             "copy": {
-              "0": "The <span class=\"notranslate\">Welcome To My Garden</span> platform respects the environment and caters to the needs of slow travellers only. This means users can only travel to gardens on f,,oot, by bicycle or by public transport. If you're planning to travel by motorized vehicle, please do not contact hosts via this platform. The use of motorized vehicles is forbidden."
+              "0": "The <span class=\"notranslate\">Welcome To My Garden</span> platform respects the environment and caters to the needs of slow travellers only. This means users can only travel to gardens on foot, by bicycle or by public transport. If you're planning to travel by motorized vehicle, please do not contact hosts via this platform. The use of motorized vehicles is forbidden."
             }
           },
           "6": {

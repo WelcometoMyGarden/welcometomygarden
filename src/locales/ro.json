@@ -150,8 +150,8 @@
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> este o rețea de cetățeni care oferă locuri gratuite de campare în grădinile lor pentru cei care practică călătoria lentă. Este o inițiativă non-profit și nu ar trebui să se obțină niciun venit din ea. <span class=\"notranslate\">Welcome To My Garden</span> nu își asumă nicio responsabilitate pentru eventualele pierderi, daune sau vătămări suferite în timpul unei șederi."
       },
       "1": {
-        "title": "Doar pentru cei care aleg călătoria lentă (regula \"fără mașină\")",
-        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respectă mediul înconjurător și a fost creat exclusiv pentru călătoria lentă. Acest lucru înseamnă că poți ajunge la locurile de campare doar pe jos, cu bicicleta sau cu transportul public. Accesul cu mașina personală este interzis. Ai voie să conduci până la începutul traseului tău de drumeție sau de ciclism – atât timp cât nu ajungi la locurile de campare cu mașina."
+        "title": "Doar pentru cei care aleg călătoria lentă (regula \"fără mașină sau motocicletă\")",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respectă mediul înconjurător și a fost creat exclusiv pentru călătoria lentă. Acest lucru înseamnă că poți ajunge la locurile de campare doar pe jos, cu bicicleta sau cu transportul public. Accesul cu mașina sau motocicleta personală este interzis. Ai voie să conduci până la începutul traseului tău de drumeție sau de ciclism – atât timp cât nu ajungi la locurile de campare cu mașina sau motocicleta."
       },
       "2": {
         "title": "Trimite în avans o cerere proprietarului grădinii",
@@ -221,7 +221,7 @@
           },
           "how-camping": {
             "title": "Cum ajung la locul meu de campare?",
-            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> a fost creat pentru a răspunde nevoilor celor care practică călătoria lentă: drumeți și bicicliști care au nevoie de un loc de campare la sfârșitul zilei. Din acest motiv, este de așteptat să ajungi la locul de campare pe jos, cu bicicleta sau cu transportul public – în niciun caz cu mașina."
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> a fost creat pentru a răspunde nevoilor celor care practică călătoria lentă: drumeți și bicicliști care au nevoie de un loc de campare la sfârșitul zilei. Din acest motiv, este de așteptat să ajungi la locul de campare pe jos, cu bicicleta sau cu transportul public – în niciun caz cu mașina sau motocicleta."
           },
           "what-facilities": {
             "title": "Ce facilități vei găsi în grădină?",
@@ -684,7 +684,7 @@
         }
       },
       "per-year": "/an",
-      "terms-label": "Folosesc WTMG doar ca un călător lent (niciodată cu mașina) și sunt de acord cu toți {termsLink}.",
+      "terms-label": "Folosesc WTMG doar ca un călător lent (niciodată cu mașina sau motocicleta) și sunt de acord cu toți {termsLink}.",
       "terms-link-text": "regulile WTMG",
       "questions": "Întrebări?",
       "faq-link-text": "Vezi întrebările frecvente (FAQ).",
@@ -1324,7 +1324,7 @@
             }
           },
           "5": {
-            "title": "Regula fără mașină",
+            "title": "Regula fără mașină sau motocicletă",
             "copy": {
               "0": "Platforma <span class=\"notranslate\">Welcome To My Garden</span> respectă mediul înconjurător și se adresează exclusiv nevoilor celor care practică o călătorie lentă. Acest lucru înseamnă că utilizatorii pot călători către grădini doar pe jos, cu bicicleta sau cu transportul public. Dacă intenționezi să călătorești cu un vehicul motorizat, te rugăm să nu contactezi gazdele prin intermediul acestei platforme. Utilizarea vehiculelor motorizate este interzisă."
             }

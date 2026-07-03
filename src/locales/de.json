@@ -153,8 +153,8 @@
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> ist ein Netzwerk von Bürgern und Bürgerinnen, die Slow Travellers kostenlose Zeltplätze in ihren Gärten anbieten. Es ist eine gemeinnützige Initiative, mit der kein Einkommen erzielt werden soll. <span class=\"notranslate\">Welcome To My Garden</span> übernimmt keine Verantwortung für Verluste, Schäden oder Verletzungen, die während eines Aufenthalts entstehen."
       },
       "1": {
-        "title": "Nur für Slow Travellers (ohne-Auto-Regel)",
-        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> schont die Umwelt und wurde ausschließlich für Slow Travellers ins Leben gerufen. Das bedeutet, dass du die Zeltplätze nur zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln erreichen kannst. Die Anreise mit dem eigenen Auto ist verboten. Du darfst zwar mit dem Auto zum Startpunkt deiner Wander- oder Radtour fahren, aber nur, solange du nicht mit dem Auto am Zeltplatz auftauchst."
+        "title": "Nur für Slow Travellers (keine Auto- oder Motorradregel)",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> schont die Umwelt und wurde ausschließlich für Slow Travellers ins Leben gerufen. Das bedeutet, dass du die Zeltplätze nur zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln erreichen kannst. Die Anreise mit dem eigenen Auto oder Motorrad ist verboten. Du darfst zwar mit dem Auto zum Startpunkt deiner Wander- oder Radtour fahren, aber nur, solange du nicht mit dem Auto oder Motorrad am Zeltplatz auftauchst."
       },
       "2": {
         "title": "Schicke vorab eine Anfrage an die Hosts",
@@ -224,7 +224,7 @@
           },
           "how-camping": {
             "title": "Wie komme ich zu meinem Zeltplatz?",
-            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> wurde ins Leben gerufen, um den Bedürfnissen von Slow Travellern gerecht zu werden: Wandernden und Radfahrenden, die am Ende des Tages einen Zeltplatz benötigen. Aus diesem Grund solltest du zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln an deinem Zeltplatz ankommen – auf keinen Fall mit dem Auto."
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> wurde ins Leben gerufen, um den Bedürfnissen von Slow Travellern gerecht zu werden: Wandernden und Radfahrenden, die am Ende des Tages einen Zeltplatz benötigen. Aus diesem Grund solltest du zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln an deinem Zeltplatz ankommen – auf keinen Fall mit dem Auto oder Motorrad."
           },
           "what-facilities": {
             "title": "Welche Ausstattung finde ich im Garten?",
@@ -1352,7 +1352,7 @@
             }
           },
           "5": {
-            "title": "Keine-Autos-Regel",
+            "title": "Keine Auto- oder Motorradregel",
             "copy": {
               "0": "Die Plattform <span class=\"notranslate\">Welcome To My Garden</span> schont die Umwelt und richtet sich ausschließlich an die Bedürfnisse von slow travel Reisenden. Das bedeutet, dass Users die Gärten nur zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln aufsuchen dürfen. Wenn du planst, mit einem motorisierten Fahrzeug zu reisen, kontaktiere Hosts bitte nicht über diese Plattform. Die Nutzung von motorisierten Fahrzeugen ist verboten."
             }
