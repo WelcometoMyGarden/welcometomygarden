@@ -19,8 +19,15 @@
 
   let showIntervalModal = $state(false);
 
-  const toggle = (key: 'useMultipleColors' | 'showKmMarkers' | 'showStartEndMarkers') =>
-    routeTweaks.update((t) => ({ ...t, [key]: !t[key] }));
+  const toggle = (
+    key:
+      | 'useMultipleColors'
+      | 'showKmMarkers'
+      | 'fadeKmMarkers'
+      | 'showStartEndMarkers'
+      | 'transparentRoutes'
+      | 'showRouteNames'
+  ) => routeTweaks.update((t) => ({ ...t, [key]: !t[key] }));
 
   const setPanelOpen = (panelOpen: boolean) => routeTweaks.update((t) => ({ ...t, panelOpen }));
 
@@ -51,7 +58,7 @@
       ? 'off'
       : !$effectiveKm
         ? 'hidden'
-        : $effectiveKm.opacity < 1
+        : $effectiveKm.opacity < 1 && $routeTweaks.fadeKmMarkers
           ? `${$effectiveKm.interval} km (fading)`
           : `${$effectiveKm.interval} km`
   );
@@ -101,6 +108,15 @@
     </button>
 
     <div class="row">
+      <span class="label">Fade km markers in/out</span>
+      <Switch
+        checked={$routeTweaks.fadeKmMarkers}
+        ariaLabel="Toggle fading of kilometre markers"
+        onToggle={() => toggle('fadeKmMarkers')}
+      />
+    </div>
+
+    <div class="row">
       <span class="label">Show start/end markers</span>
       <Switch
         checked={$routeTweaks.showStartEndMarkers}
@@ -114,7 +130,26 @@
       <select id="endpoint-mode" value={$routeTweaks.endpointMode} onchange={onEndpointModeChange}>
         <option value="icons">Play / stop / pause icons</option>
         <option value="flags">Circle + finish flag</option>
+        <option value="dots">Green start / red end circles</option>
       </select>
+    </div>
+
+    <div class="row">
+      <span class="label">Transparent routes</span>
+      <Switch
+        checked={$routeTweaks.transparentRoutes}
+        ariaLabel="Toggle transparent route lines"
+        onToggle={() => toggle('transparentRoutes')}
+      />
+    </div>
+
+    <div class="row">
+      <span class="label">Show file names along routes</span>
+      <Switch
+        checked={$routeTweaks.showRouteNames}
+        ariaLabel="Toggle route file name labels"
+        onToggle={() => toggle('showRouteNames')}
+      />
     </div>
 
     <div class="row">

@@ -30,8 +30,10 @@ export type RouteLayerMode =
  * - `icons`: play (start), stop square (end), pause bars (merged) — the status quo
  * - `flags`: plain green circle (start) and a checkerboard finish badge (end AND
  *   merged), both with a thin white border
+ * - `dots`: green circle (start), red circle (end) and a vertically split
+ *   half-green/half-red circle (merged start+end), all with a thin white border
  */
-export type EndpointMode = 'icons' | 'flags';
+export type EndpointMode = 'icons' | 'flags' | 'dots';
 
 export type RouteTweaks = {
   /** Whether the tweaks overlay panel itself is visible. */
@@ -40,8 +42,17 @@ export type RouteTweaks = {
   useMultipleColors: boolean;
   /** Show kilometre markers along each route. */
   showKmMarkers: boolean;
+  /**
+   * Fade the km markers in/out around their zoom thresholds. When off, they simply
+   * appear/disappear at full opacity instead of gradually fading.
+   */
+  fadeKmMarkers: boolean;
   /** Show start & end markers at the route extremities. */
   showStartEndMarkers: boolean;
+  /** Draw the route lines semi-transparently so the underlying road stays visible. */
+  transparentRoutes: boolean;
+  /** Show the (GPX) file name as a label repeated along each route. */
+  showRouteNames: boolean;
   /**
    * Zoom→interval rules (one per line, `<min>-<max>,<intervalKm>`) driving the km
    * marker spacing dynamically based on the current map zoom level.
@@ -57,7 +68,10 @@ export const routeTweaks = writable<RouteTweaks>({
   panelOpen: false,
   useMultipleColors: true,
   showKmMarkers: true,
+  fadeKmMarkers: true,
   showStartEndMarkers: true,
+  transparentRoutes: false,
+  showRouteNames: false,
   zoomIntervalConfig: DEFAULT_ZOOM_INTERVAL_CONFIG,
   routeLayerMode: 'kmOnTopOverlap',
   endpointMode: 'flags'
