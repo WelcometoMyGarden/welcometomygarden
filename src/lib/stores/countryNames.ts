@@ -1,19 +1,23 @@
 import { derived, get } from 'svelte/store';
 import countries from 'i18n-iso-countries';
-import en from 'i18n-iso-countries/langs/en.json';
-import nl from 'i18n-iso-countries/langs/nl.json';
-import fr from 'i18n-iso-countries/langs/fr.json';
 import de from 'i18n-iso-countries/langs/de.json';
+import en from 'i18n-iso-countries/langs/en.json';
 import es from 'i18n-iso-countries/langs/es.json';
+import fr from 'i18n-iso-countries/langs/fr.json';
+import it from 'i18n-iso-countries/langs/it.json';
+import nl from 'i18n-iso-countries/langs/nl.json';
+import pl from 'i18n-iso-countries/langs/pl.json';
+import ro from 'i18n-iso-countries/langs/ro.json';
+import sv from 'i18n-iso-countries/langs/sv.json';
 import { locale } from 'svelte-i18n';
 import { coerceToSupportedLanguage } from '$lib/util/get-browser-lang';
 import { DEFAULT_LANGUAGE } from '$lib/types/general';
-const localizedCountryNames = [en, nl, fr, de, es];
+const localizedCountryNames = [en, nl, fr, de, es, it, pl, ro, sv];
 // Despite comments in https://github.com/michaelwittig/node-i18n-iso-countries/issues/136
 // with https://github.com/KusStar/vite-bundle-visualizer, it seems like rollup preserves
 // only the registered locales in the final bundle. That's good!
 //
-// For now, the bundle size impact of these files is also negligible.
+// TODO: For now, the bundle size impact of these files is also negligible.
 // if it grows to many more languages, we can consider dynamic loading
 localizedCountryNames.forEach((dataset) => countries.registerLocale(dataset));
 
@@ -33,7 +37,7 @@ export const countryNames = derived(locale, ($locale) => {
  * Guesses an alpha-2 country code based on Accept-Language headers
  */
 export const guessCountryCode = () => {
-  //  Instead of using a GeoIP API or database (https://github.com/runk/node-maxmind / https://db-ip.com/db/download/ip-to-country-lite)
+  // Instead of using a GeoIP API or database (https://github.com/runk/node-maxmind / https://db-ip.com/db/download/ip-to-country-lite)
   // Accept-Language headers often contain a country code
   // https://db-ip.com/db/format/ip-to-country-lite/mmdb.html
   // From Plausible data,
@@ -61,6 +65,14 @@ export const guessCountryCode = () => {
         return 'ES';
       case 'en':
         return 'GB';
+      case 'it':
+        return 'IT';
+      case 'pl':
+        return 'PL';
+      case 'ro':
+        return 'RO';
+      case 'sv':
+        return 'SE';
       default:
         return 'BE';
     }

@@ -26,10 +26,7 @@
 </p>
 <p>
   Als je je zorgen maakt over je online privacy, raden we het aan om een browserextensie zoals
-  <a
-    href="https://www.google.com/url?q=https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/&amp;sa=D&amp;ust=1592214262287000"
-    >Privacy Badger</a
-  >
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/">Privacy Badger</a>
   (Firefox), <a href="https://www.ghostery.com/ghostery-ad-blocker">Ghostery</a> (meerdere browsers)
   of <a href="https://ublockorigin.com/">uBlock Origin</a> (meerdere browsers) te gebruiken.
 </p>
@@ -146,9 +143,9 @@
 </p>
 <p>
   In tegenstelling tot veel andere analytische oplossingen slaat Plausible
-  <a href="https://plausible.io/privacy-focused-web-analytics">geen <em>enkele</em> cookie</a>
-  lokale gegevens op in je browser. Dit betekent dat wij, of Plausi je
-  <em>niet</em> kunnen volgen:
+  <a href="https://plausible.io/privacy-focused-web-analytics">geen <em>enkele</em> cookie</a> of
+  gegevens van de site op in je browser. Dit betekent dat wij, of onze aanbieder van
+  analysediensten, je <em>niet</em> kunnen volgen:
 </p>
 <ul>
   <li>over verschillende websites</li>

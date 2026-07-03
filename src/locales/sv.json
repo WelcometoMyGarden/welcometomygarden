@@ -1,0 +1,1608 @@
+{
+  "generics": {
+    "password": "Lösenord",
+    "email": "E-post",
+    "cookie-policy": "Cookiepolicy",
+    "privacy-policy": "Integritetspolicy",
+    "terms-of-use": "Användarvillkor",
+    "home": "Hem",
+    "map": "Karta",
+    "rules": "Regler",
+    "faq": {
+      "acronym": "FAQ"
+    },
+    "wtmg": {
+      "acronym": "WTMG",
+      "explicit": "Welcome To My Garden"
+    },
+    "chat": "Chatt",
+    "community": "Gemenskap",
+    "account": "Konto",
+    "account-page": "Mina sidor",
+    "sign-out": "Logga ut",
+    "sign-in": "Logga in",
+    "garden": "Trädgård",
+    "about-us": "Om oss",
+    "become-superfan": "Bli Superfan",
+    "become-member": "Bli medlem",
+    "helpcenter-url": "https://help.welcometomygarden.org/",
+    "superfan": "Superfan",
+    "member": "Medlem",
+    "membership": "Medlemskap",
+    "new": "Ny",
+    "fair-model-blog-path": "/towards-a-fair-model-to-make-wtmg-survive-and-thrive",
+    "on": "på",
+    "error": {
+      "start": "Något gick fel",
+      "app-check": {
+        "message": "WTMG kanske inte fungerar korrekt i den här webbläsaren. Hitta lösningar i {linkText}.",
+        "link-text": "vårt hjälpcenter"
+      }
+    },
+    "question-mark": "?",
+    "here": "här",
+    "cancel": "Avbryt",
+    "now": "nu",
+    "undo": "Ångra",
+    "toast": {
+      "membership-expired": "Ditt medlemskap upphörde den {date}."
+    }
+  },
+  "ui": {
+    "card": {
+      "register-here": "Registrera dig här"
+    }
+  },
+  "navigation": {
+    "banner": {
+      "answer": "Anmälan till vår {link} är nu öppen – vi hoppas att vi ses där! 🎉🚴",
+      "single-link": "Vår WTMG-app är här! {link}. 🥳🏕️",
+      "double-link": "Vår WTMG-app är här! Hämta den nu för {iPhone} eller {Android}. 🥳🏕️",
+      "link-text": "Hämta den nu"
+    },
+    "membership-expired-notice": {
+      "prompt": "Vill du förnya ditt WTMG-medlemskap{amount} nu?",
+      "answer": "Klicka då på {linkText}. Tack för ditt stöd!"
+    }
+  },
+  "index": {
+    "shop": {
+      "banner": {
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> har nu sin {title} med WTMG-skyltar i trä och tack-vykort till värdar. Gå in och kika på {link}!",
+        "title": "onlinebutik"
+      }
+    },
+    "intro": {
+      "headline": "Ditt slow travel-äventyr börjar här",
+      "copy": "Tältplatser i privatträdgårdar för slow travellers. Erbjuds av en varmhjärtad gemenskap av invånare.",
+      "add-garden": "Lägg till din trädgård",
+      "explore-map": "Utforska kartan",
+      "learn-more": "Läs mer",
+      "garden-count-before": "Upptäck",
+      "garden-count-after": ", och fler tillkommer!",
+      "garden-count-noun": "välkomnande trädgårdar"
+    },
+    "steps": {
+      "0": {
+        "title": "Steg 1: Registrera dig för att komma igång",
+        "copy": "Skapa ett konto för att hitta tältplatser i privatträdgårdar och kontakta värdar, eller {addGardenLink} på kartan!",
+        "add-garden-link-text": "lägg till din egen trädgård"
+      },
+      "1": {
+        "title": "Steg 2: Planera din resa",
+        "copy": "Stäm av med din värd och planera din vandrings- eller cykelrutt till värdens trädgård."
+      },
+      "2": {
+        "title": "Steg 3: Slå upp ditt tält",
+        "copy": "Träffa din värd, slå upp ditt tält och njut av din vistelse, oavsett om det innebär en lugn natt eller att umgås med din värd!"
+      }
+    },
+    "faq": {
+      "title": "Allt du behöver veta",
+      "copy": "Här hittar du de viktigaste sakerna du behöver veta inför ditt nästa äventyr. Läs igenom den här FAQ:n noggrant så att du vet vad du ger dig in på. Fler frågor? Läs mer i {faqLink}!",
+      "faq-link-text": "vår fullständiga FAQ",
+      "questions": {
+        "0": {
+          "title": "Vem vänder sig <span class=\"notranslate\">Welcome To My Garden</span> till?",
+          "copy": "<span class=\"notranslate\">Welcome To My Garden</span> har skapats för vandrare och cyklister som behöver en övernattningsplats längs sin rutt i slutet av dagen. Det är inte tänkt att ersätta riktiga campingplatser, utan bara erbjuda en trygg plats för natten! Se det som ett komplement till nätverket av bivackplatser. <span class=\"notranslate\">Welcome To My Garden</span> är ideellt: inga pengar ska byta ägare. Det innebär att du som värd inte kan be dina gäster om att betala för sin vistelse."
+        },
+        "1": {
+          "title": "Hur tar jag mig till min tältplats?",
+          "copy": "<span class=\"notranslate\">Welcome To My Garden</span> är endast för slow travellers, det vill säga för dig som vandrar eller cyklar till din tältplats. Självklart kan du använda kollektivtrafik eller bil för att ta dig till början av din rutt – så länge du inte dyker upp hos din värd i bil!"
+        },
+        "2": {
+          "title": "Hur skickar jag en förfrågan om att bo hos någon?",
+          "copy": "Om inte annat anges på värdens profil bör du alltid kontakta värden i förväg. När du skickar en förfrågan, berätta gärna lite om dig själv samt ditt ankomstdatum och din ankomsttid."
+        },
+        "3": {
+          "title": "Hur fungerar det med faciliteter?",
+          "copy": "I grund och botten erbjuder värdar bara ett hörn av sin trädgård där du kan slå upp ditt tält. De kan också erbjuda tillgång till dricksvatten, toalett och el. De är dock inte skyldiga att göra det: allt detta är bonusar. Se en trädgård som en bivackplats, inte en riktig campingplats."
+        },
+        "4": {
+          "title": "Kostar <span class=\"notranslate\">Welcome To My Garden</span> något?",
+          "copy": "Att bo hos en WTMG-värd är gratis. Men för att underhålla och utveckla WTMG tar vi ut en årlig medlemsavgift för att dela kostnaderna rättvist mellan alla slow travellers. Du kan bli medlem <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">här</a>."
+        }
+      }
+    },
+    "superfan": {
+      "become-superfan-title": "WTMG stöds av sina medlemmar",
+      "subtitle": "En rättvis modell för WTMG"
+    },
+    "video-title": "Möt WTMG-gemenskapen",
+    "wtmg-quotes": {
+      "0": {
+        "name": "Frank & Katlijn",
+        "quote": "Vi älskar att höra slow travellers berättelser. Vissa har precis börjat, andra reser med barn. Alla har en historia."
+      },
+      "1": {
+        "name": "Carolien och hennes familj",
+        "quote": "Det verkar som att WTMG inte bara för samman människor utan även djur. Vi blev varmt välkomnade med våra åsnor!"
+      },
+      "2": {
+        "name": "Marie Marth",
+        "quote": "Tack vare WTMG och alla slow travellers som jag har varit värd för håller jag nu på att återupptäcka min egen region till fots. Jag ser allt ur ett nytt perspektiv och det är fascinerande."
+      }
+    }
+  },
+  "rules": {
+    "title": "Regler",
+    "description": "Så här fungerar <span class=\"notranslate\">Welcome To My Garden</span>. Se till att läsa reglerna innan du börjar ditt äventyr! Den här plattformen fungerar ju bara om vi alla följer reglerna.",
+    "rules": {
+      "0": {
+        "title": "Ett nätverk av invånare",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> är ett nätverk av invånare som erbjuder gratis tältplatser i sina trädgårdar till slow travellers. Det är ett ideellt initiativ och ingen inkomst ska genereras från det. <span class=\"notranslate\">Welcome To My Garden</span> tar inget ansvar för förlust, skada eller personskada som uppstår under en vistelse."
+      },
+      "1": {
+        "title": "Endast för slow travellers (förbud mot bil och motorcykel)",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> värnar om miljön och har skapats enbart för slow travellers. Det innebär att du endast kan ta dig till tältplatserna till fots, med cykel eller kollektivtrafik. Det är förbjudet att ta sig dit med privatbil eller motorcykel. Du får köra till starten av din vandrings- eller cykelled – så länge du inte dyker upp vid tältplatsen med bil eller motorcykel."
+      },
+      "2": {
+        "title": "Skicka en förfrågan i förväg till trädgårdsägaren",
+        "copy": "Det är inte säkert att trädgårdsägarna är hemma och redo att välkomna dig dygnet runt. Vi ber användare att kontakta trädgårdsägaren i förväg för att kolla om platsen är tillgänglig. Det gör du genom att skicka en förfrågan till värden via hens profil. Efter att du har fått kontakt kan du utbyta kontaktuppgifter, så att du kan hålla kontakten och uppdatera din värd om din ankomsttid via e-post eller telefon, beroende på vad hen föredrar. När du skickar en förfrågan, berätta lite om dig själv och din förväntade ankomsttid. Stötande beteende och missbruk av plattformen leder till att kontot stängs av (vänligen läs våra användarvillkor)."
+      },
+      "3": {
+        "title": "Maximal vistelsetid",
+        "copy": "Du får stanna på en tältplats i högst 48 timmar. Stäm alltid av med trädgårdsägaren."
+      },
+      "4": {
+        "title": "Riktlinjer för övernattningsförfrågningar",
+        "copy": "<p>När du skickar en förfrågan, se till att följa de här riktlinjerna. Det hjälper värdar att förstå din förfrågan och gör det lättare för dem att svara.</p>\n<ul>\n<li>Presentera dig själv<br/>Berätta för din värd vem du är, hur du reser och när du vill bo i hens trädgård.</li>\n<li>Kommunicera tydligt<br/>Håll din värd informerad. Ändrade planer? Låt din värd veta så snart som möjligt.</li>\n<li>Var vänlig och respektfull<br/>Alla WTMG-värdar är volontärer. Ett trevligt meddelande är början på ett fantastiskt äventyr!</li>\n</ul>"
+      },
+      "5": {
+        "title": "Maximalt antal tält",
+        "copy": "Trädgårdsägarna bestämmer själva hur många tält de får plats med varje natt (det här är inte Putte i Parken). Vänligen respektera deras val."
+      },
+      "6": {
+        "title": "Faciliteter",
+        "copy": "Faciliteterna kan variera från tältplats till tältplats. Vissa trädgårdsägare erbjuder tillgång till sina badrum; andra föredrar att inte göra det. Vänligen respektera deras val även här."
+      },
+      "7": {
+        "title": "Naturrespekt",
+        "copy": "Allt ditt skräp måste tas med därifrån. Det inkluderar kiss och bajs om det inte finns någon toalett tillgänglig: hitta en buske eller ett träd utanför trädgården för nummer ett; lägg nummer två i en påse och släng den i en soptunna nästa dag. Respektera naturen och trädgårdsägarna: tillämpa principen \"Leave No Trace\" (lämna inga spår) precis som du skulle göra om du tältade i vildmarken."
+      },
+      "8": {
+        "title": "Nattro",
+        "copy": "Respektera tältplatsägarnas lugn och ro. Så sjung inte med i Celine Dion för full hals och väsna inte på andra sätt – absolut inte efter kl. 22:00!"
+      },
+      "9": {
+        "title": "Ha så kul!",
+        "copy": "Det här är ett fantastiskt tillfälle att träffa andra människor och ha det kul! Lär dig några ord på din värds språk om du reser i en annan region än din egen. Var nyfiken, dela med dig av berättelser och knyt nya vänskaper!"
+      },
+      "10": {
+        "title": "Sprid ordet",
+        "copy": "Vill du öppna upp din trädgård, eller känner du någon som skulle vara intresserad av det? Sprid ordet om <span class=\"notranslate\">Welcome To My Garden</span>! Du kan också bjuda in dem att gilla vår <a href=\"https://www.facebook.com/Welcome2mygarden\">Facebook-sida</a>."
+      }
+    }
+  },
+  "faq": {
+    "title": "Vanliga frågor",
+    "description": "Vanliga frågor och svar",
+    "clusters": {
+      "general": {
+        "title": "Allmänt",
+        "questions": {
+          "what": {
+            "title": "Vad är <span class=\"notranslate\">Welcome To My Garden</span>?",
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> är ett nätverk av invånare som öppnar upp sina trädgårdar för slow travellers i behov av en tältplats. Det är ett ideellt initiativ som startades av en grupp människor under den första Covid-19-nedstängningen. <span class=\"notranslate\">Welcome To My Garden</span> är nu ett socialt företag med målet att göra slow travel mer tillgängligt för alla."
+          },
+          "who": {
+            "title": "Vem är <span class=\"notranslate\">Welcome To My Garden</span> till för?",
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> har skapats för vandrare och cyklister som behöver en övernattningsplats längs sin rutt i slutet av dagen. Det är inte tänkt att ersätta riktiga campingplatser, utan bara erbjuda en trygg plats för natten! Se det som ett komplement till ett nätverk av bivackplatser."
+          },
+          "how": {
+            "title": "Hur fungerar <span class=\"notranslate\">Welcome To My Garden</span>?",
+            "copy": "De som vill öppna upp sin trädgård för resenärer kan lägga till sin trädgård genom att klicka på ”Lägg till din trädgård”. De som vill bo i en trädgård behöver bli medlemmar och sedan kontakta värdarna för att komma överens om sin vistelse."
+          }
+        }
+      },
+      "slow-travellers": {
+        "title": "Slow Travellers",
+        "questions": {
+          "request-tips": {
+            "title": "Vad bör jag skriva i min förfrågan till värdar?",
+            "copy": "<p>När du skickar en förfrågan, se till att följa de här riktlinjerna. Det hjälper värdarna att förstå din förfrågan och gör det lättare för dem att svara.</p><ul><li>Presentera dig själv<br/>Berätta för din värd vem du är, hur du reser och när du vill bo i hens trädgård.</li><li>Kommunicera tydligt<br/>Håll din värd informerad. Ändrade planer? Låt din värd veta så snart som möjligt.</li><li>Var vänlig och respektfull<br/>Alla WTMG-värdar är volontärer. Ett trevligt meddelande är början på ett fantastiskt äventyr!</li></ul>"
+          },
+          "how-camping": {
+            "title": "Hur tar jag mig till min tältplats?",
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> har skapats för slow travellers i åtanke: vandrare och cyklister som behöver en tältplats i slutet av dagen. Därför ska du ta dig till din tältplats till fots, med cykel eller med kollektivtrafik – absolut inte med bil eller motorcykel."
+          },
+          "what-facilities": {
+            "title": "Vilka faciliteter hittar du i trädgården?",
+            "copy": "I grund och botten erbjuder värdar bara ett hörn i sin trädgård där du kan slå upp ditt tält. Dessutom kan de erbjuda tillgång till dricksvatten, toalett och el. De är dock inte skyldiga att göra det: allt detta är bonusar. Se trädgården som en bivackplats, inte en riktig campingplats. Faciliteter visas i trädgårdsöversikten. Du kan också filtrera efter faciliteter med knappen bredvid sökfältet."
+          },
+          "cost": {
+            "title": "Kostar <span class=\"notranslate\">Welcome To My Garden</span> något?",
+            "copy": "<p>Att bo hos en WTMG-värd är gratis. Men för att underhålla och utveckla WTMG tar vi ut en årlig medlemsavgift för att dela kostnaderna rättvist mellan alla slow travellers. Du kan när som helst avbryta den automatiska förnyelsen på ditt {accountLink}. Du kan bli medlem <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">här</a>.</p>"
+          },
+          "no-garden": {
+            "title": "Jag har ingen trädgård. Kan jag ändå resa till andras trädgårdar?",
+            "copy": "Ja! Du behöver inte erbjuda en trädgård för att använda en. Plattformen är öppen för alla slow travellers!"
+          },
+          "how-long": {
+            "title": "Hur länge kan jag stanna där?",
+            "copy": "Eftersom dessa trädgårdar endast är till för slow travellers som gör en flerdagarstur till fots eller med cykel, kan du stanna på en tältplats i högst 48 timmar (två nätter). Självklart kan du gå vidare till nästa tältplats efter det! Och nästa. Och nästa... Stäm alltid av med värden hur länge du kan stanna, vissa värdar föredrar att du bara stannar en natt."
+          },
+          "animals": {
+            "title": "Kan jag ta med min familj? Mina barn? Min hund?",
+            "copy": "Det är bäst att fråga din värd om de är öppna för barn och/eller hundar. En hel del värdar har redan angett i sin profil att de är öppna för familjer, men även om de inte har det kan du alltid fråga!"
+          },
+          "no-toilet": {
+            "title": "Så, vad händer om det inte finns någon toalett?",
+            "copy": "Det är inte säkert att alla värdar erbjuder tillgång till toalett. I så fall får du leta upp en plats utanför trädgården som passar dina behov. Kissa bakom ett träd och lägg ditt nummer två i en påse så att du kan slänga den i en soptunna nästa dag. Tillämpa Leave No Trace-principen (lämna inga spår) precis som du skulle göra när du tältar i vildmarken."
+          },
+          "tent-type": {
+            "title": "Vilken typ av tält kan jag ta med?",
+            "copy": "Eftersom WTMG endast vänder sig till vandrare och cyklister ska du inte ta med dig något större än ett vandringstält. Det innebär att det enkelt ska få plats i din packning. Om du är osäker på om ditt tält får plats i din värds trädgård, stäm av med hen innan du ger dig av."
+          }
+        }
+      },
+      "hosts": {
+        "title": "Värdar",
+        "questions": {
+          "privacy": {
+            "title": "Hur garanterar <span class=\"notranslate\">Welcome To My Garden</span> min integritet som värd?",
+            "copy": "Alla dina personuppgifter skyddas av inloggningssystemet. Om du är värd visar vi inte ditt husnummer eller var du bor exakt på kartan. Du kan ge detta till dina gäster när ni har fått kontakt. Du bestämmer själv hur du vill att de ska kontakta dig: via e-post, telefon eller både och."
+          },
+          "messaging": {
+            "title": "Jag har fått ett meddelande från en slow traveller. Var ska jag svara på det?",
+            "copy": "Konversationen mellan värdar och resenärer sker via chatten på plattformen. Om du får en notis via e-post om ett nytt meddelande, gå till {chatLink} för att svara."
+          },
+          "suspend": {
+            "title": "Jag skulle vilja pausa min trädgård ett tag men är snart tillbaka! Hur gör jag det?",
+            "copy": "Gå till ditt {accountLink}. I kategorin ”Din trädgård”, avmarkera rutan ”Visas på kartan”. Trädgården kommer fortfarande att vara sparad på plattformen men visas inte på kartan. När du är tillbaka är det bara att kryssa i rutan, så kan du börja välkomna slow travellers igen!"
+          },
+          "issue": {
+            "title": "Jag har haft ett problem med en gäst eller en värd. Hur rapporterar jag det?",
+            "copy": "Eventuella problem eller misskötsel ska rapporteras till <span class=\"notranslate\">Welcome To My Garden</span> via e-post: {support}. Vid misskötsel förbehåller vi oss rätten att ensidigt ta bort personens konto (se användarvillkoren)."
+          }
+        }
+      },
+      "technical-support": {
+        "title": "Teknisk support",
+        "questions": {
+          "privacy": {
+            "title": "Jag har precis registrerat mig men har inte fått något bekräftelsemejl.",
+            "copy": "Kontakta supportteamet (support@welcometomygarden.org) så hjälper de dig att verifiera din e-postadress!"
+          },
+          "messages": {
+            "title": "Jag har problem med att läsa meddelanden.",
+            "copy": "Prova först att logga in med en annan webbläsare som Firefox eller Google Chrome. Om det inte fungerar kan du kontakta supporten på support@welcometomygarden.org. Det finns alltid en lösning på allt, vi hittar den tillsammans!"
+          },
+          "update-email": {
+            "title": "Jag vill uppdatera min e-postadress eller ta bort mitt konto. Hur gör jag det?",
+            "copy": "Om du vill ändra din e-postadress eller ta bort ditt konto, gå till ditt {accountLink}."
+          },
+          "newsletter": {
+            "title": "Jag vill jättegärna få ert nästa nyhetsbrev! Vad ska jag göra?",
+            "copy": "För att få vårt nästa nyhetsbrev, gå till ditt {accountLink} och kryssa i rutan ”<span class=\"notranslate\">Welcome To My Garden</span> har nyheter att dela”. Om du vill sluta ta emot nyheter avmarkerar du bara samma ruta."
+          },
+          "text-in-english": {
+            "title": "Det finns text på engelska, trots att det inte är mitt valda språk. Hur kan jag ändra detta?",
+            "copy": "På din dator går du längst ner till vänster och väljer det språk du vill ha. På din telefon klickar du på hamburgermenyn. Om en del text inte har översatts till ditt valda språk än visas den på engelska."
+          },
+          "notifications": {
+            "title": "Jag har fortfarande en fråga om att ta emot mobilaviseringar.",
+            "copy": "Du hittar allt du behöver veta om mobilaviseringar i {mobileFaqLink}."
+          }
+        }
+      },
+      "other": {
+        "title": "Övrigt",
+        "questions": {
+          "fb-page": {
+            "title": "Varför är Facebook-sidan bara på engelska?",
+            "copy": "Först och främst finns det ett väldigt praktiskt skäl: engelska är det enda språk som hela teamet kan kommunicera tillräckligt flytande på! Vi vill också att WTMG ska vara öppet för alla, så att människor i andra länder kan starta initiativet där. På Facebook-sidan kommer vi att hålla oss till engelska. Om du känner dig mer bekväm med att skriva på nederländska eller franska får du gärna göra det!"
+          }
+        }
+      }
+    },
+    "donation": "en gåva",
+    "instruction-page": "den här instruktionssidan",
+    "help-center-text": "vårt hjälpcenter"
+  },
+  "cookies": {
+    "title": "Cookiepolicy"
+  },
+  "privacy-policy": {
+    "title": "Integritetspolicy",
+    "last-updated": "Senast uppdaterad: 26 augusti 2025",
+    "subtitle": "Ansvarig för behandlingen av data samt ägare",
+    "intro": "<span class=\"notranslate\">Welcome To My Garden</span>, ett ideellt projekt under den juridiska personen Slowby, ett socialt företag, registrerat och verksamt enligt belgisk lag, med registrerat säte på Henri Van Bortonnestraat 100, 1090 Jette, Belgien, med registreringsnummer BE 0784.423.261.",
+    "email": "E-post: {support}",
+    "scope": {
+      "title": "Integritetspolicy",
+      "copy": "Denna ”Integritetspolicy” gäller för de ”personuppgifter” som samlas in av <span class=\"notranslate\">Welcome To My Garden</span> via denna webbplats."
+    },
+    "personal-data": {
+      "meaning": {
+        "title": "Vad menas med personuppgifter?",
+        "copy": "I denna integritetspolicy avser personuppgifter information som gör det möjligt att identifiera dig. En identifierbar person är någon som kan identifieras, antingen direkt eller indirekt, särskilt genom hänvisning till ett identifieringsnummer eller till en eller flera faktorer som är kopplade till fysisk, fysiologisk, mental, ekonomisk, kulturell eller social identitet. Ett typiskt exempel på personuppgifter är ditt namn och din e-postadress."
+      },
+      "collection": {
+        "title": "Vilka personuppgifter samlar vi in?",
+        "copy": "Vi kan samla in dina personuppgifter från följande källor:",
+        "sources": {
+          "0": {
+            "title": "Personuppgifter som du anger under registreringsprocessen på plattformen.",
+            "list": {
+              "0": "E-postadress (obligatoriskt)",
+              "1": "Ditt för- och efternamn (obligatoriskt)",
+              "2": "Ditt land (obligatoriskt)",
+              "3": "Ditt samtycke till dessa villkor"
+            }
+          },
+          "1": {
+            "title": "Personuppgifter som vi samlar in när du besöker vår webbplats.",
+            "list": {
+              "0": "Vi använder cookies för att automatiskt samla in personuppgifter om dig när du använder denna webbplats. För mer information, vänligen läs vår cookiepolicy."
+            }
+          },
+          "2": {
+            "title": "Personuppgifter som du anger när du lägger till din trädgård på ditt konto.",
+            "list": {
+              "0": "Din trädgårds position (koordinater: latitud och longitud) (obligatoriskt)",
+              "1": "Information om din trädgård (beskrivning, faciliteter, hur många tält du kan ta emot) (obligatoriskt)",
+              "2": "En bild på din trädgård (valfritt)"
+            }
+          },
+          "3": {
+            "title": "Användarens plats",
+            "list": {
+              "0": "Om du godkänner att dela din plats med <span class=\"notranslate\">Welcome To My Garden</span> kommer kartan för <span class=\"notranslate\">Welcome To My Garden</span> att centreras på den position som din webbläsare anger. <span class=\"notranslate\">Welcome To My Garden</span> sparar inte din plats på något sätt, varken i en cookie eller i lokal lagring. Användarens plats används endast till att förbättra din användarupplevelse genom att centrera kartan."
+            }
+          }
+        }
+      },
+      "usage": {
+        "title": "Hur använder vi personuppgifter?",
+        "subtitle": "Vi kan använda dina personuppgifter för följande ändamål",
+        "purposes": {
+          "0": "Att skapa och underhålla din användarprofil på denna webbplats;",
+          "1": "Att hantera identifiering och autentisering av användare;",
+          "2": "Att verifiera ditt användarkonto för att garantera nödvändiga säkerhetsåtgärder;",
+          "3": "Att tillhandahålla information om din trädgård till användargemenskapen;",
+          "4": "Att meddela dig när uppdateringar sker på plattformen;",
+          "5": "Att meddela dig när aktiviteter på plattformen kan intressera dig."
+        },
+        "copy": "Personuppgifterna lagras och behandlas endast under den period som krävs för ändamålet med behandlingen. Därefter kommer uppgifterna att raderas eller anonymiseras. <span class=\"notranslate\">Welcome To My Garden</span> förlitar sig på Firebase för datalagring och hantering, på Stripe för betalningshantering och SendGrid för e-postkommunikation. Dessa tjänster är certifierade under de viktigaste integritets- och säkerhetsstandarderna och följer GDPR. Deras integritetspolicyer finns tillgängliga här: <a href=\"https://firebase.google.com/support/privacy?hl=sv\" target=\"_blank\">Firebase</a>, <a href=\"https://stripe.com/privacy\" target=\"_blank\">Stripe</a> och <a href=\"https://www.twilio.com/legal/privacy\" target=\"_blank\">SendGrid</a>."
+      },
+      "backups": {
+        "title": "Säkerhetskopior",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> gör en säkerhetskopia av alla sina data var sjätte timme och lagrar datan i 30 dagar. Om du begär att ditt konto ska raderas kommer datan att lagras i säkerhetskopian under denna tidsperiod. Ingen av dessa data kommer någonsin att användas såvida inte produktionsdata blir korrupt."
+      },
+      "extra": {
+        "0": {
+          "title": "Vem delar vi dina personuppgifter med?",
+          "copy": "Dina personuppgifter kommer inte att delas med någon tredje part. Vi kommer aldrig att sälja eller hyra ut dina personuppgifter till andra tjänsteleverantörer, och vi kommer inte heller att dela dina personuppgifter med tjänsteleverantörer som inte följer GDPR."
+        },
+        "1": {
+          "title": "Var överför vi dina personuppgifter till?",
+          "copy": "Vi överför endast dina personuppgifter till tjänsteleverantörer etablerade utanför Europeiska Ekonomiska Samarbetsområdet om de uppfyller kraven i artikel 44 i GDPR. Alla USA-baserade tjänsteleverantörer uppfyller kraven för Privacy Shield."
+        },
+        "2": {
+          "title": "Automatiskt beslutsfattande och profilering",
+          "copy": "Behandlingen av dina personuppgifter omfattar inte profilering och kommer inte att bli föremål för automatiskt beslutsfattande av <span class=\"notranslate\">Welcome To My Garden</span>."
+        }
+      }
+    },
+    "rights": {
+      "title": "Vilka rättigheter har du?",
+      "copy": "<span>Du har rätt att när som helst se dina personuppgifter, samt rätt att bli informerad om hur <span class=\"notranslate\">Welcome To My Garden</span> använder dina personuppgifter.</span>",
+      "list": {
+        "0": {
+          "title": "Rätt till rättelse, radering och begränsning av behandling",
+          "copy": "Du är fri att välja om du vill lämna dina personuppgifter till <span class=\"notranslate\">Welcome To My Garden</span> eller inte. Dessutom har du alltid rätt att ändra, komplettera eller ta bort dina personuppgifter hos <span class=\"notranslate\">Welcome To My Garden</span>. Du är medveten om att en vägran att lämna eller en begäran om radering av personuppgifter innebär att vissa tjänster inte längre kan tillhandahållas. Du kan också begära begränsning av behandlingen av dina personuppgifter."
+        },
+        "1": {
+          "title": "Rätt att göra invändningar",
+          "copy": "Du har rätt att invända mot behandlingen av dina personuppgifter, förutsatt att detta sker av allvarliga och legitima skäl."
+        },
+        "2": {
+          "title": "Rätt till dataportabilitet",
+          "copy": "Du har rätt att få de personuppgifter du har tillhandahållit till <span class=\"notranslate\">Welcome To My Garden</span> i ett strukturerat, allmänt använt och maskinläsbart format och/eller överföra dem till andra personuppgiftsansvariga."
+        },
+        "3": {
+          "title": "Rätt att återkalla samtycke",
+          "copy": "I den mån behandlingen grundar sig på ditt föregående samtycke har du rätt att återkalla detta godkännande."
+        },
+        "4": {
+          "title": "Rätt att lämna in klagomål",
+          "copy": "Du har rätt att lämna in ett klagomål till den belgiska integritetsskyddsmyndigheten: Personal Privacy Protection Commission, Drukpersstraat 35, 1000 Bryssel, Belgien, Tel +32 (0)2 274 48 00, Fax +32 (0)2 274 48 35, e-post: commission@privacycommission.be. Detta påverkar inte möjligheten att väcka talan vid en allmän domstol."
+        }
+      },
+      "exercise-rights": {
+        "title": "Att utöva dina rättigheter",
+        "copy": "Du kan utöva dina rättigheter genom att kontakta <span class=\"notranslate\">Welcome To My Garden</span> för detta ändamål genom att skicka ett e-postmeddelande till {support}, förutsatt att du bifogar en kopia av din legitimation"
+      }
+    },
+    "additional-info": {
+      "title": "Ytterligare information om datainsamling och databehandling",
+      "infos": {
+        "0": {
+          "title": "Rättsliga förfaranden",
+          "copy": {
+            "0": "Personuppgiftsbiträdet och den personuppgiftsansvarige för behandlingen av uppgifterna kan använda användarens personuppgifter för rättsliga ändamål, för domstolsförhandlingar eller rättsliga förfaranden i händelse av olaglig användning av denna applikation eller relaterade tjänster.",
+            "1": "Användaren är medveten om att personuppgiftsbiträdet och den personuppgiftsansvarige kan vara skyldiga att lämna ut personuppgifterna på begäran av behöriga myndigheter för behandling av uppgifterna."
+          }
+        },
+        "1": {
+          "title": "Säkerhetsåtgärder",
+          "copy": {
+            "0": "<span class=\"notranslate\">Welcome To My Garden</span> har utvecklat säkerhetsåtgärder som har anpassats på teknisk och organisatorisk nivå för att förhindra förstörelse, förlust, förfalskning, ändring, obehörig åtkomst eller felaktigt utlämnande till tredje part av personuppgifter samt all annan otillåten behandling av dessa uppgifter.",
+            "1": "Under inga omständigheter kan <span class=\"notranslate\">Welcome To My Garden</span> hållas ansvarigt för direkt eller indirekt förlust till följd av en tredje parts felaktiga eller olagliga användning av dina personuppgifter.",
+            "2": "Du måste alltid följa säkerhetsinstruktionerna, vilket omfattar att förhindra all obehörig åtkomst till dina inloggningsuppgifter inklusive ditt lösenord. Du är ensam ansvarig för användningen av webbplatsen på din dator, från din IP-adress och med dina identifieringsuppgifter, samt för att hemlighålla dessa."
+          }
+        }
+      }
+    },
+    "definitions": {
+      "title": "Definitioner och rättslig ram",
+      "articles": {
+        "0": {
+          "title": "Personuppgifter (eller Data)",
+          "copy": "All information rörande en fysisk person, en juridisk person, en institution eller en förening som har identifierats eller kan identifieras direkt eller indirekt genom hänvisning till annan information."
+        },
+        "1": {
+          "title": "Användningsdata",
+          "copy": "Information som automatiskt samlas in från denna applikation (eller externa tjänster som används i denna applikation), inklusive: IP-adresser eller domännamn för de datorer som används av användarna av denna applikation, URI-adresser (Uniform Resource Identifier), tidpunkten för begäran, metoden som användes för att skicka begäran till servern, storleken på filen som mottogs som svar, den numeriska koden som anger status för serversvaret (lyckat, fel, etc.), funktionerna i webbläsaren och användarens operativsystem, de olika tidsuppgifterna per besök (såsom den tid som tillbringats på varje sida i applikationen) och data som samlats in under användning av applikationen (till exempel: ordningen på de besökta sidorna eller andra parametrar om enhetens operativsystem)."
+        },
+        "2": {
+          "title": "Användare",
+          "copy": "Flytta markören för att ange platsen för din trädgård. Du kan fylla i adressfälten för att flytta markören närmare dig. <br /> Vi sparar inte dina adressuppgifter."
+        },
+        "3": {
+          "title": "Den berörda personen",
+          "copy": "Den juridiska eller fysiska person som personuppgifterna avser."
+        },
+        "4": {
+          "title": "Personuppgiftsbiträde (eller Datatillsynsman)",
+          "copy": "Den fysiska person, juridiska person, myndighet eller någon annan institution, förening eller organisation som har bemyndigats av den personuppgiftsansvarige att behandla personuppgifterna i enlighet med denna integritetspolicy."
+        },
+        "5": {
+          "title": "Personuppgiftsansvarig (eller Ägare)",
+          "copy": "Den fysiska person, juridiska person, offentliga myndighet eller annan institution, förening eller organisation som har rätt att, även tillsammans med den personuppgiftsansvarige, fatta beslut om syften och metoder för behandling av personuppgifter samt de medel som används, inklusive säkerhetsåtgärder gällande driften och användningen av denna applikation. Den personuppgiftsansvarige är ägaren till denna applikation, om inte annat anges."
+        },
+        "6": {
+          "title": "Denna applikation",
+          "copy": "De maskin- eller programvaruverktyg genom vilka användarens personuppgifter samlas in."
+        },
+        "7": {
+          "title": "Cookie",
+          "copy": "Liten datamängd som lagras på användarens enhet. Se vår cookiepolicy."
+        }
+      },
+      "legal-info": {
+        "title": "Juridisk information",
+        "copy": "Information till europeiska användare: denna integritetspolicy har upprättats i enlighet med skyldigheterna i art. 10 i EU-direktiv 95/46/EG och bestämmelserna i EU-direktiv 2002/58/EG, samt ändringen i direktiv 2009/136/EG gällande cookies."
+      }
+    },
+    "change-warning": {
+      "title": "Ändringar i denna integritetspolicy",
+      "copy": "Den personuppgiftsansvarige förbehåller sig rätten att när som helst ändra denna integritetspolicy genom att meddela användare på denna sida. Vi rekommenderar att du regelbundet kontrollerar denna sida för eventuella ändringar. Datumet för den senaste ändringen anges längst ner på sidan. Om en användare motsätter sig någon ändring i policyn, får användaren inte fortsätta att använda denna applikation. Man kan begära att den personuppgiftsansvarige raderar personuppgifterna. Om inte annat anges gäller den aktuella integritetspolicyn för alla personuppgifter som den personuppgiftsansvarige har lagrat om användare."
+    }
+  },
+  "garden": {
+    "facilities": {
+      "labels": {
+        "water": "Vatten",
+        "drinkable-water": "Dricksvatten",
+        "toilet": "Toalett",
+        "bonfire": "Grillplats/Eldplats",
+        "electricity": "El",
+        "shower": "Dusch"
+      }
+    },
+    "filter": {
+      "title": "Filter",
+      "garden-facilities": "Trädgårdsfaciliteter",
+      "garden-capacity": "Trädgårdskapacitet",
+      "spots-available": "Tillgängliga tältplatser",
+      "min": "Minst",
+      "no-places": "Inga platser hittades",
+      "search-city": "Sök efter en stad",
+      "all-filters": "Alla filter",
+      "apply-filter": "Använd filter",
+      "available": "{styledAmount} {amount, plural, one {trädgård} other {trädgårdar}} tillgängliga med de aktiva filtren.",
+      "min-capacity": "Minst {capacity} {capacity, plural, one {tält} other {tält}}"
+    },
+    "drawer": {
+      "facilities": {
+        "capacity": "Plats för {styleCapacity} {capacity, plural, one {tält} other {tält}}"
+      },
+      "owner": {
+        "your-garden": "Din trädgård"
+      },
+      "guest": {
+        "button": "Kontakta värd",
+        "login": "Du behöver {signInLink} och vara medlem för att kontakta värdar",
+        "become-member": "För att kontakta värdar behöver du först {becomeMember}. Tack!",
+        "sign-link-text": "logga in",
+        "become-member-text": "bli medlem"
+      },
+      "save": "Spara",
+      "saved": "Sparad",
+      "phone-notice": "Telefonnummer är bara synliga för medlemmar.",
+      "response-rate-time": {
+        "response-rate": "Svarsfrekvens",
+        "response": "{responses, plural, one {svar} other {svar}}",
+        "request": "{requests, plural, one {förfrågan} other {förfrågningar}}",
+        "day": "{days, plural, one {dag} other {dagar}}",
+        "to": "till",
+        "within": "inom",
+        "in": "i",
+        "the-last": "de senaste",
+        "typically-responds": "Svarar vanligtvis",
+        "a-few-hours": "inom några timmar",
+        "a-week": "en vecka",
+        "or-more": "eller mer"
+      }
+    },
+    "add": {
+      "title": "Lägg till din trädgård"
+    },
+    "manage": {
+      "add-first": "Vänligen lägg till en trädgård först.",
+      "action": "Redigera trädgård"
+    },
+    "form": {
+      "register-link-text": "skapa ett konto",
+      "location": {
+        "title": "Plats (obligatoriskt)",
+        "notice": "Flytta markören för att ange platsen för din trädgård. Du kan fylla i adressfälten för att flytta markören närmare dig. <br /> Vi sparar inte dina adressuppgifter.",
+        "coordinate-hint": "Se till att du har dragit kartmarkören till din trädgårds exakta plats och klickat på \"Bekräfta nålens plats\"",
+        "confirm-button": "Bekräfta nålens plats",
+        "adjust-button": "Justera nålens plats",
+        "street": "Gata",
+        "house-number": "Gatunummer",
+        "region": "Region eller län",
+        "postal-code": "Postnummer",
+        "city": "Ort",
+        "country": "Land"
+      },
+      "description": {
+        "title": "Beskriv din tältplats (obligatoriskt)",
+        "notice": "En kort beskrivning av din trädgård och tältplatsen du kan erbjuda. Den här informationen visas offentligt, så ange inga personliga uppgifter här. <br />Din beskrivning måste vara mellan 20 och 300 tecken.",
+        "hints": {
+          "too-short": "{remaining} {remaining, plural, one {tecken} other {tecken}} till krävs...",
+          "too-long": "{surplus} {surplus, plural, one {tecken} other {tecken}} för långt..."
+        },
+        "placeholder": "Skriv beskrivning...",
+        "label": "Beskrivning"
+      },
+      "facilities": {
+        "title": "Faciliteter",
+        "notice": "Vilken typ av faciliteter har resenärer tillgång till?",
+        "capacity": {
+          "label": "Kapacitet (obligatoriskt)",
+          "help": "Hur många tält har du plats för (uppskattning)"
+        }
+      },
+      "photo": {
+        "title": "Bild",
+        "notice": "Visa hur din trädgård ser ut.<br />Se till att bilden bara visar tältplatsen och inte grannens hus.",
+        "img-alt": "Din trädgård",
+        "hints": {
+          "wrong-format": "Din bild måste vara en JPEG-, PNG- eller TIFF-fil.",
+          "too-large": "Din bild är för stor. Bildens filstorlek får vara högst 30 MB."
+        }
+      },
+      "invalid": "Viss information var inte giltig. Kontrollera dina angivna uppgifter för eventuella fel.",
+      "manage": {
+        "title": "Hantera din trädgård",
+        "button": "Uppdatera din trädgård",
+        "normal-notice": "På den här sidan kan du uppdatera din trädgårdsinformation. Du kan när som helst dölja din trädgård på ditt {accountLink}."
+      },
+      "add": {
+        "normal-notice": "Genom att skicka in detta formulär läggs din trädgård till på kartan. Du kan när som helst hantera eller ta bort den från ditt {accountLink}.",
+        "button": "Lägg till din trädgård",
+        "title": "Lägg till din trädgård på kartan"
+      }
+    },
+    "notify": {
+      "success": "Din trädgård har lagts till!",
+      "update": "Din trädgård har uppdaterats!"
+    }
+  },
+  "sign-in": {
+    "title": "Logga in",
+    "button": "Logga in",
+    "reset": {
+      "text": "Har du glömt ditt lösenord? {link}",
+      "link": "Återställ det"
+    },
+    "register": {
+      "text": "Har du inget konto än? {link}",
+      "link": "Registrera dig"
+    },
+    "notify": {
+      "welcome": "Välkommen tillbaka, {user}!",
+      "incorrect": "E-postadressen eller lösenordet är felaktigt.",
+      "login-issue": "Vi kunde inte logga in dig. Om problemet kvarstår, vänligen kontakta {support}"
+    }
+  },
+  "become-superfan": {
+    "modal": {
+      "subtitle": "Slow travel med WTMG",
+      "title": "Bli medlem!",
+      "intro": "Det är gratis att övernatta hos en WTMG-värd. Men för att underhålla och utveckla WTMG tar vi ut en årlig medlemsavgift för att dela kostnaderna rättvist mellan alla slow travellers. Gå med idag!",
+      "features-title": "Som medlem kan du...",
+      "choose-membership": "Välj medlemskap"
+    },
+    "pricing-section": {
+      "title": "Välj din medlemskapsnivå",
+      "description": "Giltigt i ett år. Gå med i vår gemenskap idag!",
+      "per-month": "per månad",
+      "pricing-levels": {
+        "0": {
+          "title": "Gratis",
+          "description": "Du kan utforska kartan, välkomna slow travellers i din trädgård och få WTMG-nyhetsbrevet.",
+          "backref": "",
+          "checklist": {
+            "0": "<strong>Se alla trädgårdar och leder</strong> på kartan",
+            "1": "<strong>Välkomna slow travellers</strong> i din trädgård",
+            "2": "<strong>Få WTMG-nyhetsbrevet</strong>"
+          }
+        },
+        "1": {
+          "title": "Medlem",
+          "description": "Du får full tillgång till WTMG-plattformen och täcker din del av kostnaderna.",
+          "backref": "Allt i Gratis, plus:",
+          "checklist": {
+            "0": "<strong>Skicka övernattningsförfrågningar till 5000+ trädgårdar.</strong>",
+            "1": "<strong>Planera din resa:</strong> ladda upp din rutt, spara trädgårdar och se järnvägsnätet",
+            "2": "<strong>Tillgång till vår mötesplats</strong>",
+            "3": "<strong>Håll WTMG reklamfritt, helt självständigt och medlemsfinansierat</strong>"
+          }
+        },
+        "2": {
+          "title": "Superfan 💚",
+          "description": "Du brinner verkligen för slow travel och vill stödja WTMG:s mission.",
+          "backref": "Innehåller alla medlemsförmåner, plus:",
+          "mobile-superfan-copy": "Medlemsförmåner, plus att du verkligen tror på det vi gör och vill stödja WTMG:s mission.",
+          "checklist": {
+            "0": "<strong>Visa ditt stöd och hjälp oss att förbättra WTMG</strong>",
+            "1": "<strong>Hjälp oss att få slow travel-rörelsen att växa och få fler trädgårdar på kartan</strong>"
+          }
+        }
+      },
+      "per-year": "/år",
+      "terms-label": "Jag använder WTMG endast som slow traveller (aldrig med bil eller motorcykel) och godkänner alla {termsLink}.",
+      "terms-link-text": "WTMG-regler",
+      "questions": "Frågor?",
+      "faq-link-text": "Se vår FAQ.",
+      "blog-post": "Läs vårt blogginlägg:",
+      "blog-post-link-text": "Varför ett medlemskap för WTMG?",
+      "already-member": "Du är redan en {type}, tack!"
+    }
+  },
+  "about-superfan": {
+    "video-section": {
+      "title": "Gå med i vår gemenskap",
+      "description": "<p><span class=\"notranslate\">Welcome To My Garden</span> arbetar för att göra slow travel mer tillgängligt för alla. Precis som alla trädgårdar behöver WTMG tas om hand för att växa och hålla sig frisk.</p><p>Att bo hos en WTMG-värd är gratis. Men för att underhålla och utveckla WTMG tar vi ut en årlig medlemsavgift för att dela kostnaderna rättvist mellan alla slow travellers. Gå med oss idag!</p>",
+      "blog-link-text": "Varför WTMG behöver medlemmar",
+      "superfan-count": "slow travellers har redan gått med!"
+    },
+    "for-superfans-section": {
+      "slug": "Du får magin att hända",
+      "title": "Som medlem kan du…",
+      "points": {
+        "0": {
+          "title": "<strong>Skicka kostnadsfria övernattningsförfrågningar till alla 5 000+ WTMG-värdar</strong> på kartan"
+        },
+        "1": {
+          "title": "<strong>Kom överens med värdar</strong> genom chatten och träffa fantastiska nya människor."
+        },
+        "2": {
+          "title": "<strong>Använd praktiska funktioner:</strong> ladda upp din rutt, spara trädgårdar och se järnvägsnätet."
+        },
+        "3": {
+          "title": "<strong>Få tillgång till WTMG Gemenskap</strong> där medlemmar kan träffas, dela erfarenheter och ställa frågor."
+        },
+        "4": {
+          "title": "<strong>Täck din del av kostnaderna:</strong> WTMG behöver pengar för att upprätthålla ett nätverk av hög kvalitet."
+        },
+        "5": {
+          "title": "<strong>Håll WTMG reklamfritt, helt självständigt och medlemsfinansierat:</strong> utan det fortsatta stödet från vår gemenskap kan vi inte existera!"
+        },
+        "6": {
+          "title": "<strong>Stöd arbetet hos ett engagerat team</strong> av fyra slow travel-entusiaster."
+        }
+      }
+    },
+    "team-section": {
+      "title": "Träffa teamet",
+      "description": "Så, vem står bakom WTMG? Vi är ett litet team på fyra slow travel-entusiaster och vi vill hjälpa andra att också ge sig ut på sina egna slow travel-äventyr!",
+      "meet-team-button": "Träffa teamet"
+    },
+    "superfan-quotes-section": {
+      "quotes": {
+        "0": {
+          "name": "Lieven",
+          "quote": "Ett fantastiskt initiativ som uppmuntrar till solidaritet och gemenskap bland slow travellers, kombinerat med toppmodern teknik? Jag är helt med på tåget!"
+        },
+        "1": {
+          "name": "Boris",
+          "quote": "Att börja resa med cykel gjorde det tydligt för mig vad jag ville bli: fri, minimalistisk, självständig och aktiv."
+        },
+        "2": {
+          "name": "Marie Marth",
+          "quote": "WTMG är inte bara roligt, det handlar om att förändra världen, att förändra hur vi reser."
+        },
+        "3": {
+          "name": "Benoit & Hélène",
+          "quote": "Jag är glad över att vara omgiven av en så fantastisk gemenskap av slow travellers som omsätter sina ord i handling!"
+        }
+      }
+    },
+    "faq-section": {
+      "title": "FAQ",
+      "faq-subsections": {
+        "why": {
+          "title": "",
+          "questions": {
+            "0": {
+              "title": "Varför lanserar WTMG ett medlemskap?",
+              "copy": "<span class=\"notranslate\">Welcome To My Garden</span> arbetar för att göra slow travel mer tillgängligt för alla. Precis som alla trädgårdar behöver WTMG tas om hand för att växa och hålla sig frisk. Att bo hos en WTMG-värd är gratis. Men för att underhålla och utveckla WTMG tar vi ut en årlig medlemsavgift för att dela kostnaderna rättvist mellan alla slow travellers. <a href=\"https://blog.welcometomygarden.org/towards-a-fair-model-to-make-wtmg-survive-and-thrive?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=membership_faq\" target=\"_blank\">Läs hela vår historia här</a>."
+            }
+          }
+        },
+        "superfan-faq": {
+          "title": "Slow travellers",
+          "questions": {
+            "0": {
+              "title": "Vad innebär det att vara medlem eller Superfan?",
+              "copy": "<p>För att underhålla och utveckla WTMG tar vi ut en årlig medlemsavgift för att dela kostnaderna rättvist mellan alla slow travellers.</p>\n<p>När du blir medlem eller Superfan kan du:</p>\n<ul>\n<li>Skicka gratis förfrågningar till över 5 000 trädgårdar</li>\n<li>Använda praktiska funktioner för att planera din resa: ladda upp din rutt, spara trädgårdar, se nätverket av leder</li>\n<li>Få tillgång till vår mötesplats</li>\n<li>Hålla WTMG reklamfritt, helt oberoende och medlemsfinansierat.</li>\n</ul>"
+            },
+            "1": {
+              "title": "Vad är skillnaden mellan att vara medlem och Superfan?",
+              "copy": "Även om Superfans har tillgång till samma förmåner som medlemmar är de väldigt viktiga för WTMG eftersom de gör det möjligt för oss att förbättra plattformen, få slow travel-rörelsen att växa och sätta fler trädgårdar på kartan. Om du verkligen brinner för slow travel och vill stödja WTMG:s mission är detta något för dig!"
+            },
+            "2": {
+              "title": "Varför behöver WTMG ett årligt ekonomiskt bidrag från slow travellers?",
+              "copy": "<p>Varje månad lägger vi tusentals euro och hundratals timmar på att hålla igång WTMG. Detta är vårt liv och vårt jobb: vi måste betala våra löner, vårt kontor, serverkostnader och mycket mer.</p>\n<p>WTMG är ett helt oberoende projekt som har finansierats helt på egen hand av grundarteamet, vilket innebär att inga investerare har varit involverade. För att se till att WTMG kan finnas kvar under de kommande åren innebär en rättvis modell att vi delar kostnaderna mellan alla slow travellers. Kort sagt: om du använder vår plattform förväntar vi oss att du bidrar.</p>"
+            },
+            "3": {
+              "title": "Vart går mina pengar?",
+              "copy": "<p>Eftersom vi inte har något att dölja och transparens är viktigt för oss, har vi tagit fram en översikt för att ge dig en inblick i var våra medlemmars bidrag hamnar.</p>\n<p>De årliga medlemsavgifterna gör det möjligt för oss att:</p>\n<ul>\n<li>Underhålla WTMG-plattformen och servrarna</li>\n<li>Täcka alla driftskostnader såsom programvaror, revisor och kontorsplats</li>\n<li>Svara på supportärenden och frågor från medlemmar och värdar</li>\n<li>Behålla kvaliteten på WTMG-nätverket</li>\n<li>Erbjuda en mötesplats där medlemmar kan träffas och dela erfarenheter</li>\n<li>Förbättra WTMG-plattformen baserat på feedback från medlemmar</li>\n<li>Kommunicera om WTMG externt och främja slow travel i allmänhet</li>\n<li>Starta samarbeten med andra slow travel-initiativ</li>\n</ul>"
+            },
+            "4": {
+              "title": "Hur mycket behöver jag bidraga?",
+              "copy": "<p>Det är upp till dig! Du kan antingen bli medlem eller Superfan, beroende på hur mycket du tror på slow travel och hur mycket du vill stödja oss.</p>\n<p>Att bli medlem kostar 36 € per år, vilket i princip täcker din egen kostnad. Du kan skicka gratis förfrågningar till 5 000 trädgårdar, få tillgång till praktiska funktioner för att planera din resa och hjälpa WTMG att förbli reklamfritt, helt oberoende och medlemsfinansierat.</p>\n<p>Att bli Superfan kostar 60 € per år. Utöver att få alla medlemsförmåner hjälper Superfans oss också att förbättra WTMG, få slow travel-rörelsen att växa och sätta fler trädgårdar på kartan.</p>"
+            },
+            "5": {
+              "title": "Hur fungerar betalningen?",
+              "copy": "När du har valt om du vill bli medlem eller Superfan skickas du vidare till betalningssidan. Du betalar för ett år i taget. Ditt medlemskap förnyas automatiskt, men du kan när som helst avbryta den automatiska förnyelsen på ditt {accountLink}. Sju dagar före förnyelsedatumet kommer vi också att påminna dig via e-post om din kommande förnyelse."
+            },
+            "6": {
+              "title": "Hur kan jag hantera, förnya eller avsluta mitt medlemskap?",
+              "copy": "Du kan när som helst hantera, förnya eller avsluta ditt medlemskap på ditt {accountLink}. På denna sida ser du aktuell status för ditt medlemskap, förnyelse- eller utgångsdatum samt instruktioner för hur du avslutar eller förnyar det."
+            },
+            "7": {
+              "title": "Är det obligatoriskt att bli medlem eller Superfan som slow travel-resenär?",
+              "copy": "<p>Slow travellers behöver lämna ett årligt ekonomiskt bidrag för att WTMG ska kunna finnas kvar. Detta var vad vi bad om redan när vi lanserade vår efterlysning av Superfans. Nu utökar vi denna förfrågan till hela vår slow travel-gemenskap. <strong>Kort sagt: om du använder vår plattform förväntar vi oss att du bidrar.</strong> Detta blir ett årligt bidrag. Så utöver möjligheten att bli Superfan introducerar vi ett medlemskap för att utöka vår förfrågan om stöd från våra första trogna anhängare till den bredare gemenskapen.</p>\n<p>Vi ber inte värdarna att bidra ekonomiskt, eftersom de redan bidrar på ett annat sätt, men de är självklart varmt välkomna att göra det också om de vill.</p>"
+            },
+            "8": {
+              "title": "Lanserade ni inte redan en efterlysning av Superfans?",
+              "copy": "<p>I slutet av 2022 lanserade vi en uppmaning för WTMG Superfans. Vi är väldigt tacksamma för det stöd vi fått från de första drygt 250 Superfans och en generös gåva på 1 000 € från en värd. <strong>Tack vare dessa första trogna supportrar är vi övertygade om att vi kan nå en självförsörjande modell för WTMG.</strong> Men för att nå dit behöver vi ett <strong>brett stöd</strong>, inte bara från en liten andel av våra användare: vi har räknat ut att vi behöver stöd från <strong>minst 3 000 resenärer</strong> för att få den magin att hända.</p>"
+            },
+            "9": {
+              "title": "Om jag inte blir medlem eller Superfan, vad händer med mitt gratiskonto?",
+              "copy": "Som gratismedlem kan du utforska kartan, vara värd för slow travellers i din trädgård och få WTMG:s nyhetsbrev."
+            },
+            "10": {
+              "title": "Hur länge blir jag medlem eller Superfan?",
+              "copy": "När du blir medlem eller Superfan betalar du för ett år. Ditt medlemskap förnyas automatiskt, men du kan när som helst avbryta den automatiska förnyelsen på ditt {accountLink}. Om du avslutar ditt medlemskap är det bara den automatiska förnyelsen som avbryts. Det innebär att du förblir medlem fram till slutet av den period som du redan har betalat för."
+            },
+            "11": {
+              "title": "Kan jag sluta vara medlem eller Superfan?",
+              "copy": "<p>Ja, när du vill. Så snart du har blivit en medlem kan du hantera ditt årliga medlemskap på din WTMG {accountLink}.</p><p>Om din kontosida visar <strong>”Ditt medlemskap är aktivt. Förnyas automatiskt den xx/xx/xxxx.”</strong> kommer ditt medlemskap att förnyas på det datumet. Du kan avbryta förnyelsen när som helst genom att klicka på <strong>”Hantera medlemskap”</strong>. Om du avslutar ditt medlemskap är det bara den automatiska förnyelsen som avbryts. Det innebär att du förblir medlem fram till slutet av den period som du redan har betalat för.</p><p>Om din kontosida visar <strong>”Ditt medlemskap är giltigt till och med xx/xx/xxxx. Automatisk förnyelse är avstängd.”</strong> kommer ditt medlemskap att löpa ut på det angivna datumet och kommer inte att förnyas automatiskt.</p>"
+            },
+            "12": {
+              "title": "Vad händer om jag avslutar mitt medlemskap?",
+              "copy": "Om du avslutar ditt medlemskap är det bara den automatiska förnyelsen som avbryts. Det innebär att du förblir medlem fram till slutet av den period som du redan har betalat för. Men om du ändrar dig kan du när som helst återaktivera den automatiska förnyelsen på ditt {accountLink}."
+            },
+            "13": {
+              "title": "Behövs det ett medlemskap per person om jag reser med vänner eller familj?",
+              "copy": "Nej, det behövs bara ett medlemskap för att kontakta värdar när du reser med vänner eller familj. Men varje enskilt konto är strikt personligt, så alla som reser på egen hand behöver ett eget medlemskap."
+            }
+          }
+        },
+        "hosts-faq": {
+          "title": "Värdar",
+          "questions": {
+            "0": {
+              "title": "Jag är en värd. Borde jag bli medlem eller Superfan?",
+              "copy": "Först och främst är vi så glada att du välkomnar slow travellers i din trädgård! WTMG skulle inte existera utan varmhjärtade invånare som du. Om du vill bli en Superfan och stödja oss i vårt uppdrag att göra slow travel mer tillgängligt skulle vi bli jätteglada. Men vi vill framhålla att du redan gör ett enormt bidrag som värd!"
+            }
+          }
+        },
+        "structure-faq": {
+          "title": "Om WTMG",
+          "questions": {
+            "0": {
+              "title": "Vem står bakom WTMG?",
+              "copy": "Vi är ett litet team på tre slow travel-entusiaster (Dries, Manon & Thor) som arbetar heltid med att göra WTMG möjligt. Du kan läsa mer om oss <a href=\"{langPrefix}/about-us\" target=\"_blank\">här</a>."
+            },
+            "1": {
+              "title": "Vad är den juridiska strukturen bakom WTMG?",
+              "copy": "<span class=\"notranslate\">Welcome To My Garden</span>, ett icke-vinstdrivande projekt under den juridiska personen Slowby, ett <a href=\"https://1819.brussels/en/information-library/sustainable-entrepreneurship/accreditation-social-enterprise-benefits\" target=\"_blank\">socialt företag</a>, vilket innebär att vi är ett initiativ som strävar efter social inverkan. De fem principerna i <a href=\"https://www.codesocialeondernemingen.nl/application/files/2615/5491/1784/Principles_Code_Social_Enterprises_English_version.pdf\" target=\"_blank\">Code Social Enterprises</a> är vår riktlinje för beslutsfattande. För att skydda WTMG:s uppdrag överväger vi att bli ett kooperativ eller att implementera en <a href=\"https://purpose-economy.org/en/whats-steward-ownership/\" target=\"_blank\">steward ownership-modell</a> någon gång i framtiden. Men först måste vi se till att vi kan skapa en livskraftig modell som gör WTMG finansiellt stabilt."
+            },
+            "2": {
+              "title": "Hur mycket kostar det att driva WTMG?",
+              "copy": "<p>Varje månad lägger vi tusentals euro och hundratals timmar på att hålla igång WTMG. Detta är vårt liv och vårt jobb: vi måste betala våra löner, vårt kontor, webbhotellskostnader och mer.</p><p>WTMG är ett helt självständigt projekt som helt har finansierats av grundarteamet själva, vilket innebär att inga investerare har varit inblandade. För att se till att WTMG kan existera under de kommande åren hjälper en rättvis modell till att dela upp kostnaderna mellan slow travellers.</p>"
+            },
+            "3": {
+              "title": "Hur har WTMG-räkningarna betalats hittills?",
+              "copy": "<p>Hittills har kostnaderna för WTMG huvudsakligen betalats ur egen ficka av vårt grundarteam.</p><p>Så här har vi täckt kostnaderna fram till nu:</p><ul><li>Den stora majoriteten av räkningarna betalades tack vare inkomsterna från att planera resor med vår sidoverksamhet Slowby.travel (€30k), och distributionsrättigheterna för Manons dokumentär Women Don’t Cycle (€25k).</li><li>Under sitt första verksamhetsår fick WTMG visst ekonomiskt stöd från tidiga supportrar som Grote Routepaden, GR Sentiers och Natuurpunt.</li><li><em>I slutet av 2022 lanserade vi en uppmaning till WTMG Superfans. Vi är väldigt tacksamma för det stöd vi fick från de första 230+ Superfans och en generös gåva på €1 000 från en värd. Tack vare dessa första supportrar är vi övertygade om att vi kan nå en självförsörjande modell för WTMG. Men för att nå dit behöver vi ett brett stöd, inte bara från en liten andel av våra användare: vi har räknat ut att vi behöver stöd från 3 000 resenärer för att få det att hända.</em></li></ul>"
+            },
+            "4": {
+              "title": "Har ni provat andra sätt att generera inkomster – som gåvor, sponsring och bidrag?",
+              "copy": "<p>Vi har redan provat några olika sätt att generera den inkomst vi behöver för att hålla igång. Följande har visat sig vara ohållbara för WTMG:</p><ul><li>Gåvor. Det är lockande att tro att vi kan få det att fungera om alla bidrar frivilligt med lite grann. I verkligheten visade det sig att gåvorna inte ens räckte till att täcka de tekniska kostnaderna. Totalt har vi fått mindre än €500/år i gåvor.</li><li><em>Att driva ett annat initiativ (som vi gjorde med våra Slowby-resor). Eftersom WTMG kräver vår fulla uppmärksamhet är det helt enkelt för krävande att driva två stora initiativ samtidigt med ett team på tre personer. Någon kallade också den här finansieringsmodellen för ett recept på utbrändhet (men oroa dig inte, vi är fortfarande fulla av positiv energi, men det är därför vi måste agera nu).</em></li><li>Bidrag. De är bra för att kickstarta ett projekt, men gör det inte ekonomiskt självförsörjande på lång sikt. Som det förklaras så fint i <a href=\"https://www.libraryofthings.co.uk/blog/purposebeforeprofit\">det här inlägget</a> av Library of Things, skulle ansökningar om bidrag också distrahera oss från vårt verkliga mål: att skapa värde för vår gemenskap.</li></ul><p>Vi har valt att inte visa annonser på vår webbplats. Varför? Vi vill inte sälja dina data till företag vars värderingar kanske inte stämmer överens med våra. Dessutom skulle annonsering flytta vårt fokus från att skapa värde för användarna. Vi vill få betalt för en fantastisk slow travel-plattform som är värd att betala för.</p><p><strong>Så för att sammanfatta det hela anser vi att det är både rättvist och rimligt att be om ett ekonomiskt bidrag från våra slow travellers.</strong></p>"
+            },
+            "5": {
+              "title": "Hur många medlemmar behöver WTMG för att överleva och frodas?",
+              "copy": "För att upprätthålla ett nätverk av hög kvalitet och fortsätta utveckla WTMG behöver vi att 3 000 slow travellers blir medlemmar. Tillsammans kan vi få detta att fungera – det är vad det innebär att vara en gemenskap."
+            }
+          }
+        }
+      },
+      "contact-section": {
+        "title": "Har du fortfarande frågor?",
+        "contact-button": "Läs hela historien"
+      }
+    }
+  },
+  "thank-you-superfan": {
+    "top-section": {
+      "title": "Tack för att du har gått med i WTMG-gemenskapen! 🌟",
+      "description": "<p>Vi är så glada att du hänger med på resan! 💚</p>",
+      "features": "<p>Du kan nu:</p><ul><li>Skicka övernattningsförfrågningar till 5000+ trädgårdar</li><li>Planera din resa: ladda upp din rutt, spara trädgårdar och se järnvägsnätet</li><li>Få tillgång till mötesplatsen</li></ul>",
+      "outro": "<p>Tack vare dig kan vi hålla WTMG fritt från reklam, helt självständigt och medlemsfinansierat.</p>"
+    },
+    "features-section": {
+      "title": "Du kan nu:",
+      "explore-features-button": "Börja planera din resa"
+    },
+    "closing-section": {
+      "text": "<p><strong>Ett jättestort tack från vårt team!</strong></p><p>Dries, Manon och Thor</p><p><em>PS: Vill du veta mer om vilka vi är? <a class=\"link\" href=\"{langPrefix}/about-us\">Läs vår historia här!</a></em></p>"
+    }
+  },
+  "payment-superfan": {
+    "overview-section": {
+      "product": {
+        "regular": "WTMG-medlemskap",
+        "superfan": "WTMG Superfan"
+      },
+      "duration": "1 år",
+      "features": {
+        "0": "Campa gratis i trädgårdar",
+        "1": "Träffa fantastiska människor",
+        "2": "Planera ditt äventyr enkelt",
+        "3": "Håll WTMG självständigt"
+      }
+    },
+    "payment-section": {
+      "payment-method": "Betalningsmetod",
+      "pay-button": "Betala nu",
+      "loading": "Laddar...",
+      "youre-subscribed": "Du prenumererar nu som Superfan!",
+      "no-switching-here": "Vi stöder för närvarande inte att byta till ett annat pris härifrån. Hör av dig till oss på {supportEmail} om du vill byta. Tack!",
+      "errors": {
+        "loading-error": "Något gick fel när vår betaltjänst laddades. Vänligen försöker att ladda om sidan.",
+        "systems-error": "Något gick fel i våra system. Kontakta {supportEmail} så hjälper vi dig så snart som möjligt! Vi ber om ursäkt för besväret.",
+        "payment-error": "Något gick fel med din betalning, vänligen försök igen.",
+        "please-try-again": "Vänligen försök igen."
+      },
+      "success": "Tack för att du blir WTMG-medlem!",
+      "app-fallback": {
+        "success-title": "Din betalning lyckades!",
+        "continue-button": "Fortsätt"
+      }
+    },
+    "not-logged-in-warning": "För att bli Superfan, logga först in eller skapa ett konto",
+    "title": "Betalning",
+    "terms": "Genom att bli medlem godkänner du våra {termsLink}. Ditt medlemskap förnyas automatiskt, men du kan avsluta det när som helst."
+  },
+  "request-password-reset": {
+    "title": "Återställ ditt lösenord",
+    "description": "Ange e-postadressen som är kopplad till ditt WTMG-konto, så skickar vi en länk för att återställa ditt lösenord.",
+    "button": "Hämta återställningslänk",
+    "set": "Om det finns ett konto med e-postadressen {email}, kommer ett mejl nu att skickas med instruktioner om hur du återställer lösenordet.",
+    "trouble": "Har du problem med att logga in? Kontakta {support} så hjälper vi dig!"
+  },
+  "reset-password": {
+    "title": "Välj ett nytt lösenord",
+    "update": "Uppdatera lösenord",
+    "success": "Ditt lösenord har återställts"
+  },
+  "email-preferences": {
+    "error": "Har du problem med att avsluta prenumerationen? Kontakta {support} så hjälper vi dig!",
+    "unsubscribe": {
+      "title": "Avregistrera dig från WTMG-nyheter",
+      "description": "<p>Om du klickar på knappen för att avregistrera dig nedan kommer du inte längre att få nyheter från WTMG på <span class=\"notranslate\">{email}</span>.</p>",
+      "unsubscribe": "Avregistrera dig"
+    },
+    "resubscribe": {
+      "title": "Du har avregistrerats från WTMG-nyheter",
+      "description": "<p>Du kommer inte längre att få nyheter från WTMG på <span class=\"notranslate\">{email}</span>.</p>\n<p>Om du vill prenumerera igen kan du klicka på knappen nedan.</p>",
+      "resubscribe": "Prenumerera igen"
+    }
+  },
+  "account": {
+    "title": "Konto",
+    "verify": {
+      "title": "Verifiera din e-post",
+      "text": "Du behöver verifiera din e-postadress om du vill chatta eller lägga till en trädgård.",
+      "button": "Skicka e-post igen",
+      "sent": "E-post skickat!",
+      "reload-suggestion": "Har du redan verifierat? Prova att {reloading} sidan.",
+      "reloading-text": "ladda om"
+    },
+    "preferences": {
+      "title": "E-postinställningar",
+      "text": "Skicka e-post till mig när:",
+      "chat": "Jag får ett nytt chattmeddelande",
+      "news": "<span class=\"notranslate\">Welcome To My Garden</span> har nyheter att dela med sig av"
+    },
+    "garden": {
+      "title": "Din trädgård",
+      "unlisted": {
+        "text": "Du har inte lagt till din trädgård på kartan än. När du lägger till din trädgård kan andra användare kontakta dig för att be om att få bo hos dig. Du kan dölja din trädgård när som helst!",
+        "button": "Lägg till din trädgård"
+      },
+      "listed": {
+        "text": "Dölj min trädgård tillfälligt"
+      },
+      "unverified": {
+        "text": "Verifiera din e-post för att hantera din trädgård."
+      },
+      "unlist-modal": {
+        "title": "Dölj din trädgård tillfälligt",
+        "subtitle": "Hur länge vill du dölja din trädgård?",
+        "mode-date-title": "Till ett visst datum",
+        "mode-date-desc": "Din trädgård återgår automatiskt.",
+        "mode-indef-title": "Tills vidare",
+        "mode-indef-desc": "Du återpublicerar din trädgård manuellt.",
+        "date-label": "Tillbaka på kartan",
+        "pick-date": "Välj ett datum",
+        "return": "Din trädgård återgår till kartan den {date} ({relative}).",
+        "cancel": "Avbryt",
+        "unlist-until": "Dölj till {date}",
+        "unlist-garden": "Dölj trädgård",
+        "preset-weeks": "{count, plural, one {# vecka} other {# veckor}}",
+        "date-in-past": "Datumet måste vara i framtiden."
+      },
+      "visibility": {
+        "change-date": "Ändra datum",
+        "off-indefinite": "Slå på för att visa din trädgård igen.",
+        "off-label": "Din trädgård är för närvarande inte på kartan",
+        "on-label": "Din trädgård är på kartan",
+        "on-subtext": "Stäng av för att tillfälligt dölja din trädgård.",
+        "relist-now": "Visa igen nu",
+        "returns-on": "Den återgår till kartan den {date} ({relative}).",
+        "set-return-date": "Ange ett återgångsdatum"
+      }
+    },
+    "superfan": {
+      "btn-manage": "Hantera medlemskap",
+      "valid": "Ditt medlemskap är giltigt till {date}",
+      "auto-active": "Ditt medlemskap är aktivt.<br>Förnyas automatiskt den {date}.",
+      "auto-canceled": "Ditt medlemskap är giltigt till {date}.<br>Automatisk förnyelse är avstängd.",
+      "renew-btn-text": "Förnya nu",
+      "send-invoice-just-ended": "Ditt medlemskap har löpt ut.<br>Förnya nu och aktivera automatisk förnyelse (kan avslutas när som helst).",
+      "charge-automatically": {
+        "update-payment-method": "Uppdatera betalningsmetod",
+        "expired": "Ditt medlemskap har löpt ut.<br>Vi hoppas att vi kan fortsätta räkna med ditt stöd! 💚",
+        "payment-failed": "Ditt medlemskap har löpt ut.<br>Uppdatera din betalningsmetod för att förnya det."
+      }
+    },
+    "notify": {
+      "resend-error": "Vi kunde inte skicka verifieringsmejlet för kontot igen. Vänligen kontakta {support}",
+      "garden-show": "Din trädgård kommer att visas på kartan igen",
+      "garden-no-show": "Din trädgård kommer inte att visas på kartan",
+      "preferences-update": "Dina e-postinställningar har uppdaterats!",
+      "garden-relist-set": "Din trädgård återgår den {returnDate}"
+    },
+    "delete": {
+      "button-action": "Ta bort ditt konto",
+      "modal": {
+        "are-you-sure": "<p>Chattmeddelanden som du har tagit emot eller skickat kommer fortfarande att vara synliga för de andra kontona som deltog i dessa chattar, inklusive ditt förnamn.</p><strong>Denna åtgärd kan inte ångras!</strong></p>\n<p>Om du bara vill dölja din trädgård från kartan, stäng denna ruta och klicka på \"{unlist}\".</p>",
+        "prompt": "radera allt",
+        "errors": {
+          "wrong-verification": "Skrev du \"{prompt}\" i fältet ovan?"
+        },
+        "delete-field-label": "Skriv \"{prompt}\"",
+        "title": "Är du säker?",
+        "reauthentication-info": "<span style=\"color:var(--color-danger);\">⚠️ Det var länge sedan du loggade in.</span> För att vara säker på att det är du, vänligen ange ditt lösenord för att bekräfta borttagningen:",
+        "deleted": "Ditt konto har tagits bort",
+        "verification-info": "<p>För att se till att du inte tar bort ditt konto av misstag, skriv \"{prompt}\" i textrutan nedan:</p>",
+        "verification-ok": "✅ Du kan nu ta bort ditt konto!",
+        "reauthentication-incorrect-password": "Det angivna lösenordet var felaktigt, försök igen."
+      },
+      "intro": "Att ta bort ditt konto raderar alla dina kontouppgifter, såsom din e-postadress, efternamn och din trädgårdsinformation, från våra system."
+    },
+    "change-email": {
+      "modal": {
+        "title": "Ändra din e-postadress",
+        "info": "Denna åtgärd kommer att ändra din e-postadress i alla WTMG-system.",
+        "new-email-placeholder": "nyepost@welcometomygarden.org",
+        "new-email-label": "Ny e-postadress",
+        "error": {
+          "firebase-error": "Något gick fel när du begärde att uppdatera din e-postadress. Om du inte har fått ett verifieringsmejl till din nya e-postadress, kontrollera din skräppost. Om detta fortsätter att hända, kontakta vår support."
+        },
+        "success": "Din ändringsbegäran lyckades! Öppna inkorgen för din nya e-postadress ({newEmail}) och klicka på verifieringslänken för att slutföra processen.",
+        "button-label": "Ändra e-post"
+      }
+    },
+    "notifications": {
+      "manage": "Hantera dina aktiva mobilaviseringar",
+      "title": "Mobilaviseringar",
+      "delete": "Ta bort",
+      "turn-on": "Slå på aviseringar",
+      "unknown": "okänd",
+      "current": "Den här enheten",
+      "last-seen": "Senast sedd den",
+      "questions": "Frågor? Kolla in {faqLink}.",
+      "questions-faqlink-text": "vår FAQ"
+    }
+  },
+  "auth": {
+    "invalid-code": "Den här sidan är inte tillgänglig utan en giltig åtgärdskod",
+    "password": {
+      "expired": "Länken för att återställa lösenordet har löpt ut. Begär en ny"
+    },
+    "unsigned": "Logga in först.",
+    "verification": {
+      "verifying": "Verifierar din e-postadress... Stäng inte den här sidan, det kan ta några sekunder.",
+      "reloading": "Laddar om ditt konto...",
+      "success": "Din e-postadress har verifierats!",
+      "refresh": "Din e-postadress har redan verifierats.",
+      "expired": "Verifieringslänken har löpt ut. Be om en ny.",
+      "sign-in": "Logga in för att fortsätta.",
+      "unverified": "Verifiera din e-postadress först."
+    },
+    "discourse": {
+      "superfan": "Endast Superfans har tillgång till mötesplatsen.",
+      "logging-in": "Loggar in dig på mötesplatsen...",
+      "failed": "Inloggningen till mötesplatsen misslyckades, kontakta supporten om detta fortsätter att hända."
+    },
+    "logged-out": "Du har loggats ut.",
+    "email-change": {
+      "in-progress": "Ändrar din e-postadress...",
+      "success": "Din e-postadress har ändrats! Logga in igen"
+    }
+  },
+  "register": {
+    "title": "Registrera dig",
+    "button": "Registrera dig",
+    "first-name": "Förnamn",
+    "last-name": "Efternamn",
+    "country": "Land",
+    "policies": "Jag godkänner {cookiePolicy}, {privacyPolicy} och {termsOfUse}",
+    "registering": "Registrerar dig...",
+    "registered": "Har du redan ett konto? {signIn}",
+    "reference": "Hur hörde du talas om WTMG? (valfritt)",
+    "validate": {
+      "email": "Ange en e-postadress, det är den du loggar in med",
+      "email-suggestion": "Menade du",
+      "password": {
+        "set": "Du måste välja ett lösenord så att du kan logga in senare",
+        "min": "Ditt lösenord måste vara minst 8 tecken",
+        "max": "Se till att ditt lösenord är högst 100 tecken långt"
+      },
+      "first-name": {
+        "set": "Ange ett förnamn. Det är så du visas för andra användare",
+        "max": "Ditt förnamn kan bara vara 25 tecken långt så att vi kan visa det ordentligt. Förkorta gärna eller välj ett smeknamn."
+      },
+      "last-name": {
+        "set": "Ange ditt efternamn. Detta kommer inte att delas med andra användare",
+        "max": "Ditt efternamn kan vara högst 50 tecken."
+      },
+      "country": {
+        "from-list": "Välj ett land från listan. Det hjälper oss att fokusera kartan där du befinner dig"
+      },
+      "consent": "Du måste godkänna <span class=\"notranslate\">Welcome To My Garden</span>s villkor om du vill använda plattformen",
+      "reference": "Se till att ditt svar är högst 100 tecken långt"
+    },
+    "notify": {
+      "successful": "Ditt konto har skapats! Kontrollera din e-post för att verifiera ditt konto.",
+      "in-use": "Denna e-postadress används redan.",
+      "invalid": "Det här ser inte ut som en giltig e-postadress. Kanske har det blivit något stavfel?",
+      "unexpected": "Ett oväntat fel uppstod. Om problemet förbli, kontakta {support}"
+    }
+  },
+  "chat": {
+    "title": "Chatt",
+    "title-conversation": "Chatta med {partnerName}",
+    "all-conversations": "Alla konversationer",
+    "type-message": "Skriv ditt meddelande...",
+    "new": "nytt",
+    "notify": {
+      "unverified": "Verifiera din e-postadress innan du börjar chatta",
+      "empty-message": "Ditt meddelande kan inte vara tomt",
+      "too-long": "Ditt meddelande är {surplus} {surplus, plural, one {tecken} other {tecken}} för långt..."
+    },
+    "go-to-garden": "Gå till trädgård",
+    "error-modal": {
+      "title": "Något gick fel",
+      "description": "Något gick fel när din chatt skickades.",
+      "instruction": "Om detta fortsätter att hända, kopiera texten nedan och klistra in den i ett mejl till",
+      "closing-line": "Vi ska försöka hjälpa dig så fort vi kan!"
+    },
+    "guidelines": {
+      "title": "Riktlinjer för förfrågningar om vistelse",
+      "points": {
+        "0": {
+          "title": "Presentera dig",
+          "description": "Berätta för {hostName} vem du är, vad för typ av resa du gör och när du vill bo där."
+        },
+        "1": {
+          "title": "Kontakta värdar i tid",
+          "description": "Alla värdar är volontärer. Om möjligt, kontakta dem i god tid så att de hinner planera."
+        },
+        "2": {
+          "title": "Var vänlig och respektfull",
+          "description": "Håll din värd informerad. Låt dem veta om dina planer ändras."
+        }
+      }
+    },
+    "archive": "Arkivera",
+    "unarchive": "Avarkivera",
+    "archive-conversation": "Arkivera chatt",
+    "unarchive-conversation": "Avarkivera chatt",
+    "archived-one": "Arkiverade {name}",
+    "unarchived-one": "Avarkiverade {name}",
+    "no-archived": {
+      "title": "Du har inga arkiverade meddelanden",
+      "detail": "När du arkiverar ett meddelande visas det här.",
+      "button": "Visa alla konversationer"
+    },
+    "confirm-archive": {
+      "title": "Vill du arkivera den här konversationen?",
+      "body": "Du har ett oläst meddelande från {name}. Om du arkiverar det markeras det som läst och flyttas till ditt arkiv.",
+      "confirm": "Arkivera"
+    },
+    "no-inbox": {
+      "title": "Du har inga meddelanden än",
+      "detail": "Välj en värd på kartan för att kontakta dem.",
+      "button": "Gå till kartan"
+    },
+    "open-archive": "Öppna arkivet",
+    "no-active": {
+      "title": "Inga aktiva konversationer",
+      "detail": "När du får ett meddelande visas det här. Eller kontakta en värd på kartan."
+    },
+    "archived": "Arkiverat"
+  },
+  "map": {
+    "vehicle-notice": {
+      "title": "<span class=\"notranslate\">Welcome To My Garden</span> är endast för slow travellers.",
+      "text": "Om du planerar att resa med motorfordon, vänligen kontakta inte värdar via denna plattform. Tack för din förståelse!"
+    },
+    "trails": {
+      "hiking": "Visa vandringsleder",
+      "cycling": "Visa cykelleder",
+      "attribution": "Leder tillhandahålls av {link}"
+    },
+    "gardens": {
+      "title": "Trädgårdar",
+      "show-all": "Visa alla trädgårdar",
+      "show-saved": "Visa sparade trädgårdar",
+      "hide-all": "Dölj alla trädgårdar"
+    },
+    "routes": {
+      "title": "Vandrings- och cykelleder",
+      "title-modal": "Vandring och cykling",
+      "upload-route": "Ladda upp en rutt"
+    },
+    "railway": {
+      "title": "Järnvägsnät",
+      "title-modal": "Tåg",
+      "show-transport": "Visa tågnätverk"
+    },
+    "upload-route": {
+      "title": "Ladda upp din rutt",
+      "drag-here": "Dra hit eller {selectFile}",
+      "select-file": "välj fil",
+      "added-to-map": "har lagts till på kartan."
+    },
+    "zoom-restriction-notice": "för att zooma in mer",
+    "meetups": {
+      "description": "Letar du efter ditt nästa slow travel-äventyr? Gå med i vår WTMG-meetup nära {location} den {date}! Idén är enkel: vi ses i en WTMG-trädgård, delar vår entusiasm för slow travel och har trevligt tillsammans. Det är gratis, men registrering krävs. Vi ses där!",
+      "btn-register": "Registrera dig nu",
+      "no-account": "Du måste {signInLink} för att registrera dig",
+      "cities": {
+        "Bruges": "Brygge"
+      }
+    }
+  },
+  "terms-of-use": {
+    "title": "Användarvillkor",
+    "last-updated": "Senast uppdaterad: 30 april 2025",
+    "intro": {
+      "0": {
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> är en plattform där invånare öppnar sina trädgårdar så att slow travellers (vilket innebär icke-motoriserade resenärer som reser med cykel eller till fots) kan tälta där över natten."
+      },
+      "1": {
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span>, ett ideellt projekt under den juridiska personen Slowby, ett socialt företag, registrerat och verksamt enligt belgisk lag, med registrerat säte på Henri Van Bortonnestraat 100, 1090 Jette, Belgien, med organisationsnummer BE 0784.423.261."
+      },
+      "2": {
+        "copy": "Dessa användarvillkor (<strong>\"Villkor\"</strong>) gäller för din åtkomst till och användning av webbplatsen samt användningen av nätverket (gemensamt vår <strong>”Plattform”</strong>) som tillhandahålls av <span class=\"notranslate\">Welcome To My Garden</span>."
+      },
+      "3": {
+        "copy": "Användningen av denna plattform är <span class=\"bold\">underkastad ett antal regler</span>. Nedan hittar du de allmänna villkoren för vår plattform, eftersom vi är övertygade om att <span class=\"bold\">tydliga regler</span> ger den bästa garantin för en <span class=\"bold\">respektfull gemenskap</span>. <span class=\"bold\">Genom att skapa ett konto eller på annat sätt använda plattformen godkänner du dessa villkor.</span>"
+      },
+      "4": {
+        "copy": "Eftersom <span class=\"notranslate\">Welcome To My Garden</span> uppskattar feedback från sina användare, välkomnar vi alla idéer för att förbättra plattformen ytterligare. Du kan skicka dina förslag via e-post till {support}."
+      }
+    },
+    "articles": {
+      "0": {
+        "title": "Vem kan registrera sig på plattformen?",
+        "descriptions": {
+          "0": {
+            "copy": "<span class=\"bold\">Alla som vill erbjuda en gratis tältplats i sin trädgård till slow travellers och alla slow travellers (strikt definierat som icke-motoriserade resenärer såsom cyklister och vandrare) som vill använda nätverket. </span> Om du vill lägga till din trädgård behöver du skapa ett konto. Om du vill kontakta en värd som en slow traveller måste du bli en WTMG-medlem. Endast registrerade deltagare kan vara aktiva användare. Du kan registrera dig med din e-postadress."
+          },
+          "1": {
+            "copy": "Skapandet av ett konto ger inte användaren äganderätt över kontot. <span class=\"notranslate\">Welcome To My Garden</span> förbehåller sig rätten att neka, stänga av eller ta bort konton, till exempel om användaren inte följer följande regler eller om olämpligt beteende har rapporterats av en värd eller gäst."
+          }
+        },
+        "info": {
+          "0": {
+            "title": "Varje konto måste följa följande regler",
+            "sections": {
+              "0": {
+                "title": "Varje konto är strikt personligt",
+                "copy": "Varje konto måste vara unikt och kopplat till en fysisk person. Om du registrerar ett konto måste du lämna korrekta kontouppgifter och omedelbart uppdatera denna information om den ändras. Varje användare har rätt att skapa ett konto. Om det fastställs att en person har flera konton förbehåller sig <span class=\"notranslate\">Welcome To My Garden</span> rätten att radera alla dessa konton. Varje användare måste vara över 18 år."
+              },
+              "1": {
+                "title": "Ett konto kan inte överföras till en annan person",
+                "copy": "Eftersom varje konto är strikt kopplat till en specifik person kan detta konto inte överföras till en annan person utan tillstånd från <span class=\"notranslate\">Welcome To My Garden</span>. Detta överlåtelseförbud ska tolkas i dess bredaste bemärkelse. <span class=\"notranslate\">Welcome To My Garden</span> förbehåller sig rätten att neka eller radera kontot i händelse av överträdelser."
+              },
+              "2": {
+                "title": "Ett konto kan inte användas för kommersiella ändamål",
+                "copy": "Plattformen <span class=\"notranslate\">Welcome To My Garden</span> är avsedd att göra det möjligt för invånare att erbjuda sina trädgårdar som gratis tältplatser och att göra det möjligt för slow travellers att använda nätverket under sina resor. Ett konto kan därför endast användas för dessa ändamål. All användning av kontot i det enda syftet att erhålla en kommersiell fördel är strängt förbjuden."
+              },
+              "3": {
+                "title": "Kontouppgifterna måste alltid hållas konfidentiella",
+                "copy": "Det är inte tillåtet för någon annan än den som faktiskt skapade kontot att använda det. Personen som skapade kontot måste se till att hålla lösenordet och inloggningsuppgifterna säkra. Vi rekommenderar starkt att du använder ett starkt lösenord (ett lösenord med en kombination av små och stora bokstäver samt siffror). Vi rekommenderar att du använder en lösenordshanterare. <span class=\"notranslate\">Welcome To My Garden</span> kan under inga omständigheter hållas ansvarig för förlust eller skada på kontot om ovanstående villkor inte uppfylls av användaren. <span class=\"notranslate\">Welcome To My Garden</span> kan inte heller hållas ansvarig för stöld av ditt konto, till exempel genom nätfiske ('phishing'). <span class=\"notranslate\">Welcome To My Garden</span> kommer aldrig att be sina användare om personuppgifter som inloggning eller lösenord via e-post. Om personuppgifter efterfrågas kommer användaren alltid att omdirigeras till plattformen för <span class=\"notranslate\">Welcome To My Garden</span>. Du är ansvarig för alla aktiviteter som sker i anslutning till ditt konto och accepterar alla risker med obehörig åtkomst."
+              }
+            }
+          }
+        }
+      },
+      "1": {
+        "title": "Användarvillkor för värdar",
+        "info": {
+          "0": {
+            "title": "Genom att lägga till din trädgård på plattformen godkänner du plattformens allmänna regler, vilka är följande",
+            "sections": {
+              "0": {
+                "title": "Ingen inträde",
+                "copy": "Att bo i en trädgård är gratis. Därför ska ingen inkomst genereras från det. Att erbjuda en trädgård mot en avgift är strängt förbjudet och plattformen förbehåller sig rätten att permanent radera en värds konto om det inträffar."
+              },
+              "1": {
+                "title": "Ansvarsfriskrivning",
+                "copy": "Teamet bakom <span class=\"notranslate\">Welcome To My Garden</span> och Slowby tar inget ansvar för eventuell förlust, skada eller personskada som uppstår till följd av användningen av webbplatsen och/eller under vistelsen i någon annans trädgård."
+              },
+              "2": {
+                "title": "Ingen diskriminering",
+                "copy": "<span class=\"notranslate\">Welcome To My Garden</span> tolererar ingen form av diskriminering. Värdar förväntas agera i enlighet med detta. Värdar får inte diskriminera på grund av kön, etnicitet, ålder, sexuell läggning, socioekonomisk status, fysiskt utseende, funktionsförmåga eller religion (eller avsaknad av sådan)."
+              }
+            }
+          }
+        }
+      },
+      "2": {
+        "title": "Villkor för användare",
+        "descriptions": {
+          "0": {
+            "copy": "Användare måste vara minst 18 år gamla för att använda plattformen. Genom att skapa ett konto godkänner användaren omedelbart användarvillkoren för <span class=\"notranslate\">Welcome To My Garden</span>."
+          }
+        },
+        "paragraphs": {
+          "0": {
+            "title": "Att kontakta värdarna",
+            "copy": {
+              "0": "Värdar bör endast kontaktas för att fråga om att bo i deras trädgårdar. Missbruk av plattformen kan leda till att användarens konto stängs av eller raderas."
+            }
+          },
+          "1": {
+            "title": "Skyldighet att kontakta värdar i förväg för att be om att få bo där",
+            "copy": {
+              "0": "Användare är skyldiga att kontakta värden i förväg för att be om att få bo där, förutom om värden tydligt har angett på sin profil att detta inte är nödvändigt. Användare ska alltid lämna korrekt information om sig själva."
+            }
+          },
+          "2": {
+            "title": "Faciliteter som erbjuds av värden",
+            "copy": {
+              "0": "Värden är ensam ansvarig för de faciliteter som de ställer eller inte ställer till användarens förfogande. Genom att använda denna plattform bekräftar och accepterar användaren villkoren för sin vistelse – vilket kan, men inte måste, inkludera tillgång till sanitära faciliteter."
+            }
+          },
+          "3": {
+            "title": "Respekt för naturen",
+            "copy": {
+              "0": "Användare måste ta med sig allt sitt avfall när de lämnar platsen. Användare ska alltid respektera naturen, värdens trädgård och omgivningen, och följa principen <a href=\"https://en.wikipedia.org/wiki/Leave_No_Trace\">Leave No Trace</a>."
+            }
+          },
+          "4": {
+            "title": "Respekt för värden och grannarna",
+            "copy": {
+              "0": "Användare ska alltid visa respekt för trädgårdsägarna och hålla ljudnivån till ett minimum. De ska också följa de krav som värdarna har ställt."
+            }
+          },
+          "5": {
+            "title": "Regel om förbud mot bil och motorcykel",
+            "copy": {
+              "0": "Plattformen <span class=\"notranslate\">Welcome To My Garden</span> respekterar miljön och tillgodoser endast behoven hos slow travellers. Detta innebär att användare endast kan resa till trädgårdar till fots, med cykel eller med kollektivtrafik. Om du planerar att resa med ett motorfordon, vänligen kontakta inte värdar via denna plattform. Användning av motorfordon är förbjuden."
+            }
+          },
+          "6": {
+            "title": "Årligt medlemskap: att bli Medlem eller Superfan",
+            "copy": {
+              "0": "<span class=\"notranslate\">Welcome To My Garden</span> har som uppdrag att göra slow travel mer tillgängligt för alla. Precis som alla trädgårdar behöver WTMG tas om hand för att växa och förbli livskraftig. Att bo hos en WTMG-värd är gratis. Men för att underhålla och utveckla WTMG tar vi ut en årlig medlemsavgift för att dela kostnaderna rättvist mellan alla slow travellers. Slow travellers har möjlighet att antingen bli Medlemmar eller Superfans. Detta medlemskap är obligatoriskt. Medlemmar eller Superfans får inte överlåta sina inloggningsuppgifter till en tredje part. Superfans godkänner samma villkor som alla användare, och <span class=\"notranslate\">Welcome To My Garden</span> förbehåller sig rätten att neka, stänga av eller radera konton för Medlemmar eller Superfans som inte följer villkoren.",
+              "1": "Ansvarsbegränsningarna (se nedan) för <span class=\"notranslate\">Welcome To My Garden</span> i allmänhet gäller även för användningen av extrafunktionerna för Medlemmar eller Superfans, vilket innebär att <span class=\"notranslate\">Welcome To My Garden</span> inte kan hållas ansvarigt för eventuella skador eller förluster som uppstår på grund av användningen av <span class=\"notranslate\">Welcome To My Garden</span>.",
+              "2": "Slow travellers väljer om de vill bli Medlemmar (minsta bidrag) eller Superfans (extra bidrag). I priset ingår 21 % moms på medlemskap. Medlemskap betalas årligen och förnyas automatiskt, såvida de inte avslutas av medlemmen eller av WTMG. Medlemmar eller Superfans kan när som helst avbryta förnyelsen på sitt {accountLink}. När en Medlem eller Superfan avslutar sitt medlemskap är det endast den automatiska förnyelsen som avbryts. Detta innebär att medlemskapet förblir giltigt fram till slutet av den period som redan har betalats. Sju dagar före förnyelsedatumet meddelas medlemmar via e-post om sin kommande förnyelse. Medlemskapet kan inte återbetalas och kan inte överlåtas till tredje part."
+            }
+          },
+          "7": {
+            "title": "Ångerrätt för det årliga medlemskapet",
+            "copy": {
+              "0": "<span style=\"text-decoration: underline;\">Av en Medlem eller Superfan</span><br/><p>I enlighet med belgisk lagstiftning och EU:s konsumentskyddsregler har Medlemmar och Superfans bosatta i Europeiska unionen rätt att ångra sitt köp inom fjorton (14) dagar efter att de har blivit en betalande Medlem eller Superfan.</p><p>Denna rätt gäller endast om följande villkor är uppfyllda:</p>",
+              "1": "<ol class=\"terms-html\"><li>Inga övernattningsförfrågningar har skickats via WTMG-plattformen; och</li><li>Medlemmen eller Superfan har inte brutit mot dessa användarvillkor eller WTMG:s regler.</li></ol>",
+              "2": "Om dessa villkor är uppfyllda löper ångerfristen ut fjorton (14) kalenderdagar efter dagen för den första betalningen eller, vid förnyelser, fjorton (14) dagar efter förnyelsedatumet. Efter denna period beviljas inga återbetalningar, varken helt eller delvis. Denna ångerrätt gäller även vid varje årlig förnyelse, under samma villkor. För att avsluta ett medlemskap måste Medlemmar och Superfans meddela oss tydligt via e-post på <a href=\"mailto:support@welcometomygarden.org\">support@welcometomygarden.org</a> inom den gällande 14-dagarsperioden.",
+              "3": "<span style=\"text-decoration: underline;\">Av <span class=\"notranslate\">Welcome To My Garden</span></span><p>WTMG är endast avsett för sitt angivna syfte, som beskrivs i dessa villkor och plattformens regler. All annan användning – inklusive kommersiella aktiviteter, marknadsföring från tredje part, personliga värvningar eller insamling och användning av personuppgifter – är strängt förbjuden. WTMG stöder eller tolererar inte någon form av oönskad kommunikation (”SPAM”). Om en Medlem eller Superfan ägnar sig åt sådan aktivitet förbehåller sig WTMG rätten att omedelbart stänga av eller radera dennes konto utan återbetalning. Eventuella överträdelser av dessa villkor kan leda till allvarliga konsekvenser, inklusive rättsliga åtgärder, skadeståndskrav och ersättning för rättegångskostnader. Genom att använda plattformen samtycker du också till att befria WTMG från allt ansvar till följd av din överträdelse av dessa villkor, inklusive eventuella krav från tredje part som kan uppstå.</p>"
+            }
+          },
+          "8": {
+            "title": "Ansvarsfriskrivning",
+            "copy": {
+              "0": "Teamet och volontärerna bakom <span class=\"notranslate\">Welcome To My Garden</span> tar inget ansvar för förlust, skada eller personskada som uppstår till följd av användning av webbplatsen och/eller under vistelse i någon annans trädgård."
+            }
+          }
+        }
+      },
+      "3": {
+        "title": "Interaktioner med andra medlemmar",
+        "paragraphs": {
+          "0": {
+            "title": "Du är själv ansvarig för dina interaktioner med andra användare.",
+            "copy": {
+              "0": "<span class=\"notranslate\">Welcome To My Garden</span> är en plattform där användare kostnadsfritt kan ställa sin trädgård till förfogande, be om att få bo i en trädgård och kommunicera med varandra för att uppnå detta syfte. Användarna bär själva hela ansvaret för alla interaktioner med andra användare på plattformen. <span class=\"notranslate\">Welcome To My Garden</span> har inget engagemang och inget ansvar med avseende på kommunikation eller tvister mellan två användare. För att vara helt tydlig: <span class=\"notranslate\">Welcome To My Garden</span> är en plattform som gör det möjligt för värdar att kostnadsfritt ställa sin trädgård till förfogande, som låter användare campa i någons trädgård samt erbjuder en plats där användare kan kommunicera med varandra. <span class=\"notranslate\">Welcome To My Garden</span> kommer inte att och kan inte hållas ansvarigt för interaktioner eller konsekvenser av interaktioner mellan användare. Användare befriar <span class=\"notranslate\">Welcome To My Garden</span> (och dess team och volontärer) från anspråk, krav och skadestånd (faktiska och följdskador) av alla slag, kända och okända, misstänkta och omisstänkta, avslöjade och oavslöjade, som uppstår ur eller på något sätt är kopplade till sådana tvister. Tänk alltid på säkerheten och använd gott omdöme när du använder plattformen."
+            }
+          },
+          "1": {
+            "title": "Identitetsverifiering",
+            "copy": {
+              "0": "Användarna är själva ansvariga för att fastställa andra användares identitet och lämplighet. Som värd kan du alltid tacka nej till användare. Som resenär kan du själv bestämma var du vill bo. <span class=\"notranslate\">Welcome To My Garden</span> kan inte och bekräftar inte varje användares identitet. Plattformen har ingen information om användarens brottsregister eller moral. Tänk alltid på säkerheten och använd gott omdöme när du använder plattformen."
+            }
+          }
+        }
+      },
+      "4": {
+        "title": "Begränsningar av innehåll och användning av plattformen",
+        "descriptions": {
+          "0": {
+            "copy": "För att säkerställa att <span class=\"notranslate\">Welcome To My Garden</span>-plattformen fungerar ordentligt och att du kan kommunicera och få kontakt med andra, finns det vissa begränsningar för vilken typ av innehåll som får publiceras via plattformen. Dessa är följande:"
+          }
+        },
+        "paragraphs": {
+          "0": {
+            "title": "Kränkande beteende",
+            "copy": {
+              "0": "Vi tror starkt på yttrandefrihet. Men för att säkerställa att plattformen kan användas på ett konstruktivt sätt av alla användare tillåter vi inte kränkande beteende som utgör trakasserier, hot eller skrämseltaktik.",
+              "1": "Konton och relaterade konton som används för att utföra de åtgärder som listas nedan kan tillfälligt blockeras och/eller raderas permanent.",
+              "2": "Våldsamma hot (direkta eller indirekta): Du får inte hota med eller främja våld. Detta inkluderar främjande av terrorism. Trakasserier: Du får inte uppvigla till eller vara involverad i att avsiktligt förolämpa eller trakassera andra. Här är några faktorer som vi kan ta hänsyn till när vi bedömer kränkande beteende: om det anmälda kontots huvudsakliga syfte är att trakassera eller skicka stötande meddelanden till andra; om det anmälda beteendet är enkelriktat eller innehåller hot; om det anmälda kontot uppmuntrar andra att hota eller trakassera ett annat konto; och om det anmälda kontot skickar skrämmande meddelanden till ett konto från flera olika konton. Hat: Du får inte främja våld mot andra människor eller direkt attackera eller hota dem på grund av ras, etnisk bakgrund, nationalitet, sexuell läggning, kön, könsidentitet, livsåskådning, religion, ålder, funktionshinder eller sjukdom. Vi tillåter inte heller konton vars huvudsakliga syfte är att uppvigla andra att skada personer baserat på dessa kategorier. Missbruk av flera konton: Det är inte tillåtet att skapa flera konton för överlappande användning för att undvika tillfällig eller permanent avstängning av ett enskilt konto. Privata data: Du får inte publicera eller posta andras konfidentiella uppgifter och privata information utan deras uttryckliga godkännande och samtycke. Dessa uppgifter inkluderar men är inte begränsade till: kreditkortsnummer, adressuppgifter, telefonnummer eller uppgifter som faller under en persons personliga integritet. Identitetsstöld: Du får inte använda plattformen och utge dig för att vara någon annan, och du får särskilt inte vilseleda, förvirra eller hota andra användare på detta sätt. Du får inte använda plattformen för att vilseleda, förvirra eller hota på ett sätt som faktiskt skadar eller hotar andra."
+            }
+          },
+          "1": {
+            "title": "Skadelöshet",
+            "copy": {
+              "0": "Du ska försvara, hålla skadelös och befria WelcomeToMyGarden.org (och var och en av dess finansiärer och/eller volontärer) från alla anspråk, krav, åtgärder, skador, förluster, kostnader eller utgifter, inklusive men inte begränsat till skäliga advokatkostnader, som uppstår till följd av eller i samband med (a) din användning av våra tjänster; (b) eventuellt medlemsinnehåll eller bidrag som du tillhandahåller; (c) din överträdelse av dessa villkor; (d) din överträdelse av någon annans rättigheter; eller (e) ditt beteende i samband med tjänsterna. Vidare, om du använder tjänsterna på uppdrag av en enhet, intygar och garanterar du att denna enhet samtycker till att hålla dig och WelcomeToMyGarden.org skadelösa för överträdelser av dessa villkor i enlighet med detta avsnitt. Om du är skyldig att hålla oss skadelösa kommer vi att ha rätt att, efter eget och fritt skön, kontrollera alla åtgärder eller förfaranden och avgöra om vi vill förlikas, och i så fall på vilka villkor."
+            }
+          }
+        }
+      },
+      "5": {
+        "title": "Ansvarsbegränsning",
+        "descriptions": {
+          "0": {
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> – inklusive dess team och volontärer – ansvarar inte gentemot vare sig användare och/eller värdar under någon ansvarsprincip – oavsett om den grundar sig på avtal, utomobligatoriskt ansvar, vårdslöshet, strikt ansvar, garanti eller annat – för några indirekta, följdskador, exemplariska, oförutsedda, straffrättsliga eller särskilda skador. Plattformen kan inte hållas ansvarig för fel eller förseningar i att uppfylla villkoren. Plattformen kan inte hållas ansvarig för något ansvar i händelse av personskada eller dödsfall till följd av dess användning."
+          },
+          "1": {
+            "copy": "UNDER INGA OMSTÄNDIGHETER SKA WELCOMETOMYGARDEN.ORG ELLER DESS FINANSIÄRER OCH VOLONTÄRER ANSVARA FÖR INDIREKTA SKADOR ELLER FÖLJDSKADOR, ELLER ANDRA SKADOR AV NÅGOT SLAG, INKLUSIVE MEN INTE BEGRÄNSAT TILL FÖRLUST AV ANVÄNDNING, FÖRLUST AV VINST ELLER FÖRLUST AV DATA, OAVSETT OM DET SKER I EN TALAN ENLIGT AVTAL, UTOMOBLIGATORISKT ANSVAR (INKLUSIVE MEN INTE BEGRÄNSAT TILL VÅRDSLÖSHET) ELLER ANNAT, ÄVEN OM VI HAR INFORMERATS OM MÖJLIGHETEN AV SÅDANA SKADOR, SOM UPPSTÅR UR ELLER I SAMBAND MED: (A) ANVÄNDNINGEN ELLER OFÖRMÅGAN ATT ANVÄNDA VÅRA TJÄNSTER; (B) KOSTNADEN FÖR ERSÄTTNING AV VAROR, TJÄNSTER ELLER INFORMATION SOM KÖPTS ELLER ERHÅLLITS TILL FÖLJD AV INFORMATION SOM ERHÅLLITS FRÅN ELLER TRANSAKTIONER SOM INGÅTTS GENOM ELLER FRÅN VÅRA TJÄNSTER; (C) RÖJANDE AV, OBEHÖRIG ÅTKOMST TILL ELLER ÄNDRING AV DITT INNEHÅLL; (D) SKADOR FÖR FÖRLUST ELLER FÖRSTÖRELSE AV DATA ELLER PROGRAM, TJÄNSTEAVBROTT ELLER ANSKAFFNING AV ERSÄTTNINGSTJÄNSTER, ÄVEN OM VI VET ELLER HAR INFORMERATS OM MÖJLIGHETEN AV SÅDANA SKADOR; (E) UTTALANDEN, BETEENDE ELLER UNDERLÅTENHET FRÅN NÅGON TJÄNSTELEVERANTÖR ELLER ANNAN TREDJE PART PÅ VÅRA TJÄNSTER; (F) DITT ELLER NÅGON ANNANS BETEENDE ELLER HANDLINGAR I SAMBAND MED ANVÄNDNINGEN AV TJÄNSTERNA, INKLUSIVE UTAN BEGRÄNSNING, PERSONSKADA, PSYKISKT LIDANDE, DÖDSFALL ELLER ANDRA SKADOR TILL FÖLJD AV KOMMUNIKATION ELLER MÖTEN MED ANDRA REGISTRERADE MEDLEMMAR AV VÅRA TJÄNSTER ELLER PERSONER SOM INTRODUCERATS FÖR DIG GENOM VÅRA TJÄNSTER, OAVSETT OM DET SKER ONLINE ELLER OFFLINE; ELLER (G) ALLA ANDRA FRÅGOR SOM UPPSTÅR UR, RELATERAR TILL ELLER ÄR KOPPLADE TILL VÅRA TJÄNSTER ELLER DESSA VILLKOR."
+          }
+        }
+      },
+      "6": {
+        "title": "Spam",
+        "descriptions": {
+          "0": {
+            "copy": "Vi strävar alltid efter att skydda användarna på plattformen <span class=\"notranslate\">Welcome To My Garden</span> från tekniskt missbruk och spam. Konton som används för att utföra de åtgärder som listas nedan kan tillfälligt blockeras eller raderas permanent."
+          },
+          "1": {
+            "copy": "Skadlig programvara / nätfiske / virus / maskar / trojaner: Du får inte publicera skadligt innehåll eller länkar till sådant innehåll i syfte att skada eller störa någon annans webbläsare eller datorer, eller för att kränka någons integritet. Spam: Du får inte använda plattformen <span class=\"notranslate\">Welcome To My Garden</span> för att spamma människor."
+          }
+        }
+      },
+      "7": {
+        "title": "Överträdelser av gällande lagar",
+        "descriptions": {
+          "0": {
+            "copy": "Användningen av kontot får inte på något sätt strida mot gällande lagar. Detta inkluderar överträdelser av integritetslagstiftning, immateriella rättigheter, brottsbalken osv."
+          },
+          "1": {
+            "copy": "Kontot får inte användas för att främja olaglig verksamhet på något sätt."
+          }
+        }
+      },
+      "8": {
+        "title": "Vid överträdelser av de ovannämnda reglerna",
+        "descriptions": {
+          "0": {
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> förbehåller sig rätten att ta bort relevanta meddelanden om överträdelser av de ovannämnda reglerna upptäcks, och kan även stänga av eller permanent radera användarkonton."
+          },
+          "1": {
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> kan inte på något sätt hållas ansvarigt för meddelanden som publiceras av användare eller tredje part, som bryter mot reglerna ovan. Om en användare upptäcker en överträdelse, rapportera gärna detta till följande e-postadress: {support}"
+          },
+          "2": {
+            "copy": "Det kan hända att skadliga filer laddas ner via plattformen, oavsett om det beror på en användare eller inte, eller att användare lägger upp skadliga hyperlänkar. Varje nedladdning eller klick på en hyperlänk som gjorts av en användare sker på egen risk. Eventuella skador som uppstår är helt och hållet den användarens eget ansvar."
+          }
+        }
+      },
+      "9": {
+        "title": "Immateriella rättigheter",
+        "descriptions": {
+          "0": {
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> respekterar andras immateriella rättigheter och förväntar sig att plattformens användare också gör det. <span class=\"notranslate\">Welcome To My Garden</span> förbehåller sig rätten att ta bort innehåll som gör intrång i immateriella rättigheter. Upprepade överträdelser av immateriella rättigheter av något slag av en användare kommer att leda till att kontot stängs av eller tas bort av <span class=\"notranslate\">Welcome To My Garden</span>."
+          },
+          "1": {
+            "copy": "Överträdelser av immateriella rättigheter kan rapporteras via följande e-postadress: {support}"
+          }
+        }
+      },
+      "10": {
+        "title": "Äganderätt <span class=\"notranslate\">Welcome To My Garden</span>",
+        "descriptions": {
+          "0": {
+            "copy": "Källkoden för <span class=\"notranslate\">Welcome To My Garden</span> är öppen källkod. Du godkänner att vara bunden av och följa de licensavtal som gäller för denna programvara med öppen källkod. Den visuella identiteten, inklusive logotyp och färger, samt namnet får inte användas eller kopieras för någon annan plattform utan föregående tillstånd från <span class=\"notranslate\">Welcome To My Garden</span>."
+          }
+        }
+      },
+      "11": {
+        "title": "Ändringar av dessa villkor",
+        "descriptions": {
+          "0": {
+            "copy": "Vi kan komma att göra ändringar i dessa villkor från tid till annan. Om vi gör ändringar kommer vi att publicera de ändrade villkoren på vår plattform och uppdatera datumet för 'Senast uppdaterad' ovan. Vi kan också försöka meddela dig genom att skicka ett e-postmeddelande till den adress som är kopplad till ditt konto eller ge meddelande via vår plattform. Om inget annat anges i vårt meddelande träder de ändrade villkoren i kraft omedelbart, och din fortsatta åtkomst till och användning av vår plattform efter att vi har meddelat detta bekräftar ditt godkännande av ändringarna. Ändringar i dessa villkor kommer under inga omständigheter att ha retroaktiv verkan. Om du inte godkänner de ändrade villkoren måste du sluta använda vår plattform."
+          }
+        }
+      }
+    }
+  },
+  "fallback": {
+    "404": "404 - sidan hittades inte",
+    "redirect": "tillbaka till startsidan"
+  },
+  "about-us": {
+    "here-we-are": "Här är vi!",
+    "who-behind": "Så, vem står bakom WTMG? Vi är ett litet team på fyra slow travel-entusiaster och vi vill hjälpa andra att också ge sig ut på sina slow travel-äventyr! Rolig fakta: vi är alla både WTMG-värdar och resenärer.",
+    "co-founder": "Medgrundare",
+    "dev": "Utvecklare",
+    "designer": "Designer",
+    "communications": "Kommunikation",
+    "dries": "Det var Dries som kom på idén till WTMG. Han köpte sin första touringcykel när han bara var 18 år och cyklade från Bryssel till Tokyo med Manon 2019. Hans kärlek till öppna data och öppen källkod ledde till att han arbetade för Open Knowledge Belgium i några år, vilket också var där han träffade Thor. Han leder WTMG-teamet och hans entusiasm är otroligt smittsam!",
+    "manon": "Manon är en sann mångsysslare och har en lösning på allt. Hon har sprungit maraton två gånger, cyklat från Bryssel till Tokyo med Dries och gjort en vacker film om det: <a href=\"https://womendontcycle.com/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=about_profile\" target=\"_blank\">’Women Don’t Cycle’</a>. Hon är den enda i teamet som har studerat turism. Att hon talar fyra språk flytande och känner sig väldigt bekväm framför kameran gör henne till vår inofficiella talesperson!",
+    "thor": "Thor är den geniala tekniker som alla projekt behöver. Han deltog i Open Summer of Code två gånger, där han träffade Dries 2017. Samma år cyklade han från Leuven till Helsingfors. Han är inte bara en fantastisk utvecklare, han är också en utmärkt designer. Han älskar att laga mat, koda och läsa långa, spännande artiklar!",
+    "ward": "Ward bidrog till WTMG ända från början!",
+    "janneke": "Ordens drottning, som startade vår Facebook-sida.",
+    "michiel": "Den ursprungliga kodaren. Utan honom skulle WTMG inte finnas.",
+    "marie": "Den geniala designern. Hon gjorde WTMG så fint.",
+    "ismaila": "Ismaila är hjärnan bakom filtren på kartan.",
+    "brent": "Brent kodade vår första landningssida.",
+    "our-story-title": "Vår historia",
+    "our-story-description": "<p>Hej! Vi är Dries och Manon och vi är de stolta föräldrarna till <span class=\"notranslate\">Welcome To My Garden</span>. Under 2019 cyklade vi från Bryssel till Tokyo. Under 11 månader reste vi genom 21 länder och välkomnades av otaliga fantastiska människor längs vägen.</p><p>När vi kom tillbaka till Belgien frågade vi oss själva: hur kan vi göra slow travel enklare och roligare i vårt eget land? En regnig söndagseftermiddag 2020 skapade Dries den första versionen av WTMG. Inom två timmar fanns det 50 trädgårdar på kartan – och efter två veckor var de 500!</p><p>Vi har kommit långt sedan dess: idag har WTMG 8 500 trädgårdar. Det är tydligt att vi är här för att stanna! Och det är dags att ta nästa steg. Vi har lyssnat på dig, vår gemenskap, och vi investerar nu i att få WTMG att uppfylla alla dina behov inom slow travel.</p><p>WTMG finns tack vare det hårda arbetet från ett passionerat gäng volontärer, som har investerat kvällar och helger i det. Men för att fortsätta behöver vi mer tid och mänsklig kraft. Det är därför Thor också har hoppat på tåget. Vi ger allt och hoppas att du vill följa med oss på resan!</p>",
+    "bigger-picture-title": "Den större bilden",
+    "bigger-picture-description": "<p>Om det är en sak vi har lärt oss under de senaste åren så är det detta: det är dags att sakta ner. Detta gäller livet i allmänhet, men absolut även resor i synnerhet. Ju snabbare vi reser, desto mer går vi miste om. Snabba resor genererar mycket koldioxidutsläpp, kopplar bort människor från sin omgivning och skadar lokalsamhällen. Välkommen slow travel!</p><p>Och välkommen WTMG! Vi är stolta över att vara en del av lösningen på denna globala utmanning. På två år har WTMG uppnått mycket:<ul><li>8 500+ varmhjärtade värdar har öppnat sina trädgårdar för slow travellers</li><li>125 000 övernattningsförfrågningar har skickats via WTMG-plattformen</li><li>Vi började i Belgien men allt fler trädgårdar dyker nu också upp över hela Europa och bortom det?</li><li>Vi har fått ekonomiskt stöd från partners som Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers och Natuurpunt</li></ul></p><p>De mest meningsfulla och minnesvärda upplevelserna sker när vi tar oss tid att utforska och engagera oss i vår omgivning. Med WTMG vill vi hjälpa dig att göra just det. Tillsammans kan vi göra världen till en bättre plats, genom att resa långsammare och mer hållbart. Vill du följa med på resan?</p><p>Vi är alltid öppna för nya idéer och samarbeten, så tveka inte att höra av dig!</p>",
+    "contributors": "Medverkande",
+    "amazing-people": "Sist men inte minst vill vi tacka dessa fantastiska människor",
+    "cradle": "Utan dessa fantastiska människor skulle <span class=\"notranslate\">Welcome To My Garden</span> inte existera. De stod vid plattformens vagga och trodde på den från allra första början!",
+    "partners-section": {
+      "title": "Tidiga supportrar",
+      "description": "Dessa partner hjälpte oss att komma igång och trodde på <span class=\"notranslate\">Welcome To My Garden</span> från allra första början!"
+    }
+  },
+  "footer": {
+    "copyright": "© Skapad med 💚 av <span class=\"notranslate\">Welcome To My Garden</span> {year}. Alla rättigheter förbehållna.",
+    "link-category-titles": {
+      "our-projects": "Våra projekt",
+      "learn-more": "Läs mer"
+    },
+    "links": {
+      "get-in-touch": "Kontakta oss",
+      "route-planner": {
+        "title": "Ruttplanerare"
+      },
+      "velotour": {
+        "title": "Velotour Festival",
+        "url": "https://velotourfestival.be/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer"
+      },
+      "women-dont-cycle": {
+        "title": "Women Don't Cycle - Filmen",
+        "url": "https://womendontcycle.com/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=footer"
+      },
+      "wtmg-sign": {
+        "title": "WTMG-skylt"
+      }
+    }
+  },
+  "push-notifications": {
+    "android-channel": "Chattaviseringar",
+    "registration-success": "Aviseringar har aktiverats",
+    "prompt": {
+      "btn-turn-on": "Slå på aviseringar",
+      "helpcenter-url": "https://help.welcometomygarden.org/master/1.-mobile-notifications",
+      "download": "Ladda ner appen",
+      "mobile-web-title": "Få mobilaviseringar för nya chattmeddelanden med vår app.",
+      "native-title": "Få mobilaviseringar för nya chattmeddelanden.",
+      "desktop-title": "Ladda ner vår app och få mobilaviseringar för nya chattmeddelanden."
+    },
+    "how-to": {
+      "title": "Så här slår du på mobilaviseringar"
+    },
+    "native-permission-denied": {
+      "title": "Slå på aviseringar",
+      "description": "Behörigheten för aviseringar för WTMG-appen är avstängd i din telefons inställningar. Gå till dina inställningar för att slå på den, och återvänd sedan till appen.",
+      "button": "Öppna inställningar"
+    },
+    "error": {
+      "generic": "Något gick fel när dina mobilaviseringar skulle slås på. Skicka informationen nedan till {emailLink} så att vi kan hjälpa dig vidare. Tack!"
+    }
+  },
+  "seo": {
+    "general": {
+      "description": "Welcome To My Garden: Gratis tältplatser i privatträdgårdar för slow travellers. Presenteras av en varmhjärtad gemenskap av invånare.",
+      "keywords": "camping, Europa, slow travel, cykling, vandring, tält, gemenskap, tälta i trädgård, gratis camping, äventyr"
+    },
+    "routeplanner": {
+      "title": "Ruttplanerare WTMG",
+      "description": "Gratis ruttplanerare online för cykel- och vandringsturer med Welcome To My Garden.",
+      "keywords": "ruttplanerare, slow travel, resväg, vandringsleder, cykelvägar, WTMG, trädgårdar, camping",
+      "image-url": "https://storage.googleapis.com/wtmg-static/routeplanner/preview/route-planner-en.jpg",
+      "image-alt": "Affisch för WTMG-ruttplaneraren med en kartbakgrund"
+    }
+  },
+  "routeplanner": {
+    "modal": {
+      "title": "WTMG-trädgårdar längs din rutt",
+      "description": "För att se trädgårdarna längs din rutt behöver du {signIn} och vara WTMG-medlem.",
+      "sign-in-label": "logga in",
+      "button-label": "Logga in eller bli medlem"
+    }
+  },
+  "manage-membership-error": {
+    "logged-in": "Du kan försöka hantera ditt medlemskap {accountLink}. Om det inte fungerar, kontakta {support}.",
+    "logged-out": "Något gick fel när medlemskapet för {email} skulle hanteras. {signInLink} för att hantera ditt medlemskap.",
+    "account-link-text": "via Mina sidor",
+    "sign-in-link-text": "Logga in"
+  }
+}

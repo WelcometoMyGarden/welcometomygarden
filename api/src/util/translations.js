@@ -1,7 +1,7 @@
 /**
  * @type {SupportedLanguage[]}
  */
-exports.SUPPORTED_LANGUAGES = ['en', 'nl', 'fr', 'de', 'es'];
+exports.SUPPORTED_LANGUAGES = ['en', 'nl', 'fr', 'de', 'es', 'pl', 'ro', 'it', 'sv'];
 
 /**
  * @type {MainLanguage[]}
