@@ -58,10 +58,30 @@
   const kmMarkersFor = (geoJson: FileDataLayer['geoJson']) =>
     effInterval != null ? computeKmMarkers(geoJson, effInterval) : EMPTY_KM;
 
+  // Effective km marker opacity: the zoom-driven fade, unless fading is disabled — in
+  // which case markers simply snap between fully visible and hidden.
+  const kmOpacity = () => (get(routeTweaks).fadeKmMarkers ? effOpacity : effOpacity > 0 ? 1 : 0);
+
+  // Route line opacity: reduced when the "transparent routes" tweak is on, so the
+  // underlying road stays visible through the line.
+  const ROUTE_OPACITY = 0.8;
+  const ROUTE_OPACITY_TRANSPARENT = 0.45;
+  const OVERLAP_OPACITY = 0.9;
+  const OVERLAP_OPACITY_TRANSPARENT = 0.5;
+  const lineOpacity = () =>
+    get(routeTweaks).transparentRoutes ? ROUTE_OPACITY_TRANSPARENT : ROUTE_OPACITY;
+  const overlapOpacity = () =>
+    get(routeTweaks).transparentRoutes ? OVERLAP_OPACITY_TRANSPARENT : OVERLAP_OPACITY;
+
   // Layer/source id helpers (the base `id` stays the line layer/source, for backwards compat).
   const kmSourceId = (id: string) => `${id}__km`;
   const kmCircleId = (id: string) => `${id}__km-circle`;
   const kmLabelId = (id: string) => `${id}__km-label`;
+  const nameLabelId = (id: string) => `${id}__name`;
+
+  /** The label shown along a route: the file name minus its extension. */
+  const routeNameFor = (layer: FileDataLayer) =>
+    (layer.originalFileName ?? '').replace(/\.[^./\\]+$/, '');
 
   // Track rendered trail layers + the global set of endpoint DOM markers.
   const rendered = new Set<string>();
@@ -72,8 +92,13 @@
   // the km circle layer paint below) instead of the icon badge size.
   const KM_MARKER_DIAMETER = 18; // px, must track 'circle-radius' on the km circle layer
 
+  // 'flags' and 'dots' both draw plain circular badges sized to the km markers.
   const baseMarkerSizeFor = (mode: EndpointMode) =>
-    mode === 'flags' ? KM_MARKER_DIAMETER : BASE_MARKER_SIZE;
+    mode === 'flags' || mode === 'dots' ? KM_MARKER_DIAMETER : BASE_MARKER_SIZE;
+
+  // Solid badge colours shared by the 'flags' (start) and 'dots' (start/end/merged) modes.
+  const BADGE_GREEN = 'rgba(27, 120, 55, 0.92)';
+  const BADGE_RED = 'rgba(216, 67, 33, 0.92)';
 
   const fitToTrail = (geoJson: FileDataLayer['geoJson']) => {
     try {
@@ -143,12 +168,22 @@
     if (mode === 'flags') {
       if (type === 'start') {
         // Plain, mostly-opaque green circle (no icon).
-        el.style.background = 'rgba(27, 120, 55, 0.92)';
+        el.style.background = BADGE_GREEN;
       } else {
         // End & merged (pause) => checkerboard finish badge.
         el.style.background = '#fff';
         el.innerHTML = CHECKERBOARD_SVG;
       }
+      return el;
+    }
+
+    if (mode === 'dots') {
+      // Green circle (start), red circle (end) and a vertically split
+      // half-green/half-red circle for merged start+end points.
+      if (type === 'start') el.style.background = BADGE_GREEN;
+      else if (type === 'end') el.style.background = BADGE_RED;
+      else
+        el.style.background = `linear-gradient(90deg, ${BADGE_GREEN} 0 50%, ${BADGE_RED} 50% 100%)`;
       return el;
     }
 
@@ -220,6 +255,9 @@
     const kmVisible = lineVisible && tweaks.showKmMarkers;
     setLayerVisibility(kmCircleId(layer.id), kmVisible);
     setLayerVisibility(kmLabelId(layer.id), kmVisible);
+
+    const nameVisible = lineVisible && tweaks.showRouteNames;
+    setLayerVisibility(nameLabelId(layer.id), nameVisible);
   };
 
   const renderTrail = (layer: FileDataLayer, color: string, tweaks: RouteTweaks) => {
@@ -239,10 +277,11 @@
         type: 'line',
         source: id,
         layout: { 'line-join': 'round', 'line-cap': 'round' },
-        paint: { 'line-width': 7, 'line-color': color, 'line-opacity': 0.8 }
+        paint: { 'line-width': 7, 'line-color': color, 'line-opacity': lineOpacity() }
       });
     } else {
       map.setPaintProperty(id, 'line-color', color);
+      map.setPaintProperty(id, 'line-opacity', lineOpacity());
     }
 
     // Zoom to the trail only when we just added it locally.
@@ -264,16 +303,16 @@
         paint: {
           'circle-color': 'rgba(255, 255, 255, 0.75)',
           'circle-radius': 9,
-          'circle-opacity': effOpacity,
+          'circle-opacity': kmOpacity(),
           'circle-stroke-width': 1.5,
           'circle-stroke-color': color,
-          'circle-stroke-opacity': effOpacity
+          'circle-stroke-opacity': kmOpacity()
         }
       });
     } else {
       map.setPaintProperty(kmCircleId(id), 'circle-stroke-color', color);
-      map.setPaintProperty(kmCircleId(id), 'circle-opacity', effOpacity);
-      map.setPaintProperty(kmCircleId(id), 'circle-stroke-opacity', effOpacity);
+      map.setPaintProperty(kmCircleId(id), 'circle-opacity', kmOpacity());
+      map.setPaintProperty(kmCircleId(id), 'circle-stroke-opacity', kmOpacity());
     }
 
     if (!map.getLayer(kmLabelId(id))) {
@@ -287,11 +326,37 @@
           'text-allow-overlap': true,
           'text-ignore-placement': true
         },
-        paint: { 'text-color': color, 'text-opacity': effOpacity }
+        paint: { 'text-color': color, 'text-opacity': kmOpacity() }
       });
     } else {
       map.setPaintProperty(kmLabelId(id), 'text-color', color);
-      map.setPaintProperty(kmLabelId(id), 'text-opacity', effOpacity);
+      map.setPaintProperty(kmLabelId(id), 'text-opacity', kmOpacity());
+    }
+
+    // --- Route name label (repeated along the line) ---
+    const routeName = routeNameFor(layer);
+    if (!map.getLayer(nameLabelId(id))) {
+      map.addLayer({
+        id: nameLabelId(id),
+        type: 'symbol',
+        source: id,
+        layout: {
+          'symbol-placement': 'line',
+          'symbol-spacing': 250,
+          'text-field': routeName,
+          'text-size': 13,
+          'text-max-angle': 40,
+          'text-keep-upright': true
+        },
+        paint: {
+          'text-color': color,
+          'text-halo-color': 'rgba(255, 255, 255, 0.9)',
+          'text-halo-width': 1.5
+        }
+      });
+    } else {
+      map.setLayoutProperty(nameLabelId(id), 'text-field', routeName);
+      map.setPaintProperty(nameLabelId(id), 'text-color', color);
     }
 
     // Start/end markers are managed globally (see rebuildEndpointMarkers).
@@ -303,7 +368,7 @@
   };
 
   const removeTrail = (id: string) => {
-    [kmLabelId(id), kmCircleId(id), id].forEach((layerId) => {
+    [nameLabelId(id), kmLabelId(id), kmCircleId(id), id].forEach((layerId) => {
       if (map.getLayer(layerId)) map.removeLayer(layerId);
     });
     if (map.getSource(kmSourceId(id))) map.removeSource(kmSourceId(id));
@@ -319,6 +384,7 @@
   /** Brings a trail's line and km marker layers above everything else. */
   const raiseTrail = (id: string) => {
     moveToTop(id);
+    moveToTop(nameLabelId(id));
     moveToTop(kmCircleId(id));
     moveToTop(kmLabelId(id));
   };
@@ -351,6 +417,15 @@
       return;
     }
 
+    // Keep the overlap-line opacity in sync with the "transparent routes" tweak. Done
+    // before the signature short-circuit below, which only tracks route ids/colours.
+    if (map.getLayer(OVERLAP_LAYER_A)) {
+      map.setPaintProperty(OVERLAP_LAYER_A, 'line-opacity', overlapOpacity());
+    }
+    if (map.getLayer(OVERLAP_LAYER_B)) {
+      map.setPaintProperty(OVERLAP_LAYER_B, 'line-opacity', overlapOpacity());
+    }
+
     const tweaks = get(routeTweaks);
     const routes = get(fileDataLayers)
       .map((layer, index) => ({
@@ -380,7 +455,11 @@
         type: 'line',
         source: OVERLAP_SOURCE,
         layout: { 'line-join': 'round', 'line-cap': 'round' },
-        paint: { 'line-width': 7, 'line-color': ['get', 'colorA'], 'line-opacity': 0.9 }
+        paint: {
+          'line-width': 7,
+          'line-color': ['get', 'colorA'],
+          'line-opacity': overlapOpacity()
+        }
       });
     }
     if (!map.getLayer(OVERLAP_LAYER_B)) {
@@ -392,7 +471,7 @@
         paint: {
           'line-width': 7,
           'line-color': ['get', 'colorB'],
-          'line-opacity': 0.9,
+          'line-opacity': overlapOpacity(),
           'line-dasharray': [2, 2]
         }
       });
@@ -420,6 +499,7 @@
   const stackKmOnTop = () => {
     moveToTop(OVERLAP_LAYER_A);
     moveToTop(OVERLAP_LAYER_B);
+    currentTrailIds().forEach((id) => moveToTop(nameLabelId(id)));
     currentTrailIds().forEach((id) => moveToTop(kmCircleId(id)));
     currentTrailIds().forEach((id) => moveToTop(kmLabelId(id)));
   };
@@ -524,11 +604,11 @@
         }
       }
       if (map.getLayer(kmCircleId(id))) {
-        map.setPaintProperty(kmCircleId(id), 'circle-opacity', effOpacity);
-        map.setPaintProperty(kmCircleId(id), 'circle-stroke-opacity', effOpacity);
+        map.setPaintProperty(kmCircleId(id), 'circle-opacity', kmOpacity());
+        map.setPaintProperty(kmCircleId(id), 'circle-stroke-opacity', kmOpacity());
       }
       if (map.getLayer(kmLabelId(id))) {
-        map.setPaintProperty(kmLabelId(id), 'text-opacity', effOpacity);
+        map.setPaintProperty(kmLabelId(id), 'text-opacity', kmOpacity());
       }
     });
 
