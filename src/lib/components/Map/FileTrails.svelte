@@ -16,12 +16,13 @@
   import key from './mapbox-context.js';
   import { ZOOM_LEVELS } from '$lib/constants';
   import type { FileDataLayer } from '$lib/types/DataLayer';
-  import type { FeatureCollection, Point } from 'geojson';
+  import type { FeatureCollection, LineString, Point } from 'geojson';
   import {
     clusterEndpoints,
     colorForRoute,
     computeEndpointStyle,
     computeKmMarkers,
+    computeNonOverlapLinesByRoute,
     computeOverlapSegments,
     computeStartEnd,
     evaluateZoomInterval,
@@ -92,6 +93,12 @@
   const kmCircleId = (id: string) => `${id}__km-circle`;
   const kmLabelId = (id: string) => `${id}__km-label`;
   const nameLabelId = (id: string) => `${id}__name`;
+  const nameSourceId = (id: string) => `${id}__name-src`;
+
+  // Per-route geometry used for the name labels: the stretches where a route does NOT run
+  // alongside another route, so file names are not shown along overlapping stretches.
+  // Empty (or missing id) => fall back to the route's full geometry (no clipping needed).
+  let nameLinesByRoute = new Map<string, FeatureCollection<LineString>>();
 
   // --- Km label text size ---
   // Slightly smaller text for labels with more than 2 digits (> 99) when the "shrink
@@ -406,13 +413,22 @@
       map.setPaintProperty(kmLabelId(id), 'icon-opacity', kmOpacity());
     }
 
-    // --- Route name label (repeated along the line) ---
+    // --- Route name label (repeated along the line, but not along overlapping stretches) ---
     const routeName = routeNameFor(layer);
+    // Names are placed on the route's non-overlapping stretches only; when there is no
+    // clipping to do we fall back to the route's full geometry.
+    const nameData = nameLinesByRoute.get(id) ?? geoJson;
+    if (!map.getSource(nameSourceId(id))) {
+      map.addSource(nameSourceId(id), { type: 'geojson', data: nameData });
+    } else {
+      (map.getSource(nameSourceId(id)) as GeoJSONSource | undefined)?.setData(nameData);
+    }
+
     if (!map.getLayer(nameLabelId(id))) {
       map.addLayer({
         id: nameLabelId(id),
         type: 'symbol',
-        source: id,
+        source: nameSourceId(id),
         layout: {
           'symbol-placement': 'line',
           'symbol-spacing': 250,
@@ -420,8 +436,9 @@
           'text-size': 13,
           'text-max-angle': 40,
           'text-keep-upright': true,
-          // Render every route's name even where routes overlap/run together, instead of
-          // letting collision detection drop all but one label.
+          // Keep the name reliably visible along the route's (non-overlapping) stretches
+          // rather than letting collision with base-map labels drop it. Overlapping
+          // stretches are already excluded from this layer's source geometry.
           'text-allow-overlap': true,
           'text-ignore-placement': true
         },
@@ -448,6 +465,7 @@
     [nameLabelId(id), kmLabelId(id), kmCircleId(id), id].forEach((layerId) => {
       if (map.getLayer(layerId)) map.removeLayer(layerId);
     });
+    if (map.getSource(nameSourceId(id))) map.removeSource(nameSourceId(id));
     if (map.getSource(kmSourceId(id))) map.removeSource(kmSourceId(id));
     if (map.getSource(id)) map.removeSource(id);
 
@@ -652,6 +670,25 @@
     }
   };
 
+  // Signature of the visible routes the name-line clipping was last computed for, so the
+  // (expensive) scan is skipped when unrelated tweaks change.
+  let lastNameSig = '';
+
+  /**
+   * Recomputes, per route, the non-overlapping stretches used for the name labels — only
+   * when route names are shown and there is more than one visible route (otherwise no
+   * overlap is possible and the full route geometry is used).
+   */
+  const refreshNameLines = (layers: FileDataLayer[], tweaks: RouteTweaks) => {
+    const visible = tweaks.showRouteNames ? layers.filter((layer) => layer.visible !== false) : [];
+    const sig = visible.length >= 2 ? visible.map((layer) => layer.id).join(',') : '';
+    if (sig === lastNameSig) return;
+    lastNameSig = sig;
+    nameLinesByRoute = sig
+      ? computeNonOverlapLinesByRoute(visible.map((layer) => ({ id: layer.id, geoJson: layer.geoJson })))
+      : new Map();
+  };
+
   /** Full reconcile of the map against the current trails + tweaks state. */
   const sync = () => {
     refreshEffective();
@@ -663,6 +700,9 @@
     [...rendered].forEach((id) => {
       if (!wantedIds.has(id)) removeTrail(id);
     });
+
+    // Clip name-label geometry to non-overlapping stretches before (re)rendering trails.
+    refreshNameLines(layers, tweaks);
 
     // Add/update remaining trails. Index drives the alternating colour.
     layers.forEach((layer, index) => {
