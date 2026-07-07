@@ -147,17 +147,27 @@
     (layer.originalFileName ?? '').replace(/\.[^./\\]+$/, '');
 
   // Route-name line-placement tuning. By default names only lay out once zoomed in far
-  // enough for the (wiggly) route to present a straight-enough, long-enough stretch. The
-  // "…also at lower zoom levels" tweak relaxes both the label spacing and the max bend
-  // angle so names appear at lower zoom too (roughly from the 5 km km-marker interval).
+  // enough for the (wiggly) route to present a straight-enough, long-enough stretch — so
+  // different files pop in at different zooms. The "…also at lower zoom levels" tweak
+  // makes placement (almost) geometry-independent: it drops the max bend-angle limit
+  // entirely (so curvy tracks no longer have to be zoomed in to straighten out), tightens
+  // the label spacing, and shrinks the text at low zoom so it fits a shorter on-screen
+  // span. The net effect is that every file's name appears together, at a much lower zoom.
   const NAME_SPACING = 250;
-  const NAME_SPACING_LOW_ZOOM = 150;
+  const NAME_SPACING_LOW_ZOOM = 90;
   const NAME_MAX_ANGLE = 40;
-  const NAME_MAX_ANGLE_LOW_ZOOM = 90;
+  const NAME_MAX_ANGLE_LOW_ZOOM = 180; // effectively "no angle limit"
+  const NAME_TEXT_SIZE = 13;
   const nameSpacing = () =>
     get(routeTweaks).showRouteNamesLowZoom ? NAME_SPACING_LOW_ZOOM : NAME_SPACING;
   const nameMaxAngle = () =>
     get(routeTweaks).showRouteNamesLowZoom ? NAME_MAX_ANGLE_LOW_ZOOM : NAME_MAX_ANGLE;
+  // Interpolate the text down at low zoom so the label fits a shorter stretch and shows up
+  // earlier; back to the normal size once zoomed in.
+  const nameTextSize = (): ExpressionSpecification | number =>
+    get(routeTweaks).showRouteNamesLowZoom
+      ? ['interpolate', ['linear'], ['zoom'], 7, 10, 12, NAME_TEXT_SIZE]
+      : NAME_TEXT_SIZE;
 
   // Track rendered trail layers + the global set of endpoint DOM markers.
   const rendered = new Set<string>();
@@ -446,7 +456,7 @@
           'symbol-placement': 'line',
           'symbol-spacing': nameSpacing(),
           'text-field': routeName,
-          'text-size': 13,
+          'text-size': nameTextSize(),
           'text-max-angle': nameMaxAngle(),
           'text-keep-upright': true,
           // Keep the name reliably visible along the route's (non-overlapping) stretches
@@ -465,6 +475,7 @@
       map.setLayoutProperty(nameLabelId(id), 'text-field', routeName);
       map.setLayoutProperty(nameLabelId(id), 'symbol-spacing', nameSpacing());
       map.setLayoutProperty(nameLabelId(id), 'text-max-angle', nameMaxAngle());
+      map.setLayoutProperty(nameLabelId(id), 'text-size', nameTextSize());
       map.setPaintProperty(nameLabelId(id), 'text-color', color);
     }
 

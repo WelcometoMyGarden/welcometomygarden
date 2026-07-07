@@ -69,9 +69,10 @@ export type RouteTweaks = {
   /** Show the (GPX) file name as a label repeated along each route. */
   showRouteNames: boolean;
   /**
-   * Also place the route-name labels at lower zoom levels (roughly from where the 5 km
-   * km-marker interval kicks in), by relaxing the line-placement constraints. By default
-   * names only appear once zoomed in far enough for the (wiggly) route to lay out.
+   * Also place the route-name labels at (much) lower zoom levels, by making label
+   * placement effectively geometry-independent (no bend-angle limit, tighter spacing,
+   * smaller low-zoom text). This makes every file's name show up together at a low zoom,
+   * instead of each file popping in at a different, higher zoom as the route lays out.
    */
   showRouteNamesLowZoom: boolean;
   /**
