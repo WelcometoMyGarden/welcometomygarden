@@ -69,10 +69,11 @@ export type RouteTweaks = {
   /** Show the (GPX) file name as a label repeated along each route. */
   showRouteNames: boolean;
   /**
-   * Also place the route-name labels at (much) lower zoom levels, by making label
-   * placement effectively geometry-independent (no bend-angle limit, smaller low-zoom
-   * text) and zoom-driven label spacing (tight when zoomed out so every file's name shows
-   * up together at a low zoom, wide when zoomed in so a name isn't repeated too often).
+   * Also place the route-name labels at (much) lower zoom levels. Switches placement to a
+   * single centred label per stretch (`line-center`) and drops the bend-angle limit +
+   * shrinks the low-zoom text, so placement no longer depends on route length/curviness
+   * and every file's name appears together from the same low zoom (and is shown once per
+   * stretch rather than repeated along the route).
    */
   showRouteNamesLowZoom: boolean;
   /**
@@ -97,7 +98,7 @@ export const routeTweaks = writable<RouteTweaks>({
   shrinkLargeKmLabels: true,
   ovalKmMarkers: false,
   showRouteNames: true,
-  showRouteNamesLowZoom: false,
+  showRouteNamesLowZoom: true,
   zoomIntervalConfig: DEFAULT_ZOOM_INTERVAL_CONFIG,
   routeLayerMode: 'kmOnTopOverlap',
   endpointMode: 'dots'

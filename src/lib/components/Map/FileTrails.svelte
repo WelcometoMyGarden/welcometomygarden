@@ -146,22 +146,25 @@
   const routeNameFor = (layer: FileDataLayer) =>
     (layer.originalFileName ?? '').replace(/\.[^./\\]+$/, '');
 
-  // Route-name line-placement tuning. By default names only lay out once zoomed in far
-  // enough for the (wiggly) route to present a straight-enough, long-enough stretch — so
-  // different files pop in at different zooms. The "…also at lower zoom levels" tweak
-  // makes placement (almost) geometry-independent: it drops the max bend-angle limit
-  // entirely (so curvy tracks no longer have to be zoomed in to straighten out) and
-  // shrinks the text at low zoom so it fits a shorter on-screen span. The label spacing is
-  // zoom-driven: tight when zoomed out (so names show up early and on every file at once)
-  // and wide when zoomed in (so a name isn't repeated too frequently along the route).
+  // Route-name label-placement tuning.
+  //
+  // By default (`line`) names are placed at repeated intervals along the route; mapbox
+  // only lays one out once it finds a straight-enough, long-enough slot, so wiggly/short
+  // routes need to be zoomed in more than straight/long ones — different files pop in at
+  // different zooms.
+  //
+  // The "…also at lower zoom levels" tweak switches to `line-center`, which places a
+  // single label at the centre of each stretch. That no longer depends on finding a
+  // repeated slot, so — together with dropping the bend-angle limit and shrinking the
+  // low-zoom text — every file's name appears together, from the same low zoom. As a
+  // side effect the name is shown once per stretch (i.e. far less frequently when zoomed
+  // in) rather than repeated along the route.
   const NAME_SPACING = 250;
   const NAME_MAX_ANGLE = 40;
   const NAME_MAX_ANGLE_LOW_ZOOM = 180; // effectively "no angle limit"
   const NAME_TEXT_SIZE = 13;
-  const nameSpacing = (): ExpressionSpecification | number =>
-    get(routeTweaks).showRouteNamesLowZoom
-      ? ['interpolate', ['linear'], ['zoom'], 8, 60, 12, 300, 15, 600]
-      : NAME_SPACING;
+  const namePlacement = (): 'line' | 'line-center' =>
+    get(routeTweaks).showRouteNamesLowZoom ? 'line-center' : 'line';
   const nameMaxAngle = () =>
     get(routeTweaks).showRouteNamesLowZoom ? NAME_MAX_ANGLE_LOW_ZOOM : NAME_MAX_ANGLE;
   // Interpolate the text down at low zoom so the label fits a shorter stretch and shows up
@@ -455,8 +458,8 @@
         type: 'symbol',
         source: nameSourceId(id),
         layout: {
-          'symbol-placement': 'line',
-          'symbol-spacing': nameSpacing(),
+          'symbol-placement': namePlacement(),
+          'symbol-spacing': NAME_SPACING,
           'text-field': routeName,
           'text-size': nameTextSize(),
           'text-max-angle': nameMaxAngle(),
@@ -475,7 +478,7 @@
       });
     } else {
       map.setLayoutProperty(nameLabelId(id), 'text-field', routeName);
-      map.setLayoutProperty(nameLabelId(id), 'symbol-spacing', nameSpacing());
+      map.setLayoutProperty(nameLabelId(id), 'symbol-placement', namePlacement());
       map.setLayoutProperty(nameLabelId(id), 'text-max-angle', nameMaxAngle());
       map.setLayoutProperty(nameLabelId(id), 'text-size', nameTextSize());
       map.setPaintProperty(nameLabelId(id), 'text-color', color);
