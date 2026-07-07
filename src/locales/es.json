@@ -1198,6 +1198,13 @@
       "cities": {
         "Bruges": "Brujas"
       }
+    },
+    "coverage-gaps": {
+      "title": "Vacíos de cobertura de jardines",
+      "legend": {
+        "covered": "A menos de {radius} km de un jardín",
+        "gap": "Sin jardín cerca"
+      }
     }
   },
   "terms-of-use": {

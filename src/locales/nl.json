@@ -855,6 +855,13 @@
       "cities": {
         "Bruges": "Brugge"
       }
+    },
+    "coverage-gaps": {
+      "title": "Dekkingsgaten tuinen",
+      "legend": {
+        "covered": "Binnen {radius} km van een tuin",
+        "gap": "Geen tuin in de buurt"
+      }
     }
   },
   "rules": {

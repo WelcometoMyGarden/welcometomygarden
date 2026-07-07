@@ -1197,6 +1197,13 @@
       "cities": {
         "Bruges": "Brügge"
       }
+    },
+    "coverage-gaps": {
+      "title": "Gartenabdeckungslücken",
+      "legend": {
+        "covered": "Innerhalb von {radius} km von einem Garten",
+        "gap": "Kein Garten in der Nähe"
+      }
     }
   },
   "terms-of-use": {

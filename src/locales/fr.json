@@ -1207,6 +1207,13 @@
       "cities": {
         "Bruges": "Bruges"
       }
+    },
+    "coverage-gaps": {
+      "title": "Lacunes de couverture des jardins",
+      "legend": {
+        "covered": "À moins de {radius} km d'un jardin",
+        "gap": "Aucun jardin à proximité"
+      }
     }
   },
   "terms-of-use": {
