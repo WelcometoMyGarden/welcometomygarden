@@ -70,9 +70,9 @@ export type RouteTweaks = {
   showRouteNames: boolean;
   /**
    * Also place the route-name labels at (much) lower zoom levels, by making label
-   * placement effectively geometry-independent (no bend-angle limit, tighter spacing,
-   * smaller low-zoom text). This makes every file's name show up together at a low zoom,
-   * instead of each file popping in at a different, higher zoom as the route lays out.
+   * placement effectively geometry-independent (no bend-angle limit, smaller low-zoom
+   * text) and zoom-driven label spacing (tight when zoomed out so every file's name shows
+   * up together at a low zoom, wide when zoomed in so a name isn't repeated too often).
    */
   showRouteNamesLowZoom: boolean;
   /**
