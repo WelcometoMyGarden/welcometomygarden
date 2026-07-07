@@ -1,16 +1,14 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
-  import { onMount, onDestroy } from 'svelte';
-  import { getAllListedGardens } from '$lib/api/garden';
-  import { allListedGardens, isFetchingGardens } from '$lib/stores/garden';
+  import { onMount } from 'svelte';
   import Map, { currentPosition, mapState } from '$lib/components/Map/Map.svelte';
-  import CoverageHeatmapLayer, {
+  import CoverageLayer, {
     COVERAGE_RADIUS_KM,
-    GRADIENT_END_KM,
-    COVERAGE_COLORS
-  } from '$lib/components/Map/CoverageHeatmapLayer.svelte';
+    COVERAGE_COLORS,
+    DEFAULT_OVERLAY_OPACITY,
+    type StackOrder
+  } from '$lib/components/Map/CoverageLayer.svelte';
   import FilterLocation from '$lib/components/Garden/FilterLocation.svelte';
-  import { Progress } from '$lib/components/UI';
   import {
     LOCATION_BELGIUM,
     LOCATION_WESTERN_EUROPE,
@@ -19,7 +17,6 @@
   } from '$lib/constants';
   import type { LongLat } from '$lib/types/Garden';
   import { lnglatToObject } from '$lib/api/mapbox';
-  import logger from '$lib/util/logger';
 
   // The location search does not need a "searching" state affordance here, but the
   // FilterLocation component requires a bindable prop.
@@ -31,17 +28,19 @@
   // Controls the map location imperatively (see /explore for the same pattern).
   let centerLocation = $state(LOCATION_WESTERN_EUROPE);
 
-  // Legend geometry, derived from the coverage constants so it always matches the
-  // map overlay. The legend spans 0–GRADIENT_END_KM: solid green until
-  // COVERAGE_RADIUS_KM, then a gradient through yellow to red at the far end.
-  const greenPct = (COVERAGE_RADIUS_KM / GRADIENT_END_KM) * 100;
-  const midPct = ((COVERAGE_RADIUS_KM + GRADIENT_END_KM) / 2 / GRADIENT_END_KM) * 100;
-  const legendGradient =
-    `linear-gradient(to right,` +
-    ` rgb(${COVERAGE_COLORS.covered}) 0%,` +
-    ` rgb(${COVERAGE_COLORS.covered}) ${greenPct}%,` +
-    ` rgb(${COVERAGE_COLORS.mid}) ${midPct}%,` +
-    ` rgb(${COVERAGE_COLORS.gap}) 100%)`;
+  // Temporary controls for tuning the overlay's look before we settle on final values.
+  // Remove this panel (and the underlying props) once we've picked a stacking order & opacity.
+  const STACK_ORDER_OPTIONS: { value: StackOrder; label: string }[] = [
+    { value: 'top', label: 'Above everything (incl. labels)' },
+    { value: 'above-roads', label: 'Above roads, below place names' },
+    {
+      value: 'above-roads-below-borders',
+      label: 'Above roads, below place names & country borders'
+    },
+    { value: 'below-roads', label: 'Below roads & labels (as-is)' }
+  ];
+  let stackOrder = $state<StackOrder>('above-roads');
+  let opacity = $state(DEFAULT_OVERLAY_OPACITY);
 
   const goToPlace = (event: LongLat) => {
     zoom = ZOOM_LEVELS.CITY;
@@ -49,32 +48,18 @@
     centerLocation = { longitude: event.longitude, latitude: event.latitude };
   };
 
-  onMount(async () => {
+  onMount(() => {
     // Restore the previous map view if we've been here (or on /explore) before.
     if ($mapState) {
       zoom = $mapState.zoom;
       centerLocation = lnglatToObject($mapState.center.toArray() as [number, number]);
     }
-
-    // Fetch all gardens if they aren't loaded yet.
-    if ($allListedGardens.length === 0 && !$isFetchingGardens) {
-      await getAllListedGardens().catch((ex) => {
-        logger.error(ex);
-        isFetchingGardens.set(false);
-      });
-    }
-  });
-
-  onDestroy(() => {
-    isFetchingGardens.set(false);
   });
 </script>
 
 <svelte:head>
   <title>{$_('map.coverage-gaps.title')} | {$_('generics.wtmg.explicit')}</title>
 </svelte:head>
-
-<Progress active={$isFetchingGardens} />
 
 <div class="map-section">
   <Map
@@ -86,9 +71,7 @@
     {zoom}
     {applyZoom}
   >
-    {#if $allListedGardens.length > 0}
-      <CoverageHeatmapLayer gardens={$allListedGardens} />
-    {/if}
+    <CoverageLayer {stackOrder} {opacity} />
   </Map>
 
   <div class="location-search">
@@ -101,21 +84,41 @@
     </div>
   </div>
 
+  <div class="tweaks">
+    <p class="tweaks-title">Tweaks (dev only)</p>
+
+    <fieldset class="tweaks-group">
+      <legend>Layer order</legend>
+      {#each STACK_ORDER_OPTIONS as option (option.value)}
+        <label class="tweaks-radio">
+          <input type="radio" bind:group={stackOrder} value={option.value} />
+          {option.label}
+        </label>
+      {/each}
+    </fieldset>
+
+    <label class="tweaks-slider">
+      <span>Opacity: {Math.round(opacity * 100)}%</span>
+      <input type="range" min="0" max="1" step="0.05" bind:value={opacity} />
+    </label>
+  </div>
+
   <div class="legend">
     <p class="legend-title">{$_('map.coverage-gaps.title')}</p>
-    <div class="legend-endpoints">
-      <span
-        >{$_('map.coverage-gaps.legend.covered', { values: { radius: COVERAGE_RADIUS_KM } })}</span
-      >
-      <span>{$_('map.coverage-gaps.legend.gap')}</span>
-    </div>
-    <div class="legend-bar" style="background: {legendGradient};">
-      <span class="legend-tick" style="left: {greenPct}%;"></span>
-    </div>
-    <div class="legend-ticks">
-      <span style="left: 0%;">0</span>
-      <span style="left: {greenPct}%;">{COVERAGE_RADIUS_KM} km</span>
-      <span style="left: 100%;">{GRADIENT_END_KM} km</span>
+    <div class="legend-items">
+      <div class="legend-item">
+        <span class="legend-swatch" style="background-color: rgb({COVERAGE_COLORS.covered});"
+        ></span>
+        <span
+          >{$_('map.coverage-gaps.legend.covered', {
+            values: { radius: COVERAGE_RADIUS_KM }
+          })}</span
+        >
+      </div>
+      <div class="legend-item">
+        <span class="legend-swatch" style="background-color: rgb({COVERAGE_COLORS.gap});"></span>
+        <span>{$_('map.coverage-gaps.legend.gap')}</span>
+      </div>
     </div>
   </div>
 </div>
@@ -155,57 +158,82 @@
     max-width: 24rem;
   }
 
+  /* Temporary dev panel for tuning the overlay's stacking & opacity. */
+  .tweaks {
+    position: absolute;
+    top: var(--spacing-map-controls);
+    right: var(--spacing-map-controls);
+    z-index: 5;
+    background-color: var(--color-white);
+    border-radius: var(--modal-border-radius);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    padding: 1rem 1.2rem;
+    max-width: 22rem;
+    font-size: 1.2rem;
+  }
+
+  .tweaks-title {
+    font-weight: 600;
+    font-size: 1.4rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .tweaks-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    border: none;
+    padding: 0;
+    margin: 0 0 0.8rem;
+  }
+
+  .tweaks-group legend {
+    font-weight: 600;
+    padding: 0;
+    margin-bottom: 0.2rem;
+  }
+
+  .tweaks-radio {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+
+  .tweaks-slider {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .tweaks-slider input[type='range'] {
+    width: 100%;
+  }
+
   .legend-title {
     font-weight: 600;
     font-size: 1.4rem;
     margin-bottom: 0.6rem;
   }
 
-  .legend-endpoints {
+  .legend-items {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 0.4rem;
     font-size: 1.2rem;
-    margin-bottom: 0.3rem;
-    gap: 1rem;
   }
 
-  /* The gradient bar maps distance-to-nearest-garden (0 → GRADIENT_END_KM). */
-  .legend-bar {
-    position: relative;
-    height: 1rem;
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .legend-swatch {
+    flex-shrink: 0;
+    width: 1.2rem;
+    height: 1.2rem;
     border-radius: 2px;
-  }
-
-  /* Marker at the COVERAGE_RADIUS_KM boundary (end of the solid-green zone). */
-  .legend-tick {
-    position: absolute;
-    top: -2px;
-    bottom: -2px;
-    width: 2px;
-    transform: translateX(-50%);
-    background-color: var(--color-black, #000);
-  }
-
-  .legend-ticks {
-    position: relative;
-    height: 1.4rem;
-    margin-top: 0.3rem;
-    font-size: 1.2rem;
-  }
-
-  .legend-ticks span {
-    position: absolute;
-    transform: translateX(-50%);
-    white-space: nowrap;
-  }
-
-  /* Keep the first and last labels within the bar's bounds. */
-  .legend-ticks span:first-child {
-    transform: translateX(0);
-  }
-
-  .legend-ticks span:last-child {
-    transform: translateX(-100%);
   }
 
   @media screen and (max-width: 700px) {
@@ -221,6 +249,16 @@
     .legend {
       bottom: calc(var(--spacing-map-controls) + env(safe-area-inset-bottom, 0px));
       max-width: 18rem;
+    }
+
+    /* Avoid the full-width location search bar; tuck the dev panel in the
+       bottom-right instead, opposite the legend. */
+    .tweaks {
+      top: auto;
+      bottom: calc(var(--spacing-map-controls) + env(safe-area-inset-bottom, 0px));
+      right: var(--spacing-map-controls);
+      max-width: 15rem;
+      font-size: 1.1rem;
     }
   }
 </style>

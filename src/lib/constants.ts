@@ -17,6 +17,14 @@ export const DEFAULT_MAP_STYLE = 'mapbox://styles/mapbox/streets-v8';
 export const STP_URL = 'https://slowtravelpass.com';
 export const STP_TITLE = 'Slow Travel Pass';
 
+// Precomputed garden coverage overlays (see the firebase-admin repo's
+// src/gardens/generateCoverage.js), regenerated & re-uploaded when the garden set
+// changes enough to matter.
+export const COVERAGE_GEOJSON_URL =
+  'https://storage.googleapis.com/wtmg-static/coverage/garden-coverage.geojson';
+export const COVERAGE_COMPLEMENT_GEOJSON_URL =
+  'https://storage.googleapis.com/wtmg-static/coverage/garden-coverage-complement.geojson';
+
 export const LOCATION_BELGIUM = { longitude: 4.5, latitude: 50.5 };
 export const LOCATION_WESTERN_EUROPE = {
   longitude: 4.818409187039379,
