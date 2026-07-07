@@ -30,6 +30,7 @@
       | 'shrinkLargeKmLabels'
       | 'ovalKmMarkers'
       | 'showRouteNames'
+      | 'showRouteNamesLowZoom'
   ) => routeTweaks.update((t) => ({ ...t, [key]: !t[key] }));
 
   const setPanelOpen = (panelOpen: boolean) => routeTweaks.update((t) => ({ ...t, panelOpen }));
@@ -181,6 +182,17 @@
         onToggle={() => toggle('showRouteNames')}
       />
     </div>
+
+    {#if $routeTweaks.showRouteNames}
+      <div class="row sub">
+        <span class="label">…also at lower zoom levels</span>
+        <Switch
+          checked={$routeTweaks.showRouteNamesLowZoom}
+          ariaLabel="Also show route file names at lower zoom levels"
+          onToggle={() => toggle('showRouteNamesLowZoom')}
+        />
+      </div>
+    {/if}
 
     <div class="row">
       <label class="label" for="layer-mode">Overlapping routes</label>

@@ -69,6 +69,12 @@ export type RouteTweaks = {
   /** Show the (GPX) file name as a label repeated along each route. */
   showRouteNames: boolean;
   /**
+   * Also place the route-name labels at lower zoom levels (roughly from where the 5 km
+   * km-marker interval kicks in), by relaxing the line-placement constraints. By default
+   * names only appear once zoomed in far enough for the (wiggly) route to lay out.
+   */
+  showRouteNamesLowZoom: boolean;
+  /**
    * Zoom→interval rules (one per line, `<min>-<max>,<intervalKm>`) driving the km
    * marker spacing dynamically based on the current map zoom level.
    */
@@ -90,6 +96,7 @@ export const routeTweaks = writable<RouteTweaks>({
   shrinkLargeKmLabels: true,
   ovalKmMarkers: false,
   showRouteNames: true,
+  showRouteNamesLowZoom: false,
   zoomIntervalConfig: DEFAULT_ZOOM_INTERVAL_CONFIG,
   routeLayerMode: 'kmOnTopOverlap',
   endpointMode: 'dots'

@@ -146,6 +146,19 @@
   const routeNameFor = (layer: FileDataLayer) =>
     (layer.originalFileName ?? '').replace(/\.[^./\\]+$/, '');
 
+  // Route-name line-placement tuning. By default names only lay out once zoomed in far
+  // enough for the (wiggly) route to present a straight-enough, long-enough stretch. The
+  // "…also at lower zoom levels" tweak relaxes both the label spacing and the max bend
+  // angle so names appear at lower zoom too (roughly from the 5 km km-marker interval).
+  const NAME_SPACING = 250;
+  const NAME_SPACING_LOW_ZOOM = 150;
+  const NAME_MAX_ANGLE = 40;
+  const NAME_MAX_ANGLE_LOW_ZOOM = 90;
+  const nameSpacing = () =>
+    get(routeTweaks).showRouteNamesLowZoom ? NAME_SPACING_LOW_ZOOM : NAME_SPACING;
+  const nameMaxAngle = () =>
+    get(routeTweaks).showRouteNamesLowZoom ? NAME_MAX_ANGLE_LOW_ZOOM : NAME_MAX_ANGLE;
+
   // Track rendered trail layers + the global set of endpoint DOM markers.
   const rendered = new Set<string>();
   let endpointMarkers: Marker[] = [];
@@ -431,10 +444,10 @@
         source: nameSourceId(id),
         layout: {
           'symbol-placement': 'line',
-          'symbol-spacing': 250,
+          'symbol-spacing': nameSpacing(),
           'text-field': routeName,
           'text-size': 13,
-          'text-max-angle': 40,
+          'text-max-angle': nameMaxAngle(),
           'text-keep-upright': true,
           // Keep the name reliably visible along the route's (non-overlapping) stretches
           // rather than letting collision with base-map labels drop it. Overlapping
@@ -450,6 +463,8 @@
       });
     } else {
       map.setLayoutProperty(nameLabelId(id), 'text-field', routeName);
+      map.setLayoutProperty(nameLabelId(id), 'symbol-spacing', nameSpacing());
+      map.setLayoutProperty(nameLabelId(id), 'text-max-angle', nameMaxAngle());
       map.setPaintProperty(nameLabelId(id), 'text-color', color);
     }
 
