@@ -686,7 +686,7 @@
         }
       },
       "per-year": "/an",
-      "terms-label": "Folosesc WTMG doar ca un călător lent (niciodată cu mașina sau motocicleta) și sunt de acord cu toți {termsLink}.",
+      "terms-label": "Folosesc WTMG doar ca un călător lent (niciodată cu mașina sau motocicleta) și sunt de acord cu toate {termsLink}.",
       "terms-link-text": "regulile WTMG",
       "questions": "Întrebări?",
       "faq-link-text": "Vezi întrebările frecvente (FAQ).",
