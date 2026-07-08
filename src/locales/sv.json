@@ -811,7 +811,7 @@
             },
             "10": {
               "title": "Hur länge blir jag medlem eller Superfan?",
-              "copy": "När du blir medlem eller Superfan betalar du för ett år. Ditt medlemskap förnyas automatiskt, men du kan när som helst avbryta den automatiska förnyelsen på ditt {accountLink}. Om du avslutar ditt medlemskap är det bara den automatiska förnyelsen som avbryts. Det innebär att du förblir medlem fram till slutet av den period som du redan har betalat för."
+              "copy": "När du blir medlem eller Superfan betalar du för ett år. Ditt medlemskap förnyas automatiskt, men du kan när som helst avsluta det på {accountLink}. Om du avslutar ditt medlemskap är det bara den automatiska förnyelsen som avbryts. Det innebär att du förblir medlem fram till slutet av den period som du redan har betalat för."
             },
             "11": {
               "title": "Kan jag sluta vara medlem eller Superfan?",
