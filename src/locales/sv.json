@@ -791,7 +791,7 @@
             },
             "5": {
               "title": "Hur fungerar betalningen?",
-              "copy": "När du har valt om du vill bli medlem eller Superfan skickas du vidare till betalningssidan. Du betalar för ett år i taget. Ditt medlemskap förnyas automatiskt, men du kan när som helst avbryta den automatiska förnyelsen på ditt {accountLink}. Sju dagar före förnyelsedatumet kommer vi också att påminna dig via e-post om din kommande förnyelse."
+              "copy": "När du har valt om du vill bli medlem eller Superfan skickas du vidare till betalningssidan. Du betalar för ett år i taget. Ditt medlemskap förnyas automatiskt, men du kan när som helst avsluta det på {accountLink}. Sju dagar före förnyelsedatumet kommer vi också att påminna dig via e-post om din kommande förnyelse."
             },
             "6": {
               "title": "Hur kan jag hantera, förnya eller avsluta mitt medlemskap?",
