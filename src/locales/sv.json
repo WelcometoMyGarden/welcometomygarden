@@ -665,7 +665,7 @@
         },
         "1": {
           "title": "Medlem",
-          "description": "Du får full tillgång till WTMG-plattformen och täcker din del av kostnaderna.",
+          "description": "Du får full tillgång till WTMG-plattformen och bidra till kostnaderna.",
           "backref": "Allt i Gratis, plus:",
           "checklist": {
             "0": "<strong>Skicka övernattningsförfrågningar till 5000+ trädgårdar.</strong>",
