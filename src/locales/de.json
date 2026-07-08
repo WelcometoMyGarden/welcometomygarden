@@ -791,7 +791,7 @@
             },
             "5": {
               "title": "Wie funktioniert die Bezahlung?",
-              "copy": "Sobald du dich entschieden hast, ob du Mitglied oder Superfan werden möchtest, wirst du zur Zahlungsseite weitergeleitet. Du zahlst jeweils für ein Jahr im Voraus. Deine Mitgliedschaft verlängert sich automatisch, aber du kannst die automatische Verlängerung jederzeit in deinem {accountLink} kündigen. Sieben Tage vor dem Verlängerungsdatum benachrichtigen wir dich außerdem per E-Mail über die bevorstehende Verlängerung."
+              "copy": "Sobald du dich entschieden hast, ob du Mitglied oder Superfan werden möchtest, wirst du zur Zahlungsseite weitergeleitet. Du zahlst immer für ein Jahr (12 Monate ab Zahlungseingang) im Voraus. Deine Mitgliedschaft verlängert sich automatisch, aber du kannst die automatische Verlängerung jederzeit in deinem {accountLink} kündigen. Sieben Tage vor dem Verlängerungsdatum benachrichtigen wir dich außerdem per E-Mail über die bevorstehende Verlängerung."
             },
             "6": {
               "title": "Wie kann ich meine Mitgliedschaft verwalten, verlängern oder kündigen?",
