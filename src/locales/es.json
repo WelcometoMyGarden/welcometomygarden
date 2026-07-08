@@ -537,7 +537,7 @@
         "login": "Debes {signInLink} y ser miembro/a para contactar con los anfitriones",
         "become-member": "Para contactar con los anfitriones, primero debes {becomeMember}. ¡Gracias!",
         "sign-link-text": "iniciar sesión",
-        "become-member-text": "hacerte miembro/a"
+        "become-member-text": "hacerte miembro"
       },
       "save": "Guardar",
       "saved": "Guardado",
