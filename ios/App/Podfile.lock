@@ -1,28 +1,32 @@
 PODS:
-  - Capacitor (8.0.2):
+  - Capacitor (8.4.0):
     - CapacitorCordova
-  - CapacitorApp (8.0.0):
+  - CapacitorApp (8.1.0):
     - Capacitor
   - CapacitorCommunitySafeArea (8.0.1):
     - Capacitor
-  - CapacitorCordova (8.0.2)
-  - CapacitorDevice (8.0.0):
+  - CapacitorCordova (8.4.0)
+  - CapacitorDevice (8.0.2):
     - Capacitor
-  - CapacitorGeolocation (8.1.0):
+  - CapacitorGeolocation (8.2.0):
     - Capacitor
-    - IONGeolocationLib (= 2.0.0)
-  - CapacitorInappbrowser (2.5.3):
+    - IONGeolocationLib (= 2.1.0)
+  - CapacitorInappbrowser (2.5.5):
     - Capacitor
-    - OSInAppBrowserLib (~> 2.3.1)
-  - CapacitorLocalNotifications (8.0.2):
+    - OSInAppBrowserLib (~> 2.3.2)
+  - CapacitorLocalNotifications (8.2.0):
     - Capacitor
-  - CapacitorNativeSettings (8.0.0):
+  - CapacitorNativeSettings (8.1.0):
     - Capacitor
-  - CapacitorPushNotifications (8.0.0):
+  - CapacitorNetwork (8.0.1):
     - Capacitor
-  - CapacitorSplashScreen (8.0.0):
+  - CapacitorPushNotifications (8.1.1):
     - Capacitor
-  - CapawesomeCapacitorBadge (8.0.1):
+  - CapacitorShare (8.0.1):
+    - Capacitor
+  - CapacitorSplashScreen (8.0.1):
+    - Capacitor
+  - CapawesomeCapacitorBadge (8.0.2):
     - Capacitor
   - FirebaseCore (12.10.0):
     - FirebaseCoreInternal (~> 12.10.0)
@@ -71,7 +75,7 @@ PODS:
   - GoogleUtilities/UserDefaults (8.1.0):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
-  - IONGeolocationLib (2.0.0)
+  - IONGeolocationLib (2.1.0)
   - nanopb (3.30910.0):
     - nanopb/decode (= 3.30910.0)
     - nanopb/encode (= 3.30910.0)
@@ -79,7 +83,7 @@ PODS:
   - nanopb/encode (3.30910.0)
   - NotnotsamuelCapacitorSwipeBack (3.0.2):
     - Capacitor
-  - OSInAppBrowserLib (2.3.1)
+  - OSInAppBrowserLib (2.3.2)
   - PromisesObjC (2.4.0)
 
 DEPENDENCIES:
@@ -92,7 +96,9 @@ DEPENDENCIES:
   - "CapacitorInappbrowser (from `../../node_modules/@capacitor/inappbrowser`)"
   - "CapacitorLocalNotifications (from `../../node_modules/@capacitor/local-notifications`)"
   - CapacitorNativeSettings (from `../../node_modules/capacitor-native-settings`)
+  - "CapacitorNetwork (from `../../node_modules/@capacitor/network`)"
   - "CapacitorPushNotifications (from `../../node_modules/@capacitor/push-notifications`)"
+  - "CapacitorShare (from `../../node_modules/@capacitor/share`)"
   - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
   - "CapawesomeCapacitorBadge (from `../../node_modules/@capawesome/capacitor-badge`)"
   - FirebaseMessaging
@@ -130,8 +136,12 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/local-notifications"
   CapacitorNativeSettings:
     :path: "../../node_modules/capacitor-native-settings"
+  CapacitorNetwork:
+    :path: "../../node_modules/@capacitor/network"
   CapacitorPushNotifications:
     :path: "../../node_modules/@capacitor/push-notifications"
+  CapacitorShare:
+    :path: "../../node_modules/@capacitor/share"
   CapacitorSplashScreen:
     :path: "../../node_modules/@capacitor/splash-screen"
   CapawesomeCapacitorBadge:
@@ -140,30 +150,32 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@notnotsamuel/capacitor-swipe-back"
 
 SPEC CHECKSUMS:
-  Capacitor: 2b79172ad27f3be2d103cce88b8eb9803fdcc744
-  CapacitorApp: 3963a84197280757b84f126afd1520a85ae3b092
+  Capacitor: 75bd117ba037a51bb0f19ded32c67f4b3bc16600
+  CapacitorApp: 449ffe26375e96f8aaaee625ac6e01e5c57c8650
   CapacitorCommunitySafeArea: 91738f4ae7f47d2d94e06e429e16fb73cd8fdc48
-  CapacitorCordova: 921bdb690ebe82421b24fce45552fd3dea2ae43a
-  CapacitorDevice: 9a16fb36a19ff391bf75afbe3cf16f883b3b3aa0
-  CapacitorGeolocation: 7132de914f9d853ec4642dc1d36e4e2018a4e8a8
-  CapacitorInappbrowser: e1dc727db99127c2908b69408f7da8118d854a84
-  CapacitorLocalNotifications: 4db83a7f6bdd2f30dcedf5c6f92c415065467a24
-  CapacitorNativeSettings: 61b7c3d4081dec0b348cc383af83f3e1faa89106
-  CapacitorPushNotifications: 722c1528eabbefd355f47e373a4c6235d01e85e9
-  CapacitorSplashScreen: 422880d7117605c30699eb4b21644b62db42e86c
-  CapawesomeCapacitorBadge: 0a65ef36db6c236b41f324df5a2f12fe8cdd4a29
+  CapacitorCordova: 71d81f350e6c30bf2a846593b5c480fbd68e9bac
+  CapacitorDevice: 14cba6f88d1c3074cbf825fea977c8c526453ff8
+  CapacitorGeolocation: b36f6287bfc9f2eefa04dc900496f2c8ae666136
+  CapacitorInappbrowser: b8e8fd7bf9c63728e1896347974a2bf5959c6a0f
+  CapacitorLocalNotifications: 2615aa008f608b95d3921a778ee1988abf1e6148
+  CapacitorNativeSettings: d512b84fdcc04948c32f267621079a0d7c0d452f
+  CapacitorNetwork: 8812ce60d11fb63d8f2e4ba51a49b2e59892ebe2
+  CapacitorPushNotifications: ec08d589c226a2c0db7c032ec1bf5b044ec85f8e
+  CapacitorShare: 0c58305114538568059bfc07111f22dcb9cb2a82
+  CapacitorSplashScreen: 4b46c72298db552b3c57ce021ef028b6dc7f1fa7
+  CapawesomeCapacitorBadge: 0d9dca1ab1e770a4524c5a6c35d3c1ee91b296f8
   FirebaseCore: f4428e22415ea3b3eca652c2098413dabf2a23a9
   FirebaseCoreInternal: e7bbaeb00ab73011298f35ed223aa7371e212948
   FirebaseInstallations: 047343aa91fd6a1ebfa3eb374ddecf36a8aaddfd
   FirebaseMessaging: ed18fb50634e6e85b5d3e77e628c21e2c928cc53
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
-  IONGeolocationLib: a5e40b54edc2ee9902036eda5aaa41ddf07bb68d
+  IONGeolocationLib: 6a7b6f76063fb1b01cfb14fae7d0f526e3c9b271
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   NotnotsamuelCapacitorSwipeBack: b3a00145209b368cdfe21816d7919484c3fe654e
-  OSInAppBrowserLib: bf7cdcc072394ae827f8cfe3f5f9c807691834c0
+  OSInAppBrowserLib: c21c8fa3d886654d2f553b9f1bded9d27a0530c7
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
 
-PODFILE CHECKSUM: 8a31458174004c675f4c352bc044fd54792432b9
+PODFILE CHECKSUM: bb16c798cce8d4311b523ebeb1cc7bb001ef8b29
 
 COCOAPODS: 1.16.2

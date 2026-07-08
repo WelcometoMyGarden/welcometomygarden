@@ -6,7 +6,14 @@
   import { deviceId } from '$lib/stores/pushRegistrations';
   import { App } from '@capacitor/app';
   import { dev } from '$app/environment';
+  import { rootModal } from '$lib/stores/app';
+  import { bind } from 'svelte-simple-modal';
+  import ServerChannelModal from './ServerChannelModal.svelte';
   const { onclose }: { onclose: () => void } = $props();
+
+  // The app loads this web code from a remote URL, so an older native shell (already shipped) may
+  // not include the custom WtmgServer plugin. Only offer the switcher when the shell provides it.
+  const channelSwitcherAvailable = Capacitor.isPluginAvailable('WtmgServer');
 </script>
 
 <div class="debugging-info" {@attach clickOutside} onclickoutside={onclose}>
@@ -85,6 +92,15 @@
       window.location.reload();
     }}>Bust cache</Button
   >
+  {#if Capacitor.isNativePlatform()}
+    <Button
+      xxsmall
+      disabled={!channelSwitcherAvailable}
+      onclick={() => rootModal.set(bind(ServerChannelModal, {}))}
+    >
+      Frontend channel{channelSwitcherAvailable ? '' : ' (unavailable in this app version)'}
+    </Button>
+  {/if}
 </div>
 
 <style>

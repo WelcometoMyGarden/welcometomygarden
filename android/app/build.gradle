@@ -1,5 +1,17 @@
 apply plugin: 'com.android.application'
 
+// Release signing credentials. Loaded from android/keystore.properties (gitignored)
+// when present, otherwise from environment variables (handy for CI). See
+// android/keystore.properties.example for the expected keys.
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+  keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+def resolveSigning = { String propKey, String envKey ->
+  keystoreProperties[propKey] ?: System.getenv(envKey)
+}
+
 android {
   namespace = "org.welcometomygarden.app"
   compileSdk = rootProject.ext.compileSdkVersion
@@ -7,8 +19,8 @@ android {
     applicationId "org.welcometomygarden.app"
     minSdkVersion rootProject.ext.minSdkVersion
     targetSdkVersion rootProject.ext.targetSdkVersion
-    versionCode 7
-    versionName "1.0.4"
+    versionCode 10
+    versionName "1.1"
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     aaptOptions {
       // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -16,9 +28,26 @@ android {
       ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
     }
   }
+  signingConfigs {
+    release {
+      def storeFilePath = resolveSigning('storeFile', 'WTMG_KEYSTORE_FILE')
+      if (storeFilePath) {
+        storeFile rootProject.file(storeFilePath)
+        storePassword resolveSigning('storePassword', 'WTMG_KEYSTORE_PASSWORD')
+        keyAlias resolveSigning('keyAlias', 'WTMG_KEY_ALIAS')
+        keyPassword resolveSigning('keyPassword', 'WTMG_KEY_PASSWORD')
+      }
+    }
+  }
   buildTypes {
     // there is a default debug version, too
     release {
+      // Only attach the release signing config when credentials were actually
+      // resolved; otherwise leave it unsigned (the deploy script guards against
+      // accidentally shipping an unsigned AAB).
+      if (signingConfigs.release.storeFile != null) {
+        signingConfig signingConfigs.release
+      }
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }

@@ -519,6 +519,11 @@
     flex-direction: column;
   }
 
+  :global(.app.error-banner .conversations) {
+    /* Reset padding when it is taken care of the top error */
+    padding-top: 0px;
+  }
+
   .conversations:not(.is-mobile) {
     /* Avoid box shadow escaping on the top when using safe area top insets on native mobile */
     box-shadow: 0px 0px 33px rgba(0, 0, 0, 0.1);

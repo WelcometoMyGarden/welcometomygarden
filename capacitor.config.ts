@@ -72,7 +72,10 @@ const config: CapacitorConfig = {
   appId: 'org.welcometomygarden.app',
   appName: 'WTMG',
   zoomEnabled: false,
-  // webDir: '../dist',
+  // The app loads its UI from `server.url` (set per-environment below), so the bundled
+  // web assets are never used at runtime. Point `webDir` at a minimal placeholder so
+  // `cap sync` packages a ~1 KB stub instead of a full (and easily stale) copy of the site.
+  webDir: 'tools/assets/mobile-shell',
   plugins: {
     LocalNotifications: {
       smallIcon: 'push_icon',
@@ -86,7 +89,18 @@ const config: CapacitorConfig = {
       insetsHandling: 'disable'
     }
   },
-  ...overrideConfig
+  ...overrideConfig,
+  server: {
+    // Keep `server.url` from the NODE_ENV-selected override above, but also allow navigating
+    // between the backend channels in-webview (rather than being punted to the system browser)
+    // so the runtime channel switcher works. See src/lib/api/serverChannel.ts.
+    ...overrideConfig.server,
+    allowNavigation: [
+      'welcometomygarden.org',
+      'beta.welcometomygarden.org',
+      'staging.welcometomygarden.org'
+    ]
+  }
 };
 
 export default config;

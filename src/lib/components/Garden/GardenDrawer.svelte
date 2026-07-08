@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { tick, mount } from 'svelte';
+  import { tick, mount, onMount } from 'svelte';
   import { scale } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
   import SkeletonDrawer from './SkeletonDrawer.svelte';
@@ -13,7 +13,7 @@
   import { user } from '$lib/stores/auth';
   import { clickOutside, swipeToClose } from '$lib/attachments';
   import { Text, Chip, Image, Button, Progress, DragHandle } from '../UI';
-  import { tentPhosphor, heartIcon, heartIconFill, crossIcon } from '$lib/images/icons';
+  import { tentPhosphor, heartIcon, heartIconFill, crossIcon, shareIcon } from '$lib/images/icons';
   import routes from '$lib/routes';
   import type { Garden, GardenPhoto } from '$lib/types/Garden';
   import Icon from '$lib/components/UI/Icon.svelte';
@@ -30,6 +30,10 @@
   import logger from '$lib/util/logger';
   import { goto } from '$lib/util/navigate';
   import createUrl from '$lib/util/create-url';
+  import { isNative } from '$lib/util/uaInfo';
+  import { Capacitor } from '@capacitor/core';
+  import { Share } from '@capacitor/share';
+  import { PUBLIC_WTMG_HOST } from '$env/static/public';
   interface Props {
     garden?: Garden | null;
     isShowingMembershipModal?: boolean;
@@ -222,6 +226,24 @@
     }
   };
 
+  // Note: we don't want to use the experimental web share API, no share button on web.
+  // URLs can be used there
+  let showShareGardenButton = $state(false);
+
+  const shareGardenOnMobile = async () => {
+    try {
+      const shareResult = await Share.share({
+        url: `${PUBLIC_WTMG_HOST}/explore/garden/${garden!.id}`
+      });
+      trackEvent(
+        PlausibleEvent.SHARE_GARDEN,
+        shareResult.activityType ? { share_target: shareResult.activityType } : {}
+      );
+    } catch (e) {
+      logger.warn('Sharing garden failed or was cancelled', e);
+    }
+  };
+
   let chatWithGardenLink = $derived(`${$lr(routes.CHAT)}?with=${garden?.id}`);
   let gardenLink = $derived(`${$lr(routes.MAP)}/garden/${garden?.id}`);
 
@@ -262,6 +284,18 @@
           el.appendChild(node);
         }
       }
+    }
+  });
+
+  onMount(() => {
+    if (isNative && Capacitor.isPluginAvailable('Share')) {
+      Share.canShare().then((canShare) => {
+        if (canShare.value) {
+          showShareGardenButton = true;
+        } else {
+          Sentry.captureException('Phone can not share');
+        }
+      });
     }
   });
 
@@ -331,6 +365,11 @@
             {/if}
           </Text>
           <div class="top-buttons">
+            {#if showShareGardenButton}
+              <button class="button-share" onclick={shareGardenOnMobile}>
+                <Icon icon={shareIcon} />
+              </button>
+            {/if}
             {#if $user?.superfan}
               <button class="button-save" class:is-saved={isSaved} onclick={saveGarden}>
                 <Icon icon={isSaved ? heartIconFill : heartIcon} />
@@ -565,19 +604,28 @@
   .top-buttons button {
     background: none;
     border: none;
-    margin-left: 1rem;
+    margin-left: 0.5rem;
     padding: 5px;
   }
+  .top-buttons button:last-of-type {
+    /* Only for the close button, which has a permanent
+    grey background making it seem bigger needing more breathing rooms*/
+    margin-left: 1rem;
+  }
 
-  .garden-title .top-buttons > button:hover {
-    cursor: pointer;
-    background-color: var(--color-gray-bg);
+  @media (any-hover: hover) {
+    /* Without this query, the :hover lingers after a button was already pressed */
+    .garden-title .top-buttons > button:hover {
+      cursor: pointer;
+      background-color: var(--color-gray-bg);
+    }
   }
   .garden-title .top-buttons > button:active {
     background-color: var(--color-gray);
   }
 
-  .top-buttons button.button-save {
+  .top-buttons button.button-save,
+  .top-buttons button.button-share {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -592,11 +640,17 @@
     height: 1.5rem;
     margin-right: 0.5rem;
   }
-  .button-save :global(svg) {
+  .button-save :global(svg),
+  .button-share :global(svg) {
     fill: var(--color-green);
   }
   .button-save.is-saved :global(svg) {
     fill: var(--color-orange-light);
+  }
+
+  .button-share :global(i) {
+    width: 2.3rem;
+    height: 2.3rem;
   }
 
   .top-buttons button.close-button {

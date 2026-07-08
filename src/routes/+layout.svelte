@@ -37,6 +37,7 @@
   import logger from '$lib/util/logger.js';
   import { CapacitorSwipeBackPlugin } from '@notnotsamuel/capacitor-swipe-back';
   import { App as CapacitorApp, type URLOpenListenerEvent } from '@capacitor/app';
+  import { Network } from '@capacitor/network';
   import { goto } from '$lib/util/navigate.js';
   import { isMobile } from '$lib/stores/ui.svelte.js';
   import { isNative } from '$lib/util/uaInfo.js';
@@ -147,26 +148,81 @@
    */
   let localEnvString: string | null = $state(null);
 
+  /**
+   * Whether the device currently has no internet connection, detected via @capacitor/network
+   * (uses the native connectivity APIs on iOS/Android, and `navigator.onLine` + online/offline
+   * events on the web). Drives the permanent offline warning banner.
+   */
+  let isOffline = $state(false);
+
+  /**
+   * Route IDs of data-entry pages where reloading on connectivity restore could discard
+   * in-progress user input. We skip the reload on these.
+   */
+  const RELOAD_EXEMPT_ROUTE_IDS = new Set([
+    '/[[lang]]/(stateful)/chat/[name]/[chatId]',
+    '/[[lang]]/(stateful)/garden/edit',
+    '/[[lang]]/(stateful)/garden/add'
+  ]);
+
+  /**
+   * Reloads the current page.
+   *
+   * On iOS (WKWebView) a plain `window.location.reload()` does NOT re-fetch resour ces that
+   * previously failed to load while offline (e.g. dynamically imported JS chunks / CSS): the
+   * webview serves the failed/empty responses from its session cache, so the page flashes and
+   * then crashes on the same missing module. To work around this, we ask the native layer to do
+   * an end-to-end, cache-ignoring reload via `WKWebView.reloadFromOrigin()` (registered as the
+   * `wtmgHardReload` script message handler in `OfflineGateViewController.swift`).
+   *
+   * Android WebView and the regular web don't have this problem, so they use the normal reload.
+   */
+  const hardReload = () => {
+    const wtmgHardReload = (
+      window as unknown as {
+        webkit?: { messageHandlers?: { wtmgHardReload?: { postMessage: (msg: unknown) => void } } };
+      }
+    ).webkit?.messageHandlers?.wtmgHardReload;
+    if (Capacitor.getPlatform() === 'ios' && wtmgHardReload) {
+      wtmgHardReload.postMessage(null);
+    } else {
+      window.location.reload();
+    }
+  };
+
   onMount(() => {
     return Sentry.startSpan({ name: 'Root Layout Load', op: 'app.load' }, async () => {
+      // Note: we don't unregister from this handler, since the root layout should be called only once.
+      // Also only wire up connectivity detection when the plugin is actually available (true on the web and on native shells that
+      // include it); otherwise skip it entirely so we don't trigger "not implemented" errors.
+      if (Capacitor.isPluginAvailable('Network')) {
+        Network.getStatus()
+          .then((status) => {
+            isOffline = !status.connected;
+          })
+          .catch(() => {});
+        Network.addListener('networkStatusChange', (status) => {
+          const wasOffline = isOffline;
+          isOffline = !status.connected;
+          // When connectivity is restored after having been lost, do a hard reload of the current
+          // page so it reflects the latest state — unless we're on a data-entry route where a
+          // reload could discard in-progress input.
+          // This helps when you are e.g. on the home page and
+          // 1) lose connection, 2) go to /explore (shows an error), 3) regain connection
+          // -> the /explore page does not rerun onMount or reload -> you're stuck
+          // Note: I tried to use SvelteKit's `invalidateAll` here, that did not work.
+          if (
+            wasOffline &&
+            status.connected &&
+            !RELOAD_EXEMPT_ROUTE_IDS.has(page.route?.id ?? '')
+          ) {
+            hardReload();
+          }
+        }).catch(() => {});
+      }
       logger.log('Mounting root layout');
       if (Capacitor.isNativePlatform()) {
         await SplashScreen.hide();
-        // for (let i = 0; i < 6; i++) {
-        // await StatusBar.setOverlaysWebView({ overlay: true })
-        // await SafeArea.enable({
-        //   config: {
-        //     // TODO: not working for now
-        //     // https://github.com/capacitor-community/safe-area/issues/55
-        //     customColorsForSystemBars: true,
-        //     // statusBarColor: '#00000000', // transparent
-        //     statusBarContent: 'dark',
-        //     // navigationBarColor: '#00000000', // transparent
-        //     navigationBarContent: 'dark'
-        //   }
-        // }).then(() => console.debug('Capacitor: safe area values set'));
-        // await (new Promise(resolve => setTimeout(resolve, 50)));
-        // }
       }
 
       vh = `${window.innerHeight * 0.01}px`;
@@ -334,28 +390,22 @@
 {#if browser}
   <Progress active={!$appHasLoaded} />
 {/if}
-<!-- This specific error banner may be useful for another case, or if we restore some
-      kind of app check -->
-<!-- {#if typeof $locale == 'string'}
-  <div class="permanent-error">
+{#if browser && isOffline && $staticAppHasLoaded}
+  <div class="permanent-error" role="alert" aria-live="assertive">
     <div>
-      {@html $_('generics.error.app-check.message', {
-        values: {
-          linkText: anchorText({
-            href: `${$_('generics.helpcenter-url')}master/${{ en: '2.-to-use-wtmg-on-firefox', nl: '2.-wtmg-gebruiken-in-firefox', fr: '2.-pour-utiliser-wtmg-sur-firefox' }[coerceToMainLanguage($locale)]}`,
-            class: 'error-link',
-            linkText: $_('generics.error.app-check.link-text')
-          })
-        }
-      })}
+      {$_(
+        page.route?.id === '/[[lang]]/(stateful)/chat/[name]/[chatId]'
+          ? 'generics.error.offline-chat'
+          : 'generics.error.offline'
+      )}
     </div>
   </div>
-{/if} -->
+{/if}
 <div
   id="wtmg-app"
   class="app active-{$activeRootPath} active-route-{page?.route?.id} locale-{$coercedLocale}"
   class:fullscreen={$isFullscreen}
-  class:error-banner={false}
+  class:error-banner={browser && isOffline}
   class:native={Capacitor.isNativePlatform()}
   class:ios={Capacitor.getPlatform() === 'ios'}
   class:android={Capacitor.getPlatform() === 'android'}
@@ -409,6 +459,13 @@
     flex-direction: column;
   }
 
+  /* When the offline banner is shown, shrink the app by the banner height so the banner
+     (which sits above the app in normal flow) doesn't push content past the viewport. */
+  .app.error-banner {
+    height: calc(var(--vh, 1vh) * 100 - var(--height-error-banner));
+    height: calc(100dvh - var(--height-error-banner));
+  }
+
   .app > :global(main) {
     width: 100%;
     /* Anchor overflow:hidden on descendants
@@ -459,26 +516,31 @@
   }
 
   :global(body) {
-    /* A variable, so it can be reused when the nav bar has to dodge this */
-    --height-error-banner: 4rem;
+    /*
+      A variable, so it can be reused when the nav bar has to dodge this.
+      Since it is always on top, safe area is always included.
+    */
+    --height-error-banner: calc(4rem + env(safe-area-inset-top, 0px));
   }
 
   .permanent-error {
+    /* Includes top safe area */
     height: var(--height-error-banner);
-    background-color: #fbf2f5;
-    color: #931c1a;
+    /* Yellow warning band, matching the native offline gate. */
+    background-color: var(--color-warning);
+    color: var(--color-green);
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: 600;
     width: 100%;
+    /* Clear the status bar / notch on native. */
+    padding-top: env(safe-area-inset-top, 0px);
   }
   .permanent-error > div {
-    padding: 1.4rem;
+    padding: 0.8rem 1.4rem;
     line-height: 1.3;
-  }
-  .permanent-error :global(.error-link) {
-    text-decoration: underline;
+    text-align: center;
   }
 
   .local-env-string {
@@ -502,9 +564,15 @@
       overflow-x: hidden;
     }
 
+    .app.error-banner {
+      height: calc(var(--vh, 1vh) * 100 - var(--height-mobile-nav) - var(--height-error-banner));
+    }
+
     /* Add a general safe inset padding on native, except on the map & chat
-      (they don't need it, or have their own safe area handling) */
-    .app.native.supports-safe-area:not(.active-explore):not(.active-chat) {
+      (they don't need it, or have their own safe area handling)
+       Also remove the inset on .error-banner, which has its own inset.
+      */
+    .app.native.supports-safe-area:not(.error-banner):not(.active-explore):not(.active-chat) {
       padding-top: env(safe-area-inset-top, 0px);
     }
 
@@ -524,14 +592,24 @@
     /* background: #fff;
     } */
 
-    /* On mobile there is no top nav to take into account */
     .permanent-error {
+      /*
+      On mobile there is no top nav to take into account.
+      - on /explore, there is no fixed element on top -> the map cleanly moves below the error
+      - on specific chat pages, there is a fixed top element/header, things are messier there
+       */
       height: auto;
+      /* The following two help to overlay the specific chat header  */
+      position: relative;
+      z-index: 11;
     }
 
     @supports (height: 100dvh) {
       .app {
         height: calc(100dvh - var(--height-mobile-nav));
+      }
+      .app.error-banner {
+        height: calc(100dvh - var(--height-mobile-nav) - var(--height-error-banner));
       }
     }
 

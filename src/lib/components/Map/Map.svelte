@@ -391,12 +391,21 @@ Component for maps. Shared between the main map, and the map in the Garden creat
     top: calc(env(safe-area-inset-top, 0px) + var(--spacing-map-controls) - 10px);
   }
 
+  :global(.app.error-banner .map-container .mapboxgl-ctrl-top-left) {
+    /* reset the above */
+    top: calc(var(--spacing-map-controls) - 10px);
+  }
+
   @media screen and (max-width: 700px) {
     /* Includes the FullscreenControl */
     .map-container :global(.mapboxgl-ctrl-top-right) {
       /* The top-right controls (on native just the geolocation) should come below the filter button */
       top: calc(env(safe-area-inset-top, 0px) + var(--spacing-map-controls) + 4.3rem);
       right: 0.2rem;
+    }
+    :global(.app.error-banner .map-container .mapboxgl-ctrl-top-right) {
+      /* reset the above */
+      top: calc(var(--spacing-map-controls) + 4.3rem);
     }
 
     .map-container :global(.mapboxgl-ctrl-attrib.mapboxgl-compact:not(.mapboxgl-compact-show)) {

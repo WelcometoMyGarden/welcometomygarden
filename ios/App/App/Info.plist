@@ -43,6 +43,10 @@
 	<string>We want to show your location on the map.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We want to show your location on the map.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Montserrat-SemiBold.ttf</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array/>
 	<key>UILaunchStoryboardName</key>
