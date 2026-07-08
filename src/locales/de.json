@@ -666,7 +666,7 @@
         "1": {
           "title": "Mitglied",
           "description": "Du erhältst vollen Zugriff auf die WTMG-Plattform und deckst deinen Teil der Kosten.",
-          "backref": "Alles aus 'Kostenlos', plus:",
+          "backref": "Alles aus 'Kostenlos' plus:",
           "checklist": {
             "0": "<strong>Stelle Übernachtungsanfragen an über 5000+ Gärten.</strong>",
             "1": "<strong>Plane deine Reise:</strong> Lade deine Route hoch, speichere Gärten und sieh dir das Schienennetz an",
@@ -677,7 +677,7 @@
         "2": {
           "title": "Superfan 💚",
           "description": "Du hast wirklich eine Leidenschaft für Slow Travelling und möchtest die Mission von WTMG noch weiter unterstützen.",
-          "backref": "Enthält alle Vorteile für Mitglieder, plus:",
+          "backref": "Enthält alle Vorteile für Mitglieder plus:",
           "mobile-superfan-copy": "Vorteile für Mitglieder, plus du glaubst wirklich an das, was wir tun, und möchtest die Mission von WTMG unterstützen.",
           "checklist": {
             "0": "<strong>Unterstütze uns und hilf mit, WTMG zu verbessern</strong>",
