@@ -85,7 +85,7 @@
     "steps": {
       "0": {
         "title": "Pasul 1: Înregistrează-te pentru a începe",
-        "copy": "Înregistrează-te pentru a găsi locuri de campare în grădinile oamenilor și pentru a contacta gazdele, sau {addGardenLink} către hartă!",
+        "copy": "Înregistrează-te pentru a găsi locuri de campare în grădinile oamenilor și pentru a contacta gazdele, sau {addGardenLink} pe hartă!",
         "add-garden-link-text": "adaugă propria grădină"
       },
       "1": {
