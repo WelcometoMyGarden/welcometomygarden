@@ -819,7 +819,7 @@
             },
             "12": {
               "title": "Vad händer om jag avslutar mitt medlemskap?",
-              "copy": "Om du avslutar ditt medlemskap är det bara den automatiska förnyelsen som avbryts. Det innebär att du förblir medlem fram till slutet av den period som du redan har betalat för. Men om du ändrar dig kan du när som helst återaktivera den automatiska förnyelsen på ditt {accountLink}."
+              "copy": "Om du avslutar ditt medlemskap är det bara den automatiska förnyelsen som avbryts. Det innebär att du förblir medlem fram till slutet av den period som du redan har betalat för. Men om du ändrar dig kan du när som helst återaktivera den automatiska förnyelsen på {accountLink}."
             },
             "13": {
               "title": "Behövs det ett medlemskap per person om jag reser med vänner eller familj?",
