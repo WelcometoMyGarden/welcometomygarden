@@ -149,7 +149,7 @@
     "description": "So funktioniert <span class=\"notranslate\">Welcome To My Garden</span>. Lies dir unbedingt die Regeln durch, bevor du dein Abenteuer beginnst! Schließlich funktioniert diese Plattform nur dann gut, wenn wir uns alle an die Regeln halten.",
     "rules": {
       "0": {
-        "title": "Ein Netzwerk von Bürgern und Bürgerinnen",
+        "title": "Ein Netzwerk von wunderbaren Hosts.",
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> ist ein Netzwerk von Bürgern und Bürgerinnen, die Slow Travellers kostenlose Zeltplätze in ihren Gärten anbieten. Es ist eine gemeinnützige Initiative, mit der kein Einkommen erzielt werden soll. <span class=\"notranslate\">Welcome To My Garden</span> übernimmt keine Verantwortung für Verluste, Schäden oder Verletzungen, die während eines Aufenthalts entstehen."
       },
       "1": {
