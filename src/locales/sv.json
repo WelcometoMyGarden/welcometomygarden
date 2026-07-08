@@ -290,7 +290,7 @@
           },
           "update-email": {
             "title": "Jag vill uppdatera min e-postadress eller ta bort mitt konto. Hur gör jag det?",
-            "copy": "Om du vill ändra din e-postadress eller ta bort ditt konto, gå till ditt {accountLink}."
+            "copy": "Om du vill ändra din e-postadress eller ta bort ditt konto, gå till {accountLink}."
           },
           "newsletter": {
             "title": "Jag vill jättegärna få ert nästa nyhetsbrev! Vad ska jag göra?",
