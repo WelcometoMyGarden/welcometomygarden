@@ -811,7 +811,7 @@
             },
             "10": {
               "title": "Für wie lange werde ich Mitglied oder Superfan?",
-              "copy": "Wenn du Mitglied oder Superfan wirst, zahlst du für ein Jahr. Deine Mitgliedschaft verlängert sich automatisch, aber du kannst die automatische Verlängerung jederzeit in deinem {accountLink} kündigen. Wenn du deine Mitgliedschaft kündigst, wird nur die automatische Verlängerung deaktiviert. Das bedeutet, dass du bis zum Ende des bereits bezahlten Zeitraums Mitglied bleibst."
+              "copy": "Wenn du Mitglied oder Superfan wirst, zahlst du für ein Jahr (12 Monate ab Zahlungseingang). Deine Mitgliedschaft verlängert sich automatisch, aber du kannst die automatische Verlängerung jederzeit in deinem {accountLink} kündigen. Wenn du deine Mitgliedschaft kündigst, wird nur die automatische Verlängerung deaktiviert. Das bedeutet, dass du bis zum Ende des bereits bezahlten Zeitraums Mitglied bleibst."
             },
             "11": {
               "title": "Kann ich meine Mitgliedschaft als Mitglied oder Superfan beenden?",
