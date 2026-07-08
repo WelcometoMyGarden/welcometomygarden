@@ -1086,7 +1086,7 @@
       "logging-in": "Loggar in dig på mötesplatsen...",
       "failed": "Inloggningen till mötesplatsen misslyckades, kontakta supporten om detta fortsätter att hända."
     },
-    "logged-out": "Du har loggats ut.",
+    "logged-out": "Du har loggat ut.",
     "email-change": {
       "in-progress": "Ändrar din e-postadress...",
       "success": "Din e-postadress har ändrats! Logga in igen"
