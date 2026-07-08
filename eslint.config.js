@@ -21,7 +21,7 @@ export default tseslint.config(
       'android/',
       'ios/',
       'tools/',
-      'src/browser-support.min.js',
+      'src/**/*.min.js',
       // svelte-eslint-parser cannot tokenize the inline third-party <script src>
       // nested inside <svelte:head> here (valid Svelte, but breaks the JS parser).
       'src/routes/**/account/+page.svelte'
@@ -30,8 +30,8 @@ export default tseslint.config(
 
   // Base recommended rule sets.
   js.configs.recommended,
-  ...tseslint.configs.recommended,
-  ...svelte.configs.recommended,
+  tseslint.configs.recommended,
+  svelte.configs.recommended,
 
   // Turn off all rules that conflict with Prettier (formatting is Prettier's job).
   prettier,
