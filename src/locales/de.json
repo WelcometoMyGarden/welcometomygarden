@@ -967,7 +967,7 @@
     "garden": {
       "title": "Dein Garten",
       "unlisted": {
-        "text": "Du hast deinen Garten noch nicht auf der Karte eingetragen. Wenn du deinen Garten hinzufügst, können andere Users dich kontaktieren, um eine Übernachtung anzufragen. Du kannst deinen Garten jederzeit wieder ausblenden!",
+        "text": "Du hast deinen Garten noch nicht auf der Karte eingetragen. Wenn du deinen Garten hinzufügst, können andere Reisende dich kontaktieren, um eine Übernachtung anzufragen. Du kannst deinen Garten jederzeit wieder ausblenden!",
         "button": "Garten hinzufügen"
       },
       "listed": {
