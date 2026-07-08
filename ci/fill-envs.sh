@@ -1,5 +1,6 @@
 #!/bin/bash
-# Fills in environment values from the environment into the .env files frontend, backend & testing
+# Fills in environment values from the environment into the specific .env files
+# expected by the frontend, backend & testing environments.
 # Expected input env variables:
 # - SENTRY_DSN
 # - SENTRY_AUTH_TOKEN

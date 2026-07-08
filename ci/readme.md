@@ -1,9 +1,13 @@
+This folder primarily contains the [Dockerfile](./Dockerfile.ci) that defines the full-stack environment in which GitHub's CI runs Playwright e2e tests.
+
 ## Local E2E tests in a CI container
 
-Running E2E tests in may be useful to test the effect of front-end and/or back-end dependency updates and configuration changes, especially:
+The same environment can also be used to E2E locally in an isolated environment, when combined with [Dockerfile.local-test](./Dockerfile.local-test).
+
+This may be useful to test the effect of front-end and/or back-end dependency updates and configuration changes, especially:
 
 - When simulatenously working on another feature on the host, delegating the E2E test of code snapshot (docker `COPY`) makes it run in parallel to local host development servers.
-- Configuration changes that may be dependent somehow on the host system, in which the container is a neutral/fresh environment without access to most credentials.
+- For configuration changes that may be dependent somehow on the host system, in which the container is a neutral/fresh environment without access to most credentials.
 
 To use it, run:
 
