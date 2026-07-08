@@ -3,7 +3,6 @@
   import type { ExpressionSpecification, GeoJSONSource, Marker } from 'mapbox-gl';
   import mapboxgl from 'mapbox-gl';
   import { fileDataLayers } from '$lib/stores/file';
-  import { routeTweaks } from '$lib/stores/routeTweaks';
   import { getContext, onDestroy } from 'svelte';
   import { get } from 'svelte/store';
   import { bbox } from '@turf/bbox';
@@ -97,24 +96,33 @@
   const routeNameFor = (layer: FileDataLayer) =>
     (layer.originalFileName ?? '').replace(/\.[^./\\]+$/, '');
 
-  // --- Route name placement ---
-  // Names are placed on each route's non-overlapping stretches. Two modes:
-  // - onRoute: a single centred label per stretch (`line-center`), shrunk at low zoom so
-  //   every file's name appears together from the same low zoom.
-  // - besideRoute: the name repeated along the route (`line`, so it follows the curvature)
-  //   but offset to the side with a little extra spacing, a slightly larger font and a
-  //   slightly bigger white outline for readability.
+  // --- Route name labels ---
+  // Names are placed alongside each route's non-overlapping stretches: repeated along the
+  // route (`line`, so they follow the curvature) but offset to the side with some spacing,
+  // a slightly larger font and a slightly bigger white outline for readability.
   const NAME_SPACING = 250;
-  const nameIsBeside = () => get(routeTweaks).routeNamePlacement === 'besideRoute';
-  const namePlacement = (): 'line' | 'line-center' => (nameIsBeside() ? 'line' : 'line-center');
-  const nameTextSize = (): ExpressionSpecification =>
-    nameIsBeside()
-      ? ['interpolate', ['linear'], ['zoom'], 6, 9, 12, 15]
-      : ['interpolate', ['linear'], ['zoom'], 6, 8, 12, 13];
-  // Perpendicular (screen-space) offset lifting the name off the line in "beside" mode.
-  const nameOffset = (): [number, number] => (nameIsBeside() ? [0, -1.3] : [0, 0]);
-  const nameHaloWidth = () => (nameIsBeside() ? 2.5 : 1.5);
-  const nameMaxAngle = () => (nameIsBeside() ? 60 : 180);
+  // Triple the gap between repeated names once zoomed in past ~15, so they don't repeat
+  // too densely when looking at the route up close.
+  const NAME_SPACING_EXPR: ExpressionSpecification = [
+    'step',
+    ['zoom'],
+    NAME_SPACING,
+    15,
+    NAME_SPACING * 3
+  ];
+  const NAME_TEXT_SIZE: ExpressionSpecification = [
+    'interpolate',
+    ['linear'],
+    ['zoom'],
+    6,
+    9,
+    12,
+    15
+  ];
+  // Perpendicular (screen-space) offset lifting the name off the line.
+  const NAME_OFFSET: [number, number] = [0, -1.3];
+  const NAME_HALO_WIDTH = 2.5;
+  const NAME_MAX_ANGLE = 60;
 
   // Track rendered trail layers + the global set of endpoint DOM markers.
   const rendered = new Set<string>();
@@ -299,12 +307,12 @@
         type: 'symbol',
         source: nameSourceId(id),
         layout: {
-          'symbol-placement': namePlacement(),
-          'symbol-spacing': NAME_SPACING,
+          'symbol-placement': 'line',
+          'symbol-spacing': NAME_SPACING_EXPR,
           'text-field': routeName,
-          'text-size': nameTextSize(),
-          'text-offset': nameOffset(),
-          'text-max-angle': nameMaxAngle(),
+          'text-size': NAME_TEXT_SIZE,
+          'text-offset': NAME_OFFSET,
+          'text-max-angle': NAME_MAX_ANGLE,
           'text-keep-upright': true,
           // Keep the name reliably visible along the route's (non-overlapping) stretches
           // rather than letting collision with base-map labels drop it.
@@ -314,17 +322,12 @@
         paint: {
           'text-color': color,
           'text-halo-color': 'rgba(255, 255, 255, 0.9)',
-          'text-halo-width': nameHaloWidth()
+          'text-halo-width': NAME_HALO_WIDTH
         }
       });
     } else {
       map.setLayoutProperty(nameLabelId(id), 'text-field', routeName);
-      map.setLayoutProperty(nameLabelId(id), 'symbol-placement', namePlacement());
-      map.setLayoutProperty(nameLabelId(id), 'text-size', nameTextSize());
-      map.setLayoutProperty(nameLabelId(id), 'text-offset', nameOffset());
-      map.setLayoutProperty(nameLabelId(id), 'text-max-angle', nameMaxAngle());
       map.setPaintProperty(nameLabelId(id), 'text-color', color);
-      map.setPaintProperty(nameLabelId(id), 'text-halo-width', nameHaloWidth());
     }
 
     // Start/end markers are managed globally (see rebuildEndpointMarkers).
@@ -557,11 +560,9 @@
   map.on('zoom', onZoom);
 
   const unsubscribeLayers = fileDataLayers.subscribe(sync);
-  const unsubscribeTweaks = routeTweaks.subscribe(sync);
 
   onDestroy(() => {
     unsubscribeLayers();
-    unsubscribeTweaks();
     map.off('zoom', onZoom);
     // Guard against the map having been torn down already (e.g. on navigation away).
     try {
