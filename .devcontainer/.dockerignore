@@ -1,0 +1,7 @@
+# Build context = .devcontainer/. Only the lifecycle scripts + layout are COPYed
+# into the image; keep everything else (secrets, docs, compose) out of the context.
+.env
+.env.*
+docker-compose.yml
+devcontainer.json
+readme.md

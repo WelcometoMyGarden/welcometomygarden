@@ -1,0 +1,45 @@
+# Dev container service for WTMG.
+#
+# Mirrors the ci/ approach (env-driven, isolated), but instead of COPYing the
+# repo it clones it into a named volume (see bootstrap-repo.sh) and runs the
+# demo dev servers in a zellij session (see start-dev.sh).
+services:
+  wtmg-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Published CI base by default. To use a locally-built base instead
+        # (see ci/local-build.sh) set BASE_IMAGE=wtmg-e2e-ci:24 in your shell
+        BASE_IMAGE: ${BASE_IMAGE:-ghcr.io/welcometomygarden/wtmg-e2e-ci:24}
+    container_name: ${CONTAINER_NAME:-wtmg-dev}
+    # The same 5 secrets as ci/.env.local (consumed by ci/fill-envs.sh), plus the
+    # optional REPO_URL / GITHUB_PAT / REPO_BRANCH used by bootstrap-repo.sh.
+    # Optional so a first `cp .env.local.example .env.local` isn't strictly
+    # required to boot (the public repo clones fine and secrets default empty).
+    env_file:
+      - path: .env.local
+        required: false
+    volumes:
+      # Cloned source lives here and survives container recreation. A fresh
+      # `devcontainer up` will NOT re-clone if this volume already has the repo.
+      - wtmg-src:/root/welcometomygarden
+      # Independent Claude Code session (config + auth + projects), persisted /
+      # cached across rebuilds. CLAUDE_CONFIG_DIR (Dockerfile) points here.
+      - wtmg-claude:/root/.claude
+    ports:
+      - '5173:5173' # Vite dev server (frontend)
+      - '4000:4000' # Firebase Hosting emulator
+      - '4001:4001' # Firebase Emulator UI
+      - '5001:5001' # Cloud Functions emulator
+      - '8080:8080' # Firestore emulator
+      - '9099:9099' # Auth emulator
+      - '9199:9199' # Storage emulator
+      - '8025:8025' # Mailpit web UI
+    # Keep the container alive; VS Code attaches over the Docker socket and the
+    # dev servers run inside the zellij session started by start-dev.sh.
+    command: sleep infinity
+
+volumes:
+  wtmg-src:
+  wtmg-claude:

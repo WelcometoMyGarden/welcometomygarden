@@ -1,0 +1,35 @@
+// Zellij layout for the WTMG dev session (launched headless by start-dev.sh via
+// `zellij attach --create-background dev options --default-layout ~/dev-layout.kdl`).
+//
+// One tab, "dev", with two side-by-side (horizontally placed) panes:
+//   frontend → Vite dev server            (`yarn dev`)
+//   api      → Firebase demo emulators+seed (`yarn firebase:demo-seed`)
+//
+// Each pane runs a login zsh (nvm/PATH available) and tees its output to
+// ~/.logs/<name>.log. They are command panes, so pressing Enter in a pane
+// re-runs the server after it exits.
+layout {
+    // Restore zellij's default tab + status bars (a custom layout otherwise
+    // replaces them).
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        children
+        pane size=2 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+    }
+
+    tab name="dev" {
+        // split_direction="vertical" places the children left/right.
+        pane split_direction="vertical" {
+            pane name="frontend" cwd="/root/welcometomygarden" command="zsh" {
+                args "-lc" "mkdir -p ~/.logs && yarn dev 2>&1 | tee ~/.logs/frontend.log"
+            }
+            pane name="api" cwd="/root/welcometomygarden" command="zsh" {
+                args "-lc" "mkdir -p ~/.logs && yarn firebase:demo-seed 2>&1 | tee ~/.logs/api.log"
+            }
+        }
+    }
+}

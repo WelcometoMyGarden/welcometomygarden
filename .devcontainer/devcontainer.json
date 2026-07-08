@@ -1,0 +1,35 @@
+{
+  // WTMG dev container. The Dev Containers extension builds the image via
+  // docker-compose and attaches over the Docker socket (docker exec) — no SSH.
+  "name": "WTMG Dev Container",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "wtmg-dev",
+  // Opened working copy = the repo cloned into the wtmg-src named volume.
+  "workspaceFolder": "/root/welcometomygarden",
+  // root, to match the CI e2e image (Playwright/Chromium + Firebase emulators
+  // are set up for root; uid 1000 breaks e2e). Named volumes only, so no host
+  // file-ownership pollution.
+  "remoteUser": "root",
+  // Respect docker-compose's `command: sleep infinity` (don't override it).
+  "overrideCommand": false,
+  // Leave the container running when VS Code disconnects.
+  "shutdownAction": "none",
+
+  // One-off: clone the repo into the named volume + install deps. Idempotent —
+  // re-runs after a rebuild never re-clone or overwrite an existing working copy.
+  "postCreateCommand": "/root/bootstrap-repo.sh",
+  // Every start: fill env files (ci/fill-envs.sh) then bring up the demo dev
+  // servers (frontend + api) in the headless zellij "dev" session.
+  "postStartCommand": "/root/start-dev.sh",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "svelte.svelte-vscode",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "toba.vsfire"
+      ]
+    }
+  }
+}
