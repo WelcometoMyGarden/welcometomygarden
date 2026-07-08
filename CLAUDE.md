@@ -30,6 +30,31 @@ yarn test:unit             # Vitest unit tests
 yarn test:e2e              # Playwright E2E tests
 ```
 
+### Linting & formatting scope (IMPORTANT)
+
+The frontend (`src/`, `tests/`, root config files) and the `api/` subfolder are
+**two separate projects with separate ESLint configs**:
+
+- Frontend: root `eslint.config.js` (flat config, ESLint 9 + `eslint-plugin-svelte`).
+  It explicitly ignores `api/`.
+- API: `api/eslint.config.js` — a separate, long-standing config that has been
+  consistently applied.
+
+Scope your checks to what you changed:
+
+- **If you only touched frontend files** (`src/**`, `tests/**`, root configs),
+  run only the frontend checks — `yarn check` (types) and, if you want lint,
+  `yarn lint` / `yarn format`. **Do not** run or worry about `api/` linting.
+- **If you only touched `api/**`**, run only `cd api && yarn lint`(and the API
+tests). Do not run the frontend lint/format over`api/`.
+- Only run both when a change genuinely spans both projects.
+
+Note: the pre-commit hook (husky + lint-staged) already enforces this
+automatically — it lints/formats staged frontend files with the frontend config
+and staged `api/` files with the API config, and never mixes the two. It does
+**not** run a repo-wide `yarn check`, because the frontend currently has
+pre-existing `svelte-check` type errors unrelated to linting.
+
 ### Backend (Firebase)
 
 ```bash

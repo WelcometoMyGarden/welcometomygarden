@@ -1,0 +1,6 @@
+{
+  "{src,tests}/**/*.{js,ts,svelte}": ["eslint --fix --no-warn-ignored", "prettier --write"],
+  "*.config.{js,ts}": ["eslint --fix --no-warn-ignored", "prettier --write"],
+  "{src,tests}/**/*.{css,scss,json,md,html}": "prettier --write",
+  "api/**/*.js": "eslint --config api/eslint.config.js --no-config-lookup --fix --no-warn-ignored"
+}
