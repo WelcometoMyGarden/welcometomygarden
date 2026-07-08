@@ -99,7 +99,7 @@
     },
     "faq": {
       "title": "Allt du behöver veta",
-      "copy": "Här hittar du de viktigaste sakerna du behöver veta inför ditt nästa äventyr. Läs igenom den här FAQ:n noggrant så att du vet vad du ger dig in på. Fler frågor? Läs mer i {faqLink}!",
+      "copy": "Här hittar du det viktigaste du behöver veta inför ditt nästa äventyr. Läs igenom den här FAQ:n noggrant så att du vet vad du ger dig in på. Fler frågor? Läs mer i {faqLink}!",
       "faq-link-text": "vår fullständiga FAQ",
       "questions": {
         "0": {
