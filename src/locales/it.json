@@ -668,7 +668,7 @@
           "description": "Ottieni l'accesso completo alla piattaforma WTMG e copri la tua parte dei costi.",
           "backref": "Tutto quello che c'è nella versione gratuita, in più:",
           "checklist": {
-            "0": "<strong>Invia richieste di soggiorno a oltre 5000 giardini.</strong>",
+            "0": "<strong>Invia richieste di soggiorno ad oltre 5000 giardini.</strong>",
             "1": "<strong>Pianifica il tuo viaggio:</strong> carica il tuo percorso, salva i giardini e vedi la rete ferroviaria",
             "2": "<strong>Accesso allo spazio della community</strong>",
             "3": "<strong>Mantieni WTMG senza pubblicità, completamente indipendente e sostenuto dai membri</strong>"
