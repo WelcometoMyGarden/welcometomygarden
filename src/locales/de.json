@@ -519,7 +519,7 @@
       "spots-available": "Verfügbare Zeltplätze",
       "min": "Minimum",
       "no-places": "Keine Orte gefunden",
-      "search-city": "Nach einer Stadt suchen",
+      "search-city": "Einen Ort suchen",
       "all-filters": "Alle Filter",
       "apply-filter": "Filter anwenden",
       "available": "{styledAmount} {amount, plural, one {Garten} other {Gärten}} mit den aktiven Filtern verfügbar.",
