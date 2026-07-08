@@ -704,7 +704,7 @@
     },
     "for-superfans-section": {
       "slug": "Tu faci ca magia să se întâmple",
-      "title": "Ca membru poți să…",
+      "title": "Ca Membru poți să…",
       "points": {
         "0": {
           "title": "<strong>Trimiți solicitări pentru găzduire gratuită către toate cele peste 5.000 de gazde WTMG de pe hartă</strong>"
@@ -770,12 +770,12 @@
           "title": "Călători lenți",
           "questions": {
             "0": {
-              "title": "Ce înseamnă să fii membru sau Superfan?",
-              "copy": "<p>Costurile pentru întreținerea și dezvoltarea WTMG sunt acoperite de un abonament anual plătit în mod echitabil de toți cei care practică călătoria lentă.</p><p>Când devii membru sau Superfan, poți:</p><ul><li>Să trimiți cereri gratuite către peste 5000 de grădini</li><li>Funcții utile pentru a-ți planifica călătoria: încarcă-ți traseul, salvează grădini, vezi rețeaua feroviară</li><li>Să accesezi spațiul online al comunității</li><li>Să menții WTMG fără reclame, complet independent și susținut de membri.</li></ul>"
+              "title": "Ce înseamnă să fii Membru sau Superfan?",
+              "copy": "<p>Costurile pentru întreținerea și dezvoltarea WTMG sunt acoperite de un abonament anual plătit în mod echitabil de toți cei care practică călătoria lentă.</p><p>Când devii Membru sau Superfan, poți:</p><ul><li>Să trimiți cereri gratuite către peste 5000 de grădini</li><li>Funcții utile pentru a-ți planifica călătoria: încarcă-ți traseul, salvează grădini, vezi rețeaua feroviară</li><li>Să accesezi spațiul online al comunității</li><li>Să menții WTMG fără reclame, complet independent și susținut de membri.</li></ul>"
             },
             "1": {
-              "title": "Care este diferența dintre a fi membru și a fi Superfan?",
-              "copy": "Deși Superfanii au acces la aceleași beneficii ca și membrii, ei sunt foarte importanți pentru WTMG, deoarece ne permit să îmbunătățim WTMG, să dezvoltăm conceptul de călătorie lentă și să adăugăm mai multe grădini pe hartă. Dacă ești cu adevărat pasionat de călătoria lentă și vrei să susții misiunea WTMG, acest lucru este pentru tine!"
+              "title": "Care este diferența dintre a fi Membru și a fi Superfan?",
+              "copy": "Deși Superfanii au acces la aceleași beneficii ca și Membrii, ei sunt foarte importanți pentru WTMG deoarece ne permit să îmbunătățim WTMG, să dezvoltăm conceptul de călătorie lentă și să adăugăm mai multe grădini pe hartă. Dacă ești cu adevărat pasionat de călătoria lentă și vrei să susții misiunea WTMG, acest lucru este pentru tine!"
             },
             "2": {
               "title": "De ce are nevoie WTMG de o contribuție financiară anuală din partea celor care practică o călătorie lentă?",
@@ -787,18 +787,18 @@
             },
             "4": {
               "title": "Cât de mult trebuie să contribui?",
-              "copy": "<p>Depinde de tine! Poți deveni membru sau Superfan, în funcție de cât de mult crezi în călătoria lentă și de cât de mult vrei să ne susții.</p><p>Un Abonament de membru costă 36 € pe an, și acoperă, în esență, costul utilizării tale. Poți trimite cereri gratuite către peste 5000 de grădini, ai acces la funcții utile pentru a-ți planifica călătoria și contribui ca WTMG să rămână fără reclame, complet independent și susținut de membri.</p><p>Să devii Superfan costă 60 € pe an. Pe lângă toate avantajele oferite membrilor, Superfanii ne ajută, de asemenea, să îmbunătățim WTMG, să dezvoltăm conceptul de călătorie lentă și să adăugăm mai multe grădini pe hartă.</p>"
+              "copy": "<p>Depinde de tine! Poți deveni Membru sau Superfan, în funcție de cât de mult crezi în călătoria lentă și de cât de mult vrei să ne susții.</p><p>Un Abonament de Membru costă 36 € pe an, și acoperă, în esență, costul utilizării tale. Poți trimite cereri gratuite către peste 5000 de grădini, ai acces la funcții utile pentru a-ți planifica călătoria și contribui ca WTMG să rămână fără reclame, complet independent și susținut de membri.</p><p>Să devii Superfan costă 60 € pe an. Pe lângă toate avantajele oferite membrilor, Superfanii ne ajută, de asemenea, să îmbunătățim WTMG, să dezvoltăm conceptul de călătorie lentă și să adăugăm mai multe grădini pe hartă.</p>"
             },
             "5": {
               "title": "Cum funcționează plata?",
-              "copy": "După ce ai ales dacă dorești să devii membru sau Superfan, vei fi redirecționat către pagina de plată. Abonamentul se plătește anual. Abonamentul tău se va reînnoi automat, dar poți anula reînnoirea automată oricând în {accountLink}. De asemenea, cu șapte zile înainte de data reînnoirii, te vom notifica prin e-mail cu privire la reînnoirea care urmează."
+              "copy": "După ce ai ales dacă dorești să devii Membru sau Superfan, vei fi redirecționat către pagina de plată. Abonamentul se plătește anual. Abonamentul tău se va reînnoi automat, dar poți anula reînnoirea automată oricând în {accountLink}. De asemenea, cu șapte zile înainte de data reînnoirii, te vom notifica prin e-mail cu privire la reînnoirea care urmează."
             },
             "6": {
               "title": "Cum îmi pot gestiona, reînnoi sau anula abonamentul?",
               "copy": "Îți poți gestiona, reînnoi sau anula abonamentul oricând în {accountLink}. Pe această pagină vei vedea starea actuală a abonamentului tău, data de reînnoire sau de expirare și instrucțiuni despre cum îl poți anula sau reînnoi. "
             },
             "7": {
-              "title": "Este obligatoriu să devin membru sau Superfan dacă sunt un călător lent?",
+              "title": "Este obligatoriu să devin Membru sau Superfan dacă sunt un călător lent?",
               "copy": "<p>Călătorii lenți trebuie să aibă o contribuție financiară anuală pentru ca WTMG să poată exista în continuare. Acesta este lucrul pe care l-am cerut deja atunci când am lansat apelul nostru pentru Superfani. Acum, extindem această solicitare către întreaga noastră comunitate de călătorii lenți. <strong>Practic, dacă folosești platforma noastră, ne așteptăm să contribui.</strong> Aceasta va fi o contribuție anuală. Astfel, pe lângă posibilitatea de a deveni Superfan, introducem și abonamentul de Membru pentru a extinde solicitarea noastră de sprijin de la primii susținători către întreaga comunitate.</p><p>Nu le cerem gazdelor să contribuie financiar, deoarece ele contribuie deja într-un alt mod – dar, desigur, sunt binevenite să ne susțină și financiar dacă doresc.</p>"
             },
             "8": {
@@ -806,20 +806,20 @@
               "copy": "<p>La sfârșitul anului 2022, am lansat un apel pentru Superfani WTMG. Suntem foarte recunoscători pentru sprijinul primit de la primii peste 250 de Superfani și pentru o donație generoasă de 1.000 € de la o gazdă. <strong>Datorită acestor primi susținători, suntem convinși că WTMG poate deveni un proiect autosuficient.</strong> Dar pentru a ajunge acolo, avem nevoie de un <strong>sprijin pe scară largă</strong>; nu doar din partea unui procent mic de utilizatori: am calculat că avem nevoie de susținerea a <strong>cel puțin 3.000 de călători</strong> pentru ca această magie să se întâmple.</p>"
             },
             "9": {
-              "title": "Dacă nu devin membru sau Superfan, ce se va întâmpla cu contul meu gratuit?",
-              "copy": "Ca membru gratuit, poți explora harta, poți găzdui în grădina ta călători care practică călătoria lentă și poți primi newsletterul WTMG."
+              "title": "Dacă nu devin Membru sau Superfan, ce se va întâmpla cu contul meu gratuit?",
+              "copy": "Ca Membru gratuit, poți explora harta, poți găzdui în grădina ta călători care practică călătoria lentă și poți primi newsletterul WTMG."
             },
             "10": {
-              "title": "Pentru cât timp voi deveni membru sau Superfan?",
-              "copy": "Când devii membru sau Superfan, vei plăti pentru un an. Abonamentul tău se va reînnoi automat, dar poți anula oricând reînnoirea automată din {accountLink}-ul tău. Dacă îți anulezi abonamentul, doar reînnoirea automată va fi anulată. Acest lucru înseamnă că vei rămâne membru până la sfârșitul perioadei pentru care ai plătit deja."
+              "title": "Pentru cât timp voi deveni Membru sau Superfan?",
+              "copy": "Când devii Membru sau Superfan, vei plăti pentru un an. Abonamentul tău se va reînnoi automat, dar poți anula oricând reînnoirea automată din {accountLink}-ul tău. Dacă îți anulezi abonamentul, doar reînnoirea automată va fi anulată. Acest lucru înseamnă că vei rămâne Membru până la sfârșitul perioadei pentru care ai plătit deja."
             },
             "11": {
-              "title": "Pot să renunț la calitatea de membru sau Superfan?",
-              "copy": "<p>Da, oricând dorești. De îndată ce ai devenit membru al comunității, îți poți gestiona abonamentul anual în {accountLink}-ul tău WTMG.</p><p>Dacă pe pagina contului tău scrie <strong>\"Abonamentul tău este activ. Se reînnoiește automat la xx/xx/xxxx.\"</strong>, abonamentul tău se va reînnoi la acea dată. Poți anula reînnoirea oricând făcând clic pe <strong>„Gestionează abonamentul”</strong>. Dacă îți anulezi abonamentul, doar reînnoirea automată va fi anulată. Acest lucru înseamnă că vei rămâne membru până la sfârșitul perioadei pentru care ai plătit deja.</p><p>Dacă pe pagina contului tău scrie <strong>\"Abonamentul tău este valabil până la xx/xx/xxxx. Reînnoirea automată este dezactivată.”</strong>, abonamentul tău va expira la data specificată și nu va fi reînnoit automat.</p>"
+              "title": "Pot să renunț la calitatea de Membru sau Superfan?",
+              "copy": "<p>Da, oricând dorești. De îndată ce ai devenit Membru al comunității, îți poți gestiona abonamentul anual în {accountLink}-ul tău WTMG.</p><p>Dacă pe pagina contului tău scrie <strong>\"Abonamentul tău este activ. Se reînnoiește automat la xx/xx/xxxx.\"</strong>, abonamentul tău se va reînnoi la acea dată. Poți anula reînnoirea oricând făcând clic pe <strong>„Gestionează abonamentul”</strong>. Dacă îți anulezi abonamentul, doar reînnoirea automată va fi anulată. Acest lucru înseamnă că vei rămâne Membru până la sfârșitul perioadei pentru care ai plătit deja.</p><p>Dacă pe pagina contului tău scrie <strong>\"Abonamentul tău este valabil până la xx/xx/xxxx. Reînnoirea automată este dezactivată.”</strong>, abonamentul tău va expira la data specificată și nu va fi reînnoit automat.</p>"
             },
             "12": {
               "title": "Ce se întâmplă dacă îmi anulez abonamentul?",
-              "copy": "În cazul în care îți anulezi abonamentul, doar reînnoirea automată va fi anulată. Acest lucru înseamnă că vei rămâne membru până la sfârșitul perioadei pentru care ai plătit deja. Totuși, dacă te răzgândești, poți reactiva oricând reînnoirea automată din {accountLink}-ul tău."
+              "copy": "În cazul în care îți anulezi abonamentul, doar reînnoirea automată va fi anulată. Acest lucru înseamnă că vei rămâne Membru până la sfârșitul perioadei pentru care ai plătit deja. Totuși, dacă te răzgândești, poți reactiva oricând reînnoirea automată din {accountLink}-ul tău."
             },
             "13": {
               "title": "Este nevoie de câte un abonament de persoană dacă călătoresc cu prietenii sau familia?",
@@ -831,7 +831,7 @@
           "title": "Gazde",
           "questions": {
             "0": {
-              "title": "Sunt gazdă. Ar trebui să devin membru sau Superfan?",
+              "title": "Sunt gazdă. Ar trebui să devin Membru sau Superfan?",
               "copy": "În primul rând, suntem extrem de bucuroși că primești călători lenți în grădina ta! WTMG nu ar exista fără oameni cu suflet mare ca tine. Dacă vrei să devii Superfan și să ne susții în misiunea noastră de a face călătoria lentă mai accesibilă, ne-am bucura tare mult. Totuși, vrem să subliniem că deja aduci o contribuție uriașă prin faptul că ești gazdă!"
             }
           }
