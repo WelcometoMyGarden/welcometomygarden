@@ -220,7 +220,7 @@
         "questions": {
           "request-tips": {
             "title": "¿Qué debería incluir en mi solicitud de estancia para los Anfitriones?",
-            "copy": "<p>Al enviar una solicitud, por favor respeta las siguientes pautas. Esto ayudará a los anfitriones a entender tu solicitud y les facilitará responder.</p><ul><li>Preséntate<br/>Cuéntale a tu anfitrión quién eres, qué tipo de viaje estás haciendo y cuándo te gustaría quedarte en su jardín.</li><li>Comunícate con claridad<br/>Mantén al tanto a tu anfitrión/a. ¿Cambio de planes? Avisa a tu anfitrión/a lo antes posible.</li><li>Sé amable y respetuoso/a<br/>Todos los anfitriones de WTMG son voluntarios. ¡Un mensaje amable es el comienzo de una gran aventura!</li></ul>"
+            "copy": "<p>Al enviar una solicitud, por favor respeta las siguientes pautas. Esto ayudará a los anfitriones a entender tu solicitud y les facilitará responder.</p><ul><li>Preséntate<br/>Cuéntale a tu anfitrión quién eres, qué tipo de viaje estás haciendo y cuándo te gustaría quedarte en su jardín.</li><li>Comunícate con claridad<br/>Mantén al tanto a tu anfitrión. ¿Cambio de planes? Avisa a tu anfitrión lo antes posible.</li><li>Sé amable y respetuoso/a<br/>Todos los anfitriones de WTMG son voluntarios. ¡Un mensaje amable es el comienzo de una gran aventura!</li></ul>"
           },
           "how-camping": {
             "title": "¿Cómo llego a mi zona de acampada?",
@@ -232,7 +232,7 @@
           },
           "cost": {
             "title": "¿Cuesta algo <span class=\"notranslate\">Welcome To My Garden</span>?",
-            "copy": "<p>Alojarse con un/a anfitrión/a de WTMG es gratis. Sin embargo, para mantener y desarrollar WTMG, dependemos de una membresía anual para repartir los costes de forma justa entre todos/as los/as viajeros/as lentos/as. Puedes cancelar la renovación en cualquier momento en tu {accountLink}. Puedes hacerte miembro <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">aquí</a>.</p>"
+            "copy": "<p>Alojarse con un/a anfitrión de WTMG es gratis. Sin embargo, para mantener y desarrollar WTMG, dependemos de una membresía anual para repartir los costes de forma justa entre todos/as los/as viajeros/as lentos/as. Puedes cancelar la renovación en cualquier momento en tu {accountLink}. Puedes hacerte miembro <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">aquí</a>.</p>"
           },
           "no-garden": {
             "title": "No tengo jardín. ¿Puedo viajar a los jardines de otras personas?",
@@ -240,11 +240,11 @@
           },
           "how-long": {
             "title": "¿Cuánto tiempo me puedo quedar?",
-            "copy": "Dado que estos jardines solo cubren las necesidades de los/as viajeros/as lentos/as que están en una ruta de senderismo o ciclismo de varias etapas, puedes quedarte en un lugar de acampada un máximo de 48 horas (dos noches). ¡Por supuesto que después puedes pasar al siguiente lugar de acampada! Y al siguiente. Y al siguiente... Consulta siempre con tu anfitrión/a cuánto tiempo puedes quedarte, ya que algunos/as preferirán que te quedes solo una noche."
+            "copy": "Dado que estos jardines solo cubren las necesidades de los/as viajeros/as lentos/as que están en una ruta de senderismo o ciclismo de varias etapas, puedes quedarte en un lugar de acampada un máximo de 48 horas (dos noches). ¡Por supuesto que después puedes pasar al siguiente lugar de acampada! Y al siguiente. Y al siguiente... Consulta siempre con tu anfitrión cuánto tiempo puedes quedarte, ya que algunos/as preferirán que te quedes solo una noche."
           },
           "animals": {
             "title": "¿Puedo ir con mi familia? ¿Mis hijos? ¿Mi perro?",
-            "copy": "Lo mejor es que preguntes a tu anfitrión/a si acepta niños y/o perros. Bastantes anfitriones ya han indicado en su perfil que están abiertos/as a recibir familias, pero aunque no lo hayan hecho, ¡siempre puedes preguntar!"
+            "copy": "Lo mejor es que preguntes a tu anfitrión si acepta niños y/o perros. Bastantes anfitriones ya han indicado en su perfil que están abiertos/as a recibir familias, pero aunque no lo hayan hecho, ¡siempre puedes preguntar!"
           },
           "no-toilet": {
             "title": "Y bien, ¿qué pasa si no hay aseo?",
@@ -252,7 +252,7 @@
           },
           "tent-type": {
             "title": "¿Qué tipo de tienda puedo llevar?",
-            "copy": "Dado que WTMG solo se dirige a senderistas y ciclistas, esperamos que no traigas nada más grande que una tienda de campaña de montaña ligera. Esto significa que debería caber fácilmente en tu mochila. Si no tienes la seguridad de que tu tienda quepa en el jardín de tu anfitrión/a, consúltale antes de salir."
+            "copy": "Dado que WTMG solo se dirige a senderistas y ciclistas, esperamos que no traigas nada más grande que una tienda de campaña de montaña ligera. Esto significa que debería caber fácilmente en tu mochila. Si no tienes la seguridad de que tu tienda quepa en el jardín de tu anfitrión, consúltale antes de salir."
           }
         }
       },
@@ -260,8 +260,8 @@
         "title": "Anfitriones/as",
         "questions": {
           "privacy": {
-            "title": "¿Cómo garantiza <span class=\"notranslate\">Welcome To My Garden</span> mi privacidad como anfitrión/a?",
-            "copy": "Todos tus datos personales están protegidos por el sistema de inicio de sesión. Si eres anfitrión/a, no mostraremos tu número de casa ni tu ubicación exacta en el mapa. Podrás facilitárselos a tus huéspedes una vez que estés en contacto con ellos/as. Tú decides cómo quieres que se pongan en contacto contigo: por correo electrónico, por teléfono o por ambos."
+            "title": "¿Cómo garantiza <span class=\"notranslate\">Welcome To My Garden</span> mi privacidad como anfitrión?",
+            "copy": "Todos tus datos personales están protegidos por el sistema de inicio de sesión. Si eres anfitrión, no mostraremos tu número de casa ni tu ubicación exacta en el mapa. Podrás facilitárselos a tus huéspedes una vez que estés en contacto con ellos/as. Tú decides cómo quieres que se pongan en contacto contigo: por correo electrónico, por teléfono o por ambos."
           },
           "messaging": {
             "title": "He recibido un mensaje de un/a viajero/a lento/a. ¿Dónde debo responderle?",
@@ -272,7 +272,7 @@
             "copy": "Ve a tu {accountLink}. En la categoría 'Tu jardín', desmarca la casilla 'Mostrar en el mapa'. El jardín se guardará en la plataforma pero no aparecerá en el mapa. Cuando vuelvas, solo tienes que volver a marcar la casilla y ¡podrás empezar a recibir a viajeros/as lentos/as de nuevo!"
           },
           "issue": {
-            "title": "He tenido un problema con un/a huésped o un/a anfitrión/a. ¿Cómo lo comunico?",
+            "title": "He tenido un problema con un/a huésped o un/a anfitrión. ¿Cómo lo comunico?",
             "copy": "Cualquier problema o comportamiento inadecuado debe comunicarse a <span class=\"notranslate\">Welcome To My Garden</span> por correo electrónico: {support}. En caso de comportamiento inadecuado, nos reservamos el derecho de eliminar unilateralmente la cuenta de esta persona (ver Condiciones de uso)."
           }
         }
