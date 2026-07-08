@@ -232,7 +232,7 @@
           },
           "cost": {
             "title": "Kostar <span class=\"notranslate\">Welcome To My Garden</span> något?",
-            "copy": "<p>Att bo hos en WTMG-värd är gratis. Men för att underhålla och utveckla WTMG tar vi ut en årlig medlemsavgift för att dela kostnaderna rättvist mellan alla slow travellers. Du kan när som helst avbryta den automatiska förnyelsen på ditt {accountLink}. Du kan bli medlem <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">här</a>.</p>"
+            "copy": "<p>Att bo hos en WTMG-värd är gratis. Men för att underhålla och utveckla WTMG tar vi ut en årlig medlemsavgift för att dela kostnaderna rättvist mellan alla slow travellers. Du kan när som helst avsluta den automatiska förnyelsen på {accountLink}. Du kan bli medlem <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">här</a>.</p>"
           },
           "no-garden": {
             "title": "Jag har ingen trädgård. Kan jag ändå resa till andras trädgårdar?",
