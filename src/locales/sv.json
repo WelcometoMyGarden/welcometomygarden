@@ -269,7 +269,7 @@
           },
           "suspend": {
             "title": "Jag skulle vilja pausa min trädgård ett tag men är snart tillbaka! Hur gör jag det?",
-            "copy": "Gå till ditt {accountLink}. I kategorin ”Din trädgård”, avmarkera rutan ”Visas på kartan”. Trädgården kommer fortfarande att vara sparad på plattformen men visas inte på kartan. När du är tillbaka är det bara att kryssa i rutan, så kan du börja välkomna slow travellers igen!"
+            "copy": "Gå till {accountLink}. I kategorin ”Din trädgård”, avmarkera rutan ”Visas på kartan”. Trädgården kommer fortfarande att vara sparad på plattformen men visas inte på kartan. När du är tillbaka är det bara att kryssa i rutan, så kan du börja välkomna slow travellers igen!"
           },
           "issue": {
             "title": "Jag har haft ett problem med en gäst eller en värd. Hur rapporterar jag det?",
