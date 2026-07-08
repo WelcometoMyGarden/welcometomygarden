@@ -195,7 +195,7 @@
     }
   },
   "faq": {
-    "title": "Vanliga frågor",
+    "title": "FAQ",
     "description": "Vanliga frågor och svar",
     "clusters": {
       "general": {
