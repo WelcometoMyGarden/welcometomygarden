@@ -522,7 +522,7 @@
       "search-city": "Sök efter en stad",
       "all-filters": "Alla filter",
       "apply-filter": "Använd filter",
-      "available": "{styledAmount} {amount, plural, one {trädgård} other {trädgårdar}} tillgängliga med de aktiva filtren.",
+      "available": "{styledAmount} {amount, plural, one {trädgård} other {trädgårdar}} tillgängliga med dessa filter.",
       "min-capacity": "Minst {capacity} {capacity, plural, one {tält} other {tält}}"
     },
     "drawer": {
