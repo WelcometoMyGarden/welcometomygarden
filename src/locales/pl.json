@@ -150,8 +150,8 @@
     "description": "Oto jak działa <span class=\"notranslate\">Welcome To My Garden</span>. Przed rozpoczęciem przygody koniecznie zapoznaj się z zasadami! Nasza platforma będzie działać dobrze tylko wtedy, gdy wszyscy będziemy przestrzegać reguł.",
     "rules": {
       "0": {
-        "title": "Spolecznosc obywatelska",
-        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> to spolecznosc obywatelska oferująca darmowe miejsca namiotowe w swoich ogrodach dla świadomych podróżników. Jest to inicjatywa non-profit i nie należy czerpać z niej żadnych dochodów. <span class=\"notranslate\">Welcome To My Garden</span> nie ponosi odpowiedzialności za jakiekolwiek straty, szkody lub obrażenia powstałe podczas pobytu."
+        "title": "Społeczność obywatelska",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> to społeczność obywatelska oferująca darmowe miejsca namiotowe w swoich ogrodach dla świadomych podróżników. Jest to inicjatywa non-profit i nie należy czerpać z niej żadnych dochodów. <span class=\"notranslate\">Welcome To My Garden</span> nie ponosi odpowiedzialności za jakiekolwiek straty, szkody lub obrażenia powstałe podczas pobytu."
       },
       "1": {
         "title": "Tylko dla świadomych podróżników (zasada zakazu samochodów i motocykli)",
