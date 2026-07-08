@@ -149,7 +149,7 @@
     "description": "Så här fungerar <span class=\"notranslate\">Welcome To My Garden</span>. Se till att läsa reglerna innan du börjar ditt äventyr! Den här plattformen fungerar ju bara om vi alla följer reglerna.",
     "rules": {
       "0": {
-        "title": "Ett nätverk av invånare",
+        "title": "Ett nätverk av människor",
         "copy": "<span class=\"notranslate\">Welcome To My Garden</span> är ett nätverk av invånare som erbjuder gratis tältplatser i sina trädgårdar till slow travellers. Det är ett ideellt initiativ och ingen inkomst ska genereras från det. <span class=\"notranslate\">Welcome To My Garden</span> tar inget ansvar för förlust, skada eller personskada som uppstår under en vistelse."
       },
       "1": {
