@@ -18,6 +18,10 @@ on:
       # We don't run front-end tests here yet
       - tests/**
       - ci/**
+      # Mobile apps & tools
+      - ios/**
+      - android/**
+      - tools/**
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest

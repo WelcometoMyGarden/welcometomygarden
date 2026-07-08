@@ -19,6 +19,10 @@ on:
       # Changes to build & test workflows should not run prod deployments
       - .github/workflows/test*
       - .github/workflows/build*
+      # Mobile apps & tools
+      - ios/**
+      - android/**
+      - tools/**
 
 jobs:
   build_and_deploy:
