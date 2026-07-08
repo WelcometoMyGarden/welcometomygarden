@@ -294,7 +294,7 @@
           },
           "newsletter": {
             "title": "Jag vill jättegärna få ert nästa nyhetsbrev! Vad ska jag göra?",
-            "copy": "För att få vårt nästa nyhetsbrev, gå till ditt {accountLink} och kryssa i rutan ”<span class=\"notranslate\">Welcome To My Garden</span> har nyheter att dela”. Om du vill sluta ta emot nyheter avmarkerar du bara samma ruta."
+            "copy": "För att få vårt nästa nyhetsbrev, gå till {accountLink} och kryssa i rutan ”<span class=\"notranslate\">Welcome To My Garden</span> har nyheter att dela”. Om du vill sluta ta emot nyheter avmarkerar du bara samma ruta."
           },
           "text-in-english": {
             "title": "Det finns text på engelska, trots att det inte är mitt valda språk. Hur kan jag ändra detta?",
