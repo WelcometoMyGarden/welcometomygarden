@@ -3,13 +3,7 @@
   import type { ExpressionSpecification, GeoJSONSource, Marker } from 'mapbox-gl';
   import mapboxgl from 'mapbox-gl';
   import { fileDataLayers } from '$lib/stores/file';
-  import {
-    routeTweaks,
-    type RouteTweaks,
-    type EndpointMode,
-    currentMapZoom,
-    effectiveKm
-  } from '$lib/stores/routeTweaks';
+  import { routeTweaks } from '$lib/stores/routeTweaks';
   import { getContext, onDestroy } from 'svelte';
   import { get } from 'svelte/store';
   import { bbox } from '@turf/bbox';
@@ -27,6 +21,7 @@
     computeStartEnd,
     evaluateZoomInterval,
     parseZoomIntervalConfig,
+    DEFAULT_ZOOM_INTERVAL_CONFIG,
     type RouteEndpoint
   } from '$lib/util/map/routeStyle';
   import * as Sentry from '@sentry/sveltekit';
@@ -40,50 +35,37 @@
     features: []
   };
 
-  // Effective km marker interval + opacity for the current zoom level (driven by the
-  // zoom→interval config in the tweaks store). `effInterval === null` => no markers.
+  // Zoom→interval rules for the km markers (validated defaults; no longer user-editable).
+  const ZOOM_RULES = parseZoomIntervalConfig(DEFAULT_ZOOM_INTERVAL_CONFIG);
+
+  // Effective km marker interval + opacity for the current zoom level.
+  // `effInterval === null` => no markers at this zoom.
   let effInterval: number | null = null;
   let effOpacity = 0;
 
-  /** Recomputes the effective interval/opacity from the live zoom + config. */
   const refreshEffective = () => {
-    const zoom = map.getZoom();
-    currentMapZoom.set(zoom);
-    const rules = parseZoomIntervalConfig(get(routeTweaks).zoomIntervalConfig);
-    const result = evaluateZoomInterval(rules, zoom);
+    const result = evaluateZoomInterval(ZOOM_RULES, map.getZoom());
     effInterval = result ? result.interval : null;
     effOpacity = result ? result.opacity : 0;
-    effectiveKm.set(result);
   };
 
   const kmMarkersFor = (geoJson: FileDataLayer['geoJson']) =>
     effInterval != null ? computeKmMarkers(geoJson, effInterval) : EMPTY_KM;
 
-  // Effective km marker opacity: markers snap between fully visible and hidden at their
-  // zoom thresholds.
+  // Km markers snap between fully visible and hidden at their zoom thresholds.
   const kmOpacity = () => (effOpacity > 0 ? 1 : 0);
 
-  // Km marker circle background: slightly transparent by default so the map subtly shows
-  // through, or fully white when the "white km marker background" tweak is on.
-  const KM_BACKGROUND = 'rgba(255, 255, 255, 0.75)';
-  const KM_BACKGROUND_WHITE = 'rgba(255, 255, 255, 1)';
-  const kmBackground = () =>
-    get(routeTweaks).whiteKmBackground ? KM_BACKGROUND_WHITE : KM_BACKGROUND;
+  // Km marker background is fully white so the underlying map never shows through.
+  const KM_BACKGROUND = 'rgba(255, 255, 255, 1)';
 
-  // Route line opacity: reduced when the "transparent routes" tweak is on, so the
-  // underlying road stays visible through the line. When "only when zoomed in" is also
-  // on, the transparency only kicks in once the map is zoomed past this level.
+  // Route lines are drawn semi-transparently once the map is zoomed in far enough to look
+  // at the route in detail (so the underlying road stays visible); fully opaque below that.
   const ROUTE_OPACITY = 0.8;
   const ROUTE_OPACITY_TRANSPARENT = 0.45;
   const OVERLAP_OPACITY = 0.9;
   const OVERLAP_OPACITY_TRANSPARENT = 0.5;
   const TRANSPARENT_MIN_ZOOM = ZOOM_LEVELS.ROAD; // "looking at the route in detail"
-  const routesTransparentNow = () => {
-    const tweaks = get(routeTweaks);
-    if (!tweaks.transparentRoutes) return false;
-    if (tweaks.transparentRoutesHighZoomOnly) return map.getZoom() >= TRANSPARENT_MIN_ZOOM;
-    return true;
-  };
+  const routesTransparentNow = () => map.getZoom() >= TRANSPARENT_MIN_ZOOM;
   const lineOpacity = () => (routesTransparentNow() ? ROUTE_OPACITY_TRANSPARENT : ROUTE_OPACITY);
   const overlapOpacity = () =>
     routesTransparentNow() ? OVERLAP_OPACITY_TRANSPARENT : OVERLAP_OPACITY;
@@ -100,94 +82,46 @@
   // Empty (or missing id) => fall back to the route's full geometry (no clipping needed).
   let nameLinesByRoute = new Map<string, FeatureCollection<LineString>>();
 
-  // --- Km label text size ---
-  // Slightly smaller text for labels with more than 2 digits (> 99) when the "shrink
-  // labels over 99" tweak is on, so the number still fits inside the marker.
+  // Km label text: slightly smaller for labels with more than 2 digits (> 99) so the
+  // number still fits inside the marker.
   const KM_LABEL_SIZE = 10;
   const KM_LABEL_SIZE_SMALL = 8;
-  const kmTextSize = (): ExpressionSpecification | number =>
-    get(routeTweaks).shrinkLargeKmLabels
-      ? ['case', ['>', ['to-number', ['get', 'label']], 99], KM_LABEL_SIZE_SMALL, KM_LABEL_SIZE]
-      : KM_LABEL_SIZE;
-
-  // --- Oval km markers ---
-  // When the "oval km markers" tweak is on, the km label symbol layer draws a white,
-  // route-coloured-bordered pill behind the number, stretched horizontally to fit it
-  // (via icon-text-fit) so wider (3-digit) numbers get a more oval marker. The pill is a
-  // small circular image per (colour + background) combination, registered on demand.
-  const OVAL_IMG_D = 48; // source image diameter (px); icon-text-fit stretches it to the text
-  const OVAL_TEXT_FIT_PADDING: [number, number, number, number] = [3, 7, 3, 7];
-  const ovalImageId = (color: string, white: boolean) => `km-oval__${white ? 'w' : 't'}__${color}`;
-
-  /** Registers (once) and returns the id of the pill image for a colour + background. */
-  const ensureOvalImage = (color: string, white: boolean): string => {
-    const id = ovalImageId(color, white);
-    if (map.hasImage(id)) return id;
-    const size = OVAL_IMG_D;
-    const canvas = document.createElement('canvas');
-    canvas.width = size;
-    canvas.height = size;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return id;
-    const stroke = 3;
-    const r = size / 2 - stroke;
-    ctx.beginPath();
-    ctx.arc(size / 2, size / 2, r, 0, Math.PI * 2);
-    ctx.fillStyle = white ? KM_BACKGROUND_WHITE : KM_BACKGROUND;
-    ctx.fill();
-    ctx.lineWidth = stroke;
-    ctx.strokeStyle = color;
-    ctx.stroke();
-    if (!map.hasImage(id)) map.addImage(id, ctx.getImageData(0, 0, size, size), { pixelRatio: 2 });
-    return id;
-  };
+  const KM_TEXT_SIZE: ExpressionSpecification = [
+    'case',
+    ['>', ['to-number', ['get', 'label']], 99],
+    KM_LABEL_SIZE_SMALL,
+    KM_LABEL_SIZE
+  ];
 
   /** The label shown along a route: the file name minus its extension. */
   const routeNameFor = (layer: FileDataLayer) =>
     (layer.originalFileName ?? '').replace(/\.[^./\\]+$/, '');
 
-  // Route-name label-placement tuning.
-  //
-  // By default (`line`) names are placed at repeated intervals along the route; mapbox
-  // only lays one out once it finds a straight-enough, long-enough slot, so wiggly/short
-  // routes need to be zoomed in more than straight/long ones — different files pop in at
-  // different zooms.
-  //
-  // The "…also at lower zoom levels" tweak switches to `line-center`, which places a
-  // single label at the centre of each stretch. That no longer depends on finding a
-  // repeated slot, so — together with dropping the bend-angle limit and shrinking the
-  // low-zoom text — every file's name appears together, from the same low zoom. As a
-  // side effect the name is shown once per stretch (i.e. far less frequently when zoomed
-  // in) rather than repeated along the route.
+  // --- Route name placement ---
+  // Names are placed on each route's non-overlapping stretches. Two modes:
+  // - onRoute: a single centred label per stretch (`line-center`), shrunk at low zoom so
+  //   every file's name appears together from the same low zoom.
+  // - besideRoute: the name repeated along the route (`line`, so it follows the curvature)
+  //   but offset to the side with a little extra spacing, a slightly larger font and a
+  //   slightly bigger white outline for readability.
   const NAME_SPACING = 250;
-  const NAME_MAX_ANGLE = 40;
-  const NAME_MAX_ANGLE_LOW_ZOOM = 180; // effectively "no angle limit"
-  const NAME_TEXT_SIZE = 13;
-  const namePlacement = (): 'line' | 'line-center' =>
-    get(routeTweaks).showRouteNamesLowZoom ? 'line-center' : 'line';
-  const nameMaxAngle = () =>
-    get(routeTweaks).showRouteNamesLowZoom ? NAME_MAX_ANGLE_LOW_ZOOM : NAME_MAX_ANGLE;
-  // Interpolate the text down at low zoom so the label fits a shorter stretch and shows up
-  // earlier; back to the normal size once zoomed in.
-  const nameTextSize = (): ExpressionSpecification | number =>
-    get(routeTweaks).showRouteNamesLowZoom
-      ? ['interpolate', ['linear'], ['zoom'], 6, 8, 12, NAME_TEXT_SIZE]
-      : NAME_TEXT_SIZE;
+  const nameIsBeside = () => get(routeTweaks).routeNamePlacement === 'besideRoute';
+  const namePlacement = (): 'line' | 'line-center' => (nameIsBeside() ? 'line' : 'line-center');
+  const nameTextSize = (): ExpressionSpecification =>
+    nameIsBeside()
+      ? ['interpolate', ['linear'], ['zoom'], 6, 9, 12, 15]
+      : ['interpolate', ['linear'], ['zoom'], 6, 8, 12, 13];
+  // Perpendicular (screen-space) offset lifting the name off the line in "beside" mode.
+  const nameOffset = (): [number, number] => (nameIsBeside() ? [0, -1.3] : [0, 0]);
+  const nameHaloWidth = () => (nameIsBeside() ? 2.5 : 1.5);
+  const nameMaxAngle = () => (nameIsBeside() ? 60 : 180);
 
   // Track rendered trail layers + the global set of endpoint DOM markers.
   const rendered = new Set<string>();
   let endpointMarkers: Marker[] = [];
 
-  const BASE_MARKER_SIZE = 24; // px, badge diameter at full size ('icons' mode)
-  // In 'flags' mode, match the km markers' diameter (2 * their circle-radius, see
-  // the km circle layer paint below) instead of the icon badge size.
-  const KM_MARKER_DIAMETER = 18; // px, must track 'circle-radius' on the km circle layer
-
-  // 'flags' and 'dots' both draw plain circular badges sized to the km markers.
-  const baseMarkerSizeFor = (mode: EndpointMode) =>
-    mode === 'flags' || mode === 'dots' ? KM_MARKER_DIAMETER : BASE_MARKER_SIZE;
-
-  // Solid badge colours shared by the 'flags' (start) and 'dots' (start/end/merged) modes.
+  // Endpoint badges are plain circles sized to the km markers (2 * their circle-radius).
+  const MARKER_DIAMETER = 18;
   const BADGE_GREEN = 'rgba(27, 120, 55, 0.92)';
   const BADGE_RED = 'rgba(216, 67, 33, 0.92)';
 
@@ -211,114 +145,44 @@
     }
   };
 
-  // Per-type marker config: icon svg, base svg size (px) and badge background.
-  // The start (play) icon is a bit larger so it reads as balanced next to the square.
-  const ENDPOINT_CONFIG = {
-    start: {
-      svgBase: 14,
-      background: 'rgba(27, 120, 55, 0.82)', // green
-      icon: '<path d="M8 6v12l11-6z"/>' // filled play (triangle)
-    },
-    end: {
-      svgBase: 11,
-      background: 'rgba(216, 67, 33, 0.82)', // red-orange
-      icon: '<rect x="5" y="5" width="14" height="14" rx="1.5"/>' // filled stop (square)
-    },
-    pause: {
-      svgBase: 12,
-      background: 'rgba(30, 58, 138, 0.82)', // dark blue
-      icon: '<rect x="6.5" y="5" width="3.5" height="14" rx="1"/><rect x="14" y="5" width="3.5" height="14" rx="1"/>' // pause (two bars)
-    }
-  } as const;
-
-  // A 4×4 black/white checkerboard filling the badge, clipped to the circle — a
-  // finish flag. Stretched to fill via preserveAspectRatio="none".
-  const CHECKERBOARD_SVG =
-    '<svg viewBox="0 0 4 4" preserveAspectRatio="none" width="100%" height="100%" ' +
-    'fill="#111" style="display:block"><rect width="4" height="4" fill="#fff"/>' +
-    [0, 1, 2, 3]
-      .flatMap((r) =>
-        [0, 1, 2, 3]
-          .filter((c) => (r + c) % 2 === 0)
-          .map((c) => `<rect x="${c}" y="${r}" width="1" height="1"/>`)
-      )
-      .join('') +
-    '</svg>';
-
-  const createEndpointElement = (type: RouteEndpoint['type'], mode: EndpointMode) => {
-    const baseSize = baseMarkerSizeFor(mode);
+  // Start = green circle, end = red circle, merged start+end = vertically split circle
+  // (red on the left half, green on the right half); all with a thin white border.
+  const createEndpointElement = (type: RouteEndpoint['type']) => {
     const el = document.createElement('div');
     // `display:flex` lives in the global .trail-endpoint rule below, because mapbox
     // clears the inline `display` property it sets on marker elements.
     el.classList.add('trail-endpoint');
     el.style.cssText =
-      `width:${baseSize}px;height:${baseSize}px;border-radius:50%;` +
+      `width:${MARKER_DIAMETER}px;height:${MARKER_DIAMETER}px;border-radius:50%;` +
       'align-items:center;justify-content:center;line-height:0;overflow:hidden;' +
       'border:2px solid #fff;box-sizing:border-box;box-shadow:0 1px 4px rgba(0,0,0,0.4);';
-
-    if (mode === 'flags') {
-      if (type === 'start') {
-        // Plain, mostly-opaque green circle (no icon).
-        el.style.background = BADGE_GREEN;
-      } else {
-        // End & merged (pause) => checkerboard finish badge.
-        el.style.background = '#fff';
-        el.innerHTML = CHECKERBOARD_SVG;
-      }
-      return el;
-    }
-
-    if (mode === 'dots') {
-      // Green circle (start), red circle (end) and a vertically split circle for merged
-      // start+end points: red on the left half, green on the right half.
-      if (type === 'start') el.style.background = BADGE_GREEN;
-      else if (type === 'end') el.style.background = BADGE_RED;
-      else
-        el.style.background = `linear-gradient(90deg, ${BADGE_RED} 0 50%, ${BADGE_GREEN} 50% 100%)`;
-      return el;
-    }
-
-    // 'icons' mode (status quo): play / stop / pause glyphs.
-    const { svgBase, background, icon } = ENDPOINT_CONFIG[type];
-    el.dataset.svgBase = `${svgBase}`;
-    el.style.background = background;
-    el.innerHTML =
-      `<svg width="${svgBase}" height="${svgBase}" viewBox="0 0 24 24" fill="#fff" ` +
-      `style="display:block">${icon}</svg>`;
+    if (type === 'start') el.style.background = BADGE_GREEN;
+    else if (type === 'end') el.style.background = BADGE_RED;
+    else
+      el.style.background = `linear-gradient(90deg, ${BADGE_RED} 0 50%, ${BADGE_GREEN} 50% 100%)`;
     return el;
   };
 
   /** Applies the current zoom-based scale & opacity to all endpoint markers. */
   const applyEndpointStyle = () => {
     const { scale, opacity } = computeEndpointStyle(map.getZoom());
-    const size = baseMarkerSizeFor(get(routeTweaks).endpointMode) * scale;
+    const size = MARKER_DIAMETER * scale;
     for (const marker of endpointMarkers) {
       const el = marker.getElement();
       el.style.width = `${size}px`;
       el.style.height = `${size}px`;
       el.style.borderWidth = `${Math.max(1, 2 * scale)}px`;
       el.style.opacity = `${opacity}`;
-      // Only fixed-size glyph svgs are resized; the checkerboard svg fills the badge
-      // (width/height 100%) and scales automatically with it.
-      const svg = el.querySelector('svg');
-      if (svg && el.dataset.svgBase) {
-        const svgSize = Number(el.dataset.svgBase) * scale;
-        svg.setAttribute('width', `${svgSize}`);
-        svg.setAttribute('height', `${svgSize}`);
-      }
     }
   };
 
   /**
    * Rebuilds the global set of start/end markers from all *visible* trails, merging
-   * endpoints within 5 m of each other into a single midpoint start marker.
+   * endpoints within 5 m of each other into a single midpoint marker.
    */
   const rebuildEndpointMarkers = () => {
     endpointMarkers.forEach((marker) => marker.remove());
     endpointMarkers = [];
-
-    if (!get(routeTweaks).showStartEndMarkers) return;
-    const mode = get(routeTweaks).endpointMode;
 
     const endpoints: RouteEndpoint[] = [];
     for (const layer of get(fileDataLayers)) {
@@ -330,7 +194,7 @@
     }
 
     for (const ep of clusterEndpoints(endpoints)) {
-      const marker = new mapboxgl.Marker({ element: createEndpointElement(ep.type, mode) })
+      const marker = new mapboxgl.Marker({ element: createEndpointElement(ep.type) })
         .setLngLat(ep.lngLat)
         .addTo(map);
       endpointMarkers.push(marker);
@@ -339,21 +203,15 @@
     applyEndpointStyle();
   };
 
-  const applyVisibility = (layer: FileDataLayer, tweaks: RouteTweaks) => {
+  const applyVisibility = (layer: FileDataLayer) => {
     const lineVisible = layer.visible !== false;
     setLayerVisibility(layer.id, lineVisible);
-
-    const kmVisible = lineVisible && tweaks.showKmMarkers;
-    // In oval mode the pill background is drawn as the label's icon, so the separate
-    // circle layer stays hidden to avoid a circle showing behind the oval.
-    setLayerVisibility(kmCircleId(layer.id), kmVisible && !tweaks.ovalKmMarkers);
-    setLayerVisibility(kmLabelId(layer.id), kmVisible);
-
-    const nameVisible = lineVisible && tweaks.showRouteNames;
-    setLayerVisibility(nameLabelId(layer.id), nameVisible);
+    setLayerVisibility(kmCircleId(layer.id), lineVisible);
+    setLayerVisibility(kmLabelId(layer.id), lineVisible);
+    setLayerVisibility(nameLabelId(layer.id), lineVisible);
   };
 
-  const renderTrail = (layer: FileDataLayer, color: string, tweaks: RouteTweaks) => {
+  const renderTrail = (layer: FileDataLayer, color: string) => {
     const { id, geoJson } = layer;
     const isNew = !map.getSource(id);
 
@@ -394,7 +252,7 @@
         type: 'circle',
         source: kmSourceId(id),
         paint: {
-          'circle-color': kmBackground(),
+          'circle-color': KM_BACKGROUND,
           'circle-radius': 9,
           'circle-opacity': kmOpacity(),
           'circle-stroke-width': 1.5,
@@ -403,17 +261,10 @@
         }
       });
     } else {
-      map.setPaintProperty(kmCircleId(id), 'circle-color', kmBackground());
       map.setPaintProperty(kmCircleId(id), 'circle-stroke-color', color);
       map.setPaintProperty(kmCircleId(id), 'circle-opacity', kmOpacity());
       map.setPaintProperty(kmCircleId(id), 'circle-stroke-opacity', kmOpacity());
     }
-
-    const oval = tweaks.ovalKmMarkers;
-    // The oval pill (drawn as the label's icon) carries the white background + coloured
-    // border itself, so the separate circle layer is hidden in oval mode (see
-    // applyVisibility). Register the pill image for this route's colour on demand.
-    const ovalImg = oval ? ensureOvalImage(color, tweaks.whiteKmBackground) : '';
 
     if (!map.getLayer(kmLabelId(id))) {
       map.addLayer({
@@ -422,29 +273,19 @@
         source: kmSourceId(id),
         layout: {
           'text-field': ['get', 'label'],
-          'text-size': kmTextSize(),
+          'text-size': KM_TEXT_SIZE,
           'text-allow-overlap': true,
-          'text-ignore-placement': true,
-          'icon-image': ovalImg,
-          'icon-text-fit': 'both',
-          'icon-text-fit-padding': OVAL_TEXT_FIT_PADDING,
-          'icon-allow-overlap': true,
-          'icon-ignore-placement': true
+          'text-ignore-placement': true
         },
-        paint: { 'text-color': color, 'text-opacity': kmOpacity(), 'icon-opacity': kmOpacity() }
+        paint: { 'text-color': color, 'text-opacity': kmOpacity() }
       });
     } else {
-      map.setLayoutProperty(kmLabelId(id), 'text-size', kmTextSize());
-      map.setLayoutProperty(kmLabelId(id), 'icon-image', ovalImg);
       map.setPaintProperty(kmLabelId(id), 'text-color', color);
       map.setPaintProperty(kmLabelId(id), 'text-opacity', kmOpacity());
-      map.setPaintProperty(kmLabelId(id), 'icon-opacity', kmOpacity());
     }
 
-    // --- Route name label (repeated along the line, but not along overlapping stretches) ---
+    // --- Route name label (on the route's non-overlapping stretches only) ---
     const routeName = routeNameFor(layer);
-    // Names are placed on the route's non-overlapping stretches only; when there is no
-    // clipping to do we fall back to the route's full geometry.
     const nameData = nameLinesByRoute.get(id) ?? geoJson;
     if (!map.getSource(nameSourceId(id))) {
       map.addSource(nameSourceId(id), { type: 'geojson', data: nameData });
@@ -462,33 +303,33 @@
           'symbol-spacing': NAME_SPACING,
           'text-field': routeName,
           'text-size': nameTextSize(),
+          'text-offset': nameOffset(),
           'text-max-angle': nameMaxAngle(),
           'text-keep-upright': true,
           // Keep the name reliably visible along the route's (non-overlapping) stretches
-          // rather than letting collision with base-map labels drop it. Overlapping
-          // stretches are already excluded from this layer's source geometry.
+          // rather than letting collision with base-map labels drop it.
           'text-allow-overlap': true,
           'text-ignore-placement': true
         },
         paint: {
           'text-color': color,
           'text-halo-color': 'rgba(255, 255, 255, 0.9)',
-          'text-halo-width': 1.5
+          'text-halo-width': nameHaloWidth()
         }
       });
     } else {
       map.setLayoutProperty(nameLabelId(id), 'text-field', routeName);
       map.setLayoutProperty(nameLabelId(id), 'symbol-placement', namePlacement());
-      map.setLayoutProperty(nameLabelId(id), 'text-max-angle', nameMaxAngle());
       map.setLayoutProperty(nameLabelId(id), 'text-size', nameTextSize());
+      map.setLayoutProperty(nameLabelId(id), 'text-offset', nameOffset());
+      map.setLayoutProperty(nameLabelId(id), 'text-max-angle', nameMaxAngle());
       map.setPaintProperty(nameLabelId(id), 'text-color', color);
+      map.setPaintProperty(nameLabelId(id), 'text-halo-width', nameHaloWidth());
     }
 
     // Start/end markers are managed globally (see rebuildEndpointMarkers).
 
-    // --- Visibility ---
-    applyVisibility(layer, tweaks);
-
+    applyVisibility(layer);
     rendered.add(id);
   };
 
@@ -515,9 +356,7 @@
 
   /**
    * The id of the lowest-stacked garden layer currently present, used as the `beforeId`
-   * when raising route layers so they never end up on top of the garden icons. Returns
-   * `undefined` when no garden layer exists yet (e.g. still loading), in which case
-   * layers are raised to the very top as a fallback.
+   * when raising route layers so they never end up on top of the garden icons.
    */
   const gardenFloorLayerId = () => GARDEN_LAYER_IDS.find((id) => map.getLayer(id));
 
@@ -526,21 +365,13 @@
     if (map.getLayer(layerId)) map.moveLayer(layerId, gardenFloorLayerId());
   };
 
-  /** Brings a trail's line and km marker layers above the other routes (but below gardens). */
-  const raiseTrail = (id: string) => {
-    moveToTop(id);
-    moveToTop(nameLabelId(id));
-    moveToTop(kmCircleId(id));
-    moveToTop(kmLabelId(id));
-  };
-
-  // Shared-segment overlap layers (only used in 'kmOnTopOverlap' mode).
+  // Shared-segment overlap layers.
   const OVERLAP_SOURCE = '__route-overlaps';
   const OVERLAP_LAYER_A = '__route-overlaps-a';
   const OVERLAP_LAYER_B = '__route-overlaps-b';
 
-  // Signature of the inputs the last overlap computation was based on, so the
-  // (expensive) scan is skipped when unrelated tweaks change (e.g. km config edits).
+  // Signature of the inputs the last overlap computation was based on, so the (expensive)
+  // scan is skipped when nothing relevant changed.
   let lastOverlapSig = '';
 
   const removeOverlapLayers = () => {
@@ -552,18 +383,12 @@
   };
 
   /**
-   * In overlap mode, detects where routes share the same path and draws those stretches
-   * as a single line alternating the two routes' colours (solid colour A + dashed
-   * colour B on top). No-op / cleanup in other modes.
+   * Detects where routes share the same path and draws those stretches as a single line
+   * alternating the two routes' colours (solid colour A + dashed colour B on top).
    */
   const applyOverlaps = () => {
-    if (get(routeTweaks).routeLayerMode !== 'kmOnTopOverlap') {
-      removeOverlapLayers();
-      return;
-    }
-
-    // Keep the overlap-line opacity in sync with the "transparent routes" tweak. Done
-    // before the signature short-circuit below, which only tracks route ids/colours.
+    // Keep the overlap-line opacity in sync with the current zoom (transparent when
+    // zoomed in). Done before the signature short-circuit below.
     if (map.getLayer(OVERLAP_LAYER_A)) {
       map.setPaintProperty(OVERLAP_LAYER_A, 'line-opacity', overlapOpacity());
     }
@@ -571,11 +396,10 @@
       map.setPaintProperty(OVERLAP_LAYER_B, 'line-opacity', overlapOpacity());
     }
 
-    const tweaks = get(routeTweaks);
     const routes = get(fileDataLayers)
       .map((layer, index) => ({
         id: layer.id,
-        color: colorForRoute(index, tweaks.useMultipleColors),
+        color: colorForRoute(index),
         geoJson: layer.geoJson,
         visible: layer.visible !== false
       }))
@@ -623,82 +447,24 @@
     }
   };
 
-  // Per-layer hover/click handlers active in 'raiseOnHover' mode.
-  let lineEventBindings: {
-    event: 'mouseenter' | 'mouseleave' | 'click';
-    id: string;
-    fn: () => void;
-  }[] = [];
-
-  const clearLineEvents = () => {
-    lineEventBindings.forEach(({ event, id, fn }) => map.off(event, id, fn));
-    lineEventBindings = [];
-  };
-
   const currentTrailIds = () =>
     get(fileDataLayers)
       .map((layer) => layer.id)
       .filter((id) => map.getLayer(id));
 
-  /** Moves the overlap lines and all km marker layers above the routes (below gardens). */
-  const stackKmOnTop = () => {
+  /**
+   * Stacks the layers: route lines at the bottom, then the overlap lines, then all km
+   * markers and route names on top (kept below the garden layers). This keeps the km
+   * markers & names readable wherever routes overlap.
+   */
+  const applyLayerOrder = () => {
+    const ids = currentTrailIds();
+    ids.forEach((id) => moveToTop(id));
     moveToTop(OVERLAP_LAYER_A);
     moveToTop(OVERLAP_LAYER_B);
-    currentTrailIds().forEach((id) => moveToTop(nameLabelId(id)));
-    currentTrailIds().forEach((id) => moveToTop(kmCircleId(id)));
-    currentTrailIds().forEach((id) => moveToTop(kmLabelId(id)));
-  };
-
-  /**
-   * Applies the current layer-stacking mode to the trail layers (and wires up the
-   * hover/tap handlers for the raise modes).
-   */
-  const applyLayerMode = () => {
-    clearLineEvents();
-    const mode = get(routeTweaks).routeLayerMode;
-    const ids = currentTrailIds();
-
-    const kmOnTop = mode === 'kmOnTop' || mode === 'kmOnTopHover' || mode === 'kmOnTopOverlap';
-
-    if (kmOnTop) {
-      // Lines first, then overlap lines, then all km circles & labels => markers on top.
-      ids.forEach((id) => moveToTop(id));
-      stackKmOnTop();
-    } else {
-      // 'default' and 'raiseOnHover' share the per-route interleaved base order.
-      ids.forEach((id) => raiseTrail(id));
-    }
-
-    if (mode === 'raiseOnHover' || mode === 'kmOnTopHover') {
-      // In 'kmOnTopHover' only the stroke is raised (km markers must stay on top);
-      // in 'raiseOnHover' the whole route (stroke + its km markers) is raised.
-      const raise =
-        mode === 'kmOnTopHover'
-          ? (id: string) => {
-              moveToTop(id);
-              stackKmOnTop();
-            }
-          : (id: string) => raiseTrail(id);
-
-      ids.forEach((id) => {
-        const enter = () => {
-          raise(id);
-          map.getCanvas().style.cursor = 'pointer';
-        };
-        const leave = () => {
-          map.getCanvas().style.cursor = '';
-        };
-        const click = () => raise(id);
-        map.on('mouseenter', id, enter);
-        map.on('mouseleave', id, leave);
-        map.on('click', id, click);
-        lineEventBindings.push(
-          { event: 'mouseenter', id, fn: enter },
-          { event: 'mouseleave', id, fn: leave },
-          { event: 'click', id, fn: click }
-        );
-      });
-    }
+    ids.forEach((id) => moveToTop(nameLabelId(id)));
+    ids.forEach((id) => moveToTop(kmCircleId(id)));
+    ids.forEach((id) => moveToTop(kmLabelId(id)));
   };
 
   // Signature of the visible routes the name-line clipping was last computed for, so the
@@ -707,16 +473,18 @@
 
   /**
    * Recomputes, per route, the non-overlapping stretches used for the name labels — only
-   * when route names are shown and there is more than one visible route (otherwise no
-   * overlap is possible and the full route geometry is used).
+   * when there is more than one visible route (otherwise no overlap is possible and the
+   * full route geometry is used).
    */
-  const refreshNameLines = (layers: FileDataLayer[], tweaks: RouteTweaks) => {
-    const visible = tweaks.showRouteNames ? layers.filter((layer) => layer.visible !== false) : [];
+  const refreshNameLines = (layers: FileDataLayer[]) => {
+    const visible = layers.filter((layer) => layer.visible !== false);
     const sig = visible.length >= 2 ? visible.map((layer) => layer.id).join(',') : '';
     if (sig === lastNameSig) return;
     lastNameSig = sig;
     nameLinesByRoute = sig
-      ? computeNonOverlapLinesByRoute(visible.map((layer) => ({ id: layer.id, geoJson: layer.geoJson })))
+      ? computeNonOverlapLinesByRoute(
+          visible.map((layer) => ({ id: layer.id, geoJson: layer.geoJson }))
+        )
       : new Map();
   };
 
@@ -724,7 +492,6 @@
   const sync = () => {
     refreshEffective();
     const layers = get(fileDataLayers);
-    const tweaks = get(routeTweaks);
 
     const wantedIds = new Set(layers.map((layer) => layer.id));
     // Remove trails that are no longer present.
@@ -733,28 +500,23 @@
     });
 
     // Clip name-label geometry to non-overlapping stretches before (re)rendering trails.
-    refreshNameLines(layers, tweaks);
+    refreshNameLines(layers);
 
-    // Add/update remaining trails. Index drives the alternating colour.
-    layers.forEach((layer, index) => {
-      const color = colorForRoute(index, tweaks.useMultipleColors);
-      renderTrail(layer, color, tweaks);
-    });
+    // Add/update remaining trails. Index (upload order) drives the alternating colour.
+    layers.forEach((layer, index) => renderTrail(layer, colorForRoute(index)));
 
     // Rebuild the global (clustered) start/end markers from the current state.
     rebuildEndpointMarkers();
 
-    // Build/refresh shared-segment overlap layers (overlap mode only).
+    // Build/refresh shared-segment overlap layers, then stack everything.
     applyOverlaps();
-
-    // Apply the chosen layer-stacking mode (ordering + hover/tap handlers).
-    applyLayerMode();
+    applyLayerOrder();
   };
 
   /**
-   * On zoom: re-evaluate the effective interval/opacity and update the km layers.
-   * The marker data is only recomputed when the interval actually changes; the
-   * (cheap) opacity fade is applied on every zoom frame.
+   * On zoom: re-evaluate the effective km interval/opacity and update the km layers, the
+   * route-line transparency and the endpoint marker size. Marker data is only recomputed
+   * when the interval actually changes.
    */
   const onZoom = () => {
     const prevInterval = effInterval;
@@ -776,22 +538,16 @@
       }
       if (map.getLayer(kmLabelId(id))) {
         map.setPaintProperty(kmLabelId(id), 'text-opacity', kmOpacity());
-        map.setPaintProperty(kmLabelId(id), 'icon-opacity', kmOpacity());
       }
+      // Route-line transparency depends on the zoom level.
+      if (map.getLayer(id)) map.setPaintProperty(id, 'line-opacity', lineOpacity());
     });
 
-    // Keep the route-line transparency in sync with the zoom level when the "only when
-    // zoomed in" tweak is on (it's the only case where line opacity changes with zoom).
-    if (get(routeTweaks).transparentRoutes && get(routeTweaks).transparentRoutesHighZoomOnly) {
-      rendered.forEach((id) => {
-        if (map.getLayer(id)) map.setPaintProperty(id, 'line-opacity', lineOpacity());
-      });
-      if (map.getLayer(OVERLAP_LAYER_A)) {
-        map.setPaintProperty(OVERLAP_LAYER_A, 'line-opacity', overlapOpacity());
-      }
-      if (map.getLayer(OVERLAP_LAYER_B)) {
-        map.setPaintProperty(OVERLAP_LAYER_B, 'line-opacity', overlapOpacity());
-      }
+    if (map.getLayer(OVERLAP_LAYER_A)) {
+      map.setPaintProperty(OVERLAP_LAYER_A, 'line-opacity', overlapOpacity());
+    }
+    if (map.getLayer(OVERLAP_LAYER_B)) {
+      map.setPaintProperty(OVERLAP_LAYER_B, 'line-opacity', overlapOpacity());
     }
 
     // Shrink/fade the start/end markers based on zoom.
@@ -807,7 +563,6 @@
     unsubscribeLayers();
     unsubscribeTweaks();
     map.off('zoom', onZoom);
-    clearLineEvents();
     // Guard against the map having been torn down already (e.g. on navigation away).
     try {
       endpointMarkers.forEach((marker) => marker.remove());

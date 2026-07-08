@@ -7,6 +7,15 @@ export const prefix = 'fileDataLayer-';
 
 export const fileDataLayers = writable<FileDataLayer[]>([]);
 
+/**
+ * Orders trails deterministically: earliest created/uploaded first (top), latest last.
+ * Trails without a `createdAt` (uploaded before that field existed) sort first, tie-broken
+ * by id so the order — and therefore each route's palette colour — is stable across
+ * reloads regardless of the (async) order the trails arrive in.
+ */
+const byCreatedAt = (a: FileDataLayer, b: FileDataLayer) =>
+  (a.createdAt ?? 0) - (b.createdAt ?? 0) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+
 export const findFileDataLayer = (id: string) =>
   get(fileDataLayers).find((layer) => layer.id === id);
 
@@ -22,7 +31,7 @@ export const addFileDataLayers = async (trail: FileDataLayer) => {
   if (checkIndex !== -1) {
     throw new Error('FileDataLayer with id ' + trail.id + ' already exists');
   } else {
-    fileDataLayers.update((layers) => [...layers, trail]);
+    fileDataLayers.update((layers) => [...layers, trail].sort(byCreatedAt));
   }
 };
 

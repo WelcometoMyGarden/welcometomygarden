@@ -98,6 +98,9 @@ export const createTrail = async ({
     collection(db(), USERS_PRIVATE, uid, TRAILS)
   ) as DocumentReference<FirebaseTrail>;
 
+  // Timestamp used to order trails (earliest first) consistently across reloads.
+  const createdAt = Date.now();
+
   // Immediately show the file locally
   addFileDataLayers({
     id: docRef.id,
@@ -105,6 +108,7 @@ export const createTrail = async ({
     geoJson,
     md5Hash,
     visible: true,
+    createdAt,
     animate: true
   });
 
@@ -123,7 +127,8 @@ export const createTrail = async ({
     originalFileName: name,
     // Default
     md5Hash,
-    visible: true
+    visible: true,
+    createdAt
   });
 };
 

@@ -14,6 +14,12 @@ export type FirebaseTrail = {
    */
   md5Hash: string;
   visible: boolean;
+  /**
+   * Creation/upload time (ms since epoch). Used to order trails deterministically
+   * (earliest first), so a route's palette colour stays constant across reloads.
+   * Optional for backwards compatibility with trails uploaded before this field existed.
+   */
+  createdAt?: number;
 };
 
 /**

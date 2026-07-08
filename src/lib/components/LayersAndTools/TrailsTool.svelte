@@ -4,7 +4,6 @@
   import { LabeledCheckbox, MultiActionLabel, Button, Icon } from '$lib/components/UI';
   import { cyclistIcon, hikerIcon, routesIcon } from '$lib/images/icons';
   import { fileDataLayers } from '$lib/stores/file';
-  import { routeTweaks } from '$lib/stores/routeTweaks';
   import { colorForRoute } from '$lib/util/map/routeStyle';
   import { cleanName } from '$lib/util/slugify';
   import { onDestroy } from 'svelte';
@@ -62,13 +61,16 @@
       onsecondary={() => deleteTrail(layer.id)}
     >
       {#snippet leading()}
-        <!-- Colour indicator matching the route's colour on the map -->
-        <span
+        <!-- Colour indicator matching the route's colour on the map. It's a <label> for
+             the checkbox, so clicking it toggles visibility just like the route name. -->
+        <label
           class="trail-color"
           class:dimmed={!layer.visible}
-          style:background={colorForRoute(index, $routeTweaks.useMultipleColors)}
+          for={layer.id}
+          style:background={colorForRoute(index)}
           title="Route colour on the map"
-        ></span>
+          aria-hidden="true"
+        ></label>
       {/snippet}
     </MultiActionLabel>
   {/each}
@@ -96,6 +98,7 @@
     margin-right: 0.6rem;
     border-radius: 0.25rem;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
   }
 
   .trail-color.dimmed {

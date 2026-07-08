@@ -21,16 +21,13 @@ export const ROUTE_COLORS = [
   '#e65100' // deep orange
 ];
 
-/** The default single colour, used when multi-colouring is toggled off. */
-export const DEFAULT_ROUTE_COLOR = ROUTE_COLORS[0];
-
 /**
- * Returns the colour for the route at the given index.
+ * Returns the colour for the route at the given index (routes alternate through the
+ * palette). Routes are ordered by upload date, so a route's colour is stable across
+ * reloads.
  * @param index position of the route among the uploaded routes
- * @param useMultipleColors when false, always returns the default colour
  */
-export const colorForRoute = (index: number, useMultipleColors: boolean): string =>
-  useMultipleColors ? ROUTE_COLORS[index % ROUTE_COLORS.length] : DEFAULT_ROUTE_COLOR;
+export const colorForRoute = (index: number): string => ROUTE_COLORS[index % ROUTE_COLORS.length];
 
 /** Recursively collects all LineString coordinate arrays from a geometry. */
 const collectLines = (geometry: Geometry, out: Position[][]) => {
