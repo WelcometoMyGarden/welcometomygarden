@@ -59,7 +59,7 @@ if (browser) {
 }
 
 export const urlPathPrefix = (locale: string | null | undefined) => {
-  let supportedLocale = coerceToSupportedLanguage(locale);
+  const supportedLocale = coerceToSupportedLanguage(locale);
   if (supportedLocale === 'en') {
     return '';
   }

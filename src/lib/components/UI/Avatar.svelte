@@ -6,12 +6,7 @@
     animate?: boolean; // Enable the avatar to animate on hover.
   }
 
-  let {
-    name = '',
-    large = false,
-    border = false,
-    animate = true
-  }: Props = $props();
+  let { name = '', large = false, border = false, animate = true }: Props = $props();
   let animating = false; // Whether the avatar is currently animating.
 
   const colors = ['#EC9570', '#F6C4B7', '#F4E27E', '#59C29D', '#A2D0D3', '#2E5F63'];

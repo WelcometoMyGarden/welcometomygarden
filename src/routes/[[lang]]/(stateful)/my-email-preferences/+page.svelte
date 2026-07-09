@@ -33,7 +33,8 @@
     secretParam = searchParams.get('secret') || searchParams.get('s');
     if (hasAuthForEmail) {
       // If there is a user, a reactive statement below will fill in emailPreferences
-      emailParam = $user?.email!;
+      // note: hasAuthForEmail already asserts user
+      emailParam = $user!.email;
       emailPreferences = $user!.emailPreferences!;
     } else if ($user && emailParam !== $user.email) {
       // TODO: if another email parameter is detected than the logged-in user's email, do log out and refresh?

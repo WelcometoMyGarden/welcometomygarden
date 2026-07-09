@@ -25,7 +25,7 @@ export function componentAnchorHTML(
 }
 
 export function escapeHTMLForAttr(html: string) {
-  var escape = document.createElement('textarea');
+  const escape = document.createElement('textarea');
   escape.textContent = html;
   const escaped = escape.innerHTML.replaceAll('"', '&quot;');
   escape.remove();
@@ -57,14 +57,14 @@ function instantiateComponent(element: HTMLElement) {
   // let a = element.dataset
 
   let component: (typeof catalog)[keyof typeof catalog] | null = null;
-  let props: { [key: string]: string } = {};
-  for (let [key, value] of Object.entries(element.dataset)) {
+  const props: { [key: string]: string } = {};
+  for (const [key, value] of Object.entries(element.dataset)) {
     if (key === 'component') {
       component = catalog[value as keyof typeof catalog];
     } else if (key.startsWith('prop')) {
       // Note: the prop will be in camel case already
       // but it starts with a capital
-      let propName = camelCase(key.slice('prop'.length));
+      const propName = camelCase(key.slice('prop'.length));
       // @ts-ignore
       props[propName] = coerceValue(value!);
     }
@@ -83,19 +83,19 @@ function instantiateComponent(element: HTMLElement) {
 
 // From: https://github.com/dimfeld/website/blob/master/src/dynamicComponents.ts
 export function instantiateComponents() {
-  let elements = Array.from(document.querySelectorAll('[data-component]'));
+  const elements = Array.from(document.querySelectorAll('[data-component]'));
   DEV: logger.debug(elements);
-  let mountedComponents: {}[] = [];
+  const mountedComponents: object[] = [];
 
-  for (let div of elements) {
-    let mountedComponent = instantiateComponent(div as HTMLElement);
+  for (const div of elements) {
+    const mountedComponent = instantiateComponent(div as HTMLElement);
     if (mountedComponent) {
       mountedComponents.push(mountedComponent);
     }
   }
 
   return () => {
-    for (let component of mountedComponents) {
+    for (const component of mountedComponents) {
       try {
         unmount(component);
       } catch (e) {

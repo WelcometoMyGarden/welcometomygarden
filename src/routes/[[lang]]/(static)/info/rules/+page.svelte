@@ -12,7 +12,7 @@
   <p>{@html $_('rules.description')}</p>
 </div>
 
-<div class="rules-content"><CollapsibleGroup collapsibleKey={'rules.rules'} /></div>
+<div class="rules-content"><CollapsibleGroup collapsibleKey="rules.rules" /></div>
 
 <style>
   .rules-content :global(ul) {

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { requestEmailChange } from '$lib/api/functions';
-  import { Modal, TextInput } from '$lib/components/UI';
+  import { Modal } from '$lib/components/UI';
   import Button from '$lib/components/UI/Button.svelte';
   import { MOBILE_BREAKPOINT } from '$lib/constants';
   import { getUser } from '$lib/stores/auth';

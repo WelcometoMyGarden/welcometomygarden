@@ -150,7 +150,7 @@
         </p>
       </div>
       <div class="faq-questions">
-        <CollapsibleGroup collapsibleKey={'index.faq.questions'} />
+        <CollapsibleGroup collapsibleKey="index.faq.questions" />
       </div>
     </div>
   </PaddedSection>

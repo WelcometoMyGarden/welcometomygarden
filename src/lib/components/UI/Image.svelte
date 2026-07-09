@@ -6,12 +6,7 @@
     rounded?: boolean;
   }
 
-  let {
-    src = '',
-    alt = '',
-    style = '',
-    rounded = true
-  }: Props = $props();
+  let { src = '', alt = '', style = '', rounded = true }: Props = $props();
 </script>
 
 <img {src} {alt} {style} class:rounded />

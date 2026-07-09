@@ -33,7 +33,7 @@ export const unlocalize = (url: string) => {
   }
   // Strip the language parameter, if one exists
   // (any 2-character leading segment is assumed to be one)
-  Url.pathname = Url.pathname.replace(/^\/\w\w(?:[?#\/]|$)/i, '/');
+  Url.pathname = Url.pathname.replace(/^\/\w\w(?:[?#/]|$)/i, '/');
   return Url.toString();
 };
 

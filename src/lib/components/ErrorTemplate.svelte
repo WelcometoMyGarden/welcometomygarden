@@ -11,7 +11,7 @@
   interface Props {
     /** The (already localized) headline shown in the large error title. */
     title: LocalizedMessage | string;
-    icon?: string | Object[];
+    icon?: string | object[];
     /**
      * Optional content rendered below the title. Defaults to a "back to home"
      * button when omitted. Use this to render follow-up actions for "planned"

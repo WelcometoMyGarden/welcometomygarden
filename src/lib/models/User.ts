@@ -3,7 +3,7 @@ import type { Timestamp } from 'firebase/firestore';
 import type Stripe from 'stripe';
 
 type UserOverwritableProps = {
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type - no other way of doing this AFAIK
   [Property in keyof User]: User[Property] extends Function ? never : User[Property];
 };
 type UserProps = Partial<UserOverwritableProps> & { displayName?: string };
@@ -168,7 +168,6 @@ export class User implements UserPrivate, UserPublic {
    */
   addFields(obj: Partial<UserOverwritableProps>) {
     Object.keys(obj).forEach((prop) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (this as any)[prop] = obj[prop as keyof UserOverwritableProps];
     });
   }

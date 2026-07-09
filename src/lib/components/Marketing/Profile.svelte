@@ -4,7 +4,7 @@
   interface Props {
     name: string;
     role: string;
-    imageSrc: string | Object[];
+    imageSrc: string | object[];
     children?: import('svelte').Snippet;
   }
 

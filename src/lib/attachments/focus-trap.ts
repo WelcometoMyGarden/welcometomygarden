@@ -17,7 +17,7 @@ export default ((node: Node) => {
 const trapFocus = (node: HTMLElement, e: KeyboardEvent) => {
   const tabbable = ':not([disabled]):not([tabindex = "-1"])';
   if (e.key !== 'Tap' && e.keyCode !== 9) return;
-  let focusableElts = Array.from(
+  const focusableElts = Array.from(
     node.querySelectorAll(
       `a[href]${tabbable}, area[href]${tabbable},input${tabbable}, select${tabbable}, textarea${tabbable}, button${tabbable}, iframe, [contenteditable=true]${tabbable}, *[tabindex]${tabbable}`
     )

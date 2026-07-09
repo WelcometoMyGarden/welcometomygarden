@@ -1,6 +1,5 @@
 <script lang="ts">
-  const elementOptions = ['section', 'footer'] as const;
-  type Option = (typeof elementOptions)[number];
+  type Option = 'section' | 'footer';
   interface Props {
     /**
      * Whether to only include padding on desktop

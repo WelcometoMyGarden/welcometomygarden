@@ -42,6 +42,7 @@ switch (process.env.NODE_ENV) {
       break;
     }
     console.warn('No DEVPUSH_URL set, using default staging config');
+  // falls through — reuse the staging fallback below when no URL is set
   case 'devpush':
     if (DEVPUSH_URL) {
       overrideConfig = {
@@ -56,6 +57,7 @@ switch (process.env.NODE_ENV) {
       break;
     }
     console.warn('No DEVPUSH_URL set, using default staging config');
+  // falls through — reuse the staging fallback below when no URL is set
   default:
     overrideConfig = {
       server: {

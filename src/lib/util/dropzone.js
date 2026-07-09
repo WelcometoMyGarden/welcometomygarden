@@ -6,8 +6,10 @@ export const TOO_MANY_FILES = 'too-many-files';
 
 // File Errors
 export const getInvalidTypeRejectionErr = (accept) => {
-  accept = Array.isArray(accept) && accept.length === 1 ? accept[0] : accept;
-  const messageSuffix = Array.isArray(accept) ? `one of ${accept.join(', ')}` : accept;
+  const acceptValue = Array.isArray(accept) && accept.length === 1 ? accept[0] : accept;
+  const messageSuffix = Array.isArray(acceptValue)
+    ? `one of ${acceptValue.join(', ')}`
+    : acceptValue;
   return {
     code: FILE_INVALID_TYPE,
     message: `File type must be ${messageSuffix}`

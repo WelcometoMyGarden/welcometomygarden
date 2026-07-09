@@ -16,7 +16,6 @@
     subscriptionJustEnded
   } from '$lib/stores/subscription';
   import { coerceToMainLanguageENBlank } from '$lib/util/get-browser-lang';
-  import { transKeyExists } from '$lib/util';
   import { lr } from '$lib/util/translation-helpers';
   import type { ClickOutsideEvent } from '$lib/attachments/click-outside';
   import TemporaryAppNavBannerContent from '../../TemporaryAppNoticeBanner.svelte';

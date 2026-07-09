@@ -16,11 +16,11 @@
   let { hostName }: Props = $props();
 
   // Combine the 3 points with 3 images
-  let guidelineData = $derived(zip(Object.values($json('chat.guidelines.points')), [
-    handIcon,
-    chatIcon,
-    plantIcon
-  ]).map(([a, b]) => ({ ...a, img: b })));
+  let guidelineData = $derived(
+    zip(Object.values($json('chat.guidelines.points')), [handIcon, chatIcon, plantIcon]).map(
+      ([a, b]) => ({ ...a, img: b })
+    )
+  );
 </script>
 
 <div class="chat-guidelines">

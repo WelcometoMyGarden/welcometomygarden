@@ -90,7 +90,6 @@ export const addChat = (chat: LocalChat) => {
 
 export const removeChat = (chatId: string) => {
   chats.update((old) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { [chatId]: toRemove, ...others } = old;
     return others;
   });

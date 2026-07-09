@@ -1,6 +1,4 @@
 <script lang="ts">
-  
-
   interface Props {
     // TODO make this dynamic
     type?: string;

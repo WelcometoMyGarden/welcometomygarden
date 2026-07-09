@@ -19,8 +19,7 @@ export default (
 
       if (fileExtension === 'geojson') return resolve(JSON.parse(contentText));
       else if (fileExtension === 'gpx') {
-        let xmlDOM;
-        xmlDOM = new DOMParser().parseFromString(contentText, 'text/xml');
+        const xmlDOM = new DOMParser().parseFromString(contentText, 'text/xml');
         // See https://developer.mozilla.org/en-US/docs/Web/API/DOMParser/parseFromString#error_handling
         const errorNode = xmlDOM.querySelector('parsererror');
         if (errorNode) {
@@ -41,12 +40,8 @@ export default (
       );
     });
 
-    reader.addEventListener('progress', (event) => {
-      if (event.loaded && event.total) {
-        const percent = (event.loaded / event.total) * 100;
-        //logger.log(`File is ${Math.round(percent)}% loaded`);
-      }
-    });
+    // TODO: we could use the progress event to show progress
+    // https://developer.mozilla.org/en-US/docs/Web/API/FileReader/progress_event
 
     reader.readAsText(file);
   });

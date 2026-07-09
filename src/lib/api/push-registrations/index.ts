@@ -114,7 +114,7 @@ export const createFirebasePushRegistrationObserver = () => {
   );
 
   return onSnapshot(q, async (querySnapshot) => {
-    let syncedPushRegistrations = querySnapshot.docs.map((registration) => ({
+    const syncedPushRegistrations = querySnapshot.docs.map((registration) => ({
       ...registration.data({
         // Note that adding a doc with serverTimestamp() will call this listener already, before the server sees it.
         //

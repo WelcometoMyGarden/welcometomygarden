@@ -58,11 +58,11 @@ declare interface Window {
 // https://github.com/zerodevx/svelte-img#install
 // Squelch warnings of image imports from your assets dir
 declare module '$lib/assets/*' {
-  const meta: Object[];
+  var meta;
   export default meta;
 }
 // We also import some images from the following folder, so we apply the same:
 declare module '$lib/images/*' {
-  const meta: Object[];
+  var meta;
   export default meta;
 }

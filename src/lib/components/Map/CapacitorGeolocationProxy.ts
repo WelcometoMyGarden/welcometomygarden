@@ -45,7 +45,7 @@ class WebGeolocationPositionError extends Error implements GeolocationPositionEr
     Object.setPrototypeOf(this, WebGeolocationPositionError.prototype);
   }
 }
-let positionHandlers = new Map();
+const positionHandlers = new Map();
 
 /**
  * Web positions expect toJSON() methods in the result, enriches the native position to this effect.

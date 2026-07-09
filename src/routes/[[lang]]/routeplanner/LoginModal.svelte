@@ -40,7 +40,7 @@
       <p>
         {@html $t('routeplanner.modal.description', {
           values: {
-            signIn: !!$user
+            signIn: $user
               ? $t('routeplanner.modal.sign-in-label')
               : anchorText({
                   linkText: $t('routeplanner.modal.sign-in-label'),

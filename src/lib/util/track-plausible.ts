@@ -164,7 +164,6 @@ function trackEvent(
         });
       }
       // We can be certain that the debounced logger exists due to section above.
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return debouncedLoggers[eventName]!(eventName, customProperties);
     }
   } catch (e) {

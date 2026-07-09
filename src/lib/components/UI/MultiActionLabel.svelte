@@ -1,7 +1,6 @@
 <script lang="ts">
   import { LabeledCheckbox } from '$lib/components/UI';
   import Icon from '$lib/components/UI/Icon.svelte';
-  import { crossIcon } from '$lib/images/icons';
 
   interface Props {
     name: string;
@@ -48,7 +47,9 @@
       onsecondary(e);
     }}
   >
-    <Icon icon={crossIcon} />
+    {#if icon}
+      <Icon {icon} />
+    {/if}
   </button>
 </div>
 
