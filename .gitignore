@@ -41,6 +41,9 @@ tests/e2e/credentials.json
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# (n)vim
+*.swp
+
 .DS_Store
 
 # Build & cache files

@@ -1,4 +1,18 @@
 {
+  "share-wtmg": {
+    "title": "Can you share WTMG?",
+    "subtitle": "A simple message or post makes a big difference for those who don't know WTMG yet. Thank you!",
+    "facebook": "Post on Facebook",
+    "copy-link": "Copy the link to the website",
+    "copy-link-done": "Link copied to your clipboard!",
+    "copy-link-error": "Couldn't copy the link. Please copy it manually.",
+    "whatsapp": "Send a message via WhatsApp",
+    "instagram": "Share on Instagram",
+    "email": "Send an email",
+    "whatsapp-text": "Do you know Welcome To My Garden (https://welcometomygarden.org)? It looks like something for you!",
+    "email-subject": "Welcome To My Garden",
+    "email-body": "Do you know Welcome To My Garden (https://welcometomygarden.org)? It looks like something for you!"
+  },
   "generics": {
     "password": "Password",
     "email": "Email",
@@ -1229,6 +1243,22 @@
       "added-to-map": "has been added to the map."
     },
     "zoom-restriction-notice": "to zoom in more",
+    "every15km": {
+      "title": "Let's spread WTMG across Europe!",
+      "intro": "What if… there was a <strong>welcoming garden every 15 km across Europe</strong>, so we could all hike or cycle from garden to garden?",
+      "legend": {
+        "covered": "WTMG within {radius} km",
+        "gap": "No WTMG nearby"
+      },
+      "cta": "Help us make slow travel more accessible and reach 10,000 gardens this summer:",
+      "share": "Share WTMG",
+      "add-garden": "Add your garden",
+      "stats": "Already {count} gardens",
+      "explore-all": "Explore all gardens",
+      "collapsed-title": "Help spread WTMG",
+      "expand": "Open the info box",
+      "collapse": "Collapse the info box"
+    },
     "meetups": {
       "description": "Want to meet other slow travellers and hosts? Join us at the WTMG Meetup near Bruges on Friday 3 July! It’s a great opportunity to meet each other, share experiences and talk about WTMG. It takes place in the garden of the first care home on WTMG. It’s free, but mandatory to register. See you there!",
       "btn-register": "Register now",

@@ -63,7 +63,8 @@ export enum PlausibleEvent {
   APP_CHECK_ERROR = 'App Check Error',
   USED_BROWSER_TRANSLATION = 'Used Browser Translation',
   MEMBER_CONVERSION = 'Member Conversion',
-  SHARE_GARDEN = 'Share Garden'
+  SHARE_GARDEN = 'Share Garden',
+  SHARE_WTMG = 'Share WTMG'
 }
 
 const superfanOnlyEvents = [
@@ -169,4 +170,11 @@ export type PlausibleShareGardenProperties = {
    * (from the native share sheet's `activityType`). Not always provided.
    */
   share_target?: string;
+};
+
+export type PlausibleShareWTMGProperties = {
+  /**
+   * The channel WTMG was shared through, from the /every15km share modal.
+   */
+  share_target: 'WhatsApp' | 'Instagram' | 'Facebook' | 'Email' | 'Copy link';
 };

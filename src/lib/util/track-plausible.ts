@@ -21,7 +21,8 @@ import {
   type PlausibleMembershipModalBackNavSource,
   type PlausibleNotificationsInternalDeletionProperties,
   type PlausibleMembershipGoalProperties,
-  type PlausibleShareGardenProperties
+  type PlausibleShareGardenProperties,
+  type PlausibleShareWTMGProperties
 } from '$lib/types/Plausible';
 import { debounce } from 'lodash-es';
 import { get } from 'svelte/store';
@@ -115,6 +116,10 @@ function trackEvent(
 function trackEvent(
   name: PlausibleEvent.SHARE_GARDEN,
   props: PlausibleShareGardenProperties & PlausibleCustomProperties
+): void;
+function trackEvent(
+  name: PlausibleEvent.SHARE_WTMG,
+  props: PlausibleShareWTMGProperties & PlausibleCustomProperties
 ): void;
 function trackEvent(
   // Exclude all events that were handled above

@@ -1,4 +1,18 @@
 {
+  "share-wtmg": {
+    "title": "Kun jij WTMG delen?",
+    "subtitle": "Een simpel bericht of een post maakt een groot verschil voor wie WTMG nog niet kent. Bedankt!",
+    "facebook": "Deel op Facebook",
+    "copy-link": "Kopieer de link naar de website",
+    "copy-link-done": "Link gekopieerd naar je klembord!",
+    "copy-link-error": "Kon de link niet kopiëren. Kopieer hem handmatig.",
+    "whatsapp": "Stuur een bericht via WhatsApp",
+    "instagram": "Deel op Instagram",
+    "email": "Stuur een e-mail",
+    "whatsapp-text": "Ken je Welcome To My Garden (https://welcometomygarden.org) al? Het lijkt me echt iets voor jou!",
+    "email-subject": "Welcome To My Garden",
+    "email-body": "Ken je Welcome To My Garden (https://welcometomygarden.org) al? Het lijkt me echt iets voor jou!"
+  },
   "generics": {
     "password": "Wachtwoord",
     "email": "E-mail",
@@ -857,6 +871,22 @@
       "cities": {
         "Bruges": "Brugge"
       }
+    },
+    "every15km": {
+      "title": "Laten we WTMG over heel Europa verspreiden!",
+      "intro": "Wat als… er <strong>in heel Europa iedere 15 km een gastvrije tuin</strong> was, zodat we allemaal van tuin naar tuin konden wandelen of fietsen?",
+      "legend": {
+        "covered": "WTMG binnen {radius} km",
+        "gap": "Geen WTMG in de buurt"
+      },
+      "cta": "Help ons traag reizen toegankelijker te maken en deze zomer 10.000 tuinen te bereiken:",
+      "share": "Deel WTMG",
+      "add-garden": "Voeg je tuin toe",
+      "stats": "Al {count} tuinen",
+      "explore-all": "Ontdek alle tuinen",
+      "collapsed-title": "Help WTMG verspreiden",
+      "expand": "Open het infovenster",
+      "collapse": "Sluit het infovenster"
     }
   },
   "rules": {

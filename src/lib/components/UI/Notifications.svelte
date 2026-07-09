@@ -84,7 +84,10 @@
     right: 0;
     padding: 0;
     margin: 0;
-    z-index: 200;
+    /* Must sit above modals (z-index: 1000) and the nprogress bar (1031) so
+       toasts (e.g. the "link copied" confirmation) are visible on top of any
+       open modal. Stays below the top-level browser incompatibility banner (9999). */
+    z-index: 1100;
     cursor: pointer;
     display: flex;
     flex-direction: column;

@@ -1,4 +1,18 @@
 {
+  "share-wtmg": {
+    "title": "Peux-tu partager WTMG ?",
+    "subtitle": "Un simple message ou une publication fait une grande différence pour ceux qui ne connaissent pas encore WTMG. Merci !",
+    "facebook": "Publier sur Facebook",
+    "copy-link": "Copier le lien du site web",
+    "copy-link-done": "Lien copié dans le presse-papiers !",
+    "copy-link-error": "Impossible de copier le lien. Copie-le manuellement.",
+    "whatsapp": "Envoyer un message via WhatsApp",
+    "instagram": "Partager sur Instagram",
+    "email": "Envoyer un e-mail",
+    "whatsapp-text": "Est-ce que tu connais Welcome To My Garden (https://welcometomygarden.org) ? Je crois que c'est quelque chose pour toi !",
+    "email-subject": "Welcome To My Garden",
+    "email-body": "Est-ce que tu connais Welcome To My Garden (https://welcometomygarden.org) ? Je crois que c'est quelque chose pour toi !"
+  },
   "generics": {
     "sign-in": "Connexion",
     "sign-out": "Se déconnecter",
@@ -1209,6 +1223,22 @@
       "cities": {
         "Bruges": "Bruges"
       }
+    },
+    "every15km": {
+      "title": "Faisons connaître WTMG à travers l'Europe!",
+      "intro": "Et si… il y avait un <strong>jardin accueillant tous les 15 km en Europe</strong>, pour que nous puissions tous·tes randonner ou voyager à vélo de jardin en jardin ?",
+      "legend": {
+        "covered": "WTMG dans les {radius}km",
+        "gap": "Pas de WTMG à proximité"
+      },
+      "cta": "Aidez-nous à rendre le voyage lent plus accessible et à atteindre 10 000 jardins cet été :",
+      "share": "Partager WTMG",
+      "add-garden": "Ajoutez votre jardin",
+      "stats": "Déjà {count} jardins",
+      "explore-all": "Explorer tous les jardins",
+      "collapsed-title": "Aidez à répandre WTMG",
+      "expand": "Ouvrir la fenêtre d'info",
+      "collapse": "Réduire la fenêtre d'info"
     }
   },
   "terms-of-use": {

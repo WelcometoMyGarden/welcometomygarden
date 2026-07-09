@@ -10,12 +10,22 @@ export const COMMUNITY_TRANSLATIONS_URL =
 export const COMMUNITY_FORUM_URL =
   (import.meta.env.VITE_DISCOURSE_HOST as string | undefined) ||
   'https://community.welcometomygarden.org';
+export const WTMG_WEBSITE_URL = 'https://welcometomygarden.org';
+export const WTMG_INSTAGRAM_URL = 'https://www.instagram.com/welcometomygarden_org/';
 export const WTMG_BLOG_BASE_URL = 'https://blog.welcometomygarden.org';
 export const WTMG_UTM_SOURCE = 'welcometomygarden.org';
 export const UTM_MEMBERSHIP_CAMPAIGN = 'membership';
 export const DEFAULT_MAP_STYLE = 'mapbox://styles/mapbox/streets-v8';
 export const STP_URL = 'https://slowtravelpass.com';
 export const STP_TITLE = 'Slow Travel Pass';
+
+// Precomputed garden coverage overlays (see the firebase-admin repo's
+// src/gardens/generateCoverage.js), regenerated & re-uploaded when the garden set
+// changes enough to matter.
+export const COVERAGE_GEOJSON_URL =
+  'https://storage.googleapis.com/wtmg-static/coverage/garden-coverage.geojson';
+export const COVERAGE_COMPLEMENT_GEOJSON_URL =
+  'https://storage.googleapis.com/wtmg-static/coverage/garden-coverage-complement.geojson';
 
 export const LOCATION_BELGIUM = { longitude: 4.5, latitude: 50.5 };
 export const LOCATION_WESTERN_EUROPE = {
