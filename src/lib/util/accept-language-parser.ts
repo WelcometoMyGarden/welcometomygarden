@@ -3,19 +3,30 @@
 /* eslint-disable no-param-reassign */
 const regex = /((([a-zA-Z]+(-[a-zA-Z0-9]+){0,2})|\*)(;q=[0-1](\.[0-9]+)?)?)*/g;
 
-const isString = function (s: string | undefined | null): boolean {
-  return typeof s === 'string';
-};
+/**
+ * A parsed language tag from an `Accept-Language` header value.
+ */
+export interface LanguageTag {
+  code: string;
+  script: string | null;
+  region: string | null;
+  quality: number;
+}
 
-export function parse(al: string | undefined | null): Array<any> {
+/**
+ * The subset of a parsed tag used when matching against supported languages.
+ */
+type SupportedTag = Pick<LanguageTag, 'code' | 'script' | 'region'>;
+
+export function parse(al: string | undefined | null): LanguageTag[] {
   const strings = (al || '').match(regex);
 
   if (!strings) return [];
 
   return strings
-    .map(function (m) {
+    .map((m): LanguageTag | undefined => {
       if (!m) {
-        return;
+        return undefined;
       }
 
       const bits = m.split(';');
@@ -29,30 +40,22 @@ export function parse(al: string | undefined | null): Array<any> {
         quality: bits[1] ? parseFloat(bits[1].split('=')[1]) : 1.0
       };
     })
-    .filter(function (r) {
-      return r;
-    })
-    .sort(function (a, b) {
-      return b.quality - a.quality;
-    });
+    .filter((r): r is LanguageTag => r !== undefined)
+    .sort((a, b) => b.quality - a.quality);
 }
 
 export function pick(
-  supportedLanguages: Array<any>,
+  supportedLanguages: string[],
   acceptLanguage: string,
-  options: any
+  options: { loose?: boolean } = {}
 ): string | null {
-  options = options || {};
-
   if (!supportedLanguages || !supportedLanguages.length || !acceptLanguage) {
     return null;
   }
 
-  if (isString(acceptLanguage)) {
-    acceptLanguage = parse(acceptLanguage);
-  }
+  const parsedLanguages = parse(acceptLanguage);
 
-  const supported = supportedLanguages.map(function (support) {
+  const supported: SupportedTag[] = supportedLanguages.map((support) => {
     const bits = support.split('-');
     const hasScript = bits.length === 3;
 
@@ -63,18 +66,18 @@ export function pick(
     };
   });
 
-  for (let i = 0; i < acceptLanguage.length; i++) {
-    const lang = acceptLanguage[i];
+  for (let i = 0; i < parsedLanguages.length; i++) {
+    const lang = parsedLanguages[i];
     const langCode = lang.code.toLowerCase();
     const langRegion = lang.region ? lang.region.toLowerCase() : lang.region;
     const langScript = lang.script ? lang.script.toLowerCase() : lang.script;
     for (let j = 0; j < supported.length; j++) {
       const supportedCode = supported[j].code.toLowerCase();
       const supportedScript = supported[j].script
-        ? supported[j].script.toLowerCase()
+        ? supported[j].script!.toLowerCase()
         : supported[j].script;
       const supportedRegion = supported[j].region
-        ? supported[j].region.toLowerCase()
+        ? supported[j].region!.toLowerCase()
         : supported[j].region;
       if (
         langCode === supportedCode &&
