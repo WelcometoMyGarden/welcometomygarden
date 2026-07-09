@@ -85,7 +85,7 @@
       }
     },
     "intro": {
-      "headline": "Dein slow travel-Abenteuer beginnt hier",
+      "headline": "Dein Slow Travel-Abenteuer beginnt hier",
       "copy": "Zeltplätze in den Gärten von Privatpersonen für Slow Travellers. Ermöglicht von einer herzlichen Gemeinschaft von wunderbaren Hosts. ",
       "add-garden": "Füge deinen Garten hinzu",
       "explore-map": "Karte erkunden",
@@ -161,8 +161,8 @@
     "description": "So funktioniert <span class=\"notranslate\">Welcome To My Garden</span>. Lies dir unbedingt die Regeln durch, bevor du dein Abenteuer beginnst! Schließlich funktioniert diese Plattform nur dann gut, wenn wir uns alle an die Regeln halten.",
     "rules": {
       "0": {
-        "title": "Ein Netzwerk von Bürgern und Bürgerinnen",
-        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> ist ein Netzwerk von Bürgern und Bürgerinnen, die Slow Travellers kostenlose Zeltplätze in ihren Gärten anbieten. Es ist eine gemeinnützige Initiative, mit der kein Einkommen erzielt werden soll. <span class=\"notranslate\">Welcome To My Garden</span> übernimmt keine Verantwortung für Verluste, Schäden oder Verletzungen, die während eines Aufenthalts entstehen."
+        "title": "Ein Netzwerk von wunderbaren Hosts.",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> ist ein Netzwerk von Gastgebenden, die Slow Travellers kostenlose Zeltplätze in ihren Gärten anbieten. Es ist eine gemeinnützige Initiative, mit der kein Einkommen erzielt werden soll. <span class=\"notranslate\">Welcome To My Garden</span> übernimmt keine Verantwortung für Verluste, Schäden oder Verletzungen, die während eines Aufenthalts entstehen."
       },
       "1": {
         "title": "Nur für Slow Travellers (keine Auto- oder Motorradregel)",
@@ -170,11 +170,11 @@
       },
       "2": {
         "title": "Schicke vorab eine Anfrage an die Hosts",
-        "copy": "Gartenbesitzer sind vielleicht nicht immer zu Hause und bereit, dich zu empfangen. Wir bitten alle Reisenden, die Hosts vorab zu kontaktieren, um die Verfügbarkeit direkt zu prüfen. Dies sollte über eine Anfrage an die Hosts über ihr Profil geschehen. Nach dem ersten Kontakt könnt ihr Kontaktdaten austauschen, um in Verbindung zu bleiben und deine Hosts per E-Mail oder Telefon über deine Ankunftszeit zu informieren, je nachdem, was sie bevorzugen. Wenn du eine Anfrage sendest, gib bitte ein paar Informationen über dich und deine voraussichtliche Ankunftszeit an. Beleidigendes Verhalten und Missbrauch der Plattform führen zur Sperrung des Kontos (siehe unsere Nutzungsbedingungen)."
+        "copy": "Hosts sind vielleicht nicht immer zu Hause und bereit, dich zu empfangen. Wir bitten alle Reisenden, die Hosts vorab zu kontaktieren, um die Verfügbarkeit direkt zu prüfen. Dies sollte über eine Anfrage an die Hosts über ihr Profil geschehen. Nach dem ersten Kontakt könnt ihr Kontaktdaten austauschen, um in Verbindung zu bleiben und deine Hosts per E-Mail oder Telefon über deine Ankunftszeit zu informieren, je nachdem, was sie bevorzugen. Wenn du eine Anfrage sendest, gib bitte ein paar Informationen über dich und deine voraussichtliche Ankunftszeit an. Beleidigendes Verhalten und Missbrauch der Plattform führen zur Sperrung des Kontos (siehe unsere Nutzungsbedingungen)."
       },
       "3": {
         "title": "Maximale Aufenthaltsdauer",
-        "copy": "Du kannst maximal 48 Stunden auf einem Zeltplatz bleiben. Sprich dich dazu immer mit den Gartenbesitzer ab."
+        "copy": "Du kannst maximal 48 Stunden in einem Garten bleiben. Sprich dich dazu immer mit den Gartenbesitzern ab."
       },
       "4": {
         "title": "Richtlinien für Aufenthaltsanfragen von Slow Travellers",
@@ -182,15 +182,15 @@
       },
       "5": {
         "title": "Maximale Anzahl an Zelten",
-        "copy": "Gartenbesitzer legen fest, wie viele Zelte sie pro Nacht aufnehmen können (wir sind ja nicht bei Rock am Ring). Bitte respektiere ihre Entscheidung."
+        "copy": "Hosts legen fest, wie viele Zelte sie pro Nacht aufnehmen können (wir sind ja nicht bei Rock am Ring). Bitte respektiere ihre Entscheidung."
       },
       "6": {
         "title": "Ausstattung",
-        "copy": "Die Ausstattung kann von Garten-Zeltplatz zu Garten-Zeltplatz variieren. Einige Gartenbesitzer bieten vielleicht Zugang zu ihren Badezimmern an, andere ziehen es vor, dies nicht zu tun. Bitte respektiere ihre Entscheidungen auch in diesen Punkten."
+        "copy": "Die Ausstattung kann von Gartenzeltplatz zu Garten-Zeltplatz variieren. Einige Hosts bieten vielleicht Zugang zu ihren Badezimmern an, andere ziehen es vor, dies nicht zu tun. Bitte respektiere ihre Entscheidungen auch in diesen Punkten."
       },
       "7": {
         "title": "Respekt vor der Natur",
-        "copy": "Dein gesamter Müll muss wieder mitgenommen werden. Das gilt auch für das kleine und große Geschäft, falls keine Toilette vorhanden ist: Such dir für das kleine Geschäft einen Busch oder Baum außerhalb des Gartens; verpacke dein großes Geschäft in einer Tüte und wirf sie am nächsten Tag in den Mülleimer. Respektiere die Natur und die Gartenbesitzer: Wende das „Leave No Trace“-Prinzip (Ich-hinterlasse-keine-Spuren-Prinzip) an, genau wie beim Biwakieren in der freien Natur."
+        "copy": "Dein gesamter Müll muss wieder mitgenommen werden. Das gilt auch für das kleine und große Geschäft, falls keine Toilette vorhanden ist: Such dir für das kleine Geschäft einen Busch oder Baum außerhalb des Gartens; verpacke dein großes Geschäft in einer Tüte und wirf sie am nächsten Tag in den Mülleimer. Respektiere die Natur und die Gastgebende: Wende das „Leave No Trace“-Prinzip (Hinterlasse keine Spuren-Prinzip) an, genau wie beim Biwakieren in der freien Natur."
       },
       "8": {
         "title": "Keine Lärmbelästigung",
@@ -215,7 +215,7 @@
         "questions": {
           "what": {
             "title": "Was ist <span class=\"notranslate\">Welcome To My Garden</span>?",
-            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> ist ein Netzwerk von Menschen, die ihre Gärten für Slow Travellers öffnen, die einen Zeltplatz suchen. Es ist eine gemeinnützige Initiative, die von einer Gruppe von Bürgern und Bürgerinnen während des ersten Covid-19-Lockdowns ins Leben gerufen wurde. <span class=\"notranslate\">Welcome To My Garden</span> ist heute ein soziales Unternehmen, welches slow travel für Alle zugänglicher machen möchte."
+            "copy": "<span class=\"notranslate\">Welcome To My Garden</span> ist ein Netzwerk von Menschen, die ihre Gärten für Slow Travellers öffnen, die einen Zeltplatz suchen. Es ist eine gemeinnützige Initiative, die von einer Gruppe von Bürgern und Bürgerinnen während des ersten Covid-19-Lockdowns ins Leben gerufen wurde. <span class=\"notranslate\">Welcome To My Garden</span> ist heute ein soziales Unternehmen, welches Slow Travel für Alle zugänglicher machen möchte."
           },
           "who": {
             "title": "Für wen ist <span class=\"notranslate\">Welcome To My Garden</span> gedacht?",
@@ -531,7 +531,7 @@
       "spots-available": "Verfügbare Zeltplätze",
       "min": "Minimum",
       "no-places": "Keine Orte gefunden",
-      "search-city": "Nach einer Stadt suchen",
+      "search-city": "Einen Ort suchen",
       "all-filters": "Alle Filter",
       "apply-filter": "Filter anwenden",
       "available": "{styledAmount} {amount, plural, one {Garten} other {Gärten}} mit den aktiven Filtern verfügbar.",
@@ -678,7 +678,7 @@
         "1": {
           "title": "Mitglied",
           "description": "Du erhältst vollen Zugriff auf die WTMG-Plattform und deckst deinen Teil der Kosten.",
-          "backref": "Alles aus 'Kostenlos', plus:",
+          "backref": "Alles aus 'Kostenlos' plus:",
           "checklist": {
             "0": "<strong>Stelle Übernachtungsanfragen an über 5000+ Gärten.</strong>",
             "1": "<strong>Plane deine Reise:</strong> Lade deine Route hoch, speichere Gärten und sieh dir das Schienennetz an",
@@ -689,7 +689,7 @@
         "2": {
           "title": "Superfan 💚",
           "description": "Du hast wirklich eine Leidenschaft für Slow Travelling und möchtest die Mission von WTMG noch weiter unterstützen.",
-          "backref": "Enthält alle Vorteile für Mitglieder, plus:",
+          "backref": "Enthält alle Vorteile für Mitglieder plus:",
           "mobile-superfan-copy": "Vorteile für Mitglieder, plus du glaubst wirklich an das, was wir tun, und möchtest die Mission von WTMG unterstützen.",
           "checklist": {
             "0": "<strong>Unterstütze uns und hilf mit, WTMG zu verbessern</strong>",
@@ -719,7 +719,7 @@
       "title": "Als Mitglied kannst du…",
       "points": {
         "0": {
-          "title": "<strong>Kostenlose Übernachtungsanfragen an alle über 5.000 WTMG-Hosts</strong> auf der Karte senden"
+          "title": "<strong>Kostenlose Übernachtungsanfragen an über 5.000 WTMG-Hosts</strong> auf der Karte senden"
         },
         "1": {
           "title": "<strong>Absprachen mit Hosts</strong> über den Chat treffen und tolle neue Leute kennenlernen."
@@ -728,7 +728,7 @@
           "title": "<strong>Praktische Funktionen nutzen:</strong> Lade deine Route hoch, speichere Gärten und sieh dir das Schienennetz an."
         },
         "3": {
-          "title": "<strong>Werde Teil der WTMG-Community </strong>, in der sich Mitglieder treffen, Erfahrungen austauschen und Fragen stellen können."
+          "title": "<strong>Werde Teil der WTMG-Community</strong>, in der sich Mitglieder treffen, Erfahrungen austauschen und Fragen stellen können."
         },
         "4": {
           "title": "<strong>Decke deinen Teil der Kosten:</strong> WTMG benötigt finanzielle Mittel, um ein qualitativ hochwertiges Netzwerk aufrechtzuerhalten."
@@ -737,13 +737,13 @@
           "title": "<strong>WTMG werbefrei, völlig unabhängig und von Mitgliedern unterstützt halten:</strong> Ohne die kontinuierliche Unterstützung unserer Community können wir nicht existieren!"
         },
         "6": {
-          "title": "<strong>Die Arbeit eines engagierten Teams</strong> aus vier Slow Travel-Enthusiast:innen unterstützen."
+          "title": "<strong>Die Arbeit eines engagierten Teams</strong> aus drei Slow Travel-Begeisterten unterstützen."
         }
       }
     },
     "team-section": {
       "title": "Lerne das Team kennen",
-      "description": "Wer steckt also hinter WTMG? Wir sind ein kleines Team aus vier Slow-Travel-Enthusiasten und wir möchten auch anderen helfen, sich auf ihre Slow Travel-Abenteuer einzulassen!",
+      "description": "Wer steckt hinter WTMG? Wir sind ein kleines Team aus vier Slow Travel-Begeisterten und wir möchten auch anderen helfen, sich auf ihre Slow Travel-Abenteuer einzulassen!",
       "meet-team-button": "Lerne das Team kennen"
     },
     "superfan-quotes-section": {
@@ -758,7 +758,7 @@
         },
         "2": {
           "name": "Marie Marth",
-          "quote": "WTMG macht nicht nur Spaß, sondern es geht auch darum, die Welt zu verändern, die Art und Weise, wie wir reisen, zu verändern."
+          "quote": "WTMG macht nicht nur Spaß, sondern es geht auch darum, die Welt zu verändern, indem wir die Art und Weise, wie wir reisen, verändern."
         },
         "3": {
           "name": "Benoit & Hélène",
@@ -787,7 +787,7 @@
             },
             "1": {
               "title": "Was ist der Unterschied zwischen einem Mitglied und einem Superfan?",
-              "copy": "Obwohl Superfans Zugang zu denselben Vorteilen wie Mitglieder haben, sind sie für WTMG besonders wichtig, da sie es uns ermöglichen, WTMG zu verbessern, die slow travel-Bewegung auszubauen und mehr Gärten auf die Karte zu bringen. Wenn du echte Leidenschaft für slow travel empfindest und die Mission von WTMG unterstützen möchtest, ist dies genau das Richtige für dich!"
+              "copy": "Obwohl Superfans Zugang zu denselben Vorteilen wie Mitglieder haben, sind sie für WTMG besonders wichtig, da sie es uns ermöglichen, WTMG zu verbessern, die Slow Travel-Bewegung auszubauen und mehr Gärten auf die Karte zu bringen. Wenn du echte Leidenschaft für Slow Travel empfindest und die Mission von WTMG unterstützen möchtest, ist dies genau das Richtige für dich!"
             },
             "2": {
               "title": "Warum benötigt WTMG einen jährlichen finanziellen Beitrag von Slow Travellern?",
@@ -795,15 +795,15 @@
             },
             "3": {
               "title": "Wohin fließt mein Geld?",
-              "copy": "<p>Da wir nichts zu verbergen haben und uns Transparenz wichtig ist, haben wir eine Übersicht erstellt, um dir einen Einblick zu geben, wohin die Beiträge unserer Mitglieder fließen.</p>\n<p>Die jährlichen Mitgliedsbeiträge ermöglichen es uns:</p>\n<ul>\n<li>Die WTMG-Plattform und -Server zu betreiben und zu warten</li>\n<li>Alle Betriebskosten wie Softwarelizenzen, Buchhaltung und Co-Working-Space zu decken</li>\n<li>Auf Support-Anfragen und Fragen von Mitgliedern und Hosts zu antworten</li>\n<li>Die Qualität des WTMG-Netzwerks aufrechtzuerhalten</li>\n<li>Einen Community-Bereich bereitzustellen, in dem sich Mitglieder treffen und Erfahrungen austauschen können</li>\n<li>Die WTMG-Plattform basierend auf dem Feedback der Mitglieder zu verbessern</li>\n<li>WTMG nach außen hin zu kommunizieren und slow travel im Allgemeinen zu fördern</li>\n<li>Kooperationen mit anderen slow travel-Initiativen aufzubauen</li>\n</ul>"
+              "copy": "<p>Da wir nichts zu verbergen haben und uns Transparenz wichtig ist, haben wir eine Übersicht erstellt, um dir einen Einblick zu geben, wohin die Beiträge unserer Mitglieder fließen.</p>\n<p>Die jährlichen Mitgliedsbeiträge ermöglichen es uns:</p>\n<ul>\n<li>Die WTMG-Plattform und -Server zu betreiben und zu warten</li>\n<li>Alle Betriebskosten wie Softwarelizenzen, Buchhaltung und Co-Working-Space zu decken</li>\n<li>Auf Support-Anfragen und Fragen von Mitgliedern und Hosts zu antworten</li>\n<li>Die Qualität des WTMG-Netzwerks aufrechtzuerhalten</li>\n<li>Einen Community-Bereich bereitzustellen, in dem sich Mitglieder treffen und Erfahrungen austauschen können</li>\n<li>Die WTMG-Plattform basierend auf dem Feedback der Mitglieder zu verbessern</li>\n<li>WTMG nach außen hin zu kommunizieren und Slow Travel im Allgemeinen zu fördern</li>\n<li>Kooperationen mit anderen Slow Travel-Initiativen aufzubauen</li>\n</ul>"
             },
             "4": {
               "title": "Wie viel muss ich beitragen?",
-              "copy": "<p>Das liegt ganz bei dir! Du kannst entweder Mitglied oder Superfan werden, je nachdem, wie sehr du an slow travel glaubst und wie stark du uns unterstützen möchtest.</p>\n<p>Die Mitgliedschaft kostet 36 € pro Jahr, was im Grunde deine eigenen Kosten deckt. Du kannst kostenlose Anfragen an 5000 Gärten senden, erhältst Zugriff auf praktische Funktionen zur Planung deiner Reise und trägst dazu bei, dass WTMG werbefrei, völlig unabhängig und von Mitgliedern getragen bleibt.</p>\n<p>Ein Superfan zu werden kostet 60 € pro Jahr. Zusätzlich zu allen Vorteilen einer Mitgliedschaft helfen uns Superfans dabei, WTMG zu verbessern, die slow travel-Bewegung auszubauen und mehr Gärten auf die Karte zu bringen.</p>"
+              "copy": "<p>Das liegt ganz bei dir! Du kannst entweder Mitglied oder Superfan werden, je nachdem, wie sehr du an Slow Travel glaubst und wie stark du uns unterstützen möchtest.</p>\n<p>Die Mitgliedschaft kostet 36 € pro Jahr, was im Grunde deine eigenen Kosten deckt. Du kannst kostenlose Anfragen an 5000 Gärten senden, erhältst Zugriff auf praktische Funktionen zur Planung deiner Reise und trägst dazu bei, dass WTMG werbefrei, völlig unabhängig und von Mitgliedern getragen bleibt.</p>\n<p>Ein Superfan zu werden kostet 60 € pro Jahr. Zusätzlich zu allen Vorteilen einer Mitgliedschaft helfen uns Superfans dabei, WTMG zu verbessern, die Slow Travel-Bewegung auszubauen und mehr Gärten auf die Karte zu bringen.</p>"
             },
             "5": {
               "title": "Wie funktioniert die Bezahlung?",
-              "copy": "Sobald du dich entschieden hast, ob du Mitglied oder Superfan werden möchtest, wirst du zur Zahlungsseite weitergeleitet. Du zahlst jeweils für ein Jahr im Voraus. Deine Mitgliedschaft verlängert sich automatisch, aber du kannst die automatische Verlängerung jederzeit in deinem {accountLink} kündigen. Sieben Tage vor dem Verlängerungsdatum benachrichtigen wir dich außerdem per E-Mail über die bevorstehende Verlängerung."
+              "copy": "Sobald du dich entschieden hast, ob du Mitglied oder Superfan werden möchtest, wirst du zur Zahlungsseite weitergeleitet. Du zahlst immer für ein Jahr (12 Monate ab Zahlungseingang) im Voraus. Deine Mitgliedschaft verlängert sich automatisch, aber du kannst die automatische Verlängerung jederzeit in deinem {accountLink} kündigen. Sieben Tage vor dem Verlängerungsdatum benachrichtigen wir dich außerdem per E-Mail über die bevorstehende Verlängerung."
             },
             "6": {
               "title": "Wie kann ich meine Mitgliedschaft verwalten, verlängern oder kündigen?",
@@ -811,7 +811,7 @@
             },
             "7": {
               "title": "Ist es für Slow Traveller verpflichtend, Mitglied oder Superfan zu werden?",
-              "copy": "<p>Slow Traveller müssen einen jährlichen finanziellen Beitrag leisten, damit WTMG weiterhin existieren kann. Das haben wir bereits bei unserem Aufruf für Superfans kommuniziert. Jetzt weiten wir diese Bitte auf unsere gesamte slow travel-Community aus. <strong>Im Grunde genommen erwarten wir von dir einen Beitrag, wenn du unsere Plattform nutzt.</strong> Dies wird ein jährlicher Beitrag sein. Neben der Möglichkeit, Superfan zu werden, führen wir daher eine Mitgliedschaft ein, um unsere Bitte um Unterstützung von den Unterstützerinnen der ersten Stunde auf die breitere Community auszuweiten.</p>\n<p>Von Hosts verlangen wir keinen finanziellen Beitrag, da sie bereits auf andere Weise beitragen – natürlich können sie uns aber auch gerne finanziell unterstützen, wenn sie möchten.</p>"
+              "copy": "<p>Slow Traveller müssen einen jährlichen finanziellen Beitrag leisten, damit WTMG weiterhin existieren kann. Das haben wir bereits bei unserem Aufruf für Superfans kommuniziert. Jetzt weiten wir diese Bitte auf unsere gesamte Slow Travel-Community aus. <strong>Im Grunde genommen erwarten wir von dir einen Beitrag, wenn du unsere Plattform nutzt.</strong> Dies wird ein jährlicher Beitrag sein. Neben der Möglichkeit, Superfan zu werden, führen wir daher eine Mitgliedschaft ein, um unsere Bitte um Unterstützung von den Unterstützerinnen der ersten Stunde auf die breitere Community auszuweiten.</p>\n<p>Von Hosts verlangen wir keinen finanziellen Beitrag, da sie bereits auf andere Weise beitragen – natürlich können sie uns aber auch gerne finanziell unterstützen, wenn sie möchten.</p>"
             },
             "8": {
               "title": "Habt ihr nicht bereits einen Aufruf für Superfans gestartet?",
@@ -819,11 +819,11 @@
             },
             "9": {
               "title": "Wenn ich kein Mitglied oder Superfan werde, was passiert dann mit meinem kostenlosen Konto?",
-              "copy": "Als kostenloses Mitglied kannst du die Karte erkunden, slow travel Reisende in deinem Garten empfangen und den WTMG-Newsletter erhalten."
+              "copy": "Als kostenloses Mitglied kannst du die Karte erkunden, Slow Travel Reisende in deinem Garten empfangen und den WTMG-Newsletter erhalten."
             },
             "10": {
               "title": "Für wie lange werde ich Mitglied oder Superfan?",
-              "copy": "Wenn du Mitglied oder Superfan wirst, zahlst du für ein Jahr. Deine Mitgliedschaft verlängert sich automatisch, aber du kannst die automatische Verlängerung jederzeit in deinem {accountLink} kündigen. Wenn du deine Mitgliedschaft kündigst, wird nur die automatische Verlängerung deaktiviert. Das bedeutet, dass du bis zum Ende des bereits bezahlten Zeitraums Mitglied bleibst."
+              "copy": "Wenn du Mitglied oder Superfan wirst, zahlst du für ein Jahr (12 Monate ab Zahlungseingang). Deine Mitgliedschaft verlängert sich automatisch, aber du kannst die automatische Verlängerung jederzeit in deinem {accountLink} kündigen. Wenn du deine Mitgliedschaft kündigst, wird nur die automatische Verlängerung deaktiviert. Das bedeutet, dass du bis zum Ende des bereits bezahlten Zeitraums Mitglied bleibst."
             },
             "11": {
               "title": "Kann ich meine Mitgliedschaft als Mitglied oder Superfan beenden?",
@@ -844,7 +844,7 @@
           "questions": {
             "0": {
               "title": "Ich bin Host. Sollte ich Mitglied oder Superfan werden?",
-              "copy": "Zunächst einmal freuen wir uns riesig, dass du slow travel Reisende in deinem Garten willkommen heißt! WTMG würde ohne warmherzige Menschen wie dich nicht existieren. Wenn du ein Superfan werden und uns bei unserer Mission unterstützen möchtest, slow travel zugänglicher zu machen, würden wir uns darüber sehr freuen. Aber wir möchten betonen, dass du bereits als Host einen riesigen Beitrag leistest!"
+              "copy": "Zunächst einmal freuen wir uns riesig, dass du Slow Travel Reisende in deinem Garten willkommen heißt! WTMG würde ohne warmherzige Menschen wie dich nicht existieren. Wenn du ein Superfan werden und uns bei unserer Mission unterstützen möchtest, Slow Travel zugänglicher zu machen, würden wir uns darüber sehr freuen. Aber wir möchten betonen, dass du bereits als Host einen riesigen Beitrag leistest!"
             }
           }
         },
@@ -869,7 +869,7 @@
             },
             "4": {
               "title": "Habt ihr andere Wege ausprobiert, um Einnahmen zu erzielen – wie Spenden, Sponsoring und Subventionen?",
-              "copy": "<p>Wir haben bereits einige Wege ausprobiert, um die nötigen Einnahmen zu erzielen, damit wir weitermachen können. Folgendes hat sich für WTMG als nicht tragfähig erwiesen:</p>\n<ul>\n<li>Spenden. Es ist verlockend zu glauben, dass es klappen kann, wenn jede:r freiwillig einen kleinen Beitrag leistet. In der Realität hat sich gezeigt, dass Spenden nicht einmal ausreichten, um die technischen Kosten zu decken. Insgesamt haben wir weniger als 500 €/Jahr an Spenden erhalten.</li>\n<li><em>Ein weiteres Projekt betreiben (wie wir es mit unseren Slowby-Reisen gemacht haben). Da WTMG unsere volle Aufmerksamkeit erfordert, ist es für ein dreiköpfiges Team einfach zu viel Aufwand, zwei große Projekte gleichzeitig zu betreiben. Jemand hat dieses Finanzierungsmodell treffend als Rezept für ein Burnout bezeichnet (keine Sorge, wir sind immer noch voller positiver Energie, aber genau deshalb müssen wir jetzt handeln).</em></li>\n<li>Subventionen. Sie sind toll, um ein Projekt anzustoßen, machen es aber langfristig nicht finanziell unabhängig. Wie in <a href=\"https://www.libraryofthings.co.uk/blog/purposebeforeprofit\">diesem Beitrag</a> von Library of Things sehr gut erklärt wird, würde uns die Beantragung von Subventionen auch von unserem eigentlichen Ziel ablenken: Mehrwert für unsere Community zu schaffen.</li>\n</ul>\n<p>Wir haben uns entschieden, keine Werbung auf unserer Website anzuzeigen. Warum? Wir wollen deine Daten nicht an Unternehmen verkaufen, deren Werte vielleicht nicht mit unseren übereinstimmen. Außerdem würde die Ausrichtung auf Werbung unseren Fokus davon ablenken, Mehrwert für unsere Users zu schaffen. Wir möchten für eine großartige slow travel Plattform bezahlt werden, die es auch wert ist, dafür zu bezahlen.</p>\n<p><strong>Zusammenfassend glauben wir, dass es sowohl fair als auch angemessen ist, unsere Slow Travellers um einen finanziellen Beitrag zu bitten.</strong></p>"
+              "copy": "<p>Wir haben bereits einige Wege ausprobiert, um die nötigen Einnahmen zu erzielen, damit wir weitermachen können. Folgendes hat sich für WTMG als nicht tragfähig erwiesen:</p>\n<ul>\n<li>Spenden. Es ist verlockend zu glauben, dass es klappen kann, wenn alle freiwillig einen kleinen Beitrag leistet. In der Realität hat sich gezeigt, dass Spenden nicht einmal ausreichten, um die technischen Kosten zu decken. Insgesamt haben wir weniger als 500 €/Jahr an Spenden erhalten.</li>\n<li><em>Ein weiteres Projekt betreiben (wie wir es mit unseren Slowby-Reisen gemacht haben). Da WTMG unsere volle Aufmerksamkeit erfordert, ist es für ein dreiköpfiges Team einfach zu viel Aufwand, zwei große Projekte gleichzeitig zu betreiben. Jemand hat dieses Finanzierungsmodell treffend als Rezept für ein Burnout bezeichnet (keine Sorge, wir sind immer noch voller positiver Energie, aber genau deshalb müssen wir jetzt handeln).</em></li>\n<li>Subventionen. Sie sind toll, um ein Projekt anzustoßen, machen es aber langfristig nicht finanziell unabhängig. Wie in <a href=\"https://www.libraryofthings.co.uk/blog/purposebeforeprofit\">diesem Beitrag</a> von Library of Things sehr gut erklärt wird, würde uns die Beantragung von Subventionen auch von unserem eigentlichen Ziel ablenken: Mehrwert für unsere Community zu schaffen.</li>\n</ul>\n<p>Wir haben uns entschieden, keine Werbung auf unserer Website anzuzeigen. Warum? Wir wollen deine Daten nicht an Unternehmen verkaufen, deren Werte vielleicht nicht mit unseren übereinstimmen. Außerdem würde die Ausrichtung auf Werbung unseren Fokus davon ablenken, Mehrwert für unsere Gemeinschaft zu schaffen. Wir möchten für eine großartige Slow Travel Plattform bezahlt werden, die es auch wert ist, dafür zu bezahlen.</p>\n<p><strong>Zusammenfassend glauben wir, dass es sowohl fair als auch angemessen ist, unsere Slow Travellers um einen finanziellen Beitrag zu bitten.</strong></p>"
             },
             "5": {
               "title": "Wie viele Mitglieder braucht WTMG, um zu überleben und zu wachsen?",
@@ -974,12 +974,12 @@
       "title": "E-Mail-Einstellungen",
       "text": "Sende mir E-Mails, wenn:",
       "chat": "ich habe eine neue Chat-Nachricht erhalten",
-      "news": "<span class=\"notranslate\">Welcome To My Garden</span> hat Neuigkeiten zu teilen."
+      "news": "<span class=\"notranslate\">Welcome To My Garden</span> Neuigkeiten zu teilen hat"
     },
     "garden": {
       "title": "Dein Garten",
       "unlisted": {
-        "text": "Du hast deinen Garten noch nicht auf der Karte eingetragen. Wenn du deinen Garten hinzufügst, können andere Users dich kontaktieren, um eine Übernachtung anzufragen. Du kannst deinen Garten jederzeit wieder ausblenden!",
+        "text": "Du hast deinen Garten noch nicht auf der Karte eingetragen. Wenn du deinen Garten hinzufügst, können andere Reisende dich kontaktieren, um eine Übernachtung anzufragen. Du kannst deinen Garten jederzeit wieder ausblenden!",
         "button": "Garten hinzufügen"
       },
       "listed": {
@@ -1240,7 +1240,7 @@
     },
     "zoom-restriction-notice": "um weiter heranzuzoomen",
     "meetups": {
-      "description": "Auf der Suche nach deinem nächsten slow travel Abenteuer? Sei dabei beim WTMG-Treffen in der Nähe von {location} am {date}! Die Idee ist einfach: Wir treffen uns in einem WTMG-Garten, teilen unsere Begeisterung für slow travel und verbringen eine tolle Zeit zusammen. Es ist kostenlos, aber eine Anmeldung ist erforderlich. Bis dann!",
+      "description": "Auf der Suche nach deinem nächsten Slow Travel Abenteuer? Sei dabei beim WTMG-Treffen in der Nähe von {location} am {date}! Die Idee ist einfach: Wir treffen uns in einem WTMG-Garten, teilen unsere Begeisterung für Slow Travel und verbringen eine tolle Zeit zusammen. Es ist kostenlos, aber eine Anmeldung ist erforderlich. Bis dann!",
       "btn-register": "Jetzt anmelden",
       "no-account": "Klicke hier {signInLink}, um dich anzumelden",
       "cities": {
@@ -1382,13 +1382,13 @@
           "5": {
             "title": "Keine Auto- oder Motorradregel",
             "copy": {
-              "0": "Die Plattform <span class=\"notranslate\">Welcome To My Garden</span> schont die Umwelt und richtet sich ausschließlich an die Bedürfnisse von slow travel Reisenden. Das bedeutet, dass Users die Gärten nur zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln aufsuchen dürfen. Wenn du planst, mit einem motorisierten Fahrzeug zu reisen, kontaktiere Hosts bitte nicht über diese Plattform. Die Nutzung von motorisierten Fahrzeugen ist verboten."
+              "0": "Die Plattform <span class=\"notranslate\">Welcome To My Garden</span> schont die Umwelt und richtet sich ausschließlich an die Bedürfnisse von Slow Travel Reisenden. Das bedeutet, dass Users die Gärten nur zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln aufsuchen dürfen. Wenn du planst, mit einem motorisierten Fahrzeug zu reisen, kontaktiere Hosts bitte nicht über diese Plattform. Die Nutzung von motorisierten Fahrzeugen ist verboten."
             }
           },
           "6": {
             "title": "Jährliche Mitgliedschaft: werde Mitglied oder Superfan",
             "copy": {
-              "0": "<span class=\"notranslate\">Welcome To My Garden</span> hat es sich zur Aufgabe gemacht, slow travel für alle zugänglicher zu machen. Wie jeder Garten braucht auch WTMG Pflege, um zu wachsen und gesund zu bleiben. Der Aufenthalt bei WTMG-Hosts ist kostenlos. Um WTMG jedoch zu pflegen und weiterzuentwickeln, sind wir auf eine jährliche Mitgliedschaft angewiesen, um die Kosten fair unter allen slow travel Reisenden aufzuteilen. Diese haben die Wahl, entweder Mitglied oder Superfan zu werden. Diese Mitgliedschaft ist obligatorisch. Es ist Mitgliedern oder Superfans nicht gestattet, ihre Login-Daten an Dritte weiterzugeben. Superfans erklären sich mit denselben Bedingungen wie alle Users einverstanden, und <span class=\"notranslate\">Welcome To My Garden</span> behält sich das Recht vor, Konten von Mitgliedern oder Superfans, die sich nicht an die Bedingungen halten, abzulehnen, zu sperren oder zu löschen.",
+              "0": "<span class=\"notranslate\">Welcome To My Garden</span> hat es sich zur Aufgabe gemacht, Slow Travel für alle zugänglicher zu machen. Wie jeder Garten braucht auch WTMG Pflege, um zu wachsen und gesund zu bleiben. Der Aufenthalt bei WTMG-Hosts ist kostenlos. Um WTMG jedoch zu pflegen und weiterzuentwickeln, sind wir auf eine jährliche Mitgliedschaft angewiesen, um die Kosten fair unter allen Slow Travel Reisenden aufzuteilen. Diese haben die Wahl, entweder Mitglied oder Superfan zu werden. Diese Mitgliedschaft ist obligatorisch. Es ist Mitgliedern oder Superfans nicht gestattet, ihre Login-Daten an Dritte weiterzugeben. Superfans erklären sich mit denselben Bedingungen wie alle Users einverstanden, und <span class=\"notranslate\">Welcome To My Garden</span> behält sich das Recht vor, Konten von Mitgliedern oder Superfans, die sich nicht an die Bedingungen halten, abzulehnen, zu sperren oder zu löschen.",
               "1": "Die Haftungsbeschränkungen (siehe unten) von <span class=\"notranslate\">Welcome To My Garden</span> im Allgemeinen gelten auch für die Nutzung der Zusatzfunktionen für Mitglieder oder Superfans, was bedeutet, dass <span class=\"notranslate\">Welcome To My Garden</span> nicht für Schäden oder Verluste haftbar gemacht werden kann, die durch die Nutzung von <span class=\"notranslate\">Welcome To My Garden</span> entstehen.",
               "2": "Slow Traveller entscheiden selbst, ob sie Mitglieder (Mindestbeitrag) oder Superfans (zusätzlicher Beitrag) werden möchten. Der Preis enthält 21 % MwSt. auf Mitgliedschaften. Mitgliedschaften werden jährlich bezahlt und verlängern sich automatisch, es sei denn, sie werden vom Mitglied oder von WTMG gekündigt. Mitglieder oder Superfans können die Verlängerung jederzeit in ihrem {accountLink} kündigen. Wenn ein Mitglied oder Superfan eine Mitgliedschaft kündigt, wird nur die automatische Verlängerung storniert. Das bedeutet, dass die Mitgliedschaft bis zum Ende des bereits bezahlten Zeitraums gültig bleibt. Sieben Tage vor dem Verlängerungsdatum werden Mitglieder per E-Mail über ihre bevorstehende Verlängerung benachrichtigt. Die Mitgliedschaft ist nicht erstattungsfähig und nicht auf Dritte übertragbar."
             }
@@ -1533,7 +1533,7 @@
   },
   "about-us": {
     "here-we-are": "Hier sind wir!",
-    "who-behind": "Wer steckt also hinter WTMG? Wir sind ein kleines Team von vier slow travel-Begeisterten und wollen auch anderen helfen, sich auf ihre slow travel-Abenteuer einzulassen! Fun Fact: Wir alle sind sowohl WTMG-Hosts als auch Reisende.",
+    "who-behind": "Wer steckt hinter WTMG? Wir sind ein kleines Team von drei Slow Travel-Begeisterten und wollen auch anderen helfen, eigene Slow Travel Abenteuer zu erleben! Fun Fact: Wir alle sind sowohl WTMG-Hosts als auch Reisende.",
     "co-founder": "Mitbegründer",
     "dev": "Entwickler",
     "designer": "Designer",
@@ -1548,9 +1548,9 @@
     "ismaila": "Ismaila ist das Gehirn hinter den Filtern auf der Karte.",
     "brent": "Brent hat unsere erste Landingpage programmiert.",
     "our-story-title": "Unsere Geschichte",
-    "our-story-description": "<p>Hallo! Wir sind Dries und Manon und wir sind die stolzen Eltern von <span class=\"notranslate\">Welcome To My Garden</span>. Im Jahr 2019 sind wir mit dem Fahrrad von Brüssel nach Tokio gefahren. Im Laufe von 11 Monaten sind wir durch 21 Länder gereist und wurden unterwegs von unzähligen fantastischen Menschen beherbergt.</p><p>Als wir wieder in Belgien ankamen, fragten wir uns: Wie können wir slow travel in unserem eigenen Land einfacher und unterhaltsamer machen? An einem verregneten Sonntagnachmittag im Jahr 2020 erstellte Dries die erste Version von WTMG. Innerhalb von zwei Stunden gab es 50 Gärten auf der Karte – und nach zwei Wochen waren es 500!</p><p>Seitdem haben wir einen langen Weg zurückgelegt: Heute zählt WTMG 8500 Gärten. Es ist klar, dass wir hier sind, um zu bleiben! Und es ist an der Zeit, den nächsten Schritt zu machen. Wir haben auf euch, unsere Community, gehört und investieren nun darin, WTMG an all eure slow travel Bedürfnisse anzupassen.</p><p>WTMG existiert dank der harten Arbeit einer leidenschaftlichen Gruppe von Freiwilligen, die Abende und Wochenenden investiert haben. Aber um weiterzumachen, brauchen wir mehr Zeit und Manpower. Deshalb ist auch Thor mit an Bord gekommen. Wir geben alles und hoffen, dass du uns auf dieser Reise begleitest!</p>",
+    "our-story-description": "<p>Hallo! Wir sind Dries und Manon und wir sind die stolzen Eltern von <span class=\"notranslate\">Welcome To My Garden</span>. Im Jahr 2019 sind wir mit dem Fahrrad von Brüssel nach Tokio gefahren. Im Laufe von 11 Monaten sind wir durch 21 Länder gereist und wurden unterwegs von unzähligen fantastischen Menschen beherbergt.</p><p>Als wir wieder in Belgien ankamen, fragten wir uns: Wie können wir Slow Travel in unserem eigenen Land einfacher und unterhaltsamer machen? An einem verregneten Sonntagnachmittag im Jahr 2020 erstellte Dries die erste Version von WTMG. Innerhalb von zwei Stunden gab es 50 Gärten auf der Karte – und nach zwei Wochen waren es 500!</p><p>Seitdem haben wir einen langen Weg zurückgelegt: Heute zählt WTMG 8500 Gärten. Es ist klar, dass wir hier sind, um zu bleiben! Und es ist an der Zeit, den nächsten Schritt zu machen. Wir haben auf euch, unsere Community, gehört und investieren nun darin, WTMG an all eure Slow Travel Bedürfnisse anzupassen.</p><p>WTMG existiert dank der harten Arbeit einer leidenschaftlichen Gruppe von Freiwilligen, die viele Abende und Wochenenden in dieses Projekt investiert haben. Aber um weiterzumachen, brauchen wir mehr Zeit und Manpower. Deshalb ist auch Thor mit an Bord gekommen. Wir geben zusammen alles und hoffen, dass du uns auf dieser Reise begleitest!</p>",
     "bigger-picture-title": "Das große Ganze",
-    "bigger-picture-description": "<p>Wenn wir in den letzten Jahren eines gelernt haben, dann das: Es ist an der Zeit, zu entschleunigen. Das gilt für das Leben im Allgemeinen, aber ganz besonders auch für das Reisen. Je schneller wir reisen, desto mehr verpassen wir. Schnelles Reisen verursacht viele CO2-Emissionen, trennt Menschen von ihrer Umgebung und schadet Gemeinschaften. Bühne frei für slow travel!</p><p>Und Bühne frei für WTMG! Wir sind stolz darauf, Teil der Lösung für diese globale Herausforderung zu sein. In zwei Jahren hat WTMG viel erreicht:<ul><li>Über 8.500 herzliche Hosts haben ihren Garten für slow travel Reisende geöffnet</li><li>125.000 Übernachtungsanfragen wurden über die WTMG-Plattform gesendet</li><li>Wir haben in Belgien angefangen, aber immer mehr Gärten tauchen mittlerweile auch in ganz Europa und darüber hinaus auf?</li><li>Wir haben finanzielle Unterstützung von Partnern wie Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers und Natuurpunt erhalten</li></ul></p><p>Die bedeutungsvollsten und unvergesslichsten Erfahrungen machen wir, wenn wir uns Zeit nehmen, unsere Umgebung zu erkunden und uns darauf einzulassen. Mit WTMG möchten wir dir genau dabei helfen. Gemeinsam können wir die Welt zu einem besseren Ort machen – indem wir langsamer und nachhaltiger reisen. Bist du dabei?</p><p>Wir sind immer offen für neue Ideen und Kooperationen, also zögere bitte nicht, uns zu kontaktieren!</p>",
+    "bigger-picture-description": "<p>Wenn wir in den letzten Jahren eines gelernt haben, dann das: Es ist an der Zeit, zu entschleunigen. Das gilt für das Leben im Allgemeinen, aber ganz besonders auch für das Reisen. Je schneller wir reisen, desto mehr verpassen wir. Schnelles Reisen verursacht viele CO2-Emissionen, trennt Menschen von ihrer Umgebung und schadet Gemeinschaften. Bühne frei für Slow Travel!</p><p>Und Bühne frei für WTMG! Wir sind stolz darauf, Teil der Lösung für diese globale Herausforderung zu sein. In zwei Jahren hat WTMG viel erreicht:<ul><li>Über 8.500 herzliche Hosts haben ihren Garten für Slow Travel Reisende geöffnet</li><li>125.000 Übernachtungsanfragen wurden über die WTMG-Plattform gesendet</li><li>Wir haben in Belgien angefangen, aber immer mehr Gärten tauchen mittlerweile auch in ganz Europa und darüber hinaus auf</li><li>Wir haben finanzielle Unterstützung von Partnern wie Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers und Natuurpunt erhalten</li></ul></p><p>Die bedeutungsvollsten und unvergesslichsten Erfahrungen machen wir, wenn wir uns Zeit nehmen, unsere Umgebung zu erkunden und uns darauf einzulassen. Mit WTMG möchten wir dir genau dabei helfen. Gemeinsam können wir die Welt zu einem besseren Ort machen – indem wir langsamer und nachhaltiger reisen. Bist du dabei?</p><p>Wir sind immer offen für neue Ideen und Kooperationen, also zögere bitte nicht, uns zu kontaktieren!</p>",
     "contributors": "Mitwirkende",
     "amazing-people": "Zu guter Letzt möchten wir diesen fantastischen Menschen danken",
     "cradle": "Ohne diese fantastischen Menschen würde <span class=\"notranslate\">Welcome To My Garden</span> nicht existieren. Sie standen an der Wiege der Plattform und haben von Anfang an an sie geglaubt!",
@@ -1609,12 +1609,12 @@
   "seo": {
     "general": {
       "description": "Welcome To My Garden: Zeltplätze in den Gärten von Privatpersonen für Slow Travellers. Ermöglicht von einer herzlichen Gemeinschaft von wunderbaren Hosts.",
-      "keywords": "Zeltplatz, Europa, slow travel, Radfahren, Wandern, Zelt, Community, Zeltplatz im Garten, kostenloser Zeltplatz, Abenteuer"
+      "keywords": "Zeltplatz, Europa, Slow Travel, Radfahren, Wandern, Zelt, Community, Zeltplatz im Garten, kostenloser Zeltplatz, Abenteuer"
     },
     "routeplanner": {
       "title": "Routenplaner WTMG",
       "description": "Kostenloser Online-Routenplaner für Rad- und Wandertouren mit Welcome To My Garden.",
-      "keywords": "Routenplaner, slow travel, Reiseroute, Wanderrouten, Radrouten, WTMG, Gärten, Zeltplatz",
+      "keywords": "Routenplaner, Slow Travel, Reiseroute, Wanderrouten, Radrouten, WTMG, Gärten, Zeltplatz",
       "image-url": "https://storage.googleapis.com/wtmg-static/routeplanner/preview/route-planner-en.jpg",
       "image-alt": "Poster für den WTMG-Routenplaner mit einem Kartenhintergrund"
     }

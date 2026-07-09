@@ -74,7 +74,7 @@
     },
     "intro": {
       "headline": "Ditt slow travel-äventyr börjar här",
-      "copy": "Tältplatser i privatträdgårdar för slow travellers. Erbjuds av en varmhjärtad gemenskap av invånare.",
+      "copy": "Tältplatser i privatträdgårdar för slow travellers, från en varmhjärtad gemenskap av människor.",
       "add-garden": "Lägg till din trädgård",
       "explore-map": "Utforska kartan",
       "learn-more": "Läs mer",
@@ -90,16 +90,16 @@
       },
       "1": {
         "title": "Steg 2: Planera din resa",
-        "copy": "Stäm av med din värd och planera din vandrings- eller cykelrutt till värdens trädgård."
+        "copy": "Stäm av med din värd och planera din vandrings- eller cykelrutt dit."
       },
       "2": {
         "title": "Steg 3: Slå upp ditt tält",
-        "copy": "Träffa din värd, slå upp ditt tält och njut av din vistelse, oavsett om det innebär en lugn natt eller att umgås med din värd!"
+        "copy": "Träffa din värd, slå upp ditt tält och njut av din vistelse, oavsett om det innebär en lugn natt eller ett trevligt umgänge med din värd!"
       }
     },
     "faq": {
       "title": "Allt du behöver veta",
-      "copy": "Här hittar du de viktigaste sakerna du behöver veta inför ditt nästa äventyr. Läs igenom den här FAQ:n noggrant så att du vet vad du ger dig in på. Fler frågor? Läs mer i {faqLink}!",
+      "copy": "Här hittar du det viktigaste du behöver veta inför ditt nästa äventyr. Läs igenom den här FAQ:n noggrant så att du vet vad du ger dig in på. Fler frågor? Läs mer i {faqLink}!",
       "faq-link-text": "vår fullständiga FAQ",
       "questions": {
         "0": {
@@ -116,7 +116,7 @@
         },
         "3": {
           "title": "Hur fungerar det med faciliteter?",
-          "copy": "I grund och botten erbjuder värdar bara ett hörn av sin trädgård där du kan slå upp ditt tält. De kan också erbjuda tillgång till dricksvatten, toalett och el. De är dock inte skyldiga att göra det: allt detta är bonusar. Se en trädgård som en bivackplats, inte en riktig campingplats."
+          "copy": "I grund och botten erbjuder värdar bara ett hörn av sin trädgård där du kan slå upp ditt tält. De kan också erbjuda tillgång till dricksvatten, toalett och el. De är dock inte skyldiga att göra det: allt detta är något extra. Se en trädgård som en bivackplats, inte en riktig campingplats."
         },
         "4": {
           "title": "Kostar <span class=\"notranslate\">Welcome To My Garden</span> något?",
@@ -149,12 +149,12 @@
     "description": "Så här fungerar <span class=\"notranslate\">Welcome To My Garden</span>. Se till att läsa reglerna innan du börjar ditt äventyr! Den här plattformen fungerar ju bara om vi alla följer reglerna.",
     "rules": {
       "0": {
-        "title": "Ett nätverk av invånare",
-        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> är ett nätverk av invånare som erbjuder gratis tältplatser i sina trädgårdar till slow travellers. Det är ett ideellt initiativ och ingen inkomst ska genereras från det. <span class=\"notranslate\">Welcome To My Garden</span> tar inget ansvar för förlust, skada eller personskada som uppstår under en vistelse."
+        "title": "Ett nätverk av människor",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> är ett nätverk av människor som erbjuder gratis tältplatser i sina trädgårdar till slow travellers. Det är ett ideellt initiativ och ingen inkomst ska genereras från det. <span class=\"notranslate\">Welcome To My Garden</span> tar inget ansvar för förlust, skada eller personskada som uppstår under en vistelse."
       },
       "1": {
         "title": "Endast för slow travellers (förbud mot bil och motorcykel)",
-        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> värnar om miljön och har skapats enbart för slow travellers. Det innebär att du endast kan ta dig till tältplatserna till fots, med cykel eller kollektivtrafik. Det är förbjudet att ta sig dit med privatbil eller motorcykel. Du får köra till starten av din vandrings- eller cykelled – så länge du inte dyker upp vid tältplatsen med bil eller motorcykel."
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> tar miljöhänsyn och har skapats enbart för slow travellers. Det innebär att du endast kan ta dig till tältplatserna till fots, med cykel eller kollektivtrafik. Det är förbjudet att ta sig dit med privatbil eller motorcykel. Du får köra till starten av din vandrings- eller cykelled – så länge du inte dyker upp vid tältplatsen med bil eller motorcykel."
       },
       "2": {
         "title": "Skicka en förfrågan i förväg till trädgårdsägaren",
@@ -170,11 +170,11 @@
       },
       "5": {
         "title": "Maximalt antal tält",
-        "copy": "Trädgårdsägarna bestämmer själva hur många tält de får plats med varje natt (det här är inte Putte i Parken). Vänligen respektera deras val."
+        "copy": "Trädgårdsägarna bestämmer själva hur många tält de får plats med varje natt (det här är inte Valborgsmässoafton). Vänligen respektera deras val."
       },
       "6": {
         "title": "Faciliteter",
-        "copy": "Faciliteterna kan variera från tältplats till tältplats. Vissa trädgårdsägare erbjuder tillgång till sina badrum; andra föredrar att inte göra det. Vänligen respektera deras val även här."
+        "copy": "Faciliteterna kan variera från tältplats till tältplats. Vissa trädgårdsägare erbjuder tillgång till sina badrum; andra föredrar att inte göra det. Vänligen respektera deras val även i detta."
       },
       "7": {
         "title": "Naturrespekt",
@@ -195,7 +195,7 @@
     }
   },
   "faq": {
-    "title": "Vanliga frågor",
+    "title": "FAQ",
     "description": "Vanliga frågor och svar",
     "clusters": {
       "general": {
@@ -228,11 +228,11 @@
           },
           "what-facilities": {
             "title": "Vilka faciliteter hittar du i trädgården?",
-            "copy": "I grund och botten erbjuder värdar bara ett hörn i sin trädgård där du kan slå upp ditt tält. Dessutom kan de erbjuda tillgång till dricksvatten, toalett och el. De är dock inte skyldiga att göra det: allt detta är bonusar. Se trädgården som en bivackplats, inte en riktig campingplats. Faciliteter visas i trädgårdsöversikten. Du kan också filtrera efter faciliteter med knappen bredvid sökfältet."
+            "copy": "I grund och botten erbjuder värdar bara ett hörn i sin trädgård där du kan slå upp ditt tält. Dessutom kan de erbjuda tillgång till dricksvatten, toalett och el. De är dock inte skyldiga att göra det: allt detta är något extra. Se trädgården som en bivackplats, inte en riktig campingplats. Faciliteter visas i trädgårdsöversikten. Du kan också filtrera efter faciliteter med knappen bredvid sökfältet."
           },
           "cost": {
             "title": "Kostar <span class=\"notranslate\">Welcome To My Garden</span> något?",
-            "copy": "<p>Att bo hos en WTMG-värd är gratis. Men för att underhålla och utveckla WTMG tar vi ut en årlig medlemsavgift för att dela kostnaderna rättvist mellan alla slow travellers. Du kan när som helst avbryta den automatiska förnyelsen på ditt {accountLink}. Du kan bli medlem <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">här</a>.</p>"
+            "copy": "<p>Att bo hos en WTMG-värd är gratis. Men för att underhålla och utveckla WTMG tar vi ut en årlig medlemsavgift för att dela kostnaderna rättvist mellan alla slow travellers. Du kan när som helst avsluta den automatiska förnyelsen på {accountLink}. Du kan bli medlem <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=general_faq#pricing\">här</a>.</p>"
           },
           "no-garden": {
             "title": "Jag har ingen trädgård. Kan jag ändå resa till andras trädgårdar?",
@@ -269,7 +269,7 @@
           },
           "suspend": {
             "title": "Jag skulle vilja pausa min trädgård ett tag men är snart tillbaka! Hur gör jag det?",
-            "copy": "Gå till ditt {accountLink}. I kategorin ”Din trädgård”, avmarkera rutan ”Visas på kartan”. Trädgården kommer fortfarande att vara sparad på plattformen men visas inte på kartan. När du är tillbaka är det bara att kryssa i rutan, så kan du börja välkomna slow travellers igen!"
+            "copy": "Gå till {accountLink}. I kategorin ”Din trädgård”, avmarkera rutan ”Visas på kartan”. Trädgården kommer fortfarande att vara sparad på plattformen men visas inte på kartan. När du är tillbaka är det bara att kryssa i rutan, så kan du börja välkomna slow travellers igen!"
           },
           "issue": {
             "title": "Jag har haft ett problem med en gäst eller en värd. Hur rapporterar jag det?",
@@ -290,11 +290,11 @@
           },
           "update-email": {
             "title": "Jag vill uppdatera min e-postadress eller ta bort mitt konto. Hur gör jag det?",
-            "copy": "Om du vill ändra din e-postadress eller ta bort ditt konto, gå till ditt {accountLink}."
+            "copy": "Om du vill ändra din e-postadress eller ta bort ditt konto, gå till {accountLink}."
           },
           "newsletter": {
             "title": "Jag vill jättegärna få ert nästa nyhetsbrev! Vad ska jag göra?",
-            "copy": "För att få vårt nästa nyhetsbrev, gå till ditt {accountLink} och kryssa i rutan ”<span class=\"notranslate\">Welcome To My Garden</span> har nyheter att dela”. Om du vill sluta ta emot nyheter avmarkerar du bara samma ruta."
+            "copy": "För att få vårt nästa nyhetsbrev, gå till {accountLink} och kryssa i rutan ”<span class=\"notranslate\">Welcome To My Garden</span> har nyheter att dela”. Om du vill sluta ta emot nyheter avmarkerar du bara samma ruta."
           },
           "text-in-english": {
             "title": "Det finns text på engelska, trots att det inte är mitt valda språk. Hur kan jag ändra detta?",
@@ -326,7 +326,7 @@
   "privacy-policy": {
     "title": "Integritetspolicy",
     "last-updated": "Senast uppdaterad: 26 augusti 2025",
-    "subtitle": "Ansvarig för behandlingen av data samt ägare",
+    "subtitle": "Ansvar för behandling av personuppgifter och uppgiftsägare",
     "intro": "<span class=\"notranslate\">Welcome To My Garden</span>, ett ideellt projekt under den juridiska personen Slowby, ett socialt företag, registrerat och verksamt enligt belgisk lag, med registrerat säte på Henri Van Bortonnestraat 100, 1090 Jette, Belgien, med registreringsnummer BE 0784.423.261.",
     "email": "E-post: {support}",
     "scope": {
@@ -522,7 +522,7 @@
       "search-city": "Sök efter en stad",
       "all-filters": "Alla filter",
       "apply-filter": "Använd filter",
-      "available": "{styledAmount} {amount, plural, one {trädgård} other {trädgårdar}} tillgängliga med de aktiva filtren.",
+      "available": "{styledAmount} {amount, plural, one {trädgård} other {trädgårdar}} tillgängliga med dessa filter.",
       "min-capacity": "Minst {capacity} {capacity, plural, one {tält} other {tält}}"
     },
     "drawer": {
@@ -665,23 +665,23 @@
         },
         "1": {
           "title": "Medlem",
-          "description": "Du får full tillgång till WTMG-plattformen och täcker din del av kostnaderna.",
+          "description": "Du får full tillgång till WTMG-plattformen och bidra till kostnaderna.",
           "backref": "Allt i Gratis, plus:",
           "checklist": {
-            "0": "<strong>Skicka övernattningsförfrågningar till 5000+ trädgårdar.</strong>",
+            "0": "<strong>Skicka övernattningsförfrågningar till över 5000 trädgårdar</strong>",
             "1": "<strong>Planera din resa:</strong> ladda upp din rutt, spara trädgårdar och se järnvägsnätet",
-            "2": "<strong>Tillgång till vår mötesplats</strong>",
-            "3": "<strong>Håll WTMG reklamfritt, helt självständigt och medlemsfinansierat</strong>"
+            "2": "<strong>Få tillgång till WTMG Gemenskap</strong>",
+            "3": "<strong>Hålla WTMG reklamfritt, helt självständigt och medlemsfinansierat</strong>"
           }
         },
         "2": {
           "title": "Superfan 💚",
-          "description": "Du brinner verkligen för slow travel och vill stödja WTMG:s mission.",
+          "description": "Du brinner verkligen för slow travel och vill stödja WTMG:s uppdrag.",
           "backref": "Innehåller alla medlemsförmåner, plus:",
           "mobile-superfan-copy": "Medlemsförmåner, plus att du verkligen tror på det vi gör och vill stödja WTMG:s mission.",
           "checklist": {
             "0": "<strong>Visa ditt stöd och hjälp oss att förbättra WTMG</strong>",
-            "1": "<strong>Hjälp oss att få slow travel-rörelsen att växa och få fler trädgårdar på kartan</strong>"
+            "1": "<strong>Hjälpa oss att utveckla slow travel-rörelsen och få fler trädgårdar på kartan</strong>"
           }
         }
       },
@@ -698,7 +698,7 @@
   "about-superfan": {
     "video-section": {
       "title": "Gå med i vår gemenskap",
-      "description": "<p><span class=\"notranslate\">Welcome To My Garden</span> arbetar för att göra slow travel mer tillgängligt för alla. Precis som alla trädgårdar behöver WTMG tas om hand för att växa och hålla sig frisk.</p><p>Att bo hos en WTMG-värd är gratis. Men för att underhålla och utveckla WTMG tar vi ut en årlig medlemsavgift för att dela kostnaderna rättvist mellan alla slow travellers. Gå med oss idag!</p>",
+      "description": "<p><span class=\"notranslate\">Welcome To My Garden</span> arbetar för att göra slow travel mer tillgängligt för alla. Precis som vilken trädgård som helst behöver WTMG tas om hand för att kunna växa och hålla sig frisk.</p><p>Att bo hos en WTMG-värd är gratis. Men för att underhålla och utveckla WTMG tar vi ut en årlig medlemsavgift för att dela kostnaderna rättvist mellan alla slow travellers. Gå med oss idag!</p>",
       "blog-link-text": "Varför WTMG behöver medlemmar",
       "superfan-count": "slow travellers har redan gått med!"
     },
@@ -707,13 +707,13 @@
       "title": "Som medlem kan du…",
       "points": {
         "0": {
-          "title": "<strong>Skicka kostnadsfria övernattningsförfrågningar till alla 5 000+ WTMG-värdar</strong> på kartan"
+          "title": "<strong>Skicka kostnadsfria övernattningsförfrågningar till alla 5 000+ WTMG-värdar</strong> på kartan."
         },
         "1": {
-          "title": "<strong>Kom överens med värdar</strong> genom chatten och träffa fantastiska nya människor."
+          "title": "<strong>Komma överens med värdar</strong> genom chatten och träffa fantastiska nya människor."
         },
         "2": {
-          "title": "<strong>Använd praktiska funktioner:</strong> ladda upp din rutt, spara trädgårdar och se järnvägsnätet."
+          "title": "<strong>Använda praktiska funktioner:</strong> ladda upp din rutt, spara trädgårdar och se järnvägsnätet."
         },
         "3": {
           "title": "<strong>Få tillgång till WTMG Gemenskap</strong> där medlemmar kan träffas, dela erfarenheter och ställa frågor."
@@ -722,10 +722,10 @@
           "title": "<strong>Täck din del av kostnaderna:</strong> WTMG behöver pengar för att upprätthålla ett nätverk av hög kvalitet."
         },
         "5": {
-          "title": "<strong>Håll WTMG reklamfritt, helt självständigt och medlemsfinansierat:</strong> utan det fortsatta stödet från vår gemenskap kan vi inte existera!"
+          "title": "<strong>Hålla WTMG reklamfritt, helt självständigt och medlemsfinansierat:</strong> utan stöd från våra medlemmar kan vi inte finnas kvar!"
         },
         "6": {
-          "title": "<strong>Stöd arbetet hos ett engagerat team</strong> av fyra slow travel-entusiaster."
+          "title": "<strong>Stöd arbetet hos ett engagerat team</strong> på fyra slow travel-entusiaster."
         }
       }
     },
@@ -742,7 +742,7 @@
         },
         "1": {
           "name": "Boris",
-          "quote": "Att börja resa med cykel gjorde det tydligt för mig vad jag ville bli: fri, minimalistisk, självständig och aktiv."
+          "quote": "Att börja resa med cykel gjorde det tydligt för mig hur jag ville leva: fritt, minimalistiskt, självständigt och aktivt."
         },
         "2": {
           "name": "Marie Marth",
@@ -762,7 +762,7 @@
           "questions": {
             "0": {
               "title": "Varför lanserar WTMG ett medlemskap?",
-              "copy": "<span class=\"notranslate\">Welcome To My Garden</span> arbetar för att göra slow travel mer tillgängligt för alla. Precis som alla trädgårdar behöver WTMG tas om hand för att växa och hålla sig frisk. Att bo hos en WTMG-värd är gratis. Men för att underhålla och utveckla WTMG tar vi ut en årlig medlemsavgift för att dela kostnaderna rättvist mellan alla slow travellers. <a href=\"https://blog.welcometomygarden.org/towards-a-fair-model-to-make-wtmg-survive-and-thrive?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=membership_faq\" target=\"_blank\">Läs hela vår historia här</a>."
+              "copy": "<span class=\"notranslate\">Welcome To My Garden</span> arbetar för att göra slow travel mer tillgängligt för alla. Precis som vilken trädgård som helst behöver WTMG tas om hand för att kunna växa och hålla sig frisk. Att bo hos en WTMG-värd är gratis. Men för att underhålla och utveckla WTMG tar vi ut en årlig medlemsavgift för att dela kostnaderna rättvist mellan alla slow travellers. <a href=\"https://blog.welcometomygarden.org/towards-a-fair-model-to-make-wtmg-survive-and-thrive?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=membership_faq\" target=\"_blank\">Läs hela vår historia här</a>."
             }
           }
         },
@@ -775,7 +775,7 @@
             },
             "1": {
               "title": "Vad är skillnaden mellan att vara medlem och Superfan?",
-              "copy": "Även om Superfans har tillgång till samma förmåner som medlemmar är de väldigt viktiga för WTMG eftersom de gör det möjligt för oss att förbättra plattformen, få slow travel-rörelsen att växa och sätta fler trädgårdar på kartan. Om du verkligen brinner för slow travel och vill stödja WTMG:s mission är detta något för dig!"
+              "copy": "Superfans har samma förmåner som medlemmar, men de spelar en mycket viktig roll för WTMG eftersom de hjälper oss att förbättra plattformen, få slow travel-rörelsen att växa och sätta fler trädgårdar på kartan. Om du verkligen brinner för slow travel och vill stödja WTMG:s uppdrag är detta något för dig!"
             },
             "2": {
               "title": "Varför behöver WTMG ett årligt ekonomiskt bidrag från slow travellers?",
@@ -791,11 +791,11 @@
             },
             "5": {
               "title": "Hur fungerar betalningen?",
-              "copy": "När du har valt om du vill bli medlem eller Superfan skickas du vidare till betalningssidan. Du betalar för ett år i taget. Ditt medlemskap förnyas automatiskt, men du kan när som helst avbryta den automatiska förnyelsen på ditt {accountLink}. Sju dagar före förnyelsedatumet kommer vi också att påminna dig via e-post om din kommande förnyelse."
+              "copy": "När du har valt om du vill bli medlem eller Superfan skickas du vidare till betalningssidan. Du betalar för ett år i taget. Ditt medlemskap förnyas automatiskt, men du kan när som helst avsluta det på {accountLink}. Sju dagar före förnyelsedatumet kommer vi också att påminna dig via e-post om din kommande förnyelse."
             },
             "6": {
               "title": "Hur kan jag hantera, förnya eller avsluta mitt medlemskap?",
-              "copy": "Du kan när som helst hantera, förnya eller avsluta ditt medlemskap på ditt {accountLink}. På denna sida ser du aktuell status för ditt medlemskap, förnyelse- eller utgångsdatum samt instruktioner för hur du avslutar eller förnyar det."
+              "copy": "Du kan när som helst hantera, förnya eller avsluta ditt medlemskap på {accountLink}. Där ser du aktuell status för ditt medlemskap, förnyelse- eller utgångsdatum samt instruktioner för hur du avslutar eller förnyar det."
             },
             "7": {
               "title": "Är det obligatoriskt att bli medlem eller Superfan som slow travel-resenär?",
@@ -811,15 +811,15 @@
             },
             "10": {
               "title": "Hur länge blir jag medlem eller Superfan?",
-              "copy": "När du blir medlem eller Superfan betalar du för ett år. Ditt medlemskap förnyas automatiskt, men du kan när som helst avbryta den automatiska förnyelsen på ditt {accountLink}. Om du avslutar ditt medlemskap är det bara den automatiska förnyelsen som avbryts. Det innebär att du förblir medlem fram till slutet av den period som du redan har betalat för."
+              "copy": "När du blir medlem eller Superfan betalar du för ett år. Ditt medlemskap förnyas automatiskt, men du kan när som helst avsluta det på {accountLink}. Om du avslutar ditt medlemskap är det bara den automatiska förnyelsen som avbryts. Det innebär att du förblir medlem fram till slutet av den period som du redan har betalat för."
             },
             "11": {
               "title": "Kan jag sluta vara medlem eller Superfan?",
-              "copy": "<p>Ja, när du vill. Så snart du har blivit en medlem kan du hantera ditt årliga medlemskap på din WTMG {accountLink}.</p><p>Om din kontosida visar <strong>”Ditt medlemskap är aktivt. Förnyas automatiskt den xx/xx/xxxx.”</strong> kommer ditt medlemskap att förnyas på det datumet. Du kan avbryta förnyelsen när som helst genom att klicka på <strong>”Hantera medlemskap”</strong>. Om du avslutar ditt medlemskap är det bara den automatiska förnyelsen som avbryts. Det innebär att du förblir medlem fram till slutet av den period som du redan har betalat för.</p><p>Om din kontosida visar <strong>”Ditt medlemskap är giltigt till och med xx/xx/xxxx. Automatisk förnyelse är avstängd.”</strong> kommer ditt medlemskap att löpa ut på det angivna datumet och kommer inte att förnyas automatiskt.</p>"
+              "copy": "<p>Ja, när du vill. Så snart du har blivit medlem kan du hantera ditt årliga medlemskap på {accountLink}.</p><p>Om din kontosida visar <strong>”Ditt medlemskap är aktivt. Förnyas automatiskt den xx/xx/xxxx.”</strong> kommer ditt medlemskap att förnyas på det datumet. Du kan avbryta förnyelsen när som helst genom att klicka på <strong>”Hantera medlemskap”</strong>. Om du avslutar ditt medlemskap är det bara den automatiska förnyelsen som avbryts. Det innebär att du förblir medlem fram till slutet av den period som du redan har betalat för.</p><p>Om din kontosida visar <strong>”Ditt medlemskap är giltigt till och med xx/xx/xxxx. Automatisk förnyelse är avstängd.”</strong> kommer ditt medlemskap att löpa ut på det angivna datumet och kommer inte att förnyas automatiskt.</p>"
             },
             "12": {
               "title": "Vad händer om jag avslutar mitt medlemskap?",
-              "copy": "Om du avslutar ditt medlemskap är det bara den automatiska förnyelsen som avbryts. Det innebär att du förblir medlem fram till slutet av den period som du redan har betalat för. Men om du ändrar dig kan du när som helst återaktivera den automatiska förnyelsen på ditt {accountLink}."
+              "copy": "Om du avslutar ditt medlemskap är det bara den automatiska förnyelsen som avbryts. Det innebär att du förblir medlem fram till slutet av den period som du redan har betalat för. Men om du ändrar dig kan du när som helst återaktivera den automatiska förnyelsen på {accountLink}."
             },
             "13": {
               "title": "Behövs det ett medlemskap per person om jag reser med vänner eller familj?",
@@ -831,8 +831,8 @@
           "title": "Värdar",
           "questions": {
             "0": {
-              "title": "Jag är en värd. Borde jag bli medlem eller Superfan?",
-              "copy": "Först och främst är vi så glada att du välkomnar slow travellers i din trädgård! WTMG skulle inte existera utan varmhjärtade invånare som du. Om du vill bli en Superfan och stödja oss i vårt uppdrag att göra slow travel mer tillgängligt skulle vi bli jätteglada. Men vi vill framhålla att du redan gör ett enormt bidrag som värd!"
+              "title": "Jag är en värd. Bör jag bli medlem eller Superfan?",
+              "copy": "Först och främst är vi så glada att du välkomnar slow travellers i din trädgård! WTMG skulle inte finnas utan varmhjärtade värdar som du. Om du vill bli en Superfan och stödja oss i vårt uppdrag att göra slow travel mer tillgängligt skulle vi bli jätteglada. Men vi vill framhålla att du redan gör ett enormt bidrag som värd!"
             }
           }
         },
@@ -962,7 +962,7 @@
       "title": "E-postinställningar",
       "text": "Skicka e-post till mig när:",
       "chat": "Jag får ett nytt chattmeddelande",
-      "news": "<span class=\"notranslate\">Welcome To My Garden</span> har nyheter att dela med sig av"
+      "news": "<span class=\"notranslate\">Welcome To My Garden</span> har nyheter att dela"
     },
     "garden": {
       "title": "Din trädgård",
@@ -1086,7 +1086,7 @@
       "logging-in": "Loggar in dig på mötesplatsen...",
       "failed": "Inloggningen till mötesplatsen misslyckades, kontakta supporten om detta fortsätter att hända."
     },
-    "logged-out": "Du har loggats ut.",
+    "logged-out": "Du har loggat ut.",
     "email-change": {
       "in-progress": "Ändrar din e-postadress...",
       "success": "Din e-postadress har ändrats! Logga in igen"
@@ -1360,9 +1360,9 @@
           "6": {
             "title": "Årligt medlemskap: att bli Medlem eller Superfan",
             "copy": {
-              "0": "<span class=\"notranslate\">Welcome To My Garden</span> har som uppdrag att göra slow travel mer tillgängligt för alla. Precis som alla trädgårdar behöver WTMG tas om hand för att växa och förbli livskraftig. Att bo hos en WTMG-värd är gratis. Men för att underhålla och utveckla WTMG tar vi ut en årlig medlemsavgift för att dela kostnaderna rättvist mellan alla slow travellers. Slow travellers har möjlighet att antingen bli Medlemmar eller Superfans. Detta medlemskap är obligatoriskt. Medlemmar eller Superfans får inte överlåta sina inloggningsuppgifter till en tredje part. Superfans godkänner samma villkor som alla användare, och <span class=\"notranslate\">Welcome To My Garden</span> förbehåller sig rätten att neka, stänga av eller radera konton för Medlemmar eller Superfans som inte följer villkoren.",
+              "0": "<span class=\"notranslate\">Welcome To My Garden</span> har som uppdrag att göra slow travel mer tillgängligt för alla. Precis som vilken trädgård som helst behöver WTMG tas om hand för att kunna växa och hålla sig frisk. Att bo hos en WTMG-värd är gratis. Men för att underhålla och utveckla WTMG tar vi ut en årlig medlemsavgift för att dela kostnaderna rättvist mellan alla slow travellers. Slow travellers har möjlighet att antingen bli Medlemmar eller Superfans. Detta medlemskap är obligatoriskt. Medlemmar eller Superfans får inte överlåta sina inloggningsuppgifter till en tredje part. Superfans godkänner samma villkor som alla användare, och <span class=\"notranslate\">Welcome To My Garden</span> förbehåller sig rätten att neka, stänga av eller radera konton för Medlemmar eller Superfans som inte följer villkoren.",
               "1": "Ansvarsbegränsningarna (se nedan) för <span class=\"notranslate\">Welcome To My Garden</span> i allmänhet gäller även för användningen av extrafunktionerna för Medlemmar eller Superfans, vilket innebär att <span class=\"notranslate\">Welcome To My Garden</span> inte kan hållas ansvarigt för eventuella skador eller förluster som uppstår på grund av användningen av <span class=\"notranslate\">Welcome To My Garden</span>.",
-              "2": "Slow travellers väljer om de vill bli Medlemmar (minsta bidrag) eller Superfans (extra bidrag). I priset ingår 21 % moms på medlemskap. Medlemskap betalas årligen och förnyas automatiskt, såvida de inte avslutas av medlemmen eller av WTMG. Medlemmar eller Superfans kan när som helst avbryta förnyelsen på sitt {accountLink}. När en Medlem eller Superfan avslutar sitt medlemskap är det endast den automatiska förnyelsen som avbryts. Detta innebär att medlemskapet förblir giltigt fram till slutet av den period som redan har betalats. Sju dagar före förnyelsedatumet meddelas medlemmar via e-post om sin kommande förnyelse. Medlemskapet kan inte återbetalas och kan inte överlåtas till tredje part."
+              "2": "Slow travellers väljer om de vill bli Medlemmar (minsta bidrag) eller Superfans (extra bidrag). I priset ingår 21 % moms på medlemskap. Medlemskap betalas årligen och förnyas automatiskt, såvida de inte avslutas av medlemmen eller av WTMG. Medlemmar eller Superfans kan när som helst avbryta förnyelsen på {accountLink}. När en Medlem eller Superfan avslutar sitt medlemskap är det endast den automatiska förnyelsen som avbryts. Detta innebär att medlemskapet förblir giltigt fram till slutet av den period som redan har betalats. Sju dagar före förnyelsedatumet meddelas medlemmar via e-post om sin kommande förnyelse. Medlemskapet kan inte återbetalas och kan inte överlåtas till tredje part."
             }
           },
           "7": {
@@ -1505,14 +1505,14 @@
   },
   "about-us": {
     "here-we-are": "Här är vi!",
-    "who-behind": "Så, vem står bakom WTMG? Vi är ett litet team på fyra slow travel-entusiaster och vi vill hjälpa andra att också ge sig ut på sina slow travel-äventyr! Rolig fakta: vi är alla både WTMG-värdar och resenärer.",
+    "who-behind": "Så, vem står bakom WTMG? Vi är ett litet team på tre slow travel-entusiaster och vi vill hjälpa annan människor att också ge sig ut på sina egna slow travel-äventyr! Visste du att vi alla är både WTMG-värdar och resenärer?",
     "co-founder": "Medgrundare",
     "dev": "Utvecklare",
     "designer": "Designer",
     "communications": "Kommunikation",
-    "dries": "Det var Dries som kom på idén till WTMG. Han köpte sin första touringcykel när han bara var 18 år och cyklade från Bryssel till Tokyo med Manon 2019. Hans kärlek till öppna data och öppen källkod ledde till att han arbetade för Open Knowledge Belgium i några år, vilket också var där han träffade Thor. Han leder WTMG-teamet och hans entusiasm är otroligt smittsam!",
-    "manon": "Manon är en sann mångsysslare och har en lösning på allt. Hon har sprungit maraton två gånger, cyklat från Bryssel till Tokyo med Dries och gjort en vacker film om det: <a href=\"https://womendontcycle.com/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=about_profile\" target=\"_blank\">’Women Don’t Cycle’</a>. Hon är den enda i teamet som har studerat turism. Att hon talar fyra språk flytande och känner sig väldigt bekväm framför kameran gör henne till vår inofficiella talesperson!",
-    "thor": "Thor är den geniala tekniker som alla projekt behöver. Han deltog i Open Summer of Code två gånger, där han träffade Dries 2017. Samma år cyklade han från Leuven till Helsingfors. Han är inte bara en fantastisk utvecklare, han är också en utmärkt designer. Han älskar att laga mat, koda och läsa långa, spännande artiklar!",
+    "dries": "Det var Dries som kom på idén till WTMG. Han köpte sin första touringcykel när han bara var 18 år och cyklade från Bryssel till Tokyo med Manon 2019. Hans kärlek till öppna data och öppen källkod ledde till att han arbetade för Open Knowledge Belgium i några år, och det var också där han träffade Thor. Han leder WTMG-teamet och hans entusiasm är otroligt smittsam!",
+    "manon": "Manon är en riktig mångsysslare och har en lösning på allt. Hon har sprungit maraton två gånger, cyklat från Bryssel till Tokyo med Dries och gjort en fantastisk film om det: <a href=\"https://womendontcycle.com/?utm_source=welcometomygarden.org&utm_medium=web&utm_content=about_profile\" target=\"_blank\">’Women Don’t Cycle’</a>. Hon är den enda i teamet som har studerat turism. Med fyra flytande språk och en naturlig känsla framför kameran är hon vår inofficiella talesperson!",
+    "thor": "Thor är den geniale teknikern som alla projekt behöver. Han deltog i Open Summer of Code två gånger, där han träffade Dries 2017. Samma år cyklade han från Leuven till Helsingfors. Han är inte bara en fantastisk utvecklare, han är också en utmärkt designer. Han älskar att laga mat, koda och läsa långa, spännande artiklar!",
     "ward": "Ward bidrog till WTMG ända från början!",
     "janneke": "Ordens drottning, som startade vår Facebook-sida.",
     "michiel": "Den ursprungliga kodaren. Utan honom skulle WTMG inte finnas.",
@@ -1520,12 +1520,12 @@
     "ismaila": "Ismaila är hjärnan bakom filtren på kartan.",
     "brent": "Brent kodade vår första landningssida.",
     "our-story-title": "Vår historia",
-    "our-story-description": "<p>Hej! Vi är Dries och Manon och vi är de stolta föräldrarna till <span class=\"notranslate\">Welcome To My Garden</span>. Under 2019 cyklade vi från Bryssel till Tokyo. Under 11 månader reste vi genom 21 länder och välkomnades av otaliga fantastiska människor längs vägen.</p><p>När vi kom tillbaka till Belgien frågade vi oss själva: hur kan vi göra slow travel enklare och roligare i vårt eget land? En regnig söndagseftermiddag 2020 skapade Dries den första versionen av WTMG. Inom två timmar fanns det 50 trädgårdar på kartan – och efter två veckor var de 500!</p><p>Vi har kommit långt sedan dess: idag har WTMG 8 500 trädgårdar. Det är tydligt att vi är här för att stanna! Och det är dags att ta nästa steg. Vi har lyssnat på dig, vår gemenskap, och vi investerar nu i att få WTMG att uppfylla alla dina behov inom slow travel.</p><p>WTMG finns tack vare det hårda arbetet från ett passionerat gäng volontärer, som har investerat kvällar och helger i det. Men för att fortsätta behöver vi mer tid och mänsklig kraft. Det är därför Thor också har hoppat på tåget. Vi ger allt och hoppas att du vill följa med oss på resan!</p>",
+    "our-story-description": "<p>Hej! Vi är Dries och Manon och vi är de stolta föräldrarna till <span class=\"notranslate\">Welcome To My Garden</span>. Under 2019 cyklade vi från Bryssel till Tokyo. Under 11 månader reste vi genom 21 länder och välkomnades av otaliga fantastiska människor längs vägen.</p><p>När vi kom tillbaka till Belgien frågade vi oss själva: hur kan vi göra slow travel enklare och roligare i vårt eget land? En regnig söndagseftermiddag 2020 skapade Dries den första versionen av WTMG. Inom två timmar fanns det 50 trädgårdar på kartan – och efter två veckor var de 500!</p><p>Vi har kommit långt sedan dess: idag har WTMG 8 500 trädgårdar. Det är tydligt att vi är här för att stanna! Och det är dags att ta nästa steg. Vi har lyssnat på dig, vår gemenskap, och vi investerar nu i att få WTMG att uppfylla alla dina behov inom slow travel.</p><p>WTMG finns tack vare det hårda arbetet från ett passionerat gäng volontärer, som har lagt ner kvällar och helger i det. Men för att fortsätta behöver vi mer tid och mänsklig kraft. Det är därför Thor också har hoppat på tåget. Vi ger allt och hoppas att du vill följa med oss på resan!</p>",
     "bigger-picture-title": "Den större bilden",
-    "bigger-picture-description": "<p>Om det är en sak vi har lärt oss under de senaste åren så är det detta: det är dags att sakta ner. Detta gäller livet i allmänhet, men absolut även resor i synnerhet. Ju snabbare vi reser, desto mer går vi miste om. Snabba resor genererar mycket koldioxidutsläpp, kopplar bort människor från sin omgivning och skadar lokalsamhällen. Välkommen slow travel!</p><p>Och välkommen WTMG! Vi är stolta över att vara en del av lösningen på denna globala utmanning. På två år har WTMG uppnått mycket:<ul><li>8 500+ varmhjärtade värdar har öppnat sina trädgårdar för slow travellers</li><li>125 000 övernattningsförfrågningar har skickats via WTMG-plattformen</li><li>Vi började i Belgien men allt fler trädgårdar dyker nu också upp över hela Europa och bortom det?</li><li>Vi har fått ekonomiskt stöd från partners som Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers och Natuurpunt</li></ul></p><p>De mest meningsfulla och minnesvärda upplevelserna sker när vi tar oss tid att utforska och engagera oss i vår omgivning. Med WTMG vill vi hjälpa dig att göra just det. Tillsammans kan vi göra världen till en bättre plats, genom att resa långsammare och mer hållbart. Vill du följa med på resan?</p><p>Vi är alltid öppna för nya idéer och samarbeten, så tveka inte att höra av dig!</p>",
+    "bigger-picture-description": "<p>Om det är en sak vi har lärt oss under de senaste åren så är det detta: det är dags att sakta ner. Detta gäller livet i allmänhet, men absolut även resor i synnerhet. Ju snabbare vi reser, desto mer går vi miste om. Snabba resor genererar mycket koldioxidutsläpp, kopplar bort människor från sin omgivning och skadar lokalsamhällen. Det är här slow travel kommer in!</p><p>Och välkommen till WTMG! Vi är stolta över att vara en del av lösningen på denna globala utmaning. På två år har WTMG uppnått mycket:<ul><li>8 500+ varmhjärtade värdar har öppnat sina trädgårdar för slow travellers</li><li>125 000 övernattningsförfrågningar har skickats via WTMG-plattformen</li><li>Vi började i Belgien men allt fler trädgårdar dyker nu också upp över hela Europa och bortom det.</li><li>Vi har fått ekonomiskt stöd från partners som Wikimedia Belgium, Grote Routepaden vzw, GR Sentiers och Natuurpunt</li></ul></p><p>De mest meningsfulla och minnesvärda upplevelserna sker när vi tar oss tid att utforska och uppleva vår omgivning. Med WTMG vill vi hjälpa dig att göra just det. Tillsammans kan vi göra världen till en bättre plats, genom att resa långsammare och mer hållbart. Vill du följa med på resan?</p><p>Vi är alltid öppna för nya idéer och samarbeten, så tveka inte att höra av dig!</p>",
     "contributors": "Medverkande",
-    "amazing-people": "Sist men inte minst vill vi tacka dessa fantastiska människor",
-    "cradle": "Utan dessa fantastiska människor skulle <span class=\"notranslate\">Welcome To My Garden</span> inte existera. De stod vid plattformens vagga och trodde på den från allra första början!",
+    "amazing-people": "Sist men inte minst vill vi tacka dessa fantastiska personer",
+    "cradle": "Utan dem skulle <span class=\"notranslate\">Welcome To My Garden</span> inte finnas. De var med vid plattformens födelse och trodde på den redan från allra första början!",
     "partners-section": {
       "title": "Tidiga supportrar",
       "description": "Dessa partner hjälpte oss att komma igång och trodde på <span class=\"notranslate\">Welcome To My Garden</span> från allra första början!"

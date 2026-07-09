@@ -74,7 +74,7 @@
     },
     "intro": {
       "headline": "Il tuo prossimo viaggio lento comincia qui",
-      "copy": "spazi in giardini privati affinchè i viaggiatori lenti possano campeggiare, offerti dai loro accoglienti proprietari ",
+      "copy": "Piazzole per tende nei giardini di privati per viaggiatori lenti. Reso possibile da una calorosa comunità di fantastici host.",
       "add-garden": "Aggiungi il tuo giardino",
       "explore-map": "Esplora la mappa",
       "learn-more": "Scopri di più",
@@ -128,7 +128,7 @@
       "become-superfan-title": "WTMG è supportato dai suoi iscritti",
       "subtitle": "Un modello equo per WTMG"
     },
-    "video-title": "Incontra la community di WTMG",
+    "video-title": "Incontra la comunità di WTMG",
     "wtmg-quotes": {
       "0": {
         "name": "Frank & Katlijn",
@@ -146,11 +146,11 @@
   },
   "rules": {
     "title": "Regole",
-    "description": "Ecco come funziona <span class=\"notranslate\">Welcome To My Garden</span>. Assicurati di leggere le regole prima di iniziare la tua avventura! Dopotutto, questa piattaforma funzionerà bene solo se tutti noi rispettiamo le regole.",
+    "description": "Ecco come funziona <span class=\"notranslate\">Welcome To My Garden</span>. Assicurati di leggere le regole prima di iniziare la tua avventura! Dopotutto, questa piattaforma funziona bene solo se tutti noi rispettiamo le regole.",
     "rules": {
       "0": {
-        "title": "Una rete di cittadini",
-        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> è una rete di cittadini che offrono ai viaggiatori lenti spazio per campeggiare gratuitamente nei loro giardini . Si tratta di un'iniziativa senza scopo di lucro e non deve essere generato alcun profitto. <span class=\"notranslate\">Welcome To My Garden</span> non si assume alcuna responsabilità per perdite, danni o infortuni subiti durante il soggiorno."
+        "title": "Una rete di persone accoglienti",
+        "copy": "<span class=\"notranslate\">Welcome To My Garden</span> è una rete di cittadini che offrono ai viaggiatori lenti spazio per campeggiare gratuitamente nei loro giardini. Si tratta di un'iniziativa senza scopo di lucro e non deve essere generato alcun profitto. <span class=\"notranslate\">Welcome To My Garden</span> non si assume alcuna responsabilità per perdite, danni o infortuni subiti durante il soggiorno."
       },
       "1": {
         "title": "Solo per viaggiatori lenti (regola \"senza auto o moto\")",
@@ -174,7 +174,7 @@
       },
       "6": {
         "title": "Servizi",
-        "copy": "I servizi possono variare da un posto campeggio all'altro. Alcuni proprietari di giardini potrebbero offrire l'accesso ai loro bagni; altri potrebbero preferire di no. Ti preghiamo di rispettare le loro scelte anche su questi aspetti."
+        "copy": "I servizi possono variare da un giardino all'altro. Alcuni proprietari potrebbero offrire l'accesso ai loro bagni; altri potrebbero preferire di no. Ti preghiamo di rispettare le loro scelte anche su questi aspetti."
       },
       "7": {
         "title": "Rispetto per la natura",
@@ -186,7 +186,7 @@
       },
       "9": {
         "title": "Divertiti!",
-        "copy": "Questa è un'ottima opportunità per incontrare nuove persone e divertirsi! Impara qualche parola nella lingua del tuo ospitante se viaggi in un paese diverso dal tuo. Sii curioso, condividi storie e stringi nuove amicizie!"
+        "copy": "Questa è un'ottima opportunità per incontrare nuove persone e divertirsi! Impara qualche parola nella lingua di chi ti ospita se viaggi in un paese diverso dal tuo. Sii curioso, condividi storie e stringi nuove amicizie!"
       },
       "10": {
         "title": "Spargi la voce",
@@ -668,7 +668,7 @@
           "description": "Ottieni l'accesso completo alla piattaforma WTMG e copri la tua parte dei costi.",
           "backref": "Tutto quello che c'è nella versione gratuita, in più:",
           "checklist": {
-            "0": "<strong>Invia richieste di soggiorno a oltre 5000 giardini.</strong>",
+            "0": "<strong>Invia richieste di soggiorno ad oltre 5000 giardini.</strong>",
             "1": "<strong>Pianifica il tuo viaggio:</strong> carica il tuo percorso, salva i giardini e vedi la rete ferroviaria",
             "2": "<strong>Accesso allo spazio della community</strong>",
             "3": "<strong>Mantieni WTMG senza pubblicità, completamente indipendente e sostenuto dai membri</strong>"
@@ -698,7 +698,7 @@
   "about-superfan": {
     "video-section": {
       "title": "Unisciti alla community",
-      "description": "<p><span class=\"notranslate\">Welcome To My Garden</span> ha la missione di rendere il viaggio lento più accessibile a tutti. Come ogni giardino, WTMG ha bisogno di cure per crescere e rimanere in salute.</p><p>Soggiornare presso gli ospitanti di WTMG è gratuito. Tuttavia, per mantenere e sviluppare WTMG, ci affidiamo a una quota annuale per dividere equamente i costi tra tutti i viaggiatori lenti. Unisciti a noi oggi stesso!</p>",
+      "description": "<p><span class=\"notranslate\">Welcome To My Garden</span> ha la missione di rendere il viaggio lento più accessibile a tutti. Come ogni giardino, WTMG ha bisogno di cure per crescere e rimanere in salute.</p><p>Soggiornare presso gli ospitanti di WTMG è gratuito. Tuttavia, per mantenere e sviluppare WTMG, ci affidiamo ad una quota annuale per dividere equamente i costi tra tutti i viaggiatori lenti. Unisciti a noi oggi stesso!</p>",
       "blog-link-text": "Perché WTMG ha bisogno di membri",
       "superfan-count": "viaggiatori lenti si sono già uniti!"
     },
@@ -710,7 +710,7 @@
           "title": "<strong>Invia richieste di soggiorno gratuite a tutti gli oltre 5.000 ospitanti di WTMG</strong> sulla mappa"
         },
         "1": {
-          "title": "<strong>Accorda i dettagli con gli ospitanti</strong> tramite la chat e incontra nuove persone fantastiche."
+          "title": "<strong>Concorda i dettagli con chi ospita</strong> tramite la chat e incontra nuove persone fantastiche."
         },
         "2": {
           "title": "<strong>Usa funzionalità pratiche:</strong> carica il tuo percorso, salva i giardini e vedi la rete ferroviaria."
@@ -738,7 +738,7 @@
       "quotes": {
         "0": {
           "name": "Lieven",
-          "quote": "Un'ottima iniziativa che incoraggia la solidarietà e l'unione tra i viaggiatori lenti, unita a una tecnologia all'avanguardia? Sono assolutamente d'accordo!"
+          "quote": "Un'ottima iniziativa che incoraggia la solidarietà e l'unione tra i viaggiatori lenti, insieme ad una tecnologia all'avanguardia? Mi piace!"
         },
         "1": {
           "name": "Boris",
@@ -1505,7 +1505,7 @@
   },
   "about-us": {
     "here-we-are": "Eccoci qui!",
-    "who-behind": "Quindi, chi si nasconde dietro WTMG? Siamo un piccolo team di quattro appassionati di viaggio lento e vogliamo aiutare anche altri a partire per le loro avventure di viaggio lento! Curiosità: tutti noi siamo sia ospitanti che viaggiatori su WTMG.",
+    "who-behind": "Quindi, chi si nasconde dietro WTMG? Siamo un piccolo team di tre appassionati di viaggio lento e vogliamo aiutare anche altri a partire per le loro avventure di viaggio lento! Curiosità: tutti noi siamo sia ospitanti che ospiti su WTMG.",
     "co-founder": "Co-fondatore",
     "dev": "Sviluppatore",
     "designer": "Designer",
