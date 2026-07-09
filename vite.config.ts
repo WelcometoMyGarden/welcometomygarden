@@ -57,7 +57,7 @@ export default defineConfig(({ command, mode }): UserConfig => {
   const commitMessage = tryGit(`${gitWithSafeDirOption} log -1 --pretty=%B`).split('\n')[0];
 
   const httpsOptions =
-    useHTTPS && process.env.VITE_HTTPS_CERT_PATH
+    useHTTPS && process.env.VITE_HTTPS_CERT_PATH && process.env.VITE_HTTPS_KEY_PATH
       ? {
           https: {
             cert: readFileSync(process.env.VITE_HTTPS_CERT_PATH),

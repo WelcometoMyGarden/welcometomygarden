@@ -33,7 +33,7 @@
     isNative: isNative
   }));
 
-  let iframe: HTMLIFrameElement = $state();
+  let iframe: HTMLIFrameElement | undefined = $state();
 
   const sendDataUpdate = (
     data: typeof combinedStore extends Readable<infer D> ? D : never,

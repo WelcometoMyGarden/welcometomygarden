@@ -4,7 +4,7 @@ import type { Attachment } from 'svelte/attachments';
  * Will trap the focus (TAB or SHIFT+TAB) in the current node.
  * No event is dispatched.
  */
-export default ((node: Node) => {
+export default ((node: HTMLElement) => {
   const handleKeydown = (e: KeyboardEvent) => {
     trapFocus(node, e);
   };
@@ -12,18 +12,18 @@ export default ((node: Node) => {
   window.addEventListener('keydown', handleKeydown);
 
   return () => window.removeEventListener('keydown', handleKeydown);
-}) satisfies Attachment;
+}) satisfies Attachment<HTMLElement>;
 
 const trapFocus = (node: HTMLElement, e: KeyboardEvent) => {
   const tabbable = ':not([disabled]):not([tabindex = "-1"])';
   if (e.key !== 'Tap' && e.keyCode !== 9) return;
   const focusableElts = Array.from(
-    node.querySelectorAll(
+    node.querySelectorAll<HTMLElement>(
       `a[href]${tabbable}, area[href]${tabbable},input${tabbable}, select${tabbable}, textarea${tabbable}, button${tabbable}, iframe, [contenteditable=true]${tabbable}, *[tabindex]${tabbable}`
     )
   );
 
-  let index = focusableElts.indexOf(document.activeElement);
+  let index = focusableElts.indexOf(document.activeElement as HTMLElement);
   index = switchFocus(focusableElts.length, index, e.shiftKey);
 
   if (index === -1) return;

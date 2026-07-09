@@ -170,7 +170,7 @@ export const geocodeCountryCode = async (country_code: string) => {
 export const loadImg = (map: mapboxgl.Map, { url, id }: { url: string; id: string }) =>
   new Promise((resolve) => {
     map.loadImage(url, (error, res) => {
-      map.addImage(id, res);
+      if (res) map.addImage(id, res);
       resolve(true);
     });
   });

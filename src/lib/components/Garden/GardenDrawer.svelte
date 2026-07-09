@@ -50,7 +50,7 @@
 
   const phoneRegex =
     /\+?\d{1,4}?[-/\\.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/g;
-  let descriptionEl: unknown | undefined = $state();
+  let descriptionEl: HTMLElement | undefined = $state();
 
   let gardenIsSelected = $derived(!!garden);
 
@@ -121,7 +121,7 @@
     }
   };
 
-  let previousGarden = $state({});
+  let previousGarden = $state<Partial<Garden>>({});
 
   $effect(() => {
     // Set the previous garden if it changed
@@ -195,13 +195,13 @@
       return;
     }
     // If closing maginified photo view, don't close drawer
-    if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) {
+    if (isShowingMagnifiedPhoto && photoWrapper?.contains(clickEvent.target as Node | null)) {
       return;
     }
     // If showing/hiding trails, don't close drawer
     else if (
       (clickEvent.target instanceof HTMLInputElement && clickEvent.target.type == 'checkbox') ||
-      clickEvent.target.tagName == 'LABEL'
+      (clickEvent.target instanceof HTMLElement && clickEvent.target.tagName == 'LABEL')
     ) {
       return;
     } else if (drawerElement && !drawerElement.contains(clickEvent.target as Node | null)) {
@@ -267,7 +267,7 @@
       // Replace hidden phone number markers with a component.
       const el = descriptionEl.firstChild as HTMLParagraphElement;
       const hiddenNumberRegex = /\[(\*+)\]/;
-      if (hiddenNumberRegex.test(el?.textContent)) {
+      if (hiddenNumberRegex.test(el?.textContent ?? '')) {
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split#splitting_with_a_regexp_to_include_parts_of_the_separator_in_the_result
         // We use groups in the regex to still have access to the length of the phone number.
         // Returns an array like ['sms me at ', 8, ' or ', 9]
@@ -278,7 +278,7 @@
           );
 
         // Remove the original text node of <p>
-        el.firstChild.remove();
+        el.firstChild?.remove();
         // Re-insert new nodes
         for (const node of newNodes) {
           el.appendChild(node);

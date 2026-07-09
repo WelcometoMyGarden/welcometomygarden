@@ -69,13 +69,13 @@
       return;
     }
     // If closing maginified photo view, don't close drawer
-    if (isShowingMagnifiedPhoto && photoWrapper.contains(clickEvent.target)) {
+    if (isShowingMagnifiedPhoto && photoWrapper?.contains(clickEvent.target as Node | null)) {
       return;
     }
     // If showing/hiding trails, don't close drawer
     else if (
       (clickEvent.target instanceof HTMLInputElement && clickEvent.target.type == 'checkbox') ||
-      clickEvent.target.tagName == 'LABEL'
+      (clickEvent.target instanceof HTMLElement && clickEvent.target.tagName == 'LABEL')
     ) {
       return;
     } else if (drawerElement && !drawerElement.contains(clickEvent.target as Node | null)) {

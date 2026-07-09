@@ -1,6 +1,6 @@
 <script lang="ts">
   interface Props {
-    type?: null | string;
+    type?: 'button' | 'submit' | 'reset' | null;
     inverse?: boolean;
     fit?: boolean;
     medium?: boolean;

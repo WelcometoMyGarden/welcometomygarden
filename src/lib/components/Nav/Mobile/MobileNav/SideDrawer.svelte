@@ -38,7 +38,7 @@
     // 1. this ontoggle results in a state change in the parent custom event listener first
     // 2. the actual onclick event on the close button somehow receives old isDrawerOpen state
     // This makes the following detection the only way to deal with this situation.
-    if (isOpen && !hamburger?.contains(clickEvent.target)) ontoggle();
+    if (isOpen && !hamburger?.contains(clickEvent.target as Node | null)) ontoggle();
   };
 
   const wtmgSignURLParams = new URLSearchParams({

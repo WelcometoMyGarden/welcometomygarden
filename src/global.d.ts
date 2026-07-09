@@ -53,6 +53,14 @@ declare interface Window {
    */
   plausible: Plausible;
   Tally: Tally;
+  /**
+   * Programmatic SPA navigation handler referenced by the inline `onclick`
+   * handlers generated in `translation-helpers.ts` (`anchorText`).
+   */
+  wtmgAnchorNav: (
+    e: MouseEvent,
+    plausibleParams: Parameters<typeof import('./lib/util/track-plausible').default>
+  ) => void;
 }
 
 // https://github.com/zerodevx/svelte-img#install

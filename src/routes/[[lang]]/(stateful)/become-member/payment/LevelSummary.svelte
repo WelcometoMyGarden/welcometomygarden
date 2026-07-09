@@ -39,7 +39,7 @@
         >
       </div>
       <ul class="features checklist">
-        {#each getNodeArray('payment-superfan.overview-section.features', $locale) as feature}
+        {#each getNodeArray('payment-superfan.overview-section.features', $locale ?? undefined) as feature}
           <li><Icon icon={checkIcon} /><span>{feature}</span></li>
         {/each}
       </ul>

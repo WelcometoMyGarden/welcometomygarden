@@ -55,7 +55,7 @@
   };
 
   // TODO: we're repeating this code
-  let testimonials: Slide[] = $state();
+  let testimonials: Slide[] = $state([]);
   setTestimonials();
 
   const unsubscribeLocalization = _.subscribe(() => {

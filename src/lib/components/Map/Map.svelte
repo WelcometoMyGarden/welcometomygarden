@@ -142,7 +142,9 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   });
 
   const originalUpdateCamera = mapboxgl.GeolocateControl.prototype._updateCamera;
-  mapboxgl.GeolocateControl.prototype._updateCamera = function (...args: any[]) {
+  mapboxgl.GeolocateControl.prototype._updateCamera = function (
+    ...args: Parameters<typeof originalUpdateCamera>
+  ) {
     // -- Uncommented code: --
     // Don't update the camera if we're automatically loading the location on load
     // It might take 5+ seconds, resulting in weird jumps

@@ -49,7 +49,7 @@
     }
   });
 
-  let testimonials: Slide[] = $state();
+  let testimonials: Slide[] = $state([]);
 
   const contentOfQuote = (quoteNumber: string) => {
     const prefix = `about-superfan.superfan-quotes-section.quotes.${quoteNumber}`;
