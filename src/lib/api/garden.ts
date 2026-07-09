@@ -157,7 +157,7 @@ export const getAllListedGardens = async () => {
     const url = `${
       // Change the REST API base URL depending on the environment
       import.meta.env.VITE_FIREBASE_PROJECT_ID === 'demo-test'
-        ? 'http://127.0.0.1:8080/v1/projects/'
+        ? `http://127.0.0.1:${Number(import.meta.env.VITE_EMULATOR_FIRESTORE_PORT) || 8080}/v1/projects/`
         : 'https://firestore.googleapis.com/v1/projects/'
     }${import.meta.env.VITE_FIREBASE_PROJECT_ID}/databases/(default)/documents:runQuery`;
 

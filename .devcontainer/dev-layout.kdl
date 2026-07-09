@@ -25,7 +25,7 @@ layout {
         // split_direction="vertical" places the children left/right.
         pane split_direction="vertical" {
             pane name="frontend" cwd="/root/welcometomygarden" command="zsh" {
-                args "-lc" "mkdir -p ~/.logs && yarn dev 2>&1 | tee ~/.logs/frontend.log"
+                args "-lc" "mkdir -p ~/.logs && yarn dev --port ${WTMG_PORT_FRONTEND:-5173} 2>&1 | tee ~/.logs/frontend.log"
             }
             pane name="api" cwd="/root/welcometomygarden" command="zsh" {
                 args "-lc" "mkdir -p ~/.logs && yarn firebase:demo-seed 2>&1 | tee ~/.logs/api.log"

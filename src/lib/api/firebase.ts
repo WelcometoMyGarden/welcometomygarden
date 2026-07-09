@@ -102,6 +102,14 @@ export const storage: () => FirebaseStorage = guardNull<FirebaseStorage>(
 // - Requests will fail if HTTPS hosting is configured for Sveltekit, and it tries to fetch HTTP content from Firebase Emulators.
 const emulatorHostName = browser ? window.location.hostname : 'localhost';
 
+// Emulator ports are configurable via env vars (e.g. so the dev container can
+// run on shifted ports next to a host dev environment). Falls back to the
+// standard port when the var is unset/invalid, so CI and host dev are unaffected.
+const emulatorPort = (value: string | undefined, fallback: number): number => {
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
+};
+
 let messagingRef: Messaging;
 export const messaging: () => Messaging = guardNull<Messaging>(() => messagingRef, 'messaging');
 
@@ -124,7 +132,11 @@ export async function initialize(): Promise<void> {
 
   dbRef = getFirestore(appRef);
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_FIRESTORE_EMULATOR))) {
-    connectFirestoreEmulator(dbRef, emulatorHostName, SSL_DEV ? 8081 : 8080);
+    connectFirestoreEmulator(
+      dbRef,
+      emulatorHostName,
+      emulatorPort(import.meta.env.VITE_EMULATOR_FIRESTORE_PORT, SSL_DEV ? 8081 : 8080)
+    );
   }
 
   if (Capacitor.isNativePlatform()) {
@@ -139,13 +151,20 @@ export async function initialize(): Promise<void> {
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_AUTH_EMULATOR))) {
     connectAuthEmulator(
       authRef,
-      `http${SSL_DEV ? 's' : ''}://${emulatorHostName}:${SSL_DEV ? 9098 : 9099}`
+      `http${SSL_DEV ? 's' : ''}://${emulatorHostName}:${emulatorPort(
+        import.meta.env.VITE_EMULATOR_AUTH_PORT,
+        SSL_DEV ? 9098 : 9099
+      )}`
     );
   }
 
   storageRef = getStorage(appRef);
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_STORAGE_EMULATOR))) {
-    connectStorageEmulator(storageRef, emulatorHostName, SSL_DEV ? 9198 : 9199);
+    connectStorageEmulator(
+      storageRef,
+      emulatorHostName,
+      emulatorPort(import.meta.env.VITE_EMULATOR_STORAGE_PORT, SSL_DEV ? 9198 : 9199)
+    );
   }
 
   // Surprise surprise, we need to explicitly create a new Functions
@@ -156,7 +175,11 @@ export async function initialize(): Promise<void> {
 
   if (shouldUseEmulator(envIsTrue(import.meta.env.VITE_USE_API_EMULATOR))) {
     DEV: logger.debug('Connecting to functions emulator');
-    connectFunctionsEmulator(europeWest1FunctionsRef, emulatorHostName, SSL_DEV ? 5002 : 5001);
+    connectFunctionsEmulator(
+      europeWest1FunctionsRef,
+      emulatorHostName,
+      emulatorPort(import.meta.env.VITE_EMULATOR_FUNCTIONS_PORT, SSL_DEV ? 5002 : 5001)
+    );
   }
 
   if (
