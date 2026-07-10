@@ -303,7 +303,11 @@ class OfflineGateViewController: CAPBridgeViewController, WKScriptMessageHandler
             "nl": "Geen internetverbinding. Controleer je verbinding en probeer opnieuw.",
             "fr": "Pas de connexion internet. Vérifiez votre connexion et réessayez.",
             "de": "Keine Internetverbindung. Überprüfe deine Verbindung und versuche es erneut.",
-            "es": "No hay conexión a internet. Comprueba tu conexión e inténtalo de nuevo."
+            "es": "No hay conexión a internet. Comprueba tu conexión e inténtalo de nuevo.",
+            "it": "Nessuna connessione a Internet. Controlla la tua connessione e riprova.",
+            "sv": "Ingen internetanslutning. Kontrollera din anslutning och försök igen.",
+            "ro": "Nicio conexiune la internet. Verifică-ți conexiunea și încearcă din nou.",
+            "pl": "Brak połączenia z internetem. Sprawdź swoje połączenie i spróbuj ponownie."
         ]
         let lang = deviceLanguage(supported: Array(messages.keys))
         return messages[lang] ?? messages["en"] ?? ""
