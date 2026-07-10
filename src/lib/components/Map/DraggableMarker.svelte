@@ -18,8 +18,8 @@
   const { getMap } = getContext<ContextType>(key);
   const map = getMap();
 
-  let markerElement = $state();
-  let marker = $state();
+  let markerElement = $state<HTMLDivElement>();
+  let marker = $state<mapboxgl.Marker>();
   onMount(() => {
     const popup = new mapboxgl.Popup({
       offset: 25,
@@ -36,9 +36,10 @@
       .setPopup(popup)
       .addTo(map);
 
-    if (!filled) markerElement.click();
+    if (!filled) markerElement?.click();
 
     const onDragEnd = () => {
+      if (!marker) return;
       const lngLat = marker.getLngLat();
 
       ondragged({

@@ -2,6 +2,7 @@
   import type { Garden } from '$lib/types/Garden';
   import type { ContextType } from './Map.svelte';
   import type GeoJSON from 'geojson';
+  import type { GeoJSONSource } from 'mapbox-gl';
 
   import { getContext, onMount } from 'svelte';
   import key from './mapbox-context.js';
@@ -85,7 +86,7 @@
         lnglat: [garden.location.longitude, garden.location.latitude]
       } satisfies GardenFeatureProperties;
 
-      let gardenFeature = {
+      let gardenFeature: GeoJSON.Feature = {
         type: 'Feature',
         properties: gardenProperties,
         geometry: {
@@ -101,8 +102,8 @@
   };
 
   const _onGardenClick = (e: mapboxgl.MapMouseEvent) => {
-    const garden = e.features?.[0]?.properties;
-    onGardenClick(garden);
+    const garden = e.features?.[0]?.properties as GardenFeatureProperties | undefined;
+    if (garden) onGardenClick(garden);
   };
 
   function addPointerOnHover(layerId: string) {
@@ -221,14 +222,16 @@
           layers: [clustersLayerId]
         });
         const clusterId = features[0].properties?.cluster_id;
-        map.getSource(gardensAllSourceId).getClusterExpansionZoom(clusterId, function (err, zoom) {
-          if (err) return logger.log(err);
+        map
+          .getSource<GeoJSONSource>(gardensAllSourceId)
+          ?.getClusterExpansionZoom(clusterId, function (err, zoom) {
+            if (err) return logger.log(err);
 
-          map.easeTo({
-            center: features[0].geometry.coordinates,
-            zoom: zoom
+            map.easeTo({
+              center: (features[0].geometry as GeoJSON.Point).coordinates as [number, number],
+              zoom: zoom ?? undefined
+            });
           });
-        });
       });
 
       map.on('click', unclusteredPointLayerId, _onGardenClick);
@@ -261,8 +264,8 @@
     if (mapReady) {
       // update featurecollections when allGardens or savedGardens change and selectedGardenId
       constructMapFeatures();
-      map.getSource(gardensAllSourceId).setData(fcAllGardens);
-      map.getSource(savedGardenSourceId).setData(fcSavedGardens);
+      map.getSource<GeoJSONSource>(gardensAllSourceId)?.setData(fcAllGardens);
+      map.getSource<GeoJSONSource>(savedGardenSourceId)?.setData(fcSavedGardens);
       // Update visibility when showGardens or showSavedGardens change
       updateGardensAllVisibility(showGardens);
       updateSavedGardensVisibility(showSavedGardens);
