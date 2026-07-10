@@ -45,15 +45,22 @@ test('straight to member', async ({
   useDemoProject,
   locale,
   isMobile
-}) => {
-  const context = { browser, baseURL, useStripe, useDemoProject, locale, isMobile };
+}, testInfo) => {
+  const context = { browser, baseURL, useStripe, useDemoProject, locale, isMobile, testInfo };
 
   const flow = new StraightToMemberTest(context);
   await flow.test();
 });
 
-test('garden edit', async ({ browser, baseURL, useStripe, useDemoProject, locale, isMobile }) => {
-  const context = { browser, baseURL, useStripe, useDemoProject, locale, isMobile };
+test('garden edit', async ({
+  browser,
+  baseURL,
+  useStripe,
+  useDemoProject,
+  locale,
+  isMobile
+}, testInfo) => {
+  const context = { browser, baseURL, useStripe, useDemoProject, locale, isMobile, testInfo };
   const flow = new GardenEditTest(context);
   await flow.test();
 });

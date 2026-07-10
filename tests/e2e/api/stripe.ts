@@ -18,7 +18,7 @@ const demoProjectFirebaseEnv = envIsTrue(process.env.USE_STRIPE)
 export default typeof demoProjectFirebaseEnv.STRIPE_SECRET_KEY === 'string' &&
 demoProjectFirebaseEnv.STRIPE_SECRET_KEY?.length > 0
   ? new Stripe(demoProjectFirebaseEnv.STRIPE_SECRET_KEY)
-  : new Proxy(
+  : (new Proxy(
       {},
       {
         get() {
@@ -27,4 +27,4 @@ demoProjectFirebaseEnv.STRIPE_SECRET_KEY?.length > 0
           throw new Error('Trying to use the Stripe e2e test client without key');
         }
       }
-    );
+    ) as Stripe);
