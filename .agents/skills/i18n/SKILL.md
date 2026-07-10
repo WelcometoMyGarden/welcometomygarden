@@ -38,6 +38,7 @@ The 5 standard locales are: `en`, `nl`, `de`, `fr`, `es`.
 2. **Edit all locales together.** When adding or editing a key, update all 5 locale files. **Generate the translations yourself** — you don't need to ask the user for them. Only ask if the user has told you about a specific translation source/process to follow. **Follow translation guidelines** in `guidelines.md`.
 3. **English is the source of truth.** When checking for missing keys, compare all locales against `en.json`.
 4. **Never create a new locale file.** Only edit the locale files that already exist in `src/locales/`. Do not seed or scaffold a `*.json` for a language that isn't there yet (e.g. `pl`) — adding a language is a separate, deliberate step (registering it in `SUPPORTED_LANGUAGES` and wiring it up). When asked to translate into a not-yet-supported language, deliver the translations in the `since.py` CSV worksheet instead (see below), never in a new locale file.
+5. **Don't fill in a value that would be identical to English.** `svelte-i18n` falls back to the English value whenever a key is absent from a locale (`fallbackLocale: 'en'` in `src/routes/+layout.ts`). So if the correct translation for a locale is exactly the same string as `en` — a proper name, a do-not-translate term (`WTMG`, `Superfan`, `Welcome To My Garden`), or a value that's `""` in English too — **leave the key absent from that locale** instead of duplicating the English string. This is intentional, not an oversight: don't "fix" it by filling these in when you see them in `missing.py` output, and don't re-add them after they've been removed for this reason, unless the user explicitly asks for full key parity across locales. This only applies when the value would be truly identical — if it differs even slightly (e.g. French adding a space before `?`), it's a real translation and belongs in the file.
 
 ## Locating keys in code
 
@@ -74,6 +75,8 @@ Missing keys print as `<missing>`.
 ### `missing.py [--lang nl]` — diff locales against en.json
 
 Reports, for each non-English locale, the keys present in `en.json` but absent there ("missing"), and any keys present there but not in `en.json` ("extra"). Use it for the `missing` request and to audit translation completeness.
+
+Not every "missing" key is a gap to fill — per key rule 5, a key that's intentionally left absent because its translation is identical to English will show up here too. Before translating a reported-missing key, check whether it's actually one of these identical-to-English cases; if so, leave it absent.
 
 ```bash
 python3 .agents/skills/i18n/scripts/missing.py
