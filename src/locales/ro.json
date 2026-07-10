@@ -1232,6 +1232,22 @@
       "cities": {
         "Bruges": "Bruges"
       }
+    },
+    "every15km": {
+      "title": "Hai să răspândim WTMG în toată Europa!",
+      "intro": "Ce-ar fi dacă… ar exista <strong>o grădină primitoare la fiecare 15 km în toată Europa</strong>, ca să putem cu toții drumeți sau pedala din grădină în grădină?",
+      "legend": {
+        "covered": "WTMG în {radius} km",
+        "gap": "Niciun WTMG în apropiere"
+      },
+      "cta": "Ajută-ne să facem călătoria lentă mai accesibilă și să ajungem la 10.000 de grădini vara aceasta:",
+      "share": "Distribuie WTMG",
+      "add-garden": "Adaugă-ți grădina",
+      "stats": "Deja {count} grădini",
+      "explore-all": "Explorează toate grădinile",
+      "collapsed-title": "Ajută la răspândirea WTMG",
+      "expand": "Deschide caseta de informații",
+      "collapse": "Restrânge caseta de informații"
     }
   },
   "terms-of-use": {
@@ -1602,5 +1618,19 @@
     "logged-out": "Ceva nu a mers bine la gestionarea abonamentului pentru {email}. {signInLink} pentru a-ți gestiona abonamentul.",
     "account-link-text": "prin pagina de cont",
     "sign-in-link-text": "Conectare"
+  },
+  "share-wtmg": {
+    "title": "Poți să distribui WTMG?",
+    "subtitle": "Un simplu mesaj sau o postare fac o mare diferență pentru cei care nu cunosc încă WTMG. Mulțumim!",
+    "facebook": "Postează pe Facebook",
+    "copy-link": "Copiază linkul către site",
+    "copy-link-done": "Link copiat în clipboard!",
+    "copy-link-error": "Linkul nu a putut fi copiat. Te rugăm să îl copiezi manual.",
+    "whatsapp": "Trimite un mesaj prin WhatsApp",
+    "instagram": "Distribuie pe Instagram",
+    "email": "Trimite un e-mail",
+    "whatsapp-text": "Cunoști Welcome To My Garden (https://welcometomygarden.org)? Cred că e ceva pentru tine!",
+    "email-subject": "Welcome To My Garden",
+    "email-body": "Cunoști Welcome To My Garden (https://welcometomygarden.org)? Cred că e ceva pentru tine!"
   }
 }

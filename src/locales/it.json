@@ -1232,6 +1232,22 @@
       "cities": {
         "Bruges": "Bruges"
       }
+    },
+    "every15km": {
+      "title": "Facciamo conoscere WTMG in tutta Europa!",
+      "intro": "E se… ci fosse <strong>un giardino accogliente ogni 15 km in tutta Europa</strong>, così da poter tutti camminare o pedalare da un giardino all'altro?",
+      "legend": {
+        "covered": "WTMG entro {radius} km",
+        "gap": "Nessun WTMG nelle vicinanze"
+      },
+      "cta": "Aiutaci a rendere il viaggio lento più accessibile e a raggiungere 10.000 giardini quest'estate:",
+      "share": "Condividi WTMG",
+      "add-garden": "Aggiungi il tuo giardino",
+      "stats": "Già {count} giardini",
+      "explore-all": "Esplora tutti i giardini",
+      "collapsed-title": "Aiuta a diffondere WTMG",
+      "expand": "Apri il riquadro informativo",
+      "collapse": "Chiudi il riquadro informativo"
     }
   },
   "terms-of-use": {
@@ -1602,5 +1618,19 @@
     "logged-out": "Qualcosa è andato storto durante la gestione dell'iscrizione di {email}. {signInLink} per gestire la tua iscrizione.",
     "account-link-text": "tramite la tua pagina account",
     "sign-in-link-text": "Accedi"
+  },
+  "share-wtmg": {
+    "title": "Puoi condividere WTMG?",
+    "subtitle": "Un semplice messaggio o post fa una grande differenza per chi non conosce ancora WTMG. Grazie!",
+    "facebook": "Pubblica su Facebook",
+    "copy-link": "Copia il link del sito web",
+    "copy-link-done": "Link copiato negli appunti!",
+    "copy-link-error": "Impossibile copiare il link. Copialo manualmente.",
+    "whatsapp": "Invia un messaggio via WhatsApp",
+    "instagram": "Condividi su Instagram",
+    "email": "Invia un'email",
+    "whatsapp-text": "Conosci Welcome To My Garden (https://welcometomygarden.org)? Credo sia qualcosa che fa per te!",
+    "email-subject": "Welcome To My Garden",
+    "email-body": "Conosci Welcome To My Garden (https://welcometomygarden.org)? Credo sia qualcosa che fa per te!"
   }
 }

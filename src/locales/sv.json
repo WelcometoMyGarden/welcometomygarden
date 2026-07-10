@@ -1232,6 +1232,22 @@
       "cities": {
         "Bruges": "Brygge"
       }
+    },
+    "every15km": {
+      "title": "Låt oss sprida WTMG över hela Europa!",
+      "intro": "Tänk om... det fanns <strong>en välkomnande trädgård var 15:e km över hela Europa</strong>, så att vi alla kunde vandra eller cykla från trädgård till trädgård?",
+      "legend": {
+        "covered": "WTMG inom {radius} km",
+        "gap": "Inget WTMG i närheten"
+      },
+      "cta": "Hjälp oss göra slow travel mer tillgängligt och nå 10 000 trädgårdar i sommar:",
+      "share": "Dela WTMG",
+      "add-garden": "Lägg till din trädgård",
+      "stats": "Redan {count} trädgårdar",
+      "explore-all": "Utforska alla trädgårdar",
+      "collapsed-title": "Hjälp till att sprida WTMG",
+      "expand": "Öppna informationsrutan",
+      "collapse": "Fäll ihop informationsrutan"
     }
   },
   "terms-of-use": {
@@ -1602,5 +1618,19 @@
     "logged-out": "Något gick fel när medlemskapet för {email} skulle hanteras. {signInLink} för att hantera ditt medlemskap.",
     "account-link-text": "via Mina sidor",
     "sign-in-link-text": "Logga in"
+  },
+  "share-wtmg": {
+    "title": "Kan du dela WTMG?",
+    "subtitle": "Ett enkelt meddelande eller inlägg gör stor skillnad för dem som ännu inte känner till WTMG. Tack!",
+    "facebook": "Dela på Facebook",
+    "copy-link": "Kopiera länken till webbplatsen",
+    "copy-link-done": "Länken har kopierats till urklipp!",
+    "copy-link-error": "Kunde inte kopiera länken. Kopiera den manuellt.",
+    "whatsapp": "Skicka ett meddelande via WhatsApp",
+    "instagram": "Dela på Instagram",
+    "email": "Skicka ett e-postmeddelande",
+    "whatsapp-text": "Känner du till Welcome To My Garden (https://welcometomygarden.org)? Det verkar vara något för dig!",
+    "email-subject": "Welcome To My Garden",
+    "email-body": "Känner du till Welcome To My Garden (https://welcometomygarden.org)? Det verkar vara något för dig!"
   }
 }
