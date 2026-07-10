@@ -6,6 +6,7 @@
   import { onMount, tick } from 'svelte';
   import { page } from '$app/state';
   import Modal from 'svelte-simple-modal';
+  import { SvelteComponent } from 'svelte';
   import { onNavigate } from '$app/navigation';
   import trackEvent, { registerCustomPropertyTracker } from '$lib/util/track-plausible';
   import { Notifications, Progress } from '$lib/components/UI';
@@ -414,7 +415,13 @@
   bind:this={appContainer}
 >
   <!-- Make the modal a child of .app, so that it inherits its CSS -->
-  <Modal show={$rootModal} unstyled={true} closeButton={false}>
+  <!-- svelte-simple-modal ships legacy component types; $rootModal holds Svelte 5
+       components (see $lib/util/modal), so cast to satisfy the library's `show` prop. -->
+  <Modal
+    show={$rootModal as unknown as typeof SvelteComponent | null}
+    unstyled={true}
+    closeButton={false}
+  >
     {#if browser}
       <Notifications />
     {/if}
