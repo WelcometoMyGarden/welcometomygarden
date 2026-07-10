@@ -1,5 +1,5 @@
 import { rootModal } from '$lib/stores/app';
-import { bind } from 'svelte-simple-modal';
+import { bind } from '$lib/util/modal';
 import ErrorModal, { type Props } from '$lib/components/UI/ErrorModal.svelte';
 import { isEnablingLocalPushRegistration, pushRegistrations } from '$lib/stores/pushRegistrations';
 import { derived, get } from 'svelte/store';
