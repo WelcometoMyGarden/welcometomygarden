@@ -22,9 +22,7 @@ export interface FileLike {
 // File Errors
 export const getInvalidTypeRejectionErr = (accept: string | string[]): FileError => {
   const normalized = Array.isArray(accept) && accept.length === 1 ? accept[0] : accept;
-  const messageSuffix = Array.isArray(normalized)
-    ? `one of ${normalized.join(', ')}`
-    : normalized;
+  const messageSuffix = Array.isArray(normalized) ? `one of ${normalized.join(', ')}` : normalized;
   return {
     code: FILE_INVALID_TYPE,
     message: `File type must be ${messageSuffix}`
@@ -135,9 +133,7 @@ export function isEvtWithFiles(event: {
 }
 
 export function isKindFile(item: unknown): boolean {
-  return (
-    typeof item === 'object' && item !== null && (item as { kind?: string }).kind === 'file'
-  );
+  return typeof item === 'object' && item !== null && (item as { kind?: string }).kind === 'file';
 }
 
 function isIe(userAgent: string): boolean {
@@ -152,7 +148,11 @@ export function isIeOrEdge(userAgent: string = window.navigator.userAgent): bool
   return isIe(userAgent) || isEdge(userAgent);
 }
 
-type ComposableEventHandler = ((event: Event, ...args: unknown[]) => void) | undefined | null | false;
+type ComposableEventHandler =
+  | ((event: Event, ...args: unknown[]) => void)
+  | undefined
+  | null
+  | false;
 
 /**
  * This is intended to be used to compose event handlers

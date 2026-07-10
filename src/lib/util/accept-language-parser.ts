@@ -1,6 +1,5 @@
-// Adapted from the `accept-language-parser` package; the parameter-reassignment
-// style (`options = options || {}`) is preserved from upstream.
-/* eslint-disable no-param-reassign */
+// Adapted from the `accept-language-parser` package, typed and reworked to avoid
+// the upstream parameter-reassignment style.
 const regex = /((([a-zA-Z]+(-[a-zA-Z0-9]+){0,2})|\*)(;q=[0-1](\.[0-9]+)?)?)*/g;
 
 /**
