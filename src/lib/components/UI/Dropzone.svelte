@@ -6,7 +6,8 @@
     isEvtWithFiles,
     isIeOrEdge,
     isPropagationStopped,
-    TOO_MANY_FILES_REJECTION
+    TOO_MANY_FILES_REJECTION,
+    type FileError
   } from '$lib/util/dropzone';
   import { onDestroy, type Snippet } from 'svelte';
   import { iDeviceInfo, isNative } from '$lib/util/uaInfo';
@@ -56,7 +57,19 @@
     children
   }: Props = $props();
 
-  let state = $state({
+  type DropzoneFile = FileWithPath | DataTransferItem;
+  type FileRejection = { file: DropzoneFile; errors: FileError[] };
+
+  let state = $state<{
+    isFocused: boolean;
+    isFileDialogActive: boolean;
+    isDragActive: boolean;
+    isDragAccept: boolean;
+    isDragReject: boolean;
+    draggedFiles: DropzoneFile[];
+    acceptedFiles: DropzoneFile[];
+    fileRejections: FileRejection[];
+  }>({
     isFocused: false,
     isFileDialogActive: false,
     isDragActive: false,
@@ -81,20 +94,16 @@
   // Fn for opening the file dialog programmatically
   function openFileDialog() {
     if (inputRef) {
-      inputRef.value = null; // TODO check if null needs to be set
+      inputRef.value = ''; // reset so selecting the same file again re-triggers change
       state.isFileDialogActive = true;
       inputRef.click();
     }
   }
 
   // Cb to open the file dialog when SPACE/ENTER occurs on the dropzone
-  function onKeyDownCb(event: {
-    target: Node | null;
-    keyCode: number;
-    preventDefault: () => void;
-  }) {
+  function onKeyDownCb(event: KeyboardEvent) {
     // Ignore keyboard events bubbling up the DOM tree
-    if (!rootRef || !rootRef.isEqualNode(event.target)) {
+    if (!rootRef || !rootRef.isEqualNode(event.target as Node | null)) {
       return;
     }
     if (event.keyCode === 32 || event.keyCode === 13) {
@@ -127,7 +136,7 @@
     }
   }
 
-  function onDragEnterCb(event: { preventDefault?: any; target?: any }) {
+  function onDragEnterCb(event: DragEvent) {
     event.preventDefault();
     stopPropagation(event);
     dragTargetsRef = [...dragTargetsRef, event.target];
@@ -142,11 +151,7 @@
     }
   }
 
-  function onDragOverCb(event: {
-    preventDefault?: any;
-    dataTransfer?: any;
-    stopPropagation?: () => void;
-  }) {
+  function onDragOverCb(event: DragEvent) {
     event.preventDefault();
     stopPropagation(event);
     if (event.dataTransfer) {
@@ -157,11 +162,7 @@
     return false;
   }
 
-  function onDragLeaveCb(event: {
-    preventDefault?: any;
-    target?: any;
-    stopPropagation?: () => void;
-  }) {
+  function onDragLeaveCb(event: DragEvent) {
     event.preventDefault();
     stopPropagation(event);
     // Only deactivate once the dropzone and all children have been left
@@ -180,7 +181,7 @@
     state.draggedFiles = [];
   }
 
-  function onDropCb(event: { preventDefault?: any; stopPropagation?: () => void }) {
+  function onDropCb(event: Event) {
     event.preventDefault();
     stopPropagation(event);
     dragTargetsRef = [];
@@ -189,18 +190,15 @@
         if (isPropagationStopped(event) && !noDragEventsBubbling) {
           return;
         }
-        const acceptedFiles: (FileWithPath | DataTransferItem)[] = [];
-        const fileRejections: {
-          file: FileWithPath | DataTransferItem;
-          errors: any[] | { code: string; message: string }[];
-        }[] = [];
+        const acceptedFiles: DropzoneFile[] = [];
+        const fileRejections: FileRejection[] = [];
         files.forEach((file) => {
           const [accepted, acceptError] = fileAccepted(file, accept);
           const [sizeMatch, sizeError] = fileMatchSize(file, minSize, maxSize);
           if (accepted && sizeMatch) {
             acceptedFiles.push(file);
           } else {
-            const errors = [acceptError, sizeError].filter((e) => e);
+            const errors = [acceptError, sizeError].filter((e): e is FileError => e != null);
             fileRejections.push({ file, errors });
           }
         });
@@ -223,29 +221,15 @@
     resetState();
   }
 
-  function composeHandler(fn: {
-    (event: any): void;
-    (): void;
-    (): void;
-    (event: any): void;
-    (event: any): boolean;
-    (event: any): void;
-    (event: any): void;
-    (): void;
-  }) {
+  function composeHandler<T extends (event: never) => unknown>(fn: T): T | null {
     return disabled ? null : fn;
   }
 
-  function composeKeyboardHandler(fn: { (event: any): void; (): void; (): void }) {
+  function composeKeyboardHandler<T extends (event: never) => unknown>(fn: T): T | null {
     return noKeyboard ? null : composeHandler(fn);
   }
 
-  function composeDragHandler(fn: {
-    (event: any): void;
-    (event: any): boolean;
-    (event: any): void;
-    (event: any): void;
-  }) {
+  function composeDragHandler<T extends (event: never) => unknown>(fn: T): T | null {
     return noDrag ? null : composeHandler(fn);
   }
 
