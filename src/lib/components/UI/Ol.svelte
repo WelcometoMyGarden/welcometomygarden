@@ -3,13 +3,14 @@
     // TODO make this dynamic
     type?: string;
     position?: string;
+    class?: string;
     children?: import('svelte').Snippet;
   }
 
-  let { type = 'decimal', position = 'inside', children }: Props = $props();
+  let { type = 'decimal', position = 'inside', class: className = '', children }: Props = $props();
 </script>
 
-<ol style="list-style: {type} {position};">
+<ol class={className} style="list-style: {type} {position};">
   {@render children?.()}
 </ol>
 
