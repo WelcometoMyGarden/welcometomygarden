@@ -49,11 +49,7 @@
     "error": {
       "offline": "No internet connection. You need internet to use WTMG.",
       "offline-chat": "No internet connection. You need internet to send messages.",
-      "start": "Something went wrong",
-      "app-check": {
-        "message": "WTMG may not work well in this browser. Check {linkText} for solutions.",
-        "link-text": "our help center"
-      }
+      "start": "Something went wrong"
     },
     "question-mark": "?",
     "here": "here",

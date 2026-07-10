@@ -34,10 +34,8 @@
     "on": "på",
     "error": {
       "start": "Något gick fel",
-      "app-check": {
-        "message": "WTMG kanske inte fungerar korrekt i den här webbläsaren. Hitta lösningar i {linkText}.",
-        "link-text": "vårt hjälpcenter"
-      }
+      "offline": "Ingen internetanslutning. Du behöver internet för att använda WTMG.",
+      "offline-chat": "Ingen internetanslutning. Du behöver internet för att skicka meddelanden."
     },
     "question-mark": "?",
     "here": "här",

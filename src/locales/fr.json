@@ -42,11 +42,7 @@
     "error": {
       "offline": "Pas de connexion internet. Vous avez besoin d'internet pour utiliser WTMG.",
       "offline-chat": "Pas de connexion internet. Vous avez besoin d'internet pour envoyer des messages.",
-      "start": "Quelque chose n’a pas fonctionné",
-      "app-check": {
-        "message": "WTMG peut ne pas bien fonctionner avec ce navigateur. Consultez {linkText} pour trouver des solutions.",
-        "link-text": "notre centre d’aide"
-      }
+      "start": "Quelque chose n’a pas fonctionné"
     },
     "account-page": "compte",
     "here": "ici",
@@ -56,7 +52,8 @@
     "undo": "Annuler",
     "toast": {
       "membership-expired": "Votre adhésion a expiré le {date}."
-    }
+    },
+    "member": "Membre"
   },
   "ui": {
     "card": {
@@ -133,9 +130,6 @@
       "garden-count-before": "Découvrez les",
       "garden-count-after": " sur la carte !",
       "garden-count-noun": "jardins"
-    },
-    "partners": {
-      "title": "Nos partenaires"
     },
     "superfan": {
       "become-superfan-title": "Nos membres rendent WTMG possible",
@@ -330,7 +324,8 @@
       }
     },
     "donation": "un don",
-    "instruction-page": "à cette page d’instructions"
+    "instruction-page": "à cette page d’instructions",
+    "help-center-text": "notre centre d'aide"
   },
   "cookies": {
     "title": "Politique des cookies"
@@ -695,7 +690,8 @@
       "faq-link-text": "Lisez nos FAQ.",
       "blog-post": "Lisez notre blog post: ",
       "blog-post-link-text": "pourquoi une adhésion pour WTMG ?",
-      "already-member": "Vous êtes déjà {type}, merci!"
+      "already-member": "Vous êtes déjà {type}, merci!",
+      "questions": "Questions ?"
     },
     "modal": {
       "intro": "Camper dans le jardin d’hôtes WTMG reste gratuit. Cependant, afin de répartir les coûts de maintenance et de développement de la plateforme entre tous les voyageur.ses, WTMG a besoin d’une adhésion annuelle.",
@@ -1181,7 +1177,13 @@
       "title": "Aucune conversation active",
       "detail": "Lorsque vous recevez un message, il apparaîtra ici. Ou contactez un·e hôte sur la carte."
     },
-    "archived": "Archivés"
+    "archived": "Archivés",
+    "error-modal": {
+      "title": "Un problème est survenu",
+      "description": "Une erreur est survenue lors de l'envoi de votre message.",
+      "instruction": "Si cela continue, merci de copier ce que vous voyez ci-dessous et de le coller dans un e-mail à",
+      "closing-line": "Nous essaierons de vous aider aussi vite que possible !"
+    }
   },
   "map": {
     "vehicle-notice": {
@@ -1554,6 +1556,9 @@
       },
       "wtmg-sign": {
         "title": "Panneau WTMG"
+      },
+      "route-planner": {
+        "title": "Planificateur d'itinéraire"
       }
     }
   },
@@ -1606,7 +1611,8 @@
       "title": "Planificateur d’itinéraire WTMG",
       "description": "Planificateur d’itinéraire gratuit pour des voyages à vélo ou à pied avec Welcome To My Garden.",
       "keywords": "planificateur d’itinéraire, voyage lent, itinéraires vélo, itinéraires randonnée, WTMG, jardins, camping",
-      "image-url": "https://storage.googleapis.com/wtmg-static/routeplanner/preview/route-planner-fr.jpg"
+      "image-url": "https://storage.googleapis.com/wtmg-static/routeplanner/preview/route-planner-fr.jpg",
+      "image-alt": "Affiche pour le planificateur d'itinéraire WTMG avec un fond de carte"
     },
     "general": {
       "keywords": "camping, Europe, slow travel, voyage lent, voyage à vélo, randonnée, tente, communauté, camping dans les jardins, camping gratuit, aventure",

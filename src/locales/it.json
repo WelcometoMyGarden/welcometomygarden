@@ -34,10 +34,8 @@
     "on": "su",
     "error": {
       "start": "Qualcosa è andato storto",
-      "app-check": {
-        "message": "WTMG potrebbe non funzionare bene su questo browser. Come {linkText} risolvere.",
-        "link-text": "il nostro centro assistenza"
-      }
+      "offline": "Nessuna connessione a Internet. Hai bisogno di una connessione a Internet per usare WTMG.",
+      "offline-chat": "Nessuna connessione a Internet. Hai bisogno di una connessione a Internet per inviare messaggi."
     },
     "question-mark": "?",
     "here": "qui",

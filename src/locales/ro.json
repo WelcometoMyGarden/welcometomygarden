@@ -34,10 +34,8 @@
     "on": "pe",
     "error": {
       "start": "Ceva nu a mers bine",
-      "app-check": {
-        "message": "Este posibil ca WTMG să nu funcționeze bine în acest browser. Verifică {linkText} pentru soluții.",
-        "link-text": "centrul nostru de ajutor"
-      }
+      "offline": "Nicio conexiune la internet. Ai nevoie de internet pentru a folosi WTMG.",
+      "offline-chat": "Nicio conexiune la internet. Ai nevoie de internet pentru a trimite mesaje."
     },
     "question-mark": "?",
     "here": "aici",

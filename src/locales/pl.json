@@ -34,17 +34,14 @@
     "on": "w",
     "error": {
       "start": "Coś poszło nie tak",
-      "app-check": {
-        "message": "WTMG może nie działać poprawnie w tej przeglądarce. Sprawdź {linkText} w poszukiwaniu rozwiązań.",
-        "link-text": "nasze centrum pomocy"
-      }
+      "offline": "Brak połączenia z internetem. Potrzebujesz internetu, aby korzystać z WTMG.",
+      "offline-chat": "Brak połączenia z internetem. Potrzebujesz internetu, aby wysyłać wiadomości."
     },
     "question-mark": "?",
     "here": "tutaj",
     "cancel": "Anuluj",
     "now": "teraz",
     "undo": "Cofnij",
-    "slowby-url": "https://slowby.travel/",
     "toast": {
       "membership-expired": "Twoja subskrypcja wygasła w dniu {date}."
     }
@@ -1193,11 +1190,7 @@
       "title": "Brak aktywnych rozmów",
       "detail": "Gdy otrzymasz wiadomość, pojawi się ona tutaj. Możesz też skontaktować się z gospodarzem na mapie."
     },
-    "archived": "Zarchiwizowane",
-    "no-messages": {
-      "text": "Nie masz jeszcze żadnych wiadomości. Wybierz gospodarza {link}, aby się z nim skontaktować.",
-      "link": "na mapie"
-    }
+    "archived": "Zarchiwizowane"
   },
   "map": {
     "vehicle-notice": {

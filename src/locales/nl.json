@@ -41,11 +41,7 @@
     "error": {
       "offline": "Geen internetverbinding. Je hebt internet nodig om WTMG te gebruiken.",
       "offline-chat": "Geen internetverbinding. Je hebt internet nodig om berichten te sturen.",
-      "start": "Er ging iets mis",
-      "app-check": {
-        "message": "WTMG werkt mogelijk niet goed in deze browser. Bekijk {linkText} voor oplossingen.",
-        "link-text": "ons helpcentrum"
-      }
+      "start": "Er ging iets mis"
     },
     "account-page": "accountpagina",
     "here": "hier",
@@ -54,7 +50,8 @@
     "undo": "Ongedaan maken",
     "toast": {
       "membership-expired": "Je lidmaatschap is verlopen op {date}."
-    }
+    },
+    "member": "Lid"
   },
   "ui": {
     "card": {
@@ -131,9 +128,6 @@
           "copy": "Kamperen in een WTMG-tuin is gratis. Desondanks vragen we alle reizigers om betalend lid te worden, zodat we de kosten fair kunnen delen, en het platform kunnen onderhouden en verder ontwikkelen. Je kan <a href=\"{langPrefix}/about-membership?utm_source=welcometomygarden.org&utm_medium=web&utm_campaign=membership&utm_content=home_faq#pricing\">hier</a> lid worden."
         }
       }
-    },
-    "partners": {
-      "title": "Onze partners"
     },
     "superfan": {
       "become-superfan-title": "Leden maken WTMG mogelijk",
@@ -1613,7 +1607,9 @@
     "routeplanner": {
       "image-url": "https://storage.googleapis.com/wtmg-static/routeplanner/preview/route-planner-nl.jpg",
       "keywords": "routeplanner, slow travel, route, wandelroutes, fietsroutes, WTMG, tuinen, kamperen",
-      "title": "Routeplanner WTMG"
+      "title": "Routeplanner WTMG",
+      "description": "Gratis online routeplanner voor fiets- en wandeltochten met Welcome To My Garden.",
+      "image-alt": "Poster voor de WTMG-routeplanner met een kaart als achtergrond"
     },
     "general": {
       "keywords": "kamperen, Europa, slow travel, traag reizen, fietsen, wandelen, tent, community, kamperen in een tuin, gratis kamperen, avontuur",
