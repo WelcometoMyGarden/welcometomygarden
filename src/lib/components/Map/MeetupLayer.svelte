@@ -28,6 +28,7 @@
   import type { ContextType } from './Map.svelte';
   import key from './mapbox-context.js';
   import type GeoJSON from 'geojson';
+  import type { GeoJSONSource } from 'mapbox-gl';
 
   import { gardenLayerLoaded } from '$lib/stores/app';
   import { loadImg } from '$lib/api/mapbox';
@@ -47,7 +48,7 @@
   const _onMeetupClick = (e: mapboxgl.MapMouseEvent) => {
     // will be serialized, but we only need the id!
     const meetup = e.features?.[0]?.properties;
-    onMeetupClick(meetup.id);
+    if (meetup) onMeetupClick(meetup.id);
   };
   const meetupFeatureCollection: () => GeoJSON.FeatureCollection = () => ({
     type: 'FeatureCollection',
@@ -124,7 +125,7 @@
 
     // Update data when meetup ID changes
     if (loaded) {
-      map.getSource(MEETUP_ID).setData(meetupFeatureCollection(selectedMeetupId));
+      map.getSource<GeoJSONSource>(MEETUP_ID)?.setData(meetupFeatureCollection());
     }
   });
 </script>
