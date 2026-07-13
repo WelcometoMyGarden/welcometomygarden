@@ -3,8 +3,8 @@
  *
  * NOTE: part of a temporary prototype for route file display enhancements.
  */
-import { along, distance, length, lineString } from '@turf/turf';
-import type { Feature, FeatureCollection, Geometry, LineString, Point, Position } from 'geojson';
+import { along, distance, flatten, length, lineString } from '@turf/turf';
+import type { Feature, FeatureCollection, LineString, Point, Position } from 'geojson';
 
 /**
  * Palette used to colour uploaded routes.
@@ -29,32 +29,17 @@ const ROUTE_COLORS = [
  */
 export const colorForRoute = (index: number): string => ROUTE_COLORS[index % ROUTE_COLORS.length];
 
-/** Recursively collects all LineString coordinate arrays from a geometry. */
-const collectLines = (geometry: Geometry, out: Position[][]) => {
-  switch (geometry.type) {
-    case 'LineString':
-      out.push(geometry.coordinates);
-      break;
-    case 'MultiLineString':
-      geometry.coordinates.forEach((coords) => out.push(coords));
-      break;
-    case 'GeometryCollection':
-      geometry.geometries.forEach((g) => collectLines(g, out));
-      break;
-    default:
-      break;
-  }
-};
-
-/** Extracts all usable line segments (>= 2 points) from a GeoJSON route. */
-const extractLines = (geoJson: FeatureCollection | Feature): Position[][] => {
-  const out: Position[][] = [];
-  const features = geoJson.type === 'FeatureCollection' ? geoJson.features : [geoJson];
-  features.forEach((feature) => {
-    if (feature.geometry) collectLines(feature.geometry, out);
-  });
-  return out.filter((line) => line.length >= 2);
-};
+/**
+ * Extracts all usable line segments (>= 2 points) from a GeoJSON route. Turf's `flatten` expands
+ * MultiLineStrings and GeometryCollections into individual features; anything
+ * that isn't a LineString (points, polygons) is dropped.
+ */
+const flattenToLines = (geoJson: FeatureCollection | Feature): Position[][] =>
+  flatten(geoJson)
+    .features.map((f) => f.geometry)
+    .filter((g): g is LineString => g?.type === 'LineString')
+    .map((g) => g.coordinates)
+    .filter((line) => line.length >= 2);
 
 /**
  * Returns the first and last coordinate of a route, treating the route as the
@@ -64,7 +49,7 @@ const extractLines = (geoJson: FeatureCollection | Feature): Position[][] => {
 export const computeStartEnd = (
   geoJson: FeatureCollection | Feature
 ): { start: Position; end: Position } | null => {
-  const lines = extractLines(geoJson);
+  const lines = flattenToLines(geoJson);
   if (lines.length === 0) return null;
   const first = lines[0];
   const last = lines[lines.length - 1];
@@ -84,7 +69,7 @@ export const computeKmMarkers = (
   geoJson: FeatureCollection | Feature
 ): FeatureCollection<Point, { label: string; everyN: number }> => {
   const features: Feature<Point, { label: string; everyN: number }>[] = [];
-  const lines = extractLines(geoJson);
+  const lines = flattenToLines(geoJson);
 
   const epsilon = 1e-9;
   let cumulative = 0; // total distance covered before the current segment
@@ -122,12 +107,18 @@ export type RouteEndpoint = { type: 'start' | 'end' | 'pause'; lngLat: [number, 
  * `pause` marker when it mixes types.
  */
 export const clusterEndpoints = (
+  /**
+   * Input RouteEndpoints will never be of the type "pause", that is what is being calculated in this function.
+   */
   endpoints: RouteEndpoint[],
   maxDistanceMeters = 5
 ): RouteEndpoint[] => {
   const maxKm = maxDistanceMeters / 1000;
   const clusters: RouteEndpoint[][] = [];
 
+  // Naïve O(n^2) (?) algorithm to cluster endpoints
+  // Should be performant enough considering that the number of
+  // endpoints is N_routes * 2, which should be reasonably limited.
   for (const ep of endpoints) {
     const cluster = clusters.find((c) =>
       c.some((m) => distance(m.lngLat, ep.lngLat, { units: 'kilometers' }) <= maxKm)
@@ -144,32 +135,6 @@ export const clusterEndpoints = (
     const type = allSameType ? cluster[0].type : 'pause';
     return { type, lngLat: [lng, lat] };
   });
-};
-
-/** Zoom thresholds controlling start/end marker shrinking & fading. */
-const ENDPOINT_FULL_ZOOM = 8.5; // at/above: full size
-const ENDPOINT_SHRINK_FLOOR = 8.3; // 8.3–8.5: shrink down to ENDPOINT_MIN_SCALE
-const ENDPOINT_FADE_END = 7.8; // 7.8–8.3: fade out over 0.5 zoom levels; below: hidden
-const ENDPOINT_MIN_SCALE = 0.78; // smallest size markers ever reach (the size at zoom 8.3)
-
-/**
- * Computes the start/end marker scale & opacity for a zoom level:
- * - zoom >= 8.5: full size, opaque
- * - 8.3–8.5: shrinks linearly down to ENDPOINT_MIN_SCALE
- * - 7.8–8.3: stays at the minimum size and fades out over 0.5 zoom levels
- * - below 7.8: hidden
- */
-export const computeEndpointStyle = (zoom: number): { scale: number; opacity: number } => {
-  if (zoom >= ENDPOINT_FULL_ZOOM) return { scale: 1, opacity: 1 };
-  if (zoom >= ENDPOINT_SHRINK_FLOOR) {
-    const t = (zoom - ENDPOINT_SHRINK_FLOOR) / (ENDPOINT_FULL_ZOOM - ENDPOINT_SHRINK_FLOOR);
-    return { scale: ENDPOINT_MIN_SCALE + t * (1 - ENDPOINT_MIN_SCALE), opacity: 1 };
-  }
-  if (zoom >= ENDPOINT_FADE_END) {
-    const t = (zoom - ENDPOINT_FADE_END) / (ENDPOINT_SHRINK_FLOOR - ENDPOINT_FADE_END);
-    return { scale: ENDPOINT_MIN_SCALE, opacity: t };
-  }
-  return { scale: ENDPOINT_MIN_SCALE, opacity: 0 };
 };
 
 /** A route paired with the colour it is drawn in on the map. */
@@ -245,7 +210,7 @@ type Sample = { near: boolean; ll: [number, number] };
 /** Latitude anchoring the local metre projection (from the first available vertex). */
 const referenceLatitude = (routes: { geoJson: FeatureCollection | Feature }[]) => {
   for (const r of routes) {
-    const lines = extractLines(r.geoJson);
+    const lines = flattenToLines(r.geoJson);
     if (lines.length && lines[0].length) return lines[0][0][1];
   }
   return undefined;
@@ -269,7 +234,7 @@ const prepRoute = (
   const decimate2 = OVERLAP_DECIMATE_M * OVERLAP_DECIMATE_M;
   const lines: PreppedLine[] = [];
   const segments: [XY, XY][] = [];
-  for (const coords of extractLines(geoJson)) {
+  for (const coords of flattenToLines(geoJson)) {
     const ll: [number, number][] = [];
     const xy: XY[] = [];
     let last: XY | null = null;

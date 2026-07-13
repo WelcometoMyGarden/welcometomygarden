@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { ContextType } from './Map.svelte';
-  import type { ExpressionSpecification, GeoJSONSource, Marker } from 'mapbox-gl';
-  import mapboxgl from 'mapbox-gl';
+  import type { ExpressionSpecification, GeoJSONSource } from 'mapbox-gl';
   import { fileDataLayers } from '$lib/stores/file';
   import { getContext, onDestroy } from 'svelte';
   import { get } from 'svelte/store';
@@ -9,17 +8,17 @@
   import key from './mapbox-context.js';
   import { ZOOM_LEVELS } from '$lib/constants';
   import type { FileDataLayer } from '$lib/types/DataLayer';
-  import type { FeatureCollection, LineString } from 'geojson';
+  import type { FeatureCollection, LineString, Point } from 'geojson';
   import {
     clusterEndpoints,
     colorForRoute,
-    computeEndpointStyle,
     computeKmMarkers,
     computeNonOverlapLinesByRoute,
     computeOverlapSegments,
     computeStartEnd,
     type RouteEndpoint
   } from '$lib/util/map/routeStyle';
+  import { ENDPOINT_ICONS, ensureEndpointIcons } from './endpointIcon';
   import * as Sentry from '@sentry/sveltekit';
   import logger from '$lib/util/logger';
 
@@ -116,14 +115,30 @@
   const NAME_OFFSET: [number, number] = [0, -1.3];
   const NAME_MAX_ANGLE = 60;
 
-  // Track rendered trail layers + the global set of endpoint DOM markers.
+  // Track rendered trail layers.
   const rendered = new Set<string>();
-  let endpointMarkers: Marker[] = [];
 
-  // Endpoint badges are plain circles sized to the km markers (2 * their circle-radius).
-  const MARKER_DIAMETER = 18;
-  const BADGE_GREEN = 'rgba(27, 120, 55, 0.92)';
-  const BADGE_RED = 'rgba(216, 67, 33, 0.92)';
+  // --- Start/end badges ---
+  // Drawn as a single symbol layer (one feature per clustered endpoint) so their
+  // visibility can be driven by the same kind of zoom step expression as the km markers.
+  // The badge icons themselves live in ./endpointIcon.
+  const ENDPOINT_SOURCE = '__route-endpoints';
+  const ENDPOINT_LAYER = '__route-endpoints-layer';
+
+  // Green = start, red = end, split red|green = a merged start+end ("pause").
+  const ENDPOINT_ICON: ExpressionSpecification = [
+    'match',
+    ['get', 'type'],
+    'start',
+    ENDPOINT_ICONS.start,
+    'end',
+    ENDPOINT_ICONS.end,
+    ENDPOINT_ICONS.pause
+  ];
+
+  // Badges appear together with the km markers (from zoom 8) at a fixed size — no fading
+  // or resizing. `icon-opacity` is a paint property, so this snaps at the threshold.
+  const ENDPOINT_VISIBILITY: ExpressionSpecification = ['step', ['zoom'], 0, 8, 1];
 
   const fitToTrail = (geoJson: FileDataLayer['geoJson']) => {
     try {
@@ -145,45 +160,17 @@
     }
   };
 
-  // Start = green circle, end = red circle, merged start+end = vertically split circle
-  // (red on the left half, green on the right half); all with a thin white border.
-  const createEndpointElement = (type: RouteEndpoint['type']) => {
-    const el = document.createElement('div');
-    // `display:flex` lives in the global .trail-endpoint rule below, because mapbox
-    // clears the inline `display` property it sets on marker elements.
-    el.classList.add('trail-endpoint');
-    el.style.cssText =
-      `width:${MARKER_DIAMETER}px;height:${MARKER_DIAMETER}px;border-radius:50%;` +
-      'align-items:center;justify-content:center;line-height:0;overflow:hidden;' +
-      'border:2px solid #fff;box-sizing:border-box;box-shadow:0 1px 4px rgba(0,0,0,0.4);';
-    if (type === 'start') el.style.background = BADGE_GREEN;
-    else if (type === 'end') el.style.background = BADGE_RED;
-    else
-      el.style.background = `linear-gradient(90deg, ${BADGE_RED} 0 50%, ${BADGE_GREEN} 50% 100%)`;
-    return el;
-  };
-
-  /** Applies the current zoom-based scale & opacity to all endpoint markers. */
-  const applyEndpointStyle = () => {
-    const { scale, opacity } = computeEndpointStyle(map.getZoom());
-    const size = MARKER_DIAMETER * scale;
-    for (const marker of endpointMarkers) {
-      const el = marker.getElement();
-      el.style.width = `${size}px`;
-      el.style.height = `${size}px`;
-      el.style.borderWidth = `${Math.max(1, 2 * scale)}px`;
-      el.style.opacity = `${opacity}`;
-    }
+  /** Removes the endpoint layer and its source. */
+  const removeEndpointLayer = () => {
+    if (map.getLayer(ENDPOINT_LAYER)) map.removeLayer(ENDPOINT_LAYER);
+    if (map.getSource(ENDPOINT_SOURCE)) map.removeSource(ENDPOINT_SOURCE);
   };
 
   /**
-   * Rebuilds the global set of start/end markers from all *visible* trails, merging
-   * endpoints within 5 m of each other into a single midpoint marker.
+   * Rebuilds the endpoint layer from all *visible* trails, merging endpoints within 5 m
+   * of each other into a single badge (see clusterEndpoints).
    */
-  const rebuildEndpointMarkers = () => {
-    endpointMarkers.forEach((marker) => marker.remove());
-    endpointMarkers = [];
-
+  const rebuildEndpoints = () => {
     const endpoints: RouteEndpoint[] = [];
     for (const layer of get(fileDataLayers)) {
       if (layer.visible === false) continue;
@@ -193,14 +180,35 @@
       endpoints.push({ type: 'end', lngLat: ends.end as [number, number] });
     }
 
-    for (const ep of clusterEndpoints(endpoints)) {
-      const marker = new mapboxgl.Marker({ element: createEndpointElement(ep.type) })
-        .setLngLat(ep.lngLat)
-        .addTo(map);
-      endpointMarkers.push(marker);
+    const data: FeatureCollection<Point, { type: RouteEndpoint['type'] }> = {
+      type: 'FeatureCollection',
+      features: clusterEndpoints(endpoints).map((ep) => ({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: ep.lngLat },
+        properties: { type: ep.type }
+      }))
+    };
+
+    if (!map.getSource(ENDPOINT_SOURCE)) {
+      map.addSource(ENDPOINT_SOURCE, { type: 'geojson', data });
+    } else {
+      (map.getSource(ENDPOINT_SOURCE) as GeoJSONSource | undefined)?.setData(data);
     }
 
-    applyEndpointStyle();
+    if (!map.getLayer(ENDPOINT_LAYER)) {
+      ensureEndpointIcons(map);
+      map.addLayer({
+        id: ENDPOINT_LAYER,
+        type: 'symbol',
+        source: ENDPOINT_SOURCE,
+        layout: {
+          'icon-image': ENDPOINT_ICON,
+          'icon-allow-overlap': true,
+          'icon-ignore-placement': true
+        },
+        paint: { 'icon-opacity': ENDPOINT_VISIBILITY }
+      });
+    }
   };
 
   const applyVisibility = (layer: FileDataLayer) => {
@@ -322,7 +330,7 @@
       map.setPaintProperty(nameLabelId(id), 'text-color', color);
     }
 
-    // Start/end markers are managed globally (see rebuildEndpointMarkers).
+    // Start/end badges are managed globally (see rebuildEndpoints).
 
     applyVisibility(layer);
     rendered.add(id);
@@ -449,8 +457,8 @@
 
   /**
    * Stacks the layers: route lines at the bottom, then the overlap lines, then all km
-   * markers and route names on top (kept below the garden layers). This keeps the km
-   * markers & names readable wherever routes overlap.
+   * markers, route names and start/end badges on top (kept below the garden layers).
+   * This keeps the km markers, names & badges readable wherever routes overlap.
    */
   const applyLayerOrder = () => {
     const ids = currentTrailIds();
@@ -460,6 +468,7 @@
     ids.forEach((id) => moveToTop(nameLabelId(id)));
     ids.forEach((id) => moveToTop(kmCircleId(id)));
     ids.forEach((id) => moveToTop(kmLabelId(id)));
+    moveToTop(ENDPOINT_LAYER);
   };
 
   // Signature of the visible routes the name-line clipping was last computed for, so the
@@ -499,8 +508,8 @@
     // Add/update remaining trails. Index (upload order) drives the alternating colour.
     layers.forEach((layer, index) => renderTrail(layer, colorForRoute(index)));
 
-    // Rebuild the global (clustered) start/end markers from the current state.
-    rebuildEndpointMarkers();
+    // Rebuild the global (clustered) start/end badges from the current state.
+    rebuildEndpoints();
 
     // Build/refresh shared-segment overlap layers, then stack everything.
     applyOverlaps();
@@ -508,9 +517,9 @@
   };
 
   /**
-   * On zoom: update the zoom-dependent route-line transparency and the endpoint marker size.
-   * (Km markers reveal themselves via the KM_VISIBILITY paint expression, so they need no
-   * per-zoom handling here.)
+   * On zoom: update only the zoom-dependent route-line and overlap-line transparency.
+   * (Km markers and start/end badges reveal themselves via their KM_VISIBILITY /
+   * ENDPOINT_VISIBILITY paint expressions, so they need no per-zoom handling here.)
    */
   const onZoom = () => {
     // Route-line transparency depends on the zoom level.
@@ -524,9 +533,6 @@
     if (map.getLayer(OVERLAP_LAYER_B)) {
       map.setPaintProperty(OVERLAP_LAYER_B, 'line-opacity', overlapOpacity());
     }
-
-    // Shrink/fade the start/end markers based on zoom.
-    applyEndpointStyle();
   };
 
   map.on('zoom', onZoom);
@@ -538,8 +544,7 @@
     map.off('zoom', onZoom);
     // Guard against the map having been torn down already (e.g. on navigation away).
     try {
-      endpointMarkers.forEach((marker) => marker.remove());
-      endpointMarkers = [];
+      removeEndpointLayer();
       removeOverlapLayers();
       [...rendered].forEach(removeTrail);
     } catch {
@@ -547,11 +552,3 @@
     }
   });
 </script>
-
-<style>
-  /* Mapbox clears the inline `display` it sets on marker elements, so the endpoint
-     markers get their `display: flex` from here instead (see createEndpointElement). */
-  :global(.mapboxgl-marker.trail-endpoint) {
-    display: flex;
-  }
-</style>
