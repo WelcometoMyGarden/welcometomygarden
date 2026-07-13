@@ -46,13 +46,9 @@ fi
 cd "$WORKSPACE_DIR"
 git remote set-url origin "$(inject_pat "$REPO_URL")"
 
-# Non-logged-in demo emulator projects can't load extensions, so strip the
-# storage-resize-images extension from firebase.json (same fix as
-# ci/Dockerfile.local-test). Idempotent: a no-op once removed.
-if grep -q '"extensions"' firebase.json 2>/dev/null; then
-  echo "[bootstrap] Removing extensions block from firebase.json (demo emulators)..."
-  sed -i -z 's/,\n[[:space:]]*"extensions": {\n[[:space:]]*"storage-resize-images": "firebase\/storage-resize-images@[0-9]\+\.[0-9]\+\.[0-9]\+"\n[[:space:]]*}\n//g' firebase.json
-fi
+# Local firebase.json edits (e.g. emulator config) inside the container should
+# never leak into commits/pushes made from here.
+git update-index --skip-worktree firebase.json
 
 # Public static assets required by the source (src/lib/assets is gitignored, so
 # a fresh clone lacks them). Fetched anonymously from the public GCS bucket,
