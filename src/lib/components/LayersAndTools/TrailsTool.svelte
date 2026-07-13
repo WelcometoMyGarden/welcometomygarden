@@ -4,6 +4,7 @@
   import { LabeledCheckbox, MultiActionLabel, Button, Icon } from '$lib/components/UI';
   import { cyclistIcon, hikerIcon, routesIcon } from '$lib/images/icons';
   import { fileDataLayers } from '$lib/stores/file';
+  import { colorForRoute } from '$lib/util/map/routeStyle';
   import { cleanName } from '$lib/util/slugify';
   import { onDestroy } from 'svelte';
   import { deleteTrail, toggleTrailVisibility } from '$lib/api/trail';
@@ -50,7 +51,7 @@
 </div>
 
 <div class="data-layers" class:in-modal={inModal}>
-  {#each localFileDataLayers as layer}
+  {#each localFileDataLayers as layer, index}
     <MultiActionLabel
       icon={routesIcon}
       name={layer.id}
@@ -58,7 +59,20 @@
       checked={layer.visible}
       onchange={() => toggleTrailVisibility(layer.id)}
       onsecondary={() => deleteTrail(layer.id)}
-    />
+    >
+      {#snippet leading()}
+        <!-- Colour indicator matching the route's colour on the map. It's a <label> for
+             the checkbox, so clicking it toggles visibility just like the route name. -->
+        <label
+          class="trail-color"
+          class:dimmed={!layer.visible}
+          for={layer.id}
+          style:background={colorForRoute(index)}
+          title="Route colour on the map"
+          aria-hidden="true"
+        ></label>
+      {/snippet}
+    </MultiActionLabel>
   {/each}
 </div>
 
@@ -74,6 +88,23 @@
 </div>
 
 <style>
+  /* Vertical colour bar matching the route's colour on the map, shown between the
+     checkbox and the route name. Kept shorter than the row so there's a gap between
+     consecutive bars. */
+  .trail-color {
+    flex-shrink: 0;
+    width: 0.5rem;
+    height: 1.4rem;
+    margin-right: 0.6rem;
+    border-radius: 0.25rem;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+  }
+
+  .trail-color.dimmed {
+    opacity: 0.3;
+  }
+
   .button-text-container {
     display: inline-flex;
     align-items: center;

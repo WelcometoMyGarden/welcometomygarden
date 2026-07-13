@@ -1,5 +1,7 @@
 // Types trails
 
+import type { Timestamp } from 'firebase/firestore';
+
 /** Trail as stored in Firebase */
 export type FirebaseTrail = {
   /** slugified ID, used to find the Storage paht of the GeoJSON file */
@@ -14,6 +16,13 @@ export type FirebaseTrail = {
    */
   md5Hash: string;
   visible: boolean;
+  /**
+   * Creation/upload time. Used to order trails (earliest first),
+   * so a route's palette colour stays constant across reloads.
+   * Non-optional, since the timestamps were backfilled for trails
+   * uploaded before this property using Firebase Timestamps.
+   */
+  createdAt: Timestamp;
 };
 
 /**

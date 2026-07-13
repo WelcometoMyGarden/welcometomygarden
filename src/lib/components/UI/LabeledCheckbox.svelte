@@ -15,6 +15,8 @@
     onclick?: (e: MouseEvent) => void;
     oninput?: (e: Event) => void;
     onchange?: (e: Event) => void;
+    /** Optional content rendered between the checkbox and the label. */
+    leading?: import('svelte').Snippet;
     children?: import('svelte').Snippet;
   }
 
@@ -32,6 +34,7 @@
     onclick,
     onchange,
     oninput,
+    leading,
     children
   }: Props = $props();
 </script>
@@ -47,6 +50,7 @@
   class="checkbox-container"
 >
   <input id={name} type="checkbox" {disabled} {name} {oninput} bind:checked {onchange} />
+  {@render leading?.()}
   <LabelWithIcon {ellipsis} {compact} title={label} labelFor={name} {icon}
     >{label ?? ''}{@render children?.()}</LabelWithIcon
   >
