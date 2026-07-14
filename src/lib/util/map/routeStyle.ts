@@ -231,7 +231,7 @@ const prepRoute = (
   geoJson: FeatureCollection | Feature,
   project: (lng: number, lat: number) => XY
 ): PreppedRoute => {
-  const decimate2 = OVERLAP_DECIMATE_M * OVERLAP_DECIMATE_M;
+  const decimateSquared = OVERLAP_DECIMATE_M * OVERLAP_DECIMATE_M;
   const lines: PreppedLine[] = [];
   const segments: [XY, XY][] = [];
   for (const coords of flattenToLines(geoJson)) {
@@ -246,7 +246,7 @@ const prepRoute = (
         idx === 0 ||
         idx === coords.length - 1 ||
         !last ||
-        (p[0] - last[0]) ** 2 + (p[1] - last[1]) ** 2 >= decimate2;
+        (p[0] - last[0]) ** 2 + (p[1] - last[1]) ** 2 >= decimateSquared;
       if (keep) {
         ll.push([lng, lat]);
         xy.push(p);
@@ -338,9 +338,10 @@ export const computeOverlapSegments = (
 
   const prepped = routes.map((r) => ({ color: r.color, ...prepRoute(r.geoJson, project) }));
 
-  const thr2 = OVERLAP_THRESHOLD_M * OVERLAP_THRESHOLD_M;
+  const thresholdSquared = OVERLAP_THRESHOLD_M * OVERLAP_THRESHOLD_M;
   const minLengthM = OVERLAP_MIN_LENGTH_KM * 1000;
 
+  // Compare ever prepared route with every other prepared route
   for (let i = 0; i < prepped.length; i++) {
     for (let j = i + 1; j < prepped.length; j++) {
       const a = prepped[i];
@@ -348,7 +349,7 @@ export const computeOverlapSegments = (
       if (!a.lines.length || !b.lines.length) continue;
 
       for (const line of a.lines) {
-        const samples = sampleLine(line, (p) => isNearGrid(b.grid, p, OVERLAP_THRESHOLD_M, thr2));
+        const samples = sampleLine(line, (p) => isNearGrid(b.grid, p, OVERLAP_THRESHOLD_M, thresholdSquared));
         for (const coordinates of runsToCoordinates(samples, true, minLengthM)) {
           features.push({
             type: 'Feature',
