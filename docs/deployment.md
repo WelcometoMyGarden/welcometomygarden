@@ -56,6 +56,10 @@ firebase --project staging hosting:channel:deploy new-awesome-feature --only bet
 yarn build:staging
 firebase --project staging deploy --only hosting:beta
 
+# For beta - see staging preview from before
+vite build --mode beta
+firebase --project prod hosting:channel:deploy new-awesome-feature --only beta [--expires 7d]
+
 # For production
 yarn build:prod
 firebase --project prod deploy --only hosting:production
