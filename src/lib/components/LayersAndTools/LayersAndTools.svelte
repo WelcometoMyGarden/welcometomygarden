@@ -132,6 +132,7 @@
             label={$_('map.trails.hiking')}
             bind:checked={showHiking}
             compact
+            hoverStyle
           />
         </div>
         <div>
@@ -141,6 +142,7 @@
             label={$_('map.trails.cycling')}
             bind:checked={showCycling}
             compact
+            hoverStyle
           />
         </div>
         <span class="attribution">

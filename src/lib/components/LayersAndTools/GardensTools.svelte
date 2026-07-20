@@ -57,6 +57,7 @@
   label={$_('map.gardens.show-all')}
   value="ALL"
   icon={tentPhosphor}
+  hoverStyle
 />
 <LabeledRadioButton
   id="saved-gardens"
@@ -65,6 +66,7 @@
   label={$_('map.gardens.show-saved')}
   value="SAVED"
   icon={heartIcon}
+  hoverStyle
 />
 <LabeledRadioButton
   id="hide-gardens"
@@ -73,4 +75,5 @@
   label={$_('map.gardens.hide-all')}
   value="HIDE"
   icon={hideIcon}
+  hoverStyle
 />

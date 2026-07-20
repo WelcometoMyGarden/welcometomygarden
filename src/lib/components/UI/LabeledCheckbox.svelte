@@ -12,9 +12,11 @@
     ellipsis?: boolean;
     compact?: boolean;
     title?: undefined | string;
-    onclick?: (e: MouseEvent) => void;
+    hoverStyle?: boolean;
     oninput?: (e: Event) => void;
     onchange?: (e: Event) => void;
+    /** Optional content rendered between the checkbox and the label. */
+    leading?: import('svelte').Snippet;
     children?: import('svelte').Snippet;
   }
 
@@ -29,58 +31,42 @@
     ellipsis = false,
     compact = false,
     title = undefined,
-    onclick,
+    hoverStyle = false,
     onchange,
     oninput,
+    leading,
     children
   }: Props = $props();
 </script>
 
-<!-- Just stop click propagation from here -->
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<div
-  onclick={(e) => {
-    e.stopPropagation();
-    onclick?.(e);
-  }}
-  class:compact
+<LabelWithIcon
   class="checkbox-container"
+  {ellipsis}
+  {compact}
+  title={label}
+  {icon}
+  {leading}
+  {hoverStyle}
 >
-  <input id={name} type="checkbox" {disabled} {name} {oninput} bind:checked {onchange} />
-  <LabelWithIcon {ellipsis} {compact} title={label} labelFor={name} {icon}
-    >{label ?? ''}{@render children?.()}</LabelWithIcon
-  >
-</div>
+  {#snippet input()}
+    <input id={name} type="checkbox" {disabled} {name} {oninput} bind:checked {onchange} />
+  {/snippet}
+  {label ?? ''}{@render children?.()}
+</LabelWithIcon>
 
 <style>
-  div {
-    display: flex;
-    align-items: center;
-    margin: 0.1rem 0;
-    font-size: var(--controls-font-size);
+  :global(label.checkbox-container) {
     /* Make sure that titles that are too long can get collapsed */
     min-width: 0;
   }
 
-  input {
-    margin-right: 1rem;
-    cursor: pointer;
-  }
-
   @media screen and (max-width: 700px) {
-    div {
-      margin: var(--controls-vert-margin) 0;
-      padding: var(--controls-vert-padding) 0;
-    }
-
-    div.compact {
-      margin: calc(0.5 * var(--controls-vert-margin)) 0;
-      padding: calc(0.25 * var(--controls-vert-padding)) 0;
-    }
-
+    /* Bigger input checkbox on mobile
+    normal width/height is not respected in the flex layout
+    */
     input {
-      width: 2.1rem;
-      height: 2.1rem;
+      min-width: 2rem;
+      min-height: 2rem;
     }
   }
 </style>

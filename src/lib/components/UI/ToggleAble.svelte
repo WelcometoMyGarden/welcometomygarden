@@ -9,13 +9,13 @@
   let { open = $bindable(true), title, content }: Props = $props();
 </script>
 
-<button class="button-container" onclick={() => (open = !open)}>
-  <div class="toggle-item">
+<div class="toggle-able">
+  <button class="button-unstyle toggle-item" onclick={() => (open = !open)}>
     <span class="sign">{open ? '−' : '+'}</span>
     <div class="title">
       {@render title?.()}
     </div>
-  </div>
+  </button>
   {#if open}
     <div transition:slide={{ duration: 300 }} class="green-border-bottom">
       <div class="content">
@@ -23,19 +23,23 @@
       </div>
     </div>
   {/if}
-</button>
+</div>
 
 <style>
-  button {
-    background-color: transparent;
-    padding-bottom: 0.5rem;
+  .toggle-able {
+    padding-bottom: 0.6rem;
     color: var(--color-green);
+  }
+  button {
+    padding-bottom: 0.4rem;
   }
 
   .toggle-item {
     display: flex;
     justify-content: start;
     align-items: center;
+    width: 100%;
+    text-align: left;
   }
 
   .title {
@@ -56,14 +60,5 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-
-  @media only screen and (max-width: 700px) {
-    /* .toggle-item {
-      padding: 2.4rem 8vw;
-    }
-    .content {
-      margin: 0 16vw 2.4rem 8vw;
-    } */
   }
 </style>
