@@ -5,6 +5,7 @@ import type GeoJSON from 'geojson';
 import {
   type CollectionReference,
   type DocumentReference,
+  Timestamp,
   collection,
   deleteDoc,
   doc,
@@ -18,6 +19,7 @@ import type { FirebaseTrail, LocalTrail } from '$lib/types/Trail';
 import md5 from 'md5';
 import {
   addFileDataLayers,
+  fileDataLayers,
   findFileDataLayer,
   findFileDataLayerByMD5Hash,
   removeFileDataLayers,
@@ -27,47 +29,102 @@ import logger from '$lib/util/logger';
 
 const getFileRef = (fileId: string) => ref(storage(), `trails/${getUser().uid}/${fileId}`);
 
+/**
+ * The visibility we last saw persisted in Firestore, per trail id. The snapshot listener in
+ * {@link createTrailObserver} writes this from every remote add/modify; the local-change
+ * reaction there compares each layer's `visible` against it to tell a genuine user toggle from
+ * an echo of our own write bouncing back through the listener. Reset when the observer is torn
+ * down.
+ */
+const persistedVisibility = new Map<string, boolean>();
+
+/** Persists a trail's visibility to Firestore (set, not toggle — idempotent). */
+const setTrailVisibility = (id: string, visible: boolean) => {
+  const ref = doc(db(), USERS_PRIVATE, getUser().id, TRAILS, id);
+  return updateDoc(ref, { visible });
+};
+
 export const createTrailObserver = () => {
   const q = query(
     collection(db(), USERS_PRIVATE, getUser().id, TRAILS) as CollectionReference<FirebaseTrail>
   );
 
-  return onSnapshot(q, async (querySnapshot) => {
+  const unsubscribeSnapshot = onSnapshot(q, async (querySnapshot) => {
     const changes = querySnapshot.docChanges();
-    changes.map(async (change) => {
-      const trail: LocalTrail = {
-        id: change.doc.id,
-        animate: false,
-        ...change.doc.data()
-      };
-      if (change.type === 'added') {
-        const existingLocalLayer = findFileDataLayer(trail.id);
-        if (!existingLocalLayer) {
-          // Sync a *remote* addition to the local cache
-          // Locally added files are added before they are uploaded (see `createTrail()`).
-          //
-          // Download the trail file
-          const ref = getFileRef(trail.id);
-          const geoJson = await getDownloadURL(ref)
-            .then((url) => fetch(url))
-            .then((r) => r.json());
-          addFileDataLayers({
-            ...trail,
-            geoJson
-          });
+    await Promise.allSettled(
+      changes.map(async (change) => {
+        const trail: LocalTrail = {
+          id: change.doc.id,
+          animate: false,
+          ...change.doc.data()
+        };
+        if (change.type === 'added') {
+          // Record the persisted visibility so the local-change reaction below won't mistake
+          // this remote value for a user toggle and re-persist it.
+          persistedVisibility.set(trail.id, trail.visible);
+          const existingLocalLayer = findFileDataLayer(trail.id);
+          if (!existingLocalLayer) {
+            // Sync a *remote* addition to the local cache
+            // Locally added files are added before they are uploaded (see `createTrail()`).
+            //
+            // Download the trail file
+            const ref = getFileRef(trail.id);
+            // Note: after some time on of inactivity, getDownloadURL
+            // seems to hang on the dev server; and needs a restart.
+            const geoJson = await getDownloadURL(ref)
+              .then((url) => fetch(url))
+              .then((r) => r.json());
+            addFileDataLayers({
+              ...trail,
+              geoJson
+            });
+          }
+        } else if (change.type === 'removed') {
+          // Sync the deletion to the local cache
+          persistedVisibility.delete(trail.id);
+          const existingLocalLayer = findFileDataLayer(trail.id);
+          if (existingLocalLayer) {
+            removeFileDataLayers(trail.id);
+          }
+        } else if (change.type === 'modified') {
+          // Modified here or elsewhere.
+          persistedVisibility.set(trail.id, trail.visible);
+          const existingLocalLayer = findFileDataLayer(trail.id);
+          // Only update the local layer visibility if it changed
+          if (existingLocalLayer && existingLocalLayer.visible !== trail.visible) {
+            updateFileDataLayers(trail.id, trail);
+          }
         }
-      } else if (change.type === 'removed') {
-        // Sync the deletion to the local cache
-        const existingLocalLayer = findFileDataLayer(trail.id);
-        if (existingLocalLayer) {
-          removeFileDataLayers(trail.id);
-        }
-      } else if (change.type === 'modified') {
-        // For now, only the visiblity can be modified
-        updateFileDataLayers(trail.id, trail);
-      }
+      })
+    );
+  });
+
+  // Optimistic-UI persistence for trail visibility in Firebase.
+  // This code does orchestrates the mutations in Firebase documents (setTrailVisibility)
+  // `bind:checked` in TrailsTool mutates a layer's `visible` and
+  // pushes it into fileDataLayers; here we diff every layer against the last value we saw in
+  // Firestore and write through only the ones the user actually changed (not sync-backs from Firebase)
+  const unsubscribeLocalChanges = fileDataLayers.subscribe((layers) => {
+    layers.forEach((layer) => {
+      const persisted = persistedVisibility.get(layer.id);
+      // Skip trails not yet confirmed in Firestore (e.g. one just uploaded, whose `added`
+      // snapshot hasn't arrived): createTrail() already persists their initial visibility.
+      if (persisted === undefined || layer.visible === persisted) return;
+      persistedVisibility.set(layer.id, layer.visible);
+      setTrailVisibility(layer.id, layer.visible).catch((error) => {
+        logger.error(error);
+        // The write failed: roll the optimistic local state (and the baseline) back.
+        persistedVisibility.set(layer.id, persisted);
+        updateFileDataLayers(layer.id, { visible: persisted });
+      });
     });
   });
+
+  return () => {
+    unsubscribeSnapshot();
+    unsubscribeLocalChanges();
+    persistedVisibility.clear();
+  };
 };
 
 export const createTrail = async ({
@@ -98,6 +155,9 @@ export const createTrail = async ({
     collection(db(), USERS_PRIVATE, uid, TRAILS)
   ) as DocumentReference<FirebaseTrail>;
 
+  // Timestamp used to order trails (earliest first) consistently across reloads.
+  const createdAt = Timestamp.now();
+
   // Immediately show the file locally
   addFileDataLayers({
     id: docRef.id,
@@ -105,6 +165,7 @@ export const createTrail = async ({
     geoJson,
     md5Hash,
     visible: true,
+    createdAt,
     animate: true
   });
 
@@ -123,18 +184,9 @@ export const createTrail = async ({
     originalFileName: name,
     // Default
     md5Hash,
-    visible: true
+    visible: true,
+    createdAt
   });
-};
-
-export const toggleTrailVisibility = async (id: string) => {
-  const existingFile = findFileDataLayer(id);
-  if (!existingFile) {
-    logger.error('The visibility of this trail can not be changed');
-    return;
-  }
-  const ref = doc(db(), USERS_PRIVATE, getUser().id, TRAILS, id);
-  await updateDoc(ref, { visible: !existingFile.visible });
 };
 
 export const deleteTrail = async (id: string) => {

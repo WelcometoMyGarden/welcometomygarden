@@ -29,10 +29,13 @@ module.exports = async ({ data: change, params }) => {
       extraDeletionFilters: [['user_id', userId]]
     });
   } else if (subcollectionTableName === 'trails') {
-    // Special case, because this one needs to explicitly include createTime and updateTime
     await replicate({
       change,
       tableName: subcollectionTableName,
+      // Special case, because this one needs to explicitly include createTime and updateTime (metadata props)
+      // Note: the (backfilled) Firebase docs also have an in-document `createdAt` property
+      // for client-side access (similar to `consentedAt`). It is equal (or nearly equal) to `createTime`,
+      // and it's therefore not useful to sync it.
       pick: ['originalFileName', 'md5Hash', 'visible', 'createTime', 'updateTime'],
       extraProps: {
         user_id: userId
