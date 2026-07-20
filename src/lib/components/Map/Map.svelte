@@ -45,6 +45,7 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   import FullscreenControl from './FullscreenControl';
   import CapacitorGeolocationProxy from './CapacitorGeolocationProxy';
   import { checkPermission } from '$lib/api/geolocation.js';
+  import { isLocalProject } from '$lib/util/environment';
   import * as Sentry from '@sentry/sveltekit';
 
   type Props = {
@@ -87,6 +88,33 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   let container: HTMLElement;
   let map: Map | undefined = $state();
   let loaded = $state(false);
+
+  // Development-only live zoom-level readout, anchored just left of the map distance legend
+  // (scale control), only on non-production hosts.
+  const showZoomIndicator = isLocalProject($page.url.hostname);
+  let currentZoom = $state<number | null>(null);
+  // Position (px offsets from the map's bottom-right corner) tracked to sit next to the scale bar,
+  // whose width changes with zoom/latitude. Fallbacks apply until the scale element is measured.
+  let zoomIndicatorRight = $state(120);
+  let zoomIndicatorBottom = $state(10);
+
+  /**
+   * Keeps the dev zoom indicator's value and position in sync with the live map, anchoring it just
+   * to the left of the distance legend (`.mapboxgl-ctrl-scale`).
+
+   * TODO: this part was vibecoded, we don't need a JS-based anchoring, we can should some static CSS instead.
+   */
+  const updateZoomIndicator = () => {
+    if (!map) return;
+    currentZoom = map.getZoom();
+    const scaleEl = container.querySelector('.mapboxgl-ctrl-scale');
+    if (scaleEl) {
+      const scaleRect = scaleEl.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      zoomIndicatorRight = Math.round(containerRect.right - scaleRect.left + 8);
+      zoomIndicatorBottom = Math.round(containerRect.bottom - scaleRect.bottom);
+    }
+  };
   const isMobile = $derived(innerWidth.current != null && innerWidth.current <= MOBILE_BREAKPOINT);
 
   const customAttribution = [
@@ -279,6 +307,13 @@ Component for maps. Shared between the main map, and the map in the Garden creat
       loaded = true;
     });
 
+    // Keep the development-only zoom indicator in sync with the live map. 'move' fires for both
+    // panning and zooming, which is exactly when the zoom value and the scale bar's width change.
+    if (showZoomIndicator) {
+      map!.on('load', updateZoomIndicator);
+      map!.on('move', updateZoomIndicator);
+    }
+
     map!.on('error', (e) => Sentry.captureException(e, { extra: { context: 'Map error' } }));
 
     tick().then(() => {
@@ -353,6 +388,16 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   {#if map && loaded}
     {@render children?.()}
   {/if}
+  <!-- Development-only live zoom-level readout, anchored left of the distance legend -->
+  {#if showZoomIndicator && currentZoom != null}
+    <div
+      class="zoom-indicator"
+      aria-hidden="true"
+      style="right: {zoomIndicatorRight}px; bottom: {zoomIndicatorBottom}px;"
+    >
+      z{currentZoom.toFixed(2)}
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -366,6 +411,24 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   }
   div :global(canvas) {
     height: 100%;
+  }
+
+  /* Subtle development-only zoom indicator, anchored just left of the distance legend.
+     `right`/`bottom` offsets are set inline to track the scale bar's changing width. */
+  .zoom-indicator {
+    position: absolute;
+    z-index: 5;
+    padding: 2px 7px;
+    width: auto;
+    height: auto;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.45);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+    pointer-events: none;
+    user-select: none;
   }
 
   /* Override the default pulsating dot animation, which is distracting */
