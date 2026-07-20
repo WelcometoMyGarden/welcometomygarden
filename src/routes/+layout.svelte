@@ -41,6 +41,7 @@
   import { goto } from '$lib/util/navigate.js';
   import { isMobile } from '$lib/stores/ui.svelte.js';
   import { isNative } from '$lib/util/uaInfo.js';
+  import { getLocalEnvString } from '$lib/util/environment';
   import { setShouldPanToGardenLocation } from './[[lang]]/(stateful)/explore/shared.svelte';
   interface Props {
     children?: import('svelte').Snippet;
@@ -251,9 +252,7 @@
 
       // Display an indicator on test hosts to see which project is active
       // for example on localhost, a local network IP, bs-local.com (Browserstack), ...
-      localEnvString = !page.url.hostname.endsWith('welcometomygarden.org')
-        ? `local project: ${import.meta.env.VITE_FIREBASE_PROJECT_ID}`
-        : null;
+      localEnvString = getLocalEnvString(page.url.hostname);
 
       const url = page.url;
       if (!url.searchParams.has('toast')) {
