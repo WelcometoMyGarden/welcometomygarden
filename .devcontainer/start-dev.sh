@@ -60,6 +60,15 @@ node -e '
   set("storage", "WTMG_PORT_STORAGE");
   fs.writeFileSync("firebase.json", JSON.stringify(j, null, 2) + "\n");
 '
+# Non-logged-in demo emulator projects can't load extensions, so strip the
+# storage-resize-images extension from firebase.json (same fix as
+# ci/Dockerfile.local-test). Idempotent: a no-op once removed.
+# Do this here on every start in case a git reset restored the original firebase.json.
+# in the last run.
+if grep -q '"extensions"' firebase.json 2>/dev/null; then
+  echo "[bootstrap] Removing extensions block from firebase.json (demo emulators)..."
+  sed -i -z 's/,\n[[:space:]]*"extensions": {\n[[:space:]]*"storage-resize-images": "firebase\/storage-resize-images@[0-9]\+\.[0-9]\+\.[0-9]\+"\n[[:space:]]*}\n//g' firebase.json
+fi
 
 # 2b. Browser-facing emulator ports read by src/lib/api (firebase.ts, garden.ts).
 {
