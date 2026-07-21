@@ -2,9 +2,14 @@
 // This can be run as a script against locally running emulators.
 // it will not automatically reset the emulators though.
 
+const { setTimeout: delayMs } = require('node:timers/promises');
 const { faker } = require('@faker-js/faker');
-const { auth } = require('./app');
+const { auth, db } = require('./app');
 const { createNewUser, createGarden, createChat, sendMessage } = require('./util');
+
+// How many `sendMessage` calls in the first chat;
+// demo-seed waits for stats/messages === 2 + this (two `createChat` openers).
+const EXTRA_MESSAGES_FIRST_CHAT = 10;
 
 const seed = async () => {
   // Create users
@@ -76,6 +81,67 @@ const seed = async () => {
         email: 'admin@slowby.travel'
       },
       { firstName: 'Admin', lastName: 'Slowby', countryCode: 'BE' }
+    ),
+    // Extra gardens in Europe (Innsbruck, Munich, Vienna, Zurich, Lyon)
+    createNewUser(
+      { email: 'innsbruck@slowby.travel' },
+      { firstName: 'Anna', lastName: 'Berg', countryCode: 'AT' }
+    ).then((user) =>
+      createGarden(
+        { latitude: 47.2692, longitude: 11.4041 },
+        user,
+        { description: 'Small garden near Innsbruck old town. Quiet, with view of the Nordkette.' }
+      )
+    ),
+    createNewUser(
+      { email: 'munich@slowby.travel' },
+      { firstName: 'Thomas', lastName: 'Müller', countryCode: 'DE' }
+    ).then((user) =>
+      createGarden(
+        { latitude: 48.1351, longitude: 11.582 },
+        user,
+        { description: 'Garden in Munich. Easy reach of S-Bahn. Bike available for guests.' }
+      )
+    ),
+    createNewUser(
+      { email: 'vienna@slowby.travel' },
+      { firstName: 'Elena', lastName: 'Hofmann', countryCode: 'AT' }
+    ).then((user) =>
+      createGarden(
+        { latitude: 48.2082, longitude: 16.3738 },
+        user,
+        { description: 'Green spot in Vienna. Tram stop nearby. Welcome, slow travellers!' }
+      )
+    ),
+    createNewUser(
+      { email: 'zurich@slowby.travel' },
+      { firstName: 'Marco', lastName: 'Steiner', countryCode: 'CH' }
+    ).then((user) =>
+      createGarden(
+        { latitude: 47.3769, longitude: 8.5417 },
+        user,
+        { description: 'Garden by the lake. Quiet neighbourhood, 15 min to Hauptbahnhof.' }
+      )
+    ),
+    createNewUser(
+      { email: 'lyon@slowby.travel' },
+      { firstName: 'Claire', lastName: 'Bernard', countryCode: 'FR' }
+    ).then((user) =>
+      createGarden(
+        { latitude: 45.764, longitude: 4.8357 },
+        user,
+        { description: 'Jardin à Lyon. Proche des quais du Rhône. Une place pour tente ou van.' }
+      )
+    ),
+    createNewUser(
+      { email: 'florence@slowby.travel' },
+      { firstName: 'Giulia', lastName: 'Rossi', countryCode: 'IT' }
+    ).then((user) =>
+      createGarden(
+        { latitude: 43.7696, longitude: 11.2558 },
+        user,
+        { description: 'Piccolo giardino a Firenze, a pochi minuti dal centro. Benvenuti viaggiatori lenti!' }
+      )
     )
   ]);
 
@@ -93,7 +159,7 @@ const seed = async () => {
     'Hey, can I stay in your garden?',
     false
   );
-  for (let i = 0; i < 10; i += 1) {
+  for (let i = 0; i < EXTRA_MESSAGES_FIRST_CHAT; i += 1) {
     const even = i % 2 === 0;
     await sendMessage((even ? user2 : user1).uid, firstChatId, faker.lorem.sentences(), false);
   }
@@ -107,21 +173,35 @@ const seed = async () => {
   };
 };
 
+
+const DEMO_SEED_MESSAGE_STARTUP_POLLING_TIMEOUT_MS = 120_000;
+const DEMO_SEED_MESSAGE_STARTUP_POLLING_INTERVAL_MS = 250;
+
+async function demoSeedMessageStartupPolling(expectedMessagesCount) {
+  const pollDeadlineMs = Date.now() + DEMO_SEED_MESSAGE_STARTUP_POLLING_TIMEOUT_MS;
+  let currentMessagesCount = 0;
+
+  while (Date.now() < pollDeadlineMs) {
+    const messagesStatSnap = await db.collection('stats').doc('messages').get();
+    const countField = messagesStatSnap.data()?.count;
+    currentMessagesCount = countField == null ? 0 : Number(countField);
+    if (currentMessagesCount === expectedMessagesCount) {
+      // eslint-disable-next-line no-console
+      console.log('demo-seed: Firestore message triggers caught up');
+      return;
+    }
+    await delayMs(DEMO_SEED_MESSAGE_STARTUP_POLLING_INTERVAL_MS);
+  }
+
+  throw new Error(
+    `demo-seed: timeout (wanted stats/messages ${expectedMessagesCount}, got ${currentMessagesCount})`
+  );
+}
+
 module.exports = seed;
 
 if (require.main === module) {
-  seed();
-  //
-  // Prevent the emulators:exec script from exiting, which prevents the emulators from exiting
-  // We need the to use emulators:exec to run this script, because I suspect that one exports the Google Application Default credentials
-  // required to work with the Firestore.
-  // Some comments here suggest alternatives, but this works!
-  // https://stackoverflow.com/questions/61972931/problem-running-js-file-with-firebase-emulators-exec#61980766
-  // My method explained: https://dev.to/th0rgall/comment/24khh
-  //
-  // Method ref:
-  // https://stackoverflow.com/a/50873242/4973029
-  process.stdin.resume();
-
-  // Killing is done with Ctrl+C
+  seed()
+    .then(() => demoSeedMessageStartupPolling(2 + EXTRA_MESSAGES_FIRST_CHAT))
+    .then(() => process.exit(0));
 }
