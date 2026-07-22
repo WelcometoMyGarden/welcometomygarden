@@ -1217,9 +1217,9 @@
       "attribution": "Rutas cortesía de {link}"
     },
     "superfan-notice": {
-      "title": "",
-      "linkText": "",
-      "description": ""
+      "title": "Viajes lentos con WTMG",
+      "linkText": "te hagas miembro",
+      "description": "¡Sube rutas, guarda jardines y consulta la red ferroviaria cuando {linkText}!"
     },
     "gardens": {
       "title": "Jardines",

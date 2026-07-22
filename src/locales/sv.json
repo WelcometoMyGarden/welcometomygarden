@@ -1248,6 +1248,11 @@
       "collapsed-title": "Hjälp till att sprida WTMG",
       "expand": "Öppna informationsrutan",
       "collapse": "Fäll ihop informationsrutan"
+    },
+    "superfan-notice": {
+      "title": "Slow travel med WTMG",
+      "linkText": "blir medlem",
+      "description": "Ladda upp rutter, spara trädgårdar & se järnvägsnätet när du {linkText}!"
     }
   },
   "terms-of-use": {

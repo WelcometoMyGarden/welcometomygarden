@@ -1248,6 +1248,11 @@
       "collapsed-title": "Ajută la răspândirea WTMG",
       "expand": "Deschide caseta de informații",
       "collapse": "Restrânge caseta de informații"
+    },
+    "superfan-notice": {
+      "title": "Călătorie lentă cu WTMG",
+      "linkText": "devii membru",
+      "description": "Încarcă trasee, salvează grădini & vezi rețeaua feroviară când {linkText}!"
     }
   },
   "terms-of-use": {

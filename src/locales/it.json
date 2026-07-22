@@ -1248,6 +1248,11 @@
       "collapsed-title": "Aiuta a diffondere WTMG",
       "expand": "Apri il riquadro informativo",
       "collapse": "Chiudi il riquadro informativo"
+    },
+    "superfan-notice": {
+      "title": "Viaggio lento con WTMG",
+      "linkText": "diventi un membro",
+      "description": "Carica percorsi, salva giardini & visualizza la rete ferroviaria quando {linkText}!"
     }
   },
   "terms-of-use": {

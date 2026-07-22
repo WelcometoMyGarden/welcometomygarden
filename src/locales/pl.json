@@ -1248,6 +1248,11 @@
       "collapsed-title": "Pomóż rozpowszechniać WTMG",
       "expand": "Otwórz okienko informacyjne",
       "collapse": "Zwiń okienko informacyjne"
+    },
+    "superfan-notice": {
+      "title": "Świadome podróżowanie z WTMG",
+      "linkText": "zostaniesz Subskrybentem",
+      "description": "Wgraj trasy, zapisuj ogrody & zobacz sieć kolejową, gdy {linkText}!"
     }
   },
   "terms-of-use": {
