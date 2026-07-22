@@ -325,9 +325,7 @@
       transition: transform 250ms;
     }
     /* No coarse pointer anywhere: we're confident there's no touch screen, so
-     hide the handle, and reintroduce the padding
-
-      */
+     hide the handle, and reintroduce the padding */
     @media not all and (any-pointer: coarse) {
       .drawer {
         padding: 2rem;

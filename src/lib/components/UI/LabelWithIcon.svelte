@@ -79,8 +79,10 @@
   label.hoverStyle {
     border-radius: 0.4rem;
   }
-  label.hoverStyle:hover {
-    background-color: var(--color-gray-bg);
+  @media (any-hover: hover) {
+    label.hoverStyle:hover {
+      background-color: var(--color-gray-bg);
+    }
   }
 
   .label {
