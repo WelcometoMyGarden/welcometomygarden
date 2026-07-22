@@ -1195,6 +1195,11 @@
       "hiking": "Afficher les itinéraires de randonnée",
       "cycling": "Afficher les itinéraires cyclables"
     },
+    "superfan-notice": {
+      "title": "Voyagez lentement avec WTMG",
+      "linkText": "devenez Membre",
+      "description": "Uploader votre itinéraire, sauvegarder des jardins & voir le réseau ferroviaire quand vous {linkText}!"
+    },
     "gardens": {
       "title": "Jardins",
       "show-all": "Afficher tous les jardins",

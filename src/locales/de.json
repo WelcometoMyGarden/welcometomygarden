@@ -1216,6 +1216,11 @@
       "cycling": "Radrouten anzeigen",
       "attribution": "Routen mit freundlicher Unterstützung von {link}"
     },
+    "superfan-notice": {
+      "title": "",
+      "linkText": "",
+      "description": ""
+    },
     "gardens": {
       "title": "Gärten",
       "show-all": "Alle Gärten anzeigen",

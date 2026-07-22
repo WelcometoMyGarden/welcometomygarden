@@ -835,6 +835,11 @@
       "cycling": "Fietsroutes tonen",
       "attribution": "Trajecten met dank aan {link}"
     },
+    "superfan-notice": {
+      "title": "Slow travel met WTMG",
+      "linkText": "door lid te worden",
+      "description": "Upload routes, sla tuinen op & bekijk het spoornetwerk {linkText}!"
+    },
     "gardens": {
       "title": "Tuinen",
       "show-all": "Toon alle tuinen",

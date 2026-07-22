@@ -18,6 +18,7 @@
     LOCATION_WESTERN_EUROPE,
     memberMaxZoom,
     nonMemberMaxZoom,
+    VEHICLE_NOTICE_DISMISSED_COOKIE,
     ZOOM_LEVELS
   } from '$lib/constants';
   import LayersAndTools from '$lib/components/LayersAndTools/LayersAndTools.svelte';
@@ -45,6 +46,8 @@
   import createUrl from '$lib/util/create-url';
   import VehicleNotice from './VehicleNotice.svelte';
   import { shouldPanToGardenLocation, setShouldPanToGardenLocation } from './shared.svelte';
+  import MobileMembershipNotice from './MobileMembershipNotice.svelte';
+  import { storeDismissal as storeMembershipNoticeDismissal } from '$lib/components/LayersAndTools/membership-notice';
   interface Props {
     children?: import('svelte').Snippet;
   }
@@ -59,7 +62,8 @@
   let showSavedGardens = $state(false);
   let showTransport = $state(false);
   let savedGardens = $state([] as string[]);
-  let vehicleNoticeShown = $state(!getCookie('car-notice-dismissed'));
+  let vehicleNoticeShown = $state(!getCookie(VEHICLE_NOTICE_DISMISSED_COOKIE));
+  let mobileMembershipNoticeShown = $state(false);
 
   function showMembershipModal(gardenUrl?: string) {
     if (gardenUrl) {
@@ -180,6 +184,14 @@
     centerLocation = { longitude: event.longitude, latitude: event.latitude };
   };
 
+  const openMembershipModalFromFeaturesNotice = () => {
+    mobileMembershipNoticeShown = false;
+    trackEvent(PlausibleEvent.OPEN_MEMBERSHIP_MODAL, {
+      source: 'features_notice'
+    });
+    showMembershipModal();
+  };
+
   const closeDrawer = () => {
     // We use keepFocus to keep the location search filter field in focus
     // when closing a garden by clicking outside it. For some reason,
@@ -189,7 +201,7 @@
 
   const closeCarNotice = () => {
     // Set a cookie for one year
-    setExpiringCookie('car-notice-dismissed', true, 24 * 365);
+    setExpiringCookie(VEHICLE_NOTICE_DISMISSED_COOKIE, true, 24 * 365);
     vehicleNoticeShown = false;
   };
 
@@ -312,7 +324,15 @@
     bind:showSavedGardens
     bind:showTransport
     bind:showFileTrailModal
+    onShowMobileMembershipNotice={() => (mobileMembershipNoticeShown = true)}
+    onBecomeMember={openMembershipModalFromFeaturesNotice}
   />
+  {#if !$user?.superfan}
+    <MobileMembershipNotice
+      bind:show={mobileMembershipNoticeShown}
+      onBecomeMember={openMembershipModalFromFeaturesNotice}
+    />
+  {/if}
   <!-- TODO: the $currentPosition should be based on IP
     (if it isn't already by default) -->
   <Filter onGoToPlace={goToPlace} closeToLocation={$currentPosition ?? LOCATION_BELGIUM} />
@@ -321,6 +341,8 @@
     bind:show={isShowingMembershipModal}
     continueUrl={membershipModalContinueUrl}
     onclose={() => {
+      mobileMembershipNoticeShown = false;
+      storeMembershipNoticeDismissal();
       if (membershipModalContinueUrl) {
         // reset the continue URL (in case we later click on
         // the zoom notice in the same session)

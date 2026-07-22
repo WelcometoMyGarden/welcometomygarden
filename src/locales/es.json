@@ -1216,6 +1216,11 @@
       "cycling": "Mostrar rutas de ciclismo",
       "attribution": "Rutas cortesía de {link}"
     },
+    "superfan-notice": {
+      "title": "",
+      "linkText": "",
+      "description": ""
+    },
     "gardens": {
       "title": "Jardines",
       "show-all": "Mostrar todos los jardines",

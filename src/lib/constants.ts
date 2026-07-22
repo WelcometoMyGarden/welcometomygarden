@@ -70,6 +70,8 @@ export const memberMaxZoom = ZOOM_LEVELS.MAX;
 
 export const MAX_GARDEN_CAPACITY = 100;
 
+export const VEHICLE_NOTICE_DISMISSED_COOKIE = 'car-notice-dismissed';
+
 export const NOTIFICATION_PROMPT_DISMISSED_COOKIE = 'native_notif_dismissed';
 
 // In EUR

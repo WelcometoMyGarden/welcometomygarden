@@ -1216,6 +1216,11 @@
       "cycling": "Show cycling routes",
       "attribution": "Trails courtesy of {link}"
     },
+    "superfan-notice": {
+      "title": "Slow travel with WTMG",
+      "linkText": "become a Member",
+      "description": "Upload routes, save gardens & see the rail network when you {linkText}!"
+    },
     "gardens": {
       "title": "Gardens",
       "show-all": "Show all gardens",

@@ -108,9 +108,9 @@ export type PlausibleSubscriptionProperties = {
 
 export type PlausibleMembershipModalProperties = {
   /**
-   * zoom_notice: in 2025/03 it got since we started showing the modal instead of navigating to /about-membership.
+   * zoom_notice: in 2025/03 it's meaning was changed since we started showing the modal instead of navigating to /about-membership.
    */
-  source: 'map_garden' | 'direct' | 'zoom_notice' | 'routeplanner';
+  source: 'map_garden' | 'direct' | 'zoom_notice' | 'routeplanner' | 'features_notice';
 };
 export type PlausibleMembershipGoalProperties = {
   source: 'map_garden' | 'direct' | 'routeplanner';
