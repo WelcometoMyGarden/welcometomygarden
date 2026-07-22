@@ -101,14 +101,13 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   /**
    * Keeps the dev zoom indicator's value and position in sync with the live map, anchoring it just
    * to the left of the distance legend (`.mapboxgl-ctrl-scale`).
-
-   * TODO: this part was vibecoded, we don't need a JS-based anchoring, we can should some static CSS instead.
    */
   const updateZoomIndicator = () => {
-    if (!map) return;
+    if (!map || !container) return;
     currentZoom = map.getZoom();
     const scaleEl = container.querySelector('.mapboxgl-ctrl-scale');
     if (scaleEl) {
+      // TODO: this part was vibecoded, we don't need a JS-based anchoring, we can should some static CSS instead
       const scaleRect = scaleEl.getBoundingClientRect();
       const containerRect = container.getBoundingClientRect();
       zoomIndicatorRight = Math.round(containerRect.right - scaleRect.left + 8);
