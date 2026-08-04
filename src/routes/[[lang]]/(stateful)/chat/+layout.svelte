@@ -609,7 +609,6 @@
       height: 100%;
       width: 100%;
       padding-bottom: 1.2rem;
-      padding-top: var(--spacing-chat-header);
       position: relative;
     }
   }
