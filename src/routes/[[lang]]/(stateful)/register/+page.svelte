@@ -38,6 +38,7 @@
   import logger from '$lib/util/logger';
   import PasswordInput from '$lib/components/UI/PasswordInput.svelte';
   import EmailInput from '$lib/components/UI/EmailInput.svelte';
+  import { coercedLocale } from '$lib/stores/app';
 
   const continueUrl = $derived(page.url.searchParams.get('continueUrl'));
 
@@ -117,7 +118,20 @@
   });
 
   let countryEntries = $derived(
-    Object.entries($countryNames).sort(([, nameA], [, nameB]) => nameA.localeCompare(nameB))
+    Object.entries($countryNames)
+      // Only on the register page, remove the "The " prefix from,
+      // at the time of writing, "The Netherlands" and "The Gambia"
+      // so people can find it back more easily/intuitively.
+      .map((entry) => {
+        if ($coercedLocale === 'en') {
+          const [code, name] = entry;
+          if (name.startsWith('The ')) {
+            return [code, name.replace('The ', '')];
+          }
+        }
+        return entry;
+      })
+      .sort(([, nameA], [, nameB]) => nameA.localeCompare(nameB))
   );
 
   let formError = $state<LocalizedMessage | null>(null);
