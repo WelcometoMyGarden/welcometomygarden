@@ -17,6 +17,7 @@
   import { lr } from '$lib/util/translation-helpers';
   import routes, { getBaseRouteIn } from '$lib/routes';
   import logger from '$lib/util/logger';
+  import { isNative } from '$lib/util/uaInfo';
 
   let gardenUnsubscriber: () => void;
 
@@ -28,7 +29,8 @@
     gardens: _gardens,
     savedGardens: _user?.savedGardens ?? [],
     member: !!_user?.superfan,
-    userId: _user?.id ?? null
+    userId: _user?.id ?? null,
+    isNative: isNative
   }));
 
   let iframe: HTMLIFrameElement = $state();
@@ -85,6 +87,8 @@
             continueUrl = `/routeplanner${search}${hash}`;
           }
           showLoginModal = true;
+        } else if (event.data === 'native-nav-back') {
+          goto($lr(routes.HOME));
         } else if (typeof event.data !== 'string' && event.data != null) {
           if (event.data.type === 'hash-update' && event.data.hash !== '') {
             // Using goto and not replaceState, because https://github.com/sveltejs/kit/issues/10661
