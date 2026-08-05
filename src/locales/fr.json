@@ -1030,7 +1030,7 @@
         "reauthentication-incorrect-password": "Le mot de passe introduit est incorrect, merci d'essayer à nouveau",
         "reauthentication-info": "<span style=\"color:var(--color-danger);\">⚠️ Il y a longtemps que vous vous êtes connecté·e.</span> Pour nous assurer qu'il s'agit bien de vous, introduisez votre mot de passe pour confirmer la suppression:"
       },
-      "intro": "Supprimer votre compte effacera également toutes les données associées, tels que votre adresse amil, votre nom et les informations relatives à votre jardin."
+      "intro": "Supprimer votre compte effacera également toutes les données associées, tels que votre adresse mail, votre nom et les informations relatives à votre jardin."
     },
     "change-email": {
       "modal": {
