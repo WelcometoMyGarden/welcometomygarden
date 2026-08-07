@@ -14,8 +14,10 @@ If you have [full access](../docs/full-access.md), follow the configuration inst
 
 ### Start dev servers
 
+To start local Firebase development emulator servers, run this from the root project (`..`):
+
 ```sh
-yarn serve
+yarn firebase:demo-seed
 ```
 
 See package.json for alternative commands, as well as the `firebase` command itself. More convenience methods are available in [the root `package.json`](../package.json).
@@ -31,6 +33,26 @@ The `storage-resize-images` extension (see below) has limited functionality in e
 Sometimes the Firebase emulators don't quit properly, and cause "port already in use" issues when you try to start them again.
 
 In the root, there is `./killemulators.sh` script that will try to kill all Firebase-related processes.
+
+### Connecting to live resources locally (Firestore, Storage, ...)
+
+It's possible to connect to some remote, live resources while locally emulating other resources. For example, you can run functions locally but make them target the production Firestore/Auth/... .
+
+To do this, first make sure you are logged in into an account that has access to the live environment. Next, review your environment files, which will be loaded by functions.
+
+Then, for example, run:
+
+```sh
+firebase --project prod emulators:start --only functions
+```
+
+This will print the following warning, showcasing the effect:
+
+> ⚠ functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: apphosting, auth, firestore, database, hosting, pubsub, storage, dataconnect
+
+**Why would you do this?**
+
+This can be useful, for example, to run one-off tests or initial runs of new, undeployed scheduled functions as local `onRequest` functions activated by a curl request, against live production or staging data. See also the bottom of [index.js](./src/index.js).
 
 ## Running tests
 
