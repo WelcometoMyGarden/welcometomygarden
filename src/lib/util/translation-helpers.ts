@@ -159,7 +159,7 @@ export const appleAppStoreUrl = derived(locale, ($locale) => {
     nl: 'nl',
     pl: 'pl',
     ro: 'ro',
-    se: ''
+    sv: ''
   };
 
   // Prefer to show the Belgian region if the language is available there. It has more reviews.
@@ -172,7 +172,7 @@ export const appleAppStoreUrl = derived(locale, ($locale) => {
     nl: 'be',
     pl: 'pl',
     ro: 'ro',
-    se: 'se'
+    sv: 'se'
   };
   const lang = coerceToSupportedLanguage($locale);
   return `https://apps.apple.com/${regionMap[lang]}/app/welcome-to-my-garden/id6759368622${langMap[lang] ? `?l=${langMap[lang]}` : ''}`;
