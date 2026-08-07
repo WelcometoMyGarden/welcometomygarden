@@ -21,6 +21,7 @@
     "@sendgrid/client": "^8.1.6",
     "@sendgrid/mail": "^8.1.6",
     "@supabase/supabase-js": "^2.105.4",
+    "@turf/turf": "^7.3.5",
     "address-rfc2822": "^2.2.3",
     "busboy": "^1.6.0",
     "dotenv": "^17.4.2",

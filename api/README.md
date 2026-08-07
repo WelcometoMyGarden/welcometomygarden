@@ -156,6 +156,7 @@ These are the functions omitted from staging:
 - backupFirestoreV2 # we don't need staging data backups
 - handleRenewalsV2 # to test schedule renewal handling, local api tests with backdated (simulated) data is more helpful than waiting 1 year on events
 - errorLogTunnel # this just proxies into our single Glitchtip instance, we use prod the prod function
+- generateCoverage
 - handleUnsubscribe # this is dependent on our production SendGrid
 - functions depending on Supabase:
   - refreshAuthTableV2 # we currently don't have a staging Supabase

@@ -20,6 +20,11 @@ service firebase.storage {
         && request.resource.size <= 30 * 1024 * 1024;
     }
 
+    // Precomputed garden coverage overlays for the /every15km page.
+    match /coverage/{allPaths=**} {
+      allow read;
+    }
+
     function isValidTrailAccess(userId) {
       return isSignedIn() && isOwner(userId)
         && firestore.get(/databases/(default)/documents/users/$(requesterId())).data.superfan == true;

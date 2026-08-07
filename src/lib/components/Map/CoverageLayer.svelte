@@ -27,7 +27,8 @@
   const blendOverLandcover = (rgb: string): string => {
     const [br, bg, bb] = BASE_MAP_LANDCOVER_RGB;
     const [r, g, b] = parseRgb(rgb);
-    const mix = (base: number, val: number) => Math.round(base * (1 - OVERLAY_OPACITY) + val * OVERLAY_OPACITY);
+    const mix = (base: number, val: number) =>
+      Math.round(base * (1 - OVERLAY_OPACITY) + val * OVERLAY_OPACITY);
     return `${mix(br, r)}, ${mix(bg, g)}, ${mix(bb, b)}`;
   };
 
@@ -53,10 +54,21 @@
   import type GeoJSON from 'geojson';
 
   import { getContext, onDestroy, onMount } from 'svelte';
+  import { getDownloadURL, ref } from 'firebase/storage';
   import key from './mapbox-context.js';
   import * as Sentry from '@sentry/sveltekit';
   import logger from '$lib/util/logger';
-  import { COVERAGE_GEOJSON_URL, COVERAGE_COMPLEMENT_GEOJSON_URL } from '$lib/constants';
+  import { storage } from '$lib/api/firebase';
+  //
+  // Precomputed garden coverage overlays, stored in the default Firebase Storage
+  // bucket under `coverage/`. They are regenerated & overwritten every couple of
+  // hours by the `generateCoverage` scheduled Cloud Function (see
+  // api/src/scheduled/generateCoverage.js).
+  export const COVERAGE_GEOJSON_PATH = 'coverage/garden-coverage.geojson';
+  export const COVERAGE_COMPLEMENT_GEOJSON_PATH = 'coverage/garden-coverage-complement.geojson';
+
+  /** Resolve the public download URL for a coverage file in Firebase Storage. */
+  const coverageUrl = (path: string) => getDownloadURL(ref(storage(), path));
 
   interface Props {
     /** Also draw the red "not covered" overlay. If false, only the green overlay is drawn. */
@@ -85,12 +97,15 @@
 
   const initialize = async () => {
     try {
+      const [coverageUrlResolved, gapUrlResolved] = await Promise.all([
+        coverageUrl(COVERAGE_GEOJSON_PATH),
+        showGap ? coverageUrl(COVERAGE_COMPLEMENT_GEOJSON_PATH) : Promise.resolve(null)
+      ]);
+
       const [coverage, gap] = await Promise.all([
-        fetch(COVERAGE_GEOJSON_URL).then((r) => r.json() as Promise<GeoJSON.FeatureCollection>),
-        showGap
-          ? fetch(COVERAGE_COMPLEMENT_GEOJSON_URL).then(
-              (r) => r.json() as Promise<GeoJSON.FeatureCollection>
-            )
+        fetch(coverageUrlResolved).then((r) => r.json() as Promise<GeoJSON.FeatureCollection>),
+        gapUrlResolved
+          ? fetch(gapUrlResolved).then((r) => r.json() as Promise<GeoJSON.FeatureCollection>)
           : Promise.resolve(null)
       ]);
 

@@ -58,6 +58,7 @@ const onMessagesWriteReplicate = require('./replication/onMessagesWrite');
 const onAuthUserCreate = require('./user/onAuthUserCreate');
 const refreshAuthTable = require('./replication/scheduled/refreshAuthTable');
 const relistGardens = require('./scheduled/relistGardens');
+const generateCoverage = require('./scheduled/generateCoverage');
 const { shouldReplicateRuntime, isContactSyncDisabled } = require('./sharedConfig');
 const { initialize: initSupabase } = require('./supabase');
 const onCampsiteListedChange = require('./user/onCampsiteListedChange');
@@ -259,10 +260,26 @@ exports.relistGardens = onSchedule(
   },
   relistGardens
 );
+// Regenerate the /every15km coverage overlays and upload them to Storage.
+// Buffering + dissolving thousands of garden circles is CPU/memory heavy, so
+// give it extra resources and a generous timeout.
+exports.generateCoverage = onSchedule(
+  {
+    schedule: 'every 2 hours',
+    // at the time of writing, it takes up ~600MB peak usage.
+    // 2GiB as a scaling safety margin.
+    memory: '2GiB',
+    cpu: 2,
+    timeoutSeconds: 60 * 9
+  },
+  generateCoverage
+);
 
 // Testing
 //
 // Only for testing the above handleRenewals function!
+// Check the url in the emulator output, and hit it with curl.
+// e.g. curl http://127.0.0.1:15001/demo-test/europe-west1/generateCoverageTest
 // Note: this is outdated, and was used before a (docs) param was added.
 // const isDevelopment = process.env.NODE_ENV !== 'production';
 // exports.cancelUnpaidRenewalsTest = onRequest(guardOn(isDevelopment, cancelUnpaidRenewals));
@@ -270,6 +287,12 @@ exports.relistGardens = onSchedule(
 // exports.refreshAuthTableTest = onRequest(
 //   guardOn(isDevelopment, async (_, res) => {
 //     await refreshAuthTable();
+//     res.send(200);
+//   })
+// );
+// exports.generateCoverageTest = onRequest(
+//   guardOn(isDevelopment, async (_, res) => {
+//     await generateCoverage();
 //     res.send(200);
 //   })
 // );
