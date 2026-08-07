@@ -6,10 +6,16 @@ It is intentionally **left uncommitted** for review.
 
 ## Base branch
 
-This work is now rebased on top of **`origin/chore/modernize-frontend-linting`**
-(comprehensive ESLint flat-config + Prettier modernization). All commits below
-sit on that branch, are Prettier-formatted to the new config, and pass
-`yarn eslint` (0 errors) on the changed files.
+This work has now been **rebased directly onto `upstream/master`** (as of
+`88279b5e`, which is `origin/master` + 45 new commits). The ESLint flat-config +
+Prettier modernization commits (originally from `chore/modernize-frontend-linting`)
+travel with this branch as its bottom two commits, so the base no longer depends
+on that separate linting branch. All commits are Prettier-formatted to the new
+config and pass `eslint` (0 errors) on the changed files.
+
+> **Dependencies:** the flat-config needs `typescript-eslint` (added by the
+> linting commits). If `node_modules` predates the branch, run `yarn install`
+> before `yarn lint` (svelte-check / `yarn check` works without it).
 
 ## Progress so far
 
@@ -23,11 +29,13 @@ sit on that branch, are Prettier-formatted to the new config, and pass
 | After group C (mapbox/maplibre GL) | 50 | 19 |
 | After group D (Dropzone.svelte) | 31 | 19 |
 | After group F (svelte:element / component-prop gaps) | 29 | 19 |
-| After group A (svelte-simple-modal component types) | **19** | **19** |
+| After group A (svelte-simple-modal component types) | 19 | 19 |
+| **After rebase onto `upstream/master` + group H (upstream `sv` bug)** | **19** | **17** |
 
 The remaining **19 errors** are exactly groups **B** (Firebase/Firestore
 generics) and **E** (data-model / product decisions), which are intentionally
-deferred — see below. The 19 warnings are still untouched.
+deferred — see below. Warnings dropped from 19 → **17** because upstream's
+checkbox/radio harmonization removed two a11y warnings.
 
 ### Committed on this branch (on top of the linting branch)
 1. `fix(types): resolve simple svelte-check type errors` — ~35 low-risk fixes (casts, `$state` init types, click-outside `EventTarget`→`Node`, `window.wtmgAnchorNav` global, etc.)
@@ -41,11 +49,39 @@ deferred — see below. The 19 warnings are still untouched.
 9. `fix(types): resolve Dropzone.svelte internal typing errors (group D)`
 10. `fix(types): resolve svelte:element and component-prop gaps (group F)`
 11. `fix(types): reconcile svelte-simple-modal legacy component types (group A)`
+12. `fix(types): correct upstream Swedish (sv) locale key in store-URL maps (group H)`
 
 Groups **A, C, D, F, G are done** (see the ✅ notes in each section below).
 Groups **B and E remain** and are the only source of the 19 remaining errors.
 
-### Reassessed / dropped after the rebase
+### Reassessment after the rebase onto `upstream/master`
+
+The rebase replayed all 17 branch commits onto upstream (`origin/master` + 45
+commits). Findings:
+
+- **No regressions.** Every previously-resolved group (A, C, D, F, G) still
+  type-checks clean — the errors those commits fixed have not reappeared.
+- **Conflicts, all in files upstream had independently changed** — resolved by
+  taking upstream's version because our edits to the pre-upstream versions were
+  superseded:
+  - The broad lint commit conflicted in `LabeledCheckbox.svelte`,
+    `FileTrails.svelte`, and the `de`/`es`/`fr` cookie pages — upstream reworked
+    the components and rewrote the cookie copy, so our reformatting of the old
+    text was obsolete.
+  - **Group C `FileTrails.svelte` became redundant:** upstream's "enhance the
+    display of uploaded routes" rewrite already imports `GeoJSONSource` and uses
+    the same typed `getSource<GeoJSONSource>()?.setData()` pattern this group
+    introduced. The other group-C files (FullscreenControl, GardenLayer,
+    MeetupLayer, DraggableMarker) replayed cleanly and are still needed.
+- **New error introduced by upstream → group H (fixed).** Upstream's new-language
+  work added `sv` (Swedish) to the supported-language union, but the store-URL
+  `langMap`/`regionMap` in `src/lib/util/translation-helpers.ts:152,166` still
+  key on `se`. That is a real runtime bug (Swedish users would get a broken App
+  Store URL, `regionMap['sv'] === undefined`), not just a typing gap. Fixed by
+  renaming the **keys** `se`→`sv`; the Apple region **value** `'se'` (Sweden's
+  App Store) is correct and unchanged.
+
+### Reassessed / dropped after the earlier rebase (onto the linting branch)
 - **`is-browser.js` refactor was dropped**: on the linting branch that file was
   already **deleted and is unreferenced** (its `util/index.js` export is gone), so
   there was nothing left to type.
@@ -53,9 +89,13 @@ Groups **B and E remain** and are the only source of the 19 remaining errors.
   `eslint-disable no-param-reassign` workaround; the typed rewrite removes the
   reassignment entirely, so that directive was dropped.
 
-> Note: an unrelated pre-existing `firebase.json` working-tree change (from the
-> old `feat/devcontainer` base) was **stashed** before the rebase and is not part
-> of this branch — it does not apply to the new base.
+> Note: an unrelated pre-existing `firebase.json` working-tree change (local
+> devcontainer emulator port offsets, e.g. `5001`→`15001`, from the old
+> `feat/devcontainer` base) had `skip-worktree` set and was **stashed again**
+> before this rebase (`stash@{0}`) — it is a local env tweak, not part of this
+> branch. Upstream now supports offset dev-server ports natively (commit
+> `57bb225c`), so this local hack is likely obsolete and can probably be dropped
+> rather than re-applied.
 
 ---
 
