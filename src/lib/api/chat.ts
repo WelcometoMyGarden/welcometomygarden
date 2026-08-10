@@ -50,7 +50,7 @@ export const initiateChat = async (partnerUid: string) => {
 
 export const createChatObserver = () => {
   const q = query(
-    collection(db(), CHATS) as CollectionReference<FirebaseChat>,
+    collection(db(), CHATS) as CollectionReference<FirebaseChat, FirebaseChat>,
     where('users', 'array-contains', getUser().id)
   );
 
@@ -142,10 +142,10 @@ export const createChatObserver = () => {
 
 export const observeMessagesForChat = (chatId: string) => {
   const chatRef = doc(db(), CHATS, chatId);
-  const chatMessagesCollection = collection(
-    chatRef,
-    MESSAGES
-  ) as CollectionReference<FirebaseMessage>;
+  const chatMessagesCollection = collection(chatRef, MESSAGES) as CollectionReference<
+    FirebaseMessage,
+    FirebaseMessage
+  >;
 
   return onSnapshot(
     chatMessagesCollection,
@@ -163,7 +163,7 @@ export const observeMessagesForChat = (chatId: string) => {
 };
 
 export const sendMessage = async (chatId: string, message: string) => {
-  const chatRef = doc(db(), CHATS, chatId) as DocumentReference<FirebaseChat>;
+  const chatRef = doc(db(), CHATS, chatId) as DocumentReference<FirebaseChat, FirebaseChat>;
   const chatMessagesCollection = collection(chatRef, MESSAGES);
 
   await addDoc(chatMessagesCollection, {
@@ -181,7 +181,7 @@ export const sendMessage = async (chatId: string, message: string) => {
 };
 
 export const markChatSeen = async (chatId: string) => {
-  const chatRef = doc(db(), CHATS, chatId) as DocumentReference<FirebaseChat>;
+  const chatRef = doc(db(), CHATS, chatId) as DocumentReference<FirebaseChat, FirebaseChat>;
   await updateDoc(chatRef, {
     lastMessageSeen: true
   });
@@ -192,7 +192,7 @@ export const markChatSeen = async (chatId: string) => {
  *   Pass `false` when this call is itself an undo, to avoid a toast loop.
  */
 export const archiveChat = async (chatId: string, chatName: string, recordForUndo = true) => {
-  const chatRef = doc(db(), CHATS, chatId) as DocumentReference<FirebaseChat>;
+  const chatRef = doc(db(), CHATS, chatId) as DocumentReference<FirebaseChat, FirebaseChat>;
   await updateDoc(chatRef, { archivedBy: arrayUnion(getUser().id) });
   if (recordForUndo) lastArchiveAction.set({ kind: 'archive', chatId, chatName });
 };
@@ -202,7 +202,7 @@ export const archiveChat = async (chatId: string, chatName: string, recordForUnd
  *   Pass `false` when this call is itself an undo, to avoid a toast loop.
  */
 export const unarchiveChat = async (chatId: string, chatName: string, recordForUndo = true) => {
-  const chatRef = doc(db(), CHATS, chatId) as DocumentReference<FirebaseChat>;
+  const chatRef = doc(db(), CHATS, chatId) as DocumentReference<FirebaseChat, FirebaseChat>;
   await updateDoc(chatRef, { archivedBy: arrayRemove(getUser().id) });
   if (recordForUndo) lastArchiveAction.set({ kind: 'unarchive', chatId, chatName });
 };
@@ -212,7 +212,7 @@ export const unarchiveChat = async (chatId: string, chatName: string, recordForU
  * If the recipient UID is invalid, Firstore rules cause an error.
  */
 export const createChat = async (recipientUid: string, message: string) => {
-  const chatCollection = collection(db(), CHATS) as CollectionReference<FirebaseChat>;
+  const chatCollection = collection(db(), CHATS) as CollectionReference<FirebaseChat, FirebaseChat>;
 
   const docRef = await addDoc(chatCollection, {
     users: [getUser().id, recipientUid],
@@ -223,10 +223,10 @@ export const createChat = async (recipientUid: string, message: string) => {
     lastMessageSender: getUser().id
   });
 
-  const chatMessagesCollection = collection(
-    docRef,
-    MESSAGES
-  ) as CollectionReference<FirebaseMessage>;
+  const chatMessagesCollection = collection(docRef, MESSAGES) as CollectionReference<
+    FirebaseMessage,
+    FirebaseMessage
+  >;
 
   await addDoc(chatMessagesCollection, {
     content: message,

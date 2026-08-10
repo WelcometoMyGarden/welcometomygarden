@@ -99,7 +99,7 @@ module.exports = async (event, res) => {
   }
 
   const customerId = typeof customer === 'string' ? customer : customer.id;
-  const uid = await getFirebaseUserId(customerId);
+  const uid = await getFirebaseUserId(/** @type {string} */ (customerId));
 
   if (!uid) {
     logger.warn(

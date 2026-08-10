@@ -33,7 +33,7 @@ module.exports = async (event, res) => {
     return res.sendStatus(200);
   }
 
-  const uid = await getFirebaseUserId(invoice.customer);
+  const uid = await getFirebaseUserId(/** @type {string} */ (invoice.customer));
 
   // Finalize the invoice
   /** @type {import('stripe').Stripe.Invoice} */

@@ -19,7 +19,7 @@ export const doesPublicUserExist = async (uid: string) => {
  * to fetch info about a garden owner.
  */
 export const getPublicUserProfile = async (uid: string) => {
-  const docRef = doc(db(), USERS, uid) as DocumentReference<UserPublic>;
+  const docRef = doc(db(), USERS, uid) as DocumentReference<UserPublic, UserPublic>;
   const docSnap = await getDoc(docRef);
 
   if (!docSnap.exists()) throw new Error('This user does not have Firestore account data yet.');

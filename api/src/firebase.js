@@ -16,7 +16,7 @@ let googleAuth;
  * Does not include ID => does not contain data when the doc is empty
  * @template T
  * @param {DocumentSnapshot<T>} d
- * @returns {T}
+ * @returns {T | undefined} `.data()` is `undefined` when the document does not exist
  */
 exports.toFirebaseData = (d) => d.data();
 
@@ -25,12 +25,9 @@ exports.toFirebaseData = (d) => d.data();
  * @param {string} uid
  */
 exports.getUserDocRefs = (uid) => {
-  const privateUserProfileDocRef = /** @type {DocumentReference<UserPrivate>} */ (
-    db.doc(`users-private/${uid}`)
-  );
-  const publicUserProfileDocRef = /** @type {DocumentReference<UserPublic>} */ (
-    db.doc(`users/${uid}`)
-  );
+  const { usersPrivateDoc, usersDoc } = require('./collections');
+  const privateUserProfileDocRef = usersPrivateDoc(uid);
+  const publicUserProfileDocRef = usersDoc(uid);
   return { privateUserProfileDocRef, publicUserProfileDocRef };
 };
 
@@ -54,7 +51,8 @@ exports.getUserDocRefsWithData = async (uid) => {
 };
 
 exports.getGardenWithData = async (uid) => {
-  const gardenDocRef = /** @type {DocumentReference<Garden>} */ (db.doc(`campsites/${uid}`));
+  const { campsitesDoc } = require('./collections');
+  const gardenDocRef = campsitesDoc(uid);
   const gardenSnapshot = await gardenDocRef.get();
   const gardenData = gardenSnapshot.data();
   return { gardenDocRef, gardenSnapshot, gardenData, exists: gardenSnapshot.exists };

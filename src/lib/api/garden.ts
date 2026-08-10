@@ -39,7 +39,7 @@ import logger from '$lib/util/logger';
  */
 export const getGarden = async (id: string) => {
   const gardenDoc = await getDoc(
-    doc(collection(db(), CAMPSITES) as CollectionReference<FirebaseGarden>, id)
+    doc(collection(db(), CAMPSITES) as CollectionReference<FirebaseGarden, FirebaseGarden>, id)
   );
   const data = gardenDoc.data()!;
   if (gardenDoc.exists() && data.listed) {

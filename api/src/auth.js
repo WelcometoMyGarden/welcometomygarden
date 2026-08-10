@@ -3,6 +3,7 @@ const { FieldValue } = require('firebase-admin/firestore');
 const fail = require('./util/fail');
 const { sendAccountVerificationEmail, sendPasswordResetEmail } = require('./mail');
 const { db, auth, getUserDocRefs } = require('./firebase');
+const { usersPrivateDoc } = require('./collections');
 const { updateSendgridContactEmail } = require('./sendgrid/updateContactEmail');
 const stripe = require('./subscriptions/stripe');
 const { updateDiscourseUser } = require('./discourse/updateDiscourseUser');
@@ -160,9 +161,7 @@ exports.resendAccountVerification = async (request) => {
  */
 async function requestEmailChangeForUser(authUser, newEmail) {
   const currentEmail = authUser.email;
-  const userPrivateRef = /** @type {DocumentReference<UserPrivate>} */ (
-    db.doc(`users-private/${authUser.uid}`)
-  );
+  const userPrivateRef = usersPrivateDoc(authUser.uid);
   const userPrivateData = (await userPrivateRef.get()).data();
 
   if (!currentEmail || !userPrivateData || !authUser || !authUser.displayName) {
@@ -332,9 +331,7 @@ exports.updateEmail = async (request) => {
 
   const userToChange = await auth.getUserByEmail(oldEmail);
   if (force) {
-    const userPrivateRef = /** @type {DocumentReference<UserPrivate>} */ (
-      db.doc(`users-private/${userToChange.uid}`)
-    );
+    const userPrivateRef = usersPrivateDoc(userToChange.uid);
     const oldUserPrivateData = (await userPrivateRef.get()).data();
     if (!oldUserPrivateData) {
       fail('failed-precondition');
@@ -407,9 +404,7 @@ exports.propagateEmailChange = async (request) => {
     fail('failed-precondition');
   }
 
-  const userPrivateRef = /** @type {DocumentReference<UserPrivate>} */ (
-    db.doc(`users-private/${targetAuthUser.uid}`)
-  );
+  const userPrivateRef = usersPrivateDoc(targetAuthUser.uid);
   const oldUserPrivateData = (await userPrivateRef.get()).data();
 
   if (!oldUserPrivateData) {

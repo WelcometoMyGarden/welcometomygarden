@@ -1,5 +1,6 @@
 const { FieldValue } = require('firebase-admin/firestore');
-const { auth, db } = require('../firebase');
+const { auth } = require('../firebase');
+const { statsDoc } = require('../collections');
 const fail = require('../util/fail');
 const { sendgridSuperfanFieldIdParam, isContactSyncDisabled } = require('../sharedConfig');
 const { updateSendgridContact } = require('../sendgrid/updateSendgridContact');
@@ -38,7 +39,7 @@ exports.onUserWrite = async ({ data: change }) => {
   //
   // Count superfans
   //
-  const superfanStatsDoc = await db.collection('stats').doc('superfans');
+  const superfanStatsDoc = statsDoc('superfans');
   if (
     ((userBefore && userBefore.superfan === true) || !userBefore) &&
     userAfter.superfan === false

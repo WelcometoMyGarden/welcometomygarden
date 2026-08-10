@@ -2,7 +2,8 @@ const { FieldValue } = require('firebase-admin/firestore');
 const countries = require('../countries');
 const fail = require('../util/fail');
 const { sendVerificationEmail } = require('../auth');
-const { auth, db, getFunctionUrl, getUserDocRefs } = require('../firebase');
+const { auth, getFunctionUrl, getUserDocRefs } = require('../firebase');
+const { statsDoc } = require('../collections');
 const { logger } = require('firebase-functions/v2');
 const { getFunctions } = require('firebase-admin/functions');
 const { DateTime } = require('luxon');
@@ -263,10 +264,7 @@ exports.createUser = async ({ data: inputData, auth: authContext }) => {
   const sendMessageQueue = getFunctions().taskQueue(resourceName);
   await Promise.all([
     // Add one to the stats
-    db
-      .collection('stats')
-      .doc('users')
-      .set({ count: FieldValue.increment(1) }, { merge: true }),
+    statsDoc('users').set({ count: FieldValue.increment(1) }, { merge: true }),
     // Send the verification email
     sendVerificationEmail(email, firstName, communicationLanguage).catch((e) => {
       // If this occurs here, the most likely reason is that a duplicate account was created

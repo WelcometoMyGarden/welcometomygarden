@@ -8,7 +8,8 @@ const addrparser = require('address-rfc2822');
 const { htmlToText } = require('html-to-text');
 const { MAX_MESSAGE_LENGTH, sendMessageFromEmail } = require('../chat');
 const { sendEmailReplyError } = require('../mail');
-const { auth, db } = require('../firebase');
+const { auth } = require('../firebase');
+const { usersPrivateDoc } = require('../collections');
 const { sendPlausibleEvent } = require('../util/plausible');
 
 // Our sample email is 12 094 chars long, so 30K should be reasonable.
@@ -305,7 +306,7 @@ exports.parseInboundEmail = async (req, res) => {
       let language = null;
       try {
         const user = await auth.getUserByEmail(fromEmail);
-        const privateUserProfileDocRef = db.doc(`users-private/${user.uid}`);
+        const privateUserProfileDocRef = usersPrivateDoc(user.uid);
         const privateUserProfileData = (await privateUserProfileDocRef.get()).data();
         language = privateUserProfileData?.communicationLanguage;
       } catch (langFindError) {

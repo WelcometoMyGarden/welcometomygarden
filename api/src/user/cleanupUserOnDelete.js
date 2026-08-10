@@ -1,6 +1,7 @@
 const { FieldValue } = require('firebase-admin/firestore');
 const { logger } = require('firebase-functions');
 const { db, getGardenWithData, storage } = require('../firebase');
+const { statsDoc, usersPrivateDoc } = require('../collections');
 const stripe = require('../subscriptions/stripe');
 const { deleteContact: deleteSendGridContact } = require('../sendgrid/deleteContact');
 const { supabase } = require('../supabase');
@@ -109,9 +110,7 @@ async function deleteFirebaseData(user, userPrivate) {
             .catch((ex) => logger.error('Failure to delete a campsite', { userId, error: ex }))
         : Promise.resolve(),
       // Decrease the user count stat
-      db
-        .collection('stats')
-        .doc('users')
+      statsDoc('users')
         .set({ count: FieldValue.increment(-1) }, { merge: true })
         .catch((ex) =>
           logger.error('Failure to decrease the user count stats upon account deletion', {
@@ -122,7 +121,7 @@ async function deleteFirebaseData(user, userPrivate) {
       // Delete the users-private doc if it exists, including all its sub-collections (trails, unreads, push-registrations)
       // See https://googleapis.dev/nodejs/firestore/latest/Firestore.html#recursiveDelete
       userPrivate
-        ? db.recursiveDelete(db.collection('users-private').doc(userId)).catch((ex) => {
+        ? db.recursiveDelete(usersPrivateDoc(userId)).catch((ex) => {
             logger.error('Failure to recursively delete users-private data', { userId, error: ex });
           })
         : Promise.resolve(),
@@ -163,7 +162,7 @@ exports.cleanupUserOnDelete = async (user) => {
   /** @type {UserPrivate | null} */
   let userPrivate = null;
   try {
-    userPrivateSnapshot = await db.doc(`users-private/${userId}`).get();
+    userPrivateSnapshot = await usersPrivateDoc(userId).get();
   } catch (e) {
     logger.error(`Couldn't fetch users-private data while cleaning up deleted user ${user.uid}`);
   }
