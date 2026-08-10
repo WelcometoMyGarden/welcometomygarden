@@ -1,7 +1,7 @@
 const { logger } = require('firebase-functions/v2');
 const getFirebaseUserId = require('../getFirebaseUserId');
 const { stripeSubscriptionKeys } = require('../constants');
-const { db } = require('../../firebase');
+const { usersDoc, usersPrivateDoc } = require('../../collections');
 const stripe = require('../stripe');
 const { isWTMGInvoice } = require('./util');
 const { getLatestCharge } = require('./shared');
@@ -76,11 +76,11 @@ module.exports = async (event, res) => {
   // --- Actually process the event ---
 
   // Get the Firebase user
-  const uid = await getFirebaseUserId(paymentIntent.customer);
-  const privateUserProfileDocRef = db.doc(`users-private/${uid}`);
+  const uid = await getFirebaseUserId(/** @type {string} */ (paymentIntent.customer));
+  const privateUserProfileDocRef = usersPrivateDoc(uid);
   const privateUserProfileData = (await privateUserProfileDocRef.get()).data();
 
-  const publicUserProfileDocRef = db.doc(`users/${uid}`);
+  const publicUserProfileDocRef = usersDoc(uid);
 
   // In case a previous sepa payment was processing (this should always be the case)
   // which now failed, mark it as such and unmake superfan

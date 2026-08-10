@@ -1,7 +1,18 @@
 const { FieldValue, Timestamp } = require('firebase-admin/firestore');
 const { logger } = require('firebase-functions');
 const { sendMessageReceivedEmail, sendSpamAlertEmail, sendChatBlockedEmail } = require('./mail');
-const { auth, db, getFunctionUrl } = require('./firebase');
+const { auth, getFunctionUrl } = require('./firebase');
+const {
+  chatsCol,
+  chatsDoc,
+  usersDoc,
+  usersPrivateDoc,
+  usersMetaDoc,
+  statsDoc,
+  messagesDoc,
+  pushRegistrationsCol,
+  unreadsDoc
+} = require('./collections');
 const { sendNotification } = require('./push');
 const fail = require('./util/fail');
 const { supabase } = require('./supabase');
@@ -14,12 +25,8 @@ exports.MAX_MESSAGE_LENGTH = 800;
 
 const MAX_CHATS_PER_DAY = 100;
 
-/**
- * @typedef {CollectionReference<PushRegistration>} PushRegistrationColRef
- */
-
 const getChat = async (chatId) => {
-  const doc = await db.collection('chats').doc(chatId).get();
+  const doc = await chatsDoc(chatId).get();
   if (!doc.exists) {
     throw new Error(`Email error: the chat with ID ${chatId} doesn't exist`);
   }
@@ -51,13 +58,10 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
     logger.error(`Couldn't find the UID of the recipient of message ${snap.id} in chat ${chat.id}`);
     return;
   }
-  const recipientUserPrivateDocRef = db.collection('users-private').doc(recipientId);
-  const unreadDoc = await recipientUserPrivateDocRef.collection('unreads').doc(chatId).get();
+  const recipientUserPrivateDocRef = usersPrivateDoc(recipientId);
+  const unreadDoc = await unreadsDoc(recipientId, chatId).get();
 
-  await db
-    .collection('stats')
-    .doc('messages')
-    .set({ count: FieldValue.increment(1) }, { merge: true });
+  await statsDoc('messages').set({ count: FieldValue.increment(1) }, { merge: true });
 
   const recipientUserPrivateDocData = /** @type {UserPrivate} */ (
     (await recipientUserPrivateDocRef.get()).data()
@@ -74,7 +78,7 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
   }
 
   const recipientUserPublicDocData = /** @type {UserPublic} */ (
-    (await db.collection('users').doc(recipientId).get()).data()
+    (await usersDoc(recipientId).get()).data()
   );
   if (!recipientUserPublicDocData) {
     logger.error("Could not retrieve the recipient's public document data. Aborting.");
@@ -84,12 +88,9 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
   // If the recipient had archived the chat, unarchive it so the new message surfaces
   if (Array.isArray(chat.archivedBy) && chat.archivedBy.includes(recipientId)) {
     try {
-      await db
-        .collection('chats')
-        .doc(chatId)
-        .update({
-          archivedBy: FieldValue.arrayRemove(recipientId)
-        });
+      await chatsDoc(chatId).update({
+        archivedBy: FieldValue.arrayRemove(recipientId)
+      });
     } catch (e) {
       logger.error('Could not unarchive a chat that received a new message for the recipient', {
         chatId: chat.id
@@ -136,8 +137,7 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
     // plus any other chats already marked unseen.
     let recipientUnreadCount = 1;
     try {
-      const recipientChatsSnap = await db
-        .collection('chats')
+      const recipientChatsSnap = await chatsCol()
         .where('users', 'array-contains', recipientId)
         .get();
       for (const chatDoc of recipientChatsSnap.docs) {
@@ -168,9 +168,7 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
     //
     // In any case: send a notification to all registered devices via FCM
     try {
-      const pushRegistrationRef = /** @type {PushRegistrationColRef} */ (
-        recipientUserPrivateDocRef.collection('push-registrations')
-      );
+      const pushRegistrationRef = pushRegistrationsCol(recipientId);
       const pushRegistrations = (await pushRegistrationRef.get()).docs.map((d) => ({
         id: d.id,
         ...d.data()
@@ -179,7 +177,10 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
       await Promise.all(
         pushRegistrations
           .filter((pR) => pR.status === 'active')
-          .map(async ({ id, host, fcmToken }) => {
+          .map(async (pR) => {
+            const { id, fcmToken } = pR;
+            // `host` only exists on web-push registrations; undefined for native.
+            const host = 'host' in pR ? pR.host : undefined;
             try {
               return await sendNotification({
                 ...commonPayload,
@@ -214,16 +215,12 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
                 // TODO: remove this registration? Let's try to see if we can leverage the endpoint directly?
                 try {
                   // Mark this registration as errored
-                  /** @type {DocumentReference<PushRegistration>} */ (
-                    await db
-                      .collection('users-private')
-                      .doc(recipientAuthUser.uid)
-                      .collection('push-registrations')
-                      .doc(id)
-                  ).update({
-                    status: /** @type {PushRegistrationStatus} */ ('fcm_errored'),
-                    erroredAt: Timestamp.now()
-                  });
+                  await pushRegistrationsCol(recipientAuthUser.uid)
+                    .doc(id)
+                    .update({
+                      status: /** @type {PushRegistrationStatus} */ ('fcm_errored'),
+                      erroredAt: Timestamp.now()
+                    });
                 } catch (registrationUpdateError) {
                   logger.error(
                     'Error updating a push registration to an errored status',
@@ -249,7 +246,7 @@ exports.onMessageCreate = async ({ data: snap, params }) => {
     if (shouldNotifyEmail) {
       try {
         // Mark new email activity, to determine email recency next time
-        await recipientUserPrivateDocRef.collection('unreads').doc(chatId).set({
+        await unreadsDoc(recipientId, chatId).set({
           notifiedAt: FieldValue.serverTimestamp(),
           chatId
         });
@@ -284,9 +281,7 @@ exports.onChatCreate = async ({ data: chatSnapshot }) => {
     fail('not-found');
   }
 
-  const senderMetaRef = /** @type {DocumentReference<UserMeta>} */ (
-    db.collection('users-meta').doc(senderAuthId)
-  );
+  const senderMetaRef = usersMetaDoc(senderAuthId);
   const { chatWindowStartAt, chatWindowCount, chatBlockedAt } =
     (await senderMetaRef.get()).data() ?? {};
   if (chatBlockedAt) {
@@ -301,10 +296,7 @@ exports.onChatCreate = async ({ data: chatSnapshot }) => {
     fail('permission-denied');
   }
 
-  await db
-    .collection('stats')
-    .doc('chats')
-    .set({ count: FieldValue.increment(1) }, { merge: true });
+  await statsDoc('chats').set({ count: FieldValue.increment(1) }, { merge: true });
 
   // Enqueue message reminder email, if the recipient has not opted out manually (hardcoded for now)
   if (!['tgnSZm4dzpX24DZBHfIYzAvNGH02'].includes(recipientAuthId)) {
@@ -334,11 +326,9 @@ exports.onChatCreate = async ({ data: chatSnapshot }) => {
 
   // TODO: refactor the spam alert to be managed in users-meta
   const now = Date.now();
-  const userPrivateDocRef = /** @type {DocumentReference<UserPrivate>} */ (
-    db.collection('users-private').doc(senderAuthId)
-  );
-  const usersPrivateDoc = await userPrivateDocRef.get();
-  const usersPrivateDocData = usersPrivateDoc.data();
+  const userPrivateDocRef = usersPrivateDoc(senderAuthId);
+  const userPrivateSnap = await userPrivateDocRef.get();
+  const usersPrivateDocData = userPrivateSnap.data();
   const canCheckForSpamActivity =
     usersPrivateDocData &&
     (!usersPrivateDocData.latestSpamAlertAt ||
@@ -361,12 +351,10 @@ exports.onChatCreate = async ({ data: chatSnapshot }) => {
 
   async function checkForSpamActivity() {
     // Get all the chats involving the user
-    const chatsOfLast24Hours = await /** @type {CollectionReference<Chat>} */ (
-      db
-        .collection('chats')
-        .where('createdAt', '>', Timestamp.fromMillis(now - 24 * 3600 * 1000))
-        .where('users', 'array-contains', senderAuthId)
-    ).get();
+    const chatsOfLast24Hours = await chatsCol()
+      .where('createdAt', '>', Timestamp.fromMillis(now - 24 * 3600 * 1000))
+      .where('users', 'array-contains', senderAuthId)
+      .get();
     const chatsCreatedByUser = chatsOfLast24Hours.docs
       .map((d) => d.data())
       .filter((d) => d.users[0] === senderAuthId);
@@ -433,7 +421,6 @@ exports.sendMessageFromEmail = async function sendMessageFromEmail(params) {
   const { chatId, message, fromEmail: fromEmailRaw } = params;
 
   const fromEmail = fromEmailRaw.toLowerCase();
-  const chatRef = `chats/${chatId}`;
 
   const getUserId = async () => {
     const noValidUserFound = new Error('no-valid-user-found');
@@ -487,13 +474,13 @@ exports.sendMessageFromEmail = async function sendMessageFromEmail(params) {
   }
 
   // Send message
-  await db.collection(`${chatRef}/messages`).doc().create({
+  await messagesDoc(chatId).create({
     content: message,
     createdAt: Timestamp.now(),
     from: fromUserId
   });
 
-  await db.doc(chatRef).update({
+  await chatsDoc(chatId).update({
     lastActivity: Timestamp.now(),
     lastMessage: message,
     lastMessageSeen: false,

@@ -131,9 +131,11 @@ const createSendgridContact = async (
      * @type {TaskQueue<ContactCreationCheckData>}
      */
     const checkContactCreationQueue = getFunctions().taskQueue(resourceName);
-    // Extract the creationLanguage from the custom fields, if it exists
-    const creationLanguage =
-      contactDetails.custom_fields[sendgridCreationLanguageFieldIdParam.value()] ?? null;
+    // Extract the creationLanguage from the `any`-typed custom fields, if it exists
+    // Coerce to a typed string with String
+    const rawCreationLanguage =
+      contactDetails.custom_fields[sendgridCreationLanguageFieldIdParam.value()];
+    const creationLanguage = rawCreationLanguage != null ? String(rawCreationLanguage) : null;
     await checkContactCreationQueue.enqueue(
       {
         uid: firebaseUser.uid,

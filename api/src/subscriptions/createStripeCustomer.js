@@ -1,31 +1,35 @@
 const fail = require('../util/fail');
 const stripe = require('./stripe');
-const { auth, db } = require('../firebase');
+const { auth, getUserDocRefsWithData } = require('../firebase');
 const { coerceToSupportedLanguage } = require('../util/translations');
+const { logger } = require('firebase-functions');
 
 /**
  * Creates a customer in stripe
  * @param {{data: {locale: string}, auth?: FV2.CallableRequest<any>['auth']}} request
  */
 // The return is consistent. "return true" at the end fixes the ESLint error, but is not reachable.
-// eslint-disable-next-line consistent-return
+
 exports.createStripeCustomer = async ({ data: { locale }, auth: authData }) => {
   if (!auth) {
     return fail('unauthenticated');
   }
-  const { uid } = authData;
+  const { uid } = authData ?? {};
+
+  if (!uid) {
+    logger.error('Missing uid during Stripe contact creation', authData);
+    fail('invalid-argument');
+  }
 
   const { email } = await auth.getUser(uid);
 
-  const fetchPublicUser = async () => (await db.doc(`users/${uid}`).get()).data();
-  const privateUserProfileDocRef = db.doc(`users-private/${uid}`);
-  const fetchPrivateUser = async () => (await privateUserProfileDocRef.get()).data();
+  const { privateUserProfileDocRef, privateUserProfileData, publicUserProfileData } =
+    await getUserDocRefsWithData(uid);
 
-  // Fetch data concurrently to minimize time used
-  const [publicUserProfileData, privateUserProfileData] = await Promise.all([
-    fetchPublicUser(),
-    fetchPrivateUser()
-  ]);
+  if (!privateUserProfileData || !publicUserProfileData || !privateUserProfileData) {
+    logger.error('Missing Firestore account data during Stripe customer creation', { uid });
+    fail('internal');
+  }
 
   const fullName = `${publicUserProfileData.firstName} ${privateUserProfileData.lastName}`.trim();
 

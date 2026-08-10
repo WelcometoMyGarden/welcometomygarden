@@ -30,7 +30,7 @@ module.exports = async (event, res) => {
     logger.log('Ignoring non-WTMG invoice');
     return res.sendStatus(200);
   }
-  const uid = await getFirebaseUserId(invoice.customer);
+  const uid = await getFirebaseUserId(/** @type {string} */ (invoice.customer));
 
   const {
     privateUserProfileDocRef,
