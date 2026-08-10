@@ -1,7 +1,7 @@
 const { logger } = require('firebase-functions');
 const fail = require('../util/fail');
 const verifyBySecret = require('../user/verifyBySecret');
-const { db } = require('../firebase');
+const { usersPrivateDoc } = require('../collections');
 const querystring = require('node:querystring');
 
 /**
@@ -40,9 +40,7 @@ async function manageEmailPreferences({ data, auth: callAuth }) {
     }
   }
 
-  const userPrivateRef = /** @type {DocumentReference<UserPrivate>} */ (
-    db.collection('users-private').doc(uid)
-  );
+  const userPrivateRef = usersPrivateDoc(uid);
   const docSnap = await userPrivateRef.get();
   if (!docSnap.exists) {
     fail('failed-precondition');
@@ -134,9 +132,7 @@ async function handleUnsubscribePost(req, res) {
   }
 
   // Apply the unsubscribe
-  const userPrivateRef = /** @type {DocumentReference<UserPrivate>} */ (
-    db.collection('users-private').doc(uid)
-  );
+  const userPrivateRef = usersPrivateDoc(uid);
   const docSnap = await userPrivateRef.get();
   if (!docSnap.exists) {
     logger.warn(`Trying to unsubscribe an account without users-private data`, {

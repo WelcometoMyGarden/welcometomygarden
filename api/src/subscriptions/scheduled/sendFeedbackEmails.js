@@ -1,4 +1,4 @@
-const { db } = require('../../firebase');
+const { usersPrivateCol } = require('../../collections');
 const { stripeSubscriptionKeys } = require('../constants');
 const { lxHourStart } = require('../../util/time');
 const { sendSubscriptionEndedFeedbackEmail } = require('../../mail');
@@ -14,9 +14,7 @@ exports.sendManualRenewalFeedbackEmails = async () => {
   const lxFeedbackThreshold = lxHourStart.minus({ days: FEEDBACK_EMAIL_DAYS_AFTER_EXPIRY });
   // We're looking for renewals that have auto-canceled with the scheduled function here
 
-  const query = /**
-   * @type {CollectionReference<UserPrivate>}
-   */ (db.collection('users-private'))
+  const query = usersPrivateCol()
     // WARNING: the below condition should not be added as an optimization,
     // "!= value" also implicitly excludes undefined values (like SQL would)
     // but we want to include undefined values for collection_method...
@@ -74,9 +72,7 @@ exports.sendAutomaticRenewalFeedbackEmails = async () => {
   // we can check if it's possible to fetch the sub, and check if cancel_at_period_end has a value
   // (= not forced)
 
-  const query = /**
-   * @type {CollectionReference<UserPrivate>}
-   */ (db.collection('users-private'))
+  const query = usersPrivateCol()
     .where(collectionMethodKey, '==', 'charge_automatically')
     // The subscription status is "canceled"
     .where(

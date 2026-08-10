@@ -1,12 +1,12 @@
 const { warn } = require('firebase-functions/logger');
-const { db } = require('../firebase');
+const { usersPrivateCol } = require('../collections');
 const stripe = require('./stripe');
 
 /**
  * Return the Firebase UID related to a Stripe customer.
  * First tries to retrieve this information from metadata in Stripe.
  * If that fails, this function searches for the customer in Firebase.
- * @param customerId a stripe customer ID
+ * @param {string} customerId a stripe customer ID
  * @returns {Promise<string | null>} null if no uid was found
  */
 module.exports = async (customerId) => {
@@ -18,9 +18,13 @@ module.exports = async (customerId) => {
     return null;
   }
 
-  // Attempt 1: fetch from the Stripe metadata
-  if (stripeCustomer.metadata?.wtmg_id) {
-    return /** @type {string} */ (stripeCustomer.metadata.wtmg_id);
+  // Attempt 1: fetch from the Stripe metadata.
+  // `stripeCustomer` is a `Response<Customer | DeletedCustomer>`; the `deleted`
+  // guard above rules out DeletedCustomer, but the Response wrapper defeats TS's
+  // discriminated-union narrowing, so narrow explicitly.
+  const customer = /** @type {import('stripe').Stripe.Customer} */ (stripeCustomer);
+  if (customer.metadata?.wtmg_id) {
+    return /** @type {string} */ (customer.metadata.wtmg_id);
   }
 
   // Attempt 2: query firebase
@@ -28,8 +32,7 @@ module.exports = async (customerId) => {
     `Trying to find ${customerId} in Firebase. This shouldn't occur, since ` +
       `the wtmg_id should have been saved in the Stripe customer metadata.`
   );
-  const snapshot = await db
-    .collection('users-private')
+  const snapshot = await usersPrivateCol()
     .where('stripeCustomerId', '==', customerId)
     .limit(1)
     .get();

@@ -1,4 +1,4 @@
-const { db } = require('../firebase');
+const { usersPrivateDoc } = require('../collections');
 const { frontendUrl } = require('../sharedConfig');
 const fail = require('../util/fail');
 const stripe = require('./stripe');
@@ -13,7 +13,7 @@ exports.createCustomerPortalSession = async (request) => {
   }
   const { uid } = request.auth;
 
-  const privateUserProfileDocRef = db.doc(`users-private/${uid}`);
+  const privateUserProfileDocRef = usersPrivateDoc(uid);
   const privateUserProfileData = await (await privateUserProfileDocRef.get()).data();
   if (!privateUserProfileData.stripeCustomerId) {
     fail('not-found');

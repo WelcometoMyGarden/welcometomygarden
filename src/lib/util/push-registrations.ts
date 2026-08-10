@@ -61,13 +61,10 @@ export const pushRegistrationsColRef = () =>
   ) as unknown as CollectionReference<FirebasePushRegistration, FirebasePushRegistration>;
 
 export const pushRegistrationDocRef = (id: string) =>
-  doc(
-    db(),
-    USERS_PRIVATE,
-    getUser().uid,
-    PUSH_REGISTRATIONS,
-    id
-  ) as DocumentReference<FirebasePushRegistration>;
+  doc(db(), USERS_PRIVATE, getUser().uid, PUSH_REGISTRATIONS, id) as DocumentReference<
+    FirebasePushRegistration,
+    FirebasePushRegistration
+  >;
 
 export const isWebPushRegistration = (
   pr: LocalPushRegistration | undefined | null

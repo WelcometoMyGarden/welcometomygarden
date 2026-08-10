@@ -2,7 +2,7 @@ const { defineString } = require('firebase-functions/params');
 const { createHmac } = require('crypto');
 const { Buffer } = require('node:buffer');
 const fail = require('../util/fail');
-const { db } = require('../firebase');
+const { usersDoc } = require('../collections');
 
 const discourseConnectSecretParam = defineString('DISCOURSE_CONNECT_SECRET');
 
@@ -66,9 +66,7 @@ exports.discourseConnectLogin = async ({ data, auth }) => {
   }
 
   // Check if the user is a superfan
-  const userPublicData = /** @type {UserPublic | undefined} */ (
-    (await db.doc(`users/${uid}`).get()).data()
-  );
+  const userPublicData = /** @type {UserPublic | undefined} */ ((await usersDoc(uid).get()).data());
   if (!userPublicData) {
     // Shouldn't happen. Any authenticated user should have a users-private doc.
     fail('internal');
