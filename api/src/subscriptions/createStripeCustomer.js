@@ -1,6 +1,7 @@
 const fail = require('../util/fail');
 const stripe = require('./stripe');
-const { auth, db } = require('../firebase');
+const { auth } = require('../firebase');
+const { usersDoc, usersPrivateDoc } = require('../collections');
 const { coerceToSupportedLanguage } = require('../util/translations');
 
 /**
@@ -8,7 +9,7 @@ const { coerceToSupportedLanguage } = require('../util/translations');
  * @param {{data: {locale: string}, auth?: FV2.CallableRequest<any>['auth']}} request
  */
 // The return is consistent. "return true" at the end fixes the ESLint error, but is not reachable.
-// eslint-disable-next-line consistent-return
+
 exports.createStripeCustomer = async ({ data: { locale }, auth: authData }) => {
   if (!auth) {
     return fail('unauthenticated');
@@ -17,8 +18,8 @@ exports.createStripeCustomer = async ({ data: { locale }, auth: authData }) => {
 
   const { email } = await auth.getUser(uid);
 
-  const fetchPublicUser = async () => (await db.doc(`users/${uid}`).get()).data();
-  const privateUserProfileDocRef = db.doc(`users-private/${uid}`);
+  const fetchPublicUser = async () => (await usersDoc(uid).get()).data();
+  const privateUserProfileDocRef = usersPrivateDoc(uid);
   const fetchPrivateUser = async () => (await privateUserProfileDocRef.get()).data();
 
   // Fetch data concurrently to minimize time used

@@ -1,0 +1,37 @@
+name: API typecheck
+# The root `yarn check` (svelte-check) only sees `src/**` via the generated
+# `.svelte-kit/tsconfig.json`; `api/` is invisible to it. This gate type-checks
+# `api/src` (checkJs + strictFunctionTypes) via `api/jsconfig.json`.
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'api/**'
+      # api's type gate consumes these frontend model/type definitions
+      - 'src/lib/models/**'
+      - 'src/lib/types/**'
+      - '.github/workflows/api-typecheck.yml'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'api/**'
+      - 'src/lib/models/**'
+      - 'src/lib/types/**'
+      - '.github/workflows/api-typecheck.yml'
+jobs:
+  typecheck:
+    name: 'Typecheck api/src'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: yarn
+          cache-dependency-path: api/yarn.lock
+      - name: Install API dependencies
+        run: cd api && yarn install --immutable
+      - name: Typecheck api/src
+        run: cd api && yarn typecheck

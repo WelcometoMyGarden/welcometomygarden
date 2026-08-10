@@ -5,30 +5,70 @@ const { supabase } = require('../supabase');
 const { wait } = require('../util/time');
 
 /**
- * @typedef {<T extends Change<DocumentSnapshot<any>>>
- *  (event: FirestoreEvent<T, Record<string, string>>) => Promise<any>} FirestoreEventHandler
+ * A concrete Firestore document-write trigger handler: it receives an event for
+ * a specific document model `T` and the path wildcard params `P`.
+ *
+ * Note this is NOT generic over `T`/`P` per-handler — each handler commits to a
+ * concrete model and params. The old typedef made the handler generic (`<T>...`),
+ * which required every handler to be valid for *every* document shape and
+ * hardcoded `Record<string, string>` for the params instead of the ones inferred
+ * from the document path.
+ * @template {DocumentData} T
+ * @template {Record<string, string>} P
+ * @typedef {(event: FirestoreEvent<Change<DocumentSnapshot<T>>, P>) => any} WriteHandler
  */
 
 /**
- * @type {(handlers: FirestoreEventHandler[]) => FirestoreEventHandler}
+ * Runs the given write-trigger handlers concurrently against a single event.
+ *
+ * `onDocumentWritten` hands its handler a `Change<DocumentSnapshot> | undefined`
+ * in a contravariant position, so under `strictFunctionTypes` it will not accept
+ * a handler annotated with a narrower snapshot type. The returned function widens
+ * to exactly that signature, and casts the event to the handlers' model type
+ * once here — the single cast that lets the concrete handlers stay strongly typed.
+ * @template {DocumentData} T
+ * @template {Record<string, string>} P
+ * @param {WriteHandler<T, P>[]} handlers
+ * @returns {(event: FirestoreEvent<Change<DocumentSnapshot> | undefined, P>) => Promise<any>}
  */
-exports.executeFirestoreTriggersConcurrently = (handlers) => async (event) =>
-  Promise.allSettled(handlers.map((handler) => handler(event)));
+exports.executeFirestoreTriggersConcurrently = (handlers) => async (event) => {
+  const typedEvent = /** @type {FirestoreEvent<Change<DocumentSnapshot<T>>, P>} */ (event);
+  return Promise.allSettled(handlers.map((handler) => handler(typedEvent)));
+};
 
 /**
- * @type {(handlers: FirestoreEventHandler[]) => FirestoreEventHandler}
+ * Runs the given write-trigger handlers serially against a single event.
+ * Same widening/cast rationale as {@link executeFirestoreTriggersConcurrently}.
+ * @template {DocumentData} T
+ * @template {Record<string, string>} P
+ * @param {WriteHandler<T, P>[]} handlers
+ * @returns {(event: FirestoreEvent<Change<DocumentSnapshot> | undefined, P>) => Promise<any>}
  */
 exports.seralizeFirestoreTriggers = (handlers) => async (event) => {
+  const typedEvent = /** @type {FirestoreEvent<Change<DocumentSnapshot<T>>, P>} */ (event);
   for (const handler of handlers) {
-    // eslint-ignore
-    await handler(event);
+    await handler(typedEvent);
   }
 };
 
 /**
+ * Widen a single, concrete Firestore trigger handler to the loose signature the
+ * firebase-functions `onDocument*` registrars require when a handler is passed
+ * directly (rather than composed via {@link executeFirestoreTriggersConcurrently}).
+ * Those registrars take the handler's `event` in a contravariant position, so
+ * under `strictFunctionTypes` a handler annotated with a narrower snapshot/model
+ * type is rejected. This is the single widening cast — identity at runtime, and
+ * the handler stays fully type-checked at its own definition. Unlike wrapping in
+ * the concurrent runner, this does NOT introduce `Promise.allSettled`, so a
+ * throwing handler still propagates (preserving the trigger's retry semantics).
+ * @param {(event: any) => any} handler
+ * @returns {(event: any) => any}
+ */
+exports.widenTrigger = (handler) => handler;
+
+/**
  * Only call the function if the guard is true, otherwise do nothing
  * @type {WrappedFunction}
-}
  */
 exports.guardOn = function wrappedFunc(guard, func) {
   return (...args) => {
@@ -108,7 +148,10 @@ const createDataMapper = (mapper, pick) => (data) =>
       })
       .filter((v) => !!v)
       // flatten double-nested arrays, but leave single-nested arrays
-      .reduce((acc, e) => (Array.isArray(e[0]) ? [...acc, ...e] : [...acc, e]), [])
+      .reduce(
+        (acc, e) => (Array.isArray(e[0]) ? [...acc, ...e] : [...acc, e]),
+        /** @type {any[]} */ ([])
+      )
   );
 
 exports.createDataMapper = createDataMapper;

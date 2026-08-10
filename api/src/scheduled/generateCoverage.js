@@ -9,7 +9,8 @@ const {
   truncate,
   union
 } = require('@turf/turf');
-const { db, storage } = require('../firebase');
+const { storage } = require('../firebase');
+const { campsitesCol } = require('../collections');
 
 // Precomputes "coverage" overlays for the WTMG /every15km landing page map.
 //
@@ -80,7 +81,15 @@ function dissolve(polygons, batchSize = 200) {
     const next = [];
     for (let i = 0; i < layer.length; i += batchSize) {
       const batch = layer.slice(i, i + batchSize);
-      next.push(batch.length === 1 ? batch[0] : union(featureCollection(batch)));
+      next.push(
+        batch.length === 1
+          ? batch[0]
+          : union(
+              /** @type {import('geojson').FeatureCollection<import('geojson').Polygon | import('geojson').MultiPolygon>} */ (
+                featureCollection(batch)
+              )
+            )
+      );
     }
     round += 1;
     logger.debug(`generateCoverage: dissolve round ${round}: ${layer.length} -> ${next.length}`);
@@ -127,7 +136,7 @@ async function uploadGeojson(filename, geojson) {
  * @returns {Promise<void>}
  */
 module.exports = async () => {
-  const snapshot = await db.collection('campsites').where('listed', '==', true).get();
+  const snapshot = await campsitesCol().where('listed', '==', true).get();
 
   const listed = snapshot.docs.map((d) => d.data()).filter((g) => g && isValidLocation(g.location));
   logger.info(
@@ -155,7 +164,11 @@ module.exports = async () => {
   // region punched out as a hole, so it renders as one semi-transparent fill
   // sitting edge-to-edge with the green coverage.
   const world = bboxPolygon([-180, -85, 180, 85]);
-  let complement = difference(featureCollection([world, coverage]));
+  let complement = difference(
+    /** @type {import('geojson').FeatureCollection<import('geojson').Polygon | import('geojson').MultiPolygon>} */ (
+      featureCollection([world, coverage])
+    )
+  );
   if (!complement) throw new Error('generateCoverage: complement produced no geometry.');
   complement = truncate(complement, { precision: PRECISION, coordinates: 2, mutate: true });
   complement.properties = { kind: 'garden-coverage-complement', radiusKm: RADIUS_KM };

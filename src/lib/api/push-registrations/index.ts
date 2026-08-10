@@ -105,12 +105,10 @@ const MESSAGING_REFRESH_THRESHOLD = 1000 * 3600 * 24;
 
 export const createFirebasePushRegistrationObserver = () => {
   const q = query(
-    collection(
-      db(),
-      USERS_PRIVATE,
-      getUser().id,
-      PUSH_REGISTRATIONS
-    ) as CollectionReference<FirebasePushRegistration>
+    collection(db(), USERS_PRIVATE, getUser().id, PUSH_REGISTRATIONS) as CollectionReference<
+      FirebasePushRegistration,
+      FirebasePushRegistration
+    >
   );
 
   return onSnapshot(q, async (querySnapshot) => {

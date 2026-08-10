@@ -1,5 +1,6 @@
 const { FieldValue } = require('firebase-admin/firestore');
-const { auth, db, getFunctionUrl } = require('./firebase');
+const { auth, getFunctionUrl } = require('./firebase');
+const { statsDoc } = require('./collections');
 const {
   sendgridHostFieldIdParam,
   sendgridListedFieldIdParam,
@@ -45,10 +46,7 @@ exports.onCampsiteCreate = async ({ data }) => {
   }
 
   // Update statistics
-  await db
-    .collection('stats')
-    .doc('campsites')
-    .set({ count: FieldValue.increment(1) }, { merge: true });
+  await statsDoc('campsites').set({ count: FieldValue.increment(1) }, { merge: true });
 
   // Schedule the photo reminder email
   const [resourceName, targetUri] = await getFunctionUrl('sendMessage');
@@ -110,8 +108,5 @@ exports.onCampsiteDelete = async ({ data }) => {
     await updateSendgridContact(sendgridContactUpdateDetails, 'deleted garden');
   }
 
-  await db
-    .collection('stats')
-    .doc('campsites')
-    .set({ count: FieldValue.increment(-1) }, { merge: true });
+  await statsDoc('campsites').set({ count: FieldValue.increment(-1) }, { merge: true });
 };

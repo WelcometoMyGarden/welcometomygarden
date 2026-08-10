@@ -1,7 +1,7 @@
 const { replicate } = require('./shared');
 
 /**
- * @param {FirestoreEvent<Change<DocumentSnapshot<Garden>>>} change
+ * @param {FirestoreEvent<Change<DocumentSnapshot<Chat>>>} change
  */
 module.exports = async ({ data: change }) => {
   await replicate({

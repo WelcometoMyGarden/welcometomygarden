@@ -1,5 +1,5 @@
 const { logger } = require('firebase-functions');
-const { db } = require('../firebase');
+const { usersPrivateDoc } = require('../collections');
 const verifyBySecret = require('../user/verifyBySecret');
 const { frontendUrl } = require('../sharedConfig');
 const stripe = require('./stripe');
@@ -53,8 +53,8 @@ exports.handleManageSubscription = async (req, res) => {
   }
 
   // Authenticated. Load the user's Stripe data.
-  const docSnap = await db.collection('users-private').doc(uid).get();
-  const data = docSnap.data() ?? {};
+  const docSnap = await usersPrivateDoc(uid).get();
+  const data = docSnap.data() ?? /** @type {Partial<UserPrivate>} */ ({});
   const langPrefix = urlPathPrefix(data.communicationLanguage);
   const subscriptionId = data.stripeSubscription?.id;
   const customerId = data.stripeCustomerId;

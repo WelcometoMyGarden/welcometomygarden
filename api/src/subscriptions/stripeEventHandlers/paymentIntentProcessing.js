@@ -116,7 +116,8 @@ module.exports = async (event, res) => {
     await sendSubscriptionConfirmationEmail({
       email: invoice.customer_email,
       firstName: publicUserProfileData.firstName,
-      language: privateUserProfileData.communicationLanguage
+      language: privateUserProfileData.communicationLanguage,
+      secret: privateUserProfileData.secret
     });
   } else if (invoice.billing_reason === 'subscription_cycle') {
     // TODO: charge_automatically SEPA renewal payments should also reach here.
@@ -124,7 +125,8 @@ module.exports = async (event, res) => {
     const emailConfig = {
       email: invoice.customer_email,
       firstName: publicUserProfileData.firstName,
-      language: privateUserProfileData.communicationLanguage
+      language: privateUserProfileData.communicationLanguage,
+      secret: privateUserProfileData.secret
     };
     if (privateUserProfileData.stripeSubscription.collectionMethod !== 'charge_automatically') {
       logger.log(

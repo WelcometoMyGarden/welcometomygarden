@@ -99,9 +99,6 @@ module.exports = async (event, res) => {
     await getUserDocRefsWithData(uid);
 
   // Save updated subscription state in Firebase
-  /**
-   * @type {DocumentReference<UserPrivate>}
-   */
   await privateUserProfileDocRef.update(
     removeUndefined({
       [statusKey]: subscription.status,
