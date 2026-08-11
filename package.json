@@ -61,8 +61,8 @@
     "@stripe/stripe-js": "^8.11.0",
     "@supabase/supabase-js": "^2.105.4",
     "@sveltejs/adapter-static": "^3.0.10",
-    "@sveltejs/kit": "^2.59.1",
-    "@sveltejs/vite-plugin-svelte": "^6.2.4",
+    "@sveltejs/kit": "^2.70.2",
+    "@sveltejs/vite-plugin-svelte": "^7.2.0",
     "@tmcw/togeojson": "^7.1.2",
     "@turf/turf": "^7.3.5",
     "@types/geojson": "^7946.0.16",
@@ -92,6 +92,7 @@
     "nprogress": "^0.2.0",
     "prettier": "^3.8.3",
     "prettier-plugin-svelte": "^3.5.2",
+    "sharp": "^0.35.3",
     "smoothscroll-polyfill": "^0.4.4",
     "stripe": "^17.7.0",
     "svelte": "^5.55.5",
@@ -105,9 +106,10 @@
     "typescript": "^5.9.3",
     "typescript-eslint": "^8",
     "ua-parser-js": "^2.0.9",
-    "vite": "^7.3.3",
+    "vite": "^8.2.0",
     "vite-bundle-visualizer": "^1.2.1",
-    "vite-plugin-mkcert": "^1.17.12",
+    "vite-imagetools": "^11.0.0",
+    "vite-plugin-mkcert": "^2.1.0",
     "vitest": "^4.1.6"
   },
   "dependenciesMeta": {
@@ -119,7 +121,8 @@
     }
   },
   "resolutions": {
-    "sharp@npm:0.32.6": "0.33.5"
+    "sharp@npm:0.32.6": "0.33.5",
+    "vite-imagetools": "11.0.0"
   },
   "type": "module",
   "packageManager": "yarn@4.12.0"
