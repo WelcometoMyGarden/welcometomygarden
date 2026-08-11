@@ -56,6 +56,9 @@ jobs:
     # Gotchas: https://docs.github.com/en/actions/reference/workflows-and-actions/dockerfile-support
     steps:
       - uses: actions/checkout@v6
+        with:
+          # src/lib/assets is stored in Git LFS; fetch it during checkout.
+          lfs: true
       - uses: actions/setup-node@v6
         with:
           # We don't supply a node version here, because we want to use the one in wtmg-e2e-ci
@@ -63,16 +66,15 @@ jobs:
           cache: yarn
       - name: Install dependencies
         run: yarn install --immutable && cd api && yarn install --immutable && cd ..
-      ###### TODO: replace this, and its prepare-source equivalent, by GIT-LFS
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
+      # Source images (src/lib/assets) now come from the Git LFS checkout above
+      # (lfs: true) instead of being fetched from the gs://wtmg-static GCS bucket.
+      - name: Cache responsive image transforms
+        uses: actions/cache@v4
         with:
-          version: '>= 363.0.0'
-          project_id: 'wtmg-production'
-      - name: Use gcloud CLI
-        run: gsutil -m cp -r gs://wtmg-static/assets src/lib
-        shell: bash
-      ######
+          path: node_modules/.cache/imagetools
+          key: imagetools-${{ runner.os }}-${{ hashFiles('src/lib/assets/**/*.jpg', 'src/lib/assets/**/*.jpeg', 'src/lib/assets/**/*.png') }}
+          restore-keys: |
+            imagetools-${{ runner.os }}-
       - name: Set up environment
         run: |
           sed -i -z \
