@@ -436,12 +436,6 @@
         {/if}
       </div>
       <footer class="footer">
-        {#if userInfo.languages}
-          <Text class="mb-m notranslate">
-            {userInfo.firstName} speaks
-            <Text is="span" weight="bold">Dutch & English</Text>
-          </Text>
-        {/if}
         {#if ownedByLoggedInUser}
           <Button href={$lr(routes.EDIT_GARDEN)} uppercase medium>
             {$_('garden.manage.action')}

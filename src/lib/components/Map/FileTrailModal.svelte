@@ -35,7 +35,7 @@
   // MODAL
   let ariaLabelledBy = 'route-modal-title';
   let stickToBottom = $state(false);
-  let phase: 'SELECTING' | 'DONE' = $state('SELECTING');
+  let phase = $state<'SELECTING' | 'DONE'>('SELECTING');
 
   let buttonText = $derived(phase !== 'DONE' ? 'Next' : 'Show Route');
   let buttonDisabled = $derived(phase !== 'DONE' ? files.length === 0 : false);

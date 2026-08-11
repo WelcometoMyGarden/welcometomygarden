@@ -6,7 +6,7 @@
   import { user } from '$lib/stores/auth';
   import { LabeledCheckbox, Button } from '$lib/components/UI';
   import { getGardenPhotoBig } from '$lib/api/garden';
-  import type { FirebaseGarden, GardenDraft, LongLat } from '$lib/types/Garden';
+  import type { FirebaseGarden, GardenDraft, GardenSubmission, LongLat } from '$lib/types/Garden';
   import type { FormEventHandler } from 'svelte/elements';
   import { facilities } from '$lib/stores/facilities';
   import { MAX_GARDEN_CAPACITY } from '$lib/constants';
@@ -15,7 +15,7 @@
   interface Props {
     isSubmitting?: boolean;
     isUpdate?: boolean;
-    onsubmit: (garden: GardenDraft) => void;
+    onsubmit: (garden: GardenSubmission) => void;
   }
 
   let { isSubmitting = false, isUpdate = false, onsubmit }: Props = $props();
@@ -151,9 +151,11 @@
   };
 
   const handleSubmit = async () => {
-    if (
-      [validateDescription(garden.description), validateLocation(garden.location)].includes(false)
-    ) {
+    const { location } = garden;
+    const descriptionValid = validateDescription(garden.description);
+    const locationValid = validateLocation(location);
+    // The duplicate !location guard is for type narrowing
+    if (!descriptionValid || !locationValid || !location) {
       formValid = false;
       return;
     }
@@ -164,7 +166,7 @@
     }
 
     formValid = true;
-    onsubmit(garden);
+    onsubmit({ ...garden, location });
   };
 </script>
 
