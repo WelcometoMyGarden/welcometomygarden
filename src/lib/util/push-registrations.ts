@@ -56,12 +56,12 @@ export const pushRegistrationsColRef = () =>
   collection(
     db(),
     USERS_PRIVATE,
-    getUser().uid,
+    getUser().id,
     PUSH_REGISTRATIONS
   ) as unknown as CollectionReference<FirebasePushRegistration, FirebasePushRegistration>;
 
 export const pushRegistrationDocRef = (id: string) =>
-  doc(db(), USERS_PRIVATE, getUser().uid, PUSH_REGISTRATIONS, id) as DocumentReference<
+  doc(db(), USERS_PRIVATE, getUser().id, PUSH_REGISTRATIONS, id) as DocumentReference<
     FirebasePushRegistration,
     FirebasePushRegistration
   >;
