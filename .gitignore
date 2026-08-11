@@ -1,6 +1,6 @@
-# Large source assets to be processed by svelte-img
-# See the readme or docs/full-access.md for more info
-src/lib/assets
+# Note: src/lib/assets (source images processed by svelte-img) is now tracked in
+# the repo via Git LFS — see .gitattributes and docs/full-access.md. It used to be
+# gitignored here and synced from the gs://wtmg-static GCS bucket.
 
 # Logs
 logs

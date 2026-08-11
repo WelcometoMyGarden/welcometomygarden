@@ -64,10 +64,10 @@ COMPOSE_ENV_FILES=./.devcontainer/.env.compose devcontainer up --workspace-folde
 
 - **postCreateCommand** → [`bootstrap-repo.sh`](bootstrap-repo.sh) — clones
   `REPO_URL` (default: the public WTMG repo; `GITHUB_PAT` injected if set) into
-  the `wtmg-src` volume, downloads the public static assets from
-  `gs://wtmg-static/assets` (gitignored, required by the source; mirrors the CI
-  workflow), and installs dependencies. **Idempotent**: re-running it after a
-  rebuild never re-clones or overwrites an existing working copy.
+  the `wtmg-src` volume, ensures the `src/lib/assets` source images are present
+  via Git LFS (`git lfs pull`; git-lfs is installed in the image), and installs
+  dependencies. **Idempotent**: re-running it after a rebuild never re-clones or
+  overwrites an existing working copy.
 - **postStartCommand** → [`start-dev.sh`](start-dev.sh) — runs `ci/fill-envs.sh`,
   applies the configured server ports (see below), then launches a headless
   zellij session **`dev`** with two side-by-side panes

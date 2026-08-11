@@ -15,11 +15,17 @@ runs:
       # https://yarnpkg.com/cli/install
       run: yarn install --immutable
       shell: bash
-    - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@v3
+    # Source images in src/lib/assets are checked out via Git LFS (the caller's
+    # actions/checkout step must set `lfs: true`). They used to be fetched from the
+    # gs://wtmg-static GCS bucket with gsutil here — no longer needed.
+    - name: Cache responsive image transforms
+      # svelte-img/vite-imagetools writes generated variants + LQIPs here. Keying on the
+      # source images means unchanged assets are served from cache across builds instead
+      # of being re-encoded (a large chunk of build time). restore-keys gives a partial
+      # fallback so adding one image doesn't discard the whole cache.
+      uses: actions/cache@v4
       with:
-        version: '>= 363.0.0'
-        project_id: 'wtmg-production'
-    - name: Use gcloud CLI
-      run: gsutil -m cp -r gs://wtmg-static/assets ${{ github.workspace }}/src/lib
-      shell: bash
+        path: node_modules/.cache/imagetools
+        key: imagetools-${{ runner.os }}-${{ hashFiles('src/lib/assets/**/*.jpg', 'src/lib/assets/**/*.jpeg', 'src/lib/assets/**/*.png') }}
+        restore-keys: |
+          imagetools-${{ runner.os }}-
