@@ -33,16 +33,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Google Cloud SDK (gsutil) — used by bootstrap-repo.sh to fetch the public
-# static assets from gs://wtmg-static, mirroring the CI e2e workflow (which
-# installs it via google-github-actions/setup-gcloud). apt-transport-https + gpg
-# come from the base image.
-RUN curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg \
-      | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg \
-    && echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" \
-      > /etc/apt/sources.list.d/google-cloud-sdk.list \
-    && apt-get update && apt-get install -y --no-install-recommends google-cloud-cli \
-    && rm -rf /var/lib/apt/lists/*
+# Git LFS — src/lib/assets (the source images processed by svelte-img) is stored in
+# Git LFS (see .gitattributes). bootstrap-repo.sh clones the repo; with git-lfs
+# installed, the clone/checkout automatically smudges the LFS pointers into real
+# files. This replaces the former Google Cloud SDK (gsutil) install that fetched
+# these assets from gs://wtmg-static.
+RUN apt-get update && apt-get install -y --no-install-recommends git-lfs \
+    && rm -rf /var/lib/apt/lists/* \
+    && git lfs install --system --skip-repo
 
 # lazygit — static binary from GitHub releases (arch-aware).
 RUN ARCH="$(uname -m)" \

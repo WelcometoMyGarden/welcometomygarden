@@ -21,7 +21,7 @@ The system is integrated with third-party services for several important feature
 - Java runtime environment (JRE) >= v21. This is required for Firebase's CLI. [Adoptium builds](https://adoptium.net/en-GB/) are helpful.
 - The Yarn package manager version which is defined in [package.json](../package.json), which should be installed [via Corepack](https://yarnpkg.com/corepack#installation).
 - The [Firebase CLI](https://firebaseopensource.com/projects/firebase/firebase-tools/), installed globally via npm (`npm i -g firebase-tools`). Make sure globally installed node binaries are added to your path.
-- A tool to copy files from a public Google Storage bucket, such as `gsutil`, `google storage` or `rclone`
+- [Git LFS](https://git-lfs.com/) — the source images in `src/lib/assets` are stored via Git Large File Storage. Install it (e.g. `brew install git-lfs`, `apt install git-lfs`, …) and run `git lfs install` once, so that cloning/pulling fetches the actual image files instead of pointer stubs.
 - Optional: [Mailpit](https://mailpit.axllent.org/) for testing emails locally.
 - A Mapbox API key, you can [get one from Mapbox](https://docs.mapbox.com/help/getting-started/#how-to-use-mapbox). If you don't supply one, then some pages will crash. Mapbox asks for payment details to get a token, but has a free tier that should be sufficient for local development needs.
 
@@ -48,10 +48,10 @@ The system is integrated with third-party services for several important feature
 
    Next, fill in your `VITE_MAPBOX_ACCESS_TOKEN` in the front-end `.env.local`.
 
-3. Download source assets from our bucket, which are not (yet) tracked in git. You can also use another tool for this.
+3. Make sure the `src/lib/assets` source images are present. These are tracked via [Git LFS](https://git-lfs.com/), so a normal `git clone` with Git LFS installed already downloads them. If they're missing (e.g. you installed Git LFS after cloning), fetch them with:
 
    ```sh
-   gsutil -m cp -r gs://wtmg-static/assets src/lib
+   git lfs pull
    ```
 
 ## Next, get the dev servers running

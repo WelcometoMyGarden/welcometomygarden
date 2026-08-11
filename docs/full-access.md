@@ -95,20 +95,10 @@ In the bucket file management API, it's possible to drag & drop in a second vers
 
 **Dynamically generated responsive SvelteKit assets**
 
-For some newer components, we started dynamically generating responsive images on build-time, rather than using one-size static images hosted in a bucket, using [svelte-img](https://github.com/zerodevx/svelte-img).
+For some newer components, we dynamically generate responsive images at build time, rather than using one-size static images hosted in a bucket, using [svelte-img](https://github.com/zerodevx/svelte-img) (through our own caching Vite plugin, [`plugins/svelteImgCached.js`](../plugins/svelteImgCached.js)).
 
-The source images for this process should be put in `src/lib/assets`, but are not checked into the Git repo.
+The source images for this process live in `src/lib/assets`, and are tracked in the repo via [Git LFS](https://git-lfs.com/) — see [`.gitattributes`](../.gitattributes). Make sure Git LFS is installed (see [dev-env.md](./dev-env.md)); cloning or pulling then fetches the actual images automatically.
 
-We also keep them in the `wtmg-static` Google Cloud bucket.
+To add or update images, just commit them as usual — Git LFS transparently stores the binary contents. PNG/JPG/JPEG files under `src/lib/assets` are LFS-tracked; SVGs are kept as regular text-tracked files.
 
-It's possible to sync your local version with the bucket, in both ways, with several tools. For example, to upload new files with [rclone](https://rclone.org/drive/):
-
-```
-rclone copy --exclude="**.DS_Store" src/lib/assets gcloud:wtmg-static/assets
-```
-
-`bisync` can be used to both download and upload.
-
-This assumes that `gcloud` is configured as a Google Cloud Storage remote targeting `wtmg-static`. Check with the team to copy configuration.
-
-In the future, we should maybe consider blowing up our repository size to 10s to 100s of megabytes anyway, to get the benefits of version control for source images, and to not have to deal with an external storage system like now. See [this discussion](https://softwareengineering.stackexchange.com/questions/80962/should-images-be-stored-in-a-git-repository).
+Previously these images were kept out of the repo and synced to/from the `wtmg-static` Google Cloud bucket (e.g. with `rclone` or `gsutil`); that external sync is no longer needed.

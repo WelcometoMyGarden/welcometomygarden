@@ -50,15 +50,13 @@ git remote set-url origin "$(inject_pat "$REPO_URL")"
 # never leak into commits/pushes made from here.
 git update-index --skip-worktree firebase.json
 
-# Public static assets required by the source (src/lib/assets is gitignored, so
-# a fresh clone lacks them). Fetched anonymously from the public GCS bucket,
-# mirroring the CI e2e workflow. Idempotent: skip if already populated.
-if [ -d src/lib/assets ] && [ -n "$(ls -A src/lib/assets 2>/dev/null)" ]; then
-  echo "[bootstrap] src/lib/assets already present — skipping asset download."
-else
-  echo "[bootstrap] Downloading public assets from gs://wtmg-static/assets ..."
-  gsutil -m cp -r gs://wtmg-static/assets src/lib
-fi
+# Source images in src/lib/assets are tracked via Git LFS (see .gitattributes).
+# A normal `git clone` with git-lfs installed (see the Dockerfile) already smudges
+# them into place; `git lfs pull` here is a safety net — e.g. for a working copy that
+# predates the LFS migration, or one cloned with GIT_LFS_SKIP_SMUDGE set. This
+# replaces the former `gsutil -m cp -r gs://wtmg-static/assets src/lib` download.
+echo "[bootstrap] Ensuring Git LFS assets (src/lib/assets) are present (git lfs pull) ..."
+git lfs pull || echo "[bootstrap] Warning: 'git lfs pull' failed; src/lib/assets may be incomplete."
 
 # Dependencies (frontend + api) via corepack-managed yarn.
 echo "[bootstrap] Installing frontend dependencies..."
