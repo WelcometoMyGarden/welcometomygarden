@@ -1,0 +1,9 @@
+# Large binary source images under src/lib/assets are stored via Git LFS.
+# Previously these were kept out of the repo and synced from the public
+# gs://wtmg-static GCS bucket; they now live in git (LFS) instead.
+#
+# Scope: only src/lib/assets for now. SVGs are intentionally NOT tracked by LFS —
+# they are small, text-based (XML) and diff well as regular git-tracked files.
+src/lib/assets/**/*.png  filter=lfs diff=lfs merge=lfs -text
+src/lib/assets/**/*.jpg  filter=lfs diff=lfs merge=lfs -text
+src/lib/assets/**/*.jpeg filter=lfs diff=lfs merge=lfs -text

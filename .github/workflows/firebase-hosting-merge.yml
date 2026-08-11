@@ -60,6 +60,9 @@ jobs:
       IS_PREVIEW: 'false'
     steps:
       - uses: actions/checkout@v6
+        with:
+          # src/lib/assets is stored in Git LFS; fetch it during checkout.
+          lfs: true
       - uses: ./.github/actions/prepare-source
       - name: Build project
         run: yarn run build:prod
