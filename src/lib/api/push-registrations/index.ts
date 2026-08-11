@@ -89,7 +89,9 @@ const refreshExistingSubscription = async (registration: LocalPushRegistration) 
       // (one stale and one not) to eachother.
       //
       fcmToken,
-      subscription: subscription ? { ...subscription } : null,
+      // Only web registrations carry a subscription; native ones don't have the
+      // field at all, so we only write it when we actually have one.
+      ...(subscription ? { subscription: { ...subscription } } : {}),
       deviceId: get(deviceId) ?? null,
       // In case we are able to refresh a registration, we should be able to assume that this registration is still active, or active _again_
       // after erroring. NOTE: not tested.

@@ -21,7 +21,7 @@ import {
   resolveOnUserLocaleLoaded,
   firebaseCustomToken
 } from '$lib/stores/auth';
-import User, { type UserPrivate, type UserPublic } from '$lib/models/User';
+import { buildUser, type User, type UserPrivate, type UserPublic } from '$lib/models/User';
 import { createUser, resendAccountVerification as resendAccVerif } from '$lib/api/functions';
 import { CAMPSITES, USERS, USERS_PRIVATE } from './collections';
 import {
@@ -421,12 +421,11 @@ const updateUserIfPossible = async () => {
     // which would cause more loading than we want.
 
     const currentUser = get(user);
-    let newUser: User;
-    if (!currentUser) {
-      newUser = new User(updateProperties);
-    } else {
-      newUser = currentUser.copyWith(updateProperties);
-    }
+    // Rebuild the local user, applying defaults. When one already exists, merge
+    // the new fields over it (this replaces the former `User.copyWith`).
+    const newUser: User = currentUser
+      ? buildUser({ ...currentUser, ...updateProperties })
+      : buildUser(updateProperties);
 
     user.set(newUser);
 

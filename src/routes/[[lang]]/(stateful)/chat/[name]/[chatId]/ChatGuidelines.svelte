@@ -15,11 +15,16 @@
 
   let { hostName }: Props = $props();
 
+  /** Shape of each `chat.guidelines.points.*` entry in the i18n locale files. */
+  type GuidelinePoint = { title: string; description: string };
+
   // Combine the 3 points with 3 images
   let guidelineData = $derived(
-    zip(Object.values($json('chat.guidelines.points')), [handIcon, chatIcon, plantIcon]).map(
-      ([a, b]) => ({ ...a, img: b })
-    )
+    zip(Object.values(($json('chat.guidelines.points') ?? {}) as Record<string, GuidelinePoint>), [
+      handIcon,
+      chatIcon,
+      plantIcon
+    ]).map(([a, b]) => ({ ...a, img: b }))
   );
 </script>
 

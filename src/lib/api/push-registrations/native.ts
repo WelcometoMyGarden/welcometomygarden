@@ -374,14 +374,11 @@ async function registerNotifications() {
       await updateDoc(pushRegistrationDocRef(prWithSameToken.id), upsertProperties);
     } else {
       // Default: no existing PR with this token — add a fresh one.
-      await addDoc<FirebaseNativePushRegistration, FirebaseNativePushRegistration>(
-        pushRegistrationsColRef(),
-        {
-          fcmToken,
-          createdAt: serverTimestamp(),
-          ...upsertProperties
-        } satisfies FirebaseNativePushRegistration
-      );
+      await addDoc(pushRegistrationsColRef(), {
+        fcmToken,
+        createdAt: serverTimestamp(),
+        ...upsertProperties
+      } satisfies FirebaseNativePushRegistration);
     }
     // Success
     isEnablingLocalPushRegistration.set(false);
