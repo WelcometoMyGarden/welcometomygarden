@@ -21,19 +21,22 @@ const { wait } = require('../util/time');
 /**
  * Runs the given write-trigger handlers concurrently against a single event.
  *
- * `onDocumentWritten` hands its handler a `Change<DocumentSnapshot> | undefined`
- * in a contravariant position, so under `strictFunctionTypes` it will not accept
- * a handler annotated with a narrower snapshot type. The returned function widens
- * to exactly that signature, and casts the event to the handlers' model type
- * once here — the single cast that lets the concrete handlers stay strongly typed.
+ * Completes work in other handlers if any handler fails, but also rejects if any handler fails.
+ *
  * @template {DocumentData} T
  * @template {Record<string, string>} P
  * @param {WriteHandler<T, P>[]} handlers
- * @returns {(event: FirestoreEvent<Change<DocumentSnapshot> | undefined, P>) => Promise<any>}
+ * @returns {(event: FirestoreEvent<Change<DocumentSnapshot> | undefined, P>) => Promise<any>} makes this writable to Firestore event handler registrars
  */
 exports.executeFirestoreTriggersConcurrently = (handlers) => async (event) => {
   const typedEvent = /** @type {FirestoreEvent<Change<DocumentSnapshot<T>>, P>} */ (event);
-  return Promise.allSettled(handlers.map((handler) => handler(typedEvent)));
+  return Promise.allSettled(handlers.map((handler) => handler(typedEvent))).then((statuses) => {
+    if (statuses.some(({ status }) => status === 'rejected')) {
+      throw 'One or more concurrent handlers failed';
+    } else {
+      return Promise.resolve('All concurrent handlers fulfilled');
+    }
+  });
 };
 
 /**
@@ -52,15 +55,27 @@ exports.seralizeFirestoreTriggers = (handlers) => async (event) => {
 };
 
 /**
- * Widen a single, concrete Firestore trigger handler to the loose signature the
- * firebase-functions `onDocument*` registrars require when a handler is passed
- * directly (rather than composed via {@link executeFirestoreTriggersConcurrently}).
- * Those registrars take the handler's `event` in a contravariant position, so
- * under `strictFunctionTypes` a handler annotated with a narrower snapshot/model
- * type is rejected. This is the single widening cast — identity at runtime, and
- * the handler stays fully type-checked at its own definition. Unlike wrapping in
- * the concurrent runner, this does NOT introduce `Promise.allSettled`, so a
- * throwing handler still propagates (preserving the trigger's retry semantics).
+ * Cast Firestore trigger handlers to (event: any) => any.
+ *
+ * This does nothing (identity) at runtime; the cast exists only to satisfy
+ * `strictFunctionTypes`.
+ *
+ * This example shows why:
+ *
+ * ```js
+ * // onCampsiteCreate is annotated to take only:
+ * //   FirestoreEvent<QueryDocumentSnapshot<Garden>, { campsiteId: string }>
+ * // onDocumentCreated insists on a handler taking:
+ * //   FirestoreEvent<QueryDocumentSnapshot<DocumentData>, Record<string, string>>
+ *
+ * onDocumentCreated('campsites/{campsiteId}', onCampsiteCreate);
+ * //                                          ^ TS2769: No overload matches this call
+ *
+ * onDocumentCreated('campsites/{campsiteId}', widenTrigger(onCampsiteCreate)); // ok
+ * ```
+ *
+ * `campsites/{campsiteId}` only ever yields gardens, so the widening is sound,
+ * and the handler stays fully type-checked at its own definition.
  * @param {(event: any) => any} handler
  * @returns {(event: any) => any}
  */
