@@ -1,4 +1,4 @@
-import type User from '$lib/models/User';
+import type { User } from '$lib/models/User';
 import { superfanLevels } from './superfan-levels';
 
 export const hasActiveSubscription = (user: User) => {
