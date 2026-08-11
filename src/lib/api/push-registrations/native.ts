@@ -236,7 +236,7 @@ export function setupAndroidChannels() {
 }
 export async function registerOrRefreshNativeRegistration() {
   DEV: logger.debug('Registering native push notifications due to creation or refresh');
-  const tokenPromise = new Promise<string>(async (resolve, reject) => {
+  const tokenPromise = new Promise<string>((resolve, reject) => {
     const listeners: (void | PluginListenerHandle)[] = [undefined, undefined];
     const removeListeners = () => Promise.all(listeners.map((l) => l?.remove()));
     const removeListenersAndReject = () => removeListeners().then(reject, reject);
