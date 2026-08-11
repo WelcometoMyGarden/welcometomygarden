@@ -1,12 +1,6 @@
-import type { FirebaseGarden, Garden } from '$lib/types/Garden';
+import type { FirebaseGarden } from '$lib/types/Garden';
 import type { Timestamp } from 'firebase/firestore';
 import type Stripe from 'stripe';
-
-type UserOverwritableProps = {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type - no other way of doing this AFAIK
-  [Property in keyof User]: User[Property] extends Function ? never : User[Property];
-};
-type UserProps = Partial<UserOverwritableProps> & { displayName?: string };
 
 type StripeSubscription = {
   id: string;
@@ -121,7 +115,17 @@ export type UserPublic = {
   superfan?: boolean;
 };
 
-export class User implements UserPrivate, UserPublic {
+/**
+ * The local, in-memory representation of the currently logged-in user.
+ *
+ * It merges the public (`users/{uid}`) and private (`users-private/{uid}`)
+ * Firestore documents, the Firebase Auth record, and the user's garden into a
+ * single plain object held by the `user` store. It is intentionally a curated
+ * subset of {@link UserPrivate} & {@link UserPublic} — only the fields the app
+ * reads locally are surfaced here.
+ */
+export type User = {
+  // TYPE TODO: choose one, id or uid
   id: string;
   uid: string;
   firstName: string;
@@ -138,84 +142,38 @@ export class User implements UserPrivate, UserPublic {
   stripeCustomerId?: string;
   stripeSubscription?: StripeSubscription;
   relistGardenAt?: Timestamp | null;
+};
 
-  constructor(user: UserProps) {
-    // TYPE TODO: choose one, id or uid
-    this.id = user.uid || user.id || '';
-    this.uid = user.uid || user.id || '';
-    this.firstName = user.firstName || user.displayName || '';
-    this.lastName = user.lastName || '';
-    this.email = user.email || '';
-    this.emailVerified = user.emailVerified || false;
-    this.countryCode = user.countryCode || '';
-    this.garden = user.garden || null;
-    this.emailPreferences = user.emailPreferences || {
-      newChat: true,
-      news: true
-    };
-    this.consentedAt = user.consentedAt || null;
-    this.communicationLanguage = user.communicationLanguage || '';
-    this.superfan = user.superfan || false;
-    this.savedGardens = user.savedGardens || [];
-    this.stripeCustomerId = user.stripeCustomerId;
-    this.stripeSubscription = user.stripeSubscription;
-    this.relistGardenAt = user.relistGardenAt ?? null;
-  }
+/**
+ * Input to {@link createUser}: any subset of {@link User} fields, plus an
+ * optional `displayName` (from the Firebase Auth profile) used as a fallback
+ * source for `firstName`.
+ */
+export type UserProps = Partial<User> & { displayName?: string };
 
-  /**
-   * Merges the given fields into this object, without creating a new object.
-   * @param obj
-   */
-  addFields(obj: Partial<UserOverwritableProps>) {
-    Object.keys(obj).forEach((prop) => {
-      (this as any)[prop] = obj[prop as keyof UserOverwritableProps];
-    });
-  }
-
-  /**
-   * Serialize this user to a JSON object
-   */
-  toJSON(): UserProps {
-    return {
-      id: this.id,
-      uid: this.uid,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      email: this.email,
-      emailVerified: this.emailVerified,
-      countryCode: this.countryCode,
-      garden: this.garden,
-      emailPreferences: this.emailPreferences ? { ...this.emailPreferences } : undefined,
-      consentedAt: this.consentedAt,
-      communicationLanguage: this.communicationLanguage,
-      superfan: this.superfan,
-      savedGardens: this.savedGardens,
-      stripeCustomerId: this.stripeCustomerId,
-      stripeSubscription: this.stripeSubscription ? { ...this.stripeSubscription } : undefined,
-      relistGardenAt: this.relistGardenAt
-    };
-  }
-
-  /**
-   * Copy this user to a new user, overwriting the given fields.
-   */
-  copyWith(props: Partial<UserProps>) {
-    const currentUserProps = this.toJSON();
-    const newProps = { ...currentUserProps, ...props };
-    return new User(newProps);
-  }
-
-  setGarden(garden: Garden | null) {
-    this.garden = garden;
-  }
-
-  setEmailPreferences(name: 'newChat' | 'news', pref: boolean) {
-    if (this.emailPreferences) {
-      this.emailPreferences[name] = pref;
-    } else {
-      this.emailPreferences = { [name]: pref };
-    }
-  }
-}
-
-export default User;
+/**
+ * Builds a {@link User} from partial data, applying the app's defaults for any
+ * missing fields. Use this instead of assembling the object by hand so the
+ * defaults (id/uid fallback, default email preferences, …) live in one place.
+ */
+export const buildUser = (user: UserProps): User => ({
+  id: user.uid ?? user.id ?? '',
+  uid: user.uid ?? user.id ?? '',
+  firstName: user.firstName ?? user.displayName ?? '',
+  lastName: user.lastName ?? '',
+  email: user.email ?? '',
+  emailVerified: user.emailVerified ?? false,
+  countryCode: user.countryCode ?? '',
+  garden: user.garden ?? null,
+  emailPreferences: user.emailPreferences ?? {
+    newChat: true,
+    news: true
+  },
+  consentedAt: user.consentedAt ?? null,
+  communicationLanguage: user.communicationLanguage ?? '',
+  superfan: user.superfan ?? false,
+  savedGardens: user.savedGardens ?? [],
+  stripeCustomerId: user.stripeCustomerId,
+  stripeSubscription: user.stripeSubscription,
+  relistGardenAt: user.relistGardenAt ?? null
+});

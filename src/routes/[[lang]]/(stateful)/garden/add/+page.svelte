@@ -8,7 +8,7 @@
   import { addGarden } from '$lib/api/garden';
   import Form from '$lib/components/Garden/Form.svelte';
   import routes from '$lib/routes';
-  import type { GardenDraft } from '$lib/types/Garden';
+  import type { GardenSubmission } from '$lib/types/Garden';
   import trackEvent from '$lib/util/track-plausible';
   import { PlausibleEvent } from '$lib/types/Plausible';
   import * as Sentry from '@sentry/sveltekit';
@@ -17,7 +17,7 @@
 
   let addingGarden = $state(false);
 
-  const submit = async (garden: GardenDraft) => {
+  const submit = async (garden: GardenSubmission) => {
     addingGarden = true;
     try {
       const newGarden = await addGarden({

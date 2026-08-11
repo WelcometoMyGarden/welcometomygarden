@@ -30,12 +30,14 @@ config and pass `eslint` (0 errors) on the changed files.
 | After group D (Dropzone.svelte) | 31 | 19 |
 | After group F (svelte:element / component-prop gaps) | 29 | 19 |
 | After group A (svelte-simple-modal component types) | 19 | 19 |
-| **After rebase onto `upstream/master` + group H (upstream `sv` bug)** | **19** | **17** |
+| After rebase onto `upstream/master` + group H (upstream `sv` bug) | 19 | 17 |
+| After group B (Firebase/Firestore generics) | 8 | 17 |
+| **After group E (data-model / product decisions)** | **0** | **17** |
 
-The remaining **19 errors** are exactly groups **B** (Firebase/Firestore
-generics) and **E** (data-model / product decisions), which are intentionally
-deferred — see below. Warnings dropped from 19 → **17** because upstream's
-checkbox/radio harmonization removed two a11y warnings.
+All error groups are now resolved; **0 errors remain**. The 17 remaining items
+are all **warnings** (a11y, `state_referenced_locally`, unused CSS) — see the
+Warnings section at the end; they are not type errors and are left for a
+separate pass.
 
 ### Committed on this branch (on top of the linting branch)
 1. `fix(types): resolve simple svelte-check type errors` — ~35 low-risk fixes (casts, `$state` init types, click-outside `EventTarget`→`Node`, `window.wtmgAnchorNav` global, etc.)
@@ -51,8 +53,9 @@ checkbox/radio harmonization removed two a11y warnings.
 11. `fix(types): reconcile svelte-simple-modal legacy component types (group A)`
 12. `fix(types): correct upstream Swedish (sv) locale key in store-URL maps (group H)`
 
-Groups **A, C, D, F, G are done** (see the ✅ notes in each section below).
-Groups **B and E remain** and are the only source of the 19 remaining errors.
+**All groups (A–H) are now done** — see the ✅ notes in each section below.
+Groups B and E were the last remaining and are resolved as described in their
+sections.
 
 ### Reassessment after the rebase onto `upstream/master`
 
@@ -130,7 +133,30 @@ does in CI; the error is real for `yarn check`.)
 `bind:this` paths were untouched. Worth a quick manual open/close of an error
 modal and the archive-confirm modal to confirm.
 
-### B. Firebase / Firestore generics — ~11 errors
+### B. Firebase / Firestore generics — ~11 errors — ✅ RESOLVED
+
+**Fix applied:**
+- `garden.ts`: added a `RESTValue` union alias and two small readers —
+  `restNumber()` (discriminates `doubleValue`/`integerValue` via the `in`
+  operator instead of optional chaining, which can't narrow the union) and
+  `restFacilities()` (a typed builder that always produces a `GardenFacilities`
+  with the required `capacity`). No behavioural change; unexpected non-numeric
+  facility values are now skipped rather than coerced to `NaN`.
+- `push-registrations/native.ts`: dropped the explicit
+  `addDoc<FirebaseNativePushRegistration, …>` generics. The shared
+  `pushRegistrationsColRef()` is typed to the `FirebasePushRegistration` union;
+  a native-shaped document is assignable to it, so inference from the ref is
+  correct and the `satisfies FirebaseNativePushRegistration` still guards the
+  payload shape.
+- `push-registrations/index.ts`: the refresh path now only writes
+  `subscription` when one actually exists (web registrations) instead of writing
+  `subscription: null` for native ones — native docs have no `subscription`
+  field, so this both fixes the union write-type mismatch and is more correct.
+- `push-registrations/webpush.ts`: `withFeatureCheck()` and `withClientHints()`
+  are each typed `PromiseLike<T> | T` (client hints resolve asynchronously), so
+  the synchronous chain broke. Now each step is `await`ed in turn.
+
+<details><summary>Original analysis (kept for reference)</summary>
 
 - `src/lib/api/garden.ts:122–135` (8) — parsing the **Firestore REST** value
   union (`doubleValue`/`integerValue`/`booleanValue` on `DoubleValue | IntegerValue
@@ -149,6 +175,13 @@ modal and the archive-confirm modal to confirm.
 registration discriminated union and Firestore converters; fixing the types risks
 masking or exposing genuine runtime shape bugs. Should be done by someone familiar
 with the push-registration data model.
+
+> **Please verify** the push-registration flows (web subscribe/refresh, native
+> register/refresh) still behave — the type fixes are near-behaviour-preserving,
+> but two touch what gets written to Firestore (native docs no longer get a
+> `subscription: null`).
+
+</details>
 
 ### C. mapbox/maplibre GL typing — ~39 errors — ✅ RESOLVED
 
@@ -240,7 +273,40 @@ right without breaking the interaction needs careful manual work and real testin
 
 </details>
 
-### E. Data-model / product decisions needed — ~8 errors
+### E. Data-model / product decisions needed — ~8 errors — ✅ RESOLVED
+
+**Fix applied:**
+- **`User.ts` — de-classed.** The `User` class was the only JS class in the app
+  and its awkward `implements` + `UserOverwritableProps` typing was the source of
+  the `setEmailPreferences` error (and general friction). It is now a plain
+  `User` **type** plus a `buildUser()` factory that applies the same defaults.
+  `copyWith` → `buildUser({ ...current, ...updates })`, `setGarden` → a direct
+  in-place `user.garden = …` assignment at the two optimistic-update call sites
+  (`garden.ts`), and the two genuinely-dead methods (`addFields`,
+  `setEmailPreferences`) were removed (no callers anywhere). Value import lived
+  only in `auth.ts`; the two `import type User` default imports became named.
+- **Garden form draft location.** `GardenDraft.location` is now honestly
+  `LongLat | null` (the form holds `null` while editing). A derived
+  `GardenSubmission = GardenDraft & { location: LongLat }` expresses the
+  post-validation guarantee; `Form.svelte`'s `handleSubmit` narrows `location`
+  before emitting, and the `add`/`edit` pages consume `GardenSubmission` (so the
+  spread into `addGarden`/`updateGarden`, which need a non-null location, checks
+  out).
+- **`GardenDrawer.svelte`** — removed the dead `userInfo.languages` block
+  (guarded by an always-undefined field, hardcoded "Dutch & English").
+- **`FileTrailModal.svelte`** — the `'SELECTING' | 'DONE'` "no overlap" error
+  was purely a state-typing quirk: `let phase: 'SELECTING' | 'DONE' =
+  $state('SELECTING')` makes TS narrow `phase` to the literal `'SELECTING'` at
+  init (the reassignments live in callbacks CFA treats as later), so the
+  `$derived(phase !== 'DONE')` comparisons looked impossible. Giving `$state`
+  the explicit type parameter — `$state<'SELECTING' | 'DONE'>('SELECTING')` —
+  makes the declared type the full union, as intended. No logic bug.
+- **`ChatGuidelines.svelte`** — typed the i18n lookup: the `$json` value is
+  asserted to `Record<string, { title: string; description: string }>` (with a
+  `?? {}` guard, which also prevents a latent `Object.values(undefined)` throw
+  before the locale loads).
+
+<details><summary>Original analysis (kept for reference)</summary>
 
 - `src/lib/models/User.ts:216` — an object built as `{ [x: string]: boolean }` is
   assigned to `EmailPreferences` (requires `newChat`, `news`). Type the builder so
@@ -264,6 +330,8 @@ right without breaking the interaction needs careful manual work and real testin
   result typed/asserted as an object.
 
 **Risk:** Mixed — several of these may be latent bugs, not just typing gaps.
+
+</details>
 
 ### F. Known upstream limitation / small component-prop gaps — 2 errors — ✅ RESOLVED
 
