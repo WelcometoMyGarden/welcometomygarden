@@ -27,7 +27,7 @@ import {
 } from '$lib/stores/file';
 import logger from '$lib/util/logger';
 
-const getFileRef = (fileId: string) => ref(storage(), `trails/${getUser().uid}/${fileId}`);
+const getFileRef = (fileId: string) => ref(storage(), `trails/${getUser().id}/${fileId}`);
 
 /**
  * The visibility we last saw persisted in Firestore, per trail id. The snapshot listener in

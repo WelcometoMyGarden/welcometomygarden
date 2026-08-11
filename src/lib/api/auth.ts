@@ -133,7 +133,7 @@ export const createAuthObserver = (): Unsubscribe => {
         startLoadingNewUser();
         justLoggedIn = true;
       }
-      if (oldStoredUser && oldStoredUser.uid !== firebaseUser.uid) {
+      if (oldStoredUser && oldStoredUser.id !== firebaseUser.uid) {
         logger.info('The Firebase account was changed.');
         // A new user is loading if the user was changed.
         startLoadingNewUser();
@@ -411,7 +411,7 @@ const updateUserIfPossible = async () => {
       garden: latestCampsiteState,
       email: email || undefined,
       emailVerified,
-      // overlap with id on Garden...
+      // In the front-end User type, we use `id` and not `uid`
       id: uid
     };
 
@@ -431,7 +431,7 @@ const updateUserIfPossible = async () => {
 
     // User initialization is done
     if (get(isUserLoading)) {
-      logger.log(`User fully loaded: ${newUser.uid}`);
+      logger.log(`User fully loaded: ${newUser.id}`);
       isUserLoading.set(false);
     }
 
