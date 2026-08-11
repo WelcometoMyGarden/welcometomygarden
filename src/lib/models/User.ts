@@ -125,9 +125,7 @@ export type UserPublic = {
  * reads locally are surfaced here.
  */
 export type User = {
-  // TYPE TODO: choose one, id or uid
   id: string;
-  uid: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -154,11 +152,14 @@ export type UserProps = Partial<User> & { displayName?: string };
 /**
  * Builds a {@link User} from partial data, applying the app's defaults for any
  * missing fields. Use this instead of assembling the object by hand so the
- * defaults (id/uid fallback, default email preferences, …) live in one place.
+ * defaults (id fallback, default email preferences, …) live in one place.
  */
 export const buildUser = (user: UserProps): User => ({
-  id: user.uid ?? user.id ?? '',
-  uid: user.uid ?? user.id ?? '',
+  /**
+   * Note: we use `id` instead of `uid` here for consistency with
+   * the front-end representation of other Firebase-sourced data types.
+   */
+  id: user.id ?? '',
   firstName: user.firstName ?? user.displayName ?? '',
   lastName: user.lastName ?? '',
   email: user.email ?? '',
