@@ -11,7 +11,6 @@ import { readFileSync } from 'node:fs';
 import { execSync } from 'node:child_process';
 import os from 'os';
 
-/* eslint-env node */
 export default defineConfig(({ command, mode }): UserConfig => {
   // Careful: this will not include the "always available" env vars (https://vitejs.dev/guide/env-and-mode.html#env-variables)
   // like MODE and DEV; those are available from the UserConfig somehow.
@@ -147,6 +146,16 @@ export default defineConfig(({ command, mode }): UserConfig => {
         // Checked against mapbox-gl up to 3.28.1: the packaging/worker strategy is
         // unchanged, so bumping the dependency does not remove the need for this.
         // Exact-match regex so subpaths (e.g. 'mapbox-gl/dist/mapbox-gl.css') are untouched.
+        //
+        // This alias only affects bundling, not TypeScript: `import ... from 'mapbox-gl'`
+        // still type-checks against the package's "." (UMD) type declarations, which can
+        // diverge from what's actually bundled here. Since mapbox-gl 3.25.0 the ESM build
+        // also dropped its default export (only named exports remain), and the "." and
+        // "./esm" type declarations are independent files whose identically-named types
+        // (e.g. `Map`, `Style`) are NOT interchangeable — mixing imports from both across
+        // the app causes spurious "two different types with this name exist" errors. So
+        // all app code importing mapbox-gl (value or type-only) uses `mapbox-gl/esm`
+        // directly rather than relying on this alias.
         { find: /^mapbox-gl$/, replacement: 'mapbox-gl/esm' }
       ],
       // https://github.com/flekschas/svelte-simple-modal?tab=readme-ov-file#rollup-setup

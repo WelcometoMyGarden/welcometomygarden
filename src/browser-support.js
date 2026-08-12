@@ -41,24 +41,27 @@
     ) {
       return false;
     }
-    var supported = false;
-    var url;
+    // The "type getter" probe relies on ES5 object-literal getter syntax
+    // (`{ get type() {} }`), which IE8 and older cannot PARSE — and a parse error
+    // anywhere in this file aborts the whole script, so those browsers would never even
+    // reach the unsupported-browser banner (which we still target — see the IE8 note
+    // below). Keeping the probe inside a `new Function` string means only engines that
+    // evaluate it ever parse the getter, the same technique as the ?? / ??= check below;
+    // it also keeps the getter out of TypeScript's view (no type cast/suppression needed).
+    // The built function returns whether the `type` getter fired, i.e. whether the engine
+    // read the module-worker option while constructing the Worker.
     try {
-      url = URL.createObjectURL(new Blob([''], { type: 'text/javascript' }));
-      var worker = new Worker(url, {
-        get type() {
-          supported = true;
-          return 'module';
-        }
-      });
-      worker.terminate();
+      var readModuleType = new Function(
+        'var r = false;' +
+          'var u = URL.createObjectURL(new Blob([""], { type: "text/javascript" }));' +
+          'try { new Worker(u, { get type() { r = true; return "module"; } }).terminate(); } catch (e) {}' +
+          'if (URL.revokeObjectURL) { URL.revokeObjectURL(u); }' +
+          'return r;'
+      );
+      return !!readModuleType();
     } catch (e) {
-      supported = false;
+      return false;
     }
-    if (url && URL.revokeObjectURL) {
-      URL.revokeObjectURL(url);
-    }
-    return supported;
   }
 
   if (

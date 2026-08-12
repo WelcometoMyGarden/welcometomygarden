@@ -28,7 +28,7 @@
   import type { ContextType } from './Map.svelte';
   import key from './mapbox-context.js';
   import type GeoJSON from 'geojson';
-  import type { GeoJSONSource } from 'mapbox-gl';
+  import type { GeoJSONSource, MapMouseEvent } from 'mapbox-gl/esm';
 
   import { gardenLayerLoaded } from '$lib/stores/app';
   import { loadImg } from '$lib/api/mapbox';
@@ -45,7 +45,7 @@
 
   const { getMap } = getContext<ContextType>(key);
   const map = getMap();
-  const _onMeetupClick = (e: mapboxgl.MapMouseEvent) => {
+  const _onMeetupClick = (e: MapMouseEvent) => {
     // will be serialized, but we only need the id!
     const meetup = e.features?.[0]?.properties;
     if (meetup) onMeetupClick(meetup.id);

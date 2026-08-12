@@ -149,10 +149,7 @@ export function isIeOrEdge(userAgent: string = window.navigator.userAgent): bool
 }
 
 type ComposableEventHandler =
-  | ((event: Event, ...args: unknown[]) => void)
-  | undefined
-  | null
-  | false;
+  ((event: Event, ...args: unknown[]) => void) | undefined | null | false;
 
 /**
  * This is intended to be used to compose event handlers

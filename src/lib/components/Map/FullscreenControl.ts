@@ -1,6 +1,9 @@
 import logger from '$lib/util/logger';
-import pkg from 'mapbox-gl';
-import type { IControl, Map } from 'mapbox-gl';
+// Import from `/esm` directly (matching the vite.config.ts alias and its types):
+// mapbox-gl's ESM build has no default export since 3.25.0, and only its `./esm`
+// type declarations (not the default "." UMD-build types) declare `Evented`.
+import * as pkg from 'mapbox-gl/esm';
+import type { IControl, Map } from 'mapbox-gl/esm';
 const { Evented } = pkg;
 
 // mapbox-gl-js's FullscreenControl (v3.x) does not anymore expose `fullscreenstart` and `fullscreenend` events (does not extend Evented anymore)

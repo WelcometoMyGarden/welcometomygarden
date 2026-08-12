@@ -19,20 +19,20 @@ config and pass `eslint` (0 errors) on the changed files.
 
 ## Progress so far
 
-| Stage | Errors | Warnings |
-|-------|-------:|---------:|
-| Baseline (this task, before any fixes) | 185 | 21 |
-| After simple batch fix | 150 | 19 |
-| After `.js`→`.ts` refactors (dropzone, accept-language-parser) + browser-support checkJs fixes | 105 | 19 |
-| After notification-store typing | 92 | 19 |
-| After group G (test files) | 89 | 19 |
-| After group C (mapbox/maplibre GL) | 50 | 19 |
-| After group D (Dropzone.svelte) | 31 | 19 |
-| After group F (svelte:element / component-prop gaps) | 29 | 19 |
-| After group A (svelte-simple-modal component types) | 19 | 19 |
-| After rebase onto `upstream/master` + group H (upstream `sv` bug) | 19 | 17 |
-| After group B (Firebase/Firestore generics) | 8 | 17 |
-| **After group E (data-model / product decisions)** | **0** | **17** |
+| Stage                                                                                          | Errors | Warnings |
+| ---------------------------------------------------------------------------------------------- | -----: | -------: |
+| Baseline (this task, before any fixes)                                                         |    185 |       21 |
+| After simple batch fix                                                                         |    150 |       19 |
+| After `.js`→`.ts` refactors (dropzone, accept-language-parser) + browser-support checkJs fixes |    105 |       19 |
+| After notification-store typing                                                                |     92 |       19 |
+| After group G (test files)                                                                     |     89 |       19 |
+| After group C (mapbox/maplibre GL)                                                             |     50 |       19 |
+| After group D (Dropzone.svelte)                                                                |     31 |       19 |
+| After group F (svelte:element / component-prop gaps)                                           |     29 |       19 |
+| After group A (svelte-simple-modal component types)                                            |     19 |       19 |
+| After rebase onto `upstream/master` + group H (upstream `sv` bug)                              |     19 |       17 |
+| After group B (Firebase/Firestore generics)                                                    |      8 |       17 |
+| **After group E (data-model / product decisions)**                                             |  **0** |   **17** |
 
 All error groups are now resolved; **0 errors remain**. The 17 remaining items
 are all **warnings** (a11y, `state_referenced_locally`, unused CSS) — see the
@@ -40,6 +40,7 @@ Warnings section at the end; they are not type errors and are left for a
 separate pass.
 
 ### Committed on this branch (on top of the linting branch)
+
 1. `fix(types): resolve simple svelte-check type errors` — ~35 low-risk fixes (casts, `$state` init types, click-outside `EventTarget`→`Node`, `window.wtmgAnchorNav` global, etc.)
 2. `refactor(types): convert dropzone.js to typed TypeScript`
 3. `refactor(types): properly type accept-language-parser`
@@ -85,6 +86,7 @@ commits). Findings:
   App Store) is correct and unchanged.
 
 ### Reassessed / dropped after the earlier rebase (onto the linting branch)
+
 - **`is-browser.js` refactor was dropped**: on the linting branch that file was
   already **deleted and is unreferenced** (its `util/index.js` export is gone), so
   there was nothing left to type.
@@ -118,6 +120,7 @@ Svelte extension can resolve the component type differently than `svelte-check`
 does in CI; the error is real for `yarn check`.)
 
 **Fix applied:**
+
 - Added `src/lib/util/modal.ts` — a thin wrapper that re-types `bind` with
   Svelte 5's `import type { Component } from 'svelte'`. `push-registrations`,
   `archive-actions`, and `DebuggingInfo` now import `bind` from there.
@@ -125,7 +128,7 @@ does in CI; the error is real for `yarn check`.)
   `<Modal show={...}>` binding (`Component` isn't re-exported from the package
   index, so the cast goes through `typeof SvelteComponent`).
 - `CoordinateForm` was a **different, latent bug**, not a modal issue: the blur
-  handler cast `event.target` to the `TextInput` *component* type (hence the
+  handler cast `event.target` to the `TextInput` _component_ type (hence the
   `{ $on, $set }` shim). The DOM event target is the underlying `<input>`, so it
   now casts to `HTMLInputElement` and `.name`/`.value` resolve.
 
@@ -136,6 +139,7 @@ modal and the archive-confirm modal to confirm.
 ### B. Firebase / Firestore generics — ~11 errors — ✅ RESOLVED
 
 **Fix applied:**
+
 - `garden.ts`: added a `RESTValue` union alias and two small readers —
   `restNumber()` (discriminates `doubleValue`/`integerValue` via the `in`
   operator instead of optional chaining, which can't narrow the union) and
@@ -160,7 +164,7 @@ modal and the archive-confirm modal to confirm.
 
 - `src/lib/api/garden.ts:122–135` (8) — parsing the **Firestore REST** value
   union (`doubleValue`/`integerValue`/`booleanValue` on `DoubleValue | IntegerValue
-  | StringValue | BooleanValue`) plus `GardenFacilities.capacity` missing on a
+| StringValue | BooleanValue`) plus `GardenFacilities.capacity` missing on a
   dynamically-built `{ [k: string]: any }`. Needs discriminated-union narrowing
   (check which value key is present) and a typed facilities builder.
 - `src/lib/api/push-registrations/native.ts:378` — `CollectionReference`
@@ -186,6 +190,7 @@ with the push-registration data model.
 ### C. mapbox/maplibre GL typing — ~39 errors — ✅ RESOLVED
 
 **Fix applied (committed):**
+
 - **Common sub-fix:** used mapbox-gl's built-in `getSource<GeoJSONSource>(id)`
   generic together with optional chaining across GardenLayer/MeetupLayer/FileTrails,
   so `setData`/`getClusterExpansionZoom` type-check without a bespoke helper.
@@ -238,6 +243,7 @@ high volume and needs the map to be exercised to confirm.
 ### D. `Dropzone.svelte` internal typing — 19 errors — ✅ RESOLVED
 
 **Fix applied (committed):**
+
 - Gave the `$state` store explicit element types (`DropzoneFile` /
   `FileRejection`) so `draggedFiles`/`acceptedFiles`/`fileRejections` no longer
   infer as `never[]`.
@@ -260,6 +266,7 @@ high volume and needs the map to be exercised to confirm.
 
 **Root cause:** The util (`dropzone.ts`) is now typed, but the component has its
 own problems that remain:
+
 - `state.draggedFiles/acceptedFiles/fileRejections` initialise to `[]` and get
   inferred as `never[]` (needs explicit element types on the `$state` object).
 - A bespoke synthetic-event abstraction passes ad-hoc `{ preventDefault?, target? }`
@@ -276,6 +283,7 @@ right without breaking the interaction needs careful manual work and real testin
 ### E. Data-model / product decisions needed — ~8 errors — ✅ RESOLVED
 
 **Fix applied:**
+
 - **`User.ts` — de-classed.** The `User` class was the only JS class in the app
   and its awkward `implements` + `UserOverwritableProps` typing was the source of
   the `setEmailPreferences` error (and general friction). It is now a plain
@@ -296,7 +304,7 @@ right without breaking the interaction needs careful manual work and real testin
   (guarded by an always-undefined field, hardcoded "Dutch & English").
 - **`FileTrailModal.svelte`** — the `'SELECTING' | 'DONE'` "no overlap" error
   was purely a state-typing quirk: `let phase: 'SELECTING' | 'DONE' =
-  $state('SELECTING')` makes TS narrow `phase` to the literal `'SELECTING'` at
+$state('SELECTING')` makes TS narrow `phase` to the literal `'SELECTING'` at
   init (the reassignments live in callbacks CFA treats as later), so the
   `$derived(phase !== 'DONE')` comparisons looked impossible. Giving `$state`
   the explicit type parameter — `$state<'SELECTING' | 'DONE'>('SELECTING')` —
@@ -365,6 +373,7 @@ right without breaking the interaction needs careful manual work and real testin
 ## Warnings (19) — not addressed
 
 All remaining items are **warnings**, not errors, and are mostly non-typing:
+
 - **a11y** (`a11y_no_noninteractive_element_interactions`,
   `a11y_no_static_element_interactions`, `a11y_incorrect_aria_attribute_type_boolean`):
   Tag, Notifications, LabeledCheckbox, LabeledRadioButton, LearnMoreArrowSection.

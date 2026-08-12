@@ -2,7 +2,7 @@
   import type { Garden } from '$lib/types/Garden';
   import type { ContextType } from './Map.svelte';
   import type GeoJSON from 'geojson';
-  import type { GeoJSONSource } from 'mapbox-gl';
+  import type { GeoJSONSource, MapMouseEvent } from 'mapbox-gl/esm';
 
   import { getContext, onMount } from 'svelte';
   import key from './mapbox-context.js';
@@ -101,7 +101,7 @@
     });
   };
 
-  const _onGardenClick = (e: mapboxgl.MapMouseEvent) => {
+  const _onGardenClick = (e: MapMouseEvent) => {
     const garden = e.features?.[0]?.properties as GardenFeatureProperties | undefined;
     if (garden) onGardenClick(garden);
   };

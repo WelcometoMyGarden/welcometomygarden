@@ -2,7 +2,9 @@
   import type { ContextType } from './Map.svelte';
 
   import { getContext, onMount } from 'svelte';
-  import mapboxgl from 'mapbox-gl';
+  // Import from `/esm` directly (matching the vite.config.ts alias and its types):
+  // mapbox-gl's ESM build has no default export since 3.25.0.
+  import * as mapboxgl from 'mapbox-gl/esm';
   import key from './mapbox-context.js';
   import type { LongLat } from '$lib/types/Garden';
   interface Props {
