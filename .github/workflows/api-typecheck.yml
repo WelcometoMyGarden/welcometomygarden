@@ -26,6 +26,12 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
+      # Must run before setup-node: its `cache: yarn` probe shells out to `yarn`
+      # to resolve the cache folder. Without corepack, that resolves to the
+      # runner's preinstalled Yarn 1, which misdetects api/ (yarn@4, Berry) as
+      # Yarn Classic — wrong cache dir, and no Berry restore-key fallback.
+      - name: Enable Corepack
+        run: corepack enable
       - uses: actions/setup-node@v6
         with:
           node-version: 24
