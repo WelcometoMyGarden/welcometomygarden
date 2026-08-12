@@ -46,7 +46,7 @@ Scope your checks to what you changed:
   run only the frontend checks — `yarn check` (types) and, if you want lint,
   `yarn lint` / `yarn format`. **Do not** run or worry about `api/` linting.
 - **If you only touched `api/**`**, run only `cd api && yarn lint`(and the API
-tests). Do not run the frontend lint/format over`api/`.
+  tests). Do not run the frontend lint/format over`api/`.
 - Only run both when a change genuinely spans both projects.
 
 Note: the pre-commit hook (husky + lint-staged) already enforces this

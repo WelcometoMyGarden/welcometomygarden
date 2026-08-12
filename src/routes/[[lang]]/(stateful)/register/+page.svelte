@@ -75,13 +75,9 @@
   type RegistrationFields =
     // Text inputs
     {
-      [fieldName in
-        | 'email'
-        | 'password'
-        | 'firstName'
-        | 'lastName'
-        | 'country'
-        | 'reference']: TextInputField;
+      [
+        fieldName in 'email' | 'password' | 'firstName' | 'lastName' | 'country' | 'reference'
+      ]: TextInputField;
     } & { consent: CheckboxField }; // Checkbox fields
 
   /** Field definitions with initial values */
