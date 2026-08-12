@@ -3,8 +3,8 @@ const fs = require('fs/promises');
 const busboy = require('busboy');
 const EmailReplyParser = require('email-reply-parser');
 
-// https://github.com/haraka/node-address-rfc2822
-const addrparser = require('address-rfc2822');
+// https://github.com/haraka/email-address (supersedes address-rfc2822)
+const { parseHeader, Address } = require('@haraka/email-address');
 const { htmlToText } = require('html-to-text');
 const { MAX_MESSAGE_LENGTH, sendMessageFromEmail } = require('../chat');
 const { sendEmailReplyError } = require('../mail');
@@ -84,7 +84,7 @@ exports.parseUnpackedInboundEmail = (unpackedInboundRequest) => {
   // Parse email
   let envelopeFromEmail;
   /**
-   * @type {addrparser.Address | undefined}
+   * @type {Address | undefined}
    */
   let headerFrom;
   /**
@@ -98,7 +98,11 @@ exports.parseUnpackedInboundEmail = (unpackedInboundRequest) => {
       envelopeFromEmail = JSON.parse(envelope).from;
     }
     if (from) {
-      [headerFrom] = addrparser.parse(from) || [];
+      // parseHeader can also yield Group entries; we only want a plain address.
+      const [first] = parseHeader(from) || [];
+      if (first instanceof Address) {
+        headerFrom = first;
+      }
     }
     if (dkim) {
       // This format isn't really documented, so we can't know how multiple signatures will appear... Example observed values are (on each line):
@@ -255,7 +259,7 @@ exports.parseInboundEmail = async (req, res) => {
     //
     // Check DKIM: host must be verified, header host must match verified host
     // Lowercase normalized for reliable matching with `dkimResult.host`
-    const headerFromHost = headerFrom.host()?.toLowerCase();
+    const headerFromHost = headerFrom.host?.toLowerCase();
     if (dkimResult.result !== 'pass' || headerFromHost !== dkimResult.host) {
       throw new Error('Email error: DKIM verification problem');
     }
