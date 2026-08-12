@@ -210,8 +210,7 @@
       // @ts-ignore
       target.style.height = state.textArea?.scrollHeight + 3 + 'px';
     }
-  }}
-></textarea>
+  }}></textarea>
 
 <style>
   textarea {

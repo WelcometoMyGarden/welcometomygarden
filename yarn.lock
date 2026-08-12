@@ -11077,13 +11077,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-svelte@npm:^3.5.2":
-  version: 3.5.2
-  resolution: "prettier-plugin-svelte@npm:3.5.2"
+"prettier-plugin-svelte@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "prettier-plugin-svelte@npm:4.1.1"
   peerDependencies:
     prettier: ^3.0.0
-    svelte: ^3.2.0 || ^4.0.0-next.0 || ^5.0.0-next.0
-  checksum: 10/94c3307297d8d83d32d827c37d07320ff85645b513ba157ce87f76cf91774460dbd8f02d359d13d1c9d98c8955347a96c62dd458c62ee9bbe51941560f3e058f
+    svelte: ^5.0.0
+  checksum: 10/6d523aeaf0a35e4a13509ad773a36800fe162afc209deb2ae5ac80a88668e0afa6b2e2e3c9b737d57d107b4832d228e90054bd42e86b5813b1289865728a5211
   languageName: node
   linkType: hard
 
@@ -13461,7 +13461,7 @@ __metadata:
     md5: "npm:^2.3.0"
     nprogress: "npm:^0.2.0"
     prettier: "npm:^3.9.6"
-    prettier-plugin-svelte: "npm:^3.5.2"
+    prettier-plugin-svelte: "npm:^4.1.1"
     sharp: "npm:^0.35.3"
     smoothscroll-polyfill: "npm:^0.4.4"
     stripe: "npm:^17.7.0"
