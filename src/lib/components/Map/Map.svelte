@@ -3,7 +3,7 @@
   import { writable, derived } from 'svelte/store';
   import { lr } from '$lib/util/translation-helpers';
   import { page } from '$app/stores';
-  import type { Map, LngLat, LngLatLike } from 'mapbox-gl';
+  import type { Map, LngLat, LngLatLike } from 'mapbox-gl/esm';
   export type ContextType = { getMap: () => Map };
   export const currentPosition = writable<LongLat | null>(null);
   export const mapState = writable<{
@@ -20,8 +20,6 @@
     }
     return $lr(routes.SIGN_IN);
   });
-  import mapboxgl from 'mapbox-gl';
-  mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
   import 'mapbox-gl/dist/mapbox-gl.css';
 </script>
 
@@ -46,6 +44,7 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   import CapacitorGeolocationProxy from './CapacitorGeolocationProxy';
   import { checkPermission } from '$lib/api/geolocation.js';
   import { isLocalProject } from '$lib/util/environment';
+  import * as mapboxgl from 'mapbox-gl/esm';
   import * as Sentry from '@sentry/sveltekit';
 
   type Props = {
@@ -165,6 +164,8 @@ Component for maps. Shared between the main map, and the map in the Garden creat
   const addMap = () => {
     // Load map
     map = new mapboxgl.Map({
+      // https://docs.mapbox.com/mapbox-gl-js/guides/bundler/#setting-the-access-token
+      accessToken: import.meta.env.VITE_MAPBOX_ACCESS_TOKEN,
       container,
       style: DEFAULT_MAP_STYLE,
       center: [lon, lat],
