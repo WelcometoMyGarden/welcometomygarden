@@ -2,7 +2,7 @@
   import type { ContextType } from './Map.svelte';
 
   import { getContext, onMount } from 'svelte';
-  import mapboxgl from 'mapbox-gl';
+  import * as mapboxgl from 'mapbox-gl/esm';
   import key from './mapbox-context.js';
   import type { LongLat } from '$lib/types/Garden';
   interface Props {

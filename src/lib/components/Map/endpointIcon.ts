@@ -5,7 +5,7 @@
  * "merged" badge is baked into a small image here and registered with the map, instead
  * of being drawn as (impossible) two half-circles.
  */
-import type { Map } from 'mapbox-gl';
+import type { Map } from 'mapbox-gl/esm';
 import type { RouteEndpoint } from '$lib/util/map/util';
 
 /** Registered map-image ids for the three badge variants. */

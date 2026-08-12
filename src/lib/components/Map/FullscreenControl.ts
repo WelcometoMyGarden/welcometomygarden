@@ -1,7 +1,6 @@
 import logger from '$lib/util/logger';
-import pkg from 'mapbox-gl';
-import type { IControl, Map } from 'mapbox-gl';
-const { Evented } = pkg;
+import { Evented } from 'mapbox-gl/esm';
+import type { IControl, Map } from 'mapbox-gl/esm';
 
 // mapbox-gl-js's FullscreenControl (v3.x) does not anymore expose `fullscreenstart` and `fullscreenend` events (does not extend Evented anymore)
 //   (snapshot: https://github.com/mapbox/mapbox-gl-js/blob/7a72385de5c7400647ea7d3539637145fdf616a7/src/ui/control/fullscreen_control.ts)

@@ -1,3 +1,5 @@
+import type { Map } from 'mapbox-gl/esm';
+
 export type Address = {
   street: string;
   postalCode: string;
@@ -167,7 +169,7 @@ export const geocodeCountryCode = async (country_code: string) => {
   }
 };
 
-export const loadImg = (map: mapboxgl.Map, { url, id }: { url: string; id: string }) =>
+export const loadImg = (map: Map, { url, id }: { url: string; id: string }) =>
   new Promise((resolve) => {
     map.loadImage(url, (error, res) => {
       if (res) map.addImage(id, res);
