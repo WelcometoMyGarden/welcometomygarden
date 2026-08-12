@@ -228,7 +228,7 @@ ISO date strings
 
     type ParsedInboundRequest = {
       envelopeFromEmail?: string;
-      headerFrom?: import('address-rfc2822').Address;
+      headerFrom?: import('@haraka/email-address').Address;
       responseText?: string;
       chatId?: string;
       dkimResult: {
