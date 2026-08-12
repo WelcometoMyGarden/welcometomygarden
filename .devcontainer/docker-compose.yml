@@ -36,13 +36,13 @@ services:
       # cached across rebuilds. CLAUDE_CONFIG_DIR (Dockerfile) points here.
       - wtmg-claude:/root/.claude
     ports:
-      - "${WTMG_PORT_FRONTEND:-5173}:${WTMG_PORT_FRONTEND:-5173}" # Vite dev server (frontend)
-      - "${WTMG_PORT_HOSTING:-4000}:${WTMG_PORT_HOSTING:-4000}" # Firebase Hosting emulator
-      - "${WTMG_PORT_EMU_UI:-4001}:${WTMG_PORT_EMU_UI:-4001}" # Firebase Emulator UI
-      - "${WTMG_PORT_FUNCTIONS:-5001}:${WTMG_PORT_FUNCTIONS:-5001}" # Cloud Functions emulator
-      - "${WTMG_PORT_FIRESTORE:-8080}:${WTMG_PORT_FIRESTORE:-8080}" # Firestore emulator
-      - "${WTMG_PORT_AUTH:-9099}:${WTMG_PORT_AUTH:-9099}" # Auth emulator
-      - "${WTMG_PORT_STORAGE:-9199}:${WTMG_PORT_STORAGE:-9199}" # Storage emulator
+      - '${WTMG_PORT_FRONTEND:-5173}:${WTMG_PORT_FRONTEND:-5173}' # Vite dev server (frontend)
+      - '${WTMG_PORT_HOSTING:-4000}:${WTMG_PORT_HOSTING:-4000}' # Firebase Hosting emulator
+      - '${WTMG_PORT_EMU_UI:-4001}:${WTMG_PORT_EMU_UI:-4001}' # Firebase Emulator UI
+      - '${WTMG_PORT_FUNCTIONS:-5001}:${WTMG_PORT_FUNCTIONS:-5001}' # Cloud Functions emulator
+      - '${WTMG_PORT_FIRESTORE:-8080}:${WTMG_PORT_FIRESTORE:-8080}' # Firestore emulator
+      - '${WTMG_PORT_AUTH:-9099}:${WTMG_PORT_AUTH:-9099}' # Auth emulator
+      - '${WTMG_PORT_STORAGE:-9199}:${WTMG_PORT_STORAGE:-9199}' # Storage emulator
     # Keep the container alive; VS Code attaches over the Docker socket and the
     # dev servers run inside the zellij session started by start-dev.sh.
     command: sleep infinity
