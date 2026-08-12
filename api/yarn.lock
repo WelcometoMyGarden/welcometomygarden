@@ -290,6 +290,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@haraka/email-address@npm:^3.1.6":
+  version: 3.1.6
+  resolution: "@haraka/email-address@npm:3.1.6"
+  checksum: 10/7de67ac93a0457427645cf3446bd3195f6b953658689ccd4243fc0b57f2cd4bda8caee5e896d6f06f1f61a2023472d5371eb38e8a26803bf617750d8ccc7b959
+  languageName: node
+  linkType: hard
+
 "@humanfs/core@npm:^0.19.1":
   version: 0.19.1
   resolution: "@humanfs/core@npm:0.19.1"
@@ -2586,15 +2593,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"address-rfc2822@npm:^2.2.4":
-  version: 2.2.4
-  resolution: "address-rfc2822@npm:2.2.4"
-  dependencies:
-    email-addresses: "npm:^5.0.0"
-  checksum: 10/e148fa91798499aa959098a461ef5d66e5a84a84fa3fae2611ef51af58235a74d420fbac2953627157ca3de2959188a4845c64f54175636bc44146e7f6df16bc
-  languageName: node
-  linkType: hard
-
 "agent-base@npm:6":
   version: 6.0.2
   resolution: "agent-base@npm:6.0.2"
@@ -3174,13 +3172,6 @@ __metadata:
   version: 1.1.1
   resolution: "ee-first@npm:1.1.1"
   checksum: 10/1b4cac778d64ce3b582a7e26b218afe07e207a0f9bfe13cc7395a6d307849cfe361e65033c3251e00c27dd060cab43014c2d6b2647676135e18b77d2d05b3f4f
-  languageName: node
-  linkType: hard
-
-"email-addresses@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "email-addresses@npm:5.0.0"
-  checksum: 10/a7897e3b43893f1e9cc61f0e8c7cbe59c36c6cdd0b5ad7e4061f1976893260f496fd799fb78b2621e483a95fa6c7caec4a035ba320193d9540159dfcdb737004
   languageName: node
   linkType: hard
 
@@ -3801,13 +3792,13 @@ __metadata:
     "@eslint/js": "npm:^10.0.1"
     "@faker-js/faker": "npm:^10.5.0"
     "@google-cloud/firestore": "npm:^8.7.1"
+    "@haraka/email-address": "npm:^3.1.6"
     "@sendgrid/client": "npm:^8.1.6"
     "@sendgrid/mail": "npm:^8.1.6"
     "@supabase/supabase-js": "npm:^2.112.0"
     "@turf/turf": "npm:^7.4.0"
     "@types/luxon": "npm:^3.7.3"
     "@types/mocha": "npm:^10.0.10"
-    address-rfc2822: "npm:^2.2.4"
     busboy: "npm:^1.6.0"
     dotenv: "npm:^17.4.2"
     email-reply-parser: "npm:^2.3.9"

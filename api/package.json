@@ -19,11 +19,11 @@
   },
   "dependencies": {
     "@google-cloud/firestore": "^8.7.1",
+    "@haraka/email-address": "^3.1.6",
     "@sendgrid/client": "^8.1.6",
     "@sendgrid/mail": "^8.1.6",
     "@supabase/supabase-js": "^2.112.0",
     "@turf/turf": "^7.4.0",
-    "address-rfc2822": "^2.2.4",
     "busboy": "^1.6.0",
     "dotenv": "^17.4.2",
     "email-reply-parser": "^2.3.9",

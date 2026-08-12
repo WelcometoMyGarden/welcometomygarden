@@ -1,4 +1,4 @@
-const addrparser = require('address-rfc2822');
+const { parseHeader, Address } = require('@haraka/email-address');
 const { defineString } = require('firebase-functions/params');
 
 const localEmailHostParam = defineString('LOCAL_EMAIL_HOST', { default: '' });
@@ -17,10 +17,11 @@ const parseEmailSpec = (email) => {
    */
   let name = null;
   if (typeof email === 'string') {
-    const [first] = addrparser.parse(email);
-
-    address = first?.address;
-    name = first?.name();
+    const [first] = parseHeader(email) || [];
+    if (first instanceof Address) {
+      address = first.address;
+      name = first.name();
+    }
   } else if (
     email != null &&
     typeof email === 'object' &&

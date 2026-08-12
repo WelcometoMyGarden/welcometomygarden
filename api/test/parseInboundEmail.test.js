@@ -201,6 +201,8 @@ Welcome To My Garden <support@welcometomygarden.org> schrieb am Di., 18.
 Juni 2024, 18:56:`
     );
 
+    assert.strictEqual(parsed.headerFrom.address, 'testemail@gmail.com');
+
     assert.strictEqual(parsed.chatId, 'ea2SDFfsea213eafsf');
   });
 
