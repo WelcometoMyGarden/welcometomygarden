@@ -29,10 +29,8 @@ declare global {
     T,
     T
   >;
-  type CollectionReference<T = DocumentData> = import('firebase-admin/firestore').CollectionReference<
-    T,
-    T
-  >;
+  type CollectionReference<T = DocumentData> =
+    import('firebase-admin/firestore').CollectionReference<T, T>;
   type Query<T = DocumentData> = import('firebase-admin/firestore').Query<T, T>;
   type QueryDocumentSnapshot<T = DocumentData> =
     import('@google-cloud/firestore').QueryDocumentSnapshot<T, T>;
