@@ -11,7 +11,6 @@ import { readFileSync } from 'node:fs';
 import { execSync } from 'node:child_process';
 import os from 'os';
 
-/* eslint-env node */
 export default defineConfig(({ command, mode }): UserConfig => {
   // Careful: this will not include the "always available" env vars (https://vitejs.dev/guide/env-and-mode.html#env-variables)
   // like MODE and DEV; those are available from the UserConfig somehow.

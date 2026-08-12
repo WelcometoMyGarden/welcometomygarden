@@ -124,7 +124,13 @@ export default tseslint.config(
       // (svelte-check) a11y warnings, which eslint-plugin-svelte cannot see.
       'svelte/no-unused-svelte-ignore': 'off',
       // `@ts-ignore` is used as a pragmatic escape hatch in a few spots.
-      '@typescript-eslint/ban-ts-comment': 'off'
+      '@typescript-eslint/ban-ts-comment': 'off',
+      // New in eslint:recommended as of ESLint 10. It false-positives on Svelte 5
+      // `$bindable()` prop defaults (e.g. `let { x = $bindable() } = $props()`),
+      // which it reads as an assignment that is never used, and otherwise only
+      // flags harmless initialize-then-overwrite patterns. Off, matching the
+      // other Svelte-5-idiom relaxations above.
+      'no-useless-assignment': 'off'
     }
   }
 );
