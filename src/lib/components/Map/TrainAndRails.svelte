@@ -1,10 +1,11 @@
 <script lang="ts">
   import { getContext } from 'svelte';
   import key from './mapbox-context.js';
+  import type { Map } from 'mapbox-gl/esm';
 
   // @ts-ignore
   const { getMap } = getContext(key);
-  const map: mapboxgl.Map = getMap();
+  const map: Map = getMap();
 
   interface Props {
     showTransport: boolean;

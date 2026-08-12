@@ -3,7 +3,7 @@
   import { writable, derived } from 'svelte/store';
   import { lr } from '$lib/util/translation-helpers';
   import { page } from '$app/stores';
-  import type { Map, LngLat, LngLatLike } from 'mapbox-gl';
+  import type { Map, LngLat, LngLatLike } from 'mapbox-gl/esm';
   export type ContextType = { getMap: () => Map };
   export const currentPosition = writable<LongLat | null>(null);
   export const mapState = writable<{
@@ -20,8 +20,15 @@
     }
     return $lr(routes.SIGN_IN);
   });
-  import mapboxgl from 'mapbox-gl';
-  mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
+  // Import from the `/esm` subpath directly (matching the bare `mapbox-gl` alias in
+  // vite.config.ts) rather than `import mapboxgl from 'mapbox-gl'`: since mapbox-gl
+  // 3.25.0 the ESM build has no default export, only named ones, and TS's types for
+  // bare `mapbox-gl` come from the package's "." export condition (the UMD build's
+  // types), which don't match what's actually bundled. `accessToken` likewise isn't a
+  // mutable export here (it's a getter/setter on the UMD build's default object only),
+  // so it's set via `setAccessToken`.
+  import * as mapboxgl from 'mapbox-gl/esm';
+  mapboxgl.setAccessToken(import.meta.env.VITE_MAPBOX_ACCESS_TOKEN);
   import 'mapbox-gl/dist/mapbox-gl.css';
 </script>
 

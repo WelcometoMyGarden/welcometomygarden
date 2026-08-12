@@ -9,7 +9,7 @@
  *
  * One image is registered per route colour (the ring matches the route line).
  */
-import type { Map } from 'mapbox-gl';
+import type { Map } from 'mapbox-gl/esm';
 
 // Matches the old circle layer: a white fill of radius 9 with a 1.5px coloured ring around it.
 const KM_CIRCLE_RADIUS = 9;
