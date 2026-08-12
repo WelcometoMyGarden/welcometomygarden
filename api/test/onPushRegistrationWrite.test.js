@@ -21,9 +21,10 @@ describe('onPushRegistrationWrite', () => {
       { email: 'user1@slowby.travel' },
       { firstName: 'Test', lastName: 'User', countryCode: 'BE' }
     );
-    pushRegistrationsRef = /**
-     * @type {CollectionReference<PushRegistration>}
-     */ (db.collection(`users-private/${user.uid}/push-registrations`));
+    pushRegistrationsRef =
+      /**
+       * @type {CollectionReference<PushRegistration>}
+       */ (db.collection(`users-private/${user.uid}/push-registrations`));
   });
 
   afterEach(async () => {
