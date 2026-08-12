@@ -234,8 +234,7 @@
             if ((e.keyCode || e.which) == 13) {
               e.preventDefault();
             }
-          }}
-        ></textarea>
+          }}></textarea>
         <p class="hint" class:invalid={!descriptionHint.valid}>
           {#if descriptionHint.message}{$_(
               descriptionHint.message.key,
