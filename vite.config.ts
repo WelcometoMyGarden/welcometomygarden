@@ -133,6 +133,22 @@ export default defineConfig(({ command, mode }): UserConfig => {
       noExternal: ['@sveltekit-i18n/*', 'intl-messageformat', '@formatjs/*']
     },
     resolve: {
+      alias: [
+        // Use mapbox-gl's ESM build (its `./esm` export) instead of the default UMD
+        // bundle. The UMD build (the package `exports` "." entry) inlines its worker as a
+        // stringified Blob run through a classic `new Worker()`. mapbox's own source has
+        // no `import.meta`, but Vite wraps the UMD build's dynamic `import()`s with
+        // `__vitePreload(..., import.meta.url)`, and that `import.meta.url` ends up inside
+        // the stringified worker. Vite 8 dropped the import.meta.url polyfill for UMD/IIFE
+        // output, so the built worker throws "Cannot use 'import.meta' outside a module"
+        // and the map fails to load (dev is unaffected — modules are served natively).
+        // The ESM build instead uses `new Worker(new URL('worker.js', import.meta.url),
+        // { type: 'module' })`, which Vite bundles as its own (import.meta-free) worker.
+        // Checked against mapbox-gl up to 3.28.1: the packaging/worker strategy is
+        // unchanged, so bumping the dependency does not remove the need for this.
+        // Exact-match regex so subpaths (e.g. 'mapbox-gl/dist/mapbox-gl.css') are untouched.
+        { find: /^mapbox-gl$/, replacement: 'mapbox-gl/esm' }
+      ],
       // https://github.com/flekschas/svelte-simple-modal?tab=readme-ov-file#rollup-setup
       dedupe: ['svelte', 'svelte/transition', 'svelte/internal']
     },
