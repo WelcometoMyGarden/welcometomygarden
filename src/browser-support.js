@@ -28,11 +28,46 @@
     return 'noModule' in document.createElement('script');
   }
 
+  // Module worker support (new Worker(url, { type: 'module' })) is required: the map
+  // (mapbox-gl v3) loads its Web Worker this way. Detected with the "type getter" trick —
+  // only browsers that support module workers read the `type` option while constructing
+  // the Worker, which flips the flag. Roughly Chrome >= 80, Safari >= 15, Firefox >= 114.
+  function supportsModuleWorker() {
+    if (
+      !('Worker' in window) ||
+      !('Blob' in window) ||
+      !('URL' in window) ||
+      !URL.createObjectURL
+    ) {
+      return false;
+    }
+    var supported = false;
+    var url;
+    try {
+      url = URL.createObjectURL(new Blob([''], { type: 'text/javascript' }));
+      var worker = new Worker(url, {
+        get type() {
+          supported = true;
+          return 'module';
+        }
+      });
+      worker.terminate();
+    } catch (e) {
+      supported = false;
+    }
+    if (url && URL.revokeObjectURL) {
+      URL.revokeObjectURL(url);
+    }
+    return supported;
+  }
+
   if (
     !supportsESModules() ||
     !('Proxy' in window) ||
     // ResizeObserver is Chrome >= 64
-    !('ResizeObserver' in window)
+    !('ResizeObserver' in window) ||
+    // Module workers are required by the map (mapbox-gl); Chrome >= 80, Safari >= 15, Firefox >= 114
+    !supportsModuleWorker()
   ) {
     isUnsupportedBrowser = true;
   }

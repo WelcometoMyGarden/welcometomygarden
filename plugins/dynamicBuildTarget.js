@@ -12,6 +12,11 @@
  * Setting build.target seems to overwrite this to ES2021 for all environments => the server build complains that the transpilation target
  * does not support top-level await, which is required (see https://esbuild.github.io/content-types/#javascript)
  *
+ * Note: Firefox's minimum below is 114 — newer than the other targets, which aim at ~2015/16 devices.
+ * The map (mapbox-gl v3) loads its Web Worker as a module worker (`new Worker(url, { type: 'module' })`),
+ * which Firefox only supports from 114 (Chrome 80+, Safari 15+). src/browser-support.js sniffs for module
+ * worker support and shows the unsupported-browser banner otherwise.
+ *
  * @type {import('vite').Plugin}
  */
 export default {
@@ -32,8 +37,11 @@ export default {
        *
        * Compatibility could reasonably be increased to iOS 13, given one polyfill (see https://github.com/sveltejs/svelte/issues/14420#issuecomment-2630571526)
        * and an ES2015 transpile target, but this would likely result in a trade-off with bundle size which we didn't analyze.
+       *
+       * Firefox is the exception at 114 (not 79): the map's module worker (see the note at the top of this file)
+       * needs it, so browsers below that can't use the map anyway.
        */
-      return { build: { target: ['es2021', 'edge85', 'firefox79', 'chrome85', 'safari15'] } };
+      return { build: { target: ['es2021', 'edge85', 'firefox114', 'chrome85', 'safari15'] } };
     }
   }
 };
