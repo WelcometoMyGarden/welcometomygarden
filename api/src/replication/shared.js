@@ -233,7 +233,11 @@ exports.replicate = async (options) => {
   const { before, after } = change;
   let changeType;
   /**
-   * @type {null | ({id: string} & import('firebase/firestore').DocumentData)}
+   * `after.data()` comes from the Firebase Admin SDK, so this is the
+   * `@google-cloud/firestore` `DocumentData` (the api-wide global type), not the
+   * `firebase/firestore` client type — that package is a frontend-only dep and
+   * isn't installed for the api typecheck.
+   * @type {null | ({id: string} & DocumentData)}
    */
   let afterDocWithData = null;
   if (after.exists) {
