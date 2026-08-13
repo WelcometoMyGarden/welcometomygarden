@@ -1,6 +1,6 @@
 <script lang="ts">
   import Icon from '$lib/components/UI/Icon.svelte';
-  import { bookmarkEmptyIcon, heartIcon, routesIcon, trainIcon } from '$lib/images/icons';
+  import { heartIcon, routesIcon, trainIcon } from '$lib/images/icons';
 
   interface Props {
     direction?: 'vertical' | 'horizontal';

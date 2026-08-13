@@ -11,7 +11,7 @@
   import type { Slide } from '$lib/components/Marketing/Testimonials.svelte';
   import ProfilePicture from '$lib/components/Marketing/ProfilePicture.svelte';
   import { getNodeKeys } from '$lib/util/get-node-children';
-  import { onDestroy, onMount } from 'svelte';
+  import { onMount } from 'svelte';
   import smoothscroll from 'smoothscroll-polyfill';
 
   import lievenImg from '$lib/assets/testimonials/lieven.jpeg?as=run&w=1280';
