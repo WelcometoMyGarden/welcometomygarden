@@ -1,21 +1,20 @@
 # This image sets up the dependencies to run e2e tests with the emulator.
-# At the moment of writing, Playwright does not support Debian Trixie
-FROM node:24-bookworm
+# Playwright supports Debian 13 (Trixie) since v1.55.
+# https://playwright.dev/docs/release-notes#version-155
+FROM node:24-trixie
 
 LABEL org.opencontainers.image.source=https://github.com/WelcometoMyGarden/welcometomygarden
 LABEL org.opencontainers.image.description="WTMG E2E Demo Tests Base"
 LABEL org.opencontainers.image.licenses=GPL-3.0-or-later
 
-ARG PLAYWRIGHT_VERSION=1.60.0
+ARG PLAYWRIGHT_VERSION=1.62.1
 
-# openjdk-21-jdk is only available in Debian Trixie, not in Bookworm.
-# but the latest firebase-tools requires it. So, we install adoptium builds
+# The Firebase Emulator Suite needs a Java runtime; recent firebase-tools want 21+.
+# Trixie happens to ship OpenJDK 21 (the current LTS) in its own repos.
+# The emulators only run prebuilt jars, so the headless JRE is enough (no JDK).
 # https://firebase.google.com/docs/emulator-suite/install_and_configure#install_the_local_emulator_suite
-# https://adoptium.net/installation/linux/#deb-installation-on-debian-or-ubuntu
-RUN apt-get install -y wget apt-transport-https gpg \
-  && wget -qO - https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor | tee /etc/apt/trusted.gpg.d/adoptium.gpg > /dev/null \
-  && echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | tee /etc/apt/sources.list.d/adoptium.list \
-  && apt-get update && apt-get install -y temurin-21-jdk \
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends openjdk-21-jre-headless \
   # Install mailpit
   && curl -fsSL https://raw.githubusercontent.com/axllent/mailpit/develop/install.sh | sh
 
@@ -37,7 +36,7 @@ RUN mkdir /ms-playwright && \
 RUN corepack enable
 
 # Install dependencies: global firebase tools
-RUN npm i -g firebase-tools@15.17.0
+RUN npm i -g firebase-tools@15.26.0
 
 # Allow node to create files in /app (like .yarn, otherwise this will fail)
 RUN chown -R node:node /app
