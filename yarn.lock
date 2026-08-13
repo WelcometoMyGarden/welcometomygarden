@@ -7867,12 +7867,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"file-selector@npm:^2.1.2":
-  version: 2.1.2
-  resolution: "file-selector@npm:2.1.2"
-  dependencies:
-    tslib: "npm:^2.7.0"
-  checksum: 10/2a6be0e1904df85f8705a5171fd3b93c1b1ff2ad0143556adb78ac4de899bfc0ba1a20083b4febd4f7000759ec9119a31af76a057e29dd9215907da69ac95e50
+"file-selector@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "file-selector@npm:5.0.0"
+  checksum: 10/b74b6d7ee07c3681fcbbcd0a8396cb2a54d3284e0510aa468d8a5cf66764c16e8de0dbde612675bfcf2475c667c0d72bb9729f3515bc56df67c788979943e5c2
   languageName: node
   linkType: hard
 
@@ -12789,7 +12787,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:2.8.1, tslib@npm:^2.0.1, tslib@npm:^2.1.0, tslib@npm:^2.4.0, tslib@npm:^2.6.2, tslib@npm:^2.7.0, tslib@npm:^2.8.0, tslib@npm:^2.8.1":
+"tslib@npm:2.8.1, tslib@npm:^2.0.1, tslib@npm:^2.1.0, tslib@npm:^2.4.0, tslib@npm:^2.6.2, tslib@npm:^2.8.0, tslib@npm:^2.8.1":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10/3e2e043d5c2316461cb54e5c7fe02c30ef6dccb3384717ca22ae5c6b5bc95232a6241df19c622d9c73b809bea33b187f6dbc73030963e29950c2141bc32a79f7
@@ -13372,7 +13370,7 @@ __metadata:
     eslint: "npm:^10.8.0"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-plugin-svelte: "npm:^3.22.0"
-    file-selector: "npm:^2.1.2"
+    file-selector: "npm:^5.0.0"
     firebase: "npm:^12.17.1"
     firebase-admin: "npm:^14.2.0"
     globals: "npm:^17.9.0"
