@@ -64,13 +64,11 @@ module.exports = async (event, res) => {
   }
 
   // Check if the invoice is related to subscription creation
-  if (
-    !(
-      invoice.billing_reason === 'subscription_create' ||
-      invoice.metadata?.billing_reason_override === 'subscription_create' ||
-      invoice.billing_reason === 'subscription_cycle'
-    )
-  ) {
+  if (!(
+    invoice.billing_reason === 'subscription_create' ||
+    invoice.metadata?.billing_reason_override === 'subscription_create' ||
+    invoice.billing_reason === 'subscription_cycle'
+  )) {
     logger.log('Ignoring SEPA charge unrelated to a subscription');
     return res.sendStatus(200);
   }

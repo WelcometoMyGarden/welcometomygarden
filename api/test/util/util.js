@@ -18,7 +18,6 @@ exports.normalize = (s) =>
     .replace(/[\u0300-\u036f]/g, '')
     .toLocaleLowerCase();
 
-// eslint-disable-next-line no-console
 const logger = (type) => (msg) => console.log(`${type}: ${msg}`);
 exports.logger = logger;
 exports.loggerStub = {

@@ -81,18 +81,19 @@ exports.linkSubscription = async function (usersPrivateRef, subscription) {
   });
 };
 
-// Modifies the test clock reference
+// Polls until the given test clock is ready and returns the ready clock.
 exports.pollForTestClockReady = async function (testClock) {
+  let current = testClock;
   // Poll for test clock readinesss
-  while (testClock.status !== 'ready') {
-    if (testClock.status === 'internal_failure') {
-      console.error(`Stripe test clock internal failure (${testClock.id})`);
+  while (current.status !== 'ready') {
+    if (current.status === 'internal_failure') {
+      console.error(`Stripe test clock internal failure (${current.id})`);
       process.exit(1);
     }
     console.log('Polling for testclock status...');
     await setTimeout(2000);
-    testClock = await stripe.testHelpers.testClocks.retrieve(testClock.id);
+    current = await stripe.testHelpers.testClocks.retrieve(current.id);
   }
   console.log('OK');
-  return testClock;
+  return current;
 };
