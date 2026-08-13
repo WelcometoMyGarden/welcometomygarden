@@ -11,7 +11,6 @@
     disabled?: boolean;
     ellipsis?: boolean;
     compact?: boolean;
-    title?: undefined | string;
     hoverStyle?: boolean;
     oninput?: (e: Event) => void;
     onchange?: (e: Event) => void;
@@ -30,7 +29,6 @@
     disabled = false,
     ellipsis = false,
     compact = false,
-    title = undefined,
     hoverStyle = false,
     onchange,
     oninput,
