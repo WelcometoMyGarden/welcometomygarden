@@ -4,7 +4,6 @@
     fileAccepted,
     fileMatchSize,
     isEvtWithFiles,
-    isIeOrEdge,
     isPropagationStopped,
     TOO_MANY_FILES_REJECTION,
     type FileError
@@ -40,6 +39,13 @@
   let {
     accept,
     disabled = false,
+    // Note: since file-selector v4, `fromEvent` only guesses a MIME type for a small set of
+    // common extensions, so files the browser left typeless (e.g. .gpx, .kml, .tcx) keep
+    // `type: ''`. That's fine here: `fileAccepted` matches the `accept` extensions against the
+    // file name. Pass `(evt) => fromEvent(evt, { mimeTypes: COMMON_MIME_TYPES })` (from
+    // 'file-selector/mime') if a caller ever needs the full ~1200-entry table — it's an extra
+    // ~10kB gzipped, which is why it isn't the default. Keep `.ext` entries in every `accept`
+    // list and the table is never needed; see the note in dropzone-file-selector.test.ts.
     getFilesFromEvent = fromEvent,
     maxSize = Infinity,
     minSize = 0,
@@ -126,14 +132,7 @@
     if (noClick) {
       return;
     }
-    // In IE11/Edge the file-browser dialog is blocking, therefore, use setTimeout()
-    // to ensure React can handle state changes
-    // See: https://github.com/react-dropzone/react-dropzone/issues/450
-    if (isIeOrEdge()) {
-      setTimeout(openFileDialog, 0);
-    } else {
-      openFileDialog();
-    }
+    openFileDialog();
   }
 
   function onDragEnterCb(event: DragEvent) {

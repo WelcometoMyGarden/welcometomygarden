@@ -77,7 +77,7 @@
     "eslint": "^10.8.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-svelte": "^3.22.0",
-    "file-selector": "^2.1.2",
+    "file-selector": "^5.0.0",
     "firebase": "^12.17.1",
     "firebase-admin": "^14.2.0",
     "globals": "^17.9.0",

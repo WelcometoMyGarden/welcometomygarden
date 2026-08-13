@@ -97,6 +97,7 @@
     garden.location = event;
   };
 
+  // Note: these common mime types should be supported by most (desktop) browsers/OSs
   const validFileTypes = ['image/jpeg', 'image/png', 'image/tiff'];
   let photoHint = $state<{ message: LocalizedMessage | null; valid: boolean }>({
     message: null,
