@@ -1,8 +1,8 @@
 // Error codes
-export const FILE_INVALID_TYPE = 'file-invalid-type';
-export const FILE_TOO_LARGE = 'file-too-large';
-export const FILE_TOO_SMALL = 'file-too-small';
-export const TOO_MANY_FILES = 'too-many-files';
+const FILE_INVALID_TYPE = 'file-invalid-type';
+const FILE_TOO_LARGE = 'file-too-large';
+const FILE_TOO_SMALL = 'file-too-small';
+const TOO_MANY_FILES = 'too-many-files';
 
 export interface FileError {
   code: string;
@@ -20,7 +20,7 @@ export interface FileLike {
 }
 
 // File Errors
-export const getInvalidTypeRejectionErr = (accept: string | string[]): FileError => {
+const getInvalidTypeRejectionErr = (accept: string | string[]): FileError => {
   const normalized = Array.isArray(accept) && accept.length === 1 ? accept[0] : accept;
   const messageSuffix = Array.isArray(normalized) ? `one of ${normalized.join(', ')}` : normalized;
   return {
@@ -29,14 +29,14 @@ export const getInvalidTypeRejectionErr = (accept: string | string[]): FileError
   };
 };
 
-export const getTooLargeRejectionErr = (maxSize: number): FileError => {
+const getTooLargeRejectionErr = (maxSize: number): FileError => {
   return {
     code: FILE_TOO_LARGE,
     message: `File is larger than ${maxSize} bytes`
   };
 };
 
-export const getTooSmallRejectionErr = (minSize: number): FileError => {
+const getTooSmallRejectionErr = (minSize: number): FileError => {
   return {
     code: FILE_TOO_SMALL,
     message: `File is smaller than ${minSize} bytes`
@@ -48,13 +48,11 @@ export const TOO_MANY_FILES_REJECTION: FileError = {
   message: 'Too many files'
 };
 
-// Firefox versions prior to 53 return a bogus MIME type for every file drag, so dragovers with
-// that MIME type will always be accepted
 export function fileAccepted(
   file: FileLike,
   accept: string | string[]
 ): [boolean, FileError | null] {
-  const isAcceptable = file.type === 'application/x-moz-file' || attributeAccept(file, accept);
+  const isAcceptable = attributeAccept(file, accept);
   return [isAcceptable, isAcceptable ? null : getInvalidTypeRejectionErr(accept)];
 }
 
@@ -79,42 +77,13 @@ function isDefined<T>(value: T): value is NonNullable<T> {
   return value !== undefined && value !== null;
 }
 
-export function allFilesAccepted({
-  files,
-  accept,
-  minSize,
-  maxSize,
-  multiple
-}: {
-  files: FileLike[];
-  accept: string | string[];
-  minSize?: number;
-  maxSize?: number;
-  multiple: boolean;
-}): boolean {
-  if (!multiple && files.length > 1) {
-    return false;
-  }
-
-  return files.every((file) => {
-    const [accepted] = fileAccepted(file, accept);
-    const [sizeMatch] = fileMatchSize(file, minSize, maxSize);
-    return accepted && sizeMatch;
-  });
-}
-
-// React's synthetic events has event.isPropagationStopped,
-// but to remain compatibility with other libs (Preact) fall back
-// to check event.cancelBubble
-export function isPropagationStopped(
-  event: Event & { isPropagationStopped?: () => boolean }
-): boolean {
-  if (typeof event.isPropagationStopped === 'function') {
-    return event.isPropagationStopped();
-  } else if (typeof event.cancelBubble !== 'undefined') {
-    return event.cancelBubble;
-  }
-  return false;
+/**
+ * Whether `stopPropagation()` was already called on this event.
+ * `cancelBubble` is deprecated, but it is the only way to ask a native event this, and it is
+ * supported everywhere.
+ */
+export function isPropagationStopped(event: Event): boolean {
+  return event.cancelBubble;
 }
 
 export function isEvtWithFiles(event: {
@@ -124,6 +93,8 @@ export function isEvtWithFiles(event: {
   if (!event.dataTransfer) {
     return !!event.target && !!event.target.files;
   }
+  // Note: `application/x-moz-file` is not a legacy-Firefox workaround; current Firefox still
+  // lists it alongside `Files` when dragging local files.
   // https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/types
   // https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Recommended_drag_types#file
   return Array.prototype.some.call(
@@ -132,64 +103,37 @@ export function isEvtWithFiles(event: {
   );
 }
 
-export function isKindFile(item: unknown): boolean {
-  return typeof item === 'object' && item !== null && (item as { kind?: string }).kind === 'file';
-}
-
-function isIe(userAgent: string): boolean {
-  return userAgent.indexOf('MSIE') !== -1 || userAgent.indexOf('Trident/') !== -1;
-}
-
-function isEdge(userAgent: string): boolean {
-  return userAgent.indexOf('Edge/') !== -1;
-}
-
-export function isIeOrEdge(userAgent: string = window.navigator.userAgent): boolean {
-  return isIe(userAgent) || isEdge(userAgent);
-}
-
-type ComposableEventHandler =
-  ((event: Event, ...args: unknown[]) => void) | undefined | null | false;
-
 /**
- * This is intended to be used to compose event handlers
- * They are executed in order until one of them calls `event.isPropagationStopped()`.
- * Note that the check is done on the first invoke too,
- * meaning that if propagation was stopped before invoking the fns,
- * no handlers will be executed.
- *
- * @param fns the event handler functions
- * @return the event handler to add to an element
+ * Checks whether the file matches the MIME types in acceptedFiles
+ * @param file
+ * @param acceptedFiles
+ * @returns
  */
-export function composeEventHandlers(...fns: ComposableEventHandler[]) {
-  return (event: Event, ...args: unknown[]) =>
-    fns.some((fn) => {
-      if (!isPropagationStopped(event) && fn) {
-        fn(event, ...args);
-      }
-      return isPropagationStopped(event);
-    });
-}
-
-export function attributeAccept(file: FileLike, acceptedFiles: string | string[]): boolean {
+function attributeAccept(file: FileLike, acceptedFiles: string | string[]): boolean {
   if (file && acceptedFiles) {
-    const acceptedFilesArray = Array.isArray(acceptedFiles)
+    const acceptedFileTypesArray = Array.isArray(acceptedFiles)
       ? acceptedFiles
       : acceptedFiles.split(',');
     const fileName = file.name || '';
-    const mimeType = (file.type || '').toLowerCase();
-    const baseMimeType = mimeType.replace(/\/.*$/, '');
 
-    return acceptedFilesArray.some((type) => {
+    // The browser-reported MIME type of the file.
+    const mimeType = (file.type || '').toLowerCase();
+    const firstHalf = (m: string) => m.replace(/\/.*$/, '');
+    const baseMimeType = firstHalf(mimeType);
+
+    return acceptedFileTypesArray.some((type) => {
       const validType = type.trim().toLowerCase();
       if (validType.charAt(0) === '.') {
+        // For extension specifiers like ".gpx", check that the extension matches the file name
         return fileName.toLowerCase().endsWith(validType);
       } else if (validType.endsWith('/*')) {
-        // This is something like a image/* mime type
-        return baseMimeType === validType.replace(/\/.*$/, '');
+        // This is something like a wildcard image/* mime type,
+        return baseMimeType === firstHalf(validType);
       }
+      // exact match of the full MIME type
       return mimeType === validType;
     });
   }
+  // Default to true in case acceptedFiles is falsy (which it is for us, in some cases)
   return true;
 }
