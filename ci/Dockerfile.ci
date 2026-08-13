@@ -13,8 +13,11 @@ ARG PLAYWRIGHT_VERSION=1.62.1
 # Trixie happens to ship OpenJDK 21 (the current LTS) in its own repos.
 # The emulators only run prebuilt jars, so the headless JRE is enough (no JDK).
 # https://firebase.google.com/docs/emulator-suite/install_and_configure#install_the_local_emulator_suite
+#
+# git-lfs is required by `actions/checkout` with `lfs: true` (src/lib/assets is
+# stored in Git LFS); the node base image ships git but not git-lfs.
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends openjdk-21-jre-headless \
+  && apt-get install -y --no-install-recommends openjdk-21-jre-headless git-lfs \
   # Install mailpit
   && curl -fsSL https://raw.githubusercontent.com/axllent/mailpit/develop/install.sh | sh
 
