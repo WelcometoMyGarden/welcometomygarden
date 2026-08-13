@@ -157,7 +157,7 @@ describe.skip('send_invoice', () => {
         .plus({ days: 2 })
         .toSeconds()
     });
-    testClock = await pollForTestClockReady(testClock);
+    await pollForTestClockReady(testClock);
 
     // Check for the thank you email
     await hasExactlyOneEmailWithQuery(MAIL_THANK_YOU_MANUAL);

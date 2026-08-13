@@ -40,4 +40,4 @@ jobs:
       - name: Install API dependencies
         run: cd api && yarn install --immutable
       - name: Typecheck api/src
-        run: cd api && yarn typecheck
+        run: cd api && yarn check

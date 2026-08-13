@@ -4,8 +4,9 @@
   "license": "GPL-3.0-or-later",
   "main": "src/index.js",
   "scripts": {
-    "lint": "eslint ./src",
-    "typecheck": "node scripts/typecheck.mjs",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "check": "node scripts/typecheck.mjs",
     "serve": "firebase emulators:start --only functions",
     "debug": "firebase emulators:start --only functions --inspect-functions",
     "demo": "firebase --project demo-test emulators:start",

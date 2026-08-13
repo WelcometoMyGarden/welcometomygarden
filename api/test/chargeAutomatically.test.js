@@ -115,7 +115,7 @@ describe.skip('charge_automatically', () => {
         .plus({ days: 1 })
         .toSeconds()
     });
-    testClock = await pollForTestClockReady(testClock);
+    await pollForTestClockReady(testClock);
 
     // Check for the thank you email
     await hasExactlyOneEmailWithQuery(MAIL_THANK_YOU_AUTOMATIC);
@@ -211,7 +211,7 @@ describe.skip('charge_automatically', () => {
     testClock = await stripe.testHelpers.testClocks.advance(testClock.id, {
       frozen_time: oneDayAfterRenewalPoint.plus({ days: 7 }).toSeconds()
     });
-    testClock = await pollForTestClockReady(testClock);
+    await pollForTestClockReady(testClock);
 
     // Check for the all payments failed email
     await hasExactlyOneEmailWithQuery(MAIL_ALL_PAYMENTS_FAILED);
@@ -318,7 +318,7 @@ describe.skip('charge_automatically', () => {
         .plus({ days: 4 })
         .toSeconds()
     });
-    testClock = await pollForTestClockReady(testClock);
+    await pollForTestClockReady(testClock);
 
     // Check for the renewal success payment email
     await hasExactlyOneEmailWithQuery(MAIL_THANK_YOU_AUTOMATIC);
@@ -475,7 +475,7 @@ describe.skip('charge_automatically', () => {
         .plus({ days: 20 })
         .toSeconds()
     });
-    testClock = await pollForTestClockReady(testClock);
+    await pollForTestClockReady(testClock);
 
     // Check for the all payments failed email
     await hasExactlyOneEmailWithQuery(MAIL_ALL_PAYMENTS_FAILED);

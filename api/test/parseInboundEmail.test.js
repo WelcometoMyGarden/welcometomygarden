@@ -10,11 +10,6 @@ const { sendMessageFromEmail } = require('../src/chat');
 const { clearAuth, clearFirestore } = require('./util/util');
 const { parseUnpackedInboundEmail } = require('../src/sendgrid/parseInboundEmail');
 
-const pauseForManualCheck = async () => {
-  this.timeout(0);
-  await new Promise((res, rej) => setTimeout(() => res, 10 * 60 * 1000));
-};
-
 describe('the server-side message sending function `sendMessageFromEmail` ', () => {
   let seedResult;
   let secondChatId;
@@ -41,9 +36,6 @@ describe('the server-side message sending function `sendMessageFromEmail` ', () 
 
     // The message was sent
     assert.strictEqual(lastMessage.data().content, validTestMessage);
-
-    // For a manual test/check
-    // await pauseForManualCheck()
   });
 
   it('throws when a non-existent email is used', async () => {
@@ -58,8 +50,7 @@ describe('the server-side message sending function `sendMessageFromEmail` ', () 
 
   it('throws when an existing chat ID is used that the user is not part of ', async () => {
     const {
-      users: [, user2, user3],
-      chats: [firstChatId]
+      users: [, user2, user3]
     } = seedResult;
     const thirdChatId = await createChat(user2.uid, user3.uid, 'This is a chat between user 2 & 3');
 
