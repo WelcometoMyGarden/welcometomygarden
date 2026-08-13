@@ -65,5 +65,21 @@ module.exports = [
       'no-await-in-loop': 'warn',
       camelcase: 'off'
     }
+  },
+  // ESM scripts (e.g. scripts/typecheck.mjs) — the base block above sets
+  // `sourceType: 'commonjs'`, which would fail to parse `import`/`export`.
+  {
+    files: ['**/*.mjs'],
+    languageOptions: {
+      sourceType: 'module'
+    }
+  },
+  // Test, seeder and script files legitimately log to the console (test output,
+  // seed progress, tooling). Product code under src/ keeps `no-console: warn`.
+  {
+    files: ['test/**', 'seeders/**', 'scripts/**'],
+    rules: {
+      'no-console': 'off'
+    }
   }
 ];

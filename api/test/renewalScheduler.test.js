@@ -98,8 +98,6 @@ describe('feedback email', () => {
 });
 
 describe('renewal reminder email', () => {
-  let sendReminderEmail;
-
   beforeEach(async () => {
     await clearAuth();
     await clearFirestore();
