@@ -22,10 +22,12 @@ To check is user is a member, check the `$user.superfan` boolean.
 yarn dev                   # Start dev server (against local emulators)
 yarn dev:staging           # Dev server against staging backend
 yarn build                 # Production build
-yarn check                 # TypeScript + svelte-check (type checking)
+yarn check                 # svelte-check type checking (frontend only)
 yarn check:watch           # Watch mode
-yarn lint                  # ESLint + Prettier check
-yarn format                # Auto-format with Prettier
+yarn lint                  # Prettier check + ESLint — frontend only (excludes api/)
+yarn lint:all              # Lint BOTH projects concurrently (global Prettier + frontend ESLint + api lint)
+yarn format                # Auto-format with Prettier — frontend only (excludes api/)
+yarn format:all            # Auto-format the whole repo (both projects)
 yarn test:unit             # Vitest unit tests
 yarn test:e2e              # Playwright E2E tests
 ```
@@ -33,27 +35,41 @@ yarn test:e2e              # Playwright E2E tests
 ### Linting & formatting scope (IMPORTANT)
 
 The frontend (`src/`, `tests/`, root config files) and the `api/` subfolder are
-**two separate projects with separate ESLint configs**:
+**two separate projects with separate ESLint configs** but **one shared Prettier
+config** (the root `.prettierrc`):
 
 - Frontend: root `eslint.config.js` (flat config, ESLint 9 + `eslint-plugin-svelte`).
   It explicitly ignores `api/`.
-- API: `api/eslint.config.js` — a separate, long-standing config that has been
-  consistently applied.
+- API: `api/eslint.config.js` — a separate, long-standing config. `cd api && yarn lint`
+  lints the **whole `api/` dir** (src, seeders, scripts, test); `test/`, `seeders/`
+  and `scripts/` are allowed to use `console`. `api/.prettierignore` keeps Prettier
+  off the raw email fixtures in `api/test/input`.
+
+The root scripts are **frontend-only by default** (mirroring `build` / `check`),
+with explicit `:all` variants for the whole monorepo:
+
+- `yarn lint` / `yarn format` — frontend only. The ESLint half already ignores
+  `api/`; the Prettier half excludes it via the `'!api/**'` negative glob.
+- `yarn lint:all` — runs, concurrently: one global `prettier --check .` (formatting
+  for BOTH projects), frontend `eslint .`, and `cd api && yarn lint`.
+- `yarn format:all` — one `prettier --write .` over the whole repo.
 
 Scope your checks to what you changed:
 
 - **If you only touched frontend files** (`src/**`, `tests/**`, root configs),
   run only the frontend checks — `yarn check` (types) and, if you want lint,
   `yarn lint` / `yarn format`. **Do not** run or worry about `api/` linting.
-- **If you only touched `api/**`**, run only `cd api && yarn lint`(and the API
-  tests). Do not run the frontend lint/format over`api/`.
-- Only run both when a change genuinely spans both projects.
+- **If you only touched `api/**`**, run only `cd api && yarn lint` /
+  `yarn format` / `yarn check` (type-check) and the API tests. Do not run the
+  frontend lint/format over `api/`.
+- Only run both (or `yarn lint:all`) when a change genuinely spans both projects.
 
 Note: the pre-commit hook (husky + lint-staged) already enforces this
 automatically — it lints/formats staged frontend files with the frontend config
 and staged `api/` files with the API config, and never mixes the two. It does
 **not** run a repo-wide `yarn check`, because the frontend currently has
-pre-existing `svelte-check` type errors unrelated to linting.
+pre-existing `svelte-check` type errors (and a few `eslint` errors) unrelated to
+this tooling.
 
 ### Backend (Firebase)
 
