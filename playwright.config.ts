@@ -111,6 +111,12 @@ export default defineConfig<TestOptions>({
   use: {
     ...defaultOptions,
     ...slowMoChromium,
+    // Cap individual locator actions (click, fill, check, press) instead of letting
+    // them run into the global test timeout. Override per call with `{ timeout: ... }`.
+    actionTimeout: 10 * 1000,
+    // Navigations (goto, waitForURL) get more headroom: the first page load may hit
+    // a cold Vite dev server / Firebase emulator.
+    navigationTimeout: 30 * 1000,
     trace: 'on-first-retry'
   },
   globalTeardown: './tests/e2e/global-teardown',
