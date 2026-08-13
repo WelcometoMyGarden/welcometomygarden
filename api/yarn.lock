@@ -3810,7 +3810,7 @@ __metadata:
     firebase-functions: "npm:^7.3.2"
     firebase-functions-test: "npm:^3.5.0"
     globals: "npm:^17.9.0"
-    google-auth-library: "npm:^10.6.2"
+    google-auth-library: "npm:^11.0.0"
     html-to-text: "npm:^10.0.0"
     lodash: "npm:^4.18.1"
     luxon: "npm:^3.7.2"
@@ -3993,6 +3993,20 @@ __metadata:
     google-logging-utils: "npm:1.1.3"
     jws: "npm:^4.0.0"
   checksum: 10/06837fc3746b657cdc199525dc91c1f1737aae0ce7d2d4f60893cb9b6e1364eb2891eb123339eaaef62f133616695214cf31995b6faf85edef4645595a8b45e8
+  languageName: node
+  linkType: hard
+
+"google-auth-library@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "google-auth-library@npm:11.0.0"
+  dependencies:
+    base64-js: "npm:^1.3.0"
+    ecdsa-sig-formatter: "npm:^1.0.11"
+    gaxios: "npm:^7.1.4"
+    gcp-metadata: "npm:8.1.2"
+    google-logging-utils: "npm:1.1.3"
+    jws: "npm:^4.0.0"
+  checksum: 10/0843d875acfd34754606e788cac5ace115f70277f529edbea021f65a76b3f03944c7af938fc10f3a9d8d90ba5e69d0474c2dbd51ef64e4abd2820290f8332d26
   languageName: node
   linkType: hard
 
