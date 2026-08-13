@@ -1,7 +1,7 @@
 # WTMG Dev Container image.
 #
 # Extends the CI/E2E base image (built from ci/Dockerfile.ci, published as
-# ghcr.io/welcometomygarden/wtmg-e2e-ci:24) with interactive developer tooling:
+# ghcr.io/welcometomygarden/wtmg-e2e-ci:24-trixie) with interactive developer tooling:
 # git, lazygit, zellij, zsh (default shell), nvm and Claude Code.
 #
 # Runs as root, matching the CI workflow (.github/workflows/test-e2e-emulators.yml
@@ -17,9 +17,9 @@
 #
 # Build context is the .devcontainer/ directory (see docker-compose.yml).
 
-# Override with BASE_IMAGE=wtmg-e2e-ci:24 to use a locally-built base
+# Override with BASE_IMAGE=wtmg-e2e-ci:24-trixie to use a locally-built base
 # (see ci/local-build.sh) instead of pulling the published one.
-ARG BASE_IMAGE=ghcr.io/welcometomygarden/wtmg-e2e-ci:24
+ARG BASE_IMAGE=ghcr.io/welcometomygarden/wtmg-e2e-ci:24-trixie
 FROM ${BASE_IMAGE}
 
 # The base image already runs as root; everything below builds on that.
