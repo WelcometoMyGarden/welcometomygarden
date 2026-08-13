@@ -9,9 +9,10 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        # Published CI base by default. To use a locally-built base instead
-        # (see ci/local-build.sh) set BASE_IMAGE=wtmg-e2e-ci:24 in your shell
-        BASE_IMAGE: ${BASE_IMAGE:-ghcr.io/welcometomygarden/wtmg-e2e-ci:24}
+        # Published CI base by default (multi-arch: amd64 + arm64). To use a
+        # locally-built base instead (see ci/local-build.sh) set
+        # BASE_IMAGE=wtmg-e2e-ci:24-trixie in your shell
+        BASE_IMAGE: ${BASE_IMAGE:-ghcr.io/welcometomygarden/wtmg-e2e-ci:24-trixie}
     container_name: ${CONTAINER_NAME:-wtmg-dev}
     # The same 5 secrets as ci/.env.local (consumed by ci/fill-envs.sh), plus the
     # optional REPO_URL / GITHUB_PAT / REPO_BRANCH used by bootstrap-repo.sh.

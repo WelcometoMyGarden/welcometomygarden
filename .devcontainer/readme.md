@@ -1,7 +1,7 @@
 # WTMG Dev Container
 
 A full-stack, isolated development environment that reuses the CI/E2E base image
-([`ci/Dockerfile.ci`](../ci/Dockerfile.ci) → `ghcr.io/welcometomygarden/wtmg-e2e-ci:24`)
+([`ci/Dockerfile.ci`](../ci/Dockerfile.ci) → `ghcr.io/welcometomygarden/wtmg-e2e-ci:24-trixie`)
 and extends it with interactive tooling: **git, lazygit, zellij, zsh (default
 shell), nvm & Claude Code**. Useful for unsupervised agentic coding sessions/tasks.
 
