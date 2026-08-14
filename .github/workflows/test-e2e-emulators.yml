@@ -39,7 +39,7 @@ jobs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@v5.3.1
+        uses: fkirc/skip-duplicate-actions@v5.3.2
         with:
           skip_after_successful_duplicate: 'true'
   playwright:
@@ -68,7 +68,7 @@ jobs:
         STRIPE_PUBLISHABLE_KEY: ${{secrets.STRIPE_PUBLISHABLE_KEY}}
     # Gotchas: https://docs.github.com/en/actions/reference/workflows-and-actions/dockerfile-support
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           # src/lib/assets is stored in Git LFS; fetch it during checkout.
           lfs: true
@@ -85,7 +85,7 @@ jobs:
       # - also the api/ modules are cached (the default cache setup only looks at the root)
       - name: Restore Yarn caches
         id: yarn-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: |
             .yarn/cache
@@ -97,7 +97,7 @@ jobs:
         run: yarn install --immutable && cd api && yarn install --immutable && cd ..
       - name: Save Yarn caches
         if: ${{ success() && steps.yarn-cache.outputs.cache-hit != 'true' }}
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: |
             .yarn/cache
@@ -111,7 +111,7 @@ jobs:
       # earlier would risk the install throwing the cache away again.
       - name: Restore responsive image transforms
         id: imagetools-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: node_modules/.cache/imagetools
           key: imagetools-${{ runner.os }}-${{ hashFiles('src/lib/assets/**/*.jpg', 'src/lib/assets/**/*.jpeg', 'src/lib/assets/**/*.png') }}
@@ -127,7 +127,7 @@ jobs:
         run: yarn build:demo
       - name: Save responsive image transforms
         if: ${{ success() && steps.imagetools-cache.outputs.cache-hit != 'true' }}
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: node_modules/.cache/imagetools
           key: ${{ steps.imagetools-cache.outputs.cache-primary-key }}
