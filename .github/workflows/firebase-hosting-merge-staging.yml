@@ -54,7 +54,7 @@ jobs:
       PUBLIC_WTMG_HOST: ${{vars.WTMG_HOST}}
       IS_PREVIEW: 'false'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           # src/lib/assets is stored in Git LFS; fetch it during checkout.
           lfs: true
@@ -64,7 +64,7 @@ jobs:
       - name: Pin Node for deploy
         # workaround for https://github.com/FirebaseExtended/action-hosting-deploy/issues/460 and
         # and https://github.com/firebase/firebase-tools/issues/10716#issuecomment-4800040219
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 24.18.0
       - uses: FirebaseExtended/action-hosting-deploy@v0
