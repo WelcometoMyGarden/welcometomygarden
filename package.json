@@ -25,6 +25,7 @@
     "test:unit": "vitest",
     "check": "svelte-kit sync && svelte-check",
     "check:watch": "svelte-kit sync && svelte-check --watch",
+    "check:api": "node api/scripts/typecheck.mjs",
     "lint": "prettier --check . '!api/**' && eslint .",
     "lint:all": "concurrently -n prettier,frontend,api -c blue,green,magenta \"prettier --check .\" \"eslint .\" \"cd api && yarn lint\"",
     "format": "prettier --write . '!api/**'",

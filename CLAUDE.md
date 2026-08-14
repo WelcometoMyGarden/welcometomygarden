@@ -66,10 +66,18 @@ Scope your checks to what you changed:
 
 Note: the pre-commit hook (husky + lint-staged) already enforces this
 automatically — it lints/formats staged frontend files with the frontend config
-and staged `api/` files with the API config, and never mixes the two. It does
-**not** run a repo-wide `yarn check`, because the frontend currently has
-pre-existing `svelte-check` type errors (and a few `eslint` errors) unrelated to
-this tooling.
+and staged `api/` files with the API config, and never mixes the two.
+
+The **type gates run on `pre-push`**, not pre-commit: `.husky/pre-push` runs the
+whole-project `yarn check` (frontend svelte-check) and `yarn check:api`
+(`node api/scripts/typecheck.mjs`, gating `api/src`) before any push. They live
+on pre-push because svelte-check (~10s) + the api gate (~3s) is ~8x a
+lint/format-only commit — too slow to pay on every commit, but fine before code
+leaves the machine. Both gates currently pass with 0 errors (warnings are
+non-fatal). This replaces the old `api-typecheck.yml` CI workflow, which was
+removed. Because the gate is local-only, a `git push --no-verify` or a
+contributor without the hooks installed bypasses it — external fork PRs are
+covered instead by `.github/workflows/external-pr-checks.yml`.
 
 ### Backend (Firebase)
 
