@@ -48,15 +48,27 @@ jobs:
     if: ${{ needs.check_duplicate_runs.outputs.should_skip != 'true' }}
     runs-on: ubuntu-24.04
     environment: e2e-test-emulators
+    # These live at job level rather than under `container.env` on purpose.
+    # Job-level env is injected when each step is exec'd in the container, via
+    # an env file. `container.env` instead goes through `docker create`, and
+    # somewhere between 2026-08-07 and 2026-08-13 the runner switched from
+    # emitting `-e "NAME=value"` there to the bare `-e "NAME"` pass-through
+    # form, which copies the value from the docker CLI's own environment —
+    # where these are not set. The result was every one of these arriving in
+    # the container empty (SENTRY_DSN too, and that is a plain variable, so it
+    # was not a masking artefact), the frontend building with an empty
+    # VITE_MAPBOX_ACCESS_TOKEN, and mapbox-gl throwing "An API access token is
+    # required" in the browser — surfacing only as an opaque Playwright
+    # click timeout.
+    env:
+      SENTRY_DSN: ${{vars.SENTRY_DSN}}
+      SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
+      MAPBOX_ACCESS_TOKEN: ${{secrets.MAPBOX_ACCESS_TOKEN}}
+      THUNDERFOREST_API_KEY: ${{secrets.THUNDERFOREST_API_KEY}}
+      STRIPE_PUBLISHABLE_KEY: ${{secrets.STRIPE_PUBLISHABLE_KEY}}
     container:
       image: ghcr.io/welcometomygarden/wtmg-e2e-ci:24-trixie
       options: --user root
-      env:
-        SENTRY_DSN: ${{vars.SENTRY_DSN}}
-        SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
-        MAPBOX_ACCESS_TOKEN: ${{secrets.MAPBOX_ACCESS_TOKEN}}
-        THUNDERFOREST_API_KEY: ${{secrets.THUNDERFOREST_API_KEY}}
-        STRIPE_PUBLISHABLE_KEY: ${{secrets.STRIPE_PUBLISHABLE_KEY}}
     # Gotchas: https://docs.github.com/en/actions/reference/workflows-and-actions/dockerfile-support
     steps:
       - uses: actions/checkout@v6
@@ -113,6 +125,19 @@ jobs:
           key: imagetools-${{ runner.os }}-${{ hashFiles('src/lib/assets/**/*.jpg', 'src/lib/assets/**/*.jpeg', 'src/lib/assets/**/*.png') }}
           restore-keys: |
             imagetools-${{ runner.os }}-
+      # ci/fill-envs.sh substitutes empty values without complaining, so a
+      # missing secret used to surface ~4 minutes later as an unexplained
+      # Playwright click timeout. Fail in a second with the name instead.
+      # Lengths only — never the values.
+      - name: Check required secrets reached the container
+        run: |
+          missing=''
+          for v in MAPBOX_ACCESS_TOKEN THUNDERFOREST_API_KEY STRIPE_PUBLISHABLE_KEY SENTRY_DSN; do
+            eval "len=\${#$v}"
+            echo "$v: $len chars"
+            [ "$len" -gt 0 ] || missing="$missing $v"
+          done
+          [ -z "$missing" ] || { echo "::error::empty in the container:$missing"; exit 1; }
       - name: Set up environment
         run: |
           sed -i -z \
