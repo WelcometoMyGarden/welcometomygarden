@@ -1,0 +1,14 @@
+# Build context for ci/Dockerfile.ci and ci/Dockerfile.local-test (both use the
+# repo root as context; the dev container has its own .dockerignore because its
+# context is .devcontainer/).
+#
+# Filled-in env files are kept out: ci/Dockerfile.local-test does `COPY ci ci/`,
+# which would otherwise bake ci/.env.local's secrets into an image layer.
+# Nothing in the image reads them anyway — ci/fill-envs.sh generates the .env
+# files at runtime from the environment `docker run --env-file` injects.
+#
+# The .example templates are kept (ci/check-envs.sh parses one), and so are the
+# ci/env-templates/*.env files, whose names don't start with `.env`.
+**/.env
+**/.env.*
+!**/.env*.example

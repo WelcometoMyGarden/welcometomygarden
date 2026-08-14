@@ -20,7 +20,8 @@ persistent [zellij](https://zellij.dev) session.
 
 Requirement: the devcontainers CLI: https://github.com/devcontainers/cli (or VS Code, with the caveats below). Then run these from the repo root:
 
-1. Copy the env template and fill in the secrets (same 5 as `ci/.env.local`):
+1. Copy the env template and fill in the secrets (the ones documented in
+   [`ci/.env.local.example`](../ci/.env.local.example)):
 
    ```sh
    # Copy the environment of the compose file interpolation

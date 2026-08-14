@@ -33,7 +33,7 @@ fi
 
 cd "$WORKSPACE_DIR"
 
-# 1. Fill env files from the injected environment (SENTRY_DSN, MAPBOX_ACCESS_TOKEN, ...).
+# 1. Fill env files from the injected environment (see ci/.env.local.example).
 echo "[start] Filling env files (ci/fill-envs.sh)..."
 ./ci/fill-envs.sh
 
