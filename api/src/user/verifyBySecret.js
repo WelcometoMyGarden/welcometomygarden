@@ -1,6 +1,7 @@
 const { logger } = require('firebase-functions');
 const { auth } = require('../firebase');
 const { usersPrivateDoc } = require('../collections');
+const maskSecret = require('../util/maskSecret');
 
 /**
  * Verifies an email + secret combination against Firestore users-private data.
@@ -21,7 +22,7 @@ const { usersPrivateDoc } = require('../collections');
  *   'secret_mismatch' when the secret does not match
  */
 module.exports = async function verifyBySecret(email, secret, source) {
-  const logMetadata = { email, secret, source };
+  const logMetadata = { email, secret: maskSecret(secret), source };
 
   // Resolve the user via Firebase Auth. Throws auth/user-not-found if unknown.
   const { uid } = await auth.getUserByEmail(email);
