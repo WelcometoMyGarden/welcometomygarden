@@ -63,17 +63,41 @@ jobs:
         with:
           # src/lib/assets is stored in Git LFS; fetch it during checkout.
           lfs: true
-      - uses: actions/setup-node@v6
+      # Caches are deliberately split into restore/save pairs instead of the
+      # all-in-one `actions/cache` (or `setup-node`'s `cache: yarn`).
+      # Some effects of this:
+      # - also failed runs write to the cache (no `post-if: success()` like in the above mechanisms)
+      #   -> half/corrupt cache writes will also be restored and can't be corrected (must be manually deleted)
+      # - also the api/ modules are cached (the default cache setup only looks at the root)
+      - name: Restore Yarn caches
+        id: yarn-cache
+        uses: actions/cache/restore@v5
         with:
-          # We don't supply a node version here, because we want to use the one in wtmg-e2e-ci
-          # We do want the caching though
-          cache: yarn
+          path: |
+            .yarn/cache
+            api/.yarn/cache
+          key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock', 'api/yarn.lock', '.yarnrc.yml', 'api/.yarnrc.yml') }}
+          restore-keys: |
+            yarn-${{ runner.os }}-
       - name: Install dependencies
         run: yarn install --immutable && cd api && yarn install --immutable && cd ..
+      - name: Save Yarn caches
+        if: ${{ success() && steps.yarn-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v5
+        with:
+          path: |
+            .yarn/cache
+            api/.yarn/cache
+          key: ${{ steps.yarn-cache.outputs.cache-primary-key }}
       # Source images (src/lib/assets) now come from the Git LFS checkout above
       # (lfs: true) instead of being fetched from the gs://wtmg-static GCS bucket.
-      - name: Cache responsive image transforms
-        uses: actions/cache@v4
+      #
+      # Keep this after `yarn install`: Yarn's node-modules linker prunes
+      # directories it does not recognise under node_modules/, so restoring
+      # earlier would risk the install throwing the cache away again.
+      - name: Restore responsive image transforms
+        id: imagetools-cache
+        uses: actions/cache/restore@v5
         with:
           path: node_modules/.cache/imagetools
           key: imagetools-${{ runner.os }}-${{ hashFiles('src/lib/assets/**/*.jpg', 'src/lib/assets/**/*.jpeg', 'src/lib/assets/**/*.png') }}
@@ -87,6 +111,12 @@ jobs:
           ./ci/fill-envs.sh
       - name: Build emulator frontend
         run: yarn build:demo
+      - name: Save responsive image transforms
+        if: ${{ success() && steps.imagetools-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v5
+        with:
+          path: node_modules/.cache/imagetools
+          key: ${{ steps.imagetools-cache.outputs.cache-primary-key }}
       - name: Run your tests
         run: npx playwright test --project Mobile
       # The HTML report. It embeds the traces written on first retry (see
