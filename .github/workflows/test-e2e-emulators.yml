@@ -51,6 +51,15 @@ jobs:
     container:
       image: ghcr.io/welcometomygarden/wtmg-e2e-ci:24-trixie
       options: --user root
+      # The inputs to ci/fill-envs.sh — see ci/.env.local.example for what each
+      # one is for and which of them are required.
+      #
+      # Careful: these are all empty on a `pull_request` run from a *fork*.
+      # GitHub passes no secrets (nor environment-scoped vars, so SENTRY_DSN
+      # goes too) to fork PRs, and every value here comes from the
+      # e2e-test-emulators environment. Nothing below can work in that case —
+      # see the guard step. Push the branch to this repo instead of a fork if
+      # you need these tests on a PR.
       env:
         SENTRY_DSN: ${{vars.SENTRY_DSN}}
         SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
@@ -63,6 +72,11 @@ jobs:
         with:
           # src/lib/assets is stored in Git LFS; fetch it during checkout.
           lfs: true
+      # First thing after the checkout: it needs nothing else, and an unset
+      # secret would otherwise surface much later as an unexplained test
+      # failure. The list of what is required lives in ci/.env.local.example.
+      - name: Check required secrets are available
+        run: ./ci/check-envs.sh '${{ github.event.pull_request.head.repo.full_name || github.repository }}'
       # Caches are deliberately split into restore/save pairs instead of the
       # all-in-one `actions/cache` (or `setup-node`'s `cache: yarn`).
       # Some effects of this:

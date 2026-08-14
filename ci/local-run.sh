@@ -1,6 +1,6 @@
 #!/bin/bash
 # Convenience script to run the local e2e testing image
-# Requires .env.runner to be present
+# Requires ci/.env.local to be present (cp ci/.env.local.example ci/.env.local)
 cd $(dirname $0)/..
 # Expose files needed to run the front-end & backend,
 # given that the deps are already installed
