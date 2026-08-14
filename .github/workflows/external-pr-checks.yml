@@ -28,13 +28,13 @@ jobs:
     if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       # Must run before setup-node: its `cache: yarn` probe shells out to `yarn`
       # to resolve the cache folder, and without corepack that resolves to the
       # runner's preinstalled Yarn 1 — which misdetects this repo (yarn@4, Berry).
       - name: Enable Corepack
         run: corepack enable
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: yarn
