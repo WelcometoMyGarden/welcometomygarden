@@ -9,7 +9,13 @@ This may be useful to test the effect of front-end and/or back-end dependency up
 - When simulatenously working on another feature on the host, delegating the E2E test of code snapshot (docker `COPY`) makes it run in parallel to local host development servers.
 - For configuration changes that may be dependent somehow on the host system, in which the container is a neutral/fresh environment without access to most credentials.
 
-To use it, run:
+To use it, make a local copy of the required environment variables, and fill them.
+
+```sh
+cp ci/.env.local.example ci/.env.local
+```
+
+Then run:
 
 ```sh
 ./ci/local-build.sh && ./ci/local-run.sh
