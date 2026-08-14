@@ -3,6 +3,7 @@ const fail = require('../util/fail');
 const verifyBySecret = require('../user/verifyBySecret');
 const { usersPrivateDoc } = require('../collections');
 const querystring = require('node:querystring');
+const maskSecret = require('../util/maskSecret');
 
 /**
  * @param {FV2.CallableRequest<import("../../../src/lib/api/functions").ManageEmailPreferencesRequest>} request
@@ -115,7 +116,7 @@ async function handleUnsubscribePost(req, res) {
   if (typeof email !== 'string' || typeof secret !== 'string') {
     logger.warn(
       'Attempted to unsubscribe a user with a POST request, but the email or secret are missing',
-      { email, secret }
+      { email, secret: maskSecret(secret) }
     );
     return res.sendStatus(400);
   }
@@ -126,7 +127,7 @@ async function handleUnsubscribePost(req, res) {
   } catch (e) {
     logger.error(
       'Attempted to unsubscribe a user with a POST request, but the secret can not be verified',
-      { email, secret }
+      { email, secret: maskSecret(secret) }
     );
     return res.sendStatus(400);
   }
