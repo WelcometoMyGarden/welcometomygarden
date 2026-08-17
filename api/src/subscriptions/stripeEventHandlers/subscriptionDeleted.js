@@ -156,11 +156,11 @@ module.exports = async (event, res) => {
           try {
             await syncDeletedSubscription();
           } catch (firestoreUpdateError) {
-            if (
-              typeof firestoreUpdateError !== 'undefined' &&
-              firestoreUpdateError &&
-              firestoreUpdateError.code === 5
-            ) {
+            // Firestore admin SDK errors carry the numeric gRPC status as `code`.
+            const grpcCode = /** @type {{ code?: unknown } | undefined | null} */ (
+              firestoreUpdateError
+            )?.code;
+            if (grpcCode === 5) {
               // We empirically know that code 5 errors are of the following form:
               // Error: 5 NOT_FOUND: No document to update: projects/wtmg-dev/databases/(default)/documents/users/<some id>
               throw new Error('update-failed-not-found');

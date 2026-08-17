@@ -184,7 +184,8 @@ exports.createUser = async ({ data: inputData, auth: authContext }) => {
     }
     logger.error("Couldn't create a new Firebase user due to an unknown issue", {
       data: dataWithoutPassword,
-      code: e.code
+      // The error shape is unknown here; log whatever `code` it happens to carry.
+      code: /** @type {{ code?: unknown } | undefined | null} */ (e)?.code
     });
     fail('internal');
   }

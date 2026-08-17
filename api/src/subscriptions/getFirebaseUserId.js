@@ -19,9 +19,8 @@ module.exports = async (customerId) => {
   }
 
   // Attempt 1: fetch from the Stripe metadata.
-  // `stripeCustomer` is a `Response<Customer | DeletedCustomer>`; the `deleted`
-  // guard above rules out DeletedCustomer, but the Response wrapper defeats TS's
-  // discriminated-union narrowing, so narrow explicitly.
+  // TODO: with strict null checks on, the narrowing of .deleted above does work.
+  // without it, we need this cast
   const customer = /** @type {import('stripe').Stripe.Customer} */ (stripeCustomer);
   if (customer.metadata?.wtmg_id) {
     return /** @type {string} */ (customer.metadata.wtmg_id);
